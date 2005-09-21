@@ -20,6 +20,8 @@
 #define KSPOPUPMENU_H
 
 #include <kpopupmenu.h>
+//Added by qt3to4:
+#include <QLabel>
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 

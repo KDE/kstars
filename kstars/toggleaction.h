@@ -26,7 +26,7 @@
 	*@version 1.0
 	*/
 
-#include <qiconset.h>
+#include <qicon.h>
 #include <kaction.h>
 
 class ToggleAction : public KAction {
@@ -34,7 +34,7 @@ class ToggleAction : public KAction {
 		
 	public:
 		/**Constructor. */
-		ToggleAction(const QString& ontext, const QIconSet& onpix, const QString& offtext, const QIconSet& offpix, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
+		ToggleAction(const QString& ontext, const QIcon& onpix, const QString& offtext, const QIcon& offpix, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
 		/**Constructor. Same as above, but without icons. */
 		ToggleAction(const QString& ontext, const QString& offtext, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
 
@@ -55,8 +55,8 @@ class ToggleAction : public KAction {
 		void turnOn();
 
 	private:
-		QIconSet officon;
-		QIconSet onicon;
+		QIcon officon;
+		QIcon onicon;
 		QString offcap;
 		QString oncap;
 		QString onTip;

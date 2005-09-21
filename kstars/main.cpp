@@ -28,6 +28,8 @@
 #include "simclock.h"
 #include "ksnumbers.h"
 #include "Options.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 #define KSTARS_VERSION "1.1.1"
 

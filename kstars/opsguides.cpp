@@ -14,11 +14,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qcheckbox.h>
 #include "opsguides.h"
 
-OpsGuides::OpsGuides( QWidget* parent, const char* name, WFlags fl )
+OpsGuides::OpsGuides( QWidget* parent, const char* name, Qt::WFlags fl )
     : OpsGuidesUI( parent, name, fl )
 {
 	connect( kcfg_ShowCNames, SIGNAL( clicked() ), 

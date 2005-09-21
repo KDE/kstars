@@ -20,6 +20,10 @@
  
  #include "histdialog.h"
  #include <kcommand.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QPaintEvent>
  
  #define BARS 500
  

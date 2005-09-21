@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlistview.h> //QCheckListItem
+#include <q3listview.h> //QCheckListItem
 #include <qcheckbox.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 #include <kfiledialog.h>
 
 #include "opscatalog.h"
@@ -29,22 +31,22 @@
 #include "magnitudespinbox.h"
 #include "customcatalog.h"
 
-OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl ) 
+OpsCatalog::OpsCatalog( QWidget *p, const char *name, Qt::WFlags fl ) 
 	: OpsCatalogUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;
 
 	//Populate CatalogList
-	showIC = new QCheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), QCheckListItem::CheckBox );
+	showIC = new Q3CheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), Q3CheckListItem::CheckBox );
 	showIC->setOn( Options::showIC() );
 
-	showNGC = new QCheckListItem( CatalogList, i18n( "New General Catalog (NGC)" ), QCheckListItem::CheckBox );
+	showNGC = new Q3CheckListItem( CatalogList, i18n( "New General Catalog (NGC)" ), Q3CheckListItem::CheckBox );
 	showNGC->setOn( Options::showNGC() );
 
-	showMessImages = new QCheckListItem( CatalogList, i18n( "Messier Catalog (images)" ), QCheckListItem::CheckBox );
+	showMessImages = new Q3CheckListItem( CatalogList, i18n( "Messier Catalog (images)" ), Q3CheckListItem::CheckBox );
 	showMessImages->setOn( Options::showMessierImages() );
 
-	showMessier = new QCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
+	showMessier = new Q3CheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), Q3CheckListItem::CheckBox );
 	showMessier->setOn( Options::showMessier() );
 
 	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
@@ -60,11 +62,11 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	
 	//Add custom catalogs, if necessary
 	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) { //loop over custom catalogs
-		QCheckListItem *newItem = new QCheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), QCheckListItem::CheckBox );
+		Q3CheckListItem *newItem = new Q3CheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), Q3CheckListItem::CheckBox );
 		newItem->setOn( Options::showCatalog()[i] );
 	}
 
-	connect( CatalogList, SIGNAL( clicked( QListViewItem* ) ), this, SLOT( updateDisplay() ) );
+	connect( CatalogList, SIGNAL( clicked( Q3ListViewItem* ) ), this, SLOT( updateDisplay() ) );
 	connect( CatalogList, SIGNAL( selectionChanged() ), this, SLOT( selectCatalog() ) );
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
@@ -90,7 +92,7 @@ void OpsCatalog::updateDisplay() {
 	Options::setShowNGC( showNGC->isOn() );
 	Options::setShowIC( showIC->isOn() );
 	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) {
-		QCheckListItem *item = (QCheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
+		Q3CheckListItem *item = (Q3CheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
 		Options::showCatalog()[i] = item->isOn();
 	}
 
@@ -139,13 +141,13 @@ void OpsCatalog::insertCatalog( const QString &filename ) {
 
 	//Get the new catalog's name, add entry to the listbox
 	QString name = ksw->data()->customCatalogs().current()->name();
-	QCheckListItem *newCat = new QCheckListItem( CatalogList, name, QCheckListItem::CheckBox );
+	Q3CheckListItem *newCat = new Q3CheckListItem( CatalogList, name, Q3CheckListItem::CheckBox );
 	newCat->setOn( true );
 	CatalogList->insertItem( newCat );
 
 	//update Options object
 	QStringList tFileList = Options::catalogFile();
-	QValueList<int> tShowList = Options::showCatalog();
+	Q3ValueList<int> tShowList = Options::showCatalog();
 	tFileList.append( filename );
 	tShowList.append( true );
 	Options::setCatalogFile( tFileList );
@@ -163,7 +165,7 @@ void OpsCatalog::slotRemoveCatalog() {
 
 			//Update Options object
 			QStringList tFileList = Options::catalogFile();
-			QValueList<int> tShowList = Options::showCatalog();
+			Q3ValueList<int> tShowList = Options::showCatalog();
 			tFileList.remove( tFileList[i] );
 			tShowList.remove( tShowList[i] );
 			Options::setCatalogFile( tFileList );

@@ -20,6 +20,14 @@
 #include <qlineedit.h>
 #include <qimage.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QFocusEvent>
+#include <QTextStream>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include <kapplication.h>
 #include <kstandarddirs.h>
@@ -59,8 +67,8 @@
 
 LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
-	setFrameStyle( QFrame::StyledPanel );
-	setFrameShadow( QFrame::Plain );
+	setFrameStyle( Q3Frame::StyledPanel );
+	setFrameShadow( Q3Frame::Plain );
 	setLineWidth( 4 );
 }
 
@@ -99,7 +107,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 void DetailDialog::createGeneralTab()
 {
-	QFrame *DataTab = addPage(i18n("General"));
+	Q3Frame *DataTab = addPage(i18n("General"));
 	Data = new DetailsDataUI( DataTab, "general_data_tab" );
  
 	//Modify colors
@@ -270,7 +278,7 @@ void DetailDialog::createGeneralTab()
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	QFrame *PosTab = addPage( i18n("Position") );
+	Q3Frame *PosTab = addPage( i18n("Position") );
 	Pos = new DetailsPositionUI( PosTab, "position_tab" );
 
 	//Modify colors
@@ -391,7 +399,7 @@ void DetailDialog::createLinksTab()
 	if (selectedObject->name() == QString("star"))
 		return;
 
-	QFrame *LinksTab = addPage( i18n( "Links" ) );
+	Q3Frame *LinksTab = addPage( i18n( "Links" ) );
 	Links = new DetailsLinksUI( LinksTab, "links_tab" );
 
 	//Modify colors
@@ -454,14 +462,14 @@ void DetailDialog::createAdvancedTab()
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	QFrame *AdvancedTab = addPage(i18n("Advanced"));
+	Q3Frame *AdvancedTab = addPage(i18n("Advanced"));
 	Adv = new DetailsDatabaseUI( AdvancedTab, "database_tab" );
 //	Adv->setPaletteBackgroundColor( QColor( "white" ) );
 	QVBoxLayout *vlay = new QVBoxLayout( AdvancedTab, 0, 0 );
 	vlay->addWidget( Adv );
 
-	treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
-	connect( Adv->ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
+	treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+	connect( Adv->ADVTree, SIGNAL(doubleClicked(Q3ListViewItem*)), this, SLOT(viewADVData()));
 
 	populateADVTree(NULL);
 }
@@ -473,7 +481,7 @@ void DetailDialog::createLogTab()
 		return;
 
 	// Log Tab
-	QFrame *LogTab = addPage(i18n("Log"));
+	Q3Frame *LogTab = addPage(i18n("Log"));
 	Log = new DetailsLogUI( LogTab, "log_tab" );
 
 	//Modify colors
@@ -550,7 +558,7 @@ void DetailDialog::editLinkDialog()
 	QFile newFile;
 	
 	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
-	QFrame *editFrame = editDialog.plainPage();
+	Q3Frame *editFrame = editDialog.plainPage();
 	
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
 	editLinkField = new QLineEdit(editFrame, "lineedit");
@@ -607,7 +615,7 @@ void DetailDialog::editLinkDialog()
 
 	// Open a new file with the same name and copy all data along with changes
 	newFile.setName(file.name());
-	newFile.open(IO_WriteOnly);
+	newFile.open(QIODevice::WriteOnly);
 
 	QTextStream newStream(&newFile);
 
@@ -680,7 +688,7 @@ void DetailDialog::removeLinkDialog()
 
 	// Open a new file with the same name and copy all data along with changes
 	newFile.setName(file.name());
-	newFile.open(IO_WriteOnly);
+	newFile.open(QIODevice::WriteOnly);
 
 	QTextStream newStream(&newFile);
 
@@ -744,7 +752,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	{
 		case 0:
 			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
-			if ( !file.open( IO_ReadOnly) )
+			if ( !file.open( QIODevice::ReadOnly) )
 			{
 				ksw->data()->initError("image_url.dat", false);
 				return false;
@@ -753,7 +761,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 
 		case 1:
 			file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
-			if ( !file.open( IO_ReadOnly) )
+			if ( !file.open( QIODevice::ReadOnly) )
 			{
 				ksw->data()->initError("info_url.dat", false);
 				return false;
@@ -774,7 +782,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	return true;
 }
 
-void DetailDialog::populateADVTree(QListViewItem *parent)
+void DetailDialog::populateADVTree(Q3ListViewItem *parent)
 {
 	// list done
 	if (!treeIt->current())
@@ -795,21 +803,21 @@ void DetailDialog::populateADVTree(QListViewItem *parent)
 			break;
 
 		if (parent)
-			new QListViewItem( parent, treeIt->current()->Name);
+			new Q3ListViewItem( parent, treeIt->current()->Name);
 		else
-			new QListViewItem( Adv->ADVTree, treeIt->current()->Name);
+			new Q3ListViewItem( Adv->ADVTree, treeIt->current()->Name);
 
 		++(*treeIt);
 	}
 }
 
-void DetailDialog::forkTree(QListViewItem *parent)
+void DetailDialog::forkTree(Q3ListViewItem *parent)
 {
-	QListViewItem *current = 0;
+	Q3ListViewItem *current = 0;
 	if (parent)
-		current = new QListViewItem(parent, treeIt->current()->Name);
+		current = new Q3ListViewItem(parent, treeIt->current()->Name);
 	else
-		current = new QListViewItem(Adv->ADVTree, treeIt->current()->Name);
+		current = new Q3ListViewItem(Adv->ADVTree, treeIt->current()->Name);
 
 	// we need to increment the iterator before and after populating the tree
 	++(*treeIt);
@@ -820,7 +828,7 @@ void DetailDialog::forkTree(QListViewItem *parent)
 void  DetailDialog::viewADVData()
 {
 	QString link;
-	QListViewItem * current = Adv->ADVTree->currentItem();
+	Q3ListViewItem * current = Adv->ADVTree->currentItem();
 
 	if (!current)  return;
 

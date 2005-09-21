@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
 
 #include <klocale.h>
 #include <knuminput.h>
@@ -32,7 +35,7 @@
 #include "skymap.h"
 #include "colorscheme.h"
 
-OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl ) 
+OpsColors::OpsColors( QWidget *p, const char *name, Qt::WFlags fl ) 
 	: OpsColorsUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;
@@ -57,7 +60,7 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	QFile file;
 	QString line, schemeName, filename;
 	file.setName( locate( "appdata", "colors.dat" ) );
-	if ( file.exists() && file.open( IO_ReadOnly ) ) {
+	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -82,7 +85,7 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	else
 		kcfg_StarColorIntensity->setEnabled( true );
 		
-	connect( ColorPalette, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( newColor( QListBoxItem* ) ) );
+	connect( ColorPalette, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( newColor( Q3ListBoxItem* ) ) );
 	connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
 	connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
 	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
@@ -95,7 +98,7 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 //empty destructor
 OpsColors::~OpsColors() {}
 
-void OpsColors::newColor( QListBoxItem *item ) {
+void OpsColors::newColor( Q3ListBoxItem *item ) {
 	QPixmap pixmap( 30, 20 );
 	QColor NewColor;
 	unsigned int i;
@@ -183,7 +186,7 @@ void OpsColors::slotRemovePreset() {
 	//Remove action from color-schemes menu
 	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).utf8() );
 
-	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
+	if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 	} else {
@@ -219,7 +222,7 @@ void OpsColors::slotRemovePreset() {
 
 			//remove the old colors.dat file, and rebuild it with the modified string list.
 			cdatFile.remove();
-			cdatFile.open( IO_ReadWrite );
+			cdatFile.open( QIODevice::ReadWrite );
 			QTextStream stream2( &cdatFile );
 			for( unsigned int i=0; i<slist.count(); ++i )
 				stream << slist[i] << endl;

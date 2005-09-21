@@ -21,6 +21,8 @@
 
 #include <qpainter.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <kdebug.h>
 
 StarObject::StarObject( StarObject &o )

@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 #include <qfont.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
 
 #include <klocale.h>
 #include <kmessagebox.h>

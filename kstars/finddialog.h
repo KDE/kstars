@@ -22,6 +22,12 @@
 #define FINDDIALOG_H
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QKeyEvent>
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -29,8 +35,8 @@ class QGridLayout;
 class QLabel;
 class QLineEdit;
 class QComboBox;
-class QListBox;
-class QListBoxItem;
+class Q3ListBox;
+class Q3ListBoxItem;
 //class QStringList;
 class SkyObjectNameListItem;
 
@@ -85,7 +91,7 @@ private slots:
 
 /**Set the selected item in the list to the item specified.
 	*/
-	void updateSelection (QListBoxItem *);
+	void updateSelection (Q3ListBoxItem *);
 
 /**Change current filter options.
 	*/
@@ -106,7 +112,7 @@ private:
 	
 	QVBoxLayout *vlay;
 	QHBoxLayout *hlay;
-	QListBox *SearchList;
+	Q3ListBox *SearchList;
 	QLineEdit *SearchBox;
 	QLabel *filterTypeLabel;
 	QComboBox *filterType;

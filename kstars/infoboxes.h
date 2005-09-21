@@ -22,6 +22,8 @@
 #include <qcolor.h>
 #include <qevent.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 #include <kdebug.h>
 
 #include "infobox.h"
@@ -140,7 +142,7 @@ public:
 	*/
 	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
 			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),
-			unsigned int BGMode=0 );
+			unsigned int Qt::BGMode=0 );
 	
 /**Determine whether a mouse click occurred inside one of the infoboxes.
 	*Also, set the internal variable GrabBox to indicate which box was grabbed.

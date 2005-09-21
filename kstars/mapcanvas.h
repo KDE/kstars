@@ -23,6 +23,10 @@
 
 #include <qwidget.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QPaintEvent>
 
 /**@class MapCanvas
 	*Used in LocationDialog for displaying a map of the Earth.

@@ -20,7 +20,12 @@
 
 #include <qfile.h>
 #include <qlabel.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QFocusEvent>
+#include <QHBoxLayout>
 #include <kdialogbase.h>
 #include <ktextedit.h>
 
@@ -211,11 +216,11 @@ private:
 
 /**Populate the TreeView of known astronomical databases in the Advanced Tab
 	*/
-	void populateADVTree(QListViewItem *parent);
+	void populateADVTree(Q3ListViewItem *parent);
 
 /**For the databases TreeView
 	*/
-	void forkTree(QListViewItem *parent);
+	void forkTree(Q3ListViewItem *parent);
 
 /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
 	*This function parses advinterface.dat.
@@ -236,7 +241,7 @@ private:
 	QString currentItemURL, currentItemTitle;
 	QStringList dataList;
 
-	QPtrListIterator<ADVTreeData> * treeIt;
+	Q3PtrListIterator<ADVTreeData> * treeIt;
 
 	DetailsDataUI *Data;
 	DetailsPositionUI *Pos;

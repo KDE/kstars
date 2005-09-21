@@ -18,6 +18,8 @@
 #include <math.h>
 #include <kdebug.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include "ksplanet.h"
 #include "ksnumbers.h"
@@ -41,12 +43,12 @@ KSPlanet::OrbitDataManager::OrbitDataManager() {
 }
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
-		QPtrVector<KSPlanet::OrbitData> *vector) {
+		Q3PtrVector<KSPlanet::OrbitData> *vector) {
 	QString line;
 	QFile f;
 	double A, B, C;
 
-	QPtrList<OrbitData> DData;
+	Q3PtrList<OrbitData> DData;
 
 	if ( KSUtils::openDataFile( f, fname ) ) {
 		KSFileReader fileReader( f ); // close file is included

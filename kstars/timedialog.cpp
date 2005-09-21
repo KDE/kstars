@@ -22,6 +22,11 @@
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QKeyEvent>
 
 #include "timedialog.h"
 #include "kstars.h"
@@ -33,7 +38,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
 	ksw = (KStars*) parent;
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout

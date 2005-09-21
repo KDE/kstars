@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
  
- #include <qlistview.h>
+ #include <q3listview.h>
  #include <qpushbutton.h>
  
  #include <kurl.h>
@@ -56,7 +56,7 @@ void ImageReductionDlg::addDarkFile()
   
   const int limit = (int) fileURLs.size();
   for (int i=0; i < limit ; ++i)
-  	new QListViewItem( darkListView, fileURLs[i].path());
+  	new Q3ListViewItem( darkListView, fileURLs[i].path());
   
   darkRemoveB->setEnabled(true);
   darkDetailsB->setEnabled(true);
@@ -70,7 +70,7 @@ void ImageReductionDlg::addFlatFile()
   const int limit = (int) fileURLs.size();
   
   for (int i=0; i < limit; ++i) 
-  	new QListViewItem( flatListView, fileURLs[i].path());
+  	new Q3ListViewItem( flatListView, fileURLs[i].path());
   
   flatRemoveB->setEnabled(true);
   flatDetailsB->setEnabled(true);
@@ -83,7 +83,7 @@ void ImageReductionDlg::addDarkFlatFile()
   
      const int limit = (int) fileURLs.size();
      for (int i=0; i < limit; ++i) 
-  	new QListViewItem( darkflatListView, fileURLs[i].path());
+  	new Q3ListViewItem( darkflatListView, fileURLs[i].path());
   
   darkflatRemoveB->setEnabled(true);
   darkflatDetailsB->setEnabled(true);

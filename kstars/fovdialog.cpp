@@ -17,9 +17,13 @@
 
 #include <qlayout.h>
 #include <qfile.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qpainter.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QTextStream>
+#include <QPaintEvent>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -44,12 +48,12 @@ FOVDialog::FOVDialog( QWidget *parent )
 
 	ks = (KStars*)parent;
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	fov = new FOVDialogUI( page );
 	vlay->addWidget( fov );
 
-	connect( fov->FOVListBox, SIGNAL( currentChanged( QListBoxItem* ) ), SLOT( slotSelect( QListBoxItem* ) ) );
+	connect( fov->FOVListBox, SIGNAL( currentChanged( Q3ListBoxItem* ) ), SLOT( slotSelect( Q3ListBoxItem* ) ) );
 	connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
 	connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
 	connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
@@ -71,8 +75,8 @@ void FOVDialog::initList() {
 
 	f.setName( locate( "appdata", "fov.dat" ) );
 
-	if ( f.exists() && f.open( IO_ReadOnly ) ) {
-		QListBoxItem *item = 0;
+	if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
+		Q3ListBoxItem *item = 0;
 
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
@@ -108,7 +112,7 @@ void FOVDialog::initList() {
 	}
 }
 
-void FOVDialog::slotSelect(QListBoxItem *item) {
+void FOVDialog::slotSelect(Q3ListBoxItem *item) {
 	if ( item == 0 ) { //no item selected
 		fov->RemoveButton->setEnabled( false );
 		fov->EditButton->setEnabled( false );
@@ -198,7 +202,7 @@ void FOVDialog::slotRemoveFOV() {
 //-------------NewFOV------------------//
 NewFOV::NewFOV( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "New FOV Indicator" ), Ok|Cancel, Ok, parent ), f() {
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new NewFOVUI( page );
 	vlay->addWidget( ui );

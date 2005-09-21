@@ -397,7 +397,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	}
 	
 	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
-	if ( file.open( IO_ReadOnly)) {
+	if ( file.open( QIODevice::ReadOnly)) {
 		QTextStream instream(&file);
 		// read all data into memory
 		logs = instream.read();
@@ -421,7 +421,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	
 	//Open file for writing
 	//FIXME: change error message to "cannot write to user log file"
-	if ( !file.open( IO_WriteOnly ) ) {
+	if ( !file.open( QIODevice::WriteOnly ) ) {
 		kdDebug() << i18n( "user log file could not be opened." ) << endl;
 		return;
 	}

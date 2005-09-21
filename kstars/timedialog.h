@@ -20,6 +20,11 @@
 
 #include <kdialogbase.h>
 #include <qvariant.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QKeyEvent>
 
 #include "kstarsdatetime.h"
 

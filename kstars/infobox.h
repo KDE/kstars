@@ -75,7 +75,7 @@ public:
 		*@see InfoBox::updateSize()
 		*@see InfoBox::constrain()
 		*/
-	void draw( QPainter &p, QColor BGColor, unsigned int BGMode );
+	void draw( QPainter &p, QColor BGColor, unsigned int Qt::BGMode );
 
 	/**Toggle the Shaded state of the box.
 		*/

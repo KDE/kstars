@@ -18,7 +18,7 @@
 #ifndef TIMEBOX_H
 #define TIMEBOX_H
 
-#include <qhbox.h>
+#include <q3hbox.h>
 #include <qlineedit.h>
 #include <qstring.h>
 

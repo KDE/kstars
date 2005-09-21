@@ -17,6 +17,10 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QTextStream>
 #include <kcolorbutton.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -33,7 +37,7 @@
 AddCatDialog::AddCatDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	setMainWidget(page);
 	QDir::setCurrent( QDir::homeDirPath() );
 
@@ -113,7 +117,7 @@ bool AddCatDialog::validateDataFile() {
 
 	//Next, the data lines (fill from user-specified file)
 	QFile dataFile( acd->DataURL->url() );
-	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
+	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
 		QTextStream dataStream( &dataFile );
 		CatalogContents += dataStream.read();
 
@@ -124,7 +128,7 @@ bool AddCatDialog::validateDataFile() {
 	KTempFile ktf;
 	QFile tmpFile( ktf.name() );
 	ktf.unlink(); //just need filename
-	if ( tmpFile.open( IO_WriteOnly ) ) {
+	if ( tmpFile.open( QIODevice::WriteOnly ) ) {
 		QTextStream ostream( &tmpFile );
 		ostream << CatalogContents;
 		tmpFile.close();
@@ -184,7 +188,7 @@ QString AddCatDialog::writeCatalogHeader() {
 
 void AddCatDialog::slotShowDataFile() {
 	QFile dataFile( acd->DataURL->url() );
-	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
+	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
 		acd->DataFileBox->clear();
 		QTextStream dataStream( &dataFile );
 		acd->DataFileBox->insertStringList( QStringList::split( "\n", dataStream.read(), TRUE ) );
@@ -218,7 +222,7 @@ void AddCatDialog::slotCreateCatalog() {
 		}
 
 		QFile OutFile( acd->CatalogURL->url() );
-		if ( ! OutFile.open( IO_WriteOnly ) ) {
+		if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
 			KMessageBox::sorry( 0, 
 				i18n( "Could not open the file %1 for writing." ).arg( acd->CatalogURL->url() ), 
 				i18n( "Error Opening Output File" ) );

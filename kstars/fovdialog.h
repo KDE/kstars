@@ -20,6 +20,8 @@
 
 #include <kdialogbase.h>
 #include "fov.h"
+//Added by qt3to4:
+#include <QPaintEvent>
 
 /**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
 	*@author Jason Harris
@@ -46,7 +48,7 @@ private slots:
 	void slotNewFOV();
 	void slotEditFOV();
 	void slotRemoveFOV();
-	void slotSelect(QListBoxItem*);
+	void slotSelect(Q3ListBoxItem*);
 
 private:
 	void initList();

@@ -21,7 +21,7 @@
 #include "kstars.h"
 #include "magnitudespinbox.h"
 
-OpsSolarSystem::OpsSolarSystem( QWidget *parent, const char *name, WFlags fl )
+OpsSolarSystem::OpsSolarSystem( QWidget *parent, const char *name, Qt::WFlags fl )
  : OpsSolarSystemUI( parent, name, fl )
 {
 	ksw = (KStars *)parent;

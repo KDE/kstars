@@ -15,7 +15,11 @@
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "indi/lilxml.h"
 

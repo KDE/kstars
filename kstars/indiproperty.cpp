@@ -34,7 +34,7 @@
  #include <kdebug.h>
  #include <kmessagebox.h>
  
- #include <qbuttongroup.h> 
+ #include <q3buttongroup.h> 
  #include <qcheckbox.h>
  #include <qlabel.h>
  #include <qlayout.h>
@@ -42,6 +42,10 @@
  #include <qfile.h>
  #include <qdatastream.h>
  #include <qtooltip.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
  #include <unistd.h>
  #include <stdlib.h>
@@ -333,7 +337,7 @@ void INDI_P::newBlob()
     if ( (pos = filename.findRev(".")) != -1)
     format = filename.mid (pos, filename.length());
 
-    if (!fp.open(IO_ReadOnly))
+    if (!fp.open(QIODevice::ReadOnly))
     {
       KMessageBox::error(0, i18n("Cannot open file %1 for reading").arg(filename));
       valid = false;
@@ -687,8 +691,8 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	QString switchName, switchLabel;
 	int j;
 
-	groupB = new QButtonGroup(0);
-        groupB->setFrameShape(QFrame::NoFrame);
+	groupB = new Q3ButtonGroup(0);
+        groupB->setFrameShape(Q3Frame::NoFrame);
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
 	  

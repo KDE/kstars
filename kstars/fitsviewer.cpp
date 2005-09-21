@@ -37,13 +37,16 @@
 #include <klistview.h>
 
 #include <qfile.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qcursor.h>
 #include <qstringlist.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qradiobutton.h>
 #include <qclipboard.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 #include <math.h>
 #include <unistd.h>
@@ -730,7 +733,7 @@ void FITSViewer::imageReduction()
   FITSHistogramCommand *hbc;
   QStringList darkFiles, flatFiles, darkflatFiles;
   int darkCombineMode = 0 , flatCombineMode = 0, darkflatCombineMode =0;
-  QListViewItem *file;
+  Q3ListViewItem *file;
   
   image->saveTemplateImage();
   ImageReductionDlg irDialog(this);
@@ -944,7 +947,7 @@ void FITSViewer::fitsHeader()
    }
    
    for (int k= cards.count() - 3; k >=0 ; k-=3)
-       		   new QListViewItem( header.headerView, cards[k], cards[k+1], cards[k+2]);
+       		   new Q3ListViewItem( header.headerView, cards[k], cards[k+1], cards[k+2]);
   
    
    header.exec();

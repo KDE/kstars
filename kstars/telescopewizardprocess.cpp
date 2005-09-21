@@ -11,11 +11,11 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qstring.h>
 #include <qtimer.h>
-#include <qtable.h>
-#include <qtextedit.h>
+#include <q3table.h>
+#include <q3textedit.h>
 #include <qradiobutton.h>
 
 #include <klistview.h>
@@ -229,7 +229,7 @@ int telescopeWizardProcess::establishLink()
 	if (!indidriver || !indimenu)
 	  return (0);
 	  
-	QListViewItem *driverItem = NULL;
+	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
 	if (driverItem == NULL) return -1;
 

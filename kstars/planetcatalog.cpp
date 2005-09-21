@@ -125,7 +125,7 @@ KSPlanetBase *PlanetCatalog::findByName( const QString n) const {
 	if (n == "Earth")
 		return Earth;
 
-	QPtrListIterator<KSPlanetBase> it(planets);
+	Q3PtrListIterator<KSPlanetBase> it(planets);
 
 	for ( int i=0; i < planets.size(); ++i ) {
 		if (planets[i]->name() == n)

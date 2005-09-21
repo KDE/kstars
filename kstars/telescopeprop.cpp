@@ -29,7 +29,7 @@
 #include "indimenu.h"
 #include "indidriver.h"
 
-telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, WFlags fl)
+telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
 : scopeProp(parent,name, modal,fl)
 {
 

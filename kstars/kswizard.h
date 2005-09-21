@@ -18,7 +18,7 @@
 #ifndef KSWIZARD_H
 #define KSWIZARD_H
 
-#include <qmemarray.h>
+#include <q3memarray.h>
 #include "kswizardui.h"
 
 class GeoLocation;
@@ -81,7 +81,7 @@ private:
 	void initGeoPage();
 	
 	KStars *ksw;
-	QMemArray<int> GeoID;
+	Q3MemArray<int> GeoID;
 	GeoLocation *Geo;
 	QList<GeoLocation*> filteredCityList;
 };

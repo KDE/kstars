@@ -15,6 +15,12 @@
 #include <unistd.h>
 
 #include "indielement.h"
+//Added by qt3to4:
+#include <QGridLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
 
 class DeviceManager;
 class INDI_D;
@@ -32,23 +38,23 @@ class KDoubleSpinBox;
 class KPushButton;
 class KPopupMenu;
 
-class QTable;
+class Q3Table;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
-class QFrame;
+class Q3Frame;
 class QLineEdit;
 class QString;
-class QTextEdit;
-class QListView;
+class Q3TextEdit;
+class Q3ListView;
 class QTabWidget;
 class QSpacerItem;
 class QGridLayout;
-class QButtonGroup;
+class Q3ButtonGroup;
 class QCheckBox;
-class QScrollView;
+class Q3ScrollView;
 class QSocketNotifier;
-class QVBox;
+class Q3VBox;
 
 /*************************************************************************
 ** The INDI Tree
@@ -75,9 +81,9 @@ class INDI_D : public KDialogBase
 
     QString 	name;			/* device name */
     QString	label;			/* device label */
-    QVBox	*deviceVBox;		/* device tab frame */
+    Q3VBox	*deviceVBox;		/* device tab frame */
     QTabWidget  *groupContainer;	/* Groups within the device */
-    QTextEdit	*msgST_w;		/* scrolled text for messages */
+    Q3TextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
     //QScrollView *sv;			/* Scroll view */
     //QVBoxLayout *mainLayout;

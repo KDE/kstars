@@ -18,6 +18,8 @@
 #define INDIDRIVER_H
 
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QPixmap>
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
@@ -91,10 +93,10 @@ class INDIDriver : public devManager
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
-    bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[]);
+    bool buildDriverElement(XMLEle *root, Q3ListViewItem *DGroup, int groupType, char errmsg[]);
 
-    QListViewItem *lastGroup;
-    QListViewItem *lastDevice;
+    Q3ListViewItem *lastGroup;
+    Q3ListViewItem *lastDevice;
 
     QStringList driversList;
 
@@ -128,8 +130,8 @@ class INDIDriver : public devManager
 
 public slots:
     void updateMenuActions();
-    void ClientprocessRightButton( QListViewItem *, const QPoint &, int );
-    void LocalprocessRightButton( QListViewItem *, const QPoint &, int );
+    void ClientprocessRightButton( Q3ListViewItem *, const QPoint &, int );
+    void LocalprocessRightButton( Q3ListViewItem *, const QPoint &, int );
     void processDeviceStatus(int);
     void processHostStatus(int);
     void addINDIHost();

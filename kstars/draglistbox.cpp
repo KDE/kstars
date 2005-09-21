@@ -15,13 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdragobject.h>
+#include <q3dragobject.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QMouseEvent>
+#include <QDropEvent>
 #include <klocale.h>
 #include <kdebug.h>
 
 #include "draglistbox.h"
 
-DragListBox::DragListBox( QWidget *parent, const char *name, WFlags f ) 
+DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f ) 
 		: KListBox( parent, name, f ) {
 
 	setAcceptDrops( TRUE );
@@ -32,7 +36,7 @@ DragListBox::~DragListBox() {}
 
 void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
 {
-	if ( QTextDrag::canDecode( evt ) ) 
+	if ( Q3TextDrag::canDecode( evt ) ) 
 		evt->accept();
 }
 
@@ -49,7 +53,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 	int i = int( float(evt->pos().y())/float(itemHeight()) + 0.5 ) + topItem();
 	if ( i > count() + 1 ) i = count() + 1;
 
-	if ( QTextDrag::decode( evt, text ) ) {
+	if ( Q3TextDrag::decode( evt, text ) ) {
 		//If we dragged an "Ignore item from the FieldList to the FieldPool, then we don't
 		//need to insert the item, because FieldPool already has a persistent Ignore item.
 		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldList" && 
@@ -69,7 +73,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 
 
 void DragListBox::mousePressEvent( QMouseEvent *evt ) {
-	QListBox::mousePressEvent( evt );
+	Q3ListBox::mousePressEvent( evt );
 	dragging = TRUE;
 	
 	//Record position of the Ignore item; we may have to restore it.
@@ -83,7 +87,7 @@ void DragListBox::mousePressEvent( QMouseEvent *evt ) {
 void DragListBox::mouseMoveEvent( QMouseEvent * )
 {
 	if ( dragging ) {
-		QDragObject *drag = new QTextDrag( currentText(), this );
+		Q3DragObject *drag = new Q3TextDrag( currentText(), this );
 		drag->dragMove();
 		dragging = FALSE;
 	}

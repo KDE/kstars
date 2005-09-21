@@ -19,8 +19,11 @@
 #include <kurl.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
 
 #include "addlinkdialog.h"
 #include "skyobject.h"
@@ -28,7 +31,7 @@
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	setMainWidget(page);
 
 	vlay = new QVBoxLayout( page, 0, spacingHint() );

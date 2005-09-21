@@ -24,11 +24,14 @@
 #include <qstring.h>
 #include <qimage.h>
 #include <qpixmap.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qrect.h> 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 #include <kpixmapio.h>
 #include <kpixmap.h>
@@ -41,7 +44,7 @@
 
 class KCommandHistory;
 class ContrastBrightnessDlg;
-class QScrollView;
+class Q3ScrollView;
 class FITSImage;
 class FITSHistogram;
 

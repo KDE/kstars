@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qimage.h>
@@ -23,6 +23,9 @@
 #include <qfile.h>
 #include <qrect.h>
 #include <qstyle.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QTextStream>
 
 #include <kapplication.h>
 #include <kdeversion.h>
@@ -50,7 +53,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 	Image = new QPixmap( current );
 	ImageRect = new QRect( 0, 0, 200, 200 );
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ThumbnailPickerUI( page );
 	vlay->addWidget( ui );
@@ -126,7 +129,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
 	//Read the google image page's HTML into the PageHTML QString:
 	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile ) ) {
 		QFile file( tmpFile );
-		if ( file.open( IO_ReadOnly ) ) {
+		if ( file.open( QIODevice::ReadOnly ) ) {
 			QTextStream instream(&file);
 			PageHTML = instream.read();
 			file.close();

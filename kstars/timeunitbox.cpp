@@ -23,7 +23,7 @@
 
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name, bool daysonly )
-	: QVBox( parent, name ) {
+	: Q3VBox( parent, name ) {
 
 	UpButton = new QPushButton( "+", this );
 	UpButton->setMaximumWidth( 22 );

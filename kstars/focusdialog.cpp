@@ -17,6 +17,9 @@
 
 #include <qtabwidget.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -38,7 +41,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	setMainWidget(page);
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	fdlg = new FocusDialogDlg(page);

@@ -21,6 +21,8 @@
 #include <kdialogbase.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 class ThumbnailPickerUI;
 class ThumbnailEditor;

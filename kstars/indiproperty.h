@@ -13,6 +13,10 @@
 #define INDIPROPERTY_H
 
 #include "indielement.h"
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 
 class INDI_G;
@@ -26,7 +30,7 @@ class QLabel;
 class QPushButton;
 class QHBoxLayout;
 class QVBoxLayout;
-class QButtonGroup;
+class Q3ButtonGroup;
 
 /* INDI property */
 class INDI_P : public QObject
@@ -58,7 +62,7 @@ class INDI_P : public QObject
     QHBoxLayout    *PHBox;   		/* Horizontal container */
     QVBoxLayout    *PVBox;   		/* Vertical container */
     
-    QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
+    Q3ButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
     KComboBox      *om_w;		/* Combo box for menu */
     
     QList<INDI_E*> el;		/* list of elements */

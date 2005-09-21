@@ -25,6 +25,8 @@
 #include <kapplication.h>
 #include <kmainwindow.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include "kstarsinterface.h"
 #include "observinglist.h"

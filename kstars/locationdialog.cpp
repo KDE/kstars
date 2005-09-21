@@ -24,11 +24,17 @@
 
 #include <qlayout.h>
 #include <qpushbutton.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qcombobox.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QTextStream>
 
 #include "locationdialog.h"
 #include "kstars.h"
@@ -41,9 +47,9 @@ LocationDialog::LocationDialog( QWidget* parent )
 
 	KStars *p = (KStars *)parent;
 
-	QFrame *page = plainPage();
-	CityBox = new QGroupBox( page, "CityBox" );
-	CoordBox = new QGroupBox( page, "CoordBox" );
+	Q3Frame *page = plainPage();
+	CityBox = new Q3GroupBox( page, "CityBox" );
+	CoordBox = new Q3GroupBox( page, "CoordBox" );
 	CityBox->setTitle( i18n( "Choose City" ) );
 	CoordBox->setTitle( i18n( "Choose/Modify Coordinates" ) );
 
@@ -80,9 +86,9 @@ LocationDialog::LocationDialog( QWidget* parent )
   ProvinceFilter = new KLineEdit( CityBox );
   CountryFilter = new KLineEdit( CityBox );
 
-  GeoBox = new QListBox( CityBox );
-  GeoBox->setVScrollBarMode( QListBox::AlwaysOn );
-  GeoBox->setHScrollBarMode( QListBox::AlwaysOff );
+  GeoBox = new Q3ListBox( CityBox );
+  GeoBox->setVScrollBarMode( Q3ListBox::AlwaysOn );
+  GeoBox->setHScrollBarMode( Q3ListBox::AlwaysOff );
 
 	MapView = new MapCanvas( CityBox );
 	MapView->setFixedSize( 360, 180 ); //each pixel 1 deg x 2 deg
@@ -368,7 +374,7 @@ void LocationDialog::addCity( void ) {
 		//check for user's city database.  If it doesn't exist, create it.
 		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 
-		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+		if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;

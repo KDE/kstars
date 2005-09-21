@@ -24,10 +24,14 @@
 #include <qstring.h>
 #include <qimage.h>
 #include <qpixmap.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qrect.h> 
-#include <qptrlist.h>
-#include <qscrollview.h>
+#include <q3ptrlist.h>
+#include <q3scrollview.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QResizeEvent>
+#include <QPaintEvent>
 
 #include <kpixmapio.h>
 #include <kpixmap.h>
@@ -38,11 +42,11 @@
 #include "indi/fitsrw.h"
 
 class KCommandHistory;
-class QScrollView;
+class Q3ScrollView;
 class FITSViewer;
 class FITSFrame;
 
-class FITSImage : public QScrollView  {
+class FITSImage : public Q3ScrollView  {
 	Q_OBJECT
 
 	public:
@@ -105,7 +109,7 @@ class FITSImage : public QScrollView  {
 	void fitsZoomDefault();
 };
 
-class FITSFrame : public QFrame
+class FITSFrame : public Q3Frame
 {
   Q_OBJECT
   

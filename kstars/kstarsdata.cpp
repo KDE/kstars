@@ -18,6 +18,9 @@
 #include <qregexp.h>
 #include <qdir.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <Q3PtrList>
 
 #include <kapplication.h>
 #include <kmessagebox.h>
@@ -55,7 +58,7 @@
 #include "csegment.h"
 #include "customcatalog.h"
 
-QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
+Q3PtrList<GeoLocation> KStarsData::geoList = Q3PtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
 QStringList KStarsData::CustomColumns = QStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
 int KStarsData::objects = 0;
@@ -266,7 +269,7 @@ bool KStarsData::readVARData(void)
   QFile file;
 
   file.setName( locateLocal( "appdata", varFile ) );
-		if ( !file.open( IO_ReadOnly ) )
+		if ( !file.open( QIODevice::ReadOnly ) )
 		{
 			// Open default variable stars file
 			if ( KSUtils::openDataFile( file, varFile ) )
@@ -274,7 +277,7 @@ bool KStarsData::readVARData(void)
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", varFile ) );
 
-				if (localeFile.open(IO_WriteOnly))
+				if (localeFile.open(QIODevice::WriteOnly))
 				{
 				    QTextStream readStream(&file);
 				    QTextStream writeStream(&localeFile);
@@ -330,7 +333,7 @@ bool KStarsData::readINDIHosts(void)
   XMLAtt *ap;
 
   file.setName( locate( "appdata", indiFile ) );
-	if ( file.name().isEmpty() || !file.open( IO_ReadOnly ) )
+	if ( file.name().isEmpty() || !file.open( QIODevice::ReadOnly ) )
 		 return false;
 
  while ( (c = (signed char) file.getch()) != -1)
@@ -943,7 +946,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 	} else {
    // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
 		file.setName( locateLocal( "appdata", urlfile ) );
-		if ( file.open( IO_ReadOnly ) ) {
+		if ( file.open( QIODevice::ReadOnly ) ) {
 			//local file found.  Now, if global file has newer timestamp, then merge the two files.
 			//First load local file into QStringList
 			bool newDataFound( false );
@@ -964,7 +967,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 						//be smart about this; in some cases the URL is updated but the image is probably the same if its
 						//label string is the same.  So only check strings up to last ":"
 						QFile globalFile( flist[i] );
-						if ( globalFile.open( IO_ReadOnly ) ) {
+						if ( globalFile.open( QIODevice::ReadOnly ) ) {
 							QTextStream gStream( &globalFile );
 							while ( ! gStream.eof() ) {
 								QString line = gStream.readLine();
@@ -1001,7 +1004,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 
 			//(possibly) write appended local file
 			if ( newDataFound ) {
-				if ( file.open( IO_WriteOnly ) ) {
+				if ( file.open( QIODevice::WriteOnly ) ) {
 					QTextStream outStream( &file );
 					for ( unsigned int i=0; i<urlData.count(); i++ ) {
 						outStream << urlData[i] << endl;
@@ -1010,14 +1013,14 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 				}
 			}
 
-			if ( file.open( IO_ReadOnly ) ) fileFound = true;
+			if ( file.open( QIODevice::ReadOnly ) ) fileFound = true;
 
 		} else {
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
 				if ( locale->language() != "en_US" ) kdDebug() << i18n( "No localized URL file; using default English file." ) << endl;
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", urlfile ) );
-				if (localeFile.open(IO_WriteOnly)) {
+				if (localeFile.open(QIODevice::WriteOnly)) {
 					QTextStream readStream(&file);
 					QTextStream writeStream(&localeFile);
 					while ( ! readStream.eof() ) {
@@ -1675,7 +1678,7 @@ bool KStarsData::readCityData( void ) {
 
 	//check for local cities database, but don't require it.
 	file.setName( locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
-	if ( file.exists() && file.open( IO_ReadOnly ) ) {
+	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.eof() ) {
@@ -2350,7 +2353,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 	int cmdCount(0);
 
 	QFile f( scriptname );
-	if ( !f.open( IO_ReadOnly) ) {
+	if ( !f.open( QIODevice::ReadOnly) ) {
 		kdDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
 		return false;
 	}

@@ -43,11 +43,11 @@ class OpsColors : public OpsColorsUI
 	Q_OBJECT
 
 public:
-	OpsColors( QWidget *parent=0, const char *name=0, WFlags fl = 0 );
+	OpsColors( QWidget *parent=0, const char *name=0, Qt::WFlags fl = 0 );
 	~OpsColors();
 
 private slots:
-	void newColor( QListBoxItem* item );
+	void newColor( Q3ListBoxItem* item );
 	void slotPreset( int i );
 	void slotAddPreset();
 	void slotRemovePreset();

@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PtrList>
 /***************************************************************************
                           objectnamelist.h  -  description
                              -------------------
@@ -33,9 +35,9 @@ class SkyObjectName;
 
 //FIXME: Need to find the equivalent of this for Qt4:
 /**Reimplemented from QPtrList for sorting objects in the list. */
-template <class T> class SortedList : public QPtrList <T> {
+template <class T> class SortedList : public Q3PtrList <T> {
  protected:
-  int compareItems(QPtrCollection::Item item1, QPtrCollection::Item item2) {
+  int compareItems(Q3PtrCollection::Item item1, Q3PtrCollection::Item item2) {
     if ( *((T*)item1) == *((T*)item2) ) return 0;
     return ( *((T*)item1) < *((T*)item2) ) ? -1 : 1;
   }

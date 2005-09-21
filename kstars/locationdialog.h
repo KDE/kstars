@@ -42,14 +42,19 @@
 	*/
 #include <kdialogbase.h>
 #include "geolocation.h"
+//Added by qt3to4:
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QGroupBox;
+class Q3GroupBox;
 class QLabel;
-class QListBox;
-class QListBoxItem;
+class Q3ListBox;
+class Q3ListBoxItem;
 class QPushButton;
 class QComboBox;
 class KLineEdit;
@@ -144,7 +149,7 @@ private:
 	QGridLayout *glay, *glay2;
 	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
 	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
-	QGroupBox *CityBox, *CoordBox;
+	Q3GroupBox *CityBox, *CoordBox;
 	QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
 	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
 	QLabel *LongLabel, *LatLabel, *CountLabel;
@@ -155,7 +160,7 @@ private:
 	QComboBox *TZBox, *TZRuleBox;
 	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-	QListBox *GeoBox;
+	Q3ListBox *GeoBox;
 
 	GeoLocation *SelectedCity;
 	QList<GeoLocation*> filteredCityList;

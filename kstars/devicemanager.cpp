@@ -22,7 +22,7 @@
 #include "kstarsdatetime.h"
 
 #include <qsocketnotifier.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -378,7 +378,7 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
  */
 void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 {
-	QTextEdit *txt_w;
+	Q3TextEdit *txt_w;
 	XMLAtt *message;
 	XMLAtt *timestamp;
 

@@ -23,6 +23,12 @@
 #include <qcursor.h>
 #include <qpainter.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QResizeEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
 
 #include <kiconloader.h>
 #include <kstatusbar.h>

@@ -24,6 +24,8 @@
 #include "deepskyobject.h"
 #include "addcatdialogui.h"
 #include "draglistbox.h"
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 /**@class AddCatDialog
 	*@short Dialog for adding custom object catalogs to KStars

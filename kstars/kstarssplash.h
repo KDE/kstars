@@ -19,6 +19,11 @@
 #define KSTARSSPLASH_H_
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QLabel>
+#include <QPaintEvent>
+#include <QCloseEvent>
 
 /**@class KStarsSplash
 	*The KStars Splash Screen.  The splash screen shows the KStars logo and 

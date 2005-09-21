@@ -30,6 +30,11 @@
 #include <qstringlist.h>
 #include <qdir.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QResizeEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
 
 
 #include <stdlib.h>
@@ -268,7 +273,7 @@ void StreamWG::captureImage()
 }
 
 
-VideoWG::VideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+VideoWG::VideoWG(QWidget * parent, const char * name) : Q3Frame(parent, name, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   grayTable=new QRgb[256];

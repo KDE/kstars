@@ -237,7 +237,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 
 	pmTitle = new QLabel( s1, this );
-	pmTitle->setAlignment( AlignCenter );
+	pmTitle->setAlignment( Qt::AlignCenter );
 	QPalette pal( pmTitle->palette() );
 	pal.setColor( QPalette::Normal, QColorGroup::Background, pal.color( QPalette::Normal, QColorGroup::Base ) );
 	pal.setColor( QPalette::Normal, QColorGroup::Foreground, pal.color( QPalette::Normal, QColorGroup::Text ) );
@@ -246,38 +246,38 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 
 	if ( ! s2.isEmpty() ) {
 		pmTitle2 = new QLabel( s2, this );
-		pmTitle2->setAlignment( AlignCenter );
+		pmTitle2->setAlignment( Qt::AlignCenter );
 		pmTitle2->setPalette( pal );
 		insertItem( pmTitle2 );
 	}
 
 	if ( ! s3.isEmpty() ) {
 		pmType = new QLabel( s3, this );
-		pmType->setAlignment( AlignCenter );
+		pmType->setAlignment( Qt::AlignCenter );
 		pmType->setPalette( pal );
 		insertItem( pmType );
 	}
 
 	QString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
 	pmConstellation = new QLabel( c, this );
-	pmConstellation->setAlignment( AlignCenter );
+	pmConstellation->setAlignment( Qt::AlignCenter );
 	pmConstellation->setPalette( pal );
 	insertItem( pmConstellation );
 	
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
 		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), this );
-		pmRiseTime->setAlignment( AlignCenter );
+		pmRiseTime->setAlignment( Qt::AlignCenter );
 		pmRiseTime->setPalette( pal );
 		QFont rsFont = pmRiseTime->font();
 		rsFont.setPointSize( rsFont.pointSize() - 2 );
 		pmRiseTime->setFont( rsFont );
 		pmSetTime = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", this );
-		pmSetTime->setAlignment( AlignCenter );
+		pmSetTime->setAlignment( Qt::AlignCenter );
 		pmSetTime->setPalette( pal );
 		pmSetTime->setFont( rsFont );
 		pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), this );
-		pmTransitTime->setAlignment( AlignCenter );
+		pmTransitTime->setAlignment( Qt::AlignCenter );
 		pmTransitTime->setPalette( pal );
 		pmTransitTime->setFont( rsFont );
 		insertSeparator();

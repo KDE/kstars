@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -253,7 +255,7 @@ bool ColorScheme::save( const QString &name ) {
 		filename = filename.append( ".colors" );
 		file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 
-		if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
+		if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;
@@ -271,7 +273,7 @@ bool ColorScheme::save( const QString &name ) {
 
 		file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
-		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+		if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;

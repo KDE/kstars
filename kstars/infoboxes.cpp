@@ -19,6 +19,8 @@
 #include <kdebug.h>
 //#include <qpen.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 #include "infoboxes.h"
 #include "kstarsdatetime.h"
@@ -94,7 +96,7 @@ void InfoBoxes::resize( int w, int h ) {
 }
 
 void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
-		QColor BGColor, unsigned int BGMode ) {
+		QColor BGColor, unsigned int Qt::BGMode ) {
 	if ( isVisible() ) {
 		if ( GeoBox->isVisible() ) {
 			p.setPen( QPen( FGColor ) );

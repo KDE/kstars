@@ -17,6 +17,8 @@
 
 #include <qpainter.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -37,7 +39,7 @@ FOV::FOV( QString sname ) {
 	int sh;
 	float sz;
 
-	if ( f.exists() && f.open( IO_ReadOnly ) ) {
+	if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
 			QStringList fields = QStringList::split( ":", stream.readLine() );

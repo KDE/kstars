@@ -22,6 +22,9 @@
 #include <qbitmap.h>
 #include <qimage.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3MemArray>
 
 #define STARSIZE 24
 
@@ -72,7 +75,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	QBitmap mask (STARSIZE, STARSIZE);
 	QImage image;
 	QPainter p;
-	QMemArray<QColor> starColor;
+	Q3MemArray<QColor> starColor;
 	starColor.resize( 8 );
 	image.setAlphaBuffer(true);
 

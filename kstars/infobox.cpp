@@ -120,7 +120,7 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 	}
 }
 
-void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int BGMode ) {
+void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int Qt::BGMode ) {
 	QRect r;
 	int w,h;
 

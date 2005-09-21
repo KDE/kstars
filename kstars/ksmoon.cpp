@@ -19,6 +19,8 @@
 #include <math.h>
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 #include "ksnumbers.h"
 #include "ksutils.h"

@@ -26,10 +26,12 @@
 #include "ksutils.h"
 
 #include <qfile.h>
-#include <qvaluelist.h>
-#include <qcstring.h>
+#include <q3valuelist.h>
+#include <q3cstring.h>
 #include <qradiobutton.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -86,7 +88,7 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
 
   for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
   {
-  	QListViewItem *item = new QListViewItem(clientListView, lastGroup);
+  	Q3ListViewItem *item = new Q3ListViewItem(clientListView, lastGroup);
 	lastGroup = item;
 	item->setPixmap(0, disconnected);
         item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
@@ -100,11 +102,11 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
   QObject::connect(modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
   QObject::connect(removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
 
-  QObject::connect(clientListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(ClientprocessRightButton( QListViewItem *, const QPoint &, int )));
+  QObject::connect(clientListView, SIGNAL(rightButtonPressed ( Q3ListViewItem *, const QPoint &, int )), this, SLOT(ClientprocessRightButton( Q3ListViewItem *, const QPoint &, int )));
 
 QObject::connect(ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
 
-QObject::connect(localListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(LocalprocessRightButton( QListViewItem *, const QPoint &, int )));
+QObject::connect(localListView, SIGNAL(rightButtonPressed ( Q3ListViewItem *, const QPoint &, int )), this, SLOT(LocalprocessRightButton( Q3ListViewItem *, const QPoint &, int )));
 
 QObject::connect(LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
 
@@ -126,7 +128,7 @@ resize( 500, 300);
 
 void INDIDriver::shutdownHost(int mgrID)
 {
-  QListViewItem *affectedItem;
+  Q3ListViewItem *affectedItem;
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 {
@@ -163,7 +165,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
           
 }
 
-void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p, int column)
+void INDIDriver::ClientprocessRightButton( Q3ListViewItem *item, const QPoint &p, int column)
 {
 
   column = 0;
@@ -172,7 +174,7 @@ void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p,
   	ClientpopMenu->popup(p);
 }
 
-void INDIDriver::LocalprocessRightButton( QListViewItem *item, const QPoint &p, int column)
+void INDIDriver::LocalprocessRightButton( Q3ListViewItem *item, const QPoint &p, int column)
 {
 
   column = 0;
@@ -305,7 +307,7 @@ void INDIDriver::processHostStatus(int id)
 {
    int mgrID;
    bool toConnect = (id == 0);
-   QListViewItem *currentItem = clientListView->selectedItem();
+   Q3ListViewItem *currentItem = clientListView->selectedItem();
    if (!currentItem) return;
    INDIHostsInfo *hostInfo;
 
@@ -447,7 +449,7 @@ void INDIDriver::saveDevicesToDisk()
 
  file.setName( locateLocal( "appdata", "drivers.xml" ) ); //determine filename in local user KDE directory tree.
 
- if ( !file.open( IO_WriteOnly))
+ if ( !file.open( QIODevice::WriteOnly))
  {
   QString message = i18n( "unable to write to file 'drivers.xml'\nAny changes to INDI device drivers will not be saved." );
  KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
@@ -657,7 +659,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
 
   //KListViewItem *group = new KListViewItem(topItem, lastGroup);
-  QListViewItem *group = new QListViewItem(localListView, lastGroup);
+  Q3ListViewItem *group = new Q3ListViewItem(localListView, lastGroup);
   group->setText(0, groupName);
   lastGroup = group;
   //group->setOpen(true);
@@ -671,7 +673,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   return true;
 }
 
-bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[])
+bool INDIDriver::buildDriverElement(XMLEle *root, Q3ListViewItem *DGroup, int groupType, char errmsg[])
 {
   XMLAtt *ap;
   XMLEle *el;
@@ -714,7 +716,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
 
   version = pcdataXMLEle(el);
 
-  QListViewItem *device = new QListViewItem(DGroup, lastDevice);
+  Q3ListViewItem *device = new Q3ListViewItem(DGroup, lastDevice);
 
   device->setText(0, QString(label));
   device->setPixmap(1, stopPix);
@@ -787,7 +789,7 @@ void INDIDriver::addINDIHost()
 
     ksw->data()->INDIHostsList.append(hostItem);
 
-    QListViewItem *item = new QListViewItem(clientListView);
+    Q3ListViewItem *item = new Q3ListViewItem(clientListView);
     item->setPixmap(0, disconnected);
     item->setText(1, hostConf.nameIN->text());
     item->setText(2, hostConf.portnumber->text());
@@ -805,7 +807,7 @@ void INDIDriver::modifyINDIHost()
   INDIHostConf hostConf(this);
   hostConf.setCaption(i18n("Modify Host"));
 
-  QListViewItem *currentItem = clientListView->currentItem();
+  Q3ListViewItem *currentItem = clientListView->currentItem();
 
   if (currentItem == NULL)
    return;
@@ -875,7 +877,7 @@ void INDIDriver::saveHosts()
 
  file.setName( locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
 
- if ( !file.open( IO_WriteOnly))
+ if ( !file.open( QIODevice::WriteOnly))
  {
   QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
  KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );

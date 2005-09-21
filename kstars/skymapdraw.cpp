@@ -21,8 +21,10 @@
 #include <math.h> //log10()
 #include <iostream>
 
-#include <qpaintdevicemetrics.h>
+#include <q3paintdevicemetrics.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "skymap.h"
 #include "Options.h"
@@ -1865,7 +1867,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	bool drawGrid( Options::showGrid() );
 
 	p.begin( pd );
-	QPaintDeviceMetrics pdm( p.device() );
+	Q3PaintDeviceMetrics pdm( p.device() );
 
 	//scale image such that it fills 90% of the x or y dimension on the paint device
 	double xscale = double(pdm.width()) / double(width());

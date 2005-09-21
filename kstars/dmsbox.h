@@ -21,6 +21,8 @@
 #include <klineedit.h>
 
 #include "dms.h"
+//Added by qt3to4:
+#include <QFocusEvent>
 
 /**@class dmsBox
 	*A KLineEdit which is capable of displaying and parsing angle values

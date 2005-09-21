@@ -18,8 +18,10 @@
 //KStars DCOP functions
 
 #include <qdir.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qradiobutton.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -511,7 +513,7 @@ void KStars::startINDI (QString deviceName, bool useLocal)
     return;
   }
 	  
-	QListViewItem *driverItem = NULL;
+	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{
@@ -550,7 +552,7 @@ void KStars::shutdownINDI (QString deviceName)
     return;
   }
 	  
-	QListViewItem *driverItem = NULL;
+	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{

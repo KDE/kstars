@@ -19,8 +19,13 @@
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qcombobox.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QKeyEvent>
 
 #include <kmessagebox.h>
 
@@ -38,7 +43,7 @@ FindDialog::FindDialog( QWidget* parent ) :
 		vlay(0), hlay(0), SearchList(0), SearchBox(0), filterTypeLabel(0), filterType(0),
 		currentitem(0)
 {
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 
 //Create Layout managers
 	vlay = new QVBoxLayout( page, 2, 2 );
@@ -67,11 +72,11 @@ FindDialog::FindDialog( QWidget* parent ) :
 	filterType->insertItem( i18n ("Asteroids") );
 	filterType->insertItem( i18n ("Constellations") );
 
-	SearchList = new QListBox( page, "SearchList" );
+	SearchList = new Q3ListBox( page, "SearchList" );
 	SearchList->setMinimumWidth( 256 );
 	SearchList->setMinimumHeight( 320 );
-	SearchList->setVScrollBarMode( QListBox::AlwaysOn );
-	SearchList->setHScrollBarMode( QListBox::AlwaysOff );
+	SearchList->setVScrollBarMode( Q3ListBox::AlwaysOn );
+	SearchList->setHScrollBarMode( Q3ListBox::AlwaysOff );
 
 //Pack Widgets into layout manager
 	hlay->addWidget( filterTypeLabel, 0, 0 );
@@ -96,8 +101,8 @@ FindDialog::FindDialog( QWidget* parent ) :
 	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 	connect( SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
 	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect( SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
-	connect( SearchList, SIGNAL( doubleClicked ( QListBoxItem *  ) ), SLOT( slotOk() ) );
+	connect( SearchList, SIGNAL (selectionChanged  (Q3ListBoxItem *)), SLOT (updateSelection (Q3ListBoxItem *)));
+	connect( SearchList, SIGNAL( doubleClicked ( Q3ListBoxItem *  ) ), SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
 	QTimer::singleShot(0, this, SLOT( init() ));
@@ -167,7 +172,7 @@ void FindDialog::setListItemEnabled() {
 		updateSelection (0);
 }
 
-void FindDialog::updateSelection (QListBoxItem *it) {
+void FindDialog::updateSelection (Q3ListBoxItem *it) {
 	currentitem = (SkyObjectNameListItem *) it;
 	SearchBox->setFocus();  // set cursor to QLineEdit
 }

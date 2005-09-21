@@ -45,23 +45,23 @@
 #include <zlib.h>
 
 #include <qlineedit.h>
-#include <qtextedit.h>
-#include <qframe.h>
+#include <q3textedit.h>
+#include <q3frame.h>
 #include <qtabwidget.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qbuttongroup.h>
-#include <qscrollview.h>
+#include <q3whatsthis.h>
+#include <q3buttongroup.h>
+#include <q3scrollview.h>
 #include <qsocketnotifier.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qdatetime.h>
-#include <qtable.h>
+#include <q3table.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -99,7 +99,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
  deviceVBox     = menuParent->addVBoxPage(inLabel);
  groupContainer = new QTabWidget(deviceVBox);
  
- msgST_w        = new QTextEdit(deviceVBox);
+ msgST_w        = new Q3TextEdit(deviceVBox);
  msgST_w->setReadOnly(true);
  msgST_w->setMaximumHeight(100);
 

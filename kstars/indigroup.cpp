@@ -19,9 +19,11 @@
  #include <klocale.h>
  
  #include <qlayout.h>
- #include <qframe.h>
+ #include <q3frame.h>
  #include <qtimer.h>
  #include <qtabwidget.h> 
+//Added by qt3to4:
+#include <QVBoxLayout>
  
  /*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
@@ -41,7 +43,7 @@ INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
   // 1. Propertycontainer is a QFrame, then you make QVBoxLayout for it (check form1.cpp)
   // 2. Keep it as QVBox and let it handle its children.
   // Depends on which one works best.
-  propertyContainer = new QFrame(dp->groupContainer);
+  propertyContainer = new Q3Frame(dp->groupContainer);
   propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
   VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
   

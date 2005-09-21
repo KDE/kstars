@@ -37,6 +37,8 @@
 #include <kprocess.h>
 #include <qcheckbox.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include <kdeversion.h>
 #include <libkdeedu/kdeeduui/kdeeduglossary.h>
 
@@ -521,7 +523,7 @@ void KStars::slotRunScript() {
 			f.setName( fileURL.path() );
 		}
 
-		if ( !f.open( IO_ReadOnly) ) {
+		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1" ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
@@ -842,7 +844,7 @@ void KStars::slotFOVEdit() {
 			f.remove();
 			initFOV();
 		} else {
-			if ( ! f.open( IO_WriteOnly ) ) {
+			if ( ! f.open( QIODevice::WriteOnly ) ) {
 				kdDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
 			} else {
 				QTextStream ostream(&f);
@@ -858,7 +860,7 @@ void KStars::slotFOVEdit() {
 		//repopulate FOV menu  with items from new fov.dat
 		fovActionMenu->popupMenu()->clear();
 
-		if ( f.open( IO_ReadOnly ) ) {
+		if ( f.open( QIODevice::ReadOnly ) ) {
 			QTextStream stream( &f );
 			while ( !stream.eof() ) {
 				QString line = stream.readLine();

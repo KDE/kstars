@@ -17,14 +17,14 @@
 
 #include <qlabel.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 
 #include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
 #include "timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl ) 
+OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, Qt::WFlags fl ) 
 	: OpsAdvancedUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;

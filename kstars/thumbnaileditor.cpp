@@ -15,11 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qimage.h>
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QPaintEvent>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -34,7 +40,7 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 {
 	tp = (ThumbnailPicker*)parent;
 
-	QFrame *page = plainPage();
+	Q3Frame *page = plainPage();
 	QHBoxLayout *hlay = new QHBoxLayout( page, 0, 0 );
 	ui = new ThumbnailEditorUI( page );
 	hlay->addWidget( ui );

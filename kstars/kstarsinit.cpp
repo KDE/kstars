@@ -18,6 +18,8 @@
 #include <qlayout.h>
 #include <qfile.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QTextStream>
 #include <dcopclient.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
@@ -173,7 +175,7 @@ void KStars::initActions() {
 	QFile file;
 	QString line, schemeName, filename;
 	file.setName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
-	if ( file.exists() && file.open( IO_ReadOnly ) ) {
+	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
@@ -304,7 +306,7 @@ void KStars::initFOV() {
 	if ( (uint)f.size() == 0 ) f.remove();
 
 	if ( ! f.exists() ) {
-		if ( ! f.open( IO_WriteOnly ) ) {
+		if ( ! f.open( QIODevice::WriteOnly ) ) {
 			kdDebug() << i18n( "Could not open fov.dat." ) << endl;
 		} else {
 			QTextStream ostream(&f);
@@ -318,7 +320,7 @@ void KStars::initFOV() {
 	}
 
 	//just populate the FOV menu with items, don't need to fully parse the lines
-	if ( f.open( IO_ReadOnly ) ) {
+	if ( f.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &f );
 		while ( !stream.eof() ) {
 			QString line = stream.readLine();

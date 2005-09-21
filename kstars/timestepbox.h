@@ -18,8 +18,10 @@
 #ifndef TIMESTEPBOX_H
 #define TIMESTEPBOX_H
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 #include "timespinbox.h"
 #include "timeunitbox.h"
 
@@ -33,7 +35,7 @@
 	*@version 1.0
 	*/
 
-class TimeStepBox : public QFrame  {
+class TimeStepBox : public Q3Frame  {
 Q_OBJECT
 public:
 	/**Constructor. */

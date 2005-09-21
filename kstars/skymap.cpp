@@ -23,11 +23,17 @@
 #include <kaction.h>
 #include <kstandarddirs.h>
 
-#include <qmemarray.h>
-#include <qpointarray.h>
+#include <q3memarray.h>
+#include <q3pointarray.h>
 #include <qcursor.h>
 #include <qbitmap.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
+#include <Q3PtrList>
+#include <QKeyEvent>
+#include <QEvent>
 
 #include <math.h>
 #include <stdlib.h>
@@ -327,7 +333,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 
 	for ( register unsigned int j=0; j< data->CustomCatalogs.count(); ++j ) {
 		if ( Options::showCatalog()[j] ) {
-			QPtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
+			Q3PtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
 
 			for ( register unsigned int i=0; i<catList.count(); ++i ) {
 				//test RA and dec to see if this object is roughly nearby
@@ -395,7 +401,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 		icat = 3; //set catalog to solar system
 	}
 
-	QPtrList<SkyObject> cat;
+	Q3PtrList<SkyObject> cat;
 
 	switch (icat) {
 		case 0: //star
@@ -1323,7 +1329,7 @@ void SkyMap::addLink( void ) {
 			//check for user's image-links database.  If it doesn't exist, create it.
 			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
 
-			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+			if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
@@ -1341,7 +1347,7 @@ void SkyMap::addLink( void ) {
 			//check for user's image-links database.  If it doesn't exist, create it.
 			file.setName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
-			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
+			if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {

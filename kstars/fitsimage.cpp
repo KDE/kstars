@@ -34,10 +34,14 @@
 #include <kstatusbar.h>
 
 #include <qfile.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qcursor.h>
 #include <qpixmap.h>
-#include <qframe.h>
+#include <q3frame.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QResizeEvent>
+#include <QPaintEvent>
 
 #include <math.h>
 #include <unistd.h>
@@ -64,7 +68,7 @@ static FITSLoadVals plvals =
   0         /* Dont compose images */
 };
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, name), zoomFactor(1.2)
+FITSImage::FITSImage(QWidget * parent, const char * name) : Q3ScrollView(parent, name), zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
   reducedImgBuffer = NULL;
@@ -459,7 +463,7 @@ void FITSImage::fitsZoomDefault()
 
 }
 
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : Q3Frame(parent, name, Qt::WNoAutoErase)
 {
   image = img;
   setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());

@@ -20,9 +20,11 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qslider.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 
 #include <kurl.h>
 #include <kfiledialog.h>

@@ -20,19 +20,21 @@
 
 #include "simclock.h"
 #include "kstars.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 
 SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
-		DCOPObject("clock#" + QCString().setNum(idgen++)),
+		DCOPObject("clock#" + Q3CString().setNum(idgen++)),
 		QObject(parent),
 		tmr(this)
 {
 	if (! when.isValid() ) tmr.stop();
 	setUTC(when);
-	julianmark = UTC.djd();
+	julianmark = Qt::UTC.djd();
 	
 	Scale = 1.0;
 	ManualMode = false;
@@ -42,7 +44,7 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 }
 
 SimClock::SimClock (const SimClock &old) :
-		DCOPObject("clock#" + QCString().setNum(idgen++)),
+		DCOPObject("clock#" + Q3CString().setNum(idgen++)),
 		QObject(old.parent()),
 		SimClockInterface(),
 		tmr(this)

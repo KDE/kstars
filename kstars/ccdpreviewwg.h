@@ -14,10 +14,15 @@
  #define CCDPREVIEWWG_H
  
  #include <qpixmap.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
  #include <kpixmapio.h>
   
  #include "ccdpreviewui.h"
- #include "qframe.h"
+ #include "q3frame.h"
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
 
@@ -70,7 +75,7 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
    void updateFWHM();
  };
  
- class CCDVideoWG : public QFrame
+ class CCDVideoWG : public Q3Frame
  {
       Q_OBJECT
    

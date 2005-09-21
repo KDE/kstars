@@ -20,6 +20,10 @@
 
 #include <kdialogbase.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QPaintEvent>
 
 class ThumbnailEditorUI;
 class ThumbnailPicker;

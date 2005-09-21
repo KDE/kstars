@@ -19,7 +19,7 @@
 
 #include <qfile.h>
 #include <qpoint.h>
-#include <qwmatrix.h>
+#include <qmatrix.h>
 
 #include "ksplanetbase.h"
 #include "ksplanet.h"
@@ -184,14 +184,14 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
 
 void KSPlanetBase::rotateImage( double imAngle ) {
 	ImageAngle = imAngle;
-	QWMatrix m;
+	QMatrix m;
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m );
 }
 
 void KSPlanetBase::scaleRotateImage( int scale, double imAngle ) {
 	ImageAngle = imAngle;
-	QWMatrix m;
+	QMatrix m;
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m ).smoothScale( scale, scale );
 }

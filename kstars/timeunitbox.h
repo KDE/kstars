@@ -18,7 +18,7 @@
 #ifndef TIMEUNITBOX_H
 #define TIMEUNITBOX_H
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qwidget.h>
 
 #define ALLUNITS 8
@@ -43,7 +43,7 @@
 
 class QPushButton;
 
-class TimeUnitBox : public QVBox {
+class TimeUnitBox : public Q3VBox {
    Q_OBJECT
 public:
 	/**Constructor*/

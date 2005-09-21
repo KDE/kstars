@@ -13,6 +13,12 @@
 #define INDIMENU_H
 
 #include "indielement.h"
+//Added by qt3to4:
+#include <QGridLayout>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
 
 class INDI_E;
 class INDI_P;
@@ -28,19 +34,19 @@ class KPushButton;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
-class QFrame;
+class Q3Frame;
 class QLineEdit;
 class QString;
-class QTextEdit;
-class QListView;
+class Q3TextEdit;
+class Q3ListView;
 class QSocketNotifier;
 class QTabWidget;
 class QSpacerItem;
 class QGridLayout;
-class QButtonGroup;
+class Q3ButtonGroup;
 class QCheckBox;
-class QScrollView;
-class QVBox;
+class Q3ScrollView;
+class Q3VBox;
 
 class KStars;
 class DeviceManager;
@@ -57,7 +63,7 @@ class INDIMenu : public KDialogBase
    ******************************************************************/
    QVBoxLayout	*mainLayout;
    QTabWidget	*deviceContainer;
-   QTextEdit 	*msgST_w;
+   Q3TextEdit 	*msgST_w;
    QWidget	*tab;
    QPushButton  *clear;
    QString	currentLabel;

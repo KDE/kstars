@@ -16,11 +16,14 @@
 
 #include "indielement.h"
 #include <qstring.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3Frame>
 
 class INDI_P;
 class INDI_D;
 
-class QFrame;
+class Q3Frame;
 class QVBoxLayout;
 
 /* INDI group */
@@ -32,7 +35,7 @@ class INDI_G
 
   QString       name;			/* Group name */
   INDI_D 	*dp;			/* Parent device */
-  QFrame        *propertyContainer;	/* Properties container */
+  Q3Frame        *propertyContainer;	/* Properties container */
   QVBoxLayout   *propertyLayout;        /* Properties layout */
   QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 

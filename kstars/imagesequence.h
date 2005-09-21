@@ -23,7 +23,7 @@ class imagesequence : public imgSequenceDlg
   Q_OBJECT
 
 public:
-  imagesequence(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+  imagesequence(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
   ~imagesequence();
   
 

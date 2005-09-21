@@ -20,6 +20,11 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
 
 #include <kpixmapio.h>
 #include <kio/job.h>

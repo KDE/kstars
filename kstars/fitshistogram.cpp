@@ -30,6 +30,9 @@
  #include <qpixmap.h>
  #include <qradiobutton.h>
  #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPaintEvent>
  
  #include <kdebug.h>
  #include <klineedit.h>

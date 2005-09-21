@@ -22,6 +22,8 @@
 
 #include <qmap.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <kshortcut.h>
 
@@ -576,7 +578,7 @@ public slots:
 	void initialize();
 
 	/**@short send a message to the console*/
-	void slotConsoleMessage( QString s ) { std::cout << s.utf8() << std::endl; }
+	void slotConsoleMessage( QString s ) { std::cout << s/*.utf8()*/ << std::endl; }
 
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
@@ -699,24 +701,24 @@ private:
   /** List of all deep sky objects per type, to speed up drawing the sky map */
 // 	QPtrList<DeepSkyObject> deepSkyListOther;
 
-	QPtrList<KSAsteroid> asteroidList;
-	QPtrList<KSComet> cometList;
+	Q3PtrList<KSAsteroid> asteroidList;
+	Q3PtrList<KSComet> cometList;
 
 //	QPtrList<SkyPoint> MilkyWay[NMWFILES];
 
 //	QPtrList<SkyPoint> clineList;
-	QPtrList<CSegment> csegmentList;
+	Q3PtrList<CSegment> csegmentList;
 //	QPtrList<QChar> clineModeList;
 //	QPtrList<SkyObject> cnameList;
-	QPtrList<SkyObject> ObjLabelList;
+	Q3PtrList<SkyObject> ObjLabelList;
 
-	QPtrList<SkyPoint> Equator;
-	QPtrList<SkyPoint> Ecliptic;
+	Q3PtrList<SkyPoint> Equator;
+	Q3PtrList<SkyPoint> Ecliptic;
 //	QPtrList<SkyPoint> Horizon;
-	QPtrList<VariableStarInfo> VariableStarsList;
-	QPtrList<ADVTreeData> ADVtreeList;
-	QPtrList<INDIHostsInfo> INDIHostsList;
-	QPtrList<SkyObject> INDITelescopeList;
+	Q3PtrList<VariableStarInfo> VariableStarsList;
+	Q3PtrList<ADVTreeData> ADVtreeList;
+	Q3PtrList<INDIHostsInfo> INDIHostsList;
+	Q3PtrList<SkyObject> INDITelescopeList;
 	
 // 	QPtrList<CustomCatalog> CustomCatalogs;
 

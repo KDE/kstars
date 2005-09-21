@@ -37,7 +37,7 @@
 #define RETRY_MAX	12
 #define RETRY_PERIOD	5000
 
-imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFlags fl)
+imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
 : imgSequenceDlg(parent,name, modal,fl)
 {
   

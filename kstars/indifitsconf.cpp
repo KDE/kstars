@@ -23,7 +23,7 @@
 
 #include "Options.h"
 
-INDIFITSConf::INDIFITSConf(QWidget* parent, const char* name, bool modal, WFlags fl)
+INDIFITSConf::INDIFITSConf(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
 : INDIConf(parent,name, modal,fl)
 {
 

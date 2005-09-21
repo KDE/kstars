@@ -27,8 +27,8 @@
 #include <stdlib.h>
 
 #include <qlineedit.h>
-#include <qtextedit.h>
-#include <qframe.h>
+#include <q3textedit.h>
+#include <q3frame.h>
 #include <qtabwidget.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
@@ -36,7 +36,7 @@
 #include <qlayout.h>
 #include <qsocketnotifier.h>
 #include <qdatetime.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qtimer.h>
 
 #include <kled.h>

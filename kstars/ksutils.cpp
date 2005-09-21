@@ -25,7 +25,7 @@ bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 
 	if ( !FileName.isNull() ) {
 		file.setName( FileName );
-		if ( !file.open( IO_ReadOnly ) ) {
+		if ( !file.open( QIODevice::ReadOnly ) ) {
 			result = false;
 		} else {
 			result = true;

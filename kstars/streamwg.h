@@ -13,10 +13,15 @@
  #define STREAMWG_H
  
  #include <qpixmap.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QResizeEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
  #include <kpixmapio.h>
   
  #include "streamformui.h"
- #include "qframe.h"
+ #include "q3frame.h"
  
  
  class QImage;
@@ -63,7 +68,7 @@
 
  };
  
- class VideoWG : public QFrame
+ class VideoWG : public Q3Frame
  {
       Q_OBJECT
    

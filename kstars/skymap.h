@@ -20,6 +20,14 @@
 
 #include <qtimer.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <Q3PointArray>
+#include <QWheelEvent>
+#include <QKeyEvent>
+#include <QResizeEvent>
+#include <QPaintEvent>
 
 #include "skypoint.h"
 #include "starpixmap.h"
@@ -29,7 +37,7 @@
 class QPainter;
 class QPaintDevice;
 class QPoint;
-class QPointArray;
+class Q3PointArray;
 class QPixmap;
 
 class dms;

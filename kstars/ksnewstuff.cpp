@@ -49,7 +49,7 @@ bool KSNewStuff::install( const QString &fileName )
 	kdDebug() << "KSNewStuff::install(): " << fileName << endl;
 	
 	KTar archive( fileName );
-	if ( !archive.open( IO_ReadOnly ) )
+	if ( !archive.open( QIODevice::ReadOnly ) )
 			return false;
 	
 	const KArchiveDirectory *archiveDir = archive.directory();
