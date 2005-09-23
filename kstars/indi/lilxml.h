@@ -183,13 +183,27 @@ extern int nXMLEle (XMLEle *ep);
 */
 extern int nXMLAtt (XMLEle *ep);
 
+/* editing functions */
+/** \brief Add an XML attribute to an existing XML element.
+    \param ep pointer to an XML element
+    \param name the name of the XML attribute to add.
+    \param value the value of the XML attribute to add.
+*/
+extern void addXMLAtt (XMLEle *ep, const char *name, char *value);
+
+/** \brief Remove an XML attribute from an XML element.
+    \param ep pointer to an XML element.
+    \param name the name of the XML attribute to remove
+*/
+extern void rmXMLAtt (XMLEle *ep, const char *name);
+
 /* convenience functions */
 /** \brief Find an XML element's attribute value.
     \param ep a pointer to an XML element.
     \param name the name of the XML attribute to retrieve its value.
     \return the value string of an XML element on success. NULL on failure.
 */
-extern const char *findXMLAttValu (XMLEle *ep, char *name);
+extern char *findXMLAttValu (XMLEle *ep, const char *name);
 
 /** \brief Handy wrapper to read one xml file.
     \param fp pointer to FILE to read.

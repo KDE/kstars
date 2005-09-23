@@ -2,13 +2,19 @@
  * Copyright (C) 2005 Elwood C. Downey ecdowney@clearskyinstitute.com
  * licensed under GNU Lesser Public License version 2.1 or later.
  *
- * argv lists names of Driver programs to run, they are restarted if they exit.
+ * argv lists names of Driver programs to run or sockets to connect for Devices.
+ * Drivers are restarted if they exit up to 4 times, sockets are not reopened.
  * Each Driver's stdin/out are assumed to provide INDI traffic and are connected
  *   here via pipes. Drivers' stderr are connected to our stderr.
+ * We only support Drivers that advertise support for one Device. The problem
+ *   with multiple Devices in one Driver is without a way to know what they
+ *   _all_ are there is no way to avoid sending all messages to all Drivers.
  * Clients can come and go as they please and will see messages only for Devices
  *   for which they have queried via getProperties.
- * all newXXX() received from one Client are sent to all other Clients who have
- *   shown an interest in the same Device.
+ * Messages to Devices on sockets always include Device so chained indiserver
+ *   will only pass back info from that Device.
+ * all newXXX() received from one Client are echoed to all other Clients who
+ *   have shown an interest in the same Device.
  *
  * Implementation notes:
  *
@@ -49,6 +55,7 @@
 #define INDIPORT        7624            /* TCP/IP port on which to listen */
 #define	BUFSZ		2048		/* max buffering here */
 #define	MAXDRS		4		/* default times to restart a driver */
+#define	NOPID		(-1234)		/* invalid PID to flag remote drivers */
 
 /* mutex and condition variables to guard client queue and heap access */
 static pthread_mutex_t client_m;	/* client mutex */
@@ -88,7 +95,7 @@ static int nclinfo;			/* n total (not n active) */
 typedef struct {
     char *name;				/* malloced process path name */
     IDev dev;				/* device served by this driver */
-    int pid;				/* process id */
+    int pid;				/* process id or NOPID if remote */
     int rfd;				/* read pipe fd */
     FILE *wfp;				/* write pipe fp */
     int restarts;			/* times process has been restarted */
@@ -110,6 +117,9 @@ static int newClSocket (void);
 static void shutdownClient (ClInfo *cp);
 static void clientMsg (ClInfo *cp);
 static void startDvr (DvrInfo *dp);
+static void startLocalDvr (DvrInfo *dp);
+static void startRemoteDvr (DvrInfo *dp);
+static int openINDIServer (char host[], int port);
 static void restartDvr (DvrInfo *dp);
 static void send2Drivers (XMLEle *root, char *dev);
 static void send2Clients (ClInfo *notme, XMLEle *root, char *dev);
@@ -119,7 +129,7 @@ static void driverMsg (DvrInfo *dp);
 static void *clientWThread(void *carg);
 static void freeMsg (Msg *mp);
 static BLOBEnable crackBLOB (char enableBLOB[]);
-static char *xmlLog (XMLEle *root);
+static void xmlLog (XMLEle *root);
 
 static char *me;			/* our name */
 static int port = INDIPORT;		/* public INDI port */
@@ -214,8 +224,9 @@ usage(void)
 	fprintf (stderr, " -p p  : alternate IP port, default %d\n", INDIPORT);
 	fprintf (stderr, " -r n  : max driver restarts, default %d\n", MAXDRS);
 	fprintf (stderr, " -v    : show connects/disconnects, no traffic\n");
-	fprintf (stderr, " -vv   : show -v + xml message root elements\n");
-	fprintf (stderr, " -vvv  : show -vv + complete xml messages\n");
+	fprintf (stderr, " -vv   : show -v + key message content\n");
+	fprintf (stderr, " -vvv  : show -vv + complete xml\n");
+	fprintf (stderr, "driver : program or device@host[:port]\n");
 
 	exit (1);
 }
@@ -278,11 +289,23 @@ noSIGPIPE()
 	(void)sigaction(SIGPIPE, &sa, NULL);
 }
 
-/* start the INDI driver process using the given DvrInfo slot.
+/* start the INDI driver process or connection usingthe given DvrInfo slot.
  * exit if trouble.
  */
 static void
 startDvr (DvrInfo *dp)
+{
+	if (strchr (dp->name, '@'))
+	    startRemoteDvr (dp);
+	else
+	    startLocalDvr (dp);
+}
+
+/* start the INDI driver process using the given DvrInfo slot.
+ * exit if trouble.
+ */
+static void
+startLocalDvr (DvrInfo *dp)
 {
 	int rp[2], wp[2];
 	int pid;
@@ -339,6 +362,83 @@ startDvr (DvrInfo *dp)
 	    								wp[1]);
 }
 
+/* start the remote INDI driver connection using the given DvrInfo slot.
+ * exit if trouble.
+ */
+static void
+startRemoteDvr (DvrInfo *dp)
+{
+	char dev[1024];
+	char host[1024];
+	int indiport, sockfd;
+
+	/* extract host and indiport */
+	indiport = INDIPORT;
+	if (sscanf (dp->name, "%[^@]@%[^:]:%d", dev, host, &indiport) < 2) {
+	    fprintf (stderr, "Bad remote device syntax: %s\n", dp->name);
+	    exit(1);
+	}
+
+	/* connect */
+	sockfd = openINDIServer (host, indiport);
+
+	/* record fake pid, io channel, init lp, dev name.
+	 * N.B. storing name now is key to limiting remote traffic to this dev
+	 */
+	dp->pid = NOPID;
+	dp->rfd = sockfd;
+	dp->lp = newLilXML();
+	strncpy (dp->dev, dev, sizeof(IDev)-1);
+	dp->dev[sizeof(IDev)-1] = '\0';
+
+	/* N.B. beware implied use of malloc */
+	pthread_mutex_lock (&malloc_m);
+	dp->wfp = fdopen (sockfd, "a");
+	setbuf (dp->wfp, NULL);
+	pthread_mutex_unlock (&malloc_m);
+
+	if (verbose > 0)
+	    fprintf (stderr, "Driver %s: socket=%d\n", dp->name, sockfd);
+}
+
+/* open a connection to the given host and port or die.
+ * return socket fd.
+ */
+static int
+openINDIServer (char host[], int indiport)
+{
+	struct sockaddr_in serv_addr;
+	struct hostent *hp;
+	int sockfd;
+
+	/* lookup host address */
+	hp = gethostbyname (host);
+	if (!hp) {
+	    fprintf (stderr, "gethostbyname(%s): %s\n", host, strerror(errno));
+	    exit (1);
+	}
+
+	/* create a socket to the INDI server */
+	(void) memset ((char *)&serv_addr, 0, sizeof(serv_addr));
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_addr.s_addr =
+			    ((struct in_addr *)(hp->h_addr_list[0]))->s_addr;
+	serv_addr.sin_port = htons(indiport);
+	if ((sockfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+	    fprintf (stderr, "socket(%s,%d): %s\n", host, indiport,strerror(errno));
+	    exit(1);
+	}
+
+	/* connect */
+	if (connect (sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr))<0){
+	    fprintf (stderr, "connect(%s,%d): %s\n", host,port,strerror(errno));
+	    exit(1);
+	}
+
+	/* ok */
+	return (sockfd);
+}
+
 /* create the public INDI Driver endpoint lsocket on port.
  * return server socket else exit.
  */
@@ -355,7 +455,7 @@ indiListen ()
 	    exit(1);
 	}
 	
-	/* bind to given port for local IP addresses only */
+	/* bind to given port for any IP address locally */
 	memset (&serv_socket, 0, sizeof(serv_socket));
 	serv_socket.sin_family = AF_INET;
 	serv_socket.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
@@ -525,31 +625,27 @@ clientMsg (ClInfo *cp)
 	    XMLEle *root = readXMLEle (cp->lp, buf[i], err);
 	    if (root) {
 		char *roottag = tagXMLEle(root);
+		char *dev = findXMLAttValu (root, "device");
 
 		if (verbose > 1)
-		    fprintf (stderr, "Client %d: read %s\n", cp->s,
-		    						xmlLog(root));
+		    fprintf (stderr, "Client %d: read ", cp->s), xmlLog(root);
 
-		/* record BLOB message locally, others go to matching drivers */
-		if (!strcmp (roottag, "enableBLOB")) {
+		/* snag enableBLOB */
+		if (!strcmp (roottag, "enableBLOB"))
 		    cp->blob = crackBLOB (pcdataXMLEle(root));
+
+		/* snag interested devices */
+		if (!strcmp (roottag, "getProperties"))
+		    addClDevice (cp, dev);
+
+		/* send message to driver(s) responsible for dev */
+		send2Drivers (root, dev);
+
+		/* echo new* commands back to other clients, else done */
+		if (!strncmp (roottag, "new", 3))
+		    send2Clients (cp, root, dev); /* does delXMLEle */
+		else
 		    delXMLEle (root);
-		} else {
-		    char *dev = findXMLAttValu (root, "device");
-
-		    /* snag interested devices */
-		    if (!strcmp (roottag, "getProperties"))
-			addClDevice (cp, dev);
-
-		    /* send message to driver(s) responsible for dev */
-		    send2Drivers (root, dev);
-
-		    /* echo new* commands back to other clients, else done */
-		    if (!strncmp (roottag, "new", 3))
-			send2Clients (cp, root, dev); /* does delXMLEle */
-		    else
-			delXMLEle (root);
-		}
 	    } else if (err[0])
 		fprintf (stderr, "Client %d: %s\n", cp->s, err);
 	}
@@ -584,10 +680,10 @@ driverMsg (DvrInfo *dp)
 	    char err[1024];
 	    XMLEle *root = readXMLEle (dp->lp, buf[i], err);
 	    if (root) {
-		char *dev = findXMLAttValu(root,"device");
+		char *dev = findXMLAttValu (root, "device");
 
 		if (verbose > 1)
-		   fprintf(stderr,"Driver %s: read %s\n",dp->name,xmlLog(root));
+		   fprintf(stderr,"Driver %s: read ", dp->name), xmlLog(root);
 
 		/* snag device name if not known yet */
 		if (!dp->dev[0] && dev[0]) {
@@ -623,15 +719,16 @@ static void
 restartDvr (DvrInfo *dp)
 {
 	/* make sure it's dead, reclaim resources */
-	kill (dp->pid, SIGKILL);
+	if (dp->pid != NOPID)
+	    kill (dp->pid, SIGKILL);
 	fclose (dp->wfp);
 	close (dp->rfd);
 	delLilXML (dp->lp);
 
 	/* restart unless too many already */
 	if (++dp->restarts > maxdrs) {
-	    fprintf (stderr, "Driver %s: died after %d restarts\n", dp->name,
-								    maxdrs);
+	    fprintf (stderr, "Driver %s: still dead after %d restarts\n",
+							    dp->name, maxdrs);
 	    exit(1);
 	}
 	fprintf (stderr, "Driver %s: restart #%d\n", dp->name, dp->restarts);
@@ -648,9 +745,24 @@ send2Drivers (XMLEle *root, char *dev)
 
 	for (i = 0; i < ndvrinfo; i++) {
 	    DvrInfo *dp = &dvrinfo[i];
-	    if (dev[0] && dp->dev[0] && strcmp (dev, dp->dev))
-		continue;
+	    int adddev = 0;
+
+	    if (dev[0]) {
+		/* skip unless we know driver supports this device */
+		if (dp->dev[0] && strcmp (dev, dp->dev))
+		    continue;
+	    } else {
+		/* add dev to message if known from driver.
+		 * N.B. this is key to limiting remote traffic to this dev
+		 */
+		if (dp->dev[0]) {
+		    addXMLAtt (root, "device", dp->dev);
+		    adddev = 1;
+		}
+	    }
+
 	    prXMLEle (dp->wfp, root, 0);
+
 	    if (ferror(dp->wfp)) {
 		fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
 		restartDvr (dp);
@@ -658,7 +770,10 @@ send2Drivers (XMLEle *root, char *dev)
 		fprintf (stderr, "Driver %s: send:\n", dp->name);
 		prXMLEle (stderr, root, 0);
 	    } else if (verbose > 1)
-		fprintf(stderr,"Driver %s: send %s\n", dp->name, xmlLog(root));
+		fprintf(stderr,"Driver %s: send ", dp->name), xmlLog(root);
+
+	    if (adddev)
+		rmXMLAtt (root, "device");
 	}
 }
 
@@ -702,7 +817,7 @@ send2Clients (ClInfo *notme, XMLEle *root, char *dev)
 	    pthread_cond_broadcast(&client_c);
 	else {
 	    if (verbose > 2)
-		fprintf (stderr, "no clients want %s\n", xmlLog(root));
+		fprintf (stderr, "no clients want "), xmlLog(root);
 	    freeMsg (mp);	/* no interested clients, free Msg now */
 	}
 
@@ -761,7 +876,7 @@ clientWThread(void *carg)
 		fprintf (stderr, "Client %d: send:\n", cp->s);
 		prXMLEle (stderr, mp->ep, 0);
 	    } else if (verbose > 1)
-		fprintf (stderr, "Client %d: send %s\n", cp->s, xmlLog(mp->ep));
+		fprintf (stderr, "Client %d: send ", cp->s), xmlLog(mp->ep);
 
 	    /* update message usage count, free if goes to 0 */
 	    if (--mp->count == 0)
@@ -794,7 +909,7 @@ clientWThread(void *carg)
 }
 
 /* return 0 if we have seen getProperties from this client and dev is in its
- * devs[] list or the list is empty, else return -1
+ * devs[] list or the list is empty or no dev specified, else return -1
  */
 static int
 findClDevice (ClInfo *cp, char *dev)
@@ -803,7 +918,7 @@ findClDevice (ClInfo *cp, char *dev)
 
 	if (!cp->sawGetProperties)
 	    return (-1);
-	if (cp->ndevs == 0)
+	if (cp->ndevs == 0 || !dev[0])
 	    return (0);
 	for (i = 0; i < cp->ndevs; i++)
 	    if (!strncmp (dev, cp->devs[i], sizeof(IDev)-1))
@@ -837,7 +952,8 @@ static int
 newClSocket ()
 {
 	struct sockaddr_in cli_socket;
-	int cli_len, cli_fd;
+	socklen_t cli_len;
+	int cli_fd;
 
 	/* get a private connection to new client */
 	cli_len = sizeof(cli_socket);
@@ -862,17 +978,33 @@ crackBLOB (char enableBLOB[])
 	return (B_NEVER);
 }
 
-/* return pointer to static string containing tag, device and name attributes
- * of the given xml
+/* print tag, device, name attributes and
+ * values of the given xml
  */
-static char *
+static void
 xmlLog (XMLEle *root)
 {
-	static char buf[256];
+            const char *prtags[] = {
+	    "defNumber", "oneNumber",
+	    "defText",   "oneText",
+	    "defSwitch", "oneSwitch",
+	    "defLight",  "oneLight",
+	};
+	XMLEle *e;
+	unsigned int i;
 
-	sprintf (buf, "%.*s %.*s %.*s",
-			    sizeof(buf)/3-2, tagXMLEle(root),
-			    sizeof(buf)/3-2, findXMLAttValu(root,"device"),
-			    sizeof(buf)/3-2, findXMLAttValu(root,"name"));
-	return (buf);
+	/* print tag header */
+	fprintf (stderr, "%s %s %s", tagXMLEle(root),
+						findXMLAttValu(root,"device"),
+						findXMLAttValu(root,"name"));
+
+	/* print each array value */
+	for (e = nextXMLEle(root,1); e; e = nextXMLEle(root,0))
+	    for (i = 0; i < sizeof(prtags)/sizeof(prtags[0]); i++)
+		if (strcmp (prtags[i], tagXMLEle(e)) == 0)
+		    fprintf (stderr, " %s=%s", findXMLAttValu(e,"name"),
+							    pcdataXMLEle (e));
+
+	fprintf (stderr, "\n");
 }
+

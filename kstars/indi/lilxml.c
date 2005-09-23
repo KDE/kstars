@@ -32,21 +32,28 @@
 #include <ctype.h>
 
 #include "lilxml.h"
-#include "indicom.h"
+
+/* used to efficiently manage growing malloced string space */
+typedef struct {
+    char *s;				/* malloced memory for string */
+    int sl;				/* string length, sans trailing \0 */
+    int sm;				/* total malloced bytes */
+} String;
+#define	MINMEM	64			/* starting string length */
 
 static int oneXMLchar (LilXML *lp, int c, char errmsg[]);
 static void initParser(LilXML *lp);
 static void pushXMLEle(LilXML *lp);
 static void popXMLEle(LilXML *lp);
 static void resetEndTag(LilXML *lp);
-static void addAttr(LilXML *lp);
-static void delAttr (XMLAtt *a);
+static XMLAtt *growAtt(XMLEle *e);
+static void freeAtt (XMLAtt *a);
 static int isTokenChar (int start, int c);
-static void growString (char **sp, int c);
-static void growPCData (XMLEle *ep, int c);
-static char *newString (void);
+static void growString (String *sp, int c);
+static void appendString (String *sp, char *str);
+static void freeString (String *sp);
+static void newString (String *sp);
 static void *moremem (void *old, int n);
-static void freemem (void *m);
 
 typedef enum  {
     LOOK4START = 0,			/* looking for first element start */
@@ -59,7 +66,7 @@ typedef enum  {
     INATTRV,				/* in attr value */
     LOOK4CON,				/* skipping leading content whitespc */
     INCON,				/* reading content */
-    LTINCON,				/* saw < in content */
+    SAWLTINCON,				/* saw < in content */
     LOOK4CLOSETAG,			/* looking for closing tag after < */
     INCLOSETAG				/* reading closing tag */
 } State;				/* parsing states */
@@ -69,7 +76,7 @@ struct _LilXML {
     State cs;				/* current state */
     int ln;				/* line number for diags */
     XMLEle *ce;				/* current element being built */
-    char *endtag;			/* to check for match with opening tag*/
+    String endtag;			/* to check for match with opening tag*/
     int delim;				/* attribute value delimiter */
     int lastc;				/* last char (just used wiht skipping)*/
     int skipping;			/* in comment or declaration */
@@ -77,23 +84,22 @@ struct _LilXML {
 
 /* internal representation of a (possibly nested) XML element */
 struct _xml_ele {
-    char *tag;			/* element tag */
-    struct _xml_ele *pe;	/* parent element, or NULL if root */
-    XMLAtt **at;		/* list of attributes */
-    int nat;			/* number of attributes */
-    int ait;			/* used to iterate over at[] */
-    struct _xml_ele **el;	/* list of child elements */
-    int nel;			/* number of child elements */
-    int eit;			/* used to iterate over el[] */
-    char *pcdata;		/* character data in this element */
-    int pcdatal;		/* handy length sans \0 (tends to be big) */
+    String tag;				/* element tag */
+    struct _xml_ele *pe;		/* parent element, or NULL if root */
+    XMLAtt **at;			/* list of attributes */
+    int nat;				/* number of attributes */
+    int ait;				/* used to iterate over at[] */
+    struct _xml_ele **el;		/* list of child elements */
+    int nel;				/* number of child elements */
+    int eit;				/* used to iterate over el[] */
+    String pcdata;			/* character data in this element */
 };
 
 /* internal representation of an attribute */
 struct _xml_att {
-    char *name;			/* name */
-    char *valu;			/* value */
-    struct _xml_ele *ce;	/* containing element */
+    String name;			/* name */
+    String valu;			/* value */
+    struct _xml_ele *ce;		/* containing element */
 };
 
 /* default memory managers, override with xmlMalloc() */
@@ -119,6 +125,7 @@ LilXML *
 newLilXML ()
 {
 	LilXML *lp = (LilXML *) moremem (NULL, sizeof(LilXML));
+	memset (lp, 0, sizeof(LilXML));
 	initParser(lp);
 	return (lp);
 }
@@ -127,7 +134,7 @@ newLilXML ()
 void
 delLilXML (LilXML *lp)
 {
-	freemem (lp);
+	(*myfree) (lp);
 }
 
 /* delete ep and all its children */
@@ -141,28 +148,28 @@ delXMLEle (XMLEle *ep)
 	    return;
 
 	/* delete all parts of ep */
-	freemem (ep->tag);
-	freemem (ep->pcdata);
+	freeString (&ep->tag);
+	freeString (&ep->pcdata);
 	if (ep->at) {
 	    for (i = 0; i < ep->nat; i++)
-		delAttr (ep->at[i]);
-	    freemem (ep->at);
+		freeAtt (ep->at[i]);
+	    (*myfree) (ep->at);
 	}
 	if (ep->el) {
 	    for (i = 0; i < ep->nel; i++)
 		delXMLEle (ep->el[i]);
-	    freemem (ep->el);
+	    (*myfree) (ep->el);
 	}
 
 	/* delete ep itself */
-	freemem (ep);
+	(*myfree) (ep);
 }
 
 /* process one more character of an XML file.
  * when find closure with outter element return root of complete tree.
  * when find error return NULL with reason in errmsg[].
  * when need more return NULL with errmsg[0] = '\0'.
- * N.B. it is up to the caller to delete the tree delXMLEle().
+ * N.B. it is up to the caller to delete any tree returned with delXMLEle().
  */
 XMLEle *
 readXMLEle (LilXML *lp, int newc, char errmsg[])
@@ -175,7 +182,7 @@ readXMLEle (LilXML *lp, int newc, char errmsg[])
 
 	/* EOF? */
 	if (newc == 0) {
-	    snprintf (errmsg, ERRMSG_SIZE, "Line %d: XML EOF", lp->ln);
+	    sprintf (errmsg, "Line %d: early XML EOF", lp->ln);
 	    initParser(lp);
 	    return (NULL);
 	}
@@ -239,7 +246,7 @@ findXMLAtt (XMLEle *ep, const char *name)
 	int i;
 
 	for (i = 0; i < ep->nat; i++)
-	    if (!strcmp (ep->at[i]->name, name))
+	    if (!strcmp (ep->at[i]->name.s, name))
 		return (ep->at[i]);
 	return (NULL);
 }
@@ -250,11 +257,14 @@ findXMLAtt (XMLEle *ep, const char *name)
 XMLEle *
 findXMLEle (XMLEle *ep, const char *tag)
 {
+	int tl = strlen (tag);
 	int i;
 
-	for (i = 0; i < ep->nel; i++)
-	    if (!strcmp (ep->el[i]->tag, tag))
+	for (i = 0; i < ep->nel; i++) {
+	    String *sp = &ep->el[i]->tag;
+	    if (sp->sl == tl && !strcmp (sp->s, tag))
 		return (ep->el[i]);
+	}
 	return (NULL);
 }
 
@@ -314,35 +324,35 @@ parentXMLAtt (XMLAtt *ap)
 char *
 tagXMLEle (XMLEle *ep)
 {
-	return (ep->tag);
+	return (ep->tag.s);
 }
 
 /* return the pcdata portion of the given element */
 char *
 pcdataXMLEle (XMLEle *ep)
 {
-	return (ep->pcdata);
+	return (ep->pcdata.s);
 }
 
 /* return the number of characters in the pcdata portion of the given element */
 int 
 pcdatalenXMLEle (XMLEle *ep)
 {
-	return (ep->pcdatal);
+	return (ep->pcdata.sl);
 }
 
 /* return the nanme of the given attribute */
 char *
 nameXMLAtt (XMLAtt *ap)
 {
-	return (ap->name);
+	return (ap->name.s);
 }
 
 /* return the value of the given attribute */
 char *
 valuXMLAtt (XMLAtt *ap)
 {
-	return (ap->valu);
+	return (ap->valu.s);
 }
 
 /* return the number of child elements of the given element */
@@ -363,11 +373,11 @@ nXMLAtt (XMLEle *ep)
 /* search ep for an attribute with the given name and return its value.
  * return "" if not found.
  */
-const char *
-findXMLAttValu (XMLEle *ep, char *name)
+char *
+findXMLAttValu (XMLEle *ep, const char *name)
 {
 	XMLAtt *a = findXMLAtt (ep, name);
-	return (a ? a->valu : "");
+	return (a ? a->valu.s : "");
 }
 
 /* handy wrapper to read one xml file.
@@ -387,6 +397,30 @@ readXMLFile (FILE *fp, LilXML *lp, char errmsg[])
 	return (NULL);
 }
 
+/* add an attribute to the given XML element */
+void
+addXMLAtt (XMLEle *ep, const char *name, char *valu)
+{
+	XMLAtt *ap = growAtt (ep);
+	appendString (&ap->name, name);
+	appendString (&ap->valu, valu);
+}
+
+/* remove the named attribute from ep, if any */
+void
+rmXMLAtt (XMLEle *ep, const char *name)
+{
+	int i;
+
+	for (i = 0; i < ep->nat; i++) {
+	    if (strcmp (ep->at[i]->name.s, name) == 0) {
+		freeAtt (ep->at[i]);
+		memmove (&ep->at[i],&ep->at[i+1],(--ep->nat-i)*sizeof(XMLAtt*));
+		return;
+	    }
+	}
+}
+
 /* sample print ep to fp
  * N.B. set level = 0 on first call
  */
@@ -397,28 +431,28 @@ prXMLEle (FILE *fp, XMLEle *ep, int level)
 	int indent = level*PRINDENT;
 	int i;
 
-	fprintf (fp, "%*s<%s", indent, "", ep->tag);
+	fprintf (fp, "%*s<%s", indent, "", ep->tag.s);
 	for (i = 0; i < ep->nat; i++)
-	    fprintf (fp, " %s=\"%s\"", ep->at[i]->name, ep->at[i]->valu);
+	    fprintf (fp, " %s=\"%s\"", ep->at[i]->name.s, ep->at[i]->valu.s);
 	if (ep->nel > 0) {
 	    fprintf (fp, ">\n");
 	    for (i = 0; i < ep->nel; i++)
 		prXMLEle (fp, ep->el[i], level+1);
 	}
-	if (ep->pcdata[0]) {
+	if (ep->pcdata.sl > 0) {
 	    char *nl;
 	    if (ep->nel == 0)
 		fprintf (fp, ">\n");
 	    /* indent if none or one line */
-	    nl = strpbrk (ep->pcdata, "\n\r");
-	    if (!nl || nl == &ep->pcdata[ep->pcdatal-1])
+	    nl = strpbrk (ep->pcdata.s, "\n\r");
+	    if (!nl || nl == &ep->pcdata.s[ep->pcdata.sl-1])
 		fprintf (fp, "%*s", indent+PRINDENT, "");
-	    fprintf (fp, "%s", ep->pcdata);
+	    fprintf (fp, "%s", ep->pcdata.s);
 	    if (!nl)
 		fprintf (fp, "\n");
 	}
-	if (ep->nel > 0 || ep->pcdata[0])
-	    fprintf (fp, "%*s</%s>\n", indent, "", ep->tag);
+	if (ep->nel > 0 || ep->pcdata.sl > 0)
+	    fprintf (fp, "%*s</%s>\n", indent, "", ep->tag.s);
 	else
 	    fprintf (fp, "/>\n");
 }
@@ -447,7 +481,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		growString (&lp->ce->tag, c);
 		lp->cs = INTAG;
 	    } else if (!isspace(c)) {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus tag char %c", lp->ln, c);
+		sprintf (errmsg, "Line %d: Bogus tag char %c", lp->ln, c);
 		return (-1);
 	    }
 	    break;
@@ -469,11 +503,11 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	    else if (c == '/')
 		lp->cs = SAWSLASH;
 	    else if (isTokenChar (1, c)) {
-		addAttr(lp);
-		growString (&lp->ce->at[lp->ce->nat-1]->name, c);
+		XMLAtt *ap = growAtt(lp->ce);
+		growString (&ap->name, c);
 		lp->cs = INATTRN;
 	    } else if (!isspace(c)) {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus leading attr name char: %c",
+		sprintf (errmsg, "Line %d: Bogus leading attr name char: %c",
 								    lp->ln, c);
 		return (-1);
 	    }
@@ -486,7 +520,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		popXMLEle(lp);
 		lp->cs = LOOK4CON;
 	    } else {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus char %c before >", lp->ln, c);
+		sprintf (errmsg, "Line %d: Bogus char %c before >", lp->ln, c);
 		return (-1);
 	    }
 	    break;
@@ -497,7 +531,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	    else if (isspace(c) || c == '=')
 		lp->cs = LOOK4ATTRV;
 	    else {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus attr name char: %c", lp->ln,c);
+		sprintf (errmsg, "Line %d: Bogus attr name char: %c", lp->ln,c);
 		return (-1);
 	    }
 	    break;
@@ -505,11 +539,10 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	case LOOK4ATTRV:		/* looking for attr value */
 	    if (c == '\'' || c == '"') {
 		lp->delim = c;
-		growString (&lp->ce->at[lp->ce->nat-1]->valu, '\0');
 		lp->cs = INATTRV;
 	    } else if (!(isspace(c) || c == '=')) {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: No value for attribute %.100s", lp->ln,
-					    lp->ce->at[lp->ce->nat-1]->name);
+		sprintf (errmsg, "Line %d: No value for attribute %s", lp->ln,
+					lp->ce->at[lp->ce->nat-1]->name.s);
 		return (-1);
 	    }
 	    break;
@@ -523,9 +556,9 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 
 	case LOOK4CON:			/* skipping leading content whitespace*/
 	    if (c == '<')
-		lp->cs = LTINCON;
+		lp->cs = SAWLTINCON;
 	    else if (!isspace(c)) {
-		growPCData (lp->ce, c);
+		growString (&lp->ce->pcdata, c);
 		lp->cs = INCON;
 	    }
 	    break;
@@ -533,21 +566,22 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	case INCON:			/* reading content */
 	    if (c == '<') {
 		/* if text contains a nl trim trailing blanks.
-		 * chomp trailing nl if only one.
+		 * chomp trailing nl if it's the only one.
 		 */
-		char *nl = strpbrk (lp->ce->pcdata, "\n\r");
+		char *nl = strpbrk (lp->ce->pcdata.s, "\n\r");
 		if (nl)
-		    while (lp->ce->pcdatal > 0 &&
-				    lp->ce->pcdata[lp->ce->pcdatal-1] == ' ')
-			lp->ce->pcdata[--lp->ce->pcdatal] = '\0';
-		if (nl == &lp->ce->pcdata[lp->ce->pcdatal-1])
-		    lp->ce->pcdata[--lp->ce->pcdatal] = '\0'; /* safe! */
-		lp->cs = LTINCON;
-	    } else
-		growPCData (lp->ce, c);
+		    while (lp->ce->pcdata.sl > 0 &&
+				lp->ce->pcdata.s[lp->ce->pcdata.sl-1] == ' ')
+			lp->ce->pcdata.s[--(lp->ce->pcdata.sl)] = '\0';
+		if (nl == &lp->ce->pcdata.s[lp->ce->pcdata.sl-1])
+		    lp->ce->pcdata.s[--(lp->ce->pcdata.sl)] = '\0';/*safe!*/
+		lp->cs = SAWLTINCON;
+	    } else {
+		growString (&lp->ce->pcdata, c);
+	    }
 	    break;
 
-	case LTINCON:			/* saw < in content */
+	case SAWLTINCON:		/* saw < in content */
 	    if (c == '/') {
 		resetEndTag(lp);
 		lp->cs = LOOK4CLOSETAG;
@@ -566,7 +600,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		growString (&lp->endtag, c);
 		lp->cs = INCLOSETAG;
 	    } else if (!isspace(c)) {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus preend tag char %c", lp->ln,c);
+		sprintf (errmsg, "Line %d: Bogus preend tag char %c", lp->ln,c);
 		return (-1);
 	    }
 	    break;
@@ -575,9 +609,9 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	    if (isTokenChar(0, c))
 		growString (&lp->endtag, c);
 	    else if (c == '>') {
-		if (strcmp (lp->ce->tag, lp->endtag)) {
-		    snprintf (errmsg, ERRMSG_SIZE, "Line %d: closing tag %.64s does not match %.64s",
-					    lp->ln, lp->endtag, lp->ce->tag);
+		if (strcmp (lp->ce->tag.s, lp->endtag.s)) {
+		    sprintf (errmsg,"Line %d: closing tag %s does not match %s",
+				    lp->ln, lp->endtag.s, lp->ce->tag.s);
 		    return (-1);
 		} else if (lp->ce->pe) {
 		    popXMLEle(lp);
@@ -585,7 +619,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		} else
 		    return (1);		/* yes! */
 	    } else if (!isspace(c)) {
-		snprintf (errmsg, ERRMSG_SIZE, "Line %d: Bogus end tag char %c", lp->ln, c);
+		sprintf (errmsg, "Line %d: Bogus end tag char %c", lp->ln, c);
 		return (-1);
 	    }
 	    break;
@@ -594,23 +628,21 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 	return (0);
 }
 
-/* set up for a fresh start */
+/* set up for a fresh start again */
 static void
 initParser(LilXML *lp)
 {
+	delXMLEle (lp->ce);
+	freeString (&lp->endtag);
 	memset (lp, 0, sizeof(*lp));
+	newString (&lp->endtag);
 	lp->cs = LOOK4START;
 	lp->ln = 1;
-	delXMLEle (lp->ce);
-	lp->ce = NULL;
-	resetEndTag(lp);
-	lp->lastc = 0;
-	lp->skipping = 0;
 }
 
 /* start a new XMLEle.
- * if ce already set up, add to its list of child elements.
  * point ce to a new XMLEle.
+ * if ce already set up, add to its list of child elements too.
  * endtag no longer valid.
  */
 static void
@@ -620,16 +652,17 @@ pushXMLEle(LilXML *lp)
 	XMLEle *ce = lp->ce;
 
 	memset (newe, 0, sizeof(*newe));
-	newe->tag = newString();
-	newe->pcdata = newString();
+	newString (&newe->tag);
+	newString (&newe->pcdata);
 	newe->pe = ce;
 
-	if (ce) {
-	    ce->el = (XMLEle **) moremem (ce->el, (ce->nel+1)*sizeof(XMLEle*));
-	    ce->el[ce->nel++] = newe;
-	}
 	lp->ce = newe;
 	resetEndTag(lp);
+
+	if (ce) {
+	    ce->el = (XMLEle **) moremem (ce->el, (ce->nel+1)*sizeof(XMLEle *));
+	    ce->el[ce->nel++] = newe;
+	}
 }
 
 /* point ce to parent of current ce.
@@ -642,43 +675,40 @@ popXMLEle(LilXML *lp)
 	resetEndTag(lp);
 }
 
-/* add one new XMLAtt to the current element */
-static void
-addAttr(LilXML *lp)
+/* add room for and return one new XMLAtt to the given element */
+static XMLAtt *
+growAtt(XMLEle *ep)
 {
 	XMLAtt *newa = (XMLAtt *) moremem (NULL, sizeof(XMLAtt));
-	XMLEle *ce = lp->ce;
 
 	memset (newa, 0, sizeof(*newa));
-	newa->name = newString();
-	newa->valu = newString();
-	newa->ce = ce;
+	newString(&newa->name);
+	newString(&newa->valu);
+	newa->ce = ep;
 
-	ce->at = (XMLAtt **) moremem (ce->at, (ce->nat+1)*sizeof(XMLAtt *));
-	ce->at[ce->nat++] = newa;
+	ep->at = (XMLAtt **) moremem (ep->at, (ep->nat+1)*sizeof(XMLAtt *));
+	ep->at[ep->nat++] = newa;
+
+	return (newa);
 }
 
-/* delete a and all it holds */
+/* free a and all it holds */
 static void
-delAttr (XMLAtt *a)
+freeAtt (XMLAtt *a)
 {
 	if (!a)
 	    return;
-	if (a->name)
-	    freemem (a->name);
-	if (a->valu)
-	    freemem (a->valu);
-	freemem(a);
+	freeString (&a->name);
+	freeString (&a->valu);
+	(*myfree)(a);
 }
 
-/* delete endtag if appropriate */
+/* reset endtag */
 static void
 resetEndTag(LilXML *lp)
 {
-	if (lp->endtag) {
-	    freemem (lp->endtag);
-	    lp->endtag = 0;
-	}
+	freeString (&lp->endtag);
+	newString (&lp->endtag);
 }
 
 /* 1 if c is a valid token character, else 0.
@@ -690,51 +720,66 @@ isTokenChar (int start, int c)
 	return (isalpha(c) || c == '_' || (!start && isdigit(c)));
 }
 
-/* grow the malloced string at *sp to append c */
+/* grow the String storage at *sp to append c */
 static void
-growString (char **sp, int c)
+growString (String *sp, int c)
 {
-	int l = *sp ? strlen(*sp) : 0;
-	*sp = (char *) moremem (*sp, l+2);	/* c + '\0' */
-	(*sp)[l++] = (char)c;
-	(*sp)[l] = '\0';
-}
+	int l = sp->sl + 2;		/* need room for '\0' plus c */
 
-/* special fast version of growString just for ep->pcdata that avoids all the
- * strlens and tiny increments in allocated mem
- */
-static void
-growPCData (XMLEle *ep, int c)
-{
-	int l = ep->pcdatal++;
-	if ((l%32) == 0) {
-	    int nm = 32*(l/32+1) + 2;               /* c + '\0' */
-	    ep->pcdata = (char *) moremem (ep->pcdata, nm);
+	if (l > sp->sm) {
+	    if (!sp->s)
+		newString (sp);
+	    else
+		sp->s = (char *) moremem (sp->s, sp->sm *= 2);
 	}
-	ep->pcdata[l++] = (char)c;
-	ep->pcdata[l] = '\0';
+	sp->s[--l] = '\0';
+	sp->s[--l] = (char)c;
+	sp->sl++;
 }
 
-/* return a malloced string of one '\0' */
-static char *
-newString()
+/* append str to the String storage at *sp */
+static void
+appendString (String *sp, char *str)
 {
-	char *str;
-	
-	*(str = (char *)moremem(NULL, 16)) = '\0';	/* expect more */
-	return (str);
+	int strl = strlen (str);
+	int l = sp->sl + strl + 1;	/* need room for '\0' */
+
+	if (l > sp->sm) {
+	    if (!sp->s)
+		newString (sp);
+	    if (l > sp->sm)
+		sp->s = (char *) moremem (sp->s, (sp->sm = l));
+	}
+	strcpy (&sp->s[sp->sl], str);
+	sp->sl += strl;		
 }
 
+/* init a String with a malloced string containing just \0 */
+static void
+newString(String *sp)
+{
+	sp->s = (char *)moremem(NULL, MINMEM);
+	sp->sm = MINMEM;
+	*sp->s = '\0';
+	sp->sl = 0;
+}
+
+/* free memory used by the given String */
+static void
+freeString (String *sp)
+{
+	if (sp->s)
+	    (*myfree) (sp->s);
+	sp->s = NULL;
+	sp->sl = 0;
+	sp->sm = 0;
+}
+
+/* like malloc but knows to use realloc if already started */
 static void *
 moremem (void *old, int n)
 {
-	return (old ? realloc (old, n) : malloc (n));
-}
-
-static void
-freemem (void *m)
-{
-	free (m);
+	return (old ? (*myrealloc)(old, n) : (*mymalloc)(n));
 }
 
 #if defined(MAIN_TST)
@@ -742,7 +787,7 @@ int
 main (int ac, char *av[])
 {
 	LilXML *lp = newLilXML();
-	char errmsg[ERRMSG_SIZE];
+	char errmsg[1024];
 	XMLEle *root;
 
 	root = readXMLFile (stdin, lp, errmsg);
