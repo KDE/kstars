@@ -30,7 +30,7 @@
 #endif
 
 KSPluto::KSPluto(KStarsData *kd, QString fn, double pSize ) 
-		: KSAsteroid( kd, i18n("Pluto"), fn, J2000, 
+		: KSAsteroid( kd, I18N_NOOP( "Pluto" ), fn, J2000, 
 			39.48168677, 0.24880766, dms(17.14175), dms(113.76329),
 			dms(110.30347), dms(14.86205), 1.0 ) {
 	//Initialize the base orbital element values for J2000:
