@@ -27,9 +27,15 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", 3474.8 /*diameter in km*/ ) {
+ : KSPlanetBase( kd, "Moon", "", 3474.8 /*diameter in km*/ ) {
 	BData.setAutoDelete(true);
 	LRData.setAutoDelete(true);
+	
+	//This shouldn't be necessary, but butting "I18N_NOOP()"
+	//in the KSPlanetBase ctor arg seems to make KSMoon
+	//get localized string for Name, rather than "Moon"
+	//(see BR #112925)
+	I18N_NOOP( "Moon" );
 }
 
 KSMoon::~KSMoon() {

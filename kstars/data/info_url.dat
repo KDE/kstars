@@ -155,7 +155,7 @@ NGC 6240:Wikipedia Page:http://en.wikipedia.org/wiki/Starfish_Galaxy
 NGC 6537:Wikipedia Page:http://en.wikipedia.org/wiki/Red_Spider_Nebula
 NGC 6543:Wikipedia Page:http://en.wikipedia.org/wiki/Cat's_Eye_Nebula
 NGC 7000:Wikipedia Page:http://en.wikipedia.org/wiki/North_American_Nebula
-NGC_7742:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_7742
+NGC 7742:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_7742
 #
 # IC Objects
 IC 10:Wikipedia Page:http://en.wikipedia.org/wiki/IC_10
@@ -226,7 +226,8 @@ Ida:Wikipedia Page:http://en.wikipedia.org/wiki/243_Ida
 Mathilde:Wikipedia Page:http://en.wikipedia.org/wiki/253_Mathilde
 Eros:Wikipedia Page:http://en.wikipedia.org/wiki/433_Eros
 Hektor:Wikipedia Page:http://en.wikipedia.org/wiki/624_Hektor
-Gaspra:Wikipedia Page:http://en.wikipedia.org/wiki/951_Gaspra
+## --==>> FIXME: Gaspra is missing from asteroids.dat!
+#Gaspra:Wikipedia Page:http://en.wikipedia.org/wiki/951_Gaspra
 ## --==>> There are two objects named "Chiron"...asteroid and comet
 Chiron:Wikipedia Page:http://en.wikipedia.org/wiki/2060_Chiron
 #
