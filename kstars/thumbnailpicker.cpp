@@ -184,9 +184,11 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	if ( tmp.exists() ) {
 		QImage im( tmp.name() );
 
-		if ( im.isNull() ) 
-			KMessageBox::sorry( 0, i18n("Failed to load image"), 
-					i18n("Could not load the specified image") );
+		if ( im.isNull() ) {
+		  //	KMessageBox::sorry( 0, i18n("Failed to load image"), 
+		  //			i18n("Could not load the specified image") );
+			return;
+		}
 
 		uint w = im.width();
 		uint h = im.height();

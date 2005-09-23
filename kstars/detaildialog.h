@@ -86,7 +86,7 @@ signals:
 	void clicked();
 	
 protected:
-	void mousePressEvent( QMouseEvent * ) { emit clicked(); }
+	void mousePressEvent( QMouseEvent *e ) { if ( e->button() == LeftButton ) emit clicked(); }
 };
 
 /**@class DetailDialog is a window showing detailed information for a selected object.
