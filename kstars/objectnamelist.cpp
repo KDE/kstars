@@ -73,7 +73,7 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	// create SkyObjectName with translated name
 	SkyObjectName *soName = new SkyObjectName( iName, object );
 	// append in localized list
-	currentIndex = getIndex( iName );
+	currentIndex = getIndex( name );
 	list[local] [currentIndex].append(soName);
 
 	// type == -1 -> constellation
@@ -87,7 +87,7 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	}
 
 	// append in latin list
-	currentIndex = getIndex(iName);
+	currentIndex = getIndex(name);
 	list[latin][currentIndex].append(soName);
 	// set list unsorted
 	unsorted[currentIndex] = true;
@@ -181,10 +181,10 @@ void ObjectNameList::sort() {
 void ObjectNameList::remove ( const QString &name ) {
 	setMode(oneList);
 	int index = getIndex(name);
-	SortedList <SkyObjectName> *l = &(list[language][index]);
+	QList<SkyObjectName*> l = list[language][index];
 
 	SkyObjectName *son = find( name );
-	if ( son ) l->remove( son );
+	if ( son ) l.remove( son );
 }
 
 SkyObjectName* ObjectNameList::find(const QString &name) {
@@ -196,9 +196,9 @@ SkyObjectName* ObjectNameList::find(const QString &name) {
 
 	// first item
 	int lower = 0;
-	SortedList <SkyObjectName> *l = &(list[language][index]);
+	QList<SkyObjectName*> l = list[language][index];
 	// last item
-	int upper = l->count() - 1;
+	int upper = l.size() - 1;
 	// break if list is empty
 	if (upper == -1) return 0;
 
@@ -210,7 +210,7 @@ SkyObjectName* ObjectNameList::find(const QString &name) {
 	SkyObjectName *o;
 	while (upper >= lower) {
 		next = (lower + upper) / 2;
-		o = l->at(next);
+		o = l[next];
 		if (translatedName == o->text()) { return o; }
 		if (translatedName < o->text())
 			upper = next - 1;
