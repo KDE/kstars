@@ -74,7 +74,7 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	// create SkyObjectName with translated name
 	SkyObjectName *soName = new SkyObjectName( iName, object );
 	// append in localized list
-	currentIndex = getIndex( iName );
+	currentIndex = getIndex( name );
 	list[local] [currentIndex].append(soName);
 
 	// type == -1 -> constellation
@@ -88,7 +88,7 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	}
 
 	// append in latin list
-	currentIndex = getIndex(iName);
+	currentIndex = getIndex(name);
 	list[latin][currentIndex].append(soName);
 	// set list unsorted
 	unsorted[currentIndex] = true;
@@ -193,6 +193,10 @@ SkyObjectName* ObjectNameList::find(const QString &name) {
 	if (name.isNull()) return 0;
 	// find works only in one list and not in all lists
 	setMode(oneList);
+
+	// items are stored translated (JH: Why?  this whole class is confusing...)
+	QString translatedName = i18n(name.utf8());
+
 	int index = getIndex(name);
 
 	// first item
@@ -204,8 +208,6 @@ SkyObjectName* ObjectNameList::find(const QString &name) {
 	if (upper == -1) return 0;
 
 	int next;
-	// items are translated stored
-	QString translatedName = i18n(name.utf8());
 
 	// it's the "binary search" algorithm
 	SkyObjectName *o;
