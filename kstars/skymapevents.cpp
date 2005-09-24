@@ -506,7 +506,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		if (!slewing) {
 			slewing = true;
 			infoBoxes()->focusObjChanged( i18n( "nothing" ) );
-			if ( ksw && Options::isTracking() ) ksw->slotTrack(); //toggle tracking off
+			stopTracking(); //toggle tracking off
 		}
 
 		//Update focus such that the sky coords at mouse cursor remain approximately constant
@@ -590,13 +590,13 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		double dx = ( 0.5*width()  - ZoomRect.center().x() )/Options::zoomFactor();
 		double dy = ( 0.5*height() - ZoomRect.center().y() )/Options::zoomFactor();
 
+		infoBoxes()->focusObjChanged( i18n( "nothing" ) );
+		stopTracking();
+
 		SkyPoint newcenter = dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() );
-		setClickedPoint( &newcenter );
-		setClickedObject( NULL );
-		setFocusObject( NULL );
+
 		setFocus( &newcenter );
 		setDestination( &newcenter );
-		setOldFocus( &newcenter );
 		ksw->zoom( Options::zoomFactor() * factor );
 		
 		setDefaultMouseCursor();
