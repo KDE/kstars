@@ -32,7 +32,6 @@ ConstellationNamesComponent::~ConstellationNamesComponent() {
 	while ( ! cnameList.isEmpty() ) delete cnameList.takeFirst();
 }
 
-//bool KStarsData::readCNameData( void )
 void ConstellationNamesComponent::init(KStarsData *data)
 {
 	QFile file;
@@ -70,10 +69,6 @@ void ConstellationNamesComponent::init(KStarsData *data)
 			ObjNames.append( o );
 		}
 		file.close();
-
-//		return true;
-	} else {
-//		return false;
 	}
 }
 

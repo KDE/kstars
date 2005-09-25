@@ -20,17 +20,24 @@
 
 #include "skycomposite.h"
 
-/**@class CoordinateGridComposite
-*Collection of all the circles in the coordinate grid
+/**
+	*@class CoordinateGridComposite
+	*Collection of all the circles in the coordinate grid
 
-*@author Jason Harris
-*@version 0.1
-*/
+	*@author Jason Harris
+	*@version 0.1
+	*/
 
 class CoordinateGridComposite : public SkyComposite 
 {
- public:
-  CoordinateGridComposite( SkyComposite* );
+	public:
+	/**
+		*@short Constructor
+		*Simply adds all of the coordinate grid circles 
+		*(meridians and parallels)
+		*@p parent Pointer to the parent SkyComposite object
+		*/
+		CoordinateGridComposite( SkyComposite* );
 };
 
 

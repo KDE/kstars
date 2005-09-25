@@ -22,6 +22,10 @@ ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent)
 {
 }
 
+ConstellationLinesComponent::~ConstellationLinesComponent() {
+	while ( ! clineList.isEmpty() ) delete clineList.takeFirst();
+}
+
 // bool KStarsData::readCLineData( void )
 void ConstellationLinesComponent::init(KStarsData *data)
 {
@@ -106,4 +110,14 @@ void ConstellationLinesComponent::draw(SkyMap *map, QPainter& psky, double scale
 			iLast = map->data()->clineList.at();
 		}
   }
+}
+
+void ConstellationLinesComponent::update(KStarsData *data, 
+		KSNumbers *num, bool needNewCoords) {
+	if ( Options::showCLines() ) {  
+		foreach ( SkyPoint *p, clineList ) {
+			if ( needNewCoords ) p->updateCoords( &num );
+			p->EquatorialToHorizontal( data()->lst(), data->geo()->lat() );
+		}
+	}
 }

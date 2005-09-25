@@ -35,14 +35,38 @@ class CoordinateGridComponent : public SkyComponent
 {
 	public:
 		
+	/**
+		*@short Constructor
+		*@p parent Pointer to the parent SkyComposite object
+		*/
 		CoordinateGridComponent( SkyComposite*, bool isParallel, double coord );
+	/**
+		*@short Destructor.  Delete list members
+		*/
 		~CoordinateGridComponent();
 		
+	/**
+		*@short Draw constellation names on the sky map.
+		*@p map pointer to the SkyMap widget
+		*@p psky Reference to the QPainter on which to paint
+		*@p scale scaling factor (1.0 for screen draws)
+		*/
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
+	/**
+		*@short Initialize the Constellation names component
+		*Reads the constellation names data from cnames.dat
+		*@p data Pointer to the KStarsData object
+		*/
 		virtual void init(KStarsData *data);
 
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+	/**
+		*@short Update the current positions of the constellation names
+		*@p data Pointer to the KStarsData object
+		*@p num Pointer to the KSNumbers object
+		*@p needNewCoords set to true if positions need to be recomputed
+		*/
+		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 	private:
 		QList<SkyPoint*> gridList;

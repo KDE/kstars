@@ -18,13 +18,14 @@
 #ifndef ABSTRACTPLANETCOMPONENT_H
 #define ABSTRACTPLANETCOMPONENT_H
 
-/**@class AbstractPlanetComponent
-* This class encapsulates some methods which are shared between
-* all classes derived from KSPlanetBase (like asteroids, planets and comets).
-
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+	*@class AbstractPlanetComponent
+	*This class encapsulates some methods which are shared between
+	*all classes derived from KSPlanetBase (like asteroids, planets and comets).
+	*
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 
 #include "skycomponent.h"
 
@@ -38,16 +39,18 @@ class AbstractPlanetComponent : public SkyComponent
 {
 	public:
 		/** Initialize visible method, minimum size and sizeScale. */
-		AbstractPlanetComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize)
+		AbstractPlanetComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize);
 
 		/** Set the size scale. Default value is 1.0 and only
 		* Saturn uses a scale of 2.5.
+		*(JH: this should be in PlanetComponent, no?)
 		*/
 		void setSizeScale(float scale);
 		
 		/** Draws the trail. This method is abstract, so you have to
 		* implement your own draw method calling drawPlanetTrail with
 		* the corresponding planet.
+		* (JH: I don't think this needs to be abstract...)
 		*/
 		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale) = 0;
 		
@@ -59,7 +62,7 @@ class AbstractPlanetComponent : public SkyComponent
 		/** Draws the trail of an planet base object. */
 		void drawPlanetTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale);
 		
-		void drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale)
+		void drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale);
 
 		// calculate the label size for drawNameLabel()
 		virtual int labelSize(SkyObject*);
@@ -77,6 +80,6 @@ class AbstractPlanetComponent : public SkyComponent
 		// scale for drawing name labels
 		// only Saturn has a scale of 2.5
 		float sizeScale;
-}
+};
 
 #endif

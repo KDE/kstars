@@ -222,7 +222,7 @@ CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bo
 		return 0;
 }
 
-bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStringList Columns, QString Prefix, Q3PtrList<SkyObject> &objList, bool showerrs, QStringList &errs )
+bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStringList Columns, QString Prefix, QList<SkyObject*> &objList, bool showerrs, QStringList &errs )
 {
 
 	//object data
