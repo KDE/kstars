@@ -492,6 +492,9 @@ void KStars::privatedata::buildGUI() {
 
 	ks->resize( Options::windowWidth(), Options::windowHeight() );
 
+	//Geographic location
+	ks->setGeoLocation( Options::cityName(), Options::provinceName(), Options::countryName() );
+
 	// initialize clock with current time/date or the date/time specified on the command line
 	KStarsDateTime startDate = KStarsDateTime::fromString( ks->StartDateString );
 	if ( startDate.isValid() )
