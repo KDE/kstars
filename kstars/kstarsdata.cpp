@@ -1049,9 +1049,10 @@ bool KStarsData::readUserLog(void)
 		endIndex = sub.find("[KSLogEnd]");
 
 		// Read name after KSLABEL identifer
-		name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
+		uint uiFirstNewline = sub.find("\n", startIndex + 9);
+		name = sub.mid(startIndex + 9, sub.findRev( "]", uiFirstNewline ) - (startIndex + 9) );
 		// Read data and skip new line
-		data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
+		data   = sub.mid( uiFirstNewline + 1, endIndex - (uiFirstNewline + 1));
 		buffer = buffer.mid(endIndex + 11);
 
 		//Find the sky object named 'name'.

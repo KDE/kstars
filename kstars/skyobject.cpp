@@ -381,9 +381,8 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	QFile file;
 	QString logs; //existing logs
 	
-	//Do nothing if: 
-	//+ new log is the "default" message
-	//+ new log is empty
+	//Do nothing if new log is the "default" message
+	//(keep going if new log is empty; we'll want to delete its current entry)
 	if ( newLog == (i18n("Record here observation logs and/or data on %1.").arg(name())) || newLog.isEmpty() )
 		return;
 
@@ -416,12 +415,11 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 		logs.remove(startIndex, endIndex + 11);
 	}
 	
-	//append the new log entry to the end of the logs text
-	logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
+	//append the new log entry to the end of the logs text,
+	//but only if the log is not empty
+	if ( ! newLog.stripWhiteSpace().isEmpty() )
+		logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
 	
-	//DEBUG
-	kdDebug() << "filename: " << file.name() << endl;
-
 	//Open file for writing
 	//FIXME: change error message to "cannot write to user log file"
 	if ( !file.open( IO_WriteOnly ) ) {
