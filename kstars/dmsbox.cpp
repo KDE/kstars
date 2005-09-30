@@ -21,11 +21,11 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+
 #include <qregexp.h>
 #include <qstring.h>
-#include <qtooltip.h>
-#include <q3whatsthis.h>
-//Added by qt3to4:
+#include <QToolTip>
+#include <QWhatsThis>
 #include <QFocusEvent>
 
 dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) 
@@ -90,15 +90,32 @@ void dmsBox::slotTextChanged( const QString &t ) {
 }
 
 void dmsBox::setDegType( bool t ) {
-	deg = t;
 
-	if ( deg ) {
-		QToolTip::add( this, i18n( "Angle value in degrees. You may enter a simple integer \nor a floating-point value, or space- or colon-delimited values \nspecifying degrees, arcminutes and arcseconds." ) );
-		Q3WhatsThis::add( this, i18n( "Enter an angle value in degrees.  The angle can be expressed as a simple integer (\"45\") or floating-point (\"45.333\") value, or as space- or colon-delimited values specifying degrees, arcminutes and arcseconds (\"45:20\", \"45:20:00\", \"45:20\", \"45 20.0\", etc.)." ) ); 
+	QString sDeg = ( t ? i18n( "degrees" ) : i18n( "hours" ) );
+	QString sMin = ( t ? i18n( "arcminutes" ) : i18n( "minutes" ) );
+	QString sSec = ( t ? i18n( "arcseconds" ) : i18n( "seconds" ) );
+
+	QString sTip = i18n( "Angle value in %1." ).arg( sDeg );
+	QString sWhatsThis;
+
+	if ( isReadOnly() ) {
+	  sWhatsThis = i18n( "This box displays an angle in %1. "  
+			     "The three numbers displayed are the angle's "
+			     "%1, %2, and %3." ).arg(sDeg).arg(sMin).arg(sSec);
 	} else {
-		QToolTip::add( this, i18n( "Angle value in hours. You may enter a simple integer \nor floating-point value, or space- or colon-delimited values \nspecifying hours, minutes and seconds." ) );
-		Q3WhatsThis::add( this, i18n( "Enter an angle value in hours.  The angle can be expressed as a simple integer (\"12\") or floating-point (\"12.333\") value, or as space- or colon-delimited values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", \"12:20\", \"12 20.0\", etc.)." ) );
+	  sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
+			"or space- or colon-delimited values specifying "
+			"%1, %2 and %3" ).arg(sDeg).arg(sMin).arg(sSec);
+
+	  sWhatsThis = i18n( "Enter an angle value in %1.  The angle can be expressed "
+			     "as a simple integer (\"45\"), or floating-point "
+			     "(\"45.33\") value, or as space- or colon-delimited "
+			     "values specifying %1, %2 and %3 (\"45:20\", \"45:20:00\", "
+			     "\"45 20\", \"45 20 00.0\", etc.)." ).arg(sDeg).arg(sMin).arg(sSec);
 	}
+
+	setTooltip( sTip );
+	setWhatsThis( sWhatsThis );
 
 	clear();
 	unsetPalette();
