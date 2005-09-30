@@ -15,13 +15,13 @@ indiserver_SOURCES = indiserver.c fq.c
 indiserver_LDADD = liblilxml.a -lpthread $(LIBSOCKET)
 
 lx200generic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
-lx200generic_LDADD = liblilxml.a libindicom.a
+lx200generic_LDADD = liblilxml.a libindicom.a -lm
 
 lx200basic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200basic.cpp
 lx200basic_LDADD = liblilxml.a libindicom.a
 
 celestrongps_SOURCES =  indidrivermain.c base64.c eventloop.c celestronprotocol.c celestrongps.cpp
-celestrongps_LDADD = liblilxml.a libindicom.a
+celestrongps_LDADD = liblilxml.a libindicom.a -lm
 
 apmount_SOURCES = indidrivermain.c base64.c eventloop.c  lx200driver.c apmount.cpp
 apmount_LDADD =  liblilxml.a libindicom.a
@@ -33,10 +33,10 @@ fliwheel_SOURCES =  eventloop.c base64.c fli_wheel.c indidrivermain.c
 fliwheel_LDADD = fli/libfli.la libindicom.a liblilxml.a -lm
 
 v4ldriver_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp
-v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
+v4ldriver_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lm -lz
 
 v4lphilips_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp indi_philips.cpp
-v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz
+v4lphilips_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lm -lz
 
 meade_lpi_SOURCES = eventloop.c base64.c indidrivermain.c v4ldriver.cpp indi_lpi.cpp
 meade_lpi_LDADD = libindicom.a liblilxml.a webcam/libwebcam.la -lz

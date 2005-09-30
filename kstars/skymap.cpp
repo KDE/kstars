@@ -1028,7 +1028,7 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
   }
 
 	//Convert dX, Y coords to screen pixel coords.
-	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
+	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 ) && !defined(__UCLIBC__)
 	//GNU version
 	sincos( dX, &sindX, &cosdX );
 	sincos( Y, &sinY, &cosY );

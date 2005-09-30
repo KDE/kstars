@@ -241,7 +241,7 @@ void dms::SinCos( double &sina, double &cosa ) const {
 		*/
 
 	if ( scDirty ) {
-                #ifdef __GLIBC__
+                #ifdef __GLIBC__ && !defined(__UCLIBC__)
                 #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
 		//GNU version
 		sincos( radians(), &Sin, &Cos );
