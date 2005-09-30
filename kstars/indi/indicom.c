@@ -213,8 +213,8 @@ void SinCos( double Degrees, double *sina, double *cosa )
 
 		if (rDirty)
 		{
-                #ifdef __GLIBC__  && !defined(__UCLIBC__)
-                #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
+                #ifdef __GLIBC__
+                #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1  && !defined(__UCLIBC__))
 		/* GNU version */
 		sincos( DegToRad(Degrees), &Sin, &Cos );
                 #else
