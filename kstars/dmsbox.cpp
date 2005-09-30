@@ -108,10 +108,10 @@ void dmsBox::setDegType( bool t ) {
 			"%1, %2 and %3" ).arg(sDeg).arg(sMin).arg(sSec);
 
 	  sWhatsThis = i18n( "Enter an angle value in %1.  The angle can be expressed "
-			     "as a simple integer (\"45\"), or floating-point "
-			     "(\"45.33\") value, or as space- or colon-delimited "
-			     "values specifying %1, %2 and %3 (\"45:20\", \"45:20:00\", "
-			     "\"45 20\", \"45 20 00.0\", etc.)." ).arg(sDeg).arg(sMin).arg(sSec);
+			     "as a simple integer (\"12\"), or floating-point "
+			     "(\"12.33\") value, or as space- or colon-delimited "
+			     "values specifying %1, %2 and %3 (\"12:20\", \"12:20:00\", "
+			     "\"12 20\", \"12 20 00.0\", etc.)." ).arg(sDeg).arg(sMin).arg(sSec);
 	}
 
 	setTooltip( sTip );
