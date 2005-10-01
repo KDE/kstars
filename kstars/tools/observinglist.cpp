@@ -362,7 +362,7 @@ void ObservingList::slotAVT() {
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
 	//Save the current User log text
-	if ( ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+	if ( oCurrent && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
 					!= i18n("Record here observation logs and/or data on %1.").arg( oCurrent->name()) ) {
 		oCurrent->saveUserLog( ui->NotesEdit->text() );
 	}
