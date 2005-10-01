@@ -43,7 +43,7 @@
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), noNameStars(0)
+				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), noNameStars(0)
 {
 	QFrame *page = plainPage();
 //	setMainWidget( page );
@@ -160,12 +160,10 @@ void ObservingList::slotRemoveObjects() {
 }
 
 void ObservingList::slotNewSelection() {
-	//DEBUG
-	kdDebug() << "selected item changed" << endl;
-
 	//Construct list of selected objects
 	SelectedObjects.clear();
 	QListViewItemIterator it( ui->table, QListViewItemIterator::Selected ); //loop over selected items
+
 	while ( it.current() ) {
 		for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
 			if ( it.current()->text(0) == i18n("star") ) {
@@ -185,7 +183,6 @@ void ObservingList::slotNewSelection() {
 	//Enable widgets when one object selected
 	if ( SelectedObjects.count() == 1 ) {
 		QString newName( SelectedObjects.first()->translatedName() );
-		QString oldName( obsList.current()->translatedName() );
 		
 		//Enable buttons
 		ui->CenterButton->setEnabled( true );
@@ -195,7 +192,7 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( true );
 		
 		//Find the selected object in the obsList,
-		//then break the loop.  Now obsList.current()
+		//then break the loop.  Now oCurrent
 		//points to the new selected object (until now it was the previous object)
 		bool found( false );
 		for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
@@ -231,6 +228,11 @@ void ObservingList::slotNewSelection() {
 			ui->NotesEdit->setEnabled( false );
 		}
 
+		//This shouldn't be necessary.  For some reason, obsList.current() 
+		//is valid here, but in subsequent functions (such as slotCenterObject) 
+		//called *right after* this one, obsList.current()==NULL.  No idea why.
+		oCurrent = obsList.current();
+
 	} else if ( SelectedObjects.count() == 0 ) {
 		//Disable buttons
 		ui->CenterButton->setEnabled( false );
@@ -240,7 +242,8 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( false );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
-		
+		oCurrent = 0;
+
 		//Clear the user log text box.
 		saveCurrentUserLog();
 	} else { //more than one object selected.
@@ -251,16 +254,17 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( true );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
-		
+		oCurrent = 0;
+
 		//Clear the user log text box.
 		saveCurrentUserLog();
 	}
 }
 
 void ObservingList::slotCenterObject() {
-	if ( obsList.current() ) {
-		ks->map()->setClickedObject( obsList.current() );
-		ks->map()->setClickedPoint( obsList.current() );
+	if ( oCurrent ) {
+		ks->map()->setClickedObject( oCurrent );
+		ks->map()->setClickedPoint( oCurrent );
 		ks->map()->slotCenter();
 	}
 }
@@ -274,7 +278,7 @@ void ObservingList::slotSlewToObject()
   bool useJ2000( false);
   SkyPoint sp;
   
-  if (obsList.current() == NULL)
+  if (oCurrent == NULL)
     return;
   
   // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
@@ -315,7 +319,7 @@ void ObservingList::slotSlewToObject()
        
        onSet->activateSwitch("SLEW");
        
-       sp.set (obsList.current()->ra(), obsList.current()->dec());
+       sp.set (oCurrent->ra(), oCurrent->dec());
        
        if (useJ2000)
 	 sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
@@ -338,8 +342,8 @@ void ObservingList::slotSlewToObject()
 //FIXME: This will open multiple Detail windows for each object;
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
-	if ( obsList.current() ) {
-		DetailDialog dd( obsList.current(), ks->data()->lt(), ks->geo(), ks );
+	if ( oCurrent ) {
+		DetailDialog dd( oCurrent, ks->data()->lt(), ks->geo(), ks );
 		dd.exec();
 	}
 }
@@ -359,8 +363,8 @@ void ObservingList::slotAVT() {
 void ObservingList::slotClose() {
 	//Save the current User log text
 	if ( ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
-					!= i18n("Record here observation logs and/or data on %1.").arg( obsList.current()->name()) ) {
-		obsList.current()->saveUserLog( ui->NotesEdit->text() );
+					!= i18n("Record here observation logs and/or data on %1.").arg( oCurrent->name()) ) {
+		oCurrent->saveUserLog( ui->NotesEdit->text() );
 	}
 	
 	hide();
