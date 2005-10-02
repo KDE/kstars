@@ -145,8 +145,6 @@
 </images>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>pvplotwidget.h</includehint>
     <includehint>timestepbox.h</includehint>
-    <includehint>extdateedit.h</includehint>
 </includehints>
 </UI>

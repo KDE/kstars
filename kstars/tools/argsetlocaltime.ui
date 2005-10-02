@@ -102,7 +102,4 @@
     </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>extdatewidget.h</includehint>
-</includehints>
 </UI>

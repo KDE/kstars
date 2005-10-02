@@ -537,7 +537,4 @@
     <slot>showCurrentTime()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>extdateedit.h</includehint>
-</includehints>
 </UI>
