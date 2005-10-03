@@ -52,7 +52,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 {
 	ks = (KStars*) parent;
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 
 	setMainWidget(page);
 	topLayout = new QVBoxLayout( page, 0, spacingHint() );

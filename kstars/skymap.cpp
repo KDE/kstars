@@ -38,6 +38,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ktoolinvocation.h>
 
 #include "skymap.h"
 #include "Options.h"
@@ -651,7 +652,7 @@ void SkyMap::slotInfo( int id ) {
 	QString sURL = (*it);
 	KURL url ( sURL );
 	if (!url.isEmpty())
-		kapp->invokeBrowser(sURL);
+		KToolInvocation::invokeBrowser(sURL);
 }
 
 void SkyMap::slotBeginAngularDistance(void) {

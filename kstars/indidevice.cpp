@@ -75,7 +75,7 @@
 #include <knuminput.h>
 #include <kdialogbase.h>
 #include <kstatusbar.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 
 #define NINDI_STD	26
 /* INDI standard property used across all clients to enable interoperability. */

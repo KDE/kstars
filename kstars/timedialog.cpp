@@ -38,7 +38,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
 	ksw = (KStars*) parent;
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout

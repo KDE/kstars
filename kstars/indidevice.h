@@ -36,7 +36,7 @@ class KLineEdit;
 class KComboBox;
 class KDoubleSpinBox;
 class KPushButton;
-class KPopupMenu;
+class KMenu;
 
 class Q3Table;
 class QLabel;

@@ -36,7 +36,7 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 			0 /*no buttons*/, Ok, parent, name, false /*not modal*/ ) {
 
 	//Set up widgets for splashscreen.
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	page->setBackgroundColor( QColor( "Black" ) );
 	setBackgroundColor( QColor( "Black" ) );
 

@@ -47,7 +47,7 @@ LocationDialog::LocationDialog( QWidget* parent )
 
 	KStars *p = (KStars *)parent;
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	CityBox = new Q3GroupBox( page, "CityBox" );
 	CoordBox = new Q3GroupBox( page, "CoordBox" );
 	CityBox->setTitle( i18n( "Choose City" ) );

@@ -23,7 +23,7 @@
 #include <dcopclient.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <kmessagebox.h>

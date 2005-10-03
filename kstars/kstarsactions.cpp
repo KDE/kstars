@@ -32,7 +32,7 @@
 #include <kconfigdialog.h>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
 #include <qcheckbox.h>

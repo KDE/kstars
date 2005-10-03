@@ -35,7 +35,7 @@
 
 #include <kiconloader.h>
 #include <klistview.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kprocess.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
@@ -71,7 +71,7 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
     localMode  = icons->loadIcon( "network_local", KIcon::Small);
     serverMode = icons->loadIcon( "network", KIcon::Small);
 
-    LocalpopMenu = new KPopupMenu(localListView);
+    LocalpopMenu = new KMenu(localListView);
     LocalpopMenu->insertItem( runningPix, i18n("Run Service") , 0);
     LocalpopMenu->insertItem( stopPix, i18n("Stop Service"), 1);
 
@@ -81,7 +81,7 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
   disconnected        = icons->loadIcon( "connect_no", KIcon::Small);
   establishConnection = icons->loadIcon( "connect_creating", KIcon::Small);
 
-  ClientpopMenu = new KPopupMenu(clientListView);
+  ClientpopMenu = new KMenu(clientListView);
   ClientpopMenu->insertItem( establishConnection, i18n("Connect") , 0);
   ClientpopMenu->insertItem( disconnected, i18n("Disconnect"), 1);
 

@@ -43,7 +43,7 @@ FindDialog::FindDialog( QWidget* parent ) :
 		vlay(0), hlay(0), SearchList(0), SearchBox(0), filterTypeLabel(0), filterType(0),
 		currentitem(0)
 {
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 
 //Create Layout managers
 	vlay = new QVBoxLayout( page, 2, 2 );

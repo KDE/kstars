@@ -46,7 +46,7 @@
 PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name ), PCat( ((KStars*)parent)->data() ), scale(1.0), isClockRunning(false), tmr(this)
 {
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	pw = new PlanetViewerUI( page );
 	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );

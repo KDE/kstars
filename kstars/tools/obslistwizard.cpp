@@ -41,7 +41,7 @@ ObsListWizard::ObsListWizard( QWidget *parent, const char *name )
   : KDialogBase( KDialogBase::Plain, i18n("Observing List Wizard"), Ok|Cancel, Ok, parent, name )
 {
 	ksw = (KStars*)parent;
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 
 	olw = new ObsListWizardUI( page );

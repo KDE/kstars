@@ -37,7 +37,7 @@
 AddCatDialog::AddCatDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	setMainWidget(page);
 	QDir::setCurrent( QDir::homeDirPath() );
 

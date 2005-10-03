@@ -36,6 +36,7 @@
 #include <kpushbutton.h>
 #include <klistview.h>
 #include <klineedit.h>
+#include <ktoolinvocation.h>
 
 #include "detaildialog.h"
 //UI headers
@@ -107,7 +108,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 void DetailDialog::createGeneralTab()
 {
-	Q3Frame *DataTab = addPage(i18n("General"));
+	QFrame *DataTab = addPage(i18n("General"));
 	Data = new DetailsDataUI( DataTab, "general_data_tab" );
  
 	//Modify colors
@@ -278,7 +279,7 @@ void DetailDialog::createGeneralTab()
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	Q3Frame *PosTab = addPage( i18n("Position") );
+	QFrame *PosTab = addPage( i18n("Position") );
 	Pos = new DetailsPositionUI( PosTab, "position_tab" );
 
 	//Modify colors
@@ -399,7 +400,7 @@ void DetailDialog::createLinksTab()
 	if (selectedObject->name() == QString("star"))
 		return;
 
-	Q3Frame *LinksTab = addPage( i18n( "Links" ) );
+	QFrame *LinksTab = addPage( i18n( "Links" ) );
 	Links = new DetailsLinksUI( LinksTab, "links_tab" );
 
 	//Modify colors
@@ -462,7 +463,7 @@ void DetailDialog::createAdvancedTab()
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	Q3Frame *AdvancedTab = addPage(i18n("Advanced"));
+	QFrame *AdvancedTab = addPage(i18n("Advanced"));
 	Adv = new DetailsDatabaseUI( AdvancedTab, "database_tab" );
 //	Adv->setPaletteBackgroundColor( QColor( "white" ) );
 	QVBoxLayout *vlay = new QVBoxLayout( AdvancedTab, 0, 0 );
@@ -481,7 +482,7 @@ void DetailDialog::createLogTab()
 		return;
 
 	// Log Tab
-	Q3Frame *LogTab = addPage(i18n("Log"));
+	QFrame *LogTab = addPage(i18n("Log"));
 	Log = new DetailsLogUI( LogTab, "log_tab" );
 
 	//Modify colors
@@ -522,7 +523,7 @@ void DetailDialog::viewLink()
 		URL = QString( *selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
 
 	if (!URL.isEmpty())
-		kapp->invokeBrowser(URL);
+		KToolInvocation::invokeBrowser(URL);
 }
 
 void DetailDialog::updateLists()
@@ -558,7 +559,7 @@ void DetailDialog::editLinkDialog()
 	QFile newFile;
 	
 	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
-	Q3Frame *editFrame = editDialog.plainPage();
+	QFrame *editFrame = editDialog.plainPage();
 	
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
 	editLinkField = new QLineEdit(editFrame, "lineedit");
@@ -845,7 +846,7 @@ void  DetailDialog::viewADVData()
 
 	link = treeIt->current()->Link;
 	link = parseADVData(link);
-	kapp->invokeBrowser(link);
+	KToolInvocation::invokeBrowser(link);
 }
 
 QString DetailDialog::parseADVData(QString link)

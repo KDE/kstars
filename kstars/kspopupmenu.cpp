@@ -33,7 +33,7 @@
 #include "indiproperty.h"
 
 KSPopupMenu::KSPopupMenu( QWidget *parent, const char *name )
- : KPopupMenu( parent, name )
+ : KMenu( parent, name )
 {
 	ksw = ( KStars* )parent;
 }
@@ -154,7 +154,7 @@ bool KSPopupMenu::addINDI(void)
         if (!dev->INDIStdSupport)
 	 continue;
 
-	KPopupMenu *menuDevice = new KPopupMenu();
+	KMenu *menuDevice = new KMenu();
 	
 	insertItem(dev->label, menuDevice);
 

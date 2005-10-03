@@ -30,7 +30,7 @@
 class KStars;
 
 class KListView;
-class KPopupMenu;
+class KMenu;
 class KProcess;
 
 struct INDIHostsInfo
@@ -108,8 +108,8 @@ class INDIDriver : public devManager
     QPixmap localMode;
     QPixmap serverMode;
 
-    KPopupMenu *ClientpopMenu;
-    KPopupMenu *LocalpopMenu;
+    KMenu *ClientpopMenu;
+    KMenu *LocalpopMenu;
 
     int lastPort;
 

@@ -24,7 +24,7 @@
  #include "indi/base64.h"
  #include "indi/indicom.h"
  
- #include <kpopupmenu.h>
+ #include <kmenu.h>
  #include <klineedit.h>
  #include <kled.h>
  #include <klocale.h>

@@ -19,7 +19,7 @@
 #ifndef KSPOPUPMENU_H
 #define KSPOPUPMENU_H
 
-#include <kpopupmenu.h>
+#include <kmenu.h>
 //Added by qt3to4:
 #include <QLabel>
 
@@ -38,7 +38,7 @@ class StarObject;
 class SkyObject;
 class QLabel;
 
-class KSPopupMenu : public KPopupMenu
+class KSPopupMenu : public KMenu
 {
 Q_OBJECT
 public:

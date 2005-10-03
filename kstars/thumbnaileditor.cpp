@@ -40,7 +40,7 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 {
 	tp = (ThumbnailPicker*)parent;
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QHBoxLayout *hlay = new QHBoxLayout( page, 0, 0 );
 	ui = new ThumbnailEditorUI( page );
 	hlay->addWidget( ui );

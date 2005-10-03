@@ -53,7 +53,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 	Image = new QPixmap( current );
 	ImageRect = new QRect( 0, 0, 200, 200 );
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ThumbnailPickerUI( page );
 	vlay->addWidget( ui );

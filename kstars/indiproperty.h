@@ -22,7 +22,7 @@
 class INDI_G;
 class INDIStdProperty;
 
-class KPopupMenu;
+class KMenu;
 class KComboBox;
 class KLed;
 
@@ -44,7 +44,7 @@ class INDI_P : public QObject
     QString     label;			/* property label */
     
     INDI_G	*pg;			/* parent group */
-    KPopupMenu  *assosiatedPopup;	/* assosiated popup menu, if any */
+    KMenu  *assosiatedPopup;	/* assosiated popup menu, if any */
     INDIStdProperty *indistd;		/* Assosciated std routines class */
     double	timeout;		/* timeout, seconds */
     PState	state;			/* state light code */

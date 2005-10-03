@@ -50,7 +50,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
 	kstars(ks), EveningFlag(0) {
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	setMainWidget(page);
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	WUT = new WUTDialogUI( page );

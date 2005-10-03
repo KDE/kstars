@@ -61,7 +61,7 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ObservingListUI( page );
 	vlay->addWidget( ui );

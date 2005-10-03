@@ -109,7 +109,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
 		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homeDirPath() ), 
 		currentScriptName(), currentAuthor() {
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 
 	ks = (KStars*)parent;
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );

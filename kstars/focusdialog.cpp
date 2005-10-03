@@ -41,7 +41,7 @@ FocusDialog::FocusDialog( QWidget *parent )
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	setMainWidget(page);
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	fdlg = new FocusDialogDlg(page);

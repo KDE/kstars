@@ -48,7 +48,7 @@ FOVDialog::FOVDialog( QWidget *parent )
 
 	ks = (KStars*)parent;
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	fov = new FOVDialogUI( page );
 	vlay->addWidget( fov );
@@ -202,7 +202,7 @@ void FOVDialog::slotRemoveFOV() {
 //-------------NewFOV------------------//
 NewFOV::NewFOV( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "New FOV Indicator" ), Ok|Cancel, Ok, parent ), f() {
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new NewFOVUI( page );
 	vlay->addWidget( ui );

@@ -40,7 +40,7 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 {
 	ksw = (KStars*)parent;
 	
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	
 	colJp = "White";

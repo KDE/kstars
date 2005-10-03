@@ -24,6 +24,7 @@
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <Q3Frame>
+#include <ktoolinvocation.h>
 
 #include "addlinkdialog.h"
 #include "skyobject.h"
@@ -31,7 +32,7 @@
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
 
-	Q3Frame *page = plainPage();
+	QFrame *page = plainPage();
 	setMainWidget(page);
 
 	vlay = new QVBoxLayout( page, 0, spacingHint() );
@@ -51,12 +52,12 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 void AddLinkDialog::checkURL( void ) {
 	KURL _url ( url() );
 	if ( _url.isValid() ) {   //Is the string a valid URL?
-		kapp->invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
+		KToolInvocation::invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
 		QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
 		QString caption = i18n( "Invalid URL" );
 		if ( KMessageBox::warningYesNo( 0, message, caption, i18n("Browse Google"), i18n("Do Not Browse") )==KMessageBox::Yes ) {
-			kapp->invokeBrowser( "http://www.google.com" );
+			KToolInvocation::invokeBrowser( "http://www.google.com" );
 		}
 	}
 }
