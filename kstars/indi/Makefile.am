@@ -1,4 +1,8 @@
-AM_CPPFLAGS = @CPPFLAGS@ -DTOP_DATADIR=\"$(pkgdatadir)\"
+appdatadir = $(kde_datadir)/kstars
+appdata_DATA = drivers.xml apogee_caminfo.xml
+
+
+AM_CPPFLAGS = -DTOP_DATADIR=\"$(appdatadir)\"
 
 if LINUX
 bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi
@@ -52,11 +56,6 @@ apogee_ppi_LDADD = libindicom.a liblilxml.a apogee/libapogee_PPI.la -lz
 
 sbigccd_SOURCES = sbigccd.cpp base64.c eventloop.c indidrivermain.c
 sbigccd_LDADD = libindicom.a liblilxml.a -lz
-
-pkgdata_DATA = apogee_caminfo.xml
-
-appdatadir = $(kde_datadir)/kstars
-appdata_DATA = drivers.xml
 
 install-exec-hook:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
