@@ -1,9 +1,9 @@
 /***************************************************************************
-                          asteroidscomponent.h  -  K Desktop Planetarium
+                          cometscomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/30/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 2005/24/09
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,25 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASTEROIDSCOMPONENT_H
-#define ASTEROIDSCOMPONENT_H
-
-#include "abstractplanetcomponent.h"
-#include <QList>
+#ifndef COMETSCOMPONENT_H
+#define COMETSCOMPONENT_H
 
 class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-/**
-	*@class AsteroidsComponent
-	*Represents the asteroids on the sky map.
+#include "abstractplanetcomponent.h"
+#include <QList>
 
-	*@author Thomas Kabelmann
+/**
+	*@class CometsComponent
+	*This class encapsulates the Comets
+	*
+	*@author Jason Harris
 	*@version 0.1
 	*/
-class AsteroidsComponent: public AbstractPlanetComponent
+class CometsComponent : public AbstractPlanetComponent
 {
 	public:
 
@@ -43,12 +43,12 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		*@p visibleMethod 
 		*@p msize
 		*/
-		AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
+		CometsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
 		
 	/**
 		*Destructor.  Delete all list members
 		*/
-		virtual ~AsteroidsComponent();
+		virtual ~CometsComponent();
 
 	/**
 		*@short Draw the asteroids onto the skymap
@@ -62,7 +62,17 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		*@short Initialize the asteroids list.
 		*Reads in the asteroids data from the asteroids.dat file.
 		*@p data Pointer to the KStarsData object
+		*/
+		virtual void init(KStarsData *data);
+	
+	/**
+		*@short Update the positions of list members
+		*@p data Pointer to the KStarsData object
+		*@p data Pointer to the KSNumbers object
+		*@p needNewCoords set to true if objects need their positions recomputed
 		*
+		*@short Utility function for reading the asteroids.dat file
+		*Populate the list of Comets from the data file.
 		*Each line in the data file is parsed as follows:
 		*@li 6-23 Name [string]
 		*@li 24-29 Modified Julian Day of orbital elements [int]
@@ -74,18 +84,8 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		*@li 82-93 Mean Anomaly in degrees [double]
 		*@li 94-98 Magnitude [double]
 		*/
-		virtual void init(KStarsData *data);
-	
-	/**
-		*@short Update the positions of list members
-		*@p data Pointer to the KStarsData object
-		*@p data Pointer to the KSNumbers object
-		*@p needNewCoords set to true if objects need their positions recomputed
-		*/
 		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 	private:
-		QList<KSAsteroid*> asteroidList;
+		QList<KSComet*> cometList;
 };
-
-#endif

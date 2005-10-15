@@ -26,37 +26,56 @@ class KSMoon;
 
 #include "abstractplanetcomponent.h"
 
-/**@class MoonComponent
-* Represents the moon.
-
-*@author Thomas Kabelmann
-*@version 0.1
-*/
-
+/**
+	*@class MoonComponent
+	* Represents the moon.
+	
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 class MoonComponent : AbstractPlanetComponent
 {
 	public:
-	
-		MoonComponent(SolarSystemComposite*, bool (*visibleMethod)(), int msize = 8);
+		/**
+		 *@short Constructor.
+		 *@p parent pointer to the parent SolarSystemComposite
+		 *@p visibleMethod pointer to the function which returns whether the Moon 
+		 *should be drawn
+		 *@p msize
+		 */
+		MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 8);
 		
+		/**
+		 *Destructor.
+		 */
 		virtual ~MoonComponent();
 		
+		/**
+		 *@short draw the Moon onto the skymap
+		 *@p map pointer to the SkyMap widget
+		 *@p psky reference to the QPainter on which to paint
+		 *@p scale scaling factor (1.0 for screen draws)
+		 */
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 		
-		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale);
-		
+		/**
+		 *@short Initialize the moon; read orbital data from disk
+		 *@p data pointer to the KStarsData object
+		 */
 		virtual void init(KStarsData *data);
 		
-		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords);
-
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+		/**
+		 *@short Update the position of the Moon
+		 *@p data pointer to the KStarsData object
+		 *@p num pointer to the KSNumbers object
+		 *@p needNewCoords true if a new position should be computed
+		 */
+		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 	
 	
 	private:
 	
 		KSMoon *Moon;
-
-		earth()
 };
 
 #endif

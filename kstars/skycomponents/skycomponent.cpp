@@ -64,3 +64,5 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, d
 	//Reset font
 	psky.setFont( stdFont );
 }
+
+bool SkyComponent::addTrail( SkyObject *o ) { return false; }

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          asteroidscomponent.h  -  K Desktop Planetarium
+                          plutocomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/30/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 2005/24/09
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,43 +15,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASTEROIDSCOMPONENT_H
-#define ASTEROIDSCOMPONENT_H
+#ifndef PLUTOCOMPONENT_H
+#define PLUTOCOMPONENT_H
 
+#include "../kspluto.h"
 #include "abstractplanetcomponent.h"
-#include <QList>
-
-class SkyComposite;
-class KStarsData;
-class SkyMap;
-class KSNumbers;
 
 /**
-	*@class AsteroidsComponent
-	*Represents the asteroids on the sky map.
-
-	*@author Thomas Kabelmann
+	*@class PlutoComponent
+	*This class encapsulates the Pluto
+	*
+	*@author Jason Harris
 	*@version 0.1
 	*/
-class AsteroidsComponent: public AbstractPlanetComponent
+class PlutoComponent : public AbstractPlanetComponent
 {
 	public:
 
 	/**
 		*@short Default constructor.
 		*@p parent pointer to the parent SolarSystemComposite
-		*@p visibleMethod 
-		*@p msize
 		*/
-		AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
+		PlutoComponent( SolarSystemComposite *parent );
 		
 	/**
-		*Destructor.  Delete all list members
+		*Destructor.  Delete KSPluto member
 		*/
-		virtual ~AsteroidsComponent();
+		virtual ~PlutoComponent();
 
 	/**
-		*@short Draw the asteroids onto the skymap
+		*@short Draw Pluto onto the skymap
 		*@p map pointer to the SkyMap widget
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
@@ -59,33 +52,31 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
 	/**
-		*@short Initialize the asteroids list.
-		*Reads in the asteroids data from the asteroids.dat file.
+		*@short Initialize Pluto's orbital data.
+		*Reads in the orbital data from files.
 		*@p data Pointer to the KStarsData object
-		*
-		*Each line in the data file is parsed as follows:
-		*@li 6-23 Name [string]
-		*@li 24-29 Modified Julian Day of orbital elements [int]
-		*@li 30-39 semi-major axis of orbit in AU [double]
-		*@li 41-51 eccentricity of orbit [double]
-		*@li 52-61 inclination angle of orbit in degrees [double]
-		*@li 62-71 argument of perihelion in degrees [double]
-		*@li 72-81 Longitude of the Ascending Node in degrees [double]
-		*@li 82-93 Mean Anomaly in degrees [double]
-		*@li 94-98 Magnitude [double]
 		*/
 		virtual void init(KStarsData *data);
 	
 	/**
-		*@short Update the positions of list members
+		*@short Update the positions of planets and solar system bodies
 		*@p data Pointer to the KStarsData object
 		*@p data Pointer to the KSNumbers object
 		*@p needNewCoords set to true if objects need their positions recomputed
 		*/
+		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		
+	/**
+		*@short Update the position
+		*@p data Pointer to the KStarsData object
+		*@p data Pointer to the KSNumbers object
+		*@p needNewCoords set to true if Pluto needs its position recomputed
+		*/
 		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
+		/** from PlanetHelper */
+		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale);
+		
 	private:
-		QList<KSAsteroid*> asteroidList;
+		KSPluto *pluto;
 };
-
-#endif

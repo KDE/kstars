@@ -48,6 +48,12 @@ class SolarSystemComposite : SkyComposite
 
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 		
+		/**
+		 *@short Add a Trail to the specified SkyObject.
+		 *@p o Pointer to the SkyObject to which a Trail will be added.
+		 */
+		bool addTrail( SkyObject *o );
+
 	private:
 		KSPlanet *Earth;
 		

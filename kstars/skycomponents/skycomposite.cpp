@@ -86,3 +86,21 @@ void SkyComposite::updateMoons(KStarsData*, KSNumbers*, bool needNewCoords)
   foreach (SkyComponent *component, Components)
 		component->updateMoons(data, num, needNewCoords);
 }
+
+bool SkyComposite::addTrail( SkyObject *o ) {
+  foreach ( SkyComponent *comp, components() ) {
+    if ( comp->addTrail( o ) ) return true;
+  }
+
+  //Did not find object o
+  return false;
+}
+
+SkyObject* SkyComposite::findByName( const QString &name ) {
+  SkyObject *o = 0;
+  foreach ( SkyComponent *comp, components() ) {
+    o = comp->findByName( name );
+    if ( o->name() == name ) return o;
+  }
+  return 0;
+}

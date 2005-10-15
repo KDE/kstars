@@ -105,3 +105,11 @@ void SolarSystemComposite::draw(SkyMap *map, QPainter& psky, double scale)
 	Mercury->draw(map, psky, scale);
 	Moon->draw(map, psky, scale);
 }
+
+bool SolarSystemComposite::addTrail( SkyObject *o ) {
+  foreach ( SkyComponent *comp, components() ) {
+    if ( comp->addTrail( o ) ) return true;
+  }
+
+  return false; //The SkyObject o was not found
+}

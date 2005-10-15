@@ -1,9 +1,9 @@
 /***************************************************************************
-                          coordinategridcomponent.h  -  K Desktop Planetarium
+                          suncomponent.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/09/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 2005/24/09
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,63 +15,58 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRIDCOMPONENT_H
-#define COORDINATEGRIDCOMPONENT_H
-
-#include "skycomponent.h"
+#ifndef SUNCOMPONENT_H
+#define SUNCOMPONENT_H
 
 /**
-	*@class CoordinateGridComponent
-	*Represents one circle on the coordinate grid
-
-	*@author Thomas Kabelmann
+	*@class SunComponent
+	*Represents the Sun on the sky map
+	*
+	*@author Jason Harris
 	*@version 0.1
 	*/
 
-class SkyComposite;
-class KStarsData;
-class SkyMap;
+#include "abstractplanetcomponent.h"
 
-class CoordinateGridComponent : public SkyComponent
+class SunComponent : public AbstractPlanetComponent
 {
 	public:
+
+	/**
+		*@short Default constructor.
+		*@p parent pointer to the parent SolarSystemComposite
+		*@p visibleMethod 
+		*@p msize
+		*/
+		SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
 		
 	/**
-		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*Destructor.  Delete all list members
 		*/
-		CoordinateGridComponent( SkyComposite*, bool isParallel, double coord );
+		virtual ~SunComponent();
+
 	/**
-		*@short Destructor.  Delete list members
-		*/
-		~CoordinateGridComponent();
-		
-	/**
-		*@short Draw constellation names on the sky map.
+		*@short Draw the Sun onto the skymap
 		*@p map pointer to the SkyMap widget
-		*@p psky Reference to the QPainter on which to paint
+		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
 	/**
-		*@short Initialize the Constellation names component
-		*Reads the constellation names data from cnames.dat
+		*@short Initialize the Sun.
 		*@p data Pointer to the KStarsData object
 		*/
 		virtual void init(KStarsData *data);
-
+	
 	/**
-		*@short Update the current positions of the constellation names
+		*@short Update the position of the Sun
 		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@p needNewCoords set to true if positions need to be recomputed
+		*@p data Pointer to the KSNumbers object
+		*@p needNewCoords set to true if the Sun needs its position recomputed
 		*/
 		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 	private:
-		QList<SkyPoint*> gridList;
-
-		double Coordinate;
-		bool Parallel;
+		KSSun *sun;
 };

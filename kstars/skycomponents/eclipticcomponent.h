@@ -22,12 +22,13 @@
 
 class QList;
 
-/**@class EclipticComponent
-*Represents the celestial equator on the sky map.
-
-*@author Jason Harris
-*@version 0.1
-*/
+/**
+	*@class EclipticComponent
+	*Represents the celestial equator on the sky map.
+	
+	*@author Jason Harris
+	*@version 0.1
+	*/
 
 class SkyComposite;
 class KStarsData;
@@ -38,15 +39,38 @@ class EclipticComponent: public SkyComponent
 {
 	public:
 
-		EclipticComponent(SkyComposite*);
-		
+		/**
+		 *@short Constructor
+		 *@p parent pointer to the parent SkyComposite object
+		 */
+		EclipticComponent(SkyComposite *parent);
+
+		/**
+		 *@short Destructor
+		 */
 		virtual ~EclipticComponent();
 
+		/**
+		 *@short draw the Ecliptic onto the sky
+		 *@p map pointer to the SkyMap widget
+		 *@p psky reference to the QPainter on which to draw
+		 *@p scale the scaling factor (1.0 for screen draws)
+		 */
 		virtual void draw(SkyMap *map, QPainter& psky, double scale);
 
+		/**
+		 *@short Initialize the Ecliptic
+		 *@p data pointer to the KStarsData object
+		 */
 		virtual void init(KStarsData *data);
 	
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+		/**
+		 *@short Update the coordinates of points on the Ecliptic
+		 *@p data pointer to the KStarsData object
+		 *@p num pointer to the KSNumbers object
+		 *@p needNewCoords true if positions should be recomputed
+		 */
+		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 	private:
 		// the points of the equator

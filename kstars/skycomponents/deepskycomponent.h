@@ -20,13 +20,14 @@
 
 class QList;
 
-/**@class DeepSkyComponent
-*Represents the deep sky objects separated by catalogs. Custom Catalogs are
-* a standalone component.
-*
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+	*@class DeepSkyComponent
+	*Represents the deep sky objects separated by catalogs. 
+	*Custom Catalogs are a standalone component.
+	*
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 
 class SkyComposite;
 class KStarsData;

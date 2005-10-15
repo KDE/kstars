@@ -33,17 +33,6 @@ AsteroidsComponent::~AsteroidsComponent()
 	while ( ! asteroidList.isEmpty() ) delete asteroidList.takeFirst();
 }
 
-void AsteroidsComponent::drawTrail(SkyMap *map, QPainter& psky, double scale)
-{
-	if ( visible() ) {
-	  foreach ( KAsteroid *ast, asteroidList ) {
-			if ( ast->mag() > Options::magLimitAsteroid() ) break;
-			// will be drawn only if available
-			drawPlanetTrail(map, psky, ast, scale);
-		}
-	}
-}
-
 void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;
@@ -51,7 +40,7 @@ void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 	foreach ( KSAsteroid *ast, asteroidList ) { 
 		if ( ast->mag() > Options::magLimitAsteroid() ) break;
 
-		if ( map->checkVisibility( ast, fov(), XRange ) )
+		if ( map->checkVisibility( ast ) )
 		{
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
@@ -76,33 +65,6 @@ void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 }
 
 void AsteroidsComponent::init(KStarsData *data)
-{
-	readAsteroidData(data);
-}
-
-void AsteroidsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-//	if ( Options::showPlanets() && Options::showAsteroids() )
-	if ( visible() )
-	  foreach ( KAsteroid *ast, asteroidList ) 
-			ast->findPosition( num, data->geo->lat(), data->LST, earth() );
-}
-
-void AsteroidsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() )
-	{
-	  foreach ( KAsteroid *ast, asteroidList ) {
-			ast->EquatorialToHorizontal( LST, geo->lat() );
-			if ( ast->hasTrail() )
-			{
-				ast->updateTrail( LST, data->geo()->lat() );
-			}
-		}
-	}
-}
-
-bool AsteroidsComponent::readAsteroidData(KStarsData *data)
 {
 	QFile file;
 
@@ -132,11 +94,30 @@ bool AsteroidsComponent::readAsteroidData(KStarsData *data)
 			ast = new KSAsteroid( this, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngularSize( 0.005 );
 			asteroidList.append( ast );
-			data->ObjNames.append( ast );
+
+			//TODO: need KStarsData::appendNamedObject()
+			data->apppendNamedObject( ast );
 		}
-
-		if ( asteroidList.size() ) return true;
 	}
-
-	return false;
 }
+
+//JH: Got rid of updatePlanets(), and moved that code into update().
+//We can just use needNewCoords parameter to decide whether to call
+//findPosition()
+void AsteroidsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+{
+	if ( visible() )
+	{
+		KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
+		Earth.findPosition( num );
+		foreach ( KSAsteroid *ast, asteroidList ) {
+			if ( needNewCoords ) ast->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
+			ast->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+			if ( ast->hasTrail() )
+			{
+			  ast->updateTrail( data->lst(), data->geo()->lat() );
+			}
+		}
+	}
+}
+

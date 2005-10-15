@@ -1,9 +1,9 @@
 /***************************************************************************
-                          mooncomponent.h  -  K Desktop Planetarium
+                          suncomponent.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/09/06
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 2005/24/09
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,30 +15,44 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mooncomponent.h"
+#include "suncomponent.h"
 
-#include "ksmoon.h"
-
-MoonComponent::MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: AbstractPlanetComponent(parent, visibleMethod, msize)
+SunComponent::SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), double diameter, int msize) 
+: AbstractPlanetComponent(parent, visibleMethod, msize) 
 {
-  Moon = new KSMoon(parent);
+  //TODO: KSSun ctor must construct image name from name string
+  sun = new KSSun( data, diameter ); 
 }
 
-MoonComponent::~MoonComponent()
-{
-  if ( Moon ) delete Moon;
+SunComponent::~SunComponent() {
+  if ( sun ) delete sun;
 }
 
-void MoonComponent::init(KStarsData *data)
+void SunComponent::init(KStarsData *data)
 {
-	Moon->loadData();
-	data->appendNamedObject( Moon );
+  //TODO: probably want to move the init code into this class
+  sun->loadData();
+  data->appendNamedObject( sun );
 }
 
-void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
+//JH: Got rid of updatePlanets(), and moved that code into update().
+//We can just use needNewCoords parameter to decide whether to call
+//findPosition()
+void SunComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-  if ( !visible() ) return;
+	if ( visible() )
+	{
+		if ( needNewCoords ) sun->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
+		sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		if ( sun->hasTrail() )
+		{
+		  sun->updateTrail( data->lst(), data->geo()->lat() );
+		}
+	}
+}
+
+void SunComponent::draw(SkyMap *map, QPainter& psky, double scale) {
+	if ( !visible() ) return;
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
 	if ( map->checkVisibility( sun ) ) {
@@ -103,13 +117,6 @@ void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			}
 		}
 	}
-
 }
 
-void MoonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() ) {
-		Moon->EquatorialToHorizontal( data->LST, data->geo->lat() );
-		if ( Moon->hasTrail() ) Moon->updateTrail( data->LST, geo->lat() );
-	}
-}
+#include "suncomponent.moc"

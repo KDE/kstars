@@ -22,12 +22,13 @@
 
 class QList;
 
-/**@class CustomCatalogComponent
-*Represents custom catalogs.
+/**
+	*@class CustomCatalogComponent
+	*Represents custom catalogs.
 
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 
 class SkyComposite;
 class KStarsData;

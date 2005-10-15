@@ -20,7 +20,8 @@
 
 #include "skycomponent.h"
 
-/**@class ConstellationNamesComponent
+/**
+	*@class ConstellationNamesComponent
 	*Represents the constellation names on the sky map.
 
 	*@author Thomas Kabelmann

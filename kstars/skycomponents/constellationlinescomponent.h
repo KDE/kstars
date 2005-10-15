@@ -20,7 +20,8 @@
 
 #include "skycomponent.h"
 
-/**@class ConstellationLinesComponent
+/**
+	*@class ConstellationLinesComponent
 	*Represents the constellation lines on the sky map.
 
 	*@author Thomas Kabelmann

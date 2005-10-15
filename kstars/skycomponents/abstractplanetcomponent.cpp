@@ -18,6 +18,8 @@
 //JH: This file does not exist...
 //#include "planethelper.h" 
 
+#include "abstractplanetcomponent.h"
+
 #include "ksplanet.h"
 #include "skymap.h"
 #include "kstarsdata.h"
@@ -31,9 +33,9 @@ AbstractPlanetComponent::AbstractPlanetComponent(SolarSystemComposite *parent, K
 	earth = parent->earth(); // TODO right syntax?
 }
 
-void AbstractPlanetComponent::drawPlanetTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale )
+void AbstractPlanetComponent::drawTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale )
 {
-	if ( !ksp->hasTrail() ) return;
+  if ( ! visible() || !ksp->hasTrail() ) return;
 	
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
@@ -108,6 +110,7 @@ void AbstractPlanetComponent::setSizeScale(float scale)
 	sizeScale = scale;
 }
 
+/*JH: Moved to PlanetComponent::draw()
 void AbstractPlanetComponent::drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale )
 {
 
@@ -175,3 +178,4 @@ void AbstractPlanetComponent::drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBa
 		}
 	}
 }
+*/

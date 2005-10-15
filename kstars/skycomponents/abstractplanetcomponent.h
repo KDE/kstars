@@ -60,7 +60,7 @@ class AbstractPlanetComponent : public SkyComponent
 		KSPlanet* earth() { ((SolarSystemComposite*)parent)->earth(); }
 		
 		/** Draws the trail of an planet base object. */
-		void drawPlanetTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale);
+		void drawTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale);
 		
 		void drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale);
 

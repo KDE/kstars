@@ -1,9 +1,9 @@
 /***************************************************************************
-                          mooncomponent.h  -  K Desktop Planetarium
+                          planetcomponent.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/09/06
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 2005/24/09
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,54 +15,71 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mooncomponent.h"
+#include "planetcomponent.h"
 
-#include "ksmoon.h"
-
-MoonComponent::MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: AbstractPlanetComponent(parent, visibleMethod, msize)
+PlanetComponent::PlanetComponent( SolarSystemComposite *parent, const QString &name, bool (*visibleMethod)(), double diameter, int msize ) 
+: AbstractPlanetComponent( parent, visibleMethod, msize ) 
 {
-  Moon = new KSMoon(parent);
+  //TODO: KSPlanet ctor must construct image name from name string
+  p = new KSPlanet( data, name, diameter ); 
 }
 
-MoonComponent::~MoonComponent()
-{
-  if ( Moon ) delete Moon;
+PlanetComponent::~PlanetComponent() {
+	if ( p ) delete p;
 }
 
-void MoonComponent::init(KStarsData *data)
-{
-	Moon->loadData();
-	data->appendNamedObject( Moon );
+void PlanetComponent::init(KStarsData *data) {
+  //TODO: probably want to move the init code into this class, although we'd have
+  //to move the OrbitDataCollection and OrbitDataManager classes here as well...
+  //maybe it's okay to leave it like this, what do you think?
+  p->loadData();
+  
+  data->appendNamedObject( p );
 }
 
-void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
-{
-  if ( !visible() ) return;
+//JH: Got rid of updatePlanets(), and moved that code into update().
+//We can just use needNewCoords parameter to decide whether to call
+//findPosition()
+void PlanetComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords) {
+  //Could just use the data->earth() pointer, but there's no guarantee
+  //that it's for the same epoch...although it probably always will be
+  if ( visible() ) {
+    KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
+    Earth.findPosition( num );
+    if ( needNewCoords )
+      p->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
+    p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    if ( p->hasTrail() ) 
+      p->updateTrail( data->lst(), data->geo()->lat() );
+  }
+}
+
+void PlanetComponent::draw(SkyMap *map, QPainter &psky, double scale ) {
+	if ( !visible() ) return;
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
-	if ( map->checkVisibility( sun ) ) {
+	if ( map->checkVisibility( p ) ) {
 		int Width = int( scale * map->width() );
 		int Height = int( scale * map->height() );
 
 		int sizemin = 4;
-		if ( sun->name() == "Sun" || sun->name() == "Moon" ) sizemin = 8;
+		if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
 		sizemin = int( sizemin * scale );
 
 		//TODO: KSPlanet needs a color property, and someone has to set the planet's color
-		psky.setPen( sun->color() );
-		psky.setBrush( sun->color() );
+		psky.setPen( p->color() );
+		psky.setBrush( p->color() );
 		QPoint o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 		//Is planet onscreen?
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-			int size = int( sun->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
 			if ( size < sizemin ) size = sizemin;
 
 			//Draw planet image if:
 			if ( Options::showPlanetImages() &&  //user wants them,
 					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
-					!sun->image()->isNull() &&  //image loaded ok,
+					!p->image()->isNull() &&  //image loaded ok,
 					size < Width ) {  //and size isn't too big.
 
 				//Image size must be modified to account for possibility that rotated image's
@@ -80,16 +97,16 @@ void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 				size = int( size * (cpa + spa) );
 
 				//Because Saturn has rings, we inflate its image size by a factor 2.5
-				if ( sun->name() == "Saturn" ) size = int(2.5*size);
+				if ( p->name() == "Saturn" ) size = int(2.5*size);
 
 				if (resize_mult != 1) {
 					size *= resize_mult;
 				}
 
-				sun->scaleRotateImage( size, pa.Degrees() );
-				int x1 = o.x() - sun->image()->width()/2;
-				int y1 = o.y() - sun->image()->height()/2;
-				psky.drawImage( x1, y1, *(sun->image()));
+				p->scaleRotateImage( size, pa.Degrees() );
+				int x1 = o.x() - p->image()->width()/2;
+				int y1 = o.y() - p->image()->height()/2;
+				psky.drawImage( x1, y1, *(p->image()));
 
 			} else {                                   //Otherwise, draw a simple circle.
 
@@ -103,13 +120,6 @@ void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			}
 		}
 	}
-
 }
 
-void MoonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() ) {
-		Moon->EquatorialToHorizontal( data->LST, data->geo->lat() );
-		if ( Moon->hasTrail() ) Moon->updateTrail( data->LST, geo->lat() );
-	}
-}
+#include "planetcomponent.moc"
