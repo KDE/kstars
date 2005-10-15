@@ -15,12 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QList>
+#include <QPainter>
+
 #include "skycomponent.h"
 #include "skycomposite.h"
 
-#include <QList>
-
-#include "skymap.h" 
+#include "Options.h"
+#include "skymap.h"
+#include "kstarsdata.h"
+#include "ksnumbers.h"
+#include "skyobject.h"
 
 SkyComponent::SkyComponent(SkyComposite *parent)
 {
@@ -65,4 +70,10 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, d
 	psky.setFont( stdFont );
 }
 
-bool SkyComponent::addTrail( SkyObject *o ) { return false; }
+//TODO: Implement addTrail
+bool SkyComponent::addTrail( SkyObject * ) { return false; }
+
+//TODO: Implement findByName
+SkyObject* SkyComponent::findByName( const QString &name ) {
+	return 0;
+}

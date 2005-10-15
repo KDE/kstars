@@ -17,90 +17,85 @@
 
 #include "skycomposite.h"
 
-#include <QList>
-
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "skyobject.h"
 
 SkyComposite::SkyComposite(SkyComposite *parent) : SkyComponent(parent)
-{
-	Components = new QList() <SkyComponent*>;
-}
+{}
 
 SkyComposite::~SkyComposite()
 {
-	while (!Components.isEmpty())
-        	delete Components.takeFirst();
-
-	delete Components;
+	while ( !Components.isEmpty() )
+		delete Components.takeFirst();
 }
 
 void SkyComposite::addComponent(SkyComponent *component)
 {
-	Components->append(component);
+	Components.append(component);
 }
 
 void SkyComposite::removeComponent(SkyComponent *component)
 {
-	int index = Components->indexOf(component);
+	int index = Components.indexOf(component);
 	if (index != -1)
 	{
 		// component is in list
-		Components->removeAt(index);
+		Components.removeAt(index);
 		delete component;
 	}
 }
 
 void SkyComposite::draw(SkyMap *map, QPainter& psky, double scale)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->draw(map, psky, scale);
 }
 
 void SkyComposite::drawExportable(SkyMap *map, QPainter& psky, double scale)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->drawExportable(map, psky, scale);
 }
 
 void SkyComposite::init(KStarsData *data)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->init(data);
 }
 
 void SkyComposite::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->update(data, num, needNewCoords);
 }
 
-void SkyComposite::updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords)
+void SkyComposite::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->updatePlanets(data, num, needNewCoords);
-}}
+}
 
-void SkyComposite::updateMoons(KStarsData*, KSNumbers*, bool needNewCoords)
+void SkyComposite::updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-  foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, Components)
 		component->updateMoons(data, num, needNewCoords);
 }
 
 bool SkyComposite::addTrail( SkyObject *o ) {
-  foreach ( SkyComponent *comp, components() ) {
-    if ( comp->addTrail( o ) ) return true;
-  }
+	foreach ( SkyComponent *comp, Components ) {
+		if ( comp->addTrail( o ) ) return true;
+	}
 
-  //Did not find object o
-  return false;
+	//Did not find object o
+	return false;
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {
-  SkyObject *o = 0;
-  foreach ( SkyComponent *comp, components() ) {
-    o = comp->findByName( name );
-    if ( o->name() == name ) return o;
-  }
-  return 0;
+	SkyObject *o = 0;
+	foreach ( SkyComponent *comp, Components ) {
+		o = comp->findByName( name );
+		if ( o->name() == name ) return o;
+	}
+	return 0;
 }
