@@ -495,80 +495,81 @@ bool KStarsData::readCNameData( void ) {
 }
 */
 
-bool KStarsData::readCBoundData( void ) {
-	QFile file;
-
-	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
-		QTextStream stream( &file );
-
-		unsigned int nn(0);
-		double ra(0.0), dec(0.0);
-		QString d1, d2;
-		bool ok(false), comment(false);
-		
-		//read the stream one field at a time.  Individual segments can span
-		//multiple lines, so our normal readLine() is less convenient here.
-		//Read fields into strings and then attempt to recast them as ints 
-		//or doubles..this lets us do error checking on the stream.
-		while ( !stream.eof() ) {
-			stream >> d1;
-			if ( d1.at(0) == '#' ) { 
-				comment = true; 
-				ok = true; 
-			} else {
-				comment = false;
-				nn = d1.toInt( &ok );
-			}
-			
-			if ( !ok || comment ) {
-				d1 = stream.readLine();
-				
-				if ( !ok ) 
-					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
-				
-			} else { 
-				CSegment *seg = new CSegment();
-				
-				for ( unsigned int i=0; i<nn; ++i ) {
-					stream >> d1 >> d2;
-					ra = d1.toDouble( &ok );
-					if ( ok ) dec = d2.toDouble( &ok );
-					if ( !ok ) break;
-					
-					seg->addPoint( ra, dec );
-				}
-				
-				if ( !ok ) {
-					//uh oh, this entry was not parsed.  Skip to the next line.
-					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
-					delete seg;
-					d1 = stream.readLine();
-					
-				} else {
-					stream >> d1; //this should always equal 2
-					
-					nn = d1.toInt( &ok );
-					//error check
-					if ( !ok || nn != 2 ) {
-						kdWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
-						delete seg;
-						d1 = stream.readLine();
-					}
-				}
-
-				if ( ok ) {
-					stream >> d1 >> d2;
-					ok = seg->setNames( d1, d2 );
-					if ( ok ) csegmentList.append( seg );
-				}
-			}
-		}
-		
-		return true;
-	} else {
-		return false;
-	}
-}
+// JH: moved to constellationboundarycomponent
+// bool KStarsData::readCBoundData( void ) {
+// 	QFile file;
+// 
+// 	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
+// 		QTextStream stream( &file );
+// 
+// 		unsigned int nn(0);
+// 		double ra(0.0), dec(0.0);
+// 		QString d1, d2;
+// 		bool ok(false), comment(false);
+// 		
+// 		//read the stream one field at a time.  Individual segments can span
+// 		//multiple lines, so our normal readLine() is less convenient here.
+// 		//Read fields into strings and then attempt to recast them as ints 
+// 		//or doubles..this lets us do error checking on the stream.
+// 		while ( !stream.eof() ) {
+// 			stream >> d1;
+// 			if ( d1.at(0) == '#' ) { 
+// 				comment = true; 
+// 				ok = true; 
+// 			} else {
+// 				comment = false;
+// 				nn = d1.toInt( &ok );
+// 			}
+// 			
+// 			if ( !ok || comment ) {
+// 				d1 = stream.readLine();
+// 				
+// 				if ( !ok ) 
+// 					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+// 				
+// 			} else { 
+// 				CSegment *seg = new CSegment();
+// 				
+// 				for ( unsigned int i=0; i<nn; ++i ) {
+// 					stream >> d1 >> d2;
+// 					ra = d1.toDouble( &ok );
+// 					if ( ok ) dec = d2.toDouble( &ok );
+// 					if ( !ok ) break;
+// 					
+// 					seg->addPoint( ra, dec );
+// 				}
+// 				
+// 				if ( !ok ) {
+// 					//uh oh, this entry was not parsed.  Skip to the next line.
+// 					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+// 					delete seg;
+// 					d1 = stream.readLine();
+// 					
+// 				} else {
+// 					stream >> d1; //this should always equal 2
+// 					
+// 					nn = d1.toInt( &ok );
+// 					//error check
+// 					if ( !ok || nn != 2 ) {
+// 						kdWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
+// 						delete seg;
+// 						d1 = stream.readLine();
+// 					}
+// 				}
+// 
+// 				if ( ok ) {
+// 					stream >> d1 >> d2;
+// 					ok = seg->setNames( d1, d2 );
+// 					if ( ok ) csegmentList.append( seg );
+// 				}
+// 			}
+// 		}
+// 		
+// 		return true;
+// 	} else {
+// 		return false;
+// 	}
+// }
 
 /* moved into starscomponent
 bool KStarsData::openStarFile( int i ) {
@@ -2204,7 +2205,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		}
 */
 
-		//Constellation Boundaries
+//moved to constellationboundarycomponent
+/*		//Constellation Boundaries
 		if ( Options::showCBounds() ) {  
 			for ( CSegment *seg = csegmentList.first(); seg; seg = csegmentList.next() ) {
 				for ( SkyPoint *p = seg->firstNode(); p; p = seg->nextNode() ) {
@@ -2212,7 +2214,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 					p->EquatorialToHorizontal( LST, geo->lat() );
 				}
 			}
-		}
+		}*/
 		
 		//Celestial Equator
 		if ( Options::showEquator() ) {

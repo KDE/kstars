@@ -305,7 +305,7 @@ public:
 		*@short Read in the constellation boundary data.
 		*@return TRUE if the boundary data is successfully parsed.
 		*/
-	bool readCBoundData( void );
+//	bool readCBoundData( void );
 
 	/**Read Milky Way data.  Coordinates for the Milky Way contour are divided into 11
 		*files, each representing a simple closed curve that can be drawn with
@@ -578,7 +578,7 @@ public slots:
 	void initialize();
 
 	/**@short send a message to the console*/
-	void slotConsoleMessage( QString s ) { std::cout << s/*.utf8()*/ << std::endl; }
+	void slotConsoleMessage( QString s ) { std::cout << (const char*)(s.toLocal8Bit()) << std::endl; }
 
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
@@ -701,19 +701,21 @@ private:
   /** List of all deep sky objects per type, to speed up drawing the sky map */
 // 	QPtrList<DeepSkyObject> deepSkyListOther;
 
-	Q3PtrList<KSAsteroid> asteroidList;
-	Q3PtrList<KSComet> cometList;
+//	QPtrList<KSAsteroid> asteroidList;
+//	QPtrList<KSComet> cometList;
 
 //	QPtrList<SkyPoint> MilkyWay[NMWFILES];
 
 //	QPtrList<SkyPoint> clineList;
-	Q3PtrList<CSegment> csegmentList;
+//	QPtrList<CSegment> csegmentList;
 //	QPtrList<QChar> clineModeList;
 //	QPtrList<SkyObject> cnameList;
-	Q3PtrList<SkyObject> ObjLabelList;
 
-	Q3PtrList<SkyPoint> Equator;
-	Q3PtrList<SkyPoint> Ecliptic;
+	/** List of pointers to all objects which have a user label attahed */
+	QList<SkyObject*> ObjLabelList;
+
+//	QPtrList<SkyPoint> Equator;
+//	QPtrList<SkyPoint> Ecliptic;
 //	QPtrList<SkyPoint> Horizon;
 	Q3PtrList<VariableStarInfo> VariableStarsList;
 	Q3PtrList<ADVTreeData> ADVtreeList;
