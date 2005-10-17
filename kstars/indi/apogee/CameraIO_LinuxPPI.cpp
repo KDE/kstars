@@ -4,7 +4,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <assert.h>
-#include <sys/io.h>                                                           
 #include <sys/time.h>                                                           
 #include <sys/resource.h>                                                           
 #include <sys/ioctl.h>
