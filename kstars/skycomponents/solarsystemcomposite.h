@@ -32,21 +32,18 @@
 class SolarSystemComposite : SkyComposite
 {
 	public:
-		SolarSystemComposite(SkyComposite*);
-		
-		virtual ~SolarSystem();
+		SolarSystemComposite(SkyComposite *parent, KStarsData *data);
+		~SolarSystemComposite();
 		
 		KSPlanet* earth() { return Earth; }
 		
-//		KSPlanet* sun() { return Sun->data(); }
-
 		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 		
 		virtual void updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords);
 		
 		virtual void updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale);
 		
 		/**
 		 *@short Add a Trail to the specified SkyObject.
@@ -56,15 +53,7 @@ class SolarSystemComposite : SkyComposite
 
 	private:
 		KSPlanet *Earth;
-		
-		/** Sun, inner planets and moon are a little bit tricky.
-		  * We have to care about the order of drawing them, so we
-		  * don't put them to the other components.
-		  */
-		SunComponent *Sun;
-		PlanetComponent *Venus;
-		PlanetComponent *Mercury;
-		MoonComponent *Moon;
+
 };
 
 #endif

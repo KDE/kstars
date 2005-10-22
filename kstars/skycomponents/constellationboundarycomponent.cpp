@@ -98,12 +98,15 @@ void ConstellationBoundaryComponent::init(KStarsData *data)
 	}
 }
 
-void ConstellationBoundaryComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
+	if ( !Options::showCBounds() ) return;
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
+	SkyMap *map = ks->map();
+	int Width = int( scale * map->width() );
+	int Height = int( scale * map->height() );
+
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
 
 	foreach ( CSegment *seg, csegmentList ) {
 		bool started( false );

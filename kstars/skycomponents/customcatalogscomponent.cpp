@@ -27,15 +27,18 @@ CustomCatalogComponent::~CustomCatalogComponent()
 {
 }
 
-void CustomCatalogComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
+	if ( !Options::showCatalog() ) return;
+
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
 	//Draw Custom Catalogs
-	for ( unsigned int i=0; i<data->CustomCatalogs.count(); ++i ) { 
+	for ( unsigned int i=0; i<ks->data()->CustomCatalogs.count(); ++i ) { 
 		if ( Options::showCatalog()[i] ) {
-			QList<SkyObject> cat = data->CustomCatalogs.at(i)->objList();
+			QList<SkyObject> cat = ks->data()->CustomCatalogs.at(i)->objList();
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 

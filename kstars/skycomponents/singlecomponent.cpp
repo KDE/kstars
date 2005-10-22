@@ -29,20 +29,3 @@ SingleComponent::SingleComponent(SkyComposite *parent)
 SingleComponent::~SingleComponent()
 {
 }
-
-bool SingleComponent::addTrail( SkyObject *o ) { 
-  if ( skyObject() == o ) {
-    HasTrail = true;
-    return true;
-  }
-  return false; 
-}
-
-bool SingleComponent::removeTrail( SkyObject *o ) {
-  if ( skyObject() == o ) {
-    HasTrail = false;
-    return true;
-  }
-  return false;
-}
-

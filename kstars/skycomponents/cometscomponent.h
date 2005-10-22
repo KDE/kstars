@@ -19,11 +19,11 @@
 #define COMETSCOMPONENT_H
 
 class SkyComposite;
+class KStars;
 class KStarsData;
-class SkyMap;
 class KSNumbers;
 
-#include "abstractplanetcomponent.h"
+#include "soalrsystemlistcomponent.h"
 #include <QList>
 
 /**
@@ -33,7 +33,7 @@ class KSNumbers;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class CometsComponent : public AbstractPlanetComponent
+class CometsComponent : public SolarSystemListComponent
 {
 	public:
 
@@ -52,11 +52,11 @@ class CometsComponent : public AbstractPlanetComponent
 
 	/**
 		*@short Draw the asteroids onto the skymap
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale);
 
 	/**
 		*@short Initialize the asteroids list.
@@ -86,6 +86,16 @@ class CometsComponent : public AbstractPlanetComponent
 		*/
 		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
+		/**
+		 *@short Add a Trail to the specified SkyObject.
+		 *@p o Pointer to the SkyObject to which a Trail will be added
+		 */
+		bool addTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
+
+		QList<SkyObject*>& trailList() { return TrailList; }
+
 	private:
-		QList<KSComet*> cometList;
+		QList<SkyObject*> TrailList;
+
 };

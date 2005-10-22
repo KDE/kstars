@@ -67,17 +67,19 @@ void CoordinateGridComponent::update( KStarsData *data, KSNumbers *num, bool nee
 	}
 }
 
-void CoordinateGridComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 // TODO add accessor methods to map for guideMax etc.
 
 	if (!Options::showGrid()) return;
 	
+	SkyMap *map = ks->map();
+
 	QPoint cur;
 	bool newlyVisible = false;
 
 	//Draw coordinate grid
-	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
 
 	SkyPoint *sp = gridList[0];
 	QPoint o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );

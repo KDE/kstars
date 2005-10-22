@@ -19,21 +19,28 @@
 
 #include "jupitermoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComposite *parent)
+SolarSystemComposite::SolarSystemComposite(SkyComposite *parent, KStarsData *data)
   : SkyComposite(parent)
 {
-	Earth = 0;
-	Sun = new SunComponent(this, "sun.png", 1392000. /*diameter in km*/ );;
-	Venus = PlanetComponent(this, I18N_NOOP("Venus"), "venus.png", 12103.6 /*diameter in km*/ );
- 	Mercury = new PlanetComponent(this, I18N_NOOP("Mercury"), "mercury.png", 4879.4 /*diameter in km*/ );
-	Moon = new MoonComponent(this, Options::showMoon());
-	// TODO addComponent(new PlanetComponent(this, "Mars" ...);
-// 	addComponent(new JupiterComposite(this)); // TODO composite knows jupiter + moons
+	Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ), "", 12756.28 /*diameter in km*/ );
+
+	//FIXME: KSSun and KSPluto ctors doesn't need filename and diameter args!
+	addComponent( new PlanetComponent( this, new KSSun(data), Options::showSun(), 8 ) );
+	addComponent( new PlanetComponent( this, new KSMoon(data), Options::showMoon(), 8 ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18n_NOOP("Mercury"), "mercury.png", 4879.4 /*diameter in km*/ ), Options::showMercury() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP("Venus"), "venus.png", 12103.6 /*diameter in km*/ ), Options::showVenus() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP( "Mars" ), "mars.png", 6792.4 /*diameter in km*/ ), Options::showMars() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", 142984. /*diameter in km*/ ), Options::showJupiter() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP( "Saturn" ), "saturn.png", 120536. /*diameter in km*/ ), Options::showSaturn() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP( "Uranus" ), "uranus.png", 51118. /*diameter in km*/ ), Options::showUranus() ) );
+	addComponent( new PlanetComponent( this, new KSPlanet( data, I18N_NOOP( "Neptune" ), "neptune.png", 49572. /*diameter in km*/ ), Options::showNeptune() ) );
+	addComponent( new PlanetComponent( this, new KSPluto(data), Options::showPluto() ) );
+
 	addComponent(new AsteroidsComponent(this, Options::showAsteroids()));
 	addComponent(new CometsComponent(this, Options::showComets()));
 }
 
-SolarSystemComposite::~SolarSystemComposite::()
+SolarSystemComposite::~SolarSystemComposite()
 {
   //JH: is this necessary to call, or is it done automatically?
   SkyComposite::~SkyComposite();
@@ -47,17 +54,10 @@ SolarSystemComposite::~SolarSystemComposite::()
 
 SolarSystemComposite::init(KStarsData *data)
 {
-	Earth = new KSPlanet(data, I18N_NOOP("Earth"), "", 12756.28 /*diameter in km*/ );
 	if (!Earth->loadData())
-		//return false;
-		return; // TODO stop initializing
+		return; //stop initializing
 
-	Sun->init(data);
-	Venus->init(data);
-	Mercury->init(data);
-	Moon->init(data);
-	
-	// now init all sub components (outer planets, asteroids and comets)
+	//init all sub components
 	SkyComposite::init(data);
 }
 
@@ -93,23 +93,19 @@ void SolarSystemComposite::updateMoons(KStarsData *data, KSNumbers *num, bool ne
 	SkyComposite::updateMoons(data, num, needNewCoords);
 }
 
-void SolarSystemComposite::draw(SkyMap *map, QPainter& psky, double scale)
+void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
-	// TODO drawTrail() of all components
-	
-	// first draw the objects which are far away
-	SkyComposite::draw(map, psky, scale);
-	
-	Sun->draw(map, psky, scale);
-	Venus->draw(map, psky, scale);
-	Mercury->draw(map, psky, scale);
-	Moon->draw(map, psky, scale);
+	//FIXME: first draw the objects which are far away
+	//(Thomas had been doing this by keeping separate pointers to 
+	//inner solar system objects, but I'd rather handle it here in the draw 
+	//function if possible
+	SkyComposite::draw(ks, psky, scale);
 }
 
 bool SolarSystemComposite::addTrail( SkyObject *o ) {
-  foreach ( SkyComponent *comp, components() ) {
-    if ( comp->addTrail( o ) ) return true;
-  }
-
-  return false; //The SkyObject o was not found
+	foreach ( SkyComponent *comp, components() ) {
+		if ( comp->addTrail( o ) ) return true;
+	}
+	
+	return false; //The SkyObject o was not found
 }

@@ -24,7 +24,7 @@ class SkyMap;
 class KStarsData;
 class KSMoon;
 
-#include "abstractplanetcomponent.h"
+#include "solarsystemsinglecomponent.h"
 
 /**
 	*@class MoonComponent
@@ -33,7 +33,7 @@ class KSMoon;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class MoonComponent : AbstractPlanetComponent
+class MoonComponent : SolarSystemSingleComponent
 {
 	public:
 		/**
@@ -52,11 +52,11 @@ class MoonComponent : AbstractPlanetComponent
 		
 		/**
 		 *@short draw the Moon onto the skymap
-		 *@p map pointer to the SkyMap widget
+		 *@p ks pointer to the KStars object
 		 *@p psky reference to the QPainter on which to paint
 		 *@p scale scaling factor (1.0 for screen draws)
 		 */
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 		
 		/**
 		 *@short Initialize the moon; read orbital data from disk

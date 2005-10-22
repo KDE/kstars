@@ -40,29 +40,18 @@ class ListComponent : public SkyComponent
 		virtual ~ListComponent();
 		
 		/**Draw the list of objects on the SkyMap*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale) {};
+		virtual void draw(KStars *ks, QPainter& psky, double scale) {};
 		
 		/**Draw the object, if it is exportable to an image
 		*@see isExportable()
 		*/
-		void drawExportable(SkyMap *map, QPainter& psky, double scale);
+		void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
-		/**
-		 *@short Add a Trail to the specified SkyObject.
-		 *@p o Pointer to the SkyObject to which a Trail will be added
-		 *@note This function simply returns false; it is overridden by 
-		 *the Solar System components
-		 */
-		bool addTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
-
 		QList<SkyObject*>& objectList() { return ObjectList; }
-		QList<SkyObject*>& trailList() { return TrailList; }
 
 	private:
 		SkyComposite *Parent;
 		QList<SkyObject*> ObjectList;
-		QList<SkyObject*> TrailList;
 };
 
 #endif

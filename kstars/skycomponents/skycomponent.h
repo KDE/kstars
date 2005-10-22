@@ -19,12 +19,12 @@
 #define SKYCOMPONENT_H
 
 class QPainter;
+class QString;
 
-class SkyMap;
+class KSNumbers;
+class KStars;
 class KStarsData;
 class SkyComposite;
-class KStarsData;
-class KSNumbers;
 class SkyObject;
 
 /**
@@ -56,20 +56,20 @@ class SkyComponent
 		
 		/**
 			*@short Draw the object on the SkyMap
-			*@p map Pointer to the SkyMap object
+			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void draw( SkyMap*, QPainter&, double ) {};
+		virtual void draw( KStars*, QPainter&, double ) {};
 		
 		/**
 			*Draw the object, if it is exportable to an image
-			*@p map Pointer to the SkyMap object
+			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*@see isExportable()
 			*/
-		void drawExportable(SkyMap *map, QPainter& psky, double scale);
+		void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
 		/**
 			*@short Initialize the component - load data from disk etc.
@@ -109,13 +109,22 @@ class SkyComponent
 		
 		/**
 			*@short Add a Trail to the specified SkyObject.
+			*
+			*The idea behind this function is that when a trail needs 
+			*to be added to SkyObject o, we will simply call 
+			*skyComponents()->addTrail( o ), which will then loop through 
+			*all sub-components until o is found, and then add a Trail to it.
+			*
 			*@p o Pointer to the SkyObject to which a Trail will be added
 			*@return true if the Trail was successfully added.
 			*@note This base function simply returns false, because you 
-			*can only add Trails to solar system bodies.  This method 
-			*is overridden by the Solar System components
+			*can only add Trails to solar system bodies.
+			*@see PlanetComponent::addTrail()
+			*@see AsteroidsComponent::addTrail()
+			*@see CometsComponent::addTrail()
 			*/
 		bool addTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
 
 		/**
 			*@short Search the children of this SkyComponent for 

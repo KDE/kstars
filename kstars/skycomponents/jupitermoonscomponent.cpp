@@ -57,9 +57,11 @@ void JupiterMoonsComponent::update(KStarsData *data, KSNumbers *num, bool needNe
 	jmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void JupiterMoonsComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	// TODO if (Options::showJupiter) return;
+	if ( !Options::showJupiter() ) return;
+
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 	

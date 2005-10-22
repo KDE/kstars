@@ -27,7 +27,7 @@
  *@version 0.1
  */
 
-class SkyMap;
+class KStars;
 
 #include "skycomponent.h"
 
@@ -38,29 +38,28 @@ class SingleComponent : public SkyComponent
 		
 		virtual ~SingleComponent();
 		
-		/**Draw the object on the SkyMap*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale) {};
-		
-		/**Draw the object, if it is exportable to an image
-		*@see isExportable()
-		*/
-		void drawExportable(SkyMap *map, QPainter& psky, double scale);
+		/**
+			*@short Draw the object on the SkyMap
+			*@p ks Pointer to the KStars object
+			*@p psky Reference to the QPainter on which to paint
+			*@p scale the scaling factor for drawing (1.0 for screen draws)
+			*/
+		virtual void draw( KStars *, QPainter &, double ) {};
 		
 		/**
-		 *@short Add a Trail to the specified SkyObject.
-		 *@p o Pointer to the SkyObject to which a Trail will be added
-		 *@note This function simply returns false; it is overridden by 
-		 *the Solar System components
-		 */
-		bool addTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
-
+			*Draw the object, if it is exportable to an image
+			*@p ks Pointer to the KStars object
+			*@p psky Reference to the QPainter on which to paint
+			*@p scale the scaling factor for drawing (1.0 for screen draws)
+			*@see isExportable()
+			*/
+		void drawExportable( KStars *ks, QPainter& psky, double scale );
+		
 		SkyObject* skyObject() { return StoredObject; }
 
 	private:
 		SkyComposite *Parent;
 		SkyObject* StoredObject;
-		bool HasTrail;
 };
 
 #endif

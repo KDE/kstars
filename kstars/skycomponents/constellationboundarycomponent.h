@@ -53,11 +53,11 @@ class ConstellationBoundaryComponent : public SkyComponent
 		
 	/**
 		*@short Draw constellation boundaries on the sky map.
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky Reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 	/**
 		*@short Initialize the Constellation boundary component

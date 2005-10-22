@@ -85,29 +85,32 @@ void ConstellationLinesComponent::init(KStarsData *data)
 	}
 }
 
-void ConstellationLinesComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
+	if ( !Options::showCLines() ) return;
+
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
 	//Draw Constellation Lines
-	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
 	int iLast = -1;
 
-	for ( SkyPoint *p = map->data()->clineList.first(); p; p = map->data()->clineList.next() ) {
+	for ( SkyPoint *p = ks->data()->clineList.first(); p; p = ks->data()->clineList.next() ) {
 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			if ( map->data()->clineModeList.at(map->data()->clineList.at())->latin1()=='M' ) {
+			if ( ks->data()->clineModeList.at(ks->data()->clineList.at())->latin1()=='M' ) {
 				psky.moveTo( o.x(), o.y() );
-			} else if ( map->data()->clineModeList.at(map->data()->clineList.at())->latin1()=='D' ) {
-				if ( map->data()->clineList.at()== (int)(iLast+1) ) {
+			} else if ( ks->data()->clineModeList.at(ks->data()->clineList.at())->latin1()=='D' ) {
+				if ( ks->data()->clineList.at()== (int)(iLast+1) ) {
 					psky.lineTo( o.x(), o.y() );
 				} else {
 					psky.moveTo( o.x(), o.y() );
 				}
 			}
-			iLast = map->data()->clineList.at();
+			iLast = ks->data()->clineList.at();
 		}
   }
 }

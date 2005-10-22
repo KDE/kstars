@@ -42,7 +42,7 @@ class DeepSkyComponent: public SkyComponent
 		
 		~DeepSkyComponent();
 
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		virtual void init(KStarsData *data);
 	

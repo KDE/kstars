@@ -54,7 +54,7 @@ class JupiterMoonsComponent: public SkyComponent
 		 *@p psky Reference to the QPainter on which to paint
 		 *@p scale the scaling factor for drawing (1.0 for screen draws)
 		 */
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
 		 *@short Initialize the Jovian moons

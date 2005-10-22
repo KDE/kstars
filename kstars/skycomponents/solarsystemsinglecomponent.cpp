@@ -1,5 +1,5 @@
 /***************************************************************************
-                          abstractplanetcomponent.cpp  -  K Desktop Planetarium
+                          solarsystemsinglecomponent.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/30/08
     copyright            : (C) 2005 by Thomas Kabelmann
@@ -15,33 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
-//JH: This file does not exist...
-//#include "planethelper.h" 
-
-#include "abstractplanetcomponent.h"
+#include "solarsystemsinglecomponent.h"
 
 #include "ksplanet.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 
-AbstractPlanetComponent::AbstractPlanetComponent(SolarSystemComposite *parent, KSPlanet *earth, bool (*visibleMethod)(), int msize)
-: SkyComponent(parent)
+SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanet *earth, bool (*visibleMethod)(), int msize)
+: SkyComponent( *(SkyComponent*)parent )
 {
 	visible = visibleMethod;
 	minsize = msize;
 	sizeScale = 1.0;
-	earth = parent->earth(); // TODO right syntax?
+	m_Earth = parent->earth();
 }
 
-void AbstractPlanetComponent::drawTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale )
+void SolarSystemSingleComponent::drawTrail(KStars *ks, QPainter& psky, KSPlanetBase *ksp, double scale )
 {
   if ( ! visible() || !ksp->hasTrail() ) return;
 	
+	SkyMap *map = ks->map();
+	KStarsData *data = ks->data();
+
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
-	QColor tcolor1 = QColor( map->data()->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-	QColor tcolor2 = QColor( map->data()->colorScheme()->colorNamed( "SkyColor" ) );
+	QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+	QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
 	SkyPoint *p = ksp->trail()->first();
 	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
@@ -86,7 +86,7 @@ void AbstractPlanetComponent::drawTrail(SkyMap *map, QPainter& psky, KSPlanetBas
 }
 
 // see SkyComponent::drawNameLabel()
-int AbstractPlanetComponent::labelSize(SkyObject *obj)
+int SolarSystemSingleComponent::labelSize(SkyObject *obj)
 {
 	// it's save to cast here
 	KSPlanetBase *p = (KSPlanetBase*)obj;
@@ -105,13 +105,13 @@ int AbstractPlanetComponent::labelSize(SkyObject *obj)
 }
 
 
-void AbstractPlanetComponent::setSizeScale(float scale)
+void SolarSystemSingleComponent::setSizeScale(float scale)
 {
 	sizeScale = scale;
 }
 
 /*JH: Moved to PlanetComponent::draw()
-void AbstractPlanetComponent::drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale )
+void SolarSystemSingleComponent::drawPlanet(KStars *ks, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale )
 {
 
 	if ( map->checkVisibility( p, fov(), XRange ) ) {
@@ -172,7 +172,7 @@ void AbstractPlanetComponent::drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBa
 
 			//draw Name
 			if ( Options::showPlanetNames() ) {
-				psky.setPen(QColor(map->data()->colorScheme()->colorNamed("PNameColor")));
+				psky.setPen(QColor(ks->data()->colorScheme()->colorNamed("PNameColor")));
 				drawNameLabel( psky, p, o.x(), o.y(), scale );
 			}
 		}

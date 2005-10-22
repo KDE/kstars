@@ -18,12 +18,13 @@
 #ifndef ASTEROIDSCOMPONENT_H
 #define ASTEROIDSCOMPONENT_H
 
-#include "abstractplanetcomponent.h"
+#include "solarsystemlistcomponent.h"
 #include <QList>
 
-class SkyComposite;
+class SolarSystemComposite;
+
+class KStars;
 class KStarsData;
-class SkyMap;
 class KSNumbers;
 
 /**
@@ -33,7 +34,7 @@ class KSNumbers;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class AsteroidsComponent: public AbstractPlanetComponent
+class AsteroidsComponent: public SolarSystemListComponent
 {
 	public:
 
@@ -52,11 +53,11 @@ class AsteroidsComponent: public AbstractPlanetComponent
 
 	/**
 		*@short Draw the asteroids onto the skymap
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 	/**
 		*@short Initialize the asteroids list.
@@ -74,7 +75,7 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		*@li 82-93 Mean Anomaly in degrees [double]
 		*@li 94-98 Magnitude [double]
 		*/
-		virtual void init(KStarsData *data);
+		virtual void init( KStarsData *data );
 	
 	/**
 		*@short Update the positions of list members
@@ -82,10 +83,19 @@ class AsteroidsComponent: public AbstractPlanetComponent
 		*@p data Pointer to the KSNumbers object
 		*@p needNewCoords set to true if objects need their positions recomputed
 		*/
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void update( KStarsData *data, KSNumbers *num, bool needNewCoords );
+
+		/**
+		 *@short Add a Trail to the specified SkyObject.
+		 *@p o Pointer to the SkyObject to which a Trail will be added
+		 */
+		bool addTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
+
+		QList<SkyObject*>& trailList() { return TrailList; }
 
 	private:
-		QList<KSAsteroid*> asteroidList;
+		QList<SkyObject*> TrailList;
 };
 
 #endif

@@ -18,8 +18,8 @@
 #ifndef PLUTOCOMPONENT_H
 #define PLUTOCOMPONENT_H
 
-#include "../kspluto.h"
-#include "abstractplanetcomponent.h"
+#include "kspluto.h"
+#include "solarsystemsinglecomponent.h"
 
 /**
 	*@class PlutoComponent
@@ -28,7 +28,7 @@
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class PlutoComponent : public AbstractPlanetComponent
+class PlutoComponent : public SolarSystemSingleComponent
 {
 	public:
 
@@ -45,11 +45,11 @@ class PlutoComponent : public AbstractPlanetComponent
 
 	/**
 		*@short Draw Pluto onto the skymap
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 	/**
 		*@short Initialize Pluto's orbital data.
@@ -79,4 +79,5 @@ class PlutoComponent : public AbstractPlanetComponent
 		
 	private:
 		KSPluto *pluto;
+		bool HasTrail;
 };

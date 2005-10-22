@@ -17,11 +17,9 @@
 
 #include "planetcomponent.h"
 
-PlanetComponent::PlanetComponent( SolarSystemComposite *parent, const QString &name, bool (*visibleMethod)(), double diameter, int msize ) 
-: AbstractPlanetComponent( parent, visibleMethod, msize ) 
+PlanetComponent::PlanetComponent( SolarSystemComposite *parent, KSPlanetBase *ksp, bool (*visibleMethod)(), int msize ) 
+: SolarSystemSingleComponent( parent, visibleMethod, msize ), HasTrail( false ), p(ksp)
 {
-  //TODO: KSPlanet ctor must construct image name from name string
-  p = new KSPlanet( data, name, diameter ); 
 }
 
 PlanetComponent::~PlanetComponent() {
@@ -29,33 +27,36 @@ PlanetComponent::~PlanetComponent() {
 }
 
 void PlanetComponent::init(KStarsData *data) {
-  //TODO: probably want to move the init code into this class, although we'd have
-  //to move the OrbitDataCollection and OrbitDataManager classes here as well...
-  //maybe it's okay to leave it like this, what do you think?
-  p->loadData();
-  
-  data->appendNamedObject( p );
+	//TODO: probably want to move the init code into this class, although we'd have
+	//to move the OrbitDataCollection and OrbitDataManager classes here as well...
+	//maybe it's okay to leave it like this, what do you think?
+	p->loadData();
+	
+	data->appendNamedObject( p );
 }
 
 //JH: Got rid of updatePlanets(), and moved that code into update().
 //We can just use needNewCoords parameter to decide whether to call
 //findPosition()
 void PlanetComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords) {
-  //Could just use the data->earth() pointer, but there's no guarantee
-  //that it's for the same epoch...although it probably always will be
-  if ( visible() ) {
-    KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
-    Earth.findPosition( num );
-    if ( needNewCoords )
-      p->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
-    p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    if ( p->hasTrail() ) 
-      p->updateTrail( data->lst(), data->geo()->lat() );
-  }
+	if ( visible() ) {
+		if ( needNewCoords ) {
+			//Could just use the data->earth() pointer, but there's no guarantee
+			//that it's for the same epoch...although it probably always will be
+			KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
+			Earth.findPosition( num );
+			p->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
+		}
+		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		if ( p->hasTrail() ) 
+			p->updateTrail( data->lst(), data->geo()->lat() );
+	}
 }
 
-void PlanetComponent::draw(SkyMap *map, QPainter &psky, double scale ) {
+void PlanetComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	if ( !visible() ) return;
+
+	SkyMap *map = ks->map();
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
 	if ( map->checkVisibility( p ) ) {
@@ -115,11 +116,27 @@ void PlanetComponent::draw(SkyMap *map, QPainter &psky, double scale ) {
 
 			//draw Name
 			if ( Options::showPlanetNames() ) {
-				psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+				psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
 				drawNameLabel( psky, p, o.x(), o.y(), scale );
 			}
 		}
 	}
+}
+
+bool PlanetComponent::addTrail( SkyObject *o ) { 
+	if ( skyObject() == o ) {
+		HasTrail = true;
+		return true;
+	}
+	return false; 
+}
+
+bool PlanetComponent::removeTrail( SkyObject *o ) {
+	if ( skyObject() == o ) {
+		HasTrail = false;
+		return true;
+	}
+	return false;
 }
 
 #include "planetcomponent.moc"

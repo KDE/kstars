@@ -26,9 +26,9 @@
 	*@version 0.1
 	*/
 
-#include "abstractplanetcomponent.h"
+#include "solarsystemsinglecomponent.h"
 
-class SunComponent : public AbstractPlanetComponent
+class SunComponent : public SolarSystemSingleComponent
 {
 	public:
 
@@ -47,11 +47,11 @@ class SunComponent : public AbstractPlanetComponent
 
 	/**
 		*@short Draw the Sun onto the skymap
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 	/**
 		*@short Initialize the Sun.
@@ -69,4 +69,5 @@ class SunComponent : public AbstractPlanetComponent
 
 	private:
 		KSSun *sun;
+		bool HasTrail;
 };

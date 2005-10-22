@@ -98,17 +98,18 @@ void MilkyWayComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoo
 		  foreach  ( SkyPoint *p, MilkyWay[j] ) {
 			{
 				if (needNewCoords) p->updateCoords( num );
-				p->EquatorialToHorizontal( LST, map->data()->geo()->lat() );
+				p->EquatorialToHorizontal( LST, ks->data()->geo()->lat() );
 			}
 		}
 	}
 }
 
-void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	// TODO add data() to skymap
 	if (!Options::showMilkyWay()) return;
 	
+	SkyMap *map = ks->map();
+
 	int ptsCount = 0;
 	int mwmax = int( scale * Options::zoomFactor()/100.);
 	int Width = int( scale * map->width() );
@@ -117,8 +118,8 @@ void MilkyWayComponent::draw(SkyMap *map, QPainter& psky, double scale)
 	int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
-	psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
-	psky.setBrush( QBrush( QColor( map->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
+	psky.setBrush( QBrush( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
 	bool offscreen, lastoffscreen=false;
 
 	for ( unsigned int j=0; j<11; ++j ) {

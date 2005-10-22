@@ -1,5 +1,5 @@
 /***************************************************************************
-                          abstractplanetcomponent.h  -  K Desktop Planetarium
+                          solarsystemsinglecomponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/30/08
     copyright            : (C) 2005 by Thomas Kabelmann
@@ -15,31 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ABSTRACTPLANETCOMPONENT_H
-#define ABSTRACTPLANETCOMPONENT_H
+#ifndef SOLARSYSTEMSINGLECOMPONENT_H
+#define SOLARSYSTEMSINGLECOMPONENT_H
 
 /**
-	*@class AbstractPlanetComponent
+	*@class SolarSystemSingleComponent
 	*This class encapsulates some methods which are shared between
-	*all classes derived from KSPlanetBase (like asteroids, planets and comets).
+	*all single-object solar system components (Sun, Moon, Planet, Pluto)
 	*
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
 
-#include "skycomponent.h"
+#include "singlecomponent.h"
+
+class QColor;
 
 class SolarSystemComposite;
-class KStarsData;
-class SkyMap;
 class KSNumbers;
 class KSPlanet;
+class KSPlanetBase;
+class KStarsData;
+class SkyMap;
 
-class AbstractPlanetComponent : public SkyComponent
+class SolarSystemSingleComponent : public SingleComponent
 {
 	public:
 		/** Initialize visible method, minimum size and sizeScale. */
-		AbstractPlanetComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize);
+		SolarSystemSingleComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize);
 
 		/** Set the size scale. Default value is 1.0 and only
 		* Saturn uses a scale of 2.5.
@@ -47,31 +50,24 @@ class AbstractPlanetComponent : public SkyComponent
 		*/
 		void setSizeScale(float scale);
 		
-		/** Draws the trail. This method is abstract, so you have to
-		* implement your own draw method calling drawPlanetTrail with
-		* the corresponding planet.
-		* (JH: I don't think this needs to be abstract...)
-		*/
-		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale) = 0;
-		
 	protected:
-	
-		// we are sure that only a solarsystemcomposite is the parent (see ctor)
-		KSPlanet* earth() { ((SolarSystemComposite*)parent)->earth(); }
 		
-		/** Draws the trail of an planet base object. */
-		void drawTrail(SkyMap *map, QPainter& psky, KSPlanetBase *ksp, double scale);
+		KSPlanet* earth() { return m_Earth; }
 		
-		void drawPlanet(SkyMap *map, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale);
+		/** 
+			*@short Draws the planet's trail, if necessary.
+			*/
+		void drawTrail(KStars *ks, QPainter& psky, KSPlanetBase *ksp, double scale);
+		
+		//FIXME: try to remove color (DONE), zoommin, and resize_mult args to match baseclass draw declaration
+		//FIXME: Move to child classes (SUn, Moon, Planet, Pluto)
+		void draw(KStars *ks, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale);
 
 		// calculate the label size for drawNameLabel()
 		virtual int labelSize(SkyObject*);
 
 		// use the function pointer to call the Option::XXX() method passed in ctor - this method is then called visible()
 		bool (*visible)();
-		
-		// store pointer to earth method
-		KSPlanet* (*earth)();
 		
 	private:
 
@@ -80,6 +76,9 @@ class AbstractPlanetComponent : public SkyComponent
 		// scale for drawing name labels
 		// only Saturn has a scale of 2.5
 		float sizeScale;
+
+		QColor m_Color;
+		KSPlanet *m_Earth;
 };
 
 #endif

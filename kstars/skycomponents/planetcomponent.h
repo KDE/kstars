@@ -18,7 +18,7 @@
 #ifndef PLANETCOMPONENT_H
 #define PLANETCOMPONENT_H
 
-#include "abstractplanetcomponent.h"
+#include "solarsystemsinglecomponent.h"
 
 class KSPlanet;
 
@@ -29,16 +29,18 @@ class KSPlanet;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class PlanetComponent : public AbstractPlanetComponent
+class PlanetComponent : public SolarSystemSingleComponent
 {
 	public:
 	/**
 		*@short Constructor.
 		*@p parent pointer to the parent SolarSystemComposite
+		*@p ksp pointer to the KSPlanetBase object encapsulating the planet
 		*@p visibleMethod 
 		*@p msize
 		*/
-		PlanetComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2 );
+		PlanetComponent( SolarSystemComposite *parent, KSPlanetBase *ksp, bool (*visibleMethod)(), int msize = 2 );
+
 	/**
 		*Destructor.  Delete KSPlanet member
 		*/
@@ -46,11 +48,11 @@ class PlanetComponent : public AbstractPlanetComponent
 
 	/**
 		*@short Draw the planet onto the skymap
-		*@p map pointer to the SkyMap widget
+		*@p ks pointer to the KStars object
 		*@p psky reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 	/**
 		*@short Initialize the planet
@@ -76,8 +78,19 @@ class PlanetComponent : public AbstractPlanetComponent
 		*/
 		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 
+		/**
+			*@short Add a Trail to the specified SkyObject.
+			*
+			*@p o Pointer to the SkyObject to which a Trail will be added
+			*@return true if this is the specified object (a Trail is added 
+			*in this case); otherwise return false
+			*/
+		bool addTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
+
 		KSPlanet* planet() { return p; }
 
 	private:
 		KSPlanet *p;
+		bool HasTrail;
 };

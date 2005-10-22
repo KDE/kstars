@@ -18,7 +18,7 @@
 #include "suncomponent.h"
 
 SunComponent::SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), double diameter, int msize) 
-: AbstractPlanetComponent(parent, visibleMethod, msize) 
+: SolarSystemSingleComponent(parent, visibleMethod, msize) 
 {
   //TODO: KSSun ctor must construct image name from name string
   sun = new KSSun( data, diameter ); 
@@ -51,8 +51,10 @@ void SunComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 	}
 }
 
-void SunComponent::draw(SkyMap *map, QPainter& psky, double scale) {
+void SunComponent::draw(KStars *ks, QPainter& psky, double scale) {
 	if ( !visible() ) return;
+
+	SkyMap *map = ks->map();
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
 	if ( map->checkVisibility( sun ) ) {

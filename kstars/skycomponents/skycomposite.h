@@ -22,7 +22,7 @@
 
 #include "skycomponent.h"
 
-class SkyMap;
+class KStars;
 class KStarsData;
 class GeoLocation;
 class KSNumbers;
@@ -56,24 +56,24 @@ class SkyComposite : public SkyComponent
 		/**
 			*@short Destructor
 			*/
-		virtual ~SkyComposite();
+		~SkyComposite();
 		
 		/**
 			*@short Delegates draw requests to it's sub components
-			*@p map Pointer to the SkyMap object
+			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
 			*@short Delegates drawExportable requests to it's sub 
 			*components.
-			*@p map Pointer to the SkyMap object
+			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void drawExportable(SkyMap *map, QPainter& psky, double scale);
+		virtual void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
 		/**
 			*@short Delegates init requests to it's sub components

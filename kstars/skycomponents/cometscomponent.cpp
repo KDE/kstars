@@ -16,14 +16,18 @@
  ***************************************************************************/
 
 #include "cometscomponent.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "skymap.h"
 
 CometsComponent::CometsComponent() 
-: AbstractPlanetComponent() 
+: SolarSystemListComponent() 
 {
 }
 
 CometsComponent::~CometsComponent() {
-	while ( ! cometList.isEmpty() ) delete cometList.takeFirst();
+	//object deletion handled in grandparent class (ListComponent)
 }
 
 void CometsComponent::init( KStarsData *data ) {
@@ -82,10 +86,12 @@ void CometsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoord
 	}
 }
 
-void CometsComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 {
 	if ( !visible() ) return;
 	
+	SkyMap *map = ks->map();
+
 	foreach ( KSComet *com, cometList ) { 
 		if ( com->mag() > Options::magLimitComet() ) break;
 
@@ -105,7 +111,7 @@ void CometsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 
 				//draw Name
 				if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
-					psky.setPen( QColor( map->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
 					drawNameLabel(map, psky, com, o.x(), o.y(), scale );
 				}
 			}

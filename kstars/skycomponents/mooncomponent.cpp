@@ -20,7 +20,7 @@
 #include "ksmoon.h"
 
 MoonComponent::MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: AbstractPlanetComponent(parent, visibleMethod, msize)
+: SolarSystemSingleComponent(parent, visibleMethod, msize)
 {
   Moon = new KSMoon(parent);
 }
@@ -36,9 +36,11 @@ void MoonComponent::init(KStarsData *data)
 	data->appendNamedObject( Moon );
 }
 
-void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void MoonComponent::draw( KStars *ks, QPainter& psky, double scale)
 {
   if ( !visible() ) return;
+
+	SkyMap *map = ks->map();
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
 	if ( map->checkVisibility( sun ) ) {
@@ -98,7 +100,7 @@ void MoonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 
 			//draw Name
 			if ( Options::showPlanetNames() ) {
-				psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+				psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
 				drawNameLabel( psky, p, o.x(), o.y(), scale );
 			}
 		}

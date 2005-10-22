@@ -1,7 +1,7 @@
 /***************************************************************************
-                          plutocomponent.cpp  -  K Desktop Planetarium
+              solarsystemlistcomponent.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/24/09
+    begin                : 2005/22/09
     copyright            : (C) 2005 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
@@ -15,16 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "plutocomponent.h"
+#include "solarsystemlistcomponent.h"
 
-PlutoComponent::PlutoComponent() 
-: SolarSystemSingleComponent() 
+SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *parent )
+  : ListComponent( parent )
 {
-
 }
 
-PlutoComponent::~PlutoComponent() {
-
+SolarSystemListComponent::~SolarSystemListComponent()
+{
+  //Object deletes handled by parent class (ListComponent)
 }
 
-#include "plutocomponent.moc"

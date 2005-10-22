@@ -56,12 +56,13 @@ void StarComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 	}
 }
 
-void StarComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if (!Options::showStars()) return;
+	if ( !Options::showStars() ) return;
 	
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
+	SkyMap *map = ks->map();
+	int Width = int( scale * map->width() );
+	int Height = int( scale * map->height() );
 
 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& Options::hideOnSlew() );

@@ -50,7 +50,7 @@ HorizonComponent::~HorizonComponent()
 //	-3 components which share a algorithm class
 void HorizonComponent::init(KStarsData *data)
 {
-	pts = new Q3PointArray(2000)
+	pts = new Q3PointArray(2000);
 	
 	//Define Horizon
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
@@ -72,13 +72,15 @@ void HorizonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoor
 }
 
 // was SkyMap::drawHorizon
-void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
+	if ( !Options::showHorizon() ) return;
+
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
 	QList<QPoint> points;
-//	points.setAutoDelete(true); // obsolete in QT4
 	QPoint o, o2;
 
 	//Draw Horizon
@@ -86,8 +88,8 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 	if (Options::showHorizon() || Options::showGround() ) {
 		QPoint OutLeft(0,0), OutRight(0,0);
 
-		psky.setPen( QPen( QColor( map->data()->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) );
-		psky.setBrush( QColor ( map->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+		psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) );
+		psky.setBrush( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
 		int ptsCount = 0;
 		int maxdist = int(Options::zoomFactor()/4);
 
@@ -242,12 +244,12 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 //						bpts.setPoint( bpCount++,        -100, Height + 100 );
 //						bpts.setPoint( bpCount++, Width + 100, Height + 100 );
 //						bpts.setPoint( bpCount++, Width + 100, Height/2     );
-//						psky.setPen( QColor ( map->data()->colorScheme()->colorNamed( "SkyColor" ) ) );
-//						psky.setBrush( QColor ( map->data()->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.setBrush( QColor ( ks->data()->colorScheme()->colorNamed( "SkyColor" ) ) );
 //						psky.drawPolygon( bpts, false, 0, bpCount );
 //						//Reset colors for Horizon polygon
-//						psky.setPen( QColor ( map->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
-//						psky.setBrush( QColor ( map->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+//						psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+//						psky.setBrush( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
 					
 					} else {
 						pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
@@ -269,14 +271,14 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 				QPoint cpoint;
 
 				if ( Options::showGround() )
-					psky.setPen( QColor ( map->data()->colorScheme()->colorNamed( "CompassColor" ) ) );
+					psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "CompassColor" ) ) );
 				else
-					psky.setPen( QColor ( map->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+					psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
 
 		//North
 				c->setAz( 359.99 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -286,7 +288,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//NorthEast
 				c->setAz( 45.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -296,7 +298,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//East
 				c->setAz( 90.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -306,7 +308,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//SouthEast
 				c->setAz( 135.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -316,7 +318,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//South
 				c->setAz( 179.99 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -326,7 +328,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//SouthWest
 				c->setAz( 225.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -336,7 +338,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//West
 				c->setAz( 270.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -346,7 +348,7 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 		//NorthWest
 				c->setAz( 315.0 );
 				c->setAlt( 0.0 );
-				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				if ( !Options::useAltAz() ) c->HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				cpoint = map->getXY( c, Options::useAltAz(), false, scale );
 				cpoint.setY( cpoint.y() + int(scale*20) );
 				if (cpoint.x() > 0 && cpoint.x() < Width && cpoint.y() > 0 && cpoint.y() < Height ) {
@@ -405,17 +407,17 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
 			//independent of zoom.
 			SkyPoint LabelPoint(ra0, dec0);
-			LabelPoint.EquatorialToHorizontal( map->data()->LST, map->data()->geo()->lat() );
+			LabelPoint.EquatorialToHorizontal( ks->data()->LST, ks->data()->geo()->lat() );
 			LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
 			LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
-			LabelPoint.HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+			LabelPoint.HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 			o = map->getXY( &LabelPoint, Options::useAltAz(), false, scale );
 			if ( o.x() > width() || o.x() < 0 ) {
 				//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
 				//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
 			LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
 				LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
-				LabelPoint.HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+				LabelPoint.HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 				o = map->getXY( &LabelPoint, Options::useAltAz(), false, scale );
 			}
 
@@ -423,9 +425,9 @@ void HorizonComponent::draw(SkyMap *map, QPainter& psky, double scale)
 			//2000./zoomFactor).  We use p2 to determine the rotation angle for the
 			//Horizon label, which we want to be parallel to the line between LabelPoint and p2.
 			SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
-			p2.EquatorialToHorizontal( map->data()->LST, map->data()->geo()->lat() );
+			p2.EquatorialToHorizontal( ks->data()->LST, ks->data()->geo()->lat() );
 			p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
-			p2.HorizontalToEquatorial( map->data()->LST, map->data()->geo()->lat() );
+			p2.HorizontalToEquatorial( ks->data()->LST, ks->data()->geo()->lat() );
 
 			//o and o2 are the screen positions of LabelPoint and p2
 			o = map->getXY( &LabelPoint, Options::useAltAz(), false, scale );

@@ -83,15 +83,16 @@ void ConstellationNamesComponent::update(KStarsData *data, KSNumbers *num, bool 
 	}
 }
 
-void ConstellationNamesComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if (!Options::showCNames()) return;
+	if ( !Options::showCNames() ) return;
 	
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
 	//Draw Constellation Names
-	psky.setPen( QColor( map->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
+	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
 	foreach ( SkyPoint *p, cnameList ) {
 		if ( map->checkVisibility( p, fov(), XRange ) ) {
 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );

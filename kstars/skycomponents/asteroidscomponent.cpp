@@ -20,24 +20,27 @@
 #include <QFile>
 
 #include "ksasteroid.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: AbstractPlanetComponent(parent, visibleMethod, msize)
+: SolarSystemListComponent(parent, visibleMethod, msize)
 {
 }
 
 AsteroidsComponent::~AsteroidsComponent()
 {
-	while ( ! asteroidList.isEmpty() ) delete asteroidList.takeFirst();
+	//object deletion handled in grandparent dtor (ListComponent)
 }
 
-void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;
 	
-	foreach ( KSAsteroid *ast, asteroidList ) { 
+	SkyMap *map = ks->map();
+
+	foreach ( KSAsteroid *ast, objectList() ) { 
 		if ( ast->mag() > Options::magLimitAsteroid() ) break;
 
 		if ( map->checkVisibility( ast ) )
@@ -56,8 +59,8 @@ void AsteroidsComponent::draw(SkyMap *map, QPainter& psky, double scale)
 
 				//draw Name
 				if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
-					psky.setPen( QColor( map->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					drawNameLabel(map, psky, ast, o.x(), o.y(), scale );
+					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+					drawNameLabel( map, psky, ast, o.x(), o.y(), scale );
 				}
 			}
 		}

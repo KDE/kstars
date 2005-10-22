@@ -52,11 +52,11 @@ class EclipticComponent: public SkyComponent
 
 		/**
 		 *@short draw the Ecliptic onto the sky
-		 *@p map pointer to the SkyMap widget
+		 *@p ks pointer to the KStars object
 		 *@p psky reference to the QPainter on which to draw
 		 *@p scale the scaling factor (1.0 for screen draws)
 		 */
-		virtual void draw(SkyMap *map, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
 		 *@short Initialize the Ecliptic
@@ -76,8 +76,6 @@ class EclipticComponent: public SkyComponent
 		// the points of the equator
 		QList<SkyPoint*> Ecliptic;
 		
-		Q3PointArray *pts;
-
 };
 
 #endif

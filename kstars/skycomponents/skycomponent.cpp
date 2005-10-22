@@ -22,7 +22,7 @@
 #include "skycomposite.h"
 
 #include "Options.h"
-#include "skymap.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skyobject.h"
@@ -41,10 +41,10 @@ bool SkyComponent::isExportable()
 	return true;
 }
 
-void SkyComponent::drawExportable(SkyMap *map, QPainter& psky, double scale)
+void SkyComponent::drawExportable(KStars *ks, QPainter& psky, double scale)
 {
 	if (isExportable())
-		draw(map, psky, scale);
+		draw(ks, psky, scale);
 }
 
 void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale)
@@ -70,8 +70,9 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, d
 	psky.setFont( stdFont );
 }
 
-//TODO: Implement addTrail
+//Reimplemented in Solar system components
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
+bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 
 //TODO: Implement findByName
 SkyObject* SkyComponent::findByName( const QString &name ) {

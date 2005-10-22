@@ -61,8 +61,11 @@ DeepSkyComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
 }
 
 
-void DeepSkyComponent::draw(SkyMap *map, QPainter& psky, double scale)
+void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
+	if ( !Options::showDeepSky() ) return;
+
+	SkyMap *map = ks->map();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
