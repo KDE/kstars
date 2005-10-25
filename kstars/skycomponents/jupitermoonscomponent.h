@@ -41,7 +41,7 @@ class JupiterMoonsComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		JupiterMoonsComponent(SkyComposite *parent);
+		JupiterMoonsComponent( SkyComposite *parent, bool (*visibleMethod)() );
 		
 		/**
 		 *@short Destructor
@@ -62,7 +62,7 @@ class JupiterMoonsComponent: public SkyComponent
 		 */
 		virtual void init(KStarsData *data);
 	
-		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords) {};
+		virtual void updateMoons( KStarsData *data, KSNumbers *num );
 		
 	private:
 

@@ -77,14 +77,6 @@ class AsteroidsComponent: public SolarSystemListComponent
 		*/
 		virtual void init( KStarsData *data );
 	
-	/**
-		*@short Update the positions of the asteroids
-		*@p data Pointer to the KStarsData object
-		*@p data Pointer to the KSNumbers object
-		*@p needNewCoords set to true if objects need their positions recomputed
-		*/
-		virtual void updatePlanets( KStarsData *data, KSNumbers *num, bool needNewCoords );
-
 };
 
 #endif

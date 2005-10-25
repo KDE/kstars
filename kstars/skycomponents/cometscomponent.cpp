@@ -21,8 +21,8 @@
 #include "ksutils.h"
 #include "skymap.h"
 
-CometsComponent::CometsComponent() 
-: SolarSystemListComponent() 
+CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2 ) 
+: SolarSystemListComponent( parent, visibleMethod, msize ) 
 {
 }
 
@@ -62,24 +62,6 @@ void CometsComponent::init( KStarsData *data ) {
 
 			//TODO: need KStarsData::appendNamedObject()
 			data->apppendNamedObject( com );
-		}
-	}
-}
-
-void CometsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() )
-	{
-		KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
-		Earth.findPosition( num );
-		foreach ( SkyObject *o, objectsList() ) {
-			KSComet *com = (KSComet*)com;
-			if ( needNewCoords ) com->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
-			com->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			if ( com->hasTrail() )
-			{
-			  com->updateTrail( data->lst(), data->geo()->lat() );
-			}
 		}
 	}
 }

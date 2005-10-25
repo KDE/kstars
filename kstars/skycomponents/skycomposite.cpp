@@ -64,22 +64,22 @@ void SkyComposite::init(KStarsData *data)
 		component->init(data);
 }
 
-void SkyComposite::update(KStarsData *data, KSNumbers *num, bool doPrecess)
+void SkyComposite::update(KStarsData *data, KSNumbers *num )
 {
 	foreach (SkyComponent *component, Components)
-		component->update(data, num, doPrecess);
+		component->update( data, num );
 }
 
-void SkyComposite::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void SkyComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 {
 	foreach (SkyComponent *component, Components)
-		component->updatePlanets(data, num, needNewCoords);
+		component->updatePlanets( data, num );
 }
 
-void SkyComposite::updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void SkyComposite::updateMoons(KStarsData *data, KSNumbers *num )
 {
-	foreach (SkyComponent *component, Components)
-		component->updateMoons(data, num, needNewCoords);
+	foreach (SkyComponent *component )
+		component->updateMoons( data, num );
 }
 
 bool SkyComposite::addTrail( SkyObject *o ) {

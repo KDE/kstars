@@ -91,14 +91,13 @@ class SkyComponent
 			*sent through the doPrecess parameter.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
-			*@p doPrecession true if precession/nutation should be recomputed
 			*@note this is a pure virtual function, it must be reimplemented 
 			*by the subclasses of SkyComponent.
 			*@sa SingleComponent::update()
 			*@sa ListComponent::update()
 			*@sa ConstellationBoundaryComponent::update()
 			*/
-		virtual void update( KStarsData*, KSNumbers*, bool doPrecession ) {};
+		virtual void update( KStarsData*, KSNumbers* ) {};
 	
 		/**
 			*@return true if the component is to be drawn on the map.

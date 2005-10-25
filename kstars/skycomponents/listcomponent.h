@@ -56,10 +56,11 @@ class ListComponent : public SkyComponent
 			*so are sent through the doPrecess parameter.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
-			*@p doPrecession true if precession/nutation should be recomputed
-			*@note reimplemented from SkyComponent.
+			*@note By default, the num parameter is NULL, indicating that 
+			*Precession/Nutation computation should be skipped; this computation 
+			*is only occasionally required.
 			*/
-		virtual void update( KStarsData *data, KSNumbers *num=0, bool doPrecession=false );
+		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
 		QList<SkyObject*>& objectList() { return ObjectList; }
 

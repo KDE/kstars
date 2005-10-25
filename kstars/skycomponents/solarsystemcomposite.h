@@ -37,11 +37,9 @@ class SolarSystemComposite : SkyComposite
 		
 		KSPlanet* earth() { return Earth; }
 		
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 		
-		virtual void updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords);
-		
-		virtual void updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 		

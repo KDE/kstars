@@ -27,7 +27,7 @@
 #include "dms.h"
 #include "Options.h"
 
-JupiterMoonsComponent::JupiterMoonsComponent(SkyComposite *parent) : SkyComponent(parent)
+JupiterMoonsComponent::JupiterMoonsComponent( SkyComposite *parent, bool (*visibleMethod)() ) : SkyComponent( parent, visibleMethod )
 {
 	jmoons = 0;
 }
@@ -42,12 +42,10 @@ void JupiterMoonsComponent::init(KStarsData *data)
 	jmoons = new JupiterMoons();
 }
 
-void JupiterMoonsComponent::updateMoons(KStarsData*, KSNumbers*, bool needNewCoords)
+void JupiterMoonsComponent::updateMoons( KStarsData *data, KSNumbers *num )
 {
-	//TODO parent is jupiter -> remove pcatalog
 	//TODO findPosition should named updatePosition
-	//for now, update positions of Jupiter's moons here also
-	if ( Options::showPlanets() && Options::showJupiter() )
+	if ( visible() )
 		jmoons->findPosition( &num, (const KSPlanet*)PCat->findByName("Jupiter"), PCat->planetSun() );
 
 }

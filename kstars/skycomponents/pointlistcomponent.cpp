@@ -30,12 +30,11 @@ PointListComponent::~PointListComponent()
 {
 }
 
-//FIXME: maybe don't need doPrecession; if num==0, then skip updateCoords() ?
-void PointListComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession)
+void PointListComponent::update( KStarsData *data, KSNumbers *num )
 {
 	if ( visible() ) {
 		foreach ( SkyPoint *p, pointList() ) {
-			if ( doPrecession && num ) p->updateCoords( num );
+			if ( num ) p->updateCoords( num );
 			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 		}
 	}

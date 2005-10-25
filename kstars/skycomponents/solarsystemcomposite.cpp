@@ -61,36 +61,16 @@ SolarSystemComposite::init(KStarsData *data)
 	SkyComposite::init(data);
 }
 
-void SolarSystemComposite::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	Sun->update(data, num, needNewCoords);
-	Venus->update(data, num, needNewCoords);
-	Mercury->update(data, num, needNewCoords);
-	Moon->update(data, num, needNewCoords);
-	
-	SkyComposite::update(data, num, needNewCoords);
-}
-
-void SolarSystemComposite::updatePlanets(KStarsData*, KSNumbers*, bool needNewCoords)
+void SolarSystemComposite::updatePlanets( KStarsData*, KSNumbers*, bool needNewCoords )
 {
 	Earth->findPosition(num);
-
-	Sun->updatePlanets(data, num, needNewCoords);
-	Venus->updatePlanets(data, num, needNewCoords);
-	Mercury->updatePlanets(data, num, needNewCoords);
-	Moon->updatePlanets(data, num, needNewCoords);
-	
-	SkyComposite::updatePlanets(data, num, needNewCoords);
+	SkyComposite::updatePlanets( data, num );
 }
 
-void SolarSystemComposite::updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
-	Sun->updateMoons(data, num, needNewCoords);
-	Venus->updateMoons(data, num, needNewCoords);
-	Mercury->updateMoons(data, num, needNewCoords);
-	Moon->updateMoons(data, num, needNewCoords);
-	
-	SkyComposite::updateMoons(data, num, needNewCoords);
+	Earth->findPosition(num);
+	SkyComposite::updateMoons( data, num );
 }
 
 void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)

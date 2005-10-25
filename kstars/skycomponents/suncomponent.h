@@ -59,14 +59,6 @@ class SunComponent : public SolarSystemSingleComponent
 		*/
 		virtual void init(KStarsData *data);
 	
-	/**
-		*@short Update the position of the Sun
-		*@p data Pointer to the KStarsData object
-		*@p data Pointer to the KSNumbers object
-		*@p needNewCoords set to true if the Sun needs its position recomputed
-		*/
-		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
 	private:
 		KSSun *sun;
 		bool HasTrail;

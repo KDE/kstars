@@ -103,22 +103,3 @@ void AsteroidsComponent::init(KStarsData *data)
 		}
 	}
 }
-
-void AsteroidsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() )
-	{
-		KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
-		Earth.findPosition( num );
-		foreach ( SkyObject *o, objectsList() ) {
-			KSAsteroid *ast = (KSAsteroid*)o;
-			if ( needNewCoords ) ast->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
-			ast->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			if ( ast->hasTrail() )
-			{
-			  ast->updateTrail( data->lst(), data->geo()->lat() );
-			}
-		}
-	}
-}
-

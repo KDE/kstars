@@ -93,13 +93,11 @@ class SkyComposite : public SkyComponent
 			*@p doPrecession true if precession/nutation should be recomputed
 			*@sa updatePlanets()
 			*@sa updateMoons()
-			*@note Precession/nutation are not computed explicitly for solar-system
-			*bodies, because they are taken care of by the internal 
-			*findGeocentricCoordinates() functions.  Therefore, update() is 
-			*reimplemented by SolarSystemSingleComponent and SolarSystemListComponent
-			*to ignore the doPrecess parameter.
+			*@note By default, the num parameter is NULL, indicating that 
+			*Precession/Nutation computation should be skipped; this computation 
+			*is only occasionally required.
 			*/
-		virtual void update(KStarsData *data, KSNumbers *num=0, bool doPrecess=false);
+		virtual void update(KStarsData *data, KSNumbers *num=0 );
 		
 		/**
 			*@short Delegate planet position updates to the SolarSystemComposite
@@ -118,7 +116,7 @@ class SkyComposite : public SkyComponent
 		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
 		/**
-			*@short Delegate planet position updates to the SolarSystemComposite
+			*@short Delegate moon position updates to the SolarSystemComposite
 			*
 			*Planet positions change over time, so they need to be recomputed 
 			*periodically, but not on every call to update().  This function 

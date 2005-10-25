@@ -17,11 +17,11 @@
 
 #include "suncomponent.h"
 
-SunComponent::SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), double diameter, int msize) 
+SunComponent::SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize) 
 : SolarSystemSingleComponent(parent, visibleMethod, msize) 
 {
   //TODO: KSSun ctor must construct image name from name string
-  sun = new KSSun( data, diameter ); 
+  sun = new KSSun( data ); 
 }
 
 SunComponent::~SunComponent() {

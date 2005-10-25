@@ -30,11 +30,10 @@ SingleComponent::~SingleComponent()
 {
 }
 
-//FIXME: maybe don't need doPrecession; if num==0, then skip updateCoords() ?
-void SingleComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession)
+void SingleComponent::update( KStarsData *data, KSNumbers *num )
 {
 	if ( visible() ) {
-		if ( doPrecession && num ) skyObject()->updateCoords( num, data->geo()->lat(), data->lst() );
+		if ( num ) skyObject()->updateCoords( num, data->geo()->lat(), data->lst() );
 		skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	}
 }

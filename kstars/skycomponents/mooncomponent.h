@@ -43,7 +43,7 @@ class MoonComponent : SolarSystemSingleComponent
 		 *should be drawn
 		 *@p msize
 		 */
-		MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 8);
+		MoonComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize=8 );
 		
 		/**
 		 *Destructor.
@@ -68,9 +68,8 @@ class MoonComponent : SolarSystemSingleComponent
 		 *@short Update the position of the Moon
 		 *@p data pointer to the KStarsData object
 		 *@p num pointer to the KSNumbers object
-		 *@p needNewCoords true if a new position should be computed
 		 */
-		virtual void updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void updateMoons( KStarsData *data, KSNumbers *num );
 	
 	
 	private:

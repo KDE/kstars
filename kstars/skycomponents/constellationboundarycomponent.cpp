@@ -17,13 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-ConstellationBoundaryComponent::ConstellationBoundaryComponent(SkyComposite *parent)
-: SkyComponent(parent)
+ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComposite *parent, bool (*visibleMethod)() )
+: SkyComponent( parent, visibleMethod )
 {
 }
 
 ConstellationBoundaryComponent::~ConstellationBoundaryComponent() {
-	while ( ! csegmentList.isEmpty() ) delete csegmentList.takeFirst();
 }
 
 // bool KStarsData::readCLineData( void )
@@ -136,11 +135,11 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 	}
 }
 
-void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession ) {
+void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num ) {
 	if ( visible() ) {  
 	  foreach ( CSegment *seg, segmentList() ) {
 	    foreach ( SkyPoint *p, seg->nodes() ) {
-				if ( doPrecession && num ) p->updateCoords( &num );
+				if ( num ) p->updateCoords( &num );
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}

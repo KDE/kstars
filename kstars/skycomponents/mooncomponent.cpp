@@ -19,8 +19,8 @@
 
 #include "ksmoon.h"
 
-MoonComponent::MoonComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: SolarSystemSingleComponent(parent, visibleMethod, msize)
+MoonComponent::MoonComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize )
+: SolarSystemSingleComponent( parent, visibleMethod, msize )
 {
   Moon = new KSMoon(parent);
 }
@@ -108,7 +108,7 @@ void MoonComponent::draw( KStars *ks, QPainter& psky, double scale)
 
 }
 
-void MoonComponent::updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void MoonComponent::updateMoons( KStarsData *data, KSNumbers *num )
 {
 	//findCoords() code
 }

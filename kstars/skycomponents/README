@@ -52,6 +52,7 @@ is indicated in square brackets (see below for more on the base classes)
     - PlutoComponent			[SolarSystemSingleComponent]
     - AsteroidsComponent		[SolarSystemListComponent]
     - CometsComponent			[SolarSystemListComponent]
+    - JupiterMoonsComponent		[SkyComponent]
   + SkyComposite
     - EquatorComponent			[PointListComponent]
     - EclipticComponent			[PointListComponent]
@@ -79,8 +80,9 @@ SingleComponent represents a sky element consisting of a single
 SkyObject, such as the Sun.  ListComponent represents a list of
 SkyObjects, such as the Asteroids.  PointListComponent represents a
 list of SkyPoints (not SkyObjects), such as the Ecliptic.
-All other Components (with one exception) are derived from one of 
-these three classes.
+Almost all other Components are derived from one of 
+these three classes (two Components are derived directly from 
+SkyComponent).
 
 The Solar System bodies require some special treatment.  For example,
 only solar system bodies may have attached trails, and they move
@@ -113,18 +115,14 @@ PointsListComponent for each circle in the grid, and
 ConstellationLineComposite contains one PointsListComponent for each
 constellation (representing the "stick figure" of the constellation).
 
-Finally, we have the one Component which doesn't inherit from either
+Finally, we have the Components which don't inherit from either
 SingleComponent, ListComponent, or PointListComponent:
-ConstellationBoundaryComponent inherits from SkyComponent directly.
-This is necessary because the Constellation boundaries are expressed
-as a list of "constellation segments", each of which is the
-jagged-line boundary between two adjacent constellations.  Thus, each
-segment is a list of SkyPoints (the vertices of the jagged-line
-segment) and a pair of QStrings (the names of the Constellations which
-the segment borders).  We have a special class called CSegment to
-encapsulate Constellation segments, and we need
-ConstellationBoundaryComponent to contain a list of CSegments, not a
-list of SkyObjects or SkyPoints.
+ConstellationBoundaryComponent and JupiterMoonsComponent inherit from
+SkyComponent directly.  This is necessary because they contain a sky
+element that is not a SkyObject, a list of SkyObjects, or a list of
+SkyPoints.  Constellation boundaries are expressed as a list of
+"constellation segments" (class CSegment), and the 4 Jupiter moons
+have their own class (JMoons)
 
 
 4. Functions
