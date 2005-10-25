@@ -27,7 +27,7 @@
 #include "dms.h"
 #include "Options.h"
 
-JupiterMoonsComponent::JupiterMoonsComponent( SkyComposite *parent, bool (*visibleMethod)() ) : SkyComponent( parent, visibleMethod )
+JupiterMoonsComponent::JupiterMoonsComponent( SkyComponent *parent, bool (*visibleMethod)() ) : SkyComponent( parent, visibleMethod )
 {
 	jmoons = 0;
 }

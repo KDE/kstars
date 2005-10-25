@@ -41,9 +41,9 @@ class CustomCatalogComponent: public SkyComponent
 
 	/**
 		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		CustomCatalogComponent(SkyComposite*);
+		CustomCatalogComponent(SkyComponent*);
 	/**
 		*@short Destructor.  Delete list members
 		*/

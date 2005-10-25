@@ -45,9 +45,9 @@ class SkyComponent
 	
 		/**
 			*@short Constructor
-			*@p parent pointer to the parent SkyComposite
+			*@p parent pointer to the parent SkyComponent
 			*/
-		SkyComponent(SkyComposite *parent, bool (*visibleMethod)());
+		SkyComponent(SkyComponent *parent, bool (*visibleMethod)());
 		
 		/**
 			*@short Destructor
@@ -179,7 +179,7 @@ class SkyComponent
 		virtual int labelSize(SkyObject*) { return 1; };
 
 	private:
-		SkyComposite *Parent;
+		SkyComponent *Parent;
 };
 
 #endif

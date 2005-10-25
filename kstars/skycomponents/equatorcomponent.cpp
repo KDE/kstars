@@ -29,7 +29,7 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-EquatorComponent::EquatorComponent(SkyComposite *parent, bool (*visibleMethod)()) : PointListComponent(parent, visibleMethod)
+EquatorComponent::EquatorComponent(SkyComponent *parent, bool (*visibleMethod)()) : PointListComponent(parent, visibleMethod)
 {
 }
 

@@ -18,7 +18,7 @@
 
 #include "Options.h"
 
-DeepSkyComponent::DeepSkyComponent(SkyComposite *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
+DeepSkyComponent::DeepSkyComponent(SkyComponent *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
 {
 }
 

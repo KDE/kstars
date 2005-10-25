@@ -26,7 +26,7 @@
 #include "skypoint.h" 
 #include "Options.h"
 
-CoordinateGridComponent::CoordinateGridComponent(SkyComposite *parent, bool (*visibleMethod)(), bool isParallel, double coord ) 
+CoordinateGridComponent::CoordinateGridComponent(SkyComponent *parent, bool (*visibleMethod)(), bool isParallel, double coord ) 
 : PointListComponent(parent, visibleMethod), Parallel( isParallel ), Coordinate( coord )
 {
 }

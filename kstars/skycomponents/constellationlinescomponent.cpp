@@ -17,7 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent, bool (*visibleMethod)())
+ConstellationLinesComponent::ConstellationLinesComponent(SkyComponent *parent, bool (*visibleMethod)())
 : PointListComponent(parent, visibleMethod)
 {
 }

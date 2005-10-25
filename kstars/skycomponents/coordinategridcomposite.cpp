@@ -18,7 +18,7 @@
 #include "coordinategridcomposite.h"
 #include "coordinategridcomponent.h"
 
-CoordinateGridComposite::CoordinateGridComposite( SkyComposite *parent ) 
+CoordinateGridComposite::CoordinateGridComposite( SkyComponent *parent ) 
   : SkyComposite(parent) 
 {
   //Parallels

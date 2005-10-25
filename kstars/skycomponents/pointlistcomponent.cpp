@@ -21,7 +21,7 @@
 
 #include "skymap.h" 
 
-PointListComponent::PointListComponent( SkyComposite *parent, bool (*visibleMethod)() )
+PointListComponent::PointListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod )
 {
 }

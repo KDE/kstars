@@ -38,7 +38,7 @@ class DeepSkyComponent: public ListComponent
 {
 	public:
 
-		DeepSkyComponent(SkyComposite*, bool (*visibleMethod)());
+		DeepSkyComponent(SkyComponent*, bool (*visibleMethod)());
 		
 		~DeepSkyComponent();
 

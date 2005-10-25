@@ -41,7 +41,7 @@ class JupiterMoonsComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		JupiterMoonsComponent( SkyComposite *parent, bool (*visibleMethod)() );
+		JupiterMoonsComponent( SkyComponent *parent, bool (*visibleMethod)() );
 		
 		/**
 		 *@short Destructor

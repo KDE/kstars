@@ -44,9 +44,9 @@ class MilkyWayComponent : public PointListComponent
 		
 		/**
 		 *@short Constructor
-		 *@p parent pointer to the parent SkyComposite
+		 *@p parent pointer to the parent SkyComponent
 		 */
-		MilkyWayComponent(SkyComposite *parent, bool (*visibleMethod)());
+		MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor

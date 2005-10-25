@@ -42,9 +42,9 @@ class ConstellationLinesComponent : public PointListComponent
 	public:
 	/**
 		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationLinesComponent(SkyComposite*, bool (*visibleMethod)());
+		ConstellationLinesComponent(SkyComponent*, bool (*visibleMethod)());
 	/**
 		*@short Destructor.  Delete list members
 		*/

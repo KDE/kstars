@@ -33,7 +33,7 @@
 class SkyMapComposite : SkyComposite
 {
 	public:
-		SkyMapComposite(SkyComposite*);
+		SkyMapComposite(SkyComponent*);
 };
 
 #endif

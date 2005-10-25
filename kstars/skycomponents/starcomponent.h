@@ -39,7 +39,7 @@ class StarComponent: public ListComponent
 {
 	public:
 
-		StarComponent(SkyComposite*, bool (*visibleMethod)());
+		StarComponent(SkyComponent*, bool (*visibleMethod)());
 		
 		virtual ~StarComponent();
 

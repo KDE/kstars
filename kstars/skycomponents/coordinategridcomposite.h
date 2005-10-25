@@ -35,9 +35,9 @@ class CoordinateGridComposite : public SkyComposite
 		*@short Constructor
 		*Simply adds all of the coordinate grid circles 
 		*(meridians and parallels)
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		CoordinateGridComposite( SkyComposite* );
+		CoordinateGridComposite( SkyComponent* );
 };
 
 

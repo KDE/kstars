@@ -19,7 +19,7 @@
 
 #include "jupitermoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComposite *parent, KStarsData *data)
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
   : SkyComposite(parent)
 {
 	Earth = new KSPlanet( kd, I18N_NOOP( "Earth" ), "", 12756.28 /*diameter in km*/ );
@@ -42,9 +42,6 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent, KStarsData *dat
 
 SolarSystemComposite::~SolarSystemComposite()
 {
-  //JH: is this necessary to call, or is it done automatically?
-  SkyComposite::~SkyComposite();
-
 	delete Earth;
 	delete Sun;
 	delete Venus;

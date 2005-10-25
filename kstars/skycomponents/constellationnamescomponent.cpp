@@ -23,7 +23,7 @@
 #include "ksutils.h"
 #include "skyobject.h"
 
-ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, bool (*visibleMethod)())
+ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent, bool (*visibleMethod)())
 : ListComponent(parent, visibleMethod)
 {
 }

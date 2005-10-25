@@ -20,7 +20,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-StarComponent::StarComponent(SkyComposite *parent, bool (*visibleMethod)()) 
+StarComponent::StarComponent(SkyComponent *parent, bool (*visibleMethod)()) 
 : ListComponent(parent, visibleMethod)
 {
 	starList = 0;

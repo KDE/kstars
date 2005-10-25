@@ -17,7 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComposite *parent, bool (*visibleMethod)() )
+ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod )
 {
 }

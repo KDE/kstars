@@ -31,7 +31,7 @@
 #include "Options.h"
 #include "ksutils.h"
 
-MilkyWayComponent::MilkyWayComponent(SkyComposite *parent, bool (*visibleMethod)()) 
+MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)()) 
 : PointListComponentComponent(parent, bool (*visibleMethod)())
 {
 	pts = 0;

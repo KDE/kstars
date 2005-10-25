@@ -21,7 +21,7 @@
 
 #include "skymap.h" 
 
-SingleComponent::SingleComponent(SkyComposite *parent, bool (*visibleMethod)())
+SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
 : SkyComponent( parent, visibleMethod )
 {
 }

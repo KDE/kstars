@@ -41,9 +41,9 @@ class ConstellationNamesComponent : public ListComponent
 	public:
 	/**
 		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationNamesComponent(SkyComposite *parent, bool (*visibleMethod)());
+		ConstellationNamesComponent(SkyComponent *parent, bool (*visibleMethod)());
 	/**
 		*@short Destructor.  Delete list members
 		*/

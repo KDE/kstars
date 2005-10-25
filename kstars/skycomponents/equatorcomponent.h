@@ -43,7 +43,7 @@ class EquatorComponent: public PointListComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		EquatorComponent(SkyComposite *parent, bool (*visibleMethod)());
+		EquatorComponent(SkyComponent *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor

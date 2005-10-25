@@ -27,7 +27,7 @@ MoonComponent::MoonComponent( SolarSystemComposite *parent, bool (*visibleMethod
 
 MoonComponent::~MoonComponent()
 {
-  if ( Moon ) delete Moon;
+  delete Moon;
 }
 
 void MoonComponent::init(KStarsData *data)

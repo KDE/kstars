@@ -41,9 +41,9 @@ class EclipticComponent: public PointListComponent
 
 		/**
 		 *@short Constructor
-		 *@p parent pointer to the parent SkyComposite object
+		 *@p parent pointer to the parent SkyComponent object
 		 */
-		EclipticComponent(SkyComposite *parent, bool (*visibleMethod)());
+		EclipticComponent(SkyComponent *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor

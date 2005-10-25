@@ -21,7 +21,7 @@
 #include "milkywaycomponent.h"
 #include "coordinategridcomponent.h"
 
-SkyMapComposite::SkyMapComposite(SkyComposite *parent) : SkyComposite(parent)
+SkyMapComposite::SkyMapComposite(SkyComponent *parent) : SkyComposite(parent)
 {
 	// beware the order of adding components
 	// first added component will be drawn first

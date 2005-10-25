@@ -25,7 +25,7 @@ SunComponent::SunComponent(SolarSystemComposite *parent, bool (*visibleMethod)()
 }
 
 SunComponent::~SunComponent() {
-  if ( sun ) delete sun;
+  delete sun;
 }
 
 void SunComponent::init(KStarsData *data)

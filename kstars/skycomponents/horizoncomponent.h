@@ -40,7 +40,7 @@ class HorizonComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent Pointer to the parent SkyComposite object
 		 */
-		HorizonComponent(SkyComposite *parent, bool (*visibleMethod)());
+		HorizonComponent(SkyComponent *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor

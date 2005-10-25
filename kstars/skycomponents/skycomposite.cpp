@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "skyobject.h"
 
-SkyComposite::SkyComposite(SkyComposite *parent) : SkyComponent(parent)
+SkyComposite::SkyComposite(SkyComponent *parent) : SkyComponent(parent)
 {}
 
 SkyComposite::~SkyComposite()

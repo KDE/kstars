@@ -50,9 +50,9 @@ class ConstellationBoundaryComponent : public SkyComponent
 		
 	/**
 		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationBoundaryComponent(SkyComposite *parent, bool (*visibleMethod)());
+		ConstellationBoundaryComponent(SkyComponent *parent, bool (*visibleMethod)());
 	/**
 		*@short Destructor.  Delete list members
 		*/

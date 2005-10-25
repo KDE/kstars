@@ -34,7 +34,7 @@ class KStars;
 class SingleComponent : public SkyComponent
 {
 	public:
-		SingleComponent( SkyComposite *parent, bool (*visibleMethod)() );
+		SingleComponent( SkyComponent *parent, bool (*visibleMethod)() );
 		
 		virtual ~SingleComponent();
 		

@@ -32,7 +32,7 @@
 class SolarSystemComposite : SkyComposite
 {
 	public:
-		SolarSystemComposite(SkyComposite *parent, KStarsData *data);
+		SolarSystemComposite(SkyComponent *parent, KStarsData *data);
 		~SolarSystemComposite();
 		
 		KSPlanet* earth() { return Earth; }

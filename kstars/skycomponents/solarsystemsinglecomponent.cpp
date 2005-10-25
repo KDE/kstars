@@ -22,7 +22,7 @@
 #include "kstarsdata.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanet *earth, bool (*visibleMethod)(), int msize)
-: SingleComponent( (SkyComposite*)parent, visibleMethod )
+: SingleComponent( parent, visibleMethod )
 {
 	minsize = msize;
 	sizeScale = 1.0;

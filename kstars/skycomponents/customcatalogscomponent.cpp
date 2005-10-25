@@ -19,7 +19,7 @@
  *                                                                         *
  ***************************************************************************/
 
-CustomCatalogComponent::CustomCatalogComponent(SkyComposite *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
+CustomCatalogComponent::CustomCatalogComponent(SkyComponent *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
 {
 }
 

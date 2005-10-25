@@ -38,9 +38,9 @@ class CoordinateGridComponent : public PointListComponent
 		
 	/**
 		*@short Constructor
-		*@p parent Pointer to the parent SkyComposite object
+		*@p parent Pointer to the parent SkyComponent object
 		*/
-		CoordinateGridComponent( SkyComposite*, bool (*visibleMethod)(), bool isParallel, double coord );
+		CoordinateGridComponent( SkyComponent*, bool (*visibleMethod)(), bool isParallel, double coord );
 	/**
 		*@short Destructor.  Delete list members
 		*/
