@@ -40,7 +40,7 @@ class HorizonComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent Pointer to the parent SkyComposite object
 		 */
-		HorizonComponent(SkyComposite *parent);
+		HorizonComponent(SkyComposite *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor
@@ -61,17 +61,6 @@ class HorizonComponent: public SkyComponent
 		 */
 		virtual void init(KStarsData *data);
 	
-		/**
-		 *@short Update the coordinates of the Horizon
-		 *@p data Pointer to the KStarsData object
-		 *@p num Pointer to the KSNumbers object
-		 *@p needNewCoords true if cordinates should be recomputed
-		 */
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
-
-	private:
-		// the points of the horizon
-		QList<SkyPoint*> Horizon;
 };
 
 #endif

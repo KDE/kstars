@@ -26,13 +26,12 @@
 #include "skypoint.h" 
 #include "Options.h"
 
-CoordinateGridComponent::CoordinateGridComponent(SkyComposite *parent, bool isParallel, double coord ) 
-: SkyComponent(parent), Parallel( isParallel ), Coordinate( coord )
+CoordinateGridComponent::CoordinateGridComponent(SkyComposite *parent, bool (*visibleMethod)(), bool isParallel, double coord ) 
+: PointListComponent(parent, visibleMethod), Parallel( isParallel ), Coordinate( coord )
 {
 }
 
 CoordinateGridComponent::~CoordinateGridComponent() {
-	while ( ! gridList.isEmpty() ) delete gridList.takeFirst();
 }
 
 void CoordinateGridComponent::init( KStarsData *data ) {
@@ -58,12 +57,6 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 			sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			gridList.append( sp );
 		}
-	}
-}
-
-void CoordinateGridComponent::update( KStarsData *data, KSNumbers *num, bool needNewCoords ) {
-  foreach ( SkyPoint *sp, gridList ) {
-		sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	}
 }
 

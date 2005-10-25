@@ -37,14 +37,14 @@ class KSNumbers;
 #include <QChar>
 #include "skyobject.h"
 
-class ConstellationLinesComponent : public SkyComponent
+class ConstellationLinesComponent : public PointListComponent
 {
 	public:
 	/**
 		*@short Constructor
 		*@p parent Pointer to the parent SkyComposite object
 		*/
-		ConstellationLinesComponent(SkyComposite*);
+		ConstellationLinesComponent(SkyComposite*, bool (*visibleMethod)());
 	/**
 		*@short Destructor.  Delete list members
 		*/
@@ -65,19 +65,9 @@ class ConstellationLinesComponent : public SkyComponent
 		*/
 		virtual void init(KStarsData *data);
 	
-	/**
-		*@short Update the current positions of the constellation lines
-		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@p needNewCoords set to true if objects need their positions recomputed
-		*/
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
-
 	private:
 
-		QList<SkyPoint*> clineList;
-
-		QList<QChar> clineModeList;
+		QList<QChar> m_CLineModeList;
 
 };
 

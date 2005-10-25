@@ -35,19 +35,17 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class StarComponent: public SkyComponent
+class StarComponent: public ListComponent
 {
 	public:
 
-		StarComponent(SkyComposite*);
+		StarComponent(SkyComposite*, bool (*visibleMethod)());
 		
 		virtual ~StarComponent();
 
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		virtual void init(KStarsData *data);
-	
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
 
 	protected:
 
@@ -60,7 +58,6 @@ class StarComponent: public SkyComponent
 		bool readStarData();
 		void processStar(QString *line, bool reloadMode);
 
-		QList<StarObject*> *starList;
 		KSFileReader *starFileReader;
 
 };

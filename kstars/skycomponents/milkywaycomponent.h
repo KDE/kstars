@@ -38,7 +38,7 @@ class KSNumbers;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class MilkyWayComponent : public SkyComponent
+class MilkyWayComponent : public PointListComponent
 {
 	public:
 		
@@ -46,7 +46,7 @@ class MilkyWayComponent : public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		MilkyWayComponent(SkyComposite*);
+		MilkyWayComponent(SkyComposite *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor
@@ -67,15 +67,9 @@ class MilkyWayComponent : public SkyComponent
 		 */
 		virtual void init(KStarsData *data);
 	
-		/**
-		 *@short Update the coordinates of the Milky Way
-		 *@p data Pointer to the KStarsData object
-		 *@p num Pointer to the KSNumbers object
-		 *@p needNewCoords true if cordinates should be recomputed
-		 */
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
-		
 	private:
+		//FIXME: may need to derive from SkyComponent, since we use an array of QLists.
+		//Better Alternative: MilkyWayComposite, containing MilkyWayComponents
 		QList<SkyPoint> MilkyWay[NMWFILES];
 		
 		// optimization: don't realloc every draw the array

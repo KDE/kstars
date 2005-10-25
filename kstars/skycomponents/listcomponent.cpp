@@ -21,33 +21,22 @@
 
 #include "skymap.h" 
 
-ListComponent::ListComponent(SkyComposite *parent)
+ListComponent::ListComponent( SkyComposite *parent, bool (*visibleMethod)() )
+: SkyComponent( parent, visibleMethod )
 {
-	Parent = parent;
 }
 
 ListComponent::~ListComponent()
 {
 }
 
-bool ListComponent::addTrail( SkyObject *o ) { 
-  foreach ( SkyObject *a, objectList() ) {
-    if ( a == o ) {
-      trailList().append( o );
-      return true;
-    }
-  }
-
-  return false; 
-}
-
-bool ListComponent::removeTrail( SkyObject *o ) { 
-  foreach ( SkyObject *a, objectList() ) {
-    if ( a == o ) {
-      trailList().remove( o );
-      return true;
-    }
-  }
-
-  return false; 
+//FIXME: maybe don't need doPrecession; if num==0, then skip updateCoords() ?
+void ListComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession)
+{
+	if ( visible() ) {
+		foreach ( SkyObject *o, objectList() ) {
+			if ( doPrecession && num ) o->updateCoords( num );
+			o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		}
+	}
 }

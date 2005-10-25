@@ -34,11 +34,11 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class DeepSkyComponent: public SkyComponent
+class DeepSkyComponent: public ListComponent
 {
 	public:
 
-		DeepSkyComponent(SkyComposite*);
+		DeepSkyComponent(SkyComposite*, bool (*visibleMethod)());
 		
 		~DeepSkyComponent();
 
@@ -46,24 +46,11 @@ class DeepSkyComponent: public SkyComponent
 
 		virtual void init(KStarsData *data);
 	
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
-
 	private:
 		
 		bool readDeepSkyData();
 		void drawDeepSkyCatalog( QPainter& psky, QList<DeepSkyObject*>& catalog, 
 					QColor& color, bool drawObject, bool drawImage, double scale );
-
-		/** List of all deep sky objects */
-		QList<DeepSkyObject*> deepSkyList;
-		/** List of all deep sky objects per type, to speed up drawing the sky map */
-		QList<DeepSkyObject*> deepSkyListMessier;
-		/** List of all deep sky objects per type, to speed up drawing the sky map */
-		QList<DeepSkyObject*> deepSkyListNGC;
-		/** List of all deep sky objects per type, to speed up drawing the sky map */
-		QList<DeepSkyObject*> deepSkyListIC;
-		/** List of all deep sky objects per type, to speed up drawing the sky map */
-		QList<DeepSkyObject*> deepSkyListOther;
 
 };
 

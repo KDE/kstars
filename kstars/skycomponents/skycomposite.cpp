@@ -64,10 +64,10 @@ void SkyComposite::init(KStarsData *data)
 		component->init(data);
 }
 
-void SkyComposite::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void SkyComposite::update(KStarsData *data, KSNumbers *num, bool doPrecess)
 {
 	foreach (SkyComponent *component, Components)
-		component->update(data, num, needNewCoords);
+		component->update(data, num, doPrecess);
 }
 
 void SkyComposite::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)

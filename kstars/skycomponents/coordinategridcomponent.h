@@ -32,7 +32,7 @@ class SkyComposite;
 class KStarsData;
 class SkyMap;
 
-class CoordinateGridComponent : public SkyComponent
+class CoordinateGridComponent : public PointListComponent
 {
 	public:
 		
@@ -40,7 +40,7 @@ class CoordinateGridComponent : public SkyComponent
 		*@short Constructor
 		*@p parent Pointer to the parent SkyComposite object
 		*/
-		CoordinateGridComponent( SkyComposite*, bool isParallel, double coord );
+		CoordinateGridComponent( SkyComposite*, bool (*visibleMethod)(), bool isParallel, double coord );
 	/**
 		*@short Destructor.  Delete list members
 		*/
@@ -61,17 +61,7 @@ class CoordinateGridComponent : public SkyComponent
 		*/
 		virtual void init(KStarsData *data);
 
-	/**
-		*@short Update the current positions of the constellation names
-		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@p needNewCoords set to true if positions need to be recomputed
-		*/
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
 	private:
-		QList<SkyPoint*> gridList;
-
 		double Coordinate;
 		bool Parallel;
 };

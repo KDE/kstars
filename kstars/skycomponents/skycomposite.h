@@ -59,7 +59,7 @@ class SkyComposite : public SkyComponent
 		~SkyComposite();
 		
 		/**
-			*@short Delegates draw requests to it's sub components
+			*@short Delegate draw requests to all sub components
 			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
@@ -67,7 +67,7 @@ class SkyComposite : public SkyComponent
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
-			*@short Delegates drawExportable requests to it's sub 
+			*@short Delegate drawExportable requests to all sub 
 			*components.
 			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
@@ -76,27 +76,66 @@ class SkyComposite : public SkyComponent
 		virtual void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
 		/**
-			*@short Delegates init requests to it's sub components
+			*@short Delegate init requests to all sub components
 			*@p data Pointer to the KStarsData object
 			*/
 		virtual void init(KStarsData *data);
 	
 		/**
-			*@short Delegates update requests to it's sub components
+			*@short Delegate update-position requests to all sub components
+			*
+			*This function usually just updates the Horizontal (Azimuth/Altitude)
+			*coordinates.  However, the precession and nutation must also be 
+			*recomputed periodically.  Requests to do so are sent through the
+			*doPrecess parameter.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
-			*@p needNewCoords true if cordinates should be recomputed
+			*@p doPrecession true if precession/nutation should be recomputed
+			*@sa updatePlanets()
+			*@sa updateMoons()
+			*@note Precession/nutation are not computed explicitly for solar-system
+			*bodies, because they are taken care of by the internal 
+			*findGeocentricCoordinates() functions.  Therefore, update() is 
+			*reimplemented by SolarSystemSingleComponent and SolarSystemListComponent
+			*to ignore the doPrecess parameter.
 			*/
-		virtual void update(KStarsData *data, KSNumbers*, bool needNewCoords);
+		virtual void update(KStarsData *data, KSNumbers *num=0, bool doPrecess=false);
 		
-		//TODO Optimization: updatePlanets + Moon doesn't need to delegate it's request
-		// to all sub components (perhaps auto setting by subcomponents?)
-		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
-		virtual void updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		/**
+			*@short Delegate planet position updates to the SolarSystemComposite
+			*
+			*Planet positions change over time, so they need to be recomputed 
+			*periodically, but not on every call to update().  This function 
+			*will recompute the positions of all solar system bodies except the 
+			*Earth's Moon and Jupiter's Moons (because these objects' positions 
+			*change on a much more rapid timescale).
+			*@p data Pointer to the KStarsData object
+			*@p num Pointer to the KSNumbers object
+			*@sa update()
+			*@sa updateMoons()
+			*@sa SolarSystemComposite::updatePlanets()
+			*/
+		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
 		/**
-			*short Add a new sub component to the composite
+			*@short Delegate planet position updates to the SolarSystemComposite
+			*
+			*Planet positions change over time, so they need to be recomputed 
+			*periodically, but not on every call to update().  This function 
+			*will recompute the positions of the Earth's Moon and Jupiter's four
+			*Galilean moons.  These objects are done separately from the other 
+			*solar system bodies, because their positions change more rapidly,
+			*and so updateMoons() must be called more often than updatePlanets().
+			*@p data Pointer to the KStarsData object
+			*@p num Pointer to the KSNumbers object
+			*@sa update()
+			*@sa updatePlanets()
+			*@sa SolarSystemComposite::updateMoons()
+			*/
+		virtual void updateMoons( KStarsData *data, KSNumbers *num );
+
+		/**
+			*@short Add a new sub component to the composite
 			*@p comp Pointer to the SkyComponent to be added
 			*/
 		void addComponent(SkyComponent *comp);

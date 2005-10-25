@@ -1,5 +1,5 @@
 /***************************************************************************
-                          singlecomponent.cpp  -  K Desktop Planetarium
+                          listcomponent.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/10/01
     copyright            : (C) 2005 by Jason Harris
@@ -21,20 +21,22 @@
 
 #include "skymap.h" 
 
-SingleComponent::SingleComponent(SkyComposite *parent, bool (*visibleMethod)())
+PointListComponent::PointListComponent( SkyComposite *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod )
 {
 }
 
-SingleComponent::~SingleComponent()
+PointListComponent::~PointListComponent()
 {
 }
 
 //FIXME: maybe don't need doPrecession; if num==0, then skip updateCoords() ?
-void SingleComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession)
+void PointListComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession)
 {
 	if ( visible() ) {
-		if ( doPrecession && num ) skyObject()->updateCoords( num, data->geo()->lat(), data->lst() );
-		skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		foreach ( SkyPoint *p, pointList() ) {
+			if ( doPrecession && num ) p->updateCoords( num );
+			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		}
 	}
 }

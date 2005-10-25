@@ -52,11 +52,6 @@ void JupiterMoonsComponent::updateMoons(KStarsData*, KSNumbers*, bool needNewCoo
 
 }
 
-void JupiterMoonsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	jmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-}
-
 void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( !Options::showJupiter() ) return;

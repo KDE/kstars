@@ -31,9 +31,9 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-HorizonComponent::HorizonComponent(SkyComposite *parent) : SkyComponent(parent)
+HorizonComponent::HorizonComponent(SkyComposite *parent, bool (*visibleMethod)()) 
+: PointListComponent(parent, visibleMethod)
 {
-//	Horizon.setAutoDelete(TRUE);
 	pts = 0;
 }
 
@@ -42,12 +42,6 @@ HorizonComponent::~HorizonComponent()
 	delete pts;
 }
 
-// was KStarsData::initGuides(KSNumbers *num)
-// needs dms *LST, *HourAngle from KStarsData
-// TODO: ecliptic + equator needs partial code of algorithm
-// -> solution:
-//	-all 3 objects in 1 component (this is messy)
-//	-3 components which share a algorithm class
 void HorizonComponent::init(KStarsData *data)
 {
 	pts = new Q3PointArray(2000);
@@ -62,16 +56,6 @@ void HorizonComponent::init(KStarsData *data)
 	}
 }
 
-void HorizonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( Options::showHorizon() || Options::showGround() ) {
-	  foreach ( SkyPoint *p, Horizon ) {
-			p->HorizontalToEquatorial( LST, data->geo()->lat() );
-		}
-	}
-}
-
-// was SkyMap::drawHorizon
 void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( !Options::showHorizon() ) return;

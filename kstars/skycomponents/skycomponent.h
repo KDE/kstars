@@ -47,7 +47,7 @@ class SkyComponent
 			*@short Constructor
 			*@p parent pointer to the parent SkyComposite
 			*/
-		SkyComponent(SkyComposite *parent);
+		SkyComponent(SkyComposite *parent, bool (*visibleMethod)());
 		
 		/**
 			*@short Destructor
@@ -63,13 +63,15 @@ class SkyComponent
 		virtual void draw( KStars*, QPainter&, double ) {};
 		
 		/**
-			*Draw the object, if it is exportable to an image
+			*@short Draw the object, if it is exportable to an image
 			*@p ks Pointer to the KStars object
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*@see isExportable()
 			*/
 		void drawExportable(KStars *ks, QPainter& psky, double scale);
+
+		virtual void drawPlanets(KStars *ks, QPainter& psky, double scale) {}
 		
 		/**
 			*@short Initialize the component - load data from disk etc.
@@ -81,24 +83,33 @@ class SkyComponent
 		virtual void init(KStarsData *data);
 		
 		/**
-			*For optimization there are 3 update methods. Long 
-			*operations, like moon updates can be called separately, 
-			*so it's not necessary to process it every update call.
-			*updatePlanets() is used by planets, comets, ecliptic.
-			*updateMoons() is used by the moon and the jupiter moons.
-			*update() is used by all components and for updating 
-			*Alt/Az coordinates.
+			*@short Update the sky position(s) of this component.
 			*
+			*This function usually just updates the Horizontal (Azimuth/Altitude)
+			*coordinates of its member object(s).  However, the precession and
+			*nutation must also be recomputed periodically.  Requests to do so are
+			*sent through the doPrecess parameter.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
-			*@p needNewCoords true if cordinates should be recomputed
+			*@p doPrecession true if precession/nutation should be recomputed
+			*@note this is a pure virtual function, it must be reimplemented 
+			*by the subclasses of SkyComponent.
+			*@sa SingleComponent::update()
+			*@sa ListComponent::update()
+			*@sa ConstellationBoundaryComponent::update()
 			*/
-		virtual void updatePlanets( KStarsData*, KSNumbers*, bool ) {};
-
-		virtual void updateMoons( KStarsData*, KSNumbers*, bool ) {};
-
-		virtual void update( KStarsData*, KSNumbers*, bool ) {};
+		virtual void update( KStarsData*, KSNumbers*, bool doPrecession ) {};
 	
+		/**
+			*@return true if the component is to be drawn on the map.
+			*
+			*This meta-function is actually a pointer to the appropriate
+			*Options::showXXX() function for this component.  It allows
+			*us to call the appropriate function by just calling 
+			*"visible()".
+			*/
+		bool (*visible)();
+
 		/**
 			*The parent of a component may be a composite or nothing.
 			*It's useful to know it's parent, if a component want to 
@@ -119,12 +130,12 @@ class SkyComponent
 			*@return true if the Trail was successfully added.
 			*@note This base function simply returns false, because you 
 			*can only add Trails to solar system bodies.
-			*@see PlanetComponent::addTrail()
-			*@see AsteroidsComponent::addTrail()
-			*@see CometsComponent::addTrail()
+			*@sa SolarSystemSingleComponent::addTrail()
+			*@sa SolarSystemListComponent::addTrail()
 			*/
-		bool addTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
+		virtual bool addTrail( SkyObject *o );
+		virtual bool hasTrail( SkyObject *o );
+		virtual bool removeTrail( SkyObject *o );
 
 		/**
 			*@short Search the children of this SkyComponent for 

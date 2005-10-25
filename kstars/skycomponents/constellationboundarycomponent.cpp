@@ -136,11 +136,11 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 	}
 }
 
-void ConstellationBoundaryComponent::update(KStarsData*, KSNumbers*, bool needNewCoords) {
-	if ( Options::showCBounds() ) {  
-	  foreach ( CSegment *seg, csegmentList ) {
+void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num, bool doPrecession ) {
+	if ( visible() ) {  
+	  foreach ( CSegment *seg, segmentList() ) {
 	    foreach ( SkyPoint *p, seg->nodes() ) {
-				if ( needNewCoords ) p->updateCoords( &num );
+				if ( doPrecession && num ) p->updateCoords( &num );
 				p->EquatorialToHorizontal( LST, geo->lat() );
 			}
 		}

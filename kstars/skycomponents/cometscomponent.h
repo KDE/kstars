@@ -62,14 +62,6 @@ class CometsComponent : public SolarSystemListComponent
 		*@short Initialize the asteroids list.
 		*Reads in the asteroids data from the asteroids.dat file.
 		*@p data Pointer to the KStarsData object
-		*/
-		virtual void init(KStarsData *data);
-	
-	/**
-		*@short Update the positions of list members
-		*@p data Pointer to the KStarsData object
-		*@p data Pointer to the KSNumbers object
-		*@p needNewCoords set to true if objects need their positions recomputed
 		*
 		*@short Utility function for reading the asteroids.dat file
 		*Populate the list of Comets from the data file.
@@ -84,18 +76,14 @@ class CometsComponent : public SolarSystemListComponent
 		*@li 82-93 Mean Anomaly in degrees [double]
 		*@li 94-98 Magnitude [double]
 		*/
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
-		/**
-		 *@short Add a Trail to the specified SkyObject.
-		 *@p o Pointer to the SkyObject to which a Trail will be added
-		 */
-		bool addTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
-
-		QList<SkyObject*>& trailList() { return TrailList; }
-
-	private:
-		QList<SkyObject*> TrailList;
+		virtual void init(KStarsData *data);
+	
+	/**
+		*@short Update the positions of the comets
+		*@p data Pointer to the KStarsData object
+		*@p data Pointer to the KSNumbers object
+		*@p needNewCoords set to true if objects need their positions recomputed
+		*/
+		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 };

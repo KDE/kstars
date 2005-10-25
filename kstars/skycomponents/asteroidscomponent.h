@@ -78,24 +78,13 @@ class AsteroidsComponent: public SolarSystemListComponent
 		virtual void init( KStarsData *data );
 	
 	/**
-		*@short Update the positions of list members
+		*@short Update the positions of the asteroids
 		*@p data Pointer to the KStarsData object
 		*@p data Pointer to the KSNumbers object
 		*@p needNewCoords set to true if objects need their positions recomputed
 		*/
-		virtual void update( KStarsData *data, KSNumbers *num, bool needNewCoords );
+		virtual void updatePlanets( KStarsData *data, KSNumbers *num, bool needNewCoords );
 
-		/**
-		 *@short Add a Trail to the specified SkyObject.
-		 *@p o Pointer to the SkyObject to which a Trail will be added
-		 */
-		bool addTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
-
-		QList<SkyObject*>& trailList() { return TrailList; }
-
-	private:
-		QList<SkyObject*> TrailList;
 };
 
 #endif

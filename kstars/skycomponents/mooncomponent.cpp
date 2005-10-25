@@ -108,10 +108,7 @@ void MoonComponent::draw( KStars *ks, QPainter& psky, double scale)
 
 }
 
-void MoonComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void MoonComponent::updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
-	if ( visible() ) {
-		Moon->EquatorialToHorizontal( data->LST, data->geo->lat() );
-		if ( Moon->hasTrail() ) Moon->updateTrail( data->LST, geo->lat() );
-	}
+	//findCoords() code
 }

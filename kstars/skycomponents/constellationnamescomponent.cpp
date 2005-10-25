@@ -23,8 +23,8 @@
 #include "ksutils.h"
 #include "skyobject.h"
 
-ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent)
-: SkyComponent(parent)
+ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, bool (*visibleMethod)())
+: ListComponent(parent, visibleMethod)
 {
 }
 
@@ -69,17 +69,6 @@ void ConstellationNamesComponent::init(KStarsData *data)
 			ObjNames.append( o );
 		}
 		file.close();
-	}
-}
-
-void ConstellationNamesComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if (Options::showCNames())
-	{
-	  foreach ( SkyPoint *p, cnameList ) {
-			if (needNewCoords) p->updateCoords( num );
-			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		}
 	}
 }
 

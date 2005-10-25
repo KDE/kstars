@@ -104,16 +104,14 @@ void AsteroidsComponent::init(KStarsData *data)
 	}
 }
 
-//JH: Got rid of updatePlanets(), and moved that code into update().
-//We can just use needNewCoords parameter to decide whether to call
-//findPosition()
-void AsteroidsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void AsteroidsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( visible() )
 	{
 		KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
 		Earth.findPosition( num );
-		foreach ( KSAsteroid *ast, asteroidList ) {
+		foreach ( SkyObject *o, objectsList() ) {
+			KSAsteroid *ast = (KSAsteroid*)o;
 			if ( needNewCoords ) ast->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
 			ast->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 			if ( ast->hasTrail() )

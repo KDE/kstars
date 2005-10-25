@@ -64,8 +64,6 @@ class JupiterMoonsComponent: public SkyComponent
 	
 		virtual void updateMoons(KStarsData*, KSNumbers*, bool needNewCoords) {};
 		
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
-
 	private:
 
 		JupiterMoons *jmoons;

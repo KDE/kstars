@@ -29,13 +29,12 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-EclipticComponent::EclipticComponent(SkyComposite *parent) : SkyComponent(parent)
+EclipticComponent::EclipticComponent(SkyComposite *parent, bool (*visibleMethod)()) : PointListComponent(parent, visibleMethod)
 {
 }
 
 EclipticComponent::~EclipticComponent()
 {
-  while ( ! Ecliptic.isEmpty() ) delete Ecliptic.takeFirst();
 }
 
 // was KStarsData::initGuides(KSNumbers *num)

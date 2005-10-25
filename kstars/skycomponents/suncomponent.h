@@ -65,7 +65,7 @@ class SunComponent : public SolarSystemSingleComponent
 		*@p data Pointer to the KSNumbers object
 		*@p needNewCoords set to true if the Sun needs its position recomputed
 		*/
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
 	private:
 		KSSun *sun;

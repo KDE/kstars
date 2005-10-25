@@ -102,6 +102,13 @@ void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 	SkyComposite::draw(ks, psky, scale);
 }
 
+void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
+{
+	foreach ( SkyComponent *comp, components() ) {
+		comp->drawTrails( ks, psky, scale );
+	}
+}
+
 bool SolarSystemComposite::addTrail( SkyObject *o ) {
 	foreach ( SkyComponent *comp, components() ) {
 		if ( comp->addTrail( o ) ) return true;

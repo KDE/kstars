@@ -64,14 +64,6 @@ class CustomCatalogComponent: public SkyComponent
 		*/
 		virtual void init(KStarsData *data);
 	
-	/**
-		*@short Update the current positions of the custom objects
-		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@p needNewCoords set to true if positions need to be recomputed
-		*/
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
-
 	private:
 		
 	/**

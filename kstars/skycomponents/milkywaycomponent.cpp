@@ -31,17 +31,18 @@
 #include "Options.h"
 #include "ksutils.h"
 
-MilkyWayComponent::MilkyWayComponent(SkyComposite *parent) : SkyComponent(parent)
+MilkyWayComponent::MilkyWayComponent(SkyComposite *parent, bool (*visibleMethod)()) 
+: PointListComponentComponent(parent, bool (*visibleMethod)())
 {
 	pts = 0;
 }
 
 MilkyWayComponent::~MilkyWayComponent()
 {
-  for ( int i=0; i<NMWFILES; ++i ) 
-    while ( ! MilkyWay[i].isEmpty() ) delete MilkyWay[i].takeFirst();
-  
-  delete pts;
+//  for ( int i=0; i<NMWFILES; ++i ) 
+//   while ( ! MilkyWay[i].isEmpty() ) delete MilkyWay[i].takeFirst();
+
+	delete pts;
 }
 
 // was bool KStarsData::readMWData( void )
@@ -86,22 +87,6 @@ void MilkyWayComponent::init(KStarsData *data)
 		}
 	}
 //	return true;
-}
-
-void MilkyWayComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if (Options::showMilkyWay())
-	{
-//		for ( unsigned int j=0; j<11; ++j )
-		for ( unsigned int j=0; j<NMWFILES; ++j )
-		{
-		  foreach  ( SkyPoint *p, MilkyWay[j] ) {
-			{
-				if (needNewCoords) p->updateCoords( num );
-				p->EquatorialToHorizontal( LST, ks->data()->geo()->lat() );
-			}
-		}
-	}
 }
 
 void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)

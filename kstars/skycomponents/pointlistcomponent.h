@@ -1,5 +1,5 @@
 /***************************************************************************
-                          singlecomponent.h  -  K Desktop Planetarium
+                          pointlistcomponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/10/01
     copyright            : (C) 2005 by Jason Harris
@@ -15,51 +15,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SINGLECOMPONENT_H
-#define SINGLECOMPONENT_H
+#ifndef POINTLISTCOMPONENT_H
+#define POINTLISTCOMPONENT_H
 
 /**
- *@class SingleComponent
- *An abstract parent class, to be inherited by SkyComponents that store a 
- *SkyObject.
+ *@class PointListComponent
+ *An abstract parent class, to be inherited by SkyComponents that store a QList
+ *of SkyPoints.
  *
  *@author Jason Harris
  *@version 0.1
  */
 
-class KStars;
+class SkyMap;
 
 #include "skycomponent.h"
 
-class SingleComponent : public SkyComponent
+class PointListComponent : public SkyComponent
 {
 	public:
-		SingleComponent(SkyComposite *parent, bool (*visibleMethod)());
+	
+		PointListComponent( SkyComposite *parent, bool (*visibleMethod)() );
 		
-		virtual ~SingleComponent();
+		virtual ~PointListComponent();
 		
-		/**
-			*@short Draw the object on the SkyMap
-			*@p ks Pointer to the KStars object
-			*@p psky Reference to the QPainter on which to paint
-			*@p scale the scaling factor for drawing (1.0 for screen draws)
-			*/
-		virtual void draw( KStars *, QPainter &, double ) {};
+		/**Draw the list of objects on the SkyMap*/
+		virtual void draw(KStars *ks, QPainter& psky, double scale) {};
 		
-		/**
-			*Draw the object, if it is exportable to an image
-			*@p ks Pointer to the KStars object
-			*@p psky Reference to the QPainter on which to paint
-			*@p scale the scaling factor for drawing (1.0 for screen draws)
-			*@see isExportable()
-			*/
-		void drawExportable( KStars *ks, QPainter& psky, double scale );
+		/**Draw the object, if it is exportable to an image
+		*@see isExportable()
+		*/
+		void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
 		/**
-			*@short Update the sky position of this component.
+			*@short Update the sky positions of this component.
 			*
 			*This function usually just updates the Horizontal (Azimuth/Altitude)
-			*coordinates of the object in this component.  However, the precession
+			*coordinates of the objects in this component.  However, the precession
 			*and nutation must also be recomputed periodically.  Requests to do
 			*so are sent through the doPrecess parameter.
 			*@p data Pointer to the KStarsData object
@@ -69,11 +61,11 @@ class SingleComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0, bool doPrecession=false );
 		
-		SkyObject* skyObject() { return StoredObject; }
+		QList<SkyPoint*>& pointList() { return m_PointList; }
 
 	private:
 		SkyComposite *Parent;
-		SkyObject* StoredObject;
+		QList<SkyPoint*> m_PointList;
 };
 
 #endif

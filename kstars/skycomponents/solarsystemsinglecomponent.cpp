@@ -22,18 +22,132 @@
 #include "kstarsdata.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanet *earth, bool (*visibleMethod)(), int msize)
-: SkyComponent( *(SkyComponent*)parent )
+: SingleComponent( (SkyComposite*)parent, visibleMethod )
 {
-	visible = visibleMethod;
 	minsize = msize;
 	sizeScale = 1.0;
 	m_Earth = parent->earth();
 }
 
-void SolarSystemSingleComponent::drawTrail(KStars *ks, QPainter& psky, KSPlanetBase *ksp, double scale )
+SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
-  if ( ! visible() || !ksp->hasTrail() ) return;
+	//Object deletes handled by parent class (SingleComponent)
+}
+
+void SolarSystemSingleComponent::init(KStarsData *data) {
+	(KSPlanetBase*)skyObject()->loadData();
+	data->appendNamedObject( skyObject() );
+}
+
+void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num) {
+	if ( visible() ) {
+		KSPlanetBase *p = (KSPlanetBase*)skyObject();
+		p->findPosition( num, data->geo()->lat(), data->lst(), earth() );
+		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+		if ( hasTrail() ) 
+			p->updateTrail( data->lst(), data->geo()->lat() );
+	}
+}
+
+bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
+	if ( o == storedObject() ) {
+		(KSPlanetBase*)(storedObject())->addToTrail();
+		return true;
+	}
+	return false;
+}
+
+bool SolarSystemSingleComponent::hasTrail( SkyObject *o ) {
+	if ( o == storedObject() ) {
+		(KSPlanetBase*)(storedObject())->hasTrail();
+		return true;
+	}
+	return false;
+}
+
+bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
+	if ( o == storedObject() ) {
+		(KSPlanetBase*)(storedObject())->clearTrail();
+		return true;
+	}
+	return false;
+}
+
+void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale ) {
+	if ( !visible() ) return;
+
+	SkyMap *map = ks->map();
+
+	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
+	if ( map->checkVisibility( p ) ) {
+		int Width = int( scale * map->width() );
+		int Height = int( scale * map->height() );
+
+		int sizemin = 4;
+		if ( p->name() == "Sun" || p->name() == "Moon" ) sizemin = 8;
+		sizemin = int( sizemin * scale );
+
+		//TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
+		psky.setPen( p->color() );
+		psky.setBrush( p->color() );
+		QPoint o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+
+		//Is planet onscreen?
+		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
+			int size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+			if ( size < sizemin ) size = sizemin;
+
+			//Draw planet image if:
+			if ( Options::showPlanetImages() &&  //user wants them,
+					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
+					!p->image()->isNull() &&  //image loaded ok,
+					size < Width ) {  //and size isn't too big.
+
+				//Image size must be modified to account for possibility that rotated image's
+				//size is bigger than original image size.  The rotated image is a square
+				//superscribed on the original image.  The superscribed square is larger than
+				//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+				//which the two squares are rotated (in our case, equal to the position angle +
+				//the north angle, reduced between 0 and 90 degrees).
+				//The proof is left as an exercise to the student :)
+				dms pa( map->findPA( p, o.x(), o.y(), scale ) );
+				double spa, cpa;
+				pa.SinCos( spa, cpa );
+				cpa = fabs(cpa);
+				spa = fabs(spa);
+				size = int( size * (cpa + spa) );
+
+				//Because Saturn has rings, we inflate its image size by a factor 2.5
+				if ( p->name() == "Saturn" ) size = int(2.5*size);
+
+				if (resize_mult != 1) {
+					size *= resize_mult;
+				}
+
+				p->scaleRotateImage( size, pa.Degrees() );
+				int x1 = o.x() - p->image()->width()/2;
+				int y1 = o.y() - p->image()->height()/2;
+				psky.drawImage( x1, y1, *(p->image()));
+
+			} else {                                   //Otherwise, draw a simple circle.
+
+				psky.drawEllipse( o.x()-size/2, o.y()-size/2, size, size );
+			}
+
+			//draw Name
+			if ( Options::showPlanetNames() ) {
+				psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+				drawNameLabel( psky, p, o.x(), o.y(), scale );
+			}
+		}
+	}
+}
+
+void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
+  if ( ! visible() || ! hasTrail() ) return;
 	
+	KStarsPlanetBase *ksp = (KStarsPlanetBase*)skyObject();
 	SkyMap *map = ks->map();
 	KStarsData *data = ks->data();
 

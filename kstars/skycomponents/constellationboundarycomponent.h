@@ -35,8 +35,15 @@ class KSNumbers;
 
 #include <QList>
 #include <QChar>
-#include "csegment.h"
 
+//CBComponent doesn't fit into any of the three base-class Components
+//It comes closest to PointListComponent, but its members are CSegment objects,
+//not SkyPoints.  Since CSegments are essentially themselves collections of
+//SkyPoints, we could make this CBComposite, with PointListComponent
+//members.  However, a CSegment is a bit more than a list of points; it also 
+//has two constell. names associated with it.  So, it's easiest to just 
+//make this class inherit SkyComponent directly, so we can define the unique 
+//QList<CSegment> member
 class ConstellationBoundaryComponent : public SkyComponent
 {
 	public:
@@ -66,17 +73,25 @@ class ConstellationBoundaryComponent : public SkyComponent
 		*/
 		virtual void init(KStarsData *data);
 	
-	/**
-		*@short Update the current positions of the constellation boundaries
-		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@p needNewCoords set to true if objects need their positions recomputed
-		*/
-		virtual void update(KStarsData*, KSNumbers*, bool needNewCoords);
+		/**
+			*@short Update the sky position(s) of this component.
+			*
+			*This function usually just updates the Horizontal (Azimuth/Altitude)
+			*coordinates of its member object(s).  However, the precession and
+			*nutation must also be recomputed periodically.  Requests to do so are
+			*sent through the doPrecess parameter.
+			*@p data Pointer to the KStarsData object
+			*@p num Pointer to the KSNumbers object
+			*@p doPrecession true if precession/nutation should be recomputed
+			*@sa SingleComponent::update()
+			*@sa ListComponent::update()
+			*/
+		virtual void update( KStarsData *data, KSNumbers *num=0, bool doPrecession=false );
+		
+		QList<CSegment*>& segmentList();
 
 	private:
-
-		QList<CSegment*> csegmentList;
+		QList<CSegment*> m_SegmentList;
 };
 
 #endif

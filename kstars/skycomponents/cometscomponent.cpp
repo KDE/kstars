@@ -66,16 +66,14 @@ void CometsComponent::init( KStarsData *data ) {
 	}
 }
 
-//JH: Got rid of updatePlanets(), and moved that code into update().
-//We can just use needNewCoords parameter to decide whether to call
-//findPosition()
-void CometsComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
+void CometsComponent::updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords)
 {
 	if ( visible() )
 	{
 		KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
 		Earth.findPosition( num );
-		foreach ( KSComet *com, cometList ) {
+		foreach ( SkyObject *o, objectsList() ) {
+			KSComet *com = (KSComet*)com;
 			if ( needNewCoords ) com->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
 			com->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 			if ( com->hasTrail() )

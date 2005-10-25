@@ -18,7 +18,7 @@
 
 #include "Options.h"
 
-DeepSkyComponent::DeepSkyComponent(SkyComposite *parent) : SkyComponent(parent)
+DeepSkyComponent::DeepSkyComponent(SkyComposite *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
 {
 }
 
@@ -31,35 +31,6 @@ DeepSkyComponent::init(KStarsData *data)
 {
 	readDeepSkyData();
 }
-
-DeepSkyComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( Options::showMessier() || Options::showMessierImages() ) {
-	  foreach ( SkyObject *o, deepSkyListMessier ) {
-			if (needNewCoords) o->updateCoords( &num );
-			o->EquatorialToHorizontal( LST, geo->lat() );
-		}
-	}
-	if ( Options::showNGC() ) {
-	  foreach ( SkyObject *o, deepSkyListNGC ) {
-			if (needNewCoords) o->updateCoords( &num );
-			o->EquatorialToHorizontal( LST, geo->lat() );
-		}
-	}
-	if ( Options::showIC() ) {
-	  foreach ( SkyObject *o, deepSkyListIC ) {
-			if (needNewCoords) o->updateCoords( &num );
-			o->EquatorialToHorizontal( LST, geo->lat() );
-		}
-	}
-	if ( Options::showOther() ) {
-	  foreach ( SkyObject *o, deepSkyListOther ) {
-			if (needNewCoords) o->updateCoords( &num );
-			o->EquatorialToHorizontal( LST, geo->lat() );
-		}
-	}
-}
-
 
 void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 {

@@ -17,13 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent)
-: SkyComponent(parent)
+ConstellationLinesComponent::ConstellationLinesComponent(SkyComposite *parent, bool (*visibleMethod)())
+: PointListComponent(parent, visibleMethod)
 {
 }
 
 ConstellationLinesComponent::~ConstellationLinesComponent() {
-	while ( ! clineList.isEmpty() ) delete clineList.takeFirst();
 }
 
 // bool KStarsData::readCLineData( void )
@@ -113,14 +112,4 @@ void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 			iLast = ks->data()->clineList.at();
 		}
   }
-}
-
-void ConstellationLinesComponent::update(KStarsData *data, 
-		KSNumbers *num, bool needNewCoords) {
-	if ( Options::showCLines() ) {  
-		foreach ( SkyPoint *p, clineList ) {
-			if ( needNewCoords ) p->updateCoords( &num );
-			p->EquatorialToHorizontal( data()->lst(), data->geo()->lat() );
-		}
-	}
 }

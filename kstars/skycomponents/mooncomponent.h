@@ -70,7 +70,7 @@ class MoonComponent : SolarSystemSingleComponent
 		 *@p num pointer to the KSNumbers object
 		 *@p needNewCoords true if a new position should be computed
 		 */
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
+		virtual void updateMoons(KStarsData *data, KSNumbers *num, bool needNewCoords);
 	
 	
 	private:

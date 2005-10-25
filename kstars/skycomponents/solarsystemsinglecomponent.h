@@ -44,31 +44,57 @@ class SolarSystemSingleComponent : public SingleComponent
 		/** Initialize visible method, minimum size and sizeScale. */
 		SolarSystemSingleComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize);
 
-		/** Set the size scale. Default value is 1.0 and only
-		* Saturn uses a scale of 2.5.
-		*(JH: this should be in PlanetComponent, no?)
-		*/
+		~SolarSystemSingleComponent();
+
+		/**
+			*@short Initialize the solar system body
+			*Reads in the orbital data from data files.
+			*@p data Pointer to the KStarsData object
+			*/
+			virtual void init(KStarsData *data);
+	
+		/**
+			*@short Update the coordinates of the planet.
+			*
+			*This function updates the position of the moving solar system body.
+			*@p data Pointer to the KStarsData object
+			*@p num Pointer to the KSNumbers object
+			*/
+		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
+
+		/**
+			*@short Set the size scale. Default value is 1.0 and only
+			*Saturn uses a scale of 2.5.
+			*/
 		void setSizeScale(float scale);
 		
 	protected:
 		
 		KSPlanet* earth() { return m_Earth; }
 		
+		void draw( KStars *ks, QPainter &psky, double scale );
+
 		/** 
 			*@short Draws the planet's trail, if necessary.
 			*/
-		void drawTrail(KStars *ks, QPainter& psky, KSPlanetBase *ksp, double scale);
+		void drawTrails( KStars *ks, QPainter& psky, double scale );
 		
-		//FIXME: try to remove color (DONE), zoommin, and resize_mult args to match baseclass draw declaration
-		//FIXME: Move to child classes (SUn, Moon, Planet, Pluto)
-		void draw(KStars *ks, QPainter &psky, KSPlanetBase *p, QColor c, double zoommin, int resize_mult, double scale);
-
 		// calculate the label size for drawNameLabel()
 		virtual int labelSize(SkyObject*);
 
-		// use the function pointer to call the Option::XXX() method passed in ctor - this method is then called visible()
-		bool (*visible)();
-		
+	/**
+		*@short Add a Trail to the specified SkyObject.
+		*@p o Pointer to the SkyObject to which a Trail will be added
+		*/
+		bool addTrail( SkyObject *o );
+
+	/**
+		*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
+		*@p o Pointer to the SkyObject to which a Trail will be added
+		*/
+		bool hasTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
+
 	private:
 
 		// minimum size for drawing name labels

@@ -35,22 +35,6 @@ void SunComponent::init(KStarsData *data)
   data->appendNamedObject( sun );
 }
 
-//JH: Got rid of updatePlanets(), and moved that code into update().
-//We can just use needNewCoords parameter to decide whether to call
-//findPosition()
-void SunComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	if ( visible() )
-	{
-		if ( needNewCoords ) sun->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
-		sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		if ( sun->hasTrail() )
-		{
-		  sun->updateTrail( data->lst(), data->geo()->lat() );
-		}
-	}
-}
-
 void SunComponent::draw(KStars *ks, QPainter& psky, double scale) {
 	if ( !visible() ) return;
 

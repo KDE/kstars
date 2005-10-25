@@ -20,7 +20,8 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-StarComponent::StarComponent(SkyComposite *parent) : SkyComponent(parent)
+StarComponent::StarComponent(SkyComposite *parent, bool (*visibleMethod)()) 
+: ListComponent(parent, visibleMethod)
 {
 	starList = 0;
 }
@@ -35,25 +36,6 @@ void StarComponent::init(KStarsData *data)
 	starList = new QList()<StarObject*>;
 	
 	readStarData();
-}
-
-void StarComponent::update(KStarsData *data, KSNumbers *num, bool needNewCoords)
-{
-	// TODO check if stars will updated before constellation lines
-	
-	//Stars (need to update if constell. lines or stars are shown)
-	if ( Options::showStars() || Options::showCLines() )
-	{
-		// use MINDRAWSTARMAG for calculating constellation lines right
-		float mag = Options::magLimitDrawStar();
-		if (mag < data->MINDRAWSTARMAG) mag = data->MINDRAWSTARMAG;
-		for ( StarObject *star = starList->first(); star; star = starList->next() )
-		{
-			if ( star->mag() > mag ) break;
-			if (needNewCoords) star->updateCoords( num );
-			star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		}
-	}
 }
 
 void StarComponent::draw(KStars *ks, QPainter& psky, double scale)

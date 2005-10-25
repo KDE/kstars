@@ -35,7 +35,7 @@ class KSNumbers;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class EquatorComponent: public SkyComponent
+class EquatorComponent: public PointListComponent
 {
 	public:
 
@@ -43,7 +43,7 @@ class EquatorComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		EquatorComponent(SkyComposite *parent);
+		EquatorComponent(SkyComposite *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor
@@ -63,18 +63,8 @@ class EquatorComponent: public SkyComponent
 		 */
 		virtual void init(KStarsData *data);
 		
-		/**
-		 *@short Update the coordinates of the Equator
-		 *@p data Pointer to the KStarsData object
-		 *@p num Pointer to the KSNumbers object
-		 *@p needNewCoords true if cordinates should be recomputed
-		 */
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
 	private:
-		// the points of the equator
-		QList<SkyPoint*> Equator;
-		
+		//FIXME: Still need this?
 		Q3PointArray *pts;
 
 };

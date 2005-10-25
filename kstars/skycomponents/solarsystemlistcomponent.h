@@ -28,21 +28,38 @@
  */
 class SolarSystemListComponent : public ListComponent
 {
- public:
-  SolarSystemListComponent();
-  ~SolarSystemListComponent();
+	public:
+		SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize);
+		~SolarSystemListComponent();
+	
+		/**
+			*@short Update the coordinates of the solar system bodies in this component.
+			*
+			*This function updates the position of the moving solar system bodies.
+			*@p data Pointer to the KStarsData object
+			*@p num Pointer to the KSNumbers object
+			*/
+		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
-  /**
-   *@short Add a Trail to the specified SkyObject.
-   *@p o Pointer to the SkyObject to which a Trail will be added
-   */
-  bool addTrail( SkyObject *o );
-  bool removeTrail( SkyObject *o );
-  
-  QList<SkyObject*>& trailList() { return TrailList; }
-  
- private:
-  QList<SkyObject*> TrailList;
+		/** 
+			*@short Draws the bodies' trails, if necessary.
+			*/
+		void drawTrails(KStars *ks, QPainter& psky, double scale);
+		
+	/**
+		*@short Add a Trail to the specified SkyObject.
+		*@p o Pointer to the SkyObject to which a Trail will be added
+		*/
+		bool addTrail( SkyObject *o );
+		bool hasTrail( SkyObject *o );
+		bool removeTrail( SkyObject *o );
+		
+	protected:
+		KSPlanet* earth() { return m_Earth; }
+		
+	private:
+		KSPlanet *m_Earth;
+		QList<SkyObject*> m_TrailList;
 
 };
 

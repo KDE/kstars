@@ -35,7 +35,7 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 
-class EclipticComponent: public SkyComponent
+class EclipticComponent: public PointListComponent
 {
 	public:
 
@@ -43,7 +43,7 @@ class EclipticComponent: public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite object
 		 */
-		EclipticComponent(SkyComposite *parent);
+		EclipticComponent(SkyComposite *parent, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor
@@ -63,19 +63,7 @@ class EclipticComponent: public SkyComponent
 		 *@p data pointer to the KStarsData object
 		 */
 		virtual void init(KStarsData *data);
-	
-		/**
-		 *@short Update the coordinates of points on the Ecliptic
-		 *@p data pointer to the KStarsData object
-		 *@p num pointer to the KSNumbers object
-		 *@p needNewCoords true if positions should be recomputed
-		 */
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
 
-	private:
-		// the points of the equator
-		QList<SkyPoint*> Ecliptic;
-		
 };
 
 #endif

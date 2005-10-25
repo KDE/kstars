@@ -66,17 +66,6 @@ class PlutoComponent : public SolarSystemSingleComponent
 		*/
 		virtual void updatePlanets(KStarsData *data, KSNumbers *num, bool needNewCoords);
 		
-	/**
-		*@short Update the position
-		*@p data Pointer to the KStarsData object
-		*@p data Pointer to the KSNumbers object
-		*@p needNewCoords set to true if Pluto needs its position recomputed
-		*/
-		virtual void update(KStarsData *data, KSNumbers *num, bool needNewCoords);
-
-		/** from PlanetHelper */
-		virtual void drawTrail(SkyMap *map, QPainter& psky, double scale);
-		
 	private:
 		KSPluto *pluto;
 		bool HasTrail;
