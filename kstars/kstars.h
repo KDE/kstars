@@ -29,7 +29,7 @@
 #include <QVBoxLayout>
 
 #include "kstarsinterface.h"
-#include "observinglist.h"
+#include "tools/observinglist.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -52,7 +52,7 @@ class InfoBoxes;
 class ToggleAction;
 class TimeStepBox;
 
-//class AstroCalc;
+class AstroCalc;
 class INDIMenu;
 class INDIDriver;
 class imagesequence;
@@ -98,7 +98,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		SkyMap* map();
 
-        ObservingList* observingList();
+		ObservingList* observingList();
 
 	/**@return pointer to GeoLocation object which is the current geographic location.
 		*/
