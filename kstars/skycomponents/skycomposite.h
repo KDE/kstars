@@ -151,9 +151,9 @@ class SkyComposite : public SkyComponent
 			*@p o Pointer to the SkyObject to which a Trail will be added
 			*@return true if the object was found and a Trail was added 
 			*/
-		bool addTrail( SkyObject *o );
-		bool hasTrail( SkyObject *o, bool &found );
-		bool removeTrail( SkyObject *o );
+		virtual bool addTrail( SkyObject *o );
+		virtual bool hasTrail( SkyObject *o, bool &found );
+		virtual bool removeTrail( SkyObject *o );
 
 		/**
 			*@short Search the children of this SkyComposite for 

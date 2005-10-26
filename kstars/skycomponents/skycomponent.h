@@ -24,8 +24,13 @@ class QString;
 class KSNumbers;
 class KStars;
 class KStarsData;
-class SkyComposite;
 class SkyObject;
+
+	/**
+		*@short static placeholder function for SkyComponents that don't 
+		*need a visibility function.  Simply returns true.
+		*/
+	static bool alwaysVisible() { return true; }
 
 /**
 	*@class SkyComponent
@@ -46,8 +51,11 @@ class SkyComponent
 		/**
 			*@short Constructor
 			*@p parent pointer to the parent SkyComponent
+			*@p visibleMethod pointer to the function which determines 
+			*whether this component should be drawn in the map.  Defaults
+			*to always visible.
 			*/
-		SkyComponent(SkyComponent *parent, bool (*visibleMethod)());
+		SkyComponent( SkyComponent *parent, bool (*visibleMethod)() = &alwaysVisible );
 		
 		/**
 			*@short Destructor
@@ -71,7 +79,7 @@ class SkyComponent
 			*/
 		void drawExportable(KStars *ks, QPainter& psky, double scale);
 
-		virtual void drawPlanets(KStars *ks, QPainter& psky, double scale) {}
+		virtual void drawPlanets(KStars *ks, QPainter& psky, double scale);
 		
 		/**
 			*@short Initialize the component - load data from disk etc.
@@ -115,7 +123,7 @@ class SkyComponent
 			*add a component to it's parent, for example a star want 
 			*to add/remove a trail to it's parent.
 			*/
-		SkyComposite* parent() { return Parent; }
+		SkyComponent* parent() { return Parent; }
 		
 		/**
 			*@short Add a Trail to the specified SkyObject.
@@ -179,6 +187,7 @@ class SkyComponent
 		virtual int labelSize(SkyObject*) { return 1; };
 
 	private:
+	
 		SkyComponent *Parent;
 };
 

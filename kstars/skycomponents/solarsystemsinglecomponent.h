@@ -86,14 +86,14 @@ class SolarSystemSingleComponent : public SingleComponent
 		*@short Add a Trail to the specified SkyObject.
 		*@p o Pointer to the SkyObject to which a Trail will be added
 		*/
-		bool addTrail( SkyObject *o );
+		virtual bool addTrail( SkyObject *o );
 
 	/**
 		*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
 		*@p o Pointer to the SkyObject to which a Trail will be added
 		*/
-		bool hasTrail( SkyObject *o, bool *found=0 );
-		bool removeTrail( SkyObject *o );
+		virtual bool hasTrail( SkyObject *o, bool *found=0 );
+		virtual bool removeTrail( SkyObject *o );
 
 	private:
 

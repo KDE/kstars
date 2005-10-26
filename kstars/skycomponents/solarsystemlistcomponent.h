@@ -50,9 +50,9 @@ class SolarSystemListComponent : public ListComponent
 		*@short Add a Trail to the specified SkyObject.
 		*@p o Pointer to the SkyObject to which a Trail will be added
 		*/
-		bool addTrail( SkyObject *o );
-		bool hasTrail( SkyObject *o, bool *found=0 );
-		bool removeTrail( SkyObject *o );
+		virtual bool addTrail( SkyObject *o );
+		virtual bool hasTrail( SkyObject *o, bool *found=0 );
+		virtual bool removeTrail( SkyObject *o );
 		
 	protected:
 		KSPlanet* earth() { return m_Earth; }

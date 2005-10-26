@@ -21,99 +21,60 @@
 #include "kstarsdata.h"
 #include "skyobject.h"
 
-SkyComposite::SkyComposite(SkyComponent *parent, KStarsData *data ) 
+SkyComposite::SkyComposite(SkyComponent *parent, KStarsData * ) 
 : SkyComponent( parent )
 {
 }
 
 SkyComposite::~SkyComposite()
 {
-	while ( !Components.isEmpty() )
-		delete Components.takeFirst();
+	while ( !components().isEmpty() )
+		delete components().takeFirst();
 }
 
 void SkyComposite::addComponent(SkyComponent *component)
 {
-	Components.append(component);
+	components().append(component);
 }
 
 void SkyComposite::removeComponent(SkyComponent *component)
 {
-	int index = Components.indexOf(component);
+	int index = components().indexOf(component);
 	if (index != -1)
 	{
 		// component is in list
-		Components.removeAt(index);
+		components().removeAt(index);
 		delete component;
 	}
 }
 
 void SkyComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
-	foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, components())
 		component->draw(ks, psky, scale);
 }
 
 void SkyComposite::drawExportable(KStars *ks, QPainter& psky, double scale)
 {
-	foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, components())
 		component->drawExportable(ks, psky, scale);
 }
 
 void SkyComposite::init(KStarsData *data)
 {
-	foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, components())
 		component->init(data);
 }
 
 void SkyComposite::update(KStarsData *data, KSNumbers *num )
 {
-	foreach (SkyComponent *component, Components)
+	foreach (SkyComponent *component, components())
 		component->update( data, num );
-}
-
-void SkyComposite::updatePlanets(KStarsData *data, KSNumbers *num )
-{
-	foreach (SkyComponent *component, Components)
-		component->updatePlanets( data, num );
-}
-
-void SkyComposite::updateMoons(KStarsData *data, KSNumbers *num )
-{
-	foreach (SkyComponent *component )
-		component->updateMoons( data, num );
-}
-
-bool SkyComposite::addTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->addTrail( o ) ) return true;
-	}
-	//Did not find object o
-	return false;
-}
-
-bool SkyComposite::hasTrail( SkyObject *o, bool &found ) {
-	found = false;
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->hasTrail( o, found ) ) return true;
-		//It's possible we found the object, but it had no trail:
-		if ( found ) return false;
-	}
-	//Did not find object o
-	return false;
-}
-
-bool SkyComposite::removeTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->removeTrail( o ) ) return true;
-	}
-	//Did not find object o
-	return false;
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {
 	SkyObject *o = 0;
-	foreach ( SkyComponent *comp, Components ) {
+	foreach ( SkyComponent *comp, components() ) {
 		o = comp->findByName( name );
 		if ( o ) return o;
 	}
