@@ -37,7 +37,7 @@ class CoordinateGridComposite : public SkyComposite
 		*(meridians and parallels)
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		CoordinateGridComposite( SkyComponent* );
+		CoordinateGridComposite( SkyComponent *parent, bool (*visibleMethod)() );
 };
 
 

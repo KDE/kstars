@@ -21,8 +21,10 @@
 #include "kstarsdata.h"
 #include "skyobject.h"
 
-SkyComposite::SkyComposite(SkyComponent *parent) : SkyComponent(parent)
-{}
+SkyComposite::SkyComposite(SkyComponent *parent, KStarsData *data ) 
+: SkyComponent( parent )
+{
+}
 
 SkyComposite::~SkyComposite()
 {
@@ -83,10 +85,28 @@ void SkyComposite::updateMoons(KStarsData *data, KSNumbers *num )
 }
 
 bool SkyComposite::addTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, Components ) {
+	foreach ( SkyComponent *comp, solarSystem() ) {
 		if ( comp->addTrail( o ) ) return true;
 	}
+	//Did not find object o
+	return false;
+}
 
+bool SkyComposite::hasTrail( SkyObject *o, bool &found ) {
+	found = false;
+	foreach ( SkyComponent *comp, solarSystem() ) {
+		if ( comp->hasTrail( o, found ) ) return true;
+		//It's possible we found the object, but it had no trail:
+		if ( found ) return false;
+	}
+	//Did not find object o
+	return false;
+}
+
+bool SkyComposite::removeTrail( SkyObject *o ) {
+	foreach ( SkyComponent *comp, solarSystem() ) {
+		if ( comp->removeTrail( o ) ) return true;
+	}
 	//Did not find object o
 	return false;
 }
@@ -95,7 +115,7 @@ SkyObject* SkyComposite::findByName( const QString &name ) {
 	SkyObject *o = 0;
 	foreach ( SkyComponent *comp, Components ) {
 		o = comp->findByName( name );
-		if ( o->name() == name ) return o;
+		if ( o ) return o;
 	}
 	return 0;
 }

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          skymapcomposite.h  -  K Desktop Planetarium
+               constellationlinescomposite.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/07/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : 25 Oct. 2005
+    copyright            : (C) 2005 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,32 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAPCOMPOSITE_H
-#define SKYMAPCOMPOSITE_H
+#ifndef CONSTELLATIONLINESCOMPOSITE_H
+#define CONSTELLATIONLINESCOMPOSITE_H
 
 #include "skycomposite.h"
 
-/**@class SkyMapComposite
-*SkyMapComposite is the root object in the object hierarchy of the sky map.
-*All requests to update, init, draw etc. will be done with this class.
-*The requests will be delegated to it's children.
-*The object hierarchy will created by adding new objects via addComponent().
-*
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+	*@class ConstellationLinesComposite
+	*Collection of lines making the 88 constellations
 
-class SkyMapComposite : SkyComposite
+	*@author Jason Harris
+	*@version 0.1
+	*/
+
+class ConstellationLinesComposite : public SkyComposite 
 {
 	public:
-		SkyMapComposite(SkyComponent*);
-
-	protected:
-		SolarSystemComposite* solarSystem() { return m_SSComposite; }
-
-	private:
-		SolarSystemComposite *m_SSComposite;
-
+	/**
+		*@short Constructor
+		*Simply adds all of the coordinate grid circles 
+		*(meridians and parallels)
+		*@p parent Pointer to the parent SkyComponent object
+		*/
+		ConstellationLinesComposite( SkyComponent *parent, KStarsData *data );
 };
+
 
 #endif

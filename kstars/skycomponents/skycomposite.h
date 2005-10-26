@@ -51,7 +51,7 @@ class SkyComposite : public SkyComponent
 			*@short Constructor
 			*@p parent pointer to the parent SkyComponent
 			*/
-		SkyComposite(SkyComponent *parent);
+		SkyComposite( SkyComponent *parent, KStarsData *data );
 		
 		/**
 			*@short Destructor
@@ -152,10 +152,15 @@ class SkyComposite : public SkyComponent
 			*@return true if the object was found and a Trail was added 
 			*/
 		bool addTrail( SkyObject *o );
+		bool hasTrail( SkyObject *o, bool &found );
+		bool removeTrail( SkyObject *o );
 
 		/**
 			*@short Search the children of this SkyComposite for 
-			*a SkyObject whose name matches the argument
+			*a SkyObject whose name matches the argument.
+			*
+			*The objects' primary, secondary and long-form names will 
+			*all be checked for a match.
 			*@p name the name to be matched
 			*@return a pointer to the SkyObject whose name matches
 			*the argument, or a NULL pointer if no match was found.
@@ -163,13 +168,11 @@ class SkyComposite : public SkyComponent
 		SkyObject* findByName( const QString &name );
 
 	protected:
-		
-		/**Returns the list of components (for internal use)*/
-		QList<SkyComponent*>& components() { return Components; }
-		
+		QList<SkyComponent*>& components() { return m_Components; }
+
 	private:
-		/**All sub components are stored here*/
-		QList<SkyComponent*> Components;
+		QList<SkyComponent*> m_Components;
+
 };
 
 #endif

@@ -39,3 +39,12 @@ void ListComponent::update( KStarsData *data, KSNumbers *num )
 		}
 	}
 }
+
+SkyObject* ListComponent::findByName( const QString &name ) {
+	foreach ( SkyObject *o, objectList() ) 
+		if ( o->name() == name || o->longname() == name || o->name2() == name )
+			return o;
+
+	//No object found
+	return 0;
+}

@@ -133,7 +133,7 @@ class SkyComponent
 			*@sa SolarSystemListComponent::addTrail()
 			*/
 		virtual bool addTrail( SkyObject *o );
-		virtual bool hasTrail( SkyObject *o );
+		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 
 		/**

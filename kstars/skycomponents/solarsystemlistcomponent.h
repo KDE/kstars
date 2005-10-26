@@ -51,7 +51,7 @@ class SolarSystemListComponent : public ListComponent
 		*@p o Pointer to the SkyObject to which a Trail will be added
 		*/
 		bool addTrail( SkyObject *o );
-		bool hasTrail( SkyObject *o );
+		bool hasTrail( SkyObject *o, bool *found=0 );
 		bool removeTrail( SkyObject *o );
 		
 	protected:

@@ -70,6 +70,8 @@ class SingleComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
+		SkyObject* findByName( const QString &name );
+
 		SkyObject* skyObject() { return StoredObject; }
 
 	private:

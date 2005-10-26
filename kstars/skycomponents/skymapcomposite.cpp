@@ -23,13 +23,24 @@
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent) : SkyComposite(parent)
 {
+	//Add all components
 	// beware the order of adding components
 	// first added component will be drawn first
 	// so horizon should be one of the last components
-	addComponent(new MilkyWayComponent(this));
-	addComponent(new HorizonComponent(this));
-	addComponent(new CoordinateGridComponent(this));
-	// add ecliptic
-	// add solar system
-	// ...
+	addComponent( new MilkyWayComponent( this, Options::showMilkyWay() ) );
+	addComponent( new CoordinateGridComposite( this, Options::showGrid() ) );
+	addComponent( new ConstellationBoundaryComponent( this, Options::showCBounds() ) );
+	addComponent( new ConstellationLinesComponent( this, Options::showCLines() ) );
+	addComponent( new ConstellationNamesComponent( this, Options::showCNames() ) );
+	addComponent( new EquatorComponent( this, Options::showEquator() ) );
+	addComponent( new EclipticComponent( this, Options::showEcliptic() ) );
+	addComponent( new DeepSkyComponent( this, Options::showDeepSky() ) );
+	addComponent( new CustomCatalogComponent( this, Options::showOther() ) );
+	addComponent( new StarComponent( this, Options::showStars() ) );
+
+	m_SSComposite = new SolarSystemComposite( this, data );
+	addComponent( m_SSComposite );
+
+	addComponent( new JupiterMoonsComponent( this, Options::showJupiter() ) );
+	addComponent( new HorizonComponent(this) );
 }

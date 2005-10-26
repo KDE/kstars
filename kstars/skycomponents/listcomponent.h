@@ -62,6 +62,8 @@ class ListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
+		SkyObject* findObjectByName( const QString &name );
+
 		QList<SkyObject*>& objectList() { return ObjectList; }
 
 	private:

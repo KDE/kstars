@@ -47,14 +47,6 @@ class SolarSystemComposite : SkyComposite
 		//with Trails here
 		void drawTrails( KStars *ks, QPainter& psky, double scale );
 
-		/**
-		 *@short Add a Trail to the specified SkyObject.
-		 *@p o Pointer to the SkyObject to which a Trail will be added.
-		 */
-		bool addTrail( SkyObject *o );
-		bool hasTrail( SkyObject *o );
-		bool removeTrail( SkyObject *o );
-
 	private:
 		KSPlanet *Earth;
 

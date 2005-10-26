@@ -53,18 +53,17 @@ is indicated in square brackets (see below for more on the base classes)
     - AsteroidsComponent		[SolarSystemListComponent]
     - CometsComponent			[SolarSystemListComponent]
     - JupiterMoonsComponent		[SkyComponent]
-  + SkyComposite
-    - EquatorComponent			[PointListComponent]
-    - EclipticComponent			[PointListComponent]
-    - HorizonComponent			[PointListComponent]
-    - ConstellationBoundaryComponent	[SkyComponent]
-    + ConstellationLinesComposite
-      - CLineComponent	(one per constellation)	[PointListComponent]
-    + CoordinateGridComposite
-      - CGridComponent			[PointListComponent]
-    + SkyComposite
-      - MilkyWayComponent		[PointListComponent]
-  + SkyComposite
+  - EquatorComponent			[PointListComponent]
+  - EclipticComponent			[PointListComponent]
+  - HorizonComponent			[PointListComponent]
+  - ConstellationBoundaryComponent	[SkyComponent]
+  + ConstellationLinesComposite
+    - CLineComponent	(one per constellation)	[PointListComponent]
+  + CoordinateGridComposite
+    - CoordinateGridComponent			[PointListComponent]
+  + MilkyWayComposite
+    - MilkyWayComponent		[PointListComponent]
+  + CustomCatalogComposite
     - CustomCatalogComponent (one per defined catalog) [ListComponent]
 
 

@@ -85,11 +85,3 @@ void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 		comp->drawTrails( ks, psky, scale );
 	}
 }
-
-bool SolarSystemComposite::addTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, components() ) {
-		if ( comp->addTrail( o ) ) return true;
-	}
-	
-	return false; //The SkyObject o was not found
-}

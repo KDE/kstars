@@ -37,3 +37,11 @@ void SingleComponent::update( KStarsData *data, KSNumbers *num )
 		skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	}
 }
+
+SkyObject* SingleComponent::findByName( const QString &name ) {
+	if ( skyObject()->name() == name || skyObject()->longname() == name 
+		|| skyObject()->name2() == name )
+			return skyObject();
+
+	return 0;
+}

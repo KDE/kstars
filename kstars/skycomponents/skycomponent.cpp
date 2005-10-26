@@ -73,6 +73,7 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, d
 
 //Reimplemented in Solar system components
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
+bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 
 //TODO: Implement findByName

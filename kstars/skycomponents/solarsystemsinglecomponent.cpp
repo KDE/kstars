@@ -58,10 +58,10 @@ bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
 	return false;
 }
 
-bool SolarSystemSingleComponent::hasTrail( SkyObject *o ) {
+bool SolarSystemSingleComponent::hasTrail( SkyObject *o, bool *found ) {
 	if ( o == storedObject() ) {
-		(KSPlanetBase*)(storedObject())->hasTrail();
-		return true;
+		*found = true;
+		return (KSPlanetBase*)(storedObject())->hasTrail();
 	}
 	return false;
 }
