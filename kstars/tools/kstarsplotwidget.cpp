@@ -365,7 +365,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						
 						if ( px > 0 && px < pW ) {
 							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -379,7 +379,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						QString str = QString().sprintf( "%02d:%02d", h, m );
 						if ( px > 0 && px < pW ) {
 							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -388,7 +388,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						QString str = QString().sprintf( "%d%c", int(lab), 176 );
 						if ( px > 0 && px < pW ) {
 							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -433,7 +433,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						
 						if ( py > 0 && py < pH ) {
 							QRect r( -2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -447,7 +447,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						QString str = QString().sprintf( "%02d:%02d", h, m );
 						if ( py > 0 && py < pH ) {
 							QRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -456,7 +456,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						QString str = QString().sprintf( "%d%c", int(lab), 176 );
 						if ( py > 0 && py < pH ) {
 							QRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 						}
 						break;
 					}
@@ -499,7 +499,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							
 							if ( px > 0 && px < pW ) {
 								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -513,7 +513,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							QString str = QString().sprintf( "%02d:%02d", h, m );
 							if ( px > 0 && px < pW ) {
 								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -522,7 +522,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							QString str = QString().sprintf( "%d%c", int(lab), 176 );
 							if ( px > 0 && px < pW ) {
 								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -563,7 +563,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							
 							if ( py > 0 && py < pH ) {
 								QRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -577,7 +577,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							QString str = QString().sprintf( "%02d:%02d", h, m );
 							if ( py > 0 && py < pH ) {
 								QRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -586,7 +586,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							QString str = QString().sprintf( "%d%c", int(lab), 176 );
 							if ( py > 0 && py < pH ) {
 								QRect r( pW + 3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
-								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
+								p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
 							}
 							break;
 						}
@@ -611,11 +611,11 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	//Draw X Axis Label(s)
 	if ( ! BottomAxis.label().isEmpty() ) {
 		QRect r( 0, PixRect.height() + 2*YPADDING, PixRect.width(), YPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, BottomAxis.label() );
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, BottomAxis.label() );
 	}
 	if ( ! XAxisLabel2.isEmpty() ) {
 		QRect r( 0, -3*YPADDING, PixRect.width(), YPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, XAxisLabel2 );
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, XAxisLabel2 );
 	}
 
 	//Draw Y Axis Label(s).  We need to draw the text sideways.
@@ -628,7 +628,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->rotate( -90.0 );
 
 		QRect r( 0, 0, PixRect.height(), XPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, LeftAxis.label() ); //draw the label, now that we are sideways
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, LeftAxis.label() ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state
 	}
@@ -641,7 +641,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->rotate( -90.0 );
 
 		QRect r( 0, 0, PixRect.height(), XPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::DontClip, YAxisLabel2 ); //draw the label, now that we are sideways
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, YAxisLabel2 ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state
 	}
