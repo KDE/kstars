@@ -87,7 +87,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );
 
-		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
+		if ( checkVisibility( transientObject() ) ) {
 			QPoint o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
@@ -111,7 +111,7 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	if ( ksw && ksw->observingList()->count() ) {
 		for ( SkyObject* obj = ksw->observingList()->first(); obj; obj = ksw->observingList()->next() ) {
 			
-			if ( checkVisibility( obj, fov(), XRange ) ) {
+			if ( checkVisibility( obj ) ) {
 				QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
 
 				// label object if it is currently on screen
@@ -426,150 +426,152 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 }
 */
 
-void SkyMap::drawEquator( QPainter& psky, double scale )
-{
-	//Draw Equator (currently can't be hidden on slew)
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
+//moved to EquatorComponent
+// void SkyMap::drawEquator( QPainter& psky, double scale )
+// {
+// 	//Draw Equator (currently can't be hidden on slew)
+// 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
+// 
+// 	SkyPoint *p = data->Equator.first();
+// 	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 	QPoint o1 = o;
+// 	QPoint last = o;
+// 	QPoint cur = o;
+// 	QPoint o2;
+// 	psky.moveTo( o.x(), o.y() );
+// 	bool newlyVisible = false;
+// 
+// 	//index of point near the left or top/bottom edge
+// 	uint index1(0), index2(0);
+// 	int xSmall(width() + 100); //ridiculous initial value
+// 
+// 	//start loop at second item
+// 	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
+// 		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
+// 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 
+// 			//first iteration for positioning the "Equator" label:
+// 			//flag the onscreen equator point with the smallest positive x value
+// 			//we don't draw the label while slewing
+// 			if ( ! slewing && o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
+// 				if ( o.x() < xSmall ) {
+// 					xSmall = o.x();
+// 					index1 = data->Equator.at();
+// 				}
+// 			}
+// 
+// 			//When drawing on the printer, the psky.pos() point does NOT get updated
+// 			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+// 			int dx = cur.x() - o.x();
+// 			int dy = cur.y() - o.y();
+// 			cur = o;
+// 
+// 			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+// 					if ( newlyVisible ) {
+// 						newlyVisible = false;
+// 						psky.moveTo( last.x(), last.y() );
+// 					}
+// 					psky.lineTo( o.x(), o.y() );
+// 			} else {
+// 				psky.moveTo( o.x(), o.y() );
+// 			}
+// 		} else {
+// 			newlyVisible = true;
+// 		}
+// 		last = o;
+// 	}
+// 
+// 	//connect the final segment
+// 	int dx = psky.pos().x() - o1.x();
+// 	int dy = psky.pos().y() - o1.y();
+// 	if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
+// 		psky.lineTo( o1.x(), o1.y() );
+// 	} else {
+// 		psky.moveTo( o1.x(), o1.y() );
+// 	}
+// 
+// 	if ( ! slewing && xSmall < width() ) {
+// 		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
+// 		//If the zoom level is below 1000, simply adopt this point as the anchor for the
+// 		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
+// 		//point at which the Equator goes offscreen, and anchor from that point.
+// 		p = data->Equator.at(index1);
+// 		double ra0(0.0);  //the RA of our anchor point (the Dec is known to be 0.0
+// 											//since it's the Equator)
+// 
+// 		if ( Options::zoomFactor() < 1000. ) {
+// 			ra0 = p->ra()->Hours();
+// 
+// 		} else {
+// 			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
+// 			//offscreen.  Determine the exact point at which this happens.
+// 			index2 = index1 + 1;
+// 			if ( index2 >= data->Equator.count() ) index2 -= data->Equator.count();
+// 			SkyPoint *p2 = data->Equator.at(index2);
+// 
+// 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+// 
+// 			double x1, x2;
+// 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
+// 			if ( o2.x() < 0 ) {
+// 				x1 = double(o.x())/double(o.x()-o2.x());
+// 				x2 = -1.0*double(o2.x())/double(o.x()-o2.x());
+// 			} else if ( o2.y() < 0 ) {
+// 				x1 = double(o.y())/double(o.y()-o2.y());
+// 				x2 = -1.0*double(o2.y())/double(o.y()-o2.y());
+// 			} else if ( o2.y() > height() ) {
+// 				x1 = double(height() - o.y())/double(o2.y()-o.y());
+// 				x2 = double(o2.y() - height())/double(o2.y()-o.y());
+// 			} else {  //should never get here
+// 				x1 = 0.0;
+// 				x2 = 1.0;
+// 			}
+// 
+// 			//ra0 is the exact RA at which the Equator intersects a screen edge
+// 			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
+// 		}
+// 
+// 		//LabelPoint is the top left corner of the text label.  It is
+// 		//offset from the anchor point by -1.5 degree (0.1 hour) in RA
+// 		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are
+// 		//independent of zoom.
+// 		SkyPoint LabelPoint( ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
+// 		if ( Options::useAltAz() )
+// 			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+// 
+// 		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.
+// 		//We use this point to determine the rotation angle for the text (which
+// 		//we want to be parallel to the line joining LabelPoint and p2)
+// 		SkyPoint p2 = LabelPoint;
+// 		p2.setRA( p2.ra()->Hours() - 200./Options::zoomFactor() );
+// 		if ( Options::useAltAz() )
+// 			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+// 
+// 		//o and o2 are the screen coordinates of LabelPoint and p2.
+// 		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+// 		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
+// 
+// 		double sx = double( o.x() - o2.x() );
+// 		double sy = double( o.y() - o2.y() );
+// 		double angle;
+// 		if ( sx ) {
+// 			angle = atan( sy/sx )*180.0/dms::PI;
+// 		} else {
+// 			angle = 90.0;
+// 			if ( sy < 0 ) angle = -90.0;
+// 		}
+// 
+// 		//Finally, draw the "Equator" label at the determined location and angle
+// 		psky.save();
+// 		psky.translate( o.x(), o.y() );
+// 		psky.rotate( double( angle ) );  //rotate the coordinate system
+// 		psky.drawText( 0, 0, i18n( "Equator" ) );
+// 		psky.restore(); //reset coordinate system
+// 	}
+// }
 
-	SkyPoint *p = data->Equator.first();
-	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-	QPoint o1 = o;
-	QPoint last = o;
-	QPoint cur = o;
-	QPoint o2;
-	psky.moveTo( o.x(), o.y() );
-	bool newlyVisible = false;
-
-	//index of point near the left or top/bottom edge
-	uint index1(0), index2(0);
-	int xSmall(width() + 100); //ridiculous initial value
-
-	//start loop at second item
-	for ( p = data->Equator.next(); p; p = data->Equator.next() ) {
-		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-
-			//first iteration for positioning the "Equator" label:
-			//flag the onscreen equator point with the smallest positive x value
-			//we don't draw the label while slewing
-			if ( ! slewing && o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
-				if ( o.x() < xSmall ) {
-					xSmall = o.x();
-					index1 = data->Equator.at();
-				}
-			}
-
-			//When drawing on the printer, the psky.pos() point does NOT get updated
-			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
-			int dx = cur.x() - o.x();
-			int dy = cur.y() - o.y();
-			cur = o;
-
-			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-					if ( newlyVisible ) {
-						newlyVisible = false;
-						psky.moveTo( last.x(), last.y() );
-					}
-					psky.lineTo( o.x(), o.y() );
-			} else {
-				psky.moveTo( o.x(), o.y() );
-			}
-		} else {
-			newlyVisible = true;
-		}
-		last = o;
-	}
-
-	//connect the final segment
-	int dx = psky.pos().x() - o1.x();
-	int dy = psky.pos().y() - o1.y();
-	if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-		psky.lineTo( o1.x(), o1.y() );
-	} else {
-		psky.moveTo( o1.x(), o1.y() );
-	}
-
-	if ( ! slewing && xSmall < width() ) {
-		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
-		//If the zoom level is below 1000, simply adopt this point as the anchor for the
-		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
-		//point at which the Equator goes offscreen, and anchor from that point.
-		p = data->Equator.at(index1);
-		double ra0(0.0);  //the RA of our anchor point (the Dec is known to be 0.0
-											//since it's the Equator)
-
-		if ( Options::zoomFactor() < 1000. ) {
-			ra0 = p->ra()->Hours();
-
-		} else {
-			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
-			//offscreen.  Determine the exact point at which this happens.
-			index2 = index1 + 1;
-			if ( index2 >= data->Equator.count() ) index2 -= data->Equator.count();
-			SkyPoint *p2 = data->Equator.at(index2);
-
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
-
-			double x1, x2;
-			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
-			if ( o2.x() < 0 ) {
-				x1 = double(o.x())/double(o.x()-o2.x());
-				x2 = -1.0*double(o2.x())/double(o.x()-o2.x());
-			} else if ( o2.y() < 0 ) {
-				x1 = double(o.y())/double(o.y()-o2.y());
-				x2 = -1.0*double(o2.y())/double(o.y()-o2.y());
-			} else if ( o2.y() > height() ) {
-				x1 = double(height() - o.y())/double(o2.y()-o.y());
-				x2 = double(o2.y() - height())/double(o2.y()-o.y());
-			} else {  //should never get here
-				x1 = 0.0;
-				x2 = 1.0;
-			}
-
-			//ra0 is the exact RA at which the Equator intersects a screen edge
-			ra0 = x1*p2->ra()->Hours() + x2*p->ra()->Hours();
-		}
-
-		//LabelPoint is the top left corner of the text label.  It is
-		//offset from the anchor point by -1.5 degree (0.1 hour) in RA
-		//and -0.4 degree in Dec, scaled by 2000./zoomFactor so that they are
-		//independent of zoom.
-		SkyPoint LabelPoint( ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
-		if ( Options::useAltAz() )
-			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.
-		//We use this point to determine the rotation angle for the text (which
-		//we want to be parallel to the line joining LabelPoint and p2)
-		SkyPoint p2 = LabelPoint;
-		p2.setRA( p2.ra()->Hours() - 200./Options::zoomFactor() );
-		if ( Options::useAltAz() )
-			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-		//o and o2 are the screen coordinates of LabelPoint and p2.
-		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
-		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
-
-		double sx = double( o.x() - o2.x() );
-		double sy = double( o.y() - o2.y() );
-		double angle;
-		if ( sx ) {
-			angle = atan( sy/sx )*180.0/dms::PI;
-		} else {
-			angle = 90.0;
-			if ( sy < 0 ) angle = -90.0;
-		}
-
-		//Finally, draw the "Equator" label at the determined location and angle
-		psky.save();
-		psky.translate( o.x(), o.y() );
-		psky.rotate( double( angle ) );  //rotate the coordinate system
-		psky.drawText( 0, 0, i18n( "Equator" ) );
-		psky.restore(); //reset coordinate system
-	}
-}
-
+/* moved to EclipticComponent
 void SkyMap::drawEcliptic( QPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
@@ -726,7 +728,8 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 		psky.drawText( 0, 0, i18n( "Ecliptic" ) );
 		psky.restore(); //reset coordinate system
 	}
-}
+}*/
+
 /* moved into horizoncomponent
 void SkyMap::drawHorizon( QPainter& psky, double scale )
 {
@@ -1136,37 +1139,38 @@ void SkyMap::drawConstellationLines( QPainter& psky, double scale )
 }
 */
 
-void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
-
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
-
-	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
-		bool started( false );
-		SkyPoint *p = seg->firstNode();
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			psky.moveTo( o.x(), o.y() );
-			started = true;
-		}
-
-		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
-			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-
-			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-				if ( started ) {
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );
-					started = true;
-				}
-			} else {
-				started = false;
-			}
-		}
-	}
-}
+//Moved to ConstellationBoundaryComponent
+// void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
+// 	int Width = int( scale * width() );
+// 	int Height = int( scale * height() );
+// 
+// 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
+// 
+// 	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
+// 		bool started( false );
+// 		SkyPoint *p = seg->firstNode();
+// 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+// 			psky.moveTo( o.x(), o.y() );
+// 			started = true;
+// 		}
+// 
+// 		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
+// 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 
+// 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+// 				if ( started ) {
+// 					psky.lineTo( o.x(), o.y() );
+// 				} else {
+// 					psky.moveTo( o.x(), o.y() );
+// 					started = true;
+// 				}
+// 			} else {
+// 				started = false;
+// 			}
+// 		}
+// 	}
+// }
 
 /*
 void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
@@ -1539,253 +1543,255 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 }
 *******************************/
 
-void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
-{
-	if ( ksp->hasTrail() ) {
-		int Width = int( scale * width() );
-		int Height = int( scale * height() );
+//Moved to SkyComponent
+// void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
+// {
+// 	if ( ksp->hasTrail() ) {
+// 		int Width = int( scale * width() );
+// 		int Height = int( scale * height() );
+// 
+// 		QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+// 		QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
+// 
+// 		SkyPoint *p = ksp->trail()->first();
+// 		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 		QPoint cur( o );
+// 
+// 		bool doDrawLine(false);
+// 		int i = 0;
+// 		int n = ksp->trail()->count();
+// 
+// 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+// 			psky.moveTo(o.x(), o.y());
+// 			doDrawLine = true;
+// 		}
+// 
+// 		psky.setPen( QPen( tcolor1, 1 ) );
+// 		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
+// 			if ( Options::fadePlanetTrails() ) {
+// 				//Define interpolated color
+// 				QColor tcolor = QColor(
+// 							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
+// 							(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
+// 							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
+// 				++i;
+// 				psky.setPen( QPen( tcolor, 1 ) );
+// 			}
+// 
+// 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+// 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+// 
+// 				//Want to disable line-drawing if this point and the last are both outside bounds of display.
+// 				if ( ! rect().contains( o ) && ! rect().contains( cur ) ) doDrawLine = false;
+// 				cur = o;
+// 
+// 				if ( doDrawLine ) {
+// 					psky.lineTo( o.x(), o.y() );
+// 				} else {
+// 					psky.moveTo( o.x(), o.y() );
+// 					doDrawLine = true;
+// 				}
+// 			}
+// 		}
+// 	}
+// }
 
-		QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-		QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
-
-		SkyPoint *p = ksp->trail()->first();
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-		QPoint cur( o );
-
-		bool doDrawLine(false);
-		int i = 0;
-		int n = ksp->trail()->count();
-
-		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			psky.moveTo(o.x(), o.y());
-			doDrawLine = true;
-		}
-
-		psky.setPen( QPen( tcolor1, 1 ) );
-		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
-			if ( Options::fadePlanetTrails() ) {
-				//Define interpolated color
-				QColor tcolor = QColor(
-							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
-							(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
-							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
-				++i;
-				psky.setPen( QPen( tcolor, 1 ) );
-			}
-
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-
-				//Want to disable line-drawing if this point and the last are both outside bounds of display.
-				if ( ! rect().contains( o ) && ! rect().contains( cur ) ) doDrawLine = false;
-				cur = o;
-
-				if ( doDrawLine ) {
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );
-					doDrawLine = true;
-				}
-			}
-		}
-	}
-}
-
-void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
-{
-	int Width = int( scale * width() );
-	int Height = int( scale * height() );
-
-	if ( drawPlanets ) {
-		//Draw all trails first so they never appear "in front of" solar system bodies
-		//draw Trail
-		if ( Options::showSun() && data->PCat->findByName("Sun")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Sun"), scale );
-		if ( Options::showMercury() && data->PCat->findByName("Mercury")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mercury"), scale );
-		if ( Options::showVenus() && data->PCat->findByName("Venus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Venus"), scale );
-//		if ( Options::showMoon() && data->Moon->hasTrail() ) drawPlanetTrail( psky, data->Moon, scale );
-		if ( Options::showMars() && data->PCat->findByName("Mars")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mars"), scale );
-		if ( Options::showJupiter() && data->PCat->findByName("Jupiter")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Jupiter"), scale );
-		if ( Options::showSaturn() && data->PCat->findByName("Saturn")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Saturn"), scale );
-		if ( Options::showUranus() && data->PCat->findByName("Uranus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Uranus"), scale );
-		if ( Options::showNeptune() && data->PCat->findByName("Neptune")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Neptune"), scale );
-		if ( Options::showPluto() && data->PCat->findByName("Pluto")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Pluto"), scale );
-		if ( Options::showAsteroids() ) {
-			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
-				if ( ast->mag() > Options::magLimitAsteroid() ) break;
-				if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
-			}
-		}
-		if ( Options::showComets() ) {
-			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
-			}
-		}
-/**
-		//Now draw the actual solar system bodies.  Draw furthest to closest.
-		//Draw Asteroids
-		if ( Options::showAsteroids() ) {
-			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
-				if ( ast->mag() > Options::magLimitAsteroid() ) break;
-
-				if ( checkVisibility( ast, fov(), XRange ) ) {
-					psky.setPen( QPen( QColor( "gray" ) ) );
-					psky.setBrush( QBrush( QColor( "gray" ) ) );
-					QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
-
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						int size = int( ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
-						if ( size < 1 ) size = 1;
-						int x1 = o.x() - size/2;
-						int y1 = o.y() - size/2;
-						psky.drawEllipse( x1, y1, size, size );
-
-						//draw Name
-						if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
-							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
-							drawNameLabel( psky, ast, o.x(), o.y(), scale );
-						}
-					}
-				}
-			}
-		}
-*/
-		//Draw Comets
-		if ( Options::showComets() ) {
-			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-				if ( checkVisibility( com, fov(), XRange ) ) {
-					psky.setPen( QPen( QColor( "cyan4" ) ) );
-					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-					QPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
-
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						int size = int( com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
-						if ( size < 1 ) size = 1;
-						int x1 = o.x() - size/2;
-						int y1 = o.y() - size/2;
-						psky.drawEllipse( x1, y1, size, size );
-
-						//draw Name
-						if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
-							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
-							drawNameLabel( psky, com, o.x(), o.y(), scale );
-						}
-					}
-				}
-			}
-		}
-
-		//Draw Pluto
-		if ( Options::showPluto() ) {
-			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
-		}
-
-		//Draw Neptune
-		if ( Options::showNeptune() ) {
-			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Uranus
-		if ( Options::showUranus() ) {
-			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//Draw Saturn
-		if ( Options::showSaturn() ) {
-			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
-		}
-
-		//Draw Jupiter and its moons.
-		//Draw all moons first, then Jupiter, then redraw moons that are in front of Jupiter.
-		if ( Options::showJupiter() ) {
-			//TODO Why should we draw the moons 2 times? First draw jupiter,
-			// then draw visible moons with labels
-			//Draw Jovian moons
-/**
-			psky.setPen( QPen( QColor( "white" ) ) );
-			if ( Options::zoomFactor() > 10.*MINZOOM ) {
-				for ( unsigned int i=0; i<4; ++i ) {
-					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
-					}
-				}
-			}
-*/
-			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
-
-/** moved into jupitermoonscomponent
-			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
-			psky.setPen( QPen( QColor( "white" ) ) );
-			if ( Options::zoomFactor() > 10.*MINZOOM ) {
-				QFont pfont = psky.font();
-				QFont moonFont = psky.font();
-				moonFont.setPointSize( pfont.pointSize() - 2 );
-				psky.setFont( moonFont );
-
-				for ( unsigned int i=0; i<4; ++i ) {
-					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
-					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
-						if ( data->jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
-							psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
-
-						//Draw Moon name labels if at high zoom
-						if ( Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM ) {
-							int offset = int(3*scale);
-							psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
-						}
-					}
-				}
-
-				//reset font
-				psky.setFont( pfont );
-			}
-*/
-		}
-
-		//Draw Mars
-		if ( Options::showMars() ) {
-			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
-		}
-
-		//For the inner planets, we need to determine the distance-order
-		//because the order can change with time
-		double rv = data->PCat->findByName("Venus")->rearth();
-		double rm = data->PCat->findByName("Mercury")->rearth();
-		double rs = data->PCat->findByName("Sun")->rearth();
-		unsigned int iv(0), im(0), is(0);
-		if ( rm > rs ) im++;
-		if ( rm > rv ) im++;
-		if ( rv > rs ) iv++;
-		if ( rv > rm ) iv++;
-		if ( rs > rm ) is++;
-		if ( rs > rv ) is++;
-
-		for ( unsigned int i=0; i<3; i++ ) {
-			if ( i==is ) {
-				//Draw Sun
-				if ( Options::showSun() ) {
-					drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
-				}
-			} else if ( i==im ) {
-				//Draw Mercury
-				if ( Options::showMercury() ) {
-					drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
-				}
-			} else if ( i==iv ) {
-				//Draw Venus
-				if ( Options::showVenus() ) {
-					drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
-				}
-			}
-		}
-
-		//Draw Moon
-		if ( Options::showMoon() ) {
-			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
-		}
-
-	}
-}
+//Moved to various SkyComponents
+// void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
+// {
+// 	int Width = int( scale * width() );
+// 	int Height = int( scale * height() );
+// 
+// 	if ( drawPlanets ) {
+// 		//Draw all trails first so they never appear "in front of" solar system bodies
+// 		//draw Trail
+// 		if ( Options::showSun() && data->PCat->findByName("Sun")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Sun"), scale );
+// 		if ( Options::showMercury() && data->PCat->findByName("Mercury")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mercury"), scale );
+// 		if ( Options::showVenus() && data->PCat->findByName("Venus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Venus"), scale );
+// //		if ( Options::showMoon() && data->Moon->hasTrail() ) drawPlanetTrail( psky, data->Moon, scale );
+// 		if ( Options::showMars() && data->PCat->findByName("Mars")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Mars"), scale );
+// 		if ( Options::showJupiter() && data->PCat->findByName("Jupiter")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Jupiter"), scale );
+// 		if ( Options::showSaturn() && data->PCat->findByName("Saturn")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Saturn"), scale );
+// 		if ( Options::showUranus() && data->PCat->findByName("Uranus")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Uranus"), scale );
+// 		if ( Options::showNeptune() && data->PCat->findByName("Neptune")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Neptune"), scale );
+// 		if ( Options::showPluto() && data->PCat->findByName("Pluto")->hasTrail() ) drawPlanetTrail( psky, data->PCat->findByName("Pluto"), scale );
+// 		if ( Options::showAsteroids() ) {
+// 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+// 				if ( ast->mag() > Options::magLimitAsteroid() ) break;
+// 				if ( ast->hasTrail() ) drawPlanetTrail( psky, ast, scale );
+// 			}
+// 		}
+// 		if ( Options::showComets() ) {
+// 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+// 				if ( com->hasTrail() ) drawPlanetTrail( psky, com, scale );
+// 			}
+// 		}
+// /**
+// 		//Now draw the actual solar system bodies.  Draw furthest to closest.
+// 		//Draw Asteroids
+// 		if ( Options::showAsteroids() ) {
+// 			for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
+// 				if ( ast->mag() > Options::magLimitAsteroid() ) break;
+// 
+// 				if ( checkVisibility( ast, fov(), XRange ) ) {
+// 					psky.setPen( QPen( QColor( "gray" ) ) );
+// 					psky.setBrush( QBrush( QColor( "gray" ) ) );
+// 					QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
+// 
+// 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+// 						int size = int( ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+// 						if ( size < 1 ) size = 1;
+// 						int x1 = o.x() - size/2;
+// 						int y1 = o.y() - size/2;
+// 						psky.drawEllipse( x1, y1, size, size );
+// 
+// 						//draw Name
+// 						if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
+// 							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+// 							drawNameLabel( psky, ast, o.x(), o.y(), scale );
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// */
+// 		//Draw Comets
+// 		if ( Options::showComets() ) {
+// 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
+// 				if ( checkVisibility( com, fov(), XRange ) ) {
+// 					psky.setPen( QPen( QColor( "cyan4" ) ) );
+// 					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
+// 					QPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
+// 
+// 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+// 						int size = int( com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
+// 						if ( size < 1 ) size = 1;
+// 						int x1 = o.x() - size/2;
+// 						int y1 = o.y() - size/2;
+// 						psky.drawEllipse( x1, y1, size, size );
+// 
+// 						//draw Name
+// 						if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
+// 							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+// 							drawNameLabel( psky, com, o.x(), o.y(), scale );
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 
+// 		//Draw Pluto
+// 		if ( Options::showPluto() ) {
+// 			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
+// 		}
+// 
+// 		//Draw Neptune
+// 		if ( Options::showNeptune() ) {
+// 			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
+// 		}
+// 
+// 		//Draw Uranus
+// 		if ( Options::showUranus() ) {
+// 			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
+// 		}
+// 
+// 		//Draw Saturn
+// 		if ( Options::showSaturn() ) {
+// 			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
+// 		}
+// 
+// 		//Draw Jupiter and its moons.
+// 		//Draw all moons first, then Jupiter, then redraw moons that are in front of Jupiter.
+// 		if ( Options::showJupiter() ) {
+// 			//TODO Why should we draw the moons 2 times? First draw jupiter,
+// 			// then draw visible moons with labels
+// 			//Draw Jovian moons
+// /**
+// 			psky.setPen( QPen( QColor( "white" ) ) );
+// 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
+// 				for ( unsigned int i=0; i<4; ++i ) {
+// 					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+// 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+// 						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+// 					}
+// 				}
+// 			}
+// */
+// 			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
+// 
+// /** moved into jupitermoonscomponent
+// 			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
+// 			psky.setPen( QPen( QColor( "white" ) ) );
+// 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
+// 				QFont pfont = psky.font();
+// 				QFont moonFont = psky.font();
+// 				moonFont.setPointSize( pfont.pointSize() - 2 );
+// 				psky.setFont( moonFont );
+// 
+// 				for ( unsigned int i=0; i<4; ++i ) {
+// 					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+// 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
+// 						if ( data->jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
+// 							psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+// 
+// 						//Draw Moon name labels if at high zoom
+// 						if ( Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM ) {
+// 							int offset = int(3*scale);
+// 							psky.drawText( o.x() + offset, o.y() + offset, data->jmoons->name(i) );
+// 						}
+// 					}
+// 				}
+// 
+// 				//reset font
+// 				psky.setFont( pfont );
+// 			}
+// */
+// 		}
+// 
+// 		//Draw Mars
+// 		if ( Options::showMars() ) {
+// 			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
+// 		}
+// 
+// 		//For the inner planets, we need to determine the distance-order
+// 		//because the order can change with time
+// 		double rv = data->PCat->findByName("Venus")->rearth();
+// 		double rm = data->PCat->findByName("Mercury")->rearth();
+// 		double rs = data->PCat->findByName("Sun")->rearth();
+// 		unsigned int iv(0), im(0), is(0);
+// 		if ( rm > rs ) im++;
+// 		if ( rm > rv ) im++;
+// 		if ( rv > rs ) iv++;
+// 		if ( rv > rm ) iv++;
+// 		if ( rs > rm ) is++;
+// 		if ( rs > rv ) is++;
+// 
+// 		for ( unsigned int i=0; i<3; i++ ) {
+// 			if ( i==is ) {
+// 				//Draw Sun
+// 				if ( Options::showSun() ) {
+// 					drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
+// 				}
+// 			} else if ( i==im ) {
+// 				//Draw Mercury
+// 				if ( Options::showMercury() ) {
+// 					drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
+// 				}
+// 			} else if ( i==iv ) {
+// 				//Draw Venus
+// 				if ( Options::showVenus() ) {
+// 					drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
+// 				}
+// 			}
+// 		}
+// 
+// 		//Draw Moon
+// 		if ( Options::showMoon() ) {
+// 			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
+// 		}
+// 
+// 	}
+// }
 
 /** moved into planethelper
 void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,

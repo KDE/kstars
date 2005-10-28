@@ -87,8 +87,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 			//first iteration for positioning the "Horizon" label:
 			//flag the onscreen equator point with the largest x value
-			//we don't draw the label while map->slewing, or if the opaque ground is drawn
-			if ( ! map->map->slewing && ( ! Options::showGround() || ! Options::useAltAz() )
+			//we don't draw the label while map->isSlewing(), or if the opaque ground is drawn
+			if ( ! map->isSlewing() && ( ! Options::showGround() || ! Options::useAltAz() )
 						&& o.x() > 0 && o.x() < width() && o.y() > 0 && o.y() < height() ) {
 				if ( o.x() > xBig ) {
 					xBig = o.x();
@@ -343,7 +343,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 			}
 		}
 
-		if ( ! map->slewing && (! Options::showGround() || ! Options::useAltAz() ) && xBig > 0 ) {
+		if ( ! map->isSlewing() && (! Options::showGround() || ! Options::useAltAz() ) && xBig > 0 ) {
 			//Draw the "Horizon" label.  We have flagged the rightmost onscreen Horizon point.
 			//If the zoom level is below 1000, simply adopt this point as the anchor for the
 			//label.  If the zoom level is 1000 or higher, we interpolate to find the exact

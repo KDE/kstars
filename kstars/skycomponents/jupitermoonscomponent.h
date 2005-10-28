@@ -18,8 +18,6 @@
 #ifndef JUPITERMOONSCOMPONENT_H
 #define JUPITERMOONSCOMPONENT_H
 
-class QList;
-
 class SkyComposite;
 class KStarsData;
 class SkyMap;

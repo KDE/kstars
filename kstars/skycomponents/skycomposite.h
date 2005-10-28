@@ -51,7 +51,7 @@ class SkyComposite : public SkyComponent
 			*@short Constructor
 			*@p parent pointer to the parent SkyComponent
 			*/
-		SkyComposite( SkyComponent *parent, KStarsData *data );
+		SkyComposite( SkyComponent *parent );
 		
 		/**
 			*@short Destructor

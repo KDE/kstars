@@ -83,7 +83,7 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//Draw Constellation Names
 	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
 	foreach ( SkyPoint *p, cnameList ) {
-		if ( map->checkVisibility( p, fov(), XRange ) ) {
+		if ( map->checkVisibility( p ) ) {
 			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 				if ( Options::useLatinConstellNames() ) {

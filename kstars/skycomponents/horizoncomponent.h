@@ -18,7 +18,7 @@
 #ifndef HORIZONCOMPONENT_H
 #define HORIZONCOMPONENT_H
 
-class QList;
+#include "pointlistcomponent.h"
 
 class SkyComposite;
 class KStarsData;
@@ -32,7 +32,7 @@ class KSNumbers;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class HorizonComponent: public SkyComponent
+class HorizonComponent: public PointListComponent
 {
 	public:
   

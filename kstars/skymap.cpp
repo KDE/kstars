@@ -1370,4 +1370,8 @@ void SkyMap::updateAngleRuler() {
 	endRulerPoint = mapFromGlobal( QCursor::pos() );
 }
 
+bool SkyMap::isSlewing() const  {
+	return (slewing || ( clockSlewing && data->clock()->isActive() ) );
+}
+
 #include "skymap.moc"

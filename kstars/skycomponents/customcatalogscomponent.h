@@ -20,8 +20,6 @@
 #ifndef CUSTOMCATALOGCOMPONENT_H
 #define CUSTOMCATALOGCOMPONENT_H
 
-class QList;
-
 /**
 	*@class CustomCatalogComponent
 	*Represents custom catalogs.

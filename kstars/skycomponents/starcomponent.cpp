@@ -46,8 +46,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
 
-	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
-				&& Options::hideOnSlew() );
+	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
 //shortcuts to inform wheter to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
@@ -66,7 +65,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		// break loop if maglim is reached
 		if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
 
-		if ( map->checkVisibility( curStar, fov(), XRange ) )
+		if ( map->checkVisibility( curStar ) )
 		{
 			QPoint o = map->getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
 

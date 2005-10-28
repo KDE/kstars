@@ -97,7 +97,7 @@ void EclipticComponent::draw( KStars *ks, QPainter &p, double scale ) {
 			continue; //that's all we need for the first point
 		}
 
-		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
+		if ( checkVisibility( p ) ) {
 			//If this is the first visible point, move the cursor 
 			//to the previous point before we draw the first line segment
 			if ( !Visible ) {
@@ -143,7 +143,7 @@ void EclipticComponent::draw( KStars *ks, QPainter &p, double scale ) {
 		psky.moveTo( oFirst.x(), oFirst.y() );
 	}
 
-	if ( ! slewing && xBig > 0 ) {
+	if ( ! map->isSlewing() && xBig > 0 ) {
 		//Draw the "Ecliptic" label.  We have flagged the rightmost onscreen Ecliptic point.
 		//If the zoom level is below 1000, simply adopt this point as the anchor for the
 		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact

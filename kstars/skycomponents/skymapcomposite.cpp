@@ -15,13 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "Options.h"
 #include "skymapcomposite.h"
 
+#include "equatorcomponent.h"
+#include "eclipticcomponent.h"
 #include "horizoncomponent.h"
 #include "milkywaycomponent.h"
-#include "coordinategridcomponent.h"
+#include "constellationboundarycomponent.h"
+#include "constellationlinescomposite.h"
+#include "constellationnamescomponent.h"
+#include "coordinategridcomposite.h"
+#include "deepskycomponent.h"
+#include "customcatalogscomponent.h"
+#include "starcomponent.h"
+#include "solarsystemcomposite.h"
+#include "jupitermoonscomponent.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent) : SkyComposite(parent)
+SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyComposite(parent)
 {
 	//Add all components
 	// beware the order of adding components
@@ -30,7 +41,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent) : SkyComposite(parent)
 	addComponent( new MilkyWayComponent( this, &Options::showMilkyWay ) );
 	addComponent( new CoordinateGridComposite( this, &Options::showGrid ) );
 	addComponent( new ConstellationBoundaryComponent( this, &Options::showCBounds ) );
-	addComponent( new ConstellationLinesComponent( this, &Options::showCLines ) );
+	addComponent( new ConstellationLinesComposite( this, &Options::showCLines ) );
 	addComponent( new ConstellationNamesComponent( this, &Options::showCNames ) );
 	addComponent( new EquatorComponent( this, &Options::showEquator ) );
 	addComponent( new EclipticComponent( this, &Options::showEcliptic ) );

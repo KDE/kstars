@@ -15,11 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "listcomponent.h"
+#include "pointlistcomponent.h"
 
-#include <QList>
-
-#include "skymap.h" 
+#include "skypoint.h" 
+#include "kstarsdata.h"
 
 PointListComponent::PointListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod )

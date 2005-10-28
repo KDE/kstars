@@ -376,6 +376,8 @@ public:
  */
 	bool isAngleMode() const {return angularDistanceMode;}
 
+	bool isSlewing() const;
+
 /**@short update the geometry of the angle ruler
  */
 	void updateAngleRuler();
@@ -402,6 +404,55 @@ public:
 	*@see KStars::slotPrint()
 	*/
 	void exportSkyImage( const QPaintDevice *pd );
+
+/**Given the coordinates of the SkyPoint argument, determine the
+	*pixel coordinates in the SkyMap.
+	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
+	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
+	*@param Horiz if TRUE, use Alt/Az coordinates.
+	*@param doRefraction if TRUE, correct for atmospheric refraction
+	*@param scale scaling factor (unused?)
+	*/
+	QPointF getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
+
+/**@short Determine if the skypoint p is likely to be visible in the display 
+	*window.
+	*
+	*checkVisibility() is an optimization function.  It determines whether an object
+	*appears within the bounds of the skymap window, and therefore should be drawn.
+	*The idea is to save time by skipping objects which are off-screen, so it is 
+	*absolutely essential that checkVisibility() is significantly faster than
+	*the computations required to draw the object to the screen.
+	*
+	*The function first checks the difference between the Declination/Altitude
+	*coordinate of the Focus position, and that of the point p.  If the absolute 
+	*value of this difference is larger than fov, then the function returns FALSE.
+	*For most configurations of the sky map window, this simple check is enough to 
+	*exclude a large number of objects.
+	*
+	*Next, it determines if one of the poles of the current Coordinate System 
+	*(Equatorial or Horizontal) is currently inside the sky map window.  This is
+	*stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
+	*function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
+	*If a Pole is visible, then it will return TRUE immediately.  The idea is that
+	*when a pole is on-screen it is computationally expensive to determine whether 
+	*a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
+	*values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
+	*only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
+	*"horizontal" RA/Az values, since we have already determined that they are 
+	*on-screen in the "vertical" Dec/Alt coordinate.
+	*
+	*Finally, if no Pole is onscreen, it checks the difference between the Focus 
+	*position's RA/Az coordinate and that of the point p.  If the absolute value of 
+	*this difference is larger than XMax, the function returns FALSE.  Otherwise,
+	*it returns TRUE.
+	
+	*@param p pointer to the skypoint to be checked.
+	*@return true if the point p was found to be inside the Sky map window.
+	*@see SkyMap::setMapGeometry()
+	*@see SkyMap::fov()
+	*/
+	bool checkVisibility( SkyPoint *p );
 
 public slots:
 /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
@@ -817,17 +868,6 @@ private:
 	*/
 	void drawAngleRuler( QPainter &psky );
 
-
-/**Given the coordinates of the SkyPoint argument, determine the
-	*pixel coordinates in the SkyMap.
-	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
-	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
-	*@param Horiz if TRUE, use Alt/Az coordinates.
-	*@param doRefraction if TRUE, correct for atmospheric refraction
-	*@param scale scaling factor (unused?)
-	*/
-	QPoint getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
-
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
 	*@param dx horizontal pixel offset from center of SkyMap.
@@ -844,47 +884,6 @@ private:
 	*FOV angle.  It chooses whichever is larger.
 	*/
 	float fov();
-
-/**@short Determine if the skypoint p is likely to be visible in the display 
-	*window.
-	*
-	*checkVisibility() is an optimization function.  It determines whether an object
-	*appears within the bounds of the skymap window, and therefore should be drawn.
-	*The idea is to save time by skipping objects which are off-screen, so it is 
-	*absolutely essential that checkVisibility() is significantly faster than
-	*the computations required to draw the object to the screen.
-	*
-	*The function first checks the difference between the Declination/Altitude
-	*coordinate of the Focus position, and that of the point p.  If the absolute 
-	*value of this difference is larger than fov, then the function returns FALSE.
-	*For most configurations of the sky map window, this simple check is enough to 
-	*exclude a large number of objects.
-	*
-	*Next, it determines if one of the poles of the current Coordinate System 
-	*(Equatorial or Horizontal) is currently inside the sky map window.  This is
-	*stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
-	*function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
-	*If a Pole is visible, then it will return TRUE immediately.  The idea is that
-	*when a pole is on-screen it is computationally expensive to determine whether 
-	*a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
-	*values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
-	*only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
-	*"horizontal" RA/Az values, since we have already determined that they are 
-	*on-screen in the "vertical" Dec/Alt coordinate.
-	*
-	*Finally, if no Pole is onscreen, it checks the difference between the Focus 
-	*position's RA/Az coordinate and that of the point p.  If the absolute value of 
-	*this difference is larger than XMax, the function returns FALSE.  Otherwise,
-	*it returns TRUE.
-	
-	*@param p pointer to the skypoint to be checked.
-	*@param fov the vertical center-to-edge angle of the window, in degrees
-	*@param XMax the horizontal center-to-edge angle of the window, in degrees
-	*@return true if the point p was found to be inside the Sky map window.
-	*@see SkyMap::setMapGeometry()
-	*@see SkyMap::fov()
-	*/
-	bool checkVisibility( SkyPoint *p, float fov, double XMax );
 
 /**@short Begin fading out the name label attached to TransientObject.
 	*

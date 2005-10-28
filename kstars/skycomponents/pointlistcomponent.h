@@ -18,6 +18,13 @@
 #ifndef POINTLISTCOMPONENT_H
 #define POINTLISTCOMPONENT_H
 
+#include <QList>
+
+#include "skycomponent.h"
+
+class KStars;
+class SkyPoint;
+
 /**
  *@class PointListComponent
  *An abstract parent class, to be inherited by SkyComponents that store a QList
@@ -26,11 +33,6 @@
  *@author Jason Harris
  *@version 0.1
  */
-
-class SkyMap;
-
-#include "skycomponent.h"
-
 class PointListComponent : public SkyComponent
 {
 	public:
@@ -65,7 +67,7 @@ class PointListComponent : public SkyComponent
 		QList<SkyPoint*>& pointList() { return m_PointList; }
 
 	private:
-		SkyComposite *Parent;
+		SkyComponent *Parent;
 		QList<SkyPoint*> m_PointList;
 };
 

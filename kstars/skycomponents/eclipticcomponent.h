@@ -20,8 +20,6 @@
 #ifndef ECLIPTICCOMPONENT_H
 #define ECLIPTICCOMPONENT_H
 
-class QList;
-
 /**
 	*@class EclipticComponent
 	*Represents the celestial equator on the sky map.

@@ -42,8 +42,7 @@ void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	QImage ScaledImage;
 
-	bool checkSlewing = ( (slewing || ( clockSlewing && data->clock()->isActive()) )
-				&& Options::hideOnSlew() );
+	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
 	//shortcuts to inform wheter to draw different objects
 	bool drawMess( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );
@@ -247,7 +246,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky,
 			maglim = 40.0; //show all deep-sky objects
 
 			foreach ( DeepSkyObject *obj, catalog ) {
-			if ( checkVisibility( obj, fov(), XRange ) ) {
+			if ( checkVisibility( obj ) ) {
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
 				if ( mag > 90.0 || mag < (float)maglim ) {

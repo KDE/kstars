@@ -65,3 +65,5 @@ class CoordinateGridComponent : public PointListComponent
 		double Coordinate;
 		bool Parallel;
 };
+
+#endif

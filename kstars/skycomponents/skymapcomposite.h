@@ -20,6 +20,8 @@
 
 #include "skycomposite.h"
 
+class SolarSystemComposite;
+
 /**@class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
 *All requests to update, init, draw etc. will be done with this class.
@@ -33,7 +35,7 @@
 class SkyMapComposite : SkyComposite
 {
 	public:
-		SkyMapComposite(SkyComponent*);
+		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
 		/**
 			*@short Delegate planet position updates to the SolarSystemComposite

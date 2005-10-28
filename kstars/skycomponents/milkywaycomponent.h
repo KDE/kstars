@@ -20,7 +20,7 @@
 
 #define NMWFILES  11
 
-#include "skycomponent.h"
+#include "pointlistcomponent.h"
 
 #include <QList>
 //Added by qt3to4:

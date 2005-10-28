@@ -21,7 +21,8 @@
 //Added by qt3to4:
 #include <Q3PointArray>
 
-class QList;
+#include "pointlistcomponent.h"
+
 class SkyComposite;
 class KStarsData;
 class SkyMap;

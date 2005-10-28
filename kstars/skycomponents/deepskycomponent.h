@@ -18,8 +18,6 @@
 #ifndef DEEPSKYCOMPONENT_H
 #define DEEPSKYCOMPONENT_H
 
-class QList;
-
 /**
 	*@class DeepSkyComponent
 	*Represents the deep sky objects separated by catalogs. 

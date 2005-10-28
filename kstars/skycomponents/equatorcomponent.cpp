@@ -21,9 +21,11 @@
 #include <QPoint>
 #include <QPainter>
 
+#include "ksnumbers.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "skypoint.h" 
+#include "skypoint.h"
 #include "dms.h"
 #include "Options.h"
 
@@ -41,68 +43,68 @@ void EquatorComponent::init(KStarsData *data)
 {
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
-		o->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		Equator.append( o );
+		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		pointList().append( o );
 	}
 }
 
-void EquatorComponent::draw( KStars *ks, QPainter &p, double scale ) {
+void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	if ( !Options::showEquator() ) return;
 
 	SkyMap *map = ks->map();
 	KStarsData *data = ks->data();
 	int Width = int( scale * map->width() );
 	int Height = int( scale * map->height() );
+	float dmax = scale*Options::zoomFactor()/10.0;
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
+	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, Qt::SolidLine ) );
 
 	//index of point near the right or top/bottom edge
 	uint iSmall(0), iSmall2(0);
-	int xSmall(100000); //ridiculous initial value
+	float xSmall(100000.); //ridiculous initial value
 
 	bool Visible = false;
 	bool FirstPoint = true;
-	QPoint o, oFirst, oPrev;
+	QPointF o, oStart, oFirst, oPrev, o2;
 
-	foreach ( SkyPoint *p, Equator ) {
-		o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+	foreach ( SkyPoint *p, pointList() ) {
+		o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 		if ( FirstPoint ) {
 			FirstPoint = false;
 			o2 = o;
 			oFirst = o;
 			oPrev = o;
-			cur = o;
-			psky.moveTo( o.x(), o.y() );
+			oStart = o;
 			continue; //that's all we need for the first point
 		}
 
-		if ( checkVisibility( p, guideFOV, guideXRange ) ) {
+		if ( map->checkVisibility( p ) ) {
 			//If this is the first visible point, move the cursor 
 			//to the previous point before we draw the first line segment
 			if ( !Visible ) {
-				psky.moveTo( oPrev.x(), oPrev.y() );
+				oStart = oPrev;
 				Visible = true;
 			}
 
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 			//If the distance to the next point is too large, we won't draw
 			//the segment (this protects against artifacts)
-			int dx = o.x() - oPrev.x();
-			int dy = o.y() - oPrev.y();
-			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-				psky.lineTo( o.x(), o.y() );
+			float dx = o.x() - oPrev.x();
+			float dy = o.y() - oPrev.y();
+			if ( fabs(dx) < dmax && fabs(dy) < dmax ) {
+				psky.drawLine( oStart, o );
 			} else {
-				psky.moveTo( o.x(), o.y() );
+				oStart = o;
 			}
 
 			//We will draw the Equator label near the left edge of the screen, so 
 			//record the index of the onscreen point with the smallest x-coordinate
 			//Store the index in iSmall, and its coordinate in xSmall
-			if ( o.x() > 0 && o.x() < xSmall && o.y() > 0 && o.y() < height() ) {
+			if ( o.x() > 0 && o.x() < xSmall && o.y() > 0 && o.y() < Height ) {
 				xSmall = o.x();
-				iSmall = data->Equator.at();
+				iSmall = pointList().indexOf( p );
 			}
 
 		} else {
@@ -114,21 +116,21 @@ void EquatorComponent::draw( KStars *ks, QPainter &p, double scale ) {
 	//connect the final segment
 	//note that oPrev is now the final position, because it is set at the 
 	//end of the foreach-loop
-	int dx = oPrev.x() - oFirst.x();
-	int dy = oPrev.y() - oFirst.y();
-	if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-		psky.lineTo( oFirst.x(), oFirst.y() );
+	float dx = oPrev.x() - oFirst.x();
+	float dy = oPrev.y() - oFirst.y();
+	if ( fabs(dx) < dmax && fabs(dy) < dmax ) {
+		psky.drawLine( oPrev, oFirst );
 	} else {
 		//FIXME: no need for this?
-		psky.moveTo( oFirst.x(), oFirst.y() );
+		oStart = oFirst;
 	}
 
-	if ( ! slewing && xSmall < Width ) {
+	if ( ! map->isSlewing() && xSmall < float(Width) ) {
 		//Draw the "Equator" label.  We have flagged the leftmost onscreen Equator point.
 		//If the zoom level is below 1000, simply adopt this point as the anchor for the
 		//label.  If the zoom level is 1000 or higher, we interpolate to find the exact
 		//point at which the Equator goes offscreen, and anchor from that point.
-		p = Equator.at(iSmall);
+		SkyPoint *p = pointList().at(iSmall);
 		double ra0(0.0);  //the ra of our anchor point
 		double dec0(0.0); //the dec of our anchor point
 
@@ -138,25 +140,25 @@ void EquatorComponent::draw( KStars *ks, QPainter &p, double scale ) {
 		} else {
 			//Somewhere between Equator point p and its immediate neighbor, the Equator goes
 			//offscreen.  Determine the exact point at which this happens.
-			else iSmall2 = iSmall1 + 1;
-			if ( iSmall2 >= Equator.size() ) iSmall2 -= Equator.size();
+			iSmall2 = iSmall + 1;
+			if ( iSmall2 >= pointList().size() ) iSmall2 -= pointList().size();
 
-			SkyPoint *p2 = data->Equator.at(iSmall2);
+			SkyPoint *p2 = pointList().at(iSmall2);
 
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			o2 = getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			o2 = map->getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
 
 			double x1, x2;
 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
 			if ( o2.x() < 0 ) {
-				x1 = double(width()-o.x())/double(o2.x()-o.x());
-				x2 = double(o2.x()-width())/double(o2.x()-o.x());
+				x1 = double( Width-o.x() )/double( o2.x()-o.x() );
+				x2 = double( o2.x()-Width )/double( o2.x()-o.x() );
 			} else if ( o2.y() < 0 ) {
-				x1 = double(o.y())/double(o.y()-o2.y());
-				x2 = -1.0*double(o2.y())/double(o.y()-o2.y());
-			} else if ( o2.y() > height() ) {
-				x1 = double(height() - o.y())/double(o2.y()-o.y());
-				x2 = double(o2.y() - height())/double(o2.y()-o.y());
+				x1 = double( o.y() )/double( o.y()-o2.y() );
+				x2 = -1.0*double( o2.y() )/double( o.y()-o2.y() );
+			} else if ( o2.y() > Height ) {
+				x1 = double( Height - o.y() )/double( o2.y()-o.y() );
+				x2 = double( o2.y() - Height )/double( o2.y()-o.y() );
 			} else {  //should never get here
 				x1 = 0.0;
 				x2 = 1.0;
@@ -175,7 +177,7 @@ void EquatorComponent::draw( KStars *ks, QPainter &p, double scale ) {
 		//independent of zoom.
 		SkyPoint LabelPoint(ra0 - 200./Options::zoomFactor(), -800./Options::zoomFactor() );
 		if ( Options::useAltAz() )
-			LabelPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			LabelPoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 		//p2 is a SkyPoint offset from LabelPoint in RA by -0.1 hour/zoomFactor.
 		//We use this point to determine the rotation angle for the text (which
@@ -183,11 +185,11 @@ void EquatorComponent::draw( KStars *ks, QPainter &p, double scale ) {
 		SkyPoint p2 = LabelPoint;
 		p2.setRA( p2.ra()->Hours() - 200./Options::zoomFactor() );
 		if ( Options::useAltAz() )
-			p2.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 		//o and o2 are the screen positions of LabelPoint and p2.
-		o = getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
-		o2 = getXY( &p2, Options::useAltAz(), Options::useRefraction() );
+		o = map->getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
+		o2 = map->getXY( &p2, Options::useAltAz(), Options::useRefraction() );
 
 		double sx = double( o.x() - o2.x() );
 		double sy = double( o.y() - o2.y() );

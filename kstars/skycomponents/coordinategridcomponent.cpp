@@ -81,7 +81,7 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 	psky.moveTo( o.x(), o.y() );
 
 	foreach ( sp, gridList ) {
-		if ( map->checkVisibility( sp, guideFOV, guideXRange ) ) {
+		if ( map->checkVisibility( sp ) ) {
 			o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
 
 			//When drawing on the printer, the psky.pos() point does NOT get updated

@@ -18,8 +18,6 @@
 #ifndef STARCOMPONENT_H
 #define STARCOMPONENT_H
 
-class QList;
-
 /**@class StarComponent
 *Represents the stars on the sky map. For optimization reasons the stars are
 *not separate objects and are stored in a list.
