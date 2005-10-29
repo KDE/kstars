@@ -138,11 +138,11 @@ public:
 	*@param FGColor The foreground color (Pen color) to use when drawing boxes.
 	*@param grabColor The foreground color to use if the box is "grabbed" by the user.
 	*@param BGColor The background color (brush color) to use
-	*@param BGMode: 0=no BG fill; 1=transparent BG fill; 2=Opaque BG fill.
+	*@param BGMode  0=no BG fill; 1=transparent BG fill; 2=Opaque BG fill.
 	*/
 	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
 			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),
-			unsigned int Qt::BGMode=0 );
+			unsigned int BGMode=0 );
 	
 /**Determine whether a mouse click occurred inside one of the infoboxes.
 	*Also, set the internal variable GrabBox to indicate which box was grabbed.
