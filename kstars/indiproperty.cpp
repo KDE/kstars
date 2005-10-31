@@ -34,7 +34,7 @@
  #include <kdebug.h>
  #include <kmessagebox.h>
  
- #include <q3buttongroup.h> 
+ #include <QButtonGroup> 
  #include <qcheckbox.h>
  #include <qlabel.h>
  #include <qlayout.h>
@@ -43,7 +43,7 @@
  #include <qdatastream.h>
  #include <qtooltip.h>
 //Added by qt3to4:
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -235,7 +235,7 @@ void INDI_P::convertSwitch(int id)
  if (!lp)
    return;
    
- for (uint i=0; i < el.size(); i++)
+ for (int i=0; i < el.size(); i++)
  {
    if (el[i]->label == assosiatedPopup->text(id))
    {
@@ -262,16 +262,20 @@ void INDI_P::newSwitch(int id)
       if (lp->state == PS_ON)
         return;
 
-      for (unsigned int i=0; i < el.size(); i++)
-        el[i]->state = PS_OFF;
+      //for (unsigned int i=0; i < el.size(); i++)
+        //el[i]->state = PS_OFF;
+
+      // Using foreach instead of above
+      foreach( INDI_E *elm, el)
+	   elm->state = PS_OFF;
 
       lp->state = PS_ON;
       break;
 
     case PG_BUTTONS:
-      for (unsigned int i=0; i < el.size(); i++)
+      for (int i=0; i < el.size(); i++)
       {
-        if (i == (unsigned int) id) continue;
+        if (i == (int) id) continue;
 
         el[i]->push_w->setDown(false);
         buttonFont = el[i]->push_w->font();
@@ -323,7 +327,7 @@ void INDI_P::newBlob()
  bool sending (false);
  bool valid (true);
 
-  for (unsigned int i=0; i < el.size(); i++)
+  for (int i=0; i < el.size(); i++)
   {
     filename = el[i]->write_w->text();
     if (filename.isEmpty())
@@ -435,8 +439,8 @@ void INDI_P::addGUI (XMLEle *root)
 	   label_w->setFrameShape( QLabel::GroupBoxPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
-	   label_w->setTextFormat( QLabel::RichText );
-	   label_w->setAlignment( int( QLabel::WordBreak | QLabel::AlignVCenter | QLabel::AlignHCenter) );
+	   label_w->setTextFormat( Qt::RichText );
+	   label_w->setAlignment( Qt::WordBreak | Qt::AlignVCenter | Qt::AlignHCenter );
 	   
 	   PHBox->addWidget(label_w);
 	 
@@ -691,8 +695,8 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	QString switchName, switchLabel;
 	int j;
 
-	groupB = new Q3ButtonGroup(0);
-        groupB->setFrameShape(Q3Frame::NoFrame);
+	groupB = new QButtonGroup(0);
+        //groupB->setFrameShape(QtFrame::NoFrame);
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
 	  
@@ -741,7 +745,8 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	      case PG_BUTTONS:
 	       button = new KPushButton(switchLabel, pg->propertyContainer);
 
-	       groupB->insert(button, j);
+	       //groupB->insert(button, j);
+		groupB->addButton(button);
 
 	       if (lp->state == PS_ON)
 	       {
@@ -761,7 +766,8 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 
 	      case PG_RADIO:
 	      checkbox = new QCheckBox(switchLabel, pg->propertyContainer);
-	      groupB->insert(checkbox, j);
+	      //groupB->insert(checkbox, j);
+	      groupB->addButton(button);
 
 	      if (lp->state == PS_ON)
 	        checkbox->setChecked(true);

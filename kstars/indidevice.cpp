@@ -1,6 +1,7 @@
 /*  INDI frontend for KStars
-    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
-    		       Elwood C. Downey.
+    Copyright (C) 2003-2005 Jasem Mutlaq (mutlaqja AT ikarustech DOT com)
+
+    Initial code based on Elwood Downey's Xephem
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -17,7 +18,8 @@
     2003-08-09 Initial support for non-sidereal tracking
     2004-01-15 redesigning the GUI to support INDI v1.2 and fix previous GUI bugs
                and problems. The new GUI can easily incoperate extensions to the INDI
-	       protocol as required. 
+	       protocol as required
+    2005-10-30 Porting to KDE/QT 4
 
  */
 
@@ -44,24 +46,20 @@
 #include <termios.h>
 #include <zlib.h>
 
-#include <qlineedit.h>
-#include <q3textedit.h>
-#include <q3frame.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qtooltip.h>
-#include <q3whatsthis.h>
-#include <q3buttongroup.h>
-#include <q3scrollview.h>
-#include <qsocketnotifier.h>
-#include <q3vbox.h>
-#include <qdatetime.h>
-#include <q3table.h>
-#include <qstring.h>
-#include <q3ptrlist.h>
+//#include <qlineedit.h>
+#include <qtextedit.h>
+#include <QFrame>
+#include <QTabWidget>
+#include <QCheckBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QLayout>
+#include <QToolTip>
+#include <QWhatsThis>
+#include <QButtonGroup>
+#include <QSocketNotifier>
+#include <QDateTime>
+#include <QString>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -76,6 +74,7 @@
 #include <kdialogbase.h>
 #include <kstatusbar.h>
 #include <kmenu.h>
+#include <kvbox.h>
 
 #define NINDI_STD	26
 /* INDI standard property used across all clients to enable interoperability. */
@@ -99,7 +98,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
  deviceVBox     = menuParent->addVBoxPage(inLabel);
  groupContainer = new QTabWidget(deviceVBox);
  
- msgST_w        = new Q3TextEdit(deviceVBox);
+ msgST_w        = new QTextEdit(deviceVBox);
  msgST_w->setReadOnly(true);
  msgST_w->setMaximumHeight(100);
 
@@ -121,7 +120,7 @@ INDI_D::~INDI_D()
    delete (stdDev);
    free (dataBuffer);
    dataBuffer = NULL;
-   deviceVBox = NULL;
+   deviceVBox = NULL; 
    stdDev     = NULL;
 }
 
@@ -151,7 +150,7 @@ bool INDI_D::isINDIStd(INDI_P *pp)
  * left in the group, then delete the group as well */
 int INDI_D::removeProperty(INDI_P *pp)
 {
-    for (unsigned int i=0; i < gl.size(); i++)
+    for (int i=0; i < gl.size(); i++)
        if (gl[i]->removeProperty(pp))
        {
          if (gl[i]->pl.count() == 0)
@@ -645,8 +644,8 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 INDI_P * INDI_D::findProp (QString name)
 {
-  for (unsigned int i = 0; i < gl.size(); i++)
-    for (unsigned int j = 0; j < gl[i]->pl.size(); j++)
+  for (int i = 0; i < gl.size(); i++)
+    for (int j = 0; j < gl[i]->pl.size(); j++)
       if (name == gl[i]->pl[j]->name)
         return (gl[i]->pl[j]);
 
@@ -655,7 +654,6 @@ INDI_P * INDI_D::findProp (QString name)
 
 INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 {
-  INDI_G *ig;
 
   for ( int i=0; i < gl.size(); ++i ) {
     if (gl[i]->name == grouptag)
@@ -669,7 +667,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
   if (create)
   {
     if (grouptag.isEmpty())
-    grouptag = "Group_1";
+    grouptag = QString("Group%1").arg(gl.size() + 1);
 
     curGroup = new INDI_G(this, grouptag);
     gl.append(curGroup);

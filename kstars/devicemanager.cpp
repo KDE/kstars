@@ -22,7 +22,7 @@
 #include "kstarsdatetime.h"
 
 #include <qsocketnotifier.h>
-#include <q3textedit.h>
+#include <QTextEdit>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -266,7 +266,7 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
 	return (0);
     }
 
-    for (unsigned int i=0; i < indi_dev.size(); i++)
+    for (int i=0; i < indi_dev.size(); i++)
     {
          if (indi_dev[i]->name ==  devName)
 	 {
@@ -283,7 +283,7 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
 INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
 {
 	/* search for existing */
-	for (unsigned int i = 0; i < indi_dev.size(); i++)
+	for (int i = 0; i < indi_dev.size(); i++)
 	{
 	    if (indi_dev[i]->name == devName)
 		return indi_dev[i];
@@ -336,7 +336,7 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	dn = valuXMLAtt(ap);
 
 	/* search for existing */
-	for (uint i = 0; i < indi_dev.size(); i++)
+	for (int i = 0; i < indi_dev.size(); i++)
 	{
 	    if (indi_dev[i]->name == QString(dn))
 		return indi_dev[i];
@@ -378,7 +378,7 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
  */
 void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 {
-	Q3TextEdit *txt_w;
+	QTextEdit *txt_w;
 	XMLAtt *message;
 	XMLAtt *timestamp;
 
@@ -416,7 +416,8 @@ void DeviceManager::sendNewText (INDI_P *pp)
 	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
 	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
 	
-	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
+	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
+	foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneText\n");
 	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
@@ -434,7 +435,8 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
 	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
 	
-	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
+	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
+        foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneNumber\n");
 	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
@@ -448,21 +450,26 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 {  
         INDI_E *lp;
-	int i=0;
+	//int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
 	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.ascii());
 	fprintf (serverFP,"  name='%s'>\n", pp->name.ascii());
 	
-	for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
-	  if (i == index)
-          {
-	    fprintf (serverFP,"  <oneSwitch\n");
-	    fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
-	    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
-	    fprintf (serverFP,"  </oneSwitch>\n");
-	    break;
-	  }
+        lp = pp->el[index];
+	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
+          //foreach(lp, pp->el)
+          //{
+	  	//if (i == index)
+          	//{
+	    		fprintf (serverFP,"  <oneSwitch\n");
+	    		fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
+	    		fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
+	    		fprintf (serverFP,"  </oneSwitch>\n");
+	    	//	break;
+	  	//}
+	  //}
+
 	fprintf (serverFP, "</newSwitchVector>\n");
 	
 }

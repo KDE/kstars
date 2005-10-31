@@ -17,7 +17,7 @@
 #include "indi/indicom.h"
 
 #include <qcheckbox.h>
-#include <qlabel.h>
+#include <QLabel>
 #include <qlayout.h>
 #include <qstring.h>
 #include <q3ptrlist.h>
@@ -111,8 +111,8 @@ label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setFrameShape( KSqueezedTextLabel::Box );
 label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
-label_w->setTextFormat( QLabel::RichText );
-label_w->setAlignment( int( QLabel::WordBreak | QLabel::AlignCenter ) );
+label_w->setTextFormat( Qt::RichText );
+label_w->setAlignment( int( Qt::WordBreak | Qt::AlignCenter ) );
 
 if (label.length() > MAX_LABEL_LENGTH)
 {
@@ -160,7 +160,7 @@ int INDI_E::buildBLOBGUI()
 
   setupElementLabel();  
   
-  text = "INDI DATA STREAM";
+  text = i18n("INDI DATA STREAM");
   
   switch (pp->perm)
   {
@@ -288,7 +288,7 @@ void INDI_E::setupElementScale(int length)
 {
 
 int steps = (int) ((max - min) / step);
-spin_w    = new KDoubleSpinBox(min, max, step, value, 2, pp->pg->propertyContainer );
+spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
 slider_w  = new QSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizontal, pp->pg->propertyContainer );
 
 connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
@@ -375,11 +375,11 @@ void INDI_E::setupElementRead(int length)
 
   read_w = new KLineEdit( pp->pg->propertyContainer );
   read_w->setMinimumWidth( length );
-  read_w->setFocusPolicy( KLineEdit::NoFocus );
-  read_w->setFrameShape( KLineEdit::GroupBoxPanel );
-  read_w->setFrameShadow( KLineEdit::Plain );
+  read_w->setFocusPolicy( Qt::NoFocus );
+  //read_w->setFrameShape( QWidget::GroupBoxPanel );
+  //read_w->setFrameShadow( QWidget::Plain );
   read_w->setCursorPosition( 0 );
-  read_w->setAlignment( int( KLineEdit::AlignHCenter ) );
+  read_w->setAlignment( Qt::AlignCenter );
   read_w->setReadOnly( TRUE );
   read_w->setText(text);
   

@@ -1468,7 +1468,7 @@ void LX200Generic::getBasicData()
   time_t ut;
   time (&ut);
   timep = gmtime (&ut);
-  strftime (Time.tp[0].text, sizeof(Time.tp[0].text), "%Y-%m-%dT%H:%M:%S", timep);
+  strftime (Time.tp[0].text, strlen(Time.tp[0].text), "%Y-%m-%dT%H:%M:%S", timep);
 
   IDLog("PC UTC time is %s\n", Time.tp[0].text);
 

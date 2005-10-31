@@ -26,18 +26,17 @@
 
 #include <stdlib.h>
 
-#include <qlineedit.h>
-#include <q3textedit.h>
-#include <q3frame.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qsocketnotifier.h>
-#include <qdatetime.h>
-#include <q3vbox.h>
-#include <qtimer.h>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QFrame>
+#include <QTabWidget>
+#include <QCheckBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QLayout>
+#include <QSocketNotifier>
+#include <QDateTime>
+#include <QTimer>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -182,7 +181,7 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
 void INDIMenu::removeDeviceMgr(int mgrID)
 {
 
-  for (unsigned int i=0; i < mgr.size(); i++)
+  for (int i=0; i < mgr.size(); i++)
   {
     if (mgrID == mgr.at(i)->mgrID)
       delete mgr.takeAt(i);
@@ -193,8 +192,8 @@ void INDIMenu::removeDeviceMgr(int mgrID)
 
 INDI_D * INDIMenu::findDevice(QString deviceName)
 {
-  for (unsigned int i=0; i < mgr.size(); i++)
-    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+  for (int i=0; i < mgr.size(); i++)
+    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
       if (mgr[i]->indi_dev[j]->name == deviceName)
         return mgr[i]->indi_dev[j];
 
@@ -203,8 +202,8 @@ INDI_D * INDIMenu::findDevice(QString deviceName)
 
 INDI_D * INDIMenu::findDeviceByLabel(QString label)
 {
-  for (unsigned int i=0; i < mgr.size(); i++)
-    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+  for (int i=0; i < mgr.size(); i++)
+    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
       if (mgr[i]->indi_dev[j]->label == label)
         return mgr[i]->indi_dev[j];
 
@@ -216,8 +215,8 @@ void INDIMenu::setCustomLabel(QString deviceName)
 {
   int nset=0;
 
-  for (unsigned int i=0; i < mgr.size(); i++)
-    for (unsigned int j=0; j < mgr[i]->indi_dev.size(); j++)
+  for (int i=0; i < mgr.size(); i++)
+    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
       if (mgr[i]->indi_dev[j]->label.find(deviceName) >= 0)
         nset++;
 

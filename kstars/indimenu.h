@@ -15,7 +15,7 @@
 #include "indielement.h"
 //Added by qt3to4:
 #include <QGridLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -34,19 +34,17 @@ class KPushButton;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
-class Q3Frame;
+class QFrame;
 class QLineEdit;
 class QString;
-class Q3TextEdit;
-class Q3ListView;
+class QTextEdit;
+class QListView;
 class QSocketNotifier;
 class QTabWidget;
 class QSpacerItem;
 class QGridLayout;
-class Q3ButtonGroup;
+class QButtonGroup;
 class QCheckBox;
-class Q3ScrollView;
-class Q3VBox;
 
 class KStars;
 class DeviceManager;
@@ -63,7 +61,7 @@ class INDIMenu : public KDialogBase
    ******************************************************************/
    QVBoxLayout	*mainLayout;
    QTabWidget	*deviceContainer;
-   Q3TextEdit 	*msgST_w;
+   QTextEdit 	*msgST_w;
    QWidget	*tab;
    QPushButton  *clear;
    QString	currentLabel;

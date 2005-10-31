@@ -12,6 +12,8 @@
 #ifndef INDIELEMENT_H
 #define INDIELEMENT_H
 
+#include "indi/lilxml.h"
+
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <qstring.h>
@@ -20,8 +22,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
-#include "indi/lilxml.h"
 
 #define	INDIVERSION	1.5	/* we support this or less */
 

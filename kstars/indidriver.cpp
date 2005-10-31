@@ -43,7 +43,7 @@
 #include <kstandarddirs.h>
 #include <kaction.h>
 
-#include <kextsock.h>
+//#include <kextsock.h>
 #include <unistd.h>
 
 /*
@@ -367,9 +367,9 @@ void INDIDriver::updateMenuActions()
   if (devMenu->mgr.count() > 0)
    activeDevice = true;
    
-  for (uint i=0; i < devMenu->mgr.count(); i++)
+  for (int i=0; i < devMenu->mgr.count(); i++)
   {
-	for (uint j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
+	for (int j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
 	{
   		        imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSE_DURATION");
 			if (imgProp && devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
@@ -460,7 +460,7 @@ void INDIDriver::saveDevicesToDisk()
 
  // Let's write drivers first
  outstream << "<ScopeDrivers>" << endl;
- for (unsigned int i=0; i < driversList.count(); i++)
+ for (int i=0; i < driversList.count(); i++)
   outstream << "       <driver>" << driversList[i] << "</driver>" << endl;
  outstream << "</ScopeDrivers>" << endl;
 
@@ -548,9 +548,10 @@ int INDIDriver::getINDIPort()
 
   lastPort+=5;
 
-  KExtendedSocket ks(QString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
+// FIXME KExtendedSocket is obsolete. Find another way to check for free ports
+/*  KExtendedSocket ks(QString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
 
-  for (uint i=0 ; i < 10; i++)
+  for (int i=0 ; i < 10; i++)
   {
     if (ks.listen() < 0)
     {
@@ -560,7 +561,7 @@ int INDIDriver::getINDIPort()
     else
      return lastPort;
   }
-
+*/
    return -1;
 }
 

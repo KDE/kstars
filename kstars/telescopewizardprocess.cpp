@@ -15,7 +15,8 @@
 #include <qstring.h>
 #include <qtimer.h>
 #include <q3table.h>
-#include <q3textedit.h>
+//#include <q3textedit.h>
+#include <QTextEdit>
 #include <qradiobutton.h>
 
 #include <klistview.h>
@@ -331,7 +332,7 @@ void telescopeWizardProcess::scanPorts()
 
      progressScan->progressBar()->setValue(currentPort);
 
-     if ( (unsigned) currentPort >= portList.count())
+     if ( currentPort >= portList.count())
      {
       KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
       linkRejected = true;

@@ -30,7 +30,7 @@ class QLabel;
 class QPushButton;
 class QHBoxLayout;
 class QVBoxLayout;
-class Q3ButtonGroup;
+class QButtonGroup;
 
 /* INDI property */
 class INDI_P : public QObject
@@ -62,7 +62,7 @@ class INDI_P : public QObject
     QHBoxLayout    *PHBox;   		/* Horizontal container */
     QVBoxLayout    *PVBox;   		/* Vertical container */
     
-    Q3ButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
+    QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
     KComboBox      *om_w;		/* Combo box for menu */
     
     QList<INDI_E*> el;		/* list of elements */

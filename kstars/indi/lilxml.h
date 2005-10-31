@@ -60,6 +60,8 @@
 #ifndef LILXML_H
 #define LILXML_H
 
+#include <stdio.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

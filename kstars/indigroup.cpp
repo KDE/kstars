@@ -19,7 +19,7 @@
  #include <klocale.h>
  
  #include <qlayout.h>
- #include <q3frame.h>
+ #include <QFrame>
  #include <qtimer.h>
  #include <qtabwidget.h> 
 //Added by qt3to4:
@@ -43,7 +43,7 @@ INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
   // 1. Propertycontainer is a QFrame, then you make QVBoxLayout for it (check form1.cpp)
   // 2. Keep it as QVBox and let it handle its children.
   // Depends on which one works best.
-  propertyContainer = new Q3Frame(dp->groupContainer);
+  propertyContainer = new QFrame(dp->groupContainer);
   propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
   VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
   
@@ -73,7 +73,7 @@ bool INDI_G::removeProperty(INDI_P *pp)
 {
   int i = pl.indexOf( pp );
   if ( i != -1 ) {
-    delete list.takeAt(i);
+    delete pl.takeAt(i);
     return true;
   } else {
     return false;
