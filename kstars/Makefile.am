@@ -127,6 +127,6 @@ messages: rc.cpp stringsfile
 	rm -f tips.cpp
 	rm -f kstars_i18n.cpp
 
-noinst_HEADERS = fovdialog.h abstractplanetcomponent_interface.h
+noinst_HEADERS = fovdialog.h
 
 kstarsactions.o: tools/planetviewerui.h
