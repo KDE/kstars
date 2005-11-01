@@ -15,11 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "singlecomponent.h"
 #include "listcomponent.h"
 
 #include <QList>
 
+#include "kstarsdata.h"
 #include "skymap.h" 
+#include "skyobject.h"
 
 SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
 : SkyComponent( parent, visibleMethod )

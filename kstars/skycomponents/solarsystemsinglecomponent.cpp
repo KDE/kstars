@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skycomponent.h"
 #include "solarsystemsinglecomponent.h"
+#include "solarsystemcomposite.h"
 
 #include "ksplanet.h"
 #include "skymap.h"

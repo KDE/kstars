@@ -18,6 +18,8 @@
 #ifndef LISTCOMPONENT_H
 #define LISTCOMPONENT_H
 
+#include <QList>
+
 /**
  *@class ListComponent
  *An abstract parent class, to be inherited by SkyComponents that store a QList
@@ -27,6 +29,7 @@
  *@version 0.1
  */
 
+class SkyComposite;
 class SkyMap;
 
 #include "skycomponent.h"
@@ -62,7 +65,7 @@ class ListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
-		SkyObject* findObjectByName( const QString &name );
+		SkyObject* findByName( const QString &name );
 
 		QList<SkyObject*>& objectList() { return ObjectList; }
 

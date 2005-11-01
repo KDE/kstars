@@ -29,7 +29,7 @@
 *@version 0.1
 */
 
-class SolarSystemComposite : SkyComposite
+class SolarSystemComposite : public SkyComposite
 {
 	public:
 		SolarSystemComposite(SkyComponent *parent, KStarsData *data);

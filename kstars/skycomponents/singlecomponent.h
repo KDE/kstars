@@ -28,6 +28,7 @@
  */
 
 class KStars;
+class SkyComposite;
 
 #include "skycomponent.h"
 

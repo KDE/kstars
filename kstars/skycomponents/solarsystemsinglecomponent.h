@@ -18,6 +18,8 @@
 #ifndef SOLARSYSTEMSINGLECOMPONENT_H
 #define SOLARSYSTEMSINGLECOMPONENT_H
 
+#include <QColor>
+
 /**
 	*@class SolarSystemSingleComponent
 	*This class encapsulates some methods which are shared between
@@ -28,8 +30,6 @@
 	*/
 
 #include "singlecomponent.h"
-
-class QColor;
 
 class SolarSystemComposite;
 class KSNumbers;
