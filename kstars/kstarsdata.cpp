@@ -2380,11 +2380,16 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( arg == "sw" || arg == "southwest" ) az = 225.0;
 				if ( arg == "w"  || arg == "west" )      az = 270.0;
 				if ( arg == "nw" || arg == "northwest" ) az = 335.0;
-				if ( az >= 0.0 ) { map->setFocusAltAz( 15.0, az ); cmdCount++; }
+				if ( az >= 0.0 ) { 
+					map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
+					cmdCount++;
+					map->setDestination( map->focus() );
+				}
 
 				if ( arg == "z" || arg == "zenith" ) {
 					map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
 					cmdCount++;
+					map->setDestination( map->focus() );
 				}
 
 				//try a named object.  name is everything after the first word (which is 'lookTowards')
@@ -2447,7 +2452,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( ok ) min = fn[5].toInt(&ok);
 				if ( ok ) sec = fn[6].toInt(&ok);
 				if ( ok ) {
-					changeDateTime( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) );
+					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 					cmdCount++;
 				} else {
 					kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
