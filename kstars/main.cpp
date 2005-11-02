@@ -142,9 +142,6 @@ int main(int argc, char *argv[])
 		map->resize( w, h );
 		QPixmap sky( w, h );
 
-		dat->setFullTimeUpdate();
-		dat->updateTime(dat->geo(), map );
-
 		map->setDestination( new SkyPoint( Options::focusRA(), Options::focusDec() ) );
 		map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 		map->setFocus( map->destination() );
@@ -160,6 +157,10 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		dat->setFullTimeUpdate();
+		dat->updateTime(dat->geo(), map );
+
+		kapp->processEvents(100000);
 		map->setMapGeometry();
 		map->exportSkyImage( &sky );
 		kapp->processEvents(100000);
@@ -174,10 +175,13 @@ int main(int argc, char *argv[])
 
 	//start up normally in GUI mode
 	
-	//warn about invalid dates
+	//Try to parse the given date string
 	QString datestring = args->getOption( "date" );
-	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() )
+
+	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
 		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
+		datestring = "";
+	}
 	
 	new KStars( true, ! args->isSet( "paused" ), datestring );
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
