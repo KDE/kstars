@@ -27,6 +27,7 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <qpalette.h>
+#include <kglobal.h>
 
 #include "Options.h"
 #include "kstars.h"
@@ -110,7 +111,7 @@ KStars::~KStars()
 	Options::setWindowHeight( height() );
 
 	//We need to explicitly save the colorscheme data to the config file
-	data()->colorScheme()->saveToConfig( kapp->config() );
+	data()->colorScheme()->saveToConfig( KGlobal::config() );
 
 	//synch the config file with the Config object
 	Options::writeConfig();
@@ -172,7 +173,7 @@ void KStars::applyConfig() {
 	((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
 	
 	//color scheme
-	kstarsData->colorScheme()->loadFromConfig( kapp->config() );
+	kstarsData->colorScheme()->loadFromConfig( KGlobal::config() );
 	if ( Options::darkAppColors() ) {
 		QApplication::setPalette( DarkPalette, true );
 	} else {

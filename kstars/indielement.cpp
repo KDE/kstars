@@ -112,7 +112,7 @@ label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setFrameShape( KSqueezedTextLabel::Box );
 label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
 label_w->setTextFormat( Qt::RichText );
-label_w->setAlignment( int( Qt::WordBreak | Qt::AlignCenter ) );
+label_w->setAlignment( int( Qt::TextWordWrap | Qt::AlignCenter ) );
 
 if (label.length() > MAX_LABEL_LENGTH)
 {

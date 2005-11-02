@@ -30,6 +30,7 @@
 #include "Options.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <kglobal.h>
 
 #define KSTARS_VERSION "1.1.1"
 
@@ -104,7 +105,7 @@ int main(int argc, char *argv[])
 		dat->setLocationFromOptions(); 
 
 		//Set color scheme
-		dat->colorScheme()->loadFromConfig( kapp->config() );
+		dat->colorScheme()->loadFromConfig( KGlobal::config() );
 
 		//set clock now that we have a location:
 		//Check to see if user provided a date/time string.  If not, use current CPU time
