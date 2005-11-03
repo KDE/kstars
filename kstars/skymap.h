@@ -454,6 +454,15 @@ public:
 	*/
 	bool checkVisibility( SkyPoint *p );
 
+/**Determine the on-screen position angle of a SkyObject.  This is the sum
+	*of the object's sky position angle (w.r.t. North), and the position angle
+	*of "North" at the position of the object (w.r.t. the screen Y-axis).  
+	*The latter is determined by constructing a test point with the same RA but 
+	*a slightly increased Dec as the object, and calculating the angle w.r.t. the 
+	*Y-axis of the line connecing the object to its test point. 
+	*/
+	double findPA( SkyObject *o, float x, float y, double scale=1.0 );
+
 public slots:
 /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
 	*/
@@ -897,15 +906,6 @@ private:
 	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
 	*/
 	void fadeTransientLabel() { TransientTimer.start( TransientTimeout ); }
-
-/**Determine the on-screen position angle of a SkyObject.  This is the sum
-	*of the object's sky position angle (w.r.t. North), and the position angle
-	*of "North" at the position of the object (w.r.t. the screen Y-axis).  
-	*The latter is determined by constructing a test point with the same RA but 
-	*a slightly increased Dec as the object, and calculating the angle w.r.t. the 
-	*Y-axis of the line connecing the object to its test point. 
-	*/
-	double findPA( SkyObject *o, int x, int y, double scale=1.0 );
 
 /**@short Sets the shape of the default mouse cursor to a cross.  
 	*/

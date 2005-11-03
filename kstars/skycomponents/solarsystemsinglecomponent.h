@@ -72,6 +72,8 @@ class SolarSystemSingleComponent : public SingleComponent
 		
 		KSPlanet* earth() { return m_Earth; }
 		
+		KSPlanetBase *ksp() { return (KSPlanetBase*)skyObject(); }
+
 		void draw( KStars *ks, QPainter &psky, double scale );
 
 		/** 
@@ -80,7 +82,7 @@ class SolarSystemSingleComponent : public SingleComponent
 		void drawTrails( KStars *ks, QPainter& psky, double scale );
 		
 		// calculate the label size for drawNameLabel()
-		virtual int labelSize(SkyObject*);
+		virtual float labelSize(SkyObject*, double scale);
 
 	/**
 		*@short Add a Trail to the specified SkyObject.

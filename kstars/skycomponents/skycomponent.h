@@ -177,14 +177,14 @@ class SkyComponent
 		 *@p y the pixel y-coordinate of the object
 		 *@p scale the scaling factor for drawing (1.0 for screen draws)
 		 */
-		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
+		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, float x, float y, double scale);
 		
 		/** 
 		 *@return the size for drawing the label. It's used by 
 		 *the generic drawNameLabel() method.
 		 *@p obj Pointer to the SkyObject
 		 */
-		virtual int labelSize(SkyObject*) { return 1; };
+		virtual float labelSize(SkyObject*, double) { return 1.0; };
 
 	private:
 	

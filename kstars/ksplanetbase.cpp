@@ -29,8 +29,9 @@
 #include "kspopupmenu.h"
 
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, double pSize )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd) {
+KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, double pSize, const QColor &c )
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd), 
+		PhysicalSize(psize), m_Color( c ) {
 
 	 if (! image_file.isEmpty()) {
 		QFile imFile;
@@ -44,7 +45,6 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, doubl
 	}
 	PositionAngle = 0.0;
 	ImageAngle = 0.0;
-	PhysicalSize = pSize;
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -189,7 +189,7 @@ void KSPlanetBase::rotateImage( double imAngle ) {
 	Image = Image0.xForm( m );
 }
 
-void KSPlanetBase::scaleRotateImage( int scale, double imAngle ) {
+void KSPlanetBase::scaleRotateImage( float scale, double imAngle ) {
 	ImageAngle = imAngle;
 	QMatrix m;
 	m.rotate( ImageAngle );

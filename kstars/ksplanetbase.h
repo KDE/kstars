@@ -22,6 +22,7 @@
 #include <QString>
 #include <QList>
 #include <QImage>
+#include <QColor>
 
 #include <kdebug.h>
 
@@ -80,7 +81,7 @@ public:
 	*
 	*@todo Figure out what @p kd does.
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", double pSize=0 );
+	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", const QColor &c=QColor("white"), double pSize=0 );
 
 /**
 	*Destructor (empty)
@@ -239,6 +240,16 @@ public:
 	*/
 	void setPhysicalSize( double size ) { PhysicalSize = size; }
 
+/**
+	*@return the color for the planet symbol
+	*/
+	QColor& color() { return m_Color; }
+
+/**
+	*@short Set the color for the planet symbol
+	*/
+	void setColor( const QColor &c ) { m_Color = c; }
+
 /**@return true if the KSPlanet is one of the eight major planets
  */
 	bool isMajorPlanet() const;
@@ -276,7 +287,7 @@ public:
 	*@param scale the scaling factor
 	*@param imageAngle the new angle of rotation for the image
 	*/
-	void scaleRotateImage( int scale, double imageAngle );
+	void scaleRotateImage( float scale, double imageAngle );
 
 /**Show Solar System object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
@@ -336,6 +347,7 @@ private:
 	QImage Image0, Image;
 	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	KStarsData *data;
+	QColor m_Color;
 };
 
 #endif

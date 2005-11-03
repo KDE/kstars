@@ -2344,6 +2344,8 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 	return NULL;
 }
 
+void KSTarsData::appendNamedObject( SkyObject *o ) { ObjectNames.append( o ); }
+
 //"pseudo-execute" a shell script, ignoring all interactive aspects.  Just use
 //the portions of the script that change the state of the program.  This is only
 //used for image-dump mode, where the GUI is not running.  So, some things (such as

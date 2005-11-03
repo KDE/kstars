@@ -456,6 +456,12 @@ public:
 		*/
 	SkyObject* objectNamed( const QString &name );
 
+	/**
+		*@short append a SkyObject to the list of named objects
+		*@p o The SkyObject to be added
+		*/
+	void appendNamedObject( SkyObject *o );
+
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
 		*know when we need to do it again (see KStars::updateTime()).
