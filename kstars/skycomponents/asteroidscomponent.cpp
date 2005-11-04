@@ -15,14 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QFile>
+#include <QPen>
+#include <QPainter>
+
 #include "asteroidscomponent.h"
 
-#include <QFile>
-
+#include "Options.h"
 #include "ksasteroid.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "ksfilereader.h"
+#include "skymap.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
 : SolarSystemListComponent(parent, visibleMethod, msize)
@@ -40,27 +45,31 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	
 	SkyMap *map = ks->map();
 
-	foreach ( KSAsteroid *ast, objectList() ) { 
+	float Width = scale * map->width();
+	float Height = scale * map->height();
+
+	foreach ( SkyObject *o, objectList() ) { 
+		KSAsteroid *ast = (KSAsteroid*)o;
 		if ( ast->mag() > Options::magLimitAsteroid() ) break;
 
 		if ( map->checkVisibility( ast ) )
 		{
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
 
-			if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) )
+			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{
-				int size = int( ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
-				if ( size < 1 ) size = 1;
-				int x1 = o.x() - size/2;
-				int y1 = o.y() - size/2;
-				psky.drawEllipse( x1, y1, size, size );
+				float size = ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+				if ( size < 1 ) size = 1.;
+				float x1 = o.x() - 0.5*size;
+				float y1 = o.y() - 0.5*size;
+				psky.drawEllipse( QRectF( x1, y1, size, size ) );
 
 				//draw Name
 				if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
 					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					drawNameLabel( map, psky, ast, o.x(), o.y(), scale );
+					drawNameLabel( psky, ast, o.x(), o.y(), scale );
 				}
 			}
 		}
@@ -94,12 +103,11 @@ void AsteroidsComponent::init(KStarsData *data)
 
 			JD = double( mJD ) + 2400000.5;
 
-			ast = new KSAsteroid( this, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
+			ast = new KSAsteroid( data, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngularSize( 0.005 );
-			asteroidList.append( ast );
+			objectList().append( ast );
 
-			//TODO: need KStarsData::appendNamedObject()
-			data->apppendNamedObject( ast );
+			data->appendNamedObject( ast );
 		}
 	}
 }

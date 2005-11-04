@@ -15,19 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "horizoncomponent.h"
+#include "jupitermoonscomponent.h"
 
 #include <QList>
 #include <QPoint>
 #include <QPainter>
 
+#include "jupitermoons.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
 #include "dms.h"
 #include "Options.h"
 
-JupiterMoonsComponent::JupiterMoonsComponent( SkyComponent *parent, bool (*visibleMethod)() ) : SkyComponent( parent, visibleMethod )
+JupiterMoonsComponent::JupiterMoonsComponent( SkyComponent *p, bool (*visibleMethod)() ) : SkyComponent( p, visibleMethod )
 {
 	jmoons = 0;
 }
@@ -37,16 +39,16 @@ JupiterMoonsComponent::~JupiterMoonsComponent()
 	delete jmoons;
 }
 
-void JupiterMoonsComponent::init(KStarsData *data)
+void JupiterMoonsComponent::init(KStarsData *)
 {
 	jmoons = new JupiterMoons();
 }
 
-void JupiterMoonsComponent::updateMoons( KStarsData *data, KSNumbers *num )
+void JupiterMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
 {
 	//TODO findPosition should named updatePosition
 	if ( visible() )
-		jmoons->findPosition( &num, (const KSPlanet*)PCat->findByName("Jupiter"), PCat->planetSun() );
+		jmoons->findPosition( num, (KSPlanet*)(parent()->findByName("Jupiter")), (KSSun*)(parent()->findByName( "Sun" )) );
 
 }
 
@@ -55,8 +57,8 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( !Options::showJupiter() ) return;
 
 	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 	
 	//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
 	psky.setPen( QPen( QColor( "white" ) ) );
@@ -69,17 +71,17 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 		for ( unsigned int i=0; i<4; ++i )
 		{
-			QPoint o = map->getXY( jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
-			if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) )
+			QPointF o = map->getXY( jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{
 				if ( jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
-					psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
+					psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
 
 				//Draw Moon name labels if at high zoom
 				if (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM)
 				{
-					int offset = int(3*scale);
-					psky.drawText(o.x() + offset, o.y() + offset, jmoons->name(i));
+					float offset = 3.0*scale;
+					psky.drawText( QPointF( o.x() + offset, o.y() + offset ), jmoons->name(i));
 				}
 			}
 		}

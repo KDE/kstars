@@ -15,12 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "solarsystemlistcomponent.h"
+#include <QPainter>
+#include <QPen>
+#include <klocale.h>
 
-SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize )
-: ListComponent( parent, visibleMethod )
+#include "solarsystemlistcomponent.h"
+#include "solarsystemcomposite.h"
+
+#include "Options.h"
+#include "ksplanet.h"
+#include "ksplanetbase.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+
+SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p, bool (*visibleMethod)(), int msize )
+: ListComponent( (SkyComponent*)p, visibleMethod )
 {
-	m_Earth = parent->earth();
+	m_Earth = p->earth();
+	minsize = msize;
 }
 
 SolarSystemListComponent::~SolarSystemListComponent()
@@ -37,16 +50,16 @@ void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) 
 			p->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
 			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
-			if ( hasTrail() ) 
-				planet()->updateTrail( data->lst(), data->geo()->lat() );
+			if ( p->hasTrail() ) 
+				p->updateTrail( data->lst(), data->geo()->lat() );
 		}
 	}
 }
 
-bool SolarSystemListComponent::addTrail( SkyObject *o ) {
+bool SolarSystemListComponent::addTrail( SkyObject *oTarget ) {
 	foreach( SkyObject *o, objectList() ) {
-		if ( o == storedObject() ) {
-			(KSPlanetBase*)(storedObject())->addToTrail();
+		if ( o == oTarget ) {
+			((KSPlanetBase*)o)->addToTrail();
 			m_TrailList.append( o );
 			return true;
 		}
@@ -54,22 +67,22 @@ bool SolarSystemListComponent::addTrail( SkyObject *o ) {
 	return false;
 }
 
-bool SolarSystemListComponent::hasTrail( SkyObject *o, bool *found ) {
-	foreach( SkyObject *o, m_TrailList() ) {
-		if ( o == storedObject() ) {
+bool SolarSystemListComponent::hasTrail( SkyObject *oTarget, bool *found ) {
+	foreach( SkyObject *o, m_TrailList ) {
+		if ( o == oTarget ) {
 			*found = true;
-			return (KSPlanetBase*)(storedObject())->hasTrail();
+			return ((KSPlanetBase*)o)->hasTrail();
 		}
 	}
 	return false;
 }
 
-bool SolarSystemListComponent::removeTrail( SkyObject *o ) {
-	foreach( SkyObject *o, m_TrailList() ) {
-		if ( o == storedObject() ) {
-			(KSPlanetBase*)(storedObject())->clearTrail();
+bool SolarSystemListComponent::removeTrail( SkyObject *oTarget ) {
+	foreach( SkyObject *o, m_TrailList ) {
+		if ( o == oTarget ) {
+			((KSPlanetBase*)o)->clearTrail();
 			if ( m_TrailList.indexOf( o ) >= 0 )
-				m_TrailList.removeAt( indexOf( o ) );
+				m_TrailList.removeAt( m_TrailList.indexOf( o ) );
 			return true;
 		}
 	}
@@ -77,34 +90,38 @@ bool SolarSystemListComponent::removeTrail( SkyObject *o ) {
 }
 
 void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
-	if ( ! visible() || !ksp->hasTrail() ) return;
+	if ( ! visible() ) return;
 
 	foreach ( SkyObject *obj, m_TrailList ) {
-		KStarsPlanetBase *ksp = (KStarsPlanetBase*)obj;
+		KSPlanetBase *ksp = (KSPlanetBase*)obj;
+		if ( ! ksp->hasTrail() ) continue;
+
 		SkyMap *map = ks->map();
 		KStarsData *data = ks->data();
 	
-		int Width = int( scale * map->width() );
-		int Height = int( scale * map->height() );
+		float Width = scale * map->width();
+		float Height = scale * map->height();
 	
 		QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
 		QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 	
-		SkyPoint *p = ksp->trail()->first();
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-		QPoint cur( o );
+		SkyPoint p = ksp->trail().first();
+		QPointF o = map->getXY( &p, Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF oLast( o );
 	
 		bool doDrawLine(false);
 		int i = 0;
-		int n = ksp->trail()->count();
+		int n = ksp->trail().size();
 	
-		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			psky.moveTo(o.x(), o.y());
+		if ( ( o.x() >= -1000. && o.x() <= Width+1000. && o.y() >=-1000. && o.y() <= Height+1000. ) ) {
 			doDrawLine = true;
 		}
 	
 		psky.setPen( QPen( tcolor1, 1 ) );
-		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
+		bool firstPoint( true );
+		foreach ( p, ksp->trail() ) {
+			if ( firstPoint ) { firstPoint = false; continue; } //skip first point
+
 			if ( Options::fadePlanetTrails() ) {
 				//Define interpolated color
 				QColor tcolor = QColor(
@@ -115,20 +132,20 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
 				psky.setPen( QPen( tcolor, 1 ) );
 			}
 	
-			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->getXY( &p, Options::useAltAz(), Options::useRefraction(), scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 	
 				//Want to disable line-drawing if this point and the last are both outside bounds of display.
-				if ( ! rect().contains( o ) && ! rect().contains( cur ) ) doDrawLine = false;
-				cur = o;
+				if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
 	
 				if ( doDrawLine ) {
-					psky.lineTo( o.x(), o.y() );
+					psky.drawLine( oLast, o );
 				} else {
-					psky.moveTo( o.x(), o.y() );
 					doDrawLine = true;
 				}
 			}
 		}
+
+		oLast = o;
 	}
 }

@@ -143,6 +143,7 @@ class SkyComponent
 		virtual bool addTrail( SkyObject *o );
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
+		virtual void drawTrails( KStars *, QPainter &, double ) = 0;
 
 		/**
 			*@short Search the children of this SkyComponent for 

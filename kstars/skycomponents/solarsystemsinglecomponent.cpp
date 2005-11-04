@@ -29,11 +29,12 @@
 #include "skymap.h"
 #include "Options.h"
 
-SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanet *earth, bool (*visibleMethod)(), int msize)
+SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize)
 : SingleComponent( parent, visibleMethod )
 {
 	minsize = msize;
 	sizeScale = 1.0;
+	setStoredObject( kspb );
 	m_Earth = parent->earth();
 }
 

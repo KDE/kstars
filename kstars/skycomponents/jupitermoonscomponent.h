@@ -18,6 +18,8 @@
 #ifndef JUPITERMOONSCOMPONENT_H
 #define JUPITERMOONSCOMPONENT_H
 
+#include "skycomponent.h"
+
 class SkyComposite;
 class KStarsData;
 class SkyMap;
@@ -31,7 +33,7 @@ class JupiterMoons;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class JupiterMoonsComponent: public SkyComponent
+class JupiterMoonsComponent : public SkyComponent
 {
 	public:
 

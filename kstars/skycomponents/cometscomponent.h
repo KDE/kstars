@@ -23,7 +23,7 @@ class KStars;
 class KStarsData;
 class KSNumbers;
 
-#include "soalrsystemlistcomponent.h"
+#include "solarsystemlistcomponent.h"
 #include <QList>
 
 /**
@@ -79,3 +79,5 @@ class CometsComponent : public SolarSystemListComponent
 		virtual void init(KStarsData *data);
 	
 };
+
+#endif

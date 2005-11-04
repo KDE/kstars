@@ -42,7 +42,7 @@ class SolarSystemSingleComponent : public SingleComponent
 {
 	public:
 		/** Initialize visible method, minimum size and sizeScale. */
-		SolarSystemSingleComponent(SolarSystemComposite*, KSPlanet *earth, bool (*visibleMethod)(), int msize);
+		SolarSystemSingleComponent(SolarSystemComposite*, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize);
 
 		~SolarSystemSingleComponent();
 

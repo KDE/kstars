@@ -20,6 +20,8 @@
 
 #include "skycomposite.h"
 
+class KSPlanet;
+
 /**@class SolarSystemComposite
 * The solar system composite manages all planets, asteroids and comets.
 * As every sub component of solar system needs the earth , the composite
@@ -37,6 +39,8 @@ class SolarSystemComposite : public SkyComposite
 		
 		KSPlanet* earth() { return Earth; }
 		
+		virtual void init(KStarsData *data);
+
 		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 		
 		virtual void updateMoons( KStarsData *data, KSNumbers *num );

@@ -20,6 +20,9 @@
 
 #include "listcomponent.h"
 
+class KSPlanet;
+class SolarSystemComposite;
+
 /**
  *@class SolarSystemListComponent
  *
@@ -58,6 +61,7 @@ class SolarSystemListComponent : public ListComponent
 		KSPlanet* earth() { return m_Earth; }
 		
 	private:
+		int minsize;
 		KSPlanet *m_Earth;
 		QList<SkyObject*> m_TrailList;
 

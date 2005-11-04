@@ -73,11 +73,12 @@ class SingleComponent : public SkyComponent
 		
 		SkyObject* findByName( const QString &name );
 
-		SkyObject* skyObject() { return StoredObject; }
+		SkyObject* skyObject() { return m_StoredObject; }
+		void setStoredObject( SkyObject *o ) { m_StoredObject = o; }
 
 	private:
 		SkyComposite *Parent;
-		SkyObject* StoredObject;
+		SkyObject* m_StoredObject;
 };
 
 #endif

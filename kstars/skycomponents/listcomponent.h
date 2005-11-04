@@ -42,12 +42,16 @@ class ListComponent : public SkyComponent
 		
 		virtual ~ListComponent();
 		
-		/**Draw the list of objects on the SkyMap*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale) {};
+		/**
+			*@short Draw the list of objects on the SkyMap
+			*@note This is a pure virtual function, it is overridden by its subclasses.
+			*/
+		virtual void draw( KStars *, QPainter &, double ) {};
 		
-		/**Draw the object, if it is exportable to an image
-		*@see isExportable()
-		*/
+		/**
+			*@short Draw the object, if it is exportable to an image
+			*@see isExportable()
+			*/
 		void drawExportable(KStars *ks, QPainter& psky, double scale);
 		
 		/**
