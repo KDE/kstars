@@ -130,7 +130,7 @@ bool CustomCatalogComponent::removeCatalog( int i )
 
 CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bool showerrs )
 {
-	QDir::setCurrent( QDir::homeDirPath() );  //for files with relative path
+	QDir::setCurrent( QDir::homePath() );  //for files with relative path
 	Q3PtrList<SkyObject> objList;
 	QString CatalogName, CatalogPrefix, CatalogColor;
 	float CatalogEpoch;
@@ -138,7 +138,7 @@ CustomCatalog* CustomCatalogComponent::createCustomCatalog( QString filename, bo
 	//If the filename begins with "~", replace the "~" with the user's home directory
 	//(otherwise, the file will not successfully open)
 	if ( filename.at(0)=='~' )
-		filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
+		filename = QDir::homePath() + filename.mid( 1, filename.length() );
 	QFile ccFile( filename );
 
 	if ( ccFile.open( QIODevice::ReadOnly ) ) {

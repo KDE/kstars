@@ -66,7 +66,7 @@ void INDIFITSConf::loadOptions()
 
    if (Options::fitsSaveDirectory().isEmpty())
    {
-     fitsDIR_IN->setText (QDir:: homeDirPath());
+     fitsDIR_IN->setText (QDir:: homePath());
      Options::setFitsSaveDirectory( fitsDIR_IN->text());
    }
    else

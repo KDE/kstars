@@ -208,13 +208,13 @@ bool ColorScheme::load( const QString &filename ) {
 			if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
 //If this line has a valid Key, set the color.
-			QString tkey = line.mid( line.find(':')+1 ).stripWhiteSpace();
+			QString tkey = line.mid( line.find(':')+1 ).trimmed();
 			QString tname = line.left( line.find(':')-1 );
 
 			if ( KeyName.contains( tkey ) ) {
 				setColor( tkey, tname );
 			} else { //attempt to translate from old color ID
-				QString k( line.mid( 5 ).stripWhiteSpace() + "Color" );
+				QString k( line.mid( 5 ).trimmed() + "Color" );
 				if ( KeyName.contains( k ) ) {
 					setColor( k, tname );
 				} else {
@@ -247,7 +247,7 @@ bool ColorScheme::save( const QString &name ) {
 
 	//Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",
 	//and append ".colors".
-	QString filename = name.lower().stripWhiteSpace();
+	QString filename = name.lower().trimmed();
 	if ( !filename.isEmpty() ) {
 		for( unsigned int i=0; i<filename.length(); ++i)
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );

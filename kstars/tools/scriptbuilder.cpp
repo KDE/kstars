@@ -106,7 +106,7 @@
 
 ScriptBuilder::ScriptBuilder( QWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent, name ), 
-		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homeDirPath() ), 
+		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homePath() ), 
 		currentScriptName(), currentAuthor() {
 
 	QFrame *page = plainPage();
@@ -970,11 +970,11 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 
 		//look for name of script
 		if ( line.contains( "#KStars DCOP script: " ) )
-			currentScriptName = line.mid( 21 ).stripWhiteSpace();
+			currentScriptName = line.mid( 21 ).trimmed();
 
 		//look for author of scriptbuilder
 		if ( line.contains( "#by " ) )
-			currentAuthor = line.mid( 4 ).stripWhiteSpace();
+			currentAuthor = line.mid( 4 ).trimmed();
 
 		//Actual script functions
 		if ( line.left(4) == "dcop" ) {
@@ -2028,7 +2028,7 @@ void ScriptBuilder::slotWaitForKey() {
 	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
 
 	if ( sf->name() == "waitForKey" ) {
-		QString sKey = argWaitForKey->WaitKeyEdit->text().stripWhiteSpace();
+		QString sKey = argWaitForKey->WaitKeyEdit->text().trimmed();
 
 		//DCOP script can only use single keystrokes; make sure entry is either one character,
 		//or the word 'space'

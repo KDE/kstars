@@ -60,7 +60,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 					clc = new ConstellationLinesComponent( this, Options::showCLines() );
 				}
 
-				name = line.mid( 2 ).stripWhiteSpace();
+				name = line.mid( 2 ).trimmed();
 				SkyPoint *p = data->skyComponents()->findStarByGenetiveName( name );
 
 				if ( p && clc )

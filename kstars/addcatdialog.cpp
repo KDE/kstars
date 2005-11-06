@@ -39,7 +39,7 @@ AddCatDialog::AddCatDialog( QWidget *parent )
 
 	QFrame *page = plainPage();
 	setMainWidget(page);
-	QDir::setCurrent( QDir::homeDirPath() );
+	QDir::setCurrent( QDir::homePath() );
 
 	vlay = new QVBoxLayout( page, 0, spacingHint() );
 	acd = new AddCatDialogUI(page);

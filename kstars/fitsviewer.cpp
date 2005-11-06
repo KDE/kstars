@@ -508,7 +508,7 @@ void FITSViewer::fileOpen()
 			fitsRestore();
    }
    
-   KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+   KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
   
   if (fileURL.isEmpty())
     return;
@@ -938,8 +938,8 @@ void FITSViewer::fitsHeader()
      	       else
        		slash = property.find('/') - 1;
        
-     		cards << property.mid(equal + 2, slash - (equal + 2)).simplifyWhiteSpace().remove("'");
-     		cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1)).simplifyWhiteSpace();
+     		cards << property.mid(equal + 2, slash - (equal + 2)).simplified().remove("'");
+     		cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1)).simplified();
 		recordList.remove(0, FITS_CARD_SIZE);
 		
 	}

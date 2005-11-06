@@ -52,7 +52,7 @@ void CometsComponent::init( KStarsData *data ) {
 			KSComet *com = 0;
 
 			line = fileReader.readLine();
-			name = line.mid( 3, 35 ).stripWhiteSpace();
+			name = line.mid( 3, 35 ).trimmed();
 			mJD  = line.mid( 38, 5 ).toInt();
 			q    = line.mid( 44, 10 ).toDouble();
 			e    = line.mid( 55, 10 ).toDouble();

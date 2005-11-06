@@ -104,7 +104,7 @@ bool DeepSkyComponent::readDeepSkyData()
 				//Ignore comment lines
 				while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
 				//Ignore lines with no coordinate values
-				while ( line.mid(6,8).stripWhiteSpace().isEmpty() ) line = fileReader.readLine();
+				while ( line.mid(6,8).trimmed().isEmpty() ) line = fileReader.readLine();
 				
 				iflag = line.at( 0 ); //check for NGC/IC catalog flag
 				if ( iflag == 'I' ) cat = "IC";
@@ -156,7 +156,7 @@ bool DeepSkyComponent::readDeepSkyData()
 					imess = line.mid( 72, 3 ).toInt();
 				}
 
-				longname = line.mid( 76, line.length() ).stripWhiteSpace();
+				longname = line.mid( 76, line.length() ).trimmed();
 
 				dms r;
 				r.setH( rah, ram, int(ras) );

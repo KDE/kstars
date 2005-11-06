@@ -271,7 +271,7 @@ void KStars::slotINDIConf() {
 
    if (Options::fitsSaveDirectory().isEmpty())
    {
-     indiconf.fitsDIR_IN->setText (QDir:: homeDirPath());
+     indiconf.fitsDIR_IN->setText (QDir:: homePath());
      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
    }
    else
@@ -430,7 +430,7 @@ void KStars::closeWindow() {
 void KStars::slotOpenFITS()
 {
 
-  KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
 
   if (fileURL.isEmpty())
     return;
@@ -441,7 +441,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
+	KURL fileURL = KFileDialog::getSaveURL( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 
 	//Warn user if file exists!
 	if (QFile::exists(fileURL.path()))
@@ -459,7 +459,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+	KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 	QFile f;
 	QString fname;
 
@@ -476,14 +476,14 @@ void KStars::slotRunScript() {
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
-				KURL saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+				KURL saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				KTempFile tmpfile;
 				tmpfile.setAutoDelete(true);
 
 				while ( ! saveURL.isValid() ) {
 					message = i18n( "Save location is invalid. Try another location?" );
 					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::No ) return;
-					saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+					saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				}
 
 				if ( saveURL.isLocalFile() ) {
@@ -539,9 +539,9 @@ void KStars::slotRunScript() {
 		while (  ! istream.eof() ) {
 			line = istream.readLine();
 			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
-					&& line.stripWhiteSpace() != "KSTARS=`dcopfind -a 'kstars*'`"
-					&& line.stripWhiteSpace() != "MAIN=KStarsInterface"
-					&& line.stripWhiteSpace() != "CLOCK=clock#1" ) {
+					&& line.trimmed() != "KSTARS=`dcopfind -a 'kstars*'`"
+					&& line.trimmed() != "MAIN=KStarsInterface"
+					&& line.trimmed() != "CLOCK=clock#1" ) {
 				fileOK = false;
 				break;
 			}
@@ -867,7 +867,7 @@ void KStars::slotFOVEdit() {
 				QStringList fields = QStringList::split( ":", line );
 
 				if ( fields.count() == 4 ) {
-					QString nm = fields[0].stripWhiteSpace();
+					QString nm = fields[0].trimmed();
 					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
 							actionCollection(), nm.utf8() );
 					kta->setExclusiveGroup( "fovsymbol" );

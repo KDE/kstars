@@ -57,7 +57,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
 			ds = line.mid( 11, 2 ).toInt();
 
 			abbrev = line.mid( 13, 3 );
-			name  = line.mid( 17 ).stripWhiteSpace();
+			name  = line.mid( 17 ).trimmed();
 
 			dms r; r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );

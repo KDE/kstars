@@ -367,9 +367,9 @@ void LocationDialog::addCity( void ) {
 		QFile file;
 
 		//Strip off white space
-		QString name = NewCityName->text().stripWhiteSpace();
-		QString province = NewProvinceName->text().stripWhiteSpace();
-		QString country = NewCountryName->text().stripWhiteSpace();
+		QString name = NewCityName->text().trimmed();
+		QString province = NewProvinceName->text().trimmed();
+		QString country = NewCountryName->text().trimmed();
 
 		//check for user's city database.  If it doesn't exist, create it.
 		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.

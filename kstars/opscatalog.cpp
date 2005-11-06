@@ -122,7 +122,7 @@ void OpsCatalog::slotAddCatalog() {
 
 void OpsCatalog::slotLoadCatalog() {
 	//Get the filename from the user
-	QString filename = KFileDialog::getOpenFileName( QDir::homeDirPath(), "*");
+	QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
 	if ( ! filename.isEmpty() ) {
 		//test integrity of file before trying to add it
 		CustomCatalog *newCat = ksw->data()->createCustomCatalog( filename, true ); //true = show errors

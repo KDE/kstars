@@ -306,8 +306,8 @@ bool KStarsData::readVARData(void)
     if (Line[0] == QChar('*'))
      break;
 
-    Designation = Line.mid(0,8).stripWhiteSpace();
-    Name          = Line.mid(10,20).simplifyWhiteSpace();
+    Designation = Line.mid(0,8).trimmed();
+    Name          = Line.mid(10,20).simplified();
 
     VariableStarInfo *VInfo = new VariableStarInfo;
 
@@ -419,7 +419,7 @@ bool KStarsData::readCLineData( void ) {
 
 			//ignore lines beginning with "#":
 			if ( line.at( 0 ) != '#' ) {
-				name = line.mid( 2 ).stripWhiteSpace();
+				name = line.mid( 2 ).trimmed();
 				
 				//Find the star with the same abbreviated genitive name ( name2() )
 				//increase efficiency by searching the list of named objects, rather than the 
@@ -475,7 +475,7 @@ bool KStarsData::readCNameData( void ) {
 			ds = line.mid( 11, 2 ).toInt();
 
 			abbrev = line.mid( 13, 3 );
-			name  = line.mid( 17 ).stripWhiteSpace();
+			name  = line.mid( 17 ).trimmed();
 
 			dms r; r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );
@@ -673,10 +673,10 @@ void KStarsData::processStar( QString *line, bool reloadMode ) {
 	}
 
 	//parse name(s)
-	name = line->mid( 72 ).stripWhiteSpace(); //the rest of the line
+	name = line->mid( 72 ).trimmed(); //the rest of the line
 	if (name.contains( ':' )) { //genetive form exists
-		gname = name.mid( name.find(':')+1 ).stripWhiteSpace();
-		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+		gname = name.mid( name.find(':')+1 ).trimmed();
+		name = name.mid( 0, name.find(':') ).trimmed();
 	}
 
 	// HEV: look up star name in internationalization filesource
@@ -727,7 +727,7 @@ bool KStarsData::readAsteroidData( void ) {
 			KSAsteroid *ast = 0;
 
 			line = fileReader.readLine();
-			name = line.mid( 6, 17 ).stripWhiteSpace();
+			name = line.mid( 6, 17 ).trimmed();
 			mJD  = line.mid( 24, 5 ).toInt();
 			a    = line.mid( 30, 9 ).toDouble();
 			e    = line.mid( 41, 10 ).toDouble();
@@ -766,7 +766,7 @@ bool KStarsData::readCometData( void ) {
 			KSComet *com = 0;
 
 			line = fileReader.readLine();
-			name = line.mid( 3, 35 ).stripWhiteSpace();
+			name = line.mid( 3, 35 ).trimmed();
 			mJD  = line.mid( 38, 5 ).toInt();
 			q    = line.mid( 44, 10 ).toDouble();
 			e    = line.mid( 55, 10 ).toDouble();
@@ -816,7 +816,7 @@ bool KStarsData::readDeepSkyData( void ) {
 				//Ignore comment lines
 				while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
 				//Ignore lines with no coordinate values
-				while ( line.mid(6,8).stripWhiteSpace().isEmpty() ) line = fileReader.readLine();
+				while ( line.mid(6,8).trimmed().isEmpty() ) line = fileReader.readLine();
 				
 				iflag = line.at( 0 ); //check for NGC/IC catalog flag
 				if ( iflag == 'I' ) cat = "IC";
@@ -868,7 +868,7 @@ bool KStarsData::readDeepSkyData( void ) {
 					imess = line.mid( 72, 3 ).toInt();
 				}
 
-				longname = line.mid( 76, line.length() ).stripWhiteSpace();
+				longname = line.mid( 76, line.length() ).trimmed();
 
 				dms r;
 				r.setH( rah, ram, int(ras) );
@@ -1168,7 +1168,7 @@ bool KStarsData::removeCatalog( int i ) {
 }
 
 CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs ) {
-	QDir::setCurrent( QDir::homeDirPath() );  //for files with relative path
+	QDir::setCurrent( QDir::homePath() );  //for files with relative path
 	QPtrList<SkyObject> objList;
 	QString CatalogName, CatalogPrefix, CatalogColor;
 	float CatalogEpoch;
@@ -1176,7 +1176,7 @@ CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs 
 	//If the filename begins with "~", replace the "~" with the user's home directory
 	//(otherwise, the file will not successfully open)
 	if ( filename.at(0)=='~' )
-		filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
+		filename = QDir::homePath() + filename.mid( 1, filename.length() );
 	QFile ccFile( filename );
 
 	if ( ccFile.open( IO_ReadOnly ) ) {
@@ -1541,7 +1541,7 @@ bool KStarsData::processCity( QString& line ) {
 	fields = QStringList::split( ":", line );
 
 	for ( unsigned int i=0; i< fields.count(); ++i )
-		fields[i] = fields[i].stripWhiteSpace();
+		fields[i] = fields[i].trimmed();
 
 	if ( fields.count() < 11 ) {
 		kdDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
@@ -1646,7 +1646,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 		QTextStream stream( &file );
 
 		while ( !stream.eof() ) {
-			QString line = stream.readLine().stripWhiteSpace();
+			QString line = stream.readLine().trimmed();
 			if ( line.left(1) != "#" && line.length() ) { //ignore commented and blank lines
 				QStringList fields = QStringList::split( " ", line );
 				id = fields[0];

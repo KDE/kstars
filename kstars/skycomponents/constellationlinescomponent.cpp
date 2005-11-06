@@ -54,7 +54,7 @@ void ConstellationLinesComponent::init(KStarsData *data)
 
 			//ignore lines beginning with "#":
 			if ( line.at( 0 ) != '#' ) {
-				name = line.mid( 2 ).stripWhiteSpace();
+				name = line.mid( 2 ).trimmed();
 				
 				//Find the star with the same abbreviated genitive name ( name2() )
 				//increase efficiency by searching the list of named objects, rather than the 

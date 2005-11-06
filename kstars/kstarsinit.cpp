@@ -290,7 +290,7 @@ void KStars::initActions() {
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 	
 	if (Options::fitsSaveDirectory().isEmpty())
-			Options::setFitsSaveDirectory(QDir:: homeDirPath());
+			Options::setFitsSaveDirectory(QDir:: homePath());
 }
 
 void KStars::initFOV() {
@@ -327,7 +327,7 @@ void KStars::initFOV() {
 			fields = QStringList::split( ":", line );
 
 			if ( fields.count() == 4 ) {
-				nm = fields[0].stripWhiteSpace();
+				nm = fields[0].trimmed();
 				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
 						actionCollection(), nm.utf8() );
 				kta->setExclusiveGroup( "fovsymbol" );

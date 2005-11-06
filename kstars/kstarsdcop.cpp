@@ -344,7 +344,7 @@ void KStars::setColor( const QString name, const QString value ) {
 
 void KStars::loadColorScheme( const QString _name ) {
 	QString name( _name );
-	QString filename = name.lower().stripWhiteSpace();
+	QString filename = name.lower().trimmed();
 	bool ok( false );
 	
 	//Parse default names which don't follow the regular file-naming scheme
@@ -394,7 +394,7 @@ void KStars::exportImage( const QString url, int w, int h ) {
 	//If the filename string contains no "/" separators, assume the 
 	//user wanted to place a file in their home directory.
 	KURL fileURL;
-	if ( ! url.contains( "/" ) ) fileURL = QDir::homeDirPath() + "/" + url;
+	if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + "/" + url;
 	else fileURL = url;
 
 	KTempFile tmpfile;

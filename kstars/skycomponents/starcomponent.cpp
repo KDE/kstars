@@ -214,10 +214,10 @@ void StarComponent::processStar( QString *line, bool reloadMode ) {
 	}
 
 	//parse name(s)
-	name = line->mid( 72 ).stripWhiteSpace(); //the rest of the line
+	name = line->mid( 72 ).trimmed(); //the rest of the line
 	if (name.contains( ':' )) { //genetive form exists
-		gname = name.mid( name.find(':')+1 ).stripWhiteSpace();
-		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
+		gname = name.mid( name.find(':')+1 ).trimmed();
+		name = name.mid( 0, name.find(':') ).trimmed();
 	}
 
 	// HEV: look up star name in internationalization filesource

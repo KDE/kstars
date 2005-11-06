@@ -91,7 +91,7 @@ void AsteroidsComponent::init(KStarsData *data)
 			KSAsteroid *ast = 0;
 
 			line = fileReader.readLine();
-			name = line.mid( 6, 17 ).stripWhiteSpace();
+			name = line.mid( 6, 17 ).trimmed();
 			mJD  = line.mid( 24, 5 ).toInt();
 			a    = line.mid( 30, 9 ).toDouble();
 			e    = line.mid( 41, 10 ).toDouble();

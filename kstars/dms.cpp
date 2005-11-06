@@ -55,7 +55,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	int d(0), m(0);
 	double s(0.0);
 	bool checkValue( false ), badEntry( false ), negative( false );
-	QString entry = str.stripWhiteSpace();
+	QString entry = str.trimmed();
 
 	//remove any instances of unit characters.
 	//h, d, m, s, ', ", or the degree symbol (ASCII 176)

@@ -369,7 +369,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 
 	while ( ! istream.eof() ) {
 		line = istream.readLine();
-		line.stripWhiteSpace();
+		line.trimmed();
 
 		//Go through the line, looking for parameters
 

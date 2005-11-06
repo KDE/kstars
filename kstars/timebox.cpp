@@ -63,7 +63,7 @@ QTime timeBox::createTime ( bool *ok )
 
 //	QString errMsg = i18n( "Unable to parse %1 entry. Specify a %1 value as a simple integer, a floating-point number, or a triplet of values using colons or spaces as separators." );
 
-	QString entry = text().stripWhiteSpace();
+	QString entry = text().trimmed();
 
 	//Try simplest cases: integer or double representation
 
@@ -151,7 +151,7 @@ QTime timeBox::createTime ( bool *ok )
 ExtDate timeBox::createDate (bool */*ok*/)
 {
 	
-	QString entry = text().stripWhiteSpace();
+	QString entry = text().trimmed();
 
 	// if entry is an empty string or invalid date use current date
 
@@ -160,7 +160,7 @@ ExtDate timeBox::createDate (bool */*ok*/)
 	if ( !date.isValid() ) {
 		kdDebug() << k_funcinfo << "Invalid date" << endl;
 		showDate(ExtDate::currentDate());
-		entry = text().stripWhiteSpace();
+		entry = text().trimmed();
 		return ExtDate::currentDate();
 	} else {
 		return date;
