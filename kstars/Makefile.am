@@ -2,7 +2,7 @@ bin_PROGRAMS = kstars
 
 kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp \
-			dms.cpp dmsbox.cpp filesource.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp customcatalog.cpp \
+			dms.cpp dmsbox.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp customcatalog.cpp \
 			fitsimage.cpp fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp \
 			geolocation.cpp imagereductiondlg.cpp imagesequence.cpp imageviewer.cpp indidevice.cpp \
 			indidriver.cpp indielement.cpp indifitsconf.cpp indigroup.cpp indimenu.cpp \
@@ -14,9 +14,9 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			mapcanvas.cpp objectnamelist.cpp opsadvanced.cpp opscatalog.cpp opscolors.cpp \
 			opsguides.cpp opssolarsystem.cpp planetcatalog.cpp simclock.cpp skymap.cpp \
 			skymapdraw.cpp skymapevents.cpp skyobject.cpp skyobjectname.cpp skypoint.cpp \
-			stardatasink.cpp starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp \
-			telescopeprop.cpp timebox.cpp timedialog.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp \
-			timezonerule.cpp toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp draglistbox.cpp \
+			starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
+			timebox.cpp timedialog.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp timezonerule.cpp \
+			toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp draglistbox.cpp \
 			addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui details_data.ui \
 			details_position.ui details_links.ui details_database.ui details_log.ui devmanager.ui \
 			fitsheaderdialog.ui focusdialogdlg.ui fovdialogui.ui histdialog.ui imagereductionui.ui \

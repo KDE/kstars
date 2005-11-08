@@ -14,28 +14,40 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <QPixmap>
+#include <QPainter>
+#include <QFile>
+
 #include "starcomponent.h"
 
 #include "Options.h"
-//Added by qt3to4:
-#include <QPixmap>
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksfilereader.h"
+#include "ksutils.h"
+#include "skymap.h"
+#include "starobject.h"
 
 StarComponent::StarComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: ListComponent(parent, visibleMethod)
+: ListComponent(parent, visibleMethod), m_FaintMagnitude(-5.0)
 {
-	starList = 0;
 }
 
 StarComponent::~StarComponent()
 {
-	delete starList;
+	delete starpix;
 }
 
 void StarComponent::init(KStarsData *data)
 {
-	starList = new QList()<StarObject*>;
-	
-	readStarData();
+	// load the pixmaps of stars
+	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
+	m_Data = data;
+
+	connect( this, SIGNAL( progressText( const QString& ) ), 
+			data, SIGNAL( progressText( const QString& ) ) );
+
+	setFaintMagnitude( Options::magLimitDrawStar() );
 }
 
 void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
@@ -43,8 +55,9 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( !Options::showStars() ) return;
 	
 	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
@@ -60,25 +73,26 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawStar() - Options::magLimitDrawStarZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 	float sizeFactor = 6.0 + (lgz - lgmin);
 
-	for (StarObject *curStar = starList->first(); curStar; curStar = starList->next())
-	{
+	foreach ( SkyObject *o, objectList() ) {
+		StarObject *curStar = (StarObject*)o;
+
 		// break loop if maglim is reached
 		if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
 
 		if ( map->checkVisibility( curStar ) )
 		{
-			QPoint o = map->getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
 
 			// draw star if currently on screen
-			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height )
+			if (o.x() >= 0. && o.x() <= Width && o.y() >=0. && o.y() <= Height )
 			{
-				int size = int( scale * ( sizeFactor*( maglim - curStar->mag())/maglim ) + 1 );
+				float size = scale * ( sizeFactor*( maglim - curStar->mag())/maglim ) + 1.;
 
-				if ( size > 0 )
+				if ( size > 0. )
 				{
 					QChar c = curStar->color();
-					QPixmap *spixmap = starpix->getPixmap( &c, size );
-					curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+					QPixmap *spixmap = starpix->getPixmap( &c, int(size) );
+					curStar->draw( psky, spixmap, o.x(), o.y(), true, true, scale );
 
 					// now that we have drawn the star, we can display some extra info
 					//don't label unnamed stars with the generic "star" name
@@ -86,7 +100,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 					if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
 							&& ( drawName || Options::showStarMagnitudes() ) ) {
 
-						psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+						psky.setPen( QColor( data()->colorScheme()->colorNamed( "SNameColor" ) ) );
 						QFont stdFont( psky.font() );
 						QFont smallFont( stdFont );
 						smallFont.setPointSize( stdFont.pointSize() - 2 );
@@ -108,6 +122,22 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	}
 }
 
+void StarComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale)
+{
+	QFont stdFont( psky.font() );
+	QFont smallFont( stdFont );
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+	if ( Options::zoomFactor() < 10.*MINZOOM ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
+	((StarObject*)obj)->drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
+	// reset font
+	psky.setFont( stdFont );
+}
+
 bool StarComponent::openStarFile(int i)
 {
 	if (starFileReader != 0) delete starFileReader;
@@ -127,50 +157,54 @@ bool StarComponent::openStarFile(int i)
 	return true;
 }
 
-bool StarComponent::readStarData()
-{
-	bool ready = false;
+void StarComponent::setFaintMagnitude( float newMagnitude ) {
+	// only load star data if the new magnitude is fainter than we've seen so far
+	if ( newMagnitude > m_FaintMagnitude ) {
+		m_FaintMagnitude = newMagnitude;  // store new highest magnitude level
 
-	float loadUntilMag = MINDRAWSTARMAG;
-	if (Options::magLimitDrawStar() > loadUntilMag) loadUntilMag = Options::magLimitDrawStar();
-	
-	for (unsigned int i=1; i<NHIPFILES+1; ++i) {
-		emit progressText( i18n( "Loading Star Data (%1%)" ).arg( int(100.*float(i)/float(NHIPFILES)) ) );
-		
-		if (openStarFile(i) == true) {
-			while (starFileReader->hasMoreLines()) {
-				QString line;
-				float mag;
+		//Identify which data file needs to be opened (there are 1000 stars per file)
+		int iStarFile = objectList().size()/1000 + 1;
+		int iStarLine = objectList().size()%1000;
+		float currentMag = objectList().last()->mag();
+		uint nLinesRead = 0;
 
-				line = starFileReader->readLine();
-				if ( line.left(1) != "#" ) {  //ignore comments
-					// check star magnitude
-					mag = line.mid( 46,5 ).toFloat();
-					if ( mag > loadUntilMag ) {
-						ready = true;
-						break;
+		//Skip 12 header lines in first file
+		if ( iStarFile == 1 ) iStarLine += 12;
+
+		//Begin reading new star data
+		while ( iStarFile <= NHIPFILES && currentMag <= m_FaintMagnitude ) {
+			emit progressText( i18n( "Loading Star Data (%1%)" ).arg( 
+								int(100.*float(iStarFile)/float(NHIPFILES)) ) );
+			openStarFile( iStarFile++ );
+
+			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
+				kdDebug() << i18n( "Could not set line number %1 in star data file." ).arg(iStarLine) << endl;
+			} else {
+				iStarLine = 0; //start at the begnning of the next file
+
+				while ( starFileReader->hasMoreLines() ) {
+					QString line = starFileReader->readLine();
+					++nLinesRead;
+
+					if ( line.left(1) != "#" ) {  //ignore comments
+						// check star magnitude
+						currentMag = line.mid( 46,5 ).toFloat();
+						if ( currentMag > m_FaintMagnitude ) break; //Done!
+
+						processStar( line );
 					}
 
-					processStar(&line);
+					//Process events every 250 lines read
+					if ( nLinesRead % 250 == 0 ) kapp->processEvents();
 				}
-			}  // end of while
-
-		} else { //one of the star files could not be read.
-			if ( starList->count() ) return true;
-			else return false;
+			}
 		}
-		// magnitude level is reached
-		if (ready == true) break;
 	}
 
-//Store the max set magnitude of current session. Will increase in KStarsData::appendNewData()
-	maxSetMagnitude = Options::magLimitDrawStar();
-	delete starFileReader;
-	starFileReader = 0;
-	return true;
+	Options::setMagLimitDrawStar( newMagnitude );
 }
 
-void StarComponent::processStar( QString *line, bool reloadMode ) {
+void StarComponent::processStar( const QString &line ) {
 	QString name, gname, SpType;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
 	bool mult, var;
@@ -181,40 +215,41 @@ void StarComponent::processStar( QString *line, bool reloadMode ) {
 	name = ""; gname = "";
 
 	//parse coordinates
-	rah = line->mid( 0, 2 ).toInt();
-	ram = line->mid( 2, 2 ).toInt();
-	ras = int(line->mid( 4, 5 ).toDouble());
-	ras2 = int(60.0*(line->mid( 4, 5 ).toDouble()-ras) + 0.5); //add 0.5 to get nearest integer with int()
+	rah = line.mid( 0, 2 ).toInt();
+	ram = line.mid( 2, 2 ).toInt();
+	ras = int(line.mid( 4, 5 ).toDouble());
+	ras2 = int(60.0*(line.mid( 4, 5 ).toDouble()-ras) + 0.5); //add 0.5 to get nearest integer with int()
 
-	sgn = line->at(10);
-	dd = line->mid(11, 2).toInt();
-	dm = line->mid(13, 2).toInt();
-	ds = int(line->mid(15, 4).toDouble());
-	ds2 = int(60.0*(line->mid( 15, 5 ).toDouble()-ds) + 0.5); //add 0.5 to get nearest integer with int()
+	sgn = line.at(10);
+	dd = line.mid(11, 2).toInt();
+	dm = line.mid(13, 2).toInt();
+	ds = int(line.mid(15, 4).toDouble());
+	ds2 = int(60.0*(line.mid( 15, 5 ).toDouble()-ds) + 0.5); //add 0.5 to get nearest integer with int()
 
 	//parse proper motion and parallax
-	pmra = line->mid( 20, 9 ).toDouble();
-	pmdec = line->mid( 29, 9 ).toDouble();
-	plx = line->mid( 38, 7 ).toDouble();
+	pmra = line.mid( 20, 9 ).toDouble();
+	pmdec = line.mid( 29, 9 ).toDouble();
+	plx = line.mid( 38, 7 ).toDouble();
 
 	//parse magnitude, B-V color, and spectral type
-	mag = line->mid( 46, 5 ).toDouble();
-	bv  = line->mid( 51, 5 ).toDouble();
-	SpType = line->mid(56, 2);
+	mag = line.mid( 46, 5 ).toDouble();
+	bv  = line.mid( 51, 5 ).toDouble();
+	SpType = line.mid(56, 2);
 
 	//parse multiplicity
-	mult = line->mid( 59, 1 ).toInt();
+	mult = line.mid( 59, 1 ).toInt();
 
 	//parse variablility...currently not using dmag or var
 	var = false; dmag = 0.0; vper = 0.0;
-	if ( line->at( 62 ) == '.' ) {
+	if ( line.at( 62 ) == '.' ) {
 		var = true;
-		dmag = line->mid( 61, 4 ).toDouble();
-		vper = line->mid( 66, 6 ).toDouble();
+		dmag = line.mid( 61, 4 ).toDouble();
+		vper = line.mid( 66, 6 ).toDouble();
 	}
 
 	//parse name(s)
-	name = line->mid( 72 ).trimmed(); //the rest of the line
+	name = line.mid( 72 ).trimmed(); //the rest of the line
+
 	if (name.contains( ':' )) { //genetive form exists
 		gname = name.mid( name.find(':')+1 ).trimmed();
 		name = name.mid( 0, name.find(':') ).trimmed();
@@ -223,48 +258,29 @@ void StarComponent::processStar( QString *line, bool reloadMode ) {
 	// HEV: look up star name in internationalization filesource
 	name = i18n("star name", name.local8Bit().data());
 
-	bool starIsUnnamed( false );
-	if (name.isEmpty() && gname.isEmpty()) { //both names are empty
-		starIsUnnamed = true;
-	}
+//JH: OBJNAMES_DEPRECATED
+/*	bool starHasName( true );
+	if ( name.isEmpty() && gname.isEmpty() ) { //both names are empty
+		starHasName = false;
+	}*/
 	
 	dms r;
 	r.setH(rah, ram, ras, ras2);
 	dms d(dd, dm, ds, ds2);
 
-	if (sgn == "-") { d.setD( -1.0*d.Degrees() ); }
+	if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
-	StarObject *o = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
-	starList->append(o);
+	StarObject *o = new StarObject( r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
+	objectList().append(o);
 	
-	// get horizontal coordinates when object will loaded while running the application
-	// first run doesn't need this because updateTime() will called after loading all data
-	if (reloadMode) {
-		o->EquatorialToHorizontal( LST, geo()->lat() );
-	}
+	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 	
-	//STAR_SIZE
-//	StarObject *p = new StarObject(r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
-//	starList.append(p);
+//JH: OBJNAMES_DEPRECATED
+// 	// add named stars to list
+// 	if ( starHasName ) {
+// 		data()->ObjNames.append( o );
+// 	}
 
-	// add named stars to list
-	if (starIsUnnamed == false) {
-		data->ObjNames.append(o);
-	}
 }
 
-void StarComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale)
-{
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
-	((StarObject*)obj)->drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
-	// reset font
-	psky.setFont( stdFont );
-}
+#include "starcomponent.moc"

@@ -200,10 +200,10 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
-	void draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool drawMultiple=true, double scale=1.0 );
+	void draw( QPainter &psky, QPixmap *starpix, float x, float y, bool screenDraw=true, bool drawMultiple=true, double scale=1.0 );
 
 	//overloaded from SkyObject
-	void drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
+	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
 
 /**Show star object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()

@@ -15,15 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QPainter>
+#include <QString>
+#include <QPixmap>
+#include <kdebug.h>
+
 #include "starobject.h"
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
-
-#include <qpainter.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <kdebug.h>
 
 StarObject::StarObject( StarObject &o )
 	: SkyObject (o)
@@ -224,7 +223,7 @@ QString StarObject::constell( void ) const {
 	return QString("");
 }
 
-void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool /*showMultiple*/, double /*scale*/ ) {
+void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool screenDraw, bool /*showMultiple*/, double /*scale*/ ) {
 	//Indicate multiple stars with a short horizontal line
 	//(only draw this for stars larger than 3 pixels)
 //Commenting out for now...
@@ -234,14 +233,14 @@ void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, in
 //	}
 
 	//Only bitBlt() if we are drawing to the sky pixmap
-	if ( psky.device() == sky )
+	if ( screenDraw )
 		bitBlt ((QPaintDevice *) sky, x - starpix->width()/2, y - starpix->height()/2, starpix );
 	else
 		psky.drawPixmap( x - starpix->width()/2, y - starpix->height()/2, *starpix );
 
 }
 
-void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
+void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName( i18n("star") + " " );
 	if ( drawName ) {
 		if ( name() != "star" ) sName = translatedName() + " ";
@@ -254,8 +253,8 @@ void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool draw
 			sName = QString().sprintf("%.1f", mag() );
 	}
 
-	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.01*( zoom/500. )) ));
+	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
-	psky.drawText( x+offset, y+offset, sName );
+	psky.drawText( QPointF( x+offset, y+offset ), sName );
 }
 

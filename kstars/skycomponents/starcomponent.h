@@ -28,13 +28,22 @@
 
 #define NHIPFILES 127
 
-class SkyComposite;
+#include <QObject>
+
+#include "listcomponent.h"
+#include "starpixmap.h"
+
+class SkyComponent;
+class KStars;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
+class KSFileReader;
 
-class StarComponent: public ListComponent
+class StarComponent: public QObject, public ListComponent
 {
+	Q_OBJECT
+
 	public:
 
 		StarComponent(SkyComponent*, bool (*visibleMethod)());
@@ -45,19 +54,57 @@ class StarComponent: public ListComponent
 
 		virtual void init(KStarsData *data);
 
-	protected:
+		KStarsData *data() { return m_Data; }
 
+/**@return the current setting of the color mode for stars (0=real colors, 
+	*1=solid red, 2=solid white or 3=solid black).
+	*/
+	int starColorMode( void ) const { return starpix->mode(); }
+
+/**@short Set the color mode for stars (0=real colors, 1=solid red, 2=solid
+	*white or 3=solid black).
+	*/
+	void setStarColorMode( int mode ) { starpix->setColorMode( mode ); }
+
+/**@short Retrieve the color-intensity value for stars.
+	*
+	*When using the "realistic colors" mode for stars, stars are rendered as 
+	*white circles with a colored border.  The "color intensity" setting modulates
+	*the relative thickness of this colored border, so it effectively adjusts
+	*the color-saturation level for star images.
+	*@return the current setting of the color intensity setting for stars.
+	*/
+	int starColorIntensity( void ) const { return starpix->intensity(); }
+
+/**@short Sets the color-intensity value for stars.
+	*
+	*When using the "realistic colors" mode for stars, stars are rendered as 
+	*white circles with a colored border.  The "color intensity" setting modulates
+	*the relative thickness of this colored border, so it effectively adjusts
+	*the color-saturation level for star images.
+	*/
+	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
+
+	public slots:
+		void setFaintMagnitude( float newMagnitude );
+
+	signals:
+		void progressText( const QString & );
+
+	protected:
 		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
 		
 	private:
-		
 		// some helper methods
 		bool openStarFile(int i);
-		bool readStarData();
-		void processStar(QString *line, bool reloadMode);
+		void processStar( const QString &line );
+
+		KStarsData *m_Data;
+
+		StarPixmap *starpix;	// the pixmap of the stars
 
 		KSFileReader *starFileReader;
-
+		float m_FaintMagnitude;
 };
 
 #endif

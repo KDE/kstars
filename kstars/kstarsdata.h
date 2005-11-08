@@ -52,7 +52,6 @@
 
 #define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
-class QDataPump;
 class QFile;
 class QTimer;
 
@@ -72,8 +71,6 @@ class PlanetCatalog;
 class JupiterMoons;
 
 class TimeZoneRule;
-class FileSource;
-class StarDataSink;
 class KSFileReader;
 class INDIHostsInfo;
 class ADVTreeData;
@@ -423,13 +420,14 @@ public:
 // 	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
 // 			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
 
-	/**@short reset the faint limit for the stellar database
-		*@param newMagnitude the new faint limit.
-		*@param forceReload will force a reload also if newMagnitude <= maxSetMagnitude
-		*it's needed to set internal maxSetMagnitude and reload data later; is used in
-		*checkDataPumpAction() and should not used outside.
-		*/
-	void setMagnitude( float newMagnitude, bool forceReload=false );
+//JH: Moved to StarComponent
+//	/**@short reset the faint limit for the stellar database
+//		*@param newMagnitude the new faint limit.
+//		*@param forceReload will force a reload also if newMagnitude <= maxSetMagnitude
+//		*it's needed to set internal maxSetMagnitude and reload data later; is used in
+//		*checkDataPumpAction() and should not used outside.
+//		*/
+//	void setMagnitude( float newMagnitude, bool forceReload=false );
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
@@ -562,7 +560,7 @@ public:
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/
-	void progressText(QString);
+	void progressText( const QString& );
 
 	/**Signal that the Data initialization has finished.
 		*/
@@ -645,18 +643,6 @@ private slots:
 		*/
 	void slotInitialize();
 
-/**Checks if data transmission is already running or not.
-	*/
-	void checkDataPumpAction();
-
-/**Send update signal to refresh skymap.
-	*/
-	void updateSkymap();
-
-/**Send clearCache signal.
-	*/
-	void sendClearCache();
-
 private:
 
 /**Display an Error messagebox if a data file could not be opened.  If the file
@@ -683,11 +669,6 @@ private:
 	* Store the last position in star data file. Needed by reloading star data.
 	*/
 	int lastFileIndex;
-
-	bool reloadingData();  // is currently reloading of data in progress
-
-/*	bool openSAOFile(int i);*/
-//	bool openStarFile(int i);
 
 	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
@@ -756,8 +737,6 @@ private:
 	KSMoon *Moon;
 	JupiterMoons *jmoons;
 
-//	KSFileReader *starFileReader;
-
 	FOV fovSymbol;
 
 	double Obliquity, dObliq, dEcLong;
@@ -767,14 +746,6 @@ private:
 
 	QTimer *initTimer;
 	int initCounter;
-
-/**
-	*Reloading of star data asynchronous:
-	*QDataPump connects FileSource and StarDataSink and starts data transmission.
-	*/
-	FileSource *source;
-	StarDataSink *loader;
-	QDataPump *pump;
 
 /**
 	*Count the number of KStarsData objects.

@@ -62,7 +62,6 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
 		ksw(0), data(d), pmenu(0), sky(0), sky2(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
-		starpix(0),
 		//pts(0),
 		sp(0)
 {
@@ -75,9 +74,6 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	ZoomRect = QRect();
 
 	setDefaultMouseCursor();	// set the cross cursor
-
-	// load the pixmaps of stars
-	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
 
 	setBackgroundColor( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 	setBackgroundMode( QWidget::NoBackground );
@@ -140,7 +136,6 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
-	delete starpix;
 	delete pts;
 	delete sp;
 	delete sky;

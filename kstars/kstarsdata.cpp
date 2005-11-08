@@ -1,4 +1,4 @@
- /***************************************************************************
+/***************************************************************************
                           kstarsdata.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Jul 29 2001
@@ -48,9 +48,6 @@
 
 #include "simclock.h"
 #include "timezonerule.h"
-#include "filesource.h"
-#include "stardatasink.h"
-#include "ksfilereader.h"
 #include "indidriver.h"
 #include "indi/lilxml.h"
 #include "indistd.h"
@@ -65,9 +62,7 @@ int KStarsData::objects = 0;
 
 KStarsData::KStarsData() : stdDirs(0), locale(0), 
 		LST(0), HourAngle(0),
-		PCat(0), Moon(0), jmoons(0),
-		starFileReader(0), initTimer(0),
-		source(0), loader(0), pump(0)
+		PCat(0), Moon(0), jmoons(0), initTimer(0)
 {
 	startupComplete = false;
 	objects++;
@@ -152,7 +147,6 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 KStarsData::~KStarsData() {
 	objects--;
-	checkDataPumpAction();
 
 	// the list items do not need to be removed by hand.
 	// all lists are set to AutoDelete = true
@@ -1692,6 +1686,7 @@ bool KStarsData::readCityData( void ) {
 	return citiesFound;
 }
 
+/* *** Moved to StarComponent
 void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 // only reload data if not loaded yet
 // if checkDataPumpAction() detects that new magnitude is higher than the
@@ -1721,46 +1716,12 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 			//Need to recompute names of objects
 			sendClearCache();
 		}
-	}*/
+	} * /
 
 	// change current magnitude level in KStarsOptions
 	Options::setMagLimitDrawStar( newMagnitude );
 }
-
-void KStarsData::checkDataPumpAction() {
-	// it will set to true if new data should be reloaded
-	bool reloadMoreData = false;
-	if (source != 0) {
-		// check if a new reload must be started
-		if (source->magnitude() < maxSetMagnitude) reloadMoreData = true;
-		delete source;
-		source = 0;
-	}
-	if (pump != 0) {  // if pump exists
-		delete pump;
-		pump = 0;
-	}
-	if (loader != 0) {  // if loader exists
-		delete loader;
-		loader = 0;
-	}
-	// If magnitude was changed while reloading data start a new reload of data.
-	if (reloadMoreData == true) {
-		setMagnitude(maxSetMagnitude, true);
-	}
-}
-
-bool KStarsData::reloadingData() {
-	return ( pump || loader || source );  // true if variables != 0
-}
-
-void KStarsData::updateSkymap() {
-	emit update();
-}
-
-void KStarsData::sendClearCache() {
-	emit clearCache();
-}
+*/
 
 void KStarsData::initialize() {
 	if (startupComplete) return;

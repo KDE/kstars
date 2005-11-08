@@ -30,7 +30,6 @@
 #include <QPaintEvent>
 
 #include "skypoint.h"
-#include "starpixmap.h"
 
 #define HOVER_INTERVAL 500 
 
@@ -323,35 +322,6 @@ public:
 	*@param o pointer to the SkyObject to be assigned as the TransientObject.
 	*/
 	void setTransientObject( SkyObject *o ) { TransientObject = o; }
-
-/**@return the current setting of the color mode for stars (0=real colors, 
-	*1=solid red, 2=solid white or 3=solid black).
-	*/
-	int starColorMode( void ) const { return starpix->mode(); }
-
-/**@short Set the color mode for stars (0=real colors, 1=solid red, 2=solid
-	*white or 3=solid black).
-	*/
-	void setStarColorMode( int mode ) { starpix->setColorMode( mode ); }
-
-/**@short Retrieve the color-intensity value for stars.
-	*
-	*When using the "realistic colors" mode for stars, stars are rendered as 
-	*white circles with a colored border.  The "color intensity" setting modulates
-	*the relative thickness of this colored border, so it effectively adjusts
-	*the color-saturation level for star images.
-	*@return the current setting of the color intensity setting for stars.
-	*/
-	int starColorIntensity( void ) const { return starpix->intensity(); }
-
-/**@short Sets the color-intensity value for stars.
-	*
-	*When using the "realistic colors" mode for stars, stars are rendered as 
-	*white circles with a colored border.  The "color intensity" setting modulates
-	*the relative thickness of this colored border, so it effectively adjusts
-	*the color-saturation level for star images.
-	*/
-	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
 
 /**@short set up variables for the checkVisibility function.
 	*
@@ -950,7 +920,6 @@ private:
 	InfoBoxes  *IBoxes;
 	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
 	SkyObject *ClickedObject, *FocusObject, *TransientObject;
-	StarPixmap *starpix;	// the pixmap of the stars
 
 //	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
