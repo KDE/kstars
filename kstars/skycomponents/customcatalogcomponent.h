@@ -22,18 +22,22 @@
 
 /**
 	*@class CustomCatalogComponent
-	*Represents custom catalogs.
+	*Represents a custom user-defined catalog.
 
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
 
-class SkyComposite;
+#include "listcomponent.h"
+
 class KStarsData;
 class SkyMap;
 class KSNumbers;
+class CustomCatalog;
 
-class CustomCatalogComponent: public SkyComponent
+//JH: TODO: this class should only contain one custom catalog.
+
+class CustomCatalogComponent: public ListComponent
 {
 	public:
 
@@ -41,7 +45,7 @@ class CustomCatalogComponent: public SkyComponent
 		*@short Constructor
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		CustomCatalogComponent(SkyComponent*);
+		CustomCatalogComponent( SkyComponent*, const QString &fname, bool showerrs, bool (*visibleMethod)() );
 	/**
 		*@short Destructor.  Delete list members
 		*/
@@ -56,8 +60,7 @@ class CustomCatalogComponent: public SkyComponent
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 	/**
-		*@short Initialize the Custom objects component
-		*Reads the constellation names data from cnames.dat
+		*@short Initialize the Custom catalog
 		*@p data Pointer to the KStarsData object
 		*/
 		virtual void init(KStarsData *data);
@@ -105,8 +108,7 @@ class CustomCatalogComponent: public SkyComponent
 		*@p errs reference to the string list containing the parse errors encountered
 		*/
 		bool processCustomDataLine(int lnum, QStringList d, QStringList Columns,
-			QString Prefix, QList<SkyObject*> &objList, bool showerrs,
-			QStringList &errs);
+			bool showerrs, QStringList &errs);
 		
 	/**
 		*@short Read metadata about the catalog from its header
@@ -121,12 +123,14 @@ class CustomCatalogComponent: public SkyComponent
 		*@p errs reference to the string list containing the parse errors encountered
 		*/
 		bool parseCustomDataHeader(QStringList lines, QStringList &Columns,
-			QString &CatalogName, QString &CatalogPrefix,
-			QString &CatalogColor, float &CatalogEpoch, int &iStart,
-			bool showerrs, QStringList &errs);
+			int &iStart, bool showerrs, QStringList &errs);
 		
-		QList<CustomCatalogObject*> deepSkyListOther;
+		QString m_Filename;
+		QString m_catName, m_catPrefix, m_catColor;
+		float m_catEpoch;
+		bool m_Showerrs;
 
+		static QStringList m_Columns;
 };
 
 #endif

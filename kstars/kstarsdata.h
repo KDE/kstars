@@ -714,7 +714,6 @@ private:
 	ObjectNameList ObjNames;
 
 	static QMap<QString, TimeZoneRule> Rulebook;
-	static QStringList CustomColumns;
 	
 	GeoLocation Geo;
 	SimClock Clock;

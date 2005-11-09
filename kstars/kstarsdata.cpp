@@ -57,7 +57,6 @@
 
 Q3PtrList<GeoLocation> KStarsData::geoList = Q3PtrList<GeoLocation>();
 QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
-QStringList KStarsData::CustomColumns = QStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
 int KStarsData::objects = 0;
 
 KStarsData::KStarsData() : stdDirs(0), locale(0), 

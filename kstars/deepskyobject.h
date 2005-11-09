@@ -172,11 +172,11 @@ public:
 
 /**Draw the object's symbol on the map
 	*/
-	void drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
+	void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Draw the Object's image on the map
 	*/
-	void drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
+	void drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()

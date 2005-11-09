@@ -52,7 +52,7 @@ void StarComponent::init(KStarsData *data)
 
 void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !Options::showStars() ) return;
+	if ( ! visible() ) return;
 	
 	SkyMap *map = ks->map();
 

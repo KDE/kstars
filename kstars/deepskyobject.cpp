@@ -101,32 +101,32 @@ QImage* DeepSkyObject::readImage( void ) {
 
 void DeepSkyObject::deleteImage() { delete Image; Image = 0; }
 
-void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale ) {
 	// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
 	// if we use size 0.0 the star wouldn't be drawn
 	float majorAxis = a();
 	if ( majorAxis == 0.0 ) {	majorAxis = 1.0; }
 
-	int size = int( scale * majorAxis * dms::PI * zoom / 10800.0 );
-	int dx1 = -size/2;
-	int dx2 =  size/2;
-	int dy1 = int( -1.0*e()*size/2 );
-	int dy2 = int( e()*size/2 );
-	int x1 = x + dx1;
-	int x2 = x + dx2;
-	int y1 = y + dy1;
-	int y2 = y + dy2;
+	float size = scale * majorAxis * dms::PI * zoom / 10800.0;
+	float dx1 = -0.5*size;
+	float dx2 =  0.5*size;
+	float dy1 = -1.0*e()*size/2.;
+	float dy2 = e()*size/2.;
+	float x1 = x + dx1;
+	float x2 = x + dx2;
+	float y1 = y + dy1;
+	float y2 = y + dy2;
 
-	int dxa = -size/4;
-	int dxb =  size/4;
-	int dya = int( -1.0*e()*size/4 );
-	int dyb = int( e()*size/4 );
-	int xa = x + dxa;
-	int xb = x + dxb;
-	int ya = y + dya;
-	int yb = y + dyb;
+	float dxa = -size/4.;
+	float dxb =  size/4.;
+	float dya = -1.0*e()*size/4.;
+	float dyb = e()*size/4.;
+	float xa = x + dxa;
+	float xb = x + dxb;
+	float ya = y + dya;
+	float yb = y + dyb;
 
-	int psize;
+	float psize;
 
 	QBrush tempBrush;
 	
@@ -134,64 +134,58 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAng
 		case 0:
 		case 1: //catalog star
 			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
-			if (size<2) size = 2;
-			psky.drawEllipse( x1, y1, size/2, size/2 );
+			if (size<2.) size = 2.;
+			psky.drawEllipse( QPointF(x1, y1), size/2., size/2. );
 			break;
 		case 2: //Planet
 			break;
 		case 3: //Open cluster
 			tempBrush = psky.brush();
 			psky.setBrush( psky.pen().color() );
-			psize = 2;
-			if ( size > 50 )  psize *= 2;
-			if ( size > 100 ) psize *= 2;
-			psky.drawEllipse( xa, y1, psize, psize ); // draw circle of points
-			psky.drawEllipse( xb, y1, psize, psize );
-			psky.drawEllipse( xa, y2, psize, psize );
-			psky.drawEllipse( xb, y2, psize, psize );
-			psky.drawEllipse( x1, ya, psize, psize );
-			psky.drawEllipse( x1, yb, psize, psize );
-			psky.drawEllipse( x2, ya, psize, psize );
-			psky.drawEllipse( x2, yb, psize, psize );
+			psize = 2.;
+			if ( size > 50. )  psize *= 2.;
+			if ( size > 100. ) psize *= 2.;
+			psky.drawEllipse( QPointf(xa, y1), psize, psize ); // draw circle of points
+			psky.drawEllipse( QPointf(xb, y1), psize, psize );
+			psky.drawEllipse( QPointf(xa, y2), psize, psize );
+			psky.drawEllipse( QPointf(xb, y2), psize, psize );
+			psky.drawEllipse( QPointf(x1, ya), psize, psize );
+			psky.drawEllipse( QPointf(x1, yb), psize, psize );
+			psky.drawEllipse( QPointf(x2, ya), psize, psize );
+			psky.drawEllipse( QPointf(x2, yb), psize, psize );
 			psky.setBrush( tempBrush );
 			break;
 		case 4: //Globular Cluster
-			if (size<2) size = 2;
+			if (size<2.) size = 2.;
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( 0, dy2 );
-			psky.moveTo( dx1, 0 );
-			psky.lineTo( dx2, 0 );
+			psky.drawEllipse( QPointf(dx1, dy1), size, e()*size );
+			psky.drawLine( QPointF(0., dy1), QPointF(0., dy2) );
+			psky.drawLine( QPointF(dx1, 0.), QPointF(dx2, 0.) );
 			psky.restore(); //reset coordinate system
 			break;
 		case 5: //Gaseous Nebula
-			if (size <2) size = 2;
+			if (size <2.) size = 2.;
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawLine( dx1, dy1, dx2, dy1 );
-			psky.drawLine( dx2, dy1, dx2, dy2 );
-			psky.drawLine( dx2, dy2, dx1, dy2 );
-			psky.drawLine( dx1, dy2, dx1, dy1 );
+			psky.drawLine( QPointF(dx1, dy1), QPointF(dx2, dy1) );
+			psky.drawLine( QPointF(dx2, dy1), QPointF(dx2, dy2) );
+			psky.drawLine( QPointF(dx2, dy2), QPointF(dx1, dy2) );
+			psky.drawLine( QPointF(dx1, dy2), QPointF(dx1, dy1) );
 			psky.restore(); //reset coordinate system
 			break;
 		case 6: //Planetary Nebula
-			if (size<2) size = 2;
+			if (size<2.) size = 2.;
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( 0, dy1 - int( e()*size/2 ) );
-			psky.moveTo( 0, dy2 );
-			psky.lineTo( 0, dy2 + int( e()*size/2 ) );
-			psky.moveTo( dx1, 0 );
-			psky.lineTo( dx1 - size/2, 0 );
-			psky.moveTo( dx2, 0 );
-			psky.lineTo( dx2 + size/2, 0 );
+			psky.drawEllipse( QPointF(dx1, dy1), size, e()*size );
+			psky.drawLine( QPointF(0., dy1), QPointF(0., dy1 - e()*size/2. ) );
+			psky.drawLine( QPointF(0., dy2), QPointF(0., dy2 + e()*size/2. ) );
+			psky.drawLine( QPointF(dx1, 0.), QPointF(dx1 - size/2., 0.) );
+			psky.drawLine( QPointF(dx2, 0.), QPointF(dx2 + size/2., 0.) );
 			psky.restore(); //reset coordinate system
 			break;
 		case 7: //Supernova remnant
@@ -199,46 +193,45 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAng
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.moveTo( 0, dy1 );
-			psky.lineTo( dx2, 0 );
-			psky.lineTo( 0, dy2 );
-			psky.lineTo( dx1, 0 );
-			psky.lineTo( 0, dy1 );
+			psky.drawLine( QPointF(0., dy1), QPointF(dx2, 0.) );
+			psky.drawLine( QPointF(dx2, 0.), QPointF(0., dy2) );
+			psky.drawLine( QPointF(0., dy2), QPointF(dx1, 0.) );
+			psky.drawLine( QPointF(dx1, 0.), QPointF(0., dy1) );
 			psky.restore(); //reset coordinate system
 			break;
 		case 8: //Galaxy
-			if ( size <1 && zoom > 20*MINZOOM ) size = 3; //force ellipse above zoomFactor 20
-			if ( size <1 && zoom > 5*MINZOOM ) size = 1; //force points above zoomFactor 5
-			if ( size>2 ) {
+			if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
+			if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
+			if ( size>2. ) {
 				psky.save();
 				psky.translate( x, y );
 				psky.rotate( PositionAngle );  //rotate the coordinate system
-				psky.drawEllipse( dx1, dy1, size, int( e()*size ) );
+				psky.drawEllipse( QPointF(dx1, dy1), size, e()*size );
 				psky.restore(); //reset coordinate system
 
-			} else if ( size>0 ) {
-				psky.drawPoint( x, y );
+			} else if ( size>0. ) {
+				psky.drawPoint( QPointF(x, y) );
 			}
 			break;
 	}
 }
 
-void DeepSkyObject::drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale ) {
 	QImage *image = readImage();
 	QImage ScaledImage;
 	
 	if ( image ) {
-		int w = int( a() * scale * dms::PI * zoom/10800.0 );
+		float w = a() * scale * dms::PI * zoom/10800.0;
 
 		if ( w < 0.75*psky.window().width() ) {
-			int h = int( w*image->height()/image->width() ); //preserve image's aspect ratio
-			int dx = int( 0.5*w );
-			int dy = int( 0.5*h );
+			float h = w*image->height()/image->width(); //preserve image's aspect ratio
+			float dx = 0.5*w;
+			float dy = 0.5*h;
 			ScaledImage = image->smoothScale( w, h );
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawImage( -dx, -dy, ScaledImage );
+			psky.drawImage( QPointF( -dx, -dy ), ScaledImage );
 			psky.restore();
 		}
 	}

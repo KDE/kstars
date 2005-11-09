@@ -202,6 +202,9 @@ class StarObject : public SkyObject {
 
 	void draw( QPainter &psky, QPixmap *starpix, float x, float y, bool screenDraw=true, bool drawMultiple=true, double scale=1.0 );
 
+//Alternate draw function without starpix
+	void draw( QPainter &psky, float x, float y, float size, bool drawMultiple=true );
+
 	//overloaded from SkyObject
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
 

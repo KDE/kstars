@@ -240,6 +240,10 @@ void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool 
 
 }
 
+void StarObject::draw( QPainter &psky, float x, float y, float size, bool drawMultiple=true ) {
+	psky.drawEllipse( x - 0.5*size, y - 0.5*size, size, size );
+}
+
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName( i18n("star") + " " );
 	if ( drawName ) {
