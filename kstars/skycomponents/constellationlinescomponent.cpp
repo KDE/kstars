@@ -17,6 +17,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QFile>
+#include <QPainter>
+#include <QTextStream>
+
+#include "constellationlinescomponent.h"
+
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "skymap.h"
+#include "Options.h"
+
 ConstellationLinesComponent::ConstellationLinesComponent(SkyComponent *parent, bool (*visibleMethod)())
 : PointListComponent(parent, visibleMethod)
 {
@@ -46,9 +58,8 @@ void ConstellationLinesComponent::init(KStarsData *data)
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
 
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QString line, name;
-			QChar *mode;
 
 			line = stream.readLine();
 
@@ -56,24 +67,14 @@ void ConstellationLinesComponent::init(KStarsData *data)
 			if ( line.at( 0 ) != '#' ) {
 				name = line.mid( 2 ).trimmed();
 				
-				//Find the star with the same abbreviated genitive name ( name2() )
-				//increase efficiency by searching the list of named objects, rather than the 
-				//full list of all stars.  
-				bool starFound( false );
-				for ( SkyObjectName *oname = ObjNames.first(); oname; oname = ObjNames.next() ) {
-					if ( oname->skyObject()->type() == SkyObject::STAR && 
-							 oname->skyObject()->name2() == name ) {
-						starFound = true;
-						clineList.append( (SkyPoint *)( oname->skyObject() ) );
-						
-						mode = new QChar( line.at( 0 ) );
-						clineModeList.append( mode );
-						break;
-					}
-				}
-				
-				if ( ! starFound ) 
+				//Find the star with this abbreviated genitive name ( name2() )
+				SkyObject *o = data->skyComposite()->findByName( name );
+				if ( o ) {
+					pointList().append( (SkyPoint*)o );
+					m_CLineModeList.append( QChar( line.at( 0 ) ) );
+				} else {
 					kdWarning() << i18n( "No star named %1 found." ).arg(name) << endl;
+				}
 			}
 		}
 		file.close();
@@ -86,30 +87,33 @@ void ConstellationLinesComponent::init(KStarsData *data)
 
 void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !Options::showCLines() ) return;
+	if ( !visible() ) return;
 
 	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
 	//Draw Constellation Lines
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
-	int iLast = -1;
+//	int iLast = -1;
 
-	for ( SkyPoint *p = ks->data()->clineList.first(); p; p = ks->data()->clineList.next() ) {
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+	for ( int i; i < pointList().size(); ++i ) {
+		QPointF o = map->getXY( pointList().at(i), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF oStart(o);
 
-		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			if ( ks->data()->clineModeList.at(ks->data()->clineList.at())->latin1()=='M' ) {
-				psky.moveTo( o.x(), o.y() );
-			} else if ( ks->data()->clineModeList.at(ks->data()->clineList.at())->latin1()=='D' ) {
-				if ( ks->data()->clineList.at()== (int)(iLast+1) ) {
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );
-				}
+		if ( ( o.x() >= -1000. && o.x() <= Width+1000. && o.y() >=-1000. && o.y() <= Height+1000. ) ) {
+			if ( m_CLineModeList.at(i)=='M' ) {
+				oStart = o;
+			} else if ( m_CLineModeList.at(i)=='D' ) {
+//FIXME: I don't think this if() is necessary
+//				if ( ks->data()->clineList.at()== (int)(iLast+1) ) {
+//					psky.lineTo( o.x(), o.y() );
+//				} else {
+//					psky.moveTo( o.x(), o.y() );
+//				}
+				psky.drawLine( oStart, o );
 			}
-			iLast = ks->data()->clineList.at();
+//			iLast = ks->data()->clineList.at();
 		}
   }
 }

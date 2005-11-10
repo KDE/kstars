@@ -29,6 +29,7 @@
 
 #include <iostream>
 
+#include "skymapcomposite.h"
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
@@ -492,6 +493,8 @@ public:
 
 	//Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 
+	SkyMapComposite* skyComposite() { return m_SkyComposite; }
+
 	/**@return pointer to the ColorScheme object
 		*/
 	ColorScheme *colorScheme() { return &CScheme; }
@@ -709,8 +712,9 @@ private:
 	Q3PtrList<SkyObject> INDITelescopeList;
 	
 // 	QPtrList<CustomCatalog> CustomCatalogs;
+//	ObjectNameList ObjNames;
 
-	ObjectNameList ObjNames;
+	SkyMapComposite* m_SkyComposite;
 
 	static QMap<QString, TimeZoneRule> Rulebook;
 	

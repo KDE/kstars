@@ -32,7 +32,7 @@ class SolarSystemComposite;
 *@version 0.1
 */
 
-class SkyMapComposite : SkyComposite
+class SkyMapComposite : public SkyComposite
 {
 	public:
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);

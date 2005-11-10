@@ -18,7 +18,7 @@
 #ifndef CONSTELLATIONLINESCOMPONENT_H
 #define CONSTELLATIONLINESCOMPONENT_H
 
-#include "skycomponent.h"
+#include "pointlistcomponent.h"
 
 /**
 	*@class ConstellationLinesComponent
@@ -35,7 +35,6 @@ class KSNumbers;
 
 #include <QList>
 #include <QChar>
-#include "skyobject.h"
 
 class ConstellationLinesComponent : public PointListComponent
 {
