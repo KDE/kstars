@@ -1172,7 +1172,7 @@ CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs 
 		filename = QDir::homePath() + filename.mid( 1, filename.length() );
 	QFile ccFile( filename );
 
-	if ( ccFile.open( IO_ReadOnly ) ) {
+	if ( ccFile.open( QIODevice::ReadOnly ) ) {
 		int iStart(0); //the line number of the first non-header line
 		QStringList errs; //list of error messages 
 		QStringList Columns; //list of data column descriptors in the header
