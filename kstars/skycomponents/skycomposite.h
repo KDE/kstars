@@ -90,7 +90,6 @@ class SkyComposite : public SkyComponent
 			*doPrecess parameter.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
-			*@p doPrecession true if precession/nutation should be recomputed
 			*@sa updatePlanets()
 			*@sa updateMoons()
 			*@note By default, the num parameter is NULL, indicating that 

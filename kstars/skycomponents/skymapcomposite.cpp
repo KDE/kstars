@@ -45,7 +45,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	addComponent( new ConstellationNamesComponent( this, &Options::showCNames ) );
 	addComponent( new EquatorComponent( this, &Options::showEquator ) );
 	addComponent( new EclipticComponent( this, &Options::showEcliptic ) );
-	addComponent( new DeepSkyComponent( this, &Options::showDeepSky ) );
+
+	addComponent( new DeepSkyComposite( this ) );
 	
 	m_CustomCatalogComposite = new SkyComposite( this );
 	foreach ( QString fname, Options::catalogFile() ) 

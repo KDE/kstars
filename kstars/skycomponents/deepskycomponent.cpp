@@ -14,79 +14,44 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <QFile>
+#include <QPainter>
+#include <klocale.h>
+
 #include "deepskycomponent.h"
 
+#include "deepskyobject.h"
+#include "dms.h"
+#include "ksfilereader.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "skymap.h"
 #include "Options.h"
 
-DeepSkyComponent::DeepSkyComponent(SkyComponent *parent, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod)
+DeepSkyComponent::DeepSkyComponent( SkyComponent *parent, bool (*vMethodDeepSky)(), 
+	bool (*vMethodMess)(), bool (*vMethodNGC)(), 
+	bool (*vMethodIC)(), bool (*vMethodOther)(), bool (*vMethodImages)() ) 
+: SkyComponent(parent, vMethodDeepSky)
 {
+	visibleMessier = vMethodMess;
+	visibleNGC = vMethodNGC;
+	visibleIC = vMethodIC;
+	visibleOther = vMethodOther;
+	visibleImages = vMethodImages;
 }
 
 DeepSkyComponent::~DeepSkyComponent()
 {
-	while ( !deepSkyList.isEmpty() ) delete deepSkyList.takeFirst();
 }
 
-DeepSkyComponent::init(KStarsData *data)
-{
-	readDeepSkyData();
-}
-
-void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
-{
-	if ( !Options::showDeepSky() ) return;
-
-	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
-
-	QImage ScaledImage;
-
-	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-
-	//shortcuts to inform wheter to draw different objects
-	bool drawMess( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );
-	bool drawNGC( Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() ) );
-	bool drawOther( Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() ) );
-	bool drawIC( Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() ) );
-	bool drawImages( Options::showMessierImages() );
-
-	// calculate color objects once, outside the loop
-	QColor colorMess = data->colorScheme()->colorNamed( "MessColor" );
-	QColor colorIC  = data->colorScheme()->colorNamed( "ICColor" );
-	QColor colorNGC  = data->colorScheme()->colorNamed( "NGCColor" );
-
-	// draw Messier catalog
-	if ( drawMess ) {
-		drawDeepSkyCatalog( psky, deepSkyListMessier, colorMess, Options::showMessier(), drawImages, scale );
-	}
-
-	// draw NGC Catalog
-	if ( drawNGC ) {
-		drawDeepSkyCatalog( psky, deepSkyListNGC, colorNGC, true, drawImages, scale );
-	}
-
-	// draw IC catalog
-	if ( drawIC ) {
-		drawDeepSkyCatalog( psky, deepSkyListIC, colorIC, true, drawImages, scale );
-	}
-
-	// draw the rest
-	if ( drawOther ) {
-		//Use NGC color for now...
-		drawDeepSkyCatalog( psky, deepSkyListOther, colorNGC, true, drawImages, scale );
-	}
-}
-
-//02/2003: NEW: split data files, using Heiko's new KSFileReader.
-bool DeepSkyComponent::readDeepSkyData()
+void DeepSkyComponent::init(KStarsData *data)
 {
 	QFile file;
 
 	for ( unsigned int i=0; i<NNGCFILES; ++i ) {
-		QString snum, fname;
-		snum = QString().sprintf( "%02d", i+1 );
-		fname = "ngcic" + snum + ".dat";
+		QString fname = QString().sprintf( "ngcic%02d.dat", i+1 );
 
 		emit progressText( i18n( "Loading NGC/IC Data (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
 
@@ -162,9 +127,9 @@ bool DeepSkyComponent::readDeepSkyData()
 				r.setH( rah, ram, int(ras) );
 				dms d( dd, dm, ds );
 
-				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+				if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
-//				QString snum;
+				QString snum;
 				if ( cat=="IC" || cat=="NGC" ) {
 					snum.setNum( ingc );
 					name = cat + " " + snum;
@@ -190,48 +155,74 @@ bool DeepSkyComponent::readDeepSkyData()
 				if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
 				o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 
-				// keep object in deep sky objects' list
-				deepSkyList.append( o );
-				// plus: keep objects separated for performance reasons. Switching the colors during
-				// paint is too expensive.
+//FIXME: do we need a master deep sky object list?
+//				// keep object in deep sky objects' list
+//				deepSkyList.append( o );
+
 				if ( o->isCatalogM()) {
-					deepSkyListMessier.append( o );
+					m_MessierList.append( o );
 				} else if (o->isCatalogNGC() ) {
-					deepSkyListNGC.append( o );
+					m_NGCList.append( o );
 				} else if ( o->isCatalogIC() ) {
-					deepSkyListIC.append( o );
+					m_ICList.append( o );
 				} else {
-					deepSkyListOther.append( o );
+					m_OtherList.append( o );
 				}
 
-				// list of object names
-				ObjNames.append( (SkyObject*)o );
-
-				//Add longname to objList, unless longname is the same as name
-				if ( !o->longname().isEmpty() && o->name() != o->longname() && o->hasName() ) {
-					ObjNames.append( o, true );  // append with longname
-				}
 			} //end while-filereader
-		} else { //one of the files could not be opened
-			return false;
 		}
-	} //end for-loop through files
-
-	return true;
+	} //end for-loop through ngcic files
 }
 
-void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, 
-				QList<DeepSkyObject*>& catalog, QColor& color,
+void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
+{
+	if ( ! visible() ) return;
+
+	KStarsData *data = ks->data();
+	SkyMap *map = ks->map();
+	float Width = scale * map->width();
+	float Height = scale * map->height();
+
+	QImage ScaledImage;
+
+	//FIXME: What to do with the "hide objects" logic??
+	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
+
+	// calculate color objects once, outside the loop
+	QColor colorMess = data->colorScheme()->colorNamed( "MessColor" );
+	QColor colorIC  = data->colorScheme()->colorNamed( "ICColor" );
+	QColor colorNGC  = data->colorScheme()->colorNamed( "NGCColor" );
+	QColor colorExtra  = data->colorScheme()->colorNamed( "HSTColor" );
+
+	// draw Messier catalog
+	drawDeepSkyCatalog( psky, map, m_MessierList, colorMess, colorExtra, 
+			visibleMessier(), visibleImages(), scale );
+
+	// draw NGC Catalog
+	drawDeepSkyCatalog( psky, map, m_NGCList, colorNGC, colorExtra, 
+			visibleNGC(), visibleImages(), scale );
+
+	// draw IC catalog
+	drawDeepSkyCatalog( psky, map, m_ICList, colorIC, colorExtra, 
+			visibleIC(), visibleImages(), scale );
+
+	// draw the rest
+	//FIXME: Add a color for non NGC/IC objects ?
+	drawDeepSkyCatalog( psky, map, m_OtherList, colorNGC, colorExtra, 
+			visibleOther(), visibleImages(), scale );
+}
+
+void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
+				QList<DeepSkyObject*>& catalog, QColor& color, QColor &colorExtra,
 				bool drawObject, bool drawImage, double scale )
 {
 	if ( drawObject || drawImage ) {  //don't do anything if nothing is to be drawn!
-		int Width = int( scale * width() );
-		int Height = int( scale * height() );
+		float Width = scale * map->width();
+		float Height = scale * map->height();
 
 		// Set color once
 		psky.setPen( color );
-		psky.setBrush( NoBrush );
-		QColor colorHST  = data->colorScheme()->colorNamed( "HSTColor" );
+		psky.setBrush( Qt::NoBrush );
 
 		double maglim = Options::magLimitDrawDeepSky();
 
@@ -243,17 +234,17 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky,
 		//double lgz = log10(Options::zoomFactor());
 		//if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 		//else
-			maglim = 40.0; //show all deep-sky objects
+		maglim = 40.0; //show all deep-sky objects
 
-			foreach ( DeepSkyObject *obj, catalog ) {
-			if ( checkVisibility( obj ) ) {
+		foreach ( DeepSkyObject *obj, catalog ) {
+			if ( map->checkVisibility( obj ) ) {
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
 				if ( mag > 90.0 || mag < (float)maglim ) {
-					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
-					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
+					QPointF o = map->getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+					if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-						double PositionAngle = 90. + findPA( obj, o.x(), o.y(), scale );
+						double PositionAngle = 90. + map->findPA( obj, o.x(), o.y(), scale );
 
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
@@ -267,10 +258,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky,
 							// for the few exceptions. Changing color is expensive!!!
 							bool bColorChanged = false;
 							if ( obj->isCatalogM() && obj->ImageList.count() > 1 ) {
-								psky.setPen( colorHST );
+								psky.setPen( colorExtra );
 								bColorChanged = true;
 							} else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
-								psky.setPen( colorHST );
+								psky.setPen( colorExtra );
 								bColorChanged = true;
 							}
 
