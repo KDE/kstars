@@ -97,7 +97,7 @@ void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
 //	int iLast = -1;
 
-	for ( int i; i < pointList().size(); ++i ) {
+	for ( int i=0; i < pointList().size(); ++i ) {
 		QPointF o = map->getXY( pointList().at(i), Options::useAltAz(), Options::useRefraction(), scale );
 		QPointF oStart(o);
 
