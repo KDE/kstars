@@ -18,15 +18,15 @@
 #include "coordinategridcomposite.h"
 #include "coordinategridcomponent.h"
 
-CoordinateGridComposite::CoordinateGridComposite( SkyComponent *parent, bool *visibleMethod ) 
-  : SkyComposite(parent) 
+CoordinateGridComposite::CoordinateGridComposite( SkyComponent *parent, bool (*visibleMethod)() ) 
+	: SkyComposite(parent) 
 {
-  //Parallels
-  for ( double dec=-80.0; dec <= 80.0; dec += 10.0 ) 
-    addComponent( new CoordinatGridComponent( this, visibleMethod, true, dec ) );
-  
-  //Meridians
-  for ( double ra=0.0; ra < 12.0; ra += 2.0 ) 
-    addComponent( new CoordinatGridComponent( this, visibleMethod, false, ra ) );
+	//Parallels
+	for ( double dec=-80.0; dec <= 80.0; dec += 10.0 ) 
+		addComponent( new CoordinateGridComponent( this, visibleMethod, true, dec ) );
+
+	//Meridians
+	for ( double ra=0.0; ra < 12.0; ra += 2.0 ) 
+		addComponent( new CoordinateGridComponent( this, visibleMethod, false, ra ) );
 }
 

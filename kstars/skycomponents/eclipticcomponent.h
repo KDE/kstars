@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <Q3PointArray>
 /***************************************************************************
                           eclipticcomponent.h  -  K Desktop Planetarium
                              -------------------
@@ -20,6 +18,13 @@
 #ifndef ECLIPTICCOMPONENT_H
 #define ECLIPTICCOMPONENT_H
 
+#include "pointlistcomponent.h"
+
+class SkyComposite;
+class KStarsData;
+class SkyMap;
+class KSNumbers;
+
 /**
 	*@class EclipticComponent
 	*Represents the celestial equator on the sky map.
@@ -27,12 +32,6 @@
 	*@author Jason Harris
 	*@version 0.1
 	*/
-
-class SkyComposite;
-class KStarsData;
-class SkyMap;
-class KSNumbers;
-
 class EclipticComponent: public PointListComponent
 {
 	public:

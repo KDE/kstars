@@ -18,7 +18,7 @@
 #ifndef COORDINATEGRIDCOMPONENT_H
 #define COORDINATEGRIDCOMPONENT_H
 
-#include "skycomponent.h"
+#include "pointlistcomponent.h"
 
 /**
 	*@class CoordinateGridComponent
@@ -62,8 +62,8 @@ class CoordinateGridComponent : public PointListComponent
 		virtual void init(KStarsData *data);
 
 	private:
-		double Coordinate;
 		bool Parallel;
+		double Coordinate;
 };
 
 #endif

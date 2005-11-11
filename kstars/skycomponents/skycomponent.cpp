@@ -75,6 +75,7 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, float x, float 
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
+void SkyComponent::drawTrails( KStars *, QPainter &, double ) { return; }
 
 //TODO: Implement findByName
 SkyObject* SkyComponent::findByName( const QString &name ) {

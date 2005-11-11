@@ -18,6 +18,8 @@
 #ifndef POINTLISTCOMPONENT_H
 #define POINTLISTCOMPONENT_H
 
+#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
+
 #include <QList>
 
 #include "skycomponent.h"

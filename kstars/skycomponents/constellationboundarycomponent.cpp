@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <QTextStream>
 /***************************************************************************
                           constellationboundarycomponent.cpp  -  K Desktop Planetarium
                              -------------------
@@ -16,6 +14,19 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <QFile>
+#include <QPainter>
+#include <QTextStream>
+
+#include "csegment.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
+#include "skymap.h"
+#include "Options.h"
+
+#include "constellationboundarycomponent.h"
 
 ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod )
@@ -41,7 +52,7 @@ void ConstellationBoundaryComponent::init(KStarsData *data)
 		//multiple lines, so our normal readLine() is less convenient here.
 		//Read fields into strings and then attempt to recast them as ints 
 		//or doubles..this lets us do error checking on the stream.
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			stream >> d1;
 			if ( d1.at(0) == '#' ) { 
 				comment = true; 
@@ -90,7 +101,7 @@ void ConstellationBoundaryComponent::init(KStarsData *data)
 				if ( ok ) {
 					stream >> d1 >> d2;
 					ok = seg->setNames( d1, d2 );
-					if ( ok ) csegmentList.append( seg );
+					if ( ok ) m_SegmentList.append( seg );
 				}
 			}
 		}
@@ -99,33 +110,33 @@ void ConstellationBoundaryComponent::init(KStarsData *data)
 
 void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !Options::showCBounds() ) return;
+	if ( ! visible() ) return;
 
 	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
 
-	foreach ( CSegment *seg, csegmentList ) {
+	foreach ( CSegment *seg, m_SegmentList ) {
 		bool started( false );
 		SkyPoint *p = seg->nodes()[0];
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-			psky.moveTo( o.x(), o.y() );
+		QPointF oStart = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		if ( ( oStart.x() >= -1000. && oStart.x() <= Width+1000.
+				&& oStart.y() >= -1000. && oStart.y() <= Height+1000. ) ) {
 			started = true;
 		}
 
 		foreach ( SkyPoint *p, seg->nodes() ) {
-			QPoint o = getXY( p, Options::useAltAz(), 
+			QPointF o = map->getXY( p, Options::useAltAz(), 
 								Options::useRefraction(), scale );
 
-			if ( ( o.x() >= -1000 && o.x() <= Width+1000 
-					&& o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+			if ( ( o.x() >= -1000. && o.x() <= Width+1000.
+					&& o.y() >= -1000. && o.y() <= Height+1000. ) ) {
 				if ( started ) {
-					psky.lineTo( o.x(), o.y() );
+					psky.drawLine( oStart, o );
 				} else {
-					psky.moveTo( o.x(), o.y() );
+					oStart = o;
 					started = true;
 				}
 			} else {
@@ -139,8 +150,8 @@ void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num ) {
 	if ( visible() ) {  
 	  foreach ( CSegment *seg, segmentList() ) {
 	    foreach ( SkyPoint *p, seg->nodes() ) {
-				if ( num ) p->updateCoords( &num );
-				p->EquatorialToHorizontal( LST, geo->lat() );
+				if ( num ) p->updateCoords( num );
+				p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 			}
 		}
 	}

@@ -18,16 +18,12 @@
 #ifndef EQUATORCOMPONENT_H
 #define EQUATORCOMPONENT_H
 
-//Added by qt3to4:
-#include <Q3PointArray>
-
 #include "pointlistcomponent.h"
 
 class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
-
 
 /**
 	*@class EquatorComponent
@@ -64,10 +60,6 @@ class EquatorComponent: public PointListComponent
 		 */
 		virtual void init(KStarsData *data);
 		
-	private:
-		//FIXME: Still need this?
-		Q3PointArray *pts;
-
 };
 
 #endif

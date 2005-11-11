@@ -17,10 +17,10 @@
 
 #include "coordinategridcomponent.h"
 
-#include <QPoint>
 #include <QPainter>
 
 #include "skycomposite.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
@@ -39,8 +39,8 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 		double dra = 1./15.; //360 points around full circle
 		for ( double ra=0.0; ra < 24.0; ra += dra ) {
 			SkyPoint *sp = new SkyPoint( ra, Coordinate );
-			sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-			gridList.append( sp );
+			sp->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+			pointList().append( sp );
 		}
 	} else { //line of constant Right Ascension
 		double RA = Coordinate;
@@ -54,8 +54,8 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 				RA = OppositeRA;
 			}
 			SkyPoint *sp = new SkyPoint( RA, Dec );
-			sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-			gridList.append( sp );
+			sp->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+			pointList().append( sp );
 		}
 	}
 }
@@ -68,47 +68,31 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 	
 	SkyMap *map = ks->map();
 
-	QPoint cur;
-	bool newlyVisible = false;
-
 	//Draw coordinate grid
-	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 1, Qt::DotLine ) ); //change to GridColor
 
-	SkyPoint *sp = gridList[0];
-	QPoint o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
-	QPoint o1 = o;
-	cur = o;
-	psky.moveTo( o.x(), o.y() );
+	SkyPoint *sp = pointList()[0];
+	QPointF o1, oLast;
 
-	foreach ( sp, gridList ) {
+	foreach ( sp, pointList() ) {
 		if ( map->checkVisibility( sp ) ) {
-			o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
+			if ( o1.isNull() ) { o1 = o; oLast = o; continue; } //First item in list
 
-			//When drawing on the printer, the psky.pos() point does NOT get updated
-			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
-			int dx = cur.x() - o.x();
-			int dy = cur.y() - o.y();
-			cur = o;
+			float dx = o.x() - oLast.x();
+			float dy = o.y() - oLast.y();
 
-			if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-				if ( newlyVisible ) {
-					newlyVisible = false;
-					psky.moveTo( o.x(), o.y() );
-				} else {
-					psky.lineTo( o.x(), o.y() );
-				}
-			} else {
-				psky.moveTo( o.x(), o.y() );
+			if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
+				psky.drawLine( oLast, o );
 			}
+			oLast = o;
 		}
 	}
 
 	//connect the final segment
-	int dx = psky.pos().x() - o1.x();
-	int dy = psky.pos().y() - o1.y();
-	if ( abs(dx) < guidemax*scale && abs(dy) < guidemax*scale ) {
-		psky.lineTo( o1.x(), o1.y() );
-	} else {
-		psky.moveTo( o1.x(), o1.y() );
+	float dx = oLast.x() - o1.x();
+	float dy = oLast.y() - o1.y();
+	if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
+		psky.drawLine( oLast, o1 );
 	}
 }

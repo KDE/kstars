@@ -18,7 +18,7 @@
 #ifndef CONSTELLATIONNAMESCOMPONENT_H
 #define CONSTELLATIONNAMESCOMPONENT_H
 
-#include "skycomponent.h"
+#include "listcomponent.h"
 
 /**
 	*@class ConstellationNamesComponent

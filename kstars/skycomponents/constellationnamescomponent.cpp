@@ -17,11 +17,16 @@
 #include "constellationnamescomponent.h"
 
 #include <QFile>
+#include <QPainter>
 #include <QTextStream>
 #include <QString>
 
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
+#include "skymap.h"
 #include "skyobject.h"
+#include "Options.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent, bool (*visibleMethod)())
 : ListComponent(parent, visibleMethod)
@@ -29,7 +34,6 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent, b
 }
 
 ConstellationNamesComponent::~ConstellationNamesComponent() {
-	while ( ! cnameList.isEmpty() ) delete cnameList.takeFirst();
 }
 
 void ConstellationNamesComponent::init(KStarsData *data)
@@ -40,7 +44,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
 	if ( KSUtils::openDataFile( file, cnameFile ) ) {
 		QTextStream stream( &file );
 
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QString line, name, abbrev;
 			int rah, ram, ras, dd, dm, ds;
 			QChar sgn;
@@ -62,11 +66,10 @@ void ConstellationNamesComponent::init(KStarsData *data)
 			dms r; r.setH( rah, ram, ras );
 			dms d( dd, dm,  ds );
 
-			if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+			if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
 			SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
-			cnameList.append( o );
-			ObjNames.append( o );
+			objectList().append( o );
 		}
 		file.close();
 	}
@@ -74,28 +77,28 @@ void ConstellationNamesComponent::init(KStarsData *data)
 
 void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !Options::showCNames() ) return;
+	if ( ! visible() ) return;
 	
 	SkyMap *map = ks->map();
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
 	//Draw Constellation Names
 	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
-	foreach ( SkyPoint *p, cnameList ) {
+	foreach ( SkyObject *p, objectList() ) {
 		if ( map->checkVisibility( p ) ) {
-			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
+			QPointF o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			if (o.x() >= 0. && o.x() <= Width && o.y() >=0. && o.y() <= Height ) {
 				if ( Options::useLatinConstellNames() ) {
-					int dx = 5*p->name().length();
-					psky.drawText( o.x()-dx, o.y(), p->name() );  // latin constellation names
+					float dx = 5.*p->name().length();
+					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name() );  // latin constellation names
 				} else if ( Options::useLocalConstellNames() ) {
 					// can't use translatedName() because we need the context string in i18n()
-					int dx = 5*( i18n( "Constellation name (optional)", p->name().local8Bit().data() ).length() );
-					psky.drawText( o.x()-dx, o.y(), i18n( "Constellation name (optional)", p->name().local8Bit().data() ) ); // localized constellation names
+					float dx = 5.*( i18n( "Constellation name (optional)", p->name().local8Bit().data() ).length() );
+					psky.drawText( QPointF( o.x()-dx, o.y() ), i18n( "Constellation name (optional)", p->name().local8Bit().data() ) ); // localized constellation names
 				} else {
-					int dx = 5*p->name2().length();
-					psky.drawText( o.x()-dx, o.y(), p->name2() ); //name2 is the IAU abbreviation
+					float dx = 5.*p->name2().length();
+					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name2() ); //name2 is the IAU abbreviation
 				}
 			}
 		}

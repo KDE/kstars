@@ -1914,7 +1914,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 }
 
 void SkyMap::setMapGeometry() {
-	guidemax = int(Options::zoomFactor()/10.0);
+	m_Guidemax = Options::zoomFactor()/10.0;
 
 	isPoleVisible = false;
 	if ( Options::useAltAz() ) {

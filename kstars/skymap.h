@@ -339,6 +339,8 @@ public:
 	*/
 	void setMapGeometry( void );
 
+	float guideMaxLength() const { return m_Guidemax; }
+
 /**@short Call keyPressEvent, as if the key given as an argument had been pressed. */
 	void invokeKey( int key );
 
@@ -906,7 +908,7 @@ private:
 
 	//data for checkVisibility
 	bool isPoleVisible;
-	int guidemax;
+	float m_Guidemax;
 	float guideFOV;
 	double XRange, Ymax;
 	double guideXRange;
