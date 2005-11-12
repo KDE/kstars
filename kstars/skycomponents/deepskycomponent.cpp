@@ -46,7 +46,7 @@ DeepSkyComponent::~DeepSkyComponent()
 {
 }
 
-void DeepSkyComponent::init(KStarsData *data)
+void DeepSkyComponent::init(KStarsData *)
 {
 	QFile file;
 
@@ -180,13 +180,8 @@ void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	KStarsData *data = ks->data();
 	SkyMap *map = ks->map();
-	float Width = scale * map->width();
-	float Height = scale * map->height();
 
 	QImage ScaledImage;
-
-	//FIXME: What to do with the "hide objects" logic??
-	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
 	// calculate color objects once, outside the loop
 	QColor colorMess = data->colorScheme()->colorNamed( "MessColor" );
@@ -282,3 +277,5 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
 		}
 	}
 }
+
+#include "deepskycomponent.moc"

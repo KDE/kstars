@@ -9,7 +9,7 @@ libkstarscomponents_a_SOURCES = singlecomponent.cpp listcomponent.cpp pointlistc
 			constellationnamescomponent.cpp constellationboundarycomponent.cpp \
 			coordinategridcomposite.cpp coordinategridcomponent.cpp \
 			eclipticcomponent.cpp equatorcomponent.cpp horizoncomponent.cpp \
-			milkywaycomponent.cpp \
+			milkywaycomposite.cpp milkywaycomponent.cpp \
 			skycomponent.cpp skycomposite.cpp skymapcomposite.cpp 
 
 INCLUDES = -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)

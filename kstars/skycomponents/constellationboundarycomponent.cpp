@@ -37,7 +37,7 @@ ConstellationBoundaryComponent::~ConstellationBoundaryComponent() {
 }
 
 // bool KStarsData::readCLineData( void )
-void ConstellationBoundaryComponent::init(KStarsData *data)
+void ConstellationBoundaryComponent::init(KStarsData *)
 {
 	QFile file;
 	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {

@@ -32,6 +32,7 @@ class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
+class CSegment;
 
 #include <QList>
 #include <QChar>

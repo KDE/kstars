@@ -21,15 +21,14 @@
 #include "equatorcomponent.h"
 #include "eclipticcomponent.h"
 #include "horizoncomponent.h"
-#include "milkywaycomponent.h"
+#include "milkywaycomposite.h"
 #include "constellationboundarycomponent.h"
 #include "constellationlinescomposite.h"
 #include "constellationnamescomponent.h"
 #include "coordinategridcomposite.h"
 #include "deepskycomponent.h"
-#include "customcatalogscomponent.h"
+#include "customcatalogcomponent.h"
 #include "starcomponent.h"
-#include "solarsystemcomposite.h"
 #include "jupitermoonscomponent.h"
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyComposite(parent)
@@ -38,28 +37,27 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	// beware the order of adding components
 	// first added component will be drawn first
 	// so horizon should be one of the last components
-	addComponent( new MilkyWayComponent( this, &Options::showMilkyWay ) );
+	addComponent( new MilkyWayComposite( this, &Options::showMilkyWay ) );
 	addComponent( new CoordinateGridComposite( this, &Options::showGrid ) );
 	addComponent( new ConstellationBoundaryComponent( this, &Options::showCBounds ) );
-	addComponent( new ConstellationLinesComposite( this, &Options::showCLines ) );
+	addComponent( new ConstellationLinesComposite( this, data ) );
 	addComponent( new ConstellationNamesComponent( this, &Options::showCNames ) );
 	addComponent( new EquatorComponent( this, &Options::showEquator ) );
 	addComponent( new EclipticComponent( this, &Options::showEcliptic ) );
 
-	addComponent( new DeepSkyComposite( this ) );
+	addComponent( new DeepSkyComponent( this, &Options::showDeepSky, &Options::showMessier, &Options::showNGC, &Options::showIC, &Options::showOther, &Options::showMessierImages ) );
 	
 	m_CustomCatalogComposite = new SkyComposite( this );
 	foreach ( QString fname, Options::catalogFile() ) 
-		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, &Options::showOther ) );
+		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 	
-	addComponent( new CustomCatalogComponent( this, &Options::showOther ) );
 	addComponent( new StarComponent( this, &Options::showStars ) );
 
 	m_SSComposite = new SolarSystemComposite( this, data );
 	addComponent( m_SSComposite );
 
 	addComponent( new JupiterMoonsComponent( this, &Options::showJupiter) );
-	addComponent( new HorizonComponent(this) );
+	addComponent( new HorizonComponent(this, &Options::showHorizon) );
 }
 
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )

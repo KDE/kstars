@@ -1047,8 +1047,8 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
-		p.setX( -10000000 );
-		p.setY( -10000000 );
+		p.setX( -10000000. );
+		p.setY( -10000000. );
 		return p;
 	}
 

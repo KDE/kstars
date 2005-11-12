@@ -56,7 +56,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 				//then prepare a new one.
 				mode = line.at( 0 );
 				if ( mode == 'M' ) {
-					addComponent( clc );
+					if ( clc ) addComponent( clc );
 					clc = new ConstellationLinesComponent( this, Options::showCLines() );
 				}
 
@@ -72,7 +72,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 		file.close();
 
 		//Add the last clc component
-		addComponent( clc );
+		if ( clc ) addComponent( clc );
 	}
 }
 

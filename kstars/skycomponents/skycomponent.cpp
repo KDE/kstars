@@ -50,8 +50,6 @@ void SkyComponent::drawExportable(KStars *ks, QPainter& psky, double scale)
 
 void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, float x, float y, double scale)
 {
-	int size(0);
-
 	QFont stdFont( psky.font() );
 	QFont smallFont( stdFont );
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
@@ -62,7 +60,7 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, float x, float 
 	}
 
 	// get size of object
-	size = labelSize(obj, scale);
+	float size = labelSize(obj, scale);
 	
 	float offset = 0.5*size + 4.0;
 	psky.drawText( QPointF(x+offset, y+offset), obj->translatedName() );

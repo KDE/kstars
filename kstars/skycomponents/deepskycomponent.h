@@ -30,6 +30,7 @@
 
 #define NNGCFILES 14
 
+#include <QObject>
 #include "skycomponent.h"
 
 class QColor;
@@ -39,7 +40,7 @@ class SkyMap;
 class KSNumbers;
 class DeepSkyObject;
 
-class DeepSkyComponent: public SkyComponent
+class DeepSkyComponent: public QObject, public SkyComponent
 {
 	Q_OBJECT
 	public:

@@ -18,13 +18,10 @@
 #ifndef MILKYWAYCOMPONENT_H
 #define MILKYWAYCOMPONENT_H
 
-#define NMWFILES  11
-
 #include "pointlistcomponent.h"
 
 #include <QList>
-//Added by qt3to4:
-#include <Q3PointArray>
+#include <QString>
 
 class SkyComposite;
 class KStarsData;
@@ -46,7 +43,7 @@ class MilkyWayComponent : public PointListComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComponent
 		 */
-		MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)());
+		MilkyWayComponent(SkyComponent *parent, const QString &fileName, bool (*visibleMethod)());
 
 		/**
 		 *@short Destructor
@@ -69,11 +66,9 @@ class MilkyWayComponent : public PointListComponent
 	
 	private:
 		//FIXME: may need to derive from SkyComponent, since we use an array of QLists.
-		//Better Alternative: MilkyWayComposite, containing MilkyWayComponents
-		QList<SkyPoint> MilkyWay[NMWFILES];
-		
-		// optimization: don't realloc every draw the array
-		Q3PointArray *pts;
+		//Better Alternative: SkyComposite, containing MilkyWayComponents
+		QList<SkyPoint*> MilkyWay;
+		QString m_FileName;
 };
 
 #endif

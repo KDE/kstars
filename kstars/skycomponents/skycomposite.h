@@ -166,7 +166,6 @@ class SkyComposite : public SkyComponent
 			*/
 		SkyObject* findByName( const QString &name );
 
-	protected:
 		QList<SkyComponent*>& components() { return m_Components; }
 
 	private:

@@ -18,9 +18,10 @@
 #ifndef SKYMAPCOMPOSITE_H
 #define SKYMAPCOMPOSITE_H
 
-#include "skycomposite.h"
+#include <QList>
 
-class SolarSystemComposite;
+#include "skycomposite.h"
+#include "solarsystemcomposite.h"
 
 /**@class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -82,11 +83,11 @@ class SkyMapComposite : public SkyComposite
 		virtual bool removeTrail( SkyObject *o );
 
 	protected:
-		SolarSystemComposite* solarSystem() { return m_SSComposite; }
+		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
 
 	private:
 		SolarSystemComposite *m_SSComposite;
-
+		SkyComposite *m_CustomCatalogComposite;
 };
 
 #endif

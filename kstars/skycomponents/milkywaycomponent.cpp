@@ -18,31 +18,31 @@
 #include "horizoncomponent.h"
 
 #include <QList>
-#include <QPoint>
+#include <QPointF>
+#include <QPolygonF>
 #include <QPainter>
 #include <Q3PointArray>
 #include <QFile>
 
 #include "skycomposite.h"
+#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
 #include "dms.h"
 #include "Options.h"
 #include "ksutils.h"
+#include "ksfilereader.h"
 
-MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: PointListComponentComponent(parent, bool (*visibleMethod)())
+#include "milkywaycomponent.h"
+
+MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, const QString &fileName, bool (*visibleMethod)()) 
+: PointListComponent(parent, visibleMethod), m_FileName( fileName )
 {
-	pts = 0;
 }
 
 MilkyWayComponent::~MilkyWayComponent()
 {
-//  for ( int i=0; i<NMWFILES; ++i ) 
-//   while ( ! MilkyWay[i].isEmpty() ) delete MilkyWay[i].takeFirst();
-
-	delete pts;
 }
 
 // was bool KStarsData::readMWData( void )
@@ -54,99 +54,76 @@ MilkyWayComponent::~MilkyWayComponent()
 	*@short read Milky Way contour data.
 	*@return true if all MW files were successfully read
 	*/
-void MilkyWayComponent::init(KStarsData *data)
+void MilkyWayComponent::init(KStarsData *)
 {
-	pts = new Q3PointArray(2000)
-
 	QFile file;
 
-//	for ( unsigned int i=0; i<11; ++i ) {
-	for ( unsigned int i=0; i<NMWFILES; ++i )
-	{
-		QString snum, fname, szero;
-		snum = snum.setNum( i+1 );
-		if ( i+1 < 10 ) szero = "0"; else szero = "";
-		fname = "mw" + szero + snum + ".dat";
+	if ( KSUtils::openDataFile( file, m_FileName ) ) {
+		KSFileReader fileReader( file ); // close file is included
+		while ( fileReader.hasMoreLines() ) {
+			QString line;
+			double ra, dec;
 
-		if ( KSUtils::openDataFile( file, fname ) ) {
-			KSFileReader fileReader( file ); // close file is included
-			while ( fileReader.hasMoreLines() ) {
-				QString line;
-				double ra, dec;
+			line = fileReader.readLine();
 
-				line = fileReader.readLine();
+			ra = line.mid( 0, 8 ).toDouble();
+			dec = line.mid( 9, 8 ).toDouble();
 
-				ra = line.mid( 0, 8 ).toDouble();
-				dec = line.mid( 9, 8 ).toDouble();
-
-				SkyPoint *o = new SkyPoint( ra, dec );
-				MilkyWay[i].append( o );
-			}
-		} else {
-//			return false;
+			SkyPoint *o = new SkyPoint( ra, dec );
+			MilkyWay.append( o );
 		}
 	}
-//	return true;
 }
 
 void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if (!Options::showMilkyWay()) return;
+	if (! visible()) return;
 	
 	SkyMap *map = ks->map();
 
-	int ptsCount = 0;
-	int mwmax = int( scale * Options::zoomFactor()/100.);
-	int Width = int( scale * map->width() );
-	int Height = int( scale * map->height() );
+	float mwmax = scale * Options::zoomFactor()/100.;
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
 	int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
 	psky.setBrush( QBrush( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
-	bool offscreen, lastoffscreen=false;
 
-	for ( unsigned int j=0; j<11; ++j ) {
-		if ( Options::fillMilkyWay() ) {
-			ptsCount = 0;
-			bool partVisible = false;
+	//Draw filled Milky Way: construct a QPolygonF from the SkyPoints, then draw it onscreen
+	if ( Options::fillMilkyWay() ) {
+		QPolygonF polyMW;
+		bool partVisible = false;
 
-			QPoint o = map->getXY( MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
-			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
-			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+		foreach ( SkyPoint *p, MilkyWay ) {
+			QPointF o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			if ( o.x() > -1000000. && o.y() > -1000000. ) polyMW << o;
+			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) partVisible = true;
+		}
 
-			foreach ( SkyPoint *p, MilkyWay[j] ) {
-				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-				if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
-				if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
+		if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
+
+	//Draw Milky Way outline.  To prevent drawing seams between MW chunks, 
+	//Only draw a line if the endpoints are close together
+	} else {
+		bool onscreen, lastonscreen=false;
+		QPointF o, oLast;
+
+		foreach ( SkyPoint *p, MilkyWay ) {
+			o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			if (o.x() < -1000000. && o.y() < -1000000.) onscreen = false;
+			else onscreen = true;
+
+			if ( onscreen && lastonscreen ) {
+				float dx = fabs(o.x() - oLast.x());
+				float dy = fabs(o.y() - oLast.y());
+				if ( dx<mwmax && dy<mwmax ) 
+					psky.drawLine( oLast, o );
 			}
 
-			if ( ptsCount && partVisible ) {
-				psky.drawPolygon( (  const Q3PointArray ) *pts, false, 0, ptsCount );
-			}
-		} else {
-			QPoint o = map->getXY( MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
-			if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
-			else offscreen = false;
-
-			psky.moveTo( o.x(), o.y() );
-
-			foreach ( SkyPoint *p, MilkyWay[j] ) {
-				o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-				if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
-				else offscreen = false;
-
-				//don't draw a line if the last point's map->getXY was (-10000000, -10000000)
-				int dx = abs(o.x()-psky.pos().x());
-				int dy = abs(o.y()-psky.pos().y());
-				if ( (!lastoffscreen && !offscreen) && (dx<mwmax && dy<mwmax) ) {
-					psky.lineTo( o.x(), o.y() );
-				} else {
-					psky.moveTo( o.x(), o.y() );
-				}
-				lastoffscreen = offscreen;
-			}
+			oLast = o;
+			lastonscreen = onscreen;
 		}
 	}
 }

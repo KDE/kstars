@@ -106,6 +106,8 @@ class SkyComponent
 			*@sa ConstellationBoundaryComponent::update()
 			*/
 		virtual void update( KStarsData*, KSNumbers* ) {};
+		virtual void updatePlanets( KStarsData *, KSNumbers * ) {};
+		virtual void updateMoons( KStarsData *, KSNumbers * ) {};
 	
 		/**
 			*@return true if the component is to be drawn on the map.
