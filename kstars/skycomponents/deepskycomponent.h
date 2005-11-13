@@ -40,9 +40,8 @@ class SkyMap;
 class KSNumbers;
 class DeepSkyObject;
 
-class DeepSkyComponent: public QObject, public SkyComponent
+class DeepSkyComponent: public SkyComponent
 {
-	Q_OBJECT
 	public:
 
 		DeepSkyComponent( SkyComponent*, bool (*vMethodDeepSky)(), bool (*vMethodMess)(), 
@@ -61,12 +60,47 @@ class DeepSkyComponent: public QObject, public SkyComponent
 		bool (*visibleOther)();
 		bool (*visibleImages)();
 
-	signals:
-		void progressText( const QString &s );
+		/**
+			*@short Search the children of this SkyComponent for 
+			*a SkyObject whose name matches the argument
+			*@p name the name to be matched
+			*@return a pointer to the SkyObject whose name matches
+			*the argument, or a NULL pointer if no match was found.
+			*/
+		SkyObject* findByName( const QString &name );
 
 	private:
 		
+	/**
+		*@short Read the ngcic.dat deep-sky database.
+		*Parse all lines from the deep-sky object catalog files. Construct a DeepSkyObject
+		*from the data in each line, and add it to the DeepSkyComponent.
+		*
+		*Each line in the file is parsed according to column position:
+		*@li 0        IC indicator [char]  If 'I' then IC object; if ' ' then NGC object
+		*@li 1-4      Catalog number [int]  The NGC/IC catalog ID number
+		*@li 6-8      Constellation code (IAU abbreviation)
+		*@li 10-11    RA hours [int]
+		*@li 13-14    RA minutes [int]
+		*@li 16-19    RA seconds [float]
+		*@li 21       Dec sign [char; '+' or '-']
+		*@li 22-23    Dec degrees [int]
+		*@li 25-26    Dec minutes [int]
+		*@li 28-29    Dec seconds [int]
+		*@li 31       Type ID [int]  Indicates object type; see TypeName array in kstars.cpp
+		*@li 33-36    Type details [string] (not yet used)
+		*@li 38-41    Magnitude [float] can be blank
+		*@li 43-48    Major axis length, in arcmin [float] can be blank
+		*@li 50-54    Minor axis length, in arcmin [float] can be blank
+		*@li 56-58    Position angle, in degrees [int] can be blank
+		*@li 60-62    Messier catalog number [int] can be blank
+		*@li 64-69    PGC Catalog number [int] can be blank
+		*@li 71-75    UGC Catalog number [int] can be blank
+		*@li 77-END   Common name [string] can be blank
+		*@return true if data file is successfully read.
+		*/
 		bool readDeepSkyData();
+
 		void drawDeepSkyCatalog( QPainter& psky, SkyMap *map, QList<DeepSkyObject*>& catalog, 
 					QColor& color, QColor& color2, bool drawObject, bool drawImage, double scale );
 

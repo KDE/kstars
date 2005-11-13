@@ -81,8 +81,9 @@ void AsteroidsComponent::init(KStarsData *data)
 	QFile file;
 
 	if ( KSUtils::openDataFile( file, "asteroids.dat" ) ) {
-		KSFileReader fileReader( file );
+		emitProgressText( i18n("Loading asteroids") );
 
+		KSFileReader fileReader( file );
 		while( fileReader.hasMoreLines() ) {
 			QString line, name;
 			int mJD;
@@ -106,8 +107,6 @@ void AsteroidsComponent::init(KStarsData *data)
 			ast = new KSAsteroid( data, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngularSize( 0.005 );
 			objectList().append( ast );
-
-			data->appendNamedObject( ast );
 		}
 	}
 }

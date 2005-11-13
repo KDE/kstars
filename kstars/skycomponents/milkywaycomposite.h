@@ -20,7 +20,10 @@
 
 #define NMWFILES  11
 
+#include <QObject>
 #include "skycomposite.h"
+
+class KStarsData;
 
 /**
 	*@class MlkyWayComposite
@@ -33,13 +36,11 @@
 class MilkyWayComposite : public SkyComposite
 {
 	public:
-
 		/**
 			*@short Constructor
 			*@p parent pointer to the parent SkyComponent
 			*/
 		MilkyWayComposite( SkyComponent *parent, bool (*visibleMethod)() );
-
 };
 
 #endif

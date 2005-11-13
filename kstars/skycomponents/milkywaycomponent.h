@@ -40,33 +40,35 @@ class MilkyWayComponent : public PointListComponent
 	public:
 		
 		/**
-		 *@short Constructor
-		 *@p parent pointer to the parent SkyComponent
-		 */
+			*@short Constructor
+			*@p parent pointer to the parent SkyComponent
+			*/
 		MilkyWayComponent(SkyComponent *parent, const QString &fileName, bool (*visibleMethod)());
 
 		/**
-		 *@short Destructor
-		 */
+			*@short Destructor
+			*/
 		~MilkyWayComponent();
 
 		/**
-		 *@short Draw the Milky Way on the sky map
-		 *@p map Pointer to the SkyMap object
-		 *@p psky Reference to the QPainter on which to paint
-		 *@p scale the scaling factor for drawing (1.0 for screen draws)
-		 */
+			*@short Draw the Milky Way on the sky map
+			*@p ks Pointer to the KStars object
+			*@p psky Reference to the QPainter on which to paint
+			*@p scale the scaling factor for drawing (1.0 for screen draws)
+			*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
-		 *@short Initialize the Milky Way
-		 *@p data Pointer to the KStarsData object
-		 */
+			*@short Initialize the Milky Way
+			*
+			*The lines in each file are parsed according to column position:
+			*@li 0-7     RA [float]
+			*@li 9-16    Dec [float]
+			*@p data Pointer to the KStarsData object
+			*/
 		virtual void init(KStarsData *data);
 	
 	private:
-		//FIXME: may need to derive from SkyComponent, since we use an array of QLists.
-		//Better Alternative: SkyComposite, containing MilkyWayComponents
 		QList<SkyPoint*> MilkyWay;
 		QString m_FileName;
 };

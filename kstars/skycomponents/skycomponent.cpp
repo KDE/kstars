@@ -69,13 +69,13 @@ void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, float x, float 
 	psky.setFont( stdFont );
 }
 
+//Hand the message up to SkyMapComposite
+void SkyComponent::emitProgressText( const QString &message ) {
+	parent()->emitProgressText( message );
+}
+
 //Reimplemented in Solar system components
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 void SkyComponent::drawTrails( KStars *, QPainter &, double ) { return; }
-
-//TODO: Implement findByName
-SkyObject* SkyComponent::findByName( const QString &name ) {
-	return 0;
-}

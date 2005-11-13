@@ -59,7 +59,12 @@ class ConstellationLinesComponent : public PointListComponent
 
 	/**
 		*@short Initialize the Constellation lines component
-		*Reads the constellation lines data from clines.dat
+		*
+		*Reads the constellation lines data from clines.dat.
+		*Each line in the file contains a command character ("M" means move to 
+		*this position without drawing a line, "D" means draw a line from 
+		*the previous position to this one), followed by the genetive name of 
+		*a star, which marks the position of the constellation node.
 		*@p data Pointer to the KStarsData object
 		*/
 		virtual void init(KStarsData *data);

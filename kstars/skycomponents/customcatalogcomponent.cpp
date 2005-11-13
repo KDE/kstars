@@ -44,6 +44,8 @@ CustomCatalogComponent::~CustomCatalogComponent()
 }
 
 void CustomCatalogComponent::init( KStarsData * ) {
+	emitProgressText( i18n("Loading custom catalog: %1" ).arg( m_Filename ) );
+
 	QDir::setCurrent( QDir::homePath() );  //for files with relative path
 
 	//If the filename begins with "~", replace the "~" with the user's home directory

@@ -37,7 +37,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 	//positions change due to proper motions.  In addition, each node 
 	//has a corresponding flag that determines whether a line should 
 	//connect this node and the previous one.
-	
+
 	QFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
@@ -61,7 +61,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 				}
 
 				name = line.mid( 2 ).trimmed();
-				SkyPoint *p = data->skyComponents()->findStarByGenetiveName( name );
+				SkyPoint *p = data->skyComposite()->findStarByGenetiveName( name );
 
 				if ( p && clc )
 					clc->pointList().append( p );

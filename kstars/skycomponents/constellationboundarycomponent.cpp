@@ -41,8 +41,9 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 {
 	QFile file;
 	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
-	  QTextStream stream( &file );
+		emitProgressText( i18n("Loading constellation boundaries") );
 
+	  QTextStream stream( &file );
 		unsigned int nn(0);
 		double ra(0.0), dec(0.0);
 		QString d1, d2;

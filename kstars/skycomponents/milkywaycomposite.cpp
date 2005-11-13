@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <klocale.h>
+
+#include "kstarsdata.h"
+
 #include "milkywaycomposite.h"
 #include "milkywaycomponent.h"
 
@@ -29,4 +33,3 @@ MilkyWayComposite::MilkyWayComposite( SkyComponent *parent, bool (*visibleMethod
 		addComponent( new MilkyWayComponent( this, fname, visibleMethod ) );
 	}
 }
-

@@ -65,6 +65,8 @@ void SolarSystemComposite::init(KStarsData *data)
 	if (!Earth->loadData())
 		return; //stop initializing
 
+	emitProgressText( i18n("Loading solar system" ) );
+
 	//init all sub components
 	SkyComposite::init(data);
 }

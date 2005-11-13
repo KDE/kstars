@@ -170,7 +170,6 @@ class SkyComposite : public SkyComponent
 
 	private:
 		QList<SkyComponent*> m_Components;
-
 };
 
 #endif

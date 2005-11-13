@@ -45,17 +45,10 @@ MilkyWayComponent::~MilkyWayComponent()
 {
 }
 
-// was bool KStarsData::readMWData( void )
-/**Read Milky Way data.  Coordinates for the Milky Way contour are divided into 11
-	*files, each representing a simple closed curve that can be drawn with
-	*drawPolygon().  The lines in each file are parsed according to column position:
-	*@li 0-7     RA [float]
-	*@li 9-16    Dec [float]
-	*@short read Milky Way contour data.
-	*@return true if all MW files were successfully read
-	*/
 void MilkyWayComponent::init(KStarsData *)
 {
+	emitProgressText( i18n("Loading milky way" ) );
+
 	QFile file;
 
 	if ( KSUtils::openDataFile( file, m_FileName ) ) {

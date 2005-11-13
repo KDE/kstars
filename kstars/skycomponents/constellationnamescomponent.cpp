@@ -42,6 +42,8 @@ void ConstellationNamesComponent::init(KStarsData *data)
 	QString cnameFile = "cnames.dat";
 
 	if ( KSUtils::openDataFile( file, cnameFile ) ) {
+		emitProgressText( i18n("Loading constellation names" ) );
+
 		QTextStream stream( &file );
 
 		while ( !stream.atEnd() ) {

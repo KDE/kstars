@@ -51,9 +51,9 @@ void DeepSkyComponent::init(KStarsData *)
 	QFile file;
 
 	for ( unsigned int i=0; i<NNGCFILES; ++i ) {
-		QString fname = QString().sprintf( "ngcic%02d.dat", i+1 );
+		emitProgressText( i18n( "Loading NGC/IC objects (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
 
-		emit progressText( i18n( "Loading NGC/IC Data (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
+		QString fname = QString().sprintf( "ngcic%02d.dat", i+1 );
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			KSFileReader fileReader( file ); // close file is included
@@ -278,4 +278,23 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
 	}
 }
 
-#include "deepskycomponent.moc"
+SkyObject* DeepSkyComponent::findByName( const QString &name ) {
+	foreach ( SkyObject *o, m_MessierList ) 
+		if ( o->name() == name || o->longname() == name || o->name2() == name )
+			return o;
+
+	foreach ( SkyObject *o, m_NGCList ) 
+		if ( o->name() == name || o->longname() == name || o->name2() == name )
+			return o;
+
+	foreach ( SkyObject *o, m_ICList ) 
+		if ( o->name() == name || o->longname() == name || o->name2() == name )
+			return o;
+
+	foreach ( SkyObject *o, m_OtherList ) 
+		if ( o->name() == name || o->longname() == name || o->name2() == name )
+			return o;
+
+	//No object found
+	return 0;
+}

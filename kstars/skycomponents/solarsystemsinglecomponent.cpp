@@ -45,7 +45,6 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
 
 void SolarSystemSingleComponent::init(KStarsData *data) {
 	ksp()->loadData();
-	data->appendNamedObject( skyObject() );
 }
 
 void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num) {

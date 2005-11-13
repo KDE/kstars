@@ -22,6 +22,9 @@
 
 #include "skycomposite.h"
 #include "solarsystemcomposite.h"
+#include "starcomponent.h"
+
+class KStarsData;
 
 /**@class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -33,8 +36,10 @@
 *@version 0.1
 */
 
-class SkyMapComposite : public SkyComposite
+class SkyMapComposite : public QObject, public SkyComposite
 {
+	Q_OBJECT
+
 	public:
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
@@ -82,12 +87,20 @@ class SkyMapComposite : public SkyComposite
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 
+		SkyObject* findStarByGenetiveName( const QString &name );
+
+		void emitProgressText( const QString &message );
+
+	signals:
+		void progressText( const QString &message );
+
 	protected:
 		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
 
 	private:
 		SolarSystemComposite *m_SSComposite;
 		SkyComposite *m_CustomCatalogComposite;
+		StarComponent *m_StarComponent;
 };
 
 #endif

@@ -42,8 +42,9 @@ void CometsComponent::init( KStarsData *data ) {
 	QFile file;
 
 	if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
-		KSFileReader fileReader( file );
+		emitProgressText( i18n("Loading comets") );
 
+		KSFileReader fileReader( file );
 		while( fileReader.hasMoreLines() ) {
 			QString line, name;
 			int mJD;
@@ -67,8 +68,6 @@ void CometsComponent::init( KStarsData *data ) {
 			com->setAngularSize( 0.005 );
 
 			objectList().append( com );
-
-			data->appendNamedObject( com );
 		}
 	}
 }

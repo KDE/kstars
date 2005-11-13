@@ -28,8 +28,6 @@
 
 #define NHIPFILES 127
 
-#include <QObject>
-
 #include "listcomponent.h"
 #include "starpixmap.h"
 
@@ -40,10 +38,8 @@ class SkyMap;
 class KSNumbers;
 class KSFileReader;
 
-class StarComponent: public QObject, public ListComponent
+class StarComponent: public ListComponent
 {
-	Q_OBJECT
-
 	public:
 
 		StarComponent(SkyComponent*, bool (*visibleMethod)());
@@ -85,11 +81,7 @@ class StarComponent: public QObject, public ListComponent
 	*/
 	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
 
-	public slots:
-		void setFaintMagnitude( float newMagnitude );
-
-	signals:
-		void progressText( const QString & );
+	void setFaintMagnitude( float newMagnitude );
 
 	protected:
 		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
@@ -97,6 +89,36 @@ class StarComponent: public QObject, public ListComponent
 	private:
 		// some helper methods
 		bool openStarFile(int i);
+
+	/**
+		*Parse a line from a stars data file, construct a StarObject from the data,
+		*and add it to the StarComponent.
+		*
+		*Each line is parsed according to the column
+		*position in the line:
+		*@li 0-1      RA hours [int]
+		*@li 2-3      RA minutes [int]
+		*@li 4-8      RA seconds [float]
+		*@li 10       Dec sign [char; '+' or '-']
+		*@li 11-12    Dec degrees [int]
+		*@li 13-14    Dec minutes [int]
+		*@li 15-18    Dec seconds [float]
+		*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
+		*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
+		*@li 38-44    Parallax (milli-arcsec) [float]
+		*@li 46-50    Magnitude [float]
+		*@li 51-55    B-V color index [float]
+		*@li 56-57    Spectral type [string]
+		*@li 59       Multiplicity flag (1=true, 0=false) [int]
+		*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
+		*@li 66-71    Variability period (days; blank if not variable) [float]
+		*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
+		*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
+		*             everything after the colon is the genetive name for the star (e.g.,
+		*             "alpha Orionis").
+		*
+		*@param line pointer to the line of data to be processed as a StarObject
+		*/
 		void processStar( const QString &line );
 
 		KStarsData *m_Data;

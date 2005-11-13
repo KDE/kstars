@@ -35,6 +35,8 @@ CoordinateGridComponent::~CoordinateGridComponent() {
 }
 
 void CoordinateGridComponent::init( KStarsData *data ) {
+	emitProgressText( i18n("Loading coordinate grid" ) );
+
 	if ( Parallel ) { //line of constant Declination
 		double dra = 1./15.; //360 points around full circle
 		for ( double ra=0.0; ra < 24.0; ra += dra ) {

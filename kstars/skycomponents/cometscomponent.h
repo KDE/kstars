@@ -63,7 +63,6 @@ class CometsComponent : public SolarSystemListComponent
 		*Reads in the asteroids data from the asteroids.dat file.
 		*@p data Pointer to the KStarsData object
 		*
-		*@short Utility function for reading the asteroids.dat file
 		*Populate the list of Comets from the data file.
 		*Each line in the data file is parsed as follows:
 		*@li 6-23 Name [string]

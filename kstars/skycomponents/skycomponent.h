@@ -18,6 +18,8 @@
 #ifndef SKYCOMPONENT_H
 #define SKYCOMPONENT_H
 
+#include <QString>
+
 class QPainter;
 class QString;
 
@@ -85,9 +87,6 @@ class SkyComponent
 			*@short Initialize the component - load data from disk etc.
 			*@p data Pointer to the KStarsData object
 			*/
-		// TODO pass a splashscreen as parameter to init, so it 
-		// can update the splashscreen -> should use the new 
-		// KSplashScreen?
 		virtual void init(KStarsData *data);
 		
 		/**
@@ -153,8 +152,15 @@ class SkyComponent
 			*@p name the name to be matched
 			*@return a pointer to the SkyObject whose name matches
 			*the argument, or a NULL pointer if no match was found.
+			*@note This function simply returns the NULL pointer; it 
+			*is reimplemented in various sub-classes
+			*@sa SingleComponent::findByName()
+			*@sa ListComponent::findByName()
+			*@sa DeepSkyComponent::findByName()
 			*/
 		SkyObject* findByName( const QString &name );
+
+		void emitProgressText( const QString &message );
 
 	protected:
 

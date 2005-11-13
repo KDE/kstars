@@ -88,16 +88,6 @@ class CustomCatalogComponent: public ListComponent
 		bool removeCatalog( int i );
 		
 	/**
-		*@short Create a custom catalog from an input file
-		*@p filename the name of the file containing the data for 
-		*the custom catalog
-		*@p showerrs if true, a message box will be dispayed listing 
-		*all read and parse errors.
-		*@return pointer to the new custom catalog
-		*/
-		CustomCatalog* createCustomCatalog(QString filename, bool showerrs);
-		
-	/**
 		*@short Process a line from a custom data file
 		*@p lnum the line number being processed (used for error reporting)
 		*@p d QStringList containing the data fields in the current line

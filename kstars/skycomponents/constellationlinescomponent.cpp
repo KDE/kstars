@@ -56,8 +56,9 @@ void ConstellationLinesComponent::init(KStarsData *data)
 	
 	QFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
-	  QTextStream stream( &file );
+		emitProgressText( i18n("Loading constellation lines" ) );
 
+		QTextStream stream( &file );
 		while ( !stream.atEnd() ) {
 			QString line, name;
 

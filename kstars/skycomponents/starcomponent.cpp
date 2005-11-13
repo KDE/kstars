@@ -44,9 +44,6 @@ void StarComponent::init(KStarsData *data)
 	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
 	m_Data = data;
 
-	connect( this, SIGNAL( progressText( const QString& ) ), 
-			data, SIGNAL( progressText( const QString& ) ) );
-
 	setFaintMagnitude( Options::magLimitDrawStar() );
 }
 
@@ -173,8 +170,9 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 
 		//Begin reading new star data
 		while ( iStarFile <= NHIPFILES && currentMag <= m_FaintMagnitude ) {
-			emit progressText( i18n( "Loading Star Data (%1%)" ).arg( 
+			emitProgressText( i18n( "Loading stars (%1%)" ).arg( 
 								int(100.*float(iStarFile)/float(NHIPFILES)) ) );
+
 			openStarFile( iStarFile++ );
 
 			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
@@ -274,13 +272,4 @@ void StarComponent::processStar( const QString &line ) {
 	objectList().append(o);
 	
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-	
-//JH: OBJNAMES_DEPRECATED
-// 	// add named stars to list
-// 	if ( starHasName ) {
-// 		data()->ObjNames.append( o );
-// 	}
-
 }
-
-#include "starcomponent.moc"

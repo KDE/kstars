@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "Options.h"
+#include "kstarsdata.h"
 #include "skymapcomposite.h"
 
 #include "equatorcomponent.h"
@@ -51,13 +52,17 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	foreach ( QString fname, Options::catalogFile() ) 
 		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 	
-	addComponent( new StarComponent( this, &Options::showStars ) );
+	m_StarComponent = new StarComponent( this, &Options::showStars );
+	addComponent( m_StarComponent );
 
 	m_SSComposite = new SolarSystemComposite( this, data );
 	addComponent( m_SSComposite );
 
 	addComponent( new JupiterMoonsComponent( this, &Options::showJupiter) );
 	addComponent( new HorizonComponent(this, &Options::showHorizon) );
+
+	connect( this, SIGNAL( progressText( const QString & ) ), 
+					data, SIGNAL( progressText( const QString & ) ) );
 }
 
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
@@ -99,3 +104,15 @@ bool SkyMapComposite::removeTrail( SkyObject *o ) {
 	return false;
 }
 
+SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
+	foreach( SkyObject *s, m_StarComponent->objectList() ) 
+		if ( s->name2() == name ) return s;
+
+	return 0;
+}
+
+void SkyMapComposite::emitProgressText( const QString &message ) {
+	emit progressText( message );
+}
+
+#include "skymapcomposite.moc"
