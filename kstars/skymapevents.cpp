@@ -672,7 +672,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		setClickedPoint( mousePoint() );
 
 		//Find object nearest to clickedPoint()
-		setClickedObject( objectNearest( clickedPoint() ) );
+		double maxrad = 200.0/Options::zoomFactor();
+		setClickedObject( objectNearest( clickedPoint(), maxrad ) );
 
 		if ( clickedObject() ) {
 			setClickedPoint( clickedObject() );

@@ -76,8 +76,8 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	setDefaultMouseCursor();	// set the cross cursor
 
 	setBackgroundColor( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-	setBackgroundMode( QWidget::NoBackground );
-	setFocusPolicy( QWidget::StrongFocus );
+	setBackgroundMode( Qt::NoBackground );
+	setFocusPolicy( Qt::StrongFocus );
 	setMinimumSize( 380, 250 );
 	setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
 
@@ -136,27 +136,11 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 }
 
 SkyMap::~SkyMap() {
-	delete pts;
 	delete sp;
 	delete sky;
 	delete sky2;
 	delete pmenu;
 	delete IBoxes;
-
-//Deprecated...DeepSkyObject dtor now handles this itself.
-/*//delete any remaining object Image pointers
-	for ( DeepSkyObject *obj = data->deepSkyListMessier.first(); obj; obj = data->deepSkyListMessier.next() ) {
-		if ( obj->image() ) obj->deleteImage();
-  }
-	for ( DeepSkyObject *obj = data->deepSkyListNGC.first(); obj; obj = data->deepSkyListNGC.next() ) {
-		if ( obj->image() ) obj->deleteImage();
-  }
-	for ( DeepSkyObject *obj = data->deepSkyListIC.first(); obj; obj = data->deepSkyListIC.next() ) {
-		if ( obj->image() ) obj->deleteImage();
-  }
-	for ( DeepSkyObject *obj = data->deepSkyListOther.first(); obj; obj = data->deepSkyListOther.next() ) {
-		if ( obj->image() ) obj->deleteImage();
-  }*/
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
@@ -194,235 +178,6 @@ void SkyMap::showFocusCoords( bool coordsOnly ) {
 	}
 }
 
-SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
-	double r0 = 200.0/Options::zoomFactor();  //the maximum search radius
-	double rmin = r0;
-
-	//Search stars database for nearby object.
-	double rstar_min = r0;
-	double starmag_min = 20.0;      //absurd initial value
-	int istar_min = -1;
-
-	if ( Options::showStars() ) { //Can only click on a star if it's being drawn!
-
-		//test RA and dec to see if this star is roughly nearby
-
-		for ( register unsigned int i=0; i<data->starList.count(); ++i ) {
-			SkyObject *test = (SkyObject *)data->starList.at(i);
-
-			double dRA = test->ra()->Hours() - p->ra()->Hours();
-			double dDec = test->dec()->Degrees() - p->dec()->Degrees();
-			//determine angular distance between this object and mouse cursor
-			double f = 15.0*cos( test->dec()->radians() );
-			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-			if (r < r0 && test->mag() < starmag_min ) {
-				istar_min = i;
-				rstar_min = r;
-				starmag_min = test->mag();
-			}
-		}
-	}
-
-	//Next, find the nearest solar system body within r0
-	double r = 0.0;
-	double rsolar_min = r0;
-	SkyObject *solarminobj = NULL;
-
-	if ( Options::showPlanets() )
-		solarminobj = data->PCat->findClosest( p, r );
-
-	if ( r < r0 ) {
-		rsolar_min = r;
-	} else {
-		solarminobj = NULL;
-	}
-
-	//Moon
-	if ( Options::showMoon() ) {
-		double dRA = data->Moon->ra()->Hours() - p->ra()->Hours();
-		double dDec = data->Moon->dec()->Degrees() - p->dec()->Degrees();
-		double f = 15.0*cos( data->Moon->dec()->radians() );
-		r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-		if (r < rsolar_min) {
-			solarminobj= data->Moon;
-			rsolar_min = r;
-		}
-	}
-
-	//Asteroids
-	if ( Options::showAsteroids() ) {
-		for ( KSAsteroid *ast = data->asteroidList.first(); ast; ast = data->asteroidList.next() ) {
-			//test RA and dec to see if this object is roughly nearby
-			double dRA = ast->ra()->Hours() - p->ra()->Hours();
-			double dDec = ast->dec()->Degrees() - p->dec()->Degrees();
-			double f = 15.0*cos( ast->dec()->radians() );
-			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-			if ( r < rsolar_min && ast->mag() < Options::magLimitAsteroid() ) {
-				solarminobj = ast;
-				rsolar_min = r;
-			}
-		}
-	}
-
-	//Comets
-	if ( Options::showComets() ) {
-		for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
-			//test RA and dec to see if this object is roughly nearby
-			double dRA = com->ra()->Hours() - p->ra()->Hours();
-			double dDec = com->dec()->Degrees() - p->dec()->Degrees();
-			double f = 15.0*cos( com->dec()->radians() );
-			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-			if ( r < rsolar_min ) {
-				solarminobj = com;
-				rsolar_min = r;
-			}
-		}
-	}
-
-	//Next, search for nearest deep-sky object within r0
-	double rmess_min = r0;
-	double rngc_min = r0;
-	double ric_min = r0;
-	double rother_min = r0;
-	int imess_min = -1;
-	int ingc_min = -1;
-	int iic_min = -1;
-	int iother_min = -1;
-
-	for ( DeepSkyObject *o = data->deepSkyList.first(); o; o = data->deepSkyList.next() ) {
-		bool checkObject = false;
-		if ( o->isCatalogM() &&
-				( Options::showMessier() || Options::showMessierImages() ) ) checkObject = true;
-		if ( o->isCatalogNGC() && Options::showNGC() ) checkObject = true;
-		if ( o->isCatalogIC() && Options::showIC() ) checkObject = true;
-		if ( o->catalog().isEmpty() && Options::showOther() ) checkObject = true;
-
-		if ( checkObject ) {
-			//test RA and dec to see if this object is roughly nearby
-			double dRA = o->ra()->Hours() - p->ra()->Hours();
-			double dDec = o->dec()->Degrees() - p->dec()->Degrees();
-			double f = 15.0*cos( o->dec()->radians() );
-			double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-			if ( o->isCatalogM() && r < rmess_min) {
-				imess_min = data->deepSkyList.at();
-				rmess_min = r;
-			}
-			if ( o->isCatalogNGC() && r < rngc_min) {
-				ingc_min = data->deepSkyList.at();
-				rngc_min = r;
-			}
-			if ( o->isCatalogIC() && r < ric_min) {
-				iic_min = data->deepSkyList.at();
-				ric_min = r;
-			}
-			if ( o->catalog().isEmpty() && r < rother_min) {
-				iother_min = data->deepSkyList.at();
-				rother_min = r;
-			}
-		}
-	}
-
-	//Next, search for nearest object within r0 among the custom catalogs
-	double rcust_min = r0;
-	int icust_min = -1;
-	int icust_cat = -1;
-
-	for ( register unsigned int j=0; j< data->CustomCatalogs.count(); ++j ) {
-		if ( Options::showCatalog()[j] ) {
-			Q3PtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
-
-			for ( register unsigned int i=0; i<catList.count(); ++i ) {
-				//test RA and dec to see if this object is roughly nearby
-				SkyObject *test = (SkyObject *)catList.at(i);
-				double dRA = test->ra()->Hours()-p->ra()->Hours();
-				double dDec = test->dec()->Degrees()-p->dec()->Degrees();
-				double f = 15.0*cos( test->dec()->radians() );
-				double r = f*f*dRA*dRA + dDec*dDec; //no need to take sqrt, we just want to ID smallest value.
-				if (r < rcust_min) {
-					icust_cat = j;
-					icust_min = i;
-					rcust_min = r;
-				}
-			}
-		}
-	}
-
-	int jmin(-1);
-	int icat(-1);
-
-	//Among the objects selected within r0, prioritize the selection by catalog:
-	//Planets, Messier, NGC, IC, stars
-	if ( istar_min >= 0 && rstar_min < r0 ) {
-		rmin = rstar_min;
-		icat = 0; //set catalog to star
-	}
-
-	//IC object overrides star, unless star is twice as close as IC object
-	if ( iic_min >= 0 && ric_min < r0 && rmin > 0.5*ric_min ) {
-		rmin = ric_min;
-		icat = 1; //set catalog to Deep Sky
-		jmin = iic_min;
-	}
-
-	//NGC object overrides previous selection, unless previous is twice as close
-	if ( ingc_min >= 0 && rngc_min < r0 && rmin > 0.5*rngc_min ) {
-		rmin = rngc_min;
-		icat = 1; //set catalog to Deep Sky
-		jmin = ingc_min;
-	}
-
-	//"other" object overrides previous selection, unless previous is twice as close
-	if ( iother_min >= 0 && rother_min < r0 && rmin > 0.5*rother_min ) {
-		rmin = rother_min;
-		icat = 1; //set catalog to Deep Sky
-		jmin = iother_min;
-	}
-
-	//Messier object overrides previous selection, unless previous is twice as close
-	if ( imess_min >= 0 && rmess_min < r0 && rmin > 0.5*rmess_min ) {
-		rmin = rmess_min;
-		icat = 1; //set catalog to Deep Sky
-		jmin = imess_min;
-	}
-
-	//Custom object overrides previous selection, unless previous is twice as close
-	if ( icust_min >= 0 && rcust_min < r0 && rmin > 0.5*rcust_min ) {
-		rmin = rcust_min;
-		icat = 2; //set catalog to Custom
-	}
-
-	//Solar system body overrides previous selection, unless previous selection is twice as close
-	if ( solarminobj != NULL && rmin > 0.5*rsolar_min ) {
-		rmin = rsolar_min;
-		icat = 3; //set catalog to solar system
-	}
-
-	Q3PtrList<SkyObject> cat;
-
-	switch (icat) {
-		case 0: //star
-			return data->starList.at(istar_min);
-			break;
-
-		case 1: //Deep-Sky Objects
-			return data->deepSkyList.at(jmin);
-			break;
-
-		case 2: //Custom Catalog Object
-			cat = data->CustomCatalogs.at(icust_cat)->objList();
-			return cat.at(icust_min);
-			break;
-
-		case 3: //solar system object
-			return solarminobj;
-			break;
-
-		default: //no object found
-			return NULL;
-			break;
-	}
-}
-
 void SkyMap::slotTransientLabel( void ) {
 	//This function is only called if the HoverTimer manages to timeout.
 	//(HoverTimer is restarted with every mouseMoveEvent; so if it times 
@@ -438,7 +193,8 @@ void SkyMap::slotTransientLabel( void ) {
 	//pointer is below the opaque horizon, or if the object has a permanent label
 	if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() && 
 			mousePoint()->alt()->Degrees() < 0.0 ) ) {
-		SkyObject *so = objectNearest( mousePoint() );
+		double maxrad = 200.0/Options::zoomFactor();
+		SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
 		
 		if ( so && ! isObjectLabeled( so ) ) {
 			setTransientObject( so );
@@ -519,7 +275,7 @@ void SkyMap::slotCenter( void ) {
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
 	if ( ksw ) {
-	  ksw->actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+	  ksw->actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
 	  ksw->toolBar( "mainToolBar" )->setButtonIconSet( 4, BarIcon( "encrypted" ) );
 	  ksw->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
@@ -643,8 +399,7 @@ void SkyMap::slotDSS2( void ) {
 }
 
 void SkyMap::slotInfo( int id ) {
-	QStringList::Iterator it = clickedObject()->InfoList.at(id-200);
-	QString sURL = (*it);
+	QString sURL = clickedObject()->InfoList.at(id-200);
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		KToolInvocation::invokeBrowser(sURL);
@@ -654,13 +409,14 @@ void SkyMap::slotBeginAngularDistance(void) {
 	setPreviousClickedPoint( mousePoint() );
 	angularDistanceMode = true;
 	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
-	endRulerPoint =  QPoint( beginRulerPoint.x(),beginRulerPoint.y() );
+	endRulerPoint =  QPointF( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
 void SkyMap::slotEndAngularDistance(void) {
 	dms angularDistance;
 	if(angularDistanceMode) {
-		if ( SkyObject *so = objectNearest( mousePoint() ) ) {
+		double maxrad = 200.0/Options::zoomFactor();
+		if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
 			angularDistance = so->angularDistanceTo( previousClickedPoint() );
 			ksw->statusBar()->changeItem( so->translatedLongName() + 
 					"     " +
@@ -680,17 +436,16 @@ void SkyMap::slotCancelAngularDistance(void) {
 }
 
 void SkyMap::slotImage( int id ) {
-	QStringList::Iterator it = clickedObject()->ImageList.at(id-100);
-	QStringList::Iterator it2 = clickedObject()->ImageTitle.at(id-100);
-	QString sURL = (*it);
-	QString message = (*it2);
+	QString sURL = clickedObject()->ImageList.at(id-100);
+	QString message = clickedObject()->ImageTitle.at(id-100);
+
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		new ImageViewer (&url, clickedObject()->messageFromTitle(message), this);
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-	for ( SkyObject *o = data->ObjLabelList.first(); o; o = data->ObjLabelList.next() ) {
+	foreach ( SkyObject *o, data->ObjLabelList ) {
 		if ( o == object ) return true;
 	}
 
@@ -698,10 +453,10 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
 }
 
 void SkyMap::slotRemoveObjectLabel( void ) {
-	for ( SkyObject *o = data->ObjLabelList.first(); o; o = data->ObjLabelList.next() ) {
+	foreach ( SkyObject *o, data->ObjLabelList ) {
 		if ( o == clickedObject() ) {
 			//remove object from list
-			data->ObjLabelList.remove();
+			data->ObjLabelList.removeAt( data->ObjLabelList.indexOf(o) );
 			break;
 		}
 	}
@@ -922,7 +677,7 @@ void SkyMap::slewFocus( void ) {
 					fadeTransientLabel();
 				
 				forceUpdate();
-				kapp->processEvents(10); //keep up with other stuff
+				kapp->processEvents(); //keep up with other stuff
 
 				if ( Options::useAltAz() ) {
 					dX = destination()->az()->Degrees() - focus()->az()->Degrees();
@@ -998,14 +753,14 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	return ( north + o->pa() );
 }
 
-QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
-	QPoint p;
+QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
+	QPointF p;
 
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
-	int Width = int( width() * scale );
-	int Height = int( height() * scale );
+	float Width = width() * scale;
+	float Height = height() * scale;
 
 	double pscale = Options::zoomFactor() * scale;
 
@@ -1054,8 +809,8 @@ QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale )
 
 	double k = sqrt( 2.0/( 1 + c ) );
 
-	p.setX( int( 0.5*Width  - pscale*k*cosY*sindX ) );
-	p.setY( int( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) ) );
+	p.setX( 0.5*Width  - pscale*k*cosY*sindX );
+	p.setY( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 
 	return p;
 }
@@ -1182,7 +937,7 @@ float SkyMap::fov() {
 		return 28.65*height()/Options::zoomFactor();
 }
 
-bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
+bool SkyMap::checkVisibility( SkyPoint *p ) {
 	double dX, dY;
 	bool useAltAz = Options::useAltAz();
 
@@ -1193,7 +948,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 	//   - focus is above the horizon
 	//   - field of view is larger than 50 degrees
 	if ( useAltAz && Options::showGround() && p->alt()->Degrees() < -2.0 
-				&& ( focus()->alt()->Degrees() > 0. || FOV > 50. ) ) return false;
+				&& ( focus()->alt()->Degrees() > 0. || fov() > 50. ) ) return false;
 
 	if ( useAltAz ) {
 		dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
@@ -1201,7 +956,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 		dY = fabs( p->dec()->Degrees() - focus()->dec()->Degrees() );
 	}
 	if ( isPoleVisible ) dY *= 0.75; //increase effective FOV when pole visible.
-	if ( dY > FOV ) return false;
+	if ( dY > fov() ) return false;
 	if ( isPoleVisible ) return true;
 
 	if ( useAltAz ) {
@@ -1211,7 +966,7 @@ bool SkyMap::checkVisibility( SkyPoint *p, float FOV, double XMax ) {
 	}
 	if ( dX > 180.0 ) dX = 360.0 - dX; // take shorter distance around sky
 
-	if ( dX < XMax ) {
+	if ( dX < XRange ) {
 		return true;
 	} else {
 		return false;
@@ -1236,9 +991,9 @@ void SkyMap::setZoomMouseCursor()
 	int mx = cursorPix.	width() / 2;
 	int my = cursorPix.	height() / 2;
 
-	cursorPix.fill (white);  // white background
+	cursorPix.fill ( Qt::white );  // white background
 	p.begin (&cursorPix);
-	p.setPen (QPen (black, 2));	// black lines
+	p.setPen (QPen ( Qt::black, 2));	// black lines
 
 	p.drawEllipse( mx - 7, my - 7, 14, 14 );
 	p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
@@ -1246,11 +1001,11 @@ void SkyMap::setZoomMouseCursor()
 
 // create a mask to make parts of the pixmap invisible
 	QBitmap mask (32, 32);
-	mask.fill (color0);	// all is invisible
+	mask.fill ( Qt::color0 );	// all is invisible
 
 	p.begin (&mask);
 // paint over the parts which should be visible
-	p.setPen (QPen (color1, 3));
+	p.setPen( QPen ( Qt::color1, 3 ) );
 	p.drawEllipse( mx - 7, my - 7, 14, 14 );
 	p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
 	p.end();
@@ -1270,9 +1025,9 @@ void SkyMap::setDefaultMouseCursor()
 	int mx = cursorPix.	width() / 2;
 	int my = cursorPix.	height() / 2;
 
-	cursorPix.fill (white);  // white background
+	cursorPix.fill ( Qt::white );  // white background
 	p.begin (&cursorPix);
-	p.setPen (QPen (black, 2));	// black lines
+	p.setPen( QPen ( Qt::black, 2 ) );	// black lines
 // 1. diagonal
 	p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
 	p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
@@ -1283,11 +1038,11 @@ void SkyMap::setDefaultMouseCursor()
 
 // create a mask to make parts of the pixmap invisible
 	QBitmap mask (32, 32);
-	mask.fill (color0);	// all is invisible
+	mask.fill( Qt::color0 );	// all is invisible
 
 	p.begin (&mask);
 // paint over the parts which should be visible
-	p.setPen (QPen (color1, 3));
+	p.setPen( QPen( Qt::color1, 3 ) );
 // 1. diagonal
 	p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
 	p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
@@ -1296,9 +1051,9 @@ void SkyMap::setDefaultMouseCursor()
 	p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
 	p.end();
 
-	cursorPix.setMask (mask);	// set the mask
-	QCursor cursor (cursorPix);
-	setCursor (cursor);
+	cursorPix.setMask( mask );  // set the mask
+	QCursor cursor( cursorPix );
+	setCursor( cursor );
 }
 
 void SkyMap::setMouseMoveCursor()

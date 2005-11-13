@@ -18,9 +18,8 @@
 #ifndef SKYMAP_H
 #define SKYMAP_H
 
-#include <qtimer.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QTimer>
+#include <QWidget>
 #include <QPixmap>
 #include <QMouseEvent>
 #include <Q3PointArray>
@@ -261,23 +260,6 @@ public:
 	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
 	*/
 	void setMousePoint( SkyPoint f ) { MousePoint.set( f.ra(), f.dec() ); }
-
-	/**@short Attempt to find a named object near the SkyPoint argument.  
-		*
-		*There is a object-type preference order for selecting among nearby objects:  
-		*objects of a less-preferred type will be selected only if they are twice as close 
-		*to the SkyPoint as the nearest object of a more-preferred type.  The order (from 
-		*most to least preferred) is:  Solar System, custom object, Messier, 
-		*NGC, IC, stars.  If no named object was found within the zoom-dependent maximum 
-		*search radius of about 4 pixels, then the function returns a NULL pointer.
-		*
-		*@note This code used to be in mousePressEvent(), but now we need it in 
-		*slotTransientLabel() and other parts of the code as well.
-		*@param p pointer to the skypoint around which to search for an object.
-		*@return a pointer to the nearest named object to point p, or NULL if 
-		*no object was found.
-		*/
-	SkyObject* objectNearest( SkyPoint *p );
 
 /**@short Retrieve the object nearest to a mouse click event.
 	*
@@ -926,7 +908,7 @@ private:
 //	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
-	QPoint beginRulerPoint, endRulerPoint;  // used in angle mode
+	QPointF beginRulerPoint, endRulerPoint;  // used in angle mode
 	QRect ZoomRect; //The manual-focus circle.
 
 	//data for transient object labels

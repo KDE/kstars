@@ -149,7 +149,7 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig() {
 	if ( Options::isTracking() ) {
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIconSet( BarIcon( "encrypted" ) );
+		actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
 	}
 
 	//Toggle actions

@@ -18,31 +18,21 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <QList>
-
-#include <qmap.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <Q3PtrList>
-
-#include <kshortcut.h>
-
 #include <iostream>
 
-#include "skymapcomposite.h"
+#include <QList>
+#include <QMap>
+#include <kshortcut.h>
+
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
 #include "objectnamelist.h"
 #include "planetcatalog.h"
-#include "tools/lcgenerator.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
-
-//#define NHIPFILES 127
-#define NMWFILES  11
-#define NTYPENAME 12
-#define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
+#include "tools/lcgenerator.h"
+#include "skycomponents/skymapcomposite.h"
 
 #define MINZOOM 200.
 #define MAXZOOM 1000000.
@@ -78,9 +68,10 @@ class CSegment;
 class CustomCatalog;
 
 /**@class KStarsData
-	*KStarsData manages all the data objects used by KStars: Lists of stars, deep-sky objects,
-	*planets, geographic locations, and constellations.  Also, the milky way, and URLs for
-	*images and information pages.
+	*KStarsData is the backbone of KStars.  It contains all the data used by KStars, 
+	*including the SkyMapComposite that contains all items in the skymap 
+	*(stars, deep-sky objects, planets, constellations, etc).  Other kinds of data 
+	*are stored here as well: the geographic locations, the timezone rules, etc.
 	*
 	*@author Heiko Evermann
 	*@version 1.0
@@ -91,6 +82,7 @@ class KStarsData : public QObject
 	Q_OBJECT
 public:
 	//Friend classes can see the private data.
+	//FIXME: can we avoid having so many friend classes?
 	friend class FindDialog;
 	friend class KStars;
 	friend class KSWizard;
@@ -155,165 +147,6 @@ public:
 		*/
 	bool processCity( QString& line );
 
-	/**Populate list of star objects from the stars database file.
-		*Each line in the file provides the information required to construct a
-		*SkyObject of type 'star'.  
-		*@short read the stars database, constructing the list of SkyObjects that represent the stars.
-		*@return true if the data file was successfully opened and read.
-		*@see KStarsData::processStar()
-		*/
-//	bool readStarData( void );
-
-	/**Parse a line from a stars data file, constructing a StarObject from the data.
-		*The StarObject is added to the list of stars.
-		*
-		*Each line is parsed according to the column
-		*position in the line:
-		*@li 0-1      RA hours [int]
-		*@li 2-3      RA minutes [int]
-		*@li 4-8      RA seconds [float]
-		*@li 10       Dec sign [char; '+' or '-']
-		*@li 11-12    Dec degrees [int]
-		*@li 13-14    Dec minutes [int]
-		*@li 15-18    Dec seconds [float]
-		*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
-		*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
-		*@li 38-44    Parallax (milli-arcsec) [float]
-		*@li 46-50    Magnitude [float]
-		*@li 51-55    B-V color index [float]
-		*@li 56-57    Spectral type [string]
-		*@li 59       Multiplicity flag (1=true, 0=false) [int]
-		*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
-		*@li 66-71    Variability period (days; blank if not variable) [float]
-		*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
-		*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
-		*             everything after the colon is the genetive name for the star (e.g.,
-		*             "alpha Orionis").
-		*
-		*@param line pointer to the line of data to be processed as a StarObject
-		*@param reloadMode makes additional calculations in reload mode, not needed at start up
-		*@see KStarsData::readStarData()
-		*/
-//	void processStar( QString *line, bool reloadMode = false );
-
-	/**Populate the list of deep-sky objects from the database file.
-		*Each line in the file is parsed according to column position:
-		*@li 0        IC indicator [char]  If 'I' then IC object; if ' ' then NGC object
-		*@li 1-4      Catalog number [int]  The NGC/IC catalog ID number
-		*@li 6-8      Constellation code (IAU abbreviation)
-		*@li 10-11    RA hours [int]
-		*@li 13-14    RA minutes [int]
-		*@li 16-19    RA seconds [float]
-		*@li 21       Dec sign [char; '+' or '-']
-		*@li 22-23    Dec degrees [int]
-		*@li 25-26    Dec minutes [int]
-		*@li 28-29    Dec seconds [int]
-		*@li 31       Type ID [int]  Indicates object type; see TypeName array in kstars.cpp
-		*@li 33-36    Type details [string] (not yet used)
-		*@li 38-41    Magnitude [float] can be blank
-		*@li 43-48    Major axis length, in arcmin [float] can be blank
-		*@li 50-54    Minor axis length, in arcmin [float] can be blank
-		*@li 56-58    Position angle, in degrees [int] can be blank
-		*@li 60-62    Messier catalog number [int] can be blank
-		*@li 64-69    PGC Catalog number [int] can be blank
-		*@li 71-75    UGC Catalog number [int] can be blank
-		*@li 77-END   Common name [string] can be blank
-		*@short Read the ngcic.dat deep-sky database.
-		*@return true if data file is successfully read.
-		*/
-	bool readDeepSkyData( void );
-
-	/**Populate the list of Asteroids from the data file.
-		*Each line in the data file is parsed as follows:
-		*@li 6-23 Name [string]
-		*@li 24-29 Modified Julian Day of orbital elements [int]
-		*@li 30-39 semi-major axis of orbit in AU [double]
-		*@li 41-51 eccentricity of orbit [double]
-		*@li 52-61 inclination angle of orbit in degrees [double]
-		*@li 62-71 argument of perihelion in degrees [double]
-		*@li 72-81 Longitude of the Ascending Node in degrees [double]
-		*@li 82-93 Mean Anomaly in degrees [double]
-		*@li 94-98 Magnitude [double]
-		*/
-//	bool readAsteroidData( void );
-
-	/**Populate the list of Comets from the data file.
-		*Each line in the data file is parsed as follows:
-		*@li 3-37 Name [string]
-		*@li 38-42 Modified Julian Day of orbital elements [double]
-		*@li 44-54 Perihelion distance in AU [double]
-		*@li 55-65 Eccentricity of orbit [double]
-		*@li 66-75 inclination of orbit in degrees [double]
-		*@li 76-85 argument of perihelion in degrees [double]
-		*@li 86-95 longitude of the ascending node in degrees[double]
-		*@li 96-110 Period of orbit in years [double]
-		*/
-	bool readCometData( void );
-
-	/**Read in Constellation line data.  The constellations are represented as a list of
-		*SkyPoints and an associated list of chars that indicates whether to draw a line
-		*between points (i) and (i+1) or to simply move to point (i+1). The lines are parsed
-		*according to column position:
-		*@li 0-1      RA hours [int]
-		*@li 2-3      RA minutes [int]
-		*@li 4-5      RA seconds [int]
-		*@li 6        Dec sign [char; '+' or '-']
-		*@li 7-9      Dec degrees [int]
-		*@li 10-11    Dec minutes [int]
-		*@li 12-13    Dec seconds [int]
-		*@li 14       draw indicator [char; 'D' or 'M']  'D'==draw line;  'M'==just move
-		*
-		*@short Read in constellation line data.
-		*@return true if data file was successfully read
-		*/
-//	bool readCLineData( void );
-
-	/**Read constellation names.  The coordinates are where the constellation name text
-		*will be centered.  The positions are imprecise, but that's okay since
-		*constellations are so large.  The lines are parsed according to column position:
-		*@li 0-1     RA hours [int]
-		*@li 2-3     RA minutes [int]
-		*@li 4-5     RA seconds [int]
-		*@li 6       Dec sign [char; '+' or '-']
-		*@li 7-8     Dec degrees [int]
-		*@li 9-10    Dec minutes [int]
-		*@li 11-12   Dec seconds [int]
-		*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-		*@li 17-     Constellation name [string]
-		*@short Read in constellation name data.
-		*@return TRUE if data file was successfully read.
-		*/
-//	bool readCNameData( void );
-
-	/**Read constellation boundary data.  The boundary data is defined by a series of 
-		*RA,Dec coordinate pairs defining the "nodes" of the boundaries.  The nodes are 
-		*organized into "segments", such that each segment represents a continuous series 
-		*of boundary-line intervals that divide two particular constellations.
-		*
-		*The definition of a segment begins with an integer describing the number of Nodes
-		*in the segment.  This is followed by that number of RA,Dec pairs (RA in hours, 
-		*Dec in degrees).  Finally, there is an integer indicating the number of 
-		*constellations bordered by this segment (this number is always 2), followed by
-		*the IAU abbreviations of the two constellations.
-		*
-		*Since the definition of a segment can span multiple lines, we parse this file 
-		*word-by-word, rather than line-by-line as we do in other files.
-		*
-		*@short Read in the constellation boundary data.
-		*@return TRUE if the boundary data is successfully parsed.
-		*/
-//	bool readCBoundData( void );
-
-	/**Read Milky Way data.  Coordinates for the Milky Way contour are divided into 11
-		*files, each representing a simple closed curve that can be drawn with
-		*drawPolygon().  The lines in each file are parsed according to column position:
-		*@li 0-7     RA [float]
-		*@li 9-16    Dec [float]
-		*@short read Milky Way contour data.
-		*@return true if all MW files were successfully read
-		*/
-//	bool readMWData( void );
-
 	/**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
 		*@li 0-8 AAVSO Star Designation
 		*@li 10-20 Common star name
@@ -369,66 +202,6 @@ public:
 		*/
 	bool openURLFile(QString urlfile, QFile& file);
 
-	/**Initialize custom object catalogs from the files listed in the config file
-		*/
-//	bool readCustomCatalogs();
-
-	/**Add a user-defined object catalog to the list of custom catalogs.
-		*(Basically just calls createCustomCatalog() )
-		*/
-// 	bool addCatalog( QString filename );
-
-	/**Remove a user-defined object catalog from the list of custom catalogs.
-		*Also removes the objects from the ObjNames list.
-		*@param i the index identifier of the catalog to be removed
-		*/
-// 	bool removeCatalog( int i );
-
-	/**Read in and parse a custom object catalog.  Object data are read from a file, and 
-		*parsed into a CustomCatalog object.
-		*@param filename name of the custom catalog file
-		*@param showerrs show GUI window summarizing parsing errors
-		*@return pointer to the new catalog
-		*/
-// 	CustomCatalog* createCustomCatalog( QString filename, bool showerrs = false );
-
-	/**@short Parse the header of the custom object catalog.
-		*@param lines string list containing the lines from the custom catalog file
-		*@param Columns reference to list of descriptors of the data columns
-		*@param catName reference to the name of the catalog (read from header)
-		*@param catPrefix reference to the prefix for ID-number-based names (read from header)
-		*@param catColor reference to the color for the object symbols (read from header)
-		*@param catEpoch reference to the coordinate epoch of the catalog (read from header)
-		*@param iStart reference to the line number of the first data line (following the header)
-		*@param showerrs if true, notify user of problems parsing the header.
-		*@param errs reference to the cumulative list of error reports
-		*/
-// 	bool parseCustomDataHeader( QStringList lines, QStringList &Columns, 
-// 			QString &catName, QString &catPrefix, QString &catColor, float &catEpoch, int &iStart, 
-// 			bool showerrs, QStringList &errs );
-
-	/**@short Parse a line from custom object catalog.  If parsing is successful, add
-		*the object to the object list
-		*@param num the line number being processed
-		*@param d list of fields in the line
-		*@param Columns the list of field descriptors (read from the header)
-		*@param Prefix the string prefix to be prepended to ID numbers (read from the header)
-		*@param objList reference to the list of SkyObjects in the catalog
-		*@param showerrs if true, notify user of problems parsing the header.
-		*@param errs reference to the cumulative list of error reports
-		*/
-// 	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
-// 			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
-
-//JH: Moved to StarComponent
-//	/**@short reset the faint limit for the stellar database
-//		*@param newMagnitude the new faint limit.
-//		*@param forceReload will force a reload also if newMagnitude <= maxSetMagnitude
-//		*it's needed to set internal maxSetMagnitude and reload data later; is used in
-//		*checkDataPumpAction() and should not used outside.
-//		*/
-//	void setMagnitude( float newMagnitude, bool forceReload=false );
-
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
 		*class for some reason...:/
@@ -446,19 +219,14 @@ public:
 
 	/**@return pointer to the Earth object
 		*/
-	KSPlanet *earth() { return PCat->earth(); }
+//FIXME: can we live without this, or do we need a SkyMapComposite fcn?
+//	KSPlanet *earth() { return PCat->earth(); }
 
 	/**@short Find object by name.
 		*@param name Object name to find
 		*@return pointer to SkyObject matching this name
 		*/
 	SkyObject* objectNamed( const QString &name );
-
-	/**
-		*@short append a SkyObject to the list of named objects
-		*@p o The SkyObject to be added
-		*/
-	void appendNamedObject( SkyObject *o );
 
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
@@ -672,57 +440,28 @@ private:
 	*/
 	int lastFileIndex;
 
-	static QList<GeoLocation> geoList;
 	QList<SkyObject> objList;
 
 // 	QPtrList<StarObject> starList;
 
 	unsigned int StarCount;
 
-  /** List of all deep sky objects */
-// 	QPtrList<DeepSkyObject> deepSkyList;
-  /** List of all deep sky objects per type, to speed up drawing the sky map */
-// 	QPtrList<DeepSkyObject> deepSkyListMessier;
-  /** List of all deep sky objects per type, to speed up drawing the sky map */
-// 	QPtrList<DeepSkyObject> deepSkyListNGC;
-  /** List of all deep sky objects per type, to speed up drawing the sky map */
-// 	QPtrList<DeepSkyObject> deepSkyListIC;
-  /** List of all deep sky objects per type, to speed up drawing the sky map */
-// 	QPtrList<DeepSkyObject> deepSkyListOther;
-
-//	QPtrList<KSAsteroid> asteroidList;
-//	QPtrList<KSComet> cometList;
-
-//	QPtrList<SkyPoint> MilkyWay[NMWFILES];
-
-//	QPtrList<SkyPoint> clineList;
-//	QPtrList<CSegment> csegmentList;
-//	QPtrList<QChar> clineModeList;
-//	QPtrList<SkyObject> cnameList;
-
-	/** List of pointers to all objects which have a user label attahed */
+	/** List of pointers to all objects which have a user label attached */
 	QList<SkyObject*> ObjLabelList;
 
-//	QPtrList<SkyPoint> Equator;
-//	QPtrList<SkyPoint> Ecliptic;
-//	QPtrList<SkyPoint> Horizon;
+	//FIXME: these need to be converted to QList
 	Q3PtrList<VariableStarInfo> VariableStarsList;
 	Q3PtrList<ADVTreeData> ADVtreeList;
 	Q3PtrList<INDIHostsInfo> INDIHostsList;
-	Q3PtrList<SkyObject> INDITelescopeList;
+	Q3PtrList<SkyObject> INDITelescopeList; //needs to be a Component?
 	
-// 	QPtrList<CustomCatalog> CustomCatalogs;
-//	ObjectNameList ObjNames;
-
 	SkyMapComposite* m_SkyComposite;
-
-	static QMap<QString, TimeZoneRule> Rulebook;
 	
 	GeoLocation Geo;
 	SimClock Clock;
+	KStarsDateTime LTime;
 	ColorScheme CScheme;
 
-	KStarsDateTime LTime;
 
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
@@ -732,12 +471,7 @@ private:
 
 	dms *LST, *HourAngle;
 
-	QString TypeName[NTYPENAME];
 	KKey resumeKey;
-
-	PlanetCatalog *PCat;
-	KSMoon *Moon;
-	JupiterMoons *jmoons;
 
 	FOV fovSymbol;
 
@@ -749,10 +483,12 @@ private:
 	QTimer *initTimer;
 	int initCounter;
 
-/**
-	*Count the number of KStarsData objects.
-	*/
+	//--- Static member variables
+	//the number of KStarsData objects.
 	static int objects;
+	static QString TypeName[];
+	static QList<GeoLocation*> geoList;
+	static QMap<QString, TimeZoneRule> Rulebook;
 };
 
 
