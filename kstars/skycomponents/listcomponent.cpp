@@ -30,6 +30,8 @@ ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 
 ListComponent::~ListComponent()
 {
+	while ( ! objectList().isEmpty() )
+		delete objectList().takeFirst();
 }
 
 void ListComponent::update( KStarsData *data, KSNumbers *num )

@@ -44,6 +44,14 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent, bool (*vMethodDeepSky)
 
 DeepSkyComponent::~DeepSkyComponent()
 {
+	while ( ! m_MessierList.isEmpty() ) 
+		delete  m_MessierList.takeFirst();
+	while ( ! m_NGCList.isEmpty() ) 
+		delete  m_NGCList.takeFirst();
+	while ( ! m_ICList.isEmpty() ) 
+		delete  m_ICList.takeFirst();
+	while ( ! m_OtherList.isEmpty() ) 
+		delete  m_OtherList.takeFirst();
 }
 
 void DeepSkyComponent::init(KStarsData *)

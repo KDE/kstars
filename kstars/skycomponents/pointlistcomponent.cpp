@@ -27,6 +27,8 @@ PointListComponent::PointListComponent( SkyComponent *parent, bool (*visibleMeth
 
 PointListComponent::~PointListComponent()
 {
+	while ( ! pointList().isEmpty() ) 
+		delete  pointList().takeFirst();
 }
 
 void PointListComponent::update( KStarsData *data, KSNumbers *num )

@@ -31,6 +31,7 @@ SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
 
 SingleComponent::~SingleComponent()
 {
+	delete m_StoredObject;
 }
 
 void SingleComponent::update( KStarsData *data, KSNumbers *num )

@@ -33,7 +33,10 @@ ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComponent *pa
 {
 }
 
-ConstellationBoundaryComponent::~ConstellationBoundaryComponent() {
+ConstellationBoundaryComponent::~ConstellationBoundaryComponent() 
+{
+	while ( ! segmentList().isEmpty() ) 
+		delete segmentList().takeFirst();
 }
 
 // bool KStarsData::readCLineData( void )
