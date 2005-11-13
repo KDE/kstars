@@ -143,20 +143,19 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 	FileName = cs.FileName;
 }
 
-QString ColorScheme::colorNamed( const QString &name ) const {
-	//QString color( Palette[ name ] );
+QColor ColorScheme::colorNamed( const QString &name ) const {
 	if ( ! hasColorNamed( name ) ) {
 		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
 		//color = "#FFFFFF"; //set to white if no color found
-		return "#FFFFFF";
+		return QColor( Qt::white );
 	}
 
-	return Palette[ name ];
+	return QColor( Palette[ name ] );
 }
 
-QString ColorScheme::colorAt( int i ) const {
+QColor ColorScheme::colorAt( int i ) const {
 	SL_it it = KeyName.at(i);
-	return Palette[ QString(*it) ];
+	return QColor( Palette[ QString(*it) ] );
 }
 
 QString ColorScheme::nameAt( int i ) const {

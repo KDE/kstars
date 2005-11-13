@@ -60,14 +60,14 @@ class ColorScheme {
 	/**
 		*@short Retrieve a color by name.  
 		*@p name the key name of the color to be retrieved.
-		*@return the requested color, or "#FFFFFF" (white) if color name not found. 
+		*@return the requested color, or Qt::white if color name not found. 
 		*/
-		QString colorNamed( const QString &name ) const;
+		QColor colorNamed( const QString &name ) const;
 		
 	/**@p i the index of the color to retrieve
 		*@return a color by its index in the QMap
 		*/
-		QString colorAt( int i ) const;
+		QColor colorAt( int i ) const;
 		
 	/**@p i the index of the long name to retrieve
 		*@return the name of the color at index i

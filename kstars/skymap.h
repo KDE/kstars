@@ -357,7 +357,7 @@ public:
 	*@see KStars::slotExportImage()
 	*@see KStars::slotPrint()
 	*/
-	void exportSkyImage( const QPaintDevice *pd );
+	void exportSkyImage( QPaintDevice *pd );
 
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
@@ -648,101 +648,6 @@ private slots:
 	void setMouseMoveCursor();
 
 private:
-// Drawing functions.  Each takes a QPainter reference and a scaling factor as arguments.
-// The QPainter is usually the Sky pixmap, but it can also be the Export-to-Image pixmap, or the 
-// Printer device.  The scaling factors are 1.0 by default (for screen images).  The scale factor
-// is used to resize the image to fit the page when printing or exporting to a file.
-
-/**@short Draw the Milky Way contour.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-//	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the coordinate system grid lines.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-//	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Celestial Equator line.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawEquator( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Ecliptic line.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawEcliptic( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Horizon Line, the compass point labels, and the opaque ground.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	
-//	void drawHorizon( QPainter& psky, double scale = 1.0 );
-/**@short Draw the Constellation Lines.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawConstellationLines( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Constellation Boundaries.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawConstellationBoundaries( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Constellation Names.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawConstellationNames( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Stars.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawStars( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw the Deep-Sky Objects.  
-	*
-	*Calls drawDeepSkyCatalog() for each catalog (Messier/NGC/IC/Custom)
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*@see SkyMap::drawDeepSkyCatalog()
-	*/
-// 	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
-	
-/**@short Draw a Deep-Sky Catalog.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param catalog List of pointers to the objects in a particular deep-sky catalog.
-	*@param color The color to be used when drawing the symbols for this catalog.
-	*@param drawObject if TRUE, the object symbols will be drawn
-	*@param drawImage if TRUE, the object images will be drawn
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-// 	void drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
-	
-/**@short Draw the Planet Trails.
-	*
-	*"Planet Trails" can be attached to any solar system body; they are lists of SkyPoints
-	*tracing the path of a body across the sky.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param ksp pointer to the solar-system bosy whose trail is to be drawn.
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
-	
-/**@short Draw all solar system bodies: Sun, Moon, 8 planets, comets, asteroids.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param drawPlanets if FALSE, do nothing
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
-	
 /**@short Draw "User Labels".  User labels are name labels attached to objects manually with 
 	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
 	*is TRUE.
@@ -761,24 +666,8 @@ private:
 	*@see SkyMap::drawAttachedLabels()
 	*@see SkyMap::getXY()
 	*/
-	void drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale );
+	void drawNameLabel( QPainter &psky, SkyObject *obj, float x, float y, double scale );
 
-/**Draw a planet.  This is an image if the planet image is loaded, the zoomlevel
-	*is high enough (but not so high that the image fills the screen), and the
-	*user has selected that planet images be shown.  If one of these conditions
-	*is false, then a simple colored circle is drawn instead.  
-	*@param psky reference to the QPainter on which to draw
-	*@param p pointer to the KSPlanetBase to be drawn
-	*@param c the color of the circle to be used if not plotting an image of the planet
-	*@param zoommin the minimum zoomlevel for drawing the planet image
-	*@param resize_mult scale factor for angular size of planet.  This is used only for Saturn, 
-	*because its image includes the Rings, which are not included in its angular size measurement. 
-	*(there's probably a better way to handle this)
-	*@param scale the scale factor used for printing the sky image.
-	*/
-	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
-			double zoommin, int resize_mult = 1, double scale = 1.0 );
-	
 /**Draw the overlays on top of the sky map.  These include the infoboxes,
 	*field-of-view indicator, telescope symbols, zoom box and any other
 	*user-interaction graphics.

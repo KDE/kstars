@@ -48,7 +48,9 @@
 void SkyMap::resizeEvent( QResizeEvent * )
 {
 	computeSkymap = true; // skymap must be new computed
-	if ( testWState(WState_AutoMask) ) updateMask();
+
+//FIXME: No equivalent for this line in Qt4 ??
+//	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
 	// avoid phantom positions of infoboxes
 	if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
@@ -63,7 +65,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	bool arrowKeyPressed( false );
 	bool shiftPressed( false );
 	float step = 1.0;
-	if ( e->state() & ShiftButton ) { step = 10.0; shiftPressed = true; }
+	if ( e->state() & Qt::ShiftButton ) { step = 10.0; shiftPressed = true; }
 	
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
@@ -73,7 +75,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	}
 
 	switch ( e->key() ) {
-		case Key_Left :
+		case Qt::Key_Left :
 			if ( Options::useAltAz() ) {
 				focus()->setAz( dms( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
@@ -87,7 +89,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			++scrollCount;
 			break;
 
-		case Key_Right :
+		case Qt::Key_Right :
 			if ( Options::useAltAz() ) {
 				focus()->setAz( dms( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
 				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
@@ -101,7 +103,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			++scrollCount;
 			break;
 
-		case Key_Up :
+		case Qt::Key_Up :
 			if ( Options::useAltAz() ) {
 				focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/Options::zoomFactor() );
 				if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
@@ -117,7 +119,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			++scrollCount;
 			break;
 
-		case Key_Down:
+		case Qt::Key_Down:
 			if ( Options::useAltAz() ) {
 				focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/Options::zoomFactor() );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
@@ -133,124 +135,124 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			++scrollCount;
 			break;
 
-		case Key_Plus:   //Zoom in
-		case Key_Equal:
+		case Qt::Key_Plus:   //Zoom in
+		case Qt::Key_Equal:
 			if ( ksw ) ksw->slotZoomIn();
 			break;
 
-		case Key_Minus:  //Zoom out
-		case Key_Underscore:
+		case Qt::Key_Minus:  //Zoom out
+		case Qt::Key_Underscore:
 			if ( ksw ) ksw->slotZoomOut();
 			break;
 
 //In the following cases, we set slewing=true in order to disengage tracking
-		case Key_N: //center on north horizon
+		case Qt::Key_N: //center on north horizon
 			stopTracking();
 			setDestinationAltAz( 15.0, 0.0001 );
 			break;
 
-		case Key_E: //center on east horizon
+		case Qt::Key_E: //center on east horizon
 			stopTracking();
 			setDestinationAltAz( 15.0, 90.0 );
 			break;
 
-		case Key_S: //center on south horizon
+		case Qt::Key_S: //center on south horizon
 			stopTracking();
 			setDestinationAltAz( 15.0, 180.0 );
 			break;
 
-		case Key_W: //center on west horizon
+		case Qt::Key_W: //center on west horizon
 			stopTracking();
 			setDestinationAltAz( 15.0, 270.0 );
 			break;
 
-		case Key_Z: //center on Zenith
+		case Qt::Key_Z: //center on Zenith
 			stopTracking();
 			setDestinationAltAz( 90.0, focus()->az()->Degrees() );
 			break;
 
-		case Key_0: //center on Sun
-			setClickedObject( data->PCat->findByName("Sun") );
+		case Qt::Key_0: //center on Sun
+			setClickedObject( data->skyComposite()->findByName("Sun") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_1: //center on Mercury
-			setClickedObject( data->PCat->findByName("Mercury") );
+		case Qt::Key_1: //center on Mercury
+			setClickedObject( data->skyComposite()->findByName("Mercury") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_2: //center on Venus
-			setClickedObject( data->PCat->findByName("Venus") );
+		case Qt::Key_2: //center on Venus
+			setClickedObject( data->skyComposite()->findByName("Venus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_3: //center on Moon
-			setClickedObject( data->Moon );
+		case Qt::Key_3: //center on Moon
+			setClickedObject( data->skyComposite()->findByName("Moon") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_4: //center on Mars
-			setClickedObject( data->PCat->findByName("Mars") );
+		case Qt::Key_4: //center on Mars
+			setClickedObject( data->skyComposite()->findByName("Mars") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_5: //center on Jupiter
-			setClickedObject( data->PCat->findByName("Jupiter") );
+		case Qt::Key_5: //center on Jupiter
+			setClickedObject( data->skyComposite()->findByName("Jupiter") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_6: //center on Saturn
-			setClickedObject( data->PCat->findByName("Saturn") );
+		case Qt::Key_6: //center on Saturn
+			setClickedObject( data->skyComposite()->findByName("Saturn") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_7: //center on Uranus
-			setClickedObject( data->PCat->findByName("Uranus") );
+		case Qt::Key_7: //center on Uranus
+			setClickedObject( data->skyComposite()->findByName("Uranus") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_8: //center on Neptune
-			setClickedObject( data->PCat->findByName("Neptune") );
+		case Qt::Key_8: //center on Neptune
+			setClickedObject( data->skyComposite()->findByName("Neptune") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_9: //center on Pluto
-			setClickedObject( data->PCat->findByName("Pluto") );
+		case Qt::Key_9: //center on Pluto
+			setClickedObject( data->skyComposite()->findByName("Pluto") );
 			setClickedPoint( clickedObject() );
 			slotCenter();
 			break;
 
-		case Key_BracketLeft:   // Begin measuring angular distance
+		case Qt::Key_BracketLeft:   // Begin measuring angular distance
 			if ( !isAngleMode() ) {
 				slotBeginAngularDistance();
 			}
 
 			break;
 
-		case Key_BracketRight:  // End measuring angular distance
+		case Qt::Key_BracketRight:  // End measuring angular distance
 			if ( isAngleMode() ) {
 				slotEndAngularDistance();
 			}
 
 			break;
 
-		case Key_Escape:        // Cancel angular distance measurement
+		case Qt::Key_Escape:        // Cancel angular distance measurement
 			if  (isAngleMode() ) {
 				slotCancelAngularDistance();
 			}
 			break;
 
-		case Key_Comma:  //advance one step backward in time
-		case Key_Less:
+		case Qt::Key_Comma:  //advance one step backward in time
+		case Qt::Key_Less:
 			if ( data->clock()->isActive() ) data->clock()->stop();
 			data->clock()->setScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
 			data->clock()->manualTick( true );
@@ -259,8 +261,8 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kapp->processEvents();
 			break;
 
-		case Key_Period: //advance one step forward in time
-		case Key_Greater:
+		case Qt::Key_Period: //advance one step forward in time
+		case Qt::Key_Greater:
 			if ( data->clock()->isActive() ) data->clock()->stop();
 			data->clock()->manualTick( true );
 			update();
@@ -268,28 +270,28 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 			//FIXME: Uncomment after feature thaw!
-//		case Key_C: //Center clicked object object
+//		case Qt::Key_C: //Center clicked object object
 //			if ( clickedObject() ) slotCenter();
 //			break;
 
-		case Key_D: //Details window for Clicked/Centered object
+		case Qt::Key_D: //Details window for Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) slotDetail();
 			break;
 
-		case Key_P: //Show Popup menu for Clicked/Centered object
+		case Qt::Key_P: //Show Popup menu for Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) 
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			break;
 
-		case Key_O: //Add object to Observing List
+		case Qt::Key_O: //Add object to Observing List
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) 
 				ksw->observingList()->slotAddObject();
 			break;
 
-		case Key_L: //Toggle User label on Clicked/Centered object
+		case Qt::Key_L: //Toggle User label on Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) {
 				if ( isObjectLabeled( clickedObject() ) )
@@ -299,7 +301,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			}
 			break;
 
-		case Key_T: //Toggle planet trail on Clicked/Centered object (if solsys) 
+		case Qt::Key_T: //Toggle planet trail on Clicked/Centered object (if solsys) 
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() && clickedObject()->isSolarSystem() ) {
 				if ( ((KSPlanetBase*)clickedObject())->hasTrail() )
@@ -313,7 +315,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 //TIMING
 /*
-		case Key_G: //loop through all cities
+		case Qt::Key_G: //loop through all cities
 		{
 
       QFile file;
@@ -417,10 +419,10 @@ void SkyMap::stopTracking() {
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 	switch ( e->key() ) {
-		case Key_Left :  //no break; continue to Key_Down
-		case Key_Right :  //no break; continue to Key_Down
-		case Key_Up :  //no break; continue to Key_Down
-		case Key_Down :
+		case Qt::Key_Left :  //no break; continue to Qt::Key_Down
+		case Qt::Key_Right :  //no break; continue to Qt::Key_Down
+		case Qt::Key_Up :  //no break; continue to Qt::Key_Down
+		case Qt::Key_Down :
 			slewing = false;
 			scrollCount = 0;
 
@@ -458,7 +460,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	//Are we defining a ZoomRect?
 	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
 		//cancel operation if the user let go of CTRL
-		if ( !( e->state() & ControlButton ) ) {
+		if ( !( e->state() & Qt::ControlButton ) ) {
 			ZoomRect = QRect(); //invalidate ZoomRect
 			update();
 		} else {
@@ -635,12 +637,12 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	//did we Grab an infoBox?
-	if ( e->button() == LeftButton && infoBoxes()->grabBox( e ) ) {
+	if ( e->button() == Qt::LeftButton && infoBoxes()->grabBox( e ) ) {
 		update(); //refresh without redrawing skymap
 		return;
 	}
 
-	if ( (e->state() & ControlButton) && (e->button() == LeftButton) ) {
+	if ( (e->state() & Qt::ControlButton) && (e->button() == Qt::LeftButton) ) {
 		ZoomRect.moveCenter( e->pos() );
 		setZoomMouseCursor();
 		update(); //refresh without redrawing skymap
@@ -655,13 +657,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	double dy = ( 0.5*height() - e->y() )/Options::zoomFactor();
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
-	if ( !midMouseButtonDown && e->button() == MidButton ) {
+	if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
 		y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
 		midMouseButtonDown = true;
 	}
 
 	if ( !mouseButtonDown ) {
-		if ( e->button()==LeftButton ) {
+		if ( e->button() == Qt::LeftButton ) {
 			mouseButtonDown = true;
 			scrollCount = 0;
 		}
@@ -673,16 +675,16 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 		//Find object nearest to clickedPoint()
 		double maxrad = 200.0/Options::zoomFactor();
-		setClickedObject( objectNearest( clickedPoint(), maxrad ) );
+		setClickedObject( data->skyComposite()->objectNearest( clickedPoint(), maxrad ) );
 
 		if ( clickedObject() ) {
 			setClickedPoint( clickedObject() );
 			
-			if ( e->button() == RightButton ) {
+			if ( e->button() == Qt::RightButton ) {
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			}
 			
-			if ( ksw && e->button() == LeftButton ) {
+			if ( ksw && e->button() == Qt::LeftButton ) {
 				ksw->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
 			}
 		} else {
@@ -691,10 +693,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			setClickedObject( NULL );
 
 			switch (e->button()) {
-				case LeftButton:
+				case Qt::LeftButton:
 					if ( ksw ) ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
-				case RightButton:
+				case Qt::RightButton:
 				{
 					SkyObject *nullObj = new SkyObject( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
 					pmenu->createEmptyMenu( nullObj );
@@ -713,7 +715,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	//Was the event inside an infoBox?  If so, shade the box.
-	if ( e->button() == LeftButton ) {
+	if ( e->button() == Qt::LeftButton ) {
 		if ( infoBoxes()->shadeBox( e ) ) {
 			update();
 			return;
@@ -746,39 +748,26 @@ void SkyMap::paintEvent( QPaintEvent * )
 	QPainter psky;
 	setMapGeometry();
 
-	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
-	//the hideOnSlew option (which is true if slewing should hide objects),
-	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
-	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
-				&& Options::hideOnSlew() );
-
-	//shortcuts to inform wheter to draw different objects
-	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
-	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
-	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
-	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );
-	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
-	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
+//FIXME: What to do about the visibility logic?
+// 	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
+// 	//the hideOnSlew option (which is true if slewing should hide objects),
+// 	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
+// 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
+// 				&& Options::hideOnSlew() );
+// 
+// 	//shortcuts to inform wheter to draw different objects
+// 	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
+// 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
+// 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
+// 	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );
+// 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
+// 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
 	psky.begin( sky );
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
-	if ( drawMW ) drawMilkyWay( psky );
-	if ( drawGrid ) drawCoordinateGrid( psky );
-	
-	if ( drawCBounds ) drawConstellationBoundaries( psky );
-	if ( drawCLines ) drawConstellationLines( psky );
-	if ( drawCNames ) drawConstellationNames( psky );
-
-	if ( Options::showEquator() ) drawEquator( psky );
-	if ( Options::showEcliptic() ) drawEcliptic( psky );
-
-	//drawing to screen, so leave scale parameter at its default value of 1.0
-	drawStars( psky );
-	drawDeepSkyObjects( psky );
-	drawSolarSystem( psky, drawPlanets );
-	drawAttachedLabels( psky );
-	drawHorizon( psky );
+	//Draw all sky elements
+	data->skyComposite()->draw( ksw, psky );
 
 	//Finish up
 	psky.end();

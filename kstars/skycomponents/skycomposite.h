@@ -64,7 +64,7 @@ class SkyComposite : public SkyComponent
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
 
 		/**
 			*@short Delegate drawExportable requests to all sub 
@@ -73,7 +73,7 @@ class SkyComposite : public SkyComponent
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void drawExportable(KStars *ks, QPainter& psky, double scale);
+		virtual void drawExportable(KStars *ks, QPainter& psky, double scale = 1.0);
 		
 		/**
 			*@short Delegate init requests to all sub components
