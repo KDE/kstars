@@ -80,3 +80,15 @@ SkyObject* SkyComposite::findByName( const QString &name ) {
 	}
 	return 0;
 }
+
+SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
+	SkyObject *oTry = 0;
+	SkyObject *oBest = 0;
+
+	foreach ( SkyComponent *comp, components() ) {
+		oTry = comp->objectNearest( p, maxrad );
+		if ( oTry ) oBest = oTry; //found a closer object
+	}
+
+	return oBest; //will be 0 if no object nearer than maxrad was found
+}

@@ -71,7 +71,9 @@ class SingleComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
-		SkyObject* findByName( const QString &name );
+		virtual SkyObject* findByName( const QString &name );
+
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		SkyObject* skyObject() { return m_StoredObject; }
 		void setStoredObject( SkyObject *o ) { m_StoredObject = o; }

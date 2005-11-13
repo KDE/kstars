@@ -69,7 +69,9 @@ class ListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
-		SkyObject* findByName( const QString &name );
+		virtual SkyObject* findByName( const QString &name );
+
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		QList<SkyObject*>& objectList() { return ObjectList; }
 

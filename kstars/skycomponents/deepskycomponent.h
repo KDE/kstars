@@ -39,6 +39,7 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 class DeepSkyObject;
+class SkyPoint;
 
 class DeepSkyComponent: public SkyComponent
 {
@@ -67,7 +68,9 @@ class DeepSkyComponent: public SkyComponent
 			*@return a pointer to the SkyObject whose name matches
 			*the argument, or a NULL pointer if no match was found.
 			*/
-		SkyObject* findByName( const QString &name );
+		virtual SkyObject* findByName( const QString &name );
+
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 	private:
 		

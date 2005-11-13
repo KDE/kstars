@@ -74,6 +74,10 @@ void SkyComponent::emitProgressText( const QString &message ) {
 	parent()->emitProgressText( message );
 }
 
+SkyObject* SkyComponent::findByName( const QString & ) { return 0; }
+
+SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) { return 0; }
+
 //Reimplemented in Solar system components
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }

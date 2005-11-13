@@ -27,6 +27,7 @@ class KSNumbers;
 class KStars;
 class KStarsData;
 class SkyObject;
+class SkyPoint;
 
 	/**
 		*@short static placeholder function for SkyComponents that don't 
@@ -154,11 +155,29 @@ class SkyComponent
 			*the argument, or a NULL pointer if no match was found.
 			*@note This function simply returns the NULL pointer; it 
 			*is reimplemented in various sub-classes
+			*@sa SkyComposite::findByName()
 			*@sa SingleComponent::findByName()
 			*@sa ListComponent::findByName()
 			*@sa DeepSkyComponent::findByName()
 			*/
-		SkyObject* findByName( const QString &name );
+		virtual SkyObject* findByName( const QString &name );
+
+		/**
+			*@short Find the SkyObject nearest the given SkyPoint
+			*
+			*Look for a SkyObject that is nearer to point p than maxrad.
+			*If one is found, then maxrad is reset to the separation of the new nearest object.
+			*@p p pointer to the SkyPoint to search around
+			*@p maxrad reference to current search radius
+			*@return a pointer to the nearest SkyObject
+			*@note This function simply returns a NULL pointer; it is
+			*reimplemented in various sub-classes.
+			*@sa SkyComposite::objectNearest()
+			*@sa SingleComponent::objectNearest()
+			*@sa ListComponent::objectNearest()
+			*@sa DeepSkyComponent::objectNearest()
+			*/
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		void emitProgressText( const QString &message );
 

@@ -164,7 +164,16 @@ class SkyComposite : public SkyComponent
 			*@return a pointer to the SkyObject whose name matches
 			*the argument, or a NULL pointer if no match was found.
 			*/
-		SkyObject* findByName( const QString &name );
+		virtual SkyObject* findByName( const QString &name );
+
+		/**
+			*@short Identify the nearest SkyObject to the given SkyPoint,
+			*among the children of this SkyComposite
+			*@p p pointer to the SkyPoint around which to search.
+			*@p maxrad reference to current search radius 
+			*@return a pointer to the nearest SkyObject
+			*/
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		QList<SkyComponent*>& components() { return m_Components; }
 

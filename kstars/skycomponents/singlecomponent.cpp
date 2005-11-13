@@ -49,3 +49,13 @@ SkyObject* SingleComponent::findByName( const QString &name ) {
 
 	return 0;
 }
+
+SkyObject* SingleComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+	double r = skyObject()->angularDistanceTo( p ).Degrees();
+	if ( r < maxrad ) {
+		maxrad = r;
+		return skyObject();
+	}
+
+	return 0;
+}

@@ -306,3 +306,43 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 	//No object found
 	return 0;
 }
+
+SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+	SkyObject *oBest = 0;
+	double r;
+
+	foreach ( SkyObject *o, m_MessierList ) {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < maxrad ) {
+			maxrad = r;
+			oBest = o;
+		}
+	}
+
+	foreach ( SkyObject *o, m_NGCList )  {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < maxrad ) {
+			maxrad = r;
+			oBest = o;
+		}
+	}
+
+	foreach ( SkyObject *o, m_ICList )  {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < maxrad ) {
+			maxrad = r;
+			oBest = o;
+		}
+	}
+
+	foreach ( SkyObject *o, m_OtherList )  {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < maxrad ) {
+			maxrad = r;
+			oBest = o;
+		}
+	}
+
+	return oBest;
+}
+
