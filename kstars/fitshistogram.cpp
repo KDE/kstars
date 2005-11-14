@@ -23,13 +23,13 @@
  #include <math.h>
  #include <stdlib.h>
  
- #include <qpainter.h>
- #include <qslider.h>
- #include <qcursor.h>
- #include <qpen.h>
- #include <qpixmap.h>
- #include <qradiobutton.h>
- #include <qpushbutton.h>
+ #include <QPainter>
+ #include <QSlider>
+ #include <QCursor>
+ #include <QPen>
+ #include <QPixmap>
+ #include <QRadioButton>
+ #include <QPushButton>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -167,10 +167,12 @@ void FITSHistogram::constructHistogram(float * buffer)
  
  kdDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
  
- histogram = new QPixmap(500, 150, 1);
+ //histogram = new QPixmap(500, 150, 1);
+ // Qt4 --> Qt4 port
+ histogram = new QPixmap(500, 150);
  histogram->fill(Qt::black);
  QPainter p(histogram);
- QPen pen( white, 1);
+ QPen pen( Qt::white, 1);
  p.setPen(pen);
    
  for (int i=0; i < BARS; i++)
@@ -189,11 +191,11 @@ void FITSHistogram::paintEvent( QPaintEvent */*e*/)
   
   bitBlt(histFrame, 0, 0, histogram);
   
-  pen.setColor(blue);
+  pen.setColor(Qt::blue);
   p.setPen(pen);
   
   p.drawLine(xMin, height - 2, xMin, height/2 -2);
-  pen.setColor(red);
+  pen.setColor(Qt::red);
   p.setPen(pen);
   p.drawLine(xMax, 2, xMax, height/2 -2);
   

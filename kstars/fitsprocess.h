@@ -51,7 +51,7 @@ class FITSProcess
      float *finalFlat;
      float *finalDarkFlat;
      
-     float * combine(QList<float> & frames, int mode);
+     float * combine(QList<float *> & frames, int mode);
      void subtract(float * img1, float * img2);
      void divide(float * img1, float * img2);
      void reduce();

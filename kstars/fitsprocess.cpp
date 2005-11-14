@@ -55,7 +55,7 @@
    int nprogress = 0;
    
    /* #1 Load dark frames */
-   for (unsigned int i=0; i < darkFiles.size(); i++)
+   for (int i=0; i < darkFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(darkFiles[i].ascii(), buffer)) == NULL)
      {
@@ -69,7 +69,7 @@
    }
    
    /* Load flat frames */
-   for (unsigned int i=0; i < flatFiles.size(); i++)
+   for (int i=0; i < flatFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(flatFiles[i].ascii(), buffer)) == NULL)
      {
@@ -83,7 +83,7 @@
    }
    
    /* Load dark frames for the flat field */
-   for (unsigned int i=0; i < darkflatFiles.size(); i++)
+   for (int i=0; i < darkflatFiles.size(); i++)
    {
      if ( (buffer = viewer->loadData(darkflatFiles[i].ascii(), buffer)) == NULL)
      {
@@ -105,7 +105,7 @@ FITSProcess::~FITSProcess() {
 	while ( ! darkflatFrames.isEmpty() ) delete darkflatFrames.takeFirst();
 }
  
-float * FITSProcess::combine(QList<float*> & frames, int mode)
+float * FITSProcess::combine(QList<float *> & frames, int mode)
  {
     int nframes = frames.count();
     float *dest;

@@ -51,6 +51,8 @@
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include <netinet/in.h>
 
 #include "fitsviewer.h"
@@ -587,7 +589,7 @@ void FITSViewer::fileSave()
 	bitpixRec.sprintf("BITPIX  =                    %d /Modified by KStars                               ", image->bitpix);
 	bitpixRec.truncate(80);
 	
-	for (unsigned int j=0; j < record.count(); j++)
+	for (int j=0; j < record.count(); j++)
 	{
 	  recordList = record[j];
 	  
@@ -908,7 +910,7 @@ void FITSViewer::fitsHeader()
    header.headerView->setSorting(-1);
    header.headerView->setColumnAlignment(1, Qt::AlignHCenter);
    
-   for (unsigned int i=0; i < record.count(); i++)
+   for (int i=0; i < record.count(); i++)
    {
      recordList = record[i];
      //recordList = QString((char *) record);
