@@ -1,24 +1,26 @@
-noinst_LIBRARIES = libkstarswidgets.a
+INCLUDES = -I$(top_srcdir) $(all_includes)
 
-libkstarswidgets_a_SOURCES = dmsbox.cpp draglistbox.cpp \
-	kstarsplotwidget.cpp magnitudespinbox.cpp \
+lib_LTLIBRARIES = libkstarswidgets.la
+
+libkstarswidgets_la_SOURCES = ../dms.cpp dmsbox.cpp draglistbox.cpp \
+	kstarsplotwidget.cpp magnitudespinbox.cpp mapcanvas.cpp \
 	timespinbox.cpp timestepbox.cpp timeunitbox.cpp 
 
-libkstarswidgets_a_LDFLAGS = $(all_libraries) -no-undefined 
-libkstarswidgets_la_LIBADD  = $(LIB_QTDESIGNER) $(LIB_KIO)
+#libkstarswidgets_a_LDFLAGS = $(all_libraries) -no-undefined 
+#libkstarswidgets_la_LIBADD  = $(LIB_QTDESIGNER) $(LIB_KIO)
 
 AM_CXXFLAGS = -DQT_PLUGIN
-kde_widget_LTLIBRARIES = kdepimwidgets.la
-kdepimwidgets_la_LDFLAGS = $(KDE_PLUGIN) -module $(all_libraries)
-kdepimwidgets_la_LIBADD = $(LIB_KIO) libkdepim.la
-kdepimwidgets_la_SOURCES = kdepimwidgets.cpp 
+kde_widget_LTLIBRARIES = kstarswidgets.la
+kstarswidgets_la_LDFLAGS = $(KDE_PLUGIN) -module $(all_libraries)
+kstarswidgets_la_LIBADD = $(LIB_KIO) $(LIB_QTDESIGNER) libkstarswidgets.la
+kstarswidgets_la_SOURCES = kstarswidgets.cpp 
 
-kdepimwidgets.cpp: $(srcdir)/kstars.widgets
-        $(MAKEKDEWIDGETS) -o kstarswidgets.cpp $(srcdir)/kstars.widgets
+kstarswidgets.cpp: $(srcdir)/kstars.widgets
+	$(MAKEKDEWIDGETS) -o kstarswidgets.cpp $(srcdir)/kstars.widgets
 
-kdepimwidgets.lo: kstarswidgets.moc
-kdepimwidgets.moc: kstarswidgets.cpp
-        $(MOC) -o kstarswidgets.moc kstarswidgets.cpp
+kstarswidgets.lo: kstarswidgets.moc
+kstarswidgets.moc: kstarswidgets.cpp
+	$(MOC) -o kstarswidgets.moc kstarswidgets.cpp
 
 CLEANFILES = kstarswidgets.cpp
 

@@ -28,8 +28,8 @@
 #include <QWhatsThis>
 #include <QFocusEvent>
 
-dmsBox::dmsBox(QWidget *parent, const char *name, bool dg) 
-	: KLineEdit(parent,name), EmptyFlag(true) {
+dmsBox::dmsBox(QWidget *parent, bool dg) 
+	: KLineEdit(parent), EmptyFlag(true) {
 	setMaxLength(14);
 	setMaximumWidth(160);
 	setDegType( dg );
@@ -114,7 +114,7 @@ void dmsBox::setDegType( bool t ) {
 			     "\"12 20\", \"12 20 00.0\", etc.)." ).arg(sDeg).arg(sMin).arg(sSec);
 	}
 
-	setTooltip( sTip );
+	setToolTip( sTip );
 	setWhatsThis( sWhatsThis );
 
 	clear();

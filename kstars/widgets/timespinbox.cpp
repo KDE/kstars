@@ -40,15 +40,15 @@
 TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
 	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
-	setValidator( 0 );
+  //	setValidator( 0 );
 	setButtonSymbols( QSpinBox::PlusMinus );
-	editor()->setReadOnly( true );
+	lineEdit()->setReadOnly( true );
 	setValue( 4 ); //1 second (real time)
 	setDaysOnly( _daysonly );
 
 	//Set width:
 	QFontMetrics fm( font() );
-	int extra = width() - editor()->width();
+	int extra = width() - lineEdit()->width();
 	uint wmax = 0;
 	for ( int i=0; i < maxValue(); ++i ) {
 		uint w = fm.width( "-" + TimeString[i] );
@@ -57,7 +57,7 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
 	setFixedWidth( wmax + extra );
 
 	connect( this, SIGNAL( valueChanged( int ) ), this, SLOT( reportChange() ) );
-	updateDisplay();
+	//	updateDisplay();
 }
 
 void TimeSpinBox::setDaysOnly( bool daysonly ) {

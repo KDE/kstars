@@ -28,8 +28,8 @@
 
 
 
-KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
- : KPlotWidget( x1, x2, y1, y2, parent, name ),
+KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent )
+ : KPlotWidget( x1, x2, y1, y2, parent ),
    dXtick2(0.0), dYtick2(0.0),
    nmajX2(0), nminX2(0), nmajY2(0), nminY2(0),
    XAxisType(DOUBLE), YAxisType(DOUBLE), XAxisType_0(DOUBLE), YAxisType_0(DOUBLE),
@@ -652,8 +652,8 @@ int KStarsPlotWidget::rightPadding() const {
 
 	bool secondaryYLimits( false );
 	if ( dataHeight2() > 0.0 && ( yb() != y() || yb2() != y2() ) ) secondaryYLimits = true;
-	if ( secondaryYLimits && ( ShowTickLabels && ! XAxisLabel2 ) ) return 3*XPADDING;
-	if ( secondaryYLimits && ( ShowTickLabels || ! XAxisLabel2 ) ) return 2*XPADDING;
+	if ( secondaryYLimits && ( ShowTickLabels && ! XAxisLabel2.isEmpty() ) ) return 3*XPADDING;
+	if ( secondaryYLimits && ( ShowTickLabels || ! XAxisLabel2.isEmpty() ) ) return 2*XPADDING;
 	return XPADDING;
 }
 
@@ -662,8 +662,8 @@ int KStarsPlotWidget::topPadding() const {
 
 	bool secondaryXLimits( false );
 	if ( dataWidth2()  > 0.0 && ( xb() != x() || xb2() != x2() ) ) secondaryXLimits = true;
-	if ( secondaryXLimits && ( ShowTickLabels && ! YAxisLabel2 ) ) return 3*YPADDING;
-	if ( secondaryXLimits && ( ShowTickLabels || ! YAxisLabel2 ) ) return 2*YPADDING;
+	if ( secondaryXLimits && ( ShowTickLabels && ! YAxisLabel2.isEmpty() ) ) return 3*YPADDING;
+	if ( secondaryXLimits && ( ShowTickLabels || ! YAxisLabel2.isEmpty() ) ) return 2*YPADDING;
 	return YPADDING;
 }
 

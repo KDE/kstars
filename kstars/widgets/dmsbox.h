@@ -18,11 +18,10 @@
 #ifndef DMSBOX_H
 #define DMSBOX_H
 
+#include <QFocusEvent>
 #include <klineedit.h>
 
-#include "dms.h"
-//Added by qt3to4:
-#include <QFocusEvent>
+#include "../dms.h"
 
 /**@class dmsBox
 	*A KLineEdit which is capable of displaying and parsing angle values
@@ -49,11 +48,10 @@ Q_PROPERTY (bool degType READ degType WRITE setDegType)
 public:
 	/**Constructor for the dmsBox object.
 		*@param parent pointer to the parent QWidget
-		*@param ni the name of the object
 		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
 		*           use hours/min/sec.
 		*/
-	dmsBox(QWidget *parent, const char *ni=0, bool deg=TRUE);
+	dmsBox(QWidget *parent, bool deg=TRUE);
 
 	/**Destructor (empty)*/
 	~dmsBox();

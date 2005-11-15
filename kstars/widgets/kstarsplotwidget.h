@@ -18,9 +18,9 @@
 #ifndef _KSTARSPLOTWIDGET_H_
 #define _KSTARSPLOTWIDGET_H_
 
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QWidget>
 #include <QPixmap>
+
 #include <libkdeedu/kdeeduplot/kplotwidget.h>
 
 #define BIGTICKSIZE 10
@@ -43,7 +43,7 @@ class KStarsPlotWidget : public KPlotWidget {
 public:
 /**Constructor
 	*/
-	KStarsPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
+	KStarsPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0 );
 
 /**Destructor (empty)
 	*/
