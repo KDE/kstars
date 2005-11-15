@@ -10,7 +10,7 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 			argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argtimescale.ui \
 			argwaitforkey.ui argwaitfor.ui argzoom.ui argexportimage.ui argprintimage.ui \
 			argsetcolor.ui argloadcolorscheme.ui scriptbuilder.cpp scriptfunction.cpp \
-			planetviewerui.ui planetviewer.cpp jmoontool.cpp kstarsplotwidget.cpp \
+			planetviewerui.ui planetviewer.cpp jmoontool.cpp \
 			modcalcequinoxdlg.ui modcalcequinox.cpp modcalcplanetsdlg.ui modcalcplanets.cpp \
 			modcalceclipticcoordsdlg.ui modcalceclipticcoords.cpp modcalcangdistdlg.ui modcalcangdist.cpp \
 			observinglist.cpp observinglistui.ui argstartindi.ui argshutdownindi.ui argswitchindi.ui \
@@ -18,7 +18,9 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 			argsetfocusspeedindi.ui argstartfocusindi.ui argsetfocustimeoutindi.ui argsetgeolocationindi.ui \
 			argstartexposureindi.ui argsetutcindi.ui argsetframetypeindi.ui argsetscopeactionindi.ui \
 			argsetccdtempindi.ui modcalcvlsrdlg.ui modcalcvlsr.cpp argsetfilternumindi.ui \
-	obslistwizard.cpp obslistwizard.h obslistwizardui.ui
+			obslistwizard.cpp obslistwizard.h obslistwizardui.ui
+
+libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a
 
 INCLUDES= -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 

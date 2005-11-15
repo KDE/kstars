@@ -1,0 +1,16 @@
+[Global]
+PluginName=KStarsWidgets
+Includes=kinstance.h
+Init=new KInstance("kstarswidgets");
+
+[dmsBox]
+ToolTip=Line edit for displaying angle values (KStars)
+WhatsThis=A line edit which displays angle values and can parse entered strings into dms objects
+IncludeFile=dmsbox.h
+Group=KStars Widgets
+
+[DragListBox]
+ToolTip=List box that handles drag/drop events
+WhatsThis=A list box that handles drag/drop events.  This is written specifically for the Add Catalog tool in KStars.
+IncludeFile=draglistbox.h
+Group=KStars Widgets
