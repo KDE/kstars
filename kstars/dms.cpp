@@ -16,11 +16,12 @@
  ***************************************************************************/
 
 #include <stdlib.h>
+#include <QRegExp>
+#include <QStringList>
 
 #include "dms.h"
 #include <kglobal.h>
 #include <klocale.h>
-#include <qregexp.h>
 
 void dms::setD( const double &x ) {
 	D = x;

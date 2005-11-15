@@ -29,7 +29,7 @@
 #define NHIPFILES 127
 
 #include "listcomponent.h"
-#include "starpixmap.h"
+#include "../starpixmap.h"
 
 class SkyComponent;
 class KStars;

@@ -18,10 +18,9 @@
 #ifndef OBSERVINGLIST_H
 #define OBSERVINGLIST_H
 
-#include <kdialogbase.h>
-#include "skyobject.h"
-//Added by qt3to4:
 #include <Q3PtrList>
+#include <kdialogbase.h>
+#include "../skyobject.h"
 
 class KStars;
 class ObservingListUI;
