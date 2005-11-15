@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-
+#include <QValidator>
 #include "scriptfunction.h"
 
 

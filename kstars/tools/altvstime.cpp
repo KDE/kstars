@@ -529,7 +529,7 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	QPainter p;
 	p.begin( &buffer2 );
 	p.translate( leftPadding(), topPadding() );
-	p.setPen( QPen( "grey", 1, SolidLine ) );
+	p.setPen( QPen( "grey", 1, Qt::SolidLine ) );
 	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
 	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
 	p.end();
