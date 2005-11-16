@@ -375,7 +375,7 @@ void CCDVideoWG::redrawVideoWG(void)
         if (val>255.0) {
           val=255.0; 
 	}
-	val=round(val*(254.0/255.0));
+	val=qRound(val*(254.0/255.0));
 	displayBuffer[Width*y+x]=(int) val;
      }	
      else {
