@@ -165,6 +165,9 @@ int getOTATemp(double * value);
 int getTimeFormat(int *format);
 /* Get RA, DEC from Sky Commander controller */
 int updateSkyCommanderCoord(double *ra, double *dec);
+/* Get RA, DEC from Intelliscope/SkyWizard controllers */
+int updateIntelliscopeCoord (double *ra, double *dec);
+
 /**************************************************************************
  Set Commands
  **************************************************************************/

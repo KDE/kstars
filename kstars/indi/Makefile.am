@@ -7,7 +7,7 @@ if LINUX
 bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi
 endif
 
-bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount fliccd fliwheel flipdf temma skycommander $(bin_add)
+bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount fliccd fliwheel flipdf temma skycommander intelliscope $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
@@ -53,6 +53,9 @@ temma_LDADD = liblilxml.a libindicom.a -lm
 skycommander_SOURCES =  indidrivermain.c base64.c eventloop.c lx200driver.c skycommander.c
 skycommander_LDADD = liblilxml.a libindicom.a -lm
 
+intelliscope_SOURCES =  indidrivermain.c base64.c eventloop.c lx200driver.c intelliscope.c
+intelliscope_LDADD = liblilxml.a libindicom.a -lm
+
 apogee_ppi_SOURCES = apogee_ppi.cpp base64.c eventloop.c indidrivermain.c
 apogee_ppi_LDADD = libindicom.a liblilxml.a apogee/libapogee_PPI.la -lz
 
@@ -75,6 +78,10 @@ uninstall-local:
 
 KDE_OPTIONS = nofinal
 
+if LINUX
 SUBDIRS = fli webcam apogee
+else
+SUBDIRS = fli apogee
+endif
 
 include $(top_srcdir)/admin/Doxyfile.am

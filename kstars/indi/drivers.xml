@@ -78,6 +78,10 @@
 		<driver>lx200basic</driver>
 		<version>1.0</version>
 	</device>
+	<device label="Intelliscope/Sky Wizard" focal_length="" aperture="">
+		<driver>intelliscope</driver>
+		<version>0.2</version>
+	</device>
 </devGroup>
 <devGroup group="CCDs">
 	<device label="FLI CCD">

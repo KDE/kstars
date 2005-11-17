@@ -608,6 +608,42 @@ int updateSkyCommanderCoord(double *ra, double *dec)
 
 }
 
+int updateIntelliscopeCoord (double *ra, double *dec)
+{
+  char coords[16];
+  char CR[1] = { (char) 0x51 };	/* "Q" */
+  float RA = 0.0, DEC = 0.0;
+
+  IDLog ("Sending a Q\n");
+  write (fd, CR, 1);
+  /* We start at 14 bytes in case its a Sky Wizard, 
+     but read one more later it if it's a intelliscope */
+  read_ret = portRead (coords, 14, LX200_TIMEOUT);
+  IDLog ("portRead() = [%s]\n", coords);
+
+  /* Remove the Q in the response from the Intelliscope  but not the Sky Wizard */
+  if (coords[0] == 'Q') {
+    coords[0] = ' ';
+    /* Read one more byte if Intelliscope to get the "CR" */
+    read_ret = portRead (coords, 1, LX200_TIMEOUT);
+  }
+  read_ret = sscanf (coords, " %g %g", &RA, &DEC);
+  IDLog ("sscanf() RA = [%f]\n", RA * 0.0390625);
+  IDLog ("sscanf() DEC = [%f]\n", DEC * 0.0390625);
+
+  IDLog ("Intelliscope output [%s]", coords);
+  if (read_ret < 2) {
+    IDLog ("Error in Intelliscope number format [%s], exiting.\n", coords);
+    return -1;
+  }
+
+  *ra = RA * 0.0390625;
+  *dec = DEC * 0.0390625;
+
+  return 0;
+
+}
+
 
 /**********************************************************************
 * SET
