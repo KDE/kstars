@@ -2,7 +2,7 @@ Aabenraa                         : Jylland               : Denmark              
 Aachen                           :                       : Germany               : 50 : 46 : 00 : N :   6 : 06 : 00 : E : 1.0  : EU
 Aalborg                          : Jylland               : Denmark               : 57 :  5 : 48 : N :   9 : 50 : 48 : E :  1.0 : EU
 Aarhus                           : Jylland               : Denmark               : 56 :  8 : 59 : N :  10 : 13 : 59 : E :  1.0 : EU
-Abakan                           : Siberia               : Russia                : 53 : 43 :  0 : N :  91 : 26 :  0 : E :   7.0 : RU
+Abakan                           : Siberia               : Russia                : 53 : 43 :  0 : N :  91 : 26 :  0 : E :  7.0 : RU
 Abbotsford                       : British Columbia      : Canada                : 49 :  1 : 48 : N : 122 : 19 : 11 : W : -8.0 : US
 Aberdeen                         : Idaho                 : USA                   : 42 : 57 :  0 : N : 112 : 49 : 47 : W : -7.0 : US
 Aberdeen                         : Maryland              : USA                   : 39 : 30 : 42 : N :  76 :  9 : 42 : W : -5.0 : US
@@ -27,7 +27,7 @@ Afton                            : Wyoming               : USA                  
 Agadez                           :                       : Niger                 : 16 : 58 :  0 : N :   7 : 59 :  0 : E :  1.0 : --
 Agadir                           :                       : Morocco               : 30 : 20 :  0 : N :   9 : 24 :  0 : W :  0.0 : --
 Agana                            :                       : Guam                  : 13 : 28 : 54 : N : 144 : 47 : 35 : E : 10.0 : --
-Aginskoe                         : Siberia               : Russia                : 51 :  6 :  0 : N : 114 : 32 :  0 : E :   9.0 : RU
+Aginskoe                         : Siberia               : Russia                : 51 :  6 :  0 : N : 114 : 32 :  0 : E :  9.0 : RU
 Ahwahnee                         : California            : USA                   : 37 : 15 :  0 : N : 119 : 25 : 12 : W : -8.0 : US
 Aiken                            : South Carolina        : USA                   : 33 : 31 : 58 : N :  81 : 43 :  1 : W : -5.0 : US
 Ainsworth                        : Nebraska              : USA                   : 42 : 31 : 58 : N :  99 : 50 : 59 : W : -6.0 : US
@@ -81,7 +81,7 @@ Amilcar Cabral                   :                       : Cape Verde           
 Amman                            :                       : Jordan                : 31 : 56 : 59 : N :  35 : 57 :  0 : E :  2.0 : JD
 Amsterdam                        :                       : Netherlands           : 52 : 21 :  0 : N :   4 : 51 : 59 : E :  1.0 : EU
 Anaconda                         : Montana               : USA                   : 46 :  7 : 41 : N : 112 : 57 : 10 : W : -7.0 : US
-Anadyr                           : Far East              : Russia                : 64 : 45 :  0 : N : 177 : 29 :  0 : E :  12.0 : RU
+Anadyr                           : Far East              : Russia                : 64 : 45 :  0 : N : 177 : 29 :  0 : E : 12.0 : RU
 Anaheim                          : California            : USA                   : 33 : 50 :  6 : N : 117 : 54 : 46 : W : -8.0 : US
 Anchorage                        : Alaska                : USA                   : 61 : 10 :  0 : N : 149 : 58 : 58 : W : -9.0 : US
 Ancona                           :                       : Italy                 : 43 : 36 : 11 : N :  13 : 30 : 27 : E :  1.0 : EU
@@ -117,7 +117,7 @@ Arezzo                           :                       : Italy                
 Argyle                           : Minnesota             : USA                   : 48 : 21 :  0 : N :  96 : 47 : 59 : W : -6.0 : US
 Arica                            :                       : Chile                 : 18 : 21 :  0 : S :  70 : 19 : 59 : W : -4.0 : CL
 Arkadelphia                      : Arkansas              : USA                   : 34 :  6 :  0 : N :  93 :  4 : 58 : W : -6.0 : US
-Arkhangelsk                      : North-West Region     : Russia                : 64 : 33 :  0 : N :  40 : 32 :  0 : E :   3.0 : RU
+Arkhangelsk                      : North-West Region     : Russia                : 64 : 33 :  0 : N :  40 : 32 :  0 : E :  3.0 : RU
 Arlington                        : Massachusetts         : USA                   : 42 : 24 : 53 : N :  71 :  9 :  6 : W : -5.0 : US
 Arlington                        : Texas                 : USA                   : 32 : 44 : 12 : N :  97 :  6 : 47 : W : -6.0 : US
 Arlington                        : Virginia              : USA                   : 38 : 53 : 59 : N :  77 :  5 : 59 : W : -5.0 : US
@@ -200,7 +200,7 @@ Baraboo                          : Wisconsin             : USA                  
 Barcelona                        :                       : Spain                 : 41 : 23 : 03 : N :  02 : 10 : 35 : E : 1.0  : EU
 Bari                             :                       : Italy                 : 41 :  6 : 23 : N :  16 : 50 : 48 : E :  1.0 : EU
 Barletta                         :                       : Italy                 : 41 : 19 :  5 : N :  16 : 16 : 46 : E :  1.0 : EU
-Barnaul                          : Siberia               : Russia                : 53 : 22 :  0 : N :  83 : 45 :  0 : E :   6.0 : RU
+Barnaul                          : Siberia               : Russia                : 53 : 22 :  0 : N :  83 : 45 :  0 : E :  6.0 : RU
 Barnesville                      : Ohio                  : USA                   : 40 :  0 : 11 : N :  81 : 11 : 30 : W : -5.0 : US
 Barranquilla                     :                       : Colombia              : 10 : 54 :  0 : N :  74 : 46 : 59 : W : -5.0 : --
 Barre                            : Vermont               : USA                   : 44 : 11 : 53 : N :  72 : 30 :  6 : W : -5.0 : US
@@ -235,7 +235,7 @@ Beja                             :                       : Portugal             
 Belem                            :                       : Brazil                :  1 : 22 : 59 : S :  48 : 28 : 59 : W : -3.0 : --
 Belen                            : New Mexico            : USA                   : 34 : 40 :  1 : N : 106 : 45 :  0 : W : -7.0 : US
 Belfast                          : Northern Ireland      : United Kingdom        : 54 : 37 : 48 : N :   5 : 52 : 12 : W : 0.0  : EU
-Belgorod                         : Central Region        : Russia                : 50 : 36 :  0 : N :  36 : 35 :  0 : E :   3.0 : RU
+Belgorod                         : Central Region        : Russia                : 50 : 36 :  0 : N :  36 : 35 :  0 : E :  3.0 : RU
 Belgrade                         :                       : Yugoslavia            : 44 : 47 : 59 : N :  20 : 31 : 59 : E : 1.0  : EU
 Belize City                      :                       : Belize                : 15 : 31 : 59 : N :  88 : 17 : 59 : W : -6.0 : --
 Belleville                       : Illinois              : USA                   : 38 : 31 :  1 : N :  89 : 58 : 58 : W : -6.0 : US
@@ -275,7 +275,7 @@ Binghamton                       : New York              : USA                  
 Birao                            :                      :Central African Republic: 10 : 16 :  0 : N :  22 : 46 :  0 : E :   1.0 : --
 Birmingham                       :                       : United Kingdom        : 52 : 28 : 59 : N :   1 : 52 : 59 : W : 0.0  : EU
 Birmingham                       : Alabama               : USA                   : 33 : 31 :  0 : N :  86 : 48 : 36 : W : -6.0 : US
-Birobidzhan                      : Far East              : Russia                : 48 : 48 :  0 : N : 132 : 57 :  0 : E :  10.0 : RU
+Birobidzhan                      : Far East              : Russia                : 48 : 48 :  0 : N : 132 : 57 :  0 : E : 10.0 : RU
 Biruni                           :                       : Iran                  : 29 : 35 :  0 : N :  52 : 30 :  0 : E :  3.5 : IR
 Bismarck                         : North Dakota          : USA                   : 46 : 48 : 23 : N : 100 : 47 : 16 : W : -6.0 : US
 Bissau                           :                       : Guinea Bissau         : 11 : 53 :  0 : N :  15 : 39 :  0 : W :   0.0 : --
@@ -333,7 +333,7 @@ Bradford                         :                       : United Kingdom       
 Brandon                          : Manitoba              : Canada                : 49 : 51 :  0 : N :  99 : 57 :  0 : W : -6.0 : US
 Brandon                          : Vermont               : USA                   : 43 : 45 :  0 : N :  73 :  4 : 58 : W : -5.0 : US
 Brasilia                         :                       : Brazil                : 15 : 52 :  0 : S :  47 : 55 :  0 : W : -3.0 : BZ
-Bratsk                           : Siberia               : Russia                : 56 :  5 :  0 : N : 101 : 48 :  0 : E :   8.0 : RU
+Bratsk                           : Siberia               : Russia                : 56 :  5 :  0 : N : 101 : 48 :  0 : E :  8.0 : RU
 Brattleboro                      : Vermont               : USA                   : 42 : 51 :  6 : N :  72 : 33 : 47 : W : -5.0 : US
 Braunschweig                     :                       : Germany               : 52 : 16 : 00 : N :  10 : 32 : 00 : E : 1.0  : EU
 Brazzaville                      :                       : Congo                 :  4 : 15 :  0 : S :  15 : 15 :  0 : E :   1.0 : --
@@ -366,7 +366,7 @@ Brownsville                      : Texas                 : USA                  
 Brunswick                        : Georgia               : USA                   : 31 :  7 : 58 : N :  81 : 30 :  0 : W : -5.0 : US
 Brunswick                        : Maine                 : USA                   : 43 : 54 : 24 : N :  69 : 57 : 47 : W : -5.0 : US
 Brussels                         : Brabant               : Belgium               : 50 : 51 :  0 : N :   4 : 20 : 59 : E : 1.0  : EU
-Bryansk                          : Central Region        : Russia                : 53 : 15 :  0 : N :  34 : 22 :  0 : E :   3.0 : RU
+Bryansk                          : Central Region        : Russia                : 53 : 15 :  0 : N :  34 : 22 :  0 : E :  3.0 : RU
 Buan                             : Jeonbuk               : Korea                 : 35 : 43 :  0 : N : 126 : 42 :  0 : E : 9.0  : SK
 Bucarest                         :                       : Romania               : 44 : 24 :  8 : N :  25 :  6 : 45 : E :  2.0 : EU
 Bucharest                        :                       : Romania               : 44 : 22 : 59 : N :  26 : 10 :  0 : E : 2.0  : EU
@@ -464,15 +464,15 @@ Charlottesville                  : Virginia              : USA                  
 Charlottetown                    : Prince Edward Island  : Canada                : 46 : 14 : 24 : N :  63 :  7 : 48 : W : -4.0 : US
 Chatham                          : Ontario               : Canada                : 47 :  2 : 59 : N :  65 : 27 :  0 : W : -5.0 : US
 Chattanooga                      : Tennessee             : USA                   : 35 :  2 : 40 : N :  85 : 18 : 32 : W : -5.0 : US
-Cheboksary                       : Volga Region          : Russia                : 56 :  4 :  0 : N :  47 : 10 :  0 : E :   3.0 : RU
+Cheboksary                       : Volga Region          : Russia                : 56 :  4 :  0 : N :  47 : 10 :  0 : E :  3.0 : RU
 Cheltenham                       : Pennsylvania          : USA                   : 40 :  2 : 59 : N :  75 :  6 : 35 : W : -5.0 : US
-Chelyabinsk                      : Ural                  : Russia                : 55 : 10 :  0 : N :  61 : 24 :  0 : E :   5.0 : RU
+Chelyabinsk                      : Ural                  : Russia                : 55 : 10 :  0 : N :  61 : 24 :  0 : E :  5.0 : RU
 Chemnitz                         :                       : Germany               : 50 : 50 : 00 : N :  12 : 55 : 00 : E : 1.0  : EU
 Cheongju                         : Chungbuk              : Korea                 : 36 : 38 :  0 : N : 127 : 27 :  0 : E : 9.0  : SK
 Cheorwon                         : Gangwon               : Korea                 : 38 : 09 :  0 : N : 127 : 18 :  0 : E : 9.0  : SK
 Cheraw                           : South Carolina        : USA                   : 34 : 40 :  1 : N :  79 : 52 :  1 : W : -5.0 : US
 Cherbourg                        : Manche                : France                : 49 : 38 : 59 : N :   1 : 28 :  1 : W : 1.0  : EU
-Cherkessk                        : South Region          : Russia                : 44 : 14 :  0 : N :  42 :  4 :  0 : E :   3.0 : RU
+Cherkessk                        : South Region          : Russia                : 44 : 14 :  0 : N :  42 :  4 :  0 : E :  3.0 : RU
 Cherokee                         : Oklahoma              : USA                   : 36 : 43 : 58 : N :  98 : 22 :  1 : W : -6.0 : US
 Chesapeake                       : Virginia              : USA                   : 36 : 49 : 30 : N :  76 : 16 : 59 : W : -5.0 : US
 Chester                          : Connecticut           : USA                   : 41 : 24 : 35 : N :  72 : 28 : 48 : W : -5.0 : US
@@ -492,7 +492,7 @@ Chino                            : California            : USA                  
 Chino Hills                      : California            : USA                   : 34 :  1 :  1 : N : 117 : 42 :  0 : W : -8.0 : US
 Chinook                          : Montana               : USA                   : 48 : 34 : 58 : N : 109 : 15 :  0 : W : -7.0 : US
 Chisimayu                        :                       : Somalia               :  0 : 13 : 12 : S :  42 : 19 : 12 : E :  3.0 : --
-Chita                            : Siberia               : Russia                : 52 :  3 :  0 : N : 113 : 30 :  0 : E :   9.0 : RU
+Chita                            : Siberia               : Russia                : 52 :  3 :  0 : N : 113 : 30 :  0 : E :  9.0 : RU
 Chitose                          :                       : Japan                 : 42 : 47 : 59 : N : 141 : 40 :  0 : E : 9.0  : --
 Chittagong                       :                       : Bangladesh            : 22 : 15 :  0 : N :  91 : 49 : 59 : E : 6.0  : --
 Chitungwiza                      :                       : Zimbabwe              : 18 : 00 :  0 : S :  31 : 10 :  0 : E :   2.0 : --
@@ -679,12 +679,13 @@ Downey                           : California            : USA                  
 Dr. Remeis                       :                       : Germany               : 49 : 53 :  1 : N :  10 : 53 : 30 : E :  1.0 : EU
 Drammen                          :                       : Norway                : 59 : 45 : 00 : N :  10 : 15 : 00 : E : 1.0  : EU
 Dresden                          :                       : Germany               : 51 : 03 : 00 : N :  13 : 45 : 00 : E : 1.0  : EU
+Druvar                           :                       : Croatia               : 45 : 35 : 38 : E :  17 : 13 : 19 : N :  1.0 : EU
 Dryden                           : Ontario               : Canada                : 49 : 46 : 12 : N :  92 : 49 : 47 : W : -6.0 : US
 Dubai                            :                       : United Arab Emirates  : 25 : 18 :  0 : N :  55 : 25 : 59 : E : 4.0  : --
 Dublin                           :                       : Ireland               : 53 : 25 : 58 : N :   6 : 15 :  0 : W : 0.0  : EU
 Dubrovnik                        :                       : Croatia               : 42 : 33 : 50 : N :  18 : 15 :  3 : E : 1.0  : EU
 Dubuque                          : Iowa                  : USA                   : 42 : 30 : 11 : N :  90 : 40 : 29 : W : -6.0 : US
-Dudinka                          : Siberia               : Russia                : 69 : 25 :  0 : N :  86 : 15 :  0 : E :   7.0 : RU
+Dudinka                          : Siberia               : Russia                : 69 : 25 :  0 : N :  86 : 15 :  0 : E :  7.0 : RU
 Duisburg                         :                       : Germany               : 51 : 26 : 00 : N :   6 : 45 : 00 : E : 1.0  : EU
 Duluth                           : Minnesota             : USA                   : 46 : 46 : 55 : N :  92 :  6 : 24 : W : -6.0 : US
 Dundalk                          : Maryland              : USA                   : 39 : 16 :  1 : N :  76 : 31 :  1 : W : -5.0 : US
@@ -726,8 +727,8 @@ Edna                             : Texas                 : USA                  
 Efate                            :                       : Vanuatu               : 17 : 58 : 48 : S : 168 : 41 : 59 : E : 11.0 : --
 Effelsberg                       :                       : Germany               : 50 : 31 :  6 : N :   6 : 52 : 59 : E :  1.0 : EU
 Effingham                        : Illinois              : USA                   : 39 :  4 : 58 : N :  88 : 30 :  0 : W : -6.0 : US
-Egvekinot                        : Far East              : Russia                : 66 : 19 :  0 : N : 179 : 10 :  0 : E :  12.0 : RU
-Ekaterinburg                     : Ural                  : Russia                : 56 : 49 :  0 : N :  60 : 38 :  0 : E :   5.0 : RU
+Egvekinot                        : Far East              : Russia                : 66 : 19 :  0 : N : 179 : 10 :  0 : E : 12.0 : RU
+Ekaterinburg                     : Ural                  : Russia                : 56 : 49 :  0 : N :  60 : 38 :  0 : E :  5.0 : RU
 El Aaiun                         :                       : Western sahara        : 27 :  9 :  0 : N :  13 : 12 :  0 : W :   0.0 : --
 El Cajon                         : California            : USA                   : 32 : 47 : 42 : N : 116 : 57 : 35 : W : -8.0 : US
 El Dorado                        : Arkansas              : USA                   : 33 : 12 : 24 : N :  92 : 40 :  0 : W : -6.0 : US
@@ -938,7 +939,7 @@ Goose Bay                        : Ontario               : Canada               
 Goose Creek                      : South Carolina        : USA                   : 32 : 46 : 35 : N :  79 : 55 : 53 : W : -5.0 : US
 Gorham                           : Maine                 : USA                   : 43 : 40 :  0 : N :  70 : 28 :  0 : W : -5.0 : US
 Gornergrat                       :                       : Switzerland           : 45 : 59 :  1 : N :   7 : 46 : 59 : E :  1.0 : EU
-Gorno-Altaysk                    : Siberia               : Russia                : 51 : 58 :  0 : N :  85 : 58 :  0 : E :   6.0 : RU
+Gorno-Altaysk                    : Siberia               : Russia                : 51 : 58 :  0 : N :  85 : 58 :  0 : E :  6.0 : RU
 Gothenburg                       :                       : Sweden                : 57 : 41 :  0 : N :  12 :  0 :  0 : E :  1.0 : EU
 Granada                          :                       : Spain                 : 37 : 10 : 35 : N :  03 : 36 : 00 : W : 1.0  : EU
 Granada Hills                    : California            : USA                   : 34 : 10 : 59 : N : 118 : 30 :  0 : W : -8.0 : US
@@ -976,7 +977,7 @@ Groningen                        :                       : Netherlands          
 Grosseto                         :                       : Italy                 : 42 : 45 : 36 : N :  11 :  6 : 53 : E :  1.0 : EU
 Groton                           : South Dakota          : USA                   : 45 : 25 :  1 : N :  98 :  4 :  1 : W : -6.0 : US
 Groveton                         : New Hampshire         : USA                   : 44 : 34 : 58 : N :  71 : 30 :  0 : W : -5.0 : US
-Grozny                           : South Region          : Russia                : 43 : 20 :  0 : N :  45 : 42 :  0 : E :   3.0 : RU
+Grozny                           : South Region          : Russia                : 43 : 20 :  0 : N :  45 : 42 :  0 : E :  3.0 : RU
 Guadalajara                      :                       : Spain                 : 40 : 38 : 04 : N :  03 : 09 : 46 : W : 1.0  : EU
 Guantanamo Bay                   :                       : Cuba                  : 19 : 53 : 59 : N :  75 : 12 :  0 : W : -5.0 : US
 Guatemala City                   :                       : Guatemala             : 14 : 34 : 58 : N :  90 : 31 : 58 : W : -6.0 : --
@@ -1142,7 +1143,7 @@ Invercargill                     :                       : New Zealand          
 Iowa City                        : Iowa                  : USA                   : 41 : 39 : 37 : N :  91 : 31 : 53 : W : -6.0 : US
 Ipswich                          : Queensland            : Australia             : 27 : 37 : 59 : S : 152 : 43 :  0 : E :+10.0 : --
 Iqaluit                          : Nunavut               : Canada                : 63 : 45 : 35 : N :  68 : 32 : 59 : W : -5.0 : US
-Irkutsk                          : Siberia               : Russia                : 52 : 16 :  0 : N : 104 : 20 :  0 : E :   8.0 : RU
+Irkutsk                          : Siberia               : Russia                : 52 : 16 :  0 : N : 104 : 20 :  0 : E :  8.0 : RU
 Iron River                       : Michigan              : USA                   : 46 :  8 : 59 : N :  88 : 39 :  0 : W : -5.0 : US
 Irvine                           : California            : USA                   : 33 : 40 : 29 : N : 117 : 45 : 36 : W : -8.0 : US
 Irving                           : Texas                 : USA                   : 32 : 48 : 47 : N :  96 : 56 : 12 : W : -6.0 : US
@@ -1152,9 +1153,9 @@ Islamabad                        :                       : Pakistan             
 Istanbul                         :                       : Turkey                : 41 :  1 : 59 : N :  29 :  0 :  0 : E : 2.0  : EU
 Istrana                          :                       : Italy                 : 45 : 44 : 13 : N :  12 :  8 :  2 : E :  1.0 : EU
 Itapetinga                       :                       : Brazil                : 23 : 11 :  1 : S :  46 : 33 : 45 : W : -3.0 : BZ
-Ivanovo                          : Central Region        : Russia                : 57 :  0 :  0 : N :  40 : 59 :  0 : E :   3.0 : RU
+Ivanovo                          : Central Region        : Russia                : 57 :  0 :  0 : N :  40 : 59 :  0 : E :  3.0 : RU
 Izaña                            : Tenerife              : Spain                 : 28 : 18 : 00 : N :  16 : 30 : 35 : W :  0.0 : EU
-Izhevsk                          : Volga Region          : Russia                : 56 : 51 :  0 : N :  53 : 14 :  0 : E :   4.0 : RU
+Izhevsk                          : Volga Region          : Russia                : 56 : 51 :  0 : N :  53 : 14 :  0 : E :  4.0 : RU
 J. Horrocks                      :                       : United Kingdom        : 53 : 46 :  5 : N :   2 : 42 : 15 : W :  0.0 : EU
 Jackson                          : Michigan              : USA                   : 42 : 14 : 43 : N :  84 : 24 : 21 : W : -5.0 : US
 Jackson                          : Mississippi           : USA                   : 32 : 17 : 56 : N :  90 : 11 :  6 : W : -6.0 : US
@@ -1208,10 +1209,10 @@ Kaiserslautern                   :                       : Germany              
 Kalamazoo                        : Michigan              : USA                   : 42 : 17 : 29 : N :  85 : 35 : 13 : W : -5.0 : US
 Kalapana                         : Hawaii                : USA                   : 19 : 25 :  1 : N : 155 :  0 :  0 : W :-10.0 : US
 Kalaupapa                        : Hawaii                : USA                   : 21 : 12 : 48 : N : 156 : 58 : 40 : W :-10.0 : US
-Kaliningrad                      : North-West Region     : Russia                : 54 : 43 :  0 : N :  20 : 30 :  0 : E :   2.0 : RU
+Kaliningrad                      : North-West Region     : Russia                : 54 : 43 :  0 : N :  20 : 30 :  0 : E :  2.0 : RU
 Kalispell                        : Montana               : USA                   : 48 : 11 : 42 : N : 114 : 18 : 46 : W : -7.0 : US
 Kallaste                         :                       : Estonia               : 58 : 40 : 05 : N :  27 : 09 : 20 : E :  2.0 : EU
-Kaluga                           : Central Region        : Russia                : 54 : 31 :  0 : N :  36 : 16 :  0 : E :   3.0 : RU
+Kaluga                           : Central Region        : Russia                : 54 : 31 :  0 : N :  36 : 16 :  0 : E :  3.0 : RU
 Kalundborg                       : Zealand               : Denmark               : 55 : 40 : 58 : N :  11 :  5 : 58 : E :   1.0 : EU
 Kamloops                         : British Columbia      : Canada                : 50 : 42 :  0 : N : 120 : 27 :  0 : W : -8.0 : US
 Kampala                          :                       : Uganda                :  0 : 19 :  0 : N :  32 : 37 :  0 : E :   3.0 : --
@@ -1236,7 +1237,7 @@ Kassel                           :                       : Germany              
 Kathmandu                        :                       : Nepal                 : 27 : 49 :  0 : N :  85 : 20 : 59 : E : 5.75 : --
 Katima Mulilo                    :                       : Namibia               : 17 :  5 :  0 : S :  24 : 27 :  0 : E :   0.0 : NB
 Kaunakakai                       : Hawaii                : USA                   : 21 :  6 :  0 : N : 156 : 58 : 58 : W :-10.0 : US
-Kazan                            : Volga Region          : Russia                : 55 : 49 :  0 : N :  49 :  8 :  0 : E :   3.0 : RU
+Kazan                            : Volga Region          : Russia                : 55 : 49 :  0 : N :  49 :  8 :  0 : E :  3.0 : RU
 Keahole                          : Hawaii                : USA                   : 19 : 44 :  8 : N : 156 :  2 : 56 : W :-10.0 : US
 Kearney                          : Nebraska              : USA                   : 40 : 41 : 53 : N :  99 :  4 : 59 : W : -6.0 : US
 Keene                            : New Hampshire         : USA                   : 42 : 55 : 59 : N :  71 : 16 : 48 : W : -5.0 : US
@@ -1245,7 +1246,7 @@ Kehra                            :                       : Estonia              
 Keila                            :                       : Estonia               : 59 : 18 : 24 : N :  24 : 24 : 59 : E :  2.0 : EU
 Kekaha                           : Hawaii                : USA                   : 21 : 56 : 59 : N : 159 : 41 : 59 : W :-10.0 : US
 Kelso                            : Washington            : USA                   : 46 :  8 : 54 : N : 122 : 52 : 51 : W : -8.0 : US
-Kemerovo                         : Siberia               : Russia                : 55 : 20 :  0 : N :  86 :  5 :  0 : E :   7.0 : RU
+Kemerovo                         : Siberia               : Russia                : 55 : 20 :  0 : N :  86 :  5 :  0 : E :  7.0 : RU
 Kenai                            : Alaska                : USA                   : 60 : 32 : 59 : N : 151 : 16 :  1 : W : -9.0 : US
 Kenema                           :                       : Sierra Leone          :  7 : 52 :  0 : N :  11 : 12 :  0 : W :   0.0 : --
 Kennebunk                        : Maine                 : USA                   : 43 : 23 : 59 : N :  70 : 32 : 59 : W : -5.0 : US
@@ -1254,9 +1255,9 @@ Kenora                           : Ontario               : Canada               
 Kenosha                          : Wisconsin             : USA                   : 42 : 35 : 43 : N :  87 : 50 : 11 : W : -6.0 : US
 Ketchikan                        : Alaska                : USA                   : 55 : 20 : 30 : N : 131 : 38 : 49 : W : -9.0 : US
 Kettering                        : Ohio                  : USA                   : 39 : 41 : 12 : N :  84 : 10 : 12 : W : -5.0 : US
-Khabarovsk                       : Far East              : Russia                : 48 : 30 :  0 : N : 135 :  6 :  0 : E :  10.0 : RU
+Khabarovsk                       : Far East              : Russia                : 48 : 30 :  0 : N : 135 :  6 :  0 : E : 10.0 : RU
 Khaniá                           :                       : Greece                : 35 : 32 : 12 : N :  24 :  8 : 59 : E : 2.0  : EU
-Khanty-Mansiysk                  : Ural                  : Russia                : 61 :  0 :  0 : N :  69 :  6 :  0 : E :   5.0 : RU
+Khanty-Mansiysk                  : Ural                  : Russia                : 61 :  0 :  0 : N :  69 :  6 :  0 : E :  5.0 : RU
 Khartoum                         :                       : Sudan                 : 15 : 34 :  0 : N :  32 : 36 :  0 : E : 2.0  : --
 Kiel                             :                       : Germany               : 54 : 19 :  0 : N :  10 :  7 : 59 : E : 1.0  : EU
 Kigali                           :                       : Rwanda                :  1 : 58 :  0 : S :  30 : 07 :  0 : E :   2.0 : --
@@ -1302,11 +1303,11 @@ Konkoli                          :                       : Hungary              
 Korat                            :                       : Thailand              : 14 : 56 : 12 : N : 102 :  4 : 59 : E : 7.0  : --
 Korsoer                          : Zealand               : Denmark               : 55 : 19 : 58 : N :  11 :  9 : 58 : E :   1.0 : EU
 Kosrae                           :                       : Micronesia            :  5 : 22 :  2 : N : 162 : 58 : 35 : E : 11.0 : --
-Kostroma                         : Central Region        : Russia                : 57 : 46 :  0 : N :  40 : 55 :  0 : E :   3.0 : RU
+Kostroma                         : Central Region        : Russia                : 57 : 46 :  0 : N :  40 : 55 :  0 : E :  3.0 : RU
 Kota Kinabalu                    :                       : Malaysia              :  5 : 56 : 12 : N : 116 :  2 : 59 : E : 8.0  : --
 Kotzebue                         : Alaska                : USA                   : 66 : 54 :  0 : N : 162 : 35 : 59 : W : -9.0 : US
-Krasnodar                        : South Region          : Russia                : 45 :  2 :  0 : N :  39 :  0 :  0 : E :   3.0 : RU
-Krasnoyarsk                      : Siberia               : Russia                : 56 :  1 :  0 : N :  92 : 57 :  0 : E :   7.0 : RU
+Krasnodar                        : South Region          : Russia                : 45 :  2 :  0 : N :  39 :  0 :  0 : E :  3.0 : RU
+Krasnoyarsk                      : Siberia               : Russia                : 56 :  1 :  0 : N :  92 : 57 :  0 : E :  7.0 : RU
 Krefeld                          :                       : Germany               : 51 : 20 : 00 : N :   6 : 34 : 00 : E : 1.0  : EU
 Kristiansand                     :                       : Norway                : 58 : 08 : 00 : N :   8 : 01 : 00 : E : 1.0  : EU
 Kuala Lumpur                     :                       : Malaysia              :  3 :  7 : 59 : N : 101 : 42 :  0 : E : 8.0  : --
@@ -1316,13 +1317,14 @@ Kunda                            :                       : Estonia              
 Kuopio                           :                       : Finland               : 62 : 54 : 00 : N :  27 : 40 : 00 : E : 2.0  : EU
 Kure Island                      : Hawaii                : USA                   : 28 : 22 : 59 : N : 178 : 18 :  0 : W :-10.0 : US
 Kuressaare                       :                       : Estonia               : 58 : 15 : 26 : N :  22 : 29 : 37 : E :  2.0 : EU
-Kurgan                           : Ural                  : Russia                : 55 : 26 :  0 : N :  65 : 18 :  0 : E :   5.0 : RU
-Kursk                            : Central Region        : Russia                : 51 : 42 :  0 : N :  36 : 12 :  0 : E :   3.0 : RU
+Kurgan                           : Ural                  : Russia                : 55 : 26 :  0 : N :  65 : 18 :  0 : E :  5.0 : RU
+Kursk                            : Central Region        : Russia                : 51 : 42 :  0 : N :  36 : 12 :  0 : E :  3.0 : RU
+Kutina                           :                       : Croatia               : 45 : 29 :  2 : E :  16 : 46 : 26 : N :  1.0 : EU
 Kuwait City                      :                       : Kuwait                : 29 :  4 :  0 : N :  47 : 58 : 59 : E : 3.0  : --
 Kwajalein Atoll                  :                       : Marshall Islands      :  9 :  0 :  0 : N : 167 : 35 : 59 : E : 12.0 : --
 Kwasan                           :                       : Japan                 : 34 : 59 :  4 : N : 135 : 47 : 44 : E :  9.0 : --
 Kyoto                            :                       : Japan                 : 35 :  0 :  0 : N : 135 : 46 :  0 : E : 9.0  : --
-Kyzyl                            : Siberia               : Russia                : 51 : 42 :  0 : N :  94 : 27 :  0 : E :   7.0 : RU
+Kyzyl                            : Siberia               : Russia                : 51 : 42 :  0 : N :  94 : 27 :  0 : E :  7.0 : RU
 Kärdla                           :                       : Estonia               : 58 : 59 : 52 : N :  22 : 44 : 50 : E :  2.0 : EU
 L'Aquila                         :                       : Italy                 : 42 : 21 : 21 : N :  13 : 23 : 45 : E :  1.0 : EU
 La Coruña                        :                       : Spain                 : 43 : 22 : 12 : N :  08 : 23 : 28 : W : 1.0  : EU
@@ -1424,7 +1426,7 @@ Lincoln                          : Maine                 : USA                  
 Lincoln                          : Nebraska              : USA                   : 40 : 48 : 59 : N :  96 : 42 : 15 : W : -6.0 : US
 Lindenhurst                      : New York              : USA                   : 40 : 41 : 49 : N :  73 : 21 : 24 : W : -5.0 : US
 Linz                             :                       : Austria               : 48 : 13 : 59 : N :  14 : 11 : 23 : E : 1.0  : EU
-Lipetsk                          : Central Region        : Russia                : 52 : 37 :  0 : N :  39 : 35 :  0 : E :   3.0 : RU
+Lipetsk                          : Central Region        : Russia                : 52 : 37 :  0 : N :  39 : 35 :  0 : E :  3.0 : RU
 Lisbon                           :                       : Portugal              : 38 : 42 :  5 : N :   9 : 11 : 15 : W :  0.0 : EU
 Lisbon                           : North Dakota          : USA                   : 46 : 21 :  0 : N :  97 : 43 :  1 : W : -6.0 : US
 Litchville                       : North Dakota          : USA                   : 46 : 39 : 21 : N :  98 : 12 : 21 : W : -6.0 : US
@@ -1496,7 +1498,7 @@ Madison                          : South Dakota          : USA                  
 Madison                          : Wisconsin             : USA                   : 43 :  4 : 22 : N :  89 : 22 : 54 : W : -6.0 : US
 Madras                           :                       : India                 : 13 :  0 :  0 : N :  80 : 10 : 58 : E : 5.5  : --
 Madrid                           :                       : Spain                 : 40 : 24 : 31 : N :  03 : 41 : 11 : W : 1.0  : EU
-Magadan                          : Far East              : Russia                : 59 : 34 :  0 : N : 150 : 48 :  0 : E :  11.0 : RU
+Magadan                          : Far East              : Russia                : 59 : 34 :  0 : N : 150 : 48 :  0 : E : 11.0 : RU
 Magdalena                        : New Mexico            : USA                   : 34 : 10 :  1 : N : 107 : 45 :  0 : W : -7.0 : US
 Magdeburg                        :                       : Germany               : 52 : 08 : 00 : N :  11 : 37 : 00 : E : 1.0  : EU
 Magnolia                         : Arkansas              : USA                   : 33 : 15 : 45 : N :  93 : 14 :  4 : W : -6.0 : US
@@ -1505,7 +1507,7 @@ Mainz                            :                       : Germany              
 Maiquetia                        :                       : Venezuela             : 10 : 35 : 59 : N :  66 : 58 : 59 : W : -4.0 : --
 Majunga                          :                       : Madagascar            : 15 : 40 :  0 : S :  46 : 21 :  0 : E :   3.0 : --
 Majuro                           :                       : Marshall Islands      :  7 :  3 : 47 : N : 171 : 16 : 10 : E : 12.0 : --
-Makhachkala                      : South Region          : Russia                : 42 : 58 :  0 : N :  47 : 30 :  0 : E :   3.0 : RU
+Makhachkala                      : South Region          : Russia                : 42 : 58 :  0 : N :  47 : 30 :  0 : E :  3.0 : RU
 Makokou                          :                       : Gabon                 : 00 : 34 :  0 : N :  12 : 52 :  0 : E :   1.0 : --
 Malabo                           :                       : Equatorial Guinea     :  3 : 45 :  0 : N :   8 : 46 :  0 : E :   1.0 : --
 Malchin                          :                       : Germany               : 53 : 44 : 27 : N :  12 : 45 : 27 : E :   1.0 : EU
@@ -1566,7 +1568,7 @@ Matsapha                         :                       : Swaziland            
 Mauldin                          : South Carolina        : USA                   : 34 : 47 : 52 : N :  82 : 17 : 56 : W : -5.0 : US
 Mauna Kea Obs.                   : Hawaii                : USA                   : 19 : 49 :  7 : N : 155 : 28 : 14 : W :-10.0 : US
 Mayaguez                         : Puerto Rico           : USA                   : 18 : 15 :  0 : N :  67 :  9 :  0 : W : -5.0 : US
-Maykop                           : South Region          : Russia                : 44 : 35 :  0 : N :  40 :  7 :  0 : E :   3.0 : RU
+Maykop                           : South Region          : Russia                : 44 : 35 :  0 : N :  40 :  7 :  0 : E :  3.0 : RU
 Maysville                        : Kentucky              : USA                   : 38 : 34 : 58 : N :  83 : 45 :  0 : W : -5.0 : US
 Mbabane                          :                       : Swaziland             : 26 : 32 :  0 : S :  31 : 14 :  0 : E :   2.0 : --
 Mbandaka                         :                       : Dem rep of Congo      : 00 :  1 :  0 : N :  18 : 17 :  0 : E :   1.0 : --
@@ -1661,7 +1663,7 @@ Minnetonka                       : Minnesota             : USA                  
 Minot                            : North Dakota          : USA                   : 48 : 14 : 17 : N : 101 : 17 : 49 : W : -6.0 : US
 Miquelon Island                  : St-Pierre and Miquelon : France                : 47 :  6 :  0 : N :  56 : 23 : 59 : W : 1.0  : EU
 Miramar                          : Florida               : USA                   : 26 :  0 : 36 : N :  80 :  9 :  0 : W : -5.0 : US
-Mirnyi                           : Far East              : Russia                : 62 : 33 :  0 : N : 113 : 53 :  0 : E :   9.0 : RU
+Mirnyi                           : Far East              : Russia                : 62 : 33 :  0 : N : 113 : 53 :  0 : E :  9.0 : RU
 Miryang                          : Gyeongnam             : Korea                 : 35 : 29 :  0 : N : 128 : 45 :  0 : E : 9.0  : SK
 Mishawaka                        : Indiana               : USA                   : 41 : 42 : 46 : N :  86 : 11 :  4 : W : -5.0 : --
 Misratah                         :                       : Lybia                 : 32 : 19 :  0 : N :  15 : 03 :  0 : E :   1.0 : --
@@ -1712,7 +1714,7 @@ Morristown                       : New Jersey            : USA                  
 Morristown                       : Tennessee             : USA                   : 36 : 10 :  1 : N :  83 : 17 : 59 : W : -5.0 : US
 Morrow                           : Georgia               : USA                   : 33 : 35 : 24 : N :  84 : 19 : 40 : W : -5.0 : US
 Morón                            :                       : Spain                 : 37 : 10 : 59 : N :   5 : 36 : 47 : W : 1.0  : EU
-Moscow                           : Central Region        : Russia                : 55 : 46 :  0 : N :  37 : 40 :  0 : E :   3.0 : RU
+Moscow                           : Central Region        : Russia                : 55 : 46 :  0 : N :  37 : 40 :  0 : E :  3.0 : RU
 Moscow                           : Idaho                 : USA                   : 46 : 43 : 59 : N : 117 :  0 :  0 : W : -7.0 : US
 Moses Lake                       : Washington            : USA                   : 47 :  7 : 58 : N : 119 : 15 :  0 : W : -8.0 : US
 Mosselbaai                       :                       : South Africa          : 34 : 11 :  0 : S :  22 : 09 :  0 : E :   2.0 : --
@@ -1738,7 +1740,7 @@ Muncy                            : Pennsylvania          : USA                  
 Mungyeong                        : Gyeongbuk             : Korea                 : 36 : 37 :  0 : N : 128 : 09 :  0 : E : 9.0  : SK
 Munich                           :                       : Germany               : 48 :  7 : 59 : N :  11 : 34 : 59 : E : 1.0  : EU
 Murfreesboro                     : Tennessee             : USA                   : 35 : 50 : 53 : N :  86 : 23 : 30 : W : -6.0 : US
-Murmansk                         : North-West Region     : Russia                : 68 : 58 :  0 : N :  33 :  5 :  0 : E :   3.0 : RU
+Murmansk                         : North-West Region     : Russia                : 68 : 58 :  0 : N :  33 :  5 :  0 : E :  3.0 : RU
 Murray                           : Utah                  : USA                   : 40 : 39 : 35 : N : 111 : 53 : 13 : W : -7.0 : US
 Muskegon                         : Michigan              : USA                   : 43 : 15 :  0 : N :  86 : 19 : 58 : W : -5.0 : US
 Muskogee                         : Oklahoma              : USA                   : 35 : 44 : 41 : N :  95 : 22 :  0 : W : -6.0 : US
@@ -1764,7 +1766,7 @@ Nagpur                           :                       : India                
 Naini Tal                        :                       : India                 : 29 : 21 :  6 : N :  79 : 27 : 29 : E :  5.5 : --
 Nairobi                          :                       : Kenya                 :  1 : 16 : 59 : S :  36 : 49 :  0 : E : 3.0  : --
 Nakskov                          : Lolland               : Denmark               : 54 : 49 : 58 : N :  11 :  9 : 58 : E :   1.0 : EU
-Nal'chik                         : South Region          : Russia                : 43 : 29 :  0 : N :  43 : 37 :  0 : E :   3.0 : RU
+Nal'chik                         : South Region          : Russia                : 43 : 29 :  0 : N :  43 : 37 :  0 : E :  3.0 : RU
 Namhae                           : Gyeongnam             : Korea                 : 34 : 47 :  0 : N : 127 : 52 :  0 : E : 9.0  : SK
 Namibe                           :                       : Angola                : 15 : 17 :  0 : S :  12 : 16 :  0 : E :   1.0 : --
 Namorik                          :                       : Marshall Islands      :  5 : 37 : 54 : N : 168 :  7 : 30 : E : 12.0 : --
@@ -1786,6 +1788,7 @@ Nassau                           :                       : Bahamas              
 Nassau Obs.                      : Ohio                  : USA                   : 41 : 35 :  5 : N :  81 :  4 : 30 : W : -5.0 : US
 Natal                            :                       : Brazil                :  5 : 17 : 59 : S :  35 : 47 : 59 : W : -3.0 : BZ
 Natchez                          : Mississippi           : USA                   : 31 : 33 : 47 : N :  91 : 23 : 30 : W : -6.0 : US
+Našice                           :                       : Croatia               : 45 : 29 : 20 : E :  18 :  5 : 16 : N :  1.0 : EU
 Ndola                            :                       : Zambie                : 12 : 97 :  0 : S :  28 : 29 :  0 : E :   2.0 : --
 Needles                          : California            : USA                   : 34 : 51 :  0 : N : 114 : 39 :  0 : W : -8.0 : US
 Nenana                           : Alaska                : USA                   : 64 : 34 : 11 : N : 149 :  4 : 11 : W : -9.0 : US
@@ -1833,7 +1836,7 @@ Nice                             : Alpes maritimes       : France               
 Nicosia                          :                       : Cyprus                : 35 :  8 : 59 : N :  33 : 16 : 58 : E : 2.0  : --
 Nijmegen                         :                       : Netherlands           : 51 : 49 : 48 : N :   5 : 52 : 12 : E :  1.0 : EU
 Nitro                            : West Virginia         : USA                   : 38 : 25 :  1 : N :  81 : 49 : 58 : W : -5.0 : US
-Nizhnii Novgorod                 : Volga Region          : Russia                : 56 : 20 :  0 : N :  44 :  0 :  0 : E :   3.0 : RU
+Nizhnii Novgorod                 : Volga Region          : Russia                : 56 : 20 :  0 : N :  44 :  0 :  0 : E :  3.0 : RU
 Nobeyama                         :                       : Japan                 : 35 : 36 :  3 : N : 138 : 28 : 45 : E :  9.0 : --
 Nogales                          : Arizona               : USA                   : 31 : 19 : 58 : N : 110 : 55 :  1 : W : -7.0 : --
 Nome                             : Alaska                : USA                   : 64 : 30 :  0 : N : 165 : 25 :  1 : W : -9.0 : US
@@ -1864,9 +1867,9 @@ Nottingham                       :                       : United Kingdom       
 Nouakchott                       :                       : Mauritania            : 18 :  6 :  0 : N :  15 : 57 :  0 : W :   0.0 : --
 Noumea                           : New Caledonia         : France                : 22 : 18 :  0 : S : 166 : 48 :  0 : E : 11.0 : --
 Novara                           :                       : Italy                 : 45 : 26 : 44 : N :   8 : 37 : 23 : E :  1.0 : EU
-Novgorod                         : North-West Region     : Russia                : 58 : 31 :  0 : N :  31 : 17 :  0 : E :   3.0 : RU
+Novgorod                         : North-West Region     : Russia                : 58 : 31 :  0 : N :  31 : 17 :  0 : E :  3.0 : RU
 Novi                             : Michigan              : USA                   : 42 : 28 : 30 : N :  83 : 31 : 30 : W : -5.0 : US
-Novosibirsk                      : Siberia               : Russia                : 55 :  2 :  0 : N :  82 : 55 :  0 : E :   6.0 : RU
+Novosibirsk                      : Siberia               : Russia                : 55 :  2 :  0 : N :  82 : 55 :  0 : E :  6.0 : RU
 Nyborg                           : Fyn                   : Denmark               : 55 : 19 :  1 : N :  10 : 48 :  1 : E :   1.0 : EU
 Nykoebing Falster                : Falster               : Denmark               : 54 : 46 :  1 : N :  11 : 52 :  1 : E :   1.0 : EU
 Nürnberg                         :                       : Germany               : 49 : 27 :  0 : N :  11 :  5 : 56 : E : 1.0  : EU
@@ -1887,7 +1890,7 @@ Ocean City                       : Maryland              : USA                  
 Ocean Grove                      : New Jersey            : USA                   : 40 : 10 :  1 : N :  74 :  0 :  0 : W : -5.0 : US
 Oceanside                        : California            : USA                   : 33 : 11 : 53 : N : 117 : 22 : 37 : W : -8.0 : US
 Odense                           : Fyn                   : Denmark               : 55 : 23 : 59 : N :  10 : 22 : 59 : E :   1.0 : EU
-Odessa                           :                       : Ukraine               : 46 : 28 :  6 : N :  30 : 45 : 29 : E :  1.0 : RU
+Odessa                           :                       : Ukraine               : 46 : 28 :  6 : N :  30 : 45 : 29 : E   1.0 : RU
 Odessa                           : Texas                 : USA                   : 31 : 51 : 29 : N : 102 : 22 : 30 : W : -6.0 : US
 Offenbach                        :                       : Germany               : 50 : 06 : 00 : N :   8 : 46 : 00 : E : 1.0  : EU
 Ogallala                         : Nebraska              : USA                   : 41 :  7 : 58 : N : 101 : 43 : 58 : W : -7.0 : US
@@ -1904,7 +1907,7 @@ Oldendorf                        :                       : Germany              
 Olean                            : New York              : USA                   : 42 :  4 : 58 : N :  78 : 25 :  1 : W : -5.0 : US
 Olympia                          : Washington            : USA                   : 47 :  1 : 59 : N : 122 : 58 :  1 : W : -8.0 : US
 Omaha                            : Nebraska              : USA                   : 41 : 15 : 42 : N :  95 : 56 : 13 : W : -6.0 : US
-Omsk                             : Siberia               : Russia                : 55 :  0 :  0 : N :  73 : 24 :  0 : E :   6.0 : RU
+Omsk                             : Siberia               : Russia                : 55 :  0 :  0 : N :  73 : 24 :  0 : E :  6.0 : RU
 Ondangwa                         :                       : Namibia               : 17 : 54 :  0 : S :  15 : 58 :  0 : E :   0.0 : NB
 Onsala                           :                       : Sweden                : 57 : 23 :  8 : N :  11 : 53 : 30 : E :  1.0 : EU
 Ontario                          : California            : USA                   : 34 :  3 : 42 : N : 117 : 39 :  0 : W : -8.0 : US
@@ -1919,15 +1922,16 @@ Orange                           : Connecticut           : USA                  
 Orange                           : Vaucluse              : France                : 44 : 08 :  0 : N :  04 : 47 :  0 : E :  1.0 : EU
 Orange Park                      : Florida               : USA                   : 30 :  9 : 30 : N :  81 : 43 : 58 : W : -5.0 : US
 Orangeburg                       : South Carolina        : USA                   : 33 : 30 :  0 : N :  80 : 49 : 58 : W : -5.0 : US
-Orel                             : Central Region        : Russia                : 52 : 59 :  0 : N :  36 :  5 :  0 : E :   3.0 : RU
+Orel                             : Central Region        : Russia                : 52 : 59 :  0 : N :  36 :  5 :  0 : E :  3.0 : RU
 Orem                             : Utah                  : USA                   : 40 : 18 : 42 : N : 111 : 42 :  0 : W : -7.0 : US
-Orenburg                         : Volga Region          : Russia                : 51 : 54 :  0 : N :  55 :  6 :  0 : E :   5.0 : RU
+Orenburg                         : Volga Region          : Russia                : 51 : 54 :  0 : N :  55 :  6 :  0 : E :  5.0 : RU
 Orense                           :                       : Spain                 : 42 : 20 : 11 : N :  07 : 51 : 49 : W : 1.0  : EU
 Orlando                          : Florida               : USA                   : 28 : 32 : 42 : N :  81 : 22 : 37 : W : -5.0 : US
 Orleans                          : Loiret                : France                : 47 : 55 :  0 : N :   1 : 55 : 59 : E : 1.0  : EU
 Osaka                            :                       : Japan                 : 34 : 46 : 58 : N : 135 : 26 : 59 : E : 9.0  : --
 Osborne                          : Kansas                : USA                   : 39 : 25 :  1 : N :  98 : 42 :  0 : W : -6.0 : US
 Oshkosh                          : Wisconsin             : USA                   : 44 :  1 : 18 : N :  88 : 32 : 42 : W : -6.0 : US
+Osijek                           :                       : Croatia               : 45 : 33 :  3 : E :  18 : 41 : 38 : N :  1.0 : EU
 Oslo                             :                       : Norway                : 59 : 55 : 59 : N :  10 : 40 : 59 : E : 1.0  : EU
 Osnabrück                        :                       : Germany               : 52 : 26 : 70 : N :   8 : 05 : 00 : E : 1.0  : EU
 Otranto                          :                       : Italy                 : 40 :  8 : 38 : N :  18 : 29 : 28 : E :  1.0 : EU
@@ -1945,7 +1949,7 @@ Oxford                           :                       : United Kingdom       
 Oxford                           : Mississippi           : USA                   : 34 : 22 :  1 : N :  89 : 30 :  0 : W : -6.0 : US
 Oxford                           : North Carolina        : USA                   : 36 : 16 : 58 : N :  78 : 34 : 58 : W : -5.0 : US
 Oxnard                           : California            : USA                   : 34 : 12 : 17 : N : 119 : 10 : 29 : W : -8.0 : US
-Oymiakon                         : Far East              : Russia                : 63 : 28 :  0 : N : 142 : 49 :  0 : E :   9.0 : RU
+Oymiakon                         : Far East              : Russia                : 63 : 28 :  0 : N : 142 : 49 :  0 : E :  9.0 : RU
 Ozark                            : Arkansas              : USA                   : 35 : 28 : 58 : N :  93 : 49 :  1 : W : -6.0 : US
 P'yongyang                       :                       : Korea                 : 39 : 01 :  0 : N : 125 : 45 :  0 : E : 9.0  : SK
 Paauilo                          : Hawaii                : USA                   : 20 :  3 :  0 : N : 155 : 25 :  1 : W :-10.0 : US
@@ -1957,7 +1961,7 @@ Paducah                          : Kentucky              : USA                  
 Pagan Island                     :                       : US Territory          : 18 :  7 : 27 : N : 145 : 46 :  6 : E : x    : --
 Pago Pago                        :                       : Samoa                 : 14 : 19 : 58 : S : 170 : 43 :  1 : W :-11.0 : --
 Paide                            :                       : Estonia               : 58 : 53 : 12 : N :  25 : 33 : 44 : E :  2.0 : EU
-Palana                           : Far East              : Russia                : 59 :  7 :  0 : N : 159 : 58 :  0 : E :  12.0 : RU
+Palana                           : Far East              : Russia                : 59 :  7 :  0 : N : 159 : 58 :  0 : E : 12.0 : RU
 Paldiski                         :                       : Estonia               : 59 : 21 : 08 : N :  24 : 03 : 28 : E :  2.0 : EU
 Palembang                        :                       : Indonesia             :  2 : 53 : 59 : S : 104 : 42 :  0 : E : 7.0  : --
 Palencia                         :                       : Spain                 : 42 : 00 : 28 : N :  04 : 32 : 05 : W : 1.0  : EU
@@ -1997,10 +2001,10 @@ Pembina                          : North Dakota          : USA                  
 Penang                           :                       : Malaysia              :  5 : 17 : 59 : N : 100 : 16 : 59 : E : 8.0  : --
 Pendleton                        : Oregon                : USA                   : 45 : 40 : 58 : N : 118 : 46 : 58 : W : -8.0 : US
 Pensacola                        : Florida               : USA                   : 30 : 24 : 51 : N :  87 : 12 : 55 : W : -5.0 : US
-Penza                            : Volga Region          : Russia                : 53 : 13 :  0 : N :  45 :  0 :  0 : E :   3.0 : RU
+Penza                            : Volga Region          : Russia                : 53 : 13 :  0 : N :  45 :  0 :  0 : E :  3.0 : RU
 Peoria                           : Illinois              : USA                   : 40 : 41 : 42 : N :  89 : 35 : 33 : W : -6.0 : US
 Perkins Obs.                     : Ohio                  : USA                   : 40 : 15 :  1 : N :  83 :  3 : 15 : W : -5.0 : US
-Perm                             : Volga Region          : Russia                : 58 :  0 :  0 : N :  56 : 15 :  0 : E :   5.0 : RU
+Perm                             : Volga Region          : Russia                : 58 :  0 :  0 : N :  56 : 15 :  0 : E :  5.0 : RU
 Perpignan                        : Pyrénées Orientales   : France                : 42 : 42 : 00 : N :  02 :  53: 00 : E : 1.0  : EU
 Perth                            : Western Australia     : Australia             : 31 : 49 : 59 : S : 116 : 10 :  0 : E : +8.0 : --
 Perth Amboy                      : New Jersey            : USA                   : 40 : 31 :  1 : N :  74 : 16 :  1 : W : -5.0 : US
@@ -2012,10 +2016,10 @@ Peshawar                         :                       : Pakistan             
 Petach Tikva                     :                       : Israel                : 31 : 52 : 00 : N :  34 : 55 : 00 : E : 2.0  : ZN
 Petersburg                       : Alaska                : USA                   : 56 : 48 : 36 : N : 132 : 56 : 59 : W : -9.0 : US
 Petersburg                       : Virginia              : USA                   : 37 : 12 :  0 : N :  77 : 30 :  0 : W : -5.0 : US
-Petropavlovsk-Kamchatskiy        : Far East              : Russia                : 53 :  1 :  0 : N : 158 : 39 :  0 : E :  12.0 : RU
-Petrozavodsk                     : North-West Region     : Russia                : 52 : 53 :  0 : N : 158 : 42 :  0 : E :   3.0 : RU
+Petropavlovsk-Kamchatskiy        : Far East              : Russia                : 53 :  1 :  0 : N : 158 : 39 :  0 : E : 12.0 : RU
+Petrozavodsk                     : North-West Region     : Russia                : 52 : 53 :  0 : N : 158 : 42 :  0 : E :  3.0 : RU
 Petseri                          :                       : Estonia               : 57 : 48 : 30 : N :  27 : 36 : 00 : E :  2.0 : EU
-Pevek                            : Far East              : Russia                : 69 : 42 :  0 : N : 170 : 17 :  0 : E :  12.0 : RU
+Pevek                            : Far East              : Russia                : 69 : 42 :  0 : N : 170 : 17 :  0 : E : 12.0 : RU
 Pforzheim                        :                       : Germany               : 48 : 53 : 00 : N :   8 : 42 : 00 : E : 1.0  : EU
 Phenix City                      : Alabama               : USA                   : 32 : 27 : 47 : N :  85 :  0 : 11 : W : -6.0 : US
 Philadelphia                     : Pennsylvania          : USA                   : 39 : 56 : 57 : N :  75 :  9 : 20 : W : -5.0 : US
@@ -2090,6 +2094,7 @@ Potsdam                          :                       : Germany              
 Pottstown                        : Pennsylvania          : USA                   : 40 : 15 :  0 : N :  75 : 40 :  1 : W : -5.0 : US
 Poughkeepsie                     : New York              : USA                   : 41 : 45 :  0 : N :  73 : 55 :  1 : W : -5.0 : US
 Poznan                           :                       : Poland                : 52 : 23 :  9 : N :  16 : 52 : 45 : E :  1.0 : EU
+Požega                           :                       : Croatia               : 45 : 19 : 58 : E :  17 : 40 : 30 : N :  1.0 : EU
 Prague                           :                       : Czech Republic        : 50 :  4 : 59 : N :  14 : 25 : 59 : E : 1.0  : EU
 Prato                            :                       : Italy                 : 43 : 52 : 47 : N :  11 :  5 : 46 : E :  1.0 : EU
 Pratt                            : Kansas                : USA                   : 37 : 23 :  7 : N :  98 : 26 :  8 : W : -6.0 : US
@@ -2108,14 +2113,15 @@ Procida                          :                       : Italy                
 Proctor                          : Vermont               : USA                   : 43 : 40 :  1 : N :  73 :  0 :  0 : W : -5.0 : US
 Prosser                          : Washington            : USA                   : 46 :  7 : 11 : N : 119 : 27 : 35 : W : -8.0 : US
 Providence                       : Rhode Island          : USA                   : 41 : 49 : 31 : N :  71 : 24 : 41 : W : -5.0 : US
-Provideniya Bay                  : Far East              : Russia                : 64 : 23 :  0 : N : 173 : 18 :  0 : E :  12.0 : RU
+Provideniya Bay                  : Far East              : Russia                : 64 : 23 :  0 : N : 173 : 18 :  0 : E : 12.0 : RU
 Provo                            : Utah                  : USA                   : 40 : 14 :  5 : N : 111 : 39 : 25 : W : -7.0 : US
 Prudhoe Bay                      : Alaska                : USA                   : 70 : 16 : 11 : N : 148 : 20 : 24 : W : -9.0 : US
-Pskov                            : North-West Region     : Russia                : 57 : 50 :  0 : N :  28 : 20 :  0 : E :   3.0 : RU
+Pskov                            : North-West Region     : Russia                : 57 : 50 :  0 : N :  28 : 20 :  0 : E :  3.0 : RU
 Pueblo                           : Colorado              : USA                   : 38 : 16 : 17 : N : 104 : 36 : 32 : W : -7.0 : US
 Puerto Montt                     :                       : Chile                 : 41 : 25 : 59 : S :  73 :  5 : 59 : W : -4.0 : CL
 Puerto Real                      : Puerto Rico           : USA                   : 18 : 20 : 30 : N :  65 : 37 : 17 : W : -5.0 : US
 Puerto del Rosario               : Gran Canaria          : Spain                 : 28 : 30 :  0 : N :  13 : 52 : 00 : W :  0.0 : EU
+Pula                             :                       : Croatia               : 44 : 52 :  4 : E :  13 : 50 : 52 : N :  1.0 : EU
 Pulkovo                          :                       : Russia                : 59 : 46 :  4 : N :  30 : 19 : 30 : E :  1.0 : RU
 Purple Mountain                  :                       : China                 : 32 :  4 :  0 : N : 118 : 49 : 14 : E :  8.0 : CH
 Putnam                           : Connecticut           : USA                   : 41 : 55 :  1 : N :  71 : 55 :  1 : W : -5.0 : US
@@ -2211,13 +2217,14 @@ Roseville                        : California            : USA                  
 Roseville                        : Michigan              : USA                   : 42 : 30 : 11 : N :  82 : 56 : 12 : W : -5.0 : US
 Roskilde                         : Zealand               : Denmark               : 55 : 38 : 59 : N :  12 :  4 : 59 : E :   1.0 : EU
 Rostock                          :                       : Germany               : 54 :  4 : 58 : N :  12 :  7 : 58 : E : 1.0  : EU
-Rostov na Donu                   : South Region          : Russia                : 47 : 13 :  0 : N :  39 : 43 :  0 : E :   3.0 : RU
+Rostov na Donu                   : South Region          : Russia                : 47 : 13 :  0 : N :  39 : 43 :  0 : E :  3.0 : RU
 Roswell                          : Georgia               : USA                   : 34 :  1 : 58 : N :  84 : 20 : 59 : W : -5.0 : US
 Roswell                          : New Mexico            : USA                   : 33 : 23 : 42 : N : 104 : 31 : 37 : W : -7.0 : US
 Rota Island                      :                       : US Territory          : 14 : 10 : 23 : N : 145 : 14 : 20 : E : x    : --
 Rotterdam                        :                       : Netherlands           : 51 : 55 :  0 : N :   4 : 29 :  0 : E : 1.0  : EU
 Rouen                            : Seine maritime        : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
 Roundup                          : Montana               : USA                   : 46 : 25 :  1 : N : 108 : 34 : 58 : W : -7.0 : US
+Rovinj                           :                       : Croatia               : 45 :  5 :  2 : E :  13 : 38 :  9 : N :  1.0 : EU
 Rowland Heights                  : California            : USA                   : 34 :  0 :  0 : N : 117 : 52 : 30 : W : -8.0 : US
 Royal Oak                        : Michigan              : USA                   : 42 : 30 : 24 : N :  83 :  8 : 48 : W : -5.0 : US
 Ruby                             : Alaska                : USA                   : 64 : 37 : 58 : N : 155 : 22 :  1 : W : -9.0 : US
@@ -2228,7 +2235,7 @@ Ruston                           : Louisiana             : USA                  
 Rutherford Appleton Lab.         :                       : United Kingdom        : 51 : 34 :  3 : N :   1 : 18 : 45 : W :  0.0 : EU
 Rutland                          : Vermont               : USA                   : 43 : 36 : 29 : N :  72 : 58 : 18 : W : -5.0 : US
 Ruyigi                           :                       : Burundi               :  3 : 47 :  0 : S :  30 : 24 :  0 : E :   2.0 : --
-Ryazan                           : Central Region        : Russia                : 54 : 38 :  0 : N :  39 : 44 :  0 : E :   3.0 : RU
+Ryazan                           : Central Region        : Russia                : 54 : 38 :  0 : N :  39 : 44 :  0 : E :  3.0 : RU
 Räpina                           :                       : Estonia               : 58 : 05 : 59 : N :  27 : 28 : 01 : E :  2.0 : EU
 Saarbrücken                      :                       : Germany               : 49 : 14 : 00 : N :   7 : 00 : 00 : E : 1.0  : EU
 Sabadell                         :                       : Spain                 : 41 : 32 : 53 : N :  02 : 06 : 33 : E : 1.0  : EU
@@ -2255,7 +2262,7 @@ Salt Lake City                   : Utah                  : USA                  
 Salton City                      : California            : USA                   : 33 : 14 : 24 : N : 115 : 57 :  0 : W : -8.0 : US
 Salzburg                         :                       : Austria               : 47 : 46 : 48 : N :  13 :  0 :  0 : E : 1.0  : EU
 Salzgitter                       :                       : Germany               : 52 : 05 : 00 : N :  10 : 20 : 00 : E : 1.0  : EU
-Samara                           : Volga Region          : Russia                : 53 : 11 :  0 : N :  50 :  6 :  0 : E :   4.0 : RU
+Samara                           : Volga Region          : Russia                : 53 : 11 :  0 : N :  50 :  6 :  0 : E :  4.0 : RU
 Samarrah                         :                       : Iraq                  : 34 : 12 :  0 : N :  43 : 54 : 18 : E : 3.0  : IQ
 San Angelo                       : Texas                 : USA                   : 31 : 27 : 38 : N : 100 : 26 :  2 : W : -6.0 : US
 San Antonio                      : Texas                 : USA                   : 29 : 25 : 36 : N :  98 : 29 :  5 : W : -6.0 : US
@@ -2296,9 +2303,9 @@ Santiago                         :                       : Chile                
 Santo Domingo                    :                       : Dominican Republic    : 18 : 26 : 12 : N :  69 : 40 :  0 : W : -4.0 : --
 Sapporo                          :                       : Japan                 : 43 :  7 :  1 : N : 141 : 22 : 58 : E : 9.0  : --
 Sarajevo                         :                       : Bosnia and Herzegovina : 43 : 49 : 55 : N :  18 : 20 :  6 : E : 1.0  : EU
-Saransk                          : Volga Region          : Russia                : 54 : 11 :  0 : N :  45 : 11 :  0 : E :   3.0 : RU
+Saransk                          : Volga Region          : Russia                : 54 : 11 :  0 : N :  45 : 11 :  0 : E :  3.0 : RU
 Sarasota                         : Florida               : USA                   : 27 : 20 : 12 : N :  82 : 31 : 54 : W : -5.0 : US
-Saratov                          : Volga Region          : Russia                : 51 : 34 :  0 : N :  46 :  2 :  0 : E :   3.0 : RU
+Saratov                          : Volga Region          : Russia                : 51 : 34 :  0 : N :  46 :  2 :  0 : E :  3.0 : RU
 Sargent                          : Nebraska              : USA                   : 41 : 40 :  1 : N :  99 : 37 : 58 : W : -6.0 : US
 Saskatoon                        : Saskatchewan          : Canada                : 52 :  8 : 59 : N : 106 : 35 : 59 : W : -6.0 : --
 Sassari                          :                       : Italy                 : 40 : 43 : 26 : N :   8 : 33 : 49 : E :  1.0 : EU
@@ -2367,6 +2374,7 @@ Sioux Falls                      : South Dakota          : USA                  
 Sioux Lookout                    : Ontario               : Canada                : 50 :  4 : 12 : N :  91 : 55 : 12 : W : -6.0 : US
 Sioux Narrows                    : Ontario               : Canada                : 49 : 23 : 59 : N :  94 :  0 :  0 : W : -6.0 : US
 Siracusa                         :                       : Italy                 : 37 :  4 : 56 : N :  15 : 17 :  7 : E :  1.0 : EU
+Sisak                            :                       : Croatia               : 45 : 28 :  8 : E :  16 : 22 : 47 : N :  1.0 : EU
 Sitka                            : Alaska                : USA                   : 57 :  2 : 59 : N : 135 : 21 : 36 : W : -9.0 : US
 Sittwe                           :                       : Myanmar               : 20 :  7 : 59 : N :  92 : 52 : 59 : E : 6.5  : --
 Skagen                           : Jylland               : Denmark               : 57 : 43 : 58 : N :  10 : 35 : 58 : E :   1.0 : EU
@@ -2377,9 +2385,9 @@ Skokie                           : Illinois              : USA                  
 Skopje                           :                       : Macedonia             : 41 : 59 :  0 : N :  21 : 26 :  0 : E :  1.0 : EU
 Slagelse                         : Zealand               : Denmark               : 55 : 23 : 59 : N :  11 : 22 : 59 : E :   1.0 : EU
 Slidell                          : Louisiana             : USA                   : 30 : 16 : 29 : N :  89 : 48 :  6 : W : -6.0 : US
-Smolensk                         : Central Region        : Russia                : 54 : 47 :  0 : N :  32 :  3 :  0 : E :   3.0 : RU
+Smolensk                         : Central Region        : Russia                : 54 : 47 :  0 : N :  32 :  3 :  0 : E :  3.0 : RU
 Smyrna                           : Delaware              : USA                   : 39 : 18 : 10 : N :  75 : 36 : 24 : W : -5.0 : US
-Sochi                            : South Region          : Russia                : 43 : 35 :  0 : N :  39 : 45 :  0 : E :   3.0 : RU
+Sochi                            : South Region          : Russia                : 43 : 35 :  0 : N :  39 : 45 :  0 : E :  3.0 : RU
 Soda Springs                     : Idaho                 : USA                   : 42 : 38 : 59 : N : 111 : 37 :  1 : W : -7.0 : US
 Soeborg                          :                       : Denmark               : 55 : 25 : 12 : N :  12 : 20 : 59 : E : 1.0  : EU
 Soenderborg                      : Jylland               : Denmark               : 54 : 55 :  1 : N :   9 : 46 :  1 : E :   1.0 : EU
@@ -2408,6 +2416,7 @@ Sparks                           : Nevada                : USA                  
 Spartanburg                      : South Carolina        : USA                   : 34 : 57 :  2 : N :  81 : 56 :  6 : W : -5.0 : US
 Spenard                          : Alaska                : USA                   : 61 : 11 : 17 : N : 149 : 55 :  1 : W : -9.0 : US
 Spencer                          : Iowa                  : USA                   : 43 :  8 : 59 : N :  95 :  7 : 58 : W : -6.0 : US
+Split                            :                       : Croatia               : 43 : 30 : 50 : E :  16 : 27 : 21 : N :  1.0 : EU
 Spokane                          : Washington            : USA                   : 47 : 39 : 32 : N : 117 : 25 : 33 : W : -8.0 : US
 Springdale                       : Arkansas              : USA                   : 36 : 10 :  1 : N :  94 :  7 :  1 : W : -6.0 : US
 Springfield                      : Illinois              : USA                   : 39 : 47 : 57 : N :  89 : 38 : 50 : W : -6.0 : US
@@ -2436,7 +2445,7 @@ St. Nazaire                      : Loire-atlantique      : France               
 St. Paul                         : Minnesota             : USA                   : 44 : 57 : 19 : N :  93 :  6 :  6 : W : -6.0 : US
 St. Peter Port                   : Guernsey              : United Kingdom        : 49 : 25 : 47 : N :   2 : 36 : 10 : W : 0.0  : EU
 St. Petersburg                   : Florida               : USA                   : 27 : 46 : 18 : N :  82 : 38 : 18 : W : -5.0 : US
-St. Petersburg                   : North-West Region     : Russia                : 59 : 56 :  0 : N :  30 : 16 :  0 : E :   3.0 : RU
+St. Petersburg                   : North-West Region     : Russia                : 59 : 56 :  0 : N :  30 : 16 :  0 : E :  3.0 : RU
 St. Thomas                       :                       : Virgin Islands        : 18 : 19 : 59 : N :  64 : 58 :  0 : W : -4.0 : --
 Stamford                         : Connecticut           : USA                   : 41 :  3 :  9 : N :  73 : 32 : 24 : W : -5.0 : US
 Stanley                          :                       : Falkland Islands      : 51 : 45 : 59 : S :  57 : 58 : 59 : W : -4.0 : FK
@@ -2444,7 +2453,7 @@ Stara Lesna                      :                       : Slovakia             
 Staten Island                    : New York              : USA                   : 40 : 34 : 59 : N :  74 :  9 :  0 : W : -5.0 : US
 Statesville                      : North Carolina        : USA                   : 34 : 45 :  0 : N :  80 : 54 :  0 : W : -5.0 : US
 Stavanger                        :                       : Norway                : 58 : 58 : 00 : N :   5 : 45 : 00 : E : 1.0  : EU
-Stavropol'                       : South Region          : Russia                : 45 :  2 :  0 : N :  41 : 59 :  0 : E :   3.0 : RU
+Stavropol'                       : South Region          : Russia                : 45 :  2 :  0 : N :  41 : 59 :  0 : E :  3.0 : RU
 Steamboat Springs                : Colorado              : USA                   : 40 : 30 :  0 : N : 106 : 47 : 59 : W : -7.0 : US
 Sterling                         : Illinois              : USA                   : 41 : 46 : 58 : N :  89 : 39 :  0 : W : -6.0 : US
 Sterling                         : Virginia              : USA                   : 38 : 56 : 40 : N :  77 : 27 : 20 : W : -5.0 : US
@@ -2478,7 +2487,7 @@ Swannanoa                        : North Carolina        : USA                  
 Swift Current                    : Saskatchewan          : Canada                : 50 : 16 : 48 : N : 107 : 45 :  0 : W : -6.0 : --
 Sydney                           : New South Wales       : Australia             : 33 : 54 : 59 : S : 151 : 16 : 59 : E :+10.0 : AU
 Sydney                           : Nova Scotia           : Canada                : 46 :  8 : 24 : N :  60 :  4 : 47 : W : -4.0 : US
-Syktyvkar                        : North-West Region     : Russia                : 61 : 40 :  0 : N :  50 : 46 :  0 : E :   3.0 : RU
+Syktyvkar                        : North-West Region     : Russia                : 61 : 40 :  0 : N :  50 : 46 :  0 : E :  3.0 : RU
 Syracuse                         : New York              : USA                   : 43 :  3 :  3 : N :  76 :  9 : 14 : W : -5.0 : US
 São Paulo                        :                       : Brazil                : 23 : 32 : 51 : S :  46 : 37 : 59 : W : -3.0 : BZ
 Tabriz                           :                       : Iran                  : 38 :  7 : 59 : N :  46 : 14 :  9 : E : 3.5  : IR
@@ -2492,7 +2501,7 @@ Talara                           :                       : Peru                 
 Tallahassee                      : Florida               : USA                   : 30 : 26 : 42 : N :  84 : 16 : 54 : W : -5.0 : US
 Tallinn                          :                       : Estonia               : 59 : 26 :  0 : N :  24 : 45 : 00 : E : 2.0  : EU
 Tamanrasset                      :                       : Algeria               : 22 : 47 :  0 : N :   5 : 31 :  0 : E :   1.0 : --
-Tambov                           : Central Region        : Russia                : 52 : 43 :  0 : N :  41 : 25 :  0 : E :   3.0 : RU
+Tambov                           : Central Region        : Russia                : 52 : 43 :  0 : N :  41 : 25 :  0 : E :  3.0 : RU
 Tampa                            : Florida               : USA                   : 27 : 56 : 57 : N :  82 : 27 : 24 : W : -5.0 : US
 Tampere                          :                       : Finland               : 61 : 32 : 00 : N :  23 : 45 : 00 : E : 2.0  : EU
 Tamsalu                          :                       : Estonia               : 59 : 09 : 51 : N :  26 : 05 : 37 : E :  2.0 : EU
@@ -2548,7 +2557,7 @@ Toledo                           : Toledo                : Spain                
 Toliara                          :                       : Madagascar            : 23 : 23 :  0 : S :  43 : 44 :  0 : E :   3.0 : --
 Tombouctou                       :                       : Mali                  : 16 : 43 :  0 : N :  03 : 00 :  0 : W :   0.0 : --
 Tombstone                        : Arizona               : USA                   : 31 : 40 :  1 : N : 110 :  0 :  0 : W : -7.0 : --
-Tomsk                            : Siberia               : Russia                : 56 : 30 :  0 : N :  84 : 58 :  0 : E :   6.0 : RU
+Tomsk                            : Siberia               : Russia                : 56 : 30 :  0 : N :  84 : 58 :  0 : E :  6.0 : RU
 Tongyeong                        : Gyeongnam             : Korea                 : 34 : 51 :  0 : N : 128 : 26 :  0 : E : 9.0  : SK
 Topeka                           : Kansas                : USA                   : 39 :  3 : 15 : N :  95 : 40 : 22 : W : -6.0 : US
 Toronto                          : Ontario               : Canada                : 43 : 40 : 12 : N :  79 : 22 : 12 : W : -5.0 : US
@@ -2578,17 +2587,17 @@ Truth or Consequences            : New Mexico            : USA                  
 Tucker                           : Georgia               : USA                   : 33 : 31 : 12 : N :  84 :  7 : 12 : W : -5.0 : US
 Tucson                           : Arizona               : USA                   : 32 : 13 : 14 : N : 110 : 58 :  8 : W : -7.0 : --
 Tucumcari                        : New Mexico            : USA                   : 35 : 10 : 58 : N : 103 : 43 :  1 : W : -7.0 : US
-Tula                             : Central Region        : Russia                : 54 : 12 :  0 : N :  37 : 37 :  0 : E :   3.0 : RU
+Tula                             : Central Region        : Russia                : 54 : 12 :  0 : N :  37 : 37 :  0 : E :  3.0 : RU
 Tulsa                            : Oklahoma              : USA                   : 36 :  9 : 11 : N :  95 : 59 : 34 : W : -6.0 : US
 Tunis                            :                       : Tunisia               : 36 : 51 :  0 : N :  10 : 13 :  1 : E : 1.0  : --
 Tupelo                           : Mississippi           : USA                   : 34 : 13 : 58 : N :  88 : 43 :  1 : W : -6.0 : US
 Turin                            :                       : Italy                 : 45 :  2 :  3 : N :   7 : 46 : 30 : E :  1.0 : EU
 Turku                            :                       : Finland               : 60 : 27 : 00 : N :  22 : 15 : 00 : E : 2.0  : EU
 Tuscaloosa                       : Alabama               : USA                   : 33 : 12 : 17 : N :  87 : 34 :  0 : W : -6.0 : US
-Tver'                            : Central Region        : Russia                : 56 : 52 :  0 : N :  35 : 55 :  0 : E :   3.0 : RU
+Tver'                            : Central Region        : Russia                : 56 : 52 :  0 : N :  35 : 55 :  0 : E :  3.0 : RU
 Twin Falls                       : Idaho                 : USA                   : 42 : 33 : 42 : N : 114 : 28 : 11 : W : -7.0 : US
 Tyler                            : Texas                 : USA                   : 32 : 20 : 41 : N :  95 : 18 :  6 : W : -6.0 : US
-Tyumen'                          : Ural                  : Russia                : 57 :  9 :  0 : N :  65 : 32 :  0 : E :   5.0 : RU
+Tyumen'                          : Ural                  : Russia                : 57 :  9 :  0 : N :  65 : 32 :  0 : E :  5.0 : RU
 Tõrva                            :                       : Estonia               : 58 : 00 : 29 : N :  25 : 55 : 24 : E :  2.0 : EU
 Türi                             :                       : Estonia               : 58 : 48 : 31 : N :  25 : 25 : 34 : E :  2.0 : EU
 US Naval Observatory             : Washington, DC        : USA                   : 38 : 55 :  3 : N :  77 :  4 :  0 : W : -5.0 : US
@@ -2596,11 +2605,11 @@ Ubon                             :                       : Thailand             
 Udine                            :                       : Italy                 : 46 :  3 : 48 : N :  13 : 14 :  9 : E :  1.0 : EU
 Udon-Thani                       :                       : Thailand              : 17 : 22 : 59 : N : 102 : 47 : 59 : E : 7.0  : --
 Uelzen                           :                       : Germany               : 52 : 58 : 11 : N :  10 : 31 : 11 : E : 1.0  : EU
-Ufa                              : Volga Region          : Russia                : 54 : 44 :  0 : N :  55 : 56 :  0 : E :   5.0 : RU
+Ufa                              : Volga Region          : Russia                : 54 : 44 :  0 : N :  55 : 56 :  0 : E :  5.0 : RU
 Uiseong                          : Gyeongbuk             : Korea                 : 36 : 21 :  0 : N : 128 : 41 :  0 : E : 9.0  : SK
 Ujung Pandang                    :                       : Indonesia             :  5 :  4 :  0 : S : 119 : 32 : 59 : E : 8.0  : --
 Ukkel                            :                       : Belgium               : 50 : 47 :  9 : N :   4 : 21 : 29 : E :  1.0 : EU
-Ulan-Ude                         : Siberia               : Russia                : 51 : 50 :  0 : N : 107 : 37 :  0 : E :   8.0 : RU
+Ulan-Ude                         : Siberia               : Russia                : 51 : 50 :  0 : N : 107 : 37 :  0 : E :  8.0 : RU
 Uljin                            : Gyeongbuk             : Korea                 : 36 : 59 :  0 : N : 129 : 25 :  0 : E : 9.0  : SK
 Ulleungdo                        : Gyeongbuk             : Korea                 : 37 : 29 :  0 : N : 130 : 54 :  0 : E : 9.0  : SK
 Ulm                              :                       : Germany               : 48 : 25 : 00 : N :  10 : 00 : 00 : E : 1.0  : EU
@@ -2615,7 +2624,7 @@ Upolu Point                      : Hawaii                : USA                  
 Uppsala                          :                       : Sweden                : 59 : 51 :  5 : N :  17 : 37 : 30 : E :  1.0 : EU
 Uppsala Sur                      :                       : Australia             : 31 : 16 :  6 : S : 149 :  4 :  0 : E : 10.0 : AU
 Urbana                           : Illinois              : USA                   : 40 :  6 : 42 : N :  88 : 12 :  6 : W : -6.0 : US
-Ust'-Ordynsky                    : Siberia               : Russia                : 52 : 48 :  0 : N : 104 : 45 :  0 : E :   8.0 : RU
+Ust'-Ordynsky                    : Siberia               : Russia                : 52 : 48 :  0 : N : 104 : 45 :  0 : E :  8.0 : RU
 Utica                            : New York              : USA                   : 43 :  6 : 11 : N :  75 : 13 : 32 : W : -5.0 : US
 Utirik                           :                       : Marshall Islands      : 11 : 13 : 59 : N : 169 : 50 : 59 : E : 12.0 : --
 Utrecht                          :                       : Netherlands           : 52 : 06 : 00 : N :   5 : 07 : 00 : E : 1.0  : EU
@@ -2640,6 +2649,7 @@ Vancouver                        : British Columbia      : Canada               
 Vancouver                        : Washington            : USA                   : 45 : 37 : 30 : N : 122 : 40 : 12 : W : -8.0 : US
 Vandans                          :                       : Austria               : 47 :  5 : 57 : N :   9 : 51 : 48 : E : 1.0  : EU
 Vantaa                           :                       : Finland               : 60 : 18 : 00 : N :  24 : 57 : 00 : E : 2.0  : EU
+Varaždin                         :                       : Croatia               : 46 : 18 : 36 : E :  16 : 20 :  9 : N :  1.0 : EU
 Varde                            : Jylland               : Denmark               : 55 : 37 : 58 : N :   8 : 28 : 58 : E :   1.0 : EU
 Varsovia                         :                       : Poland                : 52 :  5 :  4 : N :  21 : 25 : 14 : E :  1.0 : EU
 Vaticano                         :                       : Vatican               : 41 : 44 :  8 : N :  12 : 39 :  0 : E :  1.0 : EU
@@ -2663,14 +2673,16 @@ Vigo                             :                       : Spain                
 Viljandi                         :                       : Estonia               : 58 : 21 : 41 : N :  25 : 34 : 29 : E :  2.0 : EU
 Vilnius                          :                       : Lithuania             : 54 : 41 :  0 : N :  25 : 17 : 15 : E :  2.0 : RU
 Vineland                         : New Jersey            : USA                   : 39 : 29 : 12 : N :  75 :  1 : 36 : W : -5.0 : US
+Vinkovci                         :                       : Croatia               : 45 : 17 : 31 : E :  18 : 48 :  3 : N :  1.0 : EU
 Virginia Beach                   : Virginia              : USA                   : 36 : 50 : 45 : N :  76 :  8 : 21 : W : -5.0 : US
+Virovitica                       :                       : Croatia               : 45 : 50 :  2 : E :  17 : 23 : 13 : N :  1.0 : EU
 Visalia                          : California            : USA                   : 36 : 20 :  6 : N : 119 : 17 : 49 : W : -8.0 : US
 Vitoria-Gasteiz                  :                       : Spain                 : 42 : 51 : 01 : N :  02 : 40 : 23 : W : 1.0  : EU
-Vladikavkaz                      : South Region          : Russia                : 43 :  3 :  0 : N :  44 : 40 :  0 : E :   3.0 : RU
-Vladimir                         : Central Region        : Russia                : 56 : 10 :  0 : N :  40 : 25 :  0 : E :   3.0 : RU
-Vladivostok                      : Far East              : Russia                : 43 :  7 :  0 : N : 131 : 55 :  0 : E :  10.0 : RU
-Volgograd                        : South Region          : Russia                : 48 : 42 :  0 : N :  44 : 31 :  0 : E :   3.0 : RU
-Vologda                          : North-West Region     : Russia                : 59 : 12 :  0 : N :  39 : 55 :  0 : E :   3.0 : RU
+Vladikavkaz                      : South Region          : Russia                : 43 :  3 :  0 : N :  44 : 40 :  0 : E :  3.0 : RU
+Vladimir                         : Central Region        : Russia                : 56 : 10 :  0 : N :  40 : 25 :  0 : E :  3.0 : RU
+Vladivostok                      : Far East              : Russia                : 43 :  7 :  0 : N : 131 : 55 :  0 : E : 10.0 : RU
+Volgograd                        : South Region          : Russia                : 48 : 42 :  0 : N :  44 : 31 :  0 : E :  3.0 : RU
+Vologda                          : North-West Region     : Russia                : 59 : 12 :  0 : N :  39 : 55 :  0 : E :  3.0 : RU
 Vols                             :                       : Austria               : 47 :  9 :  7 : N :  11 : 11 : 41 : E : 1.0  : EU
 Vordingborg                      : Zealand               : Denmark               : 54 : 58 : 58 : N :  11 : 54 : 58 : E :   1.0 : EU
 Võhma                            :                       : Estonia               : 58 : 38 : 01 : N :  25 : 33 : 37 : E :  2.0 : EU
@@ -2796,7 +2808,7 @@ Wyoming                          : Michigan              : USA                  
 Wytheville                       : Virginia              : USA                   : 36 : 55 :  1 : N :  81 :  5 : 59 : W : -5.0 : US
 Yakima                           : Washington            : USA                   : 46 : 35 : 41 : N : 120 : 30 : 46 : W : -8.0 : US
 Yakutat                          : Alaska                : USA                   : 59 : 31 : 58 : N : 139 : 34 : 58 : W : -9.0 : US
-Yakutsk                          : Far East              : Russia                : 62 :  0 :  0 : N : 129 : 40 :  0 : E :   9.0 : RU
+Yakutsk                          : Far East              : Russia                : 62 :  0 :  0 : N : 129 : 40 :  0 : E :  9.0 : RU
 Yale Obs.                        : Connecticut           : USA                   : 41 : 19 :  0 : N :  72 : 48 : 45 : W : -5.0 : US
 Yalta                            :                       : Ukraine               : 44 : 28 : 59 : N :  34 : 12 :  0 : E : 2.0  : EU
 Yamoussoukro                     :                       : Ivory coast           :  6 : 54 :  0 : N :   5 : 21 :  0 : W :   0.0 : --
@@ -2818,13 +2830,14 @@ Yonkers                          : New York              : USA                  
 York                             :                       : United Kingdom        : 53 : 57 : 00 : N :   1 : 05 : 00 : W : 0.0  : EU
 York                             : Pennsylvania          : USA                   : 39 : 57 : 34 : N :  76 : 43 : 36 : W : -5.0 : US
 Yorktown Heights                 : New York              : USA                   : 41 : 19 : 59 : N :  73 : 46 :  0 : W : -5.0 : US
-Yoshkar Ola                      : Volga Region          : Russia                : 56 : 38 :  0 : N :  47 : 52 :  0 : E :   3.0 : RU
+Yoshkar Ola                      : Volga Region          : Russia                : 56 : 38 :  0 : N :  47 : 52 :  0 : E :  3.0 : RU
 Youngstown                       : Ohio                  : USA                   : 41 :  5 : 57 : N :  80 : 39 :  1 : W : -5.0 : US
 Yuba City                        : California            : USA                   : 39 :  7 : 58 : N : 121 : 37 : 58 : W : -8.0 : US
 Yuma                             : Arizona               : USA                   : 32 : 42 : 54 : N : 114 : 37 : 22 : W : -7.0 : --
 Yuma                             : Colorado              : USA                   : 40 :  7 : 58 : N : 102 : 49 : 58 : W : -7.0 : US
 Yupojin                          : Hambuk                : Korea                 : 43 :  0 : 39 : N : 129 :  0 :  0 : E : 9.0  : SK
-Yuzhno-Sakhalinsk                : Far East              : Russia                : 46 : 58 :  0 : N : 142 : 42 :  0 : E :  10.0 : RU
+Yuzhno-Sakhalinsk                : Far East              : Russia                : 46 : 58 :  0 : N : 142 : 42 :  0 : E : 10.0 : RU
+Zadar                            :                       : Croatia               : 44 :  7 :  1 : E :  15 : 15 :  0 : N :  1.0 : EU
 Zamora                           :                       : Spain                 : 41 : 29 : 56 : N :  05 : 45 : 18 : W : 1.0  : EU
 Zanesville                       : Ohio                  : USA                   : 39 : 56 : 17 : N :  82 :  0 : 29 : W : -5.0 : US
 Zanzibar                         :                       : Tanzanie              :  6 : 13 :  0 : S :  39 : 13 :  0 : E :   3.0 : --
