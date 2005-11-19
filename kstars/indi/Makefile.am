@@ -73,6 +73,10 @@ uninstall-local:
 
 KDE_OPTIONS = nofinal
 
+if LINUX
 SUBDIRS = fli webcam apogee
+else
+SUBDIRS = fli apogee
+endif
 
 include $(top_srcdir)/admin/Doxyfile.am

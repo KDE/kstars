@@ -62,7 +62,7 @@ public:
 		*@param jup pointer to the jupiter object
 		*@param sun pointer to the Sun object
 		*/
-	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sun );
+	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *ksun );
 	
 	/**@return pointer to the stored RA,Dec position of a moon.
 		*@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
