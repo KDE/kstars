@@ -89,8 +89,9 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	Zj = Jupiter->rsun() * sinJB;
 	
 	//Distance and light-travel delay time:
+	//0.0057755183 is the inverse of the speed of light, in days/AU
 	Rj = sqrt(Xj*Xj +Yj*Yj + Zj*Zj );
-	tdelay = 0.0057755183*Rj;
+	tdelay = 0.0057755183*Rj;  //light travel delay, in days
 	
 	LAMBDA = atan(Yj/Xj);
 	if (Xj < 0) LAMBDA += dms::PI; //resolve atan ambiguity

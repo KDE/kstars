@@ -44,8 +44,10 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 		// So don't bother to iterate like KSPlanet does. Just subtract
 		// The current delay and recompute (once).
 		//
+	  
+		//The light-travel time delay, in millenia
+		//0.0057755183 is the inverse speed of light, in days/AU
 		double delay = (.0057755183 * Earth->rsun()) / 365250.0;
-
 		//
 		// MHH 2002-02-04 I don't like this. But it avoids code duplication.
 		// Maybe we can find a better way.

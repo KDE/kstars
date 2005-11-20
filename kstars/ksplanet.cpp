@@ -248,7 +248,10 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
 
 			//distance from Earth
 			dst = sqrt(x*x + y*y + z*z);
-
+			
+			//The light-travel time delay, in millenia
+			//0.0057755183 is the inverse speed of light, 
+			//in days/AU
 			double delay = (.0057755183 * dst) / 365250.0;
 
 			jm = num->julianMillenia() - delay;
