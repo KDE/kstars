@@ -48,17 +48,17 @@ class KSComet : public KSPlanetBase
 {
 	public:
 		/**Constructor.
-			*@p kd pointer to the KStarsData object
-			*@p s the name of the comet
-			*@p image_file the filename for an image of the comet
-			*@p JD the Julian Day for the orbital elements
-			*@p q the perihelion distance of the comet's orbit (AU)
-			*@p e the eccentricity of the comet's orbit
-			*@p i the inclination angle of the comet's orbit
-			*@p w the argument of the orbit's perihelion
-			*@p N the longitude of the orbit's ascending node
-			*@p M the mean anomaly for the Julian Day
-			*@p Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
+			*@param kd pointer to the KStarsData object
+			*@param s the name of the comet
+			*@param image_file the filename for an image of the comet
+			*@param JD the Julian Day for the orbital elements
+			*@param q the perihelion distance of the comet's orbit (AU)
+			*@param e the eccentricity of the comet's orbit
+			*@param i the inclination angle of the comet's orbit
+			*@param w the argument of the orbit's perihelion
+			*@param N the longitude of the orbit's ascending node
+			*@param M the mean anomaly for the Julian Day
+			*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
 			*/
 		KSComet( KStarsData *kd, QString s, QString image_file,
 			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
