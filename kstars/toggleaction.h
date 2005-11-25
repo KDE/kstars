@@ -39,12 +39,12 @@ class ToggleAction : public KAction {
 		ToggleAction(const QString& ontext, const QString& offtext, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
 
 		/**Sets the ToolTip text for the "on" state. 
-			*@p tip the tooltip string
+			*@param tip the tooltip string
 			*/
 		void setOnToolTip(QString tip);
 
 		/**Sets the ToolTip text for the "off" state. 
-			*@p tip the tooltip string
+			*@param tip the tooltip string
 			*/
 		void setOffToolTip(QString tip);
 

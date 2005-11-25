@@ -91,9 +91,9 @@ protected:
 	class OrbitData  {
 		public:
 			/**Constructor 
-				*@p a the A value
-				*@p b the B value
-				*@p c the C value
+				*@param a the A value
+				*@param b the B value
+				*@param c the C value
 				*/
 			OrbitData(double a, double b, double c) :
 				A(a), B(b), C(c) {};
@@ -136,8 +136,8 @@ protected:
 				*The data is stored on disk in a series of files named 
 				*"name.[LBR][0...5].vsop", where "L"=Longitude data, "B"=Latitude data,
 				*and R=Radius data.
-				*@p n the name of the planet whose data is to be loaded from disk.
-				*@p odc reference to the OrbitDataColl containing the planet's orbital data.
+				*@param n the name of the planet whose data is to be loaded from disk.
+				*@param odc reference to the OrbitDataColl containing the planet's orbital data.
 				*@return true if data successfully loaded
 				*/
 			bool loadData( OrbitDataColl &odc, const QString &n);
@@ -146,8 +146,8 @@ protected:
 			/**Read a single orbital data file from disk into an OrbitData vector.
 			*The data files are named "name.[LBR][0...5].vsop", where 
 			*"L"=Longitude data, "B"=Latitude data, and R=Radius data.
-			*@p fname the filename to be read.
-			*@p vector pointer to the OrbitData vector to be filled with these data.
+			*@param fname the filename to be read.
+			*@param vector pointer to the OrbitData vector to be filled with these data.
 			*/
 			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> vector);
 			

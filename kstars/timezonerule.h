@@ -59,13 +59,13 @@ public:
 	TimeZoneRule();
 
 	/**Constructor. Create a TZ rule according to the arguments.
-		*@p smonth the three-letter code for the month in which DST starts
-		*@p sday a string encoding the day on which DST starts (see the class description)
-		*@p stime the time at which DST starts
-		*@p rmonth the three-letter code for the month in which DST reverts
-		*@p rday a string encoding the day on which DST reverts (see the class description)
-		*@p rtime the time at which DST reverts
-		*@p offset the offset between normal time and DS time (always 1.00?)
+		*@param smonth the three-letter code for the month in which DST starts
+		*@param sday a string encoding the day on which DST starts (see the class description)
+		*@param stime the time at which DST starts
+		*@param rmonth the three-letter code for the month in which DST reverts
+		*@param rday a string encoding the day on which DST reverts (see the class description)
+		*@param rtime the time at which DST reverts
+		*@param offset the offset between normal time and DS time (always 1.00?)
 		*/
 	TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime, 
 		const QString &rmonth, const QString &rday, const QTime &rtime, const double &offset=1.00 );
@@ -74,7 +74,7 @@ public:
 	~TimeZoneRule();
 
 	/**Determine whether DST is in effect for the given DateTime, according to this rule 
-		*@p date the date/time to test for DST
+		*@param date the date/time to test for DST
 		*/
 	bool isDSTActive( const KStarsDateTime &date );
 
@@ -111,7 +111,7 @@ public:
 	KStarsDateTime nextDSTChange_LTime() { return next_change_ltime; }
 
 	/**@return TRUE if this rule is the same as the argument.
-		*@p r the rule to check for equivalence
+		*@param r the rule to check for equivalence
 		*/
 	bool equals( TimeZoneRule *r );
 
@@ -142,21 +142,21 @@ private:
 	/**Interpret the day string as a week ID and a day-of-week ID.  The day-of-week
 		*is an integer between 1 (sunday) and 7 (saturday); the week integer can
 		*be 1-3 (1st/2nd/third weekday of the month), or 5 (last weekday of the month) 
-		*@p day the day integer is returned by reference through this value
-		*@p week the week integer is returned by reference through this value
+		*@param day the day integer is returned by reference through this value
+		*@param week the week integer is returned by reference through this value
 		*@return TRUE if the day string was successfully parsed 
 		*/
 	bool initDay( const QString &d, int &day, int &week );
 
 	/**Find the calendar date on which DST starts for the calendar year
 		*of the given KStarsDateTime.
-		*@p d the date containing the year to be tested
+		*@param d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
 	int findStartDay( const KStarsDateTime &d );
 
 	/**Find the calendar date on which DST ends for the calendar year
 		*of the given KStarsDateTime.
-		*@p d the date containing the year to be tested
+		*@param d the date containing the year to be tested
 		*@return the calendar date, an integer between 1 and 31. */
 	int findRevertDay( const KStarsDateTime &d );
 

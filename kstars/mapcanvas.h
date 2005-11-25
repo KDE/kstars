@@ -57,10 +57,10 @@ public slots:
 		*Resizes the size of the map pixmap to match the widget, and resets
 		*the Origin QPoint so it remains at the center of the widget.
 		*@note this is called automatically by resize events.
-		*@p x the x-position of the widget
-		*@p y the y-position of the widget
-		*@p w the width of the widget
-		*@p h the height of the widget
+		*@param x the x-position of the widget
+		*@param y the y-position of the widget
+		*@param w the width of the widget
+		*@param h the height of the widget
 		*/
 	virtual void setGeometry( int x, int y, int w, int h );
 	
@@ -70,7 +70,7 @@ public slots:
 		*This function behaves just like the above function.  It differs
 		*only in the data type of its argument.
 		*@note this is called automatically by resize events.
-		*@p r QRect describing geometry
+		*@param r QRect describing geometry
 		*/
 	virtual void setGeometry( const QRect &r );
 

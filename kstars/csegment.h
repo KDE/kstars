@@ -43,8 +43,8 @@ public:
 	~CSegment();
 	
 	/**Add a SkyPoint node to the boundary segment.
-		*@p ra the RA of the node
-		*@p dec the Dec of the node
+		*@param ra the RA of the node
+		*@param dec the Dec of the node
 		*/
 	void addPoint( double ra, double dec );
 	
@@ -60,13 +60,13 @@ public:
 	
 	/**Set the names of the bounding constellations.  Use the IAU
 		*three-letter abbreviations.
-		*@p n1 IAU name of one bounding constellation
-		*@p n2 IAU name of the other bounding constellation
+		*@param n1 IAU name of one bounding constellation
+		*@param n2 IAU name of the other bounding constellation
 		*/
 	bool setNames( QString n1, QString n2 );
 	
 	/**Determine if a given constellation borders this boundary segment
-		*@p cname the IAU code of the constellation to be tested.
+		*@param cname the IAU code of the constellation to be tested.
 		*/
 	bool borders( QString cname );
 

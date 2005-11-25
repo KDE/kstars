@@ -199,8 +199,8 @@ public:
 /**Update position of the planet (reimplemented from SkyPoint)
 	*@param num current KSNumbers object
 	*@param includePlanets this function does nothing if includePlanets=false
-	*@param lat pointer to the geographic latitude; if NULL< we skip localizeCoords()
-	*@param LST pointer to the local sidereal time; if NULL< we skip localizeCoords()
+	*@param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
+	*@param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
 	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
@@ -227,7 +227,7 @@ public:
 		double angSize() const { return AngularSize; }
 
 /**@short set the planet's angular size, in km.
-	*@p size the planet's size, in km
+	*@param size the planet's size, in km
 	*/
 	void setAngularSize( double size ) { AngularSize = size; }
 
@@ -236,7 +236,7 @@ public:
 		double physicalSize() const { return PhysicalSize; }
 
 /**@short set the planet's physical size, in km.
-	*@p size the planet's size, in km
+	*@param size the planet's size, in km
 	*/
 	void setPhysicalSize( double size ) { PhysicalSize = size; }
 

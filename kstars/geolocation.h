@@ -219,32 +219,32 @@ public:
 	
 /**Update Latitude, Longitude and Height according to new ellipsoid. These are
 	*computed from XYZ which do NOT change on changing the ellipsoid.
-	*@p i = index to identify the ellipsoid
+	*@param i index to identify the ellipsoid
 	*/
 	void changeEllipsoid( int i );
 	
 /**Set City name according to argument.
-	*@p n new city name
+	*@param n new city name
 	*/
 	void setName( const QString &n ) { Name = n; }
 
 /**Set Province name according to argument.
-	*@p n new province name
+	*@param n new province name
 	*/
 	void setProvince( const QString &n ) { Province = n; }
 
 /**Set Country name according to argument.
-	*@p n new country name
+	*@param n new country name
 	*/
 	void setCountry( const QString &n ) { Country = n; }
 
 /**Sets Time Zone according to argument.
-	*@p tz new timezone offset
+	*@param tz new timezone offset
 	*/
 	void setTZ( double tz ) { TimeZone = tz; }
 
 /**Sets DST rule pointer according to argument.
-	*@p txr pointer to the new DST rule
+	*@param txr pointer to the new DST rule
 	*/
 	void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
 
@@ -286,9 +286,9 @@ public:
 	*characterized by two parameters: the semimajor axis and the
 	*flattening.
 	*
-	*@p index is the index which allows to identify the parameters for the
+	*@param i is the index which allows to identify the parameters for the
 	*chosen elliposid. 1="IAU76", 2="GRS80", 3="MERIT83", 4="WGS84", 
-	*5="IERS89"};
+	*5="IERS89".
 	*/
 	void setEllipsoid( int i );
 
@@ -299,7 +299,7 @@ public:
 	KStarsDateTime LTtoUT( const KStarsDateTime &lt ) const { return lt.addSecs( int( -3600.*TZ() ) ); }
 
 
-	/* Computes the velocity in km/s of an observer on the surface of the Earth 
+	/** Computes the velocity in km/s of an observer on the surface of the Earth 
 	 * referred to a system whose origin is the center of the Earth. The X and 
 	 * Y axis are contained in the equator and the X axis is towards the nodes
 	 * line. The Z axis is along the poles.

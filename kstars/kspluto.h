@@ -45,9 +45,9 @@ class KSPluto : public KSAsteroid  {
 public:
 /**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
 	*in orbital element data (which is hard-coded for now).
-	*@p kd pointer to the KStarsData object
-	*@p fn filename of Pluto's image
-	*@p pSize physical diameter of Pluto, in km
+	*@param kd pointer to the KStarsData object
+	*@param fn filename of Pluto's image
+	*@param pSize physical diameter of Pluto, in km
 	*/
 	KSPluto(KStarsData *kd, QString fn="", double pSize=0);
 
