@@ -39,12 +39,6 @@
 #include <ktoolinvocation.h>
 
 #include "detaildialog.h"
-//UI headers
-#include "details_data.h"
-#include "details_position.h"
-#include "details_links.h"
-#include "details_database.h"
-#include "details_log.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -66,24 +60,9 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
-LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
-{
-	setFrameStyle( Q3Frame::StyledPanel );
-	setFrameShadow( Q3Frame::Plain );
-	setLineWidth( 4 );
-}
-
-void LogEdit::focusOutEvent( QFocusEvent *e ) {
-	emit focusOut();
-	QWidget::focusOutEvent(e);
-}
-
-ClickLabel::ClickLabel( QWidget *parent, const char *name ) : QLabel( parent, name ) 
-{}
-
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent, const char *name ) : 
-		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
+		QWidget *parent ) : 
+		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent ) ,
 		selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	//Modify color palette
@@ -109,27 +88,10 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 void DetailDialog::createGeneralTab()
 {
 	QFrame *DataTab = addPage(i18n("General"));
-	Data = new DetailsDataUI( DataTab, "general_data_tab" );
- 
-	//Modify colors
-	Data->Names->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Data->Names->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Data->DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Data->Type->setPalette( palette() );
-	Data->Constellation->setPalette( palette() );
-	Data->Mag->setPalette( palette() );
-	Data->Distance->setPalette( palette() );
-	Data->AngSize->setPalette( palette() );
-	Data->InLabel->setPalette( palette() );
-	Data->MagLabel->setPalette( palette() );
-	Data->DistanceLabel->setPalette( palette() );
-	Data->AngSizeLabel->setPalette( palette() );
+	Data = new DataWidget( DataTab );
 
 	//Show object thumbnail image
 	showThumbnail();
-
-	QVBoxLayout *vlay = new QVBoxLayout( DataTab, 0, 0 );
-	vlay->addWidget( Data );
 
 	//Fill in the data fields
 	//Contents depend on type of object
@@ -144,7 +106,7 @@ void DetailDialog::createGeneralTab()
 
 		Data->Names->setText( s->longname() );
 		Data->Type->setText( s->sptype() + " " + i18n("star") );
-		Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+		Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
 				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
 		//distance
@@ -186,15 +148,12 @@ void DetailDialog::createGeneralTab()
 		else
 			Data->Type->setText( ps->typeName() );
 
-		Data->Constellation->setText( ps->constellation( ksw->data()->csegmentList, 
-																	ksw->data()->cnameList ) );
-
 		//Magnitude: The moon displays illumination fraction instead
 		if ( selectedObject->name() == "Moon" ) {
 			Data->MagLabel->setText( i18n("Illumination:") );
-			Data->Mag->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
+			Data->Magnitude->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
 		} else {
-			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+			Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
 					KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
 		}
 
@@ -252,9 +211,9 @@ void DetailDialog::createGeneralTab()
 		Data->Type->setText( dso->typeName() );
 
 		if ( dso->mag() > 90.0 )
-			Data->Mag->setText( "--" );
+			Data->Magnitude->setText( "--" );
 		else
-			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+			Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
 					KGlobal::locale()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
 
 		//No distances at this point...
@@ -274,49 +233,13 @@ void DetailDialog::createGeneralTab()
 	}
 
 	//Common to all types:
-	Data->Constellation->setText( selectedObject->constellation( ksw->data()->csegmentList, 
-						ksw->data()->cnameList ) );
+	Data->Constellation->setText( ksw->data()->skyComposite()->constellation( selectedObject ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
 	QFrame *PosTab = addPage( i18n("Position") );
-	Pos = new DetailsPositionUI( PosTab, "position_tab" );
+	Pos = new PositionWidget( PosTab );
 
-	//Modify colors
-	Pos->CoordTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->CoordTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Pos->CoordFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->RSTTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->RSTTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Pos->RSTFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->RA->setPalette( palette() );
-	Pos->Dec->setPalette( palette() );
-	Pos->Az->setPalette( palette() );
-	Pos->Alt->setPalette( palette() );
-	Pos->HA->setPalette( palette() );
-	Pos->Airmass->setPalette( palette() );
-	Pos->TimeRise->setPalette( palette() );
-	Pos->TimeTransit->setPalette( palette() );
-	Pos->TimeSet->setPalette( palette() );
-	Pos->AzRise->setPalette( palette() );
-	Pos->AltTransit->setPalette( palette() );
-	Pos->AzSet->setPalette( palette() );
-	Pos->RALabel->setPalette( palette() );
-	Pos->DecLabel->setPalette( palette() );
-	Pos->AzLabel->setPalette( palette() );
-	Pos->AltLabel->setPalette( palette() );
-	Pos->HALabel->setPalette( palette() );
-	Pos->AirmassLabel->setPalette( palette() );
-	Pos->TimeRiseLabel->setPalette( palette() );
-	Pos->TimeTransitLabel->setPalette( palette() );
-	Pos->TimeSetLabel->setPalette( palette() );
-	Pos->AzRiseLabel->setPalette( palette() );
-	Pos->AltTransitLabel->setPalette( palette() );
-	Pos->AzSetLabel->setPalette( palette() );
-
-	QVBoxLayout *vlay = new QVBoxLayout( PosTab, 0, 0 );
-	vlay->addWidget( Pos );
-	
 	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
 	//because we don't want a thousands-place separator!
@@ -401,43 +324,17 @@ void DetailDialog::createLinksTab()
 		return;
 
 	QFrame *LinksTab = addPage( i18n( "Links" ) );
-	Links = new DetailsLinksUI( LinksTab, "links_tab" );
+	Links = new LinksWidget( LinksTab );
 
-	//Modify colors
-	Links->InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Links->InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Links->ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-
-	QPalette p = palette();
-	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Links->InfoList->setPalette( p );
-	Links->ImagesList->setPalette( p );
-
-	QVBoxLayout *vlay = new QVBoxLayout( LinksTab, 0, 0 );
-	vlay->addWidget( Links );
-
-	QStringList::Iterator itList = selectedObject->InfoList.begin();
-	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
-
-	for ( ; itList != itListEnd; ++itList ) {
-		Links->InfoList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
+	foreach ( QString s, selectedObject->InfoList )
+		Links->InfoList->insertItem( s );
 
 	Links->InfoList->setSelected(0, true);
 
-	itList  = selectedObject->ImageList.begin();
-	itTitle = selectedObject->ImageTitle.begin();
-	itListEnd  = selectedObject->ImageList.end();
+	foreach ( QString s, selectedObject->ImageList )
+		Links->ImagesList->insertItem( s );
 
-	for ( ; itList != itListEnd; ++itList ) {
-		Links->ImagesList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
-
-	if (! Links->InfoList->count() && ! Links->ImagesList->count()) {
+	if ( ! Links->InfoList->count() && ! Links->ImagesList->count() ) {
 		Links->EditLinkButton->setDisabled(true);
 		Links->RemoveLinkButton->setDisabled(true);
 	}
@@ -456,7 +353,7 @@ void DetailDialog::createAdvancedTab()
 {
 	// Don't create an adv tab for an unnamed star or if advinterface file failed loading
 	// We also don't need adv dialog for solar system objects.
-   if (selectedObject->name() == QString("star") || 
+	if (selectedObject->name() == QString("star") || 
 				ksw->data()->ADVtreeList.isEmpty() || 
 				selectedObject->type() == SkyObject::PLANET || 
 				selectedObject->type() == SkyObject::COMET || 
@@ -464,10 +361,7 @@ void DetailDialog::createAdvancedTab()
 		return;
 
 	QFrame *AdvancedTab = addPage(i18n("Advanced"));
-	Adv = new DetailsDatabaseUI( AdvancedTab, "database_tab" );
-//	Adv->setPaletteBackgroundColor( QColor( "white" ) );
-	QVBoxLayout *vlay = new QVBoxLayout( AdvancedTab, 0, 0 );
-	vlay->addWidget( Adv );
+	Adv = new DatabaseWidget( AdvancedTab );
 
 	treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 	connect( Adv->ADVTree, SIGNAL(doubleClicked(Q3ListViewItem*)), this, SLOT(viewADVData()));
@@ -478,19 +372,12 @@ void DetailDialog::createAdvancedTab()
 void DetailDialog::createLogTab()
 {
 	//Don't create a a log tab for an unnamed star
-	if (selectedObject->name() == QString("star"))
+	if ( selectedObject->name() == QString("star") )
 		return;
 
 	// Log Tab
 	QFrame *LogTab = addPage(i18n("Log"));
-	Log = new DetailsLogUI( LogTab, "log_tab" );
-
-	//Modify colors
-	Log->LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Log->LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-
-	QVBoxLayout *vlay = new QVBoxLayout( LogTab, 0, 0 );
-	vlay->addWidget( Log );
+	Log = new LogWidget( LogTab );
 
 	if ( selectedObject->userLog.isEmpty() )
 		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
@@ -518,11 +405,11 @@ void DetailDialog::viewLink()
 
 	if ( Links->InfoList->currentItem() != -1 && 
 			Links->InfoList->isSelected( Links->InfoList->currentItem() ) )
-		URL = QString( *selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
+		URL = QString( selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
 	else if ( Links->ImagesList->currentItem() != -1 )
-		URL = QString( *selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
+		URL = QString( selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
 
-	if (!URL.isEmpty())
+	if ( !URL.isEmpty() )
 		KToolInvocation::invokeBrowser(URL);
 }
 
@@ -531,30 +418,19 @@ void DetailDialog::updateLists()
 	Links->InfoList->clear();
 	Links->ImagesList->clear();
 	
-	QStringList::Iterator itList = selectedObject->InfoList.begin();
-	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
-	
-	for ( ; itList != itListEnd; ++itList ) {
-		Links->InfoList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
+	foreach ( QString s, selectedObject->InfoList ) 
+		Links->InfoList->insertItem( s );
 
 	Links->InfoList->setSelected(0, true);
-	itList  = selectedObject->ImageList.begin();
-	itTitle = selectedObject->ImageTitle.begin();
-	itListEnd = selectedObject->ImageList.end();
 
-	for ( ; itList != itListEnd; ++itList ) {
-		Links->ImagesList->insertItem(QString(*itTitle));
-		itTitle++;
-	}
+	foreach ( QString s, selectedObject->ImageList ) 
+		Links->ImagesList->insertItem( s );
 }
 
 void DetailDialog::editLinkDialog()
 {
 	int type;
-	uint i;
+	int i;
 	QString defaultURL , entry;
 	QFile newFile;
 	
@@ -571,27 +447,28 @@ void DetailDialog::editLinkDialog()
 	
 	currentItemIndex = Links->InfoList->currentItem();
 	
-	if (currentItemIndex != -1 && Links->InfoList->isSelected(currentItemIndex))
+	if (currentItemIndex != -1 && Links->InfoList->isSelected( currentItemIndex ) )
 	{
-		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
-		editLinkField->setText(defaultURL);
+		defaultURL = selectedObject->InfoList.at( currentItemIndex );
+		editLinkField->setText( defaultURL );
 		type = 1;
 		currentItemTitle = Links->InfoList->currentText();
 	}
 	else if ( (currentItemIndex = Links->ImagesList->currentItem()) != -1)
 	{
-		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
-		editLinkField->setText(defaultURL);
+		defaultURL = selectedObject->ImageList.at( currentItemIndex );
+		editLinkField->setText( defaultURL );
 		type = 0;
 		currentItemTitle = Links->ImagesList->currentText();
 	}
 	else return;
 
 	// If user presses cancel then return
-	if (!editDialog.exec() == QDialog::Accepted)
+	if ( ! editDialog.exec() == QDialog::Accepted )
 		return;
+
 	// if it wasn't edit, don't do anything
-	if (!editLinkField->edited())
+	if ( ! editLinkField->edited() )
 		return;
 
 	// Save the URL of the current item
@@ -620,7 +497,7 @@ void DetailDialog::editLinkDialog()
 
 	QTextStream newStream(&newFile);
 
-	for (i=0; i<dataList.count(); i++)
+	for (i=0; i<dataList.size(); i++)
 	{
 		newStream << dataList[i] << endl;
 		continue;
@@ -628,13 +505,13 @@ void DetailDialog::editLinkDialog()
 
 	if (type==0)
 	{
-		*selectedObject->ImageTitle.at(currentItemIndex) = currentItemTitle;
-		*selectedObject->ImageList.at(currentItemIndex) = currentItemURL;
+		selectedObject->ImageTitle.replace(currentItemIndex, currentItemTitle);
+		selectedObject->ImageList.replace(currentItemIndex, currentItemURL);
 	}
 	else
 	{
-		*selectedObject->InfoTitle.at(currentItemIndex) = currentItemTitle;
-		*selectedObject->InfoList.at(currentItemIndex) = currentItemURL;
+		selectedObject->InfoTitle.replace(currentItemIndex, currentItemTitle);
+		selectedObject->InfoList.replace(currentItemIndex, currentItemURL);
 	}
 
 	newStream << entry << endl;
@@ -647,7 +524,7 @@ void DetailDialog::editLinkDialog()
 void DetailDialog::removeLinkDialog()
 {
 	int type;
-	uint i;
+	int i;
 	QString defaultURL, entry;
 	QFile newFile;
 	
@@ -655,14 +532,14 @@ void DetailDialog::removeLinkDialog()
 	
 	if (currentItemIndex != -1 && Links->InfoList->isSelected(currentItemIndex))
 	{
-		defaultURL = *selectedObject->InfoList.at(currentItemIndex);
+		defaultURL = selectedObject->InfoList.at(currentItemIndex);
 		type = 1;
 		currentItemTitle = Links->InfoList->currentText();
 	}
 	else
 	{
 		currentItemIndex = Links->ImagesList->currentItem();
-		defaultURL = *selectedObject->ImageList.at(currentItemIndex);
+		defaultURL = selectedObject->ImageList.at(currentItemIndex);
 		type = 0;
 		currentItemTitle = Links->ImagesList->currentText();
 	}
@@ -693,7 +570,7 @@ void DetailDialog::removeLinkDialog()
 
 	QTextStream newStream(&newFile);
 
-	for (i=0; i<dataList.count(); i++)
+	for (i=0; i<dataList.size(); i++)
 		newStream << dataList[i] << endl;
 
 	newFile.close();
@@ -705,14 +582,14 @@ bool DetailDialog::verifyUserData(int type)
 {
 	QString line, name, sub, title;
 	bool ObjectFound = false;
-	uint i;
+	int i;
 	
 	switch (type)
 	{
 		case 0:
 			if (!readUserFile(type))
 				return false;
-			for (i=0; i<dataList.count(); i++)
+			for (i=0; i<dataList.size(); i++)
 			{
 				line = dataList[i];
 				name = line.mid( 0, line.find(':') );
@@ -729,7 +606,7 @@ bool DetailDialog::verifyUserData(int type)
 		case 1:
 			if (!readUserFile(type))
 				return false;
-			for (i=0; i<dataList.count(); i++)
+			for (i=0; i<dataList.size(); i++)
 			{
 				line = dataList[i];
 				name = line.mid( 0, line.find(':') );
@@ -777,7 +654,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	dataList.clear();
 	
 	// read all data into memory
-	while (!stream.eof())
+	while ( ! stream.atEnd() )
 		dataList.append(stream.readLine());
 
 	return true;
@@ -920,9 +797,9 @@ void DetailDialog::centerTelescope()
   INDIMenu *imenu = ksw->getINDIMenu();
 
   
-  for (unsigned int i=0; i < imenu->mgr.count() ; i++)
+  for ( int i=0; i < imenu->mgr.size() ; i++ )
   {
-    for (unsigned int j=0; j < imenu->mgr.at(i)->indi_dev.count(); j++)
+    for ( int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++ )
     {
        indidev = imenu->mgr.at(i)->indi_dev.at(j);
        indidev->stdDev->currentObject = NULL;
@@ -1084,6 +961,87 @@ void DetailDialog::updateThumbnail() {
 			f.remove();
 		}
 	}
+}
+
+DataWidget::DataWidget( QWidget *p ) : QFrame( p ) {
+	setupUi(this);
+
+	//Modify colors
+	Names->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Names->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Type->setPalette( palette() );
+	Constellation->setPalette( palette() );
+	Magnitude->setPalette( palette() );
+	Distance->setPalette( palette() );
+	AngSize->setPalette( palette() );
+	InLabel->setPalette( palette() );
+	MagLabel->setPalette( palette() );
+	DistanceLabel->setPalette( palette() );
+	AngSizeLabel->setPalette( palette() );
+}
+
+PositionWidget::PositionWidget( QWidget *p ) : QFrame( p ) {
+	setupUi(this);
+
+	//Modify colors
+	CoordTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	CoordTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	CoordFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RSTTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RSTTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	RSTFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RA->setPalette( palette() );
+	Dec->setPalette( palette() );
+	Az->setPalette( palette() );
+	Alt->setPalette( palette() );
+	HA->setPalette( palette() );
+	Airmass->setPalette( palette() );
+	TimeRise->setPalette( palette() );
+	TimeTransit->setPalette( palette() );
+	TimeSet->setPalette( palette() );
+	AzRise->setPalette( palette() );
+	AltTransit->setPalette( palette() );
+	AzSet->setPalette( palette() );
+	RALabel->setPalette( palette() );
+	DecLabel->setPalette( palette() );
+	AzLabel->setPalette( palette() );
+	AltLabel->setPalette( palette() );
+	HALabel->setPalette( palette() );
+	AirmassLabel->setPalette( palette() );
+	TimeRiseLabel->setPalette( palette() );
+	TimeTransitLabel->setPalette( palette() );
+	TimeSetLabel->setPalette( palette() );
+	AzRiseLabel->setPalette( palette() );
+	AltTransitLabel->setPalette( palette() );
+	AzSetLabel->setPalette( palette() );
+}
+
+LinksWidget::LinksWidget( QWidget *par ) : QFrame( par ) {
+	setupUi(this);
+
+	//Modify colors
+	InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+
+	QPalette p = palette();
+	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	InfoList->setPalette( p );
+	ImagesList->setPalette( p );
+}
+
+DatabaseWidget::DatabaseWidget( QWidget *p ) : QFrame( p ) {
+	setupUi(this);
+}
+
+LogWidget::LogWidget( QWidget *p ) : QFrame( p ) {
+	setupUi(this);
+
+	//Modify colors
+	LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 }
 
 #include "detaildialog.moc"

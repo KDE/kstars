@@ -1,927 +1,761 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>DetailsPositionUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>DetailsPositionUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>506</width>
-            <height>394</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>Details - Position Data</string>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>DetailsPosition</class>
+ <widget class="QWidget" name="DetailsPosition" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>506</width>
+    <height>394</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Details - Position Data</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="CoordTitle" >
+       <property name="font" >
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="text" >
+        <string>Coordinates</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Q3Frame" name="CoordFrame" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>7</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>4</number>
+       </property>
+       <layout class="QVBoxLayout" >
+        <property name="margin" >
+         <number>10</number>
         </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout56</cstring>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
             </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="spacing">
-                    <number>0</number>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>CoordTitle</cstring>
-                    </property>
-                    <property name="font">
-                        <font>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property name="text">
-                        <string>&lt;p align="center"&gt;Coordinates&lt;/p&gt;</string>
-                    </property>
-                </widget>
-                <widget class="QFrame">
-                    <property name="name">
-                        <cstring>CoordFrame</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>7</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                        <enum>Box</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Plain</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>4</number>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout54</cstring>
-                            </property>
-                            <hbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout50</cstring>
-                                    </property>
-                                    <grid>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="KActiveLabel" row="0" column="1">
-                                            <property name="name">
-                                                <cstring>RA</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="1" column="1">
-                                            <property name="name">
-                                                <cstring>Dec</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="1" column="0">
-                                            <property name="name">
-                                                <cstring>DecLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Dec (2000.0):</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="0" column="0">
-                                            <property name="name">
-                                                <cstring>RALabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>RA (2000.0):</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                    </grid>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer13</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>90</width>
-                                            <height>16</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout50_2</cstring>
-                                    </property>
-                                    <grid>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="KActiveLabel" row="0" column="1">
-                                            <property name="name">
-                                                <cstring>Az</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="1" column="1">
-                                            <property name="name">
-                                                <cstring>Alt</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="1" column="0">
-                                            <property name="name">
-                                                <cstring>AltLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Altitude:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="0" column="0">
-                                            <property name="name">
-                                                <cstring>AzLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Azimuth:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                    </grid>
-                                </widget>
-                            </hbox>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer8_2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout55</cstring>
-                            </property>
-                            <hbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout53</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="QLabel">
-                                            <property name="name">
-                                                <cstring>HALabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Hour angle:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel">
-                                            <property name="name">
-                                                <cstring>HA</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                    </hbox>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer10_2</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>170</width>
-                                            <height>20</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout52</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="QLabel">
-                                            <property name="name">
-                                                <cstring>AirmassLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Airmass:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel">
-                                            <property name="name">
-                                                <cstring>Airmass</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>1.00</string>
-                                            </property>
-                                        </widget>
-                                    </hbox>
-                                </widget>
-                            </hbox>
-                        </widget>
-                    </vbox>
-                </widget>
-            </vbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer86</cstring>
+            <property name="spacing" >
+             <number>6</number>
             </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
+            <item row="0" column="1" >
+             <widget class="KActiveLabel" name="RA" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="KActiveLabel" name="Dec" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="DecLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Dec (2000.0):</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="RALabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>RA (2000.0):</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-                <enum>Fixed</enum>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
             </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
+            <property name="sizeHint" >
+             <size>
+              <width>90</width>
+              <height>16</height>
+             </size>
             </property>
-        </spacer>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout76</cstring>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
             </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="spacing">
-                    <number>0</number>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>RSTTitle</cstring>
-                    </property>
-                    <property name="font">
-                        <font>
-                            <bold>1</bold>
-                        </font>
-                    </property>
-                    <property name="text">
-                        <string>&lt;p align="center"&gt;Rise/Set/Transit&lt;/p&gt;</string>
-                    </property>
-                </widget>
-                <widget class="QFrame">
-                    <property name="name">
-                        <cstring>RSTFrame</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>7</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                        <enum>Box</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Plain</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>4</number>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout142</cstring>
-                            </property>
-                            <hbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout141</cstring>
-                                    </property>
-                                    <grid>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="KActiveLabel" row="0" column="1">
-                                            <property name="name">
-                                                <cstring>TimeRise</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="2" column="1">
-                                            <property name="name">
-                                                <cstring>TimeSet</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="2" column="0">
-                                            <property name="name">
-                                                <cstring>TimeSetLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Set time:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="1" column="0">
-                                            <property name="name">
-                                                <cstring>TimeTransitLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Transit time:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="0" column="0">
-                                            <property name="name">
-                                                <cstring>TimeRiseLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Rise time:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="1" column="1">
-                                            <property name="name">
-                                                <cstring>TimeTransit</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00</string>
-                                            </property>
-                                        </widget>
-                                    </grid>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer8_2_2</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>83</width>
-                                            <height>20</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>layout140</cstring>
-                                    </property>
-                                    <grid>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <widget class="KActiveLabel" row="0" column="1">
-                                            <property name="name">
-                                                <cstring>AzRise</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="2" column="0">
-                                            <property name="name">
-                                                <cstring>AzSetLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Azimuth at set:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="1" column="0">
-                                            <property name="name">
-                                                <cstring>AltTransitLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Altitude at transit:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="2" column="1">
-                                            <property name="name">
-                                                <cstring>AzSet</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="KActiveLabel" row="1" column="1">
-                                            <property name="name">
-                                                <cstring>AltTransit</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="backgroundOrigin">
-                                                <enum>ParentOrigin</enum>
-                                            </property>
-                                            <property name="font">
-                                                <font>
-                                                    <family>Monospace</family>
-                                                    <pointsize>11</pointsize>
-                                                    <bold>1</bold>
-                                                </font>
-                                            </property>
-                                            <property name="text">
-                                                <string>00:00:00</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel" row="0" column="0">
-                                            <property name="name">
-                                                <cstring>AzRiseLabel</cstring>
-                                            </property>
-                                            <property name="paletteForegroundColor">
-                                                <color>
-                                                    <red>0</red>
-                                                    <green>0</green>
-                                                    <blue>0</blue>
-                                                </color>
-                                            </property>
-                                            <property name="lineWidth">
-                                                <number>2</number>
-                                            </property>
-                                            <property name="margin">
-                                                <number>1</number>
-                                            </property>
-                                            <property name="text">
-                                                <string>Azimuth at rise:</string>
-                                            </property>
-                                            <property name="alignment">
-                                                <set>AlignTop</set>
-                                            </property>
-                                        </widget>
-                                    </grid>
-                                </widget>
-                            </hbox>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer14</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>0</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </vbox>
-                </widget>
-            </vbox>
-        </widget>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-</includehints>
-</UI>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="0" column="1" >
+             <widget class="KActiveLabel" name="Az" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="KActiveLabel" name="Alt" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="AltLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Altitude:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="AzLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Azimuth:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>20</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="HALabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Hour angle:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KActiveLabel" name="HA" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>170</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="AirmassLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Airmass:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KActiveLabel" name="Airmass" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>1.00</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="RSTTitle" >
+       <property name="font" >
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="text" >
+        <string>Rise/Set/Transit</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignHCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Q3Frame" name="RSTFrame" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>7</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth" >
+        <number>4</number>
+       </property>
+       <layout class="QVBoxLayout" >
+        <property name="margin" >
+         <number>10</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="0" column="1" >
+             <widget class="KActiveLabel" name="TimeRise" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="KActiveLabel" name="TimeSet" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="TimeSetLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Set time:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="TimeTransitLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Transit time:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="TimeRiseLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Rise time:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="KActiveLabel" name="TimeTransit" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>83</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="0" column="1" >
+             <widget class="KActiveLabel" name="AzRise" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="AzSetLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Azimuth at set:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="AltTransitLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Altitude at transit:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="KActiveLabel" name="AzSet" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="KActiveLabel" name="AltTransit" >
+              <property name="font" >
+               <font>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="text" >
+               <string>00:00:00</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="AzRiseLabel" >
+              <property name="lineWidth" >
+               <number>2</number>
+              </property>
+              <property name="text" >
+               <string>Azimuth at rise:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignTop</set>
+              </property>
+              <property name="margin" >
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>20</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KActiveLabel</class>
+   <extends></extends>
+   <header>kactivelabel.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>Q3Frame</class>
+   <extends></extends>
+   <header>Qt3Support/Q3Frame</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

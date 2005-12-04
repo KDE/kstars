@@ -30,6 +30,12 @@
 #include <ktextedit.h>
 
 #include "skyobject.h"
+//UI headers
+#include "details_data.h"
+#include "details_position.h"
+#include "details_links.h"
+#include "details_database.h"
+#include "details_log.h"
 
 class GeoLocation;
 class QHBoxLayout;
@@ -41,52 +47,17 @@ class QStringList;
 class KStars;
 class KStarsDateTime;
 
-class DetailsDataUI;
-class DetailsPositionUI;
-class DetailsLinksUI;
-class DetailsDatabaseUI;
-class DetailsLogUI;
+class DataWidget;
+class PositionWidget;
+class LinksWidget;
+class DatabaseWidget;
+class LogWidget;
 
 struct ADVTreeData
 {
 	QString Name;
 	QString Link;
 	int Type;
-};
-
-/**@class LogEdit is a simple derivative of KTextEdit, that just adds a 
-	*focusOut() signal, emitted when the edit loses focus.
-	*@author Jason Harris
-	*@version 1.0
-	*/
-class LogEdit : public KTextEdit {
-	Q_OBJECT
-public:
-	LogEdit( QWidget *parent=0, const char *name=0 );
-	~LogEdit() {}
-	
-signals:
-	void focusOut();
-	
-protected:
-	void focusOutEvent( QFocusEvent *e );
-};
-
-/**@class ClickLabel is a QLabel with a clicked() signal.
-	*@author Jason Harris
-	*@version 1.0
-	*/
-class ClickLabel : public QLabel {
-	Q_OBJECT
-public:
-	ClickLabel( QWidget *parent=0, const char *name=0 );
-	~ClickLabel() {}
-	
-signals:
-	void clicked();
-	
-protected:
-	void mousePressEvent( QMouseEvent *e ) { if ( e->button() == Qt::LeftButton ) emit clicked(); }
 };
 
 /**@class DetailDialog is a window showing detailed information for a selected object.
@@ -112,7 +83,7 @@ class DetailDialog : public KDialogBase  {
 public: 
 /**Constructor
 	*/
-	DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+	DetailDialog( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent=0 );
 	
 /**Destructor (empty)
 	*/
@@ -243,12 +214,42 @@ private:
 
 	Q3PtrListIterator<ADVTreeData> * treeIt;
 
-	DetailsDataUI *Data;
-	DetailsPositionUI *Pos;
-	DetailsLinksUI *Links;
-	DetailsDatabaseUI *Adv;
-	DetailsLogUI *Log;
+	DataWidget *Data;
+	PositionWidget *Pos;
+	LinksWidget *Links;
+	DatabaseWidget *Adv;
+	LogWidget *Log;
 
+};
+
+class DataWidget : public QFrame, public Ui::DetailsData {
+	Q_OBJECT
+	public: 
+		DataWidget( QWidget *parent=0 );
+};
+
+class PositionWidget : public QFrame, public Ui::DetailsPosition {
+	Q_OBJECT
+	public: 
+		PositionWidget( QWidget *parent=0 );
+};
+
+class LinksWidget : public QFrame, public Ui::DetailsLinks {
+	Q_OBJECT
+	public: 
+		LinksWidget( QWidget *parent=0 );
+};
+
+class DatabaseWidget : public QFrame, public Ui::DetailsDatabase {
+	Q_OBJECT
+	public: 
+		DatabaseWidget( QWidget *parent=0 );
+};
+
+class LogWidget : public QFrame, public Ui::DetailsLog {
+	Q_OBJECT
+	public: 
+		LogWidget( QWidget *parent=0 );
 };
 
 #endif

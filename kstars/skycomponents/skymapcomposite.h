@@ -23,6 +23,8 @@
 #include "skycomposite.h"
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
+#include "constellationboundarycomponent.h"
+#include "constellationnamescomponent.h"
 
 class KStarsData;
 
@@ -89,6 +91,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		SkyObject* findStarByGenetiveName( const QString &name );
 
+		QString constellation( SkyPoint *p );
+
 		void emitProgressText( const QString &message );
 
 	signals:
@@ -101,6 +105,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		SolarSystemComposite *m_SSComposite;
 		SkyComposite *m_CustomCatalogComposite;
 		StarComponent *m_StarComponent;
+		ConstellationBoundaryComponent *m_CBoundsComponent;
+		ConstellationNamesComponent *m_CNamesComponent;
 };
 
 #endif

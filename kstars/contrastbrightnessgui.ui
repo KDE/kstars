@@ -1,126 +1,86 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>ConBriForm</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ConBriForm</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>398</width>
-            <height>88</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>Contrast/Brightness</string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QSlider" row="0" column="1">
-            <property name="name">
-                <cstring>briSlider</cstring>
-            </property>
-            <property name="minValue">
-                <number>-128</number>
-            </property>
-            <property name="maxValue">
-                <number>128</number>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="tickmarks">
-                <enum>NoMarks</enum>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>conLabel</cstring>
-            </property>
-            <property name="text">
-                <string>Contrast:</string>
-            </property>
-        </widget>
-        <widget class="KIntSpinBox" row="0" column="2">
-            <property name="name">
-                <cstring>briSpinBox</cstring>
-            </property>
-            <property name="maxValue">
-                <number>128</number>
-            </property>
-            <property name="minValue">
-                <number>-128</number>
-            </property>
-        </widget>
-        <widget class="KIntSpinBox" row="1" column="2">
-            <property name="name">
-                <cstring>conSpinBox</cstring>
-            </property>
-            <property name="maxValue">
-                <number>128</number>
-            </property>
-            <property name="minValue">
-                <number>-128</number>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>briLabel</cstring>
-            </property>
-            <property name="text">
-                <string>Brightness:</string>
-            </property>
-        </widget>
-        <widget class="QSlider" row="1" column="1">
-            <property name="name">
-                <cstring>conSlider</cstring>
-            </property>
-            <property name="minValue">
-                <number>-128</number>
-            </property>
-            <property name="maxValue">
-                <number>128</number>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<customwidgets>
-</customwidgets>
-<connections>
-    <connection>
-        <sender>briSlider</sender>
-        <signal>sliderMoved(int)</signal>
-        <receiver>briSpinBox</receiver>
-        <slot>setValue(int)</slot>
-    </connection>
-    <connection>
-        <sender>briSpinBox</sender>
-        <signal>valueChanged(int)</signal>
-        <receiver>briSlider</receiver>
-        <slot>setValue(int)</slot>
-    </connection>
-    <connection>
-        <sender>conSlider</sender>
-        <signal>sliderMoved(int)</signal>
-        <receiver>conSpinBox</receiver>
-        <slot>setValue(int)</slot>
-    </connection>
-    <connection>
-        <sender>conSpinBox</sender>
-        <signal>valueChanged(int)</signal>
-        <receiver>conSlider</receiver>
-        <slot>setValue(int)</slot>
-    </connection>
-</connections>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ConBriForm</class>
+ <widget class="QWidget" name="ConBriForm" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>398</width>
+    <height>88</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Contrast/Brightness</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="1" >
+    <widget class="QSlider" name="briSlider" >
+     <property name="minimum" >
+      <number>-128</number>
+     </property>
+     <property name="maximum" >
+      <number>128</number>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="conLabel" >
+     <property name="text" >
+      <string>Contrast:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2" >
+    <widget class="KIntSpinBox" name="briSpinBox" />
+   </item>
+   <item row="1" column="2" >
+    <widget class="KIntSpinBox" name="conSpinBox" />
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="briLabel" >
+     <property name="text" >
+      <string>Brightness:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="QSlider" name="conSlider" >
+     <property name="minimum" >
+      <number>-128</number>
+     </property>
+     <property name="maximum" >
+      <number>128</number>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
