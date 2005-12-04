@@ -60,7 +60,7 @@ public:
 		*@param num pointer to the KSNumbers object describing 
 		*the date/time at which to find the positions.
 		*@param jup pointer to the jupiter object
-		*@param sun pointer to the Sun object
+		*@param ksun pointer to the Sun object
 		*/
 	void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *ksun );
 	
