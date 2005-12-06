@@ -89,6 +89,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 
+		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
+
 		SkyObject* findStarByGenetiveName( const QString &name );
 
 		QString constellation( SkyPoint *p );

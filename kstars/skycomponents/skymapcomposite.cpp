@@ -112,6 +112,10 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 	return 0;
 }
 
+void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
+	m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+}
+
 QString SkyMapComposite::constellation( SkyPoint *p ) {
 	//Identify the constellation that contains point p.
 	//First, find all CSegments that bracket the RA of p.

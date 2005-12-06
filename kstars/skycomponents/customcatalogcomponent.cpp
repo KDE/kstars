@@ -181,9 +181,6 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 	bool foundDataColumns( false ); //set to true if description of data columns found
 	int ncol( 0 );
 
-	QStringList::Iterator it = lines.begin();
-	QStringList::Iterator itEnd  = lines.end();
-
 	m_catName = "";
 	m_catPrefix = "";
 	m_catColor = "";

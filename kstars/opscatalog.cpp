@@ -134,12 +134,11 @@ void OpsCatalog::slotLoadCatalog() {
 
 void OpsCatalog::insertCatalog( const QString &filename ) {
 	//Add new custom catalog, based on the list of SkyObjects we just parsed
-	//FIXME: need function SkyMapComposite::addCustomCatalog()
 	ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
 
 	//Get the new catalog's name, add entry to the listbox
 	//FIXME: Need name of new catalog
-	QString name = ksw->data()->customCatalogs().current()->name();
+	QString name = getCatalogName( filename );
 
 	Q3CheckListItem *newCat = new Q3CheckListItem( CatalogList, name, Q3CheckListItem::CheckBox );
 	newCat->setOn( true );
@@ -204,6 +203,24 @@ void OpsCatalog::slotStarWidgets(bool on) {
 	kcfg_MagLimitDrawStarInfo->setEnabled(on);
 	kcfg_ShowStarNames->setEnabled(on);
 	kcfg_ShowStarMagnitudes->setEnabled(on);
+}
+
+QString getCatalogName( const QString &filename ) {
+	QString name = QString();
+	QFile f( filename );
+
+	if ( f.open( QIODevice::ReadOnly ) ) {
+		QTextStream stream( &f );
+		while ( ! stream.atEnd() ) {
+			QString line = stream.getLine();
+			if ( line.find( "# Name: " ) == 0 ) {
+				name = line.mid( line.find(":")+2 );
+				break;
+			}
+		}
+	}
+
+	return name;  //no name was parsed
 }
 
 #include "opscatalog.moc"

@@ -56,6 +56,7 @@ private slots:
 	
 private:
 	void insertCatalog( const QString & filename );
+	QString getCatalogName( const QString &filename );
 
 	Q3CheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
 	KStars *ksw;
