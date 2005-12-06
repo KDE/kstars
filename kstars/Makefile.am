@@ -19,10 +19,12 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp \
 			addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui details_data.ui \
 			details_position.ui details_links.ui details_database.ui details_log.ui devmanager.ui \
-			fitsheaderdialog.ui focusdialogdlg.ui fovdialogui.ui histdialog.ui imagereductionui.ui \
-			imgsequencedlgui.ui indiconf.ui indihostconf.ui kswizardui.ui newfovui.ui opsadvancedui.ui \
-			opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui statform.ui \
-			streamformui.ui telescopewizard.ui thumbnailpickerui.ui thumbnaileditorui.ui telescopepropui.ui \
+			fitsheaderdialog.ui focusdialogui.ui fovdialogui.ui newfovui.ui \
+			histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
+			kswizardui.ui wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
+			opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
+			statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
+			thumbnailpickerui.ui thumbnaileditorui.ui \
 			Options.kcfgc kstarsinterface.skel simclockinterface.skel 
 
 kde_kcfg_DATA = kstars.kcfg

@@ -15,19 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QVBoxLayout>
 #include <kapplication.h>
 #include <kurl.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <q3buttongroup.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <Q3Frame>
 #include <ktoolinvocation.h>
 
 #include "addlinkdialog.h"
 #include "skyobject.h"
+
+AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi(this);
+}
 
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {

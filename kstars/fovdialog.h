@@ -18,10 +18,12 @@
 #ifndef FOVDIALOG_H
 #define FOVDIALOG_H
 
-#include <kdialogbase.h>
-#include "fov.h"
-//Added by qt3to4:
 #include <QPaintEvent>
+#include <kdialogbase.h>
+
+#include "fovdialogui.h"
+#include "newfovui.h"
+#include "fov.h"
 
 /**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
 	*@author Jason Harris
@@ -29,8 +31,18 @@
 	*/
 
 class KStars;
-class FOVDialogUI;
-class NewFOVUI;
+
+class FOVDialogUI : public QFrame, public Ui::FOVDialog {
+	Q_OBJECT
+	public:
+		FOVDialogUI( QWidget *parent=0 );
+};
+
+class NewFOVUI : public QFrame, public Ui::NewFOV {
+	Q_OBJECT
+	public:
+		NewFOVUI( QWidget *parent=0 );
+};
 
 class FOVDialog : public KDialogBase
 {

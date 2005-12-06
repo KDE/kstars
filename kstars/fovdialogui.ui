@@ -1,192 +1,176 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>FOVDialogUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>FOVDialogUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>275</width>
-            <height>325</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>Edit FOV Symbols</string>
-    </property>
-    <hbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="KListBox">
-            <property name="name">
-                <cstring>FOVListBox</cstring>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>160</width>
-                    <height>0</height>
-                </size>
-            </property>
-            <property name="vScrollBarMode">
-                <enum>AlwaysOn</enum>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>The list of defined field-of-view (FOV) symbols.  You can add a symbol to the list using the "New" button, remove a symbol using the "Remove" button, and modify a symbol using the "Edit" button.  A schematic of the highlighted symbol is drawn at right.</string>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout4</cstring>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>NewButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>New...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Add a new FOV symbol</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, shape, and color of the new symbol.</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer8</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Fixed</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>16</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>EditButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Edit...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Modify the highlighted FOV symbol</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, shape and color.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>RemoveButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Remove</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Remove highlighted FOV symbol</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Press this button to remove the highlighted FOV symbol from the list.</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer9</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Fixed</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QFrame">
-                    <property name="name">
-                        <cstring>ViewBox</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>80</width>
-                            <height>80</height>
-                        </size>
-                    </property>
-                    <property name="paletteForegroundColor">
-                        <color>
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                        </color>
-                    </property>
-                    <property name="paletteBackgroundColor">
-                        <color>
-                            <red>0</red>
-                            <green>0</green>
-                            <blue>0</blue>
-                        </color>
-                    </property>
-                    <property name="frameShape">
-                        <enum>StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Raised</enum>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer5</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>60</height>
-                        </size>
-                    </property>
-                </spacer>
-            </vbox>
-        </widget>
-    </hbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klistbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>FOVDialog</class>
+ <widget class="QWidget" name="FOVDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>275</width>
+    <height>325</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Edit FOV Symbols</string>
+  </property>
+  <layout class="QHBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="KListBox" name="FOVListBox" >
+     <property name="minimumSize" >
+      <size>
+       <width>160</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="whatsThis" >
+      <string>The list of defined field-of-view (FOV) symbols.  You can add a symbol to the list using the &quot;New&quot; button, remove a symbol using the &quot;Remove&quot; button, and modify a symbol using the &quot;Edit&quot; button.  A schematic of the highlighted symbol is drawn at right.</string>
+     </property>
+     <property name="vScrollBarMode" >
+      <enum>Q3ScrollView::AlwaysOn</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="KPushButton" name="NewButton" >
+       <property name="toolTip" >
+        <string>Add a new FOV symbol</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, shape, and color of the new symbol.</string>
+       </property>
+       <property name="text" >
+        <string>New...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>85</width>
+         <height>16</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="KPushButton" name="EditButton" >
+       <property name="toolTip" >
+        <string>Modify the highlighted FOV symbol</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, shape and color.</string>
+       </property>
+       <property name="text" >
+        <string>Edit...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="RemoveButton" >
+       <property name="toolTip" >
+        <string>Remove highlighted FOV symbol</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Press this button to remove the highlighted FOV symbol from the list.</string>
+       </property>
+       <property name="text" >
+        <string>Remove</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>85</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="ViewBox" >
+       <property name="minimumSize" >
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>85</width>
+         <height>126</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -19,16 +19,17 @@
 #define FOCUSDIALOG_H
 
 #include <kdialogbase.h>
-#include "focusdialogdlg.h"
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class KLineEdit;
+#include "focusdialogui.h"
+
 class SkyPoint;
-class FocusDialogDlg;
+
+class FocusDialogUI : public QFrame, public Ui::FocusDialog {
+	Q_OBJECT
+	public:
+		FocusDialogUI( QWidget *parent=0 );
+};
+
 
 /**@class FocusDialog 
 	*@short A small dialog for setting the focus coordinates manually.
@@ -70,11 +71,8 @@ public slots:
 	void slotOk();
 
 private:
-	QVBoxLayout *vlay;
-	QHBoxLayout *hlayRA, *hlayDec;
-	KLineEdit *editRA, *editDec;
 	SkyPoint *Point;
-	FocusDialogDlg *fdlg;
+	FocusDialogUI *fd;
 	bool UsedAltAz;
 };
 

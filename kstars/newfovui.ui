@@ -1,948 +1,949 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>NewFOVUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>NewFOVUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>483</width>
-            <height>437</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>New FOV Indicator</string>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout6</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="frameShape">
-                        <enum>NoFrame</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Plain</enum>
-                    </property>
-                    <property name="text">
-                        <string>&lt;b&gt;Name:&lt;/b&gt;</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>FOVName</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Name for FOV symbol</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>The name of the field-of-view (FOV) symbol.  This name appears in the FOV menu and in the "Edit FOV Symbols" tool.</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QTabWidget">
-            <property name="name">
-                <cstring>tabWidget2</cstring>
-            </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Eyepiece</string>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout16</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout11</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel5</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Telescope focal length:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel7_2</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Eyepiece focal length:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel8_2</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Eyepiece FOV:</string>
-                                        </property>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout15</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout12</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>TLength1</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Telescope focal length, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the telescope focal length, in millimeters.
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>NewFOV</class>
+ <widget class="QWidget" name="NewFOV" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>483</width>
+    <height>437</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>New FOV Indicator</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="textLabel1" >
+       <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="text" >
+        <string>&lt;b>Name:&lt;/b></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="FOVName" >
+       <property name="toolTip" >
+        <string>Name for FOV symbol</string>
+       </property>
+       <property name="whatsThis" >
+        <string>The name of the field-of-view (FOV) symbol.  This name appears in the FOV menu and in the &quot;Edit FOV Symbols&quot; tool.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget2" >
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Eyepiece</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel5" >
+             <property name="text" >
+              <string>Telescope focal length:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel7_2" >
+             <property name="text" >
+              <string>Eyepiece focal length:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel8_2" >
+             <property name="text" >
+              <string>Eyepiece FOV:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="TLength1" >
+               <property name="toolTip" >
+                <string>Telescope focal length, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the telescope focal length, in millimeters.
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>mm</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout13</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>EyeLength</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Eyepiece focal length, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the eyepiece focal length, in millimeters.
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2" >
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="EyeLength" >
+               <property name="toolTip" >
+                <string>Eyepiece focal length, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the eyepiece focal length, in millimeters.
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_2</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>mm</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout14</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>EyeFOV</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>field-of-view of the eyepiece, in arcminutes</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the eyepiece field-of-view angle, in arcminutes.
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_2" >
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="EyeFOV" >
+               <property name="toolTip" >
+                <string>field-of-view of the eyepiece, in arcminutes</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the eyepiece field-of-view angle, in arcminutes.
 
 This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a telescope eyepiece.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_2_2</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>arcmin</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                        </hbox>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer8</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>21</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout14</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer12</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>152</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <widget class="KPushButton">
-                                <property name="name">
-                                    <cstring>ComputeEyeFOV</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Compute FOV</string>
-                                </property>
-                                <property name="toolTip" stdset="0">
-                                    <string>Compute field-of-view from above data fields</string>
-                                </property>
-                                <property name="whatsThis" stdset="0">
-                                    <string>This button will compute the field-of-view (FOV) angle for a specific eyepiece/telescope combination.  You must first specify the focal lengths of the telescope and eyepiece, and the FOV angle of the eyepiece in the above entry fields.
-
-The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
-                                </property>
-                            </widget>
-                        </hbox>
-                    </widget>
-                </vbox>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Camera</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="KPushButton" row="2" column="1">
-                        <property name="name">
-                            <cstring>ComputeCameraFOV</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Compute FOV</string>
-                        </property>
-                        <property name="toolTip" stdset="0">
-                            <string>Compute field-of-view from above data fields</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
-
-The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
-                        </property>
-                    </widget>
-                    <spacer row="2" column="0">
-                        <property name="name">
-                            <cstring>spacer13</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Horizontal</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>180</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <spacer row="1" column="0">
-                        <property name="name">
-                            <cstring>spacer14</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>22</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <spacer row="1" column="1">
-                        <property name="name">
-                            <cstring>spacer15</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>22</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>layout26</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout25</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel5_2</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Telescope focal length:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel9</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Chip/Film size:</string>
-                                        </property>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout24</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout15</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>TLength2</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Telescope focal length, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the telescope focal length, in millimeters.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_3</cstring>
-                                                </property>
-                                                <property name="minimumSize">
-                                                    <size>
-                                                        <width>60</width>
-                                                        <height>0</height>
-                                                    </size>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>mm</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout16</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>ChipSize</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Size of chip or film, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the physical size of the CCD chip or film negative.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_3_2</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>mm</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                        </hbox>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>TabPage</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Radiotelescope</string>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout26_3</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout25_3</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel5_2_3</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Radiotelescope diameter:</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel9_3</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Wavelength:</string>
-                                        </property>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout24_3</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout15_4</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>RTDiameter</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Telescope focal length, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the telescope focal length, in millimeters.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_3_4</cstring>
-                                                </property>
-                                                <property name="minimumSize">
-                                                    <size>
-                                                        <width>60</width>
-                                                        <height>0</height>
-                                                    </size>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>m</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout16_4</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="KDoubleNumInput">
-                                                <property name="name">
-                                                    <cstring>WaveLength</cstring>
-                                                </property>
-                                                <property name="toolTip" stdset="0">
-                                                    <string>Size of chip or film, in millimeters</string>
-                                                </property>
-                                                <property name="whatsThis" stdset="0">
-                                                    <string>Enter the physical size of the CCD chip or film negative.
-
-This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>textLabel6_2_3_2_3</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <italic>1</italic>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>cm</string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                        </hbox>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer13_3</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>21</width>
-                                <height>51</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout36</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer12_3</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>281</width>
-                                        <height>21</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <widget class="KPushButton">
-                                <property name="name">
-                                    <cstring>ComputeHPBW</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Compute HPBW</string>
-                                </property>
-                                <property name="flat">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="toolTip" stdset="0">
-                                    <string>Compute radiotelescope HPBW from above data fields</string>
-                                </property>
-                                <property name="whatsThis" stdset="0">
-                                    <string>This button will compute the Half Power Beam Width (HPBW) angle for a specific radiotelescope and observing wavelength combination, assuming no multibeam receiver is available at the telescope.  You must first specify the diameter of the radiotelescope and the observing wavelength.
-
-The computed HPBW angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
-                                </property>
-                            </widget>
-                        </hbox>
-                    </widget>
-                </vbox>
-            </widget>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout14</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>fieldoFviewLabel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Field of view (arcmin):</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>FOVEdit</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Desired field-of-view size, in arcminutes</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
-
-You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to compute an angular size for specific eyepieces or cameras.</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_2_2" >
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>arcmin</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer>
-            <property name="name">
-                <cstring>spacer1_2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>298</width>
-                    <height>20</height>
-                </size>
-            </property>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>21</height>
+          </size>
+         </property>
         </spacer>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout11</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout3</cstring>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout2</cstring>
-                            </property>
-                            <grid>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="KColorButton" row="1" column="1">
-                                    <property name="name">
-                                        <cstring>ColorButton</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string></string>
-                                    </property>
-                                    <property name="color">
-                                        <color>
-                                            <red>255</red>
-                                            <green>255</green>
-                                            <blue>255</blue>
-                                        </color>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Select color for the field-of-view symbol</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Select a color for the field-of-view (FOV) symbol.</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="1" column="0">
-                                    <property name="name">
-                                        <cstring>textLabel8</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Color:</string>
-                                    </property>
-                                </widget>
-                                <widget class="KComboBox" row="0" column="1">
-                                    <item>
-                                        <property name="text">
-                                            <string>Square</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Circle</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Crosshairs</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Bullseye</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Semitransparent circle</string>
-                                        </property>
-                                    </item>
-                                    <property name="name">
-                                        <cstring>ShapeBox</cstring>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Select a shape for the field-of-view symbol</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Select a shape for the field-of-view (FOV) symbol.  The possible shapes are:
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>152</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KPushButton" name="ComputeEyeFOV" >
+           <property name="toolTip" >
+            <string>Compute field-of-view from above data fields</string>
+           </property>
+           <property name="whatsThis" >
+            <string>This button will compute the field-of-view (FOV) angle for a specific eyepiece/telescope combination.  You must first specify the focal lengths of the telescope and eyepiece, and the FOV angle of the eyepiece in the above entry fields.
+
+The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+           </property>
+           <property name="text" >
+            <string>Compute FOV</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Camera</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="2" column="1" >
+        <widget class="KPushButton" name="ComputeCameraFOV" >
+         <property name="toolTip" >
+          <string>Compute field-of-view from above data fields</string>
+         </property>
+         <property name="whatsThis" >
+          <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
+
+The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+         </property>
+         <property name="text" >
+          <string>Compute FOV</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>180</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>22</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>22</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="2" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel5_2" >
+             <property name="text" >
+              <string>Telescope focal length:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel9" >
+             <property name="text" >
+              <string>Chip/Film size:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="TLength2" >
+               <property name="toolTip" >
+                <string>Telescope focal length, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_3" >
+               <property name="minimumSize" >
+                <size>
+                 <width>60</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="ChipSize" >
+               <property name="toolTip" >
+                <string>Size of chip or film, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_3_2" >
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="TabPage" >
+      <attribute name="title" >
+       <string>Radiotelescope</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel5_2_3" >
+             <property name="text" >
+              <string>Radiotelescope diameter:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel9_3" >
+             <property name="text" >
+              <string>Wavelength:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="RTDiameter" >
+               <property name="toolTip" >
+                <string>Telescope focal length, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_3_4" >
+               <property name="minimumSize" >
+                <size>
+                 <width>60</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>m</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="WaveLength" >
+               <property name="toolTip" >
+                <string>Size of chip or film, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the physical size of the CCD chip or film negative.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="textLabel6_2_3_2_3" >
+               <property name="font" >
+                <font>
+                 <family></family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>cm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>21</width>
+           <height>51</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>281</width>
+             <height>21</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KPushButton" name="ComputeHPBW" >
+           <property name="toolTip" >
+            <string>Compute radiotelescope HPBW from above data fields</string>
+           </property>
+           <property name="whatsThis" >
+            <string>This button will compute the Half Power Beam Width (HPBW) angle for a specific radiotelescope and observing wavelength combination, assuming no multibeam receiver is available at the telescope.  You must first specify the diameter of the radiotelescope and the observing wavelength.
+
+The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+           </property>
+           <property name="text" >
+            <string>Compute HPBW</string>
+           </property>
+           <property name="flat" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="fieldoFviewLabel" >
+       <property name="text" >
+        <string>Field of view (arcmin):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="FOVEdit" >
+       <property name="toolTip" >
+        <string>Desired field-of-view size, in arcminutes</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Enter the desired angular size for the field-of-view (FOV) symbol.
+
+You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>298</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="1" column="1" >
+          <widget class="KColorButton" name="ColorButton" >
+           <property name="toolTip" >
+            <string>Select color for the field-of-view symbol</string>
+           </property>
+           <property name="whatsThis" >
+            <string>Select a color for the field-of-view (FOV) symbol.</string>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="color" >
+            <color>
+             <red>255</red>
+             <green>255</green>
+             <blue>255</blue>
+            </color>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="textLabel8" >
+           <property name="text" >
+            <string>Color:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="KComboBox" name="ShapeBox" >
+           <property name="toolTip" >
+            <string>Select a shape for the field-of-view symbol</string>
+           </property>
+           <property name="whatsThis" >
+            <string>Select a shape for the field-of-view (FOV) symbol.  The possible shapes are:
 
 Circle, Square, Crosshairs, Bullseye.</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" row="0" column="0">
-                                    <property name="name">
-                                        <cstring>textLabel7</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Shape:</string>
-                                    </property>
-                                </widget>
-                            </grid>
-                        </widget>
-                    </vbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout10</cstring>
-                    </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QFrame">
-                            <property name="name">
-                                <cstring>ViewBox</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>0</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                                <size>
-                                    <width>80</width>
-                                    <height>80</height>
-                                </size>
-                            </property>
-                            <property name="paletteForegroundColor">
-                                <color>
-                                    <red>255</red>
-                                    <green>255</green>
-                                    <blue>255</blue>
-                                </color>
-                            </property>
-                            <property name="paletteBackgroundColor">
-                                <color>
-                                    <red>0</red>
-                                    <green>0</green>
-                                    <blue>0</blue>
-                                </color>
-                            </property>
-                            <property name="frameShape">
-                                <enum>StyledPanel</enum>
-                            </property>
-                            <property name="frameShadow">
-                                <enum>Raised</enum>
-                            </property>
-                        </widget>
-                    </vbox>
-                </widget>
-            </hbox>
+           </property>
+           <item>
+            <property name="text" >
+             <string>Square</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Circle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Crosshairs</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Bullseye</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Semitransparent circle</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="textLabel7" >
+           <property name="text" >
+            <string>Shape:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="ViewBox" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>0</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>80</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="frameShape" >
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow" >
+          <enum>QFrame::Raised</enum>
+         </property>
         </widget>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<tabstops>
-    <tabstop>FOVName</tabstop>
-    <tabstop>tabWidget2</tabstop>
-    <tabstop>TLength1</tabstop>
-    <tabstop>EyeLength</tabstop>
-    <tabstop>EyeFOV</tabstop>
-    <tabstop>ComputeEyeFOV</tabstop>
-    <tabstop>TLength2</tabstop>
-    <tabstop>ChipSize</tabstop>
-    <tabstop>ComputeCameraFOV</tabstop>
-    <tabstop>FOVEdit</tabstop>
-    <tabstop>ShapeBox</tabstop>
-    <tabstop>ColorButton</tabstop>
-</tabstops>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
-    <includehint>kcombobox.h</includehint>
-</includehints>
-</UI>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends></extends>
+   <header>kcolorbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends></extends>
+   <header>kcombobox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>FOVName</tabstop>
+  <tabstop>tabWidget2</tabstop>
+  <tabstop>TLength1</tabstop>
+  <tabstop>EyeLength</tabstop>
+  <tabstop>EyeFOV</tabstop>
+  <tabstop>ComputeEyeFOV</tabstop>
+  <tabstop>TLength2</tabstop>
+  <tabstop>ChipSize</tabstop>
+  <tabstop>ComputeCameraFOV</tabstop>
+  <tabstop>FOVEdit</tabstop>
+  <tabstop>ShapeBox</tabstop>
+  <tabstop>ColorButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

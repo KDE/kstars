@@ -18,10 +18,46 @@
 #ifndef KSWIZARD_H
 #define KSWIZARD_H
 
-#include <q3memarray.h>
+#include <Q3MemArray>
+
 #include "kswizardui.h"
+#include "wizwelcomeui.h"
+#include "wizlocationui.h"
+#include "wizdevicesui.h"
+#include "wizdownloadui.h"
 
 class GeoLocation;
+class KStars;
+
+class KSWizardUI : public QFrame, public Ui::KSWizard {
+	Q_OBJECT
+	public:
+		KSWizardUI( QWidget *parent=0 );
+};
+
+class WizWelcomeUI : public QFrame, public Ui::WizWelcome {
+	Q_OBJECT
+	public:
+		WizWelcomeUI( QWidget *parent=0 );
+};
+
+class WizLocationUI : public QFrame, public Ui::WizLocation {
+	Q_OBJECT
+	public:
+		WizLocationUI( QWidget *parent=0 );
+};
+
+class WizDevicesUI : public QFrame, public Ui::WizDevices {
+	Q_OBJECT
+	public:
+		WizDevicesUI( QWidget *parent=0 );
+};
+
+class WizDownloadUI : public QFrame, public Ui::WizDownload {
+	Q_OBJECT
+	public:
+		WizDownloadUI( QWidget *parent=0 );
+};
 
 /**
 	*@class KSWizard
@@ -32,20 +68,15 @@ class GeoLocation;
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class KStars;
-class GeoLocation;
-
-class KSWizard : public KSWizardUI
+class KSWizard : public KDialogBase
 {
 Q_OBJECT
 public:
 	/**
 		*Constructor
 		*@p parent pointer to the parent widget
-		*@p name name for the KSWizard object
 		*/
-	KSWizard( QWidget *parent=0, const char *name=0 );
+	KSWizard( QWidget *parent=0 );
 
 	/**Destructor */
 	~KSWizard();
@@ -80,6 +111,12 @@ private:
 		*/
 	void initGeoPage();
 	
+	KSWizardUI *wiz;
+	WizWelcomeUI *welcome;
+	WizLocationUI *location;
+	WizDevicesUI *devices;
+	WizDownloadUI *download;
+
 	KStars *ksw;
 	Q3MemArray<int> GeoID;
 	GeoLocation *Geo;

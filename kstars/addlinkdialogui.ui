@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>AddLinkDialogUI</class>
- <widget class="QWidget" name="AddLinkDialogUI" >
+ <class>AddLinkDialog</class>
+ <widget class="QWidget" name="AddLinkDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>

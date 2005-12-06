@@ -41,6 +41,13 @@
 #include "fovdialogui.h"
 #include "newfovui.h"
 
+FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
 
 //---------FOVDialog---------------//
 FOVDialog::FOVDialog( QWidget *parent )
@@ -79,7 +86,7 @@ void FOVDialog::initList() {
 		Q3ListBoxItem *item = 0;
 
 		QTextStream stream( &f );
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			fields = QStringList::split( ":", stream.readLine() );
 			bool ok( false );
 

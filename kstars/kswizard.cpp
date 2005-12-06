@@ -28,27 +28,45 @@
 #include "geolocation.h"
 #include "dmsbox.h"
 #include "telescopewizardprocess.h"
-#include "kswizardui.h"
 #include "kswizard.h"
 
-KSWizard::KSWizard( QWidget *parent, const char *name )
- : KSWizardUI( parent, name )
+WizWelcomeUI::WizWelcomeUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+WizLocationUI::WizLocationUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+WizDevicesUI::WizDevicesUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+KSWizard::KSWizard( QWidget *parent )
+ : KDialogBase( parent )
 {
 	ksw = (KStars *)parent;
 	GeoID.resize(10000);
 	
-	//Removing telescope page for now...
-	removePage( page(2) );
-	
-	
-	//each page should have a finish button
-	for ( unsigned int i=0; i<((unsigned int) pageCount()); ++i ) {
-		setFinishEnabled( page(i), true );
-	}
+	QFrame *page = plainPage();
+	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	wiz = new KSWizardUI( this );
+	vlay->addWidget( wiz );
 
-	//Disable "Next" Button on last page
-	setNextEnabled( page( pageCount() - 1 ), false );
+	welcome = new WizWelcomeUI( this );
+	location = new WizLocationUI( this );
+	devices = new WizDevicesUI( this );
+	download = new WizDownloadUI( this );
 
+	wiz->WizardStack->addWidget( welcome );
+	wiz->WizardStack->addWidget( location );
+	wiz->WizardStack->addWidget( devices );
+	wiz->WizardStack->addWidget( download );
+	
 	//Load images into banner frames.
 	QFile imFile;
 	QPixmap im = QPixmap();
@@ -57,27 +75,25 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 		imFile.close(); //Just need the filename...
 		im.load( imFile.name() );
 	}
-	Banner1->setPixmap( im );
+	welcome->Banner->setPixmap( im );
 	
 	if ( KSUtils::openDataFile( imFile, "wzgeo.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.name() );
 	}
-	Banner2->setPixmap( im );
+	location->Banner->setPixmap( im );
 	
-//Uncomment if we ever need the telescope page...
-//	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
-//		imFile.close(); //Just need the filename...
-//		im.load( imFile.name() );
-//	}
-//	Banner3->setPixmap( im );
+	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
+		imFile.close(); //Just need the filename...
+		im.load( imFile.name() );
+	}
+	devices->Banner->setPixmap( im );
 
-	//Only load the download page banner if KDE >= 3.2.90
 	if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.name() );
 	}
-	Banner4->setPixmap( im );
+	download->Banner->setPixmap( im );
 
 	//connect signals/slots
 	connect( CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );

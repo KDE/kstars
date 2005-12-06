@@ -18,18 +18,22 @@
 #ifndef ADDLINKDIALOG_H
 #define ADDLINKDIALOG_H
 
+#include <QVBoxLayout>
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <qradiobutton.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
 
 #include "addlinkdialogui.h"
 
 class QLayout;
 class QString;
 class SkyMap;
+
+class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog {
+	Q_OBJECT
+	public:
+		AddLinkDialogUI( QWidget *parent=0 );
+};
 
 /**@class Simple dialog for adding a custom URL to a popup menu.
   *@author Jason Harris

@@ -15,25 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtabwidget.h>
-#include <qlayout.h>
-//Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3Frame>
-
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-
-#include <qstring.h>
 #include <knumvalidator.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "dms.h"
 #include "skypoint.h"
-#include "dmsbox.h"
 #include "focusdialog.h"
+
+FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi(this);
+}
 
 FocusDialog::FocusDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Set Focus Manually" ), Ok|Cancel, Ok, parent ) {
@@ -44,18 +40,18 @@ FocusDialog::FocusDialog( QWidget *parent )
 	QFrame *page = plainPage();
 	setMainWidget(page);
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	fdlg = new FocusDialogDlg(page);
-	fdlg->epochName->setValidator( new KDoubleValidator( fdlg->epochName ) );
-	vlay->addWidget( fdlg );
+	fd = new FocusDialogUI(page);
+	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
+	vlay->addWidget( fd );
 	
-	connect( fdlg->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	connect( fd->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	connect( fd->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	connect( fd->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
+	connect( fd->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
 
-	fdlg->raBox->setDegType(false); //RA box should be HMS-style
-	fdlg->raBox->setFocus(); //set input focus
+	fd->raBox->setDegType(false); //RA box should be HMS-style
+	fd->raBox->setFocus(); //set input focus
 	enableButtonOK( false ); //disable until both lineedits are filled
 }
 
@@ -64,10 +60,10 @@ FocusDialog::~FocusDialog(){
 
 void FocusDialog::checkLineEdits() {
 	bool raOk(false), decOk(false), azOk(false), altOk(false);
-	fdlg->raBox->createDms( false, &raOk );
-	fdlg->decBox->createDms( true, &decOk );
-	fdlg->azBox->createDms( true, &azOk );
-	fdlg->altBox->createDms( true, &altOk );
+	fd->raBox->createDms( false, &raOk );
+	fd->decBox->createDms( true, &decOk );
+	fd->azBox->createDms( true, &azOk );
+	fd->altBox->createDms( true, &altOk );
 	if ( ( raOk && decOk ) || ( azOk && altOk ) )
 		enableButtonOK( true );
 	else
@@ -80,8 +76,8 @@ void FocusDialog::slotOk() {
 
 void FocusDialog::validatePoint() {
 	bool raOk(false), decOk(false), azOk(false), altOk(false);
-	dms ra( fdlg->raBox->createDms( false, &raOk ) ); //false means expressed in hours
-	dms dec( fdlg->decBox->createDms( true, &decOk ) );
+	dms ra( fd->raBox->createDms( false, &raOk ) ); //false means expressed in hours
+	dms dec( fd->decBox->createDms( true, &decOk ) );
 	QString message;
 
 	KStars *ks = (KStars*) parent();
@@ -98,14 +94,14 @@ void FocusDialog::validatePoint() {
 		}
 
 		Point = new SkyPoint( ra, dec );
-		double epoch0 = getEpoch( fdlg->epochName->text() );
+		double epoch0 = getEpoch( fd->epochBox->text() );
 		long double jd0 = epochToJd ( epoch0 );
 		Point->apparentCoord(jd0, ks->data()->ut().djd() );
 
 		QDialog::accept();
 	} else {
-		dms az(  fdlg->azBox->createDms( true, &azOk ) );
-		dms alt( fdlg->altBox->createDms( true, &altOk ) );
+		dms az(  fd->azBox->createDms( true, &azOk ) );
+		dms alt( fd->altBox->createDms( true, &altOk ) );
 
 		if ( azOk && altOk ) {
 			//make sure values are in valid range
@@ -161,7 +157,7 @@ QSize FocusDialog::sizeHint() const
 }
 
 void FocusDialog::activateAzAltPage() {
-	fdlg->fdTab->showPage( fdlg->aaTab );
-	fdlg->azBox->setFocus();
+	fd->fdTab->showPage( fd->aaTab );
+	fd->azBox->setFocus();
 }
 #include "focusdialog.moc"
