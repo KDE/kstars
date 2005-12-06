@@ -24,6 +24,6 @@ MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent )
 
 MagnitudeSpinBox::MagnitudeSpinBox( double minValue, double maxValue,
 	QWidget * parent )
-	: KDoubleNumInput( minValue, maxValue, minValue, parent, 0.1 /* step */, 1 )
+	: KDoubleNumInput( minValue, maxValue, minValue, parent, 0.1 /* stepÂ */, 1 )
 {
 }

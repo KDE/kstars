@@ -19,14 +19,14 @@ Observing Request
 
       Sun:
 
-	[] Min sep     |              |  ° from target
-	[] Min down    |              |  ° below horizon
+	[] Min sep     |              |  Â° from target
+	[] Min down    |              |  Â° below horizon
 
       Moon:
 
 	[] Max phase   |              |  0..1 (new..full)
-	[] Min sep     |              |  ° from target
-	[] Min down    |              |  ° below horizon
+	[] Min sep     |              |  Â° from target
+	[] Min down    |              |  Â° below horizon
 
       Timing:
 
