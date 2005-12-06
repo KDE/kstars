@@ -18,14 +18,19 @@
 #ifndef ADDCATDIALOG_H
 #define ADDCATDIALOG_H
 
+#include <QVBoxLayout>
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
-#include "deepskyobject.h"
+
 #include "addcatdialogui.h"
-#include "draglistbox.h"
-//Added by qt3to4:
-#include <QVBoxLayout>
+#include "deepskyobject.h"
+
+class AddCatDialogUI : public QFrame, public Ui::AddCatDialog {
+	Q_OBJECT
+	public:
+		AddCatDialogUI( QWidget *parent=0 );
+};
 
 /**@class AddCatDialog
 	*@short Dialog for adding custom object catalogs to KStars

@@ -30,9 +30,14 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "customcatalog.h"
+#include "Options.h"
+#include "skycomponents/customcatalogcomponent.h"
 
 #include "addcatdialog.h"
+
+AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi(this);
+}
 
 AddCatDialog::AddCatDialog( QWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
@@ -124,7 +129,8 @@ bool AddCatDialog::validateDataFile() {
 		dataFile.close();
 	}
 
-	//Now create a temporary file for the Catalog, and attempt to parse it into a CustomCatalog
+	//Now create a temporary file for the Catalog, and attempt to parse it 
+	//into a temporary CustomCatalogComponent
 	KTempFile ktf;
 	QFile tmpFile( ktf.name() );
 	ktf.unlink(); //just need filename
@@ -132,14 +138,11 @@ bool AddCatDialog::validateDataFile() {
 		QTextStream ostream( &tmpFile );
 		ostream << CatalogContents;
 		tmpFile.close();
-		CustomCatalog *newCat;
+		CustomCatalogComponent newCat( 0, tmpFile.name(), true, Options::showOther );
+		newCat.init( ksw->data() );
 
-		newCat = ksw->data()->createCustomCatalog( tmpFile.name(), true ); // true = showerrs
-		if ( newCat ) {
-			int nObjects = newCat->objList().count();
-			delete newCat;
-			if ( nObjects ) return true;
-		}
+		int nObjects = newCat.objectList().size();
+		if ( nObjects ) return true;
 	}
 
 	return false;

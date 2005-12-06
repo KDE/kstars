@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>AddCatDialogUI</class>
- <widget class="QWidget" name="AddCatDialogUI" >
+ <class>AddCatDialog</class>
+ <widget class="QWidget" name="AddCatDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>10</number>
+    <number>8</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -78,10 +78,10 @@
      </property>
      <layout class="QHBoxLayout" >
       <property name="margin" >
-       <number>10</number>
+       <number>-1</number>
       </property>
       <property name="spacing" >
-       <number>6</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QVBoxLayout" >
@@ -110,14 +110,7 @@
          </widget>
         </item>
         <item>
-         <widget class="DragListBox" name="FieldList" >
-          <property name="toolTip" >
-           <string>Data fields present in the import file</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Build a list of data fields for your import data file (in the correct order from left to right), by dragging items from the &quot;Available fields&quot; list.</string>
-          </property>
-         </widget>
+         <widget class="DragListBox" name="FieldList" />
         </item>
        </layout>
       </item>
@@ -148,14 +141,7 @@
          </widget>
         </item>
         <item>
-         <widget class="DragListBox" name="FieldPool" >
-          <property name="toolTip" >
-           <string>The list of available data fields</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Drag items from this box to the &quot;Catalog fields&quot; box to describe the contents of your imported data file.</string>
-          </property>
-         </widget>
+         <widget class="DragListBox" name="FieldPool" />
         </item>
        </layout>
       </item>
@@ -304,31 +290,43 @@
      </item>
     </layout>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>16</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>DragListBox</class>
+   <extends>KListBox</extends>
+   <header>widgets/draglistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>Q3GroupBox</class>
+   <extends></extends>
+   <header>Qt3Support/Q3GroupBox</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KURLRequester</class>
+   <extends></extends>
+   <header>kurlrequester.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -350,34 +348,6 @@
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends></extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KURLRequester</class>
-   <extends></extends>
-   <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>DragListBox</class>
-   <extends>KListBox</extends>
-   <header>widgets/draglistbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
