@@ -2,7 +2,7 @@ bin_PROGRAMS = kstars
 
 kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp \
-			dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp customcatalog.cpp \
+			dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp \
 			fitsimage.cpp fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp \
 			geolocation.cpp imagereductiondlg.cpp imagesequence.cpp imageviewer.cpp indidevice.cpp \
 			indidriver.cpp indielement.cpp indifitsconf.cpp indigroup.cpp indimenu.cpp \

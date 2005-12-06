@@ -125,22 +125,22 @@ void OpsCatalog::slotLoadCatalog() {
 	QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
 	if ( ! filename.isEmpty() ) {
 		//test integrity of file before trying to add it
-		CustomCatalog *newCat = ksw->data()->createCustomCatalog( filename, true ); //true = show errors
-		if ( newCat ) {
-			int nObjects = newCat->objList().count();
-			delete newCat;
-			if ( nObjects )
-				insertCatalog( filename );
-		}
+		CustomCatalogComponent newCat( 0, filename, true, Options::showOther );
+		newCat.init( ksw->data() );
+		if ( newCat->objectList().size() )
+			insertCatalog( filename );
 	}
 }
 
 void OpsCatalog::insertCatalog( const QString &filename ) {
 	//Add new custom catalog, based on the list of SkyObjects we just parsed
-	ksw->data()->addCatalog( filename );
+	//FIXME: need function SkyMapComposite::addCustomCatalog()
+	ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
 
 	//Get the new catalog's name, add entry to the listbox
+	//FIXME: Need name of new catalog
 	QString name = ksw->data()->customCatalogs().current()->name();
+
 	Q3CheckListItem *newCat = new Q3CheckListItem( CatalogList, name, Q3CheckListItem::CheckBox );
 	newCat->setOn( true );
 	CatalogList->insertItem( newCat );
