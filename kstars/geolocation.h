@@ -244,7 +244,7 @@ public:
 	void setTZ( double tz ) { TimeZone = tz; }
 
 /**Sets DST rule pointer according to argument.
-	*@param txr pointer to the new DST rule
+	*@param tzr pointer to the new DST rule
 	*/
 	void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
 
@@ -306,7 +306,7 @@ public:
 	 *
 	 * @param vtopo[] Topocentric velocity. The resultant velocity is available 
 	 *        in this array.
-	 * @param gt. Greenwich sideral time for which we want to compute the topocentric velocity.
+	 * @param gt Greenwich sideral time for which we want to compute the topocentric velocity.
 	 */
 	void TopocentricVelocity(double vtopo[], dms gt);
 
