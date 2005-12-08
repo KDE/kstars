@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-//Added by qt3to4:
+#include <QFile>
 #include <QPixmap>
 #include <QTextStream>
 
@@ -35,10 +34,11 @@
 #include "skymap.h"
 #include "colorscheme.h"
 
-OpsColors::OpsColors( QWidget *p, const char *name, Qt::WFlags fl ) 
-	: OpsColorsUI( p, name, fl ) 
+OpsColors::OpsColors( QWidget *p ) 
+	: QFrame( p ) 
 {
 	ksw = (KStars *)p;
+	setupUi( this );
 
 	//Populate list of adjustable colors
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
@@ -63,7 +63,7 @@ OpsColors::OpsColors( QWidget *p, const char *name, Qt::WFlags fl )
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
+  	while ( !stream.atEnd() ) {
 			line = stream.readLine();
 			schemeName = line.left( line.find( ':' ) );
 			filename = line.mid( line.find( ':' ) +1, line.length() );
@@ -123,10 +123,10 @@ void OpsColors::newColor( Q3ListBoxItem *item ) {
 }
 
 void OpsColors::slotPreset( int index ) {
-	QStringList::Iterator it = PresetFileList.at( index );
-	bool result = setColors( *it );
+	QString sPreset = PresetFileList.at( index );
+	bool result = setColors( sPreset );
 	if (!result) {
-		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( QString(*it) );
+		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( sPreset );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Set Color Scheme" ) );
 	}
 }
@@ -145,11 +145,11 @@ bool OpsColors::setColors( QString filename ) {
 	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
 	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
 
-	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
-		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
+	if ( ksw->data()->skyComposite()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
+		ksw->data()->skyComposite()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
 
-	if ( ksw->map()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
-		ksw->map()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
+	if ( ksw->data()->skyComposite()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
+		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
 		temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
@@ -206,7 +206,7 @@ void OpsColors::slotRemovePreset() {
 		QStringList slist;
 		bool removed = false;
 
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QString line = stream.readLine();
 			if ( line.left( line.find(':') ) != name ) slist.append( line );
 			else removed = true;
@@ -224,7 +224,7 @@ void OpsColors::slotRemovePreset() {
 			cdatFile.remove();
 			cdatFile.open( QIODevice::ReadWrite );
 			QTextStream stream2( &cdatFile );
-			for( unsigned int i=0; i<slist.count(); ++i )
+			for( int i=0; i<slist.count(); ++i )
 				stream << slist[i] << endl;
 		} else {
 			QString message = i18n( "Could not find an entry named %1 in colors.dat." ).arg( name );
@@ -236,8 +236,8 @@ void OpsColors::slotRemovePreset() {
 
 void OpsColors::slotStarColorMode( int i ) {
 	ksw->data()->colorScheme()->setStarColorMode( i );
-	if ( ksw->map()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
-		ksw->map()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
+	if ( ksw->data()->skyComposite()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
+		ksw->data()->skyComposite()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
 
 	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
 		kcfg_StarColorIntensity->setEnabled( false );
@@ -247,8 +247,8 @@ void OpsColors::slotStarColorMode( int i ) {
 
 void OpsColors::slotStarColorIntensity( int i ) {
 	ksw->data()->colorScheme()->setStarColorIntensity( i );
-	if ( ksw->map()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
-		ksw->map()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
+	if ( ksw->data()->skyComposite()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
+		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 }
 

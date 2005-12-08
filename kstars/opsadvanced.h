@@ -33,12 +33,12 @@
 
 class KStars;
 
-class OpsAdvanced : public OpsAdvancedUI
+class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
 {
 	Q_OBJECT
 
 public:
-	OpsAdvanced( QWidget *parent=0, const char *name=0, Qt::WFlags fl = 0 );
+	OpsAdvanced( QWidget *parent=0 );
 	~OpsAdvanced();
 
 private slots:

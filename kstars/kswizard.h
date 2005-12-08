@@ -101,8 +101,7 @@ private slots:
 		*/
 	void slotFilterCities();
 
-//Uncomment if we ever need the telescope page...
-//	void slotTelescopeSetup();
+	void slotTelescopeSetup();
 
 private:
 	/**

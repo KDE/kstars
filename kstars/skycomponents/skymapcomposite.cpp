@@ -49,6 +49,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 
 	addComponent( new DeepSkyComponent( this, &Options::showDeepSky, &Options::showMessier, &Options::showNGC, &Options::showIC, &Options::showOther, &Options::showMessierImages ) );
 	
+	//FIXME: can't use Options::showCatalog as visibility fcn, because it returns QList, not bool
 	m_CustomCatalogComposite = new SkyComposite( this );
 	foreach ( QString fname, Options::catalogFile() ) 
 		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
@@ -103,6 +104,10 @@ bool SkyMapComposite::removeTrail( SkyObject *o ) {
 	}
 	//Did not find object o
 	return false;
+}
+
+void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
+	m_StarComponent->setFaintMagnitude( newMag );
 }
 
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {

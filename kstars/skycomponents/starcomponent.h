@@ -81,6 +81,7 @@ class StarComponent: public ListComponent
 	*/
 	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
 
+	float faintMagnitude() const { return m_FaintMagnitude; }
 	void setFaintMagnitude( float newMagnitude );
 
 	protected:

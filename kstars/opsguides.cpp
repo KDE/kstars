@@ -18,9 +18,11 @@
 #include <qcheckbox.h>
 #include "opsguides.h"
 
-OpsGuides::OpsGuides( QWidget* parent, const char* name, Qt::WFlags fl )
-    : OpsGuidesUI( parent, name, fl )
+OpsGuides::OpsGuides( QWidget* parent )
+	: QFrame( parent )
 {
+	setupUi( this );
+
 	connect( kcfg_ShowCNames, SIGNAL( clicked() ), 
 					 this, SLOT( slotToggleConstellOptions() ) );
 	connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ), 

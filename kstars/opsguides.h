@@ -19,12 +19,12 @@
 
 #include "opsguidesui.h"
 
-class OpsGuides : public OpsGuidesUI
+class OpsGuides : public QFrame, public Ui::OpsGuides
 {
 	Q_OBJECT
 
 public:
-	OpsGuides( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
+	OpsGuides( QWidget* parent = 0 );
 	~OpsGuides();
 
 private slots:

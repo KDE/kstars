@@ -65,6 +65,11 @@ class CustomCatalogComponent: public ListComponent
 		*/
 		virtual void init(KStarsData *data);
 	
+	/**
+		*@return the name of the catalog
+		*/
+		QString name() const { return m_catName; }
+
 	private:
 		
 	/**

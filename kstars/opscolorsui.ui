@@ -1,289 +1,312 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>OpsColorsUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>OpsColorsUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>561</width>
-            <height>445</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>OpsColors</string>
-    </property>
-    <hbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>OpsColors</class>
+ <widget class="QWidget" name="OpsColors" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>590</width>
+    <height>445</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>OpsColors</string>
+  </property>
+  <layout class="QHBoxLayout" >
+   <property name="margin" >
+    <number>8</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Current Colors</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="KListBox" name="ColorPalette" >
+        <property name="toolTip" >
+         <string>Current color settings</string>
         </property>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox5</cstring>
-            </property>
-            <property name="title">
-                <string>Current Colors</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KListBox">
-                    <property name="name">
-                        <cstring>ColorPalette</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Current color settings</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>The list of all customizable colors in the program.  Next to each item is a square showing the color it is currently set to.  Click on any item to change its color.</string>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout4</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>InfoBox BG mode:</string>
-                            </property>
-                        </widget>
-                        <widget class="KComboBox">
-                            <item>
-                                <property name="text">
-                                    <string>No Fill</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Transparent</string>
-                                </property>
-                            </item>
-                            <item>
-                                <property name="text">
-                                    <string>Opaque</string>
-                                </property>
-                            </item>
-                            <property name="name">
-                                <cstring>kcfg_BoxBGMode</cstring>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout10</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Star color mode:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>StarColorMode</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KComboBox">
-                            <property name="name">
-                                <cstring>kcfg_StarColorMode</cstring>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Set the star color mode</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>There are four ways to draw stars on the map.  By default, stars are circles with a white core and a rim which is tinted to reflect the star's actual color.  You may also choose to draw the stars as solid white, red, or black circles, to match the needs of your overall color scheme.</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout11</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Star color intensity:</string>
-                            </property>
-                        </widget>
-                        <widget class="KIntSpinBox">
-                            <property name="name">
-                                <cstring>kcfg_StarColorIntensity</cstring>
-                            </property>
-                            <property name="maxValue">
-                                <number>10</number>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Set the intensity of star colors</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>When using the realistic-color star mode, this option will set the saturation level of the star's colors.  A higher value means more intense colors.</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox6</cstring>
-            </property>
-            <property name="title">
-                <string>Preset Color Schemes</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KListBox">
-                    <property name="name">
-                        <cstring>PresetBox</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>List of preset color schemes</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>List of all known color schemes.  Several are provided by default, and you may also define your own.</string>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout9</cstring>
-                    </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer row="0" column="2">
-                            <property name="name">
-                                <cstring>spacer18</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton" row="1" column="1">
-                            <property name="name">
-                                <cstring>RemovePreset</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Remove Color Scheme</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Remove a preset color scheme</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
-                            </property>
-                        </widget>
-                        <spacer row="0" column="0">
-                            <property name="name">
-                                <cstring>spacer16</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="1" column="0">
-                            <property name="name">
-                                <cstring>spacer17</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="1" column="2">
-                            <property name="name">
-                                <cstring>spacer19</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="KPushButton" row="0" column="1">
-                            <property name="name">
-                                <cstring>AddPreset</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Save Current Colors...</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Create a new preset color scheme using current settings</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>After changing the colors to a scheme that you like, press this button to create a new scheme using those colors.  Your scheme will appear here in the list of presets, and will also be available in the "Settings" menu of the main window.</string>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-            </vbox>
-        </widget>
-    </hbox>
-</widget>
-<tabstops>
-    <tabstop>ColorPalette</tabstop>
-    <tabstop>kcfg_StarColorMode</tabstop>
-    <tabstop>kcfg_StarColorIntensity</tabstop>
-    <tabstop>PresetBox</tabstop>
-    <tabstop>AddPreset</tabstop>
-    <tabstop>RemovePreset</tabstop>
-</tabstops>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+        <property name="whatsThis" >
+         <string>The list of all customizable colors in the program.  Next to each item is a square showing the color it is currently set to.  Click on any item to change its color.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="textLabel1_2" >
+          <property name="text" >
+           <string>InfoBox BG mode:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KComboBox" name="kcfg_BoxBGMode" >
+          <item>
+           <property name="text" >
+            <string>No Fill</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Transparent</string>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Opaque</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="textLabel1" >
+          <property name="text" >
+           <string>Star color mode:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>StarColorMode</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KComboBox" name="kcfg_StarColorMode" >
+          <property name="toolTip" >
+           <string>Set the star color mode</string>
+          </property>
+          <property name="whatsThis" >
+           <string>There are four ways to draw stars on the map.  By default, stars are circles with a white core and a rim which is tinted to reflect the star's actual color.  You may also choose to draw the stars as solid white, red, or black circles, to match the needs of your overall color scheme.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="textLabel2" >
+          <property name="text" >
+           <string>Star color intensity:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KIntSpinBox" name="kcfg_StarColorIntensity" >
+          <property name="toolTip" >
+           <string>Set the intensity of star colors</string>
+          </property>
+          <property name="whatsThis" >
+           <string>When using the realistic-color star mode, this option will set the saturation level of the star's colors.  A higher value means more intense colors.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Preset Color Schemes</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="KListBox" name="PresetBox" >
+        <property name="toolTip" >
+         <string>List of preset color schemes</string>
+        </property>
+        <property name="whatsThis" >
+         <string>List of all known color schemes.  Several are provided by default, and you may also define your own.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="2" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="1" >
+         <widget class="KPushButton" name="RemovePreset" >
+          <property name="toolTip" >
+           <string>Remove a preset color scheme</string>
+          </property>
+          <property name="whatsThis" >
+           <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
+          </property>
+          <property name="text" >
+           <string>Remove Color Scheme</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="0" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="2" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="1" >
+         <widget class="KPushButton" name="AddPreset" >
+          <property name="toolTip" >
+           <string>Create a new preset color scheme using current settings</string>
+          </property>
+          <property name="whatsThis" >
+           <string>After changing the colors to a scheme that you like, press this button to create a new scheme using those colors.  Your scheme will appear here in the list of presets, and will also be available in the &quot;Settings&quot; menu of the main window.</string>
+          </property>
+          <property name="text" >
+           <string>Save Current Colors...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends></extends>
+   <header>kcombobox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>ColorPalette</tabstop>
+  <tabstop>kcfg_StarColorMode</tabstop>
+  <tabstop>kcfg_StarColorIntensity</tabstop>
+  <tabstop>PresetBox</tabstop>
+  <tabstop>AddPreset</tabstop>
+  <tabstop>RemovePreset</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

@@ -29,12 +29,12 @@ class KStars;
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class OpsSolarSystem : public OpsSolarSystemUI
+class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 {
 	Q_OBJECT
 
 public:
-	OpsSolarSystem( QWidget *parent=0, const char *name=0, Qt::WFlags fl = 0 );
+	OpsSolarSystem( QWidget *parent=0 );
 	~OpsSolarSystem();
 
 private slots:

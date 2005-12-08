@@ -26,7 +26,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "geolocation.h"
-#include "dmsbox.h"
+#include "widgets/dmsbox.h"
 #include "telescopewizardprocess.h"
 #include "kswizard.h"
 
@@ -96,13 +96,12 @@ KSWizard::KSWizard( QWidget *parent )
 	download->Banner->setPixmap( im );
 
 	//connect signals/slots
-	connect( CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
-	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-//Uncomment if we ever need the telescope page...
-//	connect( TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
-	connect( DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
+	connect( location->CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
+	connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
+	connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
+	connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
+	connect( devices->TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
+	connect( download->DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
 	
 	//Initialize Geographic Location page
 	initGeoPage();
@@ -113,75 +112,74 @@ KSWizard::~KSWizard()
 {}
 
 void KSWizard::initGeoPage() {
-	LongBox->setReadOnly( true );
-	LatBox->setReadOnly( true );
+	location->LongBox->setReadOnly( true );
+	location->LatBox->setReadOnly( true );
 
 	//Populate the CityListBox
 	//flag the ID of the current City
 	int index(0);
-	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
-		CityListBox->insertItem( loc->fullName() );
+	foreach ( GeoLocation *loc, ksw->data()->geoList ) {
+		location->CityListBox->insertItem( loc->fullName() );
 		filteredCityList.append( loc );
 		
 		if ( loc->fullName() == ksw->data()->geo()->fullName() ) {
-			index = ksw->data()->geoList.at();
+			index = ksw->data()->geoList.indexOf( loc );
 			Geo = loc;
 		}
 	}
 	
 	//Sort alphabetically
-	CityListBox->sort();
+	location->CityListBox->sort();
 	
 	//preset to current city
-	CityListBox->setCurrentItem( index + 1 );
+	location->CityListBox->setCurrentItem( index + 1 );
 }
 
 void KSWizard::slotChangeCity() {
 	Geo = 0L;
 	
-	if ( CityListBox->currentItem() >= 0 ) {
+	if ( location->CityListBox->currentItem() >= 0 ) {
 		for ( int i=0; i < filteredCityList.size(); ++i ) {
-			if ( filteredCityList[i]->fullName() == CityListBox->currentText() ) {
+			if ( filteredCityList[i]->fullName() == location->CityListBox->currentText() ) {
 				Geo = filteredCityList[i];
 				break;
 			}
 		}
 	}
 
-	LongBox->showInDegrees( Geo->lng() );
-	LatBox->showInDegrees( Geo->lat() );
+	location->LongBox->showInDegrees( Geo->lng() );
+	location->LatBox->showInDegrees( Geo->lat() );
 }
 
 void KSWizard::slotFilterCities() {
-	CityListBox->clear();
+	location->CityListBox->clear();
 	//Do NOT delete members of filteredCityList!
 	while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
+	foreach ( GeoLocation *loc, ksw->data()->geoList ) {
 		QString sc( loc->translatedName() );
 		QString ss( loc->translatedCountry() );
 		QString sp = "";
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 
-		if ( sc.lower().startsWith( CityFilter->text().lower() ) &&
-				sp.lower().startsWith( ProvinceFilter->text().lower() ) &&
-				ss.lower().startsWith( CountryFilter->text().lower() ) ) {
-			CityListBox->insertItem( loc->fullName() );
+		if ( sc.lower().startsWith( location->CityFilter->text().lower() ) &&
+				sp.lower().startsWith( location->ProvinceFilter->text().lower() ) &&
+				ss.lower().startsWith( location->CountryFilter->text().lower() ) ) {
+			location->CityListBox->insertItem( loc->fullName() );
 			filteredCityList.append( loc );
 		}
 	}
 	
-	CityListBox->sort();
+	location->CityListBox->sort();
 
-	if ( CityListBox->firstItem() )  // set first item in list as selected
-		CityListBox->setCurrentItem( CityListBox->firstItem() );
+	if ( location->CityListBox->firstItem() )  // set first item in list as selected
+		location->CityListBox->setCurrentItem( location->CityListBox->firstItem() );
 }
 
-//Uncomment if we ever need the telescope page...
-//void KSWizard::slotTelescopeSetup() {
-//	telescopeWizardProcess twiz(ksw);
-//	twiz.exec();
-//}
+void KSWizard::slotTelescopeSetup() {
+	telescopeWizardProcess twiz(ksw);
+	twiz.exec();
+}
 
 #include "kswizard.moc"

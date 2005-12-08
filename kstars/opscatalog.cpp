@@ -15,11 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3listview.h> //QCheckListItem
-#include <qcheckbox.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
+#include <QListWidgetItem>
 #include <kfiledialog.h>
 
 #include "opscatalog.h"
@@ -28,26 +25,32 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "addcatdialog.h"
-#include "magnitudespinbox.h"
-#include "customcatalog.h"
+#include "widgets/magnitudespinbox.h"
+#include "skycomponents/customcatalogcomponent.h"
 
-OpsCatalog::OpsCatalog( QWidget *p, const char *name, Qt::WFlags fl ) 
-	: OpsCatalogUI( p, name, fl ) 
+OpsCatalog::OpsCatalog( QWidget *p ) 
+	: QFrame( p )
 {
 	ksw = (KStars *)p;
 
+	setupUi(this);
+
 	//Populate CatalogList
-	showIC = new Q3CheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), Q3CheckListItem::CheckBox );
-	showIC->setOn( Options::showIC() );
+	showIC = new QListWidgetItem( i18n( "Index Catalog (IC)" ), CatalogList );
+	showIC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+	showIC->setCheckState( Options::showIC() ?  Qt::Checked : Qt::Unchecked );
 
-	showNGC = new Q3CheckListItem( CatalogList, i18n( "New General Catalog (NGC)" ), Q3CheckListItem::CheckBox );
-	showNGC->setOn( Options::showNGC() );
+	showNGC = new QListWidgetItem( i18n( "New General Catalog (NGC)" ), CatalogList );
+	showNGC->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+	showNGC->setCheckState( Options::showNGC() ?  Qt::Checked : Qt::Unchecked );
 
-	showMessImages = new Q3CheckListItem( CatalogList, i18n( "Messier Catalog (images)" ), Q3CheckListItem::CheckBox );
-	showMessImages->setOn( Options::showMessierImages() );
+	showMessImages = new QListWidgetItem( i18n( "Messier Catalog (images)" ), CatalogList );
+	showMessImages->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+	showMessImages->setCheckState( Options::showMessierImages()  ?  Qt::Checked : Qt::Unchecked );
 
-	showMessier = new Q3CheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), Q3CheckListItem::CheckBox );
-	showMessier->setOn( Options::showMessier() );
+	showMessier = new QListWidgetItem( i18n( "Messier Catalog (symbols)" ), CatalogList );
+	showMessier->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+	showMessier->setCheckState( Options::showMessier() ?  Qt::Checked : Qt::Unchecked );
 
 	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
 	kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
@@ -61,12 +64,15 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, Qt::WFlags fl )
 	if ( ! kcfg_ShowStars->isChecked() ) slotStarWidgets(false);
 	
 	//Add custom catalogs, if necessary
-	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) { //loop over custom catalogs
-		Q3CheckListItem *newItem = new Q3CheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), Q3CheckListItem::CheckBox );
-		newItem->setOn( Options::showCatalog()[i] );
+	foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
+		CustomCatalogComponent *cc = (CustomCatalogComponent*)sc;
+		int i = ksw->data()->skyComposite()->customCatalogs().indexOf( sc );
+		QListWidgetItem *newItem = new QListWidgetItem( cc->name(), CatalogList );
+		newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+		newItem->setCheckState( Options::showCatalog()[i] ?  Qt::Checked : Qt::Unchecked );
 	}
 
-	connect( CatalogList, SIGNAL( clicked( Q3ListViewItem* ) ), this, SLOT( updateDisplay() ) );
+	connect( CatalogList, SIGNAL( clicked( QListWidgetItem* ) ), this, SLOT( updateDisplay() ) );
 	connect( CatalogList, SIGNAL( selectionChanged() ), this, SLOT( selectCatalog() ) );
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
@@ -87,13 +93,14 @@ void OpsCatalog::updateDisplay() {
 	if ( sender()->name() == QString( "CatalogList" ) )
 		Options::setShowDeepSky( true );
 
-	Options::setShowMessier( showMessier->isOn() );
-	Options::setShowMessierImages( showMessImages->isOn() );
-	Options::setShowNGC( showNGC->isOn() );
-	Options::setShowIC( showIC->isOn() );
-	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) {
-		Q3CheckListItem *item = (Q3CheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
-		Options::showCatalog()[i] = item->isOn();
+	Options::setShowMessier( showMessier->checkState() );
+	Options::setShowMessierImages( showMessImages->checkState() );
+	Options::setShowNGC( showNGC->checkState() );
+	Options::setShowIC( showIC->checkState() );
+	for ( int i=0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
+		QString name = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i])->name();
+		QList<QListWidgetItem*> l = CatalogList->findItems( name, Qt::MatchExactly );
+		Options::showCatalog()[i] = (l[0]->checkState()==Qt::Checked) ? true : false;
 	}
 
 	// update time for all objects because they might be not initialized
@@ -106,8 +113,9 @@ void OpsCatalog::updateDisplay() {
 void OpsCatalog::selectCatalog() {
 //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
 	RemoveCatalog->setEnabled( false );
-	for ( unsigned int i=0; i < ksw->data()->customCatalogs().count(); ++i ) {
-		if ( CatalogList->currentItem()->text( 0 ) == ksw->data()->customCatalogs().at(i)->name() ) {
+	foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
+		CustomCatalogComponent *cc = (CustomCatalogComponent*)sc;
+		if ( CatalogList->currentItem()->text() == cc->name() ) {
 			RemoveCatalog->setEnabled( true );
 			break;
 		}
@@ -127,44 +135,48 @@ void OpsCatalog::slotLoadCatalog() {
 		//test integrity of file before trying to add it
 		CustomCatalogComponent newCat( 0, filename, true, Options::showOther );
 		newCat.init( ksw->data() );
-		if ( newCat->objectList().size() )
+		if ( newCat.objectList().size() )
 			insertCatalog( filename );
 	}
 }
 
 void OpsCatalog::insertCatalog( const QString &filename ) {
-	//Add new custom catalog, based on the list of SkyObjects we just parsed
-	ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
-
 	//Get the new catalog's name, add entry to the listbox
-	//FIXME: Need name of new catalog
 	QString name = getCatalogName( filename );
 
-	Q3CheckListItem *newCat = new Q3CheckListItem( CatalogList, name, Q3CheckListItem::CheckBox );
-	newCat->setOn( true );
-	CatalogList->insertItem( newCat );
+	QListWidgetItem *newItem = new QListWidgetItem( name, CatalogList );
+	newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
+	newItem->setCheckState( Qt::Checked );
 
 	//update Options object
 	QStringList tFileList = Options::catalogFile();
-	Q3ValueList<int> tShowList = Options::showCatalog();
+	QList<int> tShowList = Options::showCatalog();
 	tFileList.append( filename );
 	tShowList.append( true );
 	Options::setCatalogFile( tFileList );
 	Options::setShowCatalog( tShowList );
 	
+	//FIXME: Can't use Options::showCatalog[tShowList.size()-1] as visibility fcn, 
+	//because it returns QList rather than bool
+	//Add new custom catalog, based on the list of SkyObjects we just parsed
+	ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
+
 	ksw->map()->forceUpdate();
 }
 
 void OpsCatalog::slotRemoveCatalog() {
 	//Remove CatalogName, CatalogFile, and ShowCatalog entries, and decrement CatalogCount
-	for ( unsigned int i=0; i < ksw->data()->customCatalogs().count(); ++i ) {
-		if ( CatalogList->currentItem()->text( 0 ) == ksw->data()->customCatalogs().at(i)->name() ) {
+	foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
+		int i = ksw->data()->skyComposite()->customCatalogs().indexOf( sc );
+		CustomCatalogComponent *cc = (CustomCatalogComponent*)sc;
+		QString name = cc->name();
 
-			ksw->data()->removeCatalog( i );
+		if ( CatalogList->currentItem()->text() == name ) {
+			ksw->data()->skyComposite()->removeCustomCatalog( name );
 
 			//Update Options object
 			QStringList tFileList = Options::catalogFile();
-			Q3ValueList<int> tShowList = Options::showCatalog();
+			QList<int> tShowList = Options::showCatalog();
 			tFileList.remove( tFileList[i] );
 			tShowList.remove( tShowList[i] );
 			Options::setCatalogFile( tFileList );
@@ -174,14 +186,14 @@ void OpsCatalog::slotRemoveCatalog() {
 	}
 
 	//Remove entry in the QListView
-	CatalogList->takeItem( CatalogList->currentItem() );
+	CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
 
 	ksw->map()->forceUpdate();
 }
 
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
 	kcfg_MagLimitDrawStarZoomOut->setMaxValue( newValue );
-	ksw->data()->setMagnitude( newValue );
+	ksw->data()->skyComposite()->setFaintStarMagnitude( newValue );
 }
 
 void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
@@ -192,12 +204,12 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 }
 
 void OpsCatalog::slotStarWidgets(bool on) {
-	textLabelMagStars->setEnabled(on);
-	textLabelMagStarsZoomOut->setEnabled(on);
-	textLabelMagStarInfo->setEnabled(on);
-	textLabelMag1->setEnabled(on);
-	textLabelMag2->setEnabled(on);
-	textLabelMag3->setEnabled(on);
+	LabelMagStars->setEnabled(on);
+	LabelMagStarsZoomOut->setEnabled(on);
+	LabelMagStarInfo->setEnabled(on);
+	LabelMag1->setEnabled(on);
+	LabelMag2->setEnabled(on);
+	LabelMag3->setEnabled(on);
 	kcfg_MagLimitDrawStar->setEnabled(on);
 	kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
 	kcfg_MagLimitDrawStarInfo->setEnabled(on);
@@ -212,7 +224,7 @@ QString getCatalogName( const QString &filename ) {
 	if ( f.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &f );
 		while ( ! stream.atEnd() ) {
-			QString line = stream.getLine();
+			QString line = stream.readLine();
 			if ( line.find( "# Name: " ) == 0 ) {
 				name = line.mid( line.find(":")+2 );
 				break;

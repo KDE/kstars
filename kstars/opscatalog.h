@@ -34,14 +34,15 @@
 
 class QWidget;
 class KStars;
-class Q3CheckListItem;
+class QListWidgetItem;
+class CustomCatalogComponent;
 
-class OpsCatalog : public OpsCatalogUI
+class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
 	Q_OBJECT
 
 public:
-	OpsCatalog( QWidget *parent=0, const char *name=0, Qt::WFlags fl = 0 );
+	OpsCatalog( QWidget *parent=0 );
 	~OpsCatalog();
 
 private slots:
@@ -58,7 +59,7 @@ private:
 	void insertCatalog( const QString & filename );
 	QString getCatalogName( const QString &filename );
 
-	Q3CheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
+	QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
 	KStars *ksw;
 };
 

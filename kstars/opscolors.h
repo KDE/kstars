@@ -38,12 +38,12 @@
 class QWidget;
 class KStars;
 
-class OpsColors : public OpsColorsUI
+class OpsColors : public QFrame, public Ui::OpsColors
 {
 	Q_OBJECT
 
 public:
-	OpsColors( QWidget *parent=0, const char *name=0, Qt::WFlags fl = 0 );
+	OpsColors( QWidget *parent=0 );
 	~OpsColors();
 
 private slots:

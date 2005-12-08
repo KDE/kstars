@@ -1,607 +1,393 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>OpsCatalogUI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>OpsCatalogUI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>542</width>
-            <height>586</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>OpsCatalog</string>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>OpsCatalog</class>
+ <widget class="QWidget" name="OpsCatalog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>522</width>
+    <height>591</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>8</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="StarBox" >
+     <property name="title" >
+      <string>Stars</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="kcfg_ShowStars" >
+        <property name="text" >
+         <string>&amp;Hipparcos star catalog</string>
         </property>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox1</cstring>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="LabelMagStarsZoomOut" >
+            <property name="text" >
+             <string>Faint limit zoomed out:</string>
             </property>
-            <property name="frameShape">
-                <enum>GroupBoxPanel</enum>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="LabelMagStars" >
+            <property name="text" >
+             <string>Faint limit zoomed in:</string>
             </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QLabel" name="LabelMag1" >
+            <property name="text" >
+             <string>mag</string>
             </property>
-            <property name="title">
-                <string>Stars</string>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QLabel" name="LabelMag2" >
+            <property name="text" >
+             <string>mag</string>
             </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>kcfg_ShowStars</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Hipparcos star catalog</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Draw stars?</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>When selected, stars are drawn in the skymap.  Use the other options in this box to control how many stars are drawn.</string>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout8</cstring>
-                    </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="MagnitudeSpinBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>kcfg_MagLimitDrawStar</cstring>
-                            </property>
-                            <property name="focusPolicy">
-                                <enum>StrongFocus</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>The faint limit when zoomed in</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Set the faintest magnitude that will be drawn at the maximum zoom level.  The faint limit varies smoothly between these two values, as the zoom level changes.
-
-Magnitude is a measure of brightness; the larger the number, the fainter the object.  Magnitude 6.0 is about as faint as the unaided human eye can see.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="2">
-                            <property name="name">
-                                <cstring>textLabelMag1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>mag</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>textLabelMagStarsZoomOut</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Faint limit zoomed out:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="2">
-                            <property name="name">
-                                <cstring>textLabelMag3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>mag</string>
-                            </property>
-                        </widget>
-                        <widget class="MagnitudeSpinBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>kcfg_MagLimitDrawStarZoomOut</cstring>
-                            </property>
-                            <property name="focusPolicy">
-                                <enum>StrongFocus</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>The faint limit when zoomed out</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Set the faintest magnitude that will be drawn at the minimum zoom level.  The faint limit varies smoothly between these two values, as the zoom level changes.
-
-Magnitude is a measure of brightness; the larger the number, the fainter the object.  Magnitude 6.0 is about as faint as the unaided human eye can see.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>textLabelMagStars</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Faint limit zoomed in:</string>
-                            </property>
-                        </widget>
-                        <spacer row="0" column="3">
-                            <property name="name">
-                                <cstring>spacer9</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>65</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="1" column="3">
-                            <property name="name">
-                                <cstring>spacer7</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>65</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </grid>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer8</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>16</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout9</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabelMagStarInfo</cstring>
-                            </property>
-                            <property name="text">
-                                <string>For stars brighter than:</string>
-                            </property>
-                        </widget>
-                        <widget class="MagnitudeSpinBox">
-                            <property name="name">
-                                <cstring>kcfg_MagLimitDrawStarInfo</cstring>
-                            </property>
-                            <property name="focusPolicy">
-                                <enum>StrongFocus</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Faint limit for name labels</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Sets the faintest &lt;b&gt;magnitude&lt;/b&gt; for which name and magnitude labels may be attached to stars.  Magnitude is a measure of brightness; the larger the number, the fainter the object.  Magnitude 6.0 is about as faint as the unaided human eye can see.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabelMag2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>mag</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer10</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>40</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout7</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Fixed</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>kcfg_ShowStarNames</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Show &amp;name</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Attach name labels to bright stars?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>When checked, name labels are attached to the brighter stars.</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout8</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer3_2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Fixed</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>kcfg_ShowStarMagnitudes</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Show ma&amp;gnitude</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Attach magnitude labels to bright stars?</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>When checked, magnitude labels are attached to the brighter stars.</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox2</cstring>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStar" />
+          </item>
+          <item row="1" column="1" >
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStarZoomOut" />
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>16</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="LabelMagStarInfo" >
+          <property name="text" >
+           <string>For stars brighter than: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStarInfo" />
+        </item>
+        <item>
+         <widget class="QLabel" name="LabelMag3" >
+          <property name="text" >
+           <string>mag</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="1" >
+         <widget class="QCheckBox" name="kcfg_ShowStarNames" >
+          <property name="text" >
+           <string>Show &amp;name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QCheckBox" name="kcfg_ShowStarMagnitudes" >
+          <property name="text" >
+           <string>Show ma&amp;gnitude</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>16</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="0" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>16</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="DeepSkyBox" >
+     <property name="title" >
+      <string>Deep-Sky Catalogs</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>8</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QListWidget" name="CatalogList" >
+          <property name="verticalScrollBarPolicy" >
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="KPushButton" name="AddCatalog" >
+            <property name="text" >
+             <string>Import Catalog...</string>
             </property>
-            <property name="title">
-                <string>Deep-Sky Objects</string>
+           </widget>
+          </item>
+          <item>
+           <widget class="KPushButton" name="LoadCatalog" >
+            <property name="text" >
+             <string>Load Catalog...</string>
             </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout15</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QListView">
-                            <column>
-                                <property name="text">
-                                    <string>Show Catalog</string>
-                                </property>
-                                <property name="clickable">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="resizable">
-                                    <bool>true</bool>
-                                </property>
-                            </column>
-                            <property name="name">
-                                <cstring>CatalogList</cstring>
-                            </property>
-                            <property name="vScrollBarMode">
-                                <enum>AlwaysOn</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>List of other catalogs</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>The list of catalogs available, other than the star catalog.  By default, the list includes the Messier, NGC and IC catalogs.  You can add your own object catalogs as well.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLayoutWidget">
-                            <property name="name">
-                                <cstring>layout14</cstring>
-                            </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>AddCatalog</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Import Catalog...</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Create a custom object catalog</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Press this button to create a custom object catalog.  Use this button instead of "Load Catalog", even if you already have a data file.  We will add a header to your data file to create the catalog.</string>
-                                    </property>
-                                </widget>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>LoadCatalog</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Load Catalog...</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Load an existing user catalog</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Load an existing custom catalog.  Only use this button if you have a catalog file that was created by KStars (or one that has the proper header).</string>
-                                    </property>
-                                </widget>
-                                <widget class="KPushButton">
-                                    <property name="name">
-                                        <cstring>RemoveCatalog</cstring>
-                                    </property>
-                                    <property name="enabled">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="text">
-                                        <string>Remove Catalog</string>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Remove a custom catalog</string>
-                                    </property>
-                                    <property name="whatsThis" stdset="0">
-                                        <string>Press this button to remove a custom object catalog that you had added previously.  You cannot remove the Messier, NGC or IC catalogs with this button.</string>
-                                    </property>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer10_2</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Vertical</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>20</width>
-                                            <height>68</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                            </vbox>
-                        </widget>
-                    </hbox>
-                </widget>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout8_2</cstring>
-                    </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="MagnitudeSpinBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>kcfg_MagLimitDrawDeepSky</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                            <property name="focusPolicy">
-                                <enum>StrongFocus</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>The faint limit when zoomed in</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Set the faintest magnitude that will be drawn at the maximum zoom level.  The faint limit varies smoothly between these two values, as the zoom level changes.
-
-Magnitude is a measure of brightness; the larger the number, the fainter the object.  Magnitude 6.0 is about as faint as the unaided human eye can see.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="2">
-                            <property name="name">
-                                <cstring>textLabelMag1_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>mag</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>textLabelMagStarsZoomOut_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Faint limit zoomed out:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="2">
-                            <property name="name">
-                                <cstring>textLabelMag3_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>mag</string>
-                            </property>
-                        </widget>
-                        <widget class="MagnitudeSpinBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>kcfg_MagLimitDrawDeepSkyZoomOut</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                            <property name="focusPolicy">
-                                <enum>StrongFocus</enum>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>The faint limit when zoomed out</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Set the faintest magnitude that will be drawn at the minimum zoom level.  The faint limit varies smoothly between these two values, as the zoom level changes.
-
-Magnitude is a measure of brightness; the larger the number, the fainter the object.  Magnitude 6.0 is about as faint as the unaided human eye can see.</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>textLabelMagStars_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Faint limit zoomed in:</string>
-                            </property>
-                        </widget>
-                        <spacer row="0" column="3">
-                            <property name="name">
-                                <cstring>spacer9_2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>65</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <spacer row="1" column="3">
-                            <property name="name">
-                                <cstring>spacer7_2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>65</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </grid>
-                </widget>
-            </vbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer2</cstring>
+           </widget>
+          </item>
+          <item>
+           <widget class="KPushButton" name="RemoveCatalog" >
+            <property name="enabled" >
+             <bool>false</bool>
             </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
+            <property name="text" >
+             <string>Remove Catalog...</string>
             </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
             </property>
-        </spacer>
-    </vbox>
-</widget>
-<customwidgets>
-    <customwidget>
-        <class>MagnitudeSpinBox</class>
-        <header location="local">magnitudespinbox.h</header>
-        <sizehint>
-            <width>60</width>
-            <height>18</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-        <property type="String">property</property>
-    </customwidget>
-</customwidgets>
-<images>
-    <image name="image0">
-        <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
-    </image>
-</images>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>magnitudespinbox.h</includehint>
-    <includehint>magnitudespinbox.h</includehint>
-    <includehint>magnitudespinbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>magnitudespinbox.h</includehint>
-    <includehint>magnitudespinbox.h</includehint>
-</includehints>
-</UI>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_5_2" >
+            <property name="text" >
+             <string>Faint limit zoomed out:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QLabel" name="label_3_2_2_2" >
+            <property name="text" >
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QLabel" name="label_3_2_2_2_2" >
+            <property name="text" >
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_5" >
+            <property name="text" >
+             <string>Faint limit zoomed in:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSky" />
+          </item>
+          <item row="1" column="1" >
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut" />
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>MagnitudeSpinBox</class>
+   <extends>KDoubleNumInput</extends>
+   <header>widgets/magnitudespinbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

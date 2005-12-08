@@ -22,12 +22,13 @@
 #include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
-#include "timestepbox.h"
+#include "widgets/timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, Qt::WFlags fl ) 
-	: OpsAdvancedUI( p, name, fl ) 
+OpsAdvanced::OpsAdvanced( QWidget *p ) 
+	: QFrame( p ) 
 {
 	ksw = (KStars *)p;
+	setupUi( this );
 
 	//Initialize the timestep value
 	SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );

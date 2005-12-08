@@ -19,13 +19,14 @@
 #include <kpushbutton.h>
 #include "opssolarsystem.h"
 #include "kstars.h"
-#include "magnitudespinbox.h"
+#include "widgets/magnitudespinbox.h"
 
-OpsSolarSystem::OpsSolarSystem( QWidget *parent, const char *name, Qt::WFlags fl )
- : OpsSolarSystemUI( parent, name, fl )
+OpsSolarSystem::OpsSolarSystem( QWidget *parent )
+ : QFrame( parent )
 {
 	ksw = (KStars *)parent;
-	
+	setupUi( this );
+
 	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
 	connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
 	connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );

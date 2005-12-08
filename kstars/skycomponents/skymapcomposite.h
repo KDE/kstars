@@ -90,18 +90,29 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual bool removeTrail( SkyObject *o );
 
 		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
+		void removeCustomCatalog( const QString &name );
 
+		//Accessors for StarComponent
 		SkyObject* findStarByGenetiveName( const QString &name );
+		void setFaintStarMagnitude( float newMag );
+		float faintStarMagnitude() const { return m_StarComponent->faintMagnitude(); }
+		void setStarColorMode( int newMode );
+		int starColorMode() const { return m_StarComponent->starColorMode(); }
+		void setStarColorIntensity( int newIntensity );
+		int starColorIntensity() const { return m_StarComponent->starColorIntensity(); }
 
 		QString constellation( SkyPoint *p );
 
 		void emitProgressText( const QString &message );
 
+		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
+		QList<SkyComponent*> customCatalogs() { 
+			return m_CustomCatalogComposite->components(); 
+		}
+
+
 	signals:
 		void progressText( const QString &message );
-
-	protected:
-		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
 
 	private:
 		SolarSystemComposite *m_SSComposite;
