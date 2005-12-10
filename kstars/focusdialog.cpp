@@ -28,7 +28,7 @@
 #include "focusdialog.h"
 
 FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi(this);
+	setupUi( parent );
 }
 
 FocusDialog::FocusDialog( QWidget *parent )

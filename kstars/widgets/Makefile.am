@@ -4,7 +4,7 @@ lib_LTLIBRARIES = libkstarswidgets.la
 
 libkstarswidgets_la_SOURCES = clicklabel.cpp ../dms.cpp dmsbox.cpp \
 	draglistbox.cpp kstarsplotwidget.cpp logedit.cpp \
-	magnitudespinbox.cpp mapcanvas.cpp \
+	magnitudespinbox.cpp mapcanvas.cpp thumbimage.cpp \
 	timespinbox.cpp timestepbox.cpp timeunitbox.cpp 
 
 #libkstarswidgets_a_LDFLAGS = $(all_libraries) -no-undefined 

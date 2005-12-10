@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3frame.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <qrect.h>
-#include <qstyle.h>
-//Added by qt3to4:
+//#include <q3frame.h>
+//#include <qlayout.h>
+//#include <qlabel.h>
+//#include <qimage.h>
+//#include <qpixmap.h>
+//#include <qfile.h>
+//#include <qrect.h>
+//#include <qstyle.h>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QTextStream>
 
@@ -40,11 +41,14 @@
 #include <ktempfile.h>
 
 #include "thumbnailpicker.h"
-#include "thumbnailpickerui.h"
 #include "thumbnaileditor.h"
 #include "ksutils.h"
 #include "detaildialog.h"
 #include "skyobject.h"
+
+ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( parent );
+}
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
@@ -127,14 +131,16 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
 	QString PageHTML;
 
 	//Read the google image page's HTML into the PageHTML QString:
-	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile ) ) {
+	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile, this ) ) {
 		QFile file( tmpFile );
 		if ( file.open( QIODevice::ReadOnly ) ) {
 			QTextStream instream(&file);
 			PageHTML = instream.read();
 			file.close();
+			KIO::NetAccess::removeTempFile( tmpFile );
 		} else {
 			kdDebug() << "Could not read local copy of google image page" << endl;
+			KIO::NetAccess::removeTempFile( tmpFile );
 			return;
 		}
 	} else {
@@ -205,7 +211,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 		PixList.append( new QPixmap( im ) );
 
 		//Add 50x50 image and URL to listbox
-		ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
+		ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
 				cjob->srcURLs().first().prettyURL() );
 	}
 }

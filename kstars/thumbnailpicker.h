@@ -18,13 +18,14 @@
 #ifndef THUMBNAILPICKER_H
 #define THUMBNAILPICKER_H
 
+#include <QPixmap>
+
 #include <kdialogbase.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
-//Added by qt3to4:
-#include <QPixmap>
 
-class ThumbnailPickerUI;
+#include "thumbnailpickerui.h"
+
 class ThumbnailEditor;
 class QPixmap;
 class QFile;
@@ -32,10 +33,15 @@ class QRect;
 class DetailDialog;
 class SkyObject;
 
+class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
+	Q_OBJECT
+	public:
+		ThumbnailPickerUI( QWidget *p );
+};
+
 /**@short Dialog for modifying an object's thumbnail image
 	*@author Jason Harris
 	*/
-
 class ThumbnailPicker : public KDialogBase
 {
 Q_OBJECT

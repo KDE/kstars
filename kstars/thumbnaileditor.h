@@ -18,49 +18,20 @@
 #ifndef THUMBNAILEDITOR_H
 #define THUMBNAILEDITOR_H
 
-#include <kdialogbase.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
 
-class ThumbnailEditorUI;
+#include <kdialogbase.h>
+
+#include "thumbnaileditorui.h"
+
 class ThumbnailPicker;
 class QPoint;
 
-class ThumbImage : public QLabel
-{
-Q_OBJECT
-public:
-	ThumbImage( QWidget *parent, const char *name = 0 );
-	~ThumbImage();
-
-	void setImage( QPixmap *pm ) { Image = pm; setFixedSize( Image->width(), Image->height() ); }
-	QPixmap* image() { return Image; }
-	QPixmap croppedImage();
-
-	void setCropRect( int x, int y, int w, int h ) { CropRect->setRect( x, y, w, h ); }
-	QRect* cropRect() const { return CropRect; }
-
-signals:
-	void cropRegionModified();
-
-protected:
-//	void resizeEvent( QResizeEvent *e);
-	void paintEvent( QPaintEvent *);
-	void mousePressEvent( QMouseEvent *e );
-	void mouseReleaseEvent( QMouseEvent *e );
-	void mouseMoveEvent( QMouseEvent *e );
-
-private:
-	QRect *CropRect;
-	QPoint *Anchor;
-	QPixmap *Image;
-	
-	bool bMouseButtonDown;
-	bool bTopLeftGrab, bBottomLeftGrab, bTopRightGrab, bBottomRightGrab;
-	int HandleSize;
+class ThumbnailEditorUI : public QFrame, public Ui::ThumbnailEditor {
+	Q_OBJECT
+	public:
+		ThumbnailEditorUI( QWidget *parent );
 };
 
 class ThumbnailEditor : public KDialogBase

@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QFrame>
 
 #include "logedit.h"
 
 LogEdit::LogEdit( QWidget *parent ) : KTextEdit( parent ) 
 {
-	setFrameStyle( Q3Frame::StyledPanel );
-	setFrameShadow( Q3Frame::Plain );
+	setFrameStyle( QFrame::StyledPanel );
+	setFrameShadow( QFrame::Plain );
 	setLineWidth( 4 );
 }
 
