@@ -16,22 +16,21 @@
  ***************************************************************************/
 
 #include <stdlib.h>
-#include <kstandarddirs.h>
-#include <qpainter.h>
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QPainter>
+#include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
+#include <kstandarddirs.h>
 
 #include "mapcanvas.h"
-#include "locationdialog.h"
-#include "kstars.h"
-#include "kstarsdata.h"
+#include "../locationdialog.h"
+#include "../kstars.h"
+#include "../kstarsdata.h"
 
-MapCanvas::MapCanvas(QWidget *parent, const char *name ) : QWidget(parent,name) {
+MapCanvas::MapCanvas( QWidget *parent ) : QFrame(parent) {
 	BGColor = "#33A";
 	setBackgroundColor( QColor( BGColor ) );
-	setBackgroundMode( QWidget::NoBackground );
+	setBackgroundMode( Qt::NoBackground );
 	Canvas = new QPixmap();
 	bgImage = new QPixmap();
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
@@ -84,7 +83,7 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 	//Draw cities
 	QPoint o;
 
-	for ( GeoLocation *g=ks->data()->geoList.first(); g; g = ks->data()->geoList.next() ) {
+	foreach ( GeoLocation *g, ks->data()->geoList ) {
 		o.setX( int( g->lng()->Degrees() + origin.x() ) );
 		o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
@@ -95,9 +94,9 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
   //redraw the cities that appear in the filtered list, with a white pen
 	//If the list has not been filtered, skip the redraw.
-	if ( ld->filteredList()->count() ) {
-		pcanvas.setPen( white );
-		for ( GeoLocation *g=ld->filteredList()->first(); g; g = ld->filteredList()->next() ) {
+	if ( ld->filteredList().size() ) {
+		pcanvas.setPen( Qt::white );
+		foreach ( GeoLocation *g, ld->filteredList() ) {
 			o.setX( int( g->lng()->Degrees() + origin.x() ) );
 			o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
@@ -112,19 +111,20 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 		o.setX( int( g->lng()->Degrees() + origin.x() ) );
 		o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
-		pcanvas.setPen( red );
-		pcanvas.setBrush( red );
+		pcanvas.setPen( Qt::red );
+		pcanvas.setBrush( Qt::red );
 		pcanvas.drawEllipse( o.x()-3, o.y()-3, 6, 6 );
-		pcanvas.moveTo( o.x()-16, o.y() );
-		pcanvas.lineTo( o.x()-8, o.y() );
-		pcanvas.moveTo( o.x()+8, o.y() );
-		pcanvas.lineTo( o.x()+16, o.y() );
-		pcanvas.moveTo( o.x(), o.y()-16 );
-		pcanvas.lineTo( o.x(), o.y()-8 );
-		pcanvas.moveTo( o.x(), o.y()+8 );
-		pcanvas.lineTo( o.x(), o.y()+16 );
-		pcanvas.setPen( white );
-		pcanvas.setBrush( white );
+		//FIXME:
+//		pcanvas.moveTo( o.x()-16, o.y() );
+//		pcanvas.lineTo( o.x()-8, o.y() );
+//		pcanvas.moveTo( o.x()+8, o.y() );
+//		pcanvas.lineTo( o.x()+16, o.y() );
+//		pcanvas.moveTo( o.x(), o.y()-16 );
+//		pcanvas.lineTo( o.x(), o.y()-8 );
+//		pcanvas.moveTo( o.x(), o.y()+8 );
+//		pcanvas.lineTo( o.x(), o.y()+16 );
+		pcanvas.setPen( Qt::white );
+		pcanvas.setBrush( Qt::white );
   }
 
 	pcanvas.end();

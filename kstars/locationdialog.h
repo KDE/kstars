@@ -40,26 +40,21 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-#include <kdialogbase.h>
-#include "geolocation.h"
-//Added by qt3to4:
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class Q3GroupBox;
-class QLabel;
-class Q3ListBox;
-class Q3ListBoxItem;
-class QPushButton;
-class QComboBox;
-class KLineEdit;
-class MapCanvas;
-class dmsBox;
+#include <kdialogbase.h>
+#include "geolocation.h"
+#include "locationdialogui.h"
+
+class LocationDialogUI : public QFrame, public Ui::LocationDialog {
+	Q_OBJECT
+	public:
+		LocationDialogUI( QWidget *parent );
+};
 
 class LocationDialog : public KDialogBase {
 	Q_OBJECT
@@ -146,22 +141,8 @@ private:
 	bool checkLongLat( void );
 	
 	bool dataModified, nameModified, bCityAdded;
-	QGridLayout *glay, *glay2;
-	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
-	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
-	Q3GroupBox *CityBox, *CoordBox;
-	QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
-	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
-	QLabel *LongLabel, *LatLabel, *CountLabel;
-	QLabel *TZLabel, *TZRuleLabel;
-	KLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
-	KLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
-	dmsBox *NewLong, *NewLat;
-	QComboBox *TZBox, *TZRuleBox;
-	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
-	MapCanvas *MapView;
-	Q3ListBox *GeoBox;
 
+	LocationDialogUI *ui;
 	GeoLocation *SelectedCity;
 	QList<GeoLocation*> filteredCityList;
 };
