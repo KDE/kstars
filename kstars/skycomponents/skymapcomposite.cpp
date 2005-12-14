@@ -67,6 +67,14 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 					data, SIGNAL( progressText( const QString & ) ) );
 }
 
+void SkyMapComposite::init(KStarsData *data )
+{
+	SkyComposite::init(data);
+
+	//Sort the list of object names
+	qSort( objectNames() );
+}
+
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 {
 	foreach (SkyComponent *component, solarSystem())

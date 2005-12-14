@@ -11,15 +11,16 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp kstarsactions.cpp \
 			kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp kstarssplash.cpp \
 			ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp \
-			objectnamelist.cpp opsadvanced.cpp opscatalog.cpp opscolors.cpp \
+			opsadvanced.cpp opscatalog.cpp opscolors.cpp \
 			opsguides.cpp opssolarsystem.cpp planetcatalog.cpp simclock.cpp skymap.cpp \
-			skymapdraw.cpp skymapevents.cpp skyobject.cpp skyobjectname.cpp skypoint.cpp \
+			skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp \
 			starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
 			timebox.cpp timedialog.cpp timezonerule.cpp \
 			toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp \
-			addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui details_data.ui \
-			details_position.ui details_links.ui details_database.ui details_log.ui devmanager.ui \
-			fitsheaderdialog.ui focusdialogui.ui fovdialogui.ui newfovui.ui locationdialogui.ui \
+			addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui \
+			details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui \
+			devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui \
+			fovdialogui.ui newfovui.ui locationdialogui.ui \
 			histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
 			kswizardui.ui wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
 			opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \

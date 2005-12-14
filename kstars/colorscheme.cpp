@@ -27,8 +27,6 @@
 #include "ksutils.h"
 #include "colorscheme.h"
 
-typedef QStringList::const_iterator SL_it;
-
 ColorScheme::ColorScheme() : FileName() {
 	//Each color has two names associated with it.  The KeyName is its
 	//identification in the QMap, the *.colors file, and the config file.
@@ -111,7 +109,7 @@ ColorScheme::ColorScheme() : FileName() {
 	Default.append( "#F00" );
 
 	//Set the default colors in the Palette.
-	for( uint i=0; i<KeyName.count(); ++i ) {
+	for ( int i=0; i<KeyName.size(); ++i ) {
 		setColor( KeyName[i], Default[i] );
 	}
 	
@@ -154,18 +152,15 @@ QColor ColorScheme::colorNamed( const QString &name ) const {
 }
 
 QColor ColorScheme::colorAt( int i ) const {
-	SL_it it = KeyName.at(i);
-	return QColor( Palette[ QString(*it) ] );
+	return QColor( Palette[ KeyName.at(i) ] );
 }
 
 QString ColorScheme::nameAt( int i ) const {
-	SL_it it = Name.at(i);
-	return QString(*it);
+	return Name.at(i);
 }
 
 QString ColorScheme::keyAt( int i ) const {
-	SL_it it = KeyName.at(i);
-	return QString(*it);
+	return KeyName.at(i);
 }
 
 QString ColorScheme::nameFromKey( const QString &key ) const {
@@ -199,7 +194,7 @@ bool ColorScheme::load( const QString &filename ) {
 
 //More flexible method for reading in color values.  Any order is acceptable, and
 //missing entries are ignored.
-	while ( !stream.eof() ) {
+	while ( !stream.atEnd() ) {
 		line = stream.readLine();
 
 		if ( line.contains(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
@@ -248,7 +243,7 @@ bool ColorScheme::save( const QString &name ) {
 	//and append ".colors".
 	QString filename = name.lower().trimmed();
 	if ( !filename.isEmpty() ) {
-		for( unsigned int i=0; i<filename.length(); ++i)
+		for( int i=0; i<filename.length(); ++i)
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
 		filename = filename.append( ".colors" );
@@ -292,20 +287,16 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin();
-	QStringList::Iterator it_end = KeyName.end();
-	for ( ; it != it_end; ++it )
-		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
+	for ( int i=0; i < KeyName.size(); ++i )
+		setColor( KeyName.at(i), conf->readEntry( KeyName.at(i), Default.at( i ) ) );
 
 	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
 	setStarColorIntensity( conf->readNumEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin();
-	QStringList::Iterator it_end = KeyName.end();
-	for ( ; it != it_end; ++it )
-		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
+	for ( int i=0; i < KeyName.size(); ++i )
+		conf->writeEntry( KeyName.at(i), colorNamed( KeyName.at(i) ) );
 
 	conf->writeEntry( "StarColorMode", starColorMode() );
 	conf->writeEntry( "StarColorIntensity", starColorIntensity() );

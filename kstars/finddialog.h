@@ -21,13 +21,11 @@
 #ifndef FINDDIALOG_H
 #define FINDDIALOG_H
 
-#include <kdialogbase.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
 #include <QKeyEvent>
+
+#include <kdialogbase.h>
+
+#include "finddialogui.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -40,6 +38,12 @@ class Q3ListBoxItem;
 //class QStringList;
 class SkyObjectNameListItem;
 
+class FindDialogUI : public QFrame, public Ui::FindDialog {
+	Q_OBJECT
+	public:
+		FindDialogUI( QWidget *parent=0 );
+};
+
 /**@class FindDialog
 	*Dialog window for finding SkyObjects by name.  The dialog contains
 	*a QListBox showing the list of named objects, a QLineEdit for filtering
@@ -49,7 +53,6 @@ class SkyObjectNameListItem;
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
 class FindDialog : public KDialogBase  {
 Q_OBJECT
 
@@ -91,7 +94,7 @@ private slots:
 
 /**Set the selected item in the list to the item specified.
 	*/
-	void updateSelection (Q3ListBoxItem *);
+	void updateSelection (QListWidgetItem *);
 
 /**Change current filter options.
 	*/
@@ -110,13 +113,7 @@ private:
 	*/
 	void setListItemEnabled();
 	
-	QVBoxLayout *vlay;
-	QHBoxLayout *hlay;
-	Q3ListBox *SearchList;
-	QLineEdit *SearchBox;
-	QLabel *filterTypeLabel;
-	QComboBox *filterType;
-
+	FindDialogUI *ui;
 	SkyObjectNameListItem *currentitem;
 	
 	int Filter;

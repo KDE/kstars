@@ -15,17 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <q3listbox.h>
-#include <qtimer.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <Q3Frame>
-#include <QHBoxLayout>
-#include <QKeyEvent>
+#include <QTimer>
 
 #include <kmessagebox.h>
 
@@ -37,99 +27,64 @@
 #include "skyobjectname.h"
 #include "objectnamelist.h"
 
+FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( parent );
+
+	FilterType->insertItem( i18n ("Any") );
+	FilterType->insertItem( i18n ("Stars") );
+	FilterType->insertItem( i18n ("Solar System") );
+	FilterType->insertItem( i18n ("Open Clusters") );
+	FilterType->insertItem( i18n ("Glob. Clusters") );
+	FilterType->insertItem( i18n ("Gas. Nebulae") );
+	FilterType->insertItem( i18n ("Plan. Nebulae") );
+	FilterType->insertItem( i18n ("Galaxies") );
+	FilterType->insertItem( i18n ("Comets") );
+	FilterType->insertItem( i18n ("Asteroids") );
+	FilterType->insertItem( i18n ("Constellations") );
+
+	SearchList->setMinimumWidth( 256 );
+	SearchList->setMinimumHeight( 320 );
+}
 
 FindDialog::FindDialog( QWidget* parent ) :
 		KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ),
-		vlay(0), hlay(0), SearchList(0), SearchBox(0), filterTypeLabel(0), filterType(0),
-		currentitem(0)
+		currentitem(0), Filter(0)
 {
 	QFrame *page = plainPage();
-
-//Create Layout managers
-	vlay = new QVBoxLayout( page, 2, 2 );
-	hlay = new QHBoxLayout( 2 ); //this mgr will be added to vlay
-
-//Create Widgets
-	SearchBox = new QLineEdit( page, "SearchBox" );
-
-	filterTypeLabel = new QLabel( page, "filterTypeLabel" );
-	filterTypeLabel->setAlignment( AlignRight );
-	filterTypeLabel->setText( i18n( "Filter by type: " ) );
-
-	filterType = new QComboBox( page, "filterType" );
-	filterType->setEditable( false );
-	filterType->insertItem( i18n ("Any") );
-	filterType->insertItem( i18n ("Stars") );
-	//	filterType->insertItem( i18n ("Double Stars") );
-	filterType->insertItem( i18n ("Solar System") );
-	filterType->insertItem( i18n ("Open Clusters") );
-	filterType->insertItem( i18n ("Glob. Clusters") );
-	filterType->insertItem( i18n ("Gas. Nebulae") );
-	filterType->insertItem( i18n ("Plan. Nebulae") );
-	//	filterType->insertItem( i18n ("SN Remnants") );
-	filterType->insertItem( i18n ("Galaxies") );
-	filterType->insertItem( i18n ("Comets") );
-	filterType->insertItem( i18n ("Asteroids") );
-	filterType->insertItem( i18n ("Constellations") );
-
-	SearchList = new Q3ListBox( page, "SearchList" );
-	SearchList->setMinimumWidth( 256 );
-	SearchList->setMinimumHeight( 320 );
-	SearchList->setVScrollBarMode( Q3ListBox::AlwaysOn );
-	SearchList->setHScrollBarMode( Q3ListBox::AlwaysOff );
-
-//Pack Widgets into layout manager
-	hlay->addWidget( filterTypeLabel, 0, 0 );
-	hlay->addWidget( filterType, 0, 0 );
-
-	vlay->addWidget( SearchBox, 0, 0 );
-	vlay->addSpacing( 12 );
-	vlay->addWidget( SearchList, 0, 0 );
-	vlay->addLayout( hlay, 0 );
-
-	vlay->activate();
-
-// no item currently set
-	currentitem = 0;
-
-// no filters set
-	Filter = 0;
+	ui = new FindDialogUI( page );
 
 //Connect signals to slots
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
-	connect( SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
-	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect( SearchList, SIGNAL (selectionChanged  (Q3ListBoxItem *)), SLOT (updateSelection (Q3ListBoxItem *)));
-	connect( SearchList, SIGNAL( doubleClicked ( Q3ListBoxItem *  ) ), SLOT( slotOk() ) );
+	connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
+	connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
+	connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
+	connect( ui->SearchList, SIGNAL (itemActivated(QListWidgetItem *)), SLOT (updateSelection (QListWidgetItem *)));
+	connect( ui->SearchList, SIGNAL( itemDoubleClicked ( QListWidgetItem *  ) ), SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
 	QTimer::singleShot(0, this, SLOT( init() ));
 }
 
 FindDialog::~FindDialog() {
-	delete SearchList;
 }
 
 void FindDialog::init() {
-	SearchBox->clear();  // QLineEdit
-	filterType->setCurrentItem(0);  // show all types of objects
+	ui->SearchBox->clear();
+	ui->FilterType->setCurrentItem(0);  // show all types of objects
 	filter();
 }
 
 void FindDialog::filter() {  //Filter the list of names with the string in the SearchBox
 	KStars *p = (KStars *)parent();
 
-	SearchList->clear();
-	ObjectNameList &ObjNames = p->data()->ObjNames;
-	// check if latin names are used
-	ObjNames.setLanguage( Options::useLatinConstellNames() );
+	ui->SearchList->clear();
+	QStringList ObjNames;
 
-	QString searchFor = SearchBox->text().lower();
-		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
-			if ( name->text().lower().startsWith( searchFor ) ) {
-				new SkyObjectNameListItem ( SearchList, name );
+	QString searchString = ui->SearchBox->text().lower();
+		foreach ( QString name, p->data()->skyComposite()->objectNames() ) {
+			if ( name.lower().startsWith( searchString ) ) {
+				ObjNames.append( name );
 /*				if ( i++ >= 5000 ) {              //Every 5000 name insertions,
 					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
 					i = 0;
@@ -137,44 +92,34 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 			}
 		}
 	setListItemEnabled(); // Automatically highlight first item
-	SearchBox->setFocus();  // set cursor to QLineEdit
+	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 
 void FindDialog::filterByType() {
 	KStars *p = (KStars *)parent();
 
-	SearchList->clear();	// QListBox
-	QString searchFor = SearchBox->text().lower();  // search string
+	ui->SearchList->clear();	// QListBox
+	QString searchFor = ui->SearchBox->text().lower();  // search string
 
-	ObjectNameList &ObjNames = p->data()->ObjNames;
-	// check if latin names are used
-	ObjNames.setLanguage( Options::useLatinConstellNames() );
+	QStringList ObjNames;
 
-	for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
-	        //Special case: match SkyObject Type 0 with Filter==1 (stars)
-		if ( name->skyObject()->type() == Filter || (name->skyObject()->type() == 0 && Filter == 1 ) ) {
-			if ( name->text().lower().startsWith( searchFor ) ) {
-				// for stars, don't show the ones below the faint limit
-				if (Filter!=1 || name->skyObject()->mag() <= Options::magLimitDrawStar() ) {
-					new SkyObjectNameListItem ( SearchList, name );
-				}
-			}
-		}
+	foreach ( QString name, p->data()->skyComposite()->objectNames() ) {
+		//FIXME: We need pointers to the objects to filter by type
 	}
 
 	setListItemEnabled();    // Automatically highlight first item
-	SearchBox->setFocus();  // set cursor to QLineEdit
+	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 
 void FindDialog::setListItemEnabled() {
-	SearchList->setSelected (0, true);
-	if (!SearchList->isSelected (0))
-		updateSelection (0);
+	ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
+	if ( ! ui->SearchList->isItemSelected( ui->SearchList->item(0) ) )
+		updateSelection( ui->SearchList->item(0) );
 }
 
-void FindDialog::updateSelection (Q3ListBoxItem *it) {
+void FindDialog::updateSelection (QListWidgetItem *it) {
 	currentitem = (SkyObjectNameListItem *) it;
-	SearchBox->setFocus();  // set cursor to QLineEdit
+	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 
 void FindDialog::setFilter( int f ) {
@@ -187,14 +132,14 @@ void FindDialog::setFilter( int f ) {
 		Filter = f2;
 		if ( Filter == 0 ) {  // any type will shown
 		// delete old connections and create new connections
-			disconnect( SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterByType() ) );
-			connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
+			disconnect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterByType() ) );
+			connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 			filter();
 		}
 		else {
 		// delete old connections and create new connections
-			disconnect( SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filter() ) );
-			connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filterByType() ) );
+			disconnect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filter() ) );
+			connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filterByType() ) );
 			filterByType();
 		}
 	}
@@ -203,7 +148,7 @@ void FindDialog::setFilter( int f ) {
 void FindDialog::slotOk() {
 	//If no valid object selected, show a sorry-box.  Otherwise, emit accept()
 	if ( currentItem() == 0 ) {
-		QString message = i18n( "No object named %1 found." ).arg( SearchBox->text() );
+		QString message = i18n( "No object named %1 found." ).arg( ui->SearchBox->text() );
 		KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
 	} else {
 		accept();
@@ -212,17 +157,17 @@ void FindDialog::slotOk() {
 
 void FindDialog::keyPressEvent( QKeyEvent *e ) {
 	switch( e->key() ) {
-		case Key_Down :
-			if ( SearchList->currentItem() < ((int) SearchList->count()) - 1 )
-				SearchList->setCurrentItem( SearchList->currentItem() + 1 );
+		case Qt::Key_Down :
+			if ( ui->SearchList->currentRow() < ((int) ui->SearchList->count()) - 1 )
+				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() + 1 );
 			break;
 			
-		case Key_Up :
-			if ( SearchList->currentItem() )
-				SearchList->setCurrentItem( SearchList->currentItem() - 1 );
+		case Qt::Key_Up :
+			if ( ui->SearchList->currentRow() )
+				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() - 1 );
 			break;
 			
-		case Key_Escape :
+		case Qt::Key_Escape :
 			reject();
 			break;
 			

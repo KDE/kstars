@@ -25,7 +25,6 @@
 
 #include "fov.h"
 
-//------------FOV-----------------//
 FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
 {}
 
@@ -41,7 +40,7 @@ FOV::FOV( QString sname ) {
 
 	if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &f );
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QStringList fields = QStringList::split( ":", stream.readLine() );
 			bool ok( false );
 

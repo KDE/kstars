@@ -46,6 +46,12 @@ class SkyMapComposite : public QObject, public SkyComposite
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
 		/**
+			*@short Delegate init requests to all sub components
+			*@p data Pointer to the KStarsData object
+			*/
+		virtual void init(KStarsData *data);
+	
+		/**
 			*@short Delegate planet position updates to the SolarSystemComposite
 			*
 			*Planet positions change over time, so they need to be recomputed 
