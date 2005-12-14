@@ -181,6 +181,8 @@ class SkyComponent
 
 		void emitProgressText( const QString &message );
 
+		QStringList& objectNames() { return parent()->objectNames(); }
+
 	protected:
 
 		/**

@@ -44,14 +44,45 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent, bool (*vMethodDeepSky)
 
 DeepSkyComponent::~DeepSkyComponent()
 {
-	while ( ! m_MessierList.isEmpty() ) 
-		delete  m_MessierList.takeFirst();
-	while ( ! m_NGCList.isEmpty() ) 
-		delete  m_NGCList.takeFirst();
-	while ( ! m_ICList.isEmpty() ) 
-		delete  m_ICList.takeFirst();
-	while ( ! m_OtherList.isEmpty() ) 
-		delete  m_OtherList.takeFirst();
+	while ( ! m_MessierList.isEmpty() ) {
+		SkyObject *o = m_MessierList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_NGCList.isEmpty() ) {
+		SkyObject *o = m_NGCList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_ICList.isEmpty() ) {
+		SkyObject *o = m_ICList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_OtherList.isEmpty() ) {
+		SkyObject *o = m_OtherList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
 }
 
 void DeepSkyComponent::init(KStarsData *)
@@ -176,6 +207,14 @@ void DeepSkyComponent::init(KStarsData *)
 				} else {
 					m_OtherList.append( o );
 				}
+
+				//Add name to the list of object names
+				if ( ! name.isEmpty() ) 
+					parent()->objectNames().append( name );
+
+				//Add long name to the list of object names
+				if ( ! longname.isEmpty() && longname != name ) 
+					parent()->objectNames().append( longname );
 
 			} //end while-filereader
 		}

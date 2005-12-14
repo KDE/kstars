@@ -110,6 +110,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 			return m_CustomCatalogComposite->components(); 
 		}
 
+		QStringList& objectNames() { return m_ObjectNames; }
 
 	signals:
 		void progressText( const QString &message );
@@ -120,6 +121,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		StarComponent *m_StarComponent;
 		ConstellationBoundaryComponent *m_CBoundsComponent;
 		ConstellationNamesComponent *m_CNamesComponent;
+		QStringList m_ObjectNames;
 };
 
 #endif

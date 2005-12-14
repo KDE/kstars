@@ -68,6 +68,9 @@ void CometsComponent::init( KStarsData *data ) {
 			com->setAngularSize( 0.005 );
 
 			objectList().append( com );
+
+			//Add name to the list of object names
+			parent()->objectNames().append( name );
 		}
 	}
 }

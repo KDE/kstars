@@ -270,6 +270,8 @@ void StarComponent::processStar( const QString &line ) {
 
 	StarObject *o = new StarObject( r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
 	objectList().append(o);
-	
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+
+	if ( ! name.isEmpty() ) parent()->objectNames().append( name );
+	if ( ! gname.isEmpty() && gname != name ) parent()->objectNames().append( gname );
 }

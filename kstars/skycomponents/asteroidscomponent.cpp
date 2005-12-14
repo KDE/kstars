@@ -107,6 +107,9 @@ void AsteroidsComponent::init(KStarsData *data)
 			ast = new KSAsteroid( data, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngularSize( 0.005 );
 			objectList().append( ast );
+
+			//Add name to the list of object names
+			parent()->objectNames().append( name );
 		}
 	}
 }

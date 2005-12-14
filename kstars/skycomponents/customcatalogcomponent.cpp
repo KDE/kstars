@@ -423,7 +423,13 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 		DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, 
 					name, "", lname, m_catPrefix, a, b, PA );
 		objectList().append( o );
+
+		//Add name to the list of object names
+		if ( ! name.isEmpty() ) 
+			parent()->objectNames().append( name );
 	}
+	if ( ! lname.isEmpty() && lname != name ) 
+		parent()->objectNames().append( lname );
 
 	return true;
 }
