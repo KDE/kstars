@@ -23,18 +23,13 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd, QString fn, double pSize ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn, pSize ) {
-	/*
-	JD0 = 2447892.5; //Jan 1, 1990
-	eclong0 = 279.403303; //mean ecliptic longitude at JD0
-	plong0 = 282.768422; //longitude of sun at perigee for JD0
-	e0 = 0.016713; //eccentricity of Earth's orbit at JD0
-	*/
-}
+KSSun::KSSun( KStarsData *kd ) 
+: KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  ) 
+{}
 
 bool KSSun::loadData() {
-//	kdDebug() << k_funcinfo << endl;
-	return (odm.loadData("earth") != 0);
+	OrbitDataColl odc;
+	return (odm.loadData(odc, "earth") != 0);
 }
 
 bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
@@ -65,7 +60,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 	} else {
 		double sum[6];
 		dms EarthLong, EarthLat; //heliocentric coords of Earth
-		OrbitDataColl * odc;
+		OrbitDataColl odc;
 		double T = num->julianMillenia(); //Julian millenia since J2000
 		double Tpow[6];
 
@@ -75,13 +70,13 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 		}
 			//First, find heliocentric coordinates
 
-		if (!(odc =  odm.loadData("earth"))) return false;
+		if ( ! odm.loadData(odc, "earth") ) return false;
 
 		//Ecliptic Longitude
 		for (int i=0; i<6; ++i) {
 			sum[i] = 0.0;
-			for (uint j = 0; j < odc->Lon[i].size(); ++j) {
-				sum[i] += odc->Lon[i][j]->A * cos( odc->Lon[i][j]->B + odc->Lon[i][j]->C*T );
+			for (int j = 0; j < odc.Lon[i].size(); ++j) {
+				sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*T );
 			}
 			sum[i] *= Tpow[i];
 			//kdDebug() << name() << " : sum[" << i << "] = " << sum[i] <<endl;
@@ -94,8 +89,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 		//Compute Ecliptic Latitude
 		for (int i=0; i<6; ++i) {
 			sum[i] = 0.0;
-			for (uint j = 0; j < odc->Lat[i].size(); ++j) {
-				sum[i] += odc->Lat[i][j]->A * cos( odc->Lat[i][j]->B + odc->Lat[i][j]->C*T );
+			for (int j = 0; j < odc.Lat[i].size(); ++j) {
+				sum[i] += odc.Lat[i][j].A * cos( odc.Lat[i][j].B + odc.Lat[i][j].C*T );
 			}
 			sum[i] *= Tpow[i];
 		}
@@ -107,8 +102,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 		//Compute Heliocentric Distance
 		for (int i=0; i<6; ++i) {
 			sum[i] = 0.0;
-			for (uint j = 0; j < odc->Dst[i].size(); ++j) {
-				sum[i] += odc->Dst[i][j]->A * cos( odc->Dst[i][j]->B + odc->Dst[i][j]->C*T );
+			for (int j = 0; j < odc.Dst[i].size(); ++j) {
+				sum[i] += odc.Dst[i][j].A * cos( odc.Dst[i][j].B + odc.Dst[i][j].C*T );
 			}
 			sum[i] *= Tpow[i];
 		}

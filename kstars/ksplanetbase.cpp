@@ -28,10 +28,9 @@
 #include "ksnumbers.h"
 #include "kspopupmenu.h"
 
-
-KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, double pSize, const QColor &c )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd), 
-		PhysicalSize(psize), m_Color( c ) {
+KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const QColor &c, double pSize )
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(), data(kd), 
+		PhysicalSize(pSize), m_Color( c ) {
 
 	 if (! image_file.isEmpty()) {
 		QFile imFile;
@@ -57,13 +56,13 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ){
 	if ( includePlanets ) {
-		data->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
+		data->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
 
 		if ( lat && LST ) {
-			findPosition( num, lat, LST, data->earth() );
-			if ( hasTrail() ) delete Trail.takeLast();
+			findPosition( num, lat, LST, data->skyComposite()->earth() );
+			if ( hasTrail() ) Trail.takeLast();
 		} else {
-			findGeocentricPosition( num, data->earth() );
+			findGeocentricPosition( num, data->skyComposite()->earth() );
 		}
 	}
 }
@@ -78,7 +77,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 
 	if ( hasTrail() ) {
 		Trail.append( SkyPoint( ra(), dec() ) );
-		if ( Trail.count() > MAXTRAIL ) delete Trail.takeFirst();
+		if ( Trail.count() > MAXTRAIL ) Trail.takeFirst();
 	}
 
 	if ( isMajorPlanet() )
@@ -186,14 +185,14 @@ void KSPlanetBase::rotateImage( double imAngle ) {
 	ImageAngle = imAngle;
 	QMatrix m;
 	m.rotate( ImageAngle );
-	Image = Image0.xForm( m );
+	Image = Image0.transformed( m );
 }
 
 void KSPlanetBase::scaleRotateImage( float scale, double imAngle ) {
 	ImageAngle = imAngle;
 	QMatrix m;
 	m.rotate( ImageAngle );
-	Image = Image0.xForm( m ).smoothScale( scale, scale );
+	Image = Image0.transformed( m ).scaledToWidth( int(scale*Image.width()) );
 }
 
 void KSPlanetBase::findMagnitude(const KSNumbers *num) {

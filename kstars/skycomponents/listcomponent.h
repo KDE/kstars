@@ -75,6 +75,8 @@ class ListComponent : public SkyComponent
 
 		QList<SkyObject*>& objectList() { return ObjectList; }
 
+		void clear();
+
 	private:
 		SkyComposite *Parent;
 		QList<SkyObject*> ObjectList;

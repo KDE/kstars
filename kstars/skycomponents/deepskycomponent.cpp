@@ -44,45 +44,7 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent, bool (*vMethodDeepSky)
 
 DeepSkyComponent::~DeepSkyComponent()
 {
-	while ( ! m_MessierList.isEmpty() ) {
-		SkyObject *o = m_MessierList.takeFirst();
-		int i = parent()->objectNames().indexOf( o->name() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-		i = parent()->objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-
-		delete o;
-	}
-
-	while ( ! m_NGCList.isEmpty() ) {
-		SkyObject *o = m_NGCList.takeFirst();
-		int i = parent()->objectNames().indexOf( o->name() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-		i = parent()->objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-
-		delete o;
-	}
-
-	while ( ! m_ICList.isEmpty() ) {
-		SkyObject *o = m_ICList.takeFirst();
-		int i = parent()->objectNames().indexOf( o->name() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-		i = parent()->objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-
-		delete o;
-	}
-
-	while ( ! m_OtherList.isEmpty() ) {
-		SkyObject *o = m_OtherList.takeFirst();
-		int i = parent()->objectNames().indexOf( o->name() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-		i = parent()->objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-
-		delete o;
-	}
+	clear();
 }
 
 void DeepSkyComponent::init(KStarsData *)
@@ -385,3 +347,44 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 	return oBest;
 }
 
+void DeepSkyComponent::clear() {
+	while ( ! m_MessierList.isEmpty() ) {
+		SkyObject *o = m_MessierList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_NGCList.isEmpty() ) {
+		SkyObject *o = m_NGCList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_ICList.isEmpty() ) {
+		SkyObject *o = m_ICList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+
+	while ( ! m_OtherList.isEmpty() ) {
+		SkyObject *o = m_OtherList.takeFirst();
+		int i = parent()->objectNames().indexOf( o->name() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		i = parent()->objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+
+		delete o;
+	}
+}

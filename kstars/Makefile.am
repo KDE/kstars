@@ -12,7 +12,7 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp kstarssplash.cpp \
 			ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp \
 			opsadvanced.cpp opscatalog.cpp opscolors.cpp \
-			opsguides.cpp opssolarsystem.cpp planetcatalog.cpp simclock.cpp skymap.cpp \
+			opsguides.cpp opssolarsystem.cpp simclock.cpp skymap.cpp \
 			skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp \
 			starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
 			timebox.cpp timedialog.cpp timezonerule.cpp \

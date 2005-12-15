@@ -34,7 +34,7 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 {
 	if (! when.isValid() ) tmr.stop();
 	setUTC(when);
-	julianmark = Qt::UTC.djd();
+	julianmark = UTC.djd();
 	
 	Scale = 1.0;
 	ManualMode = false;

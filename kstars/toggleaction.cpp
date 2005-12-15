@@ -18,9 +18,10 @@
 #include "toggleaction.h"
 
 ToggleAction::ToggleAction(const QString& ontext, const QIcon& onpix,
-	const QString& offtext, const QIcon& offpix,
-	int accel, const QObject* receiver, const char* slot, QObject* parent, const char* name ) :
-		KAction(ontext, onpix, accel, receiver, slot, parent, name),
+		const QString& offtext, const QIcon& offpix, int accel, 
+		const QObject* receiver, const char* slot, KActionCollection* parent, 
+		const char* name ) 
+: KAction( ontext, onpix, accel, receiver, slot, parent, name ),
 		officon(offpix),
 		onicon(onpix),
 		offcap(offtext),
@@ -29,8 +30,9 @@ ToggleAction::ToggleAction(const QString& ontext, const QIcon& onpix,
 {}
 
 ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
-	int accel, const QObject* receiver, const char* slot, QObject* parent, const char* name ) :
-		KAction(ontext, accel, receiver, slot, parent, name),
+		int accel, const QObject* receiver, const char* slot, 
+		KActionCollection* parent, const char* name ) 
+: KAction(ontext, accel, receiver, slot, parent, name),
 		officon(),
 		onicon(),
 		offcap(offtext),

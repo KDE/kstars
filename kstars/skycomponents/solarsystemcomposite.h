@@ -21,6 +21,8 @@
 #include "skycomposite.h"
 
 class KSPlanet;
+class AsteroidsComponent;
+class CometsComponent;
 
 /**@class SolarSystemComposite
 * The solar system composite manages all planets, asteroids and comets.
@@ -51,9 +53,14 @@ class SolarSystemComposite : public SkyComposite
 		//with Trails here
 		void drawTrails( KStars *ks, QPainter& psky, double scale );
 
+		void reloadAsteroids( KStarsData *data );
+		void reloadComets( KStarsData *data );
+
 	private:
 		KSPlanet *Earth;
 
+		AsteroidsComponent *m_AsteroidsComponent;
+		CometsComponent *m_CometsComponent;
 };
 
 #endif

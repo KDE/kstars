@@ -15,17 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qlabel.h>
-#include <qlayout.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QLabel>
 #include <QPixmap>
 #include <QVBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <QPaintEvent>
 #include <QCloseEvent>
-#include <klocale.h>
 
+#include <klocale.h>
 #include <kapplication.h>
 
 #include "kstarssplash.h"
@@ -65,14 +63,14 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "White" ) );
 	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "White" ) );
 	label->setPalette( pal );
-	label->setAlignment( AlignHCenter );
+	label->setAlignment( Qt::AlignHCenter );
 	label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );
 	topLayout->addWidget( label );
 
 //initialize the progress message label
 	textCurrentStatus = new QLabel( page, "label2" );
 	textCurrentStatus->setPalette( pal );
-	textCurrentStatus->setAlignment( AlignHCenter );
+	textCurrentStatus->setAlignment( Qt::AlignHCenter );
 	topLayout->addWidget( textCurrentStatus );
 
 	topLayout->activate();

@@ -38,7 +38,7 @@ QPixmap* StarPixmap::getPixmap (QChar *color, int size) {
 	int c;
 //	the colors from blue to red	+, O, B, A, F, G, K, M, N, P
 // if *color is '+' use white star
-	switch (*color) {
+	switch ( color->toAscii() ) {
 		case 'O' : c = 1; break;
 		case 'B' : c = 2; break;
 		case 'A' : c = 3; break;

@@ -16,10 +16,11 @@
  ***************************************************************************/
 
 #include <math.h>
+
+#include <QFile>
+#include <QTextStream>
+
 #include <kdebug.h>
-#include <qfile.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include "ksplanet.h"
 #include "ksnumbers.h"
@@ -29,53 +30,29 @@
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
 KSPlanet::OrbitDataColl::OrbitDataColl() {
-// avoid memory leaks
-	for (int i=0; i<6; i++) {
-		Lon[i].setAutoDelete(true);
-		Lat[i].setAutoDelete(true);
-		Dst[i].setAutoDelete(true);
-	}
 }
-
 
 KSPlanet::OrbitDataManager::OrbitDataManager() {
 //EMPTY
 }
 
 bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
-		Q3PtrVector<KSPlanet::OrbitData> *vector) {
+		QVector<OrbitData> *vector) {
 	QString line;
 	QFile f;
 	double A, B, C;
 
-	Q3PtrList<OrbitData> DData;
-
 	if ( KSUtils::openDataFile( f, fname ) ) {
 		KSFileReader fileReader( f ); // close file is included
-    while ( fileReader.hasMoreLines() ) {
-      line = fileReader.readLine();
-			QTextIStream instream( &line );
+		while ( fileReader.hasMoreLines() ) {
+			line = fileReader.readLine();
+			QTextStream instream( &line );
 			instream >> A >> B >> C;
-			DData.append(new OrbitData(A, B, C));
-
+			vector->append( OrbitData(A, B, C) );
 		}
-/* old code
-		QTextStream stream( &f );
-		while ( !stream.eof() ) {
-			line = stream.readLine();
-			QTextIStream instream( &line );
-			instream >> A >> B >> C;
-			DData.append(new OrbitData(A, B, C));
-
-		}
-		f.close();
-*/
 	} else {
 		return false;
 	}
-
-	DData.toVector(vector);
-
 	return true;
 }
 
@@ -83,13 +60,12 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	QString fname, snum, line;
 	QFile f;
 	int nCount = 0;
+	QString nl = n.lower();
 
-//	kdDebug() << k_funcinfo << " Loading data named " << n << endl;
-
-	n = n.lower();
-
-	if ( hash.contains( n ) ) 
-		return hash[n];
+	if ( hash.contains( nl ) ) {
+		odc = hash[nl];
+		return true;  //orbit data already loaded
+	}
 
 	//Create a new OrbitDataColl
 	OrbitDataColl ret;
@@ -97,8 +73,8 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	//Ecliptic Longitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
-		fname = n + ".L" + snum + ".vsop";
-		if ( readOrbitData( fname, ret.Lon[i] ) )
+		fname = nl + ".L" + snum + ".vsop";
+		if ( readOrbitData( fname, &ret.Lon[i] ) )
 			nCount++;
 	}
 
@@ -107,8 +83,8 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	//Ecliptic Latitude
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
-		fname = n + ".B" + snum + ".vsop";
-		if ( readOrbitData( fname, ret.Lat[i] ) )
+		fname = nl + ".B" + snum + ".vsop";
+		if ( readOrbitData( fname, &ret.Lat[i] ) )
 			nCount++;
 	}
 
@@ -117,21 +93,21 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	//Heliocentric Distance
 	for (int i=0; i<6; ++i) {
 		snum.setNum( i );
-		fname = n + ".R" + snum + ".vsop";
-		if ( readOrbitData( fname, ret.Dst[i] ) )
+		fname = nl + ".R" + snum + ".vsop";
+		if ( readOrbitData( fname, &ret.Dst[i] ) )
 			nCount++;
 	}
 
 	if ( nCount==0 ) return false;
 
-	hash[n] = ret;
-	odc = hash[n];
+	hash[nl] = ret;
+	odc = hash[nl];
 
 	return true;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, double pSize )
- : KSPlanetBase(kd, s, imfile, pSize ), data_loaded(false) {
+KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, QColor c, double pSize )
+ : KSPlanetBase(kd, s, imfile, c, pSize ), data_loaded(false) {
 }
 
 //we don't need the reference to the ODC, so just give it a junk variable
@@ -161,12 +137,12 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	//Ecliptic Longitude
 	for (int i=0; i<6; ++i) {
 		sum[i] = 0.0;
-		for (uint j = 0; j < odc->Lon[i].size(); ++j) {
-			sum[i] += odc->Lon[i][j]->A * cos( odc->Lon[i][j]->B + odc->Lon[i][j]->C*Tau );
+		for (int j = 0; j < odc.Lon[i].size(); ++j) {
+			sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*Tau );
 			/*
 			kdDebug() << "sum[" << i <<"] =" << sum[i] <<
-				" A = " << odc->Lon[i][j]->A << " B = " << odc->Lon[i][j]->B <<
-				" C = " << odc->Lon[i][j]->C << endl;
+				" A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
+				" C = " << odc.Lon[i][j].C << endl;
 				*/
 	  	}
 		sum[i] *= Tpow[i];
@@ -179,8 +155,8 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	//Compute Ecliptic Latitude
 	for (uint i=0; i<6; ++i) {
 		sum[i] = 0.0;
-		for (uint j = 0; j < odc->Lat[i].size(); ++j) {
-			sum[i] += odc->Lat[i][j]->A * cos( odc->Lat[i][j]->B + odc->Lat[i][j]->C*Tau );
+		for (int j = 0; j < odc.Lat[i].size(); ++j) {
+			sum[i] += odc.Lat[i][j].A * cos( odc.Lat[i][j].B + odc.Lat[i][j].C*Tau );
 	  	}
 		sum[i] *= Tpow[i];
   	}
@@ -191,8 +167,8 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	//Compute Heliocentric Distance
 	for (uint i=0; i<6; ++i) {
 		sum[i] = 0.0;
-		for (uint j = 0; j < odc->Dst[i].size(); ++j) {
-			sum[i] += odc->Dst[i][j]->A * cos( odc->Dst[i][j]->B + odc->Dst[i][j]->C*Tau );
+		for (int j = 0; j < odc.Dst[i].size(); ++j) {
+			sum[i] += odc.Dst[i][j].A * cos( odc.Dst[i][j].B + odc.Dst[i][j].C*Tau );
 	  	}
 		sum[i] *= Tpow[i];
   	}

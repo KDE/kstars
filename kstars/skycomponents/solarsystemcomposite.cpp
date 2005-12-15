@@ -51,8 +51,10 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Neptune" ), "neptune.png", 49572. /*diameter in km*/ ), Options::showNeptune, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPluto(data), Options::showPluto, 4 ) );
 
-	addComponent( new AsteroidsComponent( this, Options::showAsteroids ) );
-	addComponent( new CometsComponent( this, Options::showComets ) );
+	m_AsteroidsComponent = new AsteroidsComponent( this, Options::showAsteroids );
+	addComponent( m_AsteroidsComponent );
+	m_CometsComponent = new CometsComponent( this, Options::showComets );
+	addComponent( m_CometsComponent );
 }
 
 SolarSystemComposite::~SolarSystemComposite()
@@ -97,4 +99,14 @@ void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 	foreach ( SkyComponent *comp, components() ) {
 		comp->drawTrails( ks, psky, scale );
 	}
+}
+
+void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {
+	m_AsteroidsComponent->clear();
+	m_AsteroidsComponent->init( data );
+}
+
+void SolarSystemComposite::reloadComets( KStarsData *data ) {
+	m_CometsComponent->clear();
+	m_CometsComponent->init( data );
 }

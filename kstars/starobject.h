@@ -200,7 +200,7 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
-	void draw( QPainter &psky, QPixmap *starpix, float x, float y, bool screenDraw=true, bool drawMultiple=true, double scale=1.0 );
+	void draw( QPainter &psky, QPixmap *starpix, float x, float y, bool drawMultiple=true, double scale=1.0 );
 
 //Alternate draw function without starpix
 	void draw( QPainter &psky, float x, float y, float size, bool drawMultiple=true );

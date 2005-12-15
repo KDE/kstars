@@ -20,8 +20,7 @@
 #define KSPOPUPMENU_H
 
 #include <kmenu.h>
-//Added by qt3to4:
-#include <QLabel>
+#include <QAction>
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
@@ -43,7 +42,7 @@ class KSPopupMenu : public KMenu
 Q_OBJECT
 public:
 /**Default constructor*/
-	KSPopupMenu( QWidget *parent = 0, const char *name = 0 );
+	KSPopupMenu( QWidget *parent = 0 );
 	
 /**Destructor (empty)*/
 	~KSPopupMenu();
@@ -152,8 +151,8 @@ public:
 
 private:
 	KStars *ksw;
-	QLabel *pmTitle, *pmTitle2, *pmType, *pmConstellation;
-	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
+	QAction *aName, *aName2, *aType, *aConstellation;
+	QAction *aRiseTime, *aSetTime, *aTransitTime;
 
 };
 

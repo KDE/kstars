@@ -26,7 +26,6 @@
 #include "milkywaycomposite.h"
 #include "constellationlinescomposite.h"
 #include "coordinategridcomposite.h"
-#include "deepskycomponent.h"
 #include "customcatalogcomponent.h"
 #include "starcomponent.h"
 #include "jupitermoonscomponent.h"
@@ -47,7 +46,10 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	addComponent( new EquatorComponent( this, &Options::showEquator ) );
 	addComponent( new EclipticComponent( this, &Options::showEcliptic ) );
 
-	addComponent( new DeepSkyComponent( this, &Options::showDeepSky, &Options::showMessier, &Options::showNGC, &Options::showIC, &Options::showOther, &Options::showMessierImages ) );
+	m_DeepSkyComponent = new DeepSkyComponent( this, &Options::showDeepSky, 
+		&Options::showMessier, &Options::showNGC, &Options::showIC, 
+		&Options::showOther, &Options::showMessierImages );
+	addComponent( m_DeepSkyComponent );
 	
 	//FIXME: can't use Options::showCatalog as visibility fcn, because it returns QList, not bool
 	m_CustomCatalogComposite = new SkyComposite( this );
@@ -127,6 +129,19 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
 	m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+}
+
+void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
+	m_DeepSkyComponent->clear();
+	m_DeepSkyComponent->init( data );
+}
+
+void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
+	m_SSComposite->reloadAsteroids( data );
+}
+
+void SkyMapComposite::reloadComets( KStarsData *data ) {
+	m_SSComposite->reloadComets( data );
 }
 
 QString SkyMapComposite::constellation( SkyPoint *p ) {

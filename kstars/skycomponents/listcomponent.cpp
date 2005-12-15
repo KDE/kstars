@@ -30,6 +30,10 @@ ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 
 ListComponent::~ListComponent()
 {
+	clear();
+}
+
+void ListComponent::clear() {
 	while ( ! objectList().isEmpty() ) {
 		SkyObject *o = objectList().takeFirst();
 		int i = parent()->objectNames().indexOf( o->name() );

@@ -223,7 +223,7 @@ QString StarObject::constell( void ) const {
 	return QString("");
 }
 
-void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool screenDraw, bool /*showMultiple*/, double /*scale*/ ) {
+void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool /*showMultiple*/, double /*scale*/ ) {
 	//Indicate multiple stars with a short horizontal line
 	//(only draw this for stars larger than 3 pixels)
 //Commenting out for now...
@@ -232,16 +232,13 @@ void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool 
 //		psky.drawLine( x - lsize, y, x + lsize, y );
 //	}
 
-	//Only bitBlt() if we are drawing to the sky pixmap
-	if ( screenDraw )
-		bitBlt ((QPaintDevice *) sky, x - starpix->width()/2, y - starpix->height()/2, starpix );
-	else
-		psky.drawPixmap( x - starpix->width()/2, y - starpix->height()/2, *starpix );
+	psky.drawPixmap( QPointF(x - 0.5*(starpix->width()), y - 0.5*(starpix->height()) ), 
+		*starpix, QRectF( starpix->rect() ) );
 
 }
 
-void StarObject::draw( QPainter &psky, float x, float y, float size, bool drawMultiple=true ) {
-	psky.drawEllipse( x - 0.5*size, y - 0.5*size, size, size );
+void StarObject::draw( QPainter &psky, float x, float y, float size, bool /*drawMultiple*/ ) {
+	psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
 }
 
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {

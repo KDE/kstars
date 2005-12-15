@@ -889,7 +889,7 @@ double SkyPoint::vGeoToVHelio(double vgeo, long double jd0)
 double SkyPoint::vRSite(double vsite[3])
 {
   
-	double sinRA, sinDec, cosRA, cosDec, vREarth;
+	double sinRA, sinDec, cosRA, cosDec;
 
 	RA.SinCos( sinRA, cosRA );
 	Dec.SinCos( sinDec, cosDec );

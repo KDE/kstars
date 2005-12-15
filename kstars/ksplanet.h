@@ -48,11 +48,11 @@ public:
 	*@param kd Some kind of data
 	*@param s Name of planet
 	*@param image_file filename of the planet's image
+	*@param c the color for the planet
 	*@param pSize physical diameter of the planet, in km
-	*
-	*@todo figure out what @p kd does.
 	*/
-	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", double pSize=0 );
+	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", 
+		QColor c=Qt::white, double pSize=0 );
 
 /**Destructor (empty)
 	*/
@@ -90,20 +90,29 @@ protected:
 	*/
 	class OrbitData  {
 		public:
-			/**Constructor 
+			/**
+				*Default constructor
+				*/
+			OrbitData() : A(0.), B(0.), C(0.) {}
+			/**
+				*Constructor 
 				*@param a the A value
 				*@param b the B value
 				*@param c the C value
 				*/
-			OrbitData(double a, double b, double c) :
-				A(a), B(b), C(c) {};
+			OrbitData(double a, double b, double c) : A(a), B(b), C(c) {}
 			
+			/**
+				*Assignment operator
+				*/
+			OrbitData operator= ( const OrbitData o ) { return o; }
+
 			double A, B, C;
 	};
 
 	typedef QVector<OrbitData> OBArray[6];
 
-/**OrbitDataColl contains three groups of six QPtrVectors.  Each QPtrVector is a
+/**OrbitDataColl contains three groups of six QVectors.  Each QVector is a
 	*list of OrbitData objects, representing a single sum used in computing
 	*the planet's position.  A set of six of these vectors comprises the large
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
@@ -149,7 +158,7 @@ protected:
 			*@param fname the filename to be read.
 			*@param vector pointer to the OrbitData vector to be filled with these data.
 			*/
-			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> vector);
+			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> *vector);
 			
 			QHash<QString, OrbitDataColl> hash;
 	};

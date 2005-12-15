@@ -25,6 +25,7 @@
 #include "starcomponent.h"
 #include "constellationboundarycomponent.h"
 #include "constellationnamescomponent.h"
+#include "deepskycomponent.h"
 
 class KStarsData;
 
@@ -98,6 +99,10 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
 		void removeCustomCatalog( const QString &name );
 
+		void reloadDeepSky( KStarsData *data );
+		void reloadAsteroids( KStarsData *data );
+		void reloadComets( KStarsData *data );
+
 		//Accessors for StarComponent
 		SkyObject* findStarByGenetiveName( const QString &name );
 		void setFaintStarMagnitude( float newMag );
@@ -112,6 +117,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void emitProgressText( const QString &message );
 
 		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
+		KSPlanet* earth() { return m_SSComposite->earth(); }
+
 		QList<SkyComponent*> customCatalogs() { 
 			return m_CustomCatalogComposite->components(); 
 		}
@@ -127,6 +134,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		StarComponent *m_StarComponent;
 		ConstellationBoundaryComponent *m_CBoundsComponent;
 		ConstellationNamesComponent *m_CNamesComponent;
+		DeepSkyComponent *m_DeepSkyComponent;
 		QStringList m_ObjectNames;
 };
 

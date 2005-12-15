@@ -34,9 +34,13 @@ class ToggleAction : public KAction {
 		
 	public:
 		/**Constructor. */
-		ToggleAction(const QString& ontext, const QIcon& onpix, const QString& offtext, const QIcon& offpix, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
+		ToggleAction(const QString& ontext, const QIcon& onpix, const QString& offtext, 
+			const QIcon& offpix, int accel, const QObject* receiver, const char* slot,
+			KActionCollection* parent = 0, const char* name = 0 ) ;
 		/**Constructor. Same as above, but without icons. */
-		ToggleAction(const QString& ontext, const QString& offtext, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
+		ToggleAction(const QString& ontext, const QString& offtext, int accel, 
+			const QObject* receiver, const char* slot, KActionCollection* parent = 0, 
+			const char* name = 0 ) ;
 
 		/**Sets the ToolTip text for the "on" state. 
 			*@param tip the tooltip string

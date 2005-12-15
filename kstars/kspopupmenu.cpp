@@ -32,8 +32,8 @@
 #include "indigroup.h"
 #include "indiproperty.h"
 
-KSPopupMenu::KSPopupMenu( QWidget *parent, const char *name )
- : KMenu( parent, name )
+KSPopupMenu::KSPopupMenu( QWidget *parent )
+ : KMenu( parent )
 {
 	ksw = ( KStars* )parent;
 }
@@ -135,95 +135,95 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 
 bool KSPopupMenu::addINDI(void)
 {
-  
-  INDIMenu *indiMenu = ksw->getINDIMenu();
-  DeviceManager *mgr;
-  INDI_D *dev;
-  INDI_G *grp;
-  INDI_P *prop(NULL);
-  INDI_E *element;
-  int id=0;
-
-  if (indiMenu->mgr.count() == 0)
-   return false;
-
-  for (mgr = indiMenu->mgr.first(); mgr != NULL; mgr = indiMenu->mgr.next())
-  {
-    for (dev = mgr->indi_dev.first(), id = 0; dev != NULL; dev = mgr->indi_dev.next())
-    {
-        if (!dev->INDIStdSupport)
-	 continue;
-
-	KMenu *menuDevice = new KMenu();
+	INDIMenu *indiMenu = ksw->getINDIMenu();
+	DeviceManager *mgr;
+	INDI_D *dev;
+	INDI_G *grp;
+	INDI_P *prop(NULL);
+	INDI_E *element;
+	int id=0;
 	
-	insertItem(dev->label, menuDevice);
-
-        for (grp = dev->gl.first(); grp != NULL; grp = dev->gl.next())
+	if (indiMenu->mgr.count() == 0)
+		return false;
+	
+	foreach ( mgr, indiMenu->mgr )
 	{
-	   for (prop = grp->pl.first(); prop != NULL; prop = grp->pl.next())
-	   {
-	     /* Only std are allowed to show. Movement is somewhat problematic due to an issue with the LX200 telescopes (the telescope does not update RA/DEC while moving N/W/E/S) so it's better off the skymap. It's avaiable in the INDI control panel nonetheless.
-	     CCD_EXPOSE_DURATION is an INumber property, but it's so common that it's better to include in the context menu */
-	     
-	     if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
-	     // Only switches are shown
- 	     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO && prop->stdID !=CCD_EXPOSE_DURATION) continue;
-	   
-	     menuDevice->insertSeparator();
-
-	     prop->assosiatedPopup = menuDevice;
-	     
-	     if (prop->stdID == CCD_EXPOSE_DURATION)
-	     {
-	       menuDevice->insertItem (prop->label, id);
-	       menuDevice->setItemChecked(id, false);
-	       //kdDebug() << "Expose ID: " << id << endl;
-	       id++;
-	     }
-	     else
-	     {
-	     for (element = prop->el.first(); element != NULL; element = prop->el.next(), id++)
-             {
-		menuDevice->insertItem (element->label, id);
-	 	if (element->state == PS_ON)
+		foreach (dev, mgr->indi_dev )
 		{
-		        // Slew, Track, Sync, Exppse are never checked in the skymap
-			if ((element->name != "SLEW") && (element->name != "TRACK") &&
-			    (element->name != "SYNC"))
-		  		menuDevice->setItemChecked(id, true);
-			else
-				menuDevice->setItemChecked(id, false);
-		}
-	 	else
-	        	menuDevice->setItemChecked(id, false);
-			
-		//kdDebug() << element->name << " ID is " << id << endl;
-	     }
-	     }
+			if (!dev->INDIStdSupport)
+				continue;
 
-	     QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
-	    
-	    } // end property
-	  } // end group
+			KMenu *menuDevice = new KMenu();
+			insertItem(dev->label, menuDevice);
 
-	// For telescopes, add option to center the telescope position
-	if ( dev->findElem("RA") || dev->findElem("ALT"))
-	{
-		menuDevice->insertSeparator();
-		menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
-                if (dev->findElem("RA"))
-			prop = dev->findElem("RA")->pp;
- 		else   	
-			prop = dev->findElem("ALT")->pp;
+			foreach (grp, dev->gl )
+			{
+				foreach (prop, grp->pl )
+				{
+					//Only std are allowed to show. Movement is somewhat problematic 
+					//due to an issue with the LX200 telescopes (the telescope does 
+					//not update RA/DEC while moving N/W/E/S) so it's better off the 
+					//skymap. It's avaiable in the INDI control panel nonetheless.
+					//CCD_EXPOSE_DURATION is an INumber property, but it's so common 
+					//that it's better to include in the context menu
 
-		prop->assosiatedPopup = menuDevice;
-		QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
-	}
-       } // end device
-	
-    } // end device manager
+					if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
+					// Only switches are shown
+					if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO 
+							&& prop->stdID !=CCD_EXPOSE_DURATION) continue;
 
- return true;
+					menuDevice->insertSeparator();
+
+					prop->assosiatedPopup = menuDevice;
+
+					if (prop->stdID == CCD_EXPOSE_DURATION)
+					{
+						menuDevice->insertItem (prop->label, id);
+						menuDevice->setItemChecked(id, false);
+						//kdDebug() << "Expose ID: " << id << endl;
+						id++;
+					}
+					else
+					{
+						foreach ( element, prop->el )
+						{
+							menuDevice->insertItem (element->label, id++);
+							if (element->state == PS_ON)
+							{
+								// Slew, Track, Sync, Exppse are never checked in the skymap
+								if ( (element->name != "SLEW") && (element->name != "TRACK") &&
+										(element->name != "SYNC") )
+									menuDevice->setItemChecked(id, true);
+								else
+									menuDevice->setItemChecked(id, false);
+							}
+							else
+								menuDevice->setItemChecked(id, false);
+						}
+					}
+
+					QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
+
+				} // end property
+			} // end group
+
+			// For telescopes, add option to center the telescope position
+			if ( dev->findElem("RA") || dev->findElem("ALT"))
+			{
+				menuDevice->insertSeparator();
+				menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
+				if (dev->findElem("RA"))
+					prop = dev->findElem("RA")->pp;
+				else
+					prop = dev->findElem("ALT")->pp;
+
+				prop->assosiatedPopup = menuDevice;
+				QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
+			}
+		} // end device
+	} // end device manager
+
+	return true;
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
@@ -236,54 +236,19 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	bool showLabel( true );
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 
-	pmTitle = new QLabel( s1, this );
-	pmTitle->setAlignment( Qt::AlignCenter );
-	QPalette pal( pmTitle->palette() );
-	pal.setColor( QPalette::Normal, QColorGroup::Background, pal.color( QPalette::Normal, QColorGroup::Base ) );
-	pal.setColor( QPalette::Normal, QColorGroup::Foreground, pal.color( QPalette::Normal, QColorGroup::Text ) );
-	pmTitle->setPalette( pal );
-	insertItem( pmTitle );
+	aName = addTitle( s1 );
+	if ( ! s2.isEmpty() ) aName2 = addTitle( s2 );
+	if ( ! s3.isEmpty() ) aType = addTitle( s3 );
 
-	if ( ! s2.isEmpty() ) {
-		pmTitle2 = new QLabel( s2, this );
-		pmTitle2->setAlignment( Qt::AlignCenter );
-		pmTitle2->setPalette( pal );
-		insertItem( pmTitle2 );
-	}
-
-	if ( ! s3.isEmpty() ) {
-		pmType = new QLabel( s3, this );
-		pmType->setAlignment( Qt::AlignCenter );
-		pmType->setPalette( pal );
-		insertItem( pmType );
-	}
-
-	QString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
-	pmConstellation = new QLabel( c, this );
-	pmConstellation->setAlignment( Qt::AlignCenter );
-	pmConstellation->setPalette( pal );
-	insertItem( pmConstellation );
+	aConstellation = addTitle( ksw->data()->skyComposite()->constellation( obj ) );
 	
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
-		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), this );
-		pmRiseTime->setAlignment( Qt::AlignCenter );
-		pmRiseTime->setPalette( pal );
-		QFont rsFont = pmRiseTime->font();
-		rsFont.setPointSize( rsFont.pointSize() - 2 );
-		pmRiseTime->setFont( rsFont );
-		pmSetTime = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", this );
-		pmSetTime->setAlignment( Qt::AlignCenter );
-		pmSetTime->setPalette( pal );
-		pmSetTime->setFont( rsFont );
-		pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), this );
-		pmTransitTime->setAlignment( Qt::AlignCenter );
-		pmTransitTime->setPalette( pal );
-		pmTransitTime->setFont( rsFont );
 		insertSeparator();
-		insertItem( pmRiseTime );
-		insertItem( pmTransitTime );
-		insertItem( pmSetTime );
+		aRiseTime = addTitle( i18n( "Rise time: %1" ).arg("00:00") );
+		aSetTime  = addTitle( i18n( "the time at which an object falls below the horizon", 
+			"Set time: %1" ).arg(" 00:00") );
+		aTransitTime = addTitle( i18n( "Transit time: %1" ).arg("00:00") );
 
 		setRiseSetLabels( obj );
 	}
@@ -295,19 +260,22 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	}
 	
 	//Insert item for measuring distances
+	//FIXME: add key shortcut to menu items properly!
 	if ( showAngularDistance && obj ) {
 		if (! (ksw->map()->isAngleMode()) ) {
-			insertItem( i18n( "Angular Distance To...            [" ), ksw->map(), SLOT( slotBeginAngularDistance() ) );
+			insertItem( i18n( "Angular Distance To...            [" ), ksw->map(), 
+					SLOT( slotBeginAngularDistance() ) );
 		} else {
-			insertItem( i18n( "Compute Angular Distance          ]" ), ksw->map(), SLOT( slotEndAngularDistance() ) );
+			insertItem( i18n( "Compute Angular Distance          ]" ), ksw->map(), 
+					SLOT( slotEndAngularDistance() ) );
 		}
-
 	}
 
 
 	//Insert item for Showing details dialog
 	if ( showDetails && obj ) {
-		insertItem( i18n( "Show Detailed Information Dialog", "Details" ), ksw->map(), SLOT( slotDetail() ) );
+		insertItem( i18n( "Show Detailed Information Dialog", "Details" ), ksw->map(), 
+					SLOT( slotDetail() ) );
 	}
 
 	//Insert "Add/Remove Label" item
@@ -384,9 +352,9 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		tt = "--:--";
 	}
 
-	pmRiseTime->setText( rt );
-	pmSetTime->setText( st );
-	pmTransitTime->setText( tt ) ;
+	aRiseTime->setText( rt );
+	aSetTime->setText( st );
+	aTransitTime->setText( tt ) ;
 }
 
 #include "kspopupmenu.moc"

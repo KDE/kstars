@@ -72,6 +72,8 @@ class DeepSkyComponent: public SkyComponent
 
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
+		void clear();
+
 	private:
 		
 	/**

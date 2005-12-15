@@ -21,6 +21,7 @@
 #include <QKeyEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
+#include <QDesktopWidget>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -42,13 +43,17 @@ ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *pare
 // JH: easier to just disable its mobility
 	toolBar()->setMovingEnabled( false );
 
-	KAction *action = new KAction (i18n ("Close Window"), "fileclose", CTRL+Key_Q, this, SLOT (close()), actionCollection());
+	KAction *action = new KAction( i18n("Close Window"), "fileclose",
+			KShortcut(Qt::CTRL+Qt::Key_Q), this, SLOT (close()), actionCollection(), 
+			"actCloseImViewer" );
 	action->plug (toolBar());
-	action = new KAction (i18n ("Save Image"), "filesave", CTRL+Key_S, this, SLOT (saveFileToDisc()), actionCollection());
+	action = new KAction( i18n("Save Image"), "filesave", 
+			KShortcut(Qt::CTRL+Qt::Key_S), this, SLOT (saveFileToDisc()), actionCollection(),
+			"actSaveImViewer" );
 	action->plug (toolBar());
 
 	statusBar()->insertItem( capText, 0, 1, true );
-	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
+	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 	QFont fnt = statusBar()->font();
 	fnt.setPointSize( fnt.pointSize() - 2 );
 	statusBar()->setFont( fnt );
@@ -101,9 +106,9 @@ void ImageViewer::keyPressEvent (QKeyEvent *ev)
 	ev->accept();  //make sure key press events are captured.
 	switch (ev->key())
 	{
-		case Key_Control : ctrl = true; break;
-		case Key_Q : key_q = true; break;
-		case Key_S : key_s = true; break;
+		case Qt::Key_Control : ctrl = true; break;
+		case Qt::Key_Q : key_q = true; break;
+		case Qt::Key_S : key_s = true; break;
 		default : ev->ignore();
 	}
 	if (ctrl && key_q)
@@ -121,9 +126,9 @@ void ImageViewer::keyReleaseEvent (QKeyEvent *ev)
 	ev->accept();
 	switch (ev->key())
 	{
-		case Key_Control : ctrl = false; break;
-		case Key_Q : key_q = false; break;
-		case Key_S : key_s = false; break;
+		case Qt::Key_Control : ctrl = false; break;
+		case Qt::Key_Q : key_q = false; break;
+		case Qt::Key_S : key_s = false; break;
 		default : ev->ignore();
 	}
 }

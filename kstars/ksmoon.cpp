@@ -29,8 +29,8 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", 3474.8 /*diameter in km*/ ) {
-}
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", QColor("white"), 3474.8 /*diameter in km*/ ) 
+{}
 
 KSMoon::~KSMoon() {
 	while ( ! LRData.isEmpty() ) delete LRData.takeFirst();
@@ -51,7 +51,7 @@ bool KSMoon::loadData() {
 
 	if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
 		QTextStream stream( &f );
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			line = stream.readLine();
 			QTextIStream instream( &line );
 			instream >> nd >> nm >> nm1 >> nf >> Li >> Ri;
@@ -64,7 +64,7 @@ bool KSMoon::loadData() {
 
 	if ( KSUtils::openDataFile( f, "moonB.dat" ) ) {
 		QTextStream stream( &f );
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			line = stream.readLine();
 			QTextIStream instream( &line );
 			instream >> nd >> nm >> nm1 >> nf >> Bi;
@@ -152,7 +152,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 	}
 
 	sumB = 0.0;
-	for ( int i=0; i < BData.size(); ++I ) {
+	for ( int i=0; i < BData.size(); ++i ) {
 		MoonBData *mbd = BData[i];
 
 		E = 1.0;

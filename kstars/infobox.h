@@ -18,11 +18,10 @@
 #ifndef INFOBOX_H
 #define INFOBOX_H
 
-#include <qobject.h>
-#include <qpoint.h>
-#include <qrect.h>
-#include <qsize.h>
-#include <qstring.h>
+#include <QPoint>
+#include <QRect>
+#include <QSize>
+#include <QString>
 
 /**@class InfoBox 
 	*InfoBoxencapsulates a lightweight floating "window" to be drawn directly 

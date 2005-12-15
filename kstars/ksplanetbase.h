@@ -81,7 +81,7 @@ public:
 	*
 	*@todo Figure out what @p kd does.
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", const QColor &c=QColor("white"), double pSize=0 );
+	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", const QColor &c=Qt::white, double pSize=0 );
 
 /**
 	*Destructor (empty)
@@ -345,8 +345,8 @@ private:
 	void findMagnitude(const KSNumbers *num);
 
 	QImage Image0, Image;
-	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	KStarsData *data;
+	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	QColor m_Color;
 };
 

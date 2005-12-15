@@ -33,7 +33,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "deepskyobject.h"
-#include "objectnamelist.h"
 #include "skymap.h"
 
 KSNewStuff::KSNewStuff( QWidget *parent ) :
@@ -61,7 +60,7 @@ bool KSNewStuff::install( const QString &fileName )
 
 	archiveDir->copyTo(destDir);
 	archive.close();
-	kapp->processEvents(10000);
+	kapp->processEvents();
 	
 	//read the new data into the program
 	//this return might be the result of checking if everything is installed ok
@@ -86,30 +85,10 @@ void KSNewStuff::updateData( const QString &path ) {
 		prog.setMinimumDuration( 0 /*millisec*/ );
 		prog.progressBar()->setTotalSteps( 0 );  //show generic progress activity
 		prog.show();
-		kapp->processEvents(1000);
+		kapp->processEvents();
 		
-		//First, remove the existing NGC/IC objects from the ObjectNameList.
-		for ( DeepSkyObject *o = ks->data()->deepSkyList.first(); o; o = ks->data()->deepSkyList.next() ) {
-			if ( o->hasLongName() && o->longname() != o->name() ) ks->data()->ObjNames.remove( o->longname() );
-			ks->data()->ObjNames.remove( o->name() );
-		}
-		
-		//We can safely clear the Messier/NGC/IC/Other lists, since their pointers are secondary
-		ks->data()->deepSkyListMessier.clear();
-		ks->data()->deepSkyListNGC.clear();
-		ks->data()->deepSkyListIC.clear();
-		ks->data()->deepSkyListOther.clear();
-		
-		//Finally, we can clear deepSkyList.  This will automatically delete the SkyObjects
-		ks->data()->deepSkyList.clear();
-		
-		//Send progress messages to the console
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotConsoleMessage(QString) ) );
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotProcessEvents() ) );
-		
-		//We are now ready to read the new NGC/IC catalog
-		ks->data()->readDeepSkyData();
-		
+		ks->data()->skyComposite()->reloadDeepSky( ks->data() );
+
 		//Avoid redundant installs
 		NGCUpdated = true;
 
@@ -134,26 +113,8 @@ void KSNewStuff::updateData( const QString &path ) {
 		prog.setMinimumDuration( 50 /*millisec*/ );
 		prog.progressBar()->setTotalSteps( 0 );  //generic progress activity
 		
-		//First, remove the existing asteroids and comets from the ObjectNameList.
-		for ( SkyObject *o = (SkyObject*)(ks->data()->asteroidList.first()); o; o = (SkyObject*)(ks->data()->asteroidList.next()) ) {
-			if ( o->hasLongName() && o->longname() != o->name() ) ks->data()->ObjNames.remove( o->longname() );
-			ks->data()->ObjNames.remove( o->name() );
-		}
-		for ( SkyObject *o = (SkyObject*)(ks->data()->cometList.first()); o; o = (SkyObject*)(ks->data()->cometList.next()) ) {
-			if ( o->hasLongName() && o->longname() != o->name() ) ks->data()->ObjNames.remove( o->longname() );
-			ks->data()->ObjNames.remove( o->name() );
-		}
-		
-		//Clear the asteroids and comets lists
-		ks->data()->asteroidList.clear();
-		ks->data()->cometList.clear();
-		
-		//Send progress messages to the console
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotConsoleMessage(QString) ) );
-		
-		//add new asteroids and comets
-		ks->data()->readAsteroidData();
-		ks->data()->readCometData();
+		ks->data()->skyComposite()->reloadAsteroids( ks->data() );
+		ks->data()->skyComposite()->reloadComets( ks->data() );
 
 		//Do a full update
 		ks->data()->setFullTimeUpdate();
@@ -165,7 +126,7 @@ void KSNewStuff::updateData( const QString &path ) {
 	ks->setCursor(QCursor(Qt::ArrowCursor));
 }
 
-void KSNewStuff::slotProcessEvents() { kapp->processEvents( 500 ); }
+void KSNewStuff::slotProcessEvents() { kapp->processEvents(); }
 
 #include "ksnewstuff.moc"
 
