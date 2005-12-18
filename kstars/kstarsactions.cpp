@@ -18,6 +18,10 @@
 //needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
 #include <sys/stat.h>
 
+#include <QCheckBox>
+#include <QDir>
+#include <QTextStream>
+
 #include <kdebug.h>
 #include <kaction.h>
 #include <kactionclasses.h>
@@ -35,12 +39,7 @@
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
-#include <qcheckbox.h>
-#include <qdir.h>
-//Added by qt3to4:
-#include <QTextStream>
 #include <kdeversion.h>
-#include <libkdeedu/kdeeduui/kdeeduglossary.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -54,7 +53,6 @@
 #include "kstarsdatetime.h"
 #include "skymap.h"
 #include "skyobject.h"
-#include "skyobjectname.h"
 #include "ksplanetbase.h"
 #include "ksasteroid.h"
 #include "kscomet.h"
@@ -82,6 +80,7 @@
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
 #include "fitsviewer.h"
+// #include "libkdeedu/kdeeduui/kdeeduglossary.h"
 
 #include "ksnewstuff.h"
 #include "imagesequence.h"
@@ -194,13 +193,13 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotGlossary(){
-	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
-	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
-	KURL u = glossaryfile;
-	Glossary *g = new Glossary( u );
-	g->setName( i18n( "Knowledge" ) );
-	dlg->addGlossary( g );
-	dlg->show();
+// 	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
+// 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
+// 	KURL u = glossaryfile;
+// 	Glossary *g = new Glossary( u );
+// 	g->setName( i18n( "Knowledge" ) );
+// 	dlg->addGlossary( g );
+// 	dlg->show();
 }
 
 void KStars::slotScriptBuilder() {
@@ -355,11 +354,11 @@ void KStars::slotViewOps() {
 	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( slotApplySettings() ) );
 	connect( dialog, SIGNAL( okClicked() ), this, SLOT( slotApplySettings() ) );
 
-	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" );
-	OpsGuides  *opguides     = new OpsGuides( this, "guides" );
-	OpsSolarSystem *opsolsys = new OpsSolarSystem( this, "solarsystem" );
-	OpsColors  *opcolors     = new OpsColors( this, "colors" );
-	OpsAdvanced *opadvanced  = new OpsAdvanced( this, "advanced" );
+	OpsCatalog *opcatalog    = new OpsCatalog( this );
+	OpsGuides  *opguides     = new OpsGuides( this );
+	OpsSolarSystem *opsolsys = new OpsSolarSystem( this );
+	OpsColors  *opcolors     = new OpsColors( this );
+	OpsAdvanced *opadvanced  = new OpsAdvanced( this );
 
 	dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
 	dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
@@ -405,7 +404,7 @@ void KStars::slotFind() {
 	if ( !findDialog ) kdWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
 
 	if ( findDialog->exec() == QDialog::Accepted && findDialog->currentItem() ) {
-		map()->setClickedObject( findDialog->currentItem()->objName()->skyObject() );
+		map()->setClickedObject( findDialog->currentItem() );
 		map()->setClickedPoint( map()->clickedObject() );
 		map()->slotCenter();
 	}
@@ -536,7 +535,7 @@ void KStars::slotRunScript() {
 		QString line;
 		bool fileOK( true );
 
-		while (  ! istream.eof() ) {
+		while (  ! istream.atEnd() ) {
 			line = istream.readLine();
 			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
 					&& line.trimmed() != "KSTARS=`dcopfind -a 'kstars*'`"
@@ -558,13 +557,13 @@ void KStars::slotRunScript() {
 		}
 
 		//Add statusbar message that script is running
-		ks->statusBar()->changeItem( i18n( "Running script: %1" ).arg( fileURL.fileName() ), 0 );
+		statusBar()->changeItem( i18n( "Running script: %1" ).arg( fileURL.fileName() ), 0 );
 
 		KProcess p;
 		p << f.name();
 		p.start( KProcess::DontCare );
 
-		while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
+		while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
 	}
 }
 
@@ -849,7 +848,7 @@ void KStars::slotFOVEdit() {
 			} else {
 				QTextStream ostream(&f);
 
-				for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
+				foreach ( FOV *fov, fovdlg.FOVList )
 					ostream << fov->name() << ":" << fov->size() 
 							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
 
@@ -862,7 +861,7 @@ void KStars::slotFOVEdit() {
 
 		if ( f.open( QIODevice::ReadOnly ) ) {
 			QTextStream stream( &f );
-			while ( !stream.eof() ) {
+			while ( !stream.atEnd() ) {
 				QString line = stream.readLine();
 				QStringList fields = QStringList::split( ":", line );
 
@@ -924,25 +923,7 @@ void KStars::slotClearAllTrails() {
 		exOb = map()->focusObject();
 	}
 	
-	//Major bodies
-	if ( !( exOb && exOb->name() == "Moon" ) )    data()->Moon->clearTrail();
-	if ( !( exOb && exOb->name() == "Sun" ) )     data()->PCat->findByName("Sun")->clearTrail();
-	if ( !( exOb && exOb->name() == "Mercury" ) ) data()->PCat->findByName("Mercury")->clearTrail();
-	if ( !( exOb && exOb->name() == "Venus" ) )   data()->PCat->findByName("Venus")->clearTrail();
-	if ( !( exOb && exOb->name() == "Mars" ) )    data()->PCat->findByName("Mars")->clearTrail();
-	if ( !( exOb && exOb->name() == "Jupiter" ) ) data()->PCat->findByName("Jupiter")->clearTrail();
-	if ( !( exOb && exOb->name() == "Saturn" ) )  data()->PCat->findByName("Saturn")->clearTrail();
-	if ( !( exOb && exOb->name() == "Uranus" ) )  data()->PCat->findByName("Uranus")->clearTrail();
-	if ( !( exOb && exOb->name() == "Neptune" ) ) data()->PCat->findByName("Neptune")->clearTrail();
-	if ( !( exOb && exOb->name() == "Pluto" ) )   data()->PCat->findByName("Pluto")->clearTrail();
-	
-	//Asteroids
-	for ( KSAsteroid *ast = data()->asteroidList.first(); ast; ast = data()->asteroidList.next() ) 
-		if ( !( exOb && exOb->name() == ast->name() ) ) ast->clearTrail();
-
-	//Comets
-	for ( KSComet *com = data()->cometList.first(); com; com = data()->cometList.next() ) 
-		if ( !( exOb && exOb->name() == com->name() ) ) com->clearTrail();
+	data()->skyComposite()->clearTrailsExcept( exOb );
 
 	map()->forceUpdate();
 }
@@ -976,12 +957,12 @@ void KStars::slotShowGUIItem( bool show ) {
 
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 1, true );
-			statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
+			statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 			statusBar()->changeItem( "", 1 );
 
 			if ( Options::showRADecField() ) {
 				statusBar()->insertFixedItem( s, 2, true );
-				statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+				statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 				statusBar()->changeItem( "", 2 );
 			}
 		} else {
@@ -994,7 +975,7 @@ void KStars::slotShowGUIItem( bool show ) {
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 2, true );
-			statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+			statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 			statusBar()->changeItem( "", 2 );
 		} else {
 			statusBar()->removeItem( 2 );
@@ -1020,7 +1001,7 @@ void KStars::addColorMenuItem( QString name, QString actionName ) {
 
 void KStars::removeColorMenuItem( QString actionName ) {
 	kdDebug() << "removing " << actionName << endl;
-	colorActionMenu->remove( actionCollection()->action( actionName.local8Bit() ) );
+	colorActionMenu->remove( actionCollection()->action( actionName.ascii() ) );
 }
 
 void KStars::establishINDI()

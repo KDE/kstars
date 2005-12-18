@@ -17,26 +17,25 @@
 #ifndef PLANETVIEWER_H
 #define PLANETVIEWER_H
 
-#include <kdialogbase.h>
-#include <kpushbutton.h>
-#include <qtimer.h>
-//Added by qt3to4:
+#include <QTimer>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QPaintEvent>
 
-#include "kstarsplotwidget.h"
+#include <kdialogbase.h>
+#include <kpushbutton.h>
+
+#include "pvplotwidget.h"
 #include "planetviewerui.h"
 #include "kstarsdatetime.h"
-#include "planetcatalog.h"
 
 /**@class PlanetViewer
 	*@short Display an overhead view of the solar system
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class PlanetViewer : public KDialogBase
+class PlanetViewer : public KDialogBase, public Ui::PlanetViewer
 {
 Q_OBJECT
 public:
@@ -64,9 +63,8 @@ private slots:
 private:
 	void updatePlanets();
 	
-	PlanetViewerUI *pw;
+	Ui::PlanetViewer *pw;
 	KStarsDateTime ut;
-	PlanetCatalog PCat;
 	double scale;
 	bool isClockRunning;
 	QTimer tmr;
@@ -77,36 +75,6 @@ private:
 	KPlotObject *ksun;
 	KPlotObject *planet[9];
 	KPlotObject *planetLabel[9];
-};
-
-class PVPlotWidget : public KStarsPlotWidget
-{
-Q_OBJECT
-public:
-	PVPlotWidget( double x1, double x2, double y1, double y2, 
-			QWidget *parent=0, const char *name=0 );
-	PVPlotWidget( QWidget *parent=0, const char *name=0 );
-	~PVPlotWidget();
-
-public slots:
-	void slotZoomIn();
-	void slotZoomOut();
-
-signals:
-	void doubleClicked( double, double );
-
-protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-	virtual void mousePressEvent( QMouseEvent *e );
-	virtual void mouseMoveEvent( QMouseEvent *e );
-	virtual void mouseReleaseEvent( QMouseEvent * );
-	virtual void mouseDoubleClickEvent( QMouseEvent *e );
-	virtual void wheelEvent( QWheelEvent *e );
-
-private:
-	bool mouseButtonDown;
-	int oldx, oldy;
-	PlanetViewer *pv;
 };
 
 #endif

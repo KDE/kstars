@@ -21,9 +21,7 @@
 #include <math.h> //log10()
 #include <iostream>
 
-#include <q3paintdevicemetrics.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <QPainter>
 #include <QPixmap>
 
 #include "skymap.h"
@@ -42,7 +40,6 @@
 #include "infoboxes.h"
 #include "simclock.h"
 #include "csegment.h"
-#include "customcatalog.h"
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indiproperty.h"
@@ -322,19 +319,17 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 	QPainter p;
-
 	p.begin( pd );
-	Q3PaintDeviceMetrics pdm( p.device() );
 
 	//scale image such that it fills 90% of the x or y dimension on the paint device
-	double xscale = double(pdm.width()) / double(width());
-	double yscale = double(pdm.height()) / double(height());
+	double xscale = double(p.device()->width()) / double(width());
+	double yscale = double(p.device()->height()) / double(height());
 	double scale = (xscale < yscale) ? xscale : yscale;
 
 	int pdWidth = int( scale * width() );
 	int pdHeight = int( scale * height() );
-	int x1 = int( 0.5*(pdm.width()  - pdWidth) );
-	int y1 = int( 0.5*(pdm.height()  - pdHeight) );
+	int x1 = int( 0.5*(p.device()->width()  - pdWidth) );
+	int y1 = int( 0.5*(p.device()->height()  - pdHeight) );
 
 	p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
 	p.setClipping( true );

@@ -24,8 +24,6 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skyobject.h"
-#include "skyobjectname.h"
-#include "objectnamelist.h"
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( parent );
@@ -118,7 +116,8 @@ void FindDialog::setListItemEnabled() {
 }
 
 void FindDialog::updateSelection (QListWidgetItem *it) {
-	currentitem = (SkyObjectNameListItem *) it;
+	KStars *p = (KStars *)parent();
+	currentitem = p->data()->skyComposite()->findByName( it->text() );
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 

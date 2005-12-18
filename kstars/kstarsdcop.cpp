@@ -34,6 +34,7 @@
 #include <klineedit.h>
 #include <knuminput.h> 
 
+#include "colorscheme.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -136,7 +137,7 @@ void KStars::setGeoLocation( QString city, QString province, QString country ) {
 	//Set the geographic location
 	bool cityFound( false );
 
-	for (GeoLocation *loc = data()->geoList.first(); loc; loc = data()->geoList.next()) {
+	foreach ( GeoLocation *loc, data()->geoList ) {
 		if ( loc->translatedName() == city &&
 					( province.isEmpty() || loc->translatedProvince() == province ) &&
 					loc->translatedCountry() == country ) {
@@ -360,7 +361,7 @@ void KStars::loadColorScheme( const QString _name ) {
 	//convert it to a filename exactly as ColorScheme::save() does
 	if ( ! ok ) {
 		if ( !filename.isEmpty() ) {
-			for( unsigned int i=0; i<filename.length(); ++i)
+			for( int i=0; i<filename.length(); ++i)
 				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 			
 			filename = filename.append( ".colors" );
@@ -371,9 +372,6 @@ void KStars::loadColorScheme( const QString _name ) {
 	}
 	
 	if ( ok ) {
-		map()->setStarColorMode( data()->colorScheme()->starColorMode() );
-		map()->setStarColorIntensity( data()->colorScheme()->starColorIntensity() );
-		
 		//set the application colors for the Night Vision scheme
 		if ( Options::darkAppColors() == false && filename == "night.colors" )  {
 			Options::setDarkAppColors( true );
@@ -423,7 +421,7 @@ void KStars::exportImage( const QString url, int w, int h ) {
 		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
 
 		map()->exportSkyImage( &skyimage );
-		kapp->processEvents(10000);
+		kapp->processEvents();
 
 		//skyImage is the size of the sky map.  The requested image size is w x h.
 		//If w x h is smaller than the skymap, then we simply crop the image.  
@@ -474,7 +472,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 		ok = printer.autoConfigure();
 	
 	if( ok ) {
-		kapp->setOverrideCursor( waitCursor );
+		kapp->setOverrideCursor( Qt::WaitCursor );
 
 		//Save current colorscheme and switch to Star Chart colors
 		//(if requested)
@@ -491,10 +489,6 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 		//(if printing was aborted, the colorscheme is still restored)
 		if ( useChartColors ) {
 			data()->colorScheme()->copy( cs );
-			
-			// restore colormode and colorintensity in skymap
-			map()->setStarColorMode( cs.starColorMode() );
-			map()->setStarColorIntensity( cs.starColorIntensity() );
 			map()->forceUpdate();
 		}
 		

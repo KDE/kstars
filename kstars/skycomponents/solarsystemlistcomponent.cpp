@@ -89,6 +89,16 @@ bool SolarSystemListComponent::removeTrail( SkyObject *oTarget ) {
 	return false;
 }
 
+void SolarSystemListComponent::clearTrailsExcept( SkyObject *exOb ) {
+	foreach( SkyObject *o, m_TrailList ) {
+		if ( o != exOb ) {
+			((KSPlanetBase*)o)->clearTrail();
+			if ( m_TrailList.indexOf( o ) >= 0 )
+				m_TrailList.removeAt( m_TrailList.indexOf( o ) );
+		}
+	}
+}
+
 void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
 	if ( ! visible() ) return;
 

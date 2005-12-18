@@ -89,7 +89,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 				{
 					QChar c = curStar->color();
 					QPixmap *spixmap = starpix->getPixmap( &c, int(size) );
-					curStar->draw( psky, spixmap, o.x(), o.y(), true, true, scale );
+					curStar->draw( psky, spixmap, o.x(), o.y(), true, scale );
 
 					// now that we have drawn the star, we can display some extra info
 					//don't label unnamed stars with the generic "star" name

@@ -85,6 +85,12 @@ bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
 	return false;
 }
 
+void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
+	if ( exOb != skyObject() ) {
+		ksp()->clearTrail();
+	}
+}
+
 void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	if ( !visible() ) return;
 

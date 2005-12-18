@@ -116,6 +116,12 @@ bool SkyMapComposite::removeTrail( SkyObject *o ) {
 	return false;
 }
 
+void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
+	foreach ( SkyComponent *comp, solarSystem() ) {
+		comp->clearTrailsExcept( exOb );
+	}
+}
+
 void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
 	m_StarComponent->setFaintMagnitude( newMag );
 }

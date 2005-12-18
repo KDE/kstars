@@ -44,7 +44,6 @@
 #include "indi/lilxml.h"
 #include "indistd.h"
 #include "detaildialog.h"
-#include "customcatalog.h"
 
 //Initialize static members
 QList<GeoLocation*> KStarsData::geoList = QList<GeoLocation*>();

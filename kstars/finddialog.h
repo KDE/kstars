@@ -26,17 +26,7 @@
 #include <kdialogbase.h>
 
 #include "finddialogui.h"
-
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QLabel;
-class QLineEdit;
-class QComboBox;
-class Q3ListBox;
-class Q3ListBoxItem;
-//class QStringList;
-class SkyObjectNameListItem;
+#include "skyobject.h"
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
 	Q_OBJECT
@@ -68,7 +58,7 @@ public:
 
 /**@return the currently-selected item from the listbox of named objects
 	*/
-	SkyObjectNameListItem * currentItem() const { return currentitem; }
+	SkyObject* currentItem() const { return currentitem; }
 
 public slots:
 /**When Text is entered in the QLineEdit, filter the List of objects
@@ -113,8 +103,8 @@ private:
 	*/
 	void setListItemEnabled();
 	
-	FindDialogUI *ui;
-	SkyObjectNameListItem *currentitem;
+	FindDialogUI* ui;
+	SkyObject* currentitem;
 	
 	int Filter;
 };

@@ -17,10 +17,9 @@
 #ifndef JMOONTOOL_H
 #define JMOONTOOL_H
 
-#include <kdialogbase.h>
-#include "kstarsplotwidget.h"
-//Added by qt3to4:
 #include <QKeyEvent>
+#include <kdialogbase.h>
+#include "widgets/kstarsplotwidget.h"
 
 class KStars;
 

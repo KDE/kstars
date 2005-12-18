@@ -56,7 +56,6 @@
 #include "ksasteroid.h"
 #include "kscomet.h"
 #include "starobject.h"
-#include "customcatalog.h"
 
 SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),

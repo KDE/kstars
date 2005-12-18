@@ -27,7 +27,6 @@
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
-#include "planetcatalog.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
 #include "tools/lcgenerator.h"

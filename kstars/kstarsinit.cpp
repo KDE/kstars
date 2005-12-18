@@ -43,7 +43,7 @@
 #include "toggleaction.h"
 #include "indimenu.h"
 #include "simclock.h"
-#include "timestepbox.h"
+#include "widgets/timestepbox.h"
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h
@@ -109,7 +109,7 @@ void KStars::initActions() {
 	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KShortcut( "Ctrl+Shift+Z" ),
 		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
-			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
+			Qt::Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 
 
@@ -178,7 +178,7 @@ void KStars::initActions() {
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			line = stream.readLine();
 			schemeName = line.left( line.find( ':' ) );
 			//I call it filename here, but it's used as the name of the action!
@@ -322,7 +322,7 @@ void KStars::initFOV() {
 	//just populate the FOV menu with items, don't need to fully parse the lines
 	if ( f.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &f );
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QString line = stream.readLine();
 			fields = QStringList::split( ":", line );
 
@@ -345,19 +345,19 @@ void KStars::initFOV() {
 
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
-	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
+	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 
 	if ( Options::showAltAzField() ) {
 		statusBar()->insertFixedItem( s, 1, true );
-		statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
+		statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( "", 1 );
 	}
 
 	if ( Options::showRADecField() ) {
 		statusBar()->insertFixedItem( s, 2, true );
-		statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
+		statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( "", 2 );
 	}
 
@@ -412,7 +412,6 @@ void KStars::datainitFinished(bool worked) {
 	//Define the celestial equator, horizon and ecliptic
 	//(must come after date has been set)
 	KSNumbers tempnum(data()->ut().djd());
-	data()->initGuides(&tempnum);
 
 	//show the window.  must be before kswizard and messageboxes
 	show();

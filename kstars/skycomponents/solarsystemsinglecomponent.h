@@ -96,6 +96,7 @@ class SolarSystemSingleComponent : public SingleComponent
 		*/
 		virtual bool hasTrail( SkyObject *o, bool *found=0 );
 		virtual bool removeTrail( SkyObject *o );
+		virtual void clearTrailsExcept( SkyObject *exOb );
 
 	private:
 

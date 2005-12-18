@@ -10,7 +10,7 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 			argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argtimescale.ui \
 			argwaitforkey.ui argwaitfor.ui argzoom.ui argexportimage.ui argprintimage.ui \
 			argsetcolor.ui argloadcolorscheme.ui scriptbuilder.cpp scriptfunction.cpp \
-			planetviewerui.ui planetviewer.cpp jmoontool.cpp \
+			planetviewerui.ui planetviewer.cpp pvplotwidget.cpp jmoontool.cpp \
 			modcalcequinoxdlg.ui modcalcequinox.cpp modcalcplanetsdlg.ui modcalcplanets.cpp \
 			modcalceclipticcoordsdlg.ui modcalceclipticcoords.cpp modcalcangdistdlg.ui modcalcangdist.cpp \
 			observinglist.cpp observinglistui.ui argstartindi.ui argshutdownindi.ui argswitchindi.ui \

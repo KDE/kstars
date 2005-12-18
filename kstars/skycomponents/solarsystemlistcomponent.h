@@ -56,6 +56,7 @@ class SolarSystemListComponent : public ListComponent
 		virtual bool addTrail( SkyObject *o );
 		virtual bool hasTrail( SkyObject *o, bool *found=0 );
 		virtual bool removeTrail( SkyObject *o );
+		virtual void clearTrailsExcept( SkyObject *exOb );
 		
 	protected:
 		KSPlanet* earth() { return m_Earth; }
