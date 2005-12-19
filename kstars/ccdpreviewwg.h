@@ -13,28 +13,32 @@
  #ifndef CCDPREVIEWWG_H
  #define CCDPREVIEWWG_H
  
- #include <qpixmap.h>
-//Added by qt3to4:
+#include <qpixmap.h>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
- #include <kpixmapio.h>
+#include <kpixmapio.h>
   
- #include "ccdpreviewui.h"
- #include "q3frame.h"
+#include "ccdpreviewui.h"
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
 
- class QImage;
- class QSocketNotifier;
- class CCDVideoWG;
- class INDIStdDevice;
- class QPainter;
- class QVBoxLayout;
- 
- class CCDPreviewWG : public CCDPreviewForm
- {
+class QImage;
+class QSocketNotifier;
+class CCDVideoWG;
+class INDIStdDevice;
+class QPainter;
+class QVBoxLayout;
+
+class CCDPreviewWGUI : public QFrame, public Ui::CCDPreviewForm {
+	Q_OBJECT
+	public:
+		CCDPreviewWGUI( QWidget *parent=0 );
+};
+
+class CCDPreviewWG : public QWidget
+{
    Q_OBJECT
    
     public:
@@ -58,6 +62,7 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
    INDIStdDevice        *stdDev;
    QPixmap               playPix, pausePix, capturePix;
    QVBoxLayout           *videoFrameLayout;
+   CCDPreviewWGUI	 *ui;
    double fwhm;
    int mu;
    

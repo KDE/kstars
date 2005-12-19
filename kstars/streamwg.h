@@ -31,7 +31,15 @@
  class QPainter;
  class QVBoxLayout;
  
- class StreamWG : public streamForm
+ class StreamWGUI : public QFrame, public Ui::streamForm
+ {
+   Q_OBJECT
+   
+   public:
+     StreamWGUI(QWidget *parent=0);
+ };
+
+ class StreamWG : public QWidget
  {
    Q_OBJECT
    
@@ -53,8 +61,9 @@
       
    private:
    INDIStdDevice        *stdDev;
-   QPixmap               playPix, pausePix, capturePix;
-   QVBoxLayout           *videoFrameLayout;
+   QPixmap              playPix, pausePix, capturePix;
+   QVBoxLayout          *videoFrameLayout;
+   StreamWGUI		*ui;
    
    protected:
    void closeEvent ( QCloseEvent * e );

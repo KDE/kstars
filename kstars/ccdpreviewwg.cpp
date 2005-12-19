@@ -40,6 +40,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
+#include <QImageWriter>
 
 
 #include <stdlib.h>
@@ -54,39 +55,44 @@
 
 FILE *CCDwfp;
 
- CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : CCDPreviewForm(parent, name)
+ CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
  {
  
+   ui = new CCDPreviewWGUI(this);
+
    stdDev         = inStdDev;
 
    fwhm 	  = -1;
    mu		  = -1;
    streamWidth    = streamHeight = -1;
    processStream  = colorFrame = false;
-   streamFrame      = new CCDVideoWG(videoFrame);
+   streamFrame      = new CCDVideoWG(ui->videoFrame);
    streamFrame->bytesPerPixel= 1;
    streamFrame->PixelOrder= 1;	 
-   gammaChanged(gammaBar->value());
-   brightnessChanged(brightnessBar->value());
-   contrastChanged(contrastBar->value());    
+   gammaChanged(ui->gammaBar->value());
+   brightnessChanged(ui->brightnessBar->value());
+   contrastChanged(ui->contrastBar->value());    
 	 
   KIconLoader *icons = KGlobal::iconLoader();
   
+  
+
   playPix    = icons->loadIcon( "player_play", KIcon::Toolbar );
   pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
   
-  playB->setPixmap(pausePix);	
-  captureB->setPixmap(capturePix);
+  ui->playB->setPixmap(pausePix);	
+  ui->captureB->setPixmap(capturePix);
   
-  imgFormatCombo->insertStrList(QImage::outputFormats());
+  foreach (QByteArray format, QImageWriter::supportedImageFormats())
+     ui->imgFormatCombo->addItem(QString(format));
   
-  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
-  connect(brightnessBar, SIGNAL(valueChanged(int)), this, SLOT(brightnessChanged(int)));
-  connect(contrastBar, SIGNAL(valueChanged(int)), this, SLOT(contrastChanged(int)));
-  connect(gammaBar, SIGNAL(valueChanged(int)), this, SLOT(gammaChanged(int)));
-  connect(focalEdit, SIGNAL(returnPressed()), this, SLOT(updateFWHM()));
+  connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
+  connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+  connect(ui->brightnessBar, SIGNAL(vsalueChanged(int)), this, SLOT(brightnessChanged(int)));
+  connect(ui->contrastBar, SIGNAL(valueChanged(int)), this, SLOT(contrastChanged(int)));
+  connect(ui->gammaBar, SIGNAL(valueChanged(int)), this, SLOT(gammaChanged(int)));
+  connect(ui->focalEdit, SIGNAL(returnPressed()), this, SLOT(updateFWHM()));
  }
  
 CCDPreviewWG::~CCDPreviewWG()
@@ -146,7 +152,7 @@ void CCDPreviewWG::enableStream(bool enable)
   else
   {
     processStream = false;
-    playB->setPixmap(pausePix);
+    ui->playB->setPixmap(pausePix);
     hide();
   }
   
@@ -173,8 +179,8 @@ void CCDPreviewWG::setCtrl(int wd, int ht,int po, int bpp,unsigned long mgd)
   for (i=0;i<streamFrame->totalBaseCount;i++) {
     streamFrame->streamBuffer[i]=0;
   }
-  resize(wd + layout()->margin() * 2 , ht + playB->height() + brightnessLabel->height()
-      + contrastLabel->height() + gammaLabel->height() + focalEdit->height() + FWHMLabel->height() + layout()->margin() * 2 + layout()->spacing()*6);  
+  resize(wd + layout()->margin() * 2 , ht + ui->playB->height() + ui->brightnessLabel->height()
+      + ui->contrastLabel->height() + ui->gammaLabel->height() + ui->focalEdit->height() + ui->FWHMLabel->height() + layout()->margin() * 2 + layout()->spacing()*6);  
   streamFrame->resize(wd, ht);
 }
 
@@ -192,24 +198,24 @@ void CCDPreviewWG::updateFWHM()
 {
   double focal_length(-1), fwhm_arcsec;
 
-  focal_length = focalEdit->text().toDouble();
+  focal_length = ui->focalEdit->text().toDouble();
 
   if (focal_length <= 0 || fwhm <= 0 || mu <= 0)
   {
-    FWHMLabel->setText("--");
+    ui->FWHMLabel->setText("--");
     return;
   }
 
   fwhm_arcsec = (206.26 / focal_length) * fwhm * mu;
 
-  FWHMLabel->setText(QString("%1").arg(fwhm_arcsec, 0, 'g', 3));
+  ui->FWHMLabel->setText(QString("%1").arg(fwhm_arcsec, 0, 'g', 3));
   
 }
 
 
 void CCDPreviewWG::resizeEvent(QResizeEvent *ev)
 {
-  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
 }
  
 void CCDPreviewWG::playPressed()
@@ -217,12 +223,12 @@ void CCDPreviewWG::playPressed()
 
  if (processStream)
  {
-  playB->setPixmap(playPix);	
+  ui->playB->setPixmap(playPix);	
   processStream = false;
  }
  else
  {
-  playB->setPixmap(pausePix);	
+  ui->playB->setPixmap(pausePix);	
   processStream = true;
  }
  
@@ -237,7 +243,7 @@ void CCDPreviewWG::captureImage()
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
-  fmt = imgFormatCombo->currentText();
+  fmt = ui->imgFormatCombo->currentText();
 
   currentFileURL = KFileDialog::getSaveURL( currentDir, fmt );
   
@@ -400,7 +406,7 @@ void CCDVideoWG::paintEvent(QPaintEvent */*ev*/)
    {
 	if (streamImage->isNull()) return;
   	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	qPix = kPixIO.convertToPixmap(streamImage->scale(width(), height()));
+	qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }

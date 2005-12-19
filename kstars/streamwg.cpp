@@ -35,7 +35,8 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-
+#include <QByteArray>
+#include <QImageWriter>
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -45,17 +46,14 @@
 
 FILE *wfp;
 
- StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : streamForm(parent, name)
+ StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
  {
  
+   ui		  = new StreamWGUI(this);
    stdDev         = inStdDev;
-//   streamBuffer   = NULL;
    streamWidth    = streamHeight = -1;
-//   streamFD       = -1;
    processStream  = colorFrame = false;
-   
-   //videoFrameLayout = new QVBoxLayout(videoFrame, 0, 0); 
-   streamFrame      = new VideoWG(videoFrame);
+   streamFrame      = new VideoWG(ui->videoFrame);
       
   KIconLoader *icons = KGlobal::iconLoader();
   
@@ -63,13 +61,14 @@ FILE *wfp;
   pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
   
-  playB->setPixmap(pausePix);	
-  captureB->setPixmap(capturePix);
+  ui->playB->setPixmap(pausePix);	
+  ui->captureB->setPixmap(capturePix);
   
-  imgFormatCombo->insertStrList(QImage::outputFormats());
+  foreach (QByteArray format, QImageWriter::supportedImageFormats())
+     ui->imgFormatCombo->addItem(QString(format));
   
-  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+  connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
+  connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
    
  }
  
@@ -90,36 +89,6 @@ void StreamWG::setColorFrame(bool color)
   colorFrame = color;
 }
 
-/*void StreamWG::establishDataChannel(QString host, int port)
-{
-        QString errMsg;
-	struct sockaddr_in pin;
-	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
-	
-	memset(&pin, 0, sizeof(pin));
-	pin.sin_family 		= AF_INET;
-	pin.sin_addr.s_addr 	= ((struct in_addr *) (serverHostName->h_addr))->s_addr;
-	pin.sin_port 		= htons(port);
-
-	if ( (streamFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-	{
-	 KMessageBox::error(0, i18n("Cannot create socket."));
-	 return;
-	}
-
-	if ( ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
-	{
-	  KMessageBox::error(0, errMsg);
-	  streamFD = -1;
-	  return;
-	}
-
-	// callback notified
-	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
-        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
-}*/
-
 void StreamWG::enableStream(bool enable)
 {
   if (enable)
@@ -130,7 +99,7 @@ void StreamWG::enableStream(bool enable)
   else
   {
     processStream = false;
-    playB->setPixmap(pausePix);
+    ui->playB->setPixmap(pausePix);
     hide();
   }
   
@@ -138,82 +107,34 @@ void StreamWG::enableStream(bool enable)
 
 void StreamWG::setSize(int wd, int ht)
 {
+   //FIXME This should be performed with respect to ui, i.e. ui->setSize(...)
   streamWidth  = wd;
   streamHeight = ht;
   
   streamFrame->totalBaseCount = wd * ht;
   
-  resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 2 + layout()->spacing());  
+  resize(wd + layout()->margin() * 2 , ht + ui->playB->height() + layout()->margin() * 2 + layout()->spacing());  
   streamFrame->resize(wd, ht);
 }
 
 void StreamWG::resizeEvent(QResizeEvent *ev)
 {
-
-  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
+  //FIXME This should be performed with respect to ui
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
 
 }
- /*
-void StreamWG::allocateStreamBuffer()
-{
-  if (streamWidth < 0 || streamHeight < 0) return;
-  
-  fprintf(stderr, "In allocate stream buffer \n");
-  
-  delete (streamBuffer);
-  
-  if (colorFrame)
-    frameTotalBytes = streamWidth * streamHeight * 4;
-  else
-    frameTotalBytes = streamWidth * streamHeight;
-  
-   streamBuffer = new unsigned char[frameTotalBytes];
-   
-   fprintf(stderr, "We have a %s frame. width: %d -- height: %d -- totalBytes: %d\n", colorFrame ? "color" : "grey", streamWidth, streamHeight, frameTotalBytes);
-  
-}
-
-void StreamWG::streamReceived()
-{
-
-	char msg[1024];
-	int nr=0, n=0;
-	
-	for (nr = 0; nr < frameTotalBytes; nr+=n)
-	{
-           n = read (streamFD, streamBuffer + nr, frameTotalBytes - nr);
-	   if (n <= 0)
-	   {
-	    	if (n < 0)
-			sprintf (msg, "INDI: input error.");
-	    	else
-			sprintf (msg, "INDI: agent closed connection.");
-
-	    stdDev->sNotifier->disconnect();
-	    close(stdDev->streamFD);
-	    KMessageBox::error(0, QString(msg));
-            return;
-	   }
-	}
-	
-	if (!processStream)
-	  return;
-	
-	streamFrame->newFrame(streamBuffer, streamWidth, streamHeight, colorFrame);
-
-}*/
 
 void StreamWG::playPressed()
 {
 
  if (processStream)
  {
-  playB->setPixmap(playPix);	
+  ui->playB->setPixmap(playPix);	
   processStream = false;
  }
  else
  {
-  playB->setPixmap(pausePix);	
+  ui->playB->setPixmap(pausePix);	
   processStream = true;
  }
  
@@ -228,7 +149,7 @@ void StreamWG::captureImage()
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
-  fmt = imgFormatCombo->currentText();
+  fmt = ui->imgFormatCombo->currentText();
 
   currentFileURL = KFileDialog::getSaveURL( currentDir, fmt );
   
@@ -310,7 +231,7 @@ void VideoWG::paintEvent(QPaintEvent */*ev*/)
    {
 	if (streamImage->isNull()) return;
   	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	qPix = kPixIO.convertToPixmap(streamImage->scale(width(), height()));
+	qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }

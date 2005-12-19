@@ -21,12 +21,19 @@
  
  #include <kdialogbase.h>
  #include <klocale.h>
+ #include "contrastbrightnessgui.h"
  
  class ConBriForm;
  class FITSViewer;
  class QImage;
 
-  
+class ConBriUI : public QFrame, public Ui::ConBriForm
+{
+  Q_OBJECT
+   public:
+	ConBriUI(QWidget *parent=0);
+};
+ 
 class ContrastBrightnessDlg : public KDialogBase {
 	Q_OBJECT
  public:
@@ -47,7 +54,7 @@ class ContrastBrightnessDlg : public KDialogBase {
   int height;
   int width;
   FITSViewer *viewer;
-  ConBriForm *ConBriDlg;
+  ConBriUI *ConBriDlg;
   //unsigned char *localImgBuffer;
   
   QImage *displayImage;

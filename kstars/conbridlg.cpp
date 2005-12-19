@@ -27,7 +27,7 @@
  
  #include <stdlib.h>
  
- #include "contrastbrightnessgui.h"
+ 
  #include "conbridlg.h"
  #include "fitsviewer.h"
  #include "fitsimage.h"
@@ -53,7 +53,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   offs = - (viewer->stats.min * datadiff / pixdiff);
   scale = datadiff / pixdiff;
   
-  ConBriDlg = new ConBriForm(this);
+  ConBriDlg = new ConBriUI(this);
   if (!ConBriDlg) return;
   
   localImgBuffer = (float *) malloc (width * height * sizeof(float));

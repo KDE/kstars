@@ -666,13 +666,13 @@ bool INDIStdDevice::handleNonSidereal()
   // If the device support it
   if (prop && setMode)
   {
-    for (unsigned int i=0; i < setMode->el.count(); i++)
+    for (int i=0; i < setMode->el.count(); i++)
       if (setMode->el.at(i)->name == "TRACK")
       { trackIndex = i; break; }
 
     kdDebug() << "Device supports SOLAR_SYSTEM property" << endl;
 
-    for (unsigned int i=0; i < prop->el.count(); i++)
+    for (int i=0; i < prop->el.count(); i++)
      if (currentObject->name().lower() == prop->el.at(i)->label.lower())
      {
        prop->newSwitch(i);
