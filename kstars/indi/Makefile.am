@@ -16,7 +16,7 @@ libindicom_a_SOURCES = indicom.c fitsrw.c base64.c
 noinst_LIBRARIES =  liblilxml.a libindicom.a
 
 indiserver_SOURCES = indiserver.c fq.c
-indiserver_LDADD = liblilxml.a -lpthread $(LIBSOCKET)
+indiserver_LDADD = liblilxml.a ${LIBPTHREAD} ${USE_THREADS} $(LIBSOCKET)
 
 lx200generic_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c lx200autostar.cpp lx200_16.cpp lx200gps.cpp lx200generic.cpp lx200classic.cpp
 lx200generic_LDADD = liblilxml.a libindicom.a -lm
