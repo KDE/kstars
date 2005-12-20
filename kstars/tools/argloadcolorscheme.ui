@@ -1,27 +1,40 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>ArgLoadColorScheme</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ArgLoadColorScheme</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>329</width>
-            <height>180</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="KListBox">
-            <property name="name">
-                <cstring>SchemeList</cstring>
-            </property>
-        </widget>
-    </vbox>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ArgLoadColorScheme</class>
+ <widget class="QWidget" name="ArgLoadColorScheme" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>329</width>
+    <height>180</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="KListBox" name="SchemeList" />
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,141 +1,156 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>ArgChangeViewOption</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ArgChangeViewOption</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>260</width>
-            <height>171</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout2</cstring>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KComboBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>OptionName</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>List of adjustable options</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Select an option from this list to set its value.  You may also select the option using an organized Tree List using the "Browse Tree" button.</string>
-                    </property>
-                </widget>
-                <spacer row="1" column="0">
-                    <property name="name">
-                        <cstring>spacer23</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>50</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel" row="3" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Value:</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>TreeButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Browse Tree</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Show Tree View of options</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Press this button to select a View Option from a Tree list, in which they are grouped by subject.  Also shown are a short description of each option, and the data type of the option's value (string, integer, float or boolean).</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="3" column="1">
-                    <property name="name">
-                        <cstring>OptionValue</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>value for selected option</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Set the value for the selected view option here.  Make sure the value you enter matches the data type expected by the option.  For example, the "UseAltAz" option expects a boolean value, so you should enter "true", "false", "1", or "0".  If you are unsure what data type is expected, examine the Tree View of options using the "Browse Tree" button.</string>
-                    </property>
-                </widget>
-                <spacer row="2" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>spacer3</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>160</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Option:</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer24</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ArgChangeViewOption</class>
+ <widget class="QWidget" name="ArgChangeViewOption" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>171</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="1" >
+      <widget class="KComboBox" name="OptionName" >
+       <property name="toolTip" >
+        <string>List of adjustable options</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Select an option from this list to set its value.  You may also select the option using an organized Tree List using the &quot;Browse Tree&quot; button.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>50</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="3" column="0" >
+      <widget class="QLabel" name="textLabel1_2" >
+       <property name="text" >
+        <string>Value:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="KPushButton" name="TreeButton" >
+       <property name="toolTip" >
+        <string>Show Tree View of options</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Press this button to select a View Option from a Tree list, in which they are grouped by subject.  Also shown are a short description of each option, and the data type of the option's value (string, integer, float or boolean).</string>
+       </property>
+       <property name="text" >
+        <string>Browse Tree</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <widget class="KLineEdit" name="OptionValue" >
+       <property name="toolTip" >
+        <string>value for selected option</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Set the value for the selected view option here.  Make sure the value you enter matches the data type expected by the option.  For example, the &quot;UseAltAz&quot; option expects a boolean value, so you should enter &quot;true&quot;, &quot;false&quot;, &quot;1&quot;, or &quot;0&quot;.  If you are unsure what data type is expected, examine the Tree View of options using the &quot;Browse Tree&quot; button.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="2" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>160</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="textLabel1" >
+       <property name="text" >
+        <string>Option:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends></extends>
+   <header>kcombobox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

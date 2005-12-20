@@ -1,93 +1,103 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>ArgSetFocusSpeedINDI</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ArgSetFocusSpeedINDI</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>223</width>
-            <height>101</height>
-        </rect>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <spacer row="2" column="1">
-            <property name="name">
-                <cstring>spacer4</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>9</height>
-                </size>
-            </property>
-        </spacer>
-        <spacer row="0" column="2" rowspan="2" colspan="1">
-            <property name="name">
-                <cstring>spacer24</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>45</width>
-                    <height>21</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="KLineEdit" row="0" column="1">
-            <property name="name">
-                <cstring>deviceName</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Device:</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>Speed:</string>
-            </property>
-        </widget>
-        <widget class="KIntNumInput" row="1" column="1">
-            <property name="name">
-                <cstring>speedIN</cstring>
-            </property>
-            <property name="minValue">
-                <number>0</number>
-            </property>
-            <property name="maxValue">
-                <number>3</number>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ArgSetFocusSpeedINDI</class>
+ <widget class="QWidget" name="ArgSetFocusSpeedINDI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>223</width>
+    <height>101</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="2" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>9</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item rowspan="2" row="0" column="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>45</width>
+       <height>21</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1" >
+    <widget class="KLineEdit" name="deviceName" />
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="textLabel1" >
+     <property name="text" >
+      <string>Device:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="textLabel1_2" >
+     <property name="text" >
+      <string>Speed:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="KIntNumInput" name="speedIN" >
+     <property name="minValue" >
+      <number>0</number>
+     </property>
+     <property name="maxValue" >
+      <number>3</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KIntNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

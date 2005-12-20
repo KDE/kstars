@@ -1,92 +1,98 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>ArgWaitForKey</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ArgWaitForKey</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>288</width>
-            <height>124</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout18</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Key:</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit">
-                    <property name="name">
-                        <cstring>WaitKeyEdit</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Wait for this key to be pressed</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>The script execution will pause until the user presses the key specified here.  
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ArgWaitForKey</class>
+ <widget class="QWidget" name="ArgWaitForKey" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>288</width>
+    <height>124</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="textLabel1" >
+       <property name="text" >
+        <string>Key:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="WaitKeyEdit" >
+       <property name="toolTip" >
+        <string>Wait for this key to be pressed</string>
+       </property>
+       <property name="whatsThis" >
+        <string>The script execution will pause until the user presses the key specified here.  
 
-Only simple keys can currently be used; you cannot use modifier keys such as Ctrl or Shift.  Type "space" to specify the spacebar, otherwise use the key itself.</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer11</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>40</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer12</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>40</height>
-                </size>
-            </property>
-        </spacer>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-</includehints>
-</UI>
+Only simple keys can currently be used; you cannot use modifier keys such as Ctrl or Shift.  Type &quot;space&quot; to specify the spacebar, otherwise use the key itself.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

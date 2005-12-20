@@ -1,162 +1,173 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>ArgLookToward</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>ArgLookToward</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>311</width>
-            <height>69</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>ArgLookToward</class>
+ <widget class="QWidget" name="ArgLookToward" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>311</width>
+    <height>69</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>10</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="textLabel1" >
+       <property name="text" >
+        <string>Dir:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="FocusEdit" >
+       <property name="toolTip" >
+        <string>Target object or direction</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Select a direction or object to center on.  The combo box provides a list of known directions including cardinal compass points on the horizon, as well as the Zenith.  You may also enter the name of a known object here, or select an object from the list of known objects by pressing the &quot;Object&quot; button.</string>
+       </property>
+       <property name="editable" >
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text" >
+         <string/>
         </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout12</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Dir:</string>
-                    </property>
-                </widget>
-                <widget class="QComboBox">
-                    <item>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>north</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>northeast</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>east</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>southeast</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>south</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>southwest</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>west</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>northwest</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>zenith</string>
-                        </property>
-                    </item>
-                    <property name="name">
-                        <cstring>FocusEdit</cstring>
-                    </property>
-                    <property name="editable">
-                        <bool>true</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Target object or direction</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Select a direction or object to center on.  The combo box provides a list of known directions including cardinal compass points on the horizon, as well as the Zenith.  You may also enter the name of a known object here, or select an object from the list of known objects by pressing the "Object" button.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>FindButton</cstring>
-                    </property>
-                    <property name="font">
-                        <font>
-                            <pointsize>9</pointsize>
-                        </font>
-                    </property>
-                    <property name="text">
-                        <string>Object</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Select object from a list</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the "dir" box at left.</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer3</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>40</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer4</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>40</height>
-                </size>
-            </property>
-        </spacer>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
-</UI>
+       </item>
+       <item>
+        <property name="text" >
+         <string>north</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>northeast</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>east</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>southeast</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>south</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>southwest</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>west</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>northwest</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>zenith</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="FindButton" >
+       <property name="font" >
+        <font>
+         <family></family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="toolTip" >
+        <string>Select object from a list</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the &quot;dir&quot; box at left.</string>
+       </property>
+       <property name="text" >
+        <string>Object</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
