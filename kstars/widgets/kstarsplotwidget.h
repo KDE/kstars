@@ -62,9 +62,9 @@ public:
 	void checkLimits();
 
 	double xb() const { return DataRect2.x(); }
-	double xb2() const { return DataRect2.x2(); }
+	double xb2() const { return DataRect2.x() + DataRect2.width(); }
 	double yb() const { return DataRect2.y(); }
-	double yb2() const { return DataRect2.y2(); }
+	double yb2() const { return DataRect2.y() + DataRect2.height(); }
 	double dataWidth2() const { return DataRect2.width(); }
 	double dataHeight2() const { return DataRect2.height(); }
 
@@ -122,7 +122,7 @@ protected:
 	int nmajX2, nminX2, nmajY2, nminY2;
 	AXIS_TYPE XAxisType, YAxisType, XAxisType_0, YAxisType_0;
 	double XScaleFactor, YScaleFactor;
-	DRect DataRect2;
+	QRectF DataRect2;
 
 	QString XAxisLabel2, YAxisLabel2;
 };

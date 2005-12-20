@@ -47,7 +47,7 @@ void KStarsPlotWidget::setLimits( double x1, double x2, double y1, double y2 ) {
 	if ( y2<y1) { Y1=y2; Y2=y1; }
 	else { Y1=y1; Y2=y2; }
 
-	DataRect = DRect( X1, Y1, X2 - X1, Y2 - Y1 );
+	DataRect = QRectF( X1, Y1, X2 - X1, Y2 - Y1 );
 	checkLimits();
 
 	updateTickmarks();
@@ -60,7 +60,7 @@ void KStarsPlotWidget::setSecondaryLimits( double x1, double x2, double y1, doub
 	if ( y2<y1) { YB1=y2; YB2=y1; }
 	else { YB1=y1; YB2=y2; }
 
-	DataRect2 = DRect( XB1, YB1, XB2 - XB1, YB2 - YB1 );
+	DataRect2 = QRectF( XB1, YB1, XB2 - XB1, YB2 - YB1 );
 	updateTickmarks();
 }
 
@@ -71,10 +71,10 @@ void KStarsPlotWidget::checkLimits() {
 	for ( unsigned int i=0; i<2; ++i ) {
 		if ( i==0 ) {
 			type = xAxisType0();
-			Range = DataRect.x2() - DataRect.x();
+			Range = DataRect.width();
 		} else {
 			type = yAxisType0();
-			Range = DataRect.y2() - DataRect.y();
+			Range = DataRect.height();
 		}
 
 		//we switch from TIME type to DOUBLE type if :
