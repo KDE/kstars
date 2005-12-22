@@ -7,4 +7,7 @@ libkstarswidgets_a_SOURCES = clicklabel.cpp ../dms.cpp dmsbox.cpp \
 
 INCLUDES = -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 
+#Dependencies on uic-generated headers
+mapcanvas.o: ../locationdialogui.h
+
 METASOURCES = AUTO

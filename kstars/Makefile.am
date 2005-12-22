@@ -1,5 +1,15 @@
 bin_PROGRAMS = kstars
 
+kstars_ui = addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui \
+		details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui \
+		devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui \
+		fovdialogui.ui newfovui.ui locationdialogui.ui \
+		histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
+		kswizardui.ui wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
+		opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
+		statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
+		thumbnailpickerui.ui thumbnaileditorui.ui \
+
 kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp \
 			dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp \
@@ -17,16 +27,7 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
 			timebox.cpp timedialog.cpp timezonerule.cpp \
 			toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp \
-			addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui \
-			details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui \
-			devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui \
-			fovdialogui.ui newfovui.ui locationdialogui.ui \
-			histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
-			kswizardui.ui wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
-			opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
-			statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
-			thumbnailpickerui.ui thumbnaileditorui.ui \
-			Options.kcfgc kstarsinterface.skel simclockinterface.skel 
+			Options.kcfgc kstarsinterface.skel simclockinterface.skel $(kstars_ui)
 
 kde_kcfg_DATA = kstars.kcfg
 kde_conf_DATA = kstarsrc
@@ -37,7 +38,7 @@ SUBDIRS = skycomponents widgets indi tools . data icons
 
 KDE_ICON=AUTO
 
-kstars_COMPILE_FIRST = Options.kcfgc
+kstars_COMPILE_FIRST = Options.kcfgc $(kstars_ui)
 
 EXTRA_DIST = kstars.desktop kstarsui.rc fitsviewer.rc
 
