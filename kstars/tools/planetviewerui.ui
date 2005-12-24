@@ -8,16 +8,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>560</height>
+    <width>512</width>
+    <height>475</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Planet Viewer</string>
+   <string>Form</string>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -62,7 +62,7 @@
       </widget>
      </item>
      <item>
-      <widget class="TimeStepBox" name="timeStep" />
+      <widget class="TimeStepBox" name="TimeStep" />
      </item>
      <item>
       <spacer>
@@ -74,14 +74,14 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>111</width>
+         <width>140</width>
          <height>34</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="ExtDateEdit" name="dateBox" />
+      <widget class="ExtDateEdit" name="DateBox" />
      </item>
      <item>
       <widget class="KPushButton" name="TodayButton" >
@@ -94,13 +94,12 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>PVPlotWidget</class>
-   <extends>QFrame</extends>
-   <header>pvplotwidget.h</header>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
+   <header>libkdeedu/extdate/extdateedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -112,16 +111,16 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>TimeStepBox</class>
-   <extends>QSpinBox</extends>
-   <header>widgets/timestepbox.h</header>
+   <class>PVPlotWidget</class>
+   <extends>QFrame</extends>
+   <header>pvplotwidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <class>TimeStepBox</class>
+   <extends>QSpinBox</extends>
+   <header>widgets/timestepbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
