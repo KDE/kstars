@@ -24,21 +24,30 @@
  
  #include "imagereductiondlg.h"
  
- ImageReductionDlg::ImageReductionDlg(QWidget * parent, const char * name) : imageReductionUI(parent, name)
+ ImageReductionUI::ImageReductionUI(QDialog *parent) : QDialog(parent)
+ {
+   setupUi(parent);
+   
+   darkListView->setSorting(-1);
+   flatListView->setSorting(-1);
+   darkflatListView->setSorting(-1);
+ }
+ 
+ ImageReductionDlg::ImageReductionDlg(QWidget * parent, const char * name) : QDialog(parent, name)
 {
-  connect(darkAddB, SIGNAL(clicked()), this, SLOT(addDarkFile()));
-  connect(flatAddB, SIGNAL(clicked()), this, SLOT(addFlatFile()));
-  connect(darkRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFile()));
-  connect(flatRemoveB, SIGNAL(clicked()), this, SLOT(removeFlatFile()));
-  connect(darkDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFile()));
-  connect(flatDetailsB, SIGNAL(clicked()), this, SLOT(detailsFlatFile()));
-  connect(darkflatAddB, SIGNAL(clicked()), this, SLOT(addDarkFlatFile()));
-  connect(darkflatRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFlatFile()));
-  connect(darkflatDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFlatFile()));
+  ui = new ImageReductionUI(this);
+
+  connect(ui->darkAddB, SIGNAL(clicked()), this, SLOT(addDarkFile()));
+  connect(ui->flatAddB, SIGNAL(clicked()), this, SLOT(addFlatFile()));
+  connect(ui->darkRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFile()));
+  connect(ui->flatRemoveB, SIGNAL(clicked()), this, SLOT(removeFlatFile()));
+  connect(ui->darkDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFile()));
+  connect(ui->flatDetailsB, SIGNAL(clicked()), this, SLOT(detailsFlatFile()));
+  connect(ui->darkflatAddB, SIGNAL(clicked()), this, SLOT(addDarkFlatFile()));
+  connect(ui->darkflatRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFlatFile()));
+  connect(ui->darkflatDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFlatFile()));
   
-  darkListView->setSorting(-1);
-  flatListView->setSorting(-1);
-  darkflatListView->setSorting(-1);
+
   
 }
 
@@ -56,10 +65,10 @@ void ImageReductionDlg::addDarkFile()
   
   const int limit = (int) fileURLs.size();
   for (int i=0; i < limit ; ++i)
-  	new Q3ListViewItem( darkListView, fileURLs[i].path());
+  	new Q3ListViewItem( ui->darkListView, fileURLs[i].path());
   
-  darkRemoveB->setEnabled(true);
-  darkDetailsB->setEnabled(true);
+  ui->darkRemoveB->setEnabled(true);
+  ui->darkDetailsB->setEnabled(true);
 
 }
 
@@ -70,10 +79,10 @@ void ImageReductionDlg::addFlatFile()
   const int limit = (int) fileURLs.size();
   
   for (int i=0; i < limit; ++i) 
-  	new Q3ListViewItem( flatListView, fileURLs[i].path());
+  	new Q3ListViewItem( ui->flatListView, fileURLs[i].path());
   
-  flatRemoveB->setEnabled(true);
-  flatDetailsB->setEnabled(true);
+  ui->flatRemoveB->setEnabled(true);
+  ui->flatDetailsB->setEnabled(true);
 
 }
 
@@ -83,41 +92,39 @@ void ImageReductionDlg::addDarkFlatFile()
   
      const int limit = (int) fileURLs.size();
      for (int i=0; i < limit; ++i) 
-  	new Q3ListViewItem( darkflatListView, fileURLs[i].path());
+  	new Q3ListViewItem( ui->darkflatListView, fileURLs[i].path());
   
-  darkflatRemoveB->setEnabled(true);
-  darkflatDetailsB->setEnabled(true);
-
-
+  ui->darkflatRemoveB->setEnabled(true);
+  ui->darkflatDetailsB->setEnabled(true);
 }
 
 void ImageReductionDlg::removeDarkFile()
 {
 
-  if (darkListView->currentItem() == NULL)
+  if (ui->darkListView->currentItem() == NULL)
     return;
   
-  darkListView->takeItem(darkListView->currentItem());
+  ui->darkListView->takeItem(ui->darkListView->currentItem());
 
 }
 
 void ImageReductionDlg::removeDarkFlatFile()
 {
 
-  if (darkflatListView->currentItem() == NULL)
+  if (ui->darkflatListView->currentItem() == NULL)
     return;
   
-  darkflatListView->takeItem(darkflatListView->currentItem());
+  ui->darkflatListView->takeItem(ui->darkflatListView->currentItem());
 
 }
 
 void ImageReductionDlg::removeFlatFile()
 {
 
- if (flatListView->currentItem() == NULL)
+ if (ui->flatListView->currentItem() == NULL)
     return;
   
-  flatListView->takeItem(flatListView->currentItem());
+  ui->flatListView->takeItem(ui->flatListView->currentItem());
 
 }
 

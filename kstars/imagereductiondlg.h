@@ -18,9 +18,17 @@
  #ifndef IMAGEREDUCTIONDLG_H
  #define IMAGEREDUCTIONDLG_H
 
+ #include <QDialog>
  #include "imagereductionui.h"
 
- class ImageReductionDlg : public imageReductionUI
+ class ImageReductionUI : public QDialog , public Ui::imageReductionUI
+ {
+   Q_OBJECT
+   public:
+        ImageReductionUI(QDialog *parent);
+  };
+
+ class ImageReductionDlg : public QDialog
  {
    Q_OBJECT
 
@@ -28,6 +36,8 @@
      ImageReductionDlg(QWidget * parent, const char * name = 0);
      ~ImageReductionDlg();
 
+
+     ImageReductionUI * ui;
 
      public slots:
      void addDarkFile();

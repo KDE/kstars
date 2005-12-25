@@ -24,28 +24,41 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
+#include <QDialog>
  
- #define BARS 500
+#define BARS 500
  
- class FITSViewer;
- class QPixmap;
+class FITSViewer;
+class QPixmap;
  
- class FITSHistogram : public histDialog
+ class histogramUI : public QDialog, public Ui::histogram
+ {
+   Q_OBJECT
+
+    public:
+     histogramUI(QDialog *parent=0);
+
+ };
+
+ class FITSHistogram : public QDialog
  {
    Q_OBJECT
    
    public:
-    FITSHistogram(QWidget *parent, const char * name = 0);
+    FITSHistogram(QWidget *parent);
     ~FITSHistogram();
     
     void constructHistogram(float *buffer);
     int  findMax();
     int type;
     int napply;
+
     
     private:
     int histArray[BARS]; 
     double binSize;
+    histogramUI *ui;
+    
 
     FITSViewer * viewer;
     QPixmap *histogram;

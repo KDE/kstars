@@ -55,6 +55,14 @@
 
 FILE *CCDwfp;
 
+CCDPreviewWGUI::CCDPreviewWGUI( QWidget *parent ) : QFrame( parent )
+{
+   setupUi(parent);
+
+  foreach (QByteArray format, QImageWriter::supportedImageFormats())
+     imgFormatCombo->addItem(QString(format));
+}
+
  CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
  {
  
@@ -72,20 +80,16 @@ FILE *CCDwfp;
    gammaChanged(ui->gammaBar->value());
    brightnessChanged(ui->brightnessBar->value());
    contrastChanged(ui->contrastBar->value());    
-	 
+
+   	 
   KIconLoader *icons = KGlobal::iconLoader();
   
-  
-
   playPix    = icons->loadIcon( "player_play", KIcon::Toolbar );
   pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
   
   ui->playB->setPixmap(pausePix);	
   ui->captureB->setPixmap(capturePix);
-  
-  foreach (QByteArray format, QImageWriter::supportedImageFormats())
-     ui->imgFormatCombo->addItem(QString(format));
   
   connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
   connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));

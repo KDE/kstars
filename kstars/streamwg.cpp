@@ -46,6 +46,16 @@
 
 FILE *wfp;
 
+StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
+{
+
+ setupUi(parent);
+
+ foreach (QByteArray format, QImageWriter::supportedImageFormats())
+     imgFormatCombo->addItem(QString(format));
+
+}
+  
  StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
  {
  
@@ -63,9 +73,6 @@ FILE *wfp;
   
   ui->playB->setPixmap(pausePix);	
   ui->captureB->setPixmap(capturePix);
-  
-  foreach (QByteArray format, QImageWriter::supportedImageFormats())
-     ui->imgFormatCombo->addItem(QString(format));
   
   connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
   connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));

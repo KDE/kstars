@@ -39,11 +39,9 @@
  #include <klocale.h>
  
  
- 
- FITSHistogram::FITSHistogram(QWidget *parent, const char * name) : histDialog(parent, name)
+ histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
  {
-   viewer = (FITSViewer *) parent;
-   
+   setupUi(parent);
    setModal(false);
    
    minSlider->setMinValue(0);
@@ -53,19 +51,25 @@
    maxSlider->setMinValue(0);
    maxSlider->setMaxValue(BARS-1);
    maxSlider->setValue(BARS-1);
-   
-   type = 0;
-   napply=0;
-   
+
    histFrame->setCursor(Qt::CrossCursor);
    histFrame->setMouseTracking(true);
    setMouseTracking(true);
+ }
+
+ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
+ {
+   viewer = (FITSViewer *) parent;
+   ui = new histogramUI(this);
+
+   type = 0;
+   napply=0;
    
-   connect(minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
-   connect(maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
-   connect(applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
+   connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
+   connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
+   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
+   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
+   connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
    constructHistogram(viewer->imgBuffer);
    
@@ -77,15 +81,15 @@
  
 void FITSHistogram::updateBoxes()
 {
-        if (minSlider->value() == BARS)
-	 minOUT->setText(QString("%1").arg((int) viewer->stats.max));
+        if (ui->minSlider->value() == BARS)
+	 ui->minOUT->setText(QString("%1").arg((int) viewer->stats.max));
 	else
-   	 minOUT->setText(QString("%1").arg( (int) ( ceil (minSlider->value() * binSize) + viewer->stats.min)));
+   	 ui->minOUT->setText(QString("%1").arg( (int) ( ceil (ui->minSlider->value() * binSize) + viewer->stats.min)));
 	 
-	if (maxSlider->value() == BARS)
-	 maxOUT->setText(QString("%1").arg((int) viewer->stats.max));
+	if (ui->maxSlider->value() == BARS)
+	 ui->maxOUT->setText(QString("%1").arg((int) viewer->stats.max));
 	else
-   	 maxOUT->setText(QString("%1").arg( (int) ( ceil (maxSlider->value() * binSize) + viewer->stats.min)));
+   	 ui->maxOUT->setText(QString("%1").arg( (int) ( ceil (ui->maxSlider->value() * binSize) + viewer->stats.min)));
 
         update();
 }
@@ -93,8 +97,8 @@ void FITSHistogram::updateBoxes()
 void FITSHistogram::applyScale()
 {
   int swap;
-  int min = minSlider->value();
-  int max = maxSlider->value();
+  int min = ui->minSlider->value();
+  int max = ui->maxSlider->value();
   
   FITSHistogramCommand *histC;
   //kdDebug() << "Width " << viewer->image->width << endl;
@@ -113,16 +117,16 @@ void FITSHistogram::applyScale()
   napply++;
   
   // Auto
-  if (autoR->isOn())
+  if (ui->autoR->isOn())
     type = 0;
   // Linear
-  else if (linearR->isOn())
+  else if (ui->linearR->isOn())
     type = 1;
   // Log
-  else if (logR->isOn())
+  else if (ui->logR->isOn())
     type = 2;
   // Exp
-  else if (sqrtR->isOn())
+  else if (ui->sqrtR->isOn())
     type = 3;
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);
@@ -133,7 +137,7 @@ void FITSHistogram::applyScale()
 void FITSHistogram::constructHistogram(float * buffer)
 {
   int maxHeight = 0;
-  int height    = histFrame->height(); 
+  int height    = ui->histFrame->height(); 
   int id;
   int index;
   int range = (int) (viewer->stats.max - viewer->stats.min);
@@ -182,14 +186,14 @@ void FITSHistogram::constructHistogram(float * buffer)
 
 void FITSHistogram::paintEvent( QPaintEvent */*e*/)
 {
-  int height    = histFrame->height(); 
-  int xMin = minSlider->value(), xMax = maxSlider->value();
+  int height    = ui->histFrame->height(); 
+  int xMin = ui->minSlider->value(), xMax = ui->maxSlider->value();
   
-  QPainter p(histFrame);
+  QPainter p(ui->histFrame);
   QPen pen;
   pen.setWidth(1);
   
-  bitBlt(histFrame, 0, 0, histogram);
+  bitBlt(ui->histFrame, 0, 0, histogram);
   
   pen.setColor(Qt::blue);
   p.setPen(pen);
@@ -207,10 +211,10 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
   int x = e->x();
   int y = e->y();
   
-  x -= histFrame->x();
-  y -= histFrame->y();
+  x -= ui->histFrame->x();
+  y -= ui->histFrame->y();
   
-  if (x < 0 || x >= BARS || y < 0 || y > histFrame->height() )
+  if (x < 0 || x >= BARS || y < 0 || y > ui->histFrame->height() )
    return;
   
   updateIntenFreq(x);
@@ -222,9 +226,9 @@ void FITSHistogram::updateIntenFreq(int x)
 
   int index = (int) ceil(x * binSize);
     
-  intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
+  ui->intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
   
-  frequencyOUT->setText(QString("%1").arg(histArray[x]));
+  ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
   
 }
 

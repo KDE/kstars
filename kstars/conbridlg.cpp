@@ -36,6 +36,11 @@
  
 //TODO find a better and faster way to implement this, this operation can be memory and CPU intensive.
 
+ConBriUI::ConBri(QWidget *parent) : QFrame(parent)
+{
+  setupUi(parent);
+}
+
 ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     KDialogBase(KDialogBase::Plain, i18n( "Brightness/Contrast" ), Ok|Cancel, Ok, parent )
 {
