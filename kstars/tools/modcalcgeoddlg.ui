@@ -219,13 +219,13 @@
              </widget>
             </item>
             <item row="2" column="1" >
-             <widget class="KLineEdit" name="ZCartBox" />
+             <widget class="KLineEdit" name="ZGeoBox" />
             </item>
             <item row="0" column="1" >
-             <widget class="KLineEdit" name="XCartBox" />
+             <widget class="KLineEdit" name="XGeoBox" />
             </item>
             <item row="1" column="1" >
-             <widget class="KLineEdit" name="YCartBox" />
+             <widget class="KLineEdit" name="YGeoBox" />
             </item>
            </layout>
           </widget>
@@ -340,7 +340,7 @@
            <number>6</number>
           </property>
           <item row="1" column="2" >
-           <widget class="QCheckBox" name="YCartCheckBatch" >
+           <widget class="QCheckBox" name="YGeoCheckBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -353,7 +353,7 @@
            </widget>
           </item>
           <item row="2" column="2" >
-           <widget class="QCheckBox" name="ZCartCheckBatch" >
+           <widget class="QCheckBox" name="ZGeoCheckBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -366,7 +366,7 @@
            </widget>
           </item>
           <item row="2" column="3" >
-           <widget class="KLineEdit" name="ZCartBoxBatch" >
+           <widget class="KLineEdit" name="ZGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -390,7 +390,7 @@
            </widget>
           </item>
           <item row="0" column="2" >
-           <widget class="QCheckBox" name="XCartCheckBatch" >
+           <widget class="QCheckBox" name="XGeoCheckBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -433,7 +433,7 @@
            </widget>
           </item>
           <item row="0" column="3" >
-           <widget class="KLineEdit" name="XCartBoxBatch" >
+           <widget class="KLineEdit" name="XGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -450,7 +450,7 @@
            </widget>
           </item>
           <item row="1" column="3" >
-           <widget class="KLineEdit" name="YCartBoxBatch" >
+           <widget class="KLineEdit" name="YGeoBoxBatch" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -608,6 +608,13 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends></extends>
+   <header>kcombobox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>KURLRequester</class>
    <extends></extends>
    <header>kurlrequester.h</header>
@@ -622,13 +629,6 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
@@ -636,9 +636,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>kcombobox.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

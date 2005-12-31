@@ -15,28 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QTextStream>
+
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 #include "modcalcazel.h"
 
-#include "modcalcazel.moc"
-#include "dms.h"
-#include "dmsbox.h"
 #include "skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <q3datetimeedit.h>  //need for QTimeEdit
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qtextstream.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
 
+modCalcAzel::modCalcAzel(QWidget *parentSplit) 
+: QFrame(parentSplit) {
 
-modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDlg (parentSplit,name) {
-
+	setupUi( parentSplit);
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
@@ -367,7 +364,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 	QTime utB;
 	ExtDate dtB;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -529,3 +526,5 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcazel.moc"

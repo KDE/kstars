@@ -261,7 +261,7 @@
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="timeBox" name="riseTmeBox" />
+           <widget class="timeBox" name="riseTimeBox" />
           </item>
           <item row="1" column="1" >
            <widget class="timeBox" name="transitTimeBox" />
@@ -411,9 +411,9 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
+   <class>timeBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/timebox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -425,9 +425,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>timeBox</class>
-   <extends>QLineEdit</extends>
-   <header>widgets/timebox.h</header>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -435,6 +435,13 @@
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
    <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

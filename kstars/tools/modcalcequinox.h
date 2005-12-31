@@ -18,25 +18,19 @@
 #ifndef MODCALCEQUINOX_H
 #define MODCALCEQUINOX_H
 
-#include <kapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QTextStream>
 #include "modcalcequinoxdlg.h"
 
-class QWidget;
 class QTextStream;
 
 /**
   *@author Pablo de Vicente
   */
-
-class modCalcEquinox : public modCalcEquinoxDlg  {
+class modCalcEquinox : public QFrame, public Ui::modCalcEquinoxDlg  {
 
 Q_OBJECT
 
 public: 
-	modCalcEquinox(QWidget *p, const char *n);
+	modCalcEquinox(QWidget *p);
 	~modCalcEquinox();
 	
 public slots:

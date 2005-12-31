@@ -18,7 +18,7 @@
 #include "modcalcangdist.h"
 #include "modcalcangdist.moc"
 #include "dms.h"
-#include "dmsbox.h"
+#include "widgets/dmsbox.h"
 #include "skypoint.h"
 
 #include <qcheckbox.h>
@@ -30,8 +30,10 @@
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h
 
-modCalcAngDist::modCalcAngDist(QWidget *parentSplit, const char *name) : modCalcAngDistDlg(parentSplit,name) {
+modCalcAngDist::modCalcAngDist(QWidget *parentSplit) 
+: QFrame(parentSplit) {
 
+	setupUi( parentSplit );
 	ra0Box->setDegType(FALSE);
 	ra1Box->setDegType(FALSE);
 	show();
@@ -136,7 +138,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 	SkyPoint sp0, sp1;
 	dms ra0B, dec0B, ra1B, dec1B, dist;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 

@@ -14,27 +14,25 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <QTextStream>
+
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 #include "modcalcequinox.h"
 
-#include "modcalcequinox.moc"
 #include "dms.h"
-#include "dmsbox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "kssun.h"
+#include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qcombobox.h>
-#include <qstring.h>
-#include <qtextstream.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) 
-		: modCalcEquinoxDlg (parentSplit,name) {
+modCalcEquinox::modCalcEquinox(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+	setupUi( parentSplit );
 	showCurrentYear();
 	show();
 }
@@ -118,20 +116,20 @@ void modCalcEquinox::slotYearCheckedBatch(){
 void modCalcEquinox::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcEquinox::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcEquinox::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -153,7 +151,7 @@ void modCalcEquinox::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -164,7 +162,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -177,7 +175,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
 	KSSun *Sun = new KSSun(kd);
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -221,3 +219,5 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcequinox.moc"

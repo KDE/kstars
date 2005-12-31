@@ -19,30 +19,23 @@
 #define MODCALCGEODCOORD_H
 
 #include "modcalcgeoddlg.h"
-//Added by qt3to4:
-#include <QTextStream>
+
+class QTextStream;
+class GeoLocation;
 
 /**
   * Class which implements the KStars calculator module to compute
   * Geodetic coordinates to/from Cartesian coordinates.
   *  
-  * Inherits QVBox
   *@author Pablo de Vicente
 	*@version 0.9
   */
-
-//class QWidget;
-//class QLineEdit;
-//class QRadioButton;
-//class dmsBox;
-class GeoLocation;
-
-class modCalcGeodCoord : public modCalcGeodCoordDlg {
+class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg {
 
 	Q_OBJECT
 	public:
 	
-		modCalcGeodCoord(QWidget *p, const char *n);
+		modCalcGeodCoord(QWidget *p);
 		~modCalcGeodCoord();
 	
 		void genGeoCoords(void);

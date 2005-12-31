@@ -15,35 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QTextStream>
+
 #include "modcalcgeodcoord.h"
-#include "modcalcgeodcoord.moc"
-#include "dms.h"
-#include "dmsbox.h"
-#include "geolocation.h"
-#include "kstars.h"
 
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qcheckbox.h>
-#include <qtextstream.h>
-
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <kapplication.h>
-#include <knumvalidator.h>
-#include <klocale.h>
-#include <klineedit.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
+#include "dms.h"
+#include "geolocation.h"
+#include "kstars.h"
+#include "widgets/dmsbox.h"
 
-modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit, const char *name) : modCalcGeodCoordDlg(parentSplit,name) {
 
-	static const char *ellipsoidList[] = {
-    "IAU76", "GRS80", "MERIT83", "WGS84", "IERS89"};
+modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+
+	QStringList ellipsoidList;
+	ellipsoidList << "IAU76" << "GRS80" << "MERIT83" << "WGS84" << "IERS89";
+
+	setupUi( parentSplit );
 
 	spheRadio->setChecked(TRUE);
-	ellipsoidBox->insertStrList (ellipsoidList,5);
+	ellipsoidBox->insertStringList(ellipsoidList,5);
 	geoPlace = new GeoLocation();
 	showLongLat();
 	setEllipsoid(0);
@@ -59,9 +53,9 @@ void modCalcGeodCoord::showLongLat(void)
 {
 
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	lonGeoBox->show( ks->geo()->lng() );
-	latGeoBox->show( ks->geo()->lat() );
-	altGeoBox->setText( QString("0.0") );
+	LongGeoBox->show( ks->geo()->lng() );
+	LatGeoBox->show( ks->geo()->lat() );
+	AltGeoBox->setText( QString("0.0") );
 }
 
 void modCalcGeodCoord::setEllipsoid(int index) {
@@ -73,19 +67,16 @@ void modCalcGeodCoord::setEllipsoid(int index) {
 void modCalcGeodCoord::getCartGeoCoords (void)
 {
 
-	geoPlace->setXPos( KGlobal::locale()->readNumber(xGeoName->text())*1000. );
-	geoPlace->setYPos( KGlobal::locale()->readNumber(yGeoName->text())*1000. );
-	geoPlace->setZPos( KGlobal::locale()->readNumber(zGeoName->text())*1000. );
-	//geoPlace->setXPos( xGeoName->text().toDouble()*1000. );
-	//geoPlace->setYPos( yGeoName->text().toDouble()*1000. );
-	//geoPlace->setZPos( zGeoName->text().toDouble()*1000. );
+	geoPlace->setXPos( KGlobal::locale()->readNumber(XGeoBox->text())*1000. );
+	geoPlace->setYPos( KGlobal::locale()->readNumber(YGeoBox->text())*1000. );
+	geoPlace->setZPos( KGlobal::locale()->readNumber(ZGeoBox->text())*1000. );
 }
 
 void modCalcGeodCoord::getSphGeoCoords (void)
 {
-	geoPlace->setLong( lonGeoBox->createDms() );
-	geoPlace->setLat(  latGeoBox->createDms() );
-	geoPlace->setHeight( altGeoBox->text().toDouble() );
+	geoPlace->setLong( LongGeoBox->createDms() );
+	geoPlace->setLat(  LatGeoBox->createDms() );
+	geoPlace->setHeight( AltGeoBox->text().toDouble() );
 }
 
 void modCalcGeodCoord::slotClearGeoCoords (void)
@@ -94,11 +85,8 @@ void modCalcGeodCoord::slotClearGeoCoords (void)
 	geoPlace->setLong( 0.0 );
 	geoPlace->setLat(  0.0 );
 	geoPlace->setHeight( 0.0 );
-	latGeoBox->clearFields();
-	lonGeoBox->clearFields();
-	//showSpheGeoCoords();
-	//showCartGeoCoords();
-
+	LatGeoBox->clearFields();
+	LongGeoBox->clearFields();
 }
 
 void modCalcGeodCoord::slotComputeGeoCoords (void)
@@ -116,120 +104,120 @@ void modCalcGeodCoord::slotComputeGeoCoords (void)
 
 void modCalcGeodCoord::showSpheGeoCoords(void)
 {
-	lonGeoBox->show( geoPlace->lng() );
-	latGeoBox->show( geoPlace->lat() );
-	altGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->height(), 3) );
+	LongGeoBox->show( geoPlace->lng() );
+	LatGeoBox->show( geoPlace->lat() );
+	AltGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->height(), 3) );
 }
 
 void modCalcGeodCoord::showCartGeoCoords(void)
 {
 
-	xGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->xPos()/1000. ,6));
-	yGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->yPos()/1000. ,6));
-	zGeoName->setText( KGlobal::locale()->formatNumber( geoPlace->zPos()/1000. ,6));
+	XGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->xPos()/1000. ,6));
+	YGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->yPos()/1000. ,6));
+	ZGeoBox->setText( KGlobal::locale()->formatNumber( geoPlace->zPos()/1000. ,6));
 }
 
 void modCalcGeodCoord::geoCheck(void) {
 
-	xBoxBatch->setEnabled( false );
-	xCheckBatch->setChecked( false );
-	yBoxBatch->setEnabled( false );
-	yCheckBatch->setChecked( false );
-	zBoxBatch->setEnabled( false );
-	zCheckBatch->setChecked( false );
+	XGeoBoxBatch->setEnabled( false );
+	XGeoCheckBatch->setChecked( false );
+	YGeoBoxBatch->setEnabled( false );
+	YGeoCheckBatch->setChecked( false );
+	YGeoBoxBatch->setEnabled( false );
+	YGeoCheckBatch->setChecked( false );
 	xyzInputCoords = FALSE;
 }
 
 void modCalcGeodCoord::xyzCheck(void) {
 
-	longBoxBatch->setEnabled( false );
-	longCheckBatch->setChecked( false );
-	latBoxBatch->setEnabled( false );
-	latCheckBatch->setChecked( false );
-	elevBoxBatch->setEnabled( false );
-	elevCheckBatch->setChecked( false );
+	LongGeoBoxBatch->setEnabled( false );
+	LongGeoCheckBatch->setChecked( false );
+	LatGeoBoxBatch->setEnabled( false );
+	LatGeoCheckBatch->setChecked( false );
+	AltGeoBoxBatch->setEnabled( false );
+	AltGeoCheckBatch->setChecked( false );
 	xyzInputCoords = TRUE;
 
 }
 
 void modCalcGeodCoord::slotLongCheckedBatch(){
 
-	if ( longCheckBatch->isChecked() ) {
-		longBoxBatch->setEnabled( false );
+	if ( LongGeoCheckBatch->isChecked() ) {
+		LongGeoBoxBatch->setEnabled( false );
 		geoCheck();
 	} else {
-		longBoxBatch->setEnabled( true );
+		LongGeoBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcGeodCoord::slotLatCheckedBatch(){
 
-	if ( latCheckBatch->isChecked() ) {
-		latBoxBatch->setEnabled( false );
+	if ( LatGeoCheckBatch->isChecked() ) {
+		LatGeoBoxBatch->setEnabled( false );
 		geoCheck();
 	} else {
-		latBoxBatch->setEnabled( true );
+		LatGeoBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcGeodCoord::slotElevCheckedBatch(){
 
-	if ( elevCheckBatch->isChecked() ) {
-		elevBoxBatch->setEnabled( false );
+	if ( AltGeoCheckBatch->isChecked() ) {
+		AltGeoBoxBatch->setEnabled( false );
 		geoCheck();
 	} else {
-		elevBoxBatch->setEnabled( true );
+		AltGeoBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcGeodCoord::slotXCheckedBatch(){
 
-	if ( xCheckBatch->isChecked() ) {
-		xBoxBatch->setEnabled( false );
+	if ( XGeoCheckBatch->isChecked() ) {
+		XGeoBoxBatch->setEnabled( false );
 		xyzCheck();
 	} else {
-		xBoxBatch->setEnabled( true );
+		XGeoBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcGeodCoord::slotYCheckedBatch(){
 
-	if ( yCheckBatch->isChecked() ) {
-		yBoxBatch->setEnabled( false );
+	if ( YGeoCheckBatch->isChecked() ) {
+		YGeoBoxBatch->setEnabled( false );
 		xyzCheck();
 	} else {
-		yBoxBatch->setEnabled( true );
+		YGeoBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcGeodCoord::slotZCheckedBatch(){
 
-	if ( zCheckBatch->isChecked() ) {
-		zBoxBatch->setEnabled( false );
+	if ( ZGeoCheckBatch->isChecked() ) {
+		ZGeoBoxBatch->setEnabled( false );
 		xyzCheck();
 	} else {
-		zBoxBatch->setEnabled( true );
+		ZGeoBoxBatch->setEnabled( true );
 	}
 }
 void modCalcGeodCoord::slotInputFile() {
 
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcGeodCoord::slotOutputFile() {
 
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcGeodCoord::slotRunBatch(void) {
 
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -251,7 +239,7 @@ void modCalcGeodCoord::slotRunBatch(void) {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -262,7 +250,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -277,7 +265,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 	dms latB, longB;
 
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -293,43 +281,43 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
 			// Read X and write in ostream if corresponds
 
-			if(xCheckBatch->isChecked() ) {
+			if(XGeoCheckBatch->isChecked() ) {
 				xB = fields[i].toDouble();
 				i++;
 			} else
-				xB = KGlobal::locale()->readNumber(xBoxBatch->text()) ;
+				xB = KGlobal::locale()->readNumber(XGeoBoxBatch->text()) ;
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << xB << space;
 			else
-				if(xCheckBatch->isChecked() )
+				if(XGeoCheckBatch->isChecked() )
 					ostream << xB << space;
 
 			// Read Y and write in ostream if corresponds
 
-			if(yCheckBatch->isChecked() ) {
+			if(YGeoCheckBatch->isChecked() ) {
 				yB = fields[i].toDouble();
 				i++;
 			} else
-				yB = KGlobal::locale()->readNumber( yBoxBatch->text()) ;
+				yB = KGlobal::locale()->readNumber( YGeoBoxBatch->text()) ;
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << yB << space;
 			else
-				if(yCheckBatch->isChecked() )
+				if(YGeoCheckBatch->isChecked() )
 					ostream << yB << space;
 			// Read Z and write in ostream if corresponds
 
-			if(zCheckBatch->isChecked() ) {
+			if(ZGeoCheckBatch->isChecked() ) {
 				zB = fields[i].toDouble();
 				i++;
 			} else
-				zB = KGlobal::locale()->readNumber( zBoxBatch->text());
+				zB = KGlobal::locale()->readNumber( ZGeoBoxBatch->text());
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << zB << space;
 			else
-				if(yCheckBatch->isChecked() )
+				if(YGeoCheckBatch->isChecked() )
 					ostream << zB << space;
 
 			geoPl->setXPos( xB*1000.0 );
@@ -345,44 +333,44 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
 			// Read Longitude and write in ostream if corresponds
 
-			if(longCheckBatch->isChecked() ) {
+			if(LongGeoCheckBatch->isChecked() ) {
 				longB = dms::fromString( fields[i],TRUE);
 				i++;
 			} else
-				longB = longBoxBatch->createDms(TRUE);
+				longB = LongGeoBoxBatch->createDms(TRUE);
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << longB.toDMSString() << space;
 			else
-				if(longCheckBatch->isChecked() )
+				if(LongGeoCheckBatch->isChecked() )
 					ostream << longB.toDMSString() << space;
 
 			// Read Latitude and write in ostream if corresponds
 
-			if(latCheckBatch->isChecked() ) {
+			if(LatGeoCheckBatch->isChecked() ) {
 				latB = dms::fromString( fields[i], TRUE);
 				i++;
 			} else
-				latB = latBoxBatch->createDms(TRUE);
+				latB = LatGeoBoxBatch->createDms(TRUE);
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << latB.toDMSString() << space;
 			else
-				if(latCheckBatch->isChecked() )
+				if(LatGeoCheckBatch->isChecked() )
 					ostream << latB.toDMSString() << space;
 
 			// Read Height and write in ostream if corresponds
 
-			if(elevCheckBatch->isChecked() ) {
+			if(AltGeoCheckBatch->isChecked() ) {
 				hB = fields[i].toDouble();
 				i++;
 			} else
-				hB = elevBoxBatch->text().toDouble() ;
+				hB = AltGeoBoxBatch->text().toDouble() ;
 
-			if ( allRadioBatch->isChecked() )
+			if ( AllRadioBatch->isChecked() )
 				ostream << hB << space;
 			else
-				if(elevCheckBatch->isChecked() )
+				if(AltGeoCheckBatch->isChecked() )
 					ostream << hB << space;
 
 			geoPl->setLong( longB );
@@ -400,3 +388,5 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcgeodcoord.moc"

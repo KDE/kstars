@@ -18,10 +18,6 @@
 #ifndef MODCALCAZEL_H
 #define MODCALCAZEL_H
 
-#include <kapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QTextStream>
 #include "modcalcazeldlg.h"
 
 class QWidget;
@@ -33,13 +29,12 @@ class dms;
 /**
   *@author Pablo de Vicente
   */
-
-class modCalcAzel : public modCalcAzelDlg  {
+class modCalcAzel : public QFrame, public Ui::modCalcAzelDlg  {
 
 Q_OBJECT
 
 public: 
-	modCalcAzel(QWidget *p, const char *n);
+	modCalcAzel(QWidget *p);
 	~modCalcAzel();
 	
 public slots:

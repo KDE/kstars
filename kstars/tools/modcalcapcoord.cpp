@@ -15,28 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "modcalcapcoord.h"
-#include "modcalcapcoord.moc"
-#include "modcalcprec.h"
-#include "dms.h"
-#include "dmsbox.h"
-#include "skypoint.h"
-#include "kstarsdatetime.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
+#include <QTextStream>
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <q3datetimeedit.h>  //needed for QTimeEdit
-#include <klineedit.h>
-#include <qtextstream.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-//#include <kapplication.h> ..already included in modcalcapcoord.h
+#include "modcalcapcoord.h"
+#include "dms.h"
+#include "skypoint.h"
+#include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
+#include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : modCalcApCoordDlg(parentSplit,name) {
+//#include <kapplication.h>
 
+modCalcApCoord::modCalcApCoord(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+
+	setupUi( parentSplit);
 	showCurrentTime();
 	ra0Box->setDegType(FALSE);
 	rafBox->setDegType(FALSE);
@@ -220,7 +217,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 	dms raB, decB;
 	double epoch0B;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -312,3 +309,5 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcapcoord.moc"

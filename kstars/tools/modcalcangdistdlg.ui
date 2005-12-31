@@ -24,7 +24,7 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
@@ -55,9 +55,6 @@
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="ra0Box" />
-            </item>
             <item row="0" column="0" >
              <widget class="QLabel" name="ra0Label" >
               <property name="text" >
@@ -75,6 +72,9 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="1" >
+             <widget class="dmsBox" name="ra0Box" />
+            </item>
            </layout>
           </widget>
          </item>
@@ -91,14 +91,14 @@
              <number>6</number>
             </property>
             <item row="1" column="0" >
-             <widget class="QLabel" name="dec0Label_2" >
+             <widget class="QLabel" name="dec1Label" >
               <property name="text" >
                <string>Declination:</string>
               </property>
              </widget>
             </item>
             <item row="0" column="0" >
-             <widget class="QLabel" name="ra0Label_2" >
+             <widget class="QLabel" name="ra1Label" >
               <property name="text" >
                <string>Right ascension:</string>
               </property>
@@ -262,7 +262,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="batch" >
       <attribute name="title" >
        <string>Batch Mode</string>
       </attribute>
@@ -294,7 +294,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="ra0CheckBatch_2" >
+             <widget class="QCheckBox" name="ra0CheckBatch" >
               <property name="text" >
                <string>Initial right ascention:</string>
               </property>
@@ -304,7 +304,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="dec0CheckBatch_2" >
+             <widget class="QCheckBox" name="dec0CheckBatch" >
               <property name="text" >
                <string>Initial declination:</string>
               </property>
@@ -314,7 +314,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="ra1CheckBatch_2" >
+             <widget class="QCheckBox" name="ra1CheckBatch" >
               <property name="text" >
                <string>Final right ascention:</string>
               </property>
@@ -324,7 +324,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="dec1CheckBatch_2" >
+             <widget class="QCheckBox" name="dec1CheckBatch" >
               <property name="text" >
                <string>Final declination:</string>
               </property>
@@ -344,16 +344,16 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="dmsBox" name="ra0BoxBatch_2" />
+             <widget class="dmsBox" name="ra0BoxBatch" />
             </item>
             <item>
-             <widget class="dmsBox" name="dec0BoxBatch_2" />
+             <widget class="dmsBox" name="dec0BoxBatch" />
             </item>
             <item>
-             <widget class="dmsBox" name="ra1BoxBatch_2" />
+             <widget class="dmsBox" name="ra1BoxBatch" />
             </item>
             <item>
-             <widget class="dmsBox" name="dec1BoxBatch_2" />
+             <widget class="dmsBox" name="dec1BoxBatch" />
             </item>
            </layout>
           </item>
@@ -526,6 +526,13 @@
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

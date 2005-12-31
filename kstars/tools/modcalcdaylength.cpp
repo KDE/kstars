@@ -16,21 +16,23 @@
  ***************************************************************************/
 
 #include "modcalcdaylength.h"
-#include "modcalcprec.h"
-#include "dms.h"
-#include "dmsbox.h"
+//#include "modcalcprec.h"
+//#include "dms.h"
 #include "skyobject.h"
 #include "geolocation.h"
 #include "kstars.h"
-#include "timebox.h"
 #include "kssun.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
+#include "widgets/timebox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <kapplication.h> 
+// #include <kapplication.h> 
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
+modCalcDayLength::modCalcDayLength(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+	setupUi( parentSplit );
 	showCurrentDate();
 	initGeo();
 	show();

@@ -19,15 +19,6 @@
 #define MODCALCAPCOORD_H
 
 #include "modcalcapcoorddlg.h"
-#include <kapplication.h>
-//Added by qt3to4:
-#include <QTextStream>
-
-/** Module to compute the equatorial coordinates for a given date and time
- * from a given epoch or equinox
-  *@author Pablo de Vicente
-	*@version 0.9
-  */
 
 class dms;
 class dmsBox;
@@ -35,12 +26,17 @@ class SkyPoint;
 class KStarsDateTime;
 class QTextStream;
 
-class modCalcApCoord : public modCalcApCoordDlg  {
+/** Module to compute the equatorial coordinates for a given date and time
+ * from a given epoch or equinox
+  *@author Pablo de Vicente
+	*@version 0.9
+  */
+class modCalcApCoord : public QFrame, public Ui::modCalcApCoordDlg  {
 
 Q_OBJECT
 public:
 /**Constructor. */
-	modCalcApCoord(QWidget *p, const char *n);
+	modCalcApCoord(QWidget *p);
 /**Destructor. */
 	~modCalcApCoord();
 

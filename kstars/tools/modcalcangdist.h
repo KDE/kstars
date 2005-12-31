@@ -19,26 +19,22 @@
 #define MODCALCANGDIST_H
 
 #include "modcalcangdistdlg.h"
-#include <kapplication.h>
-//Added by qt3to4:
-#include <QTextStream>
-
-/** Module to compute the angular distance between two points in the sky 
-  *@author Pablo de Vicente
-  *@version 0.9
-  */
 
 class dms;
 class dmsBox;
 class SkyPoint;
 class QTextStream;
 
-class modCalcAngDist : public modCalcAngDistDlg  {
+/** Module to compute the angular distance between two points in the sky 
+  *@author Pablo de Vicente
+  *@version 0.9
+  */
+class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg  {
 
 Q_OBJECT
 public:
 /**Constructor. */
-	modCalcAngDist(QWidget *p, const char *n);
+	modCalcAngDist(QWidget *p);
 /**Destructor. */
 	~modCalcAngDist();
 

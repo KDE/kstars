@@ -20,10 +20,6 @@
 
 #include "modcalceclipticcoordsdlg.h"
 #include "dms.h"
-//Added by qt3to4:
-#include <QTextStream>
-
-class QString;
 
 /**
   * Class which implements the KStars calculator module to compute
@@ -32,14 +28,13 @@ class QString;
   * Inherits QWidget
   *@author Pablo de Vicente
   */
-
-class modCalcEclCoords : public modCalcEclCoordsDlg  {
+class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg  {
 
 Q_OBJECT
 
 public:
 	
-	modCalcEclCoords(QWidget *p, const char *n);
+	modCalcEclCoords(QWidget *p);
 	~modCalcEclCoords();
 
 	void getEclCoords (void);

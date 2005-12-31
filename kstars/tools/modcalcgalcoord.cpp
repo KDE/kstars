@@ -15,27 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "dms.h"
-#include "dmsbox.h"
-#include "skypoint.h"
-#include "modcalcgalcoord.h"
-#include "modcalcgalcoord.moc"
-#include "kstarsdatetime.h"
+#include <QTextStream>
 
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
-#include <klocale.h>
-#include <klineedit.h>
-#include <kapplication.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
+#include "modcalcgalcoord.h"
 
-modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : modCalcGalCoordDlg(parentSplit,name) {
+#include "dms.h"
+#include "skypoint.h"
+#include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
 
+modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+
+	setupUi( parentSplit );
 	equRadio->setChecked(TRUE);
 	raBox->setDegType(FALSE);
 	show();
@@ -205,20 +200,20 @@ void modCalcGalCoord::slotGalLongCheckedBatch(){
 void modCalcGalCoord::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcGalCoord::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcGalCoord::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -240,7 +235,7 @@ void modCalcGalCoord::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -251,7 +246,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -264,7 +259,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 	double epoch0B(0.0);
 	KStarsDateTime dt;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -369,3 +364,5 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcgalcoord.moc"

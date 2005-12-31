@@ -27,7 +27,7 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
@@ -76,7 +76,7 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="QTimeEdit" name="timeEdit" />
+             <widget class="QTimeEdit" name="timBox" />
             </item>
            </layout>
           </item>
@@ -436,7 +436,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="batch" >
       <attribute name="title" >
        <string>Batch Mode</string>
       </attribute>
@@ -895,13 +895,6 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
@@ -919,6 +912,13 @@
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
    <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

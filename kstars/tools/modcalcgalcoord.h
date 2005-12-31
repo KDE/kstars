@@ -18,27 +18,22 @@
 #ifndef MODCALCGALCOORD_H
 #define MODCALCGALCOORD_H
 
-#include "dms.h"
 #include "modcalcgalcoorddlg.h"
-//Added by qt3to4:
-#include <QTextStream>
 
 /**
   * Class which implements the KStars calculator module to compute
   * Galactic coordinates to/from Equatorial coordinates.
   *
-  * Inherits QWidget
   *@author Pablo de Vicente
 	*@version 0.9
   */
-
-class modCalcGalCoord : public modCalcGalCoordDlg  {
+class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg  {
 
 Q_OBJECT
 
 public:
 	
-	modCalcGalCoord(QWidget *p, const char *n);
+	modCalcGalCoord(QWidget *p);
 	~modCalcGalCoord();
 	/**
 	* Obtains the galactic coords. from the Box.

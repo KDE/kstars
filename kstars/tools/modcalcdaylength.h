@@ -20,19 +20,18 @@
 
 #include "modcalcdaylengthdlg.h"
 
+class KStarsDateTime;
+class GeoLocation;
+
 /** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
   *@author Pablo de Vicente
   */
-
-class KStarsDateTime;
-class GeoLocation;
-
-class modCalcDayLength : public modCalcDayLengthDlg  {
+class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg  {
 Q_OBJECT
 public: 
 /**Constructor. */
-	modCalcDayLength(QWidget *p, const char *n);
+	modCalcDayLength(QWidget *p);
 /**Destructor. */
 	~modCalcDayLength();
 

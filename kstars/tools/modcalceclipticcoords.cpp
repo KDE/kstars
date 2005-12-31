@@ -15,28 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QTextStream>
+
+#include <klocale.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+#include <kurlrequester.h>
+
 #include "dms.h"
-#include "dmsbox.h"
 #include "modcalceclipticcoords.h"
-#include "modcalceclipticcoords.moc"
 #include "skypoint.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
-#include <klocale.h>
-#include <klineedit.h>
-#include <kapplication.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+#include "widgets/dmsbox.h"
 
+modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit) 
+: QFrame(parentSplit) {
 
-modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit, const char *name) : modCalcEclCoordsDlg(parentSplit,name) {
-
+	setupUi( parentSplit );
 	equRadio->setChecked(TRUE);
 	raBox->setDegType(FALSE);
 	this->show();
@@ -131,10 +128,10 @@ void modCalcEclCoords::EquToEcl(void) {
 
 void modCalcEclCoords::eclCheck() {
 
-	eclLatCheckBatch->setChecked(false);
-	eclLatBoxBatch->setEnabled(false);
-	eclLongCheckBatch->setChecked(false);
-	eclLongBoxBatch->setEnabled(false);
+	ecLatCheckBatch->setChecked(false);
+	ecLatBoxBatch->setEnabled(false);
+	ecLongCheckBatch->setChecked(false);
+	ecLongBoxBatch->setEnabled(false);
 	eclInputCoords = FALSE;
 
 }
@@ -182,41 +179,39 @@ void modCalcEclCoords::slotEpochCheckedBatch(){
 
 void modCalcEclCoords::slotEclLatCheckedBatch(){
 
-	if ( eclLatCheckBatch->isChecked() ) {
-		eclLatBoxBatch->setEnabled( false );
+	if ( ecLatCheckBatch->isChecked() ) {
+		ecLatBoxBatch->setEnabled( false );
 		equCheck();
 	} else {
-		eclLatBoxBatch->setEnabled( true );
+		ecLatBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcEclCoords::slotEclLongCheckedBatch(){
 
-	if ( eclLongCheckBatch->isChecked() ) {
-		eclLongBoxBatch->setEnabled( false );
+	if ( ecLongCheckBatch->isChecked() ) {
+		ecLongBoxBatch->setEnabled( false );
 		equCheck();
 	} else {
-		eclLongBoxBatch->setEnabled( true );
+		ecLongBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcEclCoords::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcEclCoords::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcEclCoords::slotRunBatch() {
 
-	QString inputFileName;
-
-	inputFileName = InputLineEditBatch->text();
+	QString inputFileName = inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -238,7 +233,7 @@ void modCalcEclCoords::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -249,7 +244,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -261,7 +256,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 	dms raB, decB, eclLatB, eclLongB;
 	double epoch0B;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -277,28 +272,28 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 
 			// Read Ecliptic Longitude and write in ostream if corresponds
 
-			if(eclLongCheckBatch->isChecked() ) {
+			if(ecLongCheckBatch->isChecked() ) {
 				eclLongB = dms::fromString( fields[i], TRUE);
 				i++;
 			} else
-				eclLongB = eclLongBoxBatch->createDms(TRUE);
+				eclLongB = ecLongBoxBatch->createDms(TRUE);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << eclLongB.toDMSString() << space;
 			else
-				if(eclLongCheckBatch->isChecked() )
+				if(ecLongCheckBatch->isChecked() )
 					ostream << eclLongB.toDMSString() << space;
 
 			// Read Ecliptic Latitude and write in ostream if corresponds
 
-			if(eclLatCheckBatch->isChecked() ) {
+			if(ecLatCheckBatch->isChecked() ) {
 				eclLatB = dms::fromString( fields[i], TRUE);
 				i++;
 			} else
 			if ( allRadioBatch->isChecked() )
 				ostream << eclLatB.toDMSString() << space;
 			else
-				if(eclLatCheckBatch->isChecked() )
+				if(ecLatCheckBatch->isChecked() )
 					ostream << eclLatB.toDMSString() << space;
 
 			// Read Epoch and write in ostream if corresponds
@@ -383,3 +378,5 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalceclipticcoords.moc"
