@@ -154,6 +154,9 @@ class SkyComposite : public SkyComponent
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 
+		virtual SkyObject* first();
+		virtual SkyObject* next();
+
 		/**
 			*@short Search the children of this SkyComposite for 
 			*a SkyObject whose name matches the argument.
@@ -179,6 +182,7 @@ class SkyComposite : public SkyComponent
 
 	private:
 		QList<SkyComponent*> m_Components;
+		int m_CurrentIndex;
 };
 
 #endif

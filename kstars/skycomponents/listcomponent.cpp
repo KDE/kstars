@@ -24,7 +24,7 @@
 #include "skyobject.h"
 
 ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
-: SkyComponent( parent, visibleMethod )
+: SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
 {
 }
 
@@ -76,4 +76,17 @@ SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 	}
 
 	return oBest;
+}
+
+SkyObject* ListComponent::first() {
+	m_CurrentIndex = 0;
+	return ObjectList[m_CurrentIndex];
+}
+
+SkyObject* ListComponent::next() {
+	m_CurrentIndex++;
+	if ( m_CurrentIndex >= ObjectList.size() )
+		return 0;
+	else
+		return ObjectList[m_CurrentIndex];
 }

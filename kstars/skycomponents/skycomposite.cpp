@@ -22,7 +22,7 @@
 #include "skyobject.h"
 
 SkyComposite::SkyComposite(SkyComponent *parent ) 
-: SkyComponent( parent )
+: SkyComponent( parent ), m_CurrentIndex(0)
 {
 }
 
@@ -91,4 +91,21 @@ SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 	}
 
 	return oBest; //will be 0 if no object nearer than maxrad was found
+}
+
+SkyObject* SkyComposite::first() {
+	m_CurrentIndex = 0;
+	return m_Components[m_CurrentIndex]->first();
+}
+
+SkyObject* SkyComposite::next() {
+	SkyObject *result = m_Components[m_CurrentIndex]->next();
+
+	if ( !result ) {
+		m_CurrentIndex++;
+		if ( m_CurrentIndex >= m_Components.size() ) return 0;
+		return m_Components[m_CurrentIndex]->first();
+	}
+
+	return result;
 }

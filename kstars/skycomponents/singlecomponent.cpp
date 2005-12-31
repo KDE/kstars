@@ -67,3 +67,11 @@ SkyObject* SingleComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 
 	return 0;
 }
+
+SkyObject* SingleComponent::first() {
+	return skyObject();
+}
+
+SkyObject* SingleComponent::next() {
+	return 0;
+}

@@ -148,6 +148,9 @@ class SkyComponent
 		virtual void clearTrailsExcept( SkyObject *o );
 		virtual void drawTrails( KStars *, QPainter &, double );
 
+		virtual SkyObject* first() { return 0; }
+		virtual SkyObject* next() { return 0; }
+
 		/**
 			*@short Search the children of this SkyComponent for 
 			*a SkyObject whose name matches the argument

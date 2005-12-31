@@ -75,6 +75,9 @@ class SingleComponent : public SkyComponent
 
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
+		virtual SkyObject* first();
+		virtual SkyObject* next();
+
 		SkyObject* skyObject() { return m_StoredObject; }
 		void setStoredObject( SkyObject *o ) { m_StoredObject = o; }
 
