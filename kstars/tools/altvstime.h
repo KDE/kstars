@@ -24,6 +24,7 @@
 #include <QPaintEvent>
 
 #include "widgets/kstarsplotwidget.h"
+#include "altvstimeui.h"
 
 class KStarsDateTime;
 class QTime;
@@ -36,7 +37,13 @@ class SkyPoint;
 class dms;
 class GeoLocation;
 class KStars;
-class AltVsTimeUI;
+
+class AltVsTimeUI : public QFrame, public Ui::AltVsTime {
+	Q_OBJECT
+
+	public:
+		AltVsTimeUI( QWidget *p=0 );
+};
 
 /**@class AVTPlotWidget
 	*@short An extension of the KStarsPlotWidget for the AltVsTime tool.
@@ -56,7 +63,7 @@ class AVTPlotWidget : public KStarsPlotWidget
 public:
 /**Constructor
 	*/
-	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
+	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0 );
 
 /**Set the fractional positions of the Sunrise and Sunset positions, 
 	*in units where last midnight was 0.0, and next midnight is 1.0.  
@@ -164,10 +171,10 @@ public:
 	*/
 	int currentPlotListItem() const;
 	
-/**@return a pointer to the list of SkyPoints representing the 
+/**@return a pointer to the list of SkyObjects representing the 
 	*objects being displayed.
 	*/
-	QList<SkyPoint*>& skyPointList() { return pList; }
+	QList<SkyObject*>& skyPointList() { return pList; }
 
 public slots:
 /**@short Update the plot to reflec new Date and Location settings.
@@ -216,8 +223,8 @@ private:
 
 	GeoLocation *geo;
 	KStars *ks;
-	QList<SkyPoint*> pList;
-	QList<SkyPoint*> deleteList;
+	QList<SkyObject*> pList;
+	QList<SkyObject*> deleteList;
 
 	int DayOffset;
 	bool dirtyFlag;

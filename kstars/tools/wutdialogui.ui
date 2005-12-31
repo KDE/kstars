@@ -472,7 +472,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
+        <widget class="QGroupBox" name="ObjectBox" >
          <property name="title" >
           <string>Object Name</string>
          </property>
@@ -573,6 +573,13 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends></extends>
+   <header>kcombobox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
@@ -583,13 +590,6 @@
    <class>KListBox</class>
    <extends></extends>
    <header>klistbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends></extends>
-   <header>kcombobox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

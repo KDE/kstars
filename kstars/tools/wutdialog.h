@@ -18,21 +18,24 @@
 #ifndef WUTDIALOG_H
 #define WUTDIALOG_H
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <Q3Frame>
+#include <QFrame>
 #include <kdialogbase.h>
+
 #include "kstarsdatetime.h"
+#include "wutdialogui.h"
 
 #define NCATEGORY 8
 
+class QListWidgetItem;
 class KStars;
-class ObjectNameList;
 class GeoLocation;
 class SkyObject;
-class SkyObjectName;
-class WUTDialogUI;
-class Q3Frame;
+
+class WUTDialogUI : public QFrame, public Ui::WUTDialog {
+	Q_OBJECT
+	public:
+		WUTDialogUI( QWidget *p=0 );
+};
 
 /**@class WUTDialog
 	*What's up tonight dialog is a window which lists all skyobjects that will
@@ -40,7 +43,6 @@ class Q3Frame;
 	*@author Thomas Kabelmann
 	*@version 1.0
 	*/
-
 class WUTDialog : public KDialogBase  {
 	Q_OBJECT
 
@@ -105,18 +107,16 @@ class WUTDialog : public KDialogBase  {
 		void initCategories();
 		
 		/**@short Check visibility of object
-			*@p oname the name of the object to check
+			*@p o the object to check
 			*@return true if visible
 			*/
-		bool checkVisibility(SkyObjectName *oname);
+		bool checkVisibility(SkyObject *o);
 
 		/**@short split the objects in object-type categories */
 		void splitObjectList();
 
 		/**@short Append object to the correct object-type list. */
-		void appendToList(SkyObjectName *o);
-
-		ObjectNameList *objectList;
+		void appendToList(SkyObject *o);
 
 		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 		KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
@@ -125,7 +125,7 @@ class WUTDialog : public KDialogBase  {
 		int EveningFlag;
 		
 		struct List {
-			QList<SkyObjectName*> visibleList[NCATEGORY];
+			QList<SkyObject*> visibleList[NCATEGORY];
 			bool initialized[NCATEGORY];
 		} lists;
 

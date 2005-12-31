@@ -15,6 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef LCGENERATOR_H
+#define LCGENERATOR_H
+
+#include <QCloseEvent>
+#include <kdialogbase.h>
+#include <kio/job.h>
+
+#include "lcgeneratorui.h"
+
+class QFile;
+class QVBoxLayout;
+class KStars;
+
+struct VariableStarInfo
+{
+	QString Name;
+	QString Designation;
+};
+
+class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
+	Q_OBJECT
+	public:
+		LCGeneratorUI( QWidget *p=0 );
+};
+
 /**
 	*@class LCGenerator
 	*@short KStars Light Curve Generator
@@ -23,40 +48,6 @@
 	*@author Jasem Mutlaq
 	*@version 1.0
 	*/
-
-#ifndef LCGENERATOR_H
-#define LCGENERATOR_H
-
-#include <qvariant.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QCloseEvent>
-#include <kdialogbase.h>
-#include <kio/job.h>
-
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QFile;
-class KLineEdit;
-class KListBox;
-class KPushButton;
-class QCheckBox;
-class Q3GroupBox;
-class QLabel;
-class Q3ListBoxItem;
-
-class KStars;
-
-struct VariableStarInfo
-{
-  QString Name;
-  QString Designation;
-};
-
 class LCGenerator : public KDialogBase
 { 
 Q_OBJECT
@@ -68,77 +59,6 @@ public:
 	LCGenerator( QWidget* parent = 0);
 /**Destructor */
 	~LCGenerator();
-
-private:
-
-/** Initilizes and positions the dialog child widgets. */
-	void createGUI();
-
-/** Converts date Julian days, unless date is 'default'.
-	*@param date The date to be converted
-	*@param *JD pointer to a Julian Day string
-	*@param JDType start or end JD
-	*@returns true if conversion is successful
-	*/
-	bool setJD(QString date, QString * JD, int JDType);
-
-/** Parses star information and connects to the AAVSO server with the information embedded in the URL
-	*@param FinalStartDate The start date in Julian days
-	*@param FinalEndDate The end date in Julian days
-	*@param FinalDesignation The AAVSO star designation
-	*@param AverageDay Number of average days for binning the light curve
-	*/
-	void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay);
-
-
-	KStars *ksw;
-	const QString Hostprefix;
-	const int JDCutOff;
-	
-	Q3GroupBox* StarInfoBox;
-	QLabel* desigLabel;
-	KListBox* DesignationIn;
-	QLabel* nameLabel;
-	KListBox* NameIn;
-	QLabel* startLabel;
-	KLineEdit* StartDateIn;
-	QLabel* endLabel;
-	KLineEdit* EndDateIn;
-	Q3GroupBox* DataSelectBox;
-	QCheckBox* VisualCheck;
-	QCheckBox* FainterCheck;
-	QCheckBox* DiscrepantCheck;
-	QCheckBox* CCDBCheck;
-	QCheckBox* CCDVCheck;
-	QCheckBox* CCDRCheck;
-	QCheckBox* CCDICheck;
-	QLabel* plotLabel;
-	KLineEdit* AverageDayIn;
-	QLabel* daysLabel;
-	KPushButton* GetCurveButton;
-	KPushButton* UpdateListButton;
-	KPushButton* CloseButton;
-
-	QVBoxLayout* LCGeneratorDialogLayout;
-	QHBoxLayout* SDLayout;
-	QVBoxLayout* StarInfoBoxLayout;
-	QHBoxLayout* DesignHLayout;
-	QHBoxLayout* NameHLayout;
-	QHBoxLayout* StartHLayout;
-	QHBoxLayout* EndHLayout;
-	QVBoxLayout* DataSelectBoxLayout;
-	QHBoxLayout* PlotHLayout;
-	QHBoxLayout* ButtonHLayout; 
-	
-	
-	KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-	
-	QFile *file;
-	
-/**Make sure all events have been processed before closing the dialog 
-	*@p ev pointer to the QCloseEvent object
-	*/
-	void closeEvent (QCloseEvent *ev);
 
 public slots:
 /** Checks if a star name or designation exists in the database, 
@@ -161,6 +81,43 @@ public slots:
 
 /** Reload file and update lists after download */
 	void downloadReady(KIO::Job *);
+
+private:
+
+/** Initilizes and positions the dialog child widgets. */
+	void createGUI();
+
+/** Converts date Julian days, unless date is 'default'.
+	*@param date The date to be converted
+	*@param *JD pointer to a Julian Day string
+	*@param JDType start or end JD
+	*@returns true if conversion is successful
+	*/
+	bool setJD(QString date, QString * JD, int JDType);
+
+/** Parses star information and connects to the AAVSO server with the information embedded in the URL
+	*@param FinalStartDate The start date in Julian days
+	*@param FinalEndDate The end date in Julian days
+	*@param FinalDesignation The AAVSO star designation
+	*@param AverageDay Number of average days for binning the light curve
+	*/
+	void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay);
+
+	KStars *ksw;
+	LCGeneratorUI *lcg;
+	QVBoxLayout *vlay;
+
+	const QString Hostprefix;
+	const int JDCutOff;
+	
+	KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
+	
+	QFile *file;
+	
+/**Make sure all events have been processed before closing the dialog 
+	*@p ev pointer to the QCloseEvent object
+	*/
+	void closeEvent (QCloseEvent *ev);
 };
 
 #endif // LCGENERATOR_H

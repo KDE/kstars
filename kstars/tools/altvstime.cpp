@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qpainter.h>
-//Added by qt3to4:
+#include <QVBoxLayout>
+#include <QPainter>
 #include <QMouseEvent>
 #include <QPixmap>
-#include <QVBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <QPaintEvent>
+#include <QPointF>
+
 #include <klocale.h>
 #include <klineedit.h>
 #include <klistbox.h>
@@ -32,20 +32,23 @@
 #include "altvstime.h"
 #include "altvstimeui.h"
 #include "dms.h"
-#include "dmsbox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skypoint.h"
 #include "skyobject.h"
-#include "skyobjectname.h"
 #include "ksnumbers.h"
-#include "objectnamelist.h"
 #include "simclock.h"
 #include "finddialog.h"
 #include "locationdialog.h"
+#include "widgets/dmsbox.h"
 
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
+#include "libkdeedu/kdeeduplot/kplotobject.h"
+
+AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
+	setupUi( p );
+}
 
 AltVsTime::AltVsTime( QWidget* parent)  :
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
@@ -120,78 +123,78 @@ AltVsTime::~AltVsTime()
 }
 
 void AltVsTime::slotAddSource(void) {
-	bool objFound( false );
+	SkyObject *obj = ks->data()->objectNamed( avtUI->nameBox->text() );
 
-	//First, attempt to find the object name in the list of known objects
-	if ( ! avtUI->nameBox->text().isEmpty() ) {
-		ObjectNameList &ObjNames = ks->data()->ObjNames;
-		QString text = avtUI->nameBox->text().lower();
-
-		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
-			if ( name->text().lower() == text ) {
-				//object found
-				SkyObject *o = name->skyObject();
-				processObject( o );
-
-				objFound = true;
-				break;
-			}
-		}
-
-		if ( !objFound ) kdDebug() << "No object named " << avtUI->nameBox->text() << " found." << endl;
-	}
-
-	//Next, if the name, RA, and Dec fields are all filled, construct a new skyobject
-	//with these parameters
-	if ( !objFound && ! avtUI->nameBox->text().isEmpty() && ! avtUI->raBox->text().isEmpty() && ! avtUI->decBox->text().isEmpty() ) {
-		bool ok( true );
-		dms newRA( 0.0 ), newDec( 0.0 );
-		newRA = avtUI->raBox->createDms( false, &ok );
-		if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
-
-		//If the epochName is blank (or any non-double), we assume J2000
-		//Otherwise, precess to J2000.
-		KStarsDateTime dt;
-		dt.setFromEpoch( getEpoch( avtUI->epochName->text() ) );
-		long double jd = dt.djd();
-		if ( jd != J2000 ) {
-			SkyPoint ptest( newRA, newDec );
-			ptest.precessFromAnyEpoch( jd, J2000 );
-			newRA.setH( ptest.ra()->Hours() );
-			newDec.setD( ptest.dec()->Degrees() );
-		}
-
-		//make sure the coords do not already exist from another object
+	if ( obj ) {
+		//An object with the current name exists.  If the object is not already 
+		//in the avt list, add it.
 		bool found(false);
-		for ( uint i=0; i < pList.size(); ++i ) {
-			SkyPoint *p = pList.at(i);
-			//within an arcsecond?
-			if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
-				found = true;
-				break;
+		foreach ( SkyObject *o, pList ) {
+			if ( o->name() == obj->name() ) { found = true; break; }
+		}
+
+		if ( found )
+			kdDebug() << i18n("An object named %1 is already displayed; I will not duplicate it.").arg(obj->name()) << endl;
+
+		else 
+			processObject( obj );
+
+	} else {
+		//Object with the current name doesn't exist.  It's possible that the 
+		//user is trying to add a custom object.  Assume this is the case if 
+		//the RA and Dec fields are filled in.
+
+		if ( ! avtUI->nameBox->text().isEmpty() && 
+				! avtUI->raBox->text().isEmpty() && 
+				! avtUI->decBox->text().isEmpty() ) {
+			bool ok( true );
+			dms newRA( 0.0 ), newDec( 0.0 );
+			newRA = avtUI->raBox->createDms( false, &ok );
+			if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
+			if ( !ok ) return;
+	
+			//If the epochName is blank (or any non-double), we assume J2000
+			//Otherwise, precess to J2000.
+			KStarsDateTime dt;
+			dt.setFromEpoch( getEpoch( avtUI->epochName->text() ) );
+			long double jd = dt.djd();
+			if ( jd != J2000 ) {
+				SkyPoint ptest( newRA, newDec );
+				ptest.precessFromAnyEpoch( jd, J2000 );
+				newRA.setH( ptest.ra()->Hours() );
+				newDec.setD( ptest.dec()->Degrees() );
+			}
+	
+			//make sure the coords do not already exist from another object
+			bool found(false);
+			foreach ( SkyObject *p, pList ) {
+				//within an arcsecond?
+				if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
+					found = true;
+					break;
+				}
+			}
+			if ( found ) {
+				kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
+				ok = false;
+			}
+	
+			if ( ok ) {
+				SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
+				deleteList.append( obj ); //this object will be deleted when window is destroyed
+				processObject( obj );
 			}
 		}
-		if ( found ) {
-			kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
-			ok = false;
-		}
 
-		if ( ok ) {
-			SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
-			deleteList.append( obj ); //this object will be deleted when window is destroyed
-			processObject( obj );
-		}
-
-	//If the Ra and Dec boxes are filled, but the name field is empty,
-	//move input focus to nameBox`
-	} else if ( avtUI->nameBox->text().isEmpty() && ! avtUI->raBox->text().isEmpty() && ! avtUI->decBox->text().isEmpty() ) {
-		avtUI->nameBox->QWidget::setFocus();
-
-	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
-	} else if ( avtUI->raBox->text().isEmpty() ) {
-		avtUI->raBox->QWidget::setFocus();
-	} else if ( avtUI->decBox->text().isEmpty() ) {
-		avtUI->decBox->QWidget::setFocus();
+		//If the Ra and Dec boxes are filled, but the name field is empty,
+		//move input focus to nameBox.  If either coordinate box is empty, 
+		//move focus there
+		if ( avtUI->nameBox->text().isEmpty() ) 
+			avtUI->nameBox->QWidget::setFocus();
+		if ( avtUI->raBox->text().isEmpty() ) 
+			avtUI->raBox->QWidget::setFocus();
+		else if ( avtUI->decBox->text().isEmpty() ) 
+			avtUI->decBox->QWidget::setFocus();
 	}
 
 	View->repaint(false);
@@ -201,7 +204,7 @@ void AltVsTime::slotAddSource(void) {
 void AltVsTime::slotBrowseObject(void) {
 	FindDialog fd(ks);
 	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.currentItem()->objName()->skyObject();
+		SkyObject *o = fd.currentItem();
 		processObject( o );
 	}
 
@@ -209,11 +212,13 @@ void AltVsTime::slotBrowseObject(void) {
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
+	if ( !o ) return;
+
 	KSNumbers *num = new KSNumbers( getDate().djd() );
 	KSNumbers *oldNum = 0;
 
 	//If the object is in the solar system, recompute its position for the given epochLabel
-	if ( o && o->isSolarSystem() ) {
+	if ( o->isSolarSystem() ) {
 		oldNum = new KSNumbers( ks->data()->ut().djd() );
 		o->updateCoords( num, true, geo->lat(), ks->LST() );
 	}
@@ -223,8 +228,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
 	//If this point is not in list already, add it to list
 	bool found(false);
-	for ( uint i=0; i < pList.size(); ++i ) {
-		SkyPoint *p = pList.at(i);
+	foreach ( SkyObject *p, pList ) {
 		if ( o->ra()->Degrees() == p->ra()->Degrees() && o->dec()->Degrees() == p->dec()->Degrees() ) {
 			found = true;
 			break;
@@ -232,7 +236,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	}
 	if ( found && !forceAdd ) kdDebug() << "This point is already displayed; I will not duplicate it." << endl;
 	else {
-		pList.append( (SkyPoint*)o );
+		pList.append( o );
 
 		//make sure existing curves are thin and red
 		for ( int i=0; i < View->objectCount(); ++i ) {
@@ -246,7 +250,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		//add new curve with width=2, and color=white
 		KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 2, KPlotObject::SOLID );
 		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-			po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
+			po->addPoint( new QPointF( h, findAltitude( o, h ) ) );
 		}
 		View->addObject( po );
 
@@ -298,9 +302,9 @@ void AltVsTime::slotHighlight(void) {
 
 	View->update();
 
-	for ( uint i=0; i < pList.size(); ++i ) {
+	for ( int i=0; i < pList.size(); ++i ) {
 		if ( i == iPlotList ) {
-			SkyPoint *p = pList.at(i);
+			SkyObject *p = pList.at(i);
 			avtUI->raBox->showInHours( p->ra() );
 			avtUI->decBox->showInDegrees( p->dec() );
 			avtUI->nameBox->setText( avtUI->PlotList->currentText() );
@@ -343,7 +347,7 @@ void AltVsTime::computeSunRiseSetTimes() {
 	//expressed as doubles, the fraction of a full day.
 	KStarsDateTime today = getDate();
 	
-	SkyObject *oSun = (SkyObject*) ks->data()->PCat->planetSun();
+	SkyObject *oSun = ks->data()->objectNamed( "Sun" );
 	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
 	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
 
@@ -386,50 +390,39 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
 		QString oName = avtUI->PlotList->text( i ).lower();
-		ObjectNameList &ObjNames = ks->data()->ObjNames;
-		bool objFound(false);
 
-		for( SkyObjectName *name = ObjNames.first( oName ); name; name = ObjNames.next() ) {
-			if ( name->text().lower() == oName ) {
-				//object found
-				SkyObject *o = name->skyObject();
-
-				//If the object is in the solar system, recompute its position for the given date
-				if ( o->isSolarSystem() ) {
-					oldNum = new KSNumbers( ks->data()->ut().djd() );
-					o->updateCoords( num, true, geo->lat(), &LST );
-				}
-
-				//precess coords to target epoch
-				o->updateCoords( num );
-
-				//update pList entry
-				pList.replace( i, (SkyPoint*)o );
-
-				KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
-				for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-					po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
-				}
-				View->replaceObject( i, po );
-
-				//restore original position
-				if ( o->isSolarSystem() ) {
-					o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
-					delete oldNum;
-					oldNum = 0;
-				}
-
-				objFound = true;
-				break;
+		SkyObject *o = ks->data()->objectNamed( oName );
+		if ( o ) {
+			//If the object is in the solar system, recompute its position for the given date
+			if ( o->isSolarSystem() ) {
+				oldNum = new KSNumbers( ks->data()->ut().djd() );
+				o->updateCoords( num, true, geo->lat(), &LST );
 			}
-		}
-		
-		if ( ! objFound ) {  //assume unfound object is a custom object
+
+			//precess coords to target epoch
+			o->updateCoords( num );
+
+			//update pList entry
+			pList.replace( i, o );
+
+			KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
+				po->addPoint( new QPointF( h, findAltitude( o, h ) ) );
+			}
+			View->replaceObject( i, po );
+
+			//restore original position
+			if ( o->isSolarSystem() ) {
+				o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
+				delete oldNum;
+				oldNum = 0;
+			}
+		} else {  //assume unfound object is a custom object
 			pList.at(i)->updateCoords( num ); //precess to desired epoch
 
 			KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-				po->addPoint( new DPoint( h, findAltitude( pList.at(i), h ) ) );
+				po->addPoint( new QPointF( h, findAltitude( pList.at(i), h ) ) );
 			}
 			View->replaceObject( i, po );
 		}
@@ -498,8 +491,8 @@ double AltVsTime::getEpoch (QString eName)
 	return epoch;
 }
 
-AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
-	: KStarsPlotWidget( x1, x2, y1, y2, parent, name )
+AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent )
+	: KStarsPlotWidget( x1, x2, y1, y2, parent )
 {
 	//Default SunRise/SunSet values
 	SunRise = 0.25; 
@@ -529,7 +522,7 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	QPainter p;
 	p.begin( &buffer2 );
 	p.translate( leftPadding(), topPadding() );
-	p.setPen( QPen( "grey", 1, Qt::SolidLine ) );
+	p.setPen( QPen( QBrush("grey"), 1.0, Qt::SolidLine ) );
 	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
 	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
 	p.end();
@@ -581,7 +574,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
 	while ( x > 24.0 ) x -= 24.0;
 	int ix = int(x*pW/24.0); //convert to screen pixel coords
-	p.setPen( QPen( "white", 2, DotLine ) );
+	p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
 	p.drawLine( ix, 0, ix, pH );
 
 	p.end();

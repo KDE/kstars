@@ -15,6 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QTimer>
+#include <QCursor>
+#include <QVBoxLayout>
+#include <QListWidgetItem>
+
+#include <kcombobox.h>
+#include <klocale.h>
+#include <klistbox.h>
+#include <kpushbutton.h>
+
 #include "wutdialog.h"
 #include "wutdialogui.h"
 
@@ -22,8 +32,6 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "ksnumbers.h"
-#include "skyobjectname.h"
-#include "objectnamelist.h"
 #include "simclock.h"
 #include "detaildialog.h"
 #include "locationdialog.h"
@@ -31,20 +39,9 @@
 #include "kssun.h"
 #include "ksmoon.h"
 
-#include <kcombobox.h>
-#include <klocale.h>
-#include <klistbox.h>
-#include <kpushbutton.h>
-
-#include <q3groupbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <q3frame.h>
-#include <qtabbar.h>
-#include <qtimer.h>
-#include <qcursor.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
+WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
+	setupUi( p );
+}
 
 WUTDialog::WUTDialog(KStars *ks) :
 	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
@@ -55,9 +52,6 @@ WUTDialog::WUTDialog(KStars *ks) :
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
 	WUT = new WUTDialogUI( page );
 	vlay->addWidget( WUT );
-
-	objectList = &(ks->data()->ObjNames);
-//	objectList->setLanguage( Options::useLatinConstellNames() );
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();
@@ -102,8 +96,8 @@ void WUTDialog::makeConnections() {
 	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
 	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(Q3ListBoxItem*) ),
-			SLOT( slotDisplayObject(Q3ListBoxItem*) ) );
+	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListWidgetItem*) ),
+			SLOT( slotDisplayObject(QListWidgetItem*) ) );
 	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
 }
 
@@ -129,7 +123,7 @@ void WUTDialog::init() {
 	}
 
 	// sun almanac information
-	KSSun *oSun = (KSSun*) kstars->data()->PCat->planetSun();
+	KSSun *oSun = (KSSun*) kstars->data()->objectNamed( "Sun" );
 	sunRiseTomorrow = oSun->riseSetTime( TomorrowUT, geo, true );
 	sunSetToday = oSun->riseSetTime( EveningUT, geo, false );
 	sunRiseToday = oSun->riseSetTime( EveningUT, geo, true );
@@ -171,7 +165,7 @@ void WUTDialog::init() {
 	WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours" ).arg( sDuration ) );
 
 	// moon almanac information
-	KSMoon *oMoon = (KSMoon*) kstars->data()->Moon;
+	KSMoon *oMoon = (KSMoon*) kstars->data()->objectNamed( "Moon" );
 	moonRise = oMoon->riseSetTime( UT0, geo, true );
 	moonSet = oMoon->riseSetTime( UT0, geo, false );
 
@@ -212,21 +206,20 @@ void WUTDialog::init() {
 
 void WUTDialog::splitObjectList() {
 	// don't append objects which are never visible
-	for (SkyObjectName *oname=objectList->first(); oname; oname=objectList->next()) {
+	for ( SkyObject *o = kstars->data()->skyComposite()->first(); o; o = kstars->data()->skyComposite()->next() ) {
 		bool visible = true;
-		SkyObject *o = oname->skyObject();
 		// is object circumpolar or never visible
 		if (o->checkCircumpolar(geo->lat()) == true) {
 			// never visible
 			if (o->alt()->Degrees() <= 0) visible = false;
 		}
-		if (visible == true) appendToList(oname);
+		if (visible == true) appendToList(o);
 	}
 }
 
-void WUTDialog::appendToList(SkyObjectName *o) {
+void WUTDialog::appendToList(SkyObject *o) {
 	// split into several lists
-	switch (o->skyObject()->type()) {
+	switch (o->type()) {
 		//case SkyObject::CATALOG_STAR			: //Omitting CATALOG_STARs from list
 		case SkyObject::PLANET            : lists.visibleList[0].append(o); break;
 		case SkyObject::COMET             : lists.visibleList[1].append(o); break;
@@ -245,29 +238,36 @@ void WUTDialog::appendToList(SkyObjectName *o) {
 void WUTDialog::slotLoadList(int i) {
 	WUT->ObjectListBox->clear();
 	setCursor(QCursor(Qt::WaitCursor));
-	QList<SkyObjectName*> invisibleList;
-	for ( uint j=0; j < lists.visibleList[i].size(); ++j ) {
-		SkyObjectName *oname = lists.visibleList[i].at(j);
+//DONT_NEED_INVISLIST
+//	QList<SkyObject*> invisibleList;
+	foreach ( SkyObject *o, lists.visibleList[i] ) {
 		bool visible = true;
 		if (lists.initialized[i] == false) {
 			if (i == 0) {  //planets, sun and moon
-				if (oname->skyObject()->name() == "Sun" ) visible = false;  // don't ever display the sun
-				else visible = checkVisibility(oname);
+				if (o->name() == "Sun" ) visible = false;  // don't ever display the sun
+				else visible = checkVisibility(o);
 			}
-			if (visible == false) {
-				// collect all invisible objects
-				invisibleList.append(oname);
-			}
+//DONT_NEED_INVISLIST
+//			if (visible == false) {
+//				// collect all invisible objects
+//				invisibleList.append(o);
+//			}
 		}
 		// append to listbox
-		if (visible == true) new SkyObjectNameListItem(WUT->ObjectListBox, oname);
-	}
-	// remove all invisible objects from list
-	if (invisibleList.isEmpty() == false) {
-		for ( uint j=0; j < invisibleList.size(); ++j ) {
-			lists.visibleList[i].takeAt(j);
+		if (visible == true) WUT->ObjectListBox->insertItem( o->name() );
+		else {
+			int k=lists.visibleList[i].indexOf(o);
+			if ( k >= 0 ) lists.visibleList[i].removeAt(k);
 		}
 	}
+//DONT_NEED_INVISLIST
+//	// remove all invisible objects from list
+//	if (invisibleList.isEmpty() == false) {
+//		for ( uint j=0; j < invisibleList.size(); ++j ) {
+//			lists.visibleList[i].takeAt(j);
+//		}
+//	}
+
 	setCursor(QCursor(Qt::ArrowCursor));
 	lists.initialized[i] = true;
 
@@ -278,7 +278,7 @@ void WUTDialog::slotLoadList(int i) {
 	}
 }
 
-bool WUTDialog::checkVisibility(SkyObjectName *oname) {
+bool WUTDialog::checkVisibility(SkyObject *o) {
 	bool visible( false );
 	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
@@ -299,7 +299,7 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 		//Need LST of the test time, expressed as a dms object.
 		KStarsDateTime ut = geo->LTtoUT( test );
 		dms LST = geo->GSTtoLST( ut.gst() );
-		SkyPoint sp = oname->skyObject()->recomputeCoords( ut, geo );
+		SkyPoint sp = o->recomputeCoords( ut, geo );
 		
 		//check altitude of object at this time.
 		sp.EquatorialToHorizontal( &LST, geo->lat() );
@@ -313,19 +313,24 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	return visible;
 }
 
-void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
+void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
 	QTime tRise, tSet, tTransit;
 	QString sRise, sTransit, sSet;
+
+	sRise = "--:--";
+	sTransit = "--:--";
+	sSet = "--:--";
+	WUT->DetailButton->setEnabled( false );
+
+	SkyObject *o = kstars->data()->objectNamed( item->text() );
 
 	if ( item==0 ) { //no object selected
 		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
 
-		sRise = "--:--";
-		sTransit = "--:--";
-		sSet = "--:--";
-		WUT->DetailButton->setEnabled( false );
+	} else if ( !o ) { //should never get here
+		WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
+
 	} else {
-		SkyObject *o = ((SkyObjectNameListItem*)item)->objName()->skyObject();
 		WUT->ObjectBox->setTitle( o->name() );
 
 		if ( o->checkCircumpolar( geo->lat() ) ) {
@@ -364,7 +369,7 @@ void WUTDialog::slotCenter() {
 	SkyObject *o = 0;
 	// get selected item
 	if (WUT->ObjectListBox->selectedItem() != 0) {
-		o = ((SkyObjectNameListItem*)WUT->ObjectListBox->selectedItem())->objName()->skyObject();
+		o = kstars->data()->objectNamed( WUT->ObjectListBox->selectedItem()->text() );
 	}
 	if (o != 0) {
 		kstars->map()->setFocusPoint( o );
@@ -377,7 +382,7 @@ void WUTDialog::slotDetails() {
 	SkyObject *o = 0;
 	// get selected item
 	if (WUT->ObjectListBox->selectedItem() != 0) {
-		o = ((SkyObjectNameListItem*)WUT->ObjectListBox->selectedItem())->objName()->skyObject();
+		o = kstars->data()->objectNamed( WUT->ObjectListBox->selectedItem()->text() );
 	}
 	if (o != 0) {
 		DetailDialog detail(o, kstars->data()->LTime, geo, kstars);
