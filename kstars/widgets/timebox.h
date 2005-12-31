@@ -43,7 +43,7 @@ public:
 	 * @param tt boolean. true means that the object will hold a Time.
 	 * false means that the object will hold a Date.
 	 */
-	timeBox(QWidget *parent, const char *n, bool tt=TRUE);
+	timeBox(QWidget *parent, bool tt=TRUE);
 
 	~timeBox();
 

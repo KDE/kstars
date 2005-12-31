@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <kdebug.h>
 
-timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,name) 
+timeBox::timeBox(QWidget *parent, bool tt) : QLineEdit(parent) 
 { 
 
 	if (tt) { 
