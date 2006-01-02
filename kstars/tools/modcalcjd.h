@@ -23,6 +23,10 @@
 #include <kapplication.h>
 #include "modcalcjddlg.h"
 
+class QWidget;
+class VBox;
+class KStarsDateTime;
+
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
   * any of the other entries.
@@ -31,16 +35,11 @@
   *@author Pablo de Vicente
 	*@version 0.9
   */
-
-class QWidget;
-class VBox;
-class KStarsDateTime;
-
-class modCalcJD : public modCalcJdDlg
+class modCalcJD : public QFrame, public Ui::modCalcJdDlg
 {
 Q_OBJECT
 public:
-	modCalcJD(QWidget *p, const char *n);
+	modCalcJD(QWidget *p);
 	~modCalcJD();
 	
 	void computeFromCalendar (void);

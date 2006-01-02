@@ -19,15 +19,12 @@
 #define MODCALCPLANETS_H
 
 #include <kapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
 #include <QTextStream>
+
 #include "modcalcplanetsdlg.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 
-class QWidget;
-class QTextStream;
 class KSPlanet;
 class KSMoon;
 class KSSun;
@@ -36,13 +33,12 @@ class KSPluto;
 /**
   *@author Pablo de Vicente
   */
-
-class modCalcPlanets : public modCalcPlanetsDlg  {
+class modCalcPlanets : public QFrame, public Ui::modCalcPlanetsDlg  {
 
 Q_OBJECT
 
 public: 
-	modCalcPlanets(QWidget *p, const char *n);
+	modCalcPlanets(QWidget *p);
 	~modCalcPlanets();
 	
 public slots:

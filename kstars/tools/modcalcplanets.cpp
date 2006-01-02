@@ -15,33 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QString>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 #include "modcalcplanets.h"
-#include "modcalcplanets.moc"
 #include "dms.h"
-#include "dmsbox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksnumbers.h"
 #include "kssun.h"
 #include "ksplanet.h"
 #include "ksmoon.h"
 #include "kspluto.h"
+#include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include "ksnumbers.h"
 
-#include <qcombobox.h>
-#include <q3datetimeedit.h>
-#include <qstring.h>
-#include <qtextstream.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-
-
-modCalcPlanets::modCalcPlanets(QWidget *parentSplit, const char *name) : modCalcPlanetsDlg (parentSplit,name) {
+modCalcPlanets::modCalcPlanets(QWidget *parentSplit) 
+: QFrame(parentSplit) {
+	setupUi( parentSplit );
 	showCurrentDateTime();
 	showLongLat();
-	raBox->setDegType(FALSE);
+	RABox->setDegType(FALSE);
 	show();
 }
 
@@ -52,27 +47,27 @@ void modCalcPlanets::showCurrentDateTime (void)
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
-	dateBox->setDate( dt.date() );
-	timeBox->setTime( dt.time() );
+	DateBox->setDate( dt.date() );
+	TimeBox->setTime( dt.time() );
 
-	dateBoxBatch->setDate( dt.date() );
-	utBoxBatch->setTime( dt.time() );
+	DateBoxBatch->setDate( dt.date() );
+	UTBoxBatch->setTime( dt.time() );
 }
 
 KStarsDateTime modCalcPlanets::getDateTime (void)
 {
-	return KStarsDateTime( dateBox->date() , timeBox->time() );
+	return KStarsDateTime( DateBox->date() , TimeBox->time() );
 }
 
 void modCalcPlanets::showLongLat(void)
 {
 
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	longBox->show( ks->geo()->lng() );
-	latBox->show( ks->geo()->lat() );
+	LongBox->show( ks->geo()->lng() );
+	LatBox->show( ks->geo()->lat() );
 
-	longBoxBatch->show( ks->geo()->lng() );
-	latBoxBatch->show( ks->geo()->lat() );
+	LongBoxBatch->show( ks->geo()->lng() );
+	LatBoxBatch->show( ks->geo()->lat() );
 }
 
 
@@ -80,8 +75,8 @@ GeoLocation modCalcPlanets::getObserverPosition (void)
 {
 	GeoLocation geoPlace;
 
-	geoPlace.setLong( longBox->createDms() );
-	geoPlace.setLat(  latBox->createDms() );
+	geoPlace.setLong( LongBox->createDms() );
+	geoPlace.setLat(  LatBox->createDms() );
 	geoPlace.setHeight( 0.0 );
 
 	return geoPlace;
@@ -89,7 +84,7 @@ GeoLocation modCalcPlanets::getObserverPosition (void)
 
 void modCalcPlanets::slotComputePosition (void)
 {
-	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
+	KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
 	KStarsDateTime dt = getDateTime(); 
 	long double julianDay = dt.djd();
 	GeoLocation position( getObserverPosition() );
@@ -101,64 +96,64 @@ void modCalcPlanets::slotComputePosition (void)
 	Earth.findPosition( &num );
 	
 	// Mercury
-	if (planetComboBox->currentItem() == 0 ) {
+	if (PlanetComboBox->currentItem() == 0 ) {
 		KSPlanet p( kd, I18N_NOOP( "Mercury" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 1) {
+	else if(PlanetComboBox->currentItem() == 1) {
 		KSPlanet p( kd, I18N_NOOP( "Venus" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 2) {
+	else if(PlanetComboBox->currentItem() == 2) {
 		showCoordinates( Earth );
 	}
-	else if(planetComboBox->currentItem() == 3) {
+	else if(PlanetComboBox->currentItem() == 3) {
 		KSPlanet p( kd, I18N_NOOP( "Mars" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 4) {
+	else if(PlanetComboBox->currentItem() == 4) {
 		KSPlanet p( kd, I18N_NOOP( "Jupiter" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 5) {
+	else if(PlanetComboBox->currentItem() == 5) {
 		KSPlanet p( kd, I18N_NOOP( "Saturn" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 6) {
+	else if(PlanetComboBox->currentItem() == 6) {
 		KSPlanet p( kd, I18N_NOOP( "Uranus" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 7) {
+	else if(PlanetComboBox->currentItem() == 7) {
 		KSPlanet p( kd, I18N_NOOP( "Neptune" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 8) {
+	else if(PlanetComboBox->currentItem() == 8) {
 		KSPluto p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 9) {
+	else if(PlanetComboBox->currentItem() == 9) {
 		KSMoon p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(planetComboBox->currentItem() == 10) {
+	else if(PlanetComboBox->currentItem() == 10) {
 		KSSun p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
@@ -203,106 +198,106 @@ void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
 }
 
 void modCalcPlanets::slotClear(void){
-	helLongBox->setText( "" );
-	helLatBox->setText( "" );
-	sunDistBox->setText( "" );
-	geoLongBox->setText("");
-	geoLatBox->setText("");
-	earthDistBox->setText("");
-	raBox->clearFields();
-	decBox->clearFields();
-	azBox->setText("");
-	altBox->setText("");
+	HelioLongBox->setText( "" );
+	HelioLatBox->setText( "" );
+        HelioDistBox->setText( "" );
+	GeoLongBox->setText("");
+	GeoLatBox->setText("");
+	GeoDistBox->setText("");
+	RABox->clearFields();
+	DecBox->clearFields();
+	AzBox->setText("");
+	AltBox->setText("");
 }
 
 void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
 {
-	helLongBox->show( hLong );
-	helLatBox->show( hLat );
-	sunDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
+	HelioLongBox->show( hLong );
+	HelioLatBox->show( hLat );
+	HelioDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
 }
 
 void modCalcPlanets::showGeocentricEclipticCoords(const dms *eLong, const dms *eLat, double dist)
 {
-	geoLongBox->show( eLong );
-	geoLatBox->show( eLat );
-	earthDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
+	GeoLongBox->show( eLong );
+	GeoLatBox->show( eLat );
+	GeoDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
 }
 
 void modCalcPlanets::showEquatorialCoords(const dms *ra, const dms *dec)
 {
-	raBox->show( ra, FALSE );
-	decBox->show( dec );
+	RABox->show( ra, FALSE );
+	DecBox->show( dec );
 }
 
 void modCalcPlanets::showTopocentricCoords(const dms *az, const dms *el)
 {
-	azBox->show( az );
-	altBox->show( el );
+	AzBox->show( az );
+	AltBox->show( el );
 }
 
 void modCalcPlanets::slotPlanetsCheckedBatch(){
 
-	if ( planetCheckBatch->isChecked() )
-		planetComboBoxBatch->setEnabled( false );
+	if ( PlanetCheckBatch->isChecked() )
+		PlanetComboBoxBatch->setEnabled( false );
 	else {
-		planetComboBoxBatch->setEnabled( true );
+		PlanetComboBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPlanets::slotUtCheckedBatch(){
 
-	if ( utCheckBatch->isChecked() )
-		utBoxBatch->setEnabled( false );
+	if ( UTCheckBatch->isChecked() )
+		UTBoxBatch->setEnabled( false );
 	else {
-		utBoxBatch->setEnabled( true );
+		UTBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPlanets::slotDateCheckedBatch(){
 
-	if ( dateCheckBatch->isChecked() )
-		dateBoxBatch->setEnabled( false );
+	if ( DateCheckBatch->isChecked() )
+		DateBoxBatch->setEnabled( false );
 	else {
-		dateBoxBatch->setEnabled( true );
+		DateBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPlanets::slotLongCheckedBatch(){
 
-	if ( longCheckBatch->isChecked() )
-		longBoxBatch->setEnabled( false );
+	if ( LongCheckBatch->isChecked() )
+		LongBoxBatch->setEnabled( false );
 	else {
-		longBoxBatch->setEnabled( true );
+		LongBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPlanets::slotLatCheckedBatch(){
 
-	if ( latCheckBatch->isChecked() )
-		latBoxBatch->setEnabled( false );
+	if ( LatCheckBatch->isChecked() )
+		LatBoxBatch->setEnabled( false );
 	else {
-		latBoxBatch->setEnabled( true );
+		LatBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPlanets::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcPlanets::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcPlanets::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -322,7 +317,7 @@ void modCalcPlanets::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -330,15 +325,15 @@ void modCalcPlanets::slotRunBatch() {
 unsigned int modCalcPlanets::requiredBatchFields(void) {
 	unsigned int i = 0;
 	
-	if(planetCheckBatch->isChecked() )
+	if(PlanetCheckBatch->isChecked() )
 		i++;
-	if(utCheckBatch->isChecked() )
+	if(UTCheckBatch->isChecked() )
 		i++;
-	if(dateCheckBatch->isChecked() )
+	if(DateCheckBatch->isChecked() )
 		i++;
-	if (longCheckBatch->isChecked() )
+	if (LongCheckBatch->isChecked() )
 		i++;
-	if (latCheckBatch->isChecked() )
+	if (LatCheckBatch->isChecked() )
 		i++;
 
 	return i;
@@ -350,7 +345,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	// we open the output file
 
 	QString outputFileName, lineToWrite;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -365,27 +360,23 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	ExtDate dtB;
 	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
 	double rSunB(0.0), rEarthB(0.0);
-	KStarsData *kd = (KStarsData*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	PlanetCatalog PCat( kd ); 
-	PCat.initialize();
 
-	QString pName[11], pNamei18n[11];
+	KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
 
-	pName[0] = "Mercury";  pNamei18n[0]= i18n("Mercury"); 
-	pName[1] = "Venus";    pNamei18n[1]= i18n("Venus");
-	pName[2] = "Earth";    pNamei18n[2]= i18n("Earth");
-	pName[3] = "Mars";     pNamei18n[3]= i18n("Mars");
-	pName[4] = "Jupiter";  pNamei18n[4]= i18n("Jupiter");
-	pName[5] = "Saturn";   pNamei18n[5]= i18n("Saturn");
-	pName[6] = "Uranus";   pNamei18n[6]= i18n("Uranus");
-	pName[7] = "Neptune";  pNamei18n[7]= i18n("Neptune");
-	pName[8] = "Pluto";    pNamei18n[8]= i18n("Pluto");
-	pName[9] = "Sun";      pNamei18n[9]= i18n("Sun");
-	pName[10] = "Moon";    pNamei18n[10]= i18n("Moon");
+	//Initialize planet names
+	QString pn="";
+	QStringList pNames, pNamesi18n;
+	pNames << "Mercury" << "Venus" << "Earth" << "Mars" << "Jupiter"
+	      << "Saturn" << "Uranus" << "Neptune" << "Pluto" 
+	      << "Sun" << "Moon";
+	pNamesi18n << i18n("Mercury") << i18n("Venus") << i18n("Earth") 
+		  << i18n("Mars") << i18n("Jupiter") << i18n("Saturn") 
+		  << i18n("Uranus") << i18n("Neptune") << i18n("Pluto") 
+		  << i18n("Sun") << i18n("Moon");
 
-	unsigned int numberOfRequiredFields = requiredBatchFields();
-	
-	while ( ! istream.eof() ) {
+	///Parse the input file
+	int numberOfRequiredFields = requiredBatchFields();
+       	while ( ! istream.atEnd() ) {
 		lineToWrite="";
 		line = istream.readLine();
 		line.trimmed();
@@ -404,40 +395,34 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		}
 
 		i = 0;
-		if(planetCheckBatch->isChecked() ) {
+		if(PlanetCheckBatch->isChecked() ) {
 			planetB = fields[i];
-			unsigned int result = 1;
-			int j = 0;
-			while (j < 11) {
-			//while (result != 0 && j < 11) {
-				result = QString::compare( pNamei18n[j] , planetB );
-				if (result == 0)
-					break;
-				j++;
-			}
-			if (j == 11) {
+
+			int j = pNamesi18n.indexOf( planetB );
+			if (j == -1) {
 				kdWarning() << i18n("Unknown planet ")  
 					    << fields[i]  
 					    << i18n(" in line %1: ").arg(nline) << endl;
 				continue;
 			}
+			pn = pNames.at(j); //untranslated planet name
 			i++;
 		} else
-			planetB = planetComboBoxBatch->currentText( );
+			planetB = PlanetComboBoxBatch->currentText( );
 		
-		if ( allRadioBatch->isChecked() ) {
+		if ( AllRadioBatch->isChecked() ) {
 			lineToWrite = planetB;
 			lineToWrite += space;
 		}
 		else
-			if(planetCheckBatch->isChecked() ) {
+			if(PlanetCheckBatch->isChecked() ) {
 				lineToWrite = planetB;
 		  		lineToWrite += space;
 			}
 		
 		// Read Ut and write in ostream if corresponds
 		
-		if(utCheckBatch->isChecked() ) {
+		if(UTCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
 			if ( !utB.isValid() ) {
 				kdWarning() << i18n( "Line %1 contains an invalid time" ).arg(nline) << endl;
@@ -447,17 +432,17 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			}
 			i++;
 		} else
-			utB = utBoxBatch->time();
+			utB = UTBoxBatch->time();
 		
-		if ( allRadioBatch->isChecked() ) 
+		if ( AllRadioBatch->isChecked() ) 
 			lineToWrite += utB.toString().append(space);
 		else
-			if(utCheckBatch->isChecked() ) 
+			if(UTCheckBatch->isChecked() ) 
 				lineToWrite += utB.toString().append(space);
 			
 		// Read date and write in ostream if corresponds
 		
-		if(dateCheckBatch->isChecked() ) {
+		if(DateCheckBatch->isChecked() ) {
 			dtB = ExtDate::fromString( fields[i], Qt::ISODate );
 			if ( !dtB.isValid() ) {
 				kdWarning() << i18n( "Line %1 contains an invalid date: " ).arg(nline) << 
@@ -468,117 +453,99 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			}
 			i++;
 		} else
-			dtB = dateBoxBatch->date();
-		if ( allRadioBatch->isChecked() )
+			dtB = DateBoxBatch->date();
+		if ( AllRadioBatch->isChecked() )
 			lineToWrite += dtB.toString().append(space);
 		else
-			if(dateCheckBatch->isChecked() )
+			if(DateCheckBatch->isChecked() )
 			 	lineToWrite += dtB.toString().append(space);
 		
 		// Read Longitude and write in ostream if corresponds
 		
-		if (longCheckBatch->isChecked() ) {
+		if (LongCheckBatch->isChecked() ) {
 			longB = dms::fromString( fields[i],TRUE);
 			i++;
 		} else
-			longB = longBoxBatch->createDms(TRUE);
+			longB = LongBoxBatch->createDms(TRUE);
 		
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			lineToWrite += longB.toDMSString() + space;
 		else
-			if (longCheckBatch->isChecked() )
+			if (LongCheckBatch->isChecked() )
 				lineToWrite += longB.toDMSString() +  space;
 		
 		// Read Latitude
 
-		if (latCheckBatch->isChecked() ) {
+		if (LatCheckBatch->isChecked() ) {
 			latB = dms::fromString( fields[i], TRUE);
 			i++;
 		} else
-			latB = latBoxBatch->createDms(TRUE);
-		if ( allRadioBatch->isChecked() )
+			latB = LatBoxBatch->createDms(TRUE);
+		if ( AllRadioBatch->isChecked() )
 			lineToWrite += latB.toDMSString() + space;
 		else
-			if (latCheckBatch->isChecked() )
+			if (LatCheckBatch->isChecked() )
 				lineToWrite += latB.toDMSString() + space;	
 
 		KStarsDateTime edt( dtB, utB );
 		dms LST = edt.gst().Degrees() + longB.Degrees();
 
 		KSNumbers num( edt.djd() );
-		
-		PCat.findPosition( &num, &latB, &LST );
-		PCat.EquatorialToHorizontal(&LST, &latB);
-
 		KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
 		Earth.findPosition( &num );
 
-		KSMoon Moon( kd );
-		Moon.findPosition( &num, &latB, &LST, &Earth );
-		Moon.EquatorialToHorizontal( &LST, &latB );
-
-		int result = 1;
-		int jp = -1;
-		while (result != 0 && jp < 10) {
-			jp++;
-			result = QString::compare( pNamei18n[jp] , planetB );
+		KSPlanetBase *kspb;
+		if ( pn == "Pluto" ) {
+		  KSPluto ksp( kd );
+		  ksp.findPosition( &num, &latB, &LST, &Earth );
+		  ksp.EquatorialToHorizontal( &LST, &latB );
+		  kspb = (KSPlanetBase*)&ksp;
+		} else if ( pn == "Sun" ) {
+		  KSSun ksp( kd );
+		  ksp.findPosition( &num, &latB, &LST, &Earth );
+		  ksp.EquatorialToHorizontal( &LST, &latB );
+		  kspb = (KSPlanetBase*)&ksp;
+		} else if ( pn == "Moon" ) {
+		  KSMoon ksp( kd );
+		  ksp.findPosition( &num, &latB, &LST, &Earth );
+		  ksp.EquatorialToHorizontal( &LST, &latB );
+		  kspb = (KSPlanetBase*)&ksp;
+		} else {
+		  KSPlanet ksp( kd, i18n( pn.local8Bit() ), "", Qt::white, 1.0 );
+		  ksp.findPosition( &num, &latB, &LST, &Earth );
+		  ksp.EquatorialToHorizontal( &LST, &latB );
+		  kspb = (KSPlanetBase*)&ksp;
 		}
+
+		// Heliocentric Ecl. coords.
+		hlongB.setD( kspb->helEcLong()->Degrees());
+		hlatB.setD( kspb->helEcLat()->Degrees());
+		rSunB = kspb->rsun();
+		// Geocentric Ecl. coords.
+		glongB.setD( kspb->ecLong()->Degrees() );
+		glatB.setD( kspb->ecLat()->Degrees() );
+		rEarthB = kspb->rearth();
+		// Equatorial coords.
+		decB.setD( kspb->dec()->Degrees() );
+		raB.setD( kspb->ra()->Degrees() );
+		// Topocentric Coords.
+		azmB.setD( kspb->az()->Degrees() );
+		altB.setD( kspb->alt()->Degrees() );
+			
+		ostream << lineToWrite;
+
+		if ( HelioEclCheckBatch->isChecked() ) 
+		  ostream << hlongB.toDMSString() << space << hlatB.toDMSString() << space << rSunB << space ;
+		if ( GeoEclCheckBatch->isChecked() ) 
+		  ostream << glongB.toDMSString() << space << glatB.toDMSString() << space << rEarthB << space ;
+		if ( EquatorialCheckBatch->isChecked() ) 
+		  ostream << raB.toHMSString() << space << decB.toDMSString() << space ;
+		if ( HorizontalCheckBatch->isChecked() ) 
+		  ostream << azmB.toDMSString() << space << altB.toDMSString() << space ;
 		
-		if (jp < 11) {
-			if (jp < 10) {
-				// Heliocentric Ecl. coords.
-				hlongB.setD(PCat.findByName( pName[jp] )->helEcLong()->Degrees());
-				hlatB.setD( PCat.findByName( pName[jp] )->helEcLat()->Degrees());
-				rSunB = PCat.findByName( pName[jp] )->rsun();
+		ostream << endl;
 
-				// Geocentric Ecl. coords.
-				glongB .setD( PCat.findByName( pName[jp] )->ecLong()->Degrees() );
-				glatB.setD( PCat.findByName( pName[jp] )->ecLat()->Degrees() );
-				rEarthB = PCat.findByName( pName[jp] )->rearth();
-
-				// Equatorial coords.
-				decB.setD( PCat.findByName( pName[jp] )->dec()->Degrees() );
-				raB.setD( PCat.findByName( pName[jp] )->ra()->Degrees() );
-
-				// Topocentric Coords.
-				azmB.setD( PCat.findByName( pName[jp] )->az()->Degrees() );
-				altB.setD( PCat.findByName( pName[jp] )->alt()->Degrees() );
-			} else {
-			
-				// Heliocentric Ecl. coords.
-				hlongB.setD( Moon.helEcLong()->Degrees() );
-				hlatB.setD( Moon.helEcLat()->Degrees() );
-
-				// Geocentric Ecl. coords.
-				glongB .setD( Moon.ecLong()->Degrees() );
-				glatB.setD( Moon.ecLat()->Degrees() );
-				rEarthB = Moon.rearth();
-
-				// Equatorial coords.
-				decB.setD( Moon.dec()->Degrees() );
-				raB.setD( Moon.ra()->Degrees() );
-
-				// Topocentric Coords.
-				azmB.setD( Moon.az()->Degrees() );
-				altB.setD( Moon.alt()->Degrees() );
-			}
-			
-
-			ostream << lineToWrite;
-
-			if ( helEclCheckBatch->isChecked() ) 
-				ostream << hlongB.toDMSString() << space << hlatB.toDMSString() << space << rSunB << space ;
-			if ( geoEclCheckBatch->isChecked() ) 
-				ostream << glongB.toDMSString() << space << glatB.toDMSString() << space << rEarthB << space ;
-			if ( equGeoCheckBatch->isChecked() ) 
-				ostream << raB.toHMSString() << space << decB.toDMSString() << space ;
-			if ( topoCheckBatch->isChecked() ) 
-				ostream << azmB.toDMSString() << space << altB.toDMSString() << space ;
-
-			ostream << endl;
-		}
 		nline++;
-
 	}
 
 	if (!lineIsValid) { 
@@ -588,3 +555,5 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcplanets.moc"

@@ -19,7 +19,7 @@
 #include "modcalcjd.moc"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <q3datetimeedit.h>  //need for QTimeEdit
+//#include <q3datetimeedit.h>  //need for QTimeEdit
 #include <qradiobutton.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -29,8 +29,8 @@
 
 #define MJD0 2400000.5
 
-modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : modCalcJdDlg(parentSplit,name) {
-	
+modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
+	setupUi(parentSplit);
 	showCurrentTime();
 	show();
 }
@@ -45,10 +45,10 @@ void modCalcJD::slotComputeTime (void)
 	if(DateRadio->isChecked()) {
 		computeFromCalendar();
 	} else if (JdRadio->isChecked()) {
-		JdName->setFocus();
+		JDBox->setFocus();
 		computeFromJd();
 	} else if (MjdRadio->isChecked()) {
-		MjdName->setFocus();
+		ModJDBox->setFocus();
 		computeFromMjd();
 	}
 }
@@ -68,7 +68,7 @@ void modCalcJD::computeFromMjd (void)
 {
 	long double julianDay, modjulianDay;
 
-	modjulianDay = KGlobal::locale()->readNumber( MjdName->text() );
+	modjulianDay = KGlobal::locale()->readNumber( ModJDBox->text() );
 	julianDay = MJD0 + modjulianDay;
 	showJd( julianDay );
 	computeFromJd();
@@ -77,11 +77,10 @@ void modCalcJD::computeFromMjd (void)
 void modCalcJD::computeFromJd (void)
 {
 	long double julianDay, modjulianDay;
-	julianDay = KGlobal::locale()->readNumber( JdName->text() );
+	julianDay = KGlobal::locale()->readNumber( JDBox->text() );
 	KStarsDateTime dt( julianDay );
 
-	datBox->setDate( dt.date() );
-	timBox->setTime( dt.time() );
+	DateTimeBox->setDateTime( dt );
 
 	modjulianDay = julianDay - MJD0;
 	showMjd( modjulianDay );
@@ -90,30 +89,28 @@ void modCalcJD::computeFromJd (void)
 
 void modCalcJD::slotClearTime (void)
 {
-	JdName->setText ("");
-	MjdName->setText ("");
-	datBox->setDate( ExtDate::currentDate() );
-	timBox->setTime(QTime(0,0,0));
+	JDBox->setText ("");
+	ModJDBox->setText ("");
+	DateTimeBox->setDateTime( ExtDateTime::currentDateTime() );
 }
 
 void modCalcJD::showCurrentTime (void)
 {
 	KStarsDateTime dt = KStarsDateTime::currentDateTime();
-	datBox->setDate( dt.date() );
-	timBox->setTime( dt.time() );
+	DateTimeBox->setDateTime( dt );
 }
 
 KStarsDateTime modCalcJD::getDateTime (void)
 {
-	return KStarsDateTime( datBox->date() , timBox->time() );
+	return KStarsDateTime( DateTimeBox->dateTime() );
 }
 
 void modCalcJD::showJd(long double julianDay)
 {
-	JdName->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
+	JDBox->setText(KGlobal::locale()->formatNumber( (double)julianDay, 5 ) );
 }
 
 void modCalcJD::showMjd(long double modjulianDay)
 {
-	MjdName->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
+	ModJDBox->setText(KGlobal::locale()->formatNumber( (double)modjulianDay, 5 ) );
 }

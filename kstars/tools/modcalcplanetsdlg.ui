@@ -79,7 +79,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="planetComboBox" >
+             <widget class="QComboBox" name="PlanetComboBox" >
               <item>
                <property name="text" >
                 <string>Mercury</string>
@@ -175,22 +175,7 @@
                <widget class="QTimeEdit" name="TimeBox" />
               </item>
               <item row="1" column="1" >
-               <widget class="QFrame" name="DateBox" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="frameShape" >
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow" >
-                 <enum>QFrame::Raised</enum>
-                </property>
-               </widget>
+               <widget class="ExtDateEdit" name="DateBox" />
               </item>
               <item row="1" column="0" >
                <widget class="QLabel" name="label_2" >
@@ -405,7 +390,7 @@
              <widget class="KLineEdit" name="GeoDistBox" />
             </item>
             <item row="1" column="1" colspan="2" >
-             <widget class="KLineEdit" name="GeoLatBox" />
+             <widget class="dmsBox" name="GeoLatBox" />
             </item>
             <item row="0" column="0" >
              <widget class="QLabel" name="label_13" >
@@ -483,7 +468,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="planetCheckBatch" >
+             <widget class="QCheckBox" name="PlanetCheckBatch" >
               <property name="text" >
                <string>Solar system body:</string>
               </property>
@@ -493,7 +478,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="planetComboBoxBatch" >
+             <widget class="QComboBox" name="PlanetComboBoxBatch" >
               <item>
                <property name="text" >
                 <string>Mercury</string>
@@ -583,7 +568,7 @@
                <number>6</number>
               </property>
               <item row="0" column="0" >
-               <widget class="QCheckBox" name="utCheckBatch" >
+               <widget class="QCheckBox" name="UTCheckBatch" >
                 <property name="text" >
                  <string>UT:</string>
                 </property>
@@ -596,7 +581,7 @@
                <widget class="QTimeEdit" name="UTBoxBatch" />
               </item>
               <item row="1" column="0" >
-               <widget class="QCheckBox" name="dateCheckBatch" >
+               <widget class="QCheckBox" name="DateCheckBatch" >
                 <property name="text" >
                  <string>Date:</string>
                 </property>
@@ -632,7 +617,7 @@
                <number>6</number>
               </property>
               <item row="1" column="0" >
-               <widget class="QCheckBox" name="latCheckBatch" >
+               <widget class="QCheckBox" name="LatCheckBatch" >
                 <property name="text" >
                  <string>Latitude:</string>
                 </property>
@@ -642,7 +627,7 @@
                </widget>
               </item>
               <item row="0" column="0" >
-               <widget class="QCheckBox" name="longCheckBatch" >
+               <widget class="QCheckBox" name="LongCheckBatch" >
                 <property name="text" >
                  <string>Longitude:</string>
                 </property>
@@ -677,7 +662,7 @@
            <number>6</number>
           </property>
           <item row="0" column="0" >
-           <widget class="QCheckBox" name="HeliolEclCheckBatch" >
+           <widget class="QCheckBox" name="HelioEclCheckBatch" >
             <property name="text" >
              <string>Heliocentric ecliptic</string>
             </property>
@@ -732,14 +717,14 @@
            <number>6</number>
           </property>
           <item>
-           <widget class="QRadioButton" name="allRadioBatch" >
+           <widget class="QRadioButton" name="AllRadioBatch" >
             <property name="text" >
              <string>All parameters</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="inputRadioBatch" >
+           <widget class="QRadioButton" name="InputRadioBatch" >
             <property name="text" >
              <string>Only parameters in input file</string>
             </property>
@@ -811,7 +796,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="runButtonBatch" >
+          <widget class="KPushButton" name="RunButtonBatch" >
            <property name="sizePolicy" >
             <sizepolicy>
              <hsizetype>7</hsizetype>
@@ -888,7 +873,7 @@
   <customwidget>
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdateedit.h</header>
+   <header>libkdeedu/extdate/extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
