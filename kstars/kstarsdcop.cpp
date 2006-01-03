@@ -215,7 +215,7 @@ QString KStars::getOption( const QString &name ) {
 
 	KConfigSkeletonItem *it = Options::self()->findItem( name );
 	if ( it ) return it->property().toString();
-	else return QString::null;
+	else return QString();
 }
 
 void KStars::changeViewOption( const QString op, const QString val ) {

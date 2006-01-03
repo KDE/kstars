@@ -23,7 +23,7 @@
 #include <QList>
 #include <QMap>
 #include <kshortcut.h>
-
+#include <Q3PtrList>
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"

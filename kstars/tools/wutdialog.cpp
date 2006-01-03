@@ -157,7 +157,7 @@ void WUTDialog::init() {
 				- (float)sunSetToday.second()/3600.0;
 		int hDur = int(Dur);
 		int mDur = int(60.0*(Dur - (float)hDur));
-		sDuration = QString().sprintf( "%02d:%02d", hDur, mDur );
+		sDuration.clear().sprintf( "%02d:%02d", hDur, mDur );
 	}
 
 	WUT->SunSetLabel->setText( i18n( "Sunset: %1" ).arg(sSet) );
@@ -347,15 +347,15 @@ void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
 //			if ( tSet < tRise ) 
 //				tSet = o->riseSetTime( JDTomorrow, geo, false );
 			
-			sRise = QString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
-			sSet = QString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
+			sRise.clear().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
+			sSet.clear().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
 		}
 
 		tTransit = o->transitTime( T0, geo );
 //		if ( tTransit < tRise ) 
 //			tTransit = o->transitTime( JDTomorrow, geo );
 		
-		sTransit = QString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
+		sTransit.clear().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
 
 		WUT->DetailButton->setEnabled( true );
 	}

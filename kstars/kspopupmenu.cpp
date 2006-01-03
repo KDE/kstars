@@ -43,7 +43,7 @@ KSPopupMenu::~KSPopupMenu()
 }
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
-	initPopupMenu( nullObj, i18n( "Empty sky" ), QString::null, QString::null, true, true, false, false, false, true, false );
+	initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
 
 	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
 	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );

@@ -140,7 +140,7 @@ bool StarComponent::openStarFile(int i)
 	if (starFileReader != 0) delete starFileReader;
 	QFile file;
 	QString snum, fname;
-	snum = QString().sprintf("%03d", i);
+	snum.clear().sprintf("%03d", i);
 	fname = "hip" + snum + ".dat";
 	if (KSUtils::openDataFile(file, fname))
 	{

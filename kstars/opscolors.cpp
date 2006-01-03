@@ -164,7 +164,7 @@ void OpsColors::slotAddPreset() {
 	bool okPressed = false;
 	QString schemename = KInputDialog::getText( i18n( "New Color Scheme" ),
 						    i18n( "Enter a name for the new color scheme:" ),
-						    QString::null, &okPressed, 0 );
+						    QString(), &okPressed, 0 );
 
 	if ( okPressed && ! schemename.isEmpty() ) {
 		if ( ksw->data()->colorScheme()->save( schemename ) ) {

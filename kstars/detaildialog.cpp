@@ -740,7 +740,7 @@ QString DetailDialog::parseADVData(QString link)
 	if ( (index = link.find("KSRA")) != -1)
 	{
 		link.remove(index, 4);
-		subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
+		subLink.clear().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
 		subLink = subLink.insert(2, "%20");
 		subLink = subLink.insert(7, "%20");
 
@@ -751,13 +751,13 @@ QString DetailDialog::parseADVData(QString link)
 		link.remove(index, 5);
 		if (selectedObject->dec()->degree() < 0)
 		{
-			subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink.clear().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
 			subLink = subLink.insert(3, "%20");
 			subLink = subLink.insert(8, "%20");
 		}
 		else
 		{
-			subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink.clear().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
 			subLink = subLink.insert(0, "%2B");
 			subLink = subLink.insert(5, "%20");
 			subLink = subLink.insert(10, "%20");

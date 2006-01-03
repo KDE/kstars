@@ -251,7 +251,7 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 		if ( drawName )
 			sName += QString().sprintf("%.1f", mag() );
 		else 
-			sName = QString().sprintf("%.1f", mag() );
+			sName.clear().sprintf("%.1f", mag() );
 	}
 
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );

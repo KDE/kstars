@@ -75,7 +75,7 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 
 	topLayout->activate();
 	disableResize();
-	setMessage(QString::null);  // force repaint of widget with no text
+	setMessage(QString());  // force repaint of widget with no text
 }
 
 KStarsSplash::~KStarsSplash() {

@@ -549,7 +549,7 @@ int INDIDriver::getINDIPort()
   lastPort+=5;
 
 // FIXME KExtendedSocket is obsolete. Find another way to check for free ports
-/*  KExtendedSocket ks(QString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
+/*  KExtendedSocket ks(QString(), lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
 
   for (int i=0 ; i < 10; i++)
   {
