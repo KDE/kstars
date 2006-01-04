@@ -101,7 +101,7 @@ private:
 	*@param FinalDesignation The AAVSO star designation
 	*@param AverageDay Number of average days for binning the light curve
 	*/
-	void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay);
+	void DownloadCurve(ExtDate StartDate, ExtDate EndDate, QString Designation, QString AverageDay);
 
 	KStars *ksw;
 	LCGeneratorUI *lcg;

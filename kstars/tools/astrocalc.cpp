@@ -15,10 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QSplitter>
+#include <QTreeWidget>
+#include <QTextEdit>
+//#include <q3listview.h>
+//#include <q3textview.h>
+//#include <QPixmap>
+#include <klocale.h>
+
 #include "astrocalc.h"
-#include "astrocalc.moc"
 #include "dms.h"
-#include "dmsbox.h"
 #include "modcalcjd.h"
 #include "modcalcgeodcoord.h"
 #include "modcalcgalcoord.h"
@@ -33,13 +39,6 @@
 #include "modcalcequinox.h"
 #include "modcalcvlsr.h"
 
-#include <klocale.h>
-#include <q3listview.h>
-#include <q3textview.h>
-//Added by qt3to4:
-#include <QPixmap>
-
-
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true, i18n("Calculator"), Close ),
 	JDFrame(0), GeodCoordFrame(0), GalFrame(0), SidFrame(0), PrecFrame(0),
@@ -49,60 +48,61 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	split = new QSplitter ( this );
 	setMainWidget(split);
 
-	navigationPanel = new Q3ListView (split,"NavigationPanel");
-	splashScreen = new Q3TextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
+	navigationPanel = new QTreeWidget(split);
+	navigationPanel->setColumnCount(1);
+	navigationPanel->setHeaderLabels( QStringList(i18n("Section")) );
+	navigationPanel->setSortingEnabled( false );
+
+	splashScreen = new QTextEdit (i18n("<H2>KStars Astrocalculator</H2>"),split);
 
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 
 	rightPanel = GenText;
 
-	navigationPanel->addColumn("Section");
-	navigationPanel->setRootIsDecorated(1);
+	QIcon jdIcon = QIcon ("jd.png");
+	QIcon geodIcon = QIcon ("geodetic.png");
+	QIcon solarIcon = QIcon ("geodetic.png");
+	QIcon sunsetIcon = QIcon ("sunset.png");
+	QIcon timeIcon = QIcon ("sunclock.png");
 
-	QPixmap jdIcon = QPixmap ("jd.png");
-	QPixmap geodIcon = QPixmap ("geodetic.png");
-	QPixmap solarIcon = QPixmap ("geodetic.png");
-	QPixmap sunsetIcon = QPixmap ("sunset.png");
-	QPixmap timeIcon = QPixmap ("sunclock.png");
+	QTreeWidgetItem * timeItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Time Calculators")) );
+	timeItem->setIcon(0,timeIcon);
 
-	Q3ListViewItem * timeItem = new Q3ListViewItem(navigationPanel,i18n("Time Calculators"));
-	timeItem->setPixmap(0,timeIcon);
+	QTreeWidgetItem * jdItem = new QTreeWidgetItem(timeItem,QStringList(i18n("Julian Day")) );
+	jdItem->setIcon(0,jdIcon);
 
-	Q3ListViewItem * jdItem = new Q3ListViewItem(timeItem,i18n("Julian Day"));
-	jdItem->setPixmap(0,jdIcon);
+	new QTreeWidgetItem(timeItem,QStringList(i18n("Sidereal Time")) );
+	new QTreeWidgetItem(timeItem,QStringList(i18n("Day Duration")) );
+	new QTreeWidgetItem(timeItem,QStringList(i18n("Equinoxes & Solstices")) );
+//	dayItem->setIcon(0,sunsetIcon);
 
-	new Q3ListViewItem(timeItem,i18n("Sidereal Time"));
-	new Q3ListViewItem(timeItem,i18n("Day Duration"));
-	new Q3ListViewItem(timeItem,i18n("Equinoxes & Solstices"));
-//	dayItem->setPixmap(0,sunsetIcon);
+	QTreeWidgetItem * coordItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Coordinate Converters")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Equatorial/Galactic")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Precession")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Apparent Coordinates")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Horizontal Coordinates")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Ecliptic Coordinates")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Angular Distance")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("LSR Velocity")) );
 
-	Q3ListViewItem * coordItem = new Q3ListViewItem(navigationPanel,i18n("Coordinate Converters"));
-	new Q3ListViewItem(coordItem,i18n("Equatorial/Galactic"));
-	new Q3ListViewItem(coordItem,i18n("Precession"));
-	new Q3ListViewItem(coordItem,i18n("Apparent Coordinates"));
-	new Q3ListViewItem(coordItem,i18n("Horizontal Coordinates"));
-	new Q3ListViewItem(coordItem,i18n("Ecliptic Coordinates"));
-	new Q3ListViewItem(coordItem,i18n("Angular Distance"));
-	new Q3ListViewItem(coordItem,i18n("LSR Velocity"));
+	QTreeWidgetItem * geoItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Earth Coordinates")) );
+	geoItem->setIcon(0,geodIcon);
+	/*QListViewItem * cartItem = */new QTreeWidgetItem(geoItem,QStringList(i18n("Geodetic Coordinates")) );
 
-	Q3ListViewItem * geoItem = new Q3ListViewItem(navigationPanel,i18n("Earth Coordinates"));
-	geoItem->setPixmap(0,geodIcon);
-	/*QListViewItem * cartItem = */new Q3ListViewItem(geoItem,i18n("Geodetic Coordinates"));
+	QTreeWidgetItem * solarItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Solar System")) );
+	solarItem->setIcon(0,solarIcon);
+	/*QListViewItem * planetsItem = */new QTreeWidgetItem(solarItem,QStringList(i18n("Planets Coordinates")) );
 
-	Q3ListViewItem * solarItem = new Q3ListViewItem(navigationPanel,i18n("Solar System"));
-	solarItem->setPixmap(0,solarIcon);
-	/*QListViewItem * planetsItem = */new Q3ListViewItem(solarItem,i18n("Planets Coordinates"));
-
-	connect(navigationPanel, SIGNAL(clicked(Q3ListViewItem *)), this,
-		SLOT(slotItemSelection(Q3ListViewItem *)));
+	connect(navigationPanel, SIGNAL(clicked(QTreeWidgetItem *)), this,
+		SLOT(slotItemSelection(QTreeWidgetItem *)));
 }
 
 AstroCalc::~AstroCalc()
 {
 }
 
-void AstroCalc::slotItemSelection(Q3ListViewItem *item)
+void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 {
 	QString election;
 
@@ -152,7 +152,7 @@ void AstroCalc::genTimeText(void)
 {
 
 	delRightPanel();
-	splashScreen = new Q3TextView ("","",split);
+	splashScreen = new QTextEdit ("",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -179,7 +179,7 @@ void AstroCalc::genTimeText(void)
 void AstroCalc::genCoordText(void)
 {
 	delRightPanel();
-	splashScreen = new Q3TextView ("","",split);
+	splashScreen = new QTextEdit ("",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -215,7 +215,7 @@ void AstroCalc::genCoordText(void)
 void AstroCalc::genGeodText(void)
 {
 	delRightPanel();
-	splashScreen = new Q3TextView ("","",split);
+	splashScreen = new QTextEdit ("",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -234,7 +234,7 @@ void AstroCalc::genGeodText(void)
 void AstroCalc::genSolarText(void)
 {
 	delRightPanel();
-	splashScreen = new Q3TextView ("","",split);
+	splashScreen = new QTextEdit ("",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -288,91 +288,91 @@ void AstroCalc::delRightPanel(void)
 void AstroCalc::genJdFrame(void)
 {
 	delRightPanel();
-	JDFrame = new modCalcJD(split,"JulianDay");
+	JDFrame = new modCalcJD(split);
 	rightPanel = JD;
 }
 
 void AstroCalc::genSidFrame(void)
 {
 	delRightPanel();
-	SidFrame = new modCalcSidTime(split,"SiderealTime");
+	SidFrame = new modCalcSidTime(split);
 	rightPanel = SidTime;
 }
 
 void AstroCalc::genDayFrame(void)
 {
 	delRightPanel();
-	DayFrame = new modCalcDayLength(split,"DayDuration");
+	DayFrame = new modCalcDayLength(split);
 	rightPanel = DayLength;
 }
 
 void AstroCalc::genEquinoxFrame(void)
 {
 	delRightPanel();
-	EquinoxFrame = new modCalcEquinox(split,"Equinox");
+	EquinoxFrame = new modCalcEquinox(split);
 	rightPanel = Equinox;
 }
 
 void AstroCalc::genGeodCoordFrame(void)
 {
 	delRightPanel();
-	GeodCoordFrame = new modCalcGeodCoord(split,"GeoCoord");
+	GeodCoordFrame = new modCalcGeodCoord(split);
 	rightPanel = GeoCoord;
 }
 
 void AstroCalc::genGalFrame(void)
 {
 	delRightPanel();
-	GalFrame = new modCalcGalCoord(split,"Galactic");
+	GalFrame = new modCalcGalCoord(split);
 	rightPanel = Galactic;
 }
 
 void AstroCalc::genEclFrame(void)
 {
 	delRightPanel();
-	EclFrame = new modCalcEclCoords(split,"Ecliptic");
+	EclFrame = new modCalcEclCoords(split);
 	rightPanel = Ecliptic;
 }
 
 void AstroCalc::genPrecFrame(void)
 {
 	delRightPanel();
-	PrecFrame = new modCalcPrec(split,"Precession");
+	PrecFrame = new modCalcPrec(split);
 	rightPanel = Precessor;
 }
 
 void AstroCalc::genAppFrame(void)
 {
 	delRightPanel();
-	AppFrame = new modCalcApCoord(split,"Apparent");
+	AppFrame = new modCalcApCoord(split);
 	rightPanel = Apparent;
 }
 
 void AstroCalc::genAzelFrame(void)
 {
 	delRightPanel();
-	AzelFrame = new modCalcAzel(split,"Horizontal");
+	AzelFrame = new modCalcAzel(split);
 	rightPanel = Azel;
 }
 
 void AstroCalc::genPlanetsFrame(void)
 {
 	delRightPanel();
-	PlanetsFrame = new modCalcPlanets(split,"Planet");
+	PlanetsFrame = new modCalcPlanets(split);
 	rightPanel = Planets;
 }
 
 void AstroCalc::genAngDistFrame(void)
 {
 	delRightPanel();
-	AngDistFrame = new modCalcAngDist(split,"AngDist");
+	AngDistFrame = new modCalcAngDist(split);
 	rightPanel = AngDist;
 }
 
 void AstroCalc::genVlsrFrame(void)
 {
 	delRightPanel();
-	VlsrFrame = new modCalcVlsr(split,"Vlsr");
+	VlsrFrame = new modCalcVlsr(split);
 	rightPanel = Vlsr;
 }
 
@@ -380,3 +380,5 @@ QSize AstroCalc::sizeHint() const
 {
   return QSize(640,430);
 }
+
+#include "astrocalc.moc"

@@ -41,6 +41,8 @@ LCGenerator::LCGenerator( QWidget* parent)
 	ksw = (KStars*) parent;
 	vlay = new QVBoxLayout( page, 0, spacingHint() );
 	lcg = new LCGeneratorUI( page );
+	lcg->AverageDayBox->setMinimum( 1 );
+	lcg->AverageDayBox->setValue( 1 );
 	vlay->addWidget( lcg );
 
 	downloadJob = 0;
@@ -65,177 +67,53 @@ LCGenerator::~LCGenerator()
 
 void LCGenerator::VerifyData()
 {
-	QString InitialStartDate, InitialEndDate;
-	QString FinalDesignation, FinalStartDate, FinalEndDate, AverageDays;
-	bool AverageDaysOK;
+	ExtDate StartDate, EndDate;
+	QString Designation, AverageDays;
 
-	// Get initial user input
-	if ( lcg->StartDateBox->text().isEmpty() ) lcg->StartDateBox->setText( i18n( "default" ) );
-	if ( lcg->EndDateBox->text().isEmpty() ) EndDateIn->setText( i18n( "default" ) );
-    InitialStartDate     = StartDateIn->text().lower();
-    InitialEndDate       = EndDateIn->text().lower();
-    AverageDays       =  AverageDayIn->text();
-    FinalDesignation = DesignationIn->currentText();
+	if ( ! lcg->StartDateBox->date().isValid() ) {
+	  KMessageBox::error(this, i18n("Start date inavlid."));
+	  return;
+	}
+	if ( ! lcg->EndDateBox->date().isValid() ) {
+	  KMessageBox::error(this, i18n("End date inavlid."));
+	  return;
+	}
 
-    // set Julian day
-    if (!setJD(InitialStartDate, &FinalStartDate, 0))
-        return;
-    if (!setJD(InitialEndDate, &FinalEndDate, 1))
-        return;
+	StartDate    = lcg->StartDateBox->date();
+	EndDate      = lcg->EndDateBox->date();
+	if (EndDate < StartDate) {
+	  KMessageBox::error(this, i18n("End date must occur after start date."));
+	  return;
+	}
+	
 
-    if (FinalEndDate.toInt() < FinalStartDate.toInt())
-    {
-        KMessageBox::error(this, i18n("End date must occur after start date."));
-        return;
-    }
+	// Check that we have an integer for average number of days, if data field empty, then make it 'default'
+	AverageDays  = lcg->AverageDayBox->value();
+	Designation  = lcg->DesignationBox->currentText();
 
-   // Check that we have an integer for average number of days, if data field empty, then make it 'default'
-   if (!AverageDays.isEmpty())
-   {
-        AverageDays.toInt(&AverageDaysOK);
-        if (!AverageDaysOK)
-        {
-            KMessageBox::error(this, i18n("Average days must be a positive integer."));
-            return;
-         }
-	 else
-	 {
-	  if (AverageDays.toInt() < 0)
-	  {
-	  	KMessageBox::error(this, i18n("Average days must be a positive integer."));
-            	return;
-	  }
-	 }
-	  
-   }
-   else AverageDays = QString("default");
-
-    //Download the curve!
-   DownloadCurve(FinalStartDate, FinalEndDate, FinalDesignation, AverageDays);
+	//Download the curve!
+	DownloadCurve(StartDate, EndDate, Designation, AverageDays);
   
 }
 
-bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
-{
-    uint i=0;
-    int TempJD=0;
-    int slashCount =0;
-    int slashRefrence[2];
-
-    int dateFormat[3];
-    bool isNumber;
-    
-    const QString invalidFormatStartJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves for the past 500 days."));
-    const QString invalidFormatENDJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves until today."));
-    QString invalidFormatMsg(JDType ? invalidFormatENDJD : invalidFormatStartJD);
-    
-
-    // check for "default" date
-    if (Date == i18n("default"))
-    {
-       *JD = "default";
-       return true;
-    }
-
-    // Get slashcount and and slash refrences
-    for (i=0; i<Date.length(); i++)
-      if (Date.at(i) == '/')
-      {
-          slashRefrence[slashCount++] = i;
-          if (slashCount > 2)
-          {
-             KMessageBox::error(this, invalidFormatMsg);
-             return false;
-          }
-      }
-
-    // check if the data appears to be in JD format
-    if (!slashCount)
-    {
-        TempJD = Date.toInt(&isNumber, 10);
-        if (!isNumber)
-        {
-             KMessageBox::error(this, invalidFormatMsg);
-             return false;
-        }
-
-         if (TempJD >= JDCutOff)
-        {
-          JD->setNum(TempJD, 10);
-          return true;
-        }
-        else
-        {
-             const char* invalidJD = I18N_NOOP("No data available for JD prior to %d");
-             KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
-             return false;
-        }
-    }
-
-    // If it's not a Julian day, check for the format of the date
-    // check if year is 4 digits
-    if ( (Date.length() - slashRefrence[1] - 1) != 4)
-     {
-          KMessageBox::error(this, invalidFormatMsg);
-          return false;
-     }
-
-    // form mm/dd/yyy fields
-    dateFormat[0] = Date.mid(0, slashRefrence[0]).toInt();
-    dateFormat[1] = Date.mid(slashRefrence[0]+1, slashRefrence[1] - (slashRefrence[0] +1)).toInt();
-    dateFormat[2] = Date.mid(slashRefrence[1]+1, Date.length()).toInt();
-
-    ExtDate tempdate(dateFormat[2], dateFormat[0], dateFormat[1]);
-    if (!tempdate.isValid())
-    {
-        KMessageBox::error(this, invalidFormatMsg);
-        return false;
-     }
-
-     // Convert to JD and verify its lower limit
-     TempJD = tempdate.jd();
-
-     if (TempJD >= JDCutOff)
-        {
-          JD->setNum(TempJD, 10);
-          return true;
-        }
-        else
-        {
-             const char* invalidJD = I18N_NOOP("No data available for JD prior to %d");
-             KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
-             return false;
-        }
-  
-}
-
-void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay)
+void LCGenerator::DownloadCurve(ExtDate StartDate, ExtDate EndDate, QString Designation, QString AverageDay)
 {
 
 	QString buf(Hostprefix);
 	QString Yes("yes");
 	QString No("no");
 	
-	//FainterCheck;
-	//CCDVCheck;
-	//CCDICheck;
-	//CCDRCheck;
-	//CCDBCheck;
-	//VisualCheck;
-	//DiscrepantCheck;
-    
-
-	buf.append("?"+FinalStartDate);
-	buf.append("?"+FinalEndDate);
-	buf.append("?"+FinalDesignation);
+	buf.append("?"+QString::number(StartDate.jd()));
+	buf.append("?"+QString::number(EndDate.jd()));
+	buf.append("?"+Designation);
 	buf.append("?"+AverageDay);
-	buf.append("?"+ (FainterCheck->isOn() ? Yes : No));
-	buf.append("?"+ (CCDVCheck->isOn() ? Yes : No));
-	buf.append("?"+ (CCDICheck->isOn() ? Yes : No));
-	buf.append("?"+ (CCDRCheck->isOn() ? Yes : No));
-	buf.append("?"+ (CCDBCheck->isOn() ? Yes : No));
-	buf.append("?"+ (VisualCheck->isOn() ? Yes : No));
-	buf.append("?"+ (DiscrepantCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->FainterCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->CCDVCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->CCDICheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->CCDRCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->CCDBCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->VisualCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->DiscrepantCheck->isOn() ? Yes : No));
 	
 
 	KURL url(buf);
@@ -248,16 +126,16 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
 void LCGenerator::updateDesigList(int index)
 {
 
-    DesignationIn->setSelected(index, true);
-    DesignationIn->centerCurrentItem();
+    lcg->DesignationBox->setSelected(index, true);
+    lcg->DesignationBox->centerCurrentItem();
     
 }
 
 void LCGenerator::updateNameList(int index)
 {
 
-    NameIn->setSelected(index, true);
-    NameIn->centerCurrentItem();
+    lcg->NameBox->setSelected(index, true);
+    lcg->NameBox->centerCurrentItem();
     
 }
 
@@ -290,16 +168,16 @@ downloadJob = 0;
 	{
 		ksw->data()->readVARData();
 		
-		DesignationIn->clear();
-                NameIn->clear();
+		lcg->DesignationBox->clear();
+                lcg->NameBox->clear();
 		
 		// Fill stars designations
                 for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-                DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
+                lcg->DesignationBox->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
                 // Fill star names
                 for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
-                NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
+                lcg->NameBox->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 		
                 KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
 
