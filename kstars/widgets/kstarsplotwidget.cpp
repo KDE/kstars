@@ -25,6 +25,7 @@
 #include <qstring.h>
 
 #include "kstarsplotwidget.h"
+#include "./libkdeedu/kdeeduplot/kplotaxis.h"
 
 
 
@@ -321,7 +322,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	p->setPen( foregroundColor() );
 	p->setBrush( Qt::NoBrush );
 
-	if ( LeftAxis.isVisible() || BottomAxis.isVisible() ) p->drawRect( PixRect ); //box outline
+	if ( mAxes[LeftAxis]->isVisible() || mAxes[BottomAxis]->isVisible() ) p->drawRect( PixRect ); //box outline
 
 	if ( ShowTickMarks ) {
 		//spacing between minor tickmarks (in data units)
@@ -609,9 +610,9 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	} //end if ( showTickmarks )
 
 	//Draw X Axis Label(s)
-	if ( ! BottomAxis.label().isEmpty() ) {
+	if ( ! mAxes[BottomAxis]->label().isEmpty() ) {
 		QRect r( 0, PixRect.height() + 2*YPADDING, PixRect.width(), YPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, BottomAxis.label() );
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, mAxes[BottomAxis]->label() );
 	}
 	if ( ! XAxisLabel2.isEmpty() ) {
 		QRect r( 0, -3*YPADDING, PixRect.width(), YPADDING );
@@ -619,7 +620,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	}
 
 	//Draw Y Axis Label(s).  We need to draw the text sideways.
-	if ( ! LeftAxis.label().isEmpty() ) {
+	if ( ! mAxes[LeftAxis]->label().isEmpty() ) {
 		//store current painter translation/rotation state
 		p->save();
 
@@ -628,7 +629,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->rotate( -90.0 );
 
 		QRect r( 0, 0, PixRect.height(), XPADDING );
-		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, LeftAxis.label() ); //draw the label, now that we are sideways
+		p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, mAxes[LeftAxis]->label() ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state
 	}
