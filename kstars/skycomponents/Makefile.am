@@ -12,6 +12,6 @@ libkstarscomponents_a_SOURCES = singlecomponent.cpp listcomponent.cpp pointlistc
 			milkywaycomposite.cpp milkywaycomponent.cpp \
 			skycomponent.cpp skycomposite.cpp skymapcomposite.cpp 
 
-INCLUDES = -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
+INCLUDES = -I.. -I../tools -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 
 METASOURCES = AUTO

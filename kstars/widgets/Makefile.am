@@ -5,7 +5,7 @@ libkstarswidgets_a_SOURCES = clicklabel.cpp ../dms.cpp dmsbox.cpp \
 	magnitudespinbox.cpp mapcanvas.cpp thumbimage.cpp \
 	timebox.cpp timespinbox.cpp timestepbox.cpp timeunitbox.cpp 
 
-INCLUDES = -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
+INCLUDES = -I.. -I../tools -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 
 #Dependencies on uic-generated headers
 mapcanvas.o: ../locationdialogui.h

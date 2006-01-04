@@ -22,6 +22,6 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 
 libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a
 
-INCLUDES= -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
+INCLUDES= -I.. -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 
 METASOURCES = AUTO
