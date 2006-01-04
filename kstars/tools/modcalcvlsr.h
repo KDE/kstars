@@ -19,9 +19,8 @@
 #define MODCALCVLSR_H
 
 #include <kapplication.h>
-#include <qwidget.h>
-//Added by qt3to4:
 #include <QTextStream>
+
 #include "modcalcvlsrdlg.h"
 
 class QWidget;
@@ -36,13 +35,12 @@ class dms;
   *topocentric radial velocity for a source, given its coordinates, its Vlsr and the date and
   *location on the Earth.
   */
-
-class modCalcVlsr : public modCalcVlsrDlg  {
+class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg  {
 
 Q_OBJECT
 
 public: 
-	modCalcVlsr(QWidget *p, const char *n);
+	modCalcVlsr(QWidget *p);
 	~modCalcVlsr();
 	
 public slots:

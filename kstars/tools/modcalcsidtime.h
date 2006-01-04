@@ -20,8 +20,11 @@
 
 #include "modcalcsidtimedlg.h"
 #include <kapplication.h>
-//Added by qt3to4:
 #include <QTextStream>
+
+class dms;
+class QTime;
+class ExtDate;
 
 /**
   * Class which implements the KStars calculator module to compute Universal
@@ -31,18 +34,13 @@
   *@author Pablo de Vicente
 	*@version 0.9
   */
-
-class dms;
-class QTime;
-class ExtDate;
-
-class modCalcSidTime : public modCalcSidTimeDlg  {
+class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg  {
 
 Q_OBJECT
 
 public:
 
-	modCalcSidTime(QWidget *p, const char *n);
+	modCalcSidTime(QWidget *p);
 	~modCalcSidTime();
 
 	QTime computeUTtoST (QTime u, ExtDate d, dms l);

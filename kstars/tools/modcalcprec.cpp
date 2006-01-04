@@ -15,28 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "modcalcprec.h"
-#include "modcalcprec.moc"
-#include "dmsbox.h"
-#include "skypoint.h"
-#include "dms.h"
-#include "kstarsdatetime.h"
-
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
+//#include <qcheckbox.h>
+//#include <qradiobutton.h>
+//#include <qtextstream.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : modCalcPrecDlg(parentSplit,name) {
+#include "modcalcprec.h"
+#include "modcalcprec.moc"
+#include "skypoint.h"
+#include "dms.h"
+#include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
 
-	ra0Box->setDegType(FALSE);
-	rafBox->setDegType(FALSE);
+modCalcPrec::modCalcPrec(QWidget *parentSplit) : QFrame(parentSplit) {
+	setupUi( parentSplit );
+	InputRABox->setDegType(FALSE);
+	TargetRABox->setDegType(FALSE);
 	show();
-
 }
 
 modCalcPrec::~modCalcPrec(){
@@ -46,8 +45,8 @@ modCalcPrec::~modCalcPrec(){
 SkyPoint modCalcPrec::getEquCoords (void) {
 	dms raCoord, decCoord;
 
-	raCoord = ra0Box->createDms(FALSE);
-	decCoord = dec0Box->createDms();
+	raCoord = InputRABox->createDms(FALSE);
+	decCoord = InputDecBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
 
@@ -80,12 +79,12 @@ double modCalcPrec::getEpoch (QString eName) {
 
 void modCalcPrec::slotClearCoords (void) {
 
-	ra0Box->clearFields();
-	dec0Box->clearFields();
-	rafBox->clearFields();
-	decfBox->clearFields();
-	epoch0Name->setText("");
-	epochfName->setText("");
+	InputRABox->clearFields();
+	InputDecBox->clearFields();
+	TargetRABox->clearFields();
+	TargetDecBox->clearFields();
+	InputEpochBox->setText("");
+	TargetEpochBox->setText("");
 
 }
 
@@ -95,8 +94,8 @@ void modCalcPrec::slotComputeCoords (void) {
 
 	sp = getEquCoords();
 
-	double epoch0 = getEpoch( epoch0Name->text() );
-	double epochf = getEpoch( epochfName->text() );
+	double epoch0 = getEpoch( InputEpochBox->text() );
+	double epochf = getEpoch( TargetEpochBox->text() );
 
 	KStarsDateTime dt;
 	dt.setFromEpoch( epoch0 );
@@ -111,56 +110,56 @@ void modCalcPrec::slotComputeCoords (void) {
 }
 
 void modCalcPrec::showEquCoords ( SkyPoint sp ) {
-	rafBox->show( sp.ra(),FALSE );
-	decfBox->show( sp.dec() );
+	TargetRABox->show( sp.ra(),FALSE );
+	TargetDecBox->show( sp.dec() );
 }
 
 void modCalcPrec::slotRaCheckedBatch(){
 
-	if ( raCheckBatch->isChecked() )
-		raBoxBatch->setEnabled( false );
+	if ( RACheckBatch->isChecked() )
+		RABoxBatch->setEnabled( false );
 	else {
-		raBoxBatch->setEnabled( true );
+		RABoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPrec::slotDecCheckedBatch(){
 
-	if ( decCheckBatch->isChecked() )
-		decBoxBatch->setEnabled( false );
+	if ( DecCheckBatch->isChecked() )
+		DecBoxBatch->setEnabled( false );
 	else {
-		decBoxBatch->setEnabled( true );
+		DecBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPrec::slotEpochCheckedBatch(){
 
-	if ( epochCheckBatch->isChecked() )
-		epochBoxBatch->setEnabled( false );
+	if ( EpochCheckBatch->isChecked() )
+		InputEpochBoxBatch->setEnabled( false );
 	else {
-		epochBoxBatch->setEnabled( true );
+		InputEpochBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPrec::slotTargetEpochCheckedBatch(){
 
-	if ( targetEpochCheckBatch->isChecked() )
-		targetEpochBoxBatch->setEnabled( false );
+	if ( TargetEpochCheckBatch->isChecked() )
+		TargetEpochBoxBatch->setEnabled( false );
 	else {
-		targetEpochBoxBatch->setEnabled( true );
+		TargetEpochBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcPrec::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcPrec::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 
 
 }
@@ -169,7 +168,7 @@ void modCalcPrec::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -191,7 +190,7 @@ void modCalcPrec::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -202,7 +201,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -216,7 +215,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 	double epoch0B, epochfB;
 	KStarsDateTime dt0, dtf;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -228,58 +227,58 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 
 		// Read RA and write in ostream if corresponds
 
-		if(raCheckBatch->isChecked() ) {
+		if(RACheckBatch->isChecked() ) {
 			raB = dms::fromString( fields[i],FALSE);
 			i++;
 		} else
-			raB = raBoxBatch->createDms(FALSE);
+			raB = RABoxBatch->createDms(FALSE);
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << raB.toHMSString() << space;
 		else
-			if(raCheckBatch->isChecked() )
+			if(RACheckBatch->isChecked() )
 				ostream << raB.toHMSString() << space;
 
 		// Read DEC and write in ostream if corresponds
 
-		if(decCheckBatch->isChecked() ) {
+		if(DecCheckBatch->isChecked() ) {
 			decB = dms::fromString( fields[i], TRUE);
 			i++;
 		} else
-			decB = decBoxBatch->createDms();
+			decB = DecBoxBatch->createDms();
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << decB.toDMSString() << space;
 		else
-			if(decCheckBatch->isChecked() )
+			if(DecCheckBatch->isChecked() )
 				ostream << decB.toDMSString() << space;
 
 		// Read Epoch and write in ostream if corresponds
 
-		if(epochCheckBatch->isChecked() ) {
+		if(EpochCheckBatch->isChecked() ) {
 			epoch0B = fields[i].toDouble();
 			i++;
 		} else
-			epoch0B = getEpoch( epochBoxBatch->text() );
+			epoch0B = getEpoch( InputEpochBoxBatch->text() );
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << epoch0B;
 		else
-			if(epochCheckBatch->isChecked() )
+			if(EpochCheckBatch->isChecked() )
 				ostream << epoch0B;
 
 		// Read Target epoch and write in ostream if corresponds
 
-		if(targetEpochCheckBatch->isChecked() ) {
+		if(TargetEpochCheckBatch->isChecked() ) {
 			epochfB = fields[i].toDouble();
 			i++;
 		} else
-			epochfB = getEpoch( targetEpochBoxBatch->text() );
+			epochfB = getEpoch( TargetEpochBoxBatch->text() );
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << epochfB << space;
 		else
-			if(targetEpochCheckBatch->isChecked() )
+			if(TargetEpochCheckBatch->isChecked() )
 				ostream << epochfB << space;
 
 		dt0.setFromEpoch( epoch0B );

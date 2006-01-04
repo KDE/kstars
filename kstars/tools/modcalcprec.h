@@ -19,7 +19,6 @@
 #define MODCALCPREC_H
 
 #include "modcalcprecdlg.h"
-//Added by qt3to4:
 #include <QTextStream>
 
 /**
@@ -37,11 +36,11 @@ class QString;
 class dms;
 class SkyPoint;
 
-class modCalcPrec : public modCalcPrecDlg  {
+class modCalcPrec : public QFrame, public Ui::modCalcPrecDlg  {
 
 Q_OBJECT
 public: 
-	modCalcPrec(QWidget *p, const char *n); 
+	modCalcPrec(QWidget *p); 
 	~modCalcPrec();
 	SkyPoint precess (dms ra0, dms dec0, double e0, double ef);
 

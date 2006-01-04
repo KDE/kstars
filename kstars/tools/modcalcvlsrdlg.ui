@@ -766,7 +766,7 @@
   <customwidget>
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdateedit.h</header>
+   <header>libkdeedu/extdate/extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

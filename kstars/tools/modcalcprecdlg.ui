@@ -303,21 +303,21 @@
            <widget class="KLineEdit" name="InputEpochBoxBatch" />
           </item>
           <item row="1" column="1" >
-           <widget class="KLineEdit" name="DecBoxBatch" >
+           <widget class="dmsBox" name="DecBoxBatch" >
             <property name="enabled" >
              <bool>false</bool>
             </property>
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="KLineEdit" name="RABoxBatch" >
+           <widget class="dmsBox" name="RABoxBatch" >
             <property name="enabled" >
              <bool>false</bool>
             </property>
            </widget>
           </item>
           <item row="0" column="0" >
-           <widget class="QCheckBox" name="raCheckBatch" >
+           <widget class="QCheckBox" name="RACheckBatch" >
             <property name="text" >
              <string>Right ascension:</string>
             </property>
@@ -327,21 +327,21 @@
            </widget>
           </item>
           <item row="3" column="0" >
-           <widget class="QCheckBox" name="targetEpochCheckBatch" >
+           <widget class="QCheckBox" name="TargetEpochCheckBatch" >
             <property name="text" >
              <string>Target epoch:</string>
             </property>
            </widget>
           </item>
           <item row="2" column="0" >
-           <widget class="QCheckBox" name="epochCheckBatch" >
+           <widget class="QCheckBox" name="EpochCheckBatch" >
             <property name="text" >
              <string>Input epoch:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0" >
-           <widget class="QCheckBox" name="decCheckBatch" >
+           <widget class="QCheckBox" name="DecCheckBatch" >
             <property name="text" >
              <string>Declination:</string>
             </property>

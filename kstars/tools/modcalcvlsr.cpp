@@ -15,33 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
+//#include <q3datetimeedit.h>  //need for QTimeEdit
+//#include <qcheckbox.h>
+//#include <qradiobutton.h>
+//#include <qstring.h>
+//#include <qtextstream.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 #include "modcalcvlsr.h"
 
-#include "modcalcvlsr.moc"
 #include "ksnumbers.h"
 #include "dms.h"
-#include "dmsbox.h"
 #include "skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+#include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <q3datetimeedit.h>  //need for QTimeEdit
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qtextstream.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
+modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit) {
 
-
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit, const char *name) : modCalcVlsrDlg (parentSplit,name) {
-
+	setupUi( parentSplit );
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
-	raBox->setDegType(FALSE);
+	RABox->setDegType(FALSE);
 	show();
 }
 
@@ -53,8 +52,8 @@ SkyPoint modCalcVlsr::getEquCoords (void)
 {
 	dms raCoord, decCoord;
 
-	raCoord = raBox->createDms(FALSE);
-	decCoord = decBox->createDms();
+	raCoord = RABox->createDms(FALSE);
+	decCoord = DecBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
 
@@ -63,32 +62,32 @@ SkyPoint modCalcVlsr::getEquCoords (void)
 
 double modCalcVlsr::getVLSR (void)
 {
-	double vlsr = vlsrBox->text().toDouble();
+	double vlsr = VLSRBox->text().toDouble();
 	return vlsr;
 }
 
 double modCalcVlsr::getVhel (void)
 {
-	double vh = vHelioBox->text().toDouble();
+	double vh = VHelioBox->text().toDouble();
 	return vh;
 }
 
 double modCalcVlsr::getVgeo (void)
 {
-	double vg = vGeoBox->text().toDouble();
+	double vg = VGeoBox->text().toDouble();
 	return vg;
 }
 
 double modCalcVlsr::getVtopo (void)
 {
-	double vt = vTopoBox->text().toDouble();
+	double vt = VTopoBox->text().toDouble();
 	return vt;
 }
 
 
 KStarsDateTime modCalcVlsr::getDateTime (void)
 {
-	return KStarsDateTime( datBox->date() , timBox->time() );
+	return KStarsDateTime( DateBox->date() , UTBox->time() );
 }
 
 double modCalcVlsr::getEpoch (QString eName)
@@ -106,21 +105,21 @@ double modCalcVlsr::getEpoch (QString eName)
 dms modCalcVlsr::getLongitude(void)
 {
 	dms longitude;
-	longitude = longBox->createDms();
+	longitude = LongitudeBox->createDms();
 	return longitude;
 }
 
 dms modCalcVlsr::getLatitude(void)
 {
 	dms latitude;
-	latitude = latBox->createDms();
+	latitude = LatitudeBox->createDms();
 	return latitude;
 }
 
 double modCalcVlsr::getHeight(void)
 {
 	bool ok = false;
-	double height = heightBox->text().toDouble(&ok);
+	double height = ElevationBox->text().toDouble(&ok);
 	if (ok) 
 		return height;
 	else {
@@ -142,10 +141,10 @@ void modCalcVlsr::showCurrentDateTime (void)
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
-	datBox->setDate( dt.date() );
-	timBox->setTime( dt.time() );
-	dateBoxBatch->setDate( dt.date() );
-	utBoxBatch->setTime( dt.time() );
+	DateBox->setDate( dt.date() );
+	UTBox->setTime( dt.time() );
+	DateBoxBatch->setDate( dt.date() );
+	UTBoxBatch->setTime( dt.time() );
 }
 
 // SIRVE para algo?
@@ -161,56 +160,56 @@ void modCalcVlsr::showLongLat(void)
 {
 
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	longBox->show( ks->geo()->lng() );
-	latBox->show( ks->geo()->lat() );
-	longBoxBatch->show( ks->geo()->lng() );
-	latBoxBatch->show( ks->geo()->lat() );
+	LongitudeBox->show( ks->geo()->lng() );
+	LatitudeBox->show( ks->geo()->lat() );
+	LongitudeBoxBatch->show( ks->geo()->lng() );
+	LatitudeBoxBatch->show( ks->geo()->lat() );
 }
 
 void modCalcVlsr::showVlsr (const double vlsr )
 {
-	vlsrBox->setText( KGlobal::locale()->formatNumber( vlsr ) );
+	VLSRBox->setText( KGlobal::locale()->formatNumber( vlsr ) );
 }
 
 void modCalcVlsr::showHelVel (const double vhel )
 {
-	vHelioBox->setText( KGlobal::locale()->formatNumber( vhel ) );
+	VHelioBox->setText( KGlobal::locale()->formatNumber( vhel ) );
 }
 
 void modCalcVlsr::showGeoVel (const double vgeo )
 {
-	vGeoBox->setText( KGlobal::locale()->formatNumber( vgeo ) );
+	VGeoBox->setText( KGlobal::locale()->formatNumber( vgeo ) );
 }
 
 void modCalcVlsr::showTopoVel (const double vtop )
 {
-	vTopoBox->setText( KGlobal::locale()->formatNumber( vtop ) );
+	VTopoBox->setText( KGlobal::locale()->formatNumber( vtop ) );
 }
 
 void modCalcVlsr::showEpoch( const KStarsDateTime &dt )
 {
 	double epochN = dt.epoch();
 //	Localization
-//	epochName->setText(KGlobal::locale()->formatNumber(epochN,3));
-	epochName->setText( KGlobal::locale()->formatNumber( epochN ) );
+//	EpochBox->setText(KGlobal::locale()->formatNumber(epochN,3));
+	EpochBox->setText( KGlobal::locale()->formatNumber( epochN ) );
 	
 }
 
 void modCalcVlsr::slotClearCoords()
 {
 
-	raBox->clearFields();
-	decBox->clearFields();
-	longBox->clearFields();
-	latBox->clearFields();
-	epochName->setText("");
-	vlsrBox->setText("");
-	vHelioBox->setText("");
-	vGeoBox->setText("");
-	vTopoBox->setText("");
+	RABox->clearFields();
+	DecBox->clearFields();
+	LongitudeBox->clearFields();
+	LatitudeBox->clearFields();
+	EpochBox->setText("");
+	VLSRBox->setText("");
+	VHelioBox->setText("");
+	VGeoBox->setText("");
+	VTopoBox->setText("");
 
-	datBox->setDate(ExtDate::currentDate());
-	timBox->setTime(QTime(0,0,0));
+	DateBox->setDate(ExtDate::currentDate());
+	UTBox->setTime(QTime(0,0,0));
 
 }
 
@@ -220,7 +219,7 @@ void modCalcVlsr::slotComputeVelocities()
 	getGeoLocation();
 
 
-	double epoch0 = getEpoch( epochName->text() );
+	double epoch0 = getEpoch( EpochBox->text() );
 	KStarsDateTime dt0;
 	dt0.setFromEpoch(epoch0);
 	KStarsDateTime dt1 = getDateTime();
@@ -277,93 +276,93 @@ void modCalcVlsr::slotComputeVelocities()
 }
 
 void modCalcVlsr::slotUtChecked(){
-	if ( utCheckBatch->isChecked() )
-		utBoxBatch->setEnabled( false );
+	if ( UTCheckBatch->isChecked() )
+		UTBoxBatch->setEnabled( false );
 	else {
-		utBoxBatch->setEnabled( true );
+		UTBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotDateChecked(){
-	if ( dateCheckBatch->isChecked() )
-		dateBoxBatch->setEnabled( false );
+	if ( DateCheckBatch->isChecked() )
+		DateBoxBatch->setEnabled( false );
 	else {
-		dateBoxBatch->setEnabled( true );
+		DateBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotRaChecked(){
-	if ( raCheckBatch->isChecked() ) {
-		raBoxBatch->setEnabled( false );
+	if ( RACheckBatch->isChecked() ) {
+		RABoxBatch->setEnabled( false );
 	}
 	else {
-		raBoxBatch->setEnabled( true );
+		RABoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotDecChecked(){
-	if ( decCheckBatch->isChecked() ) {
-		decBoxBatch->setEnabled( false );
+	if ( DecCheckBatch->isChecked() ) {
+		DecBoxBatch->setEnabled( false );
 	}
 	else {
-		decBoxBatch->setEnabled( true );
+		DecBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotEpochChecked(){
-	if ( epochCheckBatch->isChecked() )
-		epochBoxBatch->setEnabled( false );
+	if ( EpochCheckBatch->isChecked() )
+		EpochBoxBatch->setEnabled( false );
 	else 
-		epochBoxBatch->setEnabled( true );
+		EpochBoxBatch->setEnabled( true );
 }
 
 void modCalcVlsr::slotLongChecked(){
-	if ( longCheckBatch->isChecked() )
-		longBoxBatch->setEnabled( false );
+	if ( LongCheckBatch->isChecked() )
+		LongitudeBoxBatch->setEnabled( false );
 	else 
-		longBoxBatch->setEnabled( true );
+		LongitudeBoxBatch->setEnabled( true );
 }
 
 void modCalcVlsr::slotLatChecked(){
-	if ( latCheckBatch->isChecked() )
-		latBoxBatch->setEnabled( false );
+	if ( LatCheckBatch->isChecked() )
+		LatitudeBoxBatch->setEnabled( false );
 	else {
-		latBoxBatch->setEnabled( true );
+		LatitudeBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotHeightChecked(){
-	if ( heightCheckBatch->isChecked() )
-		heightBoxBatch->setEnabled( false );
+	if ( ElevationCheckBatch->isChecked() )
+		ElevationBoxBatch->setEnabled( false );
 	else {
-		heightBoxBatch->setEnabled( true );
+		ElevationBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotVlsrChecked(){
-	if ( vlsrCheckBatch->isChecked() )
-		vlsrBoxBatch->setEnabled( false );
+	if ( InputVelocityCheckBatch->isChecked() )
+		InputVelocityBoxBatch->setEnabled( false );
 	else {
-		vlsrBoxBatch->setEnabled( true );
+		InputVelocityBoxBatch->setEnabled( true );
 	}
 }
 
 void modCalcVlsr::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+	InputFileBoxBatch->setURL( inputFileName );
 }
 
 void modCalcVlsr::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+	OutputFileBoxBatch->setURL( outputFileName );
 }
 
 void modCalcVlsr::slotRunBatch() {
 	QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+	inputFileName = InputFileBoxBatch->url();
 
 	// We open the input file and read its content
 
@@ -385,7 +384,7 @@ void modCalcVlsr::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
-		InputLineEditBatch->setText( inputFileName );
+		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
 }
@@ -396,7 +395,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
+	outputFileName = OutputFileBoxBatch->url();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -414,7 +413,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 	ExtDate dtB;
 	KStarsDateTime dt0B;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
@@ -426,127 +425,127 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
 		// Read Ut and write in ostream if corresponds
 		
-		if(utCheckBatch->isChecked() ) {
+		if(UTCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
 			i++;
 		} else
-			utB = utBoxBatch->time();
+			utB = UTBoxBatch->time();
 		
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << utB.toString() << space;
 		else
-			if(utCheckBatch->isChecked() )
+			if(UTCheckBatch->isChecked() )
 				ostream << utB.toString() << space;
 			
 		// Read date and write in ostream if corresponds
 		
-		if(dateCheckBatch->isChecked() ) {
+		if(DateCheckBatch->isChecked() ) {
 			 dtB = ExtDate::fromString( fields[i] );
 			 i++;
 		} else
-			dtB = dateBoxBatch->date();
-		if ( allRadioBatch->isChecked() )
+			dtB = DateBoxBatch->date();
+		if ( AllRadioBatch->isChecked() )
 			ostream << dtB.toString().append(space);
 		else
-			if(dateCheckBatch->isChecked() )
+			if(DateCheckBatch->isChecked() )
 			 	ostream << dtB.toString().append(space);
 		
 		// Read RA and write in ostream if corresponds
 
-		if(raCheckBatch->isChecked() ) {
+		if(RACheckBatch->isChecked() ) {
 			raB = dms::fromString( fields[i],FALSE);
 			i++;
 		} else
-			raB = raBoxBatch->createDms(FALSE);
+			raB = RABoxBatch->createDms(FALSE);
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << raB.toHMSString() << space;
 		else
-			if(raCheckBatch->isChecked() )
+			if(RACheckBatch->isChecked() )
 				ostream << raB.toHMSString() << space;
 
 		// Read DEC and write in ostream if corresponds
 
-		if(decCheckBatch->isChecked() ) {
+		if(DecCheckBatch->isChecked() ) {
 			decB = dms::fromString( fields[i], TRUE);
 			i++;
 		} else
-			decB = decBoxBatch->createDms();
+			decB = DecBoxBatch->createDms();
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << decB.toDMSString() << space;
 		else
-			if(decCheckBatch->isChecked() )
+			if(DecCheckBatch->isChecked() )
 				ostream << decB.toDMSString() << space;
 
 		// Read Epoch and write in ostream if corresponds
 	
-		if(epochCheckBatch->isChecked() ) {
+		if(EpochCheckBatch->isChecked() ) {
 			epoch0B = fields[i].toDouble();
 			i++;
 		} else
-			epoch0B = getEpoch( epochBoxBatch->text() );
+			epoch0B = getEpoch( EpochBoxBatch->text() );
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << epoch0B << space;
 		else
-			if(epochCheckBatch->isChecked() )
+			if(EpochCheckBatch->isChecked() )
 				ostream << epoch0B << space;
 
 		// Read vlsr and write in ostream if corresponds
 	
-		if(vlsrCheckBatch->isChecked() ) {
+		if(InputVelocityCheckBatch->isChecked() ) {
 			vlsrB = fields[i].toDouble();
 			i++;
 		} else
-			vlsrB = getEpoch( epochBoxBatch->text() );
+			vlsrB = getEpoch( EpochBoxBatch->text() );
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << vlsrB << space;
 		else
-			if(vlsrCheckBatch->isChecked() )
+			if(InputVelocityCheckBatch->isChecked() )
 				ostream << vlsrB << space;
 		
 		// Read Longitude and write in ostream if corresponds
 		
-		if (longCheckBatch->isChecked() ) {
+		if (LongCheckBatch->isChecked() ) {
 			longB = dms::fromString( fields[i],TRUE);
 			i++;
 		} else
-			longB = longBoxBatch->createDms(TRUE);
+			longB = LongitudeBoxBatch->createDms(TRUE);
 		
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;
 		else
-			if (longCheckBatch->isChecked() )
+			if (LongCheckBatch->isChecked() )
 				ostream << longB.toDMSString() << space;
 		
 		// Read Latitude
 
 
-		if (latCheckBatch->isChecked() ) {
+		if (LatCheckBatch->isChecked() ) {
 			latB = dms::fromString( fields[i], TRUE);
 			i++;
 		} else
-			latB = latBoxBatch->createDms(TRUE);
-		if ( allRadioBatch->isChecked() )
+			latB = LatitudeBoxBatch->createDms(TRUE);
+		if ( AllRadioBatch->isChecked() )
 			ostream << latB.toDMSString() << space;
 		else
-			if (latCheckBatch->isChecked() )
+			if (LatCheckBatch->isChecked() )
 				ostream << latB.toDMSString() << space;
 		
 		// Read height and write in ostream if corresponds
 	
-		if(heightCheckBatch->isChecked() ) {
+		if(ElevationCheckBatch->isChecked() ) {
 			heightB = fields[i].toDouble();
 			i++;
 		} else
-			heightB = getEpoch( epochBoxBatch->text() );
+			heightB = getEpoch( EpochBoxBatch->text() );
 
-		if ( allRadioBatch->isChecked() )
+		if ( AllRadioBatch->isChecked() )
 			ostream << heightB << space;
 		else
-			if(heightCheckBatch->isChecked() )
+			if(ElevationCheckBatch->isChecked() )
 				ostream << heightB << space;
 		
 		// We make the first calculations
@@ -572,3 +571,5 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
 	fOut.close();
 }
+
+#include "modcalcvlsr.moc"

@@ -311,7 +311,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="QTimeEdit" name="STBoxBatch" />
+             <widget class="QTimeEdit" name="OutputTimeBoxBatch" />
             </item>
             <item row="1" column="0" >
              <widget class="QCheckBox" name="STCheckBatch" >
@@ -330,7 +330,7 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="QTimeEdit" name="UTBoxBatch" />
+             <widget class="QTimeEdit" name="InputTimeBoxBatch" />
             </item>
            </layout>
           </item>
@@ -375,7 +375,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="KLineEdit" name="LongitudeBoxBatch" />
+             <widget class="dmsBox" name="LongitudeBoxBatch" />
             </item>
             <item row="1" column="0" >
              <widget class="QCheckBox" name="LongCheckBatch" >
@@ -507,7 +507,7 @@
   <customwidget>
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdateedit.h</header>
+   <header>libkdeedu/extdate/extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
