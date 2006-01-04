@@ -284,8 +284,8 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 	int pW = PixRect.width(), pH = PixRect.height();
 
 	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
-	p->setPen( bgColor() );
-	p->setBrush( bgColor() );
+	p->setPen( backgroundColor() );
+	p->setBrush( backgroundColor() );
 
 	//left padding ( don't forget: we have translated by XPADDING, YPADDING )
 	p->drawRect( -leftPadding(), -topPadding(), leftPadding(), height() );
@@ -304,21 +304,21 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->setPen( gridColor() );
 
 		//vertical grid lines
-		double x0 = x() - dmod( x(), dXtick ); //zeropoint; x(i) is this plus i*dXtick1
+		double x0 = x() - fmod( x(), dXtick ); //zeropoint; x(i) is this plus i*dXtick1
 		for ( int ix = 0; ix <= nmajX+1; ix++ ) {
 			int px = int( pW * ( (x0 + ix*dXtick - x())/dataWidth() ) );
 			p->drawLine( px, 0, px, pH );
 		}
 
 		//horizontal grid lines
-		double y0 = y() - dmod( y(), dYtick ); //zeropoint; y(i) is this plus i*mX
+		double y0 = y() - fmod( y(), dYtick ); //zeropoint; y(i) is this plus i*mX
 		for ( int iy = 0; iy <= nmajY+1; iy++ ) {
 			int py = int( pH * ( (y0 + iy*dYtick - y())/dataHeight() ) );
 			p->drawLine( 0, py, pW, py );
 		}
 	}
 
-	p->setPen( fgColor() );
+	p->setPen( foregroundColor() );
 	p->setBrush( Qt::NoBrush );
 
 	if ( LeftAxis.isVisible() || BottomAxis.isVisible() ) p->drawRect( PixRect ); //box outline
@@ -340,7 +340,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->setFont( f );
 
 		//--- Draw primary X tickmarks on bottom axis---//
-		double x0 = x() - dmod( x(), dXtick ); //zeropoint; tickmark i is this plus i*dXtick1 (in data units)
+		double x0 = x() - fmod( x(), dXtick ); //zeropoint; tickmark i is this plus i*dXtick1 (in data units)
 		if ( x() < 0 ) x0 -= dXtick;
 
 		for ( int ix = 0; ix <= nmajX+1; ix++ ) {
@@ -408,7 +408,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		}
 
 		//--- Draw primary Y tickmarks on left axis---//
-		double y0 = y() - dmod( y(), dYtick ); //zeropoint; tickmark i is this plus i*dYtick1 (in data units)
+		double y0 = y() - fmod( y(), dYtick ); //zeropoint; tickmark i is this plus i*dYtick1 (in data units)
 		if ( y() < 0 ) y0 -= dYtick;
 
 		for ( int iy = 0; iy <= nmajY+1; iy++ ) {
@@ -478,7 +478,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		//--- Draw secondary X tickmarks on top axis---//
 		if ( secondaryXLimits ) {
 			double dminX2 = dXtick2/nminX2;
-			double x0 = xb() - dmod( xb(), dXtick2 ); //zeropoint; tickmark i is this plus i*dXtick2 (in data units)
+			double x0 = xb() - fmod( xb(), dXtick2 ); //zeropoint; tickmark i is this plus i*dXtick2 (in data units)
 
 			for ( int ix = 0; ix <= nmajX2; ix++ ) {
 				int px = int( pW * ( (x0 + ix*dXtick2 - xb())/dataWidth2() ) ); //position of tickmark i (in screen units)
@@ -542,7 +542,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		//--- Draw secondary Y tickmarks on right axis ---//
 		if ( secondaryYLimits ) {
 			double dminY2 = dYtick2/nminY2;
-			double y0 = yScale()*(yb() - dmod( yb(), dYtick2 )); //zeropoint; tickmark i is this plus i*mX (in data units)
+			double y0 = yScale()*(yb() - fmod( yb(), dYtick2 )); //zeropoint; tickmark i is this plus i*mX (in data units)
 
 			for ( int iy = 0; iy <= nmajY2; iy++ ) {
 				int py = pH - int( pH * ( (y0 + iy*dYtick2 - yb())/dataWidth2() ) ); //position of tickmark i (in screen units)
