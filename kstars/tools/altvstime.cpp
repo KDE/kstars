@@ -45,6 +45,8 @@
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 #include "libkdeedu/kdeeduplot/kplotobject.h"
+#include "libkdeedu/kdeeduplot/kplotaxis.h"
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 	setupUi( p );
@@ -66,9 +68,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	View->setXAxisType( KStarsPlotWidget::TIME );
 	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
-	View->setXAxisLabel( i18n( "Local Time" ) );
+	View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
 	View->setXAxisLabel2( i18n( "Local Sidereal Time" ) );
-	View->setYAxisLabel( i18n( "the angle of an object above (or below) the horizon", "Altitude" ) );
+	View->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "the angle of an object above (or below) the horizon", "Altitude" ) );
 
 	avtUI = new AltVsTimeUI( page );
 	avtUI->raBox->setDegType( false );
@@ -533,7 +535,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	QPainter p;
 
 	p.begin( buffer );
-	p.fillRect( 0, 0, width(), height(), bgColor() );
+	p.fillRect( 0, 0, width(), height(), backgroundColor() );
 
 	p.translate( leftPadding(), topPadding() );
 
