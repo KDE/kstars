@@ -17,7 +17,6 @@
 #ifndef JMOONTOOL_H
 #define JMOONTOOL_H
 
-#include <QKeyEvent>
 #include <kdialogbase.h>
 #include "widgets/kstarsplotwidget.h"
 
@@ -32,7 +31,7 @@ class JMoonTool : public KDialogBase
 {
 Q_OBJECT
 public:
-	JMoonTool(QWidget *parent = 0, const char *name = 0);
+	JMoonTool(QWidget *parent = 0);
 	~JMoonTool();
 
 protected:

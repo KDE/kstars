@@ -14,12 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qlabel.h>
-//Added by qt3to4:
 #include <QVBoxLayout>
-#include <Q3Frame>
 #include <QGridLayout>
+#include <QLayout>
+#include <QFrame>
 #include <QKeyEvent>
 
 #include <kdebug.h>
@@ -31,12 +29,13 @@
 #include "kstarsdata.h"
 #include "ksplanet.h"
 #include "simclock.h"
-#include "planetcatalog.h"
 #include "dms.h"
 #include "ksnumbers.h"
+#include "libkdeedu/kdeeduplot/kplotobject.h"
+#include "libkdeedu/kdeeduplot/kplotaxis.h"
 
-JMoonTool::JMoonTool(QWidget *parent, const char *name)
- : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent, name )
+JMoonTool::JMoonTool(QWidget *parent)
+ : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent )
 {
 	ksw = (KStars*)parent;
 	
@@ -58,10 +57,10 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	labGn->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	labCa->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-	labIo->setAlignment( AlignHCenter );
-	labEu->setAlignment( AlignHCenter );
-	labGn->setAlignment( AlignHCenter );
-	labCa->setAlignment( AlignHCenter );
+	labIo->setAlignment( Qt::AlignHCenter );
+	labEu->setAlignment( Qt::AlignHCenter );
+	labGn->setAlignment( Qt::AlignHCenter );
+	labCa->setAlignment( Qt::AlignHCenter );
 
 	labIo->setPaletteForegroundColor( colIo );
 	labEu->setPaletteForegroundColor( colEu );
@@ -82,8 +81,8 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	pw->setShowGrid( false );
 	pw->setYAxisType0( KStarsPlotWidget::TIME );
 	pw->setLimits( -12.0, 12.0, -240.0, 240.0 );
-	pw->setXAxisLabel( i18n( "offset from Jupiter (arcmin)" ) );
-	pw->setYAxisLabel( i18n( "time since now (days)" ) );
+	pw->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "offset from Jupiter (arcmin)" ) );
+	pw->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "time since now (days)" ) );
 	vlay->addLayout( glay );
 	vlay->addWidget( pw );
 	resize( 250, 500 );
@@ -100,8 +99,8 @@ void JMoonTool::initPlotObjects() {
 	KPlotObject *orbit[4];
 	KPlotObject *jpath;
 	long double jd0 = ksw->data()->ut().djd();
-	KSSun *ksun = (KSSun*)ksw->data()->PCat->findByName( "Sun" );
-	KSPlanet *jup = (KSPlanet*)ksw->data()->PCat->findByName( "Jupiter" );
+	KSSun *ksun = (KSSun*)ksw->data()->skyComposite()->findByName( "Sun" );
+	KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( "Jupiter" );
 	JupiterMoons jm;
 	
 	if ( pw->objectCount() ) pw->clearObjectList();
@@ -122,9 +121,9 @@ void JMoonTool::initPlotObjects() {
 		//jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
 		//multiply by 0.5*jup->angSize() to get arcminutes
 		for ( unsigned int i=0; i<4; ++i ) 
-			orbit[i]->addPoint( new DPoint( 0.5*jup->angSize()*jm.x(i), t ) );
+			orbit[i]->addPoint( new QPointF( 0.5*jup->angSize()*jm.x(i), t ) );
 		
-		jpath->addPoint( new DPoint( 0.0, t ) );
+		jpath->addPoint( new QPointF( 0.0, t ) );
 	}
 
 	for ( unsigned int i=0; i<4; ++i ) 
@@ -135,7 +134,7 @@ void JMoonTool::initPlotObjects() {
 
 void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 	switch ( e->key() ) {
-		case Key_BracketRight:
+		case Qt::Key_BracketRight:
 		{
 			double dy = 0.02*pw->dataHeight();
 			pw->setLimits( pw->x(), pw->x2(), pw->y()+dy, pw->y2()+dy );
@@ -143,7 +142,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			pw->update();
 			break;
 		}
-		case Key_BracketLeft:
+		case Qt::Key_BracketLeft:
 		{
 			double dy = 0.02*pw->dataHeight();
 			pw->setLimits( pw->x(), pw->x2(), pw->y()-dy, pw->y2()-dy );
@@ -151,8 +150,8 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			pw->update();
 			break;
 		}
-		case Key_Plus:
-		case Key_Equal:
+		case Qt::Key_Plus:
+		case Qt::Key_Equal:
 		{
 			if ( pw->dataHeight() > 48.0 ) { 
 				double dy = 0.45*pw->dataHeight();
@@ -163,8 +162,8 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			}
 			break;
 		}
-		case Key_Minus:
-		case Key_Underscore:
+		case Qt::Key_Minus:
+		case Qt::Key_Underscore:
 		{
 			if ( pw->dataHeight() < 960.0 ) {
 				double dy = 0.55*pw->dataHeight();
@@ -175,7 +174,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			}
 			break;
 		}
-		case Key_Escape:
+		case Qt::Key_Escape:
 		{
 			close();
 			break;

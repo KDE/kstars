@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>ScriptName</class>
- <widget class="QWidget" name="ScriptName" >
+ <class>ScriptNameDialog</class>
+ <widget class="QWidget" name="ScriptNameDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>

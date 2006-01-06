@@ -14,28 +14,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <q3widgetstack.h>
-//Added by qt3to4:
+//#include <qcheckbox.h>
+//#include <qlabel.h>
+//#include <qlayout.h>
+//#include <q3widgetstack.h>
+
 #include <QVBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <knuminput.h>
 #include <klistbox.h>
 #include <klistview.h>
 #include <kpushbutton.h>
 
-#include "dmsbox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "locationdialog.h"
-#include "magnitudespinbox.h"
 #include "skyobject.h"
 #include "starobject.h"
+#include "widgets/dmsbox.h"
+#include "widgets/magnitudespinbox.h"
 //#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include "obslistwizard.h"
+
+ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
+  setupUi( p );
+}
 
 ObsListWizard::ObsListWizard( QWidget *parent, const char *name ) 
   : KDialogBase( KDialogBase::Plain, i18n("Observing List Wizard"), Ok|Cancel, Ok, parent, name )
@@ -111,8 +115,8 @@ void ObsListWizard::initialize()
 	ObjectCount = 0; //number of objects in observing list
 	StarCount = ksw->data()->starList.count(); //total number of stars
 	PlanetCount = 10; //Sun, Moon, 8 planets
-	AsteroidCount = ksw->data()->asteroidList.count(); //total number of asteroids
-	CometCount = ksw->data()->cometList.count(); //total number of comets
+	AsteroidCount = ksw->data()->skyComosite()->solarSystem()->asteroids()->size(); //total number of asteroids
+	CometCount = ksw->data()->skyComposite()->solarSystem()->comets()->size(); //total number of comets
 	//DeepSkyObjects
 	OpenClusterCount = 0;
 	GlobClusterCount = 0;
@@ -342,20 +346,20 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
 	//Sun, Moon, Planets
 	if ( olw->TypeList->findItem( i18n( "Sun, Moon, Planets" ) )->isSelected() ) {
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->planetSun(), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->Moon, doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Mercury"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Venus"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Mars"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Jupiter"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Saturn"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Uranus"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Neptune"), doBuildList );
-		applyRegionFilter( (SkyObject*)ksw->data()->PCat->findByName("Pluto"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mercury"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Venus"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mars"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Jupiter"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Saturn"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Uranus"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Neptune"), doBuildList );
+		applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Pluto"), doBuildList );
 	}
 
 	//Deep sky objects
-	for ( SkyObject *o = (SkyObject*)(ksw->data()->deepSkyList.first()); o; o = (SkyObject*)(ksw->data()->deepSkyList.next()) ) {
+	foreach ( DeepSkyObject *o, ksw->data()->skyComposite()->deepSkyObjects() ) {
 		//Skip unselected object types
 		if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) && ! olw->TypeList->findItem( i18n( "Stars" ) )->isSelected() ) continue;
 		if ( o->type() == SkyObject::OPEN_CLUSTER && ! olw->TypeList->findItem( i18n( "Open Clusters" ) )->isSelected() ) continue;
@@ -384,7 +388,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
 	//Comets
 	if ( olw->TypeList->findItem( i18n( "Comets" ) )->isSelected() ) {
-		for ( SkyObject *o = (SkyObject*)(ksw->data()->cometList.first()); o; o = (SkyObject*)(ksw->data()->cometList.next()) ) {
+		foreach ( SkyObject *o, ksw->data()->skyComposite()->comets() ) {
 			//comets don't have magnitudes at this point, so skip mag check
 			applyRegionFilter( o, doBuildList );
 		}
@@ -392,8 +396,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
 	//Asteroids
 	if ( olw->TypeList->findItem( i18n( "Asteroids" ) )->isSelected() ) {
-		for ( SkyObject *o = (SkyObject*)(ksw->data()->asteroidList.first()); o; o = (SkyObject*)(ksw->data()->asteroidList.next()) ) {
-	
+		foreach ( SkyObject *o, ksw->data()->skyComposite()->asteroids() ) {
 			if ( olw->SelectByMag->isChecked() ) {
 				if ( o->mag() > 90. ) {
 					if ( ! olw->ExcludeNoMag->isChecked() ) 
@@ -413,7 +416,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 	}
 
 	//Update the object count label
-	if ( doBuildList ) ObjectCount = obsList().count();
+	if ( doBuildList ) ObjectCount = obsList().size();
 	olw->CountLabel->setText( i18n("Current selection: %1 objects").arg( ObjectCount ) );
 }
 	

@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-#include <QValidator>
 #include "scriptfunction.h"
 
 
@@ -80,8 +79,8 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	}
 
 	//Set Valid=false if there are arguments (indicates that this fcn's args must be filled in)
-	QValidator::Intermediate = true;
-	if ( NumArgs ) QValidator::Intermediate = false;
+	bool Valid = true;
+	if ( NumArgs ) Valid = false;
 
 	//Finish writing function prototype
 	if ( NumArgs ) Description += " ";

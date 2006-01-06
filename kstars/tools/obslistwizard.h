@@ -20,16 +20,19 @@
 #include <kdialogbase.h>
 
 #include "obslistwizardui.h"
-//Added by qt3to4:
-#include <Q3PtrList>
 
 class KStars;
-class Q3ListViewItem;
+
+class ObsListWizardUI : public QFrame, public Ui::ObsListWizard {
+	Q_OBJECT
+	public:
+		ObsListWizardUI( QWidget *p ); 
+};
 
 /**@class ObsListWizard
  *@short Wizard for constructing observing lists
+ *@author Jason Harris
  */
-
 class ObsListWizard : public KDialogBase
 {
 	Q_OBJECT

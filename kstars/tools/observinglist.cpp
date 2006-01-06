@@ -16,16 +16,17 @@
  ***************************************************************************/
 
 #include <stdio.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qstringlist.h>
-#include <q3widgetstack.h>
-//Added by qt3to4:
+
+#include <QFile>
+#include <QDir>
+//#include <qlabel.h>
+//#include <qlayout.h>
+//#include <qstringlist.h>
+//#include <q3widgetstack.h>
 #include <QVBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <QTextStream>
+
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
@@ -40,7 +41,6 @@
 #include <klineedit.h>
 
 #include "observinglist.h"
-#include "observinglistui.h"
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -56,9 +56,13 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
+ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
+  setupUi( p );
+}
+
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
+				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), m_CurrentObject(0), 
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
 	QFrame *page = plainPage();
@@ -100,8 +104,6 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	connect( ui->MiniButton, SIGNAL( clicked() ),
 			this, SLOT( slotToggleSize() ) );
 
-	obsList.setAutoDelete( false ); //do NOT delete removed pointers!
-	
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
 	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
@@ -120,7 +122,7 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 }
 
 bool ObservingList::contains( const SkyObject *q ) {
-	for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
+	foreach ( SkyObject* o, obsList() ) {
 		if ( o == q ) return true;
 	}
 
@@ -139,7 +141,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! obj ) obj = ks->map()->clickedObject();
 
 	//First, make sure object is not already in the list
-	for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
+	foreach ( SkyObject *o, obsList() ) {
 		if ( obj == o ) {
 			ks->statusBar()->changeItem( i18n( "%1 is already in the observing list." ).arg( obj->name() ), 0 );
 			return;
@@ -147,7 +149,8 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	}
 
 	//Insert object in obsList
-	obsList.append( obj );
+	m_ObservingList.append( obj );
+	m_CurrentObject = obj;
 	if ( ! isModified ) isModified = true; 
 
 	//Insert object entry in FullTable and TinyTable
@@ -168,7 +171,10 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	if ( !o ) 
 		o = ks->map()->clickedObject();
 	
-	obsList.remove(o);
+	int i = obsList().indexOf( o );
+	if ( i < 0 ) return; //object not in observing list
+
+	m_ObservingList.remove(o);
 	if ( ! isModified ) isModified = true;
 
 	if ( o == LogObject ) 
@@ -210,9 +216,9 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 }
 
 void ObservingList::slotRemoveObjects() {
-	if ( SelectedObjects.count() == 0) return;
+	if ( m_SelectedObjects.size() == 0) return;
 	
-	for ( SkyObject *o = SelectedObjects.first(); o; o = SelectedObjects.next() ) 
+	foreach ( SkyObject *o, m_SelectedObjects ) 
 		slotRemoveObject( o );
 
 	slotNewSelection();
@@ -221,20 +227,20 @@ void ObservingList::slotRemoveObjects() {
 void ObservingList::slotNewSelection() {
 	//If the TinyTable is visible, we need to sync the selection in the FullTable
 	if ( sender() == ui->TinyTable ) syncTableSelection();
-
+	
 	//Construct list of selected objects
-	SelectedObjects.clear();
+	m_SelectedObjects.clear();
 	Q3ListViewItemIterator it( ui->FullTable, Q3ListViewItemIterator::Selected ); //loop over selected items
 	while ( it.current() ) {
-		for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
+		foreach ( SkyObject *o, obsList() ) {
 			if ( it.current()->text(0) == i18n("star") ) {
 				if ( it.current()->text(1) == o->ra()->toHMSString() 
 						&& it.current()->text(2) == o->dec()->toDMSString() ) {
-					SelectedObjects.append(o);
+					m_SelectedObjects.append(o);
 					break;
 				}
 			} else if ( o->translatedName() == it.current()->text(0) ) {
-				SelectedObjects.append( o );
+				m_SelectedObjects.append( o );
 				break;
 			}
 		}
@@ -242,9 +248,9 @@ void ObservingList::slotNewSelection() {
 	}
 	
 	//Enable widgets when one object selected
-	if ( SelectedObjects.count() == 1 ) {
-		QString newName( SelectedObjects.first()->translatedName() );
-		QString oldName( obsList.current()->translatedName() );
+	if ( m_SelectedObjects.size() == 1 ) {
+		QString newName( m_SelectedObjects[0]->translatedName() );
+		QString oldName( currentObject()->translatedName() );
 		
 		//Enable buttons
 		ui->CenterButton->setEnabled( true );
@@ -256,23 +262,18 @@ void ObservingList::slotNewSelection() {
 		//Find the selected object in the obsList,
 		//then break the loop.  Now obsList.current()
 		//points to the new selected object (until now it was the previous object)
-		bool found( false );
-		for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
-			if ( o->translatedName() == newName ) {
-				found = true;
-				break;
-			}
-		}
+		bool found = obsList().contains( m_SelectedObjects[0] );
+		if ( found ) m_CurrentObject = m_SelectedObjects[0];
 
 		if ( ! found ) { 
-			kdDebug() << i18n( "Object %1 not found in obsList." ).arg( newName ) << endl;
+			kdDebug() << i18n( "Object %1 not found in observing ist." ).arg( newName ) << endl;
 		} else if ( newName != i18n( "star" ) ) {
 			//Display the object's current user notes in the NotesEdit
 			//First, save the last object's user log to disk, if necessary
 			saveCurrentUserLog();
 			
 			//set LogObject to the new selected object
-			LogObject = obsList.current();
+			LogObject = currentObject();
 			
 			ui->NotesLabel->setEnabled( true );
 			ui->NotesEdit->setEnabled( true );
@@ -290,12 +291,7 @@ void ObservingList::slotNewSelection() {
 			ui->NotesEdit->setEnabled( false );
 		}
 
-		//This shouldn't be necessary.  For some reason, obsList.current() 
-		//is valid here, but in subsequent functions (such as slotCenterObject) 
-		//called *right after* this one, obsList.current()==NULL.  No idea why.
-		oCurrent = obsList.current();
-
-	} else if ( SelectedObjects.count() == 0 ) {
+	} else if ( m_SelectedObjects.size() == 0 ) {
 		//Disable buttons
 		ui->CenterButton->setEnabled( false );
 		ui->ScopeButton->setEnabled( false );
@@ -304,7 +300,7 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( false );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
-		oCurrent = 0;
+		m_CurrentObject = 0;
 		
 		//Clear the user log text box.
 		saveCurrentUserLog();
@@ -316,7 +312,7 @@ void ObservingList::slotNewSelection() {
 		ui->RemoveButton->setEnabled( true );
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
-		oCurrent = 0;
+		m_CurrentObject = 0;
 
 		//Clear the user log text box.
 		saveCurrentUserLog();
@@ -325,9 +321,9 @@ void ObservingList::slotNewSelection() {
 }
 
 void ObservingList::slotCenterObject() {
-	if ( oCurrent ) {
-		ks->map()->setClickedObject( oCurrent );
-		ks->map()->setClickedPoint( oCurrent );
+	if ( currentObject() ) {
+		ks->map()->setClickedObject( currentObject() );
+		ks->map()->setClickedPoint( currentObject() );
 		ks->map()->slotCenter();
 	}
 }
@@ -348,9 +344,9 @@ void ObservingList::slotSlewToObject()
   INDIMenu *imenu = ks->getINDIMenu();
 
   
-  for (unsigned int i=0; i < imenu->mgr.count() ; i++)
+  for (int i=0; i < imenu->mgr.size() ; i++)
   {
-    for (unsigned int j=0; j < imenu->mgr.at(i)->indi_dev.count(); j++)
+    for (int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++)
     {
        indidev = imenu->mgr.at(i)->indi_dev.at(j);
        indidev->stdDev->currentObject = NULL;
@@ -405,7 +401,7 @@ void ObservingList::slotSlewToObject()
        
         onset->activateSwitch("SLEW");
 
-        indidev->stdDev->currentObject = oCurrent;
+        indidev->stdDev->currentObject = currentObject();
 
       /* Send object name if available */
       if (indidev->stdDev->currentObject)
@@ -466,16 +462,16 @@ void ObservingList::slotSlewToObject()
 //FIXME: This will open multiple Detail windows for each object;
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
-	if ( oCurrent ) {
-		DetailDialog dd( oCurrent, ks->data()->lt(), ks->geo(), ks );
+	if ( currentObject() ) {
+		DetailDialog dd( currentObject(), ks->data()->lt(), ks->geo(), ks );
 		dd.exec();
 	}
 }
 
 void ObservingList::slotAVT() {
-	if ( SelectedObjects.count() ) {
+	if ( m_SelectedObjects.size() ) {
 		AltVsTime avt( ks );
-		for ( SkyObject *o = SelectedObjects.first(); o; o = SelectedObjects.next() ) {
+		foreach ( SkyObject *o, m_SelectedObjects ) {
 			avt.processObject( o );
 		}
 		
@@ -486,9 +482,9 @@ void ObservingList::slotAVT() {
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
 	//Save the current User log text
-	if ( oCurrent && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
-					!= i18n("Record here observation logs and/or data on %1.").arg( oCurrent->name()) ) {
-		oCurrent->saveUserLog( ui->NotesEdit->text() );
+	if ( currentObject() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+					!= i18n("Record here observation logs and/or data on %1.").arg( currentObject()->name()) ) {
+		currentObject()->saveUserLog( ui->NotesEdit->text() );
 	}
 	
 	hide();
@@ -537,7 +533,7 @@ void ObservingList::slotOpenList() {
 		QString line;
 		ListName = istream.readLine();
 
-		while ( ! istream.eof() ) {
+		while ( ! istream.atEnd() ) {
 			line = istream.readLine();
 			SkyObject *o = ks->data()->objectNamed( line );
 			if ( o ) slotAddObject( o );
@@ -559,7 +555,7 @@ void ObservingList::slotOpenList() {
 void ObservingList::saveCurrentList() {
 	//Before loading a new list, do we need to save the current one?
 	//Assume that if the list is empty, then there's no need to save
-	if ( obsList.count() ) {
+	if ( obsList().size() ) {
 		if ( isModified ) {
 			QString message = i18n( "Do you want to save the current list before opening a new list?" );
 			if ( KMessageBox::questionYesNo( this, message, 
@@ -569,7 +565,8 @@ void ObservingList::saveCurrentList() {
 
 		//If we ever allow merging the loaded list with 
 		//the existing one, that code would go here
-		obsList.clear();
+		m_ObservingList.clear();
+		m_CurrentObject = 0;
 		ui->FullTable->clear();
 	}
 }
@@ -608,7 +605,7 @@ void ObservingList::slotSaveList() {
 	
 	QTextStream ostream(&f);
 	ostream << ListName << endl;
-	for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
+	foreach ( SkyObject* o, obsList() ) {
 		ostream << o->name() << endl;
 	}
 
@@ -622,7 +619,7 @@ void ObservingList::slotWizard() {
 		//Make sure current list is saved
 		saveCurrentList();
 
-		for ( SkyObject *o = wizard.obsList().first(); o; o = wizard.obsList().next() ) {
+		foreach ( SkyObject *o, wizard.obsList() ) {
 			slotAddObject( o );
 		}
 	}
@@ -633,7 +630,7 @@ void ObservingList::slotToggleSize() {
 		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", KIcon::Toolbar ) );
 
 		//switch widget stack to show TinyTable
-		ui->TableStack->raiseWidget( ui->TinyTable );
+		ui->TableStack->setCurrentWidget( ui->TinyTable );
 
 		//Abbreviate text on each button
 		ui->CenterButton->setText( i18n( "First letter in 'Center'", "C" ) );
@@ -654,7 +651,7 @@ void ObservingList::slotToggleSize() {
 		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
 
 		//switch widget stack to show FullTable
-		ui->TableStack->raiseWidget( ui->FullTable );
+		ui->TableStack->setCurrentWidget( ui->FullTable );
 
 		//Expand text on each button
 		ui->CenterButton->setText( i18n( "Center" ) );

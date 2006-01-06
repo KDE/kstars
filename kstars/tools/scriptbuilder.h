@@ -1,7 +1,3 @@
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QTextStream>
-#include <Q3PtrList>
 /***************************************************************************
                           scriptbuilder.h  -  description
                              -------------------
@@ -22,58 +18,47 @@
 #ifndef SCRIPTBUILDER_H
 #define SCRIPTBUILDER_H
 
-class KStars;
-class Q3ListViewItem;
-class QWidget;
-class QLayout;
+#include <kdialogbase.h>
+
+#include "scriptbuilderui.h"
+#include "scriptnamedialog.h"
+#include "scriptargwidgets.h"
+#include "optionstreeview.h"
+
+class QTextStream;
+class QVBoxLayout;
 class KURL;
+
+class KStars;
 class ScriptFunction;
-class ScriptBuilderUI;
-class ScriptNameDialog;
-class OptionsTreeView;
-class ArgLookToward;
-class ArgSetRaDec;
-class ArgSetAltAz;
-class ArgSetLocalTime;
-class ArgWaitFor;
-class ArgWaitForKey;
-class ArgSetTrack;
-class ArgChangeViewOption;
-class ArgSetGeoLocation;
-class ArgTimeScale;
-class ArgZoom;
-class ArgExportImage;
-class ArgPrintImage;
-class ArgSetColor;
-class ArgLoadColorScheme;
-class ArgStartINDI;
-class ArgShutdownINDI;
-class ArgSwitchINDI;
-class ArgSetPortINDI;
-class ArgSetTargetCoordINDI;
-class ArgSetTargetNameINDI;
-class ArgSetActionINDI;
-class ArgSetFocusSpeedINDI;
-class ArgStartFocusINDI;
-class ArgSetFocusTimeoutINDI;
-class ArgSetGeoLocationINDI;
-class ArgStartExposureINDI;
-class ArgSetUTCINDI;
-class ArgSetScopeActionINDI;
-class ArgSetFrameTypeINDI;
-class ArgSetCCDTempINDI;
-class ArgSetFilterNumINDI;
+
+class OptionsTreeView : public QFrame, public Ui::OptionsTreeView {
+Q_OBJECT
+public:
+	OptionsTreeView( QWidget *p );
+};
+
+class ScriptNameDialog : public QFrame, public Ui::ScriptNameDialog {
+Q_OBJECT
+public:
+	ScriptNameDialog( QWidget *p );
+};
+
+class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder {
+Q_OBJECT
+public:
+	ScriptBuilderUI( QWidget *p );
+};
 
 /**@class ScriptBuilder
 	*A GUI tool for building behavioral DCOP scripts for KStars.
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ScriptBuilder : public KDialogBase
-{
+class ScriptBuilder : public KDialogBase {
 Q_OBJECT
 public:
-	ScriptBuilder( QWidget *parent, const char *name=0 );
+	ScriptBuilder( QWidget *parent );
 	~ScriptBuilder();
 
 	bool unsavedChanges() const { return UnsavedChanges; }
@@ -123,7 +108,7 @@ public slots:
 	void slotPrintImage();
 	void slotChangeColor();
 	void slotChangeColorName();
-	void slotLoadColorScheme(Q3ListBoxItem*);
+	void slotLoadColorScheme(QListWidgetItem*);
 	
 	void slotEnableScriptNameOK();
 	
@@ -173,9 +158,9 @@ private:
 	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
-	Q3PtrList<ScriptFunction> KStarsFunctionList;
-	Q3PtrList<ScriptFunction> INDIFunctionList;
-	Q3PtrList<ScriptFunction> ScriptList;
+	QList<ScriptFunction*> KStarsFunctionList;
+	QList<ScriptFunction*> INDIFunctionList;
+	QList<ScriptFunction*> ScriptList;
 	QVBoxLayout *vlay;
 
 	QWidget *argBlank;
@@ -216,7 +201,7 @@ private:
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
 
-	Q3ListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+	QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
 	bool UnsavedChanges;
 	KURL currentFileURL;

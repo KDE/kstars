@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>ArgSwitchINDI</class>
- <widget class="QWidget" name="ArgSwitchINDI" >
+ <class>ArgStartINDI</class>
+ <widget class="QWidget" name="ArgStartINDI" >
   <property name="geometry" >
    <rect>
     <x>0</x>

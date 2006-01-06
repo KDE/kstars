@@ -18,13 +18,22 @@
 #ifndef OBSERVINGLIST_H
 #define OBSERVINGLIST_H
 
-#include <Q3PtrList>
+#include <QList>
 #include <kdialogbase.h>
-#include "../skyobject.h"
+#include "skyobject.h"
+#include "observinglistui.h"
 
 class KStars;
-class ObservingListUI;
 class QStringList;
+
+class ObservingListUI : public QFrame, public Ui::ObservingList {
+  Q_OBJECT
+
+public:
+/**@short Cunstructor
+	*/
+	ObservingListUI( QWidget *parent );
+};
 
 /**@class ObservingList
 	*Tool window for managing a custom list of objects.  The window
@@ -63,7 +72,7 @@ class ObservingList : public KDialogBase
 public:
 /**@short Cunstructor
 	*/
-	ObservingList( KStars *_ks, QWidget* parent = 0 );
+	ObservingList( KStars *_ks, QWidget *parent = 0 );
 /**@short Destuctor (empty)
 	*/
 	~ObservingList() {}
@@ -73,13 +82,18 @@ public:
 	*/
 	bool contains( const SkyObject *o );
 
-	SkyObject* first() { return obsList.first(); }
-	SkyObject* next() { return obsList.next(); }
-	uint count() const { return obsList.count(); }
-
 /**@return true if the window is in its default "large" state.
 	*/
 	bool isLarge() const { return bIsLarge; }
+
+/**@return reference to the current observing list
+	*/
+	QList<SkyObject*>& obsList() { return m_ObservingList; }
+
+/**@return pointer to the currently-selected object in the observing list
+	*@note if more than one object is selected, this function returns 0.
+	*/
+	SkyObject *currentObject() const { return m_CurrentObject; }
 
 /**@short If the current list has unsaved changes, ask the user about saving it.
 	*@note also clears the list in preparation of opening a new one
@@ -131,6 +145,8 @@ public slots:
 	*/
 	void slotNewSelection();
 
+	void slotNewCurrent();
+
 /**@short load an observing list from disk.
 	*/
 	void slotOpenList();
@@ -164,9 +180,9 @@ private:
 
 	KStars *ks;
 	ObservingListUI *ui;
-	Q3PtrList<SkyObject> obsList;
-	Q3PtrList<SkyObject> SelectedObjects;
-	SkyObject *LogObject, *oCurrent;
+	QList<SkyObject*> m_ObservingList;
+	QList<SkyObject*> m_SelectedObjects;
+	SkyObject *LogObject, *m_CurrentObject;
 	uint noNameStars;
 
 	bool isModified, bIsLarge;

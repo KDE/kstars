@@ -38,7 +38,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="DeviceName" />
+      <widget class="KLineEdit" name="deviceName" />
      </item>
     </layout>
    </item>

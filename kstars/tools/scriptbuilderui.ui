@@ -440,7 +440,7 @@
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="KListView" name="FunctionListView" >
+         <widget class="QTreeWidget" name="FunctionTree" >
           <property name="sizePolicy" >
            <sizepolicy>
             <hsizetype>7</hsizetype>
@@ -493,13 +493,6 @@
    <class>KTextEdit</class>
    <extends></extends>
    <header>ktextedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KListView</class>
-   <extends></extends>
-   <header>klistview.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
