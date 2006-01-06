@@ -71,6 +71,7 @@ class DeepSkyComponent: public SkyComponent
 		virtual SkyObject* findByName( const QString &name );
 
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+		QList<DeepSkyObject*>& objectList() { return m_MessierList << m_NGCList << m_ICList << m_OtherList; }
 
 		void clear();
 

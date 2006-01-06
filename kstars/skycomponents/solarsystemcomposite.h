@@ -40,6 +40,9 @@ class SolarSystemComposite : public SkyComposite
 		~SolarSystemComposite();
 		
 		KSPlanet* earth() { return Earth; }
+		QList<SkyObject*>& asteroids();
+		QList<SkyObject*>& comets();
+
 		
 		virtual void init(KStarsData *data);
 

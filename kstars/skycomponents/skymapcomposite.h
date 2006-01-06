@@ -117,6 +117,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		void emitProgressText( const QString &message );
 
+		QList<DeepSkyObject*>& deepSkyObjects() { return m_DeepSkyComponent->objectList(); }
 		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
 		KSPlanet* earth() { return m_SSComposite->earth(); }
 

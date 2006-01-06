@@ -101,6 +101,14 @@ void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 	}
 }
 
+QList<SkyObject*>& SolarSystemComposite::asteroids() { 
+  return m_AsteroidsComponent->objectList(); 
+}
+
+QList<SkyObject*>& SolarSystemComposite::comets() { 
+  return m_CometsComponent->objectList(); 
+}
+
 void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {
 	m_AsteroidsComponent->clear();
 	m_AsteroidsComponent->init( data );
