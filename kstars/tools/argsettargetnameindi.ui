@@ -63,7 +63,7 @@
         <widget class="KLineEdit" name="deviceName" />
        </item>
        <item>
-        <widget class="KLineEdit" name="objectName" />
+        <widget class="KLineEdit" name="targetName" />
        </item>
       </layout>
      </item>
@@ -95,7 +95,7 @@
         <widget class="KPushButton" name="FindButton" >
          <property name="font" >
           <font>
-           <family></family>
+           <family>Sans Serif</family>
            <pointsize>9</pointsize>
            <weight>50</weight>
            <italic>false</italic>
@@ -108,10 +108,7 @@
           <string>Select object from a list</string>
          </property>
          <property name="whatsThis" >
-          <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the &quot;dir&quot; box at left.</string>
-         </property>
-         <property name="text" >
-          <string>Object</string>
+          <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the "dir" box at left.</string>
          </property>
         </widget>
        </item>
@@ -141,16 +138,16 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>kpushbutton.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>KPushButton</class>
    <extends></extends>
-   <header>klineedit.h</header>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

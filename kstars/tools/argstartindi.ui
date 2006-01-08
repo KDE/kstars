@@ -8,80 +8,64 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>237</width>
-    <height>157</height>
+    <width>338</width>
+    <height>220</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>10</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
    <item>
-    <layout class="QGridLayout" >
+    <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
      </property>
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item row="0" column="0" >
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Device:</string>
        </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="textLabel1" >
-         <property name="text" >
-          <string>Device:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="KLineEdit" name="deviceName" />
-       </item>
-      </layout>
+      </widget>
      </item>
-     <item row="1" column="1" >
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>61</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+     <item>
+      <widget class="QLineEdit" name="deviceName" />
      </item>
-     <item row="1" column="0" >
-      <widget class="Q3ButtonGroup" name="INDIConnection" >
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="INDIMode" >
        <property name="title" >
-        <string>Connection</string>
+        <string>Mode</string>
        </property>
-       <property name="exclusive" >
-        <bool>true</bool>
+       <property name="checked" >
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
-         <number>10</number>
+         <number>9</number>
         </property>
         <property name="spacing" >
          <number>6</number>
         </property>
         <item>
-         <widget class="QRadioButton" name="OnButton" >
+         <widget class="QRadioButton" name="localButton" >
           <property name="text" >
-           <string>On</string>
+           <string>Local</string>
           </property>
           <property name="checked" >
            <bool>true</bool>
@@ -89,9 +73,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="OffButton" >
+         <widget class="QRadioButton" name="serverButton" >
           <property name="text" >
-           <string>Off</string>
+           <string>Server</string>
           </property>
          </widget>
         </item>
@@ -100,42 +84,10 @@
      </item>
     </layout>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>33</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

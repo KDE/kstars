@@ -125,7 +125,7 @@ public slots:
 	void slotINDISetTargetCoordDeviceRA();
 	void slotINDISetTargetCoordDeviceDEC();
 	void slotINDISetTargetNameDeviceName();
-	void slotINDISetTargetNameObjectName();
+	void slotINDISetTargetNameTargetName();
 	void slotINDISetActionDeviceName();
 	void slotINDISetActionName();
 	void slotINDIWaitForActionDeviceName();

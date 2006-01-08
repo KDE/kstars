@@ -142,7 +142,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	setINDITargetCoordFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
 	INDIFunctionList.append ( setINDITargetCoordFunc );
 	
-	setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "deviceName", "QString", "objectName");
+	setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "deviceName", "QString", "targetName");
 	setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
 	INDIFunctionList.append( setINDITargetNameFunc);
 	
@@ -418,7 +418,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	// INDI Set Target Name
 	connect( argSetTargetNameINDI->FindButton, SIGNAL( clicked() ), this, SLOT( slotINDIFindObject() ) );
 	connect (argSetTargetNameINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameDeviceName()));
-	connect (argSetTargetNameINDI->objectName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameObjectName()));
+	connect (argSetTargetNameINDI->targetName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameTargetName()));
 	
 	// INDI Set Action
 	connect (argSetActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetActionDeviceName()));
@@ -451,7 +451,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	
 	// INDI Set UTC
 	connect (argSetUTCINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTCDeviceName()));
-	connect (argSetUTCINDI->Qt::UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
+	connect (argSetUTCINDI->UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
 	
 	// INDI Set Scope Action
 	connect (argSetScopeActionINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetScopeActionDeviceName()));
@@ -1629,7 +1629,7 @@ void ScriptBuilder::slotArgWidget() {
 		else if (sf->name() == "setINDITargetName") {
 		  sb->ArgStack->setCurrentWidget( argSetTargetNameINDI);
 		  
-		  argSetTargetNameINDI->objectName->setText(sf->argVal(1));
+		  argSetTargetNameINDI->targetName->setText(sf->argVal(1));
 		  
 		  argSetTargetNameINDI->deviceName->clear();
 		  
@@ -1989,7 +1989,7 @@ void ScriptBuilder::slotINDIFindObject() {
   if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
     setUnsavedChanges( true );
 
-    argSetTargetNameINDI->objectName->setText( fd.currentItem()->text() );
+    argSetTargetNameINDI->targetName->setText( fd.currentItem()->text() );
   }
 }
 
@@ -2683,23 +2683,23 @@ void ScriptBuilder::slotINDISetTargetNameDeviceName()
   
 }
 
-void ScriptBuilder::slotINDISetTargetNameObjectName()
+void ScriptBuilder::slotINDISetTargetNameTargetName()
 {
   
   ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
 
   if ( sf->name() == "setINDITargetName" )
   {
-    if (argSetTargetNameINDI->objectName->text().isEmpty())
+    if (argSetTargetNameINDI->targetName->text().isEmpty())
     {
       sf->setValid(false);
       return;
     }
     
-    if (sf->argVal(1) != argSetTargetNameINDI->objectName->text())
+    if (sf->argVal(1) != argSetTargetNameINDI->targetName->text())
     	setUnsavedChanges( true );
     
-    sf->setArg(1, argSetTargetNameINDI->objectName->text());
+    sf->setArg(1, argSetTargetNameINDI->targetName->text());
     if ((! sf->argVal(0).isEmpty())) sf->setValid(true);
     else sf->setValid(false);
   }

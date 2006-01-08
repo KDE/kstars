@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>753</width>
-    <height>506</height>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -58,9 +58,6 @@
        <property name="whatsThis" >
         <string>Discards current script and starts a new one.  Will prompt to save any unsaved changes in the current script.</string>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
       </widget>
      </item>
      <item>
@@ -90,9 +87,6 @@
        </property>
        <property name="whatsThis" >
         <string>Opens an existing script.  Will prompt to save any unsaved changes in the current script.</string>
-       </property>
-       <property name="text" >
-        <string/>
        </property>
       </widget>
      </item>
@@ -124,9 +118,6 @@
        <property name="whatsThis" >
         <string>Save the current script.  If the script has not been saved before, this is equivalent to "Save As..."</string>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
       </widget>
      </item>
      <item>
@@ -157,9 +148,6 @@
        <property name="whatsThis" >
         <string>Saves the script to a file, allowing you to first specify the filename and a name for the script.</string>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
       </widget>
      </item>
      <item>
@@ -182,9 +170,6 @@
        <property name="whatsThis" >
         <string>Executes the script in the KStars main window.  You may want to reposition the Script Builder tool so that the Sky map is visible.  </string>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
       </widget>
      </item>
      <item>
@@ -206,7 +191,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QSplitter" name="" >
+    <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
@@ -242,9 +227,6 @@
            <property name="whatsThis" >
             <string>This shows the list of commands present in the current working script.  Highlighting any command will present a widget where you can specify its arguments below.  Use the action buttons at right to copy, remove, or change the position of the selected command.  </string>
            </property>
-           <property name="currentItem" >
-            <number>-1</number>
-           </property>
           </widget>
          </item>
          <item>
@@ -276,9 +258,6 @@
               <string>If a function is highlighted in the "Function Browser" box, this button will add it to the current working script.  The new function is inserted directly after the highlighted function in the "Current Script" box.
 </string>
              </property>
-             <property name="text" >
-              <string/>
-             </property>
             </widget>
            </item>
            <item>
@@ -300,9 +279,6 @@
              </property>
              <property name="whatsThis" >
               <string>If a function is highlighted in the "Current Script" box, this button will remove it from the script.</string>
-             </property>
-             <property name="text" >
-              <string/>
              </property>
             </widget>
            </item>
@@ -326,9 +302,6 @@
              <property name="whatsThis" >
               <string>If a function is highlighted in the "Current Script" box, this button will add a duplicate of the function.</string>
              </property>
-             <property name="text" >
-              <string/>
-             </property>
             </widget>
            </item>
            <item>
@@ -351,9 +324,6 @@
              <property name="whatsThis" >
               <string>If a function is highlighted in the "Current Script" box, this button will move it up one position in the script.</string>
              </property>
-             <property name="text" >
-              <string/>
-             </property>
             </widget>
            </item>
            <item>
@@ -375,9 +345,6 @@
              </property>
              <property name="whatsThis" >
               <string>If a function is highlighted in the "Current Script" box, this button will move it down one position in the script.</string>
-             </property>
-             <property name="text" >
-              <string/>
              </property>
             </widget>
            </item>
@@ -468,15 +435,68 @@
           <property name="whatsThis" >
            <string>If a function is highlighted in the Function Browser, this area will show some brief documentation about the function.</string>
           </property>
-          <property name="readOnly" >
-           <bool>true</bool>
-          </property>
          </widget>
         </widget>
        </item>
       </layout>
      </widget>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="AppendINDIWait" >
+         <property name="text" >
+          <string>Append WaitForINDIAction after any INDI action</string>
+         </property>
+         <property name="checked" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ReuseINDIDeviceName" >
+         <property name="text" >
+          <string>Reuse INDI device name</string>
+         </property>
+         <property name="checked" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>91</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
