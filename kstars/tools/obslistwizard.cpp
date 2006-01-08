@@ -30,6 +30,7 @@
 #include "kstarsdata.h"
 #include "locationdialog.h"
 #include "skyobject.h"
+#include "deepskyobject.h"
 #include "starobject.h"
 #include "widgets/dmsbox.h"
 #include "widgets/magnitudespinbox.h"
@@ -91,12 +92,9 @@ ObsListWizard::~ObsListWizard()
 void ObsListWizard::initialize()
 {
 	//Populate the list of constellations
-	for ( SkyObject *p = ksw->data()->cnameList.first(); p; p = ksw->data()->cnameList.next() ) {
+	foreach ( SkyObject *p, ksw->data()->skyComposite()->constellationNames() ) {
 		olw->ConstellationList->insertItem( p->name() );
 	}
-
-//	//Initialize date
-//	olw->Date->setDate( ksw->data()->lt().date() );
 
 	//unSelect all object types
 	olw->TypeList->selectAll( false );
@@ -113,17 +111,17 @@ void ObsListWizard::initialize()
 
 	//Initialize object counts
 	ObjectCount = 0; //number of objects in observing list
-	StarCount = ksw->data()->starList.count(); //total number of stars
+	StarCount = ksw->data()->skyComposite()->stars().size(); //total number of stars
 	PlanetCount = 10; //Sun, Moon, 8 planets
-	AsteroidCount = ksw->data()->skyComosite()->solarSystem()->asteroids()->size(); //total number of asteroids
-	CometCount = ksw->data()->skyComposite()->solarSystem()->comets()->size(); //total number of comets
+	AsteroidCount = ksw->data()->skyComposite()->asteroids().size(); //total number of asteroids
+	CometCount = ksw->data()->skyComposite()->comets().size(); //total number of comets
 	//DeepSkyObjects
 	OpenClusterCount = 0;
 	GlobClusterCount = 0;
 	GasNebCount = 0;
 	PlanNebCount = 0;
 	GalaxyCount = 0;
-	for ( SkyObject *o = (SkyObject*)(ksw->data()->deepSkyList.first()); o; o = (SkyObject*)(ksw->data()->deepSkyList.next()) ) {
+	foreach ( DeepSkyObject *o, ksw->data()->skyComposite()->deepSkyObjects() ) {
 		if ( o->type() == SkyObject::GALAXY ) ++GalaxyCount; //most deepsky obj are galaxies, so check them first
 		else if ( o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR ) ++StarCount;
 		else if ( o->type() == SkyObject::OPEN_CLUSTER ) ++OpenClusterCount;
@@ -202,13 +200,13 @@ void ObsListWizard::slotShowStackWidget( Q3ListViewItem *i )
 	if ( i ) {
 		QString t = i->text(0);
 	
-		if ( t.contains( i18n( "Object type(s)" ) ) )      olw->FilterStack->raiseWidget( olw->ObjTypePage );
-		if ( t.contains( i18n( "Region" ) ) )              olw->FilterStack->raiseWidget( olw->RegionPage );
-		if ( t.contains( i18n( "In constellation(s)" ) ) ) olw->FilterStack->raiseWidget( olw->ConstellationPage );
-		if ( t.contains( i18n( "Circular" ) ) )            olw->FilterStack->raiseWidget( olw->CircRegionPage );
-		if ( t.contains( i18n( "Rectangular" ) ) )         olw->FilterStack->raiseWidget( olw->RectRegionPage );
-//		if ( t.contains( i18n( "Observable on date" ) ) )  olw->FilterStack->raiseWidget( olw->ObsDatePage );
-		if ( t.contains( i18n( "Magnitude limit" ) ) )     olw->FilterStack->raiseWidget( olw->MagLimitPage );
+		if ( t.contains( i18n( "Object type(s)" ) ) )      olw->FilterStack->setCurrentWidget( olw->ObjTypePage );
+		if ( t.contains( i18n( "Region" ) ) )              olw->FilterStack->setCurrentWidget( olw->RegionPage );
+		if ( t.contains( i18n( "In constellation(s)" ) ) ) olw->FilterStack->setCurrentWidget( olw->ConstellationPage );
+		if ( t.contains( i18n( "Circular" ) ) )            olw->FilterStack->setCurrentWidget( olw->CircRegionPage );
+		if ( t.contains( i18n( "Rectangular" ) ) )         olw->FilterStack->setCurrentWidget( olw->RectRegionPage );
+//		if ( t.contains( i18n( "Observable on date" ) ) )  olw->FilterStack->setCurrentWidget( olw->ObsDatePage );
+		if ( t.contains( i18n( "Magnitude limit" ) ) )     olw->FilterStack->setCurrentWidget( olw->MagLimitPage );
 	}
 }
 
@@ -305,7 +303,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 		if ( circOk ) dc = olw->Dec->createDms( true, &circOk ).Degrees();
 		if ( circOk ) {
 			pCirc.set( ra, dc );
-			rCirc = olw->Radius->value();
+			rCirc = olw->Radius->createDms().Degrees();
 		}
 	}
 
@@ -313,32 +311,33 @@ void ObsListWizard::applyFilters( bool doBuildList )
 	if ( olw->SelectByMag->isChecked() ) maglimit = olw->Mag->value();
 
 	//Stars
-	int starIndex(ksw->data()->starList.count());
+	QList<SkyObject*>& starList = ksw->data()->skyComposite()->stars();
+	int starIndex( starList.size() );
 	if ( olw->TypeList->findItem( i18n( "Stars" ) )->isSelected() ) {
 		if ( maglimit < 100. ) {
 			//Stars are sorted by mag, so use binary search algo to find index of faintest mag
-			int low(0), high(ksw->data()->starList.count()-1), middle;
+			int low(0), high(starList.size()-1), middle(high);
 			while ( low < high ) {
 				middle = (low + high)/2;
-				if ( maglimit == ksw->data()->starList.at(middle)->mag() ) break;
-				if ( maglimit <  ksw->data()->starList.at(middle)->mag() ) high = middle - 1;
-				if ( maglimit >  ksw->data()->starList.at(middle)->mag() ) low = middle + 1;
+				if ( maglimit == starList.at(middle)->mag() ) break;
+				if ( maglimit <  starList.at(middle)->mag() ) high = middle - 1;
+				if ( maglimit >  starList.at(middle)->mag() ) low = middle + 1;
 			}
 			//now, the star at "middle" has the right mag, but we want the *last* star that has this mag.
-			for ( starIndex=middle+1; starIndex<ksw->data()->starList.count(); ++starIndex ) {
-				if ( ksw->data()->starList.at(starIndex)->mag() > maglimit ) break;
+			for ( starIndex=middle+1; starIndex < starList.size(); ++starIndex ) {
+				if ( starList.at(starIndex)->mag() > maglimit ) break;
 			}
 		}
 
 		if ( doBuildList ) {
-			for ( uint i=0; i < starIndex; ++i ) {
-				SkyObject *o = (SkyObject*)(ksw->data()->starList.at(i));
+			for ( int i=0; i < starIndex; ++i ) {
+				SkyObject *o = (SkyObject*)(starList[i]);
 				applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount 
 			}
 		} else {
-			ObjectCount -= (ksw->data()->starList.count() - starIndex); //reduce StarCount by appropriate amount
-			for ( uint i=0; i < starIndex; ++i ) {
-				SkyObject *o = (SkyObject*)(ksw->data()->starList.at(i));
+			ObjectCount -= (starList.size() - starIndex); //reduce StarCount by appropriate amount
+			for ( int i=0; i < starIndex; ++i ) {
+				SkyObject *o = starList[i];
 				applyRegionFilter( o, doBuildList );
 			}
 		}
@@ -423,7 +422,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount ) {
 	//select by constellation
 	if ( olw->SelectByConstellation->isChecked() ) {
-		QString c( o->constellation( ksw->data()->csegmentList, ksw->data()->cnameList ) );
+		QString c( ksw->data()->skyComposite()->constellation( o ) );
 		Q3ListBoxItem *it = olw->ConstellationList->findItem( c );
 
 		if ( it && it->isSelected() ) { 

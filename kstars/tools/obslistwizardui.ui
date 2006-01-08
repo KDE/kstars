@@ -78,11 +78,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QStackedWidget" name="stackedWidget" >
+        <widget class="QStackedWidget" name="FilterStack" >
          <property name="currentIndex" >
           <number>3</number>
          </property>
-         <widget class="QWidget" name="page" >
+         <widget class="QWidget" name="RegionPage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -110,7 +110,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_2" >
+         <widget class="QWidget" name="ObjTypePage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -198,7 +198,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_3" >
+         <widget class="QWidget" name="ConstellationPage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -225,7 +225,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_4" >
+         <widget class="QWidget" name="RectRegionPage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -308,7 +308,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_5" >
+         <widget class="QWidget" name="CircRegionPage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -351,7 +351,7 @@ select from a region on the sky.</string>
              <item row="2" column="0" colspan="2" >
               <widget class="QLabel" name="label_8" >
                <property name="text" >
-                <string>Radius (degrees):</string>
+                <string>Radius (deg min sec):</string>
                </property>
               </widget>
              </item>
@@ -381,7 +381,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_6" >
+         <widget class="QWidget" name="ObsDatePage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>
@@ -532,7 +532,7 @@ select from a region on the sky.</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_7" >
+         <widget class="QWidget" name="MagLimitPage" >
           <layout class="QVBoxLayout" >
            <property name="margin" >
             <number>9</number>

@@ -46,7 +46,7 @@ class ObsListWizard : public KDialogBase
 
 	/**@return reference to QPtrList of objects selected by the wizard
 		*/
-		Q3PtrList<SkyObject>& obsList() { return ObsList; }
+		QList<SkyObject*>& obsList() { return ObsList; }
 
 	private slots:
 		void slotAllButton();
@@ -71,7 +71,7 @@ class ObsListWizard : public KDialogBase
 		void applyFilters( bool doBuildList );
 		void applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
 
-		Q3PtrList<SkyObject> ObsList;
+		QList<SkyObject*> ObsList;
 		KStars *ksw;
 		ObsListWizardUI *olw;
 		uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;

@@ -119,6 +119,11 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		QList<DeepSkyObject*>& deepSkyObjects() { return m_DeepSkyComponent->objectList(); }
 		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
+		QList<SkyObject*>& constellationNames() { return m_CNamesComponent->objectList(); }
+		QList<SkyObject*>& stars() { return m_StarComponent->objectList(); }
+		QList<SkyObject*>& asteroids() { return m_SSComposite->asteroids(); }
+		QList<SkyObject*>& comets() { return m_SSComposite->comets(); }
+
 		KSPlanet* earth() { return m_SSComposite->earth(); }
 
 		QList<SkyComponent*> customCatalogs() { 
