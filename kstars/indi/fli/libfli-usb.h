@@ -50,7 +50,7 @@
 #define unix_bulkwrite linux_bulkwrite
 #define unix_bulkread linux_bulkread
 
-#elif defined(__FreeBSD__) || defined(__NetBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__)
 #define unix_bulkwrite bsd_bulkwrite
 #define unix_bulkread bsd_bulkread
 

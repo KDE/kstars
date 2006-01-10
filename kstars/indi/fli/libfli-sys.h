@@ -58,7 +58,7 @@
 #define USB_GLOB "/proc/bus/usb/*/*"
 #define SERIAL_GLOB "/dev/ttyS[0-9]*"
 
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 // FIXME - this does not actually work on OSX
 
 #define __SYSNAME__ "FreeBSD"
