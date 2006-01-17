@@ -30,16 +30,26 @@
 #include "planetviewerui.h"
 #include "kstarsdatetime.h"
 
+#define AUMAX 48
+
+class KSPlanetBase;
+
+class PlanetViewerUI : public QFrame, public Ui::PlanetViewer {
+Q_OBJECT
+public:
+	PlanetViewerUI(QWidget *parent = 0 );
+};
+
 /**@class PlanetViewer
 	*@short Display an overhead view of the solar system
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class PlanetViewer : public KDialogBase, public Ui::PlanetViewer
+class PlanetViewer : public KDialogBase
 {
 Q_OBJECT
 public:
-	PlanetViewer(QWidget *parent = 0, const char *name = 0);
+	PlanetViewer(QWidget *parent = 0);
 	~PlanetViewer();
 
 	QString centerPlanet() const { return CenterPlanet; }
@@ -63,7 +73,7 @@ private slots:
 private:
 	void updatePlanets();
 	
-	Ui::PlanetViewer *pw;
+	PlanetViewerUI *pw;
 	KStarsDateTime ut;
 	double scale;
 	bool isClockRunning;
@@ -71,6 +81,8 @@ private:
 	int UpdateInterval[9], LastUpdate[9];
 	QString pName[9], pColor[9];
 	QString CenterPlanet;
+
+	QList<KSPlanetBase*> PlanetList;
 
 	KPlotObject *ksun;
 	KPlotObject *planet[9];

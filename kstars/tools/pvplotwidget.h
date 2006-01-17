@@ -19,13 +19,17 @@
 
 #include <QFrame>
 
+#include "widgets/kstarsplotwidget.h"
+
+class PlanetViewer;
+
 class PVPlotWidget : public KStarsPlotWidget
 {
 Q_OBJECT
 public:
 	PVPlotWidget( double x1, double x2, double y1, double y2, 
-			QWidget *parent=0, const char *name=0 );
-	PVPlotWidget( QWidget *parent=0, const char *name=0 );
+			QWidget *parent=0 );
+	PVPlotWidget( QWidget *parent=0 );
 	~PVPlotWidget();
 
 public slots:

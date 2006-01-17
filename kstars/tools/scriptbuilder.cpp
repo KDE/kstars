@@ -28,6 +28,8 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 #include <kiconloader.h>
+#include <ktempfile.h>
+#include <kmessagebox.h>
 
 //#include <qcheckbox.h>
 //#include <qspinbox.h>
@@ -46,10 +48,8 @@
 //#include <klistbox.h>
 //#include <klistview.h>
 //#include <ktextedit.h>
-//#include <ktempfile.h>
 //#include <kdatewidget.h>
-//#include <kmessagebox.h>
-//#include <kfiledialog.h>
+#include <kfiledialog.h>
 //#include <kurlrequester.h>
 //#include <knuminput.h>
 
@@ -65,12 +65,34 @@
 #include "widgets/timestepbox.h"
 #include "libkdeedu/extdate/extdatewidget.h"
 
-OptionsTreeView::OptionsTreeView( QWidget *p ) : QFrame( p ) {
+OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
   setupUi( p );
 }
 
-ScriptNameDialog::ScriptNameDialog( QWidget *p ) : QFrame( p ) {
+OptionsTreeView::OptionsTreeView( QWidget *p ) 
+ : KDialogBase( KDialogBase::Plain, i18n( "Options" ), Ok|Cancel, Ok, p ) {
+  QFrame *page = plainPage();
+  otvw = new OptionsTreeViewWidget( page );
+}
+
+ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
   setupUi( p );
+}
+
+ScriptNameDialog::ScriptNameDialog( QWidget *p ) 
+ : KDialogBase( KDialogBase::Plain, i18n( "Script Data" ), Ok|Cancel, Ok, p ) {
+  QFrame *page = plainPage();
+  snw = new ScriptNameWidget( page );
+
+  connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
+}
+
+ScriptNameDialog::~ScriptNameDialog() {
+  delete snw;
+}
+
+void ScriptNameDialog::slotEnableOkButton() {
+	actionButton( Ok )->setEnabled( ! snw->ScriptName->text().isEmpty() );
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
@@ -388,8 +410,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( argPrintImage->UseChartColors, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
 	connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
-	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme( Q3ListBoxItem* ) ) );
-	connect( snd->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableScriptNameOK() ) );
+	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme( QListWidgetItem* ) ) );
 	
 	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
 	
@@ -494,11 +515,11 @@ ScriptBuilder::~ScriptBuilder()
 }
 
 void ScriptBuilder::initViewOptions() {
-	otv->OptionsList->setRootIsDecorated( true );
+	otv->optionsList()->setRootIsDecorated( true );
 	QStringList fields;
 
 	//InfoBoxes
-	opsGUI = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "InfoBoxes" )) );
+	opsGUI = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "InfoBoxes" )) );
 	fields << i18n( "Toggle display of all InfoBoxes" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsGUI, fields );
 	fields.clear();
@@ -530,7 +551,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShadeFocusBox" );
 
 	//Toolbars
-	opsToolbar = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Toolbars" )) );
+	opsToolbar = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Toolbars" )) );
 	fields << i18n( "Toggle display of main toolbar" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsToolbar, fields );
 	fields.clear();
@@ -542,7 +563,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShowViewToolBar" );
 
 	//Show Objects
-	opsShowObj = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Show Objects" )) );
+	opsShowObj = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Objects" )) );
 	fields << i18n( "Toggle display of Stars" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsShowObj, fields );
 	fields.clear();
@@ -621,7 +642,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShowAsteroids" );
 	argChangeViewOption->OptionName->insertItem( "ShowComets" );
 
-	opsShowOther = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Show Other" )) );
+	opsShowOther = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Other" )) );
 	fields << i18n( "Toggle display of constellation lines" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsShowOther, fields );
 	fields.clear();
@@ -684,7 +705,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "ShowPlanetNames" );
 	argChangeViewOption->OptionName->insertItem( "ShowPlanetImages" );
 
-	opsCName = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Constellation Names" )) );
+	opsCName = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Constellation Names" )) );
 	fields << i18n( "Show Latin constellation names" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsCName, fields );
 	fields.clear();
@@ -699,7 +720,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "UseLocalConstellNames" );
 	argChangeViewOption->OptionName->insertItem( "UseAbbrevConstellNames" );
 
-	opsHide = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Hide Items" )) );
+	opsHide = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Hide Items" )) );
 	fields << i18n( "Toggle whether objects hidden while slewing display" ) << i18n( "bool" );
 	new QTreeWidgetItem( opsHide, fields );
 	fields.clear();
@@ -750,7 +771,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "HideCBounds" );
 	argChangeViewOption->OptionName->insertItem( "HideGrid" );
 
-	opsSkymap = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Skymap Options" )) );
+	opsSkymap = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Skymap Options" )) );
 	fields << i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << i18n( "bool" );
 	new QTreeWidgetItem( opsSkymap, fields );
 	fields.clear();
@@ -798,7 +819,7 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->insertItem( "AnimateSlewing" );
 	argChangeViewOption->OptionName->insertItem( "FadePlanetTrails" );
 
-	opsLimit = new QTreeWidgetItem( otv->OptionsList, QStringList(i18n( "Limits" )) );
+	opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
 	fields << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
 	new QTreeWidgetItem( opsLimit, fields );
 	fields.clear();
@@ -854,7 +875,7 @@ void ScriptBuilder::initViewOptions() {
 	if ( file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
-  	while ( !stream.eof() ) {
+  	while ( !stream.atEnd() ) {
 			line = stream.readLine();
 			argLoadColorScheme->SchemeList->insertItem( line.left( line.find( ':' ) ) );
 		}
@@ -932,8 +953,8 @@ void ScriptBuilder::slotSave() {
 	if ( currentScriptName.isEmpty() ) {
 		//Get Script Name and Author info
 		if ( snd->exec() == QDialog::Accepted ) {
-			currentScriptName = snd->ScriptName->text();
-			currentAuthor = snd->AuthorName->text();
+			currentScriptName = snd->scriptName();
+			currentAuthor = snd->authorName();
 		} else {
 			return;
 		}
@@ -1050,7 +1071,7 @@ void ScriptBuilder::slotRunScript() {
 	if ( ! p.start( KProcess::DontCare ) )
 		kdDebug() << "Process did not start." << endl;
 
-	while ( p.isRunning() ) kapp->processEvents( 50 ); //otherwise tempfile may get deleted before script completes.
+	while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
 
 	//delete temp file
 	if ( f.exists() ) f.remove();
@@ -1108,7 +1129,7 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 void ScriptBuilder::readScript( QTextStream &istream ) {
 	QString line;
 
-	while ( ! istream.eof() ) {
+	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 
 		//look for name of script
@@ -1133,14 +1154,14 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			QStringList fn = QStringList::split( " ", line );
 			if ( parseFunction( fn ) )
 			{
-			  sb->ScriptListBox->insertItem( ScriptList.current()->name() );
+			  sb->ScriptListBox->insertItem( ScriptList.last()->name() );
 			  // Initially, any read script is valid!
-			  ScriptList.current()->setValid(true);
+			  ScriptList.last()->setValid(true);
 			}
 			else kdWarning() << i18n( "Could not parse script.  Line was: %1" ).arg( line ) << endl;
 
 		} // end if left(4) == "dcop"
-	} // end while !eof()
+	} // end while !atEnd()
 
 	//Select first item in sb->ScriptListBox
 	if ( sb->ScriptListBox->count() ) {
@@ -1191,7 +1212,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	  fn = QStringList::split( "'", arg );
 	
 	//loop over known functions to find a name match
-	for ( ScriptFunction *sf = KStarsFunctionList.first(); sf; sf = KStarsFunctionList.next() )
+	foreach ( ScriptFunction *sf, KStarsFunctionList ) 
 	{
 		if ( fn[0] == sf->name() ) {
 
@@ -1200,9 +1221,9 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 				if ( fn.count() == 4 ) { prov = fn[2]; cntry = fn[3]; }
 				if ( fn.count() == 3 || fn.count() == 4 ) {
 					ScriptList.append( new ScriptFunction( sf ) );
-					ScriptList.current()->setArg( 0, city );
-					ScriptList.current()->setArg( 1, prov );
-					ScriptList.current()->setArg( 2, cntry );
+					ScriptList.last()->setArg( 0, city );
+					ScriptList.last()->setArg( 1, prov );
+					ScriptList.last()->setArg( 2, cntry );
 				} else return false;
 
 			} else if ( fn.count() != sf->numArgs() + 1 ) return false;
@@ -1210,12 +1231,12 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 			ScriptList.append( new ScriptFunction( sf ) );
 
 			for ( unsigned int i=0; i<sf->numArgs(); ++i )
-				ScriptList.current()->setArg( i, fn[i+1] );
+				ScriptList.last()->setArg( i, fn[i+1] );
 
 			return true;
 		}
 		
-		for ( ScriptFunction *sf = INDIFunctionList.first(); sf; sf = INDIFunctionList.next() )
+		foreach ( ScriptFunction *sf, INDIFunctionList ) 
 		{
 		  if ( fn[0] == sf->name() )
 		  {
@@ -1225,7 +1246,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 		    ScriptList.append( new ScriptFunction( sf ) );
 
 		    for ( unsigned int i=0; i<sf->numArgs(); ++i )
-		      ScriptList.current()->setArg( i, fn[i+1] );
+		      ScriptList.last()->setArg( i, fn[i+1] );
 
 		    return true;
 		  }
@@ -1242,20 +1263,16 @@ void ScriptBuilder::setUnsavedChanges( bool b ) {
 	sb->SaveAsButton->setEnabled( b );
 }
 
-void ScriptBuilder::slotEnableScriptNameOK() {
-	snd->OKButton->setEnabled( ! snd->ScriptName->text().isEmpty() );
-}
-
 void ScriptBuilder::slotCopyFunction() {
 	if ( ! UnsavedChanges ) setUnsavedChanges( true );
 
 	int Pos = sb->ScriptListBox->currentItem() + 1;
-	ScriptList.insert( Pos, new ScriptFunction( ScriptList.at( Pos-1 ) ) );
+	ScriptList.insert( Pos, new ScriptFunction( ScriptList[ Pos-1 ] ) );
 	//copy ArgVals
-	for ( unsigned int i=0; i < ScriptList.at( Pos-1 )->numArgs(); ++i )
-		ScriptList.at(Pos)->setArg(i, ScriptList.at( Pos-1 )->argVal(i) );
+	for ( unsigned int i=0; i < ScriptList[ Pos-1 ]->numArgs(); ++i )
+		ScriptList[Pos]->setArg(i, ScriptList[ Pos-1 ]->argVal(i) );
 
-	sb->ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
+	sb->ScriptListBox->insertItem( ScriptList[Pos]->name(), Pos );
 	sb->ScriptListBox->setSelected( Pos, true );
 }
 
@@ -1263,7 +1280,7 @@ void ScriptBuilder::slotRemoveFunction() {
 	setUnsavedChanges( true );
 
 	int Pos = sb->ScriptListBox->currentItem();
-	ScriptList.remove( Pos );
+	ScriptList.removeAt( Pos );
 	sb->ScriptListBox->removeItem( Pos );
 	if ( sb->ScriptListBox->count() == 0 ) {
 		sb->ArgStack->setCurrentWidget( argBlank );
@@ -1301,7 +1318,7 @@ void ScriptBuilder::slotAddFunction() {
 	  int Pos = sb->ScriptListBox->currentItem() + 1;
 
 	  ScriptList.insert( Pos, new ScriptFunction(sc) );
-	  sb->ScriptListBox->insertItem( ScriptList.current()->name(), Pos );
+	  sb->ScriptListBox->insertItem( ScriptList[Pos]->name(), Pos );
 	  sb->ScriptListBox->setSelected( Pos, true );
 }
 
@@ -1312,7 +1329,7 @@ void ScriptBuilder::slotMoveFunctionUp() {
 		QString t = sb->ScriptListBox->currentText();
 		unsigned int n = sb->ScriptListBox->currentItem();
 
-		ScriptFunction *tmp = ScriptList.take( n );
+		ScriptFunction *tmp = ScriptList.takeAt( n );
 		ScriptList.insert( n-1, tmp );
 
 		sb->ScriptListBox->removeItem( n );
@@ -1329,7 +1346,7 @@ void ScriptBuilder::slotMoveFunctionDown() {
 		QString t = sb->ScriptListBox->currentText();
 		unsigned int n = sb->ScriptListBox->currentItem();
 
-		ScriptFunction *tmp = ScriptList.take( n );
+		ScriptFunction *tmp = ScriptList.takeAt( n );
 		ScriptList.insert( n+1, tmp );
 
 		sb->ScriptListBox->removeItem( n );
@@ -1959,7 +1976,7 @@ void ScriptBuilder::slotFindCity() {
 			argSetGeoLocation->ProvinceName->setText( ld.selectedProvinceName() );
 			argSetGeoLocation->CountryName->setText( ld.selectedCountryName() );
 
-			ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+			ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 			if ( sf->name() == "setGeoLocation" ) {
 				setUnsavedChanges( true );
 
@@ -1979,7 +1996,7 @@ void ScriptBuilder::slotFindObject() {
 	if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
 		setUnsavedChanges( true );
 
-		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->text() );
+		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->name() );
 	}
 }
 
@@ -1989,7 +2006,7 @@ void ScriptBuilder::slotINDIFindObject() {
   if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
     setUnsavedChanges( true );
 
-    argSetTargetNameINDI->targetName->setText( fd.currentItem()->text() );
+    argSetTargetNameINDI->targetName->setText( fd.currentItem()->name() );
   }
 }
 
@@ -2003,12 +2020,12 @@ void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
 void ScriptBuilder::slotShowOptions() {
 	//Show tree-view of view options
 	if ( otv->exec() == QDialog::Accepted ) {
-		argChangeViewOption->OptionName->setCurrentItem( otv->OptionsList->currentItem()->text(0) );
+		argChangeViewOption->OptionName->setCurrentItem( otv->optionsList()->currentItem()->text(0) );
 	}
 }
 
 void ScriptBuilder::slotLookToward() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "lookTowards" ) {
 		setUnsavedChanges( true );
@@ -2021,7 +2038,7 @@ void ScriptBuilder::slotLookToward() {
 }
 
 void ScriptBuilder::slotRa() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setRaDec" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2045,7 +2062,7 @@ void ScriptBuilder::slotRa() {
 }
 
 void ScriptBuilder::slotDec() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setRaDec" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2069,7 +2086,7 @@ void ScriptBuilder::slotDec() {
 }
 
 void ScriptBuilder::slotAz() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setAltAz" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2091,7 +2108,7 @@ void ScriptBuilder::slotAz() {
 }
 
 void ScriptBuilder::slotAlt() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setAltAz" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2114,7 +2131,7 @@ void ScriptBuilder::slotAlt() {
 }
 
 void ScriptBuilder::slotChangeDate() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setLocalTime" ) {
 		setUnsavedChanges( true );
@@ -2131,7 +2148,7 @@ void ScriptBuilder::slotChangeDate() {
 }
 
 void ScriptBuilder::slotChangeTime() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setLocalTime" ) {
 		setUnsavedChanges( true );
@@ -2148,7 +2165,7 @@ void ScriptBuilder::slotChangeTime() {
 }
 
 void ScriptBuilder::slotWaitFor() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "waitFor" ) {
 		bool ok(false);
@@ -2168,7 +2185,7 @@ void ScriptBuilder::slotWaitFor() {
 }
 
 void ScriptBuilder::slotWaitForKey() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "waitForKey" ) {
 		QString sKey = argWaitForKey->WaitKeyEdit->text().trimmed();
@@ -2189,7 +2206,7 @@ void ScriptBuilder::slotWaitForKey() {
 }
 
 void ScriptBuilder::slotTracking() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setTracking" ) {
 		setUnsavedChanges( true );
@@ -2202,7 +2219,7 @@ void ScriptBuilder::slotTracking() {
 }
 
 void ScriptBuilder::slotViewOption() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "changeViewOption" ) {
 		if ( argChangeViewOption->OptionName->currentItem() >= 0
@@ -2221,7 +2238,7 @@ void ScriptBuilder::slotViewOption() {
 }
 
 void ScriptBuilder::slotChangeCity() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setGeoLocation" ) {
 		QString city =     argSetGeoLocation->CityName->text();
@@ -2241,7 +2258,7 @@ void ScriptBuilder::slotChangeCity() {
 }
 
 void ScriptBuilder::slotChangeProvince() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setGeoLocation" ) {
 		QString province = argSetGeoLocation->ProvinceName->text();
@@ -2261,7 +2278,7 @@ void ScriptBuilder::slotChangeProvince() {
 }
 
 void ScriptBuilder::slotChangeCountry() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setGeoLocation" ) {
 		QString country =  argSetGeoLocation->CountryName->text();
@@ -2281,7 +2298,7 @@ void ScriptBuilder::slotChangeCountry() {
 }
 
 void ScriptBuilder::slotTimeScale() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setClockScale" ) {
 		setUnsavedChanges( true );
@@ -2294,7 +2311,7 @@ void ScriptBuilder::slotTimeScale() {
 }
 
 void ScriptBuilder::slotZoom() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "zoom" ) {
 		setUnsavedChanges( true );
@@ -2311,7 +2328,7 @@ void ScriptBuilder::slotZoom() {
 }
 
 void ScriptBuilder::slotExportImage() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "exportImage" ) {
 		setUnsavedChanges( true );
@@ -2326,7 +2343,7 @@ void ScriptBuilder::slotExportImage() {
 }
 
 void ScriptBuilder::slotPrintImage() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "printImage" ) {
 		setUnsavedChanges( true );
@@ -2340,7 +2357,7 @@ void ScriptBuilder::slotPrintImage() {
 }
 
 void ScriptBuilder::slotChangeColorName() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
@@ -2357,7 +2374,7 @@ void ScriptBuilder::slotChangeColorName() {
 }
 
 void ScriptBuilder::slotChangeColor() {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
@@ -2372,8 +2389,8 @@ void ScriptBuilder::slotChangeColor() {
 	}
 }
 
-void ScriptBuilder::slotLoadColorScheme(Q3ListBoxItem */*i*/) {
-	ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+void ScriptBuilder::slotLoadColorScheme(QListWidgetItem */*i*/) {
+	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "loadColorScheme" ) {
 		setUnsavedChanges( true );
@@ -2396,7 +2413,7 @@ void ScriptBuilder::slotClose() {
 
 void ScriptBuilder::slotINDIStartDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDI" )
   {
@@ -2418,7 +2435,7 @@ void ScriptBuilder::slotINDIStartDeviceName()
 void ScriptBuilder::slotINDIStartDeviceMode()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDI" )
   {
@@ -2437,7 +2454,7 @@ void ScriptBuilder::slotINDIStartDeviceMode()
 void ScriptBuilder::slotINDIShutdown()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "shutdownINDI" )
   {
@@ -2462,7 +2479,7 @@ void ScriptBuilder::slotINDIShutdown()
 
 void ScriptBuilder::slotINDISwitchDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "switchINDI" )
   {
@@ -2489,7 +2506,7 @@ void ScriptBuilder::slotINDISwitchDeviceName()
 void ScriptBuilder::slotINDISwitchDeviceConnection()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "switchINDI" )
   {
@@ -2511,7 +2528,7 @@ void ScriptBuilder::slotINDISwitchDeviceConnection()
 void ScriptBuilder::slotINDISetPortDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIPort" )
   {
@@ -2539,7 +2556,7 @@ void ScriptBuilder::slotINDISetPortDeviceName()
 
 void ScriptBuilder::slotINDISetPortDevicePort()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIPort" )
   {
@@ -2566,7 +2583,7 @@ void ScriptBuilder::slotINDISetPortDevicePort()
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDITargetCoord" )
   {
@@ -2592,7 +2609,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceName()
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDITargetCoord" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2625,7 +2642,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDITargetCoord" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -2659,7 +2676,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 void ScriptBuilder::slotINDISetTargetNameDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDITargetName" )
   {
@@ -2686,7 +2703,7 @@ void ScriptBuilder::slotINDISetTargetNameDeviceName()
 void ScriptBuilder::slotINDISetTargetNameTargetName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDITargetName" )
   {
@@ -2713,7 +2730,7 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
 void ScriptBuilder::slotINDISetActionDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIAction" )
   {
@@ -2739,7 +2756,7 @@ void ScriptBuilder::slotINDISetActionDeviceName()
 	
 void ScriptBuilder::slotINDISetActionName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIAction" )
   {
@@ -2766,7 +2783,7 @@ void ScriptBuilder::slotINDISetActionName()
 void ScriptBuilder::slotINDIWaitForActionDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "waitForINDIAction" )
   {
@@ -2792,7 +2809,7 @@ void ScriptBuilder::slotINDIWaitForActionDeviceName()
 	
 void ScriptBuilder::slotINDIWaitForActionName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "waitForINDIAction" )
   {
@@ -2818,7 +2835,7 @@ void ScriptBuilder::slotINDIWaitForActionName()
 
 void ScriptBuilder::slotINDISetFocusSpeedDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFocusSpeed" )
   {
@@ -2844,7 +2861,7 @@ void ScriptBuilder::slotINDISetFocusSpeedDeviceName()
 
 void ScriptBuilder::slotINDISetFocusSpeed()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFocusSpeed" )
   {
@@ -2865,7 +2882,7 @@ void ScriptBuilder::slotINDISetFocusSpeed()
 
 void ScriptBuilder::slotINDIStartFocusDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDIFocus" )
   {
@@ -2892,7 +2909,7 @@ void ScriptBuilder::slotINDIStartFocusDeviceName()
 
 void ScriptBuilder::slotINDIStartFocusDirection()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDIFocus" )
   {
@@ -2912,7 +2929,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
 
 void ScriptBuilder::slotINDISetFocusTimeoutDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFocusTimeout" )
   {
@@ -2938,7 +2955,7 @@ void ScriptBuilder::slotINDISetFocusTimeoutDeviceName()
 
 void ScriptBuilder::slotINDISetFocusTimeout()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFocusTimeout" )
   {
@@ -2958,7 +2975,7 @@ void ScriptBuilder::slotINDISetFocusTimeout()
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIGeoLocation" )
   {
@@ -2984,7 +3001,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceName()
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIGeoLocation" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -3017,7 +3034,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIGeoLocation" ) {
 		//do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
@@ -3050,7 +3067,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 
 void ScriptBuilder::slotINDIStartExposureDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDIExposure" )
   {
@@ -3076,7 +3093,7 @@ void ScriptBuilder::slotINDIStartExposureDeviceName()
 
 void ScriptBuilder::slotINDIStartExposureTimeout()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "startINDIExposure" )
   {
@@ -3098,7 +3115,7 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
 void ScriptBuilder::slotINDISetUTCDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIUTC" )
   {
@@ -3125,7 +3142,7 @@ void ScriptBuilder::slotINDISetUTCDeviceName()
 
 void ScriptBuilder::slotINDISetUTC()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIUTC" )
   {
@@ -3153,7 +3170,7 @@ void ScriptBuilder::slotINDISetUTC()
 void ScriptBuilder::slotINDISetScopeActionDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIScopeAction" )
   {
@@ -3180,7 +3197,7 @@ void ScriptBuilder::slotINDISetScopeActionDeviceName()
 
 void ScriptBuilder::slotINDISetScopeAction()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIScopeAction" )
   {
@@ -3203,7 +3220,7 @@ void ScriptBuilder::slotINDISetScopeAction()
 void ScriptBuilder::slotINDISetFrameTypeDeviceName()
 {
   
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFrameType" )
   {
@@ -3229,7 +3246,7 @@ void ScriptBuilder::slotINDISetFrameTypeDeviceName()
 
 void ScriptBuilder::slotINDISetFrameType()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFrameType" )
   {
@@ -3250,7 +3267,7 @@ void ScriptBuilder::slotINDISetFrameType()
 
 void ScriptBuilder::slotINDISetCCDTempDeviceName()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDICCDTemp" )
   {
@@ -3276,7 +3293,7 @@ void ScriptBuilder::slotINDISetCCDTempDeviceName()
 
 void ScriptBuilder::slotINDISetCCDTemp()
 {
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDICCDTemp" )
   {
@@ -3298,7 +3315,7 @@ void ScriptBuilder::slotINDISetCCDTemp()
 void ScriptBuilder::slotINDISetFilterNumDeviceName()
 {
 
-  ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+  ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFilterNum" )
   {
@@ -3324,7 +3341,7 @@ void ScriptBuilder::slotINDISetFilterNumDeviceName()
 void ScriptBuilder::slotINDISetFilterNum()
 {
 
- ScriptFunction *sf = ScriptList.at( sb->ScriptListBox->currentItem() );
+ ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
   if ( sf->name() == "setINDIFilterNum" )
   {

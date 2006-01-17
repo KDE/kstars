@@ -25,6 +25,7 @@
 #include "scriptargwidgets.h"
 #include "optionstreeview.h"
 
+class QTreeWidget;
 class QTextStream;
 class QVBoxLayout;
 class KURL;
@@ -32,16 +33,42 @@ class KURL;
 class KStars;
 class ScriptFunction;
 
-class OptionsTreeView : public QFrame, public Ui::OptionsTreeView {
+class OptionsTreeViewWidget : public QFrame, public Ui::OptionsTreeView {
+Q_OBJECT
+public:
+	OptionsTreeViewWidget( QWidget *p );
+};
+
+class OptionsTreeView : public KDialogBase {
 Q_OBJECT
 public:
 	OptionsTreeView( QWidget *p );
+	~OptionsTreeView();
+	QTreeWidget* optionsList() { return otvw->OptionsList; }
+ 
+private:
+	OptionsTreeViewWidget *otvw;
 };
 
-class ScriptNameDialog : public QFrame, public Ui::ScriptNameDialog {
+class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog {
+Q_OBJECT
+public:
+	ScriptNameWidget( QWidget *p );
+};
+
+class ScriptNameDialog : public KDialogBase {
 Q_OBJECT
 public:
 	ScriptNameDialog( QWidget *p );
+	~ScriptNameDialog();
+	QString scriptName() const { return snw->ScriptName->text(); }
+	QString authorName() const { return snw->AuthorName->text(); }
+ 
+private slots: 
+	void slotEnableOkButton();
+
+private:
+	ScriptNameWidget *snw;
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder {
@@ -109,8 +136,6 @@ public slots:
 	void slotChangeColor();
 	void slotChangeColorName();
 	void slotLoadColorScheme(QListWidgetItem*);
-	
-	void slotEnableScriptNameOK();
 	
 	void slotINDIWaitCheck(bool toggleState);
 	void slotINDIFindObject();
