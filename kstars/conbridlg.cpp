@@ -36,7 +36,7 @@
  
 //TODO find a better and faster way to implement this, this operation can be memory and CPU intensive.
 
-ConBriUI::ConBri(QWidget *parent) : QFrame(parent)
+ConBriUI::ConBriUI(QWidget *parent) : QFrame(parent)
 {
   setupUi(parent);
 }
