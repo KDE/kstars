@@ -41,6 +41,7 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
+#include "widgets/kstarsplotwidget.h"
 
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"

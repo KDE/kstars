@@ -64,7 +64,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 }
 
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
-	QString TypeName = ksw->data()->TypeName[ obj->type() ];
+	QString TypeName = ksw->data()->typeName( obj->type() );
 	QString secondName = obj->translatedName2();
 	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
@@ -73,7 +73,7 @@ void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
-	QString TypeName = ksw->data()->TypeName[ obj->type() ];
+	QString TypeName = ksw->data()->typeName( obj->type() );
 	QString secondName = obj->translatedName2();
 	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 

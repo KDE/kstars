@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QPixmap>
 
-#include <libkdeedu/kdeeduplot/kplotwidget.h>
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 
 #define BIGTICKSIZE 10
 #define SMALLTICKSIZE 4

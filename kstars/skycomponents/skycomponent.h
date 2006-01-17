@@ -82,13 +82,13 @@ class SkyComponent
 			*/
 		void drawExportable(KStars *ks, QPainter& psky, double scale);
 
-		virtual void drawPlanets(KStars *ks, QPainter& psky, double scale);
+		virtual void drawPlanets(KStars *ks, QPainter& psky, double scale) {};
 		
 		/**
 			*@short Initialize the component - load data from disk etc.
 			*@p data Pointer to the KStarsData object
 			*/
-		virtual void init(KStarsData *data);
+		virtual void init(KStarsData *data) {};
 		
 		/**
 			*@short Update the sky position(s) of this component.

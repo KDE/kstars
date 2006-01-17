@@ -46,6 +46,10 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
+KSWizardUI::KSWizardUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
 KSWizard::KSWizard( QWidget *parent )
  : KDialogBase( parent )
 {

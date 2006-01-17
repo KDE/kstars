@@ -217,7 +217,7 @@ void OpsCatalog::slotStarWidgets(bool on) {
 	kcfg_ShowStarMagnitudes->setEnabled(on);
 }
 
-QString getCatalogName( const QString &filename ) {
+QString OpsCatalog::getCatalogName( const QString &filename ) {
 	QString name = QString();
 	QFile f( filename );
 

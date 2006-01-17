@@ -160,3 +160,5 @@ void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num ) {
 		}
 	}
 }
+
+QList<CSegment*>& ConstellationBoundaryComponent::segmentList() { return m_SegmentList; }

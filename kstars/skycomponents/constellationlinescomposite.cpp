@@ -15,11 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QFile>
+#include <QTextStream>
+#include <kdebug.h>
+#include <klocale.h>
+
+#include "Options.h"
+#include "kstarsdata.h"
+#include "ksutils.h"
 #include "constellationlinescomposite.h"
 #include "constellationlinescomponent.h"
 
 ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData *data ) 
-  : SkyComposite( parent, data ) 
+  : SkyComposite( parent ) 
 {
 	//Create the ConstellationLinesComponents.  Each is a series of points 
 	//connected by line segments.  A single constellation can be composed of 
@@ -41,11 +49,11 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 	QFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
 	  QTextStream stream( &file );
+	  ConstellationLinesComponent *clc=0;
 
-		while ( !stream.eof() ) {
+		while ( !stream.atEnd() ) {
 			QString line, name;
 			QChar mode;
-			ConstellationLinesComponent *clc=0;
 
 			line = stream.readLine();
 
@@ -57,7 +65,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 				mode = line.at( 0 );
 				if ( mode == 'M' ) {
 					if ( clc ) addComponent( clc );
-					clc = new ConstellationLinesComponent( this, Options::showCLines() );
+					clc = new ConstellationLinesComponent( this, Options::showCLines );
 				}
 
 				name = line.mid( 2 ).trimmed();

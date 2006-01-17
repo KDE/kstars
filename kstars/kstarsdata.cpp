@@ -52,26 +52,24 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
-QString TypeName[] = { 
-		i18n( "star" ),
-		i18n( "multiple star" ),
-		i18n( "planet" ),
-		i18n( "open cluster" ),
-		i18n( "globular cluster" ),
-		i18n( "gaseous nebula" ),
-		i18n( "planetary nebula" ),
-		i18n( "supernova remnant" ),
-		i18n( "galaxy" ),
-		i18n( "comet" ),
-		i18n( "asteroid" ),
-		i18n( "constellation" )
-};
-
 KStarsData::KStarsData() : stdDirs(0), locale(0), 
 		LST(0), HourAngle(0), initTimer(0)
 {
 	startupComplete = false;
 	objects++;
+
+	TypeName[0] = i18n( "star" );
+	TypeName[1] = i18n( "multiple star" );
+	TypeName[2] = i18n( "planet" );
+	TypeName[3] = i18n( "open cluster" );
+	TypeName[4] = i18n( "globular cluster" );
+	TypeName[5] = i18n( "gaseous nebula" );
+	TypeName[6] = i18n( "planetary nebula" );
+	TypeName[7] = i18n( "supernova remnant" );
+	TypeName[8] = i18n( "galaxy" );
+	TypeName[9] = i18n( "comet" );
+	TypeName[10] = i18n( "asteroid" );
+	TypeName[11] = i18n( "constellation" );
 
 	//standard directories and locale objects
 	stdDirs = new KStandardDirs();
@@ -113,6 +111,13 @@ KStarsData::~KStarsData() {
 
 	while ( ! geoList.isEmpty() ) 
 		delete geoList.takeFirst();
+}
+
+QString KStarsData::typeName( int i ) {
+  QString result = i18n( "no type" );
+  if ( i >= 0 && i < 12 ) result = TypeName[i];
+
+  return result;
 }
 
 void KStarsData::initialize() {

@@ -93,7 +93,6 @@ public:
 	friend class LCGenerator;
 	friend class DetailDialog;
 	friend class AltVsTime;
-	friend class KSPopupMenu;
 	friend class WUTDialog;
 	friend class INDIDriver;
 	friend class INDI_P;
@@ -276,6 +275,8 @@ public:
 	/**@return pointer to the GeoLocation object*/
 	GeoLocation *geo() { return &Geo; }
 	
+	QString typeName( int );
+ 
 	/**@return reference to the CustomCatalogs list
 		*/
 // 	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
@@ -397,7 +398,7 @@ public slots:
 		*@param p the position of the box
 		*/
 	void saveFocusBoxPos( QPoint p );
-
+	
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
 		*starting up.  It is connected to the timeout() signal of a timer
@@ -410,7 +411,7 @@ private slots:
 		*the next timeout() signal is fired.
 		*/
 	void slotInitialize();
-
+ 
 private:
 
 /**Display an Error messagebox if a data file could not be opened.  If the file
@@ -481,10 +482,11 @@ private:
 	QTimer *initTimer;
 	int initCounter;
 
+	QString TypeName[12];
+
 	//--- Static member variables
 	//the number of KStarsData objects.
 	static int objects;
-	static QString TypeName[];
 	static QList<GeoLocation*> geoList;
 	static QMap<QString, TimeZoneRule> Rulebook;
 };

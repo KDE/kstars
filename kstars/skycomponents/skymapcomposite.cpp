@@ -126,6 +126,14 @@ void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
 	m_StarComponent->setFaintMagnitude( newMag );
 }
 
+void SkyMapComposite::setStarColorMode( int newMode ) {
+	m_StarComponent->setStarColorMode( newMode );
+}
+
+void SkyMapComposite::setStarColorIntensity( int newIntensity ) {
+	m_StarComponent->setStarColorIntensity( newIntensity );
+}
+
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 	foreach( SkyObject *s, m_StarComponent->objectList() ) 
 		if ( s->name2() == name ) return s;
@@ -135,6 +143,19 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
 	m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+}
+
+void SkyMapComposite::removeCustomCatalog( const QString &name ) {
+  foreach( SkyComponent *sc, m_CustomCatalogComposite->components() ) {
+    CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
+
+    if ( ccc->name() == name ) {
+      m_CustomCatalogComposite->removeComponent( ccc );
+      return;
+    }
+  }
+  
+  kdWarning() << i18n( "Could not find custom catalog component named %1." ).arg(name) << endl;
 }
 
 void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
