@@ -21,11 +21,11 @@
  #include <QDialog>
  #include "imagereductionui.h"
 
- class ImageReductionUI : public QDialog , public Ui::imageReductionUI
+ class ImageReductionUI : public QFrame, public Ui::ImageReduction
  {
    Q_OBJECT
    public:
-        ImageReductionUI(QDialog *parent);
+        ImageReductionUI(QWidget *parent);
   };
 
  class ImageReductionDlg : public QDialog
@@ -33,9 +33,8 @@
    Q_OBJECT
 
     public:
-     ImageReductionDlg(QWidget * parent, const char * name = 0);
+     ImageReductionDlg(QWidget * parent );
      ~ImageReductionDlg();
-
 
      ImageReductionUI * ui;
 

@@ -742,32 +742,32 @@ void FITSViewer::imageReduction()
      
   if (irDialog.exec() == QDialog::Accepted)
   {
-    if (irDialog.darkListView->childCount() == 0 && 
-        irDialog.flatListView->childCount() == 0)
+    if (irDialog.ui->darkListView->childCount() == 0 && 
+        irDialog.ui->flatListView->childCount() == 0)
 	{
 	 image->destroyTemplateImage();
 	 return;
 	}
      
-    darkCombineMode    = irDialog.darkAverageB->isChecked() ? 0 : 1;
-    flatCombineMode    = irDialog.flatAverageB->isChecked() ? 0 : 1;
-    darkflatCombineMode= irDialog.darkflatAverageB->isChecked() ? 0 : 1;
+    darkCombineMode    = irDialog.ui->darkAverageB->isChecked() ? 0 : 1;
+    flatCombineMode    = irDialog.ui->flatAverageB->isChecked() ? 0 : 1;
+    darkflatCombineMode= irDialog.ui->darkflatAverageB->isChecked() ? 0 : 1;
      
-    file = irDialog.darkListView->firstChild();
+    file = irDialog.ui->darkListView->firstChild();
     while (file)
     {
       darkFiles << file->text(0);
       file = file->nextSibling();
     }
     
-    file = irDialog.flatListView->firstChild();
+    file = irDialog.ui->flatListView->firstChild();
     while (file)
     {
       flatFiles << file->text(0);
       file = file->nextSibling();
     }
     
-    file = irDialog.darkflatListView->firstChild();
+    file = irDialog.ui->darkflatListView->firstChild();
     while (file)
     {
       darkflatFiles << file->text(0);

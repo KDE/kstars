@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 		KStarsData *dat = new KStarsData();
 		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
 		dat->initialize();
-		while (!dat->startupComplete) { kapp->processEvents(50); }
+		while (!dat->startupComplete) { kapp->processEvents(); }
 
 		//Set Geographic Location
 		dat->setLocationFromOptions(); 
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 		dat->clock()->setUTC( kdt );
 		
 		KSNumbers num( dat->ut().djd() );
-		dat->initGuides(&num);
+		//		dat->initGuides(&num);
 
 		SkyMap *map = new SkyMap( dat );
 		map->resize( w, h );
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 		QString scriptfile = args->getOption( "script" );
 		if ( ! scriptfile.isEmpty() ) {
 			if ( dat->executeScript( scriptfile, map ) ) {
-				std::cout << i18n( "Script executed." ).utf8() << std::endl;
+				std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
 			} else {
 				kdWarning() << i18n( "Could not execute script." ) << endl;
 			}
@@ -163,10 +163,10 @@ int main(int argc, char *argv[])
 		dat->setFullTimeUpdate();
 		dat->updateTime(dat->geo(), map );
 
-		kapp->processEvents(100000);
+		kapp->processEvents();
 		map->setMapGeometry();
 		map->exportSkyImage( &sky );
-		kapp->processEvents(100000);
+		kapp->processEvents();
 
 		if ( ! sky.save( fname, format ) ) kdWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
 		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;

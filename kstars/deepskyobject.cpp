@@ -135,7 +135,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 		case 1: //catalog star
 			//Some NGC/IC objects are stars...changed their type to 1 (was double star)
 			if (size<2.) size = 2.;
-			psky.drawEllipse( QPointF(x1, y1), size/2., size/2. );
+			psky.drawEllipse( x1, y1, size/2., size/2. );
 			break;
 		case 2: //Planet
 			break;
@@ -145,14 +145,14 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 			psize = 2.;
 			if ( size > 50. )  psize *= 2.;
 			if ( size > 100. ) psize *= 2.;
-			psky.drawEllipse( QPointf(xa, y1), psize, psize ); // draw circle of points
-			psky.drawEllipse( QPointf(xb, y1), psize, psize );
-			psky.drawEllipse( QPointf(xa, y2), psize, psize );
-			psky.drawEllipse( QPointf(xb, y2), psize, psize );
-			psky.drawEllipse( QPointf(x1, ya), psize, psize );
-			psky.drawEllipse( QPointf(x1, yb), psize, psize );
-			psky.drawEllipse( QPointf(x2, ya), psize, psize );
-			psky.drawEllipse( QPointf(x2, yb), psize, psize );
+			psky.drawEllipse( xa, y1, psize, psize ); // draw circle of points
+			psky.drawEllipse( xb, y1, psize, psize );
+			psky.drawEllipse( xa, y2, psize, psize );
+			psky.drawEllipse( xb, y2, psize, psize );
+			psky.drawEllipse( x1, ya, psize, psize );
+			psky.drawEllipse( x1, yb, psize, psize );
+			psky.drawEllipse( x2, ya, psize, psize );
+			psky.drawEllipse( x2, yb, psize, psize );
 			psky.setBrush( tempBrush );
 			break;
 		case 4: //Globular Cluster
@@ -160,7 +160,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawEllipse( QPointf(dx1, dy1), size, e()*size );
+			psky.drawEllipse( dx1, dy1, size, e()*size );
 			psky.drawLine( QPointF(0., dy1), QPointF(0., dy2) );
 			psky.drawLine( QPointF(dx1, 0.), QPointF(dx2, 0.) );
 			psky.restore(); //reset coordinate system
@@ -181,7 +181,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 			psky.save();
 			psky.translate( x, y );
 			psky.rotate( PositionAngle );  //rotate the coordinate system
-			psky.drawEllipse( QPointF(dx1, dy1), size, e()*size );
+			psky.drawEllipse( dx1, dy1, size, e()*size );
 			psky.drawLine( QPointF(0., dy1), QPointF(0., dy1 - e()*size/2. ) );
 			psky.drawLine( QPointF(0., dy2), QPointF(0., dy2 + e()*size/2. ) );
 			psky.drawLine( QPointF(dx1, 0.), QPointF(dx1 - size/2., 0.) );
@@ -206,7 +206,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 				psky.save();
 				psky.translate( x, y );
 				psky.rotate( PositionAngle );  //rotate the coordinate system
-				psky.drawEllipse( QPointF(dx1, dy1), size, e()*size );
+				psky.drawEllipse( dx1, dy1, size, e()*size );
 				psky.restore(); //reset coordinate system
 
 			} else if ( size>0. ) {

@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>imageReductionUI</class>
- <widget class="QDialog" name="imageReductionUI" >
+ <class>ImageReduction</class>
+ <widget class="QWidget" name="ImageReduction" >
   <property name="geometry" >
    <rect>
     <x>0</x>

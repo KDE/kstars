@@ -106,9 +106,8 @@ void SkyMap::drawBoxes( QPainter &p ) {
 void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
 
-	if ( ksw && ksw->observingList()->count() ) {
-		for ( SkyObject* obj = ksw->observingList()->first(); obj; ksw->observingList()->next() ) {
-			
+	if ( ksw && ksw->observingList()->obsList().size() ) {
+		foreach ( SkyObject* obj, ksw->observingList()->obsList() ) {
 			if ( checkVisibility( obj ) ) {
 				QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
 

@@ -105,7 +105,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
 //by the ExtDatePicker.
 void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 	switch( kev->key() ) {
-		case Key_Escape:
+		case Qt::Key_Escape:
 		{
 			close();
 			break;

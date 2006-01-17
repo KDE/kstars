@@ -24,7 +24,7 @@
  
  #include "imagereductiondlg.h"
  
- ImageReductionUI::ImageReductionUI(QDialog *parent) : QDialog(parent)
+ ImageReductionUI::ImageReductionUI(QWidget *parent) : QFrame(parent)
  {
    setupUi(parent);
    
@@ -33,7 +33,7 @@
    darkflatListView->setSorting(-1);
  }
  
- ImageReductionDlg::ImageReductionDlg(QWidget * parent, const char * name) : QDialog(parent, name)
+ ImageReductionDlg::ImageReductionDlg(QWidget * parent) : QDialog(parent)
 {
   ui = new ImageReductionUI(this);
 
