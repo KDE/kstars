@@ -23,7 +23,6 @@
 //#include <qlayout.h>
 //#include <qstringlist.h>
 //#include <q3widgetstack.h>
-#include <QVBoxLayout>
 #include <QFrame>
 #include <QTextStream>
 
@@ -66,9 +65,7 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
 	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	ui = new ObservingListUI( page );
-	vlay->addWidget( ui );
 
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );

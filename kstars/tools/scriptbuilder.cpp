@@ -75,6 +75,10 @@ OptionsTreeView::OptionsTreeView( QWidget *p )
   otvw = new OptionsTreeViewWidget( page );
 }
 
+OptionsTreeView::~OptionsTreeView() {
+  delete otvw;
+}
+
 ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
   setupUi( p );
 }

@@ -145,7 +145,7 @@ public slots:
 	*/
 	void slotNewSelection();
 
-	void slotNewCurrent();
+	//	void slotNewCurrent();
 
 /**@short load an observing list from disk.
 	*/

@@ -84,8 +84,8 @@ KStarsSplash::~KStarsSplash() {
 
 void KStarsSplash::paintEvent( QPaintEvent* ) {
 	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
-	label->repaint();  // standard text label
-	textCurrentStatus->repaint();  // status text label
+	//	label->repaint();  // standard text label
+	//	textCurrentStatus->repaint();  // status text label
 }
 
 void KStarsSplash::closeEvent( QCloseEvent *e ) {
@@ -95,7 +95,7 @@ void KStarsSplash::closeEvent( QCloseEvent *e ) {
 
 void KStarsSplash::setMessage( QString s ) {
 	textCurrentStatus->setText( s );
-	repaint();  // repaint splash screen
+	//	repaint();  // repaint splash screen
 /**
 	*Flush all event data. This is needed because events will buffered and
 	*repaint call will queued in event buffer. With flush all X11 events of
