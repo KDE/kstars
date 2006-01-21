@@ -17,6 +17,9 @@
 
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "geolocation.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <qdatetimeedit.h>  //need for QTimeEdit
@@ -98,7 +101,9 @@ void modCalcJD::slotClearTime (void)
 
 void modCalcJD::showCurrentTime (void)
 {
-	KStarsDateTime dt = KStarsDateTime::currentDateTime();
+	KStars *ks = (KStars*) parent()->parent()->parent();
+
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 }

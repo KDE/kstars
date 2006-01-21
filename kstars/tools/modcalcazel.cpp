@@ -23,6 +23,7 @@
 #include "skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
@@ -78,7 +79,9 @@ SkyPoint modCalcAzel::getHorCoords (void)
 
 void modCalcAzel::showCurrentDateTime (void)
 {
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+	KStars *ks = (KStars*) parent()->parent()->parent();
+
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );

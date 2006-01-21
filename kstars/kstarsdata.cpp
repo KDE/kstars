@@ -1280,7 +1280,7 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 		if ( Columns[i] == "Dc" ) {
 			if ( ! Dec.setFromString( d[i], true ) ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Dec value: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Dec value: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}
@@ -1292,14 +1292,14 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 			if ( ok ) {
 				if ( iType == 2 || iType > 8 ) {
 					if ( showerrs )
-						errs.append( i18n( "Line %1, field %2: Invalid object type: %1" )
+						errs.append( i18n( "Line %1, field %2: Invalid object type: %3" )
 								.arg(lnum).arg(i).arg(d[i]) +
 								i18n( "Must be one of 0, 1, 3, 4, 5, 6, 7, 8." ) );
 					return false;
 				}
 			} else {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Object type: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Object type: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}
@@ -1310,7 +1310,7 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 			mag = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}
@@ -1321,7 +1321,7 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 			a = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Major Axis: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Major Axis: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}
@@ -1332,7 +1332,7 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 			b = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Minor Axis: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Minor Axis: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}
@@ -1343,7 +1343,7 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 			PA = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Position Angle: %1" )
+					errs.append( i18n( "Line %1, field %2: Unable to parse Position Angle: %3" )
 							.arg(lnum).arg(i).arg(d[i]) );
 				return false;
 			}

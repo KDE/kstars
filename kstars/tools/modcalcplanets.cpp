@@ -50,7 +50,8 @@ modCalcPlanets::~modCalcPlanets(){
 
 void modCalcPlanets::showCurrentDateTime (void)
 {
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 
 	dateBox->setDate( dt.date() );
 	timeBox->setTime( dt.time() );
