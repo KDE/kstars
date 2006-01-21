@@ -74,7 +74,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
 			objectList().append( o );
 
 			//Add name to the list of object names
-			parent()->objectNames().append( name );
+			objectNames().append( name );
 		}
 		file.close();
 	}

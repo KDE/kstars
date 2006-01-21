@@ -679,7 +679,7 @@ Downey                           : California            : USA                  
 Dr. Remeis                       :                       : Germany               : 49 : 53 :  1 : N :  10 : 53 : 30 : E :  1.0 : EU
 Drammen                          :                       : Norway                : 59 : 45 : 00 : N :  10 : 15 : 00 : E : 1.0  : EU
 Dresden                          :                       : Germany               : 51 : 03 : 00 : N :  13 : 45 : 00 : E : 1.0  : EU
-Druvar                           :                       : Croatia               : 45 : 35 : 38 : E :  17 : 13 : 19 : N :  1.0 : EU
+Druvar                           :                       : Croatia               : 45 : 35 : 38 : N :  17 : 13 : 19 : E :  1.0 : EU
 Dryden                           : Ontario               : Canada                : 49 : 46 : 12 : N :  92 : 49 : 47 : W : -6.0 : US
 Dubai                            :                       : United Arab Emirates  : 25 : 18 :  0 : N :  55 : 25 : 59 : E : 4.0  : --
 Dublin                           :                       : Ireland               : 53 : 25 : 58 : N :   6 : 15 :  0 : W : 0.0  : EU
@@ -1319,7 +1319,7 @@ Kure Island                      : Hawaii                : USA                  
 Kuressaare                       :                       : Estonia               : 58 : 15 : 26 : N :  22 : 29 : 37 : E :  2.0 : EU
 Kurgan                           : Ural                  : Russia                : 55 : 26 :  0 : N :  65 : 18 :  0 : E :  5.0 : RU
 Kursk                            : Central Region        : Russia                : 51 : 42 :  0 : N :  36 : 12 :  0 : E :  3.0 : RU
-Kutina                           :                       : Croatia               : 45 : 29 :  2 : E :  16 : 46 : 26 : N :  1.0 : EU
+Kutina                           :                       : Croatia               : 45 : 29 :  2 : N :  16 : 46 : 26 : E :  1.0 : EU
 Kuwait City                      :                       : Kuwait                : 29 :  4 :  0 : N :  47 : 58 : 59 : E : 3.0  : --
 Kwajalein Atoll                  :                       : Marshall Islands      :  9 :  0 :  0 : N : 167 : 35 : 59 : E : 12.0 : --
 Kwasan                           :                       : Japan                 : 34 : 59 :  4 : N : 135 : 47 : 44 : E :  9.0 : --
@@ -1788,7 +1788,7 @@ Nassau                           :                       : Bahamas              
 Nassau Obs.                      : Ohio                  : USA                   : 41 : 35 :  5 : N :  81 :  4 : 30 : W : -5.0 : US
 Natal                            :                       : Brazil                :  5 : 17 : 59 : S :  35 : 47 : 59 : W : -3.0 : BZ
 Natchez                          : Mississippi           : USA                   : 31 : 33 : 47 : N :  91 : 23 : 30 : W : -6.0 : US
-Našice                           :                       : Croatia               : 45 : 29 : 20 : E :  18 :  5 : 16 : N :  1.0 : EU
+Našice                           :                       : Croatia               : 45 : 29 : 20 : N :  18 :  5 : 16 : E :  1.0 : EU
 Ndola                            :                       : Zambie                : 12 : 97 :  0 : S :  28 : 29 :  0 : E :   2.0 : --
 Needles                          : California            : USA                   : 34 : 51 :  0 : N : 114 : 39 :  0 : W : -8.0 : US
 Nenana                           : Alaska                : USA                   : 64 : 34 : 11 : N : 149 :  4 : 11 : W : -9.0 : US
@@ -1890,7 +1890,7 @@ Ocean City                       : Maryland              : USA                  
 Ocean Grove                      : New Jersey            : USA                   : 40 : 10 :  1 : N :  74 :  0 :  0 : W : -5.0 : US
 Oceanside                        : California            : USA                   : 33 : 11 : 53 : N : 117 : 22 : 37 : W : -8.0 : US
 Odense                           : Fyn                   : Denmark               : 55 : 23 : 59 : N :  10 : 22 : 59 : E :   1.0 : EU
-Odessa                           :                       : Ukraine               : 46 : 28 :  6 : N :  30 : 45 : 29 : E   1.0 : RU
+Odessa                           :                       : Ukraine               : 46 : 28 :  6 : N :  30 : 45 : 29 : E :  1.0 : RU
 Odessa                           : Texas                 : USA                   : 31 : 51 : 29 : N : 102 : 22 : 30 : W : -6.0 : US
 Offenbach                        :                       : Germany               : 50 : 06 : 00 : N :   8 : 46 : 00 : E : 1.0  : EU
 Ogallala                         : Nebraska              : USA                   : 41 :  7 : 58 : N : 101 : 43 : 58 : W : -7.0 : US
@@ -1931,7 +1931,7 @@ Orleans                          : Loiret                : France               
 Osaka                            :                       : Japan                 : 34 : 46 : 58 : N : 135 : 26 : 59 : E : 9.0  : --
 Osborne                          : Kansas                : USA                   : 39 : 25 :  1 : N :  98 : 42 :  0 : W : -6.0 : US
 Oshkosh                          : Wisconsin             : USA                   : 44 :  1 : 18 : N :  88 : 32 : 42 : W : -6.0 : US
-Osijek                           :                       : Croatia               : 45 : 33 :  3 : E :  18 : 41 : 38 : N :  1.0 : EU
+Osijek                           :                       : Croatia               : 45 : 33 :  3 : N :  18 : 41 : 38 : E :  1.0 : EU
 Oslo                             :                       : Norway                : 59 : 55 : 59 : N :  10 : 40 : 59 : E : 1.0  : EU
 Osnabrück                        :                       : Germany               : 52 : 26 : 70 : N :   8 : 05 : 00 : E : 1.0  : EU
 Otranto                          :                       : Italy                 : 40 :  8 : 38 : N :  18 : 29 : 28 : E :  1.0 : EU
@@ -2094,7 +2094,7 @@ Potsdam                          :                       : Germany              
 Pottstown                        : Pennsylvania          : USA                   : 40 : 15 :  0 : N :  75 : 40 :  1 : W : -5.0 : US
 Poughkeepsie                     : New York              : USA                   : 41 : 45 :  0 : N :  73 : 55 :  1 : W : -5.0 : US
 Poznan                           :                       : Poland                : 52 : 23 :  9 : N :  16 : 52 : 45 : E :  1.0 : EU
-Požega                           :                       : Croatia               : 45 : 19 : 58 : E :  17 : 40 : 30 : N :  1.0 : EU
+Požega                           :                       : Croatia               : 45 : 19 : 58 : N :  17 : 40 : 30 : E :  1.0 : EU
 Prague                           :                       : Czech Republic        : 50 :  4 : 59 : N :  14 : 25 : 59 : E : 1.0  : EU
 Prato                            :                       : Italy                 : 43 : 52 : 47 : N :  11 :  5 : 46 : E :  1.0 : EU
 Pratt                            : Kansas                : USA                   : 37 : 23 :  7 : N :  98 : 26 :  8 : W : -6.0 : US
@@ -2121,7 +2121,7 @@ Pueblo                           : Colorado              : USA                  
 Puerto Montt                     :                       : Chile                 : 41 : 25 : 59 : S :  73 :  5 : 59 : W : -4.0 : CL
 Puerto Real                      : Puerto Rico           : USA                   : 18 : 20 : 30 : N :  65 : 37 : 17 : W : -5.0 : US
 Puerto del Rosario               : Gran Canaria          : Spain                 : 28 : 30 :  0 : N :  13 : 52 : 00 : W :  0.0 : EU
-Pula                             :                       : Croatia               : 44 : 52 :  4 : E :  13 : 50 : 52 : N :  1.0 : EU
+Pula                             :                       : Croatia               : 44 : 52 :  4 : N :  13 : 50 : 52 : E :  1.0 : EU
 Pulkovo                          :                       : Russia                : 59 : 46 :  4 : N :  30 : 19 : 30 : E :  1.0 : RU
 Purple Mountain                  :                       : China                 : 32 :  4 :  0 : N : 118 : 49 : 14 : E :  8.0 : CH
 Putnam                           : Connecticut           : USA                   : 41 : 55 :  1 : N :  71 : 55 :  1 : W : -5.0 : US
@@ -2224,7 +2224,7 @@ Rota Island                      :                       : US Territory         
 Rotterdam                        :                       : Netherlands           : 51 : 55 :  0 : N :   4 : 29 :  0 : E : 1.0  : EU
 Rouen                            : Seine maritime        : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
 Roundup                          : Montana               : USA                   : 46 : 25 :  1 : N : 108 : 34 : 58 : W : -7.0 : US
-Rovinj                           :                       : Croatia               : 45 :  5 :  2 : E :  13 : 38 :  9 : N :  1.0 : EU
+Rovinj                           :                       : Croatia               : 45 :  5 :  2 : N :  13 : 38 :  9 : E :  1.0 : EU
 Rowland Heights                  : California            : USA                   : 34 :  0 :  0 : N : 117 : 52 : 30 : W : -8.0 : US
 Royal Oak                        : Michigan              : USA                   : 42 : 30 : 24 : N :  83 :  8 : 48 : W : -5.0 : US
 Ruby                             : Alaska                : USA                   : 64 : 37 : 58 : N : 155 : 22 :  1 : W : -9.0 : US
@@ -2374,7 +2374,7 @@ Sioux Falls                      : South Dakota          : USA                  
 Sioux Lookout                    : Ontario               : Canada                : 50 :  4 : 12 : N :  91 : 55 : 12 : W : -6.0 : US
 Sioux Narrows                    : Ontario               : Canada                : 49 : 23 : 59 : N :  94 :  0 :  0 : W : -6.0 : US
 Siracusa                         :                       : Italy                 : 37 :  4 : 56 : N :  15 : 17 :  7 : E :  1.0 : EU
-Sisak                            :                       : Croatia               : 45 : 28 :  8 : E :  16 : 22 : 47 : N :  1.0 : EU
+Sisak                            :                       : Croatia               : 45 : 28 :  8 : N :  16 : 22 : 47 : E :  1.0 : EU
 Sitka                            : Alaska                : USA                   : 57 :  2 : 59 : N : 135 : 21 : 36 : W : -9.0 : US
 Sittwe                           :                       : Myanmar               : 20 :  7 : 59 : N :  92 : 52 : 59 : E : 6.5  : --
 Skagen                           : Jylland               : Denmark               : 57 : 43 : 58 : N :  10 : 35 : 58 : E :   1.0 : EU
@@ -2416,7 +2416,7 @@ Sparks                           : Nevada                : USA                  
 Spartanburg                      : South Carolina        : USA                   : 34 : 57 :  2 : N :  81 : 56 :  6 : W : -5.0 : US
 Spenard                          : Alaska                : USA                   : 61 : 11 : 17 : N : 149 : 55 :  1 : W : -9.0 : US
 Spencer                          : Iowa                  : USA                   : 43 :  8 : 59 : N :  95 :  7 : 58 : W : -6.0 : US
-Split                            :                       : Croatia               : 43 : 30 : 50 : E :  16 : 27 : 21 : N :  1.0 : EU
+Split                            :                       : Croatia               : 43 : 30 : 50 : N :  16 : 27 : 21 : E :  1.0 : EU
 Spokane                          : Washington            : USA                   : 47 : 39 : 32 : N : 117 : 25 : 33 : W : -8.0 : US
 Springdale                       : Arkansas              : USA                   : 36 : 10 :  1 : N :  94 :  7 :  1 : W : -6.0 : US
 Springfield                      : Illinois              : USA                   : 39 : 47 : 57 : N :  89 : 38 : 50 : W : -6.0 : US
@@ -2649,7 +2649,7 @@ Vancouver                        : British Columbia      : Canada               
 Vancouver                        : Washington            : USA                   : 45 : 37 : 30 : N : 122 : 40 : 12 : W : -8.0 : US
 Vandans                          :                       : Austria               : 47 :  5 : 57 : N :   9 : 51 : 48 : E : 1.0  : EU
 Vantaa                           :                       : Finland               : 60 : 18 : 00 : N :  24 : 57 : 00 : E : 2.0  : EU
-Varaždin                         :                       : Croatia               : 46 : 18 : 36 : E :  16 : 20 :  9 : N :  1.0 : EU
+Varaždin                         :                       : Croatia               : 46 : 18 : 36 : N :  16 : 20 :  9 : E :  1.0 : EU
 Varde                            : Jylland               : Denmark               : 55 : 37 : 58 : N :   8 : 28 : 58 : E :   1.0 : EU
 Varsovia                         :                       : Poland                : 52 :  5 :  4 : N :  21 : 25 : 14 : E :  1.0 : EU
 Vaticano                         :                       : Vatican               : 41 : 44 :  8 : N :  12 : 39 :  0 : E :  1.0 : EU
@@ -2673,9 +2673,9 @@ Vigo                             :                       : Spain                
 Viljandi                         :                       : Estonia               : 58 : 21 : 41 : N :  25 : 34 : 29 : E :  2.0 : EU
 Vilnius                          :                       : Lithuania             : 54 : 41 :  0 : N :  25 : 17 : 15 : E :  2.0 : RU
 Vineland                         : New Jersey            : USA                   : 39 : 29 : 12 : N :  75 :  1 : 36 : W : -5.0 : US
-Vinkovci                         :                       : Croatia               : 45 : 17 : 31 : E :  18 : 48 :  3 : N :  1.0 : EU
+Vinkovci                         :                       : Croatia               : 45 : 17 : 31 : N :  18 : 48 :  3 : E :  1.0 : EU
 Virginia Beach                   : Virginia              : USA                   : 36 : 50 : 45 : N :  76 :  8 : 21 : W : -5.0 : US
-Virovitica                       :                       : Croatia               : 45 : 50 :  2 : E :  17 : 23 : 13 : N :  1.0 : EU
+Virovitica                       :                       : Croatia               : 45 : 50 :  2 : N :  17 : 23 : 13 : E :  1.0 : EU
 Visalia                          : California            : USA                   : 36 : 20 :  6 : N : 119 : 17 : 49 : W : -8.0 : US
 Vitoria-Gasteiz                  :                       : Spain                 : 42 : 51 : 01 : N :  02 : 40 : 23 : W : 1.0  : EU
 Vladikavkaz                      : South Region          : Russia                : 43 :  3 :  0 : N :  44 : 40 :  0 : E :  3.0 : RU
@@ -2837,7 +2837,7 @@ Yuma                             : Arizona               : USA                  
 Yuma                             : Colorado              : USA                   : 40 :  7 : 58 : N : 102 : 49 : 58 : W : -7.0 : US
 Yupojin                          : Hambuk                : Korea                 : 43 :  0 : 39 : N : 129 :  0 :  0 : E : 9.0  : SK
 Yuzhno-Sakhalinsk                : Far East              : Russia                : 46 : 58 :  0 : N : 142 : 42 :  0 : E : 10.0 : RU
-Zadar                            :                       : Croatia               : 44 :  7 :  1 : E :  15 : 15 :  0 : N :  1.0 : EU
+Zadar                            :                       : Croatia               : 44 :  7 :  1 : N :  15 : 15 :  0 : E :  1.0 : EU
 Zamora                           :                       : Spain                 : 41 : 29 : 56 : N :  05 : 45 : 18 : W : 1.0  : EU
 Zanesville                       : Ohio                  : USA                   : 39 : 56 : 17 : N :  82 :  0 : 29 : W : -5.0 : US
 Zanzibar                         :                       : Tanzanie              :  6 : 13 :  0 : S :  39 : 13 :  0 : E :   3.0 : --

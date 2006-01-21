@@ -68,6 +68,8 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void init(KStarsData *data);
 	
+		QString fileName() const { return m_FileName; }
+
 	private:
 		QList<SkyPoint*> MilkyWay;
 		QString m_FileName;

@@ -36,10 +36,10 @@ ListComponent::~ListComponent()
 void ListComponent::clear() {
 	while ( ! objectList().isEmpty() ) {
 		SkyObject *o = objectList().takeFirst();
-		int i = parent()->objectNames().indexOf( o->name() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
-		i = parent()->objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) parent()->objectNames().removeAt( i );
+		int i = objectNames().indexOf( o->name() );
+		if ( i >= 0 ) objectNames().removeAt( i );
+		i = objectNames().indexOf( o->longname() );
+		if ( i >= 0 ) objectNames().removeAt( i );
 
 		delete o;
 	}

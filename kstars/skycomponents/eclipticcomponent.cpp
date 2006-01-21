@@ -37,6 +37,7 @@ EclipticComponent::~EclipticComponent()
 
 void EclipticComponent::init(KStarsData *data)
 {
+	emitProgressText( i18n("Creating ecliptic" ) );
 	// Define the Ecliptic
 	KSNumbers num( data->ut().djd() );
 	dms elat(0.0), elng(0.0);

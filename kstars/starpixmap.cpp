@@ -15,16 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QBitmap>
+#include <QPainter>
+#include <QPixmap>
+#include <QVector>
+
+#include <kdebug.h>
 
 #include "starpixmap.h"
-
-#include <kimageeffect.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <Q3MemArray>
 
 #define STARSIZE 24
 
@@ -71,13 +69,13 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 
 	if (colorIntensity < 0) colorIntensity = 0;	// min
 
-	QPixmap pix (STARSIZE, STARSIZE);
+	QPixmap pix(STARSIZE, STARSIZE), tmp;
 	QBitmap mask (STARSIZE, STARSIZE);
-	QImage image;
+//	QImage image;
+//	image.setAlphaBuffer(true);
 	QPainter p;
-	Q3MemArray<QColor> starColor;
+	QVector<QColor> starColor;
 	starColor.resize( 8 );
-	image.setAlphaBuffer(true);
 
 	starColor[0] = QColor( 255, 255, 255 );   //default to white
 	starColor[1] = QColor(   0,   0, 255 );   //type O
@@ -108,34 +106,18 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		}
 
 		mask.fill (Qt::color0);
-
 		p.begin (&mask);
 		p.setPen (QPen ( Qt::color1, 1));
 		p.setBrush( QBrush( Qt::color1 ) );
 		p.drawEllipse(0, 0, STARSIZE, STARSIZE);
 		p.end();
 
-		//BLUR!! ugliness-- requires temporary conversion to pixmap, then back again.
-		//       if we defer the blur until the end, we lose the transparency.  Bleh.
-		QImage tmp = pix.convertToImage();
-		pix.convertFromImage( KImageEffect::blur( tmp, 100.0 ) );
-
 		pix.setMask (mask);	// set the mask
-		image = pix.convertToImage();	// create the image for smoothScale()
 
 		for (int i = 0; i < 26; i++)
 		{
-			tmp = image.smoothScale( STARSIZE*(i+1)/26, STARSIZE*(i+1)/26 );
-/*			if (i < 6)
-				tmp = image.smoothScale (1+ i, 1+ i);	// size: 1x1 .. 6x6
-			else	if (i < 12)
-				tmp = image.smoothScale (int((1+ i)*1.25), int((1+ i)*1.25));	// size: 8x8 ... 16x16
-			else	if (i < 18)
-				tmp = image.smoothScale (int((1+ i)*1.5), int((1+ i)*1.5));	// size: 19x19 .. 27x27
-			else
-				tmp = image.smoothScale ((1+ i)*2, (1+ i)*2);	// size: 38 .. 52x52
-*/
-			starPixmaps[color][i].convertFromImage( tmp );  // fill the array of pixmaps
+			int size = STARSIZE*(i+1)/26;
+			starPixmaps[color][i] = pix.scaled( size, size );
 		}
 	}
 }

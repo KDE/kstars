@@ -80,6 +80,8 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	QString fname = locateLocal( "config", "kstarsrc" );
 	useDefaultOptions = ! ( QFile(fname).exists() );
 
+	m_SkyComposite = new SkyMapComposite( 0, this );
+
 	//Instantiate LST and HourAngle
 	LST = new dms();
 	HourAngle = new dms();
@@ -201,7 +203,7 @@ void KStarsData::slotInitialize() {
 
 		case 2: //Initialize SkyMapComposite//
 
-//			emit progressText(i18n("Loading sky objects" ) );
+			emit progressText(i18n("Loading sky objects" ) );
 			skyComposite()->init( this );
 			break;
 

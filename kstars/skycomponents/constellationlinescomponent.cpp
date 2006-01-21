@@ -37,55 +37,6 @@ ConstellationLinesComponent::ConstellationLinesComponent(SkyComponent *parent, b
 ConstellationLinesComponent::~ConstellationLinesComponent() {
 }
 
-// bool KStarsData::readCLineData( void )
-void ConstellationLinesComponent::init(KStarsData *data)
-{
-// TODO be sure that stars are already loaded
-
-	//The constellation lines data file (clines.dat) contains lists
-	//of abbreviated genetive star names in the same format as they 
-	//appear in the star data files (hipNNN.dat).  
-	//
-	//Each constellation consists of a QPtrList of SkyPoints, 
-	//corresponding to the stars at each "node" of the constellation.
-	//These are pointers to the starobjects themselves, so the nodes 
-	//will automatically be fixed to the stars even as the star 
-	//positions change due to proper motions.  In addition, each node 
-	//has a corresponding flag that determines whether a line should 
-	//connect this node and the previous one.
-	
-	QFile file;
-	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
-		emitProgressText( i18n("Loading constellation lines" ) );
-
-		QTextStream stream( &file );
-		while ( !stream.atEnd() ) {
-			QString line, name;
-
-			line = stream.readLine();
-
-			//ignore lines beginning with "#":
-			if ( line.at( 0 ) != '#' ) {
-				name = line.mid( 2 ).trimmed();
-				
-				//Find the star with this abbreviated genitive name ( name2() )
-				SkyObject *o = data->skyComposite()->findByName( name );
-				if ( o ) {
-					pointList().append( (SkyPoint*)o );
-					m_CLineModeList.append( QChar( line.at( 0 ) ) );
-				} else {
-					kdWarning() << i18n( "No star named %1 found." ).arg(name) << endl;
-				}
-			}
-		}
-		file.close();
-
-//		return true;
-	} else {
-//		return false;
-	}
-}
-
 void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;

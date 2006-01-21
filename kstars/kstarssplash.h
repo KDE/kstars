@@ -18,12 +18,12 @@
 #ifndef KSTARSSPLASH_H_
 #define KSTARSSPLASH_H_
 
-#include <kdialogbase.h>
-//Added by qt3to4:
-#include <QPixmap>
+#include <QImage>
 #include <QLabel>
 #include <QPaintEvent>
 #include <QCloseEvent>
+
+#include <kdialogbase.h>
 
 /**@class KStarsSplash
 	*The KStars Splash Screen.  The splash screen shows the KStars logo and 
@@ -70,9 +70,7 @@ class KStarsSplash : public KDialogBase
 			void closeWindow();
 
 	private:
-		QLabel *textCurrentStatus, *label;
-		QWidget *Banner;
-		QPixmap *splashImage;
+		QLabel *textCurrentStatus, *label, *Banner;
 };
 
 #endif

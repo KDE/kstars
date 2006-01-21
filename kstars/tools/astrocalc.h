@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include <qwidget.h>
+#include <QTreeWidgetItem>
 #include <kdialogbase.h>
 
 #include <kapplication.h>

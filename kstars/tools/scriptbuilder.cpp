@@ -414,7 +414,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( argPrintImage->UseChartColors, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
 	connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
-	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme( QListWidgetItem* ) ) );
+	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme() ) );
 	
 	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
 	
@@ -2393,7 +2393,7 @@ void ScriptBuilder::slotChangeColor() {
 	}
 }
 
-void ScriptBuilder::slotLoadColorScheme(QListWidgetItem */*i*/) {
+void ScriptBuilder::slotLoadColorScheme() {
 	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentItem() ];
 
 	if ( sf->name() == "loadColorScheme" ) {

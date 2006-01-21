@@ -21,6 +21,7 @@
 #include <QVBoxLayout>
 #include <QFrame>
 #include <QPaintEvent>
+#include <QPainter>
 #include <QCloseEvent>
 
 #include <klocale.h>
@@ -43,16 +44,14 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	
 	//Load the KStars banner.  Use an empty image if it can't be opened.
 	QFile imFile;
+	QPixmap pmSplash;
 	if ( KSUtils::openDataFile( imFile, "kstars.png" ) ) {
 		imFile.close(); //Just need the filename...
-		splashImage = new QPixmap( imFile.name() );
-	} else {
-		splashImage = new QPixmap(); //null image
+		pmSplash.load( imFile.name() );
 	}
 
-	Banner = new QWidget( page );
-	Banner->setFixedWidth( splashImage->width() );
-	Banner->setFixedHeight( splashImage->height() );
+	Banner = new QLabel( page );
+	Banner->setPixmap( pmSplash );
 	topLayout->addWidget( Banner );
 	
 //initialize the "Welcome to KStars message label
@@ -79,13 +78,12 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 }
 
 KStarsSplash::~KStarsSplash() {
-	delete splashImage;
 }
 
 void KStarsSplash::paintEvent( QPaintEvent* ) {
-	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
-	//	label->repaint();  // standard text label
-	//	textCurrentStatus->repaint();  // status text label
+//	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
+//		label->repaint();  // standard text label
+//		textCurrentStatus->repaint();  // status text label
 }
 
 void KStarsSplash::closeEvent( QCloseEvent *e ) {

@@ -19,6 +19,7 @@
 #define SKYCOMPONENT_H
 
 #include <QString>
+#include <kdebug.h>
 
 class QPainter;
 class QString;
@@ -88,7 +89,7 @@ class SkyComponent
 			*@short Initialize the component - load data from disk etc.
 			*@p data Pointer to the KStarsData object
 			*/
-		virtual void init(KStarsData *data) {};
+		virtual void init(KStarsData *data) { kdDebug() << "Should never see this" << endl; }
 		
 		/**
 			*@short Update the sky position(s) of this component.
@@ -183,9 +184,9 @@ class SkyComponent
 			*/
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-		void emitProgressText( const QString &message );
+		virtual void emitProgressText( const QString &message );
 
-		QStringList& objectNames() { return parent()->objectNames(); }
+		virtual QStringList& objectNames() { return parent()->objectNames(); }
 
 	protected:
 

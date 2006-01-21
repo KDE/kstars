@@ -41,6 +41,7 @@ EquatorComponent::~EquatorComponent()
 
 void EquatorComponent::init(KStarsData *data)
 {
+	emitProgressText( i18n("Creating equator" ) );
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint( i*24./NCIRCLE, 0.0 );
 		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );

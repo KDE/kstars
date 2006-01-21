@@ -58,6 +58,8 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 		//or doubles..this lets us do error checking on the stream.
 		while ( !stream.atEnd() ) {
 			stream >> d1;
+			if ( d1.isEmpty() ) continue;
+
 			if ( d1.at(0) == '#' ) { 
 				comment = true; 
 				ok = true; 
@@ -74,7 +76,6 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 				
 			} else { 
 				CSegment *seg = new CSegment();
-				
 				for ( unsigned int i=0; i<nn; ++i ) {
 					stream >> d1 >> d2;
 					ra = d1.toDouble( &ok );

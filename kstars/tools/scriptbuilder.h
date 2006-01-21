@@ -135,7 +135,7 @@ public slots:
 	void slotPrintImage();
 	void slotChangeColor();
 	void slotChangeColorName();
-	void slotLoadColorScheme(QListWidgetItem*);
+	void slotLoadColorScheme();
 	
 	void slotINDIWaitCheck(bool toggleState);
 	void slotINDIFindObject();

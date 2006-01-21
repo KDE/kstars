@@ -38,6 +38,10 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	// so horizon should be one of the last components
 	addComponent( new MilkyWayComposite( this, &Options::showMilkyWay ) );
 	addComponent( new CoordinateGridComposite( this, &Options::showGrid ) );
+
+	m_StarComponent = new StarComponent( this, &Options::showStars );
+	addComponent( m_StarComponent );
+
 	m_CBoundsComponent = new ConstellationBoundaryComponent( this, &Options::showCBounds );
 	addComponent( m_CBoundsComponent );
 	addComponent( new ConstellationLinesComposite( this, data ) );
@@ -56,9 +60,6 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	foreach ( QString fname, Options::catalogFile() ) 
 		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 	
-	m_StarComponent = new StarComponent( this, &Options::showStars );
-	addComponent( m_StarComponent );
-
 	m_SSComposite = new SolarSystemComposite( this, data );
 	addComponent( m_SSComposite );
 
@@ -67,14 +68,6 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 
 	connect( this, SIGNAL( progressText( const QString & ) ), 
 					data, SIGNAL( progressText( const QString & ) ) );
-}
-
-void SkyMapComposite::init(KStarsData *data )
-{
-	SkyComposite::init(data);
-
-	//Sort the list of object names
-	qSort( objectNames() );
 }
 
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )

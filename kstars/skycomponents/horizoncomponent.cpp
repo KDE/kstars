@@ -41,6 +41,7 @@ HorizonComponent::~HorizonComponent()
 
 void HorizonComponent::init(KStarsData *data)
 {
+	emitProgressText( i18n("Creating horizon" ) );
 	//Define Horizon
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint();

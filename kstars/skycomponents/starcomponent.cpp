@@ -40,6 +40,7 @@ StarComponent::~StarComponent()
 
 void StarComponent::init(KStarsData *data)
 {
+	emitProgressText( i18n("Loading stars" ) );
 	// load the pixmaps of stars
 	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
 	m_Data = data;
@@ -152,6 +153,7 @@ bool StarComponent::openStarFile(int i)
 		starFileReader = 0;
 		return false;
 	}
+
 	return true;
 }
 
@@ -163,8 +165,10 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 		//Identify which data file needs to be opened (there are 1000 stars per file)
 		int iStarFile = objectList().size()/1000 + 1;
 		int iStarLine = objectList().size()%1000;
-		float currentMag = objectList().last()->mag();
+		float currentMag = -5.0;
 		uint nLinesRead = 0;
+		if ( objectList().size() ) 
+			currentMag = objectList().last()->mag();
 
 		//Skip 12 header lines in first file
 		if ( iStarFile == 1 ) iStarLine += 12;
@@ -206,12 +210,15 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 void StarComponent::processStar( const QString &line ) {
 	QString name, gname, SpType;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
-	bool mult, var;
+	bool mult(false), var(false);
 	QChar sgn;
 	double mag, bv, dmag, vper;
 	double pmra, pmdec, plx;
 
 	name = ""; gname = "";
+
+// 	//DEBUG
+// 	kdDebug() << "line read: " << line << endl;
 
 	//parse coordinates
 	rah = line.mid( 0, 2 ).toInt();
@@ -240,16 +247,17 @@ void StarComponent::processStar( const QString &line ) {
 
 	//parse variablility...currently not using dmag or var
 	var = false; dmag = 0.0; vper = 0.0;
-	if ( line.at( 62 ) == '.' ) {
+	if ( line.length() > 60 && line.at( 62 ) == '.' ) {
 		var = true;
 		dmag = line.mid( 61, 4 ).toDouble();
 		vper = line.mid( 66, 6 ).toDouble();
 	}
 
 	//parse name(s)
-	name = line.mid( 72 ).trimmed(); //the rest of the line
+	if ( line.length() > 72 )
+		name = line.mid( 72 ).trimmed(); //the rest of the line
 
-	if (name.contains( ':' )) { //genetive form exists
+	if ( ! name.isEmpty() && name.contains( ':' )) { //genetive form exists
 		gname = name.mid( name.find(':')+1 ).trimmed();
 		name = name.mid( 0, name.find(':') ).trimmed();
 	}
@@ -257,12 +265,9 @@ void StarComponent::processStar( const QString &line ) {
 	// HEV: look up star name in internationalization filesource
 	name = i18n("star name", name.local8Bit().data());
 
-//JH: OBJNAMES_DEPRECATED
-/*	bool starHasName( true );
-	if ( name.isEmpty() && gname.isEmpty() ) { //both names are empty
-		starHasName = false;
-	}*/
-	
+// 	//DEBUG
+// 	kdDebug() << "Star name: " << name << "   gname : " << gname << endl;
+
 	dms r;
 	r.setH(rah, ram, ras, ras2);
 	dms d(dd, dm, ds, ds2);
@@ -273,6 +278,6 @@ void StarComponent::processStar( const QString &line ) {
 	objectList().append(o);
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 
-	if ( ! name.isEmpty() ) parent()->objectNames().append( name );
-	if ( ! gname.isEmpty() && gname != name ) parent()->objectNames().append( gname );
+	if ( ! name.isEmpty() ) objectNames().append( name );
+	if ( ! gname.isEmpty() && gname != name ) objectNames().append( gname );
 }

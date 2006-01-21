@@ -47,12 +47,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
 		/**
-			*@short Delegate init requests to all sub components
-			*@p data Pointer to the KStarsData object
-			*/
-		virtual void init(KStarsData *data);
-	
-		/**
 			*@short Delegate planet position updates to the SolarSystemComposite
 			*
 			*Planet positions change over time, so they need to be recomputed 
@@ -115,7 +109,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		QString constellation( SkyPoint *p );
 
-		void emitProgressText( const QString &message );
+		virtual void emitProgressText( const QString &message );
+		virtual QStringList& objectNames() { return m_ObjectNames; }
 
 		QList<DeepSkyObject*>& deepSkyObjects() { return m_DeepSkyComponent->objectList(); }
 		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
@@ -129,8 +124,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		QList<SkyComponent*> customCatalogs() { 
 			return m_CustomCatalogComposite->components(); 
 		}
-
-		QStringList& objectNames() { return m_ObjectNames; }
 
 	signals:
 		void progressText( const QString &message );

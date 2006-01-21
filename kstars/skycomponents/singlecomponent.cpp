@@ -31,13 +31,13 @@ SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
 
 SingleComponent::~SingleComponent()
 {
-	int i = parent()->objectNames().indexOf( m_StoredObject->name() );
+	int i = objectNames().indexOf( m_StoredObject->name() );
 	if ( i >= 0 )
-		parent()->objectNames().removeAt( i );
+		objectNames().removeAt( i );
 
-	i = parent()->objectNames().indexOf( m_StoredObject->longname() );
+	i = objectNames().indexOf( m_StoredObject->longname() );
 	if ( i >= 0 )
-		parent()->objectNames().removeAt( i );
+		objectNames().removeAt( i );
 
 	delete m_StoredObject;
 }

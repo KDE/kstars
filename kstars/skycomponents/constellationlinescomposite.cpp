@@ -29,6 +29,9 @@
 ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData *data ) 
   : SkyComposite( parent ) 
 {
+}
+
+void ConstellationLinesComposite::init( KStarsData *data ) {
 	//Create the ConstellationLinesComponents.  Each is a series of points 
 	//connected by line segments.  A single constellation can be composed of 
 	//any number of these series, and we don't need to know which series 
@@ -38,7 +41,7 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 	//of abbreviated genetive star names in the same format as they 
 	//appear in the star data files (hipNNN.dat).  
 	//
-	//Each constellation consists of a QPtrList of SkyPoints, 
+	//Each constellation consists of a QList of SkyPoints, 
 	//corresponding to the stars at each "node" of the constellation.
 	//These are pointers to the starobjects themselves, so the nodes 
 	//will automatically be fixed to the stars even as the star 
@@ -48,8 +51,9 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 
 	QFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
-	  QTextStream stream( &file );
-	  ConstellationLinesComponent *clc=0;
+		emitProgressText( i18n("Loading constellation lines") );
+		QTextStream stream( &file );
+		ConstellationLinesComponent *clc=0;
 
 		while ( !stream.atEnd() ) {
 			QString line, name;
@@ -83,4 +87,3 @@ ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, 
 		if ( clc ) addComponent( clc );
 	}
 }
-

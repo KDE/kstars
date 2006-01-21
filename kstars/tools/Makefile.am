@@ -21,7 +21,7 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 			obslistwizard.cpp obslistwizard.h obslistwizardui.ui lcgeneratorui.ui \
 			../widgets/kstarsplotwidget.cpp ../widgets/timebox.cpp
 
-libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a
+libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a 
 
 INCLUDES= -I.. -I$(srcdir)/.. -I$(top_srcdir) $(all_includes)
 

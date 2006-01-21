@@ -426,10 +426,10 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 
 		//Add name to the list of object names
 		if ( ! name.isEmpty() ) 
-			parent()->objectNames().append( name );
+			objectNames().append( name );
 	}
 	if ( ! lname.isEmpty() && lname != name ) 
-		parent()->objectNames().append( lname );
+		objectNames().append( lname );
 
 	return true;
 }

@@ -48,7 +48,6 @@ MilkyWayComponent::~MilkyWayComponent()
 void MilkyWayComponent::init(KStarsData *)
 {
 	emitProgressText( i18n("Loading milky way" ) );
-
 	QFile file;
 
 	if ( KSUtils::openDataFile( file, m_FileName ) ) {

@@ -64,6 +64,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 		splash = new KStarsSplash(0, "Splash");
 		connect( splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
 		connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
+
+		//TEMPORARY
+		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
+
 		splash->show();
 	} else {
 		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
