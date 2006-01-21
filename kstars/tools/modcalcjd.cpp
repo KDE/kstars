@@ -106,6 +106,7 @@ void modCalcJD::showCurrentTime (void)
 	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
+	computeFromCalendar();
 }
 
 KStarsDateTime modCalcJD::getDateTime (void)
