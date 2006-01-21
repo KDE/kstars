@@ -201,7 +201,7 @@ longitudes for the Western hemisphere, INDI requires longitude values between
 0 and 360 degrees.  So if you have a negative longitude, simply add 360
 degrees to get the value that INDI expects.  For example, Calgary, Canada
 coordinates in &kstars; are longitude: -114 04 58; latitude: 51 02 58.  So
-INDI's would need  longitude = 360 - 114.069 = 245.931
+INDI's would need  longitude = 360 - 114.069 = 245.917
 degrees.</para></listitem>
 	<listitem><para><function>setINDIUTC(QString ddeviceName, QString UTCDateTime)</function> : Set the telescope UTC Date and Time in ISO 8601 format. The format is YYYY-MM-DDTHH:MM:SS (e.g. 2004-07-12T22:05:32).</para></listitem>
       </itemizedlist>
