@@ -80,7 +80,8 @@
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
    downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
-   downloadDialog->cancel();
+   //Porting to new kdelibs snapshot
+   //downloadDialog->cancel();
    
    parser		= newLilXML();
  }
@@ -465,10 +466,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
     // No need to check when in ISO mode
     if (ISOMode)
      return;
-     
-    for ( KFileItemListIterator it( items ) ; it.current() ; ++it )
+    
+	KFileItemList::const_iterator it = items.begin();
+	const KFileItemList::const_iterator end = items.end();
+    for ( ; it != end; ++it )
     {
-       tempName = it.current()->name();
+       tempName = (*it)->name();
        
        // find the prefix first
        if (tempName.find(seqPrefix) == -1)
