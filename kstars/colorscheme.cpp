@@ -290,8 +290,8 @@ void ColorScheme::loadFromConfig( KConfig *conf ) {
 	for ( int i=0; i < KeyName.size(); ++i )
 		setColor( KeyName.at(i), conf->readEntry( KeyName.at(i), Default.at( i ) ) );
 
-	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
-	setStarColorIntensity( conf->readNumEntry( "StarColorIntensity", 5 ) );
+	setStarColorMode( conf->readEntry( "StarColorMode", 0 ) );
+	setStarColorIntensity( conf->readEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
