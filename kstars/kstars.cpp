@@ -76,12 +76,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	//Initialize data.  When initialization is complete, it will run dataInitFinished()
 	kstarsData->initialize();
 
-	//Set Geographic Location
-	kstarsData->setLocationFromOptions();
-
-	//Pause the clock if the user gave the "--paused" arg
-	if ( ! StartClockRunning ) kstarsData->clock()->stop();
-	
 	//set up Dark color scheme for application windows
 	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::Base, QColor( "black" ) );
@@ -96,12 +90,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 #else
 	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
 #endif
-
-	//Initialize INDIMenu
-	indimenu = new INDIMenu(this);
-
-	//Initialize Observing List
-	obsList = new ObservingList( this, this );
 }
 
 KStars::~KStars()

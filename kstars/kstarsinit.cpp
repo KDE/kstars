@@ -395,12 +395,21 @@ void KStars::datainitFinished(bool worked) {
 	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
 		 SLOT( mapGetsFocus() ) );
 
+	//Set Geographic Location
+	kstarsData->setLocationFromOptions();
+
 	//Initialize Time and Date
 	KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
-	if ( startDate.isValid() )
+	if ( ! StartDateString.isEmpty() && startDate.isValid() ) 
 		data()->changeDateTime( geo()->LTtoUT( startDate ) );
-	else 
-		slotSetTimeToNow();
+	else
+		data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+
+	//Initialize INDIMenu
+	indimenu = new INDIMenu(this);
+
+	//Initialize Observing List
+	obsList = new ObservingList( this, this );
 
 	data()->setFullTimeUpdate();
 	updateTime();
@@ -409,9 +418,16 @@ void KStars::datainitFinished(bool worked) {
 	if ( StartClockRunning )
 		data()->clock()->start();
 
-	//Define the celestial equator, horizon and ecliptic
-	//(must come after date has been set)
-	KSNumbers tempnum(data()->ut().djd());
+// 	//Define the celestial equator, horizon and ecliptic
+// 	//(must come after date has been set)
+// 	KSNumbers tempnum(data()->ut().djd());
+
+	// Connect cache function for Find dialog
+	connect( data(), SIGNAL( clearCache() ), this, 
+		 SLOT( clearCachedFindDialog() ) );
+
+	//Propagate config settings
+	applyConfig();
 
 	//show the window.  must be before kswizard and messageboxes
 	show();
@@ -426,13 +442,6 @@ void KStars::datainitFinished(bool worked) {
 
 	//Start listening for DCOP
 	kapp->dcopClient()->resume();
-
-	// Connect cache function for Find dialog
-	connect( data(), SIGNAL( clearCache() ), this, 
-		 SLOT( clearCachedFindDialog() ) );
-
-	//Propagate config settings
-	applyConfig();
 
 	//Show TotD
 	KTipDialog::showTip( "kstars/tips" );

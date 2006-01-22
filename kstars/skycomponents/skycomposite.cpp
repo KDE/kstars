@@ -63,10 +63,8 @@ void SkyComposite::drawExportable(KStars *ks, QPainter& psky, double scale)
 void SkyComposite::init(KStarsData *data)
 {
 	int nCount=0;
-	foreach (SkyComponent *component, components()) {
-		kdDebug() << "init " << nCount++ << endl;
+	foreach (SkyComponent *component, components()) 
 		component->init(data);
-	}
 }
 
 void SkyComposite::update(KStarsData *data, KSNumbers *num )

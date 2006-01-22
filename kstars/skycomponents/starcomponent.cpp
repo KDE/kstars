@@ -197,8 +197,9 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 						processStar( line );
 					}
 
-					//Process events every 250 lines read
-					if ( nLinesRead % 250 == 0 ) kapp->processEvents();
+//Can't process events here, because we need the stars to finish loading on startup
+//					//Process events every 2500 lines read
+//					if ( nLinesRead % 2500 == 0 ) kapp->processEvents();
 				}
 			}
 		}
@@ -263,6 +264,7 @@ void StarComponent::processStar( const QString &line ) {
 	}
 
 	// HEV: look up star name in internationalization filesource
+	if ( name.isEmpty() ) name = "star";
 	name = i18n("star name", name.local8Bit().data());
 
 // 	//DEBUG

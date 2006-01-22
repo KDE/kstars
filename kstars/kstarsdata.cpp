@@ -210,26 +210,22 @@ void KStarsData::slotInitialize() {
 		case 3: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
-			if ( !readURLData( "image_url.dat", 0 ) ) {
-				initError( "image_url.dat", false );
-			}
-			//if ( !readURLData( "myimage_url.dat", 0 ) ) {
-			//Don't do anything if the local file is not found.
-			//}
-          // doesn't belong here, only temp
-             readUserLog();
+// 			if ( !readURLData( "image_url.dat", 0 ) ) {
+// 				initError( "image_url.dat", false );
+// 			}
+
+			// doesn't belong here, only temp
+			readUserLog();
 
 			break;
 
 		case 4: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
-			if ( !readURLData( "info_url.dat", 1 ) ) {
-				initError( "info_url.dat", false );
-			}
-			//if ( !readURLData( "myinfo_url.dat", 1 ) ) {
-			//Don't do anything if the local file is not found.
-			//}
+// 			if ( !readURLData( "info_url.dat", 1 ) ) {
+// 				initError( "info_url.dat", false );
+// 			}
+
 			break;
 
 		default:
@@ -315,6 +311,8 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	//Turn off animated slews for the next time step.
 	setSnapNextFocus();
 	
+	kdDebug() << "setting DateTime :" << newDate.toString() << ":" << endl;
+
 	clock()->setUTC( newDate );
 	LTime = geo()->UTtoLT( ut() );
 	//set local sideral time
@@ -666,8 +664,10 @@ bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
 			QString sub = line.mid( line.find(':')+1 );
 			QString title = sub.mid( 0, sub.find(':') );
 			QString url = sub.mid( sub.find(':')+1 );
-	
 			SkyObject *o = skyComposite()->findByName(name);
+			//DEBUG
+			if ( o ) 
+				kdDebug() << "object named " << o->name() << " found" << endl;
 			
 			if ( !o ) {
 				kdWarning() << k_funcinfo << name << " not found" << endl;
