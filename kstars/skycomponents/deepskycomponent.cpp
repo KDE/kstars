@@ -83,7 +83,7 @@ void DeepSkyComponent::init(KStarsData *)
 				rah = line.mid( 6, 2 ).toInt();
 				ram = line.mid( 8, 2 ).toInt();
 				ras = line.mid( 10, 4 ).toFloat();
-				sgn = line.mid( 15, 1 ); //don't use at(), becaue it crashes on invalid index
+				sgn = line.mid( 15, 1 ); //don't use at(), because it crashes on invalid index
 				dd = line.mid( 16, 2 ).toInt();
 				dm = line.mid( 18, 2 ).toInt();
 				ds = line.mid( 20, 2 ).toInt();
