@@ -1378,7 +1378,7 @@ Latina                           :                       : Italy                
 Laurel                           : Delaware              : USA                   : 38 : 30 :  0 : N :  75 : 40 :  1 : W : -5.0 : US
 Laurel                           : Maryland              : USA                   : 39 :  6 :  0 : N :  76 : 50 : 59 : W : -5.0 : US
 Laurel                           : Mississippi           : USA                   : 31 : 41 : 17 : N :  89 :  7 : 59 : W : -6.0 : US
-Lausana                          :                       : Switzerland           : 46 : 18 :  4 : N :   6 :  8 : 15 : E :  1.0 : EU
+Lausanne                         :                       : Switzerland           : 46 : 18 :  4 : N :   6 :  8 : 15 : E :  1.0 : EU
 Laval                            : Quebec                : Canada                : 45 : 29 : 56 : N :  73 : 36 : 14 : W : -5.0 : US
 Lawrence                         : Kansas                : USA                   : 38 : 57 : 47 : N :  95 : 14 : 17 : W : -6.0 : US
 Lawrence                         : Massachusetts         : USA                   : 42 : 42 : 15 : N :  71 : 10 :  8 : W : -5.0 : US
@@ -1447,9 +1447,9 @@ Logroño                          :                       : Spain               
 Loiano                           :                       : Italy                 : 44 : 15 :  5 : N :  11 : 20 : 15 : E :  1.0 : EU
 Loksa                            :                       : Estonia               : 59 : 35 : 03 : N :  25 : 43 : 16 : E :  2.0 : EU
 Lolo                             : Montana               : USA                   : 46 : 45 :  0 : N : 114 :  4 : 58 : W : -7.0 : US
-Lomniky Stit                     :                       : Slovakia              : 49 : 11 :  8 : N :  20 : 13 : 14 : E :  1.0 : EU
+Lomnicky stit                    :                       : Slovakia              : 49 : 11 :  8 : N :  20 : 13 : 14 : E :  1.0 : EU
 Lompoc                           : California            : USA                   : 34 : 40 : 47 : N : 120 : 27 :  0 : W : -8.0 : US
-Lom�                             :                       : Togo                  :  6 : 10 :  0 : N :   1 : 15 :  0 : E :   0.0 : --
+Lomé                             :                       : Togo                  :  6 : 10 :  0 : N :   1 : 15 :  0 : E :   0.0 : --
 London                           :                       : United Kingdom        : 51 : 30 :  0 : N :   0 :  7 :  0 : W : 0.0  : EU
 London                           : Ontario               : Canada                : 43 :  0 :  0 : N :  81 : 15 :  0 : W : -5.0 : US
 Long Beach                       : California            : USA                   : 33 : 46 : 14 : N : 118 : 11 : 16 : W : -8.0 : US
@@ -1603,7 +1603,7 @@ Mellingen                        :                       : Germany              
 Melrose Park                     : Illinois              : USA                   : 41 : 52 : 48 : N :  87 : 38 : 24 : W : -6.0 : US
 Memphis                          : Tennessee             : USA                   : 35 :  8 : 45 : N :  90 :  3 : 12 : W : -6.0 : US
 Mena                             : Arkansas              : USA                   : 34 : 34 : 58 : N :  94 :  9 :  0 : W : -6.0 : US
-Mengersgereuth-H?mern            :                       : Germany               : 50 : 23 : 56 : N :  11 :  7 : 56 : E :   1.0 : EU
+Mengersgereuth-Hämern            :                       : Germany               : 50 : 23 : 56 : N :  11 :  7 : 56 : E :   1.0 : EU
 Menongue                         :                       : Angola                : 14 : 38 :  0 : S :  17 : 44 :  0 : E :   1.0 : --
 Menteroda                        :                       : Germany               : 51 : 18 : 25 : N :  10 : 33 : 25 : E :   1.0 : EU
 Meredith                         : New Hampshire         : USA                   : 43 : 34 : 58 : N :  71 : 34 : 58 : W : -5.0 : US

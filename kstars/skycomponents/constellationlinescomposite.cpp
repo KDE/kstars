@@ -75,9 +75,10 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 				name = line.mid( 2 ).trimmed();
 				SkyPoint *p = data->skyComposite()->findStarByGenetiveName( name );
 
-				if ( p && clc )
+				if ( p && clc ) {
 					clc->pointList().append( p );
-				else if ( !p ) 
+					clc->modeList().append( mode );
+				} else if ( !p ) 
 					kdWarning() << i18n( "No star named %1 found." ).arg(name) << endl;
 			}
 		}

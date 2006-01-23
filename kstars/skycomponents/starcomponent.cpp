@@ -218,9 +218,6 @@ void StarComponent::processStar( const QString &line ) {
 
 	name = ""; gname = "";
 
-// 	//DEBUG
-// 	kdDebug() << "line read: " << line << endl;
-
 	//parse coordinates
 	rah = line.mid( 0, 2 ).toInt();
 	ram = line.mid( 2, 2 ).toInt();
@@ -266,9 +263,6 @@ void StarComponent::processStar( const QString &line ) {
 	// HEV: look up star name in internationalization filesource
 	if ( name.isEmpty() ) name = "star";
 	name = i18n("star name", name.local8Bit().data());
-
-// 	//DEBUG
-// 	kdDebug() << "Star name: " << name << "   gname : " << gname << endl;
 
 	dms r;
 	r.setH(rah, ram, ras, ras2);

@@ -766,6 +766,9 @@ void SkyMap::paintEvent( QPaintEvent * )
 	psky.begin( sky );
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
+	//DEBUG
+	kdDebug() << "SkyMap::paintEvent(): draw skyComposite" << endl;
+
 	//Draw all sky elements
 	data->skyComposite()->draw( ksw, psky );
 

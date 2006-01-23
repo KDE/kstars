@@ -57,6 +57,8 @@ class ConstellationLinesComponent : public PointListComponent
 		*/
 		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
+		QList<QChar>& modeList() { return m_CLineModeList; }
+
 	private:
 
 		QList<QChar> m_CLineModeList;
