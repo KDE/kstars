@@ -60,11 +60,11 @@ void DeepSkyComponent::init(KStarsData *)
 			KSFileReader fileReader( file ); // close file is included
 			while ( fileReader.hasMoreLines() ) {
 				QString line, con, ss, name, name2, longname;
-				QString cat, cat2;
+				QString cat, cat2, sgn;
 				float mag(1000.0), ras, a, b;
 				int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
 				int pgc, ugc;
-				QChar sgn, iflag;
+				QChar iflag;
 
 				line = fileReader.readLine();
 				//Ignore comment lines
@@ -83,7 +83,7 @@ void DeepSkyComponent::init(KStarsData *)
 				rah = line.mid( 6, 2 ).toInt();
 				ram = line.mid( 8, 2 ).toInt();
 				ras = line.mid( 10, 4 ).toFloat();
-				sgn = line.at( 15 );
+				sgn = line.mid( 15, 1 ); //don't use at(), becaue it crashes on invalid index
 				dd = line.mid( 16, 2 ).toInt();
 				dm = line.mid( 18, 2 ).toInt();
 				ds = line.mid( 20, 2 ).toInt();
@@ -115,7 +115,7 @@ void DeepSkyComponent::init(KStarsData *)
 				}
 
 				//Messier number
-				if ( line.at( 70 ) == 'M' ) {
+				if ( line.mid( 70,1 ) == "M" ) {
 					cat2 = cat;
 					if ( ingc==0 ) cat2 = "";
 					cat = "M";
@@ -128,7 +128,7 @@ void DeepSkyComponent::init(KStarsData *)
 				r.setH( rah, ram, int(ras) );
 				dms d( dd, dm, ds );
 
-				if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
+				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
 				QString snum;
 				if ( cat=="IC" || cat=="NGC" ) {
@@ -248,7 +248,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
 					QPointF o = map->getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-						double PositionAngle = 90. + map->findPA( obj, o.x(), o.y(), scale );
+						double PositionAngle = 90. - map->findPA( obj, o.x(), o.y(), scale );
 
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
