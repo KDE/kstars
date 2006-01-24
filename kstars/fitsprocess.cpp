@@ -20,7 +20,7 @@
  
  #include <kdebug.h>
  #include <klocale.h>
- #include <kprogress.h>
+ #include <kprogressbar.h>
  #include <kapplication.h>
  
  #include <qimage.h>

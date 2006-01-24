@@ -30,7 +30,7 @@
 #include <ktempfile.h>
 #include <kimageeffect.h> 
 #include <kmenubar.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <kstatusbar.h>
 
 #include <qfile.h>

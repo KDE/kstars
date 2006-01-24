@@ -17,7 +17,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <klineedit.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <knuminput.h>
 
 #include "imagesequence.h"

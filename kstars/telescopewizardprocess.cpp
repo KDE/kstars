@@ -22,7 +22,7 @@
 #include <klistview.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 
 #include "telescopewizardprocess.h"
 #include "Options.h"

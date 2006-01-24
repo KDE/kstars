@@ -91,7 +91,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KURLRequester" name="ImageURLBox" >
+      <widget class="KUrlRequester" name="ImageURLBox" >
        <property name="filter" >
         <string>image/png image/jpeg image/gif image/tiff</string>
        </property>
@@ -303,7 +303,7 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KURLRequester</class>
+   <class>KUrlRequester</class>
    <extends></extends>
    <header>kurlrequester.h</header>
    <container>0</container>

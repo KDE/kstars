@@ -34,7 +34,7 @@
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kmessagebox.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <klocale.h>

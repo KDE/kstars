@@ -23,7 +23,7 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 #include <kdirwatch.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <ktar.h>
 #include <qdir.h>
 #include <qcursor.h>

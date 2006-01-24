@@ -47,7 +47,7 @@
  #include <kstatusbar.h>
  #include <kmessagebox.h>
  #include <kapplication.h>
- #include <kprogress.h>
+ #include <kprogressbar.h>
  #include <kurl.h>
  #include <kdirlister.h>
  #include <kaction.h>

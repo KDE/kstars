@@ -398,10 +398,10 @@
            <number>6</number>
           </property>
           <item row="2" column="1" >
-           <widget class="KURLRequester" name="OutputFileBoxBatch" />
+           <widget class="KUrlRequester" name="OutputFileBoxBatch" />
           </item>
           <item rowspan="2" row="0" column="1" >
-           <widget class="KURLRequester" name="InputFileBoxBatch" />
+           <widget class="KUrlRequester" name="InputFileBoxBatch" />
           </item>
           <item rowspan="2" row="1" column="0" >
            <widget class="QLabel" name="label_8" >
@@ -463,7 +463,7 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KURLRequester</class>
+   <class>KUrlRequester</class>
    <extends></extends>
    <header>kurlrequester.h</header>
    <container>0</container>

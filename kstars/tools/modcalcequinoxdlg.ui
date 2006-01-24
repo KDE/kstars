@@ -350,10 +350,10 @@
            </widget>
           </item>
           <item row="1" column="1" >
-           <widget class="KURLRequester" name="OutputFileBoxBatch" />
+           <widget class="KUrlRequester" name="OutputFileBoxBatch" />
           </item>
           <item row="0" column="1" >
-           <widget class="KURLRequester" name="InputFileBoxBatch" />
+           <widget class="KUrlRequester" name="InputFileBoxBatch" />
           </item>
          </layout>
         </widget>
@@ -387,7 +387,7 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KURLRequester</class>
+   <class>KUrlRequester</class>
    <extends></extends>
    <header>kurlrequester.h</header>
    <container>0</container>
