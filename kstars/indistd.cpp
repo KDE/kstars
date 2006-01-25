@@ -47,7 +47,7 @@
  #include <kstatusbar.h>
  #include <kmessagebox.h>
  #include <kapplication.h>
- #include <kprogressbar.h>
+ #include <kprogressdialog.h>
  #include <kurl.h>
  #include <kdirlister.h>
  #include <kaction.h>
@@ -79,7 +79,7 @@
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
-   downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
+   downloadDialog = new KProgressDialog(NULL, i18n("INDI"), i18n("Downloading Data..."));
    //Porting to new kdelibs snapshot
    //downloadDialog->cancel();
    

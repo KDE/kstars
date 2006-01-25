@@ -764,7 +764,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
 	psky.begin( sky );
-	psky.setRenderHint(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform, true);
+	psky.setRenderHint(QPainter::Antialiasing, true);
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
 	//DEBUG

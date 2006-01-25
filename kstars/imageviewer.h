@@ -47,7 +47,7 @@
 	*because the files are at this time local saved and this works not so long.
 	*/
 
-class KURL;
+class KUrl;
 class QFile;
 
 class ImageViewer : public KMainWindow  {
@@ -55,7 +55,7 @@ class ImageViewer : public KMainWindow  {
 
 	public:
 	/**Constructor. */
-		ImageViewer (const KURL *imageName, const QString &capText, QWidget *parent, const char *name = 0);
+		ImageViewer (const KUrl *imageName, const QString &capText, QWidget *parent, const char *name = 0);
 
 	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
@@ -97,7 +97,7 @@ class ImageViewer : public KMainWindow  {
 
 	/**Save the downloaded image to a local file.
 		*/
-		void saveFile (KURL &url);
+		void saveFile (KUrl &url);
 		
 	/**Kill running download jobs, if close of window is forced.
 		*/
@@ -109,7 +109,7 @@ class ImageViewer : public KMainWindow  {
 		KTempFile tempfile;
 		QFile *file;
 		
-		const KURL imageURL;
+		const KUrl imageURL;
 		bool fileIsImage;
 		QString filename;
 		bool ctrl, key_s, key_q;	// the keys

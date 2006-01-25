@@ -17,7 +17,7 @@
   </property>
   <layout class="QHBoxLayout" >
    <property name="margin" >
-    <number>4</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -55,19 +55,19 @@
          </property>
          <property name="sizeHint" >
           <size>
-           <width>40</width>
+           <width>41</width>
            <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
        <item>
-        <widget class="KProgress" name="SearchProgress" >
-         <property name="centerIndicator" >
-          <bool>true</bool>
+        <widget class="QProgressBar" name="SearchProgress" >
+         <property name="value" >
+          <number>24</number>
          </property>
-         <property name="percentageVisible" >
-          <bool>false</bool>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -91,14 +91,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="ImageURLBox" >
-       <property name="filter" >
-        <string>image/png image/jpeg image/gif image/tiff</string>
-       </property>
-       <property name="mode" >
-        <number>1</number>
-       </property>
-      </widget>
+      <widget class="KUrlRequester" name="ImageURLBox" />
      </item>
     </layout>
    </item>
@@ -306,13 +299,6 @@
    <class>KUrlRequester</class>
    <extends></extends>
    <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KProgress</class>
-   <extends></extends>
-   <header>kprogress.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

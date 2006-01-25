@@ -30,7 +30,7 @@
 #include <ktempfile.h>
 #include <kimageeffect.h> 
 #include <kmenubar.h>
-#include <kprogressbar.h>
+#include <kprogressdialog.h>
 #include <kstatusbar.h>
 
 #include <qfile.h>
@@ -263,7 +263,7 @@ int FITSImage::loadFits (const char *filename)
  }
 
  //displayImage  = new QImage();
- KProgressDialog fitsProgress(this, 0, i18n("FITS Viewer"), i18n("Loading FITS..."));
+ KProgressDialog fitsProgress(this, i18n("FITS Viewer"), i18n("Loading FITS..."));
  
  hdl = fits_seek_image (ifp, 1);
  if (hdl == NULL) return (-1);
@@ -312,7 +312,8 @@ int FITSImage::loadFits (const char *filename)
  currentRect.setWidth(width);
  currentRect.setHeight(height);
  
- fitsProgress.progressBar()->setTotalSteps(height);
+ fitsProgress.progressBar()->setMinimum(0);
+ fitsProgress.progressBar()->setMaximum(height);
  fitsProgress.setMinimumWidth(300);
  fitsProgress.show();
 
@@ -347,7 +348,7 @@ int FITSImage::loadFits (const char *filename)
        for (j = 0 ; j < width; j++)
          displayImage->setPixel(j, i, dest[j]);
       
-      fitsProgress.progressBar()->setProgress(height - i);
+      fitsProgress.progressBar()->setValue(height - i);
    }
  
  reducedImgBuffer = data;

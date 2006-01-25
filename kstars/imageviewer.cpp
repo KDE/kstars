@@ -35,7 +35,7 @@
 
 #include <kapplication.h>
 
-ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *parent, const char *name)
+ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *parent, const char *name)
 	: KMainWindow (parent, name), imageURL (*url), fileIsImage (false),
 	  ctrl (false), key_s (false), key_q (false), downloadJob(0)
 {
@@ -137,7 +137,7 @@ void ImageViewer::loadImageFromURL()
 {
 	file = tempfile.file();
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
-	KURL saveURL (file->name());
+	KUrl saveURL (file->name());
 	if (!saveURL.isValid())
             kdDebug()<<"tempfile-URL is malformed\n";
 
@@ -212,7 +212,7 @@ void ImageViewer::showImage()
 
 void ImageViewer::saveFileToDisc()
 {
-	KURL newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
+	KUrl newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
 	if (!newURL.isEmpty())
 	{
 		QFile f (newURL.directory() + "/" +  newURL.fileName());
@@ -231,9 +231,9 @@ void ImageViewer::saveFileToDisc()
 	}
 }
 
-void ImageViewer::saveFile (KURL &url) {
+void ImageViewer::saveFile (KUrl &url) {
 // synchronous Access to prevent segfaults
-	if (!KIO::NetAccess::copy (KURL (file->name()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::copy (KUrl (file->name()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.");
 		KMessageBox::error (this, text.arg (url.prettyURL() ));

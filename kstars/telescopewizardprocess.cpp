@@ -22,7 +22,7 @@
 #include <klistview.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kprogressbar.h>
+#include <kprogressdialog.h>
 
 #include "telescopewizardprocess.h"
 #include "Options.h"
@@ -141,11 +141,12 @@ void telescopeWizardProcess::processNext(void)
      linkResult = establishLink();
      if ( linkResult == 1)
      {
-progressScan = new KProgressDialog(this, "autoscan", i18n("Autoscan"), i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), true);
-   progressScan->setAllowCancel(true);
+progressScan = new KProgressDialog(this, i18n("Autoscan"), i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), true);
+//   progressScan->setAllowCancel(true);
    progressScan->setAutoClose(true);
    progressScan->setAutoReset(true);
-   progressScan->progressBar()->setTotalSteps(portList.count());
+   progressScan->progressBar()->setMinimum(0);
+   progressScan->progressBar()->setMaximum(portList.count());
    progressScan->progressBar()->setValue(0);
    progressScan->show();
     }

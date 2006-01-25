@@ -104,7 +104,8 @@ void ThumbnailPicker::slotFillList() {
 	//Total Number of images to be loaded:
 	int nImages = ImageList.count();
 	if ( nImages ) {
-		ui->SearchProgress->setTotalSteps( nImages );
+		ui->SearchProgress->setMinimum( nImages );
+		ui->SearchProgress->setMaximum( nImages );
 		ui->SearchLabel->setText( i18n( "Loading images..." ) );
 	}
 
@@ -165,8 +166,8 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 	//Update Progressbar
 	if ( ! ui->SearchProgress->isHidden() ) {
-		ui->SearchProgress->advance(1);
-		if ( ui->SearchProgress->progress() == ui->SearchProgress->totalSteps() ) {
+		ui->SearchProgress->setValue(ui->SearchProgress->value()+1);
+		if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() ) {
 			ui->SearchProgress->hide();
 			ui->SearchLabel->setText( i18n( "Search results:" ) );
 		}

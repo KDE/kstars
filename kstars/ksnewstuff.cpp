@@ -23,7 +23,7 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 #include <kdirwatch.h>
-#include <kprogressbar.h>
+#include <kprogressdialog.h>
 #include <ktar.h>
 #include <qdir.h>
 #include <qcursor.h>
@@ -79,11 +79,12 @@ void KSNewStuff::updateData( const QString &path ) {
 	//Handle the Steinicke NGC/IC catalog
 	if ( !NGCUpdated && qd[0].contains( "ngcic" ) ) {
 		//Build a progress dialog to show during data installation.
-		KProgressDialog prog( 0, "newstuffprogdialog", 
-				i18n( "Please Wait" ), i18n( "Installing Steinicke NGC/IC catalog..." ), false /*modal*/ );
+		KProgressDialog prog( 0, i18n( "Please Wait" ), 
+			i18n( "Installing Steinicke NGC/IC catalog..." ), false /*modal*/ );
 		prog.setAllowCancel( false );
 		prog.setMinimumDuration( 0 /*millisec*/ );
-		prog.progressBar()->setTotalSteps( 0 );  //show generic progress activity
+		prog.progressBar()->setMinimum( 0 );  
+		prog.progressBar()->setMaximum( 0 );  //show generic progress activity
 		prog.show();
 		kapp->processEvents();
 		
@@ -107,11 +108,12 @@ void KSNewStuff::updateData( const QString &path ) {
 	//Handle the ephemerides
 	if ( qd[0] == "asteroids.dat" || qd[0] == "comets.dat" ) {
 		//Build a progress dialog to show during data installation.
-		KProgressDialog prog( 0, "newstuffprogdialog", 
-				i18n( "Please Wait" ), i18n( "Installing comet and asteroid ephemerides..." ), true /*modal*/ );
+		KProgressDialog prog( 0, i18n( "Please Wait" ), 
+				i18n( "Installing comet and asteroid ephemerides..." ), true /*modal*/ );
 		prog.setAllowCancel( false );
 		prog.setMinimumDuration( 50 /*millisec*/ );
-		prog.progressBar()->setTotalSteps( 0 );  //generic progress activity
+		prog.progressBar()->setMinimum( 0 );
+		prog.progressBar()->setMaximum( 0 );  //generic progress activity
 		
 		ks->data()->skyComposite()->reloadAsteroids( ks->data() );
 		ks->data()->skyComposite()->reloadComets( ks->data() );

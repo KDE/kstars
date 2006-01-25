@@ -20,7 +20,7 @@
  
  #include <kdebug.h>
  #include <klocale.h>
- #include <kprogressbar.h>
+ #include <kprogressdialog.h>
  #include <kapplication.h>
  
  #include <qimage.h>
@@ -47,8 +47,9 @@
 //   flatFrames.setAutoDelete(true);
 //   darkflatFrames.setAutoDelete(true);
    
-   KProgressDialog reduceProgress(0, 0, i18n("FITS Viewer"), i18n("Image Loading Process..."));
-   reduceProgress.progressBar()->setTotalSteps(darkFiles.size() + flatFiles.size() + darkflatFiles.size());
+   KProgressDialog reduceProgress(0, i18n("FITS Viewer"), i18n("Image Loading Process..."));
+   reduceProgress.progressBar()->setMinimum(0);
+   reduceProgress.progressBar()->setMaximum(darkFiles.size() + flatFiles.size() + darkflatFiles.size());
    reduceProgress.setMinimumWidth(300);
    reduceProgress.show();
    
@@ -63,7 +64,7 @@
 	break;
      }
      
-     reduceProgress.progressBar()->setProgress(++nprogress);
+     reduceProgress.progressBar()->setValue(++nprogress);
      kapp->processEvents();
      darkFrames.append(buffer);
    }
@@ -77,7 +78,7 @@
 	break;
      }
      
-     reduceProgress.progressBar()->setProgress(++nprogress);
+     reduceProgress.progressBar()->setValue(++nprogress);
      kapp->processEvents();
      flatFrames.append(buffer);
    }
@@ -91,7 +92,7 @@
 	break;
      }
      
-     reduceProgress.progressBar()->setProgress(++nprogress);
+     reduceProgress.progressBar()->setValue(++nprogress);
      kapp->processEvents();
      darkflatFrames.append(buffer);
    }
@@ -263,34 +264,35 @@ float FITSProcess::min(float *buf)
 
 void FITSProcess::reduce()
 {
-   KProgressDialog reduceProgress(0, 0, i18n("FITS Viewer"), i18n("Image Reduction Process..."));
-   reduceProgress.progressBar()->setTotalSteps(20);
+   KProgressDialog reduceProgress(0, i18n("FITS Viewer"), i18n("Image Reduction Process..."));
+   reduceProgress.progressBar()->setMinimum(0);
+   reduceProgress.progressBar()->setMaximum(20);
    reduceProgress.setMinimumWidth(300);
    reduceProgress.show();
    
-   reduceProgress.progressBar()->setProgress(1);
+   reduceProgress.progressBar()->setValue(1);
    kapp->processEvents();
    
    /* Combine darks */
    finalDark = combine(darkFrames, darkCombineMode);
    
-   reduceProgress.progressBar()->setProgress(5);
+   reduceProgress.progressBar()->setValue(5);
    kapp->processEvents();
    
    /* Combine flats */
    finalFlat = combine(flatFrames, flatCombineMode);
-   reduceProgress.progressBar()->setProgress(10);
+   reduceProgress.progressBar()->setValue(10);
    kapp->processEvents();
    
    /* Combine dark flats */
    finalDarkFlat = combine(darkflatFrames, darkflatCombineMode);
-   reduceProgress.progressBar()->setProgress(12);
+   reduceProgress.progressBar()->setValue(12);
    kapp->processEvents();
      
    /* Subtract the dark frame */
    if (finalDark)
    	subtract( viewer->imgBuffer, finalDark);
-   reduceProgress.progressBar()->setProgress(14);
+   reduceProgress.progressBar()->setValue(14);
    kapp->processEvents();
    
 
@@ -299,17 +301,17 @@ void FITSProcess::reduce()
    {
      if (finalDarkFlat)
         subtract( finalFlat, finalDarkFlat);
-      reduceProgress.progressBar()->setProgress(16);
+      reduceProgress.progressBar()->setValue(16);
       kapp->processEvents();
      
      normalize(finalFlat);
-     reduceProgress.progressBar()->setProgress(18);
+     reduceProgress.progressBar()->setValue(18);
      kapp->processEvents();
      
      divide(viewer->imgBuffer, finalFlat);
    }
    
-   reduceProgress.progressBar()->setProgress(20);
+   reduceProgress.progressBar()->setValue(20);
    kapp->processEvents();
 
 } 

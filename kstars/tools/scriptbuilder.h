@@ -28,7 +28,7 @@
 class QTreeWidget;
 class QTextStream;
 class QVBoxLayout;
-class KURL;
+class KUrl;
 
 class KStars;
 class ScriptFunction;
@@ -229,7 +229,7 @@ private:
 	QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
 	bool UnsavedChanges;
-	KURL currentFileURL;
+	KUrl currentFileURL;
 	QString currentDir;
 	QString currentScriptName, currentAuthor;
 	QString lastINDIDeviceName;
