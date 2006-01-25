@@ -89,8 +89,8 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 
 		if ( map->checkVisibility( com ) )
 		{
-			psky.setPen( QPen( QColor( "cyan4" ) ) );
-			psky.setBrush( QBrush( QColor( "cyan4" ) ) );
+			psky.setPen( QPen( QColor( "darkcyan" ) ) );
+			psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
 			QPointF o = map->getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
 
 			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )

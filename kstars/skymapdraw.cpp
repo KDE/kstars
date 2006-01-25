@@ -50,8 +50,8 @@
 void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ksw ) { //only if we are drawing in the GUI window
 		QPainter p;
-		p.setRenderHint(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform, true);
 		p.begin( pm );
+		p.setRenderHint(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform, true);
 
 		showFocusCoords( true );
 		drawBoxes( p );

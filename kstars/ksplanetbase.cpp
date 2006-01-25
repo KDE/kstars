@@ -188,11 +188,11 @@ void KSPlanetBase::rotateImage( double imAngle ) {
 	Image = Image0.transformed( m );
 }
 
-void KSPlanetBase::scaleRotateImage( float scale, double imAngle ) {
+void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
 	ImageAngle = imAngle;
 	QMatrix m;
 	m.rotate( ImageAngle );
-	Image = Image0.transformed( m ).scaledToWidth( int(scale*Image.width()) );
+	Image = Image0.transformed( m ).scaledToWidth( int(size) );
 }
 
 void KSPlanetBase::findMagnitude(const KSNumbers *num) {
