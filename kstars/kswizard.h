@@ -20,7 +20,6 @@
 
 #include <Q3MemArray>
 
-#include "kswizardui.h"
 #include "wizwelcomeui.h"
 #include "wizlocationui.h"
 #include "wizdevicesui.h"
@@ -29,12 +28,7 @@
 class GeoLocation;
 class KStars;
 class KPushButton;
-
-class KSWizardUI : public QFrame, public Ui::KSWizard {
-	Q_OBJECT
-	public:
-		KSWizardUI( QWidget *parent=0 );
-};
+class QStackedWidget;
 
 class WizWelcomeUI : public QFrame, public Ui::WizWelcome {
 	Q_OBJECT
@@ -117,7 +111,7 @@ private:
 	KPushButton* user1Button() { return actionButton( KDialogBase::User1 ); }
 	KPushButton* user2Button() { return actionButton( KDialogBase::User2 ); }
 
-	KSWizardUI *wiz;
+	QStackedWidget *wizardStack;
 	WizWelcomeUI *welcome;
 	WizLocationUI *location;
 	WizDevicesUI *devices;

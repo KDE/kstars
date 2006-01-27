@@ -5,7 +5,7 @@ kstars_ui = addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightn
 		devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui \
 		fovdialogui.ui newfovui.ui locationdialogui.ui \
 		histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
-		kswizardui.ui wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
+		wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
 		opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
 		statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
 		thumbnailpickerui.ui thumbnaileditorui.ui \

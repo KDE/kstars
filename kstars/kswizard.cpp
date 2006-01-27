@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <QFile>
+#include <QStackedWidget>
+#include <QPixmap>
+
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
@@ -46,10 +47,6 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-KSWizardUI::KSWizardUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( this );
-}
-
 KSWizard::KSWizard( QWidget *parent )
  : KDialogBase( KDialogBase::Plain, i18n("KStars Startup Wizard"), 
 		KDialogBase::User1|KDialogBase::User2|KDialogBase::Ok|KDialogBase::Cancel, 
@@ -62,19 +59,19 @@ KSWizard::KSWizard( QWidget *parent )
 	
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	wiz = new KSWizardUI( page );
-	vlay->addWidget( wiz );
+	wizardStack = new QStackedWidget( page );
+	vlay->addWidget( wizardStack );
 
-	welcome = new WizWelcomeUI( wiz->WizardStack );
-	location = new WizLocationUI( wiz->WizardStack );
-	devices = new WizDevicesUI( wiz->WizardStack );
-	download = new WizDownloadUI( wiz->WizardStack );
+	welcome  = new WizWelcomeUI( wizardStack );
+	location = new WizLocationUI( wizardStack );
+	devices  = new WizDevicesUI( wizardStack );
+	download = new WizDownloadUI( wizardStack );
 
-	wiz->WizardStack->addWidget( welcome );
-	wiz->WizardStack->addWidget( location );
-	wiz->WizardStack->addWidget( devices );
-	wiz->WizardStack->addWidget( download );
-	wiz->WizardStack->setCurrentWidget( welcome );
+	wizardStack->addWidget( welcome );
+	wizardStack->addWidget( location );
+	wizardStack->addWidget( devices );
+	wizardStack->addWidget( download );
+	wizardStack->setCurrentWidget( welcome );
 
 	//Load images into banner frames.
 	QFile imFile;
@@ -131,16 +128,16 @@ KSWizard::~KSWizard()
 }
 
 void KSWizard::slotNextPage() {
-	wiz->WizardStack->setCurrentIndex( wiz->WizardStack->currentIndex() + 1 );
-	if ( wiz->WizardStack->currentIndex() == wiz->WizardStack->count() - 1 ) 
+	wizardStack->setCurrentIndex( wizardStack->currentIndex() + 1 );
+	if ( wizardStack->currentIndex() == wizardStack->count() - 1 ) 
 		user1Button()->setEnabled( false );
 
 	user2Button()->setEnabled( true );
 }
 
 void KSWizard::slotPrevPage() {
-	wiz->WizardStack->setCurrentIndex( wiz->WizardStack->currentIndex() - 1 );
-	if ( wiz->WizardStack->currentIndex() == 0 ) 
+	wizardStack->setCurrentIndex( wizardStack->currentIndex() - 1 );
+	if ( wizardStack->currentIndex() == 0 ) 
 		user2Button()->setEnabled( false );
 
 	user1Button()->setEnabled( true );
