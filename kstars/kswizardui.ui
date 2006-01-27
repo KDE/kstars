@@ -63,36 +63,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="KPushButton" name="FinishButton" >
-       <property name="text" >
-        <string>&amp;Finish</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>12</width>
-         <height>29</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="KPushButton" name="CancelButton" >
-       <property name="text" >
-        <string>&amp;Cancel</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>

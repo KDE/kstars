@@ -51,26 +51,31 @@ KSWizardUI::KSWizardUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 KSWizard::KSWizard( QWidget *parent )
- : KDialogBase( parent )
+ : KDialogBase( KDialogBase::Plain, i18n("KStars Startup Wizard"), 
+		KDialogBase::User1|KDialogBase::User2|KDialogBase::Ok|KDialogBase::Cancel, 
+		KDialogBase::User1, parent, 0, true, true, 
+		KGuiItem( i18n("&Next") + QString(" >"), "", i18n("Go to next Wizard page") ),
+		KGuiItem( QString("< ") + i18n("&Back"), "", i18n("Go to previous Wizard page") ) )
 {
 	ksw = (KStars *)parent;
 	GeoID.resize(10000);
 	
 	QFrame *page = plainPage();
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	wiz = new KSWizardUI( this );
+	wiz = new KSWizardUI( page );
 	vlay->addWidget( wiz );
 
-	welcome = new WizWelcomeUI( this );
-	location = new WizLocationUI( this );
-	devices = new WizDevicesUI( this );
-	download = new WizDownloadUI( this );
+	welcome = new WizWelcomeUI( wiz->WizardStack );
+	location = new WizLocationUI( wiz->WizardStack );
+	devices = new WizDevicesUI( wiz->WizardStack );
+	download = new WizDownloadUI( wiz->WizardStack );
 
 	wiz->WizardStack->addWidget( welcome );
 	wiz->WizardStack->addWidget( location );
 	wiz->WizardStack->addWidget( devices );
 	wiz->WizardStack->addWidget( download );
-	
+	wiz->WizardStack->setCurrentWidget( welcome );
+
 	//Load images into banner frames.
 	QFile imFile;
 	QPixmap im = QPixmap();
@@ -100,6 +105,8 @@ KSWizard::KSWizard( QWidget *parent )
 	download->Banner->setPixmap( im );
 
 	//connect signals/slots
+	connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
+	connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
 	connect( location->CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
 	connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
@@ -107,13 +114,37 @@ KSWizard::KSWizard( QWidget *parent )
 	connect( devices->TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
 	connect( download->DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
 	
+	//Disable Back button
+	user2Button()->setEnabled( false );
+
 	//Initialize Geographic Location page
 	initGeoPage();
 }
 
 //Do NOT delete members of filteredCityList!  They are not created by KSWizard.
 KSWizard::~KSWizard() 
-{}
+{
+	delete welcome;
+	delete location;
+	delete devices;
+	delete download;
+}
+
+void KSWizard::slotNextPage() {
+	wiz->WizardStack->setCurrentIndex( wiz->WizardStack->currentIndex() + 1 );
+	if ( wiz->WizardStack->currentIndex() == wiz->WizardStack->count() - 1 ) 
+		user1Button()->setEnabled( false );
+
+	user2Button()->setEnabled( true );
+}
+
+void KSWizard::slotPrevPage() {
+	wiz->WizardStack->setCurrentIndex( wiz->WizardStack->currentIndex() - 1 );
+	if ( wiz->WizardStack->currentIndex() == 0 ) 
+		user2Button()->setEnabled( false );
+
+	user1Button()->setEnabled( true );
+}
 
 void KSWizard::initGeoPage() {
 	location->LongBox->setReadOnly( true );

@@ -28,6 +28,7 @@
 
 class GeoLocation;
 class KStars;
+class KPushButton;
 
 class KSWizardUI : public QFrame, public Ui::KSWizard {
 	Q_OBJECT
@@ -87,6 +88,9 @@ public:
 	GeoLocation* geo() const { return Geo; }
 
 private slots:
+	void slotNextPage();
+	void slotPrevPage();
+
 	/**
 		*Set the geo pointer to the user's selected city, and display
 		*its longitude and latitude in the window.
@@ -110,6 +114,9 @@ private:
 		*/
 	void initGeoPage();
 	
+	KPushButton* user1Button() { return actionButton( KDialogBase::User1 ); }
+	KPushButton* user2Button() { return actionButton( KDialogBase::User2 ); }
+
 	KSWizardUI *wiz;
 	WizWelcomeUI *welcome;
 	WizLocationUI *location;
