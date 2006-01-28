@@ -122,6 +122,7 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 	float Height = scale * map->height();
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
+	psky.setBrush( Qt::NoBrush );
 
 	foreach ( CSegment *seg, m_SegmentList ) {
 		bool started( false );

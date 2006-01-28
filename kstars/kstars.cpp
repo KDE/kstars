@@ -60,13 +60,23 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	kstarsData = new KStarsData();
 	connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
+	//Set Geographic Location from Options
+	kstarsData->setLocationFromOptions();
+
+	//Initialize Time and Date
+	KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
+	if ( ! StartDateString.isEmpty() && startDate.isValid() ) 
+		data()->changeDateTime( geo()->LTtoUT( startDate ) );
+	else
+		data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+
 	if ( doSplash ) {
 		splash = new KStarsSplash(0, "Splash");
 		connect( splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
 		connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
 
-		//TEMPORARY
-		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
+//Uncomment to show startup messages on console also
+// 		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
 
 		splash->show();
 	} else {

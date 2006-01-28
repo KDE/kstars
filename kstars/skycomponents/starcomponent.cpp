@@ -29,7 +29,7 @@
 #include "starobject.h"
 
 StarComponent::StarComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: ListComponent(parent, visibleMethod), m_FaintMagnitude(-5.0)
+: ListComponent(parent, visibleMethod), m_FaintMagnitude(-5.0), starFileReader(0)
 {
 }
 
@@ -141,7 +141,6 @@ bool StarComponent::openStarFile(int i)
 	if (starFileReader != 0) delete starFileReader;
 	QFile file;
 	QString snum, fname;
-	snum.clear();
 	snum.sprintf("%03d", i);
 	fname = "hip" + snum + ".dat";
 	if (KSUtils::openDataFile(file, fname))
@@ -271,8 +270,8 @@ void StarComponent::processStar( const QString &line ) {
 	if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
 	StarObject *o = new StarObject( r, d, mag, name, gname, SpType, pmra, pmdec, plx, mult, var );
-	objectList().append(o);
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+	objectList().append(o);
 
 	if ( ! name.isEmpty() ) objectNames().append( name );
 	if ( ! gname.isEmpty() && gname != name ) objectNames().append( gname );

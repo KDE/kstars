@@ -93,7 +93,7 @@ void KStarsSplash::closeEvent( QCloseEvent *e ) {
 
 void KStarsSplash::setMessage( QString s ) {
 	textCurrentStatus->setText( s );
-	//	repaint();  // repaint splash screen
+	repaint();  // repaint splash screen
 /**
 	*Flush all event data. This is needed because events will buffered and
 	*repaint call will queued in event buffer. With flush all X11 events of

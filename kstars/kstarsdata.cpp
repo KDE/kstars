@@ -311,9 +311,11 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	//Turn off animated slews for the next time step.
 	setSnapNextFocus();
 	
+	//DEBUG
 	kdDebug() << "setting DateTime :" << newDate.toString() << ":" << endl;
 
 	clock()->setUTC( newDate );
+
 	LTime = geo()->UTtoLT( ut() );
 	//set local sideral time
 	syncLST();
@@ -343,27 +345,24 @@ void KStarsData::setTimeDirection( float scale ) {
 }
 
 void KStarsData::setLocationFromOptions() {
-	QMap<QString, TimeZoneRule>::Iterator it = Rulebook.find( Options::dST() );
 	setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
 			Options::cityName(), Options::provinceName(), Options::countryName(), 
-			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
+			Options::timeZone(), &(Rulebook[ Options::dST() ]), 4, Options::elevation() ) );
 }
 
 void KStarsData::setLocation( const GeoLocation &l ) {
- 	GeoLocation g( l );
-	if ( g.lat()->Degrees() >= 90.0 ) g.setLat( 89.99 );
-	if ( g.lat()->Degrees() <= -90.0 ) g.setLat( -89.99 );
-
-	Geo = g;
+ 	Geo = GeoLocation(l);
+	if ( Geo.lat()->Degrees() >= 90.0 ) Geo.setLat( 89.99 );
+	if ( Geo.lat()->Degrees() <= -90.0 ) Geo.setLat( -89.99 );
 
 	//store data in the Options objects
-	Options::setCityName( g.name() );
-	Options::setProvinceName( g.province() );
-	Options::setCountryName( g.country() );
-	Options::setTimeZone( g.TZ0() );
-	Options::setElevation( g.height() );
-	Options::setLongitude( g.lng()->Degrees() );
-	Options::setLatitude( g.lat()->Degrees() );
+	Options::setCityName( Geo.name() );
+	Options::setProvinceName( Geo.province() );
+	Options::setCountryName( Geo.country() );
+	Options::setTimeZone( Geo.TZ0() );
+	Options::setElevation( Geo.height() );
+	Options::setLongitude( Geo.lng()->Degrees() );
+	Options::setLatitude( Geo.lat()->Degrees() );
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {

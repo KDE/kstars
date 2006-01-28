@@ -46,26 +46,18 @@ void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 	float Height = scale * map->height();
 
 	//Draw Constellation Lines
-	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to colorGrid
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to CLine color
 //	int iLast = -1;
 
+	QPointF oStart;
 	for ( int i=0; i < pointList().size(); ++i ) {
 		QPointF o = map->getXY( pointList().at(i), Options::useAltAz(), Options::useRefraction(), scale );
-		QPointF oStart(o);
 
 		if ( ( o.x() >= -1000. && o.x() <= Width+1000. && o.y() >=-1000. && o.y() <= Height+1000. ) ) {
-			if ( m_CLineModeList.at(i)=='M' ) {
-				oStart = o;
-			} else if ( m_CLineModeList.at(i)=='D' ) {
-//FIXME: I don't think this if() is necessary
-//				if ( ks->data()->clineList.at()== (int)(iLast+1) ) {
-//					psky.lineTo( o.x(), o.y() );
-//				} else {
-//					psky.moveTo( o.x(), o.y() );
-//				}
+			if ( oStart.x() != 0 && m_CLineModeList.at(i)=='D' ) {
 				psky.drawLine( oStart, o );
 			}
-//			iLast = ks->data()->clineList.at();
+			oStart = o;
 		}
   }
 }

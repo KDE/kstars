@@ -22,7 +22,7 @@ CoordinateGridComposite::CoordinateGridComposite( SkyComponent *parent, bool (*v
 	: SkyComposite(parent) 
 {
 	//Parallels
-	for ( double dec=-80.0; dec <= 80.0; dec += 10.0 ) 
+	for ( double dec=-80.0; dec <= 80.0; dec += 20.0 ) 
 		addComponent( new CoordinateGridComponent( this, visibleMethod, true, dec ) );
 
 	//Meridians

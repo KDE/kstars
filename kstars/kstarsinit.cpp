@@ -395,16 +395,6 @@ void KStars::datainitFinished(bool worked) {
 	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
 		 SLOT( mapGetsFocus() ) );
 
-	//Set Geographic Location
-	kstarsData->setLocationFromOptions();
-
-	//Initialize Time and Date
-	KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
-	if ( ! StartDateString.isEmpty() && startDate.isValid() ) 
-		data()->changeDateTime( geo()->LTtoUT( startDate ) );
-	else
-		data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
-
 	//Initialize INDIMenu
 	indimenu = new INDIMenu(this);
 
@@ -417,10 +407,6 @@ void KStars::datainitFinished(bool worked) {
 	//Do not start the clock if "--paused" specified on the cmd line
 	if ( StartClockRunning )
 		data()->clock()->start();
-
-// 	//Define the celestial equator, horizon and ecliptic
-// 	//(must come after date has been set)
-// 	KSNumbers tempnum(data()->ut().djd());
 
 	// Connect cache function for Find dialog
 	connect( data(), SIGNAL( clearCache() ), this, 

@@ -135,9 +135,6 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
 				spa = fabs(spa);
 				size = size * (cpa + spa);
 
-				//DEBUG
-				kdDebug() << "size of " << ksp()->name() << " : " << size << endl;
-
 				//Because Saturn has rings, we inflate its image size by a factor 2.5
 				if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
 

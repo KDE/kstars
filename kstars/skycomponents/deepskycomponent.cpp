@@ -47,7 +47,7 @@ DeepSkyComponent::~DeepSkyComponent()
 	clear();
 }
 
-void DeepSkyComponent::init(KStarsData *)
+void DeepSkyComponent::init(KStarsData *data)
 {
 	QFile file;
 
@@ -155,6 +155,7 @@ void DeepSkyComponent::init(KStarsData *)
 				DeepSkyObject *o = 0;
 				if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
 				o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+				o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 //FIXME: do we need a master deep sky object list?
 //				// keep object in deep sky objects' list

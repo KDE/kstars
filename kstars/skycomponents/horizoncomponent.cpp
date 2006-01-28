@@ -23,6 +23,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksnumbers.h"
 #include "skymap.h"
 #include "skypoint.h" 
 #include "dms.h"
@@ -42,13 +43,23 @@ HorizonComponent::~HorizonComponent()
 void HorizonComponent::init(KStarsData *data)
 {
 	emitProgressText( i18n("Creating horizon" ) );
+
 	//Define Horizon
 	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
 		SkyPoint *o = new SkyPoint();
-		o->setAz( i*24./NCIRCLE );
+		o->setAz( i*360./NCIRCLE );
 		o->setAlt( 0.0 );
+
 		o->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 		pointList().append( o );
+	}
+}
+
+void HorizonComponent::update( KStarsData *data, KSNumbers *num ) {
+	if ( visible() ) {
+		foreach ( SkyPoint *p, pointList() ) {
+			p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+		}
 	}
 }
 
@@ -94,7 +105,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 			groundPoly << o;
 
 			//Set the anchor point if this point is onscreen
-			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) pAnchor = p;
+			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+				pAnchor = p;
 		} else if ( p->az()->Degrees() > az2 )
 			break;
 	}
@@ -108,7 +120,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 				groundPoly << o;
 
 				//Set the anchor point if this point is onscreen
-				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) pAnchor = p;
+				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+					pAnchor = p;
 			} else
 				break;
 		}
@@ -192,14 +205,13 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
 	LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
 	LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	o = map->getXY( &LabelPoint, Options::useAltAz(), false, scale );
+
 	if ( o.x() > Width || o.x() < 0 ) {
 		//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
 		//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
 	LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
 		LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
 		LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-		o = map->getXY( &LabelPoint, Options::useAltAz(), false, scale );
 	}
 
 	//p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by

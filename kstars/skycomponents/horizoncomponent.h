@@ -61,6 +61,8 @@ class HorizonComponent: public PointListComponent
 		 */
 		virtual void init(KStarsData *data);
 
+		virtual void update( KStarsData*, KSNumbers* );
+
 	private:
 		void drawCompassLabels( KStars *ks, QPainter& psky, double scale );
 };

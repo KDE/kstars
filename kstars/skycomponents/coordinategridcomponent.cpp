@@ -38,7 +38,7 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 	emitProgressText( i18n("Loading coordinate grid" ) );
 
 	if ( Parallel ) { //line of constant Declination
-		double dra = 1./15.; //360 points around full circle
+		double dra = 1./60.; //90 points around full circle
 		for ( double ra=0.0; ra < 24.0; ra += dra ) {
 			SkyPoint *sp = new SkyPoint( ra, Coordinate );
 			sp->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -48,7 +48,7 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 		double RA = Coordinate;
 		double OppositeRA = Coordinate + 12.0;
 		if ( OppositeRA > 24.0 ) OppositeRA -= 24.0;
-		for ( double dec=-90.; dec < 270.; dec += 1.0 ) {
+		for ( double dec=-90.; dec < 270.; dec += 4.0 ) {
 			double Dec = dec;
 			
 			if ( dec > 90. ) {
