@@ -112,15 +112,15 @@
          </layout>
         </item>
         <item>
-         <widget class="KProgress" name="imgProgress" >
+         <widget class="KProgressBar" name="imgProgress" >
           <property name="enabled" >
            <bool>false</bool>
           </property>
-          <property name="progress" >
+          <property name="value" >
            <number>0</number>
           </property>
-          <property name="centerIndicator" >
-           <bool>true</bool>
+          <property name="alignment" >
+           <enum>Qt::AlignCenter</enum>
           </property>
          </widget>
         </item>
@@ -452,9 +452,9 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KProgress</class>
+   <class>KProgressBar</class>
    <extends></extends>
-   <header>kprogress.h</header>
+   <header>kprogressbar.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -245,8 +245,8 @@ void imagesequence::startSequence()
 
 	// set the progress info
 	imgProgress->setEnabled(true);
-	imgProgress->setTotalSteps(seqTotalCount);
-	imgProgress->setProgress(seqCurrentCount);
+	imgProgress->setMaximum(seqTotalCount);
+	imgProgress->setValue(seqCurrentCount);
 
 	stdDevCCD->batchMode    = true;
 	stdDevCCD->ISOMode      = ISOStamp;
@@ -326,7 +326,7 @@ void imagesequence::newFITS(QString deviceLabel)
 	return;
 
 	seqCurrentCount++;
-	imgProgress->setProgress(seqCurrentCount);
+	imgProgress->setValue(seqCurrentCount);
 
 	currentImgCountOUT->setText( QString("%1").arg(seqCurrentCount));
 
