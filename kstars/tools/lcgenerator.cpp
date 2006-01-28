@@ -116,7 +116,7 @@ void LCGenerator::DownloadCurve(ExtDate StartDate, ExtDate EndDate, QString Desi
 	buf.append("?"+ (lcg->DiscrepantCheck->isOn() ? Yes : No));
 	
 
-	KURL url(buf);
+	KUrl url(buf);
 	QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 	// parent of imageview is KStars
 	new ImageViewer(&url, message, ksw, "lightcurve");
@@ -143,8 +143,8 @@ void LCGenerator::updateStarList()
 {
 	file->setName( locateLocal( "appdata", "valaav.txt" ) );
 	
-	KURL AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
-	KURL saveFile (file->name());
+	KUrl AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
+	KUrl saveFile (file->name());
 	
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
 	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));

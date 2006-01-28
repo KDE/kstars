@@ -214,7 +214,7 @@ void AddCatDialog::slotCreateCatalog() {
 		//Warn user if file exists!
 		if ( QFile::exists( acd->CatalogURL->url() ) )
 		{
-			KURL u( acd->CatalogURL->url() );
+			KUrl u( acd->CatalogURL->url() );
 			int r=KMessageBox::warningContinueCancel( 0,
 									i18n( "A file named \"%1\" already exists. "
 											"Overwrite it?" ).arg( u.fileName() ),

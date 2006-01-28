@@ -195,7 +195,7 @@ void KStars::slotWUT() {
 void KStars::slotGlossary(){
 // 	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
 // 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
-// 	KURL u = glossaryfile;
+// 	KUrl u = glossaryfile;
 // 	Glossary *g = new Glossary( u );
 // 	g->setName( i18n( "Knowledge" ) );
 // 	dlg->addGlossary( g );
@@ -429,7 +429,7 @@ void KStars::closeWindow() {
 void KStars::slotOpenFITS()
 {
 
-  KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
 
   if (fileURL.isEmpty())
     return;
@@ -440,7 +440,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-	KURL fileURL = KFileDialog::getSaveURL( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
+	KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 
 	//Warn user if file exists!
 	if (QFile::exists(fileURL.path()))
@@ -458,7 +458,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-	KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+	KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 	QFile f;
 	QString fname;
 
@@ -475,7 +475,7 @@ void KStars::slotRunScript() {
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
-				KURL saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+				KUrl saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				KTempFile tmpfile;
 				tmpfile.setAutoDelete(true);
 

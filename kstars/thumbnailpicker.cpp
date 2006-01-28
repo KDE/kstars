@@ -90,7 +90,7 @@ void ThumbnailPicker::slotFillList() {
 	QStringList ImageList( Object->ImageList );
 
 	//Query Google Image Search:
-	KURL gURL( "http://images.google.com/images" );
+	KUrl gURL( "http://images.google.com/images" );
 	//Search for the primary name, or longname and primary name
 	QString sName = QString("\"%1\"").arg( Object->name() );
 	if ( Object->longname() != Object->name() ) {
@@ -114,7 +114,7 @@ void ThumbnailPicker::slotFillList() {
 	QStringList::Iterator itListEnd = ImageList.end();
 	for ( ; itList != itListEnd; ++itList ) {
 		QString s( *itList );
-		KURL u( s );
+		KUrl u( s );
 		if ( u.isValid() && KIO::NetAccess::exists(u, true, this) ) {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
@@ -310,7 +310,7 @@ void ThumbnailPicker::slotSetFromList( int i ) {
 
 void ThumbnailPicker::slotSetFromURL() {
 	//Attempt to load the specified URL
-	KURL u = ui->ImageURLBox->url();
+	KUrl u = ui->ImageURLBox->url();
 
 	if ( u.isValid() ) {
 		if ( u.isLocalFile() ) {

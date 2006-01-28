@@ -96,7 +96,7 @@ extern int fits_ieee64_motorola;
    uc[4] = p[3]; uc[5] = p[2]; uc[6] = p[1]; uc[7] = p[0]; \
    val = *(FITS_BITPIXM64 *)uc; } else val = *(FITS_BITPIXM64 *)p; }	  
 
-FITSViewer::FITSViewer (const KURL *url, QWidget *parent, const char *name)
+FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
 {
     image      = NULL;
@@ -510,7 +510,7 @@ void FITSViewer::fileOpen()
 			fitsRestore();
    }
    
-   KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+   KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
   
   if (fileURL.isEmpty())
     return;
@@ -527,7 +527,7 @@ void FITSViewer::fileSave()
   
   FITS_FILE *ifp;
   QString recordList;
-  KURL backupCurrent = currentURL;
+  KUrl backupCurrent = currentURL;
   QString bitpixRec;
   FITS_BITPIX16  pixval_16  =0;
   FITS_BITPIX32  pixval_32  =0;

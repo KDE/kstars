@@ -349,7 +349,7 @@ void SkyMap::slotDSS( void ) {
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
 	//concat all the segments into the kview command line:
-	KURL url (URLprefix + RAString + DecString + URLsuffix);
+	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 	
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
 	new ImageViewer (&url, message, this);
@@ -391,7 +391,7 @@ void SkyMap::slotDSS2( void ) {
 	DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
 
 	//concat all the segments into the kview command line:
-	KURL url (URLprefix + RAString + DecString + URLsuffix);
+	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 	
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
 	new ImageViewer (&url, message, this);
@@ -399,7 +399,7 @@ void SkyMap::slotDSS2( void ) {
 
 void SkyMap::slotInfo( int id ) {
 	QString sURL = clickedObject()->InfoList.at(id-200);
-	KURL url ( sURL );
+	KUrl url ( sURL );
 	if (!url.isEmpty())
 		KToolInvocation::invokeBrowser(sURL);
 }
@@ -438,7 +438,7 @@ void SkyMap::slotImage( int id ) {
 	QString sURL = clickedObject()->ImageList.at(id-100);
 	QString message = clickedObject()->ImageTitle.at(id-100);
 
-	KURL url ( sURL );
+	KUrl url ( sURL );
 	if (!url.isEmpty())
 		new ImageViewer (&url, clickedObject()->messageFromTitle(message), this);
 }

@@ -202,7 +202,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
       return;
     } 
        
-    KURL fileURL(filename);
+    KUrl fileURL(filename);
        
     FITSViewer * fv = new FITSViewer(&fileURL, ksw);
     fv->fitsChange();

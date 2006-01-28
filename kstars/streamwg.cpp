@@ -151,7 +151,7 @@ void StreamWG::captureImage()
 {
   QString fname;
   QString fmt;
-  KURL currentFileURL;
+  KUrl currentFileURL;
   QString currentDir = Options::fitsSaveDirectory();
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);

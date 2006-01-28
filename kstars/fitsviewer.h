@@ -62,7 +62,7 @@ class FITSViewer : public KMainWindow  {
 	friend class FITSProcessCommand;
 	
 	/**Constructor. */
-	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
+	FITSViewer (const KUrl *imageName, QWidget *parent, const char *name = 0);
 	~FITSViewer();
 
 	
@@ -106,7 +106,7 @@ class FITSViewer : public KMainWindow  {
 
 	FITSImage *image;					/* FITS image object */
 	int Dirty;						/* Document modified? */
-	KURL currentURL;					/* FITS File name and path */
+	KUrl currentURL;					/* FITS File name and path */
 	float *imgBuffer;					/* Main unmodified FITS data buffer */
 	KCommandHistory *history;				/* History for undo/redo */
 	QStringList record;					/* FITS records */

@@ -500,7 +500,7 @@ void ObservingList::saveCurrentUserLog() {
 }
 
 void ObservingList::slotOpenList() {
-	KURL fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
+	KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
 	QFile f;
 
 	if ( fileURL.isValid() ) {
@@ -574,7 +574,7 @@ void ObservingList::slotSaveListAs() {
 			i18n( "List name:" ), "", &ok );
 
 	if ( ok ) {
-		KURL fileURL = KFileDialog::getSaveURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
+		KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
 
 		if ( fileURL.isValid() ) 
 			FileName = fileURL.path();

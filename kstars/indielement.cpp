@@ -410,7 +410,7 @@ void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char
 void INDI_E::browseBlob()
 {
 
-  KURL currentURL;
+  KUrl currentURL;
 
   currentURL = KFileDialog::getOpenURL( QDir::homePath(), "*");
 

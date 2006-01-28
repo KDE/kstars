@@ -50,7 +50,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 }
 
 void AddLinkDialog::checkURL( void ) {
-	KURL _url ( url() );
+	KUrl _url ( url() );
 	if ( _url.isValid() ) {   //Is the string a valid URL?
 		KToolInvocation::invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
