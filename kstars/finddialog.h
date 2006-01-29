@@ -84,7 +84,7 @@ private slots:
 
 /**Set the selected item in the list to the item specified.
 	*/
-	void updateSelection (QListWidgetItem *);
+	void updateSelection();
 
 /**Change current filter options.
 	*/

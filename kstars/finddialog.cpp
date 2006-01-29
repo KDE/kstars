@@ -57,7 +57,7 @@ FindDialog::FindDialog( QWidget* parent ) :
 	connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
 	connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
 	connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect( ui->SearchList, SIGNAL (itemActivated(QListWidgetItem *)), SLOT (updateSelection (QListWidgetItem *)));
+	connect( ui->SearchList, SIGNAL (itemSelectionChanged()), SLOT (updateSelection()));
 	connect( ui->SearchList, SIGNAL( itemDoubleClicked ( QListWidgetItem *  ) ), SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
@@ -80,15 +80,22 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	QStringList ObjNames;
 
 	QString searchString = ui->SearchBox->text().lower();
+	if ( searchString.isEmpty() ) {
+		ObjNames = p->data()->skyComposite()->objectNames();
+	} else {
 		foreach ( QString name, p->data()->skyComposite()->objectNames() ) {
 			if ( name.lower().startsWith( searchString ) ) {
 				ObjNames.append( name );
-/*				if ( i++ >= 5000 ) {              //Every 5000 name insertions,
+	/*			if ( i++ >= 5000 ) {              //Every 5000 name insertions,
 					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
 					i = 0;
 				}*/
 			}
 		}
+	}
+
+	ui->SearchList->addItems( ObjNames );
+
 	setListItemEnabled(); // Automatically highlight first item
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
@@ -111,14 +118,15 @@ void FindDialog::filterByType() {
 
 void FindDialog::setListItemEnabled() {
 	ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
-	if ( ! ui->SearchList->isItemSelected( ui->SearchList->item(0) ) )
-		updateSelection( ui->SearchList->item(0) );
 }
 
-void FindDialog::updateSelection (QListWidgetItem *it) {
+void FindDialog::updateSelection() {
 	KStars *p = (KStars *)parent();
-	currentitem = p->data()->skyComposite()->findByName( it->text() );
-	ui->SearchBox->setFocus();  // set cursor to QLineEdit
+	if ( ui->SearchList->selectedItems().size() ) {
+		QString objName = ui->SearchList->selectedItems()[0]->text();
+		currentitem = p->data()->skyComposite()->findByName( objName );
+		ui->SearchBox->setFocus();  // set cursor to QLineEdit
+	}
 }
 
 void FindDialog::setFilter( int f ) {
