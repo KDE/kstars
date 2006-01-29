@@ -259,7 +259,7 @@ void StarComponent::processStar( const QString &line ) {
 	}
 
 	// HEV: look up star name in internationalization filesource
-	if ( name.isEmpty() ) name = "star";
+	if ( name.isEmpty() ) name = i18n("star");
 	name = i18n("star name", name.local8Bit().data());
 
 	dms r;
@@ -272,6 +272,6 @@ void StarComponent::processStar( const QString &line ) {
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 	objectList().append(o);
 
-	if ( ! name.isEmpty() ) objectNames().append( name );
-	if ( ! gname.isEmpty() && gname != name ) objectNames().append( gname );
+	if ( ! name.isEmpty() && name != i18n("star") ) objectNames().append( name );
+	if ( ! gname.isEmpty() && gname != name ) objectNames().append( o->gname(false) );
 }

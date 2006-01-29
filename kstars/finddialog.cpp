@@ -79,24 +79,29 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	ui->SearchList->clear();
 	QStringList ObjNames;
 
-	QString searchString = ui->SearchBox->text().lower();
+	QString searchString = ui->SearchBox->text();
 	if ( searchString.isEmpty() ) {
 		ObjNames = p->data()->skyComposite()->objectNames();
 	} else {
-		foreach ( QString name, p->data()->skyComposite()->objectNames() ) {
-			if ( name.lower().startsWith( searchString ) ) {
-				ObjNames.append( name );
-	/*			if ( i++ >= 5000 ) {              //Every 5000 name insertions,
-					kapp->processEvents ( 50 );		//spend 50 msec processing KApplication events
-					i = 0;
-				}*/
-			}
-		}
+		QRegExp rx("^"+searchString);
+		rx.setCaseSensitivity( Qt::CaseInsensitive );
+		ObjNames = p->data()->skyComposite()->objectNames().filter(rx);
 	}
 
-	ui->SearchList->addItems( ObjNames );
+	if ( ObjNames.size() ) {
+		if ( ObjNames.size() > 5000) {
+			int index=0;
+			while ( index+1000 < ObjNames.size() ) {
+				ui->SearchList->addItems( ObjNames.mid( index, 1000 ) );
+				index += 1000;
+				kapp->processEvents();
+			}
+		} else 
+			ui->SearchList->addItems( ObjNames );
 
-	setListItemEnabled(); // Automatically highlight first item
+		setListItemEnabled(); // Automatically highlight first item
+	}
+
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 
