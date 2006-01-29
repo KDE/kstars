@@ -529,7 +529,7 @@ void KStars::buildGUI() {
 	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );
 	data()->fovSymbol.setShape( Options::fOVShape() );
-	data()->fovSymbol.setColor( Options::fOVColor().name() );
+	data()->fovSymbol.setColor( Options::fOVColor() );
 
 	//get focus of keyboard and mouse actions (for example zoom in with +)
 	map()->QWidget::setFocus();

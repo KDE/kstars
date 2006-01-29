@@ -822,7 +822,7 @@ void KStars::slotTargetSymbol() {
 	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );
 	data()->fovSymbol.setShape( Options::fOVShape() );
-	data()->fovSymbol.setColor( Options::fOVColor().name() );
+	data()->fovSymbol.setColor( Options::fOVColor() );
 
 //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
 //	//set ZoomLevel to match the FOV symbol
@@ -887,7 +887,7 @@ void KStars::slotFOVEdit() {
 			data()->fovSymbol.setName( Options::fOVName() );
 			data()->fovSymbol.setSize( Options::fOVSize() );
 			data()->fovSymbol.setShape( Options::fOVShape() );
-			data()->fovSymbol.setColor( Options::fOVColor().name() );
+			data()->fovSymbol.setColor( Options::fOVColor() );
 		}
 
 //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(

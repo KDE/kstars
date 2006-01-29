@@ -142,9 +142,9 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 				if ( started ) {
 					psky.drawLine( oStart, o );
 				} else {
-					oStart = o;
 					started = true;
 				}
+				oStart = o;
 			} else {
 				started = false;
 			}

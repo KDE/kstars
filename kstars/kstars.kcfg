@@ -630,122 +630,122 @@
 			<whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
 			<default>false</default>
 		</entry>
-		<entry name="AngularRulerColor" type="Color">
+		<entry name="AngularRulerColor" type="String">
 			<label>Color of angular distance ruler</label>
 			<whatsthis>The color for the angular-distance measurement ruler.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="BoxBGColor" type="Color">
+		<entry name="BoxBGColor" type="String">
 			<label>Background color of InfoBoxes</label>
 			<whatsthis>The background color of the on-screen information boxes.</whatsthis>
 			<default>#000</default>
 		</entry>
-		<entry name="BoxGrabColor" type="Color">
+		<entry name="BoxGrabColor" type="String">
 			<label>Text color of InfoBoxes when grabbed with mouse</label>
 			<whatsthis>The text color for the on-screen information boxes, when activated by a mouse click.</whatsthis>
 			<default>#F00</default>
 		</entry>
-		<entry name="BoxTextColor" type="Color">
+		<entry name="BoxTextColor" type="String">
 			<label>Text color of InfoBoxes</label>
 			<whatsthis>The normal text color of the on-screen information boxes.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="CBoundColor" type="Color">
+		<entry name="CBoundColor" type="String">
 			<label>Color of constellation boundaries</label>
 			<whatsthis>The color for the constellation boundary lines.</whatsthis>
 			<default>#222</default>
 		</entry>
-		<entry name="CLineColor" type="Color">
+		<entry name="CLineColor" type="String">
 			<label>Color of constellation lines</label>
 			<whatsthis>The color for the constellation figure lines.</whatsthis>
 			<default>#555</default>
 		</entry>
-		<entry name="CNameColor" type="Color">
+		<entry name="CNameColor" type="String">
 			<label>Color of constellation names</label>
 			<whatsthis>The color for the constellation names.</whatsthis>
 			<default>#AA7</default>
 		</entry>
-		<entry name="CompassColor" type="Color">
+		<entry name="CompassColor" type="String">
 			<label>Color of cardinal compass labels along horizon</label>
 			<whatsthis>The color for the cardinal compass point labels.</whatsthis>
 			<default>#002</default>
 		</entry>
-		<entry name="EclipticColor" type="Color">
+		<entry name="EclipticColor" type="String">
 			<label>Color of ecliptic line</label>
 			<whatsthis>The color for the ecliptic line.</whatsthis>
 			<default>#663</default>
 		</entry>
-		<entry name="EquatorColor" type="Color">
+		<entry name="EquatorColor" type="String">
 			<label>Color of equator line</label>
 			<whatsthis>The color for the equator line.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="FOVColor" type="Color">
+		<entry name="FOVColor" type="String">
 			<label>Color of FOV indicator symbol</label>
 			<whatsthis>The color for the field-of-view indicator symbol.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="GridColor" type="Color">
+		<entry name="GridColor" type="String">
 			<label>Color of coordinate grid lines</label>
 			<whatsthis>The color for the coordinate grid lines.</whatsthis>
 			<default>#456</default>
 		</entry>
-		<entry name="SpecialObjectColor" type="Color">
+		<entry name="SpecialObjectColor" type="String">
 			<label>Color of objects with extra links available</label>
 			<whatsthis>The color for objects which have extra URL links available.</whatsthis>
 			<default>#A00</default>
 		</entry>
-		<entry name="HorizonColor" type="Color">
+		<entry name="HorizonColor" type="String">
 			<label>Color of horizon line</label>
 			<whatsthis>The color for the horizon line and opaque ground.</whatsthis>
 			<default>#5A3</default>
 		</entry>
-		<entry name="MessierColor" type="Color">
+		<entry name="MessierColor" type="String">
 			<label>Color of Messier objects</label>
 			<whatsthis>The color for Messier object symbols.</whatsthis>
 			<default>#0F0</default>
 		</entry>
-		<entry name="NGCColor" type="Color">
+		<entry name="NGCColor" type="String">
 			<label>Color of NGC objects</label>
 			<whatsthis>The color for NGC object symbols.</whatsthis>
 			<default>#066</default>
 		</entry>
-		<entry name="ICColor" type="Color">
+		<entry name="ICColor" type="String">
 			<label>Color of IC objects</label>
 			<whatsthis>The color for IC object symbols.</whatsthis>
 			<default>#439</default>
 		</entry>
-		<entry name="MilkyWayWColor" type="Color">
+		<entry name="MilkyWayWColor" type="String">
 			<label>Color of Milky Way contour</label>
 			<whatsthis>The color for the Milky Way contour.</whatsthis>
 			<default>#123</default>
 		</entry>
-		<entry name="StarNameColor" type="Color">
+		<entry name="StarNameColor" type="String">
 			<label>Color of star name labels</label>
 			<whatsthis>The color for star name labels.</whatsthis>
 			<default>#7AA</default>
 		</entry>
-		<entry name="PlanetNameColor" type="Color">
+		<entry name="PlanetNameColor" type="String">
 			<label>Color of planet name labels</label>
 			<whatsthis>The color for solar system object labels.</whatsthis>
 			<default>#439</default>
 		</entry>
-		<entry name="PlanetTrailColor" type="Color">
+		<entry name="PlanetTrailColor" type="String">
 			<label>Color of planet trails</label>
 			<whatsthis>The color for solar system object trails.</whatsthis>
 			<default>#963</default>
 		</entry>
-		<entry name="SkyColor" type="Color">
+		<entry name="SkyColor" type="String">
 			<label>Color of sky</label>
 			<whatsthis>The color for the sky background.</whatsthis>
 			<default>#002</default>
 		</entry>
-		<entry name="TelescopeTargetColor" type="Color">
+		<entry name="TelescopeTargetColor" type="String">
 			<label>Color of telescope symbols</label>
 			<whatsthis>The color for telescope target symbols.</whatsthis>
 			<default>#8B8</default>
 		</entry>
-		<entry name="UserLabelColor" type="Color">
+		<entry name="UserLabelColor" type="String">
 			<label>Color of user-added labels</label>
 			<whatsthis>The color for user-added object labels.</whatsthis>
 			<default>#439</default>

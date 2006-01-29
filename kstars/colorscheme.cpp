@@ -295,8 +295,10 @@ void ColorScheme::loadFromConfig( KConfig *conf ) {
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	for ( int i=0; i < KeyName.size(); ++i )
-		conf->writeEntry( KeyName.at(i), colorNamed( KeyName.at(i) ).name() );
+	for ( int i=0; i < KeyName.size(); ++i ) {
+		QString c = colorNamed( KeyName.at(i) ).name();
+		conf->writeEntry( KeyName.at(i), c );
+	}
 
 	conf->writeEntry( "StarColorMode", starColorMode() );
 	conf->writeEntry( "StarColorIntensity", starColorIntensity() );
