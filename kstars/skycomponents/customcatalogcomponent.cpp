@@ -155,13 +155,7 @@ void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
  					float sizeFactor = 2.0;
  					int size = int( sizeFactor*(zoomlim - mag) ) + 1;
  					if (size>23) size=23;
-//FIXME: We don't have access to the starpixmaps
-// 					if ( size ) {
-// 						QChar c = starobj->color();
-// 						QPixmap *spixmap = starpix->getPixmap( &c, size );
-// 						starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
-// 					}
-					starobj->draw( psky, o.x(), o.y(), size*scale );
+					starobj->draw( psky, o.x(), o.y(), size, Options::starColorMode(), Options::starColorIntensity(), true, scale );
 				} else {
 					//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
 					DeepSkyObject *dso = (DeepSkyObject*)obj;

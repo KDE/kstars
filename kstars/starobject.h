@@ -100,9 +100,9 @@ class StarObject : public SkyObject {
 /**
 	*Returns first character of Spectral Type string, which is used to
 	*select the temperature-color of the star.
-	*@return first character of Spectral Type string
+	*@return color corresponding to Spectral Type
 	*/
-	QChar color( void ) const { return SpType.at(0); }
+	QColor color( void ) const;
 
 /**
 	*Returns entire spectral type string
@@ -200,10 +200,7 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
-	void draw( QPainter &psky, QPixmap *starpix, float x, float y, bool drawMultiple=true, double scale=1.0 );
-
-//Alternate draw function without starpix
-	void draw( QPainter &psky, float x, float y, float size, bool drawMultiple=true );
+	void draw( QPainter &psky, float x, float y, float size, int scMode, int scIntensity, bool drawMultiple=true, double scale=1.0 );
 
 	//overloaded from SkyObject
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );

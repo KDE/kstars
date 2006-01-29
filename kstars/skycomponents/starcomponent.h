@@ -29,7 +29,6 @@
 #define NHIPFILES 127
 
 #include "listcomponent.h"
-#include "../starpixmap.h"
 
 class SkyComponent;
 class KStars;
@@ -55,12 +54,12 @@ class StarComponent: public ListComponent
 /**@return the current setting of the color mode for stars (0=real colors, 
 	*1=solid red, 2=solid white or 3=solid black).
 	*/
-	int starColorMode( void ) const { return starpix->mode(); }
+	int starColorMode( void ) const { return m_ColorMode; }
 
 /**@short Set the color mode for stars (0=real colors, 1=solid red, 2=solid
 	*white or 3=solid black).
 	*/
-	void setStarColorMode( int mode ) { starpix->setColorMode( mode ); }
+	void setStarColorMode( int mode ) { m_ColorMode = mode; }
 
 /**@short Retrieve the color-intensity value for stars.
 	*
@@ -70,7 +69,7 @@ class StarComponent: public ListComponent
 	*the color-saturation level for star images.
 	*@return the current setting of the color intensity setting for stars.
 	*/
-	int starColorIntensity( void ) const { return starpix->intensity(); }
+	int starColorIntensity( void ) const { return m_ColorIntensity; }
 
 /**@short Sets the color-intensity value for stars.
 	*
@@ -79,7 +78,7 @@ class StarComponent: public ListComponent
 	*the relative thickness of this colored border, so it effectively adjusts
 	*the color-saturation level for star images.
 	*/
-	void setStarColorIntensity( int value ) { starpix->setIntensity( value ); }
+	void setStarColorIntensity( int value ) { m_ColorIntensity = value; }
 
 	float faintMagnitude() const { return m_FaintMagnitude; }
 	void setFaintMagnitude( float newMagnitude );
@@ -123,11 +122,9 @@ class StarComponent: public ListComponent
 		void processStar( const QString &line );
 
 		KStarsData *m_Data;
-
-		StarPixmap *starpix;	// the pixmap of the stars
-
 		KSFileReader *starFileReader;
 		float m_FaintMagnitude;
+		int m_ColorMode, m_ColorIntensity;
 };
 
 #endif

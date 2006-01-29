@@ -24,7 +24,7 @@ kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			opsadvanced.cpp opscatalog.cpp opscolors.cpp \
 			opsguides.cpp opssolarsystem.cpp simclock.cpp skymap.cpp \
 			skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp \
-			starobject.cpp starpixmap.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
+			starobject.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp \
 			timedialog.cpp timezonerule.cpp \
 			toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp \
 			Options.kcfgc kstarsinterface.skel simclockinterface.skel $(kstars_ui)

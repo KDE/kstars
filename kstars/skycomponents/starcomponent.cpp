@@ -29,20 +29,20 @@
 #include "starobject.h"
 
 StarComponent::StarComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: ListComponent(parent, visibleMethod), m_FaintMagnitude(-5.0), starFileReader(0)
+: ListComponent(parent, visibleMethod), starFileReader(0), m_FaintMagnitude(-5.0)
 {
 }
 
 StarComponent::~StarComponent()
 {
-	delete starpix;
 }
 
 void StarComponent::init(KStarsData *data)
 {
 	emitProgressText( i18n("Loading stars" ) );
-	// load the pixmaps of stars
-	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
+
+	m_ColorMode = data->colorScheme()->starColorMode(); 
+	m_ColorIntensity = data->colorScheme()->starColorIntensity();
 	m_Data = data;
 
 	setFaintMagnitude( Options::magLimitDrawStar() );
@@ -88,9 +88,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 				if ( size > 0. )
 				{
-					QChar c = curStar->color();
-					QPixmap *spixmap = starpix->getPixmap( &c, int(size) );
-					curStar->draw( psky, spixmap, o.x(), o.y(), true, scale );
+					curStar->draw( psky, o.x(), o.y(), size, starColorMode(), 
+							starColorIntensity(), true, scale );
 
 					// now that we have drawn the star, we can display some extra info
 					//don't label unnamed stars with the generic "star" name

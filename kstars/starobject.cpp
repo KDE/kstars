@@ -223,21 +223,51 @@ QString StarObject::constell( void ) const {
 	return QString("");
 }
 
-void StarObject::draw( QPainter &psky, QPixmap *starpix, float x, float y, bool /*showMultiple*/, double /*scale*/ ) {
-	//Indicate multiple stars with a short horizontal line
-	//(only draw this for stars larger than 3 pixels)
-//Commenting out for now...
-//	if ( showMultiple &&  starpix->width() > 3 ) {
-//		int lsize = int(3*starpix->width()/4);  //size of half line segment
-//		psky.drawLine( x - lsize, y, x + lsize, y );
-//	}
+QColor StarObject::color() const {
+	QColor c( Qt::white );
+	switch ( SpType.at(0).toAscii() ) {
+		case 'O':
+			c.setRgb(   0,   0, 255 );
+			break;
+		case 'B':
+			c.setRgb(   0, 200, 255 );
+			break;
+		case 'A':
+			c.setRgb(   0, 255, 255 );
+			break;
+		case 'F':
+			c.setRgb( 200, 255, 100 );
+			break;
+		case 'G':
+			c.setRgb( 255, 255,   0 );
+			break;
+		case 'K':
+			c.setRgb( 255, 100,   0 );
+			break;
+		case 'M':
+			c.setRgb( 255,   0,   0 );
+			break;
+	}
 
-	psky.drawPixmap( QPointF(x - 0.5*(starpix->width()), y - 0.5*(starpix->height()) ), 
-		*starpix, QRectF( starpix->rect() ) );
-
+	return c;
 }
 
-void StarObject::draw( QPainter &psky, float x, float y, float size, bool /*drawMultiple*/ ) {
+void StarObject::draw( QPainter &psky, float x, float y, float size, 
+		int scMode, int scIntensity, bool /*showMultiple*/, double /*scale*/ ) {
+	
+	QColor fillColor( Qt::white );
+	if ( scMode == 1 ) fillColor = Qt::red;
+	if ( scMode == 2 ) fillColor = Qt::black;
+// 	psky.setBrush( QBrush( fillColor ) );
+	psky.setBrush( QBrush( Qt::white ) );
+
+	if ( scMode > 0 ) psky.setPen( QPen( fillColor ) );
+	else {
+		//Realistic colors
+		//line thickness controlled by scIntensity
+		psky.setPen( QPen( color(), 0.1*scIntensity ) );
+	}
+
 	psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
 }
 
