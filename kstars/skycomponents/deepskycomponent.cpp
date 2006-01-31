@@ -57,9 +57,6 @@ void DeepSkyComponent::init(KStarsData *data)
 		QString fname = QString().sprintf( "ngcic%02d.dat", i+1 );
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
-		  //DEBUG
-		  kdDebug() << "File: " << fname << endl;
-
 			KSFileReader fileReader( file ); // close file is included
 			while ( fileReader.hasMoreLines() ) {
 				QString line, con, ss, name, name2, longname;
@@ -159,9 +156,6 @@ void DeepSkyComponent::init(KStarsData *data)
 				if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
 				o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 				o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
-				//DEBUG
-				kdDebug() << o->name() << endl;
 
 //FIXME: do we need a master deep sky object list?
 //				// keep object in deep sky objects' list
