@@ -574,7 +574,7 @@
 		<entry name="ZoomFactor" type="Double">
 			<label>Zoom Factor, in pixels per radian</label>
 			<whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
-			<default>2000.</default>
+			<default>1000.</default>
 			<min>200.</min><max>1000000.</max>
 		</entry>
 		<entry name="MagLimitAsteroid" type="Double">
