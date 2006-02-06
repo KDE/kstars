@@ -64,10 +64,10 @@
        </item>
        <item>
         <widget class="KIntNumInput" name="temp" >
-         <property name="minValue" >
+         <property name="minimum" >
           <number>-150</number>
          </property>
-         <property name="maxValue" >
+         <property name="maximum" >
           <number>50</number>
          </property>
         </widget>
