@@ -64,7 +64,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   localImgBuffer = (float *) malloc (width * height * sizeof(float));
   if (!localImgBuffer)
   {
-    kdDebug() << "Not enough memory for local image buffer" << endl;
+    kDebug() << "Not enough memory for local image buffer" << endl;
     return;
   }
   

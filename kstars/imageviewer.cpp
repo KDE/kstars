@@ -59,7 +59,7 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 	statusBar()->setFont( fnt );
 	
 	if (!imageURL.isValid())		//check URL
-		kdDebug()<<"URL is malformed"<<endl;
+		kDebug()<<"URL is malformed"<<endl;
 	setCaption (imageURL.fileName()); // the title of the window
 	loadImageFromURL();
 }
@@ -70,13 +70,13 @@ ImageViewer::~ImageViewer() {
 
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
-            kdDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
+            kDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
 		file->setName (file->name() + ".part");		// set new suffix to filename
-                kdDebug()<<QString("try to remove %1").arg( file->name())<<endl;
+                kDebug()<<QString("try to remove %1").arg( file->name())<<endl;
 		if (file->remove())
-                    kdDebug()<<"file removed\n";
+                    kDebug()<<"file removed\n";
 		else
-                    kdDebug()<<"file not removed\n";
+                    kDebug()<<"file not removed\n";
 	}
 }
 
@@ -139,7 +139,7 @@ void ImageViewer::loadImageFromURL()
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
 	KUrl saveURL (file->name());
 	if (!saveURL.isValid())
-            kdDebug()<<"tempfile-URL is malformed\n";
+            kDebug()<<"tempfile-URL is malformed\n";
 
 	downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
 	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
@@ -247,7 +247,7 @@ void ImageViewer::close() {
 void ImageViewer::checkJob() {
 	if ( downloadJob ) {  // if download job is running
 		downloadJob->kill( true );  // close job quietly, without emitting a result
-		kdDebug() << "Download job killed";
+		kDebug() << "Download job killed";
 	}
 }
 

@@ -48,7 +48,7 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
 			RevertTime = rtime;
 			HourOffset = dh;
 		} else {
-			kdWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) << endl;
+			kWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) << endl;
 			StartMonth = 0;
 			RevertMonth = 0;
 			StartDay = 0;
@@ -77,10 +77,10 @@ TimeZoneRule::~TimeZoneRule() {
 
 void TimeZoneRule::setDST( bool activate ) {
 	if ( activate ) {
-		kdDebug() << i18n( "Daylight Saving Time active" ) << endl;
+		kDebug() << i18n( "Daylight Saving Time active" ) << endl;
 		dTZ = HourOffset;
 	} else {
-		kdDebug() << i18n( "Daylight Saving Time inactive" ) << endl;
+		kDebug() << i18n( "Daylight Saving Time inactive" ) << endl;
 		dTZ = 0.0;
 	}
 }
@@ -101,7 +101,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
 	else if ( ml == "nov" ) return 11;
 	else if ( ml == "dec" ) return 12;
 
-	kdWarning() << i18n( "Could not parse " ) << mn << i18n( " as a valid month code." ) << endl;
+	kWarning() << i18n( "Could not parse " ) << mn << i18n( " as a valid month code." ) << endl;
 	return false;
 }
 
@@ -141,7 +141,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 		else if ( dm == "sun" ) { Day = 7; Week = wn; return true; }
 	}
 
-	kdWarning() << i18n( "Could not parse " ) << dy << i18n( " as a valid day code." ) << endl;
+	kWarning() << i18n( "Could not parse " ) << dy << i18n( " as a valid day code." ) << endl;
 	return false;
 }
 
@@ -253,7 +253,7 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
 		result = KStarsDateTime( ExtDate( y, StartMonth, findStartDay( result ) ), StartTime );
 	}
 
-	kdDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
+	kDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
 	next_change_ltime = result;
 }
 
@@ -287,7 +287,7 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
 		result = KStarsDateTime( ExtDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
 	}
 
-	kdDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
+	kDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString() << endl;
 	next_change_ltime = result;
 }
 
@@ -296,7 +296,7 @@ void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double
 	// just decrement timezone offset and hour offset
 	KStarsDateTime result = local_date.addSecs( int( (TZoffset + deltaTZ()) * -3600) );
 
-	kdDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString() << endl;
+	kDebug() << i18n( "Next Daylight Savings Time change (UTC): " ) << result.toString() << endl;
 	next_change_utc = result;
 }
 
@@ -309,7 +309,7 @@ void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const do
 	if ( result.date().month() == RevertMonth )
 		result = result.addSecs( int(HourOffset * -3600) );
 	
-	kdDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString() << endl;
+	kDebug() << i18n( "Previous Daylight Savings Time change (UTC): " ) << result.toString() << endl;
 	next_change_utc = result;
 }
 
@@ -349,7 +349,7 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 
 	if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth ) {
 		// current time is the start time
-		kdDebug() << "Current time = Starttime: invalid local time due to daylight saving time" << endl;
+		kDebug() << "Current time = Starttime: invalid local time due to daylight saving time" << endl;
 
 		// set a correct local time because the current time doesn't exists
 		// if automatic DST change happend, new DST setting is the opposite of current setting
@@ -385,7 +385,7 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 		active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
 		if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
 			// current time is the revert time
-			kdDebug() << "Current time = Reverttime" << endl;
+			kDebug() << "Current time = Reverttime" << endl;
 
 			// we don't kneed to change the local time, because local time always exists, but
 			// some times exists twice, so we have to reset DST status
@@ -403,7 +403,7 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 		}
 	}  // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
 
-//	kdDebug() << "Using Valid Local Time = " << ValidLTime.toString() << endl;
+//	kDebug() << "Using Valid Local Time = " << ValidLTime.toString() << endl;
 
 	if (time_runs_forward) {
 		// get next DST change time in local time

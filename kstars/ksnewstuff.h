@@ -65,7 +65,7 @@ class KSNewStuff : public QObject, public KNewStuff
 		*@note this function is not yet implemented, and is just a placeholder
 		*/
 		bool createUploadFile( const QString & /*fileName*/ ) {
-			kdDebug() << i18n( "Uploading data is not possible yet!" );
+			kDebug() << i18n( "Uploading data is not possible yet!" );
 			return false;
 		}
 

@@ -200,7 +200,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	}
 
 	if ( ! objectFound ) {
-		kdDebug() << i18n( "Cannot remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
+		kDebug() << i18n( "Cannot remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
 	} else {
 		//Remove object from TinyTable
 		for ( uint i=0; i < ui->TinyTable->count(); i++ ) {
@@ -263,7 +263,7 @@ void ObservingList::slotNewSelection() {
 		if ( found ) m_CurrentObject = m_SelectedObjects[0];
 
 		if ( ! found ) { 
-			kdDebug() << i18n( "Object %1 not found in observing ist." ).arg( newName ) << endl;
+			kDebug() << i18n( "Object %1 not found in observing ist." ).arg( newName ) << endl;
 		} else if ( newName != i18n( "star" ) ) {
 			//Display the object's current user notes in the NotesEdit
 			//First, save the last object's user log to disk, if necessary

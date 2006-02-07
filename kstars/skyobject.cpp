@@ -323,12 +323,12 @@ QString SkyObject::typeName( void ) const {
 	else return i18n( "Unknown Type" );
 }
 void SkyObject::setName( const QString &name ) {
-//	if (name == "star" ) kdDebug() << "name == star" << endl;
+//	if (name == "star" ) kDebug() << "name == star" << endl;
 	delete Name;
 	if (!name.isEmpty())
 		Name = new QString(name);
 	else
-		{ Name = 0; /*kdDebug() << "name saved" << endl;*/ }
+		{ Name = 0; /*kDebug() << "name saved" << endl;*/ }
 }
 
 void SkyObject::setName2( const QString &name2 ) {
@@ -336,7 +336,7 @@ void SkyObject::setName2( const QString &name2 ) {
 	if (!name2.isEmpty())
 		Name2 = new QString(name2);
 	else
-		{ Name2 = 0; /*kdDebug() << "name2 saved" << endl;*/ }
+		{ Name2 = 0; /*kDebug() << "name2 saved" << endl;*/ }
 }
 
 QString SkyObject::messageFromTitle( const QString &imageTitle ) {
@@ -423,7 +423,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	//Open file for writing
 	//FIXME: change error message to "cannot write to user log file"
 	if ( !file.open( QIODevice::WriteOnly ) ) {
-		kdDebug() << i18n( "user log file could not be opened." ) << endl;
+		kDebug() << i18n( "user log file could not be opened." ) << endl;
 		return;
 	}
 	

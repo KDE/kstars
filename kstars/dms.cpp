@@ -309,7 +309,7 @@ dms dms::fromString(QString & st, bool deg) {
 //	if ( ok )
 		return result;
 //	else {
-//		kdDebug() << i18n( "Could Not Set Angle from string: " ) << st << endl;
+//		kDebug() << i18n( "Could Not Set Angle from string: " ) << st << endl;
 //		return result;
 //	}
 }

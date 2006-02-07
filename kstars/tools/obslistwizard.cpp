@@ -131,12 +131,12 @@ void ObsListWizard::initialize()
 	}
 
 // 	//DEBUG
-// 	kdDebug() << "StarCount: " << StarCount << endl;
-// 	kdDebug() << "OpenClusterCount: " << OpenClusterCount << endl;
-// 	kdDebug() << "GlobClusterCount: " << GlobClusterCount << endl;
-// 	kdDebug() << "GasNebCount: " << GasNebCount << endl;
-// 	kdDebug() << "PlanNebCount: " << PlanNebCount << endl;
-// 	kdDebug() << "GalaxyCount: " << GalaxyCount << endl;
+// 	kDebug() << "StarCount: " << StarCount << endl;
+// 	kDebug() << "OpenClusterCount: " << OpenClusterCount << endl;
+// 	kDebug() << "GlobClusterCount: " << GlobClusterCount << endl;
+// 	kDebug() << "GasNebCount: " << GasNebCount << endl;
+// 	kDebug() << "PlanNebCount: " << PlanNebCount << endl;
+// 	kDebug() << "GalaxyCount: " << GalaxyCount << endl;
 
 }
 

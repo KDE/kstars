@@ -75,7 +75,7 @@ void SimClock::tick() {
 		long double scaledsec = (long double)mselapsed * (long double)Scale / 1000.0;
 		UTC.setDJD( julianmark + scaledsec / (24. * 3600.) );
 
-// 		kdDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
+// 		kDebug() << "tick() : JD = " << KGlobal::locale()->formatNumber( UTC.djd(), 7 ) <<
 // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
 // 			"  scaledsec = " << double(scaledsec) << endl;
 
@@ -128,7 +128,7 @@ void SimClock::stop() {
 	}
 
 	if (!ManualMode && tmr.isActive()) {
-		kdDebug() << i18n( "Stopping the timer" ) << endl;
+		kDebug() << i18n( "Stopping the timer" ) << endl;
 		tmr.stop();
 		emit clockStopped();
 	}
@@ -146,7 +146,7 @@ void SimClock::start() {
 	}
 
 	if (! ManualMode && ! tmr.isActive()) {
-		kdDebug() << i18n( "Starting the timer" ) << endl;
+		kDebug() << i18n( "Starting the timer" ) << endl;
 		sysmark.start();
 		julianmark = UTC.djd();
 		lastelapsed = 0;
@@ -164,17 +164,17 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
 			lastelapsed = 0;
 		}
 		
-		kdDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" )
+		kDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" )
 				.arg( UTC.toString() ).arg( KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
 		emit timeChanged();
 	} else {
-		kdDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;
+		kDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;
 	}
 }
 
 void SimClock::setScale(float s) {
 	if (Scale != s ) {
-		kdDebug() << i18n( "New clock scale: %1 sec" ).arg( s ) << endl;
+		kDebug() << i18n( "New clock scale: %1 sec" ).arg( s ) << endl;
 		Scale = s;
 		if (tmr.isActive()) {
 			julianmark = UTC.djd();

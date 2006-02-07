@@ -72,7 +72,7 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 				d1 = stream.readLine();
 				
 				if ( !ok ) 
-					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+					kWarning() << i18n( "Unable to parse boundary segment." ) << endl;
 				
 			} else { 
 				CSegment *seg = new CSegment();
@@ -87,7 +87,7 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 				
 				if ( !ok ) {
 					//uh oh, this entry was not parsed.  Skip to the next line.
-					kdWarning() << i18n( "Unable to parse boundary segment." ) << endl;
+					kWarning() << i18n( "Unable to parse boundary segment." ) << endl;
 					delete seg;
 					d1 = stream.readLine();
 					
@@ -97,7 +97,7 @@ void ConstellationBoundaryComponent::init(KStarsData *)
 					nn = d1.toInt( &ok );
 					//error check
 					if ( !ok || nn != 2 ) {
-						kdWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
+						kWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
 						delete seg;
 						d1 = stream.readLine();
 					}

@@ -271,8 +271,8 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						dms decDMS(lp->value);
 
 
-						//kdDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
-						//kdDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
+						//kDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
+						//kDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
 
 						indi_sp.setRA(raDMS);
 						indi_sp.setDec(decDMS);

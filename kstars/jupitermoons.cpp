@@ -472,9 +472,9 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 		C6[i] = C5[i] * cos( ALPHA ) - B5[i] * sin( ALPHA );
 	
 		/* DEBUG
-		kdDebug() <<"A: "<<i<<": "<<A1[i]<<": "<<A2[i]<<": "<<A3[i]<<": "<<A4[i]<<": "<<A5[i]<<": "<<A6[i]<<endl;
-		kdDebug() <<"B: "<<i<<": "<<B1[i]<<": "<<B2[i]<<": "<<B3[i]<<": "<<B4[i]<<": "<<B5[i]<<": "<<B6[i]<<endl;
-		kdDebug() <<"C: "<<i<<": "<<C1[i]<<": "<<C2[i]<<": "<<C3[i]<<": "<<C4[i]<<": "<<C5[i]<<": "<<C6[i]<<endl;
+		kDebug() <<"A: "<<i<<": "<<A1[i]<<": "<<A2[i]<<": "<<A3[i]<<": "<<A4[i]<<": "<<A5[i]<<": "<<A6[i]<<endl;
+		kDebug() <<"B: "<<i<<": "<<B1[i]<<": "<<B2[i]<<": "<<B3[i]<<": "<<B4[i]<<": "<<B5[i]<<": "<<B6[i]<<endl;
+		kDebug() <<"C: "<<i<<": "<<C1[i]<<": "<<C2[i]<<": "<<C3[i]<<": "<<C4[i]<<": "<<C5[i]<<": "<<C6[i]<<endl;
 		*/
 	}
 	

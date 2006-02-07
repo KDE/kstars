@@ -130,7 +130,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 		epret.longitude = 0.0;
 		epret.latitude = 0.0;
 		epret.radius = 0.0;
-		kdError() << "Could not get data for '" << name() << "'" << endl;
+		kError() << "Could not get data for '" << name() << "'" << endl;
 		return;
 	}
 
@@ -140,13 +140,13 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 		for (int j = 0; j < odc.Lon[i].size(); ++j) {
 			sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*Tau );
 			/*
-			kdDebug() << "sum[" << i <<"] =" << sum[i] <<
+			kDebug() << "sum[" << i <<"] =" << sum[i] <<
 				" A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
 				" C = " << odc.Lon[i][j].C << endl;
 				*/
 	  	}
 		sum[i] *= Tpow[i];
-		//kdDebug() << name() << " : sum[" << i << "] = " << sum[i] <<endl;
+		//kDebug() << name() << " : sum[" << i << "] = " << sum[i] <<endl;
   	}
 
 	epret.longitude.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5] );
@@ -176,7 +176,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 	epret.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
 	/*
-	kdDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
+	kDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
 		epret.longitude.toDMSString() << " Dist = " << epret.radius << endl;
 	*/
 

@@ -488,7 +488,7 @@ void imagesequence::prepareCapture()
 			selectFilter();
 		}
 		else
-			kdDebug() << "Error: std Filter device lost or missing FILTER_SLOT property" << endl;
+			kDebug() << "Error: std Filter device lost or missing FILTER_SLOT property" << endl;
 	}
 }
   

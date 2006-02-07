@@ -180,7 +180,7 @@ bool KSPopupMenu::addINDI(void)
 					{
 						menuDevice->insertItem (prop->label, id);
 						menuDevice->setItemChecked(id, false);
-						//kdDebug() << "Expose ID: " << id << endl;
+						//kDebug() << "Expose ID: " << id << endl;
 						id++;
 					}
 					else

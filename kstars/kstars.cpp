@@ -96,9 +96,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	OriginalPalette = QApplication::palette();
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
-	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
+	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
 #else
-	kdDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
+	kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
 #endif
 }
 

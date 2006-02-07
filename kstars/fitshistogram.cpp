@@ -101,7 +101,7 @@ void FITSHistogram::applyScale()
   int max = ui->maxSlider->value();
   
   FITSHistogramCommand *histC;
-  //kdDebug() << "Width " << viewer->image->width << endl;
+  //kDebug() << "Width " << viewer->image->width << endl;
   
   if (min > max)
   {
@@ -146,7 +146,7 @@ void FITSHistogram::constructHistogram(float * buffer)
       histArray[i] = 0;
     binSize = ( (double) range / (double) BARS); 
     
-    //kdDebug() << "#2" << endl; 
+    //kDebug() << "#2" << endl; 
     if (binSize == 0 && buffer == NULL)
      return;
     
@@ -169,7 +169,7 @@ void FITSHistogram::constructHistogram(float * buffer)
   
  maxHeight = findMax() / height;
  
- kdDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
+ kDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
  
  //histogram = new QPixmap(500, 150, 1);
  // Qt4 --> Qt4 port

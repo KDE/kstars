@@ -60,7 +60,7 @@
    {
      if ( (buffer = viewer->loadData(darkFiles[i].ascii(), buffer)) == NULL)
      {
-        kdDebug() << "Error loading dark file " << darkFiles[i] << endl;
+        kDebug() << "Error loading dark file " << darkFiles[i] << endl;
 	break;
      }
      
@@ -74,7 +74,7 @@
    {
      if ( (buffer = viewer->loadData(flatFiles[i].ascii(), buffer)) == NULL)
      {
-        kdDebug() << "Error loading flat file " << flatFiles[i] << endl;
+        kDebug() << "Error loading flat file " << flatFiles[i] << endl;
 	break;
      }
      
@@ -88,7 +88,7 @@
    {
      if ( (buffer = viewer->loadData(darkflatFiles[i].ascii(), buffer)) == NULL)
      {
-        kdDebug() << "Error loading dark flat file " << darkflatFiles[i] << endl;
+        kDebug() << "Error loading dark flat file " << darkflatFiles[i] << endl;
 	break;
      }
      

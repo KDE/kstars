@@ -91,10 +91,10 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 	if ( x < -1.0 && x > -1.000001 ) HARad = dms::PI;
 	else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
 	else if ( x < -1.0 ) {
-		kdWarning() << i18n( "Coordinate out of range." );
+		kWarning() << i18n( "Coordinate out of range." );
 		HARad = dms::PI;
 	} else if ( x > 1.0 ) {
-		kdWarning() << i18n( "Coordinate out of range." );
+		kWarning() << i18n( "Coordinate out of range." );
 		HARad = 0.0;
 	} else HARad = acos( x );
 
@@ -242,7 +242,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
 	aberrate(num);
 
 	if ( lat || LST )
-		kdWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) << endl;
+		kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) << endl;
 }
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
@@ -592,7 +592,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 
 // 	//Should not happen:
 // 	if ( p1List.count() == 0 ) {
-// 		kdWarning() << "A: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 		kWarning() << "A: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 		return i18n("Unknown");
 // 	}
 // 
@@ -633,7 +633,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 		}
 // 
 // 		if ( ilow2 == -1 ) { //whoops, what happened?
-// 			kdWarning() << "B: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 			kWarning() << "B: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 			return i18n("Unknown");
 // 		}
 // 
@@ -646,7 +646,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 			abbrev = name1List[ ilower ];
 // 
 // 		else { //doh!
-// 			kdWarning() << "C: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 			kWarning() << "C: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 			return i18n("Unknown");
 // 		}
 // 
@@ -666,7 +666,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 		}
 // 
 // 		if ( iup2 == -1 ) { //whoops, what happened?
-// 			kdWarning() << "D: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 			kWarning() << "D: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 			return i18n("Unknown");
 // 		}
 // 
@@ -679,7 +679,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 			abbrev = name1List[ iupper ];
 // 
 // 		else { //doh!
-// 			kdWarning() << "E: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 			kWarning() << "E: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 			return i18n("Unknown");
 // 		}
 // 	}
@@ -716,7 +716,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 				abbrev = name1List[ iupper ];
 // 	
 // 			else { //doh!
-// 				kdWarning() << "F: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 				kWarning() << "F: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 				return i18n("Unknown");
 // 			}
 // 		} else { //pdc > 0.0, so search down
@@ -735,7 +735,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 			}
 // 	
 // 			if ( ilow2 == -1 ) { //whoops, what happened?
-// 				kdWarning() << "G: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 				kWarning() << "G: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 				return i18n("Unknown");
 // 			}
 // 	
@@ -748,7 +748,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 				abbrev = name1List[ ilower ];
 // 	
 // 			else { //doh!
-// 				kdWarning() << "H: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 				kWarning() << "H: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 				return i18n("Unknown");
 // 			}
 // 		}
@@ -764,7 +764,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 
 // 	//If we reach here, then neither name1 nor name2 were shared between the bracketing segments!
 // 	else {
-// 		kdWarning() << "I: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
+// 		kWarning() << "I: " << i18n("No constellation found for point: (%1, %2)").arg(ra()->toHMSString()).arg(dec()->toDMSString()) << endl;
 // 		return i18n("Unknown");
 // 	}
 // 

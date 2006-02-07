@@ -401,7 +401,7 @@ void KStars::slotFind() {
 		findDialog = new FindDialog( this );
 	}
 
-	if ( !findDialog ) kdWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
+	if ( !findDialog ) kWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
 
 	if ( findDialog->exec() == QDialog::Accepted && findDialog->currentItem() ) {
 		map()->setClickedObject( findDialog->currentItem() );
@@ -844,7 +844,7 @@ void KStars::slotFOVEdit() {
 			initFOV();
 		} else {
 			if ( ! f.open( QIODevice::WriteOnly ) ) {
-				kdDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
+				kDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
 			} else {
 				QTextStream ostream(&f);
 
@@ -874,7 +874,7 @@ void KStars::slotFOVEdit() {
 				}
 			}
 		} else {
-			kdDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+			kDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
 		}
 
 		fovActionMenu->popupMenu()->insertSeparator();
@@ -1000,7 +1000,7 @@ void KStars::addColorMenuItem( QString name, QString actionName ) {
 }
 
 void KStars::removeColorMenuItem( QString actionName ) {
-	kdDebug() << "removing " << actionName << endl;
+	kDebug() << "removing " << actionName << endl;
 	colorActionMenu->remove( actionCollection()->action( actionName.ascii() ) );
 }
 

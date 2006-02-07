@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 	KApplication a;
 
 	if ( args->isSet( "dump" ) ) {
-		kdDebug() << i18n( "Dumping sky image" ) << endl;
+		kDebug() << i18n( "Dumping sky image" ) << endl;
 
 		//parse filename and image format
 		const char* format = "PNG";
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
 		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
 		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
-		else { kdWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
+		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
 
 		//parse width and height
 		bool ok(false);
@@ -90,8 +90,8 @@ int main(int argc, char *argv[])
 		w = args->getOption( "width" ).toInt( &ok );
 		if ( ok ) h =  args->getOption( "height" ).toInt( &ok );
 		if ( !ok ) {
-			kdWarning() << "Unable to parse arguments: " << endl;
-			kdWarning() << "Width: " << args->getOption( "width" )
+			kWarning() << "Unable to parse arguments: " << endl;
+			kWarning() << "Width: " << args->getOption( "width" )
 				<< "  Height: " << args->getOption( "height" ) << endl;
 			return 1;
 		}
@@ -124,12 +124,12 @@ int main(int argc, char *argv[])
 			}
 			
 			if ( ! kdt.isValid() ) {
-				kdWarning() << i18n( "Could not parse Date/Time string: " ) << datestring << endl;
-				kdWarning() << i18n( "Valid date formats: " ) << endl;
-				kdWarning() << "  1950-02-25  ;  1950-02-25 05:30:00" << endl;
-				kdWarning() << "  Feb 25 1950 ;  Feb 25 1950 05:30:00" << endl;
-				kdWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" << endl;
-				kdWarning() << i18n( "Using CPU date/time instead." ) << endl;
+				kWarning() << i18n( "Could not parse Date/Time string: " ) << datestring << endl;
+				kWarning() << i18n( "Valid date formats: " ) << endl;
+				kWarning() << "  1950-02-25  ;  1950-02-25 05:30:00" << endl;
+				kWarning() << "  Feb 25 1950 ;  Feb 25 1950 05:30:00" << endl;
+				kWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" << endl;
+				kWarning() << i18n( "Using CPU date/time instead." ) << endl;
 				
 				kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 			}
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
 			if ( dat->executeScript( scriptfile, map ) ) {
 				std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
 			} else {
-				kdWarning() << i18n( "Could not execute script." ) << endl;
+				kWarning() << i18n( "Could not execute script." ) << endl;
 			}
 		}
 
@@ -168,8 +168,8 @@ int main(int argc, char *argv[])
 		map->exportSkyImage( &sky );
 		kapp->processEvents();
 
-		if ( ! sky.save( fname, format ) ) kdWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
-		else kdDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
+		if ( ! sky.save( fname, format ) ) kWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
+		else kDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
 
 		delete map;
 		delete dat;
@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	//Try to parse the given date string
 	QString datestring = args->getOption( "date" );
 	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
-		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
+		kWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
 		datestring = "";
 	}
 	

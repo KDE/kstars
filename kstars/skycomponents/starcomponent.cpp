@@ -179,7 +179,7 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 			openStarFile( iStarFile++ );
 
 			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
-				kdDebug() << i18n( "Could not set line number %1 in star data file." ).arg(iStarLine) << endl;
+				kDebug() << i18n( "Could not set line number %1 in star data file." ).arg(iStarLine) << endl;
 			} else {
 				iStarLine = 0; //start at the begnning of the next file
 

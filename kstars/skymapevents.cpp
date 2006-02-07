@@ -69,7 +69,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
-		//kdDebug() << "resumeKey pressed; resuming DCOP." << endl;
+		//kDebug() << "resumeKey pressed; resuming DCOP." << endl;
 		ksw->resumeDCOP();
 		return;
 	}
@@ -325,7 +325,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         while (fileReader.hasMoreLines()) {
           QString line = fileReader.readLine();
           nCount++;
-    			kdDebug() << "Line " << nCount << " : " << line;
+    			kDebug() << "Line " << nCount << " : " << line;
         }
       }
 
@@ -342,7 +342,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       		file.close();
         }
       }
-			kdDebug() << "time taken for reading city data via read all (10 times): (msec): " << t1.elapsed() << endl;
+			kDebug() << "time taken for reading city data via read all (10 times): (msec): " << t1.elapsed() << endl;
 
 			QTime t2;
 			t2.start();
@@ -355,7 +355,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       		file.close();
       	}
       }
-			kdDebug() << "time taken for reading city data old code (10 times): (msec): " << t2.elapsed() << endl;
+			kDebug() << "time taken for reading city data old code (10 times): (msec): " << t2.elapsed() << endl;
 
 			QTime t3;
 			t3.start();
@@ -370,7 +370,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       		file.close();
         }
       }
-			kdDebug() << "time taken for reading deep sky data via read all (1 times): (msec): " << t3.elapsed() << endl;
+			kDebug() << "time taken for reading deep sky data via read all (1 times): (msec): " << t3.elapsed() << endl;
 
 			QTime t4;
 			t4.start();
@@ -383,7 +383,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       		file.close();
       	}
       }
-			kdDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
+			kDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
 
 			break;
 		}

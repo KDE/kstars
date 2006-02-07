@@ -45,7 +45,7 @@ KSNewStuff::KSNewStuff( QWidget *parent ) :
 
 bool KSNewStuff::install( const QString &fileName )
 {
-	kdDebug() << "KSNewStuff::install(): " << fileName << endl;
+	kDebug() << "KSNewStuff::install(): " << fileName << endl;
 	
 	KTar archive( fileName );
 	if ( !archive.open( QIODevice::ReadOnly ) )

@@ -95,7 +95,7 @@ FITSImage::~FITSImage()
 	
 /*void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
 {
-  //kdDebug() << "in draw contents " << endl;
+  //kDebug() << "in draw contents " << endl;
   //imgFrame->update();
   
 }*/
@@ -103,7 +103,7 @@ FITSImage::~FITSImage()
 /**Bitblt the image onto the viewer widget */
 /*void FITSImage::paintEvent (QPaintEvent *ev)
 {
- //kdDebug() << "in paint event " << endl;
+ //kDebug() << "in paint event " << endl;
  //bitBlt(imgFrame, 0, 0, &qpix);
 }*/
 
@@ -132,7 +132,7 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   
     y -= 20;
     x -= 20;
-   //kdDebug() << "X= " << x << " -- Y= " << y << endl;      
+   //kDebug() << "X= " << x << " -- Y= " << y << endl;      
    
   if (currentZoom > 0)
   {
@@ -142,14 +142,14 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   else if (currentZoom < 0)
   {
     x *= pow(zoomFactor, abs((int) currentZoom));
-    //kdDebug() << "The X power is " << pow(zoomFactor, abs(currentZoom)) << " -- X final = " << x << endl;
+    //kDebug() << "The X power is " << pow(zoomFactor, abs(currentZoom)) << " -- X final = " << x << endl;
     y *= pow(zoomFactor, abs((int) currentZoom));
   }
   
   if (x < 0 || x > width)
     validPoint = false;
   
-  //kdDebug() << "regular x= " << e->x() << " -- X= " << x << " -- imgFrame->x()= " << imgFrame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
+  //kDebug() << "regular x= " << e->x() << " -- X= " << x << " -- imgFrame->x()= " << imgFrame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
   
   
   if (y < 0 || y > height)
@@ -158,10 +158,10 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   // invert the Y since we read FITS buttom up
   y = height - y;
   
-  //kdDebug() << " -- X= " << x << " -- Y= " << y << endl;
+  //kDebug() << " -- X= " << x << " -- Y= " << y << endl;
   
   if (viewer->imgBuffer == NULL)
-   kdDebug() << "viewer buffer is NULL " << endl;
+   kDebug() << "viewer buffer is NULL " << endl;
   
   if (validPoint)
   {
@@ -417,7 +417,7 @@ void FITSImage::fitsZoomIn()
    currentWidth  *= zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
    currentHeight *= zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
-   //kdDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
+   //kDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
    
    qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
    imgFrame->resize( (int) currentWidth, (int) currentHeight);

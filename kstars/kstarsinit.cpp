@@ -307,7 +307,7 @@ void KStars::initFOV() {
 
 	if ( ! f.exists() ) {
 		if ( ! f.open( QIODevice::WriteOnly ) ) {
-			kdDebug() << i18n( "Could not open fov.dat." ) << endl;
+			kDebug() << i18n( "Could not open fov.dat." ) << endl;
 		} else {
 			QTextStream ostream(&f);
 			ostream << i18n( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
@@ -336,7 +336,7 @@ void KStars::initFOV() {
 			}
 		}
 	} else {
-		kdDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+		kDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
 	}
 
 	fovActionMenu->popupMenu()->insertSeparator();

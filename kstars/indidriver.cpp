@@ -382,13 +382,13 @@ void INDIDriver::updateMenuActions()
    
   tmpAction = ksw->actionCollection()->action("indi_control_panel");
   if (!tmpAction)
-  	kdDebug() << "Warning: indi_control_panel action not found" << endl;
+  	kDebug() << "Warning: indi_control_panel action not found" << endl;
   else
   	tmpAction->setEnabled(activeDevice);
   
   tmpAction = ksw->actionCollection()->action("capture_sequence");
   if (!tmpAction)
-  	kdDebug() << "Warning: capture_sequence action not found" << endl;
+  	kDebug() << "Warning: capture_sequence action not found" << endl;
   else
   	tmpAction->setEnabled(activeImaging);
   
@@ -595,7 +595,7 @@ bool INDIDriver::readXMLDriver()
     }
     else if (errmsg[0])
     {
-      kdDebug() << QString(errmsg);
+      kDebug() << QString(errmsg);
       return false;
     }
   }

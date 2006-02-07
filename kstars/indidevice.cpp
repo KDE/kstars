@@ -159,7 +159,7 @@ int INDI_D::removeProperty(INDI_P *pp)
 	}
 
 
-    kdDebug() << "INDI: Device " << name << " has no property named " << pp->name << endl;
+    kDebug() << "INDI: Device " << name << " has no property named " << pp->name << endl;
     return (-1);
 }
 
@@ -265,7 +265,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    ap = findXMLAtt(ep, "name");
 	    if (!ap)
 	    {
-	        kdDebug() << "Error: unable to find attribute 'name' for property " << pp->name << endl;
+	        kDebug() << "Error: unable to find attribute 'name' for property " << pp->name << endl;
 	        return (-1);
 	    }
 
@@ -530,8 +530,8 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
   else dataType = DATA_OTHER;
   
-  //kdDebug() << "We're getting data with size " << dataSize << endl;
-  //kdDebug() << "data format " << dataFormat << endl;
+  //kDebug() << "We're getting data with size " << dataSize << endl;
+  //kDebug() << "data format " << dataFormat << endl;
 
   if (iscomp)
   {
@@ -545,11 +545,11 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
       return -1;
     }
 
-    //kdDebug() << "compressed" << endl;
+    //kDebug() << "compressed" << endl;
   }
   else
   {
-    //kdDebug() << "uncompressed!!" << endl;
+    //kDebug() << "uncompressed!!" << endl;
     dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
     memcpy(dataBuffer, blobBuffer, dataSize);
   }
@@ -584,7 +584,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	ap = findAtt (root, "group", errmsg);
         if (!ap)
         {
-                kdDebug() << QString(errmsg) << endl;
+                kDebug() << QString(errmsg) << endl;
                 return NULL;
         }
 	// Find an existing group, if none found, create one

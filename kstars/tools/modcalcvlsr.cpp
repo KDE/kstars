@@ -97,7 +97,7 @@ double modCalcVlsr::getEpoch (QString eName)
 	if ( ok )
 		return epoch;
 	else {
-		kdDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
+		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
 		return 2000.0;
 	}
 }
@@ -123,7 +123,7 @@ double modCalcVlsr::getHeight(void)
 	if (ok) 
 		return height;
 	else {
-		kdDebug() << i18n( "Could not parse height string; assuming 0" ) << endl;
+		kDebug() << i18n( "Could not parse height string; assuming 0" ) << endl;
 		return 0.0;
 	}
 

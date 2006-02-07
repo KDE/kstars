@@ -252,9 +252,9 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 
 void NewFOV::slotComputeFOV() {
 	//DEBUG
-	kdDebug() << ":" << sender()->name() << ":" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) ) kdDebug() << "A" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kdDebug() << "B" << endl;
+	kDebug() << ":" << sender()->name() << ":" << endl;
+	if ( sender()->name() == QString( "ComputeEyeFOV" ) ) kDebug() << "A" << endl;
+	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B" << endl;
 
 	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );

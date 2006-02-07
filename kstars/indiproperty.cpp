@@ -211,7 +211,7 @@ void INDI_P::convertSwitch(int id)
  if (assosiatedPopup == NULL)
   return;
 
-  //kdDebug() << "Name: " << name << " ID: " << id << endl;
+  //kDebug() << "Name: " << name << " ID: " << id << endl;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
  if (stdID == CCD_EXPOSE_DURATION && assosiatedPopup->text(id) == label)
  {
@@ -467,7 +467,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	    ap = findXMLAtt(text, "name");
 	    if (!ap)
 	    {
-	        kdDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+	        kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
 	        return (-1);
 	    }
 
@@ -478,7 +478,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 
 	    if (!ap)
 	    {
-	      kdDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+	      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
 	      return (-1);
 	    }
 
@@ -535,7 +535,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	    ap = findXMLAtt(number, "name");
 	    if (!ap)
 	    {
-	        kdDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+	        kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
 	        return (-1);
 	    }
 
@@ -546,7 +546,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 
 	    if (!ap)
 	    {
-	      kdDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+	      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
 	      return (-1);
 	    }
 
@@ -865,7 +865,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
     ap = findXMLAtt(blob, "name");
     if (!ap)
     {
-      kdDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+      kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
       return (-1);
     }
 
@@ -876,7 +876,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
 
     if (!ap)
     {
-      kdDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
       return (-1);
     }
 

@@ -143,7 +143,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
 	if ( ! hasColorNamed( name ) ) {
-		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
+		kWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
 		//color = "#FFFFFF"; //set to white if no color found
 		return QColor( Qt::white );
 	}
@@ -212,7 +212,7 @@ bool ColorScheme::load( const QString &filename ) {
 				if ( KeyName.contains( k ) ) {
 					setColor( k, tname );
 				} else {
-					kdWarning() << "Could not use the key \"" << tkey <<
+					kWarning() << "Could not use the key \"" << tkey <<
 							"\" from the color scheme file \"" << filename << "\".  I also tried \"" <<
 							k << "\"." << endl;
 				}

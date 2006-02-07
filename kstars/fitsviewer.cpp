@@ -380,7 +380,7 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
 
 void FITSViewer::calculateStats()
 {
-  /*kdDebug() << "Calculating statistics..." << endl;*/
+  /*kDebug() << "Calculating statistics..." << endl;*/
   stats.min 	= min(stats.minAt);
   stats.max 	= max(stats.maxAt);
   stats.average = average();
@@ -389,9 +389,9 @@ void FITSViewer::calculateStats()
   stats.width   = image->width;
   stats.height  = image->height;
   
-  /*kdDebug() << "Min: " << stats.min << " - Max: " << stats.max << endl;
-  kdDebug() << "Average: " << stats.average << " - stddev: " << stats.stddev << endl;
-  kdDebug() << "Width: " << stats.width << " - Height " << stats.height << " - bitpix " << stats.bitpix << endl;*/
+  /*kDebug() << "Min: " << stats.min << " - Max: " << stats.max << endl;
+  kDebug() << "Average: " << stats.average << " - stddev: " << stats.stddev << endl;
+  kDebug() << "Width: " << stats.width << " - Height " << stats.height << " - bitpix " << stats.bitpix << endl;*/
   
   statusBar()->changeItem( QString("%1 x %2").arg( (int) stats.width).arg( (int) stats.height), 2);
 
@@ -538,7 +538,7 @@ void FITSViewer::fileSave()
   
   QString currentDir = Options::fitsSaveDirectory();
   
-  //kdDebug() << "We doing stats BEFORE we save!! " << endl;
+  //kDebug() << "We doing stats BEFORE we save!! " << endl;
   //calculateStats();
   
   // If no changes made, return.

@@ -121,13 +121,13 @@ void KStarsPlotWidget::updateTickmarks() {
 	//the placement of tickmarks is dependent on the Data type of the axis,
 	//and we add the possibility of secondary limits for the top/right axes.
 	if ( dataWidth() == 0.0 ) {
-		kdWarning() << "X range invalid! " << x() << " to " << x2() << endl;
+		kWarning() << "X range invalid! " << x() << " to " << x2() << endl;
 		DataRect.setWidth( 1.0 );
 		checkLimits();
 		return;
 	}
 	if ( dataHeight() == 0.0 ) {
-		kdWarning() << "Y range invalid! " << y() << " to " << y2() << endl;
+		kWarning() << "Y range invalid! " << y() << " to " << y2() << endl;
 		DataRect.setHeight( 1.0 );
 		checkLimits();
 		return;

@@ -181,7 +181,7 @@ void DeviceManager::dataReceived()
 	    }
 	    else if (*errmsg)
 	    {
-		kdDebug() << errmsg << endl;
+		kDebug() << errmsg << endl;
 	    }
 	}
 }
@@ -270,7 +270,7 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
     {
          if (indi_dev[i]->name ==  devName)
 	 {
-	    kdDebug() << "Device Manager: Device found, deleting " << devName << endl;
+	    kDebug() << "Device Manager: Device found, deleting " << devName << endl;
 	    delete indi_dev.takeAt(i);
             return (0);
 	 }
@@ -290,7 +290,7 @@ INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
 	}
 
 	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.ascii());
-	kdDebug() << errmsg;
+	kDebug() << errmsg;
 
 	return NULL;
 }
@@ -384,7 +384,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
         if (dp == NULL)
 	{
-	  kdDebug() << "Warning: dp is null." << endl;
+	  kDebug() << "Warning: dp is null." << endl;
 	  return;
 	}
 	

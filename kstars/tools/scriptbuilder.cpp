@@ -1073,7 +1073,7 @@ void ScriptBuilder::slotRunScript() {
 	KProcess p;
 	p << f.name();
 	if ( ! p.start( KProcess::DontCare ) )
-		kdDebug() << "Process did not start." << endl;
+		kDebug() << "Process did not start." << endl;
 
 	while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
 
@@ -1162,7 +1162,7 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			  // Initially, any read script is valid!
 			  ScriptList.last()->setValid(true);
 			}
-			else kdWarning() << i18n( "Could not parse script.  Line was: %1" ).arg( line ) << endl;
+			else kWarning() << i18n( "Could not parse script.  Line was: %1" ).arg( line ) << endl;
 
 		} // end if left(4) == "dcop"
 	} // end while !atEnd()
@@ -1567,7 +1567,7 @@ void ScriptBuilder::slotArgWidget() {
 		else if (sf->name() == "shutdownINDI") {
 		  sb->ArgStack->setCurrentWidget( argShutdownINDI);
 		  
-		  //if (sf->valid()) kdDebug() << "begin: shutdown is valid" << endl;
+		  //if (sf->valid()) kDebug() << "begin: shutdown is valid" << endl;
 		if (sb->ReuseINDIDeviceName->isChecked())
 		  {
 		    if (!sf->argVal(0).isEmpty())
@@ -1579,7 +1579,7 @@ void ScriptBuilder::slotArgWidget() {
 		  }
 		  else argShutdownINDI->deviceName->setText(sf->argVal(0));
 		  
-		  //if (sf->valid()) kdDebug() << "end: shutdown is valid" << endl;
+		  //if (sf->valid()) kDebug() << "end: shutdown is valid" << endl;
 		}
 		else if (sf->name() == "switchINDI") {
 		  sb->ArgStack->setCurrentWidget( argSwitchINDI);
@@ -1961,7 +1961,7 @@ void ScriptBuilder::slotShowDoc() {
   if (sc == NULL)
   {
     sb->AddButton->setEnabled( false );
-    kdWarning() << i18n( "Function index out of bounds." ) << endl;
+    kWarning() << i18n( "Function index out of bounds." ) << endl;
     return;
   }
 
@@ -1988,7 +1988,7 @@ void ScriptBuilder::slotFindCity() {
 				sf->setArg( 1, ld.selectedProvinceName() );
 				sf->setArg( 2, ld.selectedCountryName() );
 			} else {
-				kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+				kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 			}
 		}
 	}
@@ -2037,7 +2037,7 @@ void ScriptBuilder::slotLookToward() {
 		sf->setArg( 0, argLookToward->FocusEdit->currentText() );
 		sf->setValid(true);
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "lookTowards" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "lookTowards" ) << endl;
 	}
 }
 
@@ -2061,7 +2061,7 @@ void ScriptBuilder::slotRa() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
 	}
 }
 
@@ -2085,7 +2085,7 @@ void ScriptBuilder::slotDec() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
 	}
 }
 
@@ -2107,7 +2107,7 @@ void ScriptBuilder::slotAz() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
 	}
 }
 
@@ -2130,7 +2130,7 @@ void ScriptBuilder::slotAlt() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
 	}
 }
 
@@ -2147,7 +2147,7 @@ void ScriptBuilder::slotChangeDate() {
 		sf->setArg( 2, QString( "%1" ).arg( date.day()    ) );
 		if ( ! sf->argVal(3).isEmpty() ) sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
 	}
 }
 
@@ -2164,7 +2164,7 @@ void ScriptBuilder::slotChangeTime() {
 		sf->setArg( 5, QString( "%1" ).arg( time.second() ) );
 		if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
 	}
 }
 
@@ -2184,7 +2184,7 @@ void ScriptBuilder::slotWaitFor() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitFor" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitFor" ) << endl;
 	}
 }
 
@@ -2205,7 +2205,7 @@ void ScriptBuilder::slotWaitForKey() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForKey" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForKey" ) << endl;
 	}
 }
 
@@ -2218,7 +2218,7 @@ void ScriptBuilder::slotTracking() {
 		sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setTracking" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setTracking" ) << endl;
 	}
 }
 
@@ -2237,7 +2237,7 @@ void ScriptBuilder::slotViewOption() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "changeViewOption" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "changeViewOption" ) << endl;
 	}
 }
 
@@ -2257,7 +2257,7 @@ void ScriptBuilder::slotChangeCity() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -2277,7 +2277,7 @@ void ScriptBuilder::slotChangeProvince() {
 			//might not be invalid
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -2297,7 +2297,7 @@ void ScriptBuilder::slotChangeCountry() {
 			sf->setValid( false );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
 	}
 }
 
@@ -2310,7 +2310,7 @@ void ScriptBuilder::slotTimeScale() {
 		sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
 	}
 }
 
@@ -2327,7 +2327,7 @@ void ScriptBuilder::slotZoom() {
 			sf->setValid( true );
 		}
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "zoom" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "zoom" ) << endl;
 	}
 }
 
@@ -2342,7 +2342,7 @@ void ScriptBuilder::slotExportImage() {
 		sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
 	}
 }
 
@@ -2356,7 +2356,7 @@ void ScriptBuilder::slotPrintImage() {
 		sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
 	}
 }
 
@@ -2373,7 +2373,7 @@ void ScriptBuilder::slotChangeColorName() {
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
 	}
 }
 
@@ -2389,7 +2389,7 @@ void ScriptBuilder::slotChangeColor() {
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
 	}
 }
 
@@ -2402,7 +2402,7 @@ void ScriptBuilder::slotLoadColorScheme() {
 		sf->setArg( 0, "\"" + argLoadColorScheme->SchemeList->currentText() + "\"" );
 		sf->setValid( true );
 	} else {
-		kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "loadColorScheme" ) << endl;
+		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "loadColorScheme" ) << endl;
 	}
 }
 
@@ -2431,7 +2431,7 @@ void ScriptBuilder::slotINDIStartDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
   }
   
 }
@@ -2450,7 +2450,7 @@ void ScriptBuilder::slotINDIStartDeviceMode()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
   }
   
 }
@@ -2476,7 +2476,7 @@ void ScriptBuilder::slotINDIShutdown()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "shutdownINDI" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "shutdownINDI" ) << endl;
   }
   
 }
@@ -2502,7 +2502,7 @@ void ScriptBuilder::slotINDISwitchDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchdownINDI" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchdownINDI" ) << endl;
   }
   
 }
@@ -2524,7 +2524,7 @@ void ScriptBuilder::slotINDISwitchDeviceConnection()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchINDI" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchINDI" ) << endl;
   }
   
 }
@@ -2552,7 +2552,7 @@ void ScriptBuilder::slotINDISetPortDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
   }
   
   
@@ -2580,7 +2580,7 @@ void ScriptBuilder::slotINDISetPortDevicePort()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
   }
   
 }
@@ -2606,7 +2606,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
   }
   
 }
@@ -2639,7 +2639,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
       sf->setValid( false );
     }
   } else {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
   }
   
 }
@@ -2672,7 +2672,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
       sf->setValid( false );
     }
   } else {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
   }
   
 }
@@ -2699,7 +2699,7 @@ void ScriptBuilder::slotINDISetTargetNameDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
   }
   
 }
@@ -2726,7 +2726,7 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
   }
   
 }
@@ -2753,7 +2753,7 @@ void ScriptBuilder::slotINDISetActionDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
   }
   
 }
@@ -2779,7 +2779,7 @@ void ScriptBuilder::slotINDISetActionName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
   }
 
 }
@@ -2806,7 +2806,7 @@ void ScriptBuilder::slotINDIWaitForActionDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
   }
   
 }
@@ -2832,7 +2832,7 @@ void ScriptBuilder::slotINDIWaitForActionName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
   }
   
 }
@@ -2858,7 +2858,7 @@ void ScriptBuilder::slotINDISetFocusSpeedDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
   }
   
 }
@@ -2879,7 +2879,7 @@ void ScriptBuilder::slotINDISetFocusSpeed()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
   }
   
 }
@@ -2905,7 +2905,7 @@ void ScriptBuilder::slotINDIStartFocusDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "StartINDIFocus") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "StartINDIFocus") << endl;
   }
   
 }
@@ -2926,7 +2926,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIFocus") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIFocus") << endl;
   }
   
 }
@@ -2952,7 +2952,7 @@ void ScriptBuilder::slotINDISetFocusTimeoutDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
   }
   
 }
@@ -2972,7 +2972,7 @@ void ScriptBuilder::slotINDISetFocusTimeout()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
   }
   
 }
@@ -2998,7 +2998,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
   }
   
 }
@@ -3031,7 +3031,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
       sf->setValid( false );
     }
   } else {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
   }
   
 }
@@ -3064,7 +3064,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
       sf->setValid( false );
     }
   } else {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
   }
   
 }
@@ -3090,7 +3090,7 @@ void ScriptBuilder::slotINDIStartExposureDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
   }
   
 }
@@ -3111,7 +3111,7 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
   }
   
 }
@@ -3138,7 +3138,7 @@ void ScriptBuilder::slotINDISetUTCDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
   }
   
   
@@ -3166,7 +3166,7 @@ void ScriptBuilder::slotINDISetUTC()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
   }
   
 }
@@ -3194,7 +3194,7 @@ void ScriptBuilder::slotINDISetScopeActionDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction" ) << endl;
   }
   
 }
@@ -3216,7 +3216,7 @@ void ScriptBuilder::slotINDISetScopeAction()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction") << endl;
   }
   
 }
@@ -3243,7 +3243,7 @@ void ScriptBuilder::slotINDISetFrameTypeDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType" ) << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType" ) << endl;
   }
   
 }
@@ -3264,7 +3264,7 @@ void ScriptBuilder::slotINDISetFrameType()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType") << endl;
   }
   
 }
@@ -3290,7 +3290,7 @@ void ScriptBuilder::slotINDISetCCDTempDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
   }
   
 }
@@ -3311,7 +3311,7 @@ void ScriptBuilder::slotINDISetCCDTemp()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
   }
   
 }
@@ -3338,7 +3338,7 @@ void ScriptBuilder::slotINDISetFilterNumDeviceName()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
   }
 }
 
@@ -3359,7 +3359,7 @@ void ScriptBuilder::slotINDISetFilterNum()
   }
   else
   {
-    kdWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
+    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
   }
 
 

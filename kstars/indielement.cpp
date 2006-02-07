@@ -294,7 +294,7 @@ slider_w  = new QSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizont
 connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
 connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
 
-//kdDebug() << "For element " << label << " we have step of " << step << endl;
+//kDebug() << "For element " << label << " we have step of " << step << endl;
 
   if (length == ELEMENT_FULL_WIDTH)
 	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
