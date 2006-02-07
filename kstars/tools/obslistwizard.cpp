@@ -99,8 +99,8 @@ void ObsListWizard::initialize()
 	//unSelect all object types
 	olw->TypeList->selectAll( false );
 
-	olw->Mag->setMinValue( -5.0 );
-	olw->Mag->setMaxValue( 20.0 );
+	olw->Mag->setMinimum( -5.0 );
+	olw->Mag->setMaximum( 20.0 );
 	olw->Mag->setValue( 6.0 );
 
 	olw->FilterList->setSelected( olw->FilterList->firstChild(), true );
