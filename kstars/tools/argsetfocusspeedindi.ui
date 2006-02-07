@@ -70,10 +70,10 @@
    </item>
    <item row="1" column="1" >
     <widget class="KIntNumInput" name="speedIN" >
-     <property name="minValue" >
+     <property name="minimum" >
       <number>0</number>
      </property>
-     <property name="maxValue" >
+     <property name="maximum" >
       <number>3</number>
      </property>
     </widget>

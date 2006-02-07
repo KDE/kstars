@@ -64,10 +64,10 @@
        </item>
        <item>
         <widget class="KIntNumInput" name="timeOut" >
-         <property name="minValue" >
+         <property name="minimum" >
           <number>0</number>
          </property>
-         <property name="maxValue" >
+         <property name="maximum" >
           <number>86400</number>
          </property>
         </widget>

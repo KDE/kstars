@@ -67,10 +67,10 @@
        </item>
        <item>
         <widget class="KIntNumInput" name="filter_num" >
-         <property name="minValue" >
+         <property name="minimum" >
           <number>0</number>
          </property>
-         <property name="maxValue" >
+         <property name="maximum" >
           <number>20</number>
          </property>
         </widget>

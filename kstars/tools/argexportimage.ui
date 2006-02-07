@@ -83,10 +83,10 @@
          <property name="value" >
           <number>600</number>
          </property>
-         <property name="minValue" >
+         <property name="minimum" >
           <number>0</number>
          </property>
-         <property name="maxValue" >
+         <property name="maximum" >
           <number>5000</number>
          </property>
         </widget>
@@ -96,10 +96,10 @@
          <property name="value" >
           <number>800</number>
          </property>
-         <property name="minValue" >
+         <property name="minimum" >
           <number>0</number>
          </property>
-         <property name="maxValue" >
+         <property name="maximum" >
           <number>5000</number>
          </property>
         </widget>
