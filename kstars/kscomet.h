@@ -57,7 +57,6 @@ class KSComet : public KSPlanetBase
 			*@param i the inclination angle of the comet's orbit
 			*@param w the argument of the orbit's perihelion
 			*@param N the longitude of the orbit's ascending node
-			*@param M the mean anomaly for the Julian Day
 			*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
 			*/
 		KSComet( KStarsData *kd, QString s, QString image_file,
