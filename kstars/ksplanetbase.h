@@ -74,9 +74,10 @@ public:
 
 /**Constructor.  Calls SkyObject constructor with type=2 (planet),
 	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-	@param kd Some kind of data
+	*@param kd Some kind of data
 	*@param s Name of planet
 	*@param image_file filename of the planet's image
+	*@param c color of the symbol to use for this planet
 	*@param pSize the planet's physical size, in km
 	*
 	*@todo Figure out what @p kd does.
