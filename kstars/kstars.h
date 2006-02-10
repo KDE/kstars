@@ -315,7 +315,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	
 	/**DCOP interface function.  Set INDI focus speed. 
 		*@param driverName the name of the driver 
-		*@param action the name of the action (??)
+		*@param speed the speed to use
+		*
+		* @todo document units for speed
 		*/
 		ASYNC setINDIFocusSpeed(QString driverName,unsigned int speed);
 	

@@ -39,7 +39,6 @@ public:
 	/**
 	 * Constructor for the timeBox object.
 	 * @param parent is the parent QWidget
-	 * @param n name is the name of the object
 	 * @param tt boolean. true means that the object will hold a Time.
 	 * false means that the object will hold a Date.
 	 */
