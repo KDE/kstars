@@ -956,12 +956,12 @@ void KStars::slotShowGUIItem( bool show ) {
 			if ( Options::showRADecField() ) statusBar()->removeItem( 2 );
 
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-			statusBar()->insertFixedItem( s, 1, true );
+			statusBar()->insertPermanentFixedItem( s, 1 );
 			statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 			statusBar()->changeItem( "", 1 );
 
 			if ( Options::showRADecField() ) {
-				statusBar()->insertFixedItem( s, 2, true );
+				statusBar()->insertPermanentFixedItem( s, 2 );
 				statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 				statusBar()->changeItem( "", 2 );
 			}
@@ -974,7 +974,7 @@ void KStars::slotShowGUIItem( bool show ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-			statusBar()->insertFixedItem( s, 2, true );
+			statusBar()->insertPermanentFixedItem( s, 2 );
 			statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 			statusBar()->changeItem( "", 2 );
 		} else {

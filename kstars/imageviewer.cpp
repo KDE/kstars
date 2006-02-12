@@ -52,7 +52,7 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 			"actSaveImViewer" );
 	action->plug (toolBar());
 
-	statusBar()->insertItem( capText, 0, 1, true );
+	statusBar()->insertPermanentItem( capText, 0, 1 );
 	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 	QFont fnt = statusBar()->font();
 	fnt.setPointSize( fnt.pointSize() - 2 );

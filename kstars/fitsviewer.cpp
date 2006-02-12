@@ -122,7 +122,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     statusBar()->setItemFixed(1, 100);
     statusBar()->insertItem("", 2);
     statusBar()->setItemFixed(2, 100);
-    statusBar()->insertItem(i18n("Welcome to KStars FITS Viewer"), 3, 1, true);
+    statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), 3, 1);
     statusBar()->setItemAlignment(3 , Qt::AlignLeft);
     
     /* FITS initializations */

@@ -54,11 +54,11 @@ OpsCatalog::OpsCatalog( QWidget *p )
 
 	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
 	kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
-	kcfg_MagLimitDrawStar->setMinValue( Options::magLimitDrawStarZoomOut() );
-	kcfg_MagLimitDrawStarZoomOut->setMaxValue( Options::magLimitDrawStar() );
+	kcfg_MagLimitDrawStar->setMinimum( Options::magLimitDrawStarZoomOut() );
+	kcfg_MagLimitDrawStarZoomOut->setMaximum( Options::magLimitDrawStar() );
 	
-	kcfg_MagLimitDrawDeepSky->setMaxValue( 16.0 );
-	kcfg_MagLimitDrawDeepSkyZoomOut->setMaxValue( 16.0 );
+	kcfg_MagLimitDrawDeepSky->setMaximum( 16.0 );
+	kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum( 16.0 );
 	
 	//disable star-related widgets if not showing stars
 	if ( ! kcfg_ShowStars->isChecked() ) slotStarWidgets(false);
@@ -192,12 +192,12 @@ void OpsCatalog::slotRemoveCatalog() {
 }
 
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
-	kcfg_MagLimitDrawStarZoomOut->setMaxValue( newValue );
+	kcfg_MagLimitDrawStarZoomOut->setMaximum( newValue );
 	ksw->data()->skyComposite()->setFaintStarMagnitude( newValue );
 }
 
 void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
-	kcfg_MagLimitDrawStar->setMinValue( newValue );
+	kcfg_MagLimitDrawStar->setMinimum( newValue );
 	Options::setMagLimitDrawStarZoomOut( newValue );
 	// force redraw
 	ksw->map()->forceUpdate();

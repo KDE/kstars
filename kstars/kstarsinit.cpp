@@ -344,19 +344,19 @@ void KStars::initFOV() {
 }
 
 void KStars::initStatusBar() {
-	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
+	statusBar()->insertPermanentItem( i18n( " Welcome to KStars " ), 0, 1 );
 	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 
 	if ( Options::showAltAzField() ) {
-		statusBar()->insertFixedItem( s, 1, true );
+		statusBar()->insertPermanentFixedItem( s, 1 );
 		statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( "", 1 );
 	}
 
 	if ( Options::showRADecField() ) {
-		statusBar()->insertFixedItem( s, 2, true );
+		statusBar()->insertPermanentFixedItem( s, 2 );
 		statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( "", 2 );
 	}
