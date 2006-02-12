@@ -119,7 +119,7 @@ void ThumbnailPicker::slotFillList() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KURL( tmpFile->name() ), false );
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->name() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
 			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
@@ -348,7 +348,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KURL( tmpFile->name() ), false );
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->name() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
 			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
