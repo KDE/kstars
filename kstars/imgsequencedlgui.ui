@@ -339,14 +339,14 @@
             </item>
             <item>
              <widget class="KIntNumInput" name="countIN" >
-              <property name="minValue" >
+              <property name="minimum" >
                <number>1</number>
               </property>
              </widget>
             </item>
             <item>
              <widget class="KIntNumInput" name="delayIN" >
-              <property name="minValue" >
+              <property name="minimum" >
                <number>0</number>
               </property>
              </widget>
