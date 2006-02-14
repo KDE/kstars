@@ -85,12 +85,6 @@ private:
 	/**@returns a KStarsDateTime constructed from the Time and Date fields. */
 	KStarsDateTime getDateTime (void);
 
-	/**Parse the string argument as a double
-	 * @param eName    String from which the epoch is to be constructed
-	 *                 once it is converted to a double
-	 */
-	double getEpoch (QString eName);
-
 	/* Creates a dms object from the latitude box */
 	dms getLatitude (void);
 

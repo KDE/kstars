@@ -40,12 +40,6 @@ public:
 /**Destructor. */
 	~modCalcApCoord();
 
-/**Precess the coordinates from epoch 1 to epoch 2 */
-	SkyPoint precess (dms ra0, dms dec0, long double j0, long double jf);
-
-/**Apply precession, nutation and aberration corrections to coordinates. */
-	SkyPoint apparentCoordinates (dms r0, dms d0, long double j0, long double jf);
-
 	/** Process Lines **/
 //	void processLines( const QFile * f );
 	void processLines( QTextStream &istream );
@@ -75,11 +69,8 @@ private:
 /**@returns a KStarsDateTime constructed from the Time and Date fields. */
 	KStarsDateTime getDateTime (void);
 
-/**Parse the string argument as a double */
-	double getEpoch (QString eName);
-
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
-	void showEquCoords ( SkyPoint sp );
+	void showEquCoords ( const SkyPoint &sp );
 
 };
 

@@ -43,21 +43,14 @@ void modCalcGalCoord::getGalCoords (void) {
 
 	galLong = lgBox->createDms();
 	galLat = bgBox->createDms();
-	epoch = getEpoch( epochName->text() );
+	epoch = epochName->text();
 }
 
 void modCalcGalCoord::getEquCoords (void) {
 
 	raCoord = raBox->createDms(FALSE);
 	decCoord = decBox->createDms();
-	epoch = getEpoch( epochName->text() );
-}
-
-double modCalcGalCoord::getEpoch (QString eName) {
-
-	double epoch = eName.toDouble();
-
-	return epoch;
+	epoch = epochName->text();
 }
 
 void modCalcGalCoord::slotClearCoords (void) {
@@ -256,7 +249,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 	int i = 0;
 	SkyPoint sp;
 	dms raB, decB, galLatB, galLongB;
-	double epoch0B(0.0);
+	QString epoch0B;
 	KStarsDateTime dt;
 
 	while ( ! istream.atEnd() ) {
@@ -339,10 +332,10 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 			// Read Epoch and write in ostream if corresponds
 
 			if(epochCheckBatch->isChecked() ) {
-				epoch0B = fields[i].toDouble();
+				epoch0B = fields[i];
 				i++;
 			} else
-				epoch0B = getEpoch( epochBoxBatch->text() );
+				epoch0B = epochBoxBatch->text();
 
 			if ( allRadioBatch->isChecked() )
 				ostream << epoch0B << space;

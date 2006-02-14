@@ -39,7 +39,6 @@ public:
 
 	void getEclCoords (void);
 	void getEquCoords (void);
-	double getEpoch( QString t );
 	void showEquCoords(void);
 	void showEclCoords(void);
 	void EclToEqu(void);
@@ -64,7 +63,7 @@ private:
 	void processLines( QTextStream &is );
 
 	dms eclipLong, eclipLat, raCoord, decCoord;
-	double epoch;
+	QString epoch;
 	bool eclInputCoords;
 };
 #endif

@@ -42,7 +42,6 @@ Q_OBJECT
 public: 
 	modCalcPrec(QWidget *p); 
 	~modCalcPrec();
-	SkyPoint precess (dms ra0, dms dec0, double e0, double ef);
 
 public slots:
 	void slotClearCoords (void);
@@ -59,8 +58,7 @@ private:
 	SkyPoint getEquCoords(void);
 	QString  showCurrentEpoch(void);
 	double setCurrentEpoch(void);
-	double getEpoch (QString eName);
-	void showEquCoords ( SkyPoint sp );
+	void showEquCoords ( const SkyPoint &sp );
 	void processLines( QTextStream &istream );
 
 };

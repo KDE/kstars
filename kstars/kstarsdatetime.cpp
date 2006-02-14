@@ -151,16 +151,33 @@ QTime KStarsDateTime::GSTtoUT( dms GST ) const {
 	return( QTime( hr, mn, sc, ms ) );
 }
 
-void KStarsDateTime::setFromEpoch( double epoch ) {
+bool KStarsDateTime::setFromEpoch( double epoch ) {
+	bool result( false );
 	if (epoch == 1950.0) {
 		setDJD( 2433282.4235 );
+		result = true;
 	} else if ( epoch == 2000.0 ) {
 		setDJD( J2000 );
+		result = true;
 	} else {
 		int year = int( epoch );
 		KStarsDateTime dt( ExtDate( year, 1, 1 ), QTime( 0, 0, 0 ) );
 		double days = (double)(dt.date().daysInYear())*( epoch - (double)year );
 		dt = dt.addSecs( days*86400. ); //set date and time based on the number of days into the year
-		setDJD( dt.djd() );
+
+		if ( dt.isValid() ) {
+			setDJD( dt.djd() );
+			result = true;
+		} else
+			result = false;
 	}
+
+	return result;
+}
+
+bool KStarsDateTime::setFromEpoch( const QString &eName ) {
+	bool result( false );
+	double epoch = eName.toDouble(&result);
+	if ( !result ) return false;
+	return setFromEpoch( epoch );
 }

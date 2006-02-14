@@ -67,19 +67,7 @@ KStarsDateTime modCalcApCoord::getDateTime (void)
 	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
-double modCalcApCoord::getEpoch (QString eName) {
-	bool ok = false;
-	double epoch = eName.toDouble(&ok);
-
-	if ( ok )
-		return epoch;
-	else {
-		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
-		return 2000.0;
-	}
-}
-
-void modCalcApCoord::showEquCoords ( SkyPoint sp ) {
+void modCalcApCoord::showEquCoords ( const SkyPoint &sp ) {
 	rafBox->show( sp.ra() , FALSE);
 	decfBox->show( sp.dec() );
 }
@@ -98,7 +86,7 @@ void modCalcApCoord::slotClearCoords(){
 void modCalcApCoord::slotComputeCoords(){
 	long double jd = getDateTime().djd();
 	KStarsDateTime dt;
-	dt.setFromEpoch( getEpoch( epoch0Name->text() ) );
+	dt.setFromEpoch( epoch0Name->text() );
 	long double jd0 = dt.djd();
 
 	SkyPoint sp;
@@ -215,7 +203,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 	QTime utB;
 	ExtDate dtB;
 	dms raB, decB;
-	double epoch0B;
+	QString epoch0B;
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
@@ -286,10 +274,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 		// Read Epoch and write in ostream if corresponds
 
 		if(epochCheckBatch->isChecked() ) {
-			epoch0B = fields[i].toDouble();
+			epoch0B = fields[i];
 			i++;
 		} else
-			epoch0B = getEpoch( epochBoxBatch->text() );
+			epoch0B = epochBoxBatch->text();
 
 		if ( allRadioBatch->isChecked() )
 			ostream << epoch0B;

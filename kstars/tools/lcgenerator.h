@@ -87,21 +87,13 @@ private:
 /** Initilizes and positions the dialog child widgets. */
 	void createGUI();
 
-/** Converts date Julian days, unless date is 'default'.
-	*@param date The date to be converted
-	*@param *JD pointer to a Julian Day string
-	*@param JDType start or end JD
-	*@returns true if conversion is successful
-	*/
-	bool setJD(QString date, QString * JD, int JDType);
-
 /** Parses star information and connects to the AAVSO server with the information embedded in the URL
 	*@param FinalStartDate The start date in Julian days
 	*@param FinalEndDate The end date in Julian days
 	*@param FinalDesignation The AAVSO star designation
 	*@param AverageDay Number of average days for binning the light curve
 	*/
-	void DownloadCurve(ExtDate StartDate, ExtDate EndDate, QString Designation, QString AverageDay);
+	void DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay);
 
 	KStars *ksw;
 	LCGeneratorUI *lcg;

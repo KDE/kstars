@@ -179,12 +179,22 @@ public:
 			+ double( date().dayOfYear() )/double( date().daysInYear() ) ); }
 
 /**
-	*Set the Date/Time from an epoch value.
+	*Set the Date/Time from an epoch value, represented as a double.
 	*@p e the epoch value
+	*@return true if date set successfully
 	*@sa epoch()
 	*/
-	void setFromEpoch( double e );
+	bool setFromEpoch( double e );
 
+/**
+	*Set the Date/Time from an epoch value, represented as a string.
+	*@p e the epoch value
+	*@return true if date set successfully
+	*@sa epoch()
+	*/
+	bool setFromEpoch( const QString &e );
+
+	
 private:
 /**
 	*@return the Greenwich Sidereal Time at 0h UT on this object's Date

@@ -65,18 +65,6 @@ double modCalcPrec::setCurrentEpoch () {
 	return KStarsDateTime::currentDateTime().epoch();
 }
 
-double modCalcPrec::getEpoch (QString eName) {
-	bool ok = false;
-	double epoch = eName.toDouble(&ok);
-
-	if ( ok )
-		return epoch;
-	else {
-		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
-		return 2000.0;
-	}
-}
-
 void modCalcPrec::slotClearCoords (void) {
 
 	InputRABox->clearFields();
@@ -94,8 +82,8 @@ void modCalcPrec::slotComputeCoords (void) {
 
 	sp = getEquCoords();
 
-	double epoch0 = getEpoch( InputEpochBox->text() );
-	double epochf = getEpoch( TargetEpochBox->text() );
+	QString epoch0 = InputEpochBox->text();
+	QString epochf = TargetEpochBox->text();
 
 	KStarsDateTime dt;
 	dt.setFromEpoch( epoch0 );
@@ -109,7 +97,7 @@ void modCalcPrec::slotComputeCoords (void) {
 
 }
 
-void modCalcPrec::showEquCoords ( SkyPoint sp ) {
+void modCalcPrec::showEquCoords ( const SkyPoint &sp ) {
 	TargetRABox->show( sp.ra(),FALSE );
 	TargetDecBox->show( sp.dec() );
 }
@@ -212,7 +200,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 	long double jd0, jdf;
 	SkyPoint sp;
 	dms raB, decB;
-	double epoch0B, epochfB;
+	QString epoch0B, epochfB;
 	KStarsDateTime dt0, dtf;
 
 	while ( ! istream.atEnd() ) {
@@ -256,10 +244,10 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 		// Read Epoch and write in ostream if corresponds
 
 		if(EpochCheckBatch->isChecked() ) {
-			epoch0B = fields[i].toDouble();
+			epoch0B = fields[i];
 			i++;
 		} else
-			epoch0B = getEpoch( InputEpochBoxBatch->text() );
+			epoch0B = InputEpochBoxBatch->text();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << epoch0B;
@@ -270,10 +258,10 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 		// Read Target epoch and write in ostream if corresponds
 
 		if(TargetEpochCheckBatch->isChecked() ) {
-			epochfB = fields[i].toDouble();
+			epochfB = fields[i];
 			i++;
 		} else
-			epochfB = getEpoch( TargetEpochBoxBatch->text() );
+			epochfB = TargetEpochBoxBatch->text();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << epochfB << space;

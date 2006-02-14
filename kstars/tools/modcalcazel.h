@@ -73,12 +73,6 @@ private:
 	/**@returns a KStarsDateTime constructed from the Time and Date fields. */
 	KStarsDateTime getDateTime (void);
 
-	/**Parse the string argument as a double
-	 * @param eName    String from which the epoch is to be constructed
-	 *                 once it is converted to a double
-	 */
-	double getEpoch (QString eName);
-
 	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument.
 	 * @param sp   SkypPoint object which contains the coordinates to 
 	 *             be displayed */

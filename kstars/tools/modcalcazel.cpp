@@ -88,18 +88,6 @@ KStarsDateTime modCalcAzel::getDateTime (void)
 	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
-double modCalcAzel::getEpoch (QString eName)
-{
-	bool ok = false;
-	double epoch = eName.toDouble(&ok);
-	if ( ok )
-		return epoch;
-	else {
-		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
-		return 2000.0;
-	}
-}
-
 dms modCalcAzel::getLongitude(void)
 {
 	dms longitude;
@@ -181,9 +169,8 @@ void modCalcAzel::slotClearCoords()
 void modCalcAzel::slotComputeCoords()
 {
 	SkyPoint sp;
-	double epoch0 = getEpoch( epochName->text() );
 	KStarsDateTime dt;
-	dt.setFromEpoch( epoch0 );
+	dt.setFromEpoch( epochName->text() );
 	long double jd = getDateTime().djd();
 	long double jd0 = dt.djd();
 
@@ -360,7 +347,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 	dms LST;
 	SkyPoint sp;
 	dms raB, decB, latB, longB, azB, elB;
-	double epoch0B;
+	QString epoch0B;
 	QTime utB;
 	ExtDate dtB;
 
@@ -432,10 +419,10 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 		// Read Epoch and write in ostream if corresponds
 	
 		if(epochCheckBatch->isChecked() ) {
-			epoch0B = fields[i].toDouble();
+			epoch0B = fields[i];
 			i++;
 		} else
-			epoch0B = getEpoch( epochBoxBatch->text() );
+			epoch0B = epochBoxBatch->text();
 
 		if ( allRadioBatch->isChecked() )
 			ostream << epoch0B << space;

@@ -145,7 +145,7 @@ public:
 	*@param eName the epoch string to be parsed
 	*@return the epoch number
 	*/
-	double getEpoch (QString eName);
+	double getEpoch( const QString &eName );
 	
 /**@short Add a SkyObject to the display.
 	*Constructs a PLotObject representing the Alt-vs-time curve for the object.

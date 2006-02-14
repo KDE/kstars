@@ -90,18 +90,6 @@ KStarsDateTime modCalcVlsr::getDateTime (void)
 	return KStarsDateTime( DateBox->date() , UTBox->time() );
 }
 
-double modCalcVlsr::getEpoch (QString eName)
-{
-	bool ok = false;
-	double epoch = eName.toDouble(&ok);
-	if ( ok )
-		return epoch;
-	else {
-		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
-		return 2000.0;
-	}
-}
-
 dms modCalcVlsr::getLongitude(void)
 {
 	dms longitude;
@@ -219,7 +207,7 @@ void modCalcVlsr::slotComputeVelocities()
 	getGeoLocation();
 
 
-	double epoch0 = getEpoch( EpochBox->text() );
+	QString epoch0 = EpochBox->text();
 	KStarsDateTime dt0;
 	dt0.setFromEpoch(epoch0);
 	KStarsDateTime dt1 = getDateTime();
@@ -407,7 +395,8 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 	SkyPoint spB;
 	double sra, cra, sdc, cdc;
 	dms raB, decB, latB, longB;
-	double epoch0B, vhB, vgB, vtB, vlsrB, heightB;
+	QString epoch0B;
+	double vhB, vgB, vtB, vlsrB, heightB;
 	double vtopo[3];
 	QTime utB;
 	ExtDate dtB;
@@ -481,10 +470,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read Epoch and write in ostream if corresponds
 	
 		if(EpochCheckBatch->isChecked() ) {
-			epoch0B = fields[i].toDouble();
+			epoch0B = fields[i];
 			i++;
 		} else
-			epoch0B = getEpoch( EpochBoxBatch->text() );
+			epoch0B = EpochBoxBatch->text();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << epoch0B << space;
@@ -495,10 +484,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read vlsr and write in ostream if corresponds
 	
 		if(InputVelocityCheckBatch->isChecked() ) {
-			vlsrB = fields[i].toDouble();
+			vlsrB = fields[i];
 			i++;
 		} else
-			vlsrB = getEpoch( EpochBoxBatch->text() );
+			vlsrB = InputVeloctyBoxBatch->text();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << vlsrB << space;
@@ -540,7 +529,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 			heightB = fields[i].toDouble();
 			i++;
 		} else
-			heightB = getEpoch( EpochBoxBatch->text() );
+			heightB = ElevationBoxBatch->text();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << heightB << space;

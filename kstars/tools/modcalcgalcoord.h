@@ -40,7 +40,6 @@ public:
 	*/
 	void getGalCoords (void);
 	void getEquCoords (void);
-	void getEpoch (void);
 	double getEpoch( QString t );
 	void showEquCoords(void);
 	void showGalCoords(void);
@@ -66,7 +65,7 @@ private:
 	void processLines( QTextStream &is );
 
 	dms galLong, galLat, raCoord, decCoord;
-	double epoch;
+	QString epoch;
 	bool galInputCoords;
 };
 #endif

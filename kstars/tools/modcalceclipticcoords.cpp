@@ -46,21 +46,14 @@ void modCalcEclCoords::getEclCoords (void) {
 
 	eclipLong = ecLongBox->createDms();
 	eclipLat = ecLatBox->createDms();
-	epoch = getEpoch( epochName->text() );
+	epoch = epochName->text();
 }
 
 void modCalcEclCoords::getEquCoords (void) {
 
 	raCoord = raBox->createDms(FALSE);
 	decCoord = decBox->createDms();
-	epoch = getEpoch( epochName->text() );
-}
-
-double modCalcEclCoords::getEpoch (QString eName) {
-
-	double epoch = eName.toDouble();
-
-	return epoch;
+	epoch = epochName->text();
 }
 
 void modCalcEclCoords::slotClearCoords (void) {
@@ -254,7 +247,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 	int i = 0;
 	SkyPoint sp;
 	dms raB, decB, eclLatB, eclLongB;
-	double epoch0B;
+	QString epoch0B;
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
@@ -299,10 +292,10 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read Epoch and write in ostream if corresponds
 
 			if(epochCheckBatch->isChecked() ) {
-				epoch0B = fields[i].toDouble();
+				epoch0B = fields[i];
 				i++;
 			} else
-				epoch0B = getEpoch( epochBoxBatch->text() );
+				epoch0B = epochBoxBatch->text();
 
 			if ( allRadioBatch->isChecked() )
 				ostream << epoch0B << space;
@@ -352,10 +345,10 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read Epoch and write in ostream if corresponds
 
 			if(epochCheckBatch->isChecked() ) {
-				epoch0B = fields[i].toDouble();
+				epoch0B = fields[i];
 				i++;
 			} else
-				epoch0B = getEpoch( epochBoxBatch->text() );
+				epoch0B = epochBoxBatch->text();
 
 			if ( allRadioBatch->isChecked() )
 				ostream << epoch0B << space;

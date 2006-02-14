@@ -480,7 +480,7 @@ KStarsDateTime AltVsTime::getDate (void)
 	return dt;
 }
 
-double AltVsTime::getEpoch (QString eName)
+double AltVsTime::getEpoch(const QString &eName)
 {
 	//If Epoch field not a double, assume J2000
 	bool ok(false);
