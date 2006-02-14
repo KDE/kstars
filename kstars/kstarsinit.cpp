@@ -352,13 +352,13 @@ void KStars::initStatusBar() {
 	if ( Options::showAltAzField() ) {
 		statusBar()->insertPermanentFixedItem( s, 1 );
 		statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
-		statusBar()->changeItem( "", 1 );
+		statusBar()->changeItem( QString(), 1 );
 	}
 
 	if ( Options::showRADecField() ) {
 		statusBar()->insertPermanentFixedItem( s, 2 );
 		statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-		statusBar()->changeItem( "", 2 );
+		statusBar()->changeItem( QString(), 2 );
 	}
 
 	if ( ! Options::showStatusBar() ) statusBar()->hide();

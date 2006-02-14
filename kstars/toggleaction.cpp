@@ -54,13 +54,13 @@ void ToggleAction::turnOn() {
 	state = true;
 }
 
-void ToggleAction::setOnToolTip(QString tip) {
+void ToggleAction::setOnToolTip(const QString &tip) {
 	onTip = tip;
 	if (state)
 		setToolTip(tip);
 }
 
-void ToggleAction::setOffToolTip(QString tip) {
+void ToggleAction::setOffToolTip(const QString &tip) {
 	offTip = tip;
 	if (!state)
 		setToolTip(tip);

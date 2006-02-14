@@ -59,7 +59,7 @@ class KSComet : public KSPlanetBase
 			*@param N the longitude of the orbit's ascending node
 			*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
 			*/
-		KSComet( KStarsData *kd, QString s, QString image_file,
+		KSComet( KStarsData *kd, const QString &s, const QString *image_file,
 			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
 
 		/**Destructor (empty)*/

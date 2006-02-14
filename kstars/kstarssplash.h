@@ -51,7 +51,7 @@ class KStarsSplash : public KDialogBase
 	public slots:
 	/**Display the text argument in the Splash Screen's status label.
 		*This is connected to KStarsData::progressText(QString)*/
-		void setMessage(QString s);
+		void setMessage(const QString &s);
 
 	protected:
 	/**Paint event to redraw the widgets.  This only gets called when the timer fires.

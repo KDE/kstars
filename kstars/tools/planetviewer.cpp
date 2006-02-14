@@ -76,11 +76,11 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
 	pName[8] = "Pluto";   pColor[8] = "gray";
 
-	setCenterPlanet("");
+	setCenterPlanet(QString());
 
 	KStars *ks = (KStars*)parent;
 	for ( int i=0; i<8; ++i ) 
-	  PlanetList.append( new KSPlanet( ks->data(), pName[i], "", QColor( pColor[i] ) ) );
+	  PlanetList.append( new KSPlanet( ks->data(), pName[i], QString(), QColor( pColor[i] ) ) );
 	PlanetList.append( new KSPluto( ks->data() ) );
 			   
 	ut = ks->data()->ut();
@@ -199,7 +199,7 @@ void PlanetViewer::initPlotObjects() {
 	//Read in the orbit curves
 	KPlotObject *orbit[9];
 	for ( unsigned int i=0; i<9; ++i ) {
-		orbit[i] = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+		orbit[i] = new KPlotObject( QString(), "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 		
 		QFile orbitFile;
 		if ( KSUtils::openDataFile( orbitFile, pName[i].lower() + ".orbit" ) ) {

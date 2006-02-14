@@ -202,11 +202,11 @@ void modCalcVlsr::slotClearCoords()
 	DecBox->clearFields();
 	LongitudeBox->clearFields();
 	LatitudeBox->clearFields();
-	EpochBox->setText("");
-	VLSRBox->setText("");
-	VHelioBox->setText("");
-	VGeoBox->setText("");
-	VTopoBox->setText("");
+	EpochBox->setText(QString());
+	VLSRBox->setText(QString());
+	VHelioBox->setText(QString());
+	VGeoBox->setText(QString());
+	VTopoBox->setText(QString());
 
 	DateBox->setDate(ExtDate::currentDate());
 	UTBox->setTime(QTime(0,0,0));
@@ -371,7 +371,7 @@ void modCalcVlsr::slotRunBatch() {
 		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = "";
+			inputFileName = QString();
 			return;
 		}
 
@@ -383,7 +383,7 @@ void modCalcVlsr::slotRunBatch() {
 	} else  {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = "";
+		inputFileName = QString();
 		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}

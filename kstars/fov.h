@@ -31,8 +31,8 @@ class QPainter;
 class FOV {
 	public:
 		FOV();
-		FOV( QString name );  //in this case, read params from fov.dat
-		FOV( QString name, float size, int shape=0, QString color="#FFFFFF" );
+		FOV( const QString &name );  //in this case, read params from fov.dat
+		FOV( const QString &name, float size, int shape=0, const QString &color="#FFFFFF" );
 		~FOV() {}
 
 //			enum SHAPE { FOV_SQUARE=0, FOV_CIRCLE=1, FOV_CROSSHAIRS=2, FOV_BULLSEYE=3, FOV_UNKNOWN };

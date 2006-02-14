@@ -128,17 +128,17 @@ void TimeDialog::setNow( void )
 }
 
 void TimeDialog::HourPrefix( int value ) {
-	HourBox->setPrefix( "" );
+	HourBox->setPrefix( QString() );
 	if ( value < 10 ) HourBox->setPrefix( "0" );
 }
 
 void TimeDialog::MinutePrefix( int value ) {
-	MinuteBox->setPrefix( "" );
+	MinuteBox->setPrefix( QString() );
 	if ( value < 10 ) MinuteBox->setPrefix( "0" );
 }
 
 void TimeDialog::SecondPrefix( int value ) {
-	SecondBox->setPrefix( "" );
+	SecondBox->setPrefix( QString() );
 	if ( value < 10 ) SecondBox->setPrefix( "0" );
 }
 

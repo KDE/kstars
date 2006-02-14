@@ -351,7 +351,7 @@ public:
 	*@param deg if TRUE, s is expressed in degrees; if FALSE, s is expressed in hours
 	*@return a dms object whose value is parsed from the string argument
 	*/
-	static dms fromString(QString & s, bool deg);
+	static dms fromString(const QString & s, bool deg);
 
 private:
 	double D;

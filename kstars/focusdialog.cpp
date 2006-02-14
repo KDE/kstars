@@ -126,7 +126,7 @@ void FocusDialog::validatePoint() {
 	}
 }
 
-double FocusDialog::getEpoch (QString eName) {
+double FocusDialog::getEpoch (const QString &eName) {
 	//If eName is empty (or not a number) assume 2000.0
 	bool ok(false);
 	double epoch = eName.toDouble( &ok );

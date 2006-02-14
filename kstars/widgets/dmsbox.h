@@ -125,7 +125,7 @@ public:
 
 	/**Clears the KLineEdit
 		*/
-	void clearFields (void) { setDMS(""); }
+	void clearFields (void) { setDMS(QString()); }
 
 protected:
 	void focusInEvent( QFocusEvent *e );

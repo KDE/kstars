@@ -63,7 +63,7 @@ public:
 	*@param showAngularDistance if true, the Angular Distance item is added.
 	*@param showObsList if true, the Add to List/Remove from List item is added.
  */
-	void initPopupMenu( SkyObject *obj, QString name1, QString name2, QString type,
+	void initPopupMenu( SkyObject *obj, const QString &name1, const QString &name2, const QString &type,
 			bool showRiseSet=true, bool showCenterTrack=true,
 			bool showDetails=true, bool showTrail=false, 
 			bool addTrail=false, bool showAngularDistance=true,

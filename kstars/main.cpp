@@ -47,7 +47,7 @@ static KCmdLineOptions options[] =
 	{ "width ", I18N_NOOP( "Width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "Height of sky image" ), "480" },
 	{ "filename ", I18N_NOOP( "Filename for sky image" ), "kstars.png" },
-	{ "date ", I18N_NOOP( "Date and time" ), "" },
+	{ "date ", I18N_NOOP( "Date and time" ), QString() },
 	{ "!paused", I18N_NOOP( "Start with clock paused" ), 0 },
 	KCmdLineLastOption
 };
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 	QString datestring = args->getOption( "date" );
 	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
 		kWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
-		datestring = "";
+		datestring = QString();
 	}
 	
 	new KStars( true, ! args->isSet( "paused" ), datestring );

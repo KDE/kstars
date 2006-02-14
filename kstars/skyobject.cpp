@@ -31,7 +31,7 @@
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 
-QString SkyObject::emptyString = QString("");
+QString SkyObject::emptyString = QString();
 QString SkyObject::unnamedString = QString(i18n("unnamed"));
 QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
 QString SkyObject::starString = QString("star");

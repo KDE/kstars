@@ -90,8 +90,8 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 }
 
 void modCalcEquinox::slotClear(void){
-	yearEdit->setText("");
-	seasonDuration->setText("");
+	yearEdit->setText(QString());
+	seasonDuration->setText(QString());
 }
 
 void modCalcEquinox::showStartDateTime(long double jd)
@@ -138,7 +138,7 @@ void modCalcEquinox::slotRunBatch() {
 		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = "";
+			inputFileName = QString();
 			return;
 		}
 
@@ -150,7 +150,7 @@ void modCalcEquinox::slotRunBatch() {
 	} else  {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = "";
+		inputFileName = QString();
 		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}

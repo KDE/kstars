@@ -30,7 +30,7 @@
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
+INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
 {
   dp = parentDevice;
   

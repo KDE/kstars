@@ -64,7 +64,7 @@ public:
 	*@param iEllips type of geodetic ellipsoid model
 	*@param hght the elevation above sea level (in meters?)
 	*/
-	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+	GeoLocation( dms lng, dms lat, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**Constructor using doubles to specify longitude and latitude.
 	*@param lng the longitude

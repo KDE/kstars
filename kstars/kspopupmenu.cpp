@@ -84,7 +84,7 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 	bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
-	QString oname = "";
+	QString oname;
 	if ( p->name() == "Moon" ) {
 		oname = ((KSMoon *)p)->phaseName();
 	}
@@ -226,7 +226,7 @@ bool KSPopupMenu::addINDI(void)
 	return true;
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &s1, const QString &s2, const QString &s3,
 		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, 
 		bool showAngularDistance, bool showObsList ) {
 	

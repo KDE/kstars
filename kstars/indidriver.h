@@ -47,7 +47,7 @@ class IDevice : public QObject
      Q_OBJECT
      
      public:
-        IDevice(QString inLabel, QString inDriver, QString inVersion);
+        IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion);
 	~IDevice();
 
       enum ServeMODE { M_LOCAL, M_SERVER };
@@ -115,11 +115,11 @@ class INDIDriver : public devManager
 
     bool runDevice(IDevice *dev);
     void removeDevice(IDevice *dev);
-    void removeDevice(QString deviceLabel);
+    void removeDevice(const QString &deviceLabel);
     void saveDevicesToDisk();
     int getINDIPort();
     int activeDriverCount();
-    bool isDeviceRunning(QString deviceLabel);
+    bool isDeviceRunning(const QString &deviceLabel);
 
     void saveHosts();
 

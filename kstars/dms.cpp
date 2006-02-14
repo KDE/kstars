@@ -60,15 +60,15 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
 	//remove any instances of unit characters.
 	//h, d, m, s, ', ", or the degree symbol (ASCII 176)
-	entry.replace( QRegExp("h"), "" );
-	entry.replace( QRegExp("d"), "" );
-	entry.replace( QRegExp("m"), "" );
-	entry.replace( QRegExp("s"), "" );
+	entry.replace( QRegExp("h"), QString() );
+	entry.replace( QRegExp("d"), QString() );
+	entry.replace( QRegExp("m"), QString() );
+	entry.replace( QRegExp("s"), QString() );
 	QString sdeg;
 	sdeg.sprintf("%c", 176);
-	entry.replace( QRegExp(sdeg), "" );
-	entry.replace( QRegExp("\'"), "" );
-	entry.replace( QRegExp("\""), "" );
+	entry.replace( QRegExp(sdeg), QString() );
+	entry.replace( QRegExp("\'"), QString() );
+	entry.replace( QRegExp("\""), QString() );
 
 	//Account for localized decimal-point settings
 	//QString::toDouble() requires that the decimal symbol is "."
@@ -300,7 +300,7 @@ const QString dms::toHMSString() const {
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
-dms dms::fromString(QString & st, bool deg) {
+dms dms::fromString(const QString &st, bool deg) {
 	dms result;
 	bool ok( false );
 

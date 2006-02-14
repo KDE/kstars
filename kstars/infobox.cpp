@@ -21,9 +21,9 @@
 #include "infobox.h"
 
 InfoBox::InfoBox(){
-	setText1( "" );
-	setText2( "" );
-	setText3( "" );
+	setText1( QString() );
+	setText2( QString() );
+	setText3( QString() );
 	move( 0, 0 );
 //Initialize text dimension variables to 0
 	FullTextWidth  = 0;
@@ -36,7 +36,7 @@ InfoBox::InfoBox(){
 	Shaded = false;
 }
 
-InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( int x, int y, bool shade, const QString &t1, const QString &t2, const QString &t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
@@ -52,7 +52,7 @@ InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 )
 	Visible = true;
 }
 
-InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( QPoint pt, bool shade, const QString &t1, const QString &t2, const QString &t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );

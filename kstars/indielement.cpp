@@ -68,7 +68,7 @@ XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *parentProperty, QString inName, QString inLabel)
+INDI_E::INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel)
 {
   name = inName;
   label = inLabel;
@@ -126,7 +126,7 @@ label_w->setText(label);
 EHBox->addWidget(label_w);
 }
 
-int INDI_E::buildTextGUI(QString initText)
+int INDI_E::buildTextGUI(const QString &initText)
 {
 
   setupElementLabel();  

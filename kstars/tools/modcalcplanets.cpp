@@ -198,16 +198,16 @@ void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
 }
 
 void modCalcPlanets::slotClear(void){
-	HelioLongBox->setText( "" );
-	HelioLatBox->setText( "" );
-        HelioDistBox->setText( "" );
-	GeoLongBox->setText("");
-	GeoLatBox->setText("");
-	GeoDistBox->setText("");
+	HelioLongBox->setText( QString() );
+	HelioLatBox->setText( QString() );
+        HelioDistBox->setText( QString() );
+	GeoLongBox->setText(QString());
+	GeoLatBox->setText(QString());
+	GeoDistBox->setText(QString());
 	RABox->clearFields();
 	DecBox->clearFields();
-	AzBox->setText("");
-	AltBox->setText("");
+	AzBox->setText(QString());
+	AltBox->setText(QString());
 }
 
 void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
@@ -306,7 +306,7 @@ void modCalcPlanets::slotRunBatch() {
 		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = "";
+			inputFileName = QString();
 			return;
 		}
 
@@ -316,7 +316,7 @@ void modCalcPlanets::slotRunBatch() {
 	} else  {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = "";
+		inputFileName = QString();
 		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}
@@ -364,7 +364,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
 
 	//Initialize planet names
-	QString pn="";
+	QString pn=QString();
 	QStringList pNames, pNamesi18n;
 	pNames << "Mercury" << "Venus" << "Earth" << "Mars" << "Jupiter"
 	      << "Saturn" << "Uranus" << "Neptune" << "Pluto" 
@@ -377,7 +377,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	///Parse the input file
 	int numberOfRequiredFields = requiredBatchFields();
        	while ( ! istream.atEnd() ) {
-		lineToWrite="";
+		lineToWrite=QString();
 		line = istream.readLine();
 		line.trimmed();
 
@@ -511,7 +511,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		  ksp.EquatorialToHorizontal( &LST, &latB );
 		  kspb = (KSPlanetBase*)&ksp;
 		} else {
-		  KSPlanet ksp( kd, i18n( pn.local8Bit() ), "", Qt::white, 1.0 );
+		  KSPlanet ksp( kd, i18n( pn.local8Bit() ), QString(), Qt::white, 1.0 );
 		  ksp.findPosition( &num, &latB, &LST, &Earth );
 		  ksp.EquatorialToHorizontal( &LST, &latB );
 		  kspb = (KSPlanetBase*)&ksp;

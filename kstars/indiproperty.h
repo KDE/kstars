@@ -37,7 +37,7 @@ class INDI_P : public QObject
 {
   Q_OBJECT
    public:
-   INDI_P(INDI_G *parentGroup, QString inName);
+   INDI_P(INDI_G *parentGroup, const QString &inName);
    ~INDI_P();
 
     QString	name;			/* property name */
@@ -77,9 +77,9 @@ class INDI_P : public QObject
     void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
     
     /* Find an element within the property */
-    INDI_E * findElement(QString elementName);
+    INDI_E * findElement(const QString &elementName);
     /* Search for an element, and if found, evaluate its state */
-    bool isOn(QString component);	
+    bool isOn(const QString &component);	
    
    /* Build Functions */ 
    int buildTextGUI    (XMLEle *root, char errmsg[]);
@@ -90,10 +90,10 @@ class INDI_P : public QObject
    int buildBLOBGUI    (XMLEle *root, char errmsg[]);
       
    /* Setup the 'set' button in the property */
-    void setupSetButton(QString caption);
+    void setupSetButton(const QString &caption);
     
    /* Turn a switch on */
-    void activateSwitch(QString name);
+    void activateSwitch(const QString &name);
     
     public slots:
     void newText();

@@ -52,7 +52,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
-						float m=0.0, QString n="", QString n2="", QString lname="" );
+						float m=0.0, QString n=QString(), QString n2=QString(), QString lname=QString() );
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in data type of RA and Dec.
@@ -65,7 +65,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t, double r, double d, float m=0.0,
-						QString n="", QString n2="", QString lname="" );
+						QString n=QString(), QString n2=QString(), QString lname=QString() );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -108,7 +108,7 @@ public:
 /**Set the object's secondary name.
 	*@param name2 the object's secondary name.
 	*/
-	void setName2( const QString &name2="" );
+	void setName2( const QString &name2=QString() );
 
 /**@return object's common (long) name
 	*/
@@ -121,7 +121,7 @@ public:
 /**Set the object's long name.
 	*@param longname the object's long name.
 	*/
-	void setLongName( const QString &longname="" );
+	void setLongName( const QString &longname=QString() );
 
 /**@return object's type identifier (int)
 	*@see enum TYPE

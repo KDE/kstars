@@ -53,22 +53,22 @@ class DeviceManager : public QObject
    void sendNewText    (INDI_P *pp);
    void sendNewNumber  (INDI_P *pp);
    void sendNewSwitch  (INDI_P *pp, int index);
-   void startBlob (QString devName, QString propName, QString timestamp);
-   void sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer);
+   void startBlob (const QString &devName, const QString &propName, const QString &timestamp);
+   void sendOneBlob(const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer);
    void finishBlob();
 
    /*****************************************************************
    * Misc.
    ******************************************************************/
    int  delPropertyCmd (XMLEle *root, char errmsg[]);
-   int  removeDevice   (QString devName, char errmsg[]);
-   INDI_D *  findDev   (QString devName, char errmsg[]);
+   int  removeDevice   (const QString &devName, char errmsg[]);
+   INDI_D *  findDev   (const QString &devName, char errmsg[]);
 
    int  messageCmd     (XMLEle *root, char errmsg[]);
    void checkMsg       (XMLEle *root, INDI_D *dp);
    void doMsg          (XMLEle *msg , INDI_D *dp);
 
-   bool indiConnect    (QString inHost, QString inPort);
+   bool indiConnect    (const QString &inHost, QString inPort);
 
   public slots:
    void dataReceived();

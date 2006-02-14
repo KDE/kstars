@@ -98,7 +98,7 @@ void DetailDialog::createGeneralTab()
 	StarObject *s = 0L;
 	DeepSkyObject *dso = 0L;
 	KSPlanetBase *ps = 0L;
-	QString pname(""), oname("");
+	QString pname, oname;
 
 	switch ( selectedObject->type() ) {
 	case 0: //stars
@@ -123,8 +123,8 @@ void DetailDialog::createGeneralTab()
 					KGlobal::locale()->formatNumber( s->distance(), 2 ) ) );
 
 		//Note multiplicity/variablility in angular size label
-		Data->AngSizeLabel->setText( "" );
-		Data->AngSize->setText( "" );
+		Data->AngSizeLabel->setText( QString() );
+		Data->AngSize->setText( QString() );
 		Data->AngSizeLabel->setFont( Data->AngSize->font() );
 		if ( s->isMultiple() && s->isVariable() ) {
 			Data->AngSizeLabel->setText( i18n( "the star is a multiple star", "multiple" ) + "," );
@@ -726,7 +726,7 @@ void  DetailDialog::viewADVData()
 	KToolInvocation::invokeBrowser(link);
 }
 
-QString DetailDialog::parseADVData(QString link)
+QString DetailDialog::parseADVData( const QString &link )
 {
 	QString subLink;
 	int index;
@@ -926,7 +926,7 @@ void DetailDialog::showThumbnail() {
 	//If no image found, load "no image" image
 	//If that isn't found, make it blank.
 	QFile file;
-	QString fname = "thumb-" + selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png";
+	QString fname = "thumb-" + selectedObject->name().lower().replace( QRegExp(" "), QString() ) + ".png";
 	if ( KSUtils::openDataFile( file, fname ) ) {
 		file.close();
 		Thumbnail->load( file.name(), "PNG" );
@@ -946,7 +946,7 @@ void DetailDialog::updateThumbnail() {
 	
 	if ( tp.exec() == QDialog::Accepted ) {
 		QString fname = locateLocal( "appdata", "thumb-" 
-				+ selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png" );
+				+ selectedObject->name().lower().replace( QRegExp(" "), QString() ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
 

@@ -63,12 +63,12 @@ public:
 		*@param n1 IAU name of one bounding constellation
 		*@param n2 IAU name of the other bounding constellation
 		*/
-	bool setNames( QString n1, QString n2 );
+	bool setNames( const QString &n1, const QString &n2 );
 	
 	/**Determine if a given constellation borders this boundary segment
 		*@param cname the IAU code of the constellation to be tested.
 		*/
-	bool borders( QString cname );
+	bool borders( const QString &cname );
 
 	/**@return reference to the list of nodes*/
 	QList<SkyPoint*>& nodes() { return Nodes; }

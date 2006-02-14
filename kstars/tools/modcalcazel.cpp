@@ -171,7 +171,7 @@ void modCalcAzel::slotClearCoords()
 	decBox->clearFields();
 	azBox->clearFields();
 	elBox->clearFields();
-	epochName->setText("");
+	epochName->setText(QString());
 
 	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(QTime(0,0,0));
@@ -324,7 +324,7 @@ void modCalcAzel::slotRunBatch() {
 		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = "";
+			inputFileName = QString();
 			return;
 		}
 
@@ -336,7 +336,7 @@ void modCalcAzel::slotRunBatch() {
 	} else  {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = "";
+		inputFileName = QString();
 		InputLineEditBatch->setText( inputFileName );
 		return;
 	}

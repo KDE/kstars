@@ -36,7 +36,7 @@ KSPlanet::OrbitDataManager::OrbitDataManager() {
 //EMPTY
 }
 
-bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
+bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname,
 		QVector<OrbitData> *vector) {
 	QString line;
 	QFile f;

@@ -79,7 +79,7 @@ DeviceManager::~DeviceManager()
 	while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 }
 
-bool DeviceManager::indiConnect(QString inHost, QString inPort)
+bool DeviceManager::indiConnect( const QString &inHost, const QString &inPort )
 {
         host = inHost;
 	port = inPort;
@@ -256,7 +256,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 
 }
 
-int DeviceManager::removeDevice(QString devName, char errmsg[])
+int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
 {
 
     // remove all devices if devName == NULL
@@ -280,7 +280,7 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
    return -1;
 }
 
-INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
+INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
 {
 	/* search for existing */
 	for (int i = 0; i < indi_dev.size(); i++)
@@ -318,7 +318,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	emit newDevice();
 	
 	// Reset label
-	parent->currentLabel = "";
+	parent->currentLabel = QString();
 	
        /* ok */
 	return dp;
@@ -474,7 +474,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	
 }
 
-void DeviceManager::startBlob (QString devName, QString propName, QString timestamp)
+void DeviceManager::startBlob( const QString &devName, const QString &propName, const QString &timestamp)
 {
 
    fprintf (serverFP, "<newBLOBVector\n");
@@ -484,7 +484,7 @@ void DeviceManager::startBlob (QString devName, QString propName, QString timest
 
 }
 
-void DeviceManager::sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer)
+void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer)
 {
 
  fprintf (serverFP, "  <oneBLOB\n");

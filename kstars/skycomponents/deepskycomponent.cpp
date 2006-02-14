@@ -77,7 +77,7 @@ void DeepSkyComponent::init(KStarsData *data)
 				else if ( iflag == 'N' ) cat = "NGC";
 
 				ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
-				if ( ingc==0 ) cat = ""; //object is not in NGC or IC catalogs
+				if ( ingc==0 ) cat = QString(); //object is not in NGC or IC catalogs
 
 				//coordinates
 				rah = line.mid( 6, 2 ).toInt();
@@ -117,7 +117,7 @@ void DeepSkyComponent::init(KStarsData *data)
 				//Messier number
 				if ( line.mid( 70,1 ) == "M" ) {
 					cat2 = cat;
-					if ( ingc==0 ) cat2 = "";
+					if ( ingc==0 ) cat2 = QString();
 					cat = "M";
 					imess = line.mid( 72, 3 ).toInt();
 				}
@@ -144,7 +144,7 @@ void DeepSkyComponent::init(KStarsData *data)
 						snum.setNum( ingc );
 						name2 = cat2 + " " + snum;
 					} else {
-						name2 = "";
+						name2 = QString();
 					}
 				} else {
 					if ( longname.isEmpty() ) name = i18n( "Unnamed Object" );

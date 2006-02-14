@@ -142,7 +142,7 @@ public:
 		*@return true if location successfully parsed; otherwise false.
 		*@see KStarsData::readCityData()
 		*/
-	bool processCity( QString& line );
+	bool processCity( const QString& line );
 
 	/**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
 		*@li 0-8 AAVSO Star Designation
@@ -190,14 +190,14 @@ public:
 		*@short Read in image and information URLs.
 		*@return true if data files were successfully read.
 		*/
-	bool readURLData( QString url, int type=0, bool deepOnly=false );
+	bool readURLData( const QString &url, int type=0, bool deepOnly=false );
 
 	/**@short open a file containing URL links.
 		*@param urlfile string representation of the filename to open
 		*@param file reference to the QFile object which will be opened to this file.
 		*@return TRUE if file successfully opened. 
 		*/
-	bool openURLFile(QString urlfile, QFile& file);
+	bool openURLFile(const QString &urlfile, QFile& file);
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend
@@ -421,7 +421,7 @@ private:
 	*@param required if TRUE, then the error message is more severe, and the program 
 	*exits when the messagebox is closed.
 	*/
-	void initError(QString fn, bool required);
+	void initError(const QString &fn, bool required);
 
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().

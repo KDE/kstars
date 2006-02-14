@@ -27,7 +27,7 @@ class QVBoxLayout;
 class INDI_G
 {
   public:
-  INDI_G(INDI_D *parentDevice, QString inName);
+  INDI_G(INDI_D *parentDevice, const QString &inName);
   ~INDI_G();
 
   QString       name;			/* Group name */

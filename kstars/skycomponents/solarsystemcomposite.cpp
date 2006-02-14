@@ -37,7 +37,7 @@
 SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
   : SkyComposite(parent)
 {
-	Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), "", 12756.28 /*diameter in km*/ );
+	Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), 12756.28 /*diameter in km*/ );
 
 	//FIXME: KSSun and KSPluto ctors doesn't need filename and diameter args!
 	addComponent( new SolarSystemSingleComponent( this, new KSSun(data), Options::showSun, 8 ) );

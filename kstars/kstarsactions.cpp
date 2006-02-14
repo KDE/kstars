@@ -958,12 +958,12 @@ void KStars::slotShowGUIItem( bool show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertPermanentFixedItem( s, 1 );
 			statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
-			statusBar()->changeItem( "", 1 );
+			statusBar()->changeItem( QString(), 1 );
 
 			if ( Options::showRADecField() ) {
 				statusBar()->insertPermanentFixedItem( s, 2 );
 				statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-				statusBar()->changeItem( "", 2 );
+				statusBar()->changeItem( QString(), 2 );
 			}
 		} else {
 			statusBar()->removeItem( 1 );
@@ -976,7 +976,7 @@ void KStars::slotShowGUIItem( bool show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertPermanentFixedItem( s, 2 );
 			statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-			statusBar()->changeItem( "", 2 );
+			statusBar()->changeItem( QString(), 2 );
 		} else {
 			statusBar()->removeItem( 2 );
 		}
@@ -994,12 +994,12 @@ void KStars::slotShowGUIItem( bool show ) {
 		Options::setShowFocusBox( show );
 }
 
-void KStars::addColorMenuItem( QString name, QString actionName ) {
+void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
 	colorActionMenu->insert( new KAction( name, 0,
 			this, SLOT( slotColorScheme() ), actionCollection(), actionName.local8Bit() ) );
 }
 
-void KStars::removeColorMenuItem( QString actionName ) {
+void KStars::removeColorMenuItem( const QString &actionName ) {
 	kDebug() << "removing " << actionName << endl;
 	colorActionMenu->remove( actionCollection()->action( actionName.ascii() ) );
 }

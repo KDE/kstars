@@ -94,7 +94,7 @@ class INDI_E : public QObject
 {
  Q_OBJECT
  public:
-  INDI_E(INDI_P *parentProperty, QString inName, QString inLabel);
+  INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel);
   ~INDI_E();
     QString name;			/*  name */
     QString label;			/* label is the name by default, unless specefied */
@@ -121,7 +121,7 @@ class INDI_E : public QObject
     QString text;			// current text
     QString format;			// number format, if applicable
     
-   int buildTextGUI    (QString initText);
+   int buildTextGUI    (const QString &initText);
    int buildNumberGUI  (double initValue);
    int buildLightGUI();
    int buildBLOBGUI();

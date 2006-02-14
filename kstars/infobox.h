@@ -50,7 +50,7 @@ public:
 		*@param t2 The second line of text
 		*@param t3 The third line of text
 		*/
-	InfoBox( int x, int y, bool shade, QString t1="", QString t2="", QString t3="" );
+	InfoBox( int x, int y, bool shade, const QString &t1=QString(), const QString &t2=QString(), const QString &t3=QString() );
 	
 	/**General constructor.  Specify The text string, x,y position and size.
 		*This behaves just like the above function.  It differs only in the data types
@@ -61,7 +61,7 @@ public:
 		*@param t2 The second line of text
 		*@param t3 The third line of text
 		*/
-	InfoBox( QPoint p, bool shade, QString t1="", QString t2="", QString t3="" );
+	InfoBox( QPoint p, bool shade, const QString &t1=QString(), const QString &t2=QString(), const QString &t3=QString() );
 
 	/**Destructor (empty)*/
 	~InfoBox();

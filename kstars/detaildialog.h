@@ -196,7 +196,7 @@ private:
 /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
 	*This function parses advinterface.dat.
 	*/
-	QString parseADVData(QString link);
+	QString parseADVData( const QString &link );
 	
 
 	SkyObject *selectedObject;

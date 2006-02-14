@@ -177,7 +177,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 	
 	QList<SkyPoint*> p1List, p2List;
 	QStringList name1List, name2List;
-	QString abbrev("");
+	QString abbrev;
 
 	double pdc = p->dec()->Degrees();
 	double pra(0.0); //defined in the loop, because we may modify it there

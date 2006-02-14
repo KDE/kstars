@@ -29,7 +29,7 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ), "", QColor("white"), 3474.8 /*diameter in km*/ ) 
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ ) 
 {}
 
 KSMoon::~KSMoon() {

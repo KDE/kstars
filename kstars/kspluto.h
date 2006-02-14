@@ -49,7 +49,7 @@ public:
 	*@param fn filename of Pluto's image
 	*@param pSize physical diameter of Pluto, in km
 	*/
-	KSPluto(KStarsData *kd, QString fn="", double pSize=0);
+	KSPluto(KStarsData *kd, const QString &fn=QString(), double pSize=0);
 
 /**Destructor (empty) */
 	virtual ~KSPluto();

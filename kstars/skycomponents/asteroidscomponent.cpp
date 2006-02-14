@@ -104,7 +104,7 @@ void AsteroidsComponent::init(KStarsData *data)
 
 			JD = double( mJD ) + 2400000.5;
 
-			ast = new KSAsteroid( data, name, "", JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
+			ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
 			ast->setAngularSize( 0.005 );
 			objectList().append( ast );
 

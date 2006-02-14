@@ -53,7 +53,7 @@
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
+INDI_P::INDI_P(INDI_G *parentGroup, const QString &inName)
 {
   name = inName;
 
@@ -87,7 +87,7 @@ INDI_P::~INDI_P()
   delete (groupB);
 }
 
-bool INDI_P::isOn(QString component)
+bool INDI_P::isOn(const QString &component)
 {
 
   INDI_E *lp;
@@ -105,7 +105,7 @@ bool INDI_P::isOn(QString component)
   return false;
 }
 
-INDI_E * INDI_P::findElement(QString elementName)
+INDI_E * INDI_P::findElement(const QString &elementName)
 {
   for ( int i=0; i < el.size(); ++i )
     if (el[i]->name == elementName || el[i]->label == elementName)
@@ -594,7 +594,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 }
 
 
-void INDI_P::setupSetButton(QString caption)
+void INDI_P::setupSetButton(const QString &caption)
 {
 	set_w = new QPushButton(caption, pg->propertyContainer);
 	set_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
@@ -905,7 +905,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
 	 
 }
 
-void INDI_P::activateSwitch(QString name)
+void INDI_P::activateSwitch(const QString &name)
 {
   int iCounter = 0;
 

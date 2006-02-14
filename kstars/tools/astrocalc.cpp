@@ -152,7 +152,7 @@ void AstroCalc::genTimeText(void)
 {
 
 	delRightPanel();
-	splashScreen = new QTextEdit ("",split);
+	splashScreen = new QTextEdit (QString(),split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -179,7 +179,7 @@ void AstroCalc::genTimeText(void)
 void AstroCalc::genCoordText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextEdit ("",split);
+	splashScreen = new QTextEdit (QString(),split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -215,7 +215,7 @@ void AstroCalc::genCoordText(void)
 void AstroCalc::genGeodText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextEdit ("",split);
+	splashScreen = new QTextEdit (QString(),split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -234,7 +234,7 @@ void AstroCalc::genGeodText(void)
 void AstroCalc::genSolarText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextEdit ("",split);
+	splashScreen = new QTextEdit (QString(),split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();

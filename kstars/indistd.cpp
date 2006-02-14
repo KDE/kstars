@@ -96,7 +96,7 @@
    delete (seqLister);
  }
  
-void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat)
 {
 
   if (dataFormat == ".fits") dataType = DATA_FITS;

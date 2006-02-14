@@ -58,7 +58,7 @@ public:
 	void activateAzAltPage();
 	long double epochToJd (double epoch);
 
-	double getEpoch (QString eName);
+	double getEpoch (const QString &eName);
 
 public slots:
 	/**If text has been entered in both KLineEdits, enable the Ok button. */

@@ -899,8 +899,8 @@ void ScriptBuilder::slotNew() {
 		sb->RemoveButton->setEnabled( false );
 		sb->RunButton->setEnabled( false );
 
-		currentFileURL = "";
-		currentScriptName = "";
+		currentFileURL = QString();
+		currentScriptName = QString();
 	}
 }
 
@@ -933,7 +933,7 @@ void ScriptBuilder::slotOpen() {
 			if ( !f.open( QIODevice::ReadOnly) ) {
 				QString message = i18n( "Could not open file %1." ).arg( f.name() );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-				currentFileURL = "";
+				currentFileURL = QString();
 				return;
 			}
 
@@ -944,7 +944,7 @@ void ScriptBuilder::slotOpen() {
 		} else if ( ! currentFileURL.url().isEmpty() ) {
 			QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
 			KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-			currentFileURL = "";
+			currentFileURL = QString();
 		}
 	}
 }
@@ -993,7 +993,7 @@ void ScriptBuilder::slotSave() {
 		if ( !f.open( QIODevice::WriteOnly) ) {
 			QString message = i18n( "Could not open file %1." ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			currentFileURL = "";
+			currentFileURL = QString();
 			return;
 		}
 
@@ -1016,13 +1016,13 @@ void ScriptBuilder::slotSave() {
 	} else {
 		QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-		currentFileURL = "";
+		currentFileURL = QString();
 	}
 }
 
 void ScriptBuilder::slotSaveAs() {
-	currentFileURL = "";
-	currentScriptName = "";
+	currentFileURL = QString();
+	currentScriptName = QString();
 	slotSave();
 }
 
@@ -1059,7 +1059,7 @@ void ScriptBuilder::slotRunScript() {
 	if ( !f.open( QIODevice::WriteOnly) ) {
 		QString message = i18n( "Could not open file %1." ).arg( f.name() );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-		currentFileURL = "";
+		currentFileURL = QString();
 		return;
 	}
 
@@ -1221,7 +1221,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 		if ( fn[0] == sf->name() ) {
 
 			if ( fn[0] == "setGeoLocation" ) {
-				QString city( fn[1] ), prov( "" ), cntry( fn[2] );
+				QString city( fn[1] ), prov( QString() ), cntry( fn[2] );
 				if ( fn.count() == 4 ) { prov = fn[2]; cntry = fn[3]; }
 				if ( fn.count() == 3 || fn.count() == 4 ) {
 					ScriptList.append( new ScriptFunction( sf ) );
@@ -1510,7 +1510,7 @@ void ScriptBuilder::slotArgWidget() {
 			sb->ArgStack->setCurrentWidget( argWaitForKey );
 			if ( sf->argVal(0).length()==1 || sf->argVal(0).lower() == "space" )
 				argWaitForKey->WaitKeyEdit->setText( sf->argVal(0) );
-			else argWaitForKey->WaitKeyEdit->setText( "" );
+			else argWaitForKey->WaitKeyEdit->setText( QString() );
 
 		} else if ( sf->name() == "setTracking" ) {
 			sb->ArgStack->setCurrentWidget( argSetTracking );
@@ -2057,7 +2057,7 @@ void ScriptBuilder::slotRa() {
 			if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
 
 		} else {
-			sf->setArg( 0, "" );
+			sf->setArg( 0, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2081,7 +2081,7 @@ void ScriptBuilder::slotDec() {
 			if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 
 		} else {
-			sf->setArg( 1, "" );
+			sf->setArg( 1, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2103,7 +2103,7 @@ void ScriptBuilder::slotAz() {
 			sf->setArg( 1, QString( "%1" ).arg( az.Degrees() ) );
 			if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 		} else {
-			sf->setArg( 1, "" );
+			sf->setArg( 1, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2126,7 +2126,7 @@ void ScriptBuilder::slotAlt() {
 			sf->setArg( 0, QString( "%1" ).arg( alt.Degrees() ) );
 			if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
 		} else {
-			sf->setArg( 0, "" );
+			sf->setArg( 0, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2253,7 +2253,7 @@ void ScriptBuilder::slotChangeCity() {
 			sf->setArg( 0, city );
 			if ( sf->argVal(2).length() ) sf->setValid( true );
 		} else {
-			sf->setArg( 0, "" );
+			sf->setArg( 0, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2273,7 +2273,7 @@ void ScriptBuilder::slotChangeProvince() {
 			sf->setArg( 1, province );
 			if ( sf->argVal(0).length() && sf->argVal(2).length() ) sf->setValid( true );
 		} else {
-			sf->setArg( 1, "" );
+			sf->setArg( 1, QString() );
 			//might not be invalid
 		}
 	} else {
@@ -2293,7 +2293,7 @@ void ScriptBuilder::slotChangeCountry() {
 			sf->setArg( 2, country );
 			if ( sf->argVal(0).length() ) sf->setValid( true );
 		} else {
-			sf->setArg( 2, "" );
+			sf->setArg( 2, QString() );
 			sf->setValid( false );
 		}
 	} else {
@@ -2635,7 +2635,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
       else sf->setValid(false);
 
     } else {
-      sf->setArg( 1, "" );
+      sf->setArg( 1, QString() );
       sf->setValid( false );
     }
   } else {
@@ -2668,7 +2668,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
       else sf->setValid(false);
       
     } else {
-      sf->setArg( 2, "" );
+      sf->setArg( 2, QString() );
       sf->setValid( false );
     }
   } else {
@@ -3027,7 +3027,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
       else sf->setValid(false);
 
     } else {
-      sf->setArg( 1, "" );
+      sf->setArg( 1, QString() );
       sf->setValid( false );
     }
   } else {
@@ -3060,7 +3060,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
       else sf->setValid(false);
       
     } else {
-      sf->setArg( 2, "" );
+      sf->setArg( 2, QString() );
       sf->setValid( false );
     }
   } else {

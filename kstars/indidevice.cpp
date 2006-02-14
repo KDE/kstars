@@ -86,7 +86,7 @@ const char * indi_std[NINDI_STD] =
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inName, QString inLabel) 
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel) 
 {
   name      = inName;
   label     = inLabel;
@@ -642,7 +642,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	return (pp);
 }
 
-INDI_P * INDI_D::findProp (QString name)
+INDI_P * INDI_D::findProp (const QString &name)
 {
   for (int i = 0; i < gl.size(); i++)
     for (int j = 0; j < gl[i]->pl.size(); j++)
@@ -652,7 +652,7 @@ INDI_P * INDI_D::findProp (QString name)
   return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
+INDI_G *  INDI_D::findGroup (const QString &grouptag, int create, char errmsg[])
 {
 
   for ( int i=0; i < gl.size(); ++i ) {
@@ -964,7 +964,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
   return (0);
 }
 
-INDI_E * INDI_D::findElem(QString name)
+INDI_E * INDI_D::findElem(const QString &name)
 {
   INDI_G *grp;
   INDI_P *prop;

@@ -28,12 +28,12 @@ class ScriptFunction
 {
 public:
 	ScriptFunction( QString name, QString desc, bool clockfcn=false,
-			QString at1="", QString an1="",
-			QString at2="", QString an2="",
-			QString at3="", QString an3="",
-			QString at4="", QString an4="",
-			QString at5="", QString an5="",
-			QString at6="", QString an6=""
+			QString at1=QString(), QString an1=QString(),
+			QString at2=QString(), QString an2=QString(),
+			QString at3=QString(), QString an3=QString(),
+			QString at4=QString(), QString an4=QString(),
+			QString at5=QString(), QString an5=QString(),
+			QString at6=QString(), QString an6=QString()
 	);
 	ScriptFunction( ScriptFunction *sf );
 	~ScriptFunction();

@@ -85,7 +85,7 @@ public:
 	/**
 	* Clears all entries.
 	*/
-	void clearFields (void) { setEntry(""); }
+	void clearFields (void) { setEntry(QString()); }
 
 private:
 	bool timet;

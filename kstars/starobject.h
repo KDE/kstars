@@ -61,8 +61,8 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, QString n="",
-				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
+	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, QString n=QString(),
+				QString n2=QString(), QString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 /**
 	*Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
@@ -79,8 +79,8 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( double r, double d, float m=0.0, QString n="",
-				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
+	StarObject( double r, double d, float m=0.0, QString n=QString(),
+				QString n2=QString(), QString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 
 /**

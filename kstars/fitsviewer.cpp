@@ -116,11 +116,11 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     image = new FITSImage(this);
     setCentralWidget(image);
    
-    statusBar()->insertItem("", 0);
+    statusBar()->insertItem(QString(), 0);
     statusBar()->setItemFixed(0, 100);
-    statusBar()->insertItem("", 1);
+    statusBar()->insertItem(QString(), 1);
     statusBar()->setItemFixed(1, 100);
-    statusBar()->insertItem("", 2);
+    statusBar()->insertItem(QString(), 2);
     statusBar()->setItemFixed(2, 100);
     statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), 3, 1);
     statusBar()->setItemAlignment(3 , Qt::AlignLeft);
@@ -707,7 +707,7 @@ void FITSViewer::fileSave()
 void FITSViewer::fileSaveAs()
 {
   
-  currentURL = "";
+  currentURL = QString();
   fileSave();
 }
 
@@ -924,7 +924,7 @@ void FITSViewer::fitsHeader()
 	       if (equal == -1)
 	       {
 	        if (property.contains(" ") != FITS_CARD_SIZE)
-	         	cards << property << "" << "";
+	         	cards << property << QString() << QString();
 		 recordList.remove(0, FITS_CARD_SIZE);
 		 if (property.find("END") != -1)
 		  break;

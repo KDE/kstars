@@ -39,7 +39,7 @@ StarObject::StarObject( StarObject &o )
 
 StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sptype,
 		double pmra, double pmdec, double par, bool mult, bool var )
-	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+	: SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
 	QString lname;
@@ -59,7 +59,7 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 
 StarObject::StarObject( double r, double d, float m, QString n, QString n2, QString sptype,
 		double pmra, double pmdec, double par, bool mult, bool var )
-	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+	: SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
 	QString lname;
@@ -220,7 +220,7 @@ QString StarObject::constell( void ) const {
 	if ( code == "Vol" ) return QString("Volantis");
 	if ( code == "Vul" ) return QString("Vulpeculae");
 
-	return QString("");
+	return QString();
 }
 
 QColor StarObject::color() const {

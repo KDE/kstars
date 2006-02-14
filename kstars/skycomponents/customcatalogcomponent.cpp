@@ -175,9 +175,9 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 	bool foundDataColumns( false ); //set to true if description of data columns found
 	int ncol( 0 );
 
-	m_catName = "";
-	m_catPrefix = "";
-	m_catColor = "";
+	m_catName = QString();
+	m_catPrefix = QString();
+	m_catColor = QString();
 	m_catEpoch = 0.;
 	int i=0;
 	for ( ; i < lines.size(); ++i ) {
@@ -234,7 +234,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 			}
 		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
 			//Chomp off leading "#" character
-			d = d.replace( QRegExp( "#" ), "" );
+			d = d.replace( QRegExp( "#" ), QString() );
 
 			QStringList fields = QStringList::split( " ", d ); //split on whitespace
 
@@ -319,7 +319,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 	unsigned char iType(0);
 	dms RA, Dec;
 	float mag(0.0), a(0.0), b(0.0), PA(0.0);
-	QString name(""); QString lname("");
+	QString name, lname;
 
 	for ( int i=0; i<Columns.size(); i++ ) {
 		if ( Columns.at(i) == "ID" ) 
@@ -415,7 +415,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 		objectList().append( o );
 	} else { //Add a deep-sky object
 		DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, 
-					name, "", lname, m_catPrefix, a, b, PA );
+					name, QString(), lname, m_catPrefix, a, b, PA );
 		objectList().append( o );
 
 		//Add name to the list of object names

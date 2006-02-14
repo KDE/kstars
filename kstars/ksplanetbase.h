@@ -82,7 +82,7 @@ public:
 	*
 	*@todo Figure out what @p kd does.
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", const QColor &c=Qt::white, double pSize=0 );
+	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file=QString(), const QColor &c=Qt::white, double pSize=0 );
 
 /**
 	*Destructor (empty)

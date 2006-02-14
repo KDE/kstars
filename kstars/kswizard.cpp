@@ -51,8 +51,8 @@ KSWizard::KSWizard( QWidget *parent )
  : KDialogBase( KDialogBase::Plain, i18n("KStars Startup Wizard"), 
 		KDialogBase::User1|KDialogBase::User2|KDialogBase::Ok|KDialogBase::Cancel, 
 		KDialogBase::User1, parent, 0, true, true, 
-		KGuiItem( i18n("&Next") + QString(" >"), "", i18n("Go to next Wizard page") ),
-		KGuiItem( QString("< ") + i18n("&Back"), "", i18n("Go to previous Wizard page") ) )
+		KGuiItem( i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page") ),
+		KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) )
 {
 	ksw = (KStars *)parent;
 	GeoID.resize(10000);
@@ -191,7 +191,7 @@ void KSWizard::slotFilterCities() {
 	foreach ( GeoLocation *loc, ksw->data()->geoList ) {
 		QString sc( loc->translatedName() );
 		QString ss( loc->translatedCountry() );
-		QString sp = "";
+		QString sp;
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 

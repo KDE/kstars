@@ -67,7 +67,7 @@ INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase
  
 // mgr.setAutoDelete(true);
 
- currentLabel = "";
+ currentLabel = QString();
 
  resize( 640, 480);
 }
@@ -152,7 +152,7 @@ DeviceManager *dev;
 
   }
 
-int INDIMenu::processClient(QString hostname, QString portnumber)
+int INDIMenu::processClient(const QString &hostname, const QString &portnumber)
 {
 
   DeviceManager *dev;
@@ -190,7 +190,7 @@ void INDIMenu::removeDeviceMgr(int mgrID)
   }
 }
 
-INDI_D * INDIMenu::findDevice(QString deviceName)
+INDI_D * INDIMenu::findDevice(const QString &deviceName)
 {
   for (int i=0; i < mgr.size(); i++)
     for (int j=0; j < mgr[i]->indi_dev.size(); j++)
@@ -200,7 +200,7 @@ INDI_D * INDIMenu::findDevice(QString deviceName)
   return NULL;
 }
 
-INDI_D * INDIMenu::findDeviceByLabel(QString label)
+INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
 {
   for (int i=0; i < mgr.size(); i++)
     for (int j=0; j < mgr[i]->indi_dev.size(); j++)
@@ -211,7 +211,7 @@ INDI_D * INDIMenu::findDeviceByLabel(QString label)
 }
 
 
-void INDIMenu::setCustomLabel(QString deviceName)
+void INDIMenu::setCustomLabel(const QString &deviceName)
 {
   int nset=0;
 

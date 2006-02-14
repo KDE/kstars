@@ -25,13 +25,13 @@
 
 #include "fov.h"
 
-FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
+FOV::FOV( const QString &n, float sz, int sh, const QString &col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
 {}
 
 FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), Size( 0.0 ), Shape( 0 )
 {}
 
-FOV::FOV( QString sname ) {
+FOV::FOV( const QString &sname ) {
 	QFile f;
 	f.setName( locate( "appdata", "fov.dat" ) );
 	

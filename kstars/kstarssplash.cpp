@@ -91,7 +91,7 @@ void KStarsSplash::closeEvent( QCloseEvent *e ) {
 	emit closeWindow();
 }
 
-void KStarsSplash::setMessage( QString s ) {
+void KStarsSplash::setMessage( const QString &s ) {
 	textCurrentStatus->setText( s );
 	repaint();  // repaint splash screen
 /**

@@ -113,9 +113,9 @@ QTime timeBox::createTime ( bool *ok )
 		// ignore all after 3rd field
 
 		if ( fields.count() >= 3 ) {
-			fields[0].replace( QRegExp("h"), "" );
-			fields[1].replace( QRegExp("m"), "" );
-			fields[2].replace( QRegExp("s"), "" );
+			fields[0].replace( QRegExp("h"), QString() );
+			fields[1].replace( QRegExp("m"), QString() );
+			fields[2].replace( QRegExp("s"), QString() );
 		}
 		//See if first two fields parse as integers.
 		//

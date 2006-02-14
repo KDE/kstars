@@ -80,7 +80,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*
 		* @todo Refer to documentation on date format.
 		*/
-		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = "" );
+		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = QString() );
 
 	/**Destructor.  Synchs config file.  Deletes objects.
 		*/
@@ -124,12 +124,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param name The name to use in the menu
 		*@param actionName The internal name for the action (derived from filename)
 		*/
-		void addColorMenuItem( QString name, QString actionName );
+		void addColorMenuItem( const QString &name, const QString &actionName );
 
 	/**Remove an item from the color-scheme action manu
 		*@param actionName The internal name of the action (derived from filename)
 		*/
-		void removeColorMenuItem( QString actionName );
+		void removeColorMenuItem( const QString &actionName );
 
 	/**DCOP interface function.  
 		*Set focus to given Ra/Dec coordinates 
@@ -222,7 +222,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param y y-coordinate for message window
 		*@param message the text to display in the message window
 		*/
-		ASYNC popupMessage( int x, int y, const QString message );
+		ASYNC popupMessage( int x, int y, const QString &message );
 
 	/**DCOP interface function.  Draw a line on the sky map. 
 		*@note Not Yet Implemented
@@ -239,7 +239,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param province the province name of the location
 		*@param country the country name of the location
 		*/
-		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
+		ASYNC setGeoLocation( const QString &city, const QString &province, const QString &country );
 
 	/**DCOP interface function.  Modify a color. 
 		*@param colorName the name of the color to be modified (e.g., "SkyColor")
@@ -269,49 +269,49 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param driverName the name of the driver to be established
 		*@param useLocal establish driver locally?
 		*/
-		ASYNC startINDI (QString driverName, bool useLocal);
+		ASYNC startINDI (const QString &driverName, bool useLocal);
 		
 	/**DCOP interface function. Shutdown an INDI driver. 
 		*@param driverName the name of the driver to be shut down
 		*/
-		ASYNC shutdownINDI (QString driverName);
+		ASYNC shutdownINDI (const QString &driverName);
 		
 	/**DCOP interface function.  Turn INDI driver on/off. 
 		*@param driverName the name of the driver to be switched on/off
 		*@param turnOn if true, turn driver on; otherwise turn off
 		*/
-		ASYNC switchINDI(QString driverName, bool turnOn);
+		ASYNC switchINDI(const QString &driverName, bool turnOn);
 	
 	/**DCOP interface function.  Set INDI connection port. 
 		*@param driverName the name of the driver for which the port will be set
 		*@param port the port identifier
 		*/
-		ASYNC setINDIPort(QString driverName, QString port);
+		ASYNC setINDIPort(const QString &driverName, QString port);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC coordinates
 		*@param driverName the name of the driver 
 		*@param RA the target's Right Ascension coordinate (in Hours) 
 		*@param DEC the target's Declination coordinate (in Degrees) 
 		*/
-		ASYNC setINDITargetCoord(QString driverName, double RA, double DEC);
+		ASYNC setINDITargetCoord(const QString &driverName, double RA, double DEC);
 	
 	/**DCOP interface function.  Set INDI target to a named object. 
 		*@param driverName the name of the driver 
 		*@param objectName the name of the object to be targeted
 		*/
-		ASYNC setINDITargetName(QString driverName, QString objectName);
+		ASYNC setINDITargetName(const QString &driverName, const QString &objectName);
 	
 	/**DCOP interface function.  Set INDI action. 
 		*@param driverName the name of the driver 
 		*@param action the action to set
 		*/
-		ASYNC setINDIAction(QString driverName, QString action);
+		ASYNC setINDIAction(const QString &driverName, QString action);
 	
 	/**DCOP interface function.  Pause DCOP execution until named INDI action is completed. 
 		*@param driverName the name of the driver 
 		*@param action the action which is to be completed before resuming DCOP execution
 		*/
-		ASYNC waitForINDIAction(QString driverName, QString action);
+		ASYNC waitForINDIAction(const QString &driverName, const QString &action);
 	
 	/**DCOP interface function.  Set INDI focus speed. 
 		*@param driverName the name of the driver 
@@ -319,62 +319,62 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*
 		* @todo document units for speed
 		*/
-		ASYNC setINDIFocusSpeed(QString driverName,unsigned int speed);
+		ASYNC setINDIFocusSpeed(const QString &driverName,unsigned int speed);
 	
 	/**DCOP interface function.  Set INDI focus direction and focus. 
 		*@param driverName the name of the driver 
 		*@param focusDir 0 = focus in; 1 = focus out
 		*/
-		ASYNC startINDIFocus(QString driverName, int focusDir);
+		ASYNC startINDIFocus(const QString &driverName, int focusDir);
 	
 	/**DCOP interface function.  Set INDI geographical information. 
 		*@param driverName the name of the driver 
 		*@param longitude the longitude to set, in Degrees
 		*@param latitude the latitude to set, in Degrees
 		*/
-		ASYNC setINDIGeoLocation(QString driverName, double longitude, double latitude);
+		ASYNC setINDIGeoLocation(const QString &driverName, double longitude, double latitude);
 	
 	/**DCOP interface function.  Sets focus operation timeout. 
 		*@param driverName the name of the driver 
 		*@param timeout the timeout interval, in seconds (?)
 		*/
-		ASYNC setINDIFocusTimeout(QString driverName, int timeout);
+		ASYNC setINDIFocusTimeout(const QString &driverName, int timeout);
 	
 	/**DCOP interface function.  Start camera exposure with a timeout. 
 		*@param driverName the name of the driver 
 		*@param timeout the exposure time, in seconds (?)
 		*/
-		ASYNC startINDIExposure(QString driverName, int timeout);
+		ASYNC startINDIExposure(const QString &driverName, int timeout);
 		
 	/**DCOP interface function.  Set INDI UTC date and time. 
 		*@param driverName the name of the driver 
 		*@param UTCDateTime the UTC date and time (e.g., "23 June 2004 12:30:00" ?)
 		*/
-		ASYNC setINDIUTC(QString driverName, QString UTCDateTime);
+		ASYNC setINDIUTC(const QString &driverName, const QString &UTCDateTime);
 	
 	/**DCOP interface function. Set INDI Telescope action. 
 		*@param deviceName the name of the telescope device 
 		*@param action the action to set
 		*/
-		ASYNC setINDIScopeAction(QString deviceName, QString action);
+		ASYNC setINDIScopeAction(const QString &deviceName, const QString &action);
 		
 	/**DCOP interface function. Set CCD camera frame type. 
 		*@param deviceName the name of the CCD device 
 		*@param type the frame type
 		*/
-		ASYNC setINDIFrameType(QString deviceName, QString type);
+		ASYNC setINDIFrameType(const QString &deviceName, const QString &type);
 		
 	/**DCOP interface function. Set CCD filter. 
 		*@param deviceName the name of the CCD device 
 		*@param filter_num identifier of the CCD filter
 		*/
-		ASYNC setINDIFilterNum(QString deviceName, int filter_num);
+		ASYNC setINDIFilterNum(const QString &deviceName, int filter_num);
 
 	/**DCOP interface function. Set CCD target temperature. 
 		*@param deviceName the name of the CCD device 
 		*@param temp the target CCD temperature (in Celsius ?)
 		*/
-		ASYNC setINDICCDTemp(QString deviceName, int temp);
+		ASYNC setINDICCDTemp(const QString &deviceName, int temp);
 		
 
 	/**@short Apply config options throughout the program.

@@ -56,7 +56,7 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+				const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude = lng;
 	Latitude = lat;
 	Name = name;

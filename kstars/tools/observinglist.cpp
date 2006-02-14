@@ -541,7 +541,7 @@ void ObservingList::slotOpenList() {
 
 		f.close();
 
-	} else if ( fileURL.path() != "" ) {
+	} else if ( fileURL.path() != QString() ) {
 		QString message = i18n( "The specified file is invalid.  Try another file?" );
 		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			slotOpenList();
@@ -571,7 +571,7 @@ void ObservingList::saveCurrentList() {
 void ObservingList::slotSaveListAs() {
 	bool ok(false);
 	ListName = KInputDialog::getText( i18n( "Enter List Name" ), 
-			i18n( "List name:" ), "", &ok );
+			i18n( "List name:" ), QString(), &ok );
 
 	if ( ok ) {
 		KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
@@ -594,7 +594,7 @@ void ObservingList::slotSaveList() {
 		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
 		
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
-			FileName == "";
+			FileName == QString();
 			slotSaveList();
 		}
 		return;

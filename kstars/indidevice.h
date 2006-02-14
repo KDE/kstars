@@ -75,7 +75,7 @@ class INDI_D : public KDialogBase
 {
  Q_OBJECT
   public:
-   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, QString inName, QString inLabel);
+   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, const QString &inName, const QString &inLabel);
    ~INDI_D();
 
     QString 	name;			/* device name */
@@ -123,9 +123,9 @@ class INDI_D : public KDialogBase
    /*****************************************************************
    * Find
    ******************************************************************/
-   INDI_P *   findProp    (QString name);
-   INDI_E *   findElem    (QString name);
-   INDI_G *   findGroup   (QString grouptag, int create, char errmsg[]);
+   INDI_P *   findProp    (const QString &name);
+   INDI_E *   findElem    (const QString &name);
+   INDI_G *   findGroup   (const QString &grouptag, int create, char errmsg[]);
    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, char errmsg[]);
 
    /*****************************************************************

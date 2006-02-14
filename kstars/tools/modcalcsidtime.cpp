@@ -192,7 +192,7 @@ void modCalcSidTime::slotRunBatch() {
 		if ( !f.open( QIODevice::ReadOnly) ) {
 			QString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = "";
+			inputFileName = QString();
 			return;
 		}
 
@@ -204,7 +204,7 @@ void modCalcSidTime::slotRunBatch() {
 	} else  {
 		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = "";
+		inputFileName = QString();
 		InputFileBoxBatch->setURL( inputFileName );
 		return;
 	}

@@ -52,7 +52,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Left:
 			if ( xc - xstep > -AUMAX ) {
 				setLimits( x() - xstep, x2() - xstep, y(), y2() );
-				pv->setCenterPlanet("");
+				pv->setCenterPlanet(QString());
 				update();
 			}
 			break;
@@ -60,7 +60,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Right:
 			if ( xc + xstep < AUMAX ) { 
 				setLimits( x() + xstep, x2() + xstep, y(), y2() );
-				pv->setCenterPlanet("");
+				pv->setCenterPlanet(QString());
 				update();
 			}
 			break;
@@ -68,7 +68,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Down:
 			if ( yc - ystep > -AUMAX ) {
 				setLimits( x(), x2(), y() - ystep, y2() - ystep );
-				pv->setCenterPlanet("");
+				pv->setCenterPlanet(QString());
 				update();
 			}
 			break;
@@ -76,7 +76,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Up:
 			if ( yc + ystep < AUMAX ) {
 				setLimits( x(), x2(), y() + ystep, y2() + ystep );
-				pv->setCenterPlanet("");
+				pv->setCenterPlanet(QString());
 				update();
 			}
 			break;
@@ -231,7 +231,7 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
 		update();
 	}
 
-	pv->setCenterPlanet( "" );
+	pv->setCenterPlanet( QString() );
 	for ( unsigned int i=0; i<9; ++i ) {
 		double dx = ( pv->planetObject(i)->point(0)->x() - xc )/xscale;
 		if ( dx < 4.0 ) {

@@ -50,9 +50,9 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 	Height = h;
 
 //Create infoboxes
-	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
-	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
-	FocusBox = new InfoBox( fx, fy, fshade, "", "", "" );
+	GeoBox   = new InfoBox( gx, gy, gshade, QString(), QString() );
+	TimeBox  = new InfoBox( tx, ty, tshade, QString(), QString(), QString() );
+	FocusBox = new InfoBox( fx, fy, fshade, QString(), QString(), QString() );
 
 	fixCollisions( TimeBox );
 	fixCollisions( FocusBox );
@@ -73,9 +73,9 @@ InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 	Height = h;
 
 //Create infoboxes
-	GeoBox   = new InfoBox( gx, gy, gshade, "", "" );
-	TimeBox  = new InfoBox( tx, ty, tshade, "", "", "" );
-	FocusBox = new InfoBox( fx, fy, fshade, "", "", "" );
+	GeoBox   = new InfoBox( gx, gy, gshade, QString(), QString() );
+	TimeBox  = new InfoBox( tx, ty, tshade, QString(), QString(), QString() );
+	FocusBox = new InfoBox( fx, fy, fshade, QString(), QString(), QString() );
 
 	fixCollisions( TimeBox );
 	fixCollisions( FocusBox );

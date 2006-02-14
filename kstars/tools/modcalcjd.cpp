@@ -89,8 +89,8 @@ void modCalcJD::computeFromJd (void)
 
 void modCalcJD::slotClearTime (void)
 {
-	JDBox->setText ("");
-	ModJDBox->setText ("");
+	JDBox->setText (QString());
+	ModJDBox->setText (QString());
 	DateTimeBox->setDateTime( ExtDateTime::currentDateTime() );
 }
 

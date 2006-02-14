@@ -241,7 +241,7 @@ void imagesequence::startSequence()
 	currentImgCountOUT->setText(QString("%1").arg(seqCurrentCount));
 
 	// Ok, now let's connect signals and slots for this device
-	connect(stdDevCCD, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(QString)));
+	connect(stdDevCCD, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(const QString&)));
 
 	// set the progress info
 	imgProgress->setEnabled(true);
@@ -268,8 +268,8 @@ void imagesequence::stopSequence()
 	active               = false;
 	
 	imgProgress->setEnabled(false);
-	fullImgCountOUT->setText("");
-	currentImgCountOUT->setText("");
+	fullImgCountOUT->setText(QString());
+	currentImgCountOUT->setText(QString());
 	
 	resetButtons();
 	seqTimer->stop();
@@ -319,7 +319,7 @@ void imagesequence::checkCCD(int ccdNum)
 	currentCCD = targetCCD;
 }
 
-void imagesequence::newFITS(QString deviceLabel)
+void imagesequence::newFITS(const QString &deviceLabel)
 {
 	// If the FITS is not for our device, simply ignore
 	if (deviceLabel != currentCCD)

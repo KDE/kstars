@@ -66,7 +66,7 @@ private slots:
 
 private:
 	QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
-	void parseGooglePage( QStringList &ImList, QString URL );
+	void parseGooglePage( QStringList &ImList, const QString &URL );
 
 	int SelectedImageIndex;
 	ThumbnailPickerUI *ui;

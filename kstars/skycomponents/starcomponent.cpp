@@ -214,8 +214,6 @@ void StarComponent::processStar( const QString &line ) {
 	double mag, bv, dmag, vper;
 	double pmra, pmdec, plx;
 
-	name = ""; gname = "";
-
 	//parse coordinates
 	rah = line.mid( 0, 2 ).toInt();
 	ram = line.mid( 2, 2 ).toInt();

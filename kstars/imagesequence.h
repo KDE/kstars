@@ -62,7 +62,7 @@ public slots:
 	void stopSequence();
 	void captureImage();
 	void prepareCapture();
-	void newFITS(QString deviceLabel);
+	void newFITS(const QString &deviceLabel);
 	void checkCCD(int CCDNum);
 	void updateFilterCombo(int filterNum);
 

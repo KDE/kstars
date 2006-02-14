@@ -73,13 +73,13 @@ class INDIMenu : public KDialogBase
    void updateStatus();
    //bool removeDevice(QString devName);
    void removeDeviceMgr(int mgrID);
-   void setCustomLabel(QString deviceName);
+   void setCustomLabel(const QString &deviceName);
 
    int mgrCounter;
    bool processServer();
-   int processClient(QString hostname, QString portnumber);
-   INDI_D * findDevice(QString deviceName);
-   INDI_D * findDeviceByLabel(QString label);
+   int processClient(const QString &hostname, const QString &portnumber);
+   INDI_D * findDevice(const QString &deviceName);
+   INDI_D * findDeviceByLabel(const QString &label);
 
 
    public slots:

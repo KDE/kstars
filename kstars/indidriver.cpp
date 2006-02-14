@@ -152,7 +152,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
       if (!affectedItem) return;
       affectedItem->setPixmap(1, stopPix);
       affectedItem->setPixmap(2, NULL);
-      affectedItem->setText(4, QString(""));
+      affectedItem->setText(4, QString());
       runServiceB->setEnabled(true);
       stopServiceB->setEnabled(false);
       devices[i]->managed = false;
@@ -294,7 +294,7 @@ void INDIDriver::processDeviceStatus(int id)
 		
 	  localListView->selectedItem()->setPixmap(1, stopPix);
 	  localListView->selectedItem()->setPixmap(2, NULL);
-	  localListView->selectedItem()->setText(4, QString(""));
+	  localListView->selectedItem()->setText(4, QString());
 	  runServiceB->setEnabled(true);
 	  stopServiceB->setEnabled(false);
 	  devices[i]->restart();
@@ -433,7 +433,7 @@ void INDIDriver::removeDevice(IDevice *dev)
      	devices[i]->restart();
 }
 
-void INDIDriver::removeDevice(QString deviceLabel)
+void INDIDriver::removeDevice(const QString &deviceLabel)
 {
   for (unsigned int i=0 ; i < devices.size(); i++)
      if (deviceLabel == devices[i]->label)
@@ -528,7 +528,7 @@ void INDIDriver::saveDevicesToDisk()
 
 }
 
-bool INDIDriver::isDeviceRunning(QString deviceLabel)
+bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
 
     for (unsigned int i=0 ; i < devices.size(); i++)
@@ -914,7 +914,7 @@ INDIDriver::~INDIDriver()
 
 }
 
-IDevice::IDevice(QString inLabel, QString inDriver, QString inVersion)
+IDevice::IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion)
 {
   label = inLabel;;
   driver = inDriver;;

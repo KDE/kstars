@@ -64,7 +64,7 @@ void CometsComponent::init( KStarsData *data ) {
 
 			JD = double( mJD ) + 2400000.5;
 
-			com = new KSComet( data, name, "", JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
+			com = new KSComet( data, name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
 			com->setAngularSize( 0.005 );
 
 			objectList().append( com );

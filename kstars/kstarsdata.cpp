@@ -131,7 +131,7 @@ void KStarsData::initialize() {
 	initTimer->start(1);
 }
 
-void KStarsData::initError(QString s, bool required = false) {
+void KStarsData::initError(const QString &s, bool required = false) {
 	QString message, caption;
 	initTimer->stop();
 	if (required) {
@@ -399,7 +399,7 @@ bool KStarsData::readCityData( void ) {
 	return citiesFound;
 }
 
-bool KStarsData::processCity( QString& line ) {
+bool KStarsData::processCity( const QString& line ) {
 	QString totalLine;
 	QString name, province, country;
 	QStringList fields;
@@ -425,7 +425,7 @@ bool KStarsData::processCity( QString& line ) {
 		return false;
 	} else if ( fields.size() < 12 ) {
 		// allow old format (without TZ) for mycities.dat
-		fields.append("");
+		fields.append(QString());
 		fields.append("--");
 	} else if ( fields.size() < 13 ) {
 		// Set TZrule to "--"
@@ -540,7 +540,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 	}
 }
 
-bool KStarsData::openURLFile(QString urlfile, QFile & file) {
+bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 	//QFile file;
 	QString localFile;
 	bool fileFound = false;
@@ -648,7 +648,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 	return fileFound;
 }
 
-bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
+bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) {
 	QFile file;
 	if (!openURLFile(urlfile, file)) return false;
 
@@ -1122,7 +1122,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 					cmdCount++;
 				}
 			} else if ( fn[0] == "setGeoLocation" && ( fn.size() == 3 || fn.size() == 4 ) ) {
-				QString city( fn[1] ), province( "" ), country( fn[2] );
+				QString city( fn[1] ), province( QString() ), country( fn[2] );
 				if ( fn.size() == 4 ) {
 					province = fn[2];
 					country = fn[3];

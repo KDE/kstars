@@ -51,7 +51,7 @@ public:
 	*@param c the color for the planet
 	*@param pSize physical diameter of the planet, in km
 	*/
-	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", 
+	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file=QString(), 
 		QColor c=Qt::white, double pSize=0 );
 
 /**Destructor (empty)
@@ -158,7 +158,7 @@ protected:
 			*@param fname the filename to be read.
 			*@param vector pointer to the OrbitData vector to be filled with these data.
 			*/
-			bool readOrbitData(QString fname, QVector<KSPlanet::OrbitData> *vector);
+			bool readOrbitData(const QString &fname, QVector<KSPlanet::OrbitData> *vector);
 			
 			QHash<QString, OrbitDataColl> hash;
 	};

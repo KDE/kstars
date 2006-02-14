@@ -127,7 +127,7 @@ void ThumbnailPicker::slotFillList() {
 	}
 }
 
-void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
+void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL ) {
 	QString tmpFile;
 	QString PageHTML;
 

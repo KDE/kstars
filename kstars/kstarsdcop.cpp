@@ -125,7 +125,7 @@ void KStars::setTracking( bool track ) {
 	if ( track != Options::isTracking() ) slotTrack();
 }
 
-void KStars::popupMessage( int /*x*/, int /*y*/, QString /*message*/ ){
+void KStars::popupMessage( int /*x*/, int /*y*/, const QString& /*message*/ ){
 	//Show a small popup window at (x,y) with a text message
 }
 
@@ -133,7 +133,7 @@ void KStars::drawLine( int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*spe
 	//Draw a line on the skymap display
 }
 
-void KStars::setGeoLocation( QString city, QString province, QString country ) {
+void KStars::setGeoLocation( const QString &city, const QString &province, const QString &country ) {
 	//Set the geographic location
 	bool cityFound( false );
 
@@ -496,7 +496,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 	}
 }
 
-void KStars::startINDI (QString deviceName, bool useLocal)
+void KStars::startINDI (const QString &deviceName, bool useLocal)
 {
 
   establishINDI();
@@ -538,7 +538,7 @@ void KStars::startINDI (QString deviceName, bool useLocal)
 
 }
 
-void KStars::shutdownINDI (QString deviceName)
+void KStars::shutdownINDI (const QString &deviceName)
 {
   if (!indidriver || !indimenu)
   {
@@ -559,7 +559,7 @@ void KStars::shutdownINDI (QString deviceName)
 }
 
 
-void KStars::switchINDI(QString deviceName, bool turnOn)
+void KStars::switchINDI(const QString &deviceName, bool turnOn)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -593,7 +593,7 @@ void KStars::switchINDI(QString deviceName, bool turnOn)
 }
 
 	
-void KStars::setINDIPort(QString deviceName, QString port)
+void KStars::setINDIPort(const QString &deviceName, const QString &port)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -629,7 +629,7 @@ void KStars::setINDIPort(QString deviceName, QString port)
 }
 
 	
-void KStars::setINDITargetCoord(QString deviceName, double RA, double DEC)
+void KStars::setINDITargetCoord(const QString &deviceName, double RA, double DEC)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -670,7 +670,7 @@ void KStars::setINDITargetCoord(QString deviceName, double RA, double DEC)
 }
 
 	
-void KStars::setINDITargetName(QString deviceName, QString objectName)
+void KStars::setINDITargetName(const QString &deviceName, const QString &objectName)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -714,7 +714,7 @@ void KStars::setINDITargetName(QString deviceName, QString objectName)
 }
 
 	
-void KStars::setINDIAction(QString deviceName, QString action)
+void KStars::setINDIAction(const QString &deviceName, const QString &action)
 {
   INDI_D *dev;
   INDI_E *el;
@@ -742,7 +742,7 @@ void KStars::setINDIAction(QString deviceName, QString action)
 }
 
 	
-void KStars::waitForINDIAction(QString deviceName, QString action)
+void KStars::waitForINDIAction(const QString &deviceName, const QString &action)
 {
 
   INDI_D *dev;
@@ -781,7 +781,7 @@ void KStars::waitForINDIAction(QString deviceName, QString action)
 }
 
 	
-void KStars::setINDIFocusSpeed(QString deviceName, unsigned int speed)
+void KStars::setINDIFocusSpeed(const QString &deviceName, unsigned int speed)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -832,7 +832,7 @@ void KStars::startINDIFocus(QString deviceName, int focusDir)
 }
 
 	
-void KStars::setINDIGeoLocation(QString deviceName, double longitude, double latitude)
+void KStars::setINDIGeoLocation(const QString &deviceName, double longitude, double latitude)
 {
   
   INDI_D *dev;
@@ -874,7 +874,7 @@ void KStars::setINDIGeoLocation(QString deviceName, double longitude, double lat
 }
 
 	
-void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
+void KStars::setINDIFocusTimeout(const QString &deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -912,7 +912,7 @@ void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
 }
 
 	
-void KStars::startINDIExposure(QString deviceName, int timeout)
+void KStars::startINDIExposure(const QString &deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -949,7 +949,7 @@ void KStars::startINDIExposure(QString deviceName, int timeout)
   
 }
 
-void KStars::setINDIFilterNum(QString deviceName, int filter_num)
+void KStars::setINDIFilterNum(const QString &deviceName, int filter_num)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -985,7 +985,7 @@ void KStars::setINDIFilterNum(QString deviceName, int filter_num)
   
 }
 		
-void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
+void KStars::setINDIUTC(const QString &deviceName, const QString &UTCDateTime)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -1019,17 +1019,17 @@ void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
 
 }
 
-void KStars::setINDIScopeAction(QString deviceName, QString action)
+void KStars::setINDIScopeAction(const QString &deviceName, const QString &action)
 {
   setINDIAction(deviceName, action);
 }
 		
-void KStars::setINDIFrameType(QString deviceName, QString type)
+void KStars::setINDIFrameType(const QString &deviceName, QString type)
 {
   setINDIAction(deviceName, type);
 }
 
-void KStars::setINDICCDTemp(QString deviceName, int temp)
+void KStars::setINDICCDTemp(const QString &deviceName, int temp)
 {
   INDI_D *dev;
   INDI_P *prop;
