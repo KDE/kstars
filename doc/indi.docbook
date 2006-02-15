@@ -24,32 +24,32 @@ devices:</para>
 <tbody>
 <row>
 <entry>LX200 8"-12" Classic</entry>
-<entry>LX200 Classic</entry>
+<entry>lx200classic</entry>
 <entry>1.0</entry>
 </row>
 <row>
 <entry>Autostar based telescopes</entry>
-<entry>LX200 Autostar</entry>
+<entry>lx200autostar</entry>
 <entry>1.0</entry>
 </row>
 <row>
 <entry>LX200 GPS 8"-16"</entry>
-<entry>LX200 GPS</entry>
+<entry>lx200gps</entry>
 <entry>1.0</entry>
 </row>
 <row>
 <entry>LX200 Classic 16"</entry>
-<entry>LX00 16"</entry>
+<entry>lx200_16</entry>
 <entry>1.0</entry>
 </row>
 <row>
 <entry>NexStar GPS, CGE, AS-GT</entry>
-<entry>Celestron GPS</entry>
+<entry>celestrongps</entry>
 <entry>0.9</entry>
 </row>
 <row>
 <entry>New GT, NexStar 5i/8i</entry>
-<entry>Celestron GPS</entry>
+<entry>celestrongps</entry>
 <entry>0.9</entry>
 </row>
 <row>
@@ -64,23 +64,32 @@ devices:</para>
 </row>
 <row>
 <entry>Astro-Electronic FS-2</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200basic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Argo Navis</entry>
+<entry>lx200basic</entry>
 <entry>0.1</entry>
 </row>
 <row>
 <entry>Losmandy Gemini</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200basic</entry>
 <entry>0.1</entry>
 </row>
 <row>
 <entry>Mel Bartels Controllers</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200basic</entry>
+<entry>0.1</entry>
+</row>
+<row>
+<entry>Sky Commander</entry>
+<entry>skycommander</entry>
 <entry>0.1</entry>
 </row>
 </tbody>
 </tgroup>
 </table>
-<para></para>
 <table id="focuser-table" pgwide="1" frame="all">
 <title>Supported Focusers</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -94,29 +103,28 @@ devices:</para>
 <tbody>
 <row>
 <entry>Meade LX200GPS Microfocuser</entry>
-<entry>LX200 GPS</entry>
+<entry>lx200gps</entry>
 <entry>0.9</entry>
 </row>
 <row>
 <entry>Meade 1206 Primary Mirror Focuser</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200generic</entry>
 <entry>0.9</entry>
 </row>
 <row>
 <entry>JMI NGF Series</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200generic</entry>
 <entry>0.1</entry>
 </row>
 <row>
 <entry>JMI MOTOFOCUS</entry>
-<entry>LX200 Generic</entry>
+<entry>lx200generic</entry>
 <entry>0.1</entry>
 </row>
 </tbody>
 </tgroup>
 </table>
 
-<para></para>
 <table id="ccd-table" pgwide="1" frame="all">
 <title>Supported CCDs</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -167,7 +175,6 @@ devices:</para>
   </tgroup>
   </table>
   
-<para></para>
 <table id="video-table" pgwide="1" frame="all">
 <title>Supported Webcams</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -189,6 +196,12 @@ devices:</para>
 <entry>v4lphilips</entry>
 <entry>1.0</entry>
 </row>
+<row>
+<entry>Meade Lunar Planetary Imager</entry>
+<entry>meade_lpi</entry>
+<entry>0.1</entry>
+</row>
+
 </tbody>
 </tgroup>
 </table>
@@ -260,8 +273,7 @@ telescope manual.</para>
 steps:</para>
 
 <orderedlist>
-<listitem><para>Set your geographical location. Open the <guilabel>Set
-Geographic Location</guilabel> window by selecting
+<listitem><para>Set your geographical location. Open the <guilabel>Geographic...</guilabel> window by selecting
 <guimenuitem>Set Geographic Location...</guimenuitem> from the
 <guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> icon in the toolbar, or by pressing <keycombo
 action="simul">&Ctrl;<keycap>g</keycap></keycombo>.</para>
@@ -512,7 +524,7 @@ write enabled. An example of a read-write property is the telescope's Right
 Ascension. You can enter a new Right Ascension and the telescope, based on
 current settings, will either slew or sync to the new input. Furthermore,
 when the telescope slews, its Right Ascension gets updated and sent back to
-the client.</para><para></para>
+the client.</para>
 </listitem>
 <listitem>
 <para>State: Prefixed to each property is a state indicator (round LED).
@@ -552,13 +564,13 @@ attention</entry>
 	</tbody>
 </tgroup>
 </table>
-<para></para>
+
 <para>The device driver updates the property state in real-time when
 necessary. For example, if the telescope is in the process of slewing to a
 target, then the RA/DEC properties will be signaled as
 <guilabel>Busy</guilabel>. When the slew process is completed successfully,
 the properties will be signaled as
-<guilabel>Ok</guilabel>.</para><para></para>
+<guilabel>Ok</guilabel>.</para>
 </listitem>
 <listitem>
 <para>
@@ -569,7 +581,7 @@ convenience. For example, all the following numbers are equal:</para>
 <itemizedlist>
 <listitem><para>-156.40</para></listitem>
 <listitem><para>-156:24:00</para></listitem>
-<listitem><para>-156:24</para><para></para></listitem>
+<listitem><para>-156:24</para></listitem>
 </itemizedlist>
 </listitem>
 <listitem>
@@ -598,7 +610,7 @@ control:</para>
 <listitem>
 <para>Server: To prepare a device for remote control, follow the same steps in the <link linkend="indi-kstars-setup">local/server</link> setup. When you start a device service in the <guimenu>Device Manager</guimenu>, a port number is displayed under the <guilabel>Listening port</guilabel> column. In addition to the port number, you also need the hostname or IP address of your server.
 </para>
-<para></para>
+
 </listitem>
 <listitem>
 <para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the <guimenu>Device</guimenu> menu and click on the <guilabel>Client</guilabel> tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port number obtained from the <emphasis>server</emphasis> machine in step 1.
@@ -699,15 +711,42 @@ please send an email to <email>indi-devel@lists.sourceforge.net</email>
 
 <qandaentry>
 <question>
-<para>I do not have a serial port, how can I connect to the telescope?</para>
+<para>
+What operations does KStars provide to control the telescope?
+</para>
 </question>
 <answer>
-<para>Many modern laptops do not have a serial port. You will need a
-Serial To USB adaptor that is supported under Linux. For example,
-<trademark>Keyspan</trademark>'s USA-19QW Serial to USB adaptor is well
-supported under Linux and had been tested with &kstars;. You need to refer
-to your adaptor's documentation to find which ports they provide (e.g.
-<constant>/dev/ttyUSB0 .... /dev/ttyUSB9</constant>).
+<para>
+It depends on the particular telescope you're running, but the minimum three operations are <command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can issue directly from the sky map. Your telescope must be aligned for those operations to perform correctly. Some telescopes offer you more operations like site management, slew modes, focusing, parking, and more. You can access the telescopes extended features from the INDI Control Panel in the Devices Menu.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+What's the difference between <command>Slew</command>, <command>Track</command>, and <command>Sync</command> exactly?
+</para>
+</question>
+<answer>
+<para>
+The command <command>Slew</command> orders the telescope to move to a particular target, and once the telescope reaches its target, the telescope keeps tracking that target at a <emphasis>sidereal</emphasis> rate (i.e. the rate at which stars move across the sky). This works well for stars, Messier objects, and about everything outside our solar system. But solar system objects travel differently across the sky and so the telescope must <command>Track</command> the objects as they move.
+</para>
+<para>
+Therefore, you need to issue a track command if you want to track an object with non-sidereal motion. On the other hand, <command>Sync</command> is used to synchronize the telescope's internal coordinates with that of an object you select.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Can I control my telescope remotely?
+</para>
+</question>
+<answer>
+<para>
+Yes. You can start an INDI server on the machine connected to your telescope and the server will listen to requests from &kstars; clients. Once you're connected, you can control your telescope directly from the sky map. This procedure is described in detail in the <link linkend="indi-remote-control">Remote device control</link> section.
 </para>
 </answer>
 </qandaentry>
@@ -733,7 +772,9 @@ telescope is not connected to the serial/USB port. What can I do?
 <para>Check your telescope power, make sure the power is on and that the telescope is getting enough power.</para>
    </listitem>
    <listitem>
-<para>Set the correct port in the <guilabel>INDI Control Panel</guilabel> under the <guimenu>Devices</guimenu> menu. The default port is <constant>/dev/ttyS0</constant></para>
+<para>Set the correct port in the <guilabel>INDI Control Panel</guilabel>
+under the <guimenu>Devices</guimenu> menu. The default device is
+<constant>/dev/ttyS0</constant></para>
    </listitem>
    <listitem>
    <para>Restart &kstars; and retry again.</para>
@@ -747,7 +788,7 @@ telescope is not connected to the serial/USB port. What can I do?
 <para>&kstars; reports that the telescope is online and ready, but I cannot find the telescope's crosshair, where is it?</para>
 </question>
 <answer>
-<para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target.</para>
+<para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target. You can use the right-click menu to center and track the telescope crosshair in the sky map.</para>
 </answer>
 </qandaentry>
 
