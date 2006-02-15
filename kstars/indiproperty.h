@@ -31,6 +31,7 @@ class QPushButton;
 class QHBoxLayout;
 class QVBoxLayout;
 class QButtonGroup;
+class QAbstractButton;
 
 /* INDI property */
 class INDI_P : public QObject
@@ -98,6 +99,7 @@ class INDI_P : public QObject
     public slots:
     void newText();
     void newSwitch(int id);
+    void newAbstractButton(QAbstractButton *button);
     void newBlob();
     void convertSwitch(int id);
     

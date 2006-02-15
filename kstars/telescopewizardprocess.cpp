@@ -231,6 +231,7 @@ int telescopeWizardProcess::establishLink()
 	if (!indidriver || !indimenu)
 	  return (0);
 	  
+	/* FIXME
 	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
 	if (driverItem == NULL) return -1;
@@ -257,6 +258,8 @@ int telescopeWizardProcess::establishLink()
 
 	newDeviceTimer->start(1500);
 	
+        */
+
 	if (portIn->text().isEmpty())
 	 return (1);
         else

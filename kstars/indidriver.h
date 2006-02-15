@@ -17,15 +17,18 @@
 #ifndef INDIDRIVER_H
 #define INDIDRIVER_H
 
+#include <QFrame>
 #include <qstringlist.h>
-//Added by qt3to4:
-#include <QPixmap>
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
 
 #include "indi/lilxml.h"
 #include "devmanager.h"
+
+class QTreeWidgetItem;
+class QListWidgetItem;
+class QIcon;
 
 class KStars;
 
@@ -76,8 +79,36 @@ class IDevice : public QObject
       void newServerInput();
       
 };
+
+class DeviceManagerUI : public QFrame, public Ui::devManager
+{
+   Q_OBJECT
+
+   public:
+	DeviceManagerUI(QWidget *parent=0);
+
+   QIcon runningPix;
+   QIcon stopPix;
+   QIcon connected;
+   QIcon disconnected;
+   QIcon establishConnection;
+   QIcon localMode;
+   QIcon serverMode;
+
+/*
+   KMenu *ClientpopMenu;
+   KMenu *LocalpopMenu;
+
+   public slots:
     
-class INDIDriver : public devManager
+    void ClientprocessRightButton( QTreeWidgetItem *, const QPoint &, int );
+    void LocalprocessRightButton( QTreeWidgetItem *, const QPoint &, int );
+
+*/
+
+};
+
+class INDIDriver : public KDialogBase
 {
 
    Q_OBJECT
@@ -87,31 +118,23 @@ class INDIDriver : public devManager
    INDIDriver(QWidget * parent = 0);
    ~INDIDriver();
 
-    KListView* deviceContainer;
+    //KListView* deviceContainer;
 
     bool readXMLDriver();
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
-    bool buildDriverElement(XMLEle *root, Q3ListViewItem *DGroup, int groupType, char errmsg[]);
+    bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[]);
 
-    Q3ListViewItem *lastGroup;
-    Q3ListViewItem *lastDevice;
+    KStars *ksw;
+    DeviceManagerUI *ui;
+
+    QTreeWidgetItem *lastGroup;
+    QTreeWidgetItem *lastDevice;
 
     QStringList driversList;
 
-    QPixmap runningPix;
-    QPixmap stopPix;
-    QPixmap connected;
-    QPixmap disconnected;
-    QPixmap establishConnection;
-    QPixmap localMode;
-    QPixmap serverMode;
-
-    KMenu *ClientpopMenu;
-    KMenu *LocalpopMenu;
-
-    int lastPort;
+    int currentPort;
 
     bool runDevice(IDevice *dev);
     void removeDevice(IDevice *dev);
@@ -125,13 +148,8 @@ class INDIDriver : public devManager
 
     std::vector <IDevice *> devices;
 
-     KStars *ksw;
-
-
 public slots:
     void updateMenuActions();
-    void ClientprocessRightButton( Q3ListViewItem *, const QPoint &, int );
-    void LocalprocessRightButton( Q3ListViewItem *, const QPoint &, int );
     void processDeviceStatus(int);
     void processHostStatus(int);
     void addINDIHost();

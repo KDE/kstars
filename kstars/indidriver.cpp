@@ -25,13 +25,17 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#include <qfile.h>
+#include <QRadioButton>
+#include <QFile>
+#include <QTextStream>
+#include <QTreeWidget>
+#include <QIcon>
+
+
+//Added by qt3to4:
 #include <q3valuelist.h>
 #include <q3cstring.h>
-#include <qradiobutton.h>
 #include <q3textedit.h>
-//Added by qt3to4:
-#include <QTextStream>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -42,130 +46,37 @@
 #include <klineedit.h>
 #include <kstandarddirs.h>
 #include <kaction.h>
+#include <kserversocket.h>
 
 //#include <kextsock.h>
 #include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
-/*
- *  The dialog will by default be modeless, unless you set 'modal' to
- *  TRUE to construct a modal dialog.
- */
-INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
-
+DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {
 
-    lastPort = 7263;
-    lastGroup = NULL;
-    lastDevice = NULL;
+  setupUi(parent);
 
-    ksw = (KStars *) parent;
+  localTreeWidget->setSortingEnabled(false);
+  localTreeWidget->setRootIsDecorated(true);
 
-    //FormLayout =  makeVBoxMainWidget();
+  clientTreeWidget->setSortingEnabled(false);
 
-    localListView->setSorting(-1);
-    clientListView->setSorting(-1);
+  KIconLoader *icons = KGlobal::iconLoader();
+  runningPix = QIcon(icons->loadIcon( "exec", KIcon::Small));
+  stopPix    = QIcon(icons->loadIcon( "button_cancel", KIcon::Small));
+  localMode  = QIcon(icons->loadIcon( "network_local", KIcon::Small));
+  serverMode = QIcon(icons->loadIcon( "network", KIcon::Small));
 
-    KIconLoader *icons = KGlobal::iconLoader();
-    runningPix = icons->loadIcon( "exec", KIcon::Small);
-    stopPix    = icons->loadIcon( "button_cancel", KIcon::Small);
-    localMode  = icons->loadIcon( "network_local", KIcon::Small);
-    serverMode = icons->loadIcon( "network", KIcon::Small);
-
-    LocalpopMenu = new KMenu(localListView);
-    LocalpopMenu->insertItem( runningPix, i18n("Run Service") , 0);
-    LocalpopMenu->insertItem( stopPix, i18n("Stop Service"), 1);
-
-    localListView->setRootIsDecorated(true);
-
-  connected           = icons->loadIcon( "connect_established", KIcon::Small);
-  disconnected        = icons->loadIcon( "connect_no", KIcon::Small);
-  establishConnection = icons->loadIcon( "connect_creating", KIcon::Small);
-
-  ClientpopMenu = new KMenu(clientListView);
-  ClientpopMenu->insertItem( establishConnection, i18n("Connect") , 0);
-  ClientpopMenu->insertItem( disconnected, i18n("Disconnect"), 1);
-
-
-  for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
-  {
-  	Q3ListViewItem *item = new Q3ListViewItem(clientListView, lastGroup);
-	lastGroup = item;
-	item->setPixmap(0, disconnected);
-        item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
-	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
-
-  }
-
-  lastGroup = NULL;
-
-  QObject::connect(addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
-  QObject::connect(modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
-  QObject::connect(removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
-
-  QObject::connect(clientListView, SIGNAL(rightButtonPressed ( Q3ListViewItem *, const QPoint &, int )), this, SLOT(ClientprocessRightButton( Q3ListViewItem *, const QPoint &, int )));
-
-QObject::connect(ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
-
-QObject::connect(localListView, SIGNAL(rightButtonPressed ( Q3ListViewItem *, const QPoint &, int )), this, SLOT(LocalprocessRightButton( Q3ListViewItem *, const QPoint &, int )));
-
-QObject::connect(LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
-
-QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
-
-QObject::connect(connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
-QObject::connect(disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
-
-QObject::connect(runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
-QObject::connect(stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-
-QObject::connect(localListView, SIGNAL(selectionChanged()), this, SLOT(updateLocalButtons()));
-QObject::connect(clientListView, SIGNAL(selectionChanged()), this, SLOT(updateClientButtons()));
-
-readXMLDriver();
-resize( 500, 300);
+  connected           = QIcon(icons->loadIcon( "connect_established", KIcon::Small));
+  disconnected        = QIcon(icons->loadIcon( "connect_no", KIcon::Small));
+  establishConnection = QIcon(icons->loadIcon( "connect_creating", KIcon::Small));
 
 }
 
-void INDIDriver::shutdownHost(int mgrID)
-{
-  Q3ListViewItem *affectedItem;
-
-for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-{
-     if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
-     {
-        affectedItem = clientListView->itemAtIndex(i);
-	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
-	ksw->data()->INDIHostsList.at(i)->isConnected = false;
-        affectedItem->setPixmap(0, disconnected);
-	connectHostB->setEnabled(true);
-        disconnectHostB->setEnabled(false);
-	return;
-     }
- }
- 
-  for (uint i=0; i < devices.size(); i++)
-  {
-    if (devices[i]->mgrID == mgrID)
-    {
-      affectedItem = localListView->findItem(devices[i]->label, 0);
-      if (!affectedItem) return;
-      affectedItem->setPixmap(1, stopPix);
-      affectedItem->setPixmap(2, NULL);
-      affectedItem->setText(4, QString());
-      runServiceB->setEnabled(true);
-      stopServiceB->setEnabled(false);
-      devices[i]->managed = false;
-      devices[i]->restart();
-      return;
-	
-    }
-  }
-      
-          
-}
-
-void INDIDriver::ClientprocessRightButton( Q3ListViewItem *item, const QPoint &p, int column)
+/*void DeviceManagerUI::ClientprocessRightButton( QTreeWidgetItem *item, const QPoint &p, int column)
 {
 
   column = 0;
@@ -174,13 +85,105 @@ void INDIDriver::ClientprocessRightButton( Q3ListViewItem *item, const QPoint &p
   	ClientpopMenu->popup(p);
 }
 
-void INDIDriver::LocalprocessRightButton( Q3ListViewItem *item, const QPoint &p, int column)
+void DeviceManagerUI::LocalprocessRightButton( QTreeWidgetItem *item, const QPoint &p, int column)
 {
 
   column = 0;
 
   if (item && item->childCount() == 0)
   	LocalpopMenu->popup(p);
+}*/
+
+
+INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n( "Device Manager" ), Close, Close, parent , "Device Manager", false )
+
+{
+
+    // FIXME read this from INDI Options!!
+    currentPort = 7263;
+    lastGroup = NULL;
+    lastDevice = NULL;
+
+    ksw = (KStars *) parent;
+
+    QFrame *page = plainPage();
+
+    ui = new DeviceManagerUI(page);
+
+  for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
+  {
+  	QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
+	lastGroup = item;
+	item->setIcon(0, ui->disconnected);
+        item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
+	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
+
+  }
+
+  lastGroup = NULL;
+
+  QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
+  QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
+  QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
+
+
+  //QObject::connect(ui->ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
+  //QObject::connect(ui->LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
+  QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
+  QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
+  QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
+  QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
+  QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+  QObject::connect(ui->localTreeWidget, SIGNAL(selectionChanged()), this, SLOT(updateLocalButtons()));
+  QObject::connect(ui->clientTreeWidget, SIGNAL(selectionChanged()), this, SLOT(updateClientButtons()));
+
+  readXMLDriver();
+
+  //resize( 500, 300);
+
+}
+
+void INDIDriver::shutdownHost(int mgrID)
+{
+  QTreeWidgetItem *affectedItem;
+  QList<QTreeWidgetItem *> found;
+
+for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+{
+      
+     if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
+     {
+        affectedItem = (ui->clientTreeWidget->findItems(ksw->data()->INDIHostsList.at(i)->name, Qt::MatchExactly, 1)).first();
+	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
+	ksw->data()->INDIHostsList.at(i)->isConnected = false;
+        affectedItem->setIcon(0, ui->disconnected);
+	ui->connectHostB->setEnabled(true);
+        ui->disconnectHostB->setEnabled(false);
+	return;
+     }
+ }
+ 
+
+  for (uint i=0; i < devices.size(); i++)
+  {
+    if (devices[i]->mgrID == mgrID)
+    {
+      found = ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly, 0);
+      if (found.empty()) return;
+      affectedItem = found.first();
+      //affectedItem = (ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly, 0)).first();
+      //if (!affectedItem) return;
+      affectedItem->setIcon(1, ui->stopPix);
+      //affectedItem->setIcon(2, NULL);
+      affectedItem->setText(2, QString());
+      affectedItem->setText(4, QString());
+      ui->runServiceB->setEnabled(true);
+      ui->stopServiceB->setEnabled(false);
+      devices[i]->managed = false;
+      devices[i]->restart();
+      return;
+    }
+  }
 }
 
 void INDIDriver::activateRunService()
@@ -206,19 +209,20 @@ void INDIDriver::activateHostDisconnection()
 void INDIDriver::updateLocalButtons()
 {
   
-  if (localListView->selectedItem() == NULL)
+  if (ui->localTreeWidget->currentItem() == NULL)
    return;
  
   for (uint i=0; i < devices.size(); i++)
-     if (localListView->selectedItem()->text(0) == devices[i]->label)
+     if (ui->localTreeWidget->currentItem()->text(0) == devices[i]->label)
      {
-	runServiceB->setEnabled(devices[i]->state == 0);
-	stopServiceB->setEnabled(devices[i]->state == 1);
+	ui->runServiceB->setEnabled(devices[i]->state == 0);
+	ui->stopServiceB->setEnabled(devices[i]->state == 1);
 	
-	serverLogText->clear();
+        // FIXME this is quite slow, make it one text box only
+	ui->serverLogText->clear();
 	
 	for ( QStringList::Iterator it = devices[i]->serverBuffer.begin(); it != devices[i]->serverBuffer.end(); ++it )
-	   serverLogText->insert(*it);
+	   ui->serverLogText->insert(*it);
 	
 	break;
      }
@@ -228,17 +232,17 @@ void INDIDriver::updateLocalButtons()
 void INDIDriver::updateClientButtons()
 {
  INDIHostsInfo *hostInfo;
- if (clientListView->currentItem() == NULL)
+ if (ui->clientTreeWidget->currentItem() == NULL)
   return;
 
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
    {
      hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (clientListView->currentItem()->text(1) == hostInfo->name && clientListView->currentItem()->text(2) == hostInfo->portnumber)
+     if (ui->clientTreeWidget->currentItem()->text(1) == hostInfo->name && ui->clientTreeWidget->currentItem()->text(2) == hostInfo->portnumber)
      {
-       connectHostB->setEnabled(!hostInfo->isConnected);
-       disconnectHostB->setEnabled(hostInfo->isConnected);
+       ui->connectHostB->setEnabled(!hostInfo->isConnected);
+       ui->disconnectHostB->setEnabled(hostInfo->isConnected);
        break;
      }
     }
@@ -248,11 +252,11 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     
 void INDIDriver::processDeviceStatus(int id)
 {
-  if (localListView->selectedItem() == NULL)
+  if (ui->localTreeWidget->currentItem() == NULL)
     return;
 
    for (uint i=0; i < devices.size(); i++)
-     if (localListView->selectedItem()->text(0) == devices[i]->label)
+     if (ui->localTreeWidget->currentItem()->text(0) == devices[i]->label)
      {
 	devices[i]->state = (id == 0) ? 1 : 0;
 	if (devices[i]->state)
@@ -281,10 +285,10 @@ void INDIDriver::processDeviceStatus(int id)
 	  	}
 	  }
 
-	  localListView->selectedItem()->setPixmap(1, runningPix);
-	  localListView->selectedItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
-	  runServiceB->setEnabled(false);
-	  stopServiceB->setEnabled(true);
+	  ui->localTreeWidget->currentItem()->setIcon(1, ui->runningPix);
+	  ui->localTreeWidget->currentItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
+	  ui->runServiceB->setEnabled(false);
+	  ui->stopServiceB->setEnabled(true);
 	  
 	  return;
 	}
@@ -292,11 +296,12 @@ void INDIDriver::processDeviceStatus(int id)
 	  if (devices[i]->mode == IDevice::M_LOCAL)
 	  	ksw->getINDIMenu()->processServer();
 		
-	  localListView->selectedItem()->setPixmap(1, stopPix);
-	  localListView->selectedItem()->setPixmap(2, NULL);
-	  localListView->selectedItem()->setText(4, QString());
-	  runServiceB->setEnabled(true);
-	  stopServiceB->setEnabled(false);
+	  ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
+	  // FIXME this doesn't cause the icon to go away
+	  ui->localTreeWidget->currentItem()->setText(2, QString());
+	  ui->localTreeWidget->currentItem()->setText(4, QString());
+	  ui->runServiceB->setEnabled(true);
+	  ui->stopServiceB->setEnabled(false);
 	  devices[i]->restart();
 	  updateMenuActions();
 	  return;
@@ -307,7 +312,7 @@ void INDIDriver::processHostStatus(int id)
 {
    int mgrID;
    bool toConnect = (id == 0);
-   Q3ListViewItem *currentItem = clientListView->selectedItem();
+   QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
    if (!currentItem) return;
    INDIHostsInfo *hostInfo;
 
@@ -326,11 +331,11 @@ void INDIDriver::processHostStatus(int id)
 	   // if connection successful
           if ( (mgrID = ksw->getINDIMenu()->processClient(hostInfo->hostname, hostInfo->portnumber)) >= 0)
 	  {
-	    currentItem->setPixmap(0, connected);
+	    currentItem->setIcon(0, ui->connected);
 	    hostInfo->isConnected = true;
 	    hostInfo->mgrID = mgrID;
-	    connectHostB->setEnabled(false);
-	    disconnectHostB->setEnabled(true);
+	    ui->connectHostB->setEnabled(false);
+	    ui->disconnectHostB->setEnabled(true);
 	  }
 	}
 	else
@@ -338,9 +343,9 @@ void INDIDriver::processHostStatus(int id)
 	  ksw->getINDIMenu()->removeDeviceMgr(hostInfo->mgrID);
 	  hostInfo->mgrID = mgrID = -1;
 	  hostInfo->isConnected = false;
-	  currentItem->setPixmap(0, disconnected);
-	  connectHostB->setEnabled(true);
-	  disconnectHostB->setEnabled(false);
+	  currentItem->setIcon(0, ui->disconnected);
+	  ui->connectHostB->setEnabled(true);
+	  ui->disconnectHostB->setEnabled(false);
 	  updateMenuActions();
 	}
 	
@@ -404,18 +409,20 @@ bool INDIDriver::runDevice(IDevice *dev)
    return false;
   }
 
+  kDebug() << "Port is: " << dev->indiPort << endl;
+
   dev->proc = new KProcess;
   
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->driver;
   
   // Check Mode
-  dev->mode = localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
+  dev->mode = ui->localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
   
   if (dev->mode == IDevice::M_LOCAL)
-    localListView->selectedItem()->setPixmap(2, localMode);
+    ui->localTreeWidget->currentItem()->setIcon(2, ui->localMode);
   else
-    localListView->selectedItem()->setPixmap(2, serverMode);
+    ui->localTreeWidget->currentItem()->setIcon(2, ui->serverMode);
 
   connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)),  dev, SLOT(processstd(KProcess *, char*, int)));
 
@@ -546,22 +553,27 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 int INDIDriver::getINDIPort()
 {
 
-  lastPort+=5;
+  //TODO have these parameters in some config file, or Configure INDI panel
+  //int firstPort = 7268;
+  // place lower/upper limits on port 1024-65256 or whatever
+  int lastPort  = 9000;
+  currentPort++;
 
-// FIXME KExtendedSocket is obsolete. Find another way to check for free ports
-/*  KExtendedSocket ks(QString(), lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
+   // recycle TODO
+  // if (currentPort > lastPort) currentPort = firstPort
 
-  for (int i=0 ; i < 10; i++)
+  KNetwork::KServerSocket ss;
+  ss.setFamily(KNetwork::KResolver::InetFamily);
+  for(; currentPort <= lastPort; currentPort++)
   {
-    if (ks.listen() < 0)
-    {
-      lastPort+=5;
-      ks.setPort(lastPort);
-    }
-    else
-     return lastPort;
-  }
-*/
+      ss.setAddress( QString::number( currentPort ) );
+      bool success = ss.listen();
+      if(success && ss.error() == KNetwork::KSocketBase::NoError )
+      {
+		ss.close();
+		return currentPort;
+      }
+  } 
    return -1;
 }
 
@@ -660,7 +672,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
 
   //KListViewItem *group = new KListViewItem(topItem, lastGroup);
-  Q3ListViewItem *group = new Q3ListViewItem(localListView, lastGroup);
+  QTreeWidgetItem *group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);
   group->setText(0, groupName);
   lastGroup = group;
   //group->setOpen(true);
@@ -674,7 +686,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   return true;
 }
 
-bool INDIDriver::buildDriverElement(XMLEle *root, Q3ListViewItem *DGroup, int groupType, char errmsg[])
+bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[])
 {
   XMLAtt *ap;
   XMLEle *el;
@@ -717,10 +729,10 @@ bool INDIDriver::buildDriverElement(XMLEle *root, Q3ListViewItem *DGroup, int gr
 
   version = pcdataXMLEle(el);
 
-  Q3ListViewItem *device = new Q3ListViewItem(DGroup, lastDevice);
+  QTreeWidgetItem *device = new QTreeWidgetItem(DGroup, lastDevice);
 
   device->setText(0, QString(label));
-  device->setPixmap(1, stopPix);
+  device->setIcon(1, ui->stopPix);
   device->setText(3, QString(version));
 
   lastDevice = device;
@@ -790,8 +802,8 @@ void INDIDriver::addINDIHost()
 
     ksw->data()->INDIHostsList.append(hostItem);
 
-    Q3ListViewItem *item = new Q3ListViewItem(clientListView);
-    item->setPixmap(0, disconnected);
+    QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget);
+    item->setIcon(0, ui->disconnected);
     item->setText(1, hostConf.nameIN->text());
     item->setText(2, hostConf.portnumber->text());
 
@@ -808,7 +820,7 @@ void INDIDriver::modifyINDIHost()
   INDIHostConf hostConf(this);
   hostConf.setCaption(i18n("Modify Host"));
 
-  Q3ListViewItem *currentItem = clientListView->currentItem();
+  QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 
   if (currentItem == NULL)
    return;
@@ -832,7 +844,8 @@ void INDIDriver::modifyINDIHost()
     	currentItem->setText(1, hostConf.nameIN->text());
     	currentItem->setText(2, hostConf.portnumber->text());
 
-    	ksw->data()->INDIHostsList.replace(clientListView->itemIndex(currentItem), hostItem);
+	// FIXME does this work??
+    	ksw->data()->INDIHostsList.replace(i, hostItem);
 
     	saveHosts();
   	}
@@ -843,12 +856,12 @@ void INDIDriver::modifyINDIHost()
 void INDIDriver::removeINDIHost()
 {
 
- if (clientListView->currentItem() == NULL)
+ if (ui->clientTreeWidget->currentItem() == NULL)
   return;
 
  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     if (clientListView->currentItem()->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
-         clientListView->currentItem()->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
+     if (ui->clientTreeWidget->currentItem()->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
+         ui->clientTreeWidget->currentItem()->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
    {
         if (ksw->data()->INDIHostsList.at(i)->isConnected)
         {
@@ -856,11 +869,12 @@ void INDIDriver::removeINDIHost()
            return;
         }
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?").arg(clientListView->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?").arg(ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
            return;
 	   
  	ksw->data()->INDIHostsList.remove(i);
-	clientListView->takeItem(clientListView->currentItem());
+	//ui->clientTreeWidget->takeItem(ui->clientTreeWidget->currentItem());
+	delete (ui->clientTreeWidget->currentItem());
 	break;
    }
 

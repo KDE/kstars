@@ -42,10 +42,10 @@
  #include <qfile.h>
  #include <qdatastream.h>
  #include <qtooltip.h>
-//Added by qt3to4:
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+ #include <QFrame>
+ #include <QHBoxLayout>
+ #include <QVBoxLayout>
+ #include <QAbstractButton>
 
  #include <unistd.h>
  #include <stdlib.h>
@@ -250,6 +250,17 @@ void INDI_P::convertSwitch(int id)
          newSwitch(switchIndex);	 
 }
 
+void INDI_P::newAbstractButton(QAbstractButton *button)
+{
+
+   for (int i=0; i < el.size(); i++)
+	if (el[i]->push_w->text() == button->text())
+	{
+			newSwitch(i);
+			break;
+	}
+
+}
 
 void INDI_P::newSwitch(int id)
 {
@@ -700,7 +711,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
 	  
-	QObject::connect(groupB, SIGNAL(clicked(int)), this, SLOT(newSwitch(int)));
+	QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(newAbstractButton(QAbstractButton *)));
 
        for (sep = nextXMLEle (root, 1), j=-1; sep != NULL; sep = nextXMLEle (root, 0))
        {

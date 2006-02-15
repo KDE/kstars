@@ -506,7 +506,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
     kDebug() << "establishINDI() failed." << endl;
     return;
   }
-	  
+	/* FIXME   
 	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
@@ -535,6 +535,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 	
 	// Run it
 	indidriver->processDeviceStatus(0);
+	*/
 
 }
 
@@ -545,7 +546,7 @@ void KStars::shutdownINDI (const QString &deviceName)
     kDebug() << "establishINDI() failed." << endl;
     return;
   }
-	  
+	/* FIXME
 	Q3ListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
@@ -555,6 +556,7 @@ void KStars::shutdownINDI (const QString &deviceName)
 	}
 
 	indidriver->processDeviceStatus(1);
+	*/
 
 }
 
