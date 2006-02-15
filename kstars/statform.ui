@@ -12,7 +12,7 @@
             <height>241</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Statistics</string>
     </property>
     <grid>

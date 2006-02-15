@@ -12,7 +12,7 @@
             <height>413</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Configure INDI</string>
     </property>
     <property name="sizeGripEnabled">
