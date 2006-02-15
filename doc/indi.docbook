@@ -90,7 +90,6 @@ devices:</para>
 </tbody>
 </tgroup>
 </table>
-<para></para>
 <table id="focuser-table" pgwide="1" frame="all">
 <title>Supported Focusers</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -126,7 +125,6 @@ devices:</para>
 </tgroup>
 </table>
 
-<para></para>
 <table id="ccd-table" pgwide="1" frame="all">
 <title>Supported CCDs</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -177,7 +175,6 @@ devices:</para>
   </tgroup>
   </table>
   
-<para></para>
 <table id="video-table" pgwide="1" frame="all">
 <title>Supported Webcams</title>
 <tgroup cols="3" colsep="1" rowsep="1">
@@ -527,7 +524,7 @@ write enabled. An example of a read-write property is the telescope's Right
 Ascension. You can enter a new Right Ascension and the telescope, based on
 current settings, will either slew or sync to the new input. Furthermore,
 when the telescope slews, its Right Ascension gets updated and sent back to
-the client.</para><para></para>
+the client.</para>
 </listitem>
 <listitem>
 <para>State: Prefixed to each property is a state indicator (round LED).
@@ -567,13 +564,13 @@ attention</entry>
 	</tbody>
 </tgroup>
 </table>
-<para></para>
+
 <para>The device driver updates the property state in real-time when
 necessary. For example, if the telescope is in the process of slewing to a
 target, then the RA/DEC properties will be signaled as
 <guilabel>Busy</guilabel>. When the slew process is completed successfully,
 the properties will be signaled as
-<guilabel>Ok</guilabel>.</para><para></para>
+<guilabel>Ok</guilabel>.</para>
 </listitem>
 <listitem>
 <para>
@@ -584,7 +581,7 @@ convenience. For example, all the following numbers are equal:</para>
 <itemizedlist>
 <listitem><para>-156.40</para></listitem>
 <listitem><para>-156:24:00</para></listitem>
-<listitem><para>-156:24</para><para></para></listitem>
+<listitem><para>-156:24</para></listitem>
 </itemizedlist>
 </listitem>
 <listitem>
@@ -613,7 +610,7 @@ control:</para>
 <listitem>
 <para>Server: To prepare a device for remote control, follow the same steps in the <link linkend="indi-kstars-setup">local/server</link> setup. When you start a device service in the <guimenu>Device Manager</guimenu>, a port number is displayed under the <guilabel>Listening port</guilabel> column. In addition to the port number, you also need the hostname or IP address of your server.
 </para>
-<para></para>
+
 </listitem>
 <listitem>
 <para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the <guimenu>Device</guimenu> menu and click on the <guilabel>Client</guilabel> tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port number obtained from the <emphasis>server</emphasis> machine in step 1.
