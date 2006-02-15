@@ -149,7 +149,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*Point in the direction described by the string argument.  
 		*@param direction either an object name, a compass direction (e.g., "north"), or "zenith"
 		*/
-		ASYNC lookTowards( const QString direction );
+		ASYNC lookTowards( const QString &direction );
 
 	/**DCOP interface function.  Zoom in one step. */
 		ASYNC zoomIn(void) { slotZoomIn(); };
@@ -183,7 +183,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Pause further DCOP execution until a key is pressed. 
 		*@param k the key which will resume DCOP execution
 		*/
-		ASYNC waitForKey( const QString k );
+		ASYNC waitForKey( const QString &k );
 
 	/**DCOP interface function.  Toggle tracking. 
 		*@param track engage tracking if true; else disengage tracking
@@ -194,7 +194,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param option the name of the option to be modified
 		*@param value the option's new value
 		*/
-		ASYNC changeViewOption( const QString option, const QString value );
+		ASYNC changeViewOption( const QString &option, const QString &value );
 
 	/**DCOP interface function.
 		*@param name the name of the option to query
@@ -245,19 +245,19 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param colorName the name of the color to be modified (e.g., "SkyColor")
 		*@param value the new color to use
 		*/
-		ASYNC setColor( const QString colorName, const QString value );
+		ASYNC setColor( const QString &colorName, const QString &value );
 
 	/**DCOP interface function.  Load a color scheme. 
 		*@param name the name of the color scheme to load (e.g., "Moonless Night")
 		*/
-		ASYNC loadColorScheme( const QString name );
+		ASYNC loadColorScheme( const QString &name );
 
 	/**DCOP interface function.  Export the sky image to a file. 
 		*@param filename the filename for the exported image
 		*@param width the width for the exported image
 		*@param height the height for the exported image
 		*/
-		ASYNC exportImage( const QString filename, int width, int height );
+		ASYNC exportImage( const QString &filename, int width, int height );
 
 	/**DCOP interface function.  Print the sky image. 
 		*@param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
@@ -286,7 +286,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param driverName the name of the driver for which the port will be set
 		*@param port the port identifier
 		*/
-		ASYNC setINDIPort(const QString &driverName, QString port);
+		ASYNC setINDIPort(const QString &driverName, const QString &port);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC coordinates
 		*@param driverName the name of the driver 
@@ -305,7 +305,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param driverName the name of the driver 
 		*@param action the action to set
 		*/
-		ASYNC setINDIAction(const QString &driverName, QString action);
+		ASYNC setINDIAction(const QString &driverName, const QString &action);
 	
 	/**DCOP interface function.  Pause DCOP execution until named INDI action is completed. 
 		*@param driverName the name of the driver 

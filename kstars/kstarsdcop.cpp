@@ -59,7 +59,7 @@ void KStars::setAltAz( double alt, double az ) {
  	map()->setDestinationAltAz(alt,az);
 }
 
-void KStars::lookTowards ( const QString direction ) {
+void KStars::lookTowards ( const QString &direction ) {
   QString dir = direction.lower();
 	if (dir == "zenith" || dir=="z") map()->invokeKey( KKey( "Z" ).keyCodeQt() );
 	else if (dir == "north" || dir=="n") map()->invokeKey( KKey( "N" ).keyCodeQt() );
@@ -112,7 +112,7 @@ void KStars::waitFor( double t ) {
 	QTimer::singleShot( int( 1000.*t ), this, SLOT( resumeDCOP() ) );
 }
 
-void KStars::waitForKey( const QString k ) {
+void KStars::waitForKey( const QString &k ) {
 	data()->resumeKey = KKey( k );
 	if ( ! data()->resumeKey.isNull() ) {
 		kapp->dcopClient()->suspend();
@@ -218,7 +218,7 @@ QString KStars::getOption( const QString &name ) {
 	else return QString();
 }
 
-void KStars::changeViewOption( const QString op, const QString val ) {
+void KStars::changeViewOption( const QString &op, const QString &val ) {
 	bool bOk(false), nOk(false), dOk(false);
 
 	//parse bool value
@@ -335,7 +335,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	map()->forceUpdate();
 }
 
-void KStars::setColor( const QString name, const QString value ) {
+void KStars::setColor( const QString &name, const QString &value ) {
 	ColorScheme *cs = data()->colorScheme();
 	if ( cs->hasColorNamed( name ) ) {
 		cs->setColor( name, value );
@@ -343,7 +343,7 @@ void KStars::setColor( const QString name, const QString value ) {
 	}
 }
 
-void KStars::loadColorScheme( const QString _name ) {
+void KStars::loadColorScheme( const QString &_name ) {
 	QString name( _name );
 	QString filename = name.lower().trimmed();
 	bool ok( false );
@@ -388,7 +388,7 @@ void KStars::loadColorScheme( const QString _name ) {
 	}
 }
 
-void KStars::exportImage( const QString url, int w, int h ) {
+void KStars::exportImage( const QString &url, int w, int h ) {
 	//If the filename string contains no "/" separators, assume the 
 	//user wanted to place a file in their home directory.
 	KUrl fileURL;
@@ -818,7 +818,7 @@ void KStars::setINDIFocusSpeed(const QString &deviceName, unsigned int speed)
 }
 
 	
-void KStars::startINDIFocus(QString deviceName, int focusDir)
+void KStars::startINDIFocus(const QString &deviceName, int focusDir)
 {
   if (!indidriver || !indimenu)
   {
@@ -1026,7 +1026,7 @@ void KStars::setINDIScopeAction(const QString &deviceName, const QString &action
   setINDIAction(deviceName, action);
 }
 		
-void KStars::setINDIFrameType(const QString &deviceName, QString type)
+void KStars::setINDIFrameType(const QString &deviceName, const QString &type)
 {
   setINDIAction(deviceName, type);
 }

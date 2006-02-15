@@ -96,7 +96,7 @@ void LCGenerator::VerifyData()
   
 }
 
-void LCGenerator::DownloadCurve(const ExtDate &StartDate, const &ExtDate EndDate, const QString &Designation, const QString &AverageDay)
+void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay)
 {
 
 	QString buf(Hostprefix);

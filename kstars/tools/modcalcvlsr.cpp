@@ -484,10 +484,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read vlsr and write in ostream if corresponds
 	
 		if(InputVelocityCheckBatch->isChecked() ) {
-			vlsrB = fields[i];
+			vlsrB = fields[i].toDouble();
 			i++;
 		} else
-			vlsrB = InputVeloctyBoxBatch->text();
+			vlsrB = InputVelocityComboBatch->currentText().toDouble();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << vlsrB << space;
@@ -529,7 +529,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 			heightB = fields[i].toDouble();
 			i++;
 		} else
-			heightB = ElevationBoxBatch->text();
+			heightB = ElevationBoxBatch->text().toDouble();
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << heightB << space;

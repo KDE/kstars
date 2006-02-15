@@ -1221,7 +1221,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 		if ( fn[0] == sf->name() ) {
 
 			if ( fn[0] == "setGeoLocation" ) {
-				QString city( fn[1] ), prov( QString() ), cntry( fn[2] );
+				QString city( fn[1] ), prov( QString::null ), cntry( fn[2] );
 				if ( fn.count() == 4 ) { prov = fn[2]; cntry = fn[3]; }
 				if ( fn.count() == 3 || fn.count() == 4 ) {
 					ScriptList.append( new ScriptFunction( sf ) );

@@ -68,7 +68,7 @@ class DeviceManager : public QObject
    void checkMsg       (XMLEle *root, INDI_D *dp);
    void doMsg          (XMLEle *msg , INDI_D *dp);
 
-   bool indiConnect    (const QString &inHost, QString inPort);
+   bool indiConnect    (const QString &inHost, const QString &inPort);
 
   public slots:
    void dataReceived();

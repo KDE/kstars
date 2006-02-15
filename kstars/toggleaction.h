@@ -45,12 +45,12 @@ class ToggleAction : public KAction {
 		/**Sets the ToolTip text for the "on" state. 
 			*@param tip the tooltip string
 			*/
-		void setOnToolTip(QString tip);
+		void setOnToolTip(const QString &tip);
 
 		/**Sets the ToolTip text for the "off" state. 
 			*@param tip the tooltip string
 			*/
-		void setOffToolTip(QString tip);
+		void setOffToolTip(const QString &tip);
 
 	public slots:
 		/**Put the Action in the "off" state.  Update the icon and tooltip. */

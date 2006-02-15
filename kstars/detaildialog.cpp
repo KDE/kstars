@@ -726,8 +726,9 @@ void  DetailDialog::viewADVData()
 	KToolInvocation::invokeBrowser(link);
 }
 
-QString DetailDialog::parseADVData( const QString &link )
+QString DetailDialog::parseADVData( const QString &inlink )
 {
+	QString link = inlink;
 	QString subLink;
 	int index;
 	

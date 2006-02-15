@@ -47,7 +47,7 @@ static KCmdLineOptions options[] =
 	{ "width ", I18N_NOOP( "Width of sky image" ), "640" },
 	{ "height ", I18N_NOOP( "Height of sky image" ), "480" },
 	{ "filename ", I18N_NOOP( "Filename for sky image" ), "kstars.png" },
-	{ "date ", I18N_NOOP( "Date and time" ), QString() },
+	{ "date ", I18N_NOOP( "Date and time" ), "" },
 	{ "!paused", I18N_NOOP( "Start with clock paused" ), 0 },
 	KCmdLineLastOption
 };

@@ -226,11 +226,12 @@ bool KSPopupMenu::addINDI(void)
 	return true;
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &s1, const QString &s2, const QString &s3,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QString &s2, const QString &s3,
 		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, 
 		bool showAngularDistance, bool showObsList ) {
 	
 	clear();
+	QString s1 = _s1;
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
 
 	bool showLabel( true );

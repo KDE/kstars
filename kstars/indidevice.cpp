@@ -652,7 +652,7 @@ INDI_P * INDI_D::findProp (const QString &name)
   return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (const QString &grouptag, int create, char errmsg[])
+INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 {
 
   for ( int i=0; i < gl.size(); ++i ) {
