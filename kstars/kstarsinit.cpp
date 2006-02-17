@@ -401,6 +401,9 @@ void KStars::datainitFinished(bool worked) {
 	//Initialize Observing List
 	obsList = new ObservingList( this, this );
 
+	//DEBUG
+	kDebug() << "here" << endl;
+
 	data()->setFullTimeUpdate();
 	updateTime();
 
@@ -412,19 +415,19 @@ void KStars::datainitFinished(bool worked) {
 	connect( data(), SIGNAL( clearCache() ), this, 
 		 SLOT( clearCachedFindDialog() ) );
 
-	//Propagate config settings
-	applyConfig();
-
 	//show the window.  must be before kswizard and messageboxes
 	show();
+
+	//Initialize focus
+	initFocus();
+
+	//Propagate config settings
+	applyConfig();
 
 	//If this is the first startup, show the wizard
 	if ( Options::runStartupWizard() ) {
 		slotWizard();
 	}
-
-	//Initialize focus
-	initFocus();
 
 	//Start listening for DCOP
 	kapp->dcopClient()->resume();
