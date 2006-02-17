@@ -58,9 +58,9 @@ class ListComponent : public SkyComponent
 			*@short Update the sky positions of this component.
 			*
 			*This function usually just updates the Horizontal (Azimuth/Altitude)
-			*coordinates of the objects in this component.  However, the precession
-			*and nutation must also be recomputed periodically.  Requests to do
-			*so are sent through the doPrecess parameter.
+			*coordinates of the objects in this component.  If the KSNumbers* 
+			*argument is not NULL, this function also recomputes precession and
+			*nutation for the date in KSNumbers.
 			*@p data Pointer to the KStarsData object
 			*@p num Pointer to the KSNumbers object
 			*@note By default, the num parameter is NULL, indicating that 

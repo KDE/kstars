@@ -184,6 +184,16 @@ void DeepSkyComponent::init(KStarsData *data)
 	} //end for-loop through ngcic files
 }
 
+void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
+{
+	if ( visible() ) {
+		foreach ( SkyObject *o, objectList() ) {
+			if ( num ) o->updateCoords( num );
+			o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		}
+	}
+}
+
 void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( ! visible() ) return;
@@ -244,12 +254,17 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
 		foreach ( DeepSkyObject *obj, catalog ) {
 			if ( map->checkVisibility( obj ) ) {
 				float mag = obj->mag();
-				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
-				if ( mag > 90.0 || mag < (float)maglim ) {
+				float size = scale * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+
+				//only draw objects if flags set, it's bigger than 1 pixel (unless 
+				//zoom > 2000.), and it's brighter than maglim (unless mag is 
+				//undefined (=99.9)
+				if ( (size > 1.0 || Options::zoomFactor() > 2000.) && 
+						 (mag > 90.0 || mag < (float)maglim) ) {
 					QPointF o = map->getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-						double PositionAngle = 90. - map->findPA( obj, o.x(), o.y(), scale );
+						double PositionAngle = 90. + map->findPA( obj, o.x(), o.y(), scale );
 
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {

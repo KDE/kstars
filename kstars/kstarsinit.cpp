@@ -401,9 +401,6 @@ void KStars::datainitFinished(bool worked) {
 	//Initialize Observing List
 	obsList = new ObservingList( this, this );
 
-	//DEBUG
-	kDebug() << "here" << endl;
-
 	data()->setFullTimeUpdate();
 	updateTime();
 
