@@ -60,7 +60,7 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 	
 	if (!imageURL.isValid())		//check URL
 		kDebug()<<"URL is malformed"<<endl;
-	setCaption (imageURL.fileName()); // the title of the window
+	setWindowTitle (imageURL.fileName()); // the title of the window
 	loadImageFromURL();
 }
 

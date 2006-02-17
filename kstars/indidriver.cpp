@@ -771,7 +771,7 @@ int INDIDriver::activeDriverCount()
 void INDIDriver::addINDIHost()
 {
   INDIHostConf hostConf(this);
-  hostConf.setCaption(i18n("Add Host"));
+  hostConf.setWindowTitle(i18n("Add Host"));
   bool portOk = false;
 
   if (hostConf.exec() == QDialog::Accepted)
@@ -818,7 +818,7 @@ void INDIDriver::modifyINDIHost()
 {
 
   INDIHostConf hostConf(this);
-  hostConf.setCaption(i18n("Modify Host"));
+  hostConf.setWindowTitle(i18n("Modify Host"));
 
   QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 

@@ -198,7 +198,7 @@ bool  FITSViewer::initFITS()
     history->clear();
     
     /* Set new file caption */
-    setCaption(currentURL.fileName());
+    setWindowTitle(currentURL.fileName());
     
     /* Get initial statistics */
     calculateStats();
@@ -868,7 +868,7 @@ void FITSViewer::fitsRestore()
 {
  
  Dirty = 0;
- setCaption(currentURL.fileName());
+ setWindowTitle(currentURL.fileName());
  }
 
 void FITSViewer::fitsChange() 
@@ -876,7 +876,7 @@ void FITSViewer::fitsChange()
  
  Dirty = 1;
  
- setCaption(currentURL.fileName() + i18n(" [modified]"));
+ setWindowTitle(currentURL.fileName() + i18n(" [modified]"));
 }
 
 void FITSViewer::fitsStatistics()
