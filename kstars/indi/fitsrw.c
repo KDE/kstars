@@ -1773,6 +1773,9 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
              *(cdata++) = creplace;
            else
            {
+	     /*FIXME do we need scale + off, or is bzero, bscale enough?*/
+	     if (hdulist->used.bzero && hdulist->used.bscale)
+		bp16 = (long)(bp16 * hdulist->bscale + hdulist->bzero);
              tdata = (long)(bp16 * scale + offs);
              if (tdata < tmin) tdata = tmin;
              else if (tdata > tmax) tdata = tmax;
@@ -1787,6 +1790,8 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
          while (maxelem--)
          {
            FITS_GETBITPIX16 (pix, bp16);
+	   if (hdulist->used.bzero && hdulist->used.bscale)
+		bp16 = (long)(bp16 * hdulist->bscale + hdulist->bzero);
            tdata = (long)(bp16 * scale + offs);
            if (tdata < tmin) tdata = tmin;
            else if (tdata > tmax) tdata = tmax;
@@ -1818,6 +1823,8 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
              *(cdata++) = creplace;
            else
            {
+		if (hdulist->used.bzero && hdulist->used.bscale)
+			bp32 = (long)(bp32 * hdulist->bscale + hdulist->bzero);
              tdata = (long)(bp32 * scale + offs);
              if (tdata < tmin) tdata = tmin;
              else if (tdata > tmax) tdata = tmax;
@@ -1831,6 +1838,8 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
        {
          while (maxelem--)
          {
+	   if (hdulist->used.bzero && hdulist->used.bscale)
+			bp32 = (long)(bp32 * hdulist->bscale + hdulist->bzero);
            FITS_GETBITPIX32 (pix, bp32);
            tdata = (long)(bp32 * scale + offs);
            if (tdata < tmin) tdata = tmin;

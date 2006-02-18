@@ -36,13 +36,6 @@ INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
   
   name = inName;
 
-//  pl.setAutoDelete(true);
-  
-  // FIXME what's the parent exactly?
-  // You can do this eaither way:
-  // 1. Propertycontainer is a QFrame, then you make QVBoxLayout for it (check form1.cpp)
-  // 2. Keep it as QVBox and let it handle its children.
-  // Depends on which one works best.
   propertyContainer = new QFrame(dp->groupContainer);
   propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
   VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );

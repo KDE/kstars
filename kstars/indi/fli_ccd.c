@@ -827,10 +827,10 @@ int writeFITS(const char* filename, char errmsg[])
     return (-1);
   }
   
-  /* Convert buffer to BIG endian */
+  /* Subtract 0x7fff and convert buffer to BIG endian */
   for (i=0; i < FLIImg->height; i++)
     for (j=0 ; j < FLIImg->width; j++)
-      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j]) );
+      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j] - 0x7fff) );
   
   for (i= 0; i < FLIImg->height  ; i++)
   {
@@ -1370,7 +1370,7 @@ FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uin
  hdulist->used.datamax = 1;
  hdulist->datamax = max();
  hdulist->used.bzero = 1;
- hdulist->bzero = 0.0;
+ hdulist->bzero = 0x7fff;
  hdulist->used.bscale = 1;
  hdulist->bscale = 1.0;
  

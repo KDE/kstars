@@ -96,7 +96,7 @@ void INDIFITSConf::saveOptions()
 
      filterList[lastIndex] = filterAlias->text();
      Options::setFilterAlias(filterList);
-
+	
 }
 
 void INDIFITSConf::comboUpdate(int newIndex)

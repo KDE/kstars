@@ -57,7 +57,7 @@ class IDevice : public QObject
       QString label;
       QString driver;
       QString version;
-      QStringList serverBuffer;
+      QString serverBuffer;
       int state;
       int mode;
       int indiPort;

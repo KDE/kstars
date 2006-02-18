@@ -227,19 +227,20 @@ void telescopeWizardProcess::newLocation()
 
 int telescopeWizardProcess::establishLink()
 {
-
+	QList <QTreeWidgetItem *> found;
 	if (!indidriver || !indimenu)
 	  return (0);
 	  
-	/* FIXME
-	Q3ListViewItem *driverItem = NULL;
-	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
-	if (driverItem == NULL) return -1;
+	
+	QTreeWidgetItem *driverItem = NULL;
+	found = indidriver->ui->localTreeWidget->findItems(telescopeCombo->currentText(), Qt::MatchExactly, 0);
+	if (found.empty()) return -1;
+	driverItem = found.first();
 
 	// If device is already running, we need to shut it down first
 	if (indidriver->isDeviceRunning(telescopeCombo->currentText()))
 	{
-		indidriver->localListView->setSelected(driverItem, true);
+		indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 		indidriver->processDeviceStatus(1);
 	}
 	   
@@ -247,9 +248,9 @@ int telescopeWizardProcess::establishLink()
 	indimenu->setCustomLabel(telescopeCombo->currentText());
 	currentDevice = indimenu->currentLabel;
 	// Select it
-	indidriver->localListView->setSelected(driverItem, true);
+	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 	// Make sure we start is locally
-	indidriver->localR->setChecked(true);
+	indidriver->ui->localR->setChecked(true);
 	// Run it
 	indidriver->processDeviceStatus(0);
 
@@ -257,8 +258,6 @@ int telescopeWizardProcess::establishLink()
 	 return (3);
 
 	newDeviceTimer->start(1500);
-	
-        */
 
 	if (portIn->text().isEmpty())
 	 return (1);

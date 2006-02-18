@@ -134,12 +134,10 @@ INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n(
   QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
   QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
   QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-  QObject::connect(ui->localTreeWidget, SIGNAL(selectionChanged()), this, SLOT(updateLocalButtons()));
-  QObject::connect(ui->clientTreeWidget, SIGNAL(selectionChanged()), this, SLOT(updateClientButtons()));
+  QObject::connect(ui->localTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateLocalButtons()));
+  QObject::connect(ui->clientTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateClientButtons()));
 
   readXMLDriver();
-
-  //resize( 500, 300);
 
 }
 
@@ -153,12 +151,15 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
       
      if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
      {
-        affectedItem = (ui->clientTreeWidget->findItems(ksw->data()->INDIHostsList.at(i)->name, Qt::MatchExactly, 1)).first();
+	found = ui->clientTreeWidget->findItems(ksw->data()->INDIHostsList.at(i)->name, Qt::MatchExactly, 1);
+        if (found.empty()) return;
+	affectedItem = found.first();
 	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
 	ksw->data()->INDIHostsList.at(i)->isConnected = false;
         affectedItem->setIcon(0, ui->disconnected);
 	ui->connectHostB->setEnabled(true);
         ui->disconnectHostB->setEnabled(false);
+	updateMenuActions();
 	return;
      }
  }
@@ -171,16 +172,15 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
       found = ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly, 0);
       if (found.empty()) return;
       affectedItem = found.first();
-      //affectedItem = (ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly, 0)).first();
-      //if (!affectedItem) return;
+	
       affectedItem->setIcon(1, ui->stopPix);
-      //affectedItem->setIcon(2, NULL);
-      affectedItem->setText(2, QString());
+      affectedItem->setIcon(2, QIcon());
       affectedItem->setText(4, QString());
       ui->runServiceB->setEnabled(true);
       ui->stopServiceB->setEnabled(false);
       devices[i]->managed = false;
       devices[i]->restart();
+      updateMenuActions();
       return;
     }
   }
@@ -218,11 +218,8 @@ void INDIDriver::updateLocalButtons()
 	ui->runServiceB->setEnabled(devices[i]->state == 0);
 	ui->stopServiceB->setEnabled(devices[i]->state == 1);
 	
-        // FIXME this is quite slow, make it one text box only
 	ui->serverLogText->clear();
-	
-	for ( QStringList::Iterator it = devices[i]->serverBuffer.begin(); it != devices[i]->serverBuffer.end(); ++it )
-	   ui->serverLogText->insert(*it);
+        ui->serverLogText->append(devices[i]->serverBuffer);
 	
 	break;
      }
@@ -297,8 +294,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  	ksw->getINDIMenu()->processServer();
 		
 	  ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
-	  // FIXME this doesn't cause the icon to go away
-	  ui->localTreeWidget->currentItem()->setText(2, QString());
+	  ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
 	  ui->localTreeWidget->currentItem()->setText(4, QString());
 	  ui->runServiceB->setEnabled(true);
 	  ui->stopServiceB->setEnabled(false);
@@ -389,7 +385,7 @@ void INDIDriver::updateMenuActions()
   if (!tmpAction)
   	kDebug() << "Warning: indi_control_panel action not found" << endl;
   else
-  	tmpAction->setEnabled(activeDevice);
+  	tmpAction->setEnabled(activeDevice); 
   
   tmpAction = ksw->actionCollection()->action("capture_sequence");
   if (!tmpAction)
@@ -408,8 +404,6 @@ bool INDIDriver::runDevice(IDevice *dev)
    KMessageBox::error(0, i18n("Cannot start INDI server: port error."));
    return false;
   }
-
-  kDebug() << "Port is: " << dev->indiPort << endl;
 
   dev->proc = new KProcess;
   
@@ -844,7 +838,6 @@ void INDIDriver::modifyINDIHost()
     	currentItem->setText(1, hostConf.nameIN->text());
     	currentItem->setText(2, hostConf.portnumber->text());
 
-	// FIXME does this work??
     	ksw->data()->INDIHostsList.replace(i, hostItem);
 
     	saveHosts();

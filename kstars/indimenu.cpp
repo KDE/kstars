@@ -86,6 +86,7 @@ void INDIMenu::updateStatus()
    INDIDriver *drivers = ksw->getINDIDriver();
 
    // Local/Server
+   kDebug() << "Calling process Server" << endl;
    processServer();
 
    if (drivers)

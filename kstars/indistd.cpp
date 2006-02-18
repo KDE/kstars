@@ -79,9 +79,8 @@
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
    
-   downloadDialog = new KProgressDialog(NULL, i18n("INDI"), i18n("Downloading Data..."));
-   //Porting to new kdelibs snapshot
-   //downloadDialog->cancel();
+   //downloadDialog = new KProgressDialog(NULL, i18n("INDI"), i18n("Downloading Data..."));
+   //downloadDialog->reject();
    
    parser		= newLilXML();
  }

@@ -586,7 +586,7 @@ void FITSViewer::fileSave()
     	
 	setbuf(ifp->fp, NULL);
 	
-	bitpixRec.sprintf("BITPIX  =                    %d /Modified by KStars                               ", image->bitpix);
+	bitpixRec.sprintf("BITPIX  =                   %02d /Modified by KStars                              ", image->bitpix);
 	bitpixRec.truncate(80);
 	
 	for (int j=0; j < record.count(); j++)
@@ -602,6 +602,7 @@ void FITSViewer::fileSave()
 	switch (image->bitpix)
 	{
 	   case 8:
+		
 		for (i= image->height - 1; i >= 0; i--)
 		fwrite(image->displayImage->scanLine(i), 1, image->width, ifp->fp);
 		break;
@@ -620,7 +621,7 @@ void FITSViewer::fileSave()
 		
 		for (i=0, transCount = 0; i < totalCount; i += transCount)
 		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
-       			
+       		
      		break;
       
    	  case 32:
@@ -684,7 +685,14 @@ void FITSViewer::fileSave()
 		   transCount = fwrite( transData + i , 1, totalCount - i, ifp->fp);
 	        break;	
 	}
-		
+
+	totalCount = (totalCount * image->bpp) % FITS_RECORD_SIZE;
+	if (totalCount)
+  	{
+    		while (totalCount++ < FITS_RECORD_SIZE)
+      		putc (0, ifp->fp);
+  	}
+
 	fits_close(ifp);
 	
 	statusBar()->changeItem(i18n("File saved."), 3);
