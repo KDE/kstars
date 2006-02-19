@@ -31,7 +31,7 @@ class LX200Generic
 {
  public:
  LX200Generic();
- virtual ~LX200Generic() {}
+ virtual ~LX200Generic();
 
  virtual void ISGetProperties (const char *dev);
  virtual void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
@@ -75,7 +75,7 @@ class LX200Generic
   bool   fault;
   bool   simulation;
 
-  struct tm *localTM;
+  struct tm *last_local_time;
   
   char thisDevice[64];
 

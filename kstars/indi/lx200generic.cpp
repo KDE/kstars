@@ -103,7 +103,7 @@ static ISwitch ParkS[]		 = { {"PARK", "Park", ISS_OFF, 0, 0} };
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 0., 3., 1., 0.}};
+static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 0., 3., 1., 0., 0, 0, 0}};
 static ISwitch  FocusMotionS[]	 = { {"IN", "Focus in", ISS_OFF, 0, 0}, {"OUT", "Focus out", ISS_OFF, 0, 0}};
 static INumber  FocusTimerN[]    = { {"TIMER", "Timer (s)", "%10.6m", 0., 120., 1., 0., 0, 0, 0 }};
 
@@ -225,7 +225,8 @@ void ISInit()
  isInit = 1;
  
   PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
-  UTC[0].text   = strcpy(new char[32], "YYYY-MM-DDTHH:MM:SS");
+  //UTC[0].text   = strcpy(new char[32], "YYYY-MM-DDTHH:MM:SS");
+  IUSaveText(&UTC[0], "YYYY-MM-DDTHH:MM:SS");
   
   if (strstr(me, "lx200classic"))
   {
@@ -301,10 +302,18 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 
 LX200Generic::LX200Generic()
 {
-   struct tm *utp;
+   struct tm *utp = (tm *) malloc (sizeof (struct tm));
+   last_local_time= (tm *) malloc (sizeof (struct tm));
+
    time_t t;
    time (&t);
-   utp = gmtime (&t);
+   gmtime_r (&t, utp);
+   utp->tm_mon  += 1;
+   utp->tm_year += 1900;
+   JD = UTtoJD(utp);
+ 
+   IDLog("Julian Day is %g\n", JD);
+   free(utp);
    
    currentSiteNum = 1;
    trackingMode   = LX200_TRACK_DEFAULT;
@@ -319,19 +328,17 @@ LX200Generic::LX200Generic()
    UTCOffset      = 0;
    lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
-   localTM = new tm;
-   
-   utp->tm_mon  += 1;
-   utp->tm_year += 1900;
-   JD = UTtoJD(utp);
-   
-   IDLog("Julian Day is %g\n", JD);
-   
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("INDI Version: 2004-02-17\n");
+   IDLog("INDI Version: 2006-02-19\n");
  
-   //enableSimulation(true);  
+   // FIXME disable this
+   enableSimulation(true);  
+}
+
+LX200Generic::~LX200Generic()
+{
+  free (last_local_time);
 }
 
 void LX200Generic::setCurrentDeviceName(const char * devName)
@@ -386,11 +393,11 @@ void LX200Generic::ISGetProperties(const char *dev)
 void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 	int err;
-	struct tm *ltp = new tm;
+	struct tm *ltp = NULL;
 	struct tm utm;
 	time_t ltime;
 	time (&ltime);
-	localtime_r (&ltime, ltp);
+	
 	IText *tp;
 
 	// ignore if not ours //
@@ -442,16 +449,12 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	    IDSetText(&Time , "Time invalid");
 	    return;
 	  }
+                ltp = (tm *) malloc (sizeof(struct tm));
+                localtime_r (&ltime, ltp);
+
 		ltp->tm_mon  += 1;
 		ltp->tm_year += 1900;
 
-	        
-                /*dayDiff = utm.tm_mday - ltp->tm_mday;
-		if (dayDiff == 0)
-		   UTCOffset = (ltp->tm_hour - utm.tm_hour);  
-		else if (dayDiff > 0)
-		   UTCOffset = ltp->tm_hour - utm.tm_hour - 24;
-		else UTCOffset = ltp->tm_hour - utm.tm_hour + 24;*/
 		tzset();
 		
 		UTCOffset = timezoneOffset();
@@ -465,20 +468,26 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	  	{
 	        Time.s = IPS_IDLE;
 	        IDSetText( &Time , "Setting UTC Offset failed.");
+                free (ltp);
 		return;
 	  	}
 		
 		if ( ( err = setLocalTime(ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
 	  	{
 	          handleError(&Time, err, "Setting local time");
+                  free (ltp);
         	  return;
 	  	}
 
 		tp = IUFindText(&Time, names[0]);
 		if (!tp)
+		{
+		 free(ltp);
 		 return;
-		tp->text = new char[strlen(texts[0])+1];
-	        strcpy(tp->text, texts[0]);
+		}
+		//tp->text = new char[strlen(texts[0])+1];
+	        //strcpy(tp->text, texts[0]);
+  		IUSaveText(tp, texts[0]);
 		Time.s = IPS_OK;
 
 		// update JD
@@ -489,14 +498,16 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 
 		IDLog("New JD is %f\n", (float) JD);
 
-		if ((localTM->tm_mday == ltp->tm_mday ) && (localTM->tm_mon == ltp->tm_mon) &&
-		    (localTM->tm_year == ltp->tm_year))
+		if ((last_local_time->tm_mday == ltp->tm_mday ) && (last_local_time->tm_mon == ltp->tm_mon) &&
+		    (last_local_time->tm_year == ltp->tm_year))
 		{
 		  IDSetText(&Time , "Time updated to %s", texts[0]);
+                  free (ltp);
 		  return;
 		}
 
-		localTM = ltp;
+		free (last_local_time);
+		last_local_time = ltp;
 		
 		if (!strcmp(dev, "LX200 GPS"))
 		{
@@ -1885,6 +1896,10 @@ void LX200Generic::updateTime()
   // we'll have to convert telescope time to UTC manually starting from hour up
   // seems like a stupid way to do it.. oh well
   UTC_h = (int) UTCOffset + h;
+  // Correct UTC for daylight time savings
+  if (daylight)
+	UTC_h-=1;
+
   if (UTC_h < 0)
   {
    UTC_h += 24;
