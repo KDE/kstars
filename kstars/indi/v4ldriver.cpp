@@ -230,8 +230,8 @@ void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states
        {
          frameCount = 0;
          IDLog("Starting the video stream.\n");
-         v4l_base->start_capturing(errmsg);
 	 StreamSP.s  = IPS_BUSY; 
+	 v4l_base->start_capturing(errmsg);
        }
        else
        {
@@ -389,9 +389,9 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
         
 	V4LFrame->expose = 1000;
 
-        v4l_base->start_capturing(errmsg);
         ExposeTimeNP.s   = IPS_BUSY;
 	IDSetNumber(&ExposeTimeNP, NULL);
+	v4l_base->start_capturing(errmsg);
 	
         return;
     } 

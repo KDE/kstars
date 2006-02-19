@@ -303,7 +303,7 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 LX200Generic::LX200Generic()
 {
    struct tm *utp = (tm *) malloc (sizeof (struct tm));
-   last_local_time= (tm *) malloc (sizeof (struct tm));
+   last_local_time = (tm *) malloc (sizeof (struct tm));
 
    time_t t;
    time (&t);
@@ -332,8 +332,7 @@ LX200Generic::LX200Generic()
    IDLog("initilizaing from generic LX200 device...\n");
    IDLog("INDI Version: 2006-02-19\n");
  
-   // FIXME disable this
-   enableSimulation(true);  
+   //enableSimulation(true);  
 }
 
 LX200Generic::~LX200Generic()
@@ -632,7 +631,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	  }
 
 	  getSexComponents(values[0], &h, &m, &s);
-	  IDLog("Time is %02d:%02d:%02d\n", h, m, s);
+	  IDLog("Siderial Time is %02d:%02d:%02d\n", h, m, s);
 	  
 	  if ( ( err = setSDTime(h, m, s) < 0) )
 	  {

@@ -75,18 +75,16 @@ int V4L1_Base::connectCam(const char * devpath, char *errmsg)
    buffer_start=NULL;
    frameRate=10;
    fd=-1;
-   //usingTimer = false;
-   
-   //frameUpdate = true;
-   //selectCallBackID = -1;
-   //timerCallBackID  = -1;
-   
-   cerr << "In connect Cam with device " << devpath << endl;
-   if (-1 == (fd=open(devpath, O_RDONLY | O_NONBLOCK, 0)))
+
+   //cerr << "In connect Cam with device " << devpath << endl;
+   if (-1 == (fd=open(devpath, O_RDWR | O_NONBLOCK, 0)))
    {
-      strncpy(errmsg, strerror(errno), ERRMSGSIZ);
-      cerr << strerror(errno);
-      return -1;
+        if (-1 == (fd=open(devpath, O_RDONLY | O_NONBLOCK, 0)))
+	{
+      		strncpy(errmsg, strerror(errno), ERRMSGSIZ);
+      		cerr << strerror(errno);
+      		return -1;
+	}
    }
    
    cerr << "Device opened" << endl;
@@ -129,8 +127,11 @@ int V4L1_Base::connectCam(const char * devpath, char *errmsg)
    }
     */
 
-   mmapInit();
-      //mmapCapture();
+   if (mmapInit() < 0)
+   {
+	 strncpy(errmsg, "mmapInit() failed", ERRMSGSIZ);
+	 return -1;
+   }
    
    cerr << "All successful, returning\n";
    return fd;
@@ -159,16 +160,6 @@ void V4L1_Base::disconnectCam()
      
    fprintf(stderr, "Disconnect cam\n");
 }
-
-//void V4L1_Base::staticCallFrame(void *p)
-//{
-//  ((V4L1_Base *) p)->updateFrame(0, NULL);
-//}
-
-//void V4L1_Base::staticUpdateFrame(int /*d*/, void *p)
-//{
-//  ((V4L1_Base *) p)->updateFrame(0, NULL);
-//}
 
 void V4L1_Base::newFrame() 
 {
@@ -280,6 +271,7 @@ void V4L1_Base::init(int preferedPalette)
       do {
       /* trying VIDEO_PALETTE_YUV420P (Planar) */
       picture_format.palette=VIDEO_PALETTE_YUV420P;
+      picture_format.depth=12;
       if (0 == ioctl(fd, VIDIOCSPICT, &picture_format)) {
          cerr << "found palette VIDEO_PALETTE_YUV420P" << endl;
 	 break;
@@ -287,6 +279,7 @@ void V4L1_Base::init(int preferedPalette)
       cerr << "VIDEO_PALETTE_YUV420P not supported." << endl;
       /* trying VIDEO_PALETTE_YUV420 (interlaced) */
       picture_format.palette=VIDEO_PALETTE_YUV420;
+      picture_format.depth=12;
       if ( 0== ioctl(fd, VIDIOCSPICT, &picture_format)) {
          cerr << "found palette VIDEO_PALETTE_YUV420" << endl;
 	 break;
@@ -294,6 +287,7 @@ void V4L1_Base::init(int preferedPalette)
       cerr << "VIDEO_PALETTE_YUV420 not supported." << endl;
       /* trying VIDEO_PALETTE_RGB24 */
       picture_format.palette=VIDEO_PALETTE_RGB24;
+      picture_format.depth=24;
       if ( 0== ioctl(fd, VIDIOCSPICT, &picture_format)) {
          cerr << "found palette VIDEO_PALETTE_RGB24" << endl;
       break;
@@ -301,6 +295,7 @@ void V4L1_Base::init(int preferedPalette)
       cerr << "VIDEO_PALETTE_RGB24 not supported." << endl;
       /* trying VIDEO_PALETTE_GREY */
       picture_format.palette=VIDEO_PALETTE_GREY;
+      picture_format.depth=8;
       if ( 0== ioctl(fd, VIDIOCSPICT, &picture_format)) {
          cerr << "found palette VIDEO_PALETTE_GREY" << endl;
       break;
