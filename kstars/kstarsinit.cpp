@@ -29,6 +29,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kdeversion.h>
+#include <ktoolbar.h>
 
 #include "Options.h"
 #include "kstars.h"

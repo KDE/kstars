@@ -33,7 +33,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 
-#include <kpixmapio.h>
+//#include <kpixmapio.h>
 #include <kpixmap.h>
 #include <kdialog.h>
 #include <kmainwindow.h>
@@ -82,7 +82,7 @@ class FITSImage : public Q3ScrollView  {
 	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
 	QImage  *templateImage;					/* backup image for currentImage */
 	QPixmap qpix; 						/* Pixmap for drawing */
-	KPixmapIO kpix;						/* Pixmap IO for fast converting */
+	//KPixmapIO kpix;						/* Pixmap IO for fast converting */
 	QRect currentRect;					/* Current rectangle encapsulating the image */
 	int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
 	int width, height;					/* Original FITS dimensions */

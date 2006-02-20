@@ -31,6 +31,7 @@
 #include <kaction.h>
 #include <kaccel.h>
 #include <kdebug.h>
+#include <ktoolbar.h>
 #include "imageviewer.h"
 
 #include <kapplication.h>
@@ -88,7 +89,8 @@ void ImageViewer::paintEvent (QPaintEvent */*ev*/)
 void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
 {
 	if ( !downloadJob )  // only if image is loaded
-		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
+ 		//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+		//pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
 
 	update();
 }

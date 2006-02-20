@@ -236,7 +236,8 @@ void VideoWG::paintEvent(QPaintEvent */*ev*/)
    {
 	if (streamImage->isNull()) return;
   	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
+	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+	//qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }

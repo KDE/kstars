@@ -22,6 +22,7 @@
 #include <kmessagebox.h>
 #include <kaction.h>
 #include <kstandarddirs.h>
+#include <ktoolbar.h>
 
 #include <q3memarray.h>
 #include <q3pointarray.h>

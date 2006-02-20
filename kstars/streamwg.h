@@ -18,7 +18,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
- #include <kpixmapio.h>
+ //#include <kpixmapio.h>
   
  #include "streamformui.h"
  #include "q3frame.h"
@@ -94,7 +94,7 @@
       QRgb              *grayTable;
       QImage		*streamImage;
       QPixmap		 qPix;
-      KPixmapIO		 kPixIO;
+      //KPixmapIO		 kPixIO;
       
     protected:
      void paintEvent(QPaintEvent *ev);

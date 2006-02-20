@@ -372,7 +372,8 @@ int FITSImage::loadFits (const char *filename)
 
 void FITSImage::convertImageToPixmap()
 {
-    qpix = kpix.convertToPixmap ( *(displayImage) );
+    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+    //qpix = kpix.convertToPixmap ( *(displayImage) );
 }
 
 void FITSImage::zoomToCurrent()
@@ -393,14 +394,16 @@ void FITSImage::zoomToCurrent()
   
  if (cwidth != displayImage->width() || cheight != displayImage->height())
  {
- 	qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
+	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+ 	//qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
         //imgFrame->resize( (int) width, (int) height);
         viewportResizeEvent (NULL);
 	imgFrame->update();
  }
  else
  {
-   qpix = kpix.convertToPixmap ( *displayImage );
+   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+   //qpix = kpix.convertToPixmap ( *displayImage );
    imgFrame->update();
   }
  
@@ -418,8 +421,8 @@ void FITSImage::fitsZoomIn()
    currentHeight *= zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
    //kDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
-   
-   qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+   //qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
    imgFrame->resize( (int) currentWidth, (int) currentHeight);
 
    update();
@@ -436,8 +439,8 @@ void FITSImage::fitsZoomOut()
   
   currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
   currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
-  
-  qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+  //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+  //qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
   imgFrame->resize( (int) currentWidth, (int) currentHeight);
    
   update();
@@ -454,8 +457,8 @@ void FITSImage::fitsZoomDefault()
   currentZoom   = 0;
   currentWidth  = width;
   currentHeight = height;
-  
-  qpix = kpix.convertToPixmap (*displayImage);
+  //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
+  //qpix = kpix.convertToPixmap (*displayImage);
   imgFrame->resize( (int) currentWidth, (int) currentHeight);
   
   update();

@@ -41,6 +41,7 @@
 #include <kstatusbar.h>
 #include <kprocess.h>
 #include <kdeversion.h>
+#include <ktoolbar.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"

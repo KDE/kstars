@@ -26,7 +26,7 @@
 #include <QPaintEvent>
 #include <QCloseEvent>
 
-#include <kpixmapio.h>
+//#include <kpixmapio.h>
 #include <kio/job.h>
 #include <ktempfile.h>
 #include <kmainwindow.h>
@@ -105,7 +105,7 @@ class ImageViewer : public KMainWindow  {
 
 		QImage image;
 		QPixmap pix;
-		KPixmapIO kpix;
+		//KPixmapIO kpix;
 		KTempFile tempfile;
 		QFile *file;
 		
