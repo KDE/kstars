@@ -79,6 +79,15 @@
 #define USB_GLOB "/dev/ugen*.0" __STRINGIFY(FLI_CMD_ENDPOINT)
 #define SERIAL_GLOB "/dev/dty0*"
 
+#elif defined(__OpenBSD__)
+#define __SYSNAME__ "OpenBSD"
+#define __LIBFLI_MINOR__ 1
+#define USB_READ_SIZ_MAX (1024 *1024) /* 1 MB (This is arbitrary, but
+                                      * must be able to malloc this amount.)
+                                      */
+#define USB_GLOB "/dev/ugen*.0" __STRINGIFY(FLI_CMD_ENDPOINT)
+#define SERIAL_GLOB "/dev/dty0*"
+              
 #else
 
 #define __SYSNAME__ "Unknown"

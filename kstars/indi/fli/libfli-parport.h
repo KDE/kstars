@@ -48,7 +48,7 @@
 
 #define unix_parportio unix_parportio_linux
 
-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__)
 
 #define unix_parportio NULL
 
