@@ -11,18 +11,29 @@
 #define INDIFITSCONF_H
 
 #include "indiconf.h"
+#include <kdialogbase.h>
 
-class INDIFITSConf : public INDIConf
+class INDIFITSConfUI : public QFrame, public Ui::INDIConf
+{
+
+  public:
+
+  INDIFITSConfUI(QWidget *parent=0);
+
+};
+
+class INDIFITSConf : public KDialogBase
 {
   Q_OBJECT
 
 public:
-  INDIFITSConf(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+  INDIFITSConf(QWidget* parent = 0);
   ~INDIFITSConf();
   /*$PUBLIC_FUNCTIONS$*/
 
    void loadOptions();
    void saveOptions();
+   INDIFITSConfUI *ui;
 
 public slots:
   void comboUpdate(int newIndex);

@@ -952,7 +952,6 @@ int setFocuserMotion(int motionType)
 
 int setFocuserSpeedMode (int speedMode)
 {
-
  switch (speedMode)
  {
     case LX200_HALTFOCUS:
@@ -963,18 +962,24 @@ int setFocuserSpeedMode (int speedMode)
       if (portWrite("#:FS#") < 0)
        return -1;
       break;
-    case LX200_FOCUSMEDIUM:
-     if (portWrite("#:F3#") < 0)
-      return -1;
-      break;
     case LX200_FOCUSFAST:
      if (portWrite("#:FF#") < 0)
       return -1;
      break;
  }
- 
  return 0;
+}
 
+int setGPSFocuserSpeed (int speed)
+{
+  char speed_str[8];
+
+  snprintf(speed_str, 8, "#:F%d#", speed);
+
+  if (portWrite(speed_str) < 0)
+       return -1;
+
+  return 0;
 }
 
 int setTrackFreq(double trackF)

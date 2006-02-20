@@ -29,8 +29,6 @@
 #include "celestronprotocol.h"
 #include "celestrongps.h"
 
-#define RA_THRESHOLD	0.01
-#define DEC_THRESHOLD	0.05
 #define mydev 		"Celestron GPS"
 
 CelestronGPS *telescope = NULL;
@@ -63,10 +61,24 @@ static INumber eq[] = {
     {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},
     {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0},
 };
-//TODO decide appropiate TIME_OUT
+
 static INumberVectorProperty eqNum = {
     mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
     eq, NARRAY(eq), "", 0};
+
+/* Tracking precision */
+INumber trackingPrecisionN[] = {
+    {"TrackRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
+    {"TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
+};
+static INumberVectorProperty trackingPrecisionNP = {mydev, "Tracking Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, trackingPrecisionN, NARRAY(trackingPrecisionN), "", 0};
+
+/* Slew precision */
+INumber slewPrecisionN[] = {
+    {"SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
+    {"SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
+};
+static INumberVectorProperty slewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, slewPrecisionN, NARRAY(slewPrecisionN), "", 0};
 
 /* Fundamental group */
 static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
@@ -148,6 +160,8 @@ void CelestronGPS::ISGetProperties(const char *dev)
 
   // Movement group
   IDDefSwitch (&MovementSw, NULL);
+  IDDefNumber (&trackingPrecisionNP, NULL);
+  IDDefNumber (&slewPrecisionNP, NULL);
   
   /* Send the basic data to the new client if the previous client(s) are already connected. */		
   if (PowerSw.s == IPS_OK)
@@ -222,8 +236,8 @@ int CelestronGPS::handleCoordSet()
 	     usleep(500000);
 	  }
 
-	  if ( (fabs ( targetRA - currentRA ) >= TRACKING_THRESHOLD) ||
-	       (fabs (targetDEC - currentDEC) >= TRACKING_THRESHOLD))
+	  if ( (fabs ( targetRA - currentRA ) >= (trackingPrecisionN[0].value/(15.0*60.0))) ||
+ 	       (fabs (targetDEC - currentDEC) >= (trackingPrecisionN[1].value)/60.0))
 	  {
 
 	        IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
@@ -283,6 +297,34 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 
 	time (&t);
 	tp = gmtime (&t);
+
+        if (!strcmp (name, trackingPrecisionNP.name))
+	{
+		if (!IUUpdateNumbers(&trackingPrecisionNP, values, names, n))
+		{
+			trackingPrecisionNP.s = IPS_OK;
+			IDSetNumber(&trackingPrecisionNP, NULL);
+			return;
+		}
+		
+		trackingPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&trackingPrecisionNP, "unknown error while setting tracking precision");
+		return;
+	}
+
+	if (!strcmp(name, slewPrecisionNP.name))
+	{
+		IUUpdateNumbers(&slewPrecisionNP, values, names, n);
+		{
+			slewPrecisionNP.s = IPS_OK;
+			IDSetNumber(&slewPrecisionNP, NULL);
+			return;
+		}
+		
+		slewPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&slewPrecisionNP, "unknown error while setting slew precision");
+		return;
+	}
 
 	if (!strcmp (name, eqNum.name))
 	{
@@ -624,7 +666,7 @@ void CelestronGPS::ISPoll()
 	    eqNum.np[0].value = currentRA;
 	    eqNum.np[1].value = currentDEC;
 
-	    status = CheckCoords(targetRA, targetDEC);
+	    status = CheckCoords(targetRA, targetDEC, slewPrecisionN[0].value/(15.0*60.0) , slewPrecisionN[1].value/60.0);
 
 	    // Wait until acknowledged or within 3.6', change as desired.
 	    switch (status)

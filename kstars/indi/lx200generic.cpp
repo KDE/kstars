@@ -81,8 +81,6 @@ extern char* me;
 #define SITE_GROUP	"Site Management"
 #define FOCUS_GROUP	"Focus Control"
 
-#define RA_THRESHOLD	0.01
-#define DEC_THRESHOLD	0.05
 #define LX200_SLEW	0
 #define LX200_TRACK	1
 #define LX200_SYNC	2
@@ -103,7 +101,6 @@ static ISwitch ParkS[]		 = { {"PARK", "Park", ISS_OFF, 0, 0} };
 
 static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
-static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 0., 3., 1., 0., 0, 0, 0}};
 static ISwitch  FocusMotionS[]	 = { {"IN", "Focus in", ISS_OFF, 0, 0}, {"OUT", "Focus out", ISS_OFF, 0, 0}};
 static INumber  FocusTimerN[]    = { {"TIMER", "Timer (s)", "%10.6m", 0., 120., 1., 0., 0, 0, 0 }};
 
@@ -145,10 +142,12 @@ static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MO
 
 static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), "", 0};
 
-// Focus Control
-static INumberVectorProperty	FocusSpeedNP  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusSpeedN, NARRAY(FocusSpeedN), "", 0};
-
 static ISwitchVectorProperty	FocusMotionSw = {mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), "", 0};
+
+static ISwitch  FocusModeS[]	 = { {"FOCUS_HALT", "Halt", ISS_ON, 0, 0},
+				     {"FOCUS_SLOW", "Slow", ISS_OFF, 0, 0},
+				     {"FOCUS_FAST", "Fast", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty FocusModeSP = {mydev, "FOCUS_MODE", "Mode", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusModeS, NARRAY(FocusModeS), "", 0};
 
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", 0, 0, 0, 0}};
@@ -156,6 +155,19 @@ ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0
 static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0., 0, 0, 0}};
 INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime), "", 0};
 
+/* Tracking precision */
+INumber trackingPrecisionN[] = {
+    {"TrackRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
+    {"TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
+};
+static INumberVectorProperty trackingPrecisionNP = {mydev, "Tracking Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, trackingPrecisionN, NARRAY(trackingPrecisionN), "", 0};
+
+/* Slew precision */
+INumber slewPrecisionN[] = {
+    {"SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
+    {"SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
+};
+static INumberVectorProperty slewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, slewPrecisionN, NARRAY(slewPrecisionN), "", 0};
 
 /* Site managment */
 static ISwitchVectorProperty SitesSw  = { mydev, "Sites", "", SITE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SitesS, NARRAY(SitesS), "", 0};
@@ -187,9 +199,11 @@ void changeLX200GenericDeviceName(const char * newName)
   strcpy(TrackModeSw.device , newName );
   strcpy(TrackingFreq.device , newName );
   strcpy(MovementSw.device , newName );
+  strcpy(trackingPrecisionNP.device, newName);
+  strcpy(slewPrecisionNP.device, newName);
 
   // FOCUS_GROUP
-  strcpy(FocusSpeedNP.device , newName );
+  strcpy(FocusModeSP.device , newName );
   strcpy(FocusMotionSw.device , newName );
   strcpy(FocusTimerNP.device, newName);
 
@@ -330,7 +344,7 @@ LX200Generic::LX200Generic()
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("INDI Version: 2006-02-19\n");
+   IDLog("INDI Version: 2006-02-20\n");
  
    //enableSimulation(true);  
 }
@@ -343,7 +357,6 @@ LX200Generic::~LX200Generic()
 void LX200Generic::setCurrentDeviceName(const char * devName)
 {
   strcpy(thisDevice, devName);
-
 }
 
 void LX200Generic::ISGetProperties(const char *dev)
@@ -368,9 +381,11 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefSwitch (&SlewModeSw, NULL);
   IDDefSwitch (&TrackModeSw, NULL);
   IDDefSwitch (&MovementSw, NULL);
+  IDDefNumber (&trackingPrecisionNP, NULL);
+  IDDefNumber (&slewPrecisionNP, NULL);
 
   // FOCUS_GROUP
-  IDDefNumber(&FocusSpeedNP, NULL);
+  IDDefSwitch(&FocusModeSP, NULL);
   IDDefSwitch(&FocusMotionSw, NULL);
   IDDefNumber(&FocusTimerNP, NULL);
 
@@ -538,6 +553,34 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	// ignore if not ours //
 	if (strcmp (dev, thisDevice))
 	    return;
+
+        if (!strcmp (name, trackingPrecisionNP.name))
+	{
+		if (!IUUpdateNumbers(&trackingPrecisionNP, values, names, n))
+		{
+			trackingPrecisionNP.s = IPS_OK;
+			IDSetNumber(&trackingPrecisionNP, NULL);
+			return;
+		}
+		
+		trackingPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&trackingPrecisionNP, "unknown error while setting tracking precision");
+		return;
+	}
+
+	if (!strcmp(name, slewPrecisionNP.name))
+	{
+		IUUpdateNumbers(&slewPrecisionNP, values, names, n);
+		{
+			slewPrecisionNP.s = IPS_OK;
+			IDSetNumber(&slewPrecisionNP, NULL);
+			return;
+		}
+		
+		slewPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&slewPrecisionNP, "unknown error while setting slew precision");
+		return;
+	}
 
 	if (!strcmp (name, eqNum.name))
 	{
@@ -749,31 +792,6 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 
 	}
 
-        // Focus speed
-	if (!strcmp (name, FocusSpeedNP.name))
-	{
-	  if (checkPower(&FocusSpeedNP))
-	   return;
-
-	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
-		return;
-
-	  /* disable timer and motion */
-	  if (FocusSpeedN[0].value == 0)
-	  {
-	    IUResetSwitches(&FocusMotionSw);
-	    FocusMotionSw.s = IPS_IDLE;
-	    FocusTimerNP.s  = IPS_IDLE;
-	    IDSetSwitch(&FocusMotionSw, NULL);
-	    IDSetNumber(&FocusTimerNP, NULL);
-	  }
-	    
-	  setFocuserSpeedMode( ( (int) FocusSpeedN[0].value));
-	  FocusSpeedNP.s = IPS_OK;
-	  IDSetNumber(&FocusSpeedNP, NULL);
-	  return;
-	}
-
 }
 
 void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
@@ -982,8 +1000,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 
 	  IUResetSwitches(&FocusMotionSw);
 	  
-	  // If speed is "halt"
-	  if (FocusSpeedN[0].value == 0)
+	  // If mode is "halt"
+	  if (FocusModeS[0].s == ISS_ON)
 	  {
 	    FocusMotionSw.s = IPS_IDLE;
 	    IDSetSwitch(&FocusMotionSw, NULL);
@@ -1146,6 +1164,34 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  IDSetSwitch(&TrackModeSw, NULL);
 	  return;
 	}
+
+        // Focus speed
+	if (!strcmp (name, FocusModeSP.name))
+	{
+	  if (checkPower(&FocusModeSP))
+	   return;
+
+	  IUResetSwitches(&FocusModeSP);
+	  IUUpdateSwitches(&FocusModeSP, states, names, n);
+
+	  index = getOnSwitch(&FocusModeSP);
+
+	  /* disable timer and motion */
+	  if (index == 0)
+	  {
+	    IUResetSwitches(&FocusMotionSw);
+	    FocusMotionSw.s = IPS_IDLE;
+	    FocusTimerNP.s  = IPS_IDLE;
+	    IDSetSwitch(&FocusMotionSw, NULL);
+	    IDSetNumber(&FocusTimerNP, NULL);
+	  }
+	    
+	  setFocuserSpeedMode(index);
+	  FocusModeSP.s = IPS_OK;
+	  IDSetSwitch(&FocusModeSP, NULL);
+	  return;
+	}
+
 
 }
 
@@ -1316,7 +1362,7 @@ void LX200Generic::ISPoll()
 	    eqNum.np[1].value = currentDEC;
 
 	    // Wait until acknowledged or within threshold
-	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
+	    if ( fabs(dx) <= (slewPrecisionN[0].value/(60.0*15.0)) && fabs(dy) <= (slewPrecisionN[1].value/60.0))
 	    {
 	      /* Don't set current to target. This might leave residual cumulative error 
 		currentRA = targetRA;
@@ -1440,20 +1486,21 @@ void LX200Generic::ISPoll()
 	      
 	      if ( ( err = setFocuserSpeedMode(0) < 0) )
               {
-	        handleError(&FocusSpeedNP, err, "setting focuser speed mode");
-                IDLog("Error setting focuser speed mode\n");
+	        handleError(&FocusModeSP, err, "setting focuser mode");
+                IDLog("Error setting focuser mode\n");
                 return;
 	      } 
          
 	      
 	      FocusMotionSw.s = IPS_IDLE;
 	      FocusTimerNP.s  = IPS_OK;
-	      FocusSpeedNP.s  = IPS_OK;
+	      FocusModeSP.s   = IPS_OK;
 	      
               IUResetSwitches(&FocusMotionSw);
-	      FocusSpeedN[0].value = 0;
+              IUResetSwitches(&FocusModeSP);
+	      FocusModeS[0].s = ISS_ON;
 	      
-	      IDSetNumber(&FocusSpeedNP, NULL);
+	      IDSetSwitch(&FocusModeSP, NULL);
 	      IDSetSwitch(&FocusMotionSw, NULL);
 	    }
 	    
@@ -1576,7 +1623,7 @@ int LX200Generic::handleCoordSet()
 	  dy = fabs (targetDEC - currentDEC);
 
 	  
-	  if (dx >= TRACKING_THRESHOLD || dy >= TRACKING_THRESHOLD) 
+	  if (dx >= (trackingPrecisionN[0].value/(60.0*15.0)) || (dy >= trackingPrecisionN[1].value/60.0)) 
 	  {
 	        IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
 		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);

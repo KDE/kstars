@@ -113,7 +113,7 @@ double GetRA(void);
 double GetDec(void);
 int  SlewToCoords(double newRA, double newDec);
 int  SyncToCoords(double newRA, double newDec);
-int  CheckCoords(double desRA, double desDec);
+int  CheckCoords(double desRA, double desDec, double tolRA, double tolDEC);
 
 void StopNSEW(void);
 int  SetSlewRate(void);

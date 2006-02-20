@@ -33,7 +33,7 @@ enum TFormat { LX200_FORMAT_SHORT, LX200_FORMAT_LONG};
 enum TTimeFormat { LX200_24, LX200_AM, LX200_PM};
   /* Focus operation */
 enum TFocusMotion { LX200_FOCUSIN, LX200_FOCUSOUT };
-enum TFocusSpeed  { LX200_HALTFOCUS = 0, LX200_FOCUSFAST, LX200_FOCUSMEDIUM, LX200_FOCUSSLOW };
+enum TFocusSpeed  { LX200_HALTFOCUS = 0, LX200_FOCUSSLOW, LX200_FOCUSFAST};
   /* Library catalogs */
 enum TCatalog { LX200_STAR_C, LX200_DEEPSKY_C};
   /* Frequency mode */
@@ -206,6 +206,8 @@ int setSiteName(char * siteName, int siteNum);
 int setMaxSlewRate(int slewRate);
 /* Set focuser motion */
 int setFocuserMotion(int motionType);
+/* SET GPS Focuser raneg (1 to 4) */
+int setGPSFocuserSpeed (int speed);
 /* Set focuser speed mode */
 int setFocuserSpeedMode (int speedMode);
 /* Set minimum elevation limit */

@@ -27,6 +27,7 @@
 #include "lx200driver.h"
 
 #define FirmwareGroup "Firmware data"
+#define FOCUS_GROUP   "Focus Control"
 
 
 extern LX200Generic *telescope;
@@ -45,16 +46,18 @@ static IText   VersionT[] ={{ "Date", "", 0, 0, 0, 0} ,
 
 static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), "" ,0};
 
+// Focus Control
+static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 1.0, 4.0, 1.0, 1.0, 0, 0, 0}};
+static INumberVectorProperty	FocusSpeedNP  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusSpeedN, NARRAY(FocusSpeedN), "", 0};
+
 void changeLX200AutostarDeviceName(const char *newName)
 {
   strcpy(VersionInfo.device, newName);
+  strcpy(FocusSpeedNP.device, newName);
 }
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
-
-  //for (int i=0; i  < 5; i++)
-     //strcpy(VersionInfo.t[i].text, "");
 
 }
 
@@ -67,7 +70,8 @@ if (dev && strcmp (thisDevice, dev))
 
     LX200Generic::ISGetProperties(dev);
 
-    IDDefText (&VersionInfo, NULL);
+    IDDefText   (&VersionInfo, NULL);
+    IDDefNumber (&FocusSpeedNP, NULL);
 
 }
 
@@ -87,6 +91,25 @@ void LX200Autostar::ISNewText (const char *dev, const char *name, char *texts[],
 
 void LX200Autostar::ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 {
+        // ignore if not ours
+	if (strcmp (dev, thisDevice))
+	    return;
+
+        // Focus speed
+	if (!strcmp (name, FocusSpeedNP.name))
+	{
+	  if (checkPower(&FocusSpeedNP))
+	   return;
+
+	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
+		return;
+
+	  setGPSFocuserSpeed( ( (int) FocusSpeedN[0].value));
+	  FocusSpeedNP.s = IPS_OK;
+	  IDSetNumber(&FocusSpeedNP, NULL);
+	  return;
+	}
+
     LX200Generic::ISNewNumber (dev, name, values, names, n);
 }
 

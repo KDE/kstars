@@ -31,7 +31,7 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="KPushButton" name="playB" >
+      <widget class="QPushButton" name="playB" >
        <property name="minimumSize" >
         <size>
          <width>32</width>
@@ -53,7 +53,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="captureB" >
+      <widget class="QPushButton" name="captureB" >
        <property name="minimumSize" >
         <size>
          <width>32</width>
@@ -75,7 +75,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="imgFormatCombo" >
+      <widget class="QComboBox" name="imgFormatCombo" >
        <property name="toolTip" >
         <string>Image Format</string>
        </property>
@@ -100,7 +100,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Q3Frame" name="videoFrame" >
+    <widget class="QFrame" name="videoFrame" >
      <property name="frameShape" >
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -113,29 +113,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends></extends>
-   <header>kcombobox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3Frame</class>
-   <extends></extends>
-   <header>Qt3Support/Q3Frame</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

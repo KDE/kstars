@@ -165,6 +165,16 @@
 			<whatsthis>The default location of saved FITS files</whatsthis>
 			<default></default>
 		</entry>
+		<entry name="portStart" type="String">
+			<label>INDI Server Start Port</label>
+			<whatisthis>INDI server will attempt to bind with ports starting from this port</whatisthis>
+			<default>7264</default>
+		</entry>
+		<entry name="portEnd" type="String">
+			<label>INDI Server Final Port</label>
+			<whatisthis>INDI server will attempt to bind with ports ending with this port</whatisthis>
+			<default>9000</default>
+		</entry>
 		<entry name="FilterAlias" type="StringList">
 			<label>Aliases for filter wheel slots.</label>
 			<whatsthis>List of the aliases for filter wheel slots.</whatsthis>

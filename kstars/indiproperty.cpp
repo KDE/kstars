@@ -451,7 +451,8 @@ void INDI_P::addGUI (XMLEle *root)
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setTextFormat( Qt::RichText );
-	   label_w->setAlignment( Qt::TextWordWrap | Qt::AlignVCenter | Qt::AlignHCenter );
+	   label_w->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter );
+           label_w->setWordWrap(true);
 	   
 	   PHBox->addWidget(label_w);
 	 

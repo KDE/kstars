@@ -21,6 +21,7 @@
 #include <QCheckBox>
 #include <QDir>
 #include <QTextStream>
+#include <QDialog>
 
 #include <kdebug.h>
 #include <kaction.h>

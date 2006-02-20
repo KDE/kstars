@@ -20,6 +20,7 @@
 #include "devicemanager.h"
 #include "indidevice.h"
 #include "indi/indicom.h"
+#include "Options.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -31,11 +32,6 @@
 #include <QTreeWidget>
 #include <QIcon>
 
-
-//Added by qt3to4:
-#include <q3valuelist.h>
-#include <q3cstring.h>
-#include <q3textedit.h>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -99,8 +95,7 @@ INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n(
 
 {
 
-    // FIXME read this from INDI Options!!
-    currentPort = 7263;
+    currentPort = Options::portStart().toInt()-1;
     lastGroup = NULL;
     lastDevice = NULL;
 
@@ -547,14 +542,11 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 int INDIDriver::getINDIPort()
 {
 
-  //TODO have these parameters in some config file, or Configure INDI panel
-  //int firstPort = 7268;
-  // place lower/upper limits on port 1024-65256 or whatever
-  int lastPort  = 9000;
+  int lastPort  = Options::portEnd().toInt();;
   currentPort++;
 
-   // recycle TODO
-  // if (currentPort > lastPort) currentPort = firstPort
+   // recycle
+   if (currentPort > lastPort) currentPort = Options::portStart().toInt();
 
   KNetwork::KServerSocket ss;
   ss.setFamily(KNetwork::KResolver::InetFamily);

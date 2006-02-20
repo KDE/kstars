@@ -58,7 +58,7 @@ double GetRA(void);
 double GetDec(void);
 int  SlewToCoords(double newRA, double newDec);
 int  SyncToCoords(double newRA, double newDec);
-int  CheckCoords(double desRA, double desDec);
+int  CheckCoords(double desRA, double desDec, double tolRA, double tolDEC);
 
 void StopNSEW(void);
 int  SetSlewRate(void);
@@ -580,7 +580,7 @@ int SlewToCoords(double newRA, double newDec)
 /*   1 -- goto complete within tolerance */
 /*   2 -- goto complete but outside tolerance */
 
-int CheckCoords(double desRA, double desDec)
+int CheckCoords(double desRA, double desDec, double tolRA, double tolDEC)
 {
   double errorRA, errorDec, nowRA, nowDec;
   char inputStr[2048];
@@ -608,7 +608,7 @@ int CheckCoords(double desRA, double desDec)
 
   /* For 6 minute of arc precision; change as needed.  */
 
-  if( fabs(errorRA) > (0.1/15.) || fabs(errorDec) > 0.1)
+  if( fabs(errorRA) > tolRA || fabs(errorDec) > tolDEC)
     return 1;
   else
     return 2;

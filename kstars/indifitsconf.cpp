@@ -23,14 +23,21 @@
 
 #include "Options.h"
 
-INDIFITSConf::INDIFITSConf(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-: INDIConf(parent,name, modal,fl)
+INDIFITSConfUI::INDIFITSConfUI(QWidget *parent) : QFrame(parent)
 {
+  setupUi(parent);
+}
+
+INDIFITSConf::INDIFITSConf(QWidget* parent)
+: KDialogBase( KDialogBase::Plain, i18n( "Configure INDI" ), Ok|Cancel, Ok, parent )
+{
+   QFrame *page = plainPage();
+   ui = new INDIFITSConfUI( page );
 
   KIconLoader *icons = KGlobal::iconLoader();
-  selectDirB->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
-  connect(selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
-  connect(filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
+  ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
+  connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
+  connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
 }
 
 
@@ -42,10 +49,10 @@ INDIFITSConf::~INDIFITSConf()
 
 void INDIFITSConf::saveFITSDirectory()
 {
-  QString dir = KFileDialog::getExistingDirectory(fitsDIR_IN->text());
+  QString dir = KFileDialog::getExistingDirectory(ui->fitsDIR_IN->text());
   
   if (!dir.isEmpty())
-  	fitsDIR_IN->setText(dir);
+  	ui->fitsDIR_IN->setText(dir);
 }
 
 void INDIFITSConf::loadOptions()
@@ -54,57 +61,61 @@ void INDIFITSConf::loadOptions()
    lastIndex = 0;
 
    filterNumbers << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
-   filterCombo->insertStringList(filterNumbers);
+   ui->filterCombo->insertStringList(filterNumbers);
 
-   timeCheck->setChecked( Options::indiAutoTime() );
-   GeoCheck->setChecked( Options::indiAutoGeo() );
-   crosshairCheck->setChecked( Options::indiCrosshairs() );
-   messagesCheck->setChecked ( Options::indiMessages() );
-   fitsAutoDisplayCheck->setChecked( Options::indiFITSDisplay() );
-   telPort_IN->setText ( Options::indiTelescopePort());
-   vidPort_IN->setText ( Options::indiVideoPort());
+   ui->timeCheck->setChecked( Options::indiAutoTime() );
+   ui->GeoCheck->setChecked( Options::indiAutoGeo() );
+   ui->crosshairCheck->setChecked( Options::indiCrosshairs() );
+   ui->messagesCheck->setChecked ( Options::indiMessages() );
+   ui->fitsAutoDisplayCheck->setChecked( Options::indiFITSDisplay() );
+   ui->telPort_IN->setText ( Options::indiTelescopePort());
+   ui->vidPort_IN->setText ( Options::indiVideoPort());
+   ui->portStart->setText( Options::portStart());
+   ui->portEnd->setText( Options::portEnd());
 
    if (Options::fitsSaveDirectory().isEmpty())
    {
-     fitsDIR_IN->setText (QDir:: homePath());
-     Options::setFitsSaveDirectory( fitsDIR_IN->text());
+     ui->fitsDIR_IN->setText (QDir:: homePath());
+     Options::setFitsSaveDirectory( ui->fitsDIR_IN->text());
    }
    else
-     fitsDIR_IN->setText ( Options::fitsSaveDirectory());
+     ui->fitsDIR_IN->setText ( Options::fitsSaveDirectory());
 
    if (Options::filterAlias().empty())
          filterList << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
    else
          filterList = Options::filterAlias();
 
-     filterCombo->setCurrentItem(lastIndex);
-     filterAlias->setText(filterList[lastIndex]);
+     ui->filterCombo->setCurrentItem(lastIndex);
+     ui->filterAlias->setText(filterList[lastIndex]);
 
 }
 
 void INDIFITSConf::saveOptions()
 {
   
-     Options::setIndiAutoTime( timeCheck->isChecked() );
-     Options::setIndiAutoGeo( GeoCheck->isChecked() );
-     Options::setIndiCrosshairs( crosshairCheck->isChecked() );
-     Options::setIndiMessages( messagesCheck->isChecked() );
-     Options::setIndiFITSDisplay (fitsAutoDisplayCheck->isChecked());
-     Options::setIndiTelescopePort ( telPort_IN->text());
-     Options::setIndiVideoPort( vidPort_IN->text());
-     Options::setFitsSaveDirectory( fitsDIR_IN->text());
+     Options::setIndiAutoTime( ui->timeCheck->isChecked() );
+     Options::setIndiAutoGeo( ui->GeoCheck->isChecked() );
+     Options::setIndiCrosshairs( ui->crosshairCheck->isChecked() );
+     Options::setIndiMessages( ui->messagesCheck->isChecked() );
+     Options::setIndiFITSDisplay (ui->fitsAutoDisplayCheck->isChecked());
+     Options::setIndiTelescopePort ( ui->telPort_IN->text());
+     Options::setIndiVideoPort( ui->vidPort_IN->text());
+     Options::setFitsSaveDirectory( ui->fitsDIR_IN->text());
+     Options::setPortStart( ui->portStart->text());
+     Options::setPortEnd ( ui->portEnd->text());
 
-     filterList[lastIndex] = filterAlias->text();
+     filterList[lastIndex] = ui->filterAlias->text();
      Options::setFilterAlias(filterList);
 	
 }
 
 void INDIFITSConf::comboUpdate(int newIndex)
 {
-  filterList[lastIndex] = filterAlias->text();
+  filterList[lastIndex] = ui->filterAlias->text();
   lastIndex = newIndex;
 
-  filterAlias->setText(filterList[lastIndex]);
+  ui->filterAlias->setText(filterList[lastIndex]);
 
 }
 
