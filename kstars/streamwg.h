@@ -17,9 +17,9 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-#include <kpixmapio.h>
-#include <kdialogbase.h>
-  
+
+#include <kpixmap.h>
+
 #include "streamformui.h"
 
  
@@ -31,15 +31,15 @@
  class QPainter;
  class QVBoxLayout;
  
- class StreamWGUI : public QFrame, public Ui::streamForm
+/* class StreamWGUI : public QFrame, public Ui::streamForm
  {
    Q_OBJECT
    
    public:
      StreamWGUI(QWidget *parent=0);
- };
+ };*/
 
- class StreamWG : public KDialogBase
+ class StreamWG : public QWidget, public Ui::streamForm
  {
    Q_OBJECT
    
@@ -62,8 +62,6 @@
    private:
    INDIStdDevice        *stdDev;
    QPixmap              playPix, pausePix, capturePix;
-   QVBoxLayout          *videoFrameLayout;
-   StreamWGUI		*ui;
    
    protected:
    void closeEvent ( QCloseEvent * e );
@@ -93,7 +91,7 @@
       int		totalBaseCount;
       QRgb              *grayTable;
       QImage		*streamImage;
-      QPixmap		 qPix;
+      KPixmap		 kPix;
       //KPixmapIO		 kPixIO;
       
     protected:

@@ -44,7 +44,7 @@
 
 FILE *wfp;
 
-StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
+/*StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
 {
 
  setupUi(parent);
@@ -52,17 +52,19 @@ StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
  foreach (QByteArray format, QImageWriter::supportedImageFormats())
      imgFormatCombo->addItem(QString(format));
 
-}
+}*/
   
- StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : KDialogBase( KDialogBase::Plain, i18n( "Video Stream" ), Close, Close, parent )
+ StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
  {
  
-   QFrame *page   = plainPage();
-   ui		  = new StreamWGUI(page);
+   //QFrame *page   = plainPage();
+   //ui		  = new StreamWGUI(page);
+   setupUi(this);
    stdDev         = inStdDev;
    streamWidth    = streamHeight = -1;
    processStream  = colorFrame = false;
-   streamFrame      = new VideoWG(ui->videoFrame);
+
+   streamFrame      = new VideoWG(videoFrame);
       
   KIconLoader *icons = KGlobal::iconLoader();
   
@@ -70,11 +72,18 @@ StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
   pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
   
-  ui->playB->setPixmap(pausePix);	
-  ui->captureB->setPixmap(capturePix);
+  foreach (QByteArray format, QImageWriter::supportedImageFormats())
+     imgFormatCombo->addItem(QString(format));
+
+  playB->setPixmap(pausePix);	
+  captureB->setPixmap(capturePix);
   
-  connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
+  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+
+  //videoFrame->resize(640, 480);
+
+  //kDebug() << "Video Frame Width " << videoFrame->width() << endl;
    
  }
  
@@ -105,7 +114,7 @@ void StreamWG::enableStream(bool enable)
   else
   {
     processStream = false;
-    ui->playB->setPixmap(pausePix);
+    playB->setPixmap(pausePix);
     hide();
   }
   
@@ -119,16 +128,13 @@ void StreamWG::setSize(int wd, int ht)
   
   streamFrame->totalBaseCount = wd * ht;
   
-  resize(wd + layout()->margin() * 2 , ht + ui->playB->height() + layout()->margin() * 2 + layout()->spacing());  
+  resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 4 + layout()->spacing());  
   streamFrame->resize(wd, ht);
-    //FIXME This should be performed with respect to ui, i.e. ui->setSize(...)
-  //ui->videoFrame->resize(wd, ht);
 }
 
 void StreamWG::resizeEvent(QResizeEvent *ev)
 {
-  //FIXME This should be performed with respect to ui
-  //streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 4 - layout()->spacing());
 
 }
 
@@ -137,12 +143,12 @@ void StreamWG::playPressed()
 
  if (processStream)
  {
-  ui->playB->setPixmap(playPix);	
+  playB->setPixmap(playPix);	
   processStream = false;
  }
  else
  {
-  ui->playB->setPixmap(pausePix);	
+  playB->setPixmap(pausePix);	
   processStream = true;
  }
  
@@ -157,7 +163,7 @@ void StreamWG::captureImage()
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
-  fmt = ui->imgFormatCombo->currentText();
+  fmt = imgFormatCombo->currentText();
 
   currentFileURL = KFileDialog::getSaveURL( currentDir, fmt );
   
@@ -178,7 +184,7 @@ void StreamWG::captureImage()
 	  fname += fmt.lower();
 	}
 	  
-	streamFrame->qPix.save(fname, fmt.ascii());
+	streamFrame->kPix.save(fname, fmt.ascii());
 	
 	//set rwx for owner, rx for group, rx for other
 	chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
@@ -238,14 +244,12 @@ void VideoWG::paintEvent(QPaintEvent */*ev*/)
    if (streamImage)
    {
 	if (streamImage->isNull()) return;
-  	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-	//qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
+	kPix.convertFromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }
    
-   bitBlt(this, 0, 0, &qPix);
+   bitBlt(this, 0, 0, &kPix);
    
 }
 

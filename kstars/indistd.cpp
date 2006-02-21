@@ -67,8 +67,8 @@
    ISOMode   		= false;
    
    currentObject  	= NULL; 
-   streamWindow   	= new StreamWG(this, ksw);
-   CCDPreviewWindow   	= new CCDPreviewWG(this, ksw);
+   streamWindow   	= new StreamWG(this, NULL);
+   CCDPreviewWindow   	= new CCDPreviewWG(this, NULL);
 	 
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
