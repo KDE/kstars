@@ -506,7 +506,7 @@
                                     <cstring>raCheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Right ascention:</string>
+                                    <string>Right ascension:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>

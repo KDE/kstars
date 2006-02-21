@@ -356,7 +356,7 @@
                                                     <cstring>textLabel9</cstring>
                                                 </property>
                                                 <property name="text">
-                                                    <string>Right ascention:</string>
+                                                    <string>Right ascension:</string>
                                                 </property>
                                             </widget>
                                             <widget class="QLabel" row="1" column="0">

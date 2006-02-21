@@ -405,7 +405,7 @@
                                     <cstring>ra1CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Final right ascention:</string>
+                                    <string>Final right ascension:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -438,7 +438,7 @@
                                     <cstring>ra0CheckBatch</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Initial right ascention:</string>
+                                    <string>Initial right ascension:</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>

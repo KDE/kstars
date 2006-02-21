@@ -75,8 +75,8 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
 //	dayItem->setPixmap(0,sunsetIcon);
 
-	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Coordinate Converters"));
-	new QListViewItem(coordItem,i18n("Equatorial/Galactic"));
+	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Celestial Coordinates"));
+	new QListViewItem(coordItem,i18n("Galactic Coordinates"));
 	new QListViewItem(coordItem,i18n("Precession"));
 	new QListViewItem(coordItem,i18n("Apparent Coordinates"));
 	new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
@@ -111,11 +111,11 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genTimeText();
 	if(!(election.compare(i18n("Sidereal Time"))))
 		genSidFrame();
-	if(!(election.compare(i18n("Coordinate Converters"))))
+	if(!(election.compare(i18n("Celestial Coordinates"))))
 		genCoordText();
 	if(!(election.compare(i18n("Julian Day"))))
 		genJdFrame();
-	if(!(election.compare(i18n("Equatorial/Galactic"))))
+	if(!(election.compare(i18n("Galactic Cooordinates"))))
 		genGalFrame();
 	if(!(election.compare(i18n("Precession"))))
 		genPrecFrame();
@@ -156,7 +156,7 @@ void AstroCalc::genTimeText(void)
 	splashScreen->show();
 		
 	splashScreen->setText(i18n("<QT>"
-														 "Section which includes algorithms for computing time ephemeris"
+														 "Section for time-related astronomical calculations"
 														 "<UL><LI>"
 														 "<B>Julian Day:</B> Julian Day/Calendar conversion"
 														 "</LI><LI>"
@@ -201,7 +201,7 @@ void AstroCalc::genCoordText(void)
 														 "<B>Angular Distance:</B> Computation of angular distance between "
 														 "two objects whose positions are given in equatorial coordinates"
 														 "</LI><LI>"
-														 "<B>LRS Velocity:</B> Computation of the heliocentric, geocentric "
+														 "<B>LSR Velocity:</B> Computation of the heliocentric, geocentric "
 														 "and topocentric radial velocity of a source from its LSR velocity"
 														 "</LI></UL>"
 														 "</QT>"));
@@ -222,7 +222,7 @@ void AstroCalc::genGeodText(void)
 														 "Section with algorithms for the conversion of "
 														 "systems of coordinates for the Earth"
 														 "<UL><LI>"
-														 "<B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion"
+														 "<B>Geodetic Coordinates:</B> Geodetic/XYZ coordinate conversion"
 														 "</LI></UL>"
 														 "</QT>"));
 
@@ -241,7 +241,7 @@ void AstroCalc::genSolarText(void)
 														 "Section with algorithms regarding information "
 														 "on solar system bodies coordinates and times"
 														 "<UL><LI>"
-														 "<B>Planets Coords:</B> Coordinates for the planets, moon and sun "
+														 "<B>Planets Coordinates:</B> Coordinates for the planets, moon and sun "
 														 " at a given time and from a given position on Earth "
 														 "</LI></UL>"
 														 "</QT>"));
