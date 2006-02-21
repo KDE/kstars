@@ -327,7 +327,7 @@ void INDI_E::setMin (double inMin)
   min = inMin;
   if (spin_w)
   {
-    spin_w->setMinValue(min);
+    spin_w->setMinimum(min);
     spin_w->setValue(value);
   }
   if (slider_w)
@@ -345,7 +345,7 @@ void INDI_E::setMax (double inMax)
  max = inMax;
  if (spin_w)
  {
-   spin_w->setMaxValue(max);
+   spin_w->setMaximum(max);
    spin_w->setValue(value);
  }
  if (slider_w)

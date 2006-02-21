@@ -54,10 +54,11 @@ StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
 
 }
   
- StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
+ StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : KDialogBase( KDialogBase::Plain, i18n( "Video Stream" ), Close, Close, parent )
  {
  
-   ui		  = new StreamWGUI(this);
+   QFrame *page   = plainPage();
+   ui		  = new StreamWGUI(page);
    stdDev         = inStdDev;
    streamWidth    = streamHeight = -1;
    processStream  = colorFrame = false;
@@ -112,7 +113,7 @@ void StreamWG::enableStream(bool enable)
 
 void StreamWG::setSize(int wd, int ht)
 {
-   //FIXME This should be performed with respect to ui, i.e. ui->setSize(...)
+  
   streamWidth  = wd;
   streamHeight = ht;
   
@@ -120,12 +121,14 @@ void StreamWG::setSize(int wd, int ht)
   
   resize(wd + layout()->margin() * 2 , ht + ui->playB->height() + layout()->margin() * 2 + layout()->spacing());  
   streamFrame->resize(wd, ht);
+    //FIXME This should be performed with respect to ui, i.e. ui->setSize(...)
+  //ui->videoFrame->resize(wd, ht);
 }
 
 void StreamWG::resizeEvent(QResizeEvent *ev)
 {
   //FIXME This should be performed with respect to ui
-  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
+  //streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
 
 }
 
@@ -199,7 +202,7 @@ void StreamWG::captureImage()
 }
 
 
-VideoWG::VideoWG(QWidget * parent, const char * name) : Q3Frame(parent, name, Qt::WNoAutoErase)
+VideoWG::VideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   grayTable=new QRgb[256];

@@ -12,16 +12,16 @@
  #ifndef STREAMWG_H
  #define STREAMWG_H
  
- #include <qpixmap.h>
-//Added by qt3to4:
+#include <QPixmap>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
- //#include <kpixmapio.h>
+#include <kpixmapio.h>
+#include <kdialogbase.h>
   
- #include "streamformui.h"
- #include "q3frame.h"
+#include "streamformui.h"
+
  
  
  class QImage;
@@ -39,12 +39,12 @@
      StreamWGUI(QWidget *parent=0);
  };
 
- class StreamWG : public QWidget
+ class StreamWG : public KDialogBase
  {
    Q_OBJECT
    
     public:
-      StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0, const char * name =0);
+      StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
       ~StreamWG();
  
    friend class VideoWG;
@@ -77,7 +77,7 @@
 
  };
  
- class VideoWG : public Q3Frame
+ class VideoWG : public QFrame
  {
       Q_OBJECT
    

@@ -58,7 +58,7 @@ void V4L_Driver::initProperties(const char *dev)
   fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), dev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
  /* Port */
-  fillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
+  fillText(&PortT[0], "PORT", "Port", "/dev/video0");
   fillTextVector(&PortTP, PortT, NARRAY(PortT), dev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
  /* Video Stream */
@@ -717,7 +717,7 @@ void V4L_Driver::getBasicData()
   int xmax, ymax, xmin, ymin;
   
   v4l_base->getMaxMinSize(xmax, ymax, xmin, ymin);
-  
+
   /* Width */
   FrameN[2].value = v4l_base->getWidth();
   FrameN[2].min = xmin;

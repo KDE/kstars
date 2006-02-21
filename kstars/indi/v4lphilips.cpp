@@ -497,6 +497,8 @@ void V4L_Philips::getBasicData()
   
   v4l_pwc->getMaxMinSize(xmax, ymax, xmin, ymin);
   
+  IDLog("X (%d,%d), Y (%d,%d)\n", xmin, xmax, ymin, ymax);
+
   /* Width */
   FrameN[2].value = v4l_pwc->getWidth();
   FrameN[2].min = xmin;
