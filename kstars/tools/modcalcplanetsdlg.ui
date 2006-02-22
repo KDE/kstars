@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>596</width>
+            <width>625</width>
             <height>510</height>
         </rect>
     </property>
@@ -182,6 +182,9 @@
                                                         <width>120</width>
                                                         <height>0</height>
                                                     </size>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <enum>StrongFocus</enum>
                                                 </property>
                                             </widget>
                                             <widget class="QTimeEdit" row="0" column="1">
@@ -516,6 +519,9 @@
                                                 <height>0</height>
                                             </size>
                                         </property>
+                                        <property name="focusPolicy">
+                                            <enum>NoFocus</enum>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="2" column="0">
                                         <property name="name">
@@ -615,6 +621,9 @@
                                                 <width>100</width>
                                                 <height>0</height>
                                             </size>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <enum>NoFocus</enum>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -1318,6 +1327,37 @@
         <slot>slotPlanetsCheckedBatch()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>Interactive_Mode</tabstop>
+    <tabstop>planetComboBox</tabstop>
+    <tabstop>timeBox</tabstop>
+    <tabstop>dateBox</tabstop>
+    <tabstop>longBox</tabstop>
+    <tabstop>latBox</tabstop>
+    <tabstop>sunDistBox</tabstop>
+    <tabstop>earthDistBox</tabstop>
+    <tabstop>computeButton</tabstop>
+    <tabstop>clearButton</tabstop>
+    <tabstop>utBoxBatch</tabstop>
+    <tabstop>latBoxBatch</tabstop>
+    <tabstop>dateCheckBatch</tabstop>
+    <tabstop>latCheckBatch</tabstop>
+    <tabstop>longBoxBatch</tabstop>
+    <tabstop>longCheckBatch</tabstop>
+    <tabstop>utCheckBatch</tabstop>
+    <tabstop>planetCheckBatch</tabstop>
+    <tabstop>planetComboBoxBatch</tabstop>
+    <tabstop>helEclCheckBatch</tabstop>
+    <tabstop>equGeoCheckBatch</tabstop>
+    <tabstop>topoCheckBatch</tabstop>
+    <tabstop>geoEclCheckBatch</tabstop>
+    <tabstop>inputRadioBatch</tabstop>
+    <tabstop>InputButtonBatch</tabstop>
+    <tabstop>InputLineEditBatch</tabstop>
+    <tabstop>OutputLineEditBatch</tabstop>
+    <tabstop>OutButtonBatch</tabstop>
+    <tabstop>runButtonBatch</tabstop>
+</tabstops>
 <slots>
     <slot>slotComputePosition()</slot>
     <slot>slotClear()</slot>
@@ -1332,8 +1372,21 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>extdateedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>extdateedit.h</includehint>
+    <includehint>dmsbox.h</includehint>
 </includehints>
 </UI>

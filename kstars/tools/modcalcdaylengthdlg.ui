@@ -133,6 +133,9 @@
                             <height>0</height>
                         </size>
                     </property>
+                    <property name="focusPolicy">
+                        <enum>StrongFocus</enum>
+                    </property>
                 </widget>
                 <spacer>
                     <property name="name">
@@ -621,6 +624,7 @@
 <tabstops>
     <tabstop>longBox</tabstop>
     <tabstop>latBox</tabstop>
+    <tabstop>datBox</tabstop>
     <tabstop>Compute</tabstop>
     <tabstop>Clear</tabstop>
     <tabstop>dayLBox</tabstop>
@@ -638,8 +642,14 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>dmsbox.h</includehint>
-    <includehint>kpushbutton.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>extdateedit.h</includehint>
     <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>timebox.h</includehint>
+    <includehint>dmsbox.h</includehint>
+    <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>
 </includehints>
 </UI>
