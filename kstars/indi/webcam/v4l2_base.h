@@ -46,7 +46,7 @@ class V4L2_Base
    };
 
   /* Connection */
-  virtual int connectCam(const char * devpath, char *errmsg, int pixelFormat = V4L2_PIX_FMT_YUYV , int width = 160, int height = 120);
+  virtual int connectCam(const char * devpath, char *errmsg, int pixelFormat = -1 , int width = -1, int height = -1);
   virtual void disconnectCam();
   char * getDeviceName();
 

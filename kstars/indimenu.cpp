@@ -86,7 +86,6 @@ void INDIMenu::updateStatus()
    INDIDriver *drivers = ksw->getINDIDriver();
 
    // Local/Server
-   kDebug() << "Calling process Server" << endl;
    processServer();
 
    if (drivers)
@@ -103,6 +102,7 @@ void INDIMenu::updateStatus()
       return;
    }
 
+  //deviceContainer->show();
   show();
 
 }
@@ -185,10 +185,16 @@ void INDIMenu::removeDeviceMgr(int mgrID)
   for (int i=0; i < mgr.size(); i++)
   {
     if (mgrID == mgr.at(i)->mgrID)
-      delete mgr.takeAt(i);
-
-      emit driverDisconnected(mgrID);
+	{
+      		delete mgr.takeAt(i);
+	        emit driverDisconnected(mgrID);
+	}
   }
+
+  //FIXME try to hide unnecessary left over, only leave the msg box
+  // don't use KDialogBase.. just a regular QWidget will suffice
+     //if (mgr.empty())
+	//deviceContainer->hide();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)

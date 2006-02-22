@@ -60,7 +60,7 @@ class INDIMenu : public KDialogBase
    * GUI stuff
    ******************************************************************/
    QVBoxLayout	*mainLayout;
-   QTabWidget	*deviceContainer;
+   //QTabWidget	*deviceContainer;
    QTextEdit 	*msgST_w;
    QWidget	*tab;
    QPushButton  *clear;

@@ -610,6 +610,13 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);
 	
+	// This is a work around for the property addition and deletion problem
+	// For some reason, properties are not constructed correctly when INDI Control Panel is
+	// visible. Therefore, will we "hide" the tab widget.
+	if (pg->propertyContainer->isVisible())
+		pg->propertyContainer->hide();
+
+
 	pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
 
 	/* init state */

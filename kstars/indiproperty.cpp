@@ -94,12 +94,14 @@ bool INDI_P::isOn(const QString &component)
 
   lp = findElement(component);
 
+
   if (!lp)
    return false;
 
   if (lp->check_w && lp->check_w->isChecked())
      return true;
-  if (lp->push_w && lp->push_w->isDown())
+
+  if (lp->push_w && lp->state == PS_ON)
       return true;
 
   return false;

@@ -339,7 +339,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Q3Frame" name="videoFrame" >
+    <widget class="QFrame" name="videoFrame" >
      <property name="sizePolicy" >
       <sizepolicy>
        <hsizetype>5</hsizetype>
@@ -372,13 +372,6 @@
    <extends></extends>
    <header>kcombobox.h</header>
    <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3Frame</class>
-   <extends></extends>
-   <header>Qt3Support/Q3Frame</header>
-   <container>1</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>

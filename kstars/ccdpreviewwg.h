@@ -13,12 +13,12 @@
  #ifndef CCDPREVIEWWG_H
  #define CCDPREVIEWWG_H
  
-#include <qpixmap.h>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-//#include <kpixmapio.h>
+
+#include <kpixmap.h>
   
 #include "ccdpreviewui.h"
  
@@ -31,18 +31,19 @@ class INDIStdDevice;
 class QPainter;
 class QVBoxLayout;
 
-class CCDPreviewWGUI : public QFrame, public Ui::CCDPreviewForm {
+/*class CCDPreviewWGUI : public QFrame, public Ui::CCDPreviewForm {
 	Q_OBJECT
 	public:
 		CCDPreviewWGUI( QWidget *parent=0 );
 };
+*/
 
-class CCDPreviewWG : public QWidget
+class CCDPreviewWG : public QWidget, public Ui::CCDPreviewForm
 {
    Q_OBJECT
    
     public:
-      CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent =0, const char * name =0);
+      CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent =0);
       ~CCDPreviewWG();
  
    friend class CCDVideoWG;
@@ -61,8 +62,6 @@ class CCDPreviewWG : public QWidget
    private:
    INDIStdDevice        *stdDev;
    QPixmap               playPix, pausePix, capturePix;
-   QVBoxLayout           *videoFrameLayout;
-   CCDPreviewWGUI	 *ui;
    double fwhm;
    int mu;
    
@@ -80,12 +79,12 @@ class CCDPreviewWG : public QWidget
    void updateFWHM();
  };
  
- class CCDVideoWG : public Q3Frame
+ class CCDVideoWG : public QFrame
  {
       Q_OBJECT
    
     public:
-      CCDVideoWG(QWidget * parent =0, const char * name =0);
+      CCDVideoWG(QWidget * parent =0, const char * name="CCDPreviewFrame");
       ~CCDVideoWG();
       
       friend class CCDPreviewWG;
@@ -97,7 +96,7 @@ class CCDPreviewWG : public QWidget
       long		totalBaseCount;
       QRgb              *grayTable;
       QImage		*streamImage;
-      QPixmap		 qPix;
+      KPixmap		 kPix;
       //KPixmapIO		 kPixIO;
       unsigned char *streamBuffer;
       unsigned char *displayBuffer;

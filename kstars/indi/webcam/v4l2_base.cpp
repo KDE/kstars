@@ -585,10 +585,14 @@ int V4L2_Base::init_device(char *errmsg, int pixelFormat , int width, int height
 
         CLEAR (fmt);
 
-        fmt.type                = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        fmt.fmt.pix.width       = width; 
-        fmt.fmt.pix.height      = height;
-        fmt.fmt.pix.pixelformat = pixelFormat;
+       fmt.type                = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+       if (-1 == xioctl (fd, VIDIOC_G_FMT, &fmt))
+            return errno_exit ("VIDIOC_G_FMT", errmsg);
+
+        fmt.fmt.pix.width       = (width == -1)       ? fmt.fmt.pix.width : width; 
+        fmt.fmt.pix.height      = (height == -1)      ? fmt.fmt.pix.height : height;
+        fmt.fmt.pix.pixelformat = (pixelFormat == -1) ? fmt.fmt.pix.pixelformat : pixelFormat;
         //fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
 
         if (-1 == xioctl (fd, VIDIOC_S_FMT, &fmt))

@@ -15,8 +15,10 @@
  #include "indigroup.h"
  #include "indidevice.h"
  #include "devicemanager.h"
+ #include "indimenu.h"
  
  #include <klocale.h>
+ #include <kdialogbase.h>
  
  #include <qlayout.h>
  #include <QFrame>
@@ -60,6 +62,9 @@ void INDI_G::addProperty(INDI_P *pp)
    propertyLayout->addItem(VerticalSpacer);   
    
    pl.append(pp);
+
+   if (propertyContainer->isHidden())
+		propertyContainer->show();
 }
 
 bool INDI_G::removeProperty(INDI_P *pp)

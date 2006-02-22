@@ -408,24 +408,24 @@ void V4L_Driver::newFrame(void *p)
 void V4L_Driver::updateFrame()
 {
   char errmsg[ERRMSGSIZ];
-  static int dropLarge = 3;
+  static int dropLarge = 5;
 
   if (StreamSP.s == IPS_BUSY)
   {
       frameCount++;
 
      // Drop some frames
-     if (FrameN[2].value > 160)
-     {
+     /*if (FrameN[2].value > 160)
+     {* FIXME find an optimal solution to drop frame rates */
         dropLarge--;
         if (dropLarge == 0)
         {
-          dropLarge = 3;
+          dropLarge = (int) (5.0 * (FrameN[2].value / 160.0));
           return;
         }
-        else if (dropLarge < 2) return;
+        //else if (dropLarge < 2) return;
         
-      }
+      //}
 
      updateStream();
   }

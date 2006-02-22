@@ -34,12 +34,13 @@
 #define RETRY_MAX	12
 #define RETRY_PERIOD	5000
 
-imagesequence::imagesequence(QWidget* parent)
-: QFrame(parent)
+imagesequence::imagesequence(QWidget* parent): QDialog(parent)
 {
 	ksw = (KStars *) parent;
 	INDIMenu *devMenu = ksw->getINDIMenu();
 	
+         setupUi(this);
+
 	if (devMenu)
 	{
 		connect (devMenu, SIGNAL(newDevice()), this, SLOT(newCCD()));

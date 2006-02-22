@@ -40,6 +40,7 @@ class V4L_Philips : public V4L_Driver
 
     void initCamBase();
     void initProperties(const char *dev);
+    void connectCamera(void);
 
     private:
     

@@ -13,6 +13,7 @@
 #define IMAGESEQUENCE_H
 
 #include <QFrame>
+#include <QDialog>
 
 #include "imgsequencedlgui.h"
 
@@ -20,14 +21,15 @@ class KStars;
 class QTimer;
 class INDIStdDevice;
 
-class imagesequence : public QFrame, public Ui::imgSequence {
+class imagesequence : public QDialog, public Ui::imgSequence
+{
 	Q_OBJECT
 
 public:
 	imagesequence(QWidget* parent = 0 );
 	virtual ~imagesequence();
 
-bool updateStatus();
+        bool updateStatus();
 
 private:
 	KStars *ksw;

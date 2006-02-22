@@ -55,48 +55,49 @@
 
 FILE *CCDwfp;
 
-CCDPreviewWGUI::CCDPreviewWGUI( QWidget *parent ) : QFrame( parent )
+/*CCDPreviewWGUI::CCDPreviewWGUI( QWidget *parent ) : QFrame( parent )
 {
    setupUi(parent);
 
   foreach (QByteArray format, QImageWriter::supportedImageFormats())
      imgFormatCombo->addItem(QString(format));
-}
+}*/
 
- CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : QWidget(parent, name)
+ CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
  {
  
-   ui = new CCDPreviewWGUI(this);
+   //ui = new CCDPreviewWGUI(this);
 
+   setupUi(this);
    stdDev         = inStdDev;
 
    fwhm 	  = -1;
    mu		  = -1;
    streamWidth    = streamHeight = -1;
    processStream  = colorFrame = false;
-   streamFrame      = new CCDVideoWG(ui->videoFrame);
+   streamFrame      = new CCDVideoWG(videoFrame);
    streamFrame->bytesPerPixel= 1;
    streamFrame->PixelOrder= 1;	 
-   gammaChanged(ui->gammaBar->value());
-   brightnessChanged(ui->brightnessBar->value());
-   contrastChanged(ui->contrastBar->value());    
 
-   	 
-  KIconLoader *icons = KGlobal::iconLoader();
+   gammaChanged(gammaBar->value());
+   brightnessChanged(brightnessBar->value());
+   contrastChanged(contrastBar->value());    
+
+   KIconLoader *icons = KGlobal::iconLoader();
   
   playPix    = icons->loadIcon( "player_play", KIcon::Toolbar );
   pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
   
-  ui->playB->setPixmap(pausePix);	
-  ui->captureB->setPixmap(capturePix);
+  playB->setPixmap(pausePix);	
+  captureB->setPixmap(capturePix);
   
-  connect(ui->playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(ui->captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
-  connect(ui->brightnessBar, SIGNAL(vsalueChanged(int)), this, SLOT(brightnessChanged(int)));
-  connect(ui->contrastBar, SIGNAL(valueChanged(int)), this, SLOT(contrastChanged(int)));
-  connect(ui->gammaBar, SIGNAL(valueChanged(int)), this, SLOT(gammaChanged(int)));
-  connect(ui->focalEdit, SIGNAL(returnPressed()), this, SLOT(updateFWHM()));
+  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
+  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+  connect(brightnessBar, SIGNAL(vsalueChanged(int)), this, SLOT(brightnessChanged(int)));
+  connect(contrastBar, SIGNAL(valueChanged(int)), this, SLOT(contrastChanged(int)));
+  connect(gammaBar, SIGNAL(valueChanged(int)), this, SLOT(gammaChanged(int)));
+  connect(focalEdit, SIGNAL(returnPressed()), this, SLOT(updateFWHM()));
  }
  
 CCDPreviewWG::~CCDPreviewWG()
@@ -116,36 +117,6 @@ void CCDPreviewWG::setColorFrame(bool color)
   colorFrame = color;
 }
 
-/*void CCDPreviewWG::establishDataChannel(QString host, int port)
-{
-        QString errMsg;
-	struct sockaddr_in pin;
-	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
-	
-	memset(&pin, 0, sizeof(pin));
-	pin.sin_family 		= AF_INET;
-	pin.sin_addr.s_addr 	= ((struct in_addr *) (serverHostName->h_addr))->s_addr;
-	pin.sin_port 		= htons(port);
-
-	if ( (streamFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-	{
-	 KMessageBox::error(0, i18n("Cannot create socket."));
-	 return;
-	}
-
-	if ( ::connect(streamFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
-	{
-	  KMessageBox::error(0, errMsg);
-	  streamFD = -1;
-	  return;
-	}
-
-	// callback notified
-	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
-        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
-}*/
-
 void CCDPreviewWG::enableStream(bool enable)
 {
   if (enable)
@@ -156,7 +127,7 @@ void CCDPreviewWG::enableStream(bool enable)
   else
   {
     processStream = false;
-    ui->playB->setPixmap(pausePix);
+    playB->setPixmap(pausePix);
     hide();
   }
   
@@ -183,8 +154,8 @@ void CCDPreviewWG::setCtrl(int wd, int ht,int po, int bpp,unsigned long mgd)
   for (i=0;i<streamFrame->totalBaseCount;i++) {
     streamFrame->streamBuffer[i]=0;
   }
-  resize(wd + layout()->margin() * 2 , ht + ui->playB->height() + ui->brightnessLabel->height()
-      + ui->contrastLabel->height() + ui->gammaLabel->height() + ui->focalEdit->height() + ui->FWHMLabel->height() + layout()->margin() * 2 + layout()->spacing()*6);  
+  resize(wd + layout()->margin() * 2 , ht + playB->height() + brightnessLabel->height()
+      + contrastLabel->height() + gammaLabel->height() + focalEdit->height() + FWHMLabel->height() + layout()->margin() * 2 + layout()->spacing()*6);  
   streamFrame->resize(wd, ht);
 }
 
@@ -202,24 +173,24 @@ void CCDPreviewWG::updateFWHM()
 {
   double focal_length(-1), fwhm_arcsec;
 
-  focal_length = ui->focalEdit->text().toDouble();
+  focal_length = focalEdit->text().toDouble();
 
   if (focal_length <= 0 || fwhm <= 0 || mu <= 0)
   {
-    ui->FWHMLabel->setText("--");
+    FWHMLabel->setText("--");
     return;
   }
 
   fwhm_arcsec = (206.26 / focal_length) * fwhm * mu;
 
-  ui->FWHMLabel->setText(QString("%1").arg(fwhm_arcsec, 0, 'g', 3));
+  FWHMLabel->setText(QString("%1").arg(fwhm_arcsec, 0, 'g', 3));
   
 }
 
 
 void CCDPreviewWG::resizeEvent(QResizeEvent *ev)
 {
-  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - ui->playB->height() - layout()->margin() * 2 - layout()->spacing());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
 }
  
 void CCDPreviewWG::playPressed()
@@ -227,12 +198,12 @@ void CCDPreviewWG::playPressed()
 
  if (processStream)
  {
-  ui->playB->setPixmap(playPix);	
+  playB->setPixmap(playPix);	
   processStream = false;
  }
  else
  {
-  ui->playB->setPixmap(pausePix);	
+  playB->setPixmap(pausePix);	
   processStream = true;
  }
  
@@ -247,7 +218,7 @@ void CCDPreviewWG::captureImage()
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
-  fmt = ui->imgFormatCombo->currentText();
+  fmt = imgFormatCombo->currentText();
 
   currentFileURL = KFileDialog::getSaveURL( currentDir, fmt );
   
@@ -268,7 +239,7 @@ void CCDPreviewWG::captureImage()
 	  fname += fmt.lower();
 	}
 	  
-	streamFrame->qPix.save(fname, fmt.ascii());
+	streamFrame->kPix.save(fname, fmt.ascii());
 	
 	//set rwx for owner, rx for group, rx for other
 	chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
@@ -292,7 +263,7 @@ void CCDPreviewWG::captureImage()
 }
 
 
-CCDVideoWG::CCDVideoWG(QWidget * parent, const char * name) : Q3Frame(parent, name, Qt::WNoAutoErase)
+CCDVideoWG::CCDVideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   streamBuffer	  = NULL;
@@ -347,12 +318,6 @@ void CCDVideoWG::newFrame(unsigned char *buffer, int buffSize, int w, int h)
     }
   }
   streamBufferPos=i;
-  /*if (buffSize > totalBaseCount)
-     streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
-   else
-    streamImage = new QImage(streamBuffer, w, h, 8, grayTable, 256, QImage::IgnoreEndian);
-   update();
-  */
   redrawVideoWG();
 }
 
@@ -409,14 +374,12 @@ void CCDVideoWG::paintEvent(QPaintEvent */*ev*/)
    if (streamImage)
    {
 	if (streamImage->isNull()) return;
-  	//qPix = kPixIO.convertToPixmap(*streamImage);/*streamImage->smoothScale(width(), height()));*/
-	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-	//qPix = kPixIO.convertToPixmap(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
+	kPix.convertFromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }
    
-   bitBlt(this, 0, 0, &qPix);
+   bitBlt(this, 0, 0, &kPix);
    
 }
 

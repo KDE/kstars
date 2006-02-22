@@ -131,6 +131,16 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
      if (dev && strcmp (device_name, dev))
 	 return;
 
+     /* Connection */
+     if (!strcmp (name, PowerSP.name))
+     {
+          IUResetSwitches(&PowerSP);
+	  IUUpdateSwitches(&PowerSP, states, names, n);
+   	  connectCamera();
+	  return;
+     }
+    
+
      #ifndef HAVE_LINUX_VIDEODEV2_H
     /* Anti Flicker control */
     if (!strcmp (AntiFlickerSP.name, name))
@@ -484,6 +494,54 @@ void V4L_Philips::ISNewNumber (const char *dev, const char *name, double values[
    // Call parent 
    V4L_Driver::ISNewNumber(dev, name, values, names, n);
 
+}
+
+void V4L_Philips::connectCamera()
+{
+  char errmsg[ERRMSGSIZ];
+  
+    
+  switch (PowerS[0].s)
+  {
+     case ISS_ON:
+      if (v4l_base->connectCam(PortT[0].text, errmsg, V4L2_PIX_FMT_YUV420) < 0)
+      {
+	  PowerSP.s = IPS_IDLE;
+	  PowerS[0].s = ISS_OFF;
+	  PowerS[1].s = ISS_ON;
+	  IDSetSwitch(&PowerSP, "Error: unable to open device");
+	  IDLog("Error: %s\n", errmsg);
+	  return;
+      }
+      
+      /* Sucess! */
+      PowerS[0].s = ISS_ON;
+      PowerS[1].s = ISS_OFF;
+      PowerSP.s = IPS_OK;
+      IDSetSwitch(&PowerSP, "Philips Webcam is online. Retrieving basic data.");
+
+      v4l_base->registerCallback(newFrame, this);
+      
+      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+      
+      IDLog("Philips Webcam is online. Retrieving basic data.\n");
+      getBasicData();
+      
+      break;
+      
+    case ISS_OFF:
+      PowerS[0].s = ISS_OFF;
+      PowerS[1].s = ISS_ON;
+      PowerSP.s = IPS_IDLE;
+      
+      free(V4LFrame->compressedFrame);
+      V4LFrame->compressedFrame = NULL;
+      v4l_base->disconnectCam();
+      
+      IDSetSwitch(&PowerSP, "Philips Webcam is offline.");
+      
+      break;
+     }
 }
 
 #ifndef HAVE_LINUX_VIDEODEV2_H
