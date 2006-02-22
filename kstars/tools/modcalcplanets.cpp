@@ -96,64 +96,64 @@ void modCalcPlanets::slotComputePosition (void)
 	Earth.findPosition( &num );
 	
 	// Mercury
-	if (PlanetComboBox->currentItem() == 0 ) {
+	if (PlanetComboBox->currentIndex() == 0 ) {
 		KSPlanet p( kd, I18N_NOOP( "Mercury" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 1) {
+	else if(PlanetComboBox->currentIndex() == 1) {
 		KSPlanet p( kd, I18N_NOOP( "Venus" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 2) {
+	else if(PlanetComboBox->currentIndex() == 2) {
 		showCoordinates( Earth );
 	}
-	else if(PlanetComboBox->currentItem() == 3) {
+	else if(PlanetComboBox->currentIndex() == 3) {
 		KSPlanet p( kd, I18N_NOOP( "Mars" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 4) {
+	else if(PlanetComboBox->currentIndex() == 4) {
 		KSPlanet p( kd, I18N_NOOP( "Jupiter" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 5) {
+	else if(PlanetComboBox->currentIndex() == 5) {
 		KSPlanet p( kd, I18N_NOOP( "Saturn" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 6) {
+	else if(PlanetComboBox->currentIndex() == 6) {
 		KSPlanet p( kd, I18N_NOOP( "Uranus" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 7) {
+	else if(PlanetComboBox->currentIndex() == 7) {
 		KSPlanet p( kd, I18N_NOOP( "Neptune" ));
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 8) {
+	else if(PlanetComboBox->currentIndex() == 8) {
 		KSPluto p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 9) {
+	else if(PlanetComboBox->currentIndex() == 9) {
 		KSMoon p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());
 		showCoordinates( p );
 	}
-	else if(PlanetComboBox->currentItem() == 10) {
+	else if(PlanetComboBox->currentIndex() == 10) {
 		KSSun p( kd );
 		p.findPosition( &num, position.lat(), &LST, &Earth);
 		p.EquatorialToHorizontal( &LST, position.lat());

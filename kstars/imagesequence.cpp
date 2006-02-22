@@ -234,9 +234,9 @@ void imagesequence::startSequence()
 	seqCurrentCount = 0;
 	seqDelay = delayIN->value() * 1000;		/* in ms */
 	currentCCD = CCDCombo->currentText();
-	lastCCD = CCDCombo->currentItem();
+	lastCCD = CCDCombo->currentIndex();
 	currentFilter = filterCombo->currentText();
-	lastFilter = filterCombo->currentItem();
+	lastFilter = filterCombo->currentIndex();
 
 	fullImgCountOUT->setText( QString("%1").arg(seqTotalCount));
 	currentImgCountOUT->setText(QString("%1").arg(seqCurrentCount));
@@ -303,7 +303,7 @@ void imagesequence::checkCCD(int ccdNum)
 	{
 		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
 		CCDCombo->removeItem(ccdNum);
-		lastCCD = CCDCombo->currentItem();
+		lastCCD = CCDCombo->currentIndex();
 		if (lastCCD != -1)
 			checkCCD(lastCCD);
 		return;
@@ -378,8 +378,8 @@ bool imagesequence::verifyCCDIntegrity()
 	if (!idevice)
 	{
 		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
-		CCDCombo->removeItem(CCDCombo->currentItem());
-		lastCCD = CCDCombo->currentItem();
+		CCDCombo->removeItem(CCDCombo->currentIndex());
+		lastCCD = CCDCombo->currentIndex();
 		return false;
 	}
 
@@ -429,7 +429,7 @@ bool imagesequence::verifyFilterIntegrity()
 	if (filterDevice == NULL)
 	{
 		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetFilter));
-		filterCombo->removeItem(filterCombo->currentItem());
+		filterCombo->removeItem(filterCombo->currentIndex());
 		filterCombo->setCurrentItem(0);
 		currentFilter = filterCombo->currentText();
 		filterPosCombo->clear();
@@ -461,7 +461,7 @@ bool imagesequence::verifyFilterIntegrity()
 	}
 
 	stdDevFilter  = filterDevice->stdDev;
-	lastFilter    = filterCombo->currentItem();
+	lastFilter    = filterCombo->currentIndex();
 	currentFilter = targetFilter;
 
 	// We're good
@@ -627,7 +627,7 @@ void imagesequence::selectFilter()
 	filterElem = filterProp->findElement("SLOT");
 
 	// Do we need to change the filter position??
-	if (filterPosCombo->currentItem() == filterElem->read_w->text().toInt())
+	if (filterPosCombo->currentIndex() == filterElem->read_w->text().toInt())
 	{
 		captureImage();
 		return;
@@ -635,7 +635,7 @@ void imagesequence::selectFilter()
 
 	if (filterProp->perm == PP_RW || filterProp->perm == PP_WO)
 	{
-		filterElem->targetValue = filterPosCombo->currentItem();
+		filterElem->targetValue = filterPosCombo->currentIndex();
 		if (filterElem->spin_w)
 		{
 			filterElem->spin_w->setValue(filterElem->targetValue);

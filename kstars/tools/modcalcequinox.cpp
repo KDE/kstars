@@ -66,19 +66,19 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 	KSSun *Sun = new KSSun(kd);
 	int year0 = getYear( yearEdit->text() );
 	
-	if (equinoxSolsticesComboBox->currentItem() == 0 ) {
+	if (equinoxSolsticesComboBox->currentIndex() == 0 ) {
 		julianDay = Sun->springEquinox(year0);
 		jdf = Sun->summerSolstice(year0);
 	}
-	else if(equinoxSolsticesComboBox->currentItem() == 1) {
+	else if(equinoxSolsticesComboBox->currentIndex() == 1) {
 		julianDay = Sun->summerSolstice(year0);
 		jdf = Sun->autumnEquinox(year0);
 	}
-	else if (equinoxSolsticesComboBox->currentItem() == 2 ) {
+	else if (equinoxSolsticesComboBox->currentIndex() == 2 ) {
 		julianDay = Sun->autumnEquinox(year0);
 		jdf = Sun->winterSolstice(year0);
 	}
-	else if(equinoxSolsticesComboBox->currentItem() == 3) {
+	else if(equinoxSolsticesComboBox->currentIndex() == 3) {
 		julianDay = Sun->winterSolstice(year0);
 		jdf = Sun->springEquinox(year0+1);
 	}
