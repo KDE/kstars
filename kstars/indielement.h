@@ -26,7 +26,7 @@
 #define	INDIVERSION	1.5	/* we support this or less */
 
 /* GUI layout */
-#define PROPERTY_LABEL_WIDTH	80
+#define PROPERTY_LABEL_WIDTH	100
 #define ELEMENT_LABEL_WIDTH	175
 #define ELEMENT_READ_WIDTH	175
 #define ELEMENT_WRITE_WIDTH	175

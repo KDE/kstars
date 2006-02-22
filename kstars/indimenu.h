@@ -13,12 +13,13 @@
 #define INDIMENU_H
 
 #include "indielement.h"
-//Added by qt3to4:
+
 #include <QGridLayout>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTabWidget>
 
 class INDI_E;
 class INDI_P;
@@ -49,7 +50,7 @@ class QCheckBox;
 class KStars;
 class DeviceManager;
 
-class INDIMenu : public KDialogBase
+class INDIMenu : public QWidget
 {
   Q_OBJECT
  public:
@@ -60,9 +61,10 @@ class INDIMenu : public KDialogBase
    * GUI stuff
    ******************************************************************/
    QVBoxLayout	*mainLayout;
+   QTabWidget	*mainTabWidget;
    //QTabWidget	*deviceContainer;
    QTextEdit 	*msgST_w;
-   QWidget	*tab;
+   //QWidget	*tab;
    QPushButton  *clear;
    QString	currentLabel;
 

@@ -80,8 +80,9 @@ class INDI_D : public KDialogBase
 
     QString 	name;			/* device name */
     QString	label;			/* device label */
-    KVBox	*deviceVBox;		/* device tab frame */
-    //QVBoxLayout *deviceVBoxLayout;	/* device tab frame vertial layout */
+    //KVBox	*deviceVBox;		/* device tab frame */
+    QFrame      *deviceVBox;
+    QVBoxLayout *deviceLayout;	/* device tab frame vertial layout */
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */

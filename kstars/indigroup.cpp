@@ -38,7 +38,8 @@ INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
   
   name = inName;
 
-  propertyContainer = new QFrame(dp->groupContainer);
+  //propertyContainer = new QFrame(dp->groupContainer);
+  propertyContainer = new QFrame();
   propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
   VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
   
@@ -57,14 +58,11 @@ INDI_G::~INDI_G()
 void INDI_G::addProperty(INDI_P *pp)
 {
    dp->registerProperty(pp);
-   
    propertyLayout->addLayout(pp->PHBox);
    propertyLayout->addItem(VerticalSpacer);   
-   
+
    pl.append(pp);
 
-   if (propertyContainer->isHidden())
-		propertyContainer->show();
 }
 
 bool INDI_G::removeProperty(INDI_P *pp)

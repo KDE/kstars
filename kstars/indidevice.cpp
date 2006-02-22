@@ -95,7 +95,10 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString
   
 //  gl.setAutoDelete(true);
 
- deviceVBox     = menuParent->addVBoxPage(inLabel);
+ //deviceVBox     = menuParent->addVBoxPage(inLabel);
+ deviceVBox     = new QFrame();
+ deviceLayout   = new QVBoxLayout(deviceVBox);
+ //groupContainer = new QTabWidget(deviceVBox);
  groupContainer = new QTabWidget(deviceVBox);
  
  msgST_w        = new QTextEdit(deviceVBox);
@@ -110,6 +113,10 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString
 
  INDIStdSupport = false;
 
+ deviceLayout->addWidget(groupContainer);
+ deviceLayout->addWidget(msgST_w);
+
+ parent->mainTabWidget->addTab(deviceVBox, label);
 }
 
 INDI_D::~INDI_D()
@@ -609,13 +616,6 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	  * a new property arrives. The spacer is then appended to the end of the 
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);
-	
-	// This is a work around for the property addition and deletion problem
-	// For some reason, properties are not constructed correctly when INDI Control Panel is
-	// visible. Therefore, will we "hide" the tab widget.
-	if (pg->propertyContainer->isVisible())
-		pg->propertyContainer->hide();
-
 
 	pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
 
@@ -775,6 +775,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 {
        	INDI_P *pp = NULL;
 	PPerm p;
+	bool isGroupVisible=false;
 
 	/* build a new property */
 	pp = addProperty (root, errmsg);
@@ -793,6 +794,12 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	pp->guitype = PG_TEXT;
 	pp->perm = p;
 	
+	if (pp->pg->propertyContainer->isVisible())
+	{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+	}
+
 	if (pp->buildTextGUI(root, errmsg) < 0)
 	{
 	  delete (pp);
@@ -801,6 +808,9 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	
 	pp->pg->addProperty(pp);
 	
+	if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
+
 	return (0);
 }
 
@@ -811,6 +821,7 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 {
         INDI_P *pp = NULL;
         PPerm p;
+	bool isGroupVisible=false;
 
         /* build a new property */
 	pp = addProperty (root, errmsg);
@@ -829,6 +840,12 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	pp->guitype = PG_NUMERIC;
 	pp->perm = p;
 	
+        if (pp->pg->propertyContainer->isVisible())
+	{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+	}
+
 	if (pp->buildNumberGUI(root, errmsg) < 0)
 	{
 	  delete (pp);
@@ -837,6 +854,10 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	
 	pp->pg->addProperty(pp);
 	
+        if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
+		
+
 	return (0);
 }
 	
@@ -850,6 +871,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	XMLAtt *ap;
 	XMLEle *ep;
 	int n, err;
+	bool isGroupVisible=false;
 
 	/* build a new property */
 	pp = addProperty (root, errmsg);
@@ -874,22 +896,35 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	    if (n > MAXRADIO)
 	    {
 	        pp->guitype = PG_MENU;
+		if (pp->pg->propertyContainer->isVisible())
+		{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+		}
 		err = pp->buildMenuGUI (root, errmsg);
 		if (err < 0)
 		    delete(pp);
 		    
 		pp->pg->addProperty(pp);
+		if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
 		return (err);
 	    }
 
 	    /* otherwise, build 1-4 button layout */
 	    pp->guitype = PG_BUTTONS;
-	    
+	    if (pp->pg->propertyContainer->isVisible())
+		{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+		}
 	    err = pp->buildSwitchesGUI(root, errmsg);
 	    if (err < 0)
 	      delete (pp);
 	      
 	    pp->pg->addProperty(pp);
+	    if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
 	    return (err);
 
 	}
@@ -897,11 +932,17 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	{
 	    /* 1-4 checkboxes layout */
 	    pp->guitype = PG_RADIO;
-	    
+	    if (pp->pg->propertyContainer->isVisible())
+		{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+		}
 	    err = pp->buildSwitchesGUI(root, errmsg);
 	    if (err < 0)
 	      delete (pp);
-	      
+
+	    if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
 	    pp->pg->addProperty(pp);
 	    return (err);
 	}
@@ -920,6 +961,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 {
 	INDI_P *pp;
+	bool isGroupVisible=false;
 
 	// build a new property
 	pp = addProperty (root, errmsg);
@@ -928,6 +970,12 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 
 	pp->guitype = PG_LIGHTS;
 	
+	if (pp->pg->propertyContainer->isVisible())
+	{
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+	}
+
 	if (pp->buildLightsGUI(root, errmsg) < 0)
 	{
 	  delete (pp);
@@ -935,6 +983,10 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	}
 	
 	pp->pg->addProperty(pp);
+
+	if (isGroupVisible)
+		pp->pg->dp->parent->mainTabWidget->show();
+
 	return (0);
 }
 
@@ -944,6 +996,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
 {
   INDI_P *pp;
   PPerm p;
+  bool isGroupVisible=false;
 
   // build a new property
   pp = addProperty (root, errmsg);
@@ -961,6 +1014,12 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
   pp->perm = p;
   pp->guitype = PG_BLOB;
 	
+  if (pp->pg->propertyContainer->isVisible())
+  {
+		isGroupVisible = true;
+		pp->pg->dp->parent->mainTabWidget->hide();
+  }
+
   if (pp->buildBLOBGUI(root, errmsg) < 0)
   {
     delete (pp);
@@ -968,6 +1027,10 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
   }
 	
   pp->pg->addProperty(pp);
+
+  if (isGroupVisible)
+	pp->pg->dp->parent->mainTabWidget->show();
+
   return (0);
 }
 
