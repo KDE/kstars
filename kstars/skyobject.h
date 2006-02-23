@@ -90,7 +90,7 @@ public:
 
 /**@return object's primary name, translated to local language.
 	*/
-	QString translatedName() const { return i18n( name().utf8() );}
+	QString translatedName() const { return i18n( name().toUtf8() );}
 
 /**Set the object's primary name.
 	*@param name the object's primary name
@@ -103,7 +103,7 @@ public:
 
 /**@return object's secondary name, translated to local language.
 	*/
-	QString translatedName2() const { return i18n( name2().utf8() );}
+	QString translatedName2() const { return i18n( name2().toUtf8() );}
 
 /**Set the object's secondary name.
 	*@param name2 the object's secondary name.
@@ -116,7 +116,7 @@ public:
 
 /**@return object's common (long) name, translated to local language.
 	*/
-	QString translatedLongName() const { return i18n( longname().utf8() );}
+	QString translatedLongName() const { return i18n( longname().toUtf8() );}
 
 /**Set the object's long name.
 	*@param longname the object's long name.

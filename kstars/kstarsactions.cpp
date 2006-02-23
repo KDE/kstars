@@ -870,7 +870,7 @@ void KStars::slotFOVEdit() {
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].trimmed();
 					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
-							actionCollection(), nm.utf8() );
+							actionCollection(), nm.toUtf8() );
 					kta->setExclusiveGroup( "fovsymbol" );
 					fovActionMenu->insert( kta );
 				}

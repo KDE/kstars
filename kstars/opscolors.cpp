@@ -172,7 +172,7 @@ void OpsColors::slotAddPreset() {
 			PresetBox->setCurrentItem( PresetBox->findItem( schemename ) );
 			QString fname = ksw->data()->colorScheme()->fileName();
 			PresetFileList.append( fname );
-			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.find(".colors"))).utf8() );
+			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.find(".colors"))).toUtf8() );
 		}
 	}
 }
@@ -184,7 +184,7 @@ void OpsColors::slotRemovePreset() {
 	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove action from color-schemes menu
-	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).utf8() );
+	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).toUtf8() );
 
 	if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
