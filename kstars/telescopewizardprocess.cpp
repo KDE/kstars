@@ -11,13 +11,11 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <q3widgetstack.h>
 #include <qstring.h>
 #include <qtimer.h>
-#include <q3table.h>
-//#include <q3textedit.h>
+
 #include <QTextEdit>
-#include <qradiobutton.h>
+#include <QRadioButton>
 
 #include <klistview.h>
 #include <klineedit.h>
@@ -41,21 +39,23 @@
 
 #define TIMEOUT_THRESHHOLD	20
 
-telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : telescopeWizard(parent, name)
+telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : QDialog(parent, name)
 {
    currentPort  = -1;
    timeOutCount = 0;
    indiDev = NULL;
    progressScan = NULL;
    linkRejected = false;
+   ui = new Ui::telescopeWizard();
+   ui->setupUi(this);
 
    QString locStr;
    QFile sideIMG;
 
    if (KSUtils::openDataFile(sideIMG, "wizardside.png"))
-       wizardPix->setPixmap(QPixmap(sideIMG.name()));
+       ui->wizardPix->setPixmap(QPixmap(sideIMG.name()));
 
-   backB->hide();
+   ui->backB->hide();
    currentPage = INTRO_P;
 
    ksw = (KStars *) parent;
@@ -71,20 +71,20 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
   QTime newTime( ksw->data()->lt().time() );
   ExtDate newDate( ksw->data()->lt().date() );
 
-  timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
-  dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
+  ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
+  ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
 
   if (ksw->geo()->translatedProvince().isEmpty())
-  	locationOut->setText( QString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
+  	ui->locationOut->setText( QString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
   else
-  	locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
+  	ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
   						     .arg(ksw->geo()->translatedProvince())
 						     .arg(ksw->geo()->translatedCountry()));
 
 
    for (unsigned int i=0; i < indidriver->devices.size(); i++)
               if (indidriver->devices[i]->deviceType == KSTARS_TELESCOPE)
-   		    telescopeCombo->insertItem(indidriver->devices[i]->label);
+   		    ui->telescopeCombo->insertItem(indidriver->devices[i]->label);
 
    if ( !Options::indiTelescopePort().isEmpty())
     portList << Options::indiTelescopePort();
@@ -92,11 +92,11 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
              << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";// << "/dev/ttyUSB4";
 
-   connect(helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
-   connect(nextB, SIGNAL(clicked()), this, SLOT(processNext()));
-   connect(backB, SIGNAL(clicked()), this, SLOT(processBack()));
-   connect(setTimeB, SIGNAL(clicked()), this, SLOT(newTime()));
-   connect(setLocationB, SIGNAL(clicked()), this, SLOT(newLocation()));
+   connect(ui->helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
+   connect(ui->nextB, SIGNAL(clicked()), this, SLOT(processNext()));
+   connect(ui->backB, SIGNAL(clicked()), this, SLOT(processBack()));
+   connect(ui->setTimeB, SIGNAL(clicked()), this, SLOT(newTime()));
+   connect(ui->setLocationB, SIGNAL(clicked()), this, SLOT(newLocation()));
 
    newDeviceTimer = new QTimer(this);
    QObject::connect( newDeviceTimer, SIGNAL(timeout()), this, SLOT(processPort()) );
@@ -122,33 +122,33 @@ void telescopeWizardProcess::processNext(void)
  {
    case INTRO_P:
      currentPage++;
-     backB->show();
-     wizardContainer->raiseWidget(currentPage);
+     ui->backB->show();
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case MODEL_P:
      currentPage++;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case TELESCOPE_P:
      currentPage++;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case LOCAL_P:
      currentPage++;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case PORT_P:
      linkResult = establishLink();
      if ( linkResult == 1)
      {
-progressScan = new KProgressDialog(this, i18n("Autoscan"), i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), true);
+	progressScan = new KProgressDialog(this, i18n("Autoscan"), i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), true);
 //   progressScan->setAllowCancel(true);
-   progressScan->setAutoClose(true);
-   progressScan->setAutoReset(true);
-   progressScan->progressBar()->setMinimum(0);
-   progressScan->progressBar()->setMaximum(portList.count());
-   progressScan->progressBar()->setValue(0);
-   progressScan->show();
+   	progressScan->setAutoClose(true);
+   	progressScan->setAutoReset(true);
+   	progressScan->progressBar()->setMinimum(0);
+   	progressScan->progressBar()->setMaximum(portList.count());
+   	progressScan->progressBar()->setValue(0);
+   	progressScan->show();
     }
     else if (linkResult == 2)
       KMessageBox::queuedMessageBox(0, KMessageBox::Information, i18n("Please wait while KStars tries to connect to your telescope..."));
@@ -173,20 +173,20 @@ void telescopeWizardProcess::processBack(void)
      break;
   case MODEL_P:
      currentPage--;
-     backB->hide();
-     wizardContainer->raiseWidget(currentPage);
+     ui->backB->hide();
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case TELESCOPE_P:
      currentPage--;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case LOCAL_P:
      currentPage--;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case PORT_P:
      currentPage--;
-     wizardContainer->raiseWidget(currentPage);
+     ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   default:
      break;
@@ -203,8 +203,8 @@ void telescopeWizardProcess::newTime()
 		KStarsDateTime dt( timedialog.selectedDate(), timedialog.selectedTime() );
 		ksw->data()->changeDateTime( dt );
 
-		timeOut->setText( QString().sprintf("%02d:%02d:%02d", dt.time().hour(), dt.time().minute(), dt.time().second()));
-		dateOut->setText( QString().sprintf("%d-%02d-%02d", dt.date().year(), dt.date().month(), dt.date().day()));
+		ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", dt.time().hour(), dt.time().minute(), dt.time().second()));
+		ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", dt.date().year(), dt.date().month(), dt.date().day()));
 	}
 }
 
@@ -213,12 +213,12 @@ void telescopeWizardProcess::newLocation()
 
    ksw->slotGeoLocator();
 
-   locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
+   ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
   					     .arg(ksw->geo()->translatedProvince())
 					     .arg(ksw->geo()->translatedCountry()));
-   timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
+   ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
 
-  dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
+  ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
   ksw->data()->lt().date().month() ,ksw->data()->lt().date().day()));
 
 
@@ -233,19 +233,25 @@ int telescopeWizardProcess::establishLink()
 	  
 	
 	QTreeWidgetItem *driverItem = NULL;
-	found = indidriver->ui->localTreeWidget->findItems(telescopeCombo->currentText(), Qt::MatchExactly, 0);
+	
+         
+	/* FIXME this doesn't work in Qt 4.1.0, findItems only search top-level widgets.
+	   child widget are never searched. Either Qt fixes this, or we have to iterate over
+	   all children manually */
+	found = indidriver->ui->localTreeWidget->findItems(ui->telescopeCombo->currentText(), Qt::MatchExactly, 1);
+	
 	if (found.empty()) return -1;
 	driverItem = found.first();
 
 	// If device is already running, we need to shut it down first
-	if (indidriver->isDeviceRunning(telescopeCombo->currentText()))
+	if (indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
 	{
 		indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 		indidriver->processDeviceStatus(1);
 	}
 	   
 	// Set custome label for device
-	indimenu->setCustomLabel(telescopeCombo->currentText());
+	indimenu->setCustomLabel(ui->telescopeCombo->currentText());
 	currentDevice = indimenu->currentLabel;
 	// Select it
 	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
@@ -254,12 +260,12 @@ int telescopeWizardProcess::establishLink()
 	// Run it
 	indidriver->processDeviceStatus(0);
 
-	if (!indidriver->isDeviceRunning(telescopeCombo->currentText()))
+	if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
 	 return (3);
 
 	newDeviceTimer->start(1500);
 
-	if (portIn->text().isEmpty())
+	if (ui->portIn->text().isEmpty())
 	 return (1);
         else
 	 return (2);
@@ -289,7 +295,7 @@ void telescopeWizardProcess::processPort()
     if (!indiDev) return;
 
      // port empty, start autoscan
-     if (portIn->text().isEmpty())
+     if (ui->portIn->text().isEmpty())
      {
        newDeviceTimer->stop();
        linkRejected = false;
@@ -304,7 +310,7 @@ void telescopeWizardProcess::processPort()
      lp = pp->findElement("PORT");
      if (!lp) return;
 
-     lp->write_w->setText(portIn->text());
+     lp->write_w->setText(ui->portIn->text());
      
      pp = indiDev->findProp("CONNECTION");
      if (!pp) return;

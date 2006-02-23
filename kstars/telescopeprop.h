@@ -23,30 +23,23 @@ class INDIDriver;
 
 #include "telescopepropui.h"
 
-class telescopeProp : public scopeProp
+class telescopeProp : public QDialog
 {
   Q_OBJECT
 
 public:
   telescopeProp(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
   ~telescopeProp();
-  /*$PUBLIC_FUNCTIONS$*/
 
 public slots:
   void newScope();
   void saveScope();
   void updateScopeDetails(int index);
   void removeScope();
-  /*$PUBLIC_SLOTS$*/
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
 
  private:
   int findDeviceIndex(int listIndex);
+  Ui::scopeProp *ui;
 
   bool newScopePending;
   KStars *ksw;

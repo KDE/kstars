@@ -22,6 +22,8 @@
 #include <klineedit.h>
 #include <kmessagebox.h>
 
+#include <QListWidget>
+
 #include <vector>
 
 #include "telescopeprop.h"
@@ -30,7 +32,7 @@
 #include "indidriver.h"
 
 telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-: scopeProp(parent,name, modal,fl)
+: QDialog(parent,name, modal,fl)
 {
 
   ksw = (KStars *) parent;
@@ -39,23 +41,26 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::
   indi_driver = ksw->getINDIDriver();
   newScopePending = false;
 
-  connect (newB, SIGNAL(clicked()), this, SLOT(newScope()));
-  connect (saveB, SIGNAL(clicked()), this, SLOT(saveScope()));
-  connect (removeB, SIGNAL(clicked()), this, SLOT(removeScope()));
-  connect (telescopeListBox, SIGNAL(highlighted(int)),this, SLOT(updateScopeDetails(int)));
-  connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
+  ui = new Ui::scopeProp();
+  ui->setupUi(this);
+
+  connect (ui->newB, SIGNAL(clicked()), this, SLOT(newScope()));
+  connect (ui->saveB, SIGNAL(clicked()), this, SLOT(saveScope()));
+  connect (ui->removeB, SIGNAL(clicked()), this, SLOT(removeScope()));
+  connect (ui->telescopeListBox, SIGNAL(currentRowChanged(int)),this, SLOT(updateScopeDetails(int)));
+  connect(ui->closeB, SIGNAL(clicked()), this, SLOT(close()));
 
   // Fill the combo box with drivers
-  driverCombo->insertStringList(indi_driver->driversList);
+  ui->driverCombo->insertStringList(indi_driver->driversList);
 
   // Fill the list box with telescopes
   for (unsigned int i=0; i < indi_driver->devices.size(); i++)
   {
     if (indi_driver->devices[i]->deviceType == KSTARS_TELESCOPE)
-    	telescopeListBox->insertItem(indi_driver->devices[i]->label);
+    	ui->telescopeListBox->addItem(indi_driver->devices[i]->label);
   }
 
-  telescopeListBox->setCurrentItem(0);
+  ui->telescopeListBox->setCurrentRow(0);
   updateScopeDetails(0);
      
 
@@ -68,15 +73,20 @@ telescopeProp::~telescopeProp()
 void telescopeProp::newScope()
 {
 
-  driverCombo->clearEdit();
-  labelEdit->clear();
-  focalEdit->clear();
-  versionEdit->clear();
-  apertureEdit->clear();
+  ui->driverCombo->clearEdit();
+  ui->labelEdit->clear();
+  ui->focalEdit->clear();
+  ui->versionEdit->clear();
+  ui->apertureEdit->clear();
 
-  driverCombo->setFocus();
-  telescopeListBox->clearFocus();
-  telescopeListBox->clearSelection();
+  ui->telescopeListBox->clearFocus();
+  ui->driverCombo->setFocus();
+  
+  /* FIXME This call causes KStars to crash under Qt 4.1
+    Possible bug?? 
+    JM: This is a bug in Qt 4.1, have to wait for Qt 4.2 for a fix
+  ui->telescopeListBox->clearSelection();
+  */
 
   newScopePending = true;
 
@@ -88,37 +98,37 @@ void telescopeProp::saveScope()
   double focal_length(-1), aperture(-1);
   int finalIndex = -1;
 
-  if (labelEdit->text().isEmpty())
+  if (ui->labelEdit->text().isEmpty())
     {
        KMessageBox::error(NULL, i18n("Telescope label is missing."));
        return;
     }
 
-    if (driverCombo->currentText().isEmpty())
+    if (ui->driverCombo->currentText().isEmpty())
     {
       KMessageBox::error(NULL, i18n("Telescope driver is missing."));
       return;
     }
 
-   if (versionEdit->text().isEmpty())
+   if (ui->versionEdit->text().isEmpty())
    {
      KMessageBox::error(NULL, i18n("Telescope driver version is missing."));
      return;
    }
 
-   if (telescopeListBox->currentItem() != -1)
-   	finalIndex = findDeviceIndex(telescopeListBox->currentItem());
+   if (ui->telescopeListBox->currentRow() != -1)
+   	finalIndex = findDeviceIndex(ui->telescopeListBox->currentRow());
 
   // Add new scope
   if (newScopePending)
   {
 
-    dev = new IDevice(labelEdit->text(), driverCombo->currentText(), versionEdit->text());
+    dev = new IDevice(ui->labelEdit->text(), ui->driverCombo->currentText(), ui->versionEdit->text());
 
     dev->deviceType = KSTARS_TELESCOPE;
 
-    focal_length = focalEdit->text().toDouble();
-    aperture = apertureEdit->text().toDouble();
+    focal_length = ui->focalEdit->text().toDouble();
+    aperture = ui->apertureEdit->text().toDouble();
 
     if (focal_length > 0)
      dev->focal_length = focal_length;
@@ -127,21 +137,21 @@ void telescopeProp::saveScope()
 
     indi_driver->devices.push_back(dev);
 
-    telescopeListBox->insertItem(labelEdit->text());
+    ui->telescopeListBox->addItem(ui->labelEdit->text());
 
-    telescopeListBox->setCurrentItem(telescopeListBox->count() - 1);
+    ui->telescopeListBox->setCurrentRow(ui->telescopeListBox->count() - 1);
 
   }
   else
   {
     if (finalIndex == -1) return;
-    indi_driver->devices[finalIndex]->label  = labelEdit->text();
-    indi_driver->devices[finalIndex]->version = versionEdit->text();
-    indi_driver->devices[finalIndex]->driver = driverCombo->currentText();
+    indi_driver->devices[finalIndex]->label  = ui->labelEdit->text();
+    indi_driver->devices[finalIndex]->version = ui->versionEdit->text();
+    indi_driver->devices[finalIndex]->driver = ui->driverCombo->currentText();
     
     
-    focal_length = focalEdit->text().toDouble();
-    aperture = apertureEdit->text().toDouble();
+    focal_length = ui->focalEdit->text().toDouble();
+    aperture = ui->apertureEdit->text().toDouble();
 
     if (focal_length > 0)
      indi_driver->devices[finalIndex]->focal_length = focal_length;
@@ -153,10 +163,10 @@ void telescopeProp::saveScope()
 
   newScopePending = false;
 
-  driverCombo->clearFocus();
-  labelEdit->clearFocus();
-  focalEdit->clearFocus();
-  apertureEdit->clearFocus();
+  ui->driverCombo->clearFocus();
+  ui->labelEdit->clearFocus();
+  ui->focalEdit->clearFocus();
+  ui->apertureEdit->clearFocus();
 
   KMessageBox::information(NULL, i18n("You need to restart KStars for changes to take effect."));
 
@@ -168,7 +178,7 @@ int telescopeProp::findDeviceIndex(int listIndex)
 
   for (unsigned int i=0; i < indi_driver->devices.size(); i++)
   {
-    if (indi_driver->devices[i]->label == telescopeListBox->text(listIndex))
+    if (indi_driver->devices[i]->label == ui->telescopeListBox->item(listIndex)->text())
     {
 	finalIndex = i;
         break;
@@ -186,8 +196,8 @@ void telescopeProp::updateScopeDetails(int index)
   newScopePending = false;
   bool foundFlag(false);
  
-  focalEdit->clear();
-  apertureEdit->clear();
+  ui->focalEdit->clear();
+  ui->apertureEdit->clear();
 
 
    finalIndex = findDeviceIndex(index);
@@ -197,26 +207,26 @@ void telescopeProp::updateScopeDetails(int index)
       return;
    }
 
-  for (int i=0; i < driverCombo->count(); i++)
-    if (indi_driver->devices[finalIndex]->driver == driverCombo->text(i))
+  for (int i=0; i < ui->driverCombo->count(); i++)
+    if (indi_driver->devices[finalIndex]->driver == ui->driverCombo->text(i))
      {
-       driverCombo->setCurrentItem(i);
+       ui->driverCombo->setCurrentItem(i);
        foundFlag = true;
        break;
      }
 
   if (foundFlag == false)
-    driverCombo->setCurrentText(indi_driver->devices[finalIndex]->driver);
+    ui->driverCombo->setCurrentText(indi_driver->devices[finalIndex]->driver);
 
-  labelEdit->setText(indi_driver->devices[finalIndex]->label);
+  ui->labelEdit->setText(indi_driver->devices[finalIndex]->label);
 
-  versionEdit->setText(indi_driver->devices[finalIndex]->version);
+  ui->versionEdit->setText(indi_driver->devices[finalIndex]->version);
 
   if (indi_driver->devices[finalIndex]->focal_length != -1)
-  	focalEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->focal_length));
+  	ui->focalEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->focal_length));
 
   if (indi_driver->devices[finalIndex]->aperture != -1)
-        apertureEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->aperture));
+        ui->apertureEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->aperture));
 
 }
 
@@ -225,13 +235,13 @@ void telescopeProp::removeScope()
 
   int index, finalIndex;
 
-  index = telescopeListBox->currentItem();
+  index = ui->telescopeListBox->currentRow();
   finalIndex = findDeviceIndex(index);
 
   if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove %1?").arg(indi_driver->devices[finalIndex]->label), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
            return;
 
-  telescopeListBox->removeItem(index);
+  ui->telescopeListBox->takeItem(index);
 
   delete (indi_driver->devices[finalIndex]);
   indi_driver->devices.erase(indi_driver->devices.begin() + finalIndex);

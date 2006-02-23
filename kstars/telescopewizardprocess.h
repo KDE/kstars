@@ -22,7 +22,7 @@ class INDI_D;
 
 class KProgressDialog;
 
-class telescopeWizardProcess : public telescopeWizard
+class telescopeWizardProcess : public QDialog
 {
 
 Q_OBJECT
@@ -39,6 +39,7 @@ private:
 	INDIMenu   *indimenu;
 	INDIDriver *indidriver;
 	QTimer *newDeviceTimer;
+	Ui::telescopeWizard *ui;
 
 	INDI_D *indiDev;
 

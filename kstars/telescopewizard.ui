@@ -1,624 +1,617 @@
-<!DOCTYPE UI><UI version="3.1.2" stdsetdef="1">
-<class>telescopeWizard</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>telescopeWizard</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>1</y>
-            <width>609</width>
-            <height>300</height>
-        </rect>
-    </property>
-    <property name="sizePolicy">
-        <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>5</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
-    </property>
-    <property name="minimumSize">
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>telescopeWizard</class>
+ <widget class="QDialog" name="telescopeWizard" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy>
+    <hsizetype>5</hsizetype>
+    <vsizetype>5</vsizetype>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>500</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>700</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>Telescope Wizard</string>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="1" column="1" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>10</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="helpB" >
+       <property name="text" >
+        <string>&amp;Help</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
         <size>
-            <width>500</width>
-            <height>300</height>
+         <width>56</width>
+         <height>11</height>
         </size>
-    </property>
-    <property name="maximumSize">
-        <size>
-            <width>800</width>
-            <height>300</height>
-        </size>
-    </property>
-    <property name="windowTitle">
-        <string>Telescope Wizard</string>
-    </property>
-    <property name="sizeGripEnabled">
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backB" >
+       <property name="text" >
+        <string>&amp;Back</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="nextB" >
+       <property name="text" >
+        <string>&amp;Next</string>
+       </property>
+       <property name="autoDefault" >
         <bool>true</bool>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QLayoutWidget" row="1" column="1">
-            <property name="name">
-                <cstring>layout12</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>10</number>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>helpB</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Help</string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>false</bool>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>56</width>
-                            <height>11</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>backB</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Back</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>nextB</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Next</string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QWidgetStack" row="0" column="1">
-            <property name="name">
-                <cstring>wizardContainer</cstring>
-            </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>introPage</cstring>
-                </property>
-                <attribute name="id">
-                    <number>0</number>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>intoPageLabel</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="text">
-                            <string>Welcome to the &lt;b&gt;KStars Telescope Setup Wizard!&lt;/b&gt;
-&lt;br&gt;&lt;br&gt;
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QStackedWidget" name="wizardContainer" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="introPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="intoPageLabel" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Welcome to the &lt;b>KStars Telescope Setup Wizard!&lt;/b>
+&lt;br>&lt;br>
 This Wizard will help you to connect to your telescope and control it from KStars. You will be asked to verify some basic information.
-&lt;br&gt;
-&lt;br&gt;You can get extended information on telescope support in KStars by pressing the &lt;tt&gt;help&lt;/tt&gt; button at any point during the Wizard.
-&lt;br&gt;&lt;br&gt;
+&lt;br>
+&lt;br>You can get extended information on telescope support in KStars by pressing the &lt;tt>help&lt;/tt> button at any point during the Wizard.
+&lt;br>&lt;br>
 Please click next to continue.</string>
-                        </property>
-                        <property name="alignment">
-                            <set>WordBreak|AlignVCenter</set>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>modelPage</cstring>
-                </property>
-                <attribute name="id">
-                    <number>1</number>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel">
-                        <property name="name">
-                            <cstring>modelPageLabel</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&lt;h3&gt;1. Telescope Model&lt;/h3&gt;
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="modelPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>5</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="modelPageLabel" >
+         <property name="text" >
+          <string>&lt;h3>1. Telescope Model&lt;/h3>
 
 Please select your telescope model from the list below. Click next after selecting a model.</string>
-                        </property>
-                        <property name="alignment">
-                            <set>WordBreak|AlignTop</set>
-                        </property>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer5_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>25</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout10</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QComboBox">
-                                <property name="name">
-                                    <cstring>telescopeCombo</cstring>
-                                </property>
-                            </widget>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer3</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Minimum</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>196</width>
-                                        <height>16</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </hbox>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer5</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>25</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLabel">
-                        <property name="name">
-                            <cstring>textLabel1</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&lt;b&gt;Tip&lt;/b&gt;
-&lt;br&gt;Some non-Meade telescopes support a subset of the LX200 command set. Select &lt;tt&gt;LX200 Generic&lt;/tt&gt; to control such devices.</string>
-                        </property>
-                    </widget>
-                </vbox>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>telescopePage</cstring>
-                </property>
-                <attribute name="id">
-                    <number>2</number>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>telescopePageInfo</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="text">
-                            <string>&lt;h3&gt;2. Align Your Telescope&lt;/h3&gt;
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>25</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QComboBox" name="telescopeCombo" />
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Minimum</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>196</width>
+             <height>16</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>25</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="textLabel1" >
+         <property name="text" >
+          <string>&lt;b>Tip&lt;/b>
+&lt;br>Some non-Meade telescopes support a subset of the LX200 command set. Select &lt;tt>LX200 Generic&lt;/tt> to control such devices.</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="telescopePage" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>5</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="telescopePageInfo" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&lt;h3>2. Align Your Telescope&lt;/h3>
 
 You need to align your telescope before you can control it properly from KStars. Please refer to your telescope manual for alignment instructions.
-&lt;br&gt;&lt;br&gt;
+&lt;br>&lt;br>
 After a successful alignment, connect your telescope's RS232 interface to your computer's serial or USB port.
-&lt;br&gt;&lt;br&gt;&lt;br&gt;Click next to continue.</string>
-                        </property>
-                        <property name="alignment">
-                            <set>WordBreak|AlignTop</set>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>localPage</cstring>
-                </property>
-                <attribute name="id">
-                    <number>3</number>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel">
-                        <property name="name">
-                            <cstring>localPageLabel</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&lt;h3&gt;3. Verify Local Settings&lt;/h3&gt;
+&lt;br>&lt;br>&lt;br>Click next to continue.</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="localPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="localPageLabel" >
+         <property name="text" >
+          <string>&lt;h3>3. Verify Local Settings&lt;/h3>
 
-Verify if the following time, date, and location settings are correct. If any of the settings are incorrect, you can correct them via the &lt;tt&gt;Set time&lt;/tt&gt; and &lt;tt&gt;Set Location&lt;/tt&gt; buttons.
+Verify if the following time, date, and location settings are correct. If any of the settings are incorrect, you can correct them via the &lt;tt>Set time&lt;/tt> and &lt;tt>Set Location&lt;/tt> buttons.
 </string>
-                        </property>
-                        <property name="alignment">
-                            <set>WordBreak|AlignTop</set>
-                        </property>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer4_2_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout14</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout13</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout6</cstring>
-                                        </property>
-                                        <vbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLayoutWidget">
-                                                <property name="name">
-                                                    <cstring>layout2</cstring>
-                                                </property>
-                                                <hbox>
-                                                    <property name="name">
-                                                        <cstring>unnamed</cstring>
-                                                    </property>
-                                                    <widget class="QLabel">
-                                                        <property name="name">
-                                                            <cstring>timeLabel</cstring>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>&lt;b&gt;Time&lt;/b&gt;</string>
-                                                        </property>
-                                                    </widget>
-                                                    <widget class="QLabel">
-                                                        <property name="name">
-                                                            <cstring>timeOut</cstring>
-                                                        </property>
-                                                        <property name="font">
-                                                            <font>
-                                                                <bold>1</bold>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string></string>
-                                                        </property>
-                                                    </widget>
-                                                </hbox>
-                                            </widget>
-                                            <widget class="QLayoutWidget">
-                                                <property name="name">
-                                                    <cstring>layout3</cstring>
-                                                </property>
-                                                <hbox>
-                                                    <property name="name">
-                                                        <cstring>unnamed</cstring>
-                                                    </property>
-                                                    <widget class="QLabel">
-                                                        <property name="name">
-                                                            <cstring>dateLabel</cstring>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>&lt;b&gt;Date&lt;/b&gt;</string>
-                                                        </property>
-                                                    </widget>
-                                                    <widget class="QLabel">
-                                                        <property name="name">
-                                                            <cstring>dateOut</cstring>
-                                                        </property>
-                                                        <property name="font">
-                                                            <font>
-                                                                <bold>1</bold>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string></string>
-                                                        </property>
-                                                    </widget>
-                                                </hbox>
-                                            </widget>
-                                        </vbox>
-                                    </widget>
-                                    <widget class="QLayoutWidget">
-                                        <property name="name">
-                                            <cstring>layout4</cstring>
-                                        </property>
-                                        <hbox>
-                                            <property name="name">
-                                                <cstring>unnamed</cstring>
-                                            </property>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>locationLabel</cstring>
-                                                </property>
-                                                <property name="text">
-                                                    <string>&lt;b&gt;Location&lt;/b&gt;</string>
-                                                </property>
-                                            </widget>
-                                            <widget class="QLabel">
-                                                <property name="name">
-                                                    <cstring>locationOut</cstring>
-                                                </property>
-                                                <property name="font">
-                                                    <font>
-                                                        <bold>1</bold>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string></string>
-                                                </property>
-                                            </widget>
-                                        </hbox>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                            <widget class="QLayoutWidget">
-                                <property name="name">
-                                    <cstring>layout11</cstring>
-                                </property>
-                                <vbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="QPushButton">
-                                        <property name="name">
-                                            <cstring>setTimeB</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Set Time...</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QPushButton">
-                                        <property name="name">
-                                            <cstring>setLocationB</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>Set Location...</string>
-                                        </property>
-                                    </widget>
-                                </vbox>
-                            </widget>
-                        </hbox>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer4_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>40</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </vbox>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QGridLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item row="0" column="1" >
+            <widget class="QLabel" name="timeOut" >
+             <property name="font" >
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>9</pointsize>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text" >
+              <string/>
+             </property>
             </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>portPage</cstring>
-                </property>
-                <attribute name="id">
-                    <number>4</number>
-                </attribute>
-                <vbox>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel">
-                        <property name="name">
-                            <cstring>portPageLabel</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="text">
-                            <string>&lt;h3&gt;4. Determine Connection Port&lt;/h3&gt;
+           </item>
+           <item row="2" column="0" >
+            <widget class="QLabel" name="locationLabel" >
+             <property name="text" >
+              <string>&lt;b>Location&lt;/b></string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" >
+            <widget class="QLabel" name="dateOut" >
+             <property name="font" >
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>9</pointsize>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text" >
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" >
+            <widget class="QLabel" name="locationOut" >
+             <property name="font" >
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>9</pointsize>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="text" >
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" >
+            <widget class="QLabel" name="timeLabel" >
+             <property name="text" >
+              <string>&lt;b>Time&lt;/b></string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QLabel" name="dateLabel" >
+             <property name="text" >
+              <string>&lt;b>Date&lt;/b></string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="setTimeB" >
+             <property name="text" >
+              <string>Set Time...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="setLocationB" >
+             <property name="text" >
+              <string>Set Location...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="portPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>5</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="portPageLabel" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&lt;h3>4. Determine Connection Port&lt;/h3>
 
-Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt&gt;/dev/ttyS0&lt;/tt&gt;
-&lt;br&gt;&lt;br&gt;If you are unsure about the port number, you can leave the field empty and KStars will try to scan the ports for attached telescopes. Beware that the autoscan process might take a few minutes to complete. </string>
-                        </property>
-                        <property name="alignment">
-                            <set>WordBreak|AlignTop</set>
-                        </property>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer6_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>25</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QLayoutWidget">
-                        <property name="name">
-                            <cstring>layout17</cstring>
-                        </property>
-                        <hbox>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLabel">
-                                <property name="name">
-                                    <cstring>portLabel</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>&lt;b&gt;Port:&lt;/b&gt;</string>
-                                </property>
-                            </widget>
-                            <widget class="KLineEdit">
-                                <property name="name">
-                                    <cstring>portIn</cstring>
-                                </property>
-                            </widget>
-                            <spacer>
-                                <property name="name">
-                                    <cstring>spacer4</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>141</width>
-                                        <height>16</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </hbox>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer6</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>25</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </vbox>
-            </widget>
+Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt>/dev/ttyS0&lt;/tt>
+&lt;br>&lt;br>If you are unsure about the port number, you can leave the field empty and KStars will try to scan the ports for attached telescopes. Beware that the autoscan process might take a few minutes to complete. </string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
         </widget>
-        <widget class="QLabel" row="0" column="0" rowspan="2" colspan="1">
-            <property name="name">
-                <cstring>wizardPix</cstring>
-            </property>
-            <property name="scaledContents">
-                <bool>true</bool>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<customwidgets>
-</customwidgets>
-<layoutdefaults spacing="6" margin="0"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-</includehints>
-</UI>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>25</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="portLabel" >
+           <property name="text" >
+            <string>&lt;b>Port:&lt;/b></string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KLineEdit" name="portIn" />
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>141</width>
+             <height>16</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>25</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item rowspan="2" row="0" column="0" >
+    <widget class="QLabel" name="wizardPix" >
+     <property name="minimumSize" >
+      <size>
+       <width>141</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>141</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="scaledContents" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="0" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QWidget</extends>
+   <header>klineedit.h</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -44,7 +44,7 @@
 
 class KCommandHistory;
 class ContrastBrightnessDlg;
-class Q3ScrollView;
+class QScrollView;
 class FITSImage;
 class FITSHistogram;
 

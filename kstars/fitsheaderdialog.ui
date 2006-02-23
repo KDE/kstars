@@ -1,117 +1,109 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>fitsHeaderDialog</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>fitsHeaderDialog</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>511</width>
-            <height>247</height>
-        </rect>
-    </property>
-    <property name="windowTitle">
-        <string>FITS Header</string>
-    </property>
-    <property name="sizeGripEnabled">
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>fitsHeaderDialog</class>
+ <widget class="QDialog" name="fitsHeaderDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>511</width>
+    <height>247</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>FITS Header</string>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QTreeWidget" name="headerView" >
+     <column>
+      <property name="text" >
+       <string>Keyword</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Value</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Comment</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>300</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeB" >
+       <property name="text" >
+        <string>&amp;Close</string>
+       </property>
+       <property name="autoDefault" >
         <bool>true</bool>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="KListView" row="0" column="0" rowspan="1" colspan="5">
-            <column>
-                <property name="text">
-                    <string>Card</string>
-                </property>
-                <property name="clickable">
-                    <bool>true</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-            <column>
-                <property name="text">
-                    <string>Value</string>
-                </property>
-                <property name="clickable">
-                    <bool>true</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-            <column>
-                <property name="text">
-                    <string>Comment</string>
-                </property>
-                <property name="clickable">
-                    <bool>true</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-            <property name="name">
-                <cstring>headerView</cstring>
-            </property>
-            <property name="resizeMode">
-                <enum>NoColumn</enum>
-            </property>
-            <property name="fullWidth">
-                <bool>true</bool>
-            </property>
-            <property name="itemsRenameable">
-                <bool>false</bool>
-            </property>
-            <property name="dropVisualizerWidth">
-                <number>4</number>
-            </property>
-        </widget>
-        <spacer row="2" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>Horizontal Spacing2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>300</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QPushButton" row="2" column="4">
-            <property name="name">
-                <cstring>closeB</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<connections>
-    <connection>
-        <sender>closeB</sender>
-        <signal>clicked()</signal>
-        <receiver>fitsHeaderDialog</receiver>
-        <slot>close()</slot>
-    </connection>
-</connections>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>closeB</sender>
+   <signal>clicked()</signal>
+   <receiver>fitsHeaderDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>454</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>322</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

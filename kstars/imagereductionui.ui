@@ -31,20 +31,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Q3GroupBox" name="darkFrameGroup" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>7</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QGroupBox" name="darkFrameGroup" >
        <property name="title" >
         <string>Dark Frames</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -54,22 +43,7 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="Q3ListView" name="darkListView" >
-          <property name="resizePolicy" >
-           <enum>Q3ScrollView::AutoOneFit</enum>
-          </property>
-          <property name="selectionMode" >
-           <enum>Q3ListView::Single</enum>
-          </property>
-          <property name="allColumnsShowFocus" >
-           <bool>false</bool>
-          </property>
-          <property name="rootIsDecorated" >
-           <bool>false</bool>
-          </property>
-          <property name="resizeMode" >
-           <enum>Q3ListView::LastColumn</enum>
-          </property>
+         <widget class="QListWidget" name="darkListView" >
           <column>
            <property name="text" >
             <string>File Name</string>
@@ -134,12 +108,9 @@
       </widget>
      </item>
      <item>
-      <widget class="Q3ButtonGroup" name="darkbg" >
+      <widget class="QGroupBox" name="darkbg" >
        <property name="title" >
         <string>Combination</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -205,20 +176,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Q3GroupBox" name="FlatFieldFrameGroup" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>7</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QGroupBox" name="FlatFieldFrameGroup" >
        <property name="title" >
         <string>Flat Field Frames</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -228,22 +188,7 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="Q3ListView" name="flatListView" >
-          <property name="resizePolicy" >
-           <enum>Q3ScrollView::AutoOneFit</enum>
-          </property>
-          <property name="selectionMode" >
-           <enum>Q3ListView::Single</enum>
-          </property>
-          <property name="allColumnsShowFocus" >
-           <bool>false</bool>
-          </property>
-          <property name="rootIsDecorated" >
-           <bool>false</bool>
-          </property>
-          <property name="resizeMode" >
-           <enum>Q3ListView::LastColumn</enum>
-          </property>
+         <widget class="QListWidget" name="flatListView" >
           <column>
            <property name="text" >
             <string>File Name</string>
@@ -308,12 +253,9 @@
       </widget>
      </item>
      <item>
-      <widget class="Q3ButtonGroup" name="flatFieldbg" >
+      <widget class="QGroupBox" name="flatFieldbg" >
        <property name="title" >
         <string>Combination</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -369,20 +311,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="Q3GroupBox" name="FlatFieldDarkFrameG" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>7</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QGroupBox" name="FlatFieldDarkFrameG" >
        <property name="title" >
         <string>Flat Field Dark Frames</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -392,22 +323,7 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="Q3ListView" name="darkflatListView" >
-          <property name="resizePolicy" >
-           <enum>Q3ScrollView::AutoOneFit</enum>
-          </property>
-          <property name="selectionMode" >
-           <enum>Q3ListView::Single</enum>
-          </property>
-          <property name="allColumnsShowFocus" >
-           <bool>false</bool>
-          </property>
-          <property name="rootIsDecorated" >
-           <bool>false</bool>
-          </property>
-          <property name="resizeMode" >
-           <enum>Q3ListView::LastColumn</enum>
-          </property>
+         <widget class="QListWidget" name="darkflatListView" >
           <column>
            <property name="text" >
             <string>File Name</string>
@@ -472,12 +388,9 @@
       </widget>
      </item>
      <item>
-      <widget class="Q3ButtonGroup" name="darkflatFieldbg" >
+      <widget class="QGroupBox" name="darkflatFieldbg" >
        <property name="title" >
         <string>Combination</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
        </property>
        <layout class="QVBoxLayout" >
         <property name="margin" >
@@ -583,29 +496,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3ListView</class>
-   <extends></extends>
-   <header>q3listview.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends></extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

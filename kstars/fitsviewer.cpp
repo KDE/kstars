@@ -34,7 +34,8 @@
 #include <kstatusbar.h>
 #include <kcommand.h>
 #include <klineedit.h>
-#include <klistview.h>
+//#include <klistview.h>
+
 
 #include <qfile.h>
 #include <q3vbox.h>
@@ -44,9 +45,11 @@
 #include <qradiobutton.h>
 #include <qclipboard.h>
 #include <qimage.h>
-//Added by qt3to4:
+
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QTreeWidget>
+#include <QHeaderView>
 
 #include <math.h>
 #include <unistd.h>
@@ -743,15 +746,14 @@ void FITSViewer::imageReduction()
   FITSHistogramCommand *hbc;
   QStringList darkFiles, flatFiles, darkflatFiles;
   int darkCombineMode = 0 , flatCombineMode = 0, darkflatCombineMode =0;
-  Q3ListViewItem *file;
   
   image->saveTemplateImage();
   ImageReductionDlg irDialog(this);
      
   if (irDialog.exec() == QDialog::Accepted)
   {
-    if (irDialog.ui->darkListView->childCount() == 0 && 
-        irDialog.ui->flatListView->childCount() == 0)
+    if (irDialog.ui->darkListView->count() == 0 && 
+        irDialog.ui->flatListView->count() == 0)
 	{
 	 image->destroyTemplateImage();
 	 return;
@@ -761,27 +763,15 @@ void FITSViewer::imageReduction()
     flatCombineMode    = irDialog.ui->flatAverageB->isChecked() ? 0 : 1;
     darkflatCombineMode= irDialog.ui->darkflatAverageB->isChecked() ? 0 : 1;
      
-    file = irDialog.ui->darkListView->firstChild();
-    while (file)
-    {
-      darkFiles << file->text(0);
-      file = file->nextSibling();
-    }
-    
-    file = irDialog.ui->flatListView->firstChild();
-    while (file)
-    {
-      flatFiles << file->text(0);
-      file = file->nextSibling();
-    }
-    
-    file = irDialog.ui->darkflatListView->firstChild();
-    while (file)
-    {
-      darkflatFiles << file->text(0);
-      file = file->nextSibling();
-    }
-      
+    for (int i=0; i < irDialog.ui->darkListView->count(); i++)
+		darkFiles << irDialog.ui->darkListView->item(i)->text();
+
+    for (int i=0; i < irDialog.ui->flatListView->count(); i++)
+		flatFiles << irDialog.ui->flatListView->item(i)->text();
+
+    for (int i=0; i < irDialog.ui->darkflatListView->count(); i++)
+		darkflatFiles << irDialog.ui->darkflatListView->item(i)->text();
+
       cbc = new FITSProcessCommand(this);
       FITSProcess reduc(this, darkFiles, flatFiles, darkflatFiles, darkCombineMode, flatCombineMode, darkflatCombineMode);
       reduc.reduce();
@@ -889,7 +879,9 @@ void FITSViewer::fitsChange()
 
 void FITSViewer::fitsStatistics()
 {
-  statForm stat(this);
+  QDialog statDialog;
+  Ui::statForm stat;
+  stat.setupUi(&statDialog);
   
   calculateStats();
   
@@ -903,7 +895,7 @@ void FITSViewer::fitsStatistics()
   stat.meanOUT->setText(QString("%1").arg(stats.average));
   stat.stddevOUT->setText(QString("%1").arg(stats.stddev));
   
-  stat.exec();
+  statDialog.exec();
 
 }
 
@@ -914,9 +906,11 @@ void FITSViewer::fitsHeader()
    QString property;
    int equal, slash;
 
-   fitsHeaderDialog header(this);
-   header.headerView->setSorting(-1);
-   header.headerView->setColumnAlignment(1, Qt::AlignHCenter);
+   QDialog fitsHeaderDialog;
+   Ui::fitsHeaderDialog header;
+   header.setupUi(&fitsHeaderDialog);
+   header.headerView->setSortingEnabled(false);
+   header.headerView->header()->setDefaultAlignment(Qt::AlignHCenter);
    
    for (int i=0; i < record.count(); i++)
    {
@@ -955,12 +949,19 @@ void FITSViewer::fitsHeader()
 	}
 	
    }
+
+   QTreeWidgetItem *tempItem;
    
    for (int k= cards.count() - 3; k >=0 ; k-=3)
-       		   new Q3ListViewItem( header.headerView, cards[k], cards[k+1], cards[k+2]);
+	{
+		   tempItem = new QTreeWidgetItem(header.headerView);
+		   tempItem->setText(0, cards[k]);
+		   tempItem->setText(1, cards[k+1]);
+		   tempItem->setText(2, cards[k+2]);
+	}
   
    
-   header.exec();
+   fitsHeaderDialog.exec();
 
 }
 

@@ -31,7 +31,7 @@
 #include <QTextStream>
 #include <QTreeWidget>
 #include <QIcon>
-
+#include <QDialog>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -756,11 +756,13 @@ int INDIDriver::activeDriverCount()
 
 void INDIDriver::addINDIHost()
 {
-  INDIHostConf hostConf(this);
-  hostConf.setWindowTitle(i18n("Add Host"));
+  QDialog hostConfDialog;
+  Ui::INDIHostConf hostConf;
+  hostConf.setupUi(&hostConfDialog);
+  hostConfDialog.setWindowTitle(i18n("Add Host"));
   bool portOk = false;
 
-  if (hostConf.exec() == QDialog::Accepted)
+  if (hostConfDialog.exec() == QDialog::Accepted)
   {
     INDIHostsInfo *hostItem = new INDIHostsInfo;
     hostItem->name        = hostConf.nameIN->text();
@@ -803,8 +805,10 @@ void INDIDriver::addINDIHost()
 void INDIDriver::modifyINDIHost()
 {
 
-  INDIHostConf hostConf(this);
-  hostConf.setWindowTitle(i18n("Modify Host"));
+  QDialog hostConfDialog;
+  Ui::INDIHostConf hostConf;
+  hostConf.setupUi(&hostConfDialog);
+  hostConfDialog.setWindowTitle(i18n("Modify Host"));
 
   QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 
@@ -820,7 +824,7 @@ void INDIDriver::modifyINDIHost()
   	hostConf.hostname->setText(ksw->data()->INDIHostsList.at(i)->hostname);
   	hostConf.portnumber->setText(ksw->data()->INDIHostsList.at(i)->portnumber);
 
-  	if (hostConf.exec() == QDialog::Accepted)
+  	if (hostConfDialog.exec() == QDialog::Accepted)
   	{
     	INDIHostsInfo *hostItem = new INDIHostsInfo;
 	hostItem->name       = hostConf.nameIN->text();
