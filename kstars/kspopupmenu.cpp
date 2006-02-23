@@ -104,7 +104,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotImage( int ) ), 0, id++ );
+		insertItem( i18n( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ksw->map(), SLOT( slotImage( int ) ), 0, id++ );
 		++itTitle;
 	}
 
@@ -123,7 +123,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotInfo( int ) ), 0, id++ );
+		insertItem( i18n( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ksw->map(), SLOT( slotInfo( int ) ), 0, id++ );
 		++itTitle;
 	}
 

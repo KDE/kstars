@@ -184,7 +184,7 @@ void KStars::initActions() {
 			schemeName = line.left( line.find( ':' ) );
 			//I call it filename here, but it's used as the name of the action!
 			filename = "cs_" + line.mid( line.find( ':' ) +1, line.find( '.' ) - line.find( ':' ) - 1 );
-			addColorMenuItem( i18n( schemeName.local8Bit() ), filename.local8Bit() );
+			addColorMenuItem( i18n( schemeName.toLocal8Bit() ), filename.toLocal8Bit() );
 		}
 		file.close();
 	}

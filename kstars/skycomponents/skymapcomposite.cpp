@@ -398,7 +398,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 	//Finally, match the abbreviated name to the full constellation name, and return that name
 	foreach ( SkyObject *o, m_CNamesComponent->objectList() ) {
 		if ( abbrev.lower() == o->name2().lower() ) {
-			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
+			QString r = i18n( "Constellation name (optional)", o->name().toLocal8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
 			int i = r.find(" ");
 			i++;

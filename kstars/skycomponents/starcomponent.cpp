@@ -258,7 +258,7 @@ void StarComponent::processStar( const QString &line ) {
 
 	// HEV: look up star name in internationalization filesource
 	if ( name.isEmpty() ) name = i18n("star");
-	name = i18n("star name", name.local8Bit().data());
+	name = i18n("star name", name.toLocal8Bit().data());
 
 	dms r;
 	r.setH(rah, ram, ras, ras2);

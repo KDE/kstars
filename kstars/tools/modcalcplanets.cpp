@@ -511,7 +511,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		  ksp.EquatorialToHorizontal( &LST, &latB );
 		  kspb = (KSPlanetBase*)&ksp;
 		} else {
-		  KSPlanet ksp( kd, i18n( pn.local8Bit() ), QString(), Qt::white, 1.0 );
+		  KSPlanet ksp( kd, i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
 		  ksp.findPosition( &num, &latB, &LST, &Earth );
 		  ksp.EquatorialToHorizontal( &LST, &latB );
 		  kspb = (KSPlanetBase*)&ksp;

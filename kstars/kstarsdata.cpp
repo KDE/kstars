@@ -421,7 +421,7 @@ bool KStarsData::processCity( const QString& line ) {
 
 	if ( fields.size() < 11 ) {
 		kDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
-		kDebug()<< totalLine.local8Bit() <<endl;
+		kDebug()<< totalLine.toLocal8Bit() <<endl;
 		return false;
 	} else if ( fields.size() < 12 ) {
 		// allow old format (without TZ) for mycities.dat

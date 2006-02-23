@@ -292,7 +292,7 @@ const QString dms::toDMSString(bool forceSign) const {
 	if ( dd < 100 ) format = "%c%2d%c %02d\' %02d\"";
 	if ( dd < 10  ) format = "%c%1d%c %02d\' %02d\"";
 
-	return dummy.sprintf(format.local8Bit(), pm, dd, 176, dm, ds);
+	return dummy.sprintf(format.toLocal8Bit(), pm, dd, 176, dm, ds);
 }
 
 const QString dms::toHMSString() const {

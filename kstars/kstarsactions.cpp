@@ -998,7 +998,7 @@ void KStars::slotShowGUIItem( bool show ) {
 
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
 	colorActionMenu->insert( new KAction( name, 0,
-			this, SLOT( slotColorScheme() ), actionCollection(), actionName.local8Bit() ) );
+			this, SLOT( slotColorScheme() ), actionCollection(), actionName.toLocal8Bit() ) );
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {

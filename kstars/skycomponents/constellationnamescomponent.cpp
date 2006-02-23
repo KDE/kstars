@@ -99,8 +99,8 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name() );  // latin constellation names
 				} else if ( Options::useLocalConstellNames() ) {
 					// can't use translatedName() because we need the context string in i18n()
-					float dx = 5.*( i18n( "Constellation name (optional)", p->name().local8Bit().data() ).length() );
-					psky.drawText( QPointF( o.x()-dx, o.y() ), i18n( "Constellation name (optional)", p->name().local8Bit().data() ) ); // localized constellation names
+					float dx = 5.*( i18n( "Constellation name (optional)", p->name().toLocal8Bit().data() ).length() );
+					psky.drawText( QPointF( o.x()-dx, o.y() ), i18n( "Constellation name (optional)", p->name().toLocal8Bit().data() ) ); // localized constellation names
 				} else {
 					float dx = 5.*p->name2().length();
 					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name2() ); //name2 is the IAU abbreviation
