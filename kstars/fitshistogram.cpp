@@ -44,12 +44,12 @@
    setupUi(parent);
    setModal(false);
    
-   minSlider->setMinValue(0);
-   minSlider->setMaxValue(BARS-1);
+   minSlider->setMinimum(0);
+   minSlider->setMaximum(BARS-1);
    minSlider->setValue(0);
    
-   maxSlider->setMinValue(0);
-   maxSlider->setMaxValue(BARS-1);
+   maxSlider->setMinimum(0);
+   maxSlider->setMaximum(BARS-1);
    maxSlider->setValue(BARS-1);
 
    histFrame->setCursor(Qt::CrossCursor);

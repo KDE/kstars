@@ -50,7 +50,7 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
 	QFontMetrics fm( font() );
 	int extra = width() - lineEdit()->width();
 	uint wmax = 0;
-	for ( int i=0; i < maxValue(); ++i ) {
+	for ( int i=0; i < maximum(); ++i ) {
 		uint w = fm.width( "-" + TimeString[i] );
 		if (  w > wmax ) wmax = w;
 	}
@@ -86,12 +86,12 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 		TimeScale[18] = 10800.0;     // 3 hr
 		TimeScale[19] = 21600.0;     // 6 hr
 		TimeScale[20] = 43200.0;     // 12 hr
-		setMinValue( -41 );
-		setMaxValue(  41 );
+		setMinimum( -41 );
+		setMaximum(  41 );
 		i = 20;
 	} else {
-		setMinValue( -21 );
-		setMaxValue(  21 );
+		setMinimum( -21 );
+		setMaximum(  21 );
 	}
 	TimeScale[i+1] = SECS_PER_DAY;     // 1 day
 	TimeScale[i+2] = 2.*SECS_PER_DAY;  // 2 days

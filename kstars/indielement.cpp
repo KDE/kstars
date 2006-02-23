@@ -332,8 +332,8 @@ void INDI_E::setMin (double inMin)
   }
   if (slider_w)
   {
-    slider_w->setMaxValue((int) ((max - min) / step));
-    slider_w->setMinValue(0);
+    slider_w->setMaximum((int) ((max - min) / step));
+    slider_w->setMinimum(0);
     slider_w->setPageStep(1);
     slider_w->setValue( (int) ((value - min) / step ));
   }
@@ -350,8 +350,8 @@ void INDI_E::setMax (double inMax)
  }
  if (slider_w)
  {
-    slider_w->setMaxValue((int) ((max - min) / step));
-    slider_w->setMinValue(0);
+    slider_w->setMaximum((int) ((max - min) / step));
+    slider_w->setMinimum(0);
     slider_w->setPageStep(1);
     slider_w->setValue( (int) ((value - min) / step ));
  }

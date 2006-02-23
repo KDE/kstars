@@ -43,8 +43,8 @@ TimeUnitBox::~TimeUnitBox(){
 
 void TimeUnitBox::setDaysOnly( bool daysonly ) {
 	if ( daysonly ) {
-		setMinValue( 1-DAYUNITS );
-		setMaxValue( DAYUNITS-1 );
+		setMinimum( 1-DAYUNITS );
+		setMaximum( DAYUNITS-1 );
 		setValue( 1 ); // Start out with days units
 	
 		UnitStep[0] = 0;
@@ -53,8 +53,8 @@ void TimeUnitBox::setDaysOnly( bool daysonly ) {
 		UnitStep[3] = 8;
 		UnitStep[4] = 14;
 	} else {
-		setMinValue( 1-ALLUNITS );
-		setMaxValue( ALLUNITS-1 );
+		setMinimum( 1-ALLUNITS );
+		setMaximum( ALLUNITS-1 );
 		setValue( 1 ); // Start out with seconds units
 	
 		UnitStep[0] = 0;

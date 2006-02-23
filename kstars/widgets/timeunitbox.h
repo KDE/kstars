@@ -68,10 +68,10 @@ public:
 
 	/**Set the minimum value for the internal time-unit value
 		*/
-	void setMinValue( int minValue ) { MinimumValue = minValue; }
+	void setMinimum( int minValue ) { MinimumValue = minValue; }
 	/**Set the maximum value for the internal time-unit value
 		*/
-	void setMaxValue( int maxValue ) { MaximumValue = maxValue; }
+	void setMaximum( int maxValue ) { MaximumValue = maxValue; }
 
 	/**@return the minimum value for the internal time-unit value
 		*/
