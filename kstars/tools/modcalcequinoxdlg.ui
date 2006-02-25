@@ -569,7 +569,6 @@
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>extdatetimeedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>
