@@ -33,7 +33,7 @@
 #include <QKeyEvent>
 #include <QCloseEvent>
 
-#include <kpixmapio.h>
+//#include <kpixmapio.h>
 #include <kpixmap.h>
 #include <kdialog.h>
 #include <kmainwindow.h>
