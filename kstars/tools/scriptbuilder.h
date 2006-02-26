@@ -82,7 +82,7 @@ public:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ScriptBuilder : public KDialogBase {
+class ScriptBuilder : public /*KDialogBase*/ KDialog {
 Q_OBJECT
 public:
 	ScriptBuilder( QWidget *parent );
@@ -180,7 +180,8 @@ public slots:
 private:
 	void initViewOptions();
 
-	ScriptBuilderUI *sb;
+	//ScriptBuilderUI *sb;
+        Ui::ScriptBuilder *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
 	QList<ScriptFunction*> KStarsFunctionList;

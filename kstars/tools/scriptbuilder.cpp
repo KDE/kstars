@@ -104,16 +104,19 @@ ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )
- : KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent ), 
+ : KDialog(parent)/*KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent )*/, 
 		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homePath() ), 
 		currentScriptName(), currentAuthor() {
 
-	QFrame *page = plainPage();
+	//QFrame *page = plainPage();
 
 	ks = (KStars*)parent;
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	sb = new ScriptBuilderUI( page );
-	vlay->addWidget( sb );
+	//QVBoxLayout *vlay = new QVBoxLayout( this, 0, 0 );
+	sb = new Ui::ScriptBuilder();// ScriptBuilderUI( page );
+	sb->setupUi(this);
+	
+	setMainWidget(this);
+	//vlay->addWidget( sb );
 
 	//Initialize function templates and descriptions
 	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'." ),
@@ -371,10 +374,10 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	initViewOptions();
 
 	//connect widgets in ScriptBuilderUI
-	connect( sb->FunctionTree, SIGNAL( doubleClicked(QTreeWidgetItem *, const QPoint &, int )), this, SLOT( slotAddFunction() ) );
-	connect( sb->FunctionTree, SIGNAL( currentChanged(QTreeWidgetItem*) ), this, SLOT( slotShowDoc() ) );
+	connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
+	connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
 	connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
-	connect( sb->ScriptListBox, SIGNAL( currentChanged(Q3ListBoxItem*) ), this, SLOT( slotArgWidget() ) );
+	connect( sb->ScriptListBox, SIGNAL( itemClicked(QListWidgetItem *) ), this, SLOT( slotArgWidget() ) );
 	connect( sb->DownButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionDown() ) );
 	connect( sb->CopyButton, SIGNAL( clicked() ), this, SLOT( slotCopyFunction() ) );
 	connect( sb->RemoveButton, SIGNAL( clicked() ), this, SLOT( slotRemoveFunction() ) );
@@ -1299,7 +1302,7 @@ void ScriptBuilder::slotRemoveFunction() {
 
 void ScriptBuilder::slotAddFunction() {
   
-        ScriptFunction *sc = NULL;
+        ScriptFunction *sc = NULL, *found = NULL;
 	QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
 	
 	if ( currentItem == NULL || currentItem->parent() == 0)
@@ -1307,26 +1310,32 @@ void ScriptBuilder::slotAddFunction() {
 	
 	foreach ( sc, KStarsFunctionList )
 	  if (sc->prototype() == currentItem->text(0))
-	    break;
+		{
+		    found = sc;
+		    break;
+		}
 	
-	 if (sc == NULL)
+	 if (found == NULL)
 	 {
 	   foreach ( sc, INDIFunctionList )
 	     if (sc->prototype() == currentItem->text(0))
-	       break;
-	   
+		{
+			found = sc;
+			break;
+		}
 	 }
 	 
-	 if (sc == NULL) return;
+	 if (found == NULL) return;
 	  
 	  setUnsavedChanges( true );
 
 	  int Pos = sb->ScriptListBox->currentRow() + 1;
 
-	  ScriptList.insert( Pos, new ScriptFunction(sc) );
+	  ScriptList.insert( Pos, new ScriptFunction(found) );
 	  //sb->ScriptListBox->insertItem(  ScriptList[Pos]->name(), Pos);
 	  sb->ScriptListBox->insertItem(Pos,  ScriptList[Pos]->name());
 	  sb->ScriptListBox->setCurrentRow(Pos);
+	  slotArgWidget();
 }
 
 void ScriptBuilder::slotMoveFunctionUp() {
@@ -1791,7 +1800,7 @@ void ScriptBuilder::slotArgWidget() {
 }
 
 void ScriptBuilder::slotShowDoc() {
-  ScriptFunction *sc = NULL;
+  ScriptFunction *sc = NULL, *found= NULL;
   QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
 	
   if ( currentItem == NULL || currentItem->parent() == 0)
@@ -1799,16 +1808,22 @@ void ScriptBuilder::slotShowDoc() {
 	
   foreach ( sc, KStarsFunctionList )
     if (sc->prototype() == currentItem->text(0))
-      break;
+	{
+		found = sc;
+      		break;
+	}
   
-  if (sc == NULL)
+  if (found == NULL)
   {
     foreach (sc, INDIFunctionList )
       if (sc->prototype() == currentItem->text(0))
-	break;
+	{
+		found = sc;
+		break;
+	}
   }
 	
-  if (sc == NULL)
+  if (found == NULL)
   {
     sb->AddButton->setEnabled( false );
     kWarning() << i18n( "Function index out of bounds." ) << endl;
@@ -1816,7 +1831,7 @@ void ScriptBuilder::slotShowDoc() {
   }
 
     sb->AddButton->setEnabled( true );
-    sb->FuncDoc->setText( sc->description() );
+    sb->FuncDoc->setText( found->description() );
 }
 
 //Slots for Arg Widgets
@@ -2257,10 +2272,11 @@ void ScriptBuilder::slotLoadColorScheme() {
 }
 
 void ScriptBuilder::slotClose() {
+	//kDebug() << "slot close" << endl;
 	saveWarning();
 
 	if ( !UnsavedChanges ) {
-		emit closeClicked();
+		 emit closeClicked(); 
 		reject();
 	}
 }
