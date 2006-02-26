@@ -54,7 +54,7 @@
 		<Action name="device_manager" />
 		
 		<Separator />
-		<Action name="indi_control_panel" />
+		<Action name="indi_cpl" />
 		<Action name="capture_sequence" />
 		<Separator />
 		<Action name="configure_indi" />

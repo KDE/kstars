@@ -166,6 +166,9 @@ class V4L_Driver
    double divider;			/* For limits */
    img_t * V4LFrame;			/* Video frame */
 
+   time_t capture_start;		/* To calculate how long a frame take */
+   time_t capture_end;
+
 };
    
 #endif

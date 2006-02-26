@@ -60,7 +60,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KLineEdit" name="deviceName" />
+        <widget class="QLineEdit" name="deviceName" />
        </item>
        <item>
         <widget class="QComboBox" name="directionCombo" />
@@ -105,15 +105,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

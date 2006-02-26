@@ -209,11 +209,11 @@ int V4L2_Base::read_frame(char *errmsg)
 		if (-1 == xioctl (fd, VIDIOC_QBUF, &buf))
 			return errno_exit ("VIDIOC_QBUF", errmsg);
                   
-                if (dropFrame)
+                /*if (dropFrame)
                 {
                   dropFrame = false;
                   return 0;
-                } 
+                } */
 
                 /* Call provided callback function if any */
                  if (callback)
@@ -276,7 +276,9 @@ int V4L2_Base::stop_capturing(char *errmsg)
                 IERmCallback(selectCallBackID);
                 selectCallBackID = -1;
 
-                dropFrame = true;
+                // N.B. I used this as a hack to solve a problem with capturing a frame
+		// long time ago. I recently tried taking this hack off, and it worked fine!
+		//dropFrame = true;
 
 		if (-1 == xioctl (fd, VIDIOC_STREAMOFF, &type))
 			return errno_exit ("VIDIOC_STREAMOFF", errmsg);

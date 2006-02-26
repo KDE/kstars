@@ -21,35 +21,92 @@
   <property name="modal" >
    <bool>false</bool>
   </property>
-  <widget class="QGroupBox" name="progressGroup" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>316</y>
-     <width>544</width>
-     <height>86</height>
-    </rect>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
    </property>
-   <property name="title" >
-    <string>Progress</string>
+   <property name="spacing" >
+    <number>6</number>
    </property>
-   <layout class="QHBoxLayout" >
-    <property name="margin" >
-     <number>10</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item>
-     <layout class="QVBoxLayout" >
+   <item row="2" column="0" colspan="2" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>270</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startB" >
+       <property name="text" >
+        <string>&amp;Start</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stopB" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>S&amp;top</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeB" >
+       <property name="text" >
+        <string>&amp;Close</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QGroupBox" name="progressGroup" >
+     <property name="title" >
+      <string>Progress</string>
+     </property>
+     <layout class="QHBoxLayout" >
       <property name="margin" >
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QVBoxLayout" >
         <property name="margin" >
          <number>0</number>
         </property>
@@ -57,355 +114,288 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QLabel" name="progressLabel" >
-          <property name="text" >
-           <string>Progress:</string>
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
           </property>
-         </widget>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="progressLabel" >
+            <property name="text" >
+             <string>Progress:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="currentImgCountOUT" >
+            <property name="minimumSize" >
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel1_4_2_2" >
+            <property name="text" >
+             <string>of</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="fullImgCountOUT" >
+            <property name="minimumSize" >
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="text" >
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="completedLabel" >
+            <property name="text" >
+             <string>completed</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QLabel" name="currentImgCountOUT" >
-          <property name="minimumSize" >
-           <size>
-            <width>50</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="frameShape" >
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="textLabel1_4_2_2" >
-          <property name="text" >
-           <string>of</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="fullImgCountOUT" >
-          <property name="minimumSize" >
-           <size>
-            <width>50</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="frameShape" >
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="completedLabel" >
-          <property name="text" >
-           <string>completed</string>
+         <widget class="KProgressBar" name="imgProgress" >
+          <property name="enabled" >
+           <bool>false</bool>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="KProgressBar" name="imgProgress" >
-        <property name="enabled" >
-         <bool>false</bool>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>51</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
-    </item>
-    <item>
-     <spacer>
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType" >
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" >
-       <size>
-        <width>51</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="" >
-   <layout class="QHBoxLayout" >
-    <property name="margin" >
-     <number>0</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item>
-     <spacer>
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType" >
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" >
-       <size>
-        <width>270</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="startB" >
-      <property name="text" >
-       <string>&amp;Start</string>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-      <property name="default" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="stopB" >
-      <property name="enabled" >
-       <bool>false</bool>
-      </property>
-      <property name="text" >
-       <string>S&amp;top</string>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-      <property name="default" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="closeB" >
-      <property name="text" >
-       <string>&amp;Close</string>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QGroupBox" name="setupGroup_2" >
-   <property name="geometry" >
-    <rect>
-     <x>285</x>
-     <y>11</y>
-     <width>268</width>
-     <height>298</height>
-    </rect>
-   </property>
-   <property name="title" >
-    <string>Filter</string>
-   </property>
-   <layout class="QGridLayout" >
-    <property name="margin" >
-     <number>10</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item rowspan="2" row="0" column="0" >
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="setupGroup" >
+     <property name="title" >
+      <string>Camera/CCD</string>
+     </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
       <item>
-       <widget class="QLabel" name="textLabel1_5_2" >
-        <property name="toolTip" >
-         <string/>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
         </property>
-        <property name="whatsThis" >
-         <string/>
+        <property name="spacing" >
+         <number>6</number>
         </property>
-        <property name="text" >
-         <string>Device:</string>
-        </property>
-       </widget>
+        <item row="3" column="1" >
+         <widget class="KIntNumInput" name="countIN" />
+        </item>
+        <item row="1" column="1" >
+         <widget class="KLineEdit" name="prefixIN" />
+        </item>
+        <item row="2" column="0" >
+         <widget class="QLabel" name="exposureLabel" >
+          <property name="toolTip" >
+           <string>Set the exposure time in seconds for individual images, if applicable</string>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Exposure:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" >
+         <widget class="KIntNumInput" name="delayIN" />
+        </item>
+        <item row="0" column="1" >
+         <widget class="QComboBox" name="CCDCombo" />
+        </item>
+        <item row="3" column="0" >
+         <widget class="QLabel" name="textLabel1_2" >
+          <property name="toolTip" >
+           <string>Number of images to capture</string>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Count:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="textLabel1_5" >
+          <property name="toolTip" >
+           <string/>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Device:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="textLabel1" >
+          <property name="toolTip" >
+           <string>Prefix to append to the beginning of file names</string>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Prefix:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" >
+         <widget class="QLabel" name="textLabel1_3" >
+          <property name="toolTip" >
+           <string>Delay in seconds between consecutive images</string>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Delay:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" >
+         <widget class="KDoubleNumInput" name="exposureIN" />
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QLabel" name="textLabel1_2_2" >
+       <widget class="QCheckBox" name="ISOCheck" >
         <property name="toolTip" >
-         <string>Number of images to capture</string>
-        </property>
-        <property name="whatsThis" >
-         <string/>
+         <string>Add time stamp to the file name</string>
         </property>
         <property name="text" >
-         <string>Filter:</string>
+         <string>Add ISO 8601 time stamp</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="1" column="1" >
-     <widget class="QComboBox" name="filterPosCombo" />
-    </item>
-    <item row="0" column="1" >
-     <widget class="QComboBox" name="filterCombo" />
-    </item>
-    <item row="2" column="0" colspan="2" >
-     <spacer>
-      <property name="orientation" >
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType" >
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" >
-       <size>
-        <width>21</width>
-        <height>81</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QGroupBox" name="setupGroup" >
-   <property name="geometry" >
-    <rect>
-     <x>11</x>
-     <y>11</y>
-     <width>268</width>
-     <height>298</height>
-    </rect>
-   </property>
-   <property name="title" >
-    <string>Camera/CCD</string>
-   </property>
-   <layout class="QVBoxLayout" >
-    <property name="margin" >
-     <number>9</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QGroupBox" name="setupGroup_2" >
+     <property name="title" >
+      <string>Filter</string>
+     </property>
      <layout class="QGridLayout" >
       <property name="margin" >
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="3" column="1" >
-       <widget class="KIntNumInput" name="countIN" />
+      <item rowspan="2" row="0" column="0" >
+       <layout class="QVBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="textLabel1_5_2" >
+          <property name="toolTip" >
+           <string/>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Device:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel1_2_2" >
+          <property name="toolTip" >
+           <string>Number of images to capture</string>
+          </property>
+          <property name="whatsThis" >
+           <string/>
+          </property>
+          <property name="text" >
+           <string>Filter:</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item row="1" column="1" >
-       <widget class="KLineEdit" name="prefixIN" />
-      </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="exposureLabel" >
-        <property name="toolTip" >
-         <string>Set the exposure time in seconds for individual images, if applicable</string>
-        </property>
-        <property name="whatsThis" >
-         <string/>
-        </property>
-        <property name="text" >
-         <string>Exposure:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1" >
-       <widget class="KIntNumInput" name="delayIN" />
+       <widget class="QComboBox" name="filterPosCombo" />
       </item>
       <item row="0" column="1" >
-       <widget class="QComboBox" name="CCDCombo" />
+       <widget class="QComboBox" name="filterCombo" />
       </item>
-      <item row="3" column="0" >
-       <widget class="QLabel" name="textLabel1_2" >
-        <property name="toolTip" >
-         <string>Number of images to capture</string>
+      <item row="2" column="0" colspan="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
         </property>
-        <property name="whatsThis" >
-         <string/>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Expanding</enum>
         </property>
-        <property name="text" >
-         <string>Count:</string>
+        <property name="sizeHint" >
+         <size>
+          <width>21</width>
+          <height>81</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1_5" >
-        <property name="toolTip" >
-         <string/>
-        </property>
-        <property name="whatsThis" >
-         <string/>
-        </property>
-        <property name="text" >
-         <string>Device:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="textLabel1" >
-        <property name="toolTip" >
-         <string>Prefix to append to the beginning of file names</string>
-        </property>
-        <property name="whatsThis" >
-         <string/>
-        </property>
-        <property name="text" >
-         <string>Prefix:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
-       <widget class="QLabel" name="textLabel1_3" >
-        <property name="toolTip" >
-         <string>Delay in seconds between consecutive images</string>
-        </property>
-        <property name="whatsThis" >
-         <string/>
-        </property>
-        <property name="text" >
-         <string>Delay:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" >
-       <widget class="KDoubleNumInput" name="exposureIN" />
+       </spacer>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="ISOCheck" >
-      <property name="toolTip" >
-       <string>Add time stamp to the file name</string>
-      </property>
-      <property name="text" >
-       <string>Add ISO 8601 time stamp</string>
-      </property>
-      <property name="checked" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>

@@ -391,6 +391,8 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
 
         ExposeTimeNP.s   = IPS_BUSY;
 	IDSetNumber(&ExposeTimeNP, NULL);
+
+	time(&capture_start);
 	v4l_base->start_capturing(errmsg);
 	
         return;
@@ -421,18 +423,17 @@ void V4L_Driver::updateFrame()
         if (dropLarge == 0)
         {
           dropLarge = (int) (5.0 * (FrameN[2].value / 160.0));
+	  updateStream();
           return;
         }
-        //else if (dropLarge < 2) return;
-        
-      //}
-
-     updateStream();
+     
   }
   else if (ExposeTimeNP.s == IPS_BUSY)
   {
      V4LFrame->Y      = v4l_base->getY();
      v4l_base->stop_capturing(errmsg);
+     time(&capture_end);
+     IDLog("Capture of ONE frame took %g seconds.\n", difftime(capture_end, capture_start));
      grabImage();
   }
 

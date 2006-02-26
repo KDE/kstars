@@ -235,7 +235,7 @@ void KStars::initActions() {
 	tmpAction = new KAction(i18n("Capture Image Sequence..."), 0, this, SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
 	tmpAction->setEnabled(false);
 	
-	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_control_panel");
+	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_cpl");
 	tmpAction->setEnabled(false);
 	
 	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");

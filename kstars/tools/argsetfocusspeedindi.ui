@@ -52,7 +52,7 @@
     </spacer>
    </item>
    <item row="0" column="1" >
-    <widget class="KLineEdit" name="deviceName" />
+    <widget class="QLineEdit" name="deviceName" />
    </item>
    <item row="0" column="0" >
     <widget class="QLabel" name="textLabel1" >
@@ -87,13 +87,6 @@
    <class>KIntNumInput</class>
    <extends></extends>
    <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

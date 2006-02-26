@@ -141,6 +141,8 @@ void INDIDriver::shutdownHost(int mgrID)
   QTreeWidgetItem *affectedItem;
   QList<QTreeWidgetItem *> found;
 
+   
+
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 {
       
@@ -159,15 +161,17 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
      }
  }
  
+  //return;
 
   for (uint i=0; i < devices.size(); i++)
   {
     if (devices[i]->mgrID == mgrID)
     {
-      found = ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly, 0);
+      //return;
+      found = ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly | Qt::MatchRecursive);
       if (found.empty()) return;
       affectedItem = found.first();
-	
+      //return;
       affectedItem->setIcon(1, ui->stopPix);
       affectedItem->setIcon(2, QIcon());
       affectedItem->setText(4, QString());
@@ -287,15 +291,15 @@ void INDIDriver::processDeviceStatus(int id)
 	
 	  if (devices[i]->mode == IDevice::M_LOCAL)
 	  	ksw->getINDIMenu()->processServer();
-		
-	  ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
-	  ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
-	  ui->localTreeWidget->currentItem()->setText(4, QString());
-	  ui->runServiceB->setEnabled(true);
-	  ui->stopServiceB->setEnabled(false);
-	  devices[i]->restart();
-	  updateMenuActions();
-	  return;
+
+	  //ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
+	  //ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
+	  //ui->localTreeWidget->currentItem()->setText(4, QString());
+	  //ui->runServiceB->setEnabled(true);
+	  //ui->stopServiceB->setEnabled(false);
+	  //devices[i]->restart();
+	  // TODO Do I need this? updateMenuActions();
+	  
      }
 }
 
@@ -348,10 +352,12 @@ void INDIDriver::processHostStatus(int id)
 
 void INDIDriver::updateMenuActions()
 {
+	
+
   // We iterate over devices, we enable INDI Control Panel if we have any active device
   // We enable capture image sequence if we have any imaging device
   
-  KAction *tmpAction;
+  KAction *tmpAction = NULL;
   INDIMenu *devMenu = ksw->getINDIMenu();
   bool activeDevice = false;
   bool activeImaging = false;
@@ -362,7 +368,9 @@ void INDIDriver::updateMenuActions()
   
   if (devMenu->mgr.count() > 0)
    activeDevice = true;
-   
+  
+
+ 
   for (int i=0; i < devMenu->mgr.count(); i++)
   {
 	for (int j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
@@ -375,19 +383,27 @@ void INDIDriver::updateMenuActions()
 			}
 	}
   }
-   
-  tmpAction = ksw->actionCollection()->action("indi_control_panel");
-  if (!tmpAction)
-  	kDebug() << "Warning: indi_control_panel action not found" << endl;
-  else
-  	tmpAction->setEnabled(activeDevice); 
-  
+
   tmpAction = ksw->actionCollection()->action("capture_sequence");
+   
   if (!tmpAction)
   	kDebug() << "Warning: capture_sequence action not found" << endl;
   else
   	tmpAction->setEnabled(activeImaging);
+
+  /* FIXME The following seems to cause a crash in KStars when we use
+     the telescope wizard to automatically search for scopes. I can't 
+     find any correlation! */
+
+  // Troubled Code START
+  tmpAction = ksw->actionCollection()->action("indi_cpl");
+  if (!tmpAction)
+  	kDebug() << "Warning: indi_cpl action not found" << endl;
+  else
+    	tmpAction->setEnabled(activeDevice); 
+  // Troubled Code END
   
+ 
 }
 
 bool INDIDriver::runDevice(IDevice *dev)

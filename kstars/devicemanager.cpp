@@ -71,10 +71,9 @@ DeviceManager::~DeviceManager()
     close(serverFD);
   
   if (XMLParser)
-  {
-   delLilXML(XMLParser);
-   XMLParser = NULL;
-  }
+     delLilXML(XMLParser);
+  
+  XMLParser = NULL;
 
 	while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 }
@@ -166,6 +165,7 @@ void DeviceManager::dataReceived()
 	{
   	  if (!XMLParser)
 	     	return;
+	
 
 	    XMLEle *root = readXMLEle (XMLParser, (int)ibuf[i], errmsg);
 	    if (root)
@@ -270,7 +270,6 @@ int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
     {
          if (indi_dev[i]->name ==  devName)
 	 {
-	    kDebug() << "Device Manager: Device found, deleting " << devName << endl;
 	    delete indi_dev.takeAt(i);
             return (0);
 	 }

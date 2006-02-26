@@ -31,7 +31,7 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="KPushButton" name="NewButton" >
+      <widget class="QPushButton" name="NewButton" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>1</hsizetype>
@@ -61,7 +61,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="OpenButton" >
+      <widget class="QPushButton" name="OpenButton" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>1</hsizetype>
@@ -91,7 +91,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveButton" >
+      <widget class="QPushButton" name="SaveButton" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>1</hsizetype>
@@ -121,7 +121,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveAsButton" >
+      <widget class="QPushButton" name="SaveAsButton" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>1</hsizetype>
@@ -151,7 +151,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="RunButton" >
+      <widget class="QPushButton" name="RunButton" >
        <property name="minimumSize" >
         <size>
          <width>32</width>
@@ -215,7 +215,7 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="KListBox" name="ScriptListBox" >
+          <widget class="QListWidget" name="ScriptListBox" >
            <property name="sizePolicy" >
             <sizepolicy>
              <hsizetype>7</hsizetype>
@@ -238,7 +238,7 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="KPushButton" name="AddButton" >
+            <widget class="QPushButton" name="AddButton" >
              <property name="minimumSize" >
               <size>
                <width>32</width>
@@ -261,7 +261,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="RemoveButton" >
+            <widget class="QPushButton" name="RemoveButton" >
              <property name="minimumSize" >
               <size>
                <width>32</width>
@@ -283,7 +283,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="CopyButton" >
+            <widget class="QPushButton" name="CopyButton" >
              <property name="minimumSize" >
               <size>
                <width>32</width>
@@ -305,7 +305,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="UpButton" >
+            <widget class="QPushButton" name="UpButton" >
              <property name="minimumSize" >
               <size>
                <width>32</width>
@@ -327,7 +327,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="DownButton" >
+            <widget class="QPushButton" name="DownButton" >
              <property name="minimumSize" >
               <size>
                <width>32</width>
@@ -420,7 +420,7 @@
            <bool>true</bool>
           </property>
          </widget>
-         <widget class="KTextEdit" name="FuncDoc" >
+         <widget class="QTextEdit" name="FuncDoc" >
           <property name="sizePolicy" >
            <sizepolicy>
             <hsizetype>7</hsizetype>
@@ -451,34 +451,14 @@
       <number>6</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
+      <widget class="QCheckBox" name="AppendINDIWait" >
+       <property name="text" >
+        <string>Append WaitForINDIAction after any INDI action</string>
        </property>
-       <property name="spacing" >
-        <number>6</number>
+       <property name="checked" >
+        <bool>false</bool>
        </property>
-       <item>
-        <widget class="QCheckBox" name="AppendINDIWait" >
-         <property name="text" >
-          <string>Append WaitForINDIAction after any INDI action</string>
-         </property>
-         <property name="checked" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="ReuseINDIDeviceName" >
-         <property name="text" >
-          <string>Reuse INDI device name</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </widget>
      </item>
      <item>
       <spacer>
@@ -490,8 +470,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>91</width>
-         <height>20</height>
+         <width>404</width>
+         <height>25</height>
         </size>
        </property>
       </spacer>
@@ -501,29 +481,6 @@
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends></extends>
-   <header>ktextedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

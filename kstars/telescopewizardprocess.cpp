@@ -105,13 +105,9 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
 
 telescopeWizardProcess::~telescopeWizardProcess()
 {
-  if (progressScan)
-    if (progressScan->wasCancelled())
-      indidriver->processDeviceStatus(1);
-
     Options::setIndiMessages( INDIMessageBar );
 
-    Reset();
+    //Reset();
 }
 
 void telescopeWizardProcess::processNext(void)
@@ -149,6 +145,7 @@ void telescopeWizardProcess::processNext(void)
    	progressScan->progressBar()->setMaximum(portList.count());
    	progressScan->progressBar()->setValue(0);
    	progressScan->show();
+
     }
     else if (linkResult == 2)
       KMessageBox::queuedMessageBox(0, KMessageBox::Information, i18n("Please wait while KStars tries to connect to your telescope..."));
@@ -235,10 +232,7 @@ int telescopeWizardProcess::establishLink()
 	QTreeWidgetItem *driverItem = NULL;
 	
          
-	/* FIXME this doesn't work in Qt 4.1.0, findItems only search top-level widgets.
-	   child widget are never searched. Either Qt fixes this, or we have to iterate over
-	   all children manually */
-	found = indidriver->ui->localTreeWidget->findItems(ui->telescopeCombo->currentText(), Qt::MatchExactly, 1);
+	found = indidriver->ui->localTreeWidget->findItems(ui->telescopeCombo->currentText(), Qt::MatchExactly | Qt::MatchRecursive);
 	
 	if (found.empty()) return -1;
 	driverItem = found.first();
@@ -339,11 +333,20 @@ void telescopeWizardProcess::scanPorts()
 
      currentPort++;
 
+     if (progressScan->wasCancelled())
+     {
+      linkRejected = true;
+      indidriver->processDeviceStatus(1);
+      Reset();
+      return;
+     }
+
      progressScan->progressBar()->setValue(currentPort);
 
      if ( currentPort >= portList.count())
      {
       KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
+	
       linkRejected = true;
       indidriver->processDeviceStatus(1);
       Reset();
@@ -384,8 +387,10 @@ void telescopeWizardProcess::Reset()
   timeOutCount = 0;
 
   if (progressScan)
-  	progressScan->close();
-
+  {
+	delete (progressScan);
+	progressScan = NULL;
+  }
   indiDev = NULL;
 
 }
