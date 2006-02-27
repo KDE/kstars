@@ -25,6 +25,7 @@
 #include "argwaitfor.h"
 #include "argwaitforkey.h"
 #include "argsettrack.h"
+#include "argsetdeviceindi.h"
 #include "argchangeviewoption.h"
 #include "argsetgeolocation.h"
 #include "argtimescale.h"
@@ -145,6 +146,12 @@ class ArgStartINDI  : public QFrame, public Ui::ArgStartINDI {
 Q_OBJECT
   public:
  ArgStartINDI ( QWidget *p );
+};
+
+class ArgSetDeviceINDI : public QFrame, public Ui::ArgSetDeviceINDI {
+ Q_OBJECT
+  public:
+   ArgSetDeviceINDI( QWidget *p);
 };
  
 class ArgShutdownINDI  : public QFrame, public Ui::ArgShutdownINDI {

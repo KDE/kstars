@@ -14,7 +14,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -35,13 +35,6 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item>
-        <widget class="QLabel" name="textLabel1_3" >
-         <property name="text" >
-          <string>Device:</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QLabel" name="textLabel1" >
          <property name="text" >
@@ -66,9 +59,6 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item>
-        <widget class="QLineEdit" name="deviceName" />
-       </item>
        <item>
         <widget class="dmsBox" name="RABox" />
        </item>
@@ -101,16 +91,16 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>dmsBox</class>
-   <extends>KLineEdit</extends>
-   <header>widgets/dmsbox.h</header>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
+   <class>dmsBox</class>
+   <extends>KLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

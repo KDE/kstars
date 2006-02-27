@@ -80,6 +80,10 @@ ArgLoadColorScheme::ArgLoadColorScheme ( QWidget *p ) {
 ArgStartINDI::ArgStartINDI ( QWidget *p ) {
   setupUi( this );
 }
+
+ArgSetDeviceINDI::ArgSetDeviceINDI(QWidget *p) {
+   setupUi( this);
+}
  
 ArgShutdownINDI::ArgShutdownINDI ( QWidget *p ) {
   setupUi( this );

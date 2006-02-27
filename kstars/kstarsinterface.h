@@ -191,37 +191,37 @@ class KStarsInterface : virtual public DCOPObject
 		*/
 		virtual ASYNC startINDI (const QString &deviceName, bool useLocal) = 0;
 		
-		/**Shotdown a device
+		/**Set current device. All subsequent functions will communicate with this device until changed.
+		 *@param deviceName The INDI device name
+		*/
+		virtual ASYNC setINDIDevice (const QString &deviceName) = 0;
+
+		/**Shutdown a device
 		 *@param deviceName The INDI device name
 		*/
 		virtual ASYNC shutdownINDI (const QString &deviceName) = 0;
 		
 		/**Turn the INDI device on/off
-		 *@param deviceName The INDI device name
 		 *@param turnOn If true, the device is switched on, otherwise it is switches off.
 		*/
-		virtual ASYNC switchINDI(const QString &deviceName, bool turnOn) = 0;
+		virtual ASYNC switchINDI(bool turnOn) = 0;
 		
 		/**Set INDI connection port
-		 *@param deviceName The INDI device name
 		 *@param port The connection port (e.g. /dev/ttyS0)
 		*/
-		virtual ASYNC setINDIPort(const QString &deviceName, const QString &port) = 0;
+		virtual ASYNC setINDIPort(const QString &port) = 0;
 		
 		/**Set INDI device action. This action is an element of a valid switch
 		 * property in the device.
-		 *@param deviceName The INDI device name
 		 *@param action The generic action to invoke
 		 */
-		virtual ASYNC setINDIAction(const QString &deviceName, const QString &action) = 0;
+		virtual ASYNC setINDIAction(const QString &action) = 0;
 		
 		/** Wait for action to complete (state changed to OK or IDLE)
-		 *@param deviceName The INDI device name
 		 *@param action The action. The action can be any valid device property.
 		 *               script will pause until the property status becomes OK.
 		 */
-		virtual ASYNC waitForINDIAction(const QString &deviceName, const QString &action) = 0;
-		
+		virtual ASYNC waitForINDIAction(const QString &action) = 0;
 		
 		// Telescope Functions
 		/**Set telescope target coordinates
@@ -229,84 +229,73 @@ class KStarsInterface : virtual public DCOPObject
 		 *@param RA Target's right ascension in JNOW
 		 *@param DEC Target's declination in JNOW
 		 */
-		virtual ASYNC setINDITargetCoord(const QString &deviceName, double RA, double DEC) = 0;
+		virtual ASYNC setINDITargetCoord(double RA, double DEC) = 0;
 		
 		/**Set telescope target
-		 *@param deviceName The INDI device name
 		 *@param objectName Object's name as found in KStars
 		*/
-		virtual ASYNC setINDITargetName(const QString &deviceName, const QString &objectName) = 0;
+		virtual ASYNC setINDITargetName(const QString &objectName) = 0;
 		
 		/**Set telescope action
-		 *@param deviceName The INDI device name
 		 *@param action The specfic action to perform. Either SLEW, TRACK, SYNC, PARK, or ABORT.
 		 */
-		virtual ASYNC setINDIScopeAction(const QString &deviceName, const QString &action) = 0;
+		virtual ASYNC setINDIScopeAction(const QString &action) = 0;
 		
 		/** Set INDI geographical location
-		 *@param deviceName The INDI device name
 		 *@param longitude Longitude expressed in double. E of N
 		 *@param latitude Latitude expressed in double.
 		 */
-		virtual ASYNC setINDIGeoLocation(const QString &deviceName, double longitude, double latitude) = 0;
+		virtual ASYNC setINDIGeoLocation(double longitude, double latitude) = 0;
 		
 		/** Start INDI UTC date and time in ISO 8601 format
-		 *@param deviceName The INDI device name
 		 *@param UTCDateTime UTC date and time in ISO 8601 format.
 		 */
-		virtual ASYNC setINDIUTC(const QString &deviceName, const QString &UTCDateTime) = 0;
+		virtual ASYNC setINDIUTC(const QString &UTCDateTime) = 0;
 		
 		
 		// Focus Functions
 		/** Set Focus Speed
-		 *@param deviceName The INDI device name
-		 *@param speed Focus speed: Halt, Fast, Medium, and Slow;
-		 *             which numerical value corresponds to which
-		 *             is left to the INDI driver.
-		 *
-		 *@todo Be more explicit about allowed action strings.
-		*/
-		virtual ASYNC setINDIFocusSpeed(const QString &deviceName, unsigned int speed) = 0;
+		 *@param speed Focus speed: This function depends on the implementation
+			                    of the specific driver. Usually, the speed 
+					    range is 1-4, where 1 corresponds to the 
+					    slowest settings, while 4 corresponds to the
+					    fastest setttings.
+ 		 */
+		virtual ASYNC setINDIFocusSpeed(unsigned int speed) = 0;
 		
 		/** Set INDI focus timeout
-		 *@param deviceName The INDI device name
 		 *@param timeout Number of seconds to perform focusing.
 		*/
-		virtual ASYNC setINDIFocusTimeout(const QString &deviceName, int timeout) = 0;
+		virtual ASYNC setINDIFocusTimeout(int timeout) = 0;
 		
 		/** Start INDI focus operation in the selected direction
-		 *@param deviceName The INDI device name
 		 *@param focusDir Focus direction. If 0, focus in, if 1 focus out
 		 */
-		virtual ASYNC startINDIFocus(const QString &deviceName, int focusDir) = 0;
+		virtual ASYNC startINDIFocus(int focusDir) = 0;
 		
 		// Filter Functions
 		/** Sets the Filter position
-		 *@param deviceName The INDI device name
 		 *@param filter_num The filter position (0-20)
 		 */
-		virtual ASYNC setINDIFilterNum(const QString &deviceName, int filter_num) = 0;
+		virtual ASYNC setINDIFilterNum(int filter_num) = 0;
 
 		// Camera CCD Functions
 		
 		/** Sets the CCD camera frame type
-		 *@param deviceName The INDI device name
 		 *@param type The frame type can be either FRAME_LIGHT, FRAME_DARK,
 		 *             FRAME_BIAS, or FRAME_FLAT
 		 */
-		virtual ASYNC setINDIFrameType(const QString &deviceName, const QString &type) = 0;
+		virtual ASYNC setINDIFrameType(const QString &type) = 0;
 		
 		/** Set CCD target temperature
-		 *@param deviceName The INDI device name
-		 *@param temp The target CCD temperature.
+		 *@param temp The target CCD temperature in celcius.
 		 */
-		virtual ASYNC setINDICCDTemp(const QString &deviceName, int temp) = 0;
+		virtual ASYNC setINDICCDTemp(int temp) = 0;
 		
 		/** Start camera exposure
-		 *@param deviceName The INDI device name
 		 *@param timeout Number of seconds to perform exposure.
 		*/
-		virtual ASYNC startINDIExposure(const QString &deviceName, int timeout) = 0;
+		virtual ASYNC startINDIExposure(int timeout) = 0;
 		
 };
 

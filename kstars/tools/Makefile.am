@@ -16,9 +16,9 @@ libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
 			observinglist.cpp observinglistui.ui argstartindi.ui argshutdownindi.ui argswitchindi.ui \
 			argsetportindi.ui argsettargetcoordindi.ui argsettargetnameindi.ui argsetactionindi.ui \
 			argsetfocusspeedindi.ui argstartfocusindi.ui argsetfocustimeoutindi.ui argsetgeolocationindi.ui \
-			argstartexposureindi.ui argsetutcindi.ui argsetframetypeindi.ui argsetscopeactionindi.ui \
-			argsetccdtempindi.ui modcalcvlsrdlg.ui modcalcvlsr.cpp argsetfilternumindi.ui \
-			obslistwizard.cpp obslistwizard.h obslistwizardui.ui lcgeneratorui.ui \
+			argstartexposureindi.ui argsetutcindi.ui argsetdeviceindi.ui argsetframetypeindi.ui \
+			argsetscopeactionindi.ui argsetccdtempindi.ui modcalcvlsrdlg.ui modcalcvlsr.cpp \
+			argsetfilternumindi.ui obslistwizard.cpp obslistwizard.h obslistwizardui.ui lcgeneratorui.ui \
 			../widgets/kstarsplotwidget.cpp ../widgets/timebox.cpp
 
 libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a 

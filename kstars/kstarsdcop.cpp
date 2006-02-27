@@ -500,68 +500,89 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 {
 
   establishINDI();
+  QList<QTreeWidgetItem *> found;
   
   if (!indidriver || !indimenu)
   {
     kDebug() << "establishINDI() failed." << endl;
     return;
   }
-	/* FIXME   
-	Q3ListViewItem *driverItem = NULL;
-	driverItem = indidriver->localListView->findItem(deviceName, 0);
-	if (driverItem == NULL)
+	QTreeWidgetItem *driverItem = NULL;
+	found = indidriver->ui->localTreeWidget->findItems(deviceName, Qt::MatchExactly | Qt::MatchRecursive);
+	
+	if (found.empty())
 	{
 	   kDebug() << "Device " << deviceName << " not found!" << endl;
 	   return;
 	}
 
+	driverItem = found.first();
+
 	// If device is already running, we need to shut it down first
 	if (indidriver->isDeviceRunning(deviceName))
 	{
-		indidriver->localListView->setSelected(driverItem, true);
+		indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 		indidriver->processDeviceStatus(1);
 	}
 	   
 	// Set custome label for device
 	indimenu->setCustomLabel(deviceName);
+ 	// Set DCOP device name
+	indimenu->setCurrentDevice(deviceName);
+
 	// Select it
-	indidriver->localListView->setSelected(driverItem, true);
+	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 	
 	// Start it either locally or as series
 	if (useLocal)
-		indidriver->localR->setChecked(true);
+		indidriver->ui->localR->setChecked(true);
 	else
-		indidriver->serverR->setChecked(true);
+		indidriver->ui->serverR->setChecked(true);
 	
 	// Run it
 	indidriver->processDeviceStatus(0);
-	*/
-
 }
 
-void KStars::shutdownINDI (const QString &deviceName)
+void KStars::setINDIDevice (const QString &deviceName)
 {
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "establishINDI() failed." << endl;
     return;
   }
-	/* FIXME
-	Q3ListViewItem *driverItem = NULL;
-	driverItem = indidriver->localListView->findItem(deviceName, 0);
-	if (driverItem == NULL)
+
+  indimenu->setCurrentDevice(deviceName);
+
+}
+
+void KStars::shutdownINDI (const QString &deviceName)
+{
+  QList<QTreeWidgetItem *> found;
+
+  if (!indidriver || !indimenu)
+  {
+    kDebug() << "establishINDI() failed." << endl;
+    return;
+  }
+
+	QTreeWidgetItem *driverItem = NULL;
+	found = indidriver->ui->localTreeWidget->findItems(deviceName, Qt::MatchExactly | Qt::MatchRecursive);
+	
+	if (found.empty())
 	{
 	   kDebug() << "Device " << deviceName << " not found!" << endl;
 	   return;
 	}
 
-	indidriver->processDeviceStatus(1);
-	*/
+	driverItem = found.first();
 
+	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
+	indidriver->processDeviceStatus(1);
 }
 
 
-void KStars::switchINDI(const QString &deviceName, bool turnOn)
+void KStars::switchINDI(bool turnOn)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -572,12 +593,12 @@ void KStars::switchINDI(const QString &deviceName, bool turnOn)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -595,7 +616,7 @@ void KStars::switchINDI(const QString &deviceName, bool turnOn)
 }
 
 	
-void KStars::setINDIPort(const QString &deviceName, const QString &port)
+void KStars::setINDIPort(const QString &port)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -607,12 +628,12 @@ void KStars::setINDIPort(const QString &deviceName, const QString &port)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -631,7 +652,7 @@ void KStars::setINDIPort(const QString &deviceName, const QString &port)
 }
 
 	
-void KStars::setINDITargetCoord(const QString &deviceName, double RA, double DEC)
+void KStars::setINDITargetCoord(double RA, double DEC)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -643,12 +664,12 @@ void KStars::setINDITargetCoord(const QString &deviceName, double RA, double DEC
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-     dev = indimenu->findDeviceByLabel(deviceName);
+     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -672,7 +693,7 @@ void KStars::setINDITargetCoord(const QString &deviceName, double RA, double DEC
 }
 
 	
-void KStars::setINDITargetName(const QString &deviceName, const QString &objectName)
+void KStars::setINDITargetName(const QString &objectName)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -687,12 +708,12 @@ void KStars::setINDITargetName(const QString &deviceName, const QString &objectN
   SkyObject *target = data()->objectNamed( objectName );
   if (!target) return;
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -716,7 +737,7 @@ void KStars::setINDITargetName(const QString &deviceName, const QString &objectN
 }
 
 	
-void KStars::setINDIAction(const QString &deviceName, const QString &action)
+void KStars::setINDIAction(const QString &action)
 {
   INDI_D *dev;
   INDI_E *el;
@@ -727,12 +748,12 @@ void KStars::setINDIAction(const QString &deviceName, const QString &action)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -742,9 +763,8 @@ void KStars::setINDIAction(const QString &deviceName, const QString &action)
   el->pp->activateSwitch(action);
   
 }
-
 	
-void KStars::waitForINDIAction(const QString &deviceName, const QString &action)
+void KStars::waitForINDIAction(const QString &action)
 {
 
   INDI_D *dev;
@@ -757,12 +777,12 @@ void KStars::waitForINDIAction(const QString &deviceName, const QString &action)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -783,7 +803,7 @@ void KStars::waitForINDIAction(const QString &deviceName, const QString &action)
 }
 
 	
-void KStars::setINDIFocusSpeed(const QString &deviceName, unsigned int speed)
+void KStars::setINDIFocusSpeed(unsigned int speed)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -795,12 +815,12 @@ void KStars::setINDIFocusSpeed(const QString &deviceName, unsigned int speed)
     return;
   }
 
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -818,25 +838,24 @@ void KStars::setINDIFocusSpeed(const QString &deviceName, unsigned int speed)
 }
 
 	
-void KStars::startINDIFocus(const QString &deviceName, int focusDir)
+void KStars::startINDIFocus(int focusDir)
 {
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIFocusSpeed: establishINDI() failed!" << endl;
+    kDebug() << "setINDIFocus: establishINDI() failed!" << endl;
     return;
   }
 
   if (focusDir == 0)
-    setINDIAction(deviceName, "IN");
+    setINDIAction("IN");
   else if (focusDir == 1)
-    setINDIAction(deviceName, "OUT");
+    setINDIAction("OUT");
 
 }
 
 	
-void KStars::setINDIGeoLocation(const QString &deviceName, double longitude, double latitude)
+void KStars::setINDIGeoLocation(double longitude, double latitude)
 {
-  
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
@@ -847,12 +866,12 @@ void KStars::setINDIGeoLocation(const QString &deviceName, double longitude, dou
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -876,7 +895,7 @@ void KStars::setINDIGeoLocation(const QString &deviceName, double longitude, dou
 }
 
 	
-void KStars::setINDIFocusTimeout(const QString &deviceName, int timeout)
+void KStars::setINDIFocusTimeout(int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -888,12 +907,12 @@ void KStars::setINDIFocusTimeout(const QString &deviceName, int timeout)
     return;
   }
 
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -914,7 +933,7 @@ void KStars::setINDIFocusTimeout(const QString &deviceName, int timeout)
 }
 
 	
-void KStars::startINDIExposure(const QString &deviceName, int timeout)
+void KStars::startINDIExposure(int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -926,12 +945,12 @@ void KStars::startINDIExposure(const QString &deviceName, int timeout)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -951,7 +970,7 @@ void KStars::startINDIExposure(const QString &deviceName, int timeout)
   
 }
 
-void KStars::setINDIFilterNum(const QString &deviceName, int filter_num)
+void KStars::setINDIFilterNum(int filter_num)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -963,12 +982,12 @@ void KStars::setINDIFilterNum(const QString &deviceName, int filter_num)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -987,7 +1006,7 @@ void KStars::setINDIFilterNum(const QString &deviceName, int filter_num)
   
 }
 		
-void KStars::setINDIUTC(const QString &deviceName, const QString &UTCDateTime)
+void KStars::setINDIUTC(const QString &UTCDateTime)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -999,12 +1018,12 @@ void KStars::setINDIUTC(const QString &deviceName, const QString &UTCDateTime)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   
@@ -1021,17 +1040,17 @@ void KStars::setINDIUTC(const QString &deviceName, const QString &UTCDateTime)
 
 }
 
-void KStars::setINDIScopeAction(const QString &deviceName, const QString &action)
+void KStars::setINDIScopeAction(const QString &action)
 {
-  setINDIAction(deviceName, action);
+  setINDIAction(action);
 }
 		
-void KStars::setINDIFrameType(const QString &deviceName, const QString &type)
+void KStars::setINDIFrameType(const QString &type)
 {
-  setINDIAction(deviceName, type);
+  setINDIAction(type);
 }
 
-void KStars::setINDICCDTemp(const QString &deviceName, int temp)
+void KStars::setINDICCDTemp(int temp)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -1043,12 +1062,12 @@ void KStars::setINDICCDTemp(const QString &deviceName, int temp)
     return;
   }
   
-  dev = indimenu->findDevice(deviceName);
+  dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
-    dev = indimenu->findDeviceByLabel(deviceName);
+    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << deviceName << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
   

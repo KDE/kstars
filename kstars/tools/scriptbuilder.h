@@ -82,7 +82,7 @@ public:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ScriptBuilder : public /*KDialogBase*/ KDialog {
+class ScriptBuilder : public /*KDialogBase*/ QDialog {
 Q_OBJECT
 public:
 	ScriptBuilder( QWidget *parent );
@@ -141,47 +141,32 @@ public slots:
 	void slotINDIFindObject();
 	void slotINDIStartDeviceName();
 	void slotINDIStartDeviceMode();
+	void slotINDISetDevice();
 	void slotINDIShutdown();
-	void slotINDISwitchDeviceName();
 	void slotINDISwitchDeviceConnection();
-	void slotINDISetPortDeviceName();
 	void slotINDISetPortDevicePort();
-	void slotINDISetTargetCoordDeviceName();
 	void slotINDISetTargetCoordDeviceRA();
 	void slotINDISetTargetCoordDeviceDEC();
-	void slotINDISetTargetNameDeviceName();
 	void slotINDISetTargetNameTargetName();
-	void slotINDISetActionDeviceName();
 	void slotINDISetActionName();
-	void slotINDIWaitForActionDeviceName();
 	void slotINDIWaitForActionName();
-	void slotINDISetFocusSpeedDeviceName();
 	void slotINDISetFocusSpeed();
-	void slotINDIStartFocusDeviceName();
 	void slotINDIStartFocusDirection();
-	void slotINDISetFocusTimeoutDeviceName();
 	void slotINDISetFocusTimeout();
-	void slotINDISetGeoLocationDeviceName();
 	void slotINDISetGeoLocationDeviceLong();
 	void slotINDISetGeoLocationDeviceLat();
-	void slotINDIStartExposureDeviceName();
 	void slotINDIStartExposureTimeout();
-	void slotINDISetUTCDeviceName();
 	void slotINDISetUTC();
-	void slotINDISetScopeActionDeviceName();
 	void slotINDISetScopeAction();
-	void slotINDISetFrameTypeDeviceName();
 	void slotINDISetFrameType();
-	void slotINDISetCCDTempDeviceName();
 	void slotINDISetCCDTemp();
-	void slotINDISetFilterNumDeviceName();
 	void slotINDISetFilterNum();
 
 private:
 	void initViewOptions();
 
+	Ui::ScriptBuilder *sb;
 	//ScriptBuilderUI *sb;
-        Ui::ScriptBuilder *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
 	QList<ScriptFunction*> KStarsFunctionList;
@@ -206,6 +191,7 @@ private:
 	ArgSetColor *argSetColor;
 	ArgLoadColorScheme *argLoadColorScheme;
 	ArgStartINDI *argStartINDI;
+        ArgSetDeviceINDI *argSetDeviceINDI;
 	ArgShutdownINDI *argShutdownINDI;
 	ArgSwitchINDI *argSwitchINDI;
 	ArgSetPortINDI *argSetPortINDI;

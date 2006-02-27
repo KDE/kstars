@@ -14,38 +14,28 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>10</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
    <item>
-    <layout class="QGridLayout" >
+    <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
      </property>
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="textLabel1" >
-       <property name="text" >
-        <string>Device:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" >
+     <item>
       <widget class="QLabel" name="textLabel1_2" >
        <property name="text" >
         <string>Port:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
+     <item>
       <widget class="QLineEdit" name="devicePort" />
-     </item>
-     <item row="0" column="1" >
-      <widget class="QLineEdit" name="deviceName" />
      </item>
     </layout>
    </item>

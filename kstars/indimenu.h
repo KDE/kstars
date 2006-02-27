@@ -62,11 +62,11 @@ class INDIMenu : public QWidget
    ******************************************************************/
    QVBoxLayout	*mainLayout;
    QTabWidget	*mainTabWidget;
-   //QTabWidget	*deviceContainer;
    QTextEdit 	*msgST_w;
-   //QWidget	*tab;
+   
    QPushButton  *clear;
    QString	currentLabel;
+   
 
    KStars *ksw;
 
@@ -83,6 +83,11 @@ class INDIMenu : public QWidget
    INDI_D * findDevice(const QString &deviceName);
    INDI_D * findDeviceByLabel(const QString &label);
 
+   void setCurrentDevice(const QString &device) { currentDevice = device; }
+   QString getCurrentDevice() { return currentDevice; }
+
+   private:
+   QString currentDevice;
 
    public slots:
    void discoverDevice();
