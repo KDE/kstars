@@ -219,7 +219,6 @@ private:
 	KUrl currentFileURL;
 	QString currentDir;
 	QString currentScriptName, currentAuthor;
-	QString lastINDIDeviceName;
 };
 
 #endif

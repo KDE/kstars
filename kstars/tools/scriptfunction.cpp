@@ -151,7 +151,9 @@ ScriptFunction::ScriptFunction( ScriptFunction *sf )
 	for ( unsigned int i=0; i<6; i++ ) {
 		ArgType[i] = sf->argType(i);
 		ArgName[i] = sf->argName(i);
-		ArgVal[i]  = QString();
+		//ArgVal[i]  = QString();
+		// JM: Some default argument values might be passed from another object as well
+		ArgVal[i]  = sf->argVal(i);
 	}
 }
 

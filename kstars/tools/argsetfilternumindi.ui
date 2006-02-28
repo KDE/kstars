@@ -35,6 +35,9 @@
        <property name="text" >
         <string>Filter:</string>
        </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
@@ -50,8 +53,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>39</width>
-         <height>50</height>
+         <width>146</width>
+         <height>16</height>
         </size>
        </property>
       </spacer>

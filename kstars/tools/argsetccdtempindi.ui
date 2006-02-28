@@ -56,8 +56,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>39</width>
-         <height>50</height>
+         <width>142</width>
+         <height>21</height>
         </size>
        </property>
       </spacer>
