@@ -34,11 +34,11 @@ struct VariableStarInfo
 	QString Designation;
 };
 
-class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
+/*class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
 	Q_OBJECT
 	public:
 		LCGeneratorUI( QWidget *p=0 );
-};
+};*/
 
 /**
 	*@class LCGenerator
@@ -48,7 +48,7 @@ class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
 	*@author Jasem Mutlaq
 	*@version 1.0
 	*/
-class LCGenerator : public KDialogBase
+class LCGenerator : public QDialog
 { 
 Q_OBJECT
 
@@ -96,7 +96,8 @@ private:
 	void DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay);
 
 	KStars *ksw;
-	LCGeneratorUI *lcg;
+	Ui::LCGenerator *lcg;
+	//LCGeneratorUI *lcg;
 	QVBoxLayout *vlay;
 
 	const QString Hostprefix;

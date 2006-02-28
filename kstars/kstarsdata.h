@@ -449,7 +449,7 @@ private:
 	QList<SkyObject*> ObjLabelList;
 
 	//FIXME: these need to be converted to QList
-	Q3PtrList<VariableStarInfo> VariableStarsList;
+	QList<VariableStarInfo*> VariableStarsList;
 	Q3PtrList<ADVTreeData> ADVtreeList;
 	Q3PtrList<INDIHostsInfo> INDIHostsList;
 	Q3PtrList<SkyObject> INDITelescopeList; //needs to be a Component?

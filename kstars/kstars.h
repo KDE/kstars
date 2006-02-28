@@ -642,7 +642,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ToggleAction *actObsList;
 		KActionMenu *colorActionMenu, *fovActionMenu;
 		
-		KDialogBase *AAVSODialog;
+		QDialog *AAVSODialog;
 		FindDialog *findDialog;
 		KSNewStuff *kns;
 		ObservingList *obsList;

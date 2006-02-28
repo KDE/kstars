@@ -3,7 +3,7 @@
  <comment></comment>
  <exportmacro></exportmacro>
  <class>LCGenerator</class>
- <widget class="QWidget" name="LCGenerator" >
+ <widget class="QDialog" name="LCGenerator" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -51,10 +51,10 @@
            <number>6</number>
           </property>
           <item row="1" column="1" >
-           <widget class="KListBox" name="NameBox" />
+           <widget class="QListWidget" name="NameBox" />
           </item>
           <item row="1" column="0" >
-           <widget class="KListBox" name="DesignationBox" />
+           <widget class="QListWidget" name="DesignationBox" />
           </item>
           <item row="0" column="1" >
            <widget class="QLabel" name="label_2" >
@@ -94,7 +94,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="KPushButton" name="UpdateListButton" >
+           <widget class="QPushButton" name="UpdateListButton" >
             <property name="text" >
              <string>Update List</string>
             </property>
@@ -273,7 +273,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="GetCurveButton" >
+      <widget class="QPushButton" name="GetCurveButton" >
        <property name="text" >
         <string>Retrieve Curve...</string>
        </property>
@@ -289,20 +289,6 @@
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
    <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

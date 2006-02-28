@@ -28,34 +28,51 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 
-LCGeneratorUI::LCGeneratorUI( QWidget *p ) {
+/*LCGeneratorUI::LCGeneratorUI( QWidget *p ) {
 	setupUi( p );
-}
+}*/
 
-LCGenerator::LCGenerator( QWidget* parent)
-	: KDialogBase( KDialogBase::Plain, i18n( "AAVSO Light Curve Generator" ), 
-				Close, Close, parent ),
+LCGenerator::LCGenerator( QWidget* parent) : QDialog(parent), 
+	/*: KDialogBase( KDialogBase::Plain, i18n( "AAVSO Light Curve Generator" ), 
+				Close, Close, parent ),*/
 	 Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
 {
-	QFrame *page = plainPage();
+	//QFrame *page = plainPage();
 	ksw = (KStars*) parent;
-	vlay = new QVBoxLayout( page, 0, spacingHint() );
-	lcg = new LCGeneratorUI( page );
+	//vlay = new QVBoxLayout( page, 0, spacingHint() );
+	lcg = new Ui::LCGenerator();
+	lcg->setupUi(this);
+	//lcg = new LCGeneratorUI( page );
 	lcg->AverageDayBox->setMinimum( 1 );
 	lcg->AverageDayBox->setValue( 1 );
-	vlay->addWidget( lcg );
+	//vlay->addWidget( lcg );
 
 	downloadJob = 0;
 	file = new QFile();
+
+	lcg->DesignationBox->clear();
+        lcg->NameBox->clear();
+
+	lcg->StartDateBox->setDate(ksw->data()->lt().date());
+	lcg->EndDateBox->setDate(ksw->data()->lt().date());
+		
+	// Fill stars designations
+         for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
+                lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
+
+         // Fill star names
+         for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
+                lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+
 
 	// Signals/Slots
 	QObject::connect(lcg->GetCurveButton, SIGNAL(clicked()), this,
 			SLOT(VerifyData()));
 	QObject::connect(lcg->UpdateListButton, SIGNAL(clicked()), this, 
 			SLOT(updateStarList()));
-	QObject::connect(lcg->DesignationBox, SIGNAL(highlighted(int)), this, 
+	QObject::connect(lcg->DesignationBox, SIGNAL(currentRowChanged(int)), this, 
 			SLOT(updateNameList(int)));
-	QObject::connect(lcg->NameBox, SIGNAL(highlighted(int)), this, 
+	QObject::connect(lcg->NameBox, SIGNAL(currentRowChanged(int)), this, 
 			SLOT(updateDesigList(int)));
 }
 
@@ -86,10 +103,9 @@ void LCGenerator::VerifyData()
 	  return;
 	}
 	
-
 	// Check that we have an integer for average number of days, if data field empty, then make it 'default'
 	AverageDays  = lcg->AverageDayBox->value();
-	Designation  = lcg->DesignationBox->currentText();
+	Designation  = lcg->DesignationBox->currentItem()->text();
 
 	//Download the curve!
 	DownloadCurve(StartDate, EndDate, Designation, AverageDays);
@@ -126,16 +142,16 @@ void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate
 void LCGenerator::updateDesigList(int index)
 {
 
-    lcg->DesignationBox->setSelected(index, true);
-    lcg->DesignationBox->centerCurrentItem();
+    lcg->DesignationBox->setCurrentRow(index);
+    //lcg->DesignationBox->centerCurrentItem();
     
 }
 
 void LCGenerator::updateNameList(int index)
 {
 
-    lcg->NameBox->setSelected(index, true);
-    lcg->NameBox->centerCurrentItem();
+    lcg->NameBox->setCurrentRow(index);
+    //lcg->NameBox->centerCurrentItem();
     
 }
 
@@ -172,12 +188,12 @@ downloadJob = 0;
                 lcg->NameBox->clear();
 		
 		// Fill stars designations
-                for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-                lcg->DesignationBox->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
+                for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
+                lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
                 // Fill star names
-                for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
-                lcg->NameBox->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
+                for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
+                lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
 		
                 KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
 

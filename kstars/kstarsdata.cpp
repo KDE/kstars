@@ -89,7 +89,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	//initialize FOV symbol
 	fovSymbol = FOV();
 
-	VariableStarsList.setAutoDelete(TRUE);
+	//VariableStarsList.setAutoDelete(TRUE);
 	INDIHostsList.setAutoDelete(TRUE);
 	INDITelescopeList.setAutoDelete(TRUE);
 
@@ -113,6 +113,9 @@ KStarsData::~KStarsData() {
 
 	while ( ! geoList.isEmpty() ) 
 		delete geoList.takeFirst();
+
+	while ( !VariableStarsList.isEmpty())
+		delete VariableStarsList.takeFirst();
 }
 
 QString KStarsData::typeName( int i ) {
@@ -185,8 +188,7 @@ void KStarsData::slotInitialize() {
 					initError( "TZrules.dat", true );
 			}
 
-			// read INDI hosts file, not required
-			readINDIHosts();
+
 			break;
 
 		case 1: //Load Cities//
@@ -214,8 +216,7 @@ void KStarsData::slotInitialize() {
 // 				initError( "image_url.dat", false );
 // 			}
 
-			// doesn't belong here, only temp
-			readUserLog();
+
 
 			break;
 
@@ -227,6 +228,14 @@ void KStarsData::slotInitialize() {
 // 			}
 
 			break;
+
+		case 5:
+			emit progressText( i18n("Loading Variable Stars" ) );
+			readINDIHosts();
+			readUserLog();
+			readVARData();
+			break;
+			
 
 		default:
 			initTimer->stop();
