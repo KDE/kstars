@@ -158,7 +158,7 @@ public:
 		*@li KSLABEL designates a top-level parent label
 		*@li KSINTERFACE designates a common URL interface for several objects
 		*@li END designates the end of a sub tree structure
-		*@short read Advanted interface structure.
+		*@short read online database lookup structure.
 		*@return true if data is successfully read.
 		*/
 	bool readADVTreeData(void);
@@ -321,10 +321,10 @@ public:
 
 	bool useDefaultOptions, startupComplete;
 
-	/**@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
+	/*@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
 		*@param object pointer to telescope sky object
-	*/
-	void appendTelescopeObject(SkyObject * object);
+	
+	void appendTelescopeObject(SkyObject * object);*/
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -452,7 +452,7 @@ private:
 	QList<VariableStarInfo*> VariableStarsList;
 	Q3PtrList<ADVTreeData> ADVtreeList;
 	Q3PtrList<INDIHostsInfo> INDIHostsList;
-	Q3PtrList<SkyObject> INDITelescopeList; //needs to be a Component?
+	//Q3PtrList<SkyObject> INDITelescopeList; //needs to be a Component?
 	
 	SkyMapComposite* m_SkyComposite;
 	

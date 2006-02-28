@@ -112,7 +112,7 @@ class SkyComposite : public SkyComponent
 			*@sa updateMoons()
 			*@sa SolarSystemComposite::updatePlanets()
 			*/
-		virtual void updatePlanets( KStarsData *data, KSNumbers *num ) {};
+		virtual void updatePlanets( KStarsData * /*data*/, KSNumbers */*num*/ ) {};
 
 		/**
 			*@short Delegate moon position updates to the SolarSystemComposite
@@ -129,7 +129,7 @@ class SkyComposite : public SkyComponent
 			*@sa updatePlanets()
 			*@sa SolarSystemComposite::updateMoons()
 			*/
-		virtual void updateMoons( KStarsData *data, KSNumbers *num ) {};
+		virtual void updateMoons( KStarsData * /*data*/, KSNumbers * /*num*/ ) {};
 
 		/**
 			*@short Add a new sub component to the composite
@@ -150,9 +150,9 @@ class SkyComposite : public SkyComponent
 			*@p o Pointer to the SkyObject to which a Trail will be added
 			*@return true if the object was found and a Trail was added 
 			*/
-		virtual bool addTrail( SkyObject *o ) { return false;};
-		virtual bool hasTrail( SkyObject *o, bool &found ) { return false;};
-		virtual bool removeTrail( SkyObject *o ) {return false;};
+		virtual bool addTrail( SkyObject * /*o*/ ) { return false;};
+		virtual bool hasTrail( SkyObject * /*o*/, bool & /*found*/ ) { return false;};
+		virtual bool removeTrail( SkyObject * /*o*/ ) {return false;};
 
 		virtual SkyObject* first();
 		virtual SkyObject* next();

@@ -974,6 +974,14 @@ int setGPSFocuserSpeed (int speed)
 {
   char speed_str[8];
 
+  if (speed == 0)
+  {
+     if (portWrite("#:FQ#") < 0)
+      return -1;
+
+     return 0;
+  }
+
   snprintf(speed_str, 8, "#:F%d#", speed);
 
   if (portWrite(speed_str) < 0)

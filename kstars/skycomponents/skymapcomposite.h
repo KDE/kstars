@@ -26,6 +26,7 @@
 #include "constellationboundarycomponent.h"
 #include "constellationnamescomponent.h"
 #include "deepskycomponent.h"
+#include "telescopecomponent.h"
 
 class KStarsData;
 
@@ -90,6 +91,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 		virtual void clearTrailsExcept( SkyObject *o );
+		virtual void addTelescopeMarker( SkyObject *o);
+		virtual void removeTelescopeMarker( SkyObject *o);
 
 		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
 		void removeCustomCatalog( const QString &name );
@@ -118,6 +121,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		QList<SkyObject*>& stars() { return m_StarComponent->objectList(); }
 		QList<SkyObject*>& asteroids() { return m_SSComposite->asteroids(); }
 		QList<SkyObject*>& comets() { return m_SSComposite->comets(); }
+		QList<SkyObject*>& telescopes() { return m_TelescopeComponent->objectList(); }
 
 		KSPlanet* earth() { return m_SSComposite->earth(); }
 
@@ -135,6 +139,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		ConstellationBoundaryComponent *m_CBoundsComponent;
 		ConstellationNamesComponent *m_CNamesComponent;
 		DeepSkyComponent *m_DeepSkyComponent;
+		TelescopeComponent *m_TelescopeComponent;
 		QStringList m_ObjectNames;
 };
 

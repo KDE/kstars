@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>533</width>
-    <height>377</height>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -266,18 +266,35 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>378</width>
+         <height>30</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="GetCurveButton" >
-       <property name="text" >
-        <string>Retrieve Curve...</string>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
        </property>
-      </widget>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="GetCurveButton" >
+         <property name="text" >
+          <string>Retrieve Curve...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton" >
+         <property name="text" >
+          <string>&amp;Close</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -294,5 +311,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>LCGenerator</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>430</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>325</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -74,7 +74,7 @@
    seqLister		= new KDirLister();
    
    telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
-   ksw->data()->appendTelescopeObject(telescopeSkyObject);
+   ksw->data()->skyComposite()->addTelescopeMarker(telescopeSkyObject);
 	
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
@@ -87,11 +87,13 @@
  
  INDIStdDevice::~INDIStdDevice()
  {
+   ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
    streamWindow->enableStream(false);
    streamWindow->close();
    CCDPreviewWindow->enableStream(false);
    CCDPreviewWindow->close();
    streamDisabled();
+   delete (telescopeSkyObject);
    delete (seqLister);
  }
  
@@ -309,6 +311,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	el = pp->findElement("DEC");
 	if (!el) return;
 	telescopeSkyObject->setDec(el->value);
+	/* FIXME do I need to do this? It's done in update() in TelescopeComponent */
 	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
 	// Force immediate update of skymap if the focus object is our telescope. 
 	if (ksw->map()->focusObject() == telescopeSkyObject)

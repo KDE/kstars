@@ -64,6 +64,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	addComponent( m_SSComposite );
 
 	addComponent( new JupiterMoonsComponent( this, &Options::showJupiter) );
+        m_TelescopeComponent = new TelescopeComponent(this, &Options::indiCrosshairs);
+	addComponent(m_TelescopeComponent);
 	addComponent( new HorizonComponent(this, &Options::showHorizon) );
 
 	connect( this, SIGNAL( progressText( const QString & ) ), 
@@ -114,6 +116,19 @@ void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
 		comp->clearTrailsExcept( exOb );
 	}
 }
+
+void SkyMapComposite::addTelescopeMarker( SkyObject *o)
+{
+       /* FIXME Does this function belong here?? */
+	m_TelescopeComponent->addTelescopeMarker(o);
+}
+
+void SkyMapComposite::removeTelescopeMarker( SkyObject *o)
+{
+  /* FIXME Does this function belong here?? */
+	m_TelescopeComponent->removeTelescopeMarker(o);
+}
+
 
 void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
 	m_StarComponent->setFaintMagnitude( newMag );

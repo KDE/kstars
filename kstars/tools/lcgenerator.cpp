@@ -47,12 +47,15 @@ LCGenerator::LCGenerator( QWidget* parent) : QDialog(parent),
 	lcg->AverageDayBox->setValue( 1 );
 	//vlay->addWidget( lcg );
 
+	setWindowTitle(i18n( "AAVSO Light Curve Generator" ));
 	downloadJob = 0;
 	file = new QFile();
 
 	lcg->DesignationBox->clear();
         lcg->NameBox->clear();
 
+	// FIXME ExDateEdit is broken, check LCGenerator again
+	// When it gets fixed 
 	lcg->StartDateBox->setDate(ksw->data()->lt().date());
 	lcg->EndDateBox->setDate(ksw->data()->lt().date());
 		

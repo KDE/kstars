@@ -91,7 +91,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//VariableStarsList.setAutoDelete(TRUE);
 	INDIHostsList.setAutoDelete(TRUE);
-	INDITelescopeList.setAutoDelete(TRUE);
+	//INDITelescopeList.setAutoDelete(TRUE);
 
 	// at startup times run forward
 	setTimeDirection( 0.0 );
@@ -291,10 +291,6 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || clock()->isManualMode() ) {
 		LastSkyUpdate = ut();
 		skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
-
-		//FIXME: Do we need an INDIComponent ?
-//		for (SkyObject *o = INDITelescopeList.first(); o; o = INDITelescopeList.next())
-//			o->EquatorialToHorizontal(LST, geo->lat());
 
 		//Update focus
 		skymap->updateFocus();
@@ -1160,10 +1156,10 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 	return false;
 }
 
-void KStarsData::appendTelescopeObject(SkyObject * object)
+/*void KStarsData::appendTelescopeObject(SkyObject * object)
 {
   INDITelescopeList.append(object);
-}
+}*/
 
 void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
 void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }

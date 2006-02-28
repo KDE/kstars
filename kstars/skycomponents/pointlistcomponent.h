@@ -44,7 +44,7 @@ class PointListComponent : public SkyComponent
 		virtual ~PointListComponent();
 		
 		/**Draw the list of objects on the SkyMap*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale) {};
+		virtual void draw(KStars * /*ks*/, QPainter& /*psky*/, double /*scale*/) {};
 		
 		/**Draw the object, if it is exportable to an image
 		*@see isExportable()

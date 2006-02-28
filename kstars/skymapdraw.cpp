@@ -180,6 +180,8 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, float x, float y, do
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky) {
+ 
+/* NOTE We're using TelescopeComponent now. Remove this later on
 
 	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
@@ -315,6 +317,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 			}
 		}
 	}
+*/
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
