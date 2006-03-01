@@ -1353,8 +1353,8 @@ void LX200Generic::ISPoll()
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
-	    IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
-	    IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
+	    /*IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
+	    IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);*/
 
 	    eqNum.np[0].value = currentRA;
 	    eqNum.np[1].value = currentDEC;
@@ -1424,12 +1424,6 @@ void LX200Generic::ISPoll()
 
 	case IPS_OK:
 	  
-	  /*if (--okCounter >= 0)
-	    break;
-	  
-	// Activate again in 3 seconds
-	  okCounter = 3;*/
-	  
 	if ( (err = getLX200RA(&currentRA)) < 0 || (err = getLX200DEC(&currentDEC)) < 0)
 	{
 	  handleError(&eqNum, err, "Getting RA/DEC");
@@ -1459,7 +1453,6 @@ void LX200Generic::ISPoll()
 	 case IPS_BUSY:
 	   getLX200RA(&currentRA);
 	   getLX200DEC(&currentDEC);
-	   /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 	   eqNum.np[0].value = currentRA;
 	   eqNum.np[1].value = currentDEC;
 
@@ -1623,9 +1616,9 @@ int LX200Generic::handleCoordSet()
 	  
 	  if (dx >= (trackingPrecisionN[0].value/(60.0*15.0)) || (dy >= trackingPrecisionN[1].value/60.0)) 
 	  {
-	        IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
+	        /*IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
 		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
-	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
+	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);*/
 
           	if ((err = Slew()))
 	  	{

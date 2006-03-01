@@ -105,14 +105,14 @@ INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n(
 
     ui = new DeviceManagerUI(page);
 
-  for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
+  //for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
+  foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
   {
   	QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
 	lastGroup = item;
 	item->setIcon(0, ui->disconnected);
-        item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
-	item->setText(2, ksw->data()->INDIHostsList.at(i)->portnumber);
-
+        item->setText(1, host->name);
+	item->setText(2, host->portnumber);
   }
 
   lastGroup = NULL;
@@ -143,23 +143,24 @@ void INDIDriver::shutdownHost(int mgrID)
 
    
 
-for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-{
-      
-     if (ksw->data()->INDIHostsList.at(i)->mgrID == mgrID)
+//for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+
+   foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+   {
+     if (host->mgrID == mgrID)
      {
-	found = ui->clientTreeWidget->findItems(ksw->data()->INDIHostsList.at(i)->name, Qt::MatchExactly, 1);
+	found = ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly, 1);
         if (found.empty()) return;
 	affectedItem = found.first();
-	ksw->data()->INDIHostsList.at(i)->mgrID = -1;
-	ksw->data()->INDIHostsList.at(i)->isConnected = false;
+	host->mgrID = -1;
+	host->isConnected = false;
         affectedItem->setIcon(0, ui->disconnected);
 	ui->connectHostB->setEnabled(true);
         ui->disconnectHostB->setEnabled(false);
 	updateMenuActions();
 	return;
      }
- }
+   }
  
   //return;
 
@@ -227,18 +228,19 @@ void INDIDriver::updateLocalButtons()
 
 void INDIDriver::updateClientButtons()
 {
- INDIHostsInfo *hostInfo;
+ //INDIHostsInfo *hostInfo;
  if (ui->clientTreeWidget->currentItem() == NULL)
   return;
 
 
-for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+//for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
    {
-     hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (ui->clientTreeWidget->currentItem()->text(1) == hostInfo->name && ui->clientTreeWidget->currentItem()->text(2) == hostInfo->portnumber)
+     //hostInfo = ksw->data()->INDIHostsList.at(i);
+     if (ui->clientTreeWidget->currentItem()->text(1) == host->name && ui->clientTreeWidget->currentItem()->text(2) == host->portnumber)
      {
-       ui->connectHostB->setEnabled(!hostInfo->isConnected);
-       ui->disconnectHostB->setEnabled(hostInfo->isConnected);
+       ui->connectHostB->setEnabled(!host->isConnected);
+       ui->disconnectHostB->setEnabled(host->isConnected);
        break;
      }
     }
@@ -309,35 +311,36 @@ void INDIDriver::processHostStatus(int id)
    bool toConnect = (id == 0);
    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
    if (!currentItem) return;
-   INDIHostsInfo *hostInfo;
+   //INDIHostsInfo *hostInfo;
 
-   for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
    {
-     hostInfo = ksw->data()->INDIHostsList.at(i);
-     if (currentItem->text(1) == hostInfo->name && currentItem->text(2) == hostInfo->portnumber)
+     //hostInfo = ksw->data()->INDIHostsList.at(i);
+     if (currentItem->text(1) == host->name && currentItem->text(2) == host->portnumber)
      {
         // Nothing changed, return
-        if (hostInfo->isConnected == toConnect)
+        if (host->isConnected == toConnect)
 	 return;
 
 	// connect to host
 	if (toConnect)
 	{
 	   // if connection successful
-          if ( (mgrID = ksw->getINDIMenu()->processClient(hostInfo->hostname, hostInfo->portnumber)) >= 0)
+          if ( (mgrID = ksw->getINDIMenu()->processClient(host->hostname, host->portnumber)) >= 0)
 	  {
 	    currentItem->setIcon(0, ui->connected);
-	    hostInfo->isConnected = true;
-	    hostInfo->mgrID = mgrID;
+	    host->isConnected = true;
+	    host->mgrID = mgrID;
 	    ui->connectHostB->setEnabled(false);
 	    ui->disconnectHostB->setEnabled(true);
 	  }
 	}
 	else
 	{
-	  ksw->getINDIMenu()->removeDeviceMgr(hostInfo->mgrID);
-	  hostInfo->mgrID = mgrID = -1;
-	  hostInfo->isConnected = false;
+	  ksw->getINDIMenu()->removeDeviceMgr(host->mgrID);
+	  host->mgrID = mgrID = -1;
+	  host->isConnected = false;
 	  currentItem->setIcon(0, ui->disconnected);
 	  ui->connectHostB->setEnabled(true);
 	  ui->disconnectHostB->setEnabled(false);
@@ -761,8 +764,9 @@ int INDIDriver::activeDriverCount()
     if (devices[i]->state && devices[i]->mode == IDevice::M_LOCAL)
       count++;
 
-  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-    if (ksw->data()->INDIHostsList.at(i)->isConnected)
+  //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+    if (host->isConnected)
       count++;
 
 
@@ -796,9 +800,9 @@ void INDIDriver::addINDIHost()
     }
 
     //search for duplicates
-    for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     if (hostItem->name   == ksw->data()->INDIHostsList.at(i)->name &&
-         hostItem->portnumber == ksw->data()->INDIHostsList.at(i)->portnumber)
+    //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+     if (hostItem->name   == host->name &&  hostItem->portnumber == host->portnumber)
      {
        KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.").arg(hostItem->name).arg(hostItem->portnumber));
        return;
@@ -831,31 +835,32 @@ void INDIDriver::modifyINDIHost()
   if (currentItem == NULL)
    return;
 
-  for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     if (currentItem->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
-         currentItem->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
+  //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
+   foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+   {
+     if (currentItem->text(1) == host->name && currentItem->text(2) == host->portnumber)
      {
-
-        hostConf.nameIN->setText(ksw->data()->INDIHostsList.at(i)->name);
-  	hostConf.hostname->setText(ksw->data()->INDIHostsList.at(i)->hostname);
-  	hostConf.portnumber->setText(ksw->data()->INDIHostsList.at(i)->portnumber);
+        hostConf.nameIN->setText(host->name);
+  	hostConf.hostname->setText(host->hostname);
+  	hostConf.portnumber->setText(host->portnumber);
 
   	if (hostConfDialog.exec() == QDialog::Accepted)
   	{
-    	INDIHostsInfo *hostItem = new INDIHostsInfo;
-	hostItem->name       = hostConf.nameIN->text();
-    	hostItem->hostname   = hostConf.hostname->text();
-    	hostItem->portnumber = hostConf.portnumber->text();
+    	//INDIHostsInfo *hostItem = new INDIHostsInfo;
+	host->name       = hostConf.nameIN->text();
+    	host->hostname   = hostConf.hostname->text();
+    	host->portnumber = hostConf.portnumber->text();
 
     	currentItem->setText(1, hostConf.nameIN->text());
     	currentItem->setText(2, hostConf.portnumber->text());
 
-    	ksw->data()->INDIHostsList.replace(i, hostItem);
+    	//ksw->data()->INDIHostsList.replace(i, hostItem);
 
     	saveHosts();
+	return;
   	}
-
      }
+   }
 }
 
 void INDIDriver::removeINDIHost()
@@ -864,11 +869,11 @@ void INDIDriver::removeINDIHost()
  if (ui->clientTreeWidget->currentItem() == NULL)
   return;
 
- for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-     if (ui->clientTreeWidget->currentItem()->text(1) == ksw->data()->INDIHostsList.at(i)->name &&
-         ui->clientTreeWidget->currentItem()->text(2) == ksw->data()->INDIHostsList.at(i)->portnumber)
+ for (int i=0; i < ksw->data()->INDIHostsList.count(); i++)
+      if (ui->clientTreeWidget->currentItem()->text(1) == ksw->data()->INDIHostsList[i]->name &&
+         ui->clientTreeWidget->currentItem()->text(2) == ksw->data()->INDIHostsList[i]->portnumber)
    {
-        if (ksw->data()->INDIHostsList.at(i)->isConnected)
+        if (ksw->data()->INDIHostsList[i]->isConnected)
         {
            KMessageBox::error( 0, i18n("You need to disconnect the client before removing it."));
            return;
@@ -877,7 +882,7 @@ void INDIDriver::removeINDIHost()
         if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?").arg(ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
            return;
 	   
- 	ksw->data()->INDIHostsList.remove(i);
+ 	delete ksw->data()->INDIHostsList.takeAt(i);
 	//ui->clientTreeWidget->takeItem(ui->clientTreeWidget->currentItem());
 	delete (ui->clientTreeWidget->currentItem());
 	break;
@@ -906,15 +911,16 @@ void INDIDriver::saveHosts()
 
  QTextStream outstream(&file);
 
- for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
+ //for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
+  foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
  {
 
  hostData  = "<INDIHost name='";
- hostData += ksw->data()->INDIHostsList.at(i)->name;
+ hostData += host->name;
  hostData += "' hostname='";
- hostData += ksw->data()->INDIHostsList.at(i)->hostname;
+ hostData += host->hostname;
  hostData += "' port='";
- hostData += ksw->data()->INDIHostsList.at(i)->portnumber;
+ hostData += host->portnumber;
  hostData += "' />\n";
 
  outstream << hostData;

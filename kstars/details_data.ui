@@ -340,21 +340,21 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="KPushButton" name="ObsListButton" >
+             <widget class="QPushButton" name="ObsListButton" >
               <property name="text" >
                <string>Add to Observing List</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="KPushButton" name="CenterButton" >
+             <widget class="QPushButton" name="CenterButton" >
               <property name="text" >
                <string>Center in Map</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="KPushButton" name="ScopeButton" >
+             <widget class="QPushButton" name="ScopeButton" >
               <property name="text" >
                <string>Center in Scope</string>
               </property>
@@ -402,13 +402,6 @@
  </widget>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>ClickLabel</class>
    <extends>QFrame</extends>

@@ -20,13 +20,15 @@
 
 #include <qfile.h>
 #include <qlabel.h>
-#include <q3ptrlist.h>
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QFocusEvent>
 #include <QHBoxLayout>
-#include <kdialogbase.h>
+#include <QTabWidget>
+#include <QDialog>
+#include <QPushButton>
+
 #include <ktextedit.h>
 
 #include "skyobject.h"
@@ -78,7 +80,7 @@ struct ADVTreeData
 	*@version 1.0
 	*/
 
-class DetailDialog : public KDialogBase  {
+class DetailDialog : public QDialog  {
    Q_OBJECT
 public: 
 /**Constructor
@@ -187,11 +189,11 @@ private:
 
 /**Populate the TreeView of known astronomical databases in the Advanced Tab
 	*/
-	void populateADVTree(Q3ListViewItem *parent);
+	void populateADVTree();
 
 /**For the databases TreeView
 	*/
-	void forkTree(Q3ListViewItem *parent);
+	/*void forkTree(Q3ListViewItem *parent);*/
 
 /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
 	*This function parses advinterface.dat.
@@ -201,6 +203,9 @@ private:
 
 	SkyObject *selectedObject;
 	KStars* ksw;
+
+	QTabWidget *tabWidget;
+	QPushButton *closeButton;
 
 	// Edit Link Dialog
 	QHBoxLayout *editLinkLayout;
@@ -212,9 +217,9 @@ private:
 	QString currentItemURL, currentItemTitle;
 	QStringList dataList;
 
-	Q3PtrListIterator<ADVTreeData> * treeIt;
+	//Q3PtrListIterator<ADVTreeData> * treeIt;
 
-	DataWidget *Data;
+	DataWidget*Data;
 	PositionWidget *Pos;
 	LinksWidget *Links;
 	DatabaseWidget *Adv;
@@ -222,32 +227,33 @@ private:
 
 };
 
-class DataWidget : public QFrame, public Ui::DetailsData {
-	Q_OBJECT
+class DataWidget : public Ui::DetailsData
+{
+	
 	public: 
 		DataWidget( QWidget *parent=0 );
 };
 
-class PositionWidget : public QFrame, public Ui::DetailsPosition {
-	Q_OBJECT
+class PositionWidget : public Ui::DetailsPosition
+{
 	public: 
 		PositionWidget( QWidget *parent=0 );
 };
 
-class LinksWidget : public QFrame, public Ui::DetailsLinks {
-	Q_OBJECT
+class LinksWidget : public Ui::DetailsLinks 
+{
 	public: 
 		LinksWidget( QWidget *parent=0 );
 };
 
-class DatabaseWidget : public QFrame, public Ui::DetailsDatabase {
-	Q_OBJECT
+class DatabaseWidget : public Ui::DetailsDatabase 
+{
 	public: 
 		DatabaseWidget( QWidget *parent=0 );
 };
 
-class LogWidget : public QFrame, public Ui::DetailsLog {
-	Q_OBJECT
+class LogWidget : public Ui::DetailsLog 
+{
 	public: 
 		LogWidget( QWidget *parent=0 );
 };

@@ -90,7 +90,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	fovSymbol = FOV();
 
 	//VariableStarsList.setAutoDelete(TRUE);
-	INDIHostsList.setAutoDelete(TRUE);
+	//INDIHostsList.setAutoDelete(TRUE);
 	//INDITelescopeList.setAutoDelete(TRUE);
 
 	// at startup times run forward
@@ -116,6 +116,9 @@ KStarsData::~KStarsData() {
 
 	while ( !VariableStarsList.isEmpty())
 		delete VariableStarsList.takeFirst();
+
+	while ( !INDIHostsList.isEmpty())
+		delete INDIHostsList.takeFirst();
 }
 
 QString KStarsData::typeName( int i ) {
@@ -234,6 +237,7 @@ void KStarsData::slotInitialize() {
 			readINDIHosts();
 			readUserLog();
 			readVARData();
+			readADVTreeData();
 			break;
 			
 

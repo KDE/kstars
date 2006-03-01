@@ -52,7 +52,7 @@
       </widget>
      </item>
      <item>
-      <widget class="Q3Frame" name="CoordFrame" >
+      <widget class="QFrame" name="CoordFrame" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -440,7 +440,7 @@
       </widget>
      </item>
      <item>
-      <widget class="Q3Frame" name="RSTFrame" >
+      <widget class="QFrame" name="RSTFrame" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -746,13 +746,6 @@
    <extends></extends>
    <header>kactivelabel.h</header>
    <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3Frame</class>
-   <extends></extends>
-   <header>Qt3Support/Q3Frame</header>
-   <container>1</container>
    <pixmap></pixmap>
   </customwidget>
  </customwidgets>

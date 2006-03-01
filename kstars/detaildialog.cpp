@@ -24,10 +24,10 @@
 #include <QPixmap>
 #include <QFocusEvent>
 #include <QTextStream>
-#include <Q3Frame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTreeWidgetItem>
 
 #include <kapplication.h>
 #include <kstandarddirs.h>
@@ -37,6 +37,7 @@
 #include <klistview.h>
 #include <klineedit.h>
 #include <ktoolinvocation.h>
+#include <kdialogbase.h>
 
 #include "detaildialog.h"
 
@@ -62,13 +63,28 @@
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
 		QWidget *parent ) : 
-		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent ) ,
+		QDialog(parent)
+		/*KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent )*/ ,
 		selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	//Modify color palette
 	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
 
+	// Create tab widget
+	QVBoxLayout *vlay = new QVBoxLayout(this);
+	tabWidget = new QTabWidget(this);
+	vlay->addWidget(tabWidget);
+
+	QHBoxLayout *hlay = new QHBoxLayout();
+	closeButton = new QPushButton(i18n("&Close"), this);
+	hlay->addStretch();
+	hlay->addWidget(closeButton);
+
+	vlay->addLayout(hlay);
+
+       setWindowTitle(i18n( "Object Details" ));
+	
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
 
@@ -83,12 +99,13 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
 	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
 	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
+	connect (closeButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
 void DetailDialog::createGeneralTab()
 {
-	QFrame *DataTab = addPage(i18n("General"));
-	Data = new DataWidget( DataTab );
+	QWidget *DataTab = new QWidget();
+	Data = new DataWidget(DataTab);
 
 	//Show object thumbnail image
 	showThumbnail();
@@ -234,11 +251,13 @@ void DetailDialog::createGeneralTab()
 
 	//Common to all types:
 	Data->Constellation->setText( ksw->data()->skyComposite()->constellation( selectedObject ) );
+
+	tabWidget->addTab(DataTab, i18n("General"));
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	QFrame *PosTab = addPage( i18n("Position") );
-	Pos = new PositionWidget( PosTab );
+	QWidget *PosTab = new QWidget();
+	Pos = new PositionWidget(PosTab);
 
 	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
@@ -315,6 +334,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
 	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
 	Pos->AltTransit->setText( talt.toDMSString() );
+
+	tabWidget->addTab(PosTab, i18n("Position"));
 }
 
 void DetailDialog::createLinksTab()
@@ -323,8 +344,8 @@ void DetailDialog::createLinksTab()
 	if (selectedObject->name() == QString("star"))
 		return;
 
-	QFrame *LinksTab = addPage( i18n( "Links" ) );
-	Links = new LinksWidget( LinksTab );
+	QWidget *LinksTab = new QWidget();
+	Links = new LinksWidget(LinksTab);
 
 	foreach ( QString s, selectedObject->InfoList )
 		Links->InfoList->insertItem( s );
@@ -347,6 +368,8 @@ void DetailDialog::createLinksTab()
 	connect( Links->InfoList, SIGNAL(highlighted(int)), this, SLOT( unselectImagesList() ) );
 	connect( Links->ImagesList, SIGNAL(highlighted(int)), this, SLOT( unselectInfoList() ) );
 	connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+
+	tabWidget->addTab(LinksTab, i18n( "Links" ));
 }
 
 void DetailDialog::createAdvancedTab()
@@ -360,13 +383,15 @@ void DetailDialog::createAdvancedTab()
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	QFrame *AdvancedTab = addPage(i18n("Advanced"));
-	Adv = new DatabaseWidget( AdvancedTab );
+	QWidget *AdvancedTab = new QWidget();
+	Adv = new DatabaseWidget(AdvancedTab );
 
-	treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
-	connect( Adv->ADVTree, SIGNAL(doubleClicked(Q3ListViewItem*)), this, SLOT(viewADVData()));
+	//treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
 
-	populateADVTree(NULL);
+	populateADVTree();
+
+	tabWidget->addTab(AdvancedTab, i18n("Advanced"));
 }
 
 void DetailDialog::createLogTab()
@@ -376,8 +401,8 @@ void DetailDialog::createLogTab()
 		return;
 
 	// Log Tab
-	QFrame *LogTab = addPage(i18n("Log"));
-	Log = new LogWidget( LogTab );
+	QWidget *LogTab = new QWidget();
+	Log = new LogWidget(LogTab);
 
 	if ( selectedObject->userLog.isEmpty() )
 		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
@@ -386,6 +411,8 @@ void DetailDialog::createLogTab()
 
 	//Automatically save the log contents when the widget loses focus
 	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
+
+	tabWidget->addTab(LogTab,i18n("Log")); 
 }
 
 
@@ -434,7 +461,9 @@ void DetailDialog::editLinkDialog()
 	QString defaultURL , entry;
 	QFile newFile;
 	
-	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
+	/* FIXME use QDialog or KDialog
+
+KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
 	QFrame *editFrame = editDialog.plainPage();
 	
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
@@ -518,7 +547,7 @@ void DetailDialog::editLinkDialog()
 
 	newFile.close();
 	file.close();
-	updateLists();
+	updateLists();  */
 }
 
 void DetailDialog::removeLinkDialog()
@@ -660,36 +689,43 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	return true;
 }
 
-void DetailDialog::populateADVTree(Q3ListViewItem *parent)
+void DetailDialog::populateADVTree()
 {
-	// list done
-	if (!treeIt->current())
-		return;
+	QTreeWidgetItem *parent = NULL, *temp = NULL;
 
-	// if relative top level [KSLABEL]
-	if (treeIt->current()->Type == 0)
-		forkTree(parent);
 
-	while (treeIt->current())
+        foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
 	{
-		if (treeIt->current()->Type == 0)
+
+		switch (item->Type)
 		{
-			forkTree(parent);
-			continue;
-		}
-		else if (treeIt->current()->Type == 1)
+			// Top Level
+			case 0:
+			//kDebug() << "Level 0 START" << endl;
+			temp = new QTreeWidgetItem(parent, QStringList(item->Name));
+			if (parent == NULL)
+				Adv->ADVTree->addTopLevelItem(temp);
+			parent = temp;
+
 			break;
 
-		if (parent)
-			new Q3ListViewItem( parent, treeIt->current()->Name);
-		else
-			new Q3ListViewItem( Adv->ADVTree, treeIt->current()->Name);
+			// End of top level
+			case 1:
+			//kDebug() << "Level 0 END" << endl;
+			if (parent != NULL) parent = parent->parent();
+			break;
 
-		++(*treeIt);
+			// Leaf
+			case 2:
+ 			//kDebug() << "Leaf" << endl;
+			new QTreeWidgetItem(parent, QStringList(item->Name));
+			break;
+		}
 	}
+	
 }
 
-void DetailDialog::forkTree(Q3ListViewItem *parent)
+/*void DetailDialog::forkTree(Q3ListViewItem *parent)
 {
 	Q3ListViewItem *current = 0;
 	if (parent)
@@ -701,29 +737,25 @@ void DetailDialog::forkTree(Q3ListViewItem *parent)
 	++(*treeIt);
 	populateADVTree(current);
 	++(*treeIt);
-}
+}*/
 
 void  DetailDialog::viewADVData()
 {
 	QString link;
-	Q3ListViewItem * current = Adv->ADVTree->currentItem();
+	QTreeWidgetItem * current = Adv->ADVTree->currentItem();
 
 	if (!current)  return;
 
-	treeIt->toFirst();
-	while (treeIt->current())
+	foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
 	{
-		if (treeIt->current()->Name == current->text(0))
+		if (item->Name == current->text(0))
 		{
-			if (treeIt->current()->Type == 2)  break;
-			else return;
+		   link = item->Link;
+		   link = parseADVData(link);
+		   KToolInvocation::invokeBrowser(link);	
+		   return;
 		}
-		++(*treeIt);
 	}
-
-	link = treeIt->current()->Link;
-	link = parseADVData(link);
-	KToolInvocation::invokeBrowser(link);
 }
 
 QString DetailDialog::parseADVData( const QString &inlink )
@@ -918,7 +950,7 @@ void DetailDialog::showThumbnail() {
 	if ( selectedObject->type() == SkyObject::STAR || 
 			selectedObject->type() == SkyObject::CATALOG_STAR ) {
 		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
-		Thumbnail->fill( Data->paletteBackgroundColor() );
+		Thumbnail->fill( Data->DataFrame->paletteBackgroundColor() );
 		Data->Image->setPixmap( *Thumbnail );
 		return;
 	}
@@ -936,7 +968,7 @@ void DetailDialog::showThumbnail() {
 		Thumbnail->load( file.name(), "PNG" );
 	} else {
 		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
-		Thumbnail->fill( Data->paletteBackgroundColor() );
+		Thumbnail->fill( Data->DataFrame->paletteBackgroundColor() );
 	}
 
 	Data->Image->setPixmap( *Thumbnail );
@@ -964,85 +996,90 @@ void DetailDialog::updateThumbnail() {
 	}
 }
 
-DataWidget::DataWidget( QWidget *p ) : QFrame( p ) {
-	setupUi(this);
+DataWidget::DataWidget( QWidget *p )
+{
+	setupUi(p);
 
 	//Modify colors
-	Names->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Names->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Type->setPalette( palette() );
-	Constellation->setPalette( palette() );
-	Magnitude->setPalette( palette() );
-	Distance->setPalette( palette() );
-	AngSize->setPalette( palette() );
-	InLabel->setPalette( palette() );
-	MagLabel->setPalette( palette() );
-	DistanceLabel->setPalette( palette() );
-	AngSizeLabel->setPalette( palette() );
+	Names->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Names->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	DataFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Type->setPalette( p->palette() );
+	Constellation->setPalette( p->palette() );
+	Magnitude->setPalette( p->palette() );
+	Distance->setPalette( p->palette() );
+	AngSize->setPalette( p->palette() );
+	InLabel->setPalette( p->palette() );
+	MagLabel->setPalette( p->palette() );
+	DistanceLabel->setPalette( p->palette() );
+	AngSizeLabel->setPalette( p->palette() );
 }
 
-PositionWidget::PositionWidget( QWidget *p ) : QFrame( p ) {
-	setupUi(this);
+PositionWidget::PositionWidget( QWidget *p )
+{
+	setupUi(p);
 
 	//Modify colors
-	CoordTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	CoordTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	CoordFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	RSTFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RA->setPalette( palette() );
-	Dec->setPalette( palette() );
-	Az->setPalette( palette() );
-	Alt->setPalette( palette() );
-	HA->setPalette( palette() );
-	Airmass->setPalette( palette() );
-	TimeRise->setPalette( palette() );
-	TimeTransit->setPalette( palette() );
-	TimeSet->setPalette( palette() );
-	AzRise->setPalette( palette() );
-	AltTransit->setPalette( palette() );
-	AzSet->setPalette( palette() );
-	RALabel->setPalette( palette() );
-	DecLabel->setPalette( palette() );
-	AzLabel->setPalette( palette() );
-	AltLabel->setPalette( palette() );
-	HALabel->setPalette( palette() );
-	AirmassLabel->setPalette( palette() );
-	TimeRiseLabel->setPalette( palette() );
-	TimeTransitLabel->setPalette( palette() );
-	TimeSetLabel->setPalette( palette() );
-	AzRiseLabel->setPalette( palette() );
-	AltTransitLabel->setPalette( palette() );
-	AzSetLabel->setPalette( palette() );
+	CoordTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	CoordTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	CoordFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RSTTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RSTTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	RSTFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	RA->setPalette( p->palette() );
+	Dec->setPalette( p->palette() );
+	Az->setPalette( p->palette() );
+	Alt->setPalette( p->palette() );
+	HA->setPalette( p->palette() );
+	Airmass->setPalette( p->palette() );
+	TimeRise->setPalette( p->palette() );
+	TimeTransit->setPalette( p->palette() );
+	TimeSet->setPalette( p->palette() );
+	AzRise->setPalette( p->palette() );
+	AltTransit->setPalette( p->palette() );
+	AzSet->setPalette( p->palette() );
+	RALabel->setPalette( p->palette() );
+	DecLabel->setPalette( p->palette() );
+	AzLabel->setPalette( p->palette() );
+	AltLabel->setPalette( p->palette() );
+	HALabel->setPalette( p->palette() );
+	AirmassLabel->setPalette( p->palette() );
+	TimeRiseLabel->setPalette( p->palette() );
+	TimeTransitLabel->setPalette( p->palette() );
+	TimeSetLabel->setPalette( p->palette() );
+	AzRiseLabel->setPalette( p->palette() );
+	AltTransitLabel->setPalette( p->palette() );
+	AzSetLabel->setPalette( p->palette() );
 }
 
-LinksWidget::LinksWidget( QWidget *par ) : QFrame( par ) {
-	setupUi(this);
+LinksWidget::LinksWidget( QWidget *p ) 
+{
+	setupUi(p);
 
 	//Modify colors
-	InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-	ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	InfoTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+	InfoTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	ImagesTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+	ImagesTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
 
-	QPalette p = palette();
-	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	InfoList->setPalette( p );
-	ImagesList->setPalette( p );
+	QPalette plt = p->palette();
+	plt.setColor( QPalette::Active, QColorGroup::Dark, p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	InfoList->setPalette( plt );
+	ImagesList->setPalette( plt );
 }
 
-DatabaseWidget::DatabaseWidget( QWidget *p ) : QFrame( p ) {
-	setupUi(this);
+DatabaseWidget::DatabaseWidget( QWidget *p )
+{
+	setupUi(p);
 }
 
-LogWidget::LogWidget( QWidget *p ) : QFrame( p ) {
-	setupUi(this);
+LogWidget::LogWidget( QWidget *p )
+{
+	setupUi(p);
 
 	//Modify colors
-	LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	LogTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+	LogTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
 }
 
 #include "detaildialog.moc"

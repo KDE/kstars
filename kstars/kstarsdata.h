@@ -23,7 +23,6 @@
 #include <QList>
 #include <QMap>
 #include <kshortcut.h>
-#include <Q3PtrList>
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
@@ -448,11 +447,9 @@ private:
 	/** List of pointers to all objects which have a user label attached */
 	QList<SkyObject*> ObjLabelList;
 
-	//FIXME: these need to be converted to QList
 	QList<VariableStarInfo*> VariableStarsList;
-	Q3PtrList<ADVTreeData> ADVtreeList;
-	Q3PtrList<INDIHostsInfo> INDIHostsList;
-	//Q3PtrList<SkyObject> INDITelescopeList; //needs to be a Component?
+	QList<ADVTreeData*> ADVtreeList;
+	QList<INDIHostsInfo*> INDIHostsList;
 	
 	SkyMapComposite* m_SkyComposite;
 	
