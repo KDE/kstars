@@ -568,18 +568,19 @@ void INDIStdDevice::updateLocation()
      
      if (drivers)
      {
-       for (unsigned int i=0; i < drivers->devices.size(); i++)
+       //for (unsigned int i=0; i < drivers->devices.size(); i++)
+       foreach(IDevice *device, drivers->devices)
        {
-         if (drivers->devices[i]->mgrID == dp->parentMgr->mgrID)
+         if (device->mgrID == dp->parentMgr->mgrID)
 	 {
-	        if (drivers->devices[i]->deviceType == KSTARS_TELESCOPE)
+	        if (device->deviceType == KSTARS_TELESCOPE)
 		{
      		   portEle->read_w->setText( Options::indiTelescopePort() );
      		   portEle->write_w->setText( Options::indiTelescopePort() );
      		   portEle->text = Options::indiTelescopePort();
 		   break;
 		}
-		else if (drivers->devices[i]->deviceType == KSTARS_VIDEO)
+		else if (device->deviceType == KSTARS_VIDEO)
 		{
 		   portEle->read_w->setText( Options::indiVideoPort() );
      		   portEle->write_w->setText( Options::indiVideoPort() );
@@ -823,16 +824,17 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	
         if (lp && drivers) 
 	{
-          for (unsigned int i=0; i < drivers->devices.size(); i++)
+          //for (unsigned int i=0; i < drivers->devices.size(); i++)
+	  foreach( IDevice *device, drivers->devices)
           {
-              if (drivers->devices[i]->mgrID == stdDev->dp->parentMgr->mgrID)
+              if (device->mgrID == stdDev->dp->parentMgr->mgrID)
 	      {
-	        if (drivers->devices[i]->deviceType == KSTARS_TELESCOPE)
+	        if (device->deviceType == KSTARS_TELESCOPE)
 		{
 		   Options::setIndiTelescopePort( lp->text );
 		   kDebug() << "Setting telescope port " << lp->text << endl;
 		}
-		else if (drivers->devices[i]->deviceType == KSTARS_VIDEO)
+		else if (device->deviceType == KSTARS_VIDEO)
 		{
 		   Options::setIndiVideoPort( lp->text );
 		   kDebug() << "Setting video port " << lp->text << endl;

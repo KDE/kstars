@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>617</height>
+    <height>236</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -52,7 +52,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KListBox" name="InfoList" >
+      <widget class="QListWidget" name="InfoTitleList" >
        <property name="frameShadow" >
         <enum>QFrame::Plain</enum>
        </property>
@@ -109,7 +109,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KListBox" name="ImagesList" >
+      <widget class="QListWidget" name="ImageTitleList" >
        <property name="frameShape" >
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -132,28 +132,28 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="KPushButton" name="ViewButton" >
+      <widget class="QPushButton" name="ViewButton" >
        <property name="text" >
         <string>View Resource</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="AddLinkButton" >
+      <widget class="QPushButton" name="AddLinkButton" >
        <property name="text" >
         <string>Add Link...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="EditLinkButton" >
+      <widget class="QPushButton" name="EditLinkButton" >
        <property name="text" >
         <string>Edit Link...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="RemoveLinkButton" >
+      <widget class="QPushButton" name="RemoveLinkButton" >
        <property name="text" >
         <string>Remove Link</string>
        </property>
@@ -181,22 +181,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

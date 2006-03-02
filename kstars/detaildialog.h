@@ -154,17 +154,6 @@ public slots:
 
 private:
 
-/**Read in the user's customized URL file (either images or info webpages),
-	*and store the file's lines in a QStringList.
-	*@param type 0=Image URLs; 1=Info URLs
-	*/
-	bool readUserFile(int type);
-
-/**Parse the QStringList containing the User's URLs.
-	*@param type 0=Image URLs; 1=Info URLs
-	*/
-	bool verifyUserData(int type);
-
 /**Build the General Data Tab for the current object.
 	*/
 	void createGeneralTab();
@@ -191,15 +180,19 @@ private:
 	*/
 	void populateADVTree();
 
-/**For the databases TreeView
-	*/
-	/*void forkTree(Q3ListViewItem *parent);*/
 
 /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
 	*This function parses advinterface.dat.
 	*/
 	QString parseADVData( const QString &link );
-	
+
+/** Update the local info_url and image_url files
+	@param type The URL type. 0 for Info Links, 1 for Images.
+	@param search_line The line to be search for in the local URL files
+	@param replace_line The replacement line once search_line is found.
+	@note If replace_line is empty, the function will remove search_line from the file
+*/
+	void updateLocalDatabase(int type, const QString &search_line, const QString &replace_line = QString());
 
 	SkyObject *selectedObject;
 	KStars* ksw;
@@ -211,10 +204,8 @@ private:
 	QHBoxLayout *editLinkLayout;
 	QLabel *editLinkURL;
 	QLineEdit *editLinkField;
-	QFile file;
 	QPixmap *Thumbnail;
 	int currentItemIndex;
-	QString currentItemURL, currentItemTitle;
 	QStringList dataList;
 
 	//Q3PtrListIterator<ADVTreeData> * treeIt;

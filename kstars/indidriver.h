@@ -21,7 +21,6 @@
 #include <qstringlist.h>
 #include <kdialogbase.h>
 #include <unistd.h>
-#include <vector>
 
 #include "indi/lilxml.h"
 #include "devmanager.h"
@@ -95,17 +94,6 @@ class DeviceManagerUI : public QFrame, public Ui::devManager
    QIcon localMode;
    QIcon serverMode;
 
-/*
-   KMenu *ClientpopMenu;
-   KMenu *LocalpopMenu;
-
-   public slots:
-    
-    void ClientprocessRightButton( QTreeWidgetItem *, const QPoint &, int );
-    void LocalprocessRightButton( QTreeWidgetItem *, const QPoint &, int );
-
-*/
-
 };
 
 class INDIDriver : public KDialogBase
@@ -146,7 +134,7 @@ class INDIDriver : public KDialogBase
 
     void saveHosts();
 
-    std::vector <IDevice *> devices;
+    QList<IDevice *> devices;
 
 public slots:
     void updateMenuActions();

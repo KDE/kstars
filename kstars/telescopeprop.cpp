@@ -54,10 +54,11 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::
   ui->driverCombo->insertStringList(indi_driver->driversList);
 
   // Fill the list box with telescopes
-  for (unsigned int i=0; i < indi_driver->devices.size(); i++)
+  //for (unsigned int i=0; i < indi_driver->devices.size(); i++)
+  foreach (IDevice *dev, indi_driver->devices)
   {
-    if (indi_driver->devices[i]->deviceType == KSTARS_TELESCOPE)
-    	ui->telescopeListBox->addItem(indi_driver->devices[i]->label);
+    if (dev->deviceType == KSTARS_TELESCOPE)
+    	ui->telescopeListBox->addItem(dev->label);
   }
 
   ui->telescopeListBox->setCurrentRow(0);
@@ -135,7 +136,7 @@ void telescopeProp::saveScope()
     if (aperture > 0)
      dev->aperture = aperture;
 
-    indi_driver->devices.push_back(dev);
+    indi_driver->devices.append(dev);
 
     ui->telescopeListBox->addItem(ui->labelEdit->text());
 
@@ -176,7 +177,7 @@ int telescopeProp::findDeviceIndex(int listIndex)
 {
   int finalIndex = -1;
 
-  for (unsigned int i=0; i < indi_driver->devices.size(); i++)
+  for (int i=0; i < indi_driver->devices.count(); i++)
   {
     if (indi_driver->devices[i]->label == ui->telescopeListBox->item(listIndex)->text())
     {
@@ -243,8 +244,8 @@ void telescopeProp::removeScope()
 
   ui->telescopeListBox->takeItem(index);
 
-  delete (indi_driver->devices[finalIndex]);
-  indi_driver->devices.erase(indi_driver->devices.begin() + finalIndex);
+  delete (indi_driver->devices.takeAt(finalIndex));
+  //indi_driver->devices.erase(indi_driver->devices.begin() + finalIndex);
   
   indi_driver->saveDevicesToDisk();
 

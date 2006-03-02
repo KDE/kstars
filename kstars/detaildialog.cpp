@@ -37,7 +37,10 @@
 #include <klistview.h>
 #include <klineedit.h>
 #include <ktoolinvocation.h>
-#include <kdialogbase.h>
+//#include <kio/job.h>
+#include <ktempfile.h>
+#include <kio/netaccess.h>
+
 
 #include "detaildialog.h"
 
@@ -62,10 +65,7 @@
 #include "indistd.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent ) : 
-		QDialog(parent)
-		/*KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent )*/ ,
-		selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
+		QWidget *parent ) : QDialog(parent) , selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	//Modify color palette
 	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
@@ -347,17 +347,19 @@ void DetailDialog::createLinksTab()
 	QWidget *LinksTab = new QWidget();
 	Links = new LinksWidget(LinksTab);
 
-	foreach ( QString s, selectedObject->InfoList )
-		Links->InfoList->insertItem( s );
+	foreach ( QString s, selectedObject->InfoTitle )
+		Links->InfoTitleList->addItem( s );
 
-	Links->InfoList->setSelected(0, true);
+	Links->InfoTitleList->setCurrentRow(0);
 
-	foreach ( QString s, selectedObject->ImageList )
-		Links->ImagesList->insertItem( s );
+	foreach ( QString s, selectedObject->ImageTitle )
+		Links->ImageTitleList->addItem( s );
 
-	if ( ! Links->InfoList->count() && ! Links->ImagesList->count() ) {
-		Links->EditLinkButton->setDisabled(true);
-		Links->RemoveLinkButton->setDisabled(true);
+	if ( ! Links->InfoTitleList->count() && ! Links->ImageTitleList->count() )
+	{
+		Links->ViewButton->setEnabled(false);
+		Links->EditLinkButton->setEnabled(false);
+		Links->RemoveLinkButton->setEnabled(false);
 	}
 
 	// Signals/Slots
@@ -365,11 +367,12 @@ void DetailDialog::createLinksTab()
 	connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
 	connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
 	connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
-	connect( Links->InfoList, SIGNAL(highlighted(int)), this, SLOT( unselectImagesList() ) );
-	connect( Links->ImagesList, SIGNAL(highlighted(int)), this, SLOT( unselectInfoList() ) );
+	connect( Links->InfoTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectImagesList() ) );
+	connect( Links->ImageTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectInfoList() ) );
 	connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
 
 	tabWidget->addTab(LinksTab, i18n( "Links" ));
+
 }
 
 void DetailDialog::createAdvancedTab()
@@ -418,23 +421,25 @@ void DetailDialog::createLogTab()
 
 void DetailDialog::unselectInfoList()
 {
-	Links->InfoList->setSelected( Links->InfoList->currentItem(), false );
+	//Links->InfoList->setSelected( Links->InfoList->currentItem(), false );
+	Links->InfoTitleList->clearSelection();
 }
 
 void DetailDialog::unselectImagesList()
 {
-	Links->ImagesList->setSelected( Links->ImagesList->currentItem(), false );
+	//Links->ImagesList->setSelected( Links->ImagesList->currentItem(), false );
+	Links->ImageTitleList->clearSelection();
 }
 
 void DetailDialog::viewLink()
 {
 	QString URL;
 
-	if ( Links->InfoList->currentItem() != -1 && 
-			Links->InfoList->isSelected( Links->InfoList->currentItem() ) )
-		URL = QString( selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
-	else if ( Links->ImagesList->currentItem() != -1 )
-		URL = QString( selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
+	if ( Links->InfoTitleList->currentItem())
+		URL = QString( selectedObject->InfoList.at( Links->InfoTitleList->currentRow() ) );
+	else if ( Links->ImageTitleList->currentItem() )
+		URL = QString( selectedObject->ImageList.at( Links->ImageTitleList->currentRow() ) );
+	else return;
 
 	if ( !URL.isEmpty() )
 		KToolInvocation::invokeBrowser(URL);
@@ -442,258 +447,233 @@ void DetailDialog::viewLink()
 
 void DetailDialog::updateLists()
 {
-	Links->InfoList->clear();
-	Links->ImagesList->clear();
+	Links->InfoTitleList->clear();
+	Links->ImageTitleList->clear();
+
+	// Buttons could be disabled if lists are initially empty
+	Links->ViewButton->setEnabled(true);
+	Links->EditLinkButton->setEnabled(true);
+	Links->RemoveLinkButton->setEnabled(true);
 	
-	foreach ( QString s, selectedObject->InfoList ) 
-		Links->InfoList->insertItem( s );
+	foreach ( QString s, selectedObject->InfoTitle ) 
+		Links->InfoTitleList->addItem( s );
 
-	Links->InfoList->setSelected(0, true);
+	foreach ( QString s, selectedObject->ImageTitle ) 
+        	Links->ImageTitleList->addItem( s );
 
-	foreach ( QString s, selectedObject->ImageList ) 
-		Links->ImagesList->insertItem( s );
+	/*if (Links->InfoTitleList->count() != 0)
+		Links->InfoTitleList->setCurrentRow(0);
+	else if (Links->ImageTitleList->count() != 0)
+		Links->ImageTitleList->setCurrentRow(0);*/
+
 }
 
 void DetailDialog::editLinkDialog()
 {
-	int type;
-	int i;
-	QString defaultURL , entry;
-	QFile newFile;
+	int type=0, row=0;
+	QString search_line, replace_line, currentItemTitle, currentItemURL;
 	
-	/* FIXME use QDialog or KDialog
-
-KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
-	QFrame *editFrame = editDialog.plainPage();
+	KDialog editDialog(NULL, i18n("Edit Link"), KDialog::Ok | KDialog::Cancel);
+	QFrame *editFrame = new QFrame();
+	
+	if (Links->InfoTitleList->currentItem())
+	{
+		row = Links->InfoTitleList->currentRow();
+		currentItemTitle = Links->InfoTitleList->currentItem()->text();
+		currentItemURL   = selectedObject->InfoList[row];
+		search_line = selectedObject->name();
+		search_line += ":";
+		search_line += currentItemTitle;
+		search_line += ":";
+		search_line += currentItemURL;
+		type       = 0;
+	}
+	else if (Links->ImageTitleList->currentItem())
+	{
+		row = Links->ImageTitleList->currentRow();
+		currentItemTitle = Links->ImageTitleList->currentItem()->text();
+		currentItemURL   = selectedObject->ImageList[row];
+		search_line = selectedObject->name();
+		search_line += ":";
+		search_line += currentItemTitle;
+		search_line += ":";
+		search_line += currentItemURL;
+		type 	   = 1;
+	}
+	else return;
 	
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
 	editLinkField = new QLineEdit(editFrame, "lineedit");
 	editLinkField->setMinimumWidth(300);
 	editLinkField->home(false);
+	editLinkField->setText(currentItemURL);
 	editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
-	
-	currentItemIndex = Links->InfoList->currentItem();
-	
-	if (currentItemIndex != -1 && Links->InfoList->isSelected( currentItemIndex ) )
-	{
-		defaultURL = selectedObject->InfoList.at( currentItemIndex );
-		editLinkField->setText( defaultURL );
-		type = 1;
-		currentItemTitle = Links->InfoList->currentText();
-	}
-	else if ( (currentItemIndex = Links->ImagesList->currentItem()) != -1)
-	{
-		defaultURL = selectedObject->ImageList.at( currentItemIndex );
-		editLinkField->setText( defaultURL );
-		type = 0;
-		currentItemTitle = Links->ImagesList->currentText();
-	}
-	else return;
+
+        editDialog.setMainWidget(editFrame);
 
 	// If user presses cancel then return
 	if ( ! editDialog.exec() == QDialog::Accepted )
 		return;
 
-	// if it wasn't edit, don't do anything
-	if ( ! editLinkField->edited() )
+	// If nothing changed, return
+	if (editLinkField->text() == currentItemURL)
 		return;
 
-	// Save the URL of the current item
-	currentItemURL =  editLinkField->text();
-	entry = selectedObject->name() + ":" + currentItemTitle + ":" + currentItemURL;
+	replace_line = selectedObject->name() + ":" + currentItemTitle + ":" + editLinkField->text();
 
-	//FIXME: usage of verifyUserData() is pretty unclear
-	//verifyUserData() returns false if currentItemTitle/currentItemURL 
-	//are not found in the user's list already.  If they are, then that 
-	//item is removed.
-	switch (type)
-	{
-		case 0:
-			if (!verifyUserData(type))
-				return;
-				break;
-		case 1:
-			if (!verifyUserData(type))
-				return;
-				break;
-	}
-
-	// Open a new file with the same name and copy all data along with changes
-	newFile.setName(file.name());
-	newFile.open(QIODevice::WriteOnly);
-
-	QTextStream newStream(&newFile);
-
-	for (i=0; i<dataList.size(); i++)
-	{
-		newStream << dataList[i] << endl;
-		continue;
-	}
-
+	// Info Link, we only replace URL since title hasn't changed
 	if (type==0)
-	{
-		selectedObject->ImageTitle.replace(currentItemIndex, currentItemTitle);
-		selectedObject->ImageList.replace(currentItemIndex, currentItemURL);
-	}
+		selectedObject->InfoList.replace(row, editLinkField->text());
+	// Image Links
 	else
-	{
-		selectedObject->InfoTitle.replace(currentItemIndex, currentItemTitle);
-		selectedObject->InfoList.replace(currentItemIndex, currentItemURL);
-	}
+		selectedObject->ImageList.replace(row, editLinkField->text());
 
-	newStream << entry << endl;
+	// Update local files
+	updateLocalDatabase(type, search_line, replace_line);
 
-	newFile.close();
-	file.close();
-	updateLists();  */
+	// Set focus to the same item again
+	if (type == 0)
+		Links->InfoTitleList->setCurrentRow(row);
+	else
+		Links->ImageTitleList->setCurrentRow(row);
+		
+	
 }
 
 void DetailDialog::removeLinkDialog()
 {
-	int type;
-	int i;
-	QString defaultURL, entry;
-	QFile newFile;
-	
-	currentItemIndex = Links->InfoList->currentItem();
-	
-	if (currentItemIndex != -1 && Links->InfoList->isSelected(currentItemIndex))
+	int type=0, row=0;
+	QString currentItemURL, currentItemTitle, LineEntry, TempFileName, FileLine;
+	QFile URLFile;
+	KTempFile TempFile;
+
+	TempFileName = TempFile.name();
+
+	if (Links->InfoTitleList->currentItem())
 	{
-		defaultURL = selectedObject->InfoList.at(currentItemIndex);
-		type = 1;
-		currentItemTitle = Links->InfoList->currentText();
+		row = Links->InfoTitleList->currentRow();
+		currentItemTitle = Links->InfoTitleList->currentItem()->text();
+		currentItemURL   = selectedObject->InfoList[row];
+		LineEntry = selectedObject->name();
+		LineEntry += ":";
+		LineEntry += currentItemTitle;
+		LineEntry += ":";
+		LineEntry += currentItemURL;
+		type       = 0;
 	}
-	else
+	else if (Links->ImageTitleList->currentItem())
 	{
-		currentItemIndex = Links->ImagesList->currentItem();
-		defaultURL = selectedObject->ImageList.at(currentItemIndex);
-		type = 0;
-		currentItemTitle = Links->ImagesList->currentText();
+		row = Links->ImageTitleList->currentRow();
+		currentItemTitle = Links->ImageTitleList->currentItem()->text();
+		currentItemURL   = selectedObject->ImageList[row];
+		LineEntry = selectedObject->name();
+		LineEntry += ":";
+		LineEntry += currentItemTitle;
+		LineEntry += ":";
+		LineEntry += currentItemURL;
+		type 	   = 1;
 	}
+	else return;
 
 	if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
 		return;
 
+	if (type ==0)
+	{
+		selectedObject->InfoTitle.removeAt(row);
+		selectedObject->InfoList.removeAt(row);
+	}
+	else
+	{
+		selectedObject->ImageTitle.removeAt(row);
+		selectedObject->ImageList.removeAt(row);
+	}
+
+	// Remove link from file
+	updateLocalDatabase(type, LineEntry);	
+
+	// Set focus to the 1st item in the list
+	if (type == 0)
+		Links->InfoTitleList->setCurrentRow(0);
+	else
+		Links->ImageTitleList->setCurrentRow(0);
+
+}
+
+void DetailDialog::updateLocalDatabase(int type, const QString &search_line, const QString &replace_line)
+{
+	QString TempFileName, file_line;
+	QFile URLFile;
+	KTempFile TempFile;
+	QTextStream *temp_stream=NULL, *out_stream=NULL;
+	bool replace = !replace_line.isEmpty();
+
+	if (search_line.isEmpty())
+		return;
+
+	TempFileName = TempFile.name();
+
 	switch (type)
 	{
+		// Info Links
 		case 0:
-			if (!verifyUserData(type))
-				return;
-			selectedObject->ImageTitle.remove( selectedObject->ImageTitle.at(currentItemIndex));
-			selectedObject->ImageList.remove( selectedObject->ImageList.at(currentItemIndex));
+			// Get name for our local info_url file
+			URLFile.setName( locateLocal( "appdata", "info_url.dat" ) ); 
 			break;
 
+		// Image Links
 		case 1:
-			if (!verifyUserData(type))
-				return;
-			selectedObject->InfoTitle.remove(selectedObject->InfoTitle.at(currentItemIndex));
-			selectedObject->InfoList.remove(selectedObject->InfoList.at(currentItemIndex));
+			// Get name for our local info_url file
+			URLFile.setName( locateLocal( "appdata", "image_url.dat" ) ); 
 			break;
 	}
 
-	// Open a new file with the same name and copy all data along with changes
-	newFile.setName(file.name());
-	newFile.open(QIODevice::WriteOnly);
+	// Copy URL file to temp file
+	KIO::NetAccess::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1 , true, false, NULL);
 
-	QTextStream newStream(&newFile);
+		
+	if ( !URLFile.open( QIODevice::WriteOnly) )
+	{
+		kDebug() << "DetailDialog: Failed to open " << URLFile.fileName() << endl;
+		kDebug() << "KStars cannot save to user database" << endl;
+		return;
+	}
 
-	for (i=0; i<dataList.size(); i++)
-		newStream << dataList[i] << endl;
+	// Get streams;
+	temp_stream = TempFile.textStream();
+	out_stream  = new QTextStream(&URLFile);
 
-	newFile.close();
-	file.close();
+	while (!temp_stream->atEnd())
+	{
+		file_line = temp_stream->readLine();
+		// If we find a match, either replace, or remove (by skipping).
+		if (file_line == search_line)
+		{
+			if (replace)
+				(*out_stream) << replace_line << endl;
+			else
+				continue;
+		}
+		else
+			(*out_stream) << file_line << endl;
+	}
+
+	URLFile.close();
+	TempFile.close();
+	delete(out_stream);
+	
 	updateLists();
-}
 
-bool DetailDialog::verifyUserData(int type)
-{
-	QString line, name, sub, title;
-	bool ObjectFound = false;
-	int i;
-	
-	switch (type)
-	{
-		case 0:
-			if (!readUserFile(type))
-				return false;
-			for (i=0; i<dataList.size(); i++)
-			{
-				line = dataList[i];
-				name = line.mid( 0, line.find(':') );
-				sub = line.mid( line.find(':')+1 );
-				title = sub.mid( 0, sub.find(':') );
-				if (name == selectedObject->name() && title == currentItemTitle)
-				{
-					ObjectFound = true;
-					dataList.remove(dataList.at(i));
-					break;
-				}
-			}
-			break;
-		case 1:
-			if (!readUserFile(type))
-				return false;
-			for (i=0; i<dataList.size(); i++)
-			{
-				line = dataList[i];
-				name = line.mid( 0, line.find(':') );
-				sub = line.mid( line.find(':')+1 );
-				title = sub.mid( 0, sub.find(':') );
-				if (name == selectedObject->name() && title == currentItemTitle)
-				{
-					ObjectFound = true;
-					dataList.remove(dataList.at(i));
-					break;
-				}
-			}
-			break;
-	}
-	return ObjectFound;
-}
-
-bool DetailDialog::readUserFile(int type)//, int sourceFileType)
-{
-	switch (type)
-	{
-		case 0:
-			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename
-			if ( !file.open( QIODevice::ReadOnly) )
-			{
-				ksw->data()->initError("image_url.dat", false);
-				return false;
-			}
-			break;
-
-		case 1:
-			file.setName( locateLocal( "appdata", "info_url.dat" ) );  //determine filename
-			if ( !file.open( QIODevice::ReadOnly) )
-			{
-				ksw->data()->initError("info_url.dat", false);
-				return false;
-			}
-			break;
-	}
-
-	// Must reset file
-	file.reset();
-	QTextStream stream(&file);
-
-	dataList.clear();
-	
-	// read all data into memory
-	while ( ! stream.atEnd() )
-		dataList.append(stream.readLine());
-
-	return true;
 }
 
 void DetailDialog::populateADVTree()
 {
 	QTreeWidgetItem *parent = NULL, *temp = NULL;
 
-
+	// We populate the tree iterativley, keeping track of parents as we go
+	// This solution is more efficient than the previous recursion algorithm.
         foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
 	{
 
@@ -701,7 +681,6 @@ void DetailDialog::populateADVTree()
 		{
 			// Top Level
 			case 0:
-			//kDebug() << "Level 0 START" << endl;
 			temp = new QTreeWidgetItem(parent, QStringList(item->Name));
 			if (parent == NULL)
 				Adv->ADVTree->addTopLevelItem(temp);
@@ -711,33 +690,17 @@ void DetailDialog::populateADVTree()
 
 			// End of top level
 			case 1:
-			//kDebug() << "Level 0 END" << endl;
 			if (parent != NULL) parent = parent->parent();
 			break;
 
 			// Leaf
 			case 2:
- 			//kDebug() << "Leaf" << endl;
 			new QTreeWidgetItem(parent, QStringList(item->Name));
 			break;
 		}
 	}
 	
 }
-
-/*void DetailDialog::forkTree(Q3ListViewItem *parent)
-{
-	Q3ListViewItem *current = 0;
-	if (parent)
-		current = new Q3ListViewItem(parent, treeIt->current()->Name);
-	else
-		current = new Q3ListViewItem(Adv->ADVTree, treeIt->current()->Name);
-
-	// we need to increment the iterator before and after populating the tree
-	++(*treeIt);
-	populateADVTree(current);
-	++(*treeIt);
-}*/
 
 void  DetailDialog::viewADVData()
 {
@@ -1001,8 +964,10 @@ DataWidget::DataWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	Names->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Names->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	// NOTE had to swap QColorGroup::HighlightedText with QColorGroup::Highlight to 
+        // make the titles appear!
+	Names->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	Names->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	DataFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	Type->setPalette( p->palette() );
 	Constellation->setPalette( p->palette() );
@@ -1020,11 +985,13 @@ PositionWidget::PositionWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	CoordTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	CoordTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	// NOTE had to swap QColorGroup::HighlightedText with QColorGroup::Highlight to 
+        // make the titles appear!
+	CoordTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	CoordTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	CoordFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+	RSTTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active,  QColorGroup::HighlightedText) );
+	RSTTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	RSTFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	RA->setPalette( p->palette() );
 	Dec->setPalette( p->palette() );
@@ -1056,16 +1023,18 @@ LinksWidget::LinksWidget( QWidget *p )
 {
 	setupUi(p);
 
-	//Modify colors
-	InfoTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
-	InfoTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
-	ImagesTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
-	ImagesTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	// Modify colors
+	// NOTE had to swap QColorGroup::Base with QColorGroup::Text to make
+        // the titles appear!
+	InfoTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	InfoTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+	ImagesTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	ImagesTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
 
 	QPalette plt = p->palette();
 	plt.setColor( QPalette::Active, QColorGroup::Dark, p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	InfoList->setPalette( plt );
-	ImagesList->setPalette( plt );
+	InfoTitleList->setPalette( plt );
+	ImageTitleList->setPalette( plt );
 }
 
 DatabaseWidget::DatabaseWidget( QWidget *p )
@@ -1078,8 +1047,10 @@ LogWidget::LogWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	LogTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
-	LogTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	// NOTE had to swap QColorGroup::Base with QColorGroup::Text to make
+        // the titles appear!
+	LogTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
+	LogTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
 }
 
 #include "detaildialog.moc"

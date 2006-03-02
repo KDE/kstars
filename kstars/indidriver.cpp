@@ -72,25 +72,6 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
 }
 
-/*void DeviceManagerUI::ClientprocessRightButton( QTreeWidgetItem *item, const QPoint &p, int column)
-{
-
-  column = 0;
-
-  if (item && item->childCount() == 0)
-  	ClientpopMenu->popup(p);
-}
-
-void DeviceManagerUI::LocalprocessRightButton( QTreeWidgetItem *item, const QPoint &p, int column)
-{
-
-  column = 0;
-
-  if (item && item->childCount() == 0)
-  	LocalpopMenu->popup(p);
-}*/
-
-
 INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n( "Device Manager" ), Close, Close, parent , "Device Manager", false )
 
 {
@@ -164,12 +145,13 @@ void INDIDriver::shutdownHost(int mgrID)
  
   //return;
 
-  for (uint i=0; i < devices.size(); i++)
+  //for (uint i=0; i < devices.size(); i++)
+  foreach (IDevice *dev, devices)
   {
-    if (devices[i]->mgrID == mgrID)
+    if (dev->mgrID == mgrID)
     {
       //return;
-      found = ui->localTreeWidget->findItems(devices[i]->label, Qt::MatchExactly | Qt::MatchRecursive);
+      found = ui->localTreeWidget->findItems(dev->label, Qt::MatchExactly | Qt::MatchRecursive);
       if (found.empty()) return;
       affectedItem = found.first();
       //return;
@@ -178,8 +160,8 @@ void INDIDriver::shutdownHost(int mgrID)
       affectedItem->setText(4, QString());
       ui->runServiceB->setEnabled(true);
       ui->stopServiceB->setEnabled(false);
-      devices[i]->managed = false;
-      devices[i]->restart();
+      dev->managed = false;
+      dev->restart();
       updateMenuActions();
       return;
     }
@@ -211,17 +193,18 @@ void INDIDriver::updateLocalButtons()
   
   if (ui->localTreeWidget->currentItem() == NULL)
    return;
- 
-  for (uint i=0; i < devices.size(); i++)
-     if (ui->localTreeWidget->currentItem()->text(0) == devices[i]->label)
+
+  //for (uint i=0; i < devices.size(); i++)
+   foreach (IDevice *dev, devices)
+     if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
      {
-	ui->runServiceB->setEnabled(devices[i]->state == 0);
-	ui->stopServiceB->setEnabled(devices[i]->state == 1);
+	ui->runServiceB->setEnabled(dev->state == 0);
+	ui->stopServiceB->setEnabled(dev->state == 1);
 	
 	ui->serverLogText->clear();
-        ui->serverLogText->append(devices[i]->serverBuffer);
+        ui->serverLogText->append(dev->serverBuffer);
 	
-	break;
+	return;
      }
 
 }
@@ -253,45 +236,46 @@ void INDIDriver::processDeviceStatus(int id)
   if (ui->localTreeWidget->currentItem() == NULL)
     return;
 
-   for (uint i=0; i < devices.size(); i++)
-     if (ui->localTreeWidget->currentItem()->text(0) == devices[i]->label)
+   //for (uint i=0; i < devices.size(); i++)
+  foreach (IDevice *dev, devices)
+     if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
      {
-	devices[i]->state = (id == 0) ? 1 : 0;
-	if (devices[i]->state)
+	dev->state = (id == 0) ? 1 : 0;
+	if (dev->state)
 	{
 
-	  ksw->getINDIMenu()->setCustomLabel(devices[i]->label);
-	  devices[i]->label = ksw->getINDIMenu()->currentLabel;
+	  ksw->getINDIMenu()->setCustomLabel(dev->label);
+	  dev->label = ksw->getINDIMenu()->currentLabel;
 
-	  devices[i]->serverBuffer.clear();
+	  dev->serverBuffer.clear();
 	  
-	  if (!runDevice(devices[i]))
+	  if (!runDevice(dev))
 	  {
-	   devices[i]->restart();
+	   dev->restart();
 	   return;
 	  }
 
-	  if (devices[i]->mode == IDevice::M_LOCAL)
+	  if (dev->mode == IDevice::M_LOCAL)
 	  {
 	       //Allow time for the INDI server to listen
 	  	usleep(50000);
 
 	  	if (!ksw->getINDIMenu()->processServer())
 	  	{
-	   		devices[i]->restart();
+	   		dev->restart();
 	   		return;
 	  	}
 	  }
 
 	  ui->localTreeWidget->currentItem()->setIcon(1, ui->runningPix);
-	  ui->localTreeWidget->currentItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
+	  ui->localTreeWidget->currentItem()->setText(4, QString("%1").arg(dev->indiPort));
 	  ui->runServiceB->setEnabled(false);
 	  ui->stopServiceB->setEnabled(true);
 	  
 	  return;
 	}
 	
-	  if (devices[i]->mode == IDevice::M_LOCAL)
+	  if (dev->mode == IDevice::M_LOCAL)
 	  	ksw->getINDIMenu()->processServer();
 
 	  //ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
@@ -299,7 +283,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  //ui->localTreeWidget->currentItem()->setText(4, QString());
 	  //ui->runServiceB->setEnabled(true);
 	  //ui->stopServiceB->setEnabled(false);
-	  //devices[i]->restart();
+	  //dev->restart();
 	  // TODO Do I need this? updateMenuActions();
 	  
      }
@@ -443,16 +427,18 @@ bool INDIDriver::runDevice(IDevice *dev)
 void INDIDriver::removeDevice(IDevice *dev)
 {
 
-  for (unsigned int i=0 ; i < devices.size(); i++)
-     if (dev->label == devices[i]->label)
-     	devices[i]->restart();
+  //for (unsigned int i=0 ; i < devices.size(); i++)
+    foreach (IDevice *device, devices)
+     if (dev->label == device->label)
+     	device->restart();
 }
 
 void INDIDriver::removeDevice(const QString &deviceLabel)
 {
-  for (unsigned int i=0 ; i < devices.size(); i++)
-     if (deviceLabel == devices[i]->label)
-     	devices[i]->restart();
+  //for (unsigned int i=0 ; i < devices.size(); i++)
+    foreach (IDevice *device, devices)
+     if (deviceLabel == device->label)
+     	device->restart();
 
 }
 
@@ -484,14 +470,15 @@ void INDIDriver::saveDevicesToDisk()
 
   // #1 Telescopes
   outstream << "<devGroup group='Telescopes'>" << endl;
-  for (unsigned i=0; i < devices.size(); i++)
+  //for (unsigned i=0; i < devices.size(); i++)
+  foreach (IDevice *dev, devices)
   {
-     if (devices[i]->deviceType == KSTARS_TELESCOPE)
+     if (dev->deviceType == KSTARS_TELESCOPE)
      {
-	outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(devices[i]->label).arg(devices[i]->focal_length > 0 ? devices[i]->focal_length : -1).arg(devices[i]->aperture > 0 ? devices[i]->aperture : -1) << endl;
+	outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
 
-	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
-	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
+	outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+	outstream << "       <version>" << dev->version << "</version>" << endl;
         outstream << "</device>" << endl;
       }
    }
@@ -499,13 +486,14 @@ void INDIDriver::saveDevicesToDisk()
 
    // #2 CCDs
    outstream << "<devGroup group='CCDs'>" << endl;
-   for (unsigned i=0; i < devices.size(); i++)
+   //for (unsigned i=0; i < devices.size(); i++)
+   foreach (IDevice *dev, devices)
    {
-     if (devices[i]->deviceType == KSTARS_CCD)
+     if (dev->deviceType == KSTARS_CCD)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
-	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
-	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
+	outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+	outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+	outstream << "       <version>" << dev->version << "</version>" << endl;
         outstream << "</device>" << endl;
      }
   }
@@ -513,13 +501,15 @@ void INDIDriver::saveDevicesToDisk()
 
   // #3 Filter wheels
   outstream << "<devGroup group='Filter Wheels'>" << endl;
-   for (unsigned i=0; i < devices.size(); i++)
+
+   foreach (IDevice *dev, devices)
+   //for (unsigned i=0; i < devices.size(); i++)
    {
-     if (devices[i]->deviceType == KSTARS_FILTER)
+     if (dev->deviceType == KSTARS_FILTER)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
-	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
-	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
+	outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+	outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+	outstream << "       <version>" << dev->version << "</version>" << endl;
         outstream << "</device>" << endl;
      }
   }
@@ -527,13 +517,15 @@ void INDIDriver::saveDevicesToDisk()
 
    // #4 Video
    outstream << "<devGroup group='Video'>" << endl;
-   for (unsigned i=0; i < devices.size(); i++)
+   
+   foreach (IDevice *dev, devices)
+   //for (unsigned i=0; i < devices.size(); i++)
    {
-     if (devices[i]->deviceType == KSTARS_VIDEO)
+     if (dev->deviceType == KSTARS_VIDEO)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
-	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
-	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
+	outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+	outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+	outstream << "       <version>" << dev->version << "</version>" << endl;
         outstream << "</device>" << endl;
      }
    }
@@ -546,12 +538,13 @@ void INDIDriver::saveDevicesToDisk()
 bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
 
-    for (unsigned int i=0 ; i < devices.size(); i++)
-     if (deviceLabel == devices[i]->label)
+    foreach (IDevice *dev, devices)
+    //for (unsigned int i=0 ; i < devices.size(); i++)
+     if (deviceLabel == dev->label)
      {
-       if (!devices[i]->proc)
+       if (!dev->proc)
         return false;
-       else return (devices[i]->proc->isRunning());
+       else return (dev->proc->isRunning());
      }
 
     return false;
@@ -750,7 +743,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
   if (aperture > 0)
    dv->aperture = aperture;
   
-  devices.push_back(dv);
+  devices.append(dv);
 
   // SLOTS/SIGNAL, pop menu, indi server logic
   return true;
@@ -760,8 +753,9 @@ int INDIDriver::activeDriverCount()
 {
   int count = 0;
 
-  for (uint i=0; i < devices.size(); i++)
-    if (devices[i]->state && devices[i]->mode == IDevice::M_LOCAL)
+  //for (uint i=0; i < devices.size(); i++)
+   foreach (IDevice *dev, devices)
+    if (dev->state && dev->mode == IDevice::M_LOCAL)
       count++;
 
   //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
@@ -934,8 +928,10 @@ void INDIDriver::saveHosts()
 INDIDriver::~INDIDriver()
 {
 
-  for (uint i=0; i < devices.size(); i++)
-   delete (devices[i]);
+  //for (uint i=0; i < devices.size(); i++)
+   //delete (devices[i]);
+  while (!devices.isEmpty())
+	delete devices.takeFirst();
 
 }
 

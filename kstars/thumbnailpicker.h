@@ -33,16 +33,16 @@ class QRect;
 class DetailDialog;
 class SkyObject;
 
-class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
+/*class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
 	Q_OBJECT
 	public:
 		ThumbnailPickerUI( QWidget *p );
-};
+};*/
 
 /**@short Dialog for modifying an object's thumbnail image
 	*@author Jason Harris
 	*/
-class ThumbnailPicker : public KDialogBase
+class ThumbnailPicker : public QDialog
 {
 Q_OBJECT
 public:
@@ -69,7 +69,7 @@ private:
 	void parseGooglePage( QStringList &ImList, const QString &URL );
 
 	int SelectedImageIndex;
-	ThumbnailPickerUI *ui;
+	Ui::ThumbnailPicker *ui;
 	QPixmap *Image;
 	DetailDialog *dd;
 	SkyObject *Object;

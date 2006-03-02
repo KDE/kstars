@@ -74,7 +74,7 @@
       </layout>
      </item>
      <item>
-      <widget class="KListBox" name="ImageList" >
+      <widget class="QListWidget" name="ImageList" >
        <property name="minimumSize" >
         <size>
          <width>300</width>
@@ -225,14 +225,14 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="KPushButton" name="EditButton" >
+          <widget class="QPushButton" name="EditButton" >
            <property name="text" >
             <string>Edit Ima&amp;ge...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="UnsetButton" >
+          <widget class="QPushButton" name="UnsetButton" >
            <property name="text" >
             <string>Unset Image</string>
            </property>
@@ -281,20 +281,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends></extends>

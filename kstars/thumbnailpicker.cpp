@@ -46,27 +46,31 @@
 #include "detaildialog.h"
 #include "skyobject.h"
 
-ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
+/*ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( parent );
-}
+}*/
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
- : KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
+ : QDialog(parent) /*KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name )*/,
 		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
 	Image = new QPixmap( current );
 	ImageRect = new QRect( 0, 0, 200, 200 );
 
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	ui = new ThumbnailPickerUI( page );
-	vlay->addWidget( ui );
+	//QFrame *page = plainPage();
+	//QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	//ui = new ThumbnailPickerUI( page );
+	ui = new Ui::ThumbnailPicker();
+	ui->setupUi(this);
+	//vlay->addWidget( ui );
+
+	setWindowTitle(i18n( "Choose Thumbnail Image" ));
 
 	ui->CurrentImage->setPixmap( *Image );
 
 	connect( ui->EditButton, SIGNAL( clicked() ), this, SLOT( slotEditImage() ) );
 	connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
-	connect( ui->ImageList, SIGNAL( highlighted( int ) ),
+	connect( ui->ImageList, SIGNAL( currentRowChanged( int ) ),
 						this, SLOT( slotSetFromList( int ) ) );
 	connect( ui->ImageURLBox, SIGNAL( urlSelected( const QString& ) ),
 						this, SLOT( slotSetFromURL() ) );
@@ -199,7 +203,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 		uint w = im.width();
 		uint h = im.height();
-		uint pad = 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25;
+		uint pad = 0; /*FIXME LATER 4* KDialogBase::marginHint() + 2*ui->SearchLabel->height() + KDialogBase::actionButton( KDialogBase::Ok )->height() + 25;*/
 		uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
 
 //	this returns zero...
@@ -212,8 +216,9 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 		PixList.append( new QPixmap( im ) );
 
 		//Add 50x50 image and URL to listbox
-		ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
-				cjob->srcURLs().first().prettyURL() );
+		//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
+		//		cjob->srcURLs().first().prettyURL() );
+		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcURLs().first().prettyURL() ));
 	}
 }
 
@@ -329,7 +334,7 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			uint w = im.width();
 			uint h = im.height();
-			uint pad = 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25;
+			uint pad = 0;/* FIXME later 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25; */
 			uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
 
 			if ( h > hDesk ) 
@@ -337,11 +342,13 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
 			PixList.insert( 0, new QPixmap( im ) );
-			ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
-					u.prettyURL(), 0 );
+			//ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
+			//		u.prettyURL(), 0 );
+			ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyURL() ));
 
 			//Select the new image
-			ui->ImageList->setCurrentItem( 0 );
+			//ui->ImageList->setCurrentItem( 0 );
+			ui->ImageList->setCurrentRow( 0 );
 			slotSetFromList(0);
 
 		} else if ( KIO::NetAccess::exists(u, true, this) ) {

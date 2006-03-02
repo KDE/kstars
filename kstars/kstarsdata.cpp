@@ -215,9 +215,9 @@ void KStarsData::slotInitialize() {
 		case 3: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
-// 			if ( !readURLData( "image_url.dat", 0 ) ) {
-// 				initError( "image_url.dat", false );
-// 			}
+ 			//if ( !readURLData( "image_url.dat", 0 ) ) {
+ 				//initError( "image_url.dat", false );
+ 			//}
 
 
 
@@ -226,9 +226,9 @@ void KStarsData::slotInitialize() {
 		case 4: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
-// 			if ( !readURLData( "info_url.dat", 1 ) ) {
-// 				initError( "info_url.dat", false );
-// 			}
+ 			//if ( !readURLData( "info_url.dat", 1 ) ) {
+ 			//	initError( "info_url.dat", false );
+ 			//}
 
 			break;
 

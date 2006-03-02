@@ -82,9 +82,10 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
 						     .arg(ksw->geo()->translatedCountry()));
 
 
-   for (unsigned int i=0; i < indidriver->devices.size(); i++)
-              if (indidriver->devices[i]->deviceType == KSTARS_TELESCOPE)
-   		    ui->telescopeCombo->insertItem(indidriver->devices[i]->label);
+   //for (unsigned int i=0; i < indidriver->devices.size(); i++)
+    foreach (IDevice *device, indidriver->devices)
+              if (device->deviceType == KSTARS_TELESCOPE)
+   		    ui->telescopeCombo->insertItem(device->label);
 
    if ( !Options::indiTelescopePort().isEmpty())
     portList << Options::indiTelescopePort();
