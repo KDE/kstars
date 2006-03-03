@@ -447,24 +447,24 @@ void DetailDialog::viewLink()
 
 void DetailDialog::updateLists()
 {
+	bool anyLink=false;
 	Links->InfoTitleList->clear();
 	Links->ImageTitleList->clear();
 
-	// Buttons could be disabled if lists are initially empty
-	Links->ViewButton->setEnabled(true);
-	Links->EditLinkButton->setEnabled(true);
-	Links->RemoveLinkButton->setEnabled(true);
-	
 	foreach ( QString s, selectedObject->InfoTitle ) 
 		Links->InfoTitleList->addItem( s );
 
 	foreach ( QString s, selectedObject->ImageTitle ) 
         	Links->ImageTitleList->addItem( s );
 
-	/*if (Links->InfoTitleList->count() != 0)
-		Links->InfoTitleList->setCurrentRow(0);
-	else if (Links->ImageTitleList->count() != 0)
-		Links->ImageTitleList->setCurrentRow(0);*/
+	if (selectedObject->InfoTitle.count() > 0 || selectedObject->ImageTitle.count() > 0)
+		anyLink = true;
+
+	// Buttons could be disabled if lists are initially empty, we enable and disable them here
+	// depending on the current status of the list.
+	Links->ViewButton->setEnabled(anyLink);
+	Links->EditLinkButton->setEnabled(anyLink);
+	Links->RemoveLinkButton->setEnabled(anyLink);
 
 }
 

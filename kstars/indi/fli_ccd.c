@@ -37,7 +37,7 @@
 #include <zlib.h>
 
 #include "fli/libfli.h"
-#include "fitsrw.h"
+#include "cfitsio/fitsio.h"
 #include "indidevapi.h"
 #include "eventloop.h"
 #include "indicom.h"
@@ -59,10 +59,10 @@ int  checkPowerN(INumberVectorProperty *np);
 int  checkPowerT(ITextVectorProperty *tp);
 int  getOnSwitch(ISwitchVectorProperty *sp);
 int  isCCDConnected(void);
+void addFITSKeywords(fitsfile *fptr);
 
 double min(void);
 double max(void);
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
 
 extern char* me;
 extern int errno;
@@ -88,6 +88,7 @@ extern int errno;
 #define PREFIXSIZ	64
 #define PIPEBUFSIZ	8192
 #define FRAME_ILEN	64
+#define TEMPFILE_LEN	16
 
 #define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
 
@@ -746,7 +747,7 @@ int grabImage()
 	long err;
 	int img_size,i, fd;
 	char errmsg[ERRMSG_SIZE];
-	char filename[] = "/tmp/fitsXXXXXX";
+	char filename[TEMPFILE_LEN] = "/tmp/fitsXXXXXX";
   
 	if ((fd = mkstemp(filename)) < 0)
 	{ 
@@ -797,72 +798,90 @@ int grabImage()
 
 int writeFITS(const char* filename, char errmsg[])
 {
-  FITS_FILE* ofp;
-  int i, j, bpp, bpsl, width, height;
-  long nbytes;
-  FITS_HDU_LIST *hdu;
-  
-  ofp = fits_open (filename, "w");
-  if (!ofp)
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: cannot open file for writing.");
-    return (-1);
-  }
-  
-  width  = FLIImg->width;
-  height = FLIImg->height;
-  bpp    = sizeof(unsigned short); /* Bytes per Pixel */
-  bpsl   = bpp * FLIImg->width;    /* Bytes per Line */
-  nbytes = 0;
-  
-  hdu = create_fits_header (ofp, width, height, bpp);
-  if (hdu == NULL)
-  {
-     snprintf(errmsg, ERRMSG_SIZE, "Error: creating FITS header failed.");
-     return (-1);
-  }
-  if (fits_write_header (ofp, hdu) < 0)
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: writing to FITS header failed.");
-    return (-1);
-  }
-  
-  /* Subtract 0x7fff and convert buffer to BIG endian */
+  int i=0, j=0;
+  fitsfile *fptr;       /* pointer to the FITS file; defined in fitsio.h */
+  int status;
+  long  fpixel = 1, naxis = 2, nelements;
+  long naxes[2];
+  char filename_rw[TEMPFILE_LEN+1];
+
+   /* Convert buffer to BIG endian 
+     NOTE: do we need this with cfitsio? */
   for (i=0; i < FLIImg->height; i++)
     for (j=0 ; j < FLIImg->width; j++)
-      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j] - 0x7fff) );
-  
-  for (i= 0; i < FLIImg->height  ; i++)
-  {
-    fwrite(FLIImg->img + (i * FLIImg->width), 2, FLIImg->width, ofp->fp);
-    nbytes += bpsl;
-  }
-  
-  nbytes = nbytes % FITS_RECORD_SIZE;
-  if (nbytes)
-  {
-    while (nbytes++ < FITS_RECORD_SIZE)
-      putc (0, ofp->fp);
-  }
-  
-  if (ferror (ofp->fp))
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: write error occured");
-    return (-1);
-  }
- 
- fits_close (ofp);      
- 
+      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j])) ;
+
+  naxes[0] = FLIImg->width;
+  naxes[1] = FLIImg->height;
+
+  /* Append ! to file name to over write it.*/
+  snprintf(filename_rw, TEMPFILE_LEN+1, "!%s", filename);
+
+  status = 0;         /* initialize status before calling fitsio routines */
+  fits_create_file(&fptr, filename_rw, &status);   /* create new file */
+
+  /* Create the primary array image (16-bit short integer pixels */
+  fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status);
+
+  addFITSKeywords(fptr);
+
+  nelements = naxes[0] * naxes[1];          /* number of pixels to write */
+
+  /* Write the array of integers to the image */
+  fits_write_img(fptr, TUSHORT, fpixel, nelements, FLIImg->img, &status);
+
+  fits_close_file(fptr, &status);            /* close the file */
+
+  fits_report_error(stderr, status);  /* print out any error messages */
+
   /* Success */
- ExposeTimeNP.s = IPS_OK;
- /*IDSetNumber(&ExposeTimeNP, "FITS image written to %s", filename);
- IDLog("FITS image written to '%s'\n", filename);*/
- IDSetNumber(&ExposeTimeNP, NULL);
- IDLog("Loading FITS image...\n");
+  ExposeTimeNP.s = IPS_OK;
+  IDSetNumber(&ExposeTimeNP, NULL);
+  uploadFile(filename);
  
- uploadFile(filename);
- 
- return 0;
+  return status;
+}
+
+void addFITSKeywords(fitsfile *fptr)
+{
+  int status=0; 
+  char binning_s[32];
+  char frame_s[32];
+  double min_val, max_val;
+  
+  /*pixel_size = (float) PixelSizeN[0].value;
+  min_val = min();
+  max_val = max();
+  temp    = (float) TemperatureN[0].value;
+  expose  = (float) FLIImg->expose;*/
+
+  snprintf(binning_s, 32, "(%g x %g)", BinningN[0].value, BinningN[1].value);
+
+  switch (FLIImg->frameType)
+  {
+    case LIGHT_FRAME:
+      	strcpy(frame_s, "Light");
+	break;
+    case BIAS_FRAME:
+        strcpy(frame_s, "Bias");
+	break;
+    case FLAT_FRAME:
+        strcpy(frame_s, "Flat Field");
+	break;
+    case DARK_FRAME:
+        strcpy(frame_s, "Dark");
+	break;
+  }
+
+  fits_update_key(fptr, TDOUBLE, "CCD-TEMP", &(TemperatureN[0].value), "CCD Temperature (Celcius)", &status);
+  fits_update_key(fptr, TDOUBLE, "EXPOSURE", &(FLIImg->expose), "Total Exposure Time (ms)", &status); 
+  fits_update_key(fptr, TDOUBLE, "PIX-SIZ", &(PixelSizeN[0].value), "Pixel Size (microns)", &status);
+  fits_update_key(fptr, TSTRING, "BINNING", binning_s, "Binning HOR x VER", &status);
+  fits_update_key(fptr, TSTRING, "FRAME", frame_s, "Frame Type", &status);
+  fits_update_key(fptr, TDOUBLE, "DATAMIN", &min_val, "Minimum value", &status);
+  fits_update_key(fptr, TDOUBLE, "DATAMAX", &max_val, "Maximum value", &status);
+  fits_update_key(fptr, TSTRING, "INSTRUME", "Finger Lakes Instruments", "CCD Name", &status);
+  fits_write_date(fptr, &status);
 
 }
 
@@ -1339,69 +1358,6 @@ int findcam(flidomain_t domain)
 
   IDLog("Findcam() finished successfully.\n");
   return 0;
-}
-
-FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
-{
- FITS_HDU_LIST *hdulist;
- char temp_s[80], expose_s[80], binning_s[80], pixel_s[80], frame_s[80];
- char obsDate[80];
- char ts[32];
- struct tm *tp;
- time_t t;
- 
- time (&t);
- tp = gmtime (&t);
- strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
- 
- snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
- 
- hdulist = fits_add_hdu (ofp);
- if (hdulist == NULL) return (NULL);
-
- hdulist->used.simple = 1;
- hdulist->bitpix = 16;/*sizeof(unsigned short) * 8;*/
- hdulist->naxis = 2;
- hdulist->naxisn[0] = width;
- hdulist->naxisn[1] = height;
- hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = 1;
- hdulist->datamin = min();
- hdulist->used.datamax = 1;
- hdulist->datamax = max();
- hdulist->used.bzero = 1;
- hdulist->bzero = 0x7fff;
- hdulist->used.bscale = 1;
- hdulist->bscale = 1.0;
- 
- sprintf(temp_s, "CCD-TEMP= %g / degrees celcius", TemperatureN[0].value);
- sprintf(expose_s, "EXPOSURE= %d / milliseconds", FLIImg->expose);
- sprintf(binning_s, "BINNING = '(%g x %g)'", BinningN[0].value, BinningN[1].value);
- sprintf(pixel_s, "PIX-SIZ = '%.0f microns square'", PixelSizeN[0].value);
- switch (FLIImg->frameType)
-  {
-    case LIGHT_FRAME:
-      	strcpy(frame_s, "FRAME   = 'Light'");
-	break;
-    case BIAS_FRAME:
-        strcpy(frame_s, "FRAME   = 'Bias'");
-	break;
-    case FLAT_FRAME:
-        strcpy(frame_s, "FRAME   = 'Flat Field'");
-	break;
-    case DARK_FRAME:
-        strcpy(frame_s, "FRAME   = 'Dark'");
-	break;
-  }
- 
- fits_add_card (hdulist, frame_s);   
- fits_add_card (hdulist, temp_s);
- fits_add_card (hdulist, expose_s);
- fits_add_card (hdulist, pixel_s);
- fits_add_card (hdulist, ( char* ) "INSTRUME= 'Finger Lakes Instruments'");
- fits_add_card (hdulist, obsDate);
-  
- return (hdulist);
 }
 
 double min()

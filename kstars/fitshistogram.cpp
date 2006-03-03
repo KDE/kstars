@@ -18,7 +18,7 @@
  #include "fitshistogram.h"
  #include "fitsviewer.h"
  #include "fitsimage.h"
- #include "indi/fitsrw.h"
+ //#include "indi/fitsrw.h"
  
  #include <math.h>
  #include <stdlib.h>

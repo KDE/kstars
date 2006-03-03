@@ -26,22 +26,19 @@
 #include <kdebug.h>
 #include <ktoolbar.h> 
 #include <kapplication.h>
-#include <kpixmap.h> 
+
 #include <ktempfile.h>
 #include <kimageeffect.h> 
 #include <kmenubar.h>
 #include <kprogressdialog.h>
 #include <kstatusbar.h>
 
+#include <QPaintEvent>
+
 #include <qfile.h>
 #include <q3vbox.h>
 #include <qcursor.h>
-#include <qpixmap.h>
-#include <q3frame.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
+
 
 #include <math.h>
 #include <unistd.h>
@@ -54,6 +51,7 @@
 #include "ksutils.h"
 
 /* Load info */
+#if 0
 typedef struct
 {
   uint replace;    /* replacement for blank/NaN-values */
@@ -67,29 +65,34 @@ static FITSLoadVals plvals =
   0,        /* Do autoscale on pixel-values */
   0         /* Dont compose images */
 };
+#endif
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : Q3ScrollView(parent, name), zoomFactor(1.2)
+FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent), zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
-  reducedImgBuffer = NULL;
+//  reducedImgBuffer = NULL;
   displayImage     = NULL;
   
-  imgFrame = new FITSFrame(this, viewport());
-  addChild(imgFrame);
+  image_frame = new FITSFrame(this, NULL);//viewport());
+
+  setBackgroundRole(QPalette::Dark);
+  setWidget(image_frame);
+
+  //addChild(imgFrame);
   
   currentZoom = 0.0;
-  grayTable=new QRgb[256];
-  for (int i=0;i<256;i++)
-        grayTable[i]=qRgb(i,i,i);
+  //grayTable=new QRgb[256];
+  //for (int i=0;i<256;i++)
+     //   grayTable[i]=qRgb(i,i,i);
   
   viewport()->setMouseTracking(true);
-  imgFrame->setMouseTracking(true);
+  image_frame->setMouseTracking(true);
   
 }
 
 FITSImage::~FITSImage()
 {
-  free(reducedImgBuffer);
+ // free(reducedImgBuffer);
   delete(displayImage);
 }
 	
@@ -104,18 +107,18 @@ FITSImage::~FITSImage()
 /*void FITSImage::paintEvent (QPaintEvent *ev)
 {
  //kDebug() << "in paint event " << endl;
- //bitBlt(imgFrame, 0, 0, &qpix);
+ //bitBlt(imgFrame, 0, 0, &image_pixmap);
 }*/
 
 /* Resize event */
 void FITSImage::resizeEvent (QResizeEvent */*ev*/)
 {
-	updateScrollBars();
+	//updateScrollBars();
 }
 
 void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
 {
-
+ #if 0
   double x,y;
   bool validPoint = true;
   if (!displayImage) return;
@@ -174,10 +177,12 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   //viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
   setCursor(Qt::ArrowCursor);
   }
+ #endif
 }
 
 void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
 {
+ #if 0
         int w, h, conW, conH, x, y;
 	if (!displayImage) return;
 	
@@ -198,37 +203,69 @@ void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
 	
 	// do new movement
         moveChild( imgFrame, x, y );
-		
+	
+ #endif	
 }
 
 void FITSImage::reLoadTemplateImage()
 {
-  *displayImage = templateImage->copy();
+  /*displayImage = templateImage->copy(); */
 }
 
 void FITSImage::saveTemplateImage()
 {
-  templateImage = new QImage(displayImage->copy());
+  //templateImage = new QImage(displayImage->copy());
 }
 
 void FITSImage::destroyTemplateImage()
 {
-  delete (templateImage);
+  //delete (templateImage);
 }
 
 void FITSImage::clearMem()
 {
 
+ #if 0
   free(reducedImgBuffer);
   delete (displayImage);
   reducedImgBuffer = NULL;
   displayImage     = NULL;
+
+ #endif
 
 }
 
 
 int FITSImage::loadFits (const char *filename)
 {
+
+  long naxes[2] = { 128, 64 };   /* image is 300 pixels wide by 200 rows */
+  unsigned char array[128][64];
+
+  displayImage = new QImage(128, 64, QImage::Format_Indexed8);
+
+  displayImage->setNumColors(256);
+ 
+ for (int i=0; i < 256; i++)
+   displayImage->setColor(i, qRgb(i,i,i));
+
+/* Initialize the values in the image with a linear ramp function */
+    for (int jj = 0; jj < 64; jj++)
+        for (int ii = 0; ii < 128; ii++)
+	{
+            array[jj][ii] = ii + jj;
+	    displayImage->setPixel(ii, jj, ((int) array[jj][ii]));
+	}
+
+ 
+ currentWidth = 300;
+ currentHeight = 200;
+
+ image_pixmap = QPixmap::fromImage(*displayImage);
+
+
+
+ #if 0
  FILE *fp;
  FITS_FILE *ifp;
  FITS_HDU_LIST *hdl;
@@ -285,8 +322,7 @@ int FITSImage::loadFits (const char *filename)
   return (-1);
  }
  
- /* If the transformation from pixel value to */
- /* data value has been specified, use it */
+ 
  if (   plvals.use_datamin
      && hdl->used.datamin && hdl->used.datamax
      && hdl->used.bzero && hdl->used.bscale)
@@ -368,16 +404,21 @@ int FITSImage::loadFits (const char *filename)
  
  fits_close(ifp);
  return (err ? -1 : 0);
+ #endif
+
+ return 0;
 }
 
 void FITSImage::convertImageToPixmap()
 {
     //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-    //qpix = kpix.convertToPixmap ( *(displayImage) );
+    //image_pixmap = kpix.convertToPixmap ( *(displayImage) );
 }
 
 void FITSImage::zoomToCurrent()
 {
+
+ #if 0
 
  double cwidth, cheight;
  
@@ -395,7 +436,7 @@ void FITSImage::zoomToCurrent()
  if (cwidth != displayImage->width() || cheight != displayImage->height())
  {
 	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
- 	//qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
+ 	//image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
         //imgFrame->resize( (int) width, (int) height);
         viewportResizeEvent (NULL);
 	imgFrame->update();
@@ -403,15 +444,18 @@ void FITSImage::zoomToCurrent()
  else
  {
    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-   //qpix = kpix.convertToPixmap ( *displayImage );
+   //image_pixmap = kpix.convertToPixmap ( *displayImage );
    imgFrame->update();
   }
+
+ #endif
  
 }
 
 
 void FITSImage::fitsZoomIn()
 {
+ #if 0
    currentZoom++;
    viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
    if (currentZoom > 5)
@@ -422,16 +466,19 @@ void FITSImage::fitsZoomIn()
 
    //kDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-   //qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+   //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
    imgFrame->resize( (int) currentWidth, (int) currentHeight);
 
    update();
    viewportResizeEvent (NULL);  
    //updateScrollBars();
+
+ #endif
 }
 
 void FITSImage::fitsZoomOut()
 {
+ #if 0
   currentZoom--;
   if (currentZoom < -5)
      viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
@@ -440,17 +487,19 @@ void FITSImage::fitsZoomOut()
   currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
   currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-  //qpix = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
+  //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
   imgFrame->resize( (int) currentWidth, (int) currentHeight);
    
   update();
   viewportResizeEvent (NULL);
   //updateScrollBars();
+
+ #endif
 }
 
 void FITSImage::fitsZoomDefault()
 {
-
+  #if 0
   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
   viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
   
@@ -458,19 +507,19 @@ void FITSImage::fitsZoomDefault()
   currentWidth  = width;
   currentHeight = height;
   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-  //qpix = kpix.convertToPixmap (*displayImage);
+  //image_pixmap = kpix.convertToPixmap (*displayImage);
   imgFrame->resize( (int) currentWidth, (int) currentHeight);
   
   update();
   viewportResizeEvent (NULL);
   //updateScrollBars();
-
+#endif
 }
 
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : Q3Frame(parent, name, Qt::WNoAutoErase)
+FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
 {
   image = img;
-  setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());
+  //setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());
 }
 
 FITSFrame::~FITSFrame() {}
@@ -478,7 +527,7 @@ FITSFrame::~FITSFrame() {}
 void FITSFrame::paintEvent(QPaintEvent * /*e*/)
 {
  
- bitBlt(this, 20, 20, &(image->qpix));
+ bitBlt(this, 20, 20, &(image->image_pixmap));
  resize( (int) (image->currentWidth + 40), (int) (image->currentHeight + 40));
 
 }

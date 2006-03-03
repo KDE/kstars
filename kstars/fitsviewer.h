@@ -40,7 +40,7 @@
 #include <kurl.h>
 #include <kcommand.h>
 
-#include "indi/fitsrw.h"
+#include "indi/cfitsio/fitsio.h"
 
 class KCommandHistory;
 class ContrastBrightnessDlg;
@@ -65,8 +65,6 @@ class FITSViewer : public KMainWindow  {
 	FITSViewer (const KUrl *imageName, QWidget *parent, const char *name = 0);
 	~FITSViewer();
 
-	
-	
 	enum undoTypes { CONTRAST_BRIGHTNESS, IMAGE_REDUCTION, IMAGE_FILTER };
 			
 	protected:

@@ -43,7 +43,7 @@
 
 #include "indidevapi.h"
 #include "indicom.h"
-#include "fitsrw.h"
+#include "cfitsio/fitsio.h"
 #include "eventloop.h"
 
 #ifdef HAVE_CONFIG_H
@@ -62,6 +62,8 @@
 
 #define MAX_PIXELS	4096		/* Max number of pixels in one dimension */
 #define ERRMSGSIZ	1024
+
+#define TEMPFILE_LEN	16
 
 
 class V4L_Driver
@@ -146,7 +148,7 @@ class V4L_Driver
    void uploadFile(const char * filename);
    int  writeFITS(const char *filename, char errmsg[]);
    int  grabImage(void);
-   FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
+   void addFITSKeywords(fitsfile *fptr);
 
    /* Helper functions */
    int  checkPowerN(INumberVectorProperty *np);

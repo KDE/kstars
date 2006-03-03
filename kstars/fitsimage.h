@@ -20,33 +20,24 @@
 #ifndef FITSIMAGE_H
 #define FITSIMAGE_H
 
-#include <qwidget.h>
-#include <qstring.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <q3frame.h>
-#include <qrect.h> 
-#include <q3ptrlist.h>
-#include <q3scrollview.h>
-//Added by qt3to4:
+#include <QFrame>
+#include <QImage>
+#include <QPixmap>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QPaintEvent>
+#include <QScrollArea>
 
-//#include <kpixmapio.h>
-#include <kpixmap.h>
-#include <kdialog.h>
 #include <kmainwindow.h>
 #include <kurl.h>
-
-#include "indi/fitsrw.h"
 
 class KCommandHistory;
 class Q3ScrollView;
 class FITSViewer;
 class FITSFrame;
 
-class FITSImage : public Q3ScrollView  {
+class FITSImage : public QScrollArea
+{
 	Q_OBJECT
 
 	public:
@@ -78,19 +69,26 @@ class FITSImage : public Q3ScrollView  {
 	
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
-	FITSFrame  *imgFrame;					/* Frame holding the image */
+	FITSFrame  *image_frame;				/* Frame holding the image */
 	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
+	QPixmap image_pixmap; 					/* Pixmap for drawing */
+	
+ 	float	*image_buffer;					/* Native pixel values */
+	unsigned char *scaled_buffer;				/* scaled image buffer (0-255) range */
+
+	/* FIXME remove this */
 	QImage  *templateImage;					/* backup image for currentImage */
-	QPixmap qpix; 						/* Pixmap for drawing */
+
 	//KPixmapIO kpix;						/* Pixmap IO for fast converting */
-	QRect currentRect;					/* Current rectangle encapsulating the image */
-	int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
+	//QRect currentRect;					/* Current rectangle encapsulating the image */
+	//int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
 	int width, height;					/* Original FITS dimensions */
 	double currentWidth,currentHeight;			/* Current width and height due to zoom */
 	const double zoomFactor;				/* Image zoom factor */
 	double currentZoom;					/* Current Zoom level */
-	QRgb   *grayTable;
-	unsigned char *reducedImgBuffer;			/* scaled image buffer (0-255) range */
+	//QRgb   *grayTable;
+
+	
 	
 
 	void saveTemplateImage();				/* saves a backup image */
@@ -109,7 +107,7 @@ class FITSImage : public Q3ScrollView  {
 	void fitsZoomDefault();
 };
 
-class FITSFrame : public Q3Frame
+class FITSFrame : public QFrame
 {
   Q_OBJECT
   

@@ -294,6 +294,8 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
       {
          FrameN[2].value = v4l_base->getWidth();
 	 FrameN[3].value = v4l_base->getHeight();
+	 V4LFrame->width = (int) FrameN[2].value;
+	 V4LFrame->height= (int) FrameN[3].value;
          IDSetNumber(&FrameNP, NULL);
 	 return;
       }
@@ -506,10 +508,10 @@ int V4L_Driver::grabImage()
 {
    int err, fd;
    char errmsg[ERRMSG_SIZE];
-   char filename[] = "/tmp/fitsXXXXXX";
-  
+   char temp_filename[TEMPFILE_LEN] = "/tmp/fitsXXXXXX";
    
-   if ((fd = mkstemp(filename)) < 0)
+   
+   if ((fd = mkstemp(temp_filename)) < 0)
    { 
     IDMessage(device_name, "Error making temporary filename.");
     IDLog("Error making temporary filename.\n");
@@ -517,7 +519,8 @@ int V4L_Driver::grabImage()
    }
    close(fd);
   
-   err = writeFITS(filename, errmsg);
+   
+   err = writeFITS(temp_filename, errmsg);
    if (err)
    {
        IDMessage(device_name, errmsg, NULL);
@@ -529,65 +532,50 @@ int V4L_Driver::grabImage()
 
 int V4L_Driver::writeFITS(const char * filename, char errmsg[])
 {
-  FITS_FILE* ofp;
-  int i, bpp, bpsl, width, height;
-  long nbytes;
-  FITS_HDU_LIST *hdu;
-  
-  ofp = fits_open (filename, "w");
-  if (!ofp)
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: cannot open file for writing.");
-    return (-1);
-  }
-  
-  width  = v4l_base->getWidth();
-  height = v4l_base->getHeight();
-  bpp    = 1;                      /* Bytes per Pixel */
-  bpsl   = bpp * width;    	   /* Bytes per Line */
-  nbytes = 0;
-  
-  hdu = create_fits_header (ofp, width, height, bpp);
-  if (hdu == NULL)
-  {
-     snprintf(errmsg, ERRMSG_SIZE, "Error: creating FITS header failed.");
-     return (-1);
-  }
-  if (fits_write_header (ofp, hdu) < 0)
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: writing to FITS header failed.");
-    return (-1);
-  }
-  
-  for (i= height - 1; i >=0 ; i--) 
-  {
-    fwrite(V4LFrame->Y + (i * width), 1, width, ofp->fp);
-    nbytes += bpsl;
-  }
-  
-  nbytes = nbytes % FITS_RECORD_SIZE;
-  if (nbytes)
-  {
-    while (nbytes++ < FITS_RECORD_SIZE)
-      putc (0, ofp->fp);
-  }
-  
-  if (ferror (ofp->fp))
-  {
-    snprintf(errmsg, ERRMSG_SIZE, "Error: write error occured");
-    return (-1);
-  }
- 
- fits_close (ofp);      
- 
-  /* Success */
- ExposeTimeNP.s = IPS_OK;
- IDSetNumber(&ExposeTimeNP, NULL);
- 
- uploadFile(filename);
-  
- return 0;
+    fitsfile *fptr;       /* pointer to the FITS file; defined in fitsio.h */
+    int status;
+    long  fpixel = 1, naxis = 2, nelements;
+    long naxes[2];
+    char filename_rw[TEMPFILE_LEN+1];
 
+    // Append ! to file name to over write it.
+    snprintf(filename_rw, TEMPFILE_LEN+1, "!%s", filename);
+
+    naxes[0] = v4l_base->getWidth();
+    naxes[1] = v4l_base->getHeight();
+
+    status = 0;         /* initialize status before calling fitsio routines */
+    fits_create_file(&fptr, filename_rw, &status);   /* create new file */
+
+    /* Create the primary array image (16-bit short integer pixels */
+    fits_create_img(fptr, BYTE_IMG, naxis, naxes, &status);
+
+    addFITSKeywords(fptr);
+
+    nelements = naxes[0] * naxes[1];          /* number of pixels to write */
+
+    /* Write the array of integers to the image */
+    fits_write_img(fptr, TBYTE, fpixel, nelements, V4LFrame->Y, &status);
+
+    fits_close_file(fptr, &status);            /* close the file */
+
+    fits_report_error(stderr, status);  /* print out any error messages */
+
+    /* Success */
+    ExposeTimeNP.s = IPS_OK;
+    IDSetNumber(&ExposeTimeNP, NULL);
+    uploadFile(filename);
+
+    return status;
+}
+
+void V4L_Driver::addFITSKeywords(fitsfile *fptr)
+{
+  int status=0; 
+
+ fits_update_key(fptr, TLONG, "EXPOSURE", &(V4LFrame->expose), "Total Exposure Time (ms)", &status); 
+ fits_update_key(fptr, TSTRING, "INSTRUME", v4l_base->getDeviceName(), "Webcam Name", &status);
+ fits_write_date(fptr, &status);
 }
 
 void V4L_Driver::uploadFile(const char * filename)
@@ -723,11 +711,13 @@ void V4L_Driver::getBasicData()
   FrameN[2].value = v4l_base->getWidth();
   FrameN[2].min = xmin;
   FrameN[2].max = xmax;
+  V4LFrame->width = (int) FrameN[2].value;
   
   /* Height */
   FrameN[3].value = v4l_base->getHeight();
   FrameN[3].min = ymin;
   FrameN[3].max = ymax;
+  V4LFrame->height = (int) FrameN[3].value;
   
   IUUpdateMinMax(&FrameNP);
   IDSetNumber(&FrameNP, NULL);
@@ -828,49 +818,4 @@ int V4L_Driver::checkPowerT(ITextVectorProperty *tp)
   return 0;
 
 }
-
-FITS_HDU_LIST * V4L_Driver::create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
-{
-
- FITS_HDU_LIST *hdulist;
- char expose_s[80];
- char obsDate[80];
- char instrumentName[80];
- char ts[32];
-	
- struct tm *tp;
- time_t t;
- time (&t);
- tp = gmtime (&t);
- strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
- 
- snprintf(instrumentName, 80, "INSTRUME= '%s'", v4l_base->getDeviceName());
- snprintf(obsDate, 80, "DATE-OBS= '%s' /Observation Date UTC", ts);
-
- hdulist = fits_add_hdu (ofp);
- if (hdulist == NULL) return (NULL);
-
- hdulist->used.simple = 1;
- hdulist->bitpix = 8;
- hdulist->naxis = 2;
- hdulist->naxisn[0] = width;
- hdulist->naxisn[1] = height;
- hdulist->naxisn[2] = bpp;
- hdulist->used.datamin = 0;
- hdulist->used.datamax = 0;
- hdulist->used.bzero = 1;
- hdulist->bzero = 0.0;
- hdulist->used.bscale = 1;
- hdulist->bscale = 1.0;
- 
- snprintf(expose_s, sizeof(expose_s), "EXPOSURE= %d / milliseconds", V4LFrame->expose);
- 
- fits_add_card (hdulist, expose_s);
- fits_add_card (hdulist, instrumentName);
- fits_add_card (hdulist, obsDate);
- 
- return (hdulist);
-}
-
-
 

@@ -4,6 +4,8 @@
     begin                : Thu Jan 22 2004
     copyright            : (C) 2004 by Jasem Mutlaq
     email                : mutlaqja@ikarustech.com
+
+ 2006-03-03	Using CFITSIO, Porting to Qt4
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,8 +15,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   Some code fragments were adapted from Peter Kirchgessner's FITS plugin*
- *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
 
@@ -69,7 +69,7 @@
 #include "ksutils.h"
 #include "Options.h"
 
-extern int fits_ieee32_intel;
+/*extern int fits_ieee32_intel;
 extern int fits_ieee32_motorola;
 extern int fits_ieee64_intel;
 extern int fits_ieee64_motorola;
@@ -98,6 +98,8 @@ extern int fits_ieee64_motorola;
    uc[0] = p[7]; uc[1] = p[6]; uc[2] = p[5]; uc[3] = p[4]; \
    uc[4] = p[3]; uc[5] = p[2]; uc[6] = p[1]; uc[7] = p[0]; \
    val = *(FITS_BITPIXM64 *)uc; } else val = *(FITS_BITPIXM64 *)p; }	  
+
+*/
 
 FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
@@ -188,12 +190,12 @@ FITSViewer::~FITSViewer()
 bool  FITSViewer::initFITS()
 {
 
-    free(imgBuffer);
+    /*free(imgBuffer);
     imgBuffer = NULL;
-    image->clearMem();
+    image->clearMem();*/
     
   /* Load image into buffer */
-    if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return false; }
+    //if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return false; }
     /* Display image in the central widget */
     if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return false; }
 
@@ -204,7 +206,7 @@ bool  FITSViewer::initFITS()
     setWindowTitle(currentURL.fileName());
     
     /* Get initial statistics */
-    calculateStats();
+    //calculateStats();
     
     image->viewport()->resize(image->viewport()->width() + 5, image->viewport()->height());
     image->viewportResizeEvent(NULL);
@@ -258,13 +260,13 @@ void FITSViewer::show_fits_errors()
 {
   char *msg;
   /* Write out error messages of FITS-Library */
-  while ((msg = fits_get_error ()) != NULL)
-     KMessageBox::error(0, msg);
+//  while ((msg = fits_get_error ()) != NULL)
+   //  KMessageBox::error(0, msg);
 }
 
 float * FITSViewer::loadData(const char *filename, float *buffer)
 {
-  FILE *fp;
+/*  FILE *fp;
   FITS_FILE *ifp;
   FITS_HDU_LIST *hdulist;
   unsigned char *tempData, *tempDataPtr;
@@ -377,12 +379,15 @@ float * FITSViewer::loadData(const char *filename, float *buffer)
  
   fits_close(ifp);
   free(tempDataPtr); 
-  return buffer;                                              
+  return buffer;  
+                                              */
+  return NULL;
 
 }
 
 void FITSViewer::calculateStats()
 {
+  #if 0
   /*kDebug() << "Calculating statistics..." << endl;*/
   stats.min 	= min(stats.minAt);
   stats.max 	= max(stats.maxAt);
@@ -398,10 +403,12 @@ void FITSViewer::calculateStats()
   
   statusBar()->changeItem( QString("%1 x %2").arg( (int) stats.width).arg( (int) stats.height), 2);
 
+ #endif
 }
 
 double FITSViewer::min(int & minIndex)
 {
+ #if 0
   if (!imgBuffer) return -1;
   int width   = image->currentRect.width();
   int height  = image->currentRect.height();
@@ -421,10 +428,14 @@ double FITSViewer::min(int & minIndex)
     }
     
     return lmin;
+
+ #endif
+  return -1;
 }
 
 double FITSViewer::max(int & maxIndex)
 {
+ #if 0
   if (!imgBuffer) return -1;
   int width   = image->currentRect.width();
   int height  = image->currentRect.height();
@@ -443,10 +454,13 @@ double FITSViewer::max(int & maxIndex)
     }
     
     return lmax;
+ #endif
+  return -1;
 }
 
 double FITSViewer::average()
 {
+  #if 0
   int index=0;
   double sum=0;  
   int width  = image->currentRect.width();
@@ -461,10 +475,13 @@ double FITSViewer::average()
     }
     
     return (sum / (width * height ));
+ #endif 
+ return -1;
 }
 
 double FITSViewer::stddev()
 {
+ #if 0
   int index=0;
   double lsum=0;
   int width  = image->currentRect.width();
@@ -479,6 +496,8 @@ double FITSViewer::stddev()
     }
     
   return (sqrt(lsum/(width * height - 1)));
+  #endif
+  return -1;
 
 }
 
@@ -527,7 +546,7 @@ void FITSViewer::fileOpen()
 
 void FITSViewer::fileSave()
 {
-  
+ /* 
   FITS_FILE *ifp;
   QString recordList;
   KUrl backupCurrent = currentURL;
@@ -712,7 +731,7 @@ void FITSViewer::fileSave()
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
   }
 	
-
+*/
 }
 
 void FITSViewer::fileSaveAs()
@@ -742,6 +761,8 @@ void FITSViewer::updateImgBuffer()
 
 void FITSViewer::imageReduction()
 {
+
+  #if 0
   FITSProcessCommand *cbc;
   FITSHistogramCommand *hbc;
   QStringList darkFiles, flatFiles, darkflatFiles;
@@ -783,11 +804,12 @@ void FITSViewer::imageReduction()
   }
   
   image->destroyTemplateImage();
-
+ #endif
 }
 
 void FITSViewer::BrightContrastDlg()
 {
+ #if 0
   FITSChangeCommand *cbc;
   image->saveTemplateImage();
   ContrastBrightnessDlg conbriDlg(this);
@@ -809,7 +831,7 @@ void FITSViewer::BrightContrastDlg()
   }
   
   image->destroyTemplateImage();
-    
+    #endif
 }
 
 void FITSViewer::imageHistogram()
@@ -900,7 +922,7 @@ void FITSViewer::fitsStatistics()
 }
 
 void FITSViewer::fitsHeader()
-{
+{/*
    QStringList cards;
    QString recordList;
    QString property;
@@ -962,7 +984,7 @@ void FITSViewer::fitsHeader()
   
    
    fitsHeaderDialog.exec();
-
+*/
 }
 
 

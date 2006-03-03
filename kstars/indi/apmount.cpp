@@ -35,12 +35,12 @@
 /*
 ** Return the timezone offset in hours (as a double, so fractional
 ** hours are possible, for instance in Newfoundland). Also sets
-** daylight on non-Linux systems to record whether DST is in effect.
+** indi_daylight on non-Linux systems to record whether DST is in effect.
 */
 
 
 #if !(TIMEZONE_IS_INT)
-static int daylight = 0;
+static int indi_daylight = 0;
 #endif
 
 static inline double timezoneOffset()
@@ -57,7 +57,7 @@ static inline double timezoneOffset()
   struct tm *tm;
   now = time(NULL);
   tm = localtime(&now);
-  daylight = tm->tm_isdst;
+  indi_daylight = tm->tm_isdst;
   return -(tm->tm_gmtoff) / (60 * 60);
 #endif
 }
@@ -1445,7 +1445,11 @@ void APMount::updateTime()
   tzset();
   
   UTCOffset = timezoneOffset();
+  #if TIMEZONE_IS_INT
   IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
+  #else
+  IDLog("Daylight: %s - TimeZone: %g\n", indi_daylight ? "Yes" : "No", UTCOffset);
+  #endif
   
 	
   if (simulation)

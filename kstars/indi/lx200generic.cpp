@@ -36,12 +36,12 @@
 /*
 ** Return the timezone offset in hours (as a double, so fractional
 ** hours are possible, for instance in Newfoundland). Also sets
-** daylight on non-Linux systems to record whether DST is in effect.
+** indi_daylight on non-Linux systems to record whether DST is in effect.
 */
 
 
 #if !(TIMEZONE_IS_INT)
-static int daylight = 0;
+static int indi_daylight = 0;
 #endif
 
 static inline double timezoneOffset()
@@ -58,7 +58,7 @@ static inline double timezoneOffset()
   struct tm *tm;
   now = time(NULL);
   tm = localtime(&now);
-  daylight = tm->tm_isdst;
+  indi_daylight = tm->tm_isdst;
   return -(tm->tm_gmtoff) / (60 * 60);
 #endif
 }
@@ -1883,7 +1883,11 @@ void LX200Generic::updateTime()
   tzset();
   
   UTCOffset = timezoneOffset();
-  IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
+  #if TIMEZONE_IS_INT
+	IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
+  #else
+	IDLog("Daylight: %s - TimeZone: %g\n", indi_daylight ? "Yes" : "No", UTCOffset);
+  #endif
   
 	
   if (simulation)
@@ -1933,9 +1937,14 @@ void LX200Generic::updateTime()
   // we'll have to convert telescope time to UTC manually starting from hour up
   // seems like a stupid way to do it.. oh well
   UTC_h = (int) UTCOffset + h;
-  // Correct UTC for daylight time savings
+  // Correct UTC for indi_daylight time savings
+  #if TIMEZONE_IS_INT
   if (daylight)
 	UTC_h-=1;
+  #else
+  if (indi_daylight)
+	UTC_h-=1;
+  #endif
 
   if (UTC_h < 0)
   {
