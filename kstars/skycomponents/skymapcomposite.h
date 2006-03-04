@@ -21,12 +21,41 @@
 #include <QList>
 
 #include "skycomposite.h"
+
+#include "deepskyobject.h"
+#include "ksplanet.h"
+
+// #include "constellationboundarycomponent.h"
+// #include "constellationlinescomposite.h"
+#include "constellationnamescomponent.h"
+// #include "coordinategridcomposite.h"
+// #include "customcatalogcomponent.h"
+#include "deepskycomponent.h"
+// #include "equatorcomponent.h"
+// #include "eclipticcomponent.h"
+// #include "horizoncomponent.h"
+// #include "jupitermoonscomponent.h"
+// #include "milkywaycomposite.h"
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
-#include "constellationboundarycomponent.h"
-#include "constellationnamescomponent.h"
-#include "deepskycomponent.h"
 #include "telescopecomponent.h"
+
+
+class ConstellationBoundaryComponent;
+class ConstellationLinesComposite;
+class ConstellationNamesComponent;
+class CoordinateGridComposite;
+class CustomCatalogComponent;
+//class DeepSkyComponent;
+class EclipticComponent;
+class EquatorComponent;
+class HorizonComponent;
+class JupiterMoonsComponent;
+class MilkyWayComposite;
+//class SolarSystemComposite;
+//class StarComponent;
+//class TelescopeComponent;
+
 
 class KStarsData;
 
@@ -81,6 +110,14 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
 		/**
+			*@short Delegate draw requests to all sub components
+			*@p ks Pointer to the KStars object
+			*@p psky Reference to the QPainter on which to paint
+			*@p scale the scaling factor for drawing (1.0 for screen draws)
+			*/
+		virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
+
+		/**
 			*@short Add a Trail to the specified SkyObject
 			*Loop over all child SkyComponents; if the SkyObject
 			*in the argument is found, add a Trail to it.
@@ -97,6 +134,9 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
 		void removeCustomCatalog( const QString &name );
 
+		bool addNameLabel( SkyObject *o );
+		bool removeNameLabel( SkyObject *o );
+
 		void reloadDeepSky( KStarsData *data );
 		void reloadAsteroids( KStarsData *data );
 		void reloadComets( KStarsData *data );
@@ -104,43 +144,51 @@ class SkyMapComposite : public QObject, public SkyComposite
 		//Accessors for StarComponent
 		SkyObject* findStarByGenetiveName( const QString &name );
 		void setFaintStarMagnitude( float newMag );
-		float faintStarMagnitude() const { return m_StarComponent->faintMagnitude(); }
+		float faintStarMagnitude() const { return m_Stars->faintMagnitude(); }
 		void setStarColorMode( int newMode );
-		int starColorMode() const { return m_StarComponent->starColorMode(); }
+		int starColorMode() const { return m_Stars->starColorMode(); }
 		void setStarColorIntensity( int newIntensity );
-		int starColorIntensity() const { return m_StarComponent->starColorIntensity(); }
+		int starColorIntensity() const { return m_Stars->starColorIntensity(); }
 
 		QString constellation( SkyPoint *p );
 
 		virtual void emitProgressText( const QString &message );
 		virtual QStringList& objectNames() { return m_ObjectNames; }
+		QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
 
-		QList<DeepSkyObject*>& deepSkyObjects() { return m_DeepSkyComponent->objectList(); }
-		QList<SkyComponent*> solarSystem() { return m_SSComposite->components(); }
-		QList<SkyObject*>& constellationNames() { return m_CNamesComponent->objectList(); }
-		QList<SkyObject*>& stars() { return m_StarComponent->objectList(); }
-		QList<SkyObject*>& asteroids() { return m_SSComposite->asteroids(); }
-		QList<SkyObject*>& comets() { return m_SSComposite->comets(); }
-		QList<SkyObject*>& telescopes() { return m_TelescopeComponent->objectList(); }
-
-		KSPlanet* earth() { return m_SSComposite->earth(); }
+		QList<DeepSkyObject*>& deepSkyObjects() { return m_DeepSky->objectList(); }
+		QList<SkyComponent*> solarSystem() { return m_SolarSystem->components(); }
+		QList<SkyObject*>& constellationNames() { return m_CNames->objectList(); }
+		QList<SkyObject*>& stars() { return m_Stars->objectList(); }
+		QList<SkyObject*>& asteroids() { return m_SolarSystem->asteroids(); }
+		QList<SkyObject*>& comets() { return m_SolarSystem->comets(); }
+		QList<SkyObject*>& telescopes() { return m_Telescopes->objectList(); }
+		KSPlanet* earth() { return m_SolarSystem->earth(); }
 
 		QList<SkyComponent*> customCatalogs() { 
-			return m_CustomCatalogComposite->components(); 
+			return m_CustomCatalogs->components(); 
 		}
 
 	signals:
 		void progressText( const QString &message );
 
 	private:
-		SolarSystemComposite *m_SSComposite;
-		SkyComposite *m_CustomCatalogComposite;
-		StarComponent *m_StarComponent;
-		ConstellationBoundaryComponent *m_CBoundsComponent;
-		ConstellationNamesComponent *m_CNamesComponent;
-		DeepSkyComponent *m_DeepSkyComponent;
-		TelescopeComponent *m_TelescopeComponent;
+		ConstellationBoundaryComponent *m_CBounds;
+		ConstellationNamesComponent *m_CNames;
+		ConstellationLinesComposite *m_CLines;
+		CoordinateGridComposite *m_CoordinateGrid;
+		DeepSkyComponent *m_DeepSky;
+		EquatorComponent *m_Equator;
+		EclipticComponent *m_Ecliptic;
+		HorizonComponent *m_Horizon;
+		JupiterMoonsComponent *m_JupiterMoons;
+		MilkyWayComposite *m_MilkyWay;
+		SolarSystemComposite *m_SolarSystem;
+		SkyComposite *m_CustomCatalogs;
+		StarComponent *m_Stars;
+		TelescopeComponent *m_Telescopes;
 		QStringList m_ObjectNames;
+		QList<SkyObject*> m_LabeledObjects;
 };
 
 #endif

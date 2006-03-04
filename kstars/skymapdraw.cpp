@@ -82,6 +82,69 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 	}
 }
 
+void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale ) {
+	float Width = scale * width();
+	float Height = scale * height();
+
+	psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
+
+	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
+	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
+	bool drawComets( drawPlanets && Options::showComets() );
+	bool drawAsteroids( drawPlanets && Options::showAsteroids() );
+	bool drawMessier( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );
+	bool drawNGC( Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() ) );
+	bool drawIC( Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() ) );
+	bool drawOther( Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() ) );
+	bool drawStars = ( Options::showStars() );
+	bool hideFaintStars( checkSlewing && Options::hideStars() );
+
+	foreach ( SkyObject *obj, labelObjects ) {
+		//Only draw an attached label if the object is being drawn to the map
+		//reproducing logic from other draw funcs here...not an optimal solution
+		if ( obj->type() == SkyObject::STAR ) {
+			if ( ! drawStars ) return;
+			if ( obj->mag() > Options::magLimitDrawStar() ) return;
+			if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) return;
+		}
+		if ( obj->type() == SkyObject::PLANET ) {
+			if ( ! drawPlanets ) return;
+			if ( obj->name() == "Sun" && ! Options::showSun() ) return;
+			if ( obj->name() == "Mercury" && ! Options::showMercury() ) return;
+			if ( obj->name() == "Venus" && ! Options::showVenus() ) return;
+			if ( obj->name() == "Moon" && ! Options::showMoon() ) return;
+			if ( obj->name() == "Mars" && ! Options::showMars() ) return;
+			if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) return;
+			if ( obj->name() == "Saturn" && ! Options::showSaturn() ) return;
+			if ( obj->name() == "Uranus" && ! Options::showUranus() ) return;
+			if ( obj->name() == "Neptune" && ! Options::showNeptune() ) return;
+			if ( obj->name() == "Pluto" && ! Options::showPluto() ) return;
+		}
+		if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
+			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) return;
+		}
+		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
+		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
+
+		if ( checkVisibility( obj ) ) {
+			QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
+				drawNameLabel( psky, obj, o.x(), o.y(), scale );
+			}
+		}
+	}
+
+	//Attach a label to the centered object
+	if ( focusObject() != NULL && Options::useAutoLabel() ) {
+		QPointF o = getXY( focusObject(), Options::useAltAz(), Options::useRefraction(), scale );
+		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
+			drawNameLabel( psky, focusObject(), o.x(), o.y(), scale );
+	}
+}
+
 void SkyMap::drawTransientLabel( QPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );

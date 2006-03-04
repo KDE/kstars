@@ -17,18 +17,26 @@
 
 #include "Options.h"
 #include "csegment.h"
+#include "kstars.h"
 #include "kstarsdata.h"
+#include "skymap.h"
+
 #include "skymapcomposite.h"
 
+#include "constellationboundarycomponent.h"
+#include "constellationlinescomposite.h"
+//#include "constellationnamescomponent.h"
+#include "coordinategridcomposite.h"
+#include "customcatalogcomponent.h"
+//#include "deepskycomponent.h"
 #include "equatorcomponent.h"
 #include "eclipticcomponent.h"
 #include "horizoncomponent.h"
-#include "milkywaycomposite.h"
-#include "constellationlinescomposite.h"
-#include "coordinategridcomposite.h"
-#include "customcatalogcomponent.h"
-#include "starcomponent.h"
 #include "jupitermoonscomponent.h"
+#include "milkywaycomposite.h"
+//#include "solarsystemcomposite.h"
+//#include "starcomponent.h"
+//#include "telescopecomponent.h"
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyComposite(parent)
 {
@@ -36,37 +44,43 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	// beware the order of adding components
 	// first added component will be drawn first
 	// so horizon should be one of the last components
-	addComponent( new MilkyWayComposite( this, &Options::showMilkyWay ) );
-	addComponent( new CoordinateGridComposite( this, &Options::showGrid ) );
+	m_MilkyWay = new MilkyWayComposite( this, &Options::showMilkyWay );
+	addComponent( m_MilkyWay );
 
-	m_StarComponent = new StarComponent( this, &Options::showStars );
-	addComponent( m_StarComponent );
+	m_CoordinateGrid = new CoordinateGridComposite( this, &Options::showGrid );
+	addComponent( m_CoordinateGrid );
+	m_CBounds = new ConstellationBoundaryComponent( this, &Options::showCBounds );
+	addComponent( m_CBounds );
+	m_CLines = new ConstellationLinesComposite( this, data );
+	addComponent( m_CLines );
+	m_CNames = new ConstellationNamesComponent( this, &Options::showCNames );
+	addComponent( m_CNames );
+	m_Equator = new EquatorComponent( this, &Options::showEquator );
+	addComponent( m_Equator );
+	m_Ecliptic = new EclipticComponent( this, &Options::showEcliptic );
+	addComponent( m_Ecliptic );
+	m_Horizon = new HorizonComponent(this, &Options::showHorizon);
+	addComponent( m_Horizon );
 
-	m_CBoundsComponent = new ConstellationBoundaryComponent( this, &Options::showCBounds );
-	addComponent( m_CBoundsComponent );
-	addComponent( new ConstellationLinesComposite( this, data ) );
-	m_CNamesComponent = new ConstellationNamesComponent( this, &Options::showCNames );
-	addComponent( m_CNamesComponent );
-	addComponent( new EquatorComponent( this, &Options::showEquator ) );
-	addComponent( new EclipticComponent( this, &Options::showEcliptic ) );
-
-	m_DeepSkyComponent = new DeepSkyComponent( this, &Options::showDeepSky, 
-		&Options::showMessier, &Options::showNGC, &Options::showIC, 
-		&Options::showOther, &Options::showMessierImages );
-	addComponent( m_DeepSkyComponent );
-	
-	//FIXME: can't use Options::showCatalog as visibility fcn, because it returns QList, not bool
-	m_CustomCatalogComposite = new SkyComposite( this );
+	m_Stars = new StarComponent( this, &Options::showStars );
+	addComponent( m_Stars );
+	m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky, 
+			&Options::showMessier, &Options::showNGC, &Options::showIC, 
+			&Options::showOther, &Options::showMessierImages );
+	addComponent( m_DeepSky );
+	//FIXME: can't use Options::showCatalog as visibility fcn, 
+	//because it returns QList, not bool
+	m_CustomCatalogs = new SkyComposite( this );
 	foreach ( QString fname, Options::catalogFile() ) 
-		m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
+		m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 	
-	m_SSComposite = new SolarSystemComposite( this, data );
-	addComponent( m_SSComposite );
+	m_SolarSystem = new SolarSystemComposite( this, data );
+	addComponent( m_SolarSystem );
+	m_JupiterMoons = new JupiterMoonsComponent( this, &Options::showJupiter);
+	addComponent( m_JupiterMoons );
 
-	addComponent( new JupiterMoonsComponent( this, &Options::showJupiter) );
-        m_TelescopeComponent = new TelescopeComponent(this, &Options::indiCrosshairs);
-	addComponent(m_TelescopeComponent);
-	addComponent( new HorizonComponent(this, &Options::showHorizon) );
+	m_Telescopes = new TelescopeComponent(this, &Options::indiCrosshairs);
+	addComponent(m_Telescopes);
 
 	connect( this, SIGNAL( progressText( const QString & ) ), 
 					data, SIGNAL( progressText( const QString & ) ) );
@@ -82,6 +96,64 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 {
 	foreach (SkyComponent *component, solarSystem() )
 		component->updateMoons( data, num );
+}
+
+//Reimplement draw function so that we have control over the order of 
+//elements, and we can add object labels
+//
+//The order in which components are drawn naturally determines the 
+//z-ordering (the layering) of the components.  Objects which 
+//should appear "behind" others should be drawn first.
+void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
+{
+	//1. Milky Way
+	m_MilkyWay->draw( ks, psky, scale );
+	//2. Coordinate grid
+	m_CoordinateGrid->draw( ks, psky, scale );
+	//3. Constellation boundaries
+	m_CBounds->draw( ks, psky, scale );
+	//4. Constellation lines
+	m_CLines->draw( ks, psky, scale );
+	//5. Constellation names
+	m_CNames->draw( ks, psky, scale );
+	//6. Equator
+	m_Equator->draw( ks, psky, scale );
+	//7. Ecliptic
+	m_Ecliptic->draw( ks, psky, scale );
+	//8. Deep sky
+	m_DeepSky->draw( ks, psky, scale );
+	//9. Custom catalogs
+	m_CustomCatalogs->draw( ks, psky, scale );
+	//10. Stars
+	m_Stars->draw( ks, psky, scale );
+	//11. Solar system
+	m_SolarSystem->draw( ks, psky, scale );
+	//12. Jupiter moons
+	//FIXME: can we make this a member of m_SolarSystem?
+	m_JupiterMoons->draw( ks, psky, scale );
+
+	//Draw object name labels
+	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
+
+	//13. Horizon (and ground)
+	m_Horizon->draw( ks, psky, scale );
+	//14. Telescopes
+	m_Telescopes->draw( ks, psky, scale );
+
+}
+
+bool SkyMapComposite::addNameLabel( SkyObject *o ) {
+	if ( !o ) return false;
+	labelObjects().append( o );
+	return true;
+}
+
+bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
+	if ( !o ) return false;
+	int index = labelObjects().indexOf( o );
+	if ( index < 0 ) return false;
+	labelObjects().removeAt( index );
+	return true;
 }
 
 bool SkyMapComposite::addTrail( SkyObject *o ) {
@@ -120,45 +192,45 @@ void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
 void SkyMapComposite::addTelescopeMarker( SkyObject *o)
 {
        /* FIXME Does this function belong here?? */
-	m_TelescopeComponent->addTelescopeMarker(o);
+	m_Telescopes->addTelescopeMarker(o);
 }
 
 void SkyMapComposite::removeTelescopeMarker( SkyObject *o)
 {
   /* FIXME Does this function belong here?? */
-	m_TelescopeComponent->removeTelescopeMarker(o);
+	m_Telescopes->removeTelescopeMarker(o);
 }
 
 
 void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
-	m_StarComponent->setFaintMagnitude( newMag );
+	m_Stars->setFaintMagnitude( newMag );
 }
 
 void SkyMapComposite::setStarColorMode( int newMode ) {
-	m_StarComponent->setStarColorMode( newMode );
+	m_Stars->setStarColorMode( newMode );
 }
 
 void SkyMapComposite::setStarColorIntensity( int newIntensity ) {
-	m_StarComponent->setStarColorIntensity( newIntensity );
+	m_Stars->setStarColorIntensity( newIntensity );
 }
 
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
-	foreach( SkyObject *s, m_StarComponent->objectList() ) 
+	foreach( SkyObject *s, m_Stars->objectList() ) 
 		if ( s->name2() == name ) return s;
 
 	return 0;
 }
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
-	m_CustomCatalogComposite->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+	m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
 }
 
 void SkyMapComposite::removeCustomCatalog( const QString &name ) {
-  foreach( SkyComponent *sc, m_CustomCatalogComposite->components() ) {
+  foreach( SkyComponent *sc, m_CustomCatalogs->components() ) {
     CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
 
     if ( ccc->name() == name ) {
-      m_CustomCatalogComposite->removeComponent( ccc );
+      m_CustomCatalogs->removeComponent( ccc );
       return;
     }
   }
@@ -167,16 +239,16 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
 }
 
 void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
-	m_DeepSkyComponent->clear();
-	m_DeepSkyComponent->init( data );
+	m_DeepSky->clear();
+	m_DeepSky->init( data );
 }
 
 void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
-	m_SSComposite->reloadAsteroids( data );
+	m_SolarSystem->reloadAsteroids( data );
 }
 
 void SkyMapComposite::reloadComets( KStarsData *data ) {
-	m_SSComposite->reloadComets( data );
+	m_SolarSystem->reloadComets( data );
 }
 
 QString SkyMapComposite::constellation( SkyPoint *p ) {
@@ -197,7 +269,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 	double pdc = p->dec()->Degrees();
 	double pra(0.0); //defined in the loop, because we may modify it there
 
-	foreach ( CSegment *seg, m_CBoundsComponent->segmentList() ) {
+	foreach ( CSegment *seg, m_CBounds->segmentList() ) {
 		SkyPoint *p1 = seg->nodes()[0];
 
 		for ( int i=1; i< seg->nodes().size(); ++i ) {
@@ -411,7 +483,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 	}
 
 	//Finally, match the abbreviated name to the full constellation name, and return that name
-	foreach ( SkyObject *o, m_CNamesComponent->objectList() ) {
+	foreach ( SkyObject *o, m_CNames->objectList() ) {
 		if ( abbrev.lower() == o->name2().lower() ) {
 			QString r = i18n( "Constellation name (optional)", o->name().toLocal8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)

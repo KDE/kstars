@@ -445,7 +445,7 @@ void SkyMap::slotImage( int id ) {
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-	foreach ( SkyObject *o, data->ObjLabelList ) {
+	foreach ( SkyObject *o, data->skyComposite()->labelObjects() ) {
 		if ( o == object ) return true;
 	}
 
@@ -453,19 +453,12 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
 }
 
 void SkyMap::slotRemoveObjectLabel( void ) {
-	foreach ( SkyObject *o, data->ObjLabelList ) {
-		if ( o == clickedObject() ) {
-			//remove object from list
-			data->ObjLabelList.removeAt( data->ObjLabelList.indexOf(o) );
-			break;
-		}
-	}
-
+	data->skyComposite()->removeNameLabel( clickedObject() );
 	forceUpdate();
 }
 
 void SkyMap::slotAddObjectLabel( void ) {
-	data->ObjLabelList.append( clickedObject() );
+	data->skyComposite()->addNameLabel( clickedObject() );
 	//Since we just added a permanent label, we don't want it to fade away!
 	if ( transientObject() == clickedObject() ) setTransientObject( NULL );
 	forceUpdate();

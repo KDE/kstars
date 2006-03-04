@@ -417,6 +417,14 @@ public:
 	*/
 	double findPA( SkyObject *o, float x, float y, double scale=1.0 );
 
+/**@short Draw "user labels".  User labels are name labels attached to objects manually with 
+	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
+	*is TRUE.
+	*@param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
+	*@note the labelObjects list is managed by the SkyMapComponents class
+	*/
+	void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale = 1.0 );
+
 public slots:
 /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
 	*/
@@ -648,14 +656,6 @@ private slots:
 	void setMouseMoveCursor();
 
 private:
-/**@short Draw "User Labels".  User labels are name labels attached to objects manually with 
-	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
-	*is TRUE.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*/
-	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
-	
 /**@short Attach a name label to a SkyObject.  This Function is called by the object-specific 
 	*draw functions and also by drawAttachedLabels().
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)

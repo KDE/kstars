@@ -444,9 +444,6 @@ private:
 
 	unsigned int StarCount;
 
-	/** List of pointers to all objects which have a user label attached */
-	QList<SkyObject*> ObjLabelList;
-
 	QList<VariableStarInfo*> VariableStarsList;
 	QList<ADVTreeData*> ADVtreeList;
 	QList<INDIHostsInfo*> INDIHostsList;
