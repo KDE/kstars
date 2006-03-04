@@ -56,6 +56,8 @@ LCGenerator::LCGenerator( QWidget* parent) : QDialog(parent),
 
 	// FIXME ExDateEdit is broken, check LCGenerator again
 	// When it gets fixed 
+	lcg->StartDateBox->setRange(-20000000, 20000000);
+	lcg->EndDateBox->setRange(-20000000, 20000000);
 	lcg->StartDateBox->setDate(ksw->data()->lt().date());
 	lcg->EndDateBox->setDate(ksw->data()->lt().date());
 		
