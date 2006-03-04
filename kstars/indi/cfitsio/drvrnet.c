@@ -6,6 +6,20 @@
 /*  Astrophysic Science Archive Research Center (HEASARC) at the NASA      */
 /*  Goddard Space Flight Center.                                           */
 
+/*THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND,
+EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO,
+ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE
+DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE
+SOFTWARE WILL BE ERROR FREE.  IN NO EVENT SHALL NASA BE LIABLE FOR ANY
+DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY
+CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY,
+CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY
+PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED
+FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR
+SERVICES PROVIDED HEREUNDER.*/
 
 /* Notes on the drivers:
 
@@ -148,10 +162,10 @@ generated.  Fixes the signal handling.
 
 Revision 1.38  1998/11/23 10:03:24  oneel
 Added in a useragent string, as suggested by:
-Tim Kimball · Data Systems Division ¦ kimball@stsci.edu · 410-338-4417
-Space Telescope Science Institute   ¦ http://www.stsci.edu/~kimball/
-3700 San Martin Drive               ¦ http://archive.stsci.edu/
-Baltimore MD 21218 USA              ¦ http://faxafloi.stsci.edu:4547/
+Tim Kimball  Data Systems Division  kimball@stsci.edu  410-338-4417
+Space Telescope Science Institute    http://www.stsci.edu/~kimball/
+3700 San Martin Drive                http://archive.stsci.edu/
+Baltimore MD 21218 USA               http://faxafloi.stsci.edu:4547/
 
    
  */
