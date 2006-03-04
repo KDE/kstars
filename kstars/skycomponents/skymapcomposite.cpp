@@ -47,6 +47,9 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	m_MilkyWay = new MilkyWayComposite( this, &Options::showMilkyWay );
 	addComponent( m_MilkyWay );
 
+	m_Stars = new StarComponent( this, &Options::showStars );
+	addComponent( m_Stars );
+
 	m_CoordinateGrid = new CoordinateGridComposite( this, &Options::showGrid );
 	addComponent( m_CoordinateGrid );
 	m_CBounds = new ConstellationBoundaryComponent( this, &Options::showCBounds );
@@ -62,8 +65,6 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	m_Horizon = new HorizonComponent(this, &Options::showHorizon);
 	addComponent( m_Horizon );
 
-	m_Stars = new StarComponent( this, &Options::showStars );
-	addComponent( m_Stars );
 	m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky, 
 			&Options::showMessier, &Options::showNGC, &Options::showIC, 
 			&Options::showOther, &Options::showMessierImages );
