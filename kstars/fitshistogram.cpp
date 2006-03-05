@@ -81,6 +81,7 @@
  
 void FITSHistogram::updateBoxes()
 {
+#if 0
         if (ui->minSlider->value() == BARS)
 	 ui->minOUT->setText(QString("%1").arg((int) viewer->stats.max));
 	else
@@ -92,6 +93,8 @@ void FITSHistogram::updateBoxes()
    	 ui->maxOUT->setText(QString("%1").arg( (int) ( ceil (ui->maxSlider->value() * binSize) + viewer->stats.min)));
 
         update();
+
+#endif
 }
 
 void FITSHistogram::applyScale()
@@ -109,10 +112,11 @@ void FITSHistogram::applyScale()
     min  = max;
     max  = swap;
   }
-  
+
+#if 0  
    min  = (int) (min * binSize + viewer->stats.min);
    max  = (int) (max * binSize + viewer->stats.min);
-
+#endif
   
   napply++;
   
@@ -136,6 +140,7 @@ void FITSHistogram::applyScale()
  
 void FITSHistogram::constructHistogram(float * buffer)
 {
+ #if 0
   int maxHeight = 0;
   int height    = ui->histFrame->height(); 
   int id;
@@ -181,6 +186,7 @@ void FITSHistogram::constructHistogram(float * buffer)
    
  for (int i=0; i < BARS; i++)
      p.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
+ #endif
   
 }
 
@@ -223,12 +229,14 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
 
 void FITSHistogram::updateIntenFreq(int x)
 {
-
+ #if 0
   int index = (int) ceil(x * binSize);
     
   ui->intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
   
   ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
+
+ #endif
   
 }
 
@@ -266,6 +274,7 @@ FITSHistogramCommand::~FITSHistogramCommand()
             
 void FITSHistogramCommand::execute()
 {
+  #if 0
   float val, bufferVal;
   double coeff;
   FITSImage *image = viewer->image;
@@ -378,11 +387,12 @@ void FITSHistogramCommand::execute()
   
   viewer->image->zoomToCurrent();
   viewer->fitsChange();
-  
+  #endif
 }
 
 void FITSHistogramCommand::unexecute()
 {
+ #if 0
   memcpy( viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(float));
   viewer->calculateStats();
   *viewer->image->displayImage = oldImage->copy();
@@ -394,11 +404,13 @@ void FITSHistogramCommand::unexecute()
   	histo->update();
   	histo->updateBoxes();
   }
+ #endif
 }
 
 QString FITSHistogramCommand::name() const
 {
 
+ #if 0
  switch (type)
  {
   case 0:
@@ -417,8 +429,9 @@ QString FITSHistogramCommand::name() const
    break;
  }
  
+ #endif
  return i18n("Unknown");
-
+ 
 }
 
 

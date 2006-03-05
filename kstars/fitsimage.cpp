@@ -34,9 +34,9 @@
 #include <kstatusbar.h>
 
 #include <QPaintEvent>
+#include <QScrollArea>
 
 #include <qfile.h>
-#include <q3vbox.h>
 #include <qcursor.h>
 
 
@@ -50,44 +50,22 @@
 //#include "focusdialog.h" 
 #include "ksutils.h"
 
-/* Load info */
-#if 0
-typedef struct
-{
-  uint replace;    /* replacement for blank/NaN-values */
-  uint use_datamin;/* Use DATAMIN/MAX-scaling if possible */
-  uint compose;    /* compose images with naxis==3 */
-} FITSLoadVals;
-
-static FITSLoadVals plvals =
-{
-  0,        /* Replace with black */
-  0,        /* Do autoscale on pixel-values */
-  0         /* Dont compose images */
-};
-#endif
+#include "indi/cfitsio/fitsio.h"
 
 FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent), zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
-//  reducedImgBuffer = NULL;
-  displayImage     = NULL;
   
-  image_frame = new FITSFrame(this, NULL);//viewport());
+  /* FIXME enable this when Qt 4.2 is released 
+  setAlignment(Qt::AlignCenter);
+ */
 
-  setBackgroundRole(QPalette::Dark);
-  setWidget(image_frame);
+   image_buffer = NULL;
+   displayImage = NULL;
+   setBackgroundRole(QPalette::Dark);
 
-  //addChild(imgFrame);
-  
-  currentZoom = 0.0;
-  //grayTable=new QRgb[256];
-  //for (int i=0;i<256;i++)
-     //   grayTable[i]=qRgb(i,i,i);
-  
-  viewport()->setMouseTracking(true);
-  image_frame->setMouseTracking(true);
-  
+   currentZoom = 0.0;
+   viewport()->setMouseTracking(true);
 }
 
 FITSImage::~FITSImage()
@@ -238,174 +216,62 @@ void FITSImage::clearMem()
 
 int FITSImage::loadFits (const char *filename)
 {
+ 
+  int status=0, nulval=0, anynull=0;
+  long fpixel, nelements, naxes[2];
+  fitsfile* fptr;
 
-  long naxes[2] = { 128, 64 };   /* image is 300 pixels wide by 200 rows */
-  unsigned char array[128][64];
+  if (fits_open_image(&fptr, filename, READWRITE, &status))
+  {
+	fits_report_error(stderr, status);
+	return -1;
+  }
 
-  displayImage = new QImage(128, 64, QImage::Format_Indexed8);
+  if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
+  {
+	fits_report_error(stderr, status);
+	return -1;
+  }
+
+  stats.dim[0] = naxes[0];
+  stats.dim[1] = naxes[1];
+
+  kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << endl;
+
+  delete (image_buffer);
+  delete (displayImage);
+
+  image_buffer = new float[stats.dim[0] * stats.dim[1]];
+  
+  displayImage = new QImage(stats.dim[0], stats.dim[1], QImage::Format_Indexed8);
 
   displayImage->setNumColors(256);
  
- for (int i=0; i < 256; i++)
-   displayImage->setColor(i, qRgb(i,i,i));
+  for (int i=0; i < 256; i++)
+     displayImage->setColor(i, qRgb(i,i,i));
 
-/* Initialize the values in the image with a linear ramp function */
-    for (int jj = 0; jj < 64; jj++)
-        for (int ii = 0; ii < 128; ii++)
-	{
-            array[jj][ii] = ii + jj;
-	    displayImage->setPixel(ii, jj, ((int) array[jj][ii]));
-	}
+ nelements = stats.dim[0] * stats.dim[1];
+ fpixel=1;
+ //fpixel = new long[2];
+ //fpixel[0] = 1;
+ //fpixel[1] = 1;
 
- 
- currentWidth = 300;
- currentHeight = 200;
-
- image_pixmap = QPixmap::fromImage(*displayImage);
-
-
-
- #if 0
- FILE *fp;
- FITS_FILE *ifp;
- FITS_HDU_LIST *hdl;
- // TODO add KStars options for transformation
- FITS_PIX_TRANSFORM trans;
- register unsigned char *dest; 
- //register unsigned char *tempBuffer;
- unsigned char *data;
- int i, j;
- double a, b;
- int err = 0;
- 
- fp = fopen (filename, "rb");
- if (!fp)
+ if (fits_read_img(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
  {
-   KMessageBox::error(0, i18n("Cannot open file for reading"));
-   return (-1);
- }
- fclose (fp);
-
- ifp = fits_open (filename, "r");
- if (ifp == NULL)
- {
-   KMessageBox::error(0, i18n("Error during open of FITS file"));
-   return (-1);
- }
- if (ifp->n_pic <= 0)
- {
-   KMessageBox::error(0, i18n("FITS file keeps no displayable images"));
-   fits_close (ifp);
-   return (-1);
+	fits_report_error(stderr, status);
+	return -1;
  }
 
- //displayImage  = new QImage();
- KProgressDialog fitsProgress(this, i18n("FITS Viewer"), i18n("Loading FITS..."));
- 
- hdl = fits_seek_image (ifp, 1);
- if (hdl == NULL) return (-1);
+ return 0;
 
- width  = hdl->naxisn[0]; 
- height = hdl->naxisn[1]; 
- currentWidth = hdl->naxisn[0]; 
- currentHeight = hdl->naxisn[1]; 
- bitpix = hdl->bitpix;
- bpp    = hdl->bpp;
+    /* Fill in pixel values using indexed map */
+    for (int j = 0; j < stats.dim[1] - 1; j++)
+        for (int i = 0; i < stats.dim[0]; i++)
+		displayImage->setPixel(i, j, ((int) image_buffer[j * stats.dim[0] + i]));
+	
+ image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+ setWidget(image_frame);
  
- imgFrame->setGeometry(0, 0, width, height);
- 
- data = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
- //tempBuffer = (unsigned char  *) malloc (height * width * sizeof(unsigned char));
- if (data == NULL)
- {
-  KMessageBox::error(0, i18n("Not enough memory to load FITS."));
-  return (-1);
- }
- 
- 
- if (   plvals.use_datamin
-     && hdl->used.datamin && hdl->used.datamax
-     && hdl->used.bzero && hdl->used.bscale)
- {
-   a = (hdl->datamin - hdl->bzero) / hdl->bscale;
-   b = (hdl->datamax - hdl->bzero) / hdl->bscale;
-   if (a < b) trans.pixmin = a, trans.pixmax = b;
-   else trans.pixmin = b, trans.pixmax = a;
- }
- else
- {
-   trans.pixmin = hdl->pixmin;
-   trans.pixmax = hdl->pixmax;
- }
- trans.datamin = 0.0;
- trans.datamax = 255.0;
- trans.replacement = plvals.replace;
- trans.dsttyp = 'c';
- 
- //displayImage->create(width, height, 32); 
- currentRect.setX(0);
- currentRect.setY(0);
- currentRect.setWidth(width);
- currentRect.setHeight(height);
- 
- fitsProgress.progressBar()->setMinimum(0);
- fitsProgress.progressBar()->setMaximum(height);
- fitsProgress.setMinimumWidth(300);
- fitsProgress.show();
-
- delete (displayImage);
- 
- displayImage = new QImage(width, height, 8, 256, QImage::IgnoreEndian);
- for (int i=0; i < 256; i++)
-   displayImage->setColor(i, grayTable[i]);
-//displayImage = new QImage();
-//displayImage->create(width, height, 32);
-
-
- /* FITS stores images with bottom row first. Therefore we have */
- /* to fill the image from bottom to top. */
-   dest = data + height * width;
-   
-   for (i = height - 1; i >= 0 ; i--)
-   {
-     /* Read FITS line */
-     dest -= width;
-     if (fits_read_pixel (ifp, hdl, width, &trans, dest) != width)
-     {
-       err = 1;
-       break;
-     }
-     
-     //for (j=0; j < width; j++)
-     //{
-       //val = dest[j];
-       //displayImage->setPixel(j, i, qRgb(val, val, val));
-     //}
-       for (j = 0 ; j < width; j++)
-         displayImage->setPixel(j, i, dest[j]);
-      
-      fitsProgress.progressBar()->setValue(height - i);
-   }
- 
- reducedImgBuffer = data;
- convertImageToPixmap();
- viewportResizeEvent(NULL);
- 
- if (err)
-   KMessageBox::error(0, i18n("EOF encountered on reading."));
-
- fits_record_list * FRList = hdl->header_record_list;
- while (FRList != NULL)
- {
-   viewer->record << QString((char *) FRList->data); 
-   FRList = FRList->next_record;
- }
- //memcpy(viewer->record, hdl->header_record_list->data , FITS_RECORD_SIZE);
- 
- fits_close(ifp);
- return (err ? -1 : 0);
- #endif
-
  return 0;
 }
 
@@ -516,22 +382,30 @@ void FITSImage::fitsZoomDefault()
 #endif
 }
 
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+#if 0
+
+FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name)//, Qt::WNoAutoErase)
 {
   image = img;
   //setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());
+QLabel *imageLabel = new QLabel(this);
+    imageLabel->setText("Hello this is some label");
+
 }
 
 FITSFrame::~FITSFrame() {}
 
+#if 0
 void FITSFrame::paintEvent(QPaintEvent * /*e*/)
 {
  
  bitBlt(this, 20, 20, &(image->image_pixmap));
  resize( (int) (image->currentWidth + 40), (int) (image->currentHeight + 40));
+ kDebug() << "in paint event for FITS Frame" << endl;
 
 }
+#endif
 
-
+#endif
 
 #include "fitsimage.moc"

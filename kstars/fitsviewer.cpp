@@ -199,17 +199,20 @@ bool  FITSViewer::initFITS()
     /* Display image in the central widget */
     if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return false; }
 
+    kDebug() << "Clearing history" << endl;
     /* Clear history */
     history->clear();
     
+     kDebug() << "Setting current URL name" << endl;
     /* Set new file caption */
     setWindowTitle(currentURL.fileName());
     
+     kDebug() << "returning" << endl;
     /* Get initial statistics */
     //calculateStats();
     
-    image->viewport()->resize(image->viewport()->width() + 5, image->viewport()->height());
-    image->viewportResizeEvent(NULL);
+   // image->viewport()->resize(image->viewport()->width() + 5, image->viewport()->height());
+    //image->viewportResizeEvent(NULL);
     
     return true;
 
@@ -901,6 +904,7 @@ void FITSViewer::fitsChange()
 
 void FITSViewer::fitsStatistics()
 {
+#if 0
   QDialog statDialog;
   Ui::statForm stat;
   stat.setupUi(&statDialog);
@@ -918,6 +922,7 @@ void FITSViewer::fitsStatistics()
   stat.stddevOUT->setText(QString("%1").arg(stats.stddev));
   
   statDialog.exec();
+#endif
 
 }
 

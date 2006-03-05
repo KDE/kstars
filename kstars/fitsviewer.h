@@ -109,15 +109,6 @@ class FITSViewer : public KMainWindow  {
 	KCommandHistory *history;				/* History for undo/redo */
 	QStringList record;					/* FITS records */
 	FITSHistogram *histo;
-	
-	/* stats struct to hold statisical data about the FITS data */
-	struct {
-		double min, max;
-		int minAt, maxAt;
-		double average;
-		double stddev;
-		int bitpix, width, height;
-	} stats;
 		
 		
 };

@@ -34,7 +34,9 @@
 class KCommandHistory;
 class Q3ScrollView;
 class FITSViewer;
-class FITSFrame;
+//class FITSFrame;
+
+class QLabel;
 
 class FITSImage : public QScrollArea
 {
@@ -69,12 +71,13 @@ class FITSImage : public QScrollArea
 	
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
-	FITSFrame  *image_frame;				/* Frame holding the image */
+	//FITSFrame  *image_frame;				/* Frame holding the image */
 	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
 	QPixmap image_pixmap; 					/* Pixmap for drawing */
+	QLabel *image_frame;
 	
- 	float	*image_buffer;					/* Native pixel values */
-	unsigned char *scaled_buffer;				/* scaled image buffer (0-255) range */
+ 	//float	*image_buffer;					/* Native pixel values */
+	float *image_buffer;				/* scaled image buffer (0-255) range */
 
 	/* FIXME remove this */
 	QImage  *templateImage;					/* backup image for currentImage */
@@ -95,6 +98,17 @@ class FITSImage : public QScrollArea
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
+
+	/* stats struct to hold statisical data about the FITS data */
+	struct {
+		double min, max;
+		int minAt, maxAt;
+		double average;
+		double stddev;
+		int bitpix;
+		int ndim;
+		long dim[2];
+	} stats;
 	
 	protected:
 	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
@@ -105,22 +119,6 @@ class FITSImage : public QScrollArea
 	void fitsZoomIn();
 	void fitsZoomOut();
 	void fitsZoomDefault();
-};
-
-class FITSFrame : public QFrame
-{
-  Q_OBJECT
-  
-    public:
-      FITSFrame(FITSImage * img, QWidget * parent = 0, const char * name = 0);
-      ~FITSFrame();
-    
-    private:
-      FITSImage *image;
-      
-    protected:
-      void paintEvent( QPaintEvent * e);
-      
 };
 
 #endif

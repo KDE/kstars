@@ -44,6 +44,7 @@ ConBriUI::ConBriUI(QWidget *parent) : QFrame(parent)
 ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
     KDialogBase(KDialogBase::Plain, i18n( "Brightness/Contrast" ), Ok|Cancel, Ok, parent )
 {
+ #if 0
     
   float pixdiff, datadiff;
   contrast = brightness = 0;
@@ -75,6 +76,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   
   connect(ConBriDlg->conSlider, SIGNAL( valueChanged(int)), this, SLOT (setContrast(int )));
   connect(ConBriDlg->briSlider, SIGNAL( valueChanged(int)), this, SLOT (setBrightness(int)));
+ #endif
   
 }
 
@@ -100,6 +102,8 @@ void ContrastBrightnessDlg::range(float min, float max, float & num)
 
 void ContrastBrightnessDlg::setContrast(int contrastValue)
 {
+
+ #if 0
   int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
@@ -164,11 +168,14 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
   		displayImage->setPixel(j, height - i - 1, val);
 	}
   
-  viewer->image->zoomToCurrent();			  
+  viewer->image->zoomToCurrent();	
+
+ #endif		  
 }
 
 void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 {
+  #if 0
   int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
@@ -233,7 +240,7 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 	}
    
   viewer->image->zoomToCurrent();
- 
+ #endif
 }
 
 QSize ContrastBrightnessDlg::sizeHint() const
