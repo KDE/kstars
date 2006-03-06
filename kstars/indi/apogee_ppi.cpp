@@ -529,6 +529,7 @@ void ApogeeCam::grabImage()
 
 int ApogeeCam::writeFITS(char *filename, char errmsg[])
 {
+ #if 0
   
   FITS_FILE* ofp;
   int bpp, bpsl, width, height;
@@ -601,6 +602,7 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
  uploadFile(filename);
  IDLog("Uploading done, returning\n");
 
+ #endif
  return 0;
 
 }
@@ -1398,6 +1400,7 @@ int ApogeeCam::isCCDConnected(void)
   return ((PowerS[0].s == ISS_ON) ? 1 : 0);
 }
 
+#if 0
 FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
 {
  
@@ -1455,6 +1458,8 @@ FITS_HDU_LIST * ApogeeCam::create_fits_header (FITS_FILE *ofp, uint width, uint 
   
  return (hdulist);
 }
+
+#endif
 
 // Convert a string to a decimal or hexadecimal integer
 // Code taken from Dave Mills Apogee driver

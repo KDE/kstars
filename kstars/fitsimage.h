@@ -31,6 +31,8 @@
 #include <kmainwindow.h>
 #include <kurl.h>
 
+#include "indi/cfitsio/fitsio.h"
+
 class KCommandHistory;
 class Q3ScrollView;
 class FITSViewer;
@@ -93,7 +95,7 @@ class FITSImage : public QScrollArea
 
 	
 	
-
+       void getMinMax( fitsfile *fptr );
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */

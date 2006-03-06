@@ -463,6 +463,7 @@ void SBIGCam::grabImage()
 
 int SBIGCam::writeFITS(char *filename, char errmsg[])
 {
+ #if 0
   
   FITS_FILE* ofp;
   int bpp, bpsl, width, height;
@@ -531,6 +532,7 @@ int SBIGCam::writeFITS(char *filename, char errmsg[])
  
  uploadFile(filename);
 
+ #endif
  return 0;
 
 }
@@ -821,6 +823,7 @@ int SBIGCam::isCCDConnected(void)
   return ((PowerS[0].s == ISS_ON) ? 1 : 0);
 }
 
+#if 0
 FITS_HDU_LIST * SBIGCam::create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp)
 {
  
@@ -881,4 +884,5 @@ FITS_HDU_LIST * SBIGCam::create_fits_header (FITS_FILE *ofp, uint width, uint he
   
  return (hdulist);
 }
+#endif
 

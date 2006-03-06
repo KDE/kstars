@@ -7,7 +7,7 @@ if LINUX
 bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi fliccd fliwheel flipdf
 endif
 
-bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount temma skycommander intelliscope $(bin_add)
+bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount temma skycommander intelliscope robofocus $(bin_add)
 
 liblilxml_a_SOURCES = lilxml.c
 libindicom_a_SOURCES = indicom.c base64.c
@@ -26,8 +26,11 @@ lx200basic_LDADD = liblilxml.a libindicom.a
 celestrongps_SOURCES =  indidrivermain.c base64.c eventloop.c celestronprotocol.c celestrongps.cpp
 celestrongps_LDADD = liblilxml.a libindicom.a -lm
 
-apmount_SOURCES = indidrivermain.c base64.c eventloop.c  lx200driver.c apmount.cpp
+apmount_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c apmount.cpp
 apmount_LDADD =  liblilxml.a libindicom.a
+
+robofocus_SOURCES = indidrivermain.c base64.c eventloop.c lx200driver.c robofocusdriver.c robofocus.c
+robofocus_LDADD = liblilxml.a libindicom.a -lm
 
 fliccd_SOURCES =  eventloop.c base64.c fli_ccd.c indidrivermain.c
 fliccd_LDADD = fli/libfli.la libindicom.a liblilxml.a cfitsio/libcfitsio.la -lm -lz $(LIBSOCKET)

@@ -652,6 +652,8 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   }
 
   groupName = valuXMLAtt(ap);
+
+  kDebug() << "Group Name: " << groupName << endl;
   
   if (groupName.find("Telescopes") != -1)
     groupType = KSTARS_TELESCOPE;

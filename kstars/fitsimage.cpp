@@ -50,7 +50,7 @@
 //#include "focusdialog.h" 
 #include "ksutils.h"
 
-#include "indi/cfitsio/fitsio.h"
+
 
 FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent), zoomFactor(1.2)
 {
@@ -60,6 +60,7 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent),
   setAlignment(Qt::AlignCenter);
  */
 
+   image_frame = new QLabel;
    image_buffer = NULL;
    displayImage = NULL;
    setBackgroundRole(QPalette::Dark);
@@ -218,7 +219,9 @@ int FITSImage::loadFits (const char *filename)
 {
  
   int status=0, nulval=0, anynull=0;
-  long fpixel, nelements, naxes[2];
+  long fpixel[2], nelements, naxes[2];
+  double bscale, bzero;
+  float val=0;
   fitsfile* fptr;
 
   if (fits_open_image(&fptr, filename, READWRITE, &status))
@@ -238,6 +241,11 @@ int FITSImage::loadFits (const char *filename)
 
   kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << endl;
 
+  getMinMax(fptr);
+
+  bscale = 255. / (stats.max - stats.min);
+  bzero  = (-stats.min) * (255. / (stats.max - stats.min));
+
   delete (image_buffer);
   delete (displayImage);
 
@@ -251,28 +259,70 @@ int FITSImage::loadFits (const char *filename)
      displayImage->setColor(i, qRgb(i,i,i));
 
  nelements = stats.dim[0] * stats.dim[1];
- fpixel=1;
  //fpixel = new long[2];
- //fpixel[0] = 1;
- //fpixel[1] = 1;
+ fpixel[0] = 1;
+ fpixel[1] = 1;
 
- if (fits_read_img(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
+ if (fits_read_pix(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
  {
 	fits_report_error(stderr, status);
 	return -1;
  }
 
- return 0;
-
     /* Fill in pixel values using indexed map */
-    for (int j = 0; j < stats.dim[1] - 1; j++)
+    for (int j = 0; j < stats.dim[1]; j++)
         for (int i = 0; i < stats.dim[0]; i++)
-		displayImage->setPixel(i, j, ((int) image_buffer[j * stats.dim[0] + i]));
+	{
+		val = image_buffer[j * stats.dim[0] + i];
+		//displayImage->setPixel(i, j, ((int) image_buffer[j * stats.dim[0] + i]));
+		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
+	}
 	
- image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+ image_pixmap = QPixmap::fromImage(*displayImage);
+ image_frame->setPixmap(image_pixmap);
  setWidget(image_frame);
  
  return 0;
+}
+
+void FITSImage::getMinMax( fitsfile *fptr )
+{
+           /* pointer to the FITS file, defined in fitsio.h */
+    int status,  anynull;
+    long naxes[2], fpixel, nbuffer, npixels, ii;
+    float nullval, buffer[1000];
+
+    status = 0;
+
+    npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
+    fpixel   = 1;
+    nullval  = 0;                /* don't check for null values in the image */
+    stats.min  = 1.0E30;
+    stats.max  = -1.0E30;
+
+    while (npixels > 0)
+    {
+      nbuffer = npixels;
+      if (npixels > 1000)
+        nbuffer = 1000;     /* read as many pixels as will fit in buffer */
+
+      if ( fits_read_img(fptr, TFLOAT, fpixel, nbuffer, &nullval, buffer, &anynull, &status) )
+            fits_report_error(stderr, status);
+
+      for (ii = 0; ii < nbuffer; ii++)
+      {
+        if ( buffer[ii] < stats.min )
+            stats.min = buffer[ii];
+
+        if ( buffer[ii] > stats.max )
+            stats.max = buffer[ii];
+      }
+      npixels -= nbuffer;    /* increment remaining number of pixels */
+      fpixel  += nbuffer;    /* next pixel to be read in image */
+    }
+
+    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max << endl;
+    return;
 }
 
 void FITSImage::convertImageToPixmap()

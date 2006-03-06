@@ -37,7 +37,6 @@
 #include <netdb.h>
 
 #include "fli/libfli.h"
-#include "fitsrw.h"
 #include "indidevapi.h"
 #include "eventloop.h"
 #include "indicom.h"

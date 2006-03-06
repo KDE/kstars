@@ -33,7 +33,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "fitsrw.h"
 #include "indidevapi.h"
 #include "eventloop.h"
 #include "indicom.h"
@@ -137,7 +136,7 @@ class SBIGCam {
     /* Helper functions */
     int  manageDefaults(char errmsg[]);
     int  getOnSwitch(ISwitchVectorProperty *sp);
-    FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
+   // FITS_HDU_LIST * create_fits_header (FITS_FILE *ofp, uint width, uint height, uint bpp);
     static void ISStaticPoll(void *);
     void   ISPoll();
     
