@@ -241,7 +241,9 @@ int FITSImage::loadFits (const char *filename)
 
   kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << endl;
 
-  getMinMax(fptr);
+  // Get Min Max failed, scaling is not possible
+  if (getMinMax(fptr))
+    return -1;
 
   bscale = 255. / (stats.max - stats.min);
   bzero  = (-stats.min) * (255. / (stats.max - stats.min));
@@ -285,14 +287,29 @@ int FITSImage::loadFits (const char *filename)
  return 0;
 }
 
-void FITSImage::getMinMax( fitsfile *fptr )
+int FITSImage::getMinMax( fitsfile *fptr )
 {
            /* pointer to the FITS file, defined in fitsio.h */
-    int status,  anynull;
-    long naxes[2], fpixel, nbuffer, npixels, ii;
+    int status,  anynull, nfound=0;
+    long fpixel, nbuffer, npixels, ii;
     float nullval, buffer[1000];
 
     status = 0;
+
+  if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status))
+  	fits_report_error(stderr, status);
+  else
+	nfound++;
+
+
+  if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status))
+  	fits_report_error(stderr, status);
+  else
+	nfound++;
+  
+  // If we found both keywords, no need to calculate them
+  if (nfound == 2)
+	return 0;
 
     npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
     fpixel   = 1;
@@ -304,10 +321,13 @@ void FITSImage::getMinMax( fitsfile *fptr )
     {
       nbuffer = npixels;
       if (npixels > 1000)
-        nbuffer = 1000;     /* read as many pixels as will fit in buffer */
+        nbuffer = 1000;     /* read as many pixels as will fit in buffer, snippet from CFITSIO example */
 
       if ( fits_read_img(fptr, TFLOAT, fpixel, nbuffer, &nullval, buffer, &anynull, &status) )
+      {
             fits_report_error(stderr, status);
+	    return status;
+      }
 
       for (ii = 0; ii < nbuffer; ii++)
       {
@@ -322,7 +342,7 @@ void FITSImage::getMinMax( fitsfile *fptr )
     }
 
     kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max << endl;
-    return;
+    return 0;
 }
 
 void FITSImage::convertImageToPixmap()

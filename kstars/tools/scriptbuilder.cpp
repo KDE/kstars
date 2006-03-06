@@ -155,7 +155,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	startINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
 	INDIFunctionList.append ( startINDIFunc );
 	
-        setINDIDeviceFunc = new ScriptFunction( "setINDIDevice", i18n("Change current active device. All subsequent function calls will communicaet with this device until changed"), false, "QString", "deviceName");
+        setINDIDeviceFunc = new ScriptFunction( "setINDIDevice", i18n("Change current active device. All subsequent function calls will communicate with this device until changed"), false, "QString", "deviceName");
 	INDIFunctionList.append(setINDIDeviceFunc);
 
 	shutdownINDIFunc = new ScriptFunction( "shutdownINDI", i18n("Shutdown an INDI device."), false, "QString", "deviceName");
