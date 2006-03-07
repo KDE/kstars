@@ -141,7 +141,9 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const d
 	//newRA.setRadians( RARad );
 	//newDec.setRadians( asin( sinDec ) );
 	RA.setRadians( RARad );
+	RA0.set( RA );
 	Dec.setRadians( asin(sinDec) );
+	Dec0.set( Dec );
 }
 
 void SkyPoint::precess( const KSNumbers *num) {

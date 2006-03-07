@@ -50,6 +50,8 @@ void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
 void dms::setRadians( const double &Rad ) {
 	setD( Rad/DegToRad );
 	Radians = Rad;
+	scDirty = true;
+	rDirty = true;
 }
 
 bool dms::setFromString( const QString &str, bool isDeg ) {
