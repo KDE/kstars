@@ -67,6 +67,9 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent),
 
    currentZoom = 0.0;
    viewport()->setMouseTracking(true);
+
+   // Default size
+ //  resize(640, 480);
 }
 
 FITSImage::~FITSImage()
@@ -95,9 +98,10 @@ void FITSImage::resizeEvent (QResizeEvent */*ev*/)
 	//updateScrollBars();
 }
 
+#if 0
 void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
 {
- #if 0
+ 
   double x,y;
   bool validPoint = true;
   if (!displayImage) return;
@@ -156,12 +160,14 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   //viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
   setCursor(Qt::ArrowCursor);
   }
- #endif
+ 
 }
+#endif
 
+ #if 0
 void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
 {
- #if 0
+
         int w, h, conW, conH, x, y;
 	if (!displayImage) return;
 	
@@ -183,8 +189,10 @@ void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
 	// do new movement
         moveChild( imgFrame, x, y );
 	
- #endif	
+ 
 }
+
+#endif	
 
 void FITSImage::reLoadTemplateImage()
 {
@@ -277,9 +285,32 @@ int FITSImage::loadFits (const char *filename)
 	{
 		val = image_buffer[j * stats.dim[0] + i];
 		//displayImage->setPixel(i, j, ((int) image_buffer[j * stats.dim[0] + i]));
+		//displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
 		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
 	}
 	
+ kDebug() << "Horizontal Widht: " << horizontalScrollBar()->width() << " - Height: " << horizontalScrollBar()->height() << " Vertical Width: " << verticalScrollBar()->width() << " - Height: " << verticalScrollBar()->height() << endl;
+
+ int HorX=0, VerX=0;
+
+ if (displayImage->width() > width() || displayImage->height() > height())
+ {
+	if (displayImage->width() > width())
+		HorX = horizontalScrollBar()->height();
+
+	if (displayImage->height() > height())
+		VerX = verticalScrollBar()->height();
+
+	kDebug() << "HorX: " << HorX << " - VerX: " << VerX << endl;
+
+	(*displayImage) = displayImage->scaled(640 - HorX, 480 - VerX, Qt::KeepAspectRatio);
+ }
+
+ currentWidth  = displayImage->width();
+ currentHeight = displayImage->height();
+
+ image_frame->setScaledContents(true);
+ kDebug() << "After transformation, width: " << displayImage->width() << " - height: " <<  displayImage->height() << endl;
  image_pixmap = QPixmap::fromImage(*displayImage);
  image_frame->setPixmap(image_pixmap);
  setWidget(image_frame);
@@ -314,8 +345,9 @@ int FITSImage::getMinMax( fitsfile *fptr )
     npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
     fpixel   = 1;
     nullval  = 0;                /* don't check for null values in the image */
-    stats.min  = 1.0E30;
-    stats.max  = -1.0E30;
+    status   = 0;
+    stats.min= 1.0E30;
+    stats.max= -1.0E30;
 
     while (npixels > 0)
     {
@@ -345,16 +377,8 @@ int FITSImage::getMinMax( fitsfile *fptr )
     return 0;
 }
 
-void FITSImage::convertImageToPixmap()
-{
-    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-    //image_pixmap = kpix.convertToPixmap ( *(displayImage) );
-}
-
 void FITSImage::zoomToCurrent()
 {
-
- #if 0
 
  double cwidth, cheight;
  
@@ -373,25 +397,27 @@ void FITSImage::zoomToCurrent()
  {
 	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
  	//image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
+         image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) cwidth, (int) cheight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
         //imgFrame->resize( (int) width, (int) height);
-        viewportResizeEvent (NULL);
-	imgFrame->update();
+        //viewportResizeEvent (NULL);
+	//imgFrame->update();
  }
  else
  {
    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
    //image_pixmap = kpix.convertToPixmap ( *displayImage );
-   imgFrame->update();
+   image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+   //imgFrame->update();
   }
 
- #endif
+ 
  
 }
 
 
 void FITSImage::fitsZoomIn()
 {
- #if 0
+ 
    currentZoom++;
    viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
    if (currentZoom > 5)
@@ -403,18 +429,18 @@ void FITSImage::fitsZoomIn()
    //kDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
    //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
    //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
-   imgFrame->resize( (int) currentWidth, (int) currentHeight);
+   image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+   //imgFrame->resize( (int) currentWidth, (int) currentHeight);
 
    update();
-   viewportResizeEvent (NULL);  
+   //viewportResizeEvent (NULL);  
    //updateScrollBars();
 
- #endif
+ 
 }
 
 void FITSImage::fitsZoomOut()
 {
- #if 0
   currentZoom--;
   if (currentZoom < -5)
      viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
@@ -424,58 +450,32 @@ void FITSImage::fitsZoomOut()
   currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
   //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
-  imgFrame->resize( (int) currentWidth, (int) currentHeight);
+
+   image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+  //imgFrame->resize( (int) currentWidth, (int) currentHeight);
    
   update();
-  viewportResizeEvent (NULL);
+  //viewportResizeEvent (NULL);
   //updateScrollBars();
 
- #endif
 }
 
 void FITSImage::fitsZoomDefault()
 {
-  #if 0
   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
   viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
   
   currentZoom   = 0;
-  currentWidth  = width;
-  currentHeight = height;
-  //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-  //image_pixmap = kpix.convertToPixmap (*displayImage);
-  imgFrame->resize( (int) currentWidth, (int) currentHeight);
+  currentWidth  = stats.dim[0];
+  currentHeight = stats.dim[1];
+  
+  image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+  //imgFrame->resize( (int) currentWidth, (int) currentHeight);
   
   update();
-  viewportResizeEvent (NULL);
+  //viewportResizeEvent (NULL);
   //updateScrollBars();
-#endif
-}
-
-#if 0
-
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name)//, Qt::WNoAutoErase)
-{
-  image = img;
-  //setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());
-QLabel *imageLabel = new QLabel(this);
-    imageLabel->setText("Hello this is some label");
 
 }
-
-FITSFrame::~FITSFrame() {}
-
-#if 0
-void FITSFrame::paintEvent(QPaintEvent * /*e*/)
-{
- 
- bitBlt(this, 20, 20, &(image->image_pixmap));
- resize( (int) (image->currentWidth + 40), (int) (image->currentHeight + 40));
- kDebug() << "in paint event for FITS Frame" << endl;
-
-}
-#endif
-
-#endif
 
 #include "fitsimage.moc"

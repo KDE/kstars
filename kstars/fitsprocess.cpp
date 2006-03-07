@@ -33,6 +33,7 @@
  
  FITSProcess::FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode)
  {
+ #if 0
    float * buffer      = NULL;
    darkCombineMode     = darkMode;
    flatCombineMode     = flatMode;
@@ -96,6 +97,8 @@
      kapp->processEvents();
      darkflatFrames.append(buffer);
    }
+ 
+ #endif
     
  }
  
@@ -318,13 +321,13 @@ void FITSProcess::reduce()
  
 FITSProcessCommand::FITSProcessCommand(FITSViewer *parent)
 {
- 
+ #if 0
    viewer  = parent;
    oldImage  = new QImage();
    // TODO apply maximum compression against this buffer
    buffer = (float *) malloc (viewer->image->width * viewer->image->height * sizeof(float));
    memcpy(buffer, viewer->imgBuffer, viewer->image->width * viewer->image->height * sizeof(float));
- 
+ #endif
  }
  
 FITSProcessCommand::~FITSProcessCommand()
@@ -335,18 +338,20 @@ FITSProcessCommand::~FITSProcessCommand()
  
 void FITSProcessCommand::execute()
 {
+ #if 0
   memcpy(viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(float));
   *oldImage = viewer->image->displayImage->copy();
+ #endif
 }
   
 void FITSProcessCommand::unexecute()
 {
-  
+  #if 0
   memcpy( viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(float));
   viewer->calculateStats();
   *viewer->image->displayImage = oldImage->copy();
   viewer->image->zoomToCurrent();
- 
+  #endif
 }
   
 QString FITSProcessCommand::name() const

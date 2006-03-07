@@ -87,7 +87,7 @@ class FITSImage : public QScrollArea
 	//KPixmapIO kpix;						/* Pixmap IO for fast converting */
 	//QRect currentRect;					/* Current rectangle encapsulating the image */
 	//int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
-	int width, height;					/* Original FITS dimensions */
+	//int width, height;					/* Original FITS dimensions */
 	double currentWidth,currentHeight;			/* Current width and height due to zoom */
 	const double zoomFactor;				/* Image zoom factor */
 	double currentZoom;					/* Current Zoom level */
@@ -114,8 +114,8 @@ class FITSImage : public QScrollArea
 	
 	protected:
 	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
-	void contentsMouseMoveEvent ( QMouseEvent * e );
-	void viewportResizeEvent ( QResizeEvent * e) ;
+	//void contentsMouseMoveEvent ( QMouseEvent * e );
+	//void viewportResizeEvent ( QResizeEvent * e) ;
 	
 	public slots:
 	void fitsZoomIn();

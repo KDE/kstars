@@ -751,6 +751,7 @@ void FITSViewer::fitsCOPY()
 
 void FITSViewer::updateImgBuffer()
 {
+ #if 0
   int width = image->width;
   int height = image->height;
   
@@ -760,6 +761,7 @@ void FITSViewer::updateImgBuffer()
        //image->reducedImgBuffer[i * width + j];
 
    calculateStats();
+ #endif
 }
 
 void FITSViewer::imageReduction()

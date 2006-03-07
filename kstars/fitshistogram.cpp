@@ -253,6 +253,7 @@ int FITSHistogram::findMax()
 
 FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
 {
+ #if 0
   viewer    = (FITSViewer *) parent;
   type      = newType;
   histo     = inHisto;
@@ -264,6 +265,7 @@ FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHi
    //return;
    min = lmin;
    max = lmax;
+ #endif
 }
 
 FITSHistogramCommand::~FITSHistogramCommand() 
