@@ -195,7 +195,6 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 		imFile.close();
 		image0()->load( imFile.name() );
 		image()->load( imFile.name() );
-
 	}
 }
 

@@ -77,9 +77,6 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	
 	m_SolarSystem = new SolarSystemComposite( this, data );
 	addComponent( m_SolarSystem );
-	m_JupiterMoons = new JupiterMoonsComponent( this, &Options::showJupiter);
-	addComponent( m_JupiterMoons );
-
 	m_Telescopes = new TelescopeComponent(this, &Options::indiCrosshairs);
 	addComponent(m_Telescopes);
 
@@ -95,8 +92,7 @@ void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 
 void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 {
-	foreach (SkyComponent *component, solarSystem() )
-		component->updateMoons( data, num );
+	m_SolarSystem->updateMoons( data, num );
 }
 
 //Reimplement draw function so that we have control over the order of 
@@ -129,9 +125,6 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_Stars->draw( ks, psky, scale );
 	//11. Solar system
 	m_SolarSystem->draw( ks, psky, scale );
-	//12. Jupiter moons
-	//FIXME: can we make this a member of m_SolarSystem?
-	m_JupiterMoons->draw( ks, psky, scale );
 
 	//Draw object name labels
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );

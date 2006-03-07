@@ -142,12 +142,15 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( ! Options::useAltAz() ) { //compute t1,t2
 		//groundPoly.last() is the point on the Horizon that intersects 
 		//the visible sky circle on the right
-		t1 = acos( groundPoly.last().x()/r0 )/dms::DegToRad; //angle in degrees
+		t1 = -1.0*acos( (groundPoly.last().x() - 0.5*Width)/r0/Options::zoomFactor() )/dms::DegToRad; //angle in degrees
 		//Resolve quadrant ambiguity
 		if ( groundPoly.last().y() < 0. ) t1 = 360. - t1;
 
 		t2 = t1 - 180.;
 	}
+
+// 	//DEBUG
+// 	kDebug() << "groundPoly last x: " << groundPoly.last().x() << " : " << r0*Options::zoomFactor() << endl;
 
 	for ( double t=t1; t >= t2; t-=2. ) {  //step along circumference
 		dms a( t );

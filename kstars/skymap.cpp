@@ -1010,6 +1010,8 @@ void SkyMap::setZoomMouseCursor()
 
 void SkyMap::setDefaultMouseCursor()
 {
+	mouseMoveCursor = false;        // no mousemove cursor
+
 	QPainter p;
 	QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
 // the center of the pixmap

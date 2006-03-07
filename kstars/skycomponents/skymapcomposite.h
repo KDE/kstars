@@ -50,7 +50,6 @@ class CustomCatalogComponent;
 class EclipticComponent;
 class EquatorComponent;
 class HorizonComponent;
-class JupiterMoonsComponent;
 class MilkyWayComposite;
 //class SolarSystemComposite;
 //class StarComponent;
@@ -181,7 +180,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		EquatorComponent *m_Equator;
 		EclipticComponent *m_Ecliptic;
 		HorizonComponent *m_Horizon;
-		JupiterMoonsComponent *m_JupiterMoons;
 		MilkyWayComposite *m_MilkyWay;
 		SolarSystemComposite *m_SolarSystem;
 		SkyComposite *m_CustomCatalogs;

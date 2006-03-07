@@ -21,6 +21,9 @@
 #include "skycomposite.h"
 
 class KSPlanet;
+class KSSun;
+class KSMoon;
+class JupiterMoonsComponent;
 class AsteroidsComponent;
 class CometsComponent;
 
@@ -39,7 +42,7 @@ class SolarSystemComposite : public SkyComposite
 		SolarSystemComposite(SkyComponent *parent, KStarsData *data);
 		~SolarSystemComposite();
 		
-		KSPlanet* earth() { return Earth; }
+		KSPlanet* earth() { return m_Earth; }
 		QList<SkyObject*>& asteroids();
 		QList<SkyObject*>& comets();
 
@@ -60,8 +63,10 @@ class SolarSystemComposite : public SkyComposite
 		void reloadComets( KStarsData *data );
 
 	private:
-		KSPlanet *Earth;
-
+		KSPlanet *m_Earth;
+		KSSun *m_Sun;
+		KSMoon *m_Moon;
+		JupiterMoonsComponent *m_JupiterMoons;
 		AsteroidsComponent *m_AsteroidsComponent;
 		CometsComponent *m_CometsComponent;
 };

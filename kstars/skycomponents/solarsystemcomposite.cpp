@@ -37,15 +37,19 @@
 SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
   : SkyComposite(parent)
 {
-	Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), 12756.28 /*diameter in km*/ );
+	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), 12756.28 /*diameter in km*/ );
 
 	//FIXME: KSSun and KSPluto ctors doesn't need filename and diameter args!
-	addComponent( new SolarSystemSingleComponent( this, new KSSun(data), Options::showSun, 8 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSMoon(data), Options::showMoon, 8 ) );
+	m_Sun = new KSSun(data);
+	addComponent( new SolarSystemSingleComponent( this, m_Sun, Options::showSun, 8 ) );
+	m_Moon = new KSMoon(data);
+	addComponent( new SolarSystemSingleComponent( this, m_Moon, Options::showMoon, 8 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Mercury"), "mercury.png", 4879.4 /*diameter in km*/ ), Options::showMercury, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Venus"), "venus.png", 12103.6 /*diameter in km*/ ), Options::showVenus, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Mars" ), "mars.png", 6792.4 /*diameter in km*/ ), Options::showMars, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", 142984. /*diameter in km*/ ), Options::showJupiter, 4 ) );
+	m_JupiterMoons = new JupiterMoonsComponent( this, &Options::showJupiter);
+	addComponent( m_JupiterMoons );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Saturn" ), "saturn.png", 120536. /*diameter in km*/ ), Options::showSaturn, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Uranus" ), "uranus.png", 51118. /*diameter in km*/ ), Options::showUranus, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Neptune" ), "neptune.png", 49572. /*diameter in km*/ ), Options::showNeptune, 4 ) );
@@ -59,12 +63,12 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
 
 SolarSystemComposite::~SolarSystemComposite()
 {
-	delete Earth;
+	delete m_Earth;
 }
 
 void SolarSystemComposite::init(KStarsData *data)
 {
-	if (!Earth->loadData())
+	if (!m_Earth->loadData())
 		return; //stop initializing
 
 	emitProgressText( i18n("Loading solar system" ) );
@@ -75,14 +79,16 @@ void SolarSystemComposite::init(KStarsData *data)
 
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
-	Earth->findPosition(num);
+	m_Earth->findPosition( num );
 	SkyComposite::updatePlanets( data, num );
 }
 
 void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
-	Earth->findPosition(num);
-	SkyComposite::updateMoons( data, num );
+	m_Sun->findPosition( num );
+	m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
+	m_Moon->findPhase( m_Sun );
+	m_JupiterMoons->updateMoons( data, num );
 }
 
 void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
