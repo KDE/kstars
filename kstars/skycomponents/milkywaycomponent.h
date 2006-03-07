@@ -71,7 +71,6 @@ class MilkyWayComponent : public PointListComponent
 		QString fileName() const { return m_FileName; }
 
 	private:
-		QList<SkyPoint*> MilkyWay;
 		QString m_FileName;
 };
 

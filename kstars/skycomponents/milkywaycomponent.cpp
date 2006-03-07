@@ -62,7 +62,7 @@ void MilkyWayComponent::init(KStarsData *)
 			dec = line.mid( 9, 8 ).toDouble();
 
 			SkyPoint *o = new SkyPoint( ra, dec );
-			MilkyWay.append( o );
+			pointList().append( o );
 		}
 	}
 }
@@ -88,7 +88,7 @@ void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 		QPolygonF polyMW;
 		bool partVisible = false;
 
-		foreach ( SkyPoint *p, MilkyWay ) {
+		foreach ( SkyPoint *p, pointList() ) {
 			QPointF o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() > -1000000. && o.y() > -1000000. ) polyMW << o;
 			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) partVisible = true;
@@ -102,7 +102,7 @@ void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 		bool onscreen, lastonscreen=false;
 		QPointF o, oLast;
 
-		foreach ( SkyPoint *p, MilkyWay ) {
+		foreach ( SkyPoint *p, pointList() ) {
 			o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x() < -1000000. && o.y() < -1000000.) onscreen = false;
 			else onscreen = true;
