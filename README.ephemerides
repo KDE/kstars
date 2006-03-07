@@ -33,7 +33,7 @@ kstars-devel@kde.org!  Now is your chance to be a KStars Hero!
 Step 1: The JPL Webpage
 
 Point your browser to the following URL:
-http://ssd.jpl.nasa.gov/sb_elem.html
+http://ssd.jpl.nasa.gov/?sb_elem
 
 
 Step 2: The Comets
@@ -42,11 +42,21 @@ Under "ASCII Files", click on the "Comets" link, and save
 this file as ~/.kde/share/apps/kstars/comets.dat (or as 
 $KDEDIR/share/apps/kstars/comets.dat for a system-wide install).
 
+Be sure to delete the header lines from this file; the first 
+line should begin with "1P/Halley".
+
+Also, please remove all entries for "Shoemaker-Levy 9" from the 
+file.  This comet crashed into Jupiter in 1993, so it no longer 
+exists (although it could be argued that we should keep it and 
+insert it in the sky for dates prior to the crash date).
+
 
 Step 3: The Asteroids
 
 Under "ASCII Files", click on the "Numbered Asteroids" link, 
 and save this file in a working directory as "asteroids.full.dat".
+Again, don't forget to remove the header lines at the beginning 
+of the file.
 
 This file contains about 100,000 asteroids, far more than we 
 want to deal with in KStars.  I ship KStars with 2000 asteroids; 
@@ -65,14 +75,19 @@ magnitudes increase means that the biggest asteroids are at the
 top of the list.
 
 Use the "sort" command to sort, and the "head" command to cut 
-out the first 2000 lines, like this:
+out the first 2000 lines.  However, because many asteroid names 
+include spaces, you first have to use your favorite text editor 
+to move the asteroid names to the end of the line (in emacs, use 
+M-x kill-rectangle, M-x yank-rectangle).  The use a command like:
 
-  % sort -n -k 10 asteroids.full.dat | head -n 2000 > asteroids.dat
+  % sort -n -k 9 asteroids.full.dat | head -n 2000 > asteroids.dat
 
-  [[ WARNING: There is (at least) one asteroid with spaces in its 
-  name ("van de Hulst"), which messes up the columns for that object. 
-  You may want to rename this object before sorting.]]
+This assumes that you moved only the asteroid names field to the 
+end of the line, so the absolute magnitude field is now column 9.
 
-FInally, copy "asteroids.dat" to ~/.kde/share/apps/kstars/ (for 
+Don't forget to move the names field back to its proper location,
+again using your favorite editor.
+
+Finally, copy "asteroids.dat" to ~/.kde/share/apps/kstars/ (for 
 single-user install) or $KDEDIR/share/apps/kstars/ (for system
 install).
