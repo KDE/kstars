@@ -225,7 +225,6 @@ class KStarsInterface : virtual public DCOPObject
 		
 		// Telescope Functions
 		/**Set telescope target coordinates
-		 *@param deviceName The INDI device name
 		 *@param RA Target's right ascension in JNOW
 		 *@param DEC Target's declination in JNOW
 		 */

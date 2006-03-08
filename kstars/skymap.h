@@ -421,6 +421,9 @@ public:
 	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
 	*is TRUE.
 	*@param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
+	*@param psky painter for the sky
+	*@param scale scaling of the label and lots of other things; exact
+	*             meaning lost to science.
 	*@note the labelObjects list is managed by the SkyMapComponents class
 	*/
 	void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale = 1.0 );
