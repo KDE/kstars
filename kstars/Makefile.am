@@ -8,7 +8,7 @@ kstars_ui = addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightn
 		wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
 		opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
 		statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
-		thumbnailpickerui.ui thumbnaileditorui.ui \
+		thumbnailpickerui.ui thumbnaileditorui.ui 
 
 kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 			conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp \
