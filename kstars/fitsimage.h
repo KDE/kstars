@@ -63,43 +63,36 @@ class FITSImage : public QScrollArea
 	/**Bitblt the image onto the viewer widget */
 	/*void paintEvent (QPaintEvent *ev);*/
 	/* Resize event */
-	void resizeEvent (QResizeEvent *ev);
+	//void resizeEvent (QResizeEvent *ev);
 	/* Loads FITS image, scales it, and displays it in the GUI */
 	int  loadFits(const char *filename);
 	/* Convert current image to a pixmap */
 	void convertImageToPixmap();
 	/* Clear memory */
 	void clearMem();
+
+	int rescale();
 	
 	private:
-	FITSViewer *viewer;					/* parent FITSViewer */
-	//FITSFrame  *image_frame;				/* Frame holding the image */
-	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
-	QPixmap image_pixmap; 					/* Pixmap for drawing */
-	QLabel *image_frame;
-	
- 	//float	*image_buffer;					/* Native pixel values */
-	float *image_buffer;				/* scaled image buffer (0-255) range */
 
-	/* FIXME remove this */
-	QImage  *templateImage;					/* backup image for currentImage */
-
-	//KPixmapIO kpix;						/* Pixmap IO for fast converting */
-	//QRect currentRect;					/* Current rectangle encapsulating the image */
-	//int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
-	//int width, height;					/* Original FITS dimensions */
-	double currentWidth,currentHeight;			/* Current width and height due to zoom */
-	const double zoomFactor;				/* Image zoom factor */
-	double currentZoom;					/* Current Zoom level */
-	//QRgb   *grayTable;
-
-	
-	
-        int getMinMax( fitsfile *fptr );
+        int getMinMax();
 	void saveTemplateImage();				/* saves a backup image */
 	void reLoadTemplateImage();				/* reloads backup image into the current image */
 	void destroyTemplateImage();				/* deletes backup image */
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
+
+	FITSViewer *viewer;					/* parent FITSViewer */
+	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
+	QPixmap image_pixmap; 					/* Pixmap for drawing */
+	QLabel *image_frame;
+	float *image_buffer;				/* scaled image buffer (0-255) range */
+
+	/* FIXME remove this */
+	QImage  *templateImage;					/* backup image for currentImage */
+	double currentWidth,currentHeight;			/* Current width and height due to zoom */
+	const double zoomFactor;				/* Image zoom factor */
+	double currentZoom;					/* Current Zoom level */
+	fitsfile* fptr;
 
 	/* stats struct to hold statisical data about the FITS data */
 	struct {
@@ -114,7 +107,7 @@ class FITSImage : public QScrollArea
 	
 	protected:
 	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
-	//void contentsMouseMoveEvent ( QMouseEvent * e );
+	void contentsMouseMoveEvent ( QMouseEvent * e );
 	//void viewportResizeEvent ( QResizeEvent * e) ;
 	
 	public slots:

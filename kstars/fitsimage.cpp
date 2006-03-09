@@ -50,7 +50,8 @@
 //#include "focusdialog.h" 
 #include "ksutils.h"
 
-
+#define INITIAL_W	640
+#define INITIAL_H	480
 
 FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent), zoomFactor(1.2)
 {
@@ -69,36 +70,16 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent),
    viewport()->setMouseTracking(true);
 
    // Default size
- //  resize(640, 480);
+   resize(INITIAL_W, INITIAL_H);
 }
 
 FITSImage::~FITSImage()
 {
- // free(reducedImgBuffer);
+  delete(image_buffer);
   delete(displayImage);
 }
 	
-/*void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
-{
-  //kDebug() << "in draw contents " << endl;
-  //imgFrame->update();
-  
-}*/
 
-/**Bitblt the image onto the viewer widget */
-/*void FITSImage::paintEvent (QPaintEvent *ev)
-{
- //kDebug() << "in paint event " << endl;
- //bitBlt(imgFrame, 0, 0, &image_pixmap);
-}*/
-
-/* Resize event */
-void FITSImage::resizeEvent (QResizeEvent */*ev*/)
-{
-	//updateScrollBars();
-}
-
-#if 0
 void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
 {
  
@@ -106,15 +87,14 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   bool validPoint = true;
   if (!displayImage) return;
   
-  
    x = e->x();
    y = e->y();
   
-  if (imgFrame->x() > 0)
-    x -= imgFrame->x();
+  if (image_frame->x() > 0)
+    x -= image_frame->x();
   
-  if (imgFrame->y() > 0)
-    y -= imgFrame->y();
+  if (image_frame->y() > 0)
+    y -= image_frame->y();
   
     y -= 20;
     x -= 20;
@@ -132,27 +112,28 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
     y *= pow(zoomFactor, abs((int) currentZoom));
   }
   
-  if (x < 0 || x > width)
+  if (x < 0 || x > width())
     validPoint = false;
   
-  //kDebug() << "regular x= " << e->x() << " -- X= " << x << " -- imgFrame->x()= " << imgFrame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
+  //kDebug() << "regular x= " << e->x() << " -- X= " << x << " -- image_frame->x()= " << image_frame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
   
   
-  if (y < 0 || y > height)
+  if (y < 0 || y > height())
     validPoint = false;
   else    
   // invert the Y since we read FITS buttom up
-  y = height - y;
+  y = height() - y;
   
   //kDebug() << " -- X= " << x << " -- Y= " << y << endl;
   
-  if (viewer->imgBuffer == NULL)
+  if (image_buffer == NULL)
    kDebug() << "viewer buffer is NULL " << endl;
   
+  /* FIXME Optimize this! */
   if (validPoint)
   {
   viewer->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
-	viewer->statusBar()->changeItem( KGlobal::locale()->formatNumber( viewer->imgBuffer[(int) (y * width + x)], 3 ), 1 );
+	viewer->statusBar()->changeItem( KGlobal::locale()->formatNumber( image_buffer[(int) (y * width() + x)], 3 ), 1 );
   setCursor(Qt::CrossCursor);
   }
   else
@@ -162,37 +143,6 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   }
  
 }
-#endif
-
- #if 0
-void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
-{
-
-        int w, h, conW, conH, x, y;
-	if (!displayImage) return;
-	
-	w = viewport()->width();
-        h = viewport()->height();
-	
-	conW = (int) (currentWidth  + 40);
-        conH = (int) (currentHeight + 40);
-	
-	if ( w > conW )
-	   x = (int) ( (w - conW) / 2.);
-        else
-           x = 0;
-	if ( h > conH )
-          y = (int) ( (h - conH) / 2.);
-       else
-          y = 0;
-	
-	// do new movement
-        moveChild( imgFrame, x, y );
-	
- 
-}
-
-#endif	
 
 void FITSImage::reLoadTemplateImage()
 {
@@ -228,9 +178,6 @@ int FITSImage::loadFits (const char *filename)
  
   int status=0, nulval=0, anynull=0;
   long fpixel[2], nelements, naxes[2];
-  double bscale, bzero;
-  float val=0;
-  fitsfile* fptr;
 
   if (fits_open_image(&fptr, filename, READWRITE, &status))
   {
@@ -248,13 +195,6 @@ int FITSImage::loadFits (const char *filename)
   stats.dim[1] = naxes[1];
 
   kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << endl;
-
-  // Get Min Max failed, scaling is not possible
-  if (getMinMax(fptr))
-    return -1;
-
-  bscale = 255. / (stats.max - stats.min);
-  bzero  = (-stats.min) * (255. / (stats.max - stats.min));
 
   delete (image_buffer);
   delete (displayImage);
@@ -279,46 +219,14 @@ int FITSImage::loadFits (const char *filename)
 	return -1;
  }
 
-    /* Fill in pixel values using indexed map */
-    for (int j = 0; j < stats.dim[1]; j++)
-        for (int i = 0; i < stats.dim[0]; i++)
-	{
-		val = image_buffer[j * stats.dim[0] + i];
-		//displayImage->setPixel(i, j, ((int) image_buffer[j * stats.dim[0] + i]));
-		//displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
-		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
-	}
-	
- kDebug() << "Horizontal Widht: " << horizontalScrollBar()->width() << " - Height: " << horizontalScrollBar()->height() << " Vertical Width: " << verticalScrollBar()->width() << " - Height: " << verticalScrollBar()->height() << endl;
+ if (rescale())
+	return -1;
 
- int HorX=0, VerX=0;
-
- if (displayImage->width() > width() || displayImage->height() > height())
- {
-	if (displayImage->width() > width())
-		HorX = horizontalScrollBar()->height();
-
-	if (displayImage->height() > height())
-		VerX = verticalScrollBar()->height();
-
-	kDebug() << "HorX: " << HorX << " - VerX: " << VerX << endl;
-
-	(*displayImage) = displayImage->scaled(640 - HorX, 480 - VerX, Qt::KeepAspectRatio);
- }
-
- currentWidth  = displayImage->width();
- currentHeight = displayImage->height();
-
- image_frame->setScaledContents(true);
- kDebug() << "After transformation, width: " << displayImage->width() << " - height: " <<  displayImage->height() << endl;
- image_pixmap = QPixmap::fromImage(*displayImage);
- image_frame->setPixmap(image_pixmap);
- setWidget(image_frame);
- 
  return 0;
+ 
 }
 
-int FITSImage::getMinMax( fitsfile *fptr )
+int FITSImage::getMinMax()
 {
            /* pointer to the FITS file, defined in fitsio.h */
     int status,  anynull, nfound=0;
@@ -377,6 +285,52 @@ int FITSImage::getMinMax( fitsfile *fptr )
     return 0;
 }
 
+int FITSImage::rescale()
+{
+  float val=0;
+  double bscale, bzero;
+  int HorX=0, VerX=0;
+ 
+  // Get Min Max failed, scaling is not possible
+  if (getMinMax())
+    return -1;
+
+  bscale = 255. / (stats.max - stats.min);
+  bzero  = (-stats.min) * (255. / (stats.max - stats.min));
+
+  /* Fill in pixel values using indexed map, linear scale */
+    for (int j = 0; j < stats.dim[1]; j++)
+        for (int i = 0; i < stats.dim[0]; i++)
+	{
+		val = image_buffer[j * stats.dim[0] + i];
+		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
+	}
+
+ if (displayImage->width() > width() || displayImage->height() > height())
+ {
+	if (displayImage->width() > width())
+		HorX = horizontalScrollBar()->height();
+
+	if (displayImage->height() > height())
+		VerX = verticalScrollBar()->height();
+
+
+	(*displayImage) = displayImage->scaled(INITIAL_W - HorX, INITIAL_H - VerX, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+ }
+
+ currentWidth  = displayImage->width();
+ currentHeight = displayImage->height();
+
+ image_frame->setScaledContents(true);
+ kDebug() << "After transformation, width: " << displayImage->width() << " - height: " <<  displayImage->height() << endl;
+
+ image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+ setWidget(image_frame);
+
+ return 0;
+
+}
+
 void FITSImage::zoomToCurrent()
 {
 
@@ -394,24 +348,10 @@ void FITSImage::zoomToCurrent()
  }
   
  if (cwidth != displayImage->width() || cheight != displayImage->height())
- {
-	//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
- 	//image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) cwidth, (int) cheight));
          image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) cwidth, (int) cheight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-        //imgFrame->resize( (int) width, (int) height);
-        //viewportResizeEvent (NULL);
-	//imgFrame->update();
- }
  else
- {
-   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-   //image_pixmap = kpix.convertToPixmap ( *displayImage );
    image_frame->setPixmap(QPixmap::fromImage(*displayImage));
-   //imgFrame->update();
-  }
 
- 
- 
 }
 
 
@@ -426,16 +366,9 @@ void FITSImage::fitsZoomIn()
    currentWidth  *= zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
    currentHeight *= zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
-   //kDebug() << "Current width= " << currentWidth << " -- Current height= " << currentHeight << endl;
-   //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-   //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-   //imgFrame->resize( (int) currentWidth, (int) currentHeight);
 
    update();
-   //viewportResizeEvent (NULL);  
-   //updateScrollBars();
-
  
 }
 
@@ -448,16 +381,10 @@ void FITSImage::fitsZoomOut()
   
   currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
   currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
-  //FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-  //image_pixmap = kpix.convertToPixmap (displayImage->smoothScale( (int) currentWidth, (int) currentHeight));
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-  //imgFrame->resize( (int) currentWidth, (int) currentHeight);
-   
+ 
   update();
-  //viewportResizeEvent (NULL);
-  //updateScrollBars();
-
 }
 
 void FITSImage::fitsZoomDefault()
@@ -470,11 +397,8 @@ void FITSImage::fitsZoomDefault()
   currentHeight = stats.dim[1];
   
   image_frame->setPixmap(QPixmap::fromImage(*displayImage));
-  //imgFrame->resize( (int) currentWidth, (int) currentHeight);
   
   update();
-  //viewportResizeEvent (NULL);
-  //updateScrollBars();
 
 }
 

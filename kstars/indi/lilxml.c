@@ -101,7 +101,7 @@ struct _xml_att {
     struct _xml_ele *ce;		/* containing element */
 };
 
-/* default memory managers, override with xmlMalloc() */
+/* default memory managers, override with indi_xmlMalloc() */
 static void *(*mymalloc)(size_t size) = malloc;
 static void *(*myrealloc)(void *ptr, size_t size) = realloc;
 static void (*myfree)(void *ptr) = free;
@@ -110,7 +110,7 @@ static void (*myfree)(void *ptr) = free;
  * N.B. don't call after first use of any other lilxml function
  */
 void
-xmlMalloc (void *(*newmalloc)(size_t size),
+indi_xmlMalloc (void *(*newmalloc)(size_t size),
 	   void *(*newrealloc)(void *ptr, size_t size),
 	   void (*newfree)(void *ptr))
 {
