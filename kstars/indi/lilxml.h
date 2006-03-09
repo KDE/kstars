@@ -207,7 +207,7 @@ extern XMLEle *readXMLFile (FILE *fp, LilXML *lp, char errmsg[]);
 extern void prXMLEle (FILE *fp, XMLEle *e, int level);
 
 /* install alternatives to malloc/realloc/free */
-extern void xmlMalloc (void *(*newmalloc)(size_t size),
+extern void indi_xmlMalloc (void *(*newmalloc)(size_t size),
     void *(*newrealloc)(void *ptr, size_t size), void (*newfree)(void *ptr));
 
 /*@}*/

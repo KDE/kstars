@@ -172,7 +172,7 @@ main (int ac, char *av[])
 	pthread_mutex_init(&malloc_m, NULL);
 
 	/* install our locked heap functions */
-	xmlMalloc (mymalloc, myrealloc, myfree);
+	indi_xmlMalloc (mymalloc, myrealloc, myfree);
 	setMemFuncsFQ (mymalloc, myrealloc, myfree);
 
 	/* seed client info array so we can always use realloc */
