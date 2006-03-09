@@ -7,10 +7,96 @@ add_subdirectory( tools )
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools/ ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
+set(libkstarstools_SRCS 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstime.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/astrocalc.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/jmoontool.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgenerator.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdist.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoord.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazel.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylength.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoords.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinox.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoord.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeodcoord.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjd.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanets.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprec.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtime.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsr.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglist.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizard.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewer.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/pvplotwidget.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptargwidgets.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilder.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptfunction.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialog.cpp
+	)
+
+kde4_add_ui_files(libkstarstools_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstimeui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argchangeviewoption.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argexportimage.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argloadcolorscheme.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/arglooktoward.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argprintimage.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetactionindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetaltaz.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetccdtempindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetcolor.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetdeviceindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfilternumindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfocusspeedindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfocustimeoutindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetframetypeindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetgeolocation.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetgeolocationindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetlocaltime.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetportindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetradec.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetscopeactionindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettargetcoordindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettargetnameindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettrack.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetutcindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argshutdownindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartexposureindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartfocusindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argswitchindi.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argtimescale.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitfor.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitforkey.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argzoom.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgeneratorui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdistdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoorddlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazeldlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylengthdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoordsdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinoxdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoorddlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeoddlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjddlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanetsdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprecdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtimedlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsrdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglistui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizardui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/optionstreeview.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewerui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilderui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptnamedialog.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialogui.ui )
+
+
 set(libkstarscomponents_SRCS 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/singlecomponent.cpp 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/listcomponent.cpp 
@@ -60,7 +146,7 @@ set(libkstarswidgets_SRCS
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
-set(kstars_SRCS  ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
+set(kstars_SRCS  ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
            conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp 
            dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp 
            fitsimage.cpp fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp 
