@@ -11,6 +11,14 @@ include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools/ ${KDE4_INCLUDE_DIR
 
 
 ########### next target ###############
+
+set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
+
+set(libindicom_SRCS 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/indicom.c 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
+	)
+
 set(libkstarstools_SRCS 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstime.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/astrocalc.cpp
@@ -146,7 +154,7 @@ set(libkstarswidgets_SRCS
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
-set(kstars_SRCS  ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
+set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
            conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp 
            dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp 
            fitsimage.cpp fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp 
