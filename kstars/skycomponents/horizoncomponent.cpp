@@ -55,7 +55,7 @@ void HorizonComponent::init(KStarsData *data)
 	}
 }
 
-void HorizonComponent::update( KStarsData *data, KSNumbers *num ) {
+void HorizonComponent::update( KStarsData *data, KSNumbers * ) {
 	if ( visible() ) {
 		foreach ( SkyPoint *p, pointList() ) {
 			p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -75,7 +75,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	float Width = scale * map->width();
 	float Height = scale * map->height();
 	QPolygonF groundPoly;
-	SkyPoint *pAnchor, *pAnchor2;
+	SkyPoint *pAnchor(0), *pAnchor2(0);
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 1, Qt::SolidLine ) );
 
@@ -84,16 +84,29 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	else
 		psky.setBrush( Qt::NoBrush );
 	
-	double az1 = map->focus()->az()->Degrees() - 90.;
-	double az2 = map->focus()->az()->Degrees() + 90.;
+	double daz = 0.5*Width*57.3/Options::zoomFactor(); //center to edge, in degrees
+	if ( daz > 90.0 ) daz = 90.0;
+	double az1 = map->focus()->az()->Degrees() - daz;
+	double az2 = map->focus()->az()->Degrees() + daz;
 
 	QPointF o;
+	bool allGround(true);
+	bool allSky(true);
+
 	//Add points on the left that may be slightly West of North
 	if ( az1 < 0. ) {
 		az1 += 360.;
 		foreach ( SkyPoint *p, pointList() ) {
-			if ( p->az()->Degrees() > az1 ) 
+			if ( p->az()->Degrees() > az1 ) {
 				groundPoly << map->getXY( p, Options::useAltAz(), false, scale );
+
+				//Set the anchor point if this point is onscreen
+				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+					pAnchor = p;
+
+				if ( o.y() > 0. ) allGround = false;
+				if ( o.y() < Height && o.y() > 0. ) allSky = false;
+			}
 		}
 		az1 = 0.0;
 	}
@@ -107,6 +120,9 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 			//Set the anchor point if this point is onscreen
 			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
 				pAnchor = p;
+
+			if ( o.y() > 0. ) allGround = false;
+			if ( o.y() < Height && o.y() > 0. ) allSky = false;
 		} else if ( p->az()->Degrees() > az2 )
 			break;
 	}
@@ -122,44 +138,71 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 				//Set the anchor point if this point is onscreen
 				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
 					pAnchor = p;
+
+				if ( o.y() > 0. ) allGround = false;
+				if ( o.y() < Height && o.y() > 0. ) allSky = false;
 			} else
 				break;
 		}
 	}
 
+	if ( allSky ) return; //no horizon onscreen
+
+	if ( allGround ) { 
+		//Ground fills the screen.  Reset groundPoly to surround screen perimeter
+		groundPoly.clear();
+		groundPoly << QPointF( -10., -10. ) 
+					<< QPointF( Width + 10., -10. )
+					<< QPointF( Width + 10., Height + 10. )
+					<< QPointF( -10., Height + 10. );
+
+		//Just draw the poly (in case ground is filled)
+		//No need for compass labels or "Horizon" label
+		psky.drawPolygon( groundPoly );
+		return;
+	}
+
 	//groundPoly now contains QPointF's of the screen coordinates of points 
 	//along the "front half" of the Horizon, in order from left to right.
-	//Now we need to complete the ground polygon by going right to left along 
-	//the bottom edge of the visible sky circle.  The visible sky circle has 
+	//Now we need to complete the ground polygon by going right to left.
+	//If the zoomLevel is high (as indicated by (daz<75.0)), then we 
+	//complete the polygon by simply adding points along thebottom edge 
+	//of the screen.  If the zoomLevel is high (daz>75.0), then we add points 
+	//along the bottom edge of the sky circle.  The sky circle has 
 	//a radius of 2*sin(pi/4)*ZoomFactor, and the endpoints of the current 
 	//groundPoly points lie 180 degrees apart along its circumference.  
 	//We determine the polar angles t1, t2 corresponding to these end points, 
 	//and then step along the circumference, adding points between them.
 	//(In Horizontal coordinates, t1 and t2 are always 360 and 180, respectively).
-	double r0 = 2.0*sin(0.25*dms::PI);
-	double t1 = 360.;
-	double t2 = 180.;
-	if ( ! Options::useAltAz() ) { //compute t1,t2
-		//groundPoly.last() is the point on the Horizon that intersects 
-		//the visible sky circle on the right
-		t1 = -1.0*acos( (groundPoly.last().x() - 0.5*Width)/r0/Options::zoomFactor() )/dms::DegToRad; //angle in degrees
-		//Resolve quadrant ambiguity
-		if ( groundPoly.last().y() < 0. ) t1 = 360. - t1;
+	if ( daz < 75.0 ) { //complete polygon with offscreen points
+		groundPoly << QPointF( Width + 10., groundPoly.last().y() )
+					<< QPointF( Width + 10., Height + 10. )
+					<< QPointF( -10., Height + 10. )
+					<< QPointF( -10., groundPoly.first().y() );
 
-		t2 = t1 - 180.;
-	}
+	} else { //complete polygon along bottom of sky circle
+		double r0 = 2.0*sin(0.25*dms::PI);
+		double t1 = 360.;
+		double t2 = 180.;
+		if ( ! Options::useAltAz() ) { //compute t1,t2
+			//groundPoly.last() is the point on the Horizon that intersects 
+			//the visible sky circle on the right
+			t1 = -1.0*acos( (groundPoly.last().x() - 0.5*Width)/r0/Options::zoomFactor() )/dms::DegToRad; //angle in degrees
+			//Resolve quadrant ambiguity
+			if ( groundPoly.last().y() < 0. ) t1 = 360. - t1;
+	
+			t2 = t1 - 180.;
+		}
 
-// 	//DEBUG
-// 	kDebug() << "groundPoly last x: " << groundPoly.last().x() << " : " << r0*Options::zoomFactor() << endl;
-
-	for ( double t=t1; t >= t2; t-=2. ) {  //step along circumference
-		dms a( t );
-		double sa(0.), ca(0.);
-		a.SinCos( sa, ca );
-		float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
-		float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
-
-		groundPoly << QPointF( xx, yy );
+		for ( double t=t1; t >= t2; t-=2. ) {  //step along circumference
+			dms a( t );
+			double sa(0.), ca(0.);
+			a.SinCos( sa, ca );
+			float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
+			float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
+	
+			groundPoly << QPointF( xx, yy );
+		}
 	}
 
 	//Finally, draw the ground Polygon.
@@ -168,6 +211,12 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	drawCompassLabels( ks, psky, scale );
 
 	//--- Horizon name label
+
+	//DEBUG
+	if ( ! pAnchor ) {
+		kDebug() << k_funcinfo << ": pAnchor is undefined." << endl;
+		return;
+	}
 
 	//pAnchor contains the last point of the Horizon before it went offcreen 
 	//on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
