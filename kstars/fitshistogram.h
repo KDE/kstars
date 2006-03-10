@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
  
- #ifndef FITSHISTOGRAM
- #define FITSHISTOGRAM
+#ifndef FITSHISTOGRAM
+#define FITSHISTOGRAM
  
- #include "histdialog.h"
- #include <kcommand.h>
-//Added by qt3to4:
+#include "histdialog.h"
+#include <kcommand.h>
+
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -98,7 +98,4 @@ class QPixmap;
 };
  
  
- #endif
- 
-
-  
+#endif

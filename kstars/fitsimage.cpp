@@ -47,13 +47,58 @@
 
 #include "fitsimage.h"
 #include "fitsviewer.h"
-//#include "focusdialog.h" 
 #include "ksutils.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
+#define ZOOM_MIN	10
+#define ZOOM_MAX	400
+#define ZOOM_LOW_INCR	10
+#define ZOOM_HIGH_INCR	50
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent), zoomFactor(1.2)
+FITSLabel::FITSLabel(FITSImage *img, QWidget *parent) : QLabel(parent)
+{
+  image = img;
+}
+
+FITSLabel::~FITSLabel() {}
+
+void FITSLabel::mouseMoveEvent(QMouseEvent *e)
+{
+  double x,y, width, height;
+  float *buffer = image->getImageBuffer();
+ 
+  image->getFITSSize(&width, &height);
+
+  if (buffer == NULL) return;
+  
+  x = round(e->x() / (image->getCurrentZoom() / 100.));
+  y = round(e->y() / (image->getCurrentZoom() / 100.));
+
+  if (x < 1)
+	x = 1;
+  else if (x > width)
+	x = width;
+
+ if (y < 1)
+	y = 1;
+ else if (y > height)
+	y = height;
+  
+  image->getViewer()->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
+
+  // Range is 0 to dim -1 when accessing array
+  x-=1;
+  y-=1;
+
+  image->getViewer()->statusBar()->changeItem( KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 3 ), 1 );
+  setCursor(Qt::CrossCursor);
+
+  e->accept();
+
+}
+
+FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent) , zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
   
@@ -61,13 +106,13 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent),
   setAlignment(Qt::AlignCenter);
  */
 
-   image_frame = new QLabel;
+   image_frame = new FITSLabel(this);
    image_buffer = NULL;
    displayImage = NULL;
    setBackgroundRole(QPalette::Dark);
 
    currentZoom = 0.0;
-   viewport()->setMouseTracking(true);
+   image_frame->setMouseTracking(true);
 
    // Default size
    resize(INITIAL_W, INITIAL_H);
@@ -79,71 +124,6 @@ FITSImage::~FITSImage()
   delete(displayImage);
 }
 	
-
-void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
-{
- 
-  double x,y;
-  bool validPoint = true;
-  if (!displayImage) return;
-  
-   x = e->x();
-   y = e->y();
-  
-  if (image_frame->x() > 0)
-    x -= image_frame->x();
-  
-  if (image_frame->y() > 0)
-    y -= image_frame->y();
-  
-    y -= 20;
-    x -= 20;
-   //kDebug() << "X= " << x << " -- Y= " << y << endl;      
-   
-  if (currentZoom > 0)
-  {
-    x /= pow(zoomFactor, currentZoom);
-    y /= pow(zoomFactor, currentZoom);
-  }
-  else if (currentZoom < 0)
-  {
-    x *= pow(zoomFactor, abs((int) currentZoom));
-    //kDebug() << "The X power is " << pow(zoomFactor, abs(currentZoom)) << " -- X final = " << x << endl;
-    y *= pow(zoomFactor, abs((int) currentZoom));
-  }
-  
-  if (x < 0 || x > width())
-    validPoint = false;
-  
-  //kDebug() << "regular x= " << e->x() << " -- X= " << x << " -- image_frame->x()= " << image_frame->x() << " - displayImageWidth= " << viewer->displayImage->width() << endl;
-  
-  
-  if (y < 0 || y > height())
-    validPoint = false;
-  else    
-  // invert the Y since we read FITS buttom up
-  y = height() - y;
-  
-  //kDebug() << " -- X= " << x << " -- Y= " << y << endl;
-  
-  if (image_buffer == NULL)
-   kDebug() << "viewer buffer is NULL " << endl;
-  
-  /* FIXME Optimize this! */
-  if (validPoint)
-  {
-  viewer->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
-	viewer->statusBar()->changeItem( KGlobal::locale()->formatNumber( image_buffer[(int) (y * width() + x)], 3 ), 1 );
-  setCursor(Qt::CrossCursor);
-  }
-  else
-  {
-  //viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
-  setCursor(Qt::ArrowCursor);
-  }
- 
-}
-
 void FITSImage::reLoadTemplateImage()
 {
   /*displayImage = templateImage->copy(); */
@@ -219,14 +199,14 @@ int FITSImage::loadFits (const char *filename)
 	return -1;
  }
 
- if (rescale())
+ if (rescale(true))
 	return -1;
 
  return 0;
  
 }
 
-int FITSImage::getMinMax()
+int FITSImage::calculateMinMax()
 {
            /* pointer to the FITS file, defined in fitsio.h */
     int status,  anynull, nfound=0;
@@ -285,18 +265,21 @@ int FITSImage::getMinMax()
     return 0;
 }
 
-int FITSImage::rescale()
+int FITSImage::rescale(bool fitToWindow)
 {
   float val=0;
   double bscale, bzero;
-  int HorX=0, VerX=0;
  
   // Get Min Max failed, scaling is not possible
-  if (getMinMax())
+  if (calculateMinMax())
     return -1;
 
   bscale = 255. / (stats.max - stats.min);
   bzero  = (-stats.min) * (255. / (stats.max - stats.min));
+
+  image_frame->setScaledContents(true);
+  currentWidth  = displayImage->width();
+  currentHeight = displayImage->height();
 
   /* Fill in pixel values using indexed map, linear scale */
     for (int j = 0; j < stats.dim[1]; j++)
@@ -306,26 +289,28 @@ int FITSImage::rescale()
 		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
 	}
 
- if (displayImage->width() > width() || displayImage->height() > height())
+ if (fitToWindow && (displayImage->width() > width() || displayImage->height() > height()))
  {
-	if (displayImage->width() > width())
-		HorX = horizontalScrollBar()->height();
+	// Find the zoom level which will enclose the current FITS in the default window size (640x480)
+        currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
 
-	if (displayImage->height() > height())
-		VerX = verticalScrollBar()->height();
+	currentWidth  = stats.dim[0] * (currentZoom / 100.);
+	currentHeight = stats.dim[1] * (currentZoom / 100.);
 
+	if (currentZoom <= ZOOM_MIN)
+  	viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
 
-	(*displayImage) = displayImage->scaled(INITIAL_W - HorX, INITIAL_H - VerX, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+ }
+ else
+ {
+ 	currentZoom   = 100;
+ 	image_frame->setPixmap(QPixmap::fromImage(*displayImage));
  }
 
- currentWidth  = displayImage->width();
- currentHeight = displayImage->height();
-
- image_frame->setScaledContents(true);
- kDebug() << "After transformation, width: " << displayImage->width() << " - height: " <<  displayImage->height() << endl;
-
- image_frame->setPixmap(QPixmap::fromImage(*displayImage));
  setWidget(image_frame);
+
+ viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
 
  return 0;
 
@@ -334,6 +319,7 @@ int FITSImage::rescale()
 void FITSImage::zoomToCurrent()
 {
 
+ #if 0
  double cwidth, cheight;
  
  if (currentZoom >= 0)
@@ -352,39 +338,58 @@ void FITSImage::zoomToCurrent()
  else
    image_frame->setPixmap(QPixmap::fromImage(*displayImage));
 
+ #endif
 }
 
 
 void FITSImage::fitsZoomIn()
 {
  
-   currentZoom++;
+  if (currentZoom < 100)
+	currentZoom += ZOOM_LOW_INCR;
+  else
+	currentZoom += ZOOM_HIGH_INCR;
+
+   kDebug() << "in fitsZoomIn " << currentZoom << endl;
+   //currentZoom++;
    viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
-   if (currentZoom > 5)
+   if (currentZoom >= ZOOM_MAX)
      viewer->actionCollection()->action("view_zoom_in")->setEnabled (false);
    
-   currentWidth  *= zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
-   currentHeight *= zoomFactor; //pow(zoomFactor, abs(currentZoom));
+   //currentWidth  = zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
+   currentWidth  = stats.dim[0] * (currentZoom / 100.); //pow(zoomFactor, abs(currentZoom)) ;
+   currentHeight = stats.dim[1] * (currentZoom / 100.); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+   image_frame->resize( (int) currentWidth, (int) currentHeight);
 
-   update();
+   viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
  
 }
 
 void FITSImage::fitsZoomOut()
 {
-  currentZoom--;
-  if (currentZoom < -5)
-     viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
-  viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+  //currentZoom--;
+  if (currentZoom <= 100)
+	currentZoom -= ZOOM_LOW_INCR;
+  else
+	currentZoom -= ZOOM_HIGH_INCR;
+
+  if (currentZoom <= ZOOM_MIN)
+  	viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
   
-  currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
-  currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
+   viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+  
+  //currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
+  //currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
+  currentWidth  = stats.dim[0] * (currentZoom / 100.); //pow(zoomFactor, abs(currentZoom)) ;
+  currentHeight = stats.dim[1] * (currentZoom / 100.); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
- 
-  update();
+
+   image_frame->resize( (int) currentWidth, (int) currentHeight);
+
+   viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
 }
 
 void FITSImage::fitsZoomDefault()
@@ -392,12 +397,15 @@ void FITSImage::fitsZoomDefault()
   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
   viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
   
-  currentZoom   = 0;
+  currentZoom   = 100;
   currentWidth  = stats.dim[0];
   currentHeight = stats.dim[1];
   
   image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+  image_frame->resize( (int) currentWidth, (int) currentHeight);
   
+  viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+
   update();
 
 }

@@ -27,6 +27,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QScrollArea>
+#include <QLabel>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -34,11 +35,24 @@
 #include "indi/cfitsio/fitsio.h"
 
 class KCommandHistory;
-class Q3ScrollView;
 class FITSViewer;
-//class FITSFrame;
+class FITSImage;
 
-class QLabel;
+
+class FITSLabel : public QLabel
+{
+  public:
+
+  FITSLabel(FITSImage *img, QWidget *parent=NULL);
+  ~FITSLabel();
+
+  protected:
+  void mouseMoveEvent(QMouseEvent *e);
+
+  private:
+  FITSImage *image;
+
+};
 
 class FITSImage : public QScrollArea
 {
@@ -60,38 +74,40 @@ class FITSImage : public QScrollArea
 	
 	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
 	
-	/**Bitblt the image onto the viewer widget */
-	/*void paintEvent (QPaintEvent *ev);*/
-	/* Resize event */
-	//void resizeEvent (QResizeEvent *ev);
 	/* Loads FITS image, scales it, and displays it in the GUI */
 	int  loadFits(const char *filename);
 	/* Convert current image to a pixmap */
 	void convertImageToPixmap();
 	/* Clear memory */
 	void clearMem();
+	/* Rescale image lineary from image_buffer, fit to window if desired */
+	int rescale(bool fitToWindow=false);
 
-	int rescale();
-	
+	// Access functions
+        FITSViewer * getViewer() { return viewer; }
+        double getCurrentZoom() { return currentZoom; }
+	float * getImageBuffer() { return image_buffer; }
+	void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
+	void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+
 	private:
 
-        int getMinMax();
-	void saveTemplateImage();				/* saves a backup image */
-	void reLoadTemplateImage();				/* reloads backup image into the current image */
-	void destroyTemplateImage();				/* deletes backup image */
-	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
+        int calculateMinMax();
+	void saveTemplateImage();			/* saves a backup image */
+	void reLoadTemplateImage();			/* reloads backup image into the current image */
+	void destroyTemplateImage();			/* deletes backup image */
+	void zoomToCurrent();				/* Zoom the image to current zoom level without modifying it */
 
-	FITSViewer *viewer;					/* parent FITSViewer */
-	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
-	QPixmap image_pixmap; 					/* Pixmap for drawing */
-	QLabel *image_frame;
+	FITSViewer *viewer;				/* parent FITSViewer */	
+	QImage  *displayImage;				/* FITS image that is displayed in the GUI */
+	FITSLabel *image_frame;
 	float *image_buffer;				/* scaled image buffer (0-255) range */
 
 	/* FIXME remove this */
-	QImage  *templateImage;					/* backup image for currentImage */
-	double currentWidth,currentHeight;			/* Current width and height due to zoom */
-	const double zoomFactor;				/* Image zoom factor */
-	double currentZoom;					/* Current Zoom level */
+	QImage  *templateImage;				/* backup image for currentImage */
+	double currentWidth,currentHeight;		/* Current width and height due to zoom */
+	const double zoomFactor;			/* Image zoom factor */
+	double currentZoom;				/* Current Zoom level */
 	fitsfile* fptr;
 
 	/* stats struct to hold statisical data about the FITS data */
@@ -104,11 +120,6 @@ class FITSImage : public QScrollArea
 		int ndim;
 		long dim[2];
 	} stats;
-	
-	protected:
-	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
-	void contentsMouseMoveEvent ( QMouseEvent * e );
-	//void viewportResizeEvent ( QResizeEvent * e) ;
 	
 	public slots:
 	void fitsZoomIn();

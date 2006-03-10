@@ -71,7 +71,7 @@
    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
-   constructHistogram(viewer->imgBuffer);
+   constructHistogram(viewer->image->getImageBuffer());
    
    updateBoxes();
    
@@ -81,28 +81,35 @@
  
 void FITSHistogram::updateBoxes()
 {
-#if 0
+
+	double fits_min=0, fits_max=0;
+
+	viewer->image->getFITSMinMax(&fits_min, &fits_max);
+
         if (ui->minSlider->value() == BARS)
-	 ui->minOUT->setText(QString("%1").arg((int) viewer->stats.max));
+	 ui->minOUT->setText(QString("%1").arg((int) fits_max));
 	else
-   	 ui->minOUT->setText(QString("%1").arg( (int) ( ceil (ui->minSlider->value() * binSize) + viewer->stats.min)));
+   	 ui->minOUT->setText(QString("%1").arg( (int) ( ceil (ui->minSlider->value() * binSize) + fits_min)));
 	 
 	if (ui->maxSlider->value() == BARS)
-	 ui->maxOUT->setText(QString("%1").arg((int) viewer->stats.max));
+	 ui->maxOUT->setText(QString("%1").arg((int) fits_max));
 	else
-   	 ui->maxOUT->setText(QString("%1").arg( (int) ( ceil (ui->maxSlider->value() * binSize) + viewer->stats.min)));
+   	 ui->maxOUT->setText(QString("%1").arg( (int) ( ceil (ui->maxSlider->value() * binSize) + fits_min)));
 
         update();
 
-#endif
 }
 
 void FITSHistogram::applyScale()
 {
   int swap;
+  double fits_min=0, fits_max=0;
+
   int min = ui->minSlider->value();
   int max = ui->maxSlider->value();
-  
+
+  viewer->image->getFITSMinMax(&fits_min, &fits_max);
+
   FITSHistogramCommand *histC;
   //kDebug() << "Width " << viewer->image->width << endl;
   
@@ -113,10 +120,8 @@ void FITSHistogram::applyScale()
     max  = swap;
   }
 
-#if 0  
-   min  = (int) (min * binSize + viewer->stats.min);
-   max  = (int) (max * binSize + viewer->stats.min);
-#endif
+   min  = (int) (min * binSize + fits_min);
+   max  = (int) (max * binSize + fits_min);
   
   napply++;
   
@@ -140,27 +145,31 @@ void FITSHistogram::applyScale()
  
 void FITSHistogram::constructHistogram(float * buffer)
 {
- #if 0
+ 
   int maxHeight = 0;
   int height    = ui->histFrame->height(); 
   int id;
   int index;
-  int range = (int) (viewer->stats.max - viewer->stats.min);
+  double fits_min=0, fits_max=0;
+  double fits_w=0, fits_h=0;
+
+  viewer->image->getFITSSize(&fits_w, &fits_h);
+  viewer->image->getFITSMinMax(&fits_min, &fits_max);
+
+  int range = (int) (fits_max - fits_min);
     
   for (int i=0; i < BARS; i++)
       histArray[i] = 0;
     binSize = ( (double) range / (double) BARS); 
     
-    //kDebug() << "#2" << endl; 
     if (binSize == 0 && buffer == NULL)
      return;
     
-     for (int i=0; i < viewer->stats.width * viewer->stats.height; i++)
+     for (int i=0; i < fits_w * fits_h; i++)
      {
-        id = (int) ((buffer[i] - viewer->stats.min) / binSize);
+        id = (int) ((buffer[i] - fits_min) / binSize);
         if (id >= BARS) id = BARS - 1;
         histArray[id]++;
-	
      }
      
      if (binSize < 1)
@@ -178,15 +187,11 @@ void FITSHistogram::constructHistogram(float * buffer)
  
  //histogram = new QPixmap(500, 150, 1);
  // Qt4 --> Qt4 port
- histogram = new QPixmap(500, 150);
- histogram->fill(Qt::black);
- QPainter p(histogram);
- QPen pen( Qt::white, 1);
- p.setPen(pen);
-   
- for (int i=0; i < BARS; i++)
-     p.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
- #endif
+
+ //histogram = new QPixmap(500, 150);
+ //histogram->fill(Qt::black);
+ //QPainter p(histogram);
+ 
   
 }
 
@@ -199,7 +204,13 @@ void FITSHistogram::paintEvent( QPaintEvent */*e*/)
   QPen pen;
   pen.setWidth(1);
   
-  bitBlt(ui->histFrame, 0, 0, histogram);
+  //QPen pen( Qt::white, 1);
+  // p.setPen(pen);
+   
+ //for (int i=0; i < BARS; i++)
+     //p.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
+
+  //bitBlt(ui->histFrame, 0, 0, histogram);
   
   pen.setColor(Qt::blue);
   p.setPen(pen);
@@ -435,9 +446,5 @@ QString FITSHistogramCommand::name() const
  return i18n("Unknown");
  
 }
-
-
-
- 
 
 #include "fitshistogram.moc"

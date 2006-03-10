@@ -69,38 +69,6 @@
 #include "ksutils.h"
 #include "Options.h"
 
-/*extern int fits_ieee32_intel;
-extern int fits_ieee32_motorola;
-extern int fits_ieee64_intel;
-extern int fits_ieee64_motorola;
-
-#define FITS_GETBITPIX16(p,val) val = ((p[0] << 8) | (p[1]))
-#define FITS_GETBITPIX32(p,val) val = \
-          ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3])
-	  
-#define FITS_GETBITPIXM32(p,val) \
- { if (fits_ieee32_intel) {unsigned char uc[4]; \
-   uc[0] = p[3]; uc[1] = p[2]; uc[2] = p[1]; uc[3] = p[0]; \
-   val = *(FITS_BITPIXM32 *)uc; } \
-   else if (fits_ieee32_motorola) { val = *(FITS_BITPIXM32 *)p; } \
-   else if (fits_ieee64_motorola) {FITS_BITPIXM64 m64; \
-   unsigned char *uc= (unsigned char *)&m64; \
-   uc[0]=p[0]; uc[1]=p[1]; uc[2]=p[2]; uc[3]=p[3]; uc[4]=uc[5]=uc[6]=uc[7]=0; \
-   val = (FITS_BITPIXM32)m64; } \
-   else if (fits_ieee64_intel) {FITS_BITPIXM64 i64; \
-   unsigned char *uc= (unsigned char *)&i64; \
-   uc[0]=uc[1]=uc[2]=uc[3]=0; uc[7]=p[3]; uc[6]=p[2]; uc[5]=p[1]; uc[4]=p[0]; \
-   val = (FITS_BITPIXM32)i64;}\
-}
-	  
-#define FITS_GETBITPIXM64(p,val) \
- { if (fits_ieee64_intel) {unsigned char uc[8]; \
-   uc[0] = p[7]; uc[1] = p[6]; uc[2] = p[5]; uc[3] = p[4]; \
-   uc[4] = p[3]; uc[5] = p[2]; uc[6] = p[1]; uc[7] = p[0]; \
-   val = *(FITS_BITPIXM64 *)uc; } else val = *(FITS_BITPIXM64 *)p; }	  
-
-*/
-
 FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
 	: KMainWindow (parent, name)
 {
@@ -127,8 +95,10 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     statusBar()->setItemFixed(1, 100);
     statusBar()->insertItem(QString(), 2);
     statusBar()->setItemFixed(2, 100);
-    statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), 3, 1);
-    statusBar()->setItemAlignment(3 , Qt::AlignLeft);
+    statusBar()->insertItem(QString(), 3);
+    statusBar()->setItemFixed(3, 50);
+    statusBar()->insertPermanentItem(i18n("Welcome to KStars FITS Viewer"), 4, 1);
+    statusBar()->setItemAlignment(4 , Qt::AlignLeft);
     
     /* FITS initializations */
     if (!initFITS())
