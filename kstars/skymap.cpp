@@ -192,7 +192,7 @@ void SkyMap::slotTransientLabel( void ) {
 	//Do not show a transient label if the map is in motion, or if the mouse 
 	//pointer is below the opaque horizon, or if the object has a permanent label
 	if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() && 
-			mousePoint()->alt()->Degrees() < 0.0 ) ) {
+			refract( mousePoint()->alt(), true ).Degrees() < 0.0 ) ) {
 		double maxrad = 200.0/Options::zoomFactor();
 		SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
 		

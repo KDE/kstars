@@ -555,6 +555,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		//redetermine RA, Dec of mouse pointer, using new focus
 		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
+		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 
 		forceUpdate();  // must be new computed
@@ -670,6 +671,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		//determine RA, Dec of mouse pointer
 		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(),
 				data->LST, data->geo()->lat(), Options::useRefraction() ) );
+		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 
 		//Find object nearest to clickedPoint()
