@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kiconloader.h>
+#include <ktoolbar.h>
 #include <qpalette.h>
 #include <kglobal.h>
 
@@ -112,8 +113,12 @@ KStars::~KStars()
 	Options::setWindowWidth( width() );
 	Options::setWindowHeight( height() );
 
-	//We need to explicitly save the colorscheme data to the config file
+	//explicitly save the colorscheme data to the config file
 	data()->colorScheme()->saveToConfig( KGlobal::config() );
+
+	//explicitly save toolbar settings to config file
+	toolBar( "mainToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
+	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
 
 	//synch the config file with the Config object
 	Options::writeConfig();
@@ -187,6 +192,10 @@ void KStars::applyConfig() {
 //May not need these; I think calling setChecked() on the actions should trigger slotShowGUIItem()
 //	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
+
+	//Set toolbar options from config file
+	toolBar( "mainToolBar" )->applySettings( KGlobal::config(), "MainToolBar" );
+	toolBar( "viewToolBar" )->applySettings( KGlobal::config(), "ViewToolBar" );
 
 	//Geographic location
 	data()->setLocationFromOptions();
