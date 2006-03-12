@@ -22,6 +22,12 @@
 #include <kmenu.h>
 #include <QAction>
 
+
+class KStars;
+class StarObject;
+class SkyObject;
+class QLabel;
+
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
 	*object type of the object which was clicked to invoke the menu.
@@ -31,12 +37,6 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class KStars;
-class StarObject;
-class SkyObject;
-class QLabel;
-
 class KSPopupMenu : public KMenu
 {
 Q_OBJECT

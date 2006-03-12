@@ -517,12 +517,8 @@ void KStars::buildGUI() {
 	initStatusBar();
 	initActions();
 
-	//Do not show text on the view toolbar buttons
-	//FIXME: after strings freeze, remove this and make the
-	//text of each button shorter
-	toolBar( "viewToolBar" )->setIconText( KToolBar::IconOnly );
-
 	//Add timestep widget to toolbar
+	//FIXME: awaiting port of KToolbar to QToolbar
 	TimeStep = new TimeStepBox( this );
 	toolBar()->insertWidget( 0, 6, TimeStep, 15 );
 

@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-
 #include "kspopupmenu.h"
 #include "kstars.h"
 #include "kstarsdata.h"
