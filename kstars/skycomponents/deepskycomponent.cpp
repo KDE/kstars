@@ -324,42 +324,75 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 	return 0;
 }
 
+//we multiply each catalog's smallest angular distance by the 
+//following factors before selecting the final nearest object:
+// IC catalog = 0.8
+// NGC catalog = 0.5
+// "other" catalog = 0.4
+// Messier object = 0.25
 SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+	SkyObject *oTry = 0;
 	SkyObject *oBest = 0;
+	double rTry = maxrad;
+	double rBest = maxrad;
 	double r;
-
-	foreach ( SkyObject *o, m_MessierList ) {
-		r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			maxrad = r;
-			oBest = o;
-		}
-	}
-
-	foreach ( SkyObject *o, m_NGCList )  {
-		r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			maxrad = r;
-			oBest = o;
-		}
-	}
 
 	foreach ( SkyObject *o, m_ICList )  {
 		r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			maxrad = r;
-			oBest = o;
+		if ( r < rTry ) {
+			rTry = r;
+			oTry = o;
 		}
 	}
+	rTry *= 0.8;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
 
+	rTry = maxrad;
+	foreach ( SkyObject *o, m_NGCList )  {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < rTry ) {
+			rTry = r;
+			oTry = o;
+		}
+	}
+	rTry *= 0.5;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
+
+	rTry = maxrad;
 	foreach ( SkyObject *o, m_OtherList )  {
 		r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			maxrad = r;
-			oBest = o;
+		if ( r < rTry ) {
+			rTry = r;
+			oTry = o;
 		}
 	}
+	rTry *= 0.4;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
 
+	rTry = maxrad;
+	foreach ( SkyObject *o, m_MessierList ) {
+		r = o->angularDistanceTo( p ).Degrees();
+		if ( r < rTry ) {
+			rTry = r;
+			oTry = o;
+		}
+	}
+	rTry *= 0.25;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
+
+	maxrad = rBest;
 	return oBest;
 }
 

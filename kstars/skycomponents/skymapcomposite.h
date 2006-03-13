@@ -116,6 +116,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 			*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
 
+		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
 		/**
 			*@short Add a Trail to the specified SkyObject
 			*Loop over all child SkyComponents; if the SkyObject

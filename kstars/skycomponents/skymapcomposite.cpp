@@ -136,6 +136,53 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 }
 
+//Select nearest object to the given skypoint, but give preference 
+//to certain object types.
+//we multiply each object type's smallest angular distance by the 
+//following factors before selecting the final nearest object:
+// stars = 1.0 (not weighted)
+// IC catalog = 0.8
+// NGC catalog = 0.5
+// "other" catalog = 0.4
+// Messier object = 0.25
+// custom object = 0.2
+// Solar system = 0.1
+SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
+	double rTry = maxrad;
+	double rBest = maxrad;
+	SkyObject *oTry = 0;
+	SkyObject *oBest = 0;
+
+	oBest = m_Stars->objectNearest( p, rBest );
+	//m_DeepSky internally discriminates among deepsky catalogs
+	//and remormalizes rTry
+	oTry = m_DeepSky->objectNearest( p, rTry ); 
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
+
+	rTry = maxrad;
+	oTry = m_CustomCatalogs->objectNearest( p, rTry );
+	rTry *= 0.2;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
+
+	rTry = maxrad;
+	oTry = m_SolarSystem->objectNearest( p, rTry );
+	rTry *= 0.1;
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
+
+	maxrad = rBest;
+	return oBest; //will be 0 if no object nearer than maxrad was found
+
+}
+
 bool SkyMapComposite::addNameLabel( SkyObject *o ) {
 	if ( !o ) return false;
 	labelObjects().append( o );
