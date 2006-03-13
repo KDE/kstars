@@ -150,21 +150,30 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	if ( allGround ) { 
 		//Ground fills the screen.  Reset groundPoly to surround screen perimeter
-		groundPoly.clear();
-		groundPoly << QPointF( -10., -10. ) 
-					<< QPointF( Width + 10., -10. )
-					<< QPointF( Width + 10., Height + 10. )
-					<< QPointF( -10., Height + 10. );
-
-		//Just draw the poly (in case ground is filled)
+		//Just draw the poly (if ground is filled)
 		//No need for compass labels or "Horizon" label
-		psky.drawPolygon( groundPoly );
+		if ( Options::showGround() ) {
+			groundPoly.clear();
+			groundPoly << QPointF( -10., -10. ) 
+						<< QPointF( Width + 10., -10. )
+						<< QPointF( Width + 10., Height + 10. )
+						<< QPointF( -10., Height + 10. );
+	
+			psky.drawPolygon( groundPoly );
+		}
 		return;
 	}
 
 	//groundPoly now contains QPointF's of the screen coordinates of points 
 	//along the "front half" of the Horizon, in order from left to right.
-	//Now we need to complete the ground polygon by going right to left.
+	//If we are using Equatorial coords, then all we need to do is connect 
+	//these points.
+	if ( ! Options::useAltAz() ) {
+		for ( int i=1; i < groundPoly.size(); ++i ) 
+			psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+
+	//If we are using Horizontal coordinates, there is more work to do. 
+	//We need to complete the ground polygon by going right to left.
 	//If the zoomLevel is high (as indicated by (daz<75.0)), then we 
 	//complete the polygon by simply adding points along thebottom edge 
 	//of the screen.  If the zoomLevel is high (daz>75.0), then we add points 
@@ -174,50 +183,47 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//We determine the polar angles t1, t2 corresponding to these end points, 
 	//and then step along the circumference, adding points between them.
 	//(In Horizontal coordinates, t1 and t2 are always 360 and 180, respectively).
-	if ( daz < 75.0 ) { //complete polygon with offscreen points
-		groundPoly << QPointF( Width + 10., groundPoly.last().y() )
-					<< QPointF( Width + 10., Height + 10. )
-					<< QPointF( -10., Height + 10. )
-					<< QPointF( -10., groundPoly.first().y() );
-
-	} else { //complete polygon along bottom of sky circle
-		double r0 = 2.0*sin(0.25*dms::PI);
-		double t1 = 360.;
-		double t2 = 180.;
-		if ( ! Options::useAltAz() ) { //compute t1,t2
-			//groundPoly.last() is the point on the Horizon that intersects 
-			//the visible sky circle on the right
-			t1 = -1.0*acos( (groundPoly.last().x() - 0.5*Width)/r0/Options::zoomFactor() )/dms::DegToRad; //angle in degrees
-			//Resolve quadrant ambiguity
-			if ( groundPoly.last().y() < 0. ) t1 = 360. - t1;
+	} else { //Horizontal coords
+		if ( daz < 75.0 ) { //can complete polygon by simply adding offscreen points
+			groundPoly << QPointF( Width + 10., groundPoly.last().y() )
+						<< QPointF( Width + 10., Height + 10. )
+						<< QPointF( -10., Height + 10. )
+						<< QPointF( -10., groundPoly.first().y() );
 	
-			t2 = t1 - 180.;
+		} else { //complete polygon along bottom of sky circle
+			double r0 = 2.0*sin(0.25*dms::PI);
+			double t1 = 360.;
+			double t2 = 180.;
+
+//NOTE: Uncomment if we ever want opaque ground while using Equatorial coords
+// 		if ( ! Options::useAltAz() ) { //compute t1,t2
+// 			//groundPoly.last() is the point on the Horizon that intersects 
+// 			//the visible sky circle on the right
+// 			t1 = -1.0*acos( (groundPoly.last().x() - 0.5*Width)/r0/Options::zoomFactor() )/dms::DegToRad; //angle in degrees
+// 			//Resolve quadrant ambiguity
+// 			if ( groundPoly.last().y() < 0. ) t1 = 360. - t1;
+// 	
+// 			t2 = t1 - 180.;
+// 		}
+
+			for ( double t=t1; t >= t2; t-=2. ) {  //step along circumference
+				dms a( t );
+				double sa(0.), ca(0.);
+				a.SinCos( sa, ca );
+				float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
+				float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
+		
+				groundPoly << QPointF( xx, yy );
+			}
 		}
 
-		for ( double t=t1; t >= t2; t-=2. ) {  //step along circumference
-			dms a( t );
-			double sa(0.), ca(0.);
-			a.SinCos( sa, ca );
-			float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
-			float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
-	
-			groundPoly << QPointF( xx, yy );
-		}
+		//Finally, draw the ground Polygon.
+		psky.drawPolygon( groundPoly );
 	}
-
-	//Finally, draw the ground Polygon.
-	psky.drawPolygon( groundPoly );
 
 	drawCompassLabels( ks, psky, scale );
 
-	//--- Horizon name label
-
-	//DEBUG
-	if ( ! pAnchor ) {
-		kDebug() << k_funcinfo << ": pAnchor is undefined." << endl;
-		return;
-	}
-
+	//Draw Horizon name label
 	//pAnchor contains the last point of the Horizon before it went offcreen 
 	//on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
 	int iAnchor = pointList().indexOf( pAnchor );
