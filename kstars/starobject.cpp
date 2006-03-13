@@ -274,8 +274,9 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName( i18n("star") + " " );
 	if ( drawName ) {
-		if ( name() != "star" ) sName = translatedName() + " ";
-		else if ( longname() != "star" ) sName = translatedLongName() + " ";
+		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() ) 
+			sName = translatedName() + " ";
+		else if ( ! gname().trimmed().isEmpty() ) sName = gname( true ) + " ";
 	}
 	if ( drawMag ) {
 		if ( drawName )
