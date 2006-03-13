@@ -211,7 +211,7 @@ void SkyMap::slotTransientLabel( void ) {
 
 void SkyMap::slotTransientTimeout( void ) {
 	//Don't fade label if the transientObject is now the focusObject!
-	if ( transientObject() == focusObject() ) {
+	if ( transientObject() == focusObject() && Options::useAutoLabel() ) {
 		setTransientObject( NULL );
 		TransientTimer.stop();
 		return;
