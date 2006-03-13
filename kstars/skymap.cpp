@@ -193,7 +193,7 @@ void SkyMap::slotTransientLabel( void ) {
 	//pointer is below the opaque horizon, or if the object has a permanent label
 	if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() && 
 			refract( mousePoint()->alt(), true ).Degrees() < 0.0 ) ) {
-		double maxrad = 200.0/Options::zoomFactor();
+		double maxrad = 1000.0/Options::zoomFactor();
 		SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
 		
 		if ( so && ! isObjectLabeled( so ) ) {
@@ -415,7 +415,7 @@ void SkyMap::slotBeginAngularDistance(void) {
 void SkyMap::slotEndAngularDistance(void) {
 	dms angularDistance;
 	if(angularDistanceMode) {
-		double maxrad = 200.0/Options::zoomFactor();
+		double maxrad = 1000.0/Options::zoomFactor();
 		if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
 			angularDistance = so->angularDistanceTo( previousClickedPoint() );
 			ksw->statusBar()->changeItem( so->translatedLongName() + 
