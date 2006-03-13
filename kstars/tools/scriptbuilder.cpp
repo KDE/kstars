@@ -46,7 +46,7 @@
 //#include <kcombobox.h>
 //#include <kicontheme.h>
 //#include <klistbox.h>
-//#include <klistview.h>
+//#include <k3listview.h>
 //#include <ktextedit.h>
 //#include <kdatewidget.h>
 #include <kfiledialog.h>

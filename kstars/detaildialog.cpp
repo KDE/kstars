@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 #include <kactivelabel.h>
 #include <kpushbutton.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klineedit.h>
 #include <ktoolinvocation.h>
 //#include <kio/job.h>

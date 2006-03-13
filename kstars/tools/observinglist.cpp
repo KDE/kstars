@@ -26,7 +26,7 @@
 #include <QFrame>
 #include <QTextStream>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
@@ -153,7 +153,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	//Insert object entry in FullTable and TinyTable
 	QString smag("--");
 	if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
-	new KListViewItem( ui->FullTable, obj->translatedName(), 
+	new K3ListViewItem( ui->FullTable, obj->translatedName(), 
 			obj->ra()->toHMSString(),
 			obj->dec()->toDMSString(),
 			smag,

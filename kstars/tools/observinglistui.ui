@@ -364,7 +364,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KListView" name="FullTable" />
+        <widget class="K3ListView" name="FullTable" />
        </item>
       </layout>
      </widget>
@@ -458,7 +458,7 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KListView</class>
+   <class>K3ListView</class>
    <extends></extends>
    <header>klistview.h</header>
    <container>0</container>

@@ -46,7 +46,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KListView" name="FilterList" >
+        <widget class="K3ListView" name="FilterList" >
          <property name="fullWidth" >
           <bool>true</bool>
          </property>
@@ -682,7 +682,7 @@ have &amp;no magnitude</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KListView</class>
+   <class>K3ListView</class>
    <extends></extends>
    <header>klistview.h</header>
    <container>0</container>

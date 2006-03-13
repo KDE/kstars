@@ -23,7 +23,7 @@
 #include <QFrame>
 #include <knuminput.h>
 #include <klistbox.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 
 #include "kstars.h"

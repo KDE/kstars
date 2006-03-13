@@ -29,7 +29,7 @@
 #include <kshortcut.h>
 #include <ktempfile.h>
 #include <kurl.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <knuminput.h> 

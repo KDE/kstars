@@ -34,7 +34,7 @@
 #include <QDialog>
 
 #include <kiconloader.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kmenu.h>
 #include <kprocess.h>
 #include <kmessagebox.h>
@@ -671,7 +671,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     groupType = KSTARS_GPS;
 
 
-  //KListViewItem *group = new KListViewItem(topItem, lastGroup);
+  //K3ListViewItem *group = new K3ListViewItem(topItem, lastGroup);
   QTreeWidgetItem *group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);
   group->setText(0, groupName);
   lastGroup = group;

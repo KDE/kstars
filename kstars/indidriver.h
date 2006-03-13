@@ -31,7 +31,7 @@ class QIcon;
 
 class KStars;
 
-class KListView;
+class K3ListView;
 class KMenu;
 class KProcess;
 
@@ -106,7 +106,7 @@ class INDIDriver : public KDialogBase
    INDIDriver(QWidget * parent = 0);
    ~INDIDriver();
 
-    //KListView* deviceContainer;
+    //K3ListView* deviceContainer;
 
     bool readXMLDriver();
 
