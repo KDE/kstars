@@ -83,9 +83,6 @@ class StarComponent: public ListComponent
 	float faintMagnitude() const { return m_FaintMagnitude; }
 	void setFaintMagnitude( float newMagnitude );
 
-	protected:
-		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale);
-		
 	private:
 		// some helper methods
 		bool openStarFile(int i);

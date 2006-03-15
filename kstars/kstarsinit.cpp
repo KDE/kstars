@@ -389,12 +389,13 @@ void KStars::datainitFinished(bool worked) {
  	connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(), 
 		 SLOT( slotClockSlewing() ) );
 	connect(data(), SIGNAL( update() ), map(), SLOT( forceUpdateNow() ) );
-	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(), 
-		 SLOT( setTimeDirection( float ) ) );
-	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(), 
-		 SLOT( setScale( float )) );
-	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
-		 SLOT( mapGetsFocus() ) );
+//FIXME: waiting for KToolBar fixes to make widget inserts possible
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(), 
+//		 SLOT( setTimeDirection( float ) ) );
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(), 
+//		 SLOT( setScale( float )) );
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
+//		 SLOT( mapGetsFocus() ) );
 
 	//Initialize INDIMenu
 	indimenu = new INDIMenu(this);
@@ -517,10 +518,13 @@ void KStars::buildGUI() {
 	initStatusBar();
 	initActions();
 
+	// 2nd parameter must be false, or plugActionList won't work!
+	createGUI("kstarsui.rc", false);
+
 	//Add timestep widget to toolbar
-	//FIXME: awaiting port of KToolbar to QToolbar
-	TimeStep = new TimeStepBox( this );
-	toolBar()->insertWidget( 0, 6, TimeStep, 15 );
+//FIXME: awaiting port of KToolbar to QToolbar
+// 	TimeStep = new TimeStepBox( this );
+// 	toolBar( "kstarsToolBar" )->insertWidget( 0, 6, TimeStep, 15 );
 
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );
@@ -530,9 +534,6 @@ void KStars::buildGUI() {
 
 	//get focus of keyboard and mouse actions (for example zoom in with +)
 	map()->QWidget::setFocus();
-
-	// 2nd parameter must be false, or plugActionList won't work!
-	createGUI("kstarsui.rc", false);
 
 	resize( Options::windowWidth(), Options::windowHeight() );
 	

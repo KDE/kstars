@@ -198,29 +198,6 @@ class SkyComponent
 		 */
 		virtual bool isExportable();
 		
-		/** 
-		 *Draws the label of the object.
-		 *This is an default implementation and can be overridden 
-		 *when needed.  For most cases it's just needed to 
-		 *reimplement the labelSize() method.
-		 *Currently only stars have their own implementation of 
-		 *drawNameLabel().
-		 *@p psky Reference to the QPainter on which to draw
-		 *@p obj Pointer to the SkyObject to which a label will 
-		 *be attached
-		 *@p x the pixel x-coordinate of the object
-		 *@p y the pixel y-coordinate of the object
-		 *@p scale the scaling factor for drawing (1.0 for screen draws)
-		 */
-		virtual void drawNameLabel(QPainter &psky, SkyObject *obj, float x, float y, double scale);
-		
-		/** 
-		 *@return the size for drawing the label. It's used by 
-		 *the generic drawNameLabel() method.
-		 *@p obj Pointer to the SkyObject
-		 */
-		virtual float labelSize(SkyObject*, double) { return 1.0; };
-
 	private:
 	
 		SkyComponent *Parent;

@@ -117,7 +117,7 @@ KStars::~KStars()
 	data()->colorScheme()->saveToConfig( KGlobal::config() );
 
 	//explicitly save toolbar settings to config file
-	toolBar( "mainToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
+	toolBar( "kstarsToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
 	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
 
 	//synch the config file with the Config object
@@ -190,11 +190,11 @@ void KStars::applyConfig() {
 	//Infoboxes, toolbars, statusbars
 	infoBoxes()->setVisible( Options::showInfoBoxes() );
 //May not need these; I think calling setChecked() on the actions should trigger slotShowGUIItem()
-//	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
+//	if ( !Options::showMainToolBar() ) ks->toolBar( "kstarsToolBar" )->hide();
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	//Set toolbar options from config file
-	toolBar( "mainToolBar" )->applySettings( KGlobal::config(), "MainToolBar" );
+	toolBar( "kstarsToolBar" )->applySettings( KGlobal::config(), "MainToolBar" );
 	toolBar( "viewToolBar" )->applySettings( KGlobal::config(), "ViewToolBar" );
 
 	//Geographic location

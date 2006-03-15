@@ -659,18 +659,6 @@ private slots:
 	void setMouseMoveCursor();
 
 private:
-/**@short Attach a name label to a SkyObject.  This Function is called by the object-specific 
-	*draw functions and also by drawAttachedLabels().
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param obj pointer to the SkyObject which is to be labeled.
-	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
-	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
-	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
-	*@see SkyMap::drawAttachedLabels()
-	*@see SkyMap::getXY()
-	*/
-	void drawNameLabel( QPainter &psky, SkyObject *obj, float x, float y, double scale );
-
 /**Draw the overlays on top of the sky map.  These include the infoboxes,
 	*field-of-view indicator, telescope symbols, zoom box and any other
 	*user-interaction graphics.

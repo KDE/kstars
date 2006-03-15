@@ -178,6 +178,11 @@ public:
 	*/
 	void drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
 
+/**
+	*@return the pixel distance for offseting the object's name label
+	*/
+	virtual double labelOffset( double scale = 1.0 );
+
 /**Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
 	*@param pmenu pointer to the KSPopupMenu object

@@ -81,9 +81,6 @@ class SolarSystemSingleComponent : public SingleComponent
 			*/
 		void drawTrails( KStars *ks, QPainter& psky, double scale );
 		
-		// calculate the label size for drawNameLabel()
-		virtual float labelSize(SkyObject*, double scale);
-
 	/**
 		*@short Add a Trail to the specified SkyObject.
 		*@p o Pointer to the SkyObject to which a Trail will be added

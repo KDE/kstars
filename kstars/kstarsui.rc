@@ -111,7 +111,8 @@
 	</Menu>
 </MenuBar>
 
-<ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
+<ToolBar noMerge="1" name="kstarsToolBar" iconText="icononly">
+	<text>Main Toolbar</text>
 	<Action name="fullscreen" />
 	<Action name="zoom_in" />
 	<Action name="zoom_out" />
@@ -126,7 +127,8 @@
 	<Separator />
 </ToolBar>
 
-<ToolBar noMerge="1" name="viewToolBar"><text>View Toolbar</text>
+<ToolBar noMerge="1" name="viewToolBar" iconText="icononly">
+	<text>View Toolbar</text>
 	<Action name="show_stars" />
 	<Action name="show_deepsky" />
 	<Action name="show_planets" />

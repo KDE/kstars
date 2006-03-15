@@ -27,6 +27,7 @@
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "kspopupmenu.h"
+#include "Options.h"
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const QColor &c, double pSize )
  : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ), Rearth(0.0), Image(), data(kd), 
@@ -179,6 +180,25 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
 		if ( dx > 0 ) pa = -90.0;
 	}
 	setPA( pa );
+}
+
+double KSPlanetBase::labelOffset( double scale ) {
+	double size = angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+
+	//Determine minimum size for offset
+	double minsize = 4.;
+	if ( type() == SkyObject::ASTEROID || type() == SkyObject::COMET )
+		minsize = 2.;
+	if ( name() == "Sun" || name() == "Moon" )
+		minsize = 8.;
+	if ( size < minsize )
+		size = minsize;
+
+	//Inflate offset for Saturn
+	if ( name() == "Saturn" )
+		size = int(2.5*size);
+
+	return 0.5*size + 4.;
 }
 
 void KSPlanetBase::rotateImage( double imAngle ) {

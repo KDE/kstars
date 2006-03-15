@@ -48,27 +48,6 @@ void SkyComponent::drawExportable(KStars *ks, QPainter& psky, double scale)
 		draw(ks, psky, scale);
 }
 
-void SkyComponent::drawNameLabel(QPainter &psky, SkyObject *obj, float x, float y, double scale)
-{
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
-	// get size of object
-	float size = labelSize(obj, scale);
-	
-	float offset = 0.5*size + 4.0;
-	psky.drawText( QPointF(x+offset, y+offset), obj->translatedName() );
-
-	//Reset font
-	psky.setFont( stdFont );
-}
-
 //Hand the message up to SkyMapComposite
 void SkyComponent::emitProgressText( const QString &message ) {
 	parent()->emitProgressText( message );

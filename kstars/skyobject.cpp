@@ -19,10 +19,9 @@
 
 #include <kglobal.h>
 #include <kstandarddirs.h>
-#include <qpoint.h>
-#include <qregexp.h>
-#include <qfile.h>
-#include <qtextstream.h>
+#include <QPainter>
+#include <QTextStream>
+#include <QFile>
 
 #include "skyobject.h"
 #include "starobject.h" //needed in saveUserLog()
@@ -30,6 +29,8 @@
 #include "dms.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
+#include "kstarsdata.h"
+#include "Options.h"
 
 QString SkyObject::emptyString = QString();
 QString SkyObject::unnamedString = QString(i18n("unnamed"));
@@ -375,8 +376,7 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 	return message;
 }
 
-//New saveUserLog, moved from DetailDialog.  
-//Should create a special UserLog widget that encapsulates the "default"
+//TODO: Should create a special UserLog widget that encapsulates the "default"
 //message in the widget when no log exists (much like we do with dmsBox now)
 void SkyObject::saveUserLog( const QString &newLog ) {
 	QFile file;
@@ -421,9 +421,8 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
 	
 	//Open file for writing
-	//FIXME: change error message to "cannot write to user log file"
 	if ( !file.open( QIODevice::WriteOnly ) ) {
-		kDebug() << i18n( "user log file could not be opened." ) << endl;
+		kDebug() << i18n( "Cannot write to user log file" ) << endl;
 		return;
 	}
 	
@@ -435,4 +434,25 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	userLog = newLog;
 	
 	file.close();
+}
+
+void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
+	//set the zoom-dependent font
+	QFont stdFont( psky.font() );
+	QFont smallFont( stdFont );
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+	if ( Options::zoomFactor() < 10.*MINZOOM ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
+	double offset = labelOffset( scale );
+	psky.drawText( QPointF(x+offset, y+offset), translatedName() );
+	psky.setFont( stdFont );
+}
+
+double SkyObject::labelOffset( double scale ) {
+	double size = scale * dms::PI * Options::zoomFactor()/10800.0;
+	return 0.5*size + 4.;
 }

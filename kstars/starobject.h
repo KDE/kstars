@@ -202,8 +202,17 @@ class StarObject : public SkyObject {
 
 	void draw( QPainter &psky, float x, float y, float size, int scMode, int scIntensity, bool drawMultiple=true, double scale=1.0 );
 
-	//overloaded from SkyObject
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
+
+/**
+	*@short draw the star's name label on the map
+	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
+	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
+	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
+	*@note overridden from SkyObject
+	*/
+	virtual void drawNameLabel( QPainter &psky, double x, double y, double scale = 1.0 );
 
 /**Show star object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()

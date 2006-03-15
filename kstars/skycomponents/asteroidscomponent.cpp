@@ -69,7 +69,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 				//draw Name
 				if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
 					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					drawNameLabel( psky, ast, o.x(), o.y(), scale );
+					ast->drawNameLabel( psky, o.x(), o.y(), scale );
 				}
 			}
 		}

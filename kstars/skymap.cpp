@@ -250,6 +250,9 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 }
 
 void SkyMap::slotCenter( void ) {
+	//DEBUG
+	kDebug() << "Number of toolbars: " << ksw->toolBarList().size() << endl;
+
 	setFocusPoint( clickedPoint() );
 	if ( Options::useAltAz() ) 
 		focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -283,7 +286,7 @@ void SkyMap::slotCenter( void ) {
 	Options::setIsTracking( true );
 	if ( ksw ) {
 	  ksw->actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
-	  ksw->toolBar( "mainToolBar" )->setButtonIconSet( 4, BarIcon( "encrypted" ) );
+	  ksw->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
 	  ksw->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
 

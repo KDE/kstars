@@ -156,7 +156,7 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
 			//draw Name
 			if ( Options::showPlanetNames() ) {
 				psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-				drawNameLabel( psky, ksp(), o.x(), o.y(), scale );
+				ksp()->drawNameLabel( psky, o.x(), o.y(), scale );
 			}
 		}
 	}
@@ -222,23 +222,6 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 		oLast = o;
 	}
 }
-
-// see SkyComponent::drawNameLabel()
-float SolarSystemSingleComponent::labelSize(SkyObject *obj, double scale)
-{
-	float size = ksp()->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
-// TODO init following components with these minsize values
-// 	COMET minsize = 2;
-// 	Sun = 8;
-	if (size < minsize)
-	{
-		size = minsize;
-	}
-	// saturn is scaled by factor 2.5
-	size = sizeScale * size;
-	return size;
-}
-
 
 void SolarSystemSingleComponent::setSizeScale(float scale)
 {

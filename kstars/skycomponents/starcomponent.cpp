@@ -119,22 +119,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	}
 }
 
-void StarComponent::drawNameLabel(QPainter &psky, SkyObject *obj, int x, int y, double scale)
-{
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
-	((StarObject*)obj)->drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
-	// reset font
-	psky.setFont( stdFont );
-}
-
 bool StarComponent::openStarFile(int i)
 {
 	if (starFileReader != 0) delete starFileReader;

@@ -226,7 +226,8 @@ public:
 	*/
 	bool checkCircumpolar( const dms *gLng );
 
-/**The coordinates for the object on date dt are computed and returned,
+/**
+	*The coordinates for the object on date dt are computed and returned,
 	*but the object's internal coordinates are not permanently modified.
 	*@return the coordinates of the selected object for the time given by jd
 	*@param dt  date/time for which the coords will be computed.
@@ -240,13 +241,31 @@ public:
 	
 	const bool hasLongName() const { return LongName != 0; }
 	
-/**@short Given the Image title from a URL file, try to convert it to an image credit string.
+/**
+	*@short Given the Image title from a URL file, try to convert it to an image credit string.
 	*/
 	QString messageFromTitle( const QString &imageTitle );
 
-/**@short Save new user log text
+/**
+	*@short Save new user log text
   */
 	void saveUserLog( const QString &newLog );
+
+/**
+	*@short draw the object's name label on the map
+	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
+	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
+	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
+	*@note overridden in StarObject
+	*/
+	virtual void drawNameLabel( QPainter &psky, double x, double y, double scale = 1.0 );
+
+/**
+	*@return the pixel distance for offseting the object's name label
+	*@note overridden in DeepSkyObject, KSPlanetBase
+	*/
+	virtual double labelOffset( double scale = 1.0 );
 
 	QStringList ImageList, ImageTitle;
 	QStringList InfoList, InfoTitle;

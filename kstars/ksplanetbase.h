@@ -289,6 +289,11 @@ public:
 	*@param imageAngle the new angle of rotation for the image
 	*/
 	void scaleRotateImage( float scale, double imageAngle );
+	
+/**
+	*@return the pixel distance for offseting the object's name label
+	*/
+	virtual double labelOffset( double scale = 1.0 );
 
 /**Show Solar System object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()

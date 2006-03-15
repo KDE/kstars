@@ -132,7 +132,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 		if ( checkVisibility( obj ) ) {
 			QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
-				drawNameLabel( psky, obj, o.x(), o.y(), scale );
+				obj->drawNameLabel( psky, o.x(), o.y(), scale );
 			}
 		}
 	}
@@ -141,7 +141,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
 		QPointF o = getXY( focusObject(), Options::useAltAz(), Options::useRefraction(), scale );
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-			drawNameLabel( psky, focusObject(), o.x(), o.y(), scale );
+			focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
 	}
 }
 
@@ -152,7 +152,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 		if ( checkVisibility( transientObject() ) ) {
 			QPointF o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0. && o.x() <= width() && o.y() >= 0. && o.y() <= height() ) {
-				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
+				transientObject()->drawNameLabel( p, o.x(), o.y(), 1.0 );
 			}
 		}
 	}
@@ -185,61 +185,12 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 						psky.drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
 					}
 					if ( Options::obsListText() ) {
-						drawNameLabel( psky, obj, o.x(), o.y(), scale );
+						obj->drawNameLabel( psky, o.x(), o.y(), scale );
 					}
 				}
 			}
 		}
 	}
-}
-
-void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, float x, float y, double scale ) {
-	int size(0);
-
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
-	//Stars
-	if ( obj->type() == SkyObject::STAR ) {
-		((StarObject*)obj)->drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
-		psky.setFont( stdFont );
-		return;
-
-	//Solar system
-	} else if ( obj->type() == SkyObject::PLANET
-						|| obj->type() == SkyObject::ASTEROID
-						|| obj->type() == SkyObject::COMET ) {
-		KSPlanetBase *p = (KSPlanetBase*)obj;
-		size = int( p->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
-		int minsize = 4;
-		if ( p->type() == SkyObject::ASTEROID || p->type() == SkyObject::COMET )
-			minsize = 2;
-		if ( p->name() == "Sun" || p->name() == "Moon" )
-			minsize = 8;
-		if ( size < minsize )
-			size = minsize;
-		if ( p->name() == "Saturn" )
-			size = int(2.5*size);
-
-	//Other
-	} else {
-		//Calculate object size in pixels
-		float majorAxis = ((DeepSkyObject*)obj)->a();
-		if ( majorAxis == 0.0 && obj->type() == 1 ) majorAxis = 1.0; //catalog stars
-		size = int( majorAxis * scale * dms::PI * Options::zoomFactor()/10800.0 );
-	}
-
-	float offset = 0.5*size + 4.;
-	psky.drawText( QPointF(x+offset, y+offset), obj->translatedName() );
-
-	//Reset font
-	psky.setFont( stdFont );
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky) {

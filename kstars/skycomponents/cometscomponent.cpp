@@ -104,7 +104,7 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 				//draw Name
 				if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
 					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					drawNameLabel( psky, com, o.x(), o.y(), scale );
+					com->drawNameLabel( psky, o.x(), o.y(), scale );
 				}
 			}
 		}

@@ -935,8 +935,8 @@ void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
 	if ( sender()->name() == QString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
-		if ( show ) toolBar( "mainToolBar" )->show();
-		else toolBar( "mainToolBar" )->hide();
+		if ( show ) toolBar("kstarsToolBar")->show();
+		else toolBar("kstarsToolBar")->hide();
 	}
 	if ( sender()->name() == QString( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );
