@@ -57,6 +57,7 @@ class LX200Generic
  void enableSimulation(bool enable);
  void updateTime();
  void updateLocation();
+ void mountSim();
  
 
  protected:

@@ -311,14 +311,14 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	el = pp->findElement("DEC");
 	if (!el) return;
 	telescopeSkyObject->setDec(el->value);
-	/* FIXME do I need to do this? It's done in update() in TelescopeComponent */
 	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
-	// Force immediate update of skymap if the focus object is our telescope. 
+
 	if (ksw->map()->focusObject() == telescopeSkyObject)
 		ksw->map()->updateFocus();
 	else  
 		ksw->map()->update();
 	break;
+	
 
 	case HORIZONTAL_COORD:
         if (!dp->isOn()) break;

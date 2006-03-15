@@ -27,6 +27,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include "indicom.h"
 #include "lx200driver.h"
@@ -85,6 +86,10 @@ extern char* me;
 #define LX200_TRACK	1
 #define LX200_SYNC	2
 #define LX200_PARK	3
+
+/* Simulation Parameters */
+#define	SLEWRATE	1		/* slew rate, degrees/s */
+#define SIDRATE		0.004178	/* sidereal rate, degrees/s */
 
 static void ISPoll(void *);
 static void retryConnection(void *);
@@ -342,7 +347,7 @@ LX200Generic::LX200Generic()
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("INDI Version: 2006-02-20\n");
+   IDLog("INDI Version: 2006-03-15\n");
  
    //enableSimulation(true);  
 }
@@ -609,17 +614,10 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	   fs_sexa(RAStr, newRA, 2, 3600);
 	   fs_sexa(DecStr, newDEC, 2, 3600);
 	  
-	   IDLog("We received J2000 RA %g - DEC %g\n", newRA, newDEC);
-	   IDLog("We received J2000 RA %s - DEC %s\n", RAStr, DecStr);
-	   
-	   /*apparentCoord( (double) J2000, JD, &newRA, &newDEC);
-	   
-	   fs_sexa(RAStr, newRA, 2, 3600);
-	   fs_sexa(DecStr, newDEC, 2, 3600);
-	   
-	   IDLog("Processed to JNow RA %f - DEC %f\n", newRA, newDEC);
-	   IDLog("Processed to JNow RA %s - DEC %s\n", RAStr, DecStr);*/
+	   IDLog("We received JNOW RA %g - DEC %g\n", newRA, newDEC);
+	   IDLog("We received JNOW RA %s - DEC %s\n", RAStr, DecStr);
 
+	  if (!simulation)
 	   if ( (err = setObjectRA(newRA)) < 0 || ( err = setObjectDEC(newDEC)) < 0)
 	   {
 	     handleError(&eqNum, err, "Setting RA/DEC");
@@ -1333,12 +1331,15 @@ void LX200Generic::ISPoll()
 	if (!isTelescopeOn())
 	 return;
 
+	if (simulation)
+	{
+		mountSim();
+		return;
+        }
+
 	switch (eqNum.s)
 	{
 	case IPS_IDLE:
-	getLX200RA(&currentRA);
-	getLX200DEC(&currentDEC);
-	
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
 	        eqNum.np[0].value = lastRA = currentRA;
@@ -1508,6 +1509,91 @@ void LX200Generic::ISPoll()
 
 }
 
+void LX200Generic::mountSim ()
+{
+	static struct timeval ltv;
+	struct timeval tv;
+	double dt, da, dx;
+	int nlocked;
+
+	/* update elapsed time since last poll, don't presume exactly POLLMS */
+	gettimeofday (&tv, NULL);
+	
+	if (ltv.tv_sec == 0 && ltv.tv_usec == 0)
+	    ltv = tv;
+	    
+	dt = tv.tv_sec - ltv.tv_sec + (tv.tv_usec - ltv.tv_usec)/1e6;
+	ltv = tv;
+	da = SLEWRATE*dt;
+
+	/* Process per current state. We check the state of EQUATORIAL_COORDS and act acoordingly */
+	switch (eqNum.s)
+	{
+	
+	/* #1 State is idle, update telesocpe at sidereal rate */
+	case IPS_IDLE:
+	    /* RA moves at sidereal, Dec stands still */
+	    currentRA += (SIDRATE*dt/15.);
+	    IDSetNumber(&eqNum, NULL);
+	   eqNum.np[0].value = currentRA;
+	   eqNum.np[1].value = currentDEC;
+
+	    break;
+
+	case IPS_BUSY:
+	    /* slewing - nail it when both within one pulse @ SLEWRATE */
+	    nlocked = 0;
+
+	    dx = targetRA - currentRA;
+	    
+	    if (fabs(dx) <= da)
+	    {
+		currentRA = targetRA;
+		nlocked++;
+	    }
+	    else if (dx > 0)
+	    	currentRA += da/15.;
+	    else 
+	    	currentRA -= da/15.;
+	    
+
+	    dx = targetDEC - currentDEC;
+	    if (fabs(dx) <= da)
+	    {
+		currentDEC = targetDEC;
+		nlocked++;
+	    }
+	    else if (dx > 0)
+	      currentDEC += da;
+	    else
+	      currentDEC -= da;
+
+	   eqNum.np[0].value = currentRA;
+	   eqNum.np[1].value = currentDEC;
+
+	    if (nlocked == 2)
+	    {
+		eqNum.s = IPS_OK;
+		IDSetNumber(&eqNum, "Now tracking");
+	    } else
+		IDSetNumber(&eqNum, NULL);
+
+	    break;
+
+	case IPS_OK:
+	    /* tracking */
+	   eqNum.np[0].value = currentRA;
+	   eqNum.np[1].value = currentDEC;
+
+	   IDSetNumber(&eqNum, NULL);
+	    break;
+
+	case IPS_ALERT:
+	    break;
+	}
+
+}
+
 void LX200Generic::getBasicData()
 {
 
@@ -1585,6 +1671,7 @@ int LX200Generic::handleCoordSet()
 	     usleep(100000);
 	  }
 
+	if (!simulation)
 	  if ((err = Slew()))
 	  {
 	    slewError(err);
@@ -1620,6 +1707,7 @@ int LX200Generic::handleCoordSet()
 		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
 	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);*/
 
+	      if (simulation)
           	if ((err = Slew()))
 	  	{
 	    		slewError(err);
@@ -1652,6 +1740,7 @@ int LX200Generic::handleCoordSet()
           lastSet = LX200_SYNC;
 	  eqNum.s = IPS_IDLE;
 	   
+	if (!simulation)
 	  if ( ( err = Sync(syncString) < 0) )
 	  {
 	        IDSetNumber( &eqNum , "Synchronization failed.");
@@ -1774,7 +1863,7 @@ void LX200Generic::powerTelescope()
 	{
 	  PowerSP.s = IPS_OK;
 	  IDSetSwitch (&PowerSP, "Simulated telescope is online.");
-	  updateTime();
+	  //updateTime();
 	  return;
 	}
 	
