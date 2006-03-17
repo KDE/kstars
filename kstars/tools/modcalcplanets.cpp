@@ -33,7 +33,7 @@
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit) 
 : QFrame(parentSplit) {
-	setupUi( parentSplit );
+	setupUi(this);
 	showCurrentDateTime();
 	showLongLat();
 	RABox->setDegType(FALSE);
@@ -62,7 +62,7 @@ KStarsDateTime modCalcPlanets::getDateTime (void)
 void modCalcPlanets::showLongLat(void)
 {
 
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	LongBox->show( ks->geo()->lng() );
 	LatBox->show( ks->geo()->lat() );
 

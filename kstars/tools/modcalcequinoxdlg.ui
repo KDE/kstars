@@ -17,7 +17,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -381,15 +381,8 @@
  <customwidgets>
   <customwidget>
    <class>ExtDateTimeEdit</class>
-   <extends>QFrame</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
    <extends></extends>
-   <header>kurlrequester.h</header>
+   <header>extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -397,6 +390,13 @@
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends></extends>
+   <header>kurlrequester.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

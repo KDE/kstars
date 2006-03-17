@@ -33,7 +33,7 @@
 modCalcAngDist::modCalcAngDist(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 
-	setupUi( parentSplit );
+	setupUi(this);
 	ra0Box->setDegType(FALSE);
 	ra1Box->setDegType(FALSE);
 	show();

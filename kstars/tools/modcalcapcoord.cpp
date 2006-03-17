@@ -33,7 +33,7 @@
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 
-	setupUi( parentSplit);
+	setupUi(this);
 	showCurrentTime();
 	ra0Box->setDegType(FALSE);
 	rafBox->setDegType(FALSE);

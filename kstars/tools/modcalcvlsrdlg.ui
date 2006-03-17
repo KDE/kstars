@@ -15,240 +15,30 @@
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>647</width>
-     <height>544</height>
-    </rect>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
    </property>
-   <widget class="QWidget" name="interact" >
-    <attribute name="title" >
-     <string>Interactive Mode</string>
-    </attribute>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>9</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="QGroupBox" name="groupBox" >
-       <property name="title" >
-        <string>Select Time &amp;&amp; Location</string>
-       </property>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label" >
-            <property name="text" >
-             <string>Universal time:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QTimeEdit" name="UTBox" />
-          </item>
-          <item row="1" column="1" >
-           <widget class="ExtDateEdit" name="DateBox" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_2" >
-            <property name="text" >
-             <string>Date:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="2" >
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>191</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="dmsBox" name="LatitudeBox" />
-          </item>
-          <item row="2" column="1" >
-           <widget class="KLineEdit" name="ElevationBox" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
-             <string>Latitude:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="label_5" >
-            <property name="text" >
-             <string>Elevation (m):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
-             <string>Longitude:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="dmsBox" name="LongitudeBox" />
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2" >
-       <property name="title" >
-        <string>Select Coordinates of Target</string>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="2" column="2" >
-         <widget class="KLineEdit" name="EpochBox" />
-        </item>
-        <item row="2" column="0" colspan="2" >
-         <widget class="QLabel" name="label_8" >
-          <property name="text" >
-           <string>Epoch:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2" >
-         <widget class="dmsBox" name="DecBox" />
-        </item>
-        <item row="0" column="1" colspan="2" >
-         <widget class="dmsBox" name="RABox" />
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_7" >
-          <property name="text" >
-           <string>Dec:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_6" >
-          <property name="text" >
-           <string>RA:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget" >
+     <widget class="QWidget" name="interact" >
+      <attribute name="title" >
+       <string>Interactive Mode</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_3" >
+        <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
-          <string>Select Input Velocity</string>
-         </property>
-         <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="radioVlsr" >
-            <property name="text" >
-             <string>LSR</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioVhelio" >
-            <property name="text" >
-             <string>Heliocentric</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioVgeo" >
-            <property name="text" >
-             <string>Geocentric</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioVtopo" >
-            <property name="text" >
-             <string>Topocentric</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_4" >
-         <property name="title" >
-          <string>Radial Velocities</string>
+          <string>Select Time &amp;&amp; Location</string>
          </property>
          <layout class="QHBoxLayout" >
           <property name="margin" >
@@ -257,6 +47,49 @@
           <property name="spacing" >
            <number>6</number>
           </property>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label" >
+              <property name="text" >
+               <string>Universal time:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QTimeEdit" name="UTBox" />
+            </item>
+            <item row="1" column="1" >
+             <widget class="ExtDateEdit" name="DateBox" />
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label_2" >
+              <property name="text" >
+               <string>Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="2" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>191</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
           <item>
            <spacer>
             <property name="orientation" >
@@ -278,463 +111,624 @@
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item row="3" column="0" >
-             <widget class="QLabel" name="textLabel3" >
-              <property name="text" >
-               <string>Topocentric velocity:</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="1" >
-             <widget class="KLineEdit" name="VHelioBox" />
-            </item>
-            <item row="3" column="1" >
-             <widget class="KLineEdit" name="VTopoBox" />
+             <widget class="dmsBox" name="LatitudeBox" />
             </item>
             <item row="2" column="1" >
-             <widget class="KLineEdit" name="VGeoBox" />
+             <widget class="KLineEdit" name="ElevationBox" />
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="azLabel" >
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label_4" >
               <property name="text" >
-               <string>VLSR:</string>
+               <string>Latitude:</string>
               </property>
              </widget>
             </item>
             <item row="2" column="0" >
-             <widget class="QLabel" name="textLabel2" >
+             <widget class="QLabel" name="label_5" >
               <property name="text" >
-               <string>Geocentric velocity:</string>
+               <string>Elevation (m):</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="textLabel1" >
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label_3" >
               <property name="text" >
-               <string>Heliocentric velocity:</string>
+               <string>Longitude:</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="KLineEdit" name="VLSRBox" />
+             <widget class="dmsBox" name="LongitudeBox" />
             </item>
            </layout>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
        </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
        <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
+        <widget class="QGroupBox" name="groupBox_2" >
+         <property name="title" >
+          <string>Select Coordinates of Target</string>
          </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="KPushButton" name="ComputeButton" >
-         <property name="text" >
-          <string>Compute</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="KPushButton" name="ClearButton" >
-         <property name="text" >
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="batch" >
-    <attribute name="title" >
-     <string>Batch Mode</string>
-    </attribute>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>9</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="QGroupBox" name="groupBox_5" >
-       <property name="title" >
-        <string>Select Parameters in Input File</string>
-       </property>
-       <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item>
          <layout class="QGridLayout" >
           <property name="margin" >
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="3" column="0" >
-           <widget class="QCheckBox" name="DecCheckBatch" >
-            <property name="text" >
-             <string>Dec:</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3" >
-           <widget class="KLineEdit" name="EpochBoxBatch" />
-          </item>
           <item row="2" column="2" >
-           <widget class="QCheckBox" name="ElevationCheckBatch" >
-            <property name="text" >
-             <string>Elevation (m):</string>
-            </property>
-            <property name="checked" >
-             <bool>false</bool>
-            </property>
-           </widget>
+           <widget class="KLineEdit" name="EpochBox" />
           </item>
-          <item row="2" column="0" >
-           <widget class="QCheckBox" name="RACheckBatch" >
-            <property name="text" >
-             <string>RA:</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" >
-           <widget class="dmsBox" name="LongitudeBoxBatch" />
-          </item>
-          <item row="3" column="2" >
-           <widget class="QCheckBox" name="EpochCheckBatch" >
+          <item row="2" column="0" colspan="2" >
+           <widget class="QLabel" name="label_8" >
             <property name="text" >
              <string>Epoch:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
-           <widget class="QCheckBox" name="LongCheckBatch" >
+          <item row="1" column="1" colspan="2" >
+           <widget class="dmsBox" name="DecBox" />
+          </item>
+          <item row="0" column="1" colspan="2" >
+           <widget class="dmsBox" name="RABox" />
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_7" >
             <property name="text" >
-             <string>Longitude:</string>
-            </property>
-            <property name="checked" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3" >
-           <widget class="KLineEdit" name="ElevationBoxBatch" />
-          </item>
-          <item row="1" column="2" >
-           <widget class="QCheckBox" name="LatCheckBatch" >
-            <property name="text" >
-             <string>Latitude:</string>
-            </property>
-            <property name="checked" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QTimeEdit" name="UTBoxBatch" />
-          </item>
-          <item row="1" column="1" >
-           <widget class="ExtDateEdit" name="DateBoxBatch" />
-          </item>
-          <item row="2" column="1" >
-           <widget class="dmsBox" name="RABoxBatch" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" >
-           <widget class="dmsBox" name="DecBoxBatch" >
-            <property name="enabled" >
-             <bool>false</bool>
+             <string>Dec:</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0" >
-           <widget class="QCheckBox" name="UTCheckBatch" >
+           <widget class="QLabel" name="label_6" >
             <property name="text" >
-             <string>UT:</string>
-            </property>
-            <property name="checked" >
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3" >
-           <widget class="dmsBox" name="LatitudeBoxBatch" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QCheckBox" name="DateCheckBatch" >
-            <property name="text" >
-             <string>Date:</string>
-            </property>
-            <property name="checked" >
-             <bool>false</bool>
+             <string>RA:</string>
             </property>
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" >
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QGroupBox" name="groupBox_3" >
+           <property name="title" >
+            <string>Select Input Velocity</string>
+           </property>
+           <layout class="QVBoxLayout" >
+            <property name="margin" >
+             <number>9</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QRadioButton" name="radioVlsr" >
+              <property name="text" >
+               <string>LSR</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioVhelio" >
+              <property name="text" >
+               <string>Heliocentric</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioVgeo" >
+              <property name="text" >
+               <string>Geocentric</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioVtopo" >
+              <property name="text" >
+               <string>Topocentric</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_4" >
+           <property name="title" >
+            <string>Radial Velocities</string>
+           </property>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>9</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QGridLayout" >
+              <property name="margin" >
+               <number>0</number>
+              </property>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+              <item row="3" column="0" >
+               <widget class="QLabel" name="textLabel3" >
+                <property name="text" >
+                 <string>Topocentric velocity:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" >
+               <widget class="KLineEdit" name="VHelioBox" />
+              </item>
+              <item row="3" column="1" >
+               <widget class="KLineEdit" name="VTopoBox" />
+              </item>
+              <item row="2" column="1" >
+               <widget class="KLineEdit" name="VGeoBox" />
+              </item>
+              <item row="0" column="0" >
+               <widget class="QLabel" name="azLabel" >
+                <property name="text" >
+                 <string>VLSR:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" >
+               <widget class="QLabel" name="textLabel2" >
+                <property name="text" >
+                 <string>Geocentric velocity:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" >
+               <widget class="QLabel" name="textLabel1" >
+                <property name="text" >
+                 <string>Heliocentric velocity:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" >
+               <widget class="KLineEdit" name="VLSRBox" />
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KPushButton" name="ComputeButton" >
+           <property name="text" >
+            <string>Compute</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KPushButton" name="ClearButton" >
+           <property name="text" >
+            <string>Clear</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="batch" >
+      <attribute name="title" >
+       <string>Batch Mode</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="groupBox_5" >
+         <property name="title" >
+          <string>Select Parameters in Input File</string>
+         </property>
+         <layout class="QVBoxLayout" >
           <property name="margin" >
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="spacing" >
            <number>6</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="InputVelocityCheckBatch" >
-            <property name="text" >
-             <string>Input velocity:</string>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
             </property>
-           </widget>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="3" column="0" >
+             <widget class="QCheckBox" name="DecCheckBatch" >
+              <property name="text" >
+               <string>Dec:</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3" >
+             <widget class="KLineEdit" name="EpochBoxBatch" />
+            </item>
+            <item row="2" column="2" >
+             <widget class="QCheckBox" name="ElevationCheckBatch" >
+              <property name="text" >
+               <string>Elevation (m):</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QCheckBox" name="RACheckBatch" >
+              <property name="text" >
+               <string>RA:</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3" >
+             <widget class="dmsBox" name="LongitudeBoxBatch" />
+            </item>
+            <item row="3" column="2" >
+             <widget class="QCheckBox" name="EpochCheckBatch" >
+              <property name="text" >
+               <string>Epoch:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" >
+             <widget class="QCheckBox" name="LongCheckBatch" >
+              <property name="text" >
+               <string>Longitude:</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3" >
+             <widget class="KLineEdit" name="ElevationBoxBatch" />
+            </item>
+            <item row="1" column="2" >
+             <widget class="QCheckBox" name="LatCheckBatch" >
+              <property name="text" >
+               <string>Latitude:</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QTimeEdit" name="UTBoxBatch" />
+            </item>
+            <item row="1" column="1" >
+             <widget class="ExtDateEdit" name="DateBoxBatch" />
+            </item>
+            <item row="2" column="1" >
+             <widget class="dmsBox" name="RABoxBatch" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" >
+             <widget class="dmsBox" name="DecBoxBatch" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QCheckBox" name="UTCheckBatch" >
+              <property name="text" >
+               <string>UT:</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3" >
+             <widget class="dmsBox" name="LatitudeBoxBatch" />
+            </item>
+            <item row="1" column="0" >
+             <widget class="QCheckBox" name="DateCheckBatch" >
+              <property name="text" >
+               <string>Date:</string>
+              </property>
+              <property name="checked" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QComboBox" name="InputVelocityComboBatch" >
-            <item>
-             <property name="text" >
-              <string>Heliocentric</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Geocentric</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Topocentric</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>LSR</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="KLineEdit" name="InputVelocityBoxBatch" />
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
             </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
+            <property name="spacing" >
+             <number>6</number>
             </property>
-           </spacer>
+            <item>
+             <widget class="QCheckBox" name="InputVelocityCheckBatch" >
+              <property name="text" >
+               <string>Input velocity:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="InputVelocityComboBatch" >
+              <item>
+               <property name="text" >
+                <string>Heliocentric</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>Geocentric</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>Topocentric</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>LSR</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="KLineEdit" name="InputVelocityBoxBatch" />
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_6" >
-       <property name="title" >
-        <string>Select Parameters for Output File</string>
-       </property>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item>
-         <widget class="QRadioButton" name="AllRadioBatch" >
-          <property name="text" >
-           <string>All parameters</string>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_6" >
+         <property name="title" >
+          <string>Select Parameters for Output File</string>
+         </property>
+         <layout class="QHBoxLayout" >
+          <property name="margin" >
+           <number>9</number>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="InputRadioBatch" >
-          <property name="text" >
-           <string>Only parameters in input file</string>
+          <property name="spacing" >
+           <number>6</number>
           </property>
-          <property name="checked" >
-           <bool>true</bool>
+          <item>
+           <widget class="QRadioButton" name="AllRadioBatch" >
+            <property name="text" >
+             <string>All parameters</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="InputRadioBatch" >
+            <property name="text" >
+             <string>Only parameters in input file</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_7" >
+         <property name="title" >
+          <string>Select Filenames</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
           </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_7" >
-       <property name="title" >
-        <string>Select Filenames</string>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="1" column="1" >
-         <widget class="KUrlRequester" name="OutputFileBoxBatch" />
-        </item>
-        <item row="0" column="1" >
-         <widget class="KUrlRequester" name="InputFileBoxBatch" />
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="label_10" >
-          <property name="text" >
-           <string>Output file:</string>
+          <property name="spacing" >
+           <number>6</number>
           </property>
-         </widget>
-        </item>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_9" >
-          <property name="text" >
-           <string>Input file:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
+          <item row="1" column="1" >
+           <widget class="KUrlRequester" name="OutputFileBoxBatch" />
+          </item>
+          <item row="0" column="1" >
+           <widget class="KUrlRequester" name="InputFileBoxBatch" />
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_10" >
+            <property name="text" >
+             <string>Output file:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_9" >
+            <property name="text" >
+             <string>Input file:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="overview" >
+      <attribute name="title" >
+       <string>Overview</string>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
        </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
+       <property name="spacing" >
+        <number>6</number>
        </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="overview" >
-    <attribute name="title" >
-     <string>Overview</string>
-    </attribute>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>9</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="KTextBrowser" name="OverviewBox" >
-       <property name="text" >
-        <string>&lt;p> The Local Standard of Rest (LSR) is the location in which the mean value of the velocity of a selection of the stars in solar neighboorhood is cero. The local solar motion, that is, the velocity of the sun referred to the Local Standard of Rest is not null: the sun moves with a velocity of 20 km/s towards a point called, solar apex, whose coordinates are:&lt;/p>
-&lt;li>Ra= 18:03:50.2 (J2000)&lt;/li>
-&lt;li>Dec = 30:0:16.8 (J2000)&lt;/li>
-&lt;p>Astronomical sources move relative to the Sun and their velocity can be decomposed in radial velocity, and velocity on the plane of the sky, also know as proper motion in right ascention and declination. The radial velocity is usually obtained by analyzing their spectral emission and the frequency shift of the lines due to Doppler effect. Observational astronomers usually refer source's radial velocity to the LSR.&lt;/p>
-&lt;p>This calculator module allows to obtain the radial velocity of the source referred to the center of the sun (what we call heliocentric velocity), referred to the center of the Earth (geocentric velocity) and to the observer site (topocentric velocity) from the LSR radial velocity&lt;/p>
-&lt;li>The heliocentric velocity (V&lt;sub>hel&lt;/sub>) is computed by obtaining the scalar product of the radial velocity of the source referred to the LSR (V&lt;sub>lsr&lt;/sub>) with the velocity of the Sun referred to the LSR (V&lt;sub>sun&lt;/sub>:
-&lt;img src="vlsr1.png">
-&lt;/li>
-&lt;li>The geocentric velocity (V&lt;sub>geo&lt;/sub>) is obtained from the heliocentric velocity, the velocity of the Earth (V&lt;sub>E&lt;/sub>) and its position for a given date and time:
-&lt;img src="vlsr2.png">
-&lt;/li>
-&lt;li>The topocentric velocity is obtained from the  geocentric velocity, the position on the Earth, and the date and time at which we desire to know the radial velocity of the source.&lt;/li></string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+       <item>
+        <widget class="KTextBrowser" name="OverviewBox" />
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>KLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
   <customwidget>
    <class>KTextBrowser</class>
    <extends></extends>
@@ -743,16 +737,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>ExtDateEdit</class>
    <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>dmsBox</class>
-   <extends>KLineEdit</extends>
-   <header>widgets/dmsbox.h</header>
+   <header>extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -764,9 +751,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -23,14 +23,14 @@
 #endif
 
 #include <QTreeWidgetItem>
-#include <kdialogbase.h>
-
+#include <kdialog.h>
 #include <kapplication.h>
 
 #include "dms.h"
 
 class QSplitter;
 class QString;
+class QStackedWidget;
 class QTextEdit;
 class modCalcJD;
 class modCalcGeodCoord;
@@ -51,7 +51,7 @@ class modCalcVlsr;
  * @version 0.9
  */
 
-class AstroCalc : public KDialogBase
+class AstroCalc : public KDialog
 {
 
 Q_OBJECT 
@@ -74,48 +74,6 @@ Q_OBJECT
 		/**Generate explanatory text for solar system modules. */
 		void genSolarText(void);
 
-		/**Generate frame for Julian Date functions. */
-		void genJdFrame(void);
-
-		/**Generate frame for Sidereal Time functions. */
-		void genSidFrame(void);
-
-		/**Generate frame for Day Length functions. */
-		void genDayFrame(void);
-
-		/**Generates the frame for the Equinox and Solstice functions */
-		void genEquinoxFrame(void);
-
-		/**Generate frame for geodetic coordinates frame. */
-		void genGeodCoordFrame(void);
-
-		/**Generate frame for galactic coordinates frame. */
-		void genGalFrame(void);
-
-		/**Generate frame for ecliptic coordinates frame. */
-		void genEclFrame(void);
-
-		/**Generate frame for Precession frame. */
-		void genPrecFrame(void);
-
-		/**Generate frame for apparent coordinates frame. */
-		void genAppFrame(void);
-
-		/**Generate frame for horizontal coordinates frame. */
-		void genAzelFrame(void);
-
-		/**Generate frame for planets coordinates frame. */
-		void genPlanetsFrame(void);
-		
-		/**Generate frame for angular distances frame. */
-		void genAngDistFrame(void);
-
-		/**Generate frame for Vlsr frame. */
-		void genVlsrFrame(void);
-		
-		/**remove whatever frame is loaded in the right panel. */
-		void delRightPanel(void);
-
 		/**@returns suggested size of calculator window. */
 		QSize sizeHint() const;
 
@@ -129,14 +87,14 @@ Q_OBJECT
 		
 		QSplitter *split;
 		QTreeWidget *navigationPanel;
-		QTextEdit *splashScreen;
-//		QListViewItem *timeItem, *coordItem, *jdItem, *stItem, *dayItem;
-//		QVBox *vbox, *rightBox;
 		QString previousElection;
 
 		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist, Vlsr};
 		typeOfPanel rightPanel;
 
+		QStringList ItemTitles;
+		QStackedWidget *acStack;
+		QTextEdit *splashScreen;
 		modCalcJD *JDFrame;
 		modCalcGeodCoord *GeodCoordFrame;
 		modCalcGalCoord *GalFrame;

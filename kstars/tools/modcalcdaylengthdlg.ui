@@ -17,7 +17,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -394,13 +394,10 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
      <property name="sizeHint" >
       <size>
-       <width>554</width>
-       <height>16</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
     </spacer>
@@ -411,13 +408,6 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>timeBox</class>
-   <extends>QLineEdit</extends>
-   <header>widgets/timebox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
@@ -425,16 +415,16 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
+   <class>timeBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/timebox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <extends></extends>
+   <header>extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -445,12 +435,17 @@
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>longBox</tabstop>
   <tabstop>latBox</tabstop>
-  <tabstop>Compute</tabstop>
-  <tabstop>Clear</tabstop>
   <tabstop>elTransitBox</tabstop>
   <tabstop>azSetBox</tabstop>
   <tabstop>azRiseBox</tabstop>

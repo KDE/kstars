@@ -34,7 +34,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 	QStringList ellipsoidList;
 	ellipsoidList << "IAU76" << "GRS80" << "MERIT83" << "WGS84" << "IERS89";
 
-	setupUi( parentSplit );
+	setupUi(this);
 
 	spheRadio->setChecked(TRUE);
 	ellipsoidBox->insertStringList(ellipsoidList,5);
@@ -52,7 +52,7 @@ modCalcGeodCoord::~modCalcGeodCoord(){
 void modCalcGeodCoord::showLongLat(void)
 {
 
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	LongGeoBox->show( ks->geo()->lng() );
 	LatGeoBox->show( ks->geo()->lat() );
 	AltGeoBox->setText( QString("0.0") );

@@ -32,7 +32,7 @@
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : QFrame(parentSplit) {
-	setupUi(parentSplit);
+	setupUi(this);
 	showCurrentTimeAndLong();
 	show();		
 }

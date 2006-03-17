@@ -36,7 +36,7 @@
 
 modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit) {
 
-	setupUi( parentSplit );
+	setupUi(this);
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
@@ -138,7 +138,7 @@ void modCalcVlsr::showCurrentDateTime (void)
 // SIRVE para algo?
 void modCalcVlsr::initGeo(void)
 {
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	geoPlace = new GeoLocation( ks->geo() );
 }
 
@@ -147,7 +147,7 @@ void modCalcVlsr::initGeo(void)
 void modCalcVlsr::showLongLat(void)
 {
 
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	LongitudeBox->show( ks->geo()->lng() );
 	LatitudeBox->show( ks->geo()->lat() );
 	LongitudeBoxBatch->show( ks->geo()->lng() );

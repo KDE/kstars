@@ -20,7 +20,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -902,16 +902,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <extends></extends>
+   <header>extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -919,6 +912,13 @@
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

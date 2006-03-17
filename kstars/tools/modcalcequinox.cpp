@@ -32,7 +32,7 @@
 
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit) 
 : QFrame(parentSplit) {
-	setupUi( parentSplit );
+	setupUi(this);
 	showCurrentYear();
 	show();
 }
@@ -62,7 +62,7 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 {
 	long double julianDay = 0., jdf = 0.;
 	float deltaJd;
-	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
+	KStarsData *kd = (KStarsData*) topLevelWidget()->parent();
 	KSSun *Sun = new KSSun(kd);
 	int year0 = getYear( yearEdit->text() );
 	
@@ -172,7 +172,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 	int yearB;
 	int i = 0;
 	long double jdsp = 0., jdsu = 0., jdau = 0., jdwin = 0., jdsp1 = 0.;
-	KStarsData *kd = (KStarsData*) parent()->parent()->parent();
+	KStarsData *kd = (KStarsData*) topLevelWidget()->parent();
 	KSSun *Sun = new KSSun(kd);
 
 	while ( ! istream.atEnd() ) {

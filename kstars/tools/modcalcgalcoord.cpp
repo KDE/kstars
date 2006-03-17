@@ -30,7 +30,7 @@
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 
-	setupUi( parentSplit );
+	setupUi(this);
 	equRadio->setChecked(TRUE);
 	raBox->setDegType(FALSE);
 	show();

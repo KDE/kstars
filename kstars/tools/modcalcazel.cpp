@@ -33,7 +33,7 @@
 modCalcAzel::modCalcAzel(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 
-	setupUi( parentSplit);
+	setupUi(this);
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
@@ -112,7 +112,7 @@ void modCalcAzel::getGeoLocation (void)
 
 void modCalcAzel::initGeo(void)
 {
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent(); 
 	geoPlace = new GeoLocation( ks->geo() );
 }
 
@@ -121,7 +121,7 @@ void modCalcAzel::initGeo(void)
 void modCalcAzel::showLongLat(void)
 {
 
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	longBox->show( ks->geo()->lng() );
 	latBox->show( ks->geo()->lat() );
 	longBoxBatch->show( ks->geo()->lng() );

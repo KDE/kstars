@@ -17,7 +17,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -523,16 +523,16 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>kpushbutton.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>KPushButton</class>
    <extends></extends>
-   <header>klineedit.h</header>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

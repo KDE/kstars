@@ -17,7 +17,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
@@ -623,13 +623,6 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
@@ -637,9 +630,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KUrlRequester</class>
+   <class>KPushButton</class>
    <extends></extends>
-   <header>kurlrequester.h</header>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -647,6 +640,13 @@
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends></extends>
+   <header>kurlrequester.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

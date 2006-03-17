@@ -32,7 +32,7 @@
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit) 
 : QFrame(parentSplit) {
-	setupUi( parentSplit );
+	setupUi(this);
 	showCurrentDate();
 	initGeo();
 	show();
@@ -48,7 +48,7 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
+	KStars *ks = (KStars*) topLevelWidget()->parent();
 	geoPlace = ks->geo();
 	longBox->show( geoPlace->lng() );
 	latBox->show( geoPlace->lat() );
@@ -98,7 +98,7 @@ void modCalcDayLength::slotComputePosTime()
 	getGeoLocation();
 
 	KSNumbers * num = new KSNumbers(jd0);
-	KSSun *Sun = new KSSun(((KStars*) parent()->parent()->parent())->data());
+	KSSun *Sun = new KSSun( ((KStars*) topLevelWidget()->parent())->data() );
 	Sun->findPosition(num);
 
 	QTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );

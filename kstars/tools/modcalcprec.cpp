@@ -32,7 +32,7 @@
 #include "widgets/dmsbox.h"
 
 modCalcPrec::modCalcPrec(QWidget *parentSplit) : QFrame(parentSplit) {
-	setupUi( parentSplit );
+	setupUi(this);
 	InputRABox->setDegType(FALSE);
 	TargetRABox->setDegType(FALSE);
 	show();

@@ -30,7 +30,7 @@
 #define MJD0 2400000.5
 
 modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
-	setupUi(parentSplit);
+	setupUi(this);
 	showCurrentTime();
 	show();
 }
