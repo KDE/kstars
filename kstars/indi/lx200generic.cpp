@@ -1654,7 +1654,7 @@ int LX200Generic::handleCoordSet()
   char RAStr[32], DecStr[32];
   double dx, dy;
   
-  IDLog("In Handle Coord Set()\n");
+  //IDLog("In Handle Coord Set()\n");
 
   switch (currentSet)
   {
@@ -1687,7 +1687,7 @@ int LX200Generic::handleCoordSet()
 
      // Track
      case LX200_TRACK:
-          IDLog("We're in LX200_TRACK\n");
+          //IDLog("We're in LX200_TRACK\n");
           if (eqNum.s == IPS_BUSY)
 	  {
 	     IDLog("Aboring Slew\n");
@@ -1707,7 +1707,7 @@ int LX200Generic::handleCoordSet()
 		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
 	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);*/
 
-	      if (simulation)
+	      if (!simulation)
           	if ((err = Slew()))
 	  	{
 	    		slewError(err);
