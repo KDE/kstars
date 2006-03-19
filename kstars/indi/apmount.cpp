@@ -183,71 +183,71 @@ APMount::APMount()
 void APMount::initProperties()
 {
 
-   fillSwitch(&AlignmentS[0], "Polar", "", ISS_ON);
-   fillSwitch(&AlignmentS[1], "AltAz", "", ISS_OFF);
-   fillSwitchVector(&AlignmentSP, AlignmentS, NARRAY(AlignmentS), mydev, "Alignment", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+   IUFillSwitch(&AlignmentS[0], "Polar", "", ISS_ON);
+   IUFillSwitch(&AlignmentS[1], "AltAz", "", ISS_OFF);
+   IUFillSwitchVector(&AlignmentSP, AlignmentS, NARRAY(AlignmentS), mydev, "Alignment", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
-  fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
-  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  IUFillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
+  IUFillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
+  IUFillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
-  fillSwitch(&OnCoordSetS[0], "SLEW", "Slew", ISS_ON);
-  fillSwitch(&OnCoordSetS[1], "TRACK", "Track", ISS_OFF);
-  fillSwitch(&OnCoordSetS[2], "SYNC", "Sync", ISS_OFF);
-  fillSwitchVector(&OnCoordSetSP, OnCoordSetS, NARRAY(OnCoordSetS), mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&OnCoordSetS[0], "SLEW", "Slew", ISS_ON);
+  IUFillSwitch(&OnCoordSetS[1], "TRACK", "Track", ISS_OFF);
+  IUFillSwitch(&OnCoordSetS[2], "SYNC", "Sync", ISS_OFF);
+  IUFillSwitchVector(&OnCoordSetSP, OnCoordSetS, NARRAY(OnCoordSetS), mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillSwitch(&TrackModeS[0], "Lunar", "", ISS_OFF);
-  fillSwitch(&TrackModeS[1], "Solar", "", ISS_OFF);
-  fillSwitch(&TrackModeS[2], "Sideral", "", ISS_ON);
-  fillSwitch(&TrackModeS[3], "Zero", "", ISS_OFF);
-  fillSwitchVector(&TrackModeSP, TrackModeS, NARRAY(TrackModeS), mydev, "Tracking Mode", "",  MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&TrackModeS[0], "Lunar", "", ISS_OFF);
+  IUFillSwitch(&TrackModeS[1], "Solar", "", ISS_OFF);
+  IUFillSwitch(&TrackModeS[2], "Sideral", "", ISS_ON);
+  IUFillSwitch(&TrackModeS[3], "Zero", "", ISS_OFF);
+  IUFillSwitchVector(&TrackModeSP, TrackModeS, NARRAY(TrackModeS), mydev, "Tracking Mode", "",  MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-   fillSwitch(&AbortSlewS[0], "ABORT", "Abort", ISS_OFF);
-   fillSwitchVector(&AbortSlewSP, AbortSlewS, NARRAY(AbortSlewS), mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+   IUFillSwitch(&AbortSlewS[0], "ABORT", "Abort", ISS_OFF);
+   IUFillSwitchVector(&AbortSlewSP, AbortSlewS, NARRAY(AbortSlewS), mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-    fillSwitch(&ParkS[0], "PARK", "Park", ISS_OFF);
-    fillSwitch(&ParkS[1], "UNPARK", "Unpark", ISS_OFF);
-    fillSwitchVector(&ParkSP, ParkS, NARRAY(ParkS), mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+    IUFillSwitch(&ParkS[0], "PARK", "Park", ISS_OFF);
+    IUFillSwitch(&ParkS[1], "UNPARK", "Unpark", ISS_OFF);
+    IUFillSwitchVector(&ParkSP, ParkS, NARRAY(ParkS), mydev, "PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-    fillSwitch(&MovementS[0], "N", "North", ISS_OFF); 
-    fillSwitch(&MovementS[1], "W", "West", ISS_OFF); 
-    fillSwitch(&MovementS[2], "E", "East", ISS_OFF); 
-    fillSwitch(&MovementS[3], "S", "South", ISS_OFF); 
-    fillSwitchVector(&MovementSP, MovementS, NARRAY(MovementS), mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+    IUFillSwitch(&MovementS[0], "N", "North", ISS_OFF); 
+    IUFillSwitch(&MovementS[1], "W", "West", ISS_OFF); 
+    IUFillSwitch(&MovementS[2], "E", "East", ISS_OFF); 
+    IUFillSwitch(&MovementS[3], "S", "South", ISS_OFF); 
+    IUFillSwitchVector(&MovementSP, MovementS, NARRAY(MovementS), mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillSwitch(&FocusMotionS[0], "IN", "Focus in", ISS_OFF);
-  fillSwitch(&FocusMotionS[1], "OUT", "Focus out", ISS_OFF);
-  fillSwitchVector(&FocusMotionSP, FocusMotionS, NARRAY(FocusMotionS), mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&FocusMotionS[0], "IN", "Focus in", ISS_OFF);
+  IUFillSwitch(&FocusMotionS[1], "OUT", "Focus out", ISS_OFF);
+  IUFillSwitchVector(&FocusMotionSP, FocusMotionS, NARRAY(FocusMotionS), mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
-  fillTextVector(&PortTP, PortT, NARRAY(PortT), mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
+  IUFillTextVector(&PortTP, PortT, NARRAY(PortT), mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
-  fillText(&UTCT[0], "UTC", "", "YYYY-MM-DDTHH:MM:SS");
-  fillTextVector(&TimeTP, UTCT, NARRAY(UTCT), mydev, "TIME", "UTC Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&UTCT[0], "UTC", "", "YYYY-MM-DDTHH:MM:SS");
+  IUFillTextVector(&TimeTP, UTCT, NARRAY(UTCT), mydev, "TIME", "UTC Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
-  fillText(&ObjectT[0], "OBJECT_NAME", "Name", "--");
-  fillTextVector(&ObjectTP, ObjectT, NARRAY(ObjectT), mydev, "OBJECT_INFO", "Object", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&ObjectT[0], "OBJECT_NAME", "Name", "--");
+  IUFillTextVector(&ObjectTP, ObjectT, NARRAY(ObjectT), mydev, "OBJECT_INFO", "Object", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&EqN[0], "RA", "RA  H:M:S", "%10.6m",  0., 24., 0., 0.);
-   fillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
-   fillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&EqN[0], "RA", "RA  H:M:S", "%10.6m",  0., 24., 0., 0.);
+   IUFillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
+   IUFillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&GeoN[0], "LAT",  "Lat.  D:M:S +N", "%10.6m",  -90.,  90., 0., 0.);
-   fillNumber(&GeoN[1], "LONG", "Long. D:M:S +E", "%10.6m", 0., 360., 0., 0.);
-   fillNumberVector(&GeoNP, GeoN, NARRAY(GeoN), mydev, "GEOGRAPHIC_COORD", "Geographic Location", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&GeoN[0], "LAT",  "Lat.  D:M:S +N", "%10.6m",  -90.,  90., 0., 0.);
+   IUFillNumber(&GeoN[1], "LONG", "Long. D:M:S +E", "%10.6m", 0., 360., 0., 0.);
+   IUFillNumberVector(&GeoNP, GeoN, NARRAY(GeoN), mydev, "GEOGRAPHIC_COORD", "Geographic Location", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&FocusTimerN[0], "TIMEOUT", "Timeout (s)", "%10.6m", 0., 120., 1., 0.);
-   fillNumberVector(&FocusTimerNP, FocusTimerN, NARRAY(FocusTimerN), mydev, "FOCUS_TIMEOUT", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&FocusTimerN[0], "TIMEOUT", "Timeout (s)", "%10.6m", 0., 120., 1., 0.);
+   IUFillNumberVector(&FocusTimerNP, FocusTimerN, NARRAY(FocusTimerN), mydev, "FOCUS_TIMEOUT", "Focus Timer", FOCUS_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&SDTimeN[0], "LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0.);
-   fillNumberVector(&SDTimeNP, SDTimeN, NARRAY(SDTimeN), mydev, "SDTIME", "Sidereal Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&SDTimeN[0], "LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0.);
+   IUFillNumberVector(&SDTimeNP, SDTimeN, NARRAY(SDTimeN), mydev, "SDTIME", "Sidereal Time", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&HorN[0], "ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.);
-   fillNumber(&HorN[1], "AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.);
-   fillNumberVector(&HorNP, HorN, NARRAY(HorN), mydev, "HORIZONTAL_COORD", "Horizontal Coords", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&HorN[0], "ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0.);
+   IUFillNumber(&HorN[1], "AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0.);
+   IUFillNumberVector(&HorNP, HorN, NARRAY(HorN), mydev, "HORIZONTAL_COORD", "Horizontal Coords", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&FocusSpeedN[0], "SPEED", "Speed", "%0.f", 0., 3., 1., 0.);
-   fillNumberVector(&FocusSpeedNP, FocusSpeedN, NARRAY(FocusSpeedN), mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&FocusSpeedN[0], "SPEED", "Speed", "%0.f", 0., 3., 1., 0.);
+   IUFillNumberVector(&FocusSpeedNP, FocusSpeedN, NARRAY(FocusSpeedN), mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE);
 
 
 }
@@ -1660,5 +1660,4 @@ void APMount::connectionResumed()
    
   IDSetSwitch(&PowerSP, "The connection to the telescope has been resumed.");
 }
-
 

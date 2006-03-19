@@ -145,27 +145,27 @@ LX200Basic::LX200Basic()
 void LX200Basic::initProperties()
 {
 
-  fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
-  fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
-  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", BASIC_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  IUFillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
+  IUFillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
+  IUFillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", BASIC_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
-  fillSwitch(&OnCoordSetS[0], "SLEW", "Slew", ISS_ON);
-  fillSwitch(&OnCoordSetS[1], "TRACK", "Track", ISS_OFF);
-  fillSwitch(&OnCoordSetS[2], "SYNC", "Sync", ISS_OFF);
-  fillSwitchVector(&OnCoordSetSP, OnCoordSetS, NARRAY(OnCoordSetS), mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&OnCoordSetS[0], "SLEW", "Slew", ISS_ON);
+  IUFillSwitch(&OnCoordSetS[1], "TRACK", "Track", ISS_OFF);
+  IUFillSwitch(&OnCoordSetS[2], "SYNC", "Sync", ISS_OFF);
+  IUFillSwitchVector(&OnCoordSetSP, OnCoordSetS, NARRAY(OnCoordSetS), mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-   fillSwitch(&AbortSlewS[0], "ABORT", "Abort", ISS_OFF);
-   fillSwitchVector(&AbortSlewSP, AbortSlewS, NARRAY(AbortSlewS), mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+   IUFillSwitch(&AbortSlewS[0], "ABORT", "Abort", ISS_OFF);
+   IUFillSwitchVector(&AbortSlewSP, AbortSlewS, NARRAY(AbortSlewS), mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
-  fillTextVector(&PortTP, PortT, NARRAY(PortT), mydev, "DEVICE_PORT", "Ports", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&PortT[0], "PORT", "Port", "/dev/ttyS0");
+  IUFillTextVector(&PortTP, PortT, NARRAY(PortT), mydev, "DEVICE_PORT", "Ports", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
-  fillText(&ObjectT[0], "OBJECT_NAME", "Name", "--");
-  fillTextVector(&ObjectTP, ObjectT, NARRAY(ObjectT), mydev, "OBJECT_INFO", "Object", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&ObjectT[0], "OBJECT_NAME", "Name", "--");
+  IUFillTextVector(&ObjectTP, ObjectT, NARRAY(ObjectT), mydev, "OBJECT_INFO", "Object", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
-   fillNumber(&EqN[0], "RA", "RA  H:M:S", "%10.6m",  0., 24., 0., 0.);
-   fillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
-   fillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumber(&EqN[0], "RA", "RA  H:M:S", "%10.6m",  0., 24., 0., 0.);
+   IUFillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
+   IUFillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
    
 }

@@ -28,19 +28,28 @@
  
  INDI is small, easy to parse, and stateless. In the INDI paradigm each Device poses all command and status functions in terms of settings and getting Properties. Each Property is a vector of one or more names members. Each property has a current value vector; a target value vector; provides information about how it should be sequenced with respect to other Properties to accomplish one coordinated unit of observation; and provides hints as to how it might be displayed for interactive manipulation in a GUI.\n
  
- Clients learn the Properties of a particular Device at runtime using introspection. This decouples Client and Device implementation histories. Devices have a complete authority over whether to accept commands from Clients. INDI accommpdates intermediate servers, broadcasting, and connection topologies ranging from one-to-one on a single system to many-to-many between systems of different genre.\n
+ Clients learn the Properties of a particular Device at runtime using introspection. This decouples Client and Device implementation histories. Devices have a complete authority over whether to accept commands from Clients. INDI accommadates intermediate servers, broadcasting, and connection topologies ranging from one-to-one on a single system to many-to-many between systems of different genre.\n
  
  The INDI protocol can be nested within other XML elements such as constraints for automatic scheduling and execution.\n
  
- For a complete review on the INDI protocol, please refer to the INDI <a href="http://www.clearskyinstitute.com/INDI/INDI">white paper</a>. 
+ For a complete review on the INDI protocol, please refer to the INDI <a href="http://www.clearskyinstitute.com/INDI/INDI.pdf">white paper</a>. 
  
 \section Audience Intended Audience 
 
-INDI is intended for developers who seek a scalable API for device control and automation. Hardware drivers written under INDI can be used under any INDI-compatible client. INDI serves as a backend only, you need frontend clients to control devices. Current clients include <a href="http://edu.kde.org/kstars">KStars</a>, <a href="http://www.clearyskyinstitute.com/xephem">Xephem</a>, and <a href="http://www.stargazing.net/astropc">Cartes du Ciel</a>. 
+INDI is intended for developers who seek a scalable API for device control and automation. Hardware drivers written under INDI can be used under any INDI-compatible client. INDI serves as a backend only, you need frontend clients to control devices. Current clients include <a href="http://edu.kde.org/kstars">KStars</a>, <a href="http://www.clearyskyinstitute.com/xephem">Xephem</a>, <a href="http://pygtkindiclient.sourceforge.net/">DCD</a>, and <a href="http://www.stargazing.net/astropc">Cartes du Ciel</a>. 
 
 \section Development Developing under INDI
 
-Please refere to the <a href="http://indi.sf.net/manual/">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework. 
+<p>Please refere to the <a href="http://indi.sf.net/manual/">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework.</p>
+
+<p>The INDI Library API is divided into the following main sections:</p>
+<ul>
+<li><a href="indidevapi_8h.html">INDI Device API</a></li>
+<li><a href="indicom_8h.html">INDI Common Routine Library</a></li>
+<li><a href="lilxml_8h.html">INDI LilXML Library</a></li>
+<li><a href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/c/c_user/cfitsio.html">CFITSIO Library</a></li>
+</ul>
+
 
 \section Help 
 

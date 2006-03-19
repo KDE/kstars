@@ -38,6 +38,49 @@
     define:</li>
  
      <ul><li>ISxxx to respond to messages from a Client.</li></ul></ol>
+
+<p>These functions are the interface to the INDI C-language Device Driver
+reference implementation library. Any driver that uses this interface is
+expected to #include "indidevapi.h" and to link with indidrivermain.o and
+eventloop.o. Indidevapi.h further includes indiapi.h. The former contains
+the prototypes for the functions documented here, although many functions
+take arguments defined in the latter.</p>
+
+<p>These functions make it much easier to write a compliant INDI driver than
+starting from scratch, and also serve as a concrete
+example of the interactions an INDI driver, in any language, is expected to
+accommodate.</p>
+
+<p>The reference driver framework and the optimizations made within the reference
+indiserver both assume and require that one driver program implements exactly
+one logical INDI device.</p>
+
+<p>The functions in this framework fall into two broad categories. Some are
+functions that a driver must define because they are called by the reference
+framework; these functions begin with IS. The remaining functions are library
+utilities a driver may use to do important operations.</p>
+
+<p>A major point to realize is that an INDI driver built with this framework
+does not contain the C main() function. As soon as a driver begins executing,
+it listens on stdin for INDI messages. Only when a valid and appropriate
+message is received will it then call the driver via one of the IS functions.
+The driver is then expected to respond promptly by calling one of the ID
+library functions. It may also use any of the IU utility functions as desired
+to make processing a message easier.</p>
+
+<p>Rather separate from these IS, ID and IU functions are a collection of
+functions that utilize the notion of a callback. In a callback design,
+the driver registers a function with the framework to be called under
+certain circumstances. When said circumstances occur, the framework will
+call the callback function. The driver never calls these callbacks directly.
+These callback functions begin with IE. They can arrange for a callback
+function to be called under three kinds of circumstances: when a given file
+descriptor may be read without blocking (because either data is available
+or EOF has been encountered), when a given time interval has elapsed, or
+when the framework has nothing urgent to do. The callback functions for each
+circumstance must be written according to a well defined prototype since,
+after all, the framework must know how to call the callback correctlty.</p>
+
 */
  
 
@@ -61,8 +104,23 @@ extern "C" {
 #endif
 
 /**
- * \defgroup d2cFunctions Functions Drivers call to define their Properties to Clients.
- */
+ * \defgroup d2cFunctions IDDef Functions: Functions drivers call to define their properties to clients.
+
+<p>Each of the following functions creates the appropriate XML formatted
+INDI message from its arguments and writes it to stdout. From there, is it
+typically read by indiserver which then sends it to the clients that have
+expressed interest in messages from the Device indicated in the message.</p>
+
+<p>In addition to type-specific arguments, all end with a printf-style format
+string, and appropriate subsequent arguments, that form the \param msg
+attribute within the INDI message. If the format argument is NULL, no message
+attribute is included with the message. Note that a \e timestamp 
+attribute is also always added automatically based on the clock on the 
+computer on which this driver is running.</p>
+
+*/
+
+
 /*@{*/
 
 /** \brief Tell client to create a text vector property.
@@ -119,7 +177,7 @@ extern void IDDefBLOB (const IBLOBVectorProperty *b, const char *msg, ...)
 /*@}*/
 
 /**
- * \defgroup d2cuFunctions Functions Drivers call to tell Clients of new values for existing Properties.
+ * \defgroup d2cuFunctions IDSet Functions: Functions drivers call to tell clients of new values for existing properties.
  */
 /*@{*/
 
@@ -214,7 +272,7 @@ extern void IDLog (const char *msg, ...)
 ;
 
 /**
- * \defgroup deventFunctions Functions Drivers call to register with the INDI event utilities.
+ * \defgroup deventFunctions IE Functions: Functions drivers call to register with the INDI event utilities.
  
      Callbacks are called when a read on a file descriptor will not block. Timers are called once after a specified interval. Workprocs are called when there is nothing else to do. The "Add" functions return a unique id for use with their corresponding "Rm" removal function. An arbitrary pointer may be specified when a function is registered which will be stored and forwarded unchanged when the function is later invoked.
  */
@@ -280,9 +338,14 @@ extern void IERmWorkProc (int workprocid);
 /*@}*/
 
 /**
- * \defgroup dutilFunctions Functions Drivers call to perform handy utility functions.
- 
-   These do not communicate with the Client in any way.
+ * \defgroup dutilFunctions IU Functions: Functions drivers call to perform handy utility routines.
+
+<p>This section describes handy utility functions that are provided by the
+framework for tasks commonly required in the processing of client
+messages. It is not strictly necessary to use these functions, but it
+both prudent and efficient to do so.</P>
+
+<p>These do not communicate with the Client in any way.</p>
  */
 /*@{*/
 
@@ -363,7 +426,7 @@ extern void IUSaveText (IText *tp, const char *newtext);
     \param label the switch label
     \param s the switch state (ISS_ON or ISS_OFF)
 */
-extern void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
+extern void IUFillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
 
 /** \brief Assign attributes for a number property. The number's auxilary elements will be set to NULL.
     \param np pointer a number property to fill
@@ -375,7 +438,7 @@ extern void fillSwitch(ISwitch *sp, const char *name, const char * label, ISStat
     \param step the step used to climb from minimum value to maximum value
     \param value the number's current value
 */
-extern void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value);
+extern void IUFillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value);
 
 /** \brief Assign attributes for a text property. The text's auxilary elements will be set to NULL.
     \param tp pointer a text property to fill
@@ -383,7 +446,7 @@ extern void fillNumber(INumber *np, const char *name, const char * label, const 
     \param label the text label
     \param initialText the initial text
 */
-extern void fillText(IText *tp, const char *name, const char * label, const char *initialText);
+extern void IUFillText(IText *tp, const char *name, const char * label, const char *initialText);
 
 /** \brief Assign attributes for a switch vector property. The vector's auxilary elements will be set to NULL.
     \param svp pointer a switch vector property to fill
@@ -398,7 +461,7 @@ extern void fillText(IText *tp, const char *name, const char * label, const char
     \param timeout vector property timeout in seconds 
     \param s the vector property initial state.
 */
-extern void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
+extern void IUFillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
 
 /** \brief Assign attributes for a number vector property. The vector's auxilary elements will be set to NULL.
     \param nvp pointer a number vector property to fill
@@ -412,7 +475,7 @@ extern void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, c
     \param timeout vector property timeout in seconds 
     \param s the vector property initial state.
 */
-extern void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
+extern void IUFillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
 
 /** \brief Assign attributes for a text vector property. The vector's auxilary elements will be set to NULL.
     \param tvp pointer a text vector property to fill
@@ -426,7 +489,7 @@ extern void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, c
     \param timeout vector property timeout in seconds 
     \param s the vector property initial state.
 */
-extern void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
+extern void IUFillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s);
 
 /*@}*/
 
@@ -441,18 +504,31 @@ extern void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const c
  */
 
 
-/** \brief Function defined by Drivers that is called when a Client asks for the definitions of all Properties this Driver supports for the given device.
+
+/**
+ * \defgroup dcuFunctions IS Functions: Functions all drivers must define.
+ 
+This section defines functions that must be defined in each driver. These
+functions are never called by the driver, but are called by the driver
+framework. These must always be defined even if they do nothing.
+*/
+/*@{*/
+
+/** \brief Get Device Properties
     \param dev the name of the device.
+
+This function is called by the framework whenever the driver has received a
+getProperties message from an INDI client. The argument \param dev is either a
+string containing the name of the device specified within the message, or NULL
+if no device was specified. If the driver does not recognize the device, it
+should ignore the message and do nothing. If dev matches the device the driver
+is implementing, or dev is NULL, the driver must respond by sending one defXXX
+message to describe each property defined by this device, including its
+current (or initial) value. The recommended way to send these messages is to
+call the appropriate IDDef functions.
 */  
 extern void ISGetProperties (const char *dev);
 
-
-/**
- * \defgroup dcuFunctions Functions defined by Drivers that are called when a Client wishes to set different values named members of the given vector Property.
- 
- The values and their names are parallel arrays of n elements each.
-*/
-/*@{*/
 
 /** \brief Update the value of an existing text vector property.
     \param dev the name of the device.

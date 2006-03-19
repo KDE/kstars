@@ -72,7 +72,7 @@ typedef struct _xml_ele XMLEle;
 typedef struct _LilXML LilXML;
 
 /**
- * \defgroup lilxmlFunctions Functions to parse, process, and search XML.
+ * \defgroup lilxmlFunctions XML Functions: Functions to parse, process, and search XML.
  */
 /*@{*/
 

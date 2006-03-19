@@ -769,7 +769,7 @@ IUSaveText (IText *tp, const char *newtext)
 	tp->text = strcpy (realloc (tp->text, strlen(newtext)+1), newtext);
 }
 
-void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
+void IUFillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
 {
   strcpy(sp->name, name);
   strcpy(sp->label, label);
@@ -778,7 +778,7 @@ void fillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
   sp->aux = NULL;
 }
 
-void fillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value)
+void IUFillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value)
 {
 
   strcpy(np->name, name);
@@ -794,7 +794,7 @@ void fillNumber(INumber *np, const char *name, const char * label, const char *f
   np->aux1	= NULL;
 }
 
-void fillText(IText *tp, const char *name, const char * label, const char *initialText)
+void IUFillText(IText *tp, const char *name, const char * label, const char *initialText)
 {
 
   strcpy(tp->name, name);
@@ -808,7 +808,7 @@ void fillText(IText *tp, const char *name, const char * label, const char *initi
 
 }
 
-void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s)
+void IUFillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s)
 {
   strcpy(svp->device, dev);
   strcpy(svp->name, name);
@@ -824,7 +824,7 @@ void fillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const ch
   svp->nsp	= nsp;
 }
  
-void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
+void IUFillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
 {
   
   strcpy(nvp->device, dev);
@@ -841,7 +841,7 @@ void fillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const ch
   
 }
 
-void fillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
+void IUFillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)
 {
   strcpy(tvp->device, dev);
   strcpy(tvp->name, name);
@@ -1104,6 +1104,7 @@ dispatch (XMLEle *root, char msg[])
 		blobs = (char **) malloc (1);
 		names = (char **) malloc (1);
 		formats = (char **) malloc (1);
+		blobsizes = (int *) malloc (1);
 		sizes = (int *) malloc (1);
 	    }
 

@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 /**
- * \defgroup base64 Functions to convert from and to base64
+ * \defgroup base64 Base 64 Functions: Convert from and to base64
  */
 /*@{*/
 

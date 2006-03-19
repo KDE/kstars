@@ -52,11 +52,6 @@ extern "C" {
 */
 extern void eventLoop(void);
 
-/**
- * \defgroup utilFunctions Utility functions to add and remove callbacks, workprocs, and timers.
- */
-/*@{*/
-
 /** Register a new callback, \e fp, to be called with \e ud as argument when \e fd is ready.
 *
 * \param fd file descriptor.
@@ -100,8 +95,6 @@ extern int addTimer (int ms, TCF *fp, void *ud);
 * \param tid the timer callback ID returned from addTimer().
 */
 extern void rmTimer (int tid);
-
-/*@}*/
 
 #ifdef __cplusplus
 }

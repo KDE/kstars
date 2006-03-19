@@ -24,7 +24,17 @@
 */
 
 /** \file indicom.h
-    \brief Implementations for common astronomical routines.
+    \brief Implementations for common driver routines.
+
+    The INDI Common Routine Library provides astronomical, mathematical, and formatting routines employed by many INDI drivers. Currently, the library is composed of the following sections:
+
+    <ul>
+    <li>Math Functions</li>
+    <li>Ephemeris Functions</li>
+    <li>Formatting Functions</li>
+    <li>Conversion Functions</li>
+
+    </ul>
     
     \author Jason Harris
     \author Elwood C. Downey
@@ -37,7 +47,6 @@
 #include <time.h>
 
 #define J2000 2451545.0
-#define TRACKING_THRESHOLD	0.05		/* 3' for tracking */
 #define ERRMSG_SIZE 1024
 
 extern const char * Direction[];
@@ -48,7 +57,7 @@ extern "C" {
 #endif
 
 /**
- * \defgroup mathFunctions Handy math routines.
+ * \defgroup mathFunctions Math Functions: Functions to perform common math routines.
  */
 /*@{*/
 
@@ -76,7 +85,7 @@ void SinCos( double Degrees, double *sina, double *cosa );
 /*@}*/
 
 /**
- * \defgroup ephemerisFunctions Common ephemeris functions.
+ * \defgroup ephemerisFunctions Ephemeris Functions: Functions to perform common ephemeris routines.
    
    The ephemeris functions are date-dependent. Call updateAstroValues() to update orbital values used in many algorithms before using any ephemeris function. You only need to call updateAstroValues() again if you need to update the orbital values for a different date.
  */
@@ -181,7 +190,7 @@ void apparentCoord(double jd0, double jdf, double *RA, double *Dec);
 
 
 /**
- * \defgroup convertFunctions Handy formatting and conversion routines.
+ * \defgroup convertFunctions Formatting Functions: Functions to perform handy formatting and conversion routines.
  */
 /*@{*/
 
