@@ -29,16 +29,16 @@
 #include "locationdialog.h"
 
 LocationDialogUI::LocationDialogUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( parent );
+	setupUi( this );
 }
 
 LocationDialog::LocationDialog( QWidget* parent )
-    : KDialogBase( KDialogBase::Plain, i18n( "Set Geographic Location" ), Ok|Cancel, Ok, parent ) {
+    : KDialog( parent, i18n( "Set Geographic Location" ), Ok|Cancel ) {
 
 	KStars *p = (KStars *)parent;
 
-	QFrame *page = plainPage();
-	ui = new LocationDialogUI( page );
+	ui = new LocationDialogUI( this );
+	setMainWidget( ui );
 
 	for ( int i=0; i<25; ++i )
 		ui->TZBox->insertItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );

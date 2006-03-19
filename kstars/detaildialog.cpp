@@ -64,27 +64,13 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
-DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent ) : QDialog(parent) , selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) 
+: KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	//Modify color palette
 	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
 	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
 
-	// Create tab widget
-	QVBoxLayout *vlay = new QVBoxLayout(this);
-	tabWidget = new QTabWidget(this);
-	vlay->addWidget(tabWidget);
-
-	QHBoxLayout *hlay = new QHBoxLayout();
-	closeButton = new QPushButton(i18n("&Close"), this);
-	hlay->addStretch();
-	hlay->addWidget(closeButton);
-
-	vlay->addLayout(hlay);
-
-       setWindowTitle(i18n( "Object Details" ));
-	
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
 
@@ -99,12 +85,11 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
 	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
 	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
-	connect (closeButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
 void DetailDialog::createGeneralTab()
 {
-	QWidget *DataTab = new QWidget();
+	QFrame *DataTab = addPage(i18n("General"));
 	Data = new DataWidget(DataTab);
 
 	//Show object thumbnail image
@@ -251,12 +236,10 @@ void DetailDialog::createGeneralTab()
 
 	//Common to all types:
 	Data->Constellation->setText( ksw->data()->skyComposite()->constellation( selectedObject ) );
-
-	tabWidget->addTab(DataTab, i18n("General"));
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	QWidget *PosTab = new QWidget();
+	QFrame *PosTab = addPage(i18n("Position"));
 	Pos = new PositionWidget(PosTab);
 
 	//Coordinates Section:
@@ -334,8 +317,6 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
 	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
 	Pos->AltTransit->setText( talt.toDMSString() );
-
-	tabWidget->addTab(PosTab, i18n("Position"));
 }
 
 void DetailDialog::createLinksTab()
@@ -344,7 +325,7 @@ void DetailDialog::createLinksTab()
 	if (selectedObject->name() == QString("star"))
 		return;
 
-	QWidget *LinksTab = new QWidget();
+	QFrame *LinksTab = addPage(i18n("Links"));
 	Links = new LinksWidget(LinksTab);
 
 	foreach ( QString s, selectedObject->InfoTitle )
@@ -370,9 +351,6 @@ void DetailDialog::createLinksTab()
 	connect( Links->InfoTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectImagesList() ) );
 	connect( Links->ImageTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectInfoList() ) );
 	connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
-
-	tabWidget->addTab(LinksTab, i18n( "Links" ));
-
 }
 
 void DetailDialog::createAdvancedTab()
@@ -386,15 +364,13 @@ void DetailDialog::createAdvancedTab()
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	QWidget *AdvancedTab = new QWidget();
+	QFrame *AdvancedTab = addPage(i18n("Advanced"));
 	Adv = new DatabaseWidget(AdvancedTab );
 
 	//treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
 
 	populateADVTree();
-
-	tabWidget->addTab(AdvancedTab, i18n("Advanced"));
 }
 
 void DetailDialog::createLogTab()
@@ -404,7 +380,7 @@ void DetailDialog::createLogTab()
 		return;
 
 	// Log Tab
-	QWidget *LogTab = new QWidget();
+	QFrame *LogTab = addPage(i18n("Log"));
 	Log = new LogWidget(LogTab);
 
 	if ( selectedObject->userLog.isEmpty() )
@@ -414,8 +390,6 @@ void DetailDialog::createLogTab()
 
 	//Automatically save the log contents when the widget loses focus
 	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
-
-	tabWidget->addTab(LogTab,i18n("Log")); 
 }
 
 
@@ -938,7 +912,7 @@ void DetailDialog::showThumbnail() {
 }
 
 void DetailDialog::updateThumbnail() {
-	ThumbnailPicker tp( selectedObject, *Thumbnail, this, "thumbnaileditor" );
+	ThumbnailPicker tp( selectedObject, *Thumbnail, this );
 	
 	if ( tp.exec() == QDialog::Accepted ) {
 		QString fname = locateLocal( "appdata", "thumb-" 

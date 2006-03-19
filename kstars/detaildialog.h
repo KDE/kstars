@@ -18,17 +18,14 @@
 #ifndef DETAILDIALOG_H
 #define DETAILDIALOG_H
 
-#include <qfile.h>
-#include <qlabel.h>
-
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QFocusEvent>
 #include <QHBoxLayout>
 #include <QTabWidget>
-#include <QDialog>
 #include <QPushButton>
 
+#include <kdialogbase.h>
 #include <ktextedit.h>
 
 #include "skyobject.h"
@@ -80,7 +77,7 @@ struct ADVTreeData
 	*@version 1.0
 	*/
 
-class DetailDialog : public QDialog  {
+class DetailDialog : public KDialogBase  {
    Q_OBJECT
 public: 
 /**Constructor
@@ -196,9 +193,6 @@ private:
 
 	SkyObject *selectedObject;
 	KStars* ksw;
-
-	QTabWidget *tabWidget;
-	QPushButton *closeButton;
 
 	// Edit Link Dialog
 	QHBoxLayout *editLinkLayout;

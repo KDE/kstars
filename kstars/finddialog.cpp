@@ -26,7 +26,7 @@
 #include "skyobject.h"
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( parent );
+	setupUi( this );
 
 	FilterType->insertItem( i18n ("Any") );
 	FilterType->insertItem( i18n ("Stars") );
@@ -45,11 +45,11 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 FindDialog::FindDialog( QWidget* parent ) :
-		KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ),
+		KDialog( parent, i18n( "Find Object" ), Ok|Cancel ),
 		currentitem(0), Filter(0)
 {
-	QFrame *page = plainPage();
-	ui = new FindDialogUI( page );
+	ui = new FindDialogUI( this );
+	setMainWidget( ui );
 
 //Connect signals to slots
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;

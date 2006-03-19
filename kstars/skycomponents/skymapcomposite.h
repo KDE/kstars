@@ -73,6 +73,11 @@ class SkyMapComposite : public QObject, public SkyComposite
 	Q_OBJECT
 
 	public:
+	/**
+		*Constructor
+		*@p parent pointer to the parent SkyComponent
+		*@p data pointer to the KStarsData object
+		*/
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
 		/**

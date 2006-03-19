@@ -46,23 +46,19 @@
 #include "detaildialog.h"
 #include "skyobject.h"
 
-/*ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( parent );
-}*/
+ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
 
-ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
- : QDialog(parent) /*KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name )*/,
+ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent )
+ : KDialog( parent, i18n( "Choose Thumbnail Image" ), Ok|Cancel ),
 		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
 	Image = new QPixmap( current );
 	ImageRect = new QRect( 0, 0, 200, 200 );
 
-	//QFrame *page = plainPage();
-	//QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	//ui = new ThumbnailPickerUI( page );
-	ui = new Ui::ThumbnailPicker();
-	ui->setupUi(this);
-	//vlay->addWidget( ui );
+	ui = new ThumbnailPickerUI( this );
+	setMainWidget( ui );
 
 	setWindowTitle(i18n( "Choose Thumbnail Image" ));
 

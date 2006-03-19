@@ -15,6 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <math.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <QCursor>
+#include <QBitmap>
+#include <QPainter>
+#include <QPixmap>
+#include <QTextStream>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QFile>
+
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kiconloader.h>
@@ -23,22 +36,6 @@
 #include <kaction.h>
 #include <kstandarddirs.h>
 #include <ktoolbar.h>
-
-#include <q3memarray.h>
-#include <q3pointarray.h>
-#include <qcursor.h>
-#include <qbitmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QTextStream>
-#include <Q3PtrList>
-#include <QKeyEvent>
-#include <QEvent>
-
-#include <math.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <ktoolinvocation.h>
 
 #include "skymap.h"
@@ -68,7 +65,6 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	if ( parent ) ksw = (KStars*)parent;
 	else ksw = 0;
 	
-//	pts = new QPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
 
 	ZoomRect = QRect();

@@ -645,6 +645,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		QDialog *AAVSODialog;
 		FindDialog *findDialog;
 		KSNewStuff *kns;
+
+		//FIXME: move to KStarsData
 		ObservingList *obsList;
 		
 		INDIMenu *indimenu;

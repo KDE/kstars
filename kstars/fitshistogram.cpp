@@ -41,7 +41,7 @@
  
  histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
  {
-   setupUi(parent);
+   setupUi(this);
    setModal(false);
    
    minSlider->setMinimum(0);

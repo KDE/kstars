@@ -30,7 +30,7 @@
 #include "thumbnailpicker.h"
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( parent );
+	setupUi( this );
 }
 
 ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )

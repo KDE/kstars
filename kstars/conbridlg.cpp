@@ -38,7 +38,7 @@
 
 ConBriUI::ConBriUI(QWidget *parent) : QFrame(parent)
 {
-  setupUi(parent);
+  setupUi(this);
 }
 
 ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :

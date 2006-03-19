@@ -23,7 +23,7 @@
 
 #include <QKeyEvent>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "finddialogui.h"
 #include "skyobject.h"
@@ -43,7 +43,7 @@ class FindDialogUI : public QFrame, public Ui::FindDialog {
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class FindDialog : public KDialogBase  {
+class FindDialog : public KDialog {
 Q_OBJECT
 
 public:

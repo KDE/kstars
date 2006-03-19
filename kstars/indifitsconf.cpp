@@ -25,7 +25,7 @@
 
 INDIFITSConfUI::INDIFITSConfUI(QWidget *parent) : QFrame(parent)
 {
-  setupUi(parent);
+  setupUi(this);
 }
 
 INDIFITSConf::INDIFITSConf(QWidget* parent)

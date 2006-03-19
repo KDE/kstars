@@ -46,7 +46,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include "geolocation.h"
 #include "locationdialogui.h"
 
@@ -56,7 +56,7 @@ class LocationDialogUI : public QFrame, public Ui::LocationDialog {
 		LocationDialogUI( QWidget *parent );
 };
 
-class LocationDialog : public KDialogBase {
+class LocationDialog : public KDialog {
 	Q_OBJECT
 
 public: 
