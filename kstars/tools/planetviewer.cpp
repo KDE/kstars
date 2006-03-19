@@ -43,7 +43,7 @@
 #include "libkdeedu/kdeeduplot/kplotaxis.h"
 
 PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)

@@ -50,7 +50,7 @@
 #include "libkdeedu/kdeeduplot/kplotwidget.h"
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
-	setupUi( p );
+	setupUi( this );
 }
 
 AltVsTime::AltVsTime( QWidget* parent)  :

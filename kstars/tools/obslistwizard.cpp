@@ -39,7 +39,7 @@
 #include "obslistwizard.h"
 
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 ObsListWizard::ObsListWizard( QWidget *parent, const char *name ) 

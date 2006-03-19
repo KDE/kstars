@@ -56,7 +56,7 @@
 #include "indistd.h"
 
 ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 ObservingList::ObservingList( KStars *_ks, QWidget* parent )

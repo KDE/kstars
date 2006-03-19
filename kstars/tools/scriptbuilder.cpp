@@ -66,7 +66,7 @@
 #include "libkdeedu/extdate/extdatewidget.h"
 
 OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 OptionsTreeView::OptionsTreeView( QWidget *p ) 
@@ -80,7 +80,7 @@ OptionsTreeView::~OptionsTreeView() {
 }
 
 ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 ScriptNameDialog::ScriptNameDialog( QWidget *p ) 
@@ -100,7 +100,7 @@ void ScriptNameDialog::slotEnableOkButton() {
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
-  setupUi( p );
+  setupUi( this );
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )

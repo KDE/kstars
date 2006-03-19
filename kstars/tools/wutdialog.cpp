@@ -40,7 +40,7 @@
 #include "ksmoon.h"
 
 WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
-	setupUi( p );
+	setupUi( this );
 }
 
 WUTDialog::WUTDialog(KStars *ks) :
