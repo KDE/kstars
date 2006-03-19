@@ -17,7 +17,6 @@
 
 #include <QTimer>
 #include <QCursor>
-#include <QVBoxLayout>
 #include <QListWidgetItem>
 
 #include <kcombobox.h>
@@ -44,14 +43,11 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
 }
 
 WUTDialog::WUTDialog(KStars *ks) :
-	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
-	kstars(ks), EveningFlag(0) {
+		KDialog( (QWidget*)ks, i18n("What's up Tonight"), KDialog::Close ),
+		kstars(ks), EveningFlag(0) {
 
-	QFrame *page = plainPage();
-	setMainWidget(page);
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	WUT = new WUTDialogUI( page );
-	vlay->addWidget( WUT );
+	WUT = new WUTDialogUI( this );
+	setMainWidget( WUT );
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();

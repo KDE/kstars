@@ -35,18 +35,18 @@
 #include "libkdeedu/kdeeduplot/kplotaxis.h"
 
 JMoonTool::JMoonTool(QWidget *parent)
- : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent )
+	: KDialog( parent, i18n("Jupiter Moons Tool"), KDialog::Close )
 {
 	ksw = (KStars*)parent;
-	
-	QFrame *page = plainPage();
+	QFrame *page = new QFrame(this);
+	setMainWidget( page );
 	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
 	
-	colJp = "White";
-	colIo = "Red";
-	colEu = "Yellow";
-	colGn = "Orange";
-	colCa = "YellowGreen";
+	colJp = QColor(Qt::white);
+	colIo = QColor(Qt::red);
+	colEu = QColor(Qt::yellow);
+	colGn = QColor(Qt::cyan);
+	colCa = QColor(Qt::green);
 	
 	QLabel *labIo = new QLabel( "Io", page );
 	QLabel *labEu = new QLabel( "Europa", page );
@@ -66,10 +66,14 @@ JMoonTool::JMoonTool(QWidget *parent)
 	labEu->setPaletteForegroundColor( colEu );
 	labGn->setPaletteForegroundColor( colGn );
 	labCa->setPaletteForegroundColor( colCa );
-	labIo->setPaletteBackgroundColor( "Black" );
-	labEu->setPaletteBackgroundColor( "Black" );
-	labGn->setPaletteBackgroundColor( "Black" );
-	labCa->setPaletteBackgroundColor( "Black" );
+	labIo->setPaletteBackgroundColor( Qt::black );
+	labEu->setPaletteBackgroundColor( Qt::black );
+	labGn->setPaletteBackgroundColor( Qt::black );
+	labCa->setPaletteBackgroundColor( Qt::black );
+	labIo->setAutoFillBackground( true );
+	labEu->setAutoFillBackground( true );
+	labGn->setAutoFillBackground( true );
+	labCa->setAutoFillBackground( true );
 	
 	QGridLayout *glay = new QGridLayout( 2, 2, 0 );
 	glay->addWidget( labIo, 0, 0 );

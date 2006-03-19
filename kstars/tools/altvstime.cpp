@@ -54,13 +54,13 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 }
 
 AltVsTime::AltVsTime( QWidget* parent)  :
-	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
+	KDialog( parent, i18n( "Altitude vs. Time" ), KDialog::Close )
 {
 	ks = (KStars*) parent;
 
-	QFrame *page = plainPage();
-
+	QFrame *page = new QFrame( this );
 	setMainWidget(page);
+
 	topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
@@ -77,7 +77,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	avtUI->raBox->setDegType( false );
 	avtUI->decBox->setDegType( true );
 
-	//POST-3.2
+	//FIXME:
 	//Doesn't make sense to manually adjust long/lat unless we can modify TZ also
 	avtUI->longBox->setReadOnly( true );
 	avtUI->latBox->setReadOnly( true );

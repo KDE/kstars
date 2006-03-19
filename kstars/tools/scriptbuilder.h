@@ -18,7 +18,7 @@
 #ifndef SCRIPTBUILDER_H
 #define SCRIPTBUILDER_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "scriptbuilderui.h"
 #include "scriptnamedialog.h"
@@ -39,7 +39,7 @@ public:
 	OptionsTreeViewWidget( QWidget *p );
 };
 
-class OptionsTreeView : public KDialogBase {
+class OptionsTreeView : public KDialog {
 Q_OBJECT
 public:
 	OptionsTreeView( QWidget *p );
@@ -56,7 +56,7 @@ public:
 	ScriptNameWidget( QWidget *p );
 };
 
-class ScriptNameDialog : public KDialogBase {
+class ScriptNameDialog : public KDialog {
 Q_OBJECT
 public:
 	ScriptNameDialog( QWidget *p );
@@ -82,7 +82,7 @@ public:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ScriptBuilder : public /*KDialogBase*/ QDialog {
+class ScriptBuilder : public KDialog {
 Q_OBJECT
 public:
 	ScriptBuilder( QWidget *parent );
@@ -165,8 +165,7 @@ public slots:
 private:
 	void initViewOptions();
 
-	Ui::ScriptBuilder *sb;
-	//ScriptBuilderUI *sb;
+	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
 	QList<ScriptFunction*> KStarsFunctionList;
@@ -191,7 +190,7 @@ private:
 	ArgSetColor *argSetColor;
 	ArgLoadColorScheme *argLoadColorScheme;
 	ArgStartINDI *argStartINDI;
-        ArgSetDeviceINDI *argSetDeviceINDI;
+	ArgSetDeviceINDI *argSetDeviceINDI;
 	ArgShutdownINDI *argShutdownINDI;
 	ArgSwitchINDI *argSwitchINDI;
 	ArgSetPortINDI *argSetPortINDI;
@@ -208,7 +207,7 @@ private:
 	ArgSetScopeActionINDI *argSetScopeActionINDI;
 	ArgSetFrameTypeINDI *argSetFrameTypeINDI;
 	ArgSetCCDTempINDI *argSetCCDTempINDI;
-        ArgSetFilterNumINDI *argSetFilterNumINDI;
+	ArgSetFilterNumINDI *argSetFilterNumINDI;
 	
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;

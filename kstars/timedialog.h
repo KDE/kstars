@@ -46,14 +46,14 @@ class KStars;
 	*@version 0.9
 	*/
 
-class TimeDialog : public KDialogBase {
+class TimeDialog : public KDialog {
   Q_OBJECT
 public:
 /**
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( const KStarsDateTime &now, QWidget* parent = 0 );
+	TimeDialog( const KStarsDateTime &now, QWidget *parent );
 
 /**
 	*Destructor (empty)
@@ -107,7 +107,6 @@ protected:
 	void keyReleaseEvent( QKeyEvent* );
 
 private:
-  KStars *ksw;
   bool UTCNow;
   QHBoxLayout *hlay;
   QVBoxLayout *vlay;

@@ -48,7 +48,7 @@
 #include "observinglist.h"
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
-	if ( ksw ) { //only if we are drawing in the GUI window
+	if ( ks ) { //only if we are drawing in the GUI window
 		QPainter p;
 		p.begin( pm );
 		p.setRenderHint(QPainter::Antialiasing, true);
@@ -57,7 +57,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		drawBoxes( p );
 
 		//draw FOV symbol
-		ksw->data()->fovSymbol.draw( p, (float)(Options::fOVSize() * Options::zoomFactor()/57.3/60.0) );
+		ks->data()->fovSymbol.draw( p, (float)(Options::fOVSize() * Options::zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
 		drawObservingList( p );
 		drawZoomBox( p );
@@ -159,8 +159,8 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 }
 
 void SkyMap::drawBoxes( QPainter &p ) {
-	if ( ksw ) { //only if we are drawing in the GUI window
-		ksw->infoBoxes()->drawBoxes( p,
+	if ( ks ) { //only if we are drawing in the GUI window
+		ks->infoBoxes()->drawBoxes( p,
 				data->colorScheme()->colorNamed( "BoxTextColor" ),
 				data->colorScheme()->colorNamed( "BoxGrabColor" ),
 				data->colorScheme()->colorNamed( "BoxBGColor" ), Options::boxBGMode() );
@@ -170,8 +170,8 @@ void SkyMap::drawBoxes( QPainter &p ) {
 void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
 
-	if ( ksw && ksw->observingList()->obsList().size() ) {
-		foreach ( SkyObject* obj, ksw->observingList()->obsList() ) {
+	if ( ks && ks->observingList()->obsList().size() ) {
+		foreach ( SkyObject* obj, ks->observingList()->obsList() ) {
 			if ( checkVisibility( obj ) ) {
 				QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
 
@@ -197,11 +197,11 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
  
 /* NOTE We're using TelescopeComponent now. Remove this later on
 
-	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
+	if ( ks ) { //ks doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
 		INDI_P *portConnect;
 		INDI_E *lp;
-		INDIMenu *devMenu = ksw->getINDIMenu();
+		INDIMenu *devMenu = ks->getINDIMenu();
 		bool useJ2000 (false), useAltAz(false);
 		SkyPoint indi_sp;
 
@@ -297,10 +297,10 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						{
 							indi_sp.setRA0(raDMS);
 							indi_sp.setDec0(decDMS);
-							indi_sp.apparentCoord( (double) J2000, ksw->data()->ut().djd());
+							indi_sp.apparentCoord( (double) J2000, ks->data()->ut().djd());
 						}
 							
-						if ( Options::useAltAz() ) indi_sp.EquatorialToHorizontal( ksw->LST(), ksw->geo()->lat() );
+						if ( Options::useAltAz() ) indi_sp.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
 						}
 
@@ -356,7 +356,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 
 	if ( x1 || y1 ) p.translate( x1, y1 );
 
-	data->skyComposite()->draw( ksw, p, scale );
+	data->skyComposite()->draw( ks, p, scale );
 
 	p.end();
 }

@@ -24,10 +24,9 @@
 #include "kstars.h"
 #include "widgets/timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( QWidget *p ) 
-	: QFrame( p ) 
+OpsAdvanced::OpsAdvanced( KStars *_ks ) 
+	: QFrame( _ks ), ksw(_ks)
 {
-	ksw = (KStars *)p;
 	setupUi( this );
 
 	//Initialize the timestep value

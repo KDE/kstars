@@ -34,11 +34,12 @@
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatepicker.h"
 
-TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
-    : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
+TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
+	: KDialog( parent, i18n( "set clock to a new time", "Set Time" ), 
+		KDialog::Ok|KDialog::Cancel )
 {
-	ksw = (KStars*) parent;
-	QFrame *page = plainPage();
+	QFrame *page = new QFrame(this);
+	setMainWidget( page );
 
 	vlay = new QVBoxLayout( page, 2, 2 );
 	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout

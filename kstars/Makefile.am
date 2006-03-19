@@ -53,7 +53,7 @@ rc_DATA = kstarsui.rc fitsviewer.rc
 include_HEADERS = kstarsinterface.h simclockinterface.h
 
 # set the include path for X, qt and KDE
-INCLUDES= -I$(top_srcdir) -Itools -I$(srcdir)/tools $(all_includes)
+INCLUDES= -I$(top_srcdir) -I$(top_srcdir)/libkdeedu/extdate -I$(srcdir)/tools $(all_includes)
 
 METASOURCES = AUTO
 

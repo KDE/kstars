@@ -34,10 +34,9 @@
 #include "skymap.h"
 #include "colorscheme.h"
 
-OpsColors::OpsColors( QWidget *p ) 
-	: QFrame( p ) 
+OpsColors::OpsColors( KStars *_ks ) 
+	: QFrame( _ks ), ksw(_ks)
 {
-	ksw = (KStars *)p;
 	setupUi( this );
 
 	//Populate list of adjustable colors

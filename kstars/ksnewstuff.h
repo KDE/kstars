@@ -50,7 +50,7 @@ class KSNewStuff : public QObject, public KNewStuff
 		*Constructor
 		*@p parent pointer to the parent widget
 		*/
-		KSNewStuff( QWidget *parent = 0 );
+		KSNewStuff( KStars *_ks );
 
 	/**
 		*Install new application data

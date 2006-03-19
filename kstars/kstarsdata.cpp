@@ -89,10 +89,6 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	//initialize FOV symbol
 	fovSymbol = FOV();
 
-	//VariableStarsList.setAutoDelete(TRUE);
-	//INDIHostsList.setAutoDelete(TRUE);
-	//INDITelescopeList.setAutoDelete(TRUE);
-
 	// at startup times run forward
 	setTimeDirection( 0.0 );
 

@@ -19,7 +19,7 @@
 #define LCGENERATOR_H
 
 #include <QCloseEvent>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kio/job.h>
 
 #include "lcgeneratorui.h"
@@ -28,17 +28,11 @@ class QFile;
 class QVBoxLayout;
 class KStars;
 
-struct VariableStarInfo
-{
-	QString Name;
-	QString Designation;
-};
-
-/*class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
+class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
 	Q_OBJECT
 	public:
 		LCGeneratorUI( QWidget *p=0 );
-};*/
+};
 
 /**
 	*@class LCGenerator
@@ -48,7 +42,7 @@ struct VariableStarInfo
 	*@author Jasem Mutlaq
 	*@version 1.0
 	*/
-class LCGenerator : public QDialog
+class LCGenerator : public KDialog
 { 
 Q_OBJECT
 
@@ -96,9 +90,8 @@ private:
 	void DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay);
 
 	KStars *ksw;
-	Ui::LCGenerator *lcg;
-	//LCGeneratorUI *lcg;
 	QVBoxLayout *vlay;
+	LCGeneratorUI *lcg;
 
 	const QString Hostprefix;
 	const int JDCutOff;

@@ -17,7 +17,7 @@
 #ifndef OBSLISTWIZARD_H
 #define OBSLISTWIZARD_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "obslistwizardui.h"
 
@@ -33,13 +33,13 @@ class ObsListWizardUI : public QFrame, public Ui::ObsListWizard {
  *@short Wizard for constructing observing lists
  *@author Jason Harris
  */
-class ObsListWizard : public KDialogBase
+class ObsListWizard : public KDialog
 {
 	Q_OBJECT
 	public:
 	/**@short Constructor
 		*/
-		ObsListWizard( QWidget *parent = 0, const char *name = 0 );
+		ObsListWizard( QWidget *parent = 0 );
 	/**@short Destructor
 		*/
 		~ObsListWizard();

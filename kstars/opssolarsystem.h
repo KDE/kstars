@@ -34,7 +34,7 @@ class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 	Q_OBJECT
 
 public:
-	OpsSolarSystem( QWidget *parent=0 );
+	OpsSolarSystem( KStars *_ks );
 	~OpsSolarSystem();
 
 private slots:

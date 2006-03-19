@@ -401,7 +401,7 @@ void KStars::datainitFinished(bool worked) {
 	indimenu = new INDIMenu(this);
 
 	//Initialize Observing List
-	obsList = new ObservingList( this, this );
+	obsList = new ObservingList( this );
 
 	data()->setFullTimeUpdate();
 	updateTime();

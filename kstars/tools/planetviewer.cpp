@@ -47,11 +47,12 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)
- : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent ), scale(1.0), isClockRunning(false), tmr(this)
+	: KDialog( parent, i18n("Solar System Viewer"), KDialog::Close ), 
+		scale(1.0), isClockRunning(false), tmr(this)
 {
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	pw = new PlanetViewerUI( page );
+	pw = new PlanetViewerUI( this );
+	setMainWidget( pw );
+
 	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
 	pw->map->axis( KPlotWidget::BottomAxis )->setLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
 	pw->map->axis( KPlotWidget::LeftAxis )->setLabel( i18n( "axis label for y-coordinate of solar system viewer.  AU means astronomical unit.", "Y-position (AU)" ) );
@@ -62,7 +63,6 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 	pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 	
-	vlay->addWidget( pw );
 	resize( 500, 500 );
 	pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 	

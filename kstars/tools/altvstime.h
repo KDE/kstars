@@ -30,7 +30,7 @@ class KStarsDateTime;
 class QTime;
 class QVariant;
 class QVBoxLayout;
-class KDialogBase;
+class KDialog;
 class KLocale;
 class SkyObject;
 class SkyPoint;
@@ -102,7 +102,7 @@ private:
 	*@author Jason Harris
 	*/
 
-class AltVsTime : public KDialogBase
+class AltVsTime : public KDialog
 {
 	Q_OBJECT
 

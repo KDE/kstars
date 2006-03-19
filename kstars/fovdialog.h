@@ -19,7 +19,7 @@
 #define FOVDIALOG_H
 
 #include <QPaintEvent>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "fovdialogui.h"
 #include "newfovui.h"
@@ -44,11 +44,11 @@ class NewFOVUI : public QFrame, public Ui::NewFOV {
 		NewFOVUI( QWidget *parent=0 );
 };
 
-class FOVDialog : public KDialogBase
+class FOVDialog : public KDialog
 {
 	Q_OBJECT
 public:
-	FOVDialog( QWidget *parent=0 );
+	FOVDialog( KStars *ks );
 	~FOVDialog();
 	unsigned int currentItem() const;
 	QList<FOV*> FOVList;
@@ -73,7 +73,7 @@ private:
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class NewFOV : public KDialogBase
+class NewFOV : public KDialog
 {
 	Q_OBJECT
 public:

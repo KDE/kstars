@@ -55,18 +55,13 @@
 #include "kscomet.h"
 #include "starobject.h"
 
-SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
-	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
-		ksw(0), data(d), pmenu(0), sky(0), sky2(0), IBoxes(0), 
+SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
+	: QWidget(_ks), computeSkymap(true), angularDistanceMode(false),
+		ks(_ks), data(_data), pmenu(0), sky(0), sky2(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
-		//pts(0),
 		sp(0)
 {
-	if ( parent ) ksw = (KStars*)parent;
-	else ksw = 0;
-	
 	sp = new SkyPoint();            // needed by coordinate grid
-
 	ZoomRect = QRect();
 
 	setDefaultMouseCursor();	// set the cross cursor
@@ -88,7 +83,7 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 
 	sky = new QPixmap();
 	sky2 = new QPixmap();
-	pmenu = new KSPopupMenu( ksw );
+	pmenu = new KSPopupMenu( ks );
 	
 	//Initialize Transient label stuff
 	TransientTimeout = 100; //fade label color every 0.2 sec
@@ -247,7 +242,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 
 void SkyMap::slotCenter( void ) {
 	//DEBUG
-	kDebug() << "Number of toolbars: " << ksw->toolBarList().size() << endl;
+	kDebug() << "Number of toolbars: " << ks->toolBarList().size() << endl;
 
 	setFocusPoint( clickedPoint() );
 	if ( Options::useAltAz() ) 
@@ -280,10 +275,10 @@ void SkyMap::slotCenter( void ) {
 //destination to previous object...
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
-	if ( ksw ) {
-	  ksw->actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
-	  ksw->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
-	  ksw->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+	if ( ks ) {
+	  ks->actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
+	  ks->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
+	  ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
@@ -307,15 +302,15 @@ void SkyMap::slotCenter( void ) {
 	focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 	//display coordinates in statusBar
-	if ( ksw ) {
+	if ( ks ) {
 		QString sX = focusPoint()->az()->toDMSString();
 		QString sY = focusPoint()->alt()->toDMSString(true);
 		if ( Options::useAltAz() && Options::useRefraction() )
 			sY = refract( focusPoint()->alt(), true ).toDMSString(true);
 		QString s = sX + ",  " + sY;
-		ksw->statusBar()->changeItem( s, 1 );
+		ks->statusBar()->changeItem( s, 1 );
 		s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
-		ksw->statusBar()->changeItem( s, 2 );
+		ks->statusBar()->changeItem( s, 2 );
 	}
 	
 	showFocusCoords(); //update FocusBox
@@ -424,13 +419,13 @@ void SkyMap::slotEndAngularDistance(void) {
 		double maxrad = 1000.0/Options::zoomFactor();
 		if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
 			angularDistance = so->angularDistanceTo( previousClickedPoint() );
-			ksw->statusBar()->changeItem( so->translatedLongName() + 
+			ks->statusBar()->changeItem( so->translatedLongName() + 
 					"     " +
 					i18n("Angular distance: " ) +
 					angularDistance.toDMSString(), 0 );
 		} else {
 			angularDistance = mousePoint()->angularDistanceTo( previousClickedPoint() );
-			ksw->statusBar()->changeItem( i18n("Angular distance: " ) +
+			ks->statusBar()->changeItem( i18n("Angular distance: " ) +
 				angularDistance.toDMSString(), 0 );
 		}
 		angularDistanceMode=false;
@@ -492,7 +487,7 @@ void SkyMap::slotDetail( void ) {
 		KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
 		return;
 	}
-	DetailDialog detail( clickedObject(), data->ut(), data->geo(), ksw );
+	DetailDialog detail( clickedObject(), data->ut(), data->geo(), ks );
 	detail.exec();
 }
 
@@ -504,7 +499,7 @@ void SkyMap::slotClockSlewing() {
 			data->clock()->setManualMode( true );
 
 			// don't change automatically the DST status
-			if ( ksw ) ksw->updateTime( false );
+			if ( ks ) ks->updateTime( false );
 		}
 	} else {
 		if ( clockSlewing ) {
@@ -512,7 +507,7 @@ void SkyMap::slotClockSlewing() {
 			data->clock()->setManualMode( false );
 
 			// don't change automatically the DST status
-			if ( ksw ) ksw->updateTime( false );
+			if ( ks ) ks->updateTime( false );
 		}
 	}
 }

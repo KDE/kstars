@@ -69,7 +69,7 @@ public:
 	*Constructor.  Read stored settings from KConfig object (focus position,
 	*zoom factor, sky color, etc.).  Run initPopupMenus().
 	*/
-	SkyMap( KStarsData *d, QWidget *parent=0, const char *name=0);
+	SkyMap( KStarsData *_data, KStars *_ks = 0 );
 
 /**
 	*Destructor (empty)
@@ -777,7 +777,7 @@ private:
 
 	QString sURL;
 	
-	KStars *ksw;
+	KStars *ks;
 	KStarsData *data;
 	KSPopupMenu *pmenu;
 	QPixmap *sky, *sky2;

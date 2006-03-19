@@ -35,10 +35,9 @@
 #include "deepskyobject.h"
 #include "skymap.h"
 
-KSNewStuff::KSNewStuff( QWidget *parent ) :
-  QObject(), KNewStuff( "kstars", parent ), NGCUpdated( false )
+KSNewStuff::KSNewStuff( KStars *_ks ) :
+  QObject(), KNewStuff( "kstars", _ks ), ks(_ks), NGCUpdated( false )
 {
-	ks = (KStars*)parent;
 	kdw = new KDirWatch( this );
 	kdw->addDir( KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true) );
 }

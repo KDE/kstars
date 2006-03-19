@@ -21,10 +21,9 @@
 #include "kstars.h"
 #include "widgets/magnitudespinbox.h"
 
-OpsSolarSystem::OpsSolarSystem( QWidget *parent )
- : QFrame( parent )
+OpsSolarSystem::OpsSolarSystem( KStars *_ks )
+ : QFrame( _ks ), ksw(_ks)
 {
-	ksw = (KStars *)parent;
 	setupUi( this );
 
 	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );

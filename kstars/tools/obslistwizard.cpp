@@ -42,15 +42,12 @@ ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
   setupUi( this );
 }
 
-ObsListWizard::ObsListWizard( QWidget *parent, const char *name ) 
-  : KDialogBase( KDialogBase::Plain, i18n("Observing List Wizard"), Ok|Cancel, Ok, parent, name )
+ObsListWizard::ObsListWizard( QWidget *parent ) 
+  : KDialog( parent, i18n("Observing List Wizard"), KDialog::Ok|KDialog::Cancel )
 {
 	ksw = (KStars*)parent;
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-
-	olw = new ObsListWizardUI( page );
-	vlay->addWidget( olw );
+	olw = new ObsListWizardUI( this );
+	setMainWidget( olw );
 
 	connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
 	connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );

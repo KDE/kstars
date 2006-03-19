@@ -50,15 +50,12 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 //---------FOVDialog---------------//
-FOVDialog::FOVDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Set FOV Indicator" ), Ok|Cancel, Ok, parent ) {
-
-	ks = (KStars*)parent;
-
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	fov = new FOVDialogUI( page );
-	vlay->addWidget( fov );
+FOVDialog::FOVDialog( KStars *_ks )
+	: KDialog( _ks, i18n( "Set FOV Indicator" ), KDialog::Ok|KDialog::Cancel ), 
+		ks(_ks) 
+{
+	fov = new FOVDialogUI( this );
+	setMainWidget( fov );
 
 	connect( fov->FOVListBox, SIGNAL( currentChanged( Q3ListBoxItem* ) ), SLOT( slotSelect( Q3ListBoxItem* ) ) );
 	connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
@@ -208,11 +205,10 @@ void FOVDialog::slotRemoveFOV() {
 
 //-------------NewFOV------------------//
 NewFOV::NewFOV( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "New FOV Indicator" ), Ok|Cancel, Ok, parent ), f() {
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	ui = new NewFOVUI( page );
-	vlay->addWidget( ui );
+	: KDialog( parent, i18n( "New FOV Indicator" ), KDialog::Ok|KDialog::Cancel ), f() 
+{
+	ui = new NewFOVUI( this );
+	setMainWidget( ui );
 
 	connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->FOVEdit, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );

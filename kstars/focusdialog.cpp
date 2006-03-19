@@ -31,28 +31,25 @@ FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-FocusDialog::FocusDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Set Focus Manually" ), Ok|Cancel, Ok, parent ) {
-
+FocusDialog::FocusDialog( KStars *_ks )
+	: KDialog( _ks, i18n( "Set Focus Manually" ), Ok|Cancel ), ks(_ks) 
+{
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
-	QFrame *page = plainPage();
-	setMainWidget(page);
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
-	fd = new FocusDialogUI(page);
+	fd = new FocusDialogUI(this);
+	setMainWidget(fd);
+
 	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
-	vlay->addWidget( fd );
-	
+	fd->raBox->setDegType(false); //RA box should be HMS-style
+	fd->raBox->setFocus(); //set input focus
+	enableButtonOK( false ); //disable until both lineedits are filled
+
 	connect( fd->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
-
-	fd->raBox->setDegType(false); //RA box should be HMS-style
-	fd->raBox->setFocus(); //set input focus
-	enableButtonOK( false ); //disable until both lineedits are filled
 }
 
 FocusDialog::~FocusDialog(){
@@ -79,8 +76,6 @@ void FocusDialog::validatePoint() {
 	dms ra( fd->raBox->createDms( false, &raOk ) ); //false means expressed in hours
 	dms dec( fd->decBox->createDms( true, &decOk ) );
 	QString message;
-
-	KStars *ks = (KStars*) parent();
 
 	if ( raOk && decOk ) {
 		//make sure values are in valid range

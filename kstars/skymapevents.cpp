@@ -53,7 +53,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
 	// avoid phantom positions of infoboxes
-	if ( ksw && ( isVisible() || width() == ksw->width() || height() == ksw->height() ) ) {
+	if ( ks && ( isVisible() || width() == ks->width() || height() == ks->height() ) ) {
 		infoBoxes()->resize( width(), height() );
 	}
 	sky->resize( width(), height() );
@@ -70,7 +70,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
 		//kDebug() << "resumeKey pressed; resuming DCOP." << endl;
-		ksw->resumeDCOP();
+		ks->resumeDCOP();
 		return;
 	}
 
@@ -137,12 +137,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Qt::Key_Plus:   //Zoom in
 		case Qt::Key_Equal:
-			if ( ksw ) ksw->slotZoomIn();
+			if ( ks ) ks->slotZoomIn();
 			break;
 
 		case Qt::Key_Minus:  //Zoom out
 		case Qt::Key_Underscore:
-			if ( ksw ) ksw->slotZoomOut();
+			if ( ks ) ks->slotZoomOut();
 			break;
 
 //In the following cases, we set slewing=true in order to disengage tracking
@@ -287,7 +287,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_O: //Add object to Observing List
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) 
-				ksw->observingList()->slotAddObject();
+				ks->observingList()->slotAddObject();
 			break;
 
 		case Qt::Key_L: //Toggle User label on Clicked/Centered object
@@ -413,7 +413,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 }
 
 void SkyMap::stopTracking() {
-	if ( ksw && Options::isTracking() ) ksw->slotTrack();
+	if ( ks && Options::isTracking() ) ks->slotTrack();
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
@@ -499,11 +499,11 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 		if (yoff > 10 ) {
 			y0 = dyPix;
-			if ( ksw ) ksw->slotZoomIn();
+			if ( ks ) ks->slotZoomIn();
 		}
 		if (yoff < -10 ) {
 			y0 = dyPix;
-			if ( ksw ) ksw->slotZoomOut();
+			if ( ks ) ks->slotZoomOut();
 		}
 	}
 
@@ -561,7 +561,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		forceUpdate();  // must be new computed
 	} else {
 
-		if ( ksw ) {
+		if ( ks ) {
 			QString sX, sY, s;
 			sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
 			sY = mousePoint()->alt()->toDMSString(true); //true = force +/- symbol
@@ -569,19 +569,19 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 				sY = refract( mousePoint()->alt(), true ).toDMSString(true);
 
 			s = sX + ",  " + sY;
-			ksw->statusBar()->changeItem( s, 1 );
+			ks->statusBar()->changeItem( s, 1 );
 			
 			sX = mousePoint()->ra()->toHMSString();
 			sY = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
 			s = sX + ",  " + sY;
-			ksw->statusBar()->changeItem( s, 2 );
+			ks->statusBar()->changeItem( s, 2 );
 		}
 	}
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-	if ( ksw && e->delta() > 0 ) ksw->slotZoomIn();
-	else if ( ksw ) ksw->slotZoomOut();
+	if ( ks && e->delta() > 0 ) ks->slotZoomIn();
+	else if ( ks ) ks->slotZoomOut();
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
@@ -605,7 +605,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
 		setFocus( &newcenter );
 		setDestination( &newcenter );
-		ksw->zoom( Options::zoomFactor() * factor );
+		ks->zoom( Options::zoomFactor() * factor );
 		
 		setDefaultMouseCursor();
 		ZoomRect = QRect(); //invalidate ZoomRect
@@ -685,8 +685,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			}
 			
-			if ( ksw && e->button() == Qt::LeftButton ) {
-				ksw->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
+			if ( ks && e->button() == Qt::LeftButton ) {
+				ks->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
 			}
 		} else {
 			//Empty sky selected.  If left-click, display "nothing" in the status bar.
@@ -695,7 +695,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 			switch (e->button()) {
 				case Qt::LeftButton:
-					if ( ksw ) ksw->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
+					if ( ks ) ks->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
 					break;
 				case Qt::RightButton:
 				{
@@ -773,7 +773,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
 	//Draw all sky elements
-	data->skyComposite()->draw( ksw, psky );
+	data->skyComposite()->draw( ks, psky );
 
 	//Finish up
 	psky.end();

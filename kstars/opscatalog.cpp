@@ -28,11 +28,9 @@
 #include "widgets/magnitudespinbox.h"
 #include "skycomponents/customcatalogcomponent.h"
 
-OpsCatalog::OpsCatalog( QWidget *p ) 
-	: QFrame( p )
+OpsCatalog::OpsCatalog( KStars *_ks ) 
+	: QFrame( _ks ), ksw(_ks)
 {
-	ksw = (KStars *)p;
-
 	setupUi(this);
 
 	//Populate CatalogList
@@ -123,7 +121,7 @@ void OpsCatalog::selectCatalog() {
 }
 
 void OpsCatalog::slotAddCatalog() {
-	AddCatDialog ac(this);
+	AddCatDialog ac( ksw );
 	if ( ac.exec()==QDialog::Accepted ) 
 		insertCatalog( ac.filename() );
 }

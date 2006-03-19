@@ -38,7 +38,7 @@ class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
 	Q_OBJECT
 
 public:
-	OpsAdvanced( QWidget *parent=0 );
+	OpsAdvanced( KStars *_ks );
 	~OpsAdvanced();
 
 private slots:

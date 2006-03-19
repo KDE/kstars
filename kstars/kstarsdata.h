@@ -28,7 +28,6 @@
 #include "colorscheme.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
-#include "tools/lcgenerator.h"
 #include "skycomponents/skymapcomposite.h"
 
 #define MINZOOM 200.
@@ -64,6 +63,12 @@ class ADVTreeData;
 class CSegment;
 class CustomCatalog;
 
+struct VariableStarInfo
+{
+	QString Name;
+	QString Designation;
+};
+
 /**@class KStarsData
 	*KStarsData is the backbone of KStars.  It contains all the data used by KStars, 
 	*including the SkyMapComposite that contains all items in the skymap 
@@ -73,7 +78,6 @@ class CustomCatalog;
 	*@author Heiko Evermann
 	*@version 1.0
 	*/
-
 class KStarsData : public QObject
 {
 	Q_OBJECT

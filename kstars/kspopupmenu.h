@@ -42,7 +42,7 @@ class KSPopupMenu : public KMenu
 Q_OBJECT
 public:
 /**Default constructor*/
-	KSPopupMenu( QWidget *parent = 0 );
+	KSPopupMenu( KStars *_ks );
 	
 /**Destructor (empty)*/
 	~KSPopupMenu();
@@ -150,7 +150,7 @@ public:
 	bool addINDI(void);
 
 private:
-	KStars *ksw;
+	KStars *ks;
 	QAction *aName, *aName2, *aType, *aConstellation;
 	QAction *aRiseTime, *aSetTime, *aTransitTime;
 

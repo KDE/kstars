@@ -39,16 +39,15 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi(this);
 }
 
-AddCatDialog::AddCatDialog( QWidget *parent )
-	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
+AddCatDialog::AddCatDialog( KStars *_ks )
+	: KDialog( _ks, i18n( "Import Catalog" ), 	
+		KDialog::Help|KDialog::Ok|KDialog::Cancel ), ks(_ks) {
 
-	QFrame *page = plainPage();
-	setMainWidget(page);
 	QDir::setCurrent( QDir::homePath() );
 
-	vlay = new QVBoxLayout( page, 0, spacingHint() );
-	acd = new AddCatDialogUI(page);
-	vlay->addWidget( acd );
+
+	acd = new AddCatDialogUI(this);
+	setMainWidget(acd);
 	
 	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
 	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ), 
@@ -115,8 +114,6 @@ void AddCatDialog::slotHelp() {
  * Position angle: floating-point value (position angle, in degrees)
  */
 bool AddCatDialog::validateDataFile() {
-	KStars *ksw = (KStars*) topLevelWidget()->parent(); 
-
 	//Create the catalog file contents: first the header
 	CatalogContents = writeCatalogHeader();
 
@@ -139,7 +136,7 @@ bool AddCatDialog::validateDataFile() {
 		ostream << CatalogContents;
 		tmpFile.close();
 		CustomCatalogComponent newCat( 0, tmpFile.name(), true, Options::showOther );
-		newCat.init( ksw->data() );
+		newCat.init( ks->data() );
 
 		int nObjects = newCat.objectList().size();
 		if ( nObjects ) return true;

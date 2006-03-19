@@ -17,17 +17,18 @@
 #ifndef JMOONTOOL_H
 #define JMOONTOOL_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include "widgets/kstarsplotwidget.h"
 
 class KStars;
+class QColor;
 
 /**@class JMoonTool
 	*@short Display the positions of Jupiter's moons as a function of time
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class JMoonTool : public KDialogBase
+class JMoonTool : public KDialog
 {
 Q_OBJECT
 public:
@@ -41,7 +42,7 @@ private:
 	void initPlotObjects();
 	KStarsPlotWidget *pw;
 	KStars *ksw;
-	QString colJp, colIo, colEu, colGn, colCa;
+	QColor colJp, colIo, colEu, colGn, colCa;
 };
 
 #endif

@@ -25,6 +25,7 @@
 #include "wizdevicesui.h"
 #include "wizdownloadui.h"
 
+class KDialog;
 class GeoLocation;
 class KStars;
 class KPushButton;
@@ -63,7 +64,7 @@ class WizDownloadUI : public QFrame, public Ui::WizDownload {
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class KSWizard : public KDialogBase
+class KSWizard : public KDialog
 {
 Q_OBJECT
 public:
@@ -108,8 +109,8 @@ private:
 		*/
 	void initGeoPage();
 	
-	KPushButton* user1Button() { return actionButton( KDialogBase::User1 ); }
-	KPushButton* user2Button() { return actionButton( KDialogBase::User2 ); }
+	KPushButton* user1Button() { return actionButton( KDialog::User1 ); }
+	KPushButton* user2Button() { return actionButton( KDialog::User2 ); }
 
 	QStackedWidget *wizardStack;
 	WizWelcomeUI *welcome;

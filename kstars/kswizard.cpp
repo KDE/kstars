@@ -19,6 +19,7 @@
 #include <QStackedWidget>
 #include <QPixmap>
 
+#include <kdialog.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
@@ -48,19 +49,18 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 KSWizard::KSWizard( QWidget *parent )
- : KDialogBase( KDialogBase::Plain, i18n("KStars Startup Wizard"), 
-		KDialogBase::User1|KDialogBase::User2|KDialogBase::Ok|KDialogBase::Cancel, 
-		KDialogBase::User1, parent, 0, true, true, 
-		KGuiItem( i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page") ),
-		KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) )
+ : KDialog( parent, i18n("KStars Startup Wizard"), 
+		KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel, 0, 
+		KGuiItem( i18n("&Next") + QString(" >"), QString(), 
+			i18n("Go to next Wizard page") ),
+		KGuiItem( QString("< ") + i18n("&Back"), QString(), 
+			i18n("Go to previous Wizard page") ) )
 {
 	ksw = (KStars *)parent;
 	GeoID.resize(10000);
 	
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
-	wizardStack = new QStackedWidget( page );
-	vlay->addWidget( wizardStack );
+	wizardStack = new QStackedWidget( this );
+	setMainWidget( wizardStack );
 
 	welcome  = new WizWelcomeUI( wizardStack );
 	location = new WizLocationUI( wizardStack );

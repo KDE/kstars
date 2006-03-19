@@ -28,24 +28,20 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 
-/*LCGeneratorUI::LCGeneratorUI( QWidget *p ) {
-	setupUi( p );
-}*/
+LCGeneratorUI::LCGeneratorUI( QWidget *p ) : QFrame(p) {
+	setupUi( this );
+}
 
-LCGenerator::LCGenerator( QWidget* parent) : QDialog(parent), 
-	/*: KDialogBase( KDialogBase::Plain, i18n( "AAVSO Light Curve Generator" ), 
-				Close, Close, parent ),*/
-	 Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
+LCGenerator::LCGenerator( QWidget* parent) 
+	: KDialog( parent, i18n( "AAVSO Light Curve Generator" ), KDialog::Close ),
+		Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
 {
-	//QFrame *page = plainPage();
 	ksw = (KStars*) parent;
-	//vlay = new QVBoxLayout( page, 0, spacingHint() );
-	lcg = new Ui::LCGenerator();
-	lcg->setupUi(this);
-	//lcg = new LCGeneratorUI( page );
+	lcg = new LCGeneratorUI( this );
+	setMainWidget( lcg );
+
 	lcg->AverageDayBox->setMinimum( 1 );
 	lcg->AverageDayBox->setValue( 1 );
-	//vlay->addWidget( lcg );
 
 	setWindowTitle(i18n( "AAVSO Light Curve Generator" ));
 	downloadJob = 0;

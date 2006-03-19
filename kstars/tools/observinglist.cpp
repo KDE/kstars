@@ -59,13 +59,13 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
   setupUi( this );
 }
 
-ObservingList::ObservingList( KStars *_ks, QWidget* parent )
-		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
-				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), m_CurrentObject(0), 
-				noNameStars(0), isModified(false), bIsLarge(true)
+ObservingList::ObservingList( KStars *_ks )
+		: KDialog( (QWidget*)_ks, i18n( "Observing List" ), KDialog::Close ), 
+			ks( _ks ), LogObject(0), m_CurrentObject(0), 
+			noNameStars(0), isModified(false), bIsLarge(true)
 {
-	QFrame *page = plainPage();
-	ui = new ObservingListUI( page );
+	ui = new ObservingListUI( this );
+	setMainWidget( ui );
 
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );

@@ -43,7 +43,7 @@ class OpsColors : public QFrame, public Ui::OpsColors
 	Q_OBJECT
 
 public:
-	OpsColors( QWidget *parent=0 );
+	OpsColors( KStars *_ks );
 	~OpsColors();
 
 private slots:

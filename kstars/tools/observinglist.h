@@ -19,9 +19,11 @@
 #define OBSERVINGLIST_H
 
 #include <QList>
-#include <kdialogbase.h>
+#include <kdialog.h>
+
 #include "skyobject.h"
 #include "observinglistui.h"
+
 
 class KStars;
 class QStringList;
@@ -65,14 +67,14 @@ public:
 	*@version 1.0
 	*/
 
-class ObservingList : public KDialogBase
+class ObservingList : public KDialog
 {
   Q_OBJECT
 
 public:
 /**@short Cunstructor
 	*/
-	ObservingList( KStars *_ks, QWidget *parent = 0 );
+	ObservingList( KStars *_ks );
 /**@short Destuctor (empty)
 	*/
 	~ObservingList() {}

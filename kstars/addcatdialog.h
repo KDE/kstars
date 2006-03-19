@@ -18,8 +18,7 @@
 #ifndef ADDCATDIALOG_H
 #define ADDCATDIALOG_H
 
-#include <QVBoxLayout>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <kurlrequester.h>
 
@@ -38,12 +37,12 @@ class AddCatDialogUI : public QFrame, public Ui::AddCatDialog {
 	*@version 1.0
 	*/
 
-class AddCatDialog : public KDialogBase  {
+class AddCatDialog : public KDialog  {
 	Q_OBJECT
 public:
 /**Default constructor
 	*/
-	AddCatDialog( QWidget *parent=0 );
+	AddCatDialog( KStars *_ks );
 
 /**Destructor (empty)
 	*/
@@ -92,7 +91,7 @@ private:
 	*/
 	QString writeCatalogHeader();
 
-	QVBoxLayout *vlay;
+	KStars *ks;
 	AddCatDialogUI *acd;
 	QString CatalogContents;
 };

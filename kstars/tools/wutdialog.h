@@ -19,7 +19,7 @@
 #define WUTDIALOG_H
 
 #include <QFrame>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kstarsdatetime.h"
 #include "wutdialogui.h"
@@ -43,7 +43,7 @@ class WUTDialogUI : public QFrame, public Ui::WUTDialog {
 	*@author Thomas Kabelmann
 	*@version 1.0
 	*/
-class WUTDialog : public KDialogBase  {
+class WUTDialog : public KDialog  {
 	Q_OBJECT
 
 	public:

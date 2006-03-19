@@ -70,9 +70,9 @@ OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
 }
 
 OptionsTreeView::OptionsTreeView( QWidget *p ) 
- : KDialogBase( KDialogBase::Plain, i18n( "Options" ), Ok|Cancel, Ok, p ) {
-  QFrame *page = plainPage();
-  otvw = new OptionsTreeViewWidget( page );
+ : KDialog( p, i18n( "Options" ), KDialog::Ok|KDialog::Cancel ) {
+	otvw = new OptionsTreeViewWidget( this );
+	setMainWidget( otvw );
 }
 
 OptionsTreeView::~OptionsTreeView() {
@@ -84,15 +84,14 @@ ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptNameDialog::ScriptNameDialog( QWidget *p ) 
- : KDialogBase( KDialogBase::Plain, i18n( "Script Data" ), Ok|Cancel, Ok, p ) {
-  QFrame *page = plainPage();
-  snw = new ScriptNameWidget( page );
-
-  connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
+ : KDialog( p, i18n( "Script Data" ), KDialog::Ok|KDialog::Cancel ) {
+	snw = new ScriptNameWidget( this );
+	setMainWidget( snw );
+	connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
 }
 
 ScriptNameDialog::~ScriptNameDialog() {
-  delete snw;
+	delete snw;
 }
 
 void ScriptNameDialog::slotEnableOkButton() {
@@ -100,26 +99,17 @@ void ScriptNameDialog::slotEnableOkButton() {
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+	setupUi( this );
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )
- : QDialog(parent)/*//KDialog(parent, i18n( "Script Builder" ), Close)KDialogBase( KDialogBase::Plain, i18n( "Script Builder" ), Close, Close, parent )*/, 
+	: KDialog( parent, i18n( "Script Builder" ), KDialog::Close ), 
 		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homePath() ), 
-		currentScriptName(), currentAuthor() {
-
-	//QFrame *page = plainPage();
-
+		currentScriptName(), currentAuthor() 
+{
 	ks = (KStars*)parent;
-
-	
-	//QVBoxLayout *vlay = new QVBoxLayout( this, 0, 0 );
-	sb = new Ui::ScriptBuilder();
-	sb->setupUi(this);
-	
-	setWindowTitle(i18n( "Script Builder" ));
-	//setMainWidget(sb);
-	//vlay->addWidget( sb );
+	sb = new ScriptBuilderUI(this);
+	setMainWidget(sb);
 
 	//Initialize function templates and descriptions
 	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'." ),
@@ -226,8 +216,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "int", "timeout");
 	startINDIExposureFunc->setINDIProperty("CCD_EXPOSE_DURATION");
 	INDIFunctionList.append( startINDIExposureFunc);
-	
-	
 	
 	// JM: We're using QTreeWdiget for Qt4 now
 	QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));

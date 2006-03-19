@@ -18,7 +18,7 @@
 #ifndef FOCUSDIALOG_H
 #define FOCUSDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "focusdialogui.h"
 
@@ -37,11 +37,11 @@ class FocusDialogUI : public QFrame, public Ui::FocusDialog {
 	*@version 1.0
 	*/
 
-class FocusDialog : public KDialogBase {
+class FocusDialog : public KDialog {
 	Q_OBJECT
 public:
 	/**Constructor. */
-	FocusDialog( QWidget *parent=0 );
+	FocusDialog( KStars *_ks );
 
 	/**Destructor (empty). */
 	~FocusDialog();
@@ -71,6 +71,7 @@ public slots:
 	void slotOk();
 
 private:
+	KStars *ks;
 	SkyPoint *Point;
 	FocusDialogUI *fd;
 	bool UsedAltAz;
