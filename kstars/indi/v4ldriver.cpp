@@ -53,61 +53,61 @@ void V4L_Driver::initProperties(const char *dev)
   strncpy(device_name, dev, MAXINDIDEVICE);
  
   /* Connection */
-  fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
-  fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
-  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), dev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  IUFillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
+  IUFillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
+  IUFillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), dev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
  /* Port */
-  fillText(&PortT[0], "PORT", "Port", "/dev/video0");
-  fillTextVector(&PortTP, PortT, NARRAY(PortT), dev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
+  IUFillText(&PortT[0], "PORT", "Port", "/dev/video0");
+  IUFillTextVector(&PortTP, PortT, NARRAY(PortT), dev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
  /* Video Stream */
-  fillSwitch(&StreamS[0], "ON", "", ISS_OFF);
-  fillSwitch(&StreamS[1], "OFF", "", ISS_ON);
-  fillSwitchVector(&StreamSP, StreamS, NARRAY(StreamS), dev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&StreamS[0], "ON", "", ISS_OFF);
+  IUFillSwitch(&StreamS[1], "OFF", "", ISS_ON);
+  IUFillSwitchVector(&StreamSP, StreamS, NARRAY(StreamS), dev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   /* Compression */
-  fillSwitch(&CompressS[0], "ON", "", ISS_ON);
-  fillSwitch(&CompressS[1], "OFF", "", ISS_OFF);
-  fillSwitchVector(&CompressSP, CompressS, NARRAY(StreamS), dev, "Compression", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&CompressS[0], "ON", "", ISS_ON);
+  IUFillSwitch(&CompressS[1], "OFF", "", ISS_OFF);
+  IUFillSwitchVector(&CompressSP, CompressS, NARRAY(StreamS), dev, "Compression", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   /* Image type */
-  fillSwitch(&ImageTypeS[0], "Grey", "", ISS_ON);
-  fillSwitch(&ImageTypeS[1], "Color", "", ISS_OFF);
-  fillSwitchVector(&ImageTypeSP, ImageTypeS, NARRAY(ImageTypeS), dev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&ImageTypeS[0], "Grey", "", ISS_ON);
+  IUFillSwitch(&ImageTypeS[1], "Color", "", ISS_OFF);
+  IUFillSwitchVector(&ImageTypeSP, ImageTypeS, NARRAY(ImageTypeS), dev, "Image Type", "", IMAGE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   /* Camera Name */
-  fillText(&camNameT[0], "Model", "", "");
-  fillTextVector(&camNameTP, camNameT, NARRAY(camNameT), dev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE);
+  IUFillText(&camNameT[0], "Model", "", "");
+  IUFillTextVector(&camNameTP, camNameT, NARRAY(camNameT), dev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE);
   
   /* Expose */
-  fillNumber(&ExposeTimeN[0], "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "CCD_EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&ExposeTimeN[0], "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  IUFillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "CCD_EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
 /* Frame Rate */
-  fillNumber(&FrameRateN[0], "RATE", "Rate", "%0.f", 1., 50., 1., 10.);
-  fillNumberVector(&FrameRateNP, FrameRateN, NARRAY(FrameRateN), dev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&FrameRateN[0], "RATE", "Rate", "%0.f", 1., 50., 1., 10.);
+  IUFillNumberVector(&FrameRateNP, FrameRateN, NARRAY(FrameRateN), dev, "FRAME_RATE", "Frame Rate", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
   /* Frame dimension */
-  fillNumber(&FrameN[0], "X", "X", "%.0f", 0., 0., 0., 0.);
-  fillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., 0., 0., 0.);
-  fillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., 0., 10., 0.);
-  fillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., 0., 10., 0.);
-  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), dev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&FrameN[0], "X", "X", "%.0f", 0., 0., 0., 0.);
+  IUFillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., 0., 0., 0.);
+  IUFillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., 0., 10., 0.);
+  IUFillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., 0., 10., 0.);
+  IUFillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), dev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
 
-  /*fillNumber(&ImageSizeN[0], "WIDTH", "Width", "%0.f", 0., 0., 10., 0.);
-  fillNumber(&ImageSizeN[1], "HEIGHT", "Height", "%0.f", 0., 0., 10., 0.);
-  fillNumberVector(&ImageSizeNP, ImageSizeN, NARRAY(ImageSizeN), dev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);*/
+  /*IUFillNumber(&ImageSizeN[0], "WIDTH", "Width", "%0.f", 0., 0., 10., 0.);
+  IUFillNumber(&ImageSizeN[1], "HEIGHT", "Height", "%0.f", 0., 0., 10., 0.);
+  IUFillNumberVector(&ImageSizeNP, ImageSizeN, NARRAY(ImageSizeN), dev, "IMAGE_SIZE", "Image Size", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);*/
   
   #ifndef HAVE_LINUX_VIDEODEV2_H
-  fillNumber(&ImageAdjustN[0], "Contrast", "", "%0.f", 0., 256., 1., 0.);
-  fillNumber(&ImageAdjustN[1], "Brightness", "", "%0.f", 0., 256., 1., 0.);
-  fillNumber(&ImageAdjustN[2], "Hue", "", "%0.f", 0., 256., 1., 0.);
-  fillNumber(&ImageAdjustN[3], "Color", "", "%0.f", 0., 256., 1., 0.);
-  fillNumber(&ImageAdjustN[4], "Whiteness", "", "%0.f", 0., 256., 1., 0.);
-  fillNumberVector(&ImageAdjustNP, ImageAdjustN, NARRAY(ImageAdjustN), dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&ImageAdjustN[0], "Contrast", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumber(&ImageAdjustN[1], "Brightness", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumber(&ImageAdjustN[2], "Hue", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumber(&ImageAdjustN[3], "Color", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumber(&ImageAdjustN[4], "Whiteness", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumberVector(&ImageAdjustNP, ImageAdjustN, NARRAY(ImageAdjustN), dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
   #else
-  fillNumberVector(&ImageAdjustNP, NULL, 0, dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumberVector(&ImageAdjustNP, NULL, 0, dev, "Image Adjustments", "", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
   #endif 
 
   // We need to setup the BLOB (Binary Large Object) below. Using this property, we can send FITS to our client

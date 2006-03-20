@@ -1091,7 +1091,7 @@ dispatch (XMLEle *root, char msg[])
 	    static char **blobs;
 	    static char **names;
 	    static char **formats;
-	    static int *sizes;
+	    static int *blobsizes;
 	    static int maxn;
 	    char *dev, *name;
 
@@ -1105,7 +1105,6 @@ dispatch (XMLEle *root, char msg[])
 		names = (char **) malloc (1);
 		formats = (char **) malloc (1);
 		blobsizes = (int *) malloc (1);
-		sizes = (int *) malloc (1);
 	    }
 
 	    /* pull out each name/BLOB pair */
@@ -1121,12 +1120,12 @@ dispatch (XMLEle *root, char msg[])
 			    names = (char **) realloc (names, newsz);
 			    formats = (char **) realloc(formats,newsz);
 			    newsz = maxn*sizeof(int);
-			    sizes = (int *) realloc(sizes,newsz);
+			    blobsizes = (int *) realloc(blobsizes,newsz);
 			}
 			blobs[n] = pcdataXMLEle(epx);
 			names[n] = valuXMLAtt(na);
 			formats[n] = valuXMLAtt(fa);
-			sizes[n] = atoi(valuXMLAtt(sa));
+			blobsizes[n] = atoi(valuXMLAtt(sa));
 			n++;
 		    }
 		}
@@ -1134,7 +1133,7 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* invoke driver if something to do, but not an error if not */
 	    if (n > 0)
-		ISNewBLOB (dev, name, sizes, blobs, formats, names, n);
+		ISNewBLOB (dev, name, blobsizes, blobs, formats, names, n);
 	    else
 		IDMessage (dev, "%s: newBLOBVector with no valid members",name);
 	    return (0);

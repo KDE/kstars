@@ -4,7 +4,7 @@ appdata_DATA = drivers.xml apogee_caminfo.xml
 AM_CPPFLAGS = -DTOP_DATADIR=\"$(appdatadir)\"
 
 if LINUX
-bin_add   =  apogee_ppi sbigccd v4ldriver v4lphilips meade_lpi fliccd fliwheel flipdf
+bin_add   =  apogee_ppi v4ldriver v4lphilips meade_lpi fliccd fliwheel flipdf
 endif
 
 bin_PROGRAMS = indiserver lx200basic lx200generic celestrongps apmount temma skycommander intelliscope robofocus $(bin_add)
@@ -61,9 +61,6 @@ intelliscope_LDADD = liblilxml.a libindicom.a -lm
 
 apogee_ppi_SOURCES = apogee_ppi.cpp base64.c eventloop.c indidrivermain.c
 apogee_ppi_LDADD = libindicom.a liblilxml.a apogee/libapogee_PPI.la -lz
-
-sbigccd_SOURCES = sbigccd.cpp base64.c eventloop.c indidrivermain.c
-sbigccd_LDADD = libindicom.a liblilxml.a -lz
 
 install-exec-hook:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)

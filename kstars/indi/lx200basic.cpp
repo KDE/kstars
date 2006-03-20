@@ -49,6 +49,7 @@ extern char* me;
 
 #define RA_THRESHOLD	0.01
 #define DEC_THRESHOLD	0.05
+#define TRACKING_THRESHOLD 0.05
 #define LX200_SLEW	0
 #define LX200_TRACK	1
 #define LX200_SYNC	2

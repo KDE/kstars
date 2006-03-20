@@ -49,39 +49,39 @@ void V4L_Philips::initProperties(const char *dev)
   // Call parent
   V4L_Driver::initProperties(dev);
 
-  fillSwitch(&BackLightS[0], "ON", "", ISS_OFF);
-  fillSwitch(&BackLightS[1], "OFF", "", ISS_ON);
-  fillSwitchVector(&BackLightSP, BackLightS, NARRAY(BackLightS), dev, "Back Light", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
+  IUFillSwitch(&BackLightS[0], "ON", "", ISS_OFF);
+  IUFillSwitch(&BackLightS[1], "OFF", "", ISS_ON);
+  IUFillSwitchVector(&BackLightSP, BackLightS, NARRAY(BackLightS), dev, "Back Light", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
 
-  fillSwitch(&AntiFlickerS[0], "ON", "", ISS_OFF);
-  fillSwitch(&AntiFlickerS[1], "OFF", "", ISS_ON);
-  fillSwitchVector(&AntiFlickerSP, AntiFlickerS, NARRAY(AntiFlickerS), dev, "Anti Flicker", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
+  IUFillSwitch(&AntiFlickerS[0], "ON", "", ISS_OFF);
+  IUFillSwitch(&AntiFlickerS[1], "OFF", "", ISS_ON);
+  IUFillSwitchVector(&AntiFlickerSP, AntiFlickerS, NARRAY(AntiFlickerS), dev, "Anti Flicker", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE);
 
-  fillSwitch(&NoiseReductionS[0], "None", "", ISS_ON);
-  fillSwitch(&NoiseReductionS[1], "Low", "", ISS_OFF);
-  fillSwitch(&NoiseReductionS[2], "Medium", "", ISS_OFF);
-  fillSwitch(&NoiseReductionS[3], "High", "", ISS_OFF);
-  fillSwitchVector(&NoiseReductionSP, NoiseReductionS, NARRAY(NoiseReductionS), dev, "Noise Reduction", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&NoiseReductionS[0], "None", "", ISS_ON);
+  IUFillSwitch(&NoiseReductionS[1], "Low", "", ISS_OFF);
+  IUFillSwitch(&NoiseReductionS[2], "Medium", "", ISS_OFF);
+  IUFillSwitch(&NoiseReductionS[3], "High", "", ISS_OFF);
+  IUFillSwitchVector(&NoiseReductionSP, NoiseReductionS, NARRAY(NoiseReductionS), dev, "Noise Reduction", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillSwitch(&CamSettingS[0], "Save", "", ISS_OFF);
-  fillSwitch(&CamSettingS[1], "Restore", "", ISS_OFF);
-  fillSwitch(&CamSettingS[2], "Factory", "", ISS_OFF);
-  fillSwitchVector(&CamSettingSP, CamSettingS, NARRAY(CamSettingS), dev, "Settings", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitch(&CamSettingS[0], "Save", "", ISS_OFF);
+  IUFillSwitch(&CamSettingS[1], "Restore", "", ISS_OFF);
+  IUFillSwitch(&CamSettingS[2], "Factory", "", ISS_OFF);
+  IUFillSwitchVector(&CamSettingSP, CamSettingS, NARRAY(CamSettingS), dev, "Settings", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillSwitch(&WhiteBalanceModeS[0], "Auto" , "", ISS_ON);
-  fillSwitch(&WhiteBalanceModeS[1], "Manual" , "", ISS_OFF);
-  fillSwitch(&WhiteBalanceModeS[2], "Indoor" , "", ISS_OFF);
-  fillSwitch(&WhiteBalanceModeS[3], "Outdoor" , "", ISS_OFF);
-  fillSwitch(&WhiteBalanceModeS[4], "Fluorescent" , "", ISS_OFF);
+  IUFillSwitch(&WhiteBalanceModeS[0], "Auto" , "", ISS_ON);
+  IUFillSwitch(&WhiteBalanceModeS[1], "Manual" , "", ISS_OFF);
+  IUFillSwitch(&WhiteBalanceModeS[2], "Indoor" , "", ISS_OFF);
+  IUFillSwitch(&WhiteBalanceModeS[3], "Outdoor" , "", ISS_OFF);
+  IUFillSwitch(&WhiteBalanceModeS[4], "Fluorescent" , "", ISS_OFF);
   
-  fillSwitchVector(&WhiteBalanceModeSP, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), dev, "White Balance Mode", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
+  IUFillSwitchVector(&WhiteBalanceModeSP, WhiteBalanceModeS, NARRAY(WhiteBalanceModeS), dev, "White Balance Mode", "", IMAGE_CONTROL, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
-  fillNumber(&WhiteBalanceN[0], "Manual Red", "", "%0.f", 0., 256., 1., 0.);
-  fillNumber(&WhiteBalanceN[1], "Manual Blue", "", "%0.f", 0., 256., 1., 0.);
-  fillNumberVector(&WhiteBalanceNP, WhiteBalanceN, NARRAY(WhiteBalanceN), dev, "White Balance", "", IMAGE_CONTROL, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&WhiteBalanceN[0], "Manual Red", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumber(&WhiteBalanceN[1], "Manual Blue", "", "%0.f", 0., 256., 1., 0.);
+  IUFillNumberVector(&WhiteBalanceNP, WhiteBalanceN, NARRAY(WhiteBalanceN), dev, "White Balance", "", IMAGE_CONTROL, IP_RW, 60, IPS_IDLE);
 
-  fillNumber(&ShutterSpeedN[0], "Speed", "", "%0.f", 0., 65535., 100., 0.);
-  fillNumberVector(&ShutterSpeedNP, ShutterSpeedN, NARRAY(ShutterSpeedN), dev, "Shutter Speed", "", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&ShutterSpeedN[0], "Speed", "", "%0.f", 0., 65535., 100., 0.);
+  IUFillNumberVector(&ShutterSpeedNP, ShutterSpeedN, NARRAY(ShutterSpeedN), dev, "Shutter Speed", "", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
 }
 

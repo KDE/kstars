@@ -121,31 +121,31 @@ ApogeeCam::~ApogeeCam()
 
 void ApogeeCam::initProperties()
 {
-  fillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
-  fillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
-  fillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  IUFillSwitch(&PowerS[0], "CONNECT", "Connect", ISS_OFF);
+  IUFillSwitch(&PowerS[1], "DISCONNECT", "Disconnect", ISS_ON);
+  IUFillSwitchVector(&PowerSP, PowerS, NARRAY(PowerS), mydev, "CONNECTION", "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
   
-  fillSwitch(&FrameTypeS[0], "FRAME_LIGHT", "Light", ISS_ON);
-  fillSwitch(&FrameTypeS[1], "FRAME_BIAS", "Bias", ISS_OFF);
-  fillSwitch(&FrameTypeS[2], "FRAME_DARK", "Dark", ISS_OFF);
-  fillSwitch(&FrameTypeS[3], "FRAME_FLAT", "Flat Field", ISS_OFF);
-  fillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), mydev, "CCD_FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  IUFillSwitch(&FrameTypeS[0], "FRAME_LIGHT", "Light", ISS_ON);
+  IUFillSwitch(&FrameTypeS[1], "FRAME_BIAS", "Bias", ISS_OFF);
+  IUFillSwitch(&FrameTypeS[2], "FRAME_DARK", "Dark", ISS_OFF);
+  IUFillSwitch(&FrameTypeS[3], "FRAME_FLAT", "Flat Field", ISS_OFF);
+  IUFillSwitchVector(&FrameTypeSP, FrameTypeS, NARRAY(FrameTypeS), mydev, "CCD_FRAME_TYPE", "Frame Type", EXPOSE_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 
-  fillNumber(&FrameN[0], "X", "X", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., MAX_PIXELS, 1., 0.);
-  fillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), mydev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&FrameN[0], "X", "X", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  IUFillNumber(&FrameN[1], "Y", "Y", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  IUFillNumber(&FrameN[2], "WIDTH", "Width", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  IUFillNumber(&FrameN[3], "HEIGHT", "Height", "%.0f", 0., MAX_PIXELS, 1., 0.);
+  IUFillNumberVector(&FrameNP, FrameN, NARRAY(FrameN), mydev, "CCD_FRAME", "Frame", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
   
-  fillNumber(&BinningN[0], "HOR_BIN", "X", "%0.f", 1., MAXHBIN, 1., 1.);
-  fillNumber(&BinningN[1], "VER_BIN", "Y", "%0.f", 1., MAXVBIN, 1., 1.);
-  fillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&BinningN[0], "HOR_BIN", "X", "%0.f", 1., MAXHBIN, 1., 1.);
+  IUFillNumber(&BinningN[1], "VER_BIN", "Y", "%0.f", 1., MAXVBIN, 1., 1.);
+  IUFillNumberVector(&BinningNP, BinningN, NARRAY(BinningN), mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE);
     
-  fillNumber(&ExposeTimeN[0], "DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  fillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&ExposeTimeN[0], "DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  IUFillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
-  fillNumber(&TemperatureN[0], "TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, 0.2, 0.);
-  fillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), mydev, "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&TemperatureN[0], "TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, 0.2, 0.);
+  IUFillNumberVector(&TemperatureNP, TemperatureN, NARRAY(TemperatureN), mydev, "CCD_TEMPERATURE", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE);
   
   strcpy(imageB.name, "CCD1");
   strcpy(imageB.label, "Feed");
@@ -225,7 +225,7 @@ bool ApogeeCam::loadXMLModel()
   
   if (ncams > 0)
   {
-  	fillSwitchVector(&ApogeeModelSP, ApogeeModelS, ncams, mydev, "Model", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
+  	IUFillSwitchVector(&ApogeeModelSP, ApogeeModelS, ncams, mydev, "Model", "", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE);
 	return true;
   }
   
