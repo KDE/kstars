@@ -57,11 +57,13 @@ INDI_G::~INDI_G()
 
 void INDI_G::addProperty(INDI_P *pp)
 {
-   dp->registerProperty(pp);
    propertyLayout->addLayout(pp->PHBox);
    propertyLayout->addItem(VerticalSpacer);   
 
    pl.append(pp);
+   
+   // Registering the property should be the last thing
+   dp->registerProperty(pp);
 
 }
 

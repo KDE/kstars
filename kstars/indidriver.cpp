@@ -356,14 +356,13 @@ void INDIDriver::updateMenuActions()
   if (devMenu->mgr.count() > 0)
    activeDevice = true;
   
-
- 
-  for (int i=0; i < devMenu->mgr.count(); i++)
+  foreach(DeviceManager *dev_mgr, devMenu->mgr)
   {
-	for (int j=0; j < devMenu->mgr.at(i)->indi_dev.count(); j++)
+	foreach (INDI_D *device, dev_mgr->indi_dev)
 	{
-  		        imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSE_DURATION");
-			if (imgProp && devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
+ 
+        		imgProp = device->findProp("CCD_EXPOSE_DURATION");
+			if (imgProp && device->isOn())
 			{
 			  activeImaging = true;
 			  break;
