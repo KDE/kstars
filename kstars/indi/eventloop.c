@@ -280,9 +280,9 @@ popTimers()
 	gettimeofday (&now, NULL);
 	tgonow = EPDT (&now);
 	for (tp = &timef[ntimef-1]; tp >= timef && tp->tgo <= tgonow; tp--) {
+	    ntimef--;
 	    (*tp->fp) (tp->ud);
 	    printf ("\a\n");
-	    ntimef--;
 	}
 }
 
