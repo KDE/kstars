@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Lesser General Public
     License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #endif
 
@@ -42,51 +42,54 @@
 
 #include "eventloop.h"
 
-/* info about one registered callback. */
+/* info about one registered callback.
+ * the malloced array cback is never shrunk, entries are reused. new id's are
+ * the index of first unused slot in array (and thus reused like unix' open(2)).
+ */
 typedef struct {
-    int in_use;				/* flag to make this record is active */
+    int in_use;				/* flag to mark this record is active */
     int fd;				/* fd descriptor to watch for read */
     void *ud;				/* user's data handle */
     CBF *fp;				/* callback function */
-    int cid;				/* unique id for this callback */
 } CB;
+static CB *cback;			/* malloced list of callbacks */
+static int ncback;			/* n entries in cback[] */
+static int ncbinuse;			/* n entries in cback[] marked in_use */
+static int lastcb;			/* cback index of last cb called */
 
-/* info about one registered timer function */
+/* info about one registered timer function.
+ * the entries are kept sorted by decreasing time remaining before firing.
+ */
 typedef struct {
     int tgo;				/* trigger time, ms from epoch */
     void *ud;				/* user's data handle */
     TCF *fp;				/* timer function */
     int tid;				/* unique id for this timer */
 } TF;
-
-/* info about one registered work procedure. */
-typedef struct {
-    int in_use;				/* flag to make this record is active */
-    void *ud;				/* user's data handle */
-    WPF *fp;				/* work proc function function */
-    int wid;				/* unique id for this work proc */
-} WP;
-
-
-static CB *cback;			/* malloced list of callbacks */
-static int ncback;			/* n entries in cback[] */
-static int cid;				/* source of callback ids */
-
 static TF *timef;			/* malloced list of timer functions */
 static int ntimef;			/* n entries in ntimef[] */
 static struct timeval epoch;		/* arbitrary t0 */
-static int tid;				/* source of timer ids */
-#define	EPDT(tp) 			/* ms from epoch to timeval *tp */  \
+static int tid;				/* source of unique timer ids */
+#define	EPOCHDT(tp) 			/* ms from epoch to timeval *tp */  \
 	(((tp)->tv_sec-epoch.tv_sec)*1000 + ((tp)->tv_usec-epoch.tv_usec)/1000)
 
+/* info about one registered work procedure.
+ * the malloced array wproc is never shrunk, entries are reused. new id's are
+ * the index of first unused slot in array (and thus reused like unix' open(2)).
+ */
+typedef struct {
+    int in_use;				/* flag to mark this record is active */
+    void *ud;				/* user's data handle */
+    WPF *fp;				/* work proc function function */
+} WP;
 static WP *wproc;			/* malloced list of work procedures */
 static int nwproc;			/* n entries in wproc[] */
 static int nwpinuse;			/* n entries in wproc[] marked in-use */
-static int wid;				/* source of worproc ids */
+static int lastwp;			/* wproc index of last workproc called*/
 
-static void runWorkProcs (void);
-static void callCallbacks(fd_set *rfdp, int nready);
-static void popTimers();
+static void runWorkProc (void);
+static void callCallback(fd_set *rfdp);
+static void checkTimer();
 static void oneLoop(void);
 
 /* inf loop to dispatch callbacks, work procs and timers as necessary.
@@ -111,37 +114,45 @@ addCallback (int fd, CBF *fp, void *ud)
 {
 	CB *cp;
 
+	/* reuse first unused slot or grow */
 	for (cp = cback; cp < &cback[ncback]; cp++)
 	    if (!cp->in_use)
 		break;
-
 	if (cp == &cback[ncback]) {
 	    cback = cback ? (CB *) realloc (cback, (ncback+1)*sizeof(CB))
 	    		  : (CB *) malloc (sizeof(CB));
 	    cp = &cback[ncback++];
 	}
 
+	/* init new entry */
 	cp->in_use = 1;
 	cp->fp = fp;
 	cp->ud = ud;
 	cp->fd = fd;
-	return (cp->cid = ++cid);
+	ncbinuse++;
+
+	/* id is index into array */
+	return (cp - cback);
 }
 
 /* remove the callback with the given id, as returned from addCallback().
- * silently ignore if id not found.
+ * silently ignore if id not valid.
  */
 void
-rmCallback (int callbackid)
+rmCallback (int cid)
 {
 	CB *cp;
 
-	for (cp = cback; cp < &cback[ncback]; cp++) {
-	    if (cp->in_use && cp->cid == callbackid) {
-		cp->in_use = 0;
-		break;
-	    }
-	}
+	/* validate id */
+	if (cid < 0 || cid >= ncback)
+	    return;
+	cp = &cback[cid];
+	if (!cp->in_use)
+	    return;
+
+	/* mark for reuse */
+	cp->in_use = 0;
+	ncbinuse--;
 }
 
 /* register a new timer function, fp, to be called with ud as arg after ms
@@ -154,22 +165,27 @@ addTimer (int ms, TCF *fp, void *ud)
 	struct timeval t;
 	TF *tp;
 
+	/* get time now */
 	gettimeofday (&t, NULL);
 
+	/* add one entry */
 	timef = timef ? (TF *) realloc (timef, (ntimef+1)*sizeof(TF))
 		      : (TF *) malloc (sizeof(TF));
 	tp = &timef[ntimef++];
 
+	/* init new entry */
 	tp->ud = ud;
 	tp->fp = fp;
-	tp->tgo = EPDT(&t) + ms;
+	tp->tgo = EPOCHDT(&t) + ms;
 
+	/* bubble down sorted by start time */
 	for ( ; tp > timef && tp[0].tgo > tp[-1].tgo; tp--) {
 	    TF tmptf = tp[-1];
 	    tp[-1] = tp[0];
 	    tp[0] = tmptf;
 	}
 
+	/* store and return new unique id */
 	return (tp->tid = ++tid);
 }
 
@@ -177,13 +193,13 @@ addTimer (int ms, TCF *fp, void *ud)
  * silently ignore if id not found.
  */
 void
-rmTimer (int timerID)
+rmTimer (int timer_id)
 {
 	TF *tp;
 
 	/* find it */
 	for (tp = timef; tp < &timef[ntimef]; tp++)
-	    if (tp->tid == timerID)
+	    if (tp->tid == timer_id)
 		break;
 	if (tp == &timef[ntimef])
 	    return;
@@ -204,21 +220,24 @@ addWorkProc (WPF *fp, void *ud)
 {
 	WP *wp;
 
+	/* reuse first unused slot or grow */
 	for (wp = wproc; wp < &wproc[nwproc]; wp++)
 	    if (!wp->in_use)
 		break;
-
 	if (wp == &wproc[nwproc]) {
 	    wproc = wproc ? (WP *) realloc (wproc, (nwproc+1)*sizeof(WP))
 	    		  : (WP *) malloc (sizeof(WP));
 	    wp = &wproc[nwproc++];
 	}
 
+	/* init new entry */
 	wp->in_use = 1;
 	wp->fp = fp;
 	wp->ud = ud;
 	nwpinuse++;
-	return (wp->wid = ++wid);
+
+	/* id is index into array */
+	return (wp - wproc);
 }
 
 
@@ -226,63 +245,83 @@ addWorkProc (WPF *fp, void *ud)
  * silently ignore if id not found.
  */
 void
-rmWorkProc (int workID)
+rmWorkProc (int wid)
 {
 	WP *wp;
 
-	for (wp = wproc; wp < &wproc[nwproc]; wp++) {
-	    if (wp->in_use && wp->wid == workID) {
-		if (wp == &wproc[nwproc-1] && wp > wproc)
-		    wproc = (WP *) realloc (wproc, (--nwproc)*sizeof(WP));
-		else
-		    wp->in_use = 0;
-		nwpinuse--;
-		break;
-	    }
-	}
+	/* validate id */
+	if (wid < 0 || wid >= nwproc)
+	    return;
+	wp = &wproc[wid];
+	if (!wp->in_use)
+	    return;
+
+	/* mark for reuse */
+	wp->in_use = 0;
+	nwpinuse--;
 }
 
-/* run all registered work procedures */
+/* run next work procedure */
 static void
-runWorkProcs ()
+runWorkProc ()
 {
 	WP *wp;
 
-	for (wp = wproc; wp < &wproc[nwproc]; wp++)
-	    if (wp->in_use)
-		(*wp->fp) (wp->ud);
+	/* skip if list is empty */
+	if (!nwpinuse)
+	    return;
+
+	/* find next */
+	do {
+	    lastwp = (lastwp+1) % nwproc;
+	    wp = &wproc[lastwp];
+	} while (!wp->in_use);
+
+	/* run */
+	(*wp->fp) (wp->ud);
 }
 
-/* run all registered callbacks whose fd is listed in rfdp */
+/* run next callback whose fd is listed as ready to go in rfdp */
 static void
-callCallbacks(fd_set *rfdp, int nready)
+callCallback(fd_set *rfdp)
 {
 	CB *cp;
 
-	for (cp = cback; nready > 0 && cp < &cback[ncback]; cp++) {
-	    if (cp->in_use && FD_ISSET (cp->fd, rfdp)) {
-		(*cp->fp) (cp->fd, cp->ud);
-		nready--;
-	    }
-	}
+	/* skip if list is empty */
+	if (!ncbinuse)
+	    return;
+
+	/* find next */
+	do {
+	    lastcb = (lastcb+1) % ncback;
+	    cp = &cback[lastcb];
+	} while (!cp->in_use || !FD_ISSET (cp->fd, rfdp));
+
+	/* run */
+	(*cp->fp) (cp->fd, cp->ud);
 }
 
-/* run all timers that are ready to pop. timef[] is sorted such in decreasing
+/* run the next timer callback whose time has come, if any. all we have to do
+ * is is check the last entry in timef[] because it is sorted in decreasing
  * order of time from epoch to run, ie, last entry runs soonest.
  */
 static void
-popTimers()
+checkTimer()
 {
 	struct timeval now;
 	int tgonow;
 	TF *tp;
 
+	/* skip if list is empty */
+	if (!ntimef)
+	    return;
+
 	gettimeofday (&now, NULL);
-	tgonow = EPDT (&now);
-	for (tp = &timef[ntimef-1]; tp >= timef && tp->tgo <= tgonow; tp--) {
-	    ntimef--;
+	tgonow = EPOCHDT (&now);
+	tp = &timef[ntimef-1];
+	if (tp->tgo <= tgonow) {
 	    (*tp->fp) (tp->ud);
-	    printf ("\a\n");
+	    ntimef--;		/* we assume it didn't remove itself */
 	}
 }
 
@@ -297,7 +336,7 @@ oneLoop()
 	CB *cp;
 	int maxfd, ns;
 
-	/* build list of file descriptors to check */
+	/* build list of callback file descriptors to check */
 	FD_ZERO (&rfd);
 	maxfd = -1;
 	for (cp = cback; cp < &cback[ncback]; cp++) {
@@ -308,14 +347,14 @@ oneLoop()
 	    }
 	}
 
-	/* if there are work procs
+	/* determine timeout:
+	 * if there are work procs
 	 *   set delay = 0
 	 * else if there is at least one timer func
 	 *   set delay = time until soonest timer func expires
 	 * else
 	 *   set delay = forever
 	 */
-
 	if (nwpinuse > 0) {
 	    tvp = &tv;
 	    tvp->tv_sec = tvp->tv_usec = 0;
@@ -323,7 +362,7 @@ oneLoop()
 	    struct timeval now;
 	    int late;
 	    gettimeofday (&now, NULL);
-	    late = timef[ntimef-1].tgo - EPDT (&now);
+	    late = timef[ntimef-1].tgo - EPOCHDT (&now);
 	    if (late < 0)
 		late = 0;
 	    tvp = &tv;
@@ -332,7 +371,7 @@ oneLoop()
 	} else
 	    tvp = NULL;
 
-	/* check file descriptors, dispatch callbacks or workprocs as per info*/
+	/* check file descriptors, timeout depending on pending work */
 	ns = select (maxfd+1, &rfd, NULL, NULL, tvp);
 	if (ns < 0) {
 	    perror ("select");
@@ -340,12 +379,11 @@ oneLoop()
 	}
 	
 	/* dispatch */
+	checkTimer();
 	if (ns == 0)
-	    runWorkProcs();
+	    runWorkProc();
 	else
-	    callCallbacks(&rfd, ns);
-	if (ntimef > 0)
-	    popTimers();
+	    callCallback(&rfd);
 }
 
 #if defined(MAIN_TEST)
@@ -355,23 +393,22 @@ oneLoop()
 #include <unistd.h>
 #include <sys/time.h>
 
-int counter;
 int mycid;
 int mywid;
 int mytid;
 
-char user_a = 'A';
-char user_b = 'B';
+int user_a;
+int user_b;
+int counter;
 
 void
 wp (void *ud)
 {
 	struct timeval tv;
-	char a = *(char *)ud;
 
 	gettimeofday (&tv, NULL);
-	printf ("workproc: %c @ %ld.%03ld counter %d\n", a, (long)tv.tv_sec,
-						(long)tv.tv_usec/1000, counter);
+	printf ("workproc @ %ld.%03ld %d %d\n",	
+		(long)tv.tv_sec, (long)tv.tv_usec/1000, counter, ++(*(int*)ud));
 }
 
 void
@@ -383,11 +420,12 @@ to (void *ud)
 void
 stdinCB (int fd, void *ud)
 {
-	char b = *(char *)ud;
 	char c;
 
-	if (read (fd, &c, 1) != 1)
+	if (read (fd, &c, 1) != 1) {
+	    perror ("read");
 	    exit(1);
+	}
 
 	switch (c) {
 	case '+': counter++; break;
@@ -407,18 +445,16 @@ stdinCB (int fd, void *ud)
 	default: return;	/* silently absorb other chars like \n */
 	}
 
-	printf ("callback: %c counter is now %d\n", b, counter);
+	printf ("callback: %d\n", ++(*(int*)ud));
 }
 
 int
 main (int ac, char *av[])
 {
-	cid = addCallback (0, stdinCB, &user_a);
+	(void) addCallback (0, stdinCB, &user_a);
 	eventLoop();
 	exit(0);
 }
 
 #endif
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile$ $Date$ $Revision$ $Name:  $"};
