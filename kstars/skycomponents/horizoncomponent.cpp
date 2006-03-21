@@ -171,9 +171,20 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//along the "front half" of the Horizon, in order from left to right.
 	//If we are using Equatorial coords, then all we need to do is connect 
 	//these points.
+	//Do not connect points if they are widely separated at low zoom (this 
+	//avoids connected horizon lines to invalid offscreen points)
 	if ( ! Options::useAltAz() ) {
-		for ( int i=1; i < groundPoly.size(); ++i ) 
-			psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+		for ( int i=1; i < groundPoly.size(); ++i ) {
+			if ( Options::zoomFactor() > 5000 )
+				psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+			else {
+				float dx = (groundPoly.at(i-1).x() - groundPoly.at(i).x());
+				float dy = (groundPoly.at(i-1).y() - groundPoly.at(i).y());
+				float r2 = dx*dx + dy*dy;
+				if ( r2 < 40000. )  //separated by less than 200 pixels?
+					psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+			}
+		}
 
 	//If we are using Horizontal coordinates, there is more work to do. 
 	//We need to complete the ground polygon by going right to left.
