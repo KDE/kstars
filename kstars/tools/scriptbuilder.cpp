@@ -266,16 +266,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
-	sb->NewButton->setIconSet( icons->loadIcon( "filenew", KIcon::Toolbar ) );
-	sb->OpenButton->setIconSet( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
-	sb->SaveButton->setIconSet( icons->loadIconSet( "filesave", KIcon::Toolbar ) );
-	sb->SaveAsButton->setIconSet( icons->loadIconSet( "filesaveas", KIcon::Toolbar ) );
-	sb->RunButton->setIconSet( icons->loadIconSet( "launch", KIcon::Toolbar ) );
-	sb->CopyButton->setIconSet( icons->loadIconSet( "reload", KIcon::Toolbar ) );
-	sb->AddButton->setIconSet( icons->loadIconSet( "back", KIcon::Toolbar ) );
-	sb->RemoveButton->setIconSet( icons->loadIconSet( "forward", KIcon::Toolbar ) );
-	sb->UpButton->setIconSet( icons->loadIconSet( "up", KIcon::Toolbar ) );
-	sb->DownButton->setIconSet( icons->loadIconSet( "down", KIcon::Toolbar ) );
+	sb->NewButton->setIconSet( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
+	sb->OpenButton->setIconSet( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
+	sb->SaveButton->setIconSet( icons->loadIconSet( "filesave", K3Icon::Toolbar ) );
+	sb->SaveAsButton->setIconSet( icons->loadIconSet( "filesaveas", K3Icon::Toolbar ) );
+	sb->RunButton->setIconSet( icons->loadIconSet( "launch", K3Icon::Toolbar ) );
+	sb->CopyButton->setIconSet( icons->loadIconSet( "reload", K3Icon::Toolbar ) );
+	sb->AddButton->setIconSet( icons->loadIconSet( "back", K3Icon::Toolbar ) );
+	sb->RemoveButton->setIconSet( icons->loadIconSet( "forward", K3Icon::Toolbar ) );
+	sb->UpButton->setIconSet( icons->loadIconSet( "up", K3Icon::Toolbar ) );
+	sb->DownButton->setIconSet( icons->loadIconSet( "down", K3Icon::Toolbar ) );
 
 	//Prepare the widget stack
 	argBlank = new QWidget();

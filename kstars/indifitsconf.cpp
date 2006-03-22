@@ -35,7 +35,7 @@ INDIFITSConf::INDIFITSConf(QWidget* parent)
    ui = new INDIFITSConfUI( page );
 
   KIconLoader *icons = KGlobal::iconLoader();
-  ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
+  ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
   connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
   connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
 }
