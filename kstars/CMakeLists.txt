@@ -194,7 +194,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars  ${QT_AND_KDECORE_LIBS} cfitsio kdeeduplot kdeeduui extdate kdeprint knewstuff m z )
+target_link_libraries(kstars  ${KDE4_KDECORE_LIBS} cfitsio kdeeduplot kdeeduui extdate kdeprint knewstuff m z )
 
 install_targets(/bin kstars )
 
