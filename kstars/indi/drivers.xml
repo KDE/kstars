@@ -1,5 +1,5 @@
 <ScopeDrivers>
-	<driver>lx200generic</driver>
+	<driver>lx200basic</driver>
 	<driver>lx200autostar</driver>
 	<driver>lx200classic</driver>
 	<driver>lx200gps</driver>
@@ -63,12 +63,12 @@
 		<version>0.1</version>
 	</device>
 	<device label="Losmandy Gemini" focal_length="" aperture="">
-		<driver>lx200generic</driver>
-		<version>0.1</version>
+		<driver>lx200basic</driver>
+		<version>1.0</version>
 	</device>
 	<device label="Mel Bartels" focal_length="" aperture="">
-		<driver>lx200generic</driver>
-		<version>0.1</version>
+		<driver>lx200basic</driver>
+		<version>1.0</version>
 	</device>
 	<device label="Temma Takahashi" focal_length="" aperture="">
 	  	<driver>temma</driver>
