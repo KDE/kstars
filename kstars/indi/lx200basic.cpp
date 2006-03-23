@@ -168,6 +168,15 @@ void LX200Basic::initProperties()
    IUFillNumber(&EqN[1], "DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0.);
    IUFillNumberVector(&EqNP, EqN, NARRAY(EqN), mydev, "EQUATORIAL_EOD_COORD" , "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
 
+   IUFillNumber(&SlewPrecisionN[0], "SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0);
+   IUFillNumber(&SlewPrecisionN[1], "SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0);
+   IUFillNumberVector(&SlewPrecisionNP, SlewPrecisionN, NARRAY(SlewPrecisionN), mydev, "Slew Precision", "", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+
+   IUFillNumber(&TrackPrecisionN[0], "TrackRA", "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0);
+   IUFillNumber(&TrackPrecisionN[1], "TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0);
+   IUFillNumberVector(&TrackPrecisionNP, TrackPrecisionN, NARRAY(TrackPrecisionN), mydev, "Tracking Precision", "", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+
+
    
 }
 
@@ -184,6 +193,8 @@ void LX200Basic::ISGetProperties(const char *dev)
   IDDefNumber(&EqNP, NULL);
   IDDefSwitch(&OnCoordSetSP, NULL);
   IDDefSwitch(&AbortSlewSP, NULL);
+  IDDefNumber(&SlewPrecisionNP, NULL);
+  IDDefNumber(&TrackPrecisionNP, NULL);
   
 }
 
@@ -286,6 +297,36 @@ void LX200Basic::ISNewNumber (const char *dev, const char *name, double values[]
 
 	    return;
      } /* end EqNP */
+
+	/* Update tracking precision limits */
+	if (!strcmp (name, TrackPrecisionNP.name))
+	{
+		if (!IUUpdateNumbers(&TrackPrecisionNP, values, names, n))
+		{
+			TrackPrecisionNP.s = IPS_OK;
+			IDSetNumber(&TrackPrecisionNP, NULL);
+			return;
+		}
+		
+		TrackPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&TrackPrecisionNP, "unknown error while setting tracking precision");
+		return;
+	}
+
+	/* Update slew precision limit */
+	if (!strcmp(name, SlewPrecisionNP.name))
+	{
+		IUUpdateNumbers(&SlewPrecisionNP, values, names, n);
+		{
+			SlewPrecisionNP.s = IPS_OK;
+			IDSetNumber(&SlewPrecisionNP, NULL);
+			return;
+		}
+		
+		SlewPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&SlewPrecisionNP, "unknown error while setting slew precision");
+		return;
+	}
 
 
 }
@@ -498,7 +539,7 @@ void LX200Basic::ISPoll()
 	    //IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
 
 	    // Wait until acknowledged or within threshold
-	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
+	    if ( fabs(dx) <= (SlewPrecisionN[0].value/(60.0*15.0)) && fabs(dy) <= (SlewPrecisionN[1].value/60.0))
 	    {
 		
 	       lastRA  = currentRA;
@@ -619,8 +660,7 @@ int LX200Basic::handleCoordSet()
 	  dx = fabs ( targetRA - currentRA );
 	  dy = fabs (targetDEC - currentDEC);
 
-	  
-	  if (dx >= TRACKING_THRESHOLD || dy >= TRACKING_THRESHOLD) 
+	  if (dx >= (TrackPrecisionN[0].value/(60.0*15.0)) || (dy >= TrackPrecisionN[1].value/60.0)) 
 	  {
 	        //IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
 		//IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);

@@ -59,6 +59,8 @@ private:
 
   /* Numbers */
   INumber EqN[2];
+  INumber SlewPrecisionN[2];
+  INumber TrackPrecisionN[2];
   
   /* Switch Vectors */
   ISwitchVectorProperty PowerSP;
@@ -67,6 +69,8 @@ private:
   
    /* Number Vectors */
   INumberVectorProperty EqNP;
+  INumberVectorProperty SlewPrecisionNP;
+  INumberVectorProperty TrackPrecisionNP;
   
    /* Text Vectors */
    ITextVectorProperty PortTP;

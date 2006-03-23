@@ -38,6 +38,10 @@
 		<driver>lx200autostar</driver>
 		<version>1.0</version>
 	</device>
+	<device label="ETX105" focal_length="1470" aperture="105">
+		<driver>lx200autostar</driver>
+		<version>1.0</version>
+	</device>
 	<device label="ETX90"  focal_length="1250" aperture="88.9">
 		<driver>lx200autostar</driver>
 		<version>1.0</version>
