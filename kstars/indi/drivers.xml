@@ -59,7 +59,7 @@
 		<version>0.1</version>
 	</device>
 	<device label="Astro-Electronic FS-2" focal_length="" aperture="">
-		<driver>lx200generic</driver>
+		<driver>lx200basic</driver>
 		<version>0.1</version>
 	</device>
 	<device label="Losmandy Gemini" focal_length="" aperture="">
