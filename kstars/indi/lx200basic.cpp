@@ -138,7 +138,7 @@ LX200Basic::LX200Basic()
    
    IDLog("Julian Day is %g\n", JD);
    IDLog("Initilizing from LX200 Basic device...\n");
-   IDLog("Driver Version: 2005-07-20\n");
+   IDLog("Driver Version: 2006-03-23\n");
  
    //enableSimulation(true);  
 }
@@ -494,8 +494,8 @@ void LX200Basic::ISPoll()
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
-	    IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
-	    IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
+	    //IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
+	    //IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
 
 	    // Wait until acknowledged or within threshold
 	    if (fabs(dx) <= RA_THRESHOLD && fabs(dy) <= DEC_THRESHOLD)
@@ -556,6 +556,9 @@ void LX200Basic::ISPoll()
 
 void LX200Basic::getBasicData()
 {
+  
+  checkLX200Format();
+
   // Get current RA/DEC
   getLX200RA(&currentRA);
   getLX200DEC(&currentDEC);
@@ -603,7 +606,7 @@ int LX200Basic::handleCoordSet()
 
      // Track
      case LX200_TRACK:
-          IDLog("We're in LX200_TRACK\n");
+          //IDLog("We're in LX200_TRACK\n");
           if (EqNP.s == IPS_BUSY)
 	  {
 	     IDLog("Aboring Slew\n");
@@ -619,9 +622,9 @@ int LX200Basic::handleCoordSet()
 	  
 	  if (dx >= TRACKING_THRESHOLD || dy >= TRACKING_THRESHOLD) 
 	  {
-	        IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
-		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
-	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
+	        //IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
+		//IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
+	        //IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
 
           	if ((err = Slew()))
 	  	{
@@ -637,7 +640,7 @@ int LX200Basic::handleCoordSet()
 	  }
 	  else
 	  {
-	    IDLog("Tracking called, but tracking threshold not reached yet.\n");
+	    //IDLog("Tracking called, but tracking threshold not reached yet.\n");
 	    EqNP.s = IPS_OK;
 	    EqNP.np[0].value = currentRA;
 	    EqNP.np[1].value = currentDEC;
@@ -771,7 +774,7 @@ void LX200Basic::powerTelescope()
 	   return;
 	 }
 
-        IDLog("telescope test successfful\n");
+        //IDLog("telescope test successfful\n");
 	PowerSP.s = IPS_OK;
 	IDSetSwitch (&PowerSP, "Telescope is online. Retrieving basic data...");
 	getBasicData();

@@ -28,7 +28,7 @@ enum TAlign {  LX200_ALIGN_POLAR, LX200_ALIGN_ALTAZ, LX200_ALIGN_LAND };
   /* Directions */
 enum TDirection { LX200_NORTH, LX200_WEST, LX200_EAST, LX200_SOUTH, LX200_ALL};
   /* Formats of Right ascention and Declenation */
-enum TFormat { LX200_FORMAT_SHORT, LX200_FORMAT_LONG};
+enum TFormat { LX200_SHORT_FORMAT, LX200_LONG_FORMAT};
   /* Time Format */
 enum TTimeFormat { LX200_24, LX200_AM, LX200_PM};
   /* Focus operation */

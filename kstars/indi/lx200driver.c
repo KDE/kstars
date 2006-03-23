@@ -36,7 +36,7 @@
 #define LX200_TIMEOUT	5		/* FD timeout in seconds */
 
 int fd;
-int read_ret, write_ret;
+int read_ret, write_ret, controller_format;
 
 /**************************************************************************
  Basic I/O
@@ -723,12 +723,18 @@ int setMaxSlewRate(int slewRate)
 int setObjectRA(double ra)
 {
 
- int h, m, s;
+ int h, m, s, frac_m;
  char tempString[16];
 
  getSexComponents(ra, &h, &m, &s);
 
- snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d:%02d#", h, m, s);
+ frac_m = (s / 60.0);
+
+ if (controller_format == LX200_LONG_FORMAT)
+ 	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d:%02d#", h, m, s);
+ else
+	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d.%02d#", h, m, frac_m);
+	
  IDLog("Set Object RA String %s\n", tempString);
   return (setStandardProcedure(tempString));
 }
@@ -741,15 +747,29 @@ int setObjectDEC(double dec)
 
   getSexComponents(dec, &d, &m, &s);
 
-  /* case with negative zero */
-  if (!d && dec < 0)
-    snprintf(tempString, sizeof( tempString ), "#:Sd -%02d:%02d:%02d#", d, m, s);
-  else
-    snprintf(tempString, sizeof( tempString ), "#:Sd %+03d:%02d:%02d#", d, m, s);
+  switch(controller_format)
+  {
+ 
+    case LX200_SHORT_FORMAT:
+    /* case with negative zero */
+    if (!d && dec < 0)
+    	snprintf(tempString, sizeof( tempString ), "#:Sd -%02d*%02d#", d, m);
+    else	
+    	snprintf(tempString, sizeof( tempString ), "#:Sd %+03d*%02d#", d, m);
+    break;
+
+    case LX200_LONG_FORMAT:
+    /* case with negative zero */
+    if (!d && dec < 0)
+    	snprintf(tempString, sizeof( tempString ), "#:Sd -%02d:%02d:%02d#", d, m, s);
+    else	
+    	snprintf(tempString, sizeof( tempString ), "#:Sd %+03d:%02d:%02d#", d, m, s);
+    break;
+  }
 
   IDLog("Set Object DEC String %s\n", tempString);
   
-   return (setStandardProcedure(tempString));
+  return (setStandardProcedure(tempString));
 
 }
 
@@ -1195,8 +1215,8 @@ int selectSubCatalog(int catalog, int subCatalog)
 
 int checkLX200Format()
 {
-
   char tempString[16];
+  controller_format = LX200_LONG_FORMAT;
 
   if (portWrite("#:GR#") < 0)
    return -1;
@@ -1208,11 +1228,30 @@ int checkLX200Format()
    
   tempString[read_ret - 1] = '\0';
 
-  /* Short */
+  /* If it's short, change to long, our preferred format */
   if (tempString[5] == '.')
+  {
      if (portWrite("#:U#") < 0)
       return -1;
+  }
+  else
+      return 0;
+
+  /* Does #:U# has any effect?? */
+  if (portWrite("#:GR#") < 0)
+   return -1;
+
+  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
   
+  if (read_ret < 1)
+   return read_ret;
+   
+  tempString[read_ret - 1] = '\0';
+
+  /* Controller doesn't support #:U# */
+  if (tempString[5] == '.')
+ 	controller_format = LX200_SHORT_FORMAT;
+
   return 0;
 }
 
