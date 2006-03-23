@@ -728,12 +728,12 @@ int setObjectRA(double ra)
 
  getSexComponents(ra, &h, &m, &s);
 
- frac_m = (s / 60.0);
+ frac_m = (s / 60.0) * 10.;
 
  if (controller_format == LX200_LONG_FORMAT)
  	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d:%02d#", h, m, s);
  else
-	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d.%02d#", h, m, frac_m);
+	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d.%01d#", h, m, frac_m);
 	
  IDLog("Set Object RA String %s\n", tempString);
   return (setStandardProcedure(tempString));
