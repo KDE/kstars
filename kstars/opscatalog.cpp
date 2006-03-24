@@ -17,6 +17,8 @@
 
 #include <QList>
 #include <QListWidgetItem>
+#include <QTextStream>
+
 #include <kfiledialog.h>
 
 #include "opscatalog.h"

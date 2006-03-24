@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kiconloader.h>
+#include <kicontheme.h>
 #include <ktoolbar.h>
 #include <qpalette.h>
 #include <kglobal.h>
@@ -156,7 +157,7 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig() {
 	if ( Options::isTracking() ) {
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
+		actionCollection()->action("track_object")->setIcon( KIcon("encrypted"));
 	}
 
 	//Toggle actions

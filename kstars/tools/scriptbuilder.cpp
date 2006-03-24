@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 
 #include <QTreeWidget>
+#include <QTextStream>
 
 #include <kdebug.h>
 #include <klocale.h>

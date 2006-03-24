@@ -41,14 +41,16 @@ ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
 {}
 
 void ToggleAction::turnOff() {
-	if ( !officon.isNull() ) setIcon(officon);
+	// FIXME use KIcon only
+	//if ( !officon.isNull() ) setIcon(officon);
 	setText(offcap);
 	setToolTip(offTip);
 	state = false;
 }
 
 void ToggleAction::turnOn() {
-	if ( !onicon.isNull() ) setIcon(onicon);
+	// FIXME use KIcon only
+	//if ( !onicon.isNull() ) setIcon(onicon);
 	setText(oncap);
 	setToolTip(onTip);
 	state = true;

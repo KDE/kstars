@@ -20,7 +20,6 @@
 #include <QLabel>
 #include <qlayout.h>
 #include <qstring.h>
-#include <q3ptrlist.h>
 #include <qslider.h>
 #include <qdir.h>
 //Added by qt3to4:
@@ -112,7 +111,8 @@ label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setFrameShape( KSqueezedTextLabel::Box );
 label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
 label_w->setTextFormat( Qt::RichText );
-label_w->setAlignment( int( Qt::TextWordWrap | Qt::AlignCenter ) );
+label_w->setAlignment( Qt::AlignCenter );
+label_w->setWordWrap(true);
 
 if (label.length() > MAX_LABEL_LENGTH)
 {

@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 #include <QFile>
+#include <QTextStream>
 
 #include <kmessagebox.h>
 #include <kstandarddirs.h>

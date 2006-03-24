@@ -42,7 +42,7 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 {
 // toolbar can dock only on top-position and can't be minimized
 // JH: easier to just disable its mobility
-	toolBar()->setMovingEnabled( false );
+	//toolBar()->setMovingEnabled( false );
 
 	KAction *action = new KAction( i18n("Close Window"), "fileclose",
 			KShortcut(Qt::CTRL+Qt::Key_Q), this, SLOT (close()), actionCollection(), 

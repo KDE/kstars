@@ -331,7 +331,8 @@ void KStars::initFOV() {
 				nm = fields[0].trimmed();
 				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
 						actionCollection(), nm.toUtf8() );
-				kta->setExclusiveGroup( "fovsymbol" );
+				/* FIXME update deprecated KToggleFunctions */
+				//kta->setExclusiveGroup( "fovsymbol" );
 				if ( nm == Options::fOVName() ) kta->setChecked( true );
 				fovActionMenu->insert( kta );
 			}

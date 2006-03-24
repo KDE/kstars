@@ -637,7 +637,7 @@ void KStars::slotTrack() {
 	if ( Options::isTracking() ) {
 		Options::setIsTracking( false );
 		actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( BarIcon( "decrypted" ) );
+		actionCollection()->action("track_object")->setIcon( KIcon( "decrypted" ) );
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
 			data()->temporaryTrail = false;
@@ -653,7 +653,7 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
+		actionCollection()->action("track_object")->setIcon( KIcon( "encrypted" ) );
 	}
 
 	map()->forceUpdate();
@@ -871,7 +871,8 @@ void KStars::slotFOVEdit() {
 					QString nm = fields[0].trimmed();
 					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
 							actionCollection(), nm.toUtf8() );
-					kta->setExclusiveGroup( "fovsymbol" );
+					/* FIXME update deprecated KToggleFunctions */
+					//kta->setExclusiveGroup( "fovsymbol" );
 					fovActionMenu->insert( kta );
 				}
 			}

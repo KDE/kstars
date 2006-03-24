@@ -242,7 +242,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 
 void SkyMap::slotCenter( void ) {
 	//DEBUG
-	kDebug() << "Number of toolbars: " << ks->toolBarList().size() << endl;
+	//kDebug() << "Number of toolbars: " << ks->toolBarList().size() << endl;
 
 	setFocusPoint( clickedPoint() );
 	if ( Options::useAltAz() ) 
@@ -276,8 +276,9 @@ void SkyMap::slotCenter( void ) {
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
 	if ( ks ) {
-	  ks->actionCollection()->action("track_object")->setIcon( BarIcon( "encrypted" ) );
-	  ks->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
+	  ks->actionCollection()->action("track_object")->setIcon( KIcon( "encrypted" ) );
+	  // FIXME setButtonIconSet removed
+	 //ks->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
 	  ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
 
