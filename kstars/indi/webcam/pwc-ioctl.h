@@ -312,10 +312,10 @@ struct pwc_table_init_buffer {
 #define V4L2_CID_PRIVATE_NOISE_REDUCTION (V4L2_CID_PRIVATE_BASE + 8)
 
 struct pwc_raw_frame {
-   __le16 type;		/* type of the webcam */
-   __le16 vbandlength;	/* Size of 4lines compressed (used by the decompressor) */
-   __u8   cmd[4];	/* the four byte of the command (in case of nala version, only the first 3 bytes is filled) */
-   __u8   rawframe[0];	/* frame_size = H/4*vbandlength */
+   unsigned short type;		/* type of the webcam */
+   unsigned short vbandlength;	/* Size of 4lines compressed (used by the decompressor) */
+   unsigned char   cmd[4];	/* the four byte of the command (in case of nala version, only the first 3 bytes is filled) */
+   unsigned char   rawframe[0];	/* frame_size = H/4*vbandlength */
 } __attribute__ ((packed));
 
 
