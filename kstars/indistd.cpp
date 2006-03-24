@@ -74,7 +74,6 @@
    seqLister		= new KDirLister();
    
    telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
-   ksw->data()->skyComposite()->addTelescopeMarker(telescopeSkyObject);
 	
    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
@@ -87,7 +86,7 @@
  
  INDIStdDevice::~INDIStdDevice()
  {
-   ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
+   //ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
    streamWindow->enableStream(false);
    streamWindow->close();
    CCDPreviewWindow->enableStream(false);

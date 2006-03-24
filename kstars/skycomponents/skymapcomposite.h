@@ -38,7 +38,6 @@
 // #include "milkywaycomposite.h"
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
-#include "telescopecomponent.h"
 
 
 class ConstellationBoundaryComponent;
@@ -53,7 +52,6 @@ class HorizonComponent;
 class MilkyWayComposite;
 //class SolarSystemComposite;
 //class StarComponent;
-//class TelescopeComponent;
 
 
 class KStarsData;
@@ -134,8 +132,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual bool hasTrail( SkyObject *o, bool &found );
 		virtual bool removeTrail( SkyObject *o );
 		virtual void clearTrailsExcept( SkyObject *o );
-		virtual void addTelescopeMarker( SkyObject *o);
-		virtual void removeTelescopeMarker( SkyObject *o);
 
 		void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
 		void removeCustomCatalog( const QString &name );
@@ -168,7 +164,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		QList<SkyObject*>& stars() { return m_Stars->objectList(); }
 		QList<SkyObject*>& asteroids() { return m_SolarSystem->asteroids(); }
 		QList<SkyObject*>& comets() { return m_SolarSystem->comets(); }
-		QList<SkyObject*>& telescopes() { return m_Telescopes->objectList(); }
 		KSPlanet* earth() { return m_SolarSystem->earth(); }
 
 		QList<SkyComponent*> customCatalogs() { 
@@ -191,7 +186,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		SolarSystemComposite *m_SolarSystem;
 		SkyComposite *m_CustomCatalogs;
 		StarComponent *m_Stars;
-		TelescopeComponent *m_Telescopes;
 		QStringList m_ObjectNames;
 		QList<SkyObject*> m_LabeledObjects;
 };

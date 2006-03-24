@@ -77,8 +77,6 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	
 	m_SolarSystem = new SolarSystemComposite( this, data );
 	addComponent( m_SolarSystem );
-	m_Telescopes = new TelescopeComponent(this, &Options::indiCrosshairs);
-	addComponent(m_Telescopes);
 
 	connect( this, SIGNAL( progressText( const QString & ) ), 
 					data, SIGNAL( progressText( const QString & ) ) );
@@ -131,8 +129,6 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 	//13. Horizon (and ground)
 	m_Horizon->draw( ks, psky, scale );
-	//14. Telescopes
-	m_Telescopes->draw( ks, psky, scale );
 
 }
 
@@ -229,19 +225,6 @@ void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
 		comp->clearTrailsExcept( exOb );
 	}
 }
-
-void SkyMapComposite::addTelescopeMarker( SkyObject *o)
-{
-       /* FIXME Does this function belong here?? */
-	m_Telescopes->addTelescopeMarker(o);
-}
-
-void SkyMapComposite::removeTelescopeMarker( SkyObject *o)
-{
-  /* FIXME Does this function belong here?? */
-	m_Telescopes->removeTelescopeMarker(o);
-}
-
 
 void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
 	m_Stars->setFaintMagnitude( newMag );

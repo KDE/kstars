@@ -193,10 +193,8 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	}
 }
 
-void SkyMap::drawTelescopeSymbols(QPainter &psky) {
- 
-/* NOTE We're using TelescopeComponent now. Remove this later on
-
+void SkyMap::drawTelescopeSymbols(QPainter &psky)
+{
 	if ( ks ) { //ks doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
 		INDI_P *portConnect;
@@ -331,7 +329,6 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 			}
 		}
 	}
-*/
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
