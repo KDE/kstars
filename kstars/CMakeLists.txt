@@ -129,7 +129,6 @@ set(libkstarscomponents_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/horizoncomponent.cpp 
     ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/milkywaycomposite.cpp 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/milkywaycomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/telescopecomponent.cpp 
     ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skycomponent.cpp 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skycomposite.cpp 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skymapcomposite.cpp 
