@@ -1,0 +1,10 @@
+if test x$have_v4l2 = xfalse && test x$disable_v4l2 = xno; then
+	cat << EOF
+
+We cannot locate videodev2.h in /usr/include/linux
+This file is responsible for V4L2 in KStars
+This file is correct in /lib/modules/$KERNEL_VERSION/build/include
+It is recommended that you copy this file and videodev.h to /usr/include/linux
+KStars will be compiled with legacy V4L 1 support.
+EOF
+fi

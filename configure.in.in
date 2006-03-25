@@ -76,15 +76,8 @@ case "$target" in
 	 if test x$have_v4l2 = xfalse; then
 	    KERNEL_VERSION=`uname -r`
 	    AC_CHECK_FILE(/lib/modules/$KERNEL_VERSION/build/include/linux/videodev2.h,
-	                  [AC_MSG_WARN([])
-			   AC_MSG_WARN([])
-			  AC_MSG_WARN([We cannot locate videodev2.h in /usr/include/linux])
-			  AC_MSG_WARN([])
-			  AC_MSG_WARN([This file is responsible for V4L2 in KStars])
-			   AC_MSG_WARN([This file is correct in /lib/modules/$KERNEL_VERSION/build/include])
-			   AC_MSG_WARN([It is recommended that you copy this file and videodev.h to /usr/include/linux])
-			   AC_MSG_WARN([])
-			   ])
+	                  [have_v4l2=true]
+			  [have_v4l2=false])
 	  fi
         else
             have_v4l2=false

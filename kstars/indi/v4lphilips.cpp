@@ -504,7 +504,11 @@ void V4L_Philips::connectCamera()
   switch (PowerS[0].s)
   {
      case ISS_ON:
+      #ifdef HAVE_LINUX_VIDEODEV2_H
       if (v4l_base->connectCam(PortT[0].text, errmsg, V4L2_PIX_FMT_YUV420) < 0)
+      #else
+      if (v4l_base->connectCam(PortT[0].text, errmsg) < 0)
+      #endif
       {
 	  PowerSP.s = IPS_IDLE;
 	  PowerS[0].s = ISS_OFF;
