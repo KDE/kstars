@@ -114,10 +114,14 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 
 LX200Basic::LX200Basic()
 {
-   struct tm *utp;
+   struct tm *utp = (tm *) malloc (sizeof (struct tm));
    time_t t;
    time (&t);
-   utp = gmtime (&t);
+   gmtime_r (&t, utp);
+   utp->tm_mon  += 1;
+   utp->tm_year += 1900;
+   JD = UTtoJD(utp);
+   free(utp);
 
    initProperties();
 
@@ -128,14 +132,7 @@ LX200Basic::LX200Basic()
    lastRA 	  = 0;
    lastDEC	  = 0;
    currentSet     = 0;
-   UTCOffset      = 0;
 
-   localTM = new tm;
-   
-   utp->tm_mon  += 1;
-   utp->tm_year += 1900;
-   JD = UTtoJD(utp);
-   
    IDLog("Julian Day is %g\n", JD);
    IDLog("Initilizing from LX200 Basic device...\n");
    IDLog("Driver Version: 2006-03-23\n");

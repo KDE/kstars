@@ -99,12 +99,9 @@ private:
   double targetDEC;
   double lastRA;
   double lastDEC;
-  double UTCOffset;
   bool   simulation;
   bool   fault;
 
-  struct tm *localTM;
-  
   int currentSet;
   int lastSet;
 

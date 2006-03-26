@@ -186,7 +186,7 @@ int testTelescope()
   int i=0;
   char ack[1] = { (char) 0x06 };
   char MountAlign[64];
-  fprintf(stderr, "Testing telescope's connection...\n");
+  fprintf(stderr, "Testing telescope's connection using ACK...\n");
 
   for (i=0; i < 2; i++)
   {
@@ -205,7 +205,7 @@ int testAP()
    int i=0;
    char currentDate[64];
 
-   fprintf(stderr, "Testing telescope's connection...\n");
+   fprintf(stderr, "Testing telescope's connection using :GC...\n");
 
   /* We need to test if the telescope is responding
   / We're going to request the calander date */
