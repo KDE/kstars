@@ -390,13 +390,12 @@ void KStars::datainitFinished(bool worked) {
  	connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(),
 		 SLOT( slotClockSlewing() ) );
 	connect(data(), SIGNAL( update() ), map(), SLOT( forceUpdateNow() ) );
-//FIXME: waiting for KToolBar fixes to make widget inserts possible
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(),
-//		 SLOT( setTimeDirection( float ) ) );
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(),
-//		 SLOT( setScale( float )) );
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this,
-//		 SLOT( mapGetsFocus() ) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(),
+		 SLOT( setTimeDirection( float ) ) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(),
+		 SLOT( setScale( float )) );
+	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this,
+		 SLOT( mapGetsFocus() ) );
 
 	//Initialize INDIMenu
 	indimenu = new INDIMenu(this);
