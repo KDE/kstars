@@ -193,13 +193,13 @@ void KStars::initActions() {
 	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
 	initFOV();
 
-	new KAction( i18n( "Location on Earth", "&Geographic..." ), 
-			"kstars_geo", KShortcut( "Ctrl+G"  ), this, 
+	new KAction( i18n( "Location on Earth", "&Geographic..." ),
+			"kstars_geo", KShortcut( "Ctrl+G"  ), this,
 			SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
 
-	new KAction(i18n( "Startup Wizard..." ), "wizard", KShortcut(), 
+	new KAction(i18n( "Startup Wizard..." ), "wizard", KShortcut(),
 			this, SLOT( slotWizard() ), actionCollection(), "startwizard" );
 
 //Tools Menu:
@@ -231,13 +231,13 @@ void KStars::initActions() {
 	new KAction(i18n("Telescope Wizard..."), 0, this, SLOT(slotTelescopeWizard()), actionCollection(), "telescope_wizard");
 	new KAction(i18n("Telescope Properties..."), 0, this, SLOT(slotTelescopeProperties()), actionCollection(), "telescope_properties");
 	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");
-	
+
 	tmpAction = new KAction(i18n("Capture Image Sequence..."), 0, this, SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
 	tmpAction->setEnabled(false);
-	
+
 	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_cpl");
 	tmpAction->setEnabled(false);
-	
+
 	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");
 
 
@@ -255,41 +255,41 @@ void KStars::initActions() {
 //
 
 //show_stars:
-	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars", 
+	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
 
 //show_deepsky:
-	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky", 
+	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
 
 //show_planets:
-	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets", 
+	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
 
 //show_clines:
-	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines", 
+	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
 
 //show_cnames:
-	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames", 
+	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
 
 //show_cbound:
-	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound", 
+	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
 
 //show_mw:
-	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw", 
+	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
 
 //show_grid:
-	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid", 
+	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
 
 //show_horizon:
-	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon", 
+	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon",
 		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
-	
+
 	if (Options::fitsSaveDirectory().isEmpty())
 			Options::setFitsSaveDirectory(QDir:: homePath());
 }
@@ -329,7 +329,7 @@ void KStars::initFOV() {
 
 			if ( fields.count() == 4 ) {
 				nm = fields[0].trimmed();
-				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
+				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
 						actionCollection(), nm.toUtf8() );
 				/* FIXME update deprecated KToggleFunctions */
 				//kta->setExclusiveGroup( "fovsymbol" );
@@ -383,19 +383,19 @@ void KStars::datainitFinished(bool worked) {
 	buildGUI();
 
 	//Time-related connections
-	connect( data()->clock(), SIGNAL( timeAdvanced() ), this, 
+	connect( data()->clock(), SIGNAL( timeAdvanced() ), this,
 		 SLOT( updateTime() ) );
-	connect( data()->clock(), SIGNAL( timeChanged() ), this, 
+	connect( data()->clock(), SIGNAL( timeChanged() ), this,
 		 SLOT( updateTime() ) );
- 	connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(), 
+ 	connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(),
 		 SLOT( slotClockSlewing() ) );
 	connect(data(), SIGNAL( update() ), map(), SLOT( forceUpdateNow() ) );
 //FIXME: waiting for KToolBar fixes to make widget inserts possible
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(), 
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(),
 //		 SLOT( setTimeDirection( float ) ) );
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(), 
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(),
 //		 SLOT( setScale( float )) );
-//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this, 
+//	connect( TimeStep, SIGNAL( scaleChanged( float ) ), this,
 //		 SLOT( mapGetsFocus() ) );
 
 	//Initialize INDIMenu
@@ -412,7 +412,7 @@ void KStars::datainitFinished(bool worked) {
 		data()->clock()->start();
 
 	// Connect cache function for Find dialog
-	connect( data(), SIGNAL( clearCache() ), this, 
+	connect( data(), SIGNAL( clearCache() ), this,
 		 SLOT( clearCachedFindDialog() ) );
 
 	//show the window.  must be before kswizard and messageboxes
@@ -523,9 +523,8 @@ void KStars::buildGUI() {
 	createGUI("kstarsui.rc", false);
 
 	//Add timestep widget to toolbar
-//FIXME: awaiting port of KToolbar to QToolbar
-// 	TimeStep = new TimeStepBox( this );
-// 	toolBar( "kstarsToolBar" )->insertWidget( 0, 6, TimeStep, 15 );
+ 	TimeStep = new TimeStepBox( this );
+ 	toolBar( "kstarsToolBar" )->addWidget( TimeStep );
 
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );
@@ -537,7 +536,7 @@ void KStars::buildGUI() {
 	map()->QWidget::setFocus();
 
 	resize( Options::windowWidth(), Options::windowHeight() );
-	
+
 	// check zoom in/out buttons
 	if ( Options::zoomFactor() >= MAXZOOM ) actionCollection()->action("zoom_in")->setEnabled( false );
 	if ( Options::zoomFactor() <= MINZOOM ) actionCollection()->action("zoom_out")->setEnabled( false );

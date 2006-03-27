@@ -30,8 +30,8 @@
 TimeStepBox::TimeStepBox( QWidget *parent, bool daysonly )
 	: QWidget( parent ) {
 
-	timeBox = new TimeSpinBox( this, "timebox", daysonly );
-	unitBox = new TimeUnitBox( this, "unitbox", daysonly );
+	timeBox = new TimeSpinBox( this, daysonly );
+	unitBox = new TimeUnitBox( this, daysonly );
 
 	QToolTip::add( timeBox, i18n( "Adjust time step" ) );
 	QToolTip::add( unitBox, i18n( "Adjust time step units" ) );

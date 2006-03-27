@@ -18,8 +18,7 @@
 #ifndef TIMEUNITBOX_H
 #define TIMEUNITBOX_H
 
-#include <q3vbox.h>
-#include <qwidget.h>
+#include <QWidget>
 
 #define ALLUNITS 8
 #define DAYUNITS 5
@@ -43,11 +42,11 @@
 
 class QPushButton;
 
-class TimeUnitBox : public Q3VBox {
+class TimeUnitBox : public QWidget {
    Q_OBJECT
 public:
 	/**Constructor*/
-	TimeUnitBox(QWidget *parent=0, const char *name=0, bool daysonly = false);
+	TimeUnitBox(QWidget *parent=0, bool daysonly = false);
 	/**Destructor (empty)*/
 	~TimeUnitBox();
 	/**@return the value of UnitStep for the current spinbox value() */

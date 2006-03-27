@@ -16,21 +16,28 @@
  ***************************************************************************/
 
 #include <stdlib.h>
+#include <QPushButton>
+#include <QVBoxLayout>
 #include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
-#include <qpushbutton.h>
 
 
-TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name, bool daysonly )
-	: Q3VBox( parent, name ) {
+TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
+	: QWidget( parent ) {
 
-	UpButton = new QPushButton( "+", this );
-	UpButton->setMaximumWidth( 22 );
+        QVBoxLayout *vlay = new QVBoxLayout();
+
+        UpButton = new QPushButton( "+", this );
+        UpButton->setMaximumWidth( 22 );
 	UpButton->setMaximumHeight( 10 );
 	DownButton = new QPushButton( "-", this );
 	DownButton->setMaximumWidth( 22 );
 	DownButton->setMaximumHeight( 10 );
+
+        vlay->addWidget( UpButton );
+        vlay->addWidget( DownButton );
+        setLayout( vlay );
 
 	setDaysOnly( daysonly );
 
@@ -46,7 +53,7 @@ void TimeUnitBox::setDaysOnly( bool daysonly ) {
 		setMinimum( 1-DAYUNITS );
 		setMaximum( DAYUNITS-1 );
 		setValue( 1 ); // Start out with days units
-	
+
 		UnitStep[0] = 0;
 		UnitStep[1] = 1;
 		UnitStep[2] = 5;
@@ -56,7 +63,7 @@ void TimeUnitBox::setDaysOnly( bool daysonly ) {
 		setMinimum( 1-ALLUNITS );
 		setMaximum( ALLUNITS-1 );
 		setValue( 1 ); // Start out with seconds units
-	
+
 		UnitStep[0] = 0;
 		UnitStep[1] = 4;
 		UnitStep[2] = 10;

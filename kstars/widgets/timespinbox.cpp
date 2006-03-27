@@ -1,3 +1,4 @@
+
 /***************************************************************************
                           timespinbox.cpp  -  description
                              -------------------
@@ -24,8 +25,10 @@
 //27-32: 1 month, 2, 3, 4, 6, 9 months
 //33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
 
-#include <qlineedit.h>
-#include <qfontmetrics.h>
+#include <QFontMetrics>
+#include <QLineEdit>
+#include <QStringList>
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <stdlib.h>
@@ -37,14 +40,14 @@
 #define SIDEREAL_YEAR 31558149.77
 #define TROPICAL_YEAR 31556925.19
 
-TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
-	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
+TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
+	: QSpinBox ( -41, 41, 1 /* step */, parent )
 {
-  //	setValidator( 0 );
+        setDaysOnly( _daysonly );
+
 	setButtonSymbols( QSpinBox::PlusMinus );
 	lineEdit()->setReadOnly( true );
 	setValue( 4 ); //1 second (real time)
-	setDaysOnly( _daysonly );
 
 	//Set width:
 	QFontMetrics fm( font() );
@@ -68,7 +71,7 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 	if ( ! daysOnly() ) {
 		TimeScale[1] = 0.1;          // 0.1 sec
 		TimeScale[2] = 0.25;         // 0.25 sec
-		TimeScale[3] = 0.5;          // 0.5 sec 
+		TimeScale[3] = 0.5;          // 0.5 sec
 		TimeScale[4] = 1.0;          // 1 sec (real-time)
 		TimeScale[5] = 2.0;          // 2 sec
 		TimeScale[6] = 5.0;          // 5 sec
@@ -86,12 +89,7 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 		TimeScale[18] = 10800.0;     // 3 hr
 		TimeScale[19] = 21600.0;     // 6 hr
 		TimeScale[20] = 43200.0;     // 12 hr
-		setMinimum( -41 );
-		setMaximum(  41 );
 		i = 20;
-	} else {
-		setMinimum( -21 );
-		setMaximum(  21 );
 	}
 	TimeScale[i+1] = SECS_PER_DAY;     // 1 day
 	TimeScale[i+2] = 2.*SECS_PER_DAY;  // 2 days
@@ -99,7 +97,7 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 	TimeScale[i+4] = 5.*SECS_PER_DAY;  // 5 days
 	TimeScale[i+5] = 7.*SECS_PER_DAY;  // 1 week
 	TimeScale[i+6] = 14.*SECS_PER_DAY; //2 weeks
-	TimeScale[i+7] = 21.*SECS_PER_DAY; //3 weeks    
+	TimeScale[i+7] = 21.*SECS_PER_DAY; //3 weeks
 //Months aren't a simple measurement of time; I'll just use fractions of a year
 	TimeScale[i+8] = SIDEREAL_YEAR/12.0; // 1 month
 	TimeScale[i+9] = SIDEREAL_YEAR/6.0;  // 2 months
@@ -163,24 +161,31 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 	TimeString.append( "25 " + i18n( "years", "yrs" ));
 	TimeString.append( "50 " + i18n( "years", "yrs" ));
 	TimeString.append( "100 " + i18n( "years", "yrs" ));
+
+	if ( ! daysOnly() ) {
+		setMinimum( -41 );
+		setMaximum(  41 );
+	} else {
+		setMinimum( -21 );
+		setMaximum(  21 );
+        }
 }
 
-int TimeSpinBox::mapTextToValue( bool *ok ) {
-	*ok = true;
-	for ( unsigned int i=0; i<42; ++i ) {
-		if ( text() == TimeString[i] ) { return i; }
-		if ( text().mid(1,text().length()) == TimeString[i] ) { return -1*i; }
+int TimeSpinBox::valueFromText( const QString &text ) const {
+	for ( uint i=0; i<TimeString.size(); i++ ) {
+		if ( text == TimeString[i] ) { return i; }
+		if ( text.mid(1,text.length()) == TimeString[i] ) { return -1*i; }
 	}
 
-	*ok = false;
 	return 0;
 }
 
-QString TimeSpinBox::mapValueToText( int value ) {
+QString TimeSpinBox::textFromValue( int value ) const {
 	QString neg("-"), result;
 	int posval( abs( value ) );
+        if ( posval > TimeString.size() - 1 ) posval = 4;
 
-	result = TimeString[ posval ];
+        result = TimeString[ posval ];
 
 	if ( value<0 ) { result = "-" + result; }
 	return result;
