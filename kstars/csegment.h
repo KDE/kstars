@@ -18,6 +18,9 @@
 #ifndef CSEGMENT_H
 #define CSEGMENT_H
 
+class QString;
+class SkyPoint;
+
 /**@class CSegment
 	*A segment of a constellation boundary.  The segment consists
 	*of two or more SkyPoint "nodes" which are vertices of the 
@@ -31,46 +34,53 @@
 	*A and B; another (AC) will describe the boundary between A and C;
 	*and a third (AD) will describe the boundary between A and D. 
 	*/
-
-class QString;
-class SkyPoint;
-
 class CSegment {
 public:
-	/**Constructor*/
+	/**
+	  *Constructor
+		*/
 	CSegment();
-	/**Destructor (empty)*/
+	/**
+	  *Destructor (empty)
+		*/
 	~CSegment();
 	
-	/**Add a SkyPoint node to the boundary segment.
+	/**
+	  *Add a SkyPoint node to the boundary segment.
 		*@param ra the RA of the node
 		*@param dec the Dec of the node
 		*/
 	void addPoint( double ra, double dec );
 	
-	/**@return the name of one of the constellations
+	/**
+	  *@return the name of one of the constellations
 		*that borders this boundary segment.
 		*/
 	QString name1() const { return Name1; }
 	
-	/**@return the name of one of the constellations
+	/**
+	  *@return the name of one of the constellations
 		*that borders this boundary segment.
 		*/
 	QString name2() const { return Name2; }
 	
-	/**Set the names of the bounding constellations.  Use the IAU
+	/**
+	  *Set the names of the bounding constellations.  Use the IAU
 		*three-letter abbreviations.
 		*@param n1 IAU name of one bounding constellation
 		*@param n2 IAU name of the other bounding constellation
 		*/
 	bool setNames( const QString &n1, const QString &n2 );
 	
-	/**Determine if a given constellation borders this boundary segment
+	/**
+	  *Determine if a given constellation borders this boundary segment
 		*@param cname the IAU code of the constellation to be tested.
 		*/
 	bool borders( const QString &cname );
 
-	/**@return reference to the list of nodes*/
+	/**
+	  *@return reference to the list of nodes
+		*/
 	QList<SkyPoint*>& nodes() { return Nodes; }
 
 private:

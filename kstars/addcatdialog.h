@@ -31,62 +31,73 @@ class AddCatDialogUI : public QFrame, public Ui::AddCatDialog {
 		AddCatDialogUI( QWidget *parent=0 );
 };
 
-/**@class AddCatDialog
+/**
+  *@class AddCatDialog
 	*@short Dialog for adding custom object catalogs to KStars
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
 class AddCatDialog : public KDialog  {
 	Q_OBJECT
 public:
-/**Default constructor
+/**
+  *Default constructor
 	*/
 	AddCatDialog( KStars *_ks );
 
-/**Destructor (empty)
+/**
+  *Destructor (empty)
 	*/
 	~AddCatDialog();
 
-/**@return the name for the custom catalog.
+/**
+  *@return the name for the custom catalog.
 	*/
 	QString name() const { return acd->CatalogName->text(); }
 
-/**@return the filename of the custom catalog.
+/**
+  *@return the filename of the custom catalog.
 	*/
 	QString filename() const { return acd->CatalogURL->url(); }
 
 private slots:
-/**Display contents of the import file.
+/**
+  *Display contents of the import file.
 	*/
 	void slotShowDataFile();
 
-/**Create the object catalog file, populate the objectList, 
+/**
+  *Create the object catalog file, populate the objectList, 
 	*and close the dialog.
 	*/
 	void slotCreateCatalog();
 
-/**Preview the catalog file as constructed by the current parameters
+/**
+  *Preview the catalog file as constructed by the current parameters
 	*/
 	void slotPreviewCatalog();
 
-/**Overridden from KDialogBase to show short help in a dialog rather 
+/**
+  *Overridden from KDialog to show short help in a dialog rather 
 	*than launch KHelpCenter.
 	*/
 	void slotHelp();
 
-/**Overridden from KDialogBase, so that the entered file can be parsed
+/**
+  *Overridden from KDialog, so that the entered file can be parsed
 	*before window is closed.
 	*/
 	void slotOk();
 
 private:
-/**Attempt to parse the user's data file according to the fields 
+/**
+  *Attempt to parse the user's data file according to the fields 
 	*specified in the Catalog fields list.
 	*/
 	bool validateDataFile();
 
-/**Write a header line describing the data fields in the catalog, and 
+/**
+  *Write a header line describing the data fields in the catalog, and 
 	*defining the catalog name, ID prefix, and coordinate epoch.
 	*/
 	QString writeCatalogHeader();

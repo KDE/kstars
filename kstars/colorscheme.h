@@ -35,25 +35,28 @@ class KConfig;
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
 class ColorScheme {
 
 	public:
 
-	/**Constructor.  Enter all adjustable colors and their default 
+	/**
+	  *Constructor.  Enter all adjustable colors and their default 
 		*values into the QMap.  Also assign the corresponding long names.
 		*/
 		ColorScheme();
 
-	/**Copy constructor
+	/**
+	  *Copy constructor
 		*/
 		ColorScheme( const ColorScheme &cs );
 
-	/**Destructor
+	/**
+	  *Destructor
 		*/
 		~ColorScheme();
 
-	/**@return true if the Palette contains the given key name
+	/**
+	  *@return true if the Palette contains the given key name
 		*/
 		bool hasColorNamed( const QString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
 		
@@ -64,17 +67,20 @@ class ColorScheme {
 		*/
 		QColor colorNamed( const QString &name ) const;
 		
-	/**@p i the index of the color to retrieve
+	/**
+	  *@p i the index of the color to retrieve
 		*@return a color by its index in the QMap
 		*/
 		QColor colorAt( int i ) const;
 		
-	/**@p i the index of the long name to retrieve
+	/**
+	  *@p i the index of the long name to retrieve
 		*@return the name of the color at index i
 		*/
 		QString nameAt( int i ) const;
 		
-	/**@p i the index of the key name to retrieve
+	/**
+	  *@p i the index of the key name to retrieve
 		*@return the key name of the color at index i
 		*/
 		QString keyAt( int i ) const;
@@ -85,54 +91,73 @@ class ColorScheme {
 		*/
 		QString nameFromKey( const QString &key ) const;
 		
-	/**Change the color with the given key to the given value
+	/**
+	  *Change the color with the given key to the given value
 		*@p key the key-name of the color to be changed
 		*@p color the new color value
 		*/
 		void setColor( const QString &key, const QString &color );
 
-	/**Load a color scheme from a *.colors file
+	/**
+	  *Load a color scheme from a *.colors file
 		*@p filename the filename of the color scheme to be loaded.
 		*@return TRUE if the scheme was successfully loaded
 		*/
 		bool load( const QString &filename );
 		
-	/**Save the current color scheme to a *.colors file.
+	/**
+	  *Save the current color scheme to a *.colors file.
 		*@p name the filename to create
 		*@return TRUE if the color scheme is successfully writeen to a file
 		*/
 		bool save( const QString &name );
 		
-	/**@return the Filename associated with the color scheme.
+	/**
+	  *@return the Filename associated with the color scheme.
 		*/
 		QString fileName() const { return FileName; }
 		
-	/**Copy a color scheme
+	/**
+	  *Copy a color scheme
 		*@p cs the color scheme to be copied into this object
 		*/
 		void copy( const ColorScheme &cs );
 
-	/**Read color-scheme data from the Config object.
+	/**
+	  *Read color-scheme data from the Config object.
 		*/
 		void loadFromConfig( KConfig* );
 		
-	/**Save color-scheme data to the Config object.
+	/**
+	  *Save color-scheme data to the Config object.
 		*/
 		void saveToConfig( KConfig* );
 
-	/**@return the number of colors in the color scheme.*/
+	/**
+	  *@return the number of colors in the color scheme.
+		*/
 		unsigned int numberOfColors() const { return (int)Palette.size(); }
 
-	/**@return the star color mode used by the color scheme*/
+	/**
+	  *@return the star color mode used by the color scheme
+		*/
 		int starColorMode() const { return StarColorMode; }
 		
-	/**@return the star color intensity value used by the color scheme*/
+	/**
+	  *@return the star color intensity value used by the color scheme
+		*/
 		int starColorIntensity() const { return StarColorIntensity; }
 		
-	/**Set the star color mode used by the color scheme*/
+	/**
+	  *Set the star color mode used by the color scheme
+		*@p mode the star color mode to use
+		*/
 		void setStarColorMode( int mode ) { StarColorMode = mode; }
 		
-	/**Set the star color intensity value used by the color scheme*/
+	/**
+	  *Set the star color intensity value used by the color scheme
+		*@p intens The star color intensity value
+		*/
 		void setStarColorIntensity( int intens) { StarColorIntensity = intens; }
 
 	private:
