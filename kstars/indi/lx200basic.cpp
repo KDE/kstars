@@ -135,7 +135,7 @@ LX200Basic::LX200Basic()
 
    IDLog("Julian Day is %g\n", JD);
    IDLog("Initilizing from LX200 Basic device...\n");
-   IDLog("Driver Version: 2006-03-23\n");
+   IDLog("Driver Version: 2006-03-29\n");
  
    //enableSimulation(true);  
 }
