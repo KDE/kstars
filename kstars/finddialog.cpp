@@ -99,7 +99,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 		} else 
 			ui->SearchList->addItems( ObjNames );
 
-		setListItemEnabled(); // Automatically highlight first item
+		selectFirstItem(); // Automatically highlight first item
 	}
 
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
@@ -117,11 +117,11 @@ void FindDialog::filterByType() {
 		//FIXME: We need pointers to the objects to filter by type
 	}
 
-	setListItemEnabled();    // Automatically highlight first item
+	selectFirstItem();    // Automatically highlight first item
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
 
-void FindDialog::setListItemEnabled() {
+void FindDialog::selectFirstItem() {
 	ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
 }
 

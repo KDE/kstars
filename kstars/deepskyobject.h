@@ -23,7 +23,13 @@
 #include "skyobject.h"
 #include "dms.h"
 
-/**@class DeepSkyObject
+class QPainter;
+class QImage;
+class QString;
+class KSPopupMenu;
+
+/**
+  *@class DeepSkyObject
 	*Provides all necessary information about a deep-sky object:
 	*data inherited from SkyObject (coordinates, type, magnitude, 
 	*2 names, and URLs) and data specific to DeepSkyObjects
@@ -33,15 +39,10 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class QPainter;
-class QImage;
-class QString;
-class KSPopupMenu;
-
 class DeepSkyObject : public SkyObject {
 public:
-/**Constructor.  Create DeepSkyObject with data according to arguments.
+/**
+  *Constructor.  Create DeepSkyObject with data according to arguments.
 	*@param t Type of object
 	*@param r catalog Right Ascension
 	*@param d catalog Declination
@@ -62,7 +63,8 @@ public:
 			float a=0.0, float b=0.0, double pa=0.0, 
 			int pgc=0, int ugc=0 );
 
-/**Constructor.  Create DeepSkyObject with data according to arguments.  
+/**
+  *Constructor.  Create DeepSkyObject with data according to arguments.  
 	*Differs from above function only in data type of RA and Dec.
 	*@param t Type of object
 	*@param r catalog Right Ascension
@@ -83,7 +85,8 @@ public:
 			QString cat=QString(), float a=0.0, float b=0.0,
 			double pa=0.0, int pgc=0, int ugc=0 );
 
-/**Copy constructor.
+/**
+  *Copy constructor.
 	*@param o SkyObject from which to copy data
 	*/
 	DeepSkyObject( DeepSkyObject &o );
@@ -93,88 +96,108 @@ public:
 	*/
 	~DeepSkyObject() { if ( Image ) { deleteImage(); } }
 
-/**@enum CATALOG
+/**
+  *@enum CATALOG
 	*The catalog ID of the DeepSkyObject.
 	*/
 	enum CATALOG { CAT_MESSIER=0, CAT_NGC=1, CAT_IC=2, CAT_UNKNOWN };
 
-/**@return a QString identifying the object's primary catalog.
-	*@warning this is only used for deep-sky objects.  Possible values are:
+/**
+  *@return a QString identifying the object's primary catalog.
+	*Possible catalog values are:
 	*- "M" for Messier catalog
 	*- "NGC" for NGC catalog
 	*- "IC" for IC catalog
 	*- empty string is presumed to be an object in a custom catalog
+	*@sa setCatalog()
 	*/
 	QString catalog( void ) const;
 
-/**Set the internal Catalog value according to the QString
+/**
+  *Set the internal Catalog value according to the QString
 	*argument:
 	* "M"   : CAT_MESSIER
 	* "NGC" : CAT_NGC
 	* "IC"  : CAT_IC
+	*@sa catalog()
 	*/
 	void setCatalog( const QString &s );
 
-/**@return the object's major axis length, in arcminute.
+/**
+  *@return the object's major axis length, in arcminutes.
 	*/
-	float a( void ) const { return MajorAxis; }
+	float a() const { return MajorAxis; }
 
-/**@return the object's minor axis length, in arcminutes.
+/**
+  *@return the object's minor axis length, in arcminutes.
 	*/
-	float b( void ) const { return MinorAxis; }
+	float b() const { return MinorAxis; }
 
-/**@return the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
+/**
+  *@return the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
 	*if the object's MinorAxis=0.0.
 	*/
-	float e( void ) const;
+	float e() const;
 
-/**@return the object's position angle, meausred clockwise from North.
+/**
+  *@return the object's position angle, meausred clockwise from North.
 	*/
 	virtual double pa() const { return PositionAngle; }
 
-/**@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
+/**
+  *@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
 	*/
-	int ugc( void ) const { return UGC; }
+	int ugc() const { return UGC; }
 
-/**@return the object's PGC catalog number.  Return 0 if the object is not in PGC.
+/**
+  *@return the object's PGC catalog number.  Return 0 if the object is not in PGC.
 	*/
-	int pgc( void ) const { return PGC; }
+	int pgc() const { return PGC; }
 
-/**Read in this object's image from disk, unless it already exists in memory.
-	*@returns pointer to newly-created image.
+/**
+  *Read in this object's image from disk, unless it already exists in memory.
+	*@return a pointer to the image.
 	*/
 	QImage *readImage();
 
-/**@return pointer to the object's inline image.  If it is currently
-	*a null pointer, it loads the image from disk.
+/**
+  *@return pointer to the object's inline image.  If it is currently
+	*a null pointer, it first loads the image from disk.
 	*/
-	QImage *image() const { return Image; }
+	inline QImage *image() const { return Image; }
 
-/**delete the Image pointer, and set it to 0.
+/**
+  *@short delete the Image pointer, and set it to 0.
 	*/
-	void deleteImage();
+	inline void deleteImage() { delete Image; Image = 0; }
 
-/**@return true if the object is in the Messier catalog
+/**
+  *@return true if the object is in the Messier catalog
 	*/
-	bool isCatalogM() const { return (Catalog == CAT_MESSIER); }
+	inline bool isCatalogM() const { return (Catalog == CAT_MESSIER); }
 
-/**@return true if the object is in the NGC catalog
+/**
+  *@return true if the object is in the NGC catalog
 	*/
-	bool isCatalogNGC() const { return (Catalog == CAT_NGC); }
+	inline bool isCatalogNGC() const { return (Catalog == CAT_NGC); }
 
-/**@return true if the object is in the IC catalog
+/**
+  *@return true if the object is in the IC catalog
 	*/
-	bool isCatalogIC() const { return (Catalog == CAT_IC); }
+	inline bool isCatalogIC() const { return (Catalog == CAT_IC); }
 
-/**@return true if the object is not in a catalog
+/**
+  *@return true if the object is not in a catalog
 	*/
-	bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
+	inline bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
 
-/**Draw the object's symbol on the map
+/**
+  *Draw the object's symbol on the map
 	*/
 	void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
 
-/**Draw the Object's image on the map
+/**
+  *Draw the Object's image on the map
 	*/
 	void drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
 
@@ -183,7 +206,8 @@ public:
 	*/
 	virtual double labelOffset( double scale = 1.0 );
 
-/**Show Deep-sky object popup menu.  Overloaded from virtual 
+/**
+  *Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
@@ -192,7 +216,7 @@ public:
 
 private:
 	unsigned char Catalog; 
-        double PositionAngle;
+	double PositionAngle;
 	int UGC, PGC;
 	float MajorAxis, MinorAxis;
 	QImage *Image;

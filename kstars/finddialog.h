@@ -58,7 +58,7 @@ public:
 
 /**@return the currently-selected item from the listbox of named objects
 	*/
-	SkyObject* currentItem() const { return currentitem; }
+	inline SkyObject* currentItem() const { return currentitem; }
 
 public slots:
 /**When Text is entered in the QLineEdit, filter the List of objects
@@ -71,6 +71,7 @@ public slots:
 	*/
 	void filterByType();
 	
+	//FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
 /**Overloading the Standard KDialogBase slotOk() to show a "sorry" message 
 	*box if no object is selected when the user presses Ok.  The window is 
 	*not closed in this case.
@@ -86,22 +87,25 @@ private slots:
 	*/
 	void updateSelection();
 
-/**Change current filter options.
+/**Filter the list of named objects according to the given object type
+ *@param f The integer representation of the object type
+ *@see SkyObject
 	*/
 	void setFilter( int f );
 
 protected:
 /**Process Keystrokes.  The Up and Down arrow keys are used to select the 
-	*Previous/Next item in the listbox of named objects.
+	*Previous/Next item in the listbox of named objects.  The Esc key closes 
+	*the window with no selection, using reject().
 	*@param e The QKeyEvent pointer 
 	*/
 	void keyPressEvent( QKeyEvent *e );
 
 private:
 /**
-	*Automatically select the first item in the list
+	*Highlight the first item in the list
 	*/
-	void setListItemEnabled();
+	void selectFirstItem();
 	
 	FindDialogUI* ui;
 	SkyObject* currentitem;

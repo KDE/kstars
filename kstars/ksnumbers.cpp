@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "ksnumbers.h"
+#include "kstarsdatetime.h" //for J2000 define
 
 // 63 elements
 const int KSNumbers::arguments[NUTTERMS][5] = {
@@ -181,16 +182,16 @@ void KSNumbers::updateValues( long double jd ) {
 
 	//Mean elongation of the Moon from the Sun
 	D.setD( 297.85036 + 445267.111480*T - 0.0019142*T2 + T3/189474.);
-		
+
 	//Sun's Mean Anomaly
 	M.setD( 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T3);
-	
+
 	//Moon's Mean Anomaly
 	MM.setD( 134.96298 + 477198.867398*T + 0.0086972*T2 + T3/56250.0 );
 
 	//Moon's Mean Longitude
 	LM.setD( 218.3164591 + 481267.88134236*T - 0.0013268*T2 + T3/538841. - T*T*T*T/6519400.);
-	
+
 	//Moon's argument of latitude
 	F.setD( 93.27191 + 483202.017538*T - 0.0036825*T2 + T3/327270.);
 
@@ -199,7 +200,7 @@ void KSNumbers::updateValues( long double jd ) {
 
 	//Earth's orbital eccentricity
 	e = 0.016708617 - 0.000042037*T - 0.0000001236*T2;
-	
+
 	double C = ( 1.914600 - 0.004817*T - 0.000014*T2 ) * sin( M.radians() )
 						+ ( 0.019993 - 0.000101*T ) * sin( 2.0* M.radians() )
 						+ 0.000290 * sin( 3.0* M.radians() );
@@ -223,25 +224,25 @@ void KSNumbers::updateValues( long double jd ) {
 	dms  L2, M2, O2;
 	double sin2L, cos2L, sin2M, cos2M;
 	double sinO, cosO, sin2O, cos2O;
-	
+
 	O2.setD( 2.0*O.Degrees() );
 	L2.setD( 2.0*L.Degrees() ); //twice mean ecl. long. of Sun
 	M2.setD( 2.0*LM.Degrees() );  //twice mean ecl. long. of Moon
-	
+
 	O.SinCos( sinO, cosO );
 	O2.SinCos( sin2O, cos2O );
 	L2.SinCos( sin2L, cos2L );
 	M2.SinCos( sin2M, cos2M );
-	
+
 //	deltaEcLong = ( -17.2*sinO - 1.32*sin2L - 0.23*sin2M + 0.21*sin2O)/3600.0; //Ecl. long. correction
 //	deltaObliquity = ( 9.2*cosO + 0.57*cos2L + 0.10*cos2M - 0.09*cos2O)/3600.0; //Obliq. correction
 
 	deltaEcLong = 0.;
 	deltaObliquity = 0.;
-	
+
 	for (unsigned int i=0; i < NUTTERMS; i++) {
 
-		arg.setD ( arguments[i][0]*D.Degrees() + arguments[i][1]*M.Degrees() + 
+		arg.setD ( arguments[i][0]*D.Degrees() + arguments[i][1]*M.Degrees() +
 			arguments[i][2]*MM.Degrees() + arguments[i][3]*F.Degrees() + arguments[i][4]*O.Degrees() );
 		arg.SinCos( args, argc );
 
@@ -260,7 +261,7 @@ void KSNumbers::updateValues( long double jd ) {
 	XP.SinCos( SX, CX );
 	YP.SinCos( SY, CY );
 	ZP.SinCos( SZ, CZ );
-	
+
 //P1 is used to precess from any epoch to J2000
 	P1[0][0] = CX*CY*CZ - SX*SZ;
 	P1[1][0] = CX*CY*SZ + SX*CZ;
@@ -316,7 +317,7 @@ void KSNumbers::updateValues( long double jd ) {
 	P2B[1][2] = -1.0*SXB*SYB;
 	P2B[2][2] = CYB;
 
-	
+
 	// Mean longitudes for the planets. radians
 	//
 
@@ -328,7 +329,7 @@ void KSNumbers::updateValues( long double jd ) {
 	double LSaturn  = 0.8740168+  21.3299095*T; // Saturn
 	double LNeptune = 5.3118863+   3.8133036*T; // Neptune
 	double LUranus  = 5.4812939+   7.4781599*T; // Uranus
-	
+
 	double LMRad = 3.8103444+8399.6847337*T; // Moon
 	double DRad  = 5.1984667+7771.3771486*T;
 	double MMRad = 2.3555559+8328.6914289*T; // Moon
@@ -382,9 +383,9 @@ void KSNumbers::updateValues( long double jd ) {
 	dms anglev;
 	double sa, ca;
 	// Vearth X component
-	vearth[0] = 0.;  
+	vearth[0] = 0.;
 	// Vearth Y component
-	vearth[1] = 0.; 
+	vearth[1] = 0.;
 	// Vearth Z component
 	vearth[2] = 0.;
 

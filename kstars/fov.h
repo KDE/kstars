@@ -21,15 +21,15 @@
 #include <qstring.h>
 #include <klocale.h>
 
+class QPainter;
+
 /**@class FOV A simple class encapulating a Field-of-View symbol
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class QPainter;
-
 class FOV {
 	public:
+	/**Default constructor*/
 		FOV();
 		FOV( const QString &name );  //in this case, read params from fov.dat
 		FOV( const QString &name, float size, int shape=0, const QString &color="#FFFFFF" );

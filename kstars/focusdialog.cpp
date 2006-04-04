@@ -151,7 +151,7 @@ QSize FocusDialog::sizeHint() const
   return QSize(240,210);
 }
 
-void FocusDialog::activateAzAltPage() {
+void FocusDialog::activateAzAltPage() const {
 	fd->fdTab->showPage( fd->aaTab );
 	fd->azBox->setFocus();
 }

@@ -22,16 +22,11 @@
 #include <qstring.h>
 #include <kdebug.h>
 
-//TODO: Remove these when KStarsDateTime is added!
-#define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
-                       //defined here because this file is included in every other class.
-#define B1950 2433282.4235  // Julian date for Jan 0.9235, 1950
-
 /**@class dms
 	*@short An angle, stored as degrees, but expressible in many ways.
 	*@author Jason Harris
 	*@version 1.0
-
+	*
 	*dms encapsulates an angle.  The angle is stored as a double,
 	*equal to the value of the angle in degrees.  Methods are available
 	*for setting/getting the angle as a floating-point measured in
@@ -42,7 +37,6 @@
 	*the sin and cosine of the angle.  Once computed, the sin and cos
 	*values are stored, so that subsequent SinCos() calls will be faster.
   */
-
 class dms {
 public:
 /**@short Default Constructor.
@@ -83,7 +77,7 @@ public:
 
 /**@return integer degrees portion of the angle
 	*/
-  const int degree() const { return int( D ) ; }
+  inline const int degree() const { return int( D ) ; }
 
 /**@return integer arcminutes portion of the angle.
 	*@note an arcminute is 1/60 degree.
@@ -102,13 +96,13 @@ public:
 
 /**@return angle in degrees expressed as a double.
 	*/
-	const double& Degrees() const { return D; }
+	inline const double& Degrees() const { return D; }
 
 /**@return integer hours portion of the angle
 	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
-	const int hour() const { return int( reduce().Degrees()/15.0 ); }
+	inline const int hour() const { return int( reduce().Degrees()/15.0 ); }
 
 /**@return integer minutes portion of the angle
 	*@note a minute is 1/60 hour (not the same as an arcminute)
@@ -129,25 +123,25 @@ public:
 	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
-	const double Hours() const { return reduce().Degrees()/15.0; }
+	inline const double Hours() const { return reduce().Degrees()/15.0; }
 
 /**Sets integer degrees portion of angle, leaving the arcminute and
 	*arcsecond values intact.
 	*@param d new integer degrees value
 	*/
-  void setDeg( const int &d ) { setD( d, arcmin(), arcsec() ); }
+  inline void setDeg( const int &d ) { setD( d, arcmin(), arcsec() ); }
 
 /**Sets integer arcminutes portion of angle, leaving the degrees
 	*and arcsecond values intact.
 	*@param m new integer arcminutes value
 	*/
-  void setArcMin( const int &m ) { setD( degree(), m, arcsec() ); }
+  inline void setArcMin( const int &m ) { setD( degree(), m, arcsec() ); }
 
 /**Sets integer arcseconds portion of angle, leaving the degrees
 	*and arcminute values intact.
 	*@param s new integer arcseconds value
 	*/
-  void setArcSec( const int &s ) { setD( degree(), arcmin(), s ); }
+  inline void setArcSec( const int &s ) { setD( degree(), arcmin(), s ); }
 
 /**Sets floating-point value of angle, in degrees.
 	*@param x new angle (double)
@@ -236,6 +230,7 @@ public:
 	*/
 	bool setFromString( const QString &s, bool isDeg=true );
 
+	//TODO: Either implement these operators, or delete the commented declarations
 /**
 	*Addition operator.  Add two dms objects.
 	*@param d add to current angle

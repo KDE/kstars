@@ -59,7 +59,10 @@ struct ADVTreeData
 	int Type;
 };
 
-/**@class DetailDialog is a window showing detailed information for a selected object.
+//TODO: Change base class to KDialog
+
+/**
+  *@class DetailDialog is a window showing detailed information for a selected object.
 	*The window is split into four Tabs: General, Links, Advanced and Log.
 	*The General Tab displays some type-specific data about the object, as well as its 
 	*present coordinates and Rise/Set/Transit times for the current date.  The Type-specific 
@@ -73,10 +76,14 @@ struct ADVTreeData
 	*listed in the object's popup menu.  The Advanced Tab allows the user to query 
 	*a number of professional-grade online astronomical databases for data on the object.
 	*The Log tab allows the user to attach their own text notes about the object.
+	*
+	*The General Tab includes a clickable image of the object.  Clicking the image opens
+	*a Thumbnail picker tool, which downloads a list of mages of the object from the 
+	*network, which the user may select as the new image for this objects Details window.
+	* 
 	*@author Jason Harris, Jasem Mutlaq
 	*@version 1.0
 	*/
-
 class DetailDialog : public KDialogBase  {
    Q_OBJECT
 public: 
@@ -88,40 +95,48 @@ public:
 	*/
 	~DetailDialog() {}
 
-	QPixmap* thumbnail() { return Thumbnail; }
+/**
+  *@return pointer to the QPixmap of the object's thumbnail image 
+	*/
+	inline QPixmap* thumbnail() { return Thumbnail; }
 
 public slots:
-/**@short Add this object to the observing list.
+/**@short Slot to add this object to the observing list.
 	*/
 	void addToObservingList();
 
-/**@short Center this object in the display.
+/**@short Slot to center this object in the display.
 	*/
 	void centerMap();
 
-/**@short Center this object in the telescope.
+/**@short Slot to center this object in the telescope.
 	*/
 	void centerTelescope();
 
-/**@short Display thumbnail image for the object
+	//TODO: showThumbnail() is only called in the ctor; make it private and not a slot.
+/**@short Slot to display the thumbnail image for the object
 	*/
 	void showThumbnail();
 
-/**@short Update thumbnail image for the object
+/**@short Slot to update thumbnail image for the object, using the Thumbnail 
+  *Picker tool.
+	*@sa ThumbnailPicker
 	*/
 	void updateThumbnail();
 
-/**@short View the selected image or info URL in the web browser.
+/**@short Slot for viewing the selected image or info URL in the web browser.
 	*/
 	void viewLink();
 
 /**@short Unselect the currently selected item in the Images list
 	*@note used when an item is selected in the Info list
+	*@sa unselectInfoList()
 	*/
 	void unselectImagesList();
 
 /**@short Unselect the currently selected item in the Info list
 	*@note used when an item is selected in the Images list
+	*@sa unselectImagesList()
 	*/
 	void unselectInfoList();
 
@@ -201,8 +216,6 @@ private:
 	QPixmap *Thumbnail;
 	int currentItemIndex;
 	QStringList dataList;
-
-	//Q3PtrListIterator<ADVTreeData> * treeIt;
 
 	DataWidget*Data;
 	PositionWidget *Pos;

@@ -27,6 +27,10 @@
 #include "dms.h"
 #include "kspopupmenu.h"
 
+class QPoint;
+class GeoLocation;
+class KStarsDateTime;
+
 /**@class SkyObject
 	*Provides all necessary information about an object in the sky:
 	*its coordinates, name(s), type, magnitude, and QStringLists of
@@ -35,11 +39,6 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class QPoint;
-class GeoLocation;
-class KStarsDateTime;
-
 class SkyObject : public SkyPoint {
 public:
 /**Constructor.  Set SkyObject data according to arguments.

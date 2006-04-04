@@ -36,7 +36,6 @@ class FocusDialogUI : public QFrame, public Ui::FocusDialog {
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
 class FocusDialog : public KDialog {
 	Q_OBJECT
 public:
@@ -47,17 +46,34 @@ public:
 	~FocusDialog();
 
 	/**@return pointer to the SkyPoint described by the entered RA, Dec */
-	SkyPoint* point() const { return Point; }
+	inline SkyPoint* point() const { return Point; }
 
 	/**@return suggested size of focus window. */
 	QSize sizeHint() const;
 
 	/**@return whether user set the AltAz coords */
-	bool usedAltAz() const { return UsedAltAz; }
+	inline bool usedAltAz() const { return UsedAltAz; }
 
-	void activateAzAltPage();
+	/**
+	  *@short Show the Az/Alt page instead of the RA/Dec page.
+		*/
+	void activateAzAltPage() const;
+
+	/**
+	  *@short Convenience function to convert an epoch number (e.g., 2000.0) 
+		*to the corresponding Julian Day number (e.g., 2451545.0).
+		*@param epoch the epoch value to be converted.
+		*FIXME: This should probably move to KStarsDateTime
+		*/
 	long double epochToJd (double epoch);
 
+	/**
+	  *@short Convert a string to an epoch number; essentially just 
+		*converts the string to a double.
+		*@param eName the tring representation of the epoch number.
+		*@return the epoch number described by the string argument.
+		*FIXME: This should probably move to KStarsDateTime
+		*/
 	double getEpoch (const QString &eName);
 
 public slots:

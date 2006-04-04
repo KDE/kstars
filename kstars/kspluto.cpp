@@ -23,14 +23,15 @@
 #include "kspluto.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
+#include "kstarsdatetime.h" //for J2000 define
 
 #ifdef B0
 // There are systems that #define B0 as a special termios flag (for baud rate)
 #undef B0
 #endif
 
-KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize ) 
-		: KSAsteroid( kd, i18n("Pluto"), fn, J2000, 
+KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize )
+		: KSAsteroid( kd, i18n("Pluto"), fn, J2000,
 			39.48168677, 0.24880766, dms(17.14175), dms(113.76329),
 			dms(110.30347), dms(14.86205), 1.0 ) {
 	//Initialize the base orbital element values for J2000:
@@ -56,7 +57,7 @@ KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize )
 KSPluto::~KSPluto() {
 }
 
-//Determine values for the orbital elements for the requested JD, then 
+//Determine values for the orbital elements for the requested JD, then
 //call KSAsteroid::findGeocentricPosition()
 bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
 	//First, set the orbital element values according to the current epoch
