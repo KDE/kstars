@@ -26,18 +26,18 @@
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
 	: QWidget( parent ) {
 
-        QVBoxLayout *vlay = new QVBoxLayout();
+	QVBoxLayout *vlay = new QVBoxLayout(this, 0, 0);
 
-        UpButton = new QPushButton( "+", this );
-        UpButton->setMaximumWidth( 22 );
+	UpButton = new QPushButton( "+", this );
+	UpButton->setMaximumWidth( 22 );
 	UpButton->setMaximumHeight( 10 );
 	DownButton = new QPushButton( "-", this );
 	DownButton->setMaximumWidth( 22 );
 	DownButton->setMaximumHeight( 10 );
 
-        vlay->addWidget( UpButton );
-        vlay->addWidget( DownButton );
-        setLayout( vlay );
+	vlay->addWidget( UpButton );
+	vlay->addWidget( DownButton );
+//	setLayout( vlay );
 
 	setDaysOnly( daysonly );
 
