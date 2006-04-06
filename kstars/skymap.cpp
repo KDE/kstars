@@ -241,9 +241,6 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 }
 
 void SkyMap::slotCenter( void ) {
-	//DEBUG
-	//kDebug() << "Number of toolbars: " << ks->toolBarList().size() << endl;
-
 	setFocusPoint( clickedPoint() );
 	if ( Options::useAltAz() ) 
 		focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -276,15 +273,13 @@ void SkyMap::slotCenter( void ) {
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
 	if ( ks ) {
-	  ks->actionCollection()->action("track_object")->setIcon( KIcon( "encrypted" ) );
-	  // FIXME setButtonIconSet removed
-	 //ks->toolBar("kstarsToolBar")->setButtonIconSet( 4, BarIcon( "encrypted" ) );
-	  ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+		ks->actionCollection()->action("track_object")->setIcon( "encrypted" );
+		ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
 
 	//If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 	if ( focusObject() && focusObject()->isSolarSystem()
-	     && Options::useAutoTrail()
+			&& Options::useAutoTrail()
 			&& ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
 		((KSPlanetBase*)focusObject())->addToTrail();
 		data->temporaryTrail = true;

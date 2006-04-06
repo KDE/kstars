@@ -522,8 +522,8 @@ void KStars::buildGUI() {
 	createGUI("kstarsui.rc", false);
 
 	//Add timestep widget to toolbar
- 	TimeStep = new TimeStepBox( this );
- 	toolBar( "kstarsToolBar" )->addWidget( TimeStep );
+ 	TimeStep = new TimeStepBox( toolBar() );
+ 	toolBar()->insertWidget( 0, 50, TimeStep );
 
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );

@@ -431,7 +431,7 @@ void KStars::closeWindow() {
 void KStars::slotOpenFITS()
 {
 
-  KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System" );
 
   if (fileURL.isEmpty())
     return;
@@ -637,7 +637,7 @@ void KStars::slotTrack() {
 	if ( Options::isTracking() ) {
 		Options::setIsTracking( false );
 		actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( KIcon( "decrypted" ) );
+		actionCollection()->action("track_object")->setIcon( "decrypted" );
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
 			data()->temporaryTrail = false;
@@ -653,7 +653,7 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( KIcon( "encrypted" ) );
+		actionCollection()->action("track_object")->setIcon( "encrypted" );
 	}
 
 	map()->forceUpdate();
@@ -936,8 +936,8 @@ void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
 	if ( sender()->name() == QString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
-		if ( show ) toolBar("kstarsToolBar")->show();
-		else toolBar("kstarsToolBar")->hide();
+		if ( show ) toolBar()->show();
+		else toolBar()->hide();
 	}
 	if ( sender()->name() == QString( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );

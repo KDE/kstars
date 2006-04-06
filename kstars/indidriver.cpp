@@ -61,14 +61,14 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
   clientTreeWidget->setSortingEnabled(false);
 
   KIconLoader *icons = KGlobal::iconLoader();
-  runningPix = QIcon(icons->loadIcon( "exec", K3Icon::Small));
-  stopPix    = QIcon(icons->loadIcon( "button_cancel", K3Icon::Small));
-  localMode  = QIcon(icons->loadIcon( "network_local", K3Icon::Small));
-  serverMode = QIcon(icons->loadIcon( "network", K3Icon::Small));
+  runningPix = QIcon(icons->loadIcon( "exec", KIcon::Small));
+  stopPix    = QIcon(icons->loadIcon( "button_cancel", KIcon::Small));
+  localMode  = QIcon(icons->loadIcon( "network_local", KIcon::Small));
+  serverMode = QIcon(icons->loadIcon( "network", KIcon::Small));
 
-  connected           = QIcon(icons->loadIcon( "connect_established", K3Icon::Small));
-  disconnected        = QIcon(icons->loadIcon( "connect_no", K3Icon::Small));
-  establishConnection = QIcon(icons->loadIcon( "connect_creating", K3Icon::Small));
+  connected           = QIcon(icons->loadIcon( "connect_established", KIcon::Small));
+  disconnected        = QIcon(icons->loadIcon( "connect_no", KIcon::Small));
+  establishConnection = QIcon(icons->loadIcon( "connect_creating", KIcon::Small));
 
 }
 

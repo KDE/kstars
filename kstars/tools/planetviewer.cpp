@@ -60,7 +60,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	pw->TimeStep->setDaysOnly( true );
 	pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) );
+	pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 	pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 	
 	resize( 500, 500 );
@@ -131,11 +131,11 @@ void PlanetViewer::slotRunClock() {
 	isClockRunning = !isClockRunning;
 	
 	if ( isClockRunning ) {
-		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "player_pause", K3Icon::Toolbar ) );
+		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "player_pause", KIcon::Toolbar ) );
 		tmr.start( 100 );
 //		pw->DateBox->setEnabled( false );
 	} else {
-		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) );
+		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", KIcon::Toolbar ) );
 		tmr.stop();
 //		pw->DateBox->setEnabled( true );
 	}
