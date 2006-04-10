@@ -73,8 +73,8 @@ WUTDialog::WUTDialog(KStars *ks) :
 	QString sGeo = geo->translatedName();
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
-	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
-	WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString( Qt::LocalDate ) ) );
+	WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
+	WUT->DateLabel->setText( i18n( "The night of %1", Evening.date().toString( Qt::LocalDate ) ) );
 
 	initCategories();
 
@@ -157,9 +157,9 @@ void WUTDialog::init() {
 		sDuration.sprintf( "%02d:%02d", hDur, mDur );
 	}
 
-	WUT->SunSetLabel->setText( i18n( "Sunset: %1" ).arg(sSet) );
-	WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" ).arg(sRise) );
-	WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours" ).arg( sDuration ) );
+	WUT->SunSetLabel->setText( i18n( "Sunset: %1" , sSet) );
+	WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" , sRise) );
+	WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours", sDuration ) );
 
 	// moon almanac information
 	KSMoon *oMoon = (KSMoon*) kstars->data()->objectNamed( "Moon" );
@@ -182,8 +182,8 @@ void WUTDialog::init() {
 		sSet = moonSet.addSecs(30).toString("hh:mm");
 	}
 
-	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );
-	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1" ).arg( sSet ) );
+	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1", sRise ) );
+	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1", sSet ) );
 	oMoon->findPhase( oSun ); 
 	WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
 			int(100.0*oMoon->illum() ) ) );
@@ -360,9 +360,9 @@ void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
 		WUT->DetailButton->setEnabled( true );
 	}
 
-	WUT->ObjectRiseLabel->setText( i18n( "Rises at: %1" ).arg( sRise ) );
-	WUT->ObjectTransitLabel->setText( i18n( "Transits at: %1" ).arg( sTransit ) );
-	WUT->ObjectSetLabel->setText( i18n( "Sets at: %1" ).arg( sSet ) );
+	WUT->ObjectRiseLabel->setText( i18n( "Rises at: %1", sRise ) );
+	WUT->ObjectTransitLabel->setText( i18n( "Transits at: %1", sTransit ) );
+	WUT->ObjectSetLabel->setText( i18n( "Sets at: %1", sSet ) );
 }
 
 void WUTDialog::slotCenter() {
@@ -411,7 +411,7 @@ void WUTDialog::slotChangeDate() {
 		Evening = T0.addSecs( -6*3600 );
 		EveningUT = geo->LTtoUT( Evening );
 		
-		WUT->DateLabel->setText( i18n( "The night of %1" ).arg( Evening.date().toString() ) );
+		WUT->DateLabel->setText( i18n( "The night of %1", Evening.date().toString() ) );
 
 		int i = WUT->CategoryListBox->currentItem();
 		init();
@@ -429,7 +429,7 @@ void WUTDialog::slotChangeLocation() {
 			TomorrowUT = geo->LTtoUT( Tomorrow );
 			EveningUT = geo->LTtoUT( Evening );
 			
-			WUT->LocationLabel->setText( i18n( "at %1" ).arg( geo->fullName() ) );
+			WUT->LocationLabel->setText( i18n( "at %1", geo->fullName() ) );
 			
 			int i = WUT->CategoryListBox->currentItem();
 			init();

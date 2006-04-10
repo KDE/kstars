@@ -259,7 +259,7 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     }
   }
   
-  kWarning() << i18n( "Could not find custom catalog component named %1." ).arg(name) << endl;
+  kWarning() << i18n( "Could not find custom catalog component named %1." , name) << endl;
 }
 
 void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
@@ -330,7 +330,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 
 	//Should not happen:
 	if ( p1List.count() == 0 ) {
-		kWarning() << "A: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+		kWarning() << "A: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 		return i18n("Unknown");
 	}
 
@@ -371,7 +371,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 		}
 
 		if ( ilow2 == -1 ) { //whoops, what happened?
-			kWarning() << "B: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+			kWarning() << "B: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 			return i18n("Unknown");
 		}
 
@@ -384,7 +384,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 			abbrev = name1List[ ilower ];
 
 		else { //doh!
-			kWarning() << "C: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+			kWarning() << "C: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 			return i18n("Unknown");
 		}
 
@@ -404,7 +404,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 		}
 
 		if ( iup2 == -1 ) { //whoops, what happened?
-			kWarning() << "D: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+			kWarning() << "D: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 			return i18n("Unknown");
 		}
 
@@ -417,7 +417,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 			abbrev = name1List[ iupper ];
 
 		else { //doh!
-			kWarning() << "E: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+			kWarning() << "E: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 			return i18n("Unknown");
 		}
 	}
@@ -454,7 +454,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 				abbrev = name1List[ iupper ];
 	
 			else { //doh!
-				kWarning() << "F: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+				kWarning() << "F: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 				return i18n("Unknown");
 			}
 		} else { //pdc > 0.0, so search down
@@ -473,7 +473,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 			}
 	
 			if ( ilow2 == -1 ) { //whoops, what happened?
-				kWarning() << "G: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+				kWarning() << "G: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 				return i18n("Unknown");
 			}
 	
@@ -486,7 +486,7 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 				abbrev = name1List[ ilower ];
 	
 			else { //doh!
-				kWarning() << "H: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+				kWarning() << "H: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 				return i18n("Unknown");
 			}
 		}
@@ -502,14 +502,14 @@ QString SkyMapComposite::constellation( SkyPoint *p ) {
 
 	//If we reach here, then neither name1 nor name2 were shared between the bracketing segments!
 	else {
-		kWarning() << "I: " << i18n("No constellation found for point: (%1, %2)").arg( p->ra()->toHMSString() ).arg( p->dec()->toDMSString() ) << endl;
+		kWarning() << "I: " << i18n("No constellation found for point: (%1, %2)", p->ra()->toHMSString(), p->dec()->toDMSString() ) << endl;
 		return i18n("Unknown");
 	}
 
 	//Finally, match the abbreviated name to the full constellation name, and return that name
 	foreach ( SkyObject *o, m_CNames->objectList() ) {
 		if ( abbrev.lower() == o->name2().lower() ) {
-			QString r = i18n( "Constellation name (optional)", o->name().toLocal8Bit().data() );
+			QString r = i18nc( "Constellation name (optional)", o->name().toLocal8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
 			int i = r.find(" ");
 			i++;

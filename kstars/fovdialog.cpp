@@ -142,7 +142,7 @@ void FOVDialog::paintEvent( QPaintEvent * ) {
 			QFont smallFont = p.font();
 			smallFont.setPointSize( p.font().pointSize() - 2 );
 			p.setFont( smallFont );
-			p.drawText( 0, fov->ViewBox->contentsRect().height(), i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f->size() ), 3 ) );
+			p.drawText( 0, fov->ViewBox->contentsRect().height(), ki18nc("angular size in arcminutes", "%1 arcmin").subs( f->size(), 3 ).toString() );
 		}
 	}
 
@@ -242,7 +242,7 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 	p.begin( ui->ViewBox );
 	p.fillRect( ui->ViewBox->contentsRect(), QColor( "black" ) );
 	f.draw( p, (float)( 0.3*ui->ViewBox->contentsRect().width() ) );
-	p.drawText( 0, 0, i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f.size() ), 3 ) );
+	p.drawText( 0, 0, ki18nc("angular size in arcminutes", "%1 arcmin").subs( f.size(), 3 ).toString() );
 	p.end();
 }
 

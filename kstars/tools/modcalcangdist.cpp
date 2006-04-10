@@ -100,7 +100,7 @@ void modCalcAngDist::slotRunBatch() {
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			QString message = i18n( "Could not open file %1.", f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = QString();
 			return;
@@ -112,7 +112,7 @@ void modCalcAngDist::slotRunBatch() {
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
 		InputLineEditBatch->setText( inputFileName );

@@ -66,8 +66,8 @@ QPixmap ThumbnailEditor::thumbnail() {
 
 void ThumbnailEditor::slotUpdateCropLabel() {
 	QRect *r = ui->ImageCanvas->cropRect();
-	ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" )
-			.arg( r->left() ).arg( r->top() ).arg( r->width() ).arg( r->height() ) );
+	ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" ,
+			  r->left(), r->top(), r->width(), r->height() ) );
 }
 
 #include "thumbnaileditor.moc"

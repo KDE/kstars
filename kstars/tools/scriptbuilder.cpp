@@ -92,11 +92,12 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	setMainWidget(sb);
 
 	//Initialize function templates and descriptions
-	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'." ),
+	#warning i18n: Note to maintainer of this file: old way of putting formal arguments into descriptions was too baroque with respect to i18n, reverted to hardcoding.
+	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ),
 			false, "QString", "dir" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  %1 is expressed in Hours; %2 is expressed in Degrees." ),
+	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  RA is expressed in Hours; Dec is expressed in Degrees." ),
 			false, "double", "ra", "double", "dec" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  %1 and %2 are expressed in Degrees." ),
+	KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees." ),
 			false, "double", "alt", "double", "az" ) );
 	KStarsFunctionList.append( new ScriptFunction( "zoomIn", i18n( "Increase the display Zoom Level." ), false ) );
 	KStarsFunctionList.append( new ScriptFunction( "zoomOut", i18n( "Decrease the display Zoom Level." ), false ) );
@@ -104,20 +105,20 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	KStarsFunctionList.append( new ScriptFunction( "zoom", i18n( "Set the display Zoom Level manually." ), false, "double", "z" ) );
 	KStarsFunctionList.append( new ScriptFunction( "setLocalTime", i18n( "Set the system clock to the specified Local Time." ),
 			false, "int", "year", "int", "month", "int", "day", "int", "hour", "int", "minute", "int", "second" ) );
-	KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for %1 seconds." ), false, "double", "sec" ) );
-	KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the key %1 is pressed.  Only single-key strokes are possible; use 'space' for the spacebar." ),
+	KStarsFunctionList.append( new ScriptFunction( "waitFor", i18n( "Pause script execution for specified number of seconds." ), false, "double", "sec" ) );
+	KStarsFunctionList.append( new ScriptFunction( "waitForKey", i18n( "Halt script execution until the specified key is pressed.  Only single-key strokes are possible; use 'space' for the spacebar." ),
 			false, "QString", "key" ) );
 	KStarsFunctionList.append( new ScriptFunction( "setTracking", i18n( "Set whether the display is tracking the current location." ), false, "bool", "track" ) );
-	KStarsFunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2." ), false, "QString", "opName", "QString", "opValue" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by %1, %2 and %3." ),
+	KStarsFunctionList.append( new ScriptFunction( "changeViewOption", i18n( "Change view option named %1 to value %2.", QString( "opName" ), QString( "opValue" ) ), false, "QString", "opName", "QString", "opValue" ) );
+	KStarsFunctionList.append( new ScriptFunction( "setGeoLocation", i18n( "Set the geographic location to the city specified by city, province and country." ),
 			false, "QString", "cityName", "QString", "provinceName", "QString", "countryName" ) );
-	KStarsFunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2." ), false, "QString", "colorName", "QString", "value" ) );
-	KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme named %1." ), false, "QString", "name" ) );
-	KStarsFunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file %1, with width %2 and height %3." ), false, "QString", "fileName", "int", "width", "int", "height" ) );
-	KStarsFunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing." ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
+	KStarsFunctionList.append( new ScriptFunction( "setColor", i18n( "Set the color named %1 to the value %2.", QString("colorName"), QString("value") ), false, "QString", "colorName", "QString", "value" ) );
+	KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme specified by name." ), false, "QString", "name" ) );
+	KStarsFunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file, with specified width and height."), false, "QString", "fileName", "int", "width", "int", "height" ) );
+	KStarsFunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing.", QString( "usePrintDialog" ), QString( "useChartColors" ) ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
 	KStarsFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
 	KStarsFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
-	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to %1.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
+	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 	
 	// INDI fuctions
 	ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL), *setINDIDeviceFunc(NULL); 
@@ -838,10 +839,10 @@ void ScriptBuilder::initViewOptions() {
 	}
 	
 	//init list of color scheme names
-	argLoadColorScheme->SchemeList->insertItem( i18n( "use default color scheme", "Default Colors" ) );
-	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'star chart' color scheme", "Star Chart" ) );
-	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'night vision' color scheme", "Night Vision" ) );
-	argLoadColorScheme->SchemeList->insertItem( i18n( "use 'moonless night' color scheme", "Moonless Night" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18nc( "use default color scheme", "Default Colors" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 	
 	QFile file;
 	QString line;
@@ -901,7 +902,7 @@ void ScriptBuilder::slotOpen() {
 
 			QFile f( fname );
 			if ( !f.open( QIODevice::ReadOnly) ) {
-				QString message = i18n( "Could not open file %1." ).arg( f.name() );
+				QString message = i18n( "Could not open file %1.", f.name() );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				currentFileURL = QString();
 				return;
@@ -912,7 +913,7 @@ void ScriptBuilder::slotOpen() {
 
 			f.close();
 		} else if ( ! currentFileURL.url().isEmpty() ) {
-			QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
+			QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
 			KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
 			currentFileURL = QString();
 		}
@@ -947,7 +948,7 @@ void ScriptBuilder::slotSave() {
 			if (QFile::exists(currentFileURL.path())) {
 				int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
 						i18n( "A file named \"%1\" already exists. "
-								"Overwrite it?" ).arg(currentFileURL.fileName()),
+								"Overwrite it?" , currentFileURL.fileName()),
 						i18n( "Overwrite File?" ),
 						i18n( "&Overwrite" ) );
 		
@@ -961,7 +962,7 @@ void ScriptBuilder::slotSave() {
 
 		QFile f( fname );
 		if ( !f.open( QIODevice::WriteOnly) ) {
-			QString message = i18n( "Could not open file %1." ).arg( f.name() );
+			QString message = i18n( "Could not open file %1.", f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			currentFileURL = QString();
 			return;
@@ -976,7 +977,7 @@ void ScriptBuilder::slotSave() {
 
 		if ( tmpfile.name() == fname ) { //need to upload to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) ) {
-				QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
+				QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyURL() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
 		}
@@ -984,7 +985,7 @@ void ScriptBuilder::slotSave() {
 		setUnsavedChanges( false );
 
 	} else {
-		QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
+		QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
 		currentFileURL = QString();
 	}
@@ -1027,7 +1028,7 @@ void ScriptBuilder::slotRunScript() {
 	QFile f( fname );
 	if ( f.exists() ) f.remove();
 	if ( !f.open( QIODevice::WriteOnly) ) {
-		QString message = i18n( "Could not open file %1." ).arg( f.name() );
+		QString message = i18n( "Could not open file %1.", f.name() );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 		currentFileURL = QString();
 		return;
@@ -1132,7 +1133,7 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			  // Initially, any read script is valid!
 			  ScriptList.last()->setValid(true);
 			}
-			else kWarning() << i18n( "Could not parse script.  Line was: %1" ).arg( line ) << endl;
+			else kWarning() << i18n( "Could not parse script.  Line was: %1", line ) << endl;
 
 		} // end if left(4) == "dcop"
 	} // end while !atEnd()
@@ -1795,7 +1796,7 @@ void ScriptBuilder::slotFindCity() {
 				sf->setArg( 1, ld.selectedProvinceName() );
 				sf->setArg( 2, ld.selectedCountryName() );
 			} else {
-				kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+				warningMismatch( "setGeoLocation" );
 			}
 		}
 	}
@@ -1844,7 +1845,7 @@ void ScriptBuilder::slotLookToward() {
 		sf->setArg( 0, argLookToward->FocusEdit->currentText() );
 		sf->setValid(true);
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "lookTowards" ) << endl;
+		warningMismatch( "lookTowards" );
 	}
 }
 
@@ -1868,7 +1869,7 @@ void ScriptBuilder::slotRa() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
+		warningMismatch( "setRaDec" );
 	}
 }
 
@@ -1892,7 +1893,7 @@ void ScriptBuilder::slotDec() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setRaDec" ) << endl;
+		warningMismatch( "setRaDec" );
 	}
 }
 
@@ -1914,7 +1915,7 @@ void ScriptBuilder::slotAz() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
+		warningMismatch( "setAltAz" );
 	}
 }
 
@@ -1937,7 +1938,7 @@ void ScriptBuilder::slotAlt() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setAltAz" ) << endl;
+		warningMismatch( "setAltAz" );
 	}
 }
 
@@ -1954,7 +1955,7 @@ void ScriptBuilder::slotChangeDate() {
 		sf->setArg( 2, QString( "%1" ).arg( date.day()    ) );
 		if ( ! sf->argVal(3).isEmpty() ) sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
+		warningMismatch( "setLocalTime" );
 	}
 }
 
@@ -1971,7 +1972,7 @@ void ScriptBuilder::slotChangeTime() {
 		sf->setArg( 5, QString( "%1" ).arg( time.second() ) );
 		if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setLocalTime" ) << endl;
+		warningMismatch( "setLocalTime" );
 	}
 }
 
@@ -1991,7 +1992,7 @@ void ScriptBuilder::slotWaitFor() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitFor" ) << endl;
+		warningMismatch( "waitFor" );
 	}
 }
 
@@ -2012,7 +2013,7 @@ void ScriptBuilder::slotWaitForKey() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForKey" ) << endl;
+		warningMismatch( "waitForKey" );
 	}
 }
 
@@ -2025,7 +2026,7 @@ void ScriptBuilder::slotTracking() {
 		sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setTracking" ) << endl;
+		warningMismatch( "setTracking" );
 	}
 }
 
@@ -2044,7 +2045,7 @@ void ScriptBuilder::slotViewOption() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "changeViewOption" ) << endl;
+		warningMismatch( "changeViewOption" );
 	}
 }
 
@@ -2064,7 +2065,7 @@ void ScriptBuilder::slotChangeCity() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		warningMismatch( "setGeoLocation" );
 	}
 }
 
@@ -2084,7 +2085,7 @@ void ScriptBuilder::slotChangeProvince() {
 			//might not be invalid
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		warningMismatch( "setGeoLocation" );
 	}
 }
 
@@ -2104,7 +2105,7 @@ void ScriptBuilder::slotChangeCountry() {
 			sf->setValid( false );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setGeoLocation" ) << endl;
+		warningMismatch( "setGeoLocation" );
 	}
 }
 
@@ -2117,7 +2118,7 @@ void ScriptBuilder::slotTimeScale() {
 		sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setClockScale" ) << endl;
+		warningMismatch( "setClockScale" );
 	}
 }
 
@@ -2134,7 +2135,7 @@ void ScriptBuilder::slotZoom() {
 			sf->setValid( true );
 		}
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "zoom" ) << endl;
+		warningMismatch( "zoom" );
 	}
 }
 
@@ -2149,7 +2150,7 @@ void ScriptBuilder::slotExportImage() {
 		sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+		warningMismatch( "exportImage" );
 	}
 }
 
@@ -2163,7 +2164,7 @@ void ScriptBuilder::slotPrintImage() {
 		sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "exportImage" ) << endl;
+		warningMismatch( "exportImage" );
 	}
 }
 
@@ -2180,7 +2181,7 @@ void ScriptBuilder::slotChangeColorName() {
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+		warningMismatch( "setColor" );
 	}
 }
 
@@ -2196,7 +2197,7 @@ void ScriptBuilder::slotChangeColor() {
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setColor" ) << endl;
+		warningMismatch( "setColor" );
 	}
 }
 
@@ -2209,7 +2210,7 @@ void ScriptBuilder::slotLoadColorScheme() {
 		sf->setArg( 0, "\"" + argLoadColorScheme->SchemeList->currentText() + "\"" );
 		sf->setValid( true );
 	} else {
-		kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "loadColorScheme" ) << endl;
+		warningMismatch( "loadColorScheme" );
 	}
 }
 
@@ -2236,7 +2237,7 @@ void ScriptBuilder::slotINDIStartDeviceName()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+    warningMismatch( "startINDI" );
   }
   
 }
@@ -2255,7 +2256,7 @@ void ScriptBuilder::slotINDIStartDeviceMode()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+    warningMismatch( "startINDI" );
   }
   
 }
@@ -2274,7 +2275,7 @@ ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDI" ) << endl;
+    warningMismatch( "startINDI" );
   }
 }
 
@@ -2299,7 +2300,7 @@ void ScriptBuilder::slotINDIShutdown()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "shutdownINDI" ) << endl;
+    warningMismatch( "shutdownINDI" );
   }
   
 }
@@ -2320,7 +2321,7 @@ void ScriptBuilder::slotINDISwitchDeviceConnection()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "switchINDI" ) << endl;
+    warningMismatch( "switchINDI" );
   }
   
 }
@@ -2346,7 +2347,7 @@ void ScriptBuilder::slotINDISetPortDevicePort()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIPort" ) << endl;
+    warningMismatch( "setINDIPort" );
   }
   
 }
@@ -2383,7 +2384,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
       sf->setValid( false );
     }
   } else {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+    warningMismatch( "setINDITargetCoord" );
   }
   
 }
@@ -2420,7 +2421,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
       sf->setValid( false );
     }
   } else {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetCoord" ) << endl;
+    warningMismatch( "setINDITargetCoord" );
   }
   
 }
@@ -2446,7 +2447,7 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDITargetName" ) << endl;
+    warningMismatch( "setINDITargetName" );
   }
   
 }
@@ -2471,7 +2472,7 @@ void ScriptBuilder::slotINDISetActionName()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIAction") << endl;
+    warningMismatch( "setINDIAction" );
   }
 
 }
@@ -2496,7 +2497,7 @@ void ScriptBuilder::slotINDIWaitForActionName()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "waitForINDIAction") << endl;
+    warningMismatch( "waitForINDIAction" );
   }
   
 }
@@ -2516,7 +2517,7 @@ void ScriptBuilder::slotINDISetFocusSpeed()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusSpeed") << endl;
+    warningMismatch( "setINDIFocusSpeed" );
   }
   
 }
@@ -2535,7 +2536,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIFocus") << endl;
+    warningMismatch( "startINDIFocus" );
   }
   
 }
@@ -2554,7 +2555,7 @@ void ScriptBuilder::slotINDISetFocusTimeout()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFocusTimeout") << endl;
+    warningMismatch( "setINDIFocusTimeout" );
   }
   
 }
@@ -2590,7 +2591,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
       sf->setValid( false );
     }
   } else {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+    warningMismatch( "setINDIGeoLocation" );
   }
   
 }
@@ -2626,7 +2627,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
       sf->setValid( false );
     }
   } else {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIGeoLocation" ) << endl;
+    warningMismatch( "setINDIGeoLocation" );
   }
   
 }
@@ -2646,7 +2647,7 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "startINDIExposure") << endl;
+    warningMismatch( "startINDIExposure" );
   }
   
 }
@@ -2672,7 +2673,7 @@ void ScriptBuilder::slotINDISetUTC()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIUTC" ) << endl;
+    warningMismatch( "setINDIUTC" );
   }
   
 }
@@ -2693,7 +2694,7 @@ void ScriptBuilder::slotINDISetScopeAction()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIScopeAction") << endl;
+    warningMismatch( "setINDIScopeAction" );
   }
   
 }
@@ -2713,7 +2714,7 @@ void ScriptBuilder::slotINDISetFrameType()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFrameType") << endl;
+    warningMismatch( "setINDIFrameType" );
   }
   
 }
@@ -2733,7 +2734,7 @@ void ScriptBuilder::slotINDISetCCDTemp()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDICCDTemp") << endl;
+    warningMismatch( "setINDICCDTemp" );
   }
   
 }
@@ -2754,10 +2755,14 @@ void ScriptBuilder::slotINDISetFilterNum()
   }
   else
   {
-    kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)" ).arg( "setINDIFilterNum") << endl;
+    warningMismatch( "setINDIFilterNum" );
   }
 
 
+}
+
+void ScriptBuilder::warningMismatch (const QString &expected) const {
+	kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) << endl;
 }
 	
 #include "scriptbuilder.moc"

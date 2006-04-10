@@ -342,9 +342,9 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
 	QString ot2 = TimeBox->text2();
 	QString ot3 = TimeBox->text3();
 	
-	TimeBox->setText1( i18n( "Local Time", "LT: " ) + lt.time().toString()
+	TimeBox->setText1( i18nc( "Local Time", "LT: " ) + lt.time().toString()
 		+ "   " + lt.date().toString( "%d %b %Y" ) );
-	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
+	TimeBox->setText2( i18nc( "Universal Time", "UT: " ) + ut.time().toString()
 		+ "   " + ut.date().toString( "%d %b %Y" ) );
 	
 	QString STString;
@@ -355,8 +355,8 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
 	QString JDString = QString::number( ut.djd(), 'f', 2 );
 	JDString.replace( ".", KGlobal::locale()->decimalSymbol() );
 	
-	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
-			i18n( "Julian Day", "JD: " ) + JDString );
+	TimeBox->setText3( i18nc( "Sidereal Time", "ST: " ) + STString +
+			i18nc( "Julian Day", "JD: " ) + JDString );
 
 	if ( ot1 == TimeBox->text1() && ot2 == TimeBox->text2() &&
 			ot3 == TimeBox->text3() ) 
@@ -376,9 +376,9 @@ bool InfoBoxes::geoChanged(const GeoLocation *geo) {
 	name += geo->translatedCountry();
 	GeoBox->setText1( name );
 
-	GeoBox->setText2( i18n( "Longitude", "Long:" ) + " " +
+	GeoBox->setText2( i18nc( "Longitude", "Long:" ) + " " +
 		KGlobal::locale()->formatNumber( geo->lng()->Degrees(),3) + "   " +
-		i18n( "Latitude", "Lat:" ) + " " +
+		i18nc( "Latitude", "Lat:" ) + " " +
 		KGlobal::locale()->formatNumber( geo->lat()->Degrees(),3) );
 	
 	if ( ot1 == GeoBox->text1() && ot2 == GeoBox->text2() )
@@ -404,10 +404,10 @@ bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
 	QString ot2 = FocusBox->text2();
 	QString ot3 = FocusBox->text3();
 	
-	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() +
-		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec()->toDMSString(true) );
-	FocusBox->setText3( i18n( "Azimuth", "Az" ) + ": " + p->az()->toDMSString(true) + 
-		"  " + i18n( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true) );
+	FocusBox->setText2( i18nc( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() +
+		"  " + i18nc( "Declination", "Dec" ) +  ": " + p->dec()->toDMSString(true) );
+	FocusBox->setText3( i18nc( "Azimuth", "Az" ) + ": " + p->az()->toDMSString(true) + 
+		"  " + i18nc( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true) );
 
 	if ( ot2 == FocusBox->text2() && ot3 == FocusBox->text3() ) 
 		return false;

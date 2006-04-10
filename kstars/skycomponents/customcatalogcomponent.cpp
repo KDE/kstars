@@ -44,7 +44,7 @@ CustomCatalogComponent::~CustomCatalogComponent()
 }
 
 void CustomCatalogComponent::init( KStarsData * ) {
-	emitProgressText( i18n("Loading custom catalog: %1" ).arg( m_Filename ) );
+	emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 
 	QDir::setCurrent( QDir::homePath() );  //for files with relative path
 
@@ -94,7 +94,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
 				if ( d.size() == Columns.size() ) {
 					processCustomDataLine( i, d, Columns, m_Showerrs, errs );
 				} else {
-					if ( m_Showerrs ) errs.append( i18n( "Line %1 does not contain %2 fields.  Skipping it." ).arg( i ).arg( Columns.size() ) );
+					if ( m_Showerrs ) errs.append( i18n( "Line %1 does not contain %2 fields.  Skipping it.", i, Columns.size() ) );
 				}
 			}
 		}
@@ -122,10 +122,10 @@ void CustomCatalogComponent::init( KStarsData * ) {
 
 	} else { //Error opening catalog file
 		if ( m_Showerrs )
-			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1" ).arg( m_Filename ), 
+			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ), 
 					i18n( "Error opening file" ) );
 		else 
-			kDebug() << i18n( "Could not open custom data file: %1" ).arg( m_Filename ) << endl;
+			kDebug() << i18n( "Could not open custom data file: %1", m_Filename ) << endl;
 	}
 }
 
@@ -196,7 +196,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 			} else { //duplicate name in header
 				if ( showerrs )
 					errs.append( i18n( "Parsing header: " ) + 
-							i18n( "Extra Name field in header: %1.  Will be ignored" ).arg( d.mid(iname) ) );
+							i18n( "Extra Name field in header: %1.  Will be ignored", d.mid(iname) ) );
 			}
 		} else if ( iprefix == 0 ) { //line contains catalog prefix
 			iprefix = d.find(":")+2;
@@ -205,7 +205,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 			} else { //duplicate prefix in header
 				if ( showerrs )
 					errs.append( i18n( "Parsing header: " ) + 
-							i18n( "Extra Prefix field in header: %1.  Will be ignored" ).arg( d.mid(iprefix) ) );
+							i18n( "Extra Prefix field in header: %1.  Will be ignored", d.mid(iprefix) ) );
 			}
 		} else if ( icolor == 0 ) { //line contains catalog prefix
 			icolor = d.find(":")+2;
@@ -214,7 +214,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 			} else { //duplicate prefix in header
 				if ( showerrs )
 					errs.append( i18n( "Parsing header: " ) + 
-							i18n( "Extra Color field in header: %1.  Will be ignored" ).arg( d.mid(icolor) ) );
+							i18n( "Extra Color field in header: %1.  Will be ignored", d.mid(icolor) ) );
 			}
 		} else if ( iepoch == 0 ) { //line contains catalog epoch
 			iepoch = d.find(":")+2;
@@ -224,13 +224,13 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 				if ( !ok ) {
 					if ( showerrs )
 						errs.append( i18n( "Parsing header: " ) + 
-								i18n( "Could not convert Epoch to float: %1.  Using 2000. instead" ).arg( d.mid(iepoch) ) );
+								i18n( "Could not convert Epoch to float: %1.  Using 2000. instead", d.mid(iepoch) ) );
 					m_catEpoch = 2000.; //adopt default value
 				}
 			} else { //duplicate epoch in header
 				if ( showerrs )
 					errs.append( i18n( "Parsing header: " ) + 
-							i18n( "Extra Epoch field in header: %1.  Will be ignored" ).arg( d.mid(iepoch) ) );
+							i18n( "Extra Epoch field in header: %1.  Will be ignored", d.mid(iepoch) ) );
 			}
 		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
 			//Chomp off leading "#" character
@@ -259,12 +259,12 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 					fields.append( "Ig" ); //ignore the duplicate column
 					if ( showerrs )
 						errs.append( i18n( "Parsing header: " ) + 
-								i18n( "Duplicate data field descriptor \"%1\" will be ignored" ).arg( s ) );
+								i18n( "Duplicate data field descriptor \"%1\" will be ignored", s ) );
 				} else { //Invalid field
 					fields.append( "Ig" ); //ignore the invalid column
 					if ( showerrs )
 						errs.append( i18n( "Parsing header: " ) + 
-								i18n( "Invalid data field descriptor \"%1\" will be ignored" ).arg( s ) );
+								i18n( "Invalid data field descriptor \"%1\" will be ignored", s ) );
 				}
 			}
 
@@ -331,8 +331,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 		if ( Columns[i] == "RA" ) {
 			if ( ! RA.setFromString( d.at(i), false ) ) {
 				if ( showerrs ) 
-					errs.append( i18n( "Line %1, field %2: Unable to parse RA value: %3" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse RA value: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -340,8 +340,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 		if ( Columns.at(i) == "Dc" ) {
 			if ( ! Dec.setFromString( d.at(i), true ) ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Dec value: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Dec value: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -352,15 +352,15 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 			if ( ok ) {
 				if ( iType == 2 || iType > 8 ) {
 					if ( showerrs )
-						errs.append( i18n( "Line %1, field %2: Invalid object type: %1" )
-								.arg( lnum ).arg( i ).arg( d.at(i) ) +
+						errs.append( i18n( "Line %1, field %2: Invalid object type: %3" ,
+								  lnum, i, d.at(i) ) +
 								i18n( "Must be one of 0, 1, 3, 4, 5, 6, 7, 8." ) );
 					return false;
 				}
 			} else {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Object type: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Object type: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -370,8 +370,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 			mag = d.at(i).toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -381,8 +381,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 			a = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Major Axis: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Major Axis: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -392,8 +392,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 			b = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Minor Axis: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Minor Axis: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}
@@ -403,8 +403,8 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 			PA = d[i].toFloat( &ok );
 			if ( ! ok ) {
 				if ( showerrs )
-					errs.append( i18n( "Line %1, field %2: Unable to parse Position Angle: %1" )
-							.arg( lnum ).arg( i ).arg( d.at(i) ) );
+					errs.append( i18n( "Line %1, field %2: Unable to parse Position Angle: %3" ,
+							  lnum, i, d.at(i) ) );
 				return false;
 			}
 		}

@@ -35,7 +35,7 @@
 #include "libkdeedu/extdate/extdatepicker.h"
 
 TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
-	: KDialog( parent, i18n( "set clock to a new time", "Set Time" ), 
+	: KDialog( parent, i18nc( "set clock to a new time", "Set Time" ), 
 		KDialog::Ok|KDialog::Cancel )
 {
 	QFrame *page = new QFrame(this);

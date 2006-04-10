@@ -413,7 +413,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
 	//Update the object count label
 	if ( doBuildList ) ObjectCount = obsList().size();
-	olw->CountLabel->setText( i18n("Current selection: %1 objects").arg( ObjectCount ) );
+	olw->CountLabel->setText( i18n("Current selection: %1 objects", ObjectCount ) );
 }
 	
 void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount ) {

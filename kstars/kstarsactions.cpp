@@ -449,7 +449,7 @@ void KStars::slotExportImage() {
 	{
 		int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
 								i18n( "A file named \"%1\" already exists. "
-										"Overwrite it?" ).arg(fileURL.fileName()),
+										"Overwrite it?" , fileURL.fileName()),
 								i18n( "Overwrite File?" ),
 								i18n( "&Overwrite" ) );
 		
@@ -498,7 +498,7 @@ void KStars::slotRunScript() {
 
 					if ( tmpfile.name() == fname ) { //upload to remote location
 						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-							QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+							QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyURL() );
 							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 						}
 					}
@@ -525,7 +525,7 @@ void KStars::slotRunScript() {
 		}
 
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			QString message = i18n( "Could not open file %1", f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -559,7 +559,7 @@ void KStars::slotRunScript() {
 		}
 
 		//Add statusbar message that script is running
-		statusBar()->changeItem( i18n( "Running script: %1" ).arg( fileURL.fileName() ), 0 );
+		statusBar()->changeItem( i18n( "Running script: %1", fileURL.fileName() ), 0 );
 
 		KProcess p;
 		p << f.name();
@@ -757,7 +757,7 @@ void KStars::slotSetZoom() {
 	double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
 	double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
 
-	angSize = KInputDialog::getDouble( i18n( "The user should enter an angle for the field-of-view of the display",
+	angSize = KInputDialog::getDouble( i18nc( "The user should enter an angle for the field-of-view of the display",
 			"Enter Desired Field-of-View Angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
 			currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
 
@@ -877,7 +877,7 @@ void KStars::slotFOVEdit() {
 				}
 			}
 		} else {
-			kDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+			kDebug() << i18n( "Could not open file: %1", f.name() ) << endl;
 		}
 
 		fovActionMenu->popupMenu()->insertSeparator();

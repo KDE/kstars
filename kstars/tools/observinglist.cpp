@@ -140,7 +140,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	//First, make sure object is not already in the list
 	foreach ( SkyObject *o, obsList() ) {
 		if ( obj == o ) {
-			ks->statusBar()->changeItem( i18n( "%1 is already in the observing list." ).arg( obj->name() ), 0 );
+			ks->statusBar()->changeItem( i18n( "%1 is already in the observing list.", obj->name() ), 0 );
 			return;
 		}
 	}
@@ -161,7 +161,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	ui->TinyTable->insertItem( obj->translatedName() );
 
 	//Note addition in statusbar
-	ks->statusBar()->changeItem( i18n( "Added %1 to observing list." ).arg( obj->name() ), 0 );
+	ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
@@ -200,7 +200,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	}
 
 	if ( ! objectFound ) {
-		kDebug() << i18n( "Cannot remove Object %1; not found in table." ).arg(o->translatedName()) << endl;
+		kDebug() << i18n( "Cannot remove Object %1; not found in table." , o->translatedName()) << endl;
 	} else {
 		//Remove object from TinyTable
 		for ( uint i=0; i < ui->TinyTable->count(); i++ ) {
@@ -263,7 +263,7 @@ void ObservingList::slotNewSelection() {
 		if ( found ) m_CurrentObject = m_SelectedObjects[0];
 
 		if ( ! found ) { 
-			kDebug() << i18n( "Object %1 not found in observing ist." ).arg( newName ) << endl;
+			kDebug() << i18n( "Object %1 not found in observing ist.", newName ) << endl;
 		} else if ( newName != i18n( "star" ) ) {
 			//Display the object's current user notes in the NotesEdit
 			//First, save the last object's user log to disk, if necessary
@@ -275,9 +275,9 @@ void ObservingList::slotNewSelection() {
 			ui->NotesLabel->setEnabled( true );
 			ui->NotesEdit->setEnabled( true );
 			
-			ui->NotesLabel->setText( i18n( "observing notes for %1:" ).arg( LogObject->translatedName() ) );
+			ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
 			if ( LogObject->userLog.isEmpty() ) {
-				ui->NotesEdit->setText( i18n("Record here observation logs and/or data on %1.").arg( LogObject->translatedName() ) );
+				ui->NotesEdit->setText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
 			} else {
 				ui->NotesEdit->setText( LogObject->userLog );
 			}
@@ -368,7 +368,7 @@ void ObservingList::slotSlewToObject()
        
        if (ConnectEle->state == PS_OFF)
        {
-	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.").arg(indidev->label));
+	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
 	 return;
        }
 
@@ -480,7 +480,7 @@ void ObservingList::slotAVT() {
 void ObservingList::slotClose() {
 	//Save the current User log text
 	if ( currentObject() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
-					!= i18n("Record here observation logs and/or data on %1.").arg( currentObject()->name()) ) {
+					!= i18n("Record here observation logs and/or data on %1.", currentObject()->name()) ) {
 		currentObject()->saveUserLog( ui->NotesEdit->text() );
 	}
 	
@@ -490,7 +490,7 @@ void ObservingList::slotClose() {
 void ObservingList::saveCurrentUserLog() {
 	if ( ! ui->NotesEdit->text().isEmpty() && 
 				ui->NotesEdit->text() != 
-					i18n("Record here observation logs and/or data on %1.").arg( LogObject->translatedName() ) ) {
+					i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) ) {
 		LogObject->saveUserLog( ui->NotesEdit->text() );
 		
 		ui->NotesEdit->clear();
@@ -518,7 +518,7 @@ void ObservingList::slotOpenList() {
 		}
 
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			QString message = i18n( "Could not open file %1", f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -591,7 +591,7 @@ void ObservingList::slotSaveList() {
 
 	QFile f( FileName );
 	if ( !f.open( QIODevice::WriteOnly) ) {
-		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
+		QString message = i18n( "Could not open file %1.  Try a different filename?", f.name() );
 		
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			FileName == QString();
@@ -630,11 +630,11 @@ void ObservingList::slotToggleSize() {
 		ui->TableStack->setCurrentWidget( ui->TinyTable );
 
 		//Abbreviate text on each button
-		ui->CenterButton->setText( i18n( "First letter in 'Center'", "C" ) );
-		ui->ScopeButton->setText( i18n( "First letter in 'Scope'", "S" ) );
-		ui->DetailsButton->setText( i18n( "First letter in 'Details'", "D" ) );
-		ui->AVTButton->setText( i18n( "First letter in 'Alt vs Time'", "A" ) );
-		ui->RemoveButton->setText( i18n( "First letter in 'Remove'", "R" ) );
+		ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
+		ui->ScopeButton->setText( i18nc( "First letter in 'Scope'", "S" ) );
+		ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
+		ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
+		ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
 
 		//Hide Observing notes
 		ui->NotesLabel->hide();

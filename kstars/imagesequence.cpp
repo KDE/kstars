@@ -301,7 +301,7 @@ void imagesequence::checkCCD(int ccdNum)
 
 	if (!idevice)
 	{
-		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
+		KMessageBox::error(this, i18n("INDI device %1 no longer exists.", targetCCD));
 		CCDCombo->removeItem(ccdNum);
 		lastCCD = CCDCombo->currentIndex();
 		if (lastCCD != -1)
@@ -311,7 +311,7 @@ void imagesequence::checkCCD(int ccdNum)
 
 	if (!idevice->isOn())
 	{
-		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(targetCCD));
+		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", targetCCD));
 
 		CCDCombo->setCurrentItem(lastCCD);
 		return;
@@ -377,7 +377,7 @@ bool imagesequence::verifyCCDIntegrity()
 
 	if (!idevice)
 	{
-		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetCCD));
+		KMessageBox::error(this, i18n("INDI device %1 no longer exists.", targetCCD));
 		CCDCombo->removeItem(CCDCombo->currentIndex());
 		lastCCD = CCDCombo->currentIndex();
 		return false;
@@ -385,7 +385,7 @@ bool imagesequence::verifyCCDIntegrity()
 
 	if (!idevice->isOn())
 	{
-		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(currentCCD));
+		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", currentCCD));
 		return false;
 	}
 
@@ -428,7 +428,7 @@ bool imagesequence::verifyFilterIntegrity()
 	filterDevice = devMenu->findDeviceByLabel(targetFilter);
 	if (filterDevice == NULL)
 	{
-		KMessageBox::error(this, i18n("INDI device %1 no longer exists.").arg(targetFilter));
+		KMessageBox::error(this, i18n("INDI device %1 no longer exists.", targetFilter));
 		filterCombo->removeItem(filterCombo->currentIndex());
 		filterCombo->setCurrentItem(0);
 		currentFilter = filterCombo->currentText();
@@ -440,7 +440,7 @@ bool imagesequence::verifyFilterIntegrity()
 	// #2 Make sure it's connected
 	if (!filterDevice->isOn())
 	{
-		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.").arg(targetFilter));
+		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", targetFilter));
 		filterCombo->setCurrentItem(0);
 		currentFilter = filterCombo->currentText();
 		filterPosCombo->clear();
@@ -544,7 +544,7 @@ void imagesequence::captureImage()
 		if (seqExpose < exposeElem->min || seqExpose > exposeElem->max)
 		{
 			stopSequence();
-			KMessageBox::error(this, i18n("Expose duration is invalid. %1 supports expose durations from %2 to %3 seconds only.").arg(currentCCD).arg(exposeElem->min).arg(exposeElem->max));
+			KMessageBox::error(this, i18n("Expose duration is invalid. %1 supports expose durations from %2 to %3 seconds only.", currentCCD, exposeElem->min, exposeElem->max));
 			return;
 		}
 

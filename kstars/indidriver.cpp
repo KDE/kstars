@@ -582,6 +582,7 @@ bool INDIDriver::readXMLDriver()
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
   {
+     #warning i18n: Missing argument to i18n call.
      KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
 
     return false;
@@ -799,7 +800,7 @@ void INDIDriver::addINDIHost()
      foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
      if (hostItem->name   == host->name &&  hostItem->portnumber == host->portnumber)
      {
-       KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.").arg(hostItem->name).arg(hostItem->portnumber));
+       KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.", hostItem->name, hostItem->portnumber));
        return;
      }
 
@@ -874,7 +875,7 @@ void INDIDriver::removeINDIHost()
            return;
         }
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?").arg(ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
            return;
 	   
  	delete ksw->data()->INDIHostsList.takeAt(i);

@@ -339,7 +339,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "North", "N" ) );
+		psky.drawText( cpoint, i18nc( "North", "N" ) );
 	}
 
 	//NorthEast
@@ -349,7 +349,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "Northeast", "NE" ) );
+		psky.drawText( cpoint, i18nc( "Northeast", "NE" ) );
 	}
 
 	//East
@@ -359,7 +359,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "East", "E" ) );
+		psky.drawText( cpoint, i18nc( "East", "E" ) );
 	}
 
 	//SouthEast
@@ -369,7 +369,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "Southeast", "SE" ) );
+		psky.drawText( cpoint, i18nc( "Southeast", "SE" ) );
 	}
 
 	//South
@@ -379,7 +379,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "South", "S" ) );
+		psky.drawText( cpoint, i18nc( "South", "S" ) );
 	}
 
 	//SouthWest
@@ -389,7 +389,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "Southwest", "SW" ) );
+		psky.drawText( cpoint, i18nc( "Southwest", "SW" ) );
 	}
 
 	//West
@@ -399,7 +399,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "West", "W" ) );
+		psky.drawText( cpoint, i18nc( "West", "W" ) );
 	}
 
 	//NorthWest
@@ -409,6 +409,6 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	cpoint = map->getXY( &c, Options::useAltAz(), false, scale );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18n( "Northwest", "NW" ) );
+		psky.drawText( cpoint, i18nc( "Northwest", "NW" ) );
 	}
 }

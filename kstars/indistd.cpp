@@ -192,12 +192,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        // We're done if we have DATA_OTHER
     if (dataType == DATA_OTHER)
     {
-      ksw->statusBar()->changeItem( i18n("Data file saved to %1").arg(filename), 0);
+      ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename), 0);
       return;
     }
     else if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
     {
-      ksw->statusBar()->changeItem( i18n("FITS file saved to %1").arg(filename), 0);
+      ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename), 0);
       emit FITSReceived(dp->label);
       return;
     } 
@@ -627,7 +627,7 @@ void INDIStdDevice::initDeviceOptions()
   }
 
   if ( Options::indiMessages() )
-    ksw->statusBar()->changeItem( i18n("%1 is online.").arg(dp->name), 0);
+    ksw->statusBar()->changeItem( i18n("%1 is online.", dp->name), 0);
 
   ksw->map()->forceUpdateNow();
 }
@@ -641,7 +641,7 @@ void INDIStdDevice::initDeviceOptions()
   initDevCounter--;
 
   if ( initDevCounter == 0 && Options::indiMessages() )
-    ksw->statusBar()->changeItem( i18n("%1 is online and ready.").arg(dp->name), 0);
+    ksw->statusBar()->changeItem( i18n("%1 is online and ready.", dp->name), 0);
 
 }
 

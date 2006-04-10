@@ -164,6 +164,7 @@ public slots:
 
 private:
 	void initViewOptions();
+	void warningMismatch (const QString &expected) const;
 
 	ScriptBuilderUI *sb;
 

@@ -157,13 +157,13 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 
 		//Begin reading new star data
 		while ( iStarFile <= NHIPFILES && currentMag <= m_FaintMagnitude ) {
-			emitProgressText( i18n( "Loading stars (%1%)" ).arg( 
+			emitProgressText( i18n( "Loading stars (%1%)", 
 								int(100.*float(iStarFile)/float(NHIPFILES)) ) );
 
 			openStarFile( iStarFile++ );
 
 			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
-				kDebug() << i18n( "Could not set line number %1 in star data file." ).arg(iStarLine) << endl;
+				kDebug() << i18n( "Could not set line number %1 in star data file." , iStarLine) << endl;
 			} else {
 				iStarLine = 0; //start at the begnning of the next file
 
@@ -242,7 +242,7 @@ void StarComponent::processStar( const QString &line ) {
 
 	// HEV: look up star name in internationalization filesource
 	if ( name.isEmpty() ) name = i18n("star");
-	name = i18n("star name", name.toLocal8Bit().data());
+	name = i18nc("star name", name.toLocal8Bit().data());
 
 	dms r;
 	r.setH(rah, ram, ras, ras2);

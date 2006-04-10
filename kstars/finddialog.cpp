@@ -160,7 +160,7 @@ void FindDialog::setFilter( int f ) {
 void FindDialog::slotOk() {
 	//If no valid object selected, show a sorry-box.  Otherwise, emit accept()
 	if ( currentItem() == 0 ) {
-		QString message = i18n( "No object named %1 found." ).arg( ui->SearchBox->text() );
+		QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
 		KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
 	} else {
 		accept();

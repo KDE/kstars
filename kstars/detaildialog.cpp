@@ -108,20 +108,20 @@ void DetailDialog::createGeneralTab()
 
 		Data->Names->setText( s->longname() );
 		Data->Type->setText( s->sptype() + " " + i18n("star") );
-		Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
 				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
 		//distance
 		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas 
-			Data->Distance->setText( QString(i18n("larger than 2000 parsecs", "> 2000 pc") ) );
+			Data->Distance->setText( QString(i18nc("larger than 2000 parsecs", "> 2000 pc") ) );
 		else if ( s->distance() > 50.0 ) //show to nearest integer
-			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
-					QString::number( int( s->distance() + 0.5 ) ) ) );
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
+					int( s->distance() + 0.5 ) ) );
 		else if ( s->distance() > 10.0 ) //show to tenths place
-			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
 					KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
 		else //show to hundredths place
-			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
 					KGlobal::locale()->formatNumber( s->distance(), 2 ) ) );
 
 		//Note multiplicity/variablility in angular size label
@@ -129,12 +129,12 @@ void DetailDialog::createGeneralTab()
 		Data->AngSize->setText( QString() );
 		Data->AngSizeLabel->setFont( Data->AngSize->font() );
 		if ( s->isMultiple() && s->isVariable() ) {
-			Data->AngSizeLabel->setText( i18n( "the star is a multiple star", "multiple" ) + "," );
-			Data->AngSize->setText( i18n( "the star is a variable star", "variable" ) );
+			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) + "," );
+			Data->AngSize->setText( i18nc( "the star is a variable star", "variable" ) );
 		} else if ( s->isMultiple() ) 
-			Data->AngSizeLabel->setText( i18n( "the star is a multiple star", "multiple" ) );
+			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) );
 		else if ( s->isVariable() ) 
-			Data->AngSizeLabel->setText( i18n( "the star is a variable star", "variable" ) );
+			Data->AngSizeLabel->setText( i18nc( "the star is a variable star", "variable" ) );
 		
 		break; //end of stars case
 
@@ -155,26 +155,26 @@ void DetailDialog::createGeneralTab()
 			Data->MagLabel->setText( i18n("Illumination:") );
 			Data->Magnitude->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
 		} else {
-			Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
 					KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
 		}
 
 		//Distance from Earth.  The moon requires a unit conversion
 		if ( ps->name() == "Moon" ) {
-			Data->Distance->setText( i18n("distance in kilometers", "%1 km").arg( 
+			Data->Distance->setText( i18nc("distance in kilometers", "%1 km", 
 						KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) ) );
 		} else {
-			Data->Distance->setText( i18n("distance in Astronomical Units", "%1 AU").arg( 
+			Data->Distance->setText( i18nc("distance in Astronomical Units", "%1 AU", 
 						KGlobal::locale()->formatNumber( ps->rearth() ) ) );
 		}
 
 		//Angular size; moon and sun in arcmin, others in arcsec
 		if ( ps->angSize() ) {
 			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
-				Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+				Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
 							KGlobal::locale()->formatNumber( ps->angSize() ) ) );
 			else
-				Data->AngSize->setText( i18n("angular size in arcseconds", "%1 arcsec").arg( 
+				Data->AngSize->setText( i18nc("angular size in arcseconds", "%1 arcsec", 
 							KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) );
 		} else {
 			Data->AngSize->setText( "--" );
@@ -215,7 +215,7 @@ void DetailDialog::createGeneralTab()
 		if ( dso->mag() > 90.0 )
 			Data->Magnitude->setText( "--" );
 		else
-			Data->Magnitude->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
+			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
 					KGlobal::locale()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
 
 		//No distances at this point...
@@ -223,10 +223,10 @@ void DetailDialog::createGeneralTab()
 
 		//Only show decimal place for small angular sizes
 		if ( dso->a() > 10.0 ) 
-			Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
 					int( dso->a() ) ) );
 		else if ( dso->a() ) 
-			Data->AngSize->setText( i18n("angular size in arcminutes", "%1 arcmin").arg( 
+			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
 					KGlobal::locale()->formatNumber( dso->a(), 1 ) ) );
 		else 
 			Data->AngSize->setText( "--" );
@@ -249,8 +249,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	//Replace the decimal point with localized decimal symbol
 	sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
 
-	Pos->RALabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
-	Pos->DecLabel->setText( i18n( "Dec (%1):" ).arg( sEpoch ) );
+	Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
+	Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
 	Pos->RA->setText( selectedObject->ra()->toHMSString() );
 	Pos->Dec->setText( selectedObject->dec()->toDMSString() );
 	Pos->Az->setText( selectedObject->az()->toDMSString() );
@@ -311,8 +311,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 			Pos->TimeSet->setText( i18n( "Never rises" ) );
 		}
 
-		Pos->AzRise->setText( i18n( "Not Applicable", "N/A" ) );
-		Pos->AzSet->setText( i18n( "Not Applicable", "N/A" ) );
+		Pos->AzRise->setText( i18nc( "Not Applicable", "N/A" ) );
+		Pos->AzSet->setText( i18nc( "Not Applicable", "N/A" ) );
 	}
 
 	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
@@ -384,7 +384,7 @@ void DetailDialog::createLogTab()
 	Log = new LogWidget(LogTab);
 
 	if ( selectedObject->userLog.isEmpty() )
-		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.").arg(selectedObject->translatedName()));
+		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
 	else
 		Log->UserLog->setText(selectedObject->userLog);
 
@@ -551,7 +551,7 @@ void DetailDialog::removeLinkDialog()
 	}
 	else return;
 
-	if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 link?").arg(currentItemTitle), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 link?", currentItemTitle), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
 		return;
 
 	if (type ==0)
@@ -794,7 +794,7 @@ void DetailDialog::centerTelescope()
        
        if (ConnectEle->state == PS_OFF)
        {
-	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.").arg(indidev->label));
+	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
 	 return;
        }
 

@@ -198,7 +198,7 @@ void AddCatDialog::slotShowDataFile() {
 
 void AddCatDialog::slotPreviewCatalog() {
 	if ( validateDataFile() ) {
-		KMessageBox::informationList( 0, i18n( "Preview of %1" ).arg( acd->CatalogName->text() ),
+		KMessageBox::informationList( 0, i18n( "Preview of %1", acd->CatalogName->text() ),
 			QStringList::split( "\n", CatalogContents ), i18n( "Catalog Preview" ) );
 	}
 }
@@ -214,7 +214,7 @@ void AddCatDialog::slotCreateCatalog() {
 			KUrl u( acd->CatalogURL->url() );
 			int r=KMessageBox::warningContinueCancel( 0,
 									i18n( "A file named \"%1\" already exists. "
-											"Overwrite it?" ).arg( u.fileName() ),
+											"Overwrite it?", u.fileName() ),
 									i18n( "Overwrite File?" ),
 									i18n( "&Overwrite" ) );
 			
@@ -224,7 +224,7 @@ void AddCatDialog::slotCreateCatalog() {
 		QFile OutFile( acd->CatalogURL->url() );
 		if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
 			KMessageBox::sorry( 0, 
-				i18n( "Could not open the file %1 for writing." ).arg( acd->CatalogURL->url() ), 
+				i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url() ), 
 				i18n( "Error Opening Output File" ) );
 		} else {
 			QTextStream outStream( &OutFile );

@@ -140,20 +140,20 @@ void KStarsData::initError(const QString &s, bool required = false) {
 		message = i18n( "The file %1 could not be found. "
 				"KStars cannot run properly without this file. "
 				"To continue loading, place the file in one of the "
-				"following locations, then press Retry:\n\n" ).arg( s )
+				"following locations, then press Retry:\n\n", s )
 				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
 				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s ) 
 				+ i18n( "Otherwise, press Cancel to shutdown." );
-		caption = i18n( "Critical File Not Found: %1" ).arg( s );
+		caption = i18n( "Critical File Not Found: %1", s );
 	} else {
 		message = i18n( "The file %1 could not be found. "
 				"KStars can still run without this file. "
 				"However, to avoid seeing this message in the future, you can "
-				"place the file in one of the following locations, then press Retry:\n\n" ).arg( s )
+				"place the file in one of the following locations, then press Retry:\n\n", s )
 				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
 				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
-				+ i18n( "Otherwise, press Cancel to continue loading without this file." ).arg( s );
-		caption = i18n( "Non-Critical File Not Found: %1" ).arg( s );
+				+ i18n( "Otherwise, press Cancel to continue loading without this file.");
+		caption = i18n( "Non-Critical File Not Found: %1", s );
 	}
 
 	if ( KMessageBox::warningContinueCancel( 0, message, caption, i18n( "Retry" ) ) == KMessageBox::Continue ) {
@@ -933,7 +933,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
 	QFile f( scriptname );
 	if ( !f.open( QIODevice::ReadOnly) ) {
-		kDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
+		kDebug() << i18n( "Could not open file %1", f.name() ) << endl;
 		return false;
 	}
 
@@ -1032,8 +1032,9 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 					cmdCount++;
 				} else {
-					kWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
-						.arg(day).arg(mth).arg(yr).arg(hr).arg(min).arg(sec) << endl;
+					kWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
+						.subs( day ).subs( mth ).subs( yr )
+						.subs( hr ).subs( min ).subs( sec ).toString() << endl;
 				}
 			} else if ( fn[0] == "changeViewOption" && fn.size() == 3 ) {
 				bool bOk(false), nOk(false), dOk(false);
@@ -1147,7 +1148,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				}
 
 				if ( !cityFound )
-					kWarning() << i18n( "Could not set location named %1, %2, %3" ).arg(city).arg(province).arg(country) << endl;
+					kWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) << endl;
 			}
 		}
 	}  //end while

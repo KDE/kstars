@@ -109,7 +109,7 @@ void LocationDialog::initCityList( void ) {
 	//Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
 	ui->GeoBox->sort();
 	
-	ui->CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
+	ui->CountLabel->setText( i18np("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
 
 	// attempt to highlight the current kstars location in the GeoBox
 	ui->GeoBox->setCurrentItem( 0 );
@@ -151,7 +151,7 @@ void LocationDialog::filterCity( void ) {
 
 	ui->GeoBox->sort();
 	
-	ui->CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
+	ui->CountLabel->setText( i18np("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
 
 	if ( ui->GeoBox->firstItem() )		// set first item in list as selected
 		ui->GeoBox->setCurrentItem( ui->GeoBox->firstItem() );
@@ -305,7 +305,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 	}
 
 	ui->GeoBox->sort();
-	ui->CountLabel->setText( i18n("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
+	ui->CountLabel->setText( i18np("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
 
 	if ( ui->GeoBox->firstItem() )		// set first item in list as selected
 		ui->GeoBox->setCurrentItem( ui->GeoBox->firstItem() );

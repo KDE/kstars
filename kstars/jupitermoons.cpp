@@ -23,10 +23,10 @@
 #include "kssun.h"
 
 JupiterMoons::JupiterMoons(){
-	Name[0] = i18n( "Jupiter's moon Io", "Io" );
-	Name[1] = i18n( "Jupiter's moon Europa", "Europa" );
-	Name[2] = i18n( "Jupiter's moon Ganymede", "Ganymede" );
-	Name[3] = i18n( "Jupiter's moon Callisto", "Callisto" );
+	Name[0] = i18nc( "Jupiter's moon Io", "Io" );
+	Name[1] = i18nc( "Jupiter's moon Europa", "Europa" );
+	Name[2] = i18nc( "Jupiter's moon Ganymede", "Ganymede" );
+	Name[3] = i18nc( "Jupiter's moon Callisto", "Callisto" );
 	
 	for ( unsigned int i=0; i<4; ++i ) {
 		XJ[i] = 0.0;

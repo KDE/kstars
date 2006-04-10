@@ -323,7 +323,7 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			if ( im.isNull() ) {
 				KMessageBox::sorry( 0, 
-						i18n("Failed to load image at %1").arg( localFile.name() ),
+						i18n("Failed to load image at %1", localFile.name() ),
 						i18n("Failed to load image") );
 				return;
 			}

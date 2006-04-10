@@ -71,7 +71,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	View->setShowGrid( false );
 	View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
 	View->setXAxisLabel2( i18n( "Local Sidereal Time" ) );
-	View->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "the angle of an object above (or below) the horizon", "Altitude" ) );
+	View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
 
 	avtUI = new AltVsTimeUI( page );
 	avtUI->raBox->setDegType( false );
@@ -137,7 +137,7 @@ void AltVsTime::slotAddSource(void) {
 		}
 
 		if ( found )
-			kDebug() << i18n("An object named %1 is already displayed; I will not duplicate it.").arg(obj->name()) << endl;
+			kDebug() << i18n("An object named %1 is already displayed; I will not duplicate it.", obj->name()) << endl;
 
 		else 
 			processObject( obj );

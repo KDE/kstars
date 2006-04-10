@@ -30,7 +30,7 @@ AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
-	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
+	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1", oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
 
 	QFrame *page = plainPage();
 	setMainWidget(page);

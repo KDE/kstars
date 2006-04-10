@@ -173,8 +173,8 @@ void ImageViewer::showImage()
 {
 	if (!image.load (file->name()))		// if loading failed
 	{
-		QString text = i18n ("Loading of the image %1 failed.");
-		KMessageBox::error (this, text.arg (imageURL.prettyURL() ));
+		QString text = i18n ("Loading of the image %1 failed.", imageURL.prettyURL());
+		KMessageBox::error (this, text);
 		closeEvent (0);
 		return;
 	}
@@ -222,7 +222,7 @@ void ImageViewer::saveFileToDisc()
 		{
 			int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
 									i18n( "A file named \"%1\" already exists. "
-											"Overwrite it?" ).arg(newURL.fileName()),
+											"Overwrite it?" , newURL.fileName()),
 									i18n( "Overwrite File?" ),
 									i18n( "&Overwrite" ) );
 			if(r==KMessageBox::Cancel) return;
@@ -237,8 +237,8 @@ void ImageViewer::saveFile (KUrl &url) {
 // synchronous Access to prevent segfaults
 	if (!KIO::NetAccess::copy (KUrl (file->name()), url, (QWidget*) 0))
 	{
-		QString text = i18n ("Saving of the image %1 failed.");
-		KMessageBox::error (this, text.arg (url.prettyURL() ));
+		QString text = i18n ("Saving of the image %1 failed.", url.prettyURL());
+		KMessageBox::error (this, text);
 	}
 }
 

@@ -247,14 +247,14 @@ void CCDPreviewWG::captureImage()
 	
 	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) )
 	  {
-		QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
+		QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyURL() );
 		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 	  }
 	}
   }
   else
   {
-		QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
+		QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
   }
 

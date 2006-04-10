@@ -46,10 +46,10 @@ OpsColors::OpsColors( KStars *_ks )
 		ColorPalette->insertItem( col, ksw->data()->colorScheme()->nameAt( i ) );
 	}
 
-	PresetBox->insertItem( i18n( "use default color scheme", "Default Colors" ) );
-	PresetBox->insertItem( i18n( "use 'star chart' color scheme", "Star Chart" ) );
-	PresetBox->insertItem( i18n( "use 'night vision' color scheme", "Night Vision" ) );
-	PresetBox->insertItem( i18n( "use 'moonless night' color scheme", "Moonless Night" ) );
+	PresetBox->insertItem( i18nc( "use default color scheme", "Default Colors" ) );
+	PresetBox->insertItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+	PresetBox->insertItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+	PresetBox->insertItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
 	PresetFileList.append( "default.colors" );
 	PresetFileList.append( "chart.colors" );
@@ -73,10 +73,10 @@ OpsColors::OpsColors( KStars *_ks )
 	}
 
 	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
-	kcfg_StarColorMode->insertItem( i18n( "use realistic star colors", "Real Colors" ) );
-	kcfg_StarColorMode->insertItem( i18n( "show stars as red circles", "Solid Red" ) );
-	kcfg_StarColorMode->insertItem( i18n( "show stars as black circles", "Solid Black" ) );
-	kcfg_StarColorMode->insertItem( i18n( "show stars as white circles", "Solid White" ) );
+	kcfg_StarColorMode->insertItem( i18nc( "use realistic star colors", "Real Colors" ) );
+	kcfg_StarColorMode->insertItem( i18nc( "show stars as red circles", "Solid Red" ) );
+	kcfg_StarColorMode->insertItem( i18nc( "show stars as black circles", "Solid Black" ) );
+	kcfg_StarColorMode->insertItem( i18nc( "show stars as white circles", "Solid White" ) );
 	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
 
 	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
@@ -125,7 +125,7 @@ void OpsColors::slotPreset( int index ) {
 	QString sPreset = PresetFileList.at( index );
 	bool result = setColors( sPreset );
 	if (!result) {
-		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( sPreset );
+		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt.", sPreset );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Set Color Scheme" ) );
 	}
 }
@@ -215,7 +215,7 @@ void OpsColors::slotRemovePreset() {
 			QFile colorFile;
 			colorFile.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 			if ( !colorFile.remove() ) {
-				QString message = i18n( "Could not delete the file: %1" ).arg( colorFile.name() );
+				QString message = i18n( "Could not delete the file: %1", colorFile.name() );
 				KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
 			}
 
@@ -226,7 +226,7 @@ void OpsColors::slotRemovePreset() {
 			for( int i=0; i<slist.count(); ++i )
 				stream << slist[i] << endl;
 		} else {
-			QString message = i18n( "Could not find an entry named %1 in colors.dat." ).arg( name );
+			QString message = i18n( "Could not find an entry named %1 in colors.dat.", name );
 			KMessageBox::sorry( 0, message, i18n( "Scheme Not Found" ) );
 		}
 		cdatFile.close();

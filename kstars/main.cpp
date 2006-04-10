@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
 		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
 		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
-		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
+		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
 
 		//parse width and height
 		bool ok(false);
@@ -168,8 +168,8 @@ int main(int argc, char *argv[])
 		map->exportSkyImage( &sky );
 		kapp->processEvents();
 
-		if ( ! sky.save( fname, format ) ) kWarning() << i18n( "Unable to save image: %1 " ).arg( fname ) << endl;
-		else kDebug() << i18n( "Saved to file: %1" ).arg( fname ) << endl;
+		if ( ! sky.save( fname, format ) ) kWarning() << i18n( "Unable to save image: %1 ", fname ) << endl;
+		else kDebug() << i18n( "Saved to file: %1", fname ) << endl;
 
 		delete map;
 		delete dat;
@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	//Try to parse the given date string
 	QString datestring = args->getOption( "date" );
 	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
-		kWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
+		kWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead.", datestring ) << endl;
 		datestring = QString();
 	}
 	

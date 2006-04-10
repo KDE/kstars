@@ -79,7 +79,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 					clc->pointList().append( p );
 					clc->modeList().append( mode );
 				} else if ( !p ) 
-					kWarning() << i18n( "No star named %1 found." ).arg(name) << endl;
+					kWarning() << i18n( "No star named %1 found." , name) << endl;
 			}
 		}
 		file.close();

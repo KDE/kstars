@@ -116,27 +116,27 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 
 	TimeString.clear();
 	if ( ! daysOnly() ) {
-		TimeString.append( "0 " + i18n( "seconds", "secs" ));
-		TimeString.append( "0.1 " + i18n( "seconds", "secs" ));
-		TimeString.append( "0.25 " + i18n( "seconds", "secs" ));
-		TimeString.append( "0.5 " + i18n( "seconds", "secs" ));
-		TimeString.append( "1 " + i18n( "second", "sec" ));
-		TimeString.append( "2 " + i18n( "seconds", "secs" ));
-		TimeString.append( "5 " + i18n( "seconds", "secs" ));
-		TimeString.append( "10 " + i18n( "seconds", "secs" ));
-		TimeString.append( "20 " + i18n( "seconds", "secs" ));
-		TimeString.append( "30 " + i18n( "seconds", "secs" ));
-		TimeString.append( "1 " + i18n( "minute", "min" ));
-		TimeString.append( "2 " + i18n( "minutes", "mins" ));
-		TimeString.append( "5 " + i18n( "minutes", "mins" ));
-		TimeString.append( "10 " + i18n( "minutes", "mins" ));
-		TimeString.append( "15 " + i18n( "minutes", "mins" ));
-		TimeString.append( "30 " + i18n( "minutes", "mins" ));
+		TimeString.append( "0 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "0.1 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "0.25 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "0.5 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "1 " + i18nc( "second", "sec" ));
+		TimeString.append( "2 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "5 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "10 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "20 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "30 " + i18nc( "seconds", "secs" ));
+		TimeString.append( "1 " + i18nc( "minute", "min" ));
+		TimeString.append( "2 " + i18nc( "minutes", "mins" ));
+		TimeString.append( "5 " + i18nc( "minutes", "mins" ));
+		TimeString.append( "10 " + i18nc( "minutes", "mins" ));
+		TimeString.append( "15 " + i18nc( "minutes", "mins" ));
+		TimeString.append( "30 " + i18nc( "minutes", "mins" ));
 		TimeString.append( "1 " + i18n( "hour" ));
-		TimeString.append( "2 " + i18n( "hours", "hrs" ));
-		TimeString.append( "3 " + i18n( "hours", "hrs" ));
-		TimeString.append( "6 " + i18n( "hours", "hrs" ));
-		TimeString.append( "12 " + i18n( "hours", "hrs" ));
+		TimeString.append( "2 " + i18nc( "hours", "hrs" ));
+		TimeString.append( "3 " + i18nc( "hours", "hrs" ));
+		TimeString.append( "6 " + i18nc( "hours", "hrs" ));
+		TimeString.append( "12 " + i18nc( "hours", "hrs" ));
 	} else {
 		TimeString.append( "0 " + i18n( "days" ));
 	}
@@ -145,22 +145,22 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 	TimeString.append( "3 " + i18n( "days" ));
 	TimeString.append( "5 " + i18n( "days" ));
 	TimeString.append( "1 " + i18n( "week" ));
-	TimeString.append( "2 " + i18n( "weeks", "wks" ));
-	TimeString.append( "3 " + i18n( "weeks", "wks" ));
+	TimeString.append( "2 " + i18nc( "weeks", "wks" ));
+	TimeString.append( "3 " + i18nc( "weeks", "wks" ));
 	TimeString.append( "1 " + i18n( "month" ));
-	TimeString.append( "2 " + i18n( "months", "mths" ));
-	TimeString.append( "3 " + i18n( "months", "mths" ));
-	TimeString.append( "4 " + i18n( "months", "mths" ));
-	TimeString.append( "6 " + i18n( "months", "mths" ));
-	TimeString.append( "9 " + i18n( "months", "mths" ));
+	TimeString.append( "2 " + i18nc( "months", "mths" ));
+	TimeString.append( "3 " + i18nc( "months", "mths" ));
+	TimeString.append( "4 " + i18nc( "months", "mths" ));
+	TimeString.append( "6 " + i18nc( "months", "mths" ));
+	TimeString.append( "9 " + i18nc( "months", "mths" ));
 	TimeString.append( "1 " + i18n( "year" ));
-	TimeString.append( "2 " + i18n( "years", "yrs" ));
-	TimeString.append( "3 " + i18n( "years", "yrs" ));
-	TimeString.append( "5 " + i18n( "years", "yrs" ));
-	TimeString.append( "10 " + i18n( "years", "yrs" ));
-	TimeString.append( "25 " + i18n( "years", "yrs" ));
-	TimeString.append( "50 " + i18n( "years", "yrs" ));
-	TimeString.append( "100 " + i18n( "years", "yrs" ));
+	TimeString.append( "2 " + i18nc( "years", "yrs" ));
+	TimeString.append( "3 " + i18nc( "years", "yrs" ));
+	TimeString.append( "5 " + i18nc( "years", "yrs" ));
+	TimeString.append( "10 " + i18nc( "years", "yrs" ));
+	TimeString.append( "25 " + i18nc( "years", "yrs" ));
+	TimeString.append( "50 " + i18nc( "years", "yrs" ));
+	TimeString.append( "100 " + i18nc( "years", "yrs" ));
 
 	if ( ! daysOnly() ) {
 		setMinimum( -41 );

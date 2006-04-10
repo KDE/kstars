@@ -68,7 +68,7 @@ void KStars::initActions() {
 //Time Menu:
 	new KAction( i18n( "Set Time to &Now" ), KShortcut( "Ctrl+E"  ),
 		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
-	new KAction( i18n( "set Clock to New Time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
+	new KAction( i18nc( "set Clock to New Time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
 		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),
@@ -122,23 +122,23 @@ void KStars::initActions() {
 	// to me, but ...
 	//
 	//Info Boxes option actions
-	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
+	KToggleAction *a = new KToggleAction(i18nc( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
 	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
+	a = new KToggleAction(i18nc( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
+	a = new KToggleAction(i18nc( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
+	a = new KToggleAction(i18nc( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -193,7 +193,7 @@ void KStars::initActions() {
 	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
 	initFOV();
 
-	new KAction( i18n( "Location on Earth", "&Geographic..." ),
+	new KAction( i18nc( "Location on Earth", "&Geographic..." ),
 			"kstars_geo", KShortcut( "Ctrl+G"  ), this,
 			SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 
@@ -311,11 +311,11 @@ void KStars::initFOV() {
 			kDebug() << i18n( "Could not open fov.dat." ) << endl;
 		} else {
 			QTextStream ostream(&f);
-			ostream << i18n( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
-			ostream << i18n( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
-			ostream << i18n( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
-			ostream << i18n( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
-			ostream << i18n( "use Radiotelescope HPBW", "30m at 1.3cm" ) << ":1.79:1:#AAAAAA" << endl;
+			ostream << i18nc( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
+			ostream << i18nc( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
+			ostream << i18nc( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
+			ostream << i18nc( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
+			ostream << i18nc( "use Radiotelescope HPBW", "30m at 1.3cm" ) << ":1.79:1:#AAAAAA" << endl;
 			f.close();
 		}
 	}
@@ -338,7 +338,7 @@ void KStars::initFOV() {
 			}
 		}
 	} else {
-		kDebug() << i18n( "Could not open file: %1" ).arg( f.name() ) << endl;
+		kDebug() << i18n( "Could not open file: %1", f.name() ) << endl;
 	}
 
 	fovActionMenu->popupMenu()->insertSeparator();

@@ -52,7 +52,7 @@ void DeepSkyComponent::init(KStarsData *data)
 	QFile file;
 
 	for ( unsigned int i=0; i<NNGCFILES; ++i ) {
-		emitProgressText( i18n( "Loading NGC/IC objects (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
+		emitProgressText( i18n( "Loading NGC/IC objects (%1%)", int(100.*float(i)/float(NNGCFILES)) ) );
 
 		QString fname = QString().sprintf( "ngcic%02d.dat", i+1 );
 

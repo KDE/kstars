@@ -345,27 +345,27 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 
 	//HST Image
 	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
-		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]" ).arg( longname() );  
+		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]", longname() );  
 
 	//Spitzer Image
 	} else if ( imageTitle.contains( i18n( "Show Spitzer Image" ) ) ) {
-		message = i18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]" ).arg( longname() );  
+		message = i18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]", longname() );  
 
 	//SEDS Image
 	} else if ( imageTitle == i18n( "Show SEDS Image" ) ) {
-		message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]" ).arg( longname() );
+		message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]", longname() );
 
 	//Kitt Peak AOP Image
 	} else if ( imageTitle == i18n( "Show KPNO AOP Image" ) ) {
-		message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]" ).arg( longname() );
+		message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]", longname() );
 
 	//NOAO Image
 	} else if ( imageTitle.contains( i18n( "Show NOAO Image" ) ) ) {
-		message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]" ).arg( longname() );
+		message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]", longname() );
 
 	//VLT Image
 	} else if ( imageTitle.contains( "VLT" ) ) {
-		message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]" ).arg( longname() );
+		message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]", longname() );
 
 	//All others
 	} else if ( imageTitle.startsWith( i18n( "Show" ) ) ) {
@@ -385,7 +385,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	//Do nothing if: 
 	//+ new log is the "default" message
 	//+ new log is empty
-	if ( newLog == (i18n("Record here observation logs and/or data on %1.").arg(name())) || newLog.isEmpty() )
+	if ( newLog == (i18n("Record here observation logs and/or data on %1.", name())) || newLog.isEmpty() )
 		return;
 
 	// header label

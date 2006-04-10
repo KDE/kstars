@@ -183,7 +183,7 @@ void INDI_P::newText()
         f_scansexa(lp->text.ascii(), &(lp->targetValue));
         if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
         {
-          KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3").arg(lp->label).arg(lp->min).arg(lp->max));
+          KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3", lp->label, lp->min, lp->max));
           return;
         }
       }
@@ -356,7 +356,7 @@ void INDI_P::newBlob()
 
     if (!fp.open(QIODevice::ReadOnly))
     {
-      KMessageBox::error(0, i18n("Cannot open file %1 for reading").arg(filename));
+      KMessageBox::error(0, i18n("Cannot open file %1 for reading", filename));
       valid = false;
       continue;
     }
@@ -366,7 +366,7 @@ void INDI_P::newBlob()
     data_file = new char[fp.size()];
     if (data_file == NULL)
     {
-      KMessageBox::error(0, i18n("Not enough memory to load %1").arg(filename));
+      KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
       fp.close();
       valid = false;
       continue;
@@ -378,7 +378,7 @@ void INDI_P::newBlob()
     data64 = new unsigned char[4*fp.size()/3+4];
     if (data64 == NULL)
     {
-      KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64").arg(filename));
+      KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
       fp.close();
       valid = false;
       continue;

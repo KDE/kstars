@@ -304,7 +304,7 @@ void modCalcPlanets::slotRunBatch() {
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			QString message = i18n( "Could not open file %1.", f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = QString();
 			return;
@@ -314,7 +314,7 @@ void modCalcPlanets::slotRunBatch() {
 		processLines(istream);
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
 		InputFileBoxBatch->setURL( inputFileName );
@@ -387,9 +387,9 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 		if (fields.count() != numberOfRequiredFields ) {
 			lineIsValid = false;
-			kWarning() << i18n( "Incorrect number of fields in line %1: " ).arg(nline) 
-			            << i18n( "Present fields %1. " ).arg(fields.count())
-			            << i18n( "Required fields %1. " ).arg(numberOfRequiredFields) << endl;
+			kWarning() << i18n( "Incorrect number of fields in line %1: " , nline) 
+			            << i18n( "Present fields %1. " , fields.count())
+			            << i18n( "Required fields %1. " , numberOfRequiredFields) << endl;
 			nline++;
 			continue;
 		}
@@ -402,7 +402,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			if (j == -1) {
 				kWarning() << i18n("Unknown planet ")  
 					    << fields[i]  
-					    << i18n(" in line %1: ").arg(nline) << endl;
+					    << i18n(" in line %1: ", nline) << endl;
 				continue;
 			}
 			pn = pNames.at(j); //untranslated planet name
@@ -425,7 +425,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		if(UTCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
 			if ( !utB.isValid() ) {
-				kWarning() << i18n( "Line %1 contains an invalid time" ).arg(nline) << endl;
+				kWarning() << i18n( "Line %1 contains an invalid time" , nline) << endl;
 				lineIsValid=false;
 				nline++;
 				continue;
@@ -445,7 +445,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		if(DateCheckBatch->isChecked() ) {
 			dtB = ExtDate::fromString( fields[i], Qt::ISODate );
 			if ( !dtB.isValid() ) {
-				kWarning() << i18n( "Line %1 contains an invalid date: " ).arg(nline) << 
+				kWarning() << i18n( "Line %1 contains an invalid date: " , nline) << 
 				fields[i] << endl ;
 				lineIsValid=false;
 				nline++;

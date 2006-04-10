@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qstringlist.h>
 #include <kdebug.h>
 #include "scriptfunction.h"
 
@@ -86,53 +87,8 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	if ( NumArgs ) Description += " ";
 	Description += nameStyle.arg( ")" ) + "</p><p>";
 
-	//before adding description, replace any '%n' instances with the corresponding
-	//argument name in color.  For now, assume that the %n's occur in order, with no skips.
-	//Also assume that '%' is *only* used to indicate argument instances
-	int narg = desc.count( '%' );
-	switch (narg ) {
-		case 1:
-			Description += desc.arg( paramStyle.arg( an1 ) );
-			break;
-		case 2:
-			Description +=
-					desc.arg( paramStyle.arg( an1 ) )
-							.arg( paramStyle.arg( an2 ) );
-			break;
-		case 3:
-			Description +=
-					desc.arg( paramStyle.arg( an1 ) )
-							.arg( paramStyle.arg( an2 ) )
-							.arg( paramStyle.arg( an3 ) );
-			break;
-		case 4:
-			Description +=
-					desc.arg( paramStyle.arg( an1 ) )
-							.arg( paramStyle.arg( an2 ) )
-							.arg( paramStyle.arg( an3 ) )
-							.arg( paramStyle.arg( an4 ) );
-			break;
-		case 5:
-			Description +=
-					desc.arg( paramStyle.arg( an1 ) )
-							.arg( paramStyle.arg( an2 ) )
-							.arg( paramStyle.arg( an3 ) )
-							.arg( paramStyle.arg( an4 ) )
-							.arg( paramStyle.arg( an5 ) );
-			break;
-		case 6:
-			Description +=
-					desc.arg( paramStyle.arg( an1 ) )
-							.arg( paramStyle.arg( an2 ) )
-							.arg( paramStyle.arg( an3 ) )
-							.arg( paramStyle.arg( an4 ) )
-							.arg( paramStyle.arg( an5 ) )
-							.arg( paramStyle.arg( an6 ) );
-			break;
-		default:
-			Description += desc;
-			break;
-	}
+	//Add description
+	Description += desc;
 
 	//Finish up
 	Description += "</p></body></html>";

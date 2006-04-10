@@ -349,9 +349,9 @@ void KStars::loadColorScheme( const QString &_name ) {
 	bool ok( false );
 	
 	//Parse default names which don't follow the regular file-naming scheme
-	if ( name == i18n("use default color scheme", "Default Colors") ) filename = "default.colors";
-	if ( name == i18n("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors"; 
-	if ( name == i18n("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors"; 
+	if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "default.colors";
+	if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors"; 
+	if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors"; 
 	
 	//Try the filename if it ends with ".colors"
 	if ( filename.endsWith( ".colors" ) )
@@ -368,7 +368,7 @@ void KStars::loadColorScheme( const QString &_name ) {
 			ok = data()->colorScheme()->load( filename );
 		}
 		
-		if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2." ).arg( name ).arg( filename ); 
+		if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename ); 
 	}
 	
 	if ( ok ) {
@@ -418,7 +418,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
 		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
 		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
-		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG." ).arg( fname ) << endl; }
+		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
 
 		map()->exportSkyImage( &skyimage );
 		kapp->processEvents();
@@ -447,12 +447,12 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 			bitBlt( &outimage, dx, dy, &skyimage, sx, sy, sw, sh );
 		}
 		
-		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 " ).arg( fname ) << endl;
-		else kDebug() << i18n( "Image saved to file: %1" ).arg( fname ) << endl;
+		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname ) << endl;
+		else kDebug() << i18n( "Image saved to file: %1", fname ) << endl;
 
 		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+				QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyURL() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
 		}

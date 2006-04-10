@@ -42,13 +42,13 @@ ColorScheme::ColorScheme() : FileName() {
 	Name.append( i18n( "Messier Object" ) );
 	Default.append( "#0F0" );
 	KeyName.append( "NGCColor" );
-	Name.append( i18n( "New General Catalog object", "NGC Object" ) );
+	Name.append( i18nc( "New General Catalog object", "NGC Object" ) );
 	Default.append( "#066" );
 	KeyName.append( "ICColor" );
-	Name.append( i18n( "Index Catalog object", "IC Object" ) );
+	Name.append( i18nc( "Index Catalog object", "IC Object" ) );
 	Default.append( "#439" );
 	KeyName.append( "HSTColor" );
-	Name.append( i18n( "Object with extra attached URLs", "Object w/ Links" ) );
+	Name.append( i18nc( "Object with extra attached URLs", "Object w/ Links" ) );
 	Default.append( "#A00" );
 	KeyName.append( "SNameColor" );
 	Name.append( i18n( "Star Name" ) );
@@ -57,16 +57,16 @@ ColorScheme::ColorScheme() : FileName() {
 	Name.append( i18n( "Planet Name" ) );
 	Default.append( "#A77" );
 	KeyName.append( "CNameColor" );
-	Name.append( i18n( "Constellation Name", "Constell. Name" ) );
+	Name.append( i18nc( "Constellation Name", "Constell. Name" ) );
 	Default.append( "#AA7" );
 	KeyName.append( "CLineColor" );
-	Name.append( i18n( "Constellation Line", "Constell. Line" ) );
+	Name.append( i18nc( "Constellation Line", "Constell. Line" ) );
 	Default.append( "#555" );
 	KeyName.append( "CBoundColor" );
-	Name.append( i18n( "Constellation Boundary", "Constell. Boundary" ) );
+	Name.append( i18nc( "Constellation Boundary", "Constell. Boundary" ) );
 	Default.append( "#222" );
 	KeyName.append( "MWColor" );
-	Name.append( i18n( "refers to the band of stars in the sky due to the Galactic plane", "Milky Way" ) );
+	Name.append( i18nc( "refers to the band of stars in the sky due to the Galactic plane", "Milky Way" ) );
 	Default.append( "#123" );
 	KeyName.append( "EqColor" );
 	Name.append( i18n( "Equator" ) );
@@ -143,7 +143,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
 	if ( ! hasColorNamed( name ) ) {
-		kWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
+		kWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) << endl;
 		//color = "#FFFFFF"; //set to white if no color found
 		return QColor( Qt::white );
 	}
