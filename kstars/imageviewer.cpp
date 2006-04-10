@@ -29,7 +29,7 @@
 #include <kstatusbar.h>
 #include <kio/netaccess.h>
 #include <kaction.h>
-#include <kaccel.h>
+
 #include <kdebug.h>
 #include <ktoolbar.h>
 #include "imageviewer.h"
