@@ -70,8 +70,8 @@ ObservingList::ObservingList( KStars *_ks )
 	//Set up the QTableWidget
 	ui->FullTable->setColumnCount( 5 );
 	ui->FullTable->setHorizontalHeaderLabels( 
-			QStringList() << i18n( "Name" ) << i18n( "Right Ascension", "RA" ) << i18n( "Declination", "Dec" )
-			<< i18n( "Magnitude", "Mag" ) << i18n( "Type" ) );
+			QStringList() << i18n( "Name" ) << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
+			<< i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
 
 	//make sure widget stack starts with FullTable shown
 	ui->TableStack->setCurrentWidget( ui->FullPage );
