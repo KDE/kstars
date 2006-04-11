@@ -67,17 +67,24 @@ ObservingList::ObservingList( KStars *_ks )
 	ui = new ObservingListUI( this );
 	setMainWidget( ui );
 
+	//Set up the QTableWidget
+	ui->FullTable->setColumnCount( 5 );
+	ui->FullTable->setHorizontalHeaderLabels( 
+			QStringList() << i18n( "Name" ) << i18n( "Right Ascension", "RA" ) << i18n( "Declination", "Dec" )
+			<< i18n( "Magnitude", "Mag" ) << i18n( "Type" ) );
+
+	//make sure widget stack starts with FullTable shown
+	ui->TableStack->setCurrentWidget( ui->FullPage );
+
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
-	connect( ui->TableStack, SIGNAL( aboutToShow( QWidget* ) ), 
-			this, SLOT( slotPrepTable( QWidget* ) ) );
-	connect( ui->FullTable, SIGNAL( selectionChanged() ), 
+	connect( ui->FullTable, SIGNAL( itemSelectionChanged() ), 
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->TinyTable, SIGNAL( selectionChanged() ), 
+	connect( ui->TinyTable, SIGNAL( itemSelectionChanged() ), 
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->FullTable, SIGNAL( doubleClicked( Q3ListViewItem*, const QPoint&, int) ), 
+	connect( ui->FullTable, SIGNAL( itemDoubleClicked( QTableWidgetItem* ) ), 
 			this, SLOT( slotCenterObject() ) );
-	connect( ui->TinyTable, SIGNAL( doubleClicked( Q3ListBoxItem* ) ), 
+	connect( ui->TinyTable, SIGNAL( itemDoubleClicked( QListWidgetItem* ) ), 
 			this, SLOT( slotCenterObject() ) );
 	connect( ui->RemoveButton, SIGNAL( clicked() ), 
 			this, SLOT( slotRemoveObjects() ) );
@@ -128,11 +135,6 @@ bool ObservingList::contains( const SkyObject *q ) {
 
 
 //SLOTS
-void ObservingList::slotPrepTable( QWidget *tab ) {
-	if ( tab == ui->FullTable ) {
-	} else {
-	}
-}
 
 void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! obj ) obj = ks->map()->clickedObject();
@@ -150,15 +152,22 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	m_CurrentObject = obj;
 	if ( ! isModified ) isModified = true; 
 
-	//Insert object entry in FullTable and TinyTable
+	//Set string for magnitude
 	QString smag("--");
 	if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
-	new K3ListViewItem( ui->FullTable, obj->translatedName(), 
-			obj->ra()->toHMSString(),
-			obj->dec()->toDMSString(),
-			smag,
-			obj->typeName() );
-	ui->TinyTable->insertItem( obj->translatedName() );
+
+	//Insert object entry in FullTable
+	//First, add a row
+	int irow = ui->FullTable->rowCount();
+	ui->FullTable->insertRow( irow );
+	ui->FullTable->setItem( irow, 0, new QTableWidgetItem( obj->translatedName() ) );
+	ui->FullTable->setItem( irow, 1, new QTableWidgetItem( obj->ra()->toHMSString() ) );
+	ui->FullTable->setItem( irow, 2, new QTableWidgetItem( obj->dec()->toDMSString() ) );
+	ui->FullTable->setItem( irow, 3, new QTableWidgetItem( smag ) );
+	ui->FullTable->setItem( irow, 4, new QTableWidgetItem( obj->typeName() ) );
+
+	//Insert object entry in TinyTable
+	ui->TinyTable->insertItem( irow, obj->translatedName() );
 
 	//Note addition in statusbar
 	ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
@@ -179,36 +188,32 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 		
 	//Remove entry from FullTable
 	bool objectFound = false;
-	Q3ListViewItemIterator it( ui->FullTable );
-	while ( it.current() ) {
-		Q3ListViewItem *item = it.current();
+	for ( i=0; i<ui->FullTable->rowCount(); ++i ) {
 
 		//If the object is named "star" then match coordinates instead of name
 		if ( o->translatedName() == i18n( "star" ) ) {
-			if ( item->text(1) == o->ra()->toHMSString() 
-							&& item->text(2) == o->dec()->toDMSString() ) {
-				delete item;
+			if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString() 
+				&& ui->FullTable->item( i, 2 )->text() == o->dec()->toDMSString() ) {
+				ui->FullTable->removeRow( i );
 				objectFound = true;
 				break;
-							}
-		} else if ( item->text( 0 ) == o->translatedName() ) {
-			delete item;
-			objectFound = true;
-			break;
+			}
+
+		//Otherwise match by name
+		} else {
+			if ( ui->FullTable->item( i, 0 )->text() == o->translatedName() ) {
+				ui->FullTable->removeRow( i ); //using same i from FullTable for-loop
+				objectFound = true;
+				break;
+			}
 		}
-		++it;
 	}
 
 	if ( ! objectFound ) {
 		kDebug() << i18n( "Cannot remove Object %1; not found in table." , o->translatedName()) << endl;
 	} else {
-		//Remove object from TinyTable
-		for ( uint i=0; i < ui->TinyTable->count(); i++ ) {
-			if ( o->translatedName() == ui->TinyTable->text(i) ) {
-				ui->TinyTable->removeItem(i);
-				break;
-			}
-		}
+		//Remove object from TinyTable also
+		delete ui->TinyTable->takeItem(i);
 	}
 }
 
@@ -227,27 +232,27 @@ void ObservingList::slotNewSelection() {
 	
 	//Construct list of selected objects
 	m_SelectedObjects.clear();
-	Q3ListViewItemIterator it( ui->FullTable, Q3ListViewItemIterator::Selected ); //loop over selected items
-	while ( it.current() ) {
-		foreach ( SkyObject *o, obsList() ) {
-			if ( it.current()->text(0) == i18n("star") ) {
-				if ( it.current()->text(1) == o->ra()->toHMSString() 
-						&& it.current()->text(2) == o->dec()->toDMSString() ) {
-					m_SelectedObjects.append(o);
+	for ( int i=0; i < ui->FullTable->rowCount(); ++i ) {
+		QTableWidgetItem *itName = ui->FullTable->item( i, 0 );
+		if ( ui->FullTable->isItemSelected( itName ) ) {
+			foreach ( SkyObject *o, obsList() ) {
+				if ( itName->text() == i18n( "star" ) ) {
+					if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString() 
+						&& ui->FullTable->item( i, 2 )->text() == o->dec()->toDMSString() ) {
+						m_SelectedObjects.append( o );
+						break;
+					}
+				} else if ( itName->text() == o->translatedName() ) {
+					m_SelectedObjects.append( o );
 					break;
 				}
-			} else if ( o->translatedName() == it.current()->text(0) ) {
-				m_SelectedObjects.append( o );
-				break;
 			}
 		}
-		it++;
 	}
 	
 	//Enable widgets when one object selected
 	if ( m_SelectedObjects.size() == 1 ) {
 		QString newName( m_SelectedObjects[0]->translatedName() );
-		QString oldName( currentObject()->translatedName() );
 		
 		//Enable buttons
 		ui->CenterButton->setEnabled( true );
@@ -284,7 +289,9 @@ void ObservingList::slotNewSelection() {
 		} else { //selected object is named "star"
 			//clear the log text box
 			saveCurrentUserLog();
+			ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
 			ui->NotesLabel->setEnabled( false );
+			ui->NotesEdit->clear();
 			ui->NotesEdit->setEnabled( false );
 		}
 
@@ -627,7 +634,7 @@ void ObservingList::slotToggleSize() {
 		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", KIcon::Toolbar ) );
 
 		//switch widget stack to show TinyTable
-		ui->TableStack->setCurrentWidget( ui->TinyTable );
+		ui->TableStack->setCurrentWidget( ui->TinyPage );
 
 		//Abbreviate text on each button
 		ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
@@ -648,7 +655,7 @@ void ObservingList::slotToggleSize() {
 		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
 
 		//switch widget stack to show FullTable
-		ui->TableStack->setCurrentWidget( ui->FullTable );
+		ui->TableStack->setCurrentWidget( ui->FullPage );
 
 		//Expand text on each button
 		ui->CenterButton->setText( i18n( "Center" ) );
@@ -667,22 +674,16 @@ void ObservingList::slotToggleSize() {
 	}
 }
 
+//FullTable uses SelectionBehavior=SelectRows, so selecting the first cell 
+//in a row should select the whole row
 void ObservingList::syncTableSelection( bool syncFullTable ) {
-	if ( syncFullTable ) {
-		int i=0;
-		Q3ListViewItem *it =  ui->FullTable->firstChild();
-		while ( it ) {
-			it->setSelected( ui->TinyTable->isSelected( i++ ) );
-			it->nextSibling();
+	for ( int i=0; i<ui->FullTable->rowCount(); ++i ) {
+		if ( syncFullTable ) {
+			ui->FullTable->setItemSelected( ui->FullTable->item( i, 0 ), ui->TinyTable->isItemSelected( ui->TinyTable->item(i) ) );
+		} else {
+			ui->TinyTable->setItemSelected( ui->TinyTable->item(i), ui->FullTable->isItemSelected( ui->FullTable->item( i, 0 ) ) );
 		}
-	} else {
-		int i=0;
-		Q3ListViewItem *it =  ui->FullTable->firstChild();
-		while ( it ) {
-			ui->TinyTable->setSelected( i++, it->isSelected() );
-			it->nextSibling();
-		}
-	}	
+	}
 }
 
 #include "observinglist.moc"

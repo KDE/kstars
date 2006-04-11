@@ -103,11 +103,6 @@ public:
 	void saveCurrentList();
 
 public slots:
-/**@short about to switch the visible table in the widget stack
-	*@p tab pointer to the table which is about to be shown
-	*/
-	void slotPrepTable( QWidget *tab );
- 
 /**@short add a new object to list
 	*@p o pointer to the object to add to the list
 	*/

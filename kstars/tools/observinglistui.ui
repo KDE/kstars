@@ -353,9 +353,9 @@
    <item>
     <widget class="QStackedWidget" name="TableStack" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="page" >
+     <widget class="QWidget" name="FullPage" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
         <number>9</number>
@@ -364,11 +364,18 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="K3ListView" name="FullTable" />
+        <widget class="QTableWidget" name="FullTable" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="selectionBehavior" >
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2" >
+     <widget class="QWidget" name="TinyPage" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
         <number>9</number>
@@ -377,7 +384,17 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KListBox" name="TinyTable" />
+        <widget class="QListWidget" name="TinyTable" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode" >
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+         <property name="selectionBehavior" >
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -454,20 +471,6 @@
    <class>KTextEdit</class>
    <extends></extends>
    <header>ktextedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>K3ListView</class>
-   <extends></extends>
-   <header>k3listview.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
