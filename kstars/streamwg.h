@@ -20,7 +20,7 @@
 
 #include <kpixmap.h>
 
-#include "streamformui.h"
+#include "ui_streamform.h"
 
  
  

@@ -21,8 +21,8 @@
 #include <QPaintEvent>
 #include <kdialog.h>
 
-#include "fovdialogui.h"
-#include "newfovui.h"
+#include "ui_fovdialog.h"
+#include "ui_newfov.h"
 #include "fov.h"
 
 /**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)

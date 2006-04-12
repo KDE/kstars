@@ -20,10 +20,10 @@
 
 #include <Q3MemArray>
 
-#include "wizwelcomeui.h"
-#include "wizlocationui.h"
-#include "wizdevicesui.h"
-#include "wizdownloadui.h"
+#include "ui_wizwelcome.h"
+#include "ui_wizlocation.h"
+#include "ui_wizdevices.h"
+#include "ui_wizdownload.h"
 
 class KDialog;
 class GeoLocation;

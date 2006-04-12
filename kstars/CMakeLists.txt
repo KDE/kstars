@@ -48,7 +48,7 @@ set(libkstarstools_SRCS
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstimeui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstime.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argchangeviewoption.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argexportimage.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argloadcolorscheme.ui
@@ -82,7 +82,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitfor.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitforkey.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argzoom.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgeneratorui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgenerator.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdistdlg.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoorddlg.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazeldlg.ui
@@ -96,13 +96,13 @@ kde4_add_ui_files(libkstarstools_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprecdlg.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtimedlg.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsrdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglistui.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizardui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglist.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizard.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/optionstreeview.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewerui.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilderui.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewer.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilder.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptnamedialog.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialogui.ui )
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialog.ui )
 
 
 set(libkstarscomponents_SRCS 
@@ -180,15 +180,15 @@ kde4_automoc(${kstars_SRCS})
 
 kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
-kde4_add_ui_files(kstars_SRCS addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui 
+kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui contrastbrightnessg.ui 
        details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui 
-       devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui 
-       fovdialogui.ui newfovui.ui locationdialogui.ui 
-       histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui 
-       wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui 
-       opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui 
-       statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui 
-       thumbnailpickerui.ui thumbnaileditorui.ui 
+       devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
+       fovdialog.ui newfov.ui locationdialog.ui 
+       histdialog.ui imagereduction.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
+       wizwelcome.ui wizlocation.ui wizdevices.ui wizdownload.ui 
+       opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
+       statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 
+       thumbnailpicker.ui thumbnaileditor.ui 
 )
 
 kde4_add_executable(kstars ${kstars_SRCS})
@@ -216,15 +216,15 @@ kde4_footer()
 
 #bin_PROGRAMS = kstars
 #
-#kstars_ui = addcatdialogui.ui addlinkdialogui.ui ccdpreviewui.ui contrastbrightnessgui.ui \
+#kstars_ui = addcatdialog.ui addlinkdialog.ui ccdpreview.ui contrastbrightnessg.ui \
 #		details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui \
-#		devmanager.ui finddialogui.ui fitsheaderdialog.ui focusdialogui.ui \
-#		fovdialogui.ui newfovui.ui locationdialogui.ui \
-#		histdialog.ui imagereductionui.ui imgsequencedlgui.ui indiconf.ui indihostconf.ui \
-#		wizwelcomeui.ui wizlocationui.ui wizdevicesui.ui wizdownloadui.ui \
-#		opsadvancedui.ui opscatalogui.ui opscolorsui.ui opsguidesui.ui opssolarsystemui.ui \
-#		statform.ui streamformui.ui telescopewizard.ui telescopepropui.ui \
-#		thumbnailpickerui.ui thumbnaileditorui.ui \
+#		devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui \
+#		fovdialog.ui newfov.ui locationdialog.ui \
+#		histdialog.ui imagereduction.ui imgsequencedlg.ui indiconf.ui indihostconf.ui \
+#		wizwelcome.ui wizlocation.ui wizdevices.ui wizdownload.ui \
+#		opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui \
+#		statform.ui streamform.ui telescopewizard.ui telescopeprop.ui \
+#		thumbnailpicker.ui thumbnaileditor.ui \
 #
 #kstars_SOURCES = addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp \
 #			conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp \

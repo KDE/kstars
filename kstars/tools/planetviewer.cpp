@@ -28,7 +28,7 @@
 #include <kiconloader.h>
 
 #include "planetviewer.h"
-#include "planetviewerui.h"
+#include "ui_planetviewer.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"

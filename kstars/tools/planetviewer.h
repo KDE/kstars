@@ -27,7 +27,7 @@
 #include <kpushbutton.h>
 
 #include "pvplotwidget.h"
-#include "planetviewerui.h"
+#include "ui_planetviewer.h"
 #include "kstarsdatetime.h"
 
 #define AUMAX 48

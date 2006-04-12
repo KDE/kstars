@@ -22,7 +22,7 @@
 #include <kdialog.h>
 
 #include "skyobject.h"
-#include "ui_observinglistui.h"
+#include "ui_observinglist.h"
 
 
 class KStars;

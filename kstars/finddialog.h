@@ -25,7 +25,7 @@
 
 #include <kdialog.h>
 
-#include "finddialogui.h"
+#include "ui_finddialog.h"
 #include "skyobject.h"
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {

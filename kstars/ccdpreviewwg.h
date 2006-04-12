@@ -20,7 +20,7 @@
 
 #include <kpixmap.h>
   
-#include "ccdpreviewui.h"
+#include "ui_ccdpreview.h"
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
 

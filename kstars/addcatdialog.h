@@ -22,7 +22,7 @@
 #include <klineedit.h>
 #include <kurlrequester.h>
 
-#include "addcatdialogui.h"
+#include "ui_addcatdialog.h"
 #include "deepskyobject.h"
 
 class AddCatDialogUI : public QFrame, public Ui::AddCatDialog {

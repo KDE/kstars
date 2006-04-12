@@ -23,7 +23,7 @@
 
 #include <kdialogbase.h>
 
-#include "thumbnaileditorui.h"
+#include "ui_thumbnaileditor.h"
 
 class ThumbnailPicker;
 class QPoint;

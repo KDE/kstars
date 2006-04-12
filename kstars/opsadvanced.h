@@ -17,7 +17,7 @@
 #ifndef OPSADVANCED_H
 #define OPSADVANCED_H
 
-#include "opsadvancedui.h"
+#include "ui_opsadvanced.h"
 
 /**@class OpsAdvanced
 	*The Advanced Tab of the Options window.  In this Tab the user can configure

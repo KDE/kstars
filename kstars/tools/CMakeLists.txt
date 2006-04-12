@@ -14,25 +14,25 @@ kde4_footer()
 
 #noinst_LIBRARIES = libkstarstools.a
 #
-#libkstarstools_a_SOURCES = altvstimeui.ui altvstime.cpp wutdialogui.ui \
+#libkstarstools_a_SOURCES = altvstime.ui altvstime.cpp wutdialog.ui \
 #			wutdialog.cpp astrocalc.cpp modcalcapcoorddlg.ui modcalcazeldlg.ui \
 #			modcalcdaylengthdlg.ui modcalcgalcoorddlg.ui modcalcgeoddlg.ui modcalcjddlg.ui \
 #			modcalcprecdlg.ui modcalcsidtimedlg.ui modcalcapcoord.cpp modcalcazel.cpp \
 #			modcalcdaylength.cpp modcalcgalcoord.cpp modcalcgeodcoord.cpp modcalcjd.cpp modcalcprec.cpp \
-#			modcalcsidtime.cpp lcgenerator.cpp scriptbuilderui.ui scriptnamedialog.ui \
+#			modcalcsidtime.cpp lcgenerator.cpp scriptbuilder.ui scriptnamedialog.ui \
 #			optionstreeview.ui argchangeviewoption.ui arglooktoward.ui argsetaltaz.ui \
 #			argsetgeolocation.ui argsetlocaltime.ui argsetradec.ui argsettrack.ui argtimescale.ui \
 #			argwaitforkey.ui argwaitfor.ui argzoom.ui argexportimage.ui argprintimage.ui \
 #			argsetcolor.ui argloadcolorscheme.ui scriptbuilder.cpp scriptfunction.cpp scriptargwidgets.cpp \
-#			planetviewerui.ui planetviewer.cpp pvplotwidget.cpp jmoontool.cpp \
+#			planetviewer.ui planetviewer.cpp pvplotwidget.cpp jmoontool.cpp \
 #			modcalcequinoxdlg.ui modcalcequinox.cpp modcalcplanetsdlg.ui modcalcplanets.cpp \
 #			modcalceclipticcoordsdlg.ui modcalceclipticcoords.cpp modcalcangdistdlg.ui modcalcangdist.cpp \
-#			observinglist.cpp observinglistui.ui argstartindi.ui argshutdownindi.ui argswitchindi.ui \
+#			observinglist.cpp observinglist.ui argstartindi.ui argshutdownindi.ui argswitchindi.ui \
 #			argsetportindi.ui argsettargetcoordindi.ui argsettargetnameindi.ui argsetactionindi.ui \
 #			argsetfocusspeedindi.ui argstartfocusindi.ui argsetfocustimeoutindi.ui argsetgeolocationindi.ui \
 #			argstartexposureindi.ui argsetutcindi.ui argsetdeviceindi.ui argsetframetypeindi.ui \
 #			argsetscopeactionindi.ui argsetccdtempindi.ui modcalcvlsrdlg.ui modcalcvlsr.cpp \
-#			argsetfilternumindi.ui obslistwizard.cpp obslistwizard.h obslistwizardui.ui lcgeneratorui.ui \
+#			argsetfilternumindi.ui obslistwizard.cpp obslistwizard.h obslistwizard.ui lcgenerator.ui \
 #			../widgets/kstarsplotwidget.cpp ../widgets/timebox.cpp
 #
 #libkstarstools_a_LIBADD = ../widgets/libkstarswidgets.a 

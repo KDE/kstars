@@ -17,7 +17,7 @@
 #ifndef OPSCATALOG_H
 #define OPSCATALOG_H
 
-#include "opscatalogui.h"
+#include "ui_opscatalog.h"
 
 /**@class OpsCatalog
 	*The Catalog page for the Options window.  This page allows the user

@@ -30,11 +30,11 @@
 
 #include "skyobject.h"
 //UI headers
-#include "details_data.h"
-#include "details_position.h"
-#include "details_links.h"
-#include "details_database.h"
-#include "details_log.h"
+#include "ui_details_data.h"
+#include "ui_details_position.h"
+#include "ui_details_links.h"
+#include "ui_details_database.h"
+#include "ui_details_log.h"
 
 class GeoLocation;
 class QHBoxLayout;

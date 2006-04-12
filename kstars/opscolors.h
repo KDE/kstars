@@ -19,7 +19,7 @@
 
 #include <qstringlist.h>
 
-#include "opscolorsui.h"
+#include "ui_opscolors.h"
 
 /**@class OpsColors
 	*The Colors page allows the user to adjust all of the colors used to 

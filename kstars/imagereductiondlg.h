@@ -19,7 +19,7 @@
  #define IMAGEREDUCTIONDLG_H
 
  #include <QDialog>
- #include "imagereductionui.h"
+ #include "ui_imagereduction.h"
 
  class ImageReductionDlg : public QDialog
  {

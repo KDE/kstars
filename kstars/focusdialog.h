@@ -20,7 +20,7 @@
 
 #include <kdialog.h>
 
-#include "focusdialogui.h"
+#include "ui_focusdialog.h"
 
 class SkyPoint;
 

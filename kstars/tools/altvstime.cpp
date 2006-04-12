@@ -30,7 +30,7 @@
 #include <kdialogbase.h>
 
 #include "altvstime.h"
-#include "altvstimeui.h"
+#include "ui_altvstime.h"
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"

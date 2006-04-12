@@ -48,7 +48,7 @@
 
 #include <kdialog.h>
 #include "geolocation.h"
-#include "ui_locationdialogui.h"
+#include "ui_locationdialog.h"
 
 class LocationDialogUI : public QFrame, public Ui::LocationDialog {
 	Q_OBJECT

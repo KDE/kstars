@@ -17,7 +17,7 @@
 #ifndef OPSGUIDES_H
 #define OPSGUIDES_H
 
-#include "opsguidesui.h"
+#include "ui_opsguides.h"
 
 class OpsGuides : public QFrame, public Ui::OpsGuides
 {

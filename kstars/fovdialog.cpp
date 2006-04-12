@@ -38,8 +38,8 @@
 #include "fovdialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "fovdialogui.h"
-#include "newfovui.h"
+#include "ui_fovdialog.h"
+#include "ui_newfov.h"
 
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );

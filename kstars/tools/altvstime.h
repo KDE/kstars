@@ -24,7 +24,7 @@
 #include <QPaintEvent>
 
 #include "widgets/kstarsplotwidget.h"
-#include "altvstimeui.h"
+#include "ui_altvstime.h"
 
 class KStarsDateTime;
 class QTime;

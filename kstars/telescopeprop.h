@@ -21,7 +21,7 @@
 class KStars;
 class INDIDriver;
 
-#include "telescopepropui.h"
+#include "ui_telescopeprop.h"
 
 class telescopeProp : public QDialog
 {

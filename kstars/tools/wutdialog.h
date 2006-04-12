@@ -22,7 +22,7 @@
 #include <kdialog.h>
 
 #include "kstarsdatetime.h"
-#include "wutdialogui.h"
+#include "ui_wutdialog.h"
 
 #define NCATEGORY 8
 

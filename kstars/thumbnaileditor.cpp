@@ -26,7 +26,7 @@
 #include <kpushbutton.h>
 
 #include "thumbnaileditor.h"
-#include "thumbnaileditorui.h"
+#include "ui_thumbnaileditor.h"
 #include "thumbnailpicker.h"
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {

@@ -25,7 +25,7 @@
 #include <kpushbutton.h>
 
 #include "wutdialog.h"
-#include "wutdialogui.h"
+#include "ui_wutdialog.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"

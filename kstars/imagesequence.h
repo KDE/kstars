@@ -15,7 +15,7 @@
 #include <QFrame>
 #include <QDialog>
 
-#include "imgsequencedlgui.h"
+#include "ui_imgsequencedlg.h"
 
 class KStars;
 class QTimer;

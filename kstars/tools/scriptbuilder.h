@@ -20,7 +20,7 @@
 
 #include <kdialog.h>
 
-#include "scriptbuilderui.h"
+#include "ui_scriptbuilder.h"
 #include "scriptnamedialog.h"
 #include "scriptargwidgets.h"
 #include "optionstreeview.h"

@@ -22,7 +22,7 @@
 #include <kdialog.h>
 #include <kio/job.h>
 
-#include "lcgeneratorui.h"
+#include "ui_lcgenerator.h"
 
 class QFile;
 class QVBoxLayout;

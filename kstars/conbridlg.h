@@ -21,7 +21,7 @@
  
  #include <kdialogbase.h>
  #include <klocale.h>
- #include "contrastbrightnessgui.h"
+ #include "ui_contrastbrightnessg.h"
  
  class ConBriForm;
  class FITSViewer;

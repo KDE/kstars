@@ -23,7 +23,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 
-#include "addlinkdialogui.h"
+#include "ui_addlinkdialog.h"
 
 class QLayout;
 class QString;

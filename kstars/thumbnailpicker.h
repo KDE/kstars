@@ -24,7 +24,7 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 
-#include "thumbnailpickerui.h"
+#include "ui_thumbnailpicker.h"
 
 class ThumbnailEditor;
 class QPixmap;

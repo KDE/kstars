@@ -19,7 +19,7 @@
 
 #include <kdialog.h>
 
-#include "obslistwizardui.h"
+#include "ui_obslistwizard.h"
 
 class KStars;
 

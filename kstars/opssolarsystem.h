@@ -17,7 +17,7 @@
 #ifndef OPSSOLARSYSTEM_H
 #define OPSSOLARSYSTEM_H
 
-#include <opssolarsystemui.h>
+#include "ui_opssolarsystem.h"
 
 class KStars;
 
