@@ -21,9 +21,9 @@
 #include <kdialog.h>
 
 #include "ui_scriptbuilder.h"
-#include "scriptnamedialog.h"
+#include "ui_scriptnamedialog.h"
+#include "ui_optionstreeview.h"
 #include "scriptargwidgets.h"
-#include "optionstreeview.h"
 
 class QTreeWidget;
 class QTextStream;
