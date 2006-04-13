@@ -21,7 +21,7 @@
 #include <kapplication.h>
 #include <QTextStream>
 
-#include "modcalcplanetsdlg.h"
+#include "ui_modcalcplanets.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 

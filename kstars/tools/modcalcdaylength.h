@@ -18,7 +18,7 @@
 #ifndef MODCALCDAYLENGTH_H_
 #define MODCALCDAYLENGTH_H_
 
-#include "modcalcdaylengthdlg.h"
+#include "ui_modcalcdaylength.h"
 
 class KStarsDateTime;
 class GeoLocation;

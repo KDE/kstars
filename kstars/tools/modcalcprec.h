@@ -18,7 +18,7 @@
 #ifndef MODCALCPREC_H_
 #define MODCALCPREC_H_
 
-#include "modcalcprecdlg.h"
+#include "ui_modcalcprec.h"
 #include <QTextStream>
 
 /**

@@ -18,7 +18,7 @@
 #ifndef MODCALCAPCOORD_H_
 #define MODCALCAPCOORD_H_
 
-#include "modcalcapcoorddlg.h"
+#include "ui_modcalcapcoord.h"
 
 class dms;
 class dmsBox;

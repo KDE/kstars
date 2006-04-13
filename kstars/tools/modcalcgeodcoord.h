@@ -18,7 +18,7 @@
 #ifndef MODCALCGEODCOORD_H_
 #define MODCALCGEODCOORD_H_
 
-#include "modcalcgeoddlg.h"
+#include "ui_modcalcgeod.h"
 
 class QTextStream;
 class GeoLocation;

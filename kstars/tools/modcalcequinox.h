@@ -18,7 +18,7 @@
 #ifndef MODCALCEQUINOX_H_
 #define MODCALCEQUINOX_H_
 
-#include "modcalcequinoxdlg.h"
+#include "ui_modcalcequinox.h"
 
 class QTextStream;
 

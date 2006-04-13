@@ -21,7 +21,7 @@
 #include <kapplication.h>
 #include <QTextStream>
 
-#include "modcalcvlsrdlg.h"
+#include "ui_modcalcvlsr.h"
 
 class QWidget;
 class SkyPoint;

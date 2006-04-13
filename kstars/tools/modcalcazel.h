@@ -18,7 +18,7 @@
 #ifndef MODCALCAZEL_H_
 #define MODCALCAZEL_H_
 
-#include "modcalcazeldlg.h"
+#include "ui_modcalcazel.h"
 
 class QWidget;
 class SkyPoint;

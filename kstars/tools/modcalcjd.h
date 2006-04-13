@@ -21,7 +21,7 @@
 #include <q3vbox.h>
 
 #include <kapplication.h>
-#include "modcalcjddlg.h"
+#include "ui_modcalcjd.h"
 
 class QWidget;
 class VBox;

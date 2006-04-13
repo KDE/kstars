@@ -18,7 +18,7 @@
 #ifndef MODCALCANGDIST_H_
 #define MODCALCANGDIST_H_
 
-#include "modcalcangdistdlg.h"
+#include "ui_modcalcangdist.h"
 
 class dms;
 class dmsBox;
