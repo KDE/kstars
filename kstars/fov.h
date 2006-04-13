@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FOV_H
-#define FOV_H
+#ifndef FOV_H_
+#define FOV_H_
 
 #include <qstring.h>
 #include <klocale.h>

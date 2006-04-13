@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSGUIDES_H
-#define OPSGUIDES_H
+#ifndef OPSGUIDES_H_
+#define OPSGUIDES_H_
 
 #include "ui_opsguides.h"
 
@@ -32,4 +32,4 @@ private slots:
 	void slotToggleMilkyWayOptions();
 };
 
-#endif // OPSGUIDES_H
+#endif // OPSGUIDES_H_

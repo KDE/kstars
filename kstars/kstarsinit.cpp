@@ -15,13 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qfile.h>
-#include <qdir.h>
-//Added by qt3to4:
+#include <QFile>
+#include <QDir>
 #include <QTextStream>
+
 #include <dcopclient.h>
-#include <kshortcut.h>
 #include <kiconloader.h>
 #include <kmenu.h>
 #include <kstatusbar.h>
@@ -525,7 +523,7 @@ void KStars::buildGUI() {
 	//FIXME: Need to add the widget to kstarsToolBar, 
 	//but 'toolBar("kstarsToolBar")' doesn't work...
 	TimeStep = new TimeStepBox( toolBar() );
-	toolBar()->insertWidget( 0, 50, TimeStep );
+	toolBar()->addWidget( TimeStep );
 
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );

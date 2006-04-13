@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUPITERMOONS_H
-#define JUPITERMOONS_H
+#ifndef JUPITERMOONS_H_
+#define JUPITERMOONS_H_
 
 #include "skypoint.h"
 

@@ -9,8 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef IMAGESEQUENCE_H
-#define IMAGESEQUENCE_H
+#ifndef IMAGESEQUENCE_H_
+#define IMAGESEQUENCE_H_
 
 #include <QFrame>
 #include <QDialog>

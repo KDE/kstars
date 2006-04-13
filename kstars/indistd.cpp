@@ -149,7 +149,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
       if (currentDir[currentDir.length() -1] == '/')
 	currentDir.truncate(currentDir.length() - 1);
 	  
-      strncpy(filename, currentDir.ascii(), currentDir.length());
+      strncpy(filename, currentDir.toAscii().data(), currentDir.length());
       filename[currentDir.length()] = '\0';
 	  
       if (dataType == DATA_FITS)
@@ -158,7 +158,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	strncpy(tempFileStr, filename, 256);
 	    
 	if ( batchMode && !ISOMode)
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
 	else if (!batchMode && !Options::indiFITSDisplay())
 	{
 	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
@@ -167,7 +167,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	else
 	{
 	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
 	}
 	     
 	seqCount++;
@@ -176,7 +176,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
       {
 	strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
 	strncat(filename, ts, sizeof(ts));
-	strncat(filename, dataFormat.ascii(), 10);
+	strncat(filename, dataFormat.toAscii().data(), 10);
       }
     }
 	  
@@ -192,12 +192,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        // We're done if we have DATA_OTHER
     if (dataType == DATA_OTHER)
     {
-      ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename), 0);
+      ksw->statusBar()->changeItem( i18n("Data file saved to %1", QString(filename) ), 0);
       return;
     }
     else if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
     {
-      ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename), 0);
+      ksw->statusBar()->changeItem( i18n("FITS file saved to %1", QString(filename) ), 0);
       emit FITSReceived(dp->label);
       return;
     } 
@@ -234,7 +234,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        el = pp->findElement("UTC");
        if (!el) return;
        
-       sscanf(el->text.ascii(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
+       sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
        indiDate.setYMD(y, m, d);
        indiTime.setHMS(hour, min, sec);
        indiDateTime.setDate(indiDate);
@@ -475,10 +475,10 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        tempName = (*it)->name();
        
        // find the prefix first
-       if (tempName.find(seqPrefix) == -1)
+       if (tempName.count(seqPrefix) == 0)
          continue;
 	 
-       strncpy(tempPrefix, tempName.ascii(), 64);
+       strncpy(tempPrefix, tempName.toAscii().data(), 64);
        tempPrefix[63] = '\0';
        
        char * t = tempPrefix;
@@ -682,7 +682,7 @@ bool INDIStdDevice::handleNonSidereal()
     kDebug() << "Device supports SOLAR_SYSTEM property" << endl;
 
     for (int i=0; i < prop->el.count(); i++)
-     if (currentObject->name().lower() == prop->el.at(i)->label.lower())
+     if (currentObject->name().toLower() == prop->el.at(i)->label.toLower())
      {
        prop->newSwitch(i);
        setMode->newSwitch(trackIndex);

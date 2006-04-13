@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DETAILDIALOG_H
-#define DETAILDIALOG_H
+#ifndef DETAILDIALOG_H_
+#define DETAILDIALOG_H_
 
 #include <QPixmap>
 #include <QMouseEvent>

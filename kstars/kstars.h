@@ -14,10 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_H
-#define KSTARS_H
+#ifndef KSTARS_H_
+#define KSTARS_H_
 
-#ifdef HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H_
 #include <config.h>
 #endif
 

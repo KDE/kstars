@@ -11,8 +11,8 @@
    
  */
 
-#ifndef INDIGROUP_H
-#define INDIGROUP_H
+#ifndef INDIGROUP_H_
+#define INDIGROUP_H_
 
 #include "indielement.h"
 #include <qstring.h>

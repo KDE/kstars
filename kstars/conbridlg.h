@@ -16,8 +16,8 @@
  *  									   *
  ***************************************************************************/
  
- #ifndef CONTRASTBRIGHTNESSDLG_H
- #define CONTRASTBRIGHTNESSDLG_H
+ #ifndef CONTRASTBRIGHTNESSDLG_H_
+ #define CONTRASTBRIGHTNESSDLG_H_
  
  #include <kdialogbase.h>
  #include <klocale.h>

@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSSOLARSYSTEM_H
-#define OPSSOLARSYSTEM_H
+#ifndef OPSSOLARSYSTEM_H_
+#define OPSSOLARSYSTEM_H_
 
 #include "ui_opssolarsystem.h"
 

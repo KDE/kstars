@@ -20,19 +20,17 @@
 #include <stdlib.h>
 #include <math.h> //using fabs()
 
-#include <qcursor.h>
-#include <qpainter.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QCursor>
+#include <QPainter>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QResizeEvent>
 #include <QKeyEvent>
+#include <QKeySequence>
 #include <QPaintEvent>
 
 #include <kiconloader.h>
 #include <kstatusbar.h>
-#include <kshortcut.h> //KKey class
 
 #include "skymap.h"
 #include "Options.h"
@@ -68,7 +66,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	if ( e->state() & Qt::ShiftButton ) { step = 10.0; shiftPressed = true; }
 	
 	//If the DCOP resume key was pressed, we process it here
-	if ( ! data->resumeKey.isNull() && e->key() == data->resumeKey.keyCodeQt() ) {
+	if ( ! data->resumeKey.isEmpty() && QKeySequence(e->key()) == data->resumeKey ) {
 		//kDebug() << "resumeKey pressed; resuming DCOP." << endl;
 		ks->resumeDCOP();
 		return;

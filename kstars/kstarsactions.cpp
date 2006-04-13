@@ -27,7 +27,6 @@
 #include <kaction.h>
 #include <kactionclasses.h>
 #include <klineedit.h>
-#include <kshortcut.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -75,7 +74,7 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
-#include "devmanager.h"
+#include "ui_devmanager.h"
 #include "indimenu.h"
 #include "indidriver.h"
 #include "indifitsconf.h"
@@ -622,22 +621,22 @@ void KStars::slotPointFocus() {
 	QString sentFrom( sender()->name() );
 
 	if ( sentFrom == "zenith" )
-		map()->invokeKey( KKey( "Z" ).keyCodeQt() );
+		map()->invokeKey( Qt::Key_Z );
 	else if ( sentFrom == "north" )
-		map()->invokeKey( KKey( "N" ).keyCodeQt() );
+		map()->invokeKey( Qt::Key_N );
 	else if ( sentFrom == "east" )
-		map()->invokeKey( KKey( "E" ).keyCodeQt() );
+		map()->invokeKey( Qt::Key_E );
 	else if ( sentFrom == "south" )
-		map()->invokeKey( KKey( "S" ).keyCodeQt() );
+		map()->invokeKey( Qt::Key_S );
 	else if ( sentFrom == "west" )
-		map()->invokeKey( KKey( "W" ).keyCodeQt() );
+		map()->invokeKey( Qt::Key_W );
 }
 
 void KStars::slotTrack() {
 	if ( Options::isTracking() ) {
 		Options::setIsTracking( false );
 		actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( "decrypted" );
+		actionCollection()->action("track_object")->setIcon( KIcon("decrypted") );
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 			((KSPlanetBase*)map()->focusObject())->clearTrail();
 			data()->temporaryTrail = false;
@@ -653,7 +652,7 @@ void KStars::slotTrack() {
 		map()->setFocusPoint( map()->clickedPoint() );
 		Options::setIsTracking( true );
 		actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-		actionCollection()->action("track_object")->setIcon( "encrypted" );
+		actionCollection()->action("track_object")->setIcon( KIcon("encrypted") );
 	}
 
 	map()->forceUpdate();

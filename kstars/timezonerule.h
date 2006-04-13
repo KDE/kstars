@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMEZONERULE_H
-#define TIMEZONERULE_H
+#ifndef TIMEZONERULE_H_
+#define TIMEZONERULE_H_
 
 /**@class TimeZoneRule 
 	*This class provides the information needed to determine whether Daylight

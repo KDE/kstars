@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DMS_H
-#define DMS_H
+#ifndef DMS_H_
+#define DMS_H_
 
 #include <math.h>
 #include <qstring.h>

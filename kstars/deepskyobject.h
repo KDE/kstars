@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DEEPSKYOBJECT_H
-#define DEEPSKYOBJECT_H
+#ifndef DEEPSKYOBJECT_H_
+#define DEEPSKYOBJECT_H_
 
 #include <qpoint.h>
 

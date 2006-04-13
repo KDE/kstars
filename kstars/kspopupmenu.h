@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 
-#ifndef KSPOPUPMENU_H
-#define KSPOPUPMENU_H
+#ifndef KSPOPUPMENU_H_
+#define KSPOPUPMENU_H_
 
 #include <kmenu.h>
 #include <QAction>

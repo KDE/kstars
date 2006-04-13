@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef KSTARSDATA_H
-#define KSTARSDATA_H
+#ifndef KSTARSDATA_H_
+#define KSTARSDATA_H_
 
 #include <iostream>
 
 #include <QList>
 #include <QMap>
-#include <kshortcut.h>
+#include <QKeySequence>
+
 #include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
@@ -468,7 +469,7 @@ private:
 
 	dms *LST, *HourAngle;
 
-	KKey resumeKey;
+	QKeySequence resumeKey;
 
 	FOV fovSymbol;
 
@@ -490,5 +491,5 @@ private:
 };
 
 
-#endif // KSTARSDATA_H
+#endif // KSTARSDATA_H_
 

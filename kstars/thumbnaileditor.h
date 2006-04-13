@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef THUMBNAILEDITOR_H
-#define THUMBNAILEDITOR_H
+#ifndef THUMBNAILEDITOR_H_
+#define THUMBNAILEDITOR_H_
 
 #include <QMouseEvent>
 #include <QPaintEvent>

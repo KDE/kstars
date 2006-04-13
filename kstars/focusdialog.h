@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FOCUSDIALOG_H
-#define FOCUSDIALOG_H
+#ifndef FOCUSDIALOG_H_
+#define FOCUSDIALOG_H_
 
 #include <kdialog.h>
 

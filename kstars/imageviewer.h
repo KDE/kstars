@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef IMAGEVIEWER_H
-#define IMAGEVIEWER_H
+#ifndef IMAGEVIEWER_H_
+#define IMAGEVIEWER_H_
 
 #include <qimage.h>
 #include <qpixmap.h>

@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSNUMBERS_H
-#define KSNUMBERS_H
+#ifndef KSNUMBERS_H_
+#define KSNUMBERS_H_
 
 #define NUTTERMS 63
 

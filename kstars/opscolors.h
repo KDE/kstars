@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSCOLORS_H
-#define OPSCOLORS_H
+#ifndef OPSCOLORS_H_
+#define OPSCOLORS_H_
 
 #include <qstringlist.h>
 
@@ -62,5 +62,5 @@ private:
 	QStringList PresetFileList;
 };
 
-#endif  //OPSCOLORS_H
+#endif  //OPSCOLORS_H_
 

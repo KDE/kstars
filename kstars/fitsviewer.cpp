@@ -63,9 +63,9 @@
 #include "fitsprocess.h"
 #include "fitshistogram.h"
 #include "conbridlg.h"
-#include "statform.h"
-#include "imagereductiondlg.h"
-#include "fitsheaderdialog.h"
+#include "ui_statform.h"
+#include "ui_imagereduction.h"
+#include "ui_fitsheaderdialog.h"
 #include "ksutils.h"
 #include "Options.h"
 

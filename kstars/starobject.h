@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STAROBJECT_H
-#define STAROBJECT_H
+#ifndef STAROBJECT_H_
+#define STAROBJECT_H_
 
 #include <qpoint.h>
 //Added by qt3to4:

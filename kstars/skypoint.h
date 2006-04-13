@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYPOINT_H
-#define SKYPOINT_H
+#ifndef SKYPOINT_H_
+#define SKYPOINT_H_
 
 #include <QString>
 #include <QList>

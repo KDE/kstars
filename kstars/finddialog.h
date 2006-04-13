@@ -18,8 +18,8 @@
 
 
 
-#ifndef FINDDIALOG_H
-#define FINDDIALOG_H
+#ifndef FINDDIALOG_H_
+#define FINDDIALOG_H_
 
 #include <QKeyEvent>
 

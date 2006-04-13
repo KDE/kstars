@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_TOGGLEACTION_H
-#define KSTARS_TOGGLEACTION_H
+#ifndef KSTARS_TOGGLEACTION_H_
+#define KSTARS_TOGGLEACTION_H_
 
 /**@class ToggleAction
 	*Subclass of Kaction that allows for the action to have a boolean state (on/off)

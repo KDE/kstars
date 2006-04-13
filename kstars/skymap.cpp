@@ -273,7 +273,7 @@ void SkyMap::slotCenter( void ) {
 	setFocusObject( ClickedObject );
 	Options::setIsTracking( true );
 	if ( ks ) {
-		ks->actionCollection()->action("track_object")->setIcon( "encrypted" );
+		ks->actionCollection()->action("track_object")->setIcon( KIcon("encrypted") );
 		ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
 	}
 
@@ -713,7 +713,7 @@ void SkyMap::slewFocus( void ) {
 }
 
 void SkyMap::invokeKey( int key ) {
-	QKeyEvent *e = new QKeyEvent( QEvent::KeyPress, key, 0, 0 );
+	QKeyEvent *e = new QKeyEvent( QEvent::KeyPress, key, 0 );
 	keyPressEvent( e );
 	delete e;
 }

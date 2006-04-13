@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAP_H
-#define SKYMAP_H
+#ifndef SKYMAP_H_
+#define SKYMAP_H_
 
 #include <QTimer>
 #include <QWidget>

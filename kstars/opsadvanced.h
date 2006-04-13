@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSADVANCED_H
-#define OPSADVANCED_H
+#ifndef OPSADVANCED_H_
+#define OPSADVANCED_H_
 
 #include "ui_opsadvanced.h"
 
@@ -49,5 +49,5 @@ private:
 	KStars *ksw;
 };
 
-#endif  //OPSADVANCED_H
+#endif  //OPSADVANCED_H_
 

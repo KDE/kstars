@@ -17,8 +17,8 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSViewer_H
-#define FITSViewer_H
+#ifndef FITSViewer_H_
+#define FITSViewer_H_
 
 #include <qwidget.h>
 #include <qstring.h>

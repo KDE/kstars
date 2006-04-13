@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ADDCATDIALOG_H
-#define ADDCATDIALOG_H
+#ifndef ADDCATDIALOG_H_
+#define ADDCATDIALOG_H_
 
 #include <kdialog.h>
 #include <klineedit.h>

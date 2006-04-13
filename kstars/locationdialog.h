@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LOCATIONDIALOG_H
-#define LOCATIONDIALOG_H
+#ifndef LOCATIONDIALOG_H_
+#define LOCATIONDIALOG_H_
 
 /**@class LocationDialog
 	*Dialog for changing the geographic location of the observer.  The

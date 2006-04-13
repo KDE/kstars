@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSASTEROID_H
-#define KSASTEROID_H
+#ifndef KSASTEROID_H_
+#define KSASTEROID_H_
 
 #include "ksplanetbase.h"
 

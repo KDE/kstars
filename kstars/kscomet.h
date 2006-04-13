@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSCOMET_H
-#define KSCOMET_H
+#ifndef KSCOMET_H_
+#define KSCOMET_H_
 
 #include "ksplanetbase.h"
 

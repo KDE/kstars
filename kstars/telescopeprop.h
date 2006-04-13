@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TELESCOPEPROP_H
-#define TELESCOPEPROP_H
+#ifndef TELESCOPEPROP_H_
+#define TELESCOPEPROP_H_
 
 class KStars;
 class INDIDriver;

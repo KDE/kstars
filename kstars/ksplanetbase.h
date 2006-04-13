@@ -16,8 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSPLANETBASE_H
-#define KSPLANETBASE_H
+#ifndef KSPLANETBASE_H_
+#define KSPLANETBASE_H_
 
 #include <QString>
 #include <QList>

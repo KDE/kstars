@@ -9,8 +9,8 @@
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
 
-#ifndef INDIELEMENT_H
-#define INDIELEMENT_H
+#ifndef INDIELEMENT_H_
+#define INDIELEMENT_H_
 
 #include "indi/lilxml.h"
 

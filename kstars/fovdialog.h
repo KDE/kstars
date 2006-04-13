@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FOVDIALOG_H
-#define FOVDIALOG_H
+#ifndef FOVDIALOG_H_
+#define FOVDIALOG_H_
 
 #include <QPaintEvent>
 #include <kdialog.h>

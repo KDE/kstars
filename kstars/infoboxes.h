@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INFOBOXES_H
-#define INFOBOXES_H
+#ifndef INFOBOXES_H_
+#define INFOBOXES_H_
 
 #include <qobject.h>
 #include <qcolor.h>

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMEDIALOG_H
-#define TIMEDIALOG_H
+#ifndef TIMEDIALOG_H_
+#define TIMEDIALOG_H_
 
 #include <kdialogbase.h>
 #include <qvariant.h>

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_SIMCLOCK_H_
-#define KSTARS_SIMCLOCK_H_
+#ifndef KSTARS_SIMCLOCK_H__
+#define KSTARS_SIMCLOCK_H__
 
 #include <time.h>
 #include <qtimer.h>

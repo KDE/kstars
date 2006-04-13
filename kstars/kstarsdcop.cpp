@@ -17,16 +17,13 @@
 
 //KStars DCOP functions
 
-#include <qdir.h>
-#include <q3listview.h>
-#include <qradiobutton.h>
-//Added by qt3to4:
+#include <QDir>
 #include <QPixmap>
+#include <QKeySequence>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
-#include <kshortcut.h>
 #include <ktempfile.h>
 #include <kurl.h>
 #include <k3listview.h>
@@ -61,11 +58,11 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString &direction ) {
   QString dir = direction.lower();
-	if (dir == "zenith" || dir=="z") map()->invokeKey( KKey( "Z" ).keyCodeQt() );
-	else if (dir == "north" || dir=="n") map()->invokeKey( KKey( "N" ).keyCodeQt() );
-	else if (dir == "east"  || dir=="e") map()->invokeKey( KKey( "E" ).keyCodeQt() );
-	else if (dir == "south" || dir=="s") map()->invokeKey( KKey( "S" ).keyCodeQt() );
-	else if (dir == "west"  || dir=="w") map()->invokeKey( KKey( "W" ).keyCodeQt() );
+	if (dir == "zenith" || dir=="z") map()->invokeKey( Qt::Key_Z );
+	else if (dir == "north" || dir=="n") map()->invokeKey( Qt::Key_N );
+	else if (dir == "east"  || dir=="e") map()->invokeKey( Qt::Key_E );
+	else if (dir == "south" || dir=="s") map()->invokeKey( Qt::Key_S );
+	else if (dir == "west"  || dir=="w") map()->invokeKey( Qt::Key_W );
 	else if (dir == "northeast" || dir=="ne") {
 		map()->stopTracking();
 		map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
@@ -113,8 +110,8 @@ void KStars::waitFor( double t ) {
 }
 
 void KStars::waitForKey( const QString &k ) {
-	data()->resumeKey = KKey( k );
-	if ( ! data()->resumeKey.isNull() ) {
+	data()->resumeKey = QKeySequence::fromString( k );
+	if ( ! data()->resumeKey.isEmpty() ) {
 		kapp->dcopClient()->suspend();
 	} else {
 		kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." ) << endl;

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ADDLINKDIALOG_H
-#define ADDLINKDIALOG_H
+#ifndef ADDLINKDIALOG_H_
+#define ADDLINKDIALOG_H_
 
 #include <QVBoxLayout>
 #include <kdialogbase.h>

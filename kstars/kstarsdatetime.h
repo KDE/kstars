@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARSDATETIME_H
-#define KSTARSDATETIME_H
+#ifndef KSTARSDATETIME_H_
+#define KSTARSDATETIME_H_
 
 #define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
                        //defined here because this file is included in every other class.
@@ -205,5 +205,5 @@ private:
 	long double DJD;
 };
 
-#endif  //KSTARSDATETIME_H
+#endif  //KSTARSDATETIME_H_
 

@@ -9,8 +9,8 @@
     2004-01-18: Classes that handle INDI Standard properties.
  */
  
- #ifndef INDISTD_H
- #define INDISTD_H
+ #ifndef INDISTD_H_
+ #define INDISTD_H_
  
  #include <qobject.h>
  #include <indi/lilxml.h>

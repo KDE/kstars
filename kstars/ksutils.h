@@ -24,8 +24,8 @@
 	*(it is impossible to instantiate a KSUtils object; just use the static functions).
 	*/
 
-#ifndef KSTARS_KSUTILS_H_
-#define KSTARS_KSUTILS_H_
+#ifndef KSTARS_KSUTILS_H__
+#define KSTARS_KSUTILS_H__
 
 class QFile;
 

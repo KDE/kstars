@@ -9,8 +9,8 @@
    
  */
 
-#ifndef INDIPROPERTY_H
-#define INDIPROPERTY_H
+#ifndef INDIPROPERTY_H_
+#define INDIPROPERTY_H_
 
 #include "indielement.h"
 //Added by qt3to4:

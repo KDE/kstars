@@ -22,8 +22,8 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-#ifndef KSPLANET_H
-#define KSPLANET_H
+#ifndef KSPLANET_H_
+#define KSPLANET_H_
 
 /**@class KSPlanet
 	*A subclass of KSPlanetBase for seven of the major planets in the solar system

@@ -11,8 +11,8 @@
    
  */
  
- #ifndef DEVICEMANAGER_H
- #define DEVICEMANAGER_H
+ #ifndef DEVICEMANAGER_H_
+ #define DEVICEMANAGER_H_
  
  #include "indielement.h"
  

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOBJECT_H
-#define SKYOBJECT_H
+#ifndef SKYOBJECT_H_
+#define SKYOBJECT_H_
 
 #include <qstring.h>
 #include <qstringlist.h>

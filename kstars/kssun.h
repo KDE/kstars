@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSSUN_H
-#define KSSUN_H
+#ifndef KSSUN_H_
+#define KSSUN_H_
 
 #include <qstring.h>
 #include "ksplanet.h"

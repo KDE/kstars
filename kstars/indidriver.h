@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INDIDRIVER_H
-#define INDIDRIVER_H
+#ifndef INDIDRIVER_H_
+#define INDIDRIVER_H_
 
 #include <QFrame>
 #include <qstringlist.h>
@@ -23,7 +23,7 @@
 #include <unistd.h>
 
 #include "indi/lilxml.h"
-#include "devmanager.h"
+#include "ui_devmanager.h"
 
 class QTreeWidgetItem;
 class QListWidgetItem;

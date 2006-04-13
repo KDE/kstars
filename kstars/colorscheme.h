@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COLORSCHEME_H
-#define COLORSCHEME_H
+#ifndef COLORSCHEME_H_
+#define COLORSCHEME_H_
 
 #include <qmap.h>
 #include <qstringlist.h>

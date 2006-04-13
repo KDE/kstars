@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSFILEREADER_H
-#define KSFILEREADER_H
+#ifndef KSFILEREADER_H_
+#define KSFILEREADER_H_
 
 #include <qobject.h>
 #include <qstringlist.h>

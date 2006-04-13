@@ -17,8 +17,8 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSIMAGE_H
-#define FITSIMAGE_H
+#ifndef FITSIMAGE_H_
+#define FITSIMAGE_H_
 
 #include <QFrame>
 #include <QImage>

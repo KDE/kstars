@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GEOLOCATION_H
-#define GEOLOCATION_H
+#ifndef GEOLOCATION_H_
+#define GEOLOCATION_H_
 
 #include <klocale.h>
 

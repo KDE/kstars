@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
  
- #ifndef FITSPROCESS_H
- #define FITSPROCESS_H
+ #ifndef FITSPROCESS_H_
+ #define FITSPROCESS_H_
  
  #include <qstringlist.h>
  #include <kcommand.h>

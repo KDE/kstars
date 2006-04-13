@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSPLUTO_H
-#define KSPLUTO_H
+#ifndef KSPLUTO_H_
+#define KSPLUTO_H_
 
 #include "ksasteroid.h"
 

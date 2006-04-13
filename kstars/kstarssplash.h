@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARSSPLASH_H_
-#define KSTARSSPLASH_H_
+#ifndef KSTARSSPLASH_H__
+#define KSTARSSPLASH_H__
 
 #include <QImage>
 #include <QLabel>

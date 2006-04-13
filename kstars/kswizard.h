@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSWIZARD_H
-#define KSWIZARD_H
+#ifndef KSWIZARD_H_
+#define KSWIZARD_H_
 
 #include <Q3MemArray>
 

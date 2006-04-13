@@ -9,8 +9,8 @@
     2004-03-16: A class to handle video streaming.
  */
  
- #ifndef STREAMWG_H
- #define STREAMWG_H
+ #ifndef STREAMWG_H_
+ #define STREAMWG_H_
  
 #include <QPixmap>
 #include <QVBoxLayout>

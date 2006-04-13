@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSMOON_H
-#define KSMOON_H
+#ifndef KSMOON_H_
+#define KSMOON_H_
 
 #include "ksplanetbase.h"
 #include "dms.h"

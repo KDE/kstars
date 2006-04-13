@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INFOBOX_H
-#define INFOBOX_H
+#ifndef INFOBOX_H_
+#define INFOBOX_H_
 
 #include <QPoint>
 #include <QRect>

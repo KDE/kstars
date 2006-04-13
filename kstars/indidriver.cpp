@@ -16,7 +16,7 @@
 
 #include "indidriver.h"
 #include "indimenu.h"
-#include "indihostconf.h"
+#include "ui_indihostconf.h"
 #include "devicemanager.h"
 #include "indidevice.h"
 #include "indi/indicom.h"

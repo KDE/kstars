@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CSEGMENT_H
-#define CSEGMENT_H
+#ifndef CSEGMENT_H_
+#define CSEGMENT_H_
 
 class QString;
 class SkyPoint;

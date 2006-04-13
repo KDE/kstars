@@ -7,12 +7,12 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef TELESCOPEWIZARDPROCESS_H
-#define TELESCOPEWIZARDPROCESS_H
+#ifndef TELESCOPEWIZARDPROCESS_H_
+#define TELESCOPEWIZARDPROCESS_H_
 
 #include <qstringlist.h>
 
-#include "telescopewizard.h"
+#include "ui_telescopewizard.h"
 
 class KStars;
 class INDIMenu;

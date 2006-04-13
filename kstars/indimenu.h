@@ -9,8 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIMENU_H
-#define INDIMENU_H
+#ifndef INDIMENU_H_
+#define INDIMENU_H_
 
 #include "indielement.h"
 

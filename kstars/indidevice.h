@@ -8,8 +8,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIDEVICE_H
-#define INDIDEVICE_H
+#ifndef INDIDEVICE_H_
+#define INDIDEVICE_H_
 
 #include <kdialogbase.h>
 #include <unistd.h>

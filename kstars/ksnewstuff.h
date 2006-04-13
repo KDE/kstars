@@ -27,8 +27,8 @@
 	*@version 1.0
 	*/
 
-#ifndef KSNEWSTUFF_H
-#define KSNEWSTUFF_H
+#ifndef KSNEWSTUFF_H_
+#define KSNEWSTUFF_H_
 
 #include <kdeversion.h>
 
@@ -89,4 +89,4 @@ class KSNewStuff : public QObject, public KNewStuff
 		bool NGCUpdated;
 };
 
-#endif  // KSNEWSTUFF_H
+#endif  // KSNEWSTUFF_H_

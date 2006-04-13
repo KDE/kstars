@@ -7,10 +7,10 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef INDIFITSCONF_H
-#define INDIFITSCONF_H
+#ifndef INDIFITSCONF_H_
+#define INDIFITSCONF_H_
 
-#include "indiconf.h"
+#include "ui_indiconf.h"
 #include <kdialogbase.h>
 
 class INDIFITSConfUI : public QFrame, public Ui::INDIConf

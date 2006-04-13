@@ -18,8 +18,8 @@
 
 
 
-#ifndef KSTARSINTERFACE_H
-#define KSTARSINTERFACE_H
+#ifndef KSTARSINTERFACE_H_
+#define KSTARSINTERFACE_H_
 
 #include <dcopobject.h>
 

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef THUMBNAILPICKER_H
-#define THUMBNAILPICKER_H
+#ifndef THUMBNAILPICKER_H_
+#define THUMBNAILPICKER_H_
 
 #include <QPixmap>
 

@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OPSCATALOG_H
-#define OPSCATALOG_H
+#ifndef OPSCATALOG_H_
+#define OPSCATALOG_H_
 
 #include "ui_opscatalog.h"
 
@@ -63,5 +63,5 @@ private:
 	KStars *ksw;
 };
 
-#endif  //OPSCATALOG_H
+#endif  //OPSCATALOG_H_
 

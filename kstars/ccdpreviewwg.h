@@ -10,8 +10,8 @@
     
  */
  
- #ifndef CCDPREVIEWWG_H
- #define CCDPREVIEWWG_H
+ #ifndef CCDPREVIEWWG_H_
+ #define CCDPREVIEWWG_H_
  
 #include <QVBoxLayout>
 #include <QResizeEvent>
