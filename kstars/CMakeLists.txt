@@ -83,19 +83,19 @@ kde4_add_ui_files(libkstarstools_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitforkey.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argzoom.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgenerator.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdistdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoorddlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazeldlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylengthdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoordsdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinoxdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoorddlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeoddlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjddlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanetsdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprecdlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtimedlg.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsrdlg.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdist.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoord.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazel.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylength.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoords.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinox.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoord.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeod.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjd.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanets.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprec.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtime.ui
+	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsr.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglist.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizard.ui
 	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/optionstreeview.ui
