@@ -83,9 +83,9 @@ FILE *CCDwfp;
 
    KIconLoader *icons = KGlobal::iconLoader();
   
-  playPix    = icons->loadIcon( "player_play", KIcon::Toolbar );
-  pausePix   = icons->loadIcon( "player_pause", KIcon::Toolbar );
-  capturePix = icons->loadIcon( "frame_image", KIcon::Toolbar );
+  playPix    = icons->loadIcon( "player_play", K3Icon::Toolbar );
+  pausePix   = icons->loadIcon( "player_pause", K3Icon::Toolbar );
+  capturePix = icons->loadIcon( "frame_image", K3Icon::Toolbar );
   
   playB->setPixmap(pausePix);	
   captureB->setPixmap(capturePix);

@@ -110,11 +110,11 @@ ObservingList::ObservingList( KStars *_ks )
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
-	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
-	ui->SaveButton->setPixmap( icons->loadIcon( "filesave", KIcon::Toolbar ) );
-	ui->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", KIcon::Toolbar ) );
-	ui->WizardButton->setPixmap( icons->loadIcon( "wizard", KIcon::Toolbar ) );
-	ui->MiniButton->setPixmap( icons->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
+	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
+	ui->SaveButton->setPixmap( icons->loadIcon( "filesave", K3Icon::Toolbar ) );
+	ui->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", K3Icon::Toolbar ) );
+	ui->WizardButton->setPixmap( icons->loadIcon( "wizard", K3Icon::Toolbar ) );
+	ui->MiniButton->setPixmap( icons->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
 
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
@@ -631,7 +631,7 @@ void ObservingList::slotWizard() {
 
 void ObservingList::slotToggleSize() {
 	if ( isLarge() ) {
-		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", KIcon::Toolbar ) );
+		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", K3Icon::Toolbar ) );
 
 		//switch widget stack to show TinyTable
 		ui->TableStack->setCurrentWidget( ui->TinyPage );
@@ -652,7 +652,7 @@ void ObservingList::slotToggleSize() {
 		bIsLarge = false;
 
 	} else {
-		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", KIcon::Toolbar ) );
+		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
 
 		//switch widget stack to show FullTable
 		ui->TableStack->setCurrentWidget( ui->FullPage );
