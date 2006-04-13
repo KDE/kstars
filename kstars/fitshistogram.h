@@ -18,7 +18,7 @@
 #ifndef FITSHISTOGRAM
 #define FITSHISTOGRAM
  
-#include "histdialog.h"
+#include "ui_histdialog.h"
 #include <kcommand.h>
 
 #include <QPixmap>
