@@ -85,7 +85,7 @@ protected:
 	virtual void mousePressEvent( QMouseEvent *e );
 
 private:
-	QPixmap *Canvas, *bgImage;
+	QPixmap *bgImage;
 	QString BGColor;
 	QPoint origin;
 };
