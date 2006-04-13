@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCRIPTBUILDER_H
-#define SCRIPTBUILDER_H
+#ifndef SCRIPTBUILDER_H_
+#define SCRIPTBUILDER_H_
 
 #include <kdialog.h>
 

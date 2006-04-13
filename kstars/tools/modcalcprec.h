@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCPREC_H
-#define MODCALCPREC_H
+#ifndef MODCALCPREC_H_
+#define MODCALCPREC_H_
 
 #include "modcalcprecdlg.h"
 #include <QTextStream>

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCJD_H
-#define MODCALCJD_H
+#ifndef MODCALCJD_H_
+#define MODCALCJD_H_
 
 #include <q3vbox.h>
 

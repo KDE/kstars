@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCSIDTIME_H
-#define MODCALCSIDTIME_H
+#ifndef MODCALCSIDTIME_H_
+#define MODCALCSIDTIME_H_
 
 #include "modcalcsidtimedlg.h"
 #include <kapplication.h>

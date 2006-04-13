@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCVLSR_H
-#define MODCALCVLSR_H
+#ifndef MODCALCVLSR_H_
+#define MODCALCVLSR_H_
 
 #include <kapplication.h>
 #include <QTextStream>

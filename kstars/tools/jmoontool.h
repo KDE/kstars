@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JMOONTOOL_H
-#define JMOONTOOL_H
+#ifndef JMOONTOOL_H_
+#define JMOONTOOL_H_
 
 #include <kdialog.h>
 #include "widgets/kstarsplotwidget.h"

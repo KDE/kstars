@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PVPLOTWIDGET_H
-#define PVPLOTWIDGET_H
+#ifndef PVPLOTWIDGET_H_
+#define PVPLOTWIDGET_H_
 
 #include <QFrame>
 

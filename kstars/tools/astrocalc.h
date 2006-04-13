@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASTROCALC_H
-#define ASTROCALC_H
+#ifndef ASTROCALC_H_
+#define ASTROCALC_H_
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>

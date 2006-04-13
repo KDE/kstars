@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCRIPTFUNCTION_H
-#define SCRIPTFUNCTION_H
+#ifndef SCRIPTFUNCTION_H_
+#define SCRIPTFUNCTION_H_
 
 #include <qstring.h>
 

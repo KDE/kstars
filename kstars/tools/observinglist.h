@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OBSERVINGLIST_H
-#define OBSERVINGLIST_H
+#ifndef OBSERVINGLIST_H_
+#define OBSERVINGLIST_H_
 
 #include <QList>
 #include <kdialog.h>
@@ -186,4 +186,4 @@ private:
 	QString ListName, FileName;
 };
 
-#endif // OBSERVINGLIST_H
+#endif // OBSERVINGLIST_H_

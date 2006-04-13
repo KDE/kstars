@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LCGENERATOR_H
-#define LCGENERATOR_H
+#ifndef LCGENERATOR_H_
+#define LCGENERATOR_H_
 
 #include <QCloseEvent>
 #include <kdialog.h>
@@ -106,4 +106,4 @@ private:
 	void closeEvent (QCloseEvent *ev);
 };
 
-#endif // LCGENERATOR_H
+#endif // LCGENERATOR_H_

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCECLIPTICCOORDS_H
-#define MODCALCECLIPTICCOORDS_H
+#ifndef MODCALCECLIPTICCOORDS_H_
+#define MODCALCECLIPTICCOORDS_H_
 
 #include "modcalceclipticcoordsdlg.h"
 #include "dms.h"

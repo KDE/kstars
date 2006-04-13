@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCEQUINOX_H
-#define MODCALCEQUINOX_H
+#ifndef MODCALCEQUINOX_H_
+#define MODCALCEQUINOX_H_
 
 #include "modcalcequinoxdlg.h"
 

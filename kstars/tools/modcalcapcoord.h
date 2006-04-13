@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCAPCOORD_H
-#define MODCALCAPCOORD_H
+#ifndef MODCALCAPCOORD_H_
+#define MODCALCAPCOORD_H_
 
 #include "modcalcapcoorddlg.h"
 

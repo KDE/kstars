@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ALTVSTIME_H
-#define ALTVSTIME_H
+#ifndef ALTVSTIME_H_
+#define ALTVSTIME_H_
 
 #include <QList>
 #include <QMouseEvent>
@@ -230,4 +230,4 @@ private:
 	bool dirtyFlag;
 };
 
-#endif // ALTVSTIME_H
+#endif // ALTVSTIME_H_

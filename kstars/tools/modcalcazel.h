@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCAZEL_H
-#define MODCALCAZEL_H
+#ifndef MODCALCAZEL_H_
+#define MODCALCAZEL_H_
 
 #include "modcalcazeldlg.h"
 

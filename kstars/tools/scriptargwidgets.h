@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCRIPTARGWIDGETS_H
-#define SCRIPTARGWIDGETS_H
+#ifndef SCRIPTARGWIDGETS_H_
+#define SCRIPTARGWIDGETS_H_
 
 #include "arglooktoward.h"
 #include "argsetradec.h"

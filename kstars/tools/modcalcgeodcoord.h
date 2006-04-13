@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCGEODCOORD_H
-#define MODCALCGEODCOORD_H
+#ifndef MODCALCGEODCOORD_H_
+#define MODCALCGEODCOORD_H_
 
 #include "modcalcgeoddlg.h"
 

@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OBSLISTWIZARD_H
-#define OBSLISTWIZARD_H
+#ifndef OBSLISTWIZARD_H_
+#define OBSLISTWIZARD_H_
 
 #include <kdialog.h>
 

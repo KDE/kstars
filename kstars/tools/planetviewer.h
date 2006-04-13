@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PLANETVIEWER_H
-#define PLANETVIEWER_H
+#ifndef PLANETVIEWER_H_
+#define PLANETVIEWER_H_
 
 #include <QTimer>
 #include <QMouseEvent>

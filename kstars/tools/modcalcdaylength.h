@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCDAYLENGTH_H
-#define MODCALCDAYLENGTH_H
+#ifndef MODCALCDAYLENGTH_H_
+#define MODCALCDAYLENGTH_H_
 
 #include "modcalcdaylengthdlg.h"
 

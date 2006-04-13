@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCPLANETS_H
-#define MODCALCPLANETS_H
+#ifndef MODCALCPLANETS_H_
+#define MODCALCPLANETS_H_
 
 #include <kapplication.h>
 #include <QTextStream>

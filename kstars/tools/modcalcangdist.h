@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCANGDIST_H
-#define MODCALCANGDIST_H
+#ifndef MODCALCANGDIST_H_
+#define MODCALCANGDIST_H_
 
 #include "modcalcangdistdlg.h"
 

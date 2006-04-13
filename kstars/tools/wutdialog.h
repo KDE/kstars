@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WUTDIALOG_H
-#define WUTDIALOG_H
+#ifndef WUTDIALOG_H_
+#define WUTDIALOG_H_
 
 #include <QFrame>
 #include <kdialog.h>
