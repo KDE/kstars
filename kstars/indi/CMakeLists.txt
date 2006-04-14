@@ -201,7 +201,20 @@ kde4_add_executable(lx200generic ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libin
 
 target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin lx200generic )
+install_targets(/bin lx200generic)
+
+## Make symbolic links to lx200generic ##
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${KDE4_INSTALL_DIR}/bin/lx200classic)
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND ln ARGS -s lx200generic ${KDE4_INSTALL_DIR}/bin/lx200classic)
+
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${KDE4_INSTALL_DIR}/bin/lx200autostar)
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND ln ARGS -s lx200generic ${KDE4_INSTALL_DIR}/bin/lx200autostar)
+
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${KDE4_INSTALL_DIR}/bin/lx200_16)
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND ln ARGS -s lx200generic ${KDE4_INSTALL_DIR}/bin/lx200_16)
+
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${KDE4_INSTALL_DIR}/bin/lx200gps)
+ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND ln ARGS -s lx200generic ${KDE4_INSTALL_DIR}/bin/lx200gps)
 
 ########### next target ###############
 ########### Celestron GPS ############
@@ -213,7 +226,7 @@ set(celestrongps_SRCS
 
 kde4_add_executable(celestrongps ${celestrongps_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(celestrongps  ${KDE4_KDECORE_LIBS} m )
+target_link_libraries(celestrongps ${KDE4_KDECORE_LIBS} m )
 
 install_targets(/bin celestrongps )
 
