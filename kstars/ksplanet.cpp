@@ -60,7 +60,7 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	QString fname, snum, line;
 	QFile f;
 	int nCount = 0;
-	QString nl = n.lower();
+	QString nl = n.toLower();
 
 	if ( hash.contains( nl ) ) {
 		odc = hash[nl];

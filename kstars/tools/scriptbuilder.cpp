@@ -92,7 +92,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	setMainWidget(sb);
 
 	//Initialize function templates and descriptions
-	#warning i18n: Note to maintainer of this file: old way of putting formal arguments into descriptions was too baroque with respect to i18n, reverted to hardcoding.
 	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ),
 			false, "QString", "dir" ) );
 	KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  RA is expressed in Hours; Dec is expressed in Degrees." ),
@@ -247,16 +246,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
-	sb->NewButton->setIconSet( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
-	sb->OpenButton->setIconSet( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
-	sb->SaveButton->setIconSet( icons->loadIconSet( "filesave", K3Icon::Toolbar ) );
-	sb->SaveAsButton->setIconSet( icons->loadIconSet( "filesaveas", K3Icon::Toolbar ) );
-	sb->RunButton->setIconSet( icons->loadIconSet( "launch", K3Icon::Toolbar ) );
-	sb->CopyButton->setIconSet( icons->loadIconSet( "reload", K3Icon::Toolbar ) );
-	sb->AddButton->setIconSet( icons->loadIconSet( "back", K3Icon::Toolbar ) );
-	sb->RemoveButton->setIconSet( icons->loadIconSet( "forward", K3Icon::Toolbar ) );
-	sb->UpButton->setIconSet( icons->loadIconSet( "up", K3Icon::Toolbar ) );
-	sb->DownButton->setIconSet( icons->loadIconSet( "down", K3Icon::Toolbar ) );
+	sb->NewButton->setIcon( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
+	sb->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
+	sb->SaveButton->setIcon( icons->loadIconSet( "filesave", K3Icon::Toolbar ) );
+	sb->SaveAsButton->setIcon( icons->loadIconSet( "filesaveas", K3Icon::Toolbar ) );
+	sb->RunButton->setIcon( icons->loadIconSet( "launch", K3Icon::Toolbar ) );
+	sb->CopyButton->setIcon( icons->loadIconSet( "reload", K3Icon::Toolbar ) );
+	sb->AddButton->setIcon( icons->loadIconSet( "back", K3Icon::Toolbar ) );
+	sb->RemoveButton->setIcon( icons->loadIconSet( "forward", K3Icon::Toolbar ) );
+	sb->UpButton->setIcon( icons->loadIconSet( "up", K3Icon::Toolbar ) );
+	sb->DownButton->setIcon( icons->loadIconSet( "down", K3Icon::Toolbar ) );
 
 	//Prepare the widget stack
 	argBlank = new QWidget();
@@ -295,19 +294,19 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	argSetCCDTempINDI      = new ArgSetCCDTempINDI( sb->ArgStack );
 	argSetFilterNumINDI    = new ArgSetFilterNumINDI( sb->ArgStack );
 
-	argStartFocusINDI->directionCombo->insertItem("IN");
-	argStartFocusINDI->directionCombo->insertItem("OUT");
+	argStartFocusINDI->directionCombo->addItem("IN");
+	argStartFocusINDI->directionCombo->addItem("OUT");
 	
-	argSetScopeActionINDI->actionCombo->insertItem("SLEW");
-	argSetScopeActionINDI->actionCombo->insertItem("TRACK");
-	argSetScopeActionINDI->actionCombo->insertItem("SYNC");
-	argSetScopeActionINDI->actionCombo->insertItem("PARK");
-	argSetScopeActionINDI->actionCombo->insertItem("ABORT");
+	argSetScopeActionINDI->actionCombo->addItem("SLEW");
+	argSetScopeActionINDI->actionCombo->addItem("TRACK");
+	argSetScopeActionINDI->actionCombo->addItem("SYNC");
+	argSetScopeActionINDI->actionCombo->addItem("PARK");
+	argSetScopeActionINDI->actionCombo->addItem("ABORT");
 	
-	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_LIGHT");
-	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_BIAS");
-	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_DARK");
-	argSetFrameTypeINDI->typeCombo->insertItem("FRAME_FLAT");
+	argSetFrameTypeINDI->typeCombo->addItem("FRAME_LIGHT");
+	argSetFrameTypeINDI->typeCombo->addItem("FRAME_BIAS");
+	argSetFrameTypeINDI->typeCombo->addItem("FRAME_DARK");
+	argSetFrameTypeINDI->typeCombo->addItem("FRAME_FLAT");
 	
 	sb->ArgStack->addWidget( argBlank );
 	sb->ArgStack->addWidget( argLookToward );
@@ -517,13 +516,13 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsGUI, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "ShowInfoBoxes" );
-	argChangeViewOption->OptionName->insertItem( "ShowTimeBox" );
-	argChangeViewOption->OptionName->insertItem( "ShowGeoBox" );
-	argChangeViewOption->OptionName->insertItem( "ShowFocusBox" );
-	argChangeViewOption->OptionName->insertItem( "ShadeTimeBox" );
-	argChangeViewOption->OptionName->insertItem( "ShadeGeoBox" );
-	argChangeViewOption->OptionName->insertItem( "ShadeFocusBox" );
+	argChangeViewOption->OptionName->addItem( "ShowInfoBoxes" );
+	argChangeViewOption->OptionName->addItem( "ShowTimeBox" );
+	argChangeViewOption->OptionName->addItem( "ShowGeoBox" );
+	argChangeViewOption->OptionName->addItem( "ShowFocusBox" );
+	argChangeViewOption->OptionName->addItem( "ShadeTimeBox" );
+	argChangeViewOption->OptionName->addItem( "ShadeGeoBox" );
+	argChangeViewOption->OptionName->addItem( "ShadeFocusBox" );
 
 	//Toolbars
 	opsToolbar = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Toolbars" )) );
@@ -534,8 +533,8 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsToolbar, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "ShowMainToolBar" );
-	argChangeViewOption->OptionName->insertItem( "ShowViewToolBar" );
+	argChangeViewOption->OptionName->addItem( "ShowMainToolBar" );
+	argChangeViewOption->OptionName->addItem( "ShowViewToolBar" );
 
 	//Show Objects
 	opsShowObj = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Objects" )) );
@@ -597,25 +596,25 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsShowObj, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "ShowSAO" );
-	argChangeViewOption->OptionName->insertItem( "ShowDeepSky" );
-	argChangeViewOption->OptionName->insertItem( "ShowMess" );
-	argChangeViewOption->OptionName->insertItem( "ShowMessImages" );
-	argChangeViewOption->OptionName->insertItem( "ShowNGC" );
-	argChangeViewOption->OptionName->insertItem( "ShowIC" );
-	argChangeViewOption->OptionName->insertItem( "ShowPlanets" );
-	argChangeViewOption->OptionName->insertItem( "ShowSun" );
-	argChangeViewOption->OptionName->insertItem( "ShowMoon" );
-	argChangeViewOption->OptionName->insertItem( "ShowMercury" );
-	argChangeViewOption->OptionName->insertItem( "ShowVenus" );
-	argChangeViewOption->OptionName->insertItem( "ShowMars" );
-	argChangeViewOption->OptionName->insertItem( "ShowJupiter" );
-	argChangeViewOption->OptionName->insertItem( "ShowSaturn" );
-	argChangeViewOption->OptionName->insertItem( "ShowUranus" );
-	argChangeViewOption->OptionName->insertItem( "ShowNeptune" );
-	argChangeViewOption->OptionName->insertItem( "ShowPluto" );
-	argChangeViewOption->OptionName->insertItem( "ShowAsteroids" );
-	argChangeViewOption->OptionName->insertItem( "ShowComets" );
+	argChangeViewOption->OptionName->addItem( "ShowSAO" );
+	argChangeViewOption->OptionName->addItem( "ShowDeepSky" );
+	argChangeViewOption->OptionName->addItem( "ShowMess" );
+	argChangeViewOption->OptionName->addItem( "ShowMessImages" );
+	argChangeViewOption->OptionName->addItem( "ShowNGC" );
+	argChangeViewOption->OptionName->addItem( "ShowIC" );
+	argChangeViewOption->OptionName->addItem( "ShowPlanets" );
+	argChangeViewOption->OptionName->addItem( "ShowSun" );
+	argChangeViewOption->OptionName->addItem( "ShowMoon" );
+	argChangeViewOption->OptionName->addItem( "ShowMercury" );
+	argChangeViewOption->OptionName->addItem( "ShowVenus" );
+	argChangeViewOption->OptionName->addItem( "ShowMars" );
+	argChangeViewOption->OptionName->addItem( "ShowJupiter" );
+	argChangeViewOption->OptionName->addItem( "ShowSaturn" );
+	argChangeViewOption->OptionName->addItem( "ShowUranus" );
+	argChangeViewOption->OptionName->addItem( "ShowNeptune" );
+	argChangeViewOption->OptionName->addItem( "ShowPluto" );
+	argChangeViewOption->OptionName->addItem( "ShowAsteroids" );
+	argChangeViewOption->OptionName->addItem( "ShowComets" );
 
 	opsShowOther = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Other" )) );
 	fields << i18n( "Toggle display of constellation lines" ) << i18n( "bool" );
@@ -664,21 +663,21 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsShowOther, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "ShowCLines" );
-	argChangeViewOption->OptionName->insertItem( "ShowCBounds" );
-	argChangeViewOption->OptionName->insertItem( "ShowCNames" );
-	argChangeViewOption->OptionName->insertItem( "ShowMilkyWay" );
-	argChangeViewOption->OptionName->insertItem( "ShowGrid" );
-	argChangeViewOption->OptionName->insertItem( "ShowEquator" );
-	argChangeViewOption->OptionName->insertItem( "ShowEcliptic" );
-	argChangeViewOption->OptionName->insertItem( "ShowHorizon" );
-	argChangeViewOption->OptionName->insertItem( "ShowGround" );
-	argChangeViewOption->OptionName->insertItem( "ShowStarNames" );
-	argChangeViewOption->OptionName->insertItem( "ShowStarMagnitudes" );
-	argChangeViewOption->OptionName->insertItem( "ShowAsteroidNames" );
-	argChangeViewOption->OptionName->insertItem( "ShowCometNames" );
-	argChangeViewOption->OptionName->insertItem( "ShowPlanetNames" );
-	argChangeViewOption->OptionName->insertItem( "ShowPlanetImages" );
+	argChangeViewOption->OptionName->addItem( "ShowCLines" );
+	argChangeViewOption->OptionName->addItem( "ShowCBounds" );
+	argChangeViewOption->OptionName->addItem( "ShowCNames" );
+	argChangeViewOption->OptionName->addItem( "ShowMilkyWay" );
+	argChangeViewOption->OptionName->addItem( "ShowGrid" );
+	argChangeViewOption->OptionName->addItem( "ShowEquator" );
+	argChangeViewOption->OptionName->addItem( "ShowEcliptic" );
+	argChangeViewOption->OptionName->addItem( "ShowHorizon" );
+	argChangeViewOption->OptionName->addItem( "ShowGround" );
+	argChangeViewOption->OptionName->addItem( "ShowStarNames" );
+	argChangeViewOption->OptionName->addItem( "ShowStarMagnitudes" );
+	argChangeViewOption->OptionName->addItem( "ShowAsteroidNames" );
+	argChangeViewOption->OptionName->addItem( "ShowCometNames" );
+	argChangeViewOption->OptionName->addItem( "ShowPlanetNames" );
+	argChangeViewOption->OptionName->addItem( "ShowPlanetImages" );
 
 	opsCName = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Constellation Names" )) );
 	fields << i18n( "Show Latin constellation names" ) << i18n( "bool" );
@@ -691,9 +690,9 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsCName, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "UseLatinConstellNames" );
-	argChangeViewOption->OptionName->insertItem( "UseLocalConstellNames" );
-	argChangeViewOption->OptionName->insertItem( "UseAbbrevConstellNames" );
+	argChangeViewOption->OptionName->addItem( "UseLatinConstellNames" );
+	argChangeViewOption->OptionName->addItem( "UseLocalConstellNames" );
+	argChangeViewOption->OptionName->addItem( "UseAbbrevConstellNames" );
 
 	opsHide = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Hide Items" )) );
 	fields << i18n( "Toggle whether objects hidden while slewing display" ) << i18n( "bool" );
@@ -733,18 +732,18 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsHide, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "HideOnSlew" );
-	argChangeViewOption->OptionName->insertItem( "SlewTimeScale" );
-	argChangeViewOption->OptionName->insertItem( "HideStars" );
-	argChangeViewOption->OptionName->insertItem( "HidePlanets" );
-	argChangeViewOption->OptionName->insertItem( "HideMessier" );
-	argChangeViewOption->OptionName->insertItem( "HideNGC" );
-	argChangeViewOption->OptionName->insertItem( "HideIC" );
-	argChangeViewOption->OptionName->insertItem( "HideMilkyWay" );
-	argChangeViewOption->OptionName->insertItem( "HideCNames" );
-	argChangeViewOption->OptionName->insertItem( "HideCLines" );
-	argChangeViewOption->OptionName->insertItem( "HideCBounds" );
-	argChangeViewOption->OptionName->insertItem( "HideGrid" );
+	argChangeViewOption->OptionName->addItem( "HideOnSlew" );
+	argChangeViewOption->OptionName->addItem( "SlewTimeScale" );
+	argChangeViewOption->OptionName->addItem( "HideStars" );
+	argChangeViewOption->OptionName->addItem( "HidePlanets" );
+	argChangeViewOption->OptionName->addItem( "HideMessier" );
+	argChangeViewOption->OptionName->addItem( "HideNGC" );
+	argChangeViewOption->OptionName->addItem( "HideIC" );
+	argChangeViewOption->OptionName->addItem( "HideMilkyWay" );
+	argChangeViewOption->OptionName->addItem( "HideCNames" );
+	argChangeViewOption->OptionName->addItem( "HideCLines" );
+	argChangeViewOption->OptionName->addItem( "HideCBounds" );
+	argChangeViewOption->OptionName->addItem( "HideGrid" );
 
 	opsSkymap = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Skymap Options" )) );
 	fields << i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << i18n( "bool" );
@@ -781,18 +780,18 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsSkymap, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "UseAltAz" );
-	argChangeViewOption->OptionName->insertItem( "ZoomFactor" );
-	argChangeViewOption->OptionName->insertItem( "FOVName" );
-	argChangeViewOption->OptionName->insertItem( "FOVSize" );
-	argChangeViewOption->OptionName->insertItem( "FOVShape" );
-	argChangeViewOption->OptionName->insertItem( "FOVColor" );
-	argChangeViewOption->OptionName->insertItem( "UseRefraction" );
-	argChangeViewOption->OptionName->insertItem( "UseAutoLabel" );
-	argChangeViewOption->OptionName->insertItem( "UseHoverLabel" );
-	argChangeViewOption->OptionName->insertItem( "UseAutoTrail" );
-	argChangeViewOption->OptionName->insertItem( "AnimateSlewing" );
-	argChangeViewOption->OptionName->insertItem( "FadePlanetTrails" );
+	argChangeViewOption->OptionName->addItem( "UseAltAz" );
+	argChangeViewOption->OptionName->addItem( "ZoomFactor" );
+	argChangeViewOption->OptionName->addItem( "FOVName" );
+	argChangeViewOption->OptionName->addItem( "FOVSize" );
+	argChangeViewOption->OptionName->addItem( "FOVShape" );
+	argChangeViewOption->OptionName->addItem( "FOVColor" );
+	argChangeViewOption->OptionName->addItem( "UseRefraction" );
+	argChangeViewOption->OptionName->addItem( "UseAutoLabel" );
+	argChangeViewOption->OptionName->addItem( "UseHoverLabel" );
+	argChangeViewOption->OptionName->addItem( "UseAutoTrail" );
+	argChangeViewOption->OptionName->addItem( "AnimateSlewing" );
+	argChangeViewOption->OptionName->addItem( "FadePlanetTrails" );
 
 	opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
 	fields << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
@@ -823,19 +822,19 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsLimit, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->insertItem( "magLimitDrawStar" );
-	argChangeViewOption->OptionName->insertItem( "magLimitDrawStarZoomOut" );
-	argChangeViewOption->OptionName->insertItem( "magLimitDrawDeepSky" );
-	argChangeViewOption->OptionName->insertItem( "magLimitDrawDeepSkyZoomOut" );
-	argChangeViewOption->OptionName->insertItem( "magLimitDrawStarInfo" );
-	argChangeViewOption->OptionName->insertItem( "magLimitHideStar" );
-	argChangeViewOption->OptionName->insertItem( "magLimitAsteroid" );
-	argChangeViewOption->OptionName->insertItem( "magLimitAsteroidName" );
-	argChangeViewOption->OptionName->insertItem( "maxRadCometName" );
+	argChangeViewOption->OptionName->addItem( "magLimitDrawStar" );
+	argChangeViewOption->OptionName->addItem( "magLimitDrawStarZoomOut" );
+	argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSky" );
+	argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSkyZoomOut" );
+	argChangeViewOption->OptionName->addItem( "magLimitDrawStarInfo" );
+	argChangeViewOption->OptionName->addItem( "magLimitHideStar" );
+	argChangeViewOption->OptionName->addItem( "magLimitAsteroid" );
+	argChangeViewOption->OptionName->addItem( "magLimitAsteroidName" );
+	argChangeViewOption->OptionName->addItem( "maxRadCometName" );
 
 	//init the list of color names and values
 	for ( unsigned int i=0; i < ks->data()->colorScheme()->numberOfColors(); ++i ) {
-		argSetColor->ColorName->insertItem( ks->data()->colorScheme()->nameAt(i) );
+		argSetColor->ColorName->addItem( ks->data()->colorScheme()->nameAt(i) );
 	}
 	
 	//init list of color scheme names
@@ -846,13 +845,13 @@ void ScriptBuilder::initViewOptions() {
 	
 	QFile file;
 	QString line;
-	file.setName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+	file.setFileName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
   	while ( !stream.atEnd() ) {
 			line = stream.readLine();
-			argLoadColorScheme->SchemeList->insertItem( line.left( line.find( ':' ) ) );
+			argLoadColorScheme->SchemeList->insertItem( line.left( line.indexOf( ':' ) ) );
 		}
 		file.close();
 	}
@@ -902,7 +901,7 @@ void ScriptBuilder::slotOpen() {
 
 			QFile f( fname );
 			if ( !f.open( QIODevice::ReadOnly) ) {
-				QString message = i18n( "Could not open file %1.", f.name() );
+				QString message = i18n( "Could not open file %1.", f.fileName() );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				currentFileURL = QString();
 				return;
@@ -958,11 +957,11 @@ void ScriptBuilder::slotSave() {
 			fname = tmpfile.name();
 		}
 		
-		if ( fname.right( 7 ).lower() != ".kstars" ) fname += ".kstars";
+		if ( fname.right( 7 ).toLower() != ".kstars" ) fname += ".kstars";
 
 		QFile f( fname );
 		if ( !f.open( QIODevice::WriteOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.name() );
+			QString message = i18n( "Could not open file %1.", f.fileName() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			currentFileURL = QString();
 			return;
@@ -973,7 +972,7 @@ void ScriptBuilder::slotSave() {
 		f.close();
 
 		//set rwx for owner, rx for group, rx for other
-		chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+		chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
 		if ( tmpfile.name() == fname ) { //need to upload to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) ) {
@@ -1028,7 +1027,7 @@ void ScriptBuilder::slotRunScript() {
 	QFile f( fname );
 	if ( f.exists() ) f.remove();
 	if ( !f.open( QIODevice::WriteOnly) ) {
-		QString message = i18n( "Could not open file %1.", f.name() );
+		QString message = i18n( "Could not open file %1.", f.fileName() );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 		currentFileURL = QString();
 		return;
@@ -1039,10 +1038,10 @@ void ScriptBuilder::slotRunScript() {
 	f.close();
 
 	//set rwx for owner, rx for group, rx for other
-	chmod( f.name().ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+	chmod( f.fileName().toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
 	KProcess p;
-	p << f.name();
+	p << f.fileName();
 	if ( ! p.start( KProcess::DontCare ) )
 		kDebug() << "Process did not start." << endl;
 
@@ -1126,7 +1125,7 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			line = line.mid( 20 );
 
 			//construct a stringlist that is fcn name and its arg name/value pairs
-			QStringList fn = QStringList::split( " ", line );
+			QStringList fn = line.split( " " );
 			if ( parseFunction( fn ) )
 			{
 			  sb->ScriptListBox->addItem( ScriptList.last()->name() );
@@ -1184,7 +1183,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	}
 	    
 	if (quoteProcessed)
-	  fn = QStringList::split( "'", arg );
+	  fn = arg.split( "'" );
 	
 	//loop over known functions to find a name match
 	foreach ( ScriptFunction *sf, KStarsFunctionList ) 
@@ -1205,7 +1204,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 
 			ScriptList.append( new ScriptFunction( sf ) );
 
-			for ( unsigned int i=0; i<sf->numArgs(); ++i )
+			for ( int i=0; i<sf->numArgs(); ++i )
 				ScriptList.last()->setArg( i, fn[i+1] );
 
 			return true;
@@ -1220,7 +1219,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 
 		    ScriptList.append( new ScriptFunction( sf ) );
 
-		    for ( unsigned int i=0; i<sf->numArgs(); ++i )
+		    for ( int i=0; i<sf->numArgs(); ++i )
 		      ScriptList.last()->setArg( i, fn[i+1] );
 
 		    return true;
@@ -1244,7 +1243,7 @@ void ScriptBuilder::slotCopyFunction() {
 	int Pos = sb->ScriptListBox->currentRow() + 1;
 	ScriptList.insert( Pos, new ScriptFunction( ScriptList[ Pos-1 ] ) );
 	//copy ArgVals
-	for ( unsigned int i=0; i < ScriptList[ Pos-1 ]->numArgs(); ++i )
+	for ( int i=0; i < ScriptList[ Pos-1 ]->numArgs(); ++i )
 		ScriptList[Pos]->setArg(i, ScriptList[ Pos-1 ]->argVal(i) );
 
 	sb->ScriptListBox->insertItem( Pos, ScriptList[Pos]->name());
@@ -1386,7 +1385,7 @@ void ScriptBuilder::slotArgWidget() {
 		if ( sf->name() == "lookTowards" ) {
 			sb->ArgStack->setCurrentWidget( argLookToward );
 			QString s = sf->argVal(0);
-			argLookToward->FocusEdit->setCurrentText( s );
+			argLookToward->FocusEdit->setEditText( s );
 
 		} else if ( sf->name() == "setRaDec" ) {
 			bool ok(false);
@@ -1488,7 +1487,7 @@ void ScriptBuilder::slotArgWidget() {
 
 		} else if ( sf->name() == "waitForKey" ) {
 			sb->ArgStack->setCurrentWidget( argWaitForKey );
-			if ( sf->argVal(0).length()==1 || sf->argVal(0).lower() == "space" )
+			if ( sf->argVal(0).length()==1 || sf->argVal(0).toLower() == "space" )
 				argWaitForKey->WaitKeyEdit->setText( sf->argVal(0) );
 			else argWaitForKey->WaitKeyEdit->setText( QString() );
 
@@ -1499,8 +1498,8 @@ void ScriptBuilder::slotArgWidget() {
 
 		} else if ( sf->name() == "changeViewOption" ) {
 			sb->ArgStack->setCurrentWidget( argChangeViewOption );
-			//find argVal(0) in the combobox...if it isn't there, it will select nothing
-			argChangeViewOption->OptionName->setCurrentItem( sf->argVal(0) );
+			argChangeViewOption->OptionName->setCurrentIndex( 
+					argChangeViewOption->OptionName->findText( sf->argVal(0) ) );
 			argChangeViewOption->OptionValue->setText( sf->argVal(1) );
 
 		} else if ( sf->name() == "setGeoLocation" ) {
@@ -1512,7 +1511,10 @@ void ScriptBuilder::slotArgWidget() {
 		} else if ( sf->name() == "setColor" ) {
 			sb->ArgStack->setCurrentWidget( argSetColor );
 			if ( sf->argVal(0).isEmpty() ) sf->setArg( 0, "SkyColor" );  //initialize default value
-			argSetColor->ColorName->setCurrentItem( ks->data()->colorScheme()->nameFromKey( sf->argVal(0) ) );
+			argSetColor->ColorName->setCurrentIndex( 
+					argSetColor->ColorName->findText( 
+					ks->data()->colorScheme()->nameFromKey( sf->argVal(0) ) )
+			);
 			argSetColor->ColorValue->setColor( QColor( sf->argVal(1).remove('\\') ) );
 
 		} else if ( sf->name() == "loadColorScheme" ) {
@@ -1625,15 +1627,15 @@ void ScriptBuilder::slotArgWidget() {
 		  
 		  for (int i=0; i < argStartFocusINDI->directionCombo->count(); i++)
 		  {
-		    if (argStartFocusINDI->directionCombo->text(i) == sf->argVal(0))
+		    if (argStartFocusINDI->directionCombo->itemText(i) == sf->argVal(0))
 		    {
-		      argStartFocusINDI->directionCombo->setCurrentItem(i);
+		      argStartFocusINDI->directionCombo->setCurrentIndex(i);
 		      itemSet = true;
 		      break;
 		    }
 		  }
 		  
-		  if (!itemSet) argStartFocusINDI->directionCombo->setCurrentItem(0);
+		  if (!itemSet) argStartFocusINDI->directionCombo->setCurrentIndex(0);
 		  
 		  
 		}
@@ -1689,15 +1691,15 @@ void ScriptBuilder::slotArgWidget() {
 		  
 		    for (int i=0; i < argSetScopeActionINDI->actionCombo->count(); i++)
 		    {
-		      if (argSetScopeActionINDI->actionCombo->text(i) == sf->argVal(0))
+		      if (argSetScopeActionINDI->actionCombo->itemText(i) == sf->argVal(0))
 		      {
-			argSetScopeActionINDI->actionCombo->setCurrentItem(i);
+			argSetScopeActionINDI->actionCombo->setCurrentIndex(i);
 			itemSet = true;
 			break;
 		      }
 		    }
 		  
-		    if (!itemSet) argSetScopeActionINDI->actionCombo->setCurrentItem(0);
+		    if (!itemSet) argSetScopeActionINDI->actionCombo->setCurrentIndex(0);
 		  
 		  }
 		  else if (sf->name() == "setINDIFrameType") {
@@ -1706,15 +1708,15 @@ void ScriptBuilder::slotArgWidget() {
 		  
 		    for (int i=0; i < argSetFrameTypeINDI->typeCombo->count(); i++)
 		    {
-		      if (argSetFrameTypeINDI->typeCombo->text(i) == sf->argVal(0))
+		      if (argSetFrameTypeINDI->typeCombo->itemText(i) == sf->argVal(0))
 		      {
-			argSetFrameTypeINDI->typeCombo->setCurrentItem(i);
+			argSetFrameTypeINDI->typeCombo->setCurrentIndex(i);
 			itemSet = true;
 			break;
 		      }
 		    }
 		  
-		    if (!itemSet) argSetFrameTypeINDI->typeCombo->setCurrentItem(0);
+		    if (!itemSet) argSetFrameTypeINDI->typeCombo->setCurrentIndex(0);
 		  
 		  }
 		  else if (sf->name() == "setINDICCDTemp") {
@@ -1774,7 +1776,7 @@ void ScriptBuilder::slotShowDoc() {
   }
 
     sb->AddButton->setEnabled( true );
-    sb->FuncDoc->setText( found->description() );
+    sb->FuncDoc->setHtml( found->description() );
 }
 
 //Slots for Arg Widgets
@@ -1808,7 +1810,7 @@ void ScriptBuilder::slotFindObject() {
 	if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
 		setUnsavedChanges( true );
 
-		argLookToward->FocusEdit->setCurrentText( fd.currentItem()->name() );
+		argLookToward->FocusEdit->setEditText( fd.currentItem()->name() );
 	}
 }
 
@@ -1832,7 +1834,10 @@ void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
 void ScriptBuilder::slotShowOptions() {
 	//Show tree-view of view options
 	if ( otv->exec() == QDialog::Accepted ) {
-		argChangeViewOption->OptionName->setCurrentItem( otv->optionsList()->currentItem()->text(0) );
+		argChangeViewOption->OptionName->setCurrentIndex( 
+			argChangeViewOption->OptionName->findText( 
+			otv->optionsList()->currentItem()->text(0) ) 
+		);
 	}
 }
 
@@ -2034,7 +2039,7 @@ void ScriptBuilder::slotViewOption() {
 	ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
 	if ( sf->name() == "changeViewOption" ) {
-		if ( argChangeViewOption->OptionName->currentItem() >= 0
+		if ( argChangeViewOption->OptionName->currentIndex() >= 0
 				&& argChangeViewOption->OptionValue->text().length() ) {
 			setUnsavedChanges( true );
 
@@ -2174,8 +2179,8 @@ void ScriptBuilder::slotChangeColorName() {
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
 		
-		argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentItem() ) );
-		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentItem() ) );
+		argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentIndex() ) );
+		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
 		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
 		sf->setArg( 1, cname );
@@ -2191,7 +2196,7 @@ void ScriptBuilder::slotChangeColor() {
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
 		
-		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentItem() ) );
+		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
 		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
 		sf->setArg( 1, cname );

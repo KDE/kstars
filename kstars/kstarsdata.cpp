@@ -419,7 +419,7 @@ bool KStarsData::processCity( const QString& line ) {
 	totalLine = line;
 
 	// separate fields
-	fields = QStringList::split( ":", line );
+	fields = line.split( ":" );
 
 	for ( int i=0; i< fields.size(); ++i )
 		fields[i] = fields[i].trimmed();
@@ -529,12 +529,12 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 		while ( !stream.atEnd() ) {
 			QString line = stream.readLine().trimmed();
 			if ( line.left(1) != "#" && line.length() ) { //ignore commented and blank lines
-				QStringList fields = QStringList::split( " ", line );
+				QStringList fields = line.split( " " );
 				id = fields[0];
-				QTime stime = QTime( fields[3].left( fields[3].find(':')).toInt() ,
-								fields[3].mid( fields[3].find(':')+1, fields[3].length()).toInt() );
-				QTime rtime = QTime( fields[6].left( fields[6].find(':')).toInt(),
-								fields[6].mid( fields[6].find(':')+1, fields[6].length()).toInt() );
+				QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
+								fields[3].mid( fields[3].indexOf(':')+1, fields[3].length()).toInt() );
+				QTime rtime = QTime( fields[6].left( fields[6].indexOf(':')).toInt(),
+								fields[6].mid( fields[6].indexOf(':')+1, fields[6].length()).toInt() );
 
 				Rulebook[ id ] = TimeZoneRule( fields[1], fields[2], stime, fields[4], fields[5], rtime );
 			}
@@ -587,13 +587,13 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 
 								//If global-file line begins with "XXX:" then this line should be removed from the local file.
 								if ( line.left( 4 ) == "XXX:"  && urlData.contains( line.mid( 4 ) ) ) {
-									urlData.remove( urlData.find( line.mid( 4 ) ) );
+									urlData.removeAt( urlData.indexOf( line.mid( 4 ) ) );
 								} else {
 									//does local file contain the current global file line, up to second ':' ?
 
 									bool linefound( false );
 									for ( int j=0; j< urlData.size(); ++j ) {
-										if ( urlData[j].contains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
+										if ( urlData[j].contains( line.left( line.indexOf( ':', line.indexOf( ':' ) + 1 ) ) ) ) {
 											//replace line in urlData with its equivalent in the newer global file.
 											urlData.replace( j, line );
 											if ( !newDataFound ) newDataFound = true;
@@ -664,10 +664,10 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
 
 		//ignore comment lines
 		if ( line.left(1) != "#" ) {
-			QString name = line.mid( 0, line.find(':') );
-			QString sub = line.mid( line.find(':')+1 );
-			QString title = sub.mid( 0, sub.find(':') );
-			QString url = sub.mid( sub.find(':')+1 );
+			QString name = line.mid( 0, line.indexOf(':') );
+			QString sub = line.mid( line.indexOf(':')+1 );
+			QString title = sub.mid( 0, sub.indexOf(':') );
+			QString url = sub.mid( sub.indexOf(':')+1 );
 			SkyObject *o = skyComposite()->findByName(name);
 			//DEBUG
 			if ( o ) 
@@ -707,14 +707,14 @@ bool KStarsData::readUserLog(void)
 	while (!buffer.isEmpty()) {
 		int startIndex, endIndex;
 
-		startIndex = buffer.find("[KSLABEL:");
+		startIndex = buffer.indexOf("[KSLABEL:");
 		sub = buffer.mid(startIndex);
-		endIndex = sub.find("[KSLogEnd]");
+		endIndex = sub.indexOf("[KSLogEnd]");
 
 		// Read name after KSLABEL identifer
-		name = sub.mid(startIndex + 9, sub.find("]") - (startIndex + 9));
+		name = sub.mid(startIndex + 9, sub.indexOf("]") - (startIndex + 9));
 		// Read data and skip new line
-		data   = sub.mid(sub.find("]") + 2, endIndex - (sub.find("]") + 2));
+		data   = sub.mid(sub.indexOf("]") + 2, endIndex - (sub.indexOf("]") + 2));
 		buffer = buffer.mid(endIndex + 11);
 
 		//Find the sky object named 'name'.
@@ -765,15 +765,15 @@ bool KStarsData::readADVTreeData(void)
 	
 		else
 		{
-			Name = Line.mid(0, Line.find(":"));
-			Link = Line.mid(Line.find(":") + 1);
+			Name = Line.mid(0, Line.indexOf(":"));
+			Link = Line.mid(Line.indexOf(":") + 1);
 	
 			// Link is empty, using Interface instead
 			if (Link.isEmpty())
 			{
 					Link = Interface;
 					subName = Name;
-					interfaceIndex = Link.find("KSINTERFACE");
+					interfaceIndex = Link.indexOf("KSINTERFACE");
 					Link.remove(interfaceIndex, 11);
 					Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
 	
@@ -944,11 +944,11 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 		//found a dcop line
 		if ( line.left(4) == "dcop" ) {
 			line = line.mid( 20 );  //strip away leading characters
-			QStringList fn = QStringList::split( " ", line );
+			QStringList fn = line.split( " " );
 
 			if ( fn[0] == "lookTowards" && fn.size() >= 2 ) {
 				double az(-1.0);
-				QString arg = fn[1].lower();
+				QString arg = fn[1].toLower();
 				if ( arg == "n"  || arg == "north" )     az =   0.0;
 				if ( arg == "ne" || arg == "northeast" ) az =  45.0;
 				if ( arg == "e"  || arg == "east" )      az =  90.0;
@@ -1041,8 +1041,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
 				//parse bool value
 				bool bVal(false);
-				if ( fn[2].lower() == "true" ) { bOk = true; bVal = true; }
-				if ( fn[2].lower() == "false" ) { bOk = true; bVal = false; }
+				if ( fn[2].toLower() == "true" ) { bOk = true; bVal = true; }
+				if ( fn[2].toLower() == "false" ) { bOk = true; bVal = false; }
 				if ( fn[2] == "1" ) { bOk = true; bVal = true; }
 				if ( fn[2] == "0" ) { bOk = true; bVal = false; }
 

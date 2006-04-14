@@ -103,8 +103,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
 	//check for colon-delimiters or space-delimiters
 	if ( entry.contains(':') )
-		fields = QStringList::split( ':', entry );
-	else fields = QStringList::split( " ", entry );
+		fields = entry.split( ':' );
+	else fields = entry.split( " " );
 
 	//anything with one field is invalid!
 	if ( fields.count() == 1 ) {

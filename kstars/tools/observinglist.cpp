@@ -110,11 +110,11 @@ ObservingList::ObservingList( KStars *_ks )
 
 	//Add icons to Push Buttons
 	KIconLoader *icons = KGlobal::iconLoader();
-	ui->OpenButton->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
-	ui->SaveButton->setPixmap( icons->loadIcon( "filesave", K3Icon::Toolbar ) );
-	ui->SaveAsButton->setPixmap( icons->loadIcon( "filesaveas", K3Icon::Toolbar ) );
-	ui->WizardButton->setPixmap( icons->loadIcon( "wizard", K3Icon::Toolbar ) );
-	ui->MiniButton->setPixmap( icons->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
+	ui->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
+	ui->SaveButton->setIcon( icons->loadIcon( "filesave", K3Icon::Toolbar ) );
+	ui->SaveAsButton->setIcon( icons->loadIcon( "filesaveas", K3Icon::Toolbar ) );
+	ui->WizardButton->setIcon( icons->loadIcon( "wizard", K3Icon::Toolbar ) );
+	ui->MiniButton->setIcon( icons->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
 
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
@@ -282,9 +282,9 @@ void ObservingList::slotNewSelection() {
 			
 			ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
 			if ( LogObject->userLog.isEmpty() ) {
-				ui->NotesEdit->setText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
+				ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
 			} else {
-				ui->NotesEdit->setText( LogObject->userLog );
+				ui->NotesEdit->setPlainText( LogObject->userLog );
 			}
 		} else { //selected object is named "star"
 			//clear the log text box
@@ -517,15 +517,15 @@ void ObservingList::slotOpenList() {
 			tmpfile.setAutoDelete(true);
 			FileName = tmpfile.name();
 			if( KIO::NetAccess::download( fileURL, FileName, this ) ) 
-				f.setName( FileName );
+				f.setFileName( FileName );
 
 		} else {
 			FileName = fileURL.path();
-			f.setName( FileName );
+			f.setFileName( FileName );
 		}
 
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1", f.name() );
+			QString message = i18n( "Could not open file %1", f.fileName() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -598,7 +598,7 @@ void ObservingList::slotSaveList() {
 
 	QFile f( FileName );
 	if ( !f.open( QIODevice::WriteOnly) ) {
-		QString message = i18n( "Could not open file %1.  Try a different filename?", f.name() );
+		QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
 		
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			FileName == QString();
@@ -631,7 +631,7 @@ void ObservingList::slotWizard() {
 
 void ObservingList::slotToggleSize() {
 	if ( isLarge() ) {
-		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_fullscreen", K3Icon::Toolbar ) );
+		ui->MiniButton->setIcon( KGlobal::iconLoader()->loadIcon( "window_fullscreen", K3Icon::Toolbar ) );
 
 		//switch widget stack to show TinyTable
 		ui->TableStack->setCurrentWidget( ui->TinyPage );
@@ -652,7 +652,7 @@ void ObservingList::slotToggleSize() {
 		bIsLarge = false;
 
 	} else {
-		ui->MiniButton->setPixmap( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
+		ui->MiniButton->setIcon( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
 
 		//switch widget stack to show FullTable
 		ui->TableStack->setCurrentWidget( ui->FullPage );

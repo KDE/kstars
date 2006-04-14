@@ -124,7 +124,7 @@ bool imagesequence::setupCCDs()
 				devMenu->mgr.at(i)->indi_dev.at(j)->label = 
 					devMenu->mgr.at(i)->indi_dev.at(j)->name;
 				
-			CCDCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+			CCDCombo->addItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
 			
 		}
 	}
@@ -176,7 +176,7 @@ bool imagesequence::setupFilters()
 	filterCombo->clear();
 	filterPosCombo->clear();
 	
-	filterCombo->insertItem(i18n("None"));
+	filterCombo->addItem(i18n("None"));
 	
 	// Second step is to check for filter wheel, it is only optional.
 	for (int i=0; i < devMenu->mgr.size(); i++)
@@ -193,7 +193,7 @@ bool imagesequence::setupFilters()
 				devMenu->mgr.at(i)->indi_dev.at(j)->label = 
 					devMenu->mgr.at(i)->indi_dev.at(j)->name;
 				
-			filterCombo->insertItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+			filterCombo->addItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
 			
 		}
 	}
@@ -592,13 +592,13 @@ void imagesequence::updateFilterCombo(int filterNum)
 	{
 		filterPosCombo->insertStringList(filterList);
 		for (int i = filterList.size() ; i <= filterMax ; i++)
-			filterPosCombo->insertItem(QString("%1").arg(i));
+			filterPosCombo->addItem(QString("%1").arg(i));
 	}
 	else 
 	{
 		// filterMax < filterList.size()
 		for (int i = 0 ; i <= filterMax ; i++)
-			filterPosCombo->insertItem(QString("%1").arg(filterList[i]));
+			filterPosCombo->addItem(QString("%1").arg(filterList[i]));
 	}
 
 	filterPosCombo->setCurrentItem(((int) filterElem->value));

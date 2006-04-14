@@ -84,7 +84,7 @@ bool DeviceManager::indiConnect( const QString &inHost, const QString &inPort )
 	port = inPort;
 	QString errMsg;
 	struct sockaddr_in pin;
-	struct hostent *serverHostName = gethostbyname(host.ascii());
+	struct hostent *serverHostName = gethostbyname(host.toAscii());
 	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 
 	memset(&pin, 0, sizeof(pin));
@@ -275,7 +275,7 @@ int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
 	 }
     }
 
-   snprintf(errmsg, ERRMSG_SIZE, "Device %.32s not found" , devName.ascii());
+   snprintf(errmsg, ERRMSG_SIZE, "Device %.32s not found" , devName.toAscii());
    return -1;
 }
 
@@ -288,7 +288,7 @@ INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
 		return indi_dev[i];
 	}
 
-	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.ascii());
+	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.toAscii());
 	kDebug() << errmsg;
 
 	return NULL;
@@ -412,15 +412,15 @@ void DeviceManager::sendNewText (INDI_P *pp)
         INDI_E *lp;
 	
 	fprintf(serverFP, "<newTextVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
-	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
 	
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
 	foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneText\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
-	    fprintf(serverFP, "      %s\n", lp->text.ascii());
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii());
+	    fprintf(serverFP, "      %s\n", lp->text.toAscii());
 	    fprintf(serverFP, "  </oneText>\n");
 	}
 	fprintf(serverFP, "</newTextVector>\n");
@@ -431,14 +431,14 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
         INDI_E *lp;
 	
         fprintf(serverFP, "<newNumberVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.ascii());
-	fprintf(serverFP, "  name='%s'\n>", pp->name.ascii());
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
 	
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
         foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneNumber\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name.ascii());
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii());
 	    fprintf(serverFP, "      %g\n", lp->targetValue);
 	    fprintf(serverFP, "  </oneNumber>\n");
 	}
@@ -452,8 +452,8 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	//int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
-	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.ascii());
-	fprintf (serverFP,"  name='%s'>\n", pp->name.ascii());
+	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.toAscii());
+	fprintf (serverFP,"  name='%s'>\n", pp->name.toAscii());
 	
         lp = pp->el[index];
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
@@ -462,7 +462,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	  	//if (i == index)
           	//{
 	    		fprintf (serverFP,"  <oneSwitch\n");
-	    		fprintf (serverFP,"    name='%s'>\n", lp->name.ascii());
+	    		fprintf (serverFP,"    name='%s'>\n", lp->name.toAscii());
 	    		fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
 	    		fprintf (serverFP,"  </oneSwitch>\n");
 	    	//	break;
@@ -477,9 +477,9 @@ void DeviceManager::startBlob( const QString &devName, const QString &propName, 
 {
 
    fprintf (serverFP, "<newBLOBVector\n");
-   fprintf (serverFP, "  device='%s'\n", devName.ascii());
-   fprintf (serverFP, "  name='%s'\n", propName.ascii());
-   fprintf (serverFP, "  timestamp='%s'>\n", timestamp.ascii());
+   fprintf (serverFP, "  device='%s'\n", devName.toAscii());
+   fprintf (serverFP, "  name='%s'\n", propName.toAscii());
+   fprintf (serverFP, "  timestamp='%s'>\n", timestamp.toAscii());
 
 }
 
@@ -487,9 +487,9 @@ void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize,
 {
 
  fprintf (serverFP, "  <oneBLOB\n");
- fprintf (serverFP, "    name='%s'\n", blobName.ascii());
+ fprintf (serverFP, "    name='%s'\n", blobName.toAscii());
  fprintf (serverFP, "    size='%d'\n", blobSize);
- fprintf (serverFP, "    format='%s'>\n", blobFormat.ascii());
+ fprintf (serverFP, "    format='%s'>\n", blobFormat.toAscii());
 
   for (unsigned i = 0; i < blobSize; i += 72)
 	fprintf (serverFP, "    %.72s\n", blobBuffer+i);

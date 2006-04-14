@@ -51,7 +51,7 @@ KSComet::KSComet( KStarsData *_kd, const QString &_s, const QString &imfile,
 	//If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
 	if ( name().contains( "/" ) ) {
 		setLongName( name() );
-		setName( name().mid( name().find("/") + 1 ) );
+		setName( name().mid( name().indexOf("/") + 1 ) );
 	}
 }
 

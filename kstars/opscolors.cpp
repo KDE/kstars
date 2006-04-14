@@ -64,8 +64,8 @@ OpsColors::OpsColors( KStars *_ks )
 
   	while ( !stream.atEnd() ) {
 			line = stream.readLine();
-			schemeName = line.left( line.find( ':' ) );
-			filename = line.mid( line.find( ':' ) +1, line.length() );
+			schemeName = line.left( line.indexOf( ':' ) );
+			filename = line.mid( line.indexOf( ':' ) +1, line.length() );
 			PresetBox->insertItem( schemeName );
 			PresetFileList.append( filename );
 	  }
@@ -73,10 +73,10 @@ OpsColors::OpsColors( KStars *_ks )
 	}
 
 	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
-	kcfg_StarColorMode->insertItem( i18nc( "use realistic star colors", "Real Colors" ) );
-	kcfg_StarColorMode->insertItem( i18nc( "show stars as red circles", "Solid Red" ) );
-	kcfg_StarColorMode->insertItem( i18nc( "show stars as black circles", "Solid Black" ) );
-	kcfg_StarColorMode->insertItem( i18nc( "show stars as white circles", "Solid White" ) );
+	kcfg_StarColorMode->addItem( i18nc( "use realistic star colors", "Real Colors" ) );
+	kcfg_StarColorMode->addItem( i18nc( "show stars as red circles", "Solid Red" ) );
+	kcfg_StarColorMode->addItem( i18nc( "show stars as black circles", "Solid Black" ) );
+	kcfg_StarColorMode->addItem( i18nc( "show stars as white circles", "Solid White" ) );
 	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
 
 	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
@@ -171,7 +171,7 @@ void OpsColors::slotAddPreset() {
 			PresetBox->setCurrentItem( PresetBox->findItem( schemename ) );
 			QString fname = ksw->data()->colorScheme()->fileName();
 			PresetFileList.append( fname );
-			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.find(".colors"))).toUtf8() );
+			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8() );
 		}
 	}
 }
@@ -183,7 +183,7 @@ void OpsColors::slotRemovePreset() {
 	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove action from color-schemes menu
-	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).toUtf8() );
+	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
 
 	if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
 		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
@@ -207,7 +207,7 @@ void OpsColors::slotRemovePreset() {
 
 		while ( !stream.atEnd() ) {
 			QString line = stream.readLine();
-			if ( line.left( line.find(':') ) != name ) slist.append( line );
+			if ( line.left( line.indexOf(':') ) != name ) slist.append( line );
 			else removed = true;
 		}
 

@@ -92,23 +92,23 @@
 
 void KStars::slotViewToolBar() {
 
-	if ( sender()->name() == QString( "show_stars" ) ) {
+	if ( sender()->objectName() == QString( "show_stars" ) ) {
 		Options::setShowStars( !Options::showStars() );
-	} else if ( sender()->name() == QString( "show_deepsky" ) ) {
+	} else if ( sender()->objectName() == QString( "show_deepsky" ) ) {
 		Options::setShowDeepSky( ! Options::showDeepSky() );
-	} else if ( sender()->name() == QString( "show_planets" ) ) {
+	} else if ( sender()->objectName() == QString( "show_planets" ) ) {
 		Options::setShowPlanets( ! Options::showPlanets() );
-	} else if ( sender()->name() == QString( "show_clines" ) ) {
+	} else if ( sender()->objectName() == QString( "show_clines" ) ) {
 		Options::setShowCLines( !Options::showCLines() );
-	} else if ( sender()->name() == QString( "show_cnames" ) ) {
+	} else if ( sender()->objectName() == QString( "show_cnames" ) ) {
 		Options::setShowCNames( !Options::showCNames() );
-	} else if ( sender()->name() == QString( "show_cbounds" ) ) {
+	} else if ( sender()->objectName() == QString( "show_cbounds" ) ) {
 		Options::setShowCBounds( !Options::showCBounds() );
-	} else if ( sender()->name() == QString( "show_mw" ) ) {
+	} else if ( sender()->objectName() == QString( "show_mw" ) ) {
 		Options::setShowMilkyWay( !Options::showMilkyWay() );
-	} else if ( sender()->name() == QString( "show_grid" ) ) {
+	} else if ( sender()->objectName() == QString( "show_grid" ) ) {
 		Options::setShowGrid( !Options::showGrid() );
-	} else if ( sender()->name() == QString( "show_horizon" ) ) {
+	} else if ( sender()->objectName() == QString( "show_horizon" ) ) {
 		Options::setShowGround( !Options::showGround() );
 	}
 
@@ -493,7 +493,7 @@ void KStars::slotRunScript() {
 				}
 
 				if( KIO::NetAccess::download( fileURL, fname, this ) ) {
-					chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
+					chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
 
 					if ( tmpfile.name() == fname ) { //upload to remote location
 						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
@@ -516,11 +516,11 @@ void KStars::slotRunScript() {
 		if ( ! fileURL.isLocalFile() ) {
 			fname = tmpfile.name();
 			if( KIO::NetAccess::download( fileURL, fname, this ) ) {
-				chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
-				f.setName( fname );
+				chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+				f.setFileName( fname );
 			}
 		} else {
-			f.setName( fileURL.path() );
+			f.setFileName( fileURL.path() );
 		}
 
 		if ( !f.open( QIODevice::ReadOnly) ) {
@@ -618,7 +618,7 @@ void KStars::slotToggleTimer() {
 
 //Focus
 void KStars::slotPointFocus() {
-	QString sentFrom( sender()->name() );
+	QString sentFrom( sender()->objectName() );
 
 	if ( sentFrom == "zenith" )
 		map()->invokeKey( Qt::Key_Z );
@@ -808,12 +808,12 @@ void KStars::slotCoordSys() {
 //Settings Menu:
 void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
-	QString filename = QString( sender()->name() ).mid(3) + ".colors";
+	QString filename = QString( sender()->objectName() ).mid(3) + ".colors";
 	loadColorScheme( filename );
 }
 
 void KStars::slotTargetSymbol() {
-	QString symbolName( sender()->name() );
+	QString symbolName( sender()->objectName() );
 	FOV f( symbolName ); //read data from fov.dat
 
 	Options::setFOVName( f.name() );
@@ -837,7 +837,7 @@ void KStars::slotFOVEdit() {
 	if ( fovdlg.exec() == QDialog::Accepted ) {
 		//replace existing fov.dat with data from the FOVDialog
 		QFile f;
-		f.setName( locateLocal( "appdata", "fov.dat" ) );
+		f.setFileName( locateLocal( "appdata", "fov.dat" ) );
 
 		//rebuild fov.dat if FOVList is empty
 		if ( fovdlg.FOVList.isEmpty() ) {
@@ -864,7 +864,7 @@ void KStars::slotFOVEdit() {
 			QTextStream stream( &f );
 			while ( !stream.atEnd() ) {
 				QString line = stream.readLine();
-				QStringList fields = QStringList::split( ":", line );
+				QStringList fields = line.split( ":" );
 
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].trimmed();
@@ -933,24 +933,24 @@ void KStars::slotClearAllTrails() {
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
-	if ( sender()->name() == QString( "show_mainToolBar" ) ) {
+	if ( sender()->objectName() == QString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
 		if ( show ) toolBar()->show();
 		else toolBar()->hide();
 	}
-	if ( sender()->name() == QString( "show_viewToolBar" ) ) {
+	if ( sender()->objectName() == QString( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );
 		if ( show ) toolBar( "viewToolBar" )->show();
 		else toolBar( "viewToolBar" )->hide();
 	}
 
-	if ( sender()->name() == QString( "show_statusBar" ) ) {
+	if ( sender()->objectName() == QString( "show_statusBar" ) ) {
 		Options::setShowStatusBar( show );
 		if ( show ) statusBar()->show();
 		else  statusBar()->hide();
 	}
 
-	if ( sender()->name() == QString( "show_sbAzAlt" ) ) {
+	if ( sender()->objectName() == QString( "show_sbAzAlt" ) ) {
 		Options::setShowAltAzField( show );
 		if ( show ) {
 			//To preserve the order (AzAlt before RADec), we have to remove
@@ -972,7 +972,7 @@ void KStars::slotShowGUIItem( bool show ) {
 		}
 	}
 
-	if ( sender()->name() == QString( "show_sbRADec" ) ) {
+	if ( sender()->objectName() == QString( "show_sbRADec" ) ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
@@ -986,13 +986,13 @@ void KStars::slotShowGUIItem( bool show ) {
 
 //InfoBoxes: we only change options here; these are also connected to slots in
 //InfoBoxes that actually toggle the display.
-	if ( sender()->name() == QString( "show_boxes" ) )
+	if ( sender()->objectName() == QString( "show_boxes" ) )
 		Options::setShowInfoBoxes( show );
-	if ( sender()->name() == QString( "show_time_box" ) )
+	if ( sender()->objectName() == QString( "show_time_box" ) )
 		Options::setShowTimeBox( show );
-	if ( sender()->name() == QString( "show_location_box" ) )
+	if ( sender()->objectName() == QString( "show_location_box" ) )
 		Options::setShowGeoBox( show );
-	if ( sender()->name() == QString( "show_focus_box" ) )
+	if ( sender()->objectName() == QString( "show_focus_box" ) )
 		Options::setShowFocusBox( show );
 }
 
@@ -1003,7 +1003,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
 	kDebug() << "removing " << actionName << endl;
-	colorActionMenu->remove( actionCollection()->action( actionName.ascii() ) );
+	colorActionMenu->remove( actionCollection()->action( actionName ) );
 }
 
 void KStars::establishINDI()

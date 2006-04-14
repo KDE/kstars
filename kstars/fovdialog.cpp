@@ -84,7 +84,7 @@ void FOVDialog::initList() {
 
 		QTextStream stream( &f );
 		while ( !stream.atEnd() ) {
-			fields = QStringList::split( ":", stream.readLine() );
+			fields = stream.readLine().split( ":" );
 			bool ok( false );
 
 			if ( fields.count() == 4 ) {
@@ -248,15 +248,15 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 
 void NewFOV::slotComputeFOV() {
 	//DEBUG
-	kDebug() << ":" << sender()->name() << ":" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) ) kDebug() << "A" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B" << endl;
+	kDebug() << ":" << sender()->objectName() << ":" << endl;
+	if ( sender()->objectName() == QString( "ComputeEyeFOV" ) ) kDebug() << "A" << endl;
+	if ( sender()->objectName() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B" << endl;
 
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
+	if ( sender()->objectName() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
-	else if ( sender()->name() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
+	else if ( sender()->objectName() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->ChipSize->value() * 3438.0 / ui->TLength2->value() ) );
-	else if ( sender()->name() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
+	else if ( sender()->objectName() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
 		// Beam width for an antenna is usually a circle on the sky.
 		ui->ShapeBox->setCurrentItem(4);

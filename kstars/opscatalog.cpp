@@ -90,7 +90,7 @@ OpsCatalog::~OpsCatalog() {}
 
 void OpsCatalog::updateDisplay() {
 	//Modify display according to settings in the CatalogList
-	if ( sender()->name() == QString( "CatalogList" ) )
+	if ( sender()->objectName() == QString( "CatalogList" ) )
 		Options::setShowDeepSky( true );
 
 	Options::setShowMessier( showMessier->checkState() );
@@ -225,8 +225,8 @@ QString OpsCatalog::getCatalogName( const QString &filename ) {
 		QTextStream stream( &f );
 		while ( ! stream.atEnd() ) {
 			QString line = stream.readLine();
-			if ( line.find( "# Name: " ) == 0 ) {
-				name = line.mid( line.find(":")+2 );
+			if ( line.indexOf( "# Name: " ) == 0 ) {
+				name = line.mid( line.indexOf(":")+2 );
 				break;
 			}
 		}

@@ -331,7 +331,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       for (int i=0;i<10;i++) {
       	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
           QString sAll( file.readAll() );
-          QStringList lines = QStringList::split( "\n", sAll );
+          QStringList lines = sAll.split( "\n" );
           int nSize = lines.size();
           for ( int i=0; i<nSize; i++ ) {
             QString& line = lines[i];
@@ -359,7 +359,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
       for (int i=0;i<1;i++) {
       	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
           QString sAll( file.readAll() );
-          QStringList lines = QStringList::split( "\n", sAll );
+          QStringList lines = sAll.split( "\n" );
           int nSize = lines.size();
           for ( int i=0; i<nSize; i++ ) {
             QString& line = lines[i];

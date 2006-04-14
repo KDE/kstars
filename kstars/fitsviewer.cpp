@@ -165,9 +165,9 @@ bool  FITSViewer::initFITS()
     image->clearMem();*/
     
   /* Load image into buffer */
-    //if ( (imgBuffer = loadData (currentURL.path().ascii(), imgBuffer)) == NULL)  { close(); return false; }
+    //if ( (imgBuffer = loadData (currentURL.path().toAscii(), imgBuffer)) == NULL)  { close(); return false; }
     /* Display image in the central widget */
-    if (image->loadFits(currentURL.path().ascii()) == -1) { close(); return false; }
+    if (image->loadFits(currentURL.path().toAscii()) == -1) { close(); return false; }
 
     kDebug() << "Clearing history" << endl;
     /* Clear history */
@@ -572,7 +572,7 @@ void FITSViewer::fileSave()
 		return;
   	}
   
-  	ifp = fits_open (currentURL.path().ascii(), "w");
+  	ifp = fits_open (currentURL.path().toAscii(), "w");
         if (ifp == NULL)
         {
           KMessageBox::error(0, i18n("Error during open of FITS file."));
@@ -588,10 +588,10 @@ void FITSViewer::fileSave()
 	{
 	  recordList = record[j];
 	  
-	  if ( (index = recordList.find("BITPIX")) != -1)
+	  if ( (index = recordList.indexOf("BITPIX")) != -1)
 	  	recordList.replace(index, FITS_CARD_SIZE, bitpixRec);
 	
-	  fwrite(recordList.ascii(), 1, FITS_RECORD_SIZE, ifp->fp);
+	  fwrite(recordList.toAscii(), 1, FITS_RECORD_SIZE, ifp->fp);
         }
 	
 	switch (image->bitpix)
@@ -920,14 +920,14 @@ void FITSViewer::fitsHeader()
    	{
      	       property = recordList.left(FITS_CARD_SIZE);
 	       
-	       equal = property.find('=');
+	       equal = property.indexOf('=');
 	       
 	       if (equal == -1)
 	       {
 	        if (property.contains(" ") != FITS_CARD_SIZE)
 	         	cards << property << QString() << QString();
 		 recordList.remove(0, FITS_CARD_SIZE);
-		 if (property.find("END") != -1)
+		 if (property.indexOf("END") != -1)
 		  break;
 		 else
 		  continue;
@@ -935,11 +935,11 @@ void FITSViewer::fitsHeader()
 	       
 	       
      	       cards << property.left(equal);
-     	       slash = property.find("'");
+     	       slash = property.indexOf("'");
      	       if (slash != -1)
-       		slash = property.find("'", slash + 1) + 1;
+       		slash = property.indexOf("'", slash + 1) + 1;
      	       else
-       		slash = property.find('/') - 1;
+       		slash = property.indexOf('/') - 1;
        
      		cards << property.mid(equal + 2, slash - (equal + 2)).simplified().remove("'");
      		cards << property.mid(slash + 1, FITS_CARD_SIZE - (slash + 1)).simplified();

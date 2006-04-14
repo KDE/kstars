@@ -60,7 +60,7 @@ XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
 	    return (cp);
 	if (errmsg)
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s %.64s %.64s> missing child '%.64s'", tagXMLEle(ep),
-						pp->pg->dp->name.ascii(), pp->name.ascii(), child);
+						pp->pg->dp->name.toAscii(), pp->name.toAscii(), child);
 	return (NULL);
 }
 
@@ -279,7 +279,7 @@ void INDI_E::updateValue(double newValue)
   
   value = newValue; 
 
-  numberFormat(iNumber, format.ascii(), value);
+  numberFormat(iNumber, format.toAscii(), value);
   text = iNumber;
 
 }

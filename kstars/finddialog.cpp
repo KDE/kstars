@@ -28,17 +28,17 @@
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 
-	FilterType->insertItem( i18n ("Any") );
-	FilterType->insertItem( i18n ("Stars") );
-	FilterType->insertItem( i18n ("Solar System") );
-	FilterType->insertItem( i18n ("Open Clusters") );
-	FilterType->insertItem( i18n ("Glob. Clusters") );
-	FilterType->insertItem( i18n ("Gas. Nebulae") );
-	FilterType->insertItem( i18n ("Plan. Nebulae") );
-	FilterType->insertItem( i18n ("Galaxies") );
-	FilterType->insertItem( i18n ("Comets") );
-	FilterType->insertItem( i18n ("Asteroids") );
-	FilterType->insertItem( i18n ("Constellations") );
+	FilterType->addItem( i18n ("Any") );
+	FilterType->addItem( i18n ("Stars") );
+	FilterType->addItem( i18n ("Solar System") );
+	FilterType->addItem( i18n ("Open Clusters") );
+	FilterType->addItem( i18n ("Glob. Clusters") );
+	FilterType->addItem( i18n ("Gas. Nebulae") );
+	FilterType->addItem( i18n ("Plan. Nebulae") );
+	FilterType->addItem( i18n ("Galaxies") );
+	FilterType->addItem( i18n ("Comets") );
+	FilterType->addItem( i18n ("Asteroids") );
+	FilterType->addItem( i18n ("Constellations") );
 
 	SearchList->setMinimumWidth( 256 );
 	SearchList->setMinimumHeight( 320 );
@@ -109,7 +109,7 @@ void FindDialog::filterByType() {
 	KStars *p = (KStars *)parent();
 
 	ui->SearchList->clear();	// QListBox
-	QString searchFor = ui->SearchBox->text().lower();  // search string
+	QString searchFor = ui->SearchBox->text().toLower();  // search string
 
 	QStringList ObjNames;
 

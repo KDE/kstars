@@ -775,10 +775,10 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 // 	for ( int iname = 0; iname < cnameList.size(); ++iname ) {
 // 		SkyObject o = cnameList[i];
 //
-// 		if ( abbrev.lower() == o->name2().lower() ) {
+// 		if ( abbrev.toLower() == o->name2().toLower() ) {
 // 			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
-// 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
-// 			int i = r.find(" ");
+// 			r = r.left(1) + r.mid(1).toLower(); //lowercase letters (except first letter)
+// 			int i = r.indexOf(" ");
 // 			i++;
 // 			if ( i>0 ) r = r.left(i) + r.mid(i,1).upper() + r.mid(i+1); //capitalize 2nd word
 // 			return r;

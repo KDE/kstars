@@ -77,11 +77,11 @@ int main(int argc, char *argv[])
 		const char* format = "PNG";
 		QString fname = args->getOption( "filename" );
 		QString ext = fname.mid( fname.findRev(".")+1 );
-		if ( ext.lower() == "png" ) { format = "PNG"; }
-		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
-		else if ( ext.lower() == "gif" ) { format = "GIF"; }
-		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
-		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
+		if ( ext.toLower() == "png" ) { format = "PNG"; }
+		else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
+		else if ( ext.toLower() == "gif" ) { format = "GIF"; }
+		else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
+		else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
 		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
 
 		//parse width and height

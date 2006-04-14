@@ -317,11 +317,11 @@ void AltVsTime::slotHighlight(void) {
 
 //move input focus to the next logical widget
 void AltVsTime::slotAdvanceFocus(void) {
-	if ( sender()->name() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
-	if ( sender()->name() == QString( "raBox" ) ) avtUI->decBox->setFocus();
-	if ( sender()->name() == QString( "decbox" ) ) avtUI->addButton->setFocus();
-	if ( sender()->name() == QString( "longBox" ) ) avtUI->latBox->setFocus();
-	if ( sender()->name() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
+	if ( sender()->objectName() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->objectName() == QString( "raBox" ) ) avtUI->decBox->setFocus();
+	if ( sender()->objectName() == QString( "decbox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->objectName() == QString( "longBox" ) ) avtUI->latBox->setFocus();
+	if ( sender()->objectName() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
 }
 
 void AltVsTime::slotClear(void) {
@@ -392,7 +392,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	computeSunRiseSetTimes();
 	
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
-		QString oName = avtUI->PlotList->text( i ).lower();
+		QString oName = avtUI->PlotList->text( i ).toLower();
 
 		SkyObject *o = ks->data()->objectNamed( oName );
 		if ( o ) {

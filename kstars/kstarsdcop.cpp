@@ -57,7 +57,7 @@ void KStars::setAltAz( double alt, double az ) {
 }
 
 void KStars::lookTowards ( const QString &direction ) {
-  QString dir = direction.lower();
+  QString dir = direction.toLower();
 	if (dir == "zenith" || dir=="z") map()->invokeKey( Qt::Key_Z );
 	else if (dir == "north" || dir=="n") map()->invokeKey( Qt::Key_N );
 	else if (dir == "east"  || dir=="e") map()->invokeKey( Qt::Key_E );
@@ -220,8 +220,8 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
 
 	//parse bool value
 	bool bVal(false);
-	if ( val.lower() == "true" ) { bOk = true; bVal = true; }
-	if ( val.lower() == "false" ) { bOk = true; bVal = false; }
+	if ( val.toLower() == "true" ) { bOk = true; bVal = true; }
+	if ( val.toLower() == "false" ) { bOk = true; bVal = false; }
 	if ( val == "1" ) { bOk = true; bVal = true; }
 	if ( val == "0" ) { bOk = true; bVal = false; }
 
@@ -342,7 +342,7 @@ void KStars::setColor( const QString &name, const QString &value ) {
 
 void KStars::loadColorScheme( const QString &_name ) {
 	QString name( _name );
-	QString filename = name.lower().trimmed();
+	QString filename = name.toLower().trimmed();
 	bool ok( false );
 	
 	//Parse default names which don't follow the regular file-naming scheme
@@ -410,11 +410,11 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		//Determine desired image format from filename extension
 		QString ext = fname.mid( fname.findRev(".")+1 );
 		const char* format = "PNG";
-		if ( ext.lower() == "png" ) { format = "PNG"; }
-		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
-		else if ( ext.lower() == "gif" ) { format = "GIF"; }
-		else if ( ext.lower() == "pnm" ) { format = "PNM"; }
-		else if ( ext.lower() == "bmp" ) { format = "BMP"; }
+		if ( ext.toLower() == "png" ) { format = "PNG"; }
+		else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
+		else if ( ext.toLower() == "gif" ) { format = "GIF"; }
+		else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
+		else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
 		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
 
 		map()->exportSkyImage( &skyimage );

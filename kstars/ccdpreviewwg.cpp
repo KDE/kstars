@@ -231,16 +231,16 @@ void CCDPreviewWG::captureImage()
 	else
 	   fname = tmpfile.name();
 
-	if (fname.right(fmt.length()).lower() != fmt.lower()) 
+	if (fname.right(fmt.length()).toLower() != fmt.toLower()) 
 	{
 	  fname += ".";
-	  fname += fmt.lower();
+	  fname += fmt.toLower();
 	}
 	  
-	streamFrame->kPix.save(fname, fmt.ascii());
+	streamFrame->kPix.save(fname, fmt.toAscii());
 	
 	//set rwx for owner, rx for group, rx for other
-	chmod( fname.ascii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+	chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
 	if ( tmpfile.name() == fname )
 	{ //need to upload to remote location

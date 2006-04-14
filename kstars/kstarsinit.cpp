@@ -179,9 +179,9 @@ void KStars::initActions() {
 
 		while ( !stream.atEnd() ) {
 			line = stream.readLine();
-			schemeName = line.left( line.find( ':' ) );
+			schemeName = line.left( line.indexOf( ':' ) );
 			//I call it filename here, but it's used as the name of the action!
-			filename = "cs_" + line.mid( line.find( ':' ) +1, line.find( '.' ) - line.find( ':' ) - 1 );
+			filename = "cs_" + line.mid( line.indexOf( ':' ) +1, line.indexOf( '.' ) - line.indexOf( ':' ) - 1 );
 			addColorMenuItem( i18n( schemeName.toLocal8Bit() ), filename.toLocal8Bit() );
 		}
 		file.close();
@@ -323,7 +323,7 @@ void KStars::initFOV() {
 		QTextStream stream( &f );
 		while ( !stream.atEnd() ) {
 			QString line = stream.readLine();
-			fields = QStringList::split( ":", line );
+			fields = line.split( ":" );
 
 			if ( fields.count() == 4 ) {
 				nm = fields[0].trimmed();
@@ -348,15 +348,14 @@ void KStars::initStatusBar() {
 	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
 
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-
 	if ( Options::showAltAzField() ) {
-		statusBar()->insertPermanentFixedItem( s, 1 );
+		statusBar()->insertItem( s, 1 );
 		statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( QString(), 1 );
 	}
 
 	if ( Options::showRADecField() ) {
-		statusBar()->insertPermanentFixedItem( s, 2 );
+		statusBar()->insertItem( s, 2 );
 		statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( QString(), 2 );
 	}

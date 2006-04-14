@@ -236,7 +236,7 @@ void INDIMenu::setCustomLabel(const QString &deviceName)
 
   for (int i=0; i < mgr.size(); i++)
     for (int j=0; j < mgr[i]->indi_dev.size(); j++)
-      if (mgr[i]->indi_dev[j]->label.find(deviceName) >= 0)
+      if (mgr[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
         nset++;
 
   if (nset)

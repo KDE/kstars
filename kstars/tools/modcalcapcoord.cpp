@@ -211,7 +211,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		QStringList fields = line.split( " " );
 
 		i = 0;
 

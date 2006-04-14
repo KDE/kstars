@@ -594,13 +594,13 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 		// Info Links
 		case 0:
 			// Get name for our local info_url file
-			URLFile.setName( locateLocal( "appdata", "info_url.dat" ) ); 
+			URLFile.setFileName( locateLocal( "appdata", "info_url.dat" ) ); 
 			break;
 
 		// Image Links
 		case 1:
 			// Get name for our local info_url file
-			URLFile.setName( locateLocal( "appdata", "image_url.dat" ) ); 
+			URLFile.setFileName( locateLocal( "appdata", "image_url.dat" ) ); 
 			break;
 	}
 
@@ -701,13 +701,13 @@ QString DetailDialog::parseADVData( const QString &inlink )
 	QString subLink;
 	int index;
 	
-	if ( (index = link.find("KSOBJ")) != -1)
+	if ( (index = link.indexOf("KSOBJ")) != -1)
 	{
 		link.remove(index, 5);
 		link = link.insert(index, selectedObject->name());
 	}
 
-	if ( (index = link.find("KSRA")) != -1)
+	if ( (index = link.indexOf("KSRA")) != -1)
 	{
 		link.remove(index, 4);
 		subLink.sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
@@ -716,7 +716,7 @@ QString DetailDialog::parseADVData( const QString &inlink )
 
 		link = link.insert(index, subLink);
 	}
-	if ( (index = link.find("KSDEC")) != -1)
+	if ( (index = link.indexOf("KSDEC")) != -1)
 	{
 		link.remove(index, 5);
 		if (selectedObject->dec()->degree() < 0)
@@ -896,13 +896,13 @@ void DetailDialog::showThumbnail() {
 	//If no image found, load "no image" image
 	//If that isn't found, make it blank.
 	QFile file;
-	QString fname = "thumb-" + selectedObject->name().lower().replace( QRegExp(" "), QString() ) + ".png";
+	QString fname = "thumb-" + selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png";
 	if ( KSUtils::openDataFile( file, fname ) ) {
 		file.close();
-		Thumbnail->load( file.name(), "PNG" );
+		Thumbnail->load( file.fileName(), "PNG" );
 	} else if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
 		file.close();
-		Thumbnail->load( file.name(), "PNG" );
+		Thumbnail->load( file.fileName(), "PNG" );
 	} else {
 		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
 		Thumbnail->fill( Data->DataFrame->paletteBackgroundColor() );
@@ -916,7 +916,7 @@ void DetailDialog::updateThumbnail() {
 	
 	if ( tp.exec() == QDialog::Accepted ) {
 		QString fname = locateLocal( "appdata", "thumb-" 
-				+ selectedObject->name().lower().replace( QRegExp(" "), QString() ) + ".png" );
+				+ selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
 
@@ -927,7 +927,7 @@ void DetailDialog::updateThumbnail() {
 			*Thumbnail = *(Data->Image->pixmap());
 		} else {
 			QFile f;
-			f.setName( fname );
+			f.setFileName( fname );
 			f.remove();
 		}
 	}

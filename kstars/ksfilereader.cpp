@@ -25,7 +25,7 @@ KSFileReader::KSFileReader(QFile& file) {
 	QByteArray data = file.readAll();
 	QString sAll = QString::fromUtf8( data.data(), data.size() );
 	// split into list of lines
-	lines = QStringList::split( "\n", sAll );
+	lines = sAll.split( "\n" );
 	// how many lines did we get?
 	numLines = lines.size();
 	// set index to start

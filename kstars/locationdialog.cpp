@@ -42,14 +42,14 @@ LocationDialog::LocationDialog( QWidget* parent )
 	setMainWidget( ui );
 
 	for ( int i=0; i<25; ++i )
-		ui->TZBox->insertItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
+		ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
 	//Populate DSTRuleBox
 	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
 	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
 	for ( ; it != itEnd; ++it )
 		if ( it.key().length() )
-			ui->DSTRuleBox->insertItem( it.key() );
+			ui->DSTRuleBox->addItem( it.key() );
 
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
 	connect( ui->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
@@ -99,7 +99,7 @@ void LocationDialog::initCityList( void ) {
 		if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( KGlobal::locale()->formatNumber( loc->TZ0() ) ) != -1 ) {
 			for ( int i=0; i < ui->TZBox->count(); ++i ) {
 				if ( ui->TZBox->text( i ).toDouble() > loc->TZ0() ) {
-					ui->TZBox->insertItem( KGlobal::locale()->formatNumber( loc->TZ0() ), i-1 );
+					ui->TZBox->addItem( KGlobal::locale()->formatNumber( loc->TZ0() ), i-1 );
 					break;
 				}
 			}
@@ -140,9 +140,9 @@ void LocationDialog::filterCity( void ) {
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 
-		if ( sc.lower().startsWith( ui->CityFilter->text().lower() ) &&
-				sp.lower().startsWith( ui->ProvinceFilter->text().lower() ) &&
-				ss.lower().startsWith( ui->CountryFilter->text().lower() ) ) {
+		if ( sc.toLower().startsWith( ui->CityFilter->text().toLower() ) &&
+				sp.toLower().startsWith( ui->ProvinceFilter->text().toLower() ) &&
+				ss.toLower().startsWith( ui->CountryFilter->text().toLower() ) ) {
 
 			ui->GeoBox->insertItem( loc->fullName() );
 			filteredCityList.append( loc );
@@ -182,7 +182,7 @@ void LocationDialog::changeCity( void ) {
 		ui->NewCountryName->setText( SelectedCity->translatedCountry() );
 		ui->NewLong->showInDegrees( SelectedCity->lng() );
 		ui->NewLat->showInDegrees( SelectedCity->lat() );
-		ui->TZBox->setCurrentText( KGlobal::locale()->formatNumber( SelectedCity->TZ0() ) );
+		ui->TZBox->setEditText( KGlobal::locale()->formatNumber( SelectedCity->TZ0() ) );
 		
 		//Pick the City's rule from the rulebook
 		for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {

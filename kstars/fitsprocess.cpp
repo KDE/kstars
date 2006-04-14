@@ -59,7 +59,7 @@
    /* #1 Load dark frames */
    for (int i=0; i < darkFiles.size(); i++)
    {
-     if ( (buffer = viewer->loadData(darkFiles[i].ascii(), buffer)) == NULL)
+     if ( (buffer = viewer->loadData(darkFiles[i].toAscii(), buffer)) == NULL)
      {
         kDebug() << "Error loading dark file " << darkFiles[i] << endl;
 	break;
@@ -73,7 +73,7 @@
    /* Load flat frames */
    for (int i=0; i < flatFiles.size(); i++)
    {
-     if ( (buffer = viewer->loadData(flatFiles[i].ascii(), buffer)) == NULL)
+     if ( (buffer = viewer->loadData(flatFiles[i].toAscii(), buffer)) == NULL)
      {
         kDebug() << "Error loading flat file " << flatFiles[i] << endl;
 	break;
@@ -87,7 +87,7 @@
    /* Load dark frames for the flat field */
    for (int i=0; i < darkflatFiles.size(); i++)
    {
-     if ( (buffer = viewer->loadData(darkflatFiles[i].ascii(), buffer)) == NULL)
+     if ( (buffer = viewer->loadData(darkflatFiles[i].toAscii(), buffer)) == NULL)
      {
         kDebug() << "Error loading dark flat file " << darkflatFiles[i] << endl;
 	break;

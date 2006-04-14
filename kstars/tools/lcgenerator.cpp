@@ -158,10 +158,10 @@ void LCGenerator::updateNameList(int index)
 
 void LCGenerator::updateStarList()
 {
-	file->setName( locateLocal( "appdata", "valaav.txt" ) );
+	file->setFileName( locateLocal( "appdata", "valaav.txt" ) );
 	
 	KUrl AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
-	KUrl saveFile (file->name());
+	KUrl saveFile (file->fileName());
 	
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
 	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));

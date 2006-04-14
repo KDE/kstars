@@ -144,7 +144,7 @@ void INDI_D::registerProperty(INDI_P *pp)
 bool INDI_D::isINDIStd(INDI_P *pp)
 {
   for (uint i=0; i < NINDI_STD; i++)
-    if (!strcmp(pp->name.ascii(), indi_std[i]))
+    if (!strcmp(pp->name.toAscii(), indi_std[i]))
     {
       pp->stdID = i;
       return true;
@@ -186,7 +186,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 	if (!pp)
 	{
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.32s> device %.32s has no property named %.64s",
-						tagXMLEle(root), name.ascii(), valuXMLAtt(ap));
+						tagXMLEle(root), name.toAscii(), valuXMLAtt(ap));
 	    return (-1);
 	}
 
@@ -211,7 +211,7 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    else
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> bogus state %.64s for %.64s %.64s",
-						tagXMLEle(root), valuXMLAtt(ap), name.ascii(), pp->name.ascii());
+						tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), pp->name.toAscii());
 		return (-1);
 	    }
 	}
@@ -282,7 +282,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    
 	    if (!lp)
 	    {
-	      snprintf(errmsg, ERRMSG_SIZE, "Error: unable to find element '%.64s' in property '%.64s'", elementName.ascii(), pp->name.ascii());
+	      snprintf(errmsg, ERRMSG_SIZE, "Error: unable to find element '%.64s' in property '%.64s'", elementName.toAscii(), pp->name.toAscii());
 	      return (-1);
 	    }
 	    
@@ -299,7 +299,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	     else if (pp->guitype == PG_NUMERIC)
 	     {
 	       lp->value = atof(pcdataXMLEle(ep));
-	       numberFormat(iNumber, lp->format.ascii(), lp->value);
+	       numberFormat(iNumber, lp->format.toAscii(), lp->value);
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
 	       
@@ -323,7 +323,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    else if (pp->guitype == PG_NUMERIC)
 	    {
 	      lp->value = atof(pcdataXMLEle(ep));
-	      numberFormat(iNumber, lp->format.ascii(), lp->value);
+	      numberFormat(iNumber, lp->format.toAscii(), lp->value);
 	      lp->text = iNumber;
 
 	      if (lp->spin_w)
@@ -378,7 +378,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	    if (!ap)
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s %.64s requires name",
-						    tagXMLEle(root), name.ascii(), pp->name.ascii(), tagXMLEle(ep));
+						    tagXMLEle(root), name.toAscii(), pp->name.toAscii(), tagXMLEle(ep));
 		return (-1);
 	    }
 
@@ -386,7 +386,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 		    || (!islight && crackSwitchState (pcdataXMLEle(ep), &state) < 0))
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-					    tagXMLEle(root), pcdataXMLEle(ep), name.ascii(), pp->name.ascii(), tagXMLEle(ep));
+					    tagXMLEle(root), pcdataXMLEle(ep), name.toAscii(), pp->name.toAscii(), tagXMLEle(ep));
 		return (-1);
 	    }
 
@@ -397,7 +397,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	    if (!lp)
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has no choice named %.64s",
-						    tagXMLEle(root), name.ascii(), pp->name.ascii(), valuXMLAtt(ap));
+						    tagXMLEle(root), name.toAscii(), pp->name.toAscii(), valuXMLAtt(ap));
 		return (-1);
 	    }
 
@@ -426,7 +426,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	       {
 	      	if (menuChoice)
 	      	{
-	        	snprintf(errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has multiple ON states", tagXMLEle(root), name.ascii(), pp->name.ascii());
+	        	snprintf(errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has multiple ON states", tagXMLEle(root), name.toAscii(), pp->name.toAscii());
 			return (-1);
               	}
 	      	menuChoice = 1;
@@ -470,7 +470,7 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
 	return processBlob(blobEL, ep, errmsg);
       else
       {
-	sprintf (errmsg, "INDI: set %64s.%64s.%64s not found", name.ascii(), pp->name.ascii(), findXMLAttValu(ep, "name"));
+	sprintf (errmsg, "INDI: set %64s.%64s.%64s not found", name.toAscii(), pp->name.toAscii(), findXMLAttValu(ep, "name"));
 	return (-1);
       }
     }
@@ -496,7 +496,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   ap = findXMLAtt(ep, "size");
   if (!ap)
   {
-    sprintf (errmsg, "INDI: set %64s size not found", blobEL->name.ascii());
+    sprintf (errmsg, "INDI: set %64s size not found", blobEL->name.toAscii());
     return (-1);
   }
   
@@ -505,7 +505,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   ap = findXMLAtt(ep, "format");
   if (!ap)
   {
-    sprintf (errmsg, "INDI: set %64s format not found", blobEL->name.ascii());
+    sprintf (errmsg, "INDI: set %64s format not found", blobEL->name.toAscii());
     return (-1);
   }
   
@@ -524,11 +524,11 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   else if (blobSize < 0)
   {
     free (blobBuffer);
-    sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii());
+    sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii());
     return (-1);
   }
   
-  iscomp = (dataFormat.find(".z") != -1);
+  iscomp = (dataFormat.indexOf(".z") != -1);
   
   dataFormat.remove(".z");
   
@@ -547,7 +547,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
     if (r != Z_OK)
     {
-      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.ascii(), blobEL->pp->name.ascii(), blobEL->name.ascii(), r);    
+      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii(), r);    
       free (blobBuffer);
       return -1;
     }
@@ -608,7 +608,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	if (findProp (valuXMLAtt(ap)))
 	{
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s %.64s %.64s> already exists.\n", tagXMLEle(root),
-							name.ascii(), valuXMLAtt(ap));
+							name.toAscii(), valuXMLAtt(ap));
 	    return NULL;
 	}
 
@@ -630,7 +630,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	if (crackLightState (valuXMLAtt(ap), &pp->state) < 0)
 	{
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> bogus state %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.ascii(), pp->name.ascii());
+				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.toAscii(), pp->name.toAscii());
 	    delete(pp);
 	    return (NULL);
 	}
@@ -681,7 +681,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
     return curGroup;
   }
 
-  snprintf (errmsg, ERRMSG_SIZE, "INDI: group %.64s not found in %.64s", grouptag.ascii(), name.ascii());
+  snprintf (errmsg, ERRMSG_SIZE, "INDI: group %.64s not found in %.64s", grouptag.toAscii(), name.toAscii());
   return NULL;
 }
 
@@ -697,7 +697,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 	ap = findXMLAtt(root, "perm");
 	if (!ap) {
 	    snprintf (errmsg, ERRMSG_SIZE,"INDI: <%.64s %.64s %.64s> missing attribute 'perm'",
-					tagXMLEle(root), pp->pg->dp->name.ascii(), pp->name.ascii());
+					tagXMLEle(root), pp->pg->dp->name.toAscii(), pp->name.toAscii());
 	    return (-1);
 	}
 	if (!strcmp(valuXMLAtt(ap), "ro") || !strcmp(valuXMLAtt(ap), "r"))
@@ -708,7 +708,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 	    *permp = PP_RW;
 	else {
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown perm %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.ascii(), pp->name.ascii());
+				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.toAscii(), pp->name.toAscii());
 	    return (-1);
 	}
 
@@ -948,7 +948,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	}
 	
 	snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown rule %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), name.ascii(), pp->name.ascii());
+				tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), pp->name.toAscii());
 	    
 	delete(pp);
 	return (-1);

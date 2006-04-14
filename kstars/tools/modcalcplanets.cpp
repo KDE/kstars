@@ -383,7 +383,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		QStringList fields = line.split( " " );
 
 		if (fields.count() != numberOfRequiredFields ) {
 			lineIsValid = false;

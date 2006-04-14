@@ -180,7 +180,7 @@ void INDI_P::newText()
 
       if (guitype == PG_NUMERIC)
       {
-        f_scansexa(lp->text.ascii(), &(lp->targetValue));
+        f_scansexa(lp->text.toAscii(), &(lp->targetValue));
         if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
         {
           KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3", lp->label, lp->min, lp->max));
@@ -663,7 +663,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	    if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), name.ascii(), lp->name.ascii(), name.ascii());
+			    tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), lp->name.toAscii(), name.toAscii());
 		return (-1);
 	    }
 
@@ -674,7 +674,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 		if (onItem != -1)
 		{
 		    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has multiple On switches",
-					tagXMLEle(root), name.ascii(), lp->name.ascii());
+					tagXMLEle(root), name.toAscii(), lp->name.toAscii());
 		    return (-1);
 		}
 		
@@ -747,7 +747,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	    if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), name.ascii(), name.ascii(), lp->name.ascii());
+			    tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), name.toAscii(), lp->name.toAscii());
 		return (-1);
 	    }
 
@@ -846,7 +846,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	   if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->state) < 0)
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), pg->dp->name.ascii(), name.ascii(), sname.ascii());
+			    tagXMLEle(root), valuXMLAtt(ap), pg->dp->name.toAscii(), name.toAscii(), sname.toAscii());
 		return (-1);
 	   }
 	   

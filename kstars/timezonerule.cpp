@@ -87,7 +87,7 @@ void TimeZoneRule::setDST( bool activate ) {
 
 int TimeZoneRule::initMonth( const QString &mn ) {
 //Check whether the argument is a three-letter English month code.
-	QString ml = mn.lower();
+	QString ml = mn.toLower();
 	if ( ml == "jan" ) return 1;
 	else if ( ml == "feb" ) return 2;
 	else if ( ml == "mar" ) return 3;
@@ -116,7 +116,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 		return true;
 	}
 
-	QString dl = dy.lower();
+	QString dl = dy.toLower();
 //2. 3-letter day of week string, indicating the last of that day of the month
 //   ...set Week to 5 to indicate the last weekday of the month
 	if ( dl == "mon" ) { Day = 1; Week = 5; return true; }
@@ -131,7 +131,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 //   the (1st/2nd/3rd) weekday of the month.
 	int wn = dl.left(1).toInt();
 	if ( wn >0 && wn <4 ) {
-		QString dm = dl.mid( 1, dl.length() ).lower();
+		QString dm = dl.mid( 1, dl.length() ).toLower();
 		if ( dm == "mon" ) { Day = 1; Week = wn; return true; }
 		else if ( dm == "tue" ) { Day = 2; Week = wn; return true; }
 		else if ( dm == "wed" ) { Day = 3; Week = wn; return true; }

@@ -195,9 +195,9 @@ void KSWizard::slotFilterCities() {
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 
-		if ( sc.lower().startsWith( location->CityFilter->text().lower() ) &&
-				sp.lower().startsWith( location->ProvinceFilter->text().lower() ) &&
-				ss.lower().startsWith( location->CountryFilter->text().lower() ) ) {
+		if ( sc.toLower().startsWith( location->CityFilter->text().toLower() ) &&
+				sp.toLower().startsWith( location->ProvinceFilter->text().toLower() ) &&
+				ss.toLower().startsWith( location->CountryFilter->text().toLower() ) ) {
 			location->CityListBox->insertItem( loc->fullName() );
 			filteredCityList.append( loc );
 		}

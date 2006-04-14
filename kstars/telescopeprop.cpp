@@ -217,7 +217,7 @@ void telescopeProp::updateScopeDetails(int index)
      }
 
   if (foundFlag == false)
-    ui->driverCombo->setCurrentText(indi_driver->devices[finalIndex]->driver);
+    ui->driverCombo->setEditText(indi_driver->devices[finalIndex]->driver);
 
   ui->labelEdit->setText(indi_driver->devices[finalIndex]->label);
 

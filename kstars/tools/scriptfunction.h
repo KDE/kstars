@@ -53,7 +53,7 @@ public:
 
 	void setArg( unsigned int n, QString newVal ) { ArgVal[n] = newVal; }
 	bool checkArgs();
-	unsigned int numArgs() const { return NumArgs; }
+	int numArgs() const { return NumArgs; }
 
 	QString scriptLine() const;
 	
@@ -67,7 +67,7 @@ private:
 	QString ArgVal[6];
 	QString INDIProp;
 	bool Valid, ClockFunction;
-	unsigned int NumArgs;
+	int NumArgs;
 };
 
 #endif

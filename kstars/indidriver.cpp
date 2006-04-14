@@ -655,19 +655,19 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   kDebug() << "Group Name: " << groupName << endl;
   
-  if (groupName.find("Telescopes") != -1)
+  if (groupName.indexOf("Telescopes") != -1)
     groupType = KSTARS_TELESCOPE;
-  else if (groupName.find("CCDs") != -1)
+  else if (groupName.indexOf("CCDs") != -1)
     groupType = KSTARS_CCD;
-  else if (groupName.find("Filter") != -1)
+  else if (groupName.indexOf("Filter") != -1)
     groupType = KSTARS_FILTER;
-  else if (groupName.find("Video") != -1)
+  else if (groupName.indexOf("Video") != -1)
     groupType = KSTARS_VIDEO;
-  else if (groupName.find("Focusers") != -1)
+  else if (groupName.indexOf("Focusers") != -1)
     groupType = KSTARS_FOCUSER;
-  else if (groupName.find("Domes") != -1)
+  else if (groupName.indexOf("Domes") != -1)
     groupType = KSTARS_DOME;
-  else if (groupName.find("GPS") != -1)
+  else if (groupName.indexOf("GPS") != -1)
     groupType = KSTARS_GPS;
 
 

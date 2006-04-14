@@ -202,7 +202,7 @@ void PlanetViewer::initPlotObjects() {
 		orbit[i] = new KPlotObject( QString(), "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 		
 		QFile orbitFile;
-		if ( KSUtils::openDataFile( orbitFile, pName[i].lower() + ".orbit" ) ) {
+		if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
 			QTextStream orbitStream( &orbitFile );
 			double x, y, z;
 			while ( !orbitStream.atEnd() ) {

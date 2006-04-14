@@ -369,7 +369,7 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 
 	//All others
 	} else if ( imageTitle.startsWith( i18n( "Show" ) ) ) {
-		message = imageTitle.mid( imageTitle.find( " " ) + 1 ); //eat first word, "Show"
+		message = imageTitle.mid( imageTitle.indexOf( " " ) + 1 ); //eat first word, "Show"
 		message = longname() + ": " + message;
 	}
 	
@@ -410,9 +410,9 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 		int startIndex, endIndex;
 		QString sub;
 	
-		startIndex = logs.find(KSLabel);
+		startIndex = logs.indexOf(KSLabel);
 		sub = logs.mid (startIndex);
-		endIndex = sub.find("[KSLogEnd]");
+		endIndex = sub.indexOf("[KSLogEnd]");
 	
 		logs.remove(startIndex, endIndex + 11);
 	}

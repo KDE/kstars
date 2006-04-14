@@ -188,7 +188,7 @@ bool ColorScheme::load( const QString &filename ) {
 	int newmode = line.left(1).toInt( &ok );
 	if ( ok ) setStarColorMode( newmode );
 	if ( line.contains(':') ) {
-		int newintens = line.mid( line.find(':')+1, 2 ).toInt( &ok );
+		int newintens = line.mid( line.indexOf(':')+1, 2 ).toInt( &ok );
 		if ( ok ) setStarColorIntensity( newintens );
 	}
 
@@ -202,8 +202,8 @@ bool ColorScheme::load( const QString &filename ) {
 			if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
 //If this line has a valid Key, set the color.
-			QString tkey = line.mid( line.find(':')+1 ).trimmed();
-			QString tname = line.left( line.find(':')-1 );
+			QString tkey = line.mid( line.indexOf(':')+1 ).trimmed();
+			QString tname = line.left( line.indexOf(':')-1 );
 
 			if ( KeyName.contains( tkey ) ) {
 				setColor( tkey, tname );
@@ -247,7 +247,7 @@ bool ColorScheme::save( const QString &name ) {
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
 		filename = filename.append( ".colors" );
-		file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
+		file.setFileName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 
 		if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
@@ -265,7 +265,7 @@ bool ColorScheme::save( const QString &name ) {
 			file.close();
 		}
 
-		file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+		file.setFileName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
