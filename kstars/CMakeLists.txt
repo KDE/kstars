@@ -210,7 +210,6 @@ set(libkstarswidgets_SRCS
 )
 
 
-set( kstars_KCFG_SRCS Options.kcfgc )
 
 set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
            conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp 
