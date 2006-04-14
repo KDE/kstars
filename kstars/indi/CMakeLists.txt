@@ -7,43 +7,188 @@ add_subdirectory( cfitsio )
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
+set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
+
+set(libindicom_SRCS 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/indicom.c 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
+	)
+
+set(libcfitsio_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/buffers.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/cfileio.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/checksum.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/compress.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrfile.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrmem.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrnet.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrsmem.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/editcol.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/edithdu.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_l.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_y.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_f.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fitscore.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcol.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcold.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcole.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoli.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolj.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolk.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoll.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcols.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolsb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluk.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolui.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluj.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getkey.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/group.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/grparser.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/histo.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/iraffits.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/modkey.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcol.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcold.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcole.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoli.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolj.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolk.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluk.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoll.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcols.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolsb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolu.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolui.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluj.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putkey.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/region.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/scalnull.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/swapproc.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcssub.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcsutil.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/imcompress.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/quantize.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
+	)
+
+set(libapogee_usb_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD3011HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD3011LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4240HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4240LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710LS2.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710LS3.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710LS4.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4710LS5.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4720HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD4720LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD5520HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD5520LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD5710HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD5710LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD7700HS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_CCD7700LS.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF0261E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF0401E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF1001E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF1301E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF1401E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF3200E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF4202.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF1602E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF16801E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_KAF6303E.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData_TH7899.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamTable.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamera.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamera_USB.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamera_Linux.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApogeeUsbLinux.cpp
+	)
+
+set(libapogee_ISA_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_Linux.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_LinuxISA.cpp
+	)
+
+set(libapogee_PCI_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_Linux.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_LinuxPCI.cpp
+	)
+
+set(libapogee_PPI_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_Linux.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/CameraIO_LinuxPPI.cpp
+	)
+
+set(libfli_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-camera.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-camera-parport.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-camera-usb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-filter-focuser.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-mem.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-serial.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-sys.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-usb.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-debug.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-usb-sys-linux.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/fli/libfli-parport.c
+	)
+
+set(libwebcam_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/PPort.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/port.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/v4l2_base.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_c2.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_misc.c
+	)
 
 ########### next target ###############
+## SBIG Universal Driver Dummy Library ###
+set(sbigudrv_LIB_SRCS sbig_dummy.cpp)
 
+kde4_add_library(sbigudrv SHARED ${sbigudrv_LIB_SRCS})
+
+target_link_libraries(sbigudrv)
+
+set_target_properties(sbigudrv PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+install_targets(${LIB_INSTALL_DIR} sbigudrv )
+
+########### next target ###############
+########### INDI Server ##############
 set(indiserver_SRCS indiserver.c fq.c )
 
-kde4_automoc(${indiserver_SRCS})
-
-kde4_add_executable(indiserver ${indiserver_SRCS})
+kde4_add_executable(indiserver ${indiserver_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} pthread )
 
 install_targets(/bin indiserver )
 
-
 ########### next target ###############
-
+########### LX200 Basic #############
 set(lx200basic_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    lx200driver.c 
    lx200basic.cpp )
 
-kde4_automoc(${lx200basic_SRCS})
-
-kde4_add_executable(lx200basic ${lx200basic_SRCS})
+kde4_add_executable(lx200basic ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(lx200basic  ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin lx200basic )
 
-
 ########### next target ###############
-
+########### LX200 Generic ###########
 set(lx200generic_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    lx200driver.c 
    lx200autostar.cpp 
@@ -52,80 +197,62 @@ set(lx200generic_SRCS
    lx200generic.cpp 
    lx200classic.cpp )
 
-kde4_automoc(${lx200generic_SRCS})
-
-kde4_add_executable(lx200generic ${lx200generic_SRCS})
+kde4_add_executable(lx200generic ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 
 install_targets(/bin lx200generic )
 
-
 ########### next target ###############
-
+########### Celestron GPS ############
 set(celestrongps_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    celestronprotocol.c 
    celestrongps.cpp )
 
-kde4_automoc(${celestrongps_SRCS})
-
-kde4_add_executable(celestrongps ${celestrongps_SRCS})
+kde4_add_executable(celestrongps ${celestrongps_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(celestrongps  ${KDE4_KDECORE_LIBS} m )
 
 install_targets(/bin celestrongps )
 
-
 ########### next target ###############
-
+########### Astrophysics Mount ########
 set(apmount_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    lx200driver.c 
    apmount.cpp )
 
-kde4_automoc(${apmount_SRCS})
-
-kde4_add_executable(apmount ${apmount_SRCS})
+kde4_add_executable(apmount ${apmount_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(apmount  ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin apmount )
 
-
 ########### next target ###############
-
+########### Takahashi Temma #########
 set(temma_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    temmadriver.c )
 
-kde4_automoc(${temma_SRCS})
-
-kde4_add_executable(temma ${temma_SRCS})
+kde4_add_executable(temma ${temma_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(temma  ${KDE4_KDECORE_LIBS} m )
 
 install_targets(/bin temma )
 
-
 ########### next target ###############
-
+########### Sky Commander ##########
 set(skycommander_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    lx200driver.c 
    skycommander.c )
 
-kde4_automoc(${skycommander_SRCS})
-
-kde4_add_executable(skycommander ${skycommander_SRCS})
+kde4_add_executable(skycommander ${skycommander_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(skycommander  ${KDE4_KDECORE_LIBS} m )
 
@@ -133,139 +260,130 @@ install_targets(/bin skycommander )
 
 
 ########### next target ###############
-
+########### Intelliscope ###############
 set(intelliscope_SRCS 
    indidrivermain.c 
-   base64.c 
    eventloop.c 
    lx200driver.c 
    intelliscope.c )
 
-kde4_automoc(${intelliscope_SRCS})
-
-kde4_add_executable(intelliscope ${intelliscope_SRCS})
+kde4_add_executable(intelliscope ${intelliscope_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(intelliscope  ${KDE4_KDECORE_LIBS} m )
 
 install_targets(/bin intelliscope )
 
+########### LINUX SPECIFC ###############
+#### Build the following targets on Linux Only ####
+
+IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+
+ADD_DEFINITIONS(-DTOP_DATADIR=\\"${KDE4_INSTALL_DIR}${DATA_INSTALL_DIR}/kstars\\")
 
 ########### next target ###############
+########### Apgoee PPI ##############
+set(apogee_ppi_SRCS
+	apogee_ppi.cpp
+	eventloop.c
+	indidrivermain.c )
 
-if(UNIX)
+# If we have libusb
+IF(LIBUSB_FOUND)
 
-set(apogee_ppi_SRCS dummy.cpp )
+kde4_add_executable(apogee_ppi ${apogee_ppi_SRCS} ${libapogee_usb_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-kde4_automoc(${apogee_ppi_SRCS})
+target_link_libraries(apogee_ppi usb ${KDE4_KDECORE_LIBS} )
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(apogee_ppi ${apogee_ppi_SRCS})
+ENDIF(LIBUSB_FOUND)
 
-target_link_libraries(apogee_ppi  ${KDE4_KDECORE_LIBS} )
+kde4_add_executable(apogee_ppi ${apogee_ppi_SRCS} ${libapogee_PPI_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+
+target_link_libraries(apogee_ppi ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin apogee_ppi )
 
 ########### next target ###############
-set(flipdf_SRCS dummy.cpp )
+###### FLI Precision Digital Focuser ######
 
-kde4_automoc(${flipdf_SRCS})
+set(flipdf_SRCS eventloop.c fli_pdf.c indidrivermain.c)
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(flipdf ${flipdf_SRCS})
+kde4_add_executable(flipdf ${flipdf_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(flipdf  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(flipdf m ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin flipdf )
 
 ########### next target ###############
-set(fliwheel_SRCS dummy.cpp )
+########## FLI Filter Wheel ############
+set(fliwheel_SRCS eventloop.c fli_wheel.c indidrivermain.c )
 
-kde4_automoc(${fliwheel_SRCS})
-
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(fliwheel ${fliwheel_SRCS})
+kde4_add_executable(fliwheel ${fliwheel_SRCS}  ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(fliwheel  ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin fliwheel )
 
 ########### next target ###############
-set(fliccd_SRCS dummy.cpp )
+############# FLI CCD ###############
+set(fliccd_SRCS eventloop.c fli_ccd.c indidrivermain.c)
 
 kde4_automoc(${fliccd_SRCS})
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(fliccd ${fliccd_SRCS})
+kde4_add_executable(fliccd ${fliccd_SRCS} ${libfli_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(fliccd  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(fliccd m z ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin fliccd )
 
-
 ########### next target ###############
-set(meade_lpi_SRCS dummy.cpp )
+### Meade Lunar Planetary Imager ########
+ADD_DEFINITIONS(-DHAVE_LINUX_VIDEODEV2_H)
 
-kde4_automoc(${meade_lpi_SRCS})
+set(meade_lpi_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_lpi.cpp )
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(meade_lpi ${meade_lpi_SRCS})
+kde4_add_executable(meade_lpi ${meade_lpi_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(meade_lpi  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(meade_lpi z ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin meade_lpi )
 
-
 ########### next target ###############
-set(v4lphilips_SRCS dummy.cpp )
+########### V4L Philips ##############
+set(v4lphilips_SRCS eventloop.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp indi_philips.cpp)
 
-kde4_automoc(${v4lphilips_SRCS})
+kde4_add_executable(v4lphilips ${v4lphilips_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(v4lphilips ${v4lphilips_SRCS})
-
-target_link_libraries(v4lphilips  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(v4lphilips m z ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin v4lphilips )
 
-
 ########### next target ###############
-set(sbigccd_SRCS dummy.cpp )
+########### V4L Driver ###############
+set(v4ldriver_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp)
 
-kde4_automoc(${sbigccd_SRCS})
+kde4_add_executable(v4ldriver ${v4ldriver_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(sbigccd ${sbigccd_SRCS})
-
-target_link_libraries(sbigccd  ${KDE4_KDECORE_LIBS} )
-
-install_targets(/bin sbigccd )
-
-########### next target ###############
-set(v4ldriver_SRCS dummy.cpp )
-
-kde4_automoc(${v4ldriver_SRCS})
-
-file(WRITE dummy.cpp "//autogenerated file by cmake\n")
-kde4_add_executable(v4ldriver ${v4ldriver_SRCS})
-
-target_link_libraries(v4ldriver  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(v4ldriver m z ${KDE4_KDECORE_LIBS} )
 
 install_targets(/bin v4ldriver )
 
+########### next target ###############
+########### SBIG CCD ###############
+set(sbigccd_SRCS sbigcam.cpp eventloop.c indidrivermain.c)
 
-endif(UNIX)
+kde4_add_executable(sbigccd ${sbigccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
+target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} )
 
+install_targets(/bin sbigccd )
 
-########### install files ###############
+ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 install_files( ${DATA_INSTALL_DIR}/kstars FILES drivers.xml apogee_caminfo.xml )
 
 kde4_create_doxygen_docs(  )
 
 kde4_footer()
-
-
 
 #original Makefile.am contents follow:
 
