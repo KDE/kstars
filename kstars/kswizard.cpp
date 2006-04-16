@@ -79,25 +79,25 @@ KSWizard::KSWizard( QWidget *parent )
 	
 	if ( KSUtils::openDataFile( imFile, "wzstars.png" ) ) {
 		imFile.close(); //Just need the filename...
-		im.load( imFile.name() );
+		im.load( imFile.fileName() );
 	}
 	welcome->Banner->setPixmap( im );
 	
 	if ( KSUtils::openDataFile( imFile, "wzgeo.png" ) ) {
 		imFile.close(); //Just need the filename...
-		im.load( imFile.name() );
+		im.load( imFile.fileName() );
 	}
 	location->Banner->setPixmap( im );
 	
 	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
 		imFile.close(); //Just need the filename...
-		im.load( imFile.name() );
+		im.load( imFile.fileName() );
 	}
 	devices->Banner->setPixmap( im );
 
 	if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
 		imFile.close(); //Just need the filename...
-		im.load( imFile.name() );
+		im.load( imFile.fileName() );
 	}
 	download->Banner->setPixmap( im );
 

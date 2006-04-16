@@ -130,7 +130,7 @@ bool imagesequence::setupCCDs()
 	}
 
 	if (imgDeviceFound) {
-		CCDCombo->setCurrentItem(lastCCD);
+		CCDCombo->setCurrentIndex(lastCCD);
 		currentCCD = CCDCombo->currentText();
 	}
 	else return false;
@@ -202,7 +202,7 @@ bool imagesequence::setupFilters()
 	// In Configure INDI
 	if (filterDeviceFound)
 	{
-		filterCombo->setCurrentItem(lastFilter);
+		filterCombo->setCurrentIndex(lastFilter);
 		currentFilter = filterCombo->currentText();
 		updateFilterCombo(lastFilter);
 		return true;
@@ -288,7 +288,7 @@ void imagesequence::stopSequence()
 void imagesequence::checkCCD(int ccdNum)
 {
 	INDI_D *idevice = NULL;
-	QString targetCCD = CCDCombo->text(ccdNum);
+	QString targetCCD = CCDCombo->itemText(ccdNum);
 	
 	INDIMenu *imenu = ksw->getINDIMenu();
 	if (!imenu)
@@ -313,7 +313,7 @@ void imagesequence::checkCCD(int ccdNum)
 	{
 		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", targetCCD));
 
-		CCDCombo->setCurrentItem(lastCCD);
+		CCDCombo->setCurrentIndex(lastCCD);
 		return;
   }
 
@@ -430,7 +430,7 @@ bool imagesequence::verifyFilterIntegrity()
 	{
 		KMessageBox::error(this, i18n("INDI device %1 no longer exists.", targetFilter));
 		filterCombo->removeItem(filterCombo->currentIndex());
-		filterCombo->setCurrentItem(0);
+		filterCombo->setCurrentIndex(0);
 		currentFilter = filterCombo->currentText();
 		filterPosCombo->clear();
 		stdDevFilter = NULL;
@@ -441,7 +441,7 @@ bool imagesequence::verifyFilterIntegrity()
 	if (!filterDevice->isOn())
 	{
 		KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", targetFilter));
-		filterCombo->setCurrentItem(0);
+		filterCombo->setCurrentIndex(0);
 		currentFilter = filterCombo->currentText();
 		filterPosCombo->clear();
 		stdDevFilter = NULL;
@@ -453,7 +453,7 @@ bool imagesequence::verifyFilterIntegrity()
 	if (filterElem == NULL)
 	{
 	 	KMessageBox::error(this, i18n("Device does not support FILTER_SLOT property."));
-		filterCombo->setCurrentItem(0);
+		filterCombo->setCurrentIndex(0);
 		currentFilter = filterCombo->currentText();
 		filterPosCombo->clear();
 		stdDevFilter = NULL;
@@ -577,7 +577,7 @@ void imagesequence::updateFilterCombo(int filterNum)
 
 	filterList = Options::filterAlias();
 
-	filterElem = devMenu->findDeviceByLabel(filterCombo->text(filterNum))->findElem("SLOT");
+	filterElem = devMenu->findDeviceByLabel(filterCombo->itemText(filterNum))->findElem("SLOT");
 	filterMax = (int) filterElem->max; 
 
 	// Clear combo
@@ -601,7 +601,7 @@ void imagesequence::updateFilterCombo(int filterNum)
 			filterPosCombo->addItem(QString("%1").arg(filterList[i]));
 	}
 
-	filterPosCombo->setCurrentItem(((int) filterElem->value));
+	filterPosCombo->setCurrentIndex(((int) filterElem->value));
 }
 
 void imagesequence::selectFilter()

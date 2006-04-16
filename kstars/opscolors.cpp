@@ -58,7 +58,7 @@ OpsColors::OpsColors( KStars *_ks )
 
 	QFile file;
 	QString line, schemeName, filename;
-	file.setName( locate( "appdata", "colors.dat" ) );
+	file.setFileName( locate( "appdata", "colors.dat" ) );
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
@@ -77,7 +77,7 @@ OpsColors::OpsColors( KStars *_ks )
 	kcfg_StarColorMode->addItem( i18nc( "show stars as red circles", "Solid Red" ) );
 	kcfg_StarColorMode->addItem( i18nc( "show stars as black circles", "Solid Black" ) );
 	kcfg_StarColorMode->addItem( i18nc( "show stars as white circles", "Solid White" ) );
-	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
+	kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
 
 	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
 		kcfg_StarColorIntensity->setEnabled( false );
@@ -135,13 +135,13 @@ bool OpsColors::setColors( QString filename ) {
 
 	//just checking if colorscheme is removable...
 	QFile test;
-	test.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
+	test.setFileName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
 	if ( test.exists() ) RemovePreset->setEnabled( true );
 	else RemovePreset->setEnabled( false );
 	test.close();
 
 	ksw->loadColorScheme( filename );
-	kcfg_StarColorMode->setCurrentItem( ksw->data()->colorScheme()->starColorMode() );
+	kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
 	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
 
 	if ( ksw->data()->skyComposite()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
@@ -180,7 +180,7 @@ void OpsColors::slotRemovePreset() {
 	QString name = PresetBox->currentText();
 	QString filename = PresetFileList[ PresetBox->currentItem() ];
 	QFile cdatFile;
-	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+	cdatFile.setFileName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove action from color-schemes menu
 	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
@@ -213,9 +213,9 @@ void OpsColors::slotRemovePreset() {
 
 		if ( removed ) { //Entry was removed; delete the corresponding .colors file.
 			QFile colorFile;
-			colorFile.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
+			colorFile.setFileName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 			if ( !colorFile.remove() ) {
-				QString message = i18n( "Could not delete the file: %1", colorFile.name() );
+				QString message = i18n( "Could not delete the file: %1", colorFile.fileName() );
 				KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
 			}
 

@@ -524,7 +524,7 @@ void KStars::slotRunScript() {
 		}
 
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1", f.name() );
+			QString message = i18n( "Could not open file %1", f.fileName() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -561,7 +561,7 @@ void KStars::slotRunScript() {
 		statusBar()->changeItem( i18n( "Running script: %1", fileURL.fileName() ), 0 );
 
 		KProcess p;
-		p << f.name();
+		p << f.fileName();
 		p.start( KProcess::DontCare );
 
 		while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
@@ -876,7 +876,7 @@ void KStars::slotFOVEdit() {
 				}
 			}
 		} else {
-			kDebug() << i18n( "Could not open file: %1", f.name() ) << endl;
+			kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 		}
 
 		fovActionMenu->popupMenu()->insertSeparator();

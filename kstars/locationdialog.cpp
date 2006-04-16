@@ -98,7 +98,7 @@ void LocationDialog::initCityList( void ) {
 		//If TZ is not an even integer value, add it to listbox
 		if ( loc->TZ0() - int( loc->TZ0() ) && ui->TZBox->findText( KGlobal::locale()->formatNumber( loc->TZ0() ) ) != -1 ) {
 			for ( int i=0; i < ui->TZBox->count(); ++i ) {
-				if ( ui->TZBox->text( i ).toDouble() > loc->TZ0() ) {
+				if ( ui->TZBox->itemText( i ).toDouble() > loc->TZ0() ) {
 					ui->TZBox->addItem( KGlobal::locale()->formatNumber( loc->TZ0() ), i-1 );
 					break;
 				}
@@ -186,9 +186,9 @@ void LocationDialog::changeCity( void ) {
 		
 		//Pick the City's rule from the rulebook
 		for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
-			TimeZoneRule tzr = p->data()->Rulebook.value( ui->DSTRuleBox->text(i) );
+			TimeZoneRule tzr = p->data()->Rulebook.value( ui->DSTRuleBox->itemText(i) );
 			if ( tzr.equals( SelectedCity->tzrule() ) ) {
-				ui->DSTRuleBox->setCurrentItem( i );
+				ui->DSTRuleBox->setCurrentIndex( i );
 				break;
 			}
 		}
@@ -240,7 +240,7 @@ void LocationDialog::addCity( void ) {
 		QString country = ui->NewCountryName->text().trimmed();
 
 		//check for user's city database.  If it doesn't exist, create it.
-		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+		file.setFileName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
@@ -338,7 +338,7 @@ void LocationDialog::clearFields( void ) {
 	ui->NewLong->clearFields();
 	ui->NewLat->clearFields();
 	ui->TZBox->lineEdit()->setText( KGlobal::locale()->formatNumber( 0.0 ) );
-	ui->DSTRuleBox->setCurrentItem( 0 );
+	ui->DSTRuleBox->setCurrentIndex( 0 );
 	nameModified = true;
 	dataModified = false;
 	ui->AddCityButton->setEnabled( false );

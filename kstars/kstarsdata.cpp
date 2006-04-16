@@ -390,7 +390,7 @@ bool KStarsData::readCityData( void ) {
 // end new code
 
 	//check for local cities database, but don't require it.
-	file.setName( locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+	file.setFileName( locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
@@ -558,7 +558,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 		fileFound = true;
 	} else {
    // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-		file.setName( locateLocal( "appdata", urlfile ) );
+		file.setFileName( locateLocal( "appdata", urlfile ) );
 		if ( file.open( QIODevice::ReadOnly ) ) {
 			//local file found.  Now, if global file has newer timestamp, then merge the two files.
 			//First load local file into QStringList
@@ -568,10 +568,10 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 			while ( ! lStream.atEnd() ) urlData.append( lStream.readLine() );
 
 			//Find global file(s) in findAllResources() list.
-			QFileInfo fi_local( file.name() );
+			QFileInfo fi_local( file.fileName() );
 			QStringList flist = KGlobal::instance()->dirs()->findAllResources( "appdata", urlfile );
 			for ( int i=0; i< flist.size(); i++ ) {
-				if ( flist[i] != file.name() ) {
+				if ( flist[i] != file.fileName() ) {
 					QFileInfo fi_global( flist[i] );
 
 					//Is this global file newer than the local file?
@@ -631,7 +631,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
 				if ( locale->language() != "en_US" ) kDebug() << i18n( "No localized URL file; using default English file." ) << endl;
 				// we found urlfile, we need to copy it to locale
-				localeFile.setName( locateLocal( "appdata", urlfile ) );
+				localeFile.setFileName( locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(QIODevice::WriteOnly)) {
 					QTextStream readStream(&file);
 					QTextStream writeStream(&localeFile);
@@ -800,14 +800,14 @@ bool KStarsData::readVARData(void)
 	QFile localeFile;
 	QFile file;
 	
-	file.setName( locateLocal( "appdata", varFile ) );
+	file.setFileName( locateLocal( "appdata", varFile ) );
 	if ( !file.open( QIODevice::ReadOnly ) )
 	{
 		// Open default variable stars file
 		if ( KSUtils::openDataFile( file, varFile ) )
 		{
 			// we found urlfile, we need to copy it to locale
-			localeFile.setName( locateLocal( "appdata", varFile ) );
+			localeFile.setFileName( locateLocal( "appdata", varFile ) );
 
 			if (localeFile.open(QIODevice::WriteOnly))
 			{
@@ -862,8 +862,8 @@ bool KStarsData::readINDIHosts(void)
 	XMLEle *root = NULL;
 	XMLAtt *ap;
 	
-	file.setName( locate( "appdata", indiFile ) );
-	if ( file.name().isEmpty() || !file.open( QIODevice::ReadOnly ) )
+	file.setFileName( locate( "appdata", indiFile ) );
+	if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
 		 return false;
 
 	while ( (c = (signed char) file.getch()) != -1)
@@ -933,7 +933,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
 	QFile f( scriptname );
 	if ( !f.open( QIODevice::ReadOnly) ) {
-		kDebug() << i18n( "Could not open file %1", f.name() ) << endl;
+		kDebug() << i18n( "Could not open file %1", f.fileName() ) << endl;
 		return false;
 	}
 
@@ -970,7 +970,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				}
 
 				//try a named object.  name is everything after the first word (which is 'lookTowards')
-				fn.remove( fn.first() );
+				fn.removeAll( fn.first() );
 				SkyObject *target = objectNamed( fn.join( " " ) );
 				if ( target ) { map->setFocus( target ); cmdCount++; }
 

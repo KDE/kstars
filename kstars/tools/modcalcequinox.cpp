@@ -136,7 +136,7 @@ void modCalcEquinox::slotRunBatch() {
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
 		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.name() );
+			QString message = i18n( "Could not open file %1.", f.fileName() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = QString();
 			return;

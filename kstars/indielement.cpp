@@ -289,7 +289,10 @@ void INDI_E::setupElementScale(int length)
 
 int steps = (int) ((max - min) / step);
 spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
-slider_w  = new QSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizontal, pp->pg->propertyContainer );
+slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
+slider_w->setRange(0, steps);
+slider_w->setPageStep(1);
+slider_w->setValue((int) ((value - min) / step));
 
 connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
 connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));

@@ -77,7 +77,7 @@ void FOVDialog::initList() {
 	int sh(0);
 	float sz(0.0);
 
-	f.setName( locate( "appdata", "fov.dat" ) );
+	f.setFileName( locate( "appdata", "fov.dat" ) );
 
 	if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
 		Q3ListBoxItem *item = 0;
@@ -154,7 +154,7 @@ void FOVDialog::slotNewFOV() {
 
 	if ( newfdlg.exec() == QDialog::Accepted ) {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
-				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
+				newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->insertItem( newfdlg.ui->FOVName->text() );
 		fov->FOVListBox->setSelected( fov->FOVListBox->count() -1, true );
 		FOVList.append( newfov );
@@ -172,12 +172,12 @@ void FOVDialog::slotEditFOV() {
 	newfdlg.ui->FOVName->setText( f->name() );
 	newfdlg.ui->FOVEdit->setText( KGlobal::locale()->formatNumber( f->size(), 3 ) );
 	newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
-	newfdlg.ui->ShapeBox->setCurrentItem( f->shape() );
+	newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
 	newfdlg.slotUpdateFOV();
 
 	if ( newfdlg.exec() == QDialog::Accepted ) {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
-				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
+				newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
 		
 		//Use the following replacement for QPtrList::replace():
@@ -226,7 +226,7 @@ void NewFOV::slotUpdateFOV() {
 	f.setName( ui->FOVName->text() );
 	float size = (float)(ui->FOVEdit->text().toDouble( &sizeOk ));
 	if ( sizeOk ) f.setSize( size );
-	f.setShape( ui->ShapeBox->currentItem() );
+	f.setShape( ui->ShapeBox->currentIndex() );
 	f.setColor( ui->ColorButton->color().name() );
 
 	if ( ! f.name().isEmpty() && sizeOk )
@@ -259,7 +259,7 @@ void NewFOV::slotComputeFOV() {
 	else if ( sender()->objectName() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
 		// Beam width for an antenna is usually a circle on the sky.
-		ui->ShapeBox->setCurrentItem(4);
+		ui->ShapeBox->setCurrentIndex(4);
 		slotUpdateFOV();
 
 	}

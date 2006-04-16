@@ -180,7 +180,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 	int i = obsList().indexOf( o );
 	if ( i < 0 ) return; //object not in observing list
 
-	m_ObservingList.remove(o);
+	m_ObservingList.removeAll(o);
 	if ( ! isModified ) isModified = true;
 
 	if ( o == LogObject ) 

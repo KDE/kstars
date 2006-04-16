@@ -241,7 +241,7 @@ bool ColorScheme::save( const QString &name ) {
 
 	//Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",
 	//and append ".colors".
-	QString filename = name.lower().trimmed();
+	QString filename = name.toLower().trimmed();
 	if ( !filename.isEmpty() ) {
 		for( int i=0; i<filename.length(); ++i)
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );

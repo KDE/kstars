@@ -408,7 +408,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		}
 
 		//Determine desired image format from filename extension
-		QString ext = fname.mid( fname.findRev(".")+1 );
+		QString ext = fname.mid( fname.lastIndexOf(".")+1 );
 		const char* format = "PNG";
 		if ( ext.toLower() == "png" ) { format = "PNG"; }
 		else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }

@@ -177,8 +177,8 @@ void OpsCatalog::slotRemoveCatalog() {
 			//Update Options object
 			QStringList tFileList = Options::catalogFile();
 			QList<int> tShowList = Options::showCatalog();
-			tFileList.remove( tFileList[i] );
-			tShowList.remove( tShowList[i] );
+			tFileList.removeAll( tFileList[i] );
+			tShowList.removeAll( tShowList[i] );
 			Options::setCatalogFile( tFileList );
 			Options::setShowCatalog( tShowList );
 			break;

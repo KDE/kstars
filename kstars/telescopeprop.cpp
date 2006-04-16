@@ -209,9 +209,9 @@ void telescopeProp::updateScopeDetails(int index)
    }
 
   for (int i=0; i < ui->driverCombo->count(); i++)
-    if (indi_driver->devices[finalIndex]->driver == ui->driverCombo->text(i))
+    if (indi_driver->devices[finalIndex]->driver == ui->driverCombo->itemText(i))
      {
-       ui->driverCombo->setCurrentItem(i);
+       ui->driverCombo->setCurrentIndex(i);
        foundFlag = true;
        break;
      }

@@ -71,9 +71,9 @@ ImageViewer::~ImageViewer() {
 
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
-            kDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
-		file->setName (file->name() + ".part");		// set new suffix to filename
-                kDebug()<<QString("try to remove %1").arg( file->name())<<endl;
+		kDebug()<<QString("remove of %1 failed").arg(file->fileName())<<endl;
+		file->setFileName (file->fileName() + ".part");		// set new suffix to filename
+                kDebug()<<QString("try to remove %1").arg( file->fileName())<<endl;
 		if (file->remove())
                     kDebug()<<"file removed\n";
 		else
@@ -139,7 +139,7 @@ void ImageViewer::loadImageFromURL()
 {
 	file = tempfile.file();
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
-	KUrl saveURL (file->name());
+	KUrl saveURL (file->fileName());
 	if (!saveURL.isValid())
             kDebug()<<"tempfile-URL is malformed\n";
 
@@ -171,7 +171,7 @@ void ImageViewer::downloadReady (KIO::Job *job)
 
 void ImageViewer::showImage()
 {
-	if (!image.load (file->name()))		// if loading failed
+	if (!image.load (file->fileName()))		// if loading failed
 	{
 		QString text = i18n ("Loading of the image %1 failed.", imageURL.prettyURL());
 		KMessageBox::error (this, text);
@@ -235,7 +235,7 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KUrl &url) {
 // synchronous Access to prevent segfaults
-	if (!KIO::NetAccess::copy (KUrl (file->name()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::copy (KUrl (file->fileName()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.", url.prettyURL());
 		KMessageBox::error (this, text);

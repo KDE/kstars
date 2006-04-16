@@ -430,7 +430,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 			return (-1);
               	}
 	      	menuChoice = 1;
-	        pp->om_w->setCurrentItem(i);
+	        pp->om_w->setCurrentIndex(i);
 	       }
 	       break;
 	       

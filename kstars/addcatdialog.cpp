@@ -135,7 +135,7 @@ bool AddCatDialog::validateDataFile() {
 		QTextStream ostream( &tmpFile );
 		ostream << CatalogContents;
 		tmpFile.close();
-		CustomCatalogComponent newCat( 0, tmpFile.name(), true, Options::showOther );
+		CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, Options::showOther );
 		newCat.init( ks->data() );
 
 		int nObjects = newCat.objectList().size();

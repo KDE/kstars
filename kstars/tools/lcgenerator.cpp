@@ -124,13 +124,13 @@ void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate
 	buf.append("?"+QString::number(EndDate.jd()));
 	buf.append("?"+Designation);
 	buf.append("?"+AverageDay);
-	buf.append("?"+ (lcg->FainterCheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->CCDVCheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->CCDICheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->CCDRCheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->CCDBCheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->VisualCheck->isOn() ? Yes : No));
-	buf.append("?"+ (lcg->DiscrepantCheck->isOn() ? Yes : No));
+	buf.append("?"+ (lcg->FainterCheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->CCDVCheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->CCDICheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->CCDRCheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->CCDBCheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->VisualCheck->isChecked() ? Yes : No));
+	buf.append("?"+ (lcg->DiscrepantCheck->isChecked() ? Yes : No));
 	
 
 	KUrl url(buf);

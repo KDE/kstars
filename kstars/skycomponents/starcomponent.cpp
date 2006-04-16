@@ -236,8 +236,8 @@ void StarComponent::processStar( const QString &line ) {
 		name = line.mid( 72 ).trimmed(); //the rest of the line
 
 	if ( ! name.isEmpty() && name.contains( ':' )) { //genetive form exists
-		gname = name.mid( name.find(':')+1 ).trimmed();
-		name = name.mid( 0, name.find(':') ).trimmed();
+		gname = name.mid( name.indexOf(':')+1 ).trimmed();
+		name = name.mid( 0, name.indexOf(':') ).trimmed();
 	}
 
 	// HEV: look up star name in internationalization filesource

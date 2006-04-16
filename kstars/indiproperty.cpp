@@ -349,9 +349,9 @@ void INDI_P::newBlob()
       continue; 
     }
 
-    fp.setName(filename);
+    fp.setFileName(filename);
 
-    if ( (pos = filename.findRev(".")) != -1)
+    if ( (pos = filename.lastIndexOf(".")) != -1)
     format = filename.mid (pos, filename.length());
 
     if (!fp.open(QIODevice::ReadOnly))
@@ -686,7 +686,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 
 	om_w = new KComboBox(pg->propertyContainer);
 	om_w->insertStringList(menuOptions);
-	om_w->setCurrentItem(onItem);
+	om_w->setCurrentIndex(onItem);
 	
 	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	

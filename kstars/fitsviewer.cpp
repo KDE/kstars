@@ -111,7 +111,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     
     if (KSUtils::openDataFile( tempFile, "imgreduction.png" ) )
     {
-    	new KAction( i18n("Image Reduction"), tempFile.name(), KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
+    	new KAction( i18n("Image Reduction"), tempFile.fileName(), KShortcut( "Ctrl+R" ), this, SLOT( imageReduction()), actionCollection(), "image_reduce");
 	tempFile.close();
     }
     else
@@ -127,7 +127,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
 	
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
-    	new KAction ( i18n("Histogram"), tempFile.name(), KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
+    	new KAction ( i18n("Histogram"), tempFile.fileName(), KShortcut("Ctrl+H"), this, SLOT (imageHistogram()), actionCollection(), "image_histogram");
 	tempFile.close();
     }
     else

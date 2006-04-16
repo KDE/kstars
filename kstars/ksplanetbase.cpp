@@ -38,7 +38,7 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const
 
 		if ( KSUtils::openDataFile( imFile, image_file ) ) {
 			imFile.close();
-			Image0.load( imFile.name() );
+			Image0.load( imFile.fileName() );
 			Image = Image0.convertDepth( 32 );
 			Image0 = Image;
 		}

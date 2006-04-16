@@ -86,7 +86,7 @@ void INDIFITSConf::loadOptions()
    else
          filterList = Options::filterAlias();
 
-     ui->filterCombo->setCurrentItem(lastIndex);
+     ui->filterCombo->setCurrentIndex(lastIndex);
      ui->filterAlias->setText(filterList[lastIndex]);
 
 }

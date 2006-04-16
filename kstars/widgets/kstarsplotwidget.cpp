@@ -360,7 +360,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					case DOUBLE :
 					{
 						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
-						int idot = str.find( '.' );
+						int idot = str.indexOf( '.' );
 						if ( idot >= 0 ) 
 							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
@@ -428,7 +428,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					case DOUBLE :
 					{
 						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
-						int idot = str.find( '.' );
+						int idot = str.indexOf( '.' );
 						if ( idot >= 0 ) 
 							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
@@ -494,7 +494,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						case DOUBLE :
 						{
 							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
-							int idot = str.find( '.' );
+							int idot = str.indexOf( '.' );
 							if ( idot >= 0 ) 
 								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							
@@ -558,7 +558,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						case DOUBLE :
 						{
 							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
-							int idot = str.find( '.' );
+							int idot = str.indexOf( '.' );
 							if ( idot >= 0 ) 
 								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							

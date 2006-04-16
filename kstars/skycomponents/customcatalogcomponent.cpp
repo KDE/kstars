@@ -86,7 +86,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
 	
 						//remove the entries from d list that were the multiple words in the name
 						for ( int j=iname+1; j<=iend; j++ ) {
-							d.remove( d.at(iname + 1) ); //index is *not* j, because next item becomes "iname+1" after remove
+							d.removeAll( d.at(iname + 1) ); //index is *not* j, because next item becomes "iname+1" after remove
 						}
 					}
 				}
@@ -184,13 +184,13 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 		QString d( lines.at(i) ); //current data line
 		if ( d.left(1) != "#" ) break;  //no longer in header!
 
-		int iname   = d.find( "# Name: " );
-		int iprefix = d.find( "# Prefix: " );
-		int icolor  = d.find( "# Color: " );
-		int iepoch  = d.find( "# Epoch: " );
+		int iname   = d.indexOf( "# Name: " );
+		int iprefix = d.indexOf( "# Prefix: " );
+		int icolor  = d.indexOf( "# Color: " );
+		int iepoch  = d.indexOf( "# Epoch: " );
 
 		if ( iname == 0 ) { //line contains catalog name
-			iname = d.find(":")+2;
+			iname = d.indexOf(":")+2;
 			if ( m_catName.isEmpty() ) { 
 				m_catName = d.mid( iname );
 			} else { //duplicate name in header
@@ -199,7 +199,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 							i18n( "Extra Name field in header: %1.  Will be ignored", d.mid(iname) ) );
 			}
 		} else if ( iprefix == 0 ) { //line contains catalog prefix
-			iprefix = d.find(":")+2;
+			iprefix = d.indexOf(":")+2;
 			if ( m_catPrefix.isEmpty() ) { 
 				m_catPrefix = d.mid( iprefix );
 			} else { //duplicate prefix in header
@@ -208,7 +208,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 							i18n( "Extra Prefix field in header: %1.  Will be ignored", d.mid(iprefix) ) );
 			}
 		} else if ( icolor == 0 ) { //line contains catalog prefix
-			icolor = d.find(":")+2;
+			icolor = d.indexOf(":")+2;
 			if ( m_catColor.isEmpty() ) { 
 				m_catColor = d.mid( icolor );
 			} else { //duplicate prefix in header
@@ -217,7 +217,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 							i18n( "Extra Color field in header: %1.  Will be ignored", d.mid(icolor) ) );
 			}
 		} else if ( iepoch == 0 ) { //line contains catalog epoch
-			iepoch = d.find(":")+2;
+			iepoch = d.indexOf(":")+2;
 			if ( m_catEpoch == 0. ) {
 				bool ok( false );
 				m_catEpoch = d.mid( iepoch ).toFloat( &ok );
@@ -252,7 +252,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 					// remove the field from the master list and inc the 
 					// count of "good" columns (unless field is "Ignore")
 					if ( s != "Ig" ) {
-						master.remove( master.find( s ) );
+						master.erase( master.find( s ) );
 						ncol++;
 					}
 				} else if ( fields.contains( s ) ) { //duplicate field

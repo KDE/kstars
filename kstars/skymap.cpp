@@ -87,6 +87,8 @@ SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
 	
 	//Initialize Transient label stuff
 	TransientTimeout = 100; //fade label color every 0.2 sec
+	HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
+
 	connect( &HoverTimer, SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
 	connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
 	
@@ -706,7 +708,7 @@ void SkyMap::slewFocus( void ) {
 		//Start the HoverTimer. if the user leaves the mouse in place after a slew,
 		//we want to attach a label to the nearest object.
 		if ( Options::useHoverLabel() )
-			HoverTimer.start( HOVER_INTERVAL, true );
+			HoverTimer.start( HOVER_INTERVAL );
 		
 		forceUpdate();
 	}
@@ -1068,7 +1070,7 @@ void SkyMap::addLink( void ) {
 
 			//Also, update the user's custom image links database
 			//check for user's image-links database.  If it doesn't exist, create it.
-			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
+			file.setFileName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
@@ -1086,7 +1088,7 @@ void SkyMap::addLink( void ) {
 			clickedObject()->InfoTitle.append( adialog.desc() );
 
 			//check for user's image-links database.  If it doesn't exist, create it.
-			file.setName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
+			file.setFileName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );

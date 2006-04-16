@@ -193,8 +193,8 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 	QFile imFile;
 	if ( KSUtils::openDataFile( imFile, imName ) ) {
 		imFile.close();
-		image0()->load( imFile.name() );
-		image()->load( imFile.name() );
+		image0()->load( imFile.fileName() );
+		image()->load( imFile.fileName() );
 	}
 }
 

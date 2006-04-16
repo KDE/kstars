@@ -47,7 +47,7 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	QPixmap pmSplash;
 	if ( KSUtils::openDataFile( imFile, "kstars.png" ) ) {
 		imFile.close(); //Just need the filename...
-		pmSplash.load( imFile.name() );
+		pmSplash.load( imFile.fileName() );
 	}
 
 	Banner = new QLabel( page );

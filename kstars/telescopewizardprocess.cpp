@@ -53,7 +53,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
    QFile sideIMG;
 
    if (KSUtils::openDataFile(sideIMG, "wizardside.png"))
-       ui->wizardPix->setPixmap(QPixmap(sideIMG.name()));
+       ui->wizardPix->setPixmap(QPixmap(sideIMG.fileName()));
 
    ui->backB->hide();
    currentPage = INTRO_P;

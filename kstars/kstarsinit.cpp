@@ -173,7 +173,7 @@ void KStars::initActions() {
 //Add any user-defined color schemes:
 	QFile file;
 	QString line, schemeName, filename;
-	file.setName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+	file.setFileName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
@@ -299,7 +299,7 @@ void KStars::initFOV() {
 	QStringList fields;
 	QString nm;
 
-	f.setName( locateLocal( "appdata", "fov.dat" ) );
+	f.setFileName( locateLocal( "appdata", "fov.dat" ) );
 
 	//if file s empty, let's start over
 	if ( (uint)f.size() == 0 ) f.remove();
@@ -336,7 +336,7 @@ void KStars::initFOV() {
 			}
 		}
 	} else {
-		kDebug() << i18n( "Could not open file: %1", f.name() ) << endl;
+		kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 	}
 
 	fovActionMenu->popupMenu()->insertSeparator();

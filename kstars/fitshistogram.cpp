@@ -126,16 +126,16 @@ void FITSHistogram::applyScale()
   napply++;
   
   // Auto
-  if (ui->autoR->isOn())
+  if (ui->autoR->isChecked())
     type = 0;
   // Linear
-  else if (ui->linearR->isOn())
+  else if (ui->linearR->isChecked())
     type = 1;
   // Log
-  else if (ui->logR->isOn())
+  else if (ui->logR->isChecked())
     type = 2;
   // Exp
-  else if (ui->sqrtR->isOn())
+  else if (ui->sqrtR->isChecked())
     type = 3;
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);

@@ -69,7 +69,7 @@ FindDialog::~FindDialog() {
 
 void FindDialog::init() {
 	ui->SearchBox->clear();
-	ui->FilterType->setCurrentItem(0);  // show all types of objects
+	ui->FilterType->setCurrentIndex(0);  // show all types of objects
 	filter();
 }
 

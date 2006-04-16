@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 		//parse filename and image format
 		const char* format = "PNG";
 		QString fname = args->getOption( "filename" );
-		QString ext = fname.mid( fname.findRev(".")+1 );
+		QString ext = fname.mid( fname.lastIndexOf(".")+1 );
 		if ( ext.toLower() == "png" ) { format = "PNG"; }
 		else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
 		else if ( ext.toLower() == "gif" ) { format = "GIF"; }

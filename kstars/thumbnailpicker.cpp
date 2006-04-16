@@ -119,7 +119,7 @@ void ThumbnailPicker::slotFillList() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->name() ), false );
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
 			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
@@ -189,7 +189,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	//for the titlebar height, but this returned zero.
 	//Hard-coding 25 instead :(
 	if ( tmp.exists() ) {
-		QImage im( tmp.name() );
+		QImage im( tmp.fileName() );
 
 		if ( im.isNull() ) {
 		  //	KMessageBox::sorry( 0, i18n("Failed to load image"), 
@@ -281,7 +281,7 @@ void ThumbnailPicker::slotUnsetImage() {
 	QFile file;
 	if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
 		file.close();
-		Image->load( file.name(), "PNG" );
+		Image->load( file.fileName(), "PNG" );
 	} else {
 		Image->resize( dd->thumbnail()->width(), dd->thumbnail()->height() );
 		Image->fill( dd->paletteBackgroundColor() );
@@ -319,11 +319,11 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			//Add image to list
 			//If image is taller than desktop, rescale it.
-			QImage im( localFile.name() );
+			QImage im( localFile.fileName() );
 
 			if ( im.isNull() ) {
 				KMessageBox::sorry( 0, 
-						i18n("Failed to load image at %1", localFile.name() ),
+						i18n("Failed to load image at %1", localFile.fileName() ),
 						i18n("Failed to load image") );
 				return;
 			}
@@ -351,7 +351,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			KTempFile ktf;
 			QFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->name() ), false );
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
 			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));

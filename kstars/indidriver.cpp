@@ -447,7 +447,7 @@ void INDIDriver::saveDevicesToDisk()
  QFile file;
  QString elementData;
 
- file.setName( locateLocal( "appdata", "drivers.xml" ) ); //determine filename in local user KDE directory tree.
+ file.setFileName( locateLocal( "appdata", "drivers.xml" ) ); //determine filename in local user KDE directory tree.
 
  if ( !file.open( QIODevice::WriteOnly))
  {
@@ -896,7 +896,7 @@ void INDIDriver::saveHosts()
  QFile file;
  QString hostData;
 
- file.setName( locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
+ file.setFileName( locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
 
  if ( !file.open( QIODevice::WriteOnly))
  {
