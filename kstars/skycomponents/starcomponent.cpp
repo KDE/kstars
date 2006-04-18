@@ -121,21 +121,19 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 bool StarComponent::openStarFile(int i)
 {
-	if (starFileReader != 0) delete starFileReader;
 	QFile file;
 	QString snum, fname;
 	snum.sprintf("%03d", i);
 	fname = "hip" + snum + ".dat";
-	if (KSUtils::openDataFile(file, fname))
+	if (!KSUtils::openDataFile(file, fname))
 	{
-		starFileReader = new KSFileReader(file); // close file is included
-	}
-	else
-	{
+		delete starFileReader;
 		starFileReader = 0;
 		return false;
 	}
-
+	
+	delete starFileReader;
+	starFileReader = new KSFileReader(file); // close file is included
 	return true;
 }
 
@@ -160,7 +158,9 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 			emitProgressText( i18n( "Loading stars (%1%)", 
 								int(100.*float(iStarFile)/float(NHIPFILES)) ) );
 
-			openStarFile( iStarFile++ );
+			if ( ! openStarFile( iStarFile++ ) ) {
+				kDebug() << "Could not open star data file: " << iStarFile << endl;
+			}
 
 			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
 				kDebug() << i18n( "Could not set line number %1 in star data file." , iStarLine) << endl;
@@ -176,7 +176,8 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 						currentMag = line.mid( 46,5 ).toFloat();
 						if ( currentMag > m_FaintMagnitude ) break; //Done!
 
-						processStar( line );
+						if ( ! line.isEmpty() )
+							processStar( line );
 					}
 
 //Can't process events here, because we need the stars to finish loading on startup

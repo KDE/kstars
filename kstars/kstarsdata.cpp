@@ -382,11 +382,11 @@ bool KStarsData::readCityData( void ) {
 
 // begin new code
 	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-    KSFileReader fileReader( file ); // close file is included
-    while ( fileReader.hasMoreLines() ) {
+		KSFileReader fileReader( file ); // close file is included
+		while ( fileReader.hasMoreLines() ) {
 			citiesFound |= processCity( fileReader.readLine() );
-    }
-  }
+		}
+	}
 // end new code
 
 	//check for local cities database, but don't require it.
