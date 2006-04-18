@@ -19,7 +19,7 @@
 
 /*  Four-character-code (FOURCC) */
 #define v4l2_fourcc(a,b,c,d)\
-        (((__u32)(a)<<0)|((__u32)(b)<<8)|((__u32)(c)<<16)|((__u32)(d)<<24))
+        (((unsigned int)(a)<<0)|((unsigned int)(b)<<8)|((unsigned int)(c)<<16)|((unsigned int)(d)<<24))
 
 /*
  *	E N U M S
@@ -118,15 +118,15 @@ enum v4l2_priority {
 };
 
 struct v4l2_rect {
-	__s32   left;
-	__s32   top;
-	__s32   width;
-	__s32   height;
+	int   left;
+	int   top;
+	int   width;
+	int   height;
 };
 
 struct v4l2_fract {
-	__u32   numerator;
-	__u32   denominator;
+	unsigned int   numerator;
+	unsigned int   denominator;
 };
 
 /*
@@ -134,12 +134,12 @@ struct v4l2_fract {
  */
 struct v4l2_capability
 {
-	__u8	driver[16];	/* i.e. "bttv" */
-	__u8	card[32];	/* i.e. "Hauppauge WinTV" */
-	__u8	bus_info[32];	/* "PCI:" + pci_name(pci_dev) */
-	__u32   version;        /* should use KERNEL_VERSION() */
-	__u32	capabilities;	/* Device capabilities */
-	__u32	reserved[4];
+	unsigned char	driver[16];	/* i.e. "bttv" */
+	unsigned char	card[32];	/* i.e. "Hauppauge WinTV" */
+	unsigned char	bus_info[32];	/* "PCI:" + pci_name(pci_dev) */
+	unsigned int   version;        /* should use KERNEL_VERSION() */
+	unsigned int	capabilities;	/* Device capabilities */
+	unsigned int	reserved[4];
 };
 
 /* Values for 'capabilities' field */
@@ -164,14 +164,14 @@ struct v4l2_capability
 
 struct v4l2_pix_format
 {
-	__u32         	 	width;
-	__u32	         	height;
-	__u32	         	pixelformat;
+	unsigned int         	 	width;
+	unsigned int	         	height;
+	unsigned int	         	pixelformat;
 	enum v4l2_field  	field;
-	__u32            	bytesperline;	/* for padding, zero if unused */
-	__u32          	 	sizeimage;
+	unsigned int            	bytesperline;	/* for padding, zero if unused */
+	unsigned int          	 	sizeimage;
         enum v4l2_colorspace	colorspace;
-	__u32			priv;		/* private data, depends on pixelformat */
+	unsigned int			priv;		/* private data, depends on pixelformat */
 };
 
 /*           Pixel format    FOURCC                  depth  Description   */
@@ -223,12 +223,12 @@ struct v4l2_pix_format
  */
 struct v4l2_fmtdesc
 {
-	__u32	            index;             /* Format number      */
+	unsigned int	            index;             /* Format number      */
 	enum v4l2_buf_type  type;              /* buffer type        */
-	__u32               flags;
-	__u8	            description[32];   /* Description string */
-	__u32	            pixelformat;       /* Format fourcc      */
-	__u32	            reserved[4];
+	unsigned int               flags;
+	unsigned char	            description[32];   /* Description string */
+	unsigned int	            pixelformat;       /* Format fourcc      */
+	unsigned int	            reserved[4];
 };
 
 #define V4L2_FMT_FLAG_COMPRESSED 0x0001
@@ -239,13 +239,13 @@ struct v4l2_fmtdesc
  */
 struct v4l2_timecode
 {
-	__u32	type;
-	__u32	flags;
-	__u8	frames;
-	__u8	seconds;
-	__u8	minutes;
-	__u8	hours;
-	__u8	userbits[4];
+	unsigned int	type;
+	unsigned int	flags;
+	unsigned char	frames;
+	unsigned char	seconds;
+	unsigned char	minutes;
+	unsigned char	hours;
+	unsigned char	userbits[4];
 };
 
 /*  Type  */
@@ -273,10 +273,10 @@ struct v4l2_timecode
  * ### later ... */
 struct v4l2_compression
 {
-	__u32	quality;
-	__u32	keyframerate;
-	__u32	pframerate;
-	__u32	reserved[5];
+	unsigned int	quality;
+	unsigned int	keyframerate;
+	unsigned int	pframerate;
+	unsigned int	reserved[5];
 
 /*  what we'll need for MPEG, extracted from some postings on
     the v4l list (Gert Vervoort, PlasmaJohn).
@@ -337,7 +337,7 @@ struct v4l2_jpegcompression
 	int  COM_len;           /* Length of data in JPEG COM segment */
 	char COM_data[60];      /* Data in JPEG COM segment */
 	
-	__u32 jpeg_markers;     /* Which markers should go into the JPEG
+	unsigned int jpeg_markers;     /* Which markers should go into the JPEG
 				 * output. Unless you exactly know what
 				 * you do, leave them untouched.
 				 * Inluding less markers will make the
@@ -361,32 +361,32 @@ struct v4l2_jpegcompression
  */
 struct v4l2_requestbuffers
 {
-	__u32	                count;
+	unsigned int	                count;
 	enum v4l2_buf_type      type;
 	enum v4l2_memory        memory;
-	__u32	                reserved[2];
+	unsigned int	                reserved[2];
 };
 
 struct v4l2_buffer
 {
-	__u32			index;
+	unsigned int			index;
 	enum v4l2_buf_type      type;
-	__u32			bytesused;
-	__u32			flags;
+	unsigned int			bytesused;
+	unsigned int			flags;
 	enum v4l2_field		field;
 	struct timeval		timestamp;
 	struct v4l2_timecode	timecode;
-	__u32			sequence;
+	unsigned int			sequence;
 
 	/* memory location */
 	enum v4l2_memory        memory;
 	union {
-		__u32           offset;
+		unsigned int           offset;
 		unsigned long   userptr;
 	} m;
-	__u32			length;
-	__u32			input;
-	__u32			reserved;
+	unsigned int			length;
+	unsigned int			input;
+	unsigned int			reserved;
 };
 
 /*  Flags for 'flags' field */
@@ -404,8 +404,8 @@ struct v4l2_buffer
  */
 struct v4l2_framebuffer
 {
-	__u32			capability;
-	__u32			flags;
+	unsigned int			capability;
+	unsigned int			flags;
 /* FIXME: in theory we should pass something like PCI device + memory
  * region + offset instead of some physical address */
 	void*                   base;
@@ -431,9 +431,9 @@ struct v4l2_window
 {
 	struct v4l2_rect        w;
 	enum v4l2_field  	field;
-	__u32			chromakey;
+	unsigned int			chromakey;
 	struct v4l2_clip	*clips;
-	__u32			clipcount;
+	unsigned int			clipcount;
 	void			*bitmap;
 };
 
@@ -443,12 +443,12 @@ struct v4l2_window
  */
 struct v4l2_captureparm
 {
-	__u32		   capability;	  /*  Supported modes */
-	__u32		   capturemode;	  /*  Current mode */
+	unsigned int		   capability;	  /*  Supported modes */
+	unsigned int		   capturemode;	  /*  Current mode */
 	struct v4l2_fract  timeperframe;  /*  Time per frame in .1us units */
-	__u32		   extendedmode;  /*  Driver-specific extensions */
-	__u32              readbuffers;   /*  # of buffers for read */
-	__u32		   reserved[4];
+	unsigned int		   extendedmode;  /*  Driver-specific extensions */
+	unsigned int              readbuffers;   /*  # of buffers for read */
+	unsigned int		   reserved[4];
 };
 /*  Flags for 'capability' and 'capturemode' fields */
 #define V4L2_MODE_HIGHQUALITY	0x0001	/*  High quality imaging mode */
@@ -456,12 +456,12 @@ struct v4l2_captureparm
 
 struct v4l2_outputparm
 {
-	__u32		   capability;	 /*  Supported modes */
-	__u32		   outputmode;	 /*  Current mode */
+	unsigned int		   capability;	 /*  Supported modes */
+	unsigned int		   outputmode;	 /*  Current mode */
 	struct v4l2_fract  timeperframe; /*  Time per frame in seconds */
-	__u32		   extendedmode; /*  Driver-specific extensions */
-	__u32              writebuffers; /*  # of buffers for write */
-	__u32		   reserved[4];
+	unsigned int		   extendedmode; /*  Driver-specific extensions */
+	unsigned int              writebuffers; /*  # of buffers for write */
+	unsigned int		   reserved[4];
 };
 
 /*
@@ -484,7 +484,7 @@ struct v4l2_crop {
  *      A N A L O G   V I D E O   S T A N D A R D
  */
 
-typedef __u64 v4l2_std_id;
+typedef unsigned long long v4l2_std_id;
 
 /* one bit for each */
 #define V4L2_STD_PAL_B          ((v4l2_std_id)0x00000001)
@@ -554,12 +554,12 @@ typedef __u64 v4l2_std_id;
 
 struct v4l2_standard
 {
-	__u32	       	     index;
+	unsigned int	       	     index;
 	v4l2_std_id          id;
-	__u8		     name[24];
+	unsigned char		     name[24];
 	struct v4l2_fract    frameperiod; /* Frames, not fields */
-	__u32		     framelines;
-	__u32		     reserved[4];
+	unsigned int		     framelines;
+	unsigned int		     reserved[4];
 };
 
 
@@ -568,14 +568,14 @@ struct v4l2_standard
  */
 struct v4l2_input
 {
-	__u32	     index;		/*  Which input */
-	__u8	     name[32];	        /*  Label */
-	__u32	     type;		/*  Type of input */
-	__u32	     audioset;	        /*  Associated audios (bitfield) */
-	__u32        tuner;             /*  Associated tuner */
+	unsigned int	     index;		/*  Which input */
+	unsigned char	     name[32];	        /*  Label */
+	unsigned int	     type;		/*  Type of input */
+	unsigned int	     audioset;	        /*  Associated audios (bitfield) */
+	unsigned int        tuner;             /*  Associated tuner */
 	v4l2_std_id  std;
-	__u32	     status;
-	__u32	     reserved[4];
+	unsigned int	     status;
+	unsigned int	     reserved[4];
 };
 /*  Values for the 'type' field */
 #define V4L2_INPUT_TYPE_TUNER		1
@@ -605,13 +605,13 @@ struct v4l2_input
  */
 struct v4l2_output
 {
-	__u32	     index;		/*  Which output */
-	__u8	     name[32];	        /*  Label */
-	__u32	     type;		/*  Type of output */
-	__u32	     audioset;	        /*  Associated audios (bitfield) */
-	__u32	     modulator;         /*  Associated modulator */
+	unsigned int	     index;		/*  Which output */
+	unsigned char	     name[32];	        /*  Label */
+	unsigned int	     type;		/*  Type of output */
+	unsigned int	     audioset;	        /*  Associated audios (bitfield) */
+	unsigned int	     modulator;         /*  Associated modulator */
 	v4l2_std_id  std;
-	__u32	     reserved[4];
+	unsigned int	     reserved[4];
 };
 /*  Values for the 'type' field */
 #define V4L2_OUTPUT_TYPE_MODULATOR		1
@@ -623,31 +623,31 @@ struct v4l2_output
  */
 struct v4l2_control
 {
-	__u32		     id;
-	__s32		     value;
+	unsigned int		     id;
+	int		     value;
 };
 
 /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
 struct v4l2_queryctrl
 {
-	__u32	             id;
+	unsigned int	             id;
 	enum v4l2_ctrl_type  type;
-	__u8		     name[32];	/* Whatever */
-	__s32		     minimum;	/* Note signedness */
-	__s32		     maximum;
-	__s32	             step;
-	__s32		     default_value;
-	__u32                flags;
-	__u32		     reserved[2];
+	unsigned char		     name[32];	/* Whatever */
+	int		     minimum;	/* Note signedness */
+	int		     maximum;
+	int	             step;
+	int		     default_value;
+	unsigned int                flags;
+	unsigned int		     reserved[2];
 };
 
 /*  Used in the VIDIOC_QUERYMENU ioctl for querying menu items */
 struct v4l2_querymenu
 {
-	__u32		id;
-	__u32		index;
-	__u8		name[32];	/* Whatever */
-	__u32		reserved;
+	unsigned int		id;
+	unsigned int		index;
+	unsigned char		name[32];	/* Whatever */
+	unsigned int		reserved;
 };
 
 /*  Control flags  */
@@ -690,28 +690,28 @@ struct v4l2_querymenu
  */
 struct v4l2_tuner
 {
-	__u32                   index;
-	__u8			name[32];
+	unsigned int                   index;
+	unsigned char			name[32];
 	enum v4l2_tuner_type    type;
-	__u32			capability;
-	__u32			rangelow;
-	__u32			rangehigh;
-	__u32			rxsubchans;
-	__u32			audmode;
-	__s32			signal;
-	__s32			afc;
-	__u32			reserved[4];
+	unsigned int			capability;
+	unsigned int			rangelow;
+	unsigned int			rangehigh;
+	unsigned int			rxsubchans;
+	unsigned int			audmode;
+	int			signal;
+	int			afc;
+	unsigned int			reserved[4];
 };
 
 struct v4l2_modulator
 {
-	__u32			index;
-	__u8			name[32];
-	__u32			capability;
-	__u32			rangelow;
-	__u32			rangehigh;
-	__u32			txsubchans;
-	__u32			reserved[4];
+	unsigned int			index;
+	unsigned char			name[32];
+	unsigned int			capability;
+	unsigned int			rangelow;
+	unsigned int			rangehigh;
+	unsigned int			txsubchans;
+	unsigned int			reserved[4];
 };
 
 /*  Flags for the 'capability' field */
@@ -738,10 +738,10 @@ struct v4l2_modulator
 
 struct v4l2_frequency
 {
-	__u32	              tuner;
+	unsigned int	              tuner;
 	enum v4l2_tuner_type  type;
-        __u32	              frequency;
-	__u32	              reserved[8];
+        unsigned int	              frequency;
+	unsigned int	              reserved[8];
 };
 
 /*
@@ -749,11 +749,11 @@ struct v4l2_frequency
  */
 struct v4l2_audio
 {
-	__u32	index;
-	__u8	name[32];
-	__u32	capability;
-	__u32	mode;
-	__u32	reserved[2];
+	unsigned int	index;
+	unsigned char	name[32];
+	unsigned int	capability;
+	unsigned int	mode;
+	unsigned int	reserved[2];
 };
 /*  Flags for the 'capability' field */
 #define V4L2_AUDCAP_STEREO		0x00001
@@ -764,11 +764,11 @@ struct v4l2_audio
 
 struct v4l2_audioout
 {
-	__u32	index;
-	__u8	name[32];
-	__u32	capability;
-	__u32	mode;
-	__u32	reserved[2];
+	unsigned int	index;
+	unsigned char	name[32];
+	unsigned int	capability;
+	unsigned int	mode;
+	unsigned int	reserved[2];
 };
 
 /*
@@ -779,14 +779,14 @@ struct v4l2_audioout
 
 struct v4l2_vbi_format
 {
-	__u32	sampling_rate;		/* in 1 Hz */
-	__u32	offset;
-	__u32	samples_per_line;
-	__u32	sample_format;		/* V4L2_PIX_FMT_* */
-	__s32	start[2];
-	__u32	count[2];
-	__u32	flags;			/* V4L2_VBI_* */
-	__u32	reserved[2];		/* must be zero */
+	unsigned int	sampling_rate;		/* in 1 Hz */
+	unsigned int	offset;
+	unsigned int	samples_per_line;
+	unsigned int	sample_format;		/* V4L2_PIX_FMT_* */
+	int	start[2];
+	unsigned int	count[2];
+	unsigned int	flags;			/* V4L2_VBI_* */
+	unsigned int	reserved[2];		/* must be zero */
 };
 
 /*  VBI flags  */
@@ -808,7 +808,7 @@ struct v4l2_format
 		struct v4l2_pix_format	pix;  // V4L2_BUF_TYPE_VIDEO_CAPTURE
 		struct v4l2_window	win;  // V4L2_BUF_TYPE_VIDEO_OVERLAY
 		struct v4l2_vbi_format	vbi;  // V4L2_BUF_TYPE_VBI_CAPTURE
-		__u8	raw_data[200];        // user-defined
+		unsigned char	raw_data[200];        // user-defined
 	} fmt;
 };
 
@@ -822,7 +822,7 @@ struct v4l2_streamparm
 	{
 		struct v4l2_captureparm	capture;
 		struct v4l2_outputparm	output;
-		__u8	raw_data[200];  /* user-defined */
+		unsigned char	raw_data[200];  /* user-defined */
 	} parm;
 };
 

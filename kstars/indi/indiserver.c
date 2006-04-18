@@ -455,10 +455,14 @@ indiListen ()
 	    exit(1);
 	}
 	
-	/* bind to given port for any IP address locally */
+	/* bind to given port for any IP address per configure option */
 	memset (&serv_socket, 0, sizeof(serv_socket));
 	serv_socket.sin_family = AF_INET;
+	#ifdef SSH_TUNNEL
 	serv_socket.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+	#else
+	serv_socket.sin_addr.s_addr = htonl (INADDR_ANY);
+	#endif
 	serv_socket.sin_port = htons ((unsigned short)port);
 	if (setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse)) < 0){
 	    fprintf (stderr, "%s: setsockopt: %s", me, strerror(errno));
