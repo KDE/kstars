@@ -37,7 +37,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 	setupUi(this);
 
 	spheRadio->setChecked(TRUE);
-	ellipsoidBox->insertStringList(ellipsoidList,5);
+	ellipsoidBox->insertItems(5,ellipsoidList);
 	geoPlace = new GeoLocation();
 	showLongLat();
 	setEllipsoid(0);

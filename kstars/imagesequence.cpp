@@ -590,7 +590,7 @@ void imagesequence::updateFilterCombo(int filterNum)
 	// Fill filter combo
 	if (filterList.size() <= filterMax)
 	{
-		filterPosCombo->insertStringList(filterList);
+		filterPosCombo->addItems(filterList);
 		for (int i = filterList.size() ; i <= filterMax ; i++)
 			filterPosCombo->addItem(QString("%1").arg(i));
 	}

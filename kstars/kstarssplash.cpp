@@ -55,7 +55,9 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	topLayout->addWidget( Banner );
 	
 //initialize the "Welcome to KStars message label
-	label = new QLabel( page, "label1" );
+	label = new QLabel( page );
+	label->setObjectName( "label1" );
+
 	QPalette pal( label->palette() );
 	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "Black" ) );
 	pal.setColor( QPalette::Inactive, QColorGroup::Background, QColor( "Black" ) );
@@ -67,7 +69,8 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	topLayout->addWidget( label );
 
 //initialize the progress message label
-	textCurrentStatus = new QLabel( page, "label2" );
+	textCurrentStatus = new QLabel( page );
+	textCurrentStatus->setObjectName( "label2" );
 	textCurrentStatus->setPalette( pal );
 	textCurrentStatus->setAlignment( Qt::AlignHCenter );
 	topLayout->addWidget( textCurrentStatus );

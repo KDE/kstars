@@ -61,7 +61,7 @@ void INDIFITSConf::loadOptions()
    lastIndex = 0;
 
    filterNumbers << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
-   ui->filterCombo->insertStringList(filterNumbers);
+   ui->filterCombo->addItems(filterNumbers);
 
    ui->timeCheck->setChecked( Options::indiAutoTime() );
    ui->GeoCheck->setChecked( Options::indiAutoGeo() );

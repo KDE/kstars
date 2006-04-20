@@ -51,7 +51,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::
   connect(ui->closeB, SIGNAL(clicked()), this, SLOT(close()));
 
   // Fill the combo box with drivers
-  ui->driverCombo->insertStringList(indi_driver->driversList);
+  ui->driverCombo->addItems(indi_driver->driversList);
 
   // Fill the list box with telescopes
   //for (unsigned int i=0; i < indi_driver->devices.size(); i++)
@@ -74,7 +74,7 @@ telescopeProp::~telescopeProp()
 void telescopeProp::newScope()
 {
 
-  ui->driverCombo->clearEdit();
+  ui->driverCombo->clearEditText();
   ui->labelEdit->clear();
   ui->focalEdit->clear();
   ui->versionEdit->clear();

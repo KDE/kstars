@@ -46,7 +46,8 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	dPicker = new ExtDatePicker( page );
 	dPicker->setDate( now.date() );
 
-	HourBox = new QSpinBox( page, "HourBox" );
+	HourBox = new QSpinBox( page );
+	HourBox->setObjectName( "HourBox" );
 	QFont Box_font(  HourBox->font() );
 	Box_font.setBold( TRUE );
 	HourBox->setFont( Box_font );
@@ -55,11 +56,13 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	HourBox->setButtonSymbols( QSpinBox::PlusMinus );
 	HourBox->setValue( now.time().hour() );
 
-	TextLabel1 = new QLabel( page, "TextLabel1" );
+	TextLabel1 = new QLabel( page );
+	TextLabel1->setObjectName( "TextLabel1" );
 	TextLabel1->setText( " :" );
 	TextLabel1->setFont( Box_font );
 	
-	MinuteBox = new QSpinBox( page, "MinuteBox" );
+	MinuteBox = new QSpinBox( page );
+	MinuteBox->setObjectName( "MinuteBox" );
 	QFont MinuteBox_font(  MinuteBox->font() );
 	MinuteBox->setFont( Box_font );
 	MinuteBox->setWrapping( TRUE );
@@ -67,17 +70,20 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	MinuteBox->setButtonSymbols( QSpinBox::PlusMinus );
 	MinuteBox->setValue( now.time().minute() );
 	
-	TextLabel1_2 = new QLabel( page, "TextLabel1_2" );
+	TextLabel1_2 = new QLabel( page );
+	TextLabel1_2->setObjectName( "TextLabel1_2" );
 	TextLabel1_2->setFont( Box_font );
 	
-	SecondBox = new QSpinBox( page, "SecondBox" );
+	SecondBox = new QSpinBox( page );
+	SecondBox->setObjectName( "SecondBox" );
 	SecondBox->setFont( Box_font );
 	SecondBox->setMaximum( 59 );
 	SecondBox->setWrapping( TRUE );
 	SecondBox->setButtonSymbols( QSpinBox::PlusMinus );
 	SecondBox->setValue( now.time().second() );
 	
-	NowButton = new QPushButton( page, "NowButton" );
+	NowButton = new QPushButton( page );
+	NowButton->setObjectName( "NowButton" );
 	NowButton->setText( i18n( "Now"  ) );
 	NowButton->setFont( Box_font );
 	

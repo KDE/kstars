@@ -29,10 +29,12 @@ QPixmap ThumbImage::croppedImage() {
 	return result;
 }
 
-ThumbImage::ThumbImage( QWidget *parent, const char *name ) : QLabel( parent, name )
+ThumbImage::ThumbImage( QWidget *parent, const char *name ) : QLabel( parent )
 {
 //FIXME: Deprecated?  Maybe we don't need this, since double-buffering is now built in
 //	setBackgroundMode( Qt::WA_NoBackground );
+	
+	setObjectName( name );	
 	bMouseButtonDown = false;
 	bTopLeftGrab = false;
 	bTopRightGrab = false;

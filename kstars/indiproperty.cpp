@@ -685,7 +685,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	}
 
 	om_w = new KComboBox(pg->propertyContainer);
-	om_w->insertStringList(menuOptions);
+	om_w->addItems(menuOptions);
 	om_w->setCurrentIndex(onItem);
 	
 	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
