@@ -65,8 +65,12 @@ INDI_P::INDI_P(INDI_G *parentGroup, const QString &inName)
   
   indistd 	  = new INDIStdProperty(this, pg->dp->parent->ksw, pg->dp->stdDev);
   
-  PHBox           = new QHBoxLayout(0, 0, KDialogBase::spacingHint());
-  PVBox           = new QVBoxLayout(0, 0, KDialogBase::spacingHint());
+  PHBox           = new QHBoxLayout();
+  PHBox->setMargin(0);
+  PHBox->setSpacing(KDialogBase::spacingHint());
+  PVBox           = new QVBoxLayout();
+  PVBox->setMargin(0);
+  PVBox->setSpacing(KDialogBase::spacingHint());
   light           = NULL;
   label_w         = NULL;
   set_w           = NULL;

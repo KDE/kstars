@@ -68,7 +68,9 @@ INDIMenu::INDIMenu(QWidget *parent, const char * name ) : QWidget(parent, name, 
  
 // mgr.setAutoDelete(true);
 
- mainLayout    = new QVBoxLayout(this, 10, 10);
+ mainLayout    = new QVBoxLayout(this);
+ mainLayout->setMargin(10);
+ mainLayout->setSpacing(10);
 
  mainTabWidget = new QTabWidget(this);
 

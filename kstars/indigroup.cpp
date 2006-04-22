@@ -40,7 +40,9 @@ INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
 
   //propertyContainer = new QFrame(dp->groupContainer);
   propertyContainer = new QFrame();
-  propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
+  propertyLayout    = new QVBoxLayout(propertyContainer);
+  propertyLayout->setMargin(20);
+  propertyLayout->setSpacing(KDialog::spacingHint());
   VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
   
   propertyLayout->addItem(VerticalSpacer); 

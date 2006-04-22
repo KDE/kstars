@@ -33,7 +33,7 @@
 
 #include "customcatalogcomponent.h"
 
-QStringList CustomCatalogComponent::m_Columns = QStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
+QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( " ", QString::SkipEmptyParts );
 
 CustomCatalogComponent::CustomCatalogComponent(SkyComponent *parent, const QString &fname, bool showerrs, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod), m_Filename( fname ), m_Showerrs( showerrs )
 {
@@ -252,7 +252,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 					// remove the field from the master list and inc the 
 					// count of "good" columns (unless field is "Ignore")
 					if ( s != "Ig" ) {
-						master.erase( master.find( s ) );
+						master.removeAt( master.indexOf( s ) );
 						ncol++;
 					}
 				} else if ( fields.contains( s ) ) { //duplicate field

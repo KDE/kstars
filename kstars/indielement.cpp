@@ -74,7 +74,9 @@ INDI_E::INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inL
 
   pp = parentProperty;
 
-  EHBox     = new QHBoxLayout(0, 0, KDialog::spacingHint());
+  EHBox     = new QHBoxLayout(0);
+  EHBox->setMargin(0);
+  EHBox->setSpacing(KDialog::spacingHint());
   label_w   = NULL;
   read_w    = NULL;
   write_w   = NULL;

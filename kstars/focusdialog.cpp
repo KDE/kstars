@@ -152,7 +152,7 @@ QSize FocusDialog::sizeHint() const
 }
 
 void FocusDialog::activateAzAltPage() const {
-	fd->fdTab->showPage( fd->aaTab );
+	fd->fdTab->setCurrentWidget( fd->aaTab );
 	fd->azBox->setFocus();
 }
 #include "focusdialog.moc"

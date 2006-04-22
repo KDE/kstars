@@ -182,7 +182,7 @@ void ImageViewer::showImage()
 
 	//First, if the image is less wide than the statusBar, we have to scale it up.
 	if ( image.width() < statusBar()->width() ) {
-		image.smoothScale ( statusBar()->width() , image.height() * statusBar()->width() / image.width() );
+		image.scaled ( statusBar()->width() , image.height() * statusBar()->width() / image.width(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	}
 	
 	QRect deskRect = kapp->desktop()->availableGeometry();

@@ -41,8 +41,11 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	QFrame *page = new QFrame(this);
 	setMainWidget( page );
 
-	vlay = new QVBoxLayout( page, 2, 2 );
-	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout
+	vlay = new QVBoxLayout( page );
+	vlay->setMargin( 2 );
+	vlay->setSpacing( 2 );
+	hlay = new QHBoxLayout(); //this layout will be added to the VLayout
+	hlay->setSpacing( 2 );
 	dPicker = new ExtDatePicker( page );
 	dPicker->setDate( now.date() );
 

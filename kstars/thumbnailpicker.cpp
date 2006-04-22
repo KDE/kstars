@@ -207,7 +207,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 // 		kDebug() << "Title bar height: " << kapp->style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
 
 		if ( h > hDesk )
-			im = im.smoothScale( w*hDesk/h, hDesk );
+			im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 		PixList.append( new QPixmap( im ) );
 
@@ -245,7 +245,7 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 	if ( pm->width() > size || pm->height() > size ) { //image larger than 'size'?
 		//convert to QImage so we can smoothscale it
 		QImage im( pm->convertToImage() );
-		im = im.smoothScale( w, h );
+		im = im.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 		//bitBlt sizexsize square section of image
 		bitBlt( &result, rx, ry, &im, sx, sy, size, size );
@@ -334,7 +334,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
 
 			if ( h > hDesk )
-				im = im.smoothScale( w*hDesk/h, hDesk );
+				im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
 			PixList.insert( 0, new QPixmap( im ) );
