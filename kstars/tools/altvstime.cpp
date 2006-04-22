@@ -61,7 +61,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	QFrame *page = new QFrame( this );
 	setMainWidget(page);
 
-	topLayout = new QVBoxLayout( page, 0, spacingHint() );
+	topLayout = new QVBoxLayout( page );
+	topLayout->setMargin( 0 );
+	topLayout->setSpacing( spacingHint() );
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
 	View->setMinimumSize( 400, 400 );

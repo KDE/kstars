@@ -39,7 +39,9 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 	tp = (ThumbnailPicker*)parent;
 
 	QFrame *page = plainPage();
-	QHBoxLayout *hlay = new QHBoxLayout( page, 0, 0 );
+	QHBoxLayout *hlay = new QHBoxLayout( page );
+	hlay->setMargin( 0 );
+	hlay->setSpacing( 0 );
 	ui = new ThumbnailEditorUI( page );
 	hlay->addWidget( ui );
 
@@ -57,8 +59,8 @@ ThumbnailEditor::~ThumbnailEditor()
 {}
 
 QPixmap ThumbnailEditor::thumbnail() {
-	QImage im = ui->ImageCanvas->croppedImage().convertToImage();
-	im = im.smoothScale( 200, 200 );
+	QImage im = ui->ImageCanvas->croppedImage().toImage();
+	im = im.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	QPixmap pm;
 	pm.convertFromImage( im );
 	return pm;

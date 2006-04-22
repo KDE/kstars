@@ -164,7 +164,7 @@ QString ColorScheme::keyAt( int i ) const {
 }
 
 QString ColorScheme::nameFromKey( const QString &key ) const {
-	return nameAt( KeyName.findIndex( key ) );
+	return nameAt( KeyName.indexOf( key ) );
 }
 
 void ColorScheme::setColor( const QString &key, const QString &color ) {

@@ -60,17 +60,17 @@ void CustomCatalogComponent::init( KStarsData * ) {
 		QStringList Columns; //list of data column descriptors in the header
 
 		QTextStream stream( &ccFile );
-		QStringList lines = QStringList::split( "\n", stream.read() );
+		QStringList lines = stream.read().split( "\n", QString::SkipEmptyParts );
 
 		if ( parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) ) {
 	
 			for ( int i=iStart; i < lines.size(); ++i ) {
-				QStringList d = QStringList::split( " ", lines[i] );
+				QStringList d = lines.at(i).split( " ", QString::SkipEmptyParts );
 	
 				//Now, if one of the columns is the "Name" field, the name may contain spaces.
 				//In this case, the name field will need to be surrounded by quotes.  
 				//Check for this, and adjust the d list accordingly
-				int iname = Columns.findIndex( "Nm" );
+				int iname = Columns.indexOf( "Nm" );
 				if ( iname >= 0 && d[iname].left(1) == "\"" ) { //multi-word name in quotes
 					d[iname] = d[iname].mid(1); //remove leading quote
 					//It's possible that the name is one word, but still in quotes
@@ -236,7 +236,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 			//Chomp off leading "#" character
 			d = d.replace( QRegExp( "#" ), QString() );
 
-			QStringList fields = QStringList::split( " ", d ); //split on whitespace
+			QStringList fields = d.split( " ", QString::SkipEmptyParts ); //split on whitespace
 
 			//we need a copy of the master list of data fields, so we can 
 			//remove fields from it as they are encountered in the "fields" list.

@@ -35,7 +35,9 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
 	QFrame *page = plainPage();
 	setMainWidget(page);
 
-	vlay = new QVBoxLayout( page, 0, spacingHint() );
+	vlay = new QVBoxLayout( page );
+	vlay->setMargin( 0 );
+	vlay->setSpacing( spacingHint() );
 	ald = new AddLinkDialogUI(page);
 
 	vlay->addWidget( ald );

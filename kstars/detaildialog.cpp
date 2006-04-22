@@ -477,11 +477,15 @@ void DetailDialog::editLinkDialog()
 	else return;
 	
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
-	editLinkField = new QLineEdit(editFrame, "lineedit");
+	editLinkField = new QLineEdit(editFrame);
+	editLinkField->setObjectName("lineedit");
 	editLinkField->setMinimumWidth(300);
 	editLinkField->home(false);
 	editLinkField->setText(currentItemURL);
-	editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
+	editLinkLayout = new QHBoxLayout(editFrame);
+	editLinkLayout->setMargin(6);
+	editLinkLayout->setSpacing(6);
+	editLinkLayout->setObjectName("editlinklayout");
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
 

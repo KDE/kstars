@@ -41,8 +41,12 @@
 #define TROPICAL_YEAR 31556925.19
 
 TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
-	: QSpinBox ( -41, 41, 1 /* step */, parent )
+	: QSpinBox ( parent )
 {
+        setMinimum( -41 );
+        setMaximum( 41 );
+        setSingleStep( 1 );
+
         setDaysOnly( _daysonly );
 
 	setButtonSymbols( QSpinBox::PlusMinus );

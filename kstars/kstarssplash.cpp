@@ -39,8 +39,9 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	page->setBackgroundColor( QColor( "Black" ) );
 	setBackgroundColor( QColor( "Black" ) );
 
-	QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 0 );
+	QVBoxLayout *topLayout = new QVBoxLayout( page );
 	topLayout->setMargin( 0 );
+	topLayout->setSpacing( 0 );
 	
 	//Load the KStars banner.  Use an empty image if it can't be opened.
 	QFile imFile;

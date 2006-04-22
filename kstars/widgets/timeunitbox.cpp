@@ -26,7 +26,9 @@
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
 	: QWidget( parent ) {
 
-	QVBoxLayout *vlay = new QVBoxLayout(this, 0, 0);
+	QVBoxLayout *vlay = new QVBoxLayout(this);
+	vlay->setMargin(0);
+	vlay->setSpacing(0);
 
 	UpButton = new QPushButton( "+", this );
 	UpButton->setMaximumWidth( 22 );
