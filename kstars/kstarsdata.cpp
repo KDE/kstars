@@ -52,7 +52,7 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() : stdDirs(0), locale(0), 
+KStarsData::KStarsData() : stdDirs(0), locale(0),
 		LST(0), HourAngle(0), initTimer(0)
 {
 	startupComplete = false;
@@ -75,7 +75,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	stdDirs = new KStandardDirs();
 	locale = new KLocale( "kstars" );
 
-	//Check to see if config file already exists.  If not, set 
+	//Check to see if config file already exists.  If not, set
 	//useDefaultOptions = true
 	QString fname = locateLocal( "config", "kstarsrc" );
 	useDefaultOptions = ! ( QFile(fname).exists() );
@@ -85,7 +85,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	//Instantiate LST and HourAngle
 	LST = new dms();
 	HourAngle = new dms();
-	
+
 	//initialize FOV symbol
 	fovSymbol = FOV();
 
@@ -100,14 +100,14 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 KStarsData::~KStarsData() {
 	//FIXME: Do we still need this?
-	objects--; //the number of existing KStarsData objects 
+	objects--; //the number of existing KStarsData objects
 
 	//FIXME: Verify list of deletes
 	delete stdDirs;
 	delete locale;
 	delete initTimer;
 
-	while ( ! geoList.isEmpty() ) 
+	while ( ! geoList.isEmpty() )
 		delete geoList.takeFirst();
 
 	while ( !VariableStarsList.isEmpty())
@@ -142,7 +142,7 @@ void KStarsData::initError(const QString &s, bool required = false) {
 				"To continue loading, place the file in one of the "
 				"following locations, then press Retry:\n\n", s )
 				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s ) 
+				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
 				+ i18n( "Otherwise, press Cancel to shutdown." );
 		caption = i18n( "Critical File Not Found: %1", s );
 	} else {
@@ -198,7 +198,7 @@ void KStarsData::slotInitialize() {
 
 			if ( !readCityData( ) )
 				initError( "Cities.dat", true );
-			
+
 			break;
 		}
 
@@ -235,7 +235,7 @@ void KStarsData::slotInitialize() {
 			readVARData();
 			readADVTreeData();
 			break;
-			
+
 
 		default:
 			initTimer->stop();
@@ -253,7 +253,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	// sync LTime with the simulation clock
 	LTime = geo->UTtoLT( ut() );
 	syncLST();
-	
+
 	//Only check DST if (1) TZrule is not the empty rule, and (2) if we have crossed
 	//the DST change date/time.
 	if ( !geo->tzrule()->isEmptyRule() ) {
@@ -315,7 +315,7 @@ void KStarsData::syncLST() {
 void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	//Turn off animated slews for the next time step.
 	setSnapNextFocus();
-	
+
 	//DEBUG
 	kDebug() << "setting DateTime :" << newDate.toString() << ":" << endl;
 
@@ -324,7 +324,7 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	LTime = geo()->UTtoLT( ut() );
 	//set local sideral time
 	syncLST();
-	
+
 	//Make sure Numbers, Moon, planets, and sky objects are updated immediately
 	setFullTimeUpdate();
 
@@ -350,8 +350,8 @@ void KStarsData::setTimeDirection( float scale ) {
 }
 
 void KStarsData::setLocationFromOptions() {
-	setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
-			Options::cityName(), Options::provinceName(), Options::countryName(), 
+	setLocation( GeoLocation ( Options::longitude(), Options::latitude(),
+			Options::cityName(), Options::provinceName(), Options::countryName(),
 			Options::timeZone(), &(Rulebook[ Options::dST() ]), 4, Options::elevation() ) );
 }
 
@@ -670,9 +670,9 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
 			QString url = sub.mid( sub.indexOf(':')+1 );
 			SkyObject *o = skyComposite()->findByName(name);
 			//DEBUG
-			if ( o ) 
+			if ( o )
 				kDebug() << "object named " << o->name() << " found" << endl;
-			
+
 			if ( !o ) {
 				kWarning() << k_funcinfo << name << " not found" << endl;
 			} else {
@@ -702,7 +702,7 @@ bool KStarsData::readUserLog(void)
 
 	QTextStream stream(&file);
 
-	if (!stream.atEnd()) buffer = stream.read();
+	if (!stream.atEnd()) buffer = stream.readAll();
 
 	while (!buffer.isEmpty()) {
 		int startIndex, endIndex;
@@ -718,7 +718,7 @@ bool KStarsData::readUserLog(void)
 		buffer = buffer.mid(endIndex + 11);
 
 		//Find the sky object named 'name'.
-		//Note that ObjectNameList::find() looks for the ascii representation 
+		//Note that ObjectNameList::find() looks for the ascii representation
 		//of star genetive names, so stars are identified that way in the user log.
 		SkyObject *o = skyComposite()->findByName(name);
 		if ( !o ) {
@@ -736,20 +736,20 @@ bool KStarsData::readADVTreeData(void)
 {
 	QFile file;
 	QString Interface;
-	
+
 	if (!KSUtils::openDataFile(file, "advinterface.dat"))
 		return false;
-	
+
 	QTextStream stream(&file);
 	QString Line;
-	
+
 	while  (!stream.atEnd())
 	{
 		QString Name, Link, subName;
 		int Type, interfaceIndex;
-	
+
 		Line = stream.readLine();
-	
+
 		if (Line.startsWith("[KSLABEL]"))
 		{
 				Name = Line.mid(9);
@@ -762,12 +762,12 @@ bool KStarsData::readADVTreeData(void)
 			Interface = Line.mid(13);
 			continue;
 		}
-	
+
 		else
 		{
 			Name = Line.mid(0, Line.indexOf(":"));
 			Link = Line.mid(Line.indexOf(":") + 1);
-	
+
 			// Link is empty, using Interface instead
 			if (Link.isEmpty())
 			{
@@ -776,18 +776,18 @@ bool KStarsData::readADVTreeData(void)
 					interfaceIndex = Link.indexOf("KSINTERFACE");
 					Link.remove(interfaceIndex, 11);
 					Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
-	
+
 				}
-	
+
 			Type = 2;
 		}
-	
+
 		ADVTreeData *ADVData = new ADVTreeData;
-	
+
 		ADVData->Name = Name;
 		ADVData->Link = Link;
 		ADVData->Type = Type;
-	
+
 		ADVtreeList.append(ADVData);
 	}
 
@@ -799,7 +799,7 @@ bool KStarsData::readVARData(void)
 	QString varFile("valaav.txt");
 	QFile localeFile;
 	QFile file;
-	
+
 	file.setFileName( locateLocal( "appdata", varFile ) );
 	if ( !file.open( QIODevice::ReadOnly ) )
 	{
@@ -813,7 +813,7 @@ bool KStarsData::readVARData(void)
 			{
 					QTextStream readStream(&file);
 					QTextStream writeStream(&localeFile);
-					writeStream <<  readStream.read();
+					writeStream <<  readStream.readAll();
 					localeFile.close();
 					file.reset();
 			}
@@ -825,23 +825,23 @@ bool KStarsData::readVARData(void)
 
 	QTextStream stream(&file);
 	stream.readLine();
-	
+
 	while  (!stream.atEnd())
 	{
 		QString Name;
 		QString Designation;
 		QString Line;
-	
+
 		Line = stream.readLine();
-	
+
 		if (Line[0] == QChar('*'))
 			break;
-	
+
 		Designation = Line.mid(0,8).trimmed();
 		Name          = Line.mid(10,20).simplified();
-	
+
 		VariableStarInfo *VInfo = new VariableStarInfo;
-	
+
 		VInfo->Designation = Designation;
 		VInfo->Name          = Name;
 		VariableStarsList.append(VInfo);
@@ -861,7 +861,7 @@ bool KStarsData::readINDIHosts(void)
 	LilXML *xmlParser = newLilXML();
 	XMLEle *root = NULL;
 	XMLAtt *ap;
-	
+
 	file.setFileName( locate( "appdata", indiFile ) );
 	if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
 		 return false;
@@ -869,7 +869,7 @@ bool KStarsData::readINDIHosts(void)
 	while ( (c = (signed char) file.getch()) != -1)
 	{
 		root = readXMLEle(xmlParser, c, errmsg);
-	
+
 		if (root)
 		{
 			// Get host name
@@ -881,28 +881,28 @@ bool KStarsData::readINDIHosts(void)
 
 			INDIHostsInfo *VInfo = new INDIHostsInfo;
 			VInfo->name = QString(valuXMLAtt(ap));
-	
+
 			// Get host name
 			ap = findXMLAtt(root, "hostname");
-	
+
 			if (!ap) {
 				delLilXML(xmlParser);
 				return false;
 			}
-	
+
 			VInfo->hostname = QString(valuXMLAtt(ap));
 			ap = findXMLAtt(root, "port");
-	
+
 			if (!ap) {
 				delLilXML(xmlParser);
 				return false;
 			}
-	
+
 			VInfo->portnumber = QString(valuXMLAtt(ap));
 			VInfo->isConnected = false;
 			VInfo->mgrID = -1;
 			INDIHostsList.append(VInfo);
-	
+
 			delXMLEle(root);
 		}
 		else if (errmsg[0])
@@ -915,10 +915,10 @@ bool KStarsData::readINDIHosts(void)
 }
 
 //FIXME: There's way too much code duplication here!
-//We should just execute the script through KProcess.  
-//One complication is that we want to ignore some script commands 
-//that don't make sense for dump mode.  However, it would be better 
-//for the DCOP fcns themselves to detect whether a SkyMap object exists, 
+//We should just execute the script through KProcess.
+//One complication is that we want to ignore some script commands
+//that don't make sense for dump mode.  However, it would be better
+//for the DCOP fcns themselves to detect whether a SkyMap object exists,
 //and act accordingly.
 //
 //"pseudo-execute" a shell script, ignoring all interactive aspects.  Just use
@@ -957,7 +957,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( arg == "sw" || arg == "southwest" ) az = 225.0;
 				if ( arg == "w"  || arg == "west" )      az = 270.0;
 				if ( arg == "nw" || arg == "northwest" ) az = 335.0;
-				if ( az >= 0.0 ) { 
+				if ( az >= 0.0 ) {
 					map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
 					cmdCount++;
 					map->setDestination( map->focus() );

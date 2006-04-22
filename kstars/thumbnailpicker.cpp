@@ -136,7 +136,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 		QFile file( tmpFile );
 		if ( file.open( QIODevice::ReadOnly ) ) {
 			QTextStream instream(&file);
-			PageHTML = instream.read();
+			PageHTML = instream.readAll();
 			file.close();
 			KIO::NetAccess::removeTempFile( tmpFile );
 		} else {
@@ -192,7 +192,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 		QImage im( tmp.fileName() );
 
 		if ( im.isNull() ) {
-		  //	KMessageBox::sorry( 0, i18n("Failed to load image"), 
+		  //	KMessageBox::sorry( 0, i18n("Failed to load image"),
 		  //			i18n("Could not load the specified image") );
 			return;
 		}
@@ -206,7 +206,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 // 		//DEBUG
 // 		kDebug() << "Title bar height: " << kapp->style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
 
-		if ( h > hDesk ) 
+		if ( h > hDesk )
 			im = im.smoothScale( w*hDesk/h, hDesk );
 
 		PixList.append( new QPixmap( im ) );
@@ -246,7 +246,7 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 		//convert to QImage so we can smoothscale it
 		QImage im( pm->convertToImage() );
 		im = im.smoothScale( w, h );
-		
+
 		//bitBlt sizexsize square section of image
 		bitBlt( &result, rx, ry, &im, sx, sy, size, size );
 		if ( setImage ) {
@@ -322,7 +322,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			QImage im( localFile.fileName() );
 
 			if ( im.isNull() ) {
-				KMessageBox::sorry( 0, 
+				KMessageBox::sorry( 0,
 						i18n("Failed to load image at %1", localFile.fileName() ),
 						i18n("Failed to load image") );
 				return;
@@ -333,7 +333,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			uint pad = 0;/* FIXME later 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25; */
 			uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
 
-			if ( h > hDesk ) 
+			if ( h > hDesk )
 				im = im.smoothScale( w*hDesk/h, hDesk );
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox

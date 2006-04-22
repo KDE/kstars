@@ -40,7 +40,7 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddCatDialog::AddCatDialog( KStars *_ks )
-	: KDialog( _ks, i18n( "Import Catalog" ), 	
+	: KDialog( _ks, i18n( "Import Catalog" ),
 		KDialog::Help|KDialog::Ok|KDialog::Cancel ), ks(_ks) {
 
 	QDir::setCurrent( QDir::homePath() );
@@ -48,9 +48,9 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 
 	acd = new AddCatDialogUI(this);
 	setMainWidget(acd);
-	
+
 	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
-	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ), 
+	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ),
 			this, SLOT( slotShowDataFile() ) );
 	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
@@ -81,7 +81,7 @@ void AddCatDialog::slotOk() {
 }
 
 void AddCatDialog::slotHelp() {
-	QString message = 
+	QString message =
 			i18n( "A valid custom catalog file has one line per object, "
 						"with the following fields in each line:") + "\n\t" +
 			i18n( "1. Type identifier.  Must be one of: 0 (star), 3 (open cluster), 4 (globular cluster), "
@@ -91,7 +91,7 @@ void AddCatDialog::slotHelp() {
 			i18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
 			i18n( "5. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
 			i18n( "6. Star name (if type=0); otherwise object's common name. [field 6 is optional]" ) + "\n\n" +
-			
+
 			i18n( "The fields should be separated by whitespace.  In addition, the catalog "
 						"may contain comment lines beginning with \'#\'." );
 
@@ -99,7 +99,7 @@ void AddCatDialog::slotHelp() {
 }
 
 /* Attempt to parse the catalog data file specified in the DataURL box.
- * We assume the data file has space-separated fields, and that each line has 
+ * We assume the data file has space-separated fields, and that each line has
  * the data fields listed in the Catalog fields list, in the same order.
  * Each data field is parsed as follows:
  *
@@ -121,12 +121,12 @@ bool AddCatDialog::validateDataFile() {
 	QFile dataFile( acd->DataURL->url() );
 	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
 		QTextStream dataStream( &dataFile );
-		CatalogContents += dataStream.read();
+		CatalogContents += dataStream.readAll();
 
 		dataFile.close();
 	}
 
-	//Now create a temporary file for the Catalog, and attempt to parse it 
+	//Now create a temporary file for the Catalog, and attempt to parse it
 	//into a temporary CustomCatalogComponent
 	KTempFile ktf;
 	QFile tmpFile( ktf.name() );
@@ -191,7 +191,7 @@ void AddCatDialog::slotShowDataFile() {
 	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
 		acd->DataFileBox->clear();
 		QTextStream dataStream( &dataFile );
-		acd->DataFileBox->insertStringList( dataStream.read().split( "\n" ) );
+		acd->DataFileBox->insertStringList( dataStream.readAll().split( "\n" ) );
 		dataFile.close();
 	}
 }
@@ -217,14 +217,14 @@ void AddCatDialog::slotCreateCatalog() {
 											"Overwrite it?", u.fileName() ),
 									i18n( "Overwrite File?" ),
 									i18n( "&Overwrite" ) );
-			
+
 			if(r==KMessageBox::Cancel) return;
 		}
 
 		QFile OutFile( acd->CatalogURL->url() );
 		if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
-			KMessageBox::sorry( 0, 
-				i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url() ), 
+			KMessageBox::sorry( 0,
+				i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url() ),
 				i18n( "Error Opening Output File" ) );
 		} else {
 			QTextStream outStream( &OutFile );
