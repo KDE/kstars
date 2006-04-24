@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QTabWidget>
 #include <QPushButton>
+#include <QPalette>
 
 #include <kdialogbase.h>
 #include <ktextedit.h>
@@ -208,6 +209,7 @@ private:
 
 	SkyObject *selectedObject;
 	KStars* ksw;
+	QPalette detPalette;
 
 	// Edit Link Dialog
 	QHBoxLayout *editLinkLayout;

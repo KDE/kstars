@@ -64,15 +64,17 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
-DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) 
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
 : KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
-	//Modify color palette
-	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
+
+        //Modify color palette
+        detPalette = palette();
+        detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QColorGroup::Base ) );
+        detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QColorGroup::Text ) );
+        setPalette( detPalette );
 
 	createGeneralTab();
 	createPositionTab( ut, geo );
@@ -91,6 +93,7 @@ void DetailDialog::createGeneralTab()
 {
 	QFrame *DataTab = addPage(i18n("General"));
 	Data = new DataWidget(DataTab);
+        DataTab->setPalette( detPalette );
 
 	//Show object thumbnail image
 	showThumbnail();
@@ -108,20 +111,20 @@ void DetailDialog::createGeneralTab()
 
 		Data->Names->setText( s->longname() );
 		Data->Type->setText( s->sptype() + " " + i18n("star") );
-		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
+		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
 				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
 		//distance
-		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas 
+		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas
 			Data->Distance->setText( QString(i18nc("larger than 2000 parsecs", "> 2000 pc") ) );
 		else if ( s->distance() > 50.0 ) //show to nearest integer
-			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
 					int( s->distance() + 0.5 ) ) );
 		else if ( s->distance() > 10.0 ) //show to tenths place
-			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
 					KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
 		else //show to hundredths place
-			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" , 
+			Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
 					KGlobal::locale()->formatNumber( s->distance(), 2 ) ) );
 
 		//Note multiplicity/variablility in angular size label
@@ -131,18 +134,18 @@ void DetailDialog::createGeneralTab()
 		if ( s->isMultiple() && s->isVariable() ) {
 			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) + "," );
 			Data->AngSize->setText( i18nc( "the star is a variable star", "variable" ) );
-		} else if ( s->isMultiple() ) 
+		} else if ( s->isMultiple() )
 			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) );
-		else if ( s->isVariable() ) 
+		else if ( s->isVariable() )
 			Data->AngSizeLabel->setText( i18nc( "the star is a variable star", "variable" ) );
-		
+
 		break; //end of stars case
 
 	case 9:  //asteroids [fall through to planets]
 	case 10: //comets [fall through to planets]
 	case 2:  //planets (including comets and asteroids)
 		ps = (KSPlanetBase *)selectedObject;
-		
+
 		Data->Names->setText( ps->longname() );
 		//Type is "G5 star" for Sun
 		if ( ps->name() == "Sun" )
@@ -155,26 +158,26 @@ void DetailDialog::createGeneralTab()
 			Data->MagLabel->setText( i18n("Illumination:") );
 			Data->Magnitude->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
 		} else {
-			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
+			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
 					KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
 		}
 
 		//Distance from Earth.  The moon requires a unit conversion
 		if ( ps->name() == "Moon" ) {
-			Data->Distance->setText( i18nc("distance in kilometers", "%1 km", 
+			Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
 						KGlobal::locale()->formatNumber( ps->rearth()*AU_KM ) ) );
 		} else {
-			Data->Distance->setText( i18nc("distance in Astronomical Units", "%1 AU", 
+			Data->Distance->setText( i18nc("distance in Astronomical Units", "%1 AU",
 						KGlobal::locale()->formatNumber( ps->rearth() ) ) );
 		}
 
 		//Angular size; moon and sun in arcmin, others in arcsec
 		if ( ps->angSize() ) {
-			if ( ps->name() == "Sun" || ps->name() == "Moon" ) 
-				Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
+			if ( ps->name() == "Sun" || ps->name() == "Moon" )
+				Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
 							KGlobal::locale()->formatNumber( ps->angSize() ) ) );
 			else
-				Data->AngSize->setText( i18nc("angular size in arcseconds", "%1 arcsec", 
+				Data->AngSize->setText( i18nc("angular size in arcseconds", "%1 arcsec",
 							KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) );
 		} else {
 			Data->AngSize->setText( "--" );
@@ -206,7 +209,7 @@ void DetailDialog::createGeneralTab()
 			if ( ! oname.isEmpty() ) oname += ", ";
 			oname += "PGC " + QString("%1").arg( dso->pgc() );
 		}
-		
+
 		if ( ! oname.isEmpty() ) pname += ", " + oname;
 		Data->Names->setText( pname );
 
@@ -215,22 +218,22 @@ void DetailDialog::createGeneralTab()
 		if ( dso->mag() > 90.0 )
 			Data->Magnitude->setText( "--" );
 		else
-			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" , 
+			Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
 					KGlobal::locale()->formatNumber( dso->mag(), 1 ) ) );  //show to tenths place
 
 		//No distances at this point...
 		Data->Distance->setText( "--" );
 
 		//Only show decimal place for small angular sizes
-		if ( dso->a() > 10.0 ) 
-			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
+		if ( dso->a() > 10.0 )
+			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
 					int( dso->a() ) ) );
-		else if ( dso->a() ) 
-			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin", 
+		else if ( dso->a() )
+			Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
 					KGlobal::locale()->formatNumber( dso->a(), 1 ) ) );
-		else 
+		else
 			Data->AngSize->setText( "--" );
-		
+
 		break;
 	}
 
@@ -241,6 +244,7 @@ void DetailDialog::createGeneralTab()
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
 	QFrame *PosTab = addPage(i18n("Position"));
 	Pos = new PositionWidget(PosTab);
+        PosTab->setPalette( detPalette );
 
 	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
@@ -251,10 +255,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
 	Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
 	Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
-	Pos->RA->setText( selectedObject->ra()->toHMSString() );
-	Pos->Dec->setText( selectedObject->dec()->toDMSString() );
-	Pos->Az->setText( selectedObject->az()->toDMSString() );
-	Pos->Alt->setText( selectedObject->alt()->toDMSString() );
+	Pos->RA->setPlainText( selectedObject->ra()->toHMSString() );
+	Pos->Dec->setPlainText( selectedObject->dec()->toDMSString() );
+	Pos->Az->setPlainText( selectedObject->az()->toDMSString() );
+	Pos->Alt->setPlainText( selectedObject->alt()->toDMSString() );
 
 	//Hour Angle can be negative, but dms HMS expressions cannot.
 	//Here's a kludgy workaround:
@@ -265,15 +269,15 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 		ha.setH( 24.0 - ha.Hours() );
 		sgn = '-';
 	}
-	Pos->HA->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+	Pos->HA->setPlainText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
 
 	//Airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
-	if ( selectedObject->alt()->Degrees() > 0.0 ) 
-		Pos->Airmass->setText( KGlobal::locale()->formatNumber( 
+	if ( selectedObject->alt()->Degrees() > 0.0 )
+		Pos->Airmass->setPlainText( KGlobal::locale()->formatNumber(
 				1./sin( selectedObject->alt()->radians() ), 2 ) );
-	else 
-		Pos->Airmass->setText( "--" );
+	else
+		Pos->Airmass->setPlainText( "--" );
 
 	//Rise/Set/Transit Section:
 
@@ -298,25 +302,25 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	}
 
 	if ( rt.isValid() ) {
-		Pos->TimeRise->setText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
-		Pos->TimeSet->setText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
-		Pos->AzRise->setText( raz.toDMSString() );
-		Pos->AzSet->setText( saz.toDMSString() );
+		Pos->TimeRise->setPlainText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
+		Pos->TimeSet->setPlainText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
+		Pos->AzRise->setPlainText( raz.toDMSString() );
+		Pos->AzSet->setPlainText( saz.toDMSString() );
 	} else {
 		if ( selectedObject->alt()->Degrees() > 0.0 ) {
-			Pos->TimeRise->setText( i18n( "Circumpolar" ) );
-			Pos->TimeSet->setText( i18n( "Circumpolar" ) );
+			Pos->TimeRise->setPlainText( i18n( "Circumpolar" ) );
+			Pos->TimeSet->setPlainText( i18n( "Circumpolar" ) );
 		} else {
-			Pos->TimeRise->setText( i18n( "Never rises" ) );
-			Pos->TimeSet->setText( i18n( "Never rises" ) );
+			Pos->TimeRise->setPlainText( i18n( "Never rises" ) );
+			Pos->TimeSet->setPlainText( i18n( "Never rises" ) );
 		}
 
-		Pos->AzRise->setText( i18nc( "Not Applicable", "N/A" ) );
-		Pos->AzSet->setText( i18nc( "Not Applicable", "N/A" ) );
+		Pos->AzRise->setPlainText( i18nc( "Not Applicable", "N/A" ) );
+		Pos->AzSet->setPlainText( i18nc( "Not Applicable", "N/A" ) );
 	}
 
-	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
-	Pos->AltTransit->setText( talt.toDMSString() );
+	Pos->TimeTransit->setPlainText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
+	Pos->AltTransit->setPlainText( talt.toDMSString() );
 }
 
 void DetailDialog::createLinksTab()
@@ -327,6 +331,7 @@ void DetailDialog::createLinksTab()
 
 	QFrame *LinksTab = addPage(i18n("Links"));
 	Links = new LinksWidget(LinksTab);
+        LinksTab->setPalette( detPalette );
 
 	foreach ( QString s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
@@ -357,15 +362,16 @@ void DetailDialog::createAdvancedTab()
 {
 	// Don't create an adv tab for an unnamed star or if advinterface file failed loading
 	// We also don't need adv dialog for solar system objects.
-	if (selectedObject->name() == QString("star") || 
-				ksw->data()->ADVtreeList.isEmpty() || 
-				selectedObject->type() == SkyObject::PLANET || 
-				selectedObject->type() == SkyObject::COMET || 
+	if (selectedObject->name() == QString("star") ||
+				ksw->data()->ADVtreeList.isEmpty() ||
+				selectedObject->type() == SkyObject::PLANET ||
+				selectedObject->type() == SkyObject::COMET ||
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
 	QFrame *AdvancedTab = addPage(i18n("Advanced"));
 	Adv = new DatabaseWidget(AdvancedTab );
+        AdvancedTab->setPalette( detPalette );
 
 	//treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
@@ -382,11 +388,12 @@ void DetailDialog::createLogTab()
 	// Log Tab
 	QFrame *LogTab = addPage(i18n("Log"));
 	Log = new LogWidget(LogTab);
+        LogTab->setPalette( detPalette );
 
 	if ( selectedObject->userLog.isEmpty() )
-		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
+		Log->UserLog->setPlainText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
 	else
-		Log->UserLog->setText(selectedObject->userLog);
+		Log->UserLog->setPlainText(selectedObject->userLog);
 
 	//Automatically save the log contents when the widget loses focus
 	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
@@ -425,10 +432,10 @@ void DetailDialog::updateLists()
 	Links->InfoTitleList->clear();
 	Links->ImageTitleList->clear();
 
-	foreach ( QString s, selectedObject->InfoTitle ) 
+	foreach ( QString s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
 
-	foreach ( QString s, selectedObject->ImageTitle ) 
+	foreach ( QString s, selectedObject->ImageTitle )
         	Links->ImageTitleList->addItem( s );
 
 	if (selectedObject->InfoTitle.count() > 0 || selectedObject->ImageTitle.count() > 0)
@@ -446,10 +453,10 @@ void DetailDialog::editLinkDialog()
 {
 	int type=0, row=0;
 	QString search_line, replace_line, currentItemTitle, currentItemURL;
-	
+
 	KDialog editDialog(NULL, i18n("Edit Link"), KDialog::Ok | KDialog::Cancel);
 	QFrame *editFrame = new QFrame();
-	
+
 	if (Links->InfoTitleList->currentItem())
 	{
 		row = Links->InfoTitleList->currentRow();
@@ -475,7 +482,7 @@ void DetailDialog::editLinkDialog()
 		type 	   = 1;
 	}
 	else return;
-	
+
 	editLinkURL = new QLabel(i18n("URL:"), editFrame);
 	editLinkField = new QLineEdit(editFrame);
 	editLinkField->setObjectName("lineedit");
@@ -516,8 +523,8 @@ void DetailDialog::editLinkDialog()
 		Links->InfoTitleList->setCurrentRow(row);
 	else
 		Links->ImageTitleList->setCurrentRow(row);
-		
-	
+
+
 }
 
 void DetailDialog::removeLinkDialog()
@@ -570,7 +577,7 @@ void DetailDialog::removeLinkDialog()
 	}
 
 	// Remove link from file
-	updateLocalDatabase(type, LineEntry);	
+	updateLocalDatabase(type, LineEntry);
 
 	// Set focus to the 1st item in the list
 	if (type == 0)
@@ -598,20 +605,20 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 		// Info Links
 		case 0:
 			// Get name for our local info_url file
-			URLFile.setFileName( locateLocal( "appdata", "info_url.dat" ) ); 
+			URLFile.setFileName( locateLocal( "appdata", "info_url.dat" ) );
 			break;
 
 		// Image Links
 		case 1:
 			// Get name for our local info_url file
-			URLFile.setFileName( locateLocal( "appdata", "image_url.dat" ) ); 
+			URLFile.setFileName( locateLocal( "appdata", "image_url.dat" ) );
 			break;
 	}
 
 	// Copy URL file to temp file
 	KIO::NetAccess::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1 , true, false, NULL);
 
-		
+
 	if ( !URLFile.open( QIODevice::WriteOnly) )
 	{
 		kDebug() << "DetailDialog: Failed to open " << URLFile.fileName() << endl;
@@ -641,7 +648,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 	URLFile.close();
 	TempFile.close();
 	delete(out_stream);
-	
+
 	updateLists();
 
 }
@@ -677,7 +684,7 @@ void DetailDialog::populateADVTree()
 			break;
 		}
 	}
-	
+
 }
 
 void  DetailDialog::viewADVData()
@@ -693,7 +700,7 @@ void  DetailDialog::viewADVData()
 		{
 		   link = item->Link;
 		   link = parseADVData(link);
-		   KToolInvocation::invokeBrowser(link);	
+		   KToolInvocation::invokeBrowser(link);
 		   return;
 		}
 	}
@@ -704,7 +711,7 @@ QString DetailDialog::parseADVData( const QString &inlink )
 	QString link = inlink;
 	QString subLink;
 	int index;
-	
+
 	if ( (index = link.indexOf("KSOBJ")) != -1)
 	{
 		link.remove(index, 5);
@@ -743,7 +750,7 @@ QString DetailDialog::parseADVData( const QString &inlink )
 }
 
 void DetailDialog::saveLogData() {
-  selectedObject->saveUserLog( Log->UserLog->text() );
+  selectedObject->saveUserLog( Log->UserLog->toPlainText() );
 }
 
 void DetailDialog::addToObservingList() {
@@ -764,13 +771,13 @@ void DetailDialog::centerTelescope()
   bool useJ2000( false);
   int selectedCoord(0);
   SkyPoint sp;
-  
+
   // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
   // i.e. the first telescope we find!
-  
+
   INDIMenu *imenu = ksw->getINDIMenu();
 
-  
+
   for ( int i=0; i < imenu->mgr.size() ; i++ )
   {
     for ( int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++ )
@@ -795,7 +802,7 @@ void DetailDialog::centerTelescope()
 
        ConnectEle = indidev->findElem("CONNECT");
        if (!ConnectEle) continue;
-       
+
        if (ConnectEle->state == PS_OFF)
        {
 	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
@@ -822,10 +829,10 @@ void DetailDialog::centerTelescope()
           if (!AltEle) continue;
           break;
         }
-   
+
         onset = indidev->findProp("ON_COORD_SET");
         if (!onset) continue;
-       
+
         onset->activateSwitch("SLEW");
 
         indidev->stdDev->currentObject = selectedObject;
@@ -876,22 +883,22 @@ void DetailDialog::centerTelescope()
        }
 
        prop->newText();
-       
+
        return;
     }
   }
-       
+
   // We didn't find any telescopes
   KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-	
+
 }
 
 void DetailDialog::showThumbnail() {
 	//No image if object is a star
-	if ( selectedObject->type() == SkyObject::STAR || 
+	if ( selectedObject->type() == SkyObject::STAR ||
 			selectedObject->type() == SkyObject::CATALOG_STAR ) {
-		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
-		Thumbnail->fill( Data->DataFrame->paletteBackgroundColor() );
+		Thumbnail->scaled( Data->Image->width(), Data->Image->height() );
+		Thumbnail->fill( Data->DataFrame->palette().color( QPalette::Window ) );
 		Data->Image->setPixmap( *Thumbnail );
 		return;
 	}
@@ -908,8 +915,8 @@ void DetailDialog::showThumbnail() {
 		file.close();
 		Thumbnail->load( file.fileName(), "PNG" );
 	} else {
-		Thumbnail->resize( Data->Image->width(), Data->Image->height() );
-		Thumbnail->fill( Data->DataFrame->paletteBackgroundColor() );
+		Thumbnail->scaled( Data->Image->width(), Data->Image->height() );
+		Thumbnail->fill( Data->DataFrame->palette().color( QPalette::Window ) );
 	}
 
 	Data->Image->setPixmap( *Thumbnail );
@@ -917,9 +924,9 @@ void DetailDialog::showThumbnail() {
 
 void DetailDialog::updateThumbnail() {
 	ThumbnailPicker tp( selectedObject, *Thumbnail, this );
-	
+
 	if ( tp.exec() == QDialog::Accepted ) {
-		QString fname = locateLocal( "appdata", "thumb-" 
+		QString fname = locateLocal( "appdata", "thumb-"
 				+ selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
@@ -942,20 +949,12 @@ DataWidget::DataWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	// NOTE had to swap QColorGroup::HighlightedText with QColorGroup::Highlight to 
-        // make the titles appear!
-	Names->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Names->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	DataFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Type->setPalette( p->palette() );
-	Constellation->setPalette( p->palette() );
-	Magnitude->setPalette( p->palette() );
-	Distance->setPalette( p->palette() );
-	AngSize->setPalette( p->palette() );
-	InLabel->setPalette( p->palette() );
-	MagLabel->setPalette( p->palette() );
-	DistanceLabel->setPalette( p->palette() );
-	AngSizeLabel->setPalette( p->palette() );
+        QPalette revPalette( p->palette() );
+        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+
+        Names->setPalette( revPalette );
+        DataFrame->setPalette( revPalette );
 }
 
 PositionWidget::PositionWidget( QWidget *p )
@@ -963,52 +962,27 @@ PositionWidget::PositionWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	// NOTE had to swap QColorGroup::HighlightedText with QColorGroup::Highlight to 
-        // make the titles appear!
-	CoordTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	CoordTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	CoordFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active,  QColorGroup::HighlightedText) );
-	RSTTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RSTFrame->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	RA->setPalette( p->palette() );
-	Dec->setPalette( p->palette() );
-	Az->setPalette( p->palette() );
-	Alt->setPalette( p->palette() );
-	HA->setPalette( p->palette() );
-	Airmass->setPalette( p->palette() );
-	TimeRise->setPalette( p->palette() );
-	TimeTransit->setPalette( p->palette() );
-	TimeSet->setPalette( p->palette() );
-	AzRise->setPalette( p->palette() );
-	AltTransit->setPalette( p->palette() );
-	AzSet->setPalette( p->palette() );
-	RALabel->setPalette( p->palette() );
-	DecLabel->setPalette( p->palette() );
-	AzLabel->setPalette( p->palette() );
-	AltLabel->setPalette( p->palette() );
-	HALabel->setPalette( p->palette() );
-	AirmassLabel->setPalette( p->palette() );
-	TimeRiseLabel->setPalette( p->palette() );
-	TimeTransitLabel->setPalette( p->palette() );
-	TimeSetLabel->setPalette( p->palette() );
-	AzRiseLabel->setPalette( p->palette() );
-	AltTransitLabel->setPalette( p->palette() );
-	AzSetLabel->setPalette( p->palette() );
+        QPalette revPalette( p->palette() );
+        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
+        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+
+        CoordTitle->setPalette( revPalette );
+        CoordFrame->setPalette( revPalette );
+        RSTTitle->setPalette( revPalette );
+        RSTFrame->setPalette( revPalette );
 }
 
-LinksWidget::LinksWidget( QWidget *p ) 
+LinksWidget::LinksWidget( QWidget *p )
 {
 	setupUi(p);
 
 	// Modify colors
-	// NOTE had to swap QColorGroup::Base with QColorGroup::Text to make
-        // the titles appear!
-	InfoTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
-	InfoTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
-	ImagesTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
-	ImagesTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+        QPalette linkPalette( p->palette() );
+        linkPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::Base ) );
+        linkPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Text ) );
 
+        InfoTitle->setPalette( linkPalette );
+        ImagesTitle->setPalette( linkPalette );
 	QPalette plt = p->palette();
 	plt.setColor( QPalette::Active, QColorGroup::Dark, p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
 	InfoTitleList->setPalette( plt );
@@ -1025,10 +999,10 @@ LogWidget::LogWidget( QWidget *p )
 	setupUi(p);
 
 	//Modify colors
-	// NOTE had to swap QColorGroup::Base with QColorGroup::Text to make
-        // the titles appear!
-	LogTitle->setPaletteBackgroundColor( p->palette().color( QPalette::Active, QColorGroup::Base ) );
-	LogTitle->setPaletteForegroundColor( p->palette().color( QPalette::Active, QColorGroup::Text ) );
+        QPalette logPalette = p->palette();
+        logPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::Base ) );
+        logPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Text ) );
+        LogTitle->setPalette(  logPalette );
 }
 
 #include "detaildialog.moc"
