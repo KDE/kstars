@@ -43,11 +43,11 @@
 TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
 	: QSpinBox ( parent )
 {
+        setDaysOnly( _daysonly );
+
         setMinimum( -41 );
         setMaximum( 41 );
         setSingleStep( 1 );
-
-        setDaysOnly( _daysonly );
 
 	setButtonSymbols( QSpinBox::PlusMinus );
 	lineEdit()->setReadOnly( true );
