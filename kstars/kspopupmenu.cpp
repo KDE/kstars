@@ -41,8 +41,8 @@ KSPopupMenu::~KSPopupMenu()
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
 	initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
 
-	insertItem( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-	insertItem( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+	addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+	addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
@@ -54,8 +54,8 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 	if ( star->name() != "star" ) {
 		addLinksToMenu( star );
 	} else {
-		insertItem( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-		insertItem( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+		addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+		addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
 	}
 }
 
@@ -100,16 +100,16 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		insertItem( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage( int ) ), 0, id++ );
+		addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage( int ) ) );
 		++itTitle;
 	}
 
 	if ( showDSS ) {
-	  insertItem( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-	  insertItem( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
-	  insertSeparator();
+	  addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+	  addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+	  addSeparator();
 	}
-	else if ( obj->ImageList.count() ) insertSeparator();
+	else if ( obj->ImageList.count() ) addSeparator();
 
 	itList  = obj->InfoList.begin();
 	itTitle = obj->InfoTitle.begin();
@@ -119,13 +119,13 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 	for ( ; itList != itListEnd; ++itList ) {
 		QString t = QString(*itTitle);
 		sURL = QString(*itList);
-		insertItem( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo( int ) ), 0, id++ );
+		addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo( int ) ) );
 		++itTitle;
 	}
 
 	if ( allowCustom ) {
-		insertSeparator();
-		insertItem( i18n( "Add Link..." ), ks->map(), SLOT( addLink() ), 0, id++ );
+		addSeparator();
+		addAction( i18n( "Add Link..." ), ks->map(), SLOT( addLink() ) );
 	}
 }
 
@@ -138,10 +138,10 @@ bool KSPopupMenu::addINDI(void)
 	INDI_P *prop(NULL);
 	INDI_E *element;
 	int id=0;
-	
+
 	if (indiMenu->mgr.count() == 0)
 		return false;
-	
+
 	foreach ( mgr, indiMenu->mgr )
 	{
 		foreach (dev, mgr->indi_dev )
@@ -156,19 +156,19 @@ bool KSPopupMenu::addINDI(void)
 			{
 				foreach (prop, grp->pl )
 				{
-					//Only std are allowed to show. Movement is somewhat problematic 
-					//due to an issue with the LX200 telescopes (the telescope does 
-					//not update RA/DEC while moving N/W/E/S) so it's better off the 
+					//Only std are allowed to show. Movement is somewhat problematic
+					//due to an issue with the LX200 telescopes (the telescope does
+					//not update RA/DEC while moving N/W/E/S) so it's better off the
 					//skymap. It's avaiable in the INDI control panel nonetheless.
-					//CCD_EXPOSE_DURATION is an INumber property, but it's so common 
+					//CCD_EXPOSE_DURATION is an INumber property, but it's so common
 					//that it's better to include in the context menu
 
 					if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
 					// Only switches are shown
-					if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO 
+					if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO
 							&& prop->stdID !=CCD_EXPOSE_DURATION) continue;
 
-					menuDevice->insertSeparator();
+					menuDevice->addSeparator();
 
 					prop->assosiatedPopup = menuDevice;
 
@@ -206,7 +206,7 @@ bool KSPopupMenu::addINDI(void)
 			// For telescopes, add option to center the telescope position
 			if ( dev->findElem("RA") || dev->findElem("ALT"))
 			{
-				menuDevice->insertSeparator();
+				menuDevice->addSeparator();
 				menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
 				if (dev->findElem("RA"))
 					prop = dev->findElem("RA")->pp;
@@ -214,7 +214,7 @@ bool KSPopupMenu::addINDI(void)
 					prop = dev->findElem("ALT")->pp;
 
 				prop->assosiatedPopup = menuDevice;
-				QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
+				QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));
 			}
 		} // end device
 	} // end device manager
@@ -223,9 +223,9 @@ bool KSPopupMenu::addINDI(void)
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QString &s2, const QString &s3,
-		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, 
+		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
 		bool showAngularDistance, bool showObsList ) {
-	
+
 	clear();
 	QString s1 = _s1;
 	if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
@@ -238,12 +238,12 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 	if ( ! s3.isEmpty() ) aType = addTitle( s3 );
 
 	aConstellation = addTitle( ks->data()->skyComposite()->constellation( obj ) );
-	
+
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
-		insertSeparator();
+		addSeparator();
 		aRiseTime = addTitle( i18n( "Rise time: %1" , QString("00:00") ) );
-		aSetTime  = addTitle( i18nc( "the time at which an object falls below the horizon", 
+		aSetTime  = addTitle( i18nc( "the time at which an object falls below the horizon",
 			"Set time: %1" , QString("00:00") ) );
 		aTransitTime = addTitle( i18n( "Transit time: %1" , QString("00:00") ) );
 
@@ -252,18 +252,18 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 
 	//Insert item for centering on object
 	if ( showCenterTrack && obj ) {
-		insertSeparator();
-		insertItem( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+		addSeparator();
+		addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
 	}
-	
+
 	//Insert item for measuring distances
 	//FIXME: add key shortcut to menu items properly!
 	if ( showAngularDistance && obj ) {
 		if (! (ks->map()->isAngleMode()) ) {
-			insertItem( i18n( "Angular Distance To...            [" ), ks->map(), 
+			addAction( i18n( "Angular Distance To...            [" ), ks->map(),
 					SLOT( slotBeginAngularDistance() ) );
 		} else {
-			insertItem( i18n( "Compute Angular Distance          ]" ), ks->map(), 
+			addAction( i18n( "Compute Angular Distance          ]" ), ks->map(),
 					SLOT( slotEndAngularDistance() ) );
 		}
 	}
@@ -271,43 +271,43 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 
 	//Insert item for Showing details dialog
 	if ( showDetails && obj ) {
-		insertItem( i18nc( "Show Detailed Information Dialog", "Details" ), ks->map(), 
+		addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->map(),
 					SLOT( slotDetail() ) );
 	}
 
 	//Insert "Add/Remove Label" item
 	if ( showLabel && obj ) {
 		if ( ks->map()->isObjectLabeled( obj ) ) {
-			insertItem( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+			addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
 		} else {
-			insertItem( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
+			addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
 		}
 	}
 
 	if ( showObsList && obj ) {
 		if ( ks->observingList()->contains( obj ) )
-			insertItem( i18n("Remove From List"), ks->observingList(), SLOT( slotRemoveObject() ) );
-		else 
-			insertItem( i18n("Add to List"), ks->observingList(), SLOT( slotAddObject() ) );
+			addAction( i18n("Remove From List"), ks->observingList(), SLOT( slotRemoveObject() ) );
+		else
+			addAction( i18n("Add to List"), ks->observingList(), SLOT( slotAddObject() ) );
 	}
-	
+
 	if ( showTrail && obj && obj->isSolarSystem() ) {
 		if ( addTrail ) {
-			insertItem( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
+			addAction( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
 		} else {
-			insertItem( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
+			addAction( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
 		}
 	}
 
-	insertSeparator();
+	addSeparator();
 
 	if (addINDI())
-		insertSeparator();
+		addSeparator();
 }
 
 void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	if ( ! obj ) return;
-	
+
 	QString rt, rt2, rt3;
 	QTime rtime = obj->riseSetTime( ks->data()->ut(), ks->geo(), true );
 	dms rAz = obj->riseSetTimeAz( ks->data()->ut(), ks->geo(), true );
@@ -327,7 +327,7 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 
 	QString st, st2, st3;
 	dms sAz = obj->riseSetTimeAz( dt,  ks->geo(), false );
-	
+
 	if ( stime.isValid() ) {
 		//We can round to the nearest minute by simply adding 30 seconds to the time.
 		st = i18nc( "the time at which an object falls below the horizon", "Set time: %1", stime.addSecs(30).toString( "hh:mm" ) );

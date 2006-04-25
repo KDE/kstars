@@ -43,18 +43,18 @@ JMoonTool::JMoonTool(QWidget *parent)
 	QVBoxLayout *vlay = new QVBoxLayout( page );
 	vlay->setMargin( 0 );
 	vlay->setSpacing( 0 );
-	
+
 	colJp = QColor(Qt::white);
 	colIo = QColor(Qt::red);
 	colEu = QColor(Qt::yellow);
 	colGn = QColor(Qt::cyan);
 	colCa = QColor(Qt::green);
-	
+
 	QLabel *labIo = new QLabel( "Io", page );
 	QLabel *labEu = new QLabel( "Europa", page );
 	QLabel *labGn = new QLabel( "Ganymede", page );
 	QLabel *labCa = new QLabel( "Callisto", page );
-	
+
 	labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	labGn->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
@@ -64,25 +64,27 @@ JMoonTool::JMoonTool(QWidget *parent)
 	labGn->setAlignment( Qt::AlignHCenter );
 	labCa->setAlignment( Qt::AlignHCenter );
 
-	labIo->setPaletteForegroundColor( colIo );
-	labEu->setPaletteForegroundColor( colEu );
-	labGn->setPaletteForegroundColor( colGn );
-	labCa->setPaletteForegroundColor( colCa );
-	labIo->setPaletteBackgroundColor( Qt::black );
-	labEu->setPaletteBackgroundColor( Qt::black );
-	labGn->setPaletteBackgroundColor( Qt::black );
-	labCa->setPaletteBackgroundColor( Qt::black );
+        QPalette p = palette();
+        p.setColor( QPalette::Window, Qt::black );
+        p.setColor( QPalette::Text, colIo );
+	labIo->setPalette( p );
+        p.setColor( QPalette::Text, colEu );
+	labEu->setPalette( p );
+        p.setColor( QPalette::Text, colGn );
+	labGn->setPalette( p );
+        p.setColor( QPalette::Text, colCa );
+	labCa->setPalette( p );
 	labIo->setAutoFillBackground( true );
 	labEu->setAutoFillBackground( true );
 	labGn->setAutoFillBackground( true );
 	labCa->setAutoFillBackground( true );
-	
-	QGridLayout *glay = new QGridLayout( 2, 2, 0 );
+
+	QGridLayout *glay = new QGridLayout();
 	glay->addWidget( labIo, 0, 0 );
 	glay->addWidget( labEu, 1, 0 );
 	glay->addWidget( labGn, 0, 1 );
 	glay->addWidget( labCa, 1, 1 );
-	
+
 	pw = new KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, page );
 	pw->setShowGrid( false );
 	pw->setYAxisType0( KStarsPlotWidget::TIME );
@@ -108,31 +110,31 @@ void JMoonTool::initPlotObjects() {
 	KSSun *ksun = (KSSun*)ksw->data()->skyComposite()->findByName( "Sun" );
 	KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( "Jupiter" );
 	JupiterMoons jm;
-	
+
 	if ( pw->objectCount() ) pw->clearObjectList();
-	
+
 	orbit[0] = new KPlotObject( "io", colIo, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	orbit[1] = new KPlotObject( "europa", colEu, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	orbit[2] = new KPlotObject( "ganymede", colGn, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	orbit[3] = new KPlotObject( "callisto", colCa, KPlotObject::CURVE, 1, KPlotObject::SOLID );
 	jpath    = new KPlotObject( "jupiter", colJp, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-	
+
 	double dy = 0.01*pw->dataHeight();
-	
+
 	//t is the offset from jd0, in hours.
 	for ( double t=pw->y(); t<=pw->y2(); t+=dy ) {
 		KSNumbers num( jd0 + t/24.0 );
 		jm.findPosition( &num, jup, ksun );
-		
+
 		//jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
 		//multiply by 0.5*jup->angSize() to get arcminutes
-		for ( unsigned int i=0; i<4; ++i ) 
+		for ( unsigned int i=0; i<4; ++i )
 			orbit[i]->addPoint( new QPointF( 0.5*jup->angSize()*jm.x(i), t ) );
-		
+
 		jpath->addPoint( new QPointF( 0.0, t ) );
 	}
 
-	for ( unsigned int i=0; i<4; ++i ) 
+	for ( unsigned int i=0; i<4; ++i )
 		pw->addObject( orbit[i] );
 
 	pw->addObject( jpath );
@@ -159,7 +161,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Plus:
 		case Qt::Key_Equal:
 		{
-			if ( pw->dataHeight() > 48.0 ) { 
+			if ( pw->dataHeight() > 48.0 ) {
 				double dy = 0.45*pw->dataHeight();
 				double y0 = pw->y() + 0.5*pw->dataHeight();
 				pw->setLimits( pw->x(), pw->x2(), y0-dy, y0+dy );
@@ -185,7 +187,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 			close();
 			break;
 		}
-		
+
 		default: { e->ignore(); break; }
 	}
 }

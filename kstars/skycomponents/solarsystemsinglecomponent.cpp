@@ -43,7 +43,7 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
 	//Object deletes handled by parent class (SingleComponent)
 }
 
-void SolarSystemSingleComponent::init(KStarsData *data) {
+void SolarSystemSingleComponent::init(KStarsData *) {
 	ksp()->loadData();
 
 	if ( ! ksp()->name().isEmpty() ) objectNames().append( ksp()->name() );
@@ -56,7 +56,7 @@ void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num)
 		ksp()->findPosition( num, data->geo()->lat(), data->lst(), earth() );
 		ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
-		if ( ksp()->hasTrail() ) 
+		if ( ksp()->hasTrail() )
 			ksp()->updateTrail( data->lst(), data->geo()->lat() );
 	}
 }
@@ -164,7 +164,7 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
 
 void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
 	if ( ! visible() || ! ksp()->hasTrail() ) return;
-	
+
 	SkyMap *map = ks->map();
 	KStarsData *data = ks->data();
 
@@ -182,7 +182,7 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 	int i = 0;
 	int n = ksp()->trail().size();
 
-	if ( ( o.x() >= -1000. && o.x() <= Width+1000. 
+	if ( ( o.x() >= -1000. && o.x() <= Width+1000.
 			&& o.y() >= -1000. && o.y() <= Height+1000. ) ) {
 //		psky.moveTo(o.x(), o.y());
 		doDrawLine = true;

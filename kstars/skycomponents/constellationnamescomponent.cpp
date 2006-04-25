@@ -36,7 +36,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent, b
 ConstellationNamesComponent::~ConstellationNamesComponent() {
 }
 
-void ConstellationNamesComponent::init(KStarsData *data)
+void ConstellationNamesComponent::init(KStarsData *)
 {
 	QFile file;
 	QString cnameFile = "cnames.dat";
@@ -83,7 +83,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
 void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( ! visible() ) return;
-	
+
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();
 	float Height = scale * map->height();

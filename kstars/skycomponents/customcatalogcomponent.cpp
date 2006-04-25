@@ -56,19 +56,19 @@ void CustomCatalogComponent::init( KStarsData * ) {
 
 	if ( ccFile.open( QIODevice::ReadOnly ) ) {
 		int iStart(0); //the line number of the first non-header line
-		QStringList errs; //list of error messages 
+		QStringList errs; //list of error messages
 		QStringList Columns; //list of data column descriptors in the header
 
 		QTextStream stream( &ccFile );
-		QStringList lines = stream.read().split( "\n", QString::SkipEmptyParts );
+		QStringList lines = stream.readAll().split( "\n", QString::SkipEmptyParts );
 
 		if ( parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) ) {
-	
+
 			for ( int i=iStart; i < lines.size(); ++i ) {
 				QStringList d = lines.at(i).split( " ", QString::SkipEmptyParts );
-	
+
 				//Now, if one of the columns is the "Name" field, the name may contain spaces.
-				//In this case, the name field will need to be surrounded by quotes.  
+				//In this case, the name field will need to be surrounded by quotes.
 				//Check for this, and adjust the d list accordingly
 				int iname = Columns.indexOf( "Nm" );
 				if ( iname >= 0 && d[iname].left(1) == "\"" ) { //multi-word name in quotes
@@ -83,14 +83,14 @@ void CustomCatalogComponent::init( KStarsData * ) {
 							++iend;
 						}
 						d[iname] += " " + d[iend].left( d[iend].length() - 1 );
-	
+
 						//remove the entries from d list that were the multiple words in the name
 						for ( int j=iname+1; j<=iend; j++ ) {
 							d.removeAll( d.at(iname + 1) ); //index is *not* j, because next item becomes "iname+1" after remove
 						}
 					}
 				}
-	
+
 				if ( d.size() == Columns.size() ) {
 					processCustomDataLine( i, d, Columns, m_Showerrs, errs );
 				} else {
@@ -122,9 +122,9 @@ void CustomCatalogComponent::init( KStarsData * ) {
 
 	} else { //Error opening catalog file
 		if ( m_Showerrs )
-			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ), 
+			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ),
 					i18n( "Error opening file" ) );
-		else 
+		else
 			kDebug() << i18n( "Could not open custom data file: %1", m_Filename ) << endl;
 	}
 }
@@ -191,29 +191,29 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 
 		if ( iname == 0 ) { //line contains catalog name
 			iname = d.indexOf(":")+2;
-			if ( m_catName.isEmpty() ) { 
+			if ( m_catName.isEmpty() ) {
 				m_catName = d.mid( iname );
 			} else { //duplicate name in header
 				if ( showerrs )
-					errs.append( i18n( "Parsing header: " ) + 
+					errs.append( i18n( "Parsing header: " ) +
 							i18n( "Extra Name field in header: %1.  Will be ignored", d.mid(iname) ) );
 			}
 		} else if ( iprefix == 0 ) { //line contains catalog prefix
 			iprefix = d.indexOf(":")+2;
-			if ( m_catPrefix.isEmpty() ) { 
+			if ( m_catPrefix.isEmpty() ) {
 				m_catPrefix = d.mid( iprefix );
 			} else { //duplicate prefix in header
 				if ( showerrs )
-					errs.append( i18n( "Parsing header: " ) + 
+					errs.append( i18n( "Parsing header: " ) +
 							i18n( "Extra Prefix field in header: %1.  Will be ignored", d.mid(iprefix) ) );
 			}
 		} else if ( icolor == 0 ) { //line contains catalog prefix
 			icolor = d.indexOf(":")+2;
-			if ( m_catColor.isEmpty() ) { 
+			if ( m_catColor.isEmpty() ) {
 				m_catColor = d.mid( icolor );
 			} else { //duplicate prefix in header
 				if ( showerrs )
-					errs.append( i18n( "Parsing header: " ) + 
+					errs.append( i18n( "Parsing header: " ) +
 							i18n( "Extra Color field in header: %1.  Will be ignored", d.mid(icolor) ) );
 			}
 		} else if ( iepoch == 0 ) { //line contains catalog epoch
@@ -223,13 +223,13 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 				m_catEpoch = d.mid( iepoch ).toFloat( &ok );
 				if ( !ok ) {
 					if ( showerrs )
-						errs.append( i18n( "Parsing header: " ) + 
+						errs.append( i18n( "Parsing header: " ) +
 								i18n( "Could not convert Epoch to float: %1.  Using 2000. instead", d.mid(iepoch) ) );
 					m_catEpoch = 2000.; //adopt default value
 				}
 			} else { //duplicate epoch in header
 				if ( showerrs )
-					errs.append( i18n( "Parsing header: " ) + 
+					errs.append( i18n( "Parsing header: " ) +
 							i18n( "Extra Epoch field in header: %1.  Will be ignored", d.mid(iepoch) ) );
 			}
 		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
@@ -238,10 +238,10 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 
 			QStringList fields = d.split( " ", QString::SkipEmptyParts ); //split on whitespace
 
-			//we need a copy of the master list of data fields, so we can 
+			//we need a copy of the master list of data fields, so we can
 			//remove fields from it as they are encountered in the "fields" list.
 			//this allows us to detect duplicate entries
-			QStringList master( m_Columns ); 
+			QStringList master( m_Columns );
 
 			for ( int j=0; j < fields.size(); ++j ) {
 				QString s( fields.at(j) );
@@ -249,7 +249,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 					//add the data field
 					Columns.append( s );
 
-					// remove the field from the master list and inc the 
+					// remove the field from the master list and inc the
 					// count of "good" columns (unless field is "Ignore")
 					if ( s != "Ig" ) {
 						master.removeAt( master.indexOf( s ) );
@@ -258,12 +258,12 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 				} else if ( fields.contains( s ) ) { //duplicate field
 					fields.append( "Ig" ); //ignore the duplicate column
 					if ( showerrs )
-						errs.append( i18n( "Parsing header: " ) + 
+						errs.append( i18n( "Parsing header: " ) +
 								i18n( "Duplicate data field descriptor \"%1\" will be ignored", s ) );
 				} else { //Invalid field
 					fields.append( "Ig" ); //ignore the invalid column
 					if ( showerrs )
-						errs.append( i18n( "Parsing header: " ) + 
+						errs.append( i18n( "Parsing header: " ) +
 								i18n( "Invalid data field descriptor \"%1\" will be ignored", s ) );
 				}
 			}
@@ -274,7 +274,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 
 	if ( ! foundDataColumns ) {
 		if ( showerrs )
-			errs.append( i18n( "Parsing header: " ) + 
+			errs.append( i18n( "Parsing header: " ) +
 					i18n( "No valid column descriptors found.  Exiting" ) );
 		return false;
 	}
@@ -285,22 +285,22 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 		return false;
 	} else {
 		//Make sure Name, Prefix, Color and Epoch were set
-		if ( m_catName.isEmpty() ) { 
+		if ( m_catName.isEmpty() ) {
 			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
 				i18n( "No Catalog Name specified; setting to \"Custom\"" ) );
 			m_catName = i18n("Custom");
 		}
-		if ( m_catPrefix.isEmpty() ) { 
+		if ( m_catPrefix.isEmpty() ) {
 			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
 				i18n( "No Catalog Prefix specified; setting to \"CC\"" ) );
 			m_catPrefix = "CC";
 		}
-		if ( m_catColor.isEmpty() ) { 
+		if ( m_catColor.isEmpty() ) {
 			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
 				i18n( "No Catalog Color specified; setting to Red" ) );
 			m_catColor = "#CC0000";
 		}
-		if ( m_catEpoch == 0. ) { 
+		if ( m_catEpoch == 0. ) {
 			if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
 				i18n( "No Catalog Epoch specified; assuming 2000." ) );
 			m_catEpoch = 2000.;
@@ -322,7 +322,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 	QString name, lname;
 
 	for ( int i=0; i<Columns.size(); i++ ) {
-		if ( Columns.at(i) == "ID" ) 
+		if ( Columns.at(i) == "ID" )
 			name = m_catPrefix + " " + d.at(i);
 
 		if ( Columns.at(i) == "Nm" )
@@ -330,7 +330,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 
 		if ( Columns[i] == "RA" ) {
 			if ( ! RA.setFromString( d.at(i), false ) ) {
-				if ( showerrs ) 
+				if ( showerrs )
 					errs.append( i18n( "Line %1, field %2: Unable to parse RA value: %3" ,
 							  lnum, i, d.at(i) ) );
 				return false;
@@ -414,15 +414,15 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 		StarObject *o = new StarObject( RA, Dec, mag, lname );
 		objectList().append( o );
 	} else { //Add a deep-sky object
-		DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag, 
+		DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag,
 					name, QString(), lname, m_catPrefix, a, b, PA );
 		objectList().append( o );
 
 		//Add name to the list of object names
-		if ( ! name.isEmpty() ) 
+		if ( ! name.isEmpty() )
 			objectNames().append( name );
 	}
-	if ( ! lname.isEmpty() && lname != name ) 
+	if ( ! lname.isEmpty() && lname != name )
 		objectNames().append( lname );
 
 	return true;

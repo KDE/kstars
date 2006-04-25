@@ -26,27 +26,27 @@
 #include "constellationlinescomposite.h"
 #include "constellationlinescomponent.h"
 
-ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData *data ) 
-  : SkyComposite( parent ) 
+ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData * )
+  : SkyComposite( parent )
 {
 }
 
 void ConstellationLinesComposite::init( KStarsData *data ) {
-	//Create the ConstellationLinesComponents.  Each is a series of points 
-	//connected by line segments.  A single constellation can be composed of 
-	//any number of these series, and we don't need to know which series 
+	//Create the ConstellationLinesComponents.  Each is a series of points
+	//connected by line segments.  A single constellation can be composed of
+	//any number of these series, and we don't need to know which series
 	//belongs to which constellation.
 
 	//The constellation lines data file (clines.dat) contains lists
-	//of abbreviated genetive star names in the same format as they 
-	//appear in the star data files (hipNNN.dat).  
+	//of abbreviated genetive star names in the same format as they
+	//appear in the star data files (hipNNN.dat).
 	//
-	//Each constellation consists of a QList of SkyPoints, 
+	//Each constellation consists of a QList of SkyPoints,
 	//corresponding to the stars at each "node" of the constellation.
-	//These are pointers to the starobjects themselves, so the nodes 
-	//will automatically be fixed to the stars even as the star 
-	//positions change due to proper motions.  In addition, each node 
-	//has a corresponding flag that determines whether a line should 
+	//These are pointers to the starobjects themselves, so the nodes
+	//will automatically be fixed to the stars even as the star
+	//positions change due to proper motions.  In addition, each node
+	//has a corresponding flag that determines whether a line should
 	//connect this node and the previous one.
 
 	QFile file;
@@ -64,7 +64,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 			//ignore lines beginning with "#":
 			if ( line.at( 0 ) != '#' ) {
 				//If the first character is "M", we are starting a new series.
-				//In this case, add the existing clc component to the composite, 
+				//In this case, add the existing clc component to the composite,
 				//then prepare a new one.
 				mode = line.at( 0 );
 				if ( mode == 'M' ) {
@@ -78,7 +78,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 				if ( p && clc ) {
 					clc->pointList().append( p );
 					clc->modeList().append( mode );
-				} else if ( !p ) 
+				} else if ( !p )
 					kWarning() << i18n( "No star named %1 found." , name) << endl;
 			}
 		}

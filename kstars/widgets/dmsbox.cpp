@@ -28,49 +28,49 @@
 #include <QWhatsThis>
 #include <QFocusEvent>
 
-dmsBox::dmsBox(QWidget *parent, bool dg) 
+dmsBox::dmsBox(QWidget *parent, bool dg)
 	: KLineEdit(parent), EmptyFlag(true) {
 	setMaxLength(14);
 	setMaximumWidth(160);
 	setDegType( dg );
-	
-	
+        psave = palette();
+
 	connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
 
 void dmsBox::setEmptyText() {
 	QPalette p = palette();
 	QColor txc = p.color( QPalette::Active, QColorGroup::Text );
-	QColor bgc = paletteBackgroundColor();
+	QColor bgc = p.color( QPalette::Active, QColorGroup::Base );
 	int r( ( txc.red()   + bgc.red()   )/2 );
 	int g( ( txc.green() + bgc.green() )/2 );
 	int b( ( txc.blue()  + bgc.blue()  )/2 );
-	
+
 	p.setColor( QPalette::Active,   QColorGroup::Text, QColor( r, g, b ) );
 	p.setColor( QPalette::Inactive, QColorGroup::Text, QColor( r, g, b ) );
 	setPalette( p );
-	
-	if ( degType() ) 
+
+	if ( degType() )
 		setText( "dd mm ss.s" );
-	else 
+	else
 		setText( "hh mm ss.s" );
-		
+
 	EmptyFlag = true;
 }
 
 void dmsBox::focusInEvent( QFocusEvent *e ) {
 	KLineEdit::focusInEvent( e );
-	
+
 	if ( EmptyFlag ) {
 		clear();
-		unsetPalette();
+		setPalette( psave );
 		EmptyFlag = false;
 	}
 }
 
 void dmsBox::focusOutEvent( QFocusEvent *e ) {
 	KLineEdit::focusOutEvent( e );
-	
+
 	if ( text().isEmpty() ) {
 		setEmptyText();
 	}
@@ -79,10 +79,10 @@ void dmsBox::focusOutEvent( QFocusEvent *e ) {
 void dmsBox::slotTextChanged( const QString &t ) {
 	if ( ! hasFocus() ) {
 		if ( EmptyFlag && ! t.isEmpty() ) {
-			unsetPalette();
+			setPalette( psave );
 			EmptyFlag = false;
 		}
-		
+
 		if ( ! EmptyFlag && t.isEmpty() ) {
 			setEmptyText();
 		}
@@ -99,7 +99,7 @@ void dmsBox::setDegType( bool t ) {
 	QString sWhatsThis;
 
 	if ( isReadOnly() ) {
-	  sWhatsThis = i18n( "This box displays an angle in %1. "  
+	  sWhatsThis = i18n( "This box displays an angle in %1. "
 			     "The three numbers displayed are the angle's "
 			     "%1, %2, and %3." , sDeg, sMin, sSec);
 	} else {
@@ -118,7 +118,7 @@ void dmsBox::setDegType( bool t ) {
 	setWhatsThis( sWhatsThis );
 
 	clear();
-	unsetPalette();
+	setPalette( psave );
 	EmptyFlag = false;
 	setEmptyText();
 }

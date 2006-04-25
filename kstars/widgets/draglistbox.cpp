@@ -25,9 +25,10 @@
 
 #include "draglistbox.h"
 
-DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f ) 
+DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f )
 		: KListBox( parent, name, f ) {
 
+    setObjectName( name );
 	setAcceptDrops( TRUE );
 	dragging = FALSE;
 }
@@ -36,7 +37,7 @@ DragListBox::~DragListBox() {}
 
 void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
 {
-	if ( Q3TextDrag::canDecode( evt ) ) 
+	if ( Q3TextDrag::canDecode( evt ) )
 		evt->accept();
 }
 
@@ -51,19 +52,19 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 	QString text;
 
 	int i = int( float(evt->pos().y())/float(itemHeight()) + 0.5 ) + topItem();
-	if ( i > count() + 1 ) i = count() + 1;
+	if ( i > int( count() ) + 1 ) i = count() + 1;
 
 	if ( Q3TextDrag::decode( evt, text ) ) {
-		//If we dragged an "Ignore item from the FieldList to the FieldPool, then we don't
+		//If we dragged an "Ignore" item from the FieldList to the FieldPool, then we don't
 		//need to insert the item, because FieldPool already has a persistent Ignore item.
-		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldList" && 
+		if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldList" &&
 				evt->source() != this )) {
 			insertItem( text, i );
 		}
 
 		//If we dragged the "Ignore" item from FieldPool to FieldList, then we don't
 		//want to remove the item from the FieldPool
-		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldPool" && 
+		if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldPool" &&
 				evt->source() != this ) ) {
 			DragListBox *fp = (DragListBox*)evt->source();
 			fp->removeItem( fp->currentItem() );
@@ -75,11 +76,11 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 void DragListBox::mousePressEvent( QMouseEvent *evt ) {
 	Q3ListBox::mousePressEvent( evt );
 	dragging = TRUE;
-	
+
 	//Record position of the Ignore item; we may have to restore it.
 	if ( currentText() == i18n("Ignore") )
 		IgnoreIndex = currentItem();
-	else 
+	else
 		IgnoreIndex = -1;
 }
 

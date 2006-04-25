@@ -88,7 +88,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	topLayout->addWidget( avtUI );
 
 	geo = ks->geo();
-	
+
 	DayOffset = 0;
 	showCurrentDate();
 	if ( getDate().time().hour() > 12 ) DayOffset = 1;
@@ -131,7 +131,7 @@ void AltVsTime::slotAddSource(void) {
 	SkyObject *obj = ks->data()->objectNamed( avtUI->nameBox->text() );
 
 	if ( obj ) {
-		//An object with the current name exists.  If the object is not already 
+		//An object with the current name exists.  If the object is not already
 		//in the avt list, add it.
 		bool found(false);
 		foreach ( SkyObject *o, pList ) {
@@ -141,23 +141,23 @@ void AltVsTime::slotAddSource(void) {
 		if ( found )
 			kDebug() << i18n("An object named %1 is already displayed; I will not duplicate it.", obj->name()) << endl;
 
-		else 
+		else
 			processObject( obj );
 
 	} else {
-		//Object with the current name doesn't exist.  It's possible that the 
-		//user is trying to add a custom object.  Assume this is the case if 
+		//Object with the current name doesn't exist.  It's possible that the
+		//user is trying to add a custom object.  Assume this is the case if
 		//the RA and Dec fields are filled in.
 
-		if ( ! avtUI->nameBox->text().isEmpty() && 
-				! avtUI->raBox->text().isEmpty() && 
+		if ( ! avtUI->nameBox->text().isEmpty() &&
+				! avtUI->raBox->text().isEmpty() &&
 				! avtUI->decBox->text().isEmpty() ) {
 			bool ok( true );
 			dms newRA( 0.0 ), newDec( 0.0 );
 			newRA = avtUI->raBox->createDms( false, &ok );
 			if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
 			if ( !ok ) return;
-	
+
 			//If the epochName is blank (or any non-double), we assume J2000
 			//Otherwise, precess to J2000.
 			KStarsDateTime dt;
@@ -169,7 +169,7 @@ void AltVsTime::slotAddSource(void) {
 				newRA.setH( ptest.ra()->Hours() );
 				newDec.setD( ptest.dec()->Degrees() );
 			}
-	
+
 			//make sure the coords do not already exist from another object
 			bool found(false);
 			foreach ( SkyObject *p, pList ) {
@@ -183,7 +183,7 @@ void AltVsTime::slotAddSource(void) {
 				kDebug() << "This point is already displayed; I will not duplicate it." << endl;
 				ok = false;
 			}
-	
+
 			if ( ok ) {
 				SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
 				deleteList.append( obj ); //this object will be deleted when window is destroyed
@@ -192,17 +192,17 @@ void AltVsTime::slotAddSource(void) {
 		}
 
 		//If the Ra and Dec boxes are filled, but the name field is empty,
-		//move input focus to nameBox.  If either coordinate box is empty, 
+		//move input focus to nameBox.  If either coordinate box is empty,
 		//move focus there
-		if ( avtUI->nameBox->text().isEmpty() ) 
+		if ( avtUI->nameBox->text().isEmpty() )
 			avtUI->nameBox->QWidget::setFocus();
-		if ( avtUI->raBox->text().isEmpty() ) 
+		if ( avtUI->raBox->text().isEmpty() )
 			avtUI->raBox->QWidget::setFocus();
-		else if ( avtUI->decBox->text().isEmpty() ) 
+		else if ( avtUI->decBox->text().isEmpty() )
 			avtUI->decBox->QWidget::setFocus();
 	}
 
-	View->repaint(false);
+	View->update();
 }
 
 //Use find dialog to choose an object
@@ -213,7 +213,7 @@ void AltVsTime::slotBrowseObject(void) {
 		processObject( o );
 	}
 
-	View->repaint();
+	View->update();
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
@@ -280,9 +280,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
 double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 	hour += 24.0*(double)DayOffset;
-	
+
 	//getDate converts the user-entered local time to UT
-	KStarsDateTime ut = getDate().addSecs( hour*3600.0 ); 
+	KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
 
 	dms LST = geo->GSTtoLST( ut.gst() );
 	p->EquatorialToHorizontal( &LST, geo->lat() );
@@ -329,7 +329,7 @@ void AltVsTime::slotAdvanceFocus(void) {
 void AltVsTime::slotClear(void) {
 	if ( pList.count() ) pList.clear();
 	//Need to delete the pointers in deleteList
-	while ( ! deleteList.isEmpty() ) 
+	while ( ! deleteList.isEmpty() )
 		delete deleteList.takeFirst();
 	avtUI->PlotList->clear();
 	avtUI->nameBox->clear();
@@ -337,7 +337,7 @@ void AltVsTime::slotClear(void) {
 	avtUI->decBox->clear();
         avtUI->epochName->clear();
 	View->clearObjectList();
-	View->repaint();
+	View->update();
 }
 
 void AltVsTime::slotClearBoxes(void) {
@@ -351,7 +351,7 @@ void AltVsTime::computeSunRiseSetTimes() {
 	//Determine the time of sunset and sunrise for the desired date and location
 	//expressed as doubles, the fraction of a full day.
 	KStarsDateTime today = getDate();
-	
+
 	SkyObject *oSun = ks->data()->objectNamed( "Sun" );
 	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
 	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
@@ -389,10 +389,10 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	KSNumbers *num = new KSNumbers( today.djd() );
 	KSNumbers *oldNum = 0;
 	dms LST = geo->GSTtoLST( today.gst() );
-	
+
 	//First determine time of sunset and sunrise
 	computeSunRiseSetTimes();
-	
+
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
 		QString oName = avtUI->PlotList->text( i ).toLower();
 
@@ -438,8 +438,8 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
 	setLSTLimits();
 	slotHighlight();
-	View->repaint();
-	
+	View->update();
+
 	delete num;
 }
 
@@ -462,7 +462,7 @@ int AltVsTime::currentPlotListItem() const {
 void AltVsTime::setLSTLimits(void) {
 	//UT at noon on target date
 	KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
-	
+
 	dms lst = geo->GSTtoLST( ut.gst() );
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
@@ -500,7 +500,7 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 	: KStarsPlotWidget( x1, x2, y1, y2, parent )
 {
 	//Default SunRise/SunSet values
-	SunRise = 0.25; 
+	SunRise = 0.25;
 	SunSet = 0.75;
 }
 
@@ -523,21 +523,21 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	Xcursor -= leftPadding();
 	Ycursor -= topPadding();
 
-	QPixmap buffer2( *buffer );
+//	QPixmap buffer2( *buffer );
 	QPainter p;
-	p.begin( &buffer2 );
+	p.begin( this );
 	p.translate( leftPadding(), topPadding() );
 	p.setPen( QPen( QBrush("grey"), 1.0, Qt::SolidLine ) );
 	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
 	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
 	p.end();
-	bitBlt( this, 0, 0, &buffer2 );
+//	bitBlt( this, 0, 0, &buffer2 );
 }
 
 void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	QPainter p;
 
-	p.begin( buffer );
+	p.begin( this );
 	p.fillRect( 0, 0, width(), height(), backgroundColor() );
 
 	p.translate( leftPadding(), topPadding() );
@@ -547,9 +547,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 
 	//draw daytime sky if the Sun rises for the current date/location
 	//(when Sun does not rise, SunSet = -1.0)
-	if ( SunSet != -1.0 ) { 
+	if ( SunSet != -1.0 ) {
 		//If Sun does not set, then just fill the daytime sky color
-		if ( SunSet == 1.0 ) { 
+		if ( SunSet == 1.0 ) {
 			p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
 		} else {
 			//Display centered on midnight, so need to modulate dawn/dusk by 0.5
@@ -584,7 +584,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 
 	p.end();
 
-	bitBlt( this, 0, 0, buffer );
+//	bitBlt( this, 0, 0, buffer );
 }
 
 #include "altvstime.moc"

@@ -37,22 +37,21 @@
 SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
   : SkyComposite(parent)
 {
-	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), 12756.28 /*diameter in km*/ );
+	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
-	//FIXME: KSSun and KSPluto ctors doesn't need filename and diameter args!
 	m_Sun = new KSSun(data);
 	addComponent( new SolarSystemSingleComponent( this, m_Sun, Options::showSun, 8 ) );
 	m_Moon = new KSMoon(data);
 	addComponent( new SolarSystemSingleComponent( this, m_Moon, Options::showMoon, 8 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Mercury"), "mercury.png", 4879.4 /*diameter in km*/ ), Options::showMercury, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Venus"), "venus.png", 12103.6 /*diameter in km*/ ), Options::showVenus, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Mars" ), "mars.png", 6792.4 /*diameter in km*/ ), Options::showMars, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", 142984. /*diameter in km*/ ), Options::showJupiter, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Mercury"), "mercury.png", QColor( "slateblue" ), 4879.4 /*diameter in km*/ ), Options::showMercury, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Venus"), "venus.png", QColor( "lightgreen" ), 12103.6 /*diameter in km*/ ), Options::showVenus, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Mars" ), "mars.png", QColor( "red" ), 6792.4 /*diameter in km*/ ), Options::showMars, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", QColor( "goldenrod" ), 142984. /*diameter in km*/ ), Options::showJupiter, 4 ) );
 	m_JupiterMoons = new JupiterMoonsComponent( this, &Options::showJupiter);
 	addComponent( m_JupiterMoons );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Saturn" ), "saturn.png", 120536. /*diameter in km*/ ), Options::showSaturn, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Uranus" ), "uranus.png", 51118. /*diameter in km*/ ), Options::showUranus, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Neptune" ), "neptune.png", 49572. /*diameter in km*/ ), Options::showNeptune, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Saturn" ), "saturn.png", QColor( "khaki" ), 120536. /*diameter in km*/ ), Options::showSaturn, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Uranus" ), "uranus.png", QColor( "lightseagreen" ), 51118. /*diameter in km*/ ), Options::showUranus, 4 ) );
+	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Neptune" ), "neptune.png", QColor( "skyblue" ), 49572. /*diameter in km*/ ), Options::showNeptune, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPluto(data), Options::showPluto, 4 ) );
 
 	m_AsteroidsComponent = new AsteroidsComponent( this, Options::showAsteroids );
@@ -94,8 +93,8 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
 	//FIXME: first draw the objects which are far away
-	//(Thomas had been doing this by keeping separate pointers to 
-	//inner solar system objects, but I'd rather handle it here in the draw 
+	//(Thomas had been doing this by keeping separate pointers to
+	//inner solar system objects, but I'd rather handle it here in the draw
 	//function if possible
 	SkyComposite::draw(ks, psky, scale);
 }
@@ -107,12 +106,12 @@ void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 	}
 }
 
-QList<SkyObject*>& SolarSystemComposite::asteroids() { 
-  return m_AsteroidsComponent->objectList(); 
+QList<SkyObject*>& SolarSystemComposite::asteroids() {
+  return m_AsteroidsComponent->objectList();
 }
 
-QList<SkyObject*>& SolarSystemComposite::comets() { 
-  return m_CometsComponent->objectList(); 
+QList<SkyObject*>& SolarSystemComposite::comets() {
+  return m_CometsComponent->objectList();
 }
 
 void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {

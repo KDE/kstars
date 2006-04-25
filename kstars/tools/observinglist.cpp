@@ -60,8 +60,8 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 }
 
 ObservingList::ObservingList( KStars *_ks )
-		: KDialog( (QWidget*)_ks, i18n( "Observing List" ), KDialog::Close ), 
-			ks( _ks ), LogObject(0), m_CurrentObject(0), 
+		: KDialog( (QWidget*)_ks, i18n( "Observing List" ), KDialog::Close ),
+			ks( _ks ), LogObject(0), m_CurrentObject(0),
 			noNameStars(0), isModified(false), bIsLarge(true)
 {
 	ui = new ObservingListUI( this );
@@ -69,7 +69,7 @@ ObservingList::ObservingList( KStars *_ks )
 
 	//Set up the QTableWidget
 	ui->FullTable->setColumnCount( 5 );
-	ui->FullTable->setHorizontalHeaderLabels( 
+	ui->FullTable->setHorizontalHeaderLabels(
 			QStringList() << i18n( "Name" ) << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
 			<< i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
 
@@ -78,26 +78,26 @@ ObservingList::ObservingList( KStars *_ks )
 
 	//Connections
 	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
-	connect( ui->FullTable, SIGNAL( itemSelectionChanged() ), 
+	connect( ui->FullTable, SIGNAL( itemSelectionChanged() ),
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->TinyTable, SIGNAL( itemSelectionChanged() ), 
+	connect( ui->TinyTable, SIGNAL( itemSelectionChanged() ),
 			this, SLOT( slotNewSelection() ) );
-	connect( ui->FullTable, SIGNAL( itemDoubleClicked( QTableWidgetItem* ) ), 
+	connect( ui->FullTable, SIGNAL( itemDoubleClicked( QTableWidgetItem* ) ),
 			this, SLOT( slotCenterObject() ) );
-	connect( ui->TinyTable, SIGNAL( itemDoubleClicked( QListWidgetItem* ) ), 
+	connect( ui->TinyTable, SIGNAL( itemDoubleClicked( QListWidgetItem* ) ),
 			this, SLOT( slotCenterObject() ) );
-	connect( ui->RemoveButton, SIGNAL( clicked() ), 
+	connect( ui->RemoveButton, SIGNAL( clicked() ),
 			this, SLOT( slotRemoveObjects() ) );
-	connect( ui->CenterButton, SIGNAL( clicked() ), 
+	connect( ui->CenterButton, SIGNAL( clicked() ),
 			this, SLOT( slotCenterObject() ) );
-	connect( ui->ScopeButton, SIGNAL( clicked() ), 
+	connect( ui->ScopeButton, SIGNAL( clicked() ),
 			this, SLOT( slotSlewToObject() ) );
-	connect( ui->DetailsButton, SIGNAL( clicked() ), 
+	connect( ui->DetailsButton, SIGNAL( clicked() ),
 			this, SLOT( slotDetails() ) );
-	connect( ui->AVTButton, SIGNAL( clicked() ), 
+	connect( ui->AVTButton, SIGNAL( clicked() ),
 			this, SLOT( slotAVT() ) );
 
-	connect( ui->OpenButton, SIGNAL( clicked() ), 
+	connect( ui->OpenButton, SIGNAL( clicked() ),
 			this, SLOT( slotOpenList() ) );
 	connect( ui->SaveButton, SIGNAL( clicked() ),
 			this, SLOT( slotSaveList() ) );
@@ -150,7 +150,7 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	//Insert object in obsList
 	m_ObservingList.append( obj );
 	m_CurrentObject = obj;
-	if ( ! isModified ) isModified = true; 
+	if ( ! isModified ) isModified = true;
 
 	//Set string for magnitude
 	QString smag("--");
@@ -174,25 +174,25 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
-	if ( !o ) 
+	if ( !o )
 		o = ks->map()->clickedObject();
-	
+
 	int i = obsList().indexOf( o );
 	if ( i < 0 ) return; //object not in observing list
 
 	m_ObservingList.removeAll(o);
 	if ( ! isModified ) isModified = true;
 
-	if ( o == LogObject ) 
+	if ( o == LogObject )
 		saveCurrentUserLog();
-		
+
 	//Remove entry from FullTable
 	bool objectFound = false;
 	for ( i=0; i<ui->FullTable->rowCount(); ++i ) {
 
 		//If the object is named "star" then match coordinates instead of name
 		if ( o->translatedName() == i18n( "star" ) ) {
-			if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString() 
+			if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString()
 				&& ui->FullTable->item( i, 2 )->text() == o->dec()->toDMSString() ) {
 				ui->FullTable->removeRow( i );
 				objectFound = true;
@@ -219,8 +219,8 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 
 void ObservingList::slotRemoveObjects() {
 	if ( m_SelectedObjects.size() == 0) return;
-	
-	foreach ( SkyObject *o, m_SelectedObjects ) 
+
+	foreach ( SkyObject *o, m_SelectedObjects )
 		slotRemoveObject( o );
 
 	slotNewSelection();
@@ -229,7 +229,7 @@ void ObservingList::slotRemoveObjects() {
 void ObservingList::slotNewSelection() {
 	//If the TinyTable is visible, we need to sync the selection in the FullTable
 	if ( sender() == ui->TinyTable ) syncTableSelection();
-	
+
 	//Construct list of selected objects
 	m_SelectedObjects.clear();
 	for ( int i=0; i < ui->FullTable->rowCount(); ++i ) {
@@ -237,7 +237,7 @@ void ObservingList::slotNewSelection() {
 		if ( ui->FullTable->isItemSelected( itName ) ) {
 			foreach ( SkyObject *o, obsList() ) {
 				if ( itName->text() == i18n( "star" ) ) {
-					if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString() 
+					if ( ui->FullTable->item( i, 1 )->text() == o->ra()->toHMSString()
 						&& ui->FullTable->item( i, 2 )->text() == o->dec()->toDMSString() ) {
 						m_SelectedObjects.append( o );
 						break;
@@ -249,37 +249,37 @@ void ObservingList::slotNewSelection() {
 			}
 		}
 	}
-	
+
 	//Enable widgets when one object selected
 	if ( m_SelectedObjects.size() == 1 ) {
 		QString newName( m_SelectedObjects[0]->translatedName() );
-		
+
 		//Enable buttons
 		ui->CenterButton->setEnabled( true );
 		ui->ScopeButton->setEnabled( true );
 		ui->DetailsButton->setEnabled( true );
 		ui->AVTButton->setEnabled( true );
 		ui->RemoveButton->setEnabled( true );
-		
+
 		//Find the selected object in the obsList,
 		//then break the loop.  Now obsList.current()
 		//points to the new selected object (until now it was the previous object)
 		bool found = obsList().contains( m_SelectedObjects[0] );
 		if ( found ) m_CurrentObject = m_SelectedObjects[0];
 
-		if ( ! found ) { 
+		if ( ! found ) {
 			kDebug() << i18n( "Object %1 not found in observing ist.", newName ) << endl;
 		} else if ( newName != i18n( "star" ) ) {
 			//Display the object's current user notes in the NotesEdit
 			//First, save the last object's user log to disk, if necessary
 			saveCurrentUserLog();
-			
+
 			//set LogObject to the new selected object
 			LogObject = currentObject();
-			
+
 			ui->NotesLabel->setEnabled( true );
 			ui->NotesEdit->setEnabled( true );
-			
+
 			ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
 			if ( LogObject->userLog.isEmpty() ) {
 				ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
@@ -305,7 +305,7 @@ void ObservingList::slotNewSelection() {
 		ui->NotesLabel->setEnabled( false );
 		ui->NotesEdit->setEnabled( false );
 		m_CurrentObject = 0;
-		
+
 		//Clear the user log text box.
 		saveCurrentUserLog();
 	} else { //more than one object selected.
@@ -341,13 +341,13 @@ void ObservingList::slotSlewToObject()
   bool useJ2000( false);
   int selectedCoord(0);
   SkyPoint sp;
-  
+
   // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
   // i.e. the first telescope we find!
-  
+
   INDIMenu *imenu = ks->getINDIMenu();
 
-  
+
   for (int i=0; i < imenu->mgr.size() ; i++)
   {
     for (int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++)
@@ -372,7 +372,7 @@ void ObservingList::slotSlewToObject()
 
        ConnectEle = indidev->findElem("CONNECT");
        if (!ConnectEle) continue;
-       
+
        if (ConnectEle->state == PS_OFF)
        {
 	 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
@@ -399,10 +399,10 @@ void ObservingList::slotSlewToObject()
           if (!AltEle) continue;
           break;
         }
-   
+
         onset = indidev->findProp("ON_COORD_SET");
         if (!onset) continue;
-       
+
         onset->activateSwitch("SLEW");
 
         indidev->stdDev->currentObject = currentObject();
@@ -453,14 +453,14 @@ void ObservingList::slotSlewToObject()
        }
 
        prop->newText();
-       
+
        return;
     }
   }
-       
+
   // We didn't find any telescopes
   KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-  
+
 }
 
 //FIXME: This will open multiple Detail windows for each object;
@@ -478,7 +478,7 @@ void ObservingList::slotAVT() {
 		foreach ( SkyObject *o, m_SelectedObjects ) {
 			avt.processObject( o );
 		}
-		
+
 		avt.exec();
 	}
 }
@@ -486,20 +486,20 @@ void ObservingList::slotAVT() {
 //FIXME: On close, we will need to close any open Details/AVT windows
 void ObservingList::slotClose() {
 	//Save the current User log text
-	if ( currentObject() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->text() 
+	if ( currentObject() && ! ui->NotesEdit->text().isEmpty() && ui->NotesEdit->toPlainText()
 					!= i18n("Record here observation logs and/or data on %1.", currentObject()->name()) ) {
-		currentObject()->saveUserLog( ui->NotesEdit->text() );
+		currentObject()->saveUserLog( ui->NotesEdit->toPlainText() );
 	}
-	
+
 	hide();
 }
 
 void ObservingList::saveCurrentUserLog() {
-	if ( ! ui->NotesEdit->text().isEmpty() && 
-				ui->NotesEdit->text() != 
+	if ( ! ui->NotesEdit->toPlainText().isEmpty() &&
+				ui->NotesEdit->toPlainText() !=
 					i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) ) {
-		LogObject->saveUserLog( ui->NotesEdit->text() );
-		
+		LogObject->saveUserLog( ui->NotesEdit->toPlainText() );
+
 		ui->NotesEdit->clear();
 		ui->NotesLabel->setText( i18n( "Observing notes for object:" ) );
 		LogObject = NULL;
@@ -516,7 +516,7 @@ void ObservingList::slotOpenList() {
 			KTempFile tmpfile;
 			tmpfile.setAutoDelete(true);
 			FileName = tmpfile.name();
-			if( KIO::NetAccess::download( fileURL, FileName, this ) ) 
+			if( KIO::NetAccess::download( fileURL, FileName, this ) )
 				f.setFileName( FileName );
 
 		} else {
@@ -531,7 +531,7 @@ void ObservingList::slotOpenList() {
 		}
 
 		saveCurrentList();
-		//First line is the name of the list.  The rest of the file should 
+		//First line is the name of the list.  The rest of the file should
 		//be object names, one per line.
 		QTextStream istream(&f);
 		QString line;
@@ -562,12 +562,12 @@ void ObservingList::saveCurrentList() {
 	if ( obsList().size() ) {
 		if ( isModified ) {
 			QString message = i18n( "Do you want to save the current list before opening a new list?" );
-			if ( KMessageBox::questionYesNo( this, message, 
+			if ( KMessageBox::questionYesNo( this, message,
 					i18n( "Save Current List?" ), KStdGuiItem::save(), KStdGuiItem::discard() ) == KMessageBox::Yes )
 				slotSaveList();
 		}
 
-		//If we ever allow merging the loaded list with 
+		//If we ever allow merging the loaded list with
 		//the existing one, that code would go here
 		m_ObservingList.clear();
 		m_CurrentObject = 0;
@@ -577,13 +577,13 @@ void ObservingList::saveCurrentList() {
 
 void ObservingList::slotSaveListAs() {
 	bool ok(false);
-	ListName = KInputDialog::getText( i18n( "Enter List Name" ), 
+	ListName = KInputDialog::getText( i18n( "Enter List Name" ),
 			i18n( "List name:" ), QString(), &ok );
 
 	if ( ok ) {
 		KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
 
-		if ( fileURL.isValid() ) 
+		if ( fileURL.isValid() )
 			FileName = fileURL.path();
 
 		slotSaveList();
@@ -599,14 +599,14 @@ void ObservingList::slotSaveList() {
 	QFile f( FileName );
 	if ( !f.open( QIODevice::WriteOnly) ) {
 		QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
-		
+
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			FileName == QString();
 			slotSaveList();
 		}
 		return;
 	}
-	
+
 	QTextStream ostream(&f);
 	ostream << ListName << endl;
 	foreach ( SkyObject* o, obsList() ) {
@@ -674,7 +674,7 @@ void ObservingList::slotToggleSize() {
 	}
 }
 
-//FullTable uses SelectionBehavior=SelectRows, so selecting the first cell 
+//FullTable uses SelectionBehavior=SelectRows, so selecting the first cell
 //in a row should select the whole row
 void ObservingList::syncTableSelection( bool syncFullTable ) {
 	for ( int i=0; i<ui->FullTable->rowCount(); ++i ) {

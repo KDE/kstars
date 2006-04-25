@@ -177,7 +177,7 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 
 void AstroCalc::genTimeText(void)
 {
-	splashScreen->setText(i18n("<QT>"
+	splashScreen->setHtml(i18n("<QT>"
 			"Section which includes algorithms for computing time ephemeris"
 			"<UL><LI>"
 			"<B>Julian Day:</B> Julian Day/Calendar conversion"
@@ -196,7 +196,7 @@ void AstroCalc::genTimeText(void)
 
 void AstroCalc::genCoordText(void)
 {
-	splashScreen->setText(i18n("<QT>"
+	splashScreen->setHtml(i18n("<QT>"
 			"Section with algorithms for the conversion of "
 			"different astronomical systems of coordinates"
 			"<UL><LI>"
@@ -224,7 +224,7 @@ void AstroCalc::genCoordText(void)
 
 void AstroCalc::genGeodText(void)
 {
-	splashScreen->setText(i18n("<QT>"
+	splashScreen->setHtml(i18n("<QT>"
 			"Section with algorithms for the conversion of "
 			"systems of coordinates for the Earth"
 			"<UL><LI>"
@@ -236,7 +236,7 @@ void AstroCalc::genGeodText(void)
 
 void AstroCalc::genSolarText(void)
 {
-	splashScreen->setText(i18n("<QT>"
+	splashScreen->setHtml(i18n("<QT>"
 			"Section with algorithms regarding information "
 			"on solar system bodies coordinates and times"
 			"<UL><LI>"

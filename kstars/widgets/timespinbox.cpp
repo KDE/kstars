@@ -176,7 +176,7 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
 }
 
 int TimeSpinBox::valueFromText( const QString &text ) const {
-	for ( uint i=0; i<TimeString.size(); i++ ) {
+	for ( int i=0; i<TimeString.size(); i++ ) {
 		if ( text == TimeString[i] ) { return i; }
 		if ( text.mid(1,text.length()) == TimeString[i] ) { return -1*i; }
 	}

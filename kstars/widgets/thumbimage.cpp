@@ -21,20 +21,15 @@
 #include "thumbimage.h"
 
 QPixmap ThumbImage::croppedImage() {
-	QPixmap result( CropRect->width(), CropRect->height() );
-	bitBlt( &result, 0, 0, Image, 
-			CropRect->left(), CropRect->top(),
-			CropRect->width(), CropRect->height() );
-
-	return result;
+	return Image->copy( *CropRect );
 }
 
 ThumbImage::ThumbImage( QWidget *parent, const char *name ) : QLabel( parent )
 {
 //FIXME: Deprecated?  Maybe we don't need this, since double-buffering is now built in
 //	setBackgroundMode( Qt::WA_NoBackground );
-	
-	setObjectName( name );	
+
+	setObjectName( name );
 	bMouseButtonDown = false;
 	bTopLeftGrab = false;
 	bTopRightGrab = false;
@@ -51,39 +46,36 @@ ThumbImage::~ThumbImage()
 {}
 
 void ThumbImage::paintEvent( QPaintEvent* ) {
-	QPixmap c( *Image );
 	QPainter p;
-	p.begin( &c );
+	p.begin( this );
 	p.setPen( QPen( QColor( "Grey" ), 2 ) );
 
 	p.drawRect( *CropRect );
 
 	p.setPen( QPen( QColor( "Grey" ), 0 ) );
-	p.drawRect( QRect( CropRect->left(), CropRect->top(), 
+	p.drawRect( QRect( CropRect->left(), CropRect->top(),
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->top(), 
+	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->top(),
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->left(), CropRect->bottom() - HandleSize, 
+	p.drawRect( QRect( CropRect->left(), CropRect->bottom() - HandleSize,
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->bottom() - HandleSize, 
+	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->bottom() - HandleSize,
 		HandleSize, HandleSize ) );
 
-	if ( CropRect->x() > 0 ) 
-		p.fillRect( 0, 0, CropRect->x(), c.height(), 
+	if ( CropRect->x() > 0 )
+		p.fillRect( 0, 0, CropRect->x(), height(),
 				QBrush( QColor("white"), Qt::Dense3Pattern ) );
-	if ( CropRect->right() < c.width() ) 
-		p.fillRect( CropRect->right(), 0, (c.width() - CropRect->right()), c.height(), 
+	if ( CropRect->right() < width() )
+		p.fillRect( CropRect->right(), 0, (width() - CropRect->right()), height(),
 				QBrush( QColor("white"), Qt::Dense3Pattern ) );
-	if ( CropRect->y() > 0 ) 
-		p.fillRect( 0, 0, c.width(), CropRect->y(), 
+	if ( CropRect->y() > 0 )
+		p.fillRect( 0, 0, width(), CropRect->y(),
 				QBrush( QColor("white"), Qt::Dense3Pattern ) );
-	if ( CropRect->bottom() < c.height() ) 
-		p.fillRect( 0, CropRect->bottom(), c.width(), (c.height() - CropRect->bottom()), 
+	if ( CropRect->bottom() < height() )
+		p.fillRect( 0, CropRect->bottom(), width(), (height() - CropRect->bottom()),
 				QBrush( QColor("white"), Qt::Dense3Pattern ) );
 
 	p.end();
-
-	bitBlt( this, 0, 0, &c );
 }
 
 void ThumbImage::mousePressEvent( QMouseEvent *e ) {

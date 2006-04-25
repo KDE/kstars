@@ -5,12 +5,12 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     JM Changelog
     2004-16-1:	Start
-   
+
  */
- 
+
 #include "Options.h"
 #include "devicemanager.h"
 #include "indimenu.h"
@@ -28,7 +28,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>
- 
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -36,7 +36,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>
- 
+
  /*******************************************************************
 ** The device manager contain devices running from one indiserver
 ** This allow KStars to control multiple devices distributed acorss
@@ -46,7 +46,7 @@
 ** of devices, while indimenu is 'GUI' parent of devices
 *******************************************************************/
 
-DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID) 
+DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID)
 {
 
  parent = INDIparent;
@@ -63,16 +63,16 @@ DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID)
 
 DeviceManager::~DeviceManager()
 {
-  
+
    if (serverFP)
     	fclose(serverFP);
-	
+
   if (serverFD >= 0)
     close(serverFD);
-  
+
   if (XMLParser)
      delLilXML(XMLParser);
-  
+
   XMLParser = NULL;
 
 	while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
@@ -165,7 +165,7 @@ void DeviceManager::dataReceived()
 	{
   	  if (!XMLParser)
 	     	return;
-	
+
 
 	    XMLEle *root = readXMLEle (XMLParser, (int)ibuf[i], errmsg);
 	    if (root)
@@ -213,7 +213,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, char errmsg[])
    	    !strcmp (tagXMLEle(root), "setNumberVector") ||
 	    !strcmp (tagXMLEle(root), "setSwitchVector") ||
 	    !strcmp (tagXMLEle(root), "setLightVector") ||
-	    !strcmp (tagXMLEle(root), "setBLOBVector")) 
+	    !strcmp (tagXMLEle(root), "setBLOBVector"))
 	return dp->setAnyCmd(root, errmsg);
 
    return (-1);
@@ -235,9 +235,9 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 	dp = findDev (root, 0, errmsg);
 	if (!dp)
 	    return (-1);
-	    
+
 	checkMsg(root, dp);
-	
+
 	ap = findXMLAtt (root, "name");
 
 	/* Delete property if it exists, otherwise, delete the whole device */
@@ -313,12 +313,12 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	dp = new INDI_D(parent, this, QString(valuXMLAtt(ap)), parent->currentLabel);
 
 	indi_dev.append(dp);
-	
+
 	emit newDevice();
-	
+
 	// Reset label
 	parent->currentLabel = QString();
-	
+
        /* ok */
 	return dp;
 }
@@ -366,7 +366,7 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
 {
 	XMLAtt *ap;
 	ap = findXMLAtt(root, "message");
-	  
+
 	if (ap)
 	  doMsg(root, dp);
 }
@@ -386,22 +386,22 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	  kDebug() << "Warning: dp is null." << endl;
 	  return;
 	}
-	
+
 	txt_w = dp->msgST_w;
 
 	/* prefix our timestamp if not with msg */
 	timestamp = findXMLAtt (msg, "timestamp");
-	
+
 	if (timestamp)
-	   txt_w->insert(QString(valuXMLAtt(timestamp)) + QString(" "));
+	   txt_w->insertPlainText(QString(valuXMLAtt(timestamp)) + QString(" "));
 	else
-	   txt_w->insert( KStarsDateTime::currentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
-	
+	   txt_w->insertPlainText( KStarsDateTime::currentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
+
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");
-	
-       txt_w->insert( QString(valuXMLAtt(message)) + QString("\n"));
-       
+
+       txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
+
        if ( Options::indiMessages() )
 	    	parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
 
@@ -410,11 +410,11 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 void DeviceManager::sendNewText (INDI_P *pp)
 {
         INDI_E *lp;
-	
+
 	fprintf(serverFP, "<newTextVector\n");
 	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
 	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
-	
+
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
 	foreach(lp, pp->el)
 	{
@@ -429,11 +429,11 @@ void DeviceManager::sendNewText (INDI_P *pp)
 void DeviceManager::sendNewNumber (INDI_P *pp)
 {
         INDI_E *lp;
-	
+
         fprintf(serverFP, "<newNumberVector\n");
 	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
 	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
-	
+
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
         foreach(lp, pp->el)
 	{
@@ -447,14 +447,14 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 }
 
 void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
-{  
+{
         INDI_E *lp;
 	//int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
 	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.toAscii());
 	fprintf (serverFP,"  name='%s'>\n", pp->name.toAscii());
-	
+
         lp = pp->el[index];
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
           //foreach(lp, pp->el)
@@ -470,7 +470,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	  //}
 
 	fprintf (serverFP, "</newSwitchVector>\n");
-	
+
 }
 
 void DeviceManager::startBlob( const QString &devName, const QString &propName, const QString &timestamp)
