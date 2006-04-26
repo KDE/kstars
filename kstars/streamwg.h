@@ -17,8 +17,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-
-#include <kpixmap.h>
+#include <QPixmap>
 
 #include "ui_streamform.h"
 
@@ -91,8 +90,7 @@
       int		totalBaseCount;
       QRgb              *grayTable;
       QImage		*streamImage;
-      KPixmap		 kPix;
-      //KPixmapIO		 kPixIO;
+      QPixmap		 kPix;
       
     protected:
      void paintEvent(QPaintEvent *ev);

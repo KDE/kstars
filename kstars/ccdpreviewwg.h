@@ -17,8 +17,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-
-#include <kpixmap.h>
+#include <QPixmap>
   
 #include "ui_ccdpreview.h"
  
@@ -96,8 +95,7 @@ class CCDPreviewWG : public QWidget, public Ui::CCDPreviewForm
       long		totalBaseCount;
       QRgb              *grayTable;
       QImage		*streamImage;
-      KPixmap		 kPix;
-      //KPixmapIO		 kPixIO;
+      QPixmap		 kPix;
       unsigned char *streamBuffer;
       unsigned char *displayBuffer;
       long  streamBufferPos;
