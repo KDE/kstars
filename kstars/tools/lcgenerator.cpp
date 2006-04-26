@@ -164,17 +164,17 @@ void LCGenerator::updateStarList()
 	KUrl saveFile (file->fileName());
 	
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
-	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+	connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 }
 
-void LCGenerator::downloadReady(KIO::Job * job)
+void LCGenerator::downloadReady(KJob * job)
 {
 
 downloadJob = 0;
 
 	if ( job->error() )
 	{
-		job->showErrorDialog();
+		static_cast<KIO::Job*>(job)->showErrorDialog();
 		closeEvent (0);
 		return;		// exit this function
 	}

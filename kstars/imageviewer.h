@@ -118,7 +118,7 @@ class ImageViewer : public KMainWindow  {
 		
 	private slots:
 	/**Make sure download has finished, then make sure file exists, then display the image */
-		void downloadReady (KIO::Job *);
+		void downloadReady (KJob *);
 
 	/**Saves. File. To. Disc. */
 		void saveFileToDisc( void );

@@ -74,7 +74,7 @@ public slots:
 	void updateStarList();
 
 /** Reload file and update lists after download */
-	void downloadReady(KIO::Job *);
+	void downloadReady(KJob *);
 
 private:
 

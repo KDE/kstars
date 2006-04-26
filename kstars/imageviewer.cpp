@@ -144,17 +144,17 @@ void ImageViewer::loadImageFromURL()
             kDebug()<<"tempfile-URL is malformed\n";
 
 	downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
-	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+	connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 }
 
-void ImageViewer::downloadReady (KIO::Job *job)
+void ImageViewer::downloadReady (KJob *job)
 {
 // set downloadJob to 0, but don't delete it - the job will automatically deleted !!!
 	downloadJob = 0;
 
 	if ( job->error() )
 	{
-		job->showErrorDialog();
+		static_cast<KIO::Job*>(job)->showErrorDialog();
 		closeEvent (0);
 		return;		// exit this function
 	}

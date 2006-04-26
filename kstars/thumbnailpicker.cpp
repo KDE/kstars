@@ -122,7 +122,7 @@ void ThumbnailPicker::slotFillList() {
 			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
-			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
 		}
 	}
 }
@@ -161,7 +161,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 }
 
 //FIXME: Do we need to remove the completed job from JobList, and/or delete it?
-void ThumbnailPicker::downloadReady(KIO::Job *job) {
+void ThumbnailPicker::downloadReady(KJob *job) {
 	//Note: no need to delete the job, it is automatically deleted !
 
 	//Update Progressbar
@@ -354,7 +354,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
 			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
-			connect (j, SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
 		}
 	}
 }
