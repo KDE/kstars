@@ -28,7 +28,6 @@
 #include <kiconloader.h>
 #include <kicontheme.h>
 #include <ktoolbar.h>
-#include <qpalette.h>
 #include <kglobal.h>
 
 #include "Options.h"
@@ -52,7 +51,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
 	kstarsData(0), splash(0), skymap(0), viewToolBar(0), TimeStep(0),
 	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
-	AAVSODialog(0), findDialog(0), kns(0), obsList(0), 
+	AAVSODialog(0), findDialog(0), kns(0), obsList(0),
 	indimenu(0), indidriver(0), indiseq(0),
 	DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
@@ -67,7 +66,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 	//Initialize Time and Date
 	KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
-	if ( ! StartDateString.isEmpty() && startDate.isValid() ) 
+	if ( ! StartDateString.isEmpty() && startDate.isValid() )
 		data()->changeDateTime( geo()->LTtoUT( startDate ) );
 	else
 		data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
@@ -96,6 +95,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
 	//store original color scheme
 	OriginalPalette = QApplication::palette();
+
+        //Initialize QActionGroups
+        fovGroup = new QActionGroup( this );
+        cschemeGroup = new QActionGroup( this );
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
 	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
@@ -131,12 +134,17 @@ KStars::~KStars()
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
-	
+
+        delete fovGroup;
+        delete cschemeGroup;
+
 	skymap = 0;
 	AAVSODialog = 0;
 	indimenu = 0;
 	indidriver = 0;
 	indiseq = 0;
+        fovGroup = 0;
+        cschemeGroup = 0;
 }
 
 void KStars::clearCachedFindDialog() {
@@ -179,13 +187,13 @@ void KStars::applyConfig() {
 	((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
 	((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
 	((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
-	
+
 	//color scheme
 	kstarsData->colorScheme()->loadFromConfig( KGlobal::config() );
 	if ( Options::darkAppColors() ) {
-		QApplication::setPalette( DarkPalette, true );
+		QApplication::setPalette( DarkPalette );
 	} else {
-		QApplication::setPalette( OriginalPalette, true );
+		QApplication::setPalette( OriginalPalette );
 	}
 
 	//Infoboxes, toolbars, statusbars

@@ -49,25 +49,42 @@
 
 void KStars::initActions() {
 //File Menu:
-	new KAction(i18n("&New Window"), "window_new", KShortcut( "Ctrl+N"  ),
-			this, SLOT( newWindow() ), actionCollection(), "new_window");
-	new KAction(i18n("&Close Window"), "fileclose", KShortcut( "Ctrl+W"  ),
-			this, SLOT( closeWindow() ), actionCollection(), "close_window");
-	new KAction( i18n( "&Download Data..." ), "knewstuff", KShortcut( "Ctrl+D" ),
-			this, SLOT( slotDownload() ), actionCollection(), "get_data" );
-	new KAction( i18n( "Open FITS..."), "fileopen", KShortcut( "Ctrl+O"), this, SLOT( slotOpenFITS()), actionCollection(), "open_file");
-	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KShortcut( "Ctrl+I" ),
-			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
-	new KAction( i18n( "&Run Script..." ), "launch", KShortcut( "Ctrl+R" ),
-			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
+	KAction *ka = new KAction( KIcon( "window_new" ), i18n("&New Window"), actionCollection(), "new_window" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+N" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
+
+        ka = new KAction( KIcon( "fileclose" ), i18n("&Close Window"), actionCollection(), "close_window");
+        ka->setDefaultShortcut( KShortcut( "Ctrl+W" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
+
+	ka = new KAction( KIcon( "knewstuff" ), i18n( "&Download Data..." ),  actionCollection(), "get_data" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+D" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotDownload() ) );
+
+	ka = new KAction( KIcon( "fileopen" ), i18n( "Open FITS..."), actionCollection(), "open_file");
+        ka->setDefaultShortcut( KShortcut( "Ctrl+O" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotOpenFITS() ) );
+
+	ka = new KAction( KIcon( "fileexport" ), i18n( "&Save Sky Image..." ), actionCollection(), "export_image" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+I" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotExportImage() ) );
+
+	ka = new KAction( KIcon( "launch" ), i18n( "&Run Script..." ), actionCollection(), "run_script" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+R" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotRunScript() ) );
+
 	KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
 	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
 
 //Time Menu:
-	new KAction( i18n( "Set Time to &Now" ), KShortcut( "Ctrl+E"  ),
-		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
-	new KAction( i18nc( "set Clock to New Time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
-		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
+	ka = new KAction( i18n( "Set Time to &Now" ), actionCollection(), "time_to_now" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+E"  ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTimeToNow() ) );
+
+	ka = new KAction( KIcon( "clock" ), i18nc( "set Clock to New Time", "&Set Time..." ), actionCollection(), "time_dialog" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+S"  ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
+
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),
 				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
@@ -79,88 +96,100 @@ void KStars::initActions() {
 	QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
 //Focus Menu:
-	new KAction(i18n( "&Zenith" ), KShortcut( "Z" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "zenith");
-	new KAction(i18n( "&North" ), KShortcut( "N" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "north");
-	new KAction(i18n( "&East" ), KShortcut( "E" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "east");
-	new KAction(i18n( "&South" ), KShortcut( "S" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "south");
-	new KAction(i18n( "&West" ), KShortcut( "W" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "west");
-	KAction *tmpAction = KStdAction::find( this, SLOT( slotFind() ),
-												actionCollection(), "find_object" );
-	tmpAction->setText( i18n( "&Find Object..." ) );
-	tmpAction->setToolTip( i18n( "Find object" ) );
+	ka = new KAction( i18n( "&Zenith" ), actionCollection(), "zenith" );
+        ka->setDefaultShortcut( KShortcut( "Z" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
 
-	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
-		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
+        ka = new KAction( i18n( "&North" ), actionCollection(), "north");
+        ka->setDefaultShortcut( KShortcut( "N" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
 
-	new KAction( i18n( "Set Focus &Manually..." ), KShortcut( "Ctrl+M" ),
-			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
+	ka = new KAction( i18n( "&East" ), actionCollection(), "east");
+        ka->setDefaultShortcut( KShortcut( "E" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
+
+	ka = new KAction( i18n( "&South" ), actionCollection(), "south");
+        ka->setDefaultShortcut( KShortcut( "S" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
+
+	ka = new KAction( i18n( "&West" ), actionCollection(), "west");
+        ka->setDefaultShortcut( KShortcut( "W" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
+
+        ka = new KAction( KIcon( "find" ), i18n( "&Find Object..." ), actionCollection(), "find_object" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+F" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotFind() ) );
+
+        //FIXME: Use ToggleAction
+	ka = new KAction( KIcon( "decrypted" ), i18n( "Engage &Tracking" ), actionCollection(), "track_object" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+T"  ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotTrack() ) );
+
+	ka = new KAction( i18n( "Set Focus &Manually..." ), actionCollection(), "manual_focus" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+M" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotManualFocus() ) );
 
 //View Menu:
 	KStdAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
 	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
-	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+Z" ),
-		this, SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
-	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KShortcut( "Ctrl+Shift+Z" ),
-		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
+
+        ka = new KAction( KIcon( "viewmagfit" ), i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+Z" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotDefaultZoom() ) );
+
+	ka = new KAction( KIcon( "viewmag" ), i18n( "&Zoom to Angular Size..." ), actionCollection(), "zoom_set" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+Shift+Z" ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );
+
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			Qt::Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
-	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+
+        KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 
 
 //Settings Menu:
-	//
-	// MHH - 2002-01-13
-	// Setting the slot in the KToggleAction constructor, connects the slot to
-	// the activated signal instead of the toggled signal. This seems like a bug
-	// to me, but ...
-	//
 	//Info Boxes option actions
 	KToggleAction *a = new KToggleAction(i18nc( "Show the information boxes", "Show &Info Boxes"),
-			0, 0, 0, actionCollection(), "show_boxes");
+			actionCollection(), "show_boxes" );
 	a->setChecked( Options::showInfoBoxes() );
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18nc( "Show time-related info box", "Show &Time Box"),
-			0, 0, 0, actionCollection(), "show_time_box");
+			actionCollection(), "show_time_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18nc( "Show focus-related info box", "Show &Focus Box"),
-			0, 0, 0, actionCollection(), "show_focus_box");
+			actionCollection(), "show_focus_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18nc( "Show location-related info box", "Show &Location Box"),
-			0, 0, 0, actionCollection(), "show_location_box");
+			actionCollection(), "show_location_box");
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
-			0, 0, 0, actionCollection(), "show_mainToolBar");
+			actionCollection(), "show_mainToolBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
-			0, 0, 0, actionCollection(), "show_viewToolBar");
+			actionCollection(), "show_viewToolBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
-			0, 0, 0, actionCollection(), "show_statusBar");
+			actionCollection(), "show_statusBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
-			0, 0, 0, actionCollection(), "show_sbAzAlt");
+			actionCollection(), "show_sbAzAlt");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
-			0, 0, 0, actionCollection(), "show_sbRADec");
+			actionCollection(), "show_sbRADec");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
@@ -191,102 +220,124 @@ void KStars::initActions() {
 	fovActionMenu = new KActionMenu( i18n( "&FOV Symbols" ), actionCollection(), "fovsymbols" );
 	initFOV();
 
-	new KAction( i18nc( "Location on Earth", "&Geographic..." ),
-			"kstars_geo", KShortcut( "Ctrl+G"  ), this,
-			SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
+	ka = new KAction( KIcon( "kstars_geo" ), i18nc( "Location on Earth", "&Geographic..." ), actionCollection(), "geolocation" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+G"  ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotGeoLocator() ) );
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
 
-	new KAction(i18n( "Startup Wizard..." ), "wizard", KShortcut(),
-			this, SLOT( slotWizard() ), actionCollection(), "startwizard" );
+	ka = new KAction( KIcon( "wizard" ), i18n( "Startup Wizard..." ), actionCollection(), "startwizard" );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotWizard() ) );
 
 //Tools Menu:
-	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
-			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+	new KAction( i18n( "Calculator..."), actionCollection(), "astrocalculator" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+C") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotCalculator() ) );
 
-	new KAction(i18n( "Observing List..."), KShortcut( "Ctrl+L"),
-			this, SLOT( slotObsList() ), actionCollection(), "obslist");
+	ka = new KAction( i18n( "Observing List..."), actionCollection(), "obslist" );
+        ka->setDefaultShortcut( KShortcut( "Ctrl+L") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotObsList() ) );
 
 	// enable action only if file was loaded and processed successfully.
-	if (!data()->VariableStarsList.isEmpty())
-		new KAction(i18n( "AAVSO Light Curves..."), KShortcut( "Ctrl+V"),
-						this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
+	if (!data()->VariableStarsList.isEmpty()) {
+            ka = new KAction( i18n( "AAVSO Light Curves..."), actionCollection(), "lightcurvegenerator");
+            ka->setDefaultShortcut( KShortcut( "Ctrl+V") );
+            connect( ka, SIGNAL( triggered() ), this, SLOT( slotLCGenerator() ) );
+        }
 
-	new KAction(i18n( "Altitude vs. Time..."), KShortcut( "Ctrl+A"),
-						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
-	new KAction(i18n( "What's up Tonight..."), KShortcut("Ctrl+U"),
-						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
-	new KAction(i18n( "Glossary..."), KShortcut("Ctrl+K"),
-						this, SLOT(slotGlossary()), actionCollection(), "glossary");
-	new KAction(i18n( "Script Builder..."), KShortcut("Ctrl+B"),
-						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
-	new KAction(i18n( "Solar System..."), KShortcut("Ctrl+Y"),
-						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
-	new KAction(i18n( "Jupiter's Moons..."), KShortcut("Ctrl+J"),
-						this, SLOT(slotJMoonTool()), actionCollection(), "jmoontool");
+	ka = new KAction( i18n( "Altitude vs. Time..."), actionCollection(), "altitude_vs_time");
+        ka->setDefaultShortcut( KShortcut( "Ctrl+A") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotAVT() ) );
+
+	ka = new KAction( i18n( "What's up Tonight..."), actionCollection(), "whats_up_tonight");
+        ka->setDefaultShortcut( KShortcut("Ctrl+U") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotWUT() ) );
+
+        ka = new KAction( i18n( "Glossary..."), actionCollection(), "glossary");
+        ka->setDefaultShortcut( KShortcut("Ctrl+K") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
+
+	ka = new KAction( i18n( "Script Builder..."), actionCollection(), "scriptbuilder");
+        ka->setDefaultShortcut( KShortcut("Ctrl+B") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotScriptBuilder() ) );
+
+	ka = new KAction( i18n( "Solar System..."), actionCollection(), "solarsystem");
+        ka->setDefaultShortcut( KShortcut("Ctrl+Y") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotSolarSystem() ) );
+
+	ka = new KAction( i18n( "Jupiter's Moons..."), actionCollection(), "jmoontool");
+        ka->setDefaultShortcut( KShortcut("Ctrl+J") );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
 // devices Menu
-	new KAction(i18n("Telescope Wizard..."), 0, this, SLOT(slotTelescopeWizard()), actionCollection(), "telescope_wizard");
-	new KAction(i18n("Telescope Properties..."), 0, this, SLOT(slotTelescopeProperties()), actionCollection(), "telescope_properties");
-	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");
+	ka = new KAction( i18n("Telescope Wizard..."), actionCollection(), "telescope_wizard");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeWizard() ) );
 
-	tmpAction = new KAction(i18n("Capture Image Sequence..."), 0, this, SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
-	tmpAction->setEnabled(false);
+	ka = new KAction( i18n("Telescope Properties..."), actionCollection(), "telescope_properties");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeProperties() ) );
 
-	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_cpl");
-	tmpAction->setEnabled(false);
+	ka = new KAction( i18n("Device Manager..."), actionCollection(), "device_manager");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIDriver() ) );
 
-	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");
+	ka = new KAction( i18n("Capture Image Sequence..."), actionCollection(), "capture_sequence");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotImageSequence() ) );
+	ka->setEnabled(false);
 
+	ka = new KAction( i18n("INDI Control Panel..."), actionCollection(), "indi_cpl");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIPanel() ) );
+	ka->setEnabled(false);
 
+	ka = new KAction( i18n("Configure INDI..."), actionCollection(), "configure_indi");
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
 
 //Help Menu:
-	new KAction( i18n( "Tip of the Day" ), "idea", 0,
-			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+	ka = new KAction( KIcon( "idea" ), i18n( "Tip of the Day" ), actionCollection(), "help_tipofday" );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotTipOfDay() ) );
 
 //Handbook toolBar item:
-	new KAction( i18n( "&Handbook" ), "contents", KShortcut( "F1"  ),
-			this, SLOT( appHelpActivated() ), actionCollection(), "handbook" );
+	ka = new KAction( KIcon( "contents" ), i18n( "&Handbook" ), actionCollection(), "handbook" );
+        ka->setDefaultShortcut( KShortcut( "F1"  ) );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( appHelpActivated() ) );
 
 //
 //viewToolBar actions:
 //
 
 //show_stars:
-	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
+	a = new KToggleAction( KIcon( "kstars_stars" ), i18n( "Toggle Stars" ), actionCollection(), "show_stars" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_deepsky:
-	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
+	a = new KToggleAction( KIcon( "kstars_deepsky" ), i18n( "Toggle Deep Sky Objects" ), actionCollection(), "show_deepsky" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_planets:
-	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
+	a = new KToggleAction( KIcon( "kstars_planets" ), i18n( "Toggle Solar System" ), actionCollection(), "show_planets" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_clines:
-	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
+	a = new KToggleAction( KIcon( "kstars_clines" ), i18n( "Toggle Constellation Lines" ), actionCollection(), "show_clines" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_cnames:
-	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
+	a = new KToggleAction( KIcon( "kstars_cnames" ), i18n( "Toggle Constellation Names" ), actionCollection(), "show_cnames" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_cbound:
-	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
+	a = new KToggleAction( KIcon( "kstars_cbound" ), i18n( "Toggle Constellation Boundaries" ), actionCollection(), "show_cbounds" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_mw:
-	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
+	a = new KToggleAction( KIcon( "kstars_mw" ), i18n( "Toggle Milky Way" ), actionCollection(), "show_mw" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_grid:
-	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
+	a = new KToggleAction( KIcon( "kstars_grid" ), i18n( "Toggle Coordinate Grid" ), actionCollection(), "show_grid" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 //show_horizon:
-	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon",
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
+	a = new KToggleAction( KIcon( "kstars_horizon" ), i18n( "Toggle Ground" ), actionCollection(), "show_horizon" );
+        connect( a, SIGNAL( toggled( bool ) ), this, SLOT( slotViewToolBar() ) );
 
 	if (Options::fitsSaveDirectory().isEmpty())
 			Options::setFitsSaveDirectory(QDir:: homePath());
@@ -327,20 +378,23 @@ void KStars::initFOV() {
 
 			if ( fields.count() == 4 ) {
 				nm = fields[0].trimmed();
-				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
-						actionCollection(), nm.toUtf8() );
+				KToggleAction *kta = new KToggleAction( nm, actionCollection(), nm.toUtf8() );
+                                connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol() ) );
+
 				/* FIXME update deprecated KToggleFunctions */
 				//kta->setExclusiveGroup( "fovsymbol" );
 				if ( nm == Options::fOVName() ) kta->setChecked( true );
-				fovActionMenu->insert( kta );
+				fovActionMenu->addAction( kta );
 			}
 		}
 	} else {
 		kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 	}
 
-	fovActionMenu->popupMenu()->insertSeparator();
-	fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+	fovActionMenu->popupMenu()->addSeparator();
+        KAction *ka = new KAction( i18n( "Edit FOV Symbols..." ), actionCollection(), "edit_fov" );
+        connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
+        fovActionMenu->addAction( ka );
 }
 
 void KStars::initStatusBar() {
@@ -519,7 +573,7 @@ void KStars::buildGUI() {
 	createGUI("kstarsui.rc", false);
 
 	//Add timestep widget to toolbar
-	//FIXME: Need to add the widget to kstarsToolBar, 
+	//FIXME: Need to add the widget to kstarsToolBar,
 	//but 'toolBar("kstarsToolBar")' doesn't work...
 	TimeStep = new TimeStepBox( toolBar() );
 	toolBar()->addWidget( TimeStep );

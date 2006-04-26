@@ -653,6 +653,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		INDIDriver *indidriver;
 		imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
 
+		QActionGroup *fovGroup, *cschemeGroup;
+
 		int idSpinBox;
 		bool DialogIsObsolete;
 		bool StartClockRunning;

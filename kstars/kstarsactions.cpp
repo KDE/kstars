@@ -259,8 +259,8 @@ void KStars::slotINDIConf() {
 
     indioptions.loadOptions();
    /*QStringList filterList;
- 
-   
+
+
    indiconf.timeCheck->setChecked( Options::indiAutoTime() );
    indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
    indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
@@ -451,10 +451,10 @@ void KStars::slotExportImage() {
 										"Overwrite it?" , fileURL.fileName()),
 								i18n( "Overwrite File?" ),
 								i18n( "&Overwrite" ) );
-		
+
 		if(r==KMessageBox::Cancel) return;
 	}
-	
+
 	exportImage( fileURL.url(), map()->width(), map()->height() );
 }
 
@@ -788,7 +788,7 @@ void KStars::slotCoordSys() {
 			if ( map()->focusObject() ) //simply update focus to focusObject's position
 				map()->setFocus( map()->focusObject() );
 			else { //need to recompute focus for unrefracted position
-				map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(), 
+				map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
 						map()->focus()->az()->Degrees() );
 				map()->focus()->HorizontalToEquatorial( data()->lst(), geo()->lat() );
 			}
@@ -797,7 +797,7 @@ void KStars::slotCoordSys() {
 	} else {
 		Options::setUseAltAz( true );
 		if ( Options::useRefraction() ) {
-			map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(), 
+			map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(),
 					map()->focus()->az()->Degrees() );
 		}
 		actCoordSys->turnOff();
@@ -814,22 +814,19 @@ void KStars::slotColorScheme() {
 
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->objectName() );
-	FOV f( symbolName ); //read data from fov.dat
 
-	Options::setFOVName( f.name() );
-	Options::setFOVSize( f.size() );
-	Options::setFOVShape( f.shape() );
-	Options::setFOVColor( f.color() );
-	data()->fovSymbol.setName( Options::fOVName() );
-	data()->fovSymbol.setSize( Options::fOVSize() );
-	data()->fovSymbol.setShape( Options::fOVShape() );
-	data()->fovSymbol.setColor( Options::fOVColor() );
+        FOV f( symbolName );
 
-//Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
-//	//set ZoomLevel to match the FOV symbol
-//	zoom( (double)(map()->width()) * 60.0 / ( 2.0 * dms::DegToRad * data()->fovSymbol.size() ) );
+        Options::setFOVName( f.name() );
+        Options::setFOVSize( f.size() );
+        Options::setFOVShape( f.shape() );
+        Options::setFOVColor( f.color() );
+        data()->fovSymbol.setName( Options::fOVName() );
+        data()->fovSymbol.setSize( Options::fOVSize() );
+        data()->fovSymbol.setShape( Options::fOVShape() );
+        data()->fovSymbol.setColor( Options::fOVColor() );
 
-	map()->forceUpdate();
+        map()->forceUpdate();
 }
 
 void KStars::slotFOVEdit() {
@@ -850,7 +847,7 @@ void KStars::slotFOVEdit() {
 				QTextStream ostream(&f);
 
 				foreach ( FOV *fov, fovdlg.FOVList )
-					ostream << fov->name() << ":" << fov->size() 
+					ostream << fov->name() << ":" << fov->size()
 							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
 
 				f.close();
@@ -868,20 +865,19 @@ void KStars::slotFOVEdit() {
 
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].trimmed();
-					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
-							actionCollection(), nm.toUtf8() );
-					/* FIXME update deprecated KToggleFunctions */
-					//kta->setExclusiveGroup( "fovsymbol" );
-					fovActionMenu->insert( kta );
+					KToggleAction *kta = new KToggleAction( nm, actionCollection(), nm.toUtf8(), fovGroup );
+                                        connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
+					fovActionMenu->addAction( kta );
 				}
 			}
 		} else {
 			kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 		}
 
-		fovActionMenu->popupMenu()->insertSeparator();
-		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this,
-				SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+		fovActionMenu->popupMenu()->addSeparator();
+                KAction *ka = new KAction( i18n( "Edit FOV Symbols..." ), actionCollection(),  "edit_fov" );
+                connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
+		fovActionMenu->addAction( ka );
 
 		//set FOV to whatever was highlighted in FOV dialog
 		if ( fovdlg.FOVList.count() > 0 ) {
@@ -924,7 +920,7 @@ void KStars::slotClearAllTrails() {
 	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
 		exOb = map()->focusObject();
 	}
-	
+
 	data()->skyComposite()->clearTrailsExcept( exOb );
 
 	map()->forceUpdate();
@@ -997,13 +993,14 @@ void KStars::slotShowGUIItem( bool show ) {
 }
 
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
-	colorActionMenu->insert( new KAction( name, 0,
-			this, SLOT( slotColorScheme() ), actionCollection(), actionName.toLocal8Bit() ) );
+    KToggleAction *kta = new KToggleAction( name, actionCollection(),  actionName, cschemeGroup );
+    connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
+    colorActionMenu->addAction( kta );
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
 	kDebug() << "removing " << actionName << endl;
-	colorActionMenu->remove( actionCollection()->action( actionName ) );
+	colorActionMenu->removeAction( actionCollection()->action( actionName ) );
 }
 
 void KStars::establishINDI()
