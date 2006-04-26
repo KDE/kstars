@@ -110,7 +110,7 @@ void DetailDialog::createGeneralTab()
 		s = (StarObject *)selectedObject;
 
 		Data->Names->setText( s->longname() );
-		Data->Type->setText( s->sptype() + " " + i18n("star") );
+		Data->Type->setText( s->sptype() + ' ' + i18n("star") );
 		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
 				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
@@ -132,7 +132,7 @@ void DetailDialog::createGeneralTab()
 		Data->AngSize->setText( QString() );
 		Data->AngSizeLabel->setFont( Data->AngSize->font() );
 		if ( s->isMultiple() && s->isVariable() ) {
-			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) + "," );
+			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) + ',' );
 			Data->AngSize->setText( i18nc( "the star is a variable star", "variable" ) );
 		} else if ( s->isMultiple() )
 			Data->AngSizeLabel->setText( i18nc( "the star is a multiple star", "multiple" ) );
@@ -506,7 +506,7 @@ void DetailDialog::editLinkDialog()
 	if (editLinkField->text() == currentItemURL)
 		return;
 
-	replace_line = selectedObject->name() + ":" + currentItemTitle + ":" + editLinkField->text();
+	replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField->text();
 
 	// Info Link, we only replace URL since title hasn't changed
 	if (type==0)

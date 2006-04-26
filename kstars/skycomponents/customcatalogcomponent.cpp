@@ -79,10 +79,10 @@ void CustomCatalogComponent::init( KStarsData * ) {
 					} else {
 						int iend = iname + 1;
 						while ( d[iend].right(1) != "\"" ) {
-							d[iname] += " " + d[iend];
+							d[iname] += ' ' + d[iend];
 							++iend;
 						}
-						d[iname] += " " + d[iend].left( d[iend].length() - 1 );
+						d[iname] += ' ' + d[iend].left( d[iend].length() - 1 );
 
 						//remove the entries from d list that were the multiple words in the name
 						for ( int j=iname+1; j<=iend; j++ ) {
@@ -323,7 +323,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStr
 
 	for ( int i=0; i<Columns.size(); i++ ) {
 		if ( Columns.at(i) == "ID" )
-			name = m_catPrefix + " " + d.at(i);
+			name = m_catPrefix + ' ' + d.at(i);
 
 		if ( Columns.at(i) == "Nm" )
 			lname = d.at(i);

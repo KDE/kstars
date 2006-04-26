@@ -389,12 +389,12 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 		return;
 
 	// header label
-	QString KSLabel ="[KSLABEL:" + name() + "]";
+	QString KSLabel ="[KSLABEL:" + name() + ']';
 	//However, we can't accept a star name if it has a greek letter in it:
 	if ( type() == STAR ) {
 		StarObject *star = (StarObject*)this;
 		if ( name() == star->gname() )
-			KSLabel = "[KSLABEL:" + star->gname( false ) + "]"; //"false": spell out greek letter
+			KSLabel = "[KSLABEL:" + star->gname( false ) + ']'; //"false": spell out greek letter
 	}
 
 	file.setFileName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.

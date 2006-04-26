@@ -40,42 +40,42 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 
 	Description =  "<html><head><meta name=\"qrichtext\" content=\"1\" /></head>";
 	Description += "<body style=\"font-size:11pt;font-family:sans\">";
-	Description += "<p>" + nameStyle.arg( Name + "(" );
+	Description += "<p>" + nameStyle.arg( Name + '(' );
 
 	NumArgs = 0;
 	if ( ! at1.isEmpty() && ! an1.isEmpty() ) {
-		Description += " " + typeStyle.arg( at1 );
-		Description += " " + paramStyle.arg( an1 );
+		Description += ' ' + typeStyle.arg( at1 );
+		Description += ' ' + paramStyle.arg( an1 );
 		NumArgs++;
 	}
 
 	if ( ! at2.isEmpty() && ! an2.isEmpty() ) {
 		Description += ", " + typeStyle.arg( at2 );
-		Description += " " + paramStyle.arg( an2 );
+		Description += ' ' + paramStyle.arg( an2 );
 		NumArgs++;
 	}
 
 	if ( ! at3.isEmpty() && ! an3.isEmpty() ) {
 		Description += ", " + typeStyle.arg( at3 );
-		Description += " " + paramStyle.arg( an3 );
+		Description += ' ' + paramStyle.arg( an3 );
 		NumArgs++;
 	}
 
 	if ( ! at4.isEmpty() && ! an4.isEmpty() ) {
 		Description += ", " + typeStyle.arg( at4 );
-		Description += " " + paramStyle.arg( an4 );
+		Description += ' ' + paramStyle.arg( an4 );
 		NumArgs++;
 	}
 
 	if ( ! at5.isEmpty() && ! an5.isEmpty() ) {
 		Description += ", " + typeStyle.arg( at5 );
-		Description += " " + paramStyle.arg( an5 );
+		Description += ' ' + paramStyle.arg( an5 );
 		NumArgs++;
 	}
 
 	if ( ! at6.isEmpty() && ! an6.isEmpty() ) {
 		Description += ", " + typeStyle.arg( at6 );
-		Description += " " + paramStyle.arg( an6 );
+		Description += ' ' + paramStyle.arg( an6 );
 		NumArgs++;
 	}
 
@@ -118,42 +118,42 @@ ScriptFunction::~ScriptFunction()
 }
 
 QString ScriptFunction::prototype() const {
-	QString p = Name + "(";
+	QString p = Name + '(';
 
 	bool args( false );
 	if ( ! ArgType[0].isEmpty() && ! ArgName[0].isEmpty() ) {
-		p += " " + ArgType[0];
-		p += " " + ArgName[0];
+		p += ' ' + ArgType[0];
+		p += ' ' + ArgName[0];
 		args = true; //assume that if any args are present, 1st arg is present
 	}
 
 	if ( ! ArgType[1].isEmpty() && ! ArgName[1].isEmpty() ) {
 		p += ", " + ArgType[1];
-		p += " " + ArgName[1];
+		p += ' ' + ArgName[1];
 	}
 
 	if ( ! ArgType[2].isEmpty() && ! ArgName[2].isEmpty() ) {
 		p += ", " + ArgType[2];
-		p += " " + ArgName[2];
+		p += ' ' + ArgName[2];
 	}
 
 	if ( ! ArgType[3].isEmpty() && ! ArgName[3].isEmpty() ) {
 		p += ", " + ArgType[3];
-		p += " " + ArgName[3];
+		p += ' ' + ArgName[3];
 	}
 
 	if ( ! ArgType[4].isEmpty() && ! ArgName[4].isEmpty() ) {
 		p += ", " + ArgType[4];
-		p += " " + ArgName[4];
+		p += ' ' + ArgName[4];
 	}
 
 	if ( ! ArgType[5].isEmpty() && ! ArgName[5].isEmpty() ) {
 		p += ", " + ArgType[5];
-		p += " " + ArgName[5];
+		p += ' ' + ArgName[5];
 	}
 
-	if ( args ) p += " ";
-	p += ")";
+	if ( args ) p += ' ';
+	p += ')';
 
 	return p;
 }
@@ -164,9 +164,9 @@ QString ScriptFunction::scriptLine() const {
 	while ( ! ArgName[i].isEmpty() && i < 6 ) {
 		// Wrap arg in quotes if it contains a space
 		if ( ArgVal[i].contains(" ") ) {
-			out += " \"" + ArgVal[i] + "\"";
+			out += " \"" + ArgVal[i] + '\"';
 		} else {
-			out += " " + ArgVal[i];
+			out += ' ' + ArgVal[i];
 		}
 		++i;
 	}

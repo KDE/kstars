@@ -1079,7 +1079,7 @@ void SkyMap::addLink( void ) {
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
 			} else {
-				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
+				entry = clickedObject()->name() + ':' + adialog.desc() + ':' + adialog.url();
 				QTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
@@ -1096,7 +1096,7 @@ void SkyMap::addLink( void ) {
 				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {
-				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
+				entry = clickedObject()->name() + ':' + adialog.desc() + ':' + adialog.url();
 				QTextStream stream( &file );
 				stream << entry << endl;
 				file.close();

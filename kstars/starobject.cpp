@@ -47,7 +47,7 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	QString lname;
 	if ( hasName() ) {
 		lname = n;
-		if ( hasName2() ) lname += " (" + gname() + ")";
+		if ( hasName2() ) lname += " (" + gname() + ')';
 	} else if ( hasName2() )
 		lname = gname();
 
@@ -67,7 +67,7 @@ StarObject::StarObject( double r, double d, float m, QString n, QString n2, QStr
 	QString lname;
 	if ( hasName() ) {
 		lname = n;
-		if ( hasName2() )lname += n + " (" + gname() + ")";
+		if ( hasName2() )lname += n + " (" + gname() + ')';
 	} else if ( hasName2() )
 		lname = gname();
 
@@ -90,7 +90,7 @@ QString StarObject::sptype( void ) const {
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
-	return greekLetter( useGreekChars ) + " " + constell();
+	return greekLetter( useGreekChars ) + ' ' + constell();
 }
 
 QString StarObject::greekLetter( bool gchar ) const {
@@ -126,7 +126,7 @@ QString StarObject::greekLetter( bool gchar ) const {
 	if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
 
 	if ( name2().length() && name2().mid(3,1) != " " )
-		letter += "[" + name2().mid(3,1) + "]";
+		letter += '[' + name2().mid(3,1) + ']';
 
 	return letter;
 }
@@ -274,11 +274,11 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 }
 
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
-	QString sName( i18n("star") + " " );
+	QString sName( i18n("star") + ' ' );
 	if ( drawName ) {
 		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() ) 
-			sName = translatedName() + " ";
-		else if ( ! gname().trimmed().isEmpty() ) sName = gname( true ) + " ";
+			sName = translatedName() + ' ';
+		else if ( ! gname().trimmed().isEmpty() ) sName = gname( true ) + ' ';
 	}
 	if ( drawMag ) {
 		if ( drawName )

@@ -390,7 +390,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 	//If the filename string contains no "/" separators, assume the
 	//user wanted to place a file in their home directory.
 	KUrl fileURL;
-	if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + "/" + url;
+	if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + '/' + url;
 	else fileURL = url;
 
 	KTempFile tmpfile;

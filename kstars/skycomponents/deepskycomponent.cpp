@@ -133,16 +133,16 @@ void DeepSkyComponent::init(KStarsData *data)
 				QString snum;
 				if ( cat=="IC" || cat=="NGC" ) {
 					snum.setNum( ingc );
-					name = cat + " " + snum;
+					name = cat + ' ' + snum;
 				} else if ( cat=="M" ) {
 					snum.setNum( imess );
-					name = cat + " " + snum;
+					name = cat + ' ' + snum;
 					if ( cat2=="NGC" ) {
 						snum.setNum( ingc );
-						name2 = cat2 + " " + snum;
+						name2 = cat2 + ' ' + snum;
 					} else if ( cat2=="IC" ) {
 						snum.setNum( ingc );
-						name2 = cat2 + " " + snum;
+						name2 = cat2 + ' ' + snum;
 					} else {
 						name2 = QString();
 					}

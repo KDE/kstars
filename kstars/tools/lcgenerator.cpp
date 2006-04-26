@@ -120,17 +120,17 @@ void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate
 	QString Yes("yes");
 	QString No("no");
 	
-	buf.append("?"+QString::number(StartDate.jd()));
-	buf.append("?"+QString::number(EndDate.jd()));
-	buf.append("?"+Designation);
-	buf.append("?"+AverageDay);
-	buf.append("?"+ (lcg->FainterCheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->CCDVCheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->CCDICheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->CCDRCheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->CCDBCheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->VisualCheck->isChecked() ? Yes : No));
-	buf.append("?"+ (lcg->DiscrepantCheck->isChecked() ? Yes : No));
+	buf.append('?'+QString::number(StartDate.jd()));
+	buf.append('?'+QString::number(EndDate.jd()));
+	buf.append('?'+Designation);
+	buf.append('?'+AverageDay);
+	buf.append('?'+ (lcg->FainterCheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->CCDVCheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->CCDICheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->CCDRCheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->CCDBCheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->VisualCheck->isChecked() ? Yes : No));
+	buf.append('?'+ (lcg->DiscrepantCheck->isChecked() ? Yes : No));
 	
 
 	KUrl url(buf);

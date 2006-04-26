@@ -376,9 +376,9 @@ bool InfoBoxes::geoChanged(const GeoLocation *geo) {
 	name += geo->translatedCountry();
 	GeoBox->setText1( name );
 
-	GeoBox->setText2( i18nc( "Longitude", "Long:" ) + " " +
+	GeoBox->setText2( i18nc( "Longitude", "Long:" ) + ' ' +
 		KGlobal::locale()->formatNumber( geo->lng()->Degrees(),3) + "   " +
-		i18nc( "Latitude", "Lat:" ) + " " +
+		i18nc( "Latitude", "Lat:" ) + ' ' +
 		KGlobal::locale()->formatNumber( geo->lat()->Degrees(),3) );
 	
 	if ( ot1 == GeoBox->text1() && ot2 == GeoBox->text2() )

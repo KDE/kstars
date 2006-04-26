@@ -2212,7 +2212,7 @@ void ScriptBuilder::slotLoadColorScheme() {
 	if ( sf->name() == "loadColorScheme" ) {
 		setUnsavedChanges( true );
 		
-		sf->setArg( 0, "\"" + argLoadColorScheme->SchemeList->currentText() + "\"" );
+		sf->setArg( 0, '\"' + argLoadColorScheme->SchemeList->currentText() + '\"' );
 		sf->setValid( true );
 	} else {
 		warningMismatch( "loadColorScheme" );

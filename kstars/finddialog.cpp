@@ -83,7 +83,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	if ( searchString.isEmpty() ) {
 		ObjNames = p->data()->skyComposite()->objectNames();
 	} else {
-		QRegExp rx("^"+searchString);
+		QRegExp rx('^'+searchString);
 		rx.setCaseSensitivity( Qt::CaseInsensitive );
 		ObjNames = p->data()->skyComposite()->objectNames().filter(rx);
 	}

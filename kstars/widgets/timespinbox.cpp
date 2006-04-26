@@ -58,7 +58,7 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
 	int extra = width() - lineEdit()->width();
 	uint wmax = 0;
 	for ( int i=0; i < maximum(); ++i ) {
-		uint w = fm.width( "-" + TimeString[i] );
+		uint w = fm.width( '-' + TimeString[i] );
 		if (  w > wmax ) wmax = w;
 	}
 	setFixedWidth( wmax + extra );
@@ -191,7 +191,7 @@ QString TimeSpinBox::textFromValue( int value ) const {
 
         result = TimeString[ posval ];
 
-	if ( value<0 ) { result = "-" + result; }
+	if ( value<0 ) { result = '-' + result; }
 	return result;
 }
 

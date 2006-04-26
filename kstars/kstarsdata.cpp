@@ -552,7 +552,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 	QFile localeFile;
 
 	if ( locale->language() != "en_US" )
-		localFile = locale->language() + "/" + urlfile;
+		localFile = locale->language() + '/' + urlfile;
 
 	if ( ! localFile.isEmpty() && KSUtils::openDataFile( file, localFile ) ) {
 		fileFound = true;

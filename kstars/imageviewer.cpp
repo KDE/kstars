@@ -223,7 +223,7 @@ void ImageViewer::saveFileToDisc()
 	KUrl newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
 	if (!newURL.isEmpty())
 	{
-		QFile f (newURL.directory() + "/" +  newURL.fileName());
+		QFile f (newURL.directory() + '/' +  newURL.fileName());
 		if (f.exists())
 		{
 			int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
