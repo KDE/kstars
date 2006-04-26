@@ -30,7 +30,7 @@
 #include "Options.h"
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const QColor &c, double pSize )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ), Rearth(0.0), Image(), data(kd), 
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ), Rearth(0.0), Image(), data(kd),
 		PhysicalSize(pSize), m_Color( c ) {
 
 	 if (! image_file.isEmpty()) {
@@ -39,7 +39,7 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const
 		if ( KSUtils::openDataFile( imFile, image_file ) ) {
 			imFile.close();
 			Image0.load( imFile.fileName() );
-			Image = Image0.convertDepth( 32 );
+			Image = Image0.convertToFormat( QImage::Format_ARGB32 );
 			Image0 = Image;
 		}
 	}
@@ -216,11 +216,11 @@ void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
 }
 
 void KSPlanetBase::findMagnitude(const KSNumbers *num) {
-	
+
 	double cosDec, sinDec;
 	dec()->SinCos(cosDec, sinDec);
-	
-	//JH: Fixing calculation of phase. Using formula from 
+
+	//JH: Fixing calculation of phase. Using formula from
 	//"Practical Astronomy With Your Calculator":
 	double d = ecLong()->radians() - helEcLong()->radians();
 	double f1 = 0.5*( 1 + cos( d ) );
@@ -243,7 +243,7 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
 		magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
 	if( name() == "Mars")
 		magnitude = -1.52 + param + 16.*f1;  //JH: was + 0.016*phase;
-	if( name() == "Jupiter") 
+	if( name() == "Jupiter")
 		magnitude = -9.25 + param + 0.5*f1;  //JH: was + 0.005*phase;
 
 	if( name() == "Saturn") {

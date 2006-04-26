@@ -857,7 +857,7 @@ bool KStarsData::readINDIHosts(void)
 	QFile localeFile;
 	QFile file;
 	char errmsg[1024];
-	signed char c;
+	char c;
 	LilXML *xmlParser = newLilXML();
 	XMLEle *root = NULL;
 	XMLAtt *ap;
@@ -866,7 +866,7 @@ bool KStarsData::readINDIHosts(void)
 	if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
 		 return false;
 
-	while ( (c = (signed char) file.getch()) != -1)
+	while ( file.getChar( &c ) )
 	{
 		root = readXMLEle(xmlParser, c, errmsg);
 

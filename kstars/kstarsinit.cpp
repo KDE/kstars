@@ -85,9 +85,9 @@ void KStars::initActions() {
         ka->setDefaultShortcut( KShortcut( "Ctrl+S"  ) );
         connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
 
-	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
-				i18n("Start &Clock"), BarIcon("1rightarrow"),
-				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
+	ToggleAction *actTimeRun = new ToggleAction( KIcon( "player_pause" ), i18n( "Stop &Clock" ),
+				KIcon( "1rightarrow" ), i18n("Start &Clock"),
+				KShortcut(), this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
 	QObject::connect(data()->clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
@@ -142,7 +142,7 @@ void KStars::initActions() {
         connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );
 
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
-			Qt::Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
+			KShortcut( Qt::Key_Space ), this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 
         KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 

@@ -54,8 +54,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
 	if ( ks && ( isVisible() || width() == ks->width() || height() == ks->height() ) ) {
 		infoBoxes()->resize( width(), height() );
 	}
-	sky->resize( width(), height() );
-	sky2->resize( width(), height() );
+	*sky = sky->scaled( width(), height() );
+	*sky2 = sky2->scaled( width(), height() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
@@ -63,8 +63,8 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	bool arrowKeyPressed( false );
 	bool shiftPressed( false );
 	float step = 1.0;
-	if ( e->state() & Qt::ShiftButton ) { step = 10.0; shiftPressed = true; }
-	
+	if ( e->modifiers() & Qt::ShiftModifier ) { step = 10.0; shiftPressed = true; }
+
 	//If the DCOP resume key was pressed, we process it here
 	if ( ! data->resumeKey.isEmpty() && QKeySequence(e->key()) == data->resumeKey ) {
 		//kDebug() << "resumeKey pressed; resuming DCOP." << endl;
@@ -278,13 +278,13 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 		case Qt::Key_P: //Show Popup menu for Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
-			if ( clickedObject() ) 
+			if ( clickedObject() )
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			break;
 
 		case Qt::Key_O: //Add object to Observing List
 			if ( shiftPressed ) setClickedObject( focusObject() );
-			if ( clickedObject() ) 
+			if ( clickedObject() )
 				ks->observingList()->slotAddObject();
 			break;
 
@@ -293,17 +293,17 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			if ( clickedObject() ) {
 				if ( isObjectLabeled( clickedObject() ) )
 					slotRemoveObjectLabel();
-				else 
+				else
 					slotAddObjectLabel();
 			}
 			break;
 
-		case Qt::Key_T: //Toggle planet trail on Clicked/Centered object (if solsys) 
+		case Qt::Key_T: //Toggle planet trail on Clicked/Centered object (if solsys)
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() && clickedObject()->isSolarSystem() ) {
 				if ( ((KSPlanetBase*)clickedObject())->hasTrail() )
 					slotRemovePlanetTrail();
-				else 
+				else
 					slotAddPlanetTrail();
 			}
 			break;
@@ -400,7 +400,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	if ( arrowKeyPressed ) {
 		infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 		stopTracking();
-		
+
 		if ( scrollCount > 10 ) {
 			setDestination( focus() );
 			scrollCount = 0;
@@ -423,7 +423,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 			slewing = false;
 			scrollCount = 0;
 
-			if ( Options::useAltAz() ) 
+			if ( Options::useAltAz() )
 				setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
 			else
 				setDestination( focus() );
@@ -436,18 +436,18 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if ( Options::useHoverLabel() ) {
-		//First of all, if the transientObject() pointer is not NULL, then 
+		//First of all, if the transientObject() pointer is not NULL, then
 		//we just moved off of a hovered object.  Begin fading the label.
 		if ( transientObject() && ! TransientTimer.isActive() ) {
 			fadeTransientLabel();
 		}
-		
-		//Start a single-shot timer to monitor whether we are currently hovering.  
+
+		//Start a single-shot timer to monitor whether we are currently hovering.
 		//The idea is that whenever a moveEvent occurs, the timer is reset.  It
 		//will only timeout if there are no move events for HOVER_INTERVAL ms
 		HoverTimer.start( HOVER_INTERVAL );
 	}
-	
+
 	//Are we dragging an infoBox?
 	if ( infoBoxes()->dragBox( e ) ) {
 		update();
@@ -457,7 +457,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	//Are we defining a ZoomRect?
 	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
 		//cancel operation if the user let go of CTRL
-		if ( !( e->state() & Qt::ControlButton ) ) {
+		if ( !( e->modifiers() & Qt::ControlModifier ) ) {
 			ZoomRect = QRect(); //invalidate ZoomRect
 			update();
 		} else {
@@ -568,7 +568,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
 			s = sX + ",  " + sY;
 			ks->statusBar()->changeItem( s, 1 );
-			
+
 			sX = mousePoint()->ra()->toHMSString();
 			sY = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
 			s = sX + ",  " + sY;
@@ -604,7 +604,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		setFocus( &newcenter );
 		setDestination( &newcenter );
 		ks->zoom( Options::zoomFactor() * factor );
-		
+
 		setDefaultMouseCursor();
 		ZoomRect = QRect(); //invalidate ZoomRect
 		forceUpdate();
@@ -618,8 +618,8 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		mouseButtonDown = false;
 		if ( slewing ) {
 			slewing = false;
-			
-			if ( Options::useAltAz() ) 
+
+			if ( Options::useAltAz() )
 				setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
 			else
 				setDestination( focus() );
@@ -640,7 +640,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		return;
 	}
 
-	if ( (e->state() & Qt::ControlButton) && (e->button() == Qt::LeftButton) ) {
+	if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
 		ZoomRect.moveCenter( e->pos() );
 		setZoomMouseCursor();
 		update(); //refresh without redrawing skymap
@@ -678,11 +678,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
 		if ( clickedObject() ) {
 			setClickedPoint( clickedObject() );
-			
+
 			if ( e->button() == Qt::RightButton ) {
 				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
 			}
-			
+
 			if ( ks && e->button() == Qt::LeftButton ) {
 				ks->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
 			}
@@ -700,11 +700,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					SkyObject *nullObj = new SkyObject( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
 					pmenu->createEmptyMenu( nullObj );
 					delete nullObj;
-					
+
 					pmenu->popup(  QCursor::pos() );
 					break;
 				}
-				
+
 				default:
 					break;
 			}
@@ -731,17 +731,20 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 
 void SkyMap::paintEvent( QPaintEvent * )
 {
-	//If computeSkymap is false, then we just refresh the window using the stored sky pixmap 
+	//If computeSkymap is false, then we just refresh the window using the stored sky pixmap
 	//and draw the "overlays" on top.  This lets us update the overlay information rapidly
 	//without needing to recompute the entire skymap.
-	//use update() to trigger this "short" paint event; to force a full "recompute" 
+	//use update() to trigger this "short" paint event; to force a full "recompute"
 	//of the skymap, use forceUpdate().
 	if (!computeSkymap)
 	{
 		*sky2 = *sky;
 		drawOverlays( sky2 );
-		bitBlt( this, 0, 0, sky2 );
-		return ; // exit because the pixmap is repainted and that's all what we want
+                QPainter p;
+                p.begin( this );
+                p.drawImage( 0, 0, *sky2 );
+                p.end();
+                return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
 	QPainter psky;
@@ -753,7 +756,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // 	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
 // 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 // 				&& Options::hideOnSlew() );
-// 
+//
 // 	//shortcuts to inform wheter to draw different objects
 // 	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
 // 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
@@ -763,9 +766,9 @@ void SkyMap::paintEvent( QPaintEvent * )
 // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
 	psky.begin( sky );
-	if ( slewing ) 
+	if ( slewing )
 		psky.setRenderHint(QPainter::Antialiasing, false);
-	else 
+	else
 		psky.setRenderHint(QPainter::Antialiasing, true);
 
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
@@ -778,7 +781,11 @@ void SkyMap::paintEvent( QPaintEvent * )
 
 	*sky2 = *sky;
 	drawOverlays( sky2 );
-	bitBlt( this, 0, 0, sky2 );
+
+        QPainter psky2;
+        psky2.begin( this );
+        psky2.drawImage( 0, 0, *sky2 );
+        psky2.end();
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }

@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QPixmap>
 #include <QKeySequence>
+#include <QPainter>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -29,7 +30,7 @@
 #include <k3listview.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
-#include <knuminput.h> 
+#include <knuminput.h>
 
 #include "colorscheme.h"
 #include "kstars.h"
@@ -205,7 +206,7 @@ void KStars::writeConfig() {
 }
 
 QString KStars::getOption( const QString &name ) {
-	//Some config items are not stored in the Options object while 
+	//Some config items are not stored in the Options object while
 	//the program is running; catch these here and returntheir current value.
 	if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra()->Hours(), 'f', 6 ); }
 	if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec()->Degrees(), 'f', 6 ); }
@@ -344,12 +345,12 @@ void KStars::loadColorScheme( const QString &_name ) {
 	QString name( _name );
 	QString filename = name.toLower().trimmed();
 	bool ok( false );
-	
+
 	//Parse default names which don't follow the regular file-naming scheme
 	if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "default.colors";
-	if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors"; 
-	if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors"; 
-	
+	if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
+	if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+
 	//Try the filename if it ends with ".colors"
 	if ( filename.endsWith( ".colors" ) )
 		ok = data()->colorScheme()->load( filename );
@@ -360,33 +361,33 @@ void KStars::loadColorScheme( const QString &_name ) {
 		if ( !filename.isEmpty() ) {
 			for( int i=0; i<filename.length(); ++i)
 				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
-			
+
 			filename = filename.append( ".colors" );
 			ok = data()->colorScheme()->load( filename );
 		}
-		
-		if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename ); 
+
+		if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
 	}
-	
+
 	if ( ok ) {
 		//set the application colors for the Night Vision scheme
 		if ( Options::darkAppColors() == false && filename == "night.colors" )  {
 			Options::setDarkAppColors( true );
 			OriginalPalette = QApplication::palette();
-			QApplication::setPalette( DarkPalette, true );
+			QApplication::setPalette( DarkPalette );
 		}
-		
+
 		if ( Options::darkAppColors() && filename != "night.colors" ) {
 			Options::setDarkAppColors( false );
-			QApplication::setPalette( OriginalPalette, true );
+			QApplication::setPalette( OriginalPalette );
 		}
-		
+
 		map()->forceUpdate();
 	}
 }
 
 void KStars::exportImage( const QString &url, int w, int h ) {
-	//If the filename string contains no "/" separators, assume the 
+	//If the filename string contains no "/" separators, assume the
 	//user wanted to place a file in their home directory.
 	KUrl fileURL;
 	if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + "/" + url;
@@ -395,11 +396,11 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 	KTempFile tmpfile;
 	QString fname;
 	tmpfile.setAutoDelete(true);
-	
+
 	QPixmap skyimage( map()->width(), map()->height() );
 	QPixmap outimage( w, h );
 	outimage.fill();
-	
+
 	if ( fileURL.isValid() ) {
 		if ( fileURL.isLocalFile() ) {
 			fname = fileURL.path();
@@ -421,29 +422,33 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		kapp->processEvents();
 
 		//skyImage is the size of the sky map.  The requested image size is w x h.
-		//If w x h is smaller than the skymap, then we simply crop the image.  
+		//If w x h is smaller than the skymap, then we simply crop the image.
 		//If w x h is larger than the skymap, pad the skymap image with a white border.
 		if ( w == map()->width() && h == map()->height() ) {
-			outimage = skyimage;
-		} else {
-			int dx(0), dy(0), sx(0), sy(0);
+                        outimage = skyimage.copy();
+                } else {
+                        int dx(0), dy(0), sx(0), sy(0);
 			int sw(map()->width()), sh(map()->height());
 			if ( w > map()->width() ) {
 				dx = (w - map()->width())/2;
-			} else { 
-				sx = (map()->width() - w)/2; 
-				sw = w; 
+			} else {
+				sx = (map()->width() - w)/2;
+				sw = w;
 			}
 			if ( h > map()->height() ) {
 				dy = (h - map()->height())/2;
-			} else { 
-				sy = (map()->height() - h)/2; 
-				sh = h; 
+			} else {
+				sy = (map()->height() - h)/2;
+				sh = h;
 			}
-			
-			bitBlt( &outimage, dx, dy, &skyimage, sx, sy, sw, sh );
+
+                        QPainter p;
+                        p.begin( &outimage );
+                        p.fillRect( outimage.rect(), QBrush( Qt::white ) );
+                        p.drawImage( dx, dy, skyimage, sx, sy, sw, sh );
+			p.end();
 		}
-		
+
 		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname ) << endl;
 		else kDebug() << i18n( "Image saved to file: %1", fname ) << endl;
 
@@ -459,15 +464,15 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 	KPrinter printer( true, QPrinter::HighResolution );
 	printer.setFullPage( false );
-	
-	//Set up the printer (either with the Print Dialog, 
+
+	//Set up the printer (either with the Print Dialog,
 	//or using the default settings)
 	bool ok( false );
 	if ( usePrintDialog )
 		ok = printer.setup( this, i18n("Print Sky") );
-	else 
+	else
 		ok = printer.autoConfigure();
-	
+
 	if( ok ) {
 		kapp->setOverrideCursor( Qt::WaitCursor );
 
@@ -488,7 +493,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 			data()->colorScheme()->copy( cs );
 			map()->forceUpdate();
 		}
-		
+
 		kapp->restoreOverrideCursor();
 	}
 }
@@ -498,7 +503,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 
   establishINDI();
   QList<QTreeWidgetItem *> found;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "establishINDI() failed." << endl;
@@ -506,7 +511,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
   }
 	QTreeWidgetItem *driverItem = NULL;
 	found = indidriver->ui->localTreeWidget->findItems(deviceName, Qt::MatchExactly | Qt::MatchRecursive);
-	
+
 	if (found.empty())
 	{
 	   kDebug() << "Device " << deviceName << " not found!" << endl;
@@ -521,7 +526,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 		indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 		indidriver->processDeviceStatus(1);
 	}
-	   
+
 	// Set custome label for device
 	indimenu->setCustomLabel(deviceName);
  	// Set DCOP device name
@@ -529,13 +534,13 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 
 	// Select it
 	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
-	
+
 	// Start it either locally or as series
 	if (useLocal)
 		indidriver->ui->localR->setChecked(true);
 	else
 		indidriver->ui->serverR->setChecked(true);
-	
+
 	// Run it
 	indidriver->processDeviceStatus(0);
 }
@@ -565,7 +570,7 @@ void KStars::shutdownINDI (const QString &deviceName)
 
 	QTreeWidgetItem *driverItem = NULL;
 	found = indidriver->ui->localTreeWidget->findItems(deviceName, Qt::MatchExactly | Qt::MatchRecursive);
-	
+
 	if (found.empty())
 	{
 	   kDebug() << "Device " << deviceName << " not found!" << endl;
@@ -583,13 +588,13 @@ void KStars::switchINDI(bool turnOn)
 {
   INDI_D *dev;
   INDI_P *prop;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "switchINDI: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -598,33 +603,33 @@ void KStars::switchINDI(bool turnOn)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   if (turnOn && dev->isOn() || (!turnOn && !dev->isOn()))
    return;
-   
+
   prop = dev->findProp("CONNECTION");
   if (!prop) return;
-  
+
   if (turnOn)
     prop->newSwitch(0);
   else
     prop->newSwitch(1);
-  
+
 }
 
-	
+
 void KStars::setINDIPort(const QString &port)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
    if (!indidriver || !indimenu)
   {
     kDebug() << "setINDIPort: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -633,34 +638,34 @@ void KStars::setINDIPort(const QString &port)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("DEVICE_PORT");
   if (!prop) return;
-  
+
   el   = prop->findElement("PORT");
-  
+
   if (!el->write_w)
    return;
-   
+
   el->write_w->setText(port);
-  
+
   prop->newText();
 
 }
 
-	
+
 void KStars::setINDITargetCoord(double RA, double DEC)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDITarget: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
      dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -669,33 +674,33 @@ void KStars::setINDITargetCoord(double RA, double DEC)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("EQUATORIAL_EOD_COORD");
   if (!prop) return;
-  
+
   el   = prop->findElement("RA");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(RA));
-  
+
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(DEC));
-  
+
   prop->newText();
-  
+
 }
 
-	
+
 void KStars::setINDITargetName(const QString &objectName)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDITarget: establishINDI() failed." << endl;
@@ -704,7 +709,7 @@ void KStars::setINDITargetName(const QString &objectName)
 
   SkyObject *target = data()->objectNamed( objectName );
   if (!target) return;
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -713,38 +718,38 @@ void KStars::setINDITargetName(const QString &objectName)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("EQUATORIAL_EOD_COORD");
   if (!prop) return;
-  
+
   el   = prop->findElement("RA");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(target->ra()->Hours()));
-  
+
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(target->dec()->Degrees()));
-  
+
   prop->newText();
 
 }
 
-	
+
 void KStars::setINDIAction(const QString &action)
 {
   INDI_D *dev;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDIAction: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -753,27 +758,27 @@ void KStars::setINDIAction(const QString &action)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   el = dev->findElem(action);
   if (!el) return;
-  
+
   el->pp->activateSwitch(action);
-  
+
 }
-	
+
 void KStars::waitForINDIAction(const QString &action)
 {
 
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "waitForINDIAction: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -782,24 +787,24 @@ void KStars::waitForINDIAction(const QString &action)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp(action);
-  
+
   if (prop == NULL)
   {
     el = dev->findElem(action);
     if (!el) return;
-    
+
     QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
   }
   else
     QObject::connect(prop, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
-  
+
   kapp->dcopClient()->suspend();
-  
+
 }
 
-	
+
 void KStars::setINDIFocusSpeed(unsigned int speed)
 {
   INDI_D *dev;
@@ -820,21 +825,21 @@ void KStars::setINDIFocusSpeed(unsigned int speed)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("FOCUS_SPEED");
   if (!prop) return;
-  
+
   el   = prop->findElement("SPEED");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(speed));
 
   prop->newText();
 
 }
 
-	
+
 void KStars::startINDIFocus(int focusDir)
 {
   if (!indidriver || !indimenu)
@@ -850,19 +855,19 @@ void KStars::startINDIFocus(int focusDir)
 
 }
 
-	
+
 void KStars::setINDIGeoLocation(double longitude, double latitude)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDIGeoLocation: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -871,33 +876,33 @@ void KStars::setINDIGeoLocation(double longitude, double latitude)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("GEOGRAPHICAL_COORD");
   if (!prop) return;
-  
+
   el   = prop->findElement("LONG");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(longitude));
-  
+
   el  = prop->findElement("LAT");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(QString("%1").arg(latitude));
-  
+
   prop->newText();
 
 }
 
-	
+
 void KStars::setINDIFocusTimeout(int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "startINDIFocus: establishINDI() failed." << endl;
@@ -912,36 +917,36 @@ void KStars::setINDIFocusTimeout(int timeout)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("FOCUS_TIMEOUT");
   if (!prop)
    return;
-  
+
   el   = prop->findElement("TIMEOUT");
   if (!el) return;
-  
+
   if (el->write_w)
     el->write_w->setText(QString("%1").arg(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
-  
+
   prop->newText();
 
 }
 
-	
+
 void KStars::startINDIExposure(int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "startINDIExposure: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -950,21 +955,21 @@ void KStars::startINDIExposure(int timeout)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("CCD_EXPOSE_DURATION");
   if (!prop) return;
-  
+
   el   = prop->findElement("EXPOSE_DURATION");
   if (!el) return;
-  
+
   if (el->write_w)
     el->write_w->setText(QString("%1").arg(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
-  
-  
+
+
   prop->newText();
-  
+
 }
 
 void KStars::setINDIFilterNum(int filter_num)
@@ -972,13 +977,13 @@ void KStars::setINDIFilterNum(int filter_num)
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDIFilterNum: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -987,34 +992,34 @@ void KStars::setINDIFilterNum(int filter_num)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("FILTER_SLOT");
   if (!prop) return;
-  
+
   el   = prop->findElement("SLOT");
   if (!el) return;
-  
+
   if (el->write_w)
     el->write_w->setText(QString("%1").arg(filter_num));
   else if (el->spin_w)
     el->spin_w->setValue(filter_num);
-  
+
   prop->newText();
-  
+
 }
-		
+
 void KStars::setINDIUTC(const QString &UTCDateTime)
 {
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "startINDIUTC: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -1023,16 +1028,16 @@ void KStars::setINDIUTC(const QString &UTCDateTime)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("TIME");
   if (!prop) return;
-  
+
   el   = prop->findElement("UTC");
   if (!el) return;
   if (!el->write_w) return;
-  
+
   el->write_w->setText(UTCDateTime);
-  
+
   prop->newText();
 
 }
@@ -1041,7 +1046,7 @@ void KStars::setINDIScopeAction(const QString &action)
 {
   setINDIAction(action);
 }
-		
+
 void KStars::setINDIFrameType(const QString &type)
 {
   setINDIAction(type);
@@ -1052,13 +1057,13 @@ void KStars::setINDICCDTemp(int temp)
   INDI_D *dev;
   INDI_P *prop;
   INDI_E *el;
-  
+
   if (!indidriver || !indimenu)
   {
     kDebug() << "setINDICCDTemp: establishINDI() failed." << endl;
     return;
   }
-  
+
   dev = indimenu->findDevice(indimenu->getCurrentDevice());
   if (!dev)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
@@ -1067,19 +1072,19 @@ void KStars::setINDICCDTemp(int temp)
     kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
     return;
   }
-  
+
   prop = dev->findProp("CCD_TEMPERATURE");
   if (!prop) return;
-  
+
   el   = prop->findElement("TEMPERATURE");
   if (!el) return;
-  
+
   if (el->write_w)
     el->write_w->setText(QString("%1").arg(temp));
   else if (el->spin_w)
     el->spin_w->setValue(temp);
-  
-  
+
+
   prop->newText();
-  
+
 }

@@ -135,7 +135,7 @@ void PlanetViewer::slotRunClock() {
 		tmr.start( 100 );
 //		pw->DateBox->setEnabled( false );
 	} else {
-		pw->RunButton->setPixmap( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) );
+		pw->RunButton->setIcon( QIcon( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) ) );
 		tmr.stop();
 //		pw->DateBox->setEnabled( true );
 	}

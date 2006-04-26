@@ -45,7 +45,7 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 	ui = new ThumbnailEditorUI( page );
 	hlay->addWidget( ui );
 
-	ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(), 
+	ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
 		tp->imageRect()->width(), tp->imageRect()->height() );
 	ui->ImageCanvas->setImage( tp->currentListImage() );
 
@@ -61,9 +61,7 @@ ThumbnailEditor::~ThumbnailEditor()
 QPixmap ThumbnailEditor::thumbnail() {
 	QImage im = ui->ImageCanvas->croppedImage().toImage();
 	im = im.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-	QPixmap pm;
-	pm.convertFromImage( im );
-	return pm;
+	return QPixmap::fromImage( im );
 }
 
 void ThumbnailEditor::slotUpdateCropLabel() {

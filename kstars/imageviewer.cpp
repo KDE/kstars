@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfont.h>
-//Added by qt3to4:
+#include <QFont>
 #include <QResizeEvent>
 #include <QKeyEvent>
+#include <QPainter>
 #include <QPaintEvent>
 #include <QCloseEvent>
 #include <QDesktopWidget>
@@ -44,13 +44,16 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 // JH: easier to just disable its mobility
 	//toolBar()->setMovingEnabled( false );
 
-	KAction *action = new KAction( i18n("Close Window"), "fileclose",
-			KShortcut(Qt::CTRL+Qt::Key_Q), this, SLOT (close()), actionCollection(), 
+	KAction *action = new KAction( KIcon( "fileclose" ), i18n("Close Window"), actionCollection(),
 			"actCloseImViewer" );
+        action->setDefaultShortcut( KShortcut("Ctrl+Q") );
+        connect( action, SIGNAL( triggered() ), this, SLOT( close() ) );
 	action->plug (toolBar());
-	action = new KAction( i18n("Save Image"), "filesave", 
-			KShortcut(Qt::CTRL+Qt::Key_S), this, SLOT (saveFileToDisc()), actionCollection(),
+
+	action = new KAction( KIcon( "filesave" ), i18n("Save Image"),  actionCollection(),
 			"actSaveImViewer" );
+        action->setDefaultShortcut( KShortcut("Ctrl+S") );
+        connect( action, SIGNAL( triggered() ), this, SLOT ( saveFileToDisc() ) );
 	action->plug (toolBar());
 
 	statusBar()->insertPermanentItem( capText, 0, 1 );
@@ -58,7 +61,7 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 	QFont fnt = statusBar()->font();
 	fnt.setPointSize( fnt.pointSize() - 2 );
 	statusBar()->setFont( fnt );
-	
+
 	if (!imageURL.isValid())		//check URL
 		kDebug()<<"URL is malformed"<<endl;
 	setWindowTitle (imageURL.fileName()); // the title of the window
@@ -83,7 +86,10 @@ ImageViewer::~ImageViewer() {
 
 void ImageViewer::paintEvent (QPaintEvent */*ev*/)
 {
-	bitBlt (this, 0, toolBar()->height() + 1, &pix);
+    QPainter p;
+    p.begin( this );
+    p.drawImage( 0, toolBar()->height() + 1, image );
+    p.end();
 }
 
 void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
@@ -184,7 +190,7 @@ void ImageViewer::showImage()
 	if ( image.width() < statusBar()->width() ) {
 		image.scaled ( statusBar()->width() , image.height() * statusBar()->width() / image.width(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	}
-	
+
 	QRect deskRect = kapp->desktop()->availableGeometry();
 	int w = deskRect.width(); // screen width
 	int h = deskRect.height(); // screen height
@@ -226,7 +232,7 @@ void ImageViewer::saveFileToDisc()
 									i18n( "Overwrite File?" ),
 									i18n( "&Overwrite" ) );
 			if(r==KMessageBox::Cancel) return;
-			
+
 			f.remove();
 		}
 		saveFile (newURL);

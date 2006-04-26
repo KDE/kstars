@@ -36,13 +36,15 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 
 	//Set up widgets for splashscreen.
 	QFrame *page = plainPage();
-	page->setBackgroundColor( QColor( "Black" ) );
-	setBackgroundColor( QColor( "Black" ) );
+        QPalette p = palette();
+        p.setColor( QPalette::Window, Qt::black );
+        setPalette( p );
+        page->setPalette( p );
 
 	QVBoxLayout *topLayout = new QVBoxLayout( page );
 	topLayout->setMargin( 0 );
 	topLayout->setSpacing( 0 );
-	
+
 	//Load the KStars banner.  Use an empty image if it can't be opened.
 	QFile imFile;
 	QPixmap pmSplash;
@@ -54,16 +56,16 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	Banner = new QLabel( page );
 	Banner->setPixmap( pmSplash );
 	topLayout->addWidget( Banner );
-	
+
 //initialize the "Welcome to KStars message label
 	label = new QLabel( page );
 	label->setObjectName( "label1" );
 
 	QPalette pal( label->palette() );
-	pal.setColor( QPalette::Normal, QColorGroup::Background, QColor( "Black" ) );
-	pal.setColor( QPalette::Inactive, QColorGroup::Background, QColor( "Black" ) );
-	pal.setColor( QPalette::Normal, QColorGroup::Foreground, QColor( "White" ) );
-	pal.setColor( QPalette::Inactive, QColorGroup::Foreground, QColor( "White" ) );
+	pal.setColor( QPalette::Normal, QColorGroup::Window, QColor( "Black" ) );
+	pal.setColor( QPalette::Inactive, QColorGroup::Window, QColor( "Black" ) );
+	pal.setColor( QPalette::Normal, QColorGroup::WindowText, QColor( "White" ) );
+	pal.setColor( QPalette::Inactive, QColorGroup::WindowText, QColor( "White" ) );
 	label->setPalette( pal );
 	label->setAlignment( Qt::AlignHCenter );
 	label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );

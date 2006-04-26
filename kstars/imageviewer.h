@@ -104,7 +104,6 @@ class ImageViewer : public KMainWindow  {
 		void checkJob();
 
 		QImage image;
-		QPixmap pix;
 		//KPixmapIO kpix;
 		KTempFile tempfile;
 		QFile *file;

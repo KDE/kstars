@@ -17,28 +17,38 @@
 
 #include "toggleaction.h"
 
-ToggleAction::ToggleAction(const QString& ontext, const QIcon& onpix,
-		const QString& offtext, const QIcon& offpix, int accel, 
-		const QObject* receiver, const char* slot, KActionCollection* parent, 
-		const char* name ) 
-: KAction( ontext, onpix, accel, receiver, slot, parent, name ),
-		officon(offpix),
-		onicon(onpix),
+ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
+		const KIcon &_officon, const QString& offtext,
+                const KShortcut &accel, const QObject* receiver,
+                const char* slot, KActionCollection* parent,
+		const QString &name )
+: KAction( _onicon, ontext, parent, name ),
+		officon(_officon),
+		onicon(_onicon),
 		offcap(offtext),
 		oncap(ontext),
 		state(true)
-{}
+{
+    setDefaultShortcut( accel );
+    if ( slot && receiver )
+        connect( this, SIGNAL( triggered() ), receiver, slot );
+}
 
 ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
-		int accel, const QObject* receiver, const char* slot, 
-		KActionCollection* parent, const char* name ) 
-: KAction(ontext, accel, receiver, slot, parent, name),
+		const KShortcut &accel, const QObject* receiver,
+                const char* slot, KActionCollection* parent,
+                const QString &name )
+: KAction(ontext, parent, name),
 		officon(),
 		onicon(),
 		offcap(offtext),
 		oncap(ontext),
 		state(true)
-{}
+{
+    setDefaultShortcut( accel );
+    if (  slot && receiver )
+        connect( this, SIGNAL( triggered() ), receiver, slot );
+}
 
 void ToggleAction::turnOff() {
 	// FIXME use KIcon only

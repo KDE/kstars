@@ -15,18 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <q3frame.h>
-//#include <qlayout.h>
-//#include <qlabel.h>
-//#include <qimage.h>
-//#include <qpixmap.h>
-//#include <qfile.h>
-//#include <qrect.h>
-//#include <qstyle.h>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QVBoxLayout>
 #include <QTextStream>
+#include <QPainter>
 
 #include <kapplication.h>
 #include <kdeversion.h>
@@ -209,7 +201,7 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 		if ( h > hDesk )
 			im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
-		PixList.append( new QPixmap( im ) );
+		PixList.append( new QPixmap( QPixmap::fromImage( im ) ) );
 
 		//Add 50x50 image and URL to listbox
 		//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
@@ -244,11 +236,14 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 
 	if ( pm->width() > size || pm->height() > size ) { //image larger than 'size'?
 		//convert to QImage so we can smoothscale it
-		QImage im( pm->convertToImage() );
+		QImage im( pm->toImage() );
 		im = im.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 		//bitBlt sizexsize square section of image
-		bitBlt( &result, rx, ry, &im, sx, sy, size, size );
+                QPainter p;
+                p.begin( &result );
+                p.drawImage( rx, ry, im, sx, sy, size, size );
+                p.end();
 		if ( setImage ) {
 			bx = int( sx*float(pm->width())/float(w) );
 			by = int( sy*float(pm->width())/float(w) );
@@ -256,13 +251,16 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 		}
 
 	} else { //image is smaller than size x size
-		bitBlt( &result, rx, ry, pm );
+                QPainter p;
+                p.begin( &result );
+                p.drawImage( rx, ry, pm->toImage() );
+                p.end();
 		if ( setImage ) {
 			bx = int( rx*float(pm->width())/float(w) );
 			by = int( ry*float(pm->width())/float(w) );
 			ImageRect->setRect( bx, by, bigSize, bigSize );
 		}
-	}
+        }
 
 	return result;
 }
@@ -283,8 +281,8 @@ void ThumbnailPicker::slotUnsetImage() {
 		file.close();
 		Image->load( file.fileName(), "PNG" );
 	} else {
-		Image->resize( dd->thumbnail()->width(), dd->thumbnail()->height() );
-		Image->fill( dd->paletteBackgroundColor() );
+		*Image = Image->scaled( dd->thumbnail()->width(), dd->thumbnail()->height() );
+		Image->fill( dd->palette().color( QPalette::Window ) );
 	}
 
 	ui->EditButton->setEnabled( false );
@@ -337,7 +335,7 @@ void ThumbnailPicker::slotSetFromURL() {
 				im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
-			PixList.insert( 0, new QPixmap( im ) );
+			PixList.insert( 0, new QPixmap( QPixmap::fromImage( im ) ) );
 			//ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
 			//		u.prettyURL(), 0 );
 			ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyURL() ));

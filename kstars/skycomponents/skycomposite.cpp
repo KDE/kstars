@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "skyobject.h"
 
-SkyComposite::SkyComposite(SkyComponent *parent ) 
+SkyComposite::SkyComposite(SkyComponent *parent )
 : SkyComponent( parent ), m_CurrentIndex(0)
 {
 }
@@ -62,8 +62,7 @@ void SkyComposite::drawExportable(KStars *ks, QPainter& psky, double scale)
 
 void SkyComposite::init(KStarsData *data)
 {
-	int nCount=0;
-	foreach (SkyComponent *component, components()) 
+	foreach (SkyComponent *component, components())
 		component->init(data);
 }
 
