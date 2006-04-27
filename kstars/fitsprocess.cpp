@@ -152,6 +152,7 @@ float * FITSProcess::combine(QList<float *> & frames, int mode)
       break;	    
      }
      
+     free(narray);
      return dest;
 }
  

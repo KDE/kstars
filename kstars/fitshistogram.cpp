@@ -162,7 +162,7 @@ void FITSHistogram::constructHistogram(float * buffer)
       histArray[i] = 0;
     binSize = ( (double) range / (double) BARS); 
     
-    if (binSize == 0 && buffer == NULL)
+    if (binSize == 0 || buffer == NULL)
      return;
     
      for (int i=0; i < fits_w * fits_h; i++)

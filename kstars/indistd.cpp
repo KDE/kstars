@@ -493,7 +493,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	  seqCount = newFileIndex + 1;
    }
    
-   delete (tempPrefix);
+   delete [] (tempPrefix);
           
  }
  

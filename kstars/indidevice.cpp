@@ -903,7 +903,11 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		}
 		err = pp->buildMenuGUI (root, errmsg);
 		if (err < 0)
+		{
 		    delete(pp);
+		    pp = 0;
+		    return err;
+		}
 		    
 		pp->pg->addProperty(pp);
 		if (isGroupVisible)
@@ -920,7 +924,11 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		}
 	    err = pp->buildSwitchesGUI(root, errmsg);
 	    if (err < 0)
+	    {
 	      delete (pp);
+	      pp =0;
+	      return err;
+	    }
 	      
 	    pp->pg->addProperty(pp);
 	    if (isGroupVisible)
@@ -939,7 +947,11 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		}
 	    err = pp->buildSwitchesGUI(root, errmsg);
 	    if (err < 0)
+	    {
 	      delete (pp);
+	      pp=0;
+	      return err;
+	    }
 
 	    if (isGroupVisible)
 		pp->pg->dp->parent->mainTabWidget->show();
