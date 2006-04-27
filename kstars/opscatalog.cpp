@@ -72,8 +72,8 @@ OpsCatalog::OpsCatalog( KStars *_ks )
 		newItem->setCheckState( Options::showCatalog()[i] ?  Qt::Checked : Qt::Unchecked );
 	}
 
-	connect( CatalogList, SIGNAL( clicked( QListWidgetItem* ) ), this, SLOT( updateDisplay() ) );
-	connect( CatalogList, SIGNAL( selectionChanged() ), this, SLOT( selectCatalog() ) );
+	connect( CatalogList, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( updateDisplay() ) );
+	connect( CatalogList, SIGNAL( itemSelectionChanged() ), this, SLOT( selectCatalog() ) );
 	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
 	connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
 	connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
