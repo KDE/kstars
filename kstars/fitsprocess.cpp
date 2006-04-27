@@ -144,6 +144,7 @@ float * FITSProcess::combine(QPtrList<float> & frames, int mode)
       break;	    
      }
      
+     free(narray);
      return dest;
 }
  

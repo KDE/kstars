@@ -140,7 +140,7 @@ void FITSHistogram::constructHistogram(float * buffer)
     binSize = ( (double) range / (double) BARS); 
     
     //kdDebug() << "#2" << endl; 
-    if (binSize == 0 && buffer == NULL)
+    if (binSize == 0 || buffer == NULL)
      return;
     
      for (int i=0; i < viewer->stats.width * viewer->stats.height; i++)
