@@ -315,7 +315,9 @@ struct pwc_raw_frame {
    unsigned short type;		/* type of the webcam */
    unsigned short vbandlength;	/* Size of 4lines compressed (used by the decompressor) */
    unsigned char   cmd[4];	/* the four byte of the command (in case of nala version, only the first 3 bytes is filled) */
-   unsigned char   rawframe[0];	/* frame_size = H/4*vbandlength */
+#ifndef __cplusplus
+   unsigned char   rawframe[0]; 	/* frame_size = H/4*vbandlength */
+#endif
 } __attribute__ ((packed));
 
 
