@@ -45,12 +45,16 @@
 #define INDICOM_H
 
 #include <time.h>
+#include <termios.h>
 
 #define J2000 2451545.0
 #define ERRMSG_SIZE 1024
 
 extern const char * Direction[];
 extern const char * SolarSystem[];
+
+/* TTY Error Codes */
+enum TTY_ERROR { TTY_NO_ERROR, TTY_READ_ERROR, TTY_WRITE_ERROR, TTY_SELECT_ERROR, TTY_TIME_OUT, TTY_PORT_FAILURE };
 
 #ifdef __cplusplus
 extern "C" {
@@ -82,6 +86,47 @@ double RadToDeg( double num );
 */
 void SinCos( double Degrees, double *sina, double *cosa );
 
+/*@}*/
+
+/**
+ * \defgroup ttyFunctions TTY Functions: Functions to perform common terminal access routines.
+*/
+
+/*@{*/
+
+/** \brief read buffer from terminal
+    \param fd file descriptor
+    \param buf pointer to store data. Must be initilized and big enough to hold data.
+    \param nbytes number of bytes to read.
+    \param stop_char if the function encounters \e stop_char then it stops reading and returns. The function only searches for stop_char when \e nbytes is -1
+    \param timeout number of seconds to wait for terminal before a timeout error is issued.
+    \param nbytes_read the number of bytes read.
+    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+*/
+int tty_read(int fd, char *buf, int nbytes, char stop_char, int timeout, int *nbytes_read);
+
+/** \brief Writes a buffer to fd.
+    \param fd file descriptor
+    \param buffer the buffer to write to fd.
+    \param nbytes_written the number of bytes written
+    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+*/
+int tty_write(int fd, const char * buffer, int *nbytes_written);
+
+/** \brief Establishes a tty connection to a terminal device.
+    \param device the device node. e.g. /dev/ttyS0
+    \param ttyOptions pointer to desired tty connection option. Set to NULL for default options.
+    \param fd The function will fill \e fd with the file descriptor value on success.
+    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+*/
+int tty_connect(const char *device, struct termios *ttyOptions, int *fd);
+
+/** \brief Closes a tty connection and flushes the bus.
+    \param fd the file descriptor to close.
+*/
+void tty_disconnect(int fd);
+
+int tty_timeout(int fd, int timeout);
 /*@}*/
 
 /**

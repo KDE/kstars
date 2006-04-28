@@ -30,6 +30,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "indicom.h"
 
@@ -634,5 +636,172 @@ timestamp()
 	tp = gmtime (&t);
 	strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
 	return (ts);
+}
+
+int tty_time_out(int fd, int timeout)
+{
+  struct timeval tv;
+  fd_set readout;
+  int retval;
+
+  FD_ZERO(&readout);
+  FD_SET(fd, &readout);
+
+  /* wait for 'timeout' seconds */
+  tv.tv_sec = timeout;
+  tv.tv_usec = 0;
+
+  /* Wait till we have a change in the fd status */
+  retval = select (fd+1, &readout, NULL, NULL, &tv);
+
+  /* Return 0 on successful fd change */
+  if (retval > 0)
+   return TTY_NO_ERROR;
+  /* Return -1 due to an error */
+  else if (retval == -1)
+   return TTY_SELECT_ERROR;
+  /* Return -2 if time expires before anything interesting happens */
+  else 
+    return TTY_TIME_OUT;
+  
+}
+
+int tty_write(int fd, const char * buf, int *nbytes_written)
+{
+  unsigned int nbytes;
+  int totalBytesWritten;
+  int bytesWritten = 0;   
+   
+  nbytes = totalBytesWritten = strlen(buf);
+
+  while (nbytes > 0)
+  {
+    
+    bytesWritten = write(fd, buf, nbytes);
+
+    if (bytesWritten < 0)
+     return TTY_WRITE_ERROR;
+
+    buf += bytesWritten;
+    nbytes -= bytesWritten;
+  }
+
+  /* Returns the # of bytes written */
+  *nbytes_written = totalBytesWritten;
+  return TTY_NO_ERROR;
+}
+
+int tty_read(int fd, char *buf, int nbytes, char stop_char, int timeout, int *nbytes_read)
+{
+
+ int bytesRead = 0;
+ int totalBytesRead = 0;
+ int err = 0;
+
+  /* Loop until encountring the stop_char */
+  if (nbytes == -1)
+  {
+     for (;;)
+     {
+         if ( (err = tty_time_out(fd, timeout)) )
+	   return err;
+
+         bytesRead = read(fd, buf, 1);
+
+         if (bytesRead < 0 )
+            return TTY_READ_ERROR;
+
+        if (bytesRead)
+          totalBytesRead++;
+
+        if (*buf == stop_char)
+	{
+	   *nbytes_read = totalBytesRead;
+	   return TTY_NO_ERROR;
+        }
+
+        buf += bytesRead;
+     }
+  }
+  
+  while (nbytes > 0)
+  {
+     if ( (err = tty_time_out(fd, timeout)) )
+      return err;
+
+     bytesRead = read(fd, buf, ((unsigned) nbytes));
+
+     if (bytesRead < 0 )
+      return TTY_READ_ERROR;
+
+     buf += bytesRead;
+     totalBytesRead++;
+     nbytes -= bytesRead;
+  }
+
+  *nbytes_read = totalBytesRead;
+  return TTY_NO_ERROR;
+}
+
+int tty_connect(const char *device, struct termios *ttyOptions, int *fd)
+{
+ /*IDLog("Connecting to device %s\n", device);*/
+ int t_fd=0, is_null=0;
+ 
+ if (ttyOptions == NULL)
+ {
+	ttyOptions = (struct termios *) malloc(sizeof(struct termios));
+	is_null = 1;
+ }
+
+  if ( (t_fd = open(device, O_RDWR)) == -1)
+    return TTY_PORT_FAILURE;
+
+  memset(ttyOptions, 0, sizeof(struct termios));
+  tcgetattr(t_fd, ttyOptions);
+
+   /* Control options
+    charecter size */
+   ttyOptions->c_cflag &= ~CSIZE;
+   /* 8 bit, enable read */
+   ttyOptions->c_cflag |= CREAD | CLOCAL | CS8;
+   /* no parity */
+   ttyOptions->c_cflag &= ~PARENB;
+
+   /* set baud rate */
+   cfsetispeed(ttyOptions, B9600);
+   cfsetospeed(ttyOptions, B9600);
+
+  /* set input/output flags */
+  ttyOptions->c_iflag = IGNBRK;
+  /* no software flow control */
+  ttyOptions->c_iflag &= ~(IXON|IXOFF|IXANY);
+
+  /* Read at least one byte */
+  ttyOptions->c_cc[VMIN] = 1;
+  ttyOptions->c_cc[VTIME] = 5;
+
+  /* Misc. */
+  ttyOptions->c_lflag = 0;
+  ttyOptions->c_oflag = 0;
+
+  /* set attributes */
+  tcsetattr(t_fd, TCSANOW, ttyOptions);
+
+  /* flush the channel */
+  tcflush(t_fd, TCIOFLUSH);
+  /* N.B. user responsible for freeing up his structure */
+  if (is_null) free(ttyOptions);
+
+  *fd = t_fd;
+  /* return success */
+  return TTY_NO_ERROR;
+}
+
+void tty_disconnect(int fd)
+{
+	/*IDLog("Disconnected.\n");*/
+	tcflush(fd, TCIOFLUSH);
+	close(fd);
 }
 
