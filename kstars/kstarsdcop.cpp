@@ -445,7 +445,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
                         QPainter p;
                         p.begin( &outimage );
                         p.fillRect( outimage.rect(), QBrush( Qt::white ) );
-                        p.drawImage( dx, dy, skyimage, sx, sy, sw, sh );
+                        p.drawImage( dx, dy, skyimage.toImage(), sx, sy, sw, sh );
 			p.end();
 		}
 

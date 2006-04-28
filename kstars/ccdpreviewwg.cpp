@@ -372,7 +372,7 @@ void CCDVideoWG::paintEvent(QPaintEvent */*ev*/)
    if (streamImage)
    {
 	if (streamImage->isNull()) return;
-	kPix.convertFromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
+	kPix = QPixmap::fromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
 	delete (streamImage);
 	streamImage = NULL;
    }

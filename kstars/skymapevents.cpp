@@ -742,7 +742,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 		drawOverlays( sky2 );
                 QPainter p;
                 p.begin( this );
-                p.drawImage( 0, 0, *sky2 );
+                p.drawImage( 0, 0, sky2->toImage() );
                 p.end();
                 return ; // exit because the pixmap is repainted and that's all what we want
 	}
@@ -784,7 +784,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 
         QPainter psky2;
         psky2.begin( this );
-        psky2.drawImage( 0, 0, *sky2 );
+        psky2.drawImage( 0, 0, sky2->toImage() );
         psky2.end();
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
