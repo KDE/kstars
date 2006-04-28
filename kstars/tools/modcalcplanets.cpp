@@ -36,7 +36,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
 	setupUi(this);
 	showCurrentDateTime();
 	showLongLat();
-	RABox->setDegType(FALSE);
+	RABox->setDegType(false);
 	show();
 }
 
@@ -226,7 +226,7 @@ void modCalcPlanets::showGeocentricEclipticCoords(const dms *eLong, const dms *e
 
 void modCalcPlanets::showEquatorialCoords(const dms *ra, const dms *dec)
 {
-	RABox->show( ra, FALSE );
+	RABox->show( ra, false );
 	DecBox->show( dec );
 }
 
@@ -463,10 +463,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		// Read Longitude and write in ostream if corresponds
 		
 		if (LongCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],TRUE);
+			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
-			longB = LongBoxBatch->createDms(TRUE);
+			longB = LongBoxBatch->createDms(true);
 		
 		if ( AllRadioBatch->isChecked() )
 			lineToWrite += longB.toDMSString() + space;
@@ -477,10 +477,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		// Read Latitude
 
 		if (LatCheckBatch->isChecked() ) {
-			latB = dms::fromString( fields[i], TRUE);
+			latB = dms::fromString( fields[i], true);
 			i++;
 		} else
-			latB = LatBoxBatch->createDms(TRUE);
+			latB = LatBoxBatch->createDms(true);
 		if ( AllRadioBatch->isChecked() )
 			lineToWrite += latB.toDMSString() + space;
 		else

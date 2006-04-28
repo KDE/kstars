@@ -101,14 +101,14 @@ class ColorScheme {
 	/**
 	  *Load a color scheme from a *.colors file
 		*@p filename the filename of the color scheme to be loaded.
-		*@return TRUE if the scheme was successfully loaded
+		*@return true if the scheme was successfully loaded
 		*/
 		bool load( const QString &filename );
 		
 	/**
 	  *Save the current color scheme to a *.colors file.
 		*@p name the filename to create
-		*@return TRUE if the color scheme is successfully writeen to a file
+		*@return true if the color scheme is successfully writeen to a file
 		*/
 		bool save( const QString &name );
 		

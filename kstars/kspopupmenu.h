@@ -76,8 +76,8 @@ public:
 	*"Add link..." item will be included, which allows the user to add their own cutsom 
 	*URLs for this object.
 	*@param obj pointer to the skyobject which the menu describes
-	*@param showDSS if TRUE, include DSS Image links
-	*@param allowCustom if TRUE, include the "Add Link..." item
+	*@param showDSS if true, include DSS Image links
+	*@param allowCustom if true, include the "Add Link..." item
 	*/
 	void addLinksToMenu( SkyObject *obj, bool showDSS=true, bool allowCustom=true );
 	

@@ -312,7 +312,7 @@ public:
 	*so we save a lot of time by bringing the code which sets their values outside of checkVisibility()
 	*(which must be run for each and every SkyPoint).  setMapGeometry() is called once in paintEvent().
 	*The variables set by setMapGeometry are:
-	*@li isPoleVisible TRUE if a coordinate Pole is on-screen
+	*@li isPoleVisible true if a coordinate Pole is on-screen
 	*@li XMax the horizontal center-to-edge angular distance
 	*@li guideXMax a version of XMax used for guide lines (same as XMax at low zoom; 2x XMAX otherwise)
 	*@li guideFOV similar to guideXMax, but for the vertical direction.
@@ -363,8 +363,8 @@ public:
 	*pixel coordinates in the SkyMap.
 	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
 	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
-	*@param Horiz if TRUE, use Alt/Az coordinates.
-	*@param doRefraction if TRUE, correct for atmospheric refraction
+	*@param Horiz if true, use Alt/Az coordinates.
+	*@param doRefraction if true, correct for atmospheric refraction
 	*@param scale scaling factor (unused?)
 	*/
 	QPointF getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
@@ -380,7 +380,7 @@ public:
 	*
 	*The function first checks the difference between the Declination/Altitude
 	*coordinate of the Focus position, and that of the point p.  If the absolute 
-	*value of this difference is larger than fov, then the function returns FALSE.
+	*value of this difference is larger than fov, then the function returns false.
 	*For most configurations of the sky map window, this simple check is enough to 
 	*exclude a large number of objects.
 	*
@@ -388,7 +388,7 @@ public:
 	*(Equatorial or Horizontal) is currently inside the sky map window.  This is
 	*stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
 	*function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
-	*If a Pole is visible, then it will return TRUE immediately.  The idea is that
+	*If a Pole is visible, then it will return true immediately.  The idea is that
 	*when a pole is on-screen it is computationally expensive to determine whether 
 	*a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
 	*values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
@@ -398,8 +398,8 @@ public:
 	*
 	*Finally, if no Pole is onscreen, it checks the difference between the Focus 
 	*position's RA/Az coordinate and that of the point p.  If the absolute value of 
-	*this difference is larger than XMax, the function returns FALSE.  Otherwise,
-	*it returns TRUE.
+	*this difference is larger than XMax, the function returns false.  Otherwise,
+	*it returns true.
 	
 	*@param p pointer to the skypoint to be checked.
 	*@return true if the point p was found to be inside the Sky map window.
@@ -419,7 +419,7 @@ public:
 
 /**@short Draw "user labels".  User labels are name labels attached to objects manually with 
 	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
-	*is TRUE.
+	*is true.
 	*@param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
 	*@param psky painter for the sky
 	*@param scale scaling of the label and lots of other things; exact
@@ -463,7 +463,7 @@ public slots:
 	*There are two cases:  the true altitude is known, and the apparent altitude is needed;
 	*or the apparent altitude is known and the true altitude is needed.
 	*@param alt The input altitude
-	*@param findApparent if TRUE, then alt is the true altitude, and we'll find the apparent alt.
+	*@param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
 	*@return the corrected altitude, as a dms object.
 	*/
 	dms refract( const dms *alt, bool findApparent );
@@ -715,10 +715,10 @@ private:
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
 	*@param dx horizontal pixel offset from center of SkyMap.
 	*@param dy vertical pixel offset from center of SkyMap.
-	*@param Horiz if TRUE, the SkyMap is displayed using the Horizontal coordinate system
+	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
 	*@param LSTh pointer to the local sidereal time, as a dms object.
 	*@param lat pointer to the current geographic laitude, as a dms object
-	*@param doRefraction if TRUE, correct for atmospheric refraction
+	*@param doRefraction if true, correct for atmospheric refraction
 	*/
 	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 

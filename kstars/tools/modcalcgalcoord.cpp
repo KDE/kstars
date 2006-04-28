@@ -31,8 +31,8 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	equRadio->setChecked(TRUE);
-	raBox->setDegType(FALSE);
+	equRadio->setChecked(true);
+	raBox->setDegType(false);
 	show();
 }
 
@@ -48,7 +48,7 @@ void modCalcGalCoord::getGalCoords (void) {
 
 void modCalcGalCoord::getEquCoords (void) {
 
-	raCoord = raBox->createDms(FALSE);
+	raCoord = raBox->createDms(false);
 	decCoord = decBox->createDms();
 	epoch = epochName->text();
 }
@@ -79,7 +79,7 @@ void modCalcGalCoord::slotComputeCoords (void) {
 }
 
 void modCalcGalCoord::showEquCoords(void) {
-	raBox->show( raCoord , FALSE);
+	raBox->show( raCoord , false);
 	decBox->show( decCoord );
 }
 
@@ -123,7 +123,7 @@ void modCalcGalCoord::galCheck() {
 	galLatBoxBatch->setEnabled(false);
 	galLongCheckBatch->setChecked(false);
 	galLongBoxBatch->setEnabled(false);
-	galInputCoords = FALSE;
+	galInputCoords = false;
 
 }
 
@@ -134,7 +134,7 @@ void modCalcGalCoord::equCheck() {
 	decCheckBatch->setChecked(false);
 	decBoxBatch->setEnabled(false);
 	epochCheckBatch->setChecked(false);
-	galInputCoords = TRUE;
+	galInputCoords = true;
 
 }
 
@@ -269,10 +269,10 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 			// Read Galactic Longitude and write in ostream if corresponds
 
 			if(galLongCheckBatch->isChecked() ) {
-				galLongB = dms::fromString( fields[i], TRUE);
+				galLongB = dms::fromString( fields[i], true);
 				i++;
 			} else
-				galLongB = galLongBoxBatch->createDms(TRUE);
+				galLongB = galLongBoxBatch->createDms(true);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << galLongB.toDMSString() << space;
@@ -283,10 +283,10 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 			// Read Galactic Latitude and write in ostream if corresponds
 
 			if(galLatCheckBatch->isChecked() ) {
-				galLatB = dms::fromString( fields[i], TRUE);
+				galLatB = dms::fromString( fields[i], true);
 				i++;
 			} else
-				galLatB = galLatBoxBatch->createDms(TRUE);
+				galLatB = galLatBoxBatch->createDms(true);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << galLatB.toDMSString() << space;
@@ -304,10 +304,10 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 			// Read RA and write in ostream if corresponds
 
 			if(raCheckBatch->isChecked() ) {
-				raB = dms::fromString( fields[i],FALSE);
+				raB = dms::fromString( fields[i],false);
 				i++;
 			} else
-				raB = raBoxBatch->createDms(FALSE);
+				raB = raBoxBatch->createDms(false);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << raB.toHMSString() << space;
@@ -318,7 +318,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 			// Read DEC and write in ostream if corresponds
 
 			if(decCheckBatch->isChecked() ) {
-				decB = dms::fromString( fields[i], TRUE);
+				decB = dms::fromString( fields[i], true);
 				i++;
 			} else
 				decB = decBoxBatch->createDms();

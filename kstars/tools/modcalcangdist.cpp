@@ -34,8 +34,8 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	ra0Box->setDegType(FALSE);
-	ra1Box->setDegType(FALSE);
+	ra0Box->setDegType(false);
+	ra1Box->setDegType(false);
 	show();
 
 }
@@ -46,7 +46,7 @@ modCalcAngDist::~modCalcAngDist(){
 SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox) {
 	dms raCoord, decCoord;
 
-	raCoord = rBox->createDms(FALSE);
+	raCoord = rBox->createDms(false);
 	decCoord = dBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -151,10 +151,10 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 		if(ra0CheckBatch->isChecked() ) {
-			ra0B = dms::fromString( fields[i],FALSE);
+			ra0B = dms::fromString( fields[i],false);
 			i++;
 		} else
-			ra0B = ra0BoxBatch->createDms(FALSE);
+			ra0B = ra0BoxBatch->createDms(false);
 
 		if ( allRadioBatch->isChecked() )
 			ostream << ra0B.toHMSString() << space;
@@ -165,7 +165,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 		// Read DEC and write in ostream if corresponds
 
 		if(dec0CheckBatch->isChecked() ) {
-			dec0B = dms::fromString( fields[i], TRUE);
+			dec0B = dms::fromString( fields[i], true);
 			i++;
 		} else
 			dec0B = dec0BoxBatch->createDms();
@@ -179,10 +179,10 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 		if(ra1CheckBatch->isChecked() ) {
-			ra1B = dms::fromString( fields[i],FALSE);
+			ra1B = dms::fromString( fields[i],false);
 			i++;
 		} else
-			ra1B = ra1BoxBatch->createDms(FALSE);
+			ra1B = ra1BoxBatch->createDms(false);
 
 		if ( allRadioBatch->isChecked() )
 			ostream << ra1B.toHMSString() << space;
@@ -193,7 +193,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 		// Read DEC and write in ostream if corresponds
 
 		if(dec1CheckBatch->isChecked() ) {
-			dec1B = dms::fromString( fields[i], TRUE);
+			dec1B = dms::fromString( fields[i], true);
 			i++;
 		} else
 			dec1B = dec1BoxBatch->createDms();

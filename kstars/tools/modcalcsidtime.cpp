@@ -156,14 +156,14 @@ void modCalcSidTime::slotLongChecked(){
 void modCalcSidTime::sidNoCheck() {
 
 	OutputTimeBoxBatch->setEnabled(false);
-	stInputTime = FALSE;
+	stInputTime = false;
 
 }
 
 void modCalcSidTime::utNoCheck() {
 
 	InputTimeBoxBatch->setEnabled(false);
-	stInputTime = TRUE;
+	stInputTime = true;
 }
 
 void modCalcSidTime::slotInputFile() {
@@ -243,10 +243,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		// Read Longitude and write in ostream if corresponds
 		
 		if (LongCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],TRUE);
+			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
-			longB = LongitudeBoxBatch->createDms(TRUE);
+			longB = LongitudeBoxBatch->createDms(true);
 		
 		if ( AllRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;

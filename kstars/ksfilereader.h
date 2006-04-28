@@ -43,7 +43,7 @@ public:
 	/**Destructor*/
 	~KSFileReader();
 
-	/**@return TRUE if we are not yet at the end of the file.
+	/**@return true if we are not yet at the end of the file.
 		*/
 	bool hasMoreLines();
 	

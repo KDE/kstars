@@ -45,7 +45,7 @@ public:
 	/**General constructor.  Specify The text string, x,y position and size.
 		*@param x the X-coordinate for the box
 		*@param y the Y-coordinate for the box
-		*@param shade if TRUE, apply text shading as well
+		*@param shade if true, apply text shading as well
 		*@param t1 The first line of text
 		*@param t2 The second line of text
 		*@param t3 The third line of text
@@ -56,7 +56,7 @@ public:
 		*This behaves just like the above function.  It differs only in the data types
 		*of its arguments.
 		*@param p The (x,y) position of the box
-		*@param shade if TRUE, apply text shading as well
+		*@param shade if true, apply text shading as well
 		*@param t1 The first line of text
 		*@param t2 The second line of text
 		*@param t3 The third line of text
@@ -111,7 +111,7 @@ public:
 	/**Make sure the InfoBox is inside (or outside) the QRect r.
 		*@return true if the function was able to obey the constraint.
 		*@param r the Rect which the box must lie completely inside/outside of.
-		*@param inside if TRUE (the default), the box must lie inside the rect r.  
+		*@param inside if true (the default), the box must lie inside the rect r.  
 		*Otherwise, the box must lie *outside* rect r.
 		*/
 	bool constrain( QRect r, bool inside=true );
@@ -171,10 +171,10 @@ public:
 	/**@return the geometry of the box*/
 	QRect rect() const;
 
-	/**@return TRUE if the box is anchored to the right window edge*/
+	/**@return true if the box is anchored to the right window edge*/
 	bool anchorRight() const { return ( AnchorFlag & AnchorRight ); }
 
-	/**@return TRUE if the box is anchored to the bottom window edge*/
+	/**@return true if the box is anchored to the bottom window edge*/
 	bool anchorBottom() const { return ( AnchorFlag & AnchorBottom ); }
 
 	/**Set the box to be anchored to the right window edge*/

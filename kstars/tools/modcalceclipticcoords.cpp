@@ -34,8 +34,8 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	equRadio->setChecked(TRUE);
-	raBox->setDegType(FALSE);
+	equRadio->setChecked(true);
+	raBox->setDegType(false);
 	this->show();
 }
 
@@ -51,7 +51,7 @@ void modCalcEclCoords::getEclCoords (void) {
 
 void modCalcEclCoords::getEquCoords (void) {
 
-	raCoord = raBox->createDms(FALSE);
+	raCoord = raBox->createDms(false);
 	decCoord = decBox->createDms();
 	epoch = epochName->text();
 }
@@ -80,7 +80,7 @@ void modCalcEclCoords::slotComputeCoords (void) {
 }
 
 void modCalcEclCoords::showEquCoords(void) {
-	raBox->show( raCoord , FALSE);
+	raBox->show( raCoord , false);
 	decBox->show( decCoord );
 }
 
@@ -125,7 +125,7 @@ void modCalcEclCoords::eclCheck() {
 	ecLatBoxBatch->setEnabled(false);
 	ecLongCheckBatch->setChecked(false);
 	ecLongBoxBatch->setEnabled(false);
-	eclInputCoords = FALSE;
+	eclInputCoords = false;
 
 }
 
@@ -136,7 +136,7 @@ void modCalcEclCoords::equCheck() {
 	decCheckBatch->setChecked(false);
 	decBoxBatch->setEnabled(false);
 	//epochCheckBatch->setChecked(false);
-	eclInputCoords = TRUE;
+	eclInputCoords = true;
 
 }
 
@@ -266,10 +266,10 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read Ecliptic Longitude and write in ostream if corresponds
 
 			if(ecLongCheckBatch->isChecked() ) {
-				eclLongB = dms::fromString( fields[i], TRUE);
+				eclLongB = dms::fromString( fields[i], true);
 				i++;
 			} else
-				eclLongB = ecLongBoxBatch->createDms(TRUE);
+				eclLongB = ecLongBoxBatch->createDms(true);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << eclLongB.toDMSString() << space;
@@ -280,7 +280,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read Ecliptic Latitude and write in ostream if corresponds
 
 			if(ecLatCheckBatch->isChecked() ) {
-				eclLatB = dms::fromString( fields[i], TRUE);
+				eclLatB = dms::fromString( fields[i], true);
 				i++;
 			} else
 			if ( allRadioBatch->isChecked() )
@@ -317,10 +317,10 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read RA and write in ostream if corresponds
 
 			if(raCheckBatch->isChecked() ) {
-				raB = dms::fromString( fields[i],FALSE);
+				raB = dms::fromString( fields[i],false);
 				i++;
 			} else
-				raB = raBoxBatch->createDms(FALSE);
+				raB = raBoxBatch->createDms(false);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << raB.toHMSString() << space;
@@ -331,7 +331,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			// Read DEC and write in ostream if corresponds
 
 			if(decCheckBatch->isChecked() ) {
-				decB = dms::fromString( fields[i], TRUE);
+				decB = dms::fromString( fields[i], true);
 				i++;
 			} else
 				decB = decBoxBatch->createDms();

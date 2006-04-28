@@ -107,7 +107,7 @@ class KStarsInterface : virtual public DCOPObject
 		/**Turn tracking mode on or off.  If tracking is on, then the coordinates at 
 			*the center of the screen remain fixed with time.  If tracking is off, then
 			*the sky "drifts" past the screen at the sidereal rate.
-			*@param track if TRUE, turn tracking on; otherwise turn it off.
+			*@param track if true, turn tracking on; otherwise turn it off.
 			*/
 		virtual ASYNC setTracking( bool track ) = 0;
 		

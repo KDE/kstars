@@ -36,7 +36,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 
 	setupUi(this);
 
-	spheRadio->setChecked(TRUE);
+	spheRadio->setChecked(true);
 	ellipsoidBox->insertItems(5,ellipsoidList);
 	geoPlace = new GeoLocation();
 	showLongLat();
@@ -125,7 +125,7 @@ void modCalcGeodCoord::geoCheck(void) {
 	YGeoCheckBatch->setChecked( false );
 	YGeoBoxBatch->setEnabled( false );
 	YGeoCheckBatch->setChecked( false );
-	xyzInputCoords = FALSE;
+	xyzInputCoords = false;
 }
 
 void modCalcGeodCoord::xyzCheck(void) {
@@ -136,7 +136,7 @@ void modCalcGeodCoord::xyzCheck(void) {
 	LatGeoCheckBatch->setChecked( false );
 	AltGeoBoxBatch->setEnabled( false );
 	AltGeoCheckBatch->setChecked( false );
-	xyzInputCoords = TRUE;
+	xyzInputCoords = true;
 
 }
 
@@ -334,10 +334,10 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			// Read Longitude and write in ostream if corresponds
 
 			if(LongGeoCheckBatch->isChecked() ) {
-				longB = dms::fromString( fields[i],TRUE);
+				longB = dms::fromString( fields[i],true);
 				i++;
 			} else
-				longB = LongGeoBoxBatch->createDms(TRUE);
+				longB = LongGeoBoxBatch->createDms(true);
 
 			if ( AllRadioBatch->isChecked() )
 				ostream << longB.toDMSString() << space;
@@ -348,10 +348,10 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 			// Read Latitude and write in ostream if corresponds
 
 			if(LatGeoCheckBatch->isChecked() ) {
-				latB = dms::fromString( fields[i], TRUE);
+				latB = dms::fromString( fields[i], true);
 				i++;
 			} else
-				latB = LatGeoBoxBatch->createDms(TRUE);
+				latB = LatGeoBoxBatch->createDms(true);
 
 			if ( AllRadioBatch->isChecked() )
 				ostream << latB.toDMSString() << space;

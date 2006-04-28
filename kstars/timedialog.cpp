@@ -52,9 +52,9 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	HourBox = new QSpinBox( page );
 	HourBox->setObjectName( "HourBox" );
 	QFont Box_font(  HourBox->font() );
-	Box_font.setBold( TRUE );
+	Box_font.setBold( true );
 	HourBox->setFont( Box_font );
-	HourBox->setWrapping( TRUE );
+	HourBox->setWrapping( true );
 	HourBox->setMaximum( 23 );
 	HourBox->setButtonSymbols( QSpinBox::PlusMinus );
 	HourBox->setValue( now.time().hour() );
@@ -68,7 +68,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	MinuteBox->setObjectName( "MinuteBox" );
 	QFont MinuteBox_font(  MinuteBox->font() );
 	MinuteBox->setFont( Box_font );
-	MinuteBox->setWrapping( TRUE );
+	MinuteBox->setWrapping( true );
 	MinuteBox->setMaximum( 59 );
 	MinuteBox->setButtonSymbols( QSpinBox::PlusMinus );
 	MinuteBox->setValue( now.time().minute() );
@@ -81,7 +81,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	SecondBox->setObjectName( "SecondBox" );
 	SecondBox->setFont( Box_font );
 	SecondBox->setMaximum( 59 );
-	SecondBox->setWrapping( TRUE );
+	SecondBox->setWrapping( true );
 	SecondBox->setButtonSymbols( QSpinBox::PlusMinus );
 	SecondBox->setValue( now.time().second() );
 	

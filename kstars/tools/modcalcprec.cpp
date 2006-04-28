@@ -33,8 +33,8 @@
 
 modCalcPrec::modCalcPrec(QWidget *parentSplit) : QFrame(parentSplit) {
 	setupUi(this);
-	InputRABox->setDegType(FALSE);
-	TargetRABox->setDegType(FALSE);
+	InputRABox->setDegType(false);
+	TargetRABox->setDegType(false);
 	show();
 }
 
@@ -45,7 +45,7 @@ modCalcPrec::~modCalcPrec(){
 SkyPoint modCalcPrec::getEquCoords (void) {
 	dms raCoord, decCoord;
 
-	raCoord = InputRABox->createDms(FALSE);
+	raCoord = InputRABox->createDms(false);
 	decCoord = InputDecBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -98,7 +98,7 @@ void modCalcPrec::slotComputeCoords (void) {
 }
 
 void modCalcPrec::showEquCoords ( const SkyPoint &sp ) {
-	TargetRABox->show( sp.ra(),FALSE );
+	TargetRABox->show( sp.ra(),false );
 	TargetDecBox->show( sp.dec() );
 }
 
@@ -216,10 +216,10 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 		if(RACheckBatch->isChecked() ) {
-			raB = dms::fromString( fields[i],FALSE);
+			raB = dms::fromString( fields[i],false);
 			i++;
 		} else
-			raB = RABoxBatch->createDms(FALSE);
+			raB = RABoxBatch->createDms(false);
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << raB.toHMSString() << space;
@@ -230,7 +230,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 		// Read DEC and write in ostream if corresponds
 
 		if(DecCheckBatch->isChecked() ) {
-			decB = dms::fromString( fields[i], TRUE);
+			decB = dms::fromString( fields[i], true);
 			i++;
 		} else
 			decB = DecBoxBatch->createDms();

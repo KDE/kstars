@@ -35,8 +35,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
 
 	setupUi(this);
 	showCurrentTime();
-	ra0Box->setDegType(FALSE);
-	rafBox->setDegType(FALSE);
+	ra0Box->setDegType(false);
+	rafBox->setDegType(false);
 	show();
 
 }
@@ -47,7 +47,7 @@ modCalcApCoord::~modCalcApCoord(){
 SkyPoint modCalcApCoord::getEquCoords (void) {
 	dms raCoord, decCoord;
 
-	raCoord = ra0Box->createDms(FALSE);
+	raCoord = ra0Box->createDms(false);
 	decCoord = dec0Box->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -68,7 +68,7 @@ KStarsDateTime modCalcApCoord::getDateTime (void)
 }
 
 void modCalcApCoord::showEquCoords ( const SkyPoint &sp ) {
-	rafBox->show( sp.ra() , FALSE);
+	rafBox->show( sp.ra() , false);
 	decfBox->show( sp.dec() );
 }
 
@@ -246,10 +246,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 		if(raCheckBatch->isChecked() ) {
-			raB = dms::fromString( fields[i],FALSE);
+			raB = dms::fromString( fields[i],false);
 			i++;
 		} else
-			raB = raBoxBatch->createDms(FALSE);
+			raB = raBoxBatch->createDms(false);
 
 		if ( allRadioBatch->isChecked() )
 			ostream << raB.toHMSString() << space;
@@ -260,7 +260,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 		// Read DEC and write in ostream if corresponds
 
 		if(decCheckBatch->isChecked() ) {
-			decB = dms::fromString( fields[i], TRUE);
+			decB = dms::fromString( fields[i], true);
 			i++;
 		} else
 			decB = decBoxBatch->createDms();

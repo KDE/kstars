@@ -42,7 +42,7 @@ modCalcEquinox::~modCalcEquinox(){
 
 int modCalcEquinox::getYear (QString eName)
 {
-	bool ok = FALSE;
+	bool ok = false;
 	int equinoxYear = eName.toInt(&ok);
 	if ( ok ) 
 		return equinoxYear;

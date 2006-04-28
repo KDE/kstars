@@ -199,7 +199,7 @@ public:
 	/**@short open a file containing URL links.
 		*@param urlfile string representation of the filename to open
 		*@param file reference to the QFile object which will be opened to this file.
-		*@return TRUE if file successfully opened. 
+		*@return true if file successfully opened. 
 		*/
 	bool openURLFile(const QString &urlfile, QFile& file);
 
@@ -304,7 +304,7 @@ public:
 		*be used if you have previously called setSnapNextFocus(true), but then decided 
 		*you didn't want that after all.  In other words, it's extremely unlikely you'd
 		*ever want to use setSnapNextFocus(false).
-		*@param b when TRUE (the default), the next Focus chnage will omit the slewing 
+		*@param b when true (the default), the next Focus chnage will omit the slewing 
 		*animation. 
 		*/
 	void setSnapNextFocus(bool b=true) { snapToFocus = b; }
@@ -314,7 +314,7 @@ public:
 		*a sky image in command-line dump mode).
 		*@param name the filename of the script to "execute".
 		*@param map pointer to the SkyMap object.
-		*@return TRUE if the script was successfully parsed.
+		*@return true if the script was successfully parsed.
 		*/
 	bool executeScript( const QString &name, SkyMap *map );
 
@@ -374,17 +374,17 @@ public slots:
 	void setTimeDirection( float scale );
 
 	/**@short Save the shaded state of the Time infobox.
-		*@param b TRUE if the box is shaded
+		*@param b true if the box is shaded
 		*/
 	void saveTimeBoxShaded( bool b );
 
 	/**@short Save the shaded state of the Geo infobox.
-		*@param b TRUE if the box is shaded
+		*@param b true if the box is shaded
 		*/
 	void saveGeoBoxShaded( bool b );
 
 	/**@short Save the shaded state of the Focus infobox.
-		*@param b TRUE if the box is shaded
+		*@param b true if the box is shaded
 		*/
 	void saveFocusBoxShaded( bool b );
 
@@ -422,7 +422,7 @@ private:
 	*was marked as "required", then abort the program when the messagebox is closed.
 	*Otherwise, continue loading the program.
 	*@param fn the name of the file which could not be opened.
-	*@param required if TRUE, then the error message is more severe, and the program 
+	*@param required if true, then the error message is more severe, and the program 
 	*exits when the messagebox is closed.
 	*/
 	void initError(const QString &fn, bool required);

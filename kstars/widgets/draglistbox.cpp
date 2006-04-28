@@ -29,8 +29,8 @@ DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f )
 		: KListBox( parent, name, f ) {
 
     setObjectName( name );
-	setAcceptDrops( TRUE );
-	dragging = FALSE;
+	setAcceptDrops( true );
+	dragging = false;
 }
 
 DragListBox::~DragListBox() {}
@@ -75,7 +75,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 
 void DragListBox::mousePressEvent( QMouseEvent *evt ) {
 	Q3ListBox::mousePressEvent( evt );
-	dragging = TRUE;
+	dragging = true;
 
 	//Record position of the Ignore item; we may have to restore it.
 	if ( currentText() == i18n("Ignore") )
@@ -90,7 +90,7 @@ void DragListBox::mouseMoveEvent( QMouseEvent * )
 	if ( dragging ) {
 		Q3DragObject *drag = new Q3TextDrag( currentText(), this );
 		drag->dragMove();
-		dragging = FALSE;
+		dragging = false;
 	}
 }
 

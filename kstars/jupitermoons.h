@@ -69,7 +69,7 @@ public:
 		*/
 	SkyPoint* pos( int id ) { return &Pos[id]; }
 	
-	/**@return TRUE if the Moon is nearer to Earth than Jupiter.
+	/**@return true if the Moon is nearer to Earth than Jupiter.
 		*@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
 		*/
 	bool inFront( int id ) const { return InFront[id]; }

@@ -40,7 +40,7 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit) {
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
-	RABox->setDegType(FALSE);
+	RABox->setDegType(false);
 	show();
 }
 
@@ -52,7 +52,7 @@ SkyPoint modCalcVlsr::getEquCoords (void)
 {
 	dms raCoord, decCoord;
 
-	raCoord = RABox->createDms(FALSE);
+	raCoord = RABox->createDms(false);
 	decCoord = DecBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -442,10 +442,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 		if(RACheckBatch->isChecked() ) {
-			raB = dms::fromString( fields[i],FALSE);
+			raB = dms::fromString( fields[i],false);
 			i++;
 		} else
-			raB = RABoxBatch->createDms(FALSE);
+			raB = RABoxBatch->createDms(false);
 
 		if ( AllRadioBatch->isChecked() )
 			ostream << raB.toHMSString() << space;
@@ -456,7 +456,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read DEC and write in ostream if corresponds
 
 		if(DecCheckBatch->isChecked() ) {
-			decB = dms::fromString( fields[i], TRUE);
+			decB = dms::fromString( fields[i], true);
 			i++;
 		} else
 			decB = DecBoxBatch->createDms();
@@ -498,10 +498,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		// Read Longitude and write in ostream if corresponds
 		
 		if (LongCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],TRUE);
+			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
-			longB = LongitudeBoxBatch->createDms(TRUE);
+			longB = LongitudeBoxBatch->createDms(true);
 		
 		if ( AllRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;
@@ -513,10 +513,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
 
 		if (LatCheckBatch->isChecked() ) {
-			latB = dms::fromString( fields[i], TRUE);
+			latB = dms::fromString( fields[i], true);
 			i++;
 		} else
-			latB = LatitudeBoxBatch->createDms(TRUE);
+			latB = LatitudeBoxBatch->createDms(true);
 		if ( AllRadioBatch->isChecked() )
 			ostream << latB.toDMSString() << space;
 		else

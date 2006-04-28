@@ -46,7 +46,7 @@ public:
 	
 	/**Convert the displayed string to an internal value.
 		*@note reimplemented from QSpinBox
-		*@p ok bool pointer set to TRUE if conversion was successful
+		*@p ok bool pointer set to true if conversion was successful
 		*@return internal value converted from displayed text
 		*/
 	virtual int valueFromText( const QString &text ) const;

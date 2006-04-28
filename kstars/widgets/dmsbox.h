@@ -48,10 +48,10 @@ Q_PROPERTY (bool degType READ degType WRITE setDegType)
 public:
 	/**Constructor for the dmsBox object.
 		*@param parent pointer to the parent QWidget
-		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
+		*@param deg if true use deg/arcmin/arcsec; otherwise 
 		*           use hours/min/sec.
 		*/
-	dmsBox(QWidget *parent, bool deg=TRUE);
+	dmsBox(QWidget *parent, bool deg=true);
 
 	/**Destructor (empty)*/
 	~dmsBox();
@@ -81,19 +81,19 @@ public:
 	/**Display an angle.  Simply calls showInDegrees(t) or 
 		*showInHours(t) depending on the value of deg.
 		*@param t the dms object which is to be displayed.
-		*@param deg if TRUE, display Deg/Arcmin/Arcsec; otherwise
+		*@param deg if true, display Deg/Arcmin/Arcsec; otherwise
 		*display Hours/Min/Sec.
 		*/
-	void show(dms t, bool deg=TRUE);
+	void show(dms t, bool deg=true);
 	/**Display an angle.  Simply calls showInDegrees(t) or 
 		*showInHours(t) depending on the value of deg.
 		*This behaves essentially like the above function.  It
 		*differs only in the data type of its argument.
 		*@param t the dms object which is to be displayed.
-		*@param deg if TRUE, display Deg/Arcmin/Arcsec; otherwise
+		*@param deg if true, display Deg/Arcmin/Arcsec; otherwise
 		*display Hours/Min/Sec.
 		*/
-	void show(const dms *t,bool deg=TRUE);
+	void show(const dms *t,bool deg=true);
 
 	/**Simply display a string.
 		*@note JH: Why don't we just use KLineEdit::setText() instead?
@@ -106,12 +106,12 @@ public:
 		*or colons) representing deg/hrs, min, sec.  It is also possible to have two
 		*fields.  In this case, if the second field is a double, it is converted
 		*to decimal min and double sec.
-		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
+		*@param deg if true use deg/arcmin/arcsec; otherwise 
 		*           use hours/min/sec.
 		*@param ok set to true if a dms object was succedssfully created.
 		*@return a dms object constructed from the fields of the dmsbox
 		*/
-	dms createDms(bool deg=TRUE, bool *ok=0);
+	dms createDms(bool deg=true, bool *ok=0);
 
 	/**@return a boolean indicating if object contains degrees or hours
 		*/

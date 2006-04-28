@@ -171,14 +171,14 @@ public:
 	*@return the local time that the object will rise
 	*@param dt current UT date/time
 	*@param geo current geographic location
-	*@param rst If TRUE, compute rise time. If FALSE, compute set time.
+	*@param rst If true, compute rise time. If false, compute set time.
 	*/
 	QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst );
 
 /**@return the UT time when the object will rise or set
 	*@param dt  target date/time
 	*@param geo pointer to Geographic location
-	*@param rst Boolean. If TRUE will compute rise time. If FALSE
+	*@param rst Boolean. If true will compute rise time. If false
 	*       will compute set time.
 	*/
 	QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
@@ -186,7 +186,7 @@ public:
 /**@return the LST time when the object will rise or set
   *@param dt  target date/time
   *@param geo pointer to Geographic location
-  *@param rst Boolean. If TRUE will compute rise time. If FALSE
+  *@param rst Boolean. If true will compute rise time. If false
   *       will compute set time.
   */
 	dms riseSetTimeLST( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
@@ -195,7 +195,7 @@ public:
   *recomputes set or rise UT times.
   *@param dt  target date/time
   *@param geo GeoLocation object
-  *@param rst Boolen. If TRUE will compute rise time. If FALSE
+  *@param rst Boolen. If true will compute rise time. If false
   *       will compute set time.
   */
 	dms riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
@@ -280,7 +280,7 @@ private:
 	*@param geo    pointer to Geographic location
 	*@param righta pointer to Right ascention of the object
 	*@param decl   pointer to Declination of the object
-	*@param rst    Boolean. If TRUE will compute rise time. If FALSE
+	*@param rst    Boolean. If true will compute rise time. If false
 	*              will compute set time.
 	*@return the time at which the given position will rise or set.
 	*/
@@ -294,7 +294,7 @@ private:
 	*@param gLt Geographic latitude
 	*@param rga Right ascention of the object
 	*@param decl Declination of the object
-	*@param rst Boolean. If TRUE will compute rise time. If FALSE
+	*@param rst Boolean. If true will compute rise time. If false
 	*       will compute set time.
 	*/
 	dms auxRiseSetTimeLST( const dms *gLt, const dms *rga, const dms *decl, bool rst );

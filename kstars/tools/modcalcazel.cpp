@@ -37,8 +37,8 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit)
 	showCurrentDateTime();
  	initGeo();
 	showLongLat();
-	horInputCoords = FALSE;
-	raBox->setDegType(FALSE);
+	horInputCoords = false;
+	raBox->setDegType(false);
 	show();
 }
 
@@ -50,7 +50,7 @@ SkyPoint modCalcAzel::getEquCoords (void)
 {
 	dms raCoord, decCoord;
 
-	raCoord = raBox->createDms(FALSE);
+	raCoord = raBox->createDms(false);
 	decCoord = decBox->createDms();
 
 	SkyPoint sp = SkyPoint (raCoord, decCoord);
@@ -138,7 +138,7 @@ void modCalcAzel::showHorCoords ( SkyPoint sp )
 
 void modCalcAzel::showEquCoords ( SkyPoint sp )
 {
-	raBox->show( sp.ra(), FALSE );
+	raBox->show( sp.ra(), false );
 	decBox->show( sp.dec() );
 	showEpoch( getDateTime() );
 }
@@ -274,7 +274,7 @@ void modCalcAzel::horNoCheck() {
 	azBoxBatch->setEnabled(false);
 	elCheckBatch->setChecked(false);
 	elBoxBatch->setEnabled(false);
-	horInputCoords = FALSE;
+	horInputCoords = false;
 
 }
 
@@ -283,7 +283,7 @@ void modCalcAzel::equNoCheck() {
 	raBoxBatch->setEnabled(false);
 	decCheckBatch->setChecked(false);
 	decBoxBatch->setEnabled(false);
-	horInputCoords = TRUE;
+	horInputCoords = true;
 }
 
 
@@ -391,10 +391,10 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 		// Read Longitude and write in ostream if corresponds
 		
 		if (longCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],TRUE);
+			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
-			longB = longBoxBatch->createDms(TRUE);
+			longB = longBoxBatch->createDms(true);
 		
 		if ( allRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;
@@ -406,10 +406,10 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 
 
 		if (latCheckBatch->isChecked() ) {
-			latB = dms::fromString( fields[i], TRUE);
+			latB = dms::fromString( fields[i], true);
 			i++;
 		} else
-			latB = latBoxBatch->createDms(TRUE);
+			latB = latBoxBatch->createDms(true);
 		if ( allRadioBatch->isChecked() )
 			ostream << latB.toDMSString() << space;
 		else
@@ -443,10 +443,10 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 		// Read RA and write in ostream if corresponds
 
 			if(raCheckBatch->isChecked() ) {
-				raB = dms::fromString( fields[i],FALSE);
+				raB = dms::fromString( fields[i],false);
 				i++;
 			} else
-				raB = raBoxBatch->createDms(FALSE);
+				raB = raBoxBatch->createDms(false);
 
 			if ( allRadioBatch->isChecked() )
 				ostream << raB.toHMSString() << space;
@@ -457,7 +457,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 			// Read DEC and write in ostream if corresponds
 
 			if(decCheckBatch->isChecked() ) {
-				decB = dms::fromString( fields[i], TRUE);
+				decB = dms::fromString( fields[i], true);
 				i++;
 			} else
 				decB = decBoxBatch->createDms();
@@ -477,7 +477,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 		
 		} else {
 			if(azCheckBatch->isChecked() ) {
-				azB = dms::fromString( fields[i],FALSE);
+				azB = dms::fromString( fields[i],false);
 				i++;
 			} else
 				azB = azBoxBatch->createDms();
@@ -491,7 +491,7 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 			// Read DEC and write in ostream if corresponds
 
 			if(elCheckBatch->isChecked() ) {
-				elB = dms::fromString( fields[i], TRUE);
+				elB = dms::fromString( fields[i], true);
 				i++;
 			} else
 				elB = decBoxBatch->createDms();

@@ -76,7 +76,7 @@ public:
 	void setDesc( const QString &s ) { ald->DescBox->setText( s ); }
 	
 /**
-  *@return TRUE if user declared the link is an image 
+  *@return true if user declared the link is an image 
 	*/
 	bool isImageLink() const { return ald->ImageRadio->isChecked(); }
 

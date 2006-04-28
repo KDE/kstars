@@ -343,7 +343,7 @@ public:
 	*@li space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 or -33 0.0 )
 	*@li space-delimited, with unit labels ( 5h 0m 0s or -33d 0m 0s )
 	*@param s the string to be parsed as an angle value
-	*@param deg if TRUE, s is expressed in degrees; if FALSE, s is expressed in hours
+	*@param deg if true, s is expressed in degrees; if false, s is expressed in hours
 	*@return a dms object whose value is parsed from the string argument
 	*/
 	static dms fromString(const QString & s, bool deg);

@@ -55,13 +55,13 @@ public:
 	*(typically the height of the SkyMap)
 	*@param tx the x-position of the Time infobox
 	*@param ty the y-position of the Time infobox
-	*@param tshade if TRUE, apply text shading to the Time infobox
+	*@param tshade if true, apply text shading to the Time infobox
 	*@param gx the x-position of the Geographic infobox
 	*@param gy the y-position of the Geographic infobox
-	*@param gshade if TRUE, apply text shading to the Geographic infobox
+	*@param gshade if true, apply text shading to the Geographic infobox
 	*@param fx the x-position of the Focus-object infobox
 	*@param fy the y-position of the Focus-object infobox
-	*@param fshade if TRUE, apply text shading to the Focus-object infobox
+	*@param fshade if true, apply text shading to the Focus-object infobox
 	*@param colorText The foreground color for infoboxes
 	*@param colorGrab The foreground color for infoboxes, while they are 
 	*"grabbed" by the user
@@ -86,11 +86,11 @@ public:
 	*@param h The height of the region in which the boxes can be drawn 
 	*(typically the height of the SkyMap)
 	*@param tp the position of the Time infobox
-	*@param tshade if TRUE, apply text shading to the Time infobox
+	*@param tshade if true, apply text shading to the Time infobox
 	*@param gp the position of the Geographic infobox
-	*@param gshade if TRUE, apply text shading to the Geographic infobox
+	*@param gshade if true, apply text shading to the Geographic infobox
 	*@param fp the position of the Focus-object infobox
-	*@param fshade if TRUE, apply text shading to the Focus-object infobox
+	*@param fshade if true, apply text shading to the Focus-object infobox
 	*@param colorText The foreground color for infoboxes
 	*@param colorGrab The foreground color for infoboxes, while they are 
 	*"grabbed" by the user

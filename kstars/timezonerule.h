@@ -78,11 +78,11 @@ public:
 		*/
 	bool isDSTActive( const KStarsDateTime &date );
 
-	/**@return TRUE if the rule is the "empty" TZ rule. */
+	/**@return true if the rule is the "empty" TZ rule. */
 	bool isEmptyRule() { return ( HourOffset == 0.0 ); }
 
 	/** Toggle DST on/off.  The @p activate argument should probably be isDSTActive() 
-		*@param activate if TRUE, then set DST active; otherwise, deactivate DST
+		*@param activate if true, then set DST active; otherwise, deactivate DST
 		*/
 	void setDST( bool activate=true );
 
@@ -110,7 +110,7 @@ public:
 		*/
 	KStarsDateTime nextDSTChange_LTime() { return next_change_ltime; }
 
-	/**@return TRUE if this rule is the same as the argument.
+	/**@return true if this rule is the same as the argument.
 		*@param r the rule to check for equivalence
 		*/
 	bool equals( TimeZoneRule *r );
@@ -144,7 +144,7 @@ private:
 		*be 1-3 (1st/2nd/third weekday of the month), or 5 (last weekday of the month) 
 		*@param day the day integer is returned by reference through this value
 		*@param week the week integer is returned by reference through this value
-		*@return TRUE if the day string was successfully parsed 
+		*@return true if the day string was successfully parsed 
 		*/
 	bool initDay( const QString &d, int &day, int &week );
 
