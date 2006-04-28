@@ -170,35 +170,40 @@ bool KSPopupMenu::addINDI(void)
 
 					menuDevice->addSeparator();
 
-					prop->assosiatedPopup = menuDevice;
+					//prop->assosiatedPopup = menuDevice;
 
 					if (prop->stdID == CCD_EXPOSE_DURATION)
 					{
-						menuDevice->insertItem (prop->label, id);
-						menuDevice->setItemChecked(id, false);
+						//menuDevice->insertItem (prop->label, id);
+						//menuDevice->setItemChecked(id, false);
 						//kDebug() << "Expose ID: " << id << endl;
-						id++;
+						//id++;
+						QAction *a = menuDevice->addAction( prop->label );
+					        a->setCheckable( true );
+					        a->setChecked( false );
 					}
 					else
 					{
 						foreach ( element, prop->el )
 						{
-							menuDevice->insertItem (element->label, id++);
+							//menuDevice->insertItem (element->label, id++);
+							QAction *a = menuDevice->addAction(element->label);
 							if (element->state == PS_ON)
 							{
 								// Slew, Track, Sync, Exppse are never checked in the skymap
 								if ( (element->name != "SLEW") && (element->name != "TRACK") &&
 										(element->name != "SYNC") )
-									menuDevice->setItemChecked(id, true);
+									a->setChecked(true);
 								else
-									menuDevice->setItemChecked(id, false);
+									a->setChecked(false);
 							}
 							else
-								menuDevice->setItemChecked(id, false);
+								a->setChecked(false);
 						}
 					}
 
-					QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
+					//QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
+					connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(convertSwitch(QAction*) ) );
 
 				} // end property
 			} // end group
@@ -207,14 +212,16 @@ bool KSPopupMenu::addINDI(void)
 			if ( dev->findElem("RA") || dev->findElem("ALT"))
 			{
 				menuDevice->addSeparator();
-				menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
+				//menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
+				QAction *a = menuDevice->addAction(i18n("Center && Track Crosshair"));
 				if (dev->findElem("RA"))
 					prop = dev->findElem("RA")->pp;
 				else
 					prop = dev->findElem("ALT")->pp;
 
-				prop->assosiatedPopup = menuDevice;
-				QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));
+				//prop->assosiatedPopup = menuDevice;
+				//QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));
+				connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(convertSwitch(QAction*) ) );
 			}
 		} // end device
 	} // end device manager

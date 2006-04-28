@@ -32,6 +32,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QButtonGroup;
 class QAbstractButton;
+class QAction;
 
 /* INDI property */
 class INDI_P : public QObject
@@ -45,7 +46,6 @@ class INDI_P : public QObject
     QString     label;			/* property label */
     
     INDI_G	*pg;			/* parent group */
-    KMenu  *assosiatedPopup;	/* assosiated popup menu, if any */
     INDIStdProperty *indistd;		/* Assosciated std routines class */
     double	timeout;		/* timeout, seconds */
     PState	state;			/* state light code */
@@ -101,7 +101,7 @@ class INDI_P : public QObject
     void newSwitch(int id);
     void newAbstractButton(QAbstractButton *button);
     void newBlob();
-    void convertSwitch(int id);
+    void convertSwitch(QAction* action);
     
     signals:
     void okState();

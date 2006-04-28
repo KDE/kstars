@@ -46,6 +46,7 @@
  #include <QHBoxLayout>
  #include <QVBoxLayout>
  #include <QAbstractButton>
+ #include <QAction>
 
  #include <unistd.h>
  #include <stdlib.h>
@@ -74,7 +75,6 @@ INDI_P::INDI_P(INDI_G *parentGroup, const QString &inName)
   light           = NULL;
   label_w         = NULL;
   set_w           = NULL;
-  assosiatedPopup = NULL;
   groupB          = NULL;
 }
 
@@ -208,25 +208,23 @@ void INDI_P::newText()
 
 }
 
-void INDI_P::convertSwitch(int id)
+void INDI_P::convertSwitch(QAction *action)
 {
 
  INDI_E *lp;
  int switchIndex=0;
 
- if (assosiatedPopup == NULL)
-  return;
-
+ 
   //kDebug() << "Name: " << name << " ID: " << id << endl;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
- if (stdID == CCD_EXPOSE_DURATION && assosiatedPopup->text(id) == label)
+ if (stdID == CCD_EXPOSE_DURATION && action->text() == label)
  {
    newText();
    return;
  }
 
  /* Another special case, center telescope */
- if (assosiatedPopup->text(id) == i18n("Center && Track Crosshair"))
+ if (action->text() == i18n("Center && Track Crosshair"))
  {
         if (!indistd->stdDev->dp->isOn()) return;
 	if (indistd->stdDev->telescopeSkyObject == NULL) return;
@@ -236,20 +234,22 @@ void INDI_P::convertSwitch(int id)
 	return;
  }
    
- lp = findElement(assosiatedPopup->text(id));
+ lp = findElement(action->text());
  
  if (!lp)
    return;
    
  for (int i=0; i < el.size(); i++)
  {
-   if (el[i]->label == assosiatedPopup->text(id))
+   if (el[i]->label == action->text())
    {
      switchIndex = i;
      break;
    }
  }
 
+ // If INDI Standard can handle the swtich then process and return, otherwise
+ // Just issue a new generic switch.
  if (indistd->convertSwitch(switchIndex, lp))
    return;
  else if (lp->state == PS_OFF)
