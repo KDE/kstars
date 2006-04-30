@@ -42,14 +42,14 @@ void dmsBox::setEmptyText() {
 	//Set the text color to the average between 
 	//QColorGroup::Text and QColorGroup::Base
 	QPalette p = psave;
-	QColor txc = p.color( QPalette::Active, QColorGroup::Text );
-	QColor bgc = p.color( QPalette::Active, QColorGroup::Base );
+	QColor txc = p.color( QPalette::Active, QPalette::Text );
+	QColor bgc = p.color( QPalette::Active, QPalette::Base );
 	int r( ( txc.red()   + bgc.red()   )/2 );
 	int g( ( txc.green() + bgc.green() )/2 );
 	int b( ( txc.blue()  + bgc.blue()  )/2 );
 
-	p.setColor( QPalette::Active,   QColorGroup::Text, QColor( r, g, b ) );
-	p.setColor( QPalette::Inactive, QColorGroup::Text, QColor( r, g, b ) );
+	p.setColor( QPalette::Active,   QPalette::Text, QColor( r, g, b ) );
+	p.setColor( QPalette::Inactive, QPalette::Text, QColor( r, g, b ) );
 	setPalette( p );
 
 	if ( degType() )
