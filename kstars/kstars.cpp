@@ -89,10 +89,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 	//set up Dark color scheme for application windows
 	DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Base, QColor( "black" ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Text, QColor( 238, 0, 0 ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Highlight, QColor( 238, 0, 0 ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
+	DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
+	DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
+	DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
+	DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
 	//store original color scheme
 	OriginalPalette = QApplication::palette();
 

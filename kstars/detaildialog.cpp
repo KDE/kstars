@@ -72,8 +72,8 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
         //Modify color palette
         detPalette = palette();
-        detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QColorGroup::Base ) );
-        detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QColorGroup::Text ) );
+        detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QPalette::Base ) );
+        detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QPalette::Text ) );
         setPalette( detPalette );
 
 	createGeneralTab();
@@ -950,8 +950,8 @@ DataWidget::DataWidget( QWidget *p )
 
 	//Modify colors
         QPalette revPalette( p->palette() );
-        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::HighlightedText ) );
+        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Highlight ) );
 
         Names->setPalette( revPalette );
         DataFrame->setPalette( revPalette );
@@ -963,8 +963,8 @@ PositionWidget::PositionWidget( QWidget *p )
 
 	//Modify colors
         QPalette revPalette( p->palette() );
-        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::HighlightedText ) );
+        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Highlight ) );
 
         CoordTitle->setPalette( revPalette );
         CoordFrame->setPalette( revPalette );
@@ -978,13 +978,13 @@ LinksWidget::LinksWidget( QWidget *p )
 
 	// Modify colors
         QPalette linkPalette( p->palette() );
-        linkPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::Base ) );
-        linkPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Text ) );
+        linkPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::Base ) );
+        linkPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Text ) );
 
         InfoTitle->setPalette( linkPalette );
         ImagesTitle->setPalette( linkPalette );
 	QPalette plt = p->palette();
-	plt.setColor( QPalette::Active, QColorGroup::Dark, p->palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	plt.setColor( QPalette::Active, QPalette::Dark, p->palette().color( QPalette::Active, QPalette::Highlight ) );
 	InfoTitleList->setPalette( plt );
 	ImageTitleList->setPalette( plt );
 }
@@ -1000,8 +1000,8 @@ LogWidget::LogWidget( QWidget *p )
 
 	//Modify colors
         QPalette logPalette = p->palette();
-        logPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QColorGroup::Base ) );
-        logPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QColorGroup::Text ) );
+        logPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::Base ) );
+        logPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Text ) );
         LogTitle->setPalette(  logPalette );
 }
 

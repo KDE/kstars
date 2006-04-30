@@ -62,10 +62,10 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	label->setObjectName( "label1" );
 
 	QPalette pal( label->palette() );
-	pal.setColor( QPalette::Normal, QColorGroup::Window, QColor( "Black" ) );
-	pal.setColor( QPalette::Inactive, QColorGroup::Window, QColor( "Black" ) );
-	pal.setColor( QPalette::Normal, QColorGroup::WindowText, QColor( "White" ) );
-	pal.setColor( QPalette::Inactive, QColorGroup::WindowText, QColor( "White" ) );
+	pal.setColor( QPalette::Normal, QPalette::Window, QColor( "Black" ) );
+	pal.setColor( QPalette::Inactive, QPalette::Window, QColor( "Black" ) );
+	pal.setColor( QPalette::Normal, QPalette::WindowText, QColor( "White" ) );
+	pal.setColor( QPalette::Inactive, QPalette::WindowText, QColor( "White" ) );
 	label->setPalette( pal );
 	label->setAlignment( Qt::AlignHCenter );
 	label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );
