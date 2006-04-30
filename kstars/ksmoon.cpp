@@ -29,7 +29,7 @@
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)
- : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ ) 
+ : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
 {}
 
 KSMoon::~KSMoon() {
@@ -53,7 +53,7 @@ bool KSMoon::loadData() {
 		QTextStream stream( &f );
 		while ( !stream.atEnd() ) {
 			line = stream.readLine();
-			QTextIStream instream( &line );
+			QTextStream instream( &line, QIODevice::ReadOnly );
 			instream >> nd >> nm >> nm1 >> nf >> Li >> Ri;
 			LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));
 		}
@@ -66,7 +66,7 @@ bool KSMoon::loadData() {
 		QTextStream stream( &f );
 		while ( !stream.atEnd() ) {
 			line = stream.readLine();
-			QTextIStream instream( &line );
+			QTextStream instream( &line, QIODevice::ReadOnly );
 			instream >> nd >> nm >> nm1 >> nf >> Bi;
 			BData.append(new MoonBData(nd, nm, nm1, nf, Bi));
 		}
@@ -201,7 +201,7 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 QString KSMoon::phaseName() const {
 	double f = illum();
 	double p = phase().Degrees();
-	
+
 	//First, handle the major phases
 	if ( f > 0.99 ) return i18nc( "moon phase, 100 percent illuminated", "Full moon" );
 	if ( f < 0.01 ) return i18nc( "moon phase, 0 percent illuminated", "New moon" );
