@@ -33,13 +33,15 @@ dmsBox::dmsBox(QWidget *parent, bool dg)
 	setMaxLength(14);
 	setMaximumWidth(160);
 	setDegType( dg );
-        psave = palette();
+	psave = palette();
 
 	connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
 
 void dmsBox::setEmptyText() {
-	QPalette p = palette();
+	//Set the text color to the average between 
+	//QColorGroup::Text and QColorGroup::Base
+	QPalette p = psave;
 	QColor txc = p.color( QPalette::Active, QColorGroup::Text );
 	QColor bgc = p.color( QPalette::Active, QColorGroup::Base );
 	int r( ( txc.red()   + bgc.red()   )/2 );
@@ -90,7 +92,7 @@ void dmsBox::slotTextChanged( const QString &t ) {
 }
 
 void dmsBox::setDegType( bool t ) {
-
+	deg = t;
 	QString sDeg = ( t ? i18n( "degrees" ) : i18n( "hours" ) );
 	QString sMin = ( t ? i18n( "arcminutes" ) : i18n( "minutes" ) );
 	QString sSec = ( t ? i18n( "arcseconds" ) : i18n( "seconds" ) );
