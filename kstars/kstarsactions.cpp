@@ -91,25 +91,26 @@
 /** ViewToolBar Action.  All of the viewToolBar buttons are connected to this slot. **/
 
 void KStars::slotViewToolBar() {
+	KToggleAction *a = (KToggleAction*)sender();
 
-	if ( sender()->objectName() == QString( "show_stars" ) ) {
-		Options::setShowStars( !Options::showStars() );
-	} else if ( sender()->objectName() == QString( "show_deepsky" ) ) {
-		Options::setShowDeepSky( ! Options::showDeepSky() );
-	} else if ( sender()->objectName() == QString( "show_planets" ) ) {
-		Options::setShowPlanets( ! Options::showPlanets() );
-	} else if ( sender()->objectName() == QString( "show_clines" ) ) {
-		Options::setShowCLines( !Options::showCLines() );
-	} else if ( sender()->objectName() == QString( "show_cnames" ) ) {
-		Options::setShowCNames( !Options::showCNames() );
-	} else if ( sender()->objectName() == QString( "show_cbounds" ) ) {
-		Options::setShowCBounds( !Options::showCBounds() );
-	} else if ( sender()->objectName() == QString( "show_mw" ) ) {
-		Options::setShowMilkyWay( !Options::showMilkyWay() );
-	} else if ( sender()->objectName() == QString( "show_grid" ) ) {
-		Options::setShowGrid( !Options::showGrid() );
-	} else if ( sender()->objectName() == QString( "show_horizon" ) ) {
-		Options::setShowGround( !Options::showGround() );
+	if ( a->objectName() == QString( "show_stars" ) ) {
+		Options::setShowStars( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_deepsky" ) ) {
+		Options::setShowDeepSky( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_planets" ) ) {
+		Options::setShowPlanets( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_clines" ) ) {
+		Options::setShowCLines( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_cnames" ) ) {
+		Options::setShowCNames( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_cbounds" ) ) {
+		Options::setShowCBounds( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_mw" ) ) {
+		Options::setShowMilkyWay( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_grid" ) ) {
+		Options::setShowGrid( a->isChecked() );
+	} else if ( a->objectName() == QString( "show_horizon" ) ) {
+		Options::setShowGround( a->isChecked() );
 	}
 
 	// update time for all objects because they might be not initialized
@@ -815,18 +816,18 @@ void KStars::slotColorScheme() {
 void KStars::slotTargetSymbol() {
 	QString symbolName( sender()->objectName() );
 
-        FOV f( symbolName );
+	FOV f( symbolName );
 
-        Options::setFOVName( f.name() );
-        Options::setFOVSize( f.size() );
-        Options::setFOVShape( f.shape() );
-        Options::setFOVColor( f.color() );
-        data()->fovSymbol.setName( Options::fOVName() );
-        data()->fovSymbol.setSize( Options::fOVSize() );
-        data()->fovSymbol.setShape( Options::fOVShape() );
-        data()->fovSymbol.setColor( Options::fOVColor() );
+	Options::setFOVName( f.name() );
+	Options::setFOVSize( f.size() );
+	Options::setFOVShape( f.shape() );
+	Options::setFOVColor( f.color() );
+	data()->fovSymbol.setName( Options::fOVName() );
+	data()->fovSymbol.setSize( Options::fOVSize() );
+	data()->fovSymbol.setShape( Options::fOVShape() );
+	data()->fovSymbol.setColor( Options::fOVColor() );
 
-        map()->forceUpdate();
+	map()->forceUpdate();
 }
 
 void KStars::slotFOVEdit() {
@@ -895,7 +896,7 @@ void KStars::slotFOVEdit() {
 }
 
 void KStars::slotObsList() {
-  obsList->show();
+	obsList->show();
 }
 
 //Help Menu
@@ -906,12 +907,11 @@ void KStars::slotTipOfDay() {
 // Toggle to and from full screen mode
 void KStars::slotFullScreen()
 {
-  if ( topLevelWidget()->isFullScreen() ) {
-    topLevelWidget()->showNormal();
-    }
-  else {
-    topLevelWidget()->showFullScreen();
-    }
+	if ( topLevelWidget()->isFullScreen() ) {
+		topLevelWidget()->showNormal();
+	} else {
+		topLevelWidget()->showFullScreen();
+	}
 }
 
 void KStars::slotClearAllTrails() {
@@ -993,9 +993,9 @@ void KStars::slotShowGUIItem( bool show ) {
 }
 
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
-    KToggleAction *kta = new KToggleAction( name, actionCollection(),  actionName, cschemeGroup );
-    connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
-    colorActionMenu->addAction( kta );
+	KToggleAction *kta = new KToggleAction( name, actionCollection(),  actionName, cschemeGroup );
+	connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
+	colorActionMenu->addAction( kta );
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
