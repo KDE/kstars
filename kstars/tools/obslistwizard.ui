@@ -8,12 +8,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
-    <height>402</height>
+    <width>578</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>Observing List Wizard</string>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
@@ -23,226 +23,431 @@
     <number>6</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
+    <widget class="QStackedWidget" name="olwStack" >
+     <property name="currentIndex" >
       <number>6</number>
      </property>
-     <item>
+     <widget class="QWidget" name="WelcomePage" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
        <item>
-        <widget class="QLabel" name="textLabel1" >
-         <property name="text" >
-          <string>Selection filters:</string>
+        <widget class="KActiveLabel" name="WelcomeText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600;">Welcome to the Observing List Wizard&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">With this tool, you can construct an observing list by filtering the list of all objects in various ways.  First, you will select objects by &lt;span style=" font-weight:600;">type&lt;/span>.  Next, you can select only those objects which occupy a specific &lt;span style=" font-weight:600;">region on the sky&lt;/span>.  You can further trim the observing list by selecting objects in a specified &lt;span style=" font-weight:600;">magnitude range&lt;/span>.  Finally, you can choose to keep only those objects which are &lt;span style=" font-weight:600;">observable on a particular date&lt;/span>.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Press the &lt;span style=" font-weight:600;">Next&lt;/span> button to get started by selecting which object types you would like to be present in your observing list.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="K3ListView" name="FilterList" >
-         <property name="fullWidth" >
-          <bool>true</bool>
-         </property>
-         <property name="itemsMovable" >
-          <bool>false</bool>
-         </property>
-         <column>
-          <property name="text" >
-           <string>Filter</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
+     </widget>
+     <widget class="QWidget" name="ObjectTypePage" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
        <item>
-        <widget class="QLabel" name="label" >
-         <property name="text" >
-          <string>Filter arguments:</string>
+        <widget class="KActiveLabel" name="ObjTypeLabel" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects by type&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">Highlight the object types you want to include in your observing list in the box below.  You can highlight more than one item in the list.  The buttons along the right can be used to quickly choose some common selections.&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press the &lt;span style=" font-weight:600;">Next&lt;/span> button.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QStackedWidget" name="FilterStack" >
-         <property name="currentIndex" >
-          <number>3</number>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
          </property>
-         <widget class="QWidget" name="RegionPage" >
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QListWidget" name="TypeList" >
+           <property name="selectionMode" >
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <item>
+            <property name="text" >
+             <string>Stars</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Sun, moon, planets</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Comets</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Asteroids</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Open clusters</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Globular clusters</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Gaseous nebulae</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Planetary nebulae</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Galaxies</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
           <layout class="QVBoxLayout" >
            <property name="margin" >
-            <number>9</number>
+            <number>0</number>
            </property>
            <property name="spacing" >
             <number>6</number>
            </property>
            <item>
-            <widget class="QLabel" name="textLabel3" >
-             <property name="text" >
-              <string>There are three ways to select objects from
-a specific region on the sky:
-
-a. select objects in a constellation
-b. select objects in a rectangular region
-c. select objects in a circular region
-
-Choose one of these sub-items to
-select from a region on the sky.</string>
+            <widget class="KPushButton" name="AllButton" >
+             <property name="toolTip" >
+              <string>Select all items in the list</string>
              </property>
-             <property name="alignment" >
-              <set>Qt::AlignTop</set>
+             <property name="text" >
+              <string>All</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="KPushButton" name="NoneButton" >
+             <property name="toolTip" >
+              <string>Clear all selected items in the list</string>
+             </property>
+             <property name="text" >
+              <string>None</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KPushButton" name="DeepSkyButton" >
+             <property name="toolTip" >
+              <string>Select all "deep-sky" object types in the list</string>
+             </property>
+             <property name="text" >
+              <string>Deep sky</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KPushButton" name="SolarSystemButton" >
+             <property name="toolTip" >
+              <string>Select all solar system object types in the list</string>
+             </property>
+             <property name="text" >
+              <string>Solar system</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>21</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
-         </widget>
-         <widget class="QWidget" name="ObjTypePage" >
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="RegionSelectPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="RegionSelectText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select by region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">Next, you can limit your object list to only those objects which occupy a specific region on the sky.  There are three ways to specify the region for your list:  by &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">constellation&lt;/span>&lt;span style=" font-size:9pt;">, by specifying a &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">rectangular region&lt;/span>&lt;span style=" font-size:9pt;">, or by specifying a &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">circular region&lt;/span>&lt;span style=" font-size:9pt;">.  You may also skip selecting by a region, which will include objects from &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">all over the sky&lt;/span>&lt;span style=" font-size:9pt;">.  &lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Make your selection below, and press &lt;span style=" font-weight:600;">Next&lt;/span>.&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
           <layout class="QVBoxLayout" >
            <property name="margin" >
-            <number>9</number>
+            <number>0</number>
            </property>
            <property name="spacing" >
             <number>6</number>
            </property>
            <item>
-            <widget class="QLabel" name="textLabel2" >
+            <widget class="QLabel" name="RegionSelectLabel" >
              <property name="text" >
-              <string>Select object types:</string>
+              <string>I wish to select objects:</string>
              </property>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
              </property>
-             <property name="spacing" >
-              <number>6</number>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>21</height>
+              </size>
              </property>
-             <item>
-              <widget class="KListBox" name="TypeList" >
-               <property name="selectionMode" >
-                <enum>Q3ListBox::Multi</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" >
-               <property name="margin" >
-                <number>0</number>
-               </property>
-               <property name="spacing" >
-                <number>6</number>
-               </property>
-               <item>
-                <widget class="KPushButton" name="AllButton" >
-                 <property name="text" >
-                  <string>All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="KPushButton" name="NoneButton" >
-                 <property name="text" >
-                  <string>&amp;None</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="KPushButton" name="DeepSkyButton" >
-                 <property name="text" >
-                  <string>Deep-Sk&amp;y</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="KPushButton" name="SolarSystemButton" >
-                 <property name="text" >
-                  <string>Sol&amp;ar System</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer>
-                 <property name="orientation" >
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" >
-                  <size>
-                   <width>20</width>
-                   <height>90</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-            </layout>
+            </spacer>
            </item>
           </layout>
-         </widget>
-         <widget class="QWidget" name="ConstellationPage" >
+         </item>
+         <item>
+          <widget class="QListWidget" name="RegionList" >
+           <property name="sizePolicy" >
+            <sizepolicy>
+             <hsizetype>7</hsizetype>
+             <vsizetype>5</vsizetype>
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentRow" >
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text" >
+             <string>all over the sky</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>by constellation</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>in a rectangular region</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>in a circular region</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ConstellationPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="ConstellationText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in one or more constellations&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">In the list below, highlight the constellations you want to use for your observing list.  Only objects that occupy the selected constellations will be included in the list.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="ConstellationList" />
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="RectangularRegionPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="RectangularRegionText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in a rectangular region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">On this page, you can limit your observing list to those objects which occupy a particular rectangular region on the sky.  Specify the rectangular region by selecting the right ascension (RA) and declination (Dec) limits that define the region.&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="1" column="2" >
+          <widget class="QLabel" name="label_2" >
+           <property name="text" >
+            <string>to</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3" >
+          <widget class="dmsBox" name="RAMax" />
+         </item>
+         <item row="0" column="2" >
+          <widget class="QLabel" name="label" >
+           <property name="text" >
+            <string>to</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="dmsBox" name="RAMin" />
+         </item>
+         <item row="1" column="3" >
+          <widget class="dmsBox" name="DecMax" />
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="DecLabel" >
+           <property name="text" >
+            <string>Dec limits:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="RALabel" >
+           <property name="text" >
+            <string>RA limits:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="dmsBox" name="DecMin" />
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="CircularRegionPage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="CircularRegionText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in a circular region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to those objects which occupy a particular circular region on the sky.  Specify the circular region by selecting the right ascension (RA) and declination (Dec) coordinates for the center of the circle, and the size of the circle's radius, in Degrees.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> to continue.&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <layout class="QVBoxLayout" >
            <property name="margin" >
-            <number>9</number>
+            <number>0</number>
            </property>
            <property name="spacing" >
             <number>6</number>
            </property>
-           <item>
-            <widget class="QCheckBox" name="SelectByConstellation" >
-             <property name="text" >
-              <string>Select objects in constell&amp;ation(s):</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="KListBox" name="ConstellationList" >
-             <property name="enabled" >
-              <bool>false</bool>
-             </property>
-             <property name="selectionMode" >
-              <enum>Q3ListBox::Multi</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="RectRegionPage" >
-          <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>9</number>
-           </property>
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="SelectByRect" >
-             <property name="text" >
-              <string>Select objects in region:</string>
-             </property>
-             <property name="shortcut" >
-              <string/>
-             </property>
-            </widget>
-           </item>
            <item>
             <layout class="QGridLayout" >
              <property name="margin" >
@@ -251,380 +456,314 @@ select from a region on the sky.</string>
              <property name="spacing" >
               <number>6</number>
              </property>
-             <item row="0" column="2" >
-              <widget class="QLabel" name="label_4" >
-               <property name="text" >
-                <string>to</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="0" >
-              <widget class="QLabel" name="label_2" >
+              <widget class="QLabel" name="CenterRALabel" >
                <property name="text" >
-                <string>RA:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_3" >
-               <property name="text" >
-                <string>Dec:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2" >
-              <widget class="QLabel" name="label_5" >
-               <property name="text" >
-                <string>to</string>
+                <string>center RA:</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1" >
-              <widget class="dmsBox" name="RAMin" />
+              <widget class="dmsBox" name="RA" />
              </item>
              <item row="1" column="1" >
-              <widget class="dmsBox" name="DecMin" />
+              <widget class="dmsBox" name="Dec" />
              </item>
-             <item row="0" column="3" >
-              <widget class="dmsBox" name="RAMax" />
-             </item>
-             <item row="1" column="3" >
-              <widget class="dmsBox" name="DecMax" />
+             <item row="1" column="0" >
+              <widget class="QLabel" name="CenterDecLabel" >
+               <property name="text" >
+                <string>center Dec:</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="CircRegionPage" >
-          <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>9</number>
-           </property>
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="SelectByCirc" >
-             <property name="text" >
-              <string>Select objects within circle:</string>
-             </property>
-             <property name="shortcut" >
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QGridLayout" >
+            <layout class="QHBoxLayout" >
              <property name="margin" >
               <number>0</number>
              </property>
              <property name="spacing" >
               <number>6</number>
              </property>
-             <item row="0" column="0" >
-              <widget class="QLabel" name="label_6" >
+             <item>
+              <widget class="QLabel" name="RadiusLabel" >
                <property name="text" >
-                <string>Center RA:</string>
+                <string>Radius (in Degrees):</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0" >
-              <widget class="QLabel" name="label_7" >
-               <property name="text" >
-                <string>Center Dec:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="2" >
-              <widget class="QLabel" name="label_8" >
-               <property name="text" >
-                <string>Radius (deg min sec):</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="2" >
-              <widget class="dmsBox" name="RA" />
-             </item>
-             <item row="1" column="1" colspan="2" >
-              <widget class="dmsBox" name="Dec" />
-             </item>
-             <item row="2" column="2" >
+             <item>
               <widget class="dmsBox" name="Radius" />
              </item>
             </layout>
            </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
-         </widget>
-         <widget class="QWidget" name="ObsDatePage" >
-          <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>9</number>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="spacing" >
-            <number>6</number>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
            </property>
-           <item>
-            <widget class="QCheckBox" name="SelectByDate" >
-             <property name="text" >
-              <string>Select objects observ&amp;able on:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="ExtDateEdit" name="Date" />
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="textLabel2_2" >
-               <property name="sizePolicy" >
-                <sizepolicy>
-                 <hsizetype>0</hsizetype>
-                 <vsizetype>5</vsizetype>
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text" >
-                <string>from</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="LocationLabel" >
-               <property name="font" >
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <italic>false</italic>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                 <strikeout>false</strikeout>
-                </font>
-               </property>
-               <property name="text" >
-                <string>Tucson, Arizona, USA</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="KPushButton" name="LocationButton" >
-               <property name="enabled" >
-                <bool>false</bool>
-               </property>
-               <property name="text" >
-                <string>Cha&amp;nge Location</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType" >
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="MagLimitPage" >
-          <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>9</number>
-           </property>
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="SelectByMag" >
-             <property name="text" >
-              <string>Select objects &amp;brighter than:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="MagnitudeSpinBox" name="Mag" />
-             </item>
-             <item>
-              <widget class="QLabel" name="label_9" >
-               <property name="text" >
-                <string>mag</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer>
-               <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" >
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="ExcludeNoMag" >
-             <property name="enabled" >
-              <bool>false</bool>
-             </property>
-             <property name="text" >
-              <string>Exclude objects which
-have &amp;no magnitude</string>
-             </property>
-             <property name="checked" >
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </widget>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
-     </item>
-    </layout>
+     </widget>
+     <widget class="QWidget" name="ObserveOnDatePage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="ObserveOnDateText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects observable on a date:&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to only those objects which can be observed on a particular date (and from a particular location on Earth).  To filter your list in this way, check the checkbox below, and then select the desired date.  If you leave this box unchecked, then your list will include objects regardless of when they are observable (this is the default).  You may also change the geographic location used to determine whether objects are observable.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="SelectByDate" >
+           <property name="text" >
+            <string>Select objects which are observable on:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ExtDateEdit" name="Date" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="LocationText" >
+           <property name="text" >
+            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">from &lt;span style=" font-weight:600;">Tucson, Arizona, USA&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KPushButton" name="LocationButton" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy" >
+            <sizepolicy>
+             <hsizetype>1</hsizetype>
+             <vsizetype>0</vsizetype>
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text" >
+            <string>Change Location</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>171</width>
+             <height>32</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="MagnitudePage" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="KActiveLabel" name="MagnitudeText" >
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select bright objects&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to only those objects brighter than a given magnitude.  Be careful with this selection, because KStars does not have a magnitude for every object in its database.  You need to indicate whether you want to include objects with an undefined magnitude.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">If you do not wish to exclude faint objects with this selection, simply leave the checkbox below unchecked.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This is the final page of the Observing List Wizard.  You can go back and modify previous pages with the &lt;span style=" font-weight:600;">Back&lt;/span> button.  When you are satisfied, press the &lt;span style=" font-weight:600;">Finish&lt;/span> button to exit the wizard, and the Observing List tool will be populated with the objects you have specified here.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="SelectByMagnitude" >
+           <property name="text" >
+            <string>Select objects brighter than:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="MagnitudeSpinBox" name="Mag" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_3" >
+           <property name="text" >
+            <string>mag</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>16</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="IncludeNoMag" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>Include objects which have no defined magnitude</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="CountLabel" >
      <property name="frameShape" >
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="text" >
-      <string>Current selection: 100 objects</string>
+      <string>Your observing list currently has 0 objects.</string>
      </property>
     </widget>
    </item>
@@ -633,16 +772,23 @@ have &amp;no magnitude</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KListBox</class>
+   <class>KDoubleNumInput</class>
    <extends></extends>
-   <header>klistbox.h</header>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>KActiveLabel</class>
    <extends></extends>
-   <header>klineedit.h</header>
+   <header>kactivelabel.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ExtDateEdit</class>
+   <extends></extends>
+   <header>extdatetimeedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -661,16 +807,9 @@ have &amp;no magnitude</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -678,13 +817,6 @@ have &amp;no magnitude</string>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>K3ListView</class>
-   <extends></extends>
-   <header>k3listview.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

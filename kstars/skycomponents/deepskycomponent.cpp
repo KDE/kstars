@@ -40,6 +40,12 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent, bool (*vMethodDeepSky)
 	visibleIC = vMethodIC;
 	visibleOther = vMethodOther;
 	visibleImages = vMethodImages;
+	
+	m_DeepSkyList = QList<DeepSkyObject*>();
+	m_MessierList = QList<DeepSkyObject*>();
+	m_NGCList = QList<DeepSkyObject*>();
+	m_ICList = QList<DeepSkyObject*>();
+	m_OtherList = QList<DeepSkyObject*>();
 }
 
 DeepSkyComponent::~DeepSkyComponent()
@@ -157,10 +163,9 @@ void DeepSkyComponent::init(KStarsData *data)
 				o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
 				o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
-//FIXME: do we need a master deep sky object list?
-//				// keep object in deep sky objects' list
-//				deepSkyList.append( o );
-
+				//Assign object to general DeepSkyObjects list, 
+				//and a secondary list based on its catalog.
+				m_DeepSkyList.append( o );
 				if ( o->isCatalogM()) {
 					m_MessierList.append( o );
 				} else if (o->isCatalogNGC() ) {

@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>194</height>
+    <width>538</width>
+    <height>196</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -74,9 +74,9 @@
            <property name="whatsThis" >
             <string>There are two ways to use this field:  
 
-1. Simply type the name of a known object and press the &quot;Plot&quot; button (or press Enter).  The object's Altitude vs. Time curve will be added to the plot, and its coordinates will be displayed below.
+1. Simply type the name of a known object and press the "Plot" button (or press Enter).  The object's Altitude vs. Time curve will be added to the plot, and its coordinates will be displayed below.
 
-2. Type a name label for a custom object.  You will also need to specify the RA and Dec coordinates of the object, and then press the &quot;Plot&quot; button to add its curve to the plot.</string>
+2. Type a name label for a custom object.  You will also need to specify the RA and Dec coordinates of the object, and then press the "Plot" button to add its curve to the plot.</string>
            </property>
            <property name="trapEnterKeyEvent" stdset="0" >
             <bool>true</bool>
@@ -409,9 +409,23 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>ExtDateEdit</class>
-   <extends>QDateEdit</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
+   <extends></extends>
+   <header>extdatetimeedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>KLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -423,23 +437,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
-   <extends></extends>
-   <header>klistbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>dmsBox</class>
-   <extends>KLineEdit</extends>
-   <header>widgets/dmsbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

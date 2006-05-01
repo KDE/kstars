@@ -8,7 +8,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>512</width>
+    <width>490</width>
     <height>475</height>
    </rect>
   </property>
@@ -97,16 +97,9 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>ExtDateEdit</class>
+   <class>TimeStepBox</class>
    <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
+   <header>widgets/timestepbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -118,9 +111,16 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>TimeStepBox</class>
-   <extends>QSpinBox</extends>
-   <header>widgets/timestepbox.h</header>
+   <class>ExtDateEdit</class>
+   <extends></extends>
+   <header>extdatetimeedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

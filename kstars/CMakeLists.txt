@@ -7,7 +7,7 @@ add_subdirectory( tools )
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools/ ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools ${CMAKE_SOURCE_DIR}/libkdeedu/extdate ${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 
 ########### next target ###############
