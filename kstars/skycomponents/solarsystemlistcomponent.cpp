@@ -67,10 +67,10 @@ bool SolarSystemListComponent::addTrail( SkyObject *oTarget ) {
 	return false;
 }
 
-bool SolarSystemListComponent::hasTrail( SkyObject *oTarget, bool *found ) {
+bool SolarSystemListComponent::hasTrail( SkyObject *oTarget, bool &found ) {
 	foreach( SkyObject *o, m_TrailList ) {
 		if ( o == oTarget ) {
-			*found = true;
+			found = true;
 			return ((KSPlanetBase*)o)->hasTrail();
 		}
 	}
