@@ -19,8 +19,8 @@
 
 ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
 		const KIcon &_officon, const QString& offtext,
-                const KShortcut &accel, const QObject* receiver,
-                const char* slot, KActionCollection* parent,
+		const KShortcut &accel, const QObject* receiver,
+		const char* slot, KActionCollection* parent,
 		const QString &name )
 : KAction( _onicon, ontext, parent, name ),
 		officon(_officon),
@@ -29,15 +29,15 @@ ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
 		oncap(ontext),
 		state(true)
 {
-    setDefaultShortcut( accel );
-    if ( slot && receiver )
-        connect( this, SIGNAL( triggered() ), receiver, slot );
+	setShortcut( accel );
+	if ( slot && receiver )
+		connect( this, SIGNAL( triggered() ), receiver, slot );
 }
 
 ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
 		const KShortcut &accel, const QObject* receiver,
-                const char* slot, KActionCollection* parent,
-                const QString &name )
+		const char* slot, KActionCollection* parent,
+		const QString &name )
 : KAction(ontext, parent, name),
 		officon(),
 		onicon(),
@@ -45,9 +45,9 @@ ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
 		oncap(ontext),
 		state(true)
 {
-    setDefaultShortcut( accel );
-    if (  slot && receiver )
-        connect( this, SIGNAL( triggered() ), receiver, slot );
+	setShortcut( accel );
+	if (  slot && receiver )
+		connect( this, SIGNAL( triggered() ), receiver, slot );
 }
 
 void ToggleAction::turnOff() {
