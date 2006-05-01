@@ -605,6 +605,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Toggle to and from full screen mode */
 		void slotFullScreen();
 
+		/**Save data to config file before exiting.*/
+		void slotAboutToQuit();
+
 	private:
 		/**
 			*Initialize Menu bar, toolbars and all Actions.

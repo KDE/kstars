@@ -1012,3 +1012,26 @@ void KStars::establishINDI()
 	  indidriver = new INDIDriver(this);
 }
 
+void KStars::slotAboutToQuit()
+{
+	//store focus values in Options
+	Options::setFocusRA( skymap->focus()->ra()->Hours() );
+	Options::setFocusDec( skymap->focus()->dec()->Degrees() );
+
+	//Store Window geometry in Options object
+	Options::setWindowWidth( width() );
+	Options::setWindowHeight( height() );
+
+	//explicitly save the colorscheme data to the config file
+	data()->colorScheme()->saveToConfig( KGlobal::config() );
+
+	//explicitly save toolbar settings to config file
+	toolBar( "kstarsToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
+	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
+
+	//synch the config file with the Config object
+	writeConfig();
+
+	clearCachedFindDialog();
+}
+

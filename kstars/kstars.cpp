@@ -58,6 +58,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	// we're nowhere near ready to take dcop calls
 	kapp->dcopClient()->suspend();
 
+	connect( kapp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
+
 	kstarsData = new KStarsData();
 	connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
@@ -96,9 +98,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	//store original color scheme
 	OriginalPalette = QApplication::palette();
 
-        //Initialize QActionGroups
-        fovGroup = new QActionGroup( this );
-        cschemeGroup = new QActionGroup( this );
+	//Initialize QActionGroups
+	fovGroup = new QActionGroup( this );
+	cschemeGroup = new QActionGroup( this );
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
 	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
@@ -109,42 +111,22 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 KStars::~KStars()
 {
-	//store focus values in Options
-	Options::setFocusRA( skymap->focus()->ra()->Hours() );
-	Options::setFocusDec( skymap->focus()->dec()->Degrees() );
-
-	//Store Window geometry in Options object
-	Options::setWindowWidth( width() );
-	Options::setWindowHeight( height() );
-
-	//explicitly save the colorscheme data to the config file
-	data()->colorScheme()->saveToConfig( KGlobal::config() );
-
-	//explicitly save toolbar settings to config file
-	toolBar( "kstarsToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
-	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
-
-	//synch the config file with the Config object
-	Options::writeConfig();
-
-	clearCachedFindDialog();
-
 	delete skymap;
 	delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
 
-        delete fovGroup;
-        delete cschemeGroup;
+	delete fovGroup;
+	delete cschemeGroup;
 
 	skymap = 0;
 	AAVSODialog = 0;
 	indimenu = 0;
 	indidriver = 0;
 	indiseq = 0;
-        fovGroup = 0;
-        cschemeGroup = 0;
+	fovGroup = 0;
+	cschemeGroup = 0;
 }
 
 void KStars::clearCachedFindDialog() {
