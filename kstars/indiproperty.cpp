@@ -339,8 +339,8 @@ void INDI_P::newBlob()
  QString format;
  QDataStream binaryStream;
  int data64_size=0, pos=0;
- char *data_file;
- unsigned char *data, *data64;
+ unsigned char *data_file;
+ unsigned char *data64;
  bool sending (false);
  bool valid (true);
 
@@ -367,7 +367,7 @@ void INDI_P::newBlob()
 
     binaryStream.setDevice(&fp);
 
-    data_file = new char[fp.size()];
+    data_file = new unsigned char[fp.size()];
     if (data_file == NULL)
     {
       KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
@@ -376,8 +376,7 @@ void INDI_P::newBlob()
       continue;
     }
 
-    binaryStream.readRawBytes(data_file, fp.size());
-    data = (unsigned char *) data_file;
+    binaryStream.readRawBytes((char*)data_file, fp.size());
 
     data64 = new unsigned char[4*fp.size()/3+4];
     if (data64 == NULL)
@@ -388,9 +387,9 @@ void INDI_P::newBlob()
       continue;
     }
 
-    data64_size = to64frombits (data64, data, fp.size());
+    data64_size = to64frombits (data64, data_file, fp.size());
 
-    delete (data);
+    delete [] data_file;
 
     if (sending == false)
     {
