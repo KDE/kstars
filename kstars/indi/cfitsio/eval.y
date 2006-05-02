@@ -1350,7 +1350,7 @@ static int New_GTI( char *fname, int Node1, char *start, char *stop )
    fitsfile *fptr;
    Node *this, *that0, *that1;
    int  type,i,n, startCol, stopCol, Node0;
-   int  hdutype, hdunum, evthdu, samefile, extvers, movetotype, tstat;
+   int  hdutype, hdunum = 0, evthdu, samefile, extvers, movetotype, tstat;
    char extname[100];
    long nrows;
    double timeZeroI[2], timeZeroF[2], dt, timeSpan;
