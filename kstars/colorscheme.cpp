@@ -34,7 +34,7 @@ ColorScheme::ColorScheme() : FileName() {
 	//In addition, we define default RGB strings for each item.
 	//To add another color to the Palette, just add an entry for KeyName,
 	//Name and Default here.
-	
+
 	KeyName.append( "SkyColor" );
 	Name.append( i18n( "Sky" ) );
 	Default.append( "#002" );
@@ -112,7 +112,7 @@ ColorScheme::ColorScheme() : FileName() {
 	for ( int i=0; i<KeyName.size(); ++i ) {
 		setColor( KeyName[i], Default[i] );
 	}
-	
+
 	//Default values for integer variables:
 	StarColorMode = 0;
 	StarColorIntensity = 4;
@@ -176,7 +176,7 @@ bool ColorScheme::load( const QString &filename ) {
 	QFile file;
 	int inew(0),iold(0);
 
-	if ( !KSUtils::openDataFile( file, filename ) ) 
+	if ( !KSUtils::openDataFile( file, filename ) )
 		return false;
 
 	QTextStream stream( &file );
@@ -197,7 +197,7 @@ bool ColorScheme::load( const QString &filename ) {
 	while ( !stream.atEnd() ) {
 		line = stream.readLine();
 
-		if ( line.contains(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
+		if ( line.count(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
       ++inew;
 			if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
