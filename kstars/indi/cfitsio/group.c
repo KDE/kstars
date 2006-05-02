@@ -2099,7 +2099,7 @@ int ffgmop(fitsfile *gfptr,  /* FITS file pointer to grouping table          */
 
 {
   int xtensionCol,extnameCol,extverCol,positionCol,locationCol,uriCol;
-  int grptype,hdutype;
+  int grptype,hdutype = 0;
   int dummy;
 
   long hdupos = 0;

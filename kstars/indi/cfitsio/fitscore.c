@@ -1969,7 +1969,7 @@ int ffasfm(char *tform,    /* I - format code from the TFORMn keyword */
   type, the field width, and number of decimal places (if relevant)
 */
     int ii, datacode;
-    long longval, width;
+    long longval, width = 0;
     float fwidth;
     char *form, temp[FLEN_VALUE], message[FLEN_ERRMSG];
 
