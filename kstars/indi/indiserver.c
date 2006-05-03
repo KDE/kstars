@@ -578,7 +578,7 @@ newClient()
 	cp->s = s;
 	cp->lp = newLilXML();
 	cp->msgq = newFQ(1);
-	cp->devs = mymalloc (1);
+	cp->devs = mymalloc (sizeof(IDev));
 
 	/* N.B. beware implied use of malloc */
 	pthread_mutex_lock (&malloc_m);
