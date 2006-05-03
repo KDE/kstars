@@ -79,20 +79,20 @@
 #define NINDI_STD	26
 /* INDI standard property used across all clients to enable interoperability. */
 
-const char * indi_std[NINDI_STD] = 
+const char * indi_std[NINDI_STD] =
   {"CONNECTION", "DEVICE_PORT", "TIME", "SDTIME", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "MOVEMENT", "PARK", "CCD_EXPOSE_DURATION", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCDPREVIEW_STREAM", "CCDPREVIEW_CTRL", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel) 
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel)
 {
   name      = inName;
   label     = inLabel;
   parent    = menuParent;
   parentMgr = parentManager;
-  
+
 //  gl.setAutoDelete(true);
 
  //deviceVBox     = menuParent->addVBoxPage(inLabel);
@@ -100,13 +100,13 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString
  deviceLayout   = new QVBoxLayout(deviceVBox);
  //groupContainer = new QTabWidget(deviceVBox);
  groupContainer = new QTabWidget(deviceVBox);
- 
+
  msgST_w        = new QTextEdit(deviceVBox);
  msgST_w->setReadOnly(true);
  msgST_w->setMaximumHeight(100);
 
  dataBuffer = (unsigned char *) malloc (1);
- 
+
  stdDev 	= new INDIStdDevice(this, parent->ksw);
 
  curGroup       = NULL;
@@ -127,18 +127,18 @@ INDI_D::~INDI_D()
    delete (stdDev);
    free (dataBuffer);
    dataBuffer = NULL;
-   deviceVBox = NULL; 
+   deviceVBox = NULL;
    stdDev     = NULL;
 }
 
 void INDI_D::registerProperty(INDI_P *pp)
 {
-   
+
    if (isINDIStd(pp))
     pp->pg->dp->INDIStdSupport = true;
-    
+
     stdDev->registerProperty(pp);
-     
+
 }
 
 bool INDI_D::isINDIStd(INDI_P *pp)
@@ -149,11 +149,11 @@ bool INDI_D::isINDIStd(INDI_P *pp)
       pp->stdID = i;
       return true;
     }
-      
+
   return false;
 }
 
-/* Remove a property from a group, if there are no more properties 
+/* Remove a property from a group, if there are no more properties
  * left in the group, then delete the group as well */
 int INDI_D::removeProperty(INDI_P *pp)
 {
@@ -177,7 +177,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 {
 	XMLAtt *ap;
 	INDI_P *pp;
-	
+
 	ap = findAtt (root, "name", errmsg);
 	if (!ap)
 	    return (-1);
@@ -186,7 +186,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 	if (!pp)
 	{
 	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.32s> device %.32s has no property named %.64s",
-						tagXMLEle(root), name.toAscii(), valuXMLAtt(ap));
+						tagXMLEle(root), name.toAscii().constData(), valuXMLAtt(ap));
 	    return (-1);
 	}
 
@@ -211,11 +211,12 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    else
 	    {
 		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> bogus state %.64s for %.64s %.64s",
-						tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), pp->name.toAscii());
+                          tagXMLEle(root), valuXMLAtt(ap),
+                          name.toAscii().constData(), pp->name.toAscii().constData());
 		return (-1);
 	    }
 	}
-	
+
 	/* allow changing the timeout */
 	ap = findXMLAtt (root, "timeout");
 	if (ap)
@@ -232,13 +233,13 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    return (setTextValue (pp, root, errmsg));
 	    break;
 
-	case PG_BUTTONS:	
+	case PG_BUTTONS:
 	case PG_LIGHTS:
-	case PG_RADIO:		
+	case PG_RADIO:
 	case PG_MENU:
 	    return (setLabelState (pp, root, errmsg));
 	    break;
-	    
+
 	case PG_BLOB:
 	    return (setBLOB(pp, root, errmsg));
 	    break;
@@ -263,7 +264,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	QString elementName;
 	char iNumber[32];
 	double min, max;
-	
+
 	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
 	{
 	    if (strcmp (tagXMLEle(ep), "oneText") && strcmp(tagXMLEle(ep), "oneNumber"))
@@ -277,15 +278,15 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	    }
 
 	    elementName = valuXMLAtt(ap);
-	    
+
 	    lp = pp->findElement(elementName);
-	    
+
 	    if (!lp)
 	    {
 	      snprintf(errmsg, ERRMSG_SIZE, "Error: unable to find element '%.64s' in property '%.64s'", elementName.toAscii(), pp->name.toAscii());
 	      return (-1);
 	    }
-	    
+
 	    //fprintf(stderr, "tag okay, getting perm\n");
 	   switch (pp->perm)
 	   {
@@ -302,18 +303,18 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	       numberFormat(iNumber, lp->format.toAscii(), lp->value);
 	       lp->text = iNumber;
 	       lp->read_w->setText(lp->text);
-	       
+
 	       ap = findXMLAtt (ep, "min");
 	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
 	       ap = findXMLAtt (ep, "max");
 	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
-	       
+
 	       /*if (lp->spin_w)
 	       {
 	        lp->spin_w->setValue(lp->value);
 		lp->spinChanged(lp->value);
 	     }*/
-	      
+
 	     }
 	     break;
 
@@ -330,7 +331,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
                 lp->spin_w->setValue(lp->value);
 	      else
  	        lp->write_w->setText(lp->text);
-		
+
 	       ap = findXMLAtt (ep, "min");
 	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
 	       ap = findXMLAtt (ep, "max");
@@ -343,7 +344,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 
        /* handle standard cases if needed */
        stdDev->setTextValue(pp);
-        
+
 	// suppress warning
 	errmsg = errmsg;
 
@@ -367,7 +368,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	/* for each child element */
 	for (ep = nextXMLEle (root, 1), i=0; ep != NULL; ep = nextXMLEle (root, 0), i++)
 	{
-	    
+
 	    /* only using light and switch */
 	    islight = !strcmp (tagXMLEle(ep), "oneLight");
 	    if (!islight && strcmp (tagXMLEle(ep), "oneSwitch"))
@@ -433,7 +434,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	        pp->om_w->setCurrentIndex(i);
 	       }
 	       break;
-	       
+
 	     case PG_LIGHTS:
 	      lp->drawLt();
 	      break;
@@ -443,29 +444,29 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	   }
 
 	}
-	
+
 	stdDev->setLabelState(pp);
 
 	return (0);
 }
 
 /* Set BLOB vector. Process incoming data stream
- * Return 0 if okay, -1 if error 
+ * Return 0 if okay, -1 if error
 */
 int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
 {
-  
+
   XMLEle *ep;
   INDI_E *blobEL;
-  
+
   for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0))
   {
-    
+
     if (strcmp(tagXMLEle(ep), "oneBLOB") == 0)
     {
-      
+
       blobEL = pp->findElement(QString(findXMLAttValu (ep, "name")));
-      
+
       if (blobEL)
 	return processBlob(blobEL, ep, errmsg);
       else
@@ -475,13 +476,13 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
       }
     }
   }
-  
+
   return (0);
-  
+
 }
 
 /* Process incoming data stream
- * Return 0 if okay, -1 if error 
+ * Return 0 if okay, -1 if error
 */
 int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
 {
@@ -492,29 +493,29 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   char *baseBuffer;
   unsigned char *blobBuffer(NULL);
   bool iscomp(false);
-  
+
   ap = findXMLAtt(ep, "size");
   if (!ap)
   {
     sprintf (errmsg, "INDI: set %64s size not found", blobEL->name.toAscii());
     return (-1);
   }
-  
+
   dataSize = atoi(valuXMLAtt(ap));
-  
+
   ap = findXMLAtt(ep, "format");
   if (!ap)
   {
     sprintf (errmsg, "INDI: set %64s format not found", blobEL->name.toAscii());
     return (-1);
   }
-  
+
   dataFormat = QString(valuXMLAtt(ap));
-  
+
   baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
   blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
   blobBuffer = (unsigned char *) baseBuffer;
-  
+
   /* Blob size = 0 when only state changes */
   if (dataSize == 0)
   {
@@ -527,27 +528,27 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii());
     return (-1);
   }
-  
+
   iscomp = (dataFormat.indexOf(".z") != -1);
-  
+
   dataFormat.remove(".z");
-  
+
   if (dataFormat == ".fits") dataType = DATA_FITS;
   else if (dataFormat == ".stream") dataType = DATA_STREAM;
-  else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
+  else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;
   else dataType = DATA_OTHER;
-  
+
   //kDebug() << "We're getting data with size " << dataSize << endl;
   //kDebug() << "data format " << dataFormat << endl;
 
   if (iscomp)
   {
-    
+
     dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
     r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
     if (r != Z_OK)
     {
-      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii(), r);    
+      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii(), r);
       free (blobBuffer);
       return -1;
     }
@@ -560,13 +561,13 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
     memcpy(dataBuffer, blobBuffer, dataSize);
   }
-  
+
   stdDev->handleBLOB(dataBuffer, dataSize, dataFormat);
 
   free (blobBuffer);
-  
+
   return (0);
-  
+
 }
 
 bool INDI_D::isOn()
@@ -613,7 +614,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	}
 
 	/* Remove Vertical spacer from group layout, this is done everytime
-	  * a new property arrives. The spacer is then appended to the end of the 
+	  * a new property arrives. The spacer is then appended to the end of the
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);
 
@@ -793,7 +794,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	/* we know it will be a general text GUI */
 	pp->guitype = PG_TEXT;
 	pp->perm = p;
-	
+
 	if (pp->pg->propertyContainer->isVisible())
 	{
 		isGroupVisible = true;
@@ -805,9 +806,9 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	  delete (pp);
 	  return (-1);
 	}
-	
+
 	pp->pg->addProperty(pp);
-	
+
 	if (isGroupVisible)
 		pp->pg->dp->parent->mainTabWidget->show();
 
@@ -835,11 +836,11 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	    delete(pp);
 	    return (-1);
 	}
-	 
+
 	/* we know it will be a number GUI */
 	pp->guitype = PG_NUMERIC;
 	pp->perm = p;
-	
+
         if (pp->pg->propertyContainer->isVisible())
 	{
 		isGroupVisible = true;
@@ -851,16 +852,16 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	  delete (pp);
 	  return (-1);
 	}
-	
+
 	pp->pg->addProperty(pp);
-	
+
         if (isGroupVisible)
 		pp->pg->dp->parent->mainTabWidget->show();
-		
+
 
 	return (0);
 }
-	
+
 /* build GUI for switches property.
  * rule and number of will determine exactly how the GUI is built.
  * return 0 if ok, else -1 with reason in errmsg[]
@@ -892,7 +893,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	    for ( ep = nextXMLEle(root, 1) , n = 0 ; ep != NULL; ep = nextXMLEle(root, 0))
 		if (!strcmp (tagXMLEle(ep), "defSwitch"))
 		    n++;
-		    
+
 	    if (n > MAXRADIO)
 	    {
 	        pp->guitype = PG_MENU;
@@ -908,7 +909,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		    pp = 0;
 		    return err;
 		}
-		    
+
 		pp->pg->addProperty(pp);
 		if (isGroupVisible)
 		pp->pg->dp->parent->mainTabWidget->show();
@@ -929,7 +930,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	      pp =0;
 	      return err;
 	    }
-	      
+
 	    pp->pg->addProperty(pp);
 	    if (isGroupVisible)
 		pp->pg->dp->parent->mainTabWidget->show();
@@ -958,14 +959,14 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	    pp->pg->addProperty(pp);
 	    return (err);
 	}
-	
+
 	snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown rule %.64s for %.64s %.64s",
 				tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), pp->name.toAscii());
-	    
+
 	delete(pp);
 	return (-1);
 }
-	
+
 
 
 /* build GUI for a lights GUI.
@@ -981,7 +982,7 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	    return (-1);
 
 	pp->guitype = PG_LIGHTS;
-	
+
 	if (pp->pg->propertyContainer->isVisible())
 	{
 		isGroupVisible = true;
@@ -993,7 +994,7 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 	  delete (pp);
 	  return (-1);
 	}
-	
+
 	pp->pg->addProperty(pp);
 
 	if (isGroupVisible)
@@ -1021,11 +1022,11 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
     delete(pp);
     return (-1);
   }
-	 
+
   /* we know it will be a number GUI */
   pp->perm = p;
   pp->guitype = PG_BLOB;
-	
+
   if (pp->pg->propertyContainer->isVisible())
   {
 		isGroupVisible = true;
@@ -1037,7 +1038,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
     delete (pp);
     return (-1);
   }
-	
+
   pp->pg->addProperty(pp);
 
   if (isGroupVisible)
@@ -1054,7 +1055,7 @@ INDI_E * INDI_D::findElem(const QString &name)
 
   for ( int i=0; i < gl.size(); ++i ) {
     grp = gl[i];
-    for ( int j=0; j < grp->pl.size(); j++ ) 
+    for ( int j=0; j < grp->pl.size(); j++ )
     {
        prop = grp->pl[j];
        el = prop->findElement(name);

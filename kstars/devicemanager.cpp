@@ -275,7 +275,7 @@ int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
 	 }
     }
 
-   snprintf(errmsg, ERRMSG_SIZE, "Device %.32s not found" , devName.toAscii());
+   snprintf(errmsg, ERRMSG_SIZE, "Device %.32s not found" , devName.toAscii().constData());
    return -1;
 }
 
@@ -288,7 +288,7 @@ INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
 		return indi_dev[i];
 	}
 
-	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.toAscii());
+	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s", devName.toAscii().constData());
 	kDebug() << errmsg;
 
 	return NULL;
@@ -412,15 +412,15 @@ void DeviceManager::sendNewText (INDI_P *pp)
         INDI_E *lp;
 
 	fprintf(serverFP, "<newTextVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
-	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii().constData());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii().constData());
 
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
 	foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneText\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii());
-	    fprintf(serverFP, "      %s\n", lp->text.toAscii());
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii().constData());
+	    fprintf(serverFP, "      %s\n", lp->text.toAscii().constData());
 	    fprintf(serverFP, "  </oneText>\n");
 	}
 	fprintf(serverFP, "</newTextVector>\n");
@@ -431,14 +431,14 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
         INDI_E *lp;
 
         fprintf(serverFP, "<newNumberVector\n");
-	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii());
-	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii());
+	fprintf(serverFP, "  device='%s'\n", pp->pg->dp->name.toAscii().constData());
+	fprintf(serverFP, "  name='%s'\n>", pp->name.toAscii().constData());
 
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
         foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneNumber\n");
-	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii());
+	    fprintf(serverFP, "    name='%s'>\n", lp->name.toAscii().constData());
 	    fprintf(serverFP, "      %g\n", lp->targetValue);
 	    fprintf(serverFP, "  </oneNumber>\n");
 	}
@@ -452,8 +452,8 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	//int i=0;
 
 	fprintf (serverFP,"<newSwitchVector\n");
-	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.toAscii());
-	fprintf (serverFP,"  name='%s'>\n", pp->name.toAscii());
+	fprintf (serverFP,"  device='%s'\n", pp->pg->dp->name.toAscii().constData());
+	fprintf (serverFP,"  name='%s'>\n", pp->name.toAscii().constData());
 
         lp = pp->el[index];
 	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
@@ -462,7 +462,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	  	//if (i == index)
           	//{
 	    		fprintf (serverFP,"  <oneSwitch\n");
-	    		fprintf (serverFP,"    name='%s'>\n", lp->name.toAscii());
+	    		fprintf (serverFP,"    name='%s'>\n", lp->name.toAscii().constData());
 	    		fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
 	    		fprintf (serverFP,"  </oneSwitch>\n");
 	    	//	break;
@@ -477,9 +477,9 @@ void DeviceManager::startBlob( const QString &devName, const QString &propName, 
 {
 
    fprintf (serverFP, "<newBLOBVector\n");
-   fprintf (serverFP, "  device='%s'\n", devName.toAscii());
-   fprintf (serverFP, "  name='%s'\n", propName.toAscii());
-   fprintf (serverFP, "  timestamp='%s'>\n", timestamp.toAscii());
+   fprintf (serverFP, "  device='%s'\n", devName.toAscii().constData());
+   fprintf (serverFP, "  name='%s'\n", propName.toAscii().constData());
+   fprintf (serverFP, "  timestamp='%s'>\n", timestamp.toAscii().constData());
 
 }
 
@@ -487,9 +487,9 @@ void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize,
 {
 
  fprintf (serverFP, "  <oneBLOB\n");
- fprintf (serverFP, "    name='%s'\n", blobName.toAscii());
+ fprintf (serverFP, "    name='%s'\n", blobName.toAscii().constData());
  fprintf (serverFP, "    size='%d'\n", blobSize);
- fprintf (serverFP, "    format='%s'>\n", blobFormat.toAscii());
+ fprintf (serverFP, "    format='%s'>\n", blobFormat.toAscii().constData());
 
   for (unsigned i = 0; i < blobSize; i += 72)
 	fprintf (serverFP, "    %.72s\n", blobBuffer+i);
