@@ -653,8 +653,8 @@ void APMount::ISNewSwitch (const char *dev, const char *name, ISState *states, c
 	   else
 	   // Unpark
 	   {
-		char **tmtexts = (char **) malloc(1);
-		char **tmtp    = (char **) malloc(1);
+		char **tmtexts = (char **) malloc(sizeof(void*));
+		char **tmtp    = (char **) malloc(sizeof(void*));
 		tmtexts[0]     = (char *) malloc (32);
 		tmtp[0]	       = (char *) malloc (32);
 
