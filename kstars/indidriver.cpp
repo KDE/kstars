@@ -268,7 +268,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  }
 
 	  ui->localTreeWidget->currentItem()->setIcon(1, ui->runningPix);
-	  ui->localTreeWidget->currentItem()->setText(4, QString("%1").arg(dev->indiPort));
+	  ui->localTreeWidget->currentItem()->setText(4, QString::number(dev->indiPort));
 	  ui->runServiceB->setEnabled(false);
 	  ui->stopServiceB->setEnabled(true);
 	  
@@ -405,7 +405,7 @@ bool INDIDriver::runDevice(IDevice *dev)
   dev->proc = new KProcess;
   
   *dev->proc << "indiserver";
-  *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->driver;
+  *dev->proc << "-v" << "-r" << "0" << "-p" << QString::number(dev->indiPort) << dev->driver;
   
   // Check Mode
   dev->mode = ui->localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;

@@ -682,13 +682,13 @@ void KStars::setINDITargetCoord(double RA, double DEC)
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(RA));
+  el->write_w->setText(QString::number(RA));
 
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(DEC));
+  el->write_w->setText(QString::number(DEC));
 
   prop->newText();
 
@@ -726,13 +726,13 @@ void KStars::setINDITargetName(const QString &objectName)
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(target->ra()->Hours()));
+  el->write_w->setText(QString::number(target->ra()->Hours()));
 
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(target->dec()->Degrees()));
+  el->write_w->setText(QString::number(target->dec()->Degrees()));
 
   prop->newText();
 
@@ -833,7 +833,7 @@ void KStars::setINDIFocusSpeed(unsigned int speed)
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(speed));
+  el->write_w->setText(QString::number(speed));
 
   prop->newText();
 
@@ -884,13 +884,13 @@ void KStars::setINDIGeoLocation(double longitude, double latitude)
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(longitude));
+  el->write_w->setText(QString::number(longitude));
 
   el  = prop->findElement("LAT");
   if (!el) return;
   if (!el->write_w) return;
 
-  el->write_w->setText(QString("%1").arg(latitude));
+  el->write_w->setText(QString::number(latitude));
 
   prop->newText();
 
@@ -926,7 +926,7 @@ void KStars::setINDIFocusTimeout(int timeout)
   if (!el) return;
 
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(timeout));
+    el->write_w->setText(QString::number(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
 
@@ -963,7 +963,7 @@ void KStars::startINDIExposure(int timeout)
   if (!el) return;
 
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(timeout));
+    el->write_w->setText(QString::number(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
 
@@ -1000,7 +1000,7 @@ void KStars::setINDIFilterNum(int filter_num)
   if (!el) return;
 
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(filter_num));
+    el->write_w->setText(QString::number(filter_num));
   else if (el->spin_w)
     el->spin_w->setValue(filter_num);
 
@@ -1080,7 +1080,7 @@ void KStars::setINDICCDTemp(int temp)
   if (!el) return;
 
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(temp));
+    el->write_w->setText(QString::number(temp));
   else if (el->spin_w)
     el->spin_w->setValue(temp);
 

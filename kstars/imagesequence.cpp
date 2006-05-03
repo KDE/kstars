@@ -238,8 +238,8 @@ void imagesequence::startSequence()
 	currentFilter = filterCombo->currentText();
 	lastFilter = filterCombo->currentIndex();
 
-	fullImgCountOUT->setText( QString("%1").arg(seqTotalCount));
-	currentImgCountOUT->setText(QString("%1").arg(seqCurrentCount));
+	fullImgCountOUT->setText( QString::number(seqTotalCount));
+	currentImgCountOUT->setText(QString::number(seqCurrentCount));
 
 	// Ok, now let's connect signals and slots for this device
 	connect(stdDevCCD, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(const QString&)));
@@ -329,7 +329,7 @@ void imagesequence::newFITS(const QString &deviceLabel)
 	seqCurrentCount++;
 	imgProgress->setValue(seqCurrentCount);
 
-	currentImgCountOUT->setText( QString("%1").arg(seqCurrentCount));
+	currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
 	// if we're done
 	if (seqCurrentCount == seqTotalCount)
@@ -556,7 +556,7 @@ void imagesequence::captureImage()
 			exposeElem->spinChanged(seqExpose);
 		}
 		else
-			exposeElem->write_w->setText( QString("%1").arg(seqExpose));
+			exposeElem->write_w->setText( QString::number(seqExpose));
 
 	}
 
@@ -585,20 +585,20 @@ void imagesequence::updateFilterCombo(int filterNum)
 
 	if (filterList.empty())
 		for (int i=0; i <= filterMax; i++)
-			filterList << QString("%1").arg(i);
+			filterList << QString::number(i);
 
 	// Fill filter combo
 	if (filterList.size() <= filterMax)
 	{
 		filterPosCombo->addItems(filterList);
 		for (int i = filterList.size() ; i <= filterMax ; i++)
-			filterPosCombo->addItem(QString("%1").arg(i));
+			filterPosCombo->addItem(QString::number(i));
 	}
 	else 
 	{
 		// filterMax < filterList.size()
 		for (int i = 0 ; i <= filterMax ; i++)
-			filterPosCombo->addItem(QString("%1").arg(filterList[i]));
+			filterPosCombo->addItem(filterList[i]);
 	}
 
 	filterPosCombo->setCurrentIndex(((int) filterElem->value));
@@ -642,7 +642,7 @@ void imagesequence::selectFilter()
 			filterElem->spinChanged(filterElem->targetValue);
 		}
 		else
-			filterElem->write_w->setText(QString("%1").arg(filterElem->targetValue));
+			filterElem->write_w->setText(QString::number(filterElem->targetValue));
 
 		// We're done! Send it to the driver
 		filterProp->newText();

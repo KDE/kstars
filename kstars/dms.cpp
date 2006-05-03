@@ -123,8 +123,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 		else {
 			double mx = fields[1].toDouble( &checkValue );
 			if ( checkValue ) {
-				fields[1] = QString("%1").arg( int(mx) );
-				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+				fields[1] = QString::number( int(mx) );
+				fields.append( QString::number( int( 60.0*(mx - int(mx)) ) ) );
 			} else {
 				setD( 0.0 );
 				return false;

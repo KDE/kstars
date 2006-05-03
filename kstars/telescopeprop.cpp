@@ -224,10 +224,10 @@ void telescopeProp::updateScopeDetails(int index)
   ui->versionEdit->setText(indi_driver->devices[finalIndex]->version);
 
   if (indi_driver->devices[finalIndex]->focal_length != -1)
-  	ui->focalEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->focal_length));
+  	ui->focalEdit->setText(QString::number(indi_driver->devices[finalIndex]->focal_length));
 
   if (indi_driver->devices[finalIndex]->aperture != -1)
-        ui->apertureEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->aperture));
+        ui->apertureEdit->setText(QString::number(indi_driver->devices[finalIndex]->aperture));
 
 }
 

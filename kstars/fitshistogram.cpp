@@ -87,14 +87,14 @@ void FITSHistogram::updateBoxes()
 	viewer->image->getFITSMinMax(&fits_min, &fits_max);
 
         if (ui->minSlider->value() == BARS)
-	 ui->minOUT->setText(QString("%1").arg((int) fits_max));
+	 ui->minOUT->setText(QString::number((int) fits_max));
 	else
-   	 ui->minOUT->setText(QString("%1").arg( (int) ( ceil (ui->minSlider->value() * binSize) + fits_min)));
+   	 ui->minOUT->setText(QString::number( (int) ( ceil (ui->minSlider->value() * binSize) + fits_min)));
 	 
 	if (ui->maxSlider->value() == BARS)
-	 ui->maxOUT->setText(QString("%1").arg((int) fits_max));
+	 ui->maxOUT->setText(QString::number((int) fits_max));
 	else
-   	 ui->maxOUT->setText(QString("%1").arg( (int) ( ceil (ui->maxSlider->value() * binSize) + fits_min)));
+   	 ui->maxOUT->setText(QString::number( (int) ( ceil (ui->maxSlider->value() * binSize) + fits_min)));
 
         update();
 
@@ -243,9 +243,9 @@ void FITSHistogram::updateIntenFreq(int x)
  #if 0
   int index = (int) ceil(x * binSize);
     
-  ui->intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
+  ui->intensityOUT->setText(QString::number((int) ( index + viewer->stats.min)));
   
-  ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
+  ui->frequencyOUT->setText(QString::number(histArray[x]));
 
  #endif
   

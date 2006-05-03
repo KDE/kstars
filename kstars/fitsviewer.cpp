@@ -883,15 +883,15 @@ void FITSViewer::fitsStatistics()
   
   calculateStats();
   
-  stat.widthOUT->setText(QString("%1").arg(stats.width));
-  stat.heightOUT->setText(QString("%1").arg(stats.height));
-  stat.bitpixOUT->setText(QString("%1").arg(stats.bitpix));
-  stat.maxOUT->setText(QString("%1").arg(stats.max));
-  stat.minOUT->setText(QString("%1").arg(stats.min));
-  stat.atMaxOUT->setText(QString("%1").arg(stats.maxAt));
-  stat.atMinOUT->setText(QString("%1").arg(stats.minAt));
-  stat.meanOUT->setText(QString("%1").arg(stats.average));
-  stat.stddevOUT->setText(QString("%1").arg(stats.stddev));
+  stat.widthOUT->setText(QString::number(stats.width));
+  stat.heightOUT->setText(QString::number(stats.height));
+  stat.bitpixOUT->setText(QString::number(stats.bitpix));
+  stat.maxOUT->setText(QString::number(stats.max));
+  stat.minOUT->setText(QString::number(stats.min));
+  stat.atMaxOUT->setText(QString::number(stats.maxAt));
+  stat.atMinOUT->setText(QString::number(stats.minAt));
+  stat.meanOUT->setText(QString::number(stats.average));
+  stat.stddevOUT->setText(QString::number(stats.stddev));
   
   statDialog.exec();
 #endif

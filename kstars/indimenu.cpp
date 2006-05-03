@@ -136,7 +136,7 @@ DeviceManager *dev;
       if (device->state && device->managed == false && device->mode == IDevice::M_LOCAL)
       {
         dev = new DeviceManager(this, mgrCounter);
-    	if  (dev->indiConnect("localhost", QString("%1").arg(device->indiPort)))
+    	if  (dev->indiConnect("localhost", QString::number(device->indiPort)))
 	{
 	        device->mgrID   = mgrCounter;
 	        device->managed = true;

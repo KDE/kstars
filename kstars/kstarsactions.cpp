@@ -849,7 +849,7 @@ void KStars::slotFOVEdit() {
 
 				foreach ( FOV *fov, fovdlg.FOVList )
 					ostream << fov->name() << ":" << fov->size()
-							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
+							<< ":" << QString::number( fov->shape() ) << ":" << fov->color() << endl;
 
 				f.close();
 			}

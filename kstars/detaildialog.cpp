@@ -203,11 +203,11 @@ void DetailDialog::createGeneralTab()
 
 		if ( dso->ugc() != 0 ) {
 			if ( ! oname.isEmpty() ) oname += ", ";
-			oname += "UGC " + QString("%1").arg( dso->ugc() );
+			oname += "UGC " + QString::number( dso->ugc() );
 		}
 		if ( dso->pgc() != 0 ) {
 			if ( ! oname.isEmpty() ) oname += ", ";
-			oname += "PGC " + QString("%1").arg( dso->pgc() );
+			oname += "PGC " + QString::number( dso->pgc() );
 		}
 
 		if ( ! oname.isEmpty() ) pname += ", " + oname;
