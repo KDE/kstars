@@ -648,7 +648,7 @@ void V4L_Driver::uploadFile(const char * filename)
    imageBP.s = IPS_OK;
    IDSetBLOB (&imageBP, NULL);
    
-   delete (fitsData);
+   delete [] fitsData;
 } 
 
 void V4L_Driver::connectCamera()
