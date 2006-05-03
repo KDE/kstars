@@ -186,7 +186,7 @@ main (int ac, char *av[])
 	setMemFuncsFQ (mymalloc, myrealloc, myfree);
 
 	/* seed client info array so we can always use realloc */
-	clinfo = (ClInfo *) mymalloc (1);
+	clinfo = (ClInfo *) mymalloc (sizeof(ClInfo));
 	nclinfo = 0;
 
 	/* create driver info array all at once so size never has to change */
