@@ -28,6 +28,7 @@ class PPort {
 public:
    PPort();
    PPort(int ioPort);
+   ~PPort();
    /** set the ioport associated to the // port.
        \return true if the binding was possible
    */
