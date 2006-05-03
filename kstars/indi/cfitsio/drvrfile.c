@@ -118,6 +118,7 @@ int file_open(char *filename, int rwmode, int *handle)
         ffpmsg("Unable to create output file for copy of input file:");
         ffpmsg(file_outfile);
         file_outfile[0] = '\0';
+        fclose(diskfile);
         return(status);
       }
 
