@@ -37,6 +37,11 @@ PPort::PPort(int ioPort) {
    setPort(ioPort);
 }
 
+PPort::~PPort()
+{
+    delete currentPort;
+}
+
 void PPort::reset() {
    bitArray=0;
    for (int i=0;i<8;++i) {
@@ -51,9 +56,7 @@ bool PPort::setPort(int ioPort) {
       cerr << "must be setuid root control parallel port"<<endl;
       return false;
    }
-   if (currentPort) {
-      delete currentPort;
-   }
+   delete currentPort;
    reset();
    currentPort=new port_t(ioPort);
    return commit();
