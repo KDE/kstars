@@ -1101,10 +1101,10 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* seed for reallocs */
 	    if (!blobs) {
-		blobs = (char **) malloc (1);
-		names = (char **) malloc (1);
-		formats = (char **) malloc (1);
-		blobsizes = (int *) malloc (1);
+		blobs = (char **) malloc (sizeof(void*));
+		names = (char **) malloc (sizeof(void*));
+		formats = (char **) malloc (sizeof(void*));
+		blobsizes = (int *) malloc (sizeof(void*));
 	    }
 
 	    /* pull out each name/BLOB pair */
