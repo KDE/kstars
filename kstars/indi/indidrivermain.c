@@ -988,8 +988,8 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* seed for reallocs */
 	    if (!states) {
-		states = (ISState *) malloc (1);
-		names = (char **) malloc (1);
+		states = (ISState *) malloc (sizeof(void*));
+		names = (char **) malloc (sizeof(void*));
 	    }
 
 	    /* pull out each name/state pair */
