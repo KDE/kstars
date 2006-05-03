@@ -2155,7 +2155,7 @@ int SbigCam::ReleaseBuffer(unsigned short height, unsigned short **buffer)
  	for(int y = 0; y < height; y++){
 			if(buffer[y]) delete [] buffer[y];
  	}
- 	delete buffer;
+ 	delete [] buffer;
  	buffer = 0;
 	return(CE_NO_ERROR);
 }
