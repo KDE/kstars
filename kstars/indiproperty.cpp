@@ -400,7 +400,7 @@ void INDI_P::newBlob()
     pg->dp->parentMgr->sendOneBlob(el[i]->name, data64_size, format, data64);
 
     fp.close();
-    delete (data64);
+    delete [] data64;
   }
 
   /* Nothing been made, no changes */
