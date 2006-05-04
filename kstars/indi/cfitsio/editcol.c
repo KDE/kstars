@@ -1830,6 +1830,10 @@ int ffcpcl(fitsfile *infptr,    /* I - FITS file pointer to input file  */
 
          free(strarray);
     }
+    else if (typecode == TCOMPLEX)
+    {
+	free (fvalues);
+    }
     else
     {
         free(dvalues);
