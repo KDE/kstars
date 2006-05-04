@@ -777,6 +777,7 @@ int imcomp_compress_tile (fitsfile *outfptr,
                    ffpmsg("data out of range for PLIO compression (0 - 2**24)");
                    if (datatype != TINT && datatype != TUINT) 
                       free(idata);
+                   free(cbuf);
                    return(*status = DATA_DECOMPRESSION_ERR);
                 }
 
