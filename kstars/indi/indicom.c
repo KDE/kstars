@@ -747,15 +747,15 @@ int tty_connect(const char *device, struct termios *ttyOptions, int *fd)
 {
  /*IDLog("Connecting to device %s\n", device);*/
  int t_fd=0, is_null=0;
- 
+
+   if ( (t_fd = open(device, O_RDWR)) == -1)
+    return TTY_PORT_FAILURE;
+
  if (ttyOptions == NULL)
  {
 	ttyOptions = (struct termios *) malloc(sizeof(struct termios));
 	is_null = 1;
  }
-
-  if ( (t_fd = open(device, O_RDWR)) == -1)
-    return TTY_PORT_FAILURE;
 
   memset(ttyOptions, 0, sizeof(struct termios));
   tcgetattr(t_fd, ttyOptions);
