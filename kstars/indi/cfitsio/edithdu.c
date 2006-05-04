@@ -595,8 +595,11 @@ int ffitab(fitsfile *fptr,  /* I - FITS file pointer                        */
         ffrdef(fptr, status);  /* scan header to redefine structure */
         ffpdfl(fptr, status);  /* insure correct data file values */
     }
-    else
+    else {
+	if (gotmem)
+	    free (tbcol);
         return(*status = READONLY_FILE);
+    }
 
     nexthdu = ((fptr->Fptr)->curhdu) + 1; /* number of the next (new) hdu */
     newstart = (fptr->Fptr)->headstart[nexthdu]; /* save starting addr of HDU */
