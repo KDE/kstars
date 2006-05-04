@@ -927,6 +927,7 @@ void uploadFile(const char* filename)
         return;
      }
    }
+   fclose(fitsFile);
    
    compressedBytes = sizeof(char) * totalBytes + totalBytes / 64 + 16 + 3;
     
