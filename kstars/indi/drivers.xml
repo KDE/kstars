@@ -62,6 +62,14 @@
 		<driver>lx200basic</driver>
 		<version>0.1</version>
 	</device>
+	<device label="Orion Atlas" focal_length="" aperture="">
+		<driver>orionatlas</driver>
+		<version>0.1</version>
+	</device>
+	<device label="Sky Scan" focal_length="" aperture="">
+		<driver>orionatlas</driver>
+		<version>0.1</version>
+	</device>
 	<device label="Losmandy Gemini" focal_length="" aperture="">
 		<driver>lx200basic</driver>
 		<version>1.0</version>

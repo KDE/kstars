@@ -46,11 +46,6 @@
 #include "cfitsio/fitsio.h"
 #include "eventloop.h"
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-#include <config-kstars.h>
-
 #ifdef HAVE_LINUX_VIDEODEV2_H
 #include "webcam/v4l2_base.h"
 #else

@@ -251,6 +251,19 @@ target_link_libraries(apmount  ${KDE4_KDECORE_LIBS} )
 install_targets(/bin apmount )
 
 ########### next target ###############
+########### Orion Atlas ########
+set(orionatlas_SRCS 
+   indidrivermain.c 
+   eventloop.c 
+   orionatlas.cpp )
+
+kde4_add_executable(orionatlas ${orionatlas_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+
+target_link_libraries(orionatlas  ${KDE4_KDECORE_LIBS} )
+
+install_targets(/bin orionatlas )
+
+########### next target ###############
 ########### Takahashi Temma #########
 set(temma_SRCS 
    indidrivermain.c 

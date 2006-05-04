@@ -754,36 +754,36 @@ int tty_connect(const char *device, struct termios *ttyOptions, int *fd)
  if (ttyOptions == NULL)
  {
 	ttyOptions = (struct termios *) malloc(sizeof(struct termios));
-	is_null = 1;
+	memset(ttyOptions, 0, sizeof(struct termios));
+
+   	tcgetattr(t_fd, ttyOptions);
+
+	/* Control options charecter size */
+   	ttyOptions->c_cflag &= ~CSIZE;
+   	/* 8 bit, enable read */
+   	ttyOptions->c_cflag |= CREAD | CLOCAL | CS8;
+   	/* no parity */
+   	ttyOptions->c_cflag &= ~PARENB;
+
+   	/* set baud rate */
+   	cfsetispeed(ttyOptions, B9600);
+   	cfsetospeed(ttyOptions, B9600);
+
+  	/* set input/output flags */
+  	ttyOptions->c_iflag = IGNBRK;
+  	/* no software flow control */
+  	ttyOptions->c_iflag &= ~(IXON|IXOFF|IXANY);
+
+  	/* Read at least one byte */
+  	ttyOptions->c_cc[VMIN] = 1;
+  	ttyOptions->c_cc[VTIME] = 5;
+
+  	/* Misc. */
+  	ttyOptions->c_lflag = 0;
+  	ttyOptions->c_oflag = 0;
+
+  	is_null = 1;
  }
-
-  memset(ttyOptions, 0, sizeof(struct termios));
-  tcgetattr(t_fd, ttyOptions);
-
-   /* Control options
-    charecter size */
-   ttyOptions->c_cflag &= ~CSIZE;
-   /* 8 bit, enable read */
-   ttyOptions->c_cflag |= CREAD | CLOCAL | CS8;
-   /* no parity */
-   ttyOptions->c_cflag &= ~PARENB;
-
-   /* set baud rate */
-   cfsetispeed(ttyOptions, B9600);
-   cfsetospeed(ttyOptions, B9600);
-
-  /* set input/output flags */
-  ttyOptions->c_iflag = IGNBRK;
-  /* no software flow control */
-  ttyOptions->c_iflag &= ~(IXON|IXOFF|IXANY);
-
-  /* Read at least one byte */
-  ttyOptions->c_cc[VMIN] = 1;
-  ttyOptions->c_cc[VTIME] = 5;
-
-  /* Misc. */
-  ttyOptions->c_lflag = 0;
-  ttyOptions->c_oflag = 0;
 
   /* set attributes */
   tcsetattr(t_fd, TCSANOW, ttyOptions);
