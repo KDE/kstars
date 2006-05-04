@@ -1620,6 +1620,7 @@ int ffedit_columns(
 		    ffpmsg(colname);
 		    ffpmsg("is invalid unless a column has been previously");
 		    ffpmsg("created or editted by a calculator command");
+	            if (colindex) free (colindex);
 		    return(*status = URL_PARSE_ERROR);
 		  }
 		colname[strlen(colname)-1] = '\0';
