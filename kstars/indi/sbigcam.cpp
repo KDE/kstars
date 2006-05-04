@@ -2468,6 +2468,7 @@ int SbigCam::UploadFits(string fits_name)
 	if(compressed_data == 0){
 		IDMessage(	DEVICE_NAME, "Error: UploadFits - low memory. "
 							"Unable to initialize FITS buffers.");
+		free (fits_data);
 		return(CE_OS_ERROR);
 	}	
 	#endif   
