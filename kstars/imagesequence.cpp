@@ -578,6 +578,8 @@ void imagesequence::updateFilterCombo(int filterNum)
 	filterList = Options::filterAlias();
 
 	filterElem = devMenu->findDeviceByLabel(filterCombo->itemText(filterNum))->findElem("SLOT");
+        Q_ASSERT(filterElem);
+
 	filterMax = (int) filterElem->max; 
 
 	// Clear combo
