@@ -2485,6 +2485,7 @@ int SbigCam::UploadFits(string fits_name)
 						return(CE_OS_ERROR);
 				}
 	}
+	fclose(fits_file);
 
  	#ifdef USE_BLOB_COMPRESS  
 	unsigned long compressed_bytes = sizeof(char) * total_bytes + 
