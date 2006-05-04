@@ -599,6 +599,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
           ffpmsg(file_outfile);
           fclose(outdiskfile);         /* close file and exit with error */
 	  file_outfile[0] = '\0';
+          fclose(indiskfile);
           return(FILE_NOT_CREATED); 
         }
     }
@@ -609,6 +610,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
         ffpmsg("could not create uncompressed file: (file_compress_open)");
         ffpmsg(file_outfile);
 	file_outfile[0] = '\0';
+        fclose(indiskfile);
         return(FILE_NOT_CREATED); 
     }
 
