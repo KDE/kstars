@@ -1118,8 +1118,10 @@ int  V4L2_Base::queryINTControls(INumberVectorProperty *nvp)
                    nnum++;
                   
                 }
-        } else if (errno != EINVAL) 
+        } else if (errno != EINVAL) {
+		if(numbers) free(numbers);
                 return errno_exit ("VIDIOC_QUERYCTRL", errmsg);
+        }
 
    }
 
