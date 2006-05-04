@@ -1131,6 +1131,7 @@ int ffiter(int n_cols,
 	    }
 	    
             ffpmsg(message);
+	    free(col);
             return(*status = BAD_DATATYPE);
         }
 
