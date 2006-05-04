@@ -462,11 +462,12 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
  {
     int newFileIndex;
     QString tempName;
-    char *tempPrefix = new char[64];
     
     // No need to check when in ISO mode
     if (ISOMode)
      return;
+
+    char *tempPrefix = new char[64];
     
 	KFileItemList::const_iterator it = items.begin();
 	const KFileItemList::const_iterator end = items.end();
