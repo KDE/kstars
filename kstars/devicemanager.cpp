@@ -400,6 +400,8 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");
 
+        if (!message) return;
+
        txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
 
        if ( Options::indiMessages() )
