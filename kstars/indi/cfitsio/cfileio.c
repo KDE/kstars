@@ -1626,7 +1626,10 @@ int ffedit_columns(
 		colname[strlen(colname)-1] = '\0';
 		/* Make keyword name and put it in oldname */
 		ffkeyn(colname+1, colnum, oldname, status);
-		if (*status) return (*status);
+		if (*status) {
+			if (colindex) free(colindex);
+          		return (*status);
+		}
 		/* Re-copy back into colname */
 		strcpy(colname+1,oldname);
 	    }
