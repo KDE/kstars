@@ -633,6 +633,8 @@ void ApogeeCam::uploadFile(char * filename)
    if (fitsData == NULL || compressedData == NULL)
    {
      IDLog("Error! low memory. Unable to initialize fits buffers.\n");
+     if (fitsData) free(fitsData);
+     if (compressedData) free(compressedData);
      return;
    }
    
