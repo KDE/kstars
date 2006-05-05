@@ -18,21 +18,21 @@
 #ifndef IMAGEVIEWER_H_
 #define IMAGEVIEWER_H_
 
-#include <qimage.h>
-#include <qpixmap.h>
-//Added by qt3to4:
+#include <QImage>
+#include <QPixmap>
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
 
-//#include <kpixmapio.h>
 #include <kio/job.h>
 #include <ktempfile.h>
-#include <kmainwindow.h>
+#include <kdialog.h>
+
+#include "ui_imageviewer.h"
 
 /**@class ImageViewer
-	*@short Image viewer widget for KStars
+	*@short Image viewer window for KStars
 	*@author Thomas Kabelmann
 	*@version 1.0
 	*
@@ -50,12 +50,18 @@
 class KUrl;
 class QFile;
 
-class ImageViewer : public KMainWindow  {
+class ImageViewerUI : public QFrame, public Ui::ImageViewer {
+	Q_OBJECT
+	public:
+		ImageViewerUI( QWidget *parent );
+};
+
+class ImageViewer : public KDialog {
 	Q_OBJECT
 
 	public:
 	/**Constructor. */
-		ImageViewer (const KUrl *imageName, const QString &capText, QWidget *parent, const char *name = 0);
+		ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent );
 
 	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
@@ -72,17 +78,6 @@ class ImageViewer : public KMainWindow  {
 
 	/**Make sure all events have been processed before closing the dialog */
 		void closeEvent (QCloseEvent *ev);
-
-	/**Keyboard shortcuts for saving files and closing the window
-		*@note (this should be deprecated; instead just assign KAccel 
-		*to the close/save buttons)
-		*/
-		void keyPressEvent (QKeyEvent *ev);
-
-	/**Unset the bool variables that indicate keys were pressed.
-		*(this should be deprecated; see above)
-		*/
-		void keyReleaseEvent (QKeyEvent *ev);
 
 	private:
 	/**Display the downloaded image.  Resize the window to fit the image,  If the image is
@@ -108,13 +103,14 @@ class ImageViewer : public KMainWindow  {
 		KTempFile tempfile;
 		QFile *file;
 		
-		const KUrl imageURL;
+		const KUrl m_ImageUrl;
 		bool fileIsImage;
 		QString filename;
-		bool ctrl, key_s, key_q;	// the keys
 
 		KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 		
+		ImageViewerUI *ui;
+
 	private slots:
 	/**Make sure download has finished, then make sure file exists, then display the image */
 		void downloadReady (KJob *);

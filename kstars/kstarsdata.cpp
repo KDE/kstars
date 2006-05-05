@@ -211,9 +211,9 @@ void KStarsData::slotInitialize() {
 		case 3: //Load Image URLs//
 
 			emit progressText( i18n("Loading Image URLs" ) );
- 			//if ( !readURLData( "image_url.dat", 0 ) ) {
- 				//initError( "image_url.dat", false );
- 			//}
+			if ( !readURLData( "image_url.dat", 0 ) ) {
+				initError( "image_url.dat", false );
+			}
 
 
 
@@ -222,9 +222,9 @@ void KStarsData::slotInitialize() {
 		case 4: //Load Information URLs//
 
 			emit progressText( i18n("Loading Information URLs" ) );
- 			//if ( !readURLData( "info_url.dat", 1 ) ) {
- 			//	initError( "info_url.dat", false );
- 			//}
+			if ( !readURLData( "info_url.dat", 1 ) ) {
+				initError( "info_url.dat", false );
+			}
 
 			break;
 
@@ -669,12 +669,9 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
 			QString title = sub.mid( 0, sub.indexOf(':') );
 			QString url = sub.mid( sub.indexOf(':')+1 );
 			SkyObject *o = skyComposite()->findByName(name);
-			//DEBUG
-			if ( o )
-				kDebug() << "object named " << o->name() << " found" << endl;
 
 			if ( !o ) {
-				kWarning() << k_funcinfo << name << " not found" << endl;
+				kWarning() << k_funcinfo << i18n( "Object named %1 not found", name ) << endl;
 			} else {
 				if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
 					if ( type==0 ) { //image URL

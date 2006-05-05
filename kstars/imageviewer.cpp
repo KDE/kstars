@@ -36,35 +36,24 @@
 
 #include <kapplication.h>
 
-ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *parent, const char *name)
-	: KMainWindow (parent, name), imageURL (*url), fileIsImage (false),
-	  ctrl (false), key_s (false), key_q (false), downloadJob(0)
+ImageViewerUI::ImageViewerUI( QWidget *parent ) : QFrame( parent ) {
+	setupUi( this );
+}
+
+ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent)
+	: KDialog(parent, url.fileName(), KDialog::User1|KDialog::Close, 0, 
+		KGuiItem(i18n("Save"), "filesave") ), 
+		m_ImageUrl (url), fileIsImage(false), downloadJob(0)
 {
-// toolbar can dock only on top-position and can't be minimized
-// JH: easier to just disable its mobility
-	//toolBar()->setMovingEnabled( false );
+	ui = new ImageViewerUI( this );
+	setMainWidget( ui );
+	ui->Caption->setText( capText );
 
-	KAction *action = new KAction( KIcon( "fileclose" ), i18n("Close Window"), actionCollection(),
-			"actCloseImViewer" );
-        action->setDefaultShortcut( KShortcut("Ctrl+Q") );
-        connect( action, SIGNAL( triggered() ), this, SLOT( close() ) );
-	toolBar()->addAction(action);
+	connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
-	action = new KAction( KIcon( "filesave" ), i18n("Save Image"),  actionCollection(),
-			"actSaveImViewer" );
-        action->setDefaultShortcut( KShortcut("Ctrl+S") );
-        connect( action, SIGNAL( triggered() ), this, SLOT ( saveFileToDisc() ) );
-	toolBar()->addAction(action);
-
-	statusBar()->insertPermanentItem( capText, 0, 1 );
-	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
-	QFont fnt = statusBar()->font();
-	fnt.setPointSize( fnt.pointSize() - 2 );
-	statusBar()->setFont( fnt );
-
-	if (!imageURL.isValid())		//check URL
+	if (!m_ImageUrl.isValid())		//check URL
 		kDebug()<<"URL is malformed"<<endl;
-	setWindowTitle (imageURL.fileName()); // the title of the window
+	setWindowTitle (m_ImageUrl.fileName()); // the title of the window
 	loadImageFromURL();
 }
 
@@ -76,28 +65,26 @@ ImageViewer::~ImageViewer() {
 	{
 		kDebug()<<QString("remove of %1 failed").arg(file->fileName())<<endl;
 		file->setFileName (file->fileName() + ".part");		// set new suffix to filename
-                kDebug()<<QString("try to remove %1").arg( file->fileName())<<endl;
+		kDebug()<<QString("try to remove %1").arg( file->fileName())<<endl;
 		if (file->remove())
-                    kDebug()<<"file removed\n";
+			kDebug()<<"file removed\n";
 		else
-                    kDebug()<<"file not removed\n";
+			kDebug()<<"file not removed\n";
 	}
 }
 
 void ImageViewer::paintEvent (QPaintEvent */*ev*/)
 {
-    QPainter p;
-    p.begin( this );
-    p.drawImage( 0, toolBar()->height() + 1, image );
-    p.end();
+/*	QPainter p;
+	p.begin( ui->View );
+	p.drawImage( 0, 0, image.scaled( ui->View->size(), 
+			Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+	p.end();*/
 }
 
+//Deprecated?
 void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
 {
-	if ( !downloadJob )  // only if image is loaded
- 		//FIXME commented out next line to build as KPixmapIO is gone -- annma 1006-02-20
-		//pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
-
 	update();
 }
 
@@ -108,48 +95,15 @@ void ImageViewer::closeEvent (QCloseEvent *ev)
 	this->~ImageViewer();	// destroy the object, so the object can only allocated with operator new, not as a global/local variable
 }
 
-
-void ImageViewer::keyPressEvent (QKeyEvent *ev)
-{
-	ev->accept();  //make sure key press events are captured.
-	switch (ev->key())
-	{
-		case Qt::Key_Control : ctrl = true; break;
-		case Qt::Key_Q : key_q = true; break;
-		case Qt::Key_S : key_s = true; break;
-		default : ev->ignore();
-	}
-	if (ctrl && key_q)
-		close();
-	if (ctrl && key_s)
-	{
-		ctrl = false;
-		key_s = false;
-		saveFileToDisc();
-	}
-}
-
-void ImageViewer::keyReleaseEvent (QKeyEvent *ev)
-{
-	ev->accept();
-	switch (ev->key())
-	{
-		case Qt::Key_Control : ctrl = false; break;
-		case Qt::Key_Q : key_q = false; break;
-		case Qt::Key_S : key_s = false; break;
-		default : ev->ignore();
-	}
-}
-
 void ImageViewer::loadImageFromURL()
 {
 	file = tempfile.file();
 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
-	KUrl saveURL (file->fileName());
+	KUrl saveURL = KUrl::fromPath( file->fileName() );
 	if (!saveURL.isValid())
             kDebug()<<"tempfile-URL is malformed\n";
 
-	downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
+	downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
 	connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 }
 
@@ -179,48 +133,45 @@ void ImageViewer::showImage()
 {
 	if (!image.load (file->fileName()))		// if loading failed
 	{
-		QString text = i18n ("Loading of the image %1 failed.", imageURL.prettyURL());
+		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyURL());
 		KMessageBox::error (this, text);
 		closeEvent (0);
 		return;
 	}
 	fileIsImage = true;	// we loaded the file and know now, that it is an image
 
-	//First, if the image is less wide than the statusBar, we have to scale it up.
-	if ( image.width() < statusBar()->width() ) {
-		image.scaled ( statusBar()->width() , image.height() * statusBar()->width() / image.width(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-	}
-
+	//If the image is larger than screen width and/or screen height, 
+	//shrink it to fit the screen
 	QRect deskRect = kapp->desktop()->availableGeometry();
 	int w = deskRect.width(); // screen width
 	int h = deskRect.height(); // screen height
-	int h2 = image.height() + toolBar()->height() + statusBar()->height(); //height required for ImageViewer
-	if (image.width() <= w && h2 <= h)
-		resize ( image.width(), h2 );
 
-//If the image is larger than screen width and/or screen height, shrink it to fit the screen
-//while preserving the original aspect ratio
+	if ( image.width() <= w && image.height() > h ) //Window is taller than desktop
+		ui->View->resize( int( image.width()*h/image.height() ), h );
 
-	else if (image.width() <= w) //only the height is too large
-		resize ( int( image.width()*h/h2 ), h );
-	else if (image.height() <= h) //only the width is too large
-		resize ( w, int( h2*w/image.width() ) );
-	else { //uh-oh...both width and height are too large.  which needs to be shrunk least?
+	else if ( image.height() <= h && image.width() > w ) //window is wider than desktop
+		ui->View->resize( w, int( image.height()*w/image.width() ) );
+
+	else if ( image.width() > w && image.height() > h ) { //window is too tall and too wide
+		//which needs to be shrunk least, width or height?
 		float fx = float(w)/float(image.width());
-		float fy = float(h)/float(h2);
+		float fy = float(h)/float(image.height());
     if (fx > fy) //width needs to be shrunk less, so shrink to fit in height
-			resize ( int( image.width()*fy ), h );
+			ui->View->resize( int( image.width()*fy ), h );
 		else //vice versa
-			resize ( w, int( h2*fx ) );
-	}
+			ui->View->resize( w, int( image.height()*fx ) );
+	} else
+		ui->View->resize( image.size() );
+
+	ui->View->setPixmap( QPixmap::fromImage( image.scaled( ui->View->size(), 
+			Qt::KeepAspectRatio, Qt::SmoothTransformation ) ) );
 
 	show();	// hide is default
-// pix will be initialized in resizeEvent(), which will automatically called first time
 }
 
 void ImageViewer::saveFileToDisc()
 {
-	KUrl newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
+	KUrl newURL = KFileDialog::getSaveURL(m_ImageUrl.fileName());  // save-dialog with default filename
 	if (!newURL.isEmpty())
 	{
 		QFile f (newURL.directory() + '/' +  newURL.fileName());

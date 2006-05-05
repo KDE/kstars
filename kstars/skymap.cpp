@@ -354,7 +354,7 @@ void SkyMap::slotDSS( void ) {
 	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-	new ImageViewer (&url, message, this);
+	new ImageViewer (url, message, this);
 }
 
 void SkyMap::slotDSS2( void ) {
@@ -396,14 +396,7 @@ void SkyMap::slotDSS2( void ) {
 	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-	new ImageViewer (&url, message, this);
-}
-
-void SkyMap::slotInfo( int id ) {
-	QString sURL = clickedObject()->InfoList.at(id-200);
-	KUrl url ( sURL );
-	if (!url.isEmpty())
-		KToolInvocation::invokeBrowser(sURL);
+	new ImageViewer (url, message, this);
 }
 
 void SkyMap::slotBeginAngularDistance(void) {
@@ -436,13 +429,23 @@ void SkyMap::slotCancelAngularDistance(void) {
 	angularDistanceMode=false;
 }
 
-void SkyMap::slotImage( int id ) {
-	QString sURL = clickedObject()->ImageList.at(id-100);
-	QString message = clickedObject()->ImageTitle.at(id-100);
+void SkyMap::slotImage() {
+	QString message = ((KAction*)sender())->text();
+	int index = clickedObject()->ImageTitle.indexOf(message);
+	QString sURL = clickedObject()->ImageList[ index ];
 
 	KUrl url ( sURL );
 	if (!url.isEmpty())
-		new ImageViewer (&url, clickedObject()->messageFromTitle(message), this);
+		new ImageViewer (url, clickedObject()->messageFromTitle(message), this);
+}
+
+void SkyMap::slotInfo() {
+	QString message = ((KAction*)sender())->text();
+	int index = clickedObject()->InfoTitle.indexOf(message);
+	QString sURL = clickedObject()->InfoList[ index ];
+	KUrl url ( sURL );
+	if (!url.isEmpty())
+		KToolInvocation::invokeBrowser(sURL);
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {

@@ -241,7 +241,7 @@ kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui contrastbrightnessg.ui 
        details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui 
        devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
-       fovdialog.ui newfov.ui locationdialog.ui 
+       fovdialog.ui newfov.ui locationdialog.ui imageviewer.ui
        histdialog.ui imagereduction.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
        wizwelcome.ui wizlocation.ui wizdevices.ui wizdownload.ui 
        opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 

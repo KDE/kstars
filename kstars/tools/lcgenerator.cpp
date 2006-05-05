@@ -136,7 +136,7 @@ void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate
 	KUrl url(buf);
 	QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 	// parent of imageview is KStars
-	new ImageViewer(&url, message, ksw, "lightcurve");
+	new ImageViewer(url, message, ksw);
         
 }
 

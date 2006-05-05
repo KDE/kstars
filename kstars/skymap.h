@@ -498,15 +498,13 @@ public slots:
 
 /**@short Popup menu function: Show webpage about ClickedObject 
 	*(only available for some objects). 
-	*@param id the popup-menu ID entry of the selected information page
 	*/
-	void slotInfo( int id );
+	void slotInfo();
 
 /**@short Popup menu function: Show image of ClickedObject 
 	*(only available for some objects). 
-	*@param id the popup-menu ID entry of the selected image
 	*/
-	void slotImage( int id );
+	void slotImage();
 
 /**@short Popup menu function: Show the Detailed Information window for ClickedObject. 
 	*/
