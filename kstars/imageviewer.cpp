@@ -48,13 +48,13 @@ ImageViewer::ImageViewer (const KUrl *url, const QString &capText, QWidget *pare
 			"actCloseImViewer" );
         action->setDefaultShortcut( KShortcut("Ctrl+Q") );
         connect( action, SIGNAL( triggered() ), this, SLOT( close() ) );
-	action->plug (toolBar());
+	toolBar()->addAction(action);
 
 	action = new KAction( KIcon( "filesave" ), i18n("Save Image"),  actionCollection(),
 			"actSaveImViewer" );
         action->setDefaultShortcut( KShortcut("Ctrl+S") );
         connect( action, SIGNAL( triggered() ), this, SLOT ( saveFileToDisc() ) );
-	action->plug (toolBar());
+	toolBar()->addAction(action);
 
 	statusBar()->insertPermanentItem( capText, 0, 1 );
 	statusBar()->setItemAlignment( 0, Qt::AlignLeft | Qt::AlignVCenter );
