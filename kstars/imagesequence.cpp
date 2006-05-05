@@ -635,7 +635,7 @@ void imagesequence::selectFilter()
 		return;
 	}
 
-	if (filterProp->perm == PP_RW || filterProp->perm == PP_WO)
+	if (filterProp && (filterProp->perm == PP_RW || filterProp->perm == PP_WO))
 	{
 		filterElem->targetValue = filterPosCombo->currentIndex();
 		if (filterElem->spin_w)
