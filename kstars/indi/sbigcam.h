@@ -57,6 +57,7 @@
 	/* FIXME use CFITSIO
 	#include "fitsrw.h"
 	*/
+	#include "cfitsio/fitsio.h"
 	#include "indidevapi.h"
 	#include "eventloop.h"
 	#include "indicom.h"
@@ -612,15 +613,16 @@ class SbigCam
 	FITS_HDU_LIST 	*CreateFitsHeader(	FITS_FILE *fp, 
 																	unsigned int width, 
 																	unsigned int height);*/
-	int						UploadFits(string file_name);
-	void 					UpdateTemperature();
-	void 					UpdateExposure();
-	static void 		UpdateTemperature(void *);
-	static void 		UpdateExposure(void *);	
-	inline void		SaveExposeTime(double val){m_icam_expose_time = val;}
+	void		CreateFitsHeader(fitsfile *fptr, unsigned int width, unsigned int height);
+	int		UploadFits(string file_name);
+	void 		UpdateTemperature();
+	void 		UpdateExposure();
+	static void 	UpdateTemperature(void *);
+	static void 	UpdateExposure(void *);	
+	inline void	SaveExposeTime(double val){m_icam_expose_time = val;}
 	inline double	GetExposeTime(){return(m_icam_expose_time);}
 	inline double 	GetLastExposeTime(){return(m_icam_expose_time);}
-	inline void		SaveTemperature(double val){m_icam_temperature = val;}
+	inline void	SaveTemperature(double val){m_icam_temperature = val;}
 	inline double	GetLastTemperature(){return(m_icam_temperature);}	
 
 	#endif

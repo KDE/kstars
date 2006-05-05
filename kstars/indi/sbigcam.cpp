@@ -2247,6 +2247,47 @@ int SbigCam::WriteFits(	string						fits_name,
 												unsigned short 	height, 
 												unsigned short 	**buffer)
 {
+	fitsfile *fptr;       /* pointer to the FITS file; defined in fitsio.h */
+	int status=0;
+	long  fpixel = 1, naxis = 2, nelements;
+  	long naxes[2];
+	int res = CE_NO_ERROR;
+
+	naxes[0] = width;
+	naxes[1] = height;
+	nelements = naxes[0] * naxes[1];          /* number of pixels to write */
+
+	// Insert ! to overwrite if file already exists
+	fits_name.insert(0, "!");
+	/* create new file */
+	if (fits_create_file(&fptr, fits_name.c_str(), &status))
+	{
+		IDMessage(DEVICE_NAME, "Error: WriteFits - cannot open FITS file for writing.");
+		return(CE_OS_ERROR);
+	}
+
+	/* Create the primary array image (16-bit short integer pixels */
+	if (fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status))
+	{
+		IDMessage(DEVICE_NAME, "Error: WriteFits - cannot create FITS image.");
+		return(CE_OS_ERROR);
+	}
+	
+	CreateFitsHeader(fptr, width, height);
+
+	/* Write the array of integers to the image */
+  	if (fits_write_img(fptr, TUSHORT, fpixel, nelements, buffer, &status))
+	{
+	    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occured.");
+	    	res = CE_OS_ERROR;
+  	}
+
+	fits_close_file(fptr, &status);		/* close the file */
+	fits_report_error(stderr, status);	/* print out any error messages */
+
+	return(res);
+}
+#endif // INDI
 // FIXME use CFITSIO
 #if 0
 	int res = CE_NO_ERROR;
@@ -2295,15 +2336,84 @@ int SbigCam::WriteFits(	string						fits_name,
 	// Close FITS file and return:
  	fits_close(fp);      
 	return(res);
-
-// FIXME remove endif and return(0)
-#endif
-return (0);
-
-}
 #endif // INDI
 //==========================================================================
 #ifdef INDI
+void	SbigCam::CreateFitsHeader(fitsfile *fptr, unsigned int width, unsigned int height)
+{
+  char card[FLEN_CARD];
+  int status=0;
+  
+  double temp_val;
+
+  fits_update_key(fptr, TSTRING, "INSTRUME", m_icam_product_t[0].text, "CCD Name", &status);
+  fits_update_key(fptr, TSTRING, "DETNAM", m_icam_product_t[1].text, "", &status);
+  temp_val = GetLastExposeTime();
+  fits_update_key(fptr, TDOUBLE, "EXPTIME", &temp_val, "Total Exposure Time (s)", &status); 
+  temp_val = GetLastTemperature();
+  fits_update_key(fptr, TDOUBLE, "CCD-TEMP", &temp_val, "degrees celcius", &status); 
+  fits_update_key(fptr, TDOUBLE, "XPIXSZ", &m_icam_pixel_size_n[0].value, "um", &status); 
+  fits_update_key(fptr, TDOUBLE, "YPIXSZ", &m_icam_pixel_size_n[0].value, "um", &status); 
+
+  // XBINNING & YBINNING:	
+  int binning;
+  if(GetSelectedCcdBinningMode(binning) == CE_NO_ERROR)
+  {
+		switch(binning)
+   	{
+			case 	CCD_BIN_1x1_I:
+						binning = 1;
+						break;
+			case 	CCD_BIN_2x2_I:
+ 			case 	CCD_BIN_2x2_E:
+						binning = 2;
+						break;		
+			case 	CCD_BIN_3x3_I:
+			case 	CCD_BIN_3x3_E:
+						binning = 3;
+						break;	
+			case 	CCD_BIN_9x9_I:
+						binning = 9;
+						break;
+			default:
+						binning = 0;
+						break;
+	}
+
+	fits_update_key(fptr, TINT, "XBINNING", &binning, "1=1x1, 2=2x2, etc.", &status); 
+	fits_update_key(fptr, TINT, "YBINNING", &binning, "1=1x1, 2=2x2, etc.", &status); 
+	
+  }
+
+	#ifdef USE_CCD_FRAME_STANDARD_PROPERTY		
+	// XORGSUBF:
+	fits_update_key(fptr, TINT, "XORGSUBF", &m_icam_ccd_frame_n[0].value, "", &status); 
+	// YORGSUBF:
+	fits_update_key(fptr, TINT, "YORGSUBF", &m_icam_ccd_frame_n[1].value, "", &status); 
+	#else
+	// XORGSUBF:
+	fits_update_key(fptr, TINT, "XORGSUBF", &m_icam_frame_x_n[0].value, "", &status);
+	fits_update_key(fptr, TINT, "YORGSUBF", &m_icam_frame_y_n[0].value, "", &status);
+	#endif
+
+	// IMAGETYP:
+	string str;
+	GetSelectedCcdFrameType(str);
+	if(!strcmp(str.c_str(), 		CCD_FRAME_LIGHT_NAME_N)){
+			str = "Light Frame";
+	}else if(!strcmp(str.c_str(),	CCD_FRAME_DARK_NAME_N)){
+			str = "Dark Frame";
+	}else if(!strcmp(str.c_str(), CCD_FRAME_FLAT_NAME_N)){
+			str = "Flat Field";
+	}else if(!strcmp(str.c_str(),	CCD_FRAME_BIAS_NAME_N)){
+			str = "Bias Frame";
+	}else{
+			str = "Unknown";
+	}
+	char frame[64];
+	strncpy(frame, str.c_str(), 64);
+	fits_update_key(fptr, TSTRING, "IMAGETYP", frame, "Frame Type", &status);
+}
 
 // FIXME use CFITSIO
 #if 0

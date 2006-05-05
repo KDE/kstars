@@ -403,7 +403,7 @@ install_targets(/bin v4ldriver )
 ########### SBIG CCD ###############
 set(sbigccd_SRCS sbigcam.cpp eventloop.c indidrivermain.c)
 
-kde4_add_executable(sbigccd ${sbigccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(sbigccd ${sbigccd_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} )
 
