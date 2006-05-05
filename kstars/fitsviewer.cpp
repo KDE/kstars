@@ -128,7 +128,9 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
 	tempFile.close();
     }
     else*/
-       	new KAction( i18n("Brightness/Contrast"), "contrast+", KShortcut( "Ctrl+T" ), this, SLOT( BrightContrastDlg()), actionCollection(), "image_brightness_contrast");
+       	action = new KAction(KIcon("contrast+"),  i18n("Brightness/Contrast"), actionCollection(), "image_brightness_contrast");
+       	connect(action, SIGNAL(triggered(bool)), SLOT( BrightContrastDlg()));
+       	action->setShortcut(KShortcut( "Ctrl+T" ));
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
