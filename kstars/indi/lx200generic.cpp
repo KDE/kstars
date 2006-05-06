@@ -19,7 +19,8 @@
 #endif
 
 #include "config.h"
-
+#include "config-kstars.h"
+	
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
