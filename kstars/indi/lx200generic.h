@@ -75,6 +75,7 @@ class LX200Generic
   double UTCOffset;
   bool   fault;
   bool   simulation;
+  int    fd;
 
   struct tm *last_local_time;
   

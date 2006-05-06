@@ -55,6 +55,7 @@ void Disconnect(void);
 char ACK(void);
 int testTelescope(void);
 int testAP(void);
+int check_lx200_connection(int in_fd);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
@@ -199,6 +200,30 @@ int testTelescope()
   
   return -1;
 }
+
+int check_lx200_connection(int in_fd)
+{
+
+  int i=0;
+  char ack[1] = { (char) 0x06 };
+  char MountAlign[64];
+  IDLog("Testing telescope's connection using ACK...\n");
+
+  /* FIXME Temporary solution untill all function use the new tty API */
+  fd = in_fd;
+
+  for (i=0; i < 2; i++)
+  {
+    write(in_fd, ack, 1);
+    tty_read(in_fd, MountAlign, 1, LX200_TIMEOUT, &read_ret);
+    if (read_ret == 1)
+     return 0;
+    usleep(50000);
+  }
+  
+  return -1;
+}
+
 
 int testAP()
 {

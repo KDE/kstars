@@ -134,6 +134,7 @@ void Disconnect();
 char ACK();
 int testTelescope();
 int testAP();
+int check_lx200_connection(int in_fd);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 

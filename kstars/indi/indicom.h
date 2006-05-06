@@ -54,7 +54,7 @@ extern const char * Direction[];
 extern const char * SolarSystem[];
 
 /* TTY Error Codes */
-enum TTY_ERROR { TTY_NO_ERROR, TTY_READ_ERROR, TTY_WRITE_ERROR, TTY_SELECT_ERROR, TTY_TIME_OUT, TTY_PORT_FAILURE };
+enum TTY_ERROR { TTY_NO_ERROR, TTY_READ_ERROR, TTY_WRITE_ERROR, TTY_SELECT_ERROR, TTY_TIME_OUT, TTY_PORT_FAILURE, TTY_PARAM_ERROR};
 
 #ifdef __cplusplus
 extern "C" {
@@ -98,12 +98,23 @@ void SinCos( double Degrees, double *sina, double *cosa );
     \param fd file descriptor
     \param buf pointer to store data. Must be initilized and big enough to hold data.
     \param nbytes number of bytes to read.
-    \param stop_char if the function encounters \e stop_char then it stops reading and returns. The function only searches for stop_char when \e nbytes is -1
     \param timeout number of seconds to wait for terminal before a timeout error is issued.
     \param nbytes_read the number of bytes read.
     \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
 */
-int tty_read(int fd, char *buf, int nbytes, char stop_char, int timeout, int *nbytes_read);
+int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read);
+
+/** \brief read buffer from terminal with a delimiter
+    \param fd file descriptor
+    \param buf pointer to store data. Must be initilized and big enough to hold data.
+    \param stop_char if the function encounters \e stop_char then it stops reading and returns the buffer.
+    \param timeout number of seconds to wait for terminal before a timeout error is issued.
+    \param nbytes_read the number of bytes read.
+    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+*/
+
+int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes_read);
+
 
 /** \brief Writes a buffer to fd.
     \param fd file descriptor

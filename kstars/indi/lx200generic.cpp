@@ -344,11 +344,12 @@ LX200Generic::LX200Generic()
    currentDEC     = 0;
    currentSet     = 0;
    UTCOffset      = 0;
+   fd             = -1;
    lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("INDI Version: 2006-03-15\n");
+   IDLog("INDI Version: 2006-05-07\n");
  
    //enableSimulation(true);  
 }
