@@ -40,8 +40,11 @@ QString SkyObject::starString = QString("star");
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
 	Magnitude = o.mag();
+        Name = 0;
 	setName(o.name());
+        Name2 = 0;
 	setName2(o.name2());
+        LongName = 0;
 	setLongName(o.longname());
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
