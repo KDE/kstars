@@ -242,9 +242,9 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
 */
 {
     long ii, i0, i1, i2, i3, i4, i5, i6, i7, i8, row, rstr, rstp, rinc;
-    long str[9], stp[9], incr[9], dir[9];
+    long str[10], stp[10], incr[10], dir[10];
     long nelem, nultyp, ninc, numcol;
-    LONGLONG felem, dsize[10], blcll[9], trcll[9];
+    LONGLONG felem, dsize[10], blcll[10], trcll[10];
     int hdutype, anyf;
     char ldummy, msg[FLEN_ERRMSG];
     int  nullcheck = 1;
@@ -261,7 +261,7 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
     {
         /* this is a compressed image in a binary table */
 
-        for (ii=0; ii < naxis; ii++) {
+        for (ii=0; ii <= naxis; ii++) {
 	    blcll[ii] = blc[ii];
 	    trcll[ii] = trc[ii];
 	}
@@ -311,7 +311,7 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
         *anynul = FALSE;
 
     i0 = 0;
-    for (ii = 0; ii < 9; ii++)
+    for (ii = 0; ii <= 9 ; ii++)
     {
         str[ii] = 1;
         stp[ii] = 1;
