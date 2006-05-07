@@ -47,9 +47,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 		// MHH 2002-02-04 I don't like this. But it avoids code duplication.
 		// Maybe we can find a better way.
 		//
-		const KSPlanet *pEarth = dynamic_cast<const KSPlanet *>(Earth);
-		/* FIXME: if you use pEarth at some point again, make sure you
-			check for 0L after the dynamic_cast! */
+		const KSPlanet *pEarth = static_cast<const KSPlanet *>(Earth);
 		EclipticPosition trialpos;
 		pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
 
