@@ -360,6 +360,7 @@ void telescopeWizardProcess::scanPorts()
      pp = indiDev->findProp("DEVICE_PORT");
      if (!pp) return;
      lp = pp->findElement("PORT");
+     if (!lp) return;
      
      lp->write_w->setText(portList[currentPort]);
      pp->newText();
