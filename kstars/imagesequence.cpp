@@ -516,7 +516,11 @@ void imagesequence::captureImage()
 	}
 
 	exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSE_DURATION");
+	if (!exposeProp)
+		return;
 	exposeElem = exposeProp->findElement("EXPOSE_DURATION");
+	if (!exposeElem)
+		return;
 
 	// disable timer until it's called again by newFITS, or called for retries
 	seqTimer->stop();
