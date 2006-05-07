@@ -644,7 +644,7 @@ void KStars::setINDIPort(const QString &port)
 
   el   = prop->findElement("PORT");
 
-  if (!el->write_w)
+  if (!el || !el->write_w)
    return;
 
   el->write_w->setText(port);
