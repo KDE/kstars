@@ -783,8 +783,10 @@ static int iraftofits (
 		    for (k = 0; k < 80; k++)
 			fitsline[k] = ' ';
 		    }
-		if (irafchar > 32 && irafchar < 127)
-		    fitsline[j] = irafchar;
+		else {
+			if (irafchar > 32 && irafchar < 127)
+		    		fitsline[j] = irafchar;
+		}
 		j++;
 		}
 	    }
