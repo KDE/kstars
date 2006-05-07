@@ -3027,7 +3027,7 @@ when writing FITS images.
     /* ================================= */
 
     (fptr->Fptr)->request_compress_type = compresstype;
-    for (ii = 0; ii < 9; ii++)
+    for (ii = 0; ii < MAX_COMPRESS_DIM; ii++)
        (fptr->Fptr)->request_tilesize[ii] = tilesize[ii];
     (fptr->Fptr)->request_rice_nbits = noisebits;
 
