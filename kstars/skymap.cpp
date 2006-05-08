@@ -28,6 +28,7 @@
 #include <QEvent>
 #include <QFile>
 
+#include <kactioncollection.h>
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kiconloader.h>

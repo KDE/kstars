@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kaction.h>
 #include <kactionclasses.h>
+#include <kactioncollection.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>

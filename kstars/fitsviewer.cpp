@@ -27,7 +27,6 @@
 #include <kdebug.h>
 #include <ktoolbar.h>
 #include <kapplication.h>
-#include <kpixmap.h>
 #include <ktempfile.h>
 #include <kimageeffect.h>
 #include <kmenubar.h>

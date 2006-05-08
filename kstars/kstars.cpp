@@ -27,6 +27,7 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <kicontheme.h>
+#include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kglobal.h>
 

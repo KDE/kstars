@@ -34,7 +34,6 @@
 #include <QCloseEvent>
 
 //#include <kpixmapio.h>
-#include <kpixmap.h>
 #include <kdialog.h>
 #include <kmainwindow.h>
 #include <kurl.h>

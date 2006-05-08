@@ -20,13 +20,17 @@
 #include <QTextStream>
 
 #include <dcopclient.h>
+#include <kactioncollection.h>
+#include <kactionmenu.h>
 #include <kiconloader.h>
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <kmessagebox.h>
+#include <kstdaction.h>
 #include <kstandarddirs.h>
 #include <kdeversion.h>
+#include <ktoggleaction.h>
 #include <ktoolbar.h>
 
 #include "Options.h"
