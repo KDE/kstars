@@ -593,11 +593,10 @@ void INDIStdDevice::updateLocation()
      break;
 
 
-   }
 
- // Update Device menu actions
- drivers->updateMenuActions();
-  
+     // Update Device menu actions
+     drivers->updateMenuActions();
+   }
 }
  
 void INDIStdDevice::initDeviceOptions()
