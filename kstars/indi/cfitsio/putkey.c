@@ -2562,10 +2562,9 @@ int ffphbn(fitsfile *fptr,  /* I - FITS file pointer                        */
             /* the keyword comment.  */
 
             cptr = strchr(tfmt,'A');
-            cptr++;
 
             if (cptr)
-               iread = sscanf(cptr,"%ld", &width);
+               iread = sscanf(cptr + 1,"%ld", &width);
 
             if (iread == 1 && (width > repeat)) 
             {
