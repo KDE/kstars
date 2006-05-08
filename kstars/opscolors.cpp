@@ -131,7 +131,7 @@ void OpsColors::slotPreset( int index ) {
 }
 
 bool OpsColors::setColors( QString filename ) {
-	QPixmap *temp = new QPixmap( 30, 20 );
+	QPixmap temp( 30, 20 );
 
 	//just checking if colorscheme is removable...
 	QFile test;
@@ -151,8 +151,8 @@ bool OpsColors::setColors( QString filename ) {
 		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-		temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
-		ColorPalette->changeItem( *temp, ksw->data()->colorScheme()->nameAt( i ), i );
+		temp.fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
+		ColorPalette->changeItem( temp, ksw->data()->colorScheme()->nameAt( i ), i );
 	}
 
 	ksw->map()->forceUpdate();
