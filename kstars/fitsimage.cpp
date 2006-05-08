@@ -22,7 +22,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kaction.h>
-
+#include <kactioncollection.h>
 #include <kdebug.h>
 #include <ktoolbar.h> 
 #include <kapplication.h>

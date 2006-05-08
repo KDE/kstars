@@ -51,7 +51,7 @@
  #include <kurl.h>
  #include <kdirlister.h>
  #include <kaction.h>
- 
+#include <kactioncollection.h> 
   
  #define STD_BUFFER_SIZ		1024000
  #define FRAME_ILEN		1024

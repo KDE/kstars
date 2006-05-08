@@ -41,7 +41,7 @@
 #include "infoboxes.h"
 #include "observinglist.h"
 #include "imagesequence.h"
-#include "toggleaction.h"
+#include <toggleaction.h>
 
 // to remove warnings
 #include "indimenu.h"

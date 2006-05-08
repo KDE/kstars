@@ -32,7 +32,7 @@
 #include <QTreeWidget>
 #include <QIcon>
 #include <QDialog>
-
+#include <kactioncollection.h>
 #include <kiconloader.h>
 #include <k3listview.h>
 #include <kmenu.h>
