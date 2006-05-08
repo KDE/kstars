@@ -633,7 +633,7 @@ void imagesequence::selectFilter()
 	filterElem = filterProp->findElement("SLOT");
 
 	// Do we need to change the filter position??
-	if (filterPosCombo->currentIndex() == filterElem->read_w->text().toInt())
+	if (!filterElem || filterPosCombo->currentIndex() == filterElem->read_w->text().toInt())
 	{
 		captureImage();
 		return;
