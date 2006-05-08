@@ -986,7 +986,11 @@ FITSChangeCommand::FITSChangeCommand(QWidget * parent, int inType, QImage* newIM
   type = inType;
 }
 
-FITSChangeCommand::~FITSChangeCommand() {}
+FITSChangeCommand::~FITSChangeCommand() 
+{
+  delete newImage;
+  delete oldImage;
+}
 
 void FITSChangeCommand::execute()
 {
