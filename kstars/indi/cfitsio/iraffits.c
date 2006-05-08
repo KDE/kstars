@@ -1859,8 +1859,9 @@ char *value;	/* character string containing the value for variable
 	    q2 = line;
 
 	/*  extract comment and remove trailing spaces */
-
-	c1 = strchr (q2,'/');
+	c1 = NULL;
+	if (q2)
+		c1 = strchr (q2,'/');
 	if (c1 != NULL) {
 	    lcom = 80 - (c1 - line);
 	    strncpy (newcom, c1+1, lcom);
