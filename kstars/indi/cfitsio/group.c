@@ -1755,9 +1755,14 @@ int ffgtam(fitsfile *gfptr,   /* FITS file pointer to grouping table HDU     */
 		  /* have to make sure the GRPLCn keyword matches too */
 
 		  sprintf(keyword,"GRPLC%d",(int)ngroups);
-		  /* SPR 1738 */
-		  *status = fits_read_key_longstr(mfptr,keyword,&tgrplc,card,
-						  status);
+	          if (mfptr) {
+		     /* SPR 1738 */
+		     *status = fits_read_key_longstr(mfptr,keyword,&tgrplc,card,
+						     status);
+		  } else {
+		     *status = BAD_GROUP_ID;
+                  }
+
 		  if (0 == *status) {
 		    strcpy(grplc,tgrplc);
 		    free(tgrplc);
