@@ -5,13 +5,14 @@ add_subdirectory( webcam )
 add_subdirectory( apogee ) 
 add_subdirectory( cfitsio ) 
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../..  )
+include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../..  )
 
-OPTION(ssh_tunnel "INDI Server binds locally. Remote clients may only connect via SSH Tunneling." OFF)
 
-IF (ssh_tunnel)
-ADD_DEFINITION(-DSSH_TUNNEL)
-ENDIF(ssh_tunnel)
+option(ssh_tunnel "INDI Server binds locally. Remote clients may only connect via SSH Tunneling." OFF)
+
+if (ssh_tunnel)
+   add_definition(-DSSH_TUNNEL)
+endif(ssh_tunnel)
 
 set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
 

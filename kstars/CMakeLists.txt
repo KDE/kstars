@@ -7,7 +7,7 @@ add_subdirectory( tools )
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools ${CMAKE_SOURCE_DIR}/libkdeedu/extdate ${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
+include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools ${CMAKE_SOURCE_DIR}/libkdeedu/extdate ${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot  )
 
 
 ########### next target ###############
@@ -79,134 +79,134 @@ set(libcfitsio_SRCS
 	)
 
 set(libkstarstools_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstime.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/astrocalc.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/jmoontool.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgenerator.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdist.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoord.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazel.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylength.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoords.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinox.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoord.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeodcoord.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjd.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanets.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprec.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtime.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsr.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglist.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizard.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewer.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/pvplotwidget.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptargwidgets.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilder.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptfunction.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialog.cpp
+	tools/altvstime.cpp
+	tools/astrocalc.cpp
+	tools/jmoontool.cpp
+	tools/lcgenerator.cpp
+	tools/modcalcangdist.cpp
+	tools/modcalcapcoord.cpp
+	tools/modcalcazel.cpp
+	tools/modcalcdaylength.cpp
+	tools/modcalceclipticcoords.cpp
+	tools/modcalcequinox.cpp
+	tools/modcalcgalcoord.cpp
+	tools/modcalcgeodcoord.cpp
+	tools/modcalcjd.cpp
+	tools/modcalcplanets.cpp
+	tools/modcalcprec.cpp
+	tools/modcalcsidtime.cpp
+	tools/modcalcvlsr.cpp
+	tools/observinglist.cpp
+	tools/obslistwizard.cpp
+	tools/planetviewer.cpp
+	tools/pvplotwidget.cpp
+	tools/scriptargwidgets.cpp
+	tools/scriptbuilder.cpp
+	tools/scriptfunction.cpp
+	tools/wutdialog.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/altvstime.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argchangeviewoption.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argexportimage.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argloadcolorscheme.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/arglooktoward.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argprintimage.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetactionindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetaltaz.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetccdtempindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetcolor.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetdeviceindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfilternumindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfocusspeedindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetfocustimeoutindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetframetypeindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetgeolocation.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetgeolocationindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetlocaltime.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetportindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetradec.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetscopeactionindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettargetcoordindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettargetnameindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsettrack.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argsetutcindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argshutdownindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartexposureindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartfocusindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argstartindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argswitchindi.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argtimescale.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitfor.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argwaitforkey.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/argzoom.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/lcgenerator.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcangdist.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcapcoord.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcazel.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcdaylength.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalceclipticcoords.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcequinox.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgalcoord.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcgeod.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcjd.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcplanets.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcprec.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcsidtime.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/modcalcvlsr.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/observinglist.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/obslistwizard.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/optionstreeview.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/planetviewer.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptbuilder.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/scriptnamedialog.ui
-	${CMAKE_SOURCE_DIR}/kstars/kstars/tools/wutdialog.ui )
+	tools/altvstime.ui
+	tools/argchangeviewoption.ui
+	tools/argexportimage.ui
+	tools/argloadcolorscheme.ui
+	tools/arglooktoward.ui
+	tools/argprintimage.ui
+	tools/argsetactionindi.ui
+	tools/argsetaltaz.ui
+	tools/argsetccdtempindi.ui
+	tools/argsetcolor.ui
+	tools/argsetdeviceindi.ui
+	tools/argsetfilternumindi.ui
+	tools/argsetfocusspeedindi.ui
+	tools/argsetfocustimeoutindi.ui
+	tools/argsetframetypeindi.ui
+	tools/argsetgeolocation.ui
+	tools/argsetgeolocationindi.ui
+	tools/argsetlocaltime.ui
+	tools/argsetportindi.ui
+	tools/argsetradec.ui
+	tools/argsetscopeactionindi.ui
+	tools/argsettargetcoordindi.ui
+	tools/argsettargetnameindi.ui
+	tools/argsettrack.ui
+	tools/argsetutcindi.ui
+	tools/argshutdownindi.ui
+	tools/argstartexposureindi.ui
+	tools/argstartfocusindi.ui
+	tools/argstartindi.ui
+	tools/argswitchindi.ui
+	tools/argtimescale.ui
+	tools/argwaitfor.ui
+	tools/argwaitforkey.ui
+	tools/argzoom.ui
+	tools/lcgenerator.ui
+	tools/modcalcangdist.ui
+	tools/modcalcapcoord.ui
+	tools/modcalcazel.ui
+	tools/modcalcdaylength.ui
+	tools/modcalceclipticcoords.ui
+	tools/modcalcequinox.ui
+	tools/modcalcgalcoord.ui
+	tools/modcalcgeod.ui
+	tools/modcalcjd.ui
+	tools/modcalcplanets.ui
+	tools/modcalcprec.ui
+	tools/modcalcsidtime.ui
+	tools/modcalcvlsr.ui
+	tools/observinglist.ui
+	tools/obslistwizard.ui
+	tools/optionstreeview.ui
+	tools/planetviewer.ui
+	tools/scriptbuilder.ui
+	tools/scriptnamedialog.ui
+	tools/wutdialog.ui )
 
 
 set(libkstarscomponents_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/singlecomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/listcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/pointlistcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/solarsystemsinglecomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/solarsystemlistcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/asteroidscomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/cometscomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/jupitermoonscomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/solarsystemcomposite.cpp 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/starcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/deepskycomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/customcatalogcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/constellationlinescomposite.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/constellationlinescomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/constellationnamescomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/constellationboundarycomponent.cpp 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/coordinategridcomposite.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/coordinategridcomponent.cpp 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/eclipticcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/equatorcomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/horizoncomponent.cpp 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/milkywaycomposite.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/milkywaycomponent.cpp 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skycomponent.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skycomposite.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents/skymapcomposite.cpp 
+   skycomponents/singlecomponent.cpp 
+   skycomponents/listcomponent.cpp 
+   skycomponents/pointlistcomponent.cpp 
+   skycomponents/solarsystemsinglecomponent.cpp 
+   skycomponents/solarsystemlistcomponent.cpp 
+   skycomponents/asteroidscomponent.cpp 
+   skycomponents/cometscomponent.cpp 
+   skycomponents/jupitermoonscomponent.cpp 
+   skycomponents/solarsystemcomposite.cpp 
+   skycomponents/starcomponent.cpp 
+   skycomponents/deepskycomponent.cpp 
+   skycomponents/customcatalogcomponent.cpp 
+   skycomponents/constellationlinescomposite.cpp 
+   skycomponents/constellationlinescomponent.cpp 
+   skycomponents/constellationnamescomponent.cpp 
+   skycomponents/constellationboundarycomponent.cpp 
+   skycomponents/coordinategridcomposite.cpp 
+   skycomponents/coordinategridcomponent.cpp 
+   skycomponents/eclipticcomponent.cpp 
+   skycomponents/equatorcomponent.cpp 
+   skycomponents/horizoncomponent.cpp 
+   skycomponents/milkywaycomposite.cpp 
+   skycomponents/milkywaycomponent.cpp 
+   skycomponents/skycomponent.cpp 
+   skycomponents/skycomposite.cpp 
+   skycomponents/skymapcomposite.cpp 
 )
 
 
 set(libkstarswidgets_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/clicklabel.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/dmsbox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/draglistbox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/kstarsplotwidget.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/logedit.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/magnitudespinbox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/mapcanvas.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/thumbimage.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/timebox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/timespinbox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/timestepbox.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/widgets/timeunitbox.cpp
+	widgets/clicklabel.cpp 
+	widgets/dmsbox.cpp 
+	widgets/draglistbox.cpp 
+	widgets/kstarsplotwidget.cpp 
+	widgets/logedit.cpp
+	widgets/magnitudespinbox.cpp 
+	widgets/mapcanvas.cpp 
+	widgets/thumbimage.cpp 
+	widgets/timebox.cpp 
+	widgets/timespinbox.cpp 
+	widgets/timestepbox.cpp 
+	widgets/timeunitbox.cpp
 )
 
 
