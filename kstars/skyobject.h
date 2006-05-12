@@ -85,33 +85,33 @@ public:
 
 /**@return object's primary name.
 	*/
-	virtual QString name( void ) const { return hasName() ? *Name : unnamedString;}
+	inline virtual QString name( void ) const { return hasName() ? Name : unnamedString;}
 
 /**@return object's primary name, translated to local language.
 	*/
-	QString translatedName() const { return i18n( name().toUtf8() );}
+	inline QString translatedName() const { return i18n( name().toUtf8() );}
 
 /**Set the object's primary name.
 	*@param name the object's primary name
 	*/
-	void setName( const QString &name );
+	inline void setName( const QString &name ) { Name = name; }
 
 /**@return object's secondary name
 	*/
-	QString name2( void ) const { return hasName2() ? *Name2 : emptyString; }
+	inline QString name2( void ) const { return hasName2() ? Name2 : emptyString; }
 
 /**@return object's secondary name, translated to local language.
 	*/
-	QString translatedName2() const { return i18n( name2().toUtf8() );}
+	inline QString translatedName2() const { return i18n( name2().toUtf8() );}
 
 /**Set the object's secondary name.
 	*@param name2 the object's secondary name.
 	*/
-	void setName2( const QString &name2=QString() );
+	inline void setName2( const QString &name2=QString() ) { Name2 = name2; }
 
 /**@return object's common (long) name
 	*/
-	virtual QString longname( void ) const { return hasLongName() ? *LongName : unnamedObjectString; }
+	virtual QString longname( void ) const { return hasLongName() ? LongName : unnamedObjectString; }
 
 /**@return object's common (long) name, translated to local language.
 	*/
@@ -125,13 +125,13 @@ public:
 /**@return object's type identifier (int)
 	*@see enum TYPE
 	*/
-	int type( void ) const { return (int)Type; }
+	inline int type( void ) const { return (int)Type; }
 
 /**Set the object's type identifier to the argument.
 	*@param t the object's type identifier (e.g., "SkyObject::PLANETARY_NEBULA")
 	*@see enum TYPE
 	*/
-	void setType( int t ) { Type = (unsigned char)t; }
+	inline void setType( int t ) { Type = (unsigned char)t; }
 
 /**@return a string describing object's type.
 	*/
@@ -139,28 +139,28 @@ public:
 
 /**@return object's magnitude
 	*/
-	float mag( void ) const { return Magnitude; }
+	inline float mag( void ) const { return Magnitude; }
 
 /**Set the object's magnitude.
 	*@param m the object's magnitude.
 	*/
-	void setMag( float m ) { Magnitude = m; }
+	inline void setMag( float m ) { Magnitude = m; }
 
 /**@return the object's position angle.  This is overridden in KSPlanetBase 
 	*and DeepSkyObject; for all other SkyObjects, this returns 0.0.
 	*/
-	virtual double pa() const { return 0.0; }
+	inline virtual double pa() const { return 0.0; }
 
 /**@return true if the object is a solar system body.
 	*/
-	bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
+	inline bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
 
 /**Show Type-specific popup menu.  This is a two-line function that needs to be 
 	*overloaded by each subclass of SkyObject, to make sure that the correct popupmenu 
 	*function gets called.  By overloading the function, we don't have to check the 
 	*object type when we need the menu.
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
+	inline virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
 
 /**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.
@@ -234,11 +234,11 @@ public:
 	*/
 	SkyPoint recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo=0 );
 
-	const bool hasName() const { return Name != 0; }
+	inline const bool hasName() const { return ! Name.isEmpty(); }
 	
-	const bool hasName2() const { return Name2 != 0; }
+	inline const bool hasName2() const { return ! Name2.isEmpty(); }
 	
-	const bool hasLongName() const { return LongName != 0; }
+	inline const bool hasLongName() const { return ! LongName.isEmpty(); }
 	
 /**
 	*@short Given the Image title from a URL file, try to convert it to an image credit string.
@@ -329,7 +329,7 @@ private:
 
 protected:
 
-	QString *Name, *Name2, *LongName;
+	QString Name, Name2, LongName;
 
 	// store often used name strings in static variables
 	static QString emptyString;

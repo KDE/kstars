@@ -126,12 +126,12 @@ public:
 /**
   *@return the object's major axis length, in arcminutes.
 	*/
-	float a() const { return MajorAxis; }
+	inline float a() const { return MajorAxis; }
 
 /**
   *@return the object's minor axis length, in arcminutes.
 	*/
-	float b() const { return MinorAxis; }
+	inline float b() const { return MinorAxis; }
 
 /**
   *@return the object's aspect ratio (MinorAxis/MajorAxis).  Returns 1.0
@@ -142,17 +142,17 @@ public:
 /**
   *@return the object's position angle, meausred clockwise from North.
 	*/
-	virtual double pa() const { return PositionAngle; }
+	inline virtual double pa() const { return PositionAngle; }
 
 /**
   *@return the object's UGC catalog number.  Return 0 if the object is not in UGC.
 	*/
-	int ugc() const { return UGC; }
+	inline int ugc() const { return UGC; }
 
 /**
   *@return the object's PGC catalog number.  Return 0 if the object is not in PGC.
 	*/
-	int pgc() const { return PGC; }
+	inline int pgc() const { return PGC; }
 
 /**
   *Read in this object's image from disk, unless it already exists in memory.

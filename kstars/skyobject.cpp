@@ -40,11 +40,8 @@ QString SkyObject::starString = QString("star");
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
 	Magnitude = o.mag();
-        Name = 0;
 	setName(o.name());
-        Name2 = 0;
 	setName2(o.name2());
-        LongName = 0;
 	setLongName(o.longname());
 	ImageList = o.ImageList;
 	ImageTitle = o.ImageTitle;
@@ -56,11 +53,8 @@ SkyObject::SkyObject( int t, dms r, dms d, float m,
 						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
-	Name = 0;
 	setName(n);
-	Name2 = 0;
 	setName2(n2);
-	LongName = 0;
 	setLongName(lname);
 }
 
@@ -68,31 +62,24 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
-	Name = 0;
 	setName(n);
-	Name2 = 0;
 	setName2(n2);
-	LongName = 0;
 	setLongName(lname);
 }
 
 SkyObject::~SkyObject() {
-	delete Name;
-	delete Name2;
-	delete LongName;
 }
 
 void SkyObject::setLongName( const QString &longname ) {
-	delete LongName;
 	if ( longname.isEmpty() ) {
 		if ( hasName() )
-			LongName = new QString(translatedName());
+			LongName = name();
 		else if ( hasName2() )
-			LongName = new QString(*Name2);
+			LongName = name2();
 		else
-			LongName = 0;
+			LongName = QString();
 	} else {
-		LongName = new QString(longname);
+		LongName = longname;
 	}
 }
 
@@ -325,22 +312,6 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==9 ) return i18n( "Comet" );
 	else if ( Type==10 ) return i18n( "Asteroid" );
 	else return i18n( "Unknown Type" );
-}
-void SkyObject::setName( const QString &name ) {
-//	if (name == "star" ) kDebug() << "name == star" << endl;
-	delete Name;
-	if (!name.isEmpty())
-		Name = new QString(name);
-	else
-		{ Name = 0; /*kDebug() << "name saved" << endl;*/ }
-}
-
-void SkyObject::setName2( const QString &name2 ) {
-	delete Name2;
-	if (!name2.isEmpty())
-		Name2 = new QString(name2);
-	else
-		{ Name2 = 0; /*kDebug() << "name2 saved" << endl;*/ }
 }
 
 QString SkyObject::messageFromTitle( const QString &imageTitle ) {

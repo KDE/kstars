@@ -238,6 +238,24 @@ void SkyMapComposite::setStarColorIntensity( int newIntensity ) {
 	m_Stars->setStarColorIntensity( newIntensity );
 }
 
+SkyObject* SkyMapComposite::findByName( const QString &name ) {
+	//We search the children in an "intelligent" order (most-used 
+	//object types first), in order to avoid wasting too much time 
+	//looking for a match.  The most important part of this ordering 
+	//is that stars should be last (because the stars list is so long)
+	SkyObject *o = 0;
+	o = m_SolarSystem->findByName( name );
+	if ( o ) return o;
+	o = m_DeepSky->findByName( name );
+	if ( o ) return o;
+	o = m_CustomCatalogs->findByName( name );
+	if ( o ) return o;
+	o = m_Stars->findByName( name );
+	if ( o ) return o;
+
+	return 0;
+}
+
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 	foreach( SkyObject *s, m_Stars->objectList() ) 
 		if ( s->name2() == name ) return s;

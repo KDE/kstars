@@ -29,7 +29,21 @@
 #include <ktempfile.h>
 #include <kdialog.h>
 
-#include "ui_imageviewer.h"
+class KUrl;
+class QFile;
+
+class ImageLabel : public QLabel {
+	Q_OBJECT
+	public:
+		ImageLabel( QWidget *parent );
+		~ImageLabel();
+		void setImage( const QImage &img ) { m_Image = img; }
+
+	protected:
+		void paintEvent( QPaintEvent *e);
+	private:
+		QImage m_Image;
+};
 
 /**@class ImageViewer
 	*@short Image viewer window for KStars
@@ -46,16 +60,6 @@
 	*this time. The save-slave works synchronously, but this is not important 
 	*because the files are at this time local saved and this works not so long.
 	*/
-
-class KUrl;
-class QFile;
-
-class ImageViewerUI : public QFrame, public Ui::ImageViewer {
-	Q_OBJECT
-	public:
-		ImageViewerUI( QWidget *parent );
-};
-
 class ImageViewer : public KDialog {
 	Q_OBJECT
 
@@ -67,9 +71,6 @@ class ImageViewer : public KDialog {
 		~ImageViewer();
 
 	protected:
-	/**Bitblt the image onto the viewer widget */
-		void paintEvent (QPaintEvent *ev);
-
 	/**The window is resized when a file finishes downloading, before it is displayed.
 		*The resizeEvent converts the downloaded QImage to a QPixmap 
 		*@note (JH: not sure why this conversion is not done in showImage)
@@ -98,8 +99,6 @@ class ImageViewer : public KDialog {
 		*/
 		void checkJob();
 
-		QImage image;
-		//KPixmapIO kpix;
 		KTempFile tempfile;
 		QFile *file;
 		
@@ -109,7 +108,10 @@ class ImageViewer : public KDialog {
 
 		KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 		
-		ImageViewerUI *ui;
+		ImageLabel *View;
+		QLabel *Caption;
+		QFrame *MainFrame;
+		QVBoxLayout *vlay;
 
 	private slots:
 	/**Make sure download has finished, then make sure file exists, then display the image */

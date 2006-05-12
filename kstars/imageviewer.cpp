@@ -22,6 +22,7 @@
 #include <QPaintEvent>
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QVBoxLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -36,8 +37,22 @@
 
 #include <kapplication.h>
 
-ImageViewerUI::ImageViewerUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( this );
+ImageLabel::ImageLabel( QWidget *parent ) : QLabel( parent )
+{
+	setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
+}
+
+ImageLabel::~ImageLabel()
+{}
+
+void ImageLabel::paintEvent (QPaintEvent */*ev*/)
+{
+	QPainter p;
+	p.begin( this );
+	int x = 0;
+	if ( m_Image.width() < width() ) x = (width() - m_Image.width())/2;
+	p.drawImage( x, 0, m_Image );
+	p.end();
 }
 
 ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent)
@@ -45,9 +60,26 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
 		KGuiItem(i18n("Save"), "filesave") ), 
 		m_ImageUrl (url), fileIsImage(false), downloadJob(0)
 {
-	ui = new ImageViewerUI( this );
-	setMainWidget( ui );
-	ui->Caption->setText( capText );
+	MainFrame = new QFrame( this );
+	setMainWidget( MainFrame );
+	View = new ImageLabel( MainFrame );
+	Caption = new QLabel( MainFrame );
+	View->setAutoFillBackground( true );
+	Caption->setAutoFillBackground( true );
+	Caption->setFrameShape( QFrame::StyledPanel );
+	Caption->setText( capText );
+	//Reverse colors
+	QPalette p = palette();
+	p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
+	p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
+	Caption->setPalette( p );
+	View->setPalette( p );
+
+	vlay = new QVBoxLayout( MainFrame );
+	vlay->setSpacing( 0 );
+	vlay->addWidget( View );
+	vlay->addWidget( Caption );
+	vlay->addStretch();
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
@@ -71,19 +103,13 @@ ImageViewer::~ImageViewer() {
 		else
 			kDebug()<<"file not removed\n";
 	}
+
+	delete View;
+	delete Caption;
+	delete MainFrame;
 }
 
-void ImageViewer::paintEvent (QPaintEvent */*ev*/)
-{
-/*	QPainter p;
-	p.begin( ui->View );
-	p.drawImage( 0, 0, image.scaled( ui->View->size(), 
-			Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
-	p.end();*/
-}
-
-//Deprecated?
-void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
+void ImageViewer::resizeEvent (QResizeEvent *ev )
 {
 	update();
 }
@@ -131,6 +157,7 @@ void ImageViewer::downloadReady (KJob *job)
 
 void ImageViewer::showImage()
 {
+	QImage image;
 	if (!image.load (file->fileName()))		// if loading failed
 	{
 		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyURL());
@@ -147,26 +174,28 @@ void ImageViewer::showImage()
 	int h = deskRect.height(); // screen height
 
 	if ( image.width() <= w && image.height() > h ) //Window is taller than desktop
-		ui->View->resize( int( image.width()*h/image.height() ), h );
+		image = image.scaled( int( image.width()*h/image.height() ), h );
 
 	else if ( image.height() <= h && image.width() > w ) //window is wider than desktop
-		ui->View->resize( w, int( image.height()*w/image.width() ) );
+		image = image.scaled( w, int( image.height()*w/image.width() ) );
 
 	else if ( image.width() > w && image.height() > h ) { //window is too tall and too wide
 		//which needs to be shrunk least, width or height?
 		float fx = float(w)/float(image.width());
 		float fy = float(h)/float(image.height());
     if (fx > fy) //width needs to be shrunk less, so shrink to fit in height
-			ui->View->resize( int( image.width()*fy ), h );
+			image = image.scaled( int( image.width()*fy ), h );
 		else //vice versa
-			ui->View->resize( w, int( image.height()*fx ) );
-	} else
-		ui->View->resize( image.size() );
-
-	ui->View->setPixmap( QPixmap::fromImage( image.scaled( ui->View->size(), 
-			Qt::KeepAspectRatio, Qt::SmoothTransformation ) ) );
+			image = image.scaled( w, int( image.height()*fx ) );
+	}
 
 	show();	// hide is default
+
+	View->setImage( image );
+	w = image.width();
+	if ( Caption->width() > w ) w = Caption->width();
+	View->setFixedSize( w, image.height() );
+	update();
 }
 
 void ImageViewer::saveFileToDisc()

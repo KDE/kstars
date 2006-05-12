@@ -122,6 +122,20 @@ class SkyMapComposite : public QObject, public SkyComposite
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		/**
+			*@short Search the children of this SkyMapComposite for 
+			*a SkyObject whose name matches the argument.
+			*
+			*The objects' primary, secondary and long-form names will 
+			*all be checked for a match.
+			*@note Overloaded from SkyComposite.  In this version, we search 
+			*the most likely object classes first to be more efficient.
+			*@p name the name to be matched
+			*@return a pointer to the SkyObject whose name matches
+			*the argument, or a NULL pointer if no match was found.
+			*/
+		virtual SkyObject* findByName( const QString &name );
+
+		/**
 			*@short Add a Trail to the specified SkyObject
 			*Loop over all child SkyComponents; if the SkyObject
 			*in the argument is found, add a Trail to it.

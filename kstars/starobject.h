@@ -91,12 +91,12 @@ class StarObject : public SkyObject {
 /**
 	*If star is unnamed return "star" otherwise return the name
 	*/
-	virtual QString name( void ) const { return hasName() ? *Name : starString;}
+	inline virtual QString name( void ) const { return hasName() ? Name : starString;}
 
 /**
 	*If star is unnamed return "star" otherwise return the longname
 	*/
-	virtual QString longname( void ) const { return hasLongName() ? *LongName : starString; }
+	inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
 /**
 	*Returns first character of Spectral Type string, which is used to
 	*select the temperature-color of the star.
@@ -142,45 +142,45 @@ class StarObject : public SkyObject {
 	*@param pmra the new RA propoer motion
 	*@param pmdec the new Dec proper motion
 	*/
-	void setProperMotion( double pmra, double pmdec ) { PM_RA = pmra; PM_Dec = pmdec; }
+	inline void setProperMotion( double pmra, double pmdec ) { PM_RA = pmra; PM_Dec = pmdec; }
 
 /**@return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec))
 	*/
-	double pmRA() const { return PM_RA; }
+	inline double pmRA() const { return PM_RA; }
 
 /**@return the Dec component of the star's proper motion, in mas/yr
 	*/
-	double pmDec() const { return PM_Dec; }
+	inline double pmDec() const { return PM_Dec; }
 
 /**@short set the star's parallax angle, in milliarcsec
 	*/
-	void setParallax( double plx ) { Parallax = plx; }
+	inline void setParallax( double plx ) { Parallax = plx; }
 
 /**@return the star's parallax angle, in milliarcsec
 	*/
-	double parallax() const { return Parallax; }
+	inline double parallax() const { return Parallax; }
 
 /**@return the star's distance from the Sun in parsecs, as computed from the parallax.
 	*/
-	double distance() const { return 1000./parallax(); }
+	inline double distance() const { return 1000./parallax(); }
 
 /**@short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
 	*@param m true if binary/multiple star system
 	*/
-	void setMultiple( bool m ) { Multiplicity = m; }
+	inline void setMultiple( bool m ) { Multiplicity = m; }
 
 /**@return whether the star is a binary or multiple starobject
 	*/
-	bool isMultiple() const { return Multiplicity; }
+	inline bool isMultiple() const { return Multiplicity; }
 
 /**@short set the star's variability flag
 	*@param v true if star is variable
 	*/
-	void setVariable( bool v ) { Variability = v; }
+	inline void setVariable( bool v ) { Variability = v; }
 
 /**@return whether the star is a binary or multiple starobject
 	*/
-	bool isVariable() const { return Variability; }
+	inline bool isVariable() const { return Variability; }
 
 //Not using VRange, VPeriod currently (to save memory)
 ///**@short set the range in brightness covered by the star's variability
