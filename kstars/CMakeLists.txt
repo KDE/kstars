@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( skycomponents ) 
 add_subdirectory( widgets ) 
@@ -266,7 +265,6 @@ install_files( /include FILES kstarsinterface.h simclockinterface.h )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
-kde4_footer()
 
 
 

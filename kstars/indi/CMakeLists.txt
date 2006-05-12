@@ -1,4 +1,3 @@
-kde4_header()
 
 add_subdirectory( fli ) 
 add_subdirectory( webcam ) 
@@ -414,7 +413,6 @@ ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 install_files( ${DATA_INSTALL_DIR}/kstars FILES drivers.xml apogee_caminfo.xml )
 
-kde4_footer()
 
 #original Makefile.am contents follow:
 
