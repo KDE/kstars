@@ -573,8 +573,7 @@ void KStars::buildGUI() {
 	initStatusBar();
 	initActions();
 
-	// 2nd parameter must be false, or plugActionList won't work!
-	createGUI("kstarsui.rc", false);
+	createGUI("kstarsui.rc");
 
 	//Add timestep widget to toolbar
 	//FIXME: Need to add the widget to kstarsToolBar,
