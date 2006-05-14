@@ -4,7 +4,7 @@
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/kstars/icons FILES  )
+kde4_install_icons( ${DATA_INSTALL_DIR}/kstars/icons hicolor )
 
 
 
