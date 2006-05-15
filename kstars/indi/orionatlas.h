@@ -58,7 +58,7 @@ class OrionAtlas
   int ConnectTel(char *port);
   void DisconnectTel(void);
   int GetCoords(int System=RADEC|AZALT); // Retrieve coordinates from scope
-  int UpdateCoords(int System=RADEC|AZALT); // Retrieve coordinates and update INumbers
+  void UpdateCoords(int System=RADEC|AZALT); // Retrieve coordinates and update INumbers
   int MoveScope(int System, double Coord1, double Coord2); // move the scope
 
   int TelPortFD;

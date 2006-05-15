@@ -664,7 +664,7 @@ int OrionAtlas::GetCoords(int System)
 }
 
 // Get coords from scope and update INumbers
-int OrionAtlas::UpdateCoords(int System)
+void OrionAtlas::UpdateCoords(int System)
 {
     if (GetCoords(System)) {
         if (System&RADEC) {
