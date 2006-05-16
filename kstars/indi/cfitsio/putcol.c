@@ -1328,6 +1328,8 @@ int ffiter(int n_cols,
              case DOUBLE_IMG:
                  typecode = TDOUBLE;
                  break;
+             default:
+                 goto cleanup;
             }
         }
         else
