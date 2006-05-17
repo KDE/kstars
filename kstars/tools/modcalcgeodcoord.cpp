@@ -258,8 +258,8 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 	QString line;
 	QString space = " ";
 	int i = 0;
-	GeoLocation *geoPl = new GeoLocation();
-	geoPl->setEllipsoid(0);
+	GeoLocation geoPl;
+	geoPl.setEllipsoid(0);
 
 	double xB, yB, zB, hB;
 	dms latB, longB;
@@ -320,12 +320,12 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 				if(YGeoCheckBatch->isChecked() )
 					ostream << zB << space;
 
-			geoPl->setXPos( xB*1000.0 );
-			geoPl->setYPos( yB*1000.0 );
-			geoPl->setZPos( zB*1000.0 );
-			ostream << geoPl->lng()->toDMSString() << space <<
-				geoPl->lat()->toDMSString() << space <<
-				geoPl->height() << endl;
+			geoPl.setXPos( xB*1000.0 );
+			geoPl.setYPos( yB*1000.0 );
+			geoPl.setZPos( zB*1000.0 );
+			ostream << geoPl.lng()->toDMSString() << space <<
+				geoPl.lat()->toDMSString() << space <<
+				geoPl.height() << endl;
 
 		// Input coords. are Long, Lat and Height
 
@@ -373,13 +373,13 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 				if(AltGeoCheckBatch->isChecked() )
 					ostream << hB << space;
 
-			geoPl->setLong( longB );
-			geoPl->setLat(  latB );
-			geoPl->setHeight( hB );
+			geoPl.setLong( longB );
+			geoPl.setLat(  latB );
+			geoPl.setHeight( hB );
 
-			ostream << geoPl->xPos()/1000.0 << space <<
-				geoPl->yPos()/1000.0 << space <<
-				geoPl->zPos()/1000.0 << endl;
+			ostream << geoPl.xPos()/1000.0 << space <<
+				geoPl.yPos()/1000.0 << space <<
+				geoPl.zPos()/1000.0 << endl;
 
 		}
 
