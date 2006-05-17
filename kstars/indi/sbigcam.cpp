@@ -2595,6 +2595,7 @@ int SbigCam::UploadFits(string fits_name)
 				nr = fread(fits_data + i, 1, total_bytes - i, fits_file);
 				if(nr <= 0){
 						IDMessage(DEVICE_NAME, "Error: UploadFits - reading temporary FITS file.");
+						free(compressed_data);
 						return(CE_OS_ERROR);
 				}
 	}
