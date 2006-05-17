@@ -2584,7 +2584,10 @@ int SbigCam::UploadFits(string fits_name)
 	#endif   
 
 	FILE *fits_file = fopen(fits_name.c_str(), "r");
-	if(fits_file == 0) return(CE_OS_ERROR);
+	if(fits_file == 0) {
+		free (fits_data);
+		return(CE_OS_ERROR);
+	}
    
 	// Read FITS file from disk:
 	unsigned int	i = 0, nr = 0;
