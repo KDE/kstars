@@ -1001,8 +1001,10 @@ bool ApogeeCam::initCamera()
   
   int bAddr = 0x378;
   int val   = 0;
-  
-  bAddr = hextoi(valuXMLAtt(findXMLAtt(system, "Base"))) & 0xFFF;
+  XMLAtt* baseAtt = findXMLAtt(system, "Base");
+
+  if (baseAtt)
+    bAddr = hextoi(valuXMLAtt(baseAtt)) & 0xFFF;
   
   // Rows
   ap = findXMLAtt(geometry, "Rows");
