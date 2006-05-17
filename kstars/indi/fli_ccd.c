@@ -907,6 +907,8 @@ void uploadFile(const char* filename)
    
    if (fitsData == NULL || compressedData == NULL)
    {
+     if (fitsData) free(fitsData);
+     if (compressedData) free(compressedData);
      IDLog("Error! low memory. Unable to initialize fits buffers.\n");
      return;
    }
