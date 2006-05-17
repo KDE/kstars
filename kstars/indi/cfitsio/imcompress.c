@@ -765,9 +765,10 @@ int imcomp_compress_tile (fitsfile *outfptr,
   	        nelem = fits_rcomp (idata, tilelen, (unsigned char *) cbuf,
                        clen, (outfptr->Fptr)->rice_blocksize);
 
-	        /* Write the compressed byte stream. */
-                ffpclb(outfptr, (outfptr->Fptr)->cn_compressed, row, 1,
-                     nelem, (unsigned char *) cbuf, status);
+		if (nelem >= 0)
+			/* Write the compressed byte stream. */
+			ffpclb(outfptr, (outfptr->Fptr)->cn_compressed, row, 1,
+			       nelem, (unsigned char *) cbuf, status);
         }
         else if ( (outfptr->Fptr)->compress_type == PLIO_1)
         {
