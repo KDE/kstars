@@ -50,7 +50,7 @@
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
-	kstarsData(0), splash(0), skymap(0), viewToolBar(0), TimeStep(0),
+	kstarsData(0), splash(0), skymap(0), TimeStep(0),
 	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
 	AAVSODialog(0), findDialog(0), kns(0), obsList(0),
 	indimenu(0), indidriver(0), indiseq(0),
@@ -112,22 +112,18 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 KStars::~KStars()
 {
+        delete kstarsData;
 	delete skymap;
-	delete AAVSODialog;
+        delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
-
+        delete TimeStep;
 	delete fovGroup;
 	delete cschemeGroup;
-
-	skymap = 0;
-	AAVSODialog = 0;
-	indimenu = 0;
-	indidriver = 0;
-	indiseq = 0;
-	fovGroup = 0;
-	cschemeGroup = 0;
+        delete obsList;
+        if ( kns ) delete kns;
+        if ( findDialog ) delete findDialog;
 }
 
 void KStars::clearCachedFindDialog() {

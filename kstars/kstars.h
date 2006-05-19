@@ -638,7 +638,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		KStarsSplash *splash;
 		SkyMap *skymap;
 
-		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
 
 		ToggleAction *actCoordSys;
