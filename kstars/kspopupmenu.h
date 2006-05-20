@@ -73,7 +73,7 @@ public:
 	*this object.  URL links appear in two categories: images and information pages.
 	*For some objects, a link to Digitized Sky Survey images will automatically be added
 	*in addition to the object's normal image links.  Also, for some objects, an
-	*"Add link..." item will be included, which allows the user to add their own cutsom 
+	*"Add link..." item will be included, which allows the user to add their own custom 
 	*URLs for this object.
 	*@param obj pointer to the skyobject which the menu describes
 	*@param showDSS if true, include DSS Image links

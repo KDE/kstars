@@ -44,7 +44,7 @@ public:
    /** register a bit for object ID.
        \param ID the identifier used to register the bit it should be the 'this' pointer.
        \param bit the bit of the // port to register
-       \return false if the bit is allready register with an
+       \return false if the bit is already register with an
                other ID, or if the // port is not initialised.
    */
    bool registerBit(const void * ID,int bit);

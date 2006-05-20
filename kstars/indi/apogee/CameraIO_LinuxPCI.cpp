@@ -219,7 +219,7 @@ long CCameraIO::Read( unsigned short reg, unsigned short& val )
 	return 0; 
 } 
  
-// Returns 0 if successfull, 1 if Line_Done poll timed out. 
+// Returns 0 if successful, 1 if Line_Done poll timed out.
 long CCameraIO::ReadLine( long SkipPixels, long Pixels,unsigned short* pLineBuffer )
 { 
     int j;
@@ -307,7 +307,7 @@ long CCameraIO::ReadImage( unsigned short* pImageBuffer )
 
 
 
-// Returns 0 if successfull, 1 if Line_Done poll timed out.
+// Returns 0 if successful, 1 if Line_Done poll timed out.
 long CCameraIO::InternalReadLine( bool KeepData, long SkipC, long XEnd, unsigned short* pLineBuffer )
 {
       struct apIOparam request;

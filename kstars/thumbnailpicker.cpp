@@ -145,7 +145,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 	while ( index >= 0 ) {
 		index += 8; //move to end of "?imgurl=" marker
 
-		//Image URL is everything from index to next occurence of "&"
+		//Image URL is everything from index to next occurrence of "&"
 		ImList.append( PageHTML.mid( index, PageHTML.indexOf( "&", index ) - index ) );
 
 		index = PageHTML.indexOf( "?imgurl=", index );

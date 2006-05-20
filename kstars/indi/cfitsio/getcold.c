@@ -832,7 +832,7 @@ int ffgcld( fitsfile *fptr,   /* I - FITS file pointer                       */
     /*  Now read the pixels from the FITS column. If the column does not   */
     /*  have the same datatype as the output array, then we have to read   */
     /*  the raw values into a temporary buffer (of limited size).  In      */
-    /*  the case of a vector colum read only 1 vector of values at a time  */
+    /*  the case of a vector column read only 1 vector of values at a time */
     /*  then skip to the next row if more values need to be read.          */
     /*  After reading the raw values, then call the fffXXYY routine to (1) */
     /*  test for undefined values, (2) convert the datatype if necessary,  */

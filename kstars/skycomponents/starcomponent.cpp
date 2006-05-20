@@ -59,7 +59,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
-//shortcuts to inform wheter to draw different objects
+//shortcuts to inform whether to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
 
 	//adjust maglimit for ZoomLevel

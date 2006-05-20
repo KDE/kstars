@@ -199,7 +199,7 @@ struct pwc_video_command
 	int frame_size;		/* Size of one (un)compressed frame */
 };
 
-/* Flags for PWCX subroutines. Not all modules honour all flags. */
+/* Flags for PWCX subroutines. Not all modules honor all flags. */
 #define PWCX_FLAG_PLANAR	0x0001
 #define PWCX_FLAG_BAYER		0x0008
 

@@ -380,7 +380,7 @@ void ISPoll(void *p)
            simMTC = 5;
            currentPosition = targetPosition;
            FocuserNP.s = IPS_OK;
-	   IDSetNumber(&FocuserNP, "Focuser positon %ld", targetPosition);
+           IDSetNumber(&FocuserNP, "Focuser position %ld", targetPosition);
            break;
         }
         IDSetNumber(&FocuserNP, NULL);

@@ -121,7 +121,7 @@ void trimstr(char *s)
 // CfgGet
 //
 // Retrieve a parameter from an INI file. Returns a status code
-// and the paramter string in retbuff.
+// and the parameter string in retbuff.
 //-------------------------------------------------------------
 bool CfgGet ( FILE* inifp,
                char  *inisect,

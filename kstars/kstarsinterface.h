@@ -236,7 +236,7 @@ class KStarsInterface : virtual public DCOPObject
 		virtual ASYNC setINDITargetName(const QString &objectName) = 0;
 		
 		/**Set telescope action
-		 *@param action The specfic action to perform. Either SLEW, TRACK, SYNC, PARK, or ABORT.
+		 *@param action The specific action to perform. Either SLEW, TRACK, SYNC, PARK, or ABORT.
 		 */
 		virtual ASYNC setINDIScopeAction(const QString &action) = 0;
 		

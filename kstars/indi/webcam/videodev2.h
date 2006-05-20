@@ -352,7 +352,7 @@ struct v4l2_jpegcompression
 #define V4L2_JPEG_MARKER_DRI (1<<5)    /* Define Restart Interval */
 #define V4L2_JPEG_MARKER_COM (1<<6)    /* Comment segment */
 #define V4L2_JPEG_MARKER_APP (1<<7)    /* App segment, driver will
-                                        * allways use APP0 */
+                                        * always use APP0 */
 };
 
 

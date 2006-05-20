@@ -656,9 +656,9 @@ bool INDIStdDevice::handleNonSidereal()
     kDebug() << "Object of type " << currentObject->typeName() << endl;
   //TODO Meade claims that the library access is available to
   // all telescopes, which is unture. Only classic meade support
-  // that. They claim that library funcion will be available to all
+  // that. They claim that library function will be available to all
   // in "later" firmware revisions for the autostar and GPS.
-  // As a temprory solution, I'm going to explicity check for the
+  // As a temporary solution, I'm going to explicitly check for the
   // device name which ideally I'm not supposed to do since all properties
   // should be defined from the INDI driver, but since the INDI autostar
   // and gps define the library functions (based on Meade's future claims)

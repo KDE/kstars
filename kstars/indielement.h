@@ -62,7 +62,7 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME, SDTIME, GEOGRAPHIC_COORD,   
 		     FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
                      FILTER_SLOT};						/* Filter */
 		     
-/* Devices families that we explicity support (i.e. with std properties) */
+/* Devices families that we explicitly support (i.e. with std properties) */
 enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
 
 #define	MAXSCSTEPS	1000	/* max number of steps in a scale */
@@ -96,8 +96,8 @@ class INDI_E : public QObject
  public:
   INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel);
   ~INDI_E();
-    QString name;			/*  name */
-    QString label;			/* label is the name by default, unless specefied */
+    QString name;			/* name */
+    QString label;			/* label is the name by default, unless specified */
     PState state;			/* control on/off t/f etc */
     INDI_P *pp;				/* parent property */
 

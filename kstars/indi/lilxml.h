@@ -79,7 +79,7 @@ typedef struct _LilXML LilXML;
 /* creation and destruction functions */
 
 /** \brief Create a new lilxml parser.
-    \return a pointer to the lilxml parser on sucess. NULL on failure.
+    \return a pointer to the lilxml parser on success. NULL on failure.
 */
 extern LilXML *newLilXML(void);
 

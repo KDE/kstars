@@ -615,7 +615,7 @@ bool CCameraIO::GetImage( unsigned short* pImageData, short& xSize, short& ySize
 //        UnmaskIrqs();
 
 	if ( ret )
-	{	// We were successfull
+	{	// We were successful
 		Flush( m_ExposureAIR );	// flush after imaging rows
 
 		xSize = m_ExposureNumX;
@@ -769,7 +769,7 @@ bool CCameraIO::Snap( double Duration, bool Light, unsigned short* pImageData, s
 		{	// This will wait forever if no trigger happens
 			stat = read_Status();
 			if ( stat == Camera_Status_Exposing ) break;
-			Sleep( 220 );	// dont bog down the CPU while polling
+			Sleep( 220 );	// don't bog down the CPU while polling
 		}
 		m_WaitingforTrigger = false;
 	}
@@ -783,7 +783,7 @@ bool CCameraIO::Snap( double Duration, bool Light, unsigned short* pImageData, s
 		if ( stat == Camera_Status_ImageReady ) break;
 		
 		if ( clock() > StopTime ) return false;	// Timed out, no image available
-		Sleep( 220 );	// dont bog down the CPU while polling
+		Sleep( 220 );	// don't bog down the CPU while polling
 	}
 
 	return GetImage( pImageData, xSize, ySize );
@@ -1257,7 +1257,7 @@ void CCameraIO::LoadTimerAndBinning( double Duration, unsigned short HBin, unsig
 			Write( Reg_BICCounter, m_RegShadow[ Reg_BICCounter ] );
 		}
 
-		if ( valTimer <= 0 ) valTimer = 1;		// Safety since firmware doesnt like zero
+		if ( valTimer <= 0 ) valTimer = 1;	// Safety since firmware doesn't like zero
 
 		unsigned short valTimerLow = (unsigned short) (valTimer & 0x0000FFFF);
 		unsigned short valTimerHigh = (unsigned short) (valTimer >> 16);

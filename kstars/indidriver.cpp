@@ -705,7 +705,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
   label = valuXMLAtt(ap);
 
-  // Let's look for telescope-specfic attributes: focal length and aperture
+  // Let's look for telescope-specific attributes: focal length and aperture
   ap = findXMLAtt(root, "focal_length");
   if (ap)
    focal_length = QString(valuXMLAtt(ap)).toDouble();

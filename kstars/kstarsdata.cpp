@@ -924,7 +924,7 @@ bool KStarsData::readINDIHosts(void)
 //waitForKey()) don't make sense and should be ignored.
 //also, even functions that do make sense in this context have aspects that should
 //be modified or ignored.  For example, we don't need to call slotCenter() on recentering
-//commands, just setDestination().  (sltoCenter() does additional things that we dont need).
+//commands, just setDestination().  (sltoCenter() does additional things that we do not need).
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 	int cmdCount(0);
 

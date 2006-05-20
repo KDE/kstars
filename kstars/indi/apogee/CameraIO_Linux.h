@@ -206,7 +206,7 @@ public:
 
 	bool m_FastShutter;			// Capable of 0.001 sec exposure resolution
 
-	bool m_GuiderRelays;		// Capable of outputing autoguider signals
+	bool m_GuiderRelays;		// Capable of outputting autoguider signals
 
 	short m_MaxBinX, m_MaxBinY;	// Maximum binning factors	
 	
@@ -313,7 +313,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// Drift scan methods
 
-	// Begins clocking and digitization of a single line of data begining with a vertical clock
+	// Begins clocking and digitization of a single line of data beginning with a vertical clock
 	// sequence and ending with a buffer full of line data. Poll the CameraStatus property to
 	// determine when the data is ready for download.
 	bool DigitizeLine();
