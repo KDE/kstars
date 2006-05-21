@@ -233,6 +233,9 @@ void WUTDialog::appendToList(SkyObject *o) {
 }
 
 void WUTDialog::slotLoadList(int i) {
+	if (i < 0)
+		return;
+
 	WUT->ObjectListBox->clear();
 	setCursor(QCursor(Qt::WaitCursor));
 //DONT_NEED_INVISLIST
