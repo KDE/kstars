@@ -91,7 +91,7 @@ void ThumbnailPicker::slotFillList() {
 	gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
 	//Download the google page and parse it for image URLs
-	parseGooglePage( ImageList, gURL.prettyURL() );
+	parseGooglePage( ImageList, gURL.prettyUrl() );
 
 	//Total Number of images to be loaded:
 	int nImages = ImageList.count();
@@ -205,8 +205,8 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 
 		//Add 50x50 image and URL to listbox
 		//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
-		//		cjob->srcURLs().first().prettyURL() );
-		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcURLs().first().prettyURL() ));
+		//		cjob->srcURLs().first().prettyUrl() );
+		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcURLs().first().prettyUrl() ));
 	}
 }
 
@@ -337,8 +337,8 @@ void ThumbnailPicker::slotSetFromURL() {
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
 			PixList.insert( 0, new QPixmap( QPixmap::fromImage( im ) ) );
 			//ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
-			//		u.prettyURL(), 0 );
-			ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyURL() ));
+			//		u.prettyUrl(), 0 );
+			ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyUrl() ));
 
 			//Select the new image
 			//ui->ImageList->setCurrentItem( 0 );

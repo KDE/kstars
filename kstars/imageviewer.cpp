@@ -160,7 +160,7 @@ void ImageViewer::showImage()
 	QImage image;
 	if (!image.load (file->fileName()))		// if loading failed
 	{
-		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyURL());
+		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
 		KMessageBox::error (this, text);
 		closeEvent (0);
 		return;
@@ -223,7 +223,7 @@ void ImageViewer::saveFile (KUrl &url) {
 // synchronous Access to prevent segfaults
 	if (!KIO::NetAccess::copy (KUrl (file->fileName()), url, (QWidget*) 0))
 	{
-		QString text = i18n ("Saving of the image %1 failed.", url.prettyURL());
+		QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
 		KMessageBox::error (this, text);
 	}
 }

@@ -499,7 +499,7 @@ void KStars::slotRunScript() {
 
 					if ( tmpfile.name() == fname ) { //upload to remote location
 						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-							QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyURL() );
+							QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
 							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 						}
 					}

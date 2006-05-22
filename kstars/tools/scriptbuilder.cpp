@@ -976,7 +976,7 @@ void ScriptBuilder::slotSave() {
 
 		if ( tmpfile.name() == fname ) { //need to upload to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) ) {
-				QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyURL() );
+				QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
 		}
