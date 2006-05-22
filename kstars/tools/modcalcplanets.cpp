@@ -284,13 +284,13 @@ void modCalcPlanets::slotLatCheckedBatch(){
 void modCalcPlanets::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setURL( inputFileName );
+	InputFileBoxBatch->setUrl( inputFileName );
 }
 
 void modCalcPlanets::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setURL( outputFileName );
+	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcPlanets::slotRunBatch() {
@@ -317,7 +317,7 @@ void modCalcPlanets::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
-		InputFileBoxBatch->setURL( inputFileName );
+		InputFileBoxBatch->setUrl( inputFileName );
 		return;
 	}
 }

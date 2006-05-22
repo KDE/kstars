@@ -203,14 +203,14 @@ void modCalcGeodCoord::slotInputFile() {
 
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setURL( inputFileName );
+	InputFileBoxBatch->setUrl( inputFileName );
 }
 
 void modCalcGeodCoord::slotOutputFile() {
 
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setURL( outputFileName );
+	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcGeodCoord::slotRunBatch(void) {
@@ -239,7 +239,7 @@ void modCalcGeodCoord::slotRunBatch(void) {
 		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
-		InputFileBoxBatch->setURL( inputFileName );
+		InputFileBoxBatch->setUrl( inputFileName );
 		return;
 	}
 }

@@ -193,13 +193,13 @@ void modCalcGalCoord::slotGalLongCheckedBatch(){
 void modCalcGalCoord::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setURL( inputFileName );
+	InputFileBoxBatch->setUrl( inputFileName );
 }
 
 void modCalcGalCoord::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setURL( outputFileName );
+	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcGalCoord::slotRunBatch() {
@@ -228,7 +228,7 @@ void modCalcGalCoord::slotRunBatch() {
 		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
-		InputFileBoxBatch->setURL( inputFileName );
+		InputFileBoxBatch->setUrl( inputFileName );
 		return;
 	}
 }
