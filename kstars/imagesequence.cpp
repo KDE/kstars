@@ -334,16 +334,17 @@ void imagesequence::newFITS(const QString &deviceLabel)
 	// if we're done
 	if (seqCurrentCount == seqTotalCount)
 	{
-		stdDevCCD->batchMode    = false;
-		stdDevCCD->ISOMode      = false;
 		retries              = 0;
 		seqTotalCount        = 0;
 		seqCurrentCount      = 0;
 		active               = false;
 		seqTimer->stop();
 
-		if (stdDevCCD)
+		if (stdDevCCD) {
 			stdDevCCD->disconnect( SIGNAL(FITSReceived(QString)));
+			stdDevCCD->batchMode    = false;
+	                stdDevCCD->ISOMode      = false;
+		}
 
 		resetButtons();
 	}
