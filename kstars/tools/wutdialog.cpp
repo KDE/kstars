@@ -332,6 +332,7 @@ void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
 
 		if ( !o ) { //should never get here
 			WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
+		}
 	}
 	if (o && item) {
 		WUT->ObjectBox->setTitle( o->name() );
