@@ -2670,8 +2670,8 @@ int *m;                 /* maximum lookup bits, returns actual */
         i ^= j;
       i ^= j;
 
-      // it is possible given the code in this function that h never gets incremented
-      // but it used to index into x, so be paranoid and check
+      /* it is possible given the code in this function that h never gets incremented
+         but it used to index into x, so be paranoid and check */
       if (h > -1)
       {
         /* backup over finished tables */
