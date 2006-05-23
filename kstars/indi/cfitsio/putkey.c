@@ -2424,8 +2424,10 @@ int ffphtb(fitsfile *fptr,  /* I - FITS file pointer                        */
           ffpkys(fptr, name, ttype[ii], comm, status);
         }
 
-        if (!tbcol || tbcol[ii] < 1 || tbcol[ii] > rowlen)
+        if (!tbcol || tbcol[ii] < 1 || tbcol[ii] > rowlen) {
            *status = BAD_TBCOL;
+           break;
+        }
 
         sprintf(comm, "beginning column of field %3d", ii + 1);
         ffkeyn("TBCOL", ii + 1, name, status);
