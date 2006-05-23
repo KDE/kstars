@@ -322,15 +322,18 @@ void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
 	sSet = "--:--";
 	WUT->DetailButton->setEnabled( false );
 
-	SkyObject *o = kstars->data()->objectNamed( item->text() );
-
-	if ( item==0 ) { //no object selected
-		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
-
-	} else if ( !o ) { //should never get here
-		WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
-
+	SkyObject *o = 0;
+	if ( item == 0 )
+	{  //no object selected
+		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );	
+		o = 0;
 	} else {
+		o = kstars->data()->objectNamed( item->text() );
+
+		if ( !o ) { //should never get here
+			WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
+	}
+	if (o && item) {
 		WUT->ObjectBox->setTitle( o->name() );
 
 		if ( o->checkCircumpolar( geo->lat() ) ) {
