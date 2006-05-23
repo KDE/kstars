@@ -2670,11 +2670,16 @@ int *m;                 /* maximum lookup bits, returns actual */
         i ^= j;
       i ^= j;
 
-      /* backup over finished tables */
-      while ((i & ((1 << w) - 1)) != x[h])
+      // it is possible given the code in this function that h never gets incremented
+      // but it used to index into x, so be paranoid and check
+      if (h > -1)
       {
-        h--;                    /* don't need to update q */
-        w -= l;
+        /* backup over finished tables */
+        while ((i & ((1 << w) - 1)) != x[h])
+        {
+          h--;                    /* don't need to update q */
+          w -= l;
+        }
       }
     }
   }
