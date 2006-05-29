@@ -12,7 +12,7 @@
     2003-04-28 Used indimenu.c as a template. C --> C++, Xm --> KDE/Qt
     2003-05-01 Added tab for devices and a group feature
     2003-05-02 Added scrolling area. Most things are rewritten
-    2003-05-05 Device/Group seperation
+    2003-05-05 Device/Group separation
     2003-05-29 Replaced raw INDI time with KStars's timedialog
     2003-08-02 Upgrading to INDI v 1.11
     2003-08-09 Initial support for non-sidereal tracking
@@ -613,7 +613,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	    return NULL;
 	}
 
-	/* Remove Vertical spacer from group layout, this is done everytime
+	/* Remove Vertical spacer from group layout, this is done every time
 	  * a new property arrives. The spacer is then appended to the end of the
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);

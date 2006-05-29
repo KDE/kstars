@@ -84,7 +84,7 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	if ( NumArgs ) Valid = false;
 
 	//Finish writing function prototype
-	if ( NumArgs ) Description += " ";
+	if ( NumArgs ) Description += ' ';
 	Description += nameStyle.arg( ")" ) + "</p><p>";
 
 	//Add description

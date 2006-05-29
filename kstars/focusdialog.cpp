@@ -82,7 +82,7 @@ void FocusDialog::validatePoint() {
 		if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
 			message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
 		if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-			message += "\n" + i18n( "The Declination value must be between -90.0 and 90.0." );
+			message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
 		if ( ! message.isEmpty() ) {
 			KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
 			return;
@@ -103,7 +103,7 @@ void FocusDialog::validatePoint() {
 			if ( az.Degrees() < 0.0 || az.Degrees() > 360.0 )
 				message = i18n( "The Azimuth value must be between 0.0 and 360.0." );
 			if ( alt.Degrees() < -90.0 || alt.Degrees() > 90.0 )
-				message += "\n" + i18n( "The Altitude value must be between -90.0 and 90.0." );
+				message += '\n' + i18n( "The Altitude value must be between -90.0 and 90.0." );
 			if ( ! message.isEmpty() ) {
 				KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
 				return;

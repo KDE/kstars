@@ -181,7 +181,7 @@ QString AddCatDialog::writeCatalogHeader() {
 		}
 	}
 
-	h += "\n";
+	h += '\n';
 
 	return h;
 }

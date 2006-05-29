@@ -484,7 +484,7 @@ string SbigCam::GetCameraName()
     	name = gccdir.name;
     	switch(gccdir.cameraType){
       		case	ST237_CAMERA:
-            	 	if(gccdir.readoutInfo[0].gain >= 0x100) name += "A";
+            	 	if(gccdir.readoutInfo[0].gain >= 0x100) name += 'A';
 	    		 			break;
        		case 	STL_CAMERA:
  	    		 			// driver reports name as "SBIG ST-L-XXX..."

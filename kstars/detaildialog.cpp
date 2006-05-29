@@ -463,9 +463,9 @@ void DetailDialog::editLinkDialog()
 		currentItemTitle = Links->InfoTitleList->currentItem()->text();
 		currentItemURL   = selectedObject->InfoList[row];
 		search_line = selectedObject->name();
-		search_line += ":";
+		search_line += ':';
 		search_line += currentItemTitle;
-		search_line += ":";
+		search_line += ':';
 		search_line += currentItemURL;
 		type       = 0;
 	}
@@ -475,9 +475,9 @@ void DetailDialog::editLinkDialog()
 		currentItemTitle = Links->ImageTitleList->currentItem()->text();
 		currentItemURL   = selectedObject->ImageList[row];
 		search_line = selectedObject->name();
-		search_line += ":";
+		search_line += ':';
 		search_line += currentItemTitle;
-		search_line += ":";
+		search_line += ':';
 		search_line += currentItemURL;
 		type 	   = 1;
 	}
@@ -542,9 +542,9 @@ void DetailDialog::removeLinkDialog()
 		currentItemTitle = Links->InfoTitleList->currentItem()->text();
 		currentItemURL   = selectedObject->InfoList[row];
 		LineEntry = selectedObject->name();
-		LineEntry += ":";
+		LineEntry += ':';
 		LineEntry += currentItemTitle;
-		LineEntry += ":";
+		LineEntry += ':';
 		LineEntry += currentItemURL;
 		type       = 0;
 	}
@@ -554,9 +554,9 @@ void DetailDialog::removeLinkDialog()
 		currentItemTitle = Links->ImageTitleList->currentItem()->text();
 		currentItemURL   = selectedObject->ImageList[row];
 		LineEntry = selectedObject->name();
-		LineEntry += ":";
+		LineEntry += ':';
 		LineEntry += currentItemTitle;
-		LineEntry += ":";
+		LineEntry += ':';
 		LineEntry += currentItemURL;
 		type 	   = 1;
 	}

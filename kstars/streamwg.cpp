@@ -180,7 +180,7 @@ void StreamWG::captureImage()
 
 	if (fname.right(fmt.length()).toLower() != fmt.toLower()) 
 	{
-	  fname += ".";
+	  fname += '.';
 	  fname += fmt.toLower();
 	}
 	  

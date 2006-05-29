@@ -179,7 +179,7 @@ downloadJob = 0;
 		return;		// exit this function
 	}
 
-	file->close(); // to get the newest informations of the file and not any informations from opening of the file
+	file->close(); // to get the newest information of the file and not any information from opening of the file
 
 	if ( file->exists() )
 	{

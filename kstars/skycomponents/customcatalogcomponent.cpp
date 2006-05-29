@@ -101,7 +101,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
 
 		if ( objectList().size() ) {
 			if ( errs.size() > 0 ) { //some data parsed, but there are errs to report
-				QString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + "\n" +
+				QString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + '\n' +
 												i18n( "To reject the file, press Cancel. " ) +
 												i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
 				if ( KMessageBox::warningContinueCancelList( 0, message, errs,

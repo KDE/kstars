@@ -1160,25 +1160,25 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	  if ( cur.startsWith("\""))
 	  {
 	    arg += cur.right(cur.length() - 1);
-	    arg += " ";
+	    arg += ' ';
 	    foundQuote = true;
 	    quoteProcessed = true;
 	  }
 	  else if (cur.endsWith("\""))
 	  {
 	    arg += cur.left(cur.length() -1);
-	    arg += "'";
+	    arg += '\'';
 	    foundQuote = false;
 	  }
 	  else if (foundQuote)
 	  {
 	    arg += cur;
-	    arg += " ";
+	    arg += ' ';
 	  }
 	  else
 	  {
 	    arg += cur;
-	    arg += "'";
+	    arg += '\'';
 	  }
 	}
 	    

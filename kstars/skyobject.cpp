@@ -392,7 +392,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	}
 
 	//append the new log entry to the end of the logs text
-	logs.append( KSLabel + "\n" + newLog + "\n[KSLogEnd]\n" );
+	logs.append( KSLabel + '\n' + newLog + "\n[KSLogEnd]\n" );
 
 	//Open file for writing
 	if ( !file.open( QIODevice::WriteOnly ) ) {
