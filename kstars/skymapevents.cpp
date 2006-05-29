@@ -311,81 +311,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
 
 //TIMING
-/*
-		case Qt::Key_G: //loop through all cities
-		{
-
-      QFile file;
-     	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-        KSFileReader fileReader( file );
-        int nCount = 0;
-        while (fileReader.hasMoreLines()) {
-          QString line = fileReader.readLine();
-          nCount++;
-    			kDebug() << "Line " << nCount << " : " << line;
-        }
-      }
-
-			QTime t1;
-			t1.start();
-      for (int i=0;i<10;i++) {
-      	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-          QString sAll( file.readAll() );
-          QStringList lines = sAll.split( "\n" );
-          int nSize = lines.size();
-          for ( int i=0; i<nSize; i++ ) {
-            QString& line = lines[i];
-          }
-      		file.close();
-        }
-      }
-			kDebug() << "time taken for reading city data via read all (10 times): (msec): " << t1.elapsed() << endl;
-
-			QTime t2;
-			t2.start();
-      for (int i=0;i<10;i++) {
-      	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-      		QTextStream stream( &file );
-        	while ( !stream.eof() ) {
-      			QString line = stream.readLine();
-      		}
-      		file.close();
-      	}
-      }
-			kDebug() << "time taken for reading city data old code (10 times): (msec): " << t2.elapsed() << endl;
-
-			QTime t3;
-			t3.start();
-      for (int i=0;i<1;i++) {
-      	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
-          QString sAll( file.readAll() );
-          QStringList lines = sAll.split( "\n" );
-          int nSize = lines.size();
-          for ( int i=0; i<nSize; i++ ) {
-            QString& line = lines[i];
-          }
-      		file.close();
-        }
-      }
-			kDebug() << "time taken for reading deep sky data via read all (1 times): (msec): " << t3.elapsed() << endl;
-
-			QTime t4;
-			t4.start();
-      for (int i=0;i<1;i++) {
-      	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
-      		QTextStream stream( &file );
-        	while ( !stream.eof() ) {
-      			QString line = stream.readLine();
-      		}
-      		file.close();
-      	}
-      }
-			kDebug() << "time taken for reading deep sky data old code  (1 times): (msec): " << t4.elapsed() << endl;
-
-			break;
-		}
-*/
-
+// *** Uncomment and insert timing test code here ***
+// 		case Qt::Key_X: 
+// 			break;
 //END_TIMING
 	}
 
@@ -488,7 +416,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	//determine RA, Dec of mouse pointer
-	setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
+	setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
 	mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 
@@ -552,7 +480,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		data->HourAngle->setH( dHA );
 
 		//redetermine RA, Dec of mouse pointer, using new focus
-		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
+		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
 		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 
@@ -599,7 +527,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 		stopTracking();
 
-		SkyPoint newcenter = dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() );
+		SkyPoint newcenter = fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() );
 
 		setFocus( &newcenter );
 		setDestination( &newcenter );
@@ -667,8 +595,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(),
-				data->LST, data->geo()->lat(), Options::useRefraction() ) );
+		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
 		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 

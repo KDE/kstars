@@ -56,7 +56,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 		{
 			psky.setPen( QPen( QColor( "gray" ) ) );
 			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			QPointF o = map->getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( ast, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 
 			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{

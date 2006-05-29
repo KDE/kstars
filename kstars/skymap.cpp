@@ -403,7 +403,7 @@ void SkyMap::slotDSS2( void ) {
 void SkyMap::slotBeginAngularDistance(void) {
 	setPreviousClickedPoint( mousePoint() );
 	angularDistanceMode = true;
-	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
+	beginRulerPoint = toScreen( previousClickedPoint(), Options::projection(), Options::useAltAz(), Options::useRefraction() );
 	endRulerPoint =  QPointF( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
@@ -734,7 +734,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	QPointF t = getXY( &test, Options::useAltAz(), Options::useRefraction(), scale );
+	QPointF t = toScreen( &test, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 	double dx = double( t.x() - x );
 	double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
 	double north;
@@ -751,9 +751,8 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	return ( north + o->pa() );
 }
 
-QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
+QPointF SkyMap::toScreen( SkyPoint *o, int projection, bool Horiz, bool doRefraction, double scale ) {
 	QPointF p;
-
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
@@ -784,6 +783,14 @@ QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale 
 		focus()->dec()->SinCos( sinY0, cosY0 );
   }
 
+	//Special case: Equirectangular projection is very simple
+	if ( projection == Equirectangular ) {
+		p.setX( 0.5*Width  - pscale*dX );
+		p.setY( 0.5*Height - pscale*(Y - focus()->dec()->radians()) );
+		
+		return p;
+	}
+
 	//Convert dX, Y coords to screen pixel coords.
 	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
 	//GNU version
@@ -797,6 +804,7 @@ QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale 
 	cosY  = cos(Y);
 	#endif
 
+	//c is the cosine of the angular distance from the center
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
@@ -805,7 +813,31 @@ QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale 
 		return p;
 	}
 
-	double k = sqrt( 2.0/( 1 + c ) );
+	double k;
+	switch ( projection ) {
+		case Lambert:
+			k = sqrt( 2.0/( 1.0 + c ) );
+			break;
+		case AzimuthalEquidistant:
+		{
+			double crad = acos(c);
+			k = crad/sin(crad);
+			break;
+		}
+		case Orthographic:
+			k = 1.0;
+			break;
+		case Stereographic:
+			k = 2.0/(1.0 + c);
+			break;
+		case Gnomonic:
+			k = 1.0/c;
+			break;
+		default: //should never get here
+			kWarning() << i18n("Unrecognized coordinate projection: ") << projection << endl;
+			k = 1.0;  //just default to Orthographic
+			break;
+	}
 
 	p.setX( 0.5*Width  - pscale*k*cosY*sindX );
 	p.setY( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
@@ -813,10 +845,11 @@ QPointF SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale 
 	return p;
 }
 
-SkyPoint SkyMap::dXdYToRaDec( double dx, double dy, bool useAltAz, dms *LST, const dms *lat, bool doRefract ) {
+SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat, int projection, bool useAltAz, bool doRefract ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel
 	//coordinates in the SkyMap with the center of the map as the origin.
 
+	//TODO: Account for different projection systems
 	SkyPoint result;
 	double sinDec, cosDec, sinDec0, cosDec0, sinc, cosc, sinlat, coslat;
 	double xx, yy;
@@ -920,7 +953,7 @@ void SkyMap::forceUpdate( bool now )
 
 	if (! unusablePoint (dx, dy)) {
 		//determine RA, Dec of mouse pointer
-		setMousePoint( dXdYToRaDec( dx, dy, Options::useAltAz(), data->LST, data->geo()->lat(), Options::useRefraction() ) );
+		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
 	}
 
 	computeSkymap = true;
@@ -936,6 +969,7 @@ float SkyMap::fov() {
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p ) {
+	//TODO deal with alternate projections
 	double dX, dY;
 	bool useAltAz = Options::useAltAz();
 
@@ -1112,7 +1146,7 @@ void SkyMap::addLink( void ) {
 
 void SkyMap::updateAngleRuler() {
 	if ( Options::useAltAz() ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
+	beginRulerPoint = toScreen( previousClickedPoint(), Options::projection(), Options::useAltAz(), Options::useRefraction() );
 
 //	endRulerPoint =  QPoint(e->x(), e->y());
 	endRulerPoint = mapFromGlobal( QCursor::pos() );

@@ -116,7 +116,7 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
 		QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 	
 		SkyPoint p = ksp->trail().first();
-		QPointF o = map->getXY( &p, Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF o = map->toScreen( &p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 		QPointF oLast( o );
 	
 		bool doDrawLine(false);
@@ -142,7 +142,7 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
 				psky.setPen( QPen( tcolor, 1 ) );
 			}
 	
-			o = map->getXY( &p, Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->toScreen( &p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 	
 				//Want to disable line-drawing if this point and the last are both outside bounds of display.

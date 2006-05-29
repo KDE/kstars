@@ -266,7 +266,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, SkyMap *map,
 				//undefined (=99.9)
 				if ( (size > 1.0 || Options::zoomFactor() > 2000.) && 
 						 (mag > 90.0 || mag < (float)maglim) ) {
-					QPointF o = map->getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+					QPointF o = map->toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
 						double PositionAngle = 90. + map->findPA( obj, o.x(), o.y(), scale );

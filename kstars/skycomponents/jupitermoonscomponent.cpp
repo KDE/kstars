@@ -71,7 +71,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 		for ( unsigned int i=0; i<4; ++i )
 		{
-			QPointF o = map->getXY( jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( jmoons->pos(i), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{
 				if ( jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter

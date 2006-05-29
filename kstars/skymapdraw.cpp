@@ -130,7 +130,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
 
 		if ( checkVisibility( obj ) ) {
-			QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 				obj->drawNameLabel( psky, o.x(), o.y(), scale );
 			}
@@ -139,7 +139,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 
 	//Attach a label to the centered object
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
-		QPointF o = getXY( focusObject(), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF o = toScreen( focusObject(), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
 			focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
 	}
@@ -150,7 +150,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 		p.setPen( TransientColor );
 
 		if ( checkVisibility( transientObject() ) ) {
-			QPointF o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
+			QPointF o = toScreen( transientObject(), Options::projection(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0. && o.x() <= width() && o.y() >= 0. && o.y() <= height() ) {
 				transientObject()->drawNameLabel( p, o.x(), o.y(), 1.0 );
 			}
@@ -173,7 +173,7 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	if ( ks && ks->observingList()->obsList().size() ) {
 		foreach ( SkyObject* obj, ks->observingList()->obsList() ) {
 			if ( checkVisibility( obj ) ) {
-				QPointF o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
+				QPointF o = toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction() );
 
 				// label object if it is currently on screen
 				if (o.x() >= 0. && o.x() <= width() && o.y() >=0. && o.y() <= height() ) {
@@ -302,7 +302,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 
 						}
 
-						QPointF P = getXY( &indi_sp, Options::useAltAz(), Options::useRefraction() );
+						QPointF P = toScreen( &indi_sp, Options::projection(), Options::useAltAz(), Options::useRefraction() );
 
 						float s1 = 0.5*pxperdegree;
 						float s2 = pxperdegree;

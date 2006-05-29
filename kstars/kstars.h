@@ -587,6 +587,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**Toggle between Equatorial and Ecliptic coordinte systems */
 		void slotCoordSys();
 
+		/**Set the map projection according to the menu selection */
+		void slotMapProjection();
+
 		/**Toggle display of the observing list tool*/
 		void slotObsList();
 

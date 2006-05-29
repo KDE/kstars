@@ -78,7 +78,7 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	foreach ( sp, pointList() ) {
 		if ( map->checkVisibility( sp ) ) {
-			QPointF o = map->getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( sp, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o1.isNull() ) { o1 = o; oLast = o; continue; } //First item in list
 
 			float dx = o.x() - oLast.x();

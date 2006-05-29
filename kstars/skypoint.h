@@ -225,6 +225,16 @@ public:
 	*/
 //	const dms* gLong() const { return &galLong; }
 
+//XYZ
+	inline const double x() const { return m_X; }
+	inline const double y() const { return m_Y; }
+	inline const double z() const { return m_Z; }
+	//	inline void setX( double x ) { m_X = x; syncRaDec(); }
+	//	inline void setY( double y ) { m_Y = y; syncRaDec(); }
+	//	inline void setZ( double z ) { m_Z = z; syncRaDec(); }
+	void syncXYZ();
+	//	void syncRaDec();
+
 ////
 //// 3. Coordinate conversions.
 //// ==========================
@@ -493,6 +503,7 @@ private:
 	dms RA0, Dec0; //catalog coordinates
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
+	double m_X, m_Y, m_Z;
 };
 
 #endif

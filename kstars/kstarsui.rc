@@ -46,6 +46,14 @@
 		<Action name="fullscreen" />
 		<Separator />
 		<Action name="coordsys" />
+		<Menu name="projection"><text>&amp;Projection</text>
+			<Action name="project_lambert"/>
+			<Action name="project_azequidistant"/>
+			<Action name="project_orthographic"/>
+			<Action name="project_equirectangular"/>
+			<Action name="project_stereographic"/>
+			<Action name="project_gnomonic"/>
+		</Menu>
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>

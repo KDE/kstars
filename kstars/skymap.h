@@ -76,6 +76,10 @@ public:
 	*/
 	~SkyMap();
 
+	enum Projection { Lambert=0, AzimuthalEquidistant=1, 
+			Orthographic=2, Equirectangular=3, Stereographic=4, 
+			Gnomonic=5, UnknownProjection };
+
 /**
 	*@return pointer to InfoBoxes object.
 	*/
@@ -363,11 +367,26 @@ public:
 	*pixel coordinates in the SkyMap.
 	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
 	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
+	*@param projection mapping projection system (see Projection enum)
 	*@param Horiz if true, use Alt/Az coordinates.
 	*@param doRefraction if true, correct for atmospheric refraction
-	*@param scale scaling factor (unused?)
+	*@param scale scaling factor
 	*/
-	QPointF getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
+	QPointF toScreen( SkyPoint *o, int projection=Lambert, bool Horiz=false, 
+			bool doRefraction=true, double scale = 1.0 );
+
+/**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
+	*screen pixel coordinate offsets from the center of the Sky pixmap.
+	*@param dx horizontal pixel offset from center of SkyMap.
+	*@param dy vertical pixel offset from center of SkyMap.
+	*@param LSTh pointer to the local sidereal time, as a dms object.
+	*@param lat pointer to the current geographic laitude, as a dms object
+	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
+	*@param doRefraction if true, correct for atmospheric refraction
+	*@param projection mapping projection system (see Projection enum)
+	*/
+	SkyPoint fromScreen( double dx, double dy, dms *LST, const dms *lat, 
+			int projection=Lambert, bool Horiz=false, bool doRefraction=true );
 
 /**@short Determine if the skypoint p is likely to be visible in the display 
 	*window.
@@ -708,17 +727,6 @@ private:
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
 	void drawAngleRuler( QPainter &psky );
-
-/**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
-	*screen pixel coordinate offsets from the center of the Sky pixmap.
-	*@param dx horizontal pixel offset from center of SkyMap.
-	*@param dy vertical pixel offset from center of SkyMap.
-	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
-	*@param LSTh pointer to the local sidereal time, as a dms object.
-	*@param lat pointer to the current geographic laitude, as a dms object
-	*@param doRefraction if true, correct for atmospheric refraction
-	*/
-	SkyPoint dXdYToRaDec( double dx, double dy, bool Horiz, dms *LST, const dms *lat, bool doRefraction=true );
 
 /**@return the angular field of view of the sky map, in degrees.
 	*@note it must use either the height or the width of the window to calculate the 

@@ -32,6 +32,8 @@ void SkyPoint::set( const dms& r, const dms& d ) {
 	Dec0.set( d );
 	RA.set( r );
 	Dec.set( d );
+	//XYZ
+	syncXYZ();
 }
 
 void SkyPoint::set( double r, double d ) {
@@ -39,9 +41,21 @@ void SkyPoint::set( double r, double d ) {
 	Dec0.setD( d );
 	RA.setH( r );
 	Dec.setD( d );
+	//XYZ
+	syncXYZ();
 }
 
 SkyPoint::~SkyPoint(){
+}
+
+//XYZ
+void SkyPoint::syncXYZ() {
+	double cr, sr, cd, sd;
+	RA.SinCos( sr, cr );
+	Dec.SinCos( sd, cd );
+	m_X = cr*cd;
+	m_Y = sr*cd;
+	m_Z = sd;
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {

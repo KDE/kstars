@@ -253,8 +253,8 @@ public:
 /**
 	*@short draw the object's name label on the map
 	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
-	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
+	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
+	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*@note overridden in StarObject
 	*/

@@ -68,7 +68,7 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	QPointF o, oFirst, oPrev, o2;
 
 	foreach ( SkyPoint *p, pointList() ) {
-		o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 
 		if ( FirstPoint ) {
 			FirstPoint = false;
@@ -126,8 +126,8 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 
 			SkyPoint *p2 = pointList().at(iSmall2);
 
-			o = map->getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-			o2 = map->getXY( p2, Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			o2 = map->toScreen( p2, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
 
 			float x1, x2;
 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
@@ -169,8 +169,8 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 		//o and o2 are the screen positions of LabelPoint and p2.
-		o = map->getXY( &LabelPoint, Options::useAltAz(), Options::useRefraction(), scale );
-		o2 = map->getXY( &p2, Options::useAltAz(), Options::useRefraction() );
+		o = map->toScreen( &LabelPoint, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		o2 = map->toScreen( &p2, Options::projection(), Options::useAltAz(), Options::useRefraction() );
 
 		double sx = double( o.x() - o2.x() );
 		double sy = double( o.y() - o2.y() );

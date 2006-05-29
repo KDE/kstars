@@ -68,7 +68,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QRadioButton" name="kcfg_UseLatinConstellNames_2" >
+       <widget class="QRadioButton" name="kcfg_UseLatinConstellNames" >
         <property name="toolTip" >
          <string>Use Latin constellation names</string>
         </property>
@@ -81,7 +81,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="kcfg_UseLocalConstellNames_2" >
+       <widget class="QRadioButton" name="kcfg_UseLocalConstellNames" >
         <property name="toolTip" >
          <string>Use Localized constellation names</string>
         </property>
@@ -94,7 +94,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="kcfg_UseAbbrevConstellNames_2" >
+       <widget class="QRadioButton" name="kcfg_UseAbbrevConstellNames" >
         <property name="toolTip" >
          <string>Use IAU abbreviations</string>
         </property>

@@ -52,6 +52,8 @@
 //These functions are declared in kstars.h
 
 void KStars::initActions() {
+	KGlobal::iconLoader()->addAppDir( "kstars" );
+
 //File Menu:
 	KAction *ka = new KAction( KIcon( "window_new" ), i18n("&New Window"), actionCollection(), "new_window" );
 	ka->setShortcut( KShortcut( "Ctrl+N" ) );
@@ -85,12 +87,12 @@ void KStars::initActions() {
 	ka->setShortcut( KShortcut( "Ctrl+E"  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTimeToNow() ) );
 
-	ka = new KAction( KIcon( "clock" ), i18nc( "set Clock to New Time", "&Set Time..." ), actionCollection(), "time_dialog" );
+	ka = new KAction( KIcon( "history" ), i18nc( "set Clock to New Time", "&Set Time..." ), actionCollection(), "time_dialog" );
 	ka->setShortcut( KShortcut( "Ctrl+S"  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
 
 	ToggleAction *actTimeRun = new ToggleAction( KIcon( "player_pause" ), i18n( "Stop &Clock" ),
-				KIcon( "1rightarrow" ), i18n("Start &Clock"),
+				KIcon( "player_play" ), i18n("Start &Clock"),
 				KShortcut(), this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
@@ -99,7 +101,7 @@ void KStars::initActions() {
 //UpdateTime() if clock is stopped (so hidden objects get drawn)
 	QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
-//Focus Menu:
+//Pointing Menu:
 	ka = new KAction( i18n( "&Zenith" ), actionCollection(), "zenith" );
 	ka->setShortcut( KShortcut( "Z" ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
@@ -145,11 +147,38 @@ void KStars::initActions() {
 	ka->setShortcut( KShortcut( "Ctrl+Shift+Z" ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );
 
+	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			KShortcut( "Space" ), this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
 
-	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+	ka = new KAction( i18n( "&Lambert Azimuthal Equal-area" ), actionCollection(), "project_lambert" );
+	ka->setShortcut( KShortcut( "F5" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
+	ka = new KAction( i18n( "&Lambert Azimuthal Equal-area" ), actionCollection(), "project_lambert" );
+	ka->setShortcut( KShortcut( "F5" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
+
+	ka = new KAction( i18n( "&Azimuthal Equidistant" ), actionCollection(), "project_azequidistant" );
+	ka->setShortcut( KShortcut( "F6" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
+
+	ka = new KAction( i18n( "&Orthographic" ), actionCollection(), "project_orthographic" );
+	ka->setShortcut( KShortcut( "F7" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
+
+	ka = new KAction( i18n( "&Equirectangular" ), actionCollection(), "project_equirectangular" );
+	ka->setShortcut( KShortcut( "F8" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
+
+	ka = new KAction( i18n( "&Stereographic" ), actionCollection(), "project_stereographic" );
+	ka->setShortcut( KShortcut( "F9" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
+
+	ka = new KAction( i18n( "&Gnomonic" ), actionCollection(), "project_gnomonic" );
+	ka->setShortcut( KShortcut( "F10" ) );
+	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 //Settings Menu:
 	//Info Boxes option actions
@@ -488,6 +517,9 @@ void KStars::datainitFinished(bool worked) {
 
 	//Show TotD
 	KTipDialog::showTip( "kstars/tips" );
+
+	//DEBUG
+	kDebug() << "The current Date/Time is: " << ExtDateTime::currentDateTime().toString() << endl;
 }
 
 void KStars::initFocus() {
