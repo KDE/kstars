@@ -792,6 +792,7 @@ void INDIDriver::addINDIHost()
     if (portOk == false)
     {
      KMessageBox::error(0, i18n("Error: the port number is invalid."));
+     delete hostItem;
      return;
     }
 
@@ -801,6 +802,7 @@ void INDIDriver::addINDIHost()
      if (hostItem->name   == host->name &&  hostItem->portnumber == host->portnumber)
      {
        KMessageBox::error(0, i18n("Host: %1 Port: %2 already exists.", hostItem->name, hostItem->portnumber));
+       delete hostItem;
        return;
      }
 
