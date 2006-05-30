@@ -100,6 +100,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	OriginalPalette = QApplication::palette();
 
 	//Initialize QActionGroups
+	projectionGroup = new QActionGroup( this );
 	fovGroup = new QActionGroup( this );
 	cschemeGroup = new QActionGroup( this );
 
@@ -112,18 +113,19 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 KStars::~KStars()
 {
-        delete kstarsData;
+	delete kstarsData;
 	delete skymap;
-        delete AAVSODialog;
+	delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
-        delete TimeStep;
+	delete TimeStep;
+	delete projectionGroup;
 	delete fovGroup;
 	delete cschemeGroup;
-        delete obsList;
-        if ( kns ) delete kns;
-        if ( findDialog ) delete findDialog;
+	delete obsList;
+	if ( kns ) delete kns;
+	if ( findDialog ) delete findDialog;
 }
 
 void KStars::clearCachedFindDialog() {

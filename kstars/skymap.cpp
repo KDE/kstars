@@ -848,80 +848,85 @@ QPointF SkyMap::toScreen( SkyPoint *o, int projection, bool Horiz, bool doRefrac
 SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat, int projection, bool useAltAz, bool doRefract ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel
 	//coordinates in the SkyMap with the center of the map as the origin.
-
-	//TODO: Account for different projection systems
 	SkyPoint result;
-	double sinDec, cosDec, sinDec0, cosDec0, sinc, cosc, sinlat, coslat;
-	double xx, yy;
+	double sinY0, cosY0, sinc, cosc;
+
+	//Special case: Equirectangular
+	if ( projection == Equirectangular ) {
+		if ( useAltAz ) {
+			dms az, alt;
+			dx = -1.0*dx;  //Azimuth goes in opposite direction compared to RA
+			az.setRadians( Options::zoomFactor()*dx + focus()->az()->radians() );
+			alt.setRadians( Options::zoomFactor()*dy + focus()->alt()->radians() );
+			result.setAz( az.reduce() );
+			result.setAlt( alt );
+			result.HorizontalToEquatorial( LST, lat );
+			return result;
+		} else {
+			dms ra, dec;
+			ra.setRadians( Options::zoomFactor()*dx + focus()->ra()->radians() );
+			dec.setRadians( Options::zoomFactor()*dy + focus()->dec()->radians() );
+			result.set( ra.reduce(), dec );
+			result.EquatorialToHorizontal( LST, lat );
+			return result;
+		}
+	}
 
 	double r  = sqrt( dx*dx + dy*dy );
-	dms centerAngle;
-	centerAngle.setRadians( 2.0*asin(0.5*r) );
-
-	focus()->dec()->SinCos( sinDec0, cosDec0 );
-	centerAngle.SinCos( sinc, cosc );
+	dms c;
+	switch( projection ) {
+		case Lambert:
+			c.setRadians( 2.0*asin(0.5*r) );
+			break;
+		case AzimuthalEquidistant:
+			c.setRadians( r );
+			break;
+		case Orthographic:
+			c.setRadians( asin( r ) );
+			break;
+		case Stereographic:
+			c.setRadians( 2.0*atan( r/2.0 ) );
+			break;
+		case Gnomonic:
+			c.setRadians( atan( r ) );
+			break;
+		default: //should never get here
+			kWarning() << i18n("Unrecognized coordinate projection: ") << projection << endl;
+			c.setRadians( asin( r ) );  //just default to Orthographic
+			break;
+	}
+	c.SinCos( sinc, cosc );
 
 	if ( useAltAz ) {
-		dms HA;
-		dms Dec, alt, az, alt0, az0;
-		double A;
-		double sinAlt, cosAlt, sinAlt0, cosAlt0, sinAz, cosAz;
-//		double HA0 = LST - focus.ra();
-		az0 = focus()->az()->Degrees();
-		alt0 = focus()->alt()->Degrees();
-		alt0.SinCos( sinAlt0, cosAlt0 );
+		focus()->alt()->SinCos( sinY0, cosY0 );
+		dx = -1.0*dx; //Azimuth goes in opposite direction compared to RA
+	} else
+		focus()->dec()->SinCos( sinY0, cosY0 );
 
-		dx = -dx; //Flip East-west (Az goes in opposite direction of RA)
-		yy = dx*sinc;
-		xx = r*cosAlt0*cosc - dy*sinAlt0*sinc;
+	double Y, A, atop, abot; //A = atan( atop/abot )
 
-		A = atan( yy/xx );
-		//resolve ambiguity of atan():
-		if ( xx<0 ) A = A + dms::PI;
-//		if ( xx>0 && yy<0 ) A = A + 2.0*dms::PI;
+	Y = asin( cosc*sinY0 + ( dy*sinc*cosY0 )/r );
+	atop = dx*sinc;
+	abot = r*cosY0*cosc - dy*sinY0*sinc;
+	A = atan2( atop, abot );
 
-		dms deltaAz;
-		deltaAz.setRadians( A );
-		az = focus()->az()->Degrees() + deltaAz.Degrees();
-		alt.setRadians( asin( cosc*sinAlt0 + ( dy*sinc*cosAlt0 )/r ) );
-
-		if ( doRefract ) alt.setD( refract( &alt, false ).Degrees() );  //find true altitude from apparent altitude
-
-		az.SinCos( sinAz, cosAz );
-		alt.SinCos( sinAlt, cosAlt );
-		lat->SinCos( sinlat, coslat );
-
-		Dec.setRadians( asin( sinAlt*sinlat + cosAlt*coslat*cosAz ) );
-		Dec.SinCos( sinDec, cosDec );
-
-		HA.setRadians( acos( ( sinAlt - sinlat*sinDec )/( coslat*cosDec ) ) );
-		if ( sinAz > 0.0 ) HA.setH( 24.0 - HA.Hours() );
-
-		result.setRA( LST->Hours() - HA.Hours() );
-		result.setRA( result.ra()->reduce() );
-		result.setDec( Dec.Degrees() );
-
-		return result;
-
-  } else {
-		yy = dx*sinc;
-		xx = r*cosDec0*cosc - dy*sinDec0*sinc;
-
-		double RARad = ( atan( yy / xx ) );
-		//resolve ambiguity of atan():
-		if ( xx<0 ) RARad = RARad + dms::PI;
-//		if ( xx>0 && yy<0 ) RARad = RARad + 2.0*dms::PI;
-
-		dms deltaRA, Dec;
-		deltaRA.setRadians( RARad );
-		Dec.setRadians( asin( cosc*sinDec0 + (dy*sinc*cosDec0)/r ) );
-
-		result.setRA( focus()->ra()->Hours() + deltaRA.Hours() );
-		result.setRA( result.ra()->reduce() );
-		result.setDec( Dec.Degrees() );
-
-		return result;
+	if ( useAltAz ) {
+		dms alt, az;
+		alt.setRadians( Y );
+		az.setRadians( A + focus()->az()->radians() );
+		if ( doRefract ) alt.setD( refract( &alt, false ).Degrees() );  //find true alt from apparent alt
+		result.setAlt( alt );
+		result.setAz( az );
+		result.HorizontalToEquatorial( LST, lat );
+	} else {
+		dms ra, dec;
+		dec.setRadians( Y );
+		ra.setRadians( A + focus()->ra()->radians() );
+		result.set( ra.reduce(), dec );
+		result.EquatorialToHorizontal( LST, lat );
 	}
+
+	return result;
 }
 
 dms SkyMap::refract( const dms *alt, bool findApparent ) {

@@ -154,30 +154,44 @@ void KStars::initActions() {
 
 	ka = new KAction( i18n( "&Lambert Azimuthal Equal-area" ), actionCollection(), "project_lambert" );
 	ka->setShortcut( KShortcut( "F5" ) );
-	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
-
-	ka = new KAction( i18n( "&Lambert Azimuthal Equal-area" ), actionCollection(), "project_lambert" );
-	ka->setShortcut( KShortcut( "F5" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::Lambert ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 	ka = new KAction( i18n( "&Azimuthal Equidistant" ), actionCollection(), "project_azequidistant" );
 	ka->setShortcut( KShortcut( "F6" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::AzimuthalEquidistant ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 	ka = new KAction( i18n( "&Orthographic" ), actionCollection(), "project_orthographic" );
 	ka->setShortcut( KShortcut( "F7" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::Orthographic ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 	ka = new KAction( i18n( "&Equirectangular" ), actionCollection(), "project_equirectangular" );
 	ka->setShortcut( KShortcut( "F8" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::Equirectangular ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 	ka = new KAction( i18n( "&Stereographic" ), actionCollection(), "project_stereographic" );
 	ka->setShortcut( KShortcut( "F9" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::Stereographic ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 	ka = new KAction( i18n( "&Gnomonic" ), actionCollection(), "project_gnomonic" );
 	ka->setShortcut( KShortcut( "F10" ) );
+	ka->setCheckable( true );
+	projectionGroup->addAction( ka );
+	if ( Options::projection() == SkyMap::Gnomonic ) ka->setChecked( true );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotMapProjection() ) );
 
 //Settings Menu:
@@ -424,7 +438,7 @@ void KStars::initFOV() {
 		kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 	}
 
-	fovActionMenu->popupMenu()->addSeparator();
+	fovActionMenu->addSeparator();
 	KAction *ka = new KAction( i18n( "Edit FOV Symbols..." ), actionCollection(), "edit_fov" );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
 	fovActionMenu->addAction( ka );
