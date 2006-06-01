@@ -122,7 +122,8 @@ void FindDialog::filterByType() {
 }
 
 void FindDialog::selectFirstItem() {
-	ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
+	if( ui->SearchList->item(0))
+		ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
 }
 
 void FindDialog::updateSelection() {
