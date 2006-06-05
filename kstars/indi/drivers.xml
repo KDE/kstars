@@ -53,11 +53,6 @@
 	<device label="Celestron NexStar" focal_length="" aperture="">
 		<driver>celestrongps</driver>
 		<version>0.9</version>
-	</device>
-	<device label="Astro-Physics AP"  focal_length="" aperture="">
-		<driver>apmount</driver>
-		<version>0.1</version>
-	</device>
 	<device label="Astro-Electronic FS-2" focal_length="" aperture="">
 		<driver>lx200basic</driver>
 		<version>0.1</version>
