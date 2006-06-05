@@ -54,7 +54,7 @@ static ISwitchVectorProperty OTAUpdateSw	= { mydev, "OTA Update", "", GPSGroup, 
 static INumber Temp[]	= { {"Temp.", "", "%g", -200., 500., 0., 0., 0, 0, 0 } };
 static INumberVectorProperty OTATemp =   { mydev, "OTA Temperature (C)", "", GPSGroup, IP_RO, 0, IPS_IDLE, Temp, NARRAY(Temp), "", 0};
 
-void updateTemp(void * /*p*/);
+void updateTemp(void *p);
 
 void changeLX200GPSDeviceName(const char *newName)
 {
@@ -73,7 +73,7 @@ void changeLX200GPSDeviceName(const char *newName)
 
 LX200GPS::LX200GPS() : LX200_16()
 {
-   IEAddTimer(900000, updateTemp, NULL);
+   IEAddTimer(900000, updateTemp, &fd);
    
 }
 
@@ -133,7 +133,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       IUResetSwitches(&GPSPowerSw);
       IUUpdateSwitches(&GPSPowerSw, states, names, n);
       index = getOnSwitch(&GPSPowerSw);
-      index == 0 ? turnGPSOn() : turnGPSOff();
+      index == 0 ? turnGPSOn(fd) : turnGPSOff(fd);
       GPSPowerSw.s = IPS_OK;
       IDSetSwitch (&GPSPowerSw, index == 0 ? "GPS System is ON" : "GPS System is OFF" );
       return;
@@ -151,17 +151,17 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
       if (index == 0)
       {
-	   gpsSleep();
+	   gpsSleep(fd);
 	   strcpy(msg, "GPS system is in sleep mode.");
       }
       else if (index == 1)
       {
-	   gpsWakeUp();
+	   gpsWakeUp(fd);
            strcpy(msg, "GPS system is reactivated.");
       }
       else
       {
-	   gpsRestart();
+	   gpsRestart(fd);
 	   strcpy(msg, "GPS system is restarting...");
 	   updateTime();
 	   updateLocation();
@@ -181,7 +181,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
      GPSUpdateSw.s = IPS_OK;
      IDSetSwitch(&GPSUpdateSw, "Updating GPS system. This operation might take few minutes to complete...");
-     if (updateGPS_System())
+     if (updateGPS_System(fd))
      {
      	IDSetSwitch(&GPSUpdateSw, "GPS system update successful.");
 	updateTime();
@@ -207,12 +207,12 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       
        if (index == 0)
       {
-        enableDecAltPec();
+        enableDecAltPec(fd);
 	strcpy (msg, "Alt/Dec Compensation Enabled");
       }
       else
       {
-        disableDecAltPec();
+        disableDecAltPec(fd);
 	strcpy (msg, "Alt/Dec Compensation Disabled");
       }
 
@@ -234,12 +234,12 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
        if (index == 0)
       {
-        enableRaAzPec();
+        enableRaAzPec(fd);
 	strcpy (msg, "Ra/Az Compensation Enabled");
       }
       else
       {
-        disableRaAzPec();
+        disableRaAzPec(fd);
 	strcpy (msg, "Ra/Az Compensation Disabled");
       }
 
@@ -254,7 +254,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       if (checkPower(&AltDecBackSlashSw))
       return;
 
-     activateAltDecAntiBackSlash();
+     activateAltDecAntiBackSlash(fd);
      AltDecBackSlashSw.s = IPS_OK;
      IDSetSwitch(&AltDecBackSlashSw, "Alt/Dec Anti-backslash enabled");
      return;
@@ -265,7 +265,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
      if (checkPower(&AzRaBackSlashSw))
       return;
 
-     activateAzRaAntiBackSlash();
+     activateAzRaAntiBackSlash(fd);
      AzRaBackSlashSw.s = IPS_OK;
      IDSetSwitch(&AzRaBackSlashSw, "Az/Ra Anti-backslash enabled");
      return;
@@ -278,7 +278,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       
       IUResetSwitches(&OTAUpdateSw);
       
-      if (getOTATemp(&OTATemp.np[0].value) < 0)
+      if (getOTATemp(fd, &OTATemp.np[0].value) < 0)
       {
 	OTATemp.s = IPS_ALERT;
 	IDSetNumber(&OTATemp, "Error: OTA temperature read timed out.");
@@ -306,12 +306,14 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
  }
  
- void updateTemp(void * /*p*/)
+ void updateTemp(void * p)
  {
    
+   int fd = *((int *) p);
+
    if (telescope->isTelescopeOn())
    {
-     if (getOTATemp(&OTATemp.np[0].value) < 0)
+     if (getOTATemp(fd, &OTATemp.np[0].value) < 0)
      {
        OTATemp.s = IPS_ALERT;
        IDSetNumber(&OTATemp, "Error: OTA temperature read timed out.");
@@ -324,7 +326,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
      }
    } 
  
-   IEAddTimer(900000, updateTemp, NULL);
+   IEAddTimer(900000, updateTemp, &fd);
       
  }
 

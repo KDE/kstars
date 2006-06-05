@@ -32,14 +32,7 @@
 #include "indicom.h"
 #include "indidevapi.h"
 #include "indiapi.h"
-#include "lx200driver.h"
 #include "robofocusdriver.h"
-
-   
-
-int fd;
-int read_ret, write_ret, check_ret;
-
 
 /**************************************************************************
  Basic I/O
@@ -48,23 +41,24 @@ int read_ret, write_ret, check_ret;
 
 unsigned char calsum( char *rf_cmd) ;
 unsigned char chksum(char *rf_cmd) ;
-int updateRFPosition(double *value) ;
-int updateRFFirmware(char *rf_cmd) ;
-int updateRFMotorSettings(double *duty, double *delay, double *ticks) ;
-int updateRFPositionRelativeInward(double *value) ;
-int updateRFPositionAbsolute(double *value) ;
-int updateRFBacklash(double *value) ;
-int updateRFPowerSwitches(int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
-int updateRFMaxPosition(double *value) ;
-int updateRFSetPosition(double *value) ;
-int portRFRead(char *buf, int nbytes, int timeout);
+int updateRFPosition(int fd, double *value) ;
+int updateRFFirmware(int fd, char *rf_cmd) ;
+int updateRFMotorSettings(int fd, double *duty, double *delay, double *ticks) ;
+int updateRFPositionRelativeInward(int fd, double *value) ;
+int updateRFPositionAbsolute(int fd, double *value) ;
+int updateRFBacklash(int fd, double *value) ;
+int updateRFPowerSwitches(int fd, int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
+int updateRFMaxPosition(int fd, double *value) ;
+int updateRFSetPosition(int fd, double *value) ;
+int portRFRead(int fd, char *buf, int nbytes, int timeout);
+
 
 /**********************************************************************
 * Communication
 **********************************************************************/
 
 
-int portRFRead(char *buf, int nbytes, int timeout)
+int portRFRead(int fd, char *buf, int nbytes, int timeout)
 {
 
   int bytesRead = 0;
@@ -75,7 +69,7 @@ int portRFRead(char *buf, int nbytes, int timeout)
 
   while (nbytes > 0)
     {
-      if ( (err = LX200readOut(timeout)) < 0 )
+      if ( (err = tty_timeout(fd, timeout)) < 0 )
 	return err;
 
       bytesRead = read(fd, tbuf, nbytes);
@@ -107,7 +101,7 @@ int portRFRead(char *buf, int nbytes, int timeout)
 }
 
 
-int portRFWrite(const char * buf) {
+int portRFWrite(int fd, const char * buf) {
   int nbytes=9 ;
   int totalBytesWritten=0 ;
   int bytesWritten = 0;   
@@ -170,9 +164,9 @@ unsigned char chksum(char *rf_cmd) {
 **********************************************************************/
 
 
-int commRF( char *rf_cmd) {
+int commRF(int fd, char *rf_cmd) {
 
-
+  int read_ret=0, check_ret=0;
   char rf_cmd_cks[32] ;
 
   unsigned char val= 0 ;
@@ -196,11 +190,11 @@ int commRF( char *rf_cmd) {
 /*   } */
 /*   fprintf(stderr, "\n") ; */
 
-  if(portRFWrite( rf_cmd_cks) < 0)
+  if(portRFWrite(fd, rf_cmd_cks) < 0)
     return -1;
   /*sleep( 2) ;*/
 
-  read_ret= portRFRead(rf_cmd, nbytes, RF_TIMEOUT) ;
+  read_ret= portRFRead(fd, rf_cmd, nbytes, RF_TIMEOUT) ;
 
   if (read_ret < 1)
     return read_ret;
@@ -212,16 +206,15 @@ int commRF( char *rf_cmd) {
 }
 
 
-int updateRFPosition(double *value) {
+int updateRFPosition(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
-
   int ret_read_tmp ;
 
   strcpy(rf_cmd, "FG000000" ) ;
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0){
+  if ((ret_read_tmp= commRF(fd,  rf_cmd)) < 0){
 
     return ret_read_tmp;
   }
@@ -237,16 +230,15 @@ int updateRFPosition(double *value) {
 }
 
 
-int updateRFTemperature(double *value) {
+int updateRFTemperature(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
-
   int ret_read_tmp ;
 
   strcpy(rf_cmd, "FT000000" ) ;
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
     
 
@@ -258,7 +250,7 @@ int updateRFTemperature(double *value) {
   return 0;
 }
 
-int updateRFBacklash(double *value) {
+int updateRFBacklash(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
@@ -300,7 +292,7 @@ int updateRFBacklash(double *value) {
     rf_cmd[7]= vl_tmp[2] ;
   }
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
     
 
@@ -315,19 +307,19 @@ int updateRFBacklash(double *value) {
   return 0;
 }
 
-int updateRFFirmware(char *rf_cmd) {
+int updateRFFirmware(int fd, char *rf_cmd) {
 
   int ret_read_tmp ;
 
   strcpy(rf_cmd, "FV000000" ) ;
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
 
   return 0;
 }
 
-int updateRFMotorSettings(double *duty, double *delay, double *ticks) {
+int updateRFMotorSettings(int fd, double *duty, double *delay, double *ticks) {
 
   char rf_cmd[32] ;
  
@@ -351,7 +343,7 @@ int updateRFMotorSettings(double *duty, double *delay, double *ticks) {
 
   }
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
  
   *duty=  (float) rf_cmd[2] ;
@@ -361,10 +353,9 @@ int updateRFMotorSettings(double *duty, double *delay, double *ticks) {
   return 0;
 }
 
-int updateRFPositionRelativeInward(double *value) {
+int updateRFPositionRelativeInward(int fd, double *value) {
 
   char rf_cmd[32] ;
- 
   int ret_read_tmp ;
   float temp ;
   rf_cmd[0]= 0 ;
@@ -384,7 +375,7 @@ int updateRFPositionRelativeInward(double *value) {
 
 
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
 
   if (sscanf(rf_cmd, "FD0%5f", &temp) < 1)
@@ -396,7 +387,7 @@ int updateRFPositionRelativeInward(double *value) {
 }
 
 
-int updateRFPositionRelativeOutward(double *value) {
+int updateRFPositionRelativeOutward(int fd, double *value) {
 
   char rf_cmd[32] ;
  
@@ -417,7 +408,7 @@ int updateRFPositionRelativeOutward(double *value) {
   sprintf( rf_cmd, "FO00000%1d", (int) *value) ;
   }
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
 
   if (sscanf(rf_cmd, "FD0%5f", &temp) < 1)
@@ -428,7 +419,7 @@ int updateRFPositionRelativeOutward(double *value) {
   return 0;
 }
 
-int updateRFPositionAbsolute(double *value) {
+int updateRFPositionAbsolute(int fd, double *value) {
 
   char rf_cmd[32] ;
 
@@ -452,7 +443,7 @@ int updateRFPositionAbsolute(double *value) {
   }
 
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
 
   if (sscanf(rf_cmd, "FD0%5f", &temp) < 1)
@@ -463,7 +454,7 @@ int updateRFPositionAbsolute(double *value) {
 
   return 0;
 }
-int updateRFPowerSwitches(int s, int  new_sn, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) {
+int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) {
 
 
   char rf_cmd[32] ;
@@ -483,7 +474,7 @@ int updateRFPowerSwitches(int s, int  new_sn, int *cur_s1LL, int *cur_s2LR, int 
     /* Get first the status */
     strcpy(rf_cmd_tmp, "FP000000" ) ;
 
-    if ((ret_read_tmp= commRF( rf_cmd_tmp)) < 0)   
+    if ((ret_read_tmp= commRF(fd, rf_cmd_tmp)) < 0)   
       return ret_read_tmp ;
 
     for(i= 0; i < 9; i++) {
@@ -509,7 +500,7 @@ int updateRFPowerSwitches(int s, int  new_sn, int *cur_s1LL, int *cur_s2LR, int 
     rf_cmd[8]= 0 ;
   }
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)   
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)   
     return ret_read_tmp ;
   
 
@@ -537,7 +528,7 @@ return 0 ;
 }
 
 
-int updateRFMaxPosition(double *value) {
+int updateRFMaxPosition(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
@@ -579,7 +570,7 @@ int updateRFMaxPosition(double *value) {
     rf_cmd[8]= 0 ;
   }
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
     
 
@@ -591,7 +582,7 @@ int updateRFMaxPosition(double *value) {
   return 0;
 }
 
-int updateRFSetPosition(double *value) {
+int updateRFSetPosition(int fd, double *value) {
 
 
   char rf_cmd[32] ;
@@ -628,7 +619,7 @@ int updateRFSetPosition(double *value) {
   rf_cmd[7]= vl_tmp[4] ;
   rf_cmd[8]= 0 ;
 
-  if ((ret_read_tmp= commRF( rf_cmd)) < 0)
+  if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
   
  

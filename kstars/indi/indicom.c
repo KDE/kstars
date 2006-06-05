@@ -640,7 +640,7 @@ timestamp()
 	return (ts);
 }
 
-int tty_time_out(int fd, int timeout)
+int tty_timeout(int fd, int timeout)
 {
   struct timeval tv;
   fd_set readout;
@@ -705,7 +705,7 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 
   while (nbytes > 0)
   {
-     if ( (err = tty_time_out(fd, timeout)) )
+     if ( (err = tty_timeout(fd, timeout)) )
       return err;
 
      bytesRead = read(fd, buf, ((unsigned) nbytes));
@@ -731,7 +731,7 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
 
  for (;;)
  {
-         if ( (err = tty_time_out(fd, timeout)) )
+         if ( (err = tty_timeout(fd, timeout)) )
 	   return err;
 
          bytesRead = read(fd, buf, 1);

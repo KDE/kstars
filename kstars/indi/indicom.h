@@ -49,12 +49,14 @@
 
 #define J2000 2451545.0
 #define ERRMSG_SIZE 1024
+#define INDI_DEBUG
+
 
 extern const char * Direction[];
 extern const char * SolarSystem[];
 
 /* TTY Error Codes */
-enum TTY_ERROR { TTY_NO_ERROR, TTY_READ_ERROR, TTY_WRITE_ERROR, TTY_SELECT_ERROR, TTY_TIME_OUT, TTY_PORT_FAILURE, TTY_PARAM_ERROR};
+enum TTY_ERROR { TTY_NO_ERROR=0, TTY_READ_ERROR=-1, TTY_WRITE_ERROR=-2, TTY_SELECT_ERROR=-3, TTY_TIME_OUT=-4, TTY_PORT_FAILURE=-5, TTY_PARAM_ERROR=-6};
 
 #ifdef __cplusplus
 extern "C" {

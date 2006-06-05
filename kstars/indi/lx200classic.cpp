@@ -120,16 +120,16 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (checkPower(&ObjectNo))
 	    return;
 
-	  selectCatalogObject( currentCatalog, (int) values[0]);
+	  selectCatalogObject(fd, currentCatalog, (int) values[0]);
            
-	  getLX200RA(&eqNum.np[0].value);
-	  getLX200DEC(&eqNum.np[1].value);
+	  getLX200RA(fd, &eqNum.np[0].value);
+	  getLX200DEC(fd, &eqNum.np[1].value);
 
 	  ObjectNo.s = eqNum.s = IPS_OK;
 	  IDSetNumber(&ObjectNo , "Object updated");
 	  IDSetNumber(&eqNum, NULL);
 	  
-	  if (getObjectInfo(ObjectText[0].text) < 0)
+	  if (getObjectInfo(fd, ObjectText[0].text) < 0)
 	    IDMessage(thisDevice, "Getting object info failed.");
 	  else
 	    IDSetText  (&ObjectInfo, NULL);
@@ -145,7 +145,7 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	 if (checkPower(&MaxSlewRate))
 	  return;
 
-	 if ( ( err = setMaxSlewRate( (int) values[0]) < 0) )
+	 if ( ( err = setMaxSlewRate(fd, (int) values[0]) < 0) )
 	 {
 	        handleError(&MaxSlewRate, err, "Setting maximum slew rate");
 		return;
@@ -183,11 +183,11 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	    if (nset == 2)
 	    {
 		//char l[32], L[32];
-		if ( ( err = setMinElevationLimit( (int) minAlt) < 0) )
+		if ( ( err = setMinElevationLimit(fd, (int) minAlt) < 0) )
 	 	{
 	         handleError(&elevationLimit, err, "Setting elevation limit");
 	 	}
-		setMaxElevationLimit( (int) maxAlt);
+		setMaxElevationLimit(fd, (int) maxAlt);
 		elevationLimit.np[0].value = minAlt;
 		elevationLimit.np[1].value = maxAlt;
 		elevationLimit.s = IPS_OK;
@@ -225,7 +225,7 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 
 	 currentCatalog = LX200_STAR_C;
 
-	  if (selectSubCatalog(currentCatalog, index))
+	  if (selectSubCatalog(fd, currentCatalog, index))
 	  {
 	   currentSubCatalog = index;
 	   StarCatalogSw.s = IPS_OK;
@@ -259,7 +259,7 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  else
 	    currentCatalog = LX200_DEEPSKY_C;
 
-	  if (selectSubCatalog(currentCatalog, index))
+	  if (selectSubCatalog(fd, currentCatalog, index))
 	  {
 	   currentSubCatalog = index;
 	   DeepSkyCatalogSw.s = IPS_OK;
@@ -292,21 +292,21 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	    return;
 	  }
 
-          selectSubCatalog ( LX200_STAR_C, LX200_STAR);
-	  selectCatalogObject( LX200_STAR_C, index + 900);
+          selectSubCatalog (fd, LX200_STAR_C, LX200_STAR);
+	  selectCatalogObject(fd, LX200_STAR_C, index + 900);
 
 	  ObjectNo.s = IPS_OK;
 	  SolarSw.s  = IPS_OK;
 
-	  getObjectInfo(ObjectInfo.tp[0].text);
+	  getObjectInfo(fd, ObjectInfo.tp[0].text);
 	  IDSetNumber(&ObjectNo , "Object updated.");
 	  IDSetSwitch(&SolarSw, NULL);
 
 	  if (currentCatalog == LX200_STAR_C || currentCatalog == LX200_DEEPSKY_C)
-	  	selectSubCatalog( currentCatalog, currentSubCatalog);
+	  	selectSubCatalog(fd, currentCatalog, currentSubCatalog);
 
-	  getObjectRA(&targetRA);
-	  getObjectDEC(&targetDEC);
+	  getObjectRA(fd, &targetRA);
+	  getObjectDEC(fd, &targetDEC);
 
 	  handleCoordSet();
 

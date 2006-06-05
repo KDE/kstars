@@ -41,12 +41,8 @@
 /* INDI Eventloop mechanism */
 #include "eventloop.h"
 
-/* INDI RS232 Routines */
-#include "lx200driver.h"
-
-/* INDI Common Routines */
+/* INDI Common Routines/RS232 */
 #include "indicom.h"
-
 
 #include "robofocusdriver.h"
 
@@ -76,7 +72,6 @@
 
 int fd;
 
-
 /* Function protptypes */
 
 
@@ -84,17 +79,17 @@ void connectRobofocus(void);
 
 static void ISInit() ;
 void ISPoll (void *p) ;
-int updateRFPosition(double *value) ;
-int updateRFTemperature(double *value) ;
-int updateRFBacklash(double *value) ;
-int updateRFFirmware(char *rf_cmd) ;
-int updateRFMotorSettings(double *duty, double *delay, double *ticks) ;
-int updateRFPositionRelativeInward(double *value) ;
-int updateRFPositionRelativeOutward(double *value) ;
-int updateRFPositionAbsolute(double *value) ;
-int updateRFPowerSwitches(int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
-int updateRFMaxPosition(double *value) ;
-int updateRFSetPosition(double *value) ;
+int updateRFPosition(int fd, double *value) ;
+int updateRFTemperature(int fd, double *value) ;
+int updateRFBacklash(int fd, double *value) ;
+int updateRFFirmware(int fd, char *rf_cmd) ;
+int updateRFMotorSettings(int fd, double *duty, double *delay, double *ticks) ;
+int updateRFPositionRelativeInward(int fd, double *value) ;
+int updateRFPositionRelativeOutward(int fd, double *value) ;
+int updateRFPositionAbsolute(int fd, double *value) ;
+int updateRFPowerSwitches(int fd, int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
+int updateRFMaxPosition(int fd, double *value) ;
+int updateRFSetPosition(int fd, double *value) ;
 
 void handleError(ISwitchVectorProperty *svp, int err, const char *msg) ;
 
@@ -426,6 +421,7 @@ static void ISInit() {
   IDSetText( &PortTP, NULL) ;
   IEAddTimer (POLLSTATESWITCH_MS, ISPoll, NULL); 
 
+  fd=-1;
   isInit = 1;
 }
 
@@ -447,7 +443,7 @@ void ISPoll (void *p) {
     case IPS_OK:
 
 
-      if((ret= updateRFFirmware( firmeware)) < 0) {
+      if((ret= updateRFFirmware(fd, firmeware)) < 0) {
         /* This would be the end*/
 	IDLog("Unknown error while reading Robofocus firmware\n");
 	break;
@@ -458,7 +454,7 @@ void ISPoll (void *p) {
       /IDSetSwitch(&PowerSP, firmeware);*/
 
 
-      if((ret= updateRFPosition(&currentPosition)) < 0) {
+      if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  	PositionNP.s = IPS_ALERT;
 	IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
 	IDLog("Unknown error while reading Robofocus position\n");
@@ -468,7 +464,7 @@ void ISPoll (void *p) {
       PositionNP.s = IPS_OK;
       IDSetNumber(&PositionNP, NULL); 
 
-      if(( ret= updateRFTemperature(&currentTemperature)) < 0) {
+      if(( ret= updateRFTemperature(fd, &currentTemperature)) < 0) {
 	TemperatureNP.s = IPS_ALERT;
 	IDSetNumber(&TemperatureNP, "Unknown error while reading  Robofocus temperature");
 	IDLog("Unknown error while reading Robofocus temperature\n");
@@ -480,7 +476,7 @@ void ISPoll (void *p) {
 
 
       currentBacklash= BACKLASH_READOUT ;
-      if(( ret= updateRFBacklash(&currentBacklash)) < 0) {
+      if(( ret= updateRFBacklash(fd, &currentBacklash)) < 0) {
 	SetBacklashNP.s = IPS_ALERT;
 	IDSetNumber(&SetBacklashNP, "Unknown error while reading  Robofocus backlash");
 	IDLog("Unknown error while reading Robofocus backlash\n");
@@ -491,7 +487,7 @@ void ISPoll (void *p) {
 
       currentDuty= currentDelay= currentTicks=0 ;
 
-      if(( ret= updateRFMotorSettings(&currentDuty, &currentDelay, &currentTicks )) < 0) {
+      if(( ret= updateRFMotorSettings(fd, &currentDuty, &currentDelay, &currentTicks )) < 0) {
 	SettingsNP.s = IPS_ALERT;
 	IDSetNumber(&SettingsNP, "Unknown error while reading  Robofocus motor settings");
 	IDLog("Unknown error while reading Robofocus settings\n");
@@ -504,7 +500,7 @@ void ISPoll (void *p) {
       PowerSwitchesSP.s = IPS_OK;
       IDSetSwitch(&PowerSwitchesSP, NULL);
 
-      if(( ret= updateRFPowerSwitches(  -1, -1,  &cur_s1LL, &cur_s2LR, &cur_s3RL, &cur_s4RR)) < 0) {
+      if(( ret= updateRFPowerSwitches(fd,  -1, -1,  &cur_s1LL, &cur_s2LR, &cur_s3RL, &cur_s4RR)) < 0) {
 	PowerSwitchesSP.s = IPS_ALERT;
 	IDSetSwitch(&PowerSwitchesSP, "Unknown error while reading  Robofocus power swicht settings");
 	IDLog("Unknown error while reading Robofocus power swicht settings\n");
@@ -534,7 +530,7 @@ void ISPoll (void *p) {
 
 
       currentMaxPosition= MAXTRAVEL_READOUT ;
-      if(( ret= updateRFMaxPosition(&currentMaxPosition)) < 0) {
+      if(( ret= updateRFMaxPosition(fd, &currentMaxPosition)) < 0) {
 	MinMaxPositionNP.s = IPS_ALERT;
 	IDSetNumber(&MinMaxPositionNP, "Unknown error while reading  Robofocus maximum travel");
 	IDLog("Unknown error while reading Robofocus maximum\n");
@@ -681,7 +677,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if (nset == 1) {
       cur_s1LL= cur_s2LR= cur_s3RL= cur_s4RR= 0 ;
 
-      if(( ret= updateRFPowerSwitches( new_s, new_sn, &cur_s1LL, &cur_s2LR, &cur_s3RL, &cur_s4RR)) < 0) {
+      if(( ret= updateRFPowerSwitches(fd, new_s, new_sn, &cur_s1LL, &cur_s2LR, &cur_s3RL, &cur_s4RR)) < 0) {
 
 	PowerSwitchesSP.s = IPS_ALERT;
 	IDSetSwitch(&PowerSwitchesSP, "Unknown error while reading  Robofocus power swicht settings");
@@ -826,7 +822,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 		
       IDSetNumber(&SettingsNP, "Changing to new settings  %3.0f %3.0f %3.0f", new_duty, new_delay, new_ticks );
 
-      if(( ret= updateRFMotorSettings(  &new_duty, &new_delay, &new_ticks))< 0) {
+      if(( ret= updateRFMotorSettings(fd,  &new_duty, &new_delay, &new_ticks))< 0) {
 	
 	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
 	return ;
@@ -882,12 +878,12 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	if( new_rpos > 0) {
 
-	  ret= updateRFPositionRelativeOutward( &new_rpos) ;
+	  ret= updateRFPositionRelativeOutward(fd, &new_rpos) ;
 
 	} else {
 
           new_rpos= -new_rpos ;
-	  ret= updateRFPositionRelativeInward( &new_rpos) ;
+	  ret= updateRFPositionRelativeInward(fd, &new_rpos) ;
 	 
 	}
 	
@@ -895,7 +891,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	  RelMovementNP.s = IPS_IDLE;
 	  IDSetNumber(&RelMovementNP, "Relative movement failed, trying to recover position.");
-	  if((ret= updateRFPosition(&currentPosition)) < 0) {
+	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
 	 
 
 	    PositionNP.s = IPS_ALERT;
@@ -968,12 +964,12 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	AbsMovementNP.s = IPS_BUSY;
 	IDSetNumber(&AbsMovementNP, "Changing to new settings  %5.0f", new_apos);
 	
-	if(( ret= updateRFPositionAbsolute( &new_apos)) < 0) {
+	if(( ret= updateRFPositionAbsolute(fd, &new_apos)) < 0) {
 
 	  AbsMovementNP.s = IPS_IDLE;
 	  IDSetNumber(&AbsMovementNP, "Absolute movement failed %3d, trying to recover position.", ret);
 
-	  if((ret= updateRFPosition(&currentPosition)) < 0) {
+	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	    PositionNP.s = IPS_ALERT;
 	    IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d.", ret);
@@ -1038,7 +1034,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	SetBacklashNP.s = IPS_BUSY;
 	IDSetNumber(&SetBacklashNP, "Changing to new settings  %3.0f", new_back);
 	
-	if(( ret= updateRFBacklash( &new_back)) < 0) {
+	if(( ret= updateRFBacklash(fd, &new_back)) < 0) {
 
 	  SetBacklashNP.s = IPS_IDLE;
 	  IDSetNumber(&SetBacklashNP, "Setting new backlash failed.");
@@ -1098,7 +1094,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 		
       IDSetNumber(&MinMaxPositionNP, "Changing to new limits  %6.0f %6.0f", new_min, new_max);
 
-      if(( ret= updateRFMaxPosition(  &new_max))< 0 ) {
+      if(( ret= updateRFMaxPosition(fd,  &new_max))< 0 ) {
 	
 	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
 	return ;
@@ -1120,11 +1116,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       return ;
     }
   }
-
-
-
-
-
 
 
   if (!strcmp (name, SetRegisterPositionNP.name)) {
@@ -1157,12 +1148,12 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	SetRegisterPositionNP.s = IPS_BUSY;
 	IDSetNumber(&SetRegisterPositionNP, "Changing to new position  %5.0f", new_apos);
 	
-	if(( ret= updateRFSetPosition( &new_apos)) < 0) {
+	if(( ret= updateRFSetPosition(fd, &new_apos)) < 0) {
 
 	  SetRegisterPositionNP.s = IPS_OK;
 	  IDSetNumber(&SetRegisterPositionNP, "Set position to %3d failed. Trying to recover the position", ret);
 
-	  if((ret= updateRFPosition(&currentPosition)) < 0) {
+	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	    PositionNP.s = IPS_ALERT;
 	    IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
@@ -1199,7 +1190,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	return ;
       }
 
-      if((ret= updateRFPosition(&currentPosition)) < 0) {
+      if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	PositionNP.s = IPS_ALERT;
 	IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
@@ -1235,7 +1226,9 @@ void connectRobofocus(void) {
   switch (PowerS[0].s) {
   case ISS_ON:
     
-    if (Connect(PortT[0].text) < 0) {
+   /* if (Connect(PortT[0].text) < 0)*/
+   if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+   {
 
       PowerSP.s = IPS_ALERT;
       IUResetSwitches(&PowerSP);
@@ -1251,7 +1244,7 @@ void connectRobofocus(void) {
 
   case ISS_OFF:
 
-    Disconnect();
+    tty_disconnect(fd);
     IUResetSwitches(&PowerSP);    
     IUResetSwitches(&PowerSwitchesSP);
     IUResetSwitches(&DirectionSP);

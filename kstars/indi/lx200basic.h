@@ -101,6 +101,7 @@ private:
   double lastDEC;
   bool   simulation;
   bool   fault;
+  int    fd;
 
   int currentSet;
   int lastSet;

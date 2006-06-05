@@ -126,6 +126,7 @@ LX200Basic::LX200Basic()
    initProperties();
 
    lastSet        = -1;
+   fd             = -1;
    simulation     = false;
    targetRA       = 0;
    targetDEC      = 0;
@@ -267,10 +268,12 @@ void LX200Basic::ISNewNumber (const char *dev, const char *name, double values[]
 	   fs_sexa(RAStr, newRA, 2, 3600);
 	   fs_sexa(DecStr, newDEC, 2, 3600);
 	  
+           #ifdef INDI_DEBUG
 	   IDLog("We received JNow RA %g - DEC %g\n", newRA, newDEC);
 	   IDLog("We received JNow RA %s - DEC %s\n", RAStr, DecStr);
+           #endif
 	   
-	   if ( (err = setObjectRA(newRA)) < 0 || ( err = setObjectDEC(newDEC)) < 0)
+	   if ( (err = setObjectRA(fd, newRA)) < 0 || ( err = setObjectDEC(fd, newDEC)) < 0)
 	   {
 	     handleError(&EqNP, err, "Setting RA/DEC");
 	     return;
@@ -367,7 +370,7 @@ void LX200Basic::ISNewSwitch (const char *dev, const char *name, ISState *states
 	  }
 	  
 	  IUResetSwitches(&AbortSlewSP);
-	  abortSlew();
+	  abortSlew(fd);
 
 	    if (EqNP.s == IPS_BUSY)
 	    {
@@ -388,7 +391,7 @@ void LX200Basic::handleError(ISwitchVectorProperty *svp, int err, const char *ms
   svp->s = IPS_ALERT;
   
   /* First check to see if the telescope is connected */
-    if (testTelescope())
+    if (check_lx200_connection(fd))
     {
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
@@ -397,7 +400,7 @@ void LX200Basic::handleError(ISwitchVectorProperty *svp, int err, const char *ms
       IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetSwitch(svp, NULL);
-      IEAddTimer(10000, retryConnection, NULL);
+      IEAddTimer(10000, retryConnection, &fd);
       return;
     }
     
@@ -420,7 +423,7 @@ void LX200Basic::handleError(INumberVectorProperty *nvp, int err, const char *ms
   nvp->s = IPS_ALERT;
   
   /* First check to see if the telescope is connected */
-    if (testTelescope())
+    if (check_lx200_connection(fd))
     {
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
@@ -429,7 +432,7 @@ void LX200Basic::handleError(INumberVectorProperty *nvp, int err, const char *ms
       IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetNumber(nvp, NULL);
-      IEAddTimer(10000, retryConnection, NULL);
+      IEAddTimer(10000, retryConnection, &fd);
       return;
     }
     
@@ -452,7 +455,7 @@ void LX200Basic::handleError(ITextVectorProperty *tvp, int err, const char *msg)
   tvp->s = IPS_ALERT;
   
   /* First check to see if the telescope is connected */
-    if (testTelescope())
+    if (check_lx200_connection(fd))
     {
       /* The telescope is off locally */
       PowerS[0].s = ISS_OFF;
@@ -461,7 +464,7 @@ void LX200Basic::handleError(ITextVectorProperty *tvp, int err, const char *msg)
       IDSetSwitch(&PowerSP, "Telescope is not responding to commands, will retry in 10 seconds.");
       
       IDSetText(tvp, NULL);
-      IEAddTimer(10000, retryConnection, NULL);
+      IEAddTimer(10000, retryConnection, &fd);
       return;
     }
     
@@ -496,9 +499,9 @@ bool LX200Basic::isTelescopeOn(void)
 
 static void retryConnection(void * p)
 {
-  p=p;
-  
-  if (testTelescope())
+  int fd = *((int *) p);
+
+  if (check_lx200_connection(fd))
 	telescope->connectionLost();
   else
 	telescope->connectionResumed();
@@ -515,8 +518,8 @@ void LX200Basic::ISPoll()
 	switch (EqNP.s)
 	{
 	case IPS_IDLE:
-	getLX200RA(&currentRA);
-	getLX200DEC(&currentDEC);
+	getLX200RA(fd, &currentRA);
+	getLX200DEC(fd, &currentDEC);
 	
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
@@ -527,8 +530,8 @@ void LX200Basic::ISPoll()
         break;
 
         case IPS_BUSY:
-	    getLX200RA(&currentRA);
-	    getLX200DEC(&currentDEC);
+	    getLX200RA(fd, &currentRA);
+	    getLX200DEC(fd, &currentDEC);
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
@@ -568,7 +571,7 @@ void LX200Basic::ISPoll()
 
 	case IPS_OK:
 	  
-	if ( (err = getLX200RA(&currentRA)) < 0 || (err = getLX200DEC(&currentDEC)) < 0)
+	if ( (err = getLX200RA(fd, &currentRA)) < 0 || (err = getLX200DEC(fd, &currentDEC)) < 0)
 	{
 	  handleError(&EqNP, err, "Getting RA/DEC");
 	  return;
@@ -595,11 +598,11 @@ void LX200Basic::ISPoll()
 void LX200Basic::getBasicData()
 {
   
-  checkLX200Format();
+  checkLX200Format(fd);
 
   // Get current RA/DEC
-  getLX200RA(&currentRA);
-  getLX200DEC(&currentDEC);
+  getLX200RA(fd, &currentRA);
+  getLX200DEC(fd, &currentDEC);
   targetRA = currentRA;
   targetDEC = currentDEC;
 
@@ -623,13 +626,13 @@ int LX200Basic::handleCoordSet()
 	  if (EqNP.s == IPS_BUSY)
 	  {
 	     IDLog("Aboring Slew\n");
-	     abortSlew();
+	     abortSlew(fd);
 
 	     // sleep for 100 mseconds
 	     usleep(100000);
 	  }
 
-	  if ((err = Slew()))
+	  if ((err = Slew(fd)))
 	  {
 	    slewError(err);
 	    return (-1);
@@ -648,7 +651,7 @@ int LX200Basic::handleCoordSet()
           if (EqNP.s == IPS_BUSY)
 	  {
 	     IDLog("Aboring Slew\n");
-	     abortSlew();
+	     abortSlew(fd);
 
 	     // sleep for 200 mseconds
 	     usleep(200000);
@@ -663,7 +666,7 @@ int LX200Basic::handleCoordSet()
 		//IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
 	        //IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
 
-          	if ((err = Slew()))
+          	if ((err = Slew(fd)))
 	  	{
 	    		slewError(err);
 	    		return (-1);
@@ -695,7 +698,7 @@ int LX200Basic::handleCoordSet()
           lastSet = LX200_SYNC;
 	  EqNP.s = IPS_IDLE;
 	   
-	  if ( ( err = Sync(syncString) < 0) )
+	  if ( ( err = Sync(fd, syncString) < 0) )
 	  {
 	        IDSetNumber( &EqNP , "Synchronization failed.");
 		return (-1);
@@ -795,7 +798,8 @@ void LX200Basic::powerTelescope()
 	  return;
 	}
 	
-         if (Connect(PortT[0].text))
+          if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+          /*if (Connect(PortT[0].text))*/
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
@@ -803,7 +807,8 @@ void LX200Basic::powerTelescope()
 	   return;
 	 }
 
-	 if (testTelescope())
+	 if (check_lx200_connection(fd))
+         /*if (testTelescope())*/
 	 {   
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
@@ -829,7 +834,7 @@ void LX200Basic::powerTelescope()
          IDSetSwitch (&PowerSP, "Telescope is offline.");
 	 IDLog("Telescope is offline.");
          
-	 Disconnect();
+	 tty_disconnect(fd);
 	 break;
 
     }

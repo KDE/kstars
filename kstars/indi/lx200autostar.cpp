@@ -110,7 +110,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
 		return;
 
-	  setGPSFocuserSpeed( ( (int) FocusSpeedN[0].value));
+	  setGPSFocuserSpeed(fd,  ( (int) FocusSpeedN[0].value));
 	  FocusSpeedNP.s = IPS_OK;
 	  IDSetNumber(&FocusSpeedNP, NULL);
 	  return;
@@ -132,13 +132,13 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	   
    	  if (eqNum.s == IPS_BUSY)
 	  {
-	     abortSlew();
+	     abortSlew(fd);
 
 	     // sleep for 200 mseconds
 	     usleep(200000);
 	  }
 
-	  slewToPark();
+	  slewToPark(fd);
 
 	  ParkSP.s = IPS_OK;
 	  eqNum.s = IPS_IDLE;
@@ -171,7 +171,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  index = getOnSwitch(&FocusMotionSw);
 	  
 	  
-	  if ( ( err = setFocuserMotion(index) < 0) )
+	  if ( ( err = setFocuserMotion(fd, index) < 0) )
 	  {
 	     handleError(&FocusMotionSw, err, "Setting focuser speed");
              return;
@@ -180,8 +180,12 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  FocusMotionSw.s = IPS_BUSY;
 	  
 	  // with a timer 
-	  if (FocusTimerNP.np[0].value > 0)  
+	if (FocusTimerNP.np[0].value > 0)  
+	{
 	     FocusTimerNP.s  = IPS_BUSY;
+	     IDLog("Starting Focus Timer BUSY\n");
+	     IEAddTimer(50, LX200Generic::updateFocusTimer, this);
+	}
 	  
 	  IDSetSwitch(&FocusMotionSw, NULL);
 	  return;
@@ -202,15 +206,15 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
  {
 
    VersionInfo.tp[0].text = new char[64];
-   getVersionDate(VersionInfo.tp[0].text);
+   getVersionDate(fd, VersionInfo.tp[0].text);
    VersionInfo.tp[1].text = new char[64];
-   getVersionTime(VersionInfo.tp[1].text);
+   getVersionTime(fd, VersionInfo.tp[1].text);
    VersionInfo.tp[2].text = new char[64];
-   getVersionNumber(VersionInfo.tp[2].text);
+   getVersionNumber(fd, VersionInfo.tp[2].text);
    VersionInfo.tp[3].text = new char[128];
-   getFullVersion(VersionInfo.tp[3].text);
+   getFullVersion(fd, VersionInfo.tp[3].text);
    VersionInfo.tp[4].text = new char[128];
-   getProductName(VersionInfo.tp[4].text);
+   getProductName(fd, VersionInfo.tp[4].text);
 
    IDSetText(&VersionInfo, NULL);
    

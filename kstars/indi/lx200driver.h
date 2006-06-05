@@ -47,204 +47,199 @@ enum TFreq { LX200_TRACK_DEFAULT, LX200_TRACK_LUNAR, LX200_TRACK_MANUAL};
 #define MaxFocuserSpeed			4
 
 /* GET formatted sexagisemal value from device, return as double */
-#define getLX200RA(x)				getCommandSexa(x, "#:GR#")
-#define getLX200DEC(x)				getCommandSexa(x, "#:GD#")
-#define getObjectRA(x)				getCommandSexa(x, "#:Gr#")
-#define getObjectDEC(x)				getCommandSexa(x, "#:Gd#")
-#define getLocalTime12(x)			getCommandSexa(x, "#:Ga#")
-#define getLocalTime24(x)			getCommandSexa(x, "#:GL#")
-#define getSDTime(x)				getCommandSexa(x, "#:GS#")
-#define getLX200Alt(x)				getCommandSexa(x, "#:GA#")
-#define getLX200Az(x)				getCommandSexa(x, "#:GZ#")
+#define getLX200RA(fd, x)				getCommandSexa(fd, x, "#:GR#")
+#define getLX200DEC(fd, x)				getCommandSexa(fd, x, "#:GD#")
+#define getObjectRA(fd, x)				getCommandSexa(fd, x, "#:Gr#")
+#define getObjectDEC(fd, x)				getCommandSexa(fd, x, "#:Gd#")
+#define getLocalTime12(fd, x)				getCommandSexa(fd, x, "#:Ga#")
+#define getLocalTime24(fd, x)				getCommandSexa(fd, x, "#:GL#")
+#define getSDTime(fd, x)				getCommandSexa(fd, x, "#:GS#")
+#define getLX200Alt(fd, x)				getCommandSexa(fd, x, "#:GA#")
+#define getLX200Az(fd, x)				getCommandSexa(fd, x, "#:GZ#")
 
 /* GET String from device and store in supplied buffer x */
-#define getObjectInfo(x)			getCommandString(x, "#:LI#")
-#define getVersionDate(x)			getCommandString(x, "#:GVD#")
-#define getVersionTime(x)			getCommandString(x, "#:GVT#")
-#define getFullVersion(x)			getCommandString(x, "#:GVF#")
-#define getVersionNumber(x)			getCommandString(x, "#:GVN#")
-#define getProductName(x)			getCommandString(x, "#:GVP#")
-#define turnGPS_StreamOn()			getCommandString(x, "#:gps#")
+#define getObjectInfo(fd, x)				getCommandString(fd, x, "#:LI#")
+#define getVersionDate(fd, x)				getCommandString(fd, x, "#:GVD#")
+#define getVersionTime(fd, x)				getCommandString(fd, x, "#:GVT#")
+#define getFullVersion(fd, x)				getCommandString(fd, x, "#:GVF#")
+#define getVersionNumber(fd, x)				getCommandString(fd, x, "#:GVN#")
+#define getProductName(fd, x)				getCommandString(fd, x, "#:GVP#")
+#define turnGPS_StreamOn(fd)				getCommandString(fd, x, "#:gps#")
 
 /* GET Int from device and store in supplied pointer to integer x */
-#define getUTCOffset(x)				getCommandInt(x, "#:GG#")
-#define getMaxElevationLimit(x)			getCommandInt(x, "#:Go#")
-#define getMinElevationLimit(x)			getCommandInt(x, "#:Gh#")
+#define getUTCOffset(fd, x)				getCommandInt(fd, x, "#:GG#")
+#define getMaxElevationLimit(fd, x)			getCommandInt(fd, x, "#:Go#")
+#define getMinElevationLimit(fd, x)			getCommandInt(fd, x, "#:Gh#")
 
 /* Generic set, x is an integer */
-#define setReticleDutyFlashCycle(x)		setCommandInt(x, "#:BD")
-#define setReticleFlashRate(x)			setCommandInt(x, "#:B")
-#define setFocuserSpeed(x)			setCommandInt(x, "#:F")
-#define setSlewSpeed(x)				setCommandInt(x, "#:Sw")
+#define setReticleDutyFlashCycle(fd, x)			setCommandInt(fd, x, "#:BD")
+#define setReticleFlashRate(fd, x)			setCommandInt(fd, x, "#:B")
+#define setFocuserSpeed(fd, x)				setCommandInt(fd, x, "#:F")
+#define setSlewSpeed(fd, x)				setCommandInt(fd, x, "#:Sw")
 
 /* Set X:Y:Z */
-#define setLocalTime(x,y,z)			setCommandXYZ(x,y,z, "#:SL")
-#define setSDTime(x,y,z)			setCommandXYZ(x,y,z, "#:SS")
+#define setLocalTime(fd, x,y,z)				setCommandXYZ(fd, x,y,z, "#:SL")
+#define setSDTime(fd, x,y,z)				setCommandXYZ(fd, x,y,z, "#:SS")
 
 /* GPS Specefic */
-#define turnGPSOn()				portWrite("#:g+#")
-#define turnGPSOff()				portWrite("#:g-#")
-#define alignGPSScope()				portWrite("#:Aa#")
-#define gpsSleep()				portWrite("#:hN#")
-#define gpsWakeUp()				portWrite("#:hW#")
-#define gpsRestart()				portWrite("#:I#")
-#define updateGPS_System()			setStandardProcedure("#:gT#")
-#define enableDecAltPec()			portWrite("#:QA+#")
-#define disableDecAltPec()			portWrite("#:QA-#")
-#define enableRaAzPec()				portWrite("#:QZ+#")
-#define disableRaAzPec()			portWrite("#:QZ-#")
-#define activateAltDecAntiBackSlash()		portWrite("#$BAdd#")
-#define activateAzRaAntiBackSlash()		portWrite("#$BZdd#")
-#define SelenographicSync()			portWrite("#:CL#")
+#define turnGPSOn(fd)					write(fd, "#:g+#", 5)
+#define turnGPSOff(fd)					write(fd, "#:g-#", 5)
+#define alignGPSScope(fd)				write(fd, "#:Aa#", 5)
+#define gpsSleep(fd)					write(fd, "#:hN#", 5)
+#define gpsWakeUp(fd)					write(fd, "#:hW#", 5);
+#define gpsRestart(fd)					write(fd, "#:I#", 4);
+#define updateGPS_System(fd)				setStandardProcedure(fd, "#:gT#")
+#define enableDecAltPec(fd)				write(fd, "#:QA+#", 6)
+#define disableDecAltPec(fd)				write(fd, "#:QA-#", 6)
+#define enableRaAzPec(fd)				write(fd, "#:QZ+#", 6)
+#define disableRaAzPec(fd)				write(fd, "#:QZ-#", 6)
+#define activateAltDecAntiBackSlash(fd)			write(fd, "#$BAdd#", 7)
+#define activateAzRaAntiBackSlash(fd)			write(fd, "#$BZdd#", 7)
+#define SelenographicSync(fd)				write(fd, "#:CL#", 5); 
 
-#define slewToAltAz()				setStandardProcedure("#:MA#")
-#define toggleTimeFormat()			portWrite("#:H#")
-#define increaseReticleBrightness()		portWrite("#:B+#")
-#define decreaseReticleBrightness()		portWrite("#:B-#")
-#define turnFanOn()				portWrite("#:f+#")
-#define turnFanOff()				portWrite("#:f-#")
-#define seekHomeAndSave()			portWrite("#:hS#")
-#define seekHomeAndSet()			portWrite("#:hF#")
-#define turnFieldDeRotatorOn()			portWrite("#:r+#")
-#define turnFieldDeRotatorOff()			portWrite("#:r-#")
-#define slewToPark()				portWrite("#:hP#")
-
-/* Astro-Physics specific */
-#define APPark()				portWrite("#:KA#")
-#define APUnpark()				portWrite("#:PO#");
+#define slewToAltAz(fd)					setStandardProcedure(fd, "#:MA#")
+#define toggleTimeFormat(fd)				write(fd, "#:H#", 4)
+#define increaseReticleBrightness(fd)			write(fd, "#:B+#", 5)
+#define decreaseReticleBrightness(fd)			write(fd, "#:B-#", 5)
+#define turnFanOn(fd)					write(fd, "#:f+#", 5)
+#define turnFanOff(fd)					write(fd, "#:f-#", 5)
+#define seekHomeAndSave(fd)				write(fd, "#:hS#", 5)
+#define seekHomeAndSet(fd)				write(fd, "#:hF#", 5)
+#define turnFieldDeRotatorOn(fd)			write(fd, "#:r+#", 5)
+#define turnFieldDeRotatorOff(fd)			write(fd, "#:r-#", 5)
+#define slewToPark(fd)					write(fd, "#:hP#", 5)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**************************************************************************
- Basic I/O
+ Basic I/O - OBSELETE
 **************************************************************************/
-int openPort(const char *portID);
+/*int openPort(const char *portID);
 int portRead(char *buf, int nbytes, int timeout);
 int portWrite(const char * buf);
 int LX200readOut(int timeout);
-
 int Connect(const char* device);
-void Disconnect();
+void Disconnect();*/
 
 /**************************************************************************
  Diagnostics
  **************************************************************************/
-char ACK();
-int testTelescope();
-int testAP();
-int check_lx200_connection(int in_fd);
+char ACK(int fd);
+/*int testTelescope();
+int testAP();*/
+int check_lx200_connection(int fd);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
  **************************************************************************/
  
 /* Get Double from Sexagisemal */
-int getCommandSexa(double *value, const char *cmd);
+int getCommandSexa(int fd, double *value, const char *cmd);
 /* Get String */
-int getCommandString(char *data, const char* cmd);
+int getCommandString(int fd, char *data, const char* cmd);
 /* Get Int */
-int getCommandInt(int *value, const char* cmd);
+int getCommandInt(int fd, int *value, const char* cmd);
 /* Get tracking frequency */
-int getTrackFreq(double * value);
+int getTrackFreq(int fd, double * value);
 /* Get site Latitude */
-int getSiteLatitude(int *dd, int *mm);
+int getSiteLatitude(int fd, int *dd, int *mm);
 /* Get site Longitude */
-int getSiteLongitude(int *ddd, int *mm);
+int getSiteLongitude(int fd, int *ddd, int *mm);
 /* Get Calender data */
-int getCalenderDate(char *date);
+int getCalenderDate(int fd, char *date);
 /* Get site Name */
-int getSiteName(char *siteName, int siteNum);
+int getSiteName(int fd, char *siteName, int siteNum);
 /* Get Number of Bars */
-int getNumberOfBars(int *value);
+int getNumberOfBars(int fd, int *value);
 /* Get Home Search Status */
-int getHomeSearchStatus(int *status);
+int getHomeSearchStatus(int fd, int *status);
 /* Get OTA Temperature */
-int getOTATemp(double * value);
+int getOTATemp(int fd, double * value);
 /* Get time format: 12 or 24 */
-int getTimeFormat(int *format);
+int getTimeFormat(int fd, int *format);
 /* Get RA, DEC from Sky Commander controller */
-int updateSkyCommanderCoord(double *ra, double *dec);
+int updateSkyCommanderCoord(int fd, double *ra, double *dec);
 /* Get RA, DEC from Intelliscope/SkyWizard controllers */
-int updateIntelliscopeCoord (double *ra, double *dec);
+int updateIntelliscopeCoord (int fd, double *ra, double *dec);
 
 /**************************************************************************
  Set Commands
  **************************************************************************/
 
 /* Set Int */
-int setCommandInt(int data, const char *cmd);
+int setCommandInt(int fd, int data, const char *cmd);
 /* Set Sexigesimal */
-int setCommandXYZ( int x, int y, int z, const char *cmd);
+int setCommandXYZ(int fd, int x, int y, int z, const char *cmd);
 /* Common routine for Set commands */
-int setStandardProcedure(char * writeData);
+int setStandardProcedure(int fd, char * writeData);
 /* Set Slew Mode */
-int setSlewMode(int slewMode);
+int setSlewMode(int fd, int slewMode);
 /* Set Alignment mode */
-int setAlignmentMode(unsigned int alignMode);
+int setAlignmentMode(int fd, unsigned int alignMode);
 /* Set Object RA */
-int setObjectRA(double ra);
+int setObjectRA(int fd, double ra);
 /* set Object DEC */
-int setObjectDEC(double dec);
+int setObjectDEC(int fd, double dec);
 /* Set Calender date */
-int setCalenderDate(int dd, int mm, int yy);
+int setCalenderDate(int fd, int dd, int mm, int yy);
 /* Set UTC offset */
-int setUTCOffset(double hours);
+int setUTCOffset(int fd, double hours);
 /* Set Track Freq */
-int setTrackFreq(double trackF);
+int setTrackFreq(int fd, double trackF);
 /* Set current site longitude */
-int setSiteLongitude(double Long);
+int setSiteLongitude(int fd, double Long);
 /* Set current site latitude */
-int setSiteLatitude(double Lat);
+int setSiteLatitude(int fd, double Lat);
 /* Set Object Azimuth */
-int setObjAz(double az);
+int setObjAz(int fd, double az);
 /* Set Object Altitude */
-int setObjAlt(double alt);
+int setObjAlt(int fd, double alt);
 /* Set site name */
-int setSiteName(char * siteName, int siteNum);
+int setSiteName(int fd, char * siteName, int siteNum);
 /* Set maximum slew rate */
-int setMaxSlewRate(int slewRate);
+int setMaxSlewRate(int fd, int slewRate);
 /* Set focuser motion */
-int setFocuserMotion(int motionType);
+int setFocuserMotion(int fd, int motionType);
 /* SET GPS Focuser raneg (1 to 4) */
-int setGPSFocuserSpeed (int speed);
+int setGPSFocuserSpeed (int fd, int speed);
 /* Set focuser speed mode */
-int setFocuserSpeedMode (int speedMode);
+int setFocuserSpeedMode (int fd, int speedMode);
 /* Set minimum elevation limit */
-int setMinElevationLimit(int min);
+int setMinElevationLimit(int fd, int min);
 /* Set maximum elevation limit */
-int setMaxElevationLimit(int max);
+int setMaxElevationLimit(int fd, int max);
 
 /**************************************************************************
  Motion Commands
  **************************************************************************/
 /* Slew to the selected coordinates */
-int Slew();
+int Slew(int fd);
 /* Synchronize to the selected coordinates and return the matching object if any */
-int Sync(char *matchedObject);
+int Sync(int fd, char *matchedObject);
 /* Abort slew in all axes */
-int abortSlew();
+int abortSlew(int fd);
 /* Move into one direction, two valid directions can be stacked */
-int MoveTo(int direction);
+int MoveTo(int fd, int direction);
 /* Half movement in a particular direction */
-int HaltMovement(int direction);
+int HaltMovement(int fd, int direction);
 /* Select the tracking mode */
-int selectTrackingMode(int trackMode);
+int selectTrackingMode(int fd, int trackMode);
 /* Select Astro-Physics tracking mode */
-int selectAPTrackingMode(int trackMode);
+int selectAPTrackingMode(int fd, int trackMode);
 
 /**************************************************************************
  Other Commands
  **************************************************************************/
  /* Ensures LX200 RA/DEC format is long */
-int checkLX200Format();
+int checkLX200Format(int fd);
 /* Select a site from the LX200 controller */
-int selectSite(int siteNum);
+int selectSite(int fd, int siteNum);
 /* Select a catalog object */
-int selectCatalogObject(int catalog, int NNNN);
+int selectCatalogObject(int fd, int catalog, int NNNN);
 /* Select a sub catalog */
-int selectSubCatalog(int catalog, int subCatalog);
+int selectSubCatalog(int fd, int catalog, int subCatalog);
 
 #ifdef __cplusplus
 }

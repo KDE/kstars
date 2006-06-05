@@ -35,56 +35,54 @@
 
 #define LX200_TIMEOUT	5		/* FD timeout in seconds */
 
-int fd;
-int read_ret, write_ret, controller_format;
+int controller_format;
 
 /**************************************************************************
- Basic I/O
+ Basic I/O - OBSELETE
 **************************************************************************/
-int openPort(const char *portID);
+/*int openPort(const char *portID);
 int portRead(char *buf, int nbytes, int timeout);
 int portWrite(const char * buf);
 int LX200readOut(int timeout);
-
 int Connect(const char* device);
-void Disconnect(void);
+void Disconnect(void);*/
 
 /**************************************************************************
  Diagnostics
  **************************************************************************/
-char ACK(void);
-int testTelescope(void);
-int testAP(void);
-int check_lx200_connection(int in_fd);
+char ACK(int fd);
+/*int testTelescope(void);
+int testAP(void);*/
+int check_lx200_connection(int fd);
 
 /**************************************************************************
  Get Commands: store data in the supplied buffer. Return 0 on success or -1 on failure 
  **************************************************************************/
  
 /* Get Double from Sexagisemal */
-int getCommandSexa(double *value, const char *cmd);
+int getCommandSexa(int fd, double *value, const char *cmd);
 /* Get String */
-int getCommandString(char *data, const char* cmd);
+int getCommandString(int fd, char *data, const char* cmd);
 /* Get Int */
-int getCommandInt(int *value, const char* cmd);
+int getCommandInt(int fd, int *value, const char* cmd);
 /* Get tracking frequency */
-int getTrackFreq(double * value);
+int getTrackFreq(int fd, double * value);
 /* Get site Latitude */
-int getSiteLatitude(int *dd, int *mm);
+int getSiteLatitude(int fd, int *dd, int *mm);
 /* Get site Longitude */
-int getSiteLongitude(int *ddd, int *mm);
+int getSiteLongitude(int fd, int *ddd, int *mm);
 /* Get Calender data */
-int getCalenderDate(char *date);
+int getCalenderDate(int fd, char *date);
 /* Get site Name */
-int getSiteName(char *siteName, int siteNum);
+int getSiteName(int fd, char *siteName, int siteNum);
 /* Get Number of Bars */
-int getNumberOfBars(int *value);
+int getNumberOfBars(int fd, int *value);
 /* Get Home Search Status */
-int getHomeSearchStatus(int *status);
+int getHomeSearchStatus(int fd, int *status);
 /* Get OTA Temperature */
-int getOTATemp(double * value);
+int getOTATemp(int fd, double * value);
 /* Get time format: 12 or 24 */
-int getTimeFormat(int *format);
+int getTimeFormat(int fd, int *format);
 
 
 /**************************************************************************
@@ -92,81 +90,81 @@ int getTimeFormat(int *format);
  **************************************************************************/
 
 /* Set Int */
-int setCommandInt(int data, const char *cmd);
+int setCommandInt(int fd, int data, const char *cmd);
 /* Set Sexigesimal */
-int setCommandXYZ( int x, int y, int z, const char *cmd);
+int setCommandXYZ(int fd, int x, int y, int z, const char *cmd);
 /* Common routine for Set commands */
-int setStandardProcedure(char * writeData);
+int setStandardProcedure(int fd, char * writeData);
 /* Set Slew Mode */
-int setSlewMode(int slewMode);
+int setSlewMode(int fd, int slewMode);
 /* Set Alignment mode */
-int setAlignmentMode(unsigned int alignMode);
+int setAlignmentMode(int fd, unsigned int alignMode);
 /* Set Object RA */
-int setObjectRA(double ra);
+int setObjectRA(int fd, double ra);
 /* set Object DEC */
-int setObjectDEC(double dec);
+int setObjectDEC(int fd, double dec);
 /* Set Calender date */
-int setCalenderDate(int dd, int mm, int yy);
+int setCalenderDate(int fd, int dd, int mm, int yy);
 /* Set UTC offset */
-int setUTCOffset(double hours);
+int setUTCOffset(int fd, double hours);
 /* Set Track Freq */
-int setTrackFreq(double trackF);
+int setTrackFreq(int fd, double trackF);
 /* Set current site longitude */
-int setSiteLongitude(double Long);
+int setSiteLongitude(int fd, double Long);
 /* Set current site latitude */
-int setSiteLatitude(double Lat);
+int setSiteLatitude(int fd, double Lat);
 /* Set Object Azimuth */
-int setObjAz(double az);
+int setObjAz(int fd, double az);
 /* Set Object Altitude */
-int setObjAlt(double alt);
+int setObjAlt(int fd, double alt);
 /* Set site name */
-int setSiteName(char * siteName, int siteNum);
+int setSiteName(int fd, char * siteName, int siteNum);
 /* Set maximum slew rate */
-int setMaxSlewRate(int slewRate);
+int setMaxSlewRate(int fd, int slewRate);
 /* Set focuser motion */
-int setFocuserMotion(int motionType);
+int setFocuserMotion(int fd, int motionType);
 /* Set focuser speed mode */
-int setFocuserSpeedMode (int speedMode);
+int setFocuserSpeedMode (int fd, int speedMode);
 /* Set minimum elevation limit */
-int setMinElevationLimit(int min);
+int setMinElevationLimit(int fd, int min);
 /* Set maximum elevation limit */
-int setMaxElevationLimit(int max);
+int setMaxElevationLimit(int fd, int max);
 
 /**************************************************************************
  Motion Commands
  **************************************************************************/
 /* Slew to the selected coordinates */
-int Slew(void);
+int Slew(int fd);
 /* Synchronize to the selected coordinates and return the matching object if any */
-int Sync(char *matchedObject);
+int Sync(int fd, char *matchedObject);
 /* Abort slew in all axes */
-int abortSlew(void);
+int abortSlew(int fd);
 /* Move into one direction, two valid directions can be stacked */
-int MoveTo(int direction);
+int MoveTo(int fd, int direction);
 /* Half movement in a particular direction */
-int HaltMovement(int direction);
+int HaltMovement(int fd, int direction);
 /* Select the tracking mode */
-int selectTrackingMode(int trackMode);
+int selectTrackingMode(int fd, int trackMode);
 /* Select Astro-Physics tracking mode */
-int selectAPTrackingMode(int trackMode);
+int selectAPTrackingMode(int fd, int trackMode);
 
 /**************************************************************************
  Other Commands
  **************************************************************************/
  /* Ensures LX200 RA/DEC format is long */
-int checkLX200Format(void);
+int checkLX200Format(int fd);
 /* Select a site from the LX200 controller */
-int selectSite(int siteNum);
+int selectSite(int fd, int siteNum);
 /* Select a catalog object */
-int selectCatalogObject(int catalog, int NNNN);
+int selectCatalogObject(int fd, int catalog, int NNNN);
 /* Select a sub catalog */
-int selectSubCatalog(int catalog, int subCatalog);
+int selectSubCatalog(int fd, int catalog, int subCatalog);
 
 /**********************************************************************
-* BASIC
+* BASIC - OBSELETE
 **********************************************************************/
 
-int Connect(const char *device)
+/*int Connect(const char *device)
 {
  IDLog("Connecting to device %s\n", device);
  
@@ -200,50 +198,31 @@ int testTelescope()
   
   return -1;
 }
-
+*/
 int check_lx200_connection(int in_fd)
 {
 
   int i=0;
   char ack[1] = { (char) 0x06 };
   char MountAlign[64];
-  IDLog("Testing telescope's connection using ACK...\n");
+  int nbytes_read=0;
 
-  /* FIXME Temporary solution untill all function use the new tty API */
-  fd = in_fd;
+  #ifdef INDI_DEBUG
+  IDLog("Testing telescope's connection using ACK...\n");
+  #endif
+
+  if (in_fd <= 0) return -1;
 
   for (i=0; i < 2; i++)
   {
     write(in_fd, ack, 1);
-    tty_read(in_fd, MountAlign, 1, LX200_TIMEOUT, &read_ret);
-    if (read_ret == 1)
+    tty_read(in_fd, MountAlign, 1, LX200_TIMEOUT, &nbytes_read);
+    if (nbytes_read == 1)
      return 0;
     usleep(50000);
   }
   
   return -1;
-}
-
-
-int testAP()
-{
-   int i=0;
-   char currentDate[64];
-
-   fprintf(stderr, "Testing telescope's connection using :GC...\n");
-
-  /* We need to test if the telescope is responding
-  / We're going to request the calander date */
-  for (i=0; i < 2; i++)
-  {
-    if (!getCalenderDate(currentDate))
-     return 0;
-
-    usleep(50000);
-  }
-  
-  return -1;
-
 }
 
 
@@ -251,44 +230,50 @@ int testAP()
 * GET
 **********************************************************************/
 
-char ACK()
+char ACK(int fd)
 {
   char ack[1] = { (char) 0x06 };
   char MountAlign[2];
+  int nbytes_write=0, nbytes_read=0, error_type;
 
-  write_ret = write(fd, ack, 1);
+  nbytes_write = write(fd, ack, 1);
 
-  if (write_ret < 0)
+  if (nbytes_write < 0)
     return -1;
  
-  read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);
+  /*read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);*/
+  error_type = tty_read(fd, MountAlign, 1, LX200_TIMEOUT, &nbytes_read);
   
-  if (read_ret == 1)
+  if (nbytes_read == 1)
     return MountAlign[0];
   else
-    return read_ret;
-
+    return error_type;
 }
 
-int getCommandSexa(double *value, const char * cmd)
+int getCommandSexa(int fd, double *value, const char * cmd)
 {
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
   
   tcflush(fd, TCIFLUSH);
 
-  if (portWrite(cmd) < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_NO_ERROR)
+   return error_type;
   
-  if ( (read_ret = portRead(tempString, -1, LX200_TIMEOUT)) < 1)
-     return read_ret;
+  /*if ( (read_ret = portRead(temp_string, -1, LX200_TIMEOUT)) < 1)
+     return read_ret;*/
+  tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
  
-  tempString[read_ret - 1] = '\0';
+  temp_string[nbytes_read - 1] = '\0';
   
-  /*IDLog("getComandSexa: %s\n", tempString);*/
+  /*IDLog("getComandSexa: %s\n", temp_string);*/
 
-  if (f_scansexa(tempString, value))
+  if (f_scansexa(temp_string, value))
   {
-   IDLog("unable to process [%s]\n", tempString);
+   #ifdef INDI_DEBUG
+   IDLog("unable to process [%s]\n", temp_string);
+   #endif
    return -1;
   }
  
@@ -296,41 +281,51 @@ int getCommandSexa(double *value, const char * cmd)
    return 0;
 }
 
-int getCommandString(char *data, const char* cmd)
+int getCommandString(int fd, char *data, const char* cmd)
 {
     char * term;
+    int error_type;
+    int nbytes_write=0, nbytes_read=0;
     
-    if (portWrite(cmd) < 0)
-      return -1;
+   /*if (portWrite(cmd) < 0)
+      return -1;*/
 
-    read_ret = portRead(data, -1, LX200_TIMEOUT);
+   if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_NO_ERROR)
+    return error_type;
+
+    /*read_ret = portRead(data, -1, LX200_TIMEOUT);*/
+    error_type = tty_read_section(fd, data, '#', LX200_TIMEOUT, &nbytes_read);
     tcflush(fd, TCIFLUSH);
 
-    if (read_ret < 1)
-     return read_ret;
+    if (error_type != TTY_NO_ERROR)
+	return error_type;
 
     term = strchr (data, '#');
     if (term)
       *term = '\0';
 
+   #ifdef INDI_DEBUG
     IDLog("Requested data: %s\n", data);
+   #endif
 
     return 0;
 }
 
-int getCalenderDate(char *date)
+int getCalenderDate(int fd, char *date)
 {
 
  int dd, mm, yy;
- int err;
+ int error_type;
+ int nbytes_read=0;
+ 
 
- if ( (err = getCommandString(date, "#:GC#")) )
-   return err;
+ if ( (error_type = getCommandString(fd, date, "#:GC#")) )
+   return error_type;
 
  /* Meade format is MM/DD/YY */
 
-  read_ret = sscanf(date, "%d%*c%d%*c%d", &mm, &dd, &yy);
-  if (read_ret < 3)
+  nbytes_read = sscanf(date, "%d%*c%d%*c%d", &mm, &dd, &yy);
+  if (nbytes_read < 3)
    return -1;
 
  /* We need to have in in YYYY/MM/DD format */
@@ -340,25 +335,33 @@ int getCalenderDate(char *date)
 
 }
 
-int getTimeFormat(int *format)
+int getTimeFormat(int fd, int *format)
 {
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
   int tMode;
 
-  if (portWrite("#:Gc#") < 0)
-    return -1;
+  /*if (portWrite("#:Gc#") < 0)
+    return -1;*/
+  
+ if ( (error_type = tty_write(fd, "#:Gc#", &nbytes_write)) != TTY_NO_ERROR)
+    return error_type;
 
-  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
+  if ( (error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read)) != TTY_NO_ERROR)
+	return error_type;
+
   tcflush(fd, TCIFLUSH);
   
-  if (read_ret < 1)
-   return read_ret;
+  if (nbytes_read < 1)
+   return error_type;
    
-  tempString[read_ret-1] = '\0';
+  temp_string[nbytes_read-1] = '\0';
 
-  read_ret = sscanf(tempString, "(%d)", &tMode);
+  nbytes_read = sscanf(temp_string, "(%d)", &tMode);
 
-  if (read_ret < 1)
+  if (nbytes_read < 1)
    return -1;
   else
    *format = tMode;
@@ -367,101 +370,50 @@ int getTimeFormat(int *format)
 
 }
 
-/*int getUTCOffset()
-{
-    char tempString[4];
-    int offSet;
-
-    portWrite("#:GG#");
-
-    read_ret = portRead(tempString, 4);
-    if (read_ret)
-     return -1;
-
-    tempString[3] = '\0';
-
-    sscanf(tempString, "%d", &offSet);
-
-    fprintf(stderr, "UTC Offset: %d\n", offSet);
-
-    return offSet;
-}
-
-int getMaxElevationLimit()
-{
-    char tempString[16];
-    int limit;
-
-    portWrite("#:Go#");
-
-    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
-    if (read_ret < 1)
-     return -1;
-
-    tempString[read_ret-1] = '\0';
-
-    sscanf(tempString, "%d", &limit);
-
-    fprintf(stderr, "Max elevation limit string is %s\n", tempString);
-
-    return limit;
-}
-
-int getMinElevationLimit()
-{
-    char tempString[16];
-    int limit;
-
-    portWrite("#:Gh#");
-
-    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
-    if (read_ret < 1)
-     return -1;
-
-    tempString[read_ret-1] = '\0';
-
-    sscanf(tempString, "%d", &limit);
-
-    fprintf(stderr, "Min elevation limit string is %s\n", tempString);
-
-    return limit;
-
-}
-*/
-
-int getSiteName(char *siteName, int siteNum)
+int getSiteName(int fd, char *siteName, int siteNum)
 {
   char * term;
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
   switch (siteNum)
   {
     case 1:
-     if (portWrite("#:GM#") < 0)
-      return -1;
+     /*if (portWrite("#:GM#") < 0)
+      return -1;*/
+       if ( (error_type = tty_write(fd, "#:GM#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case 2:
-     if (portWrite("#:GN#") < 0)
-      return -1;
+     /*if (portWrite("#:GN#") < 0)
+      return -1;*/
+	if ( (error_type = tty_write(fd, "#:GN#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case 3:
-     if (portWrite("#:GO#") < 0)
-       return -1;
+     /*if (portWrite("#:GO#") < 0)
+       return -1;*/
+	if ( (error_type = tty_write(fd, "#:GO#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case 4:
-     if (portWrite("#:GP#") < 0)
-      return -1;
+     /*if (portWrite("#:GP#") < 0)
+      return -1;*/
+	if ( (error_type = tty_write(fd, "#:GP#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     default:
      return -1;
    }
 
-   read_ret = portRead(siteName, -1, LX200_TIMEOUT);
+   /*read_ret = portRead(siteName, -1, LX200_TIMEOUT);*/
+   error_type = tty_read_section(fd, siteName, '#', LX200_TIMEOUT, &nbytes_read);
    tcflush(fd, TCIFLUSH);
 
-   if (read_ret < 1)
-     return read_ret;
+   if (nbytes_read < 1)
+     return error_type;
 
-   siteName[read_ret - 1] = '\0';
+   siteName[nbytes_read - 1] = '\0';
 
    term = strchr (siteName, ' ');
     if (term)
@@ -471,148 +423,188 @@ int getSiteName(char *siteName, int siteNum)
     if (term)
       strcpy(siteName, "unused site");
 
+   #ifdef INDI_DEBUG
    IDLog("Requested site name: %s\n", siteName);
+   #endif
 
     return 0;
 }
 
-int getSiteLatitude(int *dd, int *mm)
+int getSiteLatitude(int fd, int *dd, int *mm)
 {
-  char tempString[16];
-  
-  if (portWrite("#:Gt#") < 0)
-    return -1;
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
-  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  /*if (portWrite("#:Gt#") < 0)
+    return -1;*/
+  if ( (error_type = tty_write(fd, "#:Gt#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+
+  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
+  error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
   tcflush(fd, TCIFLUSH);
   
-   if (read_ret < 1) 
-   return read_ret;
+   if (nbytes_read < 1) 
+   return error_type;
    
-  tempString[read_ret -1] = '\0';
+  temp_string[nbytes_read -1] = '\0';
 
-  if (sscanf (tempString, "%d%*c%d", dd, mm) < 2)
+  if (sscanf (temp_string, "%d%*c%d", dd, mm) < 2)
    return -1;
 
-  fprintf(stderr, "Requested site latitude in String %s\n", tempString);
+  #ifdef INDI_DEBUG
+  fprintf(stderr, "Requested site latitude in String %s\n", temp_string);
   fprintf(stderr, "Requested site latitude %d:%d\n", *dd, *mm);
+  #endif
 
   return 0;
 }
 
-int getSiteLongitude(int *ddd, int *mm)
+int getSiteLongitude(int fd, int *ddd, int *mm)
 {
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
-  if (portWrite("#:Gg#") < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, "#:Gg#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
 
-  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  /*if (portWrite("#:Gg#") < 0)
+   return -1;*/
+  error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
+  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
+  
   tcflush(fd, TCIFLUSH);
   
-  if (read_ret < 1)
-    return read_ret;
+  if (nbytes_read < 1)
+    return error_type;
     
-  tempString[read_ret -1] = '\0';
+  temp_string[nbytes_read -1] = '\0';
 
-  if (sscanf (tempString, "%d%*c%d", ddd, mm) < 2)
+  if (sscanf (temp_string, "%d%*c%d", ddd, mm) < 2)
    return -1;
 
-  fprintf(stderr, "Requested site longitude in String %s\n", tempString);
+  #ifdef INDI_DEBUG
+  fprintf(stderr, "Requested site longitude in String %s\n", temp_string);
   fprintf(stderr, "Requested site longitude %d:%d\n", *ddd, *mm);
+  #endif
 
   return 0;
 }
 
-int getTrackFreq(double *value)
+int getTrackFreq(int fd, double *value)
 {
     float Freq;
-    char tempString[16];
+    char temp_string[16];
+    int error_type;
+    int nbytes_write=0, nbytes_read=0;
     
-    if (portWrite("#:GT#") < 0)
-      return -1;
+    if ( (error_type = tty_write(fd, "#:GT#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
 
-    read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+	/*if (portWrite("#:GT#") < 0)
+      return -1;*/
+
+    /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
+    error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
     tcflush(fd, TCIFLUSH);
     
-    if (read_ret < 1)
-     return read_ret;
+    if (nbytes_read < 1)
+     return error_type;
 
-    tempString[read_ret] = '\0';
+    temp_string[nbytes_read] = '\0';
     
-    /*fprintf(stderr, "Telescope tracking freq str: %s\n", tempString);*/
+    /*fprintf(stderr, "Telescope tracking freq str: %s\n", temp_string);*/
     
-    if (sscanf(tempString, "%f#", &Freq) < 1)
+    if (sscanf(temp_string, "%f#", &Freq) < 1)
      return -1;
    
     *value = (double) Freq;
     
-    /*fprintf(stderr, "Tracking frequency value is %f\n", Freq);*/
-    
+    #ifdef INDI_DEBUG
+    fprintf(stderr, "Tracking frequency value is %f\n", Freq);
+    #endif
+
     return 0;
 }
 
-int getNumberOfBars(int *value)
+int getNumberOfBars(int fd, int *value)
 {
-   char tempString[128];
+   char temp_string[128];
+   int error_type;
+   int nbytes_write=0, nbytes_read=0;
 
-   if (portWrite("#:D#") < 0)
-     return -1;
+   if ( (error_type = tty_write(fd, "#:D#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+   /*if (portWrite("#:D#") < 0)
+     return -1;*/
 
-   read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+   error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
    tcflush(fd, TCIFLUSH);
    
-   if (read_ret < 0)
-    return read_ret;
+   if (nbytes_read < 0)
+    return error_type;
 
-   *value = read_ret -1;
+   *value = nbytes_read -1;
    
    return 0;
 }
 
-int getHomeSearchStatus(int *status)
+int getHomeSearchStatus(int fd, int *status)
 {
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
-  if (portWrite("#:h?#") < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, "#:h?#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+ /*if (portWrite("#:h?#") < 0)
+   return -1;*/
 
-  read_ret = portRead(tempString, 1, LX200_TIMEOUT);
+  /*read_ret = portRead(temp_string, 1, LX200_TIMEOUT);*/
+  error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
   tcflush(fd, TCIFLUSH);
   
-  if (read_ret < 1)
-   return read_ret;
+  if (nbytes_read < 1)
+   return error_type;
    
-  tempString[1] = '\0';
+  temp_string[1] = '\0';
 
-  if (tempString[0] == '0')
+  if (temp_string[0] == '0')
     *status = 0;
-  else if (tempString[0] == '1')
+  else if (temp_string[0] == '1')
     *status = 1;
-  else if (tempString[0] == '2')
+  else if (temp_string[0] == '2')
     *status = 1;
   
   return 0;
 }
 
-int getOTATemp(double *value)
+int getOTATemp(int fd, double *value)
 {
 
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
   float temp;
   
-  if (portWrite("#:fT#") < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, "#:fT#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
 
-  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  /*if (portWrite("#:fT#") < 0)
+   return -1;*/
+
+  error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
+  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
   tcflush(fd, TCIFLUSH);
   
-  if (read_ret < 1)
-   return read_ret;
+  if (nbytes_read < 1)
+   return error_type;
    
-  tempString[read_ret - 1] = '\0';
+  temp_string[nbytes_read - 1] = '\0';
 
-  if (sscanf(tempString, "%f", &temp) < 1)
+  if (sscanf(temp_string, "%f", &temp) < 1)
    return -1;
    
    *value = (double) temp;
@@ -621,23 +613,28 @@ int getOTATemp(double *value)
 
 }
 
-int updateSkyCommanderCoord(double *ra, double *dec)
+int updateSkyCommanderCoord(int fd, double *ra, double *dec)
 {
   char coords[16];
   char CR[1] = { (char) 0x0D };
   float RA=0.0, DEC=0.0;
+  int error_type;
+  int nbytes_read=0;
 
   write(fd, CR, 1);
 
-  read_ret = portRead(coords, 16, LX200_TIMEOUT);
+  error_type = tty_read(fd, coords, 16, LX200_TIMEOUT, &nbytes_read);
+  /*read_ret = portRead(coords, 16, LX200_TIMEOUT);*/
   tcflush(fd, TCIFLUSH);
 
-  read_ret = sscanf(coords, " %g %g", &RA, &DEC);
+  nbytes_read = sscanf(coords, " %g %g", &RA, &DEC);
 
-  if (read_ret < 2)
+  if (nbytes_read < 2)
   {
+   #ifdef INDI_DEBUG
    IDLog("Error in Sky commander number format [%s], exiting.\n", coords);
-   return -1;
+   #endif
+   return error_type;
   }
 
   *ra  = RA;
@@ -647,17 +644,20 @@ int updateSkyCommanderCoord(double *ra, double *dec)
 
 }
 
-int updateIntelliscopeCoord (double *ra, double *dec)
+int updateIntelliscopeCoord (int fd, double *ra, double *dec)
 {
   char coords[16];
   char CR[1] = { (char) 0x51 };	/* "Q" */
   float RA = 0.0, DEC = 0.0;
+  int error_type;
+  int nbytes_read=0;
 
   /*IDLog ("Sending a Q\n");*/
   write (fd, CR, 1);
   /* We start at 14 bytes in case its a Sky Wizard, 
      but read one more later it if it's a intelliscope */
-  read_ret = portRead (coords, 14, LX200_TIMEOUT);
+  /*read_ret = portRead (coords, 14, LX200_TIMEOUT);*/
+  error_type = tty_read(fd, coords, 14, LX200_TIMEOUT, &nbytes_read);
   tcflush(fd, TCIFLUSH);
   /*IDLog ("portRead() = [%s]\n", coords);*/
 
@@ -665,15 +665,19 @@ int updateIntelliscopeCoord (double *ra, double *dec)
   if (coords[0] == 'Q') {
     coords[0] = ' ';
     /* Read one more byte if Intelliscope to get the "CR" */
-    read_ret = portRead (coords, 1, LX200_TIMEOUT);
+    error_type = tty_read(fd, coords, 1, LX200_TIMEOUT, &nbytes_read);
+    /*read_ret = portRead (coords, 1, LX200_TIMEOUT);*/
   }
-  read_ret = sscanf (coords, " %g %g", &RA, &DEC);
+  nbytes_read = sscanf (coords, " %g %g", &RA, &DEC);
   /*IDLog ("sscanf() RA = [%f]\n", RA * 0.0390625);*/
   /*IDLog ("sscanf() DEC = [%f]\n", DEC * 0.0390625);*/
 
   /*IDLog ("Intelliscope output [%s]", coords);*/
-  if (read_ret < 2) {
+  if (nbytes_read < 2)
+  {
+    #ifdef INDI_DEBUG
     IDLog ("Error in Intelliscope number format [%s], exiting.\n", coords);
+    #endif
     return -1;
   }
 
@@ -689,101 +693,113 @@ int updateIntelliscopeCoord (double *ra, double *dec)
 * SET
 **********************************************************************/
 
-int setStandardProcedure(char * data)
+int setStandardProcedure(int fd, char * data)
 {
- char boolRet[2];
+ char bool_return[2];
+ int error_type;
+ int nbytes_write=0, nbytes_read=0;
  
- if (portWrite(data) < 0)
-  return -1;
- 
- read_ret = portRead(boolRet, 1, LX200_TIMEOUT);
+ if ( (error_type = tty_write(fd, data, &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+
+ error_type = tty_read(fd, bool_return, 1, LX200_TIMEOUT, &nbytes_read);
+ /*read_ret = portRead(boolRet, 1, LX200_TIMEOUT);*/
  tcflush(fd, TCIFLUSH);
  
- if (read_ret < 1)
-   return read_ret;
+ if (nbytes_read < 1)
+   return error_type;
 
- if (boolRet[0] == '0')
+ if (bool_return[0] == '0')
  {
-     fprintf(stderr, "%s Failed.\n", data);
+     #ifdef INDI_DEBUG
+     IDLog("%s Failed.\n", data);
+     #endif
      return -1;
  }
 
- fprintf(stderr, "%s Successful\n", data);
+ #ifdef INDI_DEBUG
+ IDLog("%s Successful\n", data);
+ #endif
+
  return 0;
 
 
 }
 
-int setCommandInt(int data, const char *cmd)
+int setCommandInt(int fd, int data, const char *cmd)
 {
-  char tempString[16];
+  char temp_string[16];
+  int error_type;
+  int nbytes_write=0;
 
-  snprintf(tempString, sizeof( tempString ), "%s%d#", cmd, data);
+  snprintf(temp_string, sizeof( temp_string ), "%s%d#", cmd, data);
 
-  if (portWrite(tempString) < 0)
-    return -1;
+  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+
+ /*  if (portWrite(temp_string) < 0)
+    return -1;*/
 
   return 0;
 }
 
-int setMinElevationLimit(int min)
+int setMinElevationLimit(int fd, int min)
 {
- char tempString[16];
+ char temp_string[16];
 
- snprintf(tempString, sizeof( tempString ), "#:Sh%02d#", min);
+ snprintf(temp_string, sizeof( temp_string ), "#:Sh%02d#", min);
 
- return (setStandardProcedure(tempString));
+ return (setStandardProcedure(fd, temp_string));
 }
 
-int setMaxElevationLimit(int max)
+int setMaxElevationLimit(int fd, int max)
 {
- char tempString[16];
+ char temp_string[16];
 
- snprintf(tempString, sizeof( tempString ), "#:So%02d*#", max);
+ snprintf(temp_string, sizeof( temp_string ), "#:So%02d*#", max);
 
- return (setStandardProcedure(tempString));
+ return (setStandardProcedure(fd, temp_string));
 
 }
 
-int setMaxSlewRate(int slewRate)
+int setMaxSlewRate(int fd, int slewRate)
 {
 
-   char tempString[16];
+   char temp_string[16];
 
    if (slewRate < 2 || slewRate > 8)
     return -1;
 
-   snprintf(tempString, sizeof( tempString ), "#:Sw%d#", slewRate);
+   snprintf(temp_string, sizeof( temp_string ), "#:Sw%d#", slewRate);
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 
 }
 
-
-int setObjectRA(double ra)
+int setObjectRA(int fd, double ra)
 {
 
  int h, m, s, frac_m;
- char tempString[16];
+ char temp_string[16];
 
  getSexComponents(ra, &h, &m, &s);
 
  frac_m = (s / 60.0) * 10.;
 
  if (controller_format == LX200_LONG_FORMAT)
- 	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d:%02d#", h, m, s);
+ 	snprintf(temp_string, sizeof( temp_string ), "#:Sr %02d:%02d:%02d#", h, m, s);
  else
-	snprintf(tempString, sizeof( tempString ), "#:Sr %02d:%02d.%01d#", h, m, frac_m);
+	snprintf(temp_string, sizeof( temp_string ), "#:Sr %02d:%02d.%01d#", h, m, frac_m);
 	
- /*IDLog("Set Object RA String %s\n", tempString);*/
- return (setStandardProcedure(tempString));
+ /*IDLog("Set Object RA String %s\n", temp_string);*/
+ return (setStandardProcedure(fd, temp_string));
 }
 
 
-int setObjectDEC(double dec)
+int setObjectDEC(int fd, double dec)
 {
   int d, m, s;
-  char tempString[16];
+  char temp_string[16];
 
   getSexComponents(dec, &d, &m, &s);
 
@@ -793,52 +809,60 @@ int setObjectDEC(double dec)
     case LX200_SHORT_FORMAT:
     /* case with negative zero */
     if (!d && dec < 0)
-    	snprintf(tempString, sizeof( tempString ), "#:Sd -%02d*%02d#", d, m);
+    	snprintf(temp_string, sizeof( temp_string ), "#:Sd -%02d*%02d#", d, m);
     else	
-    	snprintf(tempString, sizeof( tempString ), "#:Sd %+03d*%02d#", d, m);
+    	snprintf(temp_string, sizeof( temp_string ), "#:Sd %+03d*%02d#", d, m);
     break;
 
     case LX200_LONG_FORMAT:
     /* case with negative zero */
     if (!d && dec < 0)
-    	snprintf(tempString, sizeof( tempString ), "#:Sd -%02d:%02d:%02d#", d, m, s);
+    	snprintf(temp_string, sizeof( temp_string ), "#:Sd -%02d:%02d:%02d#", d, m, s);
     else	
-    	snprintf(tempString, sizeof( tempString ), "#:Sd %+03d:%02d:%02d#", d, m, s);
+    	snprintf(temp_string, sizeof( temp_string ), "#:Sd %+03d:%02d:%02d#", d, m, s);
     break;
   }
 
-  /*IDLog("Set Object DEC String %s\n", tempString);*/
+  /*IDLog("Set Object DEC String %s\n", temp_string);*/
   
-  return (setStandardProcedure(tempString));
+  return (setStandardProcedure(fd, temp_string));
 
 }
 
-int setCommandXYZ(int x, int y, int z, const char *cmd)
+int setCommandXYZ(int fd, int x, int y, int z, const char *cmd)
 {
-  char tempString[16];
+  char temp_string[16];
 
-  snprintf(tempString, sizeof( tempString ), "%s %02d:%02d:%02d#", cmd, x, y, z);
+  snprintf(temp_string, sizeof( temp_string ), "%s %02d:%02d:%02d#", cmd, x, y, z);
 
-  return (setStandardProcedure(tempString));
+  return (setStandardProcedure(fd, temp_string));
 }
 
-int setAlignmentMode(unsigned int alignMode)
+int setAlignmentMode(int fd, unsigned int alignMode)
 {
   /*fprintf(stderr , "Set alignment mode %d\n", alignMode);*/
+  int error_type;
+  int nbytes_write=0;
 
   switch (alignMode)
    {
      case LX200_ALIGN_POLAR:
-      if (portWrite("#:AP#") < 0)
-        return -1;
+	if ( (error_type = tty_write(fd, "#:AP#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+      /*if (portWrite("#:AP#") < 0)
+        return -1;*/
       break;
      case LX200_ALIGN_ALTAZ:
-      if (portWrite("#:AA#") < 0)
-        return -1;
+	if ( (error_type = tty_write(fd, "#:AA#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+      /*if (portWrite("#:AA#") < 0)
+        return -1;*/
       break;
      case LX200_ALIGN_LAND:
-       if (portWrite("#:AL#") < 0)
-        return -1;
+	if ( (error_type = tty_write(fd, "#:AL#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+       /*if (portWrite("#:AL#") < 0)
+        return -1;*/
        break;
    }
    
@@ -846,144 +870,160 @@ int setAlignmentMode(unsigned int alignMode)
    return 0;
 }
 
-int setCalenderDate(int dd, int mm, int yy)
+int setCalenderDate(int fd, int dd, int mm, int yy)
 {
-   char tempString[32];
+   char temp_string[32];
    char dumpPlanetaryUpdateString[64];
-   char boolRet[2];
+   char bool_return[2];
+   int error_type;
+   int nbytes_write=0, nbytes_read=0;
    yy = yy % 100;
 
-   snprintf(tempString, sizeof( tempString ), "#:SC %02d/%02d/%02d#", mm, dd, yy);
+   snprintf(temp_string, sizeof( temp_string ), "#:SC %02d/%02d/%02d#", mm, dd, yy);
 
-   if (portWrite(tempString) < 0)
-    return -1;
+   if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
 
-   read_ret = portRead(boolRet, 1, LX200_TIMEOUT);
+   /*if (portWrite(temp_string) < 0)
+    return -1;*/
+
+   /*read_ret = portRead(boolRet, 1, LX200_TIMEOUT);*/
+   error_type = tty_read(fd, bool_return, 1, LX200_TIMEOUT, &nbytes_read);
    tcflush(fd, TCIFLUSH);
    
-   if (read_ret < 1)
-    return read_ret;
+   if (nbytes_read < 1)
+    return error_type;
     
-   boolRet[1] = '\0';
+   bool_return[1] = '\0';
 
-   if (boolRet[0] == '0')
+   if (bool_return[0] == '0')
      return -1;
      
     /* Read dumped data */
-    portRead(dumpPlanetaryUpdateString, -1, LX200_TIMEOUT);
-    portRead(dumpPlanetaryUpdateString, -1, 5);
+    error_type = tty_read_section(fd, dumpPlanetaryUpdateString, '#', LX200_TIMEOUT, &nbytes_read);
+    error_type = tty_read_section(fd, dumpPlanetaryUpdateString, '#', 5, &nbytes_read);
 
    return 0;
 }
 
-int setUTCOffset(double hours)
+int setUTCOffset(int fd, double hours)
 {
-   char tempString[16];
+   char temp_string[16];
 
-   snprintf(tempString, sizeof( tempString ), "#:SG %+03d#", (int) hours);
+   snprintf(temp_string, sizeof( temp_string ), "#:SG %+03d#", (int) hours);
 
-   /*IDLog("UTC string is %s\n", tempString);*/
+   /*IDLog("UTC string is %s\n", temp_string);*/
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 
 }
 
-int setSiteLongitude(double Long)
+int setSiteLongitude(int fd, double Long)
 {
    int d, m, s;
-   char tempString[32];
+   char temp_string[32];
 
    getSexComponents(Long, &d, &m, &s);
 
-   snprintf(tempString, sizeof( tempString ), "#:Sg%03d:%02d#", d, m);
+   snprintf(temp_string, sizeof( temp_string ), "#:Sg%03d:%02d#", d, m);
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 }
 
-int setSiteLatitude(double Lat)
+int setSiteLatitude(int fd, double Lat)
 {
    int d, m, s;
-   char tempString[32];
+   char temp_string[32];
 
    getSexComponents(Lat, &d, &m, &s);
 
-   snprintf(tempString, sizeof( tempString ), "#:St%+03d:%02d:%02d#", d, m, s);
+   snprintf(temp_string, sizeof( temp_string ), "#:St%+03d:%02d:%02d#", d, m, s);
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 }
 
-int setObjAz(double az)
+int setObjAz(int fd, double az)
 {
    int d,m,s;
-   char tempString[16];
+   char temp_string[16];
 
    getSexComponents(az, &d, &m, &s);
 
-   snprintf(tempString, sizeof( tempString ), "#:Sz%03d:%02d#", d, m);
+   snprintf(temp_string, sizeof( temp_string ), "#:Sz%03d:%02d#", d, m);
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 
 }
 
-int setObjAlt(double alt)
+int setObjAlt(int fd, double alt)
 {
     int d, m, s;
-    char tempString[16];
+    char temp_string[16];
 
    getSexComponents(alt, &d, &m, &s);
 
-   snprintf(tempString, sizeof( tempString ), "#:Sa%+02d*%02d#", d, m);
+   snprintf(temp_string, sizeof( temp_string ), "#:Sa%+02d*%02d#", d, m);
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 }
 
 
-int setSiteName(char * siteName, int siteNum)
+int setSiteName(int fd, char * siteName, int siteNum)
 {
 
-   char tempString[16];
+   char temp_string[16];
 
    switch (siteNum)
    {
      case 1:
-      snprintf(tempString, sizeof( tempString ), "#:SM %s#", siteName);
+      snprintf(temp_string, sizeof( temp_string ), "#:SM %s#", siteName);
       break;
      case 2:
-      snprintf(tempString, sizeof( tempString ), "#:SN %s#", siteName);
+      snprintf(temp_string, sizeof( temp_string ), "#:SN %s#", siteName);
       break;
      case 3:
-      snprintf(tempString, sizeof( tempString ), "#:SO %s#", siteName);
+      snprintf(temp_string, sizeof( temp_string ), "#:SO %s#", siteName);
       break;
     case 4:
-      snprintf(tempString, sizeof( tempString ), "#:SP %s#", siteName);
+      snprintf(temp_string, sizeof( temp_string ), "#:SP %s#", siteName);
       break;
     default:
       return -1;
     }
 
-   return (setStandardProcedure(tempString));
+   return (setStandardProcedure(fd, temp_string));
 }
 
-int setSlewMode(int slewMode)
+int setSlewMode(int fd, int slewMode)
 {
+  int error_type;
+  int nbytes_write=0;
 
   switch (slewMode)
   {
     case LX200_SLEW_MAX:
-     if (portWrite("#:RS#") < 0)
-      return -1;
+   if ( (error_type = tty_write(fd, "#:RS#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+     /*if (portWrite("#:RS#") < 0)
+      return -1;*/
      break;
     case LX200_SLEW_FIND:
-     if (portWrite("#:RM#") < 0)
-      return -1;
+     if ( (error_type = tty_write(fd, "#:RM#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+     /*if (portWrite("#:RM#") < 0)
+      return -1;*/
      break;
     case LX200_SLEW_CENTER:
-     if (portWrite("#:RC#") < 0)
-      return -1;
+	if ( (error_type = tty_write(fd, "#:RC#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+     /*if (portWrite("#:RC#") < 0)
+      return -1;*/
      break;
     case LX200_SLEW_GUIDE:
-     if (portWrite("#:RG#") < 0)
-      return -1;
+    if ( (error_type = tty_write(fd, "#:RG#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+     /*if (portWrite("#:RG#") < 0)
+      return -1;*/
      break;
     default:
      break;
@@ -994,18 +1034,30 @@ int setSlewMode(int slewMode)
 
 }
 
-int setFocuserMotion(int motionType)
+int setFocuserMotion(int fd, int motionType)
 {
+  int error_type;
+  int nbytes_write=0;
 
   switch (motionType)
   {
     case LX200_FOCUSIN:
-    if (portWrite("#:F+#") < 0)
-      return -1;
+    if ( (error_type = tty_write(fd, "#:F+#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("Focus IN Command\n");*/
+	#endif
+    /*if (portWrite("#:F+#") < 0)
+      return -1;*/
       break;
     case LX200_FOCUSOUT:
-     if (portWrite("#:F-#") < 0)
-       return -1;
+    if ( (error_type = tty_write(fd, "#:F-#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("Focus OUT Command\n");*/
+	#endif
+     /*if (portWrite("#:F-#") < 0)
+       return -1;*/
      break;
   }
 
@@ -1013,21 +1065,39 @@ int setFocuserMotion(int motionType)
   return 0;
 }
 
-int setFocuserSpeedMode (int speedMode)
+int setFocuserSpeedMode (int fd, int speedMode)
 {
+  int error_type;
+  int nbytes_write=0;
+
  switch (speedMode)
  {
     case LX200_HALTFOCUS:
-     if (portWrite("#:FQ#") < 0)
-      return -1;
+    if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("Halt Focus Command\n");*/
+	#endif
+    /* if (portWrite("#:FQ#") < 0)
+      return -1;*/
      break;
    case LX200_FOCUSSLOW:
-      if (portWrite("#:FS#") < 0)
-       return -1;
+    if ( (error_type = tty_write(fd, "#:FS#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("Focus Slow (FS) Command\n");*/
+	#endif
+      /*if (portWrite("#:FS#") < 0)
+       return -1;*/
       break;
     case LX200_FOCUSFAST:
-     if (portWrite("#:FF#") < 0)
-      return -1;
+     if ( (error_type = tty_write(fd, "#:FF#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("Focus Fast (FF) Command\n");*/
+	#endif
+     /*if (portWrite("#:FF#") < 0)
+      return -1;*/
      break;
  }
 
@@ -1035,34 +1105,47 @@ int setFocuserSpeedMode (int speedMode)
  return 0;
 }
 
-int setGPSFocuserSpeed (int speed)
+int setGPSFocuserSpeed (int fd, int speed)
 {
   char speed_str[8];
+  int error_type;
+  int nbytes_write=0;
 
   if (speed == 0)
   {
-     if (portWrite("#:FQ#") < 0)
-      return -1;
+     /*if (portWrite("#:FQ#") < 0)
+      return -1;*/
+     if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+	#ifdef INDI_DEBUG
+	/*IDLog("GPS Focus HALT Command (FQ) \n");*/
+	#endif
 
      return 0;
   }
 
   snprintf(speed_str, 8, "#:F%d#", speed);
 
-  if (portWrite(speed_str) < 0)
-       return -1;
+  if ( (error_type = tty_write(fd, speed_str, &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+
+    #ifdef INDI_DEBUG
+    /*IDLog("GPS Focus Speed command %s \n", speed_str);*/
+    #endif
+  /*if (portWrite(speed_str) < 0)
+       return -1;*/
 
   tcflush(fd, TCIFLUSH);
   return 0;
 }
 
-int setTrackFreq(double trackF)
+int setTrackFreq(int fd, double trackF)
 {
-  char tempString[16];
+  char temp_string[16];
 
-  snprintf(tempString, sizeof( tempString ), "#:ST %04.1f#", trackF);
+  snprintf(temp_string, sizeof( temp_string ), "#:ST %04.1f#", trackF);
 
-  return (setStandardProcedure(tempString));
+  return (setStandardProcedure(fd, temp_string));
 
 }
 
@@ -1070,30 +1153,35 @@ int setTrackFreq(double trackF)
 * Misc
 *********************************************************************/
 
-int Slew()
+int Slew(int fd)
 {
     char slewNum[2];
-    char errorMsg[128];
+    int error_type;
+    int nbytes_write=0, nbytes_read=0;
 
-    if (portWrite("#:MS#") < 0)
-      return -1;
+    if ( (error_type = tty_write(fd, "#:MS#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+    /*if (portWrite("#:MS#") < 0)
+      return -1;*/
 
-    read_ret = portRead(slewNum, 1, LX200_TIMEOUT);
+    /*read_ret = portRead(slewNum, 1, LX200_TIMEOUT);*/
+     error_type = tty_read(fd, slewNum, 1, LX200_TIMEOUT, &nbytes_read);
     
-    if (read_ret < 1)
-      return read_ret;
+    if (nbytes_read < 1)
+      return error_type;
       
     slewNum[1] = '\0';
 
     if (slewNum[0] == '0')
      return 0;
    
-   read_ret = portRead(errorMsg, -1, LX200_TIMEOUT);
+   error_type = tty_read_section(fd, slewNum, '#', LX200_TIMEOUT, &nbytes_read);
+   /*read_ret = portRead(errorMsg, -1, LX200_TIMEOUT);*/
    tcflush(fd, TCIFLUSH);
    /*IDLog(":MS Error %s\n", errorMsg);*/
    
-   if (read_ret < 1)
-    return read_ret;
+   if (nbytes_read < 1)
+    return error_type;
     
     if  (slewNum[0] == '1')
       return 1;
@@ -1101,22 +1189,27 @@ int Slew()
 
 }
 
-int MoveTo(int direction)
+int MoveTo(int fd, int direction)
 {
+  int nbytes_write=0;
 
   switch (direction)
   {
     case LX200_NORTH:
-    portWrite("#:Mn#");
+    tty_write(fd, "#:Mn#", &nbytes_write);
+    /*portWrite("#:Mn#");*/
     break;
     case LX200_WEST:
-    portWrite("#:Mw#");
+    tty_write(fd, "#:Mw#", &nbytes_write);
+    /*portWrite("#:Mw#");*/
     break;
     case LX200_EAST:
-    portWrite("#:Me#");
+    tty_write(fd, "#:Me#", &nbytes_write);
+    /*portWrite("#:Me#");*/
     break;
     case LX200_SOUTH:
-    portWrite("#:Ms#");
+    tty_write(fd, "#:Ms#", &nbytes_write);
+    /*portWrite("#:Ms#");*/
     break;
     default:
     break;
@@ -1126,30 +1219,42 @@ int MoveTo(int direction)
   return 0;
 }
 
-int HaltMovement(int direction)
+int HaltMovement(int fd, int direction)
 {
+    int error_type;
+    int nbytes_write=0;
 
-switch (direction)
+  switch (direction)
   {
     case LX200_NORTH:
-     if (portWrite("#:Qn#") < 0)
-      return -1;
+     /*if (portWrite("#:Qn#") < 0)
+      return -1;*/
+       if ( (error_type = tty_write(fd, "#:Qn#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case LX200_WEST:
-     if (portWrite("#:Qw#") < 0)
-      return -1;
+     /*if (portWrite("#:Qw#") < 0)
+      return -1;*/
+     if ( (error_type = tty_write(fd, "#:Qw#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case LX200_EAST:
-     if (portWrite("#:Qe#") < 0)
-      return -1;
+     /*if (portWrite("#:Qe#") < 0)
+      return -1;*/
+      if ( (error_type = tty_write(fd, "#:Qe#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
      break;
     case LX200_SOUTH:
-     if (portWrite("#:Qs#") < 0)
-       return -1;
+    if ( (error_type = tty_write(fd, "#:Qs#", &nbytes_write)) != TTY_NO_ERROR)
+    	return error_type;
+     /*if (portWrite("#:Qs#") < 0)
+       return -1;*/
     break;
     case LX200_ALL:
-     if (portWrite("#:Q#") < 0)
-       return -1;
+     /*if (portWrite("#:Q#") < 0)
+       return -1;*/
+	if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
      break;
     default:
      return -1;
@@ -1161,25 +1266,37 @@ switch (direction)
 
 }
 
-int abortSlew()
+int abortSlew(int fd)
 {
- if (portWrite("#:Q#") < 0)
-  return -1;
+ /*if (portWrite("#:Q#") < 0)
+  return -1;*/
+  int error_type;
+  int nbytes_write=0;
+
+ if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
 
  tcflush(fd, TCIFLUSH);
  return 0;
 }
 
-int Sync(char *matchedObject)
+int Sync(int fd, char *matchedObject)
 {
-  portWrite("#:CM#");
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
-  read_ret = portRead(matchedObject, -1, LX200_TIMEOUT);
+  if ( (error_type = tty_write(fd, "#:CM#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+
+  /*portWrite("#:CM#");*/
+
+  /*read_ret = portRead(matchedObject, -1, LX200_TIMEOUT);*/
+    error_type = tty_read_section(fd, matchedObject, '#', LX200_TIMEOUT, &nbytes_read);
   
-  if (read_ret < 1)
-   return read_ret;
+  if (nbytes_read < 1)
+   return error_type;
    
-  matchedObject[read_ret-1] = '\0';
+  matchedObject[nbytes_read-1] = '\0';
 
   /*IDLog("Matched Object: %s\n", matchedObject);*/
   
@@ -1190,26 +1307,36 @@ int Sync(char *matchedObject)
   return 0;
 }
 
-int selectSite(int siteNum)
+int selectSite(int fd, int siteNum)
 {
+  int error_type;
+  int nbytes_write=0;
 
   switch (siteNum)
   {
     case 1:
-      if (portWrite("#:W1#") < 0)
-       return -1;
+  	if ( (error_type = tty_write(fd, "#:W1#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+      /*if (portWrite("#:W1#") < 0)
+       return -1;*/
       break;
     case 2:
-      if (portWrite("#:W2#") < 0)
-       return -1;
+	if ( (error_type = tty_write(fd, "#:W2#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+      /*if (portWrite("#:W2#") < 0)
+       return -1;*/
       break;
     case 3:
-      if (portWrite("#:W3#") < 0)
-       return -1;
+	if ( (error_type = tty_write(fd, "#:W3#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+      /*if (portWrite("#:W3#") < 0)
+       return -1;*/
       break;
     case 4:
-      if (portWrite("#:W4#") < 0)
-       return -1;
+	if ( (error_type = tty_write(fd, "#:W4#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+      /*if (portWrite("#:W4#") < 0)
+       return -1;*/
       break;
     default:
     return -1;
@@ -1221,42 +1348,46 @@ int selectSite(int siteNum)
 
 }
 
-int selectCatalogObject(int catalog, int NNNN)
+int selectCatalogObject(int fd, int catalog, int NNNN)
 {
- char tempString[16];
+ char temp_string[16];
+ int error_type;
+ int nbytes_write=0;
  
  switch (catalog)
  {
    case LX200_STAR_C:
-    snprintf(tempString, sizeof( tempString ), "#:LS%d#", NNNN);
+    snprintf(temp_string, sizeof( temp_string ), "#:LS%d#", NNNN);
     break;
    case LX200_DEEPSKY_C:
-    snprintf(tempString, sizeof( tempString ), "#:LC%d#", NNNN);
+    snprintf(temp_string, sizeof( temp_string ), "#:LC%d#", NNNN);
     break;
    case LX200_MESSIER_C:
-    snprintf(tempString, sizeof( tempString ), "#:LM%d#", NNNN);
+    snprintf(temp_string, sizeof( temp_string ), "#:LM%d#", NNNN);
     break;
    default:
     return -1;
   }
 
-  if (portWrite(tempString) < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+  /*if (portWrite(temp_string) < 0)
+   return -1;*/
 
   tcflush(fd, TCIFLUSH);
   return 0;
 }
 
-int selectSubCatalog(int catalog, int subCatalog)
+int selectSubCatalog(int fd, int catalog, int subCatalog)
 {
-  char tempString[16];
+  char temp_string[16];
   switch (catalog)
   {
     case LX200_STAR_C:
-    snprintf(tempString, sizeof( tempString ), "#:LsD%d#", subCatalog);
+    snprintf(temp_string, sizeof( temp_string ), "#:LsD%d#", subCatalog);
     break;
     case LX200_DEEPSKY_C:
-    snprintf(tempString, sizeof( tempString ), "#:LoD%d#", subCatalog);
+    snprintf(temp_string, sizeof( temp_string ), "#:LoD%d#", subCatalog);
     break;
     case LX200_MESSIER_C:
      return 1;
@@ -1264,26 +1395,32 @@ int selectSubCatalog(int catalog, int subCatalog)
      return 0;
   }
 
-  return (setStandardProcedure(tempString));
+  return (setStandardProcedure(fd, temp_string));
 }
 
-int checkLX200Format()
+int checkLX200Format(int fd)
 {
-  char tempString[16];
+  char temp_string[16];
   controller_format = LX200_LONG_FORMAT;
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
 
-  if (portWrite("#:GR#") < 0)
-   return -1;
+  if ( (error_type = tty_write(fd, "#:GR#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
 
-  read_ret = portRead(tempString, -1, LX200_TIMEOUT);
+  /*if (portWrite("#:GR#") < 0)
+   return -1;*/
+
+  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
+  error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
   
-  if (read_ret < 1)
-   return read_ret;
+  if (nbytes_read < 1)
+   return error_type;
    
-  tempString[read_ret - 1] = '\0';
+  temp_string[nbytes_read - 1] = '\0';
 
   /* Check whether it's short or long */
-  if (tempString[5] == '.')
+  if (temp_string[5] == '.')
   {
      controller_format = LX200_SHORT_FORMAT;
       return 0;
@@ -1292,25 +1429,39 @@ int checkLX200Format()
      return 0;
 }
 
-int  selectTrackingMode(int trackMode)
+int selectTrackingMode(int fd, int trackMode)
 {
-
+ int error_type;
+ int nbytes_write=0;
+  
    switch (trackMode)
    {
     case LX200_TRACK_DEFAULT:
-      fprintf(stderr, "Setting tracking mode to sidereal.\n");
-     if (portWrite("#:TQ#") < 0)
-       return -1;
+      #ifdef INDI_DEBUG
+      IDLog("Setting tracking mode to sidereal.\n");
+      #endif
+     if ( (error_type = tty_write(fd, "#:TQ#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+     /*if (portWrite("#:TQ#") < 0)
+       return -1;*/
      break;
     case LX200_TRACK_LUNAR:
-      fprintf(stderr, "Setting tracking mode to LUNAR.\n");
-     if (portWrite("#:TL#") < 0)
-       return -1;
+      #ifdef INDI_DEBUG
+      IDLog("Setting tracking mode to LUNAR.\n");
+      #endif
+      if ( (error_type = tty_write(fd, "#:TL#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+     /*if (portWrite("#:TL#") < 0)
+       return -1;*/
      break;
    case LX200_TRACK_MANUAL:
-     fprintf(stderr, "Setting tracking mode to CUSTOM.\n");
-     if (portWrite("#:TM#") < 0)
-      return -1;
+     #ifdef INDI_DEBUG
+     IDLog("Setting tracking mode to CUSTOM.\n");
+     #endif
+     if ( (error_type = tty_write(fd, "#:TM#", &nbytes_write)) != TTY_NO_ERROR)
+    	   return error_type;
+     /*if (portWrite("#:TM#") < 0)
+      return -1;*/
      break;
    default:
     return -1;
@@ -1320,194 +1471,5 @@ int  selectTrackingMode(int trackMode)
    tcflush(fd, TCIFLUSH);
    return 0;
 
-}
-
-int selectAPTrackingMode(int trackMode)
-{
-    switch (trackMode)
-   {
-    /* Lunar */
-    case 0:
-      fprintf(stderr, "Setting tracking mode to lunar.\n");
-     if (portWrite("#:RT0#") < 0)
-       return -1;
-     break;
-    
-     /* Solar */
-     case 1:
-      fprintf(stderr, "Setting tracking mode to solar.\n");
-     if (portWrite("#:RT1#") < 0)
-       return -1;
-     break;
-
-   /* Sidereal */
-   case 2:
-     fprintf(stderr, "Setting tracking mode to sidereal.\n");
-     if (portWrite("#:RT2#") < 0)
-      return -1;
-     break;
-
-   /* Zero */
-   case 3:
-     fprintf(stderr, "Setting tracking mode to zero.\n");
-     if (portWrite("#:RT9#") < 0)
-      return -1;
-     break;
- 
-   default:
-    return -1;
-    break;
-   }
-   
-   tcflush(fd, TCIFLUSH);
-   return 0;
-
-}
-
-
-/**********************************************************************
-* Comm
-**********************************************************************/
-
-int openPort(const char *portID)
-{
-  struct termios ttyOptions;
-
-  if ( (fd = open(portID, O_RDWR)) == -1)
-    return -1;
-
-  memset(&ttyOptions, 0, sizeof(ttyOptions));
-  tcgetattr(fd, &ttyOptions);
-
-   /* Control options
-    charecter size */
-   ttyOptions.c_cflag &= ~CSIZE;
-   /* 8 bit, enable read */
-   ttyOptions.c_cflag |= CREAD | CLOCAL | CS8;
-   /* no parity */
-   ttyOptions.c_cflag &= ~PARENB;
-
-   /* set baud rate */
-   cfsetispeed(&ttyOptions, B9600);
-   cfsetospeed(&ttyOptions, B9600);
-
-  /* set input/output flags */
-  ttyOptions.c_iflag = IGNBRK;
-  /* no software flow control */
-  ttyOptions.c_iflag &= ~(IXON|IXOFF|IXANY);
-
-  /* Read at least one byte */
-  ttyOptions.c_cc[VMIN] = 1;
-  ttyOptions.c_cc[VTIME] = 5;
-
-  /* Misc. */
-  ttyOptions.c_lflag = 0;
-  ttyOptions.c_oflag = 0;
-
-  /* set attributes */
-  tcsetattr(fd, TCSANOW, &ttyOptions);
-
-  /* flush the channel */
-  tcflush(fd, TCIOFLUSH);
-  return (fd);
-}
-
-int portWrite(const char * buf)
-{
-  int nbytes, totalBytesWritten;
-  int bytesWritten = 0;   
-   
-  nbytes = totalBytesWritten = strlen(buf);
-
-  while (nbytes > 0)
-  {
-    
-    bytesWritten = write(fd, buf, nbytes);
-
-    if (bytesWritten < 0)
-     return -1;
-
-    buf += bytesWritten;
-    nbytes -= bytesWritten;
-  }
-
-  /* Returns the # of bytes written */
-  return (totalBytesWritten);
-}
-
-int portRead(char *buf, int nbytes, int timeout)
-{
-
-int bytesRead = 0;
-int totalBytesRead = 0;
-int err;
-
-  /* Loop until encountring the '#' char */
-  if (nbytes == -1)
-  {
-     for (;;)
-     {
-         if ( (err = LX200readOut(timeout)) )
-	   return err;
-
-         bytesRead = read(fd, buf, 1);
-
-         if (bytesRead < 0 )
-            return -1;
-
-        if (bytesRead)
-          totalBytesRead++;
-
-        if (*buf == '#')
-	   return totalBytesRead;
-
-        buf += bytesRead;
-     }
-  }
-  
-  while (nbytes > 0)
-  {
-     if ( (err = LX200readOut(timeout)) )
-      return err;
-
-     bytesRead = read(fd, buf, nbytes);
-
-     if (bytesRead < 0 )
-      return -1;
-
-     buf += bytesRead;
-     totalBytesRead++;
-     nbytes -= bytesRead;
-  }
-
-  return totalBytesRead;
-}
-
-int LX200readOut(int timeout)
-{
-  struct timeval tv;
-  fd_set readout;
-  int retval;
-
-  FD_ZERO(&readout);
-  FD_SET(fd, &readout);
-
-  /* wait for 'timeout' seconds */
-  tv.tv_sec = timeout;
-  tv.tv_usec = 0;
-
-  /* Wait till we have a change in the fd status */
-  retval = select (fd+1, &readout, NULL, NULL, &tv);
-
-  /* Return 0 on successful fd change */
-  if (retval > 0)
-   return 0;
-  /* Return -1 due to an error */
-  else if (retval == -1)
-   return retval;
-  /* Return -2 if time expires before anything interesting happens */
-  else 
-    return -2;
-  
 }
 

@@ -156,7 +156,7 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 
 	  if (nset == 2)
 	  {
-	   if ( (err = setObjAz(newAz)) < 0 || (err = setObjAlt(newAlt)) < 0)
+	   if ( (err = setObjAz(fd, newAz)) < 0 || (err = setObjAlt(fd, newAlt)) < 0)
 	   {
 	     handleError(&horNum, err, "Setting Alt/Az");
 	     return;
@@ -207,7 +207,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 
 	  if (index == 0)
 	  {
-	    if ( (err = turnFanOn()) < 0)
+	    if ( (err = turnFanOn(fd)) < 0)
 	    {
 	      handleError(&FanStatusSw, err, "Changing fan status");
 	      return;
@@ -215,7 +215,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 	  }
 	  else
 	  {
-	    if ( (err = turnFanOff()) < 0)
+	    if ( (err = turnFanOff(fd)) < 0)
 	    {
 	      handleError(&FanStatusSw, err, "Changing fan status");
 	      return;
@@ -236,7 +236,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
           IUUpdateSwitches(&HomeSearchSw, states, names, n);
           index = getOnSwitch(&HomeSearchSw);
 
-	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
+	  index == 0 ? seekHomeAndSave(fd) : seekHomeAndSet(fd);
 	  HomeSearchSw.s = IPS_BUSY;
 	  IDSetSwitch (&HomeSearchSw, index == 0 ? "Seek Home and Save" : "Seek Home and Set");
 	  return;
@@ -251,7 +251,7 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
           IUUpdateSwitches(&FieldDeRotatorSw, states, names, n);
           index = getOnSwitch(&FieldDeRotatorSw);
 
-	  index == 0 ? seekHomeAndSave() : seekHomeAndSet();
+	  index == 0 ? seekHomeAndSave(fd) : seekHomeAndSet(fd);
 	  FieldDeRotatorSw.s = IPS_OK;
 	  IDSetSwitch (&FieldDeRotatorSw, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
 	  return;
@@ -268,13 +268,13 @@ void LX200_16::handleAltAzSlew()
 
 	  if (horNum.s == IPS_BUSY)
 	  {
-	     abortSlew();
+	     abortSlew(fd);
 
 	     // sleep for 100 mseconds
 	     usleep(100000);
 	  }
 
-	  if ((i = slewToAltAz()))
+	  if ((i = slewToAltAz(fd)))
 	  {
 	    horNum.s = IPS_IDLE;
 	    IDSetNumber(&horNum, "Slew not possible");
@@ -304,7 +304,7 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    if ( (err = getHomeSearchStatus(&searchResult)) < 0)
+	    if ( (err = getHomeSearchStatus(fd, &searchResult)) < 0)
 	    {
 	      handleError(&HomeSearchSw, err, "Home search");
 	      return;
@@ -342,7 +342,7 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    if ( (err = getLX200Az(&currentAz)) < 0 || (err = getLX200Alt(&currentAlt)) < 0)
+	    if ( (err = getLX200Az(fd, &currentAz)) < 0 || (err = getLX200Alt(fd, &currentAlt)) < 0)
 	    {
 	      IDSetNumber(&horNum, NULL);
 	      handleError(&horNum, err, "Get Alt/Az");
@@ -383,8 +383,8 @@ void LX200_16::handleAltAzSlew()
  void LX200_16::getBasicData()
  {
 
-   getLX200Az(&targetAz);
-   getLX200Alt(&targetAlt);
+   getLX200Az(fd, &targetAz);
+   getLX200Alt(fd, &targetAlt);
 
    horNum.np[0].value = targetAlt;
    horNum.np[1].value = targetAz;

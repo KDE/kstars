@@ -44,6 +44,8 @@ static void ISPoll(void *);
 static void ISInit(void);
 static void connectTelescope(void);
 
+int fd;
+
 static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
 ISwitchVectorProperty PowerSP		= { mydev, "CONNECTION" , "Connection", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
 
@@ -67,6 +69,7 @@ void ISInit(void)
   if (isInit) return;
 
   isInit = 1;
+  fd = -1;
 
   IEAddTimer (POLLMS, ISPoll, NULL);
 
@@ -136,7 +139,7 @@ void ISPoll (void *p)
 		case IPS_IDLE:
 	        case IPS_OK:
 	        case IPS_BUSY:
-	        if (updateIntelliscopeCoord(&currentRA, &currentDEC) < 0)
+		if (updateIntelliscopeCoord(fd, &currentRA, &currentDEC) < 0)
                  {
                    eqNum.s = IPS_ALERT;
                    IDSetNumber(&eqNum, "Unknown error while reading telescope coordinates");
@@ -161,7 +164,8 @@ void connectTelescope(void)
   switch (PowerS[0].s)
   {
     case ISS_ON:
-     if (Connect(PortT[0].text) < 0)
+     if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+     /*if (Connect(PortT[0].text) < 0)*/
      {
        PowerSP.s = IPS_ALERT;
        IUResetSwitches(&PowerSP);
@@ -174,7 +178,7 @@ void connectTelescope(void)
      break;
 
    case ISS_OFF:
-	Disconnect();
+	tty_disconnect(fd);
 	IUResetSwitches(&PowerSP);
         eqNum.s = PortTP.s = PowerSP.s = IPS_IDLE;
 	IDSetSwitch(&PowerSP, "Intelliscope is offline.");

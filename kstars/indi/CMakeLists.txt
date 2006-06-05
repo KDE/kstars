@@ -237,20 +237,6 @@ target_link_libraries(celestrongps ${KDE4_KDECORE_LIBS} m )
 install_targets(/bin celestrongps )
 
 ########### next target ###############
-########### Astrophysics Mount ########
-set(apmount_SRCS 
-   indidrivermain.c 
-   eventloop.c 
-   lx200driver.c 
-   apmount.cpp )
-
-kde4_add_executable(apmount ${apmount_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
-
-target_link_libraries(apmount  ${KDE4_KDECORE_LIBS} )
-
-install_targets(/bin apmount )
-
-########### next target ###############
 ########### Orion Atlas ########
 set(orionatlas_SRCS 
    indidrivermain.c 

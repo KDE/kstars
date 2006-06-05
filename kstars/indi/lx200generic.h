@@ -58,7 +58,9 @@ class LX200Generic
  void updateTime();
  void updateLocation();
  void mountSim();
- 
+
+ static void updateFocusTimer(void *p);
+ int    fd;
 
  protected:
   int timeFormat;
@@ -75,7 +77,6 @@ class LX200Generic
   double UTCOffset;
   bool   fault;
   bool   simulation;
-  int    fd;
 
   struct tm *last_local_time;
   
