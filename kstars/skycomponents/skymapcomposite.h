@@ -78,6 +78,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		*/
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
+		virtual void update( KStarsData *data, KSNumbers *num=0 );
+
 		/**
 			*@short Delegate planet position updates to the SolarSystemComposite
 			*

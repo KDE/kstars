@@ -79,7 +79,9 @@ void SolarSystemComposite::init(KStarsData *data)
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
 	m_Earth->findPosition( num );
-	SkyComposite::updatePlanets( data, num );
+	foreach ( SkyComponent *comp, components() ) {
+		comp->updatePlanets( data, num );
+	}
 }
 
 void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )

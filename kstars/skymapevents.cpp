@@ -267,7 +267,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kapp->processEvents();
 			break;
 
-		case Qt::Key_C: //Center clicked object object
+		case Qt::Key_C: //Center clicked object
 			if ( clickedObject() ) slotCenter();
 			break;
 
@@ -308,12 +308,18 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			}
 			break;
 
-
-
 //TIMING
 // *** Uncomment and insert timing test code here ***
-// 		case Qt::Key_X: 
-// 			break;
+		case Qt::Key_X:
+		{
+			//ks->updateTime() timing
+			QTime t;
+			t.start();
+			data->setFullTimeUpdate();
+			ks->updateTime();
+			kDebug() << QString("X: Full update took %1 ms").arg(t.elapsed()) << endl;
+			break;
+		}
 //END_TIMING
 	}
 
@@ -674,6 +680,10 @@ void SkyMap::paintEvent( QPaintEvent * )
                 return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
+	//TIMING
+	QTime t;
+	t.start();
+
 	QPainter psky;
 	setMapGeometry();
 
@@ -715,5 +725,8 @@ void SkyMap::paintEvent( QPaintEvent * )
         psky2.end();
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
+
+	//TIMING
+	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl; 
 }
 

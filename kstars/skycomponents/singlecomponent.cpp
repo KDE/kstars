@@ -45,7 +45,7 @@ SingleComponent::~SingleComponent()
 void SingleComponent::update( KStarsData *data, KSNumbers *num )
 {
 	if ( visible() ) {
-		if ( num ) skyObject()->updateCoords( num, data->geo()->lat(), data->lst() );
+		if ( num ) skyObject()->updateCoords( num );
 		skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	}
 }

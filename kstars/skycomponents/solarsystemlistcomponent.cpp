@@ -45,9 +45,7 @@ void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) 
 	if ( visible() ) {
 		foreach ( SkyObject *o, objectList() ) {
 			KSPlanetBase *p = (KSPlanetBase*)o;
-			KSPlanet Earth( data, I18N_NOOP( "Earth" ) );
-			Earth.findPosition( num );
-			p->findPosition( num, data->geo()->lat(), data->lst(), &Earth );
+			p->findPosition( num, data->geo()->lat(), data->lst(), earth() );
 			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 			if ( p->hasTrail() ) 

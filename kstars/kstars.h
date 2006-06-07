@@ -110,11 +110,11 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	/**@return pointer to the INDI driver
 		*/
-		INDIDriver* getINDIDriver(void) { return indidriver; }
+		INDIDriver* getINDIDriver() { return indidriver; }
 
 	/**@return pointer to the INDI menu
 		*/
-		INDIMenu* getINDIMenu(void) { return indimenu; }
+		INDIMenu* getINDIMenu() { return indimenu; }
 
 	/** Establish the INDI system. No GUI
 		*/
@@ -152,13 +152,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC lookTowards( const QString &direction );
 
 	/**DCOP interface function.  Zoom in one step. */
-		ASYNC zoomIn(void) { slotZoomIn(); };
+		ASYNC zoomIn() { slotZoomIn(); };
 
 	/**DCOP interface function.  Zoom out one step. */
-		ASYNC zoomOut(void){ slotZoomOut(); };
+		ASYNC zoomOut(){ slotZoomOut(); };
 
 	/**DCOP interface function.  reset to the default zoom level. */
-		ASYNC defaultZoom(void) { slotDefaultZoom(); }
+		ASYNC defaultZoom() { slotDefaultZoom(); }
 
 	/**DCOP interface function.  Set zoom level to specified value. 
 		*@param z the zoom level.  Units are pixels per radian.
@@ -383,7 +383,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		/**
 			*Apply new settings and redraw skymap
 			*/
-		void slotApplyConfigChanges( void );
+		void slotApplyConfigChanges();
 
 		/**
 			*action slot: Zoom in one step
@@ -424,7 +424,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**
 		*Resume execution of DCOP commands
 		*/
-		void resumeDCOP( void ) { kapp->dcopClient()->resume(); }
+		void resumeDCOP() { kapp->dcopClient()->resume(); }
 
 	/**
 		*Remove all trails which may have been added to solar system bodies

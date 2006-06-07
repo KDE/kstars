@@ -82,10 +82,33 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 					data, SIGNAL( progressText( const QString & ) ) );
 }
 
+void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
+{
+	//1. Milky Way
+	m_MilkyWay->update( data, num );
+	//2. Coordinate grid
+	m_CoordinateGrid->update( data, num );
+	//3. Constellation boundaries
+	m_CBounds->update( data, num );
+	//4. Constellation lines
+	m_CLines->update( data, num );
+	//5. Constellation names
+	m_CNames->update( data, num );
+	//6. Equator
+	m_Equator->update( data, num );
+	//7. Ecliptic
+	m_Ecliptic->update( data, num );
+	//8. Deep sky
+	m_DeepSky->update( data, num );
+	//9. Custom catalogs
+	m_CustomCatalogs->update( data, num );
+	//10. Stars
+	m_Stars->update( data, num );
+}
+
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 {
-	foreach (SkyComponent *component, solarSystem())
-		component->updatePlanets( data, num );
+	m_SolarSystem->updatePlanets( data, num );
 }
 
 void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )

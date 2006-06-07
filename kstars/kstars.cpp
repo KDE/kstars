@@ -238,11 +238,11 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	}
 }
 
-KStarsData* KStars::data( void ) { return kstarsData; }
+KStarsData* KStars::data() { return kstarsData; }
 
-SkyMap* KStars::map( void )  { return skymap; }
+SkyMap* KStars::map()  { return skymap; }
 
-InfoBoxes* KStars::infoBoxes( void )  { return map()->infoBoxes(); }
+InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
 GeoLocation* KStars::geo() { return data()->geo(); }
 
