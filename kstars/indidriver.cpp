@@ -582,7 +582,9 @@ bool INDIDriver::readXMLDriver()
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
   {
+#ifdef __GNUC__		  
      #warning i18n: Missing argument to i18n call.
+#endif		  
      KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
 
     return false;
