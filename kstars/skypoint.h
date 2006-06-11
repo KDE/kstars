@@ -92,7 +92,7 @@ public:
 	*@param r Right Ascension
 	*@param d Declination
 	*/
-	void set( const dms *r, const dms *d ) { set( *r, *d ); }
+	inline void set( const dms *r, const dms *d ) { set( *r, *d ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
@@ -104,68 +104,68 @@ public:
 /**Sets RA0, the catalog Right Ascension.
 	*@param r catalog Right Ascension.
 	*/
-	void setRA0( dms r ) { RA0.set( r ); }
+	inline void setRA0( dms r ) { RA0.set( r ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param r Right Ascension, expressed as a double.
 	*/
-	void setRA0( double r ) { RA0.setH( r ); }
+	inline void setRA0( double r ) { RA0.setH( r ); }
 
 /**Sets Dec0, the catalog Declination.
 	*@param d catalog Declination.
 	*/
-	void setDec0( dms d ) { Dec0.set( d ); }
+	inline void setDec0( dms d ) { Dec0.set( d ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param d Declination, expressed as a double.
 	*/
-	void setDec0( double d ) { Dec0.setD( d ); }
+	inline void setDec0( double d ) { Dec0.setD( d ); }
 
 /**Sets RA, the current Right Ascension.
 	*@param r Right Ascension.
 	*/
-	void setRA( dms r ) { RA.set( r ); }
+	inline void setRA( dms r ) { RA.set( r ); syncXYZ(); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param r Right Ascension, expressed as a double.
 	*/
-	void setRA( double r ) { RA.setH( r ); }
+	inline void setRA( double r ) { RA.setH( r ); syncXYZ(); }
 
 /**Sets Dec, the current Declination
 	*@param d Declination.
 	*/
-	void setDec( dms d ) { Dec.set( d ); }
+	inline void setDec( dms d ) { Dec.set( d ); syncXYZ(); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param d Declination, expressed as a double.
 	*/
-	void setDec( double d ) { Dec.setD( d ); }
+	inline void setDec( double d ) { Dec.setD( d ); syncXYZ(); }
 
 /**Sets Alt, the Altitude.
 	*@param alt Altitude.
 	*/
-	void setAlt( dms alt ) { Alt.set( alt ); }
+	inline void setAlt( dms alt ) { Alt.set( alt ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param alt Altitude, expressed as a double.
 	*/
-	void setAlt( double alt ) { Alt.setD( alt ); }
+	inline void setAlt( double alt ) { Alt.setD( alt ); }
 
 /**Sets Az, the Azimuth.
 	*@param az Azimuth.
 	*/
-	void setAz( dms az ) { Az.set( az ); }
+	inline void setAz( dms az ) { Az.set( az ); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param az Azimuth, expressed as a double.
 	*/
-	void setAz( double az ) { Az.setD( az ); }
+	inline void setAz( double az ) { Az.setD( az ); }
 
 /**Sets Galactic Longitude.
 	*@param glo Galactic Longitude.
@@ -195,27 +195,27 @@ public:
 
 /**@return a pointer to the catalog Right Ascension.
 	*/
-	const dms* ra0() const { return &RA0; };
+	inline const dms* ra0() const { return &RA0; }
 
 /**@return a pointer to the catalog Declination.
 	*/
-	const dms* dec0() const { return &Dec0; };
+	inline const dms* dec0() const { return &Dec0; }
 
 /**@returns a pointer to the current Right Ascension.
 	*/
-	const dms* ra() const { return &RA; }
+	inline const dms* ra() const { return &RA; }
 
 /**@return a pointer to the current Declination.
 	*/
-	const dms* dec() const { return &Dec; }
+	inline const dms* dec() const { return &Dec; }
 
 /**@return a pointer to the current Azimuth.
 	*/
-	const dms* az() const { return &Az; }
+	inline const dms* az() const { return &Az; }
 
 /**@return a pointer to the current Altitude.
 	*/
-	const dms* alt() const { return &Alt; }
+	inline const dms* alt() const { return &Alt; }
 
 /**@return a pointer to the current galactic latitude.
 	*/
@@ -229,11 +229,7 @@ public:
 	inline const double x() const { return m_X; }
 	inline const double y() const { return m_Y; }
 	inline const double z() const { return m_Z; }
-	//	inline void setX( double x ) { m_X = x; syncRaDec(); }
-	//	inline void setY( double y ) { m_Y = y; syncRaDec(); }
-	//	inline void setZ( double z ) { m_Z = z; syncRaDec(); }
 	void syncXYZ();
-	//	void syncRaDec();
 
 ////
 //// 3. Coordinate conversions.
@@ -397,7 +393,7 @@ public:
 
 	dms angularDistanceTo( SkyPoint *sp);
 
-	bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
+	inline bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
 	
 	/** Computes the velocity of the Sun projected on the direction of the source.
 	 *

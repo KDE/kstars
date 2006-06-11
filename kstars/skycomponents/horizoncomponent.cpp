@@ -74,7 +74,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();
 	float Height = scale * map->height();
-	QPolygonF groundPoly;
+	QPolygonF groundPolyF;
+	QPolygon groundPoly;
 	SkyPoint *pAnchor(0), *pAnchor2(0);
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 1, Qt::SolidLine ) );
@@ -101,7 +102,11 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		az1 += 360.;
 		foreach ( SkyPoint *p, pointList() ) {
 			if ( p->az()->Degrees() > az1 ) {
-				groundPoly << map->toScreen( p, Options::projection(), Options::useAltAz(), false, scale );
+				o = map->toScreen( p, scale, false );
+				if ( Options::useAntialias() )
+					groundPolyF << o;
+				else
+					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
 				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
@@ -117,8 +122,11 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//Add points in normal range, 0 to 360
 	foreach ( SkyPoint *p, pointList() ) {
 		if ( p->az()->Degrees() > az1 && p->az()->Degrees() < az2 ) {
-			o = map->toScreen( p, Options::projection(), Options::useAltAz(), false, scale );
-			groundPoly << o;
+			o = map->toScreen( p, scale, false );
+			if ( Options::useAntialias() )
+				groundPolyF << o;
+			else
+				groundPoly << QPoint(int(o.x()),int(o.y()));
 
 			//Set the anchor point if this point is onscreen
 			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
@@ -135,8 +143,11 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		az2 -= 360.;
 		foreach ( SkyPoint *p, pointList() ) {
 			if ( p->az()->Degrees() < az2 ) {
-				o = map->toScreen( p, Options::projection(), Options::useAltAz(), false, scale );
-				groundPoly << o;
+				o = map->toScreen( p, scale, false );
+				if ( Options::useAntialias() )
+					groundPolyF << o;
+				else
+					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
 				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
@@ -157,32 +168,45 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		//No need for compass labels or "Horizon" label
 		if ( Options::showGround() ) {
 			groundPoly.clear();
-			groundPoly << QPointF( -10., -10. ) 
-						<< QPointF( Width + 10., -10. )
-						<< QPointF( Width + 10., Height + 10. )
-						<< QPointF( -10., Height + 10. );
-	
+			groundPoly << QPoint( -10, -10 ) 
+						<< QPoint( int(Width) + 10, -10 )
+						<< QPoint( int(Width) + 10, int(Height) + 10 )
+						<< QPoint( -10, int(Height) + 10 );
 			psky.drawPolygon( groundPoly );
 		}
 		return;
 	}
 
-	//groundPoly now contains QPointF's of the screen coordinates of points 
+	//groundPoly[F] now contains QPoint[F]'s of the screen coordinates of points 
 	//along the "front half" of the Horizon, in order from left to right.
 	//If we are using Equatorial coords, then all we need to do is connect 
 	//these points.
 	//Do not connect points if they are widely separated at low zoom (this 
 	//avoids connected horizon lines to invalid offscreen points)
 	if ( ! Options::useAltAz() ) {
-		for ( int i=1; i < groundPoly.size(); ++i ) {
-			if ( Options::zoomFactor() > 5000 )
-				psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
-			else {
-				float dx = (groundPoly.at(i-1).x() - groundPoly.at(i).x());
-				float dy = (groundPoly.at(i-1).y() - groundPoly.at(i).y());
-				float r2 = dx*dx + dy*dy;
-				if ( r2 < 40000. )  //separated by less than 200 pixels?
+		if ( Options::useAntialias() ) {
+			for ( int i=1; i < groundPolyF.size(); ++i ) {
+				if ( Options::zoomFactor() > 5000 )
+					psky.drawLine( groundPolyF.at(i-1), groundPolyF.at(i) );
+				else {
+					float dx = (groundPolyF.at(i-1).x() - groundPolyF.at(i).x());
+					float dy = (groundPolyF.at(i-1).y() - groundPolyF.at(i).y());
+					float r2 = dx*dx + dy*dy;
+					if ( r2 < 40000. )  //separated by less than 200 pixels?
+						psky.drawLine( groundPolyF.at(i-1), groundPolyF.at(i) );
+				}
+			}
+		} else {
+			for ( int i=1; i < groundPoly.size(); ++i ) {
+				if ( Options::zoomFactor() > 5000 )
 					psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+				else {
+					float dx = (groundPoly.at(i-1).x() - groundPoly.at(i).x());
+					float dy = (groundPoly.at(i-1).y() - groundPoly.at(i).y());
+					float r2 = dx*dx + dy*dy;
+					if ( r2 < 40000. )  //separated by less than 200 pixels?
+						psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+				}
 			}
 		}
 
@@ -199,17 +223,24 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//(In Horizontal coordinates, t1 and t2 are always 360 and 180, respectively).
 	} else { //Horizontal coords
 		if ( daz < 75.0 ) { //can complete polygon by simply adding offscreen points
-			groundPoly << QPointF( Width + 10., groundPoly.last().y() )
-						<< QPointF( Width + 10., Height + 10. )
-						<< QPointF( -10., Height + 10. )
-						<< QPointF( -10., groundPoly.first().y() );
-	
+			if ( Options::useAntialias() ) {
+				groundPolyF << QPointF( Width + 10., groundPolyF.last().y() )
+							<< QPointF( Width + 10., Height + 10. )
+							<< QPointF( -10., Height + 10. )
+							<< QPointF( -10., groundPolyF.first().y() );
+			} else {
+				groundPoly << QPoint( int(Width) + 10, groundPoly.last().y() )
+							<< QPoint( int(Width) + 10, int(Height) + 10 )
+							<< QPoint( -10, int(Height) + 10 )
+							<< QPoint( -10, groundPoly.first().y() );
+			}	
 		} else { //complete polygon along bottom of sky circle
 			double r0 = 2.0*sin(0.25*dms::PI);
 			double t1 = 360.;
 			double t2 = 180.;
 
 //NOTE: Uncomment if we ever want opaque ground while using Equatorial coords
+//NOTE: We would have to add consideration for useAntialias to this commented code
 // 		if ( ! Options::useAltAz() ) { //compute t1,t2
 // 			//groundPoly.last() is the point on the Horizon that intersects 
 // 			//the visible sky circle on the right
@@ -226,13 +257,19 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 				a.SinCos( sa, ca );
 				float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
 				float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
-		
-				groundPoly << QPointF( xx, yy );
+
+				if ( Options::useAntialias() )
+					groundPolyF << QPointF( xx, yy );
+				else
+					groundPoly << QPoint( int(xx), int(yy) );
 			}
 		}
 
 		//Finally, draw the ground Polygon.
-		psky.drawPolygon( groundPoly );
+		if ( Options::useAntialias() )
+			psky.drawPolygon( groundPolyF );
+		else
+			psky.drawPolygon( groundPoly );
 	}
 
 	//Set color for compass labels and "Horizon" label.
@@ -252,8 +289,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		else iAnchor++;
 		pAnchor2 = pointList().at( iAnchor );
 	
-		QPointF o1 = map->toScreen( pAnchor, Options::projection(), Options::useAltAz(), false, scale );
-		QPointF o2 = map->toScreen( pAnchor2, Options::projection(), Options::useAltAz(), false, scale );
+		QPointF o1 = map->toScreen( pAnchor, scale, false );
+		QPointF o2 = map->toScreen( pAnchor2, scale, false );
 		
 		float x1, x2;
 		//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
@@ -285,7 +322,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
 		LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
 	
-		o = map->toScreen( &LabelPoint, Options::projection(), Options::useAltAz(), false, scale );
+		o = map->toScreen( &LabelPoint, scale, false );
 
 		if ( o.x() > Width || o.x() < 0 ) {
 			//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
@@ -303,7 +340,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
 		p2.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
 	
-		o2 = map->toScreen( &p2, Options::projection(), Options::useAltAz(), false, scale );
+		o2 = map->toScreen( &p2, scale, false );
 	
 		float sx = o.x() - o2.x();
 		float sy = o.y() - o2.y();
@@ -317,7 +354,11 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	
 		//Finally, draw the "Horizon" label at the determined location and angle
 		psky.save();
-		psky.translate( o.x(), o.y() );
+		if ( Options::useAntialias() )
+			psky.translate( o.x(), o.y() );
+		else
+			psky.translate( int(o.x()), int(o.y()) );
+
 		psky.rotate( double( angle ) );  //rotate the coordinate system
 		psky.drawText( 0, 0, i18n( "Horizon" ) );
 		psky.restore(); //reset coordinate system
@@ -336,79 +377,103 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	c.setAz( 359.99 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "North", "N" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "North", "N" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "North", "N" ) );
 	}
 
 	//NorthEast
 	c.setAz( 45.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "Northeast", "NE" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "Northeast", "NE" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Northeast", "NE" ) );
 	}
 
 	//East
 	c.setAz( 90.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "East", "E" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "East", "E" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "East", "E" ) );
 	}
 
 	//SouthEast
 	c.setAz( 135.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "Southeast", "SE" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "Southeast", "SE" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Southeast", "SE" ) );
 	}
 
 	//South
 	c.setAz( 179.99 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "South", "S" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "South", "S" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "South", "S" ) );
 	}
 
 	//SouthWest
 	c.setAz( 225.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "Southwest", "SW" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "Southwest", "SW" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Southwest", "SW" ) );
 	}
 
 	//West
 	c.setAz( 270.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "West", "W" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "West", "W" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "West", "W" ) );
 	}
 
 	//NorthWest
 	c.setAz( 315.0 );
 	c.setAlt( 0.0 );
 	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, Options::projection(), Options::useAltAz(), false, scale );
+	cpoint = map->toScreen( &c, scale, false );
 	cpoint.setY( cpoint.y() + scale*20. );
 	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		psky.drawText( cpoint, i18nc( "Northwest", "NW" ) );
+		if ( Options::useAntialias() )
+			psky.drawText( cpoint, i18nc( "Northwest", "NW" ) );
+		else
+			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Northwest", "NW" ) );
 	}
 }

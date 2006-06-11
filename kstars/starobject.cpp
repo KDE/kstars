@@ -266,11 +266,26 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 	if ( scMode > 0 ) psky.setPen( QPen( fillColor ) );
 	else {
 		//Realistic colors
-		//line thickness controlled by scIntensity
-		psky.setPen( QPen( color(), 0.1*scIntensity ) );
+		//Stars rendered as a white core with a colored ring.
+		//With antialiasing, we can just set the ring thickness to 0.1*scIntensity
+		//However, this won't work without antialiasing, because the ring thickness 
+		//cant be <1 in this case.  So we desaturate the pen color instead
+		if ( Options::useAntialias() )
+			psky.setPen( QPen( color(), 0.1*scIntensity ) );
+		else {
+			float sat = 0.1*scIntensity; //sat is between 0.0 and 1.0
+			int r = int( 255.0*(1.0 - sat) + color().red()*sat   );
+			int g = int( 255.0*(1.0 - sat) + color().green()*sat );
+			int b = int( 255.0*(1.0 - sat) + color().blue()*sat  );
+			QColor c = QColor::fromRgb( r, g, b );
+			psky.setPen( QPen(c, 1) );
+		}
 	}
 
-	psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
+	if ( Options::useAntialias() )
+		psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
+	else
+		psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
 }
 
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
@@ -289,7 +304,10 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
-	psky.drawText( QPointF( x+offset, y+offset ), sName );
+	if ( Options::useAntialias() )
+		psky.drawText( QPointF( x+offset, y+offset ), sName );
+	else
+		psky.drawText( QPoint( int(x+offset), int(y+offset) ), sName );
 }
 
 void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {

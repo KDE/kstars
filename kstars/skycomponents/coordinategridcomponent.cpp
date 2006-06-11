@@ -78,14 +78,18 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	foreach ( sp, pointList() ) {
 		if ( map->checkVisibility( sp ) ) {
-			QPointF o = map->toScreen( sp, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( sp, scale );
 			if ( o1.isNull() ) { o1 = o; oLast = o; continue; } //First item in list
 
 			float dx = o.x() - oLast.x();
 			float dy = o.y() - oLast.y();
 
 			if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
-				psky.drawLine( oLast, o );
+				if ( Options::useAntialias() )
+					psky.drawLine( oLast, o );
+				else
+					psky.drawLine( QPoint(int(oLast.x()),int(oLast.y())), 
+							QPoint(int(o.x()),int(o.y())) );
 			}
 			oLast = o;
 		}
@@ -95,6 +99,10 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 	float dx = oLast.x() - o1.x();
 	float dy = oLast.y() - o1.y();
 	if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
-		psky.drawLine( oLast, o1 );
+		if ( Options::useAntialias() )
+			psky.drawLine( oLast, o1 );
+		else
+			psky.drawLine( QPoint(int(oLast.x()),int(oLast.y())), 
+					QPoint(int(o1.x()),int(o1.y())) );
 	}
 }

@@ -422,7 +422,11 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale 
 	}
 
 	double offset = labelOffset( scale );
-	psky.drawText( QPointF(x+offset, y+offset), translatedName() );
+	if ( Options::useAntialias() )
+		psky.drawText( QPointF(x+offset, y+offset), translatedName() );
+	else 
+		psky.drawText( QPoint(int(x+offset), int(y+offset)), translatedName() );
+
 	psky.setFont( stdFont );
 }
 

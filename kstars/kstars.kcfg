@@ -586,6 +586,11 @@
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="UseAntialias" type="Bool">
+			<label>Use antialiasing when drawing the screen?</label>
+			<whatsthis>Toggle whether the sky is rendered using antialiasing.  Lines and shapes are smoother with antialiasing, but rendering the screen will take more time.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="ZoomFactor" type="Double">
 			<label>Zoom Factor, in pixels per radian</label>
 			<whatsthis>The zoom level, measured in pixels per radian.</whatsthis>

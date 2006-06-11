@@ -71,17 +71,23 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 		for ( unsigned int i=0; i<4; ++i )
 		{
-			QPointF o = map->toScreen( jmoons->pos(i), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( jmoons->pos(i), scale );
 			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{
 				if ( jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
-					psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+					if ( Options::useAntialias() )
+						psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+					else
+						psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
 
 				//Draw Moon name labels if at high zoom
 				if (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM)
 				{
 					float offset = 3.0*scale;
-					psky.drawText( QPointF( o.x() + offset, o.y() + offset ), jmoons->name(i));
+					if ( Options::useAntialias() )
+						psky.drawText( QPointF( o.x() + offset, o.y() + offset ), jmoons->name(i));
+					else
+						psky.drawText( int(o.x() + offset), int(o.y() + offset), jmoons->name(i));
 				}
 			}
 		}

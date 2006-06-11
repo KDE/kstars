@@ -68,7 +68,7 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	QPointF o, oFirst, oPrev;
 
 	foreach ( SkyPoint *p, pointList() ) {
-		o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		o = map->toScreen( p, scale );
 
 		if ( FirstPoint ) {
 			FirstPoint = false;
@@ -83,7 +83,11 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			float dx = o.x() - oPrev.x();
 			float dy = o.y() - oPrev.y();
 			if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
-				psky.drawLine( oPrev, o );
+				if ( Options::useAntialias() )
+					psky.drawLine( oPrev, o );
+				else
+					psky.drawLine( QPoint(int(oPrev.x()),int(oPrev.y())), 
+								QPoint(int(o.x()),int(o.y())) );
 			}
 
 			//We will draw the Ecliptic label near the right edge of the screen, so 
@@ -103,7 +107,11 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	float dx = oPrev.x() - oFirst.x();
 	float dy = oPrev.y() - oFirst.y();
 	if ( fabs(dx) < map->guideMaxLength()*scale && fabs(dy) < map->guideMaxLength()*scale ) {
-		psky.drawLine( oFirst, oPrev );
+				if ( Options::useAntialias() )
+					psky.drawLine( oFirst, oPrev );
+				else
+					psky.drawLine( QPoint(int(oFirst.x()),int(oFirst.y())), 
+								QPoint(int(oPrev.x()),int(oPrev.y())) );
 	}
 
 	if ( ! map->isSlewing() && xBig > 0 ) {
@@ -125,8 +133,8 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			else iBig2 = iBig - 1;
 			SkyPoint *p2 = pointList().at(iBig2);
 
-			o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-			QPointF o2 = map->toScreen( p2, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->toScreen( p, scale );
+			QPointF o2 = map->toScreen( p2, scale );
 
 			float x1, x2;
 			//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
@@ -176,8 +184,8 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 		//o and o2 are the screen positions of LabelPoint and p2.
-		o = map->toScreen( &LabelPoint, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-		QPointF o2 = map->toScreen( &p2, Options::projection(), Options::useAltAz(), Options::useRefraction() );
+		o = map->toScreen( &LabelPoint, scale );
+		QPointF o2 = map->toScreen( &p2, scale );
 
 		float sx = o.x() - o2.x();
 		float sy = o.y() - o2.y();
@@ -191,9 +199,13 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 
 		//Finally, draw the "Ecliptic" label at the determined location and angle
 		psky.save();
-		psky.translate( o.x(), o.y() );
+		if ( Options::useAntialias() ) 
+			psky.translate( o.x(), o.y() );
+		else
+			psky.translate( int(o.x()), int(o.y()) );
+
 		psky.rotate( double( angle ) );  //rotate the coordinate system
-		psky.drawText( QPointF(0., 0.), i18n( "Ecliptic" ) );
+		psky.drawText( QPointF(0, 0), i18n( "Ecliptic" ) );
 		psky.restore(); //reset coordinate system
 	}
 }

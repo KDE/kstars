@@ -144,7 +144,7 @@ void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
 	foreach ( SkyObject *obj, objectList() ) {
 
 		if ( map->checkVisibility( obj ) ) {
-			QPointF o = map->toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( obj, scale );
 
 			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 

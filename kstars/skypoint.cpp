@@ -59,6 +59,7 @@ void SkyPoint::syncXYZ() {
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
+//Uncomment for spherical trig version
 	double AltRad, AzRad;
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
   double sinAlt, cosAlt;
@@ -82,6 +83,26 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 
 	Alt.setRadians( AltRad );
 	Az.setRadians( AzRad );
+
+// //Uncomment for XYZ version
+//  	double xr, yr, zr, xr1, zr1, sa, ca;
+// 	//Z-axis rotation by -LST
+// 	dms a = dms( -1.0*LST->Degrees() );
+// 	a.SinCos( sa, ca );
+// 	xr1 = m_X*ca + m_Y*sa;
+// 	yr  = -1.0*m_X*sa + m_Y*ca;
+// 	zr1 = m_Z;
+// 	
+// 	//Y-axis rotation by lat - 90.
+// 	a = dms( lat->Degrees() - 90.0 );
+// 	a.SinCos( sa, ca );
+// 	xr = xr1*ca - zr1*sa;
+// 	zr = xr1*sa + zr1*ca;
+// 	
+// 	//FIXME: eventually, we will work with XYZ directly
+// 	Alt.setRadians( asin( zr ) );
+// 	Az.setRadians( atan2( yr, xr ) );
+
 }
 
 void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
@@ -117,6 +138,8 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 
 	RA.setRadians( LST->radians() - HARad );
 	RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
+
+	syncXYZ(); 
 }
 
 void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {

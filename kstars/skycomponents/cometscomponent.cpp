@@ -91,7 +91,7 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 		{
 			psky.setPen( QPen( QColor( "darkcyan" ) ) );
 			psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
-			QPointF o = map->toScreen( com, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( com, scale );
 
 			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 			{
@@ -99,7 +99,11 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 				if ( size < 1 ) size = 1;
 				float x1 = o.x() - 0.5*size;
 				float y1 = o.y() - 0.5*size;
-				psky.drawEllipse( QRectF( x1, y1, size, size ) );
+
+				if ( Options::useAntialias() )
+					psky.drawEllipse( QRectF( x1, y1, size, size ) );
+				else
+					psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
 				//draw Name
 				if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {

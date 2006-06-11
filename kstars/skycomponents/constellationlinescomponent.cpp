@@ -51,11 +51,15 @@ void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	QPointF oStart;
 	for ( int i=0; i < pointList().size(); ++i ) {
-		QPointF o = map->toScreen( pointList().at(i), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF o = map->toScreen( pointList().at(i), scale );
 
 		if ( ( o.x() >= -1000. && o.x() <= Width+1000. && o.y() >=-1000. && o.y() <= Height+1000. ) ) {
 			if ( oStart.x() != 0 && m_CLineModeList.at(i)=='D' ) {
-				psky.drawLine( oStart, o );
+				if ( Options::useAntialias() )
+					psky.drawLine( oStart, o );
+				else
+					psky.drawLine( QPoint(int(oStart.x()),int(oStart.y())), 
+								QPoint(int(o.x()), int(o.y())) );
 			}
 			oStart = o;
 		}

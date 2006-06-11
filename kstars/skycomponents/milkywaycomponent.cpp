@@ -85,16 +85,26 @@ void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	//Draw filled Milky Way: construct a QPolygonF from the SkyPoints, then draw it onscreen
 	if ( Options::fillMilkyWay() ) {
-		QPolygonF polyMW;
+		QPolygon polyMW;
+		QPolygonF polyMWF;
 		bool partVisible = false;
 
 		foreach ( SkyPoint *p, pointList() ) {
-			QPointF o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-			if ( o.x() > -1000000. && o.y() > -1000000. ) polyMW << o;
+			QPointF o = map->toScreen( p, scale );
+			if ( o.x() > -1000000. && o.y() > -1000000. ) {
+				if ( Options::useAntialias() )
+					polyMWF << o;
+				else
+					polyMW << QPoint( int(o.x()), int(o.y()) );
+			}
 			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) partVisible = true;
 		}
 
-		if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
+		if ( Options::useAntialias() ) {
+			if ( polyMWF.size() && partVisible ) psky.drawPolygon( polyMWF );
+		} else {
+			if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
+		}
 
 	//Draw Milky Way outline.  To prevent drawing seams between MW chunks, 
 	//Only draw a line if the endpoints are close together
@@ -103,7 +113,7 @@ void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 		QPointF o, oLast;
 
 		foreach ( SkyPoint *p, pointList() ) {
-			o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->toScreen( p, scale );
 			if (o.x() < -1000000. && o.y() < -1000000.) onscreen = false;
 			else onscreen = true;
 
@@ -111,7 +121,10 @@ void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 				float dx = fabs(o.x() - oLast.x());
 				float dy = fabs(o.y() - oLast.y());
 				if ( dx<mwmax && dy<mwmax ) 
-					psky.drawLine( oLast, o );
+					if ( Options::useAntialias() )
+						psky.drawLine( oLast, o );
+					else
+						psky.drawLine( int(oLast.x()), int(oLast.y()), int(o.x()), int(o.y()) );
 			}
 
 			oLast = o;

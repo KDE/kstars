@@ -68,7 +68,7 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	QPointF o, oFirst, oPrev, o2;
 
 	foreach ( SkyPoint *p, pointList() ) {
-		o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		o = map->toScreen( p, scale );
 
 		if ( FirstPoint ) {
 			FirstPoint = false;
@@ -84,7 +84,11 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			float dx = o.x() - oPrev.x();
 			float dy = o.y() - oPrev.y();
 			if ( fabs(dx) < dmax && fabs(dy) < dmax ) {
-				psky.drawLine( oPrev, o );
+				if ( Options::useAntialias() )
+					psky.drawLine( oPrev, o );
+				else
+					psky.drawLine( QPoint(int(oPrev.x()),int(oPrev.y())), 
+								QPoint(int(o.x()),int(o.y())) );
 			}
 
 			//We will draw the Equator label near the left edge of the screen, so 
@@ -104,7 +108,11 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	float dx = oPrev.x() - oFirst.x();
 	float dy = oPrev.y() - oFirst.y();
 	if ( fabs(dx) < dmax && fabs(dy) < dmax ) {
-		psky.drawLine( oPrev, oFirst );
+		if ( Options::useAntialias() )
+			psky.drawLine( oPrev, oFirst );
+		else
+			psky.drawLine( QPoint(int(oPrev.x()),int(oPrev.y())), 
+						QPoint(int(oFirst.x()),int(oFirst.y())) );
 	}
 
 	if ( ! map->isSlewing() && xSmall < float(Width) ) {
@@ -126,8 +134,8 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 
 			SkyPoint *p2 = pointList().at(iSmall2);
 
-			o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-			o2 = map->toScreen( p2, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			o = map->toScreen( p, scale );
+			o2 = map->toScreen( p2, scale );
 
 			float x1, x2;
 			//there are 3 possibilities:  (o2.x() < 0); (o2.y() < 0); (o2.y() > height())
@@ -169,8 +177,8 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 			p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
 		//o and o2 are the screen positions of LabelPoint and p2.
-		o = map->toScreen( &LabelPoint, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-		o2 = map->toScreen( &p2, Options::projection(), Options::useAltAz(), Options::useRefraction() );
+		o = map->toScreen( &LabelPoint, scale );
+		o2 = map->toScreen( &p2, scale );
 
 		double sx = double( o.x() - o2.x() );
 		double sy = double( o.y() - o2.y() );
@@ -184,7 +192,11 @@ void EquatorComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 
 		//Finally, draw the "Equator" label at the determined location and angle
 		psky.save();
-		psky.translate( o.x(), o.y() );
+		if ( Options::useAntialias() )
+			psky.translate( o.x(), o.y() );
+		else
+			psky.translate( int(o.x()), int(o.y()) );
+
 		psky.rotate( double( angle ) );  //rotate the coordinate system
 		psky.drawText( 0, 0, i18n( "Equator" ) );
 		psky.restore(); //reset coordinate system

@@ -367,13 +367,12 @@ public:
 	*pixel coordinates in the SkyMap.
 	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
 	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
-	*@param projection mapping projection system (see Projection enum)
-	*@param Horiz if true, use Alt/Az coordinates.
-	*@param doRefraction if true, correct for atmospheric refraction
 	*@param scale scaling factor
+	*@param useRefraction true = use Options::useRefraction() value.  
+	*false = do not use refraction.  This argument is only needed 
+	*for the Horizon, which should never be refracted.
 	*/
-	QPointF toScreen( SkyPoint *o, int projection=Lambert, bool Horiz=false, 
-			bool doRefraction=true, double scale = 1.0 );
+	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true );
 
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -381,12 +380,8 @@ public:
 	*@param dy vertical pixel offset from center of SkyMap.
 	*@param LSTh pointer to the local sidereal time, as a dms object.
 	*@param lat pointer to the current geographic laitude, as a dms object
-	*@param Horiz if true, the SkyMap is displayed using the Horizontal coordinate system
-	*@param doRefraction if true, correct for atmospheric refraction
-	*@param projection mapping projection system (see Projection enum)
 	*/
-	SkyPoint fromScreen( double dx, double dy, dms *LST, const dms *lat, 
-			int projection=Lambert, bool Horiz=false, bool doRefraction=true );
+	SkyPoint fromScreen( double dx, double dy, dms *LST, const dms *lat );
 
 /**@short Determine if the skypoint p is likely to be visible in the display 
 	*window.

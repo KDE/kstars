@@ -92,18 +92,31 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
 	foreach ( SkyObject *p, objectList() ) {
 		if ( map->checkVisibility( p ) ) {
-			QPointF o = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+			QPointF o = map->toScreen( p, scale );
 			if (o.x() >= 0. && o.x() <= Width && o.y() >=0. && o.y() <= Height ) {
 				if ( Options::useLatinConstellNames() ) {
 					float dx = 5.*p->name().length();
-					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name() );  // latin constellation names
+					if ( Options::useAntialias() )
+						psky.drawText( QPointF( o.x()-dx, o.y() ), p->name() );
+					else
+						psky.drawText( QPoint( int(o.x()-dx), int(o.y()) ), p->name() );
+
 				} else if ( Options::useLocalConstellNames() ) {
-					// can't use translatedName() because we need the context string in i18n()
-					float dx = 5.*( i18nc( "Constellation name (optional)", p->name().toLocal8Bit().data() ).length() );
-					psky.drawText( QPointF( o.x()-dx, o.y() ), i18nc( "Constellation name (optional)", p->name().toLocal8Bit().data() ) ); // localized constellation names
+					// can't use translatedName() because we need the context string in i18nc()
+					QString s = i18nc( "Constellation name (optional)", 
+									p->name().toLocal8Bit().data() );
+					float dx = 5.*( s.length() );
+					if ( Options::useAntialias() )
+						psky.drawText( QPointF( o.x()-dx, o.y() ), s ); 
+					else
+						psky.drawText( QPoint( int(o.x()-dx), int(o.y()) ), s ); 
+
 				} else {
 					float dx = 5.*p->name2().length();
-					psky.drawText( QPointF( o.x()-dx, o.y() ), p->name2() ); //name2 is the IAU abbreviation
+					if ( Options::useAntialias() )
+						psky.drawText( QPointF( o.x()-dx, o.y() ), p->name2() ); 
+					else
+						psky.drawText( QPoint( int(o.x()-dx), int(o.y()) ), p->name2() ); 
 				}
 			}
 		}

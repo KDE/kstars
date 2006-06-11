@@ -108,7 +108,7 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
 		//TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
 		psky.setPen( ksp()->color() );
 		psky.setBrush( ksp()->color() );
-		QPointF o = map->toScreen( ksp(), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF o = map->toScreen( ksp(), scale );
 
 		//Is planet onscreen?
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
@@ -146,11 +146,16 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
 				ksp()->scaleRotateImage( size, pa.Degrees() );
 				float x1 = o.x() - 0.5*ksp()->image()->width();
 				float y1 = o.y() - 0.5*ksp()->image()->height();
-				psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+				if ( Options::useAntialias() )
+					psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+				else
+					psky.drawImage( int(x1), int(y1), *( ksp()->image() ) );
 
 			} else { //Otherwise, draw a simple circle.
-
-				psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
+				if ( Options::useAntialias() )
+					psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
+				else
+					psky.drawEllipse( QRect(int(o.x()-0.5*size), int(o.y()-0.5*size), int(size), int(size)) );
 			}
 
 			//draw Name
@@ -175,7 +180,7 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 	QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
 	SkyPoint p = ksp()->trail().first();
-	QPointF o = map->toScreen( &p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+	QPointF o = map->toScreen( &p, scale );
 	QPointF oLast( o );
 
 	bool doDrawLine(false);
@@ -203,7 +208,7 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 			psky.setPen( QPen( tcolor, 1 ) );
 		}
 
-		o = map->toScreen( &p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		o = map->toScreen( &p, scale );
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 
 			//Want to disable line-drawing if this point and the last are both outside bounds of display.
@@ -211,10 +216,11 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 			if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
 
 			if ( doDrawLine ) {
-//				psky.lineTo( o.x(), o.y() );
-				psky.drawLine( oLast, o );
+				if ( Options::useAntialias() )
+					psky.drawLine( oLast, o );
+				else
+					psky.drawLine( int(oLast.x()), int(oLast.y()), int(o.x()), int(o.y()) );
 			} else {
-//				psky.moveTo( o.x(), o.y() );
 				doDrawLine = true;
 			}
 		}

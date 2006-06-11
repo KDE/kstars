@@ -51,7 +51,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ks ) { //only if we are drawing in the GUI window
 		QPainter p;
 		p.begin( pm );
-		p.setRenderHint(QPainter::Antialiasing, true);
+		p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
 		showFocusCoords( true );
 		drawBoxes( p );
@@ -130,16 +130,15 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
 
 		if ( checkVisibility( obj ) ) {
-			QPointF o = toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
-			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
+			QPointF o = toScreen( obj, scale );
+			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
 				obj->drawNameLabel( psky, o.x(), o.y(), scale );
-			}
 		}
 	}
 
 	//Attach a label to the centered object
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
-		QPointF o = toScreen( focusObject(), Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF o = toScreen( focusObject(), scale );
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
 			focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
 	}
@@ -150,10 +149,9 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 		p.setPen( TransientColor );
 
 		if ( checkVisibility( transientObject() ) ) {
-			QPointF o = toScreen( transientObject(), Options::projection(), Options::useAltAz(), Options::useRefraction(), 1.0 );
-			if ( o.x() >= 0. && o.x() <= width() && o.y() >= 0. && o.y() <= height() ) {
+			QPointF o = toScreen( transientObject() );
+			if ( o.x() >= 0. && o.x() <= width() && o.y() >= 0. && o.y() <= height() ) 
 				transientObject()->drawNameLabel( p, o.x(), o.y(), 1.0 );
-			}
 		}
 	}
 }
@@ -173,16 +171,24 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	if ( ks && ks->observingList()->obsList().size() ) {
 		foreach ( SkyObject* obj, ks->observingList()->obsList() ) {
 			if ( checkVisibility( obj ) ) {
-				QPointF o = toScreen( obj, Options::projection(), Options::useAltAz(), Options::useRefraction() );
+				QPointF o = toScreen( obj );
 
 				// label object if it is currently on screen
 				if (o.x() >= 0. && o.x() <= width() && o.y() >=0. && o.y() <= height() ) {
 					if ( Options::obsListSymbol() ) {
-						float size = 20.*scale;
-						float x1 = o.x() - 0.5*size;
-						float y1 = o.y() - 0.5*size;
-						psky.drawArc( QRectF(x1, y1, size, size), -60*16, 120*16 );
-						psky.drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
+						if ( Options::useAntialias() ) {
+							float size = 20.*scale;
+							float x1 = o.x() - 0.5*size;
+							float y1 = o.y() - 0.5*size;
+							psky.drawArc( QRectF(x1, y1, size, size), -60*16, 120*16 );
+							psky.drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
+						} else {
+							int size = 20*scale;
+							int x1 = int(o.x()) - size/2;
+							int y1 = int(o.y()) - size/2;
+							psky.drawArc( QRect(x1, y1, size, size), -60*16, 120*16 );
+							psky.drawArc( QRect(x1, y1, size, size), 120*16, 120*16 );
+						}
 					}
 					if ( Options::obsListText() ) {
 						obj->drawNameLabel( psky, o.x(), o.y(), scale );
@@ -224,10 +230,10 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 				        portConnect = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CONNECTION");
 
 					if (!portConnect)
-					 return;
+						return;
 
-					 if (portConnect->state == PS_BUSY)
-					  return;
+					if (portConnect->state == PS_BUSY)
+						return;
 
 					eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
 					
@@ -249,81 +255,104 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 					if ( eqNum)
 					{
 						//fprintf(stderr, "Looking for RA label\n");
-                                                if (useAltAz)
+						if (useAltAz)
 						{
-						lp = eqNum->findElement("AZ");
-						if (!lp)
-							continue;
-
-						dms azDMS(lp->value);
-						
-						lp = eqNum->findElement("ALT");
-						if (!lp)
-							continue;
-
-						dms altDMS(lp->value);
-
-						indi_sp.setAz(azDMS);
-						indi_sp.setAlt(altDMS);
-
+							lp = eqNum->findElement("AZ");
+							if (!lp)
+								continue;
+	
+							dms azDMS(lp->value);
+							
+							lp = eqNum->findElement("ALT");
+							if (!lp)
+								continue;
+	
+							dms altDMS(lp->value);
+	
+							indi_sp.setAz(azDMS);
+							indi_sp.setAlt(altDMS);
+	
 						}
 						else
 						{
 
-						lp = eqNum->findElement("RA");
-						if (!lp)
-							continue;
+							lp = eqNum->findElement("RA");
+							if (!lp)
+								continue;
+	
+							// express hours in degrees on the celestial sphere
+							dms raDMS(lp->value);
+							raDMS.setD ( raDMS.Degrees() * 15.0);
+	
+							lp = eqNum->findElement("DEC");
+							if (!lp)
+								continue;
+	
+							dms decDMS(lp->value);
+	
+	
+							//kDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
+							//kDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
+	
+							indi_sp.setRA(raDMS);
+							indi_sp.setDec(decDMS);
+	
+							if (useJ2000)
+							{
+								indi_sp.setRA0(raDMS);
+								indi_sp.setDec0(decDMS);
+								indi_sp.apparentCoord( (double) J2000, ks->data()->ut().djd());
+							}
+								
+							if ( Options::useAltAz() ) 
+								indi_sp.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
-						// express hours in degrees on the celestial sphere
-						dms raDMS(lp->value);
-						raDMS.setD ( raDMS.Degrees() * 15.0);
-
-						lp = eqNum->findElement("DEC");
-						if (!lp)
-							continue;
-
-						dms decDMS(lp->value);
-
-
-						//kDebug() << "the KStars RA is " << raDMS.toHMSString() << endl;
-						//kDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************" << endl;
-
-						indi_sp.setRA(raDMS);
-						indi_sp.setDec(decDMS);
-
-						if (useJ2000)
-						{
-							indi_sp.setRA0(raDMS);
-							indi_sp.setDec0(decDMS);
-							indi_sp.apparentCoord( (double) J2000, ks->data()->ut().djd());
 						}
-							
-						if ( Options::useAltAz() ) indi_sp.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
+						QPointF P = toScreen( &indi_sp );
+
+						if ( Options::useAntialias() ) {
+							float s1 = 0.5*pxperdegree;
+							float s2 = pxperdegree;
+							float s3 = 2.0*pxperdegree;
+	
+							float x0 = P.x();        float y0 = P.y();
+							float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
+							float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
+							float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
+	
+							//Draw radial lines
+							psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
+							psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
+							psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
+							psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
+							//Draw circles at 0.5 & 1 degrees
+							psky.drawEllipse( QRectF(x1, y1, s1, s1) );
+							psky.drawEllipse( QRectF(x2, y2, s2, s2) );
+	
+							psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
+
+						} else {
+							int s1 = 0.5*pxperdegree;
+							int s2 = pxperdegree;
+							int s3 = 2.0*pxperdegree;
+
+							int x0 = int(P.x());   int y0 = int(P.y());
+							int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+							int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+							int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+							//Draw radial lines
+							psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
+							psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
+							psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
+							psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
+							//Draw circles at 0.5 & 1 degrees
+							psky.drawEllipse( QRect(x1, y1, s1, s1) );
+							psky.drawEllipse( QRect(x2, y2, s2, s2) );
+
+							psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 						}
-
-						QPointF P = toScreen( &indi_sp, Options::projection(), Options::useAltAz(), Options::useRefraction() );
-
-						float s1 = 0.5*pxperdegree;
-						float s2 = pxperdegree;
-						float s3 = 2.0*pxperdegree;
-
-						float x0 = P.x();        float y0 = P.y();
-						float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
-						float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
-						float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
-
-						//Draw radial lines
-						psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
-						psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
-						psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
-						psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
-						//Draw circles at 0.5 & 1 degrees
-						psky.drawEllipse( QRectF(x1, y1, s1, s1) );
-						psky.drawEllipse( QRectF(x2, y2, s2, s2) );
-
-						psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
-
 					}
 				}
 			}

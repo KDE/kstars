@@ -321,6 +321,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 		}
 //END_TIMING
+
+		case Qt::Key_A:
+			Options::setUseAntialias( ! Options::useAntialias() );
+			kDebug() << "Use Antialiasing: " << Options::useAntialias() << endl;
+			forceUpdate();
+			break;
 	}
 
 	setOldFocus( focus() );
@@ -422,7 +428,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if (unusablePoint (dx, dy)) return;	// break if point is unusable
 
 	//determine RA, Dec of mouse pointer
-	setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
+	setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
 	mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
 
@@ -486,7 +492,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 		data->HourAngle->setH( dHA );
 
 		//redetermine RA, Dec of mouse pointer, using new focus
-		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
+		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
 		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 
@@ -533,7 +539,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 		stopTracking();
 
-		SkyPoint newcenter = fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() );
+		SkyPoint newcenter = fromScreen( dx, dy, data->LST, data->geo()->lat() );
 
 		setFocus( &newcenter );
 		setDestination( &newcenter );
@@ -601,7 +607,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 		}
 
 		//determine RA, Dec of mouse pointer
-		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat(), Options::projection(), Options::useAltAz(), Options::useRefraction() ) );
+		setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
 		mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		setClickedPoint( mousePoint() );
 
@@ -703,11 +709,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
 	psky.begin( sky );
-//DISABLE_ANTIALIAS
-//	if ( slewing )
-		psky.setRenderHint(QPainter::Antialiasing, false);
-//	else
-//		psky.setRenderHint(QPainter::Antialiasing, true);
+	psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
 
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
@@ -720,10 +722,10 @@ void SkyMap::paintEvent( QPaintEvent * )
 	*sky2 = *sky;
 	drawOverlays( sky2 );
 
-        QPainter psky2;
-        psky2.begin( this );
-        psky2.drawImage( 0, 0, sky2->toImage() );
-        psky2.end();
+	QPainter psky2;
+	psky2.begin( this );
+	psky2.drawImage( 0, 0, sky2->toImage() );
+	psky2.end();
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 

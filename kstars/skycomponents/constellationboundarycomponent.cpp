@@ -127,20 +127,23 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 	foreach ( CSegment *seg, m_SegmentList ) {
 		bool started( false );
 		SkyPoint *p = seg->nodes()[0];
-		QPointF oStart = map->toScreen( p, Options::projection(), Options::useAltAz(), Options::useRefraction(), scale );
+		QPointF oStart = map->toScreen( p, scale );
 		if ( ( oStart.x() >= -1000. && oStart.x() <= Width+1000.
 				&& oStart.y() >= -1000. && oStart.y() <= Height+1000. ) ) {
 			started = true;
 		}
 
 		foreach ( SkyPoint *p, seg->nodes() ) {
-			QPointF o = map->toScreen( p, Options::projection(), Options::useAltAz(), 
-								Options::useRefraction(), scale );
+			QPointF o = map->toScreen( p, scale );
 
 			if ( ( o.x() >= -1000. && o.x() <= Width+1000.
 					&& o.y() >= -1000. && o.y() <= Height+1000. ) ) {
 				if ( started ) {
-					psky.drawLine( oStart, o );
+					if ( Options::useAntialias() )
+						psky.drawLine( oStart, o );
+					else
+						psky.drawLine( QPoint(int(oStart.x()),int(oStart.y())), 
+									QPoint(int(o.x()), int(o.y())) );
 				} else {
 					started = true;
 				}
