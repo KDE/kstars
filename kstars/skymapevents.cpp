@@ -687,8 +687,8 @@ void SkyMap::paintEvent( QPaintEvent * )
 	}
 
 	//TIMING
-	QTime t;
-	t.start();
+// 	QTime t;
+// 	t.start();
 
 	QPainter psky;
 	setMapGeometry();
@@ -713,23 +713,42 @@ void SkyMap::paintEvent( QPaintEvent * )
 
 	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
+	//TIMING
+// 	QTime t2;
+// 	t2.start();
+
 	//Draw all sky elements
 	data->skyComposite()->draw( ks, psky );
+
+	//TIMING
+// 	kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed()) << endl;
 
 	//Finish up
 	psky.end();
 
+	//TIMING
+//	t2.start();
+
 	*sky2 = *sky;
 	drawOverlays( sky2 );
 
+	//TIMING
+//	kDebug() << QString("drawOverlays() took %1 ms").arg(t2.elapsed()) << endl;
+	
+	//TIMING
+//	t2.start();
+
 	QPainter psky2;
 	psky2.begin( this );
-	psky2.drawImage( 0, 0, sky2->toImage() );
+	psky2.drawPixmap( 0, 0, *sky2 );
 	psky2.end();
+
+	//TIMING
+//	kDebug() << QString("drawImage() took %1 ms").arg(t2.elapsed()) << endl;
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 
 	//TIMING
-	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl; 
+//	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl; 
 }
 

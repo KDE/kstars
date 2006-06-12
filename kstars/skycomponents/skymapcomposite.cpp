@@ -124,35 +124,72 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
+	//TIMING
+//	QTime t;
 	//1. Milky Way
+//	t.start();
 	m_MilkyWay->draw( ks, psky, scale );
+//	kDebug() << QString("Milky Way  : %1 ms").arg( t.elapsed() ) << endl;
+
 	//2. Coordinate grid
+//	t.start();
 	m_CoordinateGrid->draw( ks, psky, scale );
+//	kDebug() << QString("Coord grid : %1 ms").arg( t.elapsed() ) << endl;
+
 	//3. Constellation boundaries
+//	t.start();
 	m_CBounds->draw( ks, psky, scale );
+//	kDebug() << QString("Cons Bound : %1 ms").arg( t.elapsed() ) << endl;
+
 	//4. Constellation lines
+//	t.start();
 	m_CLines->draw( ks, psky, scale );
+//	kDebug() << QString("Cons Lines : %1 ms").arg( t.elapsed() ) << endl;
+
 	//5. Constellation names
+//	t.start();
 	m_CNames->draw( ks, psky, scale );
+//	kDebug() << QString("Cons Names : %1 ms").arg( t.elapsed() ) << endl;
+
 	//6. Equator
+//	t.start();
 	m_Equator->draw( ks, psky, scale );
+//	kDebug() << QString("Equator     : %1 ms").arg( t.elapsed() ) << endl;
+
 	//7. Ecliptic
+//	t.start();
 	m_Ecliptic->draw( ks, psky, scale );
+//	kDebug() << QString("Ecliptic    : %1 ms").arg( t.elapsed() ) << endl;
+
 	//8. Deep sky
+//	t.start();
 	m_DeepSky->draw( ks, psky, scale );
+//	kDebug() << QString("Deep sky    : %1 ms").arg( t.elapsed() ) << endl;
+
 	//9. Custom catalogs
+//	t.start();
 	m_CustomCatalogs->draw( ks, psky, scale );
+//	kDebug() << QString("Custom cat  : %1 ms").arg( t.elapsed() ) << endl;
+
 	//10. Stars
+//	t.start();
 	m_Stars->draw( ks, psky, scale );
+//	kDebug() << QString("Stars       : %1 ms").arg( t.elapsed() ) << endl;
+
 	//11. Solar system
+//	t.start();
 	m_SolarSystem->draw( ks, psky, scale );
+//	kDebug() << QString("Solar sys   : %1 ms").arg( t.elapsed() ) << endl;
 
 	//Draw object name labels
+//	t.start();
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
+//	kDebug() << QString("Name labels : %1 ms").arg( t.elapsed() ) << endl;
 
 	//13. Horizon (and ground)
+//	t.start();
 	m_Horizon->draw( ks, psky, scale );
-
+//	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() ) << endl;
 }
 
 //Select nearest object to the given skypoint, but give preference 
