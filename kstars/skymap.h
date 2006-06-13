@@ -362,6 +362,15 @@ public:
 	*@see KStars::slotPrint()
 	*/
 	void exportSkyImage( QPaintDevice *pd );
+    
+/**@short Draw a clipped line from p1 to p2
+ */
+    void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
+
+/**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
+ * between *p1 and *p2 that just clips.
+ **/
+    QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
 
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
@@ -371,8 +380,9 @@ public:
 	*@param useRefraction true = use Options::useRefraction() value.  
 	*false = do not use refraction.  This argument is only needed 
 	*for the Horizon, which should never be refracted.
-	*/
-	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true );
+    *@param clipped pointer to a bool indicating point is past horizon
+    **/
+	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *clipped=NULL);
 
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.

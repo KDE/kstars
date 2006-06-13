@@ -751,7 +751,8 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	return ( north + o->pa() );
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract ) {
+QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clipped) {
+
 	QPointF p;
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
@@ -813,10 +814,19 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract ) {
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
 	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
-		p.setX( -10000000. );
-		p.setY( -10000000. );
-		return p;
+        if ( clipped == NULL) {
+		    p.setX( -10000000. );
+		    p.setY( -10000000. );
+		    return p;
+        }
+        *clipped = true;
 	}
+    else {
+        if ( clipped != NULL ) {
+            *clipped = false;
+        }
+    }
+        
 
 	double k;
 	switch ( Options::projection() ) {
