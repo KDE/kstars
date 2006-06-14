@@ -71,6 +71,20 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawStar() - Options::magLimitDrawStarZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 	float sizeFactor = 6.0 + (lgz - lgmin);
 
+	//Set the brush
+	QColor fillColor( Qt::white );
+	if ( starColorMode() == 1 ) fillColor = Qt::red;
+	if ( starColorMode() == 2 ) fillColor = Qt::black;
+ 	psky.setBrush( QBrush( fillColor ) );
+	if ( starColorMode() > 0 ) psky.setPen( QPen( fillColor ) );
+	else
+		//Reset the colors before drawing the stars.
+		//Strictly speaking, we don't need to do this every time, but once per 
+		//draw loop isn't too expensive.
+		StarObject::updateColors( (! Options::useAntialias() || 
+			map->isSlewing()), ks->data()->colorScheme()->starColorIntensity() );
+
+	//Loop for drawing star images
 	foreach ( SkyObject *o, objectList() ) {
 		StarObject *curStar = (StarObject*)o;
 
@@ -88,35 +102,44 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 				if ( size > 0. )
 				{
-					curStar->draw( psky, o.x(), o.y(), size, starColorMode(), 
+					curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0), 
 							starColorIntensity(), true, scale );
-
-					// now that we have drawn the star, we can display some extra info
-					//don't label unnamed stars with the generic "star" name
-					bool drawName = ( Options::showStarNames() && (curStar->name() != i18n("star") ) );
-					if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
-							&& ( drawName || Options::showStarMagnitudes() ) ) {
-
-						psky.setPen( QColor( data()->colorScheme()->colorNamed( "SNameColor" ) ) );
-						QFont stdFont( psky.font() );
-						QFont smallFont( stdFont );
-						smallFont.setPointSize( stdFont.pointSize() - 2 );
-						if ( Options::zoomFactor() < 10.*MINZOOM ) {
-							psky.setFont( smallFont );
-						} else {
-							psky.setFont( stdFont );
-						}
-
-						curStar->drawLabel( psky, o.x(), o.y(), Options::zoomFactor(),
-								drawName, Options::showStarMagnitudes(), scale );
-
-						//reset font
-						psky.setFont( stdFont );
-					}
 				}
 			}
 		}
 	}
+
+	//Loop for drawing star labels
+	if ( checkSlewing || !Options::showStarMagnitudes()  || !Options::showStarNames() ) return;
+
+	maglim = Options::magLimitDrawStarInfo();
+	psky.setPen( QColor( data()->colorScheme()->colorNamed( "SNameColor" ) ) );
+	QFont stdFont( psky.font() );
+	QFont smallFont( stdFont );
+	smallFont.setPointSize( stdFont.pointSize() - 2 );
+	if ( Options::zoomFactor() < 10.*MINZOOM ) {
+		psky.setFont( smallFont );
+	} else {
+		psky.setFont( stdFont );
+	}
+
+	foreach ( SkyObject *o, objectList() ) {
+		StarObject *curStar = (StarObject*)o;
+
+		// break loop if maglim is reached
+		if ( curStar->mag() > maglim ) break;
+		//Skip this star if it's unnamed and we aren't showing magnitudes
+		if ( curStar->name() == i18n("star") && !Options::showStarMagnitudes() ) continue;
+
+		QPointF o = map->toScreen( curStar, scale );
+		// draw label if currently on screen
+		if (o.x() >= 0. && o.x() <= Width && o.y() >=0. && o.y() <= Height ) {
+			bool drawName = ( Options::showStarNames() && curStar->name() != i18n("star") );
+			curStar->drawLabel( psky, o.x(), o.y(), Options::zoomFactor(),
+								drawName, Options::showStarMagnitudes(), scale );
+		}
+	}
+	psky.setFont( stdFont );
 }
 
 bool StarComponent::openStarFile(int i)

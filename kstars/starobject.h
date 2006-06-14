@@ -19,7 +19,7 @@
 #define STAROBJECT_H_
 
 #include <qpoint.h>
-//Added by qt3to4:
+#include <QMap>
 #include <QPixmap>
 
 #include "skyobject.h"
@@ -98,9 +98,7 @@ class StarObject : public SkyObject {
 	*/
 	inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
 /**
-	*Returns first character of Spectral Type string, which is used to
-	*select the temperature-color of the star.
-	*@return color corresponding to Spectral Type
+	*@return QColor corresponding to the star's Spectral Type
 	*/
 	QColor color( void ) const;
 
@@ -200,7 +198,9 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
-	void draw( QPainter &psky, float x, float y, float size, int scMode, int scIntensity, bool drawMultiple=true, double scale=1.0 );
+	void draw( QPainter &psky, float x, float y, float size, 
+			bool useRealColors, int scIntensity, bool drawMultiple=true, 
+			double scale=1.0 );
 
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
 
@@ -220,6 +220,40 @@ class StarObject : public SkyObject {
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
 	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createStarMenu( this ); pmenu->popup( pos ); }
+
+/**
+	*Reet the colors which will be used to make realistic star colors.
+	*Each star has a spectral type, a string whose first letter indicates 
+	*its color (RGB triplets shown below):
+	*@li O: (   0,   0, 255 )
+	*@li B: (   0, 200, 255 )
+	*@li A: (   0, 255, 255 )
+	*@li F: ( 200, 255, 100 )
+	*@li G: ( 255, 255,   0 )
+	*@li K: ( 255, 100,   0 )
+	*@li M: ( 255,   0,   0 )
+	*
+	*If the user has enabled antialiased drawing, then these are the RGB 
+	*codes of the colors that will be assigned to each spectral type.
+	*However, if antialiasing is disabled, it is more complicated, because 
+	*the colored "rim" of the star image cannot be less than 1 pixel wide,
+	*so the above RGB codes will produce very saturated star colors.
+	*To fix this, we mix the above colors with white to desaturate the 
+	*colors, effectively simulating an antialiased colored band with width 
+	*less than 1 pixel.
+	*
+	*@note This function only needs to be called when the user modifies the 
+	*star color saturation level, or when the user toggles 
+	*Options::useAntialias().
+	*
+	*@param desaturateColors if true, then we need to desaturate the star colors.
+	*@param saturation The saturation level for star colors (this will 
+	*almost always be passed as data()->colorScheme()->starColorIntensity())
+	*/
+	static void updateColors( bool desaturateColors, int saturation );
+
+protected:
+	static QMap<QString, QColor> ColorMap;
 
 private:
 	QString SpType;

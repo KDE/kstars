@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QColor>
 #include <QPainter>
 #include <QString>
 #include <QPixmap>
@@ -25,6 +26,8 @@
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "Options.h"
+
+QMap<QString, QColor> StarObject::ColorMap;
 
 StarObject::StarObject( StarObject &o )
 	: SkyObject (o)
@@ -226,45 +229,39 @@ QString StarObject::constell( void ) const {
 }
 
 QColor StarObject::color() const {
-	QColor c( Qt::white );
-	switch ( SpType.at(0).toAscii() ) {
-		case 'O':
-			c.setRgb(   0,   0, 255 );
-			break;
-		case 'B':
-			c.setRgb(   0, 200, 255 );
-			break;
-		case 'A':
-			c.setRgb(   0, 255, 255 );
-			break;
-		case 'F':
-			c.setRgb( 200, 255, 100 );
-			break;
-		case 'G':
-			c.setRgb( 255, 255,   0 );
-			break;
-		case 'K':
-			c.setRgb( 255, 100,   0 );
-			break;
-		case 'M':
-			c.setRgb( 255,   0,   0 );
-			break;
-	}
+	return ColorMap[SpType.at(0)];
+}
 
-	return c;
+void StarObject::updateColors( bool desaturateColors, int saturation ) {
+	//First set colors to their fully-saturated values
+	ColorMap.insert( "O", QColor::fromRgb(   0,   0, 255 ) );
+	ColorMap.insert( "B", QColor::fromRgb(   0, 200, 255 ) );
+	ColorMap.insert( "A", QColor::fromRgb(   0, 255, 255 ) );
+	ColorMap.insert( "F", QColor::fromRgb( 200, 255, 100 ) );
+	ColorMap.insert( "G", QColor::fromRgb( 255, 255,   0 ) );
+	ColorMap.insert( "K", QColor::fromRgb( 255, 100,   0 ) );
+	ColorMap.insert( "M", QColor::fromRgb( 255,   0,   0 ) );
+
+	if ( ! desaturateColors ) return;
+
+	//Desaturate the star colors by mixing in white
+	float sat = 0.1*saturation; //sat is between 0.0 and 1.0
+	int r, g, b;
+	QMapIterator<QString, QColor> it(ColorMap);
+	while ( it.hasNext() ) {
+		it.next();
+		r = int( 255.0*(1.0 - sat) + it.value().red()*sat   );
+		g = int( 255.0*(1.0 - sat) + it.value().green()*sat );
+		b = int( 255.0*(1.0 - sat) + it.value().blue()*sat  );
+
+		ColorMap[ it.key() ] = QColor::fromRgb( r, g, b );
+	}
 }
 
 void StarObject::draw( QPainter &psky, float x, float y, float size, 
-		int scMode, int scIntensity, bool /*showMultiple*/, double /*scale*/ ) {
+		bool useRealColors, int scIntensity, bool /*showMultiple*/, double /*scale*/ ) {
 	
-	QColor fillColor( Qt::white );
-	if ( scMode == 1 ) fillColor = Qt::red;
-	if ( scMode == 2 ) fillColor = Qt::black;
-// 	psky.setBrush( QBrush( fillColor ) );
-	psky.setBrush( QBrush( Qt::white ) );
-
-	if ( scMode > 0 ) psky.setPen( QPen( fillColor ) );
-	else {
+	if ( useRealColors ) {
 		//Realistic colors
 		//Stars rendered as a white core with a colored ring.
 		//With antialiasing, we can just set the ring thickness to 0.1*scIntensity
@@ -273,12 +270,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 		if ( Options::useAntialias() )
 			psky.setPen( QPen( color(), 0.1*scIntensity ) );
 		else {
-			float sat = 0.1*scIntensity; //sat is between 0.0 and 1.0
-			int r = int( 255.0*(1.0 - sat) + color().red()*sat   );
-			int g = int( 255.0*(1.0 - sat) + color().green()*sat );
-			int b = int( 255.0*(1.0 - sat) + color().blue()*sat  );
-			QColor c = QColor::fromRgb( r, g, b );
-			psky.setPen( QPen(c, 1) );
+			psky.setPen( QPen( color(), 1 ) );
 		}
 	}
 
