@@ -40,6 +40,7 @@ ConstellationLinesComponent::~ConstellationLinesComponent() {
 void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;
+	if ( pointList().size() < 2 ) return;
 
 	SkyMap *map = ks->map();
 
