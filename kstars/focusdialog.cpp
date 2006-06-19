@@ -43,7 +43,7 @@ FocusDialog::FocusDialog( KStars *_ks )
 	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
 	fd->raBox->setDegType(false); //RA box should be HMS-style
 	fd->raBox->setFocus(); //set input focus
-	enableButtonOK( false ); //disable until both lineedits are filled
+	enableButtonOk( false ); //disable until both lineedits are filled
 
 	connect( fd->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
@@ -62,9 +62,9 @@ void FocusDialog::checkLineEdits() {
 	fd->azBox->createDms( true, &azOk );
 	fd->altBox->createDms( true, &altOk );
 	if ( ( raOk && decOk ) || ( azOk && altOk ) )
-		enableButtonOK( true );
+		enableButtonOk( true );
 	else
-		enableButtonOK( false );
+		enableButtonOk( false );
 }
 
 void FocusDialog::slotOk() {

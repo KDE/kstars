@@ -230,9 +230,9 @@ void NewFOV::slotUpdateFOV() {
 	f.setColor( ui->ColorButton->color().name() );
 
 	if ( ! f.name().isEmpty() && sizeOk )
-		enableButtonOK( true );
+		enableButtonOk( true );
 	else
-		enableButtonOK( false );
+		enableButtonOk( false );
 
 	update();
 }
