@@ -259,9 +259,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	//restore original position
 	if ( o->isSolarSystem() ) {
 		o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
-                o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
                 delete oldNum;
 	}
+        o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 	delete num;
 }
 
@@ -365,6 +365,7 @@ void AltVsTime::computeSunRiseSetTimes() {
 
 	//Restore Sun coordinates:
 	oSun->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
+        oSun->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
 	delete num;
 	delete oldNum;
@@ -410,10 +411,10 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				//restore original position
 				if ( o->isSolarSystem() ) {
 					o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
-                                        o->EquatorialToHorizontal( ks->LST(), ks->data()->geo()->lat() );
                                         delete oldNum;
 					oldNum = 0;
 				}
+                                o->EquatorialToHorizontal( ks->LST(), ks->data()->geo()->lat() );
 
 				objFound = true;
 				break;
