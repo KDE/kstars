@@ -141,6 +141,12 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
     return  oMid;
 }
 
+QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale) {
+    QPointF qpf = clipLine( p1, p2, scale );
+    return QPoint( (int) qpf.x(), (int) qpf.y() );
+}
+
+
 void SkyMap::drawOverlays( QPixmap *pm ) {
 	if ( ks ) { //only if we are drawing in the GUI window
 		QPainter p;

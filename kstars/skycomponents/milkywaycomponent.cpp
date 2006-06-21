@@ -28,7 +28,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "skypoint.h" 
+#include "skypoint.h"
 #include "dms.h"
 #include "Options.h"
 #include "ksutils.h"
@@ -36,8 +36,8 @@
 
 #include "milkywaycomponent.h"
 
-MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, const QString &fileName, bool (*visibleMethod)()) 
-: PointListComponent(parent, visibleMethod), m_FileName( fileName )
+MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)())
+: PointListComponent(parent, visibleMethod)
 {
 }
 
@@ -47,88 +47,205 @@ MilkyWayComponent::~MilkyWayComponent()
 
 void MilkyWayComponent::init(KStarsData *)
 {
-	emitProgressText( i18n("Loading milky way" ) );
-	QFile file;
+}
 
-	if ( KSUtils::openDataFile( file, m_FileName ) ) {
-		KSFileReader fileReader( file ); // close file is included
-		while ( fileReader.hasMoreLines() ) {
-			QString line;
-			double ra, dec;
-
-			line = fileReader.readLine();
-
-			ra = line.mid( 0, 8 ).toDouble();
-			dec = line.mid( 9, 8 ).toDouble();
-
-			SkyPoint *o = new SkyPoint( ra, dec );
-			pointList().append( o );
-		}
-	}
+void MilkyWayComponent::addPoint( double ra, double dec )
+{
+    pointList().append( new SkyPoint( ra, dec ) );
 }
 
 void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if (! visible()) return;
-	
-	SkyMap *map = ks->map();
+	if ( !visible() ) return;
 
-	float mwmax = scale * Options::zoomFactor()/100.;
-	float Width = scale * map->width();
-	float Height = scale * map->height();
-
-	int thick(1);
+    int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
 	psky.setBrush( QBrush( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
 
-	//Draw filled Milky Way: construct a QPolygonF from the SkyPoints, then draw it onscreen
-	if ( Options::fillMilkyWay() ) {
-		QPolygon polyMW;
-		QPolygonF polyMWF;
-		bool partVisible = false;
+    // Uncomment these two lines to get more visible images for debugging.  -jbb
+    //
+    //psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
+    //psky.setBrush( QBrush( QColor("green"  ) ) );
 
-		foreach ( SkyPoint *p, pointList() ) {
-			QPointF o = map->toScreen( p, scale );
-			if ( o.x() > -1000000. && o.y() > -1000000. ) {
-				if ( Options::useAntialias() )
-					polyMWF << o;
-				else
-					polyMW << QPoint( int(o.x()), int(o.y()) );
-			}
-			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) partVisible = true;
-		}
+    if ( Options::useAntialias() ) {
+        drawFloat( ks, psky, scale );
+    }
+    else {
+        drawInt( ks, psky, scale );
+    }
+}
 
-		if ( Options::useAntialias() ) {
-			if ( polyMWF.size() && partVisible ) psky.drawPolygon( polyMWF );
-		} else {
-			if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
-		}
+void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
+{
+	SkyMap *map = ks->map();
 
-	//Draw Milky Way outline.  To prevent drawing seams between MW chunks, 
-	//Only draw a line if the endpoints are close together
-	} else {
-		bool onscreen, lastonscreen=false;
-		QPointF o, oLast;
+    bool partVisible, clipped, clippedLast;
+    bool visible, visibleLast;
+    SkyPoint  *pLast, *pThis;
 
-		foreach ( SkyPoint *p, pointList() ) {
-			o = map->toScreen( p, scale );
-			if (o.x() < -1000000. && o.y() < -1000000.) onscreen = false;
-			else onscreen = true;
+    int height = int( scale * map->height() );
+    int width  = int( scale * map->width() );
+    QPolygon polyMW;
+    QPoint oThis, oLast, oMid;
 
-			if ( onscreen && lastonscreen ) {
-				float dx = fabs(o.x() - oLast.x());
-				float dy = fabs(o.y() - oLast.y());
-				if ( dx<mwmax && dy<mwmax ) 
-					if ( Options::useAntialias() )
-						psky.drawLine( oLast, o );
-					else
-						psky.drawLine( int(oLast.x()), int(oLast.y()), int(o.x()), int(o.y()) );
-			}
+    if ( Options::fillMilkyWay() ) {
+        partVisible = true;
 
-			oLast = o;
-			lastonscreen = onscreen;
-		}
-	}
+        pLast = pointList().at( 0 );
+        oLast = map->toScreenI( pLast, scale, false, &clippedLast );
+
+        for ( int i=1; i < pointList().size(); ++i ) {
+            pThis = pointList().at( i );
+            oThis = map->toScreenI( pThis, scale, false, &clipped );
+
+            if ( oThis.x() >= 0 && oThis.x() <= width &&
+                 oThis.y() >= 0 && oThis.y() <= height ) partVisible = true;
+
+            if ( !clipped && !clippedLast ) {
+               polyMW << oThis;
+            }
+            else if ( !clippedLast ) {
+                oMid = map->clipLineI( pLast, pThis, scale );
+                polyMW << oMid;
+            }
+            else if ( !clipped ){
+                oMid = map->clipLineI( pThis, pLast, scale );
+                polyMW << oMid;
+                polyMW << oThis;
+            }
+
+            pLast = pThis;
+            oLast = oThis;
+            clippedLast = clipped;
+        }
+        if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
+    }
+    else {
+
+        pLast = pointList().at( 0 );
+
+        oLast = map->toScreenI( pLast, scale, false, &clippedLast );
+
+        visibleLast = ( oLast.x() >= 0 && oLast.x() <= width &&
+                        oLast.y() >= 0 && oLast.y() <= height );
+
+        int limit = pointList().size() - 1;   // because we appended 1st point
+                                              // to end of list so we can
+                                              // clip and wrap the polygons
+        for ( int i=1 ; i < limit ; i++ ) {
+            pThis = pointList().at( i );
+            oThis = map->toScreenI( pThis, scale, false, &clipped );
+            visible = ( oThis.x() >= 0 && oThis.x() <= width &&
+                        oThis.y() >= 0 && oThis.y() <= height );
+
+            if ( ( visible || visibleLast ) && !skip.contains(i) ) {
+
+                if ( !clipped && !clippedLast ) {
+                    psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
+                }
+                else if ( !clippedLast ) {
+                    oMid = map->clipLineI( pLast, pThis, scale );
+                    psky.drawLine( oLast.x(), oLast.y(), oMid.x(), oMid.y() );
+                }
+                else if ( !clipped ) {
+                    oMid = map->clipLineI( pThis, pLast, scale );
+                    psky.drawLine( oMid.x(), oMid.y(), oThis.x(), oThis.y() );
+                }
+            }
+
+            pLast = pThis;
+            oLast = oThis;
+            clippedLast = clipped;
+            visibleLast = visible;
+        }
+    }
+}
+
+void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
+{
+	SkyMap *map = ks->map();
+
+    bool partVisible, clipped, clippedLast;
+    bool visible, visibleLast;
+    SkyPoint  *pLast, *pThis;
+
+    float height =  scale * map->height();
+    float width  = scale * map->width();
+    QPolygonF polyMW;
+    QPointF oThis, oLast, oMid;
+
+
+    if ( Options::fillMilkyWay() ) {
+        partVisible = true;
+
+        pLast = pointList().at( 0 );
+        oLast = map->toScreen( pLast, scale, false, &clippedLast );
+
+        for ( int i=1; i < pointList().size(); ++i ) {
+            pThis = pointList().at( i );
+            oThis = map->toScreen( pThis, scale, false, &clipped );
+
+            if ( oThis.x() >= 0 && oThis.x() <= width &&
+                 oThis.y() >= 0 && oThis.y() <= height ) partVisible = true;
+
+            if ( !clipped && !clippedLast ) {
+               polyMW << oThis;
+            }
+            else if ( !clippedLast ) {
+                oMid = map->clipLine( pLast, pThis, scale);
+                polyMW << oMid;
+            }
+            else if ( !clipped ){
+                oMid = map->clipLine( pThis, pLast, scale);
+                polyMW << oMid;
+                polyMW << oThis;
+            }
+
+            pLast = pThis;
+            oLast = oThis;
+            clippedLast = clipped;
+        }
+        if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
+    }
+    else {
+
+        pLast = pointList().at( 0 );
+
+        oLast = map->toScreen( pLast, scale, false, &clippedLast );
+
+        visibleLast = (oLast.x() >= 0 && oLast.x() <= width &&
+                       oLast.y() >= 0 && oLast.y() <= height );
+
+        int limit = pointList().size() - 1;   // because we appended 1st point
+                                              // to end of list so we can
+                                              // clip and wrap the polygons
+        for ( int i=1 ; i < limit ; i++ ) {
+            pThis = pointList().at( i );
+            oThis = map->toScreen( pThis, scale, false, &clipped );
+            visible = ( oThis.x() >= 0 && oThis.x() <= width &&
+                        oThis.y() >= 0 && oThis.y() <= height );
+
+            if ( ( visible || visibleLast ) && ! skip.contains(i) ) {
+
+                if ( !clipped && !clippedLast ) {
+                    psky.drawLine( oLast, oThis );
+                }
+                else if ( !clippedLast ) {
+                    oMid = map->clipLine( pLast, pThis, scale );
+                    psky.drawLine( oLast, oMid );
+                }
+                else if ( !clipped ) {
+                    oMid = map->clipLine( pThis, pLast, scale );
+                    psky.drawLine( oMid, oThis );
+                }
+            }
+
+            pLast = pThis;
+            oLast = oThis;
+            clippedLast = clipped;
+            visibleLast = visible;
+        }
+    }
 }

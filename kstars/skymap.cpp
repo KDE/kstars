@@ -793,7 +793,9 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 	if ( Options::projection() == Equirectangular ) {
 		p.setX( 0.5*Width  - pscale*dX );
 		p.setY( 0.5*Height - pscale*(Y - focus()->dec()->radians()) );
-		
+        
+        if ( clipped != NULL ) *clipped = false;
+	
 		return p;
 	}
 
@@ -822,11 +824,8 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
         *clipped = true;
 	}
     else {
-        if ( clipped != NULL ) {
-            *clipped = false;
-        }
+        if ( clipped != NULL ) *clipped = false;
     }
-        
 
 	double k;
 	switch ( Options::projection() ) {
@@ -858,6 +857,11 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 	p.setY( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 
 	return p;
+}
+
+QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *clipped) {
+    QPointF qpf = toScreen( o, scale, oRefract, clipped );
+    return QPoint( (int) qpf.x(), (int) qpf.y() );
 }
 
 SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {

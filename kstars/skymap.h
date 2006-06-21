@@ -371,7 +371,9 @@ public:
  * between *p1 and *p2 that just clips.
  **/
     QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
-
+    
+    QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
+    
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
 	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
@@ -384,6 +386,8 @@ public:
     **/
 	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *clipped=NULL);
 
+	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *clipped=NULL);
+    
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
 	*@param dx horizontal pixel offset from center of SkyMap.

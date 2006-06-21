@@ -43,7 +43,7 @@ class MilkyWayComponent : public PointListComponent
 			*@short Constructor
 			*@p parent pointer to the parent SkyComponent
 			*/
-		MilkyWayComponent(SkyComponent *parent, const QString &fileName, bool (*visibleMethod)());
+		MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)());
 
 		/**
 			*@short Destructor
@@ -58,6 +58,16 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
+        /**
+            *@short Draw the Milky Way in integer mode
+            */
+        void drawInt(KStars *ks, QPainter& psky, double scale);
+        
+        /**
+            *@short Draw the Milky Way in antialiased mode
+            **/
+        void drawFloat(KStars *ks, QPainter& psky, double scale);
+
 		/**
 			*@short Initialize the Milky Way
 			*
@@ -68,10 +78,11 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void init(KStarsData *data);
 	
-		QString fileName() const { return m_FileName; }
+        void addPoint( double ra, double dec );
 
+        QHash<int, bool> skip;
 	private:
-		QString m_FileName;
+
 };
 
 #endif
