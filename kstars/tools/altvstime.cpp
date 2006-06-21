@@ -74,7 +74,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	topLayout->addWidget( avtUI );
 
 	geo = ks->geo();
-	
+
 	DayOffset = 0;
 	showCurrentDate();
 	if ( getDate().time().hour() > 12 ) DayOffset = 1;
@@ -259,16 +259,17 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 	//restore original position
 	if ( o->isSolarSystem() ) {
 		o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
-		delete oldNum;
+                o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+                delete oldNum;
 	}
 	delete num;
 }
 
 double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 	hour += 24.0*(double)DayOffset;
-	
+
 	//getDate converts the user-entered local time to UT
-	KStarsDateTime ut = getDate().addSecs( hour*3600.0 ); 
+	KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
 
 	dms LST = geo->GSTtoLST( ut.gst() );
 	p->EquatorialToHorizontal( &LST, geo->lat() );
@@ -336,7 +337,7 @@ void AltVsTime::computeSunRiseSetTimes() {
 	//Determine the time of sunset and sunrise for the desired date and location
 	//expressed as doubles, the fraction of a full day.
 	KStarsDateTime today = getDate();
-	
+
 	SkyObject *oSun = (SkyObject*) ks->data()->PCat->planetSun();
 	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
 	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
@@ -374,10 +375,10 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	KSNumbers *num = new KSNumbers( today.djd() );
 	KSNumbers *oldNum = 0;
 	dms LST = geo->GSTtoLST( today.gst() );
-	
+
 	//First determine time of sunset and sunrise
 	computeSunRiseSetTimes();
-	
+
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
 		QString oName = avtUI->PlotList->text( i ).lower();
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
@@ -409,7 +410,8 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				//restore original position
 				if ( o->isSolarSystem() ) {
 					o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
-					delete oldNum;
+                                        o->EquatorialToHorizontal( ks->LST(), ks->data()->geo()->lat() );
+                                        delete oldNum;
 					oldNum = 0;
 				}
 
@@ -417,7 +419,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				break;
 			}
 		}
-		
+
 		if ( ! objFound ) {  //assume unfound object is a custom object
 			pList.at(i)->updateCoords( num ); //precess to desired epoch
 
@@ -435,7 +437,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	setLSTLimits();
 	slotHighlight();
 	View->repaint();
-	
+
 	delete num;
 }
 
@@ -458,7 +460,7 @@ int AltVsTime::currentPlotListItem() const {
 void AltVsTime::setLSTLimits(void) {
 	//UT at noon on target date
 	KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
-	
+
 	dms lst = geo->GSTtoLST( ut.gst() );
 	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
 }
@@ -496,7 +498,7 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 	: KStarsPlotWidget( x1, x2, y1, y2, parent, name )
 {
 	//Default SunRise/SunSet values
-	SunRise = 0.25; 
+	SunRise = 0.25;
 	SunSet = 0.75;
 }
 
@@ -543,9 +545,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 
 	//draw daytime sky if the Sun rises for the current date/location
 	//(when Sun does not rise, SunSet = -1.0)
-	if ( SunSet != -1.0 ) { 
+	if ( SunSet != -1.0 ) {
 		//If Sun does not set, then just fill the daytime sky color
-		if ( SunSet == 1.0 ) { 
+		if ( SunSet == 1.0 ) {
 			p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
 		} else {
 			//Display centered on midnight, so need to modulate dawn/dusk by 0.5
