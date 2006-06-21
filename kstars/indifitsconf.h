@@ -11,7 +11,7 @@
 #define INDIFITSCONF_H_
 
 #include "ui_indiconf.h"
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class INDIFITSConfUI : public QFrame, public Ui::INDIConf
 {
@@ -22,7 +22,7 @@ class INDIFITSConfUI : public QFrame, public Ui::INDIConf
 
 };
 
-class INDIFITSConf : public KDialogBase
+class INDIFITSConf : public KDialog
 {
   Q_OBJECT
 

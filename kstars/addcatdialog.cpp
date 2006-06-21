@@ -40,14 +40,13 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddCatDialog::AddCatDialog( KStars *_ks )
-	: KDialog( _ks, i18n( "Import Catalog" ),
-		KDialog::Help|KDialog::Ok|KDialog::Cancel ), ks(_ks) {
-
+	: KDialog( ( QWidget* )_ks ),  ks( _ks )
+{
 	QDir::setCurrent( QDir::homePath() );
-
-
 	acd = new AddCatDialogUI(this);
 	setMainWidget(acd);
+        setCaption( i18n( "Import Catalog" ) );
+        setButtons( KDialog::Help|KDialog::Ok|KDialog::Cancel );
 
 	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
 	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ),

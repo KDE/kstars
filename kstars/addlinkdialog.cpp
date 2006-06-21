@@ -30,18 +30,12 @@ AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
-	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1", oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
-
-	QFrame *page = plainPage();
-	setMainWidget(page);
-
-	vlay = new QVBoxLayout( page );
-	vlay->setMargin( 0 );
-	vlay->setSpacing( spacingHint() );
-	ald = new AddLinkDialogUI(page);
-
-	vlay->addWidget( ald );
-	vlay->activate();
+	: KDialog( parent ),  ObjectName( oname )
+{
+	ald = new AddLinkDialogUI(this);
+    	setMainWidget( ald );
+        setCaption( i18n( "Add Custom URL to %1", oname ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	//connect signals to slots
 	connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );

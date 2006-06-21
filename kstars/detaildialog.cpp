@@ -65,10 +65,15 @@
 #include "indistd.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
-: KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
+: KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
+    setFaceType( Tabbed );
+
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
+
+        setCaption( i18n( "Object Details" ) );
+        setButtons( KDialog::Close );
 
         //Modify color palette
         detPalette = palette();
@@ -91,9 +96,9 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 void DetailDialog::createGeneralTab()
 {
-	QFrame *DataTab = addPage(i18n("General"));
-	Data = new DataWidget(DataTab);
-        DataTab->setPalette( detPalette );
+	Data = new DataWidget(this);
+        Data->setPalette( detPalette );
+        addPage( Data, i18n("General") );
 
 	//Show object thumbnail image
 	showThumbnail();
@@ -242,11 +247,11 @@ void DetailDialog::createGeneralTab()
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	QFrame *PosTab = addPage(i18n("Position"));
-	Pos = new PositionWidget(PosTab);
-        PosTab->setPalette( detPalette );
+	Pos = new PositionWidget(this);
+        Pos->setPalette( detPalette );
+        addPage( Pos,  i18n("Position") );
 
-	//Coordinates Section:
+        //Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
 	//because we don't want a thousands-place separator!
 	QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
@@ -329,9 +334,9 @@ void DetailDialog::createLinksTab()
 	if (selectedObject->name() == QString("star"))
 		return;
 
-	QFrame *LinksTab = addPage(i18n("Links"));
-	Links = new LinksWidget(LinksTab);
-        LinksTab->setPalette( detPalette );
+	Links = new LinksWidget( this );
+        Links->setPalette( detPalette );
+        addPage( Links, i18n( "Links" ) );
 
 	foreach ( QString s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
@@ -369,11 +374,10 @@ void DetailDialog::createAdvancedTab()
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	QFrame *AdvancedTab = addPage(i18n("Advanced"));
-	Adv = new DatabaseWidget(AdvancedTab );
-        AdvancedTab->setPalette( detPalette );
+	Adv = new DatabaseWidget( this );
+        Adv->setPalette( detPalette );
+        addPage( Adv,  i18n( "Advanced" ) );
 
-	//treeIt = new Q3PtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
 	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
 
 	populateADVTree();
@@ -386,9 +390,9 @@ void DetailDialog::createLogTab()
 		return;
 
 	// Log Tab
-	QFrame *LogTab = addPage(i18n("Log"));
-	Log = new LogWidget(LogTab);
-        LogTab->setPalette( detPalette );
+	Log = new LogWidget( this );
+        Log->setPalette( detPalette );
+        addPage( Log,  i18n( "Log" ) );
 
 	if ( selectedObject->userLog.isEmpty() )
 		Log->UserLog->setPlainText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
@@ -454,7 +458,9 @@ void DetailDialog::editLinkDialog()
 	int type=0, row=0;
 	QString search_line, replace_line, currentItemTitle, currentItemURL;
 
-	KDialog editDialog(NULL, i18n("Edit Link"), KDialog::Ok | KDialog::Cancel);
+	KDialog editDialog( this );
+        editDialog.setCaption( i18n("Edit Link") );
+        editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
 	QFrame *editFrame = new QFrame();
 
 	if (Links->InfoTitleList->currentItem())
@@ -944,9 +950,9 @@ void DetailDialog::updateThumbnail() {
 	}
 }
 
-DataWidget::DataWidget( QWidget *p )
+DataWidget::DataWidget( QWidget *p ) : QFrame( p )
 {
-	setupUi(p);
+	setupUi( this );
 
 	//Modify colors
         QPalette revPalette( p->palette() );
@@ -957,9 +963,9 @@ DataWidget::DataWidget( QWidget *p )
         DataFrame->setPalette( revPalette );
 }
 
-PositionWidget::PositionWidget( QWidget *p )
+PositionWidget::PositionWidget( QWidget *p ) : QFrame( p )
 {
-	setupUi(p);
+	setupUi( this );
 
 	//Modify colors
         QPalette revPalette( p->palette() );
@@ -972,9 +978,9 @@ PositionWidget::PositionWidget( QWidget *p )
         RSTFrame->setPalette( revPalette );
 }
 
-LinksWidget::LinksWidget( QWidget *p )
+LinksWidget::LinksWidget( QWidget *p ) : QFrame( p )
 {
-	setupUi(p);
+	setupUi( this );
 
 	// Modify colors
         QPalette linkPalette( p->palette() );
@@ -989,14 +995,14 @@ LinksWidget::LinksWidget( QWidget *p )
 	ImageTitleList->setPalette( plt );
 }
 
-DatabaseWidget::DatabaseWidget( QWidget *p )
+DatabaseWidget::DatabaseWidget( QWidget *p ) : QFrame( p )
 {
-	setupUi(p);
+	setupUi( this );
 }
 
-LogWidget::LogWidget( QWidget *p )
+LogWidget::LogWidget( QWidget *p ) : QFrame( p )
 {
-	setupUi(p);
+	setupUi( this );
 
 	//Modify colors
         QPalette logPalette = p->palette();

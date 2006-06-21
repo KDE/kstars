@@ -50,6 +50,8 @@
 #include "geolocation.h"
 #include "ui_locationdialog.h"
 
+class KStars;
+
 class LocationDialogUI : public QFrame, public Ui::LocationDialog {
 	Q_OBJECT
 	public:
@@ -64,7 +66,7 @@ public:
 	*Constructor.  Create all widgets, and pack them into QLayouts.
 	*Connect Signals to Slots.  Run initCityList().
 	*/
-	LocationDialog( QWidget* parent = 0 );
+	LocationDialog( KStars *_ks );
 /**
 	*Destructor (empty)
 	*/
@@ -143,6 +145,7 @@ private:
 	bool dataModified, nameModified, bCityAdded;
 
 	LocationDialogUI *ui;
+	KStars *ksw;
 	GeoLocation *SelectedCity;
 	QList<GeoLocation*> filteredCityList;
 };

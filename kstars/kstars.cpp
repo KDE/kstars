@@ -49,15 +49,13 @@
 #include "indidriver.h"
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
-	DCOPObject("KStarsInterface"), KMainWindow(),
-	kstarsData(0), splash(0), skymap(0), TimeStep(0),
+	KMainWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
 	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
 	AAVSODialog(0), findDialog(0), kns(0), obsList(0),
 	indimenu(0), indidriver(0), indiseq(0),
 	DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
-	// we're nowhere near ready to take dcop calls
-	kapp->dcopClient()->suspend();
+        QDBus::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportSlots);
 
 	connect( kapp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
@@ -75,7 +73,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 		data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
 
 	if ( doSplash ) {
-		splash = new KStarsSplash(0, "Splash");
+		splash = new KStarsSplash(0);
 		connect( splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
 		connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
 

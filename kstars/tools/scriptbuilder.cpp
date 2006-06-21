@@ -49,10 +49,13 @@ OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
   setupUi( this );
 }
 
-OptionsTreeView::OptionsTreeView( QWidget *p ) 
- : KDialog( p, i18n( "Options" ), KDialog::Ok|KDialog::Cancel ) {
+OptionsTreeView::OptionsTreeView( QWidget *p )
+ : KDialog( p )
+{
 	otvw = new OptionsTreeViewWidget( this );
 	setMainWidget( otvw );
+        setCaption( i18n( "Options" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 }
 
 OptionsTreeView::~OptionsTreeView() {
@@ -63,11 +66,15 @@ ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
   setupUi( this );
 }
 
-ScriptNameDialog::ScriptNameDialog( QWidget *p ) 
- : KDialog( p, i18n( "Script Data" ), KDialog::Ok|KDialog::Cancel ) {
+ScriptNameDialog::ScriptNameDialog( QWidget *p )
+ : KDialog( p )
+{
 	snw = new ScriptNameWidget( this );
 	setMainWidget( snw );
-	connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
+        setCaption( i18n( "Script Data" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
+
+        connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
 }
 
 ScriptNameDialog::~ScriptNameDialog() {
@@ -75,7 +82,7 @@ ScriptNameDialog::~ScriptNameDialog() {
 }
 
 void ScriptNameDialog::slotEnableOkButton() {
-	actionButton( Ok )->setEnabled( ! snw->ScriptName->text().isEmpty() );
+	enableButtonOk( ! snw->ScriptName->text().isEmpty() );
 }
 
 ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
@@ -83,13 +90,15 @@ ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )
-	: KDialog( parent, i18n( "Script Builder" ), KDialog::Close ), 
-		UnsavedChanges(false), currentFileURL(), currentDir( QDir::homePath() ), 
-		currentScriptName(), currentAuthor() 
+	: KDialog( parent ), UnsavedChanges(false),
+          currentFileURL(), currentDir( QDir::homePath() ),
+          currentScriptName(), currentAuthor()
 {
 	ks = (KStars*)parent;
 	sb = new ScriptBuilderUI(this);
 	setMainWidget(sb);
+        setCaption( i18n( "Script Builder" ) );
+        setButtons( KDialog::Close );
 
 	//Initialize function templates and descriptions
 	KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ),
@@ -118,68 +127,68 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	KStarsFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
 	KStarsFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
 	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
-	
+
 	// INDI functions
-	ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL), *setINDIDeviceFunc(NULL); 
-	
+	ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL), *setINDIDeviceFunc(NULL);
+
 	startINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
 	INDIFunctionList.append ( startINDIFunc );
-	
+
         setINDIDeviceFunc = new ScriptFunction( "setINDIDevice", i18n("Change current active device. All subsequent function calls will communicate with this device until changed"), false, "QString", "deviceName");
 	INDIFunctionList.append(setINDIDeviceFunc);
 
 	shutdownINDIFunc = new ScriptFunction( "shutdownINDI", i18n("Shutdown an INDI device."), false, "QString", "deviceName");
 	INDIFunctionList.append ( shutdownINDIFunc);
-	
+
 	switchINDIFunc = new ScriptFunction( "switchINDI", i18n("Connect or Disconnect an INDI device."), false, "bool", "turnOn");
 	switchINDIFunc->setINDIProperty("CONNECTION");
 	switchINDIFunc->setArg(0, "true");
 	INDIFunctionList.append ( switchINDIFunc);
-	
+
 	setINDIPortFunc = new ScriptFunction( "setINDIPort", i18n("Set INDI's device connection port."), false, "QString", "port");
 	setINDIPortFunc->setINDIProperty("DEVICE_PORT");
 	INDIFunctionList.append ( setINDIPortFunc);
-	
+
 	setINDIScopeActionFunc = new ScriptFunction( "setINDIScopeAction", i18n("Set the telescope action. Available actions are SLEW, TRACK, SYNC, PARK, and ABORT."), false, "QString", "action");
 	setINDIScopeActionFunc->setINDIProperty("CHECK");
 	setINDIScopeActionFunc->setArg(0, "SLEW");
 	INDIFunctionList.append( setINDIScopeActionFunc);
-	
+
 	setINDITargetCoordFunc = new ScriptFunction ( "setINDITargetCoord", i18n( "Set the telescope target coordinates to the RA/Dec coordinates.  RA is expressed in Hours; DEC is expressed in Degrees." ), false, "double", "RA", "double", "DEC" );
 	setINDITargetCoordFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
 	INDIFunctionList.append ( setINDITargetCoordFunc );
-	
+
 	setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "targetName");
 	setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
 	INDIFunctionList.append( setINDITargetNameFunc);
-	
+
 	setINDIGeoLocationFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is E of N."), false, "double", "long", "double", "lat");
 	setINDIGeoLocationFunc->setINDIProperty("GEOGRAPHIC_COORD");
 	INDIFunctionList.append( setINDIGeoLocationFunc);
-	
+
 	setINDIUTCFunc = new ScriptFunction ( "setINDIUTC", i18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "UTCDateTime");
 	setINDIUTCFunc->setINDIProperty("TIME");
 	INDIFunctionList.append( setINDIUTCFunc);
-	
+
 	setINDIActionFunc = new ScriptFunction( "setINDIAction", i18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "actionName");
 	INDIFunctionList.append( setINDIActionFunc);
-	
+
 	waitForINDIActionFunc = new ScriptFunction ("waitForINDIAction", i18n("Pause script execution until action returns with OK status. The action can be the name of any INDI property supported by the device."), false, "QString", "actionName");
 	INDIFunctionList.append( waitForINDIActionFunc );
-	
+
 	setINDIFocusSpeedFunc = new ScriptFunction ("setINDIFocusSpeed", i18n("Set the telescope focuser speed. Set speed to 0 to halt the focuser. 1-3 correspond to slow, medium, and fast speeds respectively."), false, "unsigned int", "speed");
 	setINDIFocusSpeedFunc->setINDIProperty("FOCUS_SPEED");
 	INDIFunctionList.append( setINDIFocusSpeedFunc );
-	
+
 	startINDIFocusFunc = new ScriptFunction ("startINDIFocus", i18n("Start moving the focuser in the direction Dir, and for the duration specified by setINDIFocusTimeout."), false, "QString", "Dir");
 	startINDIFocusFunc->setINDIProperty("FOCUS_MOTION");
 	startINDIFocusFunc->setArg(0, "IN");
 	INDIFunctionList.append( startINDIFocusFunc);
-	
+
 	setINDIFocusTimeoutFunc = new ScriptFunction ( "setINDIFocusTimeout", i18n("Set the telescope focuser timer in seconds. This is the duration of any focusing procedure performed by calling startINDIFocus."), false, "int", "timeout");
 	setINDIFocusTimeoutFunc->setINDIProperty("FOCUS_TIMER");
 	INDIFunctionList.append( setINDIFocusTimeoutFunc);
-	
+
 	setINDICCDTempFunc = new ScriptFunction( "setINDICCDTemp", i18n("Set the target CCD chip temperature."), false, "int", "temp");
 	setINDICCDTempFunc->setINDIProperty("CCD_TEMPERATURE");
 	INDIFunctionList.append( setINDICCDTempFunc);
@@ -187,28 +196,28 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
         setINDIFilterNumFunc = new ScriptFunction( "setINDIFilterNum", i18n("Set the target filter position."), false, "int", "filter_num");
 	setINDIFilterNumFunc->setINDIProperty("FILTER_SLOT");
 	INDIFunctionList.append ( setINDIFilterNumFunc);
-	
+
 	setINDIFrameTypeFunc = new ScriptFunction( "setINDIFrameType", i18n("Set the CCD camera frame type. Available options are FRAME_LIGHT, FRAME_BIAS, FRAME_DARK, and FRAME_FLAT."), false, "QString", "type");
 	setINDIFrameTypeFunc->setINDIProperty("FRAME_TYPE");
 	setINDIFrameTypeFunc->setArg(0, "FRAME_LIGHT");
 	INDIFunctionList.append( setINDIFrameTypeFunc);
-	
+
 	startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "int", "timeout");
 	startINDIExposureFunc->setINDIProperty("CCD_EXPOSE_DURATION");
 	INDIFunctionList.append( startINDIExposureFunc);
-	
+
 	// JM: We're using QTreeWdiget for Qt4 now
 	QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
-	
-	for ( int i=KStarsFunctionList.size()-1; i>=0; i-- ) 
+
+	for ( int i=KStarsFunctionList.size()-1; i>=0; i-- )
 	  new QTreeWidgetItem (kstars_tree, QStringList( KStarsFunctionList[i]->prototype()) );
 
-	
+
 	sb->FunctionTree->setColumnCount(1);
 	sb->FunctionTree->setHeaderLabels( QStringList(i18n("Functions")) );
 	sb->FunctionTree->setSortingEnabled( false );
 
-	QTreeWidgetItem *INDI_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("INDI"));	
+	QTreeWidgetItem *INDI_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("INDI"));
         QTreeWidgetItem *INDI_general = new QTreeWidgetItem( INDI_tree, QStringList("General"));
 	QTreeWidgetItem *INDI_telescope = new QTreeWidgetItem( INDI_tree, QStringList("Telescope"));
 	QTreeWidgetItem *INDI_ccd = new QTreeWidgetItem( INDI_tree, QStringList("Camera/CCD"));
@@ -223,24 +232,24 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	new QTreeWidgetItem(INDI_general, QStringList(setINDIPortFunc->prototype()));
 	new QTreeWidgetItem(INDI_general, QStringList(setINDIActionFunc->prototype()));
 	new QTreeWidgetItem(INDI_general, QStringList(waitForINDIActionFunc->prototype()));
-	
+
 	// Telescope
 	new QTreeWidgetItem(INDI_telescope, QStringList(setINDIScopeActionFunc->prototype()));
 	new QTreeWidgetItem(INDI_telescope, QStringList(setINDITargetCoordFunc->prototype()));
 	new QTreeWidgetItem(INDI_telescope, QStringList(setINDITargetNameFunc->prototype()));
 	new QTreeWidgetItem(INDI_telescope, QStringList(setINDIGeoLocationFunc->prototype()));
 	new QTreeWidgetItem(INDI_telescope, QStringList(setINDIUTCFunc->prototype()));
-	
+
 	// CCD
 	new QTreeWidgetItem(INDI_ccd, QStringList(setINDICCDTempFunc->prototype()));
 	new QTreeWidgetItem(INDI_ccd, QStringList(setINDIFrameTypeFunc->prototype()));
 	new QTreeWidgetItem(INDI_ccd, QStringList(startINDIExposureFunc->prototype()));
-	
+
 	// Focuser
 	new QTreeWidgetItem(INDI_focuser, QStringList(setINDIFocusSpeedFunc->prototype()));
 	new QTreeWidgetItem(INDI_focuser, QStringList(setINDIFocusTimeoutFunc->prototype()));
 	new QTreeWidgetItem(INDI_focuser, QStringList(startINDIFocusFunc->prototype()));
-	
+
 	// Filter
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
 
@@ -296,18 +305,18 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 	argStartFocusINDI->directionCombo->addItem("IN");
 	argStartFocusINDI->directionCombo->addItem("OUT");
-	
+
 	argSetScopeActionINDI->actionCombo->addItem("SLEW");
 	argSetScopeActionINDI->actionCombo->addItem("TRACK");
 	argSetScopeActionINDI->actionCombo->addItem("SYNC");
 	argSetScopeActionINDI->actionCombo->addItem("PARK");
 	argSetScopeActionINDI->actionCombo->addItem("ABORT");
-	
+
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_LIGHT");
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_BIAS");
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_DARK");
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_FLAT");
-	
+
 	sb->ArgStack->addWidget( argBlank );
 	sb->ArgStack->addWidget( argLookToward );
 	sb->ArgStack->addWidget( argSetRaDec );
@@ -324,7 +333,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	sb->ArgStack->addWidget( argPrintImage );
 	sb->ArgStack->addWidget( argSetColor );
 	sb->ArgStack->addWidget( argLoadColorScheme );
-	
+
 	sb->ArgStack->addWidget( argStartINDI);
 	sb->ArgStack->addWidget( argSetDeviceINDI);
 	sb->ArgStack->addWidget( argShutdownINDI);
@@ -344,7 +353,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	sb->ArgStack->addWidget( argSetFrameTypeINDI);
 	sb->ArgStack->addWidget( argSetCCDTempINDI);
 	sb->ArgStack->addWidget( argSetFilterNumINDI);
-	
+
 	sb->ArgStack->setCurrentIndex( 0 );
 
 	snd = new ScriptNameDialog( ks );
@@ -399,72 +408,72 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
 	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme() ) );
-	
+
 	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
-	
+
 	// Connections for INDI's Arg widgets
-	
+
 	// INDI Start Device
 	connect (argStartINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIStartDeviceName()));
-	connect (argStartINDI->LocalButton, SIGNAL ( toggled(bool)), this, SLOT (slotINDIStartDeviceMode())); 
-	
+	connect (argStartINDI->LocalButton, SIGNAL ( toggled(bool)), this, SLOT (slotINDIStartDeviceMode()));
+
         // Set Device Name
 	connect (argSetDeviceINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetDevice()));
 
 	// INDI Shutdown Device
 	connect (argShutdownINDI->deviceName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIShutdown()));
-	
+
 	// INDI Swtich Device
-	connect (argSwitchINDI->OnButton, SIGNAL ( toggled( bool)), this, SLOT (slotINDISwitchDeviceConnection())); 
-	
+	connect (argSwitchINDI->OnButton, SIGNAL ( toggled( bool)), this, SLOT (slotINDISwitchDeviceConnection()));
+
 	// INDI Set Device Port
 	connect (argSetPortINDI->devicePort, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetPortDevicePort()));
-	
-	// INDI Set Target Coord 
+
+	// INDI Set Target Coord
 	connect( argSetTargetCoordINDI->RABox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceRA() ) );
 	connect( argSetTargetCoordINDI->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetTargetCoordDeviceDEC() ) );
-	
+
 	// INDI Set Target Name
 	connect (argSetTargetNameINDI->targetName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetTargetNameTargetName()));
-	
+
 	// INDI Set Action
 	connect (argSetActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetActionName()));
-	
+
 	// INDI Wait For Action
 	connect (argWaitForActionINDI->actionName, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDIWaitForActionName()));
-	
+
 	// INDI Set Focus Speed
 	connect (argSetFocusSpeedINDI->speedIN, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusSpeed()));
-	
+
 	// INDI Start Focus
 	connect (argStartFocusINDI->directionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDIStartFocusDirection()));
-	
+
 	// INDI Set Focus Timeout
 	connect (argSetFocusTimeoutINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFocusTimeout()));
-	
+
 	// INDI Set Geo Location
 	connect( argSetGeoLocationINDI->longBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLong() ) );
 	connect( argSetGeoLocationINDI->latBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotINDISetGeoLocationDeviceLat() ) );
-	
+
 	// INDI Start Exposure
 	connect (argStartExposureINDI->timeOut, SIGNAL( valueChanged(int) ), this, SLOT(slotINDIStartExposureTimeout()));
-	
+
 	// INDI Set UTC
 	connect (argSetUTCINDI->UTC, SIGNAL( textChanged(const QString &) ), this, SLOT(slotINDISetUTC()));
-	
+
 	// INDI Set Scope Action
 	connect (argSetScopeActionINDI->actionCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetScopeAction()));
-	
+
 	// INDI Set Frame type
 	connect (argSetFrameTypeINDI->typeCombo, SIGNAL( activated(const QString &) ), this, SLOT(slotINDISetFrameType()));
-	
+
 	// INDI Set CCD Temp
 	connect (argSetCCDTempINDI->temp, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetCCDTemp()));
 
 	// INDI Set Filter Num
 	connect (argSetFilterNumINDI->filter_num, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFilterNum()));
 
-	
+
 	//disbale some buttons
 	sb->CopyButton->setEnabled( false );
 	sb->AddButton->setEnabled( false );
@@ -478,13 +487,13 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 ScriptBuilder::~ScriptBuilder()
 {
-  while ( ! KStarsFunctionList.isEmpty() ) 
+  while ( ! KStarsFunctionList.isEmpty() )
     delete KStarsFunctionList.takeFirst();
 
-  while ( ! INDIFunctionList.isEmpty() ) 
+  while ( ! INDIFunctionList.isEmpty() )
     delete INDIFunctionList.takeFirst();
-    
-  while ( ! ScriptList.isEmpty() ) 
+
+  while ( ! ScriptList.isEmpty() )
     delete ScriptList.takeFirst();
 }
 
@@ -836,13 +845,13 @@ void ScriptBuilder::initViewOptions() {
 	for ( unsigned int i=0; i < ks->data()->colorScheme()->numberOfColors(); ++i ) {
 		argSetColor->ColorName->addItem( ks->data()->colorScheme()->nameAt(i) );
 	}
-	
+
 	//init list of color scheme names
 	argLoadColorScheme->SchemeList->insertItem( i18nc( "use default color scheme", "Default Colors" ) );
 	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
 	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
 	argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
-	
+
 	QFile file;
 	QString line;
 	file.setFileName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
@@ -942,7 +951,7 @@ void ScriptBuilder::slotSave() {
 
 		if ( currentFileURL.isLocalFile() ) {
 			fname = currentFileURL.path();
-			
+
 			//Warn user if file exists
 			if (QFile::exists(currentFileURL.path())) {
 				int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
@@ -950,13 +959,13 @@ void ScriptBuilder::slotSave() {
 								"Overwrite it?" , currentFileURL.fileName()),
 						i18n( "Overwrite File?" ),
 						i18n( "&Overwrite" ) );
-		
+
 				if(r==KMessageBox::Cancel) return;
 			}
 		} else {
 			fname = tmpfile.name();
 		}
-		
+
 		if ( fname.right( 7 ).toLower() != ".kstars" ) fname += ".kstars";
 
 		QFile f( fname );
@@ -1087,8 +1096,8 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 			    else
 			      sf->setINDIProperty("PARK");
 			  }
-			  
-			  if ( sf->argVal(0).contains(" ")) 
+
+			  if ( sf->argVal(0).contains(" "))
 			    ostream << mainpre << "waitForINDIAction " << "\"" << sf->argVal(0) << "\" " << sf->INDIProperty() << endl;
 			  else
 			    ostream << mainpre << "waitForINDIAction " << sf->argVal(0) << " " << sf->INDIProperty() << endl;
@@ -1152,11 +1161,11 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
         bool foundQuote(false), quoteProcessed(false);
 	QString cur, arg;
 	QStringList::iterator it;
-	
+
 	for (it = fn.begin(); it != fn.end(); ++it)
 	{
 	  cur = (*it);
-	  
+
 	  if ( cur.startsWith("\""))
 	  {
 	    arg += cur.right(cur.length() - 1);
@@ -1181,12 +1190,12 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	    arg += '\'';
 	  }
 	}
-	    
+
 	if (quoteProcessed)
 	  fn = arg.split( "'" );
-	
+
 	//loop over known functions to find a name match
-	foreach ( ScriptFunction *sf, KStarsFunctionList ) 
+	foreach ( ScriptFunction *sf, KStarsFunctionList )
 	{
 		if ( fn[0] == sf->name() ) {
 
@@ -1209,8 +1218,8 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 
 			return true;
 		}
-		
-		foreach ( ScriptFunction *sf, INDIFunctionList ) 
+
+		foreach ( ScriptFunction *sf, INDIFunctionList )
 		{
 		  if ( fn[0] == sf->name() )
 		  {
@@ -1268,20 +1277,20 @@ void ScriptBuilder::slotRemoveFunction() {
 }
 
 void ScriptBuilder::slotAddFunction() {
-  
+
         ScriptFunction *sc = NULL, *found = NULL;
 	QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
-	
+
 	if ( currentItem == NULL || currentItem->parent() == 0)
 	  return;
-	
+
 	foreach ( sc, KStarsFunctionList )
 	  if (sc->prototype() == currentItem->text(0))
 		{
 		    found = sc;
 		    break;
 		}
-	
+
 	 if (found == NULL)
 	 {
 	   foreach ( sc, INDIFunctionList )
@@ -1291,9 +1300,9 @@ void ScriptBuilder::slotAddFunction() {
 			break;
 		}
 	 }
-	 
+
 	 if (found == NULL) return;
-	  
+
 	  setUnsavedChanges( true );
 
 	  int Pos = sb->ScriptListBox->currentRow() + 1;
@@ -1446,11 +1455,11 @@ void ScriptBuilder::slotArgWidget() {
 			int w=0, h=0;
 			w = sf->argVal(1).toInt( &ok );
 			if (ok) h = sf->argVal(2).toInt( &ok );
-			if (ok) { 
-				argExportImage->ExportWidth->setValue( w ); 
+			if (ok) {
+				argExportImage->ExportWidth->setValue( w );
 				argExportImage->ExportHeight->setValue( h );
-			} else { 
-				argExportImage->ExportWidth->setValue( ks->map()->width() ); 
+			} else {
+				argExportImage->ExportWidth->setValue( ks->map()->width() );
 				argExportImage->ExportHeight->setValue( ks->map()->height() );
 			}
 
@@ -1498,7 +1507,7 @@ void ScriptBuilder::slotArgWidget() {
 
 		} else if ( sf->name() == "changeViewOption" ) {
 			sb->ArgStack->setCurrentWidget( argChangeViewOption );
-			argChangeViewOption->OptionName->setCurrentIndex( 
+			argChangeViewOption->OptionName->setCurrentIndex(
 					argChangeViewOption->OptionName->findText( sf->argVal(0) ) );
 			argChangeViewOption->OptionValue->setText( sf->argVal(1) );
 
@@ -1511,8 +1520,8 @@ void ScriptBuilder::slotArgWidget() {
 		} else if ( sf->name() == "setColor" ) {
 			sb->ArgStack->setCurrentWidget( argSetColor );
 			if ( sf->argVal(0).isEmpty() ) sf->setArg( 0, "SkyColor" );  //initialize default value
-			argSetColor->ColorName->setCurrentIndex( 
-					argSetColor->ColorName->findText( 
+			argSetColor->ColorName->setCurrentIndex(
+					argSetColor->ColorName->findText(
 					ks->data()->colorScheme()->nameFromKey( sf->argVal(0) ) )
 			);
 			argSetColor->ColorValue->setColor( QColor( sf->argVal(1).remove('\\') ) );
@@ -1539,7 +1548,7 @@ void ScriptBuilder::slotArgWidget() {
 		}
 		else if (sf->name() == "startINDI") {
 		  sb->ArgStack->setCurrentWidget( argStartINDI);
-		  
+
 		  argStartINDI->deviceName->setText(sf->argVal(0));
 		  if (sf->argVal(1) == "true")
 		    argStartINDI->LocalButton->setChecked(true);
@@ -1556,7 +1565,7 @@ void ScriptBuilder::slotArgWidget() {
 		}
 		else if (sf->name() == "switchINDI") {
 		  sb->ArgStack->setCurrentWidget( argSwitchINDI);
-		  
+
 		  if (sf->argVal(0) == "true" || sf->argVal(0).isEmpty())
 		    argSwitchINDI->OnButton->setChecked(true);
 		  else
@@ -1564,18 +1573,18 @@ void ScriptBuilder::slotArgWidget() {
 		}
 		else if (sf->name() == "setINDIPort") {
 		  sb->ArgStack->setCurrentWidget( argSetPortINDI);
-		  
+
 		  argSetPortINDI->devicePort->setText(sf->argVal(0));
-		  
-		  
+
+
 		}
 		else if (sf->name() == "setINDITargetCoord") {
 		  bool ok(false);
 		  double r(0.0),d(0.0);
 		  dms ra(0.0);
-		  
+
 		  sb->ArgStack->setCurrentWidget( argSetTargetCoordINDI);
-		  
+
 		  ok = !sf->argVal(0).isEmpty();
 		  if (ok) r = sf->argVal(0).toDouble(&ok);
 		  else argSetTargetCoordINDI->RABox->clear();
@@ -1585,46 +1594,46 @@ void ScriptBuilder::slotArgWidget() {
 		  if (ok) d = sf->argVal(1).toDouble(&ok);
 		  else argSetTargetCoordINDI->DecBox->clear();
 		  if (ok) argSetTargetCoordINDI->DecBox->showInDegrees( dms(d) );
-		  
-		  
+
+
 		}
 		else if (sf->name() == "setINDITargetName") {
 		  sb->ArgStack->setCurrentWidget( argSetTargetNameINDI);
-		  
+
 		  argSetTargetNameINDI->targetName->setText(sf->argVal(0));
-		  
-		  
+
+
 		}
 		else if (sf->name() == "setINDIAction") {
 		  sb->ArgStack->setCurrentWidget( argSetActionINDI);
-		  
+
 		  argSetActionINDI->actionName->setText(sf->argVal(0));
-		  
-		  
+
+
 		}
 		else if (sf->name() == "waitForINDIAction") {
 		  sb->ArgStack->setCurrentWidget( argWaitForActionINDI);
-		  
+
 		  argWaitForActionINDI->actionName->setText(sf->argVal(0));
-		  
-		  
+
+
 		}
 		else if (sf->name() == "setINDIFocusSpeed") {
 		  int t(0);
 		  bool ok(false);
-		  
+
 		  sb->ArgStack->setCurrentWidget( argSetFocusSpeedINDI);
 
  		  t = sf->argVal(0).toInt(&ok);
 		  if (ok) argSetFocusSpeedINDI->speedIN->setValue(t);
 		  else argSetFocusSpeedINDI->speedIN->setValue(0);
-		  
-		  
+
+
 		}
 		else if (sf->name() == "startINDIFocus") {
 		  sb->ArgStack->setCurrentWidget( argStartFocusINDI);
 		  bool itemSet(false);
-		  
+
 		  for (int i=0; i < argStartFocusINDI->directionCombo->count(); i++)
 		  {
 		    if (argStartFocusINDI->directionCombo->itemText(i) == sf->argVal(0))
@@ -1634,29 +1643,29 @@ void ScriptBuilder::slotArgWidget() {
 		      break;
 		    }
 		  }
-		  
+
 		  if (!itemSet) argStartFocusINDI->directionCombo->setCurrentIndex(0);
-		  
-		  
+
+
 		}
 		else if (sf->name() == "setINDIFocusTimeout") {
 		  int t(0);
 		  bool ok(false);
-		  
+
 		  sb->ArgStack->setCurrentWidget( argSetFocusTimeoutINDI);
-		  
+
 		  t = sf->argVal(0).toInt(&ok);
 		  if (ok) argSetFocusTimeoutINDI->timeOut->setValue(t);
 		  else argSetFocusTimeoutINDI->timeOut->setValue(0);
-		  
-		  
+
+
 		  }
 		  else if (sf->name() == "setINDIGeoLocation") {
 		    bool ok(false);
 		    double lo(0.0),la(0.0);
-		  
+
 		    sb->ArgStack->setCurrentWidget( argSetGeoLocationINDI);
-		  
+
 		    ok = !sf->argVal(0).isEmpty();
 		    if (ok) lo = sf->argVal(0).toDouble(&ok);
 		    else argSetGeoLocationINDI->longBox->clear();
@@ -1666,29 +1675,29 @@ void ScriptBuilder::slotArgWidget() {
 		    if (ok) la = sf->argVal(1).toDouble(&ok);
 		    else argSetGeoLocationINDI->latBox->clear();
 		    if (ok) argSetGeoLocationINDI->latBox->showInDegrees( dms(la) );
-		    
+
 		  }
 		  else if (sf->name() == "startINDIExposure") {
 		    int t(0);
 		    bool ok(false);
-		  
+
 		    sb->ArgStack->setCurrentWidget( argStartExposureINDI);
-		  
+
 		    t = sf->argVal(0).toInt(&ok);
 		    if (ok) argStartExposureINDI->timeOut->setValue(t);
 		    else argStartExposureINDI->timeOut->setValue(0);
-		    
+
 		  }
 		  else if (sf->name() == "setINDIUTC") {
 		    sb->ArgStack->setCurrentWidget( argSetUTCINDI);
-		  
+
 		    argSetUTCINDI->UTC->setText(sf->argVal(0));
-		    
+
 		  }
 		  else if (sf->name() == "setINDIScopeAction") {
 		    sb->ArgStack->setCurrentWidget( argSetScopeActionINDI);
 		    bool itemSet(false);
-		  
+
 		    for (int i=0; i < argSetScopeActionINDI->actionCombo->count(); i++)
 		    {
 		      if (argSetScopeActionINDI->actionCombo->itemText(i) == sf->argVal(0))
@@ -1698,14 +1707,14 @@ void ScriptBuilder::slotArgWidget() {
 			break;
 		      }
 		    }
-		  
+
 		    if (!itemSet) argSetScopeActionINDI->actionCombo->setCurrentIndex(0);
-		  
+
 		  }
 		  else if (sf->name() == "setINDIFrameType") {
 		    sb->ArgStack->setCurrentWidget( argSetFrameTypeINDI);
 		    bool itemSet(false);
-		  
+
 		    for (int i=0; i < argSetFrameTypeINDI->typeCombo->count(); i++)
 		    {
 		      if (argSetFrameTypeINDI->typeCombo->itemText(i) == sf->argVal(0))
@@ -1715,31 +1724,31 @@ void ScriptBuilder::slotArgWidget() {
 			break;
 		      }
 		    }
-		  
+
 		    if (!itemSet) argSetFrameTypeINDI->typeCombo->setCurrentIndex(0);
-		  
+
 		  }
 		  else if (sf->name() == "setINDICCDTemp") {
 		    int t(0);
 		    bool ok(false);
-		  
+
 		    sb->ArgStack->setCurrentWidget( argSetCCDTempINDI);
-		  
+
 		    t = sf->argVal(0).toInt(&ok);
 		    if (ok) argSetCCDTempINDI->temp->setValue(t);
 		    else argSetCCDTempINDI->temp->setValue(0);
-		  
+
 		  }
 		  else if (sf->name() == "setINDIFilterNum") {
 		    int t(0);
 		    bool ok(false);
-		  
+
 		    sb->ArgStack->setCurrentWidget( argSetFilterNumINDI);
-		  
+
 		    t = sf->argVal(0).toInt(&ok);
 		    if (ok) argSetFilterNumINDI->filter_num->setValue(t);
 		    else argSetFilterNumINDI->filter_num->setValue(0);
-		  
+
 		  }
 	}
 }
@@ -1747,17 +1756,17 @@ void ScriptBuilder::slotArgWidget() {
 void ScriptBuilder::slotShowDoc() {
   ScriptFunction *sc = NULL, *found= NULL;
   QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
-	
+
   if ( currentItem == NULL || currentItem->parent() == 0)
     return;
-	
+
   foreach ( sc, KStarsFunctionList )
     if (sc->prototype() == currentItem->text(0))
 	{
 		found = sc;
       		break;
 	}
-  
+
   if (found == NULL)
   {
     foreach (sc, INDIFunctionList )
@@ -1767,7 +1776,7 @@ void ScriptBuilder::slotShowDoc() {
 		break;
 	}
   }
-	
+
   if (found == NULL)
   {
     sb->AddButton->setEnabled( false );
@@ -1826,17 +1835,17 @@ void ScriptBuilder::slotINDIFindObject() {
 
 void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
 {
-  
-   setUnsavedChanges(true);  
-  
+
+   setUnsavedChanges(true);
+
 }
 
 void ScriptBuilder::slotShowOptions() {
 	//Show tree-view of view options
 	if ( otv->exec() == QDialog::Accepted ) {
-		argChangeViewOption->OptionName->setCurrentIndex( 
-			argChangeViewOption->OptionName->findText( 
-			otv->optionsList()->currentItem()->text(0) ) 
+		argChangeViewOption->OptionName->setCurrentIndex(
+			argChangeViewOption->OptionName->findText(
+			otv->optionsList()->currentItem()->text(0) )
 		);
 	}
 }
@@ -2149,7 +2158,7 @@ void ScriptBuilder::slotExportImage() {
 
 	if ( sf->name() == "exportImage" ) {
 		setUnsavedChanges( true );
-		
+
 		sf->setArg( 0, argExportImage->ExportFileName->url() );
 		sf->setArg( 1, QString("%1").arg( argExportImage->ExportWidth->value() ) );
 		sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
@@ -2164,7 +2173,7 @@ void ScriptBuilder::slotPrintImage() {
 
 	if ( sf->name() == "printImage" ) {
 		setUnsavedChanges( true );
-		
+
 		sf->setArg( 0, ( argPrintImage->UsePrintDialog->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
 		sf->setValid( true );
@@ -2178,7 +2187,7 @@ void ScriptBuilder::slotChangeColorName() {
 
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
-		
+
 		argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentIndex() ) );
 		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
@@ -2195,7 +2204,7 @@ void ScriptBuilder::slotChangeColor() {
 
 	if ( sf->name() == "setColor" ) {
 		setUnsavedChanges( true );
-		
+
 		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
 		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
@@ -2211,7 +2220,7 @@ void ScriptBuilder::slotLoadColorScheme() {
 
 	if ( sf->name() == "loadColorScheme" ) {
 		setUnsavedChanges( true );
-		
+
 		sf->setArg( 0, '\"' + argLoadColorScheme->SchemeList->currentText() + '\"' );
 		sf->setValid( true );
 	} else {
@@ -2223,9 +2232,9 @@ void ScriptBuilder::slotClose()
 {
 	saveWarning();
 
-	if ( !UnsavedChanges ) 
+	if ( !UnsavedChanges )
 		close();
-	
+
 }
 
 void ScriptBuilder::slotINDIStartDeviceName()
@@ -2235,7 +2244,7 @@ void ScriptBuilder::slotINDIStartDeviceName()
   if ( sf->name() == "startINDI" )
   {
     setUnsavedChanges( true );
-    
+
     sf->setArg(0, argStartINDI->deviceName->text());
     sf->setArg(1, argStartINDI->LocalButton->isChecked() ? "true" : "false");
     sf->setValid(true);
@@ -2244,18 +2253,18 @@ void ScriptBuilder::slotINDIStartDeviceName()
   {
     warningMismatch( "startINDI" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDIStartDeviceMode()
 {
-  
+
   ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
   if ( sf->name() == "startINDI" )
   {
     setUnsavedChanges( true );
-    
+
     sf->setArg(1, argStartINDI->LocalButton->isChecked() ? "true" : "false");
     sf->setValid(true);
   }
@@ -2263,7 +2272,7 @@ void ScriptBuilder::slotINDIStartDeviceMode()
   {
     warningMismatch( "startINDI" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetDevice()
@@ -2274,7 +2283,7 @@ ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
   if ( sf->name() == "setINDIDevice" )
   {
     setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetDeviceINDI->deviceName->text());
     sf->setValid(true);
   }
@@ -2286,7 +2295,7 @@ ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
 void ScriptBuilder::slotINDIShutdown()
 {
-  
+
   ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
   if ( sf->name() == "shutdownINDI" )
@@ -2296,10 +2305,10 @@ void ScriptBuilder::slotINDIShutdown()
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argShutdownINDI->deviceName->text())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argShutdownINDI->deviceName->text());
     sf->setValid(true);
   }
@@ -2307,20 +2316,20 @@ void ScriptBuilder::slotINDIShutdown()
   {
     warningMismatch( "shutdownINDI" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISwitchDeviceConnection()
 {
-  
+
   ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
   if ( sf->name() == "switchINDI" )
   {
-    
+
     if (sf->argVal(0) != (argSwitchINDI->OnButton->isChecked() ? "true" : "false"))
     setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSwitchINDI->OnButton->isChecked() ? "true" : "false");
     sf->setValid(true);
   }
@@ -2328,7 +2337,7 @@ void ScriptBuilder::slotINDISwitchDeviceConnection()
   {
     warningMismatch( "switchINDI" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetPortDevicePort()
@@ -2337,16 +2346,16 @@ void ScriptBuilder::slotINDISetPortDevicePort()
 
   if ( sf->name() == "setINDIPort" )
   {
-    
+
     if (argSetPortINDI->devicePort->text().isEmpty())
     {
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argSetPortINDI->devicePort->text())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetPortINDI->devicePort->text());
     sf->setValid(true);
   }
@@ -2354,7 +2363,7 @@ void ScriptBuilder::slotINDISetPortDevicePort()
   {
     warningMismatch( "setINDIPort" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
@@ -2373,7 +2382,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
     dms ra = argSetTargetCoordINDI->RABox->createDms(false, &ok);
     if ( ok )
     {
-      
+
       if (sf->argVal(0) != QString( "%1" ).arg( ra.Hours() ))
       	setUnsavedChanges( true );
 
@@ -2391,7 +2400,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
   } else {
     warningMismatch( "setINDITargetCoord" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
@@ -2410,7 +2419,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
     dms dec = argSetTargetCoordINDI->DecBox->createDms(true, &ok);
     if ( ok )
     {
-      
+
       if (sf->argVal(1) != QString( "%1" ).arg( dec.Degrees() ))
       	setUnsavedChanges( true );
 
@@ -2419,7 +2428,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 	 sf->setValid( true );
       else
 	 sf->setValid(false);
-      
+
     } else
     {
       sf->setArg( 1, QString() );
@@ -2428,12 +2437,12 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
   } else {
     warningMismatch( "setINDITargetCoord" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetTargetNameTargetName()
 {
-  
+
   ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
   if ( sf->name() == "setINDITargetName" )
@@ -2443,10 +2452,10 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argSetTargetNameINDI->targetName->text())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetTargetNameINDI->targetName->text());
     sf->setValid(true);
   }
@@ -2454,7 +2463,7 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
   {
     warningMismatch( "setINDITargetName" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetActionName()
@@ -2468,10 +2477,10 @@ void ScriptBuilder::slotINDISetActionName()
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argSetActionINDI->actionName->text())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetActionINDI->actionName->text());
     sf->setValid(true);
   }
@@ -2493,10 +2502,10 @@ void ScriptBuilder::slotINDIWaitForActionName()
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argWaitForActionINDI->actionName->text())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argWaitForActionINDI->actionName->text());
     sf->setValid(true);
   }
@@ -2504,7 +2513,7 @@ void ScriptBuilder::slotINDIWaitForActionName()
   {
     warningMismatch( "waitForINDIAction" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetFocusSpeed()
@@ -2513,10 +2522,10 @@ void ScriptBuilder::slotINDISetFocusSpeed()
 
   if ( sf->name() == "setINDIFocusSpeed" )
   {
-    
+
     if (sf->argVal(0).toInt() != argSetFocusSpeedINDI->speedIN->value())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, QString("%1").arg(argSetFocusSpeedINDI->speedIN->value()));
     sf->setValid(true);
   }
@@ -2524,7 +2533,7 @@ void ScriptBuilder::slotINDISetFocusSpeed()
   {
     warningMismatch( "setINDIFocusSpeed" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDIStartFocusDirection()
@@ -2535,7 +2544,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
   {
     if (sf->argVal(0) != argStartFocusINDI->directionCombo->currentText())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argStartFocusINDI->directionCombo->currentText());
     sf->setValid(true);
   }
@@ -2543,7 +2552,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
   {
     warningMismatch( "startINDIFocus" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetFocusTimeout()
@@ -2554,7 +2563,7 @@ void ScriptBuilder::slotINDISetFocusTimeout()
   {
     if (sf->argVal(0).toInt() != argSetFocusTimeoutINDI->timeOut->value())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, QString("%1").arg(argSetFocusTimeoutINDI->timeOut->value()));
     sf->setValid(true);
   }
@@ -2562,7 +2571,7 @@ void ScriptBuilder::slotINDISetFocusTimeout()
   {
     warningMismatch( "setINDIFocusTimeout" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
@@ -2580,7 +2589,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
     bool ok(false);
     dms longitude = argSetGeoLocationINDI->longBox->createDms(true, &ok);
     if ( ok ) {
-      
+
       if (sf->argVal(0) != QString( "%1" ).arg( longitude.Degrees()))
       	setUnsavedChanges( true );
 
@@ -2598,7 +2607,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
   } else {
     warningMismatch( "setINDIGeoLocation" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
@@ -2616,7 +2625,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
     bool ok(false);
     dms latitude = argSetGeoLocationINDI->latBox->createDms(true, &ok);
     if ( ok ) {
-      
+
       if (sf->argVal(1) != QString( "%1" ).arg( latitude.Degrees()))
       	setUnsavedChanges( true );
 
@@ -2626,7 +2635,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
       else
 	 sf->setValid(false);
 
-    } else 
+    } else
     {
       sf->setArg( 1, QString() );
       sf->setValid( false );
@@ -2634,7 +2643,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
   } else {
     warningMismatch( "setINDIGeoLocation" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDIStartExposureTimeout()
@@ -2643,10 +2652,10 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
 
   if ( sf->name() == "startINDIExposure" )
   {
-    
+
     if (sf->argVal(0).toInt() != argStartExposureINDI->timeOut->value())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, QString("%1").arg(argStartExposureINDI->timeOut->value()));
     sf->setValid(true);
   }
@@ -2654,7 +2663,7 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
   {
     warningMismatch( "startINDIExposure" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetUTC()
@@ -2663,16 +2672,16 @@ void ScriptBuilder::slotINDISetUTC()
 
   if ( sf->name() == "setINDIUTC" )
   {
-    
+
     if (argSetUTCINDI->UTC->text().isEmpty())
     {
       sf->setValid(false);
       return;
     }
-    
+
     if (sf->argVal(0) != argSetUTCINDI->UTC->text())
     setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetUTCINDI->UTC->text());
     sf->setValid(true);
   }
@@ -2680,7 +2689,7 @@ void ScriptBuilder::slotINDISetUTC()
   {
     warningMismatch( "setINDIUTC" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetScopeAction()
@@ -2689,10 +2698,10 @@ void ScriptBuilder::slotINDISetScopeAction()
 
   if ( sf->name() == "setINDIScopeAction" )
   {
-    
+
     if (sf->argVal(0) != argSetScopeActionINDI->actionCombo->currentText())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetScopeActionINDI->actionCombo->currentText());
     sf->setINDIProperty("CHECK");
     sf->setValid(true);
@@ -2701,7 +2710,7 @@ void ScriptBuilder::slotINDISetScopeAction()
   {
     warningMismatch( "setINDIScopeAction" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetFrameType()
@@ -2710,10 +2719,10 @@ void ScriptBuilder::slotINDISetFrameType()
 
   if ( sf->name() == "setINDIFrameType" )
   {
-    
+
     if (sf->argVal(0) != argSetFrameTypeINDI->typeCombo->currentText())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, argSetFrameTypeINDI->typeCombo->currentText());
     sf->setValid(true);
   }
@@ -2721,7 +2730,7 @@ void ScriptBuilder::slotINDISetFrameType()
   {
     warningMismatch( "setINDIFrameType" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetCCDTemp()
@@ -2730,10 +2739,10 @@ void ScriptBuilder::slotINDISetCCDTemp()
 
   if ( sf->name() == "setINDICCDTemp" )
   {
-    
+
     if (sf->argVal(0).toInt() != argSetCCDTempINDI->temp->value())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, QString("%1").arg(argSetCCDTempINDI->temp->value()));
     sf->setValid(true);
   }
@@ -2741,7 +2750,7 @@ void ScriptBuilder::slotINDISetCCDTemp()
   {
     warningMismatch( "setINDICCDTemp" );
   }
-  
+
 }
 
 void ScriptBuilder::slotINDISetFilterNum()
@@ -2751,10 +2760,10 @@ void ScriptBuilder::slotINDISetFilterNum()
 
   if ( sf->name() == "setINDIFilterNum" )
   {
-    
+
     if (sf->argVal(0).toInt() != argSetFilterNumINDI->filter_num->value())
     	setUnsavedChanges( true );
-    
+
     sf->setArg(0, QString("%1").arg(argSetFilterNumINDI->filter_num->value()));
     sf->setValid(true);
   }
@@ -2769,5 +2778,5 @@ void ScriptBuilder::slotINDISetFilterNum()
 void ScriptBuilder::warningMismatch (const QString &expected) const {
 	kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) << endl;
 }
-	
+
 #include "scriptbuilder.moc"

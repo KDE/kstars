@@ -19,7 +19,6 @@
 #include <QStackedWidget>
 #include <QPixmap>
 
-#include <kdialog.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
@@ -48,19 +47,17 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-KSWizard::KSWizard( QWidget *parent )
- : KDialog( parent, i18n("KStars Startup Wizard"), 
-		KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel, 0, 
-		KGuiItem( i18n("&Next") + QString(" >"), QString(), 
-			i18n("Go to next Wizard page") ),
-		KGuiItem( QString("< ") + i18n("&Back"), QString(), 
-			i18n("Go to previous Wizard page") ) )
+KSWizard::KSWizard( KStars *_ks )
+ : KDialog( _ks ),  ksw( _ks )
 {
-	ksw = (KStars *)parent;
 	GeoID.resize(10000);
-	
+
 	wizardStack = new QStackedWidget( this );
 	setMainWidget( wizardStack );
+        setCaption( i18n("KStars Startup Wizard") );
+        setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
+        setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page") ) );
+        setButtonGuiItem( KDialog::User2, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
 
 	welcome  = new WizWelcomeUI( wizardStack );
 	location = new WizLocationUI( wizardStack );
@@ -76,19 +73,19 @@ KSWizard::KSWizard( QWidget *parent )
 	//Load images into banner frames.
 	QFile imFile;
 	QPixmap im = QPixmap();
-	
+
 	if ( KSUtils::openDataFile( imFile, "wzstars.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.fileName() );
 	}
 	welcome->Banner->setPixmap( im );
-	
+
 	if ( KSUtils::openDataFile( imFile, "wzgeo.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.fileName() );
 	}
 	location->Banner->setPixmap( im );
-	
+
 	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.fileName() );
@@ -110,16 +107,16 @@ KSWizard::KSWizard( QWidget *parent )
 	connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( devices->TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
 	connect( download->DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
-	
+
 	//Disable Back button
-	user2Button()->setEnabled( false );
+	enableButton( KDialog::User2, false );
 
 	//Initialize Geographic Location page
 	initGeoPage();
 }
 
 //Do NOT delete members of filteredCityList!  They are not created by KSWizard.
-KSWizard::~KSWizard() 
+KSWizard::~KSWizard()
 {
 	delete welcome;
 	delete location;
@@ -129,18 +126,18 @@ KSWizard::~KSWizard()
 
 void KSWizard::slotNextPage() {
 	wizardStack->setCurrentIndex( wizardStack->currentIndex() + 1 );
-	if ( wizardStack->currentIndex() == wizardStack->count() - 1 ) 
-		user1Button()->setEnabled( false );
+	if ( wizardStack->currentIndex() == wizardStack->count() - 1 )
+		enableButton( KDialog::User1, false );
 
-	user2Button()->setEnabled( true );
+	enableButton( KDialog::User2, true );
 }
 
 void KSWizard::slotPrevPage() {
 	wizardStack->setCurrentIndex( wizardStack->currentIndex() - 1 );
-	if ( wizardStack->currentIndex() == 0 ) 
-		user2Button()->setEnabled( false );
+	if ( wizardStack->currentIndex() == 0 )
+		enableButton( KDialog::User2, false );
 
-	user1Button()->setEnabled( true );
+	enableButton( KDialog::User1, true );
 }
 
 void KSWizard::initGeoPage() {
@@ -153,23 +150,23 @@ void KSWizard::initGeoPage() {
 	foreach ( GeoLocation *loc, ksw->data()->geoList ) {
 		location->CityListBox->insertItem( loc->fullName() );
 		filteredCityList.append( loc );
-		
+
 		if ( loc->fullName() == ksw->data()->geo()->fullName() ) {
 			index = ksw->data()->geoList.indexOf( loc );
 			Geo = loc;
 		}
 	}
-	
+
 	//Sort alphabetically
 	location->CityListBox->sort();
-	
+
 	//preset to current city
 	location->CityListBox->setCurrentItem( index + 1 );
 }
 
 void KSWizard::slotChangeCity() {
 	Geo = 0L;
-	
+
 	if ( location->CityListBox->currentItem() >= 0 ) {
 		for ( int i=0; i < filteredCityList.size(); ++i ) {
 			if ( filteredCityList[i]->fullName() == location->CityListBox->currentText() ) {
@@ -202,7 +199,7 @@ void KSWizard::slotFilterCities() {
 			filteredCityList.append( loc );
 		}
 	}
-	
+
 	location->CityListBox->sort();
 
 	if ( location->CityListBox->firstItem() )  // set first item in list as selected

@@ -28,34 +28,32 @@ int SimClock::idgen = 1;
 int SimClock::TimerInterval = 100; //msec
 
 SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
-		DCOPObject("clock#" + Q3CString().setNum(idgen++)),
 		QObject(parent),
 		tmr(this)
 {
+        QDBus::sessionBus().registerObject("/kstars/SimClock",  this, QDBusConnection::ExportSlots);
 	if (! when.isValid() ) tmr.stop();
 	setUTC(when);
 	julianmark = UTC.djd();
-	
-	Scale = 1.0;
+
+        Scale = 1.0;
 	ManualMode = false;
 	ManualActive = false;
-	
+
 	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 SimClock::SimClock (const SimClock &old) :
-		DCOPObject("clock#" + Q3CString().setNum(idgen++)),
 		QObject(old.parent()),
-		SimClockInterface(),
 		tmr(this)
 {
 	UTC = old.UTC;
 	julianmark = old.julianmark;
-	
+
 	Scale = old.Scale;
 	ManualMode = old.ManualMode;
 	ManualActive = old.ManualActive;
-	
+
 	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
@@ -63,7 +61,7 @@ void SimClock::tick() {
 	if ( ! ManualMode ) { //only tick if ManualMode is false
 		long mselapsed = sysmark.elapsed();
 		if (mselapsed < lastelapsed) {
-			// The sysmark timer has wrapped after 24 hours back to 0 ms.  
+			// The sysmark timer has wrapped after 24 hours back to 0 ms.
 			// Reset sysmark and julianmark
 			julianmark = UTC.djd();
 			sysmark.start();
@@ -85,8 +83,8 @@ void SimClock::tick() {
 
 void SimClock::setManualMode( bool on ) {
 	if ( on ) {
-		//Turn on manual ticking.  
-		//If the timer was active, stop the timer and set ManualActive=true.  
+		//Turn on manual ticking.
+		//If the timer was active, stop the timer and set ManualActive=true.
 		//Otherwise, set ManualActive=false.
 		//Finally, set ManualMode=true.
 		if ( tmr.isActive() ) {
@@ -120,7 +118,6 @@ bool SimClock::isActive() {
 	else return tmr.isActive();
 }
 
-// The SimClockInterface
 void SimClock::stop() {
 	if ( ManualMode && ManualActive ) {
 		ManualActive = false;
@@ -163,7 +160,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
 			sysmark.start();
 			lastelapsed = 0;
 		}
-		
+
 		kDebug() << i18n( "Setting clock:  UTC: %1  JD: %2" ,
 				  UTC.toString(), KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
 		emit timeChanged();
@@ -185,7 +182,6 @@ void SimClock::setScale(float s) {
 	}
 }
 
-//DCOP function to set clock scale
 void SimClock::setClockScale(float s) {
 	setScale(s);
 }

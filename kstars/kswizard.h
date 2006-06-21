@@ -19,13 +19,13 @@
 #define KSWIZARD_H_
 
 #include <Q3MemArray>
+#include <kdialog.h>
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
 #include "ui_wizdevices.h"
 #include "ui_wizdownload.h"
 
-class KDialog;
 class GeoLocation;
 class KStars;
 class KPushButton;
@@ -72,7 +72,7 @@ public:
 		*Constructor
 		*@p parent pointer to the parent widget
 		*/
-	KSWizard( QWidget *parent=0 );
+	KSWizard( KStars *_ks );
 
 	/**Destructor */
 	~KSWizard();
@@ -109,9 +109,6 @@ private:
 		*/
 	void initGeoPage();
 	
-	KPushButton* user1Button() { return actionButton( KDialog::User1 ); }
-	KPushButton* user2Button() { return actionButton( KDialog::User2 ); }
-
 	QStackedWidget *wizardStack;
 	WizWelcomeUI *welcome;
 	WizLocationUI *location;

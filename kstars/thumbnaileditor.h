@@ -21,7 +21,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "ui_thumbnaileditor.h"
 
@@ -34,11 +34,11 @@ class ThumbnailEditorUI : public QFrame, public Ui::ThumbnailEditor {
 		ThumbnailEditorUI( QWidget *parent );
 };
 
-class ThumbnailEditor : public KDialogBase
+class ThumbnailEditor : public KDialog
 {
 Q_OBJECT
 public:
-	ThumbnailEditor( QWidget *parent, const char *name=0 );
+	ThumbnailEditor( ThumbnailPicker *_tp );
 	~ThumbnailEditor();
 	QPixmap thumbnail();
 

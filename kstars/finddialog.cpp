@@ -44,12 +44,13 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 	SearchList->setMinimumHeight( 320 );
 }
 
-FindDialog::FindDialog( QWidget* parent ) :
-		KDialog( parent, i18n( "Find Object" ), Ok|Cancel ),
-		currentitem(0), Filter(0)
+FindDialog::FindDialog( QWidget* parent )
+    : KDialog( parent ), currentitem(0), Filter(0)
 {
 	ui = new FindDialogUI( this );
 	setMainWidget( ui );
+        setCaption( i18n( "Find Object" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 //Connect signals to slots
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
@@ -96,7 +97,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 				index += 1000;
 				kapp->processEvents();
 			}
-		} else 
+		} else
 			ui->SearchList->addItems( ObjNames );
 
 		selectFirstItem(); // Automatically highlight first item
@@ -136,10 +137,10 @@ void FindDialog::updateSelection() {
 }
 
 void FindDialog::setFilter( int f ) {
-        // Translate the Listbox index to the correct SkyObject Type ID 
+        // Translate the Listbox index to the correct SkyObject Type ID
         int f2( f ); // in most cases, they are the same number
 	if ( f >= 7 ) f2 = f + 1; //need to skip unused "Supernova Remnant" Type at position 7
-	
+
         // check if filter was changed or if filter is still the same
 	if ( Filter != f2 ) {
 		Filter = f2;
@@ -174,16 +175,16 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 			if ( ui->SearchList->currentRow() < ((int) ui->SearchList->count()) - 1 )
 				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() + 1 );
 			break;
-			
+
 		case Qt::Key_Up :
 			if ( ui->SearchList->currentRow() )
 				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() - 1 );
 			break;
-			
+
 		case Qt::Key_Escape :
 			reject();
 			break;
-			
+
 	}
 }
 

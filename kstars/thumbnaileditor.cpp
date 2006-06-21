@@ -33,17 +33,13 @@ ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
- : KDialogBase( KDialogBase::Plain, i18n( "Edit Thumbnail Image" ), Ok|Cancel, Ok, parent, name )
+ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp )
+ : KDialog( _tp ),  tp( _tp )
 {
-	tp = (ThumbnailPicker*)parent;
-
-	QFrame *page = plainPage();
-	QHBoxLayout *hlay = new QHBoxLayout( page );
-	hlay->setMargin( 0 );
-	hlay->setSpacing( 0 );
-	ui = new ThumbnailEditorUI( page );
-	hlay->addWidget( ui );
+	ui = new ThumbnailEditorUI( this );
+        setMainWidget( ui );
+        setCaption( i18n( "Edit Thumbnail Image" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
 		tp->imageRect()->width(), tp->imageRect()->height() );

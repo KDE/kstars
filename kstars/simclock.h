@@ -19,9 +19,10 @@
 #define KSTARS_SIMCLOCK_H__
 
 #include <time.h>
-#include <qtimer.h>
 
-#include "simclockinterface.h"
+#include <dbus/qdbus.h>
+#include <QTimer>
+
 #include "kstarsdatetime.h"
 
 /**@class SimClock
@@ -30,8 +31,10 @@
 	*@version 1.0
 	*/
 
-class SimClock : public QObject, public SimClockInterface {
+class SimClock : public QObject 
+{
 	Q_OBJECT
+	Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.SimClock")
 
 	public:
 		/**
@@ -77,21 +80,21 @@ class SimClock : public QObject, public SimClockInterface {
 	/**Sets Manual Mode on/off according to the bool argument. */
 		void setManualMode( bool on=true );
 
+	public Q_SLOTS:
+		
 	/**DCOP function to stop the SimClock. */
-		virtual ASYNC stop();
+		Q_SCRIPTABLE Q_ASYNC void stop();
 
 	/**DCOP function to start the SimClock. */
-		virtual ASYNC start();
+		Q_SCRIPTABLE Q_ASYNC void start();
 
 	/**DCOP function to set the time of the SimClock. */
-		virtual ASYNC setUTC(const KStarsDateTime &newtime);
+		Q_SCRIPTABLE Q_ASYNC void setUTC(const KStarsDateTime &newtime);
 
 	/**DCOP function to set scale of simclock.  Calls setScale().
 		*/
-		virtual ASYNC setClockScale(float s);
+		Q_SCRIPTABLE Q_ASYNC void setClockScale(float s);
 	
-	public slots:
-		
 		/**Adjust the clock timescale*/
 		void setScale(float s);
 

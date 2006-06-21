@@ -47,11 +47,12 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 }
 
 PlanetViewer::PlanetViewer(QWidget *parent)
-	: KDialog( parent, i18n("Solar System Viewer"), KDialog::Close ),
-		scale(1.0), isClockRunning(false), tmr(this)
+	: KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
 {
 	pw = new PlanetViewerUI( this );
 	setMainWidget( pw );
+        setCaption( i18n("Solar System Viewer") );
+        setButtons( KDialog::Close );
 
 	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
 	pw->map->axis( KPlotWidget::BottomAxis )->setLabel( i18nc( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );

@@ -43,16 +43,15 @@ ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent )
- : KDialog( parent, i18n( "Choose Thumbnail Image" ), Ok|Cancel ),
-		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
+ : KDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
 	Image = new QPixmap( current );
 	ImageRect = new QRect( 0, 0, 200, 200 );
 
 	ui = new ThumbnailPickerUI( this );
 	setMainWidget( ui );
-
-	setWindowTitle(i18n( "Choose Thumbnail Image" ));
+        setCaption( i18n( "Choose Thumbnail Image" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	ui->CurrentImage->setPixmap( *Image );
 

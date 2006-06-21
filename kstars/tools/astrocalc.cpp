@@ -38,13 +38,15 @@
 #include "modcalcvlsr.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :
-	KDialog( parent, i18n("Calculator"), KDialog::Close ),
-	JDFrame(0), GeodCoordFrame(0), GalFrame(0), SidFrame(0), PrecFrame(0),
-	AppFrame(0), DayFrame(0), AzelFrame(0), PlanetsFrame(0), EquinoxFrame(0),
+	KDialog( parent ), JDFrame(0), GeodCoordFrame(0),
+        GalFrame(0), SidFrame(0), PrecFrame(0), AppFrame(0),
+        DayFrame(0), AzelFrame(0), PlanetsFrame(0), EquinoxFrame(0),
 	EclFrame(0), AngDistFrame(0)
 {
 	split = new QSplitter ( this );
 	setMainWidget(split);
+        setCaption( i18n("Calculator") );
+        setButtons( KDialog::Close );
 
 	navigationPanel = new QTreeWidget(split);
 	navigationPanel->setColumnCount(1);

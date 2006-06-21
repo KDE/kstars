@@ -15,25 +15,25 @@
  *                                                                         *
  *  									   *
  ***************************************************************************/
- 
+
  #include <klocale.h>
- #include <kimageeffect.h> 
+ #include <kimageeffect.h>
  #include <kdebug.h>
- 
+
  #include <qslider.h>
  #include <qimage.h>
  #include <qdatetime.h>
  #include <knuminput.h>
- 
+
  #include <stdlib.h>
- 
- 
+
+
  #include "conbridlg.h"
  #include "fitsviewer.h"
  #include "fitsimage.h"
- 
+
  #define REFRESH 500
- 
+
 //TODO find a better and faster way to implement this, this operation can be memory and CPU intensive.
 
 ConBriUI::ConBriUI(QWidget *parent) : QFrame(parent)
@@ -42,10 +42,13 @@ ConBriUI::ConBriUI(QWidget *parent) : QFrame(parent)
 }
 
 ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
-    KDialogBase(KDialogBase::Plain, i18n( "Brightness/Contrast" ), Ok|Cancel, Ok, parent )
+    KDialog( parent )
 {
- #if 0
-    
+    setCaption( i18n( "Brightness/Contrast" ) );
+    setButtons( KDialog::Ok|KDialog::Cancel );
+
+#if 0
+
   float pixdiff, datadiff;
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
@@ -53,31 +56,31 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   tempImage    = new QImage(displayImage->copy());
   width  = displayImage->width();
   height = displayImage->height();
-  
+
   datadiff = 255;
   pixdiff  = viewer->stats.max - viewer->stats.min;
   offs = - (viewer->stats.min * datadiff / pixdiff);
   scale = datadiff / pixdiff;
-  
+
   ConBriDlg = new ConBriUI(this);
   if (!ConBriDlg) return;
-  
+
   localImgBuffer = (float *) malloc (width * height * sizeof(float));
   if (!localImgBuffer)
   {
     kDebug() << "Not enough memory for local image buffer" << endl;
     return;
   }
-  
+
   memcpy(localImgBuffer, viewer->imgBuffer, width * height * sizeof(float));
-  
+
   setMainWidget(ConBriDlg);
   show();
-  
+
   connect(ConBriDlg->conSlider, SIGNAL( valueChanged(int)), this, SLOT (setContrast(int )));
   connect(ConBriDlg->briSlider, SIGNAL( valueChanged(int)), this, SLOT (setBrightness(int)));
  #endif
-  
+
 }
 
 ContrastBrightnessDlg::~ContrastBrightnessDlg()
@@ -110,13 +113,13 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
   QColor myCol;
   contrast = contrastValue;
 
- 
+
   // Apply Contrast and brightness
   for (int i=0 ; i < height ; i++)
            for (int j=0; j < width; j++)
 	   {
 		val  = (int) *(viewer->image->templateImage->scanLine(i) + j);
-		
+
 		if (contrast)
 		{
 			if (val < 128)
@@ -136,29 +139,29 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
                 	if ( brightness < 0 )
                 		val += brightness;
                 	else
-			{      
+			{
 			        myCol = myCol.light(100+(brightness));
 				val   = myCol.red();
 			}
-			
+
 			range(0, 255, val);
 		}
-		 
+
 		localImgBuffer[(height - i - 1) * width + j] = (val - offs) / scale;
 	   }
-	   
-	   
-  
+
+
+
   for (int i=0; i < totalPix; i++)
   {
     if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
     else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];
   }
-  
+
   float pixdiff_b  = max - min;
   float offs_b     = - (min * 255 / pixdiff_b);
   float scale_b    = 255 / pixdiff_b;
-  
+
   for (int i=0; i < height; i++)
   	for (int j=0; j < width; j++)
 	{
@@ -167,10 +170,10 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
 		range(0, 255, val);
   		displayImage->setPixel(j, height - i - 1, val);
 	}
-  
-  viewer->image->zoomToCurrent();	
 
- #endif		  
+  viewer->image->zoomToCurrent();
+
+ #endif
 }
 
 void ContrastBrightnessDlg::setBrightness(int brightnessValue)
@@ -187,7 +190,7 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
            for (int j=0; j < width; j++)
 	   {
 		val  = (int) *(viewer->image->templateImage->scanLine(i) + j);
-		
+
 		if (contrast)
 		{
 			if (val < 128)
@@ -207,29 +210,29 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
                 	if ( brightness < 0 )
                 		val += brightness;
                 	else
-			{      
+			{
 			        myCol = myCol.light(100+(brightness));
 				val   = myCol.red();
 			}
-			
+
 			range(0, 255, val);
 		}
-		 
+
 		localImgBuffer[(height - i - 1) * width + j] = (val - offs) / scale;
-		
-		
+
+
 	   }
-  
+
   for (int i=0; i < totalPix; i++)
   {
     if (localImgBuffer[i] < min) min = (int) localImgBuffer[i];
     else if (localImgBuffer[i] > max) max = (int) localImgBuffer[i];
   }
-  
+
   float pixdiff_b  = max - min;
   float offs_b     = - (min * 255 / pixdiff_b);
   float scale_b    = 255 / pixdiff_b;
-  
+
   for (int i=0; i < height; i++)
   	for (int j=0; j < width; j++)
 	{
@@ -238,7 +241,7 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
 		range(0, 255, val);
   		displayImage->setPixel(j, height - i - 1, val);
 	}
-   
+
   viewer->image->zoomToCurrent();
  #endif
 }

@@ -23,7 +23,8 @@
 #include <QPaintEvent>
 #include <QCloseEvent>
 
-#include <kdialogbase.h>
+#include <QDialog>
+//#include <kdialog.h>
 
 /**@class KStarsSplash
 	*The KStars Splash Screen.  The splash screen shows the KStars logo and 
@@ -35,14 +36,14 @@
 
 class QLabel;
 
-class KStarsSplash : public KDialogBase
+class KStarsSplash : public QDialog
 {
 	Q_OBJECT
 
 	public:
 	/**Constructor. Create widgets.  Load KStars logo.  Start load timer.
 		*/
-		KStarsSplash( QWidget *parent, const char* name );
+		KStarsSplash( QWidget *parent );
 
 	/**Destructor
 		*/
@@ -54,20 +55,13 @@ class KStarsSplash : public KDialogBase
 		void setMessage(const QString &s);
 
 	protected:
-	/**Paint event to redraw the widgets.  This only gets called when the timer fires.
-		*It should also repaint if another window was on top of the splash screen, but
-		*this may be difficult to implement (it may be that the program is too busy loading data
-		*to notice that a redraw is required).
-		*/
-		virtual void paintEvent( QPaintEvent* );
-
 	/**If the user clicks on the "X" close-window button, then abort loading 
 		*as soon as possible and shut down the program.
 		*/
 		void closeEvent( QCloseEvent *e );
 
-		signals:
-			void closeWindow();
+	signals:
+		void closeWindow();
 
 	private:
 		QLabel *textCurrentStatus, *label, *Banner;

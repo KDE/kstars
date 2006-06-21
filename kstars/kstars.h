@@ -21,14 +21,11 @@
 #include <config.h>
 #endif
 
-#include <dcopclient.h>
+#include <dbus/qdbus.h>
 #include <kapplication.h>
 #include <kmainwindow.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
 
-#include "kstarsinterface.h"
+
 #include "tools/observinglist.h"
 
 // forward declaration is enough. We only need pointers
@@ -66,10 +63,11 @@ class imagesequence;
 	*@version 1.0
 	*/
 
-class KStars : public KMainWindow, virtual public KStarsInterface
+class KStars : public KMainWindow
 {
-
   Q_OBJECT
+  Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
+
   public:
 	/**
 		*@short Constructor.
@@ -131,39 +129,46 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		void removeColorMenuItem( const QString &actionName );
 
+	/**@short Apply config options throughout the program.
+		*In most cases, options are set in the "Options" object directly, 
+		*but for some things we have to manually react to config changes.
+		*/
+		void applyConfig();
+
+	public Q_SLOTS:
 	/**DCOP interface function.  
 		*Set focus to given Ra/Dec coordinates 
 		*@param ra the Right Ascension coordinate for the focus (in Hours)
 		*@param dec the Declination coordinate for the focus (in Degrees)
 		*/
-		ASYNC setRaDec( double ra, double dec );
+		Q_SCRIPTABLE Q_ASYNC void setRaDec( double ra, double dec );
 
 	/**DCOP interface function.  
 		*Set focus to given Alt/Az coordinates. 
 		*@param alt the Altitude coordinate for the focus (in Degrees)
 		*@param az the Azimuth coordinate for the focus (in Degrees)
 		*/
-		ASYNC setAltAz(double alt, double az);
+		Q_SCRIPTABLE Q_ASYNC void setAltAz(double alt, double az);
 
 	/**DCOP interface function.
 		*Point in the direction described by the string argument.  
 		*@param direction either an object name, a compass direction (e.g., "north"), or "zenith"
 		*/
-		ASYNC lookTowards( const QString &direction );
+		Q_SCRIPTABLE Q_ASYNC void lookTowards( const QString &direction );
 
 	/**DCOP interface function.  Zoom in one step. */
-		ASYNC zoomIn() { slotZoomIn(); };
+		Q_SCRIPTABLE Q_ASYNC void zoomIn() { slotZoomIn(); };
 
 	/**DCOP interface function.  Zoom out one step. */
-		ASYNC zoomOut(){ slotZoomOut(); };
+		Q_SCRIPTABLE Q_ASYNC void zoomOut(){ slotZoomOut(); };
 
 	/**DCOP interface function.  reset to the default zoom level. */
-		ASYNC defaultZoom() { slotDefaultZoom(); }
+		Q_SCRIPTABLE Q_ASYNC void defaultZoom() { slotDefaultZoom(); }
 
 	/**DCOP interface function.  Set zoom level to specified value. 
 		*@param z the zoom level.  Units are pixels per radian.
 		*/
-		ASYNC zoom(double z);
+		Q_SCRIPTABLE Q_ASYNC void zoom(double z);
 
 	/**DCOP interface function.  Set local time and date. 
 		*@param yr year of date
@@ -173,28 +178,28 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param min minute of time
 		*@param sec second of time
 		*/
-		ASYNC setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
+		Q_SCRIPTABLE Q_ASYNC void setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
 	/**DCOP interface function.  Delay further execution of DCOP commands. 
 		*@param t number of seconds to delay
 		*/
-		ASYNC waitFor( double t );
+		Q_SCRIPTABLE Q_ASYNC void waitFor( double t );
 
 	/**DCOP interface function.  Pause further DCOP execution until a key is pressed. 
 		*@param k the key which will resume DCOP execution
 		*/
-		ASYNC waitForKey( const QString &k );
+		Q_SCRIPTABLE Q_ASYNC void waitForKey( const QString &k );
 
 	/**DCOP interface function.  Toggle tracking. 
 		*@param track engage tracking if true; else disengage tracking
 		*/
-		ASYNC setTracking( bool track );
+		Q_SCRIPTABLE Q_ASYNC void setTracking( bool track );
 
 	/**DCOP interface function.  modify a view option. 
 		*@param option the name of the option to be modified
 		*@param value the option's new value
 		*/
-		ASYNC changeViewOption( const QString &option, const QString &value );
+		Q_SCRIPTABLE Q_ASYNC void changeViewOption( const QString &option, const QString &value );
 
 	/**DCOP interface function.
 		*@param name the name of the option to query
@@ -207,14 +212,14 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*after having modified the settings in memory.
 		*@sa writeConfig()
 		*/
-		ASYNC readConfig();
+		Q_SCRIPTABLE Q_ASYNC void readConfig();
 
 	/**DCOP interface function.  Write current settings to config file. 
 		*This function is useful for storing user settings before modifying them with a DCOP
 		*script.  The original settings can be restored with readConfig().
 		*@sa readConfig()
 		*/
-		ASYNC writeConfig();
+		Q_SCRIPTABLE Q_ASYNC void writeConfig();
 
 	/**DCOP interface function.  Show text message in a popup window. 
 		*@note Not Yet Implemented
@@ -222,7 +227,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param y y-coordinate for message window
 		*@param message the text to display in the message window
 		*/
-		ASYNC popupMessage( int x, int y, const QString &message );
+		Q_SCRIPTABLE Q_ASYNC void popupMessage( int x, int y, const QString &message );
 
 	/**DCOP interface function.  Draw a line on the sky map. 
 		*@note Not Yet Implemented
@@ -232,180 +237,172 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param y2 ending y-coordinate of line
 		*@param speed speed at which line should appear from start to end points (in pixels per second)
 		*/
-		ASYNC drawLine( int x1, int y1, int x2, int y2, int speed );
+		Q_SCRIPTABLE Q_ASYNC void drawLine( int x1, int y1, int x2, int y2, int speed );
 
 	/**DCOP interface function.  Set the geographic location. 
 		*@param city the city name of the location
 		*@param province the province name of the location
 		*@param country the country name of the location
 		*/
-		ASYNC setGeoLocation( const QString &city, const QString &province, const QString &country );
+		Q_SCRIPTABLE Q_ASYNC void setGeoLocation( const QString &city, const QString &province, const QString &country );
 
 	/**DCOP interface function.  Modify a color. 
 		*@param colorName the name of the color to be modified (e.g., "SkyColor")
 		*@param value the new color to use
 		*/
-		ASYNC setColor( const QString &colorName, const QString &value );
+		Q_SCRIPTABLE Q_ASYNC void setColor( const QString &colorName, const QString &value );
 
 	/**DCOP interface function.  Load a color scheme. 
 		*@param name the name of the color scheme to load (e.g., "Moonless Night")
 		*/
-		ASYNC loadColorScheme( const QString &name );
+		Q_SCRIPTABLE Q_ASYNC void loadColorScheme( const QString &name );
 
 	/**DCOP interface function.  Export the sky image to a file. 
 		*@param filename the filename for the exported image
 		*@param width the width for the exported image
 		*@param height the height for the exported image
 		*/
-		ASYNC exportImage( const QString &filename, int width, int height );
+		Q_SCRIPTABLE Q_ASYNC void exportImage( const QString &filename, int width, int height );
 
 	/**DCOP interface function.  Print the sky image. 
 		*@param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
 		*@param useChartColors if true, the "Star Chart" color scheme will be used for the printout, which will save ink.
 		*/
-		ASYNC printImage( bool usePrintDialog, bool useChartColors );
+		Q_SCRIPTABLE Q_ASYNC void printImage( bool usePrintDialog, bool useChartColors );
 		
 	/**DCOP interface function.  Establish an INDI driver. 
 		*@param deviceName The INDI device name
 		*@param useLocal establish driver locally?
 		*/
-		ASYNC startINDI (const QString &deviceName, bool useLocal);
+		Q_SCRIPTABLE Q_ASYNC void startINDI (const QString &deviceName, bool useLocal);
 		
 	/**DCOP interface function. Set current device. All subsequent functions will
 		 communicate with this device until changed.
 		 *@param deviceName The INDI device name
 		*/
-		ASYNC setINDIDevice (const QString &deviceName);
+		Q_SCRIPTABLE Q_ASYNC void setINDIDevice (const QString &deviceName);
 
 	/**DCOP interface function. Shutdown an INDI driver. 
 		*@param driverName the name of the driver to be shut down
 		*/
-		ASYNC shutdownINDI (const QString &driverName);
+		Q_SCRIPTABLE Q_ASYNC void shutdownINDI (const QString &driverName);
 		
 	/**DCOP interface function.  Turn INDI driver on/off. 
 		*@param turnOn if true, turn driver on; otherwise turn off
 		*/
-		ASYNC switchINDI(bool turnOn);
+		Q_SCRIPTABLE Q_ASYNC void switchINDI(bool turnOn);
 	
 	/**DCOP interface function.  Set INDI connection port. 
 		*@param port the port identifier
 		*/
-		ASYNC setINDIPort(const QString &port);
+		Q_SCRIPTABLE Q_ASYNC void setINDIPort(const QString &port);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC coordinates
 		*@param RA the target's Right Ascension coordinate (in Hours) 
 		*@param DEC the target's Declination coordinate (in Degrees) 
 		*/
-		ASYNC setINDITargetCoord(double RA, double DEC);
+		Q_SCRIPTABLE Q_ASYNC void setINDITargetCoord(double RA, double DEC);
 	
 	/**DCOP interface function.  Set INDI target to a named object. 
 		*@param objectName the name of the object to be targeted
 		*/
-		ASYNC setINDITargetName(const QString &objectName);
+		Q_SCRIPTABLE Q_ASYNC void setINDITargetName(const QString &objectName);
 	
 	/**DCOP interface function.  Set INDI action. 
 		*@param action the action to set
 		*/
-		ASYNC setINDIAction(const QString &action);
+		Q_SCRIPTABLE Q_ASYNC void setINDIAction(const QString &action);
 	
 	/**DCOP interface function.  Pause DCOP execution until named INDI action is completed. 
 		*@param action the action which is to be completed before resuming DCOP execution
 		*/
-		ASYNC waitForINDIAction(const QString &action);
+		Q_SCRIPTABLE Q_ASYNC void waitForINDIAction(const QString &action);
 	
 	/**DCOP interface function.  Set INDI focus speed. 
 		*@param speed the speed to use
 		*
 		* @todo document units for speed
 		*/
-		ASYNC setINDIFocusSpeed(unsigned int speed);
+		Q_SCRIPTABLE Q_ASYNC void setINDIFocusSpeed(unsigned int speed);
 	
 	/**DCOP interface function.  Set INDI focus direction and focus. 
 		*@param focusDir 0 = focus in; 1 = focus out
 		*/
-		ASYNC startINDIFocus(int focusDir);
+		Q_SCRIPTABLE Q_ASYNC void startINDIFocus(int focusDir);
 	
 	/**DCOP interface function.  Set INDI geographical information. 
 		*@param longitude the longitude to set, in Degrees
 		*@param latitude the latitude to set, in Degrees
 		*/
-		ASYNC setINDIGeoLocation(double longitude, double latitude);
+		Q_SCRIPTABLE Q_ASYNC void setINDIGeoLocation(double longitude, double latitude);
 	
 	/**DCOP interface function.  Sets focus operation timeout. 
 		*@param timeout the timeout interval, in seconds (?)
 		*/
-		ASYNC setINDIFocusTimeout(int timeout);
+		Q_SCRIPTABLE Q_ASYNC void setINDIFocusTimeout(int timeout);
 	
 	/**DCOP interface function.  Start camera exposure with a timeout. 
 		*@param timeout the exposure time, in seconds (?)
 		*/
-		ASYNC startINDIExposure(int timeout);
+		Q_SCRIPTABLE Q_ASYNC void startINDIExposure(int timeout);
 		
 	/**DCOP interface function.  Set INDI UTC date and time. 
 		*@param UTCDateTime the UTC date and time (e.g., "23 June 2004 12:30:00" ?)
 		*/
-		ASYNC setINDIUTC(const QString &UTCDateTime);
+		Q_SCRIPTABLE Q_ASYNC void setINDIUTC(const QString &UTCDateTime);
 	
 	/**DCOP interface function. Set INDI Telescope action. 
 		*@param action the action to set
 		*/
-		ASYNC setINDIScopeAction(const QString &action);
+		Q_SCRIPTABLE Q_ASYNC void setINDIScopeAction(const QString &action);
 		
 	/**DCOP interface function. Set CCD camera frame type. 
 		*@param type the frame type
 		*/
-		ASYNC setINDIFrameType(const QString &type);
+		Q_SCRIPTABLE Q_ASYNC void setINDIFrameType(const QString &type);
 		
 	/**DCOP interface function. Set CCD filter. 
 		*@param filter_num identifier of the CCD filter
 		*/
-		ASYNC setINDIFilterNum(int filter_num);
+		Q_SCRIPTABLE Q_ASYNC void setINDIFilterNum(int filter_num);
 
 	/**DCOP interface function. Set CCD target temperature. 
 		*@param temp the target CCD temperature (in Celsius ?)
 		*/
-		ASYNC setINDICCDTemp(int temp);
+		Q_SCRIPTABLE Q_ASYNC void setINDICCDTemp(int temp);
 		
 
-	/**@short Apply config options throughout the program.
-		*In most cases, options are set in the "Options" object directly, 
-		*but for some things we have to manually react to config changes.
+	/**
+		*Update time-dependent data and (possibly) repaint the sky map.
+		*@param automaticDSTchange change DST status automatically?
 		*/
-		void applyConfig();
-
-	public slots:
-		/**
-			*Update time-dependent data and (possibly) repaint the sky map.
-			*@param automaticDSTchange change DST status automatically?
-			*/
 		void updateTime( const bool automaticDSTchange = true );
 
-		/**
-			*Apply new settings and redraw skymap
-			*/
+	/**
+		*Apply new settings and redraw skymap
+		*/
 		void slotApplyConfigChanges();
 
-		/**
-			*action slot: Zoom in one step
-			*/
+	/**
+		*action slot: Zoom in one step
+		*/
 		void slotZoomIn();
 
-		/**
-			*action slot: Zoom out one step
-			*/
+	/**
+		*action slot: Zoom out one step
+		*/
 		void slotZoomOut();
 
-		/**
-			*action slot: Set the zoom level to its default value
-			*/
+	/**
+		*action slot: Set the zoom level to its default value
+		*/
 		void slotDefaultZoom();
 
-		/**
-			*action slot: Allow user to specify a field-of-view angle for the display window in degrees, 
-			*and set the zoom level accordingly.
-			*/
+	/**
+		*action slot: Allow user to specify a field-of-view angle for the display window in degrees, 
+		*and set the zoom level accordingly.
+		*/
 		void slotSetZoom();
-
 	/**
 		*action slot: Toggle whether kstars is tracking current position
 		*/
@@ -420,11 +417,6 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*reloading star data. So list in FindDialog must be new filled with current data.
 		*/
 		void clearCachedFindDialog();
-
-	/**
-		*Resume execution of DCOP commands
-		*/
-		void resumeDCOP() { kapp->dcopClient()->resume(); }
 
 	/**
 		*Remove all trails which may have been added to solar system bodies

@@ -11,7 +11,6 @@
 #ifndef INDIDEVICE_H_
 #define INDIDEVICE_H_
 
-#include <kdialogbase.h>
 #include <unistd.h>
 
 #include "indielement.h"
@@ -71,7 +70,7 @@ class QSocketNotifier;
 
 
 /* INDI device */
-class INDI_D : public KDialogBase  
+class INDI_D : public KDialog  
 {
  Q_OBJECT
   public:

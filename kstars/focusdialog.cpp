@@ -32,13 +32,15 @@ FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 FocusDialog::FocusDialog( KStars *_ks )
-	: KDialog( _ks, i18n( "Set Focus Manually" ), Ok|Cancel ), ks(_ks) 
+	: KDialog( _ks ), ks( _ks )
 {
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
 	fd = new FocusDialogUI(this);
 	setMainWidget(fd);
+        setCaption( i18n( "Set Focus Manually" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
 	fd->raBox->setDegType(false); //RA box should be HMS-style

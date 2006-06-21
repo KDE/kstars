@@ -105,16 +105,19 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
 
-void KStars::waitFor( double t ) {
-	kapp->dcopClient()->suspend();
-	QTimer::singleShot( int( 1000.*t ), this, SLOT( resumeDCOP() ) );
+void KStars::waitFor( double sec ) {
+    QTime tm;
+    tm.start();
+    while ( tm.elapsed() < int( 1000.*sec ) ) { kapp->processEvents(); }
 }
 
 void KStars::waitForKey( const QString &k ) {
 	data()->resumeKey = QKeySequence::fromString( k );
 	if ( ! data()->resumeKey.isEmpty() ) {
-		kapp->dcopClient()->suspend();
-	} else {
+            //When the resumeKey is pressed, resumeKey is set to empty
+            while ( ! data()->resumeKey.isEmpty() ) { kapp->processEvents(); }
+
+        } else {
 		kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." ) << endl;
 	}
 }
@@ -766,42 +769,43 @@ void KStars::setINDIAction(const QString &action)
 
 }
 
+//FIXME: DBUS: needs to be reimplemented without suspend/resume
 void KStars::waitForINDIAction(const QString &action)
 {
-
-  INDI_D *dev;
-  INDI_P *prop;
-  INDI_E *el;
-
-  if (!indidriver || !indimenu)
-  {
-    kDebug() << "waitForINDIAction: establishINDI() failed." << endl;
-    return;
-  }
-
-  dev = indimenu->findDevice(indimenu->getCurrentDevice());
-  if (!dev)
-    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
-  if (!dev)
-  {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
-    return;
-  }
-
-  prop = dev->findProp(action);
-
-  if (prop == NULL)
-  {
-    el = dev->findElem(action);
-    if (!el) return;
-
-    QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
-  }
-  else
-    QObject::connect(prop, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
-
-  kapp->dcopClient()->suspend();
-
+//
+//  INDI_D *dev;
+//  INDI_P *prop;
+//  INDI_E *el;
+//
+//  if (!indidriver || !indimenu)
+//  {
+//    kDebug() << "waitForINDIAction: establishINDI() failed." << endl;
+//    return;
+//  }
+//
+//  dev = indimenu->findDevice(indimenu->getCurrentDevice());
+//  if (!dev)
+//    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
+//  if (!dev)
+//  {
+//    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+//    return;
+//  }
+//
+//  prop = dev->findProp(action);
+//
+//  if (prop == NULL)
+//  {
+//    el = dev->findElem(action);
+//    if (!el) return;
+//
+//    QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+//  }
+//  else
+//    QObject::connect(prop, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+//
+//  kapp->dcopClient()->suspend();
+//
 }
 
 

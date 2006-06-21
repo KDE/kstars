@@ -56,13 +56,17 @@ void ImageLabel::paintEvent (QPaintEvent */*ev*/)
 }
 
 ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent)
-	: KDialog(parent, url.fileName(), KDialog::User1|KDialog::Close, 0, 
-		KGuiItem(i18n("Save"), "filesave") ), 
-		m_ImageUrl (url), fileIsImage(false), downloadJob(0)
+	: KDialog( parent ), m_ImageUrl (url), fileIsImage(false), downloadJob(0)
+
+
 {
 	MainFrame = new QFrame( this );
 	setMainWidget( MainFrame );
-	View = new ImageLabel( MainFrame );
+        setCaption( url.fileName() );
+        setButtons( KDialog::User1|KDialog::Close );
+        setButtonGuiItem( KDialog::User1, KGuiItem( i18n("Save"), "filesave" ) );
+
+        View = new ImageLabel( MainFrame );
 	Caption = new QLabel( MainFrame );
 	View->setAutoFillBackground( true );
 	Caption->setAutoFillBackground( true );
@@ -167,7 +171,7 @@ void ImageViewer::showImage()
 	}
 	fileIsImage = true;	// we loaded the file and know now, that it is an image
 
-	//If the image is larger than screen width and/or screen height, 
+	//If the image is larger than screen width and/or screen height,
 	//shrink it to fit the screen
 	QRect deskRect = kapp->desktop()->availableGeometry();
 	int w = deskRect.width(); // screen width

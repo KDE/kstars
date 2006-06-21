@@ -19,7 +19,7 @@
  #ifndef CONTRASTBRIGHTNESSDLG_H_
  #define CONTRASTBRIGHTNESSDLG_H_
  
- #include <kdialogbase.h>
+ #include <kdialog.h>
  #include <klocale.h>
  #include "ui_contrastbrightnessg.h"
  
@@ -34,7 +34,7 @@ class ConBriUI : public QFrame, public Ui::ConBriForm
 	ConBriUI(QWidget *parent=0);
 };
  
-class ContrastBrightnessDlg : public KDialogBase {
+class ContrastBrightnessDlg : public KDialog {
 	Q_OBJECT
  public:
    ContrastBrightnessDlg(QWidget *parent=0);

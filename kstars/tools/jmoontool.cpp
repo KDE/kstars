@@ -35,12 +35,15 @@
 #include "libkdeedu/kdeeduplot/kplotaxis.h"
 
 JMoonTool::JMoonTool(QWidget *parent)
-	: KDialog( parent, i18n("Jupiter Moons Tool"), KDialog::Close )
+	: KDialog( parent )
 {
 	ksw = (KStars*)parent;
 	QFrame *page = new QFrame(this);
 	setMainWidget( page );
-	QVBoxLayout *vlay = new QVBoxLayout( page );
+        setCaption( i18n("Jupiter Moons Tool") );
+        setButtons( KDialog::Close );
+
+        QVBoxLayout *vlay = new QVBoxLayout( page );
 	vlay->setMargin( 0 );
 	vlay->setSpacing( 0 );
 

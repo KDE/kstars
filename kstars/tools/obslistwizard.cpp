@@ -38,20 +38,20 @@
 
 #include "obslistwizard.h"
 
+
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
   setupUi( this );
 }
 
-ObsListWizard::ObsListWizard( KStars *ksparent ) 
-  : KDialog( ksparent, i18n("Observing List Wizard"), 
-		KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel, 0,
-		KGuiItem( i18n("&Next") + QString(" >"), QString(), 
-			i18n("Go to next Wizard page") ),
-		KGuiItem( QString("< ") + i18n("&Back"), QString(), 
-			i18n("Go to previous Wizard page") ) ), ksw(ksparent)
+ObsListWizard::ObsListWizard( KStars *ksparent )
+  : KDialog( ksparent ),  ksw( ksparent )
 {
 	olw = new ObsListWizardUI( this );
 	setMainWidget( olw );
+        setCaption( i18n("Observing List Wizard") );
+        setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
+        setButtonGuiItem( KDialog::User1, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
+        setButtonGuiItem( KDialog::User2, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
 
 	connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
 	connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
@@ -59,8 +59,8 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
 	connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
 	connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
 
-	connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
-	connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
+	connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrevPage() ) );
+	connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotNextPage() ) );
 
 	//Update the count of objects when certain UI elements are modified
 	connect( olw->TypeList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
@@ -141,8 +141,8 @@ void ObsListWizard::setItemSelected( const QString &name, QListWidget *listWidge
 	if ( ok ) *ok = (items.size()) ? true : false;
 }
 
-//Advance to the next page in the stack.  However, on page 2 the user 
-//selects what regional filter they want to use, and this determnes 
+//Advance to the next page in the stack.  However, on page 2 the user
+//selects what regional filter they want to use, and this determnes
 //what the page following page 2 should be:
 // + Constellation(s): the next page index is 3
 // + Rectangular region: the next page index is 4
@@ -158,7 +158,7 @@ void ObsListWizard::slotNextPage() {
 	int NextPage = olw->olwStack->currentIndex() + 1;
 
 	if ( olw->olwStack->currentIndex() == 2 ) {
-		//On the Region select page.  Determine what 
+		//On the Region select page.  Determine what
 		//the next page index should be.
 		//No need to handle "by constellation, it's already currentIndex + 1.
 		if ( isItemSelected( i18n("in a rectangular region"), olw->RegionList ) )
@@ -169,37 +169,37 @@ void ObsListWizard::slotNextPage() {
 			NextPage = 6;
 	}
 
-	if ( olw->olwStack->currentIndex() == 3 || olw->olwStack->currentIndex() == 4 ) 
+	if ( olw->olwStack->currentIndex() == 3 || olw->olwStack->currentIndex() == 4 )
 		NextPage = 6;
 
 	olw->olwStack->setCurrentIndex( NextPage );
-	if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 ) 
-		user1Button()->setEnabled( false );
+	if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
+		enableButton( KDialog::User1, false );
 
-	user2Button()->setEnabled( true );
+	enableButton( KDialog::User2, true );
 }
 
-//Advance to the previous page in the stack.  However, because the 
+//Advance to the previous page in the stack.  However, because the
 //path through the wizard branches depending on the user's choice of
-//Region filter, the previous page is not always currentPage-1.  
-//Specifically, if the current page index is 4, 5, or 6, then the Previous 
+//Region filter, the previous page is not always currentPage-1.
+//Specifically, if the current page index is 4, 5, or 6, then the Previous
 //page index should be 2 rather than currentIndex-1.
 void ObsListWizard::slotPrevPage() {
 	int PrevPage = olw->olwStack->currentIndex() - 1;
 
-	if ( olw->olwStack->currentIndex() == 4 
-			|| olw->olwStack->currentIndex() == 5 
-			|| olw->olwStack->currentIndex() == 6 ) 
+	if ( olw->olwStack->currentIndex() == 4
+			|| olw->olwStack->currentIndex() == 5
+			|| olw->olwStack->currentIndex() == 6 )
 		PrevPage = 2;
 
 	olw->olwStack->setCurrentIndex( PrevPage );
-	if ( olw->olwStack->currentIndex() == 0 ) 
-		user2Button()->setEnabled( false );
+	if ( olw->olwStack->currentIndex() == 0 )
+		enableButton( KDialog::User2, false );
 
-	user1Button()->setEnabled( true );
+	enableButton( KDialog::User1, true );
 }
 
-void ObsListWizard::slotAllButton() { 
+void ObsListWizard::slotAllButton() {
 	for ( int i=0; i<olw->TypeList->count(); ++i )
 		olw->TypeList->setItemSelected( olw->TypeList->item(i), true );
 }
@@ -233,7 +233,7 @@ void ObsListWizard::slotChangeLocation()
 	}
 }
 
-void ObsListWizard::slotUpdateObjectCount() 
+void ObsListWizard::slotUpdateObjectCount()
 {
 	ObjectCount = 0;
 	if ( isItemSelected( i18n( "Stars" ), olw->TypeList ) )
@@ -293,7 +293,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 		if ( doBuildList ) {
 			for ( int i=0; i < starIndex; ++i ) {
 				SkyObject *o = (SkyObject*)(starList[i]);
-				if ( needRegion ) applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount 
+				if ( needRegion ) applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount
 			}
 		} else {
 			ObjectCount -= (starList.size() - starIndex); //reduce StarCount by appropriate amount
@@ -328,40 +328,40 @@ void ObsListWizard::applyFilters( bool doBuildList )
 			|| isItemSelected( i18n( "Galaxies" ), olw->TypeList ) );
 
 	if ( dso ) {
-		//Don't need to do anything if we are just counting objects and not 
+		//Don't need to do anything if we are just counting objects and not
 		//filtering by region or magnitude
 		if ( needRegion || olw->SelectByMagnitude->isChecked() ) {
 			foreach ( DeepSkyObject *o, ksw->data()->skyComposite()->deepSkyObjects() ) {
 				//Skip unselected object types
 				bool typeSelected = false;
-				if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) && 
-						isItemSelected( i18n( "Stars" ), olw->TypeList ) ) 
+				if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) &&
+						isItemSelected( i18n( "Stars" ), olw->TypeList ) )
 					typeSelected = true;
-				if ( o->type() == SkyObject::OPEN_CLUSTER && 
-						isItemSelected( i18n( "Open clusters" ), olw->TypeList ) ) 
+				if ( o->type() == SkyObject::OPEN_CLUSTER &&
+						isItemSelected( i18n( "Open clusters" ), olw->TypeList ) )
 					typeSelected = true;
-				if ( o->type() == SkyObject::GLOBULAR_CLUSTER && 
-						isItemSelected( i18n( "Globular clusters" ), olw->TypeList ) ) 
+				if ( o->type() == SkyObject::GLOBULAR_CLUSTER &&
+						isItemSelected( i18n( "Globular clusters" ), olw->TypeList ) )
 					typeSelected = true;
-				if ( (o->type() == SkyObject::GASEOUS_NEBULA || o->type() == SkyObject::SUPERNOVA_REMNANT) && 
-						isItemSelected( i18n( "Gaseous nebulae" ), olw->TypeList ) ) 
+				if ( (o->type() == SkyObject::GASEOUS_NEBULA || o->type() == SkyObject::SUPERNOVA_REMNANT) &&
+						isItemSelected( i18n( "Gaseous nebulae" ), olw->TypeList ) )
 					typeSelected = true;
-				if ( o->type() == SkyObject::PLANETARY_NEBULA && 
-						isItemSelected( i18n( "Planetary nebulae" ), olw->TypeList ) ) 
+				if ( o->type() == SkyObject::PLANETARY_NEBULA &&
+						isItemSelected( i18n( "Planetary nebulae" ), olw->TypeList ) )
 					typeSelected = true;
-				if ( o->type() == SkyObject::GALAXY && 
-						isItemSelected( i18n( "Galaxies" ), olw->TypeList ) ) 
+				if ( o->type() == SkyObject::GALAXY &&
+						isItemSelected( i18n( "Galaxies" ), olw->TypeList ) )
 					typeSelected = true;
 				if ( ! typeSelected ) continue;
-	
+
 				if ( olw->SelectByMagnitude->isChecked() ) {
 					if ( o->mag() > 90. ) {
-						if ( olw->IncludeNoMag->isChecked() ) 
+						if ( olw->IncludeNoMag->isChecked() )
 							if ( needRegion ) applyRegionFilter( o, doBuildList );
 						else if ( ! doBuildList )
 							--ObjectCount;
 					} else {
-						if ( o->mag() <= maglimit ) 
+						if ( o->mag() <= maglimit )
 							if ( needRegion ) applyRegionFilter( o, doBuildList );
 						else if ( ! doBuildList )
 							--ObjectCount;
@@ -386,12 +386,12 @@ void ObsListWizard::applyFilters( bool doBuildList )
 		foreach ( SkyObject *o, ksw->data()->skyComposite()->asteroids() ) {
 			if ( olw->SelectByMagnitude->isChecked() ) {
 				if ( o->mag() > 90. ) {
-					if ( olw->IncludeNoMag->isChecked() ) 
+					if ( olw->IncludeNoMag->isChecked() )
 						if ( needRegion ) applyRegionFilter( o, doBuildList );
 					else if ( ! doBuildList )
 						--ObjectCount;
 				} else {
-					if ( o->mag() <= maglimit ) 
+					if ( o->mag() <= maglimit )
 						if ( needRegion ) applyRegionFilter( o, doBuildList );
 					else if ( ! doBuildList )
 						--ObjectCount;
@@ -406,14 +406,14 @@ void ObsListWizard::applyFilters( bool doBuildList )
 	if ( doBuildList ) ObjectCount = obsList().size();
 	olw->CountLabel->setText( i18np("Your observing list currently has 1 object", "Your observing list currently has %n objects", ObjectCount ) );
 }
-	
-void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList, 
+
+void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 		bool doAdjustCount ) {
 
 	//select by constellation
 	if ( isItemSelected( i18n("by constellation"), olw->RegionList ) ) {
 		QString c( ksw->data()->skyComposite()->constellation( o ) );
-		if ( isItemSelected( c, olw->ConstellationList ) ) { 
+		if ( isItemSelected( c, olw->ConstellationList ) ) {
 			if ( doBuildList ) obsList().append ( o );
 		} else if ( doAdjustCount ) --ObjectCount;
 	}
@@ -434,7 +434,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 			return;
 		}
 
-		//Make sure dc1 < dc2.  
+		//Make sure dc1 < dc2.
 		if ( dc1 > dc2 ) {
 			double temp = dc2;
 			dc2 = dc1;
@@ -487,7 +487,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 			return;
 		}
 
-		if ( o->angularDistanceTo( &pCirc ).Degrees() < rCirc ) { 
+		if ( o->angularDistanceTo( &pCirc ).Degrees() < rCirc ) {
 			if ( doBuildList ) obsList().append( o );
 		} else if ( doAdjustCount ) --ObjectCount;
 	}

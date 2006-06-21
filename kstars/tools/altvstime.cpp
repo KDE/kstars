@@ -54,12 +54,14 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 }
 
 AltVsTime::AltVsTime( QWidget* parent)  :
-	KDialog( parent, i18n( "Altitude vs. Time" ), KDialog::Close )
+	KDialog( parent )
 {
 	ks = (KStars*) parent;
 
 	QFrame *page = new QFrame( this );
 	setMainWidget(page);
+        setCaption( i18n( "Altitude vs. Time" ) );
+        setButtons( KDialog::Close );
 
 	topLayout = new QVBoxLayout( page );
 	topLayout->setMargin( 0 );

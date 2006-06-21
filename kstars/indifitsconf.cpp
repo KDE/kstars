@@ -1,7 +1,7 @@
 //
-// C++ Implementation: 
+// C++ Implementation:
 //
-// Description: 
+// Description:
 //
 //
 // Author: Jason Harris <kstars@30doradus.org>, (C) 2004
@@ -29,10 +29,12 @@ INDIFITSConfUI::INDIFITSConfUI(QWidget *parent) : QFrame(parent)
 }
 
 INDIFITSConf::INDIFITSConf(QWidget* parent)
-: KDialogBase( KDialogBase::Plain, i18n( "Configure INDI" ), Ok|Cancel, Ok, parent )
+: KDialog( parent )
 {
-   QFrame *page = plainPage();
-   ui = new INDIFITSConfUI( page );
+   ui = new INDIFITSConfUI( this );
+   setMainWidget( ui );
+   setCaption( i18n( "Configure INDI" ) );
+   setButtons( KDialog::Ok|KDialog::Cancel );
 
   KIconLoader *icons = KGlobal::iconLoader();
   ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
@@ -50,7 +52,7 @@ INDIFITSConf::~INDIFITSConf()
 void INDIFITSConf::saveFITSDirectory()
 {
   QString dir = KFileDialog::getExistingDirectory(ui->fitsDIR_IN->text());
-  
+
   if (!dir.isEmpty())
   	ui->fitsDIR_IN->setText(dir);
 }
@@ -93,7 +95,7 @@ void INDIFITSConf::loadOptions()
 
 void INDIFITSConf::saveOptions()
 {
-  
+
      Options::setIndiAutoTime( ui->timeCheck->isChecked() );
      Options::setIndiAutoGeo( ui->GeoCheck->isChecked() );
      Options::setIndiCrosshairs( ui->crosshairCheck->isChecked() );
@@ -107,7 +109,7 @@ void INDIFITSConf::saveOptions()
 
      filterList[lastIndex] = ui->filterAlias->text();
      Options::setFilterAlias(filterList);
-	
+
 }
 
 void INDIFITSConf::comboUpdate(int newIndex)

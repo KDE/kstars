@@ -26,22 +26,29 @@
 
 #include <klocale.h>
 #include <kapplication.h>
+#include <kdebug.h>
 
 #include "kstarssplash.h"
 #include "ksutils.h"
 
-KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
-	: KDialogBase( KDialogBase::Plain, i18n( "Loading KStars..." ),
-			0 /*no buttons*/, Ok, parent, name, false /*not modal*/ ) {
-
-	//Set up widgets for splashscreen.
-	QFrame *page = plainPage();
+//FIXME: program was crashing with KStarsSplash derived from KDialog,
+//so I am temporarily using QDialog.  Try switching back to KDialog
+//later on (this message added 20-June-2006)
+KStarsSplash::KStarsSplash( QWidget *parent )
+	: QDialog( parent )
+{
         QPalette p = palette();
         p.setColor( QPalette::Window, Qt::black );
         setPalette( p );
-        page->setPalette( p );
 
-	QVBoxLayout *topLayout = new QVBoxLayout( page );
+	//Set up widgets for splashscreen.
+// KDialog stuff:
+//	QFrame *page = new QFrame( this );
+//        setMainWidget( page );
+//        setCaption( i18n( "Loading KStars..." ) );
+//        setButtons( 0 );
+
+        QVBoxLayout *topLayout = new QVBoxLayout( this );
 	topLayout->setMargin( 0 );
 	topLayout->setSpacing( 0 );
 
@@ -53,12 +60,12 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 		pmSplash.load( imFile.fileName() );
 	}
 
-	Banner = new QLabel( page );
+	Banner = new QLabel( this ); //reparent to "page" if KDialog
 	Banner->setPixmap( pmSplash );
 	topLayout->addWidget( Banner );
 
 //initialize the "Welcome to KStars message label
-	label = new QLabel( page );
+	label = new QLabel( this ); //reparent to "page" if KDialog
 	label->setObjectName( "label1" );
 
 	QPalette pal( label->palette() );
@@ -72,24 +79,16 @@ KStarsSplash::KStarsSplash( QWidget *parent, const char* name )
 	topLayout->addWidget( label );
 
 //initialize the progress message label
-	textCurrentStatus = new QLabel( page );
+	textCurrentStatus = new QLabel( this ); //reparent to "page" if KDialog
 	textCurrentStatus->setObjectName( "label2" );
 	textCurrentStatus->setPalette( pal );
 	textCurrentStatus->setAlignment( Qt::AlignHCenter );
 	topLayout->addWidget( textCurrentStatus );
 
-	topLayout->activate();
-	disableResize();
 	setMessage(QString());  // force repaint of widget with no text
 }
 
 KStarsSplash::~KStarsSplash() {
-}
-
-void KStarsSplash::paintEvent( QPaintEvent* ) {
-//	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
-//		label->repaint();  // standard text label
-//		textCurrentStatus->repaint();  // status text label
 }
 
 void KStarsSplash::closeEvent( QCloseEvent *e ) {

@@ -19,7 +19,6 @@
 #include <QDir>
 #include <QTextStream>
 
-#include <dcopclient.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kiconloader.h>
@@ -525,9 +524,6 @@ void KStars::datainitFinished(bool worked) {
 	if ( Options::runStartupWizard() ) {
 		slotWizard();
 	}
-
-	//Start listening for DCOP
-	kapp->dcopClient()->resume();
 
 	//Show TotD
 	KTipDialog::showTip( "kstars/tips" );

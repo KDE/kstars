@@ -19,7 +19,7 @@
 
 #include <QFrame>
 #include <qstringlist.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <unistd.h>
 
 #include "indi/lilxml.h"
@@ -96,17 +96,15 @@ class DeviceManagerUI : public QFrame, public Ui::devManager
 
 };
 
-class INDIDriver : public KDialogBase
+class INDIDriver : public KDialog
 {
 
    Q_OBJECT
 
    public:
 
-   INDIDriver(QWidget * parent = 0);
+   INDIDriver(KStars *ks);
    ~INDIDriver();
-
-    //K3ListView* deviceContainer;
 
     bool readXMLDriver();
 

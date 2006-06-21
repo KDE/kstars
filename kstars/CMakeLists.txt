@@ -235,7 +235,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_automoc(${kstars_SRCS})
 
-kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
+##DCOP_IS_DEAD
+#kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui contrastbrightnessg.ui 
        details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui 
@@ -261,7 +262,8 @@ install_files( ${XDG_APPS_DIR} FILES kstars.desktop )
 install_files( ${KCFG_INSTALL_DIR} FILES kstars.kcfg )
 install_files( ${CONFIG_INSTALL_DIR} FILES kstarsrc )
 install_files( ${DATA_INSTALL_DIR}/kstars/ FILES kstarsui.rc fitsviewer.rc )
-install_files( /include FILES kstarsinterface.h simclockinterface.h )
+##DCOP_IS_DEAD
+install_files( /include FILES ) #kstarsinterface.h simclockinterface.h )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 

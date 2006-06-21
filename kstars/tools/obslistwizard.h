@@ -86,9 +86,6 @@ class ObsListWizard : public KDialog
 		*/
 		void setItemSelected( const QString &name, QListWidget *listWidget, bool value, bool *ok=0 );
 
-		KPushButton* user1Button() { return actionButton( KDialog::User1 ); }
-		KPushButton* user2Button() { return actionButton( KDialog::User2 ); }
-
 		QList<SkyObject*> ObsList;
 		KStars *ksw;
 		ObsListWizardUI *olw;

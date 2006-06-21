@@ -60,12 +60,14 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 }
 
 ObservingList::ObservingList( KStars *_ks )
-		: KDialog( (QWidget*)_ks, i18n( "Observing List" ), KDialog::Close ),
-			ks( _ks ), LogObject(0), m_CurrentObject(0),
-			noNameStars(0), isModified(false), bIsLarge(true)
+    : KDialog( (QWidget*)_ks ),
+      ks( _ks ), LogObject(0), m_CurrentObject(0),
+      noNameStars(0), isModified(false), bIsLarge(true)
 {
 	ui = new ObservingListUI( this );
 	setMainWidget( ui );
+        setCaption( i18n( "Observing List" ) );
+        setButtons( KDialog::Close );
 
 	//Set up the QTableWidget
 	ui->FullTable->setColumnCount( 5 );

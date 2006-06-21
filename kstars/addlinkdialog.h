@@ -19,7 +19,7 @@
 #define ADDLINKDIALOG_H_
 
 #include <QVBoxLayout>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <klocale.h>
 
@@ -40,7 +40,7 @@ class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog {
   *@author Jason Harris
   *@version 1.0
   */
-class AddLinkDialog : public KDialogBase  {
+class AddLinkDialog : public KDialog  {
 	Q_OBJECT
 public:
 /**

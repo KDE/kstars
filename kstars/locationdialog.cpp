@@ -33,20 +33,20 @@ LocationDialogUI::LocationDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-LocationDialog::LocationDialog( QWidget* parent )
-    : KDialog( parent, i18n( "Set Geographic Location" ), Ok|Cancel ) {
-
-	KStars *p = (KStars *)parent;
-
+LocationDialog::LocationDialog( KStars *_ks )
+    : KDialog( _ks ),  ksw( _ks )
+{
 	ui = new LocationDialogUI( this );
 	setMainWidget( ui );
+        setCaption( i18n( "Set Geographic Location" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	for ( int i=0; i<25; ++i )
 		ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
 	//Populate DSTRuleBox
-	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
-	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
+	QMap<QString, TimeZoneRule>::Iterator it = ksw->data()->Rulebook.begin();
+	QMap<QString, TimeZoneRule>::Iterator itEnd = ksw->data()->Rulebook.end();
 	for ( ; it != itEnd; ++it )
 		if ( it.key().length() )
 			ui->DSTRuleBox->addItem( it.key() );
@@ -89,8 +89,7 @@ LocationDialog::~LocationDialog(){
 }
 
 void LocationDialog::initCityList( void ) {
-	KStars *p = (KStars *)parent();
-	foreach ( GeoLocation *loc, p->data()->geoList )
+	foreach ( GeoLocation *loc, ksw->data()->geoList )
 	{
 		ui->GeoBox->insertItem( loc->fullName() );
 		filteredCityList.append( loc );
@@ -108,14 +107,14 @@ void LocationDialog::initCityList( void ) {
 
 	//Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
 	ui->GeoBox->sort();
-	
+
 	ui->CountLabel->setText( i18np("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
 
 	// attempt to highlight the current kstars location in the GeoBox
 	ui->GeoBox->setCurrentItem( 0 );
 	if ( ui->GeoBox->count() ) {
 		for ( uint i=0; i < ui->GeoBox->count(); i++ ) {
-			if ( ui->GeoBox->item(i)->text() == p->geo()->fullName() ) {
+			if ( ui->GeoBox->item(i)->text() == ksw->geo()->fullName() ) {
 				ui->GeoBox->setCurrentItem( i );
 				break;
 			}
@@ -124,16 +123,15 @@ void LocationDialog::initCityList( void ) {
 }
 
 void LocationDialog::filterCity( void ) {
-	KStars *p = (KStars *)parent();
 	ui->GeoBox->clear();
 	//Do NOT delete members of filteredCityList!
 	while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
-	
+
 	nameModified = false;
 	dataModified = false;
 	ui->AddCityButton->setEnabled( false );
 
-	foreach ( GeoLocation *loc, p->data()->geoList ) {
+	foreach ( GeoLocation *loc, ksw->data()->geoList ) {
 		QString sc( loc->translatedName() );
 		QString ss( loc->translatedCountry() );
 		QString sp = "";
@@ -150,7 +148,7 @@ void LocationDialog::filterCity( void ) {
 	}
 
 	ui->GeoBox->sort();
-	
+
 	ui->CountLabel->setText( i18np("One city matches search criteria","%n cities match search criteria", ui->GeoBox->count()) );
 
 	if ( ui->GeoBox->firstItem() )		// set first item in list as selected
@@ -171,7 +169,7 @@ void LocationDialog::changeCity( void ) {
 			}
 		}
 	}
-	
+
 	ui->MapView->repaint();
 
 	//Fill the fields at the bottom of the window with the selected city's data.
@@ -183,24 +181,23 @@ void LocationDialog::changeCity( void ) {
 		ui->NewLong->showInDegrees( SelectedCity->lng() );
 		ui->NewLat->showInDegrees( SelectedCity->lat() );
 		ui->TZBox->setEditText( KGlobal::locale()->formatNumber( SelectedCity->TZ0() ) );
-		
+
 		//Pick the City's rule from the rulebook
 		for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
-			TimeZoneRule tzr = p->data()->Rulebook.value( ui->DSTRuleBox->itemText(i) );
+			TimeZoneRule tzr = ksw->data()->Rulebook.value( ui->DSTRuleBox->itemText(i) );
 			if ( tzr.equals( SelectedCity->tzrule() ) ) {
 				ui->DSTRuleBox->setCurrentIndex( i );
 				break;
 			}
 		}
 	}
-	
+
 	nameModified = false;
 	dataModified = false;
 	ui->AddCityButton->setEnabled( false );
 }
 
 void LocationDialog::addCity( void ) {
-	KStars *p = (KStars *)parent();
 	bCityAdded = false;
 
 	if ( !nameModified && !dataModified ) {
@@ -264,12 +261,12 @@ void LocationDialog::addCity( void ) {
 			//Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
 			GeoLocation *g = new GeoLocation( lng.Degrees(), lat.Degrees(),
 														ui->NewCityName->text(), ui->NewProvinceName->text(), ui->NewCountryName->text(),
-														TZ, &p->data()->Rulebook[ TZrule ] );
-			p->data()->geoList.append( g );
-			
+														TZ, &ksw->data()->Rulebook[ TZrule ] );
+			ksw->data()->geoList.append( g );
+
 			//(possibly) insert new city into GeoBox by running filterCity()
 			filterCity();
-			
+
 			//Attempt to highlight new city in list
 			ui->GeoBox->setCurrentItem( 0 );
 			if ( ui->GeoBox->count() ) {
@@ -280,7 +277,7 @@ void LocationDialog::addCity( void ) {
 					}
 				}
 			}
-		
+
 		}
 	}
 
@@ -298,7 +295,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 	foreach ( GeoLocation *loc, ks->data()->geoList ) {
 		if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
 				 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
-			
+
 			ui->GeoBox->insertItem( loc->fullName() );
 			filteredCityList.append( loc );
 		}

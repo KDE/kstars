@@ -29,17 +29,17 @@
 #include <QKeyEvent>
 
 #include "timedialog.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatepicker.h"
 
 TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
-	: KDialog( parent, i18nc( "set clock to a new time", "Set Time" ), 
-		KDialog::Ok|KDialog::Cancel )
+	: KDialog( parent )
 {
 	QFrame *page = new QFrame(this);
 	setMainWidget( page );
+        setCaption( i18nc( "set clock to a new time", "Set Time" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	vlay = new QVBoxLayout( page );
 	vlay->setMargin( 2 );
@@ -63,7 +63,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	TextLabel1->setObjectName( "TextLabel1" );
 	TextLabel1->setText( " :" );
 	TextLabel1->setFont( Box_font );
-	
+
 	MinuteBox = new QSpinBox( page );
 	MinuteBox->setObjectName( "MinuteBox" );
 	QFont MinuteBox_font(  MinuteBox->font() );
@@ -72,11 +72,11 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	MinuteBox->setMaximum( 59 );
 	MinuteBox->setButtonSymbols( QSpinBox::PlusMinus );
 	MinuteBox->setValue( now.time().minute() );
-	
+
 	TextLabel1_2 = new QLabel( page );
 	TextLabel1_2->setObjectName( "TextLabel1_2" );
 	TextLabel1_2->setFont( Box_font );
-	
+
 	SecondBox = new QSpinBox( page );
 	SecondBox->setObjectName( "SecondBox" );
 	SecondBox->setFont( Box_font );
@@ -84,24 +84,24 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 	SecondBox->setWrapping( true );
 	SecondBox->setButtonSymbols( QSpinBox::PlusMinus );
 	SecondBox->setValue( now.time().second() );
-	
+
 	NowButton = new QPushButton( page );
 	NowButton->setObjectName( "NowButton" );
 	NowButton->setText( i18n( "Now"  ) );
 	NowButton->setFont( Box_font );
-	
+
 	vlay->addWidget( dPicker, 0, 0 );
 	vlay->addLayout( hlay, 0 );
-	
+
 	hlay->addWidget( HourBox, 0, 0 );
 	hlay->addWidget( TextLabel1, 0, 0 );
 	hlay->addWidget( MinuteBox, 0, 0 );
 	hlay->addWidget( TextLabel1_2, 0, 0 );
 	hlay->addWidget( SecondBox, 0, 0 );
 	hlay->addWidget( NowButton );
-	
+
 	vlay->activate();
-	
+
 	QObject::connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ));
 	QObject::connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ));
 	QObject::connect( NowButton, SIGNAL( clicked() ), this, SLOT( setNow() ));

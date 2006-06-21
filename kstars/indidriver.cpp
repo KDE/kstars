@@ -72,29 +72,27 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
 }
 
-INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n( "Device Manager" ), Close, Close, parent , "Device Manager", false )
-
+INDIDriver::INDIDriver( KStars *_ks )
+    : KDialog( _ks ),  ksw( _ks )
 {
 
     currentPort = Options::portStart().toInt()-1;
     lastGroup = NULL;
     lastDevice = NULL;
 
-    ksw = (KStars *) parent;
+    ui = new DeviceManagerUI( this );
+    setMainWidget( ui );
+    setCaption( i18n( "Device Manager" ) );
+    setButtons( KDialog::Close );
 
-    QFrame *page = plainPage();
-
-    ui = new DeviceManagerUI(page);
-
-  //for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
-  foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
-  {
+    foreach ( INDIHostsInfo * host, ksw->data()->INDIHostsList )
+    {
   	QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
 	lastGroup = item;
 	item->setIcon(0, ui->disconnected);
         item->setText(1, host->name);
 	item->setText(2, host->portnumber);
-  }
+    }
 
   lastGroup = NULL;
 
@@ -114,17 +112,12 @@ INDIDriver::INDIDriver(QWidget *parent) : KDialogBase( KDialogBase::Plain, i18n(
   QObject::connect(ui->clientTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateClientButtons()));
 
   readXMLDriver();
-
 }
 
 void INDIDriver::shutdownHost(int mgrID)
 {
   QTreeWidgetItem *affectedItem;
   QList<QTreeWidgetItem *> found;
-
-   
-
-//for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 
    foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
    {
@@ -142,7 +135,7 @@ void INDIDriver::shutdownHost(int mgrID)
 	return;
      }
    }
- 
+
   //return;
 
   //for (uint i=0; i < devices.size(); i++)
@@ -187,10 +180,10 @@ void INDIDriver::activateHostDisconnection()
 {
   processHostStatus(1);
 }
-    
+
 void INDIDriver::updateLocalButtons()
 {
-  
+
   if (ui->localTreeWidget->currentItem() == NULL)
    return;
 
@@ -200,10 +193,10 @@ void INDIDriver::updateLocalButtons()
      {
 	ui->runServiceB->setEnabled(dev->state == 0);
 	ui->stopServiceB->setEnabled(dev->state == 1);
-	
+
 	ui->serverLogText->clear();
         ui->serverLogText->append(dev->serverBuffer);
-	
+
 	return;
      }
 
@@ -227,10 +220,10 @@ void INDIDriver::updateClientButtons()
        break;
      }
     }
-   
+
 }
 
-    
+
 void INDIDriver::processDeviceStatus(int id)
 {
   if (ui->localTreeWidget->currentItem() == NULL)
@@ -248,7 +241,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  dev->label = ksw->getINDIMenu()->currentLabel;
 
 	  dev->serverBuffer.clear();
-	  
+
 	  if (!runDevice(dev))
 	  {
 	   dev->restart();
@@ -271,10 +264,10 @@ void INDIDriver::processDeviceStatus(int id)
 	  ui->localTreeWidget->currentItem()->setText(4, QString::number(dev->indiPort));
 	  ui->runServiceB->setEnabled(false);
 	  ui->stopServiceB->setEnabled(true);
-	  
+
 	  return;
 	}
-	
+
 	  if (dev->mode == IDevice::M_LOCAL)
 	  	ksw->getINDIMenu()->processServer();
 
@@ -285,7 +278,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  //ui->stopServiceB->setEnabled(false);
 	  //dev->restart();
 	  // TODO Do I need this? updateMenuActions();
-	  
+
      }
 }
 
@@ -330,8 +323,8 @@ void INDIDriver::processHostStatus(int id)
 	  ui->disconnectHostB->setEnabled(false);
 	  updateMenuActions();
 	}
-	
-	
+
+
 
        }
     }
@@ -339,28 +332,28 @@ void INDIDriver::processHostStatus(int id)
 
 void INDIDriver::updateMenuActions()
 {
-	
+
 
   // We iterate over devices, we enable INDI Control Panel if we have any active device
   // We enable capture image sequence if we have any imaging device
-  
+
   KAction *tmpAction = NULL;
   INDIMenu *devMenu = ksw->getINDIMenu();
   bool activeDevice = false;
   bool activeImaging = false;
   INDI_P *imgProp = NULL;
-  
+
   if (devMenu == NULL)
      return;
-  
+
   if (devMenu->mgr.count() > 0)
    activeDevice = true;
-  
+
   foreach(DeviceManager *dev_mgr, devMenu->mgr)
   {
 	foreach (INDI_D *device, dev_mgr->indi_dev)
 	{
- 
+
         		imgProp = device->findProp("CCD_EXPOSE_DURATION");
 			if (imgProp && device->isOn())
 			{
@@ -371,14 +364,14 @@ void INDIDriver::updateMenuActions()
   }
 
   tmpAction = ksw->actionCollection()->action("capture_sequence");
-   
+
   if (!tmpAction)
   	kDebug() << "Warning: capture_sequence action not found" << endl;
   else
   	tmpAction->setEnabled(activeImaging);
 
   /* FIXME The following seems to cause a crash in KStars when we use
-     the telescope wizard to automatically search for scopes. I can't 
+     the telescope wizard to automatically search for scopes. I can't
      find any correlation! */
 
   // Troubled Code START
@@ -386,10 +379,10 @@ void INDIDriver::updateMenuActions()
   if (!tmpAction)
   	kDebug() << "Warning: indi_cpl action not found" << endl;
   else
-    	tmpAction->setEnabled(activeDevice); 
+    	tmpAction->setEnabled(activeDevice);
   // Troubled Code END
-  
- 
+
+
 }
 
 bool INDIDriver::runDevice(IDevice *dev)
@@ -403,13 +396,13 @@ bool INDIDriver::runDevice(IDevice *dev)
   }
 
   dev->proc = new KProcess;
-  
+
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString::number(dev->indiPort) << dev->driver;
-  
+
   // Check Mode
   dev->mode = ui->localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
-  
+
   if (dev->mode == IDevice::M_LOCAL)
     ui->localTreeWidget->currentItem()->setIcon(2, ui->localMode);
   else
@@ -419,7 +412,7 @@ bool INDIDriver::runDevice(IDevice *dev)
 
   dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
   //dev->proc->start();
-  
+
   return (dev->proc->isRunning());
 }
 
@@ -516,7 +509,7 @@ void INDIDriver::saveDevicesToDisk()
 
    // #4 Video
    outstream << "<devGroup group='Video'>" << endl;
-   
+
    foreach (IDevice *dev, devices)
    //for (unsigned i=0; i < devices.size(); i++)
    {
@@ -570,7 +563,7 @@ int INDIDriver::getINDIPort()
 		ss.close();
 		return currentPort;
       }
-  } 
+  }
    return -1;
 }
 
@@ -582,9 +575,9 @@ bool INDIDriver::readXMLDriver()
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
   {
-#ifdef __GNUC__		  
+#ifdef __GNUC__
      #warning i18n: Missing argument to i18n call.
-#endif		  
+#endif
      KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
 
     return false;
@@ -639,7 +632,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   if (!strcmp(tagXMLEle(root), "ScopeDrivers"))
     return buildDriversList(root, errmsg);
- 
+
   // avoid overflow
   if (strlen(tagXMLEle(root)) > 1024)
    return false;
@@ -656,7 +649,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   groupName = valuXMLAtt(ap);
 
   kDebug() << "Group Name: " << groupName << endl;
-  
+
   if (groupName.indexOf("Telescopes") != -1)
     groupType = KSTARS_TELESCOPE;
   else if (groupName.indexOf("CCDs") != -1)
@@ -723,7 +716,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
    return false;
 
   driver = pcdataXMLEle(el);
-  
+
   el = findXMLEle(root, "version");
 
   if (!el)
@@ -746,7 +739,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
    dv->focal_length = focal_length;
   if (aperture > 0)
    dv->aperture = aperture;
-  
+
   devices.append(dv);
 
   // SLOTS/SIGNAL, pop menu, indi server logic
@@ -881,14 +874,14 @@ void INDIDriver::removeINDIHost()
 
         if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
            return;
-	   
+
  	delete ksw->data()->INDIHostsList.takeAt(i);
 	//ui->clientTreeWidget->takeItem(ui->clientTreeWidget->currentItem());
 	delete (ui->clientTreeWidget->currentItem());
 	break;
    }
 
- 
+
 
  saveHosts();
 

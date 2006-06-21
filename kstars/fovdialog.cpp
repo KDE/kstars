@@ -51,11 +51,12 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 
 //---------FOVDialog---------------//
 FOVDialog::FOVDialog( KStars *_ks )
-	: KDialog( _ks, i18n( "Set FOV Indicator" ), KDialog::Ok|KDialog::Cancel ), 
-		ks(_ks) 
+	: KDialog( _ks ), ks(_ks)
 {
 	fov = new FOVDialogUI( this );
 	setMainWidget( fov );
+        setCaption( i18n( "Set FOV Indicator" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	connect( fov->FOVListBox, SIGNAL( currentChanged( Q3ListBoxItem* ) ), SLOT( slotSelect( Q3ListBoxItem* ) ) );
 	connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
@@ -179,7 +180,7 @@ void FOVDialog::slotEditFOV() {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
-		
+
 		//Use the following replacement for QPtrList::replace():
 		//(see Qt4 porting guide at doc.trolltech.com)
 		delete FOVList[ fov->FOVListBox->currentItem() ];
@@ -194,7 +195,7 @@ void FOVDialog::slotRemoveFOV() {
 	if ( i == fov->FOVListBox->count() ) i--; //last item was removed
 	fov->FOVListBox->setSelected( i, true );
 	fov->FOVListBox->update();
-	
+
 	if ( FOVList.isEmpty() ) {
 		QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
 		KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );
@@ -205,10 +206,12 @@ void FOVDialog::slotRemoveFOV() {
 
 //-------------NewFOV------------------//
 NewFOV::NewFOV( QWidget *parent )
-	: KDialog( parent, i18n( "New FOV Indicator" ), KDialog::Ok|KDialog::Cancel ), f() 
+	: KDialog( parent ), f()
 {
 	ui = new NewFOVUI( this );
 	setMainWidget( ui );
+        setCaption( i18n( "New FOV Indicator" ) );
+        setButtons( KDialog::Ok|KDialog::Cancel );
 
 	connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
 	connect( ui->FOVEdit, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );

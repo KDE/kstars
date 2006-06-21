@@ -65,10 +65,13 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 	float step = 1.0;
 	if ( e->modifiers() & Qt::ShiftModifier ) { step = 10.0; shiftPressed = true; }
 
-	//If the DCOP resume key was pressed, we process it here
+	//If the DBus resume key is not empty, then DBus processing is
+	//paused while we wait for a keypress
 	if ( ! data->resumeKey.isEmpty() && QKeySequence(e->key()) == data->resumeKey ) {
-		//kDebug() << "resumeKey pressed; resuming DCOP." << endl;
-		ks->resumeDCOP();
+                //The resumeKey was pressed.  Signal that it was pressed by
+                //resetting it to empty; this will break the loop in
+                //KStars::waitForKey()
+		data->resumeKey = QString();
 		return;
 	}
 
@@ -734,7 +737,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 
 	//TIMING
 //	kDebug() << QString("drawOverlays() took %1 ms").arg(t2.elapsed()) << endl;
-	
+
 	//TIMING
 //	t2.start();
 
@@ -749,6 +752,6 @@ void SkyMap::paintEvent( QPaintEvent * )
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 
 	//TIMING
-//	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl; 
+//	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl;
 }
 

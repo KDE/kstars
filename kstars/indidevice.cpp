@@ -71,7 +71,6 @@
 #include <kdebug.h>
 #include <kcombobox.h>
 #include <knuminput.h>
-#include <kdialogbase.h>
 #include <kstatusbar.h>
 #include <kmenu.h>
 #include <kvbox.h>
@@ -86,7 +85,7 @@ const char * indi_std[NINDI_STD] =
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel)
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel) : KDialog( 0 )
 {
   name      = inName;
   label     = inLabel;

@@ -26,7 +26,7 @@
 #include <QPushButton>
 #include <QPalette>
 
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <ktextedit.h>
 
 #include "skyobject.h"
@@ -60,8 +60,6 @@ struct ADVTreeData
 	int Type;
 };
 
-//TODO: Change base class to KDialog
-
 /**
   *@class DetailDialog is a window showing detailed information for a selected object.
 	*The window is split into four Tabs: General, Links, Advanced and Log.
@@ -85,7 +83,7 @@ struct ADVTreeData
 	*@author Jason Harris, Jasem Mutlaq
 	*@version 1.0
 	*/
-class DetailDialog : public KDialogBase  {
+class DetailDialog : public KPageDialog  {
    Q_OBJECT
 public: 
 /**Constructor
@@ -227,32 +225,32 @@ private:
 
 };
 
-class DataWidget : public Ui::DetailsData
+class DataWidget : public QFrame, public Ui::DetailsData
 {
 	
 	public: 
 		DataWidget( QWidget *parent=0 );
 };
 
-class PositionWidget : public Ui::DetailsPosition
+class PositionWidget : public QFrame, public Ui::DetailsPosition
 {
 	public: 
 		PositionWidget( QWidget *parent=0 );
 };
 
-class LinksWidget : public Ui::DetailsLinks 
+class LinksWidget : public QFrame, public Ui::DetailsLinks 
 {
 	public: 
 		LinksWidget( QWidget *parent=0 );
 };
 
-class DatabaseWidget : public Ui::DetailsDatabase 
+class DatabaseWidget : public QFrame, public Ui::DetailsDatabase 
 {
 	public: 
 		DatabaseWidget( QWidget *parent=0 );
 };
 
-class LogWidget : public Ui::DetailsLog 
+class LogWidget : public QFrame, public Ui::DetailsLog 
 {
 	public: 
 		LogWidget( QWidget *parent=0 );
