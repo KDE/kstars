@@ -5,10 +5,10 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
- 
+
 #include "indielement.h"
 #include "indiproperty.h"
 #include "indigroup.h"
@@ -28,14 +28,14 @@
 #include <kurl.h>
 #include <kfiledialog.h>
 #include <kled.h>
-#include <ksqueezedtextlabel.h> 
+#include <ksqueezedtextlabel.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kcombobox.h>
 #include <knuminput.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 /* search element for attribute.
  * return XMLAtt if find, else NULL with helpful info in errmsg.
@@ -131,73 +131,73 @@ EHBox->addWidget(label_w);
 int INDI_E::buildTextGUI(const QString &initText)
 {
 
-  setupElementLabel();  
-  
+  setupElementLabel();
+
   text = initText;
-  
+
   switch (pp->perm)
   {
     case PP_RW:
     setupElementRead(ELEMENT_READ_WIDTH);
     setupElementWrite(ELEMENT_WRITE_WIDTH);
-    
+
     break;
-    
+
     case PP_RO:
     setupElementRead(ELEMENT_FULL_WIDTH);
     break;
-    
+
     case PP_WO:
     setupElementWrite(ELEMENT_FULL_WIDTH);
     break;
   }
-  
+
   pp->PVBox->addLayout(EHBox);
   return (0);
-    
+
 }
 
 int INDI_E::buildBLOBGUI()
 {
 
-  setupElementLabel();  
-  
+  setupElementLabel();
+
   text = i18n("INDI DATA STREAM");
-  
+
   switch (pp->perm)
   {
     case PP_RW:
       setupElementRead(ELEMENT_READ_WIDTH);
       setupElementWrite(ELEMENT_WRITE_WIDTH);
       setupBrowseButton();
-    
+
       break;
-    
+
     case PP_RO:
       setupElementRead(ELEMENT_FULL_WIDTH);
       break;
-    
+
     case PP_WO:
       setupElementWrite(ELEMENT_FULL_WIDTH);
       setupBrowseButton();
       break;
   }
-  
+
   pp->PVBox->addLayout(EHBox);
   return (0);
-    
+
 }
 
 int INDI_E::buildNumberGUI  (double initValue)
 {
   bool scale = false;
-  
+
   updateValue(initValue);
   setupElementLabel();
-  
+
   if (step != 0 && (max - min)/step <= MAXSCSTEPS)
     scale = true;
-  
+
   switch (pp->perm)
   {
     case PP_RW:
@@ -206,28 +206,28 @@ int INDI_E::buildNumberGUI  (double initValue)
        setupElementScale(ELEMENT_WRITE_WIDTH);
      else
        setupElementWrite(ELEMENT_WRITE_WIDTH);
-       
+
        pp->PVBox->addLayout(EHBox);
      break;
-     
+
     case PP_RO:
     setupElementRead(ELEMENT_READ_WIDTH);
     pp->PVBox->addLayout(EHBox);
     break;
-    
+
     case PP_WO:
     if (scale)
      setupElementScale(ELEMENT_FULL_WIDTH);
     else
      setupElementWrite(ELEMENT_FULL_WIDTH);
-     
+
      pp->PVBox->addLayout(EHBox);
-    
+
     break;
   }
-  
+
   return (0);
-    
+
 }
 
 int INDI_E::buildLightGUI()
@@ -237,13 +237,13 @@ int INDI_E::buildLightGUI()
 	led_w->setMaximumSize(16,16);
 	led_w->setLook( KLed::Sunken );
 	drawLt();
-	
+
 	EHBox->addWidget(led_w);
-	
+
 	setupElementLabel();
-	
+
 	pp->PVBox->addLayout(EHBox);
-	
+
 	return (0);
 }
 
@@ -278,8 +278,8 @@ void INDI_E::drawLt()
 void INDI_E::updateValue(double newValue)
 {
   char iNumber[32];
-  
-  value = newValue; 
+
+  value = newValue;
 
   numberFormat(iNumber, format.toAscii(), value);
   text = iNumber;
@@ -305,7 +305,7 @@ connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
 	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
   else
 	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
-	
+
 spin_w->setMinimumWidth( (int) (length * 0.45) );
 slider_w->setMinimumWidth( (int) (length * 0.55) );
 
@@ -323,10 +323,10 @@ void INDI_E::sliderChanged(int value)
 {
 
  double spin_value = (value * step) + min;
- spin_w->setValue(spin_value);  
+ spin_w->setValue(spin_value);
 
 }
-   
+
 void INDI_E::setMin (double inMin)
 {
   min = inMin;
@@ -342,9 +342,9 @@ void INDI_E::setMin (double inMin)
     slider_w->setPageStep(1);
     slider_w->setValue( (int) ((value - min) / step ));
   }
-  
+
 }
-   
+
 void INDI_E::setMax (double inMax)
 {
  max = inMax;
@@ -360,16 +360,16 @@ void INDI_E::setMax (double inMax)
     slider_w->setPageStep(1);
     slider_w->setValue( (int) ((value - min) / step ));
  }
- 
+
 }
-   
+
 void INDI_E::setupElementWrite(int length)
 {
     write_w = new KLineEdit( pp->pg->propertyContainer);
     write_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
-    
+
     QObject::connect(write_w, SIGNAL(returnPressed()), pp, SLOT(newText()));
     EHBox->addWidget(write_w);
 }
@@ -387,7 +387,7 @@ void INDI_E::setupElementRead(int length)
   read_w->setAlignment( Qt::AlignCenter );
   read_w->setReadOnly( TRUE );
   read_w->setText(text);
-  
+
   EHBox->addWidget(read_w);
 
 }

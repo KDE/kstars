@@ -18,7 +18,7 @@
  #include "indimenu.h"
  
  #include <klocale.h>
- #include <kdialogbase.h>
+ #include <kdialog.h>
  
  #include <qlayout.h>
  #include <QFrame>

@@ -20,7 +20,7 @@
 
 #include <QPixmap>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
 

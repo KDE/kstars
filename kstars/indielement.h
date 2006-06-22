@@ -14,7 +14,7 @@
 
 #include "indi/lilxml.h"
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <unistd.h>
 #include <qstring.h>
 #include <q3ptrlist.h>

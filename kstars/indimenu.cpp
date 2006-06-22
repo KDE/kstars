@@ -49,7 +49,7 @@
 #include <kdebug.h>
 #include <kcombobox.h>
 #include <knuminput.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kstars.h"
 #include "indidriver.h"

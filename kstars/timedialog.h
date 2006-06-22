@@ -18,7 +18,7 @@
 #ifndef TIMEDIALOG_H_
 #define TIMEDIALOG_H_
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <qvariant.h>
 //Added by qt3to4:
 #include <QLabel>

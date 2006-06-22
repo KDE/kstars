@@ -27,7 +27,7 @@
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "altvstime.h"
 #include "ui_altvstime.h"
