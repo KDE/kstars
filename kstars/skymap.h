@@ -365,14 +365,14 @@ public:
     
 /**@short Draw a clipped line from p1 to p2
  */
-    void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
+    void drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
 
 /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
  * between *p1 and *p2 that just clips.
  **/
-    QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
     
-    QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
     
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
