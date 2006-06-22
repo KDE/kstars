@@ -17,7 +17,6 @@
 
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <dcopclient.h>
 #include <klocale.h>
 #include <kdebug.h>
 

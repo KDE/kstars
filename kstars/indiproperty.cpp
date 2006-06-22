@@ -5,10 +5,10 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
-   
+
+
  */
- 
+
  #include "indiproperty.h"
  #include "indigroup.h"
  #include "indidevice.h"
@@ -23,18 +23,18 @@
 
  #include "indi/base64.h"
  #include "indi/indicom.h"
- 
+
  #include <kmenu.h>
  #include <klineedit.h>
  #include <kled.h>
  #include <klocale.h>
  #include <kcombobox.h>
  #include <kpushbutton.h>
- #include <knuminput.h> 
+ #include <knuminput.h>
  #include <kdebug.h>
  #include <kmessagebox.h>
- 
- #include <QButtonGroup> 
+
+ #include <QButtonGroup>
  #include <qcheckbox.h>
  #include <qlabel.h>
  #include <qlayout.h>
@@ -50,7 +50,7 @@
 
  #include <unistd.h>
  #include <stdlib.h>
- 
+
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
@@ -59,19 +59,19 @@ INDI_P::INDI_P(INDI_G *parentGroup, const QString &inName)
   name = inName;
 
   pg = parentGroup;
-  
+
 //  el.setAutoDelete(true);
-  
+
   stdID 	  = -1;
-  
+
   indistd 	  = new INDIStdProperty(this, pg->dp->parent->ksw, pg->dp->stdDev);
-  
+
   PHBox           = new QHBoxLayout();
   PHBox->setMargin(0);
-  PHBox->setSpacing(KDialogBase::spacingHint());
+  PHBox->setSpacing(KDialog::spacingHint());
   PVBox           = new QVBoxLayout();
   PVBox->setMargin(0);
-  PVBox->setSpacing(KDialogBase::spacingHint());
+  PVBox->setSpacing(KDialog::spacingHint());
   light           = NULL;
   label_w         = NULL;
   set_w           = NULL;
@@ -123,7 +123,7 @@ INDI_E * INDI_P::findElement(const QString &elementName)
 void INDI_P::drawLt(PState lstate)
 {
 
-  
+
         /* set state light */
 	switch (lstate)
 	{
@@ -149,14 +149,14 @@ void INDI_P::drawLt(PState lstate)
 	  break;
 
 	}
-	
+
 }
 
 void INDI_P::newText()
 {
   INDI_E * lp;
 
-  for ( int i=0; i < el.size(); ++i ) 
+  for ( int i=0; i < el.size(); ++i )
   {
     lp = el[i];
     /* If PG_SCALE */
@@ -214,7 +214,7 @@ void INDI_P::convertSwitch(QAction *action)
  INDI_E *lp;
  int switchIndex=0;
 
- 
+
   //kDebug() << "Name: " << name << " ID: " << id << endl;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
  if (stdID == CCD_EXPOSE_DURATION && action->text() == label)
@@ -233,12 +233,12 @@ void INDI_P::convertSwitch(QAction *action)
 	indistd->ksw->map()->slotCenter();
 	return;
  }
-   
+
  lp = findElement(action->text());
- 
+
  if (!lp)
    return;
-   
+
  for (int i=0; i < el.size(); i++)
  {
    if (el[i]->label == action->text())
@@ -253,7 +253,7 @@ void INDI_P::convertSwitch(QAction *action)
  if (indistd->convertSwitch(switchIndex, lp))
    return;
  else if (lp->state == PS_OFF)
-         newSwitch(switchIndex);	 
+         newSwitch(switchIndex);
 }
 
 void INDI_P::newAbstractButton(QAbstractButton *button)
@@ -350,7 +350,7 @@ void INDI_P::newBlob()
     if (filename.isEmpty())
     {
       valid = false;
-      continue; 
+      continue;
     }
 
     fp.setFileName(filename);
@@ -409,7 +409,7 @@ void INDI_P::newBlob()
   else if (sending)
     pg->dp->parentMgr->finishBlob();
 
-  if (valid) 
+  if (valid)
     state = PS_BUSY;
   else
     state = PS_ALERT;
@@ -430,18 +430,18 @@ void INDI_P::addGUI (XMLEle *root)
 	light->setLook(KLed::Sunken);
 	//light->setShape(KLed::Rectangular);
 	drawLt(state);
-	
+
 	/* #1 First widegt is the LED status indicator */
 	PHBox->addWidget(light);
-        
+
 	/* #2 add label for prompt */
 	prompt = findAtt(root, "label", errmsg);
-	
+
 	if (!prompt)
 	    label = name;
 	else
 	    label = valuXMLAtt(prompt);
-	
+
 	// use property name if label is empty
 	if (label.isEmpty())
 	{
@@ -450,7 +450,7 @@ void INDI_P::addGUI (XMLEle *root)
 	}
 	else
 	   label_w = new QLabel(label, pg->propertyContainer);
-	 
+
 	   label_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
 	   label_w->setFrameShape( QLabel::GroupBoxPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
@@ -458,12 +458,12 @@ void INDI_P::addGUI (XMLEle *root)
 	   label_w->setTextFormat( Qt::RichText );
 	   label_w->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter );
            label_w->setWordWrap(true);
-	   
+
 	   PHBox->addWidget(label_w);
-	 
+
          light->show();
 	 label_w->show();
-	 
+
 	 /* #3 Add the Vertical layout thay may contain several elements */
 	 PHBox->addLayout(PVBox);
 }
@@ -475,7 +475,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	XMLAtt *ap;
         QString textName, textLabel;
 	errmsg=errmsg;
-	
+
         for (text = nextXMLEle (root, 1); text != NULL; text = nextXMLEle (root, 0))
 	{
 	    if (strcmp (tagXMLEle(text), "defText"))
@@ -500,24 +500,24 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	    }
 
 	    textLabel = valuXMLAtt(ap);
-            
+
 
 	    if (textLabel.isEmpty())
 	      textLabel = textName;
 
 	      textLabel.truncate(MAXINDINAME);
-	     
+
              lp = new INDI_E(this, textName, textLabel);
 
 	     lp->buildTextGUI(QString(pcdataXMLEle(text)));
-	     
+
 	     el.append(lp);
-	     
+
 	 }
-	
+
 	if (perm == PP_RO)
 	  return 0;
-	
+
 	 // INDI STD, but we use our own controls
 	 if (name == "TIME")
 	 {
@@ -529,9 +529,9 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 		setupSetButton("Set");
         	QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
          }
-	 
+
 	 return 0;
-	 
+
 }
 
 int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
@@ -543,7 +543,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	INDI_E *lp;
 	QString numberName, numberLabel;
 	errmsg=errmsg;
-	
+
 	for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
 	{
 	    if (strcmp (tagXMLEle(number), "defNumber"))
@@ -568,12 +568,12 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	    }
 
 	    numberLabel = valuXMLAtt(ap);
-	    
+
 	    if (numberLabel.isEmpty())
 	      numberLabel = numberName;
 
            numberLabel.truncate(MAXINDINAME);
-	    
+
 	    lp = new INDI_E(this, numberName, numberLabel);
 
 	    ap = findXMLAtt (number, "min");
@@ -596,17 +596,17 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	    el.append(lp);
 
 	 }
-	 
+
 	if (perm == PP_RO)
 	  return 0;
-	  
+
         if (name == "CCD_EXPOSE_DURATION")
 	          setupSetButton("Start");
         else
 		  setupSetButton("Set");
-		  
+
 	QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
-		   
+
 	return (0);
 }
 
@@ -648,7 +648,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 
 	    switchName = valuXMLAtt(ap);
             switchName.truncate(MAXINDINAME);
-	    
+
 	    /* find label */
 	    ap = findAtt (sep, "label", errmsg);
 	     if (!ap)
@@ -671,7 +671,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	    }
 
              menuOptions.append(switchLabel);
-	    
+
 	    if (lp->state == PS_ON)
 	    {
 		if (onItem != -1)
@@ -680,19 +680,19 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 					tagXMLEle(root), name.toAscii(), lp->name.toAscii());
 		    return (-1);
 		}
-		
+
 		onItem = i;
 	    }
-            
+
 	    el.append(lp);
 	}
 
 	om_w = new KComboBox(pg->propertyContainer);
 	om_w->addItems(menuOptions);
 	om_w->setCurrentIndex(onItem);
-	
+
 	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	
+
 	PHBox->addWidget(om_w);
 	PHBox->addItem(HorSpacer);
 
@@ -716,7 +716,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
         //groupB->setFrameShape(QtFrame::NoFrame);
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
-	  
+
 	QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(newAbstractButton(QAbstractButton *)));
 
        for (sep = nextXMLEle (root, 1), j=-1; sep != NULL; sep = nextXMLEle (root, 0))
@@ -724,7 +724,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	    /* look for switch tage */
 	    if (strcmp (tagXMLEle(sep), "defSwitch"))
                    continue;
-            
+
 	    /* find name  */
 	    ap = findAtt (sep, "name", errmsg);
 	    if (!ap)
@@ -739,12 +739,12 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	    	return (-1);
 
 	    switchLabel = valuXMLAtt(ap);
-	    
+
 	    if (switchLabel.isEmpty())
 	      switchLabel = switchName;
 
             switchLabel.truncate(MAXINDINAME);
-	    
+
             lp = new INDI_E(this, switchName, switchLabel);
 
 	    if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
@@ -776,7 +776,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	       lp->push_w = button;
 
 	       PHBox->addWidget(button);
-	       	       
+
 	       button->show();
 
 	      break;
@@ -790,9 +790,9 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	        checkbox->setChecked(true);
 
 	      lp->check_w = checkbox;
-	      
+
 	      PHBox->addWidget(checkbox);
-	      
+
               checkbox->show();
 
 	      break;
@@ -807,9 +807,9 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 
         if (j < 0)
 	 return (-1);
-	 
+
         HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	
+
 	PHBox->addItem(HorSpacer);
 
         return (0);
@@ -821,7 +821,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	XMLAtt *ap;
 	INDI_E *lp;
 	QString sname, slabel;
-	
+
    	for (lep = nextXMLEle (root, 1); lep != NULL; lep = nextXMLEle (root, 0))
     	{
 	    if (strcmp (tagXMLEle(lep), "defLight"))
@@ -830,7 +830,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	    /* find name  */
 	    ap = findAtt (lep, "name", errmsg);
 	    if (!ap) return (-1);
-	
+
 	    sname = valuXMLAtt(ap);
             sname.truncate(MAXINDINAME);
 
@@ -843,7 +843,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 	      slabel = sname;
 
             slabel.truncate(MAXINDINAME);
-	   
+
 	   lp = new INDI_E(this, sname, slabel);
 
 	   if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->state) < 0)
@@ -852,13 +852,13 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 			    tagXMLEle(root), valuXMLAtt(ap), pg->dp->name.toAscii(), name.toAscii(), sname.toAscii());
 		return (-1);
 	   }
-	   
+
 	   lp->buildLightGUI();
            el.append(lp);
 	}
-	
+
 	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	
+
 	PHBox->addItem(HorSpacer);
 
 	return (0);
@@ -873,7 +873,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
   XMLAtt *ap;
   QString blobName, blobLabel ;
   errmsg=errmsg;
-	
+
   for (blob = nextXMLEle (root, 1); blob != NULL; blob = nextXMLEle (root, 0))
   {
     if (strcmp (tagXMLEle(blob), "defBLOB"))
@@ -907,26 +907,26 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
     lp = new INDI_E(this, blobName, blobLabel);
 
     lp->buildBLOBGUI();
-	     
+
     el.append(lp);
-	     
+
   }
-	
+
   if (perm == PP_RO)
     return 0;
-	
+
    setupSetButton(i18n("Upload"));
    QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));
 
   return 0;
-	 
+
 }
 
 void INDI_P::activateSwitch(const QString &name)
 {
   int iCounter = 0;
 
-  for ( int i=0; i < el.size(); ++i ) 
+  for ( int i=0; i < el.size(); ++i )
   {
     if (el[i]->name == name && el[i]->push_w)
       newSwitch(iCounter);
