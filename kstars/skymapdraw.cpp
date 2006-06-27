@@ -344,7 +344,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 		cur = o;
 		psky.moveTo( o.x(), o.y() );
 
-		double dRA = 1./15.; //180 points along full circle of RA
+		double dRA = 1./5.; //120 points along full circle of RA
 		for ( register double RA=dRA; RA<24.; RA+=dRA ) {
 			sp->set( RA, Dec );
 			if ( Options::useAltAz() ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
