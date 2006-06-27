@@ -171,7 +171,10 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 
 void SkyMap::drawAngleRuler( QPainter &p ) {
 	p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 1.0, Qt::DotLine ) );
-	p.drawLine( beginRulerPoint, endRulerPoint );
+
+	QPointF startPoint = toScreen( AngularRuler.startPoint() );
+	QPointF endPoint = toScreen( AngularRuler.endPoint() );
+	p.drawLine( startPoint, endPoint );
 }
 
 void SkyMap::drawZoomBox( QPainter &p ) {
@@ -271,7 +274,7 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	if ( ks && ks->observingList()->obsList().size() ) {
 		foreach ( SkyObject* obj, ks->observingList()->obsList() ) {
 			if ( checkVisibility( obj ) ) {
-				QPointF o = toScreen( obj );
+				QPointF o = toScreen( obj, scale );
 
 				// label object if it is currently on screen
 				if (o.x() >= 0. && o.x() <= width() && o.y() >=0. && o.y() <= height() ) {

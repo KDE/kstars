@@ -29,6 +29,7 @@
 #include <QPaintEvent>
 
 #include "skypoint.h"
+#include "skyline.h"
 
 #define HOVER_INTERVAL 500 
 
@@ -803,7 +804,7 @@ private:
 //	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
-	QPointF beginRulerPoint, endRulerPoint;  // used in angle mode
+	SkyLine AngularRuler; //The line for measuring angles in the map
 	QRect ZoomRect; //The manual-focus circle.
 
 	//data for transient object labels

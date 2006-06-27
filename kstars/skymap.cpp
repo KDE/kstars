@@ -401,33 +401,41 @@ void SkyMap::slotDSS2( void ) {
 }
 
 void SkyMap::slotBeginAngularDistance() {
-	setPreviousClickedPoint( mousePoint() );
+//ANGULAR
+//	setPreviousClickedPoint( mousePoint() );
 	angularDistanceMode = true;
-	beginRulerPoint = toScreen( previousClickedPoint() );
-	endRulerPoint =  QPointF( beginRulerPoint.x(),beginRulerPoint.y() );
+	AngularRuler = SkyLine( mousePoint(), mousePoint() ); 
+//	beginRulerPoint = toScreen( previousClickedPoint() );
+//	endRulerPoint =  QPointF( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
 void SkyMap::slotEndAngularDistance() {
-	dms angularDistance;
-	if(angularDistanceMode) {
+	if( angularDistanceMode ) {
+		dms angularDistance;
+		QString sbMessage = QString::null;
+
+		//If the cursor is near a SkyObject, reset the AngularRuler's 
+		//end point to the position of the SkyObject
 		double maxrad = 1000.0/Options::zoomFactor();
 		if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
-			angularDistance = so->angularDistanceTo( previousClickedPoint() );
-			ks->statusBar()->changeItem( so->translatedLongName() +
-					"     " +
-					i18n("Angular distance: " ) +
-					angularDistance.toDMSString(), 0 );
-		} else {
-			angularDistance = mousePoint()->angularDistanceTo( previousClickedPoint() );
-			ks->statusBar()->changeItem( i18n("Angular distance: " ) +
-				angularDistance.toDMSString(), 0 );
-		}
+			AngularRuler.setEndPoint( *so );
+			sbMessage = so->translatedLongName() + "   ";
+		} else
+			AngularRuler.setEndPoint( mousePoint() );
+		
+		angularDistance = AngularRuler.angularSize();
+		sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
+
+		ks->statusBar()->changeItem( sbMessage, 0 );
+
 		angularDistanceMode=false;
+		AngularRuler = SkyLine(); //null SkyLine
 	}
 }
 
 void SkyMap::slotCancelAngularDistance(void) {
 	angularDistanceMode=false;
+	AngularRuler = SkyLine(); //null SkyLine
 }
 
 void SkyMap::slotImage() {
@@ -1169,11 +1177,14 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-	if ( Options::useAltAz() ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	beginRulerPoint = toScreen( previousClickedPoint() );
+	//determine RA, Dec of mouse pointer
+	QPoint mp( mapFromGlobal( QCursor::pos() ) );
+	double dx = ( 0.5*width()  - mp.x() )/Options::zoomFactor();
+	double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
 
-//	endRulerPoint =  QPoint(e->x(), e->y());
-	endRulerPoint = mapFromGlobal( QCursor::pos() );
+	if (! unusablePoint (dx, dy)) {
+		AngularRuler.setEndPoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+	}
 }
 
 bool SkyMap::isSlewing() const  {

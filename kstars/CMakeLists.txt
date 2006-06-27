@@ -223,7 +223,7 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} ${libkst
            ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
            opsadvanced.cpp opscatalog.cpp opscolors.cpp 
            opsguides.cpp opssolarsystem.cpp simclock.cpp skymap.cpp 
-           skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp 
+           skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp skyline.cpp 
            starobject.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp 
            timedialog.cpp timezonerule.cpp 
            toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp
