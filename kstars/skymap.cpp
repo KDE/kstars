@@ -450,6 +450,13 @@ void SkyMap::slotTransientLabel( void ) {
 //Slots
 
 void SkyMap::slotTransientTimeout( void ) {
+	//Don't fade label if the transientObject is now the focusObject!
+	if ( transientObject() == focusObject() && Options::useAutoLabel() ) {
+		setTransientObject( NULL );
+		TransientTimer.stop();
+		return;
+	}
+
 	//to fade the labels, we will need to smoothly transition from UserLabelColor to SkyColor.
 	QColor c1 = data->colorScheme()->colorNamed( "UserLabelColor" );
 	QColor c2 = data->colorScheme()->colorNamed( "SkyColor" );
