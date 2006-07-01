@@ -122,5 +122,6 @@ GenericName[tr]=Masaüstü Yıldız Evi
 GenericName[uk]=Настільний планетарій
 GenericName[vi]=Ngắm sao trên Màn hình
 GenericName[zh_CN]=桌面天文馆
+GenericName[zh_TW]=桌面星象儀
 X-DCOP-ServiceType=Multi
 Categories=Qt;KDE;Education;Science;Astronomy;
