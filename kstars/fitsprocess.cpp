@@ -15,21 +15,22 @@
  *                                                                         *
  ***************************************************************************/
  
- #include <stdlib.h>
- #include <unistd.h>
+#include <stdlib.h>
+#include <unistd.h>
  
- #include <kdebug.h>
- #include <klocale.h>
- #include <kprogressdialog.h>
- #include <kapplication.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <kprogressdialog.h>
+#include <kapplication.h>
+#include <kprogressbar.h>
+
+#include <qimage.h>
  
- #include <qimage.h>
+#include "fitsprocess.h"
+#include "fitsviewer.h"
+#include "fitsimage.h"
  
- #include "fitsprocess.h"
- #include "fitsviewer.h"
- #include "fitsimage.h"
- 
- #define ELEM_SWAP(a,b) { register float t=(a);(a)=(b);(b)=t; }
+#define ELEM_SWAP(a,b) { register float t=(a);(a)=(b);(b)=t; }
  
  FITSProcess::FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode)
  {

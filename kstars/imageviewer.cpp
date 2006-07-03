@@ -238,7 +238,7 @@ void ImageViewer::close() {
 
 void ImageViewer::checkJob() {
 	if ( downloadJob ) {  // if download job is running
-		downloadJob->kill( true );  // close job quietly, without emitting a result
+		downloadJob->kill( KJob::Quietly );  // close job quietly, without emitting a result
 		kDebug() << "Download job killed";
 	}
 }

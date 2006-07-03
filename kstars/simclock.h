@@ -20,7 +20,7 @@
 
 #include <time.h>
 
-#include <dbus/qdbus.h>
+#include <QtDBus/QtDBus>
 #include <QTimer>
 
 #include "kstarsdatetime.h"
@@ -83,17 +83,17 @@ class SimClock : public QObject
 	public Q_SLOTS:
 		
 	/**DCOP function to stop the SimClock. */
-		Q_SCRIPTABLE Q_ASYNC void stop();
+		Q_SCRIPTABLE Q_NOREPLY void stop();
 
 	/**DCOP function to start the SimClock. */
-		Q_SCRIPTABLE Q_ASYNC void start();
+		Q_SCRIPTABLE Q_NOREPLY void start();
 
 	/**DCOP function to set the time of the SimClock. */
-		Q_SCRIPTABLE Q_ASYNC void setUTC(const KStarsDateTime &newtime);
+		Q_SCRIPTABLE Q_NOREPLY void setUTC(const KStarsDateTime &newtime);
 
 	/**DCOP function to set scale of simclock.  Calls setScale().
 		*/
-		Q_SCRIPTABLE Q_ASYNC void setClockScale(float s);
+		Q_SCRIPTABLE Q_NOREPLY void setClockScale(float s);
 	
 		/**Adjust the clock timescale*/
 		void setScale(float s);
