@@ -617,7 +617,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 		// Image Links
 		case 1:
 			// Get name for our local info_url file
-			URLFile.setFileName( locateLocal( "appdata", "image_url.dat" ) );
+			URLFile.setFileName( KStandardDirs::locateLocal( "appdata", "image_url.dat" ) );
 			break;
 	}
 

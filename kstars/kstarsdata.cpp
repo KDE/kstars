@@ -658,7 +658,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
 				if ( locale->language() != "en_US" ) kDebug() << i18n( "No localized URL file; using default English file." ) << endl;
 				// we found urlfile, we need to copy it to locale
-				localeFile.setFileName( locateLocal( "appdata", urlfile ) );
+				localeFile.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(QIODevice::WriteOnly)) {
 					QTextStream readStream(&file);
 					QTextStream writeStream(&localeFile);
@@ -831,7 +831,7 @@ bool KStarsData::readVARData(void)
 		if ( KSUtils::openDataFile( file, varFile ) )
 		{
 			// we found urlfile, we need to copy it to locale
-			localeFile.setFileName( locateLocal( "appdata", varFile ) );
+			localeFile.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
 
 			if (localeFile.open(QIODevice::WriteOnly))
 			{

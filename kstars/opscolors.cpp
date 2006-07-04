@@ -213,7 +213,7 @@ void OpsColors::slotRemovePreset() {
 
 		if ( removed ) { //Entry was removed; delete the corresponding .colors file.
 			QFile colorFile;
-			colorFile.setFileName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
+			colorFile.setFileName( KStandardDirs::locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 			if ( !colorFile.remove() ) {
 				QString message = i18n( "Could not delete the file: %1", colorFile.fileName() );
 				KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
