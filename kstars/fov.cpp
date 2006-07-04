@@ -33,7 +33,7 @@ FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), Size( 0.0 ), Shape( 0
 
 FOV::FOV( const QString &sname ) {
 	QFile f;
-	f.setFileName( locate( "appdata", "fov.dat" ) );
+	f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
 	
 	int sh;
 	float sz;

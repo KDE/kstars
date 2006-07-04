@@ -78,7 +78,7 @@ void FOVDialog::initList() {
 	int sh(0);
 	float sz(0.0);
 
-	f.setFileName( locate( "appdata", "fov.dat" ) );
+	f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
 
 	if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
 		Q3ListBoxItem *item = 0;

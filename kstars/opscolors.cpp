@@ -58,7 +58,7 @@ OpsColors::OpsColors( KStars *_ks )
 
 	QFile file;
 	QString line, schemeName, filename;
-	file.setFileName( locate( "appdata", "colors.dat" ) );
+	file.setFileName( KStandardDirs::locate( "appdata", "colors.dat" ) );
 	if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
 		QTextStream stream( &file );
 
