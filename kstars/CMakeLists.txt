@@ -263,7 +263,7 @@ install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstarsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 ##DCOP_IS_DEAD
-install_files( /include FILES ) #kstarsinterface.h simclockinterface.h )
+install( FILES  DESTINATION  ${INCLUDE_INSTALL_DIR} )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
