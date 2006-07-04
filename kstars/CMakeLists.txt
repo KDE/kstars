@@ -258,10 +258,10 @@ install_targets(/bin kstars )
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kstars.desktop )
-install_files( ${KCFG_INSTALL_DIR} FILES kstars.kcfg )
-install_files( ${CONFIG_INSTALL_DIR} FILES kstarsrc )
-install_files( ${DATA_INSTALL_DIR}/kstars/ FILES kstarsui.rc fitsviewer.rc )
+install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
+install( FILES kstarsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 ##DCOP_IS_DEAD
 install_files( /include FILES ) #kstarsinterface.h simclockinterface.h )
 

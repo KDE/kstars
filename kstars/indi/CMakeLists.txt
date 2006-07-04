@@ -165,7 +165,7 @@ kde4_add_library(sbigudrv SHARED ${sbigudrv_LIB_SRCS})
 target_link_libraries(sbigudrv)
 
 set_target_properties(sbigudrv PROPERTIES VERSION 1.0.0 SOVERSION 1 )
-install_targets(${LIB_INSTALL_DIR} sbigudrv )
+install(TARGETS sbigudrv  DESTINATION ${LIB_INSTALL_DIR} )
 
 ########### next target ###############
 ########### INDI Server ##############
@@ -397,7 +397,7 @@ install_targets(/bin sbigccd )
 
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
-install_files( ${DATA_INSTALL_DIR}/kstars FILES drivers.xml apogee_caminfo.xml )
+install( FILES drivers.xml apogee_caminfo.xml  DESTINATION  ${DATA_INSTALL_DIR}/kstars )
 
 
 #original Makefile.am contents follow:
