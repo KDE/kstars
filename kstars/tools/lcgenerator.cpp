@@ -160,7 +160,7 @@ void LCGenerator::updateNameList(int index)
 
 void LCGenerator::updateStarList()
 {
-	file->setFileName( locateLocal( "appdata", "valaav.txt" ) );
+	file->setFileName( KStandardDirs::locateLocal( "appdata", "valaav.txt" ) );
 
 	KUrl AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
 	KUrl saveFile (file->fileName());

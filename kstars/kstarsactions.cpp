@@ -858,7 +858,7 @@ void KStars::slotFOVEdit() {
 	if ( fovdlg.exec() == QDialog::Accepted ) {
 		//replace existing fov.dat with data from the FOVDialog
 		QFile f;
-		f.setFileName( locateLocal( "appdata", "fov.dat" ) );
+		f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
 
 		//rebuild fov.dat if FOVList is empty
 		if ( fovdlg.FOVList.isEmpty() ) {

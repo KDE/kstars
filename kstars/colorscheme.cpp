@@ -247,7 +247,7 @@ bool ColorScheme::save( const QString &name ) {
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
 		filename = filename.append( ".colors" );
-		file.setFileName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
+		file.setFileName( KStandardDirs::locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 
 		if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );

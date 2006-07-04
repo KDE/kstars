@@ -237,7 +237,7 @@ void LocationDialog::addCity( void ) {
 		QString country = ui->NewCountryName->text().trimmed();
 
 		//check for user's city database.  If it doesn't exist, create it.
-		file.setFileName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+		file.setFileName( KStandardDirs::locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
 			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );

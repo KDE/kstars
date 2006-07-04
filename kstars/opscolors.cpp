@@ -135,7 +135,7 @@ bool OpsColors::setColors( QString filename ) {
 
 	//just checking if colorscheme is removable...
 	QFile test;
-	test.setFileName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
+	test.setFileName( KStandardDirs::locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
 	if ( test.exists() ) RemovePreset->setEnabled( true );
 	else RemovePreset->setEnabled( false );
 	test.close();
@@ -180,7 +180,7 @@ void OpsColors::slotRemovePreset() {
 	QString name = PresetBox->currentText();
 	QString filename = PresetFileList[ PresetBox->currentItem() ];
 	QFile cdatFile;
-	cdatFile.setFileName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
+	cdatFile.setFileName( KStandardDirs::locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove action from color-schemes menu
 	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );

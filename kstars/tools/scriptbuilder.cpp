@@ -1031,7 +1031,7 @@ void ScriptBuilder::slotRunScript() {
 	//is not executable.  Bizarre...
 	//KTempFile tmpfile;
 	//QString fname = tmpfile.name();
-	QString fname = locateLocal( "tmp", "kstars-tempscript" );
+	QString fname = KStandardDirs::locateLocal( "tmp", "kstars-tempscript" );
 
 	QFile f( fname );
 	if ( f.exists() ) f.remove();

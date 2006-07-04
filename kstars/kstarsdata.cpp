@@ -77,7 +77,7 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//Check to see if config file already exists.  If not, set
 	//useDefaultOptions = true
-	QString fname = locateLocal( "config", "kstarsrc" );
+	QString fname = KStandardDirs::locateLocal( "config", "kstarsrc" );
 	useDefaultOptions = ! ( QFile(fname).exists() );
 
 	m_SkyComposite = new SkyMapComposite( 0, this );
@@ -585,7 +585,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 		fileFound = true;
 	} else {
    // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-		file.setFileName( locateLocal( "appdata", urlfile ) );
+		file.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
 		if ( file.open( QIODevice::ReadOnly ) ) {
 			//local file found.  Now, if global file has newer timestamp, then merge the two files.
 			//First load local file into QStringList
@@ -824,7 +824,7 @@ bool KStarsData::readVARData(void)
 	QFile localeFile;
 	QFile file;
 
-	file.setFileName( locateLocal( "appdata", varFile ) );
+	file.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
 	if ( !file.open( QIODevice::ReadOnly ) )
 	{
 		// Open default variable stars file

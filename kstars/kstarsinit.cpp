@@ -396,7 +396,7 @@ void KStars::initFOV() {
 	QStringList fields;
 	QString nm;
 
-	f.setFileName( locateLocal( "appdata", "fov.dat" ) );
+	f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
 
 	//if file s empty, let's start over
 	if ( (uint)f.size() == 0 ) f.remove();

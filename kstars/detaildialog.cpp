@@ -611,7 +611,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 		// Info Links
 		case 0:
 			// Get name for our local info_url file
-			URLFile.setFileName( locateLocal( "appdata", "info_url.dat" ) );
+			URLFile.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) );
 			break;
 
 		// Image Links
@@ -932,8 +932,7 @@ void DetailDialog::updateThumbnail() {
 	ThumbnailPicker tp( selectedObject, *Thumbnail, this );
 
 	if ( tp.exec() == QDialog::Accepted ) {
-		QString fname = locateLocal( "appdata", "thumb-"
-				+ selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png" );
+		QString fname = KStandardDirs::locateLocal( "appdata", "thumb-" + selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
 
