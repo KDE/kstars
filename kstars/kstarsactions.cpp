@@ -443,7 +443,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-	KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
+	KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 
 	//Warn user if file exists!
 	if (QFile::exists(fileURL.path()))
@@ -478,14 +478,14 @@ void KStars::slotRunScript() {
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
-				KUrl saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+				KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				KTempFile tmpfile;
 				tmpfile.setAutoDelete(true);
 
 				while ( ! saveURL.isValid() ) {
 					message = i18n( "Save location is invalid. Try another location?" );
 					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::No ) return;
-					saveURL = KFileDialog::getSaveURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+					saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				}
 
 				if ( saveURL.isLocalFile() ) {

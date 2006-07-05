@@ -583,7 +583,7 @@ void ObservingList::slotSaveListAs() {
 			i18n( "List name:" ), QString(), &ok );
 
 	if ( ok ) {
-		KUrl fileURL = KFileDialog::getSaveURL( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
+		KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
 
 		if ( fileURL.isValid() )
 			FileName = fileURL.path();

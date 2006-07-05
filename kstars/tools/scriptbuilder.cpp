@@ -891,7 +891,7 @@ void ScriptBuilder::slotOpen() {
 	tmpfile.setAutoDelete(true);
 
 	if ( !UnsavedChanges ) {
-		currentFileURL = KFileDialog::getOpenURL( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
+		currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
 
 		if ( currentFileURL.isValid() ) {
 			currentDir = currentFileURL.directory();
@@ -944,7 +944,7 @@ void ScriptBuilder::slotSave() {
 	}
 
 	if ( currentFileURL.isEmpty() )
-		currentFileURL = KFileDialog::getSaveURL( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
+		currentFileURL = KFileDialog::getSaveUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
 
 	if ( currentFileURL.isValid() ) {
 		currentDir = currentFileURL.directory();

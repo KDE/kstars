@@ -553,7 +553,7 @@ void FITSViewer::fileSave()
 
   if (currentURL.isEmpty())
   {
-  	currentURL = KFileDialog::getSaveURL( currentDir, "*.fits |Flexible Image Transport System");
+  	currentURL = KFileDialog::getSaveUrl( currentDir, "*.fits |Flexible Image Transport System");
 	// if user presses cancel
 	if (currentURL.isEmpty())
 	{

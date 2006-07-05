@@ -165,7 +165,7 @@ void StreamWG::captureImage()
 
   fmt = imgFormatCombo->currentText();
 
-  currentFileURL = KFileDialog::getSaveURL( currentDir, fmt );
+  currentFileURL = KFileDialog::getSaveUrl( currentDir, fmt );
   
   if (currentFileURL.isEmpty()) return;
 
