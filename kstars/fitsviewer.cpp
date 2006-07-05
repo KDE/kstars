@@ -516,7 +516,7 @@ void FITSViewer::fileOpen()
 			fitsRestore();
    }
 
-   KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+   KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
 
   if (fileURL.isEmpty())
     return;

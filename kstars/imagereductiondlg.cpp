@@ -53,7 +53,7 @@ ImageReductionDlg::~ImageReductionDlg()
 
 void ImageReductionDlg::addDarkFile()
 {
-   KUrl::List fileURLs = KFileDialog::getOpenURLs( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
+   KUrl::List fileURLs = KFileDialog::getOpenUrls( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
   
   const int limit = (int) fileURLs.size();
   for (int i=0; i < limit ; ++i)
@@ -66,7 +66,7 @@ void ImageReductionDlg::addDarkFile()
 
 void ImageReductionDlg::addFlatFile()
 {
-   KUrl::List fileURLs = KFileDialog::getOpenURLs( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
+   KUrl::List fileURLs = KFileDialog::getOpenUrls( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
   
   const int limit = (int) fileURLs.size();
   
@@ -80,7 +80,7 @@ void ImageReductionDlg::addFlatFile()
 
 void ImageReductionDlg::addDarkFlatFile()
 {
-     KUrl::List fileURLs = KFileDialog::getOpenURLs( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
+     KUrl::List fileURLs = KFileDialog::getOpenUrls( QString(), "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
   
      const int limit = (int) fileURLs.size();
      for (int i=0; i < limit; ++i) 

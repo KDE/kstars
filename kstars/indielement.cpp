@@ -417,7 +417,7 @@ void INDI_E::browseBlob()
 
   KUrl currentURL;
 
-  currentURL = KFileDialog::getOpenURL( QDir::homePath(), "*");
+  currentURL = KFileDialog::getOpenUrl( QDir::homePath(), "*");
 
   // if user presses cancel
   if (currentURL.isEmpty())

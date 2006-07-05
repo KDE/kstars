@@ -432,7 +432,7 @@ void KStars::closeWindow() {
 void KStars::slotOpenFITS()
 {
 
-  KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System" );
+  KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System" );
 
   if (fileURL.isEmpty())
     return;
@@ -461,7 +461,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-	KUrl fileURL = KFileDialog::getOpenURL( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+	KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 	QFile f;
 	QString fname;
 
