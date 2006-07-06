@@ -175,7 +175,7 @@ kde4_add_executable(indiserver ${indiserver_SRCS}  ${liblilxml_SRCS} ${libindico
 
 target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} pthread )
 
-install_targets(/bin indiserver )
+install(TARGETS indiserver  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### LX200 Basic #############
@@ -189,7 +189,7 @@ kde4_add_executable(lx200basic ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom
 
 target_link_libraries(lx200basic  ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin lx200basic )
+install(TARGETS lx200basic  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### LX200 Generic ###########
@@ -207,7 +207,7 @@ kde4_add_executable(lx200generic ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libin
 
 target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin lx200generic)
+install(TARGETS lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
 ## Make symbolic links to lx200generic ##
 ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${KDE4_INSTALL_DIR}/bin/lx200classic)
@@ -234,7 +234,7 @@ kde4_add_executable(celestrongps ${celestrongps_SRCS}  ${liblilxml_SRCS} ${libin
 
 target_link_libraries(celestrongps ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin celestrongps )
+install(TARGETS celestrongps  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### Orion Atlas ########
@@ -247,7 +247,7 @@ kde4_add_executable(orionatlas ${orionatlas_SRCS}  ${liblilxml_SRCS} ${libindico
 
 target_link_libraries(orionatlas  ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin orionatlas )
+install(TARGETS orionatlas  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### Takahashi Temma #########
@@ -260,7 +260,7 @@ kde4_add_executable(temma ${temma_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(temma  ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin temma )
+install(TARGETS temma  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### Sky Commander ##########
@@ -274,7 +274,7 @@ kde4_add_executable(skycommander ${skycommander_SRCS}  ${liblilxml_SRCS} ${libin
 
 target_link_libraries(skycommander  ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin skycommander )
+install(TARGETS skycommander  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### next target ###############
@@ -289,7 +289,7 @@ kde4_add_executable(intelliscope ${intelliscope_SRCS}  ${liblilxml_SRCS} ${libin
 
 target_link_libraries(intelliscope  ${KDE4_KDECORE_LIBS} m )
 
-install_targets(/bin intelliscope )
+install(TARGETS intelliscope  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### LINUX SPECIFC ###############
 #### Build the following targets on Linux Only ####
@@ -318,7 +318,7 @@ kde4_add_executable(apogee_ppi ${apogee_ppi_SRCS} ${libapogee_PPI_SRCS} ${liblil
 
 target_link_libraries(apogee_ppi ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin apogee_ppi )
+install(TARGETS apogee_ppi  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ###### FLI Precision Digital Focuser ######
@@ -329,7 +329,7 @@ kde4_add_executable(flipdf ${flipdf_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${lib
 
 target_link_libraries(flipdf m ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin flipdf )
+install(TARGETS flipdf  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########## FLI Filter Wheel ############
@@ -339,7 +339,7 @@ kde4_add_executable(fliwheel ${fliwheel_SRCS}  ${libfli_SRCS} ${liblilxml_SRCS} 
 
 target_link_libraries(fliwheel  ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin fliwheel )
+install(TARGETS fliwheel  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ############# FLI CCD ###############
@@ -351,7 +351,7 @@ kde4_add_executable(fliccd ${fliccd_SRCS} ${libfli_SRCS} ${libcfitsio_SRCS} ${li
 
 target_link_libraries(fliccd m z ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin fliccd )
+install(TARGETS fliccd  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ### Meade Lunar Planetary Imager ########
@@ -363,7 +363,7 @@ kde4_add_executable(meade_lpi ${meade_lpi_SRCS} ${libwebcam_SRCS} ${libcfitsio_S
 
 target_link_libraries(meade_lpi z ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin meade_lpi )
+install(TARGETS meade_lpi  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### V4L Philips ##############
@@ -373,7 +373,7 @@ kde4_add_executable(v4lphilips ${v4lphilips_SRCS} ${libwebcam_SRCS} ${libcfitsio
 
 target_link_libraries(v4lphilips m z ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin v4lphilips )
+install(TARGETS v4lphilips  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### V4L Driver ###############
@@ -383,7 +383,7 @@ kde4_add_executable(v4ldriver ${v4ldriver_SRCS} ${libwebcam_SRCS} ${libcfitsio_S
 
 target_link_libraries(v4ldriver m z ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin v4ldriver )
+install(TARGETS v4ldriver  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### SBIG CCD ###############
@@ -393,7 +393,7 @@ kde4_add_executable(sbigccd ${sbigccd_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS}
 
 target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} )
 
-install_targets(/bin sbigccd )
+install(TARGETS sbigccd  DESTINATION ${BIN_INSTALL_DIR} )
 
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 

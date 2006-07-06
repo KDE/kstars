@@ -253,7 +253,7 @@ kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(kstars  ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate kdeprint knewstuff m z )
 
-install_targets(/bin kstars )
+install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
