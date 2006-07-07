@@ -117,7 +117,7 @@ KStars::~KStars()
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
-	delete TimeStep;
+//	delete TimeStep;
 	delete projectionGroup;
 	delete fovGroup;
 	delete cschemeGroup;

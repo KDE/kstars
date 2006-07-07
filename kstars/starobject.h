@@ -219,7 +219,7 @@ class StarObject : public SkyObject {
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createStarMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos );
 
 /**
 	*Reet the colors which will be used to make realistic star colors.

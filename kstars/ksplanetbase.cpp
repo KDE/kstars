@@ -47,6 +47,10 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const
 	ImageAngle = 0.0;
 }
 
+void KSPlanetBase::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+    pmenu->createPlanetMenu( this ); pmenu->popup( pos );
+}
+
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
 	findEcliptic( Obliquity, ep.longitude, ep.latitude );
 }

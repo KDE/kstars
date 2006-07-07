@@ -26,6 +26,7 @@
 #include "skyobject.h"
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
+#include "kspopupmenu.h"
 #include "dms.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
@@ -68,6 +69,10 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 }
 
 SkyObject::~SkyObject() {
+}
+
+void SkyObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+    pmenu->createEmptyMenu( this ); pmenu->popup( pos );
 }
 
 void SkyObject::setLongName( const QString &longname ) {
@@ -424,7 +429,7 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale 
 	double offset = labelOffset( scale );
 	if ( Options::useAntialias() )
 		psky.drawText( QPointF(x+offset, y+offset), translatedName() );
-	else 
+	else
 		psky.drawText( QPoint(int(x+offset), int(y+offset)), translatedName() );
 
 	psky.setFont( stdFont );

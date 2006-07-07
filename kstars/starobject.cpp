@@ -77,12 +77,16 @@ StarObject::StarObject( double r, double d, float m, QString n, QString n2, QStr
 	setLongName(lname);
 }
 
+void StarObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+    pmenu->createStarMenu( this ); pmenu->popup( pos );
+}
+
 void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 	SkyPoint::updateCoords( num );
-	
+
 	//Correct for proper motion of stars.  Determine RA and Dec offsets.
 	//Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
-	//That is numerically identical to the number of arcsec per millenium, so multiply by 
+	//That is numerically identical to the number of arcsec per millenium, so multiply by
 	//KSNumbers::julianMillenia() to find the offsets in arcsec.
 	setRA( ra()->Hours() + pmRA()*num->julianMillenia() / 15. / cos( dec()->radians() )/3600. );
 	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
@@ -258,14 +262,14 @@ void StarObject::updateColors( bool desaturateColors, int saturation ) {
 	}
 }
 
-void StarObject::draw( QPainter &psky, float x, float y, float size, 
+void StarObject::draw( QPainter &psky, float x, float y, float size,
 		bool useRealColors, int scIntensity, bool /*showMultiple*/, double /*scale*/ ) {
-	
+
 	if ( useRealColors ) {
 		//Realistic colors
 		//Stars rendered as a white core with a colored ring.
 		//With antialiasing, we can just set the ring thickness to 0.1*scIntensity
-		//However, this won't work without antialiasing, because the ring thickness 
+		//However, this won't work without antialiasing, because the ring thickness
 		//cant be <1 in this case.  So we desaturate the pen color instead
 		if ( Options::useAntialias() )
 			psky.setPen( QPen( color(), 0.1*scIntensity ) );
@@ -283,14 +287,14 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
 	QString sName( i18n("star") + ' ' );
 	if ( drawName ) {
-		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() ) 
+		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
 			sName = translatedName() + ' ';
 		else if ( ! gname().trimmed().isEmpty() ) sName = gname( true ) + ' ';
 	}
 	if ( drawMag ) {
 		if ( drawName )
 			sName += QString().sprintf("%.1f", mag() );
-		else 
+		else
 			sName.sprintf("%.1f", mag() );
 	}
 

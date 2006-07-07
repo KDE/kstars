@@ -67,6 +67,10 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
 	Image = 0;
 }
 
+void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+    pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
+}
+
 float DeepSkyObject::e( void ) const {
 	if ( MajorAxis==0.0 || MinorAxis==0.0 ) return 1.0; //assume circular
 	return MinorAxis / MajorAxis;
@@ -130,7 +134,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 	float psize;
 
 	QBrush tempBrush;
-	
+
 	switch ( type() ) {
 		case 0:
 		case 1: //catalog star
@@ -151,7 +155,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 			if ( size > 100. ) psize *= 2.;
 
 			if ( Options::useAntialias() ) {
-				psky.drawEllipse( QRectF(xa, y1, psize, psize) ); 
+				psky.drawEllipse( QRectF(xa, y1, psize, psize) );
 				psky.drawEllipse( QRectF(xb, y1, psize, psize) );
 				psky.drawEllipse( QRectF(xa, y2, psize, psize) );
 				psky.drawEllipse( QRectF(xb, y2, psize, psize) );
@@ -164,7 +168,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 				int ix2 = int(x2); int iy2 = int(y2);
 				int ixa = int(xa); int iya = int(ya);
 				int ixb = int(xb); int iyb = int(yb);
-				psky.drawEllipse( QRect(ixa, iy1, int(psize), int(psize)) ); 
+				psky.drawEllipse( QRect(ixa, iy1, int(psize), int(psize)) );
 				psky.drawEllipse( QRect(ixb, iy1, int(psize), int(psize)) );
 				psky.drawEllipse( QRect(ixa, iy2, int(psize), int(psize)) );
 				psky.drawEllipse( QRect(ixb, iy2, int(psize), int(psize)) );
@@ -290,7 +294,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
 void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale ) {
 	QImage *image = readImage();
 	QImage ScaledImage;
-	
+
 	if ( image ) {
 		float w = a() * scale * dms::PI * zoom/10800.0;
 
@@ -305,7 +309,7 @@ void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double Position
 
 			if ( Options::useAntialias() )
 				psky.drawImage( QPointF( -dx, -dy ), ScaledImage );
-			else 
+			else
 				psky.drawImage( QPoint( -1*int(dx), -1*int(dy) ), ScaledImage );
 
 			psky.restore();

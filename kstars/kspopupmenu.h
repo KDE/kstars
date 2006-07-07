@@ -20,8 +20,8 @@
 #define KSPOPUPMENU_H_
 
 #include <kmenu.h>
-#include <QAction>
-
+#include <kaction.h>
+#include <QLabel>
 
 class KStars;
 class StarObject;
@@ -151,9 +151,11 @@ public:
 
 private:
 	KStars *ks;
-	QAction *aName, *aName2, *aType, *aConstellation;
-	QAction *aRiseTime, *aSetTime, *aTransitTime;
-
+	KAction *aName, *aName2, *aType, *aConstellation;
+	KAction *aRiseTime, *aSetTime, *aTransitTime;
+	QLabel *labName, *labName2, *labType, *labConstellation;
+	QLabel *labRiseTime, *labSetTime, *labTransitTime;
+	KMenu *menuDevice;
 };
 
 #endif

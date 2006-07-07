@@ -25,11 +25,12 @@
 
 #include "skypoint.h"
 #include "dms.h"
-#include "kspopupmenu.h"
 
 class QPoint;
+class QPainter;
 class GeoLocation;
 class KStarsDateTime;
+class KSPopupMenu;
 
 /**@class SkyObject
 	*Provides all necessary information about an object in the sky:
@@ -160,7 +161,7 @@ public:
 	*function gets called.  By overloading the function, we don't have to check the 
 	*object type when we need the menu.
 	*/
-	inline virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos );
 
 /**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.
