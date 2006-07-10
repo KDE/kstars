@@ -19,6 +19,7 @@
 #include <QDesktopWidget>
 #include <QTextStream>
 #include <QPainter>
+#include <kjobuidelegate.h>
 
 #include <kapplication.h>
 #include <kdeversion.h>
@@ -112,7 +113,7 @@ void ThumbnailPicker::slotFillList() {
 			ktf.unlink(); //just need filename
 			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
-			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
+			j->setUiDelegate(0);
 			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
 		}
 	}
@@ -350,7 +351,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			ktf.unlink(); //just need filename
 			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
 			JobList.append( j ); //false = no progress window
-			((KIO::CopyJob*)j)->setInteractive( false ); // suppress error dialogs
+                        j->setUiDelegate(0);
 			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
 		}
 	}

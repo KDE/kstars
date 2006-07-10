@@ -22,11 +22,12 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
+#include <kactioncollection.h>
+#include <kactionmenu.h>
+#include <ktoggleaction.h>
 
 #include <kdebug.h>
 #include <kaction.h>
-#include <kactionclasses.h>
-#include <kactioncollection.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -810,17 +811,17 @@ void KStars::slotCoordSys() {
 void KStars::slotMapProjection() {
 	QString aname = sender()->objectName();
 
-	if ( aname == "project_lambert" ) 
+	if ( aname == "project_lambert" )
 		Options::setProjection( SkyMap::Lambert );
-	if ( aname == "project_azequidistant" ) 
+	if ( aname == "project_azequidistant" )
 		Options::setProjection( SkyMap::AzimuthalEquidistant );
-	if ( aname == "project_orthographic" ) 
+	if ( aname == "project_orthographic" )
 		Options::setProjection( SkyMap::Orthographic );
-	if ( aname == "project_equirectangular" ) 
+	if ( aname == "project_equirectangular" )
 		Options::setProjection( SkyMap::Equirectangular );
-	if ( aname == "project_stereographic" ) 
+	if ( aname == "project_stereographic" )
 		Options::setProjection( SkyMap::Stereographic );
-	if ( aname == "project_gnomonic" ) 
+	if ( aname == "project_gnomonic" )
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
