@@ -382,6 +382,16 @@ class KStars : public KMainWindow
 		void slotApplyConfigChanges();
 
 	/**
+		*action slot: Configure toolbars
+		*/
+		void slotConfigureToolbars();
+
+	/**
+		*action slot: Generate toolbars with new user-specified configuration
+		*/
+		void slotApplyToolbarConfig();
+
+	/**
 		*action slot: Zoom in one step
 		*/
 		void slotZoomIn();

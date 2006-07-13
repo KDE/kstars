@@ -178,11 +178,11 @@ void KStars::applyConfig() {
 	//Infoboxes, toolbars, statusbars
 	infoBoxes()->setVisible( Options::showInfoBoxes() );
 //May not need these; I think calling setChecked() on the actions should trigger slotShowGUIItem()
-//	if ( !Options::showMainToolBar() ) ks->toolBar( "kstarsToolBar" )->hide();
+//	if ( !Options::showMainToolBar() ) ks->toolBar("kstarsToolBar")->hide();
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	//Set toolbar options from config file
-	toolBar( "kstarsToolBar" )->applySettings( KGlobal::config(), "MainToolBar" );
+	toolBar("kstarsToolBar")->applySettings( KGlobal::config(), "MainToolBar" );
 	toolBar( "viewToolBar" )->applySettings( KGlobal::config(), "ViewToolBar" );
 
 	//Geographic location

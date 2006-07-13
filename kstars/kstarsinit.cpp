@@ -92,7 +92,7 @@ void KStars::initActions() {
 
 	ToggleAction *actTimeRun = new ToggleAction( KIcon( "player_pause" ), i18n( "Stop &Clock" ),
 				KIcon( "player_play" ), i18n("Start &Clock"),
-				KShortcut(), this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
+				KShortcut(), this, SLOT( slotToggleTimer() ), actionCollection(), "clock_startstop" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
 	QObject::connect(data()->clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
@@ -216,7 +216,7 @@ void KStars::initActions() {
 	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-//Toolbar view options
+//Toolbar options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			actionCollection(), "show_mainToolBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
@@ -224,6 +224,8 @@ void KStars::initActions() {
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			actionCollection(), "show_viewToolBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+
+	KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection(), "configure_toolbars" );
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
@@ -337,18 +339,18 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
 
 //Help Menu:
-	ka = new KAction( KIcon( "idea" ), i18n( "Tip of the Day" ), actionCollection(), "help_tipofday" );
-	connect( ka, SIGNAL( triggered() ), this, SLOT( slotTipOfDay() ) );
+//	KStdAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
 
-//Handbook toolBar item:
-	ka = new KAction( KIcon( "contents" ), i18n( "&Handbook" ), actionCollection(), "handbook" );
-	ka->setShortcut( KShortcut( "F1"  ) );
-	connect( ka, SIGNAL( triggered() ), this, SLOT( appHelpActivated() ) );
+//	KStdAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
+
+	//Add timestep widget for toolbar
+	TimeStep = new TimeStepBox( toolBar("kstarsToolBar") );
+	ka = new KAction( i18n("Time step control"), actionCollection(), "timestep_control" );
+	ka->setDefaultWidget( TimeStep );
 
 //
 //viewToolBar actions:
 //
-
 //show_stars:
 	a = new KToggleAction( KIcon( "kstars_stars" ), i18n( "Toggle Stars" ), actionCollection(), "show_stars" );
 	connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
@@ -616,12 +618,6 @@ void KStars::buildGUI() {
 	initActions();
 
 	createGUI("kstarsui.rc");
-
-	//Add timestep widget to toolbar
-	//FIXME: Need to add the widget to kstarsToolBar,
-	//but 'toolBar("kstarsToolBar")' doesn't work...
-	TimeStep = new TimeStepBox( toolBar("kstarsToolBar") );
-	toolBar("kstarsToolBar")->addWidget( TimeStep );
 
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );

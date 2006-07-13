@@ -21,7 +21,7 @@
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />
-		<Action name="timer_control" />
+		<Action name="clock_startstop" />
 	</Menu>
 
 	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
@@ -92,6 +92,8 @@
 		<Menu name="toolbars"><text>&amp;Toolbars</text>
 			<Action name="show_mainToolBar" />
 			<Action name="show_viewToolBar" />
+			<Separator />
+			<Action name="configure_toolbars" />
 		</Menu>
 		<Menu name="statusbar"><text>&amp;Statusbar</text>
 			<Action name="show_statusBar" />
@@ -111,6 +113,7 @@
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
 		<Action name="help_tipofday"/>
+		<Action name="help_whats_this"/>
 		<Separator/>
 		<Action name="help_report_bug"/>
 		<Separator/>
@@ -121,18 +124,12 @@
 
 <ToolBar noMerge="1" name="kstarsToolBar" iconText="icononly">
 	<text>Main Toolbar</text>
-	<Action name="fullscreen" />
 	<Action name="zoom_in" />
 	<Action name="zoom_out" />
-	<Action name="zoom_default" />
-	<Action name="track_object" />
-	<Separator />
 	<Action name="find_object" />
-	<Action name="geolocation" />
-	<Action name="time_dialog" />
 	<Separator />
-	<Action name="timer_control" />
-	<Separator />
+	<Action name="clock_startstop" />
+	<Action name="timestep_control" />
 </ToolBar>
 
 <ToolBar noMerge="1" name="viewToolBar" iconText="icononly">

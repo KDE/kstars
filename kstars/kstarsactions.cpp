@@ -22,12 +22,12 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
-#include <kactioncollection.h>
-#include <kactionmenu.h>
-#include <ktoggleaction.h>
 
 #include <kdebug.h>
 #include <kaction.h>
+#include <kactioncollection.h>
+#include <kactionmenu.h>
+#include <ktoggleaction.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -43,6 +43,7 @@
 #include <kprocess.h>
 #include <kdeversion.h>
 #include <ktoolbar.h>
+#include <kedittoolbar.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -341,6 +342,26 @@ void KStars::slotGeoLocator() {
 			updateTime();
 		}
 	}
+}
+
+void KStars::slotConfigureToolbars() {
+	saveMainWindowSettings( KGlobal::config(), "MainWindow" );
+	KEditToolbar ket(actionCollection());
+	connect( &ket, SIGNAL(newToolbarConfig()), this, SLOT(slotApplyToolbarConfig()) );
+	
+	//ket.exec();
+	//DEBUG
+	if ( ket.exec() == QDialog::Accepted ) {
+		kDebug() << "KEditToolbar dialog returned Accepted" << endl;
+	}
+}
+
+void KStars::slotApplyToolbarConfig() {
+	//DEBUG
+	kDebug() << "Recreating GUI..." << endl;
+
+	createGUI();
+	applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
 void KStars::slotViewOps() {
@@ -811,17 +832,17 @@ void KStars::slotCoordSys() {
 void KStars::slotMapProjection() {
 	QString aname = sender()->objectName();
 
-	if ( aname == "project_lambert" )
+	if ( aname == "project_lambert" ) 
 		Options::setProjection( SkyMap::Lambert );
-	if ( aname == "project_azequidistant" )
+	if ( aname == "project_azequidistant" ) 
 		Options::setProjection( SkyMap::AzimuthalEquidistant );
-	if ( aname == "project_orthographic" )
+	if ( aname == "project_orthographic" ) 
 		Options::setProjection( SkyMap::Orthographic );
-	if ( aname == "project_equirectangular" )
+	if ( aname == "project_equirectangular" ) 
 		Options::setProjection( SkyMap::Equirectangular );
-	if ( aname == "project_stereographic" )
+	if ( aname == "project_stereographic" ) 
 		Options::setProjection( SkyMap::Stereographic );
-	if ( aname == "project_gnomonic" )
+	if ( aname == "project_gnomonic" ) 
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
@@ -955,9 +976,10 @@ void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
 	if ( sender()->objectName() == QString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
-		if ( show ) toolBar()->show();
-		else toolBar()->hide();
+		if ( show ) toolBar("kstarsToolBar")->show();
+		else toolBar("kstarsToolBar")->hide();
 	}
+
 	if ( sender()->objectName() == QString( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );
 		if ( show ) toolBar( "viewToolBar" )->show();
@@ -1050,7 +1072,7 @@ void KStars::slotAboutToQuit()
 	data()->colorScheme()->saveToConfig( KGlobal::config() );
 
 	//explicitly save toolbar settings to config file
-	toolBar( "kstarsToolBar" )->saveSettings( KGlobal::config(), "MainToolBar" );
+	toolBar("kstarsToolBar")->saveSettings( KGlobal::config(), "MainToolBar" );
 	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
 
 	//synch the config file with the Config object
