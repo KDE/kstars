@@ -18,6 +18,7 @@
 #ifndef DEEPSKYOBJECT_H_
 #define DEEPSKYOBJECT_H_
 
+#include <qimage.h>
 #include <qpoint.h>
 
 #include "skyobject.h"

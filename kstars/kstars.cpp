@@ -32,6 +32,7 @@
 #include <kglobal.h>
 
 #include "Options.h"
+#include "ksnewstuff.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarssplash.h"
