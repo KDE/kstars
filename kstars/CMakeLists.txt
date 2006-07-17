@@ -5,8 +5,13 @@ add_subdirectory( indi )
 add_subdirectory( tools ) 
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
+add_subdirectory( satlib ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools ${CMAKE_SOURCE_DIR}/libkdeedu/extdate ${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot  )
+include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
+	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+	${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot
+)
 
 
 ########### next target ###############
@@ -173,6 +178,7 @@ set(libkstarscomponents_SRCS
    skycomponents/cometscomponent.cpp 
    skycomponents/jupitermoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
+   skycomponents/satellitecomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepskycomponent.cpp 
    skycomponents/customcatalogcomponent.cpp 
@@ -192,7 +198,6 @@ set(libkstarscomponents_SRCS
    skycomponents/skymapcomposite.cpp 
 )
 
-
 set(libkstarswidgets_SRCS 
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 
@@ -208,25 +213,24 @@ set(libkstarswidgets_SRCS
 	widgets/timeunitbox.cpp
 )
 
-
-
-set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
-           conbridlg.cpp csegment.cpp deepskyobject.cpp detaildialog.cpp devicemanager.cpp 
-           dms.cpp finddialog.cpp fitshistogram.cpp ccdpreviewwg.cpp 
-           fitsimage.cpp fitsprocess.cpp fitsviewer.cpp focusdialog.cpp fov.cpp fovdialog.cpp 
-           geolocation.cpp imagereductiondlg.cpp imagesequence.cpp imageviewer.cpp indidevice.cpp 
-           indidriver.cpp indielement.cpp indifitsconf.cpp indigroup.cpp indimenu.cpp 
-           indiproperty.cpp indistd.cpp infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp 
-           kscomet.cpp ksfilereader.cpp ksmoon.cpp ksnewstuff.cpp ksnumbers.cpp ksplanet.cpp 
-           ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp kstarsactions.cpp 
-           kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp kstarssplash.cpp 
-           ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
-           opsadvanced.cpp opscatalog.cpp opscolors.cpp 
-           opsguides.cpp opssolarsystem.cpp simclock.cpp skymap.cpp 
-           skymapdraw.cpp skymapevents.cpp skyobject.cpp skypoint.cpp skyline.cpp 
-           starobject.cpp streamwg.cpp telescopewizardprocess.cpp telescopeprop.cpp 
-           timedialog.cpp timezonerule.cpp 
-           toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp
+set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} 
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp conbridlg.cpp csegment.cpp 
+	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
+	fitshistogram.cpp ccdpreviewwg.cpp fitsimage.cpp fitsprocess.cpp fitsviewer.cpp 
+	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagereductiondlg.cpp 
+	imagesequence.cpp imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
+	indifitsconf.cpp indigroup.cpp indimenu.cpp indiproperty.cpp indistd.cpp 
+	infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp 
+	ksfilereader.cpp ksmoon.cpp ksnewstuff.cpp ksnumbers.cpp ksplanet.cpp 
+	ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp 
+	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
+	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
+	opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp opssolarsystem.cpp 
+	satellitetrack.cpp simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp 
+	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp streamwg.cpp 
+	telescopewizardprocess.cpp telescopeprop.cpp timedialog.cpp timezonerule.cpp 
+	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )
@@ -251,7 +255,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui con
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars  ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate kdeprint knewstuff m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate kdeprint knewstuff SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
