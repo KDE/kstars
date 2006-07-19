@@ -60,6 +60,7 @@ long unix_parportio_linux(flidev_t dev, void *buf, long *wlen, long *rlen)
   int err = 0, locked = 0;
   long org_wlen = *wlen, org_rlen = *rlen;
   int wto, rto, dto;
+  long ticks;
 
   io = DEVICE->io_data;
   cam = DEVICE->device_data;
@@ -73,9 +74,14 @@ long unix_parportio_linux(flidev_t dev, void *buf, long *wlen, long *rlen)
   locked = 1;
 
   /* Convert timeout to jiffies */
-  wto = cam->writeto / 1000 * HZ;
-  rto = cam->readto / 1000 * HZ;
-  dto = cam->dirto / 1000 * HZ;
+#ifdef HZ
+  ticks = HZ
+#else
+  ticks = sysconf(_SC_CLK_TCK);
+#endif
+  wto = cam->writeto / 1000 * ticks;
+  rto = cam->readto / 1000 * ticks;
+  dto = cam->dirto / 1000 * ticks;
 
   if (ioctl(io->fd, FLI_SET_WTO, &wto))
   {
