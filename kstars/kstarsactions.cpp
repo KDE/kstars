@@ -901,7 +901,7 @@ void KStars::slotFOVEdit() {
 		}
 
 		//repopulate FOV menu  with items from new fov.dat
-		fovActionMenu->popupMenu()->clear();
+		fovActionMenu->menu()->clear();
 
 		if ( f.open( QIODevice::ReadOnly ) ) {
 			QTextStream stream( &f );
@@ -920,7 +920,7 @@ void KStars::slotFOVEdit() {
 			kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
 		}
 
-		fovActionMenu->popupMenu()->addSeparator();
+		fovActionMenu->menu()->addSeparator();
                 KAction *ka = new KAction( i18n( "Edit FOV Symbols..." ), actionCollection(),  "edit_fov" );
                 connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
 		fovActionMenu->addAction( ka );
