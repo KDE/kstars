@@ -75,7 +75,7 @@ long unix_parportio_linux(flidev_t dev, void *buf, long *wlen, long *rlen)
 
   /* Convert timeout to jiffies */
 #ifdef HZ
-  ticks = HZ
+  ticks = HZ;
 #else
   ticks = sysconf(_SC_CLK_TCK);
 #endif
