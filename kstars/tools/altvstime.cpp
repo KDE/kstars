@@ -426,7 +426,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
                                 delete oldNum;
 				oldNum = 0;
 			}
-                        o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+			o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 		} else {  //assume unfound object is a custom object
 			pList.at(i)->updateCoords( num ); //precess to desired epoch
 
@@ -507,10 +507,17 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 	//Default SunRise/SunSet values
 	SunRise = 0.25;
 	SunSet = 0.75;
+
+	MousePoint = QPoint( -1.0, -1.0 );
 }
 
 void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
 	mouseMoveEvent( e );
+}
+
+void AVTPlotWidget::mouseDoubleClickEvent( QMouseEvent * ) {
+	MousePoint = QPoint(-1, -1);
+	update();
 }
 
 void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
@@ -528,15 +535,8 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	Xcursor -= leftPadding();
 	Ycursor -= topPadding();
 
-//	QPixmap buffer2( *buffer );
-	QPainter p;
-	p.begin( this );
-	p.translate( leftPadding(), topPadding() );
-	p.setPen( QPen( QBrush("grey"), 1.0, Qt::SolidLine ) );
-	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
-	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
-	p.end();
-//	bitBlt( this, 0, 0, &buffer2 );
+	MousePoint = QPoint( Xcursor, Ycursor );
+	update();
 }
 
 void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
@@ -587,9 +587,38 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
 	p.drawLine( ix, 0, ix, pH );
 
-	p.end();
+	//Label this vertical line with the current time
+	p.save();
+	QFont smallFont = p.font();
+	smallFont.setPointSize( smallFont.pointSize() - 3 );
+	p.setFont( smallFont );
+	p.translate( ix + 10, pH - 20 );
+	p.rotate(-90);
+	p.drawText(0, 0, t.toString( "hh:mm" ) );
+	p.restore();
 
-//	bitBlt( this, 0, 0, buffer );
+	//Draw crosshairs at clicked position
+	if ( MousePoint.x() > 0 ) {
+		p.setPen( QPen( QBrush("gold"), 1.0, Qt::SolidLine ) );
+		p.drawLine( MousePoint.x(), 0, MousePoint.x(), PixRect.height() );
+		p.drawLine( 0, MousePoint.y(), PixRect.width(), MousePoint.y() );
+		
+		//Label each crosshair line (time and altitude)
+		p.setFont( smallFont );
+		double a = (pH - MousePoint.y())*180.0/pH - 90.0;
+		p.drawText( 20, MousePoint.y() + 10, QString::number(a,'f',2) + QChar(176) );
+	
+		double h = MousePoint.x()*24.0/pW - 12.0;
+		if ( h < 0.0 ) h += 24.0;
+		t = QTime( int(h), int(60.*(h - int(h))) );
+		p.save();
+		p.translate( MousePoint.x() + 10, pH - 20 );
+		p.rotate(-90);
+		p.drawText( 0, 0, t.toString("hh:mm") );
+		p.restore();
+	}
+
+	p.end();
 }
 
 #include "altvstime.moc"

@@ -82,16 +82,23 @@ protected:
 	*/
 	void mouseMoveEvent( QMouseEvent *e );
 	
-/**Simply calls mouseMoveEvent().
+/**
+	*Simply calls mouseMoveEvent().
 	*/
 	void mousePressEvent( QMouseEvent *e );
 	
+/**
+	*Reset the MousePoint to a null value, to erase the crosshairs
+	*/
+	void mouseDoubleClickEvent( QMouseEvent *e );
+
 /**Redraw the plot.
 	*/
 	void paintEvent( QPaintEvent *e );
 
 private: 
 	double SunRise, SunSet;
+	QPoint MousePoint;
 };
 
 /**@class AltVsTime

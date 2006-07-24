@@ -386,7 +386,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					}
 					case ANGLE :
 					{
-						QString str = QString().sprintf( "%d%c", int(lab), 176 );
+						QString str = QString::number( int(lab) ) + QChar(176);
 						if ( px > 0 && px < pW ) {
 							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, str );
