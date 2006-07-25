@@ -66,16 +66,14 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	entry.replace( QRegExp("d"), QString() );
 	entry.replace( QRegExp("m"), QString() );
 	entry.replace( QRegExp("s"), QString() );
-	QString sdeg;
-	sdeg.sprintf("%c", 176);
-	entry.replace( QRegExp(sdeg), QString() );
+	entry.replace( QChar(176), QString() );
 	entry.replace( QRegExp("\'"), QString() );
 	entry.replace( QRegExp("\""), QString() );
 
 	//Account for localized decimal-point settings
 	//QString::toDouble() requires that the decimal symbol is "."
 	entry.replace( KGlobal::locale()->decimalSymbol(), "." );
- 
+
 	//empty entry returns false
 	if ( entry.isEmpty() ) {
 		setD( 0.0 );
@@ -103,8 +101,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
 	//check for colon-delimiters or space-delimiters
 	if ( entry.contains(':') )
-		fields = entry.split( ':' );
-	else fields = entry.split( " " );
+		fields = entry.split( ':', QString::SkipEmptyParts );
+	else fields = entry.split( " ", QString::SkipEmptyParts );
 
 	//anything with one field is invalid!
 	if ( fields.count() == 1 ) {

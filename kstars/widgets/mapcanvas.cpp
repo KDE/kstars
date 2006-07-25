@@ -27,15 +27,17 @@
 #include "../kstars.h"
 #include "../kstarsdata.h"
 
-MapCanvas::MapCanvas( QWidget *parent ) : QFrame(parent) {
-	//FIXME: pass ld and kstars pointers as ctor arguments
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
-	KStars *ks = (KStars *)ld->parent();
+MapCanvas::MapCanvas( QWidget *parent ) : QFrame( parent ) {
+	ld = (LocationDialog *)topLevelWidget();
+	ks = (KStars *)ld->parent();
 
 	setAutoFillBackground( false );
 
 	QString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
 	bgImage = new QPixmap( bgFile );
+
+	origin.setX( bgImage->width()/2 );
+	origin.setY( bgImage->height()/2 );
 }
 
 MapCanvas::~MapCanvas(){
@@ -55,8 +57,6 @@ void MapCanvas::setGeometry( const QRect &r ) {
 }
 
 void MapCanvas::mousePressEvent( QMouseEvent *e ) {
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
-
 	//Determine Lat/Long corresponding to event press
 	int lng = ( e->x() - origin.x() );
 	int lat  = ( origin.y() - e->y() );
@@ -66,8 +66,6 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
 
 void MapCanvas::paintEvent( QPaintEvent * ) {
 	QPainter p;
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
-  KStars *ks = (KStars *)ld->parent();
 
 	//prepare the canvas
 	p.begin( this );
@@ -76,7 +74,6 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
 	//Draw cities
 	QPoint o;
-
 	foreach ( GeoLocation *g, ks->data()->geoList ) {
 		o.setX( int( g->lng()->Degrees() + origin.x() ) );
 		o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );

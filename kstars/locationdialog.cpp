@@ -176,7 +176,11 @@ void LocationDialog::changeCity( void ) {
 	if ( SelectedCity ) {
 		KStars *p = (KStars *)parent();
 		ui->NewCityName->setText( SelectedCity->translatedName() );
-		ui->NewProvinceName->setText( SelectedCity->translatedProvince() );
+		if ( SelectedCity->province().isEmpty() )
+			ui->NewProvinceName->setText( QString() );
+		else
+			ui->NewProvinceName->setText( SelectedCity->translatedProvince() );
+		
 		ui->NewCountryName->setText( SelectedCity->translatedCountry() );
 		ui->NewLong->showInDegrees( SelectedCity->lng() );
 		ui->NewLat->showInDegrees( SelectedCity->lat() );

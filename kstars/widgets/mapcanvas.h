@@ -34,15 +34,19 @@
 	*/
 
 class QPixmap;
+class LocationDialog;
+class KStars;
 
 class MapCanvas : public QFrame {
 	Q_OBJECT
 public: 
 	/**Default constructor.  Initialize the widget: create pixmaps, load the
-		*world map bitmap, set pointers to the main window and the
-		*LocationDialog parent.
+		*world map image
+		*@param ks pointer to the KStars object
+		*@param ld pointer to the parent LocationDialog
 		*/
-	MapCanvas(QWidget *parent=0);
+	MapCanvas( QWidget *parent );
+
 	/**Destructor (empty)
 		*/
 	~MapCanvas();
@@ -85,6 +89,8 @@ protected:
 	virtual void mousePressEvent( QMouseEvent *e );
 
 private:
+	KStars *ks;
+	LocationDialog *ld;
 	QPixmap *bgImage;
 	QString BGColor;
 	QPoint origin;

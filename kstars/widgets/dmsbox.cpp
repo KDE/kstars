@@ -35,6 +35,9 @@ dmsBox::dmsBox(QWidget *parent, bool dg)
 	setDegType( dg );
 	psave = palette();
 
+	//Somehow, the color is getting reset to grey already!
+	psave.setColor( QPalette::Active, QPalette::Text, Qt::black );
+
 	connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
 
