@@ -38,8 +38,8 @@ LocationDialog::LocationDialog( KStars *_ks )
 {
 	ui = new LocationDialogUI( this );
 	setMainWidget( ui );
-        setCaption( i18n( "Set Geographic Location" ) );
-        setButtons( KDialog::Ok|KDialog::Cancel );
+	setCaption( i18n( "Set Geographic Location" ) );
+	setButtons( KDialog::Ok|KDialog::Cancel );
 
 	for ( int i=0; i<25; ++i )
 		ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
@@ -66,8 +66,9 @@ LocationDialog::LocationDialog( KStars *_ks )
 	connect( ui->AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
 	connect( ui->ClearFieldsButton, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
 
-	disconnect( ui->DSTLabel, SIGNAL( linkClicked(const QString &) ), ui->DSTLabel, SLOT(openLink(const QString &) ) );
-	connect( ui->DSTLabel, SIGNAL( linkClicked(const QString &) ), this, SLOT( showTZRules() ) );
+	ui->DSTLabel->setNotifyClick( true );
+	ui->DSTLabel->setHtml( "<a href=\"showrules\">" + i18n("DST Rule:") + "</a>" );
+	connect( ui->DSTLabel, SIGNAL( urlClick(const QString &) ), this, SLOT( showTZRules() ) );
 
 	dataModified = false;
 	nameModified = false;
@@ -174,7 +175,6 @@ void LocationDialog::changeCity( void ) {
 
 	//Fill the fields at the bottom of the window with the selected city's data.
 	if ( SelectedCity ) {
-		KStars *p = (KStars *)parent();
 		ui->NewCityName->setText( SelectedCity->translatedName() );
 		if ( SelectedCity->province().isEmpty() )
 			ui->NewProvinceName->setText( QString() );
@@ -378,7 +378,24 @@ void LocationDialog::showTZRules( void ) {
 	lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
 	QString message = i18n( "Daylight Saving Time Rules" );
-	KMessageBox::informationList( 0, message, lines, message );
+//	KMessageBox::informationList( 0, message, lines, message );
+
+	KDialog *tzd = new KDialog( this );
+	tzd->setCaption( message );
+	tzd->setButtons( KDialog::Close );
+	QListWidget *lw = new QListWidget( tzd );
+	lw->addItems( lines );
+	//This is pretty lame...I have to measure the width of the first item in the 
+	//list widget, in order to set its width properly.  Why doesn't it just resize 
+	//the widget to fit the contents automatically?  I tried setting the sizePolicy, 
+	//no joy...
+	int w = 1.1*lw->visualItemRect( lw->item(0) ).width();
+	lw->setMinimumWidth( w );
+	tzd->setMainWidget( lw );
+	tzd->exec();
+
+	delete lw;
+	delete tzd;
 }
 
 void LocationDialog::nameChanged( void ) {
