@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcAngDistDlg</class>
  <widget class="QWidget" name="modCalcAngDistDlg" >
   <property name="geometry" >
@@ -24,6 +21,9 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
+     <property name="currentIndex" >
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
@@ -418,7 +418,7 @@
            </widget>
           </item>
           <item row="1" column="0" >
-           <widget class="QPushButton" name="OutButtonBatch" >
+           <widget class="QPushButton" name="OutputButtonBatch" >
             <property name="toolTip" >
              <string>File for the output data</string>
             </property>
@@ -513,28 +513,21 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

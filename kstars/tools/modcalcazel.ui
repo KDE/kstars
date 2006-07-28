@@ -787,7 +787,7 @@
            <widget class="QLineEdit" name="OutputLineEditBatch" />
           </item>
           <item row="1" column="0" >
-           <widget class="QPushButton" name="OutButtonBatch" >
+           <widget class="QPushButton" name="OutputButtonBatch" >
             <property name="toolTip" >
              <string>File for the output data</string>
             </property>

@@ -44,14 +44,11 @@ public:
 public slots:
 
 	void slotComputePosition (void);
-	void slotClear(void);
 	void slotUtCheckedBatch();
 	void slotDateCheckedBatch();
 	void slotLongCheckedBatch();
 	void slotLatCheckedBatch();
 	void slotPlanetsCheckedBatch();
-	void slotInputFile();
-	void slotOutputFile();
 	void slotRunBatch();
 	void processLines( QTextStream &istream );
 	//void slotInputFile();

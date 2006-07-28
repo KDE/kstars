@@ -34,6 +34,16 @@
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : QFrame(parentSplit) {
 	setupUi(this);
 	showCurrentTimeAndLong();
+
+    // signals and slots connections
+    connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearFields()));
+    connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeTime()));
+    connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
+    connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
+    connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
+    connect(STCheckBatch, SIGNAL(clicked()), this, SLOT(slotStChecked()));
+    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+
 	show();		
 }
 
@@ -165,19 +175,6 @@ void modCalcSidTime::utNoCheck() {
 	InputTimeBoxBatch->setEnabled(false);
 	stInputTime = true;
 }
-
-void modCalcSidTime::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
-}
-
-void modCalcSidTime::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
-}
-
 
 void modCalcSidTime::slotRunBatch() {
 

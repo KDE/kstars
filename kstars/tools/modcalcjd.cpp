@@ -31,6 +31,12 @@
 
 modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
 	setupUi(this);
+
+    // signals and slots connections
+    connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
+    connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearTime()));
+    connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeTime()));
+
 	showCurrentTime();
 	show();
 }

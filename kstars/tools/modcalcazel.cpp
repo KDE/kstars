@@ -39,6 +39,21 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit)
 	showLongLat();
 	horInputCoords = false;
 	raBox->setDegType(false);
+
+	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+	connect(InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()));
+	connect(OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()));
+	connect(utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
+	connect(dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
+	connect(azCheckBatch, SIGNAL(clicked()), this, SLOT(slotAzChecked()));
+	connect(elCheckBatch, SIGNAL(clicked()), this, SLOT(slotElChecked()));
+	connect(latCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatChecked()));
+	connect(longCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
+	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaChecked()));
+	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecChecked()));
+
 	show();
 }
 

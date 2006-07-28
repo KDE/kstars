@@ -43,6 +43,9 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 	setEllipsoid(0);
 	show();
 
+	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearGeoCoords()));
+	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeGeoCoords()));
+	
 }
 
 modCalcGeodCoord::~modCalcGeodCoord(){

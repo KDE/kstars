@@ -41,6 +41,12 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit) {
  	initGeo();
 	showLongLat();
 	RABox->setDegType(false);
+
+    // signals and slots connections
+    connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotComputeVelocities()));
+    connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+
 	show();
 }
 

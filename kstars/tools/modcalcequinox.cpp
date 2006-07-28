@@ -34,6 +34,7 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
 : QFrame(parentSplit) {
 	setupUi(this);
 	showCurrentYear();
+
 	show();
 }
 

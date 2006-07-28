@@ -53,8 +53,6 @@ public slots:
 	void slotRaCheckedBatch(void);
 	void slotDecCheckedBatch(void);
 	void slotEpochCheckedBatch(void);
-	void slotInputFile(void);
-	void slotOutputFile(void);
 	void slotRunBatch();
 
 private:

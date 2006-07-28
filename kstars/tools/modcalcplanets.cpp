@@ -37,6 +37,15 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
 	showCurrentDateTime();
 	showLongLat();
 	RABox->setDegType(false);
+
+    // signals and slots connections
+    connect(PlanetComboBox, SIGNAL(activated(int)), this, SLOT(slotComputePosition()));
+    connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()));
+    connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()));
+    connect(LatCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatCheckedBatch()));
+    connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongCheckedBatch()));
+    connect(PlanetCheckBatch, SIGNAL(clicked()), this, SLOT(slotPlanetsCheckedBatch()));
+
 	show();
 }
 
@@ -197,19 +206,6 @@ void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
 	
 }
 
-void modCalcPlanets::slotClear(void){
-	HelioLongBox->setText( QString() );
-	HelioLatBox->setText( QString() );
-        HelioDistBox->setText( QString() );
-	GeoLongBox->setText(QString());
-	GeoLatBox->setText(QString());
-	GeoDistBox->setText(QString());
-	RABox->clearFields();
-	DecBox->clearFields();
-	AzBox->setText(QString());
-	AltBox->setText(QString());
-}
-
 void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
 {
 	HelioLongBox->show( hLong );
@@ -279,18 +275,6 @@ void modCalcPlanets::slotLatCheckedBatch(){
 	else {
 		LatBoxBatch->setEnabled( true );
 	}
-}
-
-void modCalcPlanets::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
-}
-
-void modCalcPlanets::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcPlanets::slotRunBatch() {

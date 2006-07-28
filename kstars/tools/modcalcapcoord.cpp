@@ -37,8 +37,19 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
 	showCurrentTime();
 	ra0Box->setDegType(false);
 	rafBox->setDegType(false);
-	show();
 
+	connect( Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()) );
+	connect( Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()) );
+	connect( utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()) );
+	connect( dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()) );
+	connect( raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()) );
+	connect( decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()) );
+	connect( epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()) );
+	connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
+	connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
+	connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
+
+	show();
 }
 
 modCalcApCoord::~modCalcApCoord(){

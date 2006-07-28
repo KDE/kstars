@@ -36,6 +36,16 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 	setupUi(this);
 	equRadio->setChecked(true);
 	raBox->setDegType(false);
+
+	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+	connect(ecLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLatCheckedBatch()));
+	connect(ecLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLongCheckedBatch()));
+	connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
+	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
+	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
+	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+
 	this->show();
 }
 
@@ -188,18 +198,6 @@ void modCalcEclCoords::slotEclLongCheckedBatch(){
 	} else {
 		ecLongBoxBatch->setEnabled( true );
 	}
-}
-
-void modCalcEclCoords::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
-}
-
-void modCalcEclCoords::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcEclCoords::slotRunBatch() {

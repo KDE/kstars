@@ -35,6 +35,10 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
 	setupUi(this);
 	showCurrentDate();
 	initGeo();
+
+	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputePosTime()));
+
 	show();
 }
 

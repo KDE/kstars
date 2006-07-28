@@ -35,6 +35,15 @@ modCalcPrec::modCalcPrec(QWidget *parentSplit) : QFrame(parentSplit) {
 	setupUi(this);
 	InputRABox->setDegType(false);
 	TargetRABox->setDegType(false);
+
+    // signals and slots connections
+    connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+    connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+    connect(RACheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
+    connect(DecCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
+    connect(EpochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
+    connect(TargetEpochCheckBatch, SIGNAL(clicked()), this, SLOT(slotTargetEpochCheckedBatch()));
+
 	show();
 }
 
@@ -136,20 +145,6 @@ void modCalcPrec::slotTargetEpochCheckedBatch(){
 	else {
 		TargetEpochBoxBatch->setEnabled( true );
 	}
-}
-
-void modCalcPrec::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
-}
-
-void modCalcPrec::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
-
-
 }
 
 void modCalcPrec::slotRunBatch() {

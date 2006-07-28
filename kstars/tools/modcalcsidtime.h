@@ -59,8 +59,6 @@ public slots:
 	void slotDateChecked();
 	void slotStChecked();
 	void slotLongChecked();
-	void slotInputFile();
-	void slotOutputFile();
 	void slotRunBatch();
 	void processLines( QTextStream &istream );
 

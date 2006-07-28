@@ -33,6 +33,16 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
 	setupUi(this);
 	equRadio->setChecked(true);
 	raBox->setDegType(false);
+
+	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
+	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
+	connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
+	connect(galLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLongCheckedBatch()));
+	connect(galLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLatCheckedBatch()));
+	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+
 	show();
 }
 
@@ -188,18 +198,6 @@ void modCalcGalCoord::slotGalLongCheckedBatch(){
 	} else {
 		galLongBoxBatch->setEnabled( true );
 	}
-}
-
-void modCalcGalCoord::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
-}
-
-void modCalcGalCoord::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcGalCoord::slotRunBatch() {

@@ -36,8 +36,14 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
 	setupUi(this);
 	ra0Box->setDegType(false);
 	ra1Box->setDegType(false);
-	show();
 
+	connect( Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()) );
+	connect( Compute, SIGNAL(clicked()), this, SLOT(slotComputeDist()) );
+	connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
+	connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
+	connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
+
+	show();
 }
 
 modCalcAngDist::~modCalcAngDist(){
