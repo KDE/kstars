@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>OpsAdvanced</class>
  <widget class="QWidget" name="OpsAdvanced" >
   <property name="geometry" >
@@ -28,7 +25,7 @@
       <string>Correct coordinates of objects for the effects of the atmosphere</string>
      </property>
      <property name="whatsThis" >
-      <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this &quot;atmospheric refraction&quot; will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
+      <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this "atmospheric refraction" will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
      </property>
      <property name="text" >
       <string>Correct for atmospheric refraction</string>
@@ -41,7 +38,7 @@
       <string>Show slewing motion when focus changes?</string>
      </property>
      <property name="whatsThis" >
-      <string>If checked, changing the focus position will result in a visible animated &quot;slew&quot; to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
+      <string>If checked, changing the focus position will result in a visible animated "slew" to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
      </property>
      <property name="text" >
       <string>Use animated slewing</string>
@@ -71,6 +68,16 @@
      </property>
      <property name="text" >
       <string>Attach temporary label when hovering mouse</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_UseAntialias" >
+     <property name="toolTip" >
+      <string>Select this for smoother (but loswer) graphics</string>
+     </property>
+     <property name="text" >
+      <string>Use antialiased drawing</string>
      </property>
     </widget>
    </item>
@@ -388,21 +395,21 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>MagnitudeSpinBox</class>
-   <extends>KDoubleNumInput</extends>
-   <header>widgets/magnitudespinbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>TimeStepBox</class>
    <extends>QSpinBox</extends>
    <header>widgets/timestepbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MagnitudeSpinBox</class>
+   <extends>KDoubleNumInput</extends>
+   <header>widgets/magnitudespinbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
