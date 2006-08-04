@@ -74,7 +74,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_UseAntialias" >
      <property name="toolTip" >
-      <string>Select this for smoother (but loswer) graphics</string>
+      <string>Select this for smoother (but slower) graphics</string>
      </property>
      <property name="text" >
       <string>Use antialiased drawing</string>
