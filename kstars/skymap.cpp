@@ -411,7 +411,7 @@ void SkyMap::slotBeginAngularDistance() {
 void SkyMap::slotEndAngularDistance() {
 	if( angularDistanceMode ) {
 		dms angularDistance;
-		QString sbMessage = QString::null;
+		QString sbMessage;
 
 		//If the cursor is near a SkyObject, reset the AngularRuler's 
 		//end point to the position of the SkyObject
