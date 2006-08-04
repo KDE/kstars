@@ -692,10 +692,10 @@ int Sat_Eclipsed(vector_t *pos, vector_t *sol, double *depth)
 
 void select_ephemeris(tle_t *tle)
 {
-	/* Selects the apropriate ephemeris type to be used */
-	/* for predictions according to the data in the TLE */
-	/* It also processes values in the tle set so that  */
-	/* they are apropriate for the sgp4/sdp4 routines   */
+	/* Selects the appropriate ephemeris type to be used */
+	/* for predictions according to the data in the TLE  */
+	/* It also processes values in the tle set so that   */
+	/* they are appropriate for the sgp4/sdp4 routines   */
 
 	double ao, xnodp, dd1, dd2, delo, temp, a1, del1, r1;
 
