@@ -34,6 +34,7 @@
 #include <kstatusbar.h>
 #include <kcommand.h>
 #include <klineedit.h>
+#include <kicon.h>
 //#include <k3listview.h>
 
 

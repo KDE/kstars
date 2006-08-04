@@ -44,6 +44,7 @@
 #include <kdeversion.h>
 #include <ktoolbar.h>
 #include <kedittoolbar.h>
+#include <kicon.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"

@@ -30,6 +30,7 @@
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kglobal.h>
+#include <kicon.h>
 
 #include "Options.h"
 #include "ksnewstuff.h"

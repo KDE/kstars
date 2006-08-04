@@ -38,6 +38,7 @@
 #include <kstandarddirs.h>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
+#include <kicon.h>
 
 #include "skymap.h"
 #include "Options.h"

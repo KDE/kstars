@@ -2159,7 +2159,7 @@ void ScriptBuilder::slotExportImage() {
 	if ( sf->name() == "exportImage" ) {
 		setUnsavedChanges( true );
 
-		sf->setArg( 0, argExportImage->ExportFileName->url() );
+		sf->setArg( 0, argExportImage->ExportFileName->url().toString() );
 		sf->setArg( 1, QString("%1").arg( argExportImage->ExportWidth->value() ) );
 		sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
 		sf->setValid( true );

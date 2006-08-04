@@ -26,7 +26,7 @@
 	*@version 1.0
 	*/
 
-#include <qicon.h>
+#include <kicon.h>
 #include <kaction.h>
 
 class ToggleAction : public KAction {
