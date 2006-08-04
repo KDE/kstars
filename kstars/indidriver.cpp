@@ -53,7 +53,7 @@
 DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {
 
-  setupUi(parent);
+  setupUi(this);
 
   localTreeWidget->setSortingEnabled(false);
   localTreeWidget->setRootIsDecorated(true);
@@ -583,11 +583,12 @@ bool INDIDriver::readXMLDriver()
     return false;
  }
 
- signed char c;
+ char c;
  LilXML *xmlParser = newLilXML();
  XMLEle *root = NULL;
 
- while ( (c = (signed char) file.getch()) != -1)
+ //while ( (c = (signed char) file.getch()) != -1)
+ while ( file.getChar(&c))
  {
     root = readXMLEle(xmlParser, c, errmsg);
 
@@ -600,7 +601,7 @@ bool INDIDriver::readXMLDriver()
     }
     else if (errmsg[0])
     {
-      kDebug() << QString(errmsg);
+      kDebug() << QString(errmsg) << endl;
       return false;
     }
   }

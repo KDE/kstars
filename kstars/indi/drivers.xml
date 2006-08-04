@@ -53,6 +53,7 @@
 	<device label="Celestron NexStar" focal_length="" aperture="">
 		<driver>celestrongps</driver>
 		<version>0.9</version>
+	</device>
 	<device label="Astro-Electronic FS-2" focal_length="" aperture="">
 		<driver>lx200basic</driver>
 		<version>0.1</version>
@@ -85,7 +86,11 @@
 		<driver>lx200basic</driver>
 		<version>1.0</version>
 	</device>
-	<device label="Intelliscope/Sky Wizard" focal_length="" aperture="">
+	<device label="Intelliscope" focal_length="" aperture="">
+		<driver>intelliscope</driver>
+		<version>0.2</version>
+	</device>
+	<device label="SkyWizard" focal_length="" aperture="">
 		<driver>intelliscope</driver>
 		<version>0.2</version>
 	</device>
