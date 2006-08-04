@@ -100,7 +100,7 @@ ImageViewer::~ImageViewer() {
 // check if download job is running
 	checkJob();
 
-// 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
+// 	if (!file->remove())		// if the file was not downloaded completely its suffix is  ".part"
 // 	{
 // 		kDebug()<<QString("remove of %1 failed").arg(file->fileName())<<endl;
 // 		file->setFileName (file->fileName() + ".part");		// set new suffix to filename
@@ -146,7 +146,7 @@ void ImageViewer::loadImageFromURL()
 
 void ImageViewer::downloadReady (KJob *job)
 {
-// set downloadJob to 0, but don't delete it - the job will automatically deleted !!!
+// set downloadJob to 0, but don't delete it - the job will be deleted automatically !!!
 	downloadJob = 0;
 
 	if ( job->error() )
@@ -156,7 +156,7 @@ void ImageViewer::downloadReady (KJob *job)
 		return;		// exit this function
 	}
 
-//	file->close(); // to get the newest informations of the file and not any informations from opening of the file
+//	file->close(); // to get the newest information from the file and not any information from opening of the file
 	tempfile->close();
 
 //	if ( file->exists() )
@@ -246,7 +246,7 @@ void ImageViewer::saveFileToDisc()
 }
 
 void ImageViewer::saveFile (KUrl &url) {
-// synchronous Access to prevent segfaults
+// synchronous access to prevent segfaults
 	if (!KIO::NetAccess::copy (KUrl (tempfile->name()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
