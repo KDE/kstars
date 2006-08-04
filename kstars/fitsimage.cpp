@@ -51,6 +51,7 @@
 
 #define INITIAL_W	640
 #define INITIAL_H	480
+#define ZOOM_DEFAULT 100.0
 #define ZOOM_MIN	10
 #define ZOOM_MAX	400
 #define ZOOM_LOW_INCR	10
@@ -72,8 +73,8 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
   if (buffer == NULL) return;
   
-  x = round(e->x() / (image->getCurrentZoom() / 100.));
-  y = round(e->y() / (image->getCurrentZoom() / 100.));
+  x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+  y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
 
   if (x < 1)
 	x = 1;
@@ -102,16 +103,13 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent) 
 {
   viewer = (FITSViewer *) parent;
   
-  /* FIXME enable this when Qt 4.2 is released 
-  setAlignment(Qt::AlignCenter);
- */
-
    image_frame = new FITSLabel(this);
    image_buffer = NULL;
    displayImage = NULL;
    setBackgroundRole(QPalette::Dark);
 
    currentZoom = 0.0;
+
    image_frame->setMouseTracking(true);
 
    // Default size
@@ -199,8 +197,13 @@ int FITSImage::loadFits (const char *filename)
 	return -1;
  }
 
+ // Rescale to fits window
  if (rescale(true))
 	return -1;
+
+  calculateStats();
+
+   setAlignment(Qt::AlignCenter);
 
  return 0;
  
@@ -252,16 +255,22 @@ int FITSImage::calculateMinMax()
       for (ii = 0; ii < nbuffer; ii++)
       {
         if ( buffer[ii] < stats.min )
+	{
             stats.min = buffer[ii];
+	    stats.minAt = ii + fpixel;
+	}
 
         if ( buffer[ii] > stats.max )
+	{
             stats.max = buffer[ii];
+	    stats.maxAt = ii + fpixel;
+	}
       }
       npixels -= nbuffer;    /* increment remaining number of pixels */
       fpixel  += nbuffer;    /* next pixel to be read in image */
     }
 
-    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max << endl;
+    kDebug() << "DATAMIN: " << stats.min << " @ " << stats.minAt << " - DATAMAX: " << stats.max << " @ " << stats.maxAt << endl;
     return 0;
 }
 
@@ -294,8 +303,8 @@ int FITSImage::rescale(bool fitToWindow)
 	// Find the zoom level which will enclose the current FITS in the default window size (640x480)
         currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
 
-	currentWidth  = stats.dim[0] * (currentZoom / 100.);
-	currentHeight = stats.dim[1] * (currentZoom / 100.);
+	currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
+	currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
 	if (currentZoom <= ZOOM_MIN)
   	viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
@@ -345,7 +354,7 @@ void FITSImage::zoomToCurrent()
 void FITSImage::fitsZoomIn()
 {
  
-  if (currentZoom < 100)
+  if (currentZoom < ZOOM_DEFAULT)
 	currentZoom += ZOOM_LOW_INCR;
   else
 	currentZoom += ZOOM_HIGH_INCR;
@@ -357,8 +366,8 @@ void FITSImage::fitsZoomIn()
      viewer->actionCollection()->action("view_zoom_in")->setEnabled (false);
    
    //currentWidth  = zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
-   currentWidth  = stats.dim[0] * (currentZoom / 100.); //pow(zoomFactor, abs(currentZoom)) ;
-   currentHeight = stats.dim[1] * (currentZoom / 100.); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
+   currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
+   currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
    image_frame->resize( (int) currentWidth, (int) currentHeight);
@@ -370,7 +379,7 @@ void FITSImage::fitsZoomIn()
 void FITSImage::fitsZoomOut()
 {
   //currentZoom--;
-  if (currentZoom <= 100)
+  if (currentZoom <= ZOOM_DEFAULT)
 	currentZoom -= ZOOM_LOW_INCR;
   else
 	currentZoom -= ZOOM_HIGH_INCR;
@@ -382,8 +391,8 @@ void FITSImage::fitsZoomOut()
   
   //currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
   //currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
-  currentWidth  = stats.dim[0] * (currentZoom / 100.); //pow(zoomFactor, abs(currentZoom)) ;
-  currentHeight = stats.dim[1] * (currentZoom / 100.); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
+  currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
+  currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
@@ -397,7 +406,7 @@ void FITSImage::fitsZoomDefault()
   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
   viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
   
-  currentZoom   = 100;
+  currentZoom   = ZOOM_DEFAULT;
   currentWidth  = stats.dim[0];
   currentHeight = stats.dim[1];
   
@@ -407,6 +416,61 @@ void FITSImage::fitsZoomDefault()
   viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
 
   update();
+
+}
+
+void FITSImage::calculateStats()
+{
+  
+  // #1 call average, average is used in std deviation
+  stats.average = average();
+  // #2 call std deviation
+  stats.stddev  = stddev();
+
+}
+
+double FITSImage::average()
+{
+ 
+  double sum=0;
+  int row=0;
+  int width   = stats.dim[0];
+  int height  = stats.dim[1];
+  
+  if (!image_buffer) return -1;
+
+  for (int i= 0 ; i < height; i++)
+  {
+    row = (i * width);
+    for (int j= 0; j < width; j++)
+       sum += image_buffer[row+j];
+  }
+
+    return (sum / (width * height ));
+ 
+}
+
+double FITSImage::stddev()
+{
+ 
+  int row=0;
+  double lsum=0;
+  int width   = stats.dim[0]; 
+  int height  = stats.dim[1];
+  
+  if (!image_buffer) return -1;
+
+  for (int i= 0 ; i < height; i++)
+  {
+    row = (i * width);
+    for (int j= 0; j < width; j++)
+    {
+       lsum += (image_buffer[row + j] - stats.average) * (image_buffer[row+j] - stats.average);
+    }
+  }
+
+  return (sqrt(lsum/(width * height - 1)));
+ 
 
 }
 

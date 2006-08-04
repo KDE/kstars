@@ -215,11 +215,11 @@ set(libkstarswidgets_SRCS
 
 set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
-	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp conbridlg.cpp csegment.cpp 
+	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp csegment.cpp 
 	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
-	fitshistogram.cpp ccdpreviewwg.cpp fitsimage.cpp fitsprocess.cpp fitsviewer.cpp 
-	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagereductiondlg.cpp 
-	imagesequence.cpp imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
+	fitshistogram.cpp ccdpreviewwg.cpp fitsimage.cpp fitsviewer.cpp 
+	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagesequence.cpp
+	imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
 	indifitsconf.cpp indigroup.cpp indimenu.cpp indiproperty.cpp indistd.cpp 
 	infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp 
 	ksfilereader.cpp ksmoon.cpp ksnewstuff.cpp ksnumbers.cpp ksplanet.cpp 
@@ -242,11 +242,11 @@ kde4_automoc(${kstars_SRCS})
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
-kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui contrastbrightnessg.ui 
+kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui 
        details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui 
        devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
        fovdialog.ui newfov.ui locationdialog.ui 
-       histdialog.ui imagereduction.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
+       histdialog.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
        wizwelcome.ui wizlocation.ui wizdevices.ui wizdownload.ui 
        opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
        statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 

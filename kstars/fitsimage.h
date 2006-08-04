@@ -61,13 +61,11 @@ class FITSImage : public QScrollArea
 	public:
 	
 	friend class ContrastBrightnessDlg;
-	friend class FITSProcess;
 	friend class FITSFrame;
 	friend class FITSViewer;
 	friend class FITSHistogram;
 	friend class FITSHistogramCommand;
 	friend class FITSChangeCommand;
-	friend class FITSProcessCommand;
 	
 	FITSImage(QWidget * parent, const char * name = 0);
 	~FITSImage();
@@ -82,6 +80,8 @@ class FITSImage : public QScrollArea
 	void clearMem();
 	/* Rescale image lineary from image_buffer, fit to window if desired */
 	int rescale(bool fitToWindow=false);
+	/* Calculate stats */
+	void calculateStats();
 
 	// Access functions
         FITSViewer * getViewer() { return viewer; }
@@ -90,7 +90,25 @@ class FITSImage : public QScrollArea
 	void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
 	void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
 
+	/* stats struct to hold statisical data about the FITS data */
+	struct 
+	{
+		double min, max;
+		int minAt, maxAt;
+		double average;
+		double stddev;
+		int bitpix;
+		int ndim;
+		long dim[2];
+	} stats;
+	
+
 	private:
+
+	double average();
+	double min(int & minIndex);
+	double max(int & maxIndex);
+	double stddev();
 
         int calculateMinMax();
 	void saveTemplateImage();			/* saves a backup image */
@@ -110,16 +128,6 @@ class FITSImage : public QScrollArea
 	double currentZoom;				/* Current Zoom level */
 	fitsfile* fptr;
 
-	/* stats struct to hold statisical data about the FITS data */
-	struct {
-		double min, max;
-		int minAt, maxAt;
-		double average;
-		double stddev;
-		int bitpix;
-		int ndim;
-		long dim[2];
-	} stats;
 	
 	public slots:
 	void fitsZoomIn();

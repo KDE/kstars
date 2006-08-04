@@ -42,7 +42,6 @@
 #include "indi/cfitsio/fitsio.h"
 
 class KCommandHistory;
-class ContrastBrightnessDlg;
 class QScrollView;
 class FITSImage;
 class FITSHistogram;
@@ -52,13 +51,10 @@ class FITSViewer : public KMainWindow  {
 
 	public:
 	
-	friend class ContrastBrightnessDlg;
 	friend class FITSChangeCommand;
-	friend class FITSProcess;
 	friend class FITSImage;
 	friend class FITSHistogram;
 	friend class FITSHistogramCommand;
-	friend class FITSProcessCommand;
 	
 	/**Constructor. */
 	FITSViewer (const KUrl *imageName, QWidget *parent, const char *name = 0);
@@ -69,8 +65,7 @@ class FITSViewer : public KMainWindow  {
 	protected:
 	/* key press event */
 	void keyPressEvent (QKeyEvent *ev);
-	/* Calculate stats */
-	void calculateStats();
+	
 	void closeEvent(QCloseEvent *ev);
 	
 	public slots:
@@ -85,9 +80,7 @@ class FITSViewer : public KMainWindow  {
 	void fitsStatistics();
 	void fitsHeader();
 	void slotClose();
-	void imageReduction();
 	void imageHistogram();
-	void BrightContrastDlg();
 	void updateImgBuffer();
 	
 	private:
@@ -95,11 +88,6 @@ class FITSViewer : public KMainWindow  {
 	float * loadData(const char * filename, float *buffer);
 	bool    initFITS();
 	void show_fits_errors();
-
-	double average();
-	double min(int & minIndex);
-	double max(int & maxIndex);
-	double stddev();
 
 	FITSImage *image;					/* FITS image object */
 	int Dirty;						/* Document modified? */
