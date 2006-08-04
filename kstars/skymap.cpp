@@ -59,17 +59,16 @@
 SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
 	: QWidget(_ks), computeSkymap(true), angularDistanceMode(false),
 		ks(_ks), data(_data), pmenu(0), sky(0), sky2(0), IBoxes(0),
-		ClickedObject(0), FocusObject(0), TransientObject(0),
-		sp(0)
+		ClickedObject(0), FocusObject(0), TransientObject(0), sp(0)
 {
 	sp = new SkyPoint();            // needed by coordinate grid
 	ZoomRect = QRect();
 
 	setDefaultMouseCursor();	// set the cross cursor
 
-        QPalette p = palette();
-        p.setColor( QPalette::Window, QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-        setPalette( p );
+	QPalette p = palette();
+	p.setColor( QPalette::Window, QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+	setPalette( p );
 
 	setFocusPolicy( Qt::StrongFocus );
 	setMinimumSize( 380, 250 );
@@ -444,8 +443,10 @@ void SkyMap::slotImage() {
 	QString sURL = clickedObject()->ImageList[ index ];
 
 	KUrl url ( sURL );
-	if (!url.isEmpty())
-		new ImageViewer (url, clickedObject()->messageFromTitle(message), this);
+	if (!url.isEmpty()) {
+		ImageViewer iv(url, clickedObject()->messageFromTitle(message), this);
+		iv.exec();
+	}
 }
 
 void SkyMap::slotInfo() {

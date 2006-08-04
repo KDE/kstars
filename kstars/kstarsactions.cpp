@@ -188,7 +188,7 @@ void KStars::slotLCGenerator() {
 }
 
 void KStars::slotAVT() {
-	AltVsTime * avt = new AltVsTime(this);
+	if ( !avt ) avt = new AltVsTime(this);
 	avt->show();
 }
 

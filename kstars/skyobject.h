@@ -99,11 +99,11 @@ public:
 
 /**@return object's secondary name
 	*/
-	inline QString name2( void ) const { return hasName2() ? Name2 : emptyString; }
+	inline QString name2( void ) const { return ( hasName2() ? Name2 : emptyString ); }
 
 /**@return object's secondary name, translated to local language.
 	*/
-	inline QString translatedName2() const { return i18n( name2().toUtf8() );}
+	inline QString translatedName2() const { return ( hasName2() ? i18n( Name2.toUtf8() ): emptyString );}
 
 /**Set the object's secondary name.
 	*@param name2 the object's secondary name.

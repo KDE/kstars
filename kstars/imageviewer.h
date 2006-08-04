@@ -99,8 +99,8 @@ class ImageViewer : public KDialog {
 		*/
 		void checkJob();
 
-		KTempFile tempfile;
-		QFile *file;
+		KTempFile *tempfile;
+//		QFile *file;
 		
 		const KUrl m_ImageUrl;
 		bool fileIsImage;

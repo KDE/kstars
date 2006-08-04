@@ -120,59 +120,64 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 	bool showLabel( true );
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 
-        labName = new QLabel( "<b>"+s1+"</b>", this );
-        labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aName = new KAction( ks->actionCollection(), "title_name1" );
-        aName->setDefaultWidget( labName );
-        addAction( aName );
+	labName = new QLabel( "<b>"+s1+"</b>", this );
+	labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+	aName = new KAction( ks->actionCollection(), "title_name1" );
+	aName->setDefaultWidget( labName );
+	addAction( aName );
 
-        if ( ! s2.isEmpty() ) {
-            labName2 = new QLabel( "<b>"+s2+"</b>", this );
-            labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-            aName2 = new KAction( ks->actionCollection(), "title_name2" );
-            aName2->setDefaultWidget( labName2 );
-            addAction( aName2 );
-        }
+	if ( ! s2.isEmpty() ) {
+		labName2 = new QLabel( "<b>"+s2+"</b>", this );
+		labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+		aName2 = new KAction( ks->actionCollection(), "title_name2" );
+		aName2->setDefaultWidget( labName2 );
+		addAction( aName2 );
+	}
 
 	if ( ! s3.isEmpty() ) {
-            labType = new QLabel( "<b>"+s3+"</b>", this );
-            labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-            aType = new KAction( ks->actionCollection(), "title_type" );
-            aType->setDefaultWidget( labType );
-            addAction( aType );
-        }
+		labType = new QLabel( "<b>"+s3+"</b>", this );
+		labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+		aType = new KAction( ks->actionCollection(), "title_type" );
+		aType->setDefaultWidget( labType );
+		addAction( aType );
+	}
 
-        labConstellation = new QLabel( "<b>"+ks->data()->skyComposite()->constellation( obj )+"</b>", this );
-        labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aConstellation = new KAction( ks->actionCollection(), "title_constellation" );
-        aConstellation->setDefaultWidget( labConstellation );
-        addAction( aConstellation );
+	labConstellation = new QLabel( "<b>"+ks->data()->skyComposite()->constellation( obj )+"</b>", this );
+	labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+	aConstellation = new KAction( ks->actionCollection(), "title_constellation" );
+	aConstellation->setDefaultWidget( labConstellation );
+	addAction( aConstellation );
 
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
 		addSeparator();
 
-                QString sRiseTime( i18n( "Rise time: %1" , QString("00:00") ) );
-                QString sSetTime( i18nc( "the time at which an object falls below the horizon", "Set time: %1" , QString("00:00") ) );
-                QString sTransitTime( i18n( "Transit time: %1" , QString("00:00") ) );
+		QString sRiseTime( i18n( "Rise time: %1" , QString("00:00") ) );
+		QString sSetTime( i18nc( "the time at which an object falls below the horizon", "Set time: %1" , QString("00:00") ) );
+		QString sTransitTime( i18n( "Transit time: %1" , QString("00:00") ) );
 
-                labRiseTime = new QLabel( "<b>"+sRiseTime+"</b>", this );
-                labRiseTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-                aRiseTime = new KAction( ks->actionCollection(), "title_risetime" );
-                aRiseTime->setDefaultWidget( labRiseTime );
-                addAction( aRiseTime );
+		labRiseTime = new QLabel( "<b>"+sRiseTime+"</b>", this );
+		labRiseTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+		QFont smallFont = labRiseTime->font();
+		smallFont.setPointSize( smallFont.pointSize() - 2 );
+		labRiseTime->setFont( smallFont );
+		aRiseTime = new KAction( ks->actionCollection(), "title_risetime" );
+		aRiseTime->setDefaultWidget( labRiseTime );
+		addAction( aRiseTime );
 
-                labSetTime = new QLabel( "<b>"+sSetTime+"</b>", this );
-                labSetTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-                aSetTime = new KAction( ks->actionCollection(), "title_settime" );
-                aSetTime->setDefaultWidget( labSetTime );
-                addAction( aSetTime );
+		labSetTime = new QLabel( "<b>"+sSetTime+"</b>", this );
+		labSetTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+		labSetTime->setFont( smallFont );
+		aSetTime = new KAction( ks->actionCollection(), "title_settime" );
+		aSetTime->setDefaultWidget( labSetTime );
+		addAction( aSetTime );
 
-                labTransitTime = new QLabel( "<b>"+sTransitTime+"</b>", this );
-                labTransitTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-                aTransitTime = new KAction( ks->actionCollection(), "title_transittime" );
-                aTransitTime->setDefaultWidget( labTransitTime );
-                addAction( aTransitTime );
+		labTransitTime = new QLabel( "<b>"+sTransitTime+"</b>", this );
+		labTransitTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+		labTransitTime->setFont( smallFont );
+		aTransitTime = new KAction( ks->actionCollection(), "title_transittime" );
+		aTransitTime->setDefaultWidget( labTransitTime );
+		addAction( aTransitTime );
 
 		setRiseSetLabels( obj );
 	}

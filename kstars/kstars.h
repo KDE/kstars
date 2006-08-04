@@ -51,6 +51,7 @@ class AstroCalc;
 class INDIMenu;
 class INDIDriver;
 class imagesequence;
+class AltVsTime;
 
 /**
 	*@class KStars
@@ -653,6 +654,7 @@ class KStars : public KMainWindow
 
 		//FIXME: move to KStarsData
 		ObservingList *obsList;
+		AltVsTime *avt;
 		
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
