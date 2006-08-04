@@ -36,7 +36,7 @@ SERVICES PROVIDED HEREUNDER.*/
 
 #define	SHARED_MAXSEG	(16)		/* maximum number of shared memory blocks */
 
-#define	SHARED_KEYBASE	(14011963)	/* base for shared memory keys, may be overriden by getenv */
+#define	SHARED_KEYBASE	(14011963)	/* base for shared memory keys, may be overridden by getenv */
 #define	SHARED_FDNAME	("/tmp/.shmem-lockfile") /* template for lock file name */
 
 #define	SHARED_ENV_KEYBASE ("SHMEM_LIB_KEYBASE") /* name of environment variable */

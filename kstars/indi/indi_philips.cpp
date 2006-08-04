@@ -70,6 +70,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
 {
 
-  // We use this if we're receving binary data from the client. Most likely we won't for this driver.
+  // We use this if we're receiving binary data from the client. Most likely we won't for this driver.
 
 }

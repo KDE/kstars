@@ -810,7 +810,7 @@ void CelestronGPS::slewError(int slewCode)
        IDSetNumber (&eqNum, "Dec count overflow in SlewToCoords");
        break;
       case 4:
-       IDSetNumber (&eqNum, "No acknowledgement from telescope after SlewToCoords");
+       IDSetNumber (&eqNum, "No acknowledgment from telescope after SlewToCoords");
        break;
       default:
        IDSetNumber (&eqNum, "Unknown error");

@@ -693,6 +693,29 @@ int tty_write(int fd, const char * buf, int *nbytes_written)
   return TTY_NO_ERROR;
 }
 
+int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
+{
+/*  unsigned int nbytes;*/
+  int totalBytesWritten;
+  int bytesWritten = 0;   
+   
+  while (nbytes > 0)
+  {
+    
+    bytesWritten = write(fd, buf, nbytes);
+
+    if (bytesWritten < 0)
+     return TTY_WRITE_ERROR;
+
+    buf += bytesWritten;
+    nbytes -= bytesWritten;
+  }
+
+  /* Returns the # of bytes written */
+  *nbytes_written = totalBytesWritten;
+  return TTY_NO_ERROR;
+}
+
 int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 {
 

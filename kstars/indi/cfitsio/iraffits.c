@@ -1488,7 +1488,7 @@ char *keyword;	/* character string containing the name of the variable
 	else if (nextchar != 61 && nextchar > 32 && nextchar < 127)
 	    headnext = loc + 1;
 
-	/* If preceeding characters in line are not blanks, keep searching */
+	/* If preceding characters in line are not blanks, keep searching */
 	else {
 	    line = loc - icol;
 	    for (lc = line; lc < loc; lc++) {
@@ -1583,7 +1583,7 @@ char *keyword;	/* character string containing the name of the variable
 	else if (nextchar != 61 && nextchar > 32 && nextchar < 127)
 	    headnext = loc + 1;
 
-	/* If preceeding characters in line are not blanks, keep searching */
+	/* If preceding characters in line are not blanks, keep searching */
 	else {
 	    line = loc - icol;
 	    for (lc = line; lc < loc; lc++) {

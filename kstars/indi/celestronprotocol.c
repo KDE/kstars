@@ -228,7 +228,7 @@ void StartSlew(int direction)
 
   writen(TelPortFD,slewCmd,8);
 
-  /* Look for '#' acknowledgement of request*/
+  /* Look for '#' acknowledgment of request*/
 
   for (;;) 
   {
@@ -238,7 +238,7 @@ void StartSlew(int direction)
     }
     else 
     { 
-      fprintf(stderr,"No acknowledgement from telescope in StartSlew.\n");
+      fprintf(stderr,"No acknowledgment from telescope in StartSlew.\n");
     }
   }   
 }
@@ -274,7 +274,7 @@ void StopSlew(int direction)
 
   writen(TelPortFD,slewCmd,8);
 
-  /* Look for '#' acknowledgement of request*/
+  /* Look for '#' acknowledgment of request*/
 
   for (;;) 
   {
@@ -284,7 +284,7 @@ void StopSlew(int direction)
     }
     else 
     { 
-      fprintf(stderr,"No acknowledgement from telescope in StartSlew.\n");
+      fprintf(stderr,"No acknowledgment from telescope in StartSlew.\n");
     }
   }  
 }
@@ -566,7 +566,7 @@ int SlewToCoords(double newRA, double newDec)
       if (inputStr[0] == '#') break;
     }
     else 
-    fprintf(stderr,"No acknowledgement from telescope after SlewToCoords.\n");
+    fprintf(stderr,"No acknowledgment from telescope after SlewToCoords.\n");
     return 4;
   }
   return 0;
@@ -652,7 +652,7 @@ void StopNSEW(void)
     }
     else 
     { 
-      fprintf(stderr,"No acknowledgement from telescope in StopNSEW.\n");
+      fprintf(stderr,"No acknowledgment from telescope in StopNSEW.\n");
     }
   }
 }

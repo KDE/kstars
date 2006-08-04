@@ -1513,7 +1513,7 @@ local int unlzh(in, out)
 }
 
 /*=========================================================================*/
-/* this marks the begining of the original file 'unlzw.c'                  */
+/* this marks the beginning of the original file 'unlzw.c'                 */
 /*=========================================================================*/
 
 /* unlzw.c -- decompress files in LZW format.

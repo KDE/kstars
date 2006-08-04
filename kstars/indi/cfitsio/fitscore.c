@@ -5921,7 +5921,7 @@ int ffwend(fitsfile *fptr,       /* I - FITS file pointer */
     The END keyword must either be placed immediately after the last
     keyword that was written (as indicated by the headend value), or
     must be in the first 80 bytes of the 2880-byte FITS record immediately 
-    preceeding the data unit, whichever is further in the file. The
+    preceding the data unit, whichever is further in the file. The
     latter will occur if space has been reserved for more header keywords
     which have not yet been written.
     */

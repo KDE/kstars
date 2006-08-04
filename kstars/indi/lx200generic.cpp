@@ -18,8 +18,17 @@
 
 #endif
 
+/*
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+*/
+
 #include "config.h"
+
+#ifndef HAVE_CONFIG_H
 #include "config-kstars.h"
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -173,7 +182,7 @@ INumber slewPrecisionN[] = {
 };
 static INumberVectorProperty slewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, slewPrecisionN, NARRAY(slewPrecisionN), "", 0};
 
-/* Site managment */
+/* Site management */
 static ISwitchVectorProperty SitesSw  = { mydev, "Sites", "", SITE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SitesS, NARRAY(SitesS), "", 0};
 /* geographic location */
 static INumber geo[] = {

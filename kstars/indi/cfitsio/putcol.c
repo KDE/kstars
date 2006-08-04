@@ -1401,7 +1401,7 @@ int ffiter(int n_cols,
         {
 	    if (typecode < 0) 
 	    {
-              /* get max size of the variable length vector; dont't trust the value
+              /* get max size of the variable length vector; don't trust the value
 	         given by the TFORM keyword  */
 	      rept = 1;
 	      for (ii = 0; ii < totaln; ii++) {
@@ -1804,7 +1804,7 @@ int ffiter(int n_cols,
       if (*status > 0 || *status < -1 ) 
          break;   /* looks like an error occurred; quit immediately */
 
-      /*  write output columns  before quiting if status = -1 */
+      /*  write output columns  before quitting if status = -1 */
       tstatus = 0;
       for (jj = 0; jj < n_cols; jj++)
       {
@@ -1839,7 +1839,7 @@ int ffiter(int n_cols,
 	    	if (ffgtcl(cols[jj].fptr, cols[jj].colnum, &typecode, &rept,&width, status) > 0)
 		    goto cleanup;
 		    
-		if (typecode<0)  /* variable length array colum */
+		if (typecode<0)  /* variable length array column */
 		{
 		   ffgdes(cols[jj].fptr, cols[jj].colnum, frow,&cols[jj].repeat, NULL,status);
 		}

@@ -591,7 +591,7 @@ void V4L_Driver::uploadFile(const char * filename)
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
-     IDLog(" Error occoured attempting to stat %s\n", filename); 
+     IDLog(" Error occurred attempting to stat %s\n", filename); 
      return; 
    }
    

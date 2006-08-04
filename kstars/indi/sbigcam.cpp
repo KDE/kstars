@@ -2278,7 +2278,7 @@ int SbigCam::WriteFits(	string						fits_name,
 	/* Write the array of integers to the image */
   	if (fits_write_img(fptr, TUSHORT, fpixel, nelements, buffer, &status))
 	{
-	    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occured.");
+	    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occurred.");
 	    	res = CE_OS_ERROR;
   	}
 
@@ -2329,7 +2329,7 @@ int SbigCam::WriteFits(	string						fits_name,
   
 	// Check for errors:
 	if(ferror(fp->fp)){
-    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occured.");
+    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occurred.");
     	res = CE_OS_ERROR;
   }
  

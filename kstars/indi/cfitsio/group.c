@@ -64,7 +64,7 @@ D. Jennings, 01/02/99, ffgtop() now looks for relatve file paths when
                        the GRPLCn keyword value is supplied in the member
 		       HDU header.
 
-D. Jennings, 01/02/99, ffgtam() now trys to construct relative file paths
+D. Jennings, 01/02/99, ffgtam() now tries to construct relative file paths
                        from the member's file to the group table's file
 		       (and visa versa) when both the member's file and
 		       group table file are of access type FILE://.
@@ -674,7 +674,7 @@ int ffgtcp(fitsfile *infptr,  /* input FITS file pointer                     */
   copy a grouping table, and optionally all its members, to a new FITS file.
   If the cpopt is set to OPT_GCP_GPT (copy grouping table only) then the 
   existing members have their GRPIDn and GRPLCn keywords updated to reflect 
-  the existance of the new group, since they now belong to another group. If 
+  the existence of the new group, since they now belong to another group. If 
   cpopt is set to OPT_GCP_ALL (copy grouping table and members recursively) 
   then the original members are not updated; the new grouping table is 
   modified to include only the copied member HDUs and not the original members.
@@ -1225,7 +1225,7 @@ int ffgtop(fitsfile *mfptr,  /* FITS file pointer to the member HDU          */
 	      
 	      *status = fits_relurl2url(url[i],keyvalue,location,status);
 	      
-	      /* if an error occured then contniue */
+	      /* if an error occurred then contniue */
 	      
 	      if(*status != 0) 
 		{
@@ -1268,7 +1268,7 @@ int ffgtop(fitsfile *mfptr,  /* FITS file pointer to the member HDU          */
 
 	}while(0); /* end of file opening loop */
 
-      /* if an error occured with the file opening then exit */
+      /* if an error occurred with the file opening then exit */
 
       if(*status != 0) continue;
   
@@ -4023,7 +4023,7 @@ int ffgmf(fitsfile *gfptr, /* pointer to grouping table HDU to search       */
       
       /*
 	if no location string was passed to the function then assume that
-	the calling application does not wish to use it as a comparision
+	the calling application does not wish to use it as a comparison
 	critera ==> if we got this far then we have a match
       */
 
@@ -4037,7 +4037,7 @@ int ffgmf(fitsfile *gfptr, /* pointer to grouping table HDU to search       */
       /*
 	if the grouping table MEMBER_LOCATION column exists then read the
 	location URL for the member, else set the location string to
-	a zero-length string for subsequent comparisions
+	a zero-length string for subsequent comparisons
       */
 
       if(locationCol != 0)
@@ -4317,7 +4317,7 @@ int ffgtcpr(fitsfile   *infptr,  /* input FITS file pointer                 */
 /*
   copy a Group to a new FITS file. If the cpopt parameter is set to 
   OPT_GCP_GPT (copy grouping table only) then the existing members have their 
-  GRPIDn and GRPLCn keywords updated to reflect the existance of the new group,
+  GRPIDn and GRPLCn keywords updated to reflect the existence of the new group,
   since they now belong to another group. If cpopt is set to OPT_GCP_ALL 
   (copy grouping table and members recursively) then the original members are 
   not updated; the new grouping table is modified to include only the copied 
@@ -4765,7 +4765,7 @@ void prepare_keyvalue(char *keyvalue) /* string containing keyword value     */
   strip off all single quote characters "'" and blank spaces from a keyword
   value retrieved via fits_read_key*() routines
 
-  this is necessary so that a standard comparision of keyword values may
+  this is necessary so that a standard comparison of keyword values may
   be made
 */
 
@@ -5729,21 +5729,21 @@ int  fits_get_url(fitsfile *fptr,       /* I ptr to FITS file to evaluate    */
       else if(strcasecmp(tmpStr3,"stdin://")        == 0)        
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make vaild URL from stdin:// (fits_get_url)");
+	  ffpmsg("cannot make valid URL from stdin:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 
       else if(strcasecmp(tmpStr3,"stdout://")       == 0)       
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make vaild URL from stdout:// (fits_get_url)");
+	  ffpmsg("cannot make valid URL from stdout:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 
       else if(strcasecmp(tmpStr3,"irafmem://")      == 0)      
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make vaild URL from irafmem:// (fits_get_url)");
+	  ffpmsg("cannot make valid URL from irafmem:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 

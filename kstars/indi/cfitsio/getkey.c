@@ -2648,9 +2648,9 @@ int ffgphd(fitsfile *fptr,  /* I - FITS file pointer                        */
     for (; !found_end; nextkey++)  
     {
       /* get next keyword */
-      /* don't use ffgkyn here because it trys to parse the card to read */
-      /* the value string, thus failing to read the file just because of */
-      /* minor syntax errors in optional keywords.                       */
+      /* don't use ffgkyn here because it tries to parse the card to read */
+      /* the value string, thus failing to read the file just because of  */
+      /* minor syntax errors in optional keywords.                        */
 
       if (ffgrec(fptr, nextkey, card, status) > 0 )  /* get the 80-byte card */
       {

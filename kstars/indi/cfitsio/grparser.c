@@ -532,7 +532,7 @@ int	ngp_extract_tokens(NGP_RAW_LINE *cl)
    else						/* regular token */
      { 
        cl->value = p;				/* set pointer to token */
-       cl->type = NGP_TTYPE_UNKNOWN;		/* we dont know type at the moment */
+       cl->type = NGP_TTYPE_UNKNOWN;		/* we don't know type at the moment */
        for (;; p++)				/* we need to find 1st whitespace */
         { if ((0 == *p) || ('\n' == *p))
             { *p = 0; return(NGP_OK); }
@@ -678,7 +678,7 @@ int	ngp_read_line(int ignore_blank_lines)
          case '#': continue;			/* ignore comment lines */
        }
       
-      r = ngp_extract_tokens(&ngp_curline);	/* analyse line, extract tokens and comment */
+      r = ngp_extract_tokens(&ngp_curline);	/* analyze line, extract tokens and comment */
       if (NGP_OK != r) return(r);
 
       if (NULL == ngp_curline.name)  continue;	/* skip lines consisting only of whitespaces */

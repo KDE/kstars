@@ -46,7 +46,7 @@ SERVICES PROVIDED HEREUNDER.*/
    </BODY></HTML>
 
    This redirect was from apache 1.2.5 but most of the other servers produce 
-   something very similiar.  The parser for the redirects finds the first 
+   something very similar.  The parser for the redirects finds the first 
    anchor <A> tag in the body and goes there.  If that wasn't what was intended
    by the remote system then hopefully the error stack, which includes notes 
    about the redirect will help the user fix the problem.
@@ -124,7 +124,7 @@ SERVICES PROVIDED HEREUNDER.*/
 
    ROOTD_PUT - on send <optional info> includes a text message of
    offset and length to put.  Then send the raw bytes you want to
-   write.  Then recieve a status message
+   write.  Then receive a status message
 
 
    When you are finished then you send the message:
@@ -220,7 +220,7 @@ static char netoutfile[MAXLEN];
 #define ROOTD_FLUSH 2007       /*flush file */
 #define ROOTD_CLOSE 2008       /*close file */
 #define ROOTD_STAT  2009       /*return rootd statistics */
-#define ROOTD_ACK   2010       /*acknowledgement (all OK) */
+#define ROOTD_ACK   2010       /*acknowledgment (all OK) */
 #define ROOTD_ERR   2011       /*error code and message follow */
 
 typedef struct    /* structure containing disk file structure */ 
@@ -748,7 +748,7 @@ int http_file_open(char *url, int rwmode, int *handle)
      read the file from
    contentencoding is the mime type of the file, returned if the http server
      returns it
-   contentlength is the lenght of the file, returned if the http server returns
+   contentlength is the length of the file, returned if the http server returns
      it
 */
 static int http_open_network(char *url, FILE **httpfile, char *contentencoding,

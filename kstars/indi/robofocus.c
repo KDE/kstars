@@ -771,7 +771,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
  
   fprintf(stderr, "ISNewNumber\n") ;
 
-  /* Make sure to initalize */
+  /* Make sure to initialize */
   ISInit();
 
   /* ignore if not ours */

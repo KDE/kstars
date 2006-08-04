@@ -897,7 +897,7 @@ void uploadFile(const char* filename)
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
-     IDLog(" Error occoured attempting to stat file.\n"); 
+     IDLog(" Error occurred attempting to stat file.\n"); 
      return; 
    }
    

@@ -4366,7 +4366,7 @@ int ffifile(char *url,       /* input filename */
 
     /* --------------------------------------------- */
     /* check if the 'filename+n' convention has been */
-    /* used to specifiy which HDU number to open     */ 
+    /* used to specify which HDU number to open      */ 
     /* --------------------------------------------- */
 
     jj = strlen(infile);
@@ -5132,7 +5132,7 @@ int ffrtnm(char *url,
 
     /* --------------------------------------------- */
     /* check if the 'filename+n' convention has been */
-    /* used to specifiy which HDU number to open     */ 
+    /* used to specify which HDU number to open      */ 
     /* --------------------------------------------- */
 
     jj = strlen(infile);

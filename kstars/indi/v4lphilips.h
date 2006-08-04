@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-    2005.04.29  JM: There is no need for this file for Video 4 Linux 2. It is kept for V4L 1 compatiblity.
+    2005.04.29  JM: There is no need for this file for Video 4 Linux 2. It is kept for V4L 1 compatibility.
 
 */
 

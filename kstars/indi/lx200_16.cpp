@@ -359,7 +359,7 @@ void LX200_16::handleAltAzSlew()
 	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);
 
 
-	    // accuracy threshhold (3'), can be changed as desired.
+	    // accuracy threshold (3'), can be changed as desired.
 	    if ( fabs(dx) <= 0.05 && fabs(dy) <= 0.05)
 	    {
 

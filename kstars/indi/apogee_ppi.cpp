@@ -586,7 +586,7 @@ int ApogeeCam::writeFITS(char *filename, char errmsg[])
   
   if (ferror (ofp->fp))
   {
-    sprintf(errmsg, "Error: write error occured");
+    sprintf(errmsg, "Error: write error occurred");
     return (-1);
   }
  
@@ -622,7 +622,7 @@ void ApogeeCam::uploadFile(char * filename)
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
-     IDLog(" Error occoured attempting to stat %s\n", filename); 
+     IDLog(" Error occurred attempting to stat %s\n", filename); 
      return; 
    }
    

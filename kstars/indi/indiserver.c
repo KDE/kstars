@@ -1,5 +1,5 @@
 /* INDI Server.
- * Copyright (C) 2005 Elwood C. Downey ecdowney@clearskyinstitute.com
+ * Copyright (C) 2006 Elwood C. Downey ecdowney@clearskyinstitute.com
  * licensed under GNU Lesser Public License version 2.1 or later.
  *
  * argv lists names of Driver programs to run or sockets to connect for Devices.
@@ -9,28 +9,35 @@
  * We only support Drivers that advertise support for one Device. The problem
  *   with multiple Devices in one Driver is without a way to know what they
  *   _all_ are there is no way to avoid sending all messages to all Drivers.
- * Clients can come and go as they please and will see messages only for Devices
- *   for which they have queried via getProperties.
- * Messages to Devices on sockets always include Device so chained indiserver
- *   will only pass back info from that Device.
+ *   For efficiency, we want Client traffic to be restricted to only those
+ *   Devices for which they have queried via getProperties.
+ *   Similary, messages to Devices on sockets always include Device so
+ *   chained indiserver will only pass back info from that Device.
  * all newXXX() received from one Client are echoed to all other Clients who
  *   have shown an interest in the same Device.
  *
  * Implementation notes:
  *
- * Each Client is written to by its own thread to allow for wildly different
- * consumption rates. The main thread cracks the xml. When it sees a complete
- * message it puts it in a new Msg which is the XMLEle and a usage count. The
- * Msg is put on the q for each eligible Client and the Msg usage count is the
- * number of Clients on whose q it resides. The Client write thread waits for
- * a Msg to be on its q, performs the write, decrements the usage count and
- * frees the Msg (and its XMLEle) if the count reaches 0. This mechanism is
- * less valuable for Drivers since there is little need to send the same message
- * to more than one Driver. However, a Driver slow to consume it message can
- * block us so it still might be worth while for that reason someday. 
- * 
- * All manipulation of the Client info table, clinfo[], is guarded by client_m
- * and client_c. All heap access is guarded by malloc_m.
+ * We fork each driver and open a server socket listening for INDI clients.
+ * Then forever we listen for new clients and pass traffic between clients and
+ * drivers, subject to optimizations based on sniffing getProperties messages.
+ * Whereas it is often the case that a message from a driver will be sent to
+ * more than one client, to avoid starving fast clients able to read quickly
+ * while waiting for messages to drain to slow clients, each client message
+ * is put on a queue for each interested client with a count of consumers.
+ * Similarly, even though it is more rare for a message to be sent to more
+ * than one driver, we still want to avoid blocking on a driver slow to
+ * consume its message so driver messages are also queued in like fashion to
+ * clients. Note that the same messages can be destined for both clients and
+ * devices (for example, new* messages from clients are sent to drivers and
+ * echoed to clients) it is allowed for one message to be on both driver and
+ * client queues. Once queued, select(2) is used to write only to clients and
+ * drivers that are known ready to read or accept more traffic. A message is
+ * freed once it is no longer in use by clients or drivers.
+ *
+ * TODO:
+ * Writing large BLOBs is sufficiently likely to dominate we should fork a new
+ *   process each time we write one to a client.
  */
 
 #include <stdio.h>
@@ -40,7 +47,6 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -57,16 +63,11 @@
 #define	MAXDRS		4		/* default times to restart a driver */
 #define	NOPID		(-1234)		/* invalid PID to flag remote drivers */
 
-/* mutex and condition variables to guard client queue and heap access */
-static pthread_mutex_t client_m;	/* client mutex */
-static pthread_cond_t client_c;		/* client condition waiting for Msgs */
-static pthread_mutex_t malloc_m;	/* heap mutex */
-
 /* name of a device a client is interested in */
 typedef char IDev[MAXINDIDEVICE];	/* handy array of char */
 
 /* BLOB handling, NEVER is the default */
-typedef enum {B_NEVER=0, B_ALSO, B_ONLY} BLOBEnable;
+typedef enum {B_NEVER=0, B_ALSO, B_ONLY} BLOBHandling;
 
 /* associate a usage count with an XMLEle message */
 typedef struct {
@@ -77,19 +78,17 @@ typedef struct {
 /* info for each connected client */
 typedef struct {
     int active;				/* 1 when this record is in use */
-    int shutdown;			/* set to close writer thread */
     int s;				/* socket for this client */
     FILE *wfp;				/* FILE to write to s */
-    BLOBEnable blob;			/* when to send setBLOBs */
-    pthread_t wtid;			/* writer thread id */
+    BLOBHandling blob;			/* when to send setBLOBs */
     LilXML *lp;				/* XML parsing context */
     FQ *msgq;				/* Msg queue */
     IDev *devs;				/* malloced array of devices we want */
     int ndevs;				/* n entries in devs[] */
     int sawGetProperties;		/* mark when see getProperties */
 } ClInfo;
-static ClInfo *clinfo;			/* malloced array of clients */
-static int nclinfo;			/* n total (not n active) */
+static ClInfo *clinfo;			/*  malloced array of clients */
+static int nclinfo;			/* n total (not active) */
 
 /* info for each connected driver */
 typedef struct {
@@ -97,17 +96,16 @@ typedef struct {
     IDev dev;				/* device served by this driver */
     int pid;				/* process id or NOPID if remote */
     int rfd;				/* read pipe fd */
+    int wfd;				/* write pipe fd */
     FILE *wfp;				/* write pipe fp */
     int restarts;			/* times process has been restarted */
     LilXML *lp;				/* XML parsing context */
+    FQ *msgq;				/* Msg queue */
 } DvrInfo;
 static DvrInfo *dvrinfo;		/* malloced array of drivers */
 static int ndvrinfo;			/* n total */
 
 static void usage (void);
-static void *mymalloc (size_t s);
-static void *myrealloc (void *p, size_t s);
-static void myfree (void *p);
 static void noZombies (void);
 static void noSIGPIPE (void);
 static void indiRun (void);
@@ -115,26 +113,27 @@ static void indiListen (void);
 static void newClient (void);
 static int newClSocket (void);
 static void shutdownClient (ClInfo *cp);
-static void clientMsg (ClInfo *cp);
+static void readFromClient (ClInfo *cp);
 static void startDvr (DvrInfo *dp);
 static void startLocalDvr (DvrInfo *dp);
 static void startRemoteDvr (DvrInfo *dp);
-static int openINDIServer (char host[], int port);
+static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
-static void send2Drivers (XMLEle *root, char *dev);
-static void send2Clients (ClInfo *notme, XMLEle *root, char *dev);
+static Msg *q2Drivers (XMLEle *root, char *dev, Msg *mp);
+static Msg * q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp);
 static void addClDevice (ClInfo *cp, char *dev);
 static int findClDevice (ClInfo *cp, char *dev);
-static void driverMsg (DvrInfo *dp);
-static void *clientWThread(void *carg);
+static void readFromDriver (DvrInfo *dp);
 static void freeMsg (Msg *mp);
-static BLOBEnable crackBLOB (char enableBLOB[]);
-static void xmlLog (XMLEle *root);
+static void sendClientMsg (ClInfo *cp);
+static void sendDriverMsg (DvrInfo *cp);
+static BLOBHandling crackBLOB (char enableBLOB[]);
+static void logMsg (XMLEle *root);
 
 static char *me;			/* our name */
 static int port = INDIPORT;		/* public INDI port */
-static int verbose;			/* more chatty */
 static int maxdrs = MAXDRS;		/* max times to restart dieing driver */
+static int verbose;			/* chattiness */
 static int lsocket;			/* listen socket */
 
 int
@@ -176,27 +175,18 @@ main (int ac, char *av[])
 	noZombies();
 	noSIGPIPE();
 
-	/* init mutexes and condition variables */
-	pthread_mutex_init(&client_m, NULL);
-	pthread_cond_init (&client_c, NULL);
-	pthread_mutex_init(&malloc_m, NULL);
-
-	/* install our locked heap functions */
-	indi_xmlMalloc (mymalloc, myrealloc, myfree);
-	setMemFuncsFQ (mymalloc, myrealloc, myfree);
-
-	/* seed client info array so we can always use realloc */
-	clinfo = (ClInfo *) mymalloc (sizeof(ClInfo));
+	/* seed for realloc */
+	clinfo = (ClInfo *) malloc (1);
 	nclinfo = 0;
 
 	/* create driver info array all at once so size never has to change */
 	ndvrinfo = ac;
-	dvrinfo = (DvrInfo *) mymalloc (ndvrinfo * sizeof(DvrInfo));
+	dvrinfo = (DvrInfo *) malloc (ndvrinfo * sizeof(DvrInfo));
 	memset (dvrinfo, 0, ndvrinfo * sizeof(DvrInfo));
 
 	/* start each driver, malloc name once and keep it */
 	while (ac-- > 0) {
-	    dvrinfo[ac].name = strcpy (mymalloc(strlen(*av)+1), *av);
+	    dvrinfo[ac].name = strcpy (malloc(strlen(*av)+1), *av);
 	    startDvr (&dvrinfo[ac]);
 	    av++;
 	}
@@ -204,7 +194,7 @@ main (int ac, char *av[])
 	/* announce we are online */
 	indiListen();
 
-	/* handle new clients and all reading */
+	/* handle new clients and all io */
 	while (1)
 	    indiRun();
 
@@ -224,44 +214,11 @@ usage(void)
 	fprintf (stderr, " -p p  : alternate IP port, default %d\n", INDIPORT);
 	fprintf (stderr, " -r n  : max driver restarts, default %d\n", MAXDRS);
 	fprintf (stderr, " -v    : show connects/disconnects, no traffic\n");
-	fprintf (stderr, " -vv   : show -v + key message content\n");
-	fprintf (stderr, " -vvv  : show -vv + complete xml\n");
+	fprintf (stderr, " -vv   : -v + key message content\n");
+	fprintf (stderr, " -vvv  : -vv + complete xml\n");
 	fprintf (stderr, "driver : program or device@host[:port]\n");
 
 	exit (1);
-}
-
-/* like malloc(3) but honors malloc_m mutex lock */
-static void *
-mymalloc (size_t s)
-{
-	void *mem;
-
-	pthread_mutex_lock (&malloc_m);
-	mem = malloc (s);
-	pthread_mutex_unlock (&malloc_m);
-	return (mem);
-}
-
-/* like realloc(3) but honors malloc_m mutex lock */
-static void *
-myrealloc (void *p, size_t s)
-{
-	void *mem;
-
-	pthread_mutex_lock (&malloc_m);
-	mem = realloc (p, s);
-	pthread_mutex_unlock (&malloc_m);
-	return (mem);
-}
-
-/* like free(3) but honors malloc_m mutex lock */
-static void
-myfree (void *p)
-{
-	pthread_mutex_lock (&malloc_m);
-	free (p);
-	pthread_mutex_unlock (&malloc_m);
 }
 
 /* arrange for no zombies if drivers die */
@@ -349,17 +306,14 @@ startLocalDvr (DvrInfo *dp)
 	/* record pid, io channel, init lp */
 	dp->pid = pid;
 	dp->rfd = rp[0];
+	dp->wfd = wp[1];
+	dp->wfp = fdopen (dp->wfd, "a");
 	dp->lp = newLilXML();
-
-	/* N.B. beware implied use of malloc */
-	pthread_mutex_lock (&malloc_m);
-	dp->wfp = fdopen (wp[1], "a");
-	setbuf (dp->wfp, NULL);
-	pthread_mutex_unlock (&malloc_m);
+	dp->msgq = newFQ(1);
 
 	if (verbose > 0)
 	    fprintf (stderr, "Driver %s: rfd=%d wfd=%d\n", dp->name, dp->rfd,
-	    								wp[1]);
+								    dp->wfd);
 }
 
 /* start the remote INDI driver connection using the given DvrInfo slot.
@@ -370,32 +324,29 @@ startRemoteDvr (DvrInfo *dp)
 {
 	char dev[1024];
 	char host[1024];
-	int indiport, sockfd;
+	int indi_port, sockfd;
 
-	/* extract host and indiport */
-	indiport = INDIPORT;
-	if (sscanf (dp->name, "%[^@]@%[^:]:%d", dev, host, &indiport) < 2) {
+	/* extract host and port */
+	indi_port = INDIPORT;
+	if (sscanf (dp->name, "%[^@]@%[^:]:%d", dev, host, &indi_port) < 2) {
 	    fprintf (stderr, "Bad remote device syntax: %s\n", dp->name);
 	    exit(1);
 	}
 
 	/* connect */
-	sockfd = openINDIServer (host, indiport);
+	sockfd = openINDIServer (host, indi_port);
 
-	/* record fake pid, io channel, init lp, dev name.
-	 * N.B. storing name now is key to limiting remote traffic to this dev
-	 */
+	/* record fake pid, io channel, init lp */
 	dp->pid = NOPID;
 	dp->rfd = sockfd;
+	dp->wfd = sockfd;
+	dp->wfp = fdopen (sockfd, "a");
 	dp->lp = newLilXML();
+	dp->msgq = newFQ(1);
+	
+	/* N.B. storing name now is key to limiting remote traffic to this dev*/
 	strncpy (dp->dev, dev, sizeof(IDev)-1);
 	dp->dev[sizeof(IDev)-1] = '\0';
-
-	/* N.B. beware implied use of malloc */
-	pthread_mutex_lock (&malloc_m);
-	dp->wfp = fdopen (sockfd, "a");
-	setbuf (dp->wfp, NULL);
-	pthread_mutex_unlock (&malloc_m);
 
 	if (verbose > 0)
 	    fprintf (stderr, "Driver %s: socket=%d\n", dp->name, sockfd);
@@ -405,7 +356,7 @@ startRemoteDvr (DvrInfo *dp)
  * return socket fd.
  */
 static int
-openINDIServer (char host[], int indiport)
+openINDIServer (char host[], int indi_port)
 {
 	struct sockaddr_in serv_addr;
 	struct hostent *hp;
@@ -423,15 +374,15 @@ openINDIServer (char host[], int indiport)
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr =
 			    ((struct in_addr *)(hp->h_addr_list[0]))->s_addr;
-	serv_addr.sin_port = htons(indiport);
+	serv_addr.sin_port = htons(indi_port);
 	if ((sockfd = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-	    fprintf (stderr, "socket(%s,%d): %s\n", host, indiport,strerror(errno));
+	    fprintf (stderr, "socket(%s,%d): %s\n", host, indi_port,strerror(errno));
 	    exit(1);
 	}
 
 	/* connect */
 	if (connect (sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr))<0){
-	    fprintf (stderr, "connect(%s,%d): %s\n", host,port,strerror(errno));
+	    fprintf (stderr, "connect(%s,%d): %s\n", host,indi_port,strerror(errno));
 	    exit(1);
 	}
 
@@ -455,7 +406,7 @@ indiListen ()
 	    exit(1);
 	}
 	
-	/* bind to given port for any IP address per configure option */
+	/* bind to given port for any IP address */
 	memset (&serv_socket, 0, sizeof(serv_socket));
 	serv_socket.sin_family = AF_INET;
 	#ifdef SSH_TUNNEL
@@ -489,33 +440,45 @@ indiListen ()
 static void
 indiRun(void)
 {
-	fd_set rs;
+	fd_set rs, ws;
 	int maxfd;
 	int i, s;
 
-	/* start with public contact point */
+	/* init with no writers or readers */
+	FD_ZERO(&ws);
 	FD_ZERO(&rs);
+
+	/* always listen for new clients */
 	FD_SET(lsocket, &rs);
 	maxfd = lsocket;
 
-	/* add all client and driver read fd's */
+	/* add all client readers and pending client writers */
 	for (i = 0; i < nclinfo; i++) {
 	    ClInfo *cp = &clinfo[i];
 	    if (cp->active) {
 		FD_SET(cp->s, &rs);
+		if (nFQ(cp->msgq) > 0)
+		    FD_SET(cp->s, &ws);
 		if (cp->s > maxfd)
 		    maxfd = cp->s;
 	    }
 	}
+
+	/* add all driver readers and pending driver writers */
 	for (i = 0; i < ndvrinfo; i++) {
 	    DvrInfo *dp = &dvrinfo[i];
 	    FD_SET(dp->rfd, &rs);
 	    if (dp->rfd > maxfd)
 		maxfd = dp->rfd;
+	    if (nFQ(dp->msgq) > 0) {
+		FD_SET(dp->wfd, &ws);
+		if (dp->wfd > maxfd)
+		    maxfd = dp->wfd;
+	    }
 	}
 
 	/* wait for action */
-	s = select (maxfd+1, &rs, NULL, NULL, NULL);
+	s = select (maxfd+1, &rs, &ws, NULL, NULL);
 	if (s < 0) {
 	    fprintf (stderr, "%s: select(%d): %s\n",me,maxfd+1,strerror(errno));
 	    exit(1);
@@ -524,22 +487,36 @@ indiRun(void)
 	/* new client? */
 	if (s > 0 && FD_ISSET(lsocket, &rs)) {
 	    newClient();
-	    s -= 1;
+	    s--;
 	}
 
-	/* message from client? */
+	/* message to/from client? */
 	for (i = 0; s > 0 && i < nclinfo; i++) {
-	    if (clinfo[i].active && FD_ISSET(clinfo[i].s, &rs)) {
-		clientMsg(&clinfo[i]);
-		s -= 1;
+	    ClInfo *cp = &clinfo[i];
+	    if (cp->active) {
+		if (FD_ISSET(cp->s, &rs)) {
+		    readFromClient(cp);
+		    s--;
+		}
+	    }
+	    if (cp->active) {	/* read might have shut it down */
+		if (FD_ISSET(cp->s, &ws)) {
+		    sendClientMsg(cp);
+		    s--;
+		}
 	    }
 	}
 
-	/* message from driver? */
+	/* message to/from driver? */
 	for (i = 0; s > 0 && i < ndvrinfo; i++) {
-	    if (FD_ISSET(dvrinfo[i].rfd, &rs)) {
-		driverMsg(&dvrinfo[i]);
-		s -= 1;
+	    DvrInfo *dp = &dvrinfo[i];
+	    if (FD_ISSET(dp->rfd, &rs)) {
+		readFromDriver(dp);
+		s--;
+	    }
+	    if (FD_ISSET(dp->wfd, &ws) && nFQ(dp->msgq) > 0) {
+		sendDriverMsg(dp);
+		s--;
 	    }
 	}
 }
@@ -550,7 +527,7 @@ indiRun(void)
 static void
 newClient()
 {
-	ClInfo *cp = NULL;
+	ClInfo *cp;
 	int s, cli;
 
 	/* assign new socket */
@@ -561,15 +538,13 @@ newClient()
 	    if (!(cp = &clinfo[cli])->active)
 		break;
 	if (cli == nclinfo) {
-	    /* grow clinfo, lock while moving */
-	    pthread_mutex_lock (&client_m);
-	    clinfo = (ClInfo *) myrealloc (clinfo, (nclinfo+1)*sizeof(ClInfo));
+	    /* grow clinfo */
+	    clinfo = (ClInfo *) realloc (clinfo, (nclinfo+1)*sizeof(ClInfo));
 	    if (!clinfo) {
 		fprintf (stderr, "%s: no memory for new client\n", me);
 		exit(1);
 	    }
 	    cp = &clinfo[nclinfo++];
-	    pthread_mutex_unlock (&client_m);
 	}
 
 	/* rig up new clinfo entry */
@@ -578,23 +553,11 @@ newClient()
 	cp->s = s;
 	cp->lp = newLilXML();
 	cp->msgq = newFQ(1);
-	cp->devs = mymalloc (sizeof(IDev));
-
-	/* N.B. beware implied use of malloc */
-	pthread_mutex_lock (&malloc_m);
+	cp->devs = malloc (1);
 	cp->wfp = fdopen (cp->s, "a");
-	setbuf (cp->wfp, NULL);
-	pthread_mutex_unlock (&malloc_m);
 
 	if (verbose > 0)
 	    fprintf (stderr, "Client %d: new arrival - welcome!\n", cp->s);
-
-	/* start the writer thread */
-	s = pthread_create (&cp->wtid, NULL, clientWThread, (void*)(cp-clinfo));
-	if (s) {
-	    fprintf (stderr, "Thread create error: %s\n", strerror(s));
-	    exit (1);
-	}
 }
 
 /* read more from the given client, send to each appropriate driver when see
@@ -602,26 +565,21 @@ newClient()
  * shut down client if any trouble.
  */
 static void
-clientMsg (ClInfo *cp)
+readFromClient (ClInfo *cp)
 {
 	char buf[BUFSZ];
 	int i, nr;
 
 	/* read client */
 	nr = read (cp->s, buf, sizeof(buf));
-	if (nr < 0) {
-	    fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
-	    shutdownClient (cp);
-	    return;
-	}
-	if (nr == 0) {
-	    if (verbose)
+	if (nr <= 0) {
+	    if (nr < 0)
+		fprintf (stderr, "Client %d: read: %s\n",cp->s,strerror(errno));
+	    else if (verbose > 0)
 		fprintf (stderr, "Client %d: read EOF\n", cp->s);
 	    shutdownClient (cp);
 	    return;
-	} 
-	if (verbose > 2)
-	    fprintf (stderr, "Client %d: read %d:\n%.*s", cp->s, nr, nr, buf);
+	}
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
@@ -630,26 +588,32 @@ clientMsg (ClInfo *cp)
 	    if (root) {
 		char *roottag = tagXMLEle(root);
 		char *dev = findXMLAttValu (root, "device");
+		Msg *mp;
 
-		if (verbose > 1)
-		    fprintf (stderr, "Client %d: read ", cp->s), xmlLog(root);
+		if (verbose > 1) {
+		    fprintf (stderr, "Client %d: read ", cp->s);
+		    logMsg (root);
+		}
 
 		/* snag enableBLOB */
 		if (!strcmp (roottag, "enableBLOB"))
 		    cp->blob = crackBLOB (pcdataXMLEle(root));
 
 		/* snag interested devices */
-		if (!strcmp (roottag, "getProperties"))
+		if (!strcmp (roottag, "getProperties")) {
 		    addClDevice (cp, dev);
+		    cp->sawGetProperties = 1;
+		}
 
 		/* send message to driver(s) responsible for dev */
-		send2Drivers (root, dev);
+		mp = q2Drivers (root, dev, NULL);
 
-		/* echo new* commands back to other clients, else done */
+		/* echo new* commands back to other clients */
 		if (!strncmp (roottag, "new", 3))
-		    send2Clients (cp, root, dev); /* does delXMLEle */
-		else
-		    delXMLEle (root);
+		    q2Clients (cp, root, dev, mp);
+
+		/* N.B. delXMLele(root) called when root no longer in any q */
+
 	    } else if (err[0])
 		fprintf (stderr, "Client %d: %s\n", cp->s, err);
 	}
@@ -659,25 +623,22 @@ clientMsg (ClInfo *cp)
  * xml closure. if driver dies, try to restarting up to MAXDRS times.
  */
 static void
-driverMsg (DvrInfo *dp)
+readFromDriver (DvrInfo *dp)
 {
 	char buf[BUFSZ];
 	int i, nr;
 
 	/* read driver */
 	nr = read (dp->rfd, buf, sizeof(buf));
-	if (nr < 0) {
-	    fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
+	if (nr <= 0) {
+	    if (nr < 0) 
+		fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
+	    else
+		fprintf (stderr, "Driver %s: died, or failed to start\n",
+								    dp->name);
 	    restartDvr (dp);
 	    return;
 	}
-	if (nr == 0) {
-	    fprintf (stderr, "Driver %s: died, or failed to start\n", dp->name);
-	    restartDvr (dp);
-	    return;
-	}
-	if (verbose > 2)
-	    fprintf (stderr,"Driver %s: read %d:\n%.*s", dp->name, nr, nr, buf);
 
 	/* process XML, sending when find closure */
 	for (i = 0; i < nr; i++) {
@@ -686,8 +647,10 @@ driverMsg (DvrInfo *dp)
 	    if (root) {
 		char *dev = findXMLAttValu (root, "device");
 
-		if (verbose > 1)
-		   fprintf(stderr,"Driver %s: read ", dp->name), xmlLog(root);
+		if (verbose > 1) {
+		   fprintf(stderr, "Driver %s: read ", dp->name);
+		   logMsg (root);
+		}
 
 		/* snag device name if not known yet */
 		if (!dp->dev[0] && dev[0]) {
@@ -696,7 +659,10 @@ driverMsg (DvrInfo *dp)
 		}
 
 		/* send to interested clients */
-		send2Clients (NULL, root, dev);
+		q2Clients (NULL, root, dev, NULL);
+
+		/* N.B. delXMLele(root) called when root no longer in any q */
+
 	    } else if (err[0])
 		fprintf (stderr, "Driver %s: %s\n", dp->name, err);
 	}
@@ -706,16 +672,27 @@ driverMsg (DvrInfo *dp)
 static void
 shutdownClient (ClInfo *cp)
 {
-	/* inform writer thread to exit then wait for it */
-	cp->shutdown = 1;
-	pthread_cond_broadcast (&client_c);
-	pthread_join (cp->wtid, NULL);
+	Msg *mp;
 
-	/* recycle this clinfo cell */
+	/* close connection */
+	shutdown (cp->s, SHUT_RDWR);
+	fclose (cp->wfp);		/* also closes cp->s */
+
+	/* free memory */
+	delLilXML (cp->lp);
+	free (cp->devs);
+
+	/* decrement and possibly free any unsent messages for this client */
+	while ((mp = (Msg*) popFQ(cp->msgq)) != NULL)
+	    if (--mp->count == 0)
+		freeMsg (mp);
+	delFQ (cp->msgq);
+
+	/* ok now to recycle */
 	cp->active = 0;
 
 	if (verbose > 0)
-	    fprintf (stderr, "Client %d: closed\n", cp->s);
+	    fprintf (stderr, "Client %d: shut down complete - bye!\n", cp->s);
 }
 
 /* close down the given driver and restart if not too many already */
@@ -723,11 +700,18 @@ static void
 restartDvr (DvrInfo *dp)
 {
 	/* make sure it's dead, reclaim resources */
-	if (dp->pid != NOPID)
-	    kill (dp->pid, SIGKILL);
-	fclose (dp->wfp);
-	close (dp->rfd);
+	if (dp->pid == NOPID) {
+	    /* socket connection */
+	    shutdown (dp->wfd, SHUT_RDWR);
+	    fclose (dp->wfp);		/* also closes wfd */
+	} else {
+	    /* local pipe connection */
+	    kill (dp->pid, SIGKILL);	/* we've insured there are no zombies */
+	    fclose (dp->wfp);		/* also closes wfd */
+	    close (dp->rfd);
+	}
 	delLilXML (dp->lp);
+	delFQ (dp->msgq);
 
 	/* restart unless too many already */
 	if (++dp->restarts > maxdrs) {
@@ -739,16 +723,26 @@ restartDvr (DvrInfo *dp)
 	startDvr (dp);
 }
 
-/* send the xml command to each driver supporting device dev, or all if unknown.
- * restart if write fails.
+/* queue the xml command in root to each driver supporting device dev, or all
+ *   drivers if unknown.
+ * add more count to mp if not NULL, else make a fresh Msg here.
+ * return the Msg we create in case we want to add it to more queues. We may
+ *   return NULL if there were no drivers interested in root msg.
  */
-static void
-send2Drivers (XMLEle *root, char *dev)
+static Msg *
+q2Drivers (XMLEle *root, char *dev, Msg *mp)
 {
-	int i;
+	DvrInfo *dp;
 
-	for (i = 0; i < ndvrinfo; i++) {
-	    DvrInfo *dp = &dvrinfo[i];
+	if (!mp) {
+	    /* build a new message */
+	    mp = (Msg *) malloc (sizeof(Msg));
+	    mp->ep = root;
+	    mp->count = 0;
+	}
+
+	/* queue message to each interested driver */
+	for (dp = dvrinfo; dp < &dvrinfo[ndvrinfo]; dp++) {
 	    int adddev = 0;
 
 	    if (dev[0]) {
@@ -765,44 +759,54 @@ send2Drivers (XMLEle *root, char *dev)
 		}
 	    }
 
-	    prXMLEle (dp->wfp, root, 0);
-
-	    if (ferror(dp->wfp)) {
-		fprintf (stderr, "Driver %s: %s\n", dp->name, strerror(errno));
-		restartDvr (dp);
-	    } else if (verbose > 2) {
-		fprintf (stderr, "Driver %s: send:\n", dp->name);
-		prXMLEle (stderr, root, 0);
-	    } else if (verbose > 1)
-		fprintf(stderr,"Driver %s: send ", dp->name), xmlLog(root);
+	    /* ok: queue message to given driver */
+	    mp->count++;
+	    pushFQ (dp->msgq, mp);
+	    if (verbose > 2)
+		fprintf (stderr,"Driver %s: message %d queued with count %d\n",
+					    dp->name, nFQ(dp->msgq), mp->count);
 
 	    if (adddev)
 		rmXMLAtt (root, "device");
 	}
+
+	/* forget it if no drivers wanted the message */
+	if (mp->count == 0) {
+	    if (verbose > 2) {
+		fprintf (stderr, "no drivers want ");
+		logMsg (root);
+	    }
+	    freeMsg (mp);
+	    mp = NULL;
+	}
+
+	/* return mp in case someone else wants to add to it */
+	return (mp);
 }
 
-/* queue the xml command in root from the given device to each
- * interested client, except notme
+/* queue the xml command in root known to be from the given device to each
+ *   interested client, except notme.
+ * add more count to mp if not NULL, else make a fresh Msg here.
+ * return the Msg we create in case we want to add it to more queues. We may
+ *   return NULL if there were no clients interested in root msg.
  */
-static void
-send2Clients (ClInfo *notme, XMLEle *root, char *dev)
+static Msg *
+q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 {
 	ClInfo *cp;
-	Msg *mp;
 
-	/* build a new message */
-	mp = (Msg *) mymalloc (sizeof(Msg));
-	mp->ep = root;
-	mp->count = 0;
-
-	/* lock access to client info */
-	pthread_mutex_lock (&client_m);
+	if (!mp) {
+	    /* build a new message */
+	    mp = (Msg *) malloc (sizeof(Msg));
+	    mp->ep = root;
+	    mp->count = 0;
+	}
 
 	/* queue message to each interested client */
 	for (cp = clinfo; cp < &clinfo[nclinfo]; cp++) {
 	    int isblob;
 
-	    /* cp ok? notme? valid dev? blob? */
+	    /* cp in use? notme? valid dev? blob? */
 	    if (!cp->active || cp == notme)
 		continue;
 	    if (findClDevice (cp, dev) < 0)
@@ -814,19 +818,23 @@ send2Clients (ClInfo *notme, XMLEle *root, char *dev)
 	    /* ok: queue message to given client */
 	    mp->count++;
 	    pushFQ (cp->msgq, mp);
-	}
-
-	/* wake up client write threads, the last of which will free the Msg */
-	if (mp->count > 0)
-	    pthread_cond_broadcast(&client_c);
-	else {
 	    if (verbose > 2)
-		fprintf (stderr, "no clients want "), xmlLog(root);
-	    freeMsg (mp);	/* no interested clients, free Msg now */
+		fprintf (stderr,"Client %d: message %d queued with count %d\n",
+					    cp->s, nFQ(cp->msgq), mp->count);
 	}
 
-	/* finished with client info */
-	pthread_mutex_unlock (&client_m);
+	/* forget it if no clients wanted the message */
+	if (mp->count == 0) {
+	    if (verbose > 2) {
+		fprintf (stderr, "no clients want ");
+		logMsg (root);
+	    }
+	    freeMsg (mp);
+	    mp = NULL;
+	}
+
+	/* return mp in case someone else wants to add to it */
+	return (mp);
 }
 
 /* free Msg mp and everything it contains */
@@ -834,82 +842,87 @@ static void
 freeMsg (Msg *mp)
 {
 	delXMLEle (mp->ep);
-	myfree (mp);
+	free (mp);
 }
 
-/* this function is the thread to perform all writes to client carg.
- * return with client closed when we have problems or when shutdown flag is set.
- * N.B. coordinate all access to clinfo via client_m/c.
- * N.B. clinfo can move (be realloced) when unlocked so beware pointers thereto.
+/* write the next message in the queue for the given client.
+ * free the message if we are the last client to use it.
+ * shut down this client if trouble.
  */
-static void *
-clientWThread(void *carg)
+static void
+sendClientMsg (ClInfo *cp)
 {
-	int c = (int)carg;
-	ClInfo *cp;
 	Msg *mp;
 
-	/* start off wanting exclusive access to client info */
-	pthread_mutex_lock (&client_m);
+	/* get next message for this client */
+	mp = popFQ (cp->msgq);
 
-	/* loop until told to shut down or get write error */
-	while (1) {
+	/* send it */
+	prXMLEle (cp->wfp, mp->ep, 0);
+	fflush (cp->wfp);
 
-	    /* check for message or shutdown, unlock while waiting */
-	    while (nFQ(clinfo[c].msgq) == 0 && !clinfo[c].shutdown) {
-		if (verbose > 2)
-		    fprintf (stderr,"Client %d: thread sleeping\n",clinfo[c].s);
-		pthread_cond_wait (&client_c, &client_m);
-		if (verbose > 2)
-		    fprintf (stderr, "Client %d: thread awake\n", clinfo[c].s);
-	    }
-	    if (clinfo[c].shutdown)
-		break;
-
-	    /* get next message for this client */
-	    mp = popFQ (clinfo[c].msgq);
-
-	    /* unlock client info while writing */
-	    pthread_mutex_unlock (&client_m);
-	    prXMLEle (clinfo[c].wfp, mp->ep, 0);
-	    pthread_mutex_lock (&client_m);
-
-	    /* trace */
-	    cp = &clinfo[c];		/* ok to use pointer while locked */
-	    if (verbose > 2) {
-		fprintf (stderr, "Client %d: send:\n", cp->s);
-		prXMLEle (stderr, mp->ep, 0);
-	    } else if (verbose > 1)
-		fprintf (stderr, "Client %d: send ", cp->s), xmlLog(mp->ep);
-
-	    /* update message usage count, free if goes to 0 */
-	    if (--mp->count == 0)
-		freeMsg (mp);
-
-	    /* exit this thread if encountered write errors */
-	    if (ferror(cp->wfp)) {
-		fprintf (stderr, "Client %d: %s\n", cp->s, strerror(errno));
-		break;
-	    }
+	/* trace */
+	if (verbose > 2) {
+	    fprintf (stderr, "Client %d: send msg %d:\n", cp->s, nFQ(cp->msgq));
+	    prXMLEle (stderr, mp->ep, 0);
+	} else if (verbose > 1) {
+	    fprintf (stderr, "Client %d: sent msg %d ", cp->s, nFQ(cp->msgq));
+	    logMsg (mp->ep);
 	}
 
-	/* close down this client */
-	cp = &clinfo[c];		/* ok to use pointer while locked */
-	fclose (cp->wfp);		/* also closes cp->s */
-	delLilXML (cp->lp);
-	myfree (cp->devs);
+	/* update message usage count, free if goes to 0 */
+	if (--mp->count == 0) {
+	    if (verbose > 2)
+		fprintf (stderr, "Client %d: last client, freeing msg\n",cp->s);
+	    freeMsg (mp);
+	}
 
-	/* decrement and possibly free any unsent messages for this client */
-	while ((mp = (Msg*) popFQ(cp->msgq)) != NULL)
-	    if (--mp->count == 0)
-		freeMsg (mp);
-	delFQ (cp->msgq);
+	/* shut down this client if encountered write errors */
+	if (ferror(cp->wfp)) {
+	    fprintf (stderr, "Client %d: write: %s\n", cp->s,
+							strerror(errno));
+	    shutdownClient (cp);
+	}
+}
 
-	/* this thread is now finished with client info */
-	pthread_mutex_unlock (&client_m);
+/* write the next message in the queue for the given driver.
+ * free the message if we are the last driver to use it.
+ * restart this driver if trouble.
+ */
+static void
+sendDriverMsg (DvrInfo *dp)
+{
+	Msg *mp;
 
-	/* exit thread */
-	return (0);
+	/* get next message for this driver */
+	mp = popFQ (dp->msgq);
+
+	/* send it */
+	prXMLEle (dp->wfp, mp->ep, 0);
+	fflush (dp->wfp);
+
+	/* trace */
+	if (verbose > 2) {
+	    fprintf (stderr,"Driver %s: send msg %d:\n",dp->name,nFQ(dp->msgq));
+	    prXMLEle (stderr, mp->ep, 0);
+	} else if (verbose > 1) {
+	    fprintf (stderr, "Driver %s: sent msg %d ", dp->name,nFQ(dp->msgq));
+	    logMsg (mp->ep);
+	}
+
+	/* update message usage count, free if goes to 0 */
+	if (--mp->count == 0) {
+	    if (verbose > 2)
+		fprintf (stderr, "Driver %s: last client, freeing msg\n",
+								    dp->name);
+	    freeMsg (mp);
+	}
+
+	/* restart this driver if encountered write errors */
+	if (ferror(dp->wfp)) {
+	    fprintf (stderr, "Driver %s: write: %s\n",dp->name,strerror(errno));
+	    restartDvr (dp);
+	}
 }
 
 /* return 0 if we have seen getProperties from this client and dev is in its
@@ -931,7 +944,6 @@ findClDevice (ClInfo *cp, char *dev)
 }
 
 /* add the given device to the devs[] list of client cp unless empty.
- * regardless, record having seen getProperties from this client.
  */
 static void
 addClDevice (ClInfo *cp, char *dev)
@@ -939,13 +951,11 @@ addClDevice (ClInfo *cp, char *dev)
 
 	if (dev[0]) {
 	    char *ip;
-	    cp->devs = (IDev *) myrealloc (cp->devs,(cp->ndevs+1)*sizeof(IDev));
+	    cp->devs = (IDev *) realloc (cp->devs,(cp->ndevs+1)*sizeof(IDev));
 	    ip = (char*)&cp->devs[cp->ndevs++];
 	    strncpy (ip, dev, sizeof(IDev)-1);
 	    ip[sizeof(IDev)-1] = '\0';
 	}
-
-	cp->sawGetProperties = 1;
 }
 
 
@@ -972,7 +982,7 @@ newClSocket ()
 }
 
 /* convert the string value of enableBLOB to our state value */
-static BLOBEnable
+static BLOBHandling
 crackBLOB (char enableBLOB[])
 {
 	if (!strcmp (enableBLOB, "Also"))
@@ -982,31 +992,38 @@ crackBLOB (char enableBLOB[])
 	return (B_NEVER);
 }
 
-/* print tag, device, name attributes and
- * values of the given xml
+/* print key attributes and values of the given xml to stderr.
  */
 static void
-xmlLog (XMLEle *root)
+logMsg (XMLEle *root)
 {
-            const char *prtags[] = {
+	static char *prtags[] = {
 	    "defNumber", "oneNumber",
 	    "defText",   "oneText",
 	    "defSwitch", "oneSwitch",
 	    "defLight",  "oneLight",
 	};
 	XMLEle *e;
-	unsigned int i;
+	char *msg, *perm;
+	int i;
 
 	/* print tag header */
-	fprintf (stderr, "%s %s %s", tagXMLEle(root),
+	fprintf (stderr, "%s %s %s %s", tagXMLEle(root),
 						findXMLAttValu(root,"device"),
-						findXMLAttValu(root,"name"));
+						findXMLAttValu(root,"name"),
+						findXMLAttValu(root,"state"));
+	perm = findXMLAttValu(root,"perm");
+	if (perm[0])
+	    fprintf (stderr, " %s", perm);
+	msg = findXMLAttValu(root,"message");
+	if (msg[0])
+	    fprintf (stderr, " '%s'", msg);
 
 	/* print each array value */
 	for (e = nextXMLEle(root,1); e; e = nextXMLEle(root,0))
 	    for (i = 0; i < sizeof(prtags)/sizeof(prtags[0]); i++)
 		if (strcmp (prtags[i], tagXMLEle(e)) == 0)
-		    fprintf (stderr, " %s=%s", findXMLAttValu(e,"name"),
+		    fprintf (stderr, " %s='%s'", findXMLAttValu(e,"name"),
 							    pcdataXMLEle (e));
 
 	fprintf (stderr, "\n");

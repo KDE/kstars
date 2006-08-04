@@ -32,7 +32,7 @@ bit definition for M message : slew speed and parameters
 #define DU 0x08		/* DEC up */
 #define DD 0x10   /* DEC down */
 #define EN 0x20		/* ENC on */
-#define BB 0x40		/* Allways set */
+#define BB 0x40		/* Always set */
 #if 0
 (HS|RR|EN|BB)
 #endif
