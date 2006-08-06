@@ -60,7 +60,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 	connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
 	connect( ui->ImageList, SIGNAL( currentRowChanged( int ) ),
 						this, SLOT( slotSetFromList( int ) ) );
-	connect( ui->ImageURLBox, SIGNAL( urlSelected( const QString& ) ),
+	connect( ui->ImageURLBox, SIGNAL( urlSelected( const KUrl& ) ),
 						this, SLOT( slotSetFromURL() ) );
 	connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
 						this, SLOT( slotSetFromURL() ) );

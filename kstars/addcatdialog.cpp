@@ -49,7 +49,7 @@ AddCatDialog::AddCatDialog( KStars *_ks )
         setButtons( KDialog::Help|KDialog::Ok|KDialog::Cancel );
 
 	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
-	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ),
+	connect( acd->DataURL, SIGNAL( urlSelected( const KUrl & ) ),
 			this, SLOT( slotShowDataFile() ) );
 	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
