@@ -182,20 +182,20 @@ void KStars::slotDownload() {
 }
 
 void KStars::slotLCGenerator() {
-	if (AAVSODialog == NULL)
+	if ( ! AAVSODialog  )
 		AAVSODialog = new LCGenerator(this);
 
 	AAVSODialog->show();
 }
 
 void KStars::slotAVT() {
-	if ( !avt ) avt = new AltVsTime(this);
+	if ( ! avt ) avt = new AltVsTime(this);
 	avt->show();
 }
 
 void KStars::slotWUT() {
-	WUTDialog dialog(this);
-	dialog.exec();
+	if ( ! wut ) wut = new WUTDialog(this);
+	wut->show();
 }
 
 void KStars::slotGlossary(){
@@ -209,47 +209,46 @@ void KStars::slotGlossary(){
 }
 
 void KStars::slotScriptBuilder() {
-	ScriptBuilder sb(this);
-	sb.exec();
+	if ( ! sb ) sb = new ScriptBuilder(this);
+	sb->show();
 }
 
 void KStars::slotSolarSystem() {
-	PlanetViewer pv(this);
-	pv.exec();
+	if ( ! pv ) pv = new PlanetViewer(this);
+	pv->show();
 }
 
 void KStars::slotJMoonTool() {
-	JMoonTool jmt(this);
-	jmt.exec();
+	if ( ! jmt ) jmt = new JMoonTool(this);
+	jmt->show();
 }
 
 void KStars::slotImageSequence()
 {
-  if (indiseq == NULL)
-    indiseq = new imagesequence(this);
-
-  if (indiseq->updateStatus())
-    indiseq->show();
+	if (indiseq == NULL)
+		indiseq = new imagesequence(this);
+	
+	if (indiseq->updateStatus())
+		indiseq->show();
 }
 
 void KStars::slotTelescopeWizard()
 {
-  telescopeWizardProcess twiz(this);
-  twiz.exec();
+	telescopeWizardProcess twiz(this);
+	twiz.exec();
 }
 
 void KStars::slotTelescopeProperties()
 {
-  telescopeProp scopeProp(this);
-  scopeProp.exec();
+	telescopeProp scopeProp(this);
+	scopeProp.exec();
 }
 
 void KStars::slotINDIPanel() {
+	if (indimenu == NULL)
+		indimenu = new INDIMenu(this);
 
-   if (indimenu == NULL)
-     indimenu = new INDIMenu(this);
-
-   indimenu->updateStatus();
+	indimenu->updateStatus();
 }
 
 void KStars::slotINDIDriver() {
@@ -259,10 +258,9 @@ void KStars::slotINDIDriver() {
 }
 
 void KStars::slotINDIConf() {
+	INDIFITSConf indioptions(this);
 
-   INDIFITSConf indioptions(this);
-
-    indioptions.loadOptions();
+	indioptions.loadOptions();
    /*QStringList filterList;
 
 
@@ -289,8 +287,8 @@ void KStars::slotINDIConf() {
         indiconf.filterCombo->insertStringList(filterList);
    }*/
 
-   if (indioptions.exec() == QDialog::Accepted)
-   {
+	if (indioptions.exec() == QDialog::Accepted)
+	{
      /*Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
      Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
@@ -299,10 +297,10 @@ void KStars::slotINDIConf() {
      Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
      Options::setIndiVideoPort( indiconf.vidPort_IN->text());
      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());*/
-     indioptions.saveOptions();
+		indioptions.saveOptions();
 
-     map()->forceUpdateNow();
-   }
+		map()->forceUpdateNow();
+	}
 }
 
 void KStars::slotGeoLocator() {
@@ -1079,6 +1077,19 @@ void KStars::slotAboutToQuit()
 	//synch the config file with the Config object
 	writeConfig();
 
+	//Delete dialog window pointers
 	clearCachedFindDialog();
+
+	delete AAVSODialog;
+	delete obsList;
+	if ( kns ) delete kns;
+	if ( findDialog ) delete findDialog;
+	if ( avt ) delete avt;
+	if ( sb ) delete sb;
+	if ( pv ) delete pv;
+	if ( jmt ) delete jmt;
+
+	while ( ! m_ImageViewerList.isEmpty() )
+		delete m_ImageViewerList.takeFirst();
 }
 

@@ -52,6 +52,12 @@ class INDIMenu;
 class INDIDriver;
 class imagesequence;
 class AltVsTime;
+class LCGenerator;
+class WUTDialog;
+class ScriptBuilder;
+class PlanetViewer;
+class JMoonTool;
+class ImageViewer;
 
 /**
 	*@class KStars
@@ -96,6 +102,9 @@ class KStars : public KMainWindow
 		SkyMap* map();
 
 		ObservingList* observingList();
+
+		ImageViewer* addImageViewer(const KUrl &url, const QString &message );
+		void removeImageViewer( ImageViewer* );
 
 	/**@return pointer to GeoLocation object which is the current geographic location.
 		*/
@@ -648,14 +657,19 @@ class KStars : public KMainWindow
 		ToggleAction *actObsList;
 		KActionMenu *colorActionMenu, *fovActionMenu;
 		
-		QDialog *AAVSODialog;
+		LCGenerator *AAVSODialog;
 		FindDialog *findDialog;
 		KSNewStuff *kns;
 
 		//FIXME: move to KStarsData
 		ObservingList *obsList;
 		AltVsTime *avt;
-		
+		WUTDialog *wut;
+		ScriptBuilder *sb;
+		PlanetViewer *pv;
+		JMoonTool *jmt;
+		QList<ImageViewer*> m_ImageViewerList;
+
 		INDIMenu *indimenu;
 		INDIDriver *indidriver;
 		imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */

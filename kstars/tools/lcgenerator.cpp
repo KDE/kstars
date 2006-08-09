@@ -39,12 +39,13 @@ LCGenerator::LCGenerator( QWidget* parent)
 	ksw = (KStars*) parent;
 	lcg = new LCGeneratorUI( this );
 	setMainWidget( lcg );
-        setCaption( i18n( "AAVSO Light Curve Generator" ) );
-        setButtons( KDialog::Close );
+			setCaption( i18n( "AAVSO Light Curve Generator" ) );
+			setButtons( KDialog::Close );
 
-        lcg->AverageDayBox->setMinimum( 1 );
+	lcg->AverageDayBox->setMinimum( 1 );
 	lcg->AverageDayBox->setValue( 1 );
 
+	setModal( false );
 	setWindowTitle(i18n( "AAVSO Light Curve Generator" ));
 	downloadJob = 0;
 	file = new QFile();
@@ -60,12 +61,12 @@ LCGenerator::LCGenerator( QWidget* parent)
 	lcg->EndDateBox->setDate(ksw->data()->lt().date());
 
 	// Fill stars designations
-         for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-                lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
+	for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
+		lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
-         // Fill star names
-         for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
-                lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+	// Fill star names
+	for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
+		lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
 
 
 	// Signals/Slots
@@ -137,25 +138,21 @@ void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate
 
 	KUrl url(buf);
 	QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
-	// parent of imageview is KStars
-	new ImageViewer(url, message, ksw);
 
+	ImageViewer *iv = ksw->addImageViewer( url, message );
+	iv->show();
 }
 
 void LCGenerator::updateDesigList(int index)
 {
-
-    lcg->DesignationBox->setCurrentRow(index);
-    //lcg->DesignationBox->centerCurrentItem();
-
+	lcg->DesignationBox->setCurrentRow(index);
+	//lcg->DesignationBox->centerCurrentItem();
 }
 
 void LCGenerator::updateNameList(int index)
 {
-
-    lcg->NameBox->setCurrentRow(index);
-    //lcg->NameBox->centerCurrentItem();
-
+	lcg->NameBox->setCurrentRow(index);
+	//lcg->NameBox->centerCurrentItem();
 }
 
 void LCGenerator::updateStarList()

@@ -43,13 +43,14 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
 }
 
 WUTDialog::WUTDialog(KStars *ks) :
-    KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0)
+	KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0)
 {
 
 	WUT = new WUTDialogUI( this );
 	setMainWidget( WUT );
-        setCaption( i18n("What's up Tonight") );
-        setButtons( KDialog::Close );
+	setCaption( i18n("What's up Tonight") );
+	setButtons( KDialog::Close );
+	setModal( false );
 
 	//initialize location and date to current KStars settings:
 	geo = kstars->geo();

@@ -34,6 +34,7 @@
 #include <kdebug.h>
 #include <ktoolbar.h>
 #include "imageviewer.h"
+#include "kstars.h"
 
 #include <kapplication.h>
 
@@ -55,11 +56,11 @@ void ImageLabel::paintEvent (QPaintEvent */*ev*/)
 	p.end();
 }
 
-ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent)
-	: KDialog( parent ), m_ImageUrl (url), fileIsImage(false), downloadJob(0)
-
-
+ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
+	: KDialog( _ks ), m_ImageUrl(url), fileIsImage(false), downloadJob(0),
+		ks(_ks)
 {
+	setModal( false );
 	MainFrame = new QFrame( this );
 	setMainWidget( MainFrame );
 	setCaption( url.fileName() );
@@ -88,11 +89,13 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
 	if (!m_ImageUrl.isValid())		//check URL
-		kDebug()<<"URL is malformed"<<endl;
+		kDebug()<<"URL is malformed: "<< m_ImageUrl << endl;
 	setWindowTitle (m_ImageUrl.fileName()); // the title of the window
 
-	tempfile = new KTempFile();
-	tempfile->setAutoDelete(true);
+	KTempFile tempfile;
+	file.setFileName( tempfile.name() );
+	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
+
 	loadImageFromURL();
 }
 
@@ -100,23 +103,9 @@ ImageViewer::~ImageViewer() {
 // check if download job is running
 	checkJob();
 
-// 	if (!file->remove())		// if the file was not downloaded completely its suffix is  ".part"
-// 	{
-// 		kDebug()<<QString("remove of %1 failed").arg(file->fileName())<<endl;
-// 		file->setFileName (file->fileName() + ".part");		// set new suffix to filename
-// 		kDebug()<<QString("try to remove %1").arg( file->fileName())<<endl;
-// 		if (file->remove())
-// 			kDebug()<<"file removed\n";
-// 		else
-// 			kDebug()<<"file not removed\n";
-// 	}
-
-	tempfile->unlink();
-	delete tempfile;
 	delete View;
 	delete Caption;
 	delete MainFrame;
-/*	if ( file ) delete file;*/
 	if ( downloadJob ) delete downloadJob;
 }
 
@@ -127,16 +116,18 @@ void ImageViewer::resizeEvent (QResizeEvent *ev )
 
 void ImageViewer::closeEvent (QCloseEvent *ev)
 {
-	if (ev)	// not if closeEvent (0) is called, because segfault
-		ev->accept();	// parent-widgets should not get this event, so it will be filtered
-	this->~ImageViewer();	// destroy the object, so the object can only allocated with operator new, not as a global/local variable
+// 	if (ev)	// not if closeEvent (0) is called, because segfault
+// 		ev->accept();	// parent-widgets should not get this event, so it will be filtered
+
+	//DEBUG
+	kDebug() << k_funcinfo << endl;
+
+	ks->removeImageViewer( this );	
 }
 
 void ImageViewer::loadImageFromURL()
 {
-// 	file = tempfile.file();
-// 	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
-	KUrl saveURL = KUrl::fromPath( tempfile->name() );
+	KUrl saveURL = KUrl::fromPath( file.name() );
 	if (!saveURL.isValid())
 		kDebug()<<"tempfile-URL is malformed\n";
 
@@ -156,11 +147,9 @@ void ImageViewer::downloadReady (KJob *job)
 		return;		// exit this function
 	}
 
-//	file->close(); // to get the newest information from the file and not any information from opening of the file
-	tempfile->close();
+	file.close(); // to get the newest information from the file and not any information from opening of the file
 
-//	if ( file->exists() )
-	if ( tempfile->status() == 0 )
+	if ( file.exists() )
 	{
 		showImage();
 		return;
@@ -171,7 +160,7 @@ void ImageViewer::downloadReady (KJob *job)
 void ImageViewer::showImage()
 {
 	QImage image;
-	if (!image.load( tempfile->name() ))		// if loading failed
+	if (!image.load( file.name() ))		// if loading failed
 	{
 		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
 		KMessageBox::error (this, text);
@@ -247,7 +236,7 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KUrl &url) {
 // synchronous access to prevent segfaults
-	if (!KIO::NetAccess::copy (KUrl (tempfile->name()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::copy (KUrl (file.name()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
 		KMessageBox::error (this, text);

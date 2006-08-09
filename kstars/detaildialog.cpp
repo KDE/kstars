@@ -67,19 +67,19 @@
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
 : KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
-    setFaceType( Tabbed );
+	setFaceType( Tabbed );
 
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
 
-        setCaption( i18n( "Object Details" ) );
-        setButtons( KDialog::Close );
+	setCaption( i18n( "Object Details" ) );
+	setButtons( KDialog::Close );
 
-        //Modify color palette
-        detPalette = palette();
-        detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QPalette::Base ) );
-        detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QPalette::Text ) );
-        setPalette( detPalette );
+	//Modify color palette
+	detPalette = palette();
+	detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QPalette::Base ) );
+	detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QPalette::Text ) );
+	setPalette( detPalette );
 
 	createGeneralTab();
 	createPositionTab( ut, geo );
@@ -94,11 +94,20 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 }
 
+DetailDialog::~DetailDialog() {
+	delete Thumbnail;
+	delete Data;
+	delete Pos;
+	delete Links;
+	delete Adv;
+	delete Log;
+}
+
 void DetailDialog::createGeneralTab()
 {
 	Data = new DataWidget(this);
-        Data->setPalette( detPalette );
-        addPage( Data, i18n("General") );
+	Data->setPalette( detPalette );
+	addPage( Data, i18n("General") );
 
 	//Show object thumbnail image
 	showThumbnail();
@@ -248,10 +257,10 @@ void DetailDialog::createGeneralTab()
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
 	Pos = new PositionWidget(this);
-        Pos->setPalette( detPalette );
-        addPage( Pos,  i18n("Position") );
+	Pos->setPalette( detPalette );
+	addPage( Pos,  i18n("Position") );
 
-        //Coordinates Section:
+	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
 	//because we don't want a thousands-place separator!
 	QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
@@ -335,8 +344,8 @@ void DetailDialog::createLinksTab()
 		return;
 
 	Links = new LinksWidget( this );
-        Links->setPalette( detPalette );
-        addPage( Links, i18n( "Links" ) );
+	Links->setPalette( detPalette );
+	addPage( Links, i18n( "Links" ) );
 
 	foreach ( QString s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
@@ -375,8 +384,8 @@ void DetailDialog::createAdvancedTab()
 		return;
 
 	Adv = new DatabaseWidget( this );
-        Adv->setPalette( detPalette );
-        addPage( Adv,  i18n( "Advanced" ) );
+	Adv->setPalette( detPalette );
+	addPage( Adv,  i18n( "Advanced" ) );
 
 	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
 
@@ -391,8 +400,8 @@ void DetailDialog::createLogTab()
 
 	// Log Tab
 	Log = new LogWidget( this );
-        Log->setPalette( detPalette );
-        addPage( Log,  i18n( "Log" ) );
+	Log->setPalette( detPalette );
+	addPage( Log,  i18n( "Log" ) );
 
 	if ( selectedObject->userLog.isEmpty() )
 		Log->UserLog->setPlainText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
@@ -459,9 +468,9 @@ void DetailDialog::editLinkDialog()
 	QString search_line, replace_line, currentItemTitle, currentItemURL;
 
 	KDialog editDialog( this );
-        editDialog.setCaption( i18n("Edit Link") );
-        editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
-	QFrame *editFrame = new QFrame();
+	editDialog.setCaption( i18n("Edit Link") );
+	editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
+	QFrame *editFrame = new QFrame( &editDialog );
 
 	if (Links->InfoTitleList->currentItem())
 	{
@@ -502,35 +511,42 @@ void DetailDialog::editLinkDialog()
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
 
-        editDialog.setMainWidget(editFrame);
+	editDialog.setMainWidget(editFrame);
 
-	// If user presses cancel then return
-	if ( ! editDialog.exec() == QDialog::Accepted )
-		return;
+	bool go( true );
+	// If user presses cancel then skip the action
+	if ( editDialog.exec() != QDialog::Accepted )
+		go = false;
 
-	// If nothing changed, return
+	// If nothing changed, skip th action
 	if (editLinkField->text() == currentItemURL)
-		return;
+		go = false;
 
-	replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField->text();
+	if ( go ) {
+		replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField->text();
+	
+		// Info Link, we only replace URL since title hasn't changed
+		if (type==0)
+			selectedObject->InfoList.replace(row, editLinkField->text());
+		// Image Links
+		else
+			selectedObject->ImageList.replace(row, editLinkField->text());
+	
+		// Update local files
+		updateLocalDatabase(type, search_line, replace_line);
+	
+		// Set focus to the same item again
+		if (type == 0)
+			Links->InfoTitleList->setCurrentRow(row);
+		else
+			Links->ImageTitleList->setCurrentRow(row);
+	}
 
-	// Info Link, we only replace URL since title hasn't changed
-	if (type==0)
-		selectedObject->InfoList.replace(row, editLinkField->text());
-	// Image Links
-	else
-		selectedObject->ImageList.replace(row, editLinkField->text());
-
-	// Update local files
-	updateLocalDatabase(type, search_line, replace_line);
-
-	// Set focus to the same item again
-	if (type == 0)
-		Links->InfoTitleList->setCurrentRow(row);
-	else
-		Links->ImageTitleList->setCurrentRow(row);
-
-
+	//Now cleanup all the objects that were created
+	delete editFrame;
+	delete editLinkField;
+	delete editLinkURL;
+	delete editLinkLayout;
 }
 
 void DetailDialog::removeLinkDialog()

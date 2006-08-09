@@ -54,8 +54,9 @@ OptionsTreeView::OptionsTreeView( QWidget *p )
 {
 	otvw = new OptionsTreeViewWidget( this );
 	setMainWidget( otvw );
-        setCaption( i18n( "Options" ) );
-        setButtons( KDialog::Ok|KDialog::Cancel );
+	setCaption( i18n( "Options" ) );
+	setButtons( KDialog::Ok|KDialog::Cancel );
+	setModal( false );
 }
 
 OptionsTreeView::~OptionsTreeView() {

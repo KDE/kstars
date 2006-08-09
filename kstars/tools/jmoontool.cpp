@@ -40,10 +40,11 @@ JMoonTool::JMoonTool(QWidget *parent)
 	ksw = (KStars*)parent;
 	QFrame *page = new QFrame(this);
 	setMainWidget( page );
-        setCaption( i18n("Jupiter Moons Tool") );
-        setButtons( KDialog::Close );
+	setCaption( i18n("Jupiter Moons Tool") );
+	setButtons( KDialog::Close );
+	setModal( false );
 
-        QVBoxLayout *vlay = new QVBoxLayout( page );
+	QVBoxLayout *vlay = new QVBoxLayout( page );
 	vlay->setMargin( 0 );
 	vlay->setSpacing( 0 );
 

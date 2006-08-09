@@ -355,7 +355,9 @@ void SkyMap::slotDSS( void ) {
 	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-	new ImageViewer (url, message, this);
+
+	ImageViewer *iv = ks->addImageViewer( url, message );
+	iv->show();
 }
 
 void SkyMap::slotDSS2( void ) {
@@ -397,7 +399,9 @@ void SkyMap::slotDSS2( void ) {
 	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
 	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-	new ImageViewer (url, message, this);
+
+	ImageViewer *iv = ks->addImageViewer( url, message );
+	iv->show();
 }
 
 void SkyMap::slotBeginAngularDistance() {
@@ -444,10 +448,10 @@ void SkyMap::slotImage() {
 	QString sURL = clickedObject()->ImageList[ index ];
 
 	KUrl url ( sURL );
-	if (!url.isEmpty()) {
-		ImageViewer iv(url, clickedObject()->messageFromTitle(message), this);
-		iv.exec();
-	}
+	if ( url.isEmpty() ) return;
+
+	ImageViewer *iv = ks->addImageViewer( url, clickedObject()->messageFromTitle(message) );
+	iv->show();
 }
 
 void SkyMap::slotInfo() {

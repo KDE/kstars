@@ -18,6 +18,7 @@
 #ifndef IMAGEVIEWER_H_
 #define IMAGEVIEWER_H_
 
+#include <QFile>
 #include <QImage>
 #include <QPixmap>
 #include <QResizeEvent>
@@ -30,7 +31,7 @@
 #include <kdialog.h>
 
 class KUrl;
-class QFile;
+class KStars;
 
 class ImageLabel : public QLabel {
 	Q_OBJECT
@@ -65,7 +66,7 @@ class ImageViewer : public KDialog {
 
 	public:
 	/**Constructor. */
-		ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent );
+		ImageViewer (const KUrl &imageURL, const QString &capText, KStars *ks );
 
 	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
@@ -99,9 +100,9 @@ class ImageViewer : public KDialog {
 		*/
 		void checkJob();
 
-		KTempFile *tempfile;
-//		QFile *file;
-		
+		QFile file;
+		KStars *ks;
+
 		const KUrl m_ImageUrl;
 		bool fileIsImage;
 		QString filename;

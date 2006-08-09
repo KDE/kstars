@@ -41,6 +41,7 @@
 #include "simclock.h"
 #include "finddialog.h"
 #include "ksutils.h"
+#include "imageviewer.h"
 #include "infoboxes.h"
 #include "observinglist.h"
 #include "imagesequence.h"
@@ -53,11 +54,12 @@
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	KMainWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
 	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
-	AAVSODialog(0), findDialog(0), kns(0), obsList(0), avt(0),
-	indimenu(0), indidriver(0), indiseq(0),
-	DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
+	AAVSODialog(0), findDialog(0), kns(0), obsList(0), avt(0), wut(0),
+	sb(0), pv(0), jmt(0), indimenu(0), indidriver(0), indiseq(0),
+	DialogIsObsolete(false), StartClockRunning( clockrun ), 
+	StartDateString( startdate )
 {
-        QDBus::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportSlots);
+	QDBus::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportSlots);
 
 	connect( kapp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
@@ -115,18 +117,15 @@ KStars::~KStars()
 {
 	delete kstarsData;
 	delete skymap;
-	delete AAVSODialog;
 	delete indimenu;
 	delete indidriver;
 	delete indiseq;
-//	delete TimeStep;
 	delete projectionGroup;
 	delete fovGroup;
 	delete cschemeGroup;
-	delete obsList;
-	if ( kns ) delete kns;
-	if ( findDialog ) delete findDialog;
-	if ( avt ) delete avt;
+
+	//NOTE: Dialog window pointers are deleted in KStars::slotAboutToQuit()
+	//(if they are deleted here, it causes a SegFault for some reason)
 }
 
 void KStars::clearCachedFindDialog() {
@@ -237,6 +236,21 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
 		QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
 	}
+}
+
+ImageViewer* KStars::addImageViewer( const KUrl &url, const QString &message ) {
+	ImageViewer *iv = new ImageViewer( url, message, this );
+	m_ImageViewerList.append( iv );
+	return iv;
+}
+
+void KStars::removeImageViewer( ImageViewer *iv ) {
+	//DEBUG
+	kDebug() << k_funcinfo << endl;
+
+	int i = m_ImageViewerList.indexOf( iv );
+	if ( i != -1 ) 
+		m_ImageViewerList.takeAt( i )->deleteLater();
 }
 
 KStarsData* KStars::data() { return kstarsData; }

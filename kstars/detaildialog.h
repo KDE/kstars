@@ -90,9 +90,9 @@ public:
 	*/
 	DetailDialog( SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent=0 );
 	
-/**Destructor (empty)
+/**Destructor
 	*/
-	~DetailDialog() {}
+	~DetailDialog();
 
 /**
   *@return pointer to the QPixmap of the object's thumbnail image 
@@ -217,7 +217,7 @@ private:
 	int currentItemIndex;
 	QStringList dataList;
 
-	DataWidget*Data;
+	DataWidget *Data;
 	PositionWidget *Pos;
 	LinksWidget *Links;
 	DatabaseWidget *Adv;
