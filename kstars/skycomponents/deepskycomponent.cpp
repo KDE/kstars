@@ -363,7 +363,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 			oTry = o;
 		}
 	}
-	rTry *= 0.5;
+	rTry *= 0.6;
 	if ( rTry < rBest ) {
 		rBest = rTry;
 		oBest = oTry;
@@ -377,7 +377,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 			oTry = o;
 		}
 	}
-	rTry *= 0.4;
+	rTry *= 0.6;
 	if ( rTry < rBest ) {
 		rBest = rTry;
 		oBest = oTry;
@@ -391,7 +391,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 			oTry = o;
 		}
 	}
-	rTry *= 0.25;
+	rTry *= 0.5;
 	if ( rTry < rBest ) {
 		rBest = rTry;
 		oBest = oTry;

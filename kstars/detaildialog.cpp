@@ -86,12 +86,6 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	createLinksTab();
 	createAdvancedTab();
 	createLogTab();
-
-	//Connections
-	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
-	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
-	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
-	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 }
 
 DetailDialog::~DetailDialog() {
@@ -108,6 +102,12 @@ void DetailDialog::createGeneralTab()
 	Data = new DataWidget(this);
 	Data->setPalette( detPalette );
 	addPage( Data, i18n("General") );
+
+	//Connections
+	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
+	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
+	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
+	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
 	//Show object thumbnail image
 	showThumbnail();
@@ -127,6 +127,11 @@ void DetailDialog::createGeneralTab()
 		Data->Type->setText( s->sptype() + ' ' + i18n("star") );
 		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
 				KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+
+		//The thumbnail image is empty, and isn't clickable for stars
+		//Also, don't show the border around the Image QFrame.
+		Data->Image->setFrameStyle( QFrame::NoFrame );
+		disconnect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
 		//distance
 		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas

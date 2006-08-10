@@ -196,13 +196,14 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 //to certain object types.
 //we multiply each object type's smallest angular distance by the 
 //following factors before selecting the final nearest object:
-// stars = 1.0 (not weighted)
+// faint stars = 1.0 (not weighted)
+// stars brighter than 4th mag = 0.75
 // IC catalog = 0.8
-// NGC catalog = 0.5
-// "other" catalog = 0.4
-// Messier object = 0.25
-// custom object = 0.2
-// Solar system = 0.1
+// NGC catalog = 0.6
+// "other" catalog = 0.6
+// Messier object = 0.5
+// custom object = 0.5
+// Solar system = 0.25
 SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 	double rTry = maxrad;
 	double rBest = maxrad;
@@ -210,8 +211,11 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 	SkyObject *oBest = 0;
 
 	oBest = m_Stars->objectNearest( p, rBest );
+	//reduce rBest by 0.75 for stars brighter than 4th mag
+	if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
+
 	//m_DeepSky internally discriminates among deepsky catalogs
-	//and remormalizes rTry
+	//and renormalizes rTry
 	oTry = m_DeepSky->objectNearest( p, rTry ); 
 	if ( rTry < rBest ) {
 		rBest = rTry;
@@ -220,7 +224,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
 	rTry = maxrad;
 	oTry = m_CustomCatalogs->objectNearest( p, rTry );
-	rTry *= 0.2;
+	rTry *= 0.5;
 	if ( rTry < rBest ) {
 		rBest = rTry;
 		oBest = oTry;
@@ -228,7 +232,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
 	rTry = maxrad;
 	oTry = m_SolarSystem->objectNearest( p, rTry );
-	rTry *= 0.1;
+	rTry *= 0.25;
 	if ( rTry < rBest ) {
 		rBest = rTry;
 		oBest = oTry;

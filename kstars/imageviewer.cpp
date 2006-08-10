@@ -63,9 +63,10 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	setModal( false );
 	MainFrame = new QFrame( this );
 	setMainWidget( MainFrame );
-	setCaption( url.fileName() );
+	setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
 	setButtons( KDialog::User1|KDialog::Close );
-	setButtonGuiItem( KDialog::User1, KGuiItem( i18n("Save"), "filesave" ) );
+	KGuiItem saveButton( i18n("Save"), "filesave", i18n("Save the image to disk") );
+	setButtonGuiItem( KDialog::User1, saveButton );
 
 	View = new ImageLabel( MainFrame );
 	Caption = new QLabel( MainFrame );
@@ -80,8 +81,14 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	Caption->setPalette( p );
 	View->setPalette( p );
 
+	//If the caption is wider than the image, try to shrink the font a bit
+	QFont capFont = Caption->font();
+	capFont.setPointSize( capFont.pointSize() - 2 );
+	Caption->setFont( capFont );
+
 	vlay = new QVBoxLayout( MainFrame );
 	vlay->setSpacing( 0 );
+	vlay->setMargin( 0 );
 	vlay->addWidget( View );
 	vlay->addWidget( Caption );
 	vlay->addStretch();
@@ -116,12 +123,6 @@ void ImageViewer::resizeEvent (QResizeEvent *ev )
 
 void ImageViewer::closeEvent (QCloseEvent *ev)
 {
-// 	if (ev)	// not if closeEvent (0) is called, because segfault
-// 		ev->accept();	// parent-widgets should not get this event, so it will be filtered
-
-	//DEBUG
-	kDebug() << k_funcinfo << endl;
-
 	ks->removeImageViewer( this );	
 }
 
@@ -195,18 +196,8 @@ void ImageViewer::showImage()
 
 	View->setImage( image );
 	w = image.width();
-	//If the caption is wider than the image, try to shrink the font a bit
-	QFont capFont = Caption->font();
-	int originalSize = capFont.pointSize();
-	while ( Caption->width() > w 
-			&& capFont.pointSize() >= originalSize - 3 ) {
-		capFont.setPointSize( capFont.pointSize() - 1 );
-		Caption->setFont( capFont );
-		//DEBUG
-		kDebug() << "Font size: " << capFont.pointSize() << "  Caption width: " << Caption->width() << endl;
-	}
 
-	//If the caption is still wider than the image, set the window size 
+	//If the caption is wider than the image, set the window size 
 	//to fit the caption
 	if ( Caption->width() > w ) w = Caption->width();
 	View->setFixedSize( w, image.height() );
@@ -244,7 +235,7 @@ void ImageViewer::saveFile (KUrl &url) {
 }
 
 void ImageViewer::close() {
-	closeEvent (0);
+	closeEvent(0);
 }
 
 void ImageViewer::checkJob() {

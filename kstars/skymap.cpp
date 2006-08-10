@@ -451,7 +451,7 @@ void SkyMap::slotImage() {
 	if ( url.isEmpty() ) return;
 
 	ImageViewer *iv = ks->addImageViewer( url, clickedObject()->messageFromTitle(message) );
-	iv->show();
+//	iv->show();
 }
 
 void SkyMap::slotInfo() {
