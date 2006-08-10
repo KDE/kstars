@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "satellitetrack.h"
-#include "satlib/SatLib.h"
 
 SatelliteTrack::SatelliteTrack() {
 }

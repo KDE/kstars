@@ -23,7 +23,6 @@
 #include "kstarsdata.h"
 #include "satellitetrack.h"
 #include "satellitecomponent.h"
-#include "satlib/SatLib.h"
 
 SatelliteComponent::SatelliteComponent(SkyComponent *parent, bool (*visibleMethod)())
 : SkyComponent(parent, visibleMethod)
@@ -42,54 +41,53 @@ void SatelliteComponent::clear() {
 //(which is what geo()->height() returns)
 //TODO: Hopefully the geographic data will be removed from SatInit() eventually
 
-//FIXME: "Undefined Reference" errors in Sat*() functions!
 void SatelliteComponent::init( KStarsData *data ) {
-// 	//Extract satellite names from every third line of the satellites.dat file
-// 	QFile file;
-// 
-// 	if ( KSUtils::openDataFile( file, "satellites.dat" ) ) {
-// 		QString sfPath = QFileInfo( file ).absoluteFilePath();
-// 		QTextStream stream( &file );
-// 		int i = 0;
-// 		while ( !stream.atEnd() ) {
-// 			if ( i % 3 == 0 ) {
-// 				SatelliteNames.append( stream.readLine().trimmed() );
-// 			}
-// 
-// 			i++;
-// 		}
-// 		file.close();
-// 
-// 		//Read in data from the satellite file and construct paths for 
-// 		//the present geographic location
-// 		SatInit( data->geo()->translatedName().toUtf8().data(), 
-// 			data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
-// 			data->geo()->height(), sfPath.toAscii().data() );
-// 		
-// 		//Need the Julian Day value for current date's midnight:
-// 		double jdstart = data->ut().JDat0hUT();
-// 		double dt = 1./48.; //30-minute time steps == 1/48 day
-// 		int nsteps = 48;
-// 		
-// 		//Loop over desired satellites and add their paths to the list
-// 		foreach ( QString satName, SatelliteNames ) {
-// 			SPositionSat *pSat[SatelliteNames.size()];
-// 			SatFindPosition( satName.toAscii().data(), jdstart, dt, nsteps, pSat );
-// 		
-// 			//Make sure the satellite track is visible before adding it to the list.
-// 			bool isVisible = false;
-// 			for ( int i=0; i<nsteps; i++ ) {
-// 				if ( pSat[i]->sat_ele > 10.0 ) { 
-// 					isVisible = true;
-// 					break;
-// 				}
-// 			}
-// 		
-// 			if ( isVisible ) {
-// 				SatList.append( new SatelliteTrack( pSat, nsteps, data->lst(), data->geo()->lat() ) );
-// 			}
-// 		}
-// 	}
+	//Extract satellite names from every third line of the satellites.dat file
+	QFile file;
+
+	if ( KSUtils::openDataFile( file, "satellites.dat" ) ) {
+		QString sfPath = QFileInfo( file ).absoluteFilePath();
+		QTextStream stream( &file );
+		int i = 0;
+		while ( !stream.atEnd() ) {
+			if ( i % 3 == 0 ) {
+				SatelliteNames.append( stream.readLine().trimmed() );
+			}
+
+			i++;
+		}
+		file.close();
+
+		//Read in data from the satellite file and construct paths for 
+		//the present geographic location
+		SatInit( data->geo()->translatedName().toUtf8().data(), 
+			data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
+			data->geo()->height(), sfPath.toAscii().data() );
+		
+		//Need the Julian Day value for current date's midnight:
+		double jdstart = data->ut().JDat0hUT();
+		double dt = 1./48.; //30-minute time steps == 1/48 day
+		int nsteps = 48;
+		
+		//Loop over desired satellites and add their paths to the list
+		foreach ( QString satName, SatelliteNames ) {
+			SPositionSat *pSat[SatelliteNames.size()];
+			SatFindPosition( satName.toAscii().data(), jdstart, dt, nsteps, pSat );
+		
+			//Make sure the satellite track is visible before adding it to the list.
+			bool isVisible = false;
+			for ( int i=0; i<nsteps; i++ ) {
+				if ( pSat[i]->sat_ele > 10.0 ) { 
+					isVisible = true;
+					break;
+				}
+			}
+		
+			if ( isVisible ) {
+				SatList.append( new SatelliteTrack( pSat, nsteps, data->lst(), data->geo()->lat() ) );
+			}
+		}
+	}
 }
 
 void SatelliteComponent::update( KStarsData *data, KSNumbers *num ) {}

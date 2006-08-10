@@ -20,7 +20,10 @@
 
 #include <QList>
 #include "skyline.h"
-#include "SatLib.h"
+extern "C" {
+#include "satlib/SatLib.h"
+}
+
 
 class dms;
 
