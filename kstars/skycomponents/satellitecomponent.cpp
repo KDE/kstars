@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QVarLengthArray>
 
 #include "ksutils.h"
 #include "kstarsdata.h"
@@ -71,8 +72,8 @@ void SatelliteComponent::init( KStarsData *data ) {
 		
 		//Loop over desired satellites and add their paths to the list
 		foreach ( QString satName, SatelliteNames ) {
-			SPositionSat *pSat[SatelliteNames.size()];
-			SatFindPosition( satName.toAscii().data(), jdstart, dt, nsteps, pSat );
+			QVarLengthArray<SPositionSat *> pSat(SatelliteNames.size());
+			SatFindPosition( satName.toAscii().data(), jdstart, dt, nsteps, pSat.data() );
 		
 			//Make sure the satellite track is visible before adding it to the list.
 			bool isVisible = false;
@@ -84,7 +85,7 @@ void SatelliteComponent::init( KStarsData *data ) {
 			}
 		
 			if ( isVisible ) {
-				SatList.append( new SatelliteTrack( pSat, nsteps, data->lst(), data->geo()->lat() ) );
+				SatList.append( new SatelliteTrack( pSat.data(), nsteps, data->lst(), data->geo()->lat() ) );
 			}
 		}
 	}
