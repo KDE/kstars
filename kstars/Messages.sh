@@ -18,25 +18,25 @@ sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
 # extract cities
 awk 'BEGIN {FS=":"}; {print "\"" $1 "\""; }' < data/Cities.dat | \
    sed 's/ *\"$/\");/g' | sed 's/^\" */i18n(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18n(.*,"");//' >> "cities.tmp"
-sort cities.tmp | uniq >> kstars_i18n.cpp
+sort --unique cities.tmp >> kstars_i18n.cpp
 
 # extract regions
 awk 'BEGIN {FS=":"}; {print "\"" $2 "\""; }' < data/Cities.dat | \
    sed 's/ *\"$/\");/g' | sed 's/^\" */i18n(\"Region\/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18n(.*,"");//' >> "regions.tmp";
-sort regions.tmp | uniq >> kstars_i18n.cpp
+sort --unique regions.tmp >> kstars_i18n.cpp
 
 # extract countries
 awk 'BEGIN {FS=":"}; {print "\"" $3 "\""; }' < data/Cities.dat | \
    sed 's/ *\"$/\");/g' | sed 's/^\" */i18n(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18n(.*,"");//' >> "countries.tmp"
-sort countries.tmp | uniq >> kstars_i18n.cpp
+sort --unique countries.tmp >> kstars_i18n.cpp
 
 # extract image/info menu items
 awk 'BEGIN {FS=":"}; {print "i18n(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | \
     sed 's/i18n(.*,"");//' >> "image_url.tmp"
-sort image_url.tmp | uniq >> kstars_i18n.cpp
+sort --unique image_url.tmp >> kstars_i18n.cpp
 awk 'BEGIN {FS=":"}; {print "i18n(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | \
     sed 's/i18n(.*,"");//' >> "info_url.tmp"
-sort info_url.tmp | uniq >> kstars_i18n.cpp
+sort --unique info_url.tmp >> kstars_i18n.cpp
 
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
 cat data/hip*.dat | perl -e 'while ( $line=<STDIN> ) { $starname = substr ($line,72);    chop $starname; if ( $starname =~ /(.*)\:/ ) { $starname = $1 . " ";   }   if ( $starname =~ /(.*\w)(\s+)/) { $starname = $1;	$starnames{$starname} = 1;   } } foreach $star( sort keys %starnames) { printf "i18n(\"star name\",\"%s\");\n", $star; }' >> kstars_i18n.cpp;
@@ -45,7 +45,7 @@ cat data/ngcic*.dat | gawk '{ split(substr( $0, 77 ), name, " ") \
 if ( name[1]!="" ) { \
 printf( "%s", name[1] ); i=2 \
 while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
-printf( "\n" ); } }' | uniq | sort | gawk '{ \
+printf( "\n" ); } }' | sort --unique | gawk '{ \
 printf( "i18n(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.cpp
 
 # extract strings from file containing advanced URLs:
