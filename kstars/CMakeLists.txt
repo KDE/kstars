@@ -269,7 +269,7 @@ install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstar
 ##DCOP_IS_DEAD
 install( FILES  DESTINATION  ${INCLUDE_INSTALL_DIR} )
 
-kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
+kde4_install_icons( ${ICON_INSTALL_DIR}   )
 
 
 
