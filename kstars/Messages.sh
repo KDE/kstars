@@ -43,7 +43,7 @@ cat data/hip*.dat | perl -e 'while ( $line=<STDIN> ) { $starname = substr ($line
 # extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
 cat data/ngcic*.dat | gawk '{ split(substr( $0, 77 ), name, " "); \
 if ( name[1]!="" ) { \
-printf( "%s", name[1] ); i=2 \
+printf( "%s", name[1] ); i=2; \
 while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
 printf( "\n" ); } }' | sort --unique | gawk '{ \
 printf( "i18n(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.cpp
