@@ -50,7 +50,7 @@ printf( "i18n(\"object name (optional)\", \"%s\");\n", $0 ); }' >> kstars_i18n.c
 
 # extract strings from file containing advanced URLs:
 cat data/advinterface.dat | gawk '( match( $0, "KSLABEL" ) ) { \
-name=substr($0,10) \
+name=substr($0,10); \
 printf( "i18n(\"Advanced URLs: description or category\", \"%s\")\n", name ); }' >> kstars_i18n.cpp
 
 # finish file
