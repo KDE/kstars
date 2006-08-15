@@ -209,6 +209,8 @@ target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 
 install(TARGETS lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
+#Laurent POST_BUILD is not good when we when to create link better to use/implement a POST_INSTALL
+#command
 ## Make symbolic links to lx200generic ##
 ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/lx200classic)
 ADD_CUSTOM_COMMAND(TARGET lx200generic POST_BUILD COMMAND ln ARGS -s lx200generic ${BIN_INSTALL_DIR}/lx200classic)
