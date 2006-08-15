@@ -1,6 +1,6 @@
 /*
     Phlips webcam driver for V4L 1
-    Copyright (C) 2005 by Jasem Mutlaq
+    Copyright (C) 2005 by Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

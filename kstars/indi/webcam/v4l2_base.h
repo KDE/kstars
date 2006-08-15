@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 by Jasem Mutlaq
+    Copyright (C) 2005 by Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     Based on V4L 2 Example
     http://v4l2spec.bytesex.org/spec-single/v4l2.html#CAPTURE-EXAMPLE

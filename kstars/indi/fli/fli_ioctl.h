@@ -3,6 +3,8 @@
   Copyright (c) 2000 Finger Lakes Instrumentation (FLI), LLC.
   All rights reserved.
 
+  email: fli@rpa.net
+
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
   are met:

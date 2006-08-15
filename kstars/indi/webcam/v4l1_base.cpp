@@ -1,5 +1,6 @@
 /*
     Copyright (C) 2005 by Jasem Mutlaq
+    Email: mutlaqja@ikarustech.com 
 
     Some code based on qastrocam
 
