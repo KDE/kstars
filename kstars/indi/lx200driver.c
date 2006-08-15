@@ -258,7 +258,7 @@ int getCommandSexa(int fd, double *value, const char * cmd)
   
   tcflush(fd, TCIFLUSH);
 
-  if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_OK)
    return error_type;
   
   /*if ( (read_ret = portRead(temp_string, -1, LX200_TIMEOUT)) < 1)
@@ -290,14 +290,14 @@ int getCommandString(int fd, char *data, const char* cmd)
    /*if (portWrite(cmd) < 0)
       return -1;*/
 
-   if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_NO_ERROR)
+   if ( (error_type = tty_write(fd, cmd, &nbytes_write)) != TTY_OK)
     return error_type;
 
     /*read_ret = portRead(data, -1, LX200_TIMEOUT);*/
     error_type = tty_read_section(fd, data, '#', LX200_TIMEOUT, &nbytes_read);
     tcflush(fd, TCIFLUSH);
 
-    if (error_type != TTY_NO_ERROR)
+    if (error_type != TTY_OK)
 	return error_type;
 
     term = strchr (data, '#');
@@ -345,11 +345,11 @@ int getTimeFormat(int fd, int *format)
   /*if (portWrite("#:Gc#") < 0)
     return -1;*/
   
- if ( (error_type = tty_write(fd, "#:Gc#", &nbytes_write)) != TTY_NO_ERROR)
+ if ( (error_type = tty_write(fd, "#:Gc#", &nbytes_write)) != TTY_OK)
     return error_type;
 
   /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
-  if ( (error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read)) != TTY_NO_ERROR)
+  if ( (error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read)) != TTY_OK)
 	return error_type;
 
   tcflush(fd, TCIFLUSH);
@@ -381,25 +381,25 @@ int getSiteName(int fd, char *siteName, int siteNum)
     case 1:
      /*if (portWrite("#:GM#") < 0)
       return -1;*/
-       if ( (error_type = tty_write(fd, "#:GM#", &nbytes_write)) != TTY_NO_ERROR)
+       if ( (error_type = tty_write(fd, "#:GM#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case 2:
      /*if (portWrite("#:GN#") < 0)
       return -1;*/
-	if ( (error_type = tty_write(fd, "#:GN#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:GN#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case 3:
      /*if (portWrite("#:GO#") < 0)
        return -1;*/
-	if ( (error_type = tty_write(fd, "#:GO#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:GO#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case 4:
      /*if (portWrite("#:GP#") < 0)
       return -1;*/
-	if ( (error_type = tty_write(fd, "#:GP#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:GP#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     default:
@@ -438,7 +438,7 @@ int getSiteLatitude(int fd, int *dd, int *mm)
 
   /*if (portWrite("#:Gt#") < 0)
     return -1;*/
-  if ( (error_type = tty_write(fd, "#:Gt#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:Gt#", &nbytes_write)) != TTY_OK)
     	return error_type;
 
   /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
@@ -467,7 +467,7 @@ int getSiteLongitude(int fd, int *ddd, int *mm)
   int error_type;
   int nbytes_write=0, nbytes_read=0;
 
-  if ( (error_type = tty_write(fd, "#:Gg#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:Gg#", &nbytes_write)) != TTY_OK)
     	return error_type;
 
   /*if (portWrite("#:Gg#") < 0)
@@ -500,7 +500,7 @@ int getTrackFreq(int fd, double *value)
     int error_type;
     int nbytes_write=0, nbytes_read=0;
     
-    if ( (error_type = tty_write(fd, "#:GT#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:GT#", &nbytes_write)) != TTY_OK)
     	return error_type;
 
 	/*if (portWrite("#:GT#") < 0)
@@ -535,7 +535,7 @@ int getNumberOfBars(int fd, int *value)
    int error_type;
    int nbytes_write=0, nbytes_read=0;
 
-   if ( (error_type = tty_write(fd, "#:D#", &nbytes_write)) != TTY_NO_ERROR)
+   if ( (error_type = tty_write(fd, "#:D#", &nbytes_write)) != TTY_OK)
     	return error_type;
    /*if (portWrite("#:D#") < 0)
      return -1;*/
@@ -557,7 +557,7 @@ int getHomeSearchStatus(int fd, int *status)
   int error_type;
   int nbytes_write=0, nbytes_read=0;
 
-  if ( (error_type = tty_write(fd, "#:h?#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:h?#", &nbytes_write)) != TTY_OK)
     	return error_type;
  /*if (portWrite("#:h?#") < 0)
    return -1;*/
@@ -589,7 +589,7 @@ int getOTATemp(int fd, double *value)
   int nbytes_write=0, nbytes_read=0;
   float temp;
   
-  if ( (error_type = tty_write(fd, "#:fT#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:fT#", &nbytes_write)) != TTY_OK)
     	return error_type;
 
   /*if (portWrite("#:fT#") < 0)
@@ -699,7 +699,7 @@ int setStandardProcedure(int fd, char * data)
  int error_type;
  int nbytes_write=0, nbytes_read=0;
  
- if ( (error_type = tty_write(fd, data, &nbytes_write)) != TTY_NO_ERROR)
+ if ( (error_type = tty_write(fd, data, &nbytes_write)) != TTY_OK)
     	return error_type;
 
  error_type = tty_read(fd, bool_return, 1, LX200_TIMEOUT, &nbytes_read);
@@ -734,7 +734,7 @@ int setCommandInt(int fd, int data, const char *cmd)
 
   snprintf(temp_string, sizeof( temp_string ), "%s%d#", cmd, data);
 
-  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_OK)
     	return error_type;
 
  /*  if (portWrite(temp_string) < 0)
@@ -847,19 +847,19 @@ int setAlignmentMode(int fd, unsigned int alignMode)
   switch (alignMode)
    {
      case LX200_ALIGN_POLAR:
-	if ( (error_type = tty_write(fd, "#:AP#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:AP#", &nbytes_write)) != TTY_OK)
     	return error_type;
       /*if (portWrite("#:AP#") < 0)
         return -1;*/
       break;
      case LX200_ALIGN_ALTAZ:
-	if ( (error_type = tty_write(fd, "#:AA#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:AA#", &nbytes_write)) != TTY_OK)
     	return error_type;
       /*if (portWrite("#:AA#") < 0)
         return -1;*/
       break;
      case LX200_ALIGN_LAND:
-	if ( (error_type = tty_write(fd, "#:AL#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:AL#", &nbytes_write)) != TTY_OK)
     	return error_type;
        /*if (portWrite("#:AL#") < 0)
         return -1;*/
@@ -881,7 +881,7 @@ int setCalenderDate(int fd, int dd, int mm, int yy)
 
    snprintf(temp_string, sizeof( temp_string ), "#:SC %02d/%02d/%02d#", mm, dd, yy);
 
-   if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+   if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_OK)
     	return error_type;
 
    /*if (portWrite(temp_string) < 0)
@@ -1002,25 +1002,25 @@ int setSlewMode(int fd, int slewMode)
   switch (slewMode)
   {
     case LX200_SLEW_MAX:
-   if ( (error_type = tty_write(fd, "#:RS#", &nbytes_write)) != TTY_NO_ERROR)
+   if ( (error_type = tty_write(fd, "#:RS#", &nbytes_write)) != TTY_OK)
     	return error_type;
      /*if (portWrite("#:RS#") < 0)
       return -1;*/
      break;
     case LX200_SLEW_FIND:
-     if ( (error_type = tty_write(fd, "#:RM#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:RM#", &nbytes_write)) != TTY_OK)
     	return error_type;
      /*if (portWrite("#:RM#") < 0)
       return -1;*/
      break;
     case LX200_SLEW_CENTER:
-	if ( (error_type = tty_write(fd, "#:RC#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:RC#", &nbytes_write)) != TTY_OK)
     	return error_type;
      /*if (portWrite("#:RC#") < 0)
       return -1;*/
      break;
     case LX200_SLEW_GUIDE:
-    if ( (error_type = tty_write(fd, "#:RG#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:RG#", &nbytes_write)) != TTY_OK)
     	return error_type;
      /*if (portWrite("#:RG#") < 0)
       return -1;*/
@@ -1042,7 +1042,7 @@ int setFocuserMotion(int fd, int motionType)
   switch (motionType)
   {
     case LX200_FOCUSIN:
-    if ( (error_type = tty_write(fd, "#:F+#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:F+#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("Focus IN Command\n");*/
@@ -1051,7 +1051,7 @@ int setFocuserMotion(int fd, int motionType)
       return -1;*/
       break;
     case LX200_FOCUSOUT:
-    if ( (error_type = tty_write(fd, "#:F-#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:F-#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("Focus OUT Command\n");*/
@@ -1073,7 +1073,7 @@ int setFocuserSpeedMode (int fd, int speedMode)
  switch (speedMode)
  {
     case LX200_HALTFOCUS:
-    if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("Halt Focus Command\n");*/
@@ -1082,7 +1082,7 @@ int setFocuserSpeedMode (int fd, int speedMode)
       return -1;*/
      break;
    case LX200_FOCUSSLOW:
-    if ( (error_type = tty_write(fd, "#:FS#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:FS#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("Focus Slow (FS) Command\n");*/
@@ -1091,7 +1091,7 @@ int setFocuserSpeedMode (int fd, int speedMode)
        return -1;*/
       break;
     case LX200_FOCUSFAST:
-     if ( (error_type = tty_write(fd, "#:FF#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:FF#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("Focus Fast (FF) Command\n");*/
@@ -1115,7 +1115,7 @@ int setGPSFocuserSpeed (int fd, int speed)
   {
      /*if (portWrite("#:FQ#") < 0)
       return -1;*/
-     if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:FQ#", &nbytes_write)) != TTY_OK)
     	return error_type;
 	#ifdef INDI_DEBUG
 	/*IDLog("GPS Focus HALT Command (FQ) \n");*/
@@ -1126,7 +1126,7 @@ int setGPSFocuserSpeed (int fd, int speed)
 
   snprintf(speed_str, 8, "#:F%d#", speed);
 
-  if ( (error_type = tty_write(fd, speed_str, &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, speed_str, &nbytes_write)) != TTY_OK)
     	return error_type;
 
     #ifdef INDI_DEBUG
@@ -1159,7 +1159,7 @@ int Slew(int fd)
     int error_type;
     int nbytes_write=0, nbytes_read=0;
 
-    if ( (error_type = tty_write(fd, "#:MS#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:MS#", &nbytes_write)) != TTY_OK)
     	return error_type;
     /*if (portWrite("#:MS#") < 0)
       return -1;*/
@@ -1229,23 +1229,23 @@ int HaltMovement(int fd, int direction)
     case LX200_NORTH:
      /*if (portWrite("#:Qn#") < 0)
       return -1;*/
-       if ( (error_type = tty_write(fd, "#:Qn#", &nbytes_write)) != TTY_NO_ERROR)
+       if ( (error_type = tty_write(fd, "#:Qn#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case LX200_WEST:
      /*if (portWrite("#:Qw#") < 0)
       return -1;*/
-     if ( (error_type = tty_write(fd, "#:Qw#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:Qw#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case LX200_EAST:
      /*if (portWrite("#:Qe#") < 0)
       return -1;*/
-      if ( (error_type = tty_write(fd, "#:Qe#", &nbytes_write)) != TTY_NO_ERROR)
+      if ( (error_type = tty_write(fd, "#:Qe#", &nbytes_write)) != TTY_OK)
     	return error_type;
      break;
     case LX200_SOUTH:
-    if ( (error_type = tty_write(fd, "#:Qs#", &nbytes_write)) != TTY_NO_ERROR)
+    if ( (error_type = tty_write(fd, "#:Qs#", &nbytes_write)) != TTY_OK)
     	return error_type;
      /*if (portWrite("#:Qs#") < 0)
        return -1;*/
@@ -1253,7 +1253,7 @@ int HaltMovement(int fd, int direction)
     case LX200_ALL:
      /*if (portWrite("#:Q#") < 0)
        return -1;*/
-	if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_OK)
     	   return error_type;
      break;
     default:
@@ -1273,7 +1273,7 @@ int abortSlew(int fd)
   int error_type;
   int nbytes_write=0;
 
- if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_NO_ERROR)
+ if ( (error_type = tty_write(fd, "#:Q#", &nbytes_write)) != TTY_OK)
     	   return error_type;
 
  tcflush(fd, TCIFLUSH);
@@ -1285,7 +1285,7 @@ int Sync(int fd, char *matchedObject)
   int error_type;
   int nbytes_write=0, nbytes_read=0;
 
-  if ( (error_type = tty_write(fd, "#:CM#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:CM#", &nbytes_write)) != TTY_OK)
     	   return error_type;
 
   /*portWrite("#:CM#");*/
@@ -1315,25 +1315,25 @@ int selectSite(int fd, int siteNum)
   switch (siteNum)
   {
     case 1:
-  	if ( (error_type = tty_write(fd, "#:W1#", &nbytes_write)) != TTY_NO_ERROR)
+  	if ( (error_type = tty_write(fd, "#:W1#", &nbytes_write)) != TTY_OK)
     	   return error_type;
       /*if (portWrite("#:W1#") < 0)
        return -1;*/
       break;
     case 2:
-	if ( (error_type = tty_write(fd, "#:W2#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:W2#", &nbytes_write)) != TTY_OK)
     	   return error_type;
       /*if (portWrite("#:W2#") < 0)
        return -1;*/
       break;
     case 3:
-	if ( (error_type = tty_write(fd, "#:W3#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:W3#", &nbytes_write)) != TTY_OK)
     	   return error_type;
       /*if (portWrite("#:W3#") < 0)
        return -1;*/
       break;
     case 4:
-	if ( (error_type = tty_write(fd, "#:W4#", &nbytes_write)) != TTY_NO_ERROR)
+	if ( (error_type = tty_write(fd, "#:W4#", &nbytes_write)) != TTY_OK)
     	   return error_type;
       /*if (portWrite("#:W4#") < 0)
        return -1;*/
@@ -1369,7 +1369,7 @@ int selectCatalogObject(int fd, int catalog, int NNNN)
     return -1;
   }
 
-  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, temp_string, &nbytes_write)) != TTY_OK)
     	   return error_type;
   /*if (portWrite(temp_string) < 0)
    return -1;*/
@@ -1405,7 +1405,7 @@ int checkLX200Format(int fd)
   int error_type;
   int nbytes_write=0, nbytes_read=0;
 
-  if ( (error_type = tty_write(fd, "#:GR#", &nbytes_write)) != TTY_NO_ERROR)
+  if ( (error_type = tty_write(fd, "#:GR#", &nbytes_write)) != TTY_OK)
     	   return error_type;
 
   /*if (portWrite("#:GR#") < 0)
@@ -1440,7 +1440,7 @@ int selectTrackingMode(int fd, int trackMode)
       #ifdef INDI_DEBUG
       IDLog("Setting tracking mode to sidereal.\n");
       #endif
-     if ( (error_type = tty_write(fd, "#:TQ#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:TQ#", &nbytes_write)) != TTY_OK)
     	   return error_type;
      /*if (portWrite("#:TQ#") < 0)
        return -1;*/
@@ -1449,7 +1449,7 @@ int selectTrackingMode(int fd, int trackMode)
       #ifdef INDI_DEBUG
       IDLog("Setting tracking mode to LUNAR.\n");
       #endif
-      if ( (error_type = tty_write(fd, "#:TL#", &nbytes_write)) != TTY_NO_ERROR)
+      if ( (error_type = tty_write(fd, "#:TL#", &nbytes_write)) != TTY_OK)
     	   return error_type;
      /*if (portWrite("#:TL#") < 0)
        return -1;*/
@@ -1458,7 +1458,7 @@ int selectTrackingMode(int fd, int trackMode)
      #ifdef INDI_DEBUG
      IDLog("Setting tracking mode to CUSTOM.\n");
      #endif
-     if ( (error_type = tty_write(fd, "#:TM#", &nbytes_write)) != TTY_NO_ERROR)
+     if ( (error_type = tty_write(fd, "#:TM#", &nbytes_write)) != TTY_OK)
     	   return error_type;
      /*if (portWrite("#:TM#") < 0)
       return -1;*/

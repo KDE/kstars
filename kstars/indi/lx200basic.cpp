@@ -798,7 +798,7 @@ void LX200Basic::powerTelescope()
 	  return;
 	}
 	
-          if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+          if (tty_connect(PortT[0].text, NULL, &fd) != TTY_OK)
           /*if (Connect(PortT[0].text))*/
 	 {
 	   PowerS[0].s = ISS_OFF;

@@ -58,7 +58,7 @@ extern const char * Direction[];
 extern const char * SolarSystem[];
 
 /* TTY Error Codes */
-enum TTY_ERROR { TTY_NO_ERROR=0, TTY_READ_ERROR=-1, TTY_WRITE_ERROR=-2, TTY_SELECT_ERROR=-3, TTY_TIME_OUT=-4, TTY_PORT_FAILURE=-5, TTY_PARAM_ERROR=-6};
+enum TTY_ERROR { TTY_OK=0, TTY_READ_ERROR=-1, TTY_WRITE_ERROR=-2, TTY_SELECT_ERROR=-3, TTY_TIME_OUT=-4, TTY_PORT_FAILURE=-5, TTY_PARAM_ERROR=-6, TTY_ERRNO = -7};
 
 #ifdef __cplusplus
 extern "C" {
@@ -104,7 +104,7 @@ void SinCos( double Degrees, double *sina, double *cosa );
     \param nbytes number of bytes to read.
     \param timeout number of seconds to wait for terminal before a timeout error is issued.
     \param nbytes_read the number of bytes read.
-    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
 int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read);
 
@@ -114,7 +114,7 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read);
     \param stop_char if the function encounters \e stop_char then it stops reading and returns the buffer.
     \param timeout number of seconds to wait for terminal before a timeout error is issued.
     \param nbytes_read the number of bytes read.
-    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
 
 int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes_read);
@@ -124,7 +124,7 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
     \param fd file descriptor
     \param buffer a null-terminated buffer to write to fd.
     \param nbytes_written the number of bytes written
-    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
 int tty_write(int fd, const char * buffer, int *nbytes_written);
 
@@ -133,7 +133,7 @@ int tty_write(int fd, const char * buffer, int *nbytes_written);
     \param buffer the buffer to write to fd.
     \param nbytes number of bytes to write from \e buffer
     \param nbytes_written the number of bytes written
-    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
 int tty_write_section(int fd, const char * buffer, int nbytes, int *nbytes_written);
 
@@ -142,15 +142,23 @@ int tty_write_section(int fd, const char * buffer, int nbytes, int *nbytes_writt
     \param device the device node. e.g. /dev/ttyS0
     \param ttyOptions pointer to desired tty connection option. Set to NULL for default options (Baud Rate 9600, Data Bits 8, Parity	None, Stop Bit 1, Flow Control	None).
     \param fd The function will fill \e fd with the file descriptor value on success.
-    \return On success, it returns TTY_NO_ERROR, otherwise, a TTY_ERROR code.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
 
 int tty_connect(const char *device, struct termios *ttyOptions, int *fd);
 
 /** \brief Closes a tty connection and flushes the bus.
     \param fd the file descriptor to close.
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
-void tty_disconnect(int fd);
+int tty_disconnect(int fd);
+
+/** \brief Retrieve the tty error message
+    \param err_code the error code return by any TTY function.
+    \param err_msg an initialized buffer to hold the error message.
+    \param err_msg_len length in bytes of \e err_msg
+*/
+void tty_error_msg(int err_code, char *err_msg, int err_msg_len);
 
 int tty_timeout(int fd, int timeout);
 /*@}*/

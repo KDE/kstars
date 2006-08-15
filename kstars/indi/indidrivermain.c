@@ -757,6 +757,35 @@ int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], 
 
 }
 
+/* Update property text in accord with texts and names */
+int IUUpdateTexts(ITextVectorProperty *tvp, char * texts[], char *names[], int n)
+{
+  int i=0;
+  
+  IText *tp;
+  
+  for (i = 0; i < n; i++)
+  {
+    tp = IUFindText(tvp, names[i]);
+    if (!tp)
+    {
+    	tvp->s = IPS_IDLE;
+	IDSetText(tvp, "Error: %s is not a member of %s property.", names[i], tvp->name);
+	return -1;
+    }
+  }
+
+  /* First loop checks for error, second loop set all values atomically*/
+  for (i=0; i < n; i++)
+  {
+    tp = IUFindText(tvp, names[i]);
+    IUSaveText(tp, texts[i]);
+  }
+
+  return 0;
+
+}
+
 /* save malloced copy of newtext in tp->text, reusing if not first time */
 void
 IUSaveText (IText *tp, const char *newtext)

@@ -409,6 +409,16 @@ extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *n
 */
 extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
+/** \brief Update all text members in a text vector property.
+*
+* \param nvp a pointer to a text vector property.
+* \param text a pointer to the text members
+* \param names the names of the IText members to update.
+* \param n the number of IText members to update.
+* \return 0 if update successful, -1 otherwise. Update will fail in case of property name mismatch.
+*/
+extern int IUUpdateTexts(ITextVectorProperty *tvp, char * texts[], char *names[], int n);
+
 /** \brief Function to update the min and max elements of a number in the client
     \param nvp pointer to an INumberVectorProperty.
  */

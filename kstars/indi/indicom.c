@@ -34,6 +34,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include "indicom.h"
 
@@ -658,7 +659,7 @@ int tty_timeout(int fd, int timeout)
 
   /* Return 0 on successful fd change */
   if (retval > 0)
-   return TTY_NO_ERROR;
+   return TTY_OK;
   /* Return -1 due to an error */
   else if (retval == -1)
    return TTY_SELECT_ERROR;
@@ -690,7 +691,7 @@ int tty_write(int fd, const char * buf, int *nbytes_written)
 
   /* Returns the # of bytes written */
   *nbytes_written = totalBytesWritten;
-  return TTY_NO_ERROR;
+  return TTY_OK;
 }
 
 int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
@@ -713,7 +714,7 @@ int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
 
   /* Returns the # of bytes written */
   *nbytes_written = totalBytesWritten;
-  return TTY_NO_ERROR;
+  return TTY_OK;
 }
 
 int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
@@ -742,7 +743,7 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
   }
 
   *nbytes_read = totalBytesRead;
-  return TTY_NO_ERROR;
+  return TTY_OK;
 }
 
 int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes_read)
@@ -750,7 +751,7 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
 
  int bytesRead = 0;
  int totalBytesRead = 0;
- int err = TTY_NO_ERROR;
+ int err = TTY_OK;
 
  for (;;)
  {
@@ -768,7 +769,7 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
         if (*buf == stop_char)
 	{
 	   *nbytes_read = totalBytesRead;
-	   return TTY_NO_ERROR;
+	   return TTY_OK;
         }
 
         buf += bytesRead;
@@ -829,13 +830,68 @@ int tty_connect(const char *device, struct termios *ttyOptions, int *fd)
 
   *fd = t_fd;
   /* return success */
-  return TTY_NO_ERROR;
+  return TTY_OK;
 }
 
-void tty_disconnect(int fd)
+int tty_disconnect(int fd)
 {
-	/*IDLog("Disconnected.\n");*/
+	int err;
 	tcflush(fd, TCIOFLUSH);
-	close(fd);
+	err = close(fd);
+
+	if (err != 0)
+		return TTY_ERRNO;
+
+        return TTY_OK;
 }
 
+void tty_error_msg(int err_code, char *err_msg, int err_msg_len)
+{
+      char error_string[512];
+
+  switch (err_code)
+ {
+	case TTY_OK:
+		strncpy(err_msg, "No Error", err_msg_len);
+		break;
+
+	case TTY_READ_ERROR:
+		snprintf(error_string, 512, "Read Error: %s", strerror(errno));
+		strncpy(err_msg, error_string, err_msg_len);
+		break;
+		
+       case TTY_WRITE_ERROR:
+		snprintf(error_string, 512, "Write Error: %s", strerror(errno));
+		strncpy(err_msg, error_string, err_msg_len);
+		break;
+
+	case TTY_SELECT_ERROR:
+		snprintf(error_string, 512, "Select Error: %s", strerror(errno));
+		strncpy(err_msg, error_string, err_msg_len);
+		break;
+
+	case TTY_TIME_OUT:
+		strncpy(err_msg, "Timeout error", err_msg_len);
+		break;
+
+	case TTY_PORT_FAILURE:
+		snprintf(error_string, 512, "Port failure Error: %s", strerror(errno));
+		strncpy(err_msg, error_string, err_msg_len);
+		break;
+
+	case TTY_PARAM_ERROR:
+		strncpy(err_msg, "Parameter error", err_msg_len);
+		break;
+
+	case TTY_ERRNO:
+		snprintf(error_string, 512, "%s", strerror(errno));
+		strncpy(err_msg, error_string, err_msg_len);
+		break;
+
+	default:
+		strncpy(err_msg, "Error: unrecognized error code", err_msg_len);
+		break;
+
+
+   }	
+}

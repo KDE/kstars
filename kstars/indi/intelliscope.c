@@ -164,7 +164,7 @@ void connectTelescope(void)
   switch (PowerS[0].s)
   {
     case ISS_ON:
-     if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+     if (tty_connect(PortT[0].text, NULL, &fd) != TTY_OK)
      /*if (Connect(PortT[0].text) < 0)*/
      {
        PowerSP.s = IPS_ALERT;
