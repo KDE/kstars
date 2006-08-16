@@ -972,7 +972,7 @@ void KStars::slotClearAllTrails() {
 
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
-//Toolbars
+	//Toolbars
 	if ( sender()->objectName() == QString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
 		if ( show ) toolBar("kstarsToolBar")->show();
@@ -996,7 +996,8 @@ void KStars::slotShowGUIItem( bool show ) {
 		if ( show ) {
 			//To preserve the order (AzAlt before RADec), we have to remove
 			//the RADec field and then add both back.
-			if ( Options::showRADecField() ) statusBar()->removeItem( 2 );
+			if ( statusBar()->hasItem(1) ) statusBar()->removeItem( 1 );
+			if ( statusBar()->hasItem(2) ) statusBar()->removeItem( 2 );
 
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertPermanentFixedItem( s, 1 );
@@ -1017,8 +1018,10 @@ void KStars::slotShowGUIItem( bool show ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-			statusBar()->insertPermanentFixedItem( s, 2 );
-			statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
+			if ( ! statusBar()->hasItem(2) ) {
+				statusBar()->insertPermanentFixedItem( s, 2 );
+				statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
+			}
 			statusBar()->changeItem( QString(), 2 );
 		} else {
 			statusBar()->removeItem( 2 );

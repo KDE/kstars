@@ -452,13 +452,13 @@ void KStars::initStatusBar() {
 
 	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 	if ( Options::showAltAzField() ) {
-		statusBar()->insertItem( s, 1 );
+		statusBar()->insertPermanentFixedItem( s, 1 );
 		statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( QString(), 1 );
 	}
 
 	if ( Options::showRADecField() ) {
-		statusBar()->insertItem( s, 2 );
+		statusBar()->insertPermanentFixedItem( s, 2 );
 		statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
 		statusBar()->changeItem( QString(), 2 );
 	}
