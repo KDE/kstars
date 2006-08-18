@@ -697,7 +697,6 @@ int tty_write(int fd, const char * buf, int *nbytes_written)
 int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
 {
 /*  unsigned int nbytes;*/
-  int totalBytesWritten;
   int bytesWritten = 0;   
    
   while (nbytes > 0)
@@ -713,7 +712,7 @@ int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
   }
 
   /* Returns the # of bytes written */
-  *nbytes_written = totalBytesWritten;
+  *nbytes_written = nbytes;
   return TTY_OK;
 }
 
@@ -738,7 +737,7 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
       return TTY_READ_ERROR;
 
      buf += bytesRead;
-     totalBytesRead++;
+     totalBytesRead += bytesRead;
      nbytes -= bytesRead;
   }
 
