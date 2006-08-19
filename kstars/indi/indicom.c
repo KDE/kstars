@@ -723,6 +723,8 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
  int totalBytesRead = 0;
  int err = 0;
 
+  int i=0;
+
   if (nbytes <=0)
 	return TTY_PARAM_ERROR;
 
@@ -733,7 +735,9 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 
      bytesRead = read(fd, buf, ((unsigned) nbytes));
 
-     fprintf(stderr, "## Bytes read %s\n", bytesRead);
+     fprintf(stderr, "## Bytes read %d\n", bytesRead);
+     for (i=0; i < totalBytesRead; i++)
+	fprintf(stderr, "Char: %c\n", buf[i]);
 
      if (bytesRead < 0 )
       return TTY_READ_ERROR;
