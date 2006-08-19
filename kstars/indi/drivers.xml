@@ -124,6 +124,10 @@
     		<driver>fliwheel</driver>
     		<version>0.9</version>
     	</device>
+	<device label="TruTech Wheel">
+		<driver>trutechwheel</driver>
+		<version>0.1</version>
+    	</device>
 </devGroup>
 <devGroup group="Video">
 	<device label="Generic Video4Linux">

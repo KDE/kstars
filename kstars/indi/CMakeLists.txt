@@ -332,6 +332,27 @@ target_link_libraries(flipdf m ${KDE4_KDECORE_LIBS} )
 install(TARGETS flipdf  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
+###### FLI Precision Digital Focuser ######
+
+set(robofocus_SRCS eventloop.c robofocus.c indidrivermain.c)
+
+kde4_add_executable(robofocus ${robofocus_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+
+target_link_libraries(robofocus ${KDE4_KDECORE_LIBS} )
+
+install(TARGETS robofocus  DESTINATION ${BIN_INSTALL_DIR} )
+
+########### next target ###############
+########## True Technology Wheel ############
+set(trutechwheel_SRCS eventloop.c trutech_wheel.c indidrivermain.c )
+
+kde4_add_executable(trutechwheel ${trutechwheel_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+
+target_link_libraries(trutechwheel  ${KDE4_KDECORE_LIBS} )
+
+install(TARGETS trutechwheel  DESTINATION ${BIN_INSTALL_DIR} )
+
+########### next target ###############
 ########## FLI Filter Wheel ############
 set(fliwheel_SRCS eventloop.c fli_wheel.c indidrivermain.c )
 

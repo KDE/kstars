@@ -1227,7 +1227,7 @@ void connectRobofocus(void) {
   case ISS_ON:
     
    /* if (Connect(PortT[0].text) < 0)*/
-   if (tty_connect(PortT[0].text, NULL, &fd) != TTY_NO_ERROR)
+   if (tty_connect(PortT[0].text, NULL, &fd) != TTY_OK)
    {
 
       PowerSP.s = IPS_ALERT;
