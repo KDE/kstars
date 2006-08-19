@@ -733,6 +733,8 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 
      bytesRead = read(fd, buf, ((unsigned) nbytes));
 
+     fprintf(stderr, "## Bytes read %s\n", bytesRead);
+
      if (bytesRead < 0 )
       return TTY_READ_ERROR;
 

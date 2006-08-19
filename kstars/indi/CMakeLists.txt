@@ -334,7 +334,7 @@ install(TARGETS flipdf  DESTINATION ${BIN_INSTALL_DIR} )
 ########### next target ###############
 ###### FLI Precision Digital Focuser ######
 
-set(robofocus_SRCS eventloop.c robofocus.c indidrivermain.c)
+set(robofocus_SRCS eventloop.c robofocus.c robofocusdriver.c indidrivermain.c)
 
 kde4_add_executable(robofocus ${robofocus_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 

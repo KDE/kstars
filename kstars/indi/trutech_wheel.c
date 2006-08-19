@@ -58,7 +58,7 @@ static int fd;
 #define MAX_FILTER_COUNT	8
 #define ERRMSG_SIZE			1024
 
-#define CMD_SIZE				8
+#define CMD_SIZE				9
 #define FILTER_TIMEOUT		15					/* 15 Seconds before timeout */
 #define FIRST_FILTER			1
 #define LAST_FILTER			6
@@ -127,7 +127,7 @@ void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], c
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
 	int err;
-	char err_msg[ERRMSG_SIZE];
+	char error_message[ERRMSG_SIZE];
 	char cmd[CMD_SIZE];
 	char cmd_response[CMD_SIZE];
 
@@ -151,31 +151,34 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	{
 		int nbytes=0;
 
-		/*if (checkPowerS(&HomeSP))
-			return;*/
+		if (checkPowerS(&HomeSP))
+			return;
 
 		strncpy(cmd, "A50320C8", CMD_SIZE);
+
 		IDLog("Sending %s to filter\n", cmd);
 		
 		/* Send Home Command */
 		if ( (err = tty_write(fd, cmd, &nbytes)) != TTY_OK)
 		{
-			tty_error_msg(err, err_msg, ERRMSG_SIZE);
+		
+			tty_error_msg(err, error_message, ERRMSG_SIZE);
 			
 			HomeSP.s = IPS_ALERT;
-			IDSetSwitch(&HomeSP, "Sending command %s to filter failed. %s\n", cmd, err_msg);
-			IDLog("Sending command %s to filter failed. %s\n", cmd, err_msg);
+			IDSetSwitch(&HomeSP, "Sending command %s to filter failed. %s", cmd, error_message);
+			IDLog("Sending command %s to filter failed. %s\n", cmd, error_message);
+
 			return;
 		}
 
 		/* Wait for Reply */
 		if ( (err = tty_read(fd, cmd_response, CMD_SIZE, FILTER_TIMEOUT, &nbytes)) != TTY_OK)
 		{
-			tty_error_msg(err, err_msg, ERRMSG_SIZE);
+			tty_error_msg(err, error_message, ERRMSG_SIZE);
 			
 			HomeSP.s = IPS_ALERT;
-			IDSetSwitch(&HomeSP, "Reading from filter failed. %s\n", err_msg);
-			IDLog("Reading from filter failed. %s\n", err_msg);
+			IDSetSwitch(&HomeSP, "Reading from filter failed. %s\n", error_message);
+			IDLog("Reading from filter failed. %s\n", error_message);
 			return;
 		}
 
