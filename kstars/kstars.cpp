@@ -59,7 +59,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DialogIsObsolete(false), StartClockRunning( clockrun ), 
 	StartDateString( startdate )
 {
-	QDBus::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportSlots);
+	QDBusConnection::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportSlots);
 
 	connect( kapp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
