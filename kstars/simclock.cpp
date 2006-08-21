@@ -31,7 +31,7 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 		QObject(parent),
 		tmr(this)
 {
-        QDBusConnection::sessionBus().registerObject("/kstars/SimClock",  this, QDBusConnection::ExportSlots);
+        QDBusConnection::sessionBus().registerObject("/kstars/SimClock",  this, QDBusConnection::ExportScriptableSlots);
 	if (! when.isValid() ) tmr.stop();
 	setUTC(when);
 	julianmark = UTC.djd();
