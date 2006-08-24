@@ -462,15 +462,9 @@ int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2
   char rf_cmd_tmp[32] ;
 
   int ret_read_tmp ;
-  int i = 0 ; 
+  int i = 0 ;
 
 
-  if((  s== -1) && ( i== -1) ){
-
-    strcpy(rf_cmd, "FP000000" ) ;
-
-  } else {
-  
     /* Get first the status */
     strcpy(rf_cmd_tmp, "FP000000" ) ;
 
@@ -498,7 +492,6 @@ int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2
 /*     } */
 
     rf_cmd[8]= 0 ;
-  }
 
   if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)   
     return ret_read_tmp ;
