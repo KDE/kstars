@@ -677,10 +677,12 @@ shutdownClient (ClInfo *cp)
 	/* close connection */
 	shutdown (cp->s, SHUT_RDWR);
 	fclose (cp->wfp);		/* also closes cp->s */
+        cp->wfp = 0;
 
 	/* free memory */
 	delLilXML (cp->lp);
 	free (cp->devs);
+        cp->devs = 0;
 
 	/* decrement and possibly free any unsent messages for this client */
 	while ((mp = (Msg*) popFQ(cp->msgq)) != NULL)
@@ -854,6 +856,9 @@ sendClientMsg (ClInfo *cp)
 {
 	Msg *mp;
 
+	if (!cp->active)
+		return;
+	
 	/* get next message for this client */
 	mp = popFQ (cp->msgq);
 
