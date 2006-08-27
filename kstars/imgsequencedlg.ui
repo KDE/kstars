@@ -177,7 +177,7 @@
          </layout>
         </item>
         <item>
-         <widget class="KProgressBar" name="imgProgress" >
+         <widget class="QProgressBar" name="imgProgress" >
           <property name="enabled" >
            <bool>false</bool>
           </property>
@@ -418,13 +418,6 @@
    <class>KDoubleNumInput</class>
    <extends></extends>
    <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KProgressBar</class>
-   <extends></extends>
-   <header>kprogressbar.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
