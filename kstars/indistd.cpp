@@ -452,7 +452,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     
     if (ISOMode) return;
     
-    seqLister->openURL(Options::fitsSaveDirectory());
+    seqLister->openUrl(Options::fitsSaveDirectory());
     
     checkSeqBoundary(seqLister->items());
  

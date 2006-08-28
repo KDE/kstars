@@ -172,7 +172,7 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 	}
 
 	KIO::CopyJob *cjob = (KIO::CopyJob*)job;
-	QFile tmp( cjob->destURL().path() );
+	QFile tmp( cjob->destUrl().path() );
 	tmp.close(); // to get the newest information of the file
 
 	//Add image to list
@@ -206,7 +206,7 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 		//Add 50x50 image and URL to listbox
 		//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
 		//		cjob->srcURLs().first().prettyUrl() );
-		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcURLs().first().prettyUrl() ));
+		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcUrls().first().prettyUrl() ));
 	}
 }
 
