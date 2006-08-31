@@ -201,7 +201,7 @@ public:
 		*@param file reference to the QFile object which will be opened to this file.
 		*@return true if file successfully opened. 
 		*/
-	bool openURLFile(const QString &urlfile, QFile& file);
+	bool openUrlFile(const QString &urlfile, QFile& file);
 
 	/**Set the NextDSTChange member.
 		*Need this accessor because I could not make KStars::privatedata a friend

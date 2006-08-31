@@ -572,7 +572,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 	}
 }
 
-bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
+bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 	//QFile file;
 	QString localFile;
 	bool fileFound = false;
@@ -682,7 +682,7 @@ bool KStarsData::openURLFile(const QString &urlfile, QFile & file) {
 
 bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) {
 	QFile file;
-	if (!openURLFile(urlfile, file)) return false;
+	if (!openUrlFile(urlfile, file)) return false;
 
 	QTextStream stream(&file);
 
