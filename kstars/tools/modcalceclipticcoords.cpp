@@ -30,7 +30,7 @@
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
 
-modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit) 
+modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
@@ -110,7 +110,7 @@ void modCalcEclCoords::EclToEqu(void) {
 //	sp.setEclLong(eclipLong);
 //	sp.setEclLat(eclipLat);
 	sp.setFromEcliptic(num->obliquity(), &eclipLong, &eclipLat);
-	
+
 	raCoord.set( *sp.ra() );
 	decCoord.set( *sp.dec() );
 
@@ -202,7 +202,7 @@ void modCalcEclCoords::slotEclLongCheckedBatch(){
 
 void modCalcEclCoords::slotRunBatch() {
 
-	QString inputFileName = inputFileName = InputFileBoxBatch->url();
+	QString inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -234,10 +234,9 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 	// we open the output file
 
 //	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	QString outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
-	fOut.open(QIODevice::WriteOnly);
+	fOut.open(QIODevice::WriteOnly); // TODO error checking
 	QTextStream ostream(&fOut);
 
 	QString line;

@@ -30,7 +30,7 @@
 #include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit) 
+modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
 : QFrame(parentSplit) {
 	setupUi(this);
 	showCurrentYear();
@@ -45,7 +45,7 @@ int modCalcEquinox::getYear (QString eName)
 {
 	bool ok = false;
 	int equinoxYear = eName.toInt(&ok);
-	if ( ok ) 
+	if ( ok )
 		return equinoxYear;
 	else {
 		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
@@ -66,7 +66,7 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 	KStarsData *kd = (KStarsData*) topLevelWidget()->parent();
 	KSSun *Sun = new KSSun(kd);
 	int year0 = getYear( yearEdit->text() );
-	
+
 	if (equinoxSolsticesComboBox->currentIndex() == 0 ) {
 		julianDay = Sun->springEquinox(year0);
 		jdf = Sun->summerSolstice(year0);
@@ -83,11 +83,11 @@ void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
 		julianDay = Sun->winterSolstice(year0);
 		jdf = Sun->springEquinox(year0+1);
 	}
-	
+
 	deltaJd = (float) (jdf - julianDay);
 	showStartDateTime(julianDay);
 	showSeasonDuration(deltaJd);
-	
+
 }
 
 void modCalcEquinox::slotClear(void){
@@ -130,7 +130,7 @@ void modCalcEquinox::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -163,7 +163,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -211,9 +211,9 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 		KStarsDateTime dta( jdau );
 		KStarsDateTime dtw( jdwin );
 
-		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space 
-						<< dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space 
-						<< dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space 
+		ostream << dts.toString(Qt::ISODate) << space << (float)(jdsu - jdsp) << space
+						<< dtu.toString(Qt::ISODate) << space << (float)(jdau - jdsu) << space
+						<< dta.toString(Qt::ISODate) << space << (float)(jdwin - jdau) << space
 						<< dtw.toString(Qt::ISODate) << space << (float)(jdsp1 - jdwin) << endl;
 	}
 

@@ -58,7 +58,7 @@ public:
 /**
   *@return the filename of the custom catalog.
 	*/
-	QString filename() const { return acd->CatalogURL->url(); }
+	QString filename() const { return acd->CatalogURL->url().path(); }
 
 private slots:
 /**
@@ -67,7 +67,7 @@ private slots:
 	void slotShowDataFile();
 
 /**
-  *Create the object catalog file, populate the objectList, 
+  *Create the object catalog file, populate the objectList,
 	*and close the dialog.
 	*/
 	void slotCreateCatalog();
@@ -78,7 +78,7 @@ private slots:
 	void slotPreviewCatalog();
 
 /**
-  *Overridden from KDialog to show short help in a dialog rather 
+  *Overridden from KDialog to show short help in a dialog rather
 	*than launch KHelpCenter.
 	*/
 	void slotHelp();
@@ -91,13 +91,13 @@ private slots:
 
 private:
 /**
-  *Attempt to parse the user's data file according to the fields 
+  *Attempt to parse the user's data file according to the fields
 	*specified in the Catalog fields list.
 	*/
 	bool validateDataFile();
 
 /**
-  *Write a header line describing the data fields in the catalog, and 
+  *Write a header line describing the data fields in the catalog, and
 	*defining the catalog name, ID prefix, and coordinate epoch.
 	*/
 	QString writeCatalogHeader();

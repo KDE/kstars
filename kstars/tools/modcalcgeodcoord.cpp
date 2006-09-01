@@ -28,7 +28,7 @@
 #include "widgets/dmsbox.h"
 
 
-modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit) 
+modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	QStringList ellipsoidList;
@@ -45,7 +45,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 
 	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearGeoCoords()));
 	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeGeoCoords()));
-	
+
 }
 
 modCalcGeodCoord::~modCalcGeodCoord(){
@@ -220,7 +220,7 @@ void modCalcGeodCoord::slotRunBatch(void) {
 
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -253,7 +253,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);

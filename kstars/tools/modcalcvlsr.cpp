@@ -114,7 +114,7 @@ double modCalcVlsr::getHeight(void)
 {
 	bool ok = false;
 	double height = ElevationBox->text().toDouble(&ok);
-	if (ok) 
+	if (ok)
 		return height;
 	else {
 		kDebug() << i18n( "Could not parse height string; assuming 0" ) << endl;
@@ -186,7 +186,7 @@ void modCalcVlsr::showEpoch( const KStarsDateTime &dt )
 //	Localization
 //	EpochBox->setText(KGlobal::locale()->formatNumber(epochN,3));
 	EpochBox->setText( KGlobal::locale()->formatNumber( epochN ) );
-	
+
 }
 
 void modCalcVlsr::slotClearCoords()
@@ -222,7 +222,7 @@ void modCalcVlsr::slotComputeVelocities()
 	geoPlace->TopocentricVelocity(vst, gsidt);
 
 	if ( radioVlsr->isChecked() ) {
-	
+
 		double vlsr = getVLSR();
 		double vhelio = sp.vHeliocentric(vlsr, dt0.djd() );
 		showHelVel( vhelio );
@@ -231,9 +231,9 @@ void modCalcVlsr::slotComputeVelocities()
 		showGeoVel( vg );
 
 		showTopoVel ( sp.vTopocentric(vg, vst) );
-		
+
 	} else if (radioVhelio->isChecked() ) {
-		
+
 		double vhel = getVhel();
 		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
 		showVlsr(vlsr);
@@ -306,14 +306,14 @@ void modCalcVlsr::slotDecChecked(){
 void modCalcVlsr::slotEpochChecked(){
 	if ( EpochCheckBatch->isChecked() )
 		EpochBoxBatch->setEnabled( false );
-	else 
+	else
 		EpochBoxBatch->setEnabled( true );
 }
 
 void modCalcVlsr::slotLongChecked(){
 	if ( LongCheckBatch->isChecked() )
 		LongitudeBoxBatch->setEnabled( false );
-	else 
+	else
 		LongitudeBoxBatch->setEnabled( true );
 }
 
@@ -356,7 +356,7 @@ void modCalcVlsr::slotOutputFile() {
 void modCalcVlsr::slotRunBatch() {
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -389,7 +389,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -419,21 +419,21 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		i = 0;
 
 		// Read Ut and write in ostream if corresponds
-		
+
 		if(UTCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
 			i++;
 		} else
 			utB = UTBoxBatch->time();
-		
+
 		if ( AllRadioBatch->isChecked() )
 			ostream << utB.toString() << space;
 		else
 			if(UTCheckBatch->isChecked() )
 				ostream << utB.toString() << space;
-			
+
 		// Read date and write in ostream if corresponds
-		
+
 		if(DateCheckBatch->isChecked() ) {
 			 dtB = ExtDate::fromString( fields[i] );
 			 i++;
@@ -444,7 +444,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		else
 			if(DateCheckBatch->isChecked() )
 			 	ostream << dtB.toString().append(space);
-		
+
 		// Read RA and write in ostream if corresponds
 
 		if(RACheckBatch->isChecked() ) {
@@ -474,7 +474,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 				ostream << decB.toDMSString() << space;
 
 		// Read Epoch and write in ostream if corresponds
-	
+
 		if(EpochCheckBatch->isChecked() ) {
 			epoch0B = fields[i];
 			i++;
@@ -488,7 +488,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 				ostream << epoch0B << space;
 
 		// Read vlsr and write in ostream if corresponds
-	
+
 		if(InputVelocityCheckBatch->isChecked() ) {
 			vlsrB = fields[i].toDouble();
 			i++;
@@ -500,21 +500,21 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		else
 			if(InputVelocityCheckBatch->isChecked() )
 				ostream << vlsrB << space;
-		
+
 		// Read Longitude and write in ostream if corresponds
-		
+
 		if (LongCheckBatch->isChecked() ) {
 			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
 			longB = LongitudeBoxBatch->createDms(true);
-		
+
 		if ( AllRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;
 		else
 			if (LongCheckBatch->isChecked() )
 				ostream << longB.toDMSString() << space;
-		
+
 		// Read Latitude
 
 
@@ -528,9 +528,9 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		else
 			if (LatCheckBatch->isChecked() )
 				ostream << latB.toDMSString() << space;
-		
+
 		// Read height and write in ostream if corresponds
-	
+
 		if(ElevationCheckBatch->isChecked() ) {
 			heightB = fields[i].toDouble();
 			i++;
@@ -542,14 +542,14 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 		else
 			if(ElevationCheckBatch->isChecked() )
 				ostream << heightB << space;
-		
+
 		// We make the first calculations
 
 		spB = SkyPoint (raB, decB);
 		dt0B.setFromEpoch(epoch0B);
 		vhB = spB.vHeliocentric(vlsrB, dt0B.djd());
 		jd0 = KStarsDateTime(dtB,utB).djd();
-		vgB = spB.vGeocentric(vlsrB, jd0); 
+		vgB = spB.vGeocentric(vlsrB, jd0);
 		geoPlace->setLong( longB );
 		geoPlace->setLat(  latB );
 		geoPlace->setHeight( heightB );

@@ -27,7 +27,7 @@
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
 
-modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) 
+modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
@@ -204,7 +204,7 @@ void modCalcGalCoord::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -237,7 +237,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);

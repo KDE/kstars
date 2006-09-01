@@ -151,7 +151,7 @@ void modCalcPrec::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -184,7 +184,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);

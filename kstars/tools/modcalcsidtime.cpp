@@ -44,7 +44,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : QFrame(parentSplit) {
     connect(STCheckBatch, SIGNAL(clicked()), this, SLOT(slotStChecked()));
     connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
-	show();		
+	show();
 }
 
 modCalcSidTime::~modCalcSidTime(void) {
@@ -86,17 +86,17 @@ void modCalcSidTime::showST( QTime st )
 	OutputTimeBox->setTime( st );
 }
 
-QTime modCalcSidTime::getUT( void ) 
+QTime modCalcSidTime::getUT( void )
 {
 	return InputTimeBox->time();
 }
 
-QTime modCalcSidTime::getST( void ) 
+QTime modCalcSidTime::getST( void )
 {
 	return OutputTimeBox->time();
 }
 
-ExtDate modCalcSidTime::getDate( void ) 
+ExtDate modCalcSidTime::getDate( void )
 {
 	return DateBox->date();
 }
@@ -135,7 +135,7 @@ void modCalcSidTime::slotUtChecked(){
 
 	if ( UTCheckBatch->isChecked() )
 		InputTimeBoxBatch->setEnabled( false );
-	else 
+	else
 		InputTimeBoxBatch->setEnabled( true );
 }
 
@@ -143,7 +143,7 @@ void modCalcSidTime::slotDateChecked(){
 
 	if ( DateCheckBatch->isChecked() )
 		DateBoxBatch->setEnabled( false );
-	else 
+	else
 		DateBoxBatch->setEnabled( true );
 }
 
@@ -151,7 +151,7 @@ void modCalcSidTime::slotStChecked(){
 
 	if ( STCheckBatch->isChecked() )
 		OutputTimeBoxBatch->setEnabled( false );
-	else 
+	else
 		OutputTimeBoxBatch->setEnabled( true );
 }
 
@@ -180,7 +180,7 @@ void modCalcSidTime::slotRunBatch() {
 
 	QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url();
+	inputFileName = InputFileBoxBatch->url().path();
 
 	// We open the input file and read its content
 
@@ -213,7 +213,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 
 //	QTextStream istream(&fIn);
 	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url();
+	outputFileName = OutputFileBoxBatch->url().path();
 	QFile fOut( outputFileName );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
@@ -236,23 +236,23 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		QStringList fields = line.split( " " );
 
 		i = 0;
-		
+
 		// Read Longitude and write in ostream if corresponds
-		
+
 		if (LongCheckBatch->isChecked() ) {
 			longB = dms::fromString( fields[i],true);
 			i++;
 		} else
 			longB = LongitudeBoxBatch->createDms(true);
-		
+
 		if ( AllRadioBatch->isChecked() )
 			ostream << longB.toDMSString() << space;
 		else
 			if (LongCheckBatch->isChecked() )
 				ostream << longB.toDMSString() << space;
-		
+
 		// Read date and write in ostream if corresponds
-		
+
 		if(DateCheckBatch->isChecked() ) {
 			 dtB = ExtDate::fromString( fields[i] );
 			 i++;
@@ -264,7 +264,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 			if(DateCheckBatch->isChecked() )
 			 	ostream << dtB.toString().append(space);
 
-		
+
 		// We make the first calculations
 		KStarsDateTime dt;
 		dt.setFromEpoch( epoch0B );
@@ -272,30 +272,30 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		jd0 = dt.djd();
 
 		LST = dms( longB.Degrees() + KStarsDateTime(dtB,utB).gst().Degrees() );
-		
+
 		// Universal Time is the input time.
 		if (!stInputTime) {
 
 		// Read Ut and write in ostream if corresponds
-		
+
 			if(UTCheckBatch->isChecked() ) {
 				utB = QTime::fromString( fields[i] );
 				i++;
 			} else
 				utB = InputTimeBoxBatch->time();
-		
+
 			if ( AllRadioBatch->isChecked() )
 				ostream << utB.toString() << space;
 			else
 				if(UTCheckBatch->isChecked() )
 					ostream << utB.toString() << space;
-			
+
 
 			stB = computeUTtoST( utB, dtB, longB );
 			ostream << stB.toString()  << endl;
 
 		// Input coords are horizontal coordinates
-		
+
 		} else {
 
 			if(STCheckBatch->isChecked() ) {
@@ -303,13 +303,13 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 				i++;
 			} else
 				stB = OutputTimeBoxBatch->time();
-		
+
 			if ( AllRadioBatch->isChecked() )
 				ostream << stB.toString() << space;
 			else
 				if(STCheckBatch->isChecked() )
 					ostream << stB.toString() << space;
-			
+
 
 			utB = computeSTtoUT( stB, dtB, longB );
 			ostream << utB.toString()  << endl;
