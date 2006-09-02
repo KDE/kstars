@@ -74,6 +74,8 @@ main (int ac, char *av[])
 {
         setgid( getgid() );
         setuid( getuid() );
+        if (geteuid() != getuid())
+            exit(255);
 
 	/* save handy pointer to our base name */
 	for (me = av[0]; av[0][0]; av[0]++)
