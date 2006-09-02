@@ -56,27 +56,27 @@ void KStars::initActions() {
 
 //File Menu:
 	KAction *ka = new KAction( KIcon( "window_new" ), i18n("&New Window"), actionCollection(), "new_window" );
-	ka->setShortcut( KShortcut( "Ctrl+N" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_N ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
 
 	ka = new KAction( KIcon( "fileclose" ), i18n("&Close Window"), actionCollection(), "close_window");
-	ka->setShortcut( KShortcut( "Ctrl+W" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_W ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
 
 	ka = new KAction( KIcon( "knewstuff" ), i18n( "&Download Data..." ),  actionCollection(), "get_data" );
-	ka->setShortcut( KShortcut( "Ctrl+D" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_D ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotDownload() ) );
 
 	ka = new KAction( KIcon( "fileopen" ), i18n( "Open FITS..."), actionCollection(), "open_file");
-	ka->setShortcut( KShortcut( "Ctrl+O" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_O ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotOpenFITS() ) );
 
 	ka = new KAction( KIcon( "fileexport" ), i18n( "&Save Sky Image..." ), actionCollection(), "export_image" );
-	ka->setShortcut( KShortcut( "Ctrl+I" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_I ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotExportImage() ) );
 
 	ka = new KAction( KIcon( "launch" ), i18n( "&Run Script..." ), actionCollection(), "run_script" );
-	ka->setShortcut( KShortcut( "Ctrl+R" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_R ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotRunScript() ) );
 
 	KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
@@ -84,11 +84,11 @@ void KStars::initActions() {
 
 //Time Menu:
 	ka = new KAction( i18n( "Set Time to &Now" ), actionCollection(), "time_to_now" );
-	ka->setShortcut( KShortcut( "Ctrl+E"  ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_E  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTimeToNow() ) );
 
 	ka = new KAction( KIcon( "history" ), i18nc( "set Clock to New Time", "&Set Time..." ), actionCollection(), "time_dialog" );
-	ka->setShortcut( KShortcut( "Ctrl+S"  ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_S  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
 
 	ToggleAction *actTimeRun = new ToggleAction( KIcon( "player_pause" ), i18n( "Stop &Clock" ),
@@ -123,16 +123,16 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
 
 	ka = new KAction( KIcon( "find" ), i18n( "&Find Object..." ), actionCollection(), "find_object" );
-	ka->setShortcut( KShortcut( "Ctrl+F" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_F ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotFind() ) );
 
 	//FIXME: Use ToggleAction
 	ka = new KAction( KIcon( "decrypted" ), i18n( "Engage &Tracking" ), actionCollection(), "track_object" );
-	ka->setShortcut( KShortcut( "Ctrl+T"  ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_T  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotTrack() ) );
 
 	ka = new KAction( i18n( "Set Focus &Manually..." ), actionCollection(), "manual_focus" );
-	ka->setShortcut( KShortcut( "Ctrl+M" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_M ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotManualFocus() ) );
 
 //View Menu:
@@ -140,11 +140,11 @@ void KStars::initActions() {
 	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
 
 	ka = new KAction( KIcon( "viewmagfit" ), i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
-	ka->setShortcut( KShortcut( "Ctrl+Z" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_Z ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotDefaultZoom() ) );
 
 	ka = new KAction( KIcon( "viewmag" ), i18n( "&Zoom to Angular Size..." ), actionCollection(), "zoom_set" );
-	ka->setShortcut( KShortcut( "Ctrl+Shift+Z" ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::SHIFT+Qt::Key_Z ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );
 
 	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
@@ -270,7 +270,7 @@ void KStars::initActions() {
 	initFOV();
 
 	ka = new KAction( KIcon( "kstars_geo" ), i18nc( "Location on Earth", "&Geographic..." ), actionCollection(), "geolocation" );
-	ka->setShortcut( KShortcut( "Ctrl+G"  ) );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_G  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotGeoLocator() ) );
 
 	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
@@ -280,42 +280,42 @@ void KStars::initActions() {
 
 //Tools Menu:
 	ka = new KAction( i18n( "Calculator..."), actionCollection(), "astrocalculator" );
-	ka->setShortcut( KShortcut( "Ctrl+C") );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_C ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotCalculator() ) );
 
 	ka = new KAction( i18n( "Observing List..."), actionCollection(), "obslist" );
-	ka->setShortcut( KShortcut( "Ctrl+L") );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_L ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotObsList() ) );
 
 	// enable action only if file was loaded and processed successfully.
 	if (!data()->VariableStarsList.isEmpty()) {
 		ka = new KAction( i18n( "AAVSO Light Curves..."), actionCollection(), "lightcurvegenerator");
-		ka->setShortcut( KShortcut( "Ctrl+V") );
+		ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_V ) );
 		connect( ka, SIGNAL( triggered() ), this, SLOT( slotLCGenerator() ) );
 	}
 
 	ka = new KAction( i18n( "Altitude vs. Time..."), actionCollection(), "altitude_vs_time");
-	ka->setShortcut( KShortcut( "Ctrl+A") );
+	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_A ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotAVT() ) );
 
 	ka = new KAction( i18n( "What's up Tonight..."), actionCollection(), "whats_up_tonight");
-	ka->setShortcut( KShortcut("Ctrl+U") );
+	ka->setShortcut( KShortcut(Qt::CTRL+Qt::Key_U ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotWUT() ) );
 
 	ka = new KAction( i18n( "Glossary..."), actionCollection(), "glossary");
-	ka->setShortcut( KShortcut("Ctrl+K") );
+	ka->setShortcut( KShortcut(Qt::CTRL+Qt::Key_K ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
 
 	ka = new KAction( i18n( "Script Builder..."), actionCollection(), "scriptbuilder");
-	ka->setShortcut( KShortcut("Ctrl+B") );
+	ka->setShortcut( KShortcut(Qt::CTRL+Qt::Key_B ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotScriptBuilder() ) );
 
 	ka = new KAction( i18n( "Solar System..."), actionCollection(), "solarsystem");
-	ka->setShortcut( KShortcut("Ctrl+Y") );
+	ka->setShortcut( KShortcut(Qt::CTRL+Qt::Key_Y ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSolarSystem() ) );
 
 	ka = new KAction( i18n( "Jupiter's Moons..."), actionCollection(), "jmoontool");
-	ka->setShortcut( KShortcut("Ctrl+J") );
+	ka->setShortcut( KShortcut(Qt::CTRL+Qt::Key_J ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
 // devices Menu

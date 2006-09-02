@@ -116,19 +116,19 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     else
        	action = new KAction(KIcon("contrast+"),  i18n("Brightness/Contrast"), actionCollection(), "image_brightness_contrast");
        	connect(action, SIGNAL(triggered(bool)), SLOT( BrightContrastDlg()));
-       	action->setShortcut(KShortcut( "Ctrl+T" ));*/
+       	action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_T ));*/
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
     	action = new KAction(KIcon(tempFile.fileName()),  i18n("Histogram"), actionCollection(), "image_histogram");
     	connect(action, SIGNAL(triggered(bool) ), SLOT (imageHistogram()));
-    	action->setShortcut(KShortcut("Ctrl+H"));
+    	action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
 	tempFile.close();
     }
     else {
         action = new KAction(KIcon("wizard"),  i18n("Histogram"), actionCollection(), "image_histogram");
         connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
-        action->setShortcut(KShortcut("Ctrl+H"));
+        action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
     }
 
     KStdAction::open(this, SLOT(fileOpen()), actionCollection());
@@ -140,7 +140,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent, const char *name)
     KStdAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     action = new KAction(KIcon("viewmagfit.png"),  i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
-    action->setShortcut(KShortcut( "Ctrl+D" ));
+    action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_D ));
     action = new KAction(KIcon("sum"),  i18n( "Statistics"), actionCollection(), "image_stats");
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
     action = new KAction(KIcon("frame_spreadsheet.png"),  i18n( "FITS Header"), actionCollection(), "fits_editor");

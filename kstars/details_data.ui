@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>DetailsData</class>
  <widget class="QWidget" name="DetailsData" >
   <property name="geometry" >
@@ -155,6 +152,9 @@
               <width>200</width>
               <height>200</height>
              </size>
+            </property>
+            <property name="cursor" >
+             <cursor>13</cursor>
             </property>
             <property name="frameShape" >
              <enum>QFrame::StyledPanel</enum>
@@ -400,14 +400,11 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>ClickLabel</class>
    <extends>QFrame</extends>
    <header>widgets/clicklabel.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>
