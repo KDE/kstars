@@ -123,19 +123,19 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
 /** \brief Writes a buffer to fd.
     \param fd file descriptor
     \param buffer a null-terminated buffer to write to fd.
-    \param nbytes_written the number of bytes written
-    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
-*/
-int tty_write(int fd, const char * buffer, int *nbytes_written);
-
-/** \brief Writes a buffer to fd.
-    \param fd file descriptor
-    \param buffer the buffer to write to fd.
     \param nbytes number of bytes to write from \e buffer
     \param nbytes_written the number of bytes written
     \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
 */
-int tty_write_section(int fd, const char * buffer, int nbytes, int *nbytes_written);
+int tty_write(int fd, const char * buffer, int nbytes, int *nbytes_written);
+
+/** \brief Writes a null terminated string to fd.
+    \param fd file descriptor
+    \param buffer the buffer to write to fd.
+    \param nbytes_written the number of bytes written
+    \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
+*/
+int tty_write_string(int fd, const char * buffer, int *nbytes_written);
 
 
 /** \brief Establishes a tty connection to a terminal device.

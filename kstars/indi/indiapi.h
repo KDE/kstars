@@ -69,7 +69,7 @@ You can find information on INDI development in the <a href="http://indi.sf.net"
  * N.B. this is indepedent of the API itself.
  */
 
-#define	INDIV	1.5
+#define	INDIV	1.6
 
 /*******************************************************************************
  * Manifest constants

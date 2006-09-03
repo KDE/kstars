@@ -74,7 +74,8 @@ main (int ac, char *av[])
 {
         setgid( getgid() );
         setuid( getuid() );
-        if (geteuid() != getuid())
+
+	if (geteuid() != getuid())
             exit(255);
 
 	/* save handy pointer to our base name */
@@ -703,8 +704,17 @@ int
 IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
 {
  int i=0;
- 
  ISwitch *sp;
+ char sn[MAXINDINAME];
+
+ /* store On switch name */
+ if (svp->r == ISR_1OFMANY)
+ {
+ 	sp = IUFindOnSwitch(svp);
+ 	if (sp) strncpy(sn, sp->name, MAXINDINAME);
+ 
+	IUResetSwitches(svp);
+ }
  
  for (i = 0; i < n ; i++)
  {
@@ -720,6 +730,26 @@ IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int
    sp->s = states[i]; 
  }
  
+ /* Consistency checks for ISR_1OFMANY */
+ if (svp->r == ISR_1OFMANY)
+ {
+	int t_count=0;
+	for (i=0; i < svp->nsp; i++)
+	{
+		if (svp->sp[i].s == ISS_ON)
+			t_count++;
+	}
+	if (t_count != 1)
+	{
+		IUResetSwitches(svp);
+		sp = IUFindSwitch(svp, sn);
+		if (sp) sp->s = ISS_ON;
+		svp->s = IPS_IDLE;
+		IDSetSwitch(svp, "Error: invalid state switch for property %s. %s.", svp->name, t_count == 0 ? "No switch is on" : "Too many switches are on");
+		return -1;
+	}
+ }
+		
  return 0;
 
 }

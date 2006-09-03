@@ -669,50 +669,48 @@ int tty_timeout(int fd, int timeout)
   
 }
 
-int tty_write(int fd, const char * buf, int *nbytes_written)
+int tty_write(int fd, const char * buf, int nbytes, int *nbytes_written)
 {
-  unsigned int nbytes;
-  int totalBytesWritten;
-  int bytesWritten = 0;   
+  int bytes_w = 0;   
+  *nbytes_written = 0;
    
-  nbytes = totalBytesWritten = strlen(buf);
-
   while (nbytes > 0)
   {
     
-    bytesWritten = write(fd, buf, nbytes);
+    bytes_w = write(fd, buf, nbytes);
 
-    if (bytesWritten < 0)
+    if (bytes_w < 0)
      return TTY_WRITE_ERROR;
 
-    buf += bytesWritten;
-    nbytes -= bytesWritten;
+    *nbytes_written += bytes_w;
+    buf += bytes_w;
+    nbytes -= bytes_w;
   }
 
-  /* Returns the # of bytes written */
-  *nbytes_written = totalBytesWritten;
   return TTY_OK;
 }
 
-int tty_write_section(int fd, const char * buf, int nbytes, int *nbytes_written)
+int tty_write_string(int fd, const char * buf, int *nbytes_written)
 {
-/*  unsigned int nbytes;*/
-  int bytesWritten = 0;   
+  unsigned int nbytes;
+  int bytes_w = 0;
+  *nbytes_written = 0;
    
+  nbytes = strlen(buf);
+
   while (nbytes > 0)
   {
     
-    bytesWritten = write(fd, buf, nbytes);
+    bytes_w = write(fd, buf, nbytes);
 
-    if (bytesWritten < 0)
+    if (bytes_w < 0)
      return TTY_WRITE_ERROR;
 
-    buf += bytesWritten;
-    nbytes -= bytesWritten;
+   *nbytes_written += bytes_w;
+    buf += bytes_w;
+    nbytes -= bytes_w;
   }
 
-  /* Returns the # of bytes written */
-  *nbytes_written = nbytes;
   return TTY_OK;
 }
 
@@ -720,10 +718,8 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 {
 
  int bytesRead = 0;
- int totalBytesRead = 0;
  int err = 0;
-
-  int i=0;
+ *nbytes_read =0;
 
   if (nbytes <=0)
 	return TTY_PARAM_ERROR;
@@ -735,19 +731,14 @@ int tty_read(int fd, char *buf, int nbytes, int timeout, int *nbytes_read)
 
      bytesRead = read(fd, buf, ((unsigned) nbytes));
 
-     fprintf(stderr, "## Bytes read %d\n", bytesRead);
-     for (i=0; i < totalBytesRead; i++)
-	fprintf(stderr, "Char: %c\n", buf[i]);
-
      if (bytesRead < 0 )
       return TTY_READ_ERROR;
 
      buf += bytesRead;
-     totalBytesRead += bytesRead;
+     *nbytes_read += bytesRead;
      nbytes -= bytesRead;
   }
 
-  *nbytes_read = totalBytesRead;
   return TTY_OK;
 }
 
@@ -755,8 +746,8 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
 {
 
  int bytesRead = 0;
- int totalBytesRead = 0;
  int err = TTY_OK;
+ *nbytes_read = 0;
 
  for (;;)
  {
@@ -769,13 +760,10 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
             return TTY_READ_ERROR;
 
         if (bytesRead)
-          totalBytesRead++;
+          *nbytes_read++;
 
         if (*buf == stop_char)
-	{
-	   *nbytes_read = totalBytesRead;
 	   return TTY_OK;
-        }
 
         buf += bytesRead;
   }

@@ -50,18 +50,22 @@ int  isFilterConnected(void);
 
 static int targetFilter;
 static int fd;
+static char COMM_INIT = 0xA5;
+static char COMM_FILL = 0x20;
+static char COMM_NL   = 0x0A; 
 
-#define mydev           				"TurTech Wheel"
+#define mydev           		"TurTech Wheel"
 #define MAIN_GROUP			"Main Control"
-#define currentFilter				FilterPositionN[0].value
-#define POLLMS					1000
-#define MAX_FILTER_COUNT	8
+#define currentFilter			FilterPositionN[0].value
+#define POLLMS				1000
+#define MAX_FILTER_COUNT		8
 #define ERRMSG_SIZE			1024
 
-#define CMD_SIZE				9
-#define FILTER_TIMEOUT		15					/* 15 Seconds before timeout */
+#define CMD_SIZE			15
+#define FILTER_TIMEOUT			15					/* 15 Seconds before timeout */
 #define FIRST_FILTER			1
 #define LAST_FILTER			6
+
 
 /*INDI controls */
 
@@ -84,7 +88,7 @@ static INumberVectorProperty FilterPositionNP = { mydev, "FILTER_SLOT", "Filter"
 /* Filter Size */
 static INumber FilterSizeN[]	  = { {"Size", "", "%2.0f", 0,  12, 1, 0, 0, 0, 0}};
 static INumberVectorProperty FilterSizeNP = { mydev, "Filter Size", "", MAIN_GROUP, IP_RO, 0, IPS_IDLE, FilterSizeN, NARRAY(FilterSizeN), "", 0};
-  
+
 /* send client definitions of all properties */
 void ISInit()
 {
@@ -150,16 +154,19 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, HomeSP.name))
 	{
 		int nbytes=0;
+		char type = 0x03;
+		char chksum = COMM_INIT + COMM_FILL + type;
 
 		if (checkPowerS(&HomeSP))
 			return;
 
-		strncpy(cmd, "A50320C8", CMD_SIZE);
-
-		IDLog("Sending %s to filter\n", cmd);
+		tty_write(fd, &COMM_INIT, 1, &nbytes);
+		tty_write(fd, &COMM_FILL, 1, &nbytes);
+		tty_write(fd, &type, 1, &nbytes);
+		err = tty_write(fd, &chksum, 1, &nbytes);
 		
 		/* Send Home Command */
-		if ( (err = tty_write(fd, cmd, &nbytes)) != TTY_OK)
+		if (err != TTY_OK)
 		{
 		
 			tty_error_msg(err, error_message, ERRMSG_SIZE);
@@ -172,7 +179,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 		}
 
 		/* Wait for Reply */
-		if ( (err = tty_read(fd, cmd_response, CMD_SIZE, FILTER_TIMEOUT, &nbytes)) != TTY_OK)
+		if ( (err = tty_read_section(fd, cmd_response, COMM_NL, FILTER_TIMEOUT, &nbytes)) != TTY_OK)
 		{
 			tty_error_msg(err, error_message, ERRMSG_SIZE);
 			
@@ -182,7 +189,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 			return;
 		}
 
-		
+		cmd_response[nbytes] = 0;
 		HomeSP.s = IPS_OK;
 		IDLog("Filter response is %s\n", cmd_response);
 		IDSetSwitch(&HomeSP, "Filter response is %s", cmd_response);
