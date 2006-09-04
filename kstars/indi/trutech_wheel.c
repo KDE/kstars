@@ -144,7 +144,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, PowerSP.name))
 	{
-		IUResetSwitches(&PowerSP);
 		IUUpdateSwitches(&PowerSP, states, names, n);
 		connectFilter();
 		return;
