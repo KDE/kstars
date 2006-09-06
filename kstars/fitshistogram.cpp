@@ -37,23 +37,22 @@
  #include <kdebug.h>
  #include <klineedit.h>
  #include <klocale.h>
- 
- 
- histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
+
+  histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
  {
-   setupUi(this);
+   setupUi(parent);
    setModal(false);
    
-   minSlider->setMinimum(0);
+   /*minSlider->setMinimum(0);
    minSlider->setMaximum(BARS-1);
    minSlider->setValue(0);
    
    maxSlider->setMinimum(0);
    maxSlider->setMaximum(BARS-1);
-   maxSlider->setValue(BARS-1);
+   maxSlider->setValue(BARS-1);*/
 
-   histFrame->setCursor(Qt::CrossCursor);
-   histFrame->setMouseTracking(true);
+   //histFrame->setCursor(Qt::CrossCursor);
+   //histFrame->setMouseTracking(true);
    setMouseTracking(true);
  }
 
@@ -65,10 +64,10 @@
    type = 0;
    napply=0;
    
-   connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
+   /*connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
    connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
+   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));*/
    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
    constructHistogram(viewer->image->getImageBuffer());
@@ -81,6 +80,7 @@
  
 void FITSHistogram::updateBoxes()
 {
+/*
 
 	double fits_min=0, fits_max=0;
 
@@ -98,10 +98,12 @@ void FITSHistogram::updateBoxes()
 
         update();
 
+*/
 }
 
 void FITSHistogram::applyScale()
 {
+/*
   int swap;
   double fits_min=0, fits_max=0;
 
@@ -140,14 +142,14 @@ void FITSHistogram::applyScale()
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);
   viewer->history->addCommand(histC);
-    
+    */
 }
  
 void FITSHistogram::constructHistogram(float * buffer)
 {
  
   int maxHeight = 0;
-  int height    = ui->histFrame->height(); 
+ int height    = ui->histFrame->height(); 
   int id;
   int index;
   double fits_min=0, fits_max=0;
@@ -184,43 +186,43 @@ void FITSHistogram::constructHistogram(float * buffer)
  maxHeight = findMax() / height;
  
  kDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
- 
- //histogram = new QPixmap(500, 150, 1);
- // Qt4 --> Qt4 port
 
- //histogram = new QPixmap(500, 150);
- //histogram->fill(Qt::black);
- //QPainter p(histogram);
- 
-  
+ ui->update();
 }
+
 
 void FITSHistogram::paintEvent( QPaintEvent */*e*/)
 {
-  int height    = ui->histFrame->height(); 
+/*
+  //int height    = ui->histFrame->height(); 
   int xMin = ui->minSlider->value(), xMax = ui->maxSlider->value();
   
-  QPainter p(ui->histFrame);
+  QPainter painter(ui->histFrame);
   QPen pen;
   pen.setWidth(1);
+  pen.setColor(Qt::white);
+
+  painter.setPen(pen);
   
   //QPen pen( Qt::white, 1);
   // p.setPen(pen);
    
  //for (int i=0; i < BARS; i++)
-     //p.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
+    // painter.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
+
+  painter.drawPie(0,0, 50, 50, 30, 120);
 
   //bitBlt(ui->histFrame, 0, 0, histogram);
   
-  pen.setColor(Qt::blue);
-  p.setPen(pen);
+  //pen.setColor(Qt::blue);
+  //p.setPen(pen);
   
-  p.drawLine(xMin, height - 2, xMin, height/2 -2);
-  pen.setColor(Qt::red);
-  p.setPen(pen);
-  p.drawLine(xMax, 2, xMax, height/2 -2);
+  //p.drawLine(xMin, height - 2, xMin, height/2 -2);
+  //pen.setColor(Qt::red);
+  //p.setPen(pen);
+  //p.drawLine(xMax, 2, xMax, height/2 -2);
   
-  
+  */
 }
 
 void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
@@ -228,11 +230,11 @@ void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
   int x = e->x();
   int y = e->y();
   
-  x -= ui->histFrame->x();
-  y -= ui->histFrame->y();
+  //x -= ui->histFrame->x();
+  //y -= ui->histFrame->y();
   
-  if (x < 0 || x >= BARS || y < 0 || y > ui->histFrame->height() )
-   return;
+  //if (x < 0 || x >= BARS || y < 0 || y > ui->histFrame->height() )
+   //return;
   
   updateIntenFreq(x);
   
@@ -254,11 +256,13 @@ void FITSHistogram::updateIntenFreq(int x)
 
 int FITSHistogram::findMax()
 {
-  int max =0;
+int max =0;
+/*
+  
   
   for (int i=0; i < BARS; i++)
     if (histArray[i] > max) max = histArray[i];
-    
+    */
   return max;
 }
 

@@ -1,4 +1,3 @@
-
 add_subdirectory( skycomponents ) 
 add_subdirectory( widgets ) 
 add_subdirectory( indi ) 
@@ -211,6 +210,7 @@ set(libkstarswidgets_SRCS
 	widgets/timespinbox.cpp 
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
+	widgets/fitshistogramdraw.cpp
 )
 
 set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} 
@@ -246,7 +246,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
        details_data.ui details_position.ui details_links.ui details_database.ui details_log.ui 
        devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
        fovdialog.ui newfov.ui locationdialog.ui 
-       histdialog.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
+       fitshistogramui.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
        wizwelcome.ui wizlocation.ui wizdevices.ui wizdownload.ui 
        opsadvanced.ui opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
        statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 

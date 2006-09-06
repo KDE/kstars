@@ -18,7 +18,7 @@
 #ifndef FITSHISTOGRAM
 #define FITSHISTOGRAM
  
-#include "ui_histdialog.h"
+#include "ui_fitshistogramui.h"
 #include <kcommand.h>
 
 #include <QPixmap>
@@ -31,7 +31,7 @@
 class FITSViewer;
 class QPixmap;
  
- class histogramUI : public QDialog, public Ui::histogram
+ class histogramUI : public QDialog, public Ui::FITSHistogramUI
  {
    Q_OBJECT
 
@@ -52,10 +52,12 @@ class QPixmap;
     int  findMax();
     int type;
     int napply;
+    int maxHeight;
+    int histArray[BARS]; 
 
     
     private:
-    int histArray[BARS]; 
+    
     double binSize;
     histogramUI *ui;
     

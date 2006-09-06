@@ -1,9 +1,6 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
- <class>histogram</class>
- <widget class="QDialog" name="histogram" >
+ <class>FITSHistogramUI</class>
+ <widget class="QDialog" name="FITSHistogramUI" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -40,13 +37,13 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>11</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <layout class="QVBoxLayout" >
+    <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
      </property>
@@ -54,52 +51,86 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QSlider" name="maxSlider" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Q3Frame" name="histFrame" >
+      <widget class="histDrawArea" name="histFrame" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>7</hsizetype>
-         <vsizetype>5</vsizetype>
+         <vsizetype>13</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize" >
         <size>
-         <width>500</width>
-         <height>150</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>500</width>
-         <height>150</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
        <property name="frameShape" >
-        <enum>QFrame::NoFrame</enum>
+        <enum>QFrame::Box</enum>
        </property>
        <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
+        <enum>QFrame::Plain</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="minSlider" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+      <widget class="QGroupBox" name="groupBox" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>1</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
+       <property name="title" >
+        <string>FITS Scale</string>
+       </property>
+       <layout class="QVBoxLayout" >
+        <property name="margin" >
+         <number>9</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="autoR" >
+          <property name="text" >
+           <string>Auto</string>
+          </property>
+          <property name="checked" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="linearR" >
+          <property name="text" >
+           <string>Linear</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="logR" >
+          <property name="text" >
+           <string>Logarithmic</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="sqrtR" >
+          <property name="text" >
+           <string>Square root</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="2" >
+   <item row="1" column="0" >
     <layout class="QGridLayout" >
      <property name="margin" >
       <number>0</number>
@@ -115,7 +146,7 @@
       </widget>
      </item>
      <item row="0" column="1" >
-      <widget class="KLineEdit" name="intensityOUT" >
+      <widget class="QLineEdit" name="intensityOUT" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -143,7 +174,7 @@
       </spacer>
      </item>
      <item row="0" column="3" >
-      <widget class="KLineEdit" name="minOUT" >
+      <widget class="QLineEdit" name="minOUT" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -162,7 +193,7 @@
       </widget>
      </item>
      <item row="1" column="1" >
-      <widget class="KLineEdit" name="frequencyOUT" >
+      <widget class="QLineEdit" name="frequencyOUT" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -188,7 +219,7 @@
       </widget>
      </item>
      <item row="1" column="3" >
-      <widget class="KLineEdit" name="maxOUT" >
+      <widget class="QLineEdit" name="maxOUT" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>5</hsizetype>
@@ -201,7 +232,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2" >
+   <item row="2" column="0" >
     <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
@@ -250,80 +281,15 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1" >
-    <widget class="Q3ButtonGroup" name="scaleGroup" >
-     <property name="title" >
-      <string>FITS Scale</string>
-     </property>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>11</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QRadioButton" name="autoR" >
-        <property name="text" >
-         <string>Auto</string>
-        </property>
-        <property name="checked" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="linearR" >
-        <property name="text" >
-         <string>Linear</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="logR" >
-        <property name="text" >
-         <string>Logarithmic</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="sqrtR" >
-        <property name="text" >
-         <string>Square root</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>Q3Frame</class>
-   <extends></extends>
-   <header>Qt3Support/Q3Frame</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>histDrawArea</class>
+   <extends>QFrame</extends>
+   <header>widgets/fitshistogramdraw.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
