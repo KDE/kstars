@@ -19,11 +19,11 @@
 
 #include <QFrame>
 
-#include "widgets/kstarsplotwidget.h"
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 
 class PlanetViewer;
 
-class PVPlotWidget : public KStarsPlotWidget
+class PVPlotWidget : public KPlotWidget
 {
 Q_OBJECT
 public:

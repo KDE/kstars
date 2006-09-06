@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 #include <QPaintEvent>
 
-#include "widgets/kstarsplotwidget.h"
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 #include "ui_altvstime.h"
 
 class KStarsDateTime;
@@ -46,7 +46,7 @@ class AltVsTimeUI : public QFrame, public Ui::AltVsTime {
 };
 
 /**@class AVTPlotWidget
-	*@short An extension of the KStarsPlotWidget for the AltVsTime tool.
+	*@short An extension of the KPlotWidget for the AltVsTime tool.
 	*The biggest difference is that in addition to the plot objects, it 
 	*draws the "ground" below Alt=0 and draws the sky light blue for day 
 	*times, and black for night times.  The transition between day and 
@@ -54,10 +54,12 @@ class AltVsTimeUI : public QFrame, public Ui::AltVsTime {
 	*sunrise/sunset times of the given date/location.
 	*Also, this plot widget provides two time axes (local time along the 
 	*bottom, and local sideral time along the top).
+	*Finally, it provides user interaction: on mouse click, it draws 
+	*crosshairs at the mouse position with labels for the time and altitude.
 	*@version 1.0
 	*@author Jason Harris
 	*/
-class AVTPlotWidget : public KStarsPlotWidget
+class AVTPlotWidget : public KPlotWidget
 {
 	Q_OBJECT
 public:
@@ -108,7 +110,6 @@ private:
 	*@version 1.0
 	*@author Jason Harris
 	*/
-
 class AltVsTime : public KDialog
 {
 	Q_OBJECT

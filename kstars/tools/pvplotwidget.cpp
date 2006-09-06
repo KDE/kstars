@@ -23,16 +23,18 @@
 #include "libkdeedu/kdeeduplot/kplotobject.h"
 
 PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par ) :
-			KStarsPlotWidget( x1, x2, y1, y2, par ), 
-			mouseButtonDown(false), oldx(0), oldy(0) {
+			KPlotWidget( x1, x2, y1, y2, par ), 
+			mouseButtonDown(false), oldx(0), oldy(0)
+{
 	setFocusPolicy( Qt::StrongFocus );
 	setMouseTracking (true);
 	pv = (PlanetViewer*)topLevelWidget();
 }
 
 PVPlotWidget::PVPlotWidget( QWidget *parent ) :
-			KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, parent ), 
-			mouseButtonDown(false), oldx(0), oldy(0) {
+			KPlotWidget( 0.0, 1.0, 0.0, 1.0, parent ), 
+			mouseButtonDown(false), oldx(0), oldy(0)
+{
 	setFocusPolicy( Qt::StrongFocus );
 	setMouseTracking (true);
 	pv = (PlanetViewer*)topLevelWidget();

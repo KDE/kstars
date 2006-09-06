@@ -68,14 +68,14 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	resize( 500, 500 );
 	pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 
-	pName[0] = "Mercury"; pColor[0] = "SlateBlue1";
-	pName[1] = "Venus";   pColor[1] = "LightGreen";
-	pName[2] = "Earth";   pColor[2] = "Blue";
-	pName[3] = "Mars";    pColor[3] = "Red";
-	pName[4] = "Jupiter"; pColor[4] = "Goldenrod";
-	pName[5] = "Saturn";  pColor[5] = "LightYellow2";
-	pName[6] = "Uranus";  pColor[6] = "LightSeaGreen";
-	pName[7] = "Neptune"; pColor[7] = "SkyBlue";
+	pName[0] = "Mercury"; pColor[0] = "slateblue";
+	pName[1] = "Venus";   pColor[1] = "lightgreen";
+	pName[2] = "Earth";   pColor[2] = "deepskyblue";
+	pName[3] = "Mars";    pColor[3] = "orangered";
+	pName[4] = "Jupiter"; pColor[4] = "goldenrod";
+	pName[5] = "Saturn";  pColor[5] = "khaki";
+	pName[6] = "Uranus";  pColor[6] = "lightseagreen";
+	pName[7] = "Neptune"; pColor[7] = "dodgerblue";
 	pName[8] = "Pluto";   pColor[8] = "gray";
 
 	setCenterPlanet(QString());
@@ -207,9 +207,10 @@ void PlanetViewer::initPlotObjects() {
 		if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
 			QTextStream orbitStream( &orbitFile );
 			double x, y, z;
+			orbitStream >> x >> y >> z;
 			while ( !orbitStream.atEnd() ) {
-				orbitStream >> x >> y >> z;
 				orbit[i]->addPoint( new QPointF( x, y ) );
+				orbitStream >> x >> y >> z;
 			}
 		}
 

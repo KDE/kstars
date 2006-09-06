@@ -41,7 +41,6 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
-#include "widgets/kstarsplotwidget.h"
 
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
@@ -71,11 +70,12 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
 	View->setMinimumSize( 400, 400 );
 	View->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding );
-	View->setXAxisType( KStarsPlotWidget::TIME );
-	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
+	View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
 	View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
-	View->setXAxisLabel2( i18n( "Local Sidereal Time" ) );
+	View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
+	View->axis(KPlotWidget::TopAxis)->setShowTickLabels( true );
+	View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
 	View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
 
 	avtUI = new AltVsTimeUI( page );
@@ -102,7 +102,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	computeSunRiseSetTimes();
 
 	setLSTLimits();
-	View->updateTickmarks();
 
 	connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
 	connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -470,7 +469,10 @@ void AltVsTime::setLSTLimits(void) {
 	KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
 
 	dms lst = geo->GSTtoLST( ut.gst() );
-	View->setSecondaryLimits( lst.Hours(), lst.Hours() + 24.0, -90.0, 90.0 );
+	double h1 = lst.Hours();
+	if ( h1 > 12.0 ) h1 -= 24.0;
+	double h2 = h1 + 24.0;
+	View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate (void)
@@ -503,7 +505,7 @@ double AltVsTime::getEpoch(const QString &eName)
 }
 
 AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent )
-	: KStarsPlotWidget( x1, x2, y1, y2, parent )
+	: KPlotWidget( x1, x2, y1, y2, parent )
 {
 	//Default SunRise/SunSet values
 	SunRise = 0.25;
@@ -544,9 +546,13 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	QPainter p;
 
 	p.begin( this );
-	p.fillRect( 0, 0, width(), height(), backgroundColor() );
-
+	p.setRenderHint( QPainter::Antialiasing, UseAntialias );
+	p.fillRect( rect(), backgroundColor() );
 	p.translate( leftPadding(), topPadding() );
+
+	setPixRect();
+	p.setClipRect( PixRect );
+	p.setClipping( true );
 
 	int pW = PixRect.width();
 	int pH = PixRect.height();
@@ -577,8 +583,10 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	//draw ground
 	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
-	drawBox( &p );
 	drawObjects( &p );
+
+	p.setClipping( false );
+	drawAxes( &p );
 
 	//Add vertical line indicating "now"
 	QTime t = QTime::currentTime();
@@ -591,7 +599,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	//Label this vertical line with the current time
 	p.save();
 	QFont smallFont = p.font();
-	smallFont.setPointSize( smallFont.pointSize() - 3 );
+	smallFont.setPointSize( smallFont.pointSize() - 2 );
 	p.setFont( smallFont );
 	p.translate( ix + 10, pH - 20 );
 	p.rotate(-90);

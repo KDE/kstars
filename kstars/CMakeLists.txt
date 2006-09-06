@@ -201,7 +201,6 @@ set(libkstarswidgets_SRCS
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 
 	widgets/draglistbox.cpp 
-	widgets/kstarsplotwidget.cpp 
 	widgets/logedit.cpp
 	widgets/magnitudespinbox.cpp 
 	widgets/mapcanvas.cpp 

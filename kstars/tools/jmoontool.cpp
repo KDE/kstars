@@ -31,6 +31,7 @@
 #include "simclock.h"
 #include "dms.h"
 #include "ksnumbers.h"
+#include "libkdeedu/kdeeduplot/kplotwidget.h"
 #include "libkdeedu/kdeeduplot/kplotobject.h"
 #include "libkdeedu/kdeeduplot/kplotaxis.h"
 
@@ -89,15 +90,15 @@ JMoonTool::JMoonTool(QWidget *parent)
 	glay->addWidget( labGn, 0, 1 );
 	glay->addWidget( labCa, 1, 1 );
 
-	pw = new KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, page );
+	pw = new KPlotWidget( 0.0, 1.0, 0.0, 1.0, page );
 	pw->setShowGrid( false );
-	pw->setYAxisType0( KStarsPlotWidget::TIME );
-	pw->setLimits( -12.0, 12.0, -240.0, 240.0 );
+	pw->setAntialias( true );
+	pw->setLimits( -12.0, 12.0, -11.0, 11.0 );
 	pw->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "offset from Jupiter (arcmin)" ) );
 	pw->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "time since now (days)" ) );
 	vlay->addLayout( glay );
 	vlay->addWidget( pw );
-	resize( 250, 500 );
+	resize( 350, 600 );
 
 	initPlotObjects();
 	update();
@@ -125,9 +126,9 @@ void JMoonTool::initPlotObjects() {
 
 	double dy = 0.01*pw->dataHeight();
 
-	//t is the offset from jd0, in hours.
+	//t is the offset from jd0, in days.
 	for ( double t=pw->y(); t<=pw->y2(); t+=dy ) {
-		KSNumbers num( jd0 + t/24.0 );
+		KSNumbers num( jd0 + t );
 		jm.findPosition( &num, jup, ksun );
 
 		//jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
@@ -165,7 +166,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Plus:
 		case Qt::Key_Equal:
 		{
-			if ( pw->dataHeight() > 48.0 ) {
+			if ( pw->dataHeight() > 2.0 ) {
 				double dy = 0.45*pw->dataHeight();
 				double y0 = pw->y() + 0.5*pw->dataHeight();
 				pw->setLimits( pw->x(), pw->x2(), y0-dy, y0+dy );
@@ -177,7 +178,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Minus:
 		case Qt::Key_Underscore:
 		{
-			if ( pw->dataHeight() < 960.0 ) {
+			if ( pw->dataHeight() < 40.0 ) {
 				double dy = 0.55*pw->dataHeight();
 				double y0 = pw->y() + 0.5*pw->dataHeight();
 				pw->setLimits( pw->x(), pw->x2(), y0-dy, y0+dy );
