@@ -88,20 +88,29 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 		rx.setCaseSensitivity( Qt::CaseInsensitive );
 		ObjNames = p->data()->skyComposite()->objectNames().filter(rx);
 	}
+	ObjNames.sort();
 
-	if ( ObjNames.size() ) {
-		if ( ObjNames.size() > 5000) {
-			int index=0;
-			while ( index+1000 < ObjNames.size() ) {
-				ui->SearchList->addItems( ObjNames.mid( index, 1000 ) );
-				index += 1000;
-				kapp->processEvents();
-			}
-		} else
+//	if ( ObjNames.size() ) {
+//		if ( ObjNames.size() > 5000) {
+//			int index=0;
+//			while ( index+1000 < ObjNames.size() ) {
+//				ui->SearchList->addItems( ObjNames.mid( index, 1000 ) );
+//				index += 1000;
+//				kapp->processEvents();
+//			}
+//		} else
 			ui->SearchList->addItems( ObjNames );
+//	}
 
-		selectFirstItem(); // Automatically highlight first item
-	}
+	//If there's a search string, select the first object.  Otherwise, select a default object
+	//(because the first unfiltered object is some random comet)
+	if ( searchString.isEmpty() ) {
+		QListWidgetItem *defaultItem = ui->SearchList->findItems( i18n("Andromeda Galaxy"), Qt::MatchExactly )[0];
+		ui->SearchList->scrollToItem( defaultItem, QAbstractItemView::PositionAtTop );
+		ui->SearchList->setItemSelected( defaultItem, true );
+
+	} else
+			selectFirstItem(); 
 
 	ui->SearchBox->setFocus();  // set cursor to QLineEdit
 }
