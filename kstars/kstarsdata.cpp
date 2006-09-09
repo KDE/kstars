@@ -910,6 +910,7 @@ bool KStarsData::readINDIHosts(void)
 			ap = findXMLAtt(root, "hostname");
 
 			if (!ap) {
+				delete VInfo;
 				delLilXML(xmlParser);
 				return false;
 			}
@@ -918,6 +919,7 @@ bool KStarsData::readINDIHosts(void)
 			ap = findXMLAtt(root, "port");
 
 			if (!ap) {
+				delete VInfo;
 				delLilXML(xmlParser);
 				return false;
 			}
