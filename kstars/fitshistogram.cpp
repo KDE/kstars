@@ -149,7 +149,7 @@ void FITSHistogram::constructHistogram(float * buffer)
 {
  
   int maxHeight = 0;
- int height    = ui->histFrame->height(); 
+ int height    = ui->histFrame->height() - 10; 
   int id;
   int index;
   double fits_min=0, fits_max=0;
@@ -183,62 +183,15 @@ void FITSHistogram::constructHistogram(float * buffer)
                 histArray[i] = histArray[i+1];
          }
   
- maxHeight = findMax() / height;
  
- kDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
+ 	histFactor = ((double) height) / ((double) findMax());
+
+	for (int i=0; i < BARS; i++)
+		histArray[i] = (int) (((double) histArray[i]) * histFactor);
 
  ui->update();
 }
 
-
-void FITSHistogram::paintEvent( QPaintEvent */*e*/)
-{
-/*
-  //int height    = ui->histFrame->height(); 
-  int xMin = ui->minSlider->value(), xMax = ui->maxSlider->value();
-  
-  QPainter painter(ui->histFrame);
-  QPen pen;
-  pen.setWidth(1);
-  pen.setColor(Qt::white);
-
-  painter.setPen(pen);
-  
-  //QPen pen( Qt::white, 1);
-  // p.setPen(pen);
-   
- //for (int i=0; i < BARS; i++)
-    // painter.drawLine(i, height , i, height - (int) ((double) histArray[i] / (double) maxHeight)); 
-
-  painter.drawPie(0,0, 50, 50, 30, 120);
-
-  //bitBlt(ui->histFrame, 0, 0, histogram);
-  
-  //pen.setColor(Qt::blue);
-  //p.setPen(pen);
-  
-  //p.drawLine(xMin, height - 2, xMin, height/2 -2);
-  //pen.setColor(Qt::red);
-  //p.setPen(pen);
-  //p.drawLine(xMax, 2, xMax, height/2 -2);
-  
-  */
-}
-
-void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
-{
-  int x = e->x();
-  int y = e->y();
-  
-  //x -= ui->histFrame->x();
-  //y -= ui->histFrame->y();
-  
-  //if (x < 0 || x >= BARS || y < 0 || y > ui->histFrame->height() )
-   //return;
-  
-  updateIntenFreq(x);
-  
-}
 
 void FITSHistogram::updateIntenFreq(int x)
 {
@@ -256,14 +209,12 @@ void FITSHistogram::updateIntenFreq(int x)
 
 int FITSHistogram::findMax()
 {
-int max =0;
-/*
-  
-  
-  for (int i=0; i < BARS; i++)
-    if (histArray[i] > max) max = histArray[i];
-    */
-  return max;
+	int max =-1e9;
+
+  	for (int i=0; i < BARS; i++)
+    		if (histArray[i] > max) max = histArray[i];
+    
+  	return max;
 }
 
 FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)

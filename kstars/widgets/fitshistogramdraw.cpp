@@ -32,20 +32,35 @@ histDrawArea::~histDrawArea()
 
 void histDrawArea::paintEvent(QPaintEvent *event)
 {
-   int hist_height    = height(); 
+  int hist_height    = height() -5; 
   QPainter painter(this);
   QPen pen;
-   //pen.setColor(Qt::Black);
-   pen.setWidth(5);
-   painter.setPen(pen);
-
- for (int i=0; i < 500; i++)
-     painter.drawLine(i, hist_height , i, hist_height - (int) ((double) data->histArray[i] / (double) data->maxHeight)); 
- 
+  pen.setWidth(1);
+  painter.setPen(pen);
 	
+ painter.setRenderHint(QPainter::Antialiasing);
+
+  // Draw box
+  QRect enclosedRect = frameRect();
+  enclosedRect.setY(enclosedRect.y() + 5);
+  enclosedRect.setHeight(enclosedRect.height() - 5);
+  painter.drawRect(enclosedRect);
+
+  for (int i=0; i < 500; i++)
+   	painter.drawLine(i, hist_height , i, hist_height - data->histArray[i] + 5); 
+
+    painter.setPen(Qt::NoPen);
+
+    painter.setBrush(Qt::red);
+    QRectF upperLimit(490.0, -5.0, 10.0, 10.0);
+    painter.drawEllipse(upperLimit);
+
+   painter.setBrush(Qt::blue);
+   QRectF lowerLimit(10.0, hist_height - 10.0, 10.0, 10.0);
+    painter.drawEllipse(lowerLimit);
 
 
-
+   
 }
 
 #include "fitshistogramdraw.moc"

@@ -52,7 +52,7 @@ class QPixmap;
     int  findMax();
     int type;
     int napply;
-    int maxHeight;
+    double histFactor;
     int histArray[BARS]; 
 
     
@@ -63,13 +63,6 @@ class QPixmap;
     
 
     FITSViewer * viewer;
-    QPixmap *histogram;
-       
-    
-    protected:
-    void paintEvent( QPaintEvent *e);
-    void mouseMoveEvent( QMouseEvent *e);
-    
     
     public slots:
     void applyScale();

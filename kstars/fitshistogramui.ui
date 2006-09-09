@@ -5,27 +5,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>660</width>
     <height>325</height>
    </rect>
   </property>
   <property name="sizePolicy" >
    <sizepolicy>
-    <hsizetype>0</hsizetype>
-    <vsizetype>0</vsizetype>
+    <hsizetype>5</hsizetype>
+    <vsizetype>5</vsizetype>
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize" >
    <size>
-    <width>640</width>
+    <width>660</width>
     <height>325</height>
    </size>
   </property>
   <property name="maximumSize" >
    <size>
-    <width>640</width>
+    <width>660</width>
     <height>325</height>
    </size>
   </property>
@@ -35,35 +35,41 @@
   <property name="sizeGripEnabled" >
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" >
+  <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>9</number>
+    <number>5</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="0" column="0" >
+   <item>
     <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
      </property>
      <property name="spacing" >
-      <number>6</number>
+      <number>8</number>
      </property>
      <item>
       <widget class="histDrawArea" name="histFrame" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>7</hsizetype>
-         <vsizetype>13</vsizetype>
+         <vsizetype>3</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize" >
         <size>
-         <width>0</width>
-         <height>0</height>
+         <width>500</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>500</width>
+         <height>200</height>
         </size>
        </property>
        <property name="frameShape" >
@@ -72,17 +78,29 @@
        <property name="frameShadow" >
         <enum>QFrame::Plain</enum>
        </property>
+       <property name="lineWidth" >
+        <number>1</number>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox" >
+      <widget class="QGroupBox" name="FITSScaleGroup" >
+       <property name="windowModality" >
+        <enum>Qt::NonModal</enum>
+       </property>
        <property name="sizePolicy" >
         <sizepolicy>
-         <hsizetype>1</hsizetype>
+         <hsizetype>5</hsizetype>
          <vsizetype>5</vsizetype>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="layoutDirection" >
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground" >
+        <bool>false</bool>
        </property>
        <property name="title" >
         <string>FITS Scale</string>
@@ -130,7 +148,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
+   <item>
     <layout class="QGridLayout" >
      <property name="margin" >
       <number>0</number>
@@ -232,7 +250,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" >
+   <item>
     <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
@@ -293,5 +311,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cancelB</sender>
+   <signal>clicked()</signal>
+   <receiver>FITSHistogramUI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>592</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>591</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
