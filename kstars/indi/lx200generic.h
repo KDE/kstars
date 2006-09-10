@@ -84,7 +84,6 @@ class LX200Generic
 
   int currentSet;
   int lastSet;
-  int lastMove[4];
 
 };
 

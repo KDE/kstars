@@ -114,8 +114,6 @@ static ISwitch TrackModeS[]      = {{ "Default", "", ISS_ON, 0, 0} , { "Lunar", 
 static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0 }};
 static ISwitch ParkS[]		 = { {"PARK", "Park", ISS_OFF, 0, 0} };
 
-static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
-
 ISwitch  FocusMotionS[]	 = { {"IN", "Focus in", ISS_OFF, 0, 0}, {"OUT", "Focus out", ISS_OFF, 0, 0}};
 ISwitchVectorProperty	FocusMotionSw = {mydev, "FOCUS_MOTION", "Motion", FOCUS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FocusMotionS, NARRAY(FocusMotionS), "", 0};
 
@@ -155,7 +153,15 @@ static INumber TrackFreq[]  = {{ "trackFreq", "Freq", "%g", 56.4, 60.1, 0.1, 60.
 
 static INumberVectorProperty TrackingFreq= { mydev, "Tracking Frequency", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackFreq, NARRAY(TrackFreq), "", 0};
 
-static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), "", 0};
+/* Movement (Arrow keys on handset). North/South */
+static ISwitch MovementNSS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
+
+static ISwitchVectorProperty MovementNSSP      = { mydev, "MOVEMENT_NS", "North/South", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementNSS, NARRAY(MovementNSS), "", 0};
+
+/* Movement (Arrow keys on handset). West/East */
+static ISwitch MovementWES[]       = {{"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}};
+
+static ISwitchVectorProperty MovementWESP      = { mydev, "MOVEMENT_WE", "West/East", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementWES, NARRAY(MovementWES), "", 0};
 
 static ISwitch  FocusModeS[]	 = { {"FOCUS_HALT", "Halt", ISS_ON, 0, 0},
 				     {"FOCUS_SLOW", "Slow", ISS_OFF, 0, 0},
@@ -211,7 +217,8 @@ void changeLX200GenericDeviceName(const char * newName)
   strcpy(SlewModeSw.device , newName );
   strcpy(TrackModeSw.device , newName );
   strcpy(TrackingFreq.device , newName );
-  strcpy(MovementSw.device , newName );
+  strcpy(MovementNSSP.device , newName );
+  strcpy(MovementWESP.device , newName );
   strcpy(trackingPrecisionNP.device, newName);
   strcpy(slewPrecisionNP.device, newName);
 
@@ -354,11 +361,10 @@ LX200Generic::LX200Generic()
    currentSet     = 0;
    UTCOffset      = 0;
    fd             = -1;
-   lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("INDI Version: 2006-05-26\n");
+   IDLog("Driver Version: 2006-09-10\n");
  
    //enableSimulation(true);  
 }
@@ -394,7 +400,8 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefNumber (&TrackingFreq, NULL);
   IDDefSwitch (&SlewModeSw, NULL);
   IDDefSwitch (&TrackModeSw, NULL);
-  IDDefSwitch (&MovementSw, NULL);
+  IDDefSwitch (&MovementNSSP, NULL);
+  IDDefSwitch (&MovementWESP, NULL);
   IDDefNumber (&trackingPrecisionNP, NULL);
   IDDefNumber (&slewPrecisionNP, NULL);
 
@@ -641,16 +648,13 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	   targetRA  = newRA;
 	   targetDEC = newDEC;
 	   
-	   if (MovementSw.s == IPS_BUSY)
+	   if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	   {
-	   	for (int i=0; i < 4; i++)
-	   	{
-	     		lastMove[i] = 0;
-	     		MovementS[i].s = ISS_OFF;
-	   	}
-		
-		MovementSw.s = IPS_IDLE;
-		IDSetSwitch(&MovementSw, NULL);
+	   	IUResetSwitches(&MovementNSSP);
+		IUResetSwitches(&MovementWESP);
+		MovementNSSP.s = MovementWESP.s = IPS_IDLE;
+		IDSetSwitch(&MovementNSSP, NULL);
+		IDSetSwitch(&MovementWESP, NULL);
 	   }
 	   
 	   if (handleCoordSet())
@@ -807,8 +811,6 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 {
 	int index;
 	int dd, mm, err;
-	char combinedDir[64];
-	ISwitch *swp;
 
 	// suppress warning
 	names = names;
@@ -824,8 +826,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// FIRST Switch ALWAYS for power
 	if (!strcmp (name, PowerSP.name))
 	{
-	 IUResetSwitches(&PowerSP);
-	 IUUpdateSwitches(&PowerSP, states, names, n);
+	 if (IUUpdateSwitches(&PowerSP, states, names, n) < 0) return;
    	 powerTelescope();
 	 return;
 	}
@@ -836,8 +837,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
   	  if (checkPower(&OnCoordSetSw))
 	   return;
 
-	  IUResetSwitches(&OnCoordSetSw);
-	  IUUpdateSwitches(&OnCoordSetSw, states, names, n);
+	  if (IUUpdateSwitches(&OnCoordSetSw, states, names, n) < 0) return;
 	  currentSet = getOnSwitch(&OnCoordSetSw);
 	  OnCoordSetSw.s = IPS_OK;
 	  IDSetSwitch(&OnCoordSetSw, NULL);
@@ -908,26 +908,20 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		IDSetSwitch(&abortSlewSw, "Slew aborted.");
 		IDSetNumber(&eqNum, NULL);
             }
-	    else if (MovementSw.s == IPS_BUSY)
+	    else if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	    {
-	        
-		for (int i=0; i < 4; i++)
-		  lastMove[i] = 0;
-		
-		MovementSw.s  = IPS_IDLE; 
+		MovementNSSP.s  = MovementWESP.s =  IPS_IDLE; 
+	
 		abortSlewSw.s = IPS_OK;		
 		eqNum.s       = IPS_IDLE;
-		IUResetSwitches(&MovementSw);
+		IUResetSwitches(&MovementNSSP);
+		IUResetSwitches(&MovementWESP);
 		IUResetSwitches(&abortSlewSw);
+
 		IDSetSwitch(&abortSlewSw, "Slew aborted.");
-		IDSetSwitch(&MovementSw, NULL);
+		IDSetSwitch(&MovementNSSP, NULL);
+		IDSetSwitch(&MovementWESP, NULL);
 		IDSetNumber(&eqNum, NULL);
-	    }
-	    else
-	    {
-	        IUResetSwitches(&MovementSw);
-	        abortSlewSw.s = IPS_OK;
-	        IDSetSwitch(&abortSlewSw, NULL);
 	    }
 
 	    return;
@@ -939,8 +933,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&AlignmentSw))
 	   return;
 
-	  IUResetSwitches(&AlignmentSw);
-	  IUUpdateSwitches(&AlignmentSw, states, names, n);
+	  if (IUUpdateSwitches(&AlignmentSw, states, names, n) < 0) return;
 	  index = getOnSwitch(&AlignmentSw);
 
 	  if ( ( err = setAlignmentMode(fd, index) < 0) )
@@ -961,8 +954,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&SitesSw))
 	   return;
 
-	  IUResetSwitches(&SitesSw);
-	  IUUpdateSwitches(&SitesSw, states, names, n);
+	  if (IUUpdateSwitches(&SitesSw, states, names, n) < 0) return;
 	  currentSiteNum = getOnSwitch(&SitesSw) + 1;
 	  
 	  if ( ( err = selectSite(fd, currentSiteNum) < 0) )
@@ -1007,8 +999,6 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&FocusMotionSw))
 	   return;
 
-	  IUResetSwitches(&FocusMotionSw);
-	  
 	  // If mode is "halt"
 	  if (FocusModeS[0].s == ISS_ON)
 	  {
@@ -1017,7 +1007,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 	  }
 	  
-	  IUUpdateSwitches(&FocusMotionSw, states, names, n);
+	  if (IUUpdateSwitches(&FocusMotionSw, states, names, n) < 0) return;
 	  index = getOnSwitch(&FocusMotionSw);
 	  
 	  if ( ( err = setFocuserMotion(fd, index) < 0) )
@@ -1045,8 +1035,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&SlewModeSw))
 	   return;
 
-	  IUResetSwitches(&SlewModeSw);
-	  IUUpdateSwitches(&SlewModeSw, states, names, n);
+	  if (IUUpdateSwitches(&SlewModeSw, states, names, n) < 0) return;
 	  index = getOnSwitch(&SlewModeSw);
 	   
 	  if ( ( err = setSlewMode(fd, index) < 0) )
@@ -1060,97 +1049,99 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  return;
 	}
 
-	// Movement
-	if (!strcmp (name, MovementSw.name))
+	// Movement (North/South)
+	if (!strcmp (name, MovementNSSP.name))
 	{
-	  if (checkPower(&MovementSw))
+	  if (checkPower(&MovementNSSP))
 	   return;
 
-	 index = -1;
-	 IUUpdateSwitches(&MovementSw, states, names, n);
-	 swp = IUFindSwitch(&MovementSw, names[0]);
-	 
-	 if (!swp)
-	 {
-	    abortSlew(fd);
-	    IUResetSwitches(&MovementSw);
-	    MovementSw.s = IPS_IDLE;
-	    IDSetSwitch(&MovementSw, NULL);
-	 }
-	 
-	 if (swp == &MovementS[0]) index = 0;
-	 else if (swp == &MovementS[1]) index = 1;
-	 else if (swp == &MovementS[2]) index = 2;
-	 else index = 3;
-	 
-	 lastMove[index] = lastMove[index] == 0 ? 1 : 0;
-	 if (lastMove[index] == 0)
-	   MovementS[index].s = ISS_OFF;
-	     
-	   // North/South movement is illegal
-	   if (lastMove[LX200_NORTH] && lastMove[LX200_SOUTH])	
-	   {
-	     abortSlew(fd);
-	      for (int i=0; i < 4; i++)
-	        lastMove[i] = 0;
-	      	
-	      IUResetSwitches(&MovementSw);
-	      MovementSw.s       = IPS_IDLE;
-	      IDSetSwitch(&MovementSw, "Slew aborted.");
-	      return;
-	   }
-	   
-	   // East/West movement is illegal
-	   if (lastMove[LX200_EAST] && lastMove[LX200_WEST])	
-	   {
-	      abortSlew(fd);
-	      for (int i=0; i < 4; i++)
-	            lastMove[i] = 0;
-	       
-	      IUResetSwitches(&MovementSw);
-     	      MovementSw.s       = IPS_IDLE;
-	      IDSetSwitch(&MovementSw, "Slew aborted.");
-	      return;
-	   }
-	      
-          #ifdef INDI_DEBUG
-          IDLog("We have switch %d \n ", index);
-	  IDLog("NORTH: %d -- WEST: %d -- EAST: %d -- SOUTH %d\n", lastMove[0], lastMove[1], lastMove[2], lastMove[3]);
-	  #endif
+	 int last_move=-1;
+         int current_move = -1;
 
-	  if (lastMove[index] == 1)
-	  {
-	        //IDLog("issuing a move command\n");
-	    	if ( ( err = MoveTo(fd, index) < 0) )
-	  	{
-	        	 handleError(&MovementSw, err, "Setting motion direction");
+	// -1 means all off previously
+	 last_move = getOnSwitch(&MovementNSSP);
+
+	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
+		return;
+
+	current_move = getOnSwitch(&SlewModeSw);
+
+	// Previosuly active switch clicked again, so let's stop.
+	if (current_move == last_move)
+	{
+		HaltMovement(fd, current_move);
+		IUResetSwitches(&MovementNSSP);
+	    	MovementNSSP.s = IPS_IDLE;
+	    	IDSetSwitch(&MovementNSSP, NULL);
+		return;
+	}
+
+	#ifdef INDI_DEBUG
+        IDLog("Current Move: %d - Previous Move: %d\n", current_move, last_move);
+	#endif
+
+	// 0 (North) or 1 (South)
+	last_move      = current_move;
+
+	// Correction for LX200 Driver: North 0 - South 3
+	current_move = (current_move == 0) ? LX200_NORTH : LX200_SOUTH;
+
+        if ( ( err = MoveTo(fd, current_move) < 0) )
+	{
+	        	 handleError(&MovementNSSP, err, "Setting motion direction");
  		 	return;
-	  	}
-	  }
-	  else
-	     HaltMovement(fd, index);
+	}
+	
+	  MovementNSSP.s = IPS_BUSY;
+	  IDSetSwitch(&MovementNSSP, "Moving toward %s", (current_move == LX200_NORTH) ? "North" : "South");
+	  return;
+	}
 
-          if (!lastMove[0] && !lastMove[1] && !lastMove[2] && !lastMove[3])
-	     MovementSw.s = IPS_IDLE;
-	  
-	  if (lastMove[index] == 0)
-	     IDSetSwitch(&MovementSw, "Moving toward %s aborted.", Direction[index]);
-	  else
-	  {
-	     MovementSw.s = IPS_BUSY;
-	     if (lastMove[LX200_NORTH] && lastMove[LX200_WEST])
-	       strcpy(combinedDir, "North West");
-	     else if (lastMove[LX200_NORTH] && lastMove[LX200_EAST])
-	       strcpy(combinedDir, "North East");
-	     else if (lastMove[LX200_SOUTH] && lastMove[LX200_WEST])
-	       strcpy(combinedDir, "South West");
-	     else if (lastMove[LX200_SOUTH] && lastMove[LX200_EAST])
-	       strcpy(combinedDir, "South East");
-	     else 
-	       strcpy(combinedDir, Direction[index]);
-	     
-	     IDSetSwitch(&MovementSw, "Moving %s...", combinedDir);
-	  }
+	// Movement (West/East)
+	if (!strcmp (name, MovementWESP.name))
+	{
+	  if (checkPower(&MovementWESP))
+	   return;
+
+	 int last_move=-1;
+         int current_move = -1;
+
+	// -1 means all off previously
+	 last_move = getOnSwitch(&MovementWESP);
+
+	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
+		return;
+
+	current_move = getOnSwitch(&SlewModeSw);
+
+	// Previosuly active switch clicked again, so let's stop.
+	if (current_move == last_move)
+	{
+		HaltMovement(fd, current_move);
+		IUResetSwitches(&MovementWESP);
+	    	MovementWESP.s = IPS_IDLE;
+	    	IDSetSwitch(&MovementWESP, NULL);
+		return;
+	}
+
+	#ifdef INDI_DEBUG
+        IDLog("Current Move: %d - Previous Move: %d\n", current_move, last_move);
+	#endif
+
+	// 0 (West) or 1 (East)
+	last_move      = current_move;
+
+	// Correction for LX200 Driver: West 1 - East 2
+	current_move = (current_move == 0) ? LX200_WEST : LX200_EAST;
+
+        if ( ( err = MoveTo(fd, current_move) < 0) )
+	{
+	        	 handleError(&MovementWESP, err, "Setting motion direction");
+ 		 	return;
+	}
+	
+	  MovementWESP.s = IPS_BUSY;
+	  IDSetSwitch(&MovementWESP, "Moving toward %s", (current_move == LX200_WEST) ? "West" : "East");
 	  return;
 	}
 
@@ -1470,13 +1461,10 @@ void LX200Generic::ISPoll()
 			IDSetSwitch(&SlewModeSw, NULL);
 			
 			MoveTo(fd, LX200_EAST);
-			IUResetSwitches(&MovementSw);
-			MovementS[LX200_EAST].s = ISS_ON;
-			MovementSw.s = IPS_BUSY;
-			for (int i=0; i < 4; i++)
-			  lastMove[i] = 0;
-			lastMove[LX200_EAST] = 1;
-			IDSetSwitch(&MovementSw, NULL);
+			IUResetSwitches(&MovementWESP);
+			MovementWES[1].s = ISS_ON;
+			MovementWESP.s = IPS_BUSY;
+			IDSetSwitch(&MovementWESP, NULL);
 			
 			ParkSP.s = IPS_OK;
 		  	IDSetSwitch (&ParkSP, "Park is complete. Turn off the telescope now.");
@@ -1515,7 +1503,7 @@ void LX200Generic::ISPoll()
 	    break;
 	}
 
-	switch (MovementSw.s)
+	switch (MovementNSSP.s)
 	{
 	  case IPS_IDLE:
 	   break;

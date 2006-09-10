@@ -60,7 +60,6 @@ class QPixmap;
     
     double binSize;
     histogramUI *ui;
-    
 
     FITSViewer * viewer;
     

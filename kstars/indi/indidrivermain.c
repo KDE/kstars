@@ -685,7 +685,7 @@ IUFindOnSwitch(const ISwitchVectorProperty *svp)
 	for (i = 0; i < svp->nsp; i++)
 	    if (svp->sp[i].s == ISS_ON)
 		return (&svp->sp[i]);
-	fprintf(stderr, "No ISwitch On in %s.%s\n", svp->device, svp->name);
+	/*fprintf(stderr, "No ISwitch On in %s.%s\n", svp->device, svp->name);*/
 	return (NULL);
 }
 
@@ -730,7 +730,7 @@ IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int
    sp->s = states[i]; 
  }
  
- /* Consistency checks for ISR_1OFMANY */
+ /* Consistency checks for ISR_1OFMANY after update. */
  if (svp->r == ISR_1OFMANY)
  {
 	int t_count=0;

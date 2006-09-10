@@ -46,7 +46,7 @@ static ISwitchVectorProperty StarCatalogSw   = { mydev, "Star Catalogs", "", LIB
 static ISwitchVectorProperty DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), "", 0};
 static ISwitchVectorProperty SolarSw         = { mydev, "SOLAR_SYSTEM", "Solar System", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SolarS, NARRAY(SolarS), "", 0};
 
-static INumber ObjectN[] = { "ObjectN", "Number", "%g", 1., 10000., 1., 0., 0, 0, 0};
+static INumber ObjectN[] = {{ "ObjectN", "Number", "%g", 1., 10000., 1., 0., 0, 0, 0}};
 static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN), "", 0 };
 
 static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9., 0, 0 ,0}};
