@@ -21,9 +21,12 @@
 #include <QPen>
 #include <QPainterPath>
 
-histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent)
+histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), circle_dim(15), line_height(70)
 {
 	data = (FITSHistogram*) parent;
+
+	upperLimitX = BARS - circle_dim;
+	lowerLimitX = 0;
 }
 
 histDrawArea::~histDrawArea()
@@ -32,32 +35,48 @@ histDrawArea::~histDrawArea()
 
 void histDrawArea::paintEvent(QPaintEvent *event)
 {
-  int hist_height    = height() -5; 
+  Q_UNUSED(event);
+
+  int hist_height    = height() - height_adj; 
+  int red_line_x = (int) (upperLimitX + circle_dim / 2.);
+  int blue_line_x = (int) (lowerLimitX + circle_dim / 2.);
+
   QPainter painter(this);
+   painter.setRenderHint(QPainter::Antialiasing);
   QPen pen;
   pen.setWidth(1);
   painter.setPen(pen);
-	
- painter.setRenderHint(QPainter::Antialiasing);
 
   // Draw box
   QRect enclosedRect = frameRect();
-  enclosedRect.setY(enclosedRect.y() + 5);
-  enclosedRect.setHeight(enclosedRect.height() - 5);
+  enclosedRect.setY(enclosedRect.y() + height_adj);
+  enclosedRect.setHeight(enclosedRect.height() - height_adj);
   painter.drawRect(enclosedRect);
 
-  for (int i=0; i < 500; i++)
-   	painter.drawLine(i, hist_height , i, hist_height - data->histArray[i] + 5); 
+  // Paint Histogram
+  for (int i=0; i < BARS; i++)
+   	painter.drawLine(i, hist_height, i, hist_height  - data->histArray[i]); 
 
-    painter.setPen(Qt::NoPen);
+   pen.setWidth(2);
 
-    painter.setBrush(Qt::red);
-    QRectF upperLimit(490.0, -5.0, 10.0, 10.0);
-    painter.drawEllipse(upperLimit);
+   pen.setColor(Qt::red);
+   painter.drawLine(red_line_x, height_adj, red_line_x, line_height);
 
+   pen.setColor(Qt::blue);
+   painter.drawLine(blue_line_x, hist_height , blue_line_x, hist_height - line_height);
+
+   // Outline
+   pen.setColor(Qt::black);
+
+   // Paint Red Circle
+   painter.setBrush(Qt::red);
+   QRectF upperLimit(upperLimitX, height_adj/2., circle_dim, circle_dim);
+   painter.drawEllipse(upperLimit);
+
+   // Paint Blue Circle
    painter.setBrush(Qt::blue);
-   QRectF lowerLimit(10.0, hist_height - 10.0, 10.0, 10.0);
-    painter.drawEllipse(lowerLimit);
+   QRectF lowerLimit(lowerLimitX, hist_height - height_adj, circle_dim, circle_dim);
+   painter.drawEllipse(lowerLimit);
 
 
    

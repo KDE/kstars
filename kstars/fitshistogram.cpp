@@ -149,7 +149,7 @@ void FITSHistogram::constructHistogram(float * buffer)
 {
  
   int maxHeight = 0;
- int height    = ui->histFrame->height() - 10; 
+ int height    = ui->histFrame->height() - 20; 
   int id;
   int index;
   double fits_min=0, fits_max=0;

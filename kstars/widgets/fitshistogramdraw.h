@@ -34,6 +34,11 @@ class histDrawArea : public QFrame
 
 	private:
 		FITSHistogram *data;
+		const int height_adj;
+		const int circle_dim;
+		const int line_height;
+		float upperLimitX;
+		float lowerLimitX;
 };
 
 #endif
