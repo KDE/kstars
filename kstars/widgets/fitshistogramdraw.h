@@ -31,6 +31,10 @@ class histDrawArea : public QFrame
 
 	protected:
 		 void paintEvent(QPaintEvent *event);
+		 void mouseMoveEvent ( QMouseEvent * event );
+		 void mousePressEvent ( QMouseEvent * event );
+		 void mouseReleaseEvent ( QMouseEvent * event );
+		 void resizeEvent ( QResizeEvent * event );
 
 	private:
 		FITSHistogram *data;
@@ -39,6 +43,16 @@ class histDrawArea : public QFrame
 		const int line_height;
 		float upperLimitX;
 		float lowerLimitX;
+
+		bool circle_drag_upper;
+		bool circle_drag_lower;
+
+		int valid_width;
+		int valid_height;
+
+		QRectF upperLimit;
+		QRectF lowerLimit;
+		QRect enclosedRect;
 };
 
 #endif

@@ -26,7 +26,7 @@
 #include <QPaintEvent>
 #include <QDialog>
  
-#define BARS 500
+#define CIRCLE_DIM	16
  
 class FITSViewer;
 class QPixmap;
@@ -48,12 +48,12 @@ class QPixmap;
     FITSHistogram(QWidget *parent);
     ~FITSHistogram();
     
-    void constructHistogram(float *buffer);
-    int  findMax();
+    void constructHistogram(int hist_width, int hist_height);
+    int  findMax(int hist_width);
     int type;
     int napply;
     double histFactor;
-    int histArray[BARS]; 
+    int *histArray;
 
     
     private:

@@ -84,7 +84,7 @@ private:
  void handleError(INumberVectorProperty *nvp, int err, const char *msg);
  void handleError(ITextVectorProperty *tvp, int err, const char *msg);
  bool isTelescopeOn(void);
- void powerTelescope();
+ void connectTelescope();
  void slewError(int slewCode);
   int handleCoordSet();
  int getOnSwitch(ISwitchVectorProperty *sp);

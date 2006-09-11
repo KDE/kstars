@@ -61,6 +61,8 @@
    viewer = (FITSViewer *) parent;
    ui = new histogramUI(this);
 
+   histArray = NULL;
+
    type = 0;
    napply=0;
    
@@ -70,13 +72,17 @@
    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));*/
    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
-   constructHistogram(viewer->image->getImageBuffer());
+   constructHistogram();
    
    updateBoxes();
    
 }
  
- FITSHistogram::~FITSHistogram() {}
+ FITSHistogram::~FITSHistogram() 
+{
+free (histArray);
+
+}
  
 void FITSHistogram::updateBoxes()
 {
@@ -145,51 +151,46 @@ void FITSHistogram::applyScale()
     */
 }
  
-void FITSHistogram::constructHistogram(float * buffer)
+void FITSHistogram::constructHistogram(int hist_height, int hist_width)
 {
  
-  int maxHeight = 0;
- int height    = ui->histFrame->height() - 20; 
-  int id;
-  int index;
+   int id;
   double fits_min=0, fits_max=0;
   double fits_w=0, fits_h=0;
+  float *buffer = viewer->image->getImageBuffer();
 
   viewer->image->getFITSSize(&fits_w, &fits_h);
   viewer->image->getFITSMinMax(&fits_min, &fits_max);
 
-  int range = (int) (fits_max - fits_min);
-    
-  for (int i=0; i < BARS; i++)
-      histArray[i] = 0;
-    binSize = ( (double) range / (double) BARS); 
-    
+  int pixel_range = (int) (fits_max - fits_min);
+ 
+ histArray = (histArray == NULL) ? (int *) calloc(hist_width, sizeof(int)) :
+							     (int *) realloc(hist_width, sizeof(int));
+  
+  binSize = ((double) hist_width / (double) pixel_range); 
+
     if (binSize == 0 || buffer == NULL)
      return;
-    
+
      for (int i=0; i < fits_w * fits_h; i++)
      {
-        id = (int) ((buffer[i] - fits_min) / binSize);
-        if (id >= BARS) id = BARS - 1;
+        id = (int) ((buffer[i] - fits_min) * binSize);
+        if (id >= hist_width) id = hist_width - 1;
         histArray[id]++;
+	// When binSize > 1, we need to increase the next ID because it will be skipped.
+	// Example: We have 0-200 pixel values, and we want to display them over 400 pixels. Therefore, binSize = 2
+	// Pixel value 19 will have id=38, while the next pixel value 20 will have have id=40, thus leaving histArray[39] always empty, when it's
+	// Suppose to correspond to pixel value 19 as well (Two pixels per value, or binSize 2)
+	if (binSize > 1) histArray[id+1]++;
      }
-     
-     if (binSize < 1)
-     for (int i=0; i < BARS - 1; i++)
-         if (histArray[i] == 0)
-	 {
-	    index = (int) ceil(i * binSize);
-            if (index == (int) (ceil ((i+1) * binSize)))
-                histArray[i] = histArray[i+1];
-         }
-  
- 
- 	histFactor = ((double) height) / ((double) findMax());
 
-	for (int i=0; i < BARS; i++)
+    // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
+    histFactor = ((double) height) / ((double) findMax(hist_width));
+
+    for (int i=0; i < hist_width; i++)
 		histArray[i] = (int) (((double) histArray[i]) * histFactor);
 
- ui->update();
+     ui->update();
 }
 
 
@@ -207,11 +208,11 @@ void FITSHistogram::updateIntenFreq(int x)
 }
 
 
-int FITSHistogram::findMax()
+int FITSHistogram::findMax(int hist_width)
 {
 	int max =-1e9;
 
-  	for (int i=0; i < BARS; i++)
+  	for (int i=0; i < hist_width; i++)
     		if (histArray[i] > max) max = histArray[i];
     
   	return max;

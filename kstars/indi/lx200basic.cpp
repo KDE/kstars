@@ -342,7 +342,7 @@ void LX200Basic::ISNewSwitch (const char *dev, const char *name, ISState *states
 	{
 	 IUResetSwitches(&PowerSP);
 	 IUUpdateSwitches(&PowerSP, states, names, n);
-   	 powerTelescope();
+   	 connectTelescope();
 	 return;
 	}
 
@@ -785,7 +785,7 @@ int LX200Basic::checkPower(ITextVectorProperty *tp)
 
 }
 
-void LX200Basic::powerTelescope()
+void LX200Basic::connectTelescope()
 {
      switch (PowerSP.sp[0].s)
      {
@@ -803,7 +803,7 @@ void LX200Basic::powerTelescope()
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSP, "Error connecting to port %s\n", PortT[0].text);
+	   IDSetSwitch (&PowerSP, "Error connecting to port %s. Make sure you have BOTH read and write permission to the port.", PortT[0].text);
 	   return;
 	 }
 

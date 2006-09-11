@@ -827,7 +827,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (!strcmp (name, PowerSP.name))
 	{
 	 if (IUUpdateSwitches(&PowerSP, states, names, n) < 0) return;
-   	 powerTelescope();
+   	 connectTelescope();
 	 return;
 	}
 
@@ -1866,7 +1866,7 @@ int LX200Generic::checkPower(ITextVectorProperty *tp)
 
 }
 
-void LX200Generic::powerTelescope()
+void LX200Generic::connectTelescope()
 {
      switch (PowerSP.sp[0].s)
      {
@@ -1885,7 +1885,7 @@ void LX200Generic::powerTelescope()
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSP, "Error connecting to port %s\n", Port.tp[0].text);
+	   IDSetSwitch (&PowerSP, "Error connecting to port %s. Make sure you have BOTH write and read permission to your port.\n", Port.tp[0].text);
 	   return;
 	 }
 	 if (check_lx200_connection(fd))
