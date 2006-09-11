@@ -26,8 +26,8 @@ histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), ci
 {
 	data = (FITSHistogram*) parent;
 
-	upperLimitX = BARS - circle_dim;
-	lowerLimitX = 0;
+	//upperLimitX = BARS - circle_dim;
+	//lowerLimitX = 0;
 
 	circle_drag_upper = false;
 	circle_drag_lower = false;
@@ -140,12 +140,12 @@ void histDrawArea::mouseReleaseEvent ( QMouseEvent * event )
 
 }
 
-void resizeEvent ( QResizeEvent * event )
+void histDrawArea::resizeEvent ( QResizeEvent * event )
 {
 	kDebug() << "Resize Event" << endl;
 
-	valid_width  = event->width() - CIRCLE_DIM;
-	valid_height = event->height() - CIRCLE_DIM;
+	valid_width  = event->size().width() - CIRCLE_DIM;
+	valid_height = event->size().height() - CIRCLE_DIM;
 
 	data->constructHistogram(valid_width, valid_height);
 }

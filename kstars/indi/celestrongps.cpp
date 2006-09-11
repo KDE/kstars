@@ -31,6 +31,10 @@
 
 #define mydev 		"Celestron GPS"
 
+/* Enable to log debug statements 
+#define CELESTRON_DEBUG	1
+*/
+
 CelestronGPS *telescope = NULL;
 
 
@@ -53,8 +57,6 @@ static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DI
 static ISwitch SlewModeS[]       = {{"Slew", "", ISS_ON, 0, 0}, {"Find", "", ISS_OFF, 0, 0}, {"Centering", "", ISS_OFF, 0, 0}, {"Guide", "", ISS_OFF, 0, 0}};
 static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0 , 0}, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0, 0}};
 static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0}};
-
-static ISwitch MovementS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
 
 /* equatorial position */
 static INumber eq[] = {
@@ -90,7 +92,15 @@ static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set"
 static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS), "", 0};
 static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS), "", 0};
 
-static ISwitchVectorProperty MovementSw      = { mydev, "MOVEMENT", "Move toward", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementS, NARRAY(MovementS), "", 0};
+/* Movement (Arrow keys on handset). North/South */
+static ISwitch MovementNSS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
+
+static ISwitchVectorProperty MovementNSSP      = { mydev, "MOVEMENT_NS", "North/South", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementNSS, NARRAY(MovementNSS), "", 0};
+
+/* Movement (Arrow keys on handset). West/East */
+static ISwitch MovementWES[]       = {{"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}};
+
+static ISwitchVectorProperty MovementWESP      = { mydev, "MOVEMENT_WE", "West/East", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementWES, NARRAY(MovementWES), "", 0};
 
 
 /* send client definitions of all properties */
@@ -133,7 +143,6 @@ CelestronGPS::CelestronGPS()
    targetDEC = lastDEC = 0;
    currentSet   = 0;
    lastSet      = -1;
-   lastMove[0] = lastMove[1] = lastMove[2] = lastMove[3] = 0;
 
    JD = 0;
 
@@ -159,7 +168,8 @@ void CelestronGPS::ISGetProperties(const char *dev)
   IDDefSwitch (&SlewModeSw, NULL);
 
   // Movement group
-  IDDefSwitch (&MovementSw, NULL);
+  IDDefSwitch (&MovementNSSP, NULL);
+  IDDefSwitch (&MovementWESP, NULL);
   IDDefNumber (&trackingPrecisionNP, NULL);
   IDDefNumber (&slewPrecisionNP, NULL);
   
@@ -240,9 +250,11 @@ int CelestronGPS::handleCoordSet()
  	       (fabs (targetDEC - currentDEC) >= (trackingPrecisionN[1].value)/60.0))
 	  {
 
+		#ifdef CELESTRON_DEBUG
 	        IDLog("Exceeded Tracking threshold, will attempt to slew to the new target.\n");
 		IDLog("targetRA is %g, currentRA is %g\n", targetRA, currentRA);
 	        IDLog("targetDEC is %g, currentDEC is %g\n*************************\n", targetDEC, currentDEC);
+		#endif
 
           	if (( i =  SlewToCoords(targetRA, targetDEC)))
 	  	{
@@ -258,7 +270,9 @@ int CelestronGPS::handleCoordSet()
 	  }
 	  else
 	  {
+	    #ifdef CELESTRON_DEBUG
 	    IDLog("Tracking called, but tracking threshold not reached yet.\n");
+	    #endif
 	    eqNum.s = IPS_OK;
 	    eqNum.np[0].value = currentRA;
 	    eqNum.np[1].value = currentDEC;
@@ -357,27 +371,22 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	   // update JD
            JD = UTtoJD(tp);
 
+	   #ifdef CELESTRON_DEBUG
 	   IDLog("We recevined JNOW RA %f - DEC %f\n", newRA, newDEC);;
-	   /*apparentCoord( (double) J2000, JD, &newRA, &newDEC);
-	   IDLog("Processed to RA %f - DEC %f\n", newRA, newDEC);*/
-
-	       //eqNum.np[0].value = values[0];
-	       //eqNum.np[1].value = values[1];
-	       targetRA  = newRA;
-	       targetDEC = newDEC;
+	   #endif
+	   
+	   targetRA  = newRA;
+	   targetDEC = newDEC;
 	       
-	       if (MovementSw.s == IPS_BUSY)
-	       {
-	   	for (int i=0; i < 4; i++)
-	   	{
-	     		lastMove[i] = 0;
-	     		MovementS[i].s = ISS_OFF;
-	   	}
-		
-		MovementSw.s = IPS_IDLE;
-		IDSetSwitch(&MovementSw, NULL);
-	       }
-
+	   if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
+	   {
+	   	IUResetSwitches(&MovementNSSP);
+		IUResetSwitches(&MovementWESP);
+		MovementNSSP.s = MovementWESP.s = IPS_IDLE;
+		IDSetSwitch(&MovementNSSP, NULL);
+		IDSetSwitch(&MovementWESP, NULL);
+	   }
+	   
 	       if (handleCoordSet())
 	       {
 	        eqNum.s = IPS_IDLE;
@@ -398,7 +407,6 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 {
 
         int index;
-	ISwitch *swp;
 
 	// Suppress warning
 	names = names;
@@ -413,9 +421,8 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// FIRST Switch ALWAYS for power
 	if (!strcmp (name, PowerSw.name))
 	{
-	 IUResetSwitches(&PowerSw);
-	 IUUpdateSwitches(&PowerSw, states, names, n);
-   	 powerTelescope();
+	 if (IUUpdateSwitches(&PowerSw, states, names, n) < 0) return;
+   	 connectTelescope();
 	 return;
 	}
 
@@ -424,8 +431,8 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
   	  if (checkPower(&OnCoordSetSw))
 	   return;
 
-	  IUResetSwitches(&OnCoordSetSw);
-	  IUUpdateSwitches(&OnCoordSetSw, states, names, n);
+	  
+	  if (IUUpdateSwitches(&OnCoordSetSw, states, names, n) < 0) return;
 	  currentSet = getOnSwitch(&OnCoordSetSw);
 	}
 	
@@ -449,24 +456,23 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		IDSetSwitch(&abortSlewSw, "Slew aborted.");
 		IDSetNumber(&eqNum, NULL);
             }
-	    else if (MovementSw.s == IPS_BUSY)
+	    else if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	    {
-	        
-		for (int i=0; i < 4; i++)
-		  lastMove[i] = 0;
-		
-		MovementSw.s  = IPS_IDLE; 
+		MovementNSSP.s  = MovementWESP.s =  IPS_IDLE; 
+	
 		abortSlewSw.s = IPS_OK;		
 		eqNum.s       = IPS_IDLE;
-		IUResetSwitches(&MovementSw);
+		IUResetSwitches(&MovementNSSP);
+		IUResetSwitches(&MovementWESP);
 		IUResetSwitches(&abortSlewSw);
+
 		IDSetSwitch(&abortSlewSw, "Slew aborted.");
-		IDSetSwitch(&MovementSw, NULL);
+		IDSetSwitch(&MovementNSSP, NULL);
+		IDSetSwitch(&MovementWESP, NULL);
 		IDSetNumber(&eqNum, NULL);
 	    }
 	    else
 	    {
-	        IUResetSwitches(&MovementSw);
 	        abortSlewSw.s = IPS_IDLE;
 	        IDSetSwitch(&abortSlewSw, NULL);
 	    }
@@ -490,80 +496,93 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  return;
 	}
 
-	// Movement
-	if (!strcmp (name, MovementSw.name))
+	// Movement (North/South)
+	if (!strcmp (name, MovementNSSP.name))
 	{
-	  if (checkPower(&MovementSw))
+	  if (checkPower(&MovementNSSP))
 	   return;
 
-	 index = -1;
-	 IUUpdateSwitches(&MovementSw, states, names, n);
-	 swp = IUFindSwitch(&MovementSw, names[0]);
-	 
-	 if (!swp)
-	 {
-	    StopNSEW();
-	    IUResetSwitches(&MovementSw);
-	    MovementSw.s = IPS_IDLE;
-	    IDSetSwitch(&MovementSw, NULL);
-	 }
-	 
-	 if (swp == &MovementS[0]) index = 0;
-	 else if (swp == &MovementS[1]) index = 1;
-	 else if (swp == &MovementS[2]) index = 2;
-	 else index = 3;
-	 
-	 lastMove[index] = lastMove[index] == 0 ? 1 : 0;
-	 if (lastMove[index] == 0)
-	   MovementS[index].s = ISS_OFF;
-	     
-	   // North/South movement is illegal
-	   if (lastMove[NORTH] && lastMove[SOUTH])	
-	   {
-	     StopNSEW();
-	      for (int i=0; i < 4; i++)
-	        lastMove[i] = 0;
-	      	
-	      IUResetSwitches(&MovementSw);
-	      MovementSw.s       = IPS_IDLE;
-	      IDSetSwitch(&MovementSw, "Slew aborted.");
-	      return;
-	   }
-	   
-	   // East/West movement is illegal
-	   if (lastMove[EAST] && lastMove[WEST])	
-	   {
-	      StopNSEW();
-	      for (int i=0; i < 4; i++)
-	            lastMove[i] = 0;
-	       
-	      IUResetSwitches(&MovementSw);
-     	      MovementSw.s       = IPS_IDLE;
-	      IDSetSwitch(&MovementSw, "Slew aborted.");
-	      return;
-	   }
-	      
-          //IDLog("We have switch %d \n ", index);
-	  //IDLog("NORTH: %d -- WEST: %d -- EAST: %d -- SOUTH %d\n", lastMove[0], lastMove[1], lastMove[2], lastMove[3]);
+	 int last_move=-1;
+         int current_move = -1;
 
-	  if (lastMove[index] == 1)
-	    StartSlew(index);
-	  else
-	    StopSlew(index);
+	// -1 means all off previously
+	 last_move = getOnSwitch(&MovementNSSP);
 
-          if (!lastMove[0] && !lastMove[1] && !lastMove[2] && !lastMove[3])
-	     MovementSw.s = IPS_IDLE;
-	  
-	  if (lastMove[index] == 0)
-	     IDSetSwitch(&MovementSw, "Moving toward %s aborted.", Direction[index]);
-	  else
-	  {
-	     MovementSw.s = IPS_BUSY;
-	     IDSetSwitch(&MovementSw, "Moving %s...", Direction[index]);
-	  }
+	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
+		return;
+
+	current_move = getOnSwitch(&SlewModeSw);
+
+	// Previosuly active switch clicked again, so let's stop.
+	if (current_move == last_move)
+	{
+		StopSlew((current_move == 0) ? NORTH : SOUTH);
+		IUResetSwitches(&MovementNSSP);
+	    	MovementNSSP.s = IPS_IDLE;
+	    	IDSetSwitch(&MovementNSSP, NULL);
+		return;
+	}
+
+	#ifdef CELESTRON_DEBUG
+        IDLog("Current Move: %d - Previous Move: %d\n", current_move, last_move);
+	#endif
+
+	// 0 (North) or 1 (South)
+	last_move      = current_move;
+
+	// Correction for Celestron Driver: North 0 - South 3
+	current_move = (current_move == 0) ? NORTH : SOUTH;
+
+	StartSlew(current_move);
+	
+	  MovementNSSP.s = IPS_BUSY;
+	  IDSetSwitch(&MovementNSSP, "Moving toward %s", (current_move == NORTH) ? "North" : "South");
 	  return;
 	}
+
+	// Movement (West/East)
+	if (!strcmp (name, MovementWESP.name))
+	{
+	  if (checkPower(&MovementWESP))
+	   return;
+
+	 int last_move=-1;
+         int current_move = -1;
+
+	// -1 means all off previously
+	 last_move = getOnSwitch(&MovementWESP);
+
+	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
+		return;
+
+	current_move = getOnSwitch(&SlewModeSw);
+
+	// Previosuly active switch clicked again, so let's stop.
+	if (current_move == last_move)
+	{
+		StopSlew((current_move ==0) ? WEST : EAST);
+		IUResetSwitches(&MovementWESP);
+	    	MovementWESP.s = IPS_IDLE;
+	    	IDSetSwitch(&MovementWESP, NULL);
+		return;
+	}
+
+	#ifdef CELESTRON_DEBUG
+        IDLog("Current Move: %d - Previous Move: %d\n", current_move, last_move);
+	#endif
+
+	// 0 (West) or 1 (East)
+	last_move      = current_move;
+
+	// Correction for Celestron Driver: West 1 - East 2
+	current_move = (current_move == 0) ? WEST : EAST;
+
+	StartSlew(current_move);
 	
+	  MovementWESP.s = IPS_BUSY;
+	  IDSetSwitch(&MovementWESP, "Moving toward %s", (current_move == WEST) ? "West" : "East");
+	  return;
+	}
 }
 
 
@@ -660,8 +679,10 @@ void CelestronGPS::ISPoll()
 	    dx = targetRA - currentRA;
 	    dy = targetDEC - currentDEC;
 
+            #ifdef CELESTRON_DEBUG
 	    IDLog("targetRA is %f, currentRA is %f\n", (float) targetRA, (float) currentRA);
 	    IDLog("targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
+	    #endif
 
 	    eqNum.np[0].value = currentRA;
 	    eqNum.np[1].value = currentDEC;
@@ -727,7 +748,7 @@ void CelestronGPS::ISPoll()
 	    break;
 	}
 
-	switch (MovementSw.s)
+	switch (MovementNSSP.s)
 	{
 	  case IPS_IDLE:
 	   break;
@@ -735,8 +756,25 @@ void CelestronGPS::ISPoll()
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
 
-	     /*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
+	     eqNum.np[0].value = currentRA;
+	     eqNum.np[1].value = currentDEC;
 
+	     IDSetNumber (&eqNum, NULL);
+
+	     break;
+	 case IPS_OK:
+	   break;
+	 case IPS_ALERT:
+	   break;
+	 }
+
+	switch (MovementWESP.s)
+	{
+	  case IPS_IDLE:
+	   break;
+	 case IPS_BUSY:
+	     currentRA = GetRA();
+	     currentDEC = GetDec();
 
 	     eqNum.np[0].value = currentRA;
 	     eqNum.np[1].value = currentDEC;
@@ -765,7 +803,7 @@ void CelestronGPS::getBasicData()
 
 }
 
-void CelestronGPS::powerTelescope()
+void CelestronGPS::connectTelescope()
 {
 
      switch (PowerSw.sp[0].s)
@@ -776,7 +814,7 @@ void CelestronGPS::powerTelescope()
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSw, "Error connecting to port %s", Port.tp[0].text);
+	   IDSetSwitch (&PowerSw, "Error connecting to port %s. Make sure you have BOTH write and read permission to the port.", Port.tp[0].text);
 	   return;
 	 }
 

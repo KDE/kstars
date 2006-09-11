@@ -923,6 +923,11 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		IDSetSwitch(&MovementWESP, NULL);
 		IDSetNumber(&eqNum, NULL);
 	    }
+	    else
+	    {
+	        abortSlewSw.s = IPS_IDLE;
+	        IDSetSwitch(&abortSlewSw, NULL);
+	    }
 
 	    return;
 	}
@@ -1069,7 +1074,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
 	{
-		HaltMovement(fd, current_move);
+		HaltMovement(fd, (current_move == 0) ? LX200_NORTH : LX200_SOUTH);
 		IUResetSwitches(&MovementNSSP);
 	    	MovementNSSP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementNSSP, NULL);
@@ -1117,7 +1122,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
 	{
-		HaltMovement(fd, current_move);
+		HaltMovement(fd, (current_move ==0) ? LX200_WEST : LX200_EAST);
 		IUResetSwitches(&MovementWESP);
 	    	MovementWESP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementWESP, NULL);
@@ -1504,6 +1509,24 @@ void LX200Generic::ISPoll()
 	}
 
 	switch (MovementNSSP.s)
+	{
+	  case IPS_IDLE:
+	   break;
+	 case IPS_BUSY:
+	   getLX200RA(fd, &currentRA);
+	   getLX200DEC(fd, &currentDEC);
+	   eqNum.np[0].value = currentRA;
+	   eqNum.np[1].value = currentDEC;
+
+	   IDSetNumber (&eqNum, NULL);
+	     break;
+	 case IPS_OK:
+	   break;
+	 case IPS_ALERT:
+	   break;
+	 }
+
+	 switch (MovementWESP.s)
 	{
 	  case IPS_IDLE:
 	   break;

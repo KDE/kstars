@@ -72,7 +72,7 @@
    connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));*/
    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
 
-   constructHistogram();
+   //constructHistogram();
    
    updateBoxes();
    
@@ -164,9 +164,13 @@ void FITSHistogram::constructHistogram(int hist_height, int hist_width)
 
   int pixel_range = (int) (fits_max - fits_min);
  
- histArray = (histArray == NULL) ? (int *) calloc(hist_width, sizeof(int)) :
-							     (int *) realloc(hist_width, sizeof(int));
-  
+ histArray = (histArray == NULL) ? (int *) calloc(hist_width , sizeof(int)) :
+       					           (int *) realloc(histArray, (hist_width+1) * sizeof(int));
+
+  // Panic
+ if (histArray == NULL)
+	return;
+
   binSize = ((double) hist_width / (double) pixel_range); 
 
     if (binSize == 0 || buffer == NULL)
@@ -185,7 +189,7 @@ void FITSHistogram::constructHistogram(int hist_height, int hist_width)
      }
 
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
-    histFactor = ((double) height) / ((double) findMax(hist_width));
+    histFactor = ((double) hist_height) / ((double) findMax(hist_width));
 
     for (int i=0; i < hist_width; i++)
 		histArray[i] = (int) (((double) histArray[i]) * histFactor);

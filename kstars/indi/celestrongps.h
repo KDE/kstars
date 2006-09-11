@@ -42,7 +42,7 @@ class CelestronGPS
  int checkPower(INumberVectorProperty *np);
  int checkPower(ISwitchVectorProperty *sp);
  int checkPower(ITextVectorProperty *tp);
- void powerTelescope();
+ void connectTelescope();
  void slewError(int slewCode);
  int handleCoordSet();
  int getOnSwitch(ISwitchVectorProperty *sp);
@@ -60,8 +60,6 @@ class CelestronGPS
 
   int lastSet;
   int currentSet;
-  int lastMove[4];
-
 };
 
 #endif
