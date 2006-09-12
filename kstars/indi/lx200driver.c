@@ -599,11 +599,7 @@ int getOTATemp(int fd, double *value)
   if ( (error_type = tty_write_string(fd, "#:fT#", &nbytes_write)) != TTY_OK)
     	return error_type;
 
-  /*if (portWrite("#:fT#") < 0)
-   return -1;*/
-
   error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
-  /*read_ret = portRead(temp_string, -1, LX200_TIMEOUT);*/
   tcflush(fd, TCIFLUSH);
   
   if (nbytes_read < 1)

@@ -151,13 +151,15 @@ void FITSHistogram::applyScale()
     */
 }
  
-void FITSHistogram::constructHistogram(int hist_height, int hist_width)
+void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 {
  
    int id;
   double fits_min=0, fits_max=0;
   double fits_w=0, fits_h=0;
   float *buffer = viewer->image->getImageBuffer();
+
+  kDebug() << "hist_width: " << hist_width << " - hist_height: " << hist_height << endl;
 
   viewer->image->getFITSSize(&fits_w, &fits_h);
   viewer->image->getFITSMinMax(&fits_min, &fits_max);
@@ -190,7 +192,6 @@ void FITSHistogram::constructHistogram(int hist_height, int hist_width)
 
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
     histFactor = ((double) hist_height) / ((double) findMax(hist_width));
-
     for (int i=0; i < hist_width; i++)
 		histArray[i] = (int) (((double) histArray[i]) * histFactor);
 

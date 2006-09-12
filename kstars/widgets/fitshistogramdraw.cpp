@@ -32,7 +32,7 @@ histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), ci
 	circle_drag_upper = false;
 	circle_drag_lower = false;
 
-	enclosedRect.setRect(0,height_adj, maximumWidth() - 1, maximumHeight() - height_adj);
+	//enclosedRect.setRect(0,height_adj, maximumWidth() - 1, maximumHeight() - height_adj);
 
 }
 
@@ -61,29 +61,30 @@ void histDrawArea::paintEvent(QPaintEvent *event)
   // Draw box
   painter.drawRect(enclosedRect);
 
+  hist_height = valid_height + CIRCLE_DIM/2;
   // Paint Histogram
   for (int i=0; i < valid_width; i++)
-   	painter.drawLine(i+displacement, hist_height, i+displacement, hist_height  - data->histArray[i]); 
+   	painter.drawLine(i+CIRCLE_DIM/2, hist_height, i+CIRCLE_DIM/2, valid_height  - data->histArray[i] + CIRCLE_DIM/2); 
 
    pen.setWidth(2);
 
    pen.setColor(Qt::red);
-   painter.drawLine(red_line_x, height_adj, red_line_x, line_height);
+   painter.drawLine(red_line_x, 0, red_line_x, line_height);
 
    pen.setColor(Qt::blue);
-   painter.drawLine(blue_line_x, hist_height , blue_line_x, hist_height - line_height);
+   painter.drawLine(blue_line_x, valid_height , blue_line_x, valid_height - line_height);
 
    // Outline
    pen.setColor(Qt::black);
 
    // Paint Red Circle
    painter.setBrush(Qt::red);
-   upperLimit.setRect(upperLimitX, height_adj/2., circle_dim, circle_dim);
+   upperLimit.setRect(upperLimitX, 0, circle_dim, circle_dim);
    painter.drawEllipse(upperLimit);
 
    // Paint Blue Circle
    painter.setBrush(Qt::blue);
-   lowerLimit.setRect(lowerLimitX, hist_height - height_adj, circle_dim, circle_dim);
+   lowerLimit.setRect(lowerLimitX, valid_height, circle_dim, circle_dim);
    painter.drawEllipse(lowerLimit);
 
 }
@@ -142,11 +143,18 @@ void histDrawArea::mouseReleaseEvent ( QMouseEvent * event )
 
 void histDrawArea::resizeEvent ( QResizeEvent * event )
 {
-	kDebug() << "Resize Event" << endl;
+	//kDebug() << "Resize Event: new Width: " << event->size().width() << " - new Height: " << event->size().height() << endl;
 
 	valid_width  = event->size().width() - CIRCLE_DIM;
 	valid_height = event->size().height() - CIRCLE_DIM;
 
+	//kDebug() << "Resize Event: VALID Width: " << valid_width << " - VALID height: " << valid_height << endl;
+	enclosedRect.setRect(CIRCLE_DIM/2, CIRCLE_DIM/2, valid_width, valid_height);
+
+	upperLimitX = valid_width;
+	lowerLimitX  = 0;
+
+	//kDebug() << "Calling construction histogram" << endl;
 	data->constructHistogram(valid_width, valid_height);
 }
 

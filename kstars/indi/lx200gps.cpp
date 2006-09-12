@@ -130,8 +130,9 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSPowerSw))
        return;
 
-      IUResetSwitches(&GPSPowerSw);
-      IUUpdateSwitches(&GPSPowerSw, states, names, n);
+      if (IUUpdateSwitches(&GPSPowerSw, states, names, n) < 0)
+		return;
+
       index = getOnSwitch(&GPSPowerSw);
       index == 0 ? turnGPSOn(fd) : turnGPSOff(fd);
       GPSPowerSw.s = IPS_OK;
@@ -145,8 +146,9 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSStatusSw))
        return;
 
-      IUResetSwitches(&GPSStatusSw);
-      IUUpdateSwitches(&GPSStatusSw, states, names, n);
+      if (IUUpdateSwitches(&GPSStatusSw, states, names, n) < 0)
+		return;
+
       index = getOnSwitch(&GPSStatusSw);
 
       if (index == 0)
@@ -201,8 +203,9 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&AltDecPecSw))
        return;
 
-      IUResetSwitches(&AltDecPecSw);
-      IUUpdateSwitches(&AltDecPecSw, states, names, n);
+      if (IUUpdateSwitches(&AltDecPecSw, states, names, n) < 0)
+	return;
+
       index = getOnSwitch(&AltDecPecSw);
       
        if (index == 0)
@@ -228,8 +231,9 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&AzRaPecSw))
        return; 
 
-      IUResetSwitches(&AzRaPecSw);
-      IUUpdateSwitches(&AzRaPecSw, states, names, n);
+      if (IUUpdateSwitches(&AzRaPecSw, states, names, n) < 0)
+		return;
+
       index = getOnSwitch(&AzRaPecSw);
 
        if (index == 0)
@@ -291,9 +295,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       
       return;
    }
-      
-     
-   
+
    LX200_16::ISNewSwitch (dev, name, states, names,  n);
 
 }
