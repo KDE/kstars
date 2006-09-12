@@ -959,7 +959,7 @@ void ScriptBuilder::slotSave() {
 						i18n( "A file named \"%1\" already exists. "
 								"Overwrite it?" , currentFileURL.fileName()),
 						i18n( "Overwrite File?" ),
-						i18n( "&Overwrite" ) );
+						KStdGuiItem::overwrite() );
 
 				if(r==KMessageBox::Cancel) return;
 			}

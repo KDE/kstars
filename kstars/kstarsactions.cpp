@@ -473,7 +473,7 @@ void KStars::slotExportImage() {
 								i18n( "A file named \"%1\" already exists. "
 										"Overwrite it?" , fileURL.fileName()),
 								i18n( "Overwrite File?" ),
-								i18n( "&Overwrite" ) );
+								KStdGuiItem::overwrite() );
 
 		if(r==KMessageBox::Cancel) return;
 	}
@@ -505,7 +505,7 @@ void KStars::slotRunScript() {
 
 				while ( ! saveURL.isValid() ) {
 					message = i18n( "Save location is invalid. Try another location?" );
-					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::No ) return;
+					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
 					saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
 				}
 
@@ -576,7 +576,7 @@ void KStars::slotRunScript() {
 				"indicating that it was not created using the KStars script builder. "
 				"This script may not function properly, and it may even contain malicious code. "
 				"Would you like to execute it anyway?" ),
-					i18n( "Script Validation Failed" ), i18n("Run Nevertheless"), "daExecuteScript" );
+					i18n( "Script Validation Failed" ), KGuiItem( i18n( "Run Nevertheless" ) ), "daExecuteScript" );
 			if ( answer == KMessageBox::Cancel ) return;
 		}
 
@@ -602,7 +602,7 @@ void KStars::slotPrint() {
 
 		int answer;
 		answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
-			i18n("Switch Color Scheme"), i18n("Do Not Switch"), "askAgainPrintColors" );
+			KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), "askAgainPrintColors" );
 
 		if ( answer == KMessageBox::Cancel ) return;
 		if ( answer == KMessageBox::Yes ) switchColors = true;

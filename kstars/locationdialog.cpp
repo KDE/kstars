@@ -228,7 +228,7 @@ void LocationDialog::addCity( void ) {
 	} else {
 		if ( !nameModified ) {
 			QString message = i18n( "Really override original data for this city?" );
-			if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), i18n("Override Data"), i18n("Do Not Override")) == KMessageBox::No )
+			if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), KGuiItem(i18n("Override Data")), KGuiItem(i18n("Do Not Override"))) == KMessageBox::No )
 				return; //user answered No.
 		}
 

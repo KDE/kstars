@@ -156,7 +156,7 @@ void KStarsData::initError(const QString &s, bool required = false) {
 		caption = i18n( "Non-Critical File Not Found: %1", s );
 	}
 
-	if ( KMessageBox::warningContinueCancel( 0, message, caption, i18n( "Retry" ) ) == KMessageBox::Continue ) {
+	if ( KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem( i18n( "Retry" ) ) ) == KMessageBox::Continue ) {
 		initCounter--;
 		initTimer->start(1);
 	} else {

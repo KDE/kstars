@@ -216,7 +216,7 @@ void ImageViewer::saveFileToDisc()
 									i18n( "A file named \"%1\" already exists. "
 											"Overwrite it?" , newURL.fileName()),
 									i18n( "Overwrite File?" ),
-									i18n( "&Overwrite" ) );
+									KStdGuiItem::overwrite() );
 			if(r==KMessageBox::Cancel) return;
 
 			f.remove();

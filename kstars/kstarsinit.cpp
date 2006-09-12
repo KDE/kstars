@@ -583,7 +583,7 @@ void KStars::initFocus() {
 		QString caption = i18n( "Initial Position is Below Horizon" );
 		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
 		if ( KMessageBox::warningYesNo( this, message, caption,
-				i18n("Reset Position"), i18n("Do Not Reset"), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
+				KGuiItem(i18n("Reset Position")), KGuiItem(i18n("Do Not Reset")), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
 			map()->setClickedObject( NULL );
 			map()->setFocusObject( NULL );
 			Options::setIsTracking( false );
