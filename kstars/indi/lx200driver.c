@@ -317,6 +317,7 @@ int getCalenderDate(int fd, char *date)
  int dd, mm, yy;
  int error_type;
  int nbytes_read=0;
+ char mell_prefix[3];
  
 
  if ( (error_type = getCommandString(fd, date, "#:GC#")) )
@@ -328,8 +329,14 @@ int getCalenderDate(int fd, char *date)
   if (nbytes_read < 3)
    return -1;
 
+  /* We consider years 50 or more to be in the last century, anything less in the 21st century.*/
+  if (yy > 50)
+	strncpy(mell_prefix, "19", 3);
+  else
+	strncpy(mell_prefix, "20", 3);
+
  /* We need to have in in YYYY/MM/DD format */
- sprintf(date, "20%02d/%02d/%02d", yy, mm, dd);
+ sprintf(date, "%s%02d/%02d/%02d", mell_prefix, yy, mm, dd);
 
  return (0);
 

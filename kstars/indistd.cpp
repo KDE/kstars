@@ -525,6 +525,18 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
    
   lp->write_w->setText(ksw->LST()->toHMSString());
   pp->newText();
+
+  /* Update UTC */
+  pp = dp->findProp("UTC_OFFSET");
+  if (!pp) return;
+  
+  lp = pp->findElement("OFFSET");
+  
+  if (!lp) return;
+ 
+   // Send DST corrected TZ
+   lp->write_w->setText(QString("%1").arg(ksw->data()->geo()->TZ()));
+   pp->newText();
 }
 
 void INDIStdDevice::updateLocation()

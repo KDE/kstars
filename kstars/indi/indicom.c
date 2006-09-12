@@ -395,11 +395,8 @@ double UTtoJD(struct tm *utm)
   int m, y, A, B, C, D;
   double d, jd;
 
-  /* Note: The tm_year was modified by adding +1900 to it since tm_year refers
-  to the number of years after 1900. The month field was also modified by adding 1 to it
-  since the tm_mon range is from 0 to 11 */
-  year   = utm->tm_year + 1900;
-  month  = utm->tm_mon  + 1;
+  year   = utm->tm_year;
+  month  = utm->tm_mon;
   day    = utm->tm_mday;
   hour   = utm->tm_hour;
   minute = utm->tm_min;

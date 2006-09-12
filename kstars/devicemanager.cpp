@@ -100,7 +100,7 @@ bool DeviceManager::indiConnect( const QString &inHost, const QString &inPort )
 
 	if ( ::connect(serverFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
 	{
-	  KMessageBox::error(0, errMsg);
+	  //KMessageBox::error(0, errMsg);
 	  serverFD = -1;
 	  return false;
 	}

@@ -44,36 +44,6 @@
 #include "lx200gps.h"
 #include "lx200classic.h"
 
-/*
-** Return the timezone offset in hours (as a double, so fractional
-** hours are possible, for instance in Newfoundland). Also sets
-** indi_daylight on non-Linux systems to record whether DST is in effect.
-*/
-
-
-#if !(TIMEZONE_IS_INT)
-static int indi_daylight = 0;
-#endif
-
-static inline double timezoneOffset()
-{
-/* 
-** In Linux, there's a timezone variable that holds the timezone offset;
-** Otherwise, we need to make a little detour. The directions of the offset
-** are different: CET is -3600 in Linux and +3600 elsewhere.
-*/
-#if TIMEZONE_IS_INT
-  return timezone / (60 * 60);
-#else
-  time_t now;
-  struct tm *tm;
-  now = time(NULL);
-  tm = localtime(&now);
-  indi_daylight = tm->tm_isdst;
-  return -(tm->tm_gmtoff) / (60 * 60);
-#endif
-}
-
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
 
@@ -171,6 +141,12 @@ static ISwitchVectorProperty FocusModeSP = {mydev, "FOCUS_MODE", "Mode", FOCUS_G
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", 0, 0, 0, 0}};
 ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), "", 0};
+
+/* DST Corrected UTC Offfset */
+static INumber UTCOffsetN[] = {{"OFFSET", "Offset", "%0.3g" , -12.,12.,0.5,0., 0, 0, 0}};
+INumberVectorProperty UTCOffsetNP = { mydev, "UTC_OFFSET", "UTC Offset", DATETIME_GROUP, IP_WO, 0, IPS_IDLE, UTCOffsetN , NARRAY(UTCOffsetN), "", 0};
+
+/* Sidereal Time */
 static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0., 0, 0, 0}};
 INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime), "", 0};
 
@@ -229,6 +205,7 @@ void changeLX200GenericDeviceName(const char * newName)
 
   // DATETIME_GROUP
   strcpy(Time.device , newName );
+  strcpy(UTCOffsetNP.device , newName );
   strcpy(SDTime.device , newName );
 
   // SITE_GROUP
@@ -336,19 +313,6 @@ void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, cha
 
 LX200Generic::LX200Generic()
 {
-   struct tm *utp = (tm *) malloc (sizeof (struct tm));
-   last_local_time = (tm *) malloc (sizeof (struct tm));
-
-   time_t t;
-   time (&t);
-   gmtime_r (&t, utp);
-   utp->tm_mon  += 1;
-   utp->tm_year += 1900;
-   JD = UTtoJD(utp);
- 
-   IDLog("Julian Day is %g\n", JD);
-   free(utp);
-   
    currentSiteNum = 1;
    trackingMode   = LX200_TRACK_DEFAULT;
    lastSet        = -1;
@@ -359,19 +323,17 @@ LX200Generic::LX200Generic()
    currentRA      = 0;
    currentDEC     = 0;
    currentSet     = 0;
-   UTCOffset      = 0;
    fd             = -1;
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("Driver Version: 2006-09-10\n");
+   IDLog("Driver Version: 2006-09-12\n");
  
    //enableSimulation(true);  
 }
 
 LX200Generic::~LX200Generic()
 {
-  free (last_local_time);
 }
 
 void LX200Generic::setCurrentDeviceName(const char * devName)
@@ -412,6 +374,7 @@ void LX200Generic::ISGetProperties(const char *dev)
 
   // DATETIME_GROUP
   IDDefText   (&Time, NULL);
+  IDDefNumber(&UTCOffsetNP, NULL);
   IDDefNumber (&SDTime, NULL);
 
   // SITE_GROUP
@@ -428,11 +391,6 @@ void LX200Generic::ISGetProperties(const char *dev)
 void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n)
 {
 	int err;
-	struct tm *ltp = NULL;
-	struct tm utm;
-	time_t ltime;
-	time (&ltime);
-	
 	IText *tp;
 
 	// ignore if not ours //
@@ -477,91 +435,82 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
        {
 	  if (checkPower(&Time))
 	   return;
-	  
+
+	 struct tm utm;
+	 struct tm ltm;
+	 time_t time_epoch;
+
 	  if (extractISOTime(texts[0], &utm) < 0)
 	  {
 	    Time.s = IPS_IDLE;
 	    IDSetText(&Time , "Time invalid");
 	    return;
 	  }
-                ltp = (tm *) malloc (sizeof(struct tm));
-                localtime_r (&ltime, ltp);
 
-		ltp->tm_mon  += 1;
-		ltp->tm_year += 1900;
+	// update JD
+         JD = UTtoJD(&utm);
+	IDLog("New JD is %f\n", (float) JD);
 
-		tzset();
+	// Make it calender representation
+	 utm.tm_mon  += 1;
+	 utm.tm_year += 1900;
+
+        // Get epoch since given UTC (we're assuming it's LOCAL for now, then we'll subtract UTC to get local)
+	// Since mktime only returns epoch given a local calender time
+	 time_epoch = mktime(&utm);
+
+	 // Subtract UTC to get local time. The offset is assumed to be DST corrected.
+	time_epoch -= (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+
+	// Now let's get the local time
+	localtime_r(&time_epoch, &ltm);
 		
-		UTCOffset = timezoneOffset();
-		
-		IDLog("local time is %02d:%02d:%02d\nUTCOffset: %g\n", ltp->tm_hour, ltp->tm_min, ltp->tm_sec, UTCOffset);
-		
-		getSDTime(fd, &STime[0].value);
-		IDSetNumber(&SDTime, NULL);
-		
-		if ( ( err = setUTCOffset(fd, UTCOffset) < 0) )
-	  	{
+	ltm.tm_mon +=1;
+        ltm.tm_year += 1900;
+
+	// Set UTC Offset
+	if ( ( err = setUTCOffset(fd, UTCOffsetN[0].value) < 0) )
+	{
 	        Time.s = IPS_IDLE;
 	        IDSetText( &Time , "Setting UTC Offset failed.");
-                free (ltp);
 		return;
-	  	}
+	}
 		
-		if ( ( err = setLocalTime(fd, ltp->tm_hour, ltp->tm_min, ltp->tm_sec) < 0) )
-	  	{
+	// Set Local Time
+	if ( ( err = setLocalTime(fd, ltm.tm_hour, ltm.tm_min, ltm.tm_sec) < 0) )
+	{
 	          handleError(&Time, err, "Setting local time");
-                  free (ltp);
         	  return;
-	  	}
+	}
 
-		tp = IUFindText(&Time, names[0]);
-		if (!tp)
-		{
-		 free(ltp);
-		 return;
-		}
-		//tp->text = new char[strlen(texts[0])+1];
-	        //strcpy(tp->text, texts[0]);
-  		IUSaveText(tp, texts[0]);
-		Time.s = IPS_OK;
-
-		// update JD
-                JD = UTtoJD(&utm);
-
-                utm.tm_mon  += 1;
-		utm.tm_year += 1900;
-
-		IDLog("New JD is %f\n", (float) JD);
-
-		if ((last_local_time->tm_mday == ltp->tm_mday ) && (last_local_time->tm_mon == ltp->tm_mon) &&
-		    (last_local_time->tm_year == ltp->tm_year))
-		{
-		  IDSetText(&Time , "Time updated to %s", texts[0]);
-                  free (ltp);
-		  return;
-		}
-
-		free (last_local_time);
-		last_local_time = ltp;
-		
-		if (!strcmp(dev, "LX200 GPS"))
-		{
+	// GPS needs UTC date?
+	if (!strcmp(dev, "LX200 GPS"))
+	{
 			if ( ( err = setCalenderDate(fd, utm.tm_mday, utm.tm_mon, utm.tm_year) < 0) )
 	  		{
 		  		handleError(&Time, err, "Setting UTC date.");
 		  		return;
 			}
-		}
-		else
-		{
-			if ( ( err = setCalenderDate(fd, ltp->tm_mday, ltp->tm_mon, ltp->tm_year) < 0) )
+	}
+	else
+	{
+			if ( ( err = setCalenderDate(fd, ltm.tm_mday, ltm.tm_mon, ltm.tm_year) < 0) )
 	  		{
 		  		handleError(&Time, err, "Setting local date.");
 		  		return;
 			}
-		}
-		
- 		IDSetText(&Time , "Date changed, updating planetary data...");
+	}
+	
+	// Everything Ok, save time value	
+	if (IUUpdateTexts(&Time, texts, names, n) < 0)
+		return;
+
+	Time.s = IPS_OK;
+ 	IDSetText(&Time , "Time updated to %s, updating planetary data...", texts[0]);
+
+	// Also update telescope's sidereal time
+	getSDTime(fd, &STime[0].value);
+	IDSetNumber(&SDTime, NULL);
 	}
 }
 
@@ -575,6 +524,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	if (strcmp (dev, thisDevice))
 	    return;
 
+        // Tracking Precision
         if (!strcmp (name, trackingPrecisionNP.name))
 	{
 		if (!IUUpdateNumbers(&trackingPrecisionNP, values, names, n))
@@ -589,6 +539,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 		return;
 	}
 
+	// Slew Precision
 	if (!strcmp(name, slewPrecisionNP.name))
 	{
 		IUUpdateNumbers(&slewPrecisionNP, values, names, n);
@@ -600,6 +551,21 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 		
 		slewPrecisionNP.s = IPS_ALERT;
 		IDSetNumber(&slewPrecisionNP, "unknown error while setting slew precision");
+		return;
+	}
+
+	// DST Correct UTC Offset
+	if (!strcmp (name, UTCOffsetNP.name))
+	{
+		if (!IUUpdateNumbers(&UTCOffsetNP, values, names, n))
+		{
+			UTCOffsetNP.s = IPS_OK;
+			IDSetNumber(&UTCOffsetNP, NULL);
+			return;
+		}
+		
+		UTCOffsetNP.s = IPS_ALERT;
+		IDSetNumber(&trackingPrecisionNP, "unknown error while setting UTC Offset");
 		return;
 	}
 
@@ -1069,7 +1035,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
 		return;
 
-	current_move = getOnSwitch(&SlewModeSw);
+	current_move = getOnSwitch(&MovementNSSP);
 
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
@@ -1117,7 +1083,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
 		return;
 
-	current_move = getOnSwitch(&SlewModeSw);
+	current_move = getOnSwitch(&MovementWESP);
 
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
@@ -2003,19 +1969,10 @@ void LX200Generic::updateTime()
   double ctime;
   int h, m, s;
   int day, month, year, result;
-  int UTC_h, UTC_month, UTC_year, UTC_day, daysInFeb;
-  bool leapYear;
+  struct tm ltm;
+  struct tm utm;
+  time_t time_epoch;
   
-  tzset();
-  
-  UTCOffset = timezoneOffset();
-  #if TIMEZONE_IS_INT
-	IDLog("Daylight: %s - TimeZone: %g\n", daylight ? "Yes" : "No", UTCOffset);
-  #else
-	IDLog("Daylight: %s - TimeZone: %g\n", indi_daylight ? "Yes" : "No", UTCOffset);
-  #endif
-  
-	
   if (simulation)
   {
     sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", 1979, 6, 25, 3, 30, 30);
@@ -2026,152 +1983,34 @@ void LX200Generic::updateTime()
   
   getLocalTime24(fd, &ctime);
   getSexComponents(ctime, &h, &m, &s);
-  
-  UTC_h = h;
-  
+
   if ( (result = getSDTime(fd, &STime[0].value)) < 0)
     IDMessage(thisDevice, "Failed to retrieve siderial time from device.");
   
   getCalenderDate(fd, cdate);
-  
   result = sscanf(cdate, "%d/%d/%d", &year, &month, &day);
   if (result != 3) return;
-  
-  if (year % 4 == 0)
-  {
-    if (year % 100 == 0)
-    {
-      if (year % 400 == 0)
-       leapYear = true;
-      else 
-       leapYear = false;
-    }
-    else
-       leapYear = true;
-  }
-  else
-       leapYear = false;
-  
-  daysInFeb = leapYear ? 29 : 28;
-  
-  UTC_year  = year; 
-  UTC_month = month;
-  UTC_day   = day;
-  
-  IDLog("day: %d - month %d - year: %d\n", day, month, year);
-  
-  // we'll have to convert telescope time to UTC manually starting from hour up
-  // seems like a stupid way to do it.. oh well
-  UTC_h = (int) UTCOffset + h;
-  // Correct UTC for indi_daylight time savings
-  #if TIMEZONE_IS_INT
-  if (daylight)
-	UTC_h-=1;
-  #else
-  if (indi_daylight)
-	UTC_h-=1;
-  #endif
 
-  if (UTC_h < 0)
-  {
-   UTC_h += 24;
-   UTC_day--;
-  }
-  else if (UTC_h > 24)
-  {
-   UTC_h -= 24;
-   UTC_day++;
-  }
-  
-  switch (UTC_month)
-  {
-    case 1:
-    case 8:
-     if (UTC_day < 1)
-     {
-     	UTC_day = 31;
-     	UTC_month--;
-     }
-     else if (UTC_day > 31)
-     {
-       UTC_day = 1;
-       UTC_month++;
-     }
-     break;
-     
-   case 2:
-   if (UTC_day < 1)
-     {
-     	UTC_day = 31;
-     	UTC_month--;
-     }
-     else if (UTC_day > daysInFeb)
-     {
-       UTC_day = 1;
-       UTC_month++;
-     }
-     break;
-     
-  case 3:
-     if (UTC_day < 1)
-     {
-     	UTC_day = daysInFeb;
-     	UTC_month--;
-     }
-     else if (UTC_day > 31)
-     {
-       UTC_day = 1;
-       UTC_month++;
-     }
-     break;
-   
-   case 4:
-   case 6:
-   case 9:
-   case 11:
-    if (UTC_day < 1)
-     {
-     	UTC_day = 31;
-     	UTC_month--;
-     }
-     else if (UTC_day > 30)
-     {
-       UTC_day = 1;
-       UTC_month++;
-     }
-     break;
-   
-   case 5:
-   case 7:
-   case 10:
-   case 12:
-    if (UTC_day < 1)
-     {
-     	UTC_day = 30;
-     	UTC_month--;
-     }
-     else if (UTC_day > 31)
-     {
-       UTC_day = 1;
-       UTC_month++;
-     }
-     break;
-   
-  }   
-       
-  if (UTC_month < 1)
-  {
-   UTC_month = 12;
-   UTC_year--;
-  }
-  else if (UTC_month > 12)
-  {
-    UTC_month = 1;
-    UTC_year++;
-  }
-  
+  // Let's fill in the local time
+  ltm.tm_sec = s;
+  ltm.tm_min = m;
+  ltm.tm_hour = h;
+  ltm.tm_mday = day;
+  ltm.tm_mon = month - 1;
+  ltm.tm_year = year - 1900;
+
+  // Get time epoch
+  time_epoch = mktime(&ltm);
+
+  // Convert to UTC
+  time_epoch += (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+
+  // Get UTC (we're using localtime_r, but since we shifted time_epoch above by UTCOffset, we should be getting the real UTC time)
+  localtime_r(&time_epoch, &utm);
+
   /* Format it into ISO 8601 */
-  sprintf(UTC[0].text, "%d-%02d-%02dT%02d:%02d:%02d", UTC_year, UTC_month, UTC_day, UTC_h, m, s);
+  strftime(cdate, 32, "%d-%02d-%02dT%02d:%02d:%02d", &utm);
+  IUSaveText(&UTC[0], cdate);
   
   #ifdef INDI_DEBUG
   IDLog("Local telescope time: %02d:%02d:%02d\n", h, m , s);

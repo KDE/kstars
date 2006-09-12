@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#define	INDIVERSION	1.5	/* we support this or less */
+#define	INDIVERSION	1.6	/* we support this or less */
 
 /* GUI layout */
 #define PROPERTY_LABEL_WIDTH	100
@@ -52,7 +52,7 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
-enum stdProperties { CONNECTION, DEVICE_PORT, TIME, SDTIME, GEOGRAPHIC_COORD,   /* General */
+enum stdProperties { CONNECTION, DEVICE_PORT, TIME, SDTIME, UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, HORIZONTAL_COORD,  /* Telescope */
                      ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, MOVEMENT, PARK,  /* Telescope */
                      CCD_EXPOSE_DURATION, CCD_TEMPERATURE, CCD_FRAME,           /* CCD */

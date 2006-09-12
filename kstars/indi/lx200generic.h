@@ -74,12 +74,9 @@ class LX200Generic
   double targetDEC;
   double lastRA;
   double lastDEC;
-  double UTCOffset;
   bool   fault;
   bool   simulation;
 
-  struct tm *last_local_time;
-  
   char thisDevice[64];
 
   int currentSet;

@@ -50,6 +50,8 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#define  MAX_RETRIES 3
+
 DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {
 
@@ -229,7 +231,8 @@ void INDIDriver::processDeviceStatus(int id)
   if (ui->localTreeWidget->currentItem() == NULL)
     return;
 
-   //for (uint i=0; i < devices.size(); i++)
+   int retries=0;
+
   foreach (IDevice *dev, devices)
      if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
      {
@@ -253,12 +256,23 @@ void INDIDriver::processDeviceStatus(int id)
 	       //Allow time for the INDI server to listen
 	  	usleep(50000);
 
-	  	if (!ksw->getINDIMenu()->processServer())
+		for (retries=0; retries <  MAX_RETRIES ; retries++)
+		{
+	  		if (!ksw->getINDIMenu()->processServer())
+				usleep(50000);
+			else
+				break;
+		}
+
+		// Failed to connect to INDI server
+		if (retries ==  MAX_RETRIES)
 	  	{
+			 KMessageBox::error(0, i18n("Connection to INDI host at localhost on port %1 failed.").arg(dev->indiPort));
 	   		dev->restart();
 	   		return;
 	  	}
 	  }
+	  
 
 	  ui->localTreeWidget->currentItem()->setIcon(1, ui->runningPix);
 	  ui->localTreeWidget->currentItem()->setText(4, QString::number(dev->indiPort));
@@ -271,20 +285,23 @@ void INDIDriver::processDeviceStatus(int id)
 	  if (dev->mode == IDevice::M_LOCAL)
 	  	ksw->getINDIMenu()->processServer();
 
-	  //ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
-	  //ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
-	  //ui->localTreeWidget->currentItem()->setText(4, QString());
-	  //ui->runServiceB->setEnabled(true);
-	  //ui->stopServiceB->setEnabled(false);
-	  //dev->restart();
+	  ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
+	  ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
+	  ui->localTreeWidget->currentItem()->setText(4, QString());
+	  ui->runServiceB->setEnabled(true);
+	  ui->stopServiceB->setEnabled(false);
+	  dev->restart();
+
 	  // TODO Do I need this? updateMenuActions();
 
      }
 }
 
+// Host Status = Remote Client
 void INDIDriver::processHostStatus(int id)
 {
    int mgrID;
+   int retries=0;
    bool toConnect = (id == 0);
    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
    if (!currentItem) return;
@@ -304,14 +321,25 @@ void INDIDriver::processHostStatus(int id)
 	if (toConnect)
 	{
 	   // if connection successful
-          if ( (mgrID = ksw->getINDIMenu()->processClient(host->hostname, host->portnumber)) >= 0)
+	  for (retries=0; retries < MAX_RETRIES; retries++)
 	  {
-	    currentItem->setIcon(0, ui->connected);
-	    host->isConnected = true;
-	    host->mgrID = mgrID;
-	    ui->connectHostB->setEnabled(false);
-	    ui->disconnectHostB->setEnabled(true);
-	  }
+          	if ( (mgrID = ksw->getINDIMenu()->processClient(host->hostname, host->portnumber)) >= 0)
+	  	{
+	    		currentItem->setIcon(0, ui->connected);
+	    		host->isConnected = true;
+	    		host->mgrID = mgrID;
+	    		ui->connectHostB->setEnabled(false);
+	    		ui->disconnectHostB->setEnabled(true);
+			break;
+		}
+		else
+			usleep(50000);
+	   }
+
+	  if (retries ==  MAX_RETRIES)
+	  {
+		 KMessageBox::error(0, i18n("Connection to INDI host at %1 on port %2 failed.").arg(host->hostname).arg(host->portnumber));
+	   }
 	}
 	else
 	{
@@ -575,10 +603,7 @@ bool INDIDriver::readXMLDriver()
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
   {
-#ifdef __GNUC__
-     #warning i18n: Missing argument to i18n call.
-#endif
-     KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/%1 \n\t~/.kde/share/apps/kstars/%1"));
+     KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/ \n\t~/.kde/share/apps/kstars/"));
 
     return false;
  }
