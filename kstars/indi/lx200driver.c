@@ -281,6 +281,39 @@ int getCommandSexa(int fd, double *value, const char * cmd)
    return 0;
 }
 
+int getCommandInt(int fd, int *value, const char* cmd)
+{
+  char temp_string[16];
+  float temp_number;
+  int error_type;
+  int nbytes_write=0, nbytes_read=0;
+
+  
+  tcflush(fd, TCIFLUSH);
+
+  if ( (error_type = tty_write_string(fd, cmd, &nbytes_write)) != TTY_OK)
+   return error_type;
+  
+  tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
+ 
+  temp_string[nbytes_read - 1] = '\0';
+
+  /* Float */
+  if (strchr(temp_string, '.'))
+  {
+     if (sscanf(temp_string, "%f", &temp_number) != 1)
+	return -1;
+
+	*value = (int) temp_number;
+   }
+  /* Int */
+  else if (sscanf(temp_string, "%d", value) != 1)
+	return -1;
+
+   return 0;
+}
+
+
 int getCommandString(int fd, char *data, const char* cmd)
 {
     char * term;

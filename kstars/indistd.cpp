@@ -502,6 +502,18 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 {
   INDI_P *pp;
   INDI_E *lp;
+
+  /* Update UTC */
+  pp = dp->findProp("UTC_OFFSET");
+  if (!pp) return;
+  
+  lp = pp->findElement("OFFSET");
+  
+  if (!lp) return;
+ 
+   // Send DST corrected TZ
+   lp->write_w->setText(QString("%1").arg(ksw->data()->geo()->TZ()));
+   pp->newText();
   
   pp = dp->findProp("TIME");
   if (!pp) return;
@@ -518,6 +530,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 					.arg(newTime.minute()).arg(newTime.second()));
   pp->newText();
   
+ /* TODO Do we want to send sidereal time? Test it on the LX200 
   pp  = dp->findProp("SDTIME");
   if (!pp) return;
   lp = pp->findElement("LST");
@@ -525,18 +538,8 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
    
   lp->write_w->setText(ksw->LST()->toHMSString());
   pp->newText();
+ */
 
-  /* Update UTC */
-  pp = dp->findProp("UTC_OFFSET");
-  if (!pp) return;
-  
-  lp = pp->findElement("OFFSET");
-  
-  if (!lp) return;
- 
-   // Send DST corrected TZ
-   lp->write_w->setText(QString("%1").arg(ksw->data()->geo()->TZ()));
-   pp->newText();
 }
 
 void INDIStdDevice::updateLocation()

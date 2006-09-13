@@ -33,7 +33,7 @@ extern int MaxReticleFlashRate;
 
 static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_ON, 0, 0}};
 static ISwitch GPSStatusS[]	  	= {{ "Sleep", "", ISS_OFF, 0, 0}, {"Wake up", "", ISS_OFF, 0 ,0}, {"Restart", "", ISS_OFF, 0, 0}};
-static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF, 0, 0}};
+static ISwitch GPSUpdateS[]	  	= { {"Update GPS", "", ISS_OFF, 0, 0}, {"Update Client", "", ISS_OFF, 0, 0}};
 static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF, 0 ,0}, {"Disable", "", ISS_OFF, 0 ,0}};
 static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF, 0, 0}, {"Disable", "", ISS_OFF, 0 ,0}};
 static ISwitch SelenSyncS[]		= {{ "Sync", "",  ISS_OFF, 0, 0}};
@@ -43,7 +43,7 @@ static ISwitch OTAUpdateS[]		= {{ "Update", "", ISS_OFF, 0, 0}};
 
 static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS), "", 0};
 static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS), "", 0};
-static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), "", 0};
+static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), "", 0};
 static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS), "", 0};
 static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS), "", 0};
 static ISwitchVectorProperty SelenSyncSw   = { mydev, "Selenographic Sync", "", GPSGroup, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, SelenSyncS, NARRAY(SelenSyncS), "", 0};
@@ -181,20 +181,37 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSUpdateSw))
        return;
 
-     GPSUpdateSw.s = IPS_OK;
-     IDSetSwitch(&GPSUpdateSw, "Updating GPS system. This operation might take few minutes to complete...");
-     if (updateGPS_System(fd))
+	if (IUUpdateSwitches(&GPSUpdateSw, states, names, n) < 0)
+		return;
+
+	index = getOnSwitch(&GPSUpdateSw);
+
+	GPSUpdateSw.s = IPS_OK;
+
+     if (index == 0)
      {
-     	IDSetSwitch(&GPSUpdateSw, "GPS system update successful.");
-	updateTime();
-	updateLocation();
-     }
-     else
-     {
-        GPSUpdateSw.s = IPS_IDLE;
-        IDSetSwitch(&GPSUpdateSw, "GPS system update failed.");
-     }
-     return;
+	     
+     	     IDSetSwitch(&GPSUpdateSw, "Updating GPS system. This operation might take few minutes to complete...");
+     	     if (updateGPS_System(fd))
+     	     {
+     			IDSetSwitch(&GPSUpdateSw, "GPS system update successful.");
+			updateTime();
+			updateLocation();
+     		}
+     		else
+     		{
+        		GPSUpdateSw.s = IPS_IDLE;
+        		IDSetSwitch(&GPSUpdateSw, "GPS system update failed.");
+     		}
+	}
+	else
+	{
+		updateTime();
+		updateLocation();
+		IDSetSwitch(&GPSUpdateSw, "Client time and location is synced to LX200 GPS Data.");
+	
+	}
+     		return;
     }
 
     /* Alt Dec Periodic Error correction */

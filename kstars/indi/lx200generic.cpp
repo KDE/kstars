@@ -144,7 +144,7 @@ ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0
 
 /* DST Corrected UTC Offfset */
 static INumber UTCOffsetN[] = {{"OFFSET", "Offset", "%0.3g" , -12.,12.,0.5,0., 0, 0, 0}};
-INumberVectorProperty UTCOffsetNP = { mydev, "UTC_OFFSET", "UTC Offset", DATETIME_GROUP, IP_WO, 0, IPS_IDLE, UTCOffsetN , NARRAY(UTCOffsetN), "", 0};
+INumberVectorProperty UTCOffsetNP = { mydev, "UTC_OFFSET", "UTC Offset", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTCOffsetN , NARRAY(UTCOffsetN), "", 0};
 
 /* Sidereal Time */
 static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0., 0, 0, 0}};
@@ -451,16 +451,12 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
          JD = UTtoJD(&utm);
 	IDLog("New JD is %f\n", (float) JD);
 
-	// Make it calender representation
-	 utm.tm_mon  += 1;
-	 utm.tm_year += 1900;
-
         // Get epoch since given UTC (we're assuming it's LOCAL for now, then we'll subtract UTC to get local)
 	// Since mktime only returns epoch given a local calender time
 	 time_epoch = mktime(&utm);
 
-	 // Subtract UTC to get local time. The offset is assumed to be DST corrected.
-	time_epoch -= (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+	 // Add UTC Offset to get local time. The offset is assumed to be DST corrected.
+	time_epoch += (int) (UTCOffsetN[0].value * 60.0 * 60.0);
 
 	// Now let's get the local time
 	localtime_r(&time_epoch, &ltm);
@@ -469,7 +465,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
         ltm.tm_year += 1900;
 
 	// Set UTC Offset
-	if ( ( err = setUTCOffset(fd, UTCOffsetN[0].value) < 0) )
+	if ( ( err = setUTCOffset(fd, (UTCOffsetN[0].value)) < 0) )
 	{
 	        Time.s = IPS_IDLE;
 	        IDSetText( &Time , "Setting UTC Offset failed.");
@@ -484,6 +480,11 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	}
 
 	// GPS needs UTC date?
+	// TODO Test This!
+	// Make it calender representation
+	 utm.tm_mon  += 1;
+	 utm.tm_year += 1900;
+
 	if (!strcmp(dev, "LX200 GPS"))
 	{
 			if ( ( err = setCalenderDate(fd, utm.tm_mday, utm.tm_mon, utm.tm_year) < 0) )
@@ -557,15 +558,23 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	// DST Correct UTC Offset
 	if (!strcmp (name, UTCOffsetNP.name))
 	{
-		if (!IUUpdateNumbers(&UTCOffsetNP, values, names, n))
+		if (strcmp(names[0], UTCOffsetN[0].name))
 		{
-			UTCOffsetNP.s = IPS_OK;
-			IDSetNumber(&UTCOffsetNP, NULL);
+			UTCOffsetNP.s = IPS_ALERT;
+			IDSetNumber( &UTCOffsetNP , "Unknown element %s for property %s.", names[0], UTCOffsetNP.label);
+			return;
+		}
+
+		if ( ( err = setUTCOffset(fd, (values[0])) < 0) )
+		{
+	        	UTCOffsetNP.s = IPS_ALERT;
+	        	IDSetNumber( &UTCOffsetNP , "Setting UTC Offset failed.");
 			return;
 		}
 		
-		UTCOffsetNP.s = IPS_ALERT;
-		IDSetNumber(&trackingPrecisionNP, "unknown error while setting UTC Offset");
+		IUUpdateNumbers(&UTCOffsetNP, values, names, n);
+		UTCOffsetNP.s = IPS_OK;
+		IDSetNumber(&UTCOffsetNP, NULL);
 		return;
 	}
 
@@ -1643,8 +1652,8 @@ void LX200Generic::getBasicData()
   else
      IDSetNumber (&TrackingFreq, NULL);
      
-  updateLocation();
-  updateTime();
+  /*updateLocation();
+  updateTime();*/
   
 }
 
@@ -1967,7 +1976,7 @@ void LX200Generic::updateTime()
 
   char cdate[32];
   double ctime;
-  int h, m, s;
+  int h, m, s, lx200_utc_offset=0;
   int day, month, year, result;
   struct tm ltm;
   struct tm utm;
@@ -1980,7 +1989,11 @@ void LX200Generic::updateTime()
     IDSetText(&Time, NULL);
     return;
   }
-  
+
+  getUTCOffset(fd, &lx200_utc_offset);
+
+  UTCOffsetN[0].value = lx200_utc_offset;
+
   getLocalTime24(fd, &ctime);
   getSexComponents(ctime, &h, &m, &s);
 
@@ -2003,7 +2016,7 @@ void LX200Generic::updateTime()
   time_epoch = mktime(&ltm);
 
   // Convert to UTC
-  time_epoch += (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+  time_epoch -= (int) (UTCOffsetN[0].value * 60.0 * 60.0);
 
   // Get UTC (we're using localtime_r, but since we shifted time_epoch above by UTCOffset, we should be getting the real UTC time)
   localtime_r(&time_epoch, &utm);
@@ -2021,6 +2034,7 @@ void LX200Generic::updateTime()
   // Let's send everything to the client
   IDSetText(&Time, NULL);
   IDSetNumber(&SDTime, NULL);
+  IDSetNumber(&UTCOffsetNP, NULL);
 
 }
 
