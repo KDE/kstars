@@ -16,9 +16,8 @@
 
 #include <kdialog.h>
 #include <unistd.h>
-#include <qstring.h>
-#include <q3ptrlist.h>
-//Added by qt3to4:
+
+#include <QString>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -52,7 +51,7 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
-enum stdProperties { CONNECTION, DEVICE_PORT, TIME, SDTIME, UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
+enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, HORIZONTAL_COORD,  /* Telescope */
                      ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, MOVEMENT, PARK,  /* Telescope */
                      CCD_EXPOSE_DURATION, CCD_TEMPERATURE, CCD_FRAME,           /* CCD */
@@ -86,8 +85,8 @@ class QSlider;
 class INDI_P;
 
 /* Useful XML functions */
-XMLAtt *   findAtt     (XMLEle *ep  , const char *name , char errmsg[]);
-XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, char errmsg[]);
+XMLAtt *   findAtt     (XMLEle *ep  , const char *name , QString & errmsg);
+XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, QString & errmsg);
 
 /* INDI Element */
 class INDI_E : public QObject

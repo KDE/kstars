@@ -1033,7 +1033,7 @@ void KStars::setINDIUTC(const QString &UTCDateTime)
     return;
   }
 
-  prop = dev->findProp("TIME");
+  prop = dev->findProp("TIME_UTC");
   if (!prop) return;
 
   el   = prop->findElement("UTC");

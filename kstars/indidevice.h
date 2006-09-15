@@ -14,7 +14,7 @@
 #include <unistd.h>
 
 #include "indielement.h"
-//Added by qt3to4:
+
 #include <QGridLayout>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -79,23 +79,15 @@ class INDI_D : public KDialog
 
     QString 	name;			/* device name */
     QString	label;			/* device label */
-    //KVBox	*deviceVBox;		/* device tab frame */
     QFrame      *deviceVBox;
-    QVBoxLayout *deviceLayout;	/* device tab frame vertial layout */
+    QVBoxLayout *deviceLayout;		/* device tab frame vertial layout */
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
-    //QScrollView *sv;			/* Scroll view */
-    //QVBoxLayout *mainLayout;
-    //QVBox       *propertyLayout;
-    //QSpacerItem *vSpacer;
-    //QSpacerItem *hSpacer;
-
-    //QPushButton  *clear;
-    //QHBoxLayout  *buttonLayout;
+    
     INDIStdDevice  *stdDev;
 
-    QList<INDI_G*> gl;		/* list of pointers to groups */
+    QList<INDI_G*> gl;			/* list of pointers to groups */
   
     INDI_G        *curGroup;
     bool	  INDIStdSupport;
@@ -108,39 +100,39 @@ class INDI_D : public KDialog
    /*****************************************************************
    * Build
    ******************************************************************/
-   int buildTextGUI    (XMLEle *root, char errmsg[]);
-   int buildNumberGUI  (XMLEle *root, char errmsg[]);
-   int buildSwitchesGUI(XMLEle *root, char errmsg[]);
-   int buildMenuGUI    (INDI_P *pp, XMLEle *root, char errmsg[]);
-   int buildLightsGUI  (XMLEle *root, char errmsg[]);
-   int buildBLOBGUI    (XMLEle *root, char errmsg[]);
+   int buildTextGUI    (XMLEle *root, QString & errmsg);
+   int buildNumberGUI  (XMLEle *root, QString & errmsg);
+   int buildSwitchesGUI(XMLEle *root, QString & errmsg);
+   int buildMenuGUI    (INDI_P *pp, XMLEle *root, QString & errmsg);
+   int buildLightsGUI  (XMLEle *root, QString & errmsg);
+   int buildBLOBGUI    (XMLEle *root, QString & errmsg);
    
    /*****************************************************************
    * Add
    ******************************************************************/
-   INDI_P *  addProperty (XMLEle *root, char errmsg[]);
+   INDI_P *  addProperty (XMLEle *root, QString & errmsg);
 
    /*****************************************************************
    * Find
    ******************************************************************/
    INDI_P *   findProp    (const QString &name);
    INDI_E *   findElem    (const QString &name);
-   INDI_G *   findGroup   (QString grouptag, int create, char errmsg[]);
-   int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, char errmsg[]);
+   INDI_G *   findGroup   (QString grouptag, int create, QString & errmsg);
+   int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, QString & errmsg);
 
    /*****************************************************************
    * Set/New
    ******************************************************************/
-   int setValue       (INDI_P *pp, XMLEle *root, char errmsg[]);
-   int setLabelState  (INDI_P *pp, XMLEle *root, char errmsg[]);
-   int setTextValue   (INDI_P *pp, XMLEle *root, char errmsg[]);
-   int setBLOB        (INDI_P *pp, XMLEle * root, char errmsg[]);
+   int setValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
+   int setLabelState  (INDI_P *pp, XMLEle *root, QString & errmsg);
+   int setTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
+   int setBLOB        (INDI_P *pp, XMLEle * root, QString & errmsg);
        
-   int newValue       (INDI_P *pp, XMLEle *root, char errmsg[]);
-   int newTextValue   (INDI_P *pp, XMLEle *root, char errmsg[]);
+   int newValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
+   int newTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
 
-   int setAnyCmd      (XMLEle *root, char errmsg[]);
-   int newAnyCmd      (XMLEle *root, char errmsg[]);
+   int setAnyCmd      (XMLEle *root, QString & errmsg);
+   int newAnyCmd      (XMLEle *root, QString & errmsg);
 
    int  removeProperty(INDI_P *pp);
 
@@ -153,7 +145,7 @@ class INDI_D : public KDialog
    /*****************************************************************
    * Data processing
    ******************************************************************/
-   int processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[]);
+   int processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg);
    
    /*****************************************************************
    * INDI standard property policy

@@ -226,7 +226,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
   switch (pp->stdID)
   {
 
-    case TIME:
+    case TIME_UTC:
       if ( Options::indiAutoTime() )
        handleDevCounter();
        
@@ -245,7 +245,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        
       break;
       
-    case SDTIME:
+    case TIME_LST:
       if ( Options::indiAutoTime())
        handleDevCounter();
       break;
@@ -515,7 +515,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
    lp->write_w->setText(QString("%1").arg(ksw->data()->geo()->TZ()));
    pp->newText();
   
-  pp = dp->findProp("TIME");
+  pp = dp->findProp("TIME_UTC");
   if (!pp) return;
   
   lp = pp->findElement("UTC");
@@ -531,7 +531,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
   pp->newText();
   
  /* TODO Do we want to send sidereal time? Test it on the LX200 
-  pp  = dp->findProp("SDTIME");
+  pp  = dp->findProp("TIME_LST");
   if (!pp) return;
   lp = pp->findElement("LST");
   if (!lp) return;
@@ -623,7 +623,7 @@ void INDIStdDevice::initDeviceOptions()
 
   if ( Options::indiAutoTime() )
   {
-  	prop = dp->findProp("TIME");
+  	prop = dp->findProp("TIME_UTC");
   	  if (prop)
 	  {
             updateTime();
@@ -1057,7 +1057,7 @@ void INDIStdProperty::newTime()
 	}
 	else return;
 	
-   SDProp  = pp->pg->dp->findProp("SDTIME");
+   SDProp  = pp->pg->dp->findProp("TIME_LST");
    if (!SDProp) return;
    timeEle = SDProp->findElement("LST");
    if (!timeEle) return;

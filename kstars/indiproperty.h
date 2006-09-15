@@ -83,12 +83,12 @@ class INDI_P : public QObject
     bool isOn(const QString &component);	
    
    /* Build Functions */ 
-   int buildTextGUI    (XMLEle *root, char errmsg[]);
-   int buildNumberGUI  (XMLEle *root, char errmsg[]);
-   int buildSwitchesGUI(XMLEle *root, char errmsg[]);
-   int buildMenuGUI    (XMLEle *root, char errmsg[]);
-   int buildLightsGUI  (XMLEle *root, char errmsg[]);
-   int buildBLOBGUI    (XMLEle *root, char errmsg[]);
+   int buildTextGUI    (XMLEle *root, QString & errmsg);
+   int buildNumberGUI  (XMLEle *root, QString & errmsg);
+   int buildSwitchesGUI(XMLEle *root, QString & errmsg);
+   int buildMenuGUI    (XMLEle *root, QString & errmsg);
+   int buildLightsGUI  (XMLEle *root, QString & errmsg);
+   int buildBLOBGUI    (XMLEle *root, QString & errmsg);
       
    /* Setup the 'set' button in the property */
     void setupSetButton(const QString &caption);

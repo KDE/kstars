@@ -376,7 +376,7 @@ void INDI_P::newBlob()
       continue;
     }
 
-    binaryStream.readRawBytes((char*)data_file, fp.size());
+    binaryStream.readRawData((char*)data_file, fp.size());
 
     data64 = new unsigned char[4*fp.size()/3+4];
     if (data64 == NULL)
@@ -422,7 +422,7 @@ void INDI_P::newBlob()
 void INDI_P::addGUI (XMLEle *root)
 {
 	XMLAtt *prompt;
-	char errmsg[512];
+	QString errmsg;
 
 	/* add to GUI group */
 	light = new KLed (pg->propertyContainer);
@@ -451,7 +451,7 @@ void INDI_P::addGUI (XMLEle *root)
 	else
 	   label_w = new QLabel(label, pg->propertyContainer);
 
-	   label_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
+	   label_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	   label_w->setFrameShape( QLabel::GroupBoxPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
@@ -468,13 +468,12 @@ void INDI_P::addGUI (XMLEle *root)
 	 PHBox->addLayout(PVBox);
 }
 
-int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
+int INDI_P::buildTextGUI(XMLEle *root, QString & errmsg)
 {
         INDI_E *lp;
 	XMLEle *text;
 	XMLAtt *ap;
         QString textName, textLabel;
-	errmsg=errmsg;
 
         for (text = nextXMLEle (root, 1); text != NULL; text = nextXMLEle (root, 0))
 	{
@@ -484,7 +483,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	    ap = findXMLAtt(text, "name");
 	    if (!ap)
 	    {
-	        kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+		errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
 	        return (-1);
 	    }
 
@@ -495,7 +494,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 
 	    if (!ap)
 	    {
-	      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+	      errmsg = QString("Error: unable to find attribute 'label' for property %1").arg(name);
 	      return (-1);
 	    }
 
@@ -519,7 +518,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	  return 0;
 
 	 // INDI STD, but we use our own controls
-	 if (name == "TIME")
+	 if (name == "TIME_UTC")
 	 {
 	        setupSetButton("Time");
 	     	QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
@@ -534,7 +533,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 
 }
 
-int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
+int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
 {
   	char format[32];
 	double min=0, max=0, step=0;
@@ -542,7 +541,6 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	XMLAtt *ap;
 	INDI_E *lp;
 	QString numberName, numberLabel;
-	errmsg=errmsg;
 
 	for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
 	{
@@ -550,9 +548,10 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 		continue;
 
 	    ap = findXMLAtt(number, "name");
+	
 	    if (!ap)
 	    {
-	        kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+		errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
 	        return (-1);
 	    }
 
@@ -563,7 +562,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 
 	    if (!ap)
 	    {
-	      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+	      errmsg = QString("Error: unable to find attribute 'label' for property %1").arg(name);
 	      return (-1);
 	    }
 
@@ -614,14 +613,14 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 void INDI_P::setupSetButton(const QString &caption)
 {
 	set_w = new QPushButton(caption, pg->propertyContainer);
-	set_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
+	set_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	set_w->setMinimumWidth( MIN_SET_WIDTH );
 	set_w->setMaximumWidth( MAX_SET_WIDTH );
 
 	PHBox->addWidget(set_w);
 }
 
-int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
+int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
 {
 	XMLEle *sep = NULL;
 	XMLAtt *ap;
@@ -665,8 +664,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 
 	    if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), lp->name.toAscii(), name.toAscii());
+		errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(lp->name).arg(name);
 		return (-1);
 	    }
 
@@ -676,8 +674,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	    {
 		if (onItem != -1)
 		{
-		    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has multiple On switches",
-					tagXMLEle(root), name.toAscii(), lp->name.toAscii());
+		    errmsg = QString("INDI: <%1> %2 %3 has multiple On switches").arg(tagXMLEle(root)).arg(name).arg(lp->name);
 		    return (-1);
 		}
 
@@ -701,7 +698,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
        	return (0);
 }
 
-int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
+int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
 {
         XMLEle *sep;
 	XMLAtt *ap;
@@ -749,8 +746,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 
 	    if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), name.toAscii(), lp->name.toAscii());
+		errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(name).arg(lp->name);
 		return (-1);
 	    }
 
@@ -815,7 +811,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
         return (0);
 }
 
-int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
+int INDI_P::buildLightsGUI(XMLEle *root, QString & errmsg)
 {
         XMLEle *lep;
 	XMLAtt *ap;
@@ -848,8 +844,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 
 	   if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->state) < 0)
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-			    tagXMLEle(root), valuXMLAtt(ap), pg->dp->name.toAscii(), name.toAscii(), sname.toAscii());
+		errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pg->dp->name).arg(name).arg(sname);
 		return (-1);
 	   }
 
@@ -866,13 +861,12 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
 
 /* Build BLOB GUI
  * Return 0 if okay, -1 if error */
-int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
+int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
 {
   INDI_E *lp;
   XMLEle *blob;
   XMLAtt *ap;
   QString blobName, blobLabel ;
-  errmsg=errmsg;
 
   for (blob = nextXMLEle (root, 1); blob != NULL; blob = nextXMLEle (root, 0))
   {
@@ -882,7 +876,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
     ap = findXMLAtt(blob, "name");
     if (!ap)
     {
-      kDebug() << "Error: unable to find attribute 'name' for property " << name << endl;
+      errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
       return (-1);
     }
 
@@ -893,7 +887,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
 
     if (!ap)
     {
-      kDebug() << "Error: unable to find attribute 'label' for property " << name << endl;
+      errmsg = QString("Error: unable to find attribute 'label' for property %1").arg(name);
       return (-1);
     }
 

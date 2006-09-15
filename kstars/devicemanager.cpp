@@ -137,6 +137,7 @@ void DeviceManager::dataReceived()
 {
 	char ibuf[32];	/* not so much user input lags */
 	char errmsg[ERRMSG_SIZE];
+	QString cmd_err;
 	int i, nr;
 
 	/* read INDI command */
@@ -144,16 +145,16 @@ void DeviceManager::dataReceived()
 	if (nr <= 0)
 	{
 	    if (nr < 0)
-		strcpy (errmsg, "INDI: input error.");
+		cmd_err = QString("INDI: input error.");
 	    else
-		strcpy (errmsg, "INDI: agent closed connection.");
+		cmd_err = QString("INDI: agent closed connection.");
 
 
             tcflush(serverFD, TCIFLUSH);
 	    sNotifier->disconnect();
 	    close(serverFD);
 	    parent->removeDeviceMgr(mgrID);
-	    KMessageBox::error(0, QString::fromLatin1(errmsg));
+	    KMessageBox::error(0, cmd_err);
 
             return;
 	}
@@ -166,14 +167,13 @@ void DeviceManager::dataReceived()
   	  if (!XMLParser)
 	     	return;
 
-
 	    XMLEle *root = readXMLEle (XMLParser, (int)ibuf[i], errmsg);
 	    if (root)
 	    {
                 //prXMLEle (stdout, root, 0);
-		if (dispatchCommand(root, errmsg) < 0)
+		if (dispatchCommand(root, cmd_err) < 0)
 		{
-		    fprintf(stderr, "%s", errmsg);
+		    kDebug() << cmd_err << endl;
 		    prXMLEle (stdout, root, 0);
 		}
 
@@ -186,7 +186,7 @@ void DeviceManager::dataReceived()
 	}
 }
 
-int DeviceManager::dispatchCommand(XMLEle *root, char errmsg[])
+int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
 {
 
   if  (!strcmp (tagXMLEle(root), "message"))
@@ -224,7 +224,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, char errmsg[])
  * if no property name attribute at all, delete the whole device regardless.
  * return 0 if ok, else -1 with reason in errmsg[].
  */
-int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
+int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
 {
 
 	XMLAtt *ap;
@@ -256,7 +256,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 
 }
 
-int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
+int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
 {
 
     // remove all devices if devName == NULL
@@ -275,11 +275,11 @@ int DeviceManager::removeDevice( const QString &devName, char errmsg[] )
 	 }
     }
 
-   snprintf(errmsg, ERRMSG_SIZE, "Device %.32s not found" ,qPrintable( devName));
+   errmsg = QString("Device %1 not found").arg(devName);
    return -1;
 }
 
-INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
+INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )
 {
 	/* search for existing */
 	for (int i = 0; i < indi_dev.size(); i++)
@@ -288,8 +288,7 @@ INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
 		return indi_dev[i];
 	}
 
-	snprintf (errmsg, ERRMSG_SIZE, "INDI: no such device %.32s",qPrintable( devName));
-	kDebug() << errmsg;
+	errmsg = QString("INDI: no such device %1").arg(devName);
 
 	return NULL;
 }
@@ -297,7 +296,7 @@ INDI_D * DeviceManager::findDev( const QString &devName, char errmsg[] )
 /* add new device to mainrc_w using info in dep.
 - * if trouble return NULL with reason in errmsg[]
 - */
-INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
+INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 {
 	INDI_D *dp;
 	XMLAtt *ap;
@@ -323,7 +322,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	return dp;
 }
 
-INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
+INDI_D * DeviceManager::findDev (XMLEle *root, int create, QString & errmsg)
 {
 	XMLAtt *ap;
 	char *dn;
@@ -345,15 +344,14 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	if (create)
 		return (addDevice (root, errmsg));
 
-
-	snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.32s> no such device %.32s", tagXMLEle(root), dn);
+	errmsg = QString("INDI: <%1> no such device %2").arg(tagXMLEle(root)).arg(dn);
 	return NULL;
 }
 
 /* a general message command received from the device.
  * return 0 if ok, else -1 with reason in errmsg[].
  */
-int DeviceManager::messageCmd (XMLEle *root, char errmsg[])
+int DeviceManager::messageCmd (XMLEle *root, QString & errmsg)
 {
 	checkMsg (root, findDev (root, 0, errmsg));
 	return (0);

@@ -40,27 +40,27 @@
 /* search element for attribute.
  * return XMLAtt if find, else NULL with helpful info in errmsg.
  */
-XMLAtt * findAtt (XMLEle *ep, const char *name, char errmsg[])
+XMLAtt * findAtt (XMLEle *ep, const char *name, QString & errmsg)
 {
 	XMLAtt *ap = findXMLAtt (ep, name);
 	if (ap)
 	    return (ap);
-	if (errmsg)
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> missing attribute '%.64s'", tagXMLEle(ep),name);
+
+	errmsg = QString("INDI: <%1> missing attribute '%2'").arg(tagXMLEle(ep)).arg(name);
+
 	return NULL;
 }
 
 /* search element for given child. pp is just to build a better errmsg.
  * return XMLEle if find, else NULL with helpful info in errmsg.
  */
-XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
+XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, QString & errmsg)
 {
 	XMLEle *cp = findXMLEle (ep, child);
 	if (cp)
 	    return (cp);
-	if (errmsg)
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s %.64s %.64s> missing child '%.64s'", tagXMLEle(ep),
-						pp->pg->dp->name.toAscii(), pp->name.toAscii(), child);
+
+	errmsg  = QString().arg("INDI: <%1 %2 %3> missing child '%4'").arg(tagXMLEle(ep), pp->pg->dp->name, pp->name, child);
 	return (NULL);
 }
 
@@ -74,7 +74,7 @@ INDI_E::INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inL
 
   pp = parentProperty;
 
-  EHBox     = new QHBoxLayout(0);
+  EHBox     = new QHBoxLayout;
   EHBox->setMargin(0);
   EHBox->setSpacing(KDialog::spacingHint());
   label_w   = NULL;
@@ -107,25 +107,29 @@ INDI_E::~INDI_E()
 
 void INDI_E::setupElementLabel()
 {
-label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
-label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
-label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
-label_w->setFrameShape( KSqueezedTextLabel::Box );
-label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
-label_w->setTextFormat( Qt::RichText );
-label_w->setAlignment( Qt::AlignCenter );
-label_w->setWordWrap(true);
+ QPalette palette;
 
-if (label.length() > MAX_LABEL_LENGTH)
-{
-  QFont tempFont(  label_w->font() );
-  tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
-  label_w->setFont( tempFont );
-}
+ label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
+ label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
+ label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
+ label_w->setFrameShape( KSqueezedTextLabel::Box );
 
-label_w->setText(label);
+ palette.setColor(label_w->backgroundRole(),  QColor( 224, 232, 238 ));
+ label_w->setPalette(palette);
+ label_w->setTextFormat( Qt::RichText );
+ label_w->setAlignment( Qt::AlignCenter );
+ label_w->setWordWrap(true);
 
-EHBox->addWidget(label_w);
+ if (label.length() > MAX_LABEL_LENGTH)
+ {
+   QFont tempFont(  label_w->font() );
+   tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
+   label_w->setFont( tempFont );
+ }
+
+ label_w->setText(label);
+
+ EHBox->addWidget(label_w);
 }
 
 int INDI_E::buildTextGUI(const QString &initText)
@@ -191,8 +195,12 @@ int INDI_E::buildBLOBGUI()
 int INDI_E::buildNumberGUI  (double initValue)
 {
   bool scale = false;
+ char iNumber[32];
 
-  updateValue(initValue);
+  value = initValue;
+  numberFormat(iNumber, format.toAscii(), value);
+  text = iNumber;
+
   setupElementLabel();
 
   if (step != 0 && (max - min)/step <= MAXSCSTEPS)
@@ -284,33 +292,43 @@ void INDI_E::updateValue(double newValue)
   numberFormat(iNumber, format.toAscii(), value);
   text = iNumber;
 
+  if (write_w)
+	write_w->setText(text);
+
+  if (spin_w)
+	spin_w->setValue(value);
+
+  if (slider_w)
+	spin_w->setValue(value);
+
 }
 
 void INDI_E::setupElementScale(int length)
 {
 
-int steps = (int) ((max - min) / step);
-spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
-slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
-slider_w->setRange(0, steps);
-slider_w->setPageStep(1);
-slider_w->setValue((int) ((value - min) / step));
+ int steps = (int) ((max - min) / step);
+ spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
+ slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
+ slider_w->setRange(0, steps);
+ slider_w->setPageStep(1);
+ slider_w->setValue((int) ((value - min) / step));
 
-connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
-connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
+ connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
+ connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
 
-//kDebug() << "For element " << label << " we have step of " << step << endl;
 
+  /* FIXME make sure the size stuff work */
   if (length == ELEMENT_FULL_WIDTH)
-	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   else
-	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-spin_w->setMinimumWidth( (int) (length * 0.45) );
-slider_w->setMinimumWidth( (int) (length * 0.55) );
+ spin_w->setMinimumWidth( (int) (length * 0.45) );
+ slider_w->setMinimumWidth( (int) (length * 0.55) );
 
-EHBox->addWidget(slider_w);
-EHBox->addWidget(spin_w);
+ EHBox->addWidget(slider_w);
+ EHBox->addWidget(spin_w);
+
 }
 
 void INDI_E::spinChanged(double value)
@@ -366,7 +384,7 @@ void INDI_E::setMax (double inMax)
 void INDI_E::setupElementWrite(int length)
 {
     write_w = new KLineEdit( pp->pg->propertyContainer);
-    write_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
+    write_w->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred);
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
 
@@ -381,8 +399,6 @@ void INDI_E::setupElementRead(int length)
   read_w = new KLineEdit( pp->pg->propertyContainer );
   read_w->setMinimumWidth( length );
   read_w->setFocusPolicy( Qt::NoFocus );
-  //read_w->setFrameShape( QWidget::GroupBoxPanel );
-  //read_w->setFrameShadow( QWidget::Plain );
   read_w->setCursorPosition( 0 );
   read_w->setAlignment( Qt::AlignCenter );
   read_w->setReadOnly( TRUE );
@@ -395,7 +411,7 @@ void INDI_E::setupElementRead(int length)
 void INDI_E::setupBrowseButton()
 {
    browse_w = new KPushButton("...", pp->pg->propertyContainer);
-   browse_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
+   browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
    browse_w->setMinimumWidth( MIN_SET_WIDTH );
    browse_w->setMaximumWidth( MAX_SET_WIDTH );
 

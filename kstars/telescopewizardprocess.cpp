@@ -40,7 +40,7 @@
 
 #define TIMEOUT_THRESHHOLD	20
 
-telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : QDialog(parent, name)
+telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*name*/ ) : QDialog(parent)
 {
    currentPort  = -1;
    timeOutCount = 0;

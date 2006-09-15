@@ -140,7 +140,7 @@ static ISwitchVectorProperty FocusModeSP = {mydev, "FOCUS_MODE", "Mode", FOCUS_G
 
 /* Data & Time */
 static IText UTC[] = {{"UTC", "UTC", 0, 0, 0, 0}};
-ITextVectorProperty Time = { mydev, "TIME", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), "", 0};
+ITextVectorProperty Time = { mydev, "TIME_UTC", "UTC Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), "", 0};
 
 /* DST Corrected UTC Offfset */
 static INumber UTCOffsetN[] = {{"OFFSET", "Offset", "%0.3g" , -12.,12.,0.5,0., 0, 0, 0}};
@@ -148,7 +148,7 @@ INumberVectorProperty UTCOffsetNP = { mydev, "UTC_OFFSET", "UTC Offset", DATETIM
 
 /* Sidereal Time */
 static INumber STime[] = {{"LST", "Sidereal time", "%10.6m" , 0.,24.,0.,0., 0, 0, 0}};
-INumberVectorProperty SDTime = { mydev, "SDTIME", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime), "", 0};
+INumberVectorProperty SDTime = { mydev, "TIME_LST", "Sidereal Time", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, STime, NARRAY(STime), "", 0};
 
 /* Tracking precision */
 INumber trackingPrecisionN[] = {

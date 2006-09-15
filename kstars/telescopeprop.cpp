@@ -31,8 +31,8 @@
 #include "indimenu.h"
 #include "indidriver.h"
 
-telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-: QDialog(parent,name, modal,fl)
+telescopeProp::telescopeProp(QWidget* parent, const char* /*name*/, bool modal, Qt::WFlags /*fl*/)
+: QDialog(parent)
 {
 
   ksw = (KStars *) parent;
@@ -43,6 +43,8 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, Qt::
 
   ui = new Ui::scopeProp();
   ui->setupUi(this);
+
+  setModal(modal);
 
   connect (ui->newB, SIGNAL(clicked()), this, SLOT(newScope()));
   connect (ui->saveB, SIGNAL(clicked()), this, SLOT(saveScope()));

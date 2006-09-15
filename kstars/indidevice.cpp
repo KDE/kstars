@@ -20,6 +20,7 @@
                and problems. The new GUI can easily incoperate extensions to the INDI
 	       protocol as required
     2005-10-30 Porting to KDE/QT 4
+    2006-09-14 all char* to QString
 
  */
 
@@ -46,7 +47,6 @@
 #include <termios.h>
 #include <zlib.h>
 
-//#include <qlineedit.h>
 #include <qtextedit.h>
 #include <QFrame>
 #include <QTabWidget>
@@ -67,7 +67,6 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <k3listview.h>
 #include <kdebug.h>
 #include <kcombobox.h>
 #include <knuminput.h>
@@ -79,7 +78,7 @@
 /* INDI standard property used across all clients to enable interoperability. */
 
 const char * indi_std[NINDI_STD] =
-  {"CONNECTION", "DEVICE_PORT", "TIME", "SDTIME", "UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "MOVEMENT", "PARK", "CCD_EXPOSE_DURATION", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCDPREVIEW_STREAM", "CCDPREVIEW_CTRL", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
+  {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "MOVEMENT", "PARK", "CCD_EXPOSE_DURATION", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCDPREVIEW_STREAM", "CCDPREVIEW_CTRL", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its
@@ -92,12 +91,8 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString
   parent    = menuParent;
   parentMgr = parentManager;
 
-//  gl.setAutoDelete(true);
-
- //deviceVBox     = menuParent->addVBoxPage(inLabel);
  deviceVBox     = new QFrame();
  deviceLayout   = new QVBoxLayout(deviceVBox);
- //groupContainer = new QTabWidget(deviceVBox);
  groupContainer = new QTabWidget(deviceVBox);
 
  msgST_w        = new QTextEdit(deviceVBox);
@@ -172,7 +167,7 @@ int INDI_D::removeProperty(INDI_P *pp)
 /* implement any <set???> received from the device.
  * return 0 if ok, else -1 with reason in errmsg[]
  */
-int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
+int INDI_D::setAnyCmd (XMLEle *root, QString & errmsg)
 {
 	XMLAtt *ap;
 	INDI_P *pp;
@@ -184,8 +179,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 	pp = findProp (valuXMLAtt(ap));
 	if (!pp)
 	{
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.32s> device %.32s has no property named %.64s",
-						tagXMLEle(root), name.toAscii().constData(), valuXMLAtt(ap));
+	    errmsg = QString("INDI: <%1> device %2 has no property named %3").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
 	    return (-1);
 	}
 
@@ -197,7 +191,7 @@ int INDI_D::setAnyCmd (XMLEle *root, char errmsg[])
 /* set the given GUI property according to the XML command.
  * return 0 if ok else -1 with reason in errmsg
  */
-int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
+int INDI_D::setValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
 	XMLAtt *ap;
 
@@ -209,9 +203,7 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	      pp->drawLt (pp->state);
 	    else
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> bogus state %.64s for %.64s %.64s",
-                          tagXMLEle(root), valuXMLAtt(ap),
-                          name.toAscii().constData(), pp->name.toAscii().constData());
+		errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
 		return (-1);
 	    }
 	}
@@ -255,7 +247,7 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, char errmsg[])
  * root should have <text> or <number> child.
  * return 0 if ok else -1 with reason in errmsg
  */
-int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
+int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
 	XMLEle *ep;
 	XMLAtt *ap;
@@ -282,7 +274,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	    if (!lp)
 	    {
-	      snprintf(errmsg, ERRMSG_SIZE, "Error: unable to find element '%.64s' in property '%.64s'", elementName.toAscii(), pp->name.toAscii());
+	      errmsg = QString("Error: unable to find element '%1' in property '%2'").arg(elementName).arg(pp->name);
 	      return (-1);
 	    }
 
@@ -354,7 +346,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
  * root should have some <switch> or <light> children.
  * return 0 if ok else -1 with reason in errmsg
  */
-int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
+int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
 	int menuChoice=0;
 	unsigned i=0;
@@ -377,16 +369,14 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	    /* no name */
 	    if (!ap)
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s %.64s requires name",
-						    tagXMLEle(root), name.toAscii(), pp->name.toAscii(), tagXMLEle(ep));
+		errmsg = QString("INDI: <%1> %2 %3 %4 requires name").arg(tagXMLEle(root)).arg(name,pp->name).arg(tagXMLEle(ep));
 		return (-1);
 	    }
 
 	    if ((islight && crackLightState (pcdataXMLEle(ep), &state) < 0)
 		    || (!islight && crackSwitchState (pcdataXMLEle(ep), &state) < 0))
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown state %.64s for %.64s %.64s %.64s",
-					    tagXMLEle(root), pcdataXMLEle(ep), name.toAscii(), pp->name.toAscii(), tagXMLEle(ep));
+		errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(pcdataXMLEle(ep)).arg(name).arg(pp->name).arg(tagXMLEle(ep));
 		return (-1);
 	    }
 
@@ -396,8 +386,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	    if (!lp)
 	    {
-		snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has no choice named %.64s",
-						    tagXMLEle(root), name.toAscii(), pp->name.toAscii(), valuXMLAtt(ap));
+		errmsg = QString("INDI: <%1> %2 %3 has no choice named %4").arg(tagXMLEle(root)).arg(name).arg(pp->name).arg(valuXMLAtt(ap));
 		return (-1);
 	    }
 
@@ -426,7 +415,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 	       {
 	      	if (menuChoice)
 	      	{
-	        	snprintf(errmsg, ERRMSG_SIZE, "INDI: <%.64s> %.64s %.64s has multiple ON states", tagXMLEle(root), name.toAscii(), pp->name.toAscii());
+			errmsg = QString("INDI: <%1> %2 %3 has multiple ON states").arg(tagXMLEle(root)).arg(name).arg(pp->name);
 			return (-1);
               	}
 	      	menuChoice = 1;
@@ -452,7 +441,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 /* Set BLOB vector. Process incoming data stream
  * Return 0 if okay, -1 if error
 */
-int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
+int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 {
 
   XMLEle *ep;
@@ -470,7 +459,7 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
 	return processBlob(blobEL, ep, errmsg);
       else
       {
-	sprintf (errmsg, "INDI: set %64s.%64s.%64s not found", name.toAscii(), pp->name.toAscii(), findXMLAttValu(ep, "name"));
+	errmsg = QString("INDI: set %1.%2.%3 not found").arg(name).arg(pp->name).arg(findXMLAttValu(ep, "name"));
 	return (-1);
       }
     }
@@ -483,7 +472,7 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
 /* Process incoming data stream
  * Return 0 if okay, -1 if error
 */
-int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
+int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
 {
   XMLAtt *ap;
   int blobSize=0, r=0, dataType=0;
@@ -496,7 +485,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   ap = findXMLAtt(ep, "size");
   if (!ap)
   {
-    sprintf (errmsg, "INDI: set %64s size not found", blobEL->name.toAscii());
+    errmsg = QString("INDI: set %1 size not found").arg(blobEL->name);
     return (-1);
   }
 
@@ -505,7 +494,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   ap = findXMLAtt(ep, "format");
   if (!ap)
   {
-    sprintf (errmsg, "INDI: set %64s format not found", blobEL->name.toAscii());
+    errmsg = QString("INDI: set %1 format not found").arg(blobEL->name);
     return (-1);
   }
 
@@ -524,7 +513,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   else if (blobSize < 0)
   {
     free (blobBuffer);
-    sprintf (errmsg, "INDI: %64s.%64s.%64s bad base64", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii());
+    errmsg = QString("INDI: %1.%2.%3 bad base64").arg(name).arg(blobEL->pp->name).arg(blobEL->name);
     return (-1);
   }
 
@@ -547,7 +536,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
     if (r != Z_OK)
     {
-      sprintf(errmsg, "INDI: %64s.%64s.%64s compression error: %d", name.toAscii(), blobEL->pp->name.toAscii(), blobEL->name.toAscii(), r);
+      errmsg = QString("INDI: %1.%2.%3 compression error: %d").arg(name).arg(blobEL->pp->name).arg(r);
       free (blobBuffer);
       return -1;
     }
@@ -581,7 +570,7 @@ bool INDI_D::isOn()
   return (prop->isOn(QString("CONNECT")));
 }
 
-INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
+INDI_P * INDI_D::addProperty (XMLEle *root, QString & errmsg)
 {
 	INDI_P *pp = NULL;
 	INDI_G *pg = NULL;
@@ -591,7 +580,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	ap = findAtt (root, "group", errmsg);
         if (!ap)
         {
-                kDebug() << QString(errmsg) << endl;
+                kDebug() << errmsg << endl;
                 return NULL;
         }
 	// Find an existing group, if none found, create one
@@ -607,8 +596,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 	if (findProp (valuXMLAtt(ap)))
 	{
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s %.64s %.64s> already exists.\n", tagXMLEle(root),
-							name.toAscii(), valuXMLAtt(ap));
+	    errmsg = QString("INDI: <%1 %2 %3> already exists.").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
 	    return NULL;
 	}
 
@@ -629,14 +617,13 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 
 	if (crackLightState (valuXMLAtt(ap), &pp->state) < 0)
 	{
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> bogus state %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.toAscii(), pp->name.toAscii());
+	    errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
 	    delete(pp);
 	    return (NULL);
 	}
 
 	/* init timeout */
-	ap = findAtt (root, "timeout", NULL);
+	ap = findAtt (root, "timeout", errmsg);
 	/* default */
 	pp->timeout = ap ? atof(valuXMLAtt(ap)) : 0;
 
@@ -659,7 +646,7 @@ INDI_P * INDI_D::findProp (const QString &name)
   return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
+INDI_G *  INDI_D::findGroup (QString grouptag, int create, QString & errmsg)
 {
 
   for ( int i=0; i < gl.size(); ++i ) {
@@ -681,7 +668,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
     return curGroup;
   }
 
-  snprintf (errmsg, ERRMSG_SIZE, "INDI: group %.64s not found in %.64s", grouptag.toAscii(), name.toAscii());
+  errmsg = QString("INDI: group %1 not found in %2").arg(grouptag).arg(name);
   return NULL;
 }
 
@@ -690,14 +677,14 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
  * return 0 if ok else -1 with excuse in errmsg[]
  */
 
- int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, char errmsg[])
+ int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
 {
 	XMLAtt *ap;
 
 	ap = findXMLAtt(root, "perm");
-	if (!ap) {
-	    snprintf (errmsg, ERRMSG_SIZE,"INDI: <%.64s %.64s %.64s> missing attribute 'perm'",
-					tagXMLEle(root), pp->pg->dp->name.toAscii(), pp->name.toAscii());
+	if (!ap) 
+	{
+	    errmsg = QString("INDI: <%1 %2 %2> missing attribute 'perm'").arg(tagXMLEle(root)).arg(pp->pg->dp->name).arg(pp->name);
 	    return (-1);
 	}
 	if (!strcmp(valuXMLAtt(ap), "ro") || !strcmp(valuXMLAtt(ap), "r"))
@@ -707,8 +694,7 @@ INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
 	else if (!strcmp(valuXMLAtt(ap), "rw") || !strcmp(valuXMLAtt(ap), "w"))
 	    *permp = PP_RW;
 	else {
-	    snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown perm %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), pp->pg->dp->name.toAscii(), pp->name.toAscii());
+		errmsg = QString("INDI: <%1> unknown perm %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
 	    return (-1);
 	}
 
@@ -771,7 +757,7 @@ int INDI_D::crackSwitchState (char *name, PState *psp)
 	return (-1);
 }
 
-int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
+int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
 {
        	INDI_P *pp = NULL;
 	PPerm p;
@@ -817,7 +803,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 /* build GUI for a number property.
  * return 0 if ok, else -1 with reason in errmsg[]
  */
-int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
+int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
 {
         INDI_P *pp = NULL;
         PPerm p;
@@ -865,7 +851,7 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
  * rule and number of will determine exactly how the GUI is built.
  * return 0 if ok, else -1 with reason in errmsg[]
  */
-int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
+int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
 {
 	INDI_P *pp;
 	XMLAtt *ap;
@@ -959,8 +945,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	    return (err);
 	}
 
-	snprintf (errmsg, ERRMSG_SIZE, "INDI: <%.64s> unknown rule %.64s for %.64s %.64s",
-				tagXMLEle(root), valuXMLAtt(ap), name.toAscii(), pp->name.toAscii());
+	errmsg = QString("INDI: <%1> unknown rule %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
 
 	delete(pp);
 	return (-1);
@@ -970,7 +955,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 
 /* build GUI for a lights GUI.
  * return 0 if ok, else -1 with reason in errmsg[] */
-int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
+int INDI_D::buildLightsGUI (XMLEle *root, QString & errmsg)
 {
 	INDI_P *pp;
 	bool isGroupVisible=false;
@@ -1004,7 +989,7 @@ int INDI_D::buildLightsGUI (XMLEle *root, char errmsg[])
 
 /* build GUI for a BLOB GUI.
  * return 0 if ok, else -1 with reason in errmsg[] */
-int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
+int INDI_D::buildBLOBGUI  (XMLEle *root, QString & errmsg)
 {
   INDI_P *pp;
   PPerm p;

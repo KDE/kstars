@@ -105,13 +105,14 @@ INDIDriver::INDIDriver( KStars *_ks )
 
   //QObject::connect(ui->ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
   //QObject::connect(ui->LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
+
   QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
   QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
   QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
   QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
   QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-  QObject::connect(ui->localTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateLocalButtons()));
-  QObject::connect(ui->clientTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateClientButtons()));
+  QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalButtons()));
+  QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientButtons()));
 
   readXMLDriver();
 }
@@ -189,8 +190,9 @@ void INDIDriver::updateLocalButtons()
   if (ui->localTreeWidget->currentItem() == NULL)
    return;
 
-  //for (uint i=0; i < devices.size(); i++)
    foreach (IDevice *dev, devices)
+   {
+	
      if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
      {
 	ui->runServiceB->setEnabled(dev->state == 0);
@@ -201,6 +203,7 @@ void INDIDriver::updateLocalButtons()
 
 	return;
      }
+   }
 
 }
 

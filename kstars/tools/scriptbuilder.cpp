@@ -168,7 +168,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	INDIFunctionList.append( setINDIGeoLocationFunc);
 
 	setINDIUTCFunc = new ScriptFunction ( "setINDIUTC", i18n("Set the device UTC time in ISO 8601 format YYYY/MM/DDTHH:MM:SS."), false, "QString", "UTCDateTime");
-	setINDIUTCFunc->setINDIProperty("TIME");
+	setINDIUTCFunc->setINDIProperty("TIME_UTC");
 	INDIFunctionList.append( setINDIUTCFunc);
 
 	setINDIActionFunc = new ScriptFunction( "setINDIAction", i18n("Activate an INDI action. The action is the name of any INDI switch property element supported by the device."), false, "QString", "actionName");

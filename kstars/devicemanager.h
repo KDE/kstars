@@ -42,10 +42,10 @@ class DeviceManager : public QObject
    QString		host;
    QString		port;
 
-   int dispatchCommand   (XMLEle *root, char errmsg[]);
+   int dispatchCommand   (XMLEle *root, QString & errmsg);
 
-   INDI_D *  addDevice   (XMLEle *dep , char errmsg[]);
-   INDI_D *  findDev     (XMLEle *root, int  create, char errmsg[]);
+   INDI_D *  addDevice   (XMLEle *dep , QString & errmsg);
+   INDI_D *  findDev     (XMLEle *root, int  create, QString & errmsg);
 
    /*****************************************************************
    * Send to server
@@ -60,11 +60,11 @@ class DeviceManager : public QObject
    /*****************************************************************
    * Misc.
    ******************************************************************/
-   int  delPropertyCmd (XMLEle *root, char errmsg[]);
-   int  removeDevice   (const QString &devName, char errmsg[]);
-   INDI_D *  findDev   (const QString &devName, char errmsg[]);
+   int  delPropertyCmd (XMLEle *root, QString & errmsg);
+   int  removeDevice   (const QString &devName, QString & errmsg);
+   INDI_D *  findDev   (const QString &devName, QString & errmsg);
 
-   int  messageCmd     (XMLEle *root, char errmsg[]);
+   int  messageCmd     (XMLEle *root, QString & errmsg);
    void checkMsg       (XMLEle *root, INDI_D *dp);
    void doMsg          (XMLEle *msg , INDI_D *dp);
 

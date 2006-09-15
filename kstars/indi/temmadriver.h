@@ -208,7 +208,7 @@ static INumberVectorProperty cometNum = {
 static INumber UTC[] = {
 	{"UTC", "UTC", "%10.6m" , 0.,0.,0.,0., 0, 0, 0}};
 INumberVectorProperty Time = { 
-	mydev, "TIME", "UTC Time", DATETIME_GROUP, 
+	mydev, "TIME_UTC", "UTC Time", DATETIME_GROUP, 
 	IP_RW, 0, IPS_IDLE, UTC, NARRAY(UTC), "", 0};
 
 static INumber STime[] = {
@@ -216,7 +216,7 @@ static INumber STime[] = {
 		0.,0.,0.,0., 0, 0, 0}};
 
 INumberVectorProperty SDTime = { 
-	mydev, "SDTIME", "Sidereal Time", 
+	mydev, "TIME_LST", "Sidereal Time", 
 	DATETIME_GROUP, IP_RW, 0, IPS_IDLE, 
 	STime, NARRAY(STime), "", 0};
 
