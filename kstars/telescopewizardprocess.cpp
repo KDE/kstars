@@ -21,7 +21,6 @@
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kprogressdialog.h>
-#include <kprogressbar.h>
 
 #include "telescopewizardprocess.h"
 #include "Options.h"

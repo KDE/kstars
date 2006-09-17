@@ -30,12 +30,10 @@
 #include <ktempfile.h>
 #include <kimageeffect.h>
 #include <kmenubar.h>
-#include <kprogressbar.h>
 #include <kstatusbar.h>
 #include <kcommand.h>
 #include <klineedit.h>
 #include <kicon.h>
-//#include <k3listview.h>
 
 
 #include <qfile.h>

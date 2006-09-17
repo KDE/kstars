@@ -24,7 +24,6 @@
 #include <kstandarddirs.h>
 #include <kdirwatch.h>
 #include <kprogressdialog.h>
-#include <kprogressbar.h>
 #include <ktar.h>
 #include <qdir.h>
 #include <qcursor.h>
