@@ -1197,29 +1197,18 @@ int Slew(int fd)
 
     if ( (error_type = tty_write_string(fd, "#:MS#", &nbytes_write)) != TTY_OK)
     	return error_type;
-    /*if (portWrite("#:MS#") < 0)
-      return -1;*/
 
-    /*read_ret = portRead(slewNum, 1, LX200_TIMEOUT);*/
-     error_type = tty_read(fd, slewNum, 1, LX200_TIMEOUT, &nbytes_read);
+    error_type = tty_read(fd, slewNum, 1, LX200_TIMEOUT, &nbytes_read);
     
     if (nbytes_read < 1)
       return error_type;
-      
-    slewNum[1] = '\0';
+
+    /* We don't need to read the string message, just return corresponding error code */
+    tcflush(fd, TCIFLUSH);
 
     if (slewNum[0] == '0')
      return 0;
-   
-   error_type = tty_read_section(fd, slewNum, '#', LX200_TIMEOUT, &nbytes_read);
-   /*read_ret = portRead(errorMsg, -1, LX200_TIMEOUT);*/
-   tcflush(fd, TCIFLUSH);
-   /*IDLog(":MS Error %s\n", errorMsg);*/
-   
-   if (nbytes_read < 1)
-    return error_type;
-    
-    if  (slewNum[0] == '1')
+    else if  (slewNum[0] == '1')
       return 1;
     else return 2;
 

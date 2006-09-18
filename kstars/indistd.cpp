@@ -512,7 +512,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
   if (!lp) return;
  
    // Send DST corrected TZ
-   lp->write_w->setText(QString("%1").arg(ksw->data()->geo()->TZ()));
+   lp->updateValue(ksw->data()->geo()->TZ());
    pp->newText();
   
   pp = dp->findProp("TIME_UTC");

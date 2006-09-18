@@ -18,12 +18,6 @@
 
 #endif
 
-/*
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-*/
-
 #include "config.h"
 
 #ifndef HAVE_CONFIG_H
@@ -327,7 +321,7 @@ LX200Generic::LX200Generic()
 
    // Children call parent routines, this is the default
    IDLog("initilizaing from generic LX200 device...\n");
-   IDLog("Driver Version: 2006-09-12\n");
+   IDLog("Driver Version: 2006-09-17\n");
  
    //enableSimulation(true);  
 }
@@ -2022,7 +2016,7 @@ void LX200Generic::updateTime()
   localtime_r(&time_epoch, &utm);
 
   /* Format it into ISO 8601 */
-  strftime(cdate, 32, "%d-%02d-%02dT%02d:%02d:%02d", &utm);
+  strftime(cdate, 32, "%Y-%m-%dT%H:%M:%S", &utm);
   IUSaveText(&UTC[0], cdate);
   
   #ifdef INDI_DEBUG
