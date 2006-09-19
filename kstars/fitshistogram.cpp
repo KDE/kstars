@@ -74,7 +74,7 @@
 
    //constructHistogram();
    
-   updateBoxes();
+
    
 }
  
@@ -84,27 +84,27 @@ free (histArray);
 
 }
  
-void FITSHistogram::updateBoxes()
+void FITSHistogram::updateBoxes(int lowerLimit, int upperLimit)
 {
-/*
 
-	double fits_min=0, fits_max=0;
+   double lower_limit_x, upper_limit_x;
 
-	viewer->image->getFITSMinMax(&fits_min, &fits_max);
+     /*if (lowerLimit < 0)
+	lowerLimit = 0;
+     else if (lowerLimit > histogram_width)
+	lowerLimit = histogram_width;
 
-        if (ui->minSlider->value() == BARS)
-	 ui->minOUT->setText(QString::number((int) fits_max));
-	else
-   	 ui->minOUT->setText(QString::number( (int) ( ceil (ui->minSlider->value() * binSize) + fits_min)));
-	 
-	if (ui->maxSlider->value() == BARS)
-	 ui->maxOUT->setText(QString::number((int) fits_max));
-	else
-   	 ui->maxOUT->setText(QString::number( (int) ( ceil (ui->maxSlider->value() * binSize) + fits_min)));
+    if (upperLimit < 0)
+	upperLimit = 0;
+     else if (upperLimit > histogram_width)
+	upperLimit = histogram_width;*/
 
-        update();
+    lower_limit_x = ceil(lowerLimit / binSize) + fits_min;
+    upper_limit_x = ceil(upperLimit / binSize) + fits_min;
 
-*/
+     ui->minOUT->setText(QString::number((int) lower_limit_x));
+     ui->maxOUT->setText(QString::number((int) upper_limit_x));
+
 }
 
 void FITSHistogram::applyScale()
@@ -155,7 +155,6 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
 {
  
    int id;
-  double fits_min=0, fits_max=0;
   double fits_w=0, fits_h=0;
   float *buffer = viewer->image->getImageBuffer();
 
@@ -195,21 +194,28 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     for (int i=0; i < hist_width; i++)
 		histArray[i] = (int) (((double) histArray[i]) * histFactor);
 
+     histogram_height = hist_height;
+     histogram_width = hist_width;
+
+    // Initially
+    updateBoxes(ui->histFrame->getLowerLimit(), ui->histFrame->getUpperLimit());
+
      ui->update();
 }
 
 
 void FITSHistogram::updateIntenFreq(int x)
 {
- #if 0
-  int index = (int) ceil(x * binSize);
-    
-  ui->intensityOUT->setText(QString::number((int) ( index + viewer->stats.min)));
-  
-  ui->frequencyOUT->setText(QString::number(histArray[x]));
+ 
+ if (x < 0 || x > histogram_width)
+	return;
 
- #endif
+  int index = (int) ceil(x / binSize);
+    
+  ui->intensityOUT->setText(QString("%1").arg( index + viewer->image->stats.min));
   
+  ui->frequencyOUT->setText(QString("%1").arg(histArray[x]));
+
 }
 
 

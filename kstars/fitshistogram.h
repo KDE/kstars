@@ -60,12 +60,14 @@ class QPixmap;
     
     double binSize;
     histogramUI *ui;
+    int histogram_height, histogram_width;
+    double fits_min, fits_max;
 
     FITSViewer * viewer;
     
     public slots:
     void applyScale();
-    void updateBoxes();
+    void updateBoxes(int lowerLimit, int upperLimit);
     void updateIntenFreq(int x);
     
     

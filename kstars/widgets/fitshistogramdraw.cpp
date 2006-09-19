@@ -26,13 +26,11 @@ histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), ci
 {
 	data = (FITSHistogram*) parent;
 
-	//upperLimitX = BARS - circle_dim;
-	//lowerLimitX = 0;
-
 	circle_drag_upper = false;
 	circle_drag_lower = false;
 
-	//enclosedRect.setRect(0,height_adj, maximumWidth() - 1, maximumHeight() - height_adj);
+	setCursor(Qt::CrossCursor);
+   	setMouseTracking(true);
 
 }
 
@@ -91,7 +89,7 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 
 void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 {
-/*
+
  	if (event->buttons() & Qt::LeftButton)
 	{
 
@@ -100,10 +98,11 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 			upperLimitX = event->x() - circle_dim / 2.;
 			if (upperLimitX < 0)
 				upperLimitX = 0;
-			else if (upperLimitX > (BARS - circle_dim / 2.))
-				upperLimitX = BARS - circle_dim / 2.;
+			else if (upperLimitX > valid_width)
+				upperLimitX = valid_width;
 
 			update();
+			data->updateBoxes(lowerLimitX, upperLimitX);
 			return;
 		}
 		
@@ -112,19 +111,28 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 		  	lowerLimitX = event->x() - circle_dim / 2.;
 			if (lowerLimitX < 0)
 				lowerLimitX = 0;
-			else if (lowerLimitX > (BARS - circle_dim / 2.))
-				lowerLimitX = BARS - circle_dim / 2.;
+			else if (lowerLimitX > valid_width)
+				lowerLimitX = valid_width;
 
 			update();
+ 			data->updateBoxes(lowerLimitX, upperLimitX);
 			return;
 		}
 
 		if (upperLimit.contains(event->pos()))
+		{
 			circle_drag_upper = true;
+			circle_drag_lower = false;
+		}
 		else if (lowerLimit.contains(event->pos()))
+		{
+			circle_drag_upper = false;
 			circle_drag_lower = true;
+		}
 	}
-*/
+	else
+		data->updateIntenFreq(event->x());
+
 }
 
 void histDrawArea::mousePressEvent ( QMouseEvent * event )
@@ -156,6 +164,16 @@ void histDrawArea::resizeEvent ( QResizeEvent * event )
 
 	//kDebug() << "Calling construction histogram" << endl;
 	data->constructHistogram(valid_width, valid_height);
+}
+
+int histDrawArea::getUpperLimit()
+{
+	return ( (int) upperLimitX);
+}
+
+int histDrawArea::getLowerLimit()
+{
+	return ( (int) lowerLimitX);
 }
 
 #include "fitshistogramdraw.moc"

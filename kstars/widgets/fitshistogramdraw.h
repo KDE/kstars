@@ -29,6 +29,9 @@ class histDrawArea : public QFrame
 		histDrawArea(QWidget *parent);
 		~histDrawArea();
 
+		int getUpperLimit();
+		int getLowerLimit();
+
 	protected:
 		 void paintEvent(QPaintEvent *event);
 		 void mouseMoveEvent ( QMouseEvent * event );

@@ -626,7 +626,7 @@ void FITSViewer::imageHistogram()
   else
   {
     //histo->constructHistogram(imgBuffer);
-    histo->updateBoxes();
+    //histo->updateBoxes();
     histo->show();
   }
 
