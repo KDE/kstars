@@ -2,7 +2,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=kstars -caption "%c" %i %m
+Exec=kstars -caption "%c" %i 
 Icon=kstars
 DocPath=kstars/index.html
 Comment=Desktop Planetarium
