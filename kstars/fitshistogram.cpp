@@ -30,30 +30,19 @@
  #include <QPixmap>
  #include <QRadioButton>
  #include <QPushButton>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPaintEvent>
+ #include <QMouseEvent>
+ #include <QPaintEvent>
  
  #include <kdebug.h>
  #include <klineedit.h>
  #include <klocale.h>
+ #include <kmessagebox.h>
 
-  histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
+ histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
  {
    setupUi(parent);
    setModal(false);
    
-   /*minSlider->setMinimum(0);
-   minSlider->setMaximum(BARS-1);
-   minSlider->setValue(0);
-   
-   maxSlider->setMinimum(0);
-   maxSlider->setMaximum(BARS-1);
-   maxSlider->setValue(BARS-1);*/
-
-   //histFrame->setCursor(Qt::CrossCursor);
-   //histFrame->setMouseTracking(true);
-   setMouseTracking(true);
  }
 
  FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
@@ -63,19 +52,13 @@
 
    histArray = NULL;
 
-   type = 0;
-   napply=0;
+   type   = 0;
+   napply = 0;
    
-   /*connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(ui->minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
-   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(ui->maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));*/
    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
+   connect(ui->minOUT, SIGNAL(editingFinished()), ui->histFrame, SLOT(updateLowerLimit()));
+   connect(ui->maxOUT, SIGNAL(editingFinished()), ui->histFrame, SLOT(updateUpperLimit()));
 
-   //constructHistogram();
-   
-
-   
 }
  
  FITSHistogram::~FITSHistogram() 
@@ -89,37 +72,24 @@ void FITSHistogram::updateBoxes(int lowerLimit, int upperLimit)
 
    double lower_limit_x, upper_limit_x;
 
-     /*if (lowerLimit < 0)
-	lowerLimit = 0;
-     else if (lowerLimit > histogram_width)
-	lowerLimit = histogram_width;
-
-    if (upperLimit < 0)
-	upperLimit = 0;
-     else if (upperLimit > histogram_width)
-	upperLimit = histogram_width;*/
-
-    lower_limit_x = ceil(lowerLimit / binSize) + fits_min;
-    upper_limit_x = ceil(upperLimit / binSize) + fits_min;
-
-     ui->minOUT->setText(QString::number((int) lower_limit_x));
-     ui->maxOUT->setText(QString::number((int) upper_limit_x));
+   lower_limit_x = ceil(lowerLimit / binSize) + fits_min;
+   upper_limit_x = ceil(upperLimit / binSize) + fits_min;
+   
+   ui->minOUT->setText(QString::number((int) lower_limit_x));
+   ui->maxOUT->setText(QString::number((int) upper_limit_x));
 
 }
 
 void FITSHistogram::applyScale()
 {
-/*
   int swap;
-  double fits_min=0, fits_max=0;
 
-  int min = ui->minSlider->value();
-  int max = ui->maxSlider->value();
+  int min = ui->histFrame->getLowerLimit();
+  int max = ui->histFrame->getUpperLimit();
 
   viewer->image->getFITSMinMax(&fits_min, &fits_max);
 
   FITSHistogramCommand *histC;
-  //kDebug() << "Width " << viewer->image->width << endl;
   
   if (min > max)
   {
@@ -128,8 +98,8 @@ void FITSHistogram::applyScale()
     max  = swap;
   }
 
-   min  = (int) (min * binSize + fits_min);
-   max  = (int) (max * binSize + fits_min);
+  min  = (int) (min / binSize + fits_min);
+  max  = (int) (max / binSize + fits_min);
   
   napply++;
   
@@ -147,8 +117,8 @@ void FITSHistogram::applyScale()
     type = 3;
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);
+  
   viewer->history->addCommand(histC);
-    */
 }
  
 void FITSHistogram::constructHistogram(int hist_width, int hist_height)
@@ -200,7 +170,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     // Initially
     updateBoxes(ui->histFrame->getLowerLimit(), ui->histFrame->getUpperLimit());
 
-     ui->update();
+     ui->histFrame->update();
 }
 
 
@@ -229,41 +199,57 @@ int FITSHistogram::findMax(int hist_width)
   	return max;
 }
 
+void FITSHistogram::updateHistogram()
+{
+	constructHistogram(ui->histFrame->getValidWidth(), ui->histFrame->getValidHeight());
+}
+
 FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
 {
- #if 0
+
   viewer    = (FITSViewer *) parent;
   type      = newType;
   histo     = inHisto;
-  oldImage  = new QImage();
+  //oldImage  = new QImage();
   // TODO apply maximum compression against this buffer
-  buffer = (float *) malloc (viewer->image->width * viewer->image->height * sizeof(float));
+  buffer = (float *) malloc (viewer->image->getWidth() * viewer->image->getHeight() * sizeof(float));
    
-  //if (buffer == NULL)
-   //return;
    min = lmin;
    max = lmax;
- #endif
+
 }
 
 FITSHistogramCommand::~FITSHistogramCommand() 
 {
   free(buffer);
-  delete (oldImage);
+  //delete (oldImage);
 }
             
 void FITSHistogramCommand::execute()
 {
-  #if 0
+
+  fprintf(stderr, "################ 1 ################\n");
   float val, bufferVal;
   double coeff;
   FITSImage *image = viewer->image;
-  int width  = image->width;
-  int height = image->height;
+  float *image_buffer = image->getImageBuffer();
+  int width  = image->getWidth();
+  int height = image->getHeight();
   
-  memcpy(buffer, viewer->imgBuffer,image->width * image->height * sizeof(float));
-  *oldImage = image->displayImage->copy();
+  fprintf(stderr, "################ 2 ################\n");
+  /*
+  if (buffer == NULL)
+  {
+	  // TODO how to remove this item from redo/undo history?
+	  KMessageBox(0, i18n("There is no enough memory to perform this operation."));
+	  return;
+  }
+  */
+  
+  memcpy(buffer, image_buffer, width * height * sizeof(float));
+  //*oldImage = image->displayImage->copy();
  
+  fprintf(stderr, "################ 2.5 ################\n");
   switch (type)
   {
     case FITSImage::FITSAuto:
@@ -271,126 +257,78 @@ void FITSHistogramCommand::execute()
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = image_buffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
-	      //val = (int) (255. * ((double) (bufferVal - min) / (double) (max - min)));
-	      //val = (int) (max * ((double) (bufferVal - min) / (double) (max - min)));
-	      //val = (int) (bufferVal - min) * (max - min) + min;
-	      //if (val < min) val = min;
-	      //else if (val > max) val = max;
-	      //image->reducedImgBuffer[i * width + j] = val;
-	      viewer->imgBuffer[i * width + j] = bufferVal;
+	      image_buffer[i * width + j] = bufferVal;
       	      
       }
      break;
      
     case FITSImage::FITSLog:
-    //coeff = 255. / log(1 + max);
     coeff = max / log(1 + max);
     
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = viewer->imgBuffer[i * width + j];
+              bufferVal = image_buffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (coeff * log(1 + bufferVal));
 	      if (val < min) val = min;
 	      else if (val > max) val = max;
-	      viewer->imgBuffer[i * width + j] = val;
-	      //image->reducedImgBuffer[i * width + j] = val;
-      	      //displayImage->setPixel(j, height - i - 1, val);
+	      image_buffer[i * width + j] = val;
       }
       break;
       
     case FITSImage::FITSSqrt:
-    //coeff = 255. / sqrt(max);
     coeff = max / sqrt(max);
     
     for (int i=0; i < height; i++)
       for (int j=0; j < width; j++)
       {
-              bufferVal = (int) viewer->imgBuffer[i * width + j];
+              bufferVal = (int) image_buffer[i * width + j];
 	      if (bufferVal < min) bufferVal = min;
 	      else if (bufferVal > max) bufferVal = max;
 	      val = (int) (coeff * sqrt(bufferVal));
-	      //image->reducedImgBuffer[i * width + j] = val;
-	      viewer->imgBuffer[i * width + j] = val;
-      	      //displayImage->setPixel(j, height - i - 1, val);
+	      image_buffer[i * width + j] = val;
       }
-      
       break;
     
      
     default:
      break;
   }
-       
-   //int lmin= image->reducedImgBuffer[0];
-   float lmin= viewer->imgBuffer[0];
-   float lmax= viewer->imgBuffer[0];
-   int totalPix = width * height;
-   
-   for (int i=1; i < totalPix; i++)
-    //if ( image->reducedImgBuffer[i] < lmin) lmin = image->reducedImgBuffer[i];
-    if ( viewer->imgBuffer[i] < lmin) lmin = viewer->imgBuffer[i];
-    else if (viewer->imgBuffer[i] > lmax) lmax = viewer->imgBuffer[i];
-    
-   double datadiff = 255.;
-   double pixdiff = lmax - lmin;
-   double offs = -lmin * datadiff / pixdiff;
-   double scale = datadiff / pixdiff;
-   int tdata = 0;
   
-     
- for (int i=0; i < height; i++)
-  for (int j=0; j < width; j++)
-  {
-           //bp8 = (FITS_BITPIX8) image->reducedImgBuffer[i * width + j];
-	   //bp8 = (FITS_BITPIX8) 
-           tdata = (long) (viewer->imgBuffer[i * width + j] * scale + offs);
-           if (tdata < 0) tdata = 0;
-           else if (tdata > 255) tdata = 255;
-	   image->displayImage->setPixel(j, height - i - 1, tdata);
-  }
+  image->rescale(FITSImage::ZOOM_KEEP_LEVEL);
   
-  viewer->calculateStats();
+   fprintf(stderr, "################ 4 ################\n");
   
-  //viewer->updateImgBuffer();
   if (histo != NULL)
-  {
-  	histo->constructHistogram(viewer->imgBuffer);
-  	histo->update();
-  	histo->updateBoxes();
-  }
+	  histo->updateHistogram();
   
-  viewer->image->zoomToCurrent();
+  fprintf(stderr, "################ 5 ################\n");
   viewer->fitsChange();
-  #endif
+  fprintf(stderr, "################ 6 ################\n");
 }
 
 void FITSHistogramCommand::unexecute()
 {
- #if 0
-  memcpy( viewer->imgBuffer, buffer, viewer->image->width * viewer->image->height * sizeof(float));
-  viewer->calculateStats();
-  *viewer->image->displayImage = oldImage->copy();
-  viewer->image->zoomToCurrent();
+
+  FITSImage *image = viewer->image;
+  memcpy( image->getImageBuffer(), buffer, image->getWidth() * image->getHeight() * sizeof(float));
+  image->rescale(FITSImage::ZOOM_KEEP_LEVEL);
+  image->calculateStats();
+  
   
   if (histo != NULL)
-  {
-  	histo->constructHistogram(viewer->imgBuffer);
-  	histo->update();
-  	histo->updateBoxes();
-  }
- #endif
+  	  histo->updateHistogram();
+  
 }
 
 QString FITSHistogramCommand::name() const
 {
 
- #if 0
  switch (type)
  {
   case 0:
@@ -409,7 +347,6 @@ QString FITSHistogramCommand::name() const
    break;
  }
  
- #endif
  return i18n("Unknown");
  
 }

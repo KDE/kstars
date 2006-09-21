@@ -71,6 +71,7 @@ class FITSImage : public QScrollArea
 	~FITSImage();
 	
 	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
+	enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
 	
 	/* Loads FITS image, scales it, and displays it in the GUI */
 	int  loadFits(const char *filename);
@@ -79,7 +80,7 @@ class FITSImage : public QScrollArea
 	/* Clear memory */
 	void clearMem();
 	/* Rescale image lineary from image_buffer, fit to window if desired */
-	int rescale(bool fitToWindow=false);
+	int rescale(zoomType type);
 	/* Calculate stats */
 	void calculateStats();
 
@@ -89,12 +90,16 @@ class FITSImage : public QScrollArea
 	float * getImageBuffer() { return image_buffer; }
 	void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
 	void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
-
-	/* stats struct to hold statisical data about the FITS data */
+	long getWidth() { return stats.dim[0]; }
+	long getHeight() { return stats.dim[1]; }
+	
+	void setFITSMinMax(double newMin,  double newMax);
+	
+	/* TODO Make this stat PRIVATE 
+	stats struct to hold statisical data about the FITS data */
 	struct 
 	{
 		double min, max;
-		int minAt, maxAt;
 		double average;
 		double stddev;
 		int bitpix;
@@ -103,6 +108,8 @@ class FITSImage : public QScrollArea
 	} stats;
 	
 
+	QImage  *displayImage;				/* FITS image that is displayed in the GUI */
+	
 	private:
 
 	double average();
@@ -110,14 +117,13 @@ class FITSImage : public QScrollArea
 	double max(int & maxIndex);
 	double stddev();
 
-        int calculateMinMax();
+	int calculateMinMax(bool refresh=false);
 	void saveTemplateImage();			/* saves a backup image */
 	void reLoadTemplateImage();			/* reloads backup image into the current image */
 	void destroyTemplateImage();			/* deletes backup image */
 	void zoomToCurrent();				/* Zoom the image to current zoom level without modifying it */
 
 	FITSViewer *viewer;				/* parent FITSViewer */	
-	QImage  *displayImage;				/* FITS image that is displayed in the GUI */
 	FITSLabel *image_frame;
 	float *image_buffer;				/* scaled image buffer (0-255) range */
 

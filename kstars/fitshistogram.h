@@ -43,26 +43,27 @@ class QPixmap;
  class FITSHistogram : public QDialog
  {
    Q_OBJECT
-   
+
+   friend class histDrawArea;
+
    public:
     FITSHistogram(QWidget *parent);
     ~FITSHistogram();
     
     void constructHistogram(int hist_width, int hist_height);
+    void updateHistogram();
     int  findMax(int hist_width);
     int type;
     int napply;
     double histFactor;
     int *histArray;
-
+    double fits_min, fits_max;
     
     private:
     
     double binSize;
     histogramUI *ui;
     int histogram_height, histogram_width;
-    double fits_min, fits_max;
-
     FITSViewer * viewer;
     
     public slots:
@@ -90,7 +91,6 @@ class QPixmap;
 	int min, max;
 	float *buffer;
         FITSViewer *viewer;
-	QImage *oldImage;
 };
  
  

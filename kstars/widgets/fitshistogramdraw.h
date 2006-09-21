@@ -31,6 +31,8 @@ class histDrawArea : public QFrame
 
 		int getUpperLimit();
 		int getLowerLimit();
+		int getValidWidth();
+		int getValidHeight();
 
 	protected:
 		 void paintEvent(QPaintEvent *event);
@@ -56,6 +58,10 @@ class histDrawArea : public QFrame
 		QRectF upperLimit;
 		QRectF lowerLimit;
 		QRect enclosedRect;
+		
+	public slots:
+		void updateLowerLimit();
+		void updateUpperLimit();
 };
 
 #endif

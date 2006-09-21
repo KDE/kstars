@@ -198,40 +198,42 @@ int FITSImage::loadFits (const char *filename)
  }
 
  // Rescale to fits window
- if (rescale(true))
+ if (rescale(ZOOM_FIT_WINDOW))
 	return -1;
 
   calculateStats();
 
-   setAlignment(Qt::AlignCenter);
+  setAlignment(Qt::AlignCenter);
 
- return 0;
+  return 0;
  
 }
 
-int FITSImage::calculateMinMax()
+int FITSImage::calculateMinMax(bool refresh)
 {
            /* pointer to the FITS file, defined in fitsio.h */
     int status,  anynull, nfound=0;
     long fpixel, nbuffer, npixels, ii;
     float nullval, buffer[1000];
 
-    status = 0;
+  status = 0;
 
-  if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status))
-  	fits_report_error(stderr, status);
-  else
-	nfound++;
+  if (!refresh)
+  {
+  	if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status))
+	  	fits_report_error(stderr, status);
+  	else
+		nfound++;
 
-
-  if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status))
-  	fits_report_error(stderr, status);
-  else
-	nfound++;
+  	if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status))
+	  	fits_report_error(stderr, status);
+  	else
+		nfound++;
   
-  // If we found both keywords, no need to calculate them
-  if (nfound == 2)
-	return 0;
+  	// If we found both keywords, no need to calculate them
+  	if (nfound == 2)
+		return 0;
+  }
 
     npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
     fpixel   = 1;
@@ -240,48 +242,32 @@ int FITSImage::calculateMinMax()
     stats.min= 1.0E30;
     stats.max= -1.0E30;
 
-    while (npixels > 0)
+    for (int i=0; i < npixels; i++)
     {
-      nbuffer = npixels;
-      if (npixels > 1000)
-        nbuffer = 1000;     /* read as many pixels as will fit in buffer, snippet from CFITSIO example */
-
-      if ( fits_read_img(fptr, TFLOAT, fpixel, nbuffer, &nullval, buffer, &anynull, &status) )
-      {
-            fits_report_error(stderr, status);
-	    return status;
-      }
-
-      for (ii = 0; ii < nbuffer; ii++)
-      {
-        if ( buffer[ii] < stats.min )
-	{
-            stats.min = buffer[ii];
-	    stats.minAt = ii + fpixel;
-	}
-
-        if ( buffer[ii] > stats.max )
-	{
-            stats.max = buffer[ii];
-	    stats.maxAt = ii + fpixel;
-	}
-      }
-      npixels -= nbuffer;    /* increment remaining number of pixels */
-      fpixel  += nbuffer;    /* next pixel to be read in image */
+	    if (image_buffer[i] < stats.min) stats.min = image_buffer[i];
+	    else if (image_buffer[i] > stats.max) stats.max = image_buffer[i];
     }
-
-    kDebug() << "DATAMIN: " << stats.min << " @ " << stats.minAt << " - DATAMAX: " << stats.max << " @ " << stats.maxAt << endl;
+    
+    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max << endl;
     return 0;
 }
 
-int FITSImage::rescale(bool fitToWindow)
+int FITSImage::rescale(zoomType type)
 {
   float val=0;
   double bscale, bzero;
  
   // Get Min Max failed, scaling is not possible
-  if (calculateMinMax())
-    return -1;
+  if (type == ZOOM_KEEP_LEVEL)
+  {
+	  if (calculateMinMax(true))
+		  return -1;
+  }
+  else
+  {
+	  if (calculateMinMax())
+		  return -1;
+  }
 
   bscale = 255. / (stats.max - stats.min);
   bzero  = (-stats.min) * (255. / (stats.max - stats.min));
@@ -298,28 +284,46 @@ int FITSImage::rescale(bool fitToWindow)
 		displayImage->setPixel(i, j, ((int) (val * bscale + bzero)));
 	}
 
- if (fitToWindow && (displayImage->width() > width() || displayImage->height() > height()))
+ switch (type)
  {
-	// Find the zoom level which will enclose the current FITS in the default window size (640x480)
-        currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
+	 case ZOOM_FIT_WINDOW:
+		 if ((displayImage->width() > width() || displayImage->height() > height()))
+ 		 {
+			// Find the zoom level which will enclose the current FITS in the default window size (640x480)
+        		currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
 
-	currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
-	currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
+			currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
+			currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
-	if (currentZoom <= ZOOM_MIN)
-  	viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
+			if (currentZoom <= ZOOM_MIN)
+  			viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
 
-	image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+			image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+ 		}
+		else
+		{
+			currentZoom   = 100;
+			image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+		}
+		break;
+	
+	 case ZOOM_KEEP_LEVEL:
+		 currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
+		 currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
+
+		 image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+		 break;
+	
+	 default:
+	 	currentZoom   = 100;
+ 		image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+		break;
  }
- else
- {
- 	currentZoom   = 100;
- 	image_frame->setPixmap(QPixmap::fromImage(*displayImage));
- }
-
+ 
  setWidget(image_frame);
 
- viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+ if (type != ZOOM_KEEP_LEVEL)
+ 	viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
 
  return 0;
 
@@ -348,6 +352,12 @@ void FITSImage::zoomToCurrent()
    image_frame->setPixmap(QPixmap::fromImage(*displayImage));
 
  #endif
+ 
+ currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
+ currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
+
+ image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+ image_frame->resize( (int) currentWidth, (int) currentHeight);
 }
 
 
@@ -473,5 +483,14 @@ double FITSImage::stddev()
  
 
 }
+
+void FITSImage::setFITSMinMax(double newMin,  double newMax)
+{
+	stats.min = newMin;
+	stats.max = newMax;	
+	
+}
+
+
 
 #include "fitsimage.moc"

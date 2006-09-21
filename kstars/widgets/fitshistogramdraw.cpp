@@ -67,9 +67,11 @@ void histDrawArea::paintEvent(QPaintEvent *event)
    pen.setWidth(2);
 
    pen.setColor(Qt::red);
+   painter.setBrush(Qt::red);
    painter.drawLine(red_line_x, 0, red_line_x, line_height);
 
    pen.setColor(Qt::blue);
+   painter.setBrush(Qt::blue);
    painter.drawLine(blue_line_x, valid_height , blue_line_x, valid_height - line_height);
 
    // Outline
@@ -176,4 +178,54 @@ int histDrawArea::getLowerLimit()
 	return ( (int) lowerLimitX);
 }
 
+int histDrawArea::getValidWidth()
+{
+	return valid_width;
+}
+
+int histDrawArea::getValidHeight()
+{
+	return valid_height;
+}
+
+void histDrawArea::updateLowerLimit()
+{
+	bool conversion_ok = false;
+	int newLowerLimit=0;
+	
+	newLowerLimit = data->ui->minOUT->text().toInt(&conversion_ok);
+	
+	if (conversion_ok == false)
+		return;
+	
+	newLowerLimit = (newLowerLimit - data->fits_min) * data->binSize;
+	
+	if (newLowerLimit < 0) newLowerLimit = 0;
+	else if (newLowerLimit > valid_width) newLowerLimit = valid_width;
+	
+	lowerLimitX = newLowerLimit;
+	
+	update();
+}
+
+void histDrawArea::updateUpperLimit()
+{
+	bool conversion_ok = false;
+	int newUpperLimit=0;
+	
+	newUpperLimit = data->ui->maxOUT->text().toInt(&conversion_ok);
+
+	if (conversion_ok == false)
+		return;
+	
+	newUpperLimit = (newUpperLimit - data->fits_min) * data->binSize;
+	
+	if (newUpperLimit < 0) newUpperLimit = 0;
+	else if (newUpperLimit > valid_width) newUpperLimit = valid_width;
+	
+	upperLimitX = newUpperLimit;
+	
+	update();
+}
+		
 #include "fitshistogramdraw.moc"
