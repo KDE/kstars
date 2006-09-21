@@ -25,11 +25,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define _PARDRV_
 
 /* needed for KDE_EXPORT macros */
-#ifndef HAVE_CONFIG_H
 #include <kdemacros.h>
-#else
-#define KDE_EXPORT
-#endif
 
 
 /*
