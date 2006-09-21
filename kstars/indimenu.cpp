@@ -58,7 +58,7 @@
 ** INDI Menu: Handles communication to server and fetching basic XML
 ** data.
 *******************************************************************/
-INDIMenu::INDIMenu(QWidget *parent, const char * name ) : QWidget(parent, name, Qt::Window)
+INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
 /*KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)*/
 {
 

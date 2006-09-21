@@ -54,7 +54,7 @@ class INDIMenu : public QWidget
 {
   Q_OBJECT
  public:
-   INDIMenu(QWidget * parent = 0 , const char *name = 0);
+   INDIMenu(QWidget * parent = 0);
    ~INDIMenu();
 
    /*****************************************************************
