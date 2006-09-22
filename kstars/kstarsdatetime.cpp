@@ -67,7 +67,7 @@ void KStarsDateTime::setDJD( long double _jd ) {
 	DJD = _jd;
 
 	ExtDate dd;
-	dd.setJD( (long int)( _jd + 0.5 ) );
+	dd.setJD( (long int)( _jd - 0.5 ) );
 	ExtDateTime::setDate( dd );
 
 	double dayfrac = _jd - (double)( date().jd() ) + 0.5;
