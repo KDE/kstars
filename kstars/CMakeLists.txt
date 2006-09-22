@@ -197,7 +197,8 @@ set(libkstarscomponents_SRCS
    skycomponents/skymapcomposite.cpp 
 )
 
-set(libkstarswidgets_SRCS 
+set(libkstarswidgets_SRCS
+	widgets/calcframe.cpp 
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 
 	widgets/draglistbox.cpp 

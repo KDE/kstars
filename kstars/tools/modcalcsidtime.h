@@ -18,13 +18,15 @@
 #ifndef MODCALCSIDTIME_H_
 #define MODCALCSIDTIME_H_
 
-#include "ui_modcalcsidtime.h"
 #include <kapplication.h>
 #include <QTextStream>
+#include "ui_modcalcsidtime.h"
+#include "widgets/calcframe.h"
 
 class dms;
 class QTime;
 class ExtDate;
+class GeoLocation;
 
 /**
   * Class which implements the KStars calculator module to compute Universal
@@ -34,7 +36,7 @@ class ExtDate;
   *@author Pablo de Vicente
 	*@version 0.9
   */
-class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg  {
+class modCalcSidTime : public CalcFrame, public Ui::modCalcSidTimeDlg  {
 
 Q_OBJECT
 
@@ -43,17 +45,12 @@ public:
 	modCalcSidTime(QWidget *p);
 	~modCalcSidTime();
 
-	QTime computeUTtoST (QTime u, ExtDate d, dms l);
-	QTime computeSTtoUT (QTime s, ExtDate d, dms l);
-
-public slots:	
-	
-
-	/** No descriptions */
-	void slotClearFields();
-
-	/** No descriptions */
-	void slotComputeTime();
+private slots:	
+	void slotChangeLocation();
+	void slotChangeDate();
+	void slotConvertST( const QTime &lt );
+	void slotConvertLT( const QTime &st );
+	void slotShown();
 
 	void slotUtChecked();
 	void slotDateChecked();
@@ -63,24 +60,19 @@ public slots:
 	void processLines( QTextStream &istream );
 
 private:
-
-	void showUT ( QTime ut );
-	void showST ( QTime st );
-
 	/* Fills the UT, Date boxes with the current time 
 	 * and date and the longitude box with the current Geo location 
 	 */
-	void showCurrentTimeAndLong (void);
+	void showCurrentTimeAndLocation();
+
+	QTime computeLTtoST(QTime lt);
+	QTime computeSTtoLT(QTime st);
 
 	void sidNoCheck();
 	void utNoCheck();
 
-	QTime getUT (void);
-	QTime getST (void);
-	ExtDate getDate (void);
-	dms getLongitude (void);
-	bool stInputTime;
-	
+	bool bSyncTime, stInputTime;
+	GeoLocation *geo;
 };
 
 #endif

@@ -15,11 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <q3datetimeedit.h>  //need for QTimeEdit
-//#include <qradiobutton.h>
-//#include <qcheckbox.h>
-//#include <qstring.h>
-//#include <qtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
@@ -28,22 +23,30 @@
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
+#include "locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : QFrame(parentSplit) {
+modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 	setupUi(this);
-	showCurrentTimeAndLong();
 
-    // signals and slots connections
-    connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearFields()));
-    connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeTime()));
-    connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
-    connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
-    connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
-    connect(STCheckBatch, SIGNAL(clicked()), this, SLOT(slotStChecked()));
-    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+	//Preset date and location
+	showCurrentTimeAndLocation();
 
+	// signals and slots connections
+	connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotChangeLocation()));
+	connect(Date, SIGNAL(dateChanged(const ExtDate&)), this, SLOT(slotChangeDate()));
+	connect(LT, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertST(const QTime&)));
+	connect(ST, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertLT(const QTime&)));
+	connect(this, SIGNAL(frameShown()), this, SLOT(slotShown()));
+
+	connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
+	connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
+	connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
+	connect(STCheckBatch, SIGNAL(clicked()), this, SLOT(slotStChecked()));
+	connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+
+	bSyncTime = false;
 	show();
 }
 
@@ -51,86 +54,79 @@ modCalcSidTime::~modCalcSidTime(void) {
 
 }
 
-void modCalcSidTime::showCurrentTimeAndLong (void)
+void modCalcSidTime::showCurrentTimeAndLocation()
 {
 	KStars *ks = (KStars*) topLevelWidget()->parent();
 
-	showUT( ks->data()->ut().time() );
-	DateBox->setDate( ks->data()->ut().date() );
+	LT->setTime( ks->data()->lt().time() );
+	Date->setDate( ks->data()->lt().date() );
 
-	LongitudeBox->show( ks->geo()->lng() );
+	geo = ks->geo();
+	LocationButton->setText( geo->fullName() );
+
+	slotConvertST( LT->time() );
 }
 
-QTime modCalcSidTime::computeUTtoST (QTime ut, ExtDate dt, dms longitude)
+void modCalcSidTime::slotChangeLocation() {
+	KStars *ks = (KStars*) topLevelWidget()->parent();
+	LocationDialog ld(ks);
+
+	if ( ld.exec() == QDialog::Accepted ) {
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geo = newGeo;
+			LocationButton->setText( geo->fullName() );
+
+			//Update the displayed ST
+			slotConvertST( LT->time() );
+		}
+	}
+}
+
+void modCalcSidTime::slotChangeDate() {
+	slotConvertST( LT->time() );
+}
+
+void modCalcSidTime::slotShown() {
+	slotConvertST( LT->time() );
+}
+
+void modCalcSidTime::slotConvertST(const QTime &lt){
+	if ( bSyncTime == false ) {
+		bSyncTime = true;
+		ST->setTime( computeLTtoST( lt ) );
+	} else {
+		bSyncTime = false;
+	}
+}
+
+void modCalcSidTime::slotConvertLT(const QTime &st){
+	if ( bSyncTime == false ) {
+		bSyncTime = true;
+		LT->setTime( computeSTtoLT( st ) );
+	} else {
+		bSyncTime = false;
+	}
+}
+
+
+QTime modCalcSidTime::computeLTtoST( QTime lt )
 {
-	KStarsDateTime utdt = KStarsDateTime( dt, ut);
-	dms st = longitude.Degrees() + utdt.gst().Degrees();
+	KStarsDateTime utdt = geo->LTtoUT( KStarsDateTime( Date->date(), lt ) );
+	dms st = geo->GSTtoLST( utdt.gst() );
 	return QTime( st.hour(), st.minute(), st.second() );
 }
 
-QTime modCalcSidTime::computeSTtoUT (QTime st, ExtDate dt, dms longitude)
+QTime modCalcSidTime::computeSTtoLT( QTime st )
 {
-	KStarsDateTime dtt = KStarsDateTime( dt, QTime());
-	dms lst(st.hour(), st.minute(), st.second());
-	dms gst( lst.Degrees() - longitude.Degrees() );
-	return dtt.GSTtoUT( gst );
+	KStarsDateTime dt0 = KStarsDateTime( Date->date(), QTime(0,0,0));
+	dms lst;
+	lst.setH( st.hour(), st.minute(), st.second() );
+	dms gst = geo->LSTtoGST( lst );
+	return geo->UTtoLT(KStarsDateTime(Date->date(), dt0.GSTtoUT(gst))).time();
 }
 
-void modCalcSidTime::showUT( QTime dt )
-{
-	InputTimeBox->setTime( dt );
-}
-
-void modCalcSidTime::showST( QTime st )
-{
-	OutputTimeBox->setTime( st );
-}
-
-QTime modCalcSidTime::getUT( void )
-{
-	return InputTimeBox->time();
-}
-
-QTime modCalcSidTime::getST( void )
-{
-	return OutputTimeBox->time();
-}
-
-ExtDate modCalcSidTime::getDate( void )
-{
-	return DateBox->date();
-}
-
-dms modCalcSidTime::getLongitude( void )
-{
-	return LongitudeBox->createDms();
-}
-
-void modCalcSidTime::slotClearFields(){
-	DateBox->setDate(ExtDate::currentDate());
-	QTime time(0,0,0);
-	InputTimeBox->setTime(time);
-	OutputTimeBox->setTime(time);
-}
-
-void modCalcSidTime::slotComputeTime(){
-	QTime ut, st;
-
-	ExtDate dt = getDate();
-	dms longitude = getLongitude();
-
-	if(UTRadio->isChecked()) {
-		ut = getUT();
-		st = computeUTtoST( ut, dt, longitude );
-		showST( st );
-	} else {
-		st = getST();
-		ut = computeSTtoUT( st, dt, longitude );
-		showUT( ut );
-	}
-
-}
-
+//** Batch mode **//
 void modCalcSidTime::slotUtChecked(){
 
 	if ( UTCheckBatch->isChecked() )
@@ -291,8 +287,9 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 					ostream << utB.toString() << space;
 
 
-			stB = computeUTtoST( utB, dtB, longB );
-			ostream << stB.toString()  << endl;
+//FIXME: UT became LT
+//			stB = computeUTtoST( utB, dtB, longB );
+//			ostream << stB.toString()  << endl;
 
 		// Input coords are horizontal coordinates
 
@@ -311,8 +308,9 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 					ostream << stB.toString() << space;
 
 
-			utB = computeSTtoUT( stB, dtB, longB );
-			ostream << utB.toString()  << endl;
+//FIXME: UT became LT
+//			utB = computeSTtoUT( stB, dtB, longB );
+//			ostream << utB.toString()  << endl;
 
 		}
 
