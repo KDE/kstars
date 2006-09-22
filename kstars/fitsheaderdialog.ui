@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>fitsHeaderDialog</class>
  <widget class="QDialog" name="fitsHeaderDialog" >
   <property name="geometry" >
@@ -26,7 +23,13 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QTreeWidget" name="headerView" >
+    <widget class="QTableWidget" name="tableWidget" >
+     <property name="alternatingRowColors" >
+      <bool>true</bool>
+     </property>
+     <property name="showGrid" >
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text" >
        <string>Keyword</string>

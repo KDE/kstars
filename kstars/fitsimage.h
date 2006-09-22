@@ -67,22 +67,21 @@ class FITSImage : public QScrollArea
 	friend class FITSHistogramCommand;
 	friend class FITSChangeCommand;
 	
-	FITSImage(QWidget * parent, const char * name = 0);
+	FITSImage(QWidget * parent);
 	~FITSImage();
 	
 	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
 	enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
 	
 	/* Loads FITS image, scales it, and displays it in the GUI */
-	int  loadFits(const char *filename);
-	/* Convert current image to a pixmap */
-	void convertImageToPixmap();
-	/* Clear memory */
-	void clearMem();
+	int  loadFits(QString filename);
+	/* Save FITS */
+	int saveFITS(QString filename);
 	/* Rescale image lineary from image_buffer, fit to window if desired */
 	int rescale(zoomType type);
 	/* Calculate stats */
 	void calculateStats();
+	
 
 	// Access functions
         FITSViewer * getViewer() { return viewer; }
@@ -92,7 +91,12 @@ class FITSImage : public QScrollArea
 	void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
 	long getWidth() { return stats.dim[0]; }
 	long getHeight() { return stats.dim[1]; }
+	double getStdDev() { return stats.stddev; }
+	double getAverage() { return stats.average; }
+	QImage * getDisplayImage() { return displayImage; }
+	int getFITSRecord(QString &recordList, int &nkeys);
 	
+	// Set functions
 	void setFITSMinMax(double newMin,  double newMax);
 	
 	/* TODO Make this stat PRIVATE 
@@ -106,7 +110,6 @@ class FITSImage : public QScrollArea
 		int ndim;
 		long dim[2];
 	} stats;
-	
 
 	QImage  *displayImage;				/* FITS image that is displayed in the GUI */
 	
@@ -118,17 +121,11 @@ class FITSImage : public QScrollArea
 	double stddev();
 
 	int calculateMinMax(bool refresh=false);
-	void saveTemplateImage();			/* saves a backup image */
-	void reLoadTemplateImage();			/* reloads backup image into the current image */
-	void destroyTemplateImage();			/* deletes backup image */
-	void zoomToCurrent();				/* Zoom the image to current zoom level without modifying it */
 
 	FITSViewer *viewer;				/* parent FITSViewer */	
 	FITSLabel *image_frame;
 	float *image_buffer;				/* scaled image buffer (0-255) range */
 
-	/* FIXME remove this */
-	QImage  *templateImage;				/* backup image for currentImage */
 	double currentWidth,currentHeight;		/* Current width and height due to zoom */
 	const double zoomFactor;			/* Image zoom factor */
 	double currentZoom;				/* Current Zoom level */

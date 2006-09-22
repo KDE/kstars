@@ -45,13 +45,12 @@ void histDrawArea::paintEvent(QPaintEvent *event)
    if (data->histArray == NULL)
 	return;
 
-  int displacement = CIRCLE_DIM / 2;
   int hist_height    = height() - height_adj; 
   int red_line_x = (int) (upperLimitX + circle_dim / 2.);
   int blue_line_x = (int) (lowerLimitX + circle_dim / 2.);
 
   QPainter painter(this);
-   //painter.setRenderHint(QPainter::Antialiasing);
+
   QPen pen;
   pen.setWidth(1);
   painter.setPen(pen);
@@ -64,18 +63,18 @@ void histDrawArea::paintEvent(QPaintEvent *event)
   for (int i=0; i < valid_width; i++)
    	painter.drawLine(i+CIRCLE_DIM/2, hist_height, i+CIRCLE_DIM/2, valid_height  - data->histArray[i] + CIRCLE_DIM/2); 
 
-   pen.setWidth(2);
-
    pen.setColor(Qt::red);
-   painter.setBrush(Qt::red);
+   painter.setPen(pen);
    painter.drawLine(red_line_x, 0, red_line_x, line_height);
 
    pen.setColor(Qt::blue);
-   painter.setBrush(Qt::blue);
+   painter.setPen(pen);
    painter.drawLine(blue_line_x, valid_height , blue_line_x, valid_height - line_height);
 
    // Outline
    pen.setColor(Qt::black);
+   
+   painter.setPen(pen);
 
    // Paint Red Circle
    painter.setBrush(Qt::red);
@@ -104,7 +103,7 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 				upperLimitX = valid_width;
 
 			update();
-			data->updateBoxes(lowerLimitX, upperLimitX);
+			data->updateBoxes((int) lowerLimitX, (int) upperLimitX);
 			return;
 		}
 		
@@ -117,7 +116,7 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 				lowerLimitX = valid_width;
 
 			update();
- 			data->updateBoxes(lowerLimitX, upperLimitX);
+			data->updateBoxes((int) lowerLimitX, (int) upperLimitX);
 			return;
 		}
 
@@ -198,7 +197,7 @@ void histDrawArea::updateLowerLimit()
 	if (conversion_ok == false)
 		return;
 	
-	newLowerLimit = (newLowerLimit - data->fits_min) * data->binSize;
+	newLowerLimit = (int) ((newLowerLimit - data->fits_min) * data->binSize);
 	
 	if (newLowerLimit < 0) newLowerLimit = 0;
 	else if (newLowerLimit > valid_width) newLowerLimit = valid_width;
@@ -218,7 +217,7 @@ void histDrawArea::updateUpperLimit()
 	if (conversion_ok == false)
 		return;
 	
-	newUpperLimit = (newUpperLimit - data->fits_min) * data->binSize;
+	newUpperLimit = (int) ((newUpperLimit - data->fits_min) * data->binSize);
 	
 	if (newUpperLimit < 0) newUpperLimit = 0;
 	else if (newUpperLimit > valid_width) newUpperLimit = valid_width;

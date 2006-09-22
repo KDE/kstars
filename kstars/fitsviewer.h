@@ -20,20 +20,9 @@
 #ifndef FITSViewer_H_
 #define FITSViewer_H_
 
-#include <qwidget.h>
-#include <qstring.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <q3frame.h>
-#include <qrect.h> 
-#include <q3ptrlist.h>
-#include <qstringlist.h>
-#include <q3scrollview.h>
-//Added by qt3to4:
 #include <QKeyEvent>
 #include <QCloseEvent>
 
-//#include <kpixmapio.h>
 #include <kdialog.h>
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -41,12 +30,16 @@
 
 #include "indi/cfitsio/fitsio.h"
 
+#define INITIAL_W	640
+#define INITIAL_H	480
+
 class KCommandHistory;
 class QScrollView;
 class FITSImage;
 class FITSHistogram;
 
-class FITSViewer : public KMainWindow  {
+class FITSViewer : public KMainWindow  
+{
 	Q_OBJECT
 
 	public:
@@ -57,14 +50,10 @@ class FITSViewer : public KMainWindow  {
 	friend class FITSHistogramCommand;
 	
 	/**Constructor. */
-	FITSViewer (const KUrl *imageName, QWidget *parent, const char *name = 0);
+	FITSViewer (const KUrl *imageName, QWidget *parent);
 	~FITSViewer();
 
-	enum undoTypes { CONTRAST_BRIGHTNESS, IMAGE_REDUCTION, IMAGE_FILTER };
-			
 	protected:
-	/* key press event */
-	void keyPressEvent (QKeyEvent *ev);
 	
 	void closeEvent(QCloseEvent *ev);
 	
@@ -81,43 +70,17 @@ class FITSViewer : public KMainWindow  {
 	void fitsHeader();
 	void slotClose();
 	void imageHistogram();
-	void updateImgBuffer();
 	
 	private:
-	//int  loadImage(unsigned int *buffer, bool displayImage = false);
-	float * loadData(const char * filename, float *buffer);
 	bool    initFITS();
-	void show_fits_errors();
-
+	
 	FITSImage *image;					/* FITS image object */
+	FITSHistogram *histo;					/* FITS Histogram */
+	
+	KCommandHistory *history;				/* History for undo/redo */
 	int Dirty;						/* Document modified? */
 	KUrl currentURL;					/* FITS File name and path */
-	float *imgBuffer;					/* Main unmodified FITS data buffer */
-	KCommandHistory *history;				/* History for undo/redo */
-	QStringList record;					/* FITS records */
-	FITSHistogram *histo;
-		
 		
 };
-
-class FITSChangeCommand : public KCommand
-{
-  public:
-        FITSChangeCommand(QWidget * parent, int inType, QImage *newIMG, QImage *oldIMG);
-	~FITSChangeCommand();
-            
-        void execute();
-        void unexecute();
-        QString name() const;
-
-    private:
-        int type;
-	
-    protected:
-        FITSViewer *viewer;
-        QImage *newImage;
-	QImage *oldImage;
-};
-
 
 #endif

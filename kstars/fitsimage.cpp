@@ -45,13 +45,12 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 
+#include "indi/indicom.h"
 #include "fitsimage.h"
 #include "fitsviewer.h"
 #include "ksutils.h"
 
-#define INITIAL_W	640
-#define INITIAL_H	480
-#define ZOOM_DEFAULT 100.0
+#define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN	10
 #define ZOOM_MAX	400
 #define ZOOM_LOW_INCR	10
@@ -99,7 +98,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
 }
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent) , zoomFactor(1.2)
+FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
   
@@ -118,46 +117,22 @@ FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollArea(parent) 
 
 FITSImage::~FITSImage()
 {
+  int status;
+  
+  if (fits_close_file(fptr, &status))
+	  fits_report_error(stderr, status);
+			
   delete(image_buffer);
   delete(displayImage);
 }
 	
-void FITSImage::reLoadTemplateImage()
-{
-  /*displayImage = templateImage->copy(); */
-}
-
-void FITSImage::saveTemplateImage()
-{
-  //templateImage = new QImage(displayImage->copy());
-}
-
-void FITSImage::destroyTemplateImage()
-{
-  //delete (templateImage);
-}
-
-void FITSImage::clearMem()
-{
-
- #if 0
-  free(reducedImgBuffer);
-  delete (displayImage);
-  reducedImgBuffer = NULL;
-  displayImage     = NULL;
-
- #endif
-
-}
-
-
-int FITSImage::loadFits (const char *filename)
+int FITSImage::loadFits (QString filename)
 {
  
   int status=0, nulval=0, anynull=0;
   long fpixel[2], nelements, naxes[2];
 
-  if (fits_open_image(&fptr, filename, READWRITE, &status))
+  if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
   {
 	fits_report_error(stderr, status);
 	return -1;
@@ -187,7 +162,6 @@ int FITSImage::loadFits (const char *filename)
      displayImage->setColor(i, qRgb(i,i,i));
 
  nelements = stats.dim[0] * stats.dim[1];
- //fpixel = new long[2];
  fpixel[0] = 1;
  fpixel[1] = 1;
 
@@ -209,12 +183,87 @@ int FITSImage::loadFits (const char *filename)
  
 }
 
+int FITSImage::saveFITS(QString filename)
+{
+	int status=0;
+	long fpixel[2], nelements;
+	fitsfile *new_fptr;
+	
+	nelements = stats.dim[0] * stats.dim[1];
+	fpixel[0] = 1;
+	fpixel[1] = 1;
+
+	
+	/* Create a new File, overwriting existing*/
+	if (fits_create_file(&new_fptr, filename.toAscii(), &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	/* Copy ALL contents */
+	if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	/* close current file */
+	if (fits_close_file(fptr, &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	fptr = new_fptr;
+			
+	/* FIXME we must save in the format of the original file, so we need to save its state and simply pass it below. CFITSIO will do whatever conversion necessary */
+	
+	/* Write Data */
+	if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	/* Write keywords */
+	
+	// Minimum
+	if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	// Maximum
+	if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+	
+	// ISO Date
+	if (fits_write_date(fptr, &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+		
+	QString history = QString("Modified by KStars on %1").arg(timestamp());
+	// History
+	if (fits_write_history(fptr, history.toAscii(), &status))
+	{
+		fits_report_error(stderr, status);
+		return -1;
+	}
+		
+	return 0;
+}
+
 int FITSImage::calculateMinMax(bool refresh)
 {
-           /* pointer to the FITS file, defined in fitsio.h */
-    int status,  anynull, nfound=0;
-    long fpixel, nbuffer, npixels, ii;
-    float nullval, buffer[1000];
+  int status, nfound=0;
+  long npixels;
 
   status = 0;
 
@@ -236,9 +285,6 @@ int FITSImage::calculateMinMax(bool refresh)
   }
 
     npixels  = stats.dim[0] * stats.dim[1];         /* number of pixels in the image */
-    fpixel   = 1;
-    nullval  = 0;                /* don't check for null values in the image */
-    status   = 0;
     stats.min= 1.0E30;
     stats.max= -1.0E30;
 
@@ -329,38 +375,6 @@ int FITSImage::rescale(zoomType type)
 
 }
 
-void FITSImage::zoomToCurrent()
-{
-
- #if 0
- double cwidth, cheight;
- 
- if (currentZoom >= 0)
- {
-   cwidth  = ((double) displayImage->width()) * pow(zoomFactor, currentZoom) ;
-   cheight = ((double) displayImage->height()) * pow(zoomFactor, currentZoom);
- }
- else
- { 
-   cwidth  = ((double) displayImage->width()) / pow(zoomFactor, abs((int) currentZoom)) ;
-   cheight = ((double) displayImage->height()) / pow(zoomFactor, abs((int) currentZoom));
- }
-  
- if (cwidth != displayImage->width() || cheight != displayImage->height())
-         image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) cwidth, (int) cheight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
- else
-   image_frame->setPixmap(QPixmap::fromImage(*displayImage));
-
- #endif
- 
- currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
- currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
-
- image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
- image_frame->resize( (int) currentWidth, (int) currentHeight);
-}
-
-
 void FITSImage::fitsZoomIn()
 {
  
@@ -369,15 +383,12 @@ void FITSImage::fitsZoomIn()
   else
 	currentZoom += ZOOM_HIGH_INCR;
 
-   kDebug() << "in fitsZoomIn " << currentZoom << endl;
-   //currentZoom++;
    viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
    if (currentZoom >= ZOOM_MAX)
      viewer->actionCollection()->action("view_zoom_in")->setEnabled (false);
    
-   //currentWidth  = zoomFactor; //pow(zoomFactor, abs(currentZoom)) ;
-   currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
-   currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
+   currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
+   currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
    image_frame->resize( (int) currentWidth, (int) currentHeight);
@@ -399,10 +410,8 @@ void FITSImage::fitsZoomOut()
   
    viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
   
-  //currentWidth  /= zoomFactor; //pow(zoomFactor, abs(currentZoom));
-  //currentHeight /= zoomFactor;//pow(zoomFactor, abs(currentZoom));
-  currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); //pow(zoomFactor, abs(currentZoom)) ;
-  currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT); //zoomFactor; //pow(zoomFactor, abs(currentZoom));
+  currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT); 
+  currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
@@ -488,9 +497,25 @@ void FITSImage::setFITSMinMax(double newMin,  double newMax)
 {
 	stats.min = newMin;
 	stats.max = newMax;	
-	
 }
 
-
+int FITSImage::getFITSRecord(QString &recordList, int &nkeys)
+{
+	char *header;
+	int status=0;
+  
+	if (fits_hdr2str(fptr, 0, NULL, 0, &header, &nkeys, &status))
+	{
+		fits_report_error(stderr, status);
+		free(header);
+		return -1;
+	}	
+	
+	recordList = QString(header);
+	
+	free(header);
+	
+	return 0;
+}
 
 #include "fitsimage.moc"

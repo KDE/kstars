@@ -191,12 +191,12 @@ void FITSHistogram::updateIntenFreq(int x)
 
 int FITSHistogram::findMax(int hist_width)
 {
-	int max =-1e9;
+	double max = -1e9;
 
   	for (int i=0; i < hist_width; i++)
     		if (histArray[i] > max) max = histArray[i];
     
-  	return max;
+	return ((int) max);
 }
 
 void FITSHistogram::updateHistogram()
