@@ -171,6 +171,10 @@ int FITSImage::loadFits (QString filename)
 	return -1;
  }
 
+ currentZoom   = 100;
+ currentWidth  = stats.dim[0];
+ currentHeight = stats.dim[1];
+ 
  // Rescale to fits window
  if (rescale(ZOOM_FIT_WINDOW))
 	return -1;
@@ -338,17 +342,28 @@ int FITSImage::rescale(zoomType type)
 			// Find the zoom level which will enclose the current FITS in the default window size (640x480)
         		currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
 
+			/* If width is not the problem, try height */
+			if (currentZoom > ZOOM_DEFAULT)
+				currentZoom = floor( (INITIAL_H / currentHeight) * 10.) * 10.;
+			
 			currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
 			currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
 			if (currentZoom <= ZOOM_MIN)
   			viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
+			
+			image_frame->resize( (int) currentWidth, (int) currentHeight);
 
 			image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
  		}
 		else
 		{
 			currentZoom   = 100;
+			currentWidth  = stats.dim[0];
+			currentHeight = stats.dim[1];
+			
+			image_frame->resize( (int) currentWidth, (int) currentHeight);
+			
 			image_frame->setPixmap(QPixmap::fromImage(*displayImage));
 		}
 		break;
