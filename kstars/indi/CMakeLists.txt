@@ -18,6 +18,7 @@ set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
 set(libindicom_SRCS 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/indicom.c 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/observer.c
 	)
 
 set(libcfitsio_SRCS

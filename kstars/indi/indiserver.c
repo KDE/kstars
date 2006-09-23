@@ -58,6 +58,9 @@
 #include "indiapi.h"
 #include "fq.h"
 
+/* Observers */
+#include "observer.h"
+
 #define INDIPORT        7624            /* TCP/IP port on which to listen */
 #define	BUFSZ		2048		/* max buffering here */
 #define	MAXDRS		4		/* default times to restart a driver */
@@ -105,6 +108,19 @@ typedef struct {
 static DvrInfo *dvrinfo;		/* malloced array of drivers */
 static int ndvrinfo;			/* n total */
 
+typedef struct 
+{
+    int in_use;
+    char dev[MAXINDIDEVICE];
+    char name[MAXINDINAME];
+     IDType data_type;
+    DvrInfo *dp;
+} ObserverInfo;
+
+static  ObserverInfo* observerinfo;		/* malloced array of drivers */
+static int nobserverinfo;					/* n total */
+static int nobserverinfo_active;			/* n total, active */
+
 static void usage (void);
 static void noZombies (void);
 static void noSIGPIPE (void);
@@ -121,6 +137,8 @@ static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
 static Msg *q2Drivers (XMLEle *root, char *dev, Msg *mp);
 static Msg * q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp);
+static void q2Observers (DvrInfo *dp, XMLEle *root, char *dev, Msg *mp);
+static void manageObservers(DvrInfo *dp, XMLEle *root);
 static void addClDevice (ClInfo *cp, char *dev);
 static int findClDevice (ClInfo *cp, char *dev);
 static void readFromDriver (DvrInfo *dp);
@@ -658,6 +676,9 @@ readFromDriver (DvrInfo *dp)
 		    dp->dev[sizeof(IDev)-1] = '\0';
 		}
 
+		/* send to interested observers */
+		q2Observers (dp, root, dev, NULL);
+
 		/* send to interested clients */
 		q2Clients (NULL, root, dev, NULL);
 
@@ -838,6 +859,93 @@ q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 	/* return mp in case someone else wants to add to it */
 	return (mp);
 }
+
+void 
+q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
+{
+  	DvrInfo *dp;
+	ObserverInfo *ob;
+
+	if (!mp) {
+	    /* build a new message */
+	    mp = (Msg *) malloc (sizeof(Msg));
+	    mp->ep = root;
+	    mp->count = 0;
+	}
+
+	/* Subscribtion request */
+	if (strstr(tagXMLEle(root), "Subscribtion"))
+	{
+		manageObservers(sender, root);
+		return;
+	}
+
+	/* We have no observers, return */
+	if (nobserverinfo_active == 0)
+		return;
+
+#if 0
+	/* queue message to each interested driver */
+	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++) {
+	    int adddev = 0;
+
+	    if (dev[0]) {
+		/* skip unless we know driver supports this device */
+		if (dp->dev[0] && strcmp (dev, dp->dev))
+		    continue;
+	    } else {
+		/* add dev to message if known from driver.
+		 * N.B. this is key to limiting remote traffic to this dev
+		 */
+		if (dp->dev[0]) {
+		    addXMLAtt (root, "device", dp->dev);
+		    adddev = 1;
+		}
+	    }
+
+	    /* ok: queue message to given driver */
+	    mp->count++;
+	    pushFQ (dp->msgq, mp);
+	    if (verbose > 2)
+		fprintf (stderr,"Driver %s: message %d queued with count %d\n",
+					    dp->name, nFQ(dp->msgq), mp->count);
+
+	    if (adddev)
+		rmXMLAtt (root, "device");
+	}
+
+	/* forget it if no drivers wanted the message */
+	if (mp->count == 0) {
+	    if (verbose > 2) {
+		fprintf (stderr, "no drivers want ");
+		logMsg (root);
+	    }
+	    freeMsg (mp);
+	    mp = NULL;
+	}
+
+	/* return mp in case someone else wants to add to it */
+	return (mp);
+ #endif
+}
+
+void 
+manageObservers (DvrInfo *dp, XMLEle *root)
+{
+
+	
+
+
+
+
+
+
+
+
+
+
+}
+
 
 /* free Msg mp and everything it contains */
 static void
