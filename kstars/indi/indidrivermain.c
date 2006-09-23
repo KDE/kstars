@@ -45,6 +45,7 @@
 #include "eventloop.h"
 #include "indidevapi.h"
 #include "indicom.h"
+#include "observer.h"
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
@@ -1201,7 +1202,7 @@ dispatch (XMLEle *root, char msg[])
 		IDMessage (dev, "%s: newBLOBVector with no valid members",name);
 	    return (0);
 	}
-
+	
 	if (!strcmp (tagXMLEle(root), "getProperties")) {
 	    XMLAtt *ap;
 	    double v;
@@ -1223,6 +1224,8 @@ dispatch (XMLEle *root, char msg[])
 	    ISGetProperties (ap ? valuXMLAtt(ap) : NULL);
 	    return (0);
 	}
+	else if (!processObservers(root))
+		return (0);
 
 	sprintf (msg, "Unknown command: %s", tagXMLEle(root));
 	return(1);

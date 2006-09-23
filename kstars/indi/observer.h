@@ -25,13 +25,15 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
 
-typedef enum {
-   IDS_OK, IDS_DISCONNECTED, IDS_UNAVAILABLE, IDS_DIED
-} IDState;				/* Driver state in observer pattern */
+#include "lilxml.h"
 
 typedef enum {
-   IDT_VALUE, IDT_STATE
-} IDType;				/* Driver state in observer pattern */
+   IDS_DEFINED, IDS_UPDATED, IDS_DELETED, IDS_DIED
+} IDState;				/* Property state in observer pattern */
+
+typedef enum {
+   IDT_VALUE, IDT_STATE, IDT_ALL
+} IDType;				/* Notification type */
 
 /* Switch Property Callback */
 typedef void (CBSP) (const char *dev, const char *name, IDState driver_state, ISState *states, char *names[], int n);
@@ -51,9 +53,7 @@ extern "C" {
 void IOSubscribeSwitch(const char *dev, const char *name, IDType data_type, CBSP *fp);
 void IOUnsubscribeSwitch(const char *dev, const char *name);
 
-
-
-
+int processObservers(XMLEle *root);
 
 const char * idtypeStr(IDType type);
 

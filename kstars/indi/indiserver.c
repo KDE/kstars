@@ -108,18 +108,33 @@ typedef struct {
 static DvrInfo *dvrinfo;		/* malloced array of drivers */
 static int ndvrinfo;			/* n total */
 
+/*******************************************************
+ JM: Observer Extension Start
+ ******************************************************/
 typedef struct 
 {
     int in_use;
     char dev[MAXINDIDEVICE];
     char name[MAXINDINAME];
-     IDType data_type;
+    IDType type;
+    IPState last_state;
     DvrInfo *dp;
 } ObserverInfo;
 
 static  ObserverInfo* observerinfo;		/* malloced array of drivers */
 static int nobserverinfo;					/* n total */
 static int nobserverinfo_active;			/* n total, active */
+
+static void q2Observers (DvrInfo *dp, XMLEle *root, char *dev, Msg *mp);
+static void manageObservers(DvrInfo *dp, XMLEle *root);
+static void alertObservers(DvrInfo *dp);
+
+static int crackObserverState(char *stateStr);
+static int crackPropertyState(char *pstateStr);
+
+/******************************************************/
+/***************** Observer End ***********************/
+/******************************************************/
 
 static void usage (void);
 static void noZombies (void);
@@ -137,8 +152,6 @@ static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
 static Msg *q2Drivers (XMLEle *root, char *dev, Msg *mp);
 static Msg * q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp);
-static void q2Observers (DvrInfo *dp, XMLEle *root, char *dev, Msg *mp);
-static void manageObservers(DvrInfo *dp, XMLEle *root);
 static void addClDevice (ClInfo *cp, char *dev);
 static int findClDevice (ClInfo *cp, char *dev);
 static void readFromDriver (DvrInfo *dp);
@@ -722,6 +735,9 @@ shutdownClient (ClInfo *cp)
 static void
 restartDvr (DvrInfo *dp)
 {
+	/* JM: Alert observers */
+	alertObservers(dp);
+	
 	/* make sure it's dead, reclaim resources */
 	if (dp->pid == NOPID) {
 	    /* socket connection */
@@ -863,8 +879,13 @@ q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 void 
 q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 {
-  	DvrInfo *dp;
 	ObserverInfo *ob;
+	XMLAtt* ap;
+	int prop_state;
+	char prop_dev[MAXINDIDEVICE];
+	char prop_name[MAXINDINAME];
+	
+	dev=dev;
 
 	if (!mp) {
 	    /* build a new message */
@@ -874,7 +895,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	}
 
 	/* Subscribtion request */
-	if (strstr(tagXMLEle(root), "Subscribtion"))
+	if (!strcmp(tagXMLEle(root), "propertyVectorSubscribtion"))
 	{
 		manageObservers(sender, root);
 		return;
@@ -884,66 +905,243 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (nobserverinfo_active == 0)
 		return;
 
-#if 0
-	/* queue message to each interested driver */
-	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++) {
-	    int adddev = 0;
-
-	    if (dev[0]) {
-		/* skip unless we know driver supports this device */
-		if (dp->dev[0] && strcmp (dev, dp->dev))
-		    continue;
-	    } else {
-		/* add dev to message if known from driver.
-		 * N.B. this is key to limiting remote traffic to this dev
-		 */
-		if (dp->dev[0]) {
-		    addXMLAtt (root, "device", dp->dev);
-		    adddev = 1;
+	ap = findXMLAtt(root, "device");
+	if (!ap)
+	{
+		fprintf(stderr, "<%s> missing 'device' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	else
+		strncpy(prop_dev, valuXMLAtt(ap), MAXINDIDEVICE);
+	
+	/* Del prop might not have name, so don't panic */
+	ap = findXMLAtt(root, "name");
+	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
+	{
+		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	else if (ap)
+		strncpy(prop_name, valuXMLAtt(ap), MAXINDINAME);
+	
+	/* Del prop does not have state, so don't panic */
+	ap = findXMLAtt(root, "state");
+	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
+	{
+		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	else if (ap)
+	{
+		prop_state = crackPropertyState(valuXMLAtt(ap));
+		if (prop_state < 0)
+		{
+			fprintf(stderr, "<%s> invalid property state '%s'.\n", tagXMLEle(root), valuXMLAtt(ap));
+			return;
 		}
-	    }
-
-	    /* ok: queue message to given driver */
-	    mp->count++;
-	    pushFQ (dp->msgq, mp);
-	    if (verbose > 2)
-		fprintf (stderr,"Driver %s: message %d queued with count %d\n",
-					    dp->name, nFQ(dp->msgq), mp->count);
-
-	    if (adddev)
-		rmXMLAtt (root, "device");
 	}
-
-	/* forget it if no drivers wanted the message */
-	if (mp->count == 0) {
-	    if (verbose > 2) {
-		fprintf (stderr, "no drivers want ");
-		logMsg (root);
-	    }
-	    freeMsg (mp);
-	    mp = NULL;
-	}
-
-	/* return mp in case someone else wants to add to it */
-	return (mp);
- #endif
+			
+	
+	/* Now let's see if a registered observer is interested in this property */
+	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+	{
+		if (!ob->in_use)
+			continue;
+		
+		if (!strcmp(ob->dev, prop_dev) && ((!strcmp(tagXMLEle(root), "delProperty")) || (!strcmp(ob->name, prop_name))))
+		{
+			/* Check for state requirtments only if property is of setXXXVector type
+			   defXXX and delXXX go through */
+			if (strstr(tagXMLEle(root), "set") && ob->type == IDT_STATE)
+			{
+				/* If state didn't change, there is no need to update observer */
+				if (ob->last_state == (unsigned) prop_state)
+					return;
+				
+				/* Otherwise, record last state transition */
+				ob->last_state = prop_state;
+			}
+			
+			/* ok: queue message to given driver */
+			mp->count++;
+			pushFQ (ob->dp->msgq, mp);
+			if (verbose > 2)
+				fprintf (stderr,"Driver %s: message %d queued with count %d\n",
+					 ob->dp->name, nFQ(ob->dp->msgq), mp->count);
+			
+			break;
+		}
+		
+	}	
 }
 
 void 
 manageObservers (DvrInfo *dp, XMLEle *root)
 {
 
+	char ob_dev[MAXINDIDEVICE];
+    	char ob_name[MAXINDINAME];
+	int ob_type;
+	XMLAtt* ap;
+	ObserverInfo* ob;
 	
+	ap = findXMLAtt(root, "device");
+	if (!ap)
+	{
+		fprintf(stderr, "<%s> missing 'device' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	
+	strncpy(ob_dev, valuXMLAtt(ap), MAXINDIDEVICE);
+	
+	ap = findXMLAtt(root, "name");
+	if (!ap)
+	{
+		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	
+	strncpy(ob_name, valuXMLAtt(ap), MAXINDINAME);
+	
+	ap = findXMLAtt(root, "notification");
+	if (ap)
+	{
+		ob_type = crackObserverState(valuXMLAtt(ap));
+		if (ob_type < 0)
+		{
+			fprintf(stderr, "<%s> invalid notification state '%s'.\n", tagXMLEle(root), valuXMLAtt(ap));
+			return;
+		}
+	}
+		
+	ap = findXMLAtt(root, "action");
+	if (!ap)
+	{
+		fprintf(stderr, "<%s> missing 'action' attribute.\n", tagXMLEle(root));
+		return;
+	}
+	
+	/* Subscribe */
+	if (!strcmp(valuXMLAtt(ap), "subscribe"))
+	{
+		/* First check if it's already in the list. If found, silenty ignore. */
+		for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+		{
+			if (ob->in_use && (ob->dp == dp) && !strcmp(ob->dev, ob_dev) && !strcmp(ob->name, ob_name)
+						 && (ob->type == (unsigned) ob_type))
+				return;
+		}
+		
+		/* Next check for the first avaiable slot to use */
+		for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+		{
+			if (!ob->in_use)
+				break;
+		}	
+		
+		/* If list if full, allocate more memory, or seed */
+		if (ob == &observerinfo[nobserverinfo])
+		{
+			observerinfo = observerinfo ? (ObserverInfo *) realloc (observerinfo, (nobserverinfo+1)*sizeof(ObserverInfo)) 
+				: (ObserverInfo *) malloc (sizeof(ObserverInfo));
+			
+			ob = &observerinfo[nobserverinfo++];
+		}
+
+		/* init new entry */
+		ob->in_use 	= 1;
+		ob->dp 		= dp;
+		ob->type 	= ob_type;
+		ob->last_state 	= -1;
+		strncpy(ob->dev, ob_dev, MAXINDIDEVICE);
+		strncpy(ob->name, ob_name, MAXINDINAME);
+		
+		nobserverinfo_active++;
+	}
+	else if (!strcmp(valuXMLAtt(ap), "unsubscribe"))
+	{
+		/* Search list, if found, set in_use to 0 */
+		for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+		{
+			if ((ob->dp == dp) && !strcmp(ob->dev, ob_dev) && !strcmp(ob->name, ob_name))
+			{
+				ob->in_use = 0;
+				nobserverinfo_active--;
+				break;
+			}
+		}
+	}
+	else
+	{
+		fprintf(stderr, "<%s> invalid action value: %s\n", tagXMLEle(root), valuXMLAtt(ap));
+	}
 
 
+}
 
+static void alertObservers(DvrInfo *dp)
+{
+	ObserverInfo* ob;
+	Msg *mp;
+	char xmlAlertStr[BUFSZ];
+	char errmsg[BUFSZ];
+	XMLEle* xmlAlert = NULL;
+	unsigned int i=0;
+	
+	snprintf(xmlAlertStr, BUFSZ, "<subscribtionAlert device='%s' alert='died' />", dp->dev);
+	
+	for (i=0; i < strlen(xmlAlertStr); i++)
+	{
+		xmlAlert = readXMLEle(dp->lp, xmlAlertStr[i], errmsg);
+		if (xmlAlert)
+			break;
+	}
+	
+	/* Shouldn't happen! */
+	if (!xmlAlert) return;
+	
+	/* build a new message */
+	mp = (Msg *) malloc (sizeof(Msg));
+	mp->ep = xmlAlert;
+	mp->count = 1;
+	
+	/* Check if any observers are listening to this driver */
+	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+	{
+		if (ob->dp == dp)
+		{
+			pushFQ (ob->dp->msgq, mp);
+			if (verbose > 2)
+				fprintf (stderr,"Driver %s: message %d queued with count %d\n",
+					 ob->dp->name, nFQ(ob->dp->msgq), mp->count);
+		}
+	}
+	
+}
 
+static int crackObserverState(char *stateStr)
+{
+	if (!strcmp(stateStr, "Value"))
+		return (IDT_VALUE);
+	else if (!strcmp(stateStr, "State"))
+		return (IDT_STATE);
+	else if (!strcmp(stateStr, "All"))
+		return (IDT_ALL);
+	
+	else return -1;
+}
 
-
-
-
-
-
+static int crackPropertyState(char *pstateStr)
+{
+	if (!strcmp(pstateStr, "Idle"))
+		return IPS_IDLE;
+	else if (!strcmp(pstateStr, "Ok"))
+		return IPS_OK;
+	else if (!strcmp(pstateStr, "Busy"))
+		return IPS_BUSY;
+	else if (!strcmp(pstateStr, "Alert"))
+		return IPS_ALERT;
+	else return -1;
 }
 
 
