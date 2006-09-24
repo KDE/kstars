@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <stdarg.h>
 
 #include "indicom.h"
 
@@ -622,6 +623,19 @@ double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC)
 	double aux = havd + cos (DegToRad(fromDEC)) * cos(DegToRad(toDEC)) * hava;
 	
 	return (RadToDeg ( 2 * fabs(asin( sqrt(aux) ))));
+}
+
+/* log message locally.
+ * this has nothing to do with XML or any Clients.
+ */
+void
+IDLog (const char *fmt, ...)
+{
+	va_list ap;
+	fprintf (stderr, "%s ", timestamp());
+	va_start (ap, fmt);
+	vfprintf (stderr, fmt, ap);
+	va_end (ap);
 }
 
 /* return current system time in message format */

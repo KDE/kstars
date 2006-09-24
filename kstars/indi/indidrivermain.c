@@ -585,19 +585,6 @@ IDDelete (const char *dev, const char *name, const char *fmt, ...)
 	fflush (stdout);
 }
 
-/* log message locally.
- * this has nothing to do with XML or any Clients.
- */
-void
-IDLog (const char *fmt, ...)
-{
-	va_list ap;
-	fprintf (stderr, "%s ", timestamp());
-	va_start (ap, fmt);
-	vfprintf (stderr, fmt, ap);
-	va_end (ap);
-}
-
 /* "INDI" wrappers to the more generic eventloop facility. */
 
 int
@@ -966,6 +953,7 @@ clientMsgCB (int fd, void *arg)
 	    } else if (msg[0])
 		fprintf (stderr, "%s XML error: %s\n", me, msg);
 	}
+
 }
 
 /* crack the given INDI XML element and call driver's IS* entry points as they

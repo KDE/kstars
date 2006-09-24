@@ -35,6 +35,12 @@ typedef enum {
    IDT_VALUE, IDT_STATE, IDT_ALL
 } IDType;				/* Notification type */
 
+typedef enum {
+ IPT_SWITCH, IPT_TEXT, IPT_NUMBER, IPT_LIGHT, IPT_BLOB
+} IPType;				/* Property type */
+
+/* Generic function pointer */
+typedef void (*fpt)();
 /* Switch Property Callback */
 typedef void (CBSP) (const char *dev, const char *name, IDState driver_state, ISState *states, char *names[], int n);
 /* Text Property Callback */
@@ -53,10 +59,14 @@ extern "C" {
 void IOSubscribeSwitch(const char *dev, const char *name, IDType data_type, CBSP *fp);
 void IOUnsubscribeSwitch(const char *dev, const char *name);
 
+void IOSubscribeProperty(const char *dev, const char *name, IPType property_type, IDType notification_type, fpt fp);
+void IOUnsubscribeProperty(const char *dev, const char *name);
+
 int processObservers(XMLEle *root);
 
 const char * idtypeStr(IDType type);
-
+int crackObserverState(char *stateStr);
+int crackPropertyState(char *pstateStr);
 
 #ifdef __cplusplus
 }

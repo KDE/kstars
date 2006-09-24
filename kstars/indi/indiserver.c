@@ -125,12 +125,9 @@ static  ObserverInfo* observerinfo;		/* malloced array of drivers */
 static int nobserverinfo;					/* n total */
 static int nobserverinfo_active;			/* n total, active */
 
-static void q2Observers (DvrInfo *dp, XMLEle *root, char *dev, Msg *mp);
+static Msg *q2Observers (DvrInfo *dp, XMLEle *root, char *dev, Msg *mp);
 static void manageObservers(DvrInfo *dp, XMLEle *root);
 static void alertObservers(DvrInfo *dp);
-
-static int crackObserverState(char *stateStr);
-static int crackPropertyState(char *pstateStr);
 
 /******************************************************/
 /***************** Observer End ***********************/
@@ -658,6 +655,7 @@ readFromDriver (DvrInfo *dp)
 {
 	char buf[BUFSZ];
 	int i, nr;
+	Msg *mp=NULL;
 
 	/* read driver */
 	nr = read (dp->rfd, buf, sizeof(buf));
@@ -690,10 +688,10 @@ readFromDriver (DvrInfo *dp)
 		}
 
 		/* send to interested observers */
-		q2Observers (dp, root, dev, NULL);
+		mp = q2Observers (dp, root, dev, NULL);
 
 		/* send to interested clients */
-		q2Clients (NULL, root, dev, NULL);
+		q2Clients (NULL, root, dev, mp);
 
 		/* N.B. delXMLele(root) called when root no longer in any q */
 
@@ -876,7 +874,7 @@ q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 	return (mp);
 }
 
-void 
+Msg *
 q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 {
 	ObserverInfo *ob;
@@ -898,12 +896,12 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (!strcmp(tagXMLEle(root), "propertyVectorSubscribtion"))
 	{
 		manageObservers(sender, root);
-		return;
+		return NULL;
 	}
 
 	/* We have no observers, return */
 	if (nobserverinfo_active == 0)
-		return;
+		return NULL;
 
 	ap = findXMLAtt(root, "device");
 	if (!ap)
@@ -919,7 +917,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
-		return;
+		return NULL;
 	}
 	else if (ap)
 		strncpy(prop_name, valuXMLAtt(ap), MAXINDINAME);
@@ -929,7 +927,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
-		return;
+		return NULL;
 	}
 	else if (ap)
 	{
@@ -937,11 +935,10 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 		if (prop_state < 0)
 		{
 			fprintf(stderr, "<%s> invalid property state '%s'.\n", tagXMLEle(root), valuXMLAtt(ap));
-			return;
+			return NULL;
 		}
 	}
 			
-	
 	/* Now let's see if a registered observer is interested in this property */
 	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
 	{
@@ -956,12 +953,11 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 			{
 				/* If state didn't change, there is no need to update observer */
 				if (ob->last_state == (unsigned) prop_state)
-					return;
+					return NULL;
 				
 				/* Otherwise, record last state transition */
 				ob->last_state = prop_state;
 			}
-			
 			/* ok: queue message to given driver */
 			mp->count++;
 			pushFQ (ob->dp->msgq, mp);
@@ -973,6 +969,10 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 		}
 		
 	}	
+
+  /* Return mp if anyone else want to use it */
+  return mp;
+
 }
 
 void 
@@ -1057,6 +1057,10 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		strncpy(ob->name, ob_name, MAXINDINAME);
 		
 		nobserverinfo_active++;
+
+		if (verbose > 1)
+			fprintf(stderr, "Added observer <%s> to listen to changes in %s.%s\n", dp->dev, ob->dev, ob->name);
+
 	}
 	else if (!strcmp(valuXMLAtt(ap), "unsubscribe"))
 	{
@@ -1067,6 +1071,8 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 			{
 				ob->in_use = 0;
 				nobserverinfo_active--;
+				if (verbose > 1)
+					fprintf(stderr, "Removed observer <%s> which was listening to changes in %s.%s\n", dp->dev, ob->dev, ob->name);
 				break;
 			}
 		}
@@ -1117,31 +1123,6 @@ static void alertObservers(DvrInfo *dp)
 		}
 	}
 	
-}
-
-static int crackObserverState(char *stateStr)
-{
-	if (!strcmp(stateStr, "Value"))
-		return (IDT_VALUE);
-	else if (!strcmp(stateStr, "State"))
-		return (IDT_STATE);
-	else if (!strcmp(stateStr, "All"))
-		return (IDT_ALL);
-	
-	else return -1;
-}
-
-static int crackPropertyState(char *pstateStr)
-{
-	if (!strcmp(pstateStr, "Idle"))
-		return IPS_IDLE;
-	else if (!strcmp(pstateStr, "Ok"))
-		return IPS_OK;
-	else if (!strcmp(pstateStr, "Busy"))
-		return IPS_BUSY;
-	else if (!strcmp(pstateStr, "Alert"))
-		return IPS_ALERT;
-	else return -1;
 }
 
 
