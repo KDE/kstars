@@ -34,18 +34,6 @@ typedef struct
     int in_use;
     char dev[MAXINDIDEVICE];
     char name[MAXINDINAME];
-    IDType type;
-    CBSP *fp;
-} SP;
-
-static SP *sp_sub;			/* malloced list of work procedures */
-static int nsp_sub;			/* n entries in wproc[] */
-
-typedef struct 
-{
-    int in_use;
-    char dev[MAXINDIDEVICE];
-    char name[MAXINDINAME];
     IPType property_type;
     IDType notification_type;
     fpt fp;
@@ -53,58 +41,6 @@ typedef struct
 
 static OBP *oblist;			/* malloced list of work procedures */
 static int noblist;			/* n entries in wproc[] */
-
-void IOSubscribeSwitch(const char *dev, const char *name, IDType type, CBSP *fp)
-{
-        SP *sp;
-
-	/* reuse first unused slot or grow */
-	for (sp = sp_sub; sp < &sp_sub[nsp_sub]; sp++)
-	    if (!sp->in_use)
-		break;
-	if (sp == &sp_sub[nsp_sub])
-       {
-	    sp_sub = sp_sub ? (SP *) realloc (sp_sub, (nsp_sub+1)*sizeof(SP))
-	    		  : (SP *) malloc (sizeof(SP));
-	    sp = &sp_sub[nsp_sub++];
-	}
-
-	/* init new entry */
-	sp->in_use = 1;
-	sp->fp = fp;
-        sp->type = type;
-	strncpy(sp->dev, dev, MAXINDIDEVICE);
-	strncpy(sp->name, name, MAXINDINAME);
-	
-
-	printf ("<propertyVectorSubscribtion\n");
-	printf ("  device='%s'\n", dev);
-	printf ("  name='%s'\n", name);
-	printf ("  action='subscribe'\n");
-	printf ("  notification='%s'\n", idtypeStr(type));
-	printf ("</propertyVectorSubscribtion>\n");
-	fflush (stdout);
-
-}
-
-void IOUnsubscribeSwitch(const char *dev, const char *name)
-{
-   SP *sp;
-	
-    for (sp = sp_sub; sp < &sp_sub[nsp_sub]; sp++)
-   {
-       if (!strcmp(sp->dev, dev) && !strcmp(sp->name, name))
-	{
-		sp->in_use = 0;
-		printf ("<propertyVectorSubscribtion\n");
-		printf ("  device='%s'\n", dev);
-		printf ("  name='%s'\n", name);
-		printf ("  action='unsubscribe'\n");
-		printf ("</propertyVectorSubscribtion>\n");
-		fflush (stdout);
-	}
-   }
-}
 
 void IOSubscribeProperty(const char *dev, const char *name, IPType property_type, IDType notification_type, fpt fp)
 {
@@ -129,7 +65,6 @@ void IOSubscribeProperty(const char *dev, const char *name, IPType property_type
         obp->notification_type	= notification_type;
 	strncpy(obp->dev, dev, MAXINDIDEVICE);
 	strncpy(obp->name, name, MAXINDINAME);
-	
 
 	printf ("<propertyVectorSubscribtion\n");
 	printf ("  device='%s'\n", dev);
@@ -145,7 +80,7 @@ void IOUnsubscribeProperty(const char *dev, const char *name)
     OBP *obp;
 	
     for (obp = oblist; obp < &oblist[noblist]; obp++)
-   {
+    {
        if (!strcmp(obp->dev, dev) && !strcmp(obp->name, name))
 	{
 		obp->in_use = 0;
@@ -155,7 +90,7 @@ void IOUnsubscribeProperty(const char *dev, const char *name)
 		printf ("  action='unsubscribe' />\n");
 		fflush (stdout);
 	}
-   }
+    }
 
 }
 
@@ -188,7 +123,8 @@ int processObservers(XMLEle *root)
         IDState state;
 	char prop_dev[MAXINDIDEVICE];
 	char prop_name[MAXINDINAME];
-	   
+	XMLEle *epx;
+	int n;
 
 	/* Driver sent which message? */
 	if (strstr(tagXMLEle(root), "def"))
@@ -197,6 +133,9 @@ int processObservers(XMLEle *root)
 		state = IDS_UPDATED;
 	else if (strstr(tagXMLEle(root), "del"))
 		state = IDS_DELETED;
+	/* So far the only alert is when the driver dies, so the xml tag should suffice for now */
+	else if (!strcmp(tagXMLEle(root), "subscribtionAlert"))
+		state = IDS_DIED;
 	else
 	{
 		/* Silently ignore */
@@ -212,9 +151,9 @@ int processObservers(XMLEle *root)
 	else
 		strncpy(prop_dev, valuXMLAtt(ap), MAXINDIDEVICE);
 	
-	/* Del prop might not have name, so don't panic */
+	/* Del/Die prop might not have name, so don't panic */
 	ap = findXMLAtt(root, "name");
-	if (!ap && state != IDS_DELETED)
+	if (!ap && (state == IDS_DEFINED || state == IDS_UPDATED))
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
 		exit(1);
@@ -223,31 +162,36 @@ int processObservers(XMLEle *root)
 		strncpy(prop_name, valuXMLAtt(ap), MAXINDINAME);
 
 
-    for (obp = oblist; obp < &oblist[noblist]; obp++)
-   {
-	/* We got a match */
-	if (!strcmp(obp->dev, prop_dev) && ((state == IDS_DELETED) || (!strcmp(obp->name, prop_name))))
+	if (state == IDS_DELETED || state == IDS_DIED)
 	{
-	XMLEle *epx;
-	int n;
-
-	if (state == IDS_DELETED)
-	{
-		switch (obp->property_type)
+		for (obp = oblist; obp < &oblist[noblist]; obp++)
 		{
-			case IPT_SWITCH:
-			case IPT_TEXT:
-			case IPT_NUMBER:
-			case IPT_LIGHT:
-				obp->fp(obp->dev, obp->name, IDS_DELETED, NULL, NULL, 0);
-				break;
-			case IPT_BLOB:
-				obp->fp(obp->dev, obp->name, IDS_DELETED, NULL, NULL, NULL, NULL, 0);
-				break;
+			/* We got a match */
+			if (!strcmp(obp->dev, prop_dev))
+			{
+				switch (obp->property_type)
+				{
+					case IPT_SWITCH:
+					case IPT_TEXT:
+					case IPT_NUMBER:
+					case IPT_LIGHT:
+						obp->fp(obp->dev, obp->name, state, NULL, NULL, 0);
+						break;
+					case IPT_BLOB:
+						obp->fp(obp->dev, obp->name, state, NULL, NULL, NULL, NULL, 0);
+						break;
+				}
+			}
 		}
-		continue;
+		
+		return (0);
 	}
-
+	
+	for (obp = oblist; obp < &oblist[noblist]; obp++)
+	{
+	
+	if (!strcmp(obp->dev, prop_dev) && !strcmp(obp->name, prop_name))
+	{
 	/* check tag in surmised decreasing order of likelyhood */
 	if (!strcmp (tagXMLEle(root), "setNumberVector") || !strcmp (tagXMLEle(root), "defNumberVector"))
 	{
@@ -263,7 +207,7 @@ int processObservers(XMLEle *root)
 
 	    /* pull out each name/value pair */
 	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneNumber") == 0) {
+		  if (strstr(tagXMLEle(epx), "Number")) {
 		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
 			if (n >= maxn) {
@@ -283,7 +227,9 @@ int processObservers(XMLEle *root)
 	    
 	    /* invoke driver if something to do, but not an error if not */
 	    if (n > 0)
+	    {
 		obp->fp(obp->dev, obp->name, state, doubles, names, n);
+	    }
 	    else
 		IDLog("%s: NumberVector with no valid members", obp->name);
 
@@ -303,7 +249,7 @@ int processObservers(XMLEle *root)
 
 	    /* pull out each name/state pair */
 	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneSwitch") == 0) {
+		    if (strstr(tagXMLEle(epx), "Switch")) {
 		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
 			if (n >= maxn) {
@@ -321,7 +267,10 @@ int processObservers(XMLEle *root)
 			    names[n] = valuXMLAtt(na);
 			    n++;
 			} else 
+			{
 			    IDLog ("%s: must be On or Off: %s\n",  obp->name,    pcdataXMLEle(epx));
+			    exit(1);
+			}
 		    }
 		}
 	    }
@@ -348,7 +297,7 @@ int processObservers(XMLEle *root)
 
 	    /* pull out each name/text pair */
 	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneText") == 0) {
+		if (strstr(tagXMLEle(epx), "Text")) {
 		    XMLAtt *na = findXMLAtt (epx, "name");
 		    if (na) {
 			if (n >= maxn) {
@@ -389,7 +338,7 @@ int processObservers(XMLEle *root)
 
 	    /* pull out each name/BLOB pair */
 	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneBLOB") == 0) {
+		if (strstr(tagXMLEle(epx), "BLOB")) {
 		    XMLAtt *na = findXMLAtt (epx, "name");
 		    XMLAtt *fa = findXMLAtt (epx, "format");
 		    XMLAtt *sa = findXMLAtt (epx, "size");
@@ -419,15 +368,59 @@ int processObservers(XMLEle *root)
 
 	    return (0);
 	}
-	else return (-1);
+	
+	if (!strcmp (tagXMLEle(root), "setLightVector") || !strcmp (tagXMLEle(root), "defLightVector")) {
+		static IPState *states;
+		static char **names;
+		static int maxn;
 
-	/* FIXME TODO need to fetch LIGHT!!! */
+		/* seed for reallocs */
+		if (!states) {
+			states = (IPState *) malloc (sizeof(void*));
+			names = (char **) malloc (sizeof(void*));
+		}
+
+		/* pull out each name/state pair */
+		for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
+			if (strstr(tagXMLEle(epx), "Light")) {
+				XMLAtt *na = findXMLAtt (epx, "name");
+				if (na) {
+					if (n >= maxn) {
+						int newsz = (maxn=n+1)*sizeof(IPState);
+						states = (IPState *) realloc(states, newsz);
+						newsz = maxn*sizeof(char *);
+						names = (char **) realloc (names, newsz);
+					}
+					if (crackPropertyState(pcdataXMLEle(epx)) != -1) {
+						states[n] = crackPropertyState(pcdataXMLEle(epx));
+						names[n] = valuXMLAtt(na);
+						n++;
+					} 
+					} else 
+					{
+						IDLog ("%s: invalid state: %s\n",  obp->name, pcdataXMLEle(epx));
+						exit(1);
+					}
+				}
+			}
+
+		/* invoke driver if something to do, but not an error if not */
+		if (n > 0)
+			obp->fp(obp->dev, obp->name, state, states, names, n);
+		else
+			IDLog("%s: LightVector with no valid members", obp->name);
+
+		return (0);
+	}
+	
+	return (-1);
+
 
 	} /* End if */
 
    } /* End For */
 
-  return (0);
+  return (-1);
 	
 }
 

@@ -839,6 +839,10 @@ q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 	    mp->count = 0;
 	}
 
+	/* Ignore subscribtion requests, don't send them to clients */
+	if (!strcmp(tagXMLEle(root), "propertyVectorSubscribtion"))
+		return NULL;
+	
 	/* queue message to each interested client */
 	for (cp = clinfo; cp < &clinfo[nclinfo]; cp++) {
 	    int isblob;
@@ -898,6 +902,9 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 		manageObservers(sender, root);
 		return NULL;
 	}
+	/* We discard messages */
+       else if (!strcmp(tagXMLEle(root), "message"))
+		return NULL;
 
 	/* We have no observers, return */
 	if (nobserverinfo_active == 0)
@@ -1109,13 +1116,14 @@ static void alertObservers(DvrInfo *dp)
 	/* build a new message */
 	mp = (Msg *) malloc (sizeof(Msg));
 	mp->ep = xmlAlert;
-	mp->count = 1;
+	mp->count = 0;
 	
 	/* Check if any observers are listening to this driver */
 	for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
 	{
-		if (ob->dp == dp)
+		if (!strcmp(ob->dev,dp->dev))
 		{
+			mp->count++;
 			pushFQ (ob->dp->msgq, mp);
 			if (verbose > 2)
 				fprintf (stderr,"Driver %s: message %d queued with count %d\n",
@@ -1319,5 +1327,30 @@ logMsg (XMLEle *root)
 							    pcdataXMLEle (e));
 
 	fprintf (stderr, "\n");
+}
+
+int crackObserverState(char *stateStr)
+{
+	if (!strcmp(stateStr, "Value"))
+		return (IDT_VALUE);
+	else if (!strcmp(stateStr, "State"))
+		return (IDT_STATE);
+	else if (!strcmp(stateStr, "All"))
+		return (IDT_ALL);
+	
+	else return -1;
+}
+
+int crackPropertyState(char *pstateStr)
+{
+	if (!strcmp(pstateStr, "Idle"))
+		return IPS_IDLE;
+	else if (!strcmp(pstateStr, "Ok"))
+		return IPS_OK;
+	else if (!strcmp(pstateStr, "Busy"))
+		return IPS_BUSY;
+	else if (!strcmp(pstateStr, "Alert"))
+		return IPS_ALERT;
+	else return -1;
 }
 

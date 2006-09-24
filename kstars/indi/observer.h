@@ -56,14 +56,10 @@ typedef void (CBBP) (const char *dev, const char *name, IDState driver_state, in
 extern "C" {
 #endif
 
-void IOSubscribeSwitch(const char *dev, const char *name, IDType data_type, CBSP *fp);
-void IOUnsubscribeSwitch(const char *dev, const char *name);
-
 void IOSubscribeProperty(const char *dev, const char *name, IPType property_type, IDType notification_type, fpt fp);
 void IOUnsubscribeProperty(const char *dev, const char *name);
 
 int processObservers(XMLEle *root);
-
 const char * idtypeStr(IDType type);
 int crackObserverState(char *stateStr);
 int crackPropertyState(char *pstateStr);

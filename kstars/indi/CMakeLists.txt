@@ -170,9 +170,9 @@ install(TARGETS sbigudrv  DESTINATION ${LIB_INSTALL_DIR} )
 
 ########### next target ###############
 ########### INDI Server ##############
-set(indiserver_SRCS indiserver.c fq.c )
+set(indiserver_SRCS indiserver.c fq.c)
 
-kde4_add_executable(indiserver ${indiserver_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(indiserver ${indiserver_SRCS}  ${liblilxml_SRCS})
 
 target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} pthread )
 
