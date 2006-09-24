@@ -907,7 +907,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (!ap)
 	{
 		fprintf(stderr, "<%s> missing 'device' attribute.\n", tagXMLEle(root));
-		return;
+		return NULL;
 	}
 	else
 		strncpy(prop_dev, valuXMLAtt(ap), MAXINDIDEVICE);
