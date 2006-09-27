@@ -142,4 +142,8 @@
 		<driver>meade_lpi</driver>
 		<version>0.1</version>
 	</device>
+	<device label="SBIG STV">
+		<driver>stv</driver>
+		<version>0.1</version>
+	</device>
 </devGroup>

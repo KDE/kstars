@@ -292,6 +292,20 @@ target_link_libraries(intelliscope  ${KDE4_KDECORE_LIBS} m )
 
 install(TARGETS intelliscope  DESTINATION ${BIN_INSTALL_DIR} )
 
+########### next target ###############
+########### STV ###############
+set(stv_SRCS 
+   indidrivermain.c 
+   eventloop.c 
+   stvdriver.c 
+   stv.c )
+
+kde4_add_executable(stv ${stv_SRCS} ${liblilxml_SRCS} ${libcfitsio_SRCS} ${libindicom_SRCS})
+
+target_link_libraries(stv ${KDE4_KDECORE_LIBS} m )
+
+install(TARGETS stv DESTINATION ${BIN_INSTALL_DIR} )
+
 ########### LINUX SPECIFC ###############
 #### Build the following targets on Linux Only ####
 
