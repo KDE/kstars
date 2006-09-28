@@ -31,7 +31,6 @@ class QPalette;
 class QVBoxLayout;
 class KActionMenu;
 class KDialogBase;
-class KKey;
 class KToolBar;
 
 class dms;
