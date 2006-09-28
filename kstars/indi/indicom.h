@@ -140,12 +140,16 @@ int tty_write_string(int fd, const char * buffer, int *nbytes_written);
 
 /** \brief Establishes a tty connection to a terminal device.
     \param device the device node. e.g. /dev/ttyS0
-    \param ttyOptions pointer to desired tty connection option. Set to NULL for default options (Baud Rate 9600, Data Bits 8, Parity	None, Stop Bit 1, Flow Control	None).
-    \param fd The function will fill \e fd with the file descriptor value on success.
+    \param bit_rate bit rate
+    \param word_size number of data bits, 7 or 8, USE 8 DATA BITS with modbus
+    \param parity 0=no parity, 1=parity EVEN, 2=parity ODD
+    \param stop_bits number of stop bits : 1 or 2
+    \param fd \e fd is set to the file descriptor value on success.
     \return On success, it returns TTY_OK, otherwise, a TTY_ERROR code.
+    \author Wildi Markus
 */
 
-int tty_connect(const char *device, struct termios *ttyOptions, int *fd);
+int tty_connect(const char *device, int bit_rate, int word_size, int parity, int stop_bits, int *fd);
 
 /** \brief Closes a tty connection and flushes the bus.
     \param fd the file descriptor to close.

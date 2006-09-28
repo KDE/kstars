@@ -164,8 +164,7 @@ void connectTelescope(void)
   switch (PowerS[0].s)
   {
     case ISS_ON:
-     if (tty_connect(PortT[0].text, NULL, &fd) != TTY_OK)
-     /*if (Connect(PortT[0].text) < 0)*/
+     if (tty_connect(PortT[0].text, 9600, 8, 0, 1, &fd) != TTY_OK)
      {
        PowerSP.s = IPS_ALERT;
        IUResetSwitches(&PowerSP);

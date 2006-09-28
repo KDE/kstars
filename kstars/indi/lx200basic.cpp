@@ -798,8 +798,7 @@ void LX200Basic::connectTelescope()
 	  return;
 	}
 	
-          if (tty_connect(PortT[0].text, NULL, &fd) != TTY_OK)
-          /*if (Connect(PortT[0].text))*/
+         if (tty_connect(PortT[0].text, 9600, 8, 0, 1, &fd) != TTY_OK)
 	 {
 	   PowerS[0].s = ISS_OFF;
 	   PowerS[1].s = ISS_ON;
