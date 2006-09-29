@@ -201,8 +201,8 @@ int processObservers(XMLEle *root)
 
 	    /* seed for reallocs */
 	    if (!doubles) {
-		doubles = (double *) malloc (1);
-		names = (char **) malloc (1);
+		doubles = (double *) malloc (sizeof(double*));
+		names = (char **) malloc (sizeof(double*));
 	    }
 
 	    /* pull out each name/value pair */
@@ -291,8 +291,8 @@ int processObservers(XMLEle *root)
 
 	    /* seed for reallocs */
 	    if (!texts) {
-		texts = (char **) malloc (4);
-		names = (char **) malloc (4);
+		texts = (char **) malloc (sizeof(char**));
+		names = (char **) malloc (sizeof(char**));
 	    }
 
 	    /* pull out each name/text pair */
