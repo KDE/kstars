@@ -829,13 +829,16 @@ bool KStarsData::readDeepSkyData( void ) {
 				//object type
 				type = line.mid( 29, 1 ).toInt();
 
-				//major and minor axes and position angle
+				//major and minor axes
 				ss = line.mid( 31, 5 );
 				if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
 				ss = line.mid( 37, 5 );
 				if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
+				//position angle.  The catalog PA is zero when the Major axis 
+				//is horizontal.  But we want the angle measured from North, so 
+				//we set PA = 90 - pa.
 				ss = line.mid( 43, 3 );
-				if (ss == "   " ) { pa = 0; } else { pa = ss.toInt(); }
+				if (ss == "   " ) { pa = 90; } else { pa = 90 - ss.toInt(); }
 
 				//PGC number
 				ss = line.mid( 47, 6 );

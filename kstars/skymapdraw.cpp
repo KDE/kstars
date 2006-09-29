@@ -1281,8 +1281,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 				if ( mag > 90.0 || mag < (float)maglim ) {
 					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
-						//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-						double PositionAngle = 90. - findPA( obj, o.x(), o.y(), scale );
+						double PositionAngle = findPA( obj, o.x(), o.y(), scale );
 
 						//Draw Image
 						if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
@@ -1389,9 +1388,8 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 							}
 						} else {
-							//PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
 							DeepSkyObject *dso = (DeepSkyObject*)obj;
-							double pa = 90. + findPA( dso, o.x(), o.y(), scale );
+							double pa = findPA( dso, o.x(), o.y(), scale );
 							dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 
 							psky.setBrush( NoBrush );
