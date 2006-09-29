@@ -3,9 +3,7 @@
     Common routines used by all drivers
     Copyright (C) 2003 by Jason Harris (jharris@30doradus.org)
     			  Elwood C. Downey
-
-    This is the C version of the astronomical library in KStars
-    modified by Jasem Mutlaq (mutlaqja@ikarustech.com)
+			  Jasem Mutlaq
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

@@ -33,12 +33,14 @@
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatepicker.h"
 
-TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
+TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFrame )
 	: KDialog( parent )
 {
+	UTCNow = UTCFrame;
+
 	QFrame *page = new QFrame(this);
 	setMainWidget( page );
-        setCaption( i18nc( "set clock to a new time", "Set Time" ) );
+        setCaption( i18nc( "set clock to a new time", UTCNow ? "Set UTC Time" : "Set Time" ) );
         setButtons( KDialog::Ok|KDialog::Cancel );
 
 	vlay = new QVBoxLayout( page );
@@ -87,7 +89,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent )
 
 	NowButton = new QPushButton( page );
 	NowButton->setObjectName( "NowButton" );
-	NowButton->setText( i18n( "Now"  ) );
+	NowButton->setText( UTCNow ? i18n( "UTC Now"  ) : i18n( "Now"  ) );
 	NowButton->setFont( Box_font );
 
 	vlay->addWidget( dPicker, 0, 0 );
@@ -127,7 +129,7 @@ void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 
 void TimeDialog::setNow( void )
 {
-  KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+  KStarsDateTime dt( UTCNow ? KStarsDateTime::currentDateTime(Qt::UTC) : KStarsDateTime::currentDateTime() );
 
   dPicker->setDate( dt.date() );
   QTime t = dt.time();

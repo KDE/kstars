@@ -131,10 +131,12 @@ public:
 	bool operator >= ( const KStarsDateTime &d ) const { return DJD >= d.djd(); }
 	
 /**
-	*@return the date and time according to the CPU clock (note that this is not
-	*necessarily UT)
+	*@return the date and time according to the CPU clock
+	*@p ts a Qt::TimeSpec value that determines whether the date is
+	*computed from the Local Time or the Universal Time.
+	*@sa Qt::TimeSpec
 	*/
-	static KStarsDateTime currentDateTime();
+	static KStarsDateTime currentDateTime(Qt::TimeSpec ts = Qt::LocalTime);
 	
 /**
 	*@return the julian day as a long double, including the time as the fractional portion.

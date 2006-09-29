@@ -229,9 +229,13 @@ void ISInit()
 
  isInit = 1;
  
-  PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
-  //UTC[0].text   = strcpy(new char[32], "YYYY-MM-DDTHH:MM:SS");
+  IUSaveText(&PortT[0], "/dev/ttyS0");
   IUSaveText(&UTC[0], "YYYY-MM-DDTHH:MM:SS");
+
+  // We need to check if UTCOffset has been set by user or not
+  UTCOffsetN[0].aux0 = (int *) malloc(sizeof(int));
+  *((int *) UTCOffsetN[0].aux0) = 0;
+  
   
   if (strstr(me, "lx200classic"))
   {
@@ -434,6 +438,13 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	 struct tm ltm;
 	 time_t time_epoch;
 
+        if (*((int *) UTCOffsetN[0].aux0) == 0)
+	{
+		Time.s = IPS_IDLE;
+		IDSetText(&Time, "You must set the UTC Offset property first.");
+		return;
+	}
+
 	  if (extractISOTime(texts[0], &utm) < 0)
 	  {
 	    Time.s = IPS_IDLE;
@@ -458,14 +469,6 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	ltm.tm_mon +=1;
         ltm.tm_year += 1900;
 
-	// Set UTC Offset
-	if ( ( err = setUTCOffset(fd, (UTCOffsetN[0].value)) < 0) )
-	{
-	        Time.s = IPS_IDLE;
-	        IDSetText( &Time , "Setting UTC Offset failed.");
-		return;
-	}
-		
 	// Set Local Time
 	if ( ( err = setLocalTime(fd, ltm.tm_hour, ltm.tm_min, ltm.tm_sec) < 0) )
 	{
@@ -559,13 +562,14 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 			return;
 		}
 
-		if ( ( err = setUTCOffset(fd, (values[0])) < 0) )
+		if ( ( err = setUTCOffset(fd, (values[0] * -1.0)) < 0) )
 		{
 	        	UTCOffsetNP.s = IPS_ALERT;
 	        	IDSetNumber( &UTCOffsetNP , "Setting UTC Offset failed.");
 			return;
 		}
 		
+		*((int *) UTCOffsetN[0].aux0) = 1;
 		IUUpdateNumbers(&UTCOffsetNP, values, names, n);
 		UTCOffsetNP.s = IPS_OK;
 		IDSetNumber(&UTCOffsetNP, NULL);
@@ -1887,7 +1891,11 @@ void LX200Generic::connectTelescope()
 	   return;
 	 }
 
-        IDLog("telescope test successfful\n");
+        #ifdef INDI_DEBUG
+        IDLog("Telescope test successfful.\n");
+	#endif
+
+        *((int *) UTCOffsetN[0].aux0) = 0;
 	PowerSP.s = IPS_OK;
 	IDSetSwitch (&PowerSP, "Telescope is online. Retrieving basic data...");
 	getBasicData();
@@ -1985,7 +1993,15 @@ void LX200Generic::updateTime()
 
   getUTCOffset(fd, &lx200_utc_offset);
 
-  UTCOffsetN[0].value = lx200_utc_offset;
+  // LX200 UTC Offset is defined at the number of hours added to LOCAL TIME to get UTC. This is contrary to the normal definition.
+  UTCOffsetN[0].value = lx200_utc_offset*-1;
+
+  // We got a valid value for UTCOffset now
+  *((int *) UTCOffsetN[0].aux0) = 1;  
+
+  #ifdef INDI_DEBUG
+  IDLog("Telescope UTC Offset: %g\n", UTCOffsetN[0].value);
+  #endif
 
   getLocalTime24(fd, &ctime);
   getSexComponents(ctime, &h, &m, &s);
@@ -2019,9 +2035,9 @@ void LX200Generic::updateTime()
   IUSaveText(&UTC[0], cdate);
   
   #ifdef INDI_DEBUG
-  IDLog("Local telescope time: %02d:%02d:%02d\n", h, m , s);
+  IDLog("Telescope Local Time: %02d:%02d:%02d\n", h, m , s);
   IDLog("Telescope SD Time is: %g\n", STime[0].value);
-  IDLog("UTC date and time: %s\n", UTC[0].text);
+  IDLog("Telescope UTC Time: %s\n", UTC[0].text);
   #endif
 
   // Let's send everything to the client

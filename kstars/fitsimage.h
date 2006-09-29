@@ -130,6 +130,7 @@ class FITSImage : public QScrollArea
 	const double zoomFactor;			/* Image zoom factor */
 	double currentZoom;				/* Current Zoom level */
 	fitsfile* fptr;
+	int data_type;					/* FITS data type when opened */
 
 	
 	public slots:

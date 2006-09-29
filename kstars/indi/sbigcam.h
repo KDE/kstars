@@ -367,7 +367,8 @@ const int		POLL_TEMPERATURE_MS	= 10000;		// Temperature polling time (ms)
 const int		POLL_EXPOSURE_MS		= 1000;			// Exposure polling time (ms)
 
 // Define byte order:
-#define GET_BIG_ENDIAN(p) (((p << 8) & 0xff00) | ((p >> 8) & 0xff))
+#define GET_BIG_ENDIAN(p) ( ((p & 0xff) << 8) | (p  >> 8))
+//(((p << 8) & 0xff00) | ((p >> 8) & 0xff))
 #endif // INDI
 //=============================================================================
 typedef enum
@@ -601,14 +602,14 @@ class SbigCam
 	void 			CfwShowResults(string name, CFWResults);
 	void			CfwUpdateProperties(CFWResults);
 	void 			SetBlobState(IPState state);
-	unsigned short 	**AllocateBuffer(unsigned short width, unsigned short height);
-	int				ReleaseBuffer(unsigned short height, unsigned short **buffer);
+	unsigned short 	*AllocateBuffer(unsigned short width, unsigned short height);
+	int				ReleaseBuffer(unsigned short height, unsigned short *buffer);
 	int 				ReadoutCcd(	unsigned short left, 	 unsigned short top, 
 												unsigned short width, unsigned short height,
-												unsigned short **buffer);
+												unsigned short *buffer);
 	string			CreateFitsName();
 	int 				WriteFits(	string fits_name, unsigned short width, 
-											unsigned short height, unsigned short **buffer);
+											unsigned short height, unsigned short *buffer);
 	/* FIXME use CFITSIO
 	FITS_HDU_LIST 	*CreateFitsHeader(	FITS_FILE *fp, 
 																	unsigned int width, 

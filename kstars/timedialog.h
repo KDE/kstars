@@ -53,7 +53,7 @@ public:
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( const KStarsDateTime &now, QWidget *parent );
+	TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFrame=false );
 
 /**
 	*Destructor (empty)

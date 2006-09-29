@@ -1042,7 +1042,7 @@ void INDIStdProperty::newTime()
    timeEle = pp->findElement("UTC");
    if (!timeEle) return;
    
-   TimeDialog timedialog ( ksw->data()->ut(), ksw );
+   TimeDialog timedialog ( ksw->data()->ut(), ksw, true );
 
 	if ( timedialog.exec() == QDialog::Accepted )
 	{

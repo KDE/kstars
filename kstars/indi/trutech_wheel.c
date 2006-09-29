@@ -50,6 +50,7 @@ int  isFilterConnected(void);
 
 static int targetFilter;
 static int fd;
+static char COMM_PRE  = 0x01;
 static char COMM_INIT = 0xA5;
 static char COMM_FILL = 0x20;
 static char COMM_NL   = 0x0A; 
@@ -61,7 +62,9 @@ static char COMM_NL   = 0x0A;
 #define MAX_FILTER_COUNT		8
 #define ERRMSG_SIZE			1024
 
-#define CMD_SIZE			15
+#define CMD_SIZE			5
+#define CMD_RESP			15
+
 #define FILTER_TIMEOUT			15					/* 15 Seconds before timeout */
 #define FIRST_FILTER			1
 #define LAST_FILTER			6
@@ -132,8 +135,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 {
 	int err;
 	char error_message[ERRMSG_SIZE];
-	char cmd[CMD_SIZE];
-	char cmd_response[CMD_SIZE];
+	char cmd_response[CMD_RESP];
 
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -154,15 +156,14 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	{
 		int nbytes=0;
 		char type = 0x03;
-		char chksum = COMM_INIT + COMM_FILL + type;
+		char chksum = COMM_INIT + type + COMM_FILL;
+		char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum };
+
 
 		if (checkPowerS(&HomeSP))
 			return;
 
-		tty_write(fd, &COMM_INIT, 1, &nbytes);
-		tty_write(fd, &COMM_FILL, 1, &nbytes);
-		tty_write(fd, &type, 1, &nbytes);
-		err = tty_write(fd, &chksum, 1, &nbytes);
+		err = tty_write(fd, filter_command, CMD_SIZE, &nbytes);
 		
 		/* Send Home Command */
 		if (err != TTY_OK)
@@ -171,8 +172,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 			tty_error_msg(err, error_message, ERRMSG_SIZE);
 			
 			HomeSP.s = IPS_ALERT;
-			IDSetSwitch(&HomeSP, "Sending command %s to filter failed. %s", cmd, error_message);
-			IDLog("Sending command %s to filter failed. %s\n", cmd, error_message);
+			IDSetSwitch(&HomeSP, "Sending command Home to filter failed. %s", error_message);
+			IDLog("Sending command Home to filter failed. %s\n", error_message);
 
 			return;
 		}

@@ -228,7 +228,6 @@ FITSHistogramCommand::~FITSHistogramCommand()
 void FITSHistogramCommand::execute()
 {
 
-  fprintf(stderr, "################ 1 ################\n");
   float val, bufferVal;
   double coeff;
   FITSImage *image = viewer->image;
@@ -236,7 +235,6 @@ void FITSHistogramCommand::execute()
   int width  = image->getWidth();
   int height = image->getHeight();
   
-  fprintf(stderr, "################ 2 ################\n");
   /*
   if (buffer == NULL)
   {
@@ -249,7 +247,6 @@ void FITSHistogramCommand::execute()
   memcpy(buffer, image_buffer, width * height * sizeof(float));
   //*oldImage = image->displayImage->copy();
  
-  fprintf(stderr, "################ 2.5 ################\n");
   switch (type)
   {
     case FITSImage::FITSAuto:
@@ -302,14 +299,10 @@ void FITSHistogramCommand::execute()
   
   image->rescale(FITSImage::ZOOM_KEEP_LEVEL);
   
-   fprintf(stderr, "################ 4 ################\n");
-  
   if (histo != NULL)
 	  histo->updateHistogram();
   
-  fprintf(stderr, "################ 5 ################\n");
   viewer->fitsChange();
-  fprintf(stderr, "################ 6 ################\n");
 }
 
 void FITSHistogramCommand::unexecute()

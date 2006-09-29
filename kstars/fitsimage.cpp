@@ -131,23 +131,36 @@ int FITSImage::loadFits (QString filename)
  
   int status=0, nulval=0, anynull=0;
   long fpixel[2], nelements, naxes[2];
+  char error_status[32];
 
   if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
   {
 	fits_report_error(stderr, status);
+        fits_get_errstatus(status, error_status);
+	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
 	return -1;
   }
 
   if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
   {
 	fits_report_error(stderr, status);
+	fits_get_errstatus(status, error_status);
+	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
+	return -1;
+  }
+
+  if (fits_get_img_type(fptr, &data_type, &status))
+  {
+	fits_report_error(stderr, status);
+	fits_get_errstatus(status, error_status);
+	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
 	return -1;
   }
 
   stats.dim[0] = naxes[0];
   stats.dim[1] = naxes[1];
 
-  kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << endl;
+  kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << " Image Type: " << data_type << endl;
 
   delete (image_buffer);
   delete (displayImage);
@@ -221,8 +234,6 @@ int FITSImage::saveFITS(QString filename)
 	
 	fptr = new_fptr;
 			
-	/* FIXME we must save in the format of the original file, so we need to save its state and simply pass it below. CFITSIO will do whatever conversion necessary */
-	
 	/* Write Data */
 	if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
 	{
@@ -311,12 +322,24 @@ int FITSImage::rescale(zoomType type)
   if (type == ZOOM_KEEP_LEVEL)
   {
 	  if (calculateMinMax(true))
+	  {
+		  KMessageBox::error(0, i18n("Unable to calculate FITS Min/Max values."), i18n("FITS Open"));
 		  return -1;
+	  }
   }
   else
   {
 	  if (calculateMinMax())
+	  {
+		  KMessageBox::error(0, i18n("Unable to calculate FITS Min/Max values."), i18n("FITS Open"));
 		  return -1;
+	  }
+  }
+
+  if (stats.max == stats.min)
+  {
+	KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
+	return -1;
   }
 
   bscale = 255. / (stats.max - stats.min);

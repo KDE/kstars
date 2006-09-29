@@ -2073,7 +2073,8 @@ void SbigCam::UpdateExposure()
 	#endif
 
 	// Allocate image buffer:
- 	unsigned short **buffer = AllocateBuffer(width, height);
+ 	//unsigned short **buffer = AllocateBuffer(width, height);
+	unsigned short *buffer = AllocateBuffer(width, height);
 	if(!buffer) return;
 
 	// Readout CCD:
@@ -2122,19 +2123,20 @@ void SbigCam::UpdateExposure()
 #endif // INDI
 //==========================================================================
 #ifdef INDI
-unsigned short **SbigCam::AllocateBuffer(unsigned short width, unsigned short height)
+unsigned short *SbigCam::AllocateBuffer(unsigned short width, unsigned short height)
 {	
-	unsigned short **buffer = 0;
+	unsigned short *buffer = 0;
 	try
  	{
 		// Allocate new image buffer:
- 		size_t wlen = width * sizeof(unsigned short);
- 		buffer = new unsigned short* [height];
- 		memset(buffer, 0, height * sizeof(unsigned short*));
-  	for(int h = 0; h < height; h++){
-				buffer[h] = new unsigned short [width];
-     		memset(buffer[h], 0, wlen);
- 		}
+ 		//size_t wlen = width * sizeof(unsigned short);
+ 		buffer = new unsigned short [width * height];
+		memset(buffer, 0, height * width * sizeof(unsigned short));
+ 		//memset(buffer, 0, height * sizeof(unsigned short*));
+  	//for(int h = 0; h < height; h++){
+	//			buffer[h] = new unsigned short [width];
+     	//	memset(buffer[h], 0, wlen);
+ 		//}
  	}
  	catch(bad_alloc &exception)
  	{
@@ -2147,14 +2149,14 @@ unsigned short **SbigCam::AllocateBuffer(unsigned short width, unsigned short he
 #endif // INDI
 //==========================================================================
 #ifdef INDI
-int SbigCam::ReleaseBuffer(unsigned short height, unsigned short **buffer)
+int SbigCam::ReleaseBuffer(unsigned short height, unsigned short *buffer)
 {	
 	if(!buffer) return(CE_NO_ERROR);
 
 	// Release buffer now:
- 	for(int y = 0; y < height; y++){
-			if(buffer[y]) delete [] buffer[y];
- 	}
+ 	//for(int y = 0; y < height; y++){
+	//		if(buffer[y]) delete [] buffer[y];
+ 	//}
  	delete [] buffer;
  	buffer = 0;
 	return(CE_NO_ERROR);
@@ -2164,7 +2166,7 @@ int SbigCam::ReleaseBuffer(unsigned short height, unsigned short **buffer)
 #ifdef INDI
 int SbigCam::ReadoutCcd(	unsigned short left,	unsigned short top,
 												unsigned short width,	unsigned short height,
-												unsigned short **buffer)
+												unsigned short *buffer)
 {	
 	int h, w, ccd, binning, res;
  	if((res = GetSelectedCcdChip(ccd)) != CE_NO_ERROR) return(res);
@@ -2191,16 +2193,17 @@ int SbigCam::ReadoutCcd(	unsigned short left,	unsigned short top,
 
 	// Readout CCD row by row:
 	for(h = 0; h < height; h++){
-			ReadoutLine(&rlp, buffer[h], false);
+			ReadoutLine(&rlp, buffer + (h * width), false);
  	}
 
 	// Perform little endian to big endian (network order) 
 	// conversion since FITS is stored in big endian. 
-	for(h = 0; h < height; h++){
+	/*for(h = 0; h < height; h++){
 			for(w = 0 ; w < width; w++){
-					buffer[h][w] = GET_BIG_ENDIAN(buffer[h][w] - 32768);
+					//buffer[h][w] = GET_BIG_ENDIAN(buffer[h][w] - 32768);
+					buffer[h * width + w] = GET_BIG_ENDIAN(buffer[h * width + w]);
  			}
-	}
+	}*/
 
  	// End readout:
 	EndReadoutParams	erp;
@@ -2245,7 +2248,7 @@ string SbigCam::CreateFitsName()
 int SbigCam::WriteFits(	string						fits_name,
 												unsigned short 	width, 
 												unsigned short 	height, 
-												unsigned short 	**buffer)
+												unsigned short 	*buffer)
 {
 	fitsfile *fptr;       /* pointer to the FITS file; defined in fitsio.h */
 	int status=0;
