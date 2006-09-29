@@ -883,7 +883,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 {
 	ObserverInfo *ob;
 	XMLAtt* ap;
-	int prop_state;
+	int prop_state = 0;
 	char prop_dev[MAXINDIDEVICE];
 	char prop_name[MAXINDINAME];
 	
