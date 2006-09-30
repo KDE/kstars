@@ -90,7 +90,7 @@ long CCameraIO_PCI::Read(unsigned short reg, unsigned short& val)
 		RegNumber = RegPCI_CommandReadback;
 		break;
 	default:
-		_ASSERT( FALSE );	// Application program bug
+		_ASSERT( false );	// Application program bug
 		val = 0;
 		return 0;
 	}
@@ -122,7 +122,7 @@ long CCameraIO_PCI::Read(unsigned short reg, unsigned short& val)
 			);
 	}
 
-	if ( (ReturnedLength != 2) || (IoctlResult == FALSE) )
+	if ( (ReturnedLength != 2) || (IoctlResult == false) )
 	{
 		return 1;
 	}
@@ -201,7 +201,7 @@ long CCameraIO_PCI::Write(unsigned short reg, unsigned short val)
 			);
 	}
 
-	if ( (IoctlResult == FALSE) || (ReturnedLength != 0) )
+	if ( (IoctlResult == false) || (ReturnedLength != 0) )
 	{
 		return 1;
 	}

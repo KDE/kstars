@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 // ApnCamTable.cpp
 //
-// Copyright (c) 2003, 2004 Apogee Instruments, Inc.
-//////////////////////////////////////////////////////////////////////
+
 
 #include <string.h>
 

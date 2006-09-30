@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <fcntl.h>                                                           
 #include <stdio.h>
 #define HANDLE int
-#define FALSE 0
 #define DWORD long
 #define _ASSERT assert
 #define REALTIME_PRIORITY_CLASS 1  

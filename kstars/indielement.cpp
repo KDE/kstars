@@ -16,13 +16,11 @@
 
 #include "indi/indicom.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <QLabel>
-#include <qlayout.h>
-#include <qstring.h>
-#include <qslider.h>
-#include <qdir.h>
-//Added by qt3to4:
+#include <QLayout>
+#include <QSlider>
+#include <QDir>
 #include <QHBoxLayout>
 
 #include <kurl.h>
@@ -401,7 +399,7 @@ void INDI_E::setupElementRead(int length)
   read_w->setFocusPolicy( Qt::NoFocus );
   read_w->setCursorPosition( 0 );
   read_w->setAlignment( Qt::AlignCenter );
-  read_w->setReadOnly( TRUE );
+  read_w->setReadOnly( true );
   read_w->setText(text);
 
   EHBox->addWidget(read_w);

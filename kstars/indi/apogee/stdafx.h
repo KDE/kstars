@@ -31,8 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define BYTE unsigned char
 #define DWORD long
 #define BOOLEAN unsigned long
-#define TRUE 1
-#define FALSE 0
 #define INTERNET_OPEN_TYPE_DIRECT 1
 #define INTERNET_FLAG_NO_CACHE_WRITE 1
 #define INTERNET_FLAG_KEEP_CONNECTION 1

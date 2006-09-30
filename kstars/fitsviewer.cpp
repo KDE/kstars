@@ -147,7 +147,7 @@ bool  FITSViewer::initFITS()
 {
 
     /* Display image in the central widget */
-    if (image->loadFits(currentURL.path().toAscii()) == -1) { close(); return false; }
+    if (image->loadFits(currentURL.path()) == -1) { close(); return false; }
 
     /* Clear history */
     history->clear();
@@ -268,7 +268,7 @@ void FITSViewer::fileSave()
 
   if ( currentURL.isValid() )
   {
-	  if ( (err_status = image->saveFITS("!" + currentURL.path())) < 0)
+	  if ( (err_status = image->saveFITS('!' + currentURL.path())) < 0)
 	  {
 		  fits_get_errstatus(err_status, err_text);
 		  // Use KMessageBox or something here

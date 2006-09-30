@@ -22,7 +22,8 @@
 
 	You should have received a copy of the GNU Lesser General Public License 
 	along with this library; if not, write to the Free Software Foundation, 
-	Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+	
 #endif
 //==========================================================================
 #include "sbigcam.h"
@@ -484,7 +485,7 @@ string SbigCam::GetCameraName()
     	name = gccdir.name;
     	switch(gccdir.cameraType){
       		case	ST237_CAMERA:
-            	 	if(gccdir.readoutInfo[0].gain >= 0x100) name += "A";
+            	 	if(gccdir.readoutInfo[0].gain >= 0x100) name += 'A';
 	    		 			break;
        		case 	STL_CAMERA:
  	    		 			// driver reports name as "SBIG ST-L-XXX..."
@@ -2827,7 +2828,7 @@ int SbigCam::CfwGotoMonitor(CFWResults *cfwr)
 void SbigCam::CfwUpdateProperties(CFWResults cfwr)
 {
 	char 	str[64];
-	bool	bClear = FALSE;
+	bool	bClear = false;
 
 	switch(cfwr.cfwModel){
 		case	CFWSEL_CFW2:
@@ -2856,7 +2857,7 @@ void SbigCam::CfwUpdateProperties(CFWResults cfwr)
 					break;
 		default:
 					sprintf(str, "%s", "Unknown");
-					bClear = TRUE;	
+					bClear = true;	
 					break;
 	}			
 	// Set CFW's product ID:

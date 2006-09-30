@@ -17,10 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
-// ApnCamera_NET.cpp: implementation of the CApnCamera_NET class.
-//
-// Copyright (c) 2003, 2004 Apogee Instruments, Inc.
-//////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "ApnCamera_NET.h"

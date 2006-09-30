@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <unistd.h>
 #include <fcntl.h>
 #define HANDLE int
-#define FALSE 0
 #define DWORD long
 #define _ASSERT assert
 #define REALTIME_PRIORITY_CLASS 1  
@@ -221,7 +220,7 @@ void CCameraIO::RegWrite( short reg, unsigned short val )
 		m_RegShadow[ Reg_BICCounter ] = val;
 		break;
 	default:
-		_ASSERT( FALSE );	// application program bug
+		_ASSERT( false );	// application program bug
 	}
 }
 

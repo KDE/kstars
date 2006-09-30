@@ -90,8 +90,6 @@ extern int errno;
 #define FRAME_ILEN	64
 #define TEMPFILE_LEN	16
 
-#define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
-
 enum FLIFrames { LIGHT_FRAME = 0, BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
 
 
@@ -804,12 +802,6 @@ int writeFITS(const char* filename, char errmsg[])
   long  fpixel = 1, naxis = 2, nelements;
   long naxes[2];
   char filename_rw[TEMPFILE_LEN+1];
-
-   /* Convert buffer to BIG endian 
-     NOTE: do we need this with cfitsio? */
-  for (i=0; i < FLIImg->height; i++)
-    for (j=0 ; j < FLIImg->width; j++)
-      FLIImg->img[FLIImg->width * i + j] = getBigEndian( (FLIImg->img[FLIImg->width * i + j])) ;
 
   naxes[0] = FLIImg->width;
   naxes[1] = FLIImg->height;

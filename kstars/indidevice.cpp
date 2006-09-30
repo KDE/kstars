@@ -47,7 +47,7 @@
 #include <termios.h>
 #include <zlib.h>
 
-#include <qtextedit.h>
+#include <QTextEdit>
 #include <QFrame>
 #include <QTabWidget>
 #include <QCheckBox>
@@ -402,7 +402,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 
                 lp->push_w->setDown(state == PS_ON ? true : false);
 		buttonFont = lp->push_w->font();
-		buttonFont.setBold(state == PS_ON ? TRUE : FALSE);
+		buttonFont.setBold(state == PS_ON ? true : false);
 		lp->push_w->setFont(buttonFont);
 
 		break;

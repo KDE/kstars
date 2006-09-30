@@ -1,6 +1,38 @@
-/*
-** SatLib.h
-*/
+/***************************************************************************\
+*          SATLIB : A satellite position/orbital prediction library         *
+*         Made by Patrick Chevalley, Vincent Suc & Jean-Baptiste Butet.     *
+*                         http://www.sf.net/predictsatlib                   *
+*****************************************************************************
+* This Library is based on : PREDICT, Made by John A. Magliacan             *
+*****************************************************************************
+*   SGP4/SDP4 code was derived from Pascal routines originally written by   *
+*       Dr. TS Kelso, and converted to C by Neoklis Kyriazis, 5B4AZ         *
+*****************************************************************************
+*                                                                           *
+*   This program is free software; you can redistribute it and/or modify    *
+*   it under the terms of the GNU General Public License as published by    *
+*   the Free Software Foundation; either version 2 of the License, or       *
+*   (at your option) any later version.                                     *
+*                                                                           *
+*   This program is distributed in the hope that it will be useful,         *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+*   GNU General Public License for more details.                            *
+*                                                                           *
+*   You should have received a copy of the GNU General Public License       *
+*   along with this program; if not, write to the                           *
+*   Free Software Foundation, Inc.,                                         *
+*   Foundation, Inc., 51 Franklin Street, Fifth Floor,                      *
+*   Boston, MA  02110-1301  USA						    *
+*                                                                           *
+*   Licensed under the GNU GPL                                              *
+*                                                                           *
+*****************************************************************************
+*Changelog :                                                                *
+*                                                                           *
+*09/10/2005 :SatLib, Project (re)started, v0.1                              *
+*26/05/1991 :Predict, Project started                                       *
+\***************************************************************************/
 
 #ifndef SATLIB_H_
 #define SATLIB_H_

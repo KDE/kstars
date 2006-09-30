@@ -416,7 +416,7 @@ int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, i
   }
   /* Read the 201th line, see mosaic mode */
 
-  /* ToDo: analyse/display the data or use them in the fits header(s) */
+  /* ToDo: analyze/display the data or use them in the fits header(s) */
   data[0]=  200; /* line */
 
   if(( res= STV_RequestImageData( 1, data, 200, length, values)) < 0) {
@@ -872,7 +872,7 @@ int STV_CheckDataSum( unsigned char *buf) {
 }
 
 int STV_PrintBuffer( unsigned char *buf, int n ) {
-  /* For debuging purposes only */
+  /* For debugging purposes only */
   int i ;
 
   fprintf(stderr, "\nHEADER: %d bytes ", n) ;
@@ -889,7 +889,7 @@ int STV_PrintBuffer( unsigned char *buf, int n ) {
   return 0 ;
 }
 int STV_PrintBufferAsText( unsigned char *buf, int n ) {
-  /* For debuging purposes only */
+  /* For debugging purposes only */
   int i ;
 
   fprintf(stderr, "\nHEADER: %d bytes ", n) ;

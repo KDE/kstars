@@ -296,14 +296,14 @@ void INDI_P::newSwitch(int id)
 
         el[i]->push_w->setDown(false);
         buttonFont = el[i]->push_w->font();
-        buttonFont.setBold(FALSE);
+        buttonFont.setBold(false);
         el[i]->push_w->setFont(buttonFont);
         el[i]->state = PS_OFF;
       }
 
       lp->push_w->setDown(true);
       buttonFont = lp->push_w->font();
-      buttonFont.setBold(TRUE);
+      buttonFont.setBold(true);
       lp->push_w->setFont(buttonFont);
       lp->state = PS_ON;
 
@@ -765,7 +765,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
 	       {
 	           button->setDown(true);
 		   buttonFont = button->font();
-		   buttonFont.setBold(TRUE);
+		   buttonFont.setBold(true);
 		   button->setFont(buttonFont);
 	       }
 

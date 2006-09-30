@@ -18,9 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
 // ApnCamera_USB.cpp: implementation of the CApnCamera_USB class.
-//
-// Copyright (c) 2003, 2004 Apogee Instruments, Inc.
-//////////////////////////////////////////////////////////////////////
+
 
 #include "stdafx.h"
 #include "ApnCamera_USB.h"
