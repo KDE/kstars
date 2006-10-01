@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Lesser General Public
     License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+    Foundation, Inc., 51 Franklin Steet, Fifth Floor, Boston, MA  02110-1301  USA
 
 #endif
 
@@ -22,8 +22,9 @@
 
 #include <string.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #include <zlib.h>
-
+#include <unistd.h>
 /* INDI Core headers */
 
 #include "indidevapi.h"
@@ -42,13 +43,13 @@
 
 /* STV's definitions */
 
-#include "stv_driver.h"
+#include "stvdriver.h"
 
 /* Definitions */
 
 #define mydev	           "STV Guider"     /* Device name */
 #define CONNECTION_GROUP   "Connection"     /* Group name */
-#define SETTINGS_GROUP      "Setings"     /* Group name */
+#define SETTINGS_GROUP     "Setings"        /* Group name */
 #define BUTTONS_GROUP      "Buttons and Knobs"        /* Button Pannel */
 #define IMAGE_GROUP        "Download"        /* Button Pannel */
 
@@ -59,10 +60,14 @@
 #define currentLength             WindowingN[3].value
 
 #define currentCompression        CompressionS[0].s
+ 
+static int compression= OFF ;
+static int acquiring=   OFF ;
+static int guiding=     OFF ; 
+static int processing=  OFF ;
 
 /* Fits (fli_ccd project) */
 enum STVFrames { LIGHT_FRAME = 0, BIAS_FRAME, DARK_FRAME, FLAT_FRAME };
-#define getBigEndian(p) ( ((p & 0xff) << 8) | (p  >> 8))
 #define TEMPFILE_LEN	16
 
 
@@ -114,7 +119,7 @@ int STV_Display(void) ;
 int STV_FileOps(void) ;
 int STV_RequestImageInfo(int imagebuffer, IMAGE_INFO *image_info) ;
 int STV_BufferStatus(int buffer) ;
-int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, int length, int lines, int image[][320], IMAGE_INFO *image_info) ;
+int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, int *length, int *lines, int image[][320], IMAGE_INFO *image_info) ;
 int STV_Download( void) ;
 int STV_TXDisplay(void) ;
 int STV_TerminateTXDisplay(void) ;
@@ -127,17 +132,17 @@ void ISCallBack(void) ;
 
 
 int init_serial(char *device_name, int bit_rate, int word_size, int parity, int stop_bits) ;
-int STV_ReceivePacket( unsigned char *buf) ;
+int STV_ReceivePacket( unsigned char *buf, int mode) ;
 int STV_Connect( char *device, int baud) ;
-int STV_SetDateTime(void) ;
+int STV_SetDateTime( char *times) ;
 double STV_SetCCDTemperature(double set_value) ;
 
 
-int counter= 0 ;
+
 
 static IText StatusT[]= {
   {"STATUS", "This driver", "is experimental, contact markus.wildi@datacomm.ch", 0, 0, 0},
-}; /* Attention malloc */
+};
 
 static ITextVectorProperty StatusTP= { 
   mydev, "STAUS", "Status", CONNECTION_GROUP, IP_RO, ISR_1OFMANY, IPS_IDLE, StatusT, NARRAY(StatusT), "", 0
@@ -146,7 +151,7 @@ static ITextVectorProperty StatusTP= {
 /* RS 232 Connection */
 
 static ISwitch PowerS[] = {  
-  {"CONNECT", "Connect", ISS_OFF, 0, 0},
+  {"CONNECT", "Connect", ISS_OFF, 0, 0},                         
   {"DISCONNECT", "Disconnect", ISS_OFF, 0, 0},
 };
 
@@ -158,8 +163,8 @@ static ISwitchVectorProperty PowerSP = {
 
 static IText PortT[]= {
   {"PORT", "Port", NULL, 0, 0, 0},
-  {"SPEED", "Speed", NULL,      0, 0, 0}
-}; /* Attention malloc */
+  {"SPEED", "Speed", NULL, 0, 0, 0}
+}; 
 
 static ITextVectorProperty PortTP= { 
   mydev, "DEVICE_PORT", "Port", CONNECTION_GROUP, IP_RW, ISR_1OFMANY, IPS_IDLE, PortT, NARRAY(PortT), "", 0
@@ -179,7 +184,7 @@ static IText DisplayCT[]= {
 
   {"DISPLAYC1", "Line 1", NULL, 0, 0, 0},
   {"DISPLAYC2", "Line 2", NULL, 0, 0, 0}
-}; /* Attention malloc */
+}; 
 
 static ITextVectorProperty DisplayCTP= { 
   mydev, "DISPLAYC", "Display", CONNECTION_GROUP, IP_RO, ISR_1OFMANY, IPS_IDLE, DisplayCT, NARRAY(DisplayCT), "", 0
@@ -187,9 +192,9 @@ static ITextVectorProperty DisplayCTP= {
 
 static IText DisplayBT[]= {
 
-  {"DISPLAYB1", "Line 1", NULL , 0, 0, 0},
-  {"DISPLAYB2", "Line 2", NULL , 0, 0, 0}
-}; /* Attention malloc */
+  {"DISPLAYB1", "Line 1", NULL, 0, 0, 0},
+  {"DISPLAYB2", "Line 2", NULL, 0, 0, 0}
+}; 
 
 static ITextVectorProperty DisplayBTP= { 
   mydev, "DISPLAYB", "Display", BUTTONS_GROUP, IP_RO, ISR_1OFMANY, IPS_IDLE, DisplayBT, NARRAY(DisplayBT), "", 0
@@ -197,9 +202,9 @@ static ITextVectorProperty DisplayBTP= {
 
 static IText DisplayDT[]= {
 
-  {"DISPLAYD1", "Line 1", NULL , 0, 0, 0},
+  {"DISPLAYD1", "Line 1", NULL, 0, 0, 0},
   {"DISPLAYD2", "Line 2", NULL, 0, 0, 0}
-}; /* Attention malloc */
+}; 
 
 static ITextVectorProperty DisplayDTP= { 
   mydev, "DISPLAYD", "Display", IMAGE_GROUP, IP_RO, ISR_1OFMANY, IPS_IDLE, DisplayDT, NARRAY(DisplayDT), "", 0
@@ -207,21 +212,12 @@ static ITextVectorProperty DisplayDTP= {
 
 
 /* Setings */
-/* Data & Time */
+
 static IText UTCT[] = {{"UTC", "UTC", NULL, 0, 0, 0}};
 ITextVectorProperty UTCTP = { mydev, "TIME_UTC", "UTC Time", SETTINGS_GROUP, IP_RW, 0, IPS_IDLE, UTCT, NARRAY(UTCT), "", 0};
 
-
-/* JM: Replace this property with the standard one above */
-static ISwitch SetTimeS[] = {  
-  {"SETTIME", "UTC Now", ISS_OFF, 0, 0},                         
-};
-static ISwitchVectorProperty SetTimeSP = { 
-  mydev, "Time", "Set Time", SETTINGS_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SetTimeS, NARRAY(SetTimeS), "", 0
-} ;
-
 static INumber SetCCDTemperatureN[]= {
-  { "TEMPERATURE", "Cel. -55.1, +25.2", "%6.1f", -55.8, 25.2, 0.,16., 0, 0, 0}, 
+  { "TEMPERATURE", "Cel. -55.1, +25.2", "%6.1f", -55.8, 25.2, 0.,16., 0, 0, 0},
 
 } ;
 
@@ -326,14 +322,14 @@ static INumberVectorProperty BufferNP= {
 
 static INumber WindowingN[]= {
 
-  { "B1", "Offset x (vertical)", "%6.0f", 0., 199., 0., 0., 0, 0, 0}, 
-  { "C2", "Offset y", "%6.0f", 0., 319., 0., 0., 0, 0, 0}, 
-  { "D3", "Lines  .le. 200-x", "%6.0f", 1., 200., 0., 200., 0, 0, 0},
-  { "E4", "Length .le. 320-y", "%6.0f", 1., 320., 0., 320., 0, 0, 0}, 
+  { "X", "Offset x", "%6.0f", 0., 199., 0., 0., 0, 0, 0}, 
+  { "Y", "Offset y", "%6.0f", 0., 319., 0., 0., 0, 0, 0}, 
+  { "HEIGHT", "Lines",    "%6.0f", 1., 200., 0., 200., 0, 0, 0},
+  { "WIDTH", "Length",   "%6.0f", 1., 320., 0., 320., 0, 0, 0}, 
 } ;
 
 static INumberVectorProperty WindowingNP= { 
-  mydev, "WINDOWING", "Windowing", IMAGE_GROUP, IP_RW, ISR_1OFMANY, IPS_IDLE, WindowingN, NARRAY(WindowingN), "", 0
+  mydev, "CCD_FRAME", "Windowing", IMAGE_GROUP, IP_RW, ISR_1OFMANY, IPS_IDLE, WindowingN, NARRAY(WindowingN), "", 0
 } ;
 
 static ISwitch ImageInfoS[]= {
@@ -371,9 +367,39 @@ static void ISInit() {
   static int isInit= 0; 
   
   if( isInit)  return;
- 
+  
   IUSaveText( &PortT[0],  "/dev/ttyUSB0"); 
   IUSaveText( &PortT[1],  "115200"); 
+
+  if((  DisplayCT[0].text= malloc( 1024))== NULL){
+    fprintf(stderr,"3:Memory allocation error");
+    return;
+  }
+  if((DisplayCT[1].text = malloc( 1024))== NULL){
+    fprintf(stderr,"4:Memory allocation error");
+    return;
+  }
+  if(( DisplayBT[0].text= malloc( 1024))== NULL){
+    fprintf(stderr,"5:Memory allocation error");
+    return;
+  }
+  if(( DisplayBT[1].text= malloc( 1024))== NULL){
+    fprintf(stderr,"5:Memory allocation error");
+    return;
+  }
+  if(( DisplayDT[0].text= malloc( 1024))== NULL){
+    fprintf(stderr,"7:Memory allocation error");
+    return;
+  }
+  if(( DisplayDT[1].text= malloc( 1024))== NULL){
+    fprintf(stderr,"8:Memory allocation error");
+    return;
+  }
+
+  if(( STVImg= malloc( sizeof(img_t)))== NULL){
+    fprintf(stderr,"9:Memory allocation error");
+    return;
+  }
 
   isInit = 1;
 }
@@ -430,24 +456,24 @@ void ISCallBack() {
   int res ;
   int k,l,m ;
 
-
   unsigned char buf[1024] ;
 
 
   IERmCallback( cb) ;
   cb = -1 ;
 
-  /*fprintf( stderr, "ISCallBack %d\n", counter++) ; */
+/*   fprintf( stderr, "ISCallBack\n") ; */
+/*   if(( counter++ % 4) ==0){ */
+/*   fprintf( stderr, ".") ; */
+/*   } */
 
-  /* if(( counter++ % 4) ==0){
-   fprintf( stderr, ".") ;
-    } */
   if( PowerS[0].s == ISS_ON) {
 
-    res= STV_ReceivePacket( buf) ;
+
+    res= STV_ReceivePacket( buf, guiding) ;
 
  
-    /* res= STV_PrintBuffer(buf,res) ; */
+/*     res= STV_PrintBuffer(buf,res) ; */
 
     DisplayCTP.s= IPS_IDLE ;
     IDSetText( &DisplayCTP, NULL) ;
@@ -479,7 +505,7 @@ void ISCallBack() {
   
 	  if( buf[k+ 6]== 0x5e) { /* first line */
 	    
-	    DisplayCT[0].text[l-1]= 0x50 ; /* P */
+	    DisplayCT[0].text[l-1]= 0x50 ;   /* P */
 	    DisplayCT[0].text[l++]  = 0x6b ; /* k */
 	    
 	  } else if( buf[k+ 6]== 0xd7) {
@@ -497,20 +523,20 @@ void ISCallBack() {
 
 	  } else {
 	    
-	    /*fprintf(stderr, "LINE 1%2x, %2x, %2x, %c %c %c\n", buf[k+ 5], buf[k+ 6], buf[k+ 7], buf[k+ 5], buf[k+ 6], buf[k+ 7]) ; */
+	    /* fprintf(stderr, "LINE 1%2x, %2x, %2x, %c %c %c\n", buf[k+ 5], buf[k+ 6], buf[k+ 7], buf[k+ 5], buf[k+ 6], buf[k+ 7]) ; */
 	    DisplayCT[0].text[l++]= 0x20 ;
 	    
 	  }
 	  if( buf[k+ 30]== 0xb0){ /* second line */
 
-	    DisplayCT[1].text[m++]= 0x43 ; /*Celsius */
+	    DisplayCT[1].text[m++]= 0x43 ; /* Celsius */
 
 	  } else if( buf[k+ 30] >29 &&  buf[k +30] < 127) {
 	    
 	    DisplayCT[1].text[m++]=buf[k + 30] ;
 	  } else {
 	    
-	    /*fprintf(stderr, "LINE 2 %2x, %2x, %2x, %c %c %c\n", buf[k+ 29], buf[k+ 30], buf[k+ 31], buf[k+ 29], buf[k+ 30], buf[k+ 31]) ; */
+	    /* fprintf(stderr, "LINE 2 %2x, %2x, %2x, %c %c %c\n", buf[k+ 29], buf[k+ 30], buf[k+ 31], buf[k+ 29], buf[k+ 30], buf[k+ 31]) ; */
 	    DisplayCT[1].text[m++]= 0x20 ; 
 	  }
 	}
@@ -533,7 +559,7 @@ void ISCallBack() {
       break ;
     case REQUEST_DOWNLOAD:
 
-      /*fprintf(stderr, "STV says REQUEST_DOWNLOAD\n") ; */
+      /* fprintf(stderr, "STV says REQUEST_DOWNLOAD\n") ; */
 
       if(  TXDisplayS[0].s == ISS_ON) {
 
@@ -552,19 +578,11 @@ void ISCallBack() {
       } else {
 
 	tcflush(fd, TCIOFLUSH);
-	usleep(100) ;
+	usleep( 100000) ;
      
-	if( WindowingNP.s != IPS_ALERT) {
-	  res= ISRequestImageData( 1, 31, 0, 0, 320, 200) ; /* Download the on screen image (buffer 32 -1) */
-	} else {
-
-	  IDMessage( mydev, "Check values offset x, lines, offest y and length") ;
-	  DownloadSP.s= IPS_ALERT ;
-	  IUResetSwitches(&DownloadSP) ;
-	  IDSetSwitch(&DownloadSP, NULL) ;
-	}
+	res= ISRequestImageData( 1, 31, 0, 0, 320, 200) ; /* Download the on screen image (buffer 32 -1) */
       }
-      /*fprintf(stderr, "STV END REQUEST_DOWNLOAD\n") ;*/
+      /*fprintf(stderr, "STV END REQUEST_DOWNLOAD\n") ;  */
       break ;	
     case REQUEST_DOWNLOAD_ALL:
      
@@ -588,7 +606,7 @@ void ISCallBack() {
       break ;
     case NACK:
 
-      /*fprintf(stderr, "STV says NACK!!") ;	*/
+      /*fprintf(stderr, "STV says NACK!!") ;   */
       IDMessage(mydev, "STV says NACK!") ;
       break ;
     case REQUEST_BUFFER_STATUS:
@@ -597,16 +615,15 @@ void ISCallBack() {
       break ;
     default:
 
-      /*fprintf(stderr, "STV ISCallBack: Unknown response 0x%2x\n",  buf[1]) ;	*/
-      IDLog("ISCallBack: Unknown response 0x%2x\n",  buf[1]) ;
-      break ;
-    }
-  }
+      if( guiding== ON) {/* While STV is tracking, it send time, brightnes, centroid x,y */
 
-  if(( res= strlen( tracking_buf)) > 0) { /* While STV is tracking, it send time, brightnes, centroid x,y */
+	IDMessage( mydev, "Tracking: %s", tracking_buf) ;
+      } else {
 
-    if( GuideS[1].s== ISS_ON) {
-      IDMessage( mydev, "Tracking: %s", tracking_buf) ;
+	/*fprintf(stderr, "STV ISCallBack: Unknown response 0x%2x\n",  buf[1]) ;  */
+	IDLog("ISCallBack: Unknown response 0x%2x\n",  buf[1]) ;
+      }
+     break ;
     }
   }
   cb= IEAddCallback( fd, (IE_CBF *)ISCallBack, NULL) ;
@@ -633,8 +650,7 @@ void ISGetProperties (const char *dev) {
   IDDefText(&StatusTP, NULL) ;
 
   /* Settings Tab */
-  /*IDDefSwitch(&SetTimeSP, NULL) ;*/
-  IDDefText(&UTCTP, NULL);
+  IDDefText(&UTCTP, NULL) ;
   IDDefNumber(&SetCCDTemperatureNP, NULL) ;
 
   /* Buttons tab */
@@ -667,10 +683,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
   int baud ;
   IMAGE_INFO image_info ;
   ISwitch *sp ;
-  static int compression= OFF ;
-  static int acquiring=   OFF ;
-  static int guiding=     OFF ; 
-  static int processing=  OFF ;
   int lower_buffer ;
   int upper_buffer ;
 
@@ -689,9 +701,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
   
   if( !strcmp (name, PowerSP.name)) {
 	  
+    /* A. We reset all switches (in this case CONNECT and DISCONNECT) to ISS_OFF */
     
-    if (IUUpdateSwitches(&PowerSP, states, names, n) < 0)
-	return;
+    IUResetSwitches(&PowerSP);
+
+    /* B. We update the switches by sending their names and updated states IUUpdateSwitches function */
+    
+    IUUpdateSwitches(&PowerSP, states, names, n);
 	  
     /* C. We try to establish a connection to our device or terminate it*/
 
@@ -732,7 +748,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if(( res= STV_RequestAck()) != 0) {
 	  fprintf( stderr, "COULD not write an ACK\n") ;
 	} 
-	/* Second trial: start reading out the display */
+	/* Second trial: start reading out the display  */
 	if((res= STV_TXDisplay()) != 0) {
 	  
 	  fprintf(stderr, "STV: Could not write  %d\n", res) ;
@@ -789,7 +805,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
       PowerSP.s = IPS_IDLE;
       IUResetSwitches(&PowerSP);
-      IDSetSwitch(&PowerSP, "STV is offline.");
+      IDSetSwitch(&PowerSP, "STV is offline");
 
       break;
     }
@@ -836,6 +852,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     IUResetSwitches(&ControlSP);
     IUUpdateSwitches(&ControlSP, states, names, n);
 
+    acquiring=   OFF ;
+    guiding=     OFF ; 
+    processing=  OFF ;
+
     for( i = 0; i < n; i++) {
       
       sp = IUFindSwitch (&ControlSP, names[i]) ;
@@ -871,8 +891,12 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
     /* Button Value, left/right knob */
     ISResetButtons(NULL) ;
-    if (IUUpdateSwitches(&ValueSP, states, names, n) < 0)
-	return;
+    IUResetSwitches(&ValueSP);
+    IUUpdateSwitches(&ValueSP, states, names, n);
+
+    acquiring=   OFF ;
+    guiding=     OFF ; 
+    processing=  OFF ;
 
     for( i = 0; i < n; i++) {
       
@@ -1018,6 +1042,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     }
   } else if( !strcmp (name, ImageInfoSP.name)) {
 
+    acquiring=   OFF ;
+    guiding=     OFF ; 
+    processing=  OFF ;
+
     /* Read out the image buffer and display a short message if it is empty or not */
     res= ISTerminateTXDisplay() ;
 
@@ -1066,6 +1094,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
   } else if( !strcmp (name, CompressionSP.name)) {
 
+
+    acquiring=   OFF ;
+    guiding=     OFF ; 
+    processing=  OFF ;
+
     /* Enable or disable compression for image download */
     ISResetButtons(NULL) ;
     IUResetSwitches(&CompressionSP);
@@ -1089,6 +1122,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
   } else if( !strcmp (name, BufferStatusSP.name)) {
 
+
     ISResetButtons(NULL) ;
 
     BufferStatusSP.s= IPS_ALERT ;
@@ -1099,7 +1133,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
    
       acquiring=  OFF ;
       guiding=    OFF ;
-      processing= OFF  ;
+      processing= OFF ;
 
       ISResetButtons( "Interrupting ongoing image acquisition, calibration or tracking\n") ;
 
@@ -1123,6 +1157,9 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       usleep(100000) ;
       res= STV_Interrupt() ;
     }
+    acquiring=  OFF ;
+    guiding=    OFF ;
+    processing= OFF ;
 
     sp = IUFindSwitch (&BufferStatusSP, names[0]) ;
  
@@ -1163,13 +1200,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
   } else if( !strcmp (name, DownloadSP.name)) {
 
-    /* Download images
-       Downloading while the STV is occupied is not working */
+    /* Download images */
+    /* Downloading while the STV is occupied is not working */
     if( ( AcquireSP.s != OFF) || ( GuideSP.s != OFF) || ( ProcessSP.s != OFF)) {
    
-      acquiring=  OFF ;
-      guiding=    OFF ;
-      processing= OFF  ;
 
       ISResetButtons( "Interrupting ongoing image acquisition, calibration or tracking\n") ;
 
@@ -1193,7 +1227,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       usleep(100000) ;
       res= STV_Interrupt() ;
     }
-    
+    acquiring=  OFF ;
+    guiding=    OFF ;
+    processing= OFF  ;
+   
     if((res= ISTerminateTXDisplay()) != 0) {
 
       fprintf(stderr, "STV Buffer can not terminate TX %d\n", res) ;
@@ -1223,40 +1260,29 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	upper_buffer=  31 ;
       }
     }
-    if( WindowingNP.s != IPS_ALERT) {
-      for( j= upper_buffer ; j> lower_buffer ; j--) {
+    for( j= upper_buffer ; j> lower_buffer ; j--) {
 	 
-	if((res= ISRequestImageData( compression, j, currentX, currentY, currentLength, currentLines)) != 0) {
-	  if( res== 1) {
+      if((res= ISRequestImageData( compression, j, currentX, currentY, currentLength, currentLines)) != 0) {
+	if( res== 1) {
 
-	    IDMessage( mydev, "Buffer %2.0f: empty", (double)(j+ 1)) ;
-	  } else {
-	    break ;
-	  }
+	  IDMessage( mydev, "Buffer %2.0f: empty", (double)(j+ 1)) ;
+	} else {
+	  break ;
 	}
       }
-    } else {
-      
-      IDMessage( mydev, "Check values Offset x/Lines, Offest y/Length") ;
-      DownloadSP.s= IPS_ALERT ;
-      IUResetSwitches(&DownloadSP) ;
-      IDSetSwitch(&DownloadSP, NULL) ;
-      res= -1 ;
     }
     if( res== 0) {
  
       IDMessage( mydev, "STV waits for SYNC TIME Do it! Setting time, PLEASE WAIT!") ;
 
-      if((res= STV_SetDateTime()) == 0) {
+      if((res= STV_SetDateTime(NULL)) == 0) {
       
-	SetTimeSP.s= IPS_OK ;
-	SetTimeS[0].s= ISS_OFF ;
-	IDSetSwitch( &SetTimeSP, "Time set to UTC now") ;
+	UTCTP.s= IPS_OK ;
+	IDSetText( &UTCTP, "Time set to UTC now") ;
       } else {
  
-	SetTimeSP.s= IPS_ALERT ;
-	SetTimeS[0].s= ISS_OFF ;
-	IDSetSwitch( &SetTimeSP, "Error setting time, check connection") ;
+	UTCTP.s= IPS_ALERT ;
+	IDSetText( &UTCTP, "Error setting time, check connection") ;
       }
       DownloadSP.s= IPS_OK ;
       IUResetSwitches(&DownloadSP) ;
@@ -1275,6 +1301,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     IDMessage( mydev, "You may continue NOW") ;
 
   } else if( !strcmp (name, TXDisplaySP.name)) {
+
+    acquiring=  OFF ;
+    guiding=    OFF ;
+    processing= OFF  ;
 
     ISResetButtons(NULL) ;
     IUResetSwitches(&TXDisplaySP);
@@ -1334,31 +1364,14 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       IUResetSwitches(&TXDisplaySP) ;
       IDSetSwitch(&TXDisplaySP, "Check connection") ;
     }
-  } else if( !strcmp (name, SetTimeSP.name)) {
 
-    ISResetButtons(NULL) ;
-    IUResetSwitches(&SetTimeSP);
-    IUUpdateSwitches(&SetTimeSP, states, names, n);
-   
-    sp= IUFindSwitch (&SetTimeSP, names[0]) ;
-      
-    if( sp == &SetTimeS[0]) {
-
-      if((res= STV_SetDateTime()) == 0) {
-	  
-	SetTimeSP.s= IPS_OK ;
-	SetTimeS[0].s= ISS_OFF ;
-	IDSetSwitch( &SetTimeSP, "Time set to UTC") ;
-      } else {
-	SetTimeSP.s= IPS_ALERT ;
-	SetTimeS[0].s= ISS_OFF ;
-	IDSetSwitch( &SetTimeSP, "Error setting time, check connection") ;
-      } 
-    }
   }
 }
 
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n) {
+
+  int res ;
+  IText *tp ;
 
   /*fprintf(stderr, "ISNewText\n") ; */
 
@@ -1371,8 +1384,9 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 
   if( !strcmp (name, PortTP.name)) {
 
-    IUSaveText(&PortT[0], texts[0]);
-    IUSaveText(&PortT[1], texts[1]);
+    if (IUUpdateTexts(&PortTP, texts, names, n) < 0)
+	return;
+
     PortTP.s = IPS_OK;
 
     if (PowerS[0].s == ISS_ON){
@@ -1380,13 +1394,41 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
       PortTP.s = IPS_ALERT;
       IDSetText(&PortTP, "STV is already online");
     }
-    return ;
+
+    /* JM: Don't forget to send acknowledgment */
+    IDSetText(&PortTP, NULL);
+
+  } else if( !strcmp (name, UTCTP.name)) {
+
+    ISResetButtons(NULL) ;
+   
+    tp= IUFindText (&UTCTP, names[0]) ;
+ 
+    if((res= ISTerminateTXDisplay()) != 0) {
+
+      fprintf(stderr, "STV Buffer can not terminate TX %d\n", res) ;
+    }
+     
+    if( tp == &UTCT[0]) {    
+
+      /* JM: FIXME why the time stamp is not sent? */
+      if((res= STV_SetDateTime(NULL)) == 0) {
+	  
+	UTCTP.s= IPS_OK ;
+	IDSetText( &UTCTP, "Time set to UTC") ;
+      } else {
+
+	UTCTP.s= IPS_ALERT ;
+	IDSetText( &UTCTP, "Error setting time, check connection") ;
+      } 
+    }
+    res= ISRestoreTXDisplay() ;
   }  
 }
 /* Client sets new number */
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n) {
 
- 
+  int res ; 
   double ccd_temperature ;
   /*fprintf(stderr, "ISNewNumber\n") ; */
 
@@ -1427,25 +1469,16 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       currentY     =  values[1] ;
       currentLines =  values[2] ;
       currentLength=  values[3] ;
-     
-      /* Check the boundaries, this is incomplete at the moment */
+
       WindowingNP.s = IPS_OK ;
-      if((currentX + currentLines ) > 200) {
-	WindowingNP.s = IPS_ALERT;
-	IDMessage( mydev, "Error: Offset x:%f +  Lines:%f = %f > 200", currentX, currentLines, currentX + currentLines) ; 
-      }
-
-      if((currentY + currentLength ) > 320) {
-	WindowingNP.s = IPS_ALERT;
-	IDMessage( mydev, "Error: offset y +  length= %f > 320", currentY + currentLength) ; 
-      }
       IDSetNumber(&WindowingNP, NULL) ; 
-
-    } else {
-      fprintf( stderr, "Error did not find buffer pointer\n") ;
     }
-
   } else if( !strcmp (name, SetCCDTemperatureNP.name)) {
+
+    if((res= ISTerminateTXDisplay()) != 0) {
+
+      fprintf(stderr, "STV Buffer can not terminate TX %d\n", res) ;
+    }
 
     INumber *np= IUFindNumber (&SetCCDTemperatureNP, names[0]) ;
       
@@ -1461,7 +1494,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	SetCCDTemperatureNP.s= IPS_ALERT ;
 	IDSetNumber( &SetCCDTemperatureNP, "Error setting CCD temperature, check connection") ;
       } 
-    }
+    } 
+    res= ISRestoreTXDisplay() ;
   }
 }
 
@@ -1500,9 +1534,9 @@ int writeFITS(const char* filename, IMAGE_INFO *image_info, char errmsg[])
 
   fits_report_error(stderr, status);  /* print out any error messages */
 
-  /* Success 
-  //ExposeTimeNP.s = IPS_OK;
-  //IDSetNumber(&ExposeTimeNP, NULL);*/
+  /* Success */
+  /*ExposeTimeNP.s = IPS_OK; */
+  /*IDSetNumber(&ExposeTimeNP, NULL); */
   uploadFile(filename);
  
   return status;
@@ -1532,10 +1566,8 @@ void addFITSKeywords(fitsfile *fptr, IMAGE_INFO *image_info)
 
   strcpy(frame_s, "Light");
 
-  
-/*
- ToDo: assign the frame type
-   switch (STVImg->frameType) */
+  /* ToDo: assign the frame type */
+/*   switch (STVImg->frameType) */
 /*   { */
 /*     case LIGHT_FRAME: */
 /*       	strcpy(frame_s, "Light"); */
@@ -1617,7 +1649,7 @@ void uploadFile(const char* filename)
  
    if ( -1 ==  stat (filename, &stat_p))
    { 
-     IDLog(" Error occurred attempting to stat file.\n"); 
+     IDLog("Error occurred attempting to stat file.\n"); 
      return; 
    }
    
@@ -1801,7 +1833,7 @@ int ISRequestImageData( int compression, int buffer, int x_offset, int y_offset,
   }
   
 
-  res= STV_RequestImage( compression, buffer, x_offset, y_offset, length, lines, image, &image_info) ;
+  res= STV_RequestImage( compression, buffer, x_offset, y_offset, &length, &lines, image, &image_info) ;
  
   if( res== 0) {
 
@@ -1812,13 +1844,13 @@ int ISRequestImageData( int compression, int buffer, int x_offset, int y_offset,
 
     STVImg->img= malloc (img_size);
   
-    for(i= 0 ; i < STVImg->height ; i++) {  /* x */
+    for(i= 0 ; i < STVImg->height ; i++) { /* x */
       for(k= 0 ; k < STVImg->width ; k++) { /* y */
 
 	STVImg->img[ STVImg->width* i + k]= (unsigned short)image[i][k] ;
-	 /*Uncomment this line in case of doubts about decompressed values and compare
-         both sets.
-	fprintf( stderr, "Line: %d %d %d %d\n", i, k, image[i][k], STVImg->img[ STVImg->width* i + k]) ;*/
+	/* Uncomment this line in case of doubts about decompressed values and compare */
+        /* both sets. */
+	/*fprintf( stderr, "Line: %d %d %d %d\n", i, k, image[i][k], STVImg->img[ STVImg->width* i + k]) ; */
 
 	if(STVImg->img[ STVImg->width* i + k] < image_info.minValue) {
 	  
@@ -1831,7 +1863,7 @@ int ISRequestImageData( int compression, int buffer, int x_offset, int y_offset,
       }
     }
     writeFITS( "FITS.fits", &image_info, errmsg) ;
-    /*fprintf( stderr, "Fits writing message: %s\n", errmsg) ;	*/
+    /*fprintf( stderr, "Fits writing message: %s\n", errmsg) ;	 */
     free( STVImg->img) ;
   }
   return res ;
@@ -1852,7 +1884,7 @@ void ISUpdateDisplay( int buffer, int line) {
     DisplayDTP.s= IPS_OK ;
     IDSetText( &DisplayDTP, NULL) ;
 
-  } else if(( line+1)== 1) { /* first time */
+  } else if(( line+1)== 1) { /* first time  */
 
     IDMessage( mydev, "Image download started") ;
 

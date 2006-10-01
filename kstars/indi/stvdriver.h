@@ -183,6 +183,6 @@ int init_serial(char *device_name, int bit_rate, int word_size,
 unsigned int calc_crc(byte byte_array[], int size);
 
 
-#endif          // #ifndef __serial_h__
+#endif          /*#ifndef __serial_h__*/
 
 

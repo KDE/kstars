@@ -29,7 +29,7 @@
 #include <stdlib.h>
 
 
-#include "stv_driver.h"
+#include "stvdriver.h"
 
 
 /* INDI Common Routines/RS232 */
@@ -45,6 +45,8 @@ struct termios tty_setting;         /* new serial port setting */
 #define FALSE 0
 #define TRUE 1
 
+/*int tty_read( int fd, char *buf, int nbytes, int timeout, int *nbytes_read) ; */
+/*int tty_write( int fd, const char *buffer, int *nbytes_written) ; */
 void ISUpdateDisplay( int buffer, int line) ;
 
 int STV_portWrite( char *buf, int nbytes) ;
@@ -52,7 +54,7 @@ int STV_TXDisplay( void) ;
 int STV_TerminateTXDisplay( void) ;
 int STV_FileStatus( int) ;
 int STV_DownloadComplete( void) ;
-int STV_RequestImage( int compression,  int buffer, int x_offset, int y_offset, int length, int lines, int image[][320], IMAGE_INFO *image_info) ;
+int STV_RequestImage( int compression,  int buffer, int x_offset, int y_offset, int *length, int *lines, int image[][320], IMAGE_INFO *image_info) ;
 int STV_RequestImageData( int compression, int *data, int j, int length, int *values) ;
 int STV_Download( void) ;
 int STV_DownloadAll( void) ;
@@ -63,7 +65,7 @@ int STV_PrintBuffer( unsigned char *buf, int n ) ;
 int STV_PrintBufferAsText( unsigned char *buf, int n ) ;
 int STV_CheckAck( unsigned char *buf) ;
 int STV_SendPacket( int cmd, int *data, int n) ;
-int STV_ReceivePacket( unsigned char *buf) ;
+int STV_ReceivePacket( unsigned char *buf, int mode) ;
 int STV_DecompressData( unsigned char *data, int *values, int length, int expected_n_values) ;
 int STV_BufferStatus( int buffer) ;
 void STV_PrintBits( unsigned int x, int n) ;
@@ -173,8 +175,8 @@ int STV_RequestImageInfo(int buffer, IMAGE_INFO *image_info) {
   if(( res= STV_BufferStatus( buffer)) != 0) {
     
     if( res== 1) {
-	    /*fprintf( stderr," STV_RequestImageInfo buffer empty %d\n", buffer) ;*/
-	return res ; /* Buffer is empty */
+      /*fprintf( stderr," STV_RequestImageInfo buffer empty %d\n", buffer) ; */
+      return res ; /* Buffer is empty */
     } else {
       fprintf( stderr," STV_RequestImageInfo error %d\n", res) ;
       return res ;
@@ -183,14 +185,14 @@ int STV_RequestImageInfo(int buffer, IMAGE_INFO *image_info) {
 
   res= STV_SendPacket( REQUEST_IMAGE_INFO, data, 1) ;
   usleep(50000) ;
-  res= STV_ReceivePacket( buf) ;
+  res= STV_ReceivePacket( buf, 0) ;
 
   if(buf[1] != REQUEST_IMAGE_INFO) {
 
-    /*length= buf[3] * 0x100 + buf[2] ;
-      res= STV_PrintBuffer(buf, 6+ length+ 2) ;*/
+    /*length= buf[3] * 0x100 + buf[2] ; */
+    /*res= STV_PrintBuffer(buf, 6+ length+ 2) ; */
 
-AGAINI:    if(( res= STV_ReceivePacket( buf)) < 0) { /* STV answers with a packet 0x03 sometimes, should be 0x04 */
+AGAINI:    if(( res= STV_ReceivePacket( buf, 0)) < 0) { /* STV answers with a packet 0x03 sometimes, should be 0x04 */
       return -1 ;;
     }
     if(buf[1] != REQUEST_IMAGE_INFO) { /* Second try */
@@ -212,33 +214,41 @@ AGAINI:    if(( res= STV_ReceivePacket( buf)) < 0) { /* STV answers with a packe
 
   /* Decode the descriptor */
 
+  /*STV_PrintBits(( unsigned int)value[0], 16) ; */
+
   if(( image_info->descriptor & ID_BITS_MASK)== ID_BITS_10) {
+
+    /*    fprintf( stderr, "ADC Resolution: 10 bits\n") ; */
 
   } else if(( image_info->descriptor & ID_BITS_MASK )== ID_BITS_8) {
 
+    /*fprintf( stderr, "Resolution: 8 bits (focus mode only)\n") ; */
   }
 
   if(( image_info->descriptor & ID_UNITS_MASK)== ID_UNITS_INCHES) {
 
+    /*fprintf( stderr, "Units: inch\n") ; */
+
   } else if(( image_info->descriptor & ID_UNITS_MASK)== ID_UNITS_CM) {
 
+    /*fprintf( stderr, "Unis: cm\n") ;  */
   } 
 
   if(( image_info->descriptor & ID_SCOPE_MASK)== ID_SCOPE_REFRACTOR) {
-
-   /*fprintf( stderr, "Refractor\n") ;  */
+ 
+    /*fprintf( stderr, "Refractor\n") ;  */
   } else if(( image_info->descriptor & ID_SCOPE_MASK)== ID_SCOPE_REFLECTOR) {
 
-   /*fprintf( stderr, "Reflector\n") ; */
+    /*fprintf( stderr, "Reflector\n") ;  */
   }
 
 
   if(( image_info->descriptor & ID_DATETIME_MASK)== ID_DATETIME_VALID) {
 
-    /*fprintf( stderr, "Date and time valid\n") ; */
+    /*fprintf( stderr, "Date and time valid\n") ;  */
   } else if(( image_info->descriptor & ID_DATETIME_MASK)== ID_DATETIME_INVALID) {
 
-    /*fprintf( stderr, "Date and time invalid\n") ; */
+    /*fprintf( stderr, "Date and time invalid\n") ;  */
   }
 
 
@@ -255,37 +265,37 @@ AGAINI:    if(( res= STV_ReceivePacket( buf)) < 0) { /* STV answers with a packe
 
   if(( image_info->descriptor & ID_PM_MASK)== ID_PM_PM) {
 
-    /*fprintf( stderr, "Time: PM\n") ; */
+    /*fprintf( stderr, "Time: PM\n") ;  */
   } else if(( image_info->descriptor & ID_PM_MASK)== ID_PM_AM) {
 
-    /*fprintf( stderr, "Time: AM\n") ; */
+    /*fprintf( stderr, "Time: AM\n") ;  */
   }
 
   /* ToDo: Include that to the fits header */
   if(( image_info->descriptor & ID_FILTER_MASK)== ID_FILTER_LUNAR) {
-    /* fprintf( stderr, "Filter: Lunar\n") ; */
+    /*fprintf( stderr, "Filter: Lunar\n") ;  */
   } else if(( image_info->descriptor & ID_FILTER_MASK)== ID_FILTER_NP ) {
-    /* fprintf( stderr, "Filter: clear\n") ; */
+    /*fprintf( stderr, "Filter: clear\n") ;  */
   }
 
   /* ToDo: Include that to the fits header */
   if(( image_info->descriptor & ID_DARKSUB_MASK )== ID_DARKSUB_YES) {
 
-   /* fprintf( stderr, "Drak sub yes\n") ; */
+    /*fprintf( stderr, "Drak sub yes\n") ;  */
   } else if(( image_info->descriptor & ID_DARKSUB_MASK )== ID_DARKSUB_NO) {
 
-    /* fprintf( stderr, "Dark sub no\n") ; */
+    /*fprintf( stderr, "Dark sub no\n") ;  */
   }
 
   if(( image_info->descriptor & ID_MOSAIC_MASK)== ID_MOSAIC_NONE) {
 
-    /* fprintf( stderr, "Is NOT a mosaic\n") ; */
+    /*fprintf( stderr, "Is NOT a mosaic\n") ;  */
   } else if(( image_info->descriptor & ID_MOSAIC_MASK)== ID_MOSAIC_SMALL) {
 
-    /* fprintf( stderr, "Is a small mosaic\n") ; */
+    /*fprintf( stderr, "Is a small mosaic\n") ;  */
   } else if(( image_info->descriptor & ID_MOSAIC_MASK)== ID_MOSAIC_LARGE) {
 
-    /* fprintf( stderr, "Is a large mosaic\n") ; */
+    /*fprintf( stderr, "Is a large mosaic\n") ;  */
   }
 
   image_info->height     = value[1] ; 
@@ -358,11 +368,11 @@ AGAINI:    if(( res= STV_ReceivePacket( buf)) < 0) { /* STV answers with a packe
 /*   fprintf( stderr, "digitalGain:%d\n", image_info->digitalGain) ; */
 /*   fprintf( stderr, "focalLength:%d\n", image_info->focalLength) ; */
 /*   fprintf( stderr, "aperture:%d\n", image_info->aperture) ; */
-/*   //fprintf( stderr, "packedDate:%d\n", image_info->packedDate) ; */
+/*   fprintf( stderr, "packedDate:%d\n", image_info->packedDate) ; */
 /*   fprintf( stderr, "Year:%d\n", image_info->year) ; */
 /*   fprintf( stderr, "Day:%d\n", image_info->day) ; */
 /*   fprintf( stderr, "Month:%d\n", image_info->month) ; */
-/*   //fprintf( stderr, "packedTime:%d\n", image_info->packedTime) ; */
+/*   fprintf( stderr, "packedTime:%d\n", image_info->packedTime) ; */
 /*   fprintf( stderr, "Seconds:%d\n", image_info->seconds) ; */
 /*   fprintf( stderr, "minutes:%d\n", image_info->minutes) ; */
 /*   fprintf( stderr, "hours:%d\n", image_info->hours) ; */
@@ -378,32 +388,55 @@ AGAINI:    if(( res= STV_ReceivePacket( buf)) < 0) { /* STV answers with a packe
   return 0 ;
 }
 
-int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, int length, int lines, int image[][320], IMAGE_INFO *image_info) {
+int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, int *length, int *lines, int image[][320], IMAGE_INFO *image_info) {
 
   int i, j ;
   int res ;
   int n_values ; 
   unsigned char buf[0xffff] ;
   int values[1024] ;
-  int data[]= { 0, y_offset, length, buffer} ; /* x_offset will be set during the llop */
+  int data[]= { 0, y_offset, *length, buffer} ;  /* Offset row, Offset line, length, buffer number */
+  int XOFF ;
 
-
-  /*fprintf(stderr, "STV_RequestImage: --------------------------------buffer= %d, %d\n", buffer, lines) ; */
+  /* fprintf(stderr, "STV_RequestImage: --------------------------------buffer= %d, %d\n", buffer, lines) ; */
 
   if(( res= STV_RequestImageInfo( buffer, image_info)) != 0) {  /* Trigger for download */
     /* buffer empty */
     return res ;
   } 
-  res= STV_BKey() ; /* "press" the STV Value button */
+  res= STV_BKey() ; /* "press" the STV Value button */ 
   usleep(50000) ;
-  res= STV_ReceivePacket(buf) ;
+  res= STV_ReceivePacket(buf, 0) ;
 
+  /* Check the boundaries obtained from the image data versus windowing */
+  /* Take the smaller boundries in each direction */
 
-  for( j= 0 ; j < lines ; j++) {
+  if( x_offset > image_info->height) {
+    x_offset= image_info->height ;
+  }
+  XOFF=  image_info->top +  x_offset ;
 
-    data[0]=  j + x_offset; /*line */
+  if( y_offset > image_info->width) {
+    y_offset= image_info->width ;
+  }
+  data[1]=  image_info->left +  y_offset ;
+
+  if( *length > image_info->width- y_offset) {
+    *length= image_info->width- y_offset  ;
+  }
+  data[2]= *length ;
+
+  if( *lines > image_info->height- x_offset) {
+    *lines= image_info->height- x_offset  ;
+  }
+ 
+  /*fprintf(stderr, "STV_RequestImage: DATA 0=%d, 1=%d, 2=%d, 3=%d, length=%d, lines=%d\n", data[0], data[1], data[2], data[3], *length, *lines) ; */
+
+  for( j= 0 ; j < *lines ; j++) {
+
+    data[0]=  j + XOFF; /*line */
   
-    if(( n_values= STV_RequestImageData( compression, data, j, length, values)) < 0) {
+    if(( n_values= STV_RequestImageData( compression, data, j, *length, values)) < 0) {
       fprintf(stderr, "STV_RequestImage: Calling STV_RequestImageData failed %d\n", n_values) ; 
       return n_values ;
     } else {
@@ -416,18 +449,18 @@ int STV_RequestImage( int compression, int buffer, int x_offset, int y_offset, i
   }
   /* Read the 201th line, see mosaic mode */
 
-  /* ToDo: analyze/display the data or use them in the fits header(s) */
-  data[0]=  200; /* line */
+  /* ToDo: analyse/display the data or use them in the fits header(s) */
+  data[0]=  200; /*line */
 
-  if(( res= STV_RequestImageData( 1, data, 200, length, values)) < 0) {
+  if(( res= STV_RequestImageData( 1, data, 200, *length, values)) < 0) {
 
     return res ;
   } else {
     for( i= 0 ; i< n_values ; i++) {
 
-      /*fprintf( stderr, "%d: %d ", i, values[i]) ;*/
+      /* fprintf( stderr, "%d: %d ", i, values[i]) ; */
     }
-    /*fprintf( stderr, "\n") ;*/
+    /* fprintf( stderr, "\n") ; */
   }
   res= STV_DownloadComplete() ; 
   ISUpdateDisplay( buffer,  -j) ;
@@ -452,7 +485,7 @@ int STV_RequestImageData( int compression, int *data, int j, int length, int *va
       return -1 ;
     } 
 
-AGAINC:    if(( res= STV_ReceivePacket(buf)) > 0) {
+AGAINC:    if(( res= STV_ReceivePacket(buf, 0)) > 0) {
 
 
       if( buf[1] != REQUEST_COMPRESSED_IMAGE_DATA) {
@@ -490,7 +523,7 @@ AGAINC:    if(( res= STV_ReceivePacket(buf)) > 0) {
 
     if(( res= STV_SendPacket( REQUEST_IMAGE_DATA, data, 4))== 0) {
 
-AGAINU:      if(( res= STV_ReceivePacket(buf)) > 0) {
+AGAINU:      if(( res= STV_ReceivePacket(buf, 0)) > 0) {
 
 	if( buf[1] != REQUEST_IMAGE_DATA) {
 	  if( buf[1] != DISPLAY_ECHO) {
@@ -508,7 +541,7 @@ AGAINU:      if(( res= STV_ReceivePacket(buf)) > 0) {
 	  values[i/2]= STV_RecombineInt(buf[6 + i], buf[7 + i]) ;
 	}
 	return 	data_length/2 ;
-	/*ISUpdateDisplay( buffer, j) ; // Update the display of the INDI client */
+	/*ISUpdateDisplay( buffer, j) ; */ /* Update the display of the INDI client */
       } else {
 	fprintf( stderr, "Error: waiting for data on the serial port at line %d\n", j) ;
 	return -1 ;
@@ -544,7 +577,7 @@ int STV_DecompressData( unsigned char *data, int *values, int length, int expect
       }      
 
       base= value + base ; /* new base value */
-      values[n_values++]= base ; /* pixel data */
+      values[n_values++]= base ; /*pixel data */
       i += 2 ;
 
     } else if((( data[ i] & 0x80))== 0) { /* one byte: bit 7 clear (7 bits data) */
@@ -557,9 +590,9 @@ int STV_DecompressData( unsigned char *data, int *values, int length, int expect
 	value=   (int) ( data[ i] & 0x3f) ;
 	/*fprintf( stderr, "Value 7P: %d, pixel value: %d, length %d, pix=%d\n", value, value+ base, length, n_values) ; */
       }
-      /* Sometimes the STV send a 0 at the end, thats not very likely a pixel to pixel variation
-       I checked the last decompressed pixel value against the last uncompressed pixel value
-       with different images - it seems to be ok.   */
+      /* Sometimes the STV send a 0 at the end, thats not very likely a pixel to pixel variation */
+      /* I checked the last decompressed pixel value against the last uncompressed pixel value */
+      /* with different images - it seems to be ok.    */
       if(( value == 0) &&( n_values== expected_n_values)){
 	/*fprintf( stderr, "Ignoring byte %d, Zero difference obtained values: %d\n", i, n_values) ; */
       } else {
@@ -570,18 +603,18 @@ int STV_DecompressData( unsigned char *data, int *values, int length, int expect
     } else if( (( data[ i] & 0xc0))== 0xc0) { /*two bytes, values= pixel_n/4  */
 
 
-      /*STV_PrintBits(  data[ i], 8) ;
-      STV_PrintBits(  data[ i+ 1], 8) ;*/
+      /*STV_PrintBits(  data[ i], 8) ; */
+      /*STV_PrintBits(  data[ i+ 1], 8) ; */
 
 
       value=  4* ((int) (( data[ i] & 0x3f) * 0x100) + (int) (data[ i + 1])) ;
-      /*fprintf( stderr, "Value 14P: %d, pixel value: %d, length %d, pix=%d\n", value, value+ base, length, n_values) ;*/
+      /*fprintf( stderr, "Value 14P: %d, pixel value: %d, length %d, pix=%d\n", value, value+ base, length, n_values) ; */
     
       base= value ;
       values[n_values++]= value ;
  
       i += 2 ;
-      /*return -n_values ;*/
+      /*return -n_values ; */
     } else {
 
       fprintf( stderr, "Unknown compression case: %2x, length %d, i=%d\n",  data[ i], length, i) ;
@@ -653,7 +686,7 @@ int STV_BufferStatus( int buffer){
     /*fprintf( stderr, "STV_BufferStatus %2d\n", buffer) ; */
   }
  
-AGAIN: if(( res= STV_ReceivePacket( buf)) < 0) { 
+AGAIN: if(( res= STV_ReceivePacket( buf, 0)) < 0) { 
           fprintf( stderr, "STV_BufferStatus: Error reading: %d\n", res) ;
           return -1 ;;
        } 
@@ -667,13 +700,13 @@ AGAIN: if(( res= STV_ReceivePacket( buf)) < 0) {
       res= 0 ; /* image present */
     } else {
       
-      /*fprintf( stderr, "STV_BufferStatus %2d is empty\n", buffer) ;*/
-     res= 1 ; /* empty */
+      /*fprintf( stderr, "STV_BufferStatus %2d is empty\n", buffer) ; */
+      res= 1 ; /* empty */
     }
   } else {
     /* The SBIG manual does not specify an ACK, but it is there (at least sometimes) */
     if(( val= STV_CheckAck( buf))== 0) {
-      /*fprintf( stderr, "STV_BufferStatus SAW ACK, reading again\n") ;*/
+      /*fprintf( stderr, "STV_BufferStatus SAW ACK, reading again\n") ; */
       goto AGAIN ;
     } 
     /* The SBIG manual does not specify the cmd in the answer */
@@ -683,19 +716,19 @@ AGAIN: if(( res= STV_ReceivePacket( buf)) < 0) {
       res= STV_PrintBuffer( buf, 6+ val + 2) ;
       return -1 ;
     } else {
-      /* a display packet is silently ignored, there are many of this kind*/
+      /* a display packet is silently ignored, there are many of this kind */
       fprintf( stderr, "STV_BufferStatus  DISPLAY_ECHO received, try again\n") ;
       return -1 ;
     }
   }
-  /*fprintf(stderr, "STV_BufferStatus leaving\n") ; */
+  /* fprintf(stderr, "STV_BufferStatus leaving\n") ; */
   return  res;
 }
 /* Low level communication */
 /*  STV_ReceivePacket n_bytes read */
-int STV_ReceivePacket( unsigned char *buf) {
+int STV_ReceivePacket( unsigned char *buf, int mode) {
 
-  int i,j ;
+  int i,j,k ;
   int n_bytes=0 ;
   int length=0 ;
   int res ;
@@ -707,7 +740,7 @@ int STV_ReceivePacket( unsigned char *buf) {
   j= 0 ;
   tracking_buf[ 0]= 0 ;
 
-  /*fprintf( stderr,"R") ;*/
+  /*fprintf( stderr,"R") ; */
 
   while(pos < 6) { 
 
@@ -728,18 +761,34 @@ int STV_ReceivePacket( unsigned char *buf) {
 	pos+= trb ; /* could be zero */
       }
     } else { 
-      /* In tracking mode the STV sends raw data (time, brightnes, centroid x,y).
-       Under normal operation here appear pieces of a packet. This could happen
-       on start up or if something goes wrong. */
+      /* In tracking mode the STV sends raw data (time, brightnes, centroid x,y). */
+      /* Under normal operation here appear pieces of a packet. This could happen */
+      /* on start up or if something goes wrong. */
 
       tracking_buf[ j++]= buf[pos] ;
-      /*fprintf(stderr, "READ: %d, read %d, pos %d,  0x%2x< %c\n", j, trb, pos, buf[pos], buf[pos]) ; */
+      /*fprintf(stderr, "READ: %d, read %d, pos %d,  0x%2x< %c\n", j, trb, pos, buf[pos], buf[pos]) ;  */
     }
   }
-  if( j> 0) {
+
+
+  if( j> 0) { 
+    /* Sometimes the packets are corrupt, e.g. at the very beginning */
+    /* Or it is tracking information */
 
     tracking_buf[ j]= 0 ;
-    fprintf(stderr, "Not a packet: %s", tracking_buf) ;
+
+    if( mode== ON) { /* Tracking mode */
+    
+      fprintf(stderr, "%s\n", tracking_buf) ;
+    } else {
+
+      for( k= 0 ; k< j; k++) {
+	if(!( tracking_buf[ k] >29 &&  tracking_buf[ k] < 127)) {
+	  tracking_buf[ k]= 0x20 ; /* simply */
+	}
+      }
+      fprintf(stderr, "Not a packet: length: %d >%s<\n", j, tracking_buf) ;
+    }
   }
 
   n_bytes= pos ; 
@@ -764,7 +813,7 @@ int STV_ReceivePacket( unsigned char *buf) {
 	  pos += trb ;
 	}
 	n_bytes += pos ;
-	/*fprintf(stderr, "STV_ReceivePacket: LEAVING LOOP length %d, to read %d, read %d, pos %d\n",  length, (6 + length + 2)- pos, trb, pos) ;*/
+	/*fprintf(stderr, "STV_ReceivePacket: LEAVING LOOP length %d, to read %d, read %d, pos %d\n",  length, (6 + length + 2)- pos, trb, pos) ; */
       }
     } else {    
 
@@ -808,16 +857,16 @@ int STV_ReceivePacket( unsigned char *buf) {
     display1[24]= 0 ;
     display2[24]= 0 ;
 		   
-    /*fprintf(stderr, "STV_ReceivePacket: DISPLAY1 %s<\n", display1) ;
-    fprintf(stderr, "STV_ReceivePacket: DISPLAY2 %s<\n", display2) ;*/
+    /*fprintf(stderr, "STV_ReceivePacket: DISPLAY1 %s<\n", display1) ; */
+    /*fprintf(stderr, "STV_ReceivePacket: DISPLAY2 %s<\n", display2) ; */
 
-    /* CCD temperature */
+    /* CCD temperature */ 
     if(( res= strncmp( "CCD Temp.", display2, 9)) ==0) {
       float t ;
       res= sscanf( display2, "CCD Temp.          %f", &t) ;
       di.ccd_temperature= (double) t;
-      /*fprintf(stderr, "STV_ReceivePacket: Read from DISPLAY2 %g<\n", di.ccd_temperature ) ;*/
-    }/* further values can be stored here*/
+      /*fprintf(stderr, "STV_ReceivePacket: Read from DISPLAY2 %g<\n", di.ccd_temperature ) ; */
+    }/* further values can be stored here */
   } 
   return n_bytes ;
 }
@@ -872,7 +921,7 @@ int STV_CheckDataSum( unsigned char *buf) {
 }
 
 int STV_PrintBuffer( unsigned char *buf, int n ) {
-  /* For debugging purposes only */
+  /* For debuging purposes only */
   int i ;
 
   fprintf(stderr, "\nHEADER: %d bytes ", n) ;
@@ -882,14 +931,14 @@ int STV_PrintBuffer( unsigned char *buf, int n ) {
       fprintf(stderr, "\nDATA  : ") ;
     }
     fprintf(stderr, "%d:0x%2x<>%c<  >>", i, (unsigned char)buf[i], (unsigned char)buf[i]) ;
-    /*STV_PrintBits((unsigned int) buf[i], 8) ;*/
+    /*STV_PrintBits((unsigned int) buf[i], 8) ; */
   }
   fprintf(stderr, "\n") ;
 
   return 0 ;
 }
 int STV_PrintBufferAsText( unsigned char *buf, int n ) {
-  /* For debugging purposes only */
+  /* For debuging purposes only */
   int i ;
 
   fprintf(stderr, "\nHEADER: %d bytes ", n) ;
@@ -916,13 +965,13 @@ int STV_SendPacket( int cmd, int *data, int n) {
 
   /* Header section */
   buf[0] = (unsigned char) 0xa5;	/* start byte */
-  buf[1] = (unsigned char) cmd;		/* command byte */
+  buf[1] = (unsigned char) cmd;	        /* command byte */
   buf[2] = (unsigned char) 2 * n;	/* data length N (low byte) */
   buf[3] = (unsigned char) 0x00;	/* data length N (high byte) */
 
   sum = buf[0] + buf[1] + buf[2] + buf[3]; /* header checksum */
-  buf[4] = (unsigned char) sum % 0x100;   /* header checksum low byte */
-  buf[5] = (unsigned char) (sum / 0x100); /* header checksum high byte */
+  buf[4] = (unsigned char) sum % 0x100;    /* header checksum low byte */
+  buf[5] = (unsigned char) (sum / 0x100);  /* header checksum high byte */
 
   /* DATA section */
   l= 0 ;
@@ -968,7 +1017,7 @@ int STV_portWrite( char *buf, int nbytes){
 
   int bytesWritten = 0;   
 
-  /* fprintf( stderr,"w") ; */
+  /*fprintf( stderr,"w") ; */
   while (nbytes > 0) {
     
     if((bytesWritten = write(fd, buf, nbytes)) == -1) {
@@ -1014,7 +1063,7 @@ unsigned int STV_GetBits( unsigned int x, int p, int n){ /* from the C book */
 }
 
 void STV_PrintBits( unsigned int x, int n) {
-  /*/ debugging purposes only */
+  /* debugging purposes only */
   int i ;
   int res ;
   fprintf( stderr, "STV_PrintBits:\n") ;
@@ -1064,14 +1113,14 @@ double STV_SetCCDTemperature( double set_value) {
   i= 0 ;
   while( set_value < di.ccd_temperature) {
 
-    /*fprintf( stderr, "STV_SetCCDTemperature %g %g\n", set_value, di.ccd_temperature) ;*/
+    /*fprintf( stderr, "STV_SetCCDTemperature %g %g\n", set_value, di.ccd_temperature) ; */
     res= STV_LRRotaryDecrease() ; /* Lower CCD temperature */
-    /*fprintf(stderr, ":") ;*/
+    /*fprintf(stderr, ":") ; */
     usleep( 10000) ; 
     res= STV_TerminateTXDisplay();
     usleep( 10000) ; 
     res= STV_TXDisplay(); /* That's the trick, STV sends at least one display */
-    res= STV_ReceivePacket( buf) ; /* discard it */
+    res= STV_ReceivePacket( buf, 0) ; /* discard it */
     
     /*STV_PrintBufferAsText( buf, res) ; */
     if(( res != 62) || ( i++ > 100)) { /* why 56 + 6?, 6 + 48 + 6 */
@@ -1096,22 +1145,38 @@ int STV_MenueCCDTemperature( int delay) {
   tcflush(fd, TCIOFLUSH);
   return 0 ;
 }
-int STV_SetDateTime(void) {
+int STV_SetDateTime( char *times) {
 
   int i ;
   int res ;
   int turn ;
   time_t curtime;
-  struct tm *utc;
+  struct tm utc; 
+  struct tm *utcp; 
   int delay= 20000 ;
-  /* fprintf(stderr, "STV_SetTime\n") ; */
+  /*fprintf(stderr, "STV_SetTime\n") ; */
   
-  /* Get the current time. */
-  curtime = time (NULL);
-  utc = gmtime (&curtime);
+  if((times== NULL) || (( res= strlen(times))==0)) {
 
+  /* Get the current time. */
+    curtime = time (NULL);
+    utcp = gmtime( &curtime);
+    /* I'm not C guru */
+    utc.tm_mon  = utcp->tm_mon ;
+    utc.tm_mday = utcp->tm_mday ;
+    utc.tm_year = utcp->tm_year ;
+    utc.tm_hour = utcp->tm_hour ;
+    utc.tm_min  = utcp->tm_min ;
+    utc.tm_sec  = utcp->tm_sec ;
+  } else {
+
+    if( extractISOTime( times, &utc) < 0) {
+      fprintf( stderr, "Bad time string %s\n", times) ;
+      return -1 ;
+    }
+  }
   /* Print out the date and time in the standard format. */
-  /* fprintf( stderr, "TIME %s\n", asctime (utc)) ; */
+  /*fprintf( stderr, "TIME %s\n", asctime (utc)) ; */
 
   /* 1st step */
   res= STV_Interrupt() ; /* Reset Display */
@@ -1128,7 +1193,7 @@ int STV_SetDateTime(void) {
     usleep( delay) ;
   }
 
-  for( i=0 ; i< utc->tm_mon  ; i++) { /* Set Month menu */
+  for( i=0 ; i< utc.tm_mon  ; i++) { /* Set Month menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1143,7 +1208,7 @@ int STV_SetDateTime(void) {
     tcflush(fd, TCIOFLUSH);
   }
 
-  for( i= 0; i< utc->tm_mday-1  ; i++) { /* Set Day menu -1? */
+  for( i= 0; i< utc.tm_mday-1  ; i++) { /* Set Day menu -1? */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1158,7 +1223,7 @@ int STV_SetDateTime(void) {
     usleep( delay) ; /* sleep a 1/100 second */
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc->tm_year -99  ; i++) { /* Set Year menu */
+  for( i=0 ; i< utc.tm_year -99  ; i++) { /* Set Year menu */
     res= STV_LRRotaryIncrease() ;   
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1172,7 +1237,7 @@ int STV_SetDateTime(void) {
     usleep( delay) ; 
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc->tm_hour ; i++) { /* Set Hour menu */
+  for( i=0 ; i< utc.tm_hour ; i++) { /* Set Hour menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1186,7 +1251,7 @@ int STV_SetDateTime(void) {
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc->tm_min  ; i++) { /* Set Minute menu */
+  for( i=0 ; i< utc.tm_min  ; i++) { /* Set Minute menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1199,11 +1264,11 @@ int STV_SetDateTime(void) {
     tcflush(fd, TCIOFLUSH);
   }
 
-  if ( utc->tm_sec < 15) {
+  if ( utc.tm_sec < 15) {
     turn= 0 ;
-  } else if ( utc->tm_sec < 30) {
+  } else if ( utc.tm_sec < 30) {
     turn= 1 ;
-  } else if ( utc->tm_sec < 45) {
+  } else if ( utc.tm_sec < 45) {
     turn= 2 ;
   } else {
     turn= 3 ;
@@ -1328,8 +1393,8 @@ init_serial(char *device_name, int bit_rate, int word_size,
   }
 
 
-  /* Control Modes
-   Set bps rate */
+  /* Control Modes */
+  /* Set bps rate */
   int bps;
   switch (bit_rate) {
     case 0:
@@ -1403,18 +1468,17 @@ init_serial(char *device_name, int bit_rate, int word_size,
     return -1;
   }
 
-   /* Control Modes
-   set no flow control word size, parity and stop bits.
-   Also don't hangup automatically and ignore modem status.
-   Finally enable receiving characters. */
+  /* Control Modes */
+  /* set no flow control word size, parity and stop bits. */
+  /* Also don't hangup automatically and ignore modem status. */
+  /* Finally enable receiving characters. */
   tty_setting.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD | HUPCL | CRTSCTS);
-  /*
-  #ifdef CBAUDEX
-  tty_setting.c_cflag &= ~(CBAUDEX);
-  #endif
-  #ifdef CBAUDEXT
-  tty_setting.c_cflag &= ~(CBAUDEXT);
-  #endif */
+  /*  #ifdef CBAUDEX */
+  /*tty_setting.c_cflag &= ~(CBAUDEX); */
+  /*#endif */
+  /*#ifdef CBAUDEXT */
+  /*tty_setting.c_cflag &= ~(CBAUDEXT); */
+  /*#endif */
   tty_setting.c_cflag |= (CLOCAL | CREAD);
 
   /* word size */
@@ -1487,16 +1551,16 @@ init_serial(char *device_name, int bit_rate, int word_size,
   }
   /* Control Modes complete */
 
-  /* Ignore bytes with parity errors and make terminal raw and dumb.*/
+  /* Ignore bytes with parity errors and make terminal raw and dumb. */
   tty_setting.c_iflag &= ~(PARMRK | ISTRIP | IGNCR | ICRNL | INLCR | IXOFF | IXON | IXANY);
   tty_setting.c_iflag |= INPCK | IGNPAR | IGNBRK;
 
-  /* Raw output.*/
+  /* Raw output. */
   tty_setting.c_oflag &= ~(OPOST | ONLCR);
 
-   /* Local Modes
-   Don't echo characters. Don't generate signals.
-   Don't process any characters.*/
+  /* Local Modes */
+  /* Don't echo characters. Don't generate signals. */
+  /* Don't process any characters. */
   tty_setting.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG | IEXTEN | NOFLSH | TOSTOP);
   tty_setting.c_lflag |=  NOFLSH;
 
