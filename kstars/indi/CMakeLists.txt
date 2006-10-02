@@ -21,6 +21,7 @@ set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/observer.c
 	)
 
+if (NOT CFITSIO_FOUND)
 set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/buffers.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/cfileio.c
@@ -80,6 +81,7 @@ set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
 	)
+endif(NOT CFITSIO_FOUND)
 
 set(libapogee_usb_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData.cpp
@@ -302,7 +304,7 @@ set(stv_SRCS
 
 kde4_add_executable(stv ${stv_SRCS} ${liblilxml_SRCS} ${libcfitsio_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(stv ${KDE4_KDECORE_LIBS} m )
+target_link_libraries(stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} m )
 
 install(TARGETS stv DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -347,7 +349,7 @@ target_link_libraries(flipdf m ${KDE4_KDECORE_LIBS} )
 install(TARGETS flipdf  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
-###### FLI Precision Digital Focuser ######
+###### Robo Focus ######
 
 set(robofocus_SRCS eventloop.c robofocus.c robofocusdriver.c indidrivermain.c)
 
@@ -385,7 +387,7 @@ kde4_automoc(${fliccd_SRCS})
 
 kde4_add_executable(fliccd ${fliccd_SRCS} ${libfli_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(fliccd m z ${KDE4_KDECORE_LIBS} )
+target_link_libraries(fliccd m z ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS fliccd  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -397,7 +399,7 @@ set(meade_lpi_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_lpi.cpp )
 
 kde4_add_executable(meade_lpi ${meade_lpi_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(meade_lpi z ${KDE4_KDECORE_LIBS} )
+target_link_libraries(meade_lpi z ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
 
 install(TARGETS meade_lpi  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -407,7 +409,7 @@ set(v4lphilips_SRCS eventloop.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp in
 
 kde4_add_executable(v4lphilips ${v4lphilips_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(v4lphilips m z ${KDE4_KDECORE_LIBS} )
+target_link_libraries(v4lphilips m z ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
 
 install(TARGETS v4lphilips  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -417,7 +419,7 @@ set(v4ldriver_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp)
 
 kde4_add_executable(v4ldriver ${v4ldriver_SRCS} ${libwebcam_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(v4ldriver m z ${KDE4_KDECORE_LIBS} )
+target_link_libraries(v4ldriver m z ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS v4ldriver  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -427,7 +429,7 @@ set(sbigccd_SRCS sbigcam.cpp eventloop.c indidrivermain.c)
 
 kde4_add_executable(sbigccd ${sbigccd_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} )
+target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS sbigccd  DESTINATION ${BIN_INSTALL_DIR} )
 
