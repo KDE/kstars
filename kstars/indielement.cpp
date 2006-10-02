@@ -297,7 +297,7 @@ void INDI_E::updateValue(double newValue)
 	spin_w->setValue(value);
 
   if (slider_w)
-	spin_w->setValue(value);
+	slider_w->setValue(value);
 
 }
 
