@@ -679,12 +679,12 @@ void ISGetProperties (const char *dev) {
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n) {
 
   int i, j ;
-  int res ;
+  int res = 0;
   int baud ;
   IMAGE_INFO image_info ;
   ISwitch *sp ;
-  int lower_buffer ;
-  int upper_buffer ;
+  int lower_buffer = 0;
+  int upper_buffer = 0 ;
 
   /*fprintf(stderr, "ISNewSwitch\n") ; */
 
@@ -1713,7 +1713,7 @@ void uploadFile(const char* filename)
 
 int ISTerminateTXDisplay(void) {
 
-  int res ;
+  int res = 0;
   res= STV_Interrupt() ; /* with out it hangs */
   usleep(100000) ;
 
