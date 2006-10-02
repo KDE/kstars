@@ -29,7 +29,7 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 #include <kiconloader.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 
@@ -888,8 +888,8 @@ void ScriptBuilder::slotOpen() {
 	saveWarning();
 
 	QString fname;
-	KTempFile tmpfile;
-	tmpfile.setAutoDelete(true);
+	KTemporaryFile tmpfile;
+	tmpfile.open();
 
 	if ( !UnsavedChanges ) {
 		currentFileURL = KFileDialog::getOpenUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
@@ -904,7 +904,7 @@ void ScriptBuilder::slotOpen() {
 			if ( currentFileURL.isLocalFile() ) {
 				fname = currentFileURL.path();
 			} else {
-				fname = tmpfile.name();
+				fname = tmpfile.fileName();
 				if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
 					KMessageBox::sorry( 0, i18n( "Could not download remote file." ), i18n( "Download Error" ) );
 			}
@@ -931,8 +931,8 @@ void ScriptBuilder::slotOpen() {
 
 void ScriptBuilder::slotSave() {
 	QString fname;
-	KTempFile tmpfile;
-	tmpfile.setAutoDelete(true);
+	KTemporaryFile tmpfile;
+	tmpfile.open();
 
 	if ( currentScriptName.isEmpty() ) {
 		//Get Script Name and Author info
@@ -964,7 +964,7 @@ void ScriptBuilder::slotSave() {
 				if(r==KMessageBox::Cancel) return;
 			}
 		} else {
-			fname = tmpfile.name();
+			fname = tmpfile.fileName();
 		}
 
 		if ( fname.right( 7 ).toLower() != ".kstars" ) fname += ".kstars";
@@ -984,8 +984,8 @@ void ScriptBuilder::slotSave() {
 		//set rwx for owner, rx for group, rx for other
 		chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-		if ( tmpfile.name() == fname ) { //need to upload to remote location
-			if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) ) {
+		if ( tmpfile.fileName() == fname ) { //need to upload to remote location
+			if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) ) {
 				QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}

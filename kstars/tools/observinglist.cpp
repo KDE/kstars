@@ -36,7 +36,7 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <klineedit.h>
 
 #include "observinglist.h"
@@ -515,9 +515,10 @@ void ObservingList::slotOpenList() {
 	if ( fileURL.isValid() ) {
 		if ( ! fileURL.isLocalFile() ) {
 			//Save remote list to a temporary local file
-			KTempFile tmpfile;
-			tmpfile.setAutoDelete(true);
-			FileName = tmpfile.name();
+			KTemporaryFile tmpfile;
+			tmpfile.setAutoRemove(false);
+			tmpfile.open();
+			FileName = tmpfile.fileName();
 			if( KIO::NetAccess::download( fileURL, FileName, this ) )
 				f.setFileName( FileName );
 

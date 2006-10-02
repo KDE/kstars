@@ -18,7 +18,7 @@
 #include <kdebug.h>
 #include <kpushbutton.h>
 #include <kiconloader.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kfiledialog.h>
 #include <kcombobox.h>
@@ -160,8 +160,8 @@ void StreamWG::captureImage()
   QString fmt;
   KUrl currentFileURL;
   QString currentDir = Options::fitsSaveDirectory();
-  KTempFile tmpfile;
-  tmpfile.setAutoDelete(true);
+  KTemporaryFile tmpfile;
+  tmpfile.open();
 
   fmt = imgFormatCombo->currentText();
 
@@ -176,7 +176,7 @@ void StreamWG::captureImage()
 	if ( currentFileURL.isLocalFile() )
   	   fname = currentFileURL.path();
 	else
-	   fname = tmpfile.name();
+	   fname = tmpfile.fileName();
 
 	if (fname.right(fmt.length()).toLower() != fmt.toLower()) 
 	{
@@ -189,10 +189,10 @@ void StreamWG::captureImage()
 	//set rwx for owner, rx for group, rx for other
 	chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-	if ( tmpfile.name() == fname )
+	if ( tmpfile.fileName() == fname )
 	{ //need to upload to remote location
 	
-	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) )
+	  if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
 	  {
 		QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
 		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );

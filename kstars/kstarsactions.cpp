@@ -32,7 +32,7 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <ktip.h>
 #include <kstandarddirs.h>
 #include <kconfigdialog.h>
@@ -500,8 +500,8 @@ void KStars::slotRunScript() {
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
 				KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
-				KTempFile tmpfile;
-				tmpfile.setAutoDelete(true);
+				KTemporaryFile tmpfile;
+				tmpfile.open();
 
 				while ( ! saveURL.isValid() ) {
 					message = i18n( "Save location is invalid. Try another location?" );
@@ -512,7 +512,7 @@ void KStars::slotRunScript() {
 				if ( saveURL.isLocalFile() ) {
 					fname = saveURL.path();
 				} else {
-					fname = tmpfile.name();
+					fname = tmpfile.fileName();
 				}
 
 				if( KIO::NetAccess::download( fileURL, fname, this ) ) {
@@ -533,11 +533,11 @@ void KStars::slotRunScript() {
 		}
 
 		//Damn the torpedos and full speed ahead, we're executing the script!
-		KTempFile tmpfile;
-		tmpfile.setAutoDelete(true);
+		KTemporaryFile tmpfile;
+		tmpfile.open();
 
 		if ( ! fileURL.isLocalFile() ) {
-			fname = tmpfile.name();
+			fname = tmpfile.fileName();
 			if( KIO::NetAccess::download( fileURL, fname, this ) ) {
 				chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 				f.setFileName( fname );

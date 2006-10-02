@@ -30,7 +30,7 @@
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <klocale.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 
 #include "thumbnailpicker.h"
 #include "thumbnaileditor.h"
@@ -107,10 +107,13 @@ void ThumbnailPicker::slotFillList() {
 		QString s( *itList );
 		KUrl u( s );
 		if ( u.isValid() && KIO::NetAccess::exists(u, true, this) ) {
-			KTempFile ktf;
-			QFile *tmpFile = ktf.file();
-			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
+			QString tmpFile;
+			{
+				KTemporaryFile ktf;
+				ktf.open();
+				tmpFile = ktf.fileName(); //just need filename
+			}
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile ), false );
 			JobList.append( j ); //false = no progress window
 			j->setUiDelegate(0);
 			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
@@ -345,10 +348,13 @@ void ThumbnailPicker::slotSetFromURL() {
 			slotSetFromList(0);
 
 		} else if ( KIO::NetAccess::exists(u, true, this) ) {
-			KTempFile ktf;
-			QFile *tmpFile = ktf.file();
-			ktf.unlink(); //just need filename
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile->fileName() ), false );
+			QString tmpFile;
+			{
+				KTemporaryFile ktf;
+				ktf.open();
+				tmpFile = ktf.fileName();
+			} //just need filename
+			KIO::Job *j = KIO::copy( u, KUrl( tmpFile ), false );
 			JobList.append( j ); //false = no progress window
                         j->setUiDelegate(0);
 			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));

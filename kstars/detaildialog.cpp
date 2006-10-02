@@ -38,7 +38,7 @@
 #include <klineedit.h>
 #include <ktoolinvocation.h>
 //#include <kio/job.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 
 
@@ -559,9 +559,10 @@ void DetailDialog::removeLinkDialog()
 	int type=0, row=0;
 	QString currentItemURL, currentItemTitle, LineEntry, TempFileName, FileLine;
 	QFile URLFile;
-	KTempFile TempFile;
-
-	TempFileName = TempFile.name();
+	KTemporaryFile TempFile;
+	TempFile.setAutoRemove(false);
+	TempFile.open();
+	TempFileName = TempFile.fileName();
 
 	if (Links->InfoTitleList->currentItem())
 	{
@@ -618,14 +619,16 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 {
 	QString TempFileName, file_line;
 	QFile URLFile;
-	KTempFile TempFile;
+	KTemporaryFile TempFile;
+	TempFile.setAutoRemove(false);
+	TempFile.open();
 	QTextStream *temp_stream=NULL, *out_stream=NULL;
 	bool replace = !replace_line.isEmpty();
 
 	if (search_line.isEmpty())
 		return;
 
-	TempFileName = TempFile.name();
+	TempFileName = TempFile.fileName();
 
 	switch (type)
 	{
@@ -654,7 +657,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 	}
 
 	// Get streams;
-	temp_stream = TempFile.textStream();
+	temp_stream = new QTextStream(&TempFile);
 	out_stream  = new QTextStream(&URLFile);
 
 	while (!temp_stream->atEnd())
@@ -673,7 +676,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 	}
 
 	URLFile.close();
-	TempFile.close();
+	delete(temp_stream);
 	delete(out_stream);
 
 	updateLists();

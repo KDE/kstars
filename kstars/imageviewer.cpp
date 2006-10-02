@@ -30,6 +30,7 @@
 #include <kstatusbar.h>
 #include <kio/netaccess.h>
 #include <kaction.h>
+#include <ktemporaryfile.h>
 
 #include <kdebug.h>
 #include <ktoolbar.h>
@@ -99,9 +100,11 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 		kDebug()<<"URL is malformed: "<< m_ImageUrl << endl;
 	setWindowTitle (m_ImageUrl.fileName()); // the title of the window
 
-	KTempFile tempfile;
-	file.setFileName( tempfile.name() );
-	tempfile.unlink();		// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be shown
+	{
+		KTemporaryFile tempfile;
+		tempfile.open();
+		file.setFileName( tempfile.name() );
+	}// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be show
 
 	loadImageFromURL();
 }

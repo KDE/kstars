@@ -25,7 +25,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <knuminput.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kurl.h>
 
 #include "kstars.h"
@@ -127,13 +127,11 @@ bool AddCatDialog::validateDataFile() {
 
 	//Now create a temporary file for the Catalog, and attempt to parse it
 	//into a temporary CustomCatalogComponent
-	KTempFile ktf;
-	QFile tmpFile( ktf.name() );
-	ktf.unlink(); //just need filename
-	if ( tmpFile.open( QIODevice::WriteOnly ) ) {
+	KTemporaryFile tmpFile;
+	if ( tmpFile.open() ) {
 		QTextStream ostream( &tmpFile );
 		ostream << CatalogContents;
-		tmpFile.close();
+		ostream.flush();
 		CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, Options::showOther );
 		newCat.init( ks->data() );
 

@@ -25,7 +25,7 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kprinter.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kurl.h>
 #include <k3listview.h>
 #include <kpushbutton.h>
@@ -396,9 +396,9 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 	if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + '/' + url;
 	else fileURL = url;
 
-	KTempFile tmpfile;
+	KTemporaryFile tmpfile;
+	tmpfile.open();
 	QString fname;
-	tmpfile.setAutoDelete(true);
 
 	QPixmap skyimage( map()->width(), map()->height() );
 	QPixmap outimage( w, h );
@@ -408,7 +408,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		if ( fileURL.isLocalFile() ) {
 			fname = fileURL.path();
 		} else {
-			fname = tmpfile.name();
+			fname = tmpfile.fileName();
 		}
 
 		//Determine desired image format from filename extension
@@ -455,8 +455,8 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname ) << endl;
 		else kDebug() << i18n( "Image saved to file: %1", fname ) << endl;
 
-		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
-			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
+		if ( tmpfile.fileName() == fname ) { //attempt to upload image to remote location
+			if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
 				QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}

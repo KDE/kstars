@@ -27,7 +27,6 @@
 #include <QCloseEvent>
 
 #include <kio/job.h>
-#include <ktempfile.h>
 #include <kdialog.h>
 
 class KUrl;
