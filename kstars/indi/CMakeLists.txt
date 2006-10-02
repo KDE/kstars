@@ -81,6 +81,8 @@ set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
 	)
+       # is this right? We set it to NULL if we don't find the library
+       set (CFITSIO_LIBRARIES "")
 endif(NOT CFITSIO_FOUND)
 
 set(libapogee_usb_SRCS
@@ -161,6 +163,7 @@ set(libwebcam_SRCS
 
 ########### next target ###############
 ## SBIG Universal Driver Dummy Library ###
+if (NOT SBIG_FOUND)
 set(sbigudrv_LIB_SRCS sbig_dummy.cpp)
 
 kde4_add_library(sbigudrv SHARED ${sbigudrv_LIB_SRCS})
@@ -170,6 +173,10 @@ target_link_libraries(sbigudrv)
 set_target_properties(sbigudrv PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 install(TARGETS sbigudrv  DESTINATION ${LIB_INSTALL_DIR} )
 
+# is this right to do?
+set(SBIG_LIBRARIES "")
+
+endif(NOT SBIG_FOUND)
 ########### next target ###############
 ########### INDI Server ##############
 set(indiserver_SRCS indiserver.c fq.c)
@@ -213,6 +220,8 @@ target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 install(TARGETS lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
 ## Make symbolic links to lx200generic ##
+## FIXME this actually doesn't work, it never ends up installing _any_ symlinks, what's wrong? ##
+
 ADD_CUSTOM_COMMAND(TARGET lx200generic POST_INSTALL COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/lx200classic)
 ADD_CUSTOM_COMMAND(TARGET lx200generic POST_INSTALL COMMAND ln ARGS -s lx200generic ${BIN_INSTALL_DIR}/lx200classic)
 
@@ -429,7 +438,7 @@ set(sbigccd_SRCS sbigcam.cpp eventloop.c indidrivermain.c)
 
 kde4_add_executable(sbigccd ${sbigccd_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
+target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${SBIG_LIBRARIES})
 
 install(TARGETS sbigccd  DESTINATION ${BIN_INSTALL_DIR} )
 
