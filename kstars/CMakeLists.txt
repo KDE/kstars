@@ -21,6 +21,7 @@ set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	)
 
+if (NOT CFITSIO_FOUND)
 set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/buffers.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/cfileio.c
@@ -80,6 +81,9 @@ set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
 	)
+# is this right? We set it to NULL if we don't find the library
+       set (CFITSIO_LIBRARIES "")
+endif(NOT CFITSIO_FOUND)
 
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
@@ -255,7 +259,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} SatLib m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
