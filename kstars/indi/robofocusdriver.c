@@ -19,39 +19,13 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
-#include <math.h>
-#include <sys/time.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <time.h>
 
 #include "indicom.h"
 #include "indidevapi.h"
 #include "indiapi.h"
 #include "robofocusdriver.h"
-
-/**************************************************************************
- Basic I/O
-**************************************************************************/
-
-
-unsigned char calsum( char *rf_cmd) ;
-unsigned char chksum(char *rf_cmd) ;
-int updateRFPosition(int fd, double *value) ;
-int updateRFFirmware(int fd, char *rf_cmd) ;
-int updateRFMotorSettings(int fd, double *duty, double *delay, double *ticks) ;
-int updateRFPositionRelativeInward(int fd, double *value) ;
-int updateRFPositionAbsolute(int fd, double *value) ;
-int updateRFBacklash(int fd, double *value) ;
-int updateRFPowerSwitches(int fd, int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
-int updateRFMaxPosition(int fd, double *value) ;
-int updateRFSetPosition(int fd, double *value) ;
-int portRFRead(int fd, char *buf, int nbytes, int timeout);
-
 
 /**********************************************************************
 * Communication
@@ -66,7 +40,7 @@ int portRFRead(int fd, char *buf, int nbytes, int timeout)
   int err;
   char *tbuf= buf ; 
  
-
+ 
   while (nbytes > 0)
     {
       if ( (err = tty_timeout(fd, timeout)) < 0 )
@@ -82,7 +56,7 @@ int portRFRead(int fd, char *buf, int nbytes, int timeout)
 
 	/*fprintf(stderr, "Moving\n") ;*/
 	tbuf[0]=0 ;
-        sleep(.1) ;
+         usleep(100000) ; 
       } else {
 	tbuf += bytesRead;
 	totalBytesRead++;
@@ -179,8 +153,8 @@ int commRF(int fd, char *rf_cmd) {
       
     rf_cmd_cks[i]= rf_cmd[i] ;
   }
-  rf_cmd_cks[8]=  val ;
 
+  rf_cmd_cks[8]=  val ;
   rf_cmd_cks[9]= 0 ;
 
 /*   fprintf(stderr, "WRITE: ") ; */
@@ -192,7 +166,6 @@ int commRF(int fd, char *rf_cmd) {
 
   if(portRFWrite(fd, rf_cmd_cks) < 0)
     return -1;
-  /*sleep( 2) ;*/
 
   read_ret= portRFRead(fd, rf_cmd, nbytes, RF_TIMEOUT) ;
 
@@ -204,7 +177,6 @@ int commRF(int fd, char *rf_cmd) {
   rf_cmd[ read_ret- 1] = 0 ;
   return 0;
 }
-
 
 int updateRFPosition(int fd, double *value) {
 
@@ -228,7 +200,6 @@ int updateRFPosition(int fd, double *value) {
   return 0;
 
 }
-
 
 int updateRFTemperature(int fd, double *value) {
 
@@ -254,7 +225,6 @@ int updateRFBacklash(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
- 
   char vl_tmp[4] ;
   int ret_read_tmp ;
   int sign= 0 ;
@@ -321,8 +291,7 @@ int updateRFFirmware(int fd, char *rf_cmd) {
 
 int updateRFMotorSettings(int fd, double *duty, double *delay, double *ticks) {
 
-  char rf_cmd[32] ;
- 
+  char rf_cmd[32] ; 
   int ret_read_tmp ;
 
   if(( *duty== 0 ) && (*delay== 0) && (*ticks== 0) ){
@@ -360,20 +329,17 @@ int updateRFPositionRelativeInward(int fd, double *value) {
   float temp ;
   rf_cmd[0]= 0 ;
 
-
   if(*value > 9999) {
-  sprintf( rf_cmd, "FI0%5d", (int) *value) ;
+    sprintf( rf_cmd, "FI0%5d", (int) *value) ;
   } else if(*value > 999) {
-  sprintf( rf_cmd, "FI00%4d", (int) *value) ;
+    sprintf( rf_cmd, "FI00%4d", (int) *value) ;
   } else if(*value > 99) {
-  sprintf( rf_cmd, "FI000%3d", (int) *value) ;
+    sprintf( rf_cmd, "FI000%3d", (int) *value) ;
   } else if(*value > 9) {
-  sprintf( rf_cmd, "FI0000%2d", (int) *value) ;
+    sprintf( rf_cmd, "FI0000%2d", (int) *value) ;
   } else {
-  sprintf( rf_cmd, "FI00000%1d", (int) *value) ;
+    sprintf( rf_cmd, "FI00000%1d", (int) *value) ;
   }
-
-
 
   if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
@@ -386,26 +352,24 @@ int updateRFPositionRelativeInward(int fd, double *value) {
   return 0;
 }
 
-
 int updateRFPositionRelativeOutward(int fd, double *value) {
 
   char rf_cmd[32] ;
- 
   int ret_read_tmp ;
   float temp ;
 
   rf_cmd[0]= 0 ;
 
   if(*value > 9999) {
-  sprintf( rf_cmd, "FO0%5d", (int) *value) ;
+    sprintf( rf_cmd, "FO0%5d", (int) *value) ;
   } else if(*value > 999) {
-  sprintf( rf_cmd, "FO00%4d", (int) *value) ;
+    sprintf( rf_cmd, "FO00%4d", (int) *value) ;
   } else if(*value > 99) {
-  sprintf( rf_cmd, "FO000%3d", (int) *value) ;
+    sprintf( rf_cmd, "FO000%3d", (int) *value) ;
   } else if(*value > 9) {
-  sprintf( rf_cmd, "FO0000%2d", (int) *value) ;
+    sprintf( rf_cmd, "FO0000%2d", (int) *value) ;
   } else {
-  sprintf( rf_cmd, "FO00000%1d", (int) *value) ;
+    sprintf( rf_cmd, "FO00000%1d", (int) *value) ;
   }
 
   if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
@@ -422,26 +386,22 @@ int updateRFPositionRelativeOutward(int fd, double *value) {
 int updateRFPositionAbsolute(int fd, double *value) {
 
   char rf_cmd[32] ;
-
   int ret_read_tmp ;
   float temp ;
 
   rf_cmd[0]= 0 ;
 
-
-
   if(*value > 9999) {
-  sprintf( rf_cmd, "FG0%5d", (int) *value) ;
+    sprintf( rf_cmd, "FG0%5d", (int) *value) ;
   } else if(*value > 999) {
-  sprintf( rf_cmd, "FG00%4d", (int) *value) ;
-  } else if(*value > 999) {
-  sprintf( rf_cmd, "FG000%3d", (int) *value) ;
+    sprintf( rf_cmd, "FG00%4d", (int) *value) ;
+  } else if(*value > 99) {
+    sprintf( rf_cmd, "FG000%3d", (int) *value) ;
   } else if(*value > 9) {
-  sprintf( rf_cmd, "FG0000%2d", (int) *value) ;
+    sprintf( rf_cmd, "FG0000%2d", (int) *value) ;
   } else {
-  sprintf( rf_cmd, "FG00000%1d", (int) *value) ;
+    sprintf( rf_cmd, "FG00000%1d", (int) *value) ;
   }
-
 
   if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
@@ -451,16 +411,12 @@ int updateRFPositionAbsolute(int fd, double *value) {
 
   *value = (double) temp  ;
 
-
   return 0;
 }
 int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) {
 
-
   char rf_cmd[32] ;
-
   char rf_cmd_tmp[32] ;
-
   int ret_read_tmp ;
   int i = 0 ;
 
@@ -477,7 +433,6 @@ int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2
 
 
     if( rf_cmd[new_sn + 4]== '2') {
-
       rf_cmd[new_sn + 4]= '1' ;
     } else {
       rf_cmd[new_sn + 4]= '2' ;
@@ -514,10 +469,7 @@ int updateRFPowerSwitches(int fd, int s, int  new_sn, int *cur_s1LL, int *cur_s2
   if(rf_cmd[7]== '2' ) {
     *cur_s4RR= ISS_ON ;
   }
-
-
-return 0 ; 
-
+  return 0 ; 
 }
 
 
@@ -525,7 +477,6 @@ int updateRFMaxPosition(int fd, double *value) {
 
   float temp ;
   char rf_cmd[32] ;
-
   char vl_tmp[6] ;
   int ret_read_tmp ;
   char waste[1] ;
@@ -577,14 +528,9 @@ int updateRFMaxPosition(int fd, double *value) {
 
 int updateRFSetPosition(int fd, double *value) {
 
-
   char rf_cmd[32] ;
-
   char vl_tmp[6] ;
   int ret_read_tmp ;
-
-
-
 
   rf_cmd[0]=  'F' ;
   rf_cmd[1]=  'S' ;
@@ -592,14 +538,10 @@ int updateRFSetPosition(int fd, double *value) {
 
   if(*value > 9999) {
     sprintf( vl_tmp, "%5d", (int) *value) ;
-
   } else if(*value > 999) {
-
     sprintf( vl_tmp, "0%4d", (int) *value) ;
-
   } else if(*value > 99) {
     sprintf( vl_tmp, "00%3d", (int) *value) ;
-
   } else if(*value > 9) {
     sprintf( vl_tmp, "000%2d", (int) *value) ;
   } else {
@@ -615,7 +557,5 @@ int updateRFSetPosition(int fd, double *value) {
   if ((ret_read_tmp= commRF(fd, rf_cmd)) < 0)
     return ret_read_tmp;
   
- 
   return 0;
-
 }

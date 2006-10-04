@@ -18,23 +18,12 @@
 
 #endif
 
-
-
 /* Standard headers */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <unistd.h>
-#include <sys/time.h>
-
-#include <stdarg.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <time.h>
 
 /* INDI Core headers */
-
 /* indidevapi.h contains API declerations */
 #include "indidevapi.h"
 
@@ -52,10 +41,6 @@
 #define CONNECTION_GROUP   "Connection"  /* Group name */
 #define MOTION_GROUP       "Motion"
  
-#define POLLSTATESWITCH_MS 100
-#define POLLOPERATION_MS 20000
-
-
 #define currentSpeed            SpeedN[0].value
 #define currentPosition         PositionN[0].value
 #define currentTemperature      TemperatureN[0].value
@@ -68,17 +53,18 @@
 #define currentSetBacklash      SetBacklashN[0].value
 #define currentMinPosition      MinMaxPositionN[0].value
 #define currentMaxPosition      MinMaxPositionN[1].value
+#define currentMaxTravel        MaxTravelN[0].value
 
+int fd; /* Rs 232 file handle */
+int wp ;  /* Work proc ID */
 
-int fd;
 
 /* Function protptypes */
-
 
 void connectRobofocus(void);
 
 static void ISInit() ;
-void ISPoll (void *p) ;
+void ISWorkProc (void) ;
 int updateRFPosition(int fd, double *value) ;
 int updateRFTemperature(int fd, double *value) ;
 int updateRFBacklash(int fd, double *value) ;
@@ -90,9 +76,6 @@ int updateRFPositionAbsolute(int fd, double *value) ;
 int updateRFPowerSwitches(int fd, int s, int  i, int *cur_s1LL, int *cur_s2LR, int *cur_s3RL, int *cur_s4RR) ;
 int updateRFMaxPosition(int fd, double *value) ;
 int updateRFSetPosition(int fd, double *value) ;
-
-void handleError(ISwitchVectorProperty *svp, int err, const char *msg) ;
-
 
 /* operational info */
 
@@ -229,13 +212,12 @@ static ISwitchVectorProperty DirectionSP    = {
   0
 } ;	
 
-
 /* Robofocus should stay within these limits */
 
 static INumber MinMaxPositionN[] = {
 
-  { "MINPOS", "Minimum Tick", "%6.0f", 0, 65000., 0., 100., 0, 0, 0},
-  { "MAXPOS", "Maximum Tick", "%6.0f", 0, 65000., 0., 55000., 0, 0, 0},
+  { "MINPOS", "Minimum Tick", "%6.0f", 1., 65000., 0., 100., 0, 0, 0},
+  { "MAXPOS", "Maximum Tick", "%6.0f", 1., 65000., 0., 55000., 0, 0, 0},
 };
 
 static INumberVectorProperty MinMaxPositionNP = { 
@@ -251,6 +233,26 @@ static INumberVectorProperty MinMaxPositionNP = {
   "", 
   0
 };
+
+static INumber MaxTravelN[] = {
+
+  { "MAXTRAVEL", "Maximum travel", "%6.0f", 1., 64000., 0., 10000., 0, 0, 0},
+};
+
+static INumberVectorProperty MaxTravelNP = { 
+  mydev, 
+  "FOCUS_MAXTRAVEL", 
+  "Max. travel", 
+  MOTION_GROUP, 
+  IP_RW, 
+  0, 
+  IPS_IDLE, 
+  MaxTravelN, 
+  NARRAY(MaxTravelN), 
+  "", 
+  0
+};
+
 /* Set Robofocus position register to the this position */
 
 static INumber SetRegisterPositionN[] = {
@@ -403,7 +405,7 @@ static INumberVectorProperty AbsMovementNP = {
 static void ISInit() {
 
   static int isInit=0;		/* set once mountInit is called */
-  fprintf(stderr, "ISInit\n") ;
+  /*fprintf(stderr, "ISInit\n") ;*/
 
   if (isInit)
     return;
@@ -417,24 +419,24 @@ static void ISInit() {
   }
   IUSaveText( &PortT[0],  "/dev/ttyUSB0");
 
-  fprintf(stderr, "PORT:%s<\n", PortT->text) ;
+  /* fprintf(stderr, "PORT:%s<\n", PortT->text) ; */
   IDSetText( &PortTP, NULL) ;
-  IEAddTimer (POLLSTATESWITCH_MS, ISPoll, NULL); 
 
   fd=-1;
   isInit = 1;
 }
 
 
-void ISPoll (void *p) {
+void ISWorkProc () {
+
   char firmeware[]="FV0000000" ;
   int ret = -1 ;
   int cur_s1LL=0 ;
   int cur_s2LR=0 ;
   int cur_s3RL=0 ;
   int cur_s4RR=0 ;
-  p=p;
-  fprintf(stderr, "ISPoll\n") ;
+
+  /* fprintf(stderr, "ISWorkProc\n") ; */
 
   if (PowerS[0].s == ISS_ON) {
     switch (PowerSP.s) {
@@ -442,35 +444,28 @@ void ISPoll (void *p) {
     case IPS_IDLE:
     case IPS_OK:
 
-
       if((ret= updateRFFirmware(fd, firmeware)) < 0) {
         /* This would be the end*/
-	IDLog("Unknown error while reading Robofocus firmware\n");
+	IDMessage( mydev, "Unknown error while reading Robofocus firmware\n");
 	break;
       }
-
       PowerSP.s = IPS_OK;
-      /*CHECK 2006-01-26
-      /IDSetSwitch(&PowerSP, firmeware);*/
+      IDSetSwitch(&PowerSP, NULL);
 
 
       if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  	PositionNP.s = IPS_ALERT;
 	IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
-	IDLog("Unknown error while reading Robofocus position\n");
 	break;
       }
-
       PositionNP.s = IPS_OK;
       IDSetNumber(&PositionNP, NULL); 
 
       if(( ret= updateRFTemperature(fd, &currentTemperature)) < 0) {
 	TemperatureNP.s = IPS_ALERT;
 	IDSetNumber(&TemperatureNP, "Unknown error while reading  Robofocus temperature");
-	IDLog("Unknown error while reading Robofocus temperature\n");
 	break;
       }
-
       TemperatureNP.s = IPS_OK;
       IDSetNumber(&TemperatureNP, NULL);
 
@@ -479,7 +474,6 @@ void ISPoll (void *p) {
       if(( ret= updateRFBacklash(fd, &currentBacklash)) < 0) {
 	SetBacklashNP.s = IPS_ALERT;
 	IDSetNumber(&SetBacklashNP, "Unknown error while reading  Robofocus backlash");
-	IDLog("Unknown error while reading Robofocus backlash\n");
 	break;
       }
       SetBacklashNP.s = IPS_OK;
@@ -490,20 +484,14 @@ void ISPoll (void *p) {
       if(( ret= updateRFMotorSettings(fd, &currentDuty, &currentDelay, &currentTicks )) < 0) {
 	SettingsNP.s = IPS_ALERT;
 	IDSetNumber(&SettingsNP, "Unknown error while reading  Robofocus motor settings");
-	IDLog("Unknown error while reading Robofocus settings\n");
 	break;
       }
-
       SettingsNP.s = IPS_OK;
       IDSetNumber(&SettingsNP, NULL);
-
-      PowerSwitchesSP.s = IPS_OK;
-      IDSetSwitch(&PowerSwitchesSP, NULL);
 
       if(( ret= updateRFPowerSwitches(fd,  -1, -1,  &cur_s1LL, &cur_s2LR, &cur_s3RL, &cur_s4RR)) < 0) {
 	PowerSwitchesSP.s = IPS_ALERT;
 	IDSetSwitch(&PowerSwitchesSP, "Unknown error while reading  Robofocus power swicht settings");
-	IDLog("Unknown error while reading Robofocus power swicht settings\n");
 	break;
       }
 
@@ -529,17 +517,14 @@ void ISPoll (void *p) {
       IDSetSwitch(&PowerSwitchesSP, NULL);	
 
 
-      currentMaxPosition= MAXTRAVEL_READOUT ;
-      if(( ret= updateRFMaxPosition(fd, &currentMaxPosition)) < 0) {
-	MinMaxPositionNP.s = IPS_ALERT;
-	IDSetNumber(&MinMaxPositionNP, "Unknown error while reading  Robofocus maximum travel");
-	IDLog("Unknown error while reading Robofocus maximum\n");
+      currentMaxTravel= MAXTRAVEL_READOUT ;
+      if(( ret= updateRFMaxPosition(fd, &currentMaxTravel)) < 0) {
+	MaxTravelNP.s = IPS_ALERT;
+	IDSetNumber(&MaxTravelNP, "Unknown error while reading  Robofocus maximum travel");
 	break;
       }
-      MinMaxPositionNP.s = IPS_OK;
-      IDSetNumber(&MinMaxPositionNP, NULL);
-
-
+      MaxTravelNP.s = IPS_OK;
+      IDSetNumber(&MaxTravelNP, NULL);
 
     case IPS_BUSY:
 
@@ -548,14 +533,7 @@ void ISPoll (void *p) {
     case IPS_ALERT:
       break;
     }
-    IEAddTimer(POLLOPERATION_MS, ISPoll, NULL);
   }	
-}
-
-void handleError(ISwitchVectorProperty *svp, int err, const char *msg) {
-
-  fprintf( stderr, "%s %d\n\n", msg, err) ;
-
 }
 
 /* void ISGetProperties (const char *dev)
@@ -563,7 +541,7 @@ void handleError(ISwitchVectorProperty *svp, int err, const char *msg) {
 *  Here we will use IDxxx functions to define new properties to the client */
 void ISGetProperties (const char *dev)
 { 
-  fprintf(stderr, "ISGetProperties\n") ;
+  /* fprintf(stderr, "ISGetProperties\n") ; */
 
    /* #1 Let's make sure everything has been initialized properly */
    ISInit();
@@ -580,6 +558,7 @@ void ISGetProperties (const char *dev)
   IDDefNumber(&SettingsNP, NULL);
 
   IDDefNumber(&MinMaxPositionNP, NULL);
+  IDDefNumber(&MaxTravelNP, NULL);
   IDDefNumber(&SetRegisterPositionNP, NULL);
   IDDefNumber(&SetBacklashNP, NULL);
   IDDefSwitch(&DirectionSP, NULL);
@@ -602,7 +581,7 @@ void ISGetProperties (const char *dev)
 */
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n) {
 
-  fprintf(stderr, "ISNewSwitch\n") ;
+  /* fprintf(stderr, "ISNewSwitch\n") ; */
 
   /* #1 Let's make sure everything has been initialized properly */
   ISInit();
@@ -632,7 +611,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     int ret= -1 ;
     int nset= 0 ;
     int i= 0 ;
-    int new_s ;
+    int new_s= -1 ;
     int new_sn= -1 ;
     int cur_s1LL=0 ;
     int cur_s2LR=0 ;
@@ -681,7 +660,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
 	PowerSwitchesSP.s = IPS_ALERT;
 	IDSetSwitch(&PowerSwitchesSP, "Unknown error while reading  Robofocus power swicht settings");
-	IDLog("Unknown error while reading Robofocus power swicht settings\n");
 	return ;
       }
     } else {
@@ -689,7 +667,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       PowerSwitchesSP.s = IPS_IDLE ;
 		
       IDSetNumber(&SettingsNP, "Power switch settings absent or bogus.");
-      handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
       return ;
     }
 
@@ -733,7 +710,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 */
 void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n) {
 
-  fprintf(stderr, "ISNewText\n") ;
+  /* fprintf(stderr, "ISNewText\n") ; */
 
   /* #1 Let's make sure everything has been initialized properly */
   ISInit();
@@ -769,7 +746,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
   
   int i, nset;
  
-  fprintf(stderr, "ISNewNumber\n") ;
+  /* fprintf(stderr, "ISNewNumber\n") ; */
 
   /* Make sure to initialize */
   ISInit();
@@ -820,11 +797,11 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       SettingsNP.s = IPS_BUSY;
 		
 		
-      IDSetNumber(&SettingsNP, "Changing to new settings  %3.0f %3.0f %3.0f", new_duty, new_delay, new_ticks );
+      IDSetNumber(&SettingsNP, NULL);
 
       if(( ret= updateRFMotorSettings(fd,  &new_duty, &new_delay, &new_ticks))< 0) {
 	
-	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+	IDSetNumber(&SettingsNP, "Changing to new settings failed");
 	return ;
       } ; 
 
@@ -840,7 +817,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       SettingsNP.s = IPS_IDLE;
 		
       IDSetNumber(&SettingsNP, "Settings absent or bogus.");
-      handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
       return ;
     }
   }
@@ -874,7 +850,14 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	/* Set the robofocus state to BUSY */
 	RelMovementNP.s = IPS_BUSY;
-	IDSetNumber(&RelMovementNP, "Changing to new settings  %5.0f", new_rpos);
+	IDSetNumber(&RelMovementNP, NULL);
+
+	if((currentPosition + new_rpos < currentMinPosition) || (currentPosition + new_rpos > currentMaxPosition)) {
+
+	  RelMovementNP.s = IPS_ALERT ;
+	  IDSetNumber(&RelMovementNP, "Value out of limits %5.0f", currentPosition +  new_rpos);
+	  return ;
+	}
 
 	if( new_rpos > 0) {
 
@@ -884,27 +867,23 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
           new_rpos= -new_rpos ;
 	  ret= updateRFPositionRelativeInward(fd, &new_rpos) ;
-	 
 	}
 	
 	if( ret < 0) {
 
 	  RelMovementNP.s = IPS_IDLE;
-	  IDSetNumber(&RelMovementNP, "Relative movement failed, trying to recover position.");
+	  IDSetNumber(&RelMovementNP, "Read out of the relative movement failed, trying to recover position.");
 	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
 	 
 
 	    PositionNP.s = IPS_ALERT;
 	    IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
-	    IDLog("Unknown error while reading Robofocus position");
-	    handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
-
 	    return ;
 	  }
 	  PositionNP.s = IPS_ALERT;
 	  IDSetNumber(&PositionNP, "Robofocus position recovered %5.0f", currentPosition); 
 
-	  IDLog("Robofocus position recovered resuming normal operation");
+	  IDMessage( mydev, "Robofocus position recovered resuming normal operation");
 
           /* We have to leave here, because new_rpos is not set */
           return ;
@@ -926,13 +905,11 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	RelMovementNP.s = IPS_IDLE;
 	IDSetNumber(&RelMovementNP, "Need exactly one parameter.");
-	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
-	return ;
 
+	return ;
       }
     }
   }
-
 
   if (!strcmp (name, AbsMovementNP.name)) {
 
@@ -962,26 +939,31 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	/* Set the robofocus state to BUSY */
 	AbsMovementNP.s = IPS_BUSY;
-	IDSetNumber(&AbsMovementNP, "Changing to new settings  %5.0f", new_apos);
+	IDSetNumber(&AbsMovementNP, NULL);
+
+	if((new_apos < currentMinPosition) || (new_apos > currentMaxPosition)) {
+
+	  AbsMovementNP.s = IPS_ALERT ;
+	  IDSetNumber(&AbsMovementNP, "Value out of limits  %5.0f", new_apos);
+	  return ;
+	}
 	
 	if(( ret= updateRFPositionAbsolute(fd, &new_apos)) < 0) {
 
 	  AbsMovementNP.s = IPS_IDLE;
-	  IDSetNumber(&AbsMovementNP, "Absolute movement failed %3d, trying to recover position.", ret);
+	  IDSetNumber(&AbsMovementNP, "Read out of the absolute movement failed %3d, trying to recover position.", ret);
 
 	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	    PositionNP.s = IPS_ALERT;
 	    IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d.", ret);
-	    IDLog("Unknown error while reading Robofocus position");
-	    handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
 
 	    return ;
 	  }
 
 	  PositionNP.s = IPS_OK;
 	  IDSetNumber(&PositionNP, "Robofocus position recovered %5.0f", currentPosition); 
-	  IDLog("Robofocus position recovered resuming normal operation");
+	  IDMessage( mydev, "Robofocus position recovered resuming normal operation");
           /* We have to leave here, because new_apos is not set */
           return ;
 	}
@@ -998,9 +980,9 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
 	AbsMovementNP.s = IPS_IDLE;
 	IDSetNumber(&RelMovementNP, "Need exactly one parameter.");
- 	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+ 
 	return ;
-     }
+      }
     }
   }
 
@@ -1032,13 +1014,13 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	/* Set the robofocus state to BUSY */
 	SetBacklashNP.s = IPS_BUSY;
-	IDSetNumber(&SetBacklashNP, "Changing to new settings  %3.0f", new_back);
+	IDSetNumber(&SetBacklashNP, NULL);
 	
 	if(( ret= updateRFBacklash(fd, &new_back)) < 0) {
 
 	  SetBacklashNP.s = IPS_IDLE;
 	  IDSetNumber(&SetBacklashNP, "Setting new backlash failed.");
-	  handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+	 
 	  return ;
 	} 
 	
@@ -1049,18 +1031,17 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
 	SetBacklashNP.s = IPS_IDLE;
 	IDSetNumber(&SetBacklashNP, "Need exactly one parameter.");
-	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+
 	return ;
       }
     }
   }
-
   
   if (!strcmp (name, MinMaxPositionNP.name)) {
     /* new positions */
     double new_min = 0 ;
     double new_max = 0 ;
-    int ret = -1 ;
+  
 	    
     /* Check power, if it is off, then return */
     if (PowerS[0].s != ISS_ON){
@@ -1077,11 +1058,11 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       if (mmpp == &MinMaxPositionN[0]){
 	      
 	new_min = (values[i]);
-	nset += new_min >= 0x0000 && new_min <= 0xffff;
+	nset += new_min >= 1 && new_min <= 65000;
       } else if  (mmpp == &MinMaxPositionN[1]){
 
  	new_max = (values[i]);
-	nset += new_max >= 0x0000 && new_max <= 0xffff;
+	nset += new_max >= 1 && new_max <= 65000;
       }
     }
 	    
@@ -1090,15 +1071,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 		
       /* Set the robofocus state to BUSY */
       MinMaxPositionNP.s = IPS_BUSY;
-		
-		
-      IDSetNumber(&MinMaxPositionNP, "Changing to new limits  %6.0f %6.0f", new_min, new_max);
-
-      if(( ret= updateRFMaxPosition(fd,  &new_max))< 0 ) {
-	
-	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
-	return ;
-      } ; 
 
       currentMinPosition = new_min ;
       currentMaxPosition= new_max ;
@@ -1112,11 +1084,57 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       MinMaxPositionNP.s = IPS_IDLE;
 		
       IDSetNumber(&MinMaxPositionNP, "Minimum and maximum limits absent or bogus.");
-      handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+      
       return ;
     }
   }
 
+  if (!strcmp (name, MaxTravelNP.name)) {
+
+    double new_maxt = 0 ;
+    int ret = -1 ;
+
+    /* Check power, if it is off, then return */
+    if (PowerS[0].s != ISS_ON){
+      MaxTravelNP.s = IPS_IDLE;
+      IDSetNumber(&MaxTravelNP, "Power is off");
+      return;
+    }
+    for (nset = i = 0; i < n; i++){
+      /* Find numbers with the passed names in the MinMaxPositionNP property */
+      INumber *mmpp = IUFindNumber (&MaxTravelNP, names[i]);
+      
+      /* If the number found is  (MaxTravelN[0]) then process it */
+      if (mmpp == &MaxTravelN[0]){
+	      
+	new_maxt = (values[i]);
+	nset += new_maxt >= 1 && new_maxt <= 64000;
+      }
+    }
+    /* Did we process the one number? */
+    if (nset == 1) {
+
+      IDSetNumber(&MinMaxPositionNP, NULL);
+
+      if(( ret= updateRFMaxPosition(fd,  &new_maxt))< 0 ) {
+	MaxTravelNP.s = IPS_IDLE;
+	IDSetNumber(&MaxTravelNP, "Changing to new maximum travel failed");
+	return ;
+      } ; 
+
+      currentMaxTravel=  new_maxt ;
+      MaxTravelNP.s = IPS_OK;
+      IDSetNumber(&MaxTravelNP, "Maximum travel is now  %3.0f", currentMaxTravel) ;
+
+    } else {
+      /* Set property state to idle */
+
+      MaxTravelNP.s = IPS_IDLE;
+      IDSetNumber(&MaxTravelNP, "Maximum travel absent or bogus.");
+      
+      return ;
+    }
+  }
 
   if (!strcmp (name, SetRegisterPositionNP.name)) {
 
@@ -1138,26 +1156,32 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
 	new_apos = (values[i]);
 	
-        /* limits are absolute to the actual position */
+        /* limits are absolute */
 	nset += new_apos >= 0 && new_apos <= 64000;
       }
 
       if (nset == 1) {
 
+	if((new_apos < currentMinPosition) || (new_apos > currentMaxPosition)) {
+
+	  SetRegisterPositionNP.s = IPS_ALERT ;
+	  IDSetNumber(&SetRegisterPositionNP, "Value out of limits  %5.0f", new_apos);
+	  return ;
+	}
+
 	/* Set the robofocus state to BUSY */
 	SetRegisterPositionNP.s = IPS_BUSY;
-	IDSetNumber(&SetRegisterPositionNP, "Changing to new position  %5.0f", new_apos);
+	IDSetNumber(&SetRegisterPositionNP, NULL);
 	
 	if(( ret= updateRFSetPosition(fd, &new_apos)) < 0) {
 
 	  SetRegisterPositionNP.s = IPS_OK;
-	  IDSetNumber(&SetRegisterPositionNP, "Set position to %3d failed. Trying to recover the position", ret);
+	  IDSetNumber(&SetRegisterPositionNP, "Read out of the set position to %3d failed. Trying to recover the position", ret);
 
 	  if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	    PositionNP.s = IPS_ALERT;
 	    IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
-	    IDLog("Unknown error while reading Robofocus position");
 
 	    SetRegisterPositionNP.s = IPS_IDLE;
 	    IDSetNumber(&SetRegisterPositionNP, "Relative movement failed.");
@@ -1169,7 +1193,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
 	  PositionNP.s = IPS_OK;
 	  IDSetNumber(&PositionNP, "Robofocus position recovered %5.0f", currentPosition); 
-	  IDLog("Robofocus position recovered resuming normal operation");
+	  IDMessage( mydev, "Robofocus position recovered resuming normal operation");
           /* We have to leave here, because new_apos is not set */
           return ;
 	}
@@ -1180,22 +1204,19 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	PositionNP.s = IPS_OK;
 	IDSetNumber(&PositionNP, "Robofocus position is now %5.0f", currentPosition); 
 
-
 	return ;
+
       } else {
 	
 	SetRegisterPositionNP.s = IPS_IDLE;
 	IDSetNumber(&SetRegisterPositionNP, "Need exactly one parameter.");
- 	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
+ 	
 	return ;
       }
-
       if((ret= updateRFPosition(fd, &currentPosition)) < 0) {
  
 	PositionNP.s = IPS_ALERT;
 	IDSetNumber(&PositionNP, "Unknown error while reading  Robofocus position: %d", ret);
-	IDLog("Unknown error while reading Robofocus position");
-	handleError(&PowerSP, ret, "DAS IST DER FEHLER") ;
 
 	return ;
       }
@@ -1204,12 +1225,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 
       PositionNP.s = IPS_OK;
       IDSetNumber(&PositionNP, "Robofocus new position %5.0f", currentPosition); 
-
     }
-  }
-
-
-  
+  }  
   return;
 }
 
@@ -1221,7 +1238,7 @@ void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], c
 
 void connectRobofocus(void) {
 
-  fprintf(stderr, "connectRobofocus\n") ;
+  /* fprintf(stderr, "connectRobofocus\n") ; */
 
   switch (PowerS[0].s) {
   case ISS_ON:
@@ -1237,12 +1254,12 @@ void connectRobofocus(void) {
 
     PowerSP.s = IPS_OK;
     IDSetSwitch(&PowerSP, "Robofocus is online.");
-    IEAddTimer(POLLSTATESWITCH_MS, ISPoll, NULL);
-
+    wp= IEAddWorkProc( (IE_WPF *)ISWorkProc, NULL) ;
     break;
 
   case ISS_OFF:
 
+    IERmWorkProc ( wp) ;
     tty_disconnect(fd);
     IUResetSwitches(&PowerSP);    
     IUResetSwitches(&PowerSwitchesSP);
@@ -1266,6 +1283,7 @@ void connectRobofocus(void) {
     IDSetNumber(&SetBacklashNP, NULL);
     IDSetNumber(&SetRegisterPositionNP, NULL);
     IDSetNumber(&MinMaxPositionNP, NULL);
+    IDSetNumber(&MaxTravelNP, NULL);
     IDSetNumber(&SettingsNP, NULL);
     IDSetNumber(&TemperatureNP, NULL);
 
