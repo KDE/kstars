@@ -445,7 +445,7 @@ void ISResetButtons( char *message) {
   DownloadSP.s= IPS_IDLE ;
   IUResetSwitches(&DownloadSP);
 
-  IDSetSwitch(&DownloadSP, message);
+  IDSetSwitch(&DownloadSP, "%s", message);
     
   return ;
 }
