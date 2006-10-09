@@ -19,7 +19,6 @@
 
 #include <QToolTip>
 #include <QWhatsThis>
-#include <Q3Frame>
 #include <QHBoxLayout>
 
 #include <kdebug.h>
