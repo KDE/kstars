@@ -53,21 +53,21 @@ static int fd;
 static char COMM_PRE  = 0x01;
 static char COMM_INIT = 0xA5;
 static char COMM_FILL = 0x20;
-static char COMM_NL   = 0x0A; 
 
-#define mydev           		"TurTech Wheel"
+#define mydev           		"TruTech Wheel"
 #define MAIN_GROUP			"Main Control"
 #define currentFilter			FilterPositionN[0].value
-#define POLLMS				1000
-#define MAX_FILTER_COUNT		8
+#define POLLMS				3000
+#define DEFAULT_FILTER_COUNT		5
+#define MAX_FILTER_COUNT		10
 #define ERRMSG_SIZE			1024
 
 #define CMD_SIZE			5
+#define CMD_JUNK			64
 #define CMD_RESP			15
 
 #define FILTER_TIMEOUT			15					/* 15 Seconds before timeout */
 #define FIRST_FILTER			1
-#define LAST_FILTER			6
 
 
 /*INDI controls */
@@ -84,13 +84,13 @@ static ITextVectorProperty PortTP		= { mydev, "DEVICE_PORT", "Ports", MAIN_GROUP
 static ISwitch HomeS[]          	= {{"Find" , "" , ISS_OFF, 0, 0}};
 static ISwitchVectorProperty HomeSP	= { mydev, "HOME" , "", MAIN_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, HomeS, NARRAY(HomeS), "", 0};
 
-/* Filter Position */
-static INumber FilterPositionN[]	  = { {"SLOT", "Active Filter", "%2.0f",  0 , MAX_FILTER_COUNT, 1, 0, 0, 0, 0}};
-static INumberVectorProperty FilterPositionNP = { mydev, "FILTER_SLOT", "Filter", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterPositionN, NARRAY(FilterPositionN), "", 0};
+/* Filter Count */
+static INumber FilterCountN[]	  = { {"Count", "", "%2.0f",  0 , MAX_FILTER_COUNT, 1, DEFAULT_FILTER_COUNT, 0, 0, 0}};
+static INumberVectorProperty FilterCountNP = { mydev, "Filter Count", "", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterCountN, NARRAY(FilterCountN), "", 0};
 
-/* Filter Size */
-static INumber FilterSizeN[]	  = { {"Size", "", "%2.0f", 0,  12, 1, 0, 0, 0, 0}};
-static INumberVectorProperty FilterSizeNP = { mydev, "Filter Size", "", MAIN_GROUP, IP_RO, 0, IPS_IDLE, FilterSizeN, NARRAY(FilterSizeN), "", 0};
+/* Filter Position */
+static INumber FilterPositionN[]	  = { {"SLOT", "Active Filter", "%2.0f",  1 , DEFAULT_FILTER_COUNT, 1, 1, 0, 0, 0}};
+static INumberVectorProperty FilterPositionNP = { mydev, "FILTER_SLOT", "Filter", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterPositionN, NARRAY(FilterPositionN), "", 0};
 
 /* send client definitions of all properties */
 void ISInit()
@@ -104,8 +104,6 @@ void ISInit()
 	targetFilter = -1;
 	fd = -1;
 
-        IEAddTimer (POLLMS, ISPoll, NULL);
-	
 	isInit = 1; 
 }
 
@@ -120,10 +118,9 @@ void ISGetProperties (const char *dev)
 	/* Main Control */
 	IDDefSwitch(&PowerSP, NULL);
 	IDDefText(&PortTP, NULL);
+	IDDefNumber(&FilterCountNP, NULL);
 	IDDefSwitch(&HomeSP, NULL);
 	IDDefNumber(&FilterPositionNP, NULL);
-	IDDefNumber(&FilterSizeNP, NULL);
-	
 }
   
 void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], char *formats[], char *names[], int n)
@@ -135,7 +132,6 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 {
 	int err;
 	char error_message[ERRMSG_SIZE];
-	char cmd_response[CMD_RESP];
 
 	/* ignore if not ours */
 	if (dev && strcmp (dev, mydev))
@@ -178,21 +174,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 			return;
 		}
 
-		/* Wait for Reply */
-		if ( (err = tty_read_section(fd, cmd_response, COMM_NL, FILTER_TIMEOUT, &nbytes)) != TTY_OK)
-		{
-			tty_error_msg(err, error_message, ERRMSG_SIZE);
-			
-			HomeSP.s = IPS_ALERT;
-			IDSetSwitch(&HomeSP, "Reading from filter failed. %s\n", error_message);
-			IDLog("Reading from filter failed. %s\n", error_message);
-			return;
-		}
-
-		cmd_response[nbytes] = 0;
+		FilterPositionN[0].value = 1;
+		FilterPositionNP.s = IPS_OK;
 		HomeSP.s = IPS_OK;
-		IDLog("Filter response is %s\n", cmd_response);
-		IDSetSwitch(&HomeSP, "Filter response is %s", cmd_response);
+		IDSetSwitch(&HomeSP, "Filter set to HOME.");
+		IDSetNumber(&FilterPositionNP, NULL);
 		
 	}
 	
@@ -223,8 +209,6 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 {
 	long err;
 	INumber *np;
-	long newFilter;
-
 	n = n;
 	
 	/* ignore if not ours */
@@ -235,52 +219,81 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	
 	if (!strcmp(FilterPositionNP.name, name)) 
 	{
+
 		if (!isFilterConnected()) 
 		{
-			IDMessage(mydev, "Filter not connected.");
+			IDMessage(mydev, "Filter is not connected.");
 			FilterPositionNP.s = IPS_IDLE;
 			IDSetNumber(&FilterPositionNP, NULL);
 			return;
 		}
-		
-		targetFilter = values[0];
-		
-		if (targetFilter < 1 || targetFilter > MAX_FILTER_COUNT)
-		{
-			FilterPositionNP.s = IPS_ALERT;
-			IDSetNumber(&FilterPositionNP, "Error: valid range of filter is from %d to %d", FIRST_FILTER, LAST_FILTER);
-			return;
-		}
 
-		FilterPositionNP.s = IPS_BUSY;
-		IDSetNumber(&FilterPositionNP, "Setting current filter to slot %d", targetFilter);
-		IDLog("Setting current filter to slot %d\n", targetFilter);
+		np = IUFindNumber(&FilterPositionNP, names[0]);
+		if (np == &FilterPositionN[0])
+		{
+			
+			targetFilter = values[0];
+			int nbytes=0;
+			char type = 0x01;
+			char chksum = COMM_INIT + type + (char) targetFilter;
+			char filter_command[5] = { COMM_PRE, COMM_INIT, type, targetFilter, chksum };
+
+			if (targetFilter < FilterPositionN[0].min || targetFilter > FilterPositionN[0].max)
+			{
+				FilterPositionNP.s = IPS_ALERT;
+				IDSetNumber(&FilterPositionNP, "Error: valid range of filter is from %d to %d", (int) FilterPositionN[0].min, (int) FilterPositionN[0].max);
+				return;
+			}
+
+			IUUpdateNumbers(&FilterPositionNP, values, names, n);
+			err = tty_write(fd, filter_command, CMD_SIZE, &nbytes);
+
+			FilterPositionNP.s = IPS_OK;
+			IDSetNumber(&FilterPositionNP, "Setting current filter to slot %d", targetFilter);
+		}
+		else
+		{
+			FilterPositionNP.s = IPS_IDLE;
+			IDSetNumber(&FilterPositionNP, NULL);
+		}
 		
 		return;
 	}
+
+	if (!strcmp(FilterCountNP.name, name)) 
+	{
+
+		if (!isFilterConnected()) 
+		{
+			IDMessage(mydev, "Filter is not connected.");
+			FilterCountNP.s = IPS_IDLE;
+			IDSetNumber(&FilterCountNP, NULL);
+			return;
+		}
+
+		np = IUFindNumber(&FilterCountNP, names[0]);
+		if (np == &FilterCountN[0])
+		{
+			if (IUUpdateNumbers(&FilterCountNP, values, names, n) <0)
+				return;
+
+			FilterPositionN[0].min = 1;
+			FilterPositionN[0].max = (int) FilterCountN[0].value;
+			IUUpdateMinMax(&FilterPositionNP);
+
+			FilterCountNP.s = IPS_OK;
+			IDSetNumber(&FilterCountNP, "Updated number of available filters to %d", ((int) FilterCountN[0].value));
+		}
+		else
+		{
+			FilterCountNP.s = IPS_IDLE;
+			IDSetNumber(&FilterCountNP, NULL);
+		}
+		
+		return;
+	}
+
 }
-
-void ISPoll(void *p)
-{
-
-  switch (FilterPositionNP.s)
-  {
-    case IPS_IDLE:
-    case IPS_OK:
-       break;
-  
-   
-   case IPS_BUSY:
-	break;
-
-   case IPS_ALERT:
-    break;
- }
-
-   IEAddTimer (POLLMS, ISPoll, NULL);
-
-}
-
 
 int getOnSwitch(ISwitchVectorProperty *sp)
 {
@@ -366,7 +379,7 @@ void connectFilter()
 			}
 
 			PowerSP.s = IPS_OK;
-			IDSetSwitch(&PowerSP, "Filter Wheel is online.");
+			IDSetSwitch(&PowerSP, "Filter Wheel is online. True Technology filter wheel suffers from several bugs. Please refer to http://indi.sf.net/profiles/trutech.html for more details.");
 			break;
 		
 		case ISS_OFF:
