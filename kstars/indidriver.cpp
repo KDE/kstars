@@ -270,7 +270,7 @@ void INDIDriver::processDeviceStatus(int id)
 		// Failed to connect to INDI server
 		if (retries ==  MAX_RETRIES)
 	  	{
-			 KMessageBox::error(0, i18n("Connection to INDI host at localhost on port %1 failed.").arg(dev->indiPort));
+			 KMessageBox::error(0, i18n("Connection to INDI host at localhost on port %1 failed.", dev->indiPort));
 	   		dev->restart();
 	   		return;
 	  	}
@@ -341,7 +341,7 @@ void INDIDriver::processHostStatus(int id)
 
 	  if (retries ==  MAX_RETRIES)
 	  {
-		 KMessageBox::error(0, i18n("Connection to INDI host at %1 on port %2 failed.").arg(host->hostname).arg(host->portnumber));
+		 KMessageBox::error(0, i18n("Connection to INDI host at %1 on port %2 failed.", host->hostname, host->portnumber));
 	   }
 	}
 	else

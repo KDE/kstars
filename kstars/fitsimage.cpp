@@ -137,7 +137,7 @@ int FITSImage::loadFits (QString filename)
   {
 	fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
+	KMessageBox::error(0, i18n("FITS file open error: %1", error_status), i18n("FITS Open"));
 	return -1;
   }
 
@@ -145,7 +145,7 @@ int FITSImage::loadFits (QString filename)
   {
 	fits_report_error(stderr, status);
 	fits_get_errstatus(status, error_status);
-	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
+	KMessageBox::error(0, i18n("FITS file open error: %1", error_status), i18n("FITS Open"));
 	return -1;
   }
 
@@ -153,7 +153,7 @@ int FITSImage::loadFits (QString filename)
   {
 	fits_report_error(stderr, status);
 	fits_get_errstatus(status, error_status);
-	KMessageBox::error(0, i18n("FITS file open error: %1").arg(error_status), i18n("FITS Open"));
+	KMessageBox::error(0, i18n("FITS file open error: %1", error_status), i18n("FITS Open"));
 	return -1;
   }
 

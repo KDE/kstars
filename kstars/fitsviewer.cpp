@@ -258,7 +258,7 @@ void FITSViewer::fileSave()
 		
             int r=KMessageBox::warningContinueCancel(0,
             i18n( "A file named \"%1\" already exists. "
-                  "Overwrite it?" ).arg(currentURL.fileName()),
+                  "Overwrite it?", currentURL.fileName() ),
             i18n( "Overwrite File?" ),
 	    KGuiItem(i18n( "&Overwrite" )) );
 
@@ -272,7 +272,7 @@ void FITSViewer::fileSave()
 	  {
 		  fits_get_errstatus(err_status, err_text);
 		  // Use KMessageBox or something here
-		  KMessageBox::error(0, i18n("FITS file save error: %1").arg(err_text), i18n("FITS Save"));
+		  KMessageBox::error(0, i18n("FITS file save error: %1", err_text), i18n("FITS Save"));
 		  return;
 	  }
   
@@ -285,7 +285,7 @@ void FITSViewer::fileSave()
   }
   else
   {
-		QString message = i18n( "Invalid URL: %1" ).arg( currentURL.url() );
+		QString message = i18n( "Invalid URL: %1", currentURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
   }
 }
@@ -360,7 +360,7 @@ void FITSViewer::fitsHeader()
    if ( (err_status = image->getFITSRecord(recordList, nkeys)) < 0)
    {
         fits_get_errstatus(err_status, err_text);
-	KMessageBox::error(0, i18n("FITS record error: %1").arg(err_text), i18n("FITS Header"));
+	KMessageBox::error(0, i18n("FITS record error: %1", err_text), i18n("FITS Header"));
 	return;
    }
    
