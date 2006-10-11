@@ -20,8 +20,6 @@
 
 #include "simclock.h"
 #include "kstars.h"
-//Added by qt3to4:
-#include <Q3CString>
 
 int SimClock::idgen = 1;
 
