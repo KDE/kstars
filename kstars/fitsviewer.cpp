@@ -272,7 +272,7 @@ void FITSViewer::fileSave()
 	  {
 		  fits_get_errstatus(err_status, err_text);
 		  // Use KMessageBox or something here
-		  KMessageBox::error(0, i18n("FITS file save error: %1", err_text), i18n("FITS Save"));
+		  KMessageBox::error(0, i18n("FITS file save error: %1", QString(err_text)), i18n("FITS Save"));
 		  return;
 	  }
   
@@ -360,7 +360,7 @@ void FITSViewer::fitsHeader()
    if ( (err_status = image->getFITSRecord(recordList, nkeys)) < 0)
    {
         fits_get_errstatus(err_status, err_text);
-	KMessageBox::error(0, i18n("FITS record error: %1", err_text), i18n("FITS Header"));
+	KMessageBox::error(0, i18n("FITS record error: %1", QString(err_text)), i18n("FITS Header"));
 	return;
    }
    
