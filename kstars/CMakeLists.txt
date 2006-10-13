@@ -241,7 +241,7 @@ set( kstars_KCFG_SRCS Options.kcfgc )
 
 kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
-kde4_automoc(${kstars_SRCS})
+kde4_automoc(kstars ${kstars_SRCS})
 
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )

@@ -392,7 +392,7 @@ install(TARGETS fliwheel  DESTINATION ${BIN_INSTALL_DIR} )
 ############# FLI CCD ###############
 set(fliccd_SRCS eventloop.c fli_ccd.c indidrivermain.c)
 
-kde4_automoc(${fliccd_SRCS})
+kde4_automoc(fliccd ${fliccd_SRCS})
 
 kde4_add_executable(fliccd ${fliccd_SRCS} ${libfli_SRCS} ${libcfitsio_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
