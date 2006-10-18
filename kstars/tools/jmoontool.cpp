@@ -90,7 +90,7 @@ JMoonTool::JMoonTool(QWidget *parent)
 	glay->addWidget( labGn, 0, 1 );
 	glay->addWidget( labCa, 1, 1 );
 
-	pw = new KPlotWidget( 0.0, 1.0, 0.0, 1.0, page );
+	pw = new KPlotWidget( page, 0.0, 1.0, 0.0, 1.0 );
 	pw->setShowGrid( false );
 	pw->setAntialias( true );
 	pw->setLimits( -12.0, 12.0, -11.0, 11.0 );
