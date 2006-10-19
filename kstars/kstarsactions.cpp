@@ -375,8 +375,8 @@ void KStars::slotViewOps() {
 	KConfigDialog* dialog = new KConfigDialog( this, "settings",
 					     Options::self() );
 
-	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( slotApplySettings() ) );
-	connect( dialog, SIGNAL( okClicked() ), this, SLOT( slotApplySettings() ) );
+	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( updateSettings() ) );
+	connect( dialog, SIGNAL( okClicked() ), this, SLOT( updateSettings() ) );
 
 	OpsCatalog *opcatalog    = new OpsCatalog( this );
 	OpsGuides  *opguides     = new OpsGuides( this );

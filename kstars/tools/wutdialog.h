@@ -20,7 +20,7 @@
 
 #include <QFrame>
 #include <kdialog.h>
-
+#include <q3listview.h>
 #include "kstarsdatetime.h"
 #include "ui_wutdialog.h"
 
@@ -68,7 +68,7 @@ class WUTDialog : public KDialog  {
 
 		/**@short display the rise/transit/set times for selected object 
 			*/
-		void slotDisplayObject(QListWidgetItem *item);
+		void slotDisplayObject(Q3ListBoxItem *item);
 
 		/**@short Apply user's choice of what part of the night should 
 			*be examined:

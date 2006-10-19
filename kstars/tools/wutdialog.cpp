@@ -95,8 +95,8 @@ void WUTDialog::makeConnections() {
 	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
 	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListWidgetItem*) ),
-			SLOT( slotDisplayObject(QListWidgetItem*) ) );
+	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(Q3ListBoxItem*) ),
+			SLOT( slotDisplayObject(Q3ListBoxItem*) ) );
 	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
 }
 
@@ -316,7 +316,7 @@ bool WUTDialog::checkVisibility(SkyObject *o) {
 	return visible;
 }
 
-void WUTDialog::slotDisplayObject(QListWidgetItem *item) {
+void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
 	QTime tRise, tSet, tTransit;
 	QString sRise, sTransit, sSet;
 
