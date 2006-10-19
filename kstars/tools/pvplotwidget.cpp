@@ -23,7 +23,7 @@
 #include "libkdeedu/kdeeduplot/kplotobject.h"
 
 PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par ) :
-			KPlotWidget( x1, x2, y1, y2, par ), 
+			KPlotWidget( par,x1, x2, y1, y2 ), 
 			mouseButtonDown(false), oldx(0), oldy(0)
 {
 	setFocusPolicy( Qt::StrongFocus );
@@ -32,7 +32,7 @@ PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget 
 }
 
 PVPlotWidget::PVPlotWidget( QWidget *parent ) :
-			KPlotWidget( 0.0, 1.0, 0.0, 1.0, parent ), 
+			KPlotWidget( parent,0.0, 1.0, 0.0, 1.0 ), 
 			mouseButtonDown(false), oldx(0), oldy(0)
 {
 	setFocusPolicy( Qt::StrongFocus );
