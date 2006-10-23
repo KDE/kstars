@@ -239,9 +239,9 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS}
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
-kde4_add_kcfg_files(kstars kstars_SRCS ${kstars_KCFG_SRCS})
+kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
-kde4_automoc(kstars ${kstars_SRCS})
+kde4_automoc(${kstars_SRCS})
 
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
