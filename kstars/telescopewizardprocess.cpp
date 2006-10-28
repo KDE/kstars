@@ -16,6 +16,7 @@
 
 #include <QTextEdit>
 #include <QRadioButton>
+#include <QProgressBar>
 
 #include <k3listview.h>
 #include <klineedit.h>

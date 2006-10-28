@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdeversion.h>
+#include <QProgressBar>
 
+#include <kdeversion.h>
 #include <kapplication.h>
 #include <kaction.h>
 #include <kdebug.h>

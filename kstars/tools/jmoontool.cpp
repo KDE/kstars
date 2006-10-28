@@ -118,11 +118,11 @@ void JMoonTool::initPlotObjects() {
 
 	if ( pw->objectCount() ) pw->clearObjectList();
 
-	orbit[0] = new KPlotObject( "io", colIo, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-	orbit[1] = new KPlotObject( "europa", colEu, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-	orbit[2] = new KPlotObject( "ganymede", colGn, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-	orbit[3] = new KPlotObject( "callisto", colCa, KPlotObject::CURVE, 1, KPlotObject::SOLID );
-	jpath    = new KPlotObject( "jupiter", colJp, KPlotObject::CURVE, 1, KPlotObject::SOLID );
+	orbit[0] = new KPlotObject( colIo, KPlotObject::LINES, 1.0 );
+	orbit[1] = new KPlotObject( colEu, KPlotObject::LINES, 1.0 );
+	orbit[2] = new KPlotObject( colGn, KPlotObject::LINES, 1.0 );
+	orbit[3] = new KPlotObject( colCa, KPlotObject::LINES, 1.0 );
+	jpath    = new KPlotObject( colJp, KPlotObject::LINES, 1.0 );
 
 	double dy = 0.01*pw->dataHeight();
 
@@ -134,9 +134,9 @@ void JMoonTool::initPlotObjects() {
 		//jm.x(i) tells the offset from Jupiter, in units of Jupiter's angular radius.
 		//multiply by 0.5*jup->angSize() to get arcminutes
 		for ( unsigned int i=0; i<4; ++i )
-			orbit[i]->addPoint( new QPointF( 0.5*jup->angSize()*jm.x(i), t ) );
+			orbit[i]->addPoint( 0.5*jup->angSize()*jm.x(i), t );
 
-		jpath->addPoint( new QPointF( 0.0, t ) );
+		jpath->addPoint( 0.0, t );
 	}
 
 	for ( unsigned int i=0; i<4; ++i )

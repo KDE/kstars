@@ -194,14 +194,14 @@ void PlanetViewer::paintEvent( QPaintEvent* ) {
 
 void PlanetViewer::initPlotObjects() {
 	// Planets
-	ksun = new KPlotObject( "Sun", "yellow", KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
-	ksun->addPoint( new QPointF( 0.0, 0.0 ) );
+	ksun = new KPlotObject( Qt::yellow, KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
+	ksun->addPoint( 0.0, 0.0 );
 	pw->map->addObject( ksun );
 
 	//Read in the orbit curves
 	KPlotObject *orbit[9];
 	for ( unsigned int i=0; i<9; ++i ) {
-		orbit[i] = new KPlotObject( QString(), "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+		orbit[i] = new KPlotObject( Qt::white, KPlotObject::LINES, 1.0 );
 
 		QFile orbitFile;
 		if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
@@ -209,7 +209,7 @@ void PlanetViewer::initPlotObjects() {
 			double x, y, z;
 			orbitStream >> x >> y >> z;
 			while ( !orbitStream.atEnd() ) {
-				orbit[i]->addPoint( new QPointF( x, y ) );
+				orbit[i]->addPoint( x, y );
 				orbitStream >> x >> y >> z;
 			}
 		}
@@ -218,15 +218,13 @@ void PlanetViewer::initPlotObjects() {
 	}
 
 	for ( unsigned int i=0; i<9; ++i ) {
-		planet[i] = new KPlotObject( pName[i], pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
-		planetLabel[i] = new KPlotObject( i18n(pName[i].toLocal8Bit()), pColor[i], KPlotObject::LABEL );
+		planet[i] = new KPlotObject( pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
 
 		double s, c;
 		KSPlanetBase *p = PlanetList[i];
 		p->helEcLong()->SinCos( s, c );
 
-		planet[i]->addPoint( new QPointF( p->rsun()*c, p->rsun()*s ) );
-		planetLabel[i]->addPoint( new QPointF( p->rsun()*c, p->rsun()*s ) );
+		planet[i]->addPoint( p->rsun()*c, p->rsun()*s, i18n(pName[i].toLocal8Bit()) );
 		pw->map->addObject( planet[i] );
 		pw->map->addObject( planetLabel[i] );
 	}

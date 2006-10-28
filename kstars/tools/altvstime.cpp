@@ -249,15 +249,14 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		for ( int i=0; i < View->objectCount(); ++i ) {
 			KPlotObject *obj = View->object( i );
 			if ( obj->size() == 2 ) {
-				obj->setColor( "red" );
-				obj->setSize( 1 );
+				obj->setLinePen( QPen( Qt::red, 1 ) );
 			}
 		}
 
 		//add new curve with width=2, and color=white
-		KPlotObject *po = new KPlotObject( QString(), "white", KPlotObject::CURVE, 2, KPlotObject::SOLID );
+		KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 2.0 );
 		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-			po->addPoint( new QPointF( h, findAltitude( o, h ) ) );
+			po->addPoint( h, findAltitude( o, h ) );
 		}
 		View->addObject( po );
 
@@ -300,11 +299,9 @@ void AltVsTime::slotHighlight(void) {
 		KPlotObject *obj = View->object( i );
 
 		if ( i == iPlotList ) {
-			obj->setSize( 2 );
-			obj->setColor( "white" );
+			obj->setLinePen( QPen( Qt::white, 2 ) );
 		} else {
-			obj->setSize( 1 );
-			obj->setColor( "red" );
+			obj->setLinePen( QPen( Qt::red, 1 ) );
 		}
 	}
 
@@ -414,9 +411,9 @@ void AltVsTime::slotUpdateDateLoc(void) {
 			//update pList entry
 			pList.replace( i, o );
 
-			KPlotObject *po = new KPlotObject( QString(), "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 1 );
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-				po->addPoint( new QPointF( h, findAltitude( o, h ) ) );
+				po->addPoint( h, findAltitude( o, h ) );
 			}
 			View->replaceObject( i, po );
 
@@ -430,9 +427,9 @@ void AltVsTime::slotUpdateDateLoc(void) {
 		} else {  //assume unfound object is a custom object
 			pList.at(i)->updateCoords( num ); //precess to desired epoch
 
-			KPlotObject *po = new KPlotObject( QString(), "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
+			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 1 );
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-				po->addPoint( new QPointF( h, findAltitude( pList.at(i), h ) ) );
+				po->addPoint( h, findAltitude( pList.at(i), h ) );
 			}
 			View->replaceObject( i, po );
 		}
@@ -583,7 +580,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	//draw ground
 	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
-	drawObjects( &p );
+	foreach( KPlotObject *po, ObjectList ) 
+		po->draw( &p, this );
 
 	p.setClipping( false );
 	drawAxes( &p );
