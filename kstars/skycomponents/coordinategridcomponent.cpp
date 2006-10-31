@@ -66,11 +66,10 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 // TODO add accessor methods to map for guideMax etc.
 
-	if (!Options::showGrid()) return;
+	if ( ! visible() ) return;
 	
 	SkyMap *map = ks->map();
 
-	//Draw coordinate grid
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 1, Qt::DotLine ) ); //change to GridColor
 
 	SkyPoint *sp = pointList()[0];

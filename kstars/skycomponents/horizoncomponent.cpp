@@ -78,7 +78,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	QPolygon groundPoly;
 	SkyPoint *pAnchor(0), *pAnchor2(0);
 
-	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 1, Qt::SolidLine ) );
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
 	if ( Options::showGround() )
 		psky.setBrush( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );

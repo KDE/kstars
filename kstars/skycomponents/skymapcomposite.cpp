@@ -104,6 +104,8 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	m_CustomCatalogs->update( data, num );
 	//10. Stars
 	m_Stars->update( data, num );
+	//11. Horizn
+	m_Horizon->update( data, num );
 }
 
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
