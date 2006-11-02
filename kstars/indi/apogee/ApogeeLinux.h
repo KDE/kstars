@@ -61,4 +61,11 @@ struct apIOparam                  // IOCTL data
 #define APOGEE_ISA_DEVICE "/dev/apisa"
 #define APOGEE_USB_DEVICE "/dev/usb/alta"
 
+const int NUM_POSITIONS = 6;
+const int NUM_STEPS_PER_FILTER = 48;
+const int STEP_DELAY = 10;
+
+const unsigned char Steps[] = { 0x10, 0x30, 0x20, 0x60, 0x40, 0xc0, 0x80, 0x90 };
+const int NUM_STEPS = sizeof ( Steps );
+
 #endif

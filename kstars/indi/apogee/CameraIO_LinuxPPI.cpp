@@ -48,12 +48,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "CameraIO_Linux.h"
 #include "ApogeeLinux.h"
 
-const int NUM_POSITIONS = 6;
-const int NUM_STEPS_PER_FILTER = 48;
-const int STEP_DELAY = 10;
-
-const unsigned char Steps[] = { 0x10, 0x30, 0x20, 0x60, 0x40, 0xc0, 0x80, 0x90 };
-const int NUM_STEPS = sizeof ( Steps );
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

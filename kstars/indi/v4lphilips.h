@@ -20,6 +20,11 @@
 
 */
 
+#ifndef V4LPHILIPS_H
+#define V4LPHILIPS_H
+
+
+
 #ifndef HAVE_LINUX_VIDEODEV2_H
 #include "webcam/v4l1_pwc.h"
 #endif 
@@ -75,4 +80,5 @@ class V4L_Philips : public V4L_Driver
 
 };
 
+#endif
 
