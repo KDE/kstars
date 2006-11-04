@@ -18,7 +18,7 @@
 #ifndef COORDINATEGRIDCOMPONENT_H
 #define COORDINATEGRIDCOMPONENT_H
 
-#include "pointlistcomponent.h"
+#include "linelistcomponent.h"
 
 /**
 	*@class CoordinateGridComponent
@@ -32,7 +32,7 @@ class SkyComposite;
 class KStarsData;
 class SkyMap;
 
-class CoordinateGridComponent : public PointListComponent
+class CoordinateGridComponent : public LineListComponent
 {
 	public:
 		
@@ -52,7 +52,7 @@ class CoordinateGridComponent : public PointListComponent
 		*@p psky Reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		//		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 	/**
 		*@short Initialize the Constellation names component

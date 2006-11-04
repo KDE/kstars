@@ -23,11 +23,12 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "skyline.h" 
 #include "skypoint.h" 
 #include "Options.h"
 
 CoordinateGridComponent::CoordinateGridComponent(SkyComponent *parent, bool (*visibleMethod)(), bool isParallel, double coord ) 
-: PointListComponent(parent, visibleMethod), Parallel( isParallel ), Coordinate( coord )
+: LineListComponent(parent, visibleMethod), Parallel( isParallel ), Coordinate( coord )
 {
 }
 
@@ -37,34 +38,41 @@ CoordinateGridComponent::~CoordinateGridComponent() {
 void CoordinateGridComponent::init( KStarsData *data ) {
 	emitProgressText( i18n("Loading coordinate grid" ) );
 
-	//	setPen( QPen( QBrush( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 
-	//								1, Qt::DotLine ) );
+	setPen( QPen( QBrush( data->colorScheme()->colorNamed( "GridColor" ) ), 
+								1, Qt::DotLine ) );
 
 	if ( Parallel ) { //line of constant Declination
 		double dra = 1./5.; //120 points around full circle
+		SkyPoint o1( 0.0, Coordinate );
 		for ( double ra=0.0; ra < 24.0; ra += dra ) {
-			SkyPoint *sp = new SkyPoint( ra, Coordinate );
-			sp->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			pointList().append( sp );
+			SkyPoint o2( ra, Coordinate );
+			SkyLine *sl = new SkyLine( o1, o2 );
+			sl->update( data );
+			lineList().append( sl );
+			o1 = o2;
 		}
 	} else { //line of constant Right Ascension
 		double RA = Coordinate;
 		double OppositeRA = Coordinate + 12.0;
 		if ( OppositeRA > 24.0 ) OppositeRA -= 24.0;
-		for ( double dec=-90.; dec < 270.; dec += 4.0 ) {
+
+		SkyPoint o1( RA, -90.0 );
+		for ( double dec=-90. + 4.0; dec < 270.; dec += 4.0 ) {
 			double Dec = dec;
-			
 			if ( dec > 90. ) {
 				Dec = 180. - dec;
 				RA = OppositeRA;
 			}
-			SkyPoint *sp = new SkyPoint( RA, Dec );
-			sp->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			pointList().append( sp );
+			SkyPoint o2( RA, Dec );
+			SkyLine *sl = new SkyLine( o1, o2 );
+			sl->update( data );
+			lineList().append( sl );
+			o1 = o2;
 		}
 	}
 }
 
+/*
 void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 // TODO add accessor methods to map for guideMax etc.
@@ -108,3 +116,4 @@ void CoordinateGridComponent::draw(KStars *ks, QPainter& psky, double scale)
 					QPoint(int(o1.x()),int(o1.y())) );
 	}
 }
+*/

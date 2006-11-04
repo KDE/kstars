@@ -67,18 +67,18 @@ void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double
 We do the interpolation in x-y-z space because interpolation in [ra, dec] gives
 weird results, especially around the poles.
 **/
-    bool clipped1, clipped2;
+	bool onscreen1, onscreen2;
     QPointF o1, o2, oMid;
-    o1 = toScreen( p1, scale, Options::useRefraction(), &clipped1 );
-    o2 = toScreen( p2, scale, Options::useRefraction(), &clipped2 );
+    o1 = toScreen( p1, scale, Options::useRefraction(), &onscreen1 );
+    o2 = toScreen( p2, scale, Options::useRefraction(), &onscreen2 );
 
-    if (clipped1 && clipped2 ) {
+    if (!onscreen1 && !onscreen2 ) {
         return;
     }
-    else if (! clipped1 && ! clipped2 ) {
+    else if (onscreen1 && onscreen2 ) {
          psky.drawLine( o1, o2 );
     }
-    else if (clipped2) {
+    else if (onscreen1) {
         oMid = clipLine( p1, p2, scale );
         psky.drawLine( o1, oMid );
     }
@@ -95,7 +95,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
  */              
     int iteration = 15;         // For "perfect" clipping:
                                 // 2^interations should be >= max pixels/line
-    bool clipped = false;       // so we start at midpoint
+    bool onscreen = true;       // so we start at midpoint
     SkyPoint mid;
     QPointF oMid;
     double x, y, z, dx, dy, dz, ra, dec;
@@ -112,7 +112,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
         dx *= .5;
         dy *= .5;
         dz *= .5;
-        if ( clipped ) {              // move back toward visible p1
+        if ( ! onscreen ) {              // move back toward visible p1
             x -= dx;
             y -= dy;
             z -= dz;
@@ -129,7 +129,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
         mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-        oMid = toScreen( &mid, scale, Options::useRefraction(), &clipped );
+        oMid = toScreen( &mid, scale, Options::useRefraction(), &onscreen );
         newx = (int) oMid.x();
         newy = (int) oMid.y();
         if ( (oldx == newx) && (oldy == newy) ) {
