@@ -21,6 +21,7 @@
 #include "skypoint.h"
 
 class dms;
+class KStarsData;
 
 /**
 	*@class SkyLine
@@ -90,6 +91,8 @@ class SkyLine {
 			*@return the angle subtended by the SkyLine
 			*/
 		dms angularSize();
+
+		void update( KStarsData *data, KSNumbers *num=0 );
 
 	private:
 		SkyPoint m_p1;

@@ -28,30 +28,23 @@
 #include "Options.h"
 
 ConstellationLinesComponent::ConstellationLinesComponent(SkyComponent *parent, bool (*visibleMethod)())
-: PointListComponent(parent, visibleMethod)
+: LineListComponent(parent, visibleMethod)
 {
 }
 
 ConstellationLinesComponent::~ConstellationLinesComponent() {
 }
 
+/*
 void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !visible() ) return;
-	if ( pointList().size() < 2 ) return;
-
-	SkyMap *map = ks->map();
+	if ( ! visible() ) return;
+	if ( ! lineList().size() ) return;
 
 	//Draw Constellation Lines
-	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); //change to CLine color
-//	int iLast = -1;
+	psky.setPen( 
 
-	SkyPoint *pLast = pointList().at(0);
-	for ( int i=1; i < pointList().size(); ++i ) {
-        SkyPoint *pThis = pointList().at(i);
-        if (m_CLineModeList.at(i) == 'D') {
-            map->drawClippedLine( pLast, pThis, psky, scale);
-        }
-        pLast = pThis;
-    }
+	foreach ( SkyLine *line, lineList() ) 
+		psky.drawLine( ks->map()->toScreen( line, scale ) );
 }
+*/

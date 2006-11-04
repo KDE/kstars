@@ -765,7 +765,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	return ( north + o->pa() );
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clipped) {
+QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onscreen) {
 
 	QPointF p;
 	double Y, dX;
@@ -774,7 +774,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 	float Width = width() * scale;
 	float Height = height() * scale;
 
-	double pscale = Options::zoomFactor() * scale;
+	double zoomscale = Options::zoomFactor() * scale;
 
 	//oRefract = true means listen to Options::useRefraction()
 	//false means do not use refraction
@@ -805,11 +805,16 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 
 	//Special case: Equirectangular projection is very simple
 	if ( Options::projection() == Equirectangular ) {
-		p.setX( 0.5*Width  - pscale*dX );
-		p.setY( 0.5*Height - pscale*(Y - focus()->dec()->radians()) );
-        
-        if ( clipped != NULL ) *clipped = false;
-	
+		p.setX( 0.5*Width  - zoomscale*dX );
+		p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
+		
+		if ( onscreen != NULL ) {
+			if ( rect().contains( p.toPoint() ) )
+				*onscreen = true;
+			else
+				*onscreen = false;
+		}
+
 		return p;
 	}
 
@@ -829,17 +834,16 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 	//c is the cosine of the angular distance from the center
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
-	if ( c < 0.0 ) { //Object is on "back side" of the celestial sphere; don't plot it.
-        if ( clipped == NULL) {
-		    p.setX( -10000000. );
-		    p.setY( -10000000. );
-		    return p;
-        }
-        *clipped = true;
+	if ( c < 0.0 ) { 
+		//Object is on "back side" of the celestial sphere; 
+		//Set null coordinates and return
+		p.setX( -10000000. );
+		p.setY( -10000000. );
+		if ( onscreen != NULL)
+			*onscreen = false;
+
+		return p;
 	}
-    else {
-        if ( clipped != NULL ) *clipped = false;
-    }
 
 	double k;
 	switch ( Options::projection() ) {
@@ -867,15 +871,109 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *clippe
 			break;
 	}
 
-	p.setX( 0.5*Width  - pscale*k*cosY*sindX );
-	p.setY( 0.5*Height - pscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
+	p.setX( 0.5*Width  - zoomscale*k*cosY*sindX );
+	p.setY( 0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
+
+	if ( onscreen != NULL ) {
+		if ( rect().contains( p.toPoint() ) )
+			*onscreen = true;
+		else
+			*onscreen = false;
+	}
 
 	return p;
 }
 
-QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *clipped) {
-    QPointF qpf = toScreen( o, scale, oRefract, clipped );
-    return QPoint( (int) qpf.x(), (int) qpf.y() );
+QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *onscreen) {
+	return toScreen( o, scale, oRefract, onscreen ).toPoint();
+}
+
+//Return the on-screen portion of the given SkyLine, if any portion of it 
+//is onscreen
+QLineF SkyMap::toScreen( SkyLine *line, double scale, bool oRefract ) {
+	bool on1, on2;
+
+	QPointF p1 = toScreen( line->startPoint(), scale, oRefract, &on1 );
+	QPointF p2 = toScreen( line->endPoint(), scale, oRefract, &on2 );
+
+	//If both endpoints are onscreen, return the line between them
+	if ( on1 && on2 ) {
+		return QLineF( p1, p2 );
+	}
+
+	//If either endpoint is undefined; return a null line
+	//FIXME: it's possible that we'll need to do more if only one endpoint 
+	//is undefined...
+	if ( p1.x() < -1000000. || p2.x() < -1000000. ) {
+		return QLine();
+	}
+
+	//If we get here, both endpoints are defined, but at least one is offscreen.
+	//Find the point(s) at which the line intersects the rectangle of the SkyMap.
+	//NOTE: even if both endpoints are offscreen, it's possible that a segment 
+	//of the line is onscreen
+	QLineF screenLine( p1, p2 );
+	QLineF topEdge( QPointF( rect().topLeft() ), QPointF( rect().topRight() ) );
+	QLineF bottomEdge( QPointF( rect().bottomLeft() ), QPointF( rect().bottomRight() ) );
+	QLineF leftEdge( QPointF( rect().topLeft() ), QPointF( rect().bottomLeft() ) );
+	QLineF rightEdge( QPointF( rect().topRight() ), QPointF( rect().bottomRight() ) );
+
+	QPointF edgePoint1 = QPointF();
+	QPointF edgePoint2 = QPointF();
+
+	//When an intersection betwen the line and a screen edge is found, the 
+	//intersection point is stored in edgePoint2.
+	//If two intersection points are found for the same line, then we'll 
+	//return the line between those two intersection points.
+	if ( screenLine.intersect( topEdge, &edgePoint1 ) == 1 ) {
+		edgePoint2 = edgePoint1;
+	}
+
+	if ( screenLine.intersect( leftEdge, &edgePoint1 ) == 1 ) {
+		if ( edgePoint2.isNull() ) 
+			edgePoint2 = edgePoint1;
+		else {
+			//Two intersection points found.  Return this line
+			return QLineF( edgePoint1, edgePoint2 );
+		}
+	}
+
+	if ( screenLine.intersect( rightEdge, &edgePoint1 ) == 1 ) {
+		if ( edgePoint2.isNull() ) 
+			edgePoint2 = edgePoint1;
+		else {
+			//Two intersection points found.  Return this line
+			return QLineF( edgePoint1, edgePoint2 );
+		}
+	}
+	
+	if ( screenLine.intersect( bottomEdge, &edgePoint1 ) == 1 ) {
+		if ( edgePoint2.isNull() ) 
+			edgePoint2 = edgePoint1;
+		else {
+			//Two intersection points found.  Return this line
+			return QLineF( edgePoint1, edgePoint2 );
+		}
+	}
+	
+	//If we get here, zero or one intersection point was found.
+	//If no intersection points were found, the line is offscreen
+	if ( edgePoint2.isNull() ) {
+		return QLineF();
+	}
+
+	//If one intersection point was found, then one of the original endpoints
+	//was onscreen.  Return the line that connects this point to the edgePoint
+
+	//Make sure p1 is the defined original point
+	if ( on2 ) p1 = p2;
+
+	//edgePoint2 is the one defined edgePoint.
+	return QLineF( p1, edgePoint2 );
+}
+
+QLine SkyMap::toScreenI( SkyLine *line, double scale, bool oRefract ) {
+	return toScreen( line, scale, oRefract ).toLine();
 }
 
 SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {
@@ -1004,6 +1102,11 @@ float SkyMap::fov() {
 		return 28.65*width()/Options::zoomFactor();
 	else
 		return 28.65*height()/Options::zoomFactor();
+}
+
+bool SkyMap::checkVisibility( SkyLine *sl ) {
+	return ( checkVisibility( sl->startPoint() ) 
+				|| checkVisibility( sl->endPoint() ) );
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p ) {

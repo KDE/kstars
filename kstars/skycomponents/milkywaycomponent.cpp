@@ -81,7 +81,7 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
 {
 	SkyMap *map = ks->map();
 
-    bool partVisible, clipped, clippedLast;
+	bool partVisible, onscreen, onscreenLast;
     bool visible, visibleLast;
     SkyPoint  *pLast, *pThis;
 
@@ -94,23 +94,23 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
         partVisible = true;
 
         pLast = pointList().at( 0 );
-        oLast = map->toScreenI( pLast, scale, false, &clippedLast );
+        oLast = map->toScreenI( pLast, scale, false, &onscreenLast );
 
         for ( int i=1; i < pointList().size(); ++i ) {
             pThis = pointList().at( i );
-            oThis = map->toScreenI( pThis, scale, false, &clipped );
+            oThis = map->toScreenI( pThis, scale, false, &onscreen );
 
             if ( oThis.x() >= 0 && oThis.x() <= width &&
                  oThis.y() >= 0 && oThis.y() <= height ) partVisible = true;
 
-            if ( !clipped && !clippedLast ) {
+            if ( onscreen && onscreenLast ) {
                polyMW << oThis;
             }
-            else if ( !clippedLast ) {
+            else if ( onscreenLast ) {
                 oMid = map->clipLineI( pLast, pThis, scale );
                 polyMW << oMid;
             }
-            else if ( !clipped ){
+            else if ( onscreen ){
                 oMid = map->clipLineI( pThis, pLast, scale );
                 polyMW << oMid;
                 polyMW << oThis;
@@ -118,7 +118,7 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
 
             pLast = pThis;
             oLast = oThis;
-            clippedLast = clipped;
+            onscreenLast = onscreen;
         }
         if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
     }
@@ -126,7 +126,7 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
 
         pLast = pointList().at( 0 );
 
-        oLast = map->toScreenI( pLast, scale, false, &clippedLast );
+        oLast = map->toScreenI( pLast, scale, false, &onscreenLast );
 
         visibleLast = ( oLast.x() >= 0 && oLast.x() <= width &&
                         oLast.y() >= 0 && oLast.y() <= height );
@@ -136,20 +136,20 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
                                               // clip and wrap the polygons
         for ( int i=1 ; i < limit ; i++ ) {
             pThis = pointList().at( i );
-            oThis = map->toScreenI( pThis, scale, false, &clipped );
+            oThis = map->toScreenI( pThis, scale, false, &onscreen );
             visible = ( oThis.x() >= 0 && oThis.x() <= width &&
                         oThis.y() >= 0 && oThis.y() <= height );
 
             if ( ( visible || visibleLast ) && !skip.contains(i) ) {
 
-                if ( !clipped && !clippedLast ) {
+                if ( onscreen && onscreenLast ) {
                     psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
                 }
-                else if ( !clippedLast ) {
+                else if ( onscreenLast ) {
                     oMid = map->clipLineI( pLast, pThis, scale );
                     psky.drawLine( oLast.x(), oLast.y(), oMid.x(), oMid.y() );
                 }
-                else if ( !clipped ) {
+                else if ( onscreen ) {
                     oMid = map->clipLineI( pThis, pLast, scale );
                     psky.drawLine( oMid.x(), oMid.y(), oThis.x(), oThis.y() );
                 }
@@ -157,7 +157,7 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
 
             pLast = pThis;
             oLast = oThis;
-            clippedLast = clipped;
+            onscreenLast = onscreen;
             visibleLast = visible;
         }
     }
@@ -167,7 +167,7 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 {
 	SkyMap *map = ks->map();
 
-    bool partVisible, clipped, clippedLast;
+    bool partVisible, onscreen, onscreenLast;
     bool visible, visibleLast;
     SkyPoint  *pLast, *pThis;
 
@@ -181,23 +181,23 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
         partVisible = true;
 
         pLast = pointList().at( 0 );
-        oLast = map->toScreen( pLast, scale, false, &clippedLast );
+        oLast = map->toScreen( pLast, scale, false, &onscreenLast );
 
         for ( int i=1; i < pointList().size(); ++i ) {
             pThis = pointList().at( i );
-            oThis = map->toScreen( pThis, scale, false, &clipped );
+            oThis = map->toScreen( pThis, scale, false, &onscreen );
 
             if ( oThis.x() >= 0 && oThis.x() <= width &&
                  oThis.y() >= 0 && oThis.y() <= height ) partVisible = true;
 
-            if ( !clipped && !clippedLast ) {
+            if ( onscreen && onscreenLast ) {
                polyMW << oThis;
             }
-            else if ( !clippedLast ) {
+            else if ( onscreenLast ) {
                 oMid = map->clipLine( pLast, pThis, scale);
                 polyMW << oMid;
             }
-            else if ( !clipped ){
+            else if ( onscreen ){
                 oMid = map->clipLine( pThis, pLast, scale);
                 polyMW << oMid;
                 polyMW << oThis;
@@ -205,7 +205,7 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 
             pLast = pThis;
             oLast = oThis;
-            clippedLast = clipped;
+            onscreenLast = onscreen;
         }
         if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
     }
@@ -213,7 +213,7 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 
         pLast = pointList().at( 0 );
 
-        oLast = map->toScreen( pLast, scale, false, &clippedLast );
+        oLast = map->toScreen( pLast, scale, false, &onscreenLast );
 
         visibleLast = (oLast.x() >= 0 && oLast.x() <= width &&
                        oLast.y() >= 0 && oLast.y() <= height );
@@ -223,20 +223,20 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
                                               // clip and wrap the polygons
         for ( int i=1 ; i < limit ; i++ ) {
             pThis = pointList().at( i );
-            oThis = map->toScreen( pThis, scale, false, &clipped );
+            oThis = map->toScreen( pThis, scale, false, &onscreen );
             visible = ( oThis.x() >= 0 && oThis.x() <= width &&
                         oThis.y() >= 0 && oThis.y() <= height );
 
             if ( ( visible || visibleLast ) && ! skip.contains(i) ) {
 
-                if ( !clipped && !clippedLast ) {
+                if ( onscreen && onscreenLast ) {
                     psky.drawLine( oLast, oThis );
                 }
-                else if ( !clippedLast ) {
+                else if ( onscreenLast ) {
                     oMid = map->clipLine( pLast, pThis, scale );
                     psky.drawLine( oLast, oMid );
                 }
-                else if ( !clipped ) {
+                else if ( onscreen ) {
                     oMid = map->clipLine( pThis, pLast, scale );
                     psky.drawLine( oMid, oThis );
                 }
@@ -244,7 +244,7 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 
             pLast = pThis;
             oLast = oThis;
-            clippedLast = clipped;
+            onscreenLast = onscreen;
             visibleLast = visible;
         }
     }

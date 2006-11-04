@@ -18,7 +18,7 @@
 #ifndef CONSTELLATIONLINESCOMPONENT_H
 #define CONSTELLATIONLINESCOMPONENT_H
 
-#include "pointlistcomponent.h"
+#include "linelistcomponent.h"
 
 /**
 	*@class ConstellationLinesComponent
@@ -36,7 +36,7 @@ class KSNumbers;
 #include <QList>
 #include <QChar>
 
-class ConstellationLinesComponent : public PointListComponent
+class ConstellationLinesComponent : public LineListComponent
 {
 	public:
 	/**
@@ -55,13 +55,7 @@ class ConstellationLinesComponent : public PointListComponent
 		*@p psky Reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)
 		*/
-		virtual void draw( KStars *ks, QPainter& psky, double scale );
-
-		QList<QChar>& modeList() { return m_CLineModeList; }
-
-	private:
-
-		QList<QChar> m_CLineModeList;
+		//		virtual void draw( KStars *ks, QPainter& psky, double scale );
 
 };
 

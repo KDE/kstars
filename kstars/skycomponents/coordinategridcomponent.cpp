@@ -37,6 +37,9 @@ CoordinateGridComponent::~CoordinateGridComponent() {
 void CoordinateGridComponent::init( KStarsData *data ) {
 	emitProgressText( i18n("Loading coordinate grid" ) );
 
+	//	setPen( QPen( QBrush( ks->data()->colorScheme()->colorNamed( "GridColor" ) ), 
+	//								1, Qt::DotLine ) );
+
 	if ( Parallel ) { //line of constant Declination
 		double dra = 1./5.; //120 points around full circle
 		for ( double ra=0.0; ra < 24.0; ra += dra ) {

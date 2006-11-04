@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kstarsdata.h"
+#include "ksnumbers.h"
 #include "skyline.h"
 
 dms SkyLine::angularSize() {
@@ -33,4 +35,14 @@ dms SkyLine::angularSize() {
 	angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 
 	return angDist;
+}
+
+void SkyLine::update( KStarsData *d, KSNumbers *num ) {
+	if ( num ) {
+		startPoint()->updateCoords( num );
+		endPoint()->updateCoords( num );
+	}
+
+	startPoint()->EquatorialToHorizontal( d->lst(), d->geo()->lat() );
+	endPoint()->EquatorialToHorizontal( d->lst(), d->geo()->lat() );
 }

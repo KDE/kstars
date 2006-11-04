@@ -58,15 +58,15 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
-        /**
-            *@short Draw the Milky Way in integer mode
-            */
-        void drawInt(KStars *ks, QPainter& psky, double scale);
+		/**
+		 *@short Draw the Milky Way in integer mode
+		 */
+		void drawInt(KStars *ks, QPainter& psky, double scale);
         
-        /**
-            *@short Draw the Milky Way in antialiased mode
-            **/
-        void drawFloat(KStars *ks, QPainter& psky, double scale);
+		/**
+		 *@short Draw the Milky Way in antialiased mode
+		 **/
+		void drawFloat(KStars *ks, QPainter& psky, double scale);
 
 		/**
 			*@short Initialize the Milky Way
@@ -78,10 +78,10 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void init(KStarsData *data);
 	
-        void addPoint( double ra, double dec );
-
-        QHash<int, bool> skip;
-	private:
+		void addPoint( double ra, double dec );
+		
+		QHash<int, bool> skip;
+ private:
 
 };
 

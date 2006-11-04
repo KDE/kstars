@@ -18,7 +18,7 @@
 #ifndef EQUATORCOMPONENT_H
 #define EQUATORCOMPONENT_H
 
-#include "pointlistcomponent.h"
+#include "linelistcomponent.h"
 
 class SkyComposite;
 class KStarsData;
@@ -32,7 +32,7 @@ class KSNumbers;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class EquatorComponent: public PointListComponent
+class EquatorComponent: public LineListComponent
 {
 	public:
 
@@ -53,7 +53,7 @@ class EquatorComponent: public PointListComponent
 		 *@p psky Reference to the QPainter on which to paint
 		 *@p scale the scaling factor for drawing (1.0 for screen draws)
 		 */
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		//		virtual void draw(KStars *ks, QPainter& psky, double scale);
 		/**
 		 *@short Initialize the Equator
 		 *@p data Pointer to the KStarsData object

@@ -18,7 +18,7 @@
 #ifndef ECLIPTICCOMPONENT_H
 #define ECLIPTICCOMPONENT_H
 
-#include "pointlistcomponent.h"
+#include "linelistcomponent.h"
 
 class SkyComposite;
 class KStarsData;
@@ -32,7 +32,7 @@ class KSNumbers;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-class EclipticComponent: public PointListComponent
+class EclipticComponent: public LineListComponent
 {
 	public:
 
@@ -53,7 +53,7 @@ class EclipticComponent: public PointListComponent
 		 *@p psky reference to the QPainter on which to draw
 		 *@p scale the scaling factor (1.0 for screen draws)
 		 */
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		//		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
 		/**
 		 *@short Initialize the Ecliptic

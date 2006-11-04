@@ -47,7 +47,7 @@ class CoordinateGridComponent : public PointListComponent
 		~CoordinateGridComponent();
 		
 	/**
-		*@short Draw constellation names on the sky map.
+		*@short Draw coordinate grid lines on the skymap
 		*@p ks pointer to the KStars object
 		*@p psky Reference to the QPainter on which to paint
 		*@p scale scaling factor (1.0 for screen draws)

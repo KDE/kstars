@@ -27,7 +27,7 @@
 #include "dms.h"
 #include "Options.h"
 
-EclipticComponent::EclipticComponent(SkyComponent *parent, bool (*visibleMethod)()) : PointListComponent(parent, visibleMethod)
+EclipticComponent::EclipticComponent(SkyComponent *parent, bool (*visibleMethod)()) : LineListComponent(parent, visibleMethod)
 {
 }
 
@@ -38,25 +38,34 @@ EclipticComponent::~EclipticComponent()
 void EclipticComponent::init(KStarsData *data)
 {
 	emitProgressText( i18n("Creating ecliptic" ) );
-	// Define the Ecliptic
+
+	setLabel( i18n("Ecliptic") );
+	setLabelPosition( LineListComponent::RightEdgeLabel );
+	setPen( QPen( QBrush( data->colorScheme()->colorNamed( "EclColor" ) ), 
+										 1, Qt::SolidLine ) );
+
 	KSNumbers num( data->ut().djd() );
 	dms elat(0.0), elng(0.0);
-	for ( unsigned int i=0; i<NCIRCLE; ++i ) {
+	SkyPoint o, oPrev;
+	oPrev.setFromEcliptic( num.obliquity(), &elng, &elat );
+	oPrev.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+	for ( unsigned int i=1; i<=NCIRCLE; ++i ) {
 		elng.setD( double( i ) );
-		SkyPoint *o = new SkyPoint( 0.0, 0.0 );
-		o->setFromEcliptic( num.obliquity(), &elng, &elat );
-		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		pointList().append( o );
+		o.setFromEcliptic( num.obliquity(), &elng, &elat );
+		o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		lineList().append( new SkyLine( oPrev, o ) );
+
+		oPrev = o;
 	}
 }
 
+/*
 void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
-	if ( !Options::showEcliptic() ) return;
+	if ( ! visible() ) return;
 
 	SkyMap *map = ks->map();
 	KStarsData *data = ks->data();
-	float Width = scale * map->width();
-	float Height = scale * map->height();
 
 	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, Qt::SolidLine ) );
 
@@ -209,3 +218,4 @@ void EclipticComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 		psky.restore(); //reset coordinate system
 	}
 }
+*/

@@ -370,7 +370,7 @@ public:
 
 /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
  * between *p1 and *p2 that just clips.
- **/
+ */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
     
     QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
@@ -383,11 +383,22 @@ public:
 	*@param useRefraction true = use Options::useRefraction() value.  
 	*false = do not use refraction.  This argument is only needed 
 	*for the Horizon, which should never be refracted.
-    *@param clipped pointer to a bool indicating point is past horizon
-    **/
-	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *clipped=NULL);
+	*@param onscreen pointer to a bool to indicate whether the point is onscreen
+	*/
+	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
 
-	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *clipped=NULL);
+	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
+
+	/**
+	 *@return the given SkyLine, transformed to screen pixel coordinates.
+	 *If only a portion of the line is on-screen, this function returns 
+	 *the on-screen segment.  If no portion of the line is on-screen, 
+	 *a null line is returned.
+	 
+	 */
+	QLineF toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true );
+
+	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true );
     
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -436,6 +447,8 @@ public:
 	*@see SkyMap::fov()
 	*/
 	bool checkVisibility( SkyPoint *p );
+
+	bool checkVisibility( SkyLine *l );
 
 /**Determine the on-screen position angle of a SkyObject.  This is the sum
 	*of the object's sky position angle (w.r.t. North), and the position angle

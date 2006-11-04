@@ -38,10 +38,10 @@ class CSegment;
 #include <QChar>
 
 //CBComponent doesn't fit into any of the three base-class Components
-//It comes closest to PointListComponent, but its members are CSegment objects,
-//not SkyPoints.  Since CSegments are essentially themselves collections of
-//SkyPoints, we could make this CBComposite, with PointListComponent
-//members.  However, a CSegment is a bit more than a list of points; it also 
+//It comes closest to LineListComponent, but its members are CSegment objects,
+//not SkyLines.  Since CSegments are essentially themselves collections of
+//SkyLines, we could make this CBComposite, with LineListComponent
+//members.  However, a CSegment is a bit more than a list of lines; it also 
 //has two constell. names associated with it.  So, it's easiest to just 
 //make this class inherit SkyComponent directly, so we can define the unique 
 //QList<CSegment> member

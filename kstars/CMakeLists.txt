@@ -175,6 +175,7 @@ set(libkstarscomponents_SRCS
    skycomponents/singlecomponent.cpp 
    skycomponents/listcomponent.cpp 
    skycomponents/pointlistcomponent.cpp 
+   skycomponents/linelistcomponent.cpp 
    skycomponents/solarsystemsinglecomponent.cpp 
    skycomponents/solarsystemlistcomponent.cpp 
    skycomponents/asteroidscomponent.cpp 

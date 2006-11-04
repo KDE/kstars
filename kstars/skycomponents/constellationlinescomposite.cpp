@@ -23,6 +23,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
+#include "skyline.h"
 #include "constellationlinescomposite.h"
 #include "constellationlinescomponent.h"
 
@@ -58,6 +59,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 		while ( !stream.atEnd() ) {
 			QString line, name;
 			QChar mode;
+			SkyPoint *p, *pLast;
 
 			line = stream.readLine();
 
@@ -67,19 +69,29 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 				//In this case, add the existing clc component to the composite,
 				//then prepare a new one.
 				mode = line.at( 0 );
+				name = line.mid( 2 ).trimmed();
+
+				//Mode == 'M' starts a new series of line segments, joined end to end
 				if ( mode == 'M' ) {
 					if ( clc ) addComponent( clc );
 					clc = new ConstellationLinesComponent( this, Options::showCLines );
+					clc->setPen( QPen( QBrush( data->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); 
+
+					pLast = data->skyComposite()->findStarByGenetiveName( name );
+
+					if ( ! pLast )
+						kWarning() << i18n( "No star named %1 found." , name) << endl;
+
+				} else {
+					p = data->skyComposite()->findStarByGenetiveName( name );
+
+					if ( p && pLast && clc ) {
+						clc->lineList().append( new SkyLine( pLast, p ) );
+					} else if ( !p )
+						kWarning() << i18n( "No star named %1 found." , name) << endl;
+
+					pLast = p;
 				}
-
-				name = line.mid( 2 ).trimmed();
-				SkyPoint *p = data->skyComposite()->findStarByGenetiveName( name );
-
-				if ( p && clc ) {
-					clc->pointList().append( p );
-					clc->modeList().append( mode );
-				} else if ( !p )
-					kWarning() << i18n( "No star named %1 found." , name) << endl;
 			}
 		}
 		file.close();
