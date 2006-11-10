@@ -181,7 +181,7 @@ endif(NOT SBIG_FOUND)
 ########### INDI Server ##############
 set(indiserver_SRCS indiserver.c fq.c)
 
-kde4_add_executable(indiserver ${indiserver_SRCS}  ${liblilxml_SRCS})
+kde4_add_executable(indiserver NOGUI ${indiserver_SRCS}  ${liblilxml_SRCS})
 
 target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} pthread )
 
@@ -195,7 +195,7 @@ set(lx200basic_SRCS
    lx200driver.c 
    lx200basic.cpp )
 
-kde4_add_executable(lx200basic ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(lx200basic NOGUI ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(lx200basic  ${KDE4_KDECORE_LIBS} )
 
@@ -213,7 +213,7 @@ set(lx200generic_SRCS
    lx200generic.cpp 
    lx200classic.cpp )
 
-kde4_add_executable(lx200generic ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(lx200generic NOGUI ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(lx200generic  ${KDE4_KDECORE_LIBS} m )
 
@@ -242,7 +242,7 @@ set(celestrongps_SRCS
    celestronprotocol.c 
    celestrongps.cpp )
 
-kde4_add_executable(celestrongps ${celestrongps_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(celestrongps NOGUI ${celestrongps_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(celestrongps ${KDE4_KDECORE_LIBS} m )
 
@@ -255,7 +255,7 @@ set(orionatlas_SRCS
    eventloop.c 
    orionatlas.cpp )
 
-kde4_add_executable(orionatlas ${orionatlas_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(orionatlas NOGUI ${orionatlas_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(orionatlas  ${KDE4_KDECORE_LIBS} )
 
@@ -268,7 +268,7 @@ set(temma_SRCS
    eventloop.c 
    temmadriver.c )
 
-kde4_add_executable(temma ${temma_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(temma NOGUI ${temma_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(temma  ${KDE4_KDECORE_LIBS} m )
 
@@ -311,7 +311,7 @@ set(stv_SRCS
    stvdriver.c 
    stv.c )
 
-kde4_add_executable(stv ${stv_SRCS} ${liblilxml_SRCS} ${libcfitsio_SRCS} ${libindicom_SRCS})
+kde4_add_executable(stv NOGUI ${stv_SRCS} ${liblilxml_SRCS} ${libcfitsio_SRCS} ${libindicom_SRCS})
 
 target_link_libraries(stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} m )
 
