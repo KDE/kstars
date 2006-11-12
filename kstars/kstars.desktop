@@ -14,5 +14,5 @@ Name[x-test]=xxKStarsxx
 GenericName=Desktop Planetarium
 GenericName[fr]=Planétarium
 GenericName[x-test]=xxDesktop Planetariumxx
-X-DCOP-ServiceType=Multi
+X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Education;Science;Astronomy;
