@@ -59,7 +59,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 		while ( !stream.atEnd() ) {
 			QString line, name;
 			QChar mode;
-			SkyPoint *p, *pLast;
+			SkyPoint *p, *pLast = 0;
 
 			line = stream.readLine();
 
