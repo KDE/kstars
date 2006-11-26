@@ -17,7 +17,7 @@ enum
 	Q_X = 0,
 	Q_Y = 1,
 	Q_Z = 2,
-	Q_W = 3,
+	Q_W = 3
 };
 
 typedef int xmmint[4] __attribute__ ((aligned (16)));
