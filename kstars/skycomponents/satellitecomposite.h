@@ -1,7 +1,7 @@
 /***************************************************************************
-                          satellitetrack.cpp  -  description
+                          satellitecomposite.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Fri 14 July 2006
+    begin                : 22 Nov 2006
     copyright            : (C) 2006 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
@@ -15,31 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "satellitetrack.h"
+#ifndef SATELLITECOMPOSITE_H
+#define SATELLITECOMPOSITE_H
 
-SatelliteTrack::SatelliteTrack() {
-}
+#include "skycomposite.h"
 
-SatelliteTrack::SatelliteTrack( SPositionSat *pSat[], long nPos, const dms *LST, const dms *lat ) {
-	SkyPoint p1, p2;
-	p2.setAlt( pSat[0]->sat_ele );
-	p2.setAz( pSat[0]->sat_azi );
-	p2.HorizontalToEquatorial( LST, lat );
+class KStarsData;
 
-	for ( int i=1; i<nPos; i++ ) {
-		p1 = p2;
-		p2.setAlt( pSat[i]->sat_ele );
-		p2.setAz( pSat[i]->sat_azi );
-		p2.HorizontalToEquatorial( LST, lat );
+class SatelliteComposite : public SkyComposite 
+{
+	public:
+	/**
+		*@short Constructor
+		*@p parent Pointer to the parent SkyComponent object
+		*/
+		SatelliteComposite( SkyComponent *parent );
 
-		Path.append( new SkyLine( p1, p2 ) );
-	}
-}
+	/**
+		*@short Initialize the Satellite composite
+		*
+		*@p data Pointer to the KStarsData object
+		*/
+		virtual void init( KStarsData *data );
+};
 
-SatelliteTrack::~SatelliteTrack() {
-	while ( ! Path.isEmpty() ) delete Path.takeFirst();
-}
-
-const QList<SkyLine*>& SatelliteTrack::path() const {
-	return Path;
-}
+#endif

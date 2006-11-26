@@ -386,19 +386,25 @@ public:
 	*@param onscreen pointer to a bool to indicate whether the point is onscreen
 	*/
 	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
+	QPointF toScreenQuaternion( SkyPoint *o, double scale=1.0 );
 
 	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
 
-	/**
-	 *@return the given SkyLine, transformed to screen pixel coordinates.
-	 *If only a portion of the line is on-screen, this function returns 
-	 *the on-screen segment.  If no portion of the line is on-screen, 
-	 *a null line is returned.
-	 
-	 */
-	QLineF toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true );
+/**
+	*@return the given SkyLine, transformed to screen pixel coordinates.
+	*If only a portion of the line is on-screen, this function returns 
+	*the on-screen segment.  If no portion of the line is on-screen, 
+	*a null line is returned.
+	*
+	*@param o pointer to the SkyLine which is to be transformed to screen coordinates
+	*@param scale the scaling factor for the drawing device
+	*@param useRefraction if true, refract according to the user option UseRefraction; 
+	*if false, do not use refraction regardless of user option
+	*@param doClipLines if true, lines will be truncated at the screen edge
+	*/
+	QLineF toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
 
-	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true );
+	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
     
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -527,6 +533,9 @@ public slots:
 	*@see slewFocus()
 	*/
 	void slotCenter( void );
+
+	//QUATERNION
+	void slotRotateTo( SkyPoint *p );
 
 /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer. 
 	*@note the URL is generated using the coordinates of ClickedPoint.
@@ -824,6 +833,9 @@ private:
 	QTimer TransientTimer, HoverTimer;
 	QColor TransientColor;
 	unsigned int TransientTimeout;
+
+	//QUATERNION
+	Quaternion m_rotAxis;
 };
 
 #endif

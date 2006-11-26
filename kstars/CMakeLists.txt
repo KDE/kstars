@@ -182,6 +182,7 @@ set(libkstarscomponents_SRCS
    skycomponents/cometscomponent.cpp 
    skycomponents/jupitermoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
+   skycomponents/satellitecomposite.cpp
    skycomponents/satellitecomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepskycomponent.cpp 
@@ -232,10 +233,10 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS}
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
 	opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp opssolarsystem.cpp 
-	satellitetrack.cpp simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp 
+	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp 
 	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp streamwg.cpp 
 	telescopewizardprocess.cpp telescopeprop.cpp timedialog.cpp timezonerule.cpp 
-	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp
+	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )

@@ -315,12 +315,15 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 // *** Uncomment and insert timing test code here ***
 		case Qt::Key_X:
 		{
-			//ks->updateTime() timing
 			QTime t;
 			t.start();
-			data->setFullTimeUpdate();
-			ks->updateTime();
-			kDebug() << QString("X: Full update took %1 ms").arg(t.elapsed()) << endl;
+			foreach ( SkyObject *star, data->skyComposite()->stars() )
+				toScreen( star );
+			kDebug() << QString("toScreen() for all stars took %1 ms").arg(t.elapsed()) << endl;
+			t.start();
+			foreach ( SkyObject *star, data->skyComposite()->stars() )
+				toScreenQuaternion( star );
+			kDebug() << QString("toScreenQuaternion() for all stars took %1 ms").arg(t.elapsed()) << endl;
 			break;
 		}
 //END_TIMING

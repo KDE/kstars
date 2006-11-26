@@ -18,7 +18,7 @@
 #ifndef MILKYWAYCOMPONENT_H
 #define MILKYWAYCOMPONENT_H
 
-#include "pointlistcomponent.h"
+#include "linelistcomponent.h"
 
 #include <QList>
 #include <QString>
@@ -35,7 +35,7 @@ class KSNumbers;
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-class MilkyWayComponent : public PointListComponent
+class MilkyWayComponent : public LineListComponent
 {
 	public:
 		
@@ -78,11 +78,11 @@ class MilkyWayComponent : public PointListComponent
 			*/
 		virtual void init(KStarsData *data);
 	
-		void addPoint( double ra, double dec );
+		void addPoint( const SkyPoint &p );
 		
 		QHash<int, bool> skip;
  private:
-
+		SkyPoint *FirstPoint;
 };
 
 #endif

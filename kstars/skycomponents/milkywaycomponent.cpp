@@ -29,6 +29,7 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h"
+#include "skyline.h"
 #include "dms.h"
 #include "Options.h"
 #include "ksutils.h"
@@ -37,48 +38,61 @@
 #include "milkywaycomponent.h"
 
 MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)())
-: PointListComponent(parent, visibleMethod)
+  : LineListComponent(parent, visibleMethod), FirstPoint(0)
 {
 }
 
 MilkyWayComponent::~MilkyWayComponent()
 {
+	delete FirstPoint;
 }
 
 void MilkyWayComponent::init(KStarsData *)
 {
 }
 
-void MilkyWayComponent::addPoint( double ra, double dec )
+void MilkyWayComponent::addPoint( const SkyPoint &p )
 {
-    pointList().append( new SkyPoint( ra, dec ) );
+	if ( lineList().size() == 0 ) {
+		if ( ! FirstPoint ) {
+			FirstPoint = new SkyPoint( p );
+			return;
+		}
+
+		lineList().append( new SkyLine( *FirstPoint, p ) );
+		return;
+	}
+	
+	SkyPoint *pLast = lineList().last()->endPoint();
+	lineList().append( new SkyLine( *pLast, p ) );
 }
 
 void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( !visible() ) return;
-
-    int thick(1);
-	if ( ! Options::fillMilkyWay() ) thick=3;
-
+	
+	int thick(1);
+	if ( ! Options::fillMilkyWay() ) thick = 3;
+	
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ), thick, Qt::SolidLine ) );
 	psky.setBrush( QBrush( QColor( ks->data()->colorScheme()->colorNamed( "MWColor" ) ) ) );
-
-    // Uncomment these two lines to get more visible images for debugging.  -jbb
-    //
-    //psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
-    //psky.setBrush( QBrush( QColor("green"  ) ) );
-
-    if ( Options::useAntialias() ) {
-        drawFloat( ks, psky, scale );
-    }
-    else {
-        drawInt( ks, psky, scale );
-    }
+	
+	// Uncomment these two lines to get more visible images for debugging.  -jbb
+	//
+	//psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
+	//psky.setBrush( QBrush( QColor("green"  ) ) );
+	
+	if ( Options::useAntialias() ) {
+		drawFloat( ks, psky, scale );
+	}
+	else {
+		drawInt( ks, psky, scale );
+	}
 }
 
-void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
+void MilkyWayComponent::drawInt( KStars *, QPainter&, double )
 {
+	/*
 	SkyMap *map = ks->map();
 
 	bool partVisible, onscreen, onscreenLast;
@@ -161,91 +175,42 @@ void MilkyWayComponent::drawInt( KStars *ks, QPainter& psky, double scale )
             visibleLast = visible;
         }
     }
+	*/
 }
 
 void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 {
 	SkyMap *map = ks->map();
+	QPolygonF polyMW;
+	
+	if ( Options::fillMilkyWay() ) {
+		//Construct a QPolygonF from the on-screen line segments
+		foreach ( SkyLine *sl, lineList() ) {
+			//Last argument: don't clip lines that are partly off-screen
+			QLineF screenline = map->toScreen( sl, scale, true, false );
+			
+			if ( ! screenline.isNull() ) {
+				//Add both end-points if this is the first segment
+				if ( ! polyMW.size() )
+					polyMW << screenline.p1() << screenline.p2();
+				else
+					polyMW << screenline.p2();
+			}
+		}
+		
+		if ( polyMW.size() ) {
+			psky.drawPolygon( polyMW );
+		}
 
-    bool partVisible, onscreen, onscreenLast;
-    bool visible, visibleLast;
-    SkyPoint  *pLast, *pThis;
-
-    float height =  scale * map->height();
-    float width  = scale * map->width();
-    QPolygonF polyMW;
-    QPointF oThis, oLast, oMid;
-
-
-    if ( Options::fillMilkyWay() ) {
-        partVisible = true;
-
-        pLast = pointList().at( 0 );
-        oLast = map->toScreen( pLast, scale, false, &onscreenLast );
-
-        for ( int i=1; i < pointList().size(); ++i ) {
-            pThis = pointList().at( i );
-            oThis = map->toScreen( pThis, scale, false, &onscreen );
-
-            if ( oThis.x() >= 0 && oThis.x() <= width &&
-                 oThis.y() >= 0 && oThis.y() <= height ) partVisible = true;
-
-            if ( onscreen && onscreenLast ) {
-               polyMW << oThis;
-            }
-            else if ( onscreenLast ) {
-                oMid = map->clipLine( pLast, pThis, scale);
-                polyMW << oMid;
-            }
-            else if ( onscreen ){
-                oMid = map->clipLine( pThis, pLast, scale);
-                polyMW << oMid;
-                polyMW << oThis;
-            }
-
-            pLast = pThis;
-            oLast = oThis;
-            onscreenLast = onscreen;
-        }
-        if ( polyMW.size() && partVisible ) psky.drawPolygon( polyMW );
-    }
-    else {
-
-        pLast = pointList().at( 0 );
-
-        oLast = map->toScreen( pLast, scale, false, &onscreenLast );
-
-        visibleLast = (oLast.x() >= 0 && oLast.x() <= width &&
-                       oLast.y() >= 0 && oLast.y() <= height );
-
-        int limit = pointList().size() - 1;   // because we appended 1st point
-                                              // to end of list so we can
-                                              // clip and wrap the polygons
-        for ( int i=1 ; i < limit ; i++ ) {
-            pThis = pointList().at( i );
-            oThis = map->toScreen( pThis, scale, false, &onscreen );
-            visible = ( oThis.x() >= 0 && oThis.x() <= width &&
-                        oThis.y() >= 0 && oThis.y() <= height );
-
-            if ( ( visible || visibleLast ) && ! skip.contains(i) ) {
-
-                if ( onscreen && onscreenLast ) {
-                    psky.drawLine( oLast, oThis );
-                }
-                else if ( onscreenLast ) {
-                    oMid = map->clipLine( pLast, pThis, scale );
-                    psky.drawLine( oLast, oMid );
-                }
-                else if ( onscreen ) {
-                    oMid = map->clipLine( pThis, pLast, scale );
-                    psky.drawLine( oMid, oThis );
-                }
-            }
-
-            pLast = pThis;
-            oLast = oThis;
-            onscreenLast = onscreen;
-            visibleLast = visible;
-        }
-    }
+	} else { //Draw MW outline only
+		//Draw all non-hidden, onscreen line segments
+		
+		int limit = lineList().size() - 1;   // because we appended 1st point
+		// to end of list so we can
+		// clip and wrap the polygons
+		for ( int i=1 ; i < limit ; i++ ) {
+			if ( ! skip.contains(i) )
+				psky.drawLine( map->toScreen( lineList().at(i), scale ) );
+		}
+	}
 }

@@ -24,6 +24,11 @@
 #include <QList>
 
 #include "dms.h"
+#include "quaternion.h"
+
+class KSNumbers;
+class CSegment;
+class SkyObject;
 
 /**@class SkyPoint
 	*
@@ -43,11 +48,6 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class KSNumbers;
-class CSegment;
-class SkyObject;
-
 class SkyPoint {
 public:
 /**Default constructor: Sets RA, Dec and RA0, Dec0 according
@@ -126,24 +126,24 @@ public:
 /**Sets RA, the current Right Ascension.
 	*@param r Right Ascension.
 	*/
-	inline void setRA( dms r ) { RA.set( r ); syncXYZ(); }
+	inline void setRA( dms r ) { RA.set( r ); syncQuaternion(); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param r Right Ascension, expressed as a double.
 	*/
-	inline void setRA( double r ) { RA.setH( r ); syncXYZ(); }
+	inline void setRA( double r ) { RA.setH( r ); syncQuaternion(); }
 
 /**Sets Dec, the current Declination
 	*@param d Declination.
 	*/
-	inline void setDec( dms d ) { Dec.set( d ); syncXYZ(); }
+	inline void setDec( dms d ) { Dec.set( d ); syncQuaternion(); }
 
 /**Overloaded member function, provided for convenience.
 	*It behaves essentially like the above function.
 	*@param d Declination, expressed as a double.
 	*/
-	inline void setDec( double d ) { Dec.setD( d ); syncXYZ(); }
+	inline void setDec( double d ) { Dec.setD( d ); syncQuaternion(); }
 
 /**Sets Alt, the Altitude.
 	*@param alt Altitude.
@@ -226,10 +226,8 @@ public:
 //	const dms* gLong() const { return &galLong; }
 
 //XYZ
-	inline const double x() const { return m_X; }
-	inline const double y() const { return m_Y; }
-	inline const double z() const { return m_Z; }
-	void syncXYZ();
+	inline const Quaternion quat() const { return m_q; }
+	void syncQuaternion();
 
 ////
 //// 3. Coordinate conversions.
@@ -499,7 +497,7 @@ private:
 	dms RA0, Dec0; //catalog coordinates
 	dms RA, Dec; //current true sky coordinates
 	dms Alt, Az;
-	double m_X, m_Y, m_Z;
+	Quaternion m_q;  //quaternion representation of the point
 };
 
 #endif

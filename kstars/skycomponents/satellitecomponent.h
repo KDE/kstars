@@ -20,10 +20,10 @@
 
 #include <QStringList>
 
-#include "skycomponent.h"
-#include "satellitetrack.h"
+#include "linelistcomponent.h"
+#include "satlib/SatLib.h"
 
-class SatelliteComponent : public SkyComponent {
+class SatelliteComponent : public LineListComponent {
 	public:
 	/**
 		*@short Constructor
@@ -36,44 +36,14 @@ class SatelliteComponent : public SkyComponent {
 		~SatelliteComponent();
 		
 	/**
-		*@short Initialize the component - load data from disk etc.
+		*@short Initialize the component using a SPositionSat array
 		*@p data Pointer to the KStarsData object
 		*/
-		virtual void init(KStarsData *data);
-
-	/**
-		*@short Update the sky positions of this component.
-		*
-		*This function usually just updates the Horizontal (Azimuth/Altitude)
-		*coordinates of the objects in this component.  If the KSNumbers* 
-		*argument is not NULL, this function also recomputes precession and
-		*nutation for the date in KSNumbers.
-		*@p data Pointer to the KStarsData object
-		*@p num Pointer to the KSNumbers object
-		*@note By default, the num parameter is NULL, indicating that 
-		*Precession/Nutation computation should be skipped; this computation 
-		*is only occasionally required.
-		*/
-		virtual void update( KStarsData *data, KSNumbers *num=0 );
-
-	/**
-		*@short Draw constellation lines on the sky map.
-		*@p ks pointer to the KStars object
-		*@p psky Reference to the QPainter on which to paint
-		*@p scale scaling factor (1.0 for screen draws)
-		*/
-		virtual void draw( KStars *ks, QPainter& psky, double scale );
-
-	/**
-		*@short Clear the list of satellite tracks
-		*/
-		void clear();
-
-		QList<SatelliteTrack*>& satList() { return SatList; }
+		void init(KStarsData *data, SPositionSat *pSat[], int nsteps);
 
 	private:
-		QList<SatelliteTrack*> SatList;
 		QStringList SatelliteNames;
+		long double JulianDate;
 };
 
 #endif
