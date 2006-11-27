@@ -18,6 +18,7 @@
 #ifndef COLORSCHEME_H_
 #define COLORSCHEME_H_
 
+#include <QColor>
 #include <qmap.h>
 #include <qstringlist.h>
 
