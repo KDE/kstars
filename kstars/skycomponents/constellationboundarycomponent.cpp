@@ -121,6 +121,13 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 	float Width = scale * map->width();
 	float Height = scale * map->height();
 
+	QString abbrev = QString(); 
+	QString cname = ks->data()->skyComposite()->constellation( map->focus() ).toLower();
+	foreach ( SkyObject *o, ks->data()->skyComposite()->constellationNames() ) {
+		if ( o->name().toLower() == cname ) 
+			abbrev = o->name2().toLower();
+	}
+
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
 	psky.setBrush( Qt::NoBrush );
 
@@ -131,6 +138,13 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 		if ( ( oStart.x() >= -1000. && oStart.x() <= Width+1000.
 				&& oStart.y() >= -1000. && oStart.y() <= Height+1000. ) ) {
 			started = true;
+		}
+
+		//Highlight current constellation
+		bool highlightConstellation = false;
+		if ( seg->name1().toLower() == abbrev || seg->name2().toLower() == abbrev ) {
+			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 3, Qt::SolidLine ) );
+			highlightConstellation = true;
 		}
 
 		foreach ( SkyPoint *p, seg->nodes() ) {
@@ -152,6 +166,11 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 				started = false;
 			}
 		}
+
+		if ( highlightConstellation ) {
+			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
+		}
+
 	}
 }
 
