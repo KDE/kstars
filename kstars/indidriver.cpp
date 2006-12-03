@@ -368,7 +368,7 @@ void INDIDriver::updateMenuActions()
   // We iterate over devices, we enable INDI Control Panel if we have any active device
   // We enable capture image sequence if we have any imaging device
 
-  KAction *tmpAction = NULL;
+  QAction *tmpAction = NULL;
   INDIMenu *devMenu = ksw->getINDIMenu();
   bool activeDevice = false;
   bool activeImaging = false;
