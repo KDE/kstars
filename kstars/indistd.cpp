@@ -346,7 +346,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
  {
     INDI_E *lp;
     INDI_P *imgProp;
-    KAction *tmpAction;
+    QAction *tmpAction;
     INDIDriver *drivers = ksw->getINDIDriver();
     QFont buttonFont;
     
