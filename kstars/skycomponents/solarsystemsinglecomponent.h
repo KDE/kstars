@@ -53,6 +53,8 @@ class SolarSystemSingleComponent : public SingleComponent
 			*/
 			virtual void init(KStarsData *data);
 	
+		virtual void update( KStarsData *data, KSNumbers *num );
+
 		/**
 			*@short Update the coordinates of the planet.
 			*

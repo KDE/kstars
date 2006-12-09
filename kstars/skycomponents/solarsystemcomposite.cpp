@@ -76,6 +76,17 @@ void SolarSystemComposite::init(KStarsData *data)
 	SkyComposite::init(data);
 }
 
+void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
+{
+	m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+	m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+	m_JupiterMoons->update( data, num );
+
+	foreach ( SkyComponent *comp, components() ) {
+		comp->update( data, num );
+	}
+}
+
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
 	m_Earth->findPosition( num );
