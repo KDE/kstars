@@ -36,7 +36,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="WelcomeText" >
+        <widget class="K3ActiveLabel" name="WelcomeText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600;">Welcome to the Observing List Wizard&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">With this tool, you can construct an observing list by filtering the list of all objects in various ways.  First, you will select objects by &lt;span style=" font-weight:600;">type&lt;/span>.  Next, you can select only those objects which occupy a specific &lt;span style=" font-weight:600;">region on the sky&lt;/span>.  You can further trim the observing list by selecting objects in a specified &lt;span style=" font-weight:600;">magnitude range&lt;/span>.  Finally, you can choose to keep only those objects which are &lt;span style=" font-weight:600;">observable on a particular date&lt;/span>.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Press the &lt;span style=" font-weight:600;">Next&lt;/span> button to get started by selecting which object types you would like to be present in your observing list.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -53,7 +53,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="ObjTypeLabel" >
+        <widget class="K3ActiveLabel" name="ObjTypeLabel" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects by type&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">Highlight the object types you want to include in your observing list in the box below.  You can highlight more than one item in the list.  The buttons along the right can be used to quickly choose some common selections.&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press the &lt;span style=" font-weight:600;">Next&lt;/span> button.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -208,7 +208,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="RegionSelectText" >
+        <widget class="K3ActiveLabel" name="RegionSelectText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select by region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">Next, you can limit your object list to only those objects which occupy a specific region on the sky.  There are three ways to specify the region for your list:  by &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">constellation&lt;/span>&lt;span style=" font-size:9pt;">, by specifying a &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">rectangular region&lt;/span>&lt;span style=" font-size:9pt;">, or by specifying a &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">circular region&lt;/span>&lt;span style=" font-size:9pt;">.  You may also skip selecting by a region, which will include objects from &lt;/span>&lt;span style=" font-size:9pt; font-weight:600;">all over the sky&lt;/span>&lt;span style=" font-size:9pt;">.  &lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Make your selection below, and press &lt;span style=" font-weight:600;">Next&lt;/span>.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -313,7 +313,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="ConstellationText" >
+        <widget class="K3ActiveLabel" name="ConstellationText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in one or more constellations&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">In the list below, highlight the constellations you want to use for your observing list.  Only objects that occupy the selected constellations will be included in the list.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -333,7 +333,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="RectangularRegionText" >
+        <widget class="K3ActiveLabel" name="RectangularRegionText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in a rectangular region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;span style=" font-size:9pt;">On this page, you can limit your observing list to those objects which occupy a particular rectangular region on the sky.  Specify the rectangular region by selecting the right ascension (RA) and declination (Dec) limits that define the region.&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -413,7 +413,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="CircularRegionText" >
+        <widget class="K3ActiveLabel" name="CircularRegionText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects in a circular region&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to those objects which occupy a particular circular region on the sky.  Specify the circular region by selecting the right ascension (RA) and declination (Dec) coordinates for the center of the circle, and the size of the circle's radius, in Degrees.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"> to continue.&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -539,7 +539,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="ObserveOnDateText" >
+        <widget class="K3ActiveLabel" name="ObserveOnDateText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select objects observable on a date:&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to only those objects which can be observed on a particular date (and from a particular location on Earth).  To filter your list in this way, check the checkbox below, and then select the desired date.  If you leave this box unchecked, then your list will include objects regardless of when they are observable (this is the default).  You may also change the geographic location used to determine whether objects are observable.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">When you are finished, press &lt;span style=" font-weight:600;">Next&lt;/span> to continue.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -641,7 +641,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="KActiveLabel" name="MagnitudeText" >
+        <widget class="K3ActiveLabel" name="MagnitudeText" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;">Select bright objects&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On this page, you can limit your observing list to only those objects brighter than a given magnitude.  Be careful with this selection, because KStars does not have a magnitude for every object in its database.  You need to indicate whether you want to include objects with an undefined magnitude.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">If you do not wish to exclude faint objects with this selection, simply leave the checkbox below unchecked.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This is the final page of the Observing List Wizard.  You can go back and modify previous pages with the &lt;span style=" font-weight:600;">Back&lt;/span> button.  When you are satisfied, press the &lt;span style=" font-weight:600;">Finish&lt;/span> button to exit the wizard, and the Observing List tool will be populated with the objects you have specified here.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>&lt;/body>&lt;/html></string>
          </property>
@@ -779,9 +779,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KActiveLabel</class>
+   <class>K3ActiveLabel</class>
    <extends></extends>
-   <header>kactivelabel.h</header>
+   <header>k3activelabel.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -94,7 +94,7 @@
              <number>6</number>
             </property>
             <item row="0" column="1" >
-             <widget class="KActiveLabel" name="RA" >
+             <widget class="K3ActiveLabel" name="RA" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -112,7 +112,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="KActiveLabel" name="Dec" >
+             <widget class="K3ActiveLabel" name="Dec" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -188,7 +188,7 @@
              <number>6</number>
             </property>
             <item row="0" column="1" >
-             <widget class="KActiveLabel" name="Az" >
+             <widget class="K3ActiveLabel" name="Az" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -206,7 +206,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="KActiveLabel" name="Alt" >
+             <widget class="K3ActiveLabel" name="Alt" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -308,7 +308,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KActiveLabel" name="HA" >
+             <widget class="K3ActiveLabel" name="HA" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -368,7 +368,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KActiveLabel" name="Airmass" >
+             <widget class="K3ActiveLabel" name="Airmass" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -482,7 +482,7 @@
              <number>6</number>
             </property>
             <item row="0" column="1" >
-             <widget class="KActiveLabel" name="TimeRise" >
+             <widget class="K3ActiveLabel" name="TimeRise" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -500,7 +500,7 @@
              </widget>
             </item>
             <item row="2" column="1" >
-             <widget class="KActiveLabel" name="TimeSet" >
+             <widget class="K3ActiveLabel" name="TimeSet" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -566,7 +566,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="KActiveLabel" name="TimeTransit" >
+             <widget class="K3ActiveLabel" name="TimeTransit" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -610,7 +610,7 @@
              <number>6</number>
             </property>
             <item row="0" column="1" >
-             <widget class="KActiveLabel" name="AzRise" >
+             <widget class="K3ActiveLabel" name="AzRise" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -660,7 +660,7 @@
              </widget>
             </item>
             <item row="2" column="1" >
-             <widget class="KActiveLabel" name="AzSet" >
+             <widget class="K3ActiveLabel" name="AzSet" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -678,7 +678,7 @@
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="KActiveLabel" name="AltTransit" >
+             <widget class="K3ActiveLabel" name="AltTransit" >
               <property name="font" >
                <font>
                 <family>Monospace</family>
@@ -742,9 +742,9 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KActiveLabel</class>
+   <class>K3ActiveLabel</class>
    <extends></extends>
-   <header>kactivelabel.h</header>
+   <header>k3activelabel.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

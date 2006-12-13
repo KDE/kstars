@@ -32,7 +32,7 @@
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
-#include <kactivelabel.h>
+#include <k3activelabel.h>
 #include <kpushbutton.h>
 #include <k3listview.h>
 #include <klineedit.h>

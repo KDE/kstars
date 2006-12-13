@@ -311,7 +311,7 @@
              <number>6</number>
             </property>
             <item row="1" column="0" >
-             <widget class="KActiveLabel" name="DSTLabel" >
+             <widget class="K3ActiveLabel" name="DSTLabel" >
               <property name="sizePolicy" >
                <sizepolicy>
                 <hsizetype>5</hsizetype>
@@ -428,9 +428,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KActiveLabel</class>
+   <class>K3ActiveLabel</class>
    <extends></extends>
-   <header>kactivelabel.h</header>
+   <header>k3activelabel.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
