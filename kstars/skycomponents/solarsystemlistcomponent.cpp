@@ -41,6 +41,15 @@ SolarSystemListComponent::~SolarSystemListComponent()
 	//Object deletes handled by parent class (ListComponent)
 }
 
+void SolarSystemListComponent::update(KStarsData *data, KSNumbers *num ) {
+	if ( visible() ) {
+		foreach ( SkyObject *o, objectList() ) {
+			KSPlanetBase *p = (KSPlanetBase*)o;
+			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		}
+	}
+}
+
 void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) {
 	if ( visible() ) {
 		foreach ( SkyObject *o, objectList() ) {

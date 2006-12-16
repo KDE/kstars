@@ -69,6 +69,7 @@ private slots:
 	void slotChangeDate( const ExtDate &d );
 	void slotRunClock();
 	void slotToday();
+	void slotCloseWindow();
 
 private:
 	void updatePlanets();
@@ -86,7 +87,6 @@ private:
 
 	KPlotObject *ksun;
 	KPlotObject *planet[9];
-	KPlotObject *planetLabel[9];
 };
 
 #endif

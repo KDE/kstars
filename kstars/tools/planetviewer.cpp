@@ -111,6 +111,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
 	connect( pw->DateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
 	connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
+	connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -148,6 +149,14 @@ void PlanetViewer::slotChangeDate( const ExtDate & ) {
 	updatePlanets();
 }
 
+void PlanetViewer::slotCloseWindow() {
+	//Stop the clock if it's running
+	if ( isClockRunning ) {
+		tmr.stop();
+		isClockRunning = false;
+	}
+}
+
 void PlanetViewer::updatePlanets() {
 	KSNumbers num( ut.djd() );
 	bool changed(false);
@@ -163,8 +172,6 @@ void PlanetViewer::updatePlanets() {
 			p->helEcLat()->SinCos( s2, c2 );
 			planet[i]->point(0)->setX( p->rsun()*c*c2 );
 			planet[i]->point(0)->setY( p->rsun()*s*c2 );
-			planetLabel[i]->point(0)->setX( p->rsun()*c*c2 );
-			planetLabel[i]->point(0)->setY( p->rsun()*s*c2 );
 
 			if ( centerPlanet() == pName[i] ) {
 				double xc = (pw->map->x2() + pw->map->x())*0.5;
@@ -226,7 +233,6 @@ void PlanetViewer::initPlotObjects() {
 
 		planet[i]->addPoint( p->rsun()*c, p->rsun()*s, i18n(pName[i].toLocal8Bit()) );
 		pw->map->addObject( planet[i] );
-		pw->map->addObject( planetLabel[i] );
 	}
 
 	update();

@@ -35,6 +35,8 @@ class SolarSystemListComponent : public ListComponent
 		SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize);
 		~SolarSystemListComponent();
 	
+		virtual void update( KStarsData *data, KSNumbers *num );
+
 		/**
 			*@short Update the coordinates of the solar system bodies in this component.
 			*

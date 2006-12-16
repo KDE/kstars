@@ -85,6 +85,9 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 				} else {
 					p = data->skyComposite()->findStarByGenetiveName( name );
 
+#ifndef __GNUC__
+#warning pLast can not be !=0 as no code in the else branch is setting it (CID 3104)
+#endif
 					if ( p && pLast && clc ) {
 						clc->lineList().append( new SkyLine( pLast, p ) );
 					} else if ( !p )

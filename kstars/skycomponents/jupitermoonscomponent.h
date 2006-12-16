@@ -62,6 +62,7 @@ class JupiterMoonsComponent : public SkyComponent
 		 */
 		virtual void init(KStarsData *data);
 	
+		virtual void update( KStarsData *data, KSNumbers *num );
 		virtual void updateMoons( KStarsData *data, KSNumbers *num );
 		
 	private:
