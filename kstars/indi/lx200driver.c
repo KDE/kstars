@@ -633,7 +633,6 @@ int getOTATemp(int fd, double *value)
     	return error_type;
 
   error_type = tty_read_section(fd, temp_string, '#', LX200_TIMEOUT, &nbytes_read);
-  tcflush(fd, TCIFLUSH);
   
   if (nbytes_read < 1)
    return error_type;

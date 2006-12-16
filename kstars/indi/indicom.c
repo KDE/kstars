@@ -775,7 +775,7 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
             return TTY_READ_ERROR;
 
         if (bytesRead)
-          *nbytes_read++;
+          (*nbytes_read)++;
 
         if (*buf == stop_char)
 	   return TTY_OK;

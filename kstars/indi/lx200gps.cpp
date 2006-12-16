@@ -294,18 +294,22 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
    
    if (!strcmp(name, OTAUpdateSw.name))
    {
+     int error_type=0;
+
      if (checkPower(&OTAUpdateSw))
       return;
       
       IUResetSwitches(&OTAUpdateSw);
       
-      if (getOTATemp(fd, &OTATemp.np[0].value) < 0)
+      if ( (error_type = getOTATemp(fd, &OTATemp.np[0].value)) < 0)
       {
+	OTAUpdateSw.s = IPS_ALERT;
 	OTATemp.s = IPS_ALERT;
 	IDSetNumber(&OTATemp, "Error: OTA temperature read timed out.");
       }
       else
       {
+        OTAUpdateSw.s = IPS_OK;
 	OTATemp.s = IPS_OK;
 	IDSetNumber(&OTATemp, NULL);
       }
@@ -343,7 +347,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
         OTATemp.s = IPS_OK; 
    	IDSetNumber(&OTATemp, NULL);
      }
-   } 
+   }
  
    IEAddTimer(900000, updateTemp, &fd);
       
