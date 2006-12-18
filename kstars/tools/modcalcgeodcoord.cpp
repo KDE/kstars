@@ -20,6 +20,7 @@
 #include "modcalcgeodcoord.h"
 
 #include <kfiledialog.h>
+#include <kglobal.h>
 #include <kmessagebox.h>
 
 #include "dms.h"

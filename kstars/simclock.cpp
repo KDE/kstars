@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kglobal.h>
 #include <klocale.h>
 
 #include "simclock.h"
