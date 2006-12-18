@@ -25,7 +25,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
-#include <kiconloader.h>
+#include <kicon.h>
 
 #include "planetviewer.h"
 #include "ui_planetviewer.h"
@@ -62,7 +62,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	pw->TimeStep->setDaysOnly( true );
 	pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-	pw->RunButton->setIcon( QIcon( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) ) );
+	pw->RunButton->setIcon( KIcon("1rightarrow") );
 	pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 
 	resize( 500, 500 );
@@ -134,11 +134,11 @@ void PlanetViewer::slotRunClock() {
 	isClockRunning = !isClockRunning;
 
 	if ( isClockRunning ) {
-		pw->RunButton->setIcon( QIcon( KGlobal::iconLoader()->loadIcon( "player_pause", K3Icon::Toolbar ) ) );
+		pw->RunButton->setIcon( KIcon("player_pause") );
 		tmr.start( 100 );
 //		pw->DateBox->setEnabled( false );
 	} else {
-		pw->RunButton->setIcon( QIcon( KGlobal::iconLoader()->loadIcon( "1rightarrow", K3Icon::Toolbar ) ) );
+		pw->RunButton->setIcon( KIcon("1rightarrow") );
 		tmr.stop();
 //		pw->DateBox->setEnabled( true );
 	}
