@@ -35,7 +35,9 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
 #include <math.h>
 #include "celestronprotocol.h"
 
@@ -126,6 +128,9 @@ int CheckConnectTel(void)
 
 int ConnectTel(char *port)
 {
+#ifdef _WIN32
+  return -1;
+#else
   struct termios tty;
   char returnStr[128];
   int numRead;
@@ -178,7 +183,7 @@ int ConnectTel(char *port)
   else
    return -1;
 
-
+#endif
 }
 
 /* Assign and save slewRate for use in StartSlew */

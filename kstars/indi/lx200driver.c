@@ -26,7 +26,9 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
 #include <time.h>
 
 #include "indicom.h"

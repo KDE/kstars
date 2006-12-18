@@ -73,11 +73,13 @@ static ROSC *roCheck;
 int
 main (int ac, char *av[])
 {
+#ifndef _WIN32
         setgid( getgid() );
         setuid( getuid() );
 
 	if (geteuid() != getuid())
             exit(255);
+#endif
 
 	/* save handy pointer to our base name */
 	for (me = av[0]; av[0][0]; av[0]++)

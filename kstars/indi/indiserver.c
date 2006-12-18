@@ -267,6 +267,7 @@ usage(void)
 static void
 noZombies()
 {
+#ifndef _WIN32
 	struct sigaction sa;
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
@@ -276,16 +277,19 @@ noZombies()
 	sa.sa_flags = 0;
 #endif
 	(void)sigaction(SIGCHLD, &sa, NULL);
+#endif
 }
 
 /* turn off SIGPIPE on bad write so we can handle it inline */
 static void
 noSIGPIPE()
 {
+#ifndef _WIN32
 	struct sigaction sa;
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	(void)sigaction(SIGPIPE, &sa, NULL);
+#endif
 }
 
 /* start the INDI driver process or connection usingthe given DvrInfo slot.
@@ -721,7 +725,9 @@ shutdownClient (ClInfo *cp)
 	Msg *mp;
 
 	/* close connection */
+#ifndef _WIN32
 	shutdown (cp->s, SHUT_RDWR);
+#endif
 	fclose (cp->wfp);		/* also closes cp->s */
         cp->wfp = 0;
 
@@ -747,6 +753,7 @@ shutdownClient (ClInfo *cp)
 static void
 restartDvr (DvrInfo *dp)
 {
+#ifndef _WIN32
 	/* JM: Alert observers */
 	alertObservers(dp);
 	
@@ -761,6 +768,7 @@ restartDvr (DvrInfo *dp)
 	    fclose (dp->wfp);		/* also closes wfd */
 	    close (dp->rfd);
 	}
+#endif
 	delLilXML (dp->lp);
 	delFQ (dp->msgq);
 
