@@ -81,8 +81,7 @@ set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
 	)
-       # is this right? We set it to NULL if we don't find the library
-       set (CFITSIO_LIBRARIES "")
+  set (CFITSIO_LIBRARIES cfitsio)
 endif(NOT CFITSIO_FOUND)
 
 set(libapogee_usb_SRCS
@@ -160,6 +159,18 @@ set(libwebcam_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_c2.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_misc.c
 	)
+########### next target ###############
+## cfitsio library                  ###
+if (NOT CFITSIO_FOUND)
+
+kde4_add_library(cfitsio SHARED ${libcfitsio_SRCS})
+
+target_link_libraries(cfitsio)
+
+install(TARGETS cfitsio DESTINATION ${LIB_INSTALL_DIR} )
+set (libcfitsio_SRCS "")
+
+endif(NOT CFITSIO_FOUND)
 
 ########### next target ###############
 ## SBIG Universal Driver Dummy Library ###
@@ -177,6 +188,7 @@ install(TARGETS sbigudrv  DESTINATION ${LIB_INSTALL_DIR} )
 set(SBIG_LIBRARIES "")
 
 endif(NOT SBIG_FOUND)
+if (NOT WIN32)
 ########### next target ###############
 ########### INDI Server ##############
 set(indiserver_SRCS indiserver.c fq.c)
@@ -445,7 +457,7 @@ install(TARGETS sbigccd  DESTINATION ${BIN_INSTALL_DIR} )
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 install( FILES drivers.xml apogee_caminfo.xml  DESTINATION  ${DATA_INSTALL_DIR}/kstars )
-
+endif(NOT WIN32)
 
 #original Makefile.am contents follow:
 

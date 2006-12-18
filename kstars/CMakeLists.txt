@@ -22,67 +22,7 @@ set(libindicom_SRCS
 	)
 
 if (NOT CFITSIO_FOUND)
-set(libcfitsio_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/buffers.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/cfileio.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/checksum.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/compress.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrfile.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrmem.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrnet.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrsmem.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/editcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/edithdu.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_l.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_y.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_f.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fitscore.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcold.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcole.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoli.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoll.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcols.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolsb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolui.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/group.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/grparser.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/histo.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/iraffits.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/modkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcold.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcole.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoli.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoll.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcols.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolsb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolu.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolui.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/region.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/scalnull.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/swapproc.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcssub.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcsutil.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/imcompress.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/quantize.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
-	)
-# is this right? We set it to NULL if we don't find the library
-       set (CFITSIO_LIBRARIES "")
+  set (CFITSIO_LIBRARIES cfitsio)
 endif(NOT CFITSIO_FOUND)
 
 set(libkstarstools_SRCS 
