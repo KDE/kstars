@@ -165,7 +165,7 @@ if (NOT CFITSIO_FOUND)
 
 kde4_add_library(cfitsio SHARED ${libcfitsio_SRCS})
 
-target_link_libraries(cfitsio)
+target_link_libraries(cfitsio m)
 
 install(TARGETS cfitsio DESTINATION ${LIB_INSTALL_DIR} )
 set (libcfitsio_SRCS "")
