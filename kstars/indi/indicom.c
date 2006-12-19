@@ -39,6 +39,10 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <stdarg.h>
+#ifndef _WIN32
+#warning fix HAVE_TERMIOS_H 
+#include <termios.h>
+#endif
 
 #include "indicom.h"
 #ifdef _WIN32
