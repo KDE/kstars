@@ -35,6 +35,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
+#include "config-kstars.h"
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
