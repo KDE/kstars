@@ -319,6 +319,7 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
 // devices Menu
+#ifndef Q_WS_WIN
 	ka = new KAction( i18n("Telescope Wizard..."), actionCollection(), "telescope_wizard");
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeWizard() ) );
 
@@ -338,6 +339,7 @@ void KStars::initActions() {
 
 	ka = new KAction( i18n("Configure INDI..."), actionCollection(), "configure_indi");
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
+#endif
 
 //Help Menu:
 //	KStandardAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
@@ -618,8 +620,11 @@ void KStars::buildGUI() {
 	initStatusBar();
 	initActions();
 
+#ifdef Q_WS_WIN
+	createGUI("kstarsui-win.rc");
+#else
 	createGUI("kstarsui.rc");
-
+#endif
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );
