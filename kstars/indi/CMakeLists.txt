@@ -164,8 +164,13 @@ set(libwebcam_SRCS
 if (NOT CFITSIO_FOUND)
 
 kde4_add_library(cfitsio SHARED ${libcfitsio_SRCS})
+if (WIN32)
+  set (LIBS )
+else (WIN32)
+  set (LIBS m)
+endif (WIN32)
 
-target_link_libraries(cfitsio m)
+target_link_libraries(cfitsio ${LIBS})
 
 install(TARGETS cfitsio DESTINATION ${LIB_INSTALL_DIR} )
 set (libcfitsio_SRCS "")
