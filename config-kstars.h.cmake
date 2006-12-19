@@ -6,4 +6,4 @@
 #define TIMEZONE_IS_INT 1
 
 /* Define if you have termios.h */
-#cmakedefine   HAVE_TERMIOS 1
+#cmakedefine   HAVE_TERMIOS_H 1
