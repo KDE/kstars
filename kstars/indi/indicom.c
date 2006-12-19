@@ -39,10 +39,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <stdarg.h>
-#ifndef _WIN32
-#warning fix HAVE_TERMIOS_H 
-#include <termios.h>
-#endif
 
 #include "indicom.h"
 #ifdef _WIN32
@@ -476,9 +472,6 @@ double JDtoGMST( double jd )
 
 int extractISOTime(char *timestr, struct tm *utm)
 {
-#ifdef _WIN32
-   return (-1);
-#else
   if (strptime(timestr, "%Y-%m-%dT%H:%M:%S", utm))
    return (0);
   if (strptime(timestr, "%Y/%m/%dT%H:%M:%S", utm))
@@ -489,7 +482,6 @@ int extractISOTime(char *timestr, struct tm *utm)
    return (0);
 
    return (-1);
-#endif
 }
 
 /* sprint the variable a in sexagesimal format into out[].
