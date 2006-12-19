@@ -44,6 +44,8 @@
 #ifndef INDICOM_H
 #define INDICOM_H
 
+#include "config.h"
+
 #include <time.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>

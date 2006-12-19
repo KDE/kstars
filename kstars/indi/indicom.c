@@ -40,9 +40,6 @@
 #include <errno.h>
 #include <stdarg.h>
 
-//FIXME: this is #ifdef'd in indicom.h, but there's something wrong with the conditional
-#include <termios.h>
-
 #include "indicom.h"
 #ifdef _WIN32
 #undef CX
