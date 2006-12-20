@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>498</height>
+    <width>493</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,7 +22,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
@@ -30,7 +30,7 @@
       </attribute>
       <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>8</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
@@ -44,26 +44,72 @@
           <number>6</number>
          </property>
          <item>
-          <widget class="QGroupBox" name="groupBox_5" >
+          <widget class="QGroupBox" name="FirstPositionBox" >
            <property name="title" >
-            <string>Initial Coordinates</string>
+            <string>First position</string>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
-             <number>8</number>
+             <number>9</number>
             </property>
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="ra0Label" >
-              <property name="text" >
-               <string>Right ascension:</string>
+            <item row="2" column="0" colspan="2" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>0</number>
               </property>
-             </widget>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+              <item>
+               <spacer>
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" >
+                 <size>
+                  <width>31</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="KPushButton" name="FirstObjectButton" >
+                <property name="text" >
+                 <string>Select object...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer>
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="dec0Box" />
+             <widget class="dmsBox" name="FirstDec" />
+            </item>
+            <item row="0" column="1" >
+             <widget class="dmsBox" name="FirstRA" >
+              <property name="minimumSize" >
+               <size>
+                <width>90</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="1" column="0" >
              <widget class="QLabel" name="dec0Label" >
@@ -72,24 +118,84 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="ra0Box" />
+            <item row="0" column="0" >
+             <widget class="QLabel" name="ra0Label" >
+              <property name="text" >
+               <string>Right ascension:</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_6" >
+          <widget class="QGroupBox" name="SecondPositionBox" >
            <property name="title" >
-            <string>Final Coordinates</string>
+            <string>Second position</string>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
-             <number>8</number>
+             <number>9</number>
             </property>
             <property name="spacing" >
              <number>6</number>
             </property>
+            <item row="2" column="0" colspan="2" >
+             <layout class="QHBoxLayout" >
+              <property name="margin" >
+               <number>0</number>
+              </property>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+              <item>
+               <spacer>
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="KPushButton" name="SecondObjectButton" >
+                <property name="text" >
+                 <string>Select object...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer>
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="1" >
+             <widget class="dmsBox" name="SecondDec" />
+            </item>
+            <item row="0" column="1" >
+             <widget class="dmsBox" name="SecondRA" >
+              <property name="minimumSize" >
+               <size>
+                <width>90</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0" >
              <widget class="QLabel" name="dec1Label" >
               <property name="text" >
@@ -104,16 +210,26 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="ra1Box" />
-            </item>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="dec1Box" />
-            </item>
            </layout>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <layout class="QHBoxLayout" >
@@ -133,16 +249,34 @@
            </property>
            <property name="sizeHint" >
             <size>
-             <width>145</width>
+             <width>102</width>
              <height>20</height>
             </size>
            </property>
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="Compute" >
+          <widget class="QLabel" name="AngDistLabel" >
            <property name="text" >
-            <string>Compute</string>
+            <string>Angular distance:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="AngDist" >
+           <property name="font" >
+            <font>
+             <family>Monospace</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text" >
+            <string>00:00:00</string>
+           </property>
+           <property name="textInteractionFlags" >
+            <enum>Qt::TextSelectableByMouse</enum>
            </property>
           </widget>
          </item>
@@ -156,93 +290,13 @@
            </property>
            <property name="sizeHint" >
             <size>
-             <width>146</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KPushButton" name="Clear" >
-           <property name="text" >
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>145</width>
+             <width>70</width>
              <height>20</height>
             </size>
            </property>
           </spacer>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_3" >
-         <property name="title" >
-          <string>Angular Distance</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>102</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="rafLabel" >
-            <property name="text" >
-             <string>Distance:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="dmsBox" name="distBox" />
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>70</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
        </item>
        <item>
         <spacer>
@@ -515,11 +569,6 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
@@ -529,7 +578,36 @@
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget3</tabstop>
+  <tabstop>FirstRA</tabstop>
+  <tabstop>FirstDec</tabstop>
+  <tabstop>FirstObjectButton</tabstop>
+  <tabstop>SecondRA</tabstop>
+  <tabstop>SecondDec</tabstop>
+  <tabstop>SecondObjectButton</tabstop>
+  <tabstop>ra0CheckBatch</tabstop>
+  <tabstop>dec0CheckBatch</tabstop>
+  <tabstop>ra1CheckBatch</tabstop>
+  <tabstop>dec1CheckBatch</tabstop>
+  <tabstop>ra0BoxBatch</tabstop>
+  <tabstop>dec0BoxBatch</tabstop>
+  <tabstop>ra1BoxBatch</tabstop>
+  <tabstop>dec1BoxBatch</tabstop>
+  <tabstop>allRadioBatch</tabstop>
+  <tabstop>inputRadioBatch</tabstop>
+  <tabstop>OutputLineEditBatch</tabstop>
+  <tabstop>InputButtonBatch</tabstop>
+  <tabstop>OutputButtonBatch</tabstop>
+  <tabstop>InputLineEditBatch</tabstop>
+  <tabstop>runButtonBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
