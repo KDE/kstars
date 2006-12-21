@@ -36,26 +36,15 @@ public:
 	~modCalcDayLength();
 
 public slots:
-	/** No descriptions */
-	void slotComputePosTime();
-	/** No descriptions */
-	void slotClearCoords();
+	void slotLocation();
+	void slotComputeAlmanac();
 
 private:
-/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
 	QTime lengthOfDay(QTime setQTime, QTime riseQTime);
-
-/**Fills the Date fields with the current values from the current date. */
-	void showCurrentDate(void);
-
-/**@returns a KStarsDateTime constructed from the Time and Date fields. */
-	KStarsDateTime getDateTime (void);
-
-/**@returns a GeoLocation constructed from the Longitude and Latitude fields.
- * Height is arbitrarily set to 0.0 */
-	void getGeoLocation(void);
+ 
+ 	void showCurrentDate(void);
 	void initGeo(void);
-
+	
 	GeoLocation *geoPlace;
 };
 

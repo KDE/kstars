@@ -22,8 +22,10 @@
 #include "geolocation.h"
 #include "kstars.h"
 #include "kssun.h"
+#include "ksmoon.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
+#include "locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "widgets/timebox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
@@ -35,9 +37,10 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
 	setupUi(this);
 	showCurrentDate();
 	initGeo();
+	slotComputeAlmanac();
 
-	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
-	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputePosTime()));
+	connect( Date, SIGNAL(dateChanged(const ExtDate&)), this, SLOT(slotComputeAlmanac() ) );
+	connect( Location, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
 
 	show();
 }
@@ -47,45 +50,14 @@ modCalcDayLength::~modCalcDayLength() {}
 void modCalcDayLength::showCurrentDate (void)
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-	datBox->setDate( dt.date() );
+	Date->setDate( dt.date() );
 }
 
 void modCalcDayLength::initGeo(void)
 {
 	KStars *ks = (KStars*) topLevelWidget()->parent();
 	geoPlace = ks->geo();
-	longBox->show( geoPlace->lng() );
-	latBox->show( geoPlace->lat() );
-}
-
-void modCalcDayLength::getGeoLocation (void)
-{
-	geoPlace->setLong( longBox->createDms() );
-	geoPlace->setLat(  latBox->createDms() );
-	geoPlace->setHeight( 0.0);
-}
-
-KStarsDateTime modCalcDayLength::getDateTime (void)
-{
-	return KStarsDateTime( datBox->date() , QTime(8,0,0) );
-}
-
-void modCalcDayLength::slotClearCoords(){
-
-	azSetBox->clearFields();
-	azRiseBox->clearFields();
-	elTransitBox->clearFields();
-
-	// reset to current date
-	datBox->setDate(ExtDate::currentDate());
-
-// reset times to 00:00:00
-	setTimeBox->clearFields();
-	riseTimeBox->clearFields();
-	transitTimeBox->clearFields();
-
-//	dayLBox->setTime(time);
-	dayLBox->clearFields();
+	Location->setText( geoPlace->fullName() );
 }
 
 QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
@@ -96,59 +68,124 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 	return dLength;
 }
 
-void modCalcDayLength::slotComputePosTime()
-{
-	long double jd0 = getDateTime().djd();
-	getGeoLocation();
+void modCalcDayLength::slotLocation() {
+	KStars *ks = (KStars*) topLevelWidget()->parent();
+	LocationDialog ld(ks);
 
-	KSNumbers * num = new KSNumbers(jd0);
-	KSSun *Sun = new KSSun( ((KStars*) topLevelWidget()->parent())->data() );
-	Sun->findPosition(num);
-
-	QTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );
-	QTime riseQtime = Sun->riseSetTime( jd0 , geoPlace, true );
-	QTime transitQtime = Sun->transitTime(jd0 , geoPlace);
-
-	dms setAz = Sun->riseSetTimeAz(jd0, geoPlace, false);
-	dms riseAz = Sun->riseSetTimeAz(jd0, geoPlace, true);
-	dms transAlt = Sun->transitAltitude(jd0, geoPlace);
-
-	if (setQtime.isValid() ) {
-		azSetBox->show( setAz );
-		elTransitBox->show( transAlt );
-		azRiseBox->show( riseAz );
-
-		setTimeBox->showTime( setQtime );
-		riseTimeBox->showTime( riseQtime );
-		transitTimeBox->showTime( transitQtime );
-
-		QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
-
-		dayLBox->showTime( dayLQtime );
-	} else if (transAlt.Degrees() > 0. ) {
-		azSetBox->setDMS(i18n("Circumpolar"));
-		elTransitBox->show( transAlt );
-		azRiseBox->setDMS(i18n("Circumpolar"));
-
-		setTimeBox->showTime( setQtime );
-		riseTimeBox->showTime( riseQtime );
-		transitTimeBox->showTime( transitQtime );
-
-		dayLBox->setEntry("24:00:00");
-
-	} else if (transAlt.Degrees() < 0. ) {
-		azSetBox->setDMS("does not rise");
-		elTransitBox->setDMS("does not rise");
-		azRiseBox->setDMS("does not rise");
-
-		setTimeBox->clearFields();
-		riseTimeBox->clearFields();
-		transitTimeBox->clearFields();
-
-		dayLBox->showTime( QTime(0,0,0) );
+	if ( ld.exec() == QDialog::Accepted ) {
+	  GeoLocation *newGeo = ld.selectedCity();
+	  if ( newGeo ) {
+	    geoPlace = newGeo;
+	    Location->setText( geoPlace->fullName() );
+	  }
 	}
 
+	slotComputeAlmanac();
+}
+
+void modCalcDayLength::slotComputeAlmanac()
+{
+	long double jd0 = KStarsDateTime(Date->date(), QTime(8,0,0)).djd();
+	KSNumbers * num = new KSNumbers(jd0);
+
+	//Sun
+	KSSun *Sun = new KSSun( ((KStars*) topLevelWidget()->parent())->data() );	Sun->findPosition(num);
+
+	QTime ssTime = Sun->riseSetTime( jd0 , geoPlace, false );
+	QTime srTime = Sun->riseSetTime( jd0 , geoPlace, true );
+	QTime stTime = Sun->transitTime(jd0 , geoPlace);
+
+	dms ssAz = Sun->riseSetTimeAz(jd0, geoPlace, false);
+	dms srAz = Sun->riseSetTimeAz(jd0, geoPlace, true);
+	dms stAlt = Sun->transitAltitude(jd0, geoPlace);
+
+	//In most cases, the Sun will rise and set:
+	if ( ssTime.isValid() ) {
+		SunSetAz->setText( ssAz.toDMSString() );
+		SunTransitAlt->setText( stAlt.toDMSString() );
+		SunRiseAz->setText( srAz.toDMSString() );
+
+		SunSet->setText( ssTime.toString("HH:mm") );
+		SunRise->setText( srTime.toString("HH:mm") );
+		SunTransit->setText( stTime.toString("HH:mm") );
+
+		QTime daylength = lengthOfDay(ssTime,srTime);
+		DayLength->setText( daylength.toString("HH:mm") );
+
+	//...but not always!
+	} else if ( stAlt.Degrees() > 0. ) {
+		SunSetAz->setText( i18n("Circumpolar") );
+		SunTransitAlt->setText( stAlt.toDMSString() );
+		SunRiseAz->setText( i18n("Circumpolar") );
+
+		SunSet->setText( "--:--" );
+		SunRise->setText( "--:--" );
+		SunTransit->setText( stTime.toString("HH:mm") );
+
+		DayLength->setText("24:00");
+
+	} else if (stAlt.Degrees() < 0. ) {
+		SunSetAz->setText( i18n("Does not rise") );
+		SunTransitAlt->setText( stAlt.toDMSString() );
+		SunRiseAz->setText( i18n("Does not set") );
+
+		SunSet->setText( "--:--" );
+		SunRise->setText( "--:--" );
+		SunTransit->setText( stTime.toString("HH:mm") );
+
+
+		DayLength->setText( "00:00" );
+	}
+
+	//Moon
+	KSMoon *Moon = new KSMoon( ((KStars*) topLevelWidget()->parent())->data() );
+	Moon->findPosition(num);
+	Moon->findPhase(Sun);
+
+	QTime msTime = Moon->riseSetTime( jd0 , geoPlace, false );
+	QTime mrTime = Moon->riseSetTime( jd0 , geoPlace, true );
+	QTime mtTime = Moon->transitTime(jd0 , geoPlace);
+
+	dms msAz = Moon->riseSetTimeAz(jd0, geoPlace, false);
+	dms mrAz = Moon->riseSetTimeAz(jd0, geoPlace, true);
+	dms mtAlt = Moon->transitAltitude(jd0, geoPlace);
+
+	//In most cases, the Moon will rise and set:
+	if ( msTime.isValid() ) {
+		MoonSetAz->setText( msAz.toDMSString() );
+		MoonTransitAlt->setText( mtAlt.toDMSString() );
+		MoonRiseAz->setText( mrAz.toDMSString() );
+
+		MoonSet->setText( msTime.toString("HH:mm") );
+		MoonRise->setText( mrTime.toString("HH:mm") );
+		MoonTransit->setText( mtTime.toString("HH:mm") );
+
+	//...but not always!
+	} else if ( mtAlt.Degrees() > 0. ) {
+		MoonSetAz->setText( i18n("Circumpolar") );
+		MoonTransitAlt->setText( mtAlt.toDMSString() );
+		MoonRiseAz->setText( i18n("Circumpolar") );
+
+		MoonSet->setText( "--:--" );
+		MoonRise->setText( "--:--" );
+		MoonTransit->setText( mtTime.toString("HH:mm") );
+
+	} else if ( mtAlt.Degrees() < 0. ) {
+		MoonSetAz->setText( i18n("Does not rise") );
+		MoonTransitAlt->setText( mtAlt.toDMSString() );
+		MoonRiseAz->setText( i18n("Does not set") );
+
+		MoonSet->setText( "--:--" );
+		MoonRise->setText( "--:--" );
+		MoonTransit->setText( mtTime.toString("HH:mm") );
+	}
+
+	LunarPhase->setText( Moon->phaseName()+" ("+QString::number( int( 100*Moon->illum() ) )+"%)" );
+
+
 	delete num;
+	delete Sun;
+	delete Moon;
 }
 
 #include "modcalcdaylength.moc"
