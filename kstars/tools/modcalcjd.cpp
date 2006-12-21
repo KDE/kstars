@@ -34,7 +34,7 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
 
     // signals and slots connections
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
-    connect( DateTimeBox, SIGNAL(valueChanged(ExtDateTime)), this, SLOT(slotUpdateCalendar()) );
+    connect( DateTimeBox, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotUpdateCalendar()) );
     connect( JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()) );
     connect( ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()) );
     showCurrentTime();
