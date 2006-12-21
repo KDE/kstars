@@ -5,9 +5,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #endif
 
 #include "sbigudrv.h"
+#include <kdemacros.h>
 
 /* JM: Dummy SBIG Universal Driver. The real one is proprietary */
-short SBIGUnivDrvCommand(short command, void *Params, void *Results)
+short KDE_EXPORT SBIGUnivDrvCommand(short command, void *Params, void *Results)
 {
   command=command;
   Params=Params;
