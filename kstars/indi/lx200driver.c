@@ -26,10 +26,6 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "kstars/config-kstars.h"
-#ifdef HAVE_TERMIOS_H
-#include <termios.h>
-#endif
 #include <time.h>
 
 #include "indicom.h"
