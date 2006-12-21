@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 #ifndef _FITSIO2_H
 #define _FITSIO2_H
  
@@ -86,19 +67,24 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 #elif defined(_SX)             /* Nec SuperUx */
 
 #define BYTESWAPPED FALSE
+#define MACHINE NATIVE
 #define LONGSIZE 64
 
 #elif defined(__powerpc64__) || defined(__64BIT__) /* IBM 64-bit AIX powerpc*/
                               /* could also test for __ppc64__ or __PPC64 */
 #define BYTESWAPPED FALSE
+#define MACHINE NATIVE
 #define LONGSIZE 64   
-
-/* ============================================================== */
-/* the following block determines the size of longs on SGI IRIX machines */
 
 #elif defined(_MIPS_SZLONG)
 
-#define BYTESWAPPED FALSE
+#  if defined(MIPSEL)
+#    define BYTESWAPPED TRUE
+#  else
+#    define BYTESWAPPED FALSE
+#    define MACHINE NATIVE
+#  endif
+
 #  if _MIPS_SZLONG == 32
 #    define LONGSIZE 32
 #  elif _MIPS_SZLONG == 64
@@ -144,16 +130,22 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
  
 #elif defined(__i386) || defined(__i386__) || defined(__i486__) || defined(__i586__) \
   || defined(_MSC_VER) || defined(__BORLANDC__) || defined(__TURBOC__) \
-  || defined(_NI_mswin_) || defined(__EMX__) \
-  || defined(MIPSEL)     || defined(arm)
+  || defined(_NI_mswin_) || defined(__EMX__)
 
 /*  generic 32-bit IBM PC */
 #define MACHINE IBMPC
 #define BYTESWAPPED TRUE
 
+#elif defined(__arm__)
+
+/* This assumes all ARM are little endian.  In the future, it might be  */
+/* necessary to use  "if defined(__ARMEL__)"  to distinguish little from big. */
+/* (__ARMEL__ would be defined on little-endian, but not on big-endian). */
+
+#define BYTESWAPPED TRUE
+ 
 #else
 
-/* ========================================================================== */
 /*  assume all other machine uses the same IEEE formats as used in FITS files */
 /*  e.g., Macs fall into this category  */
 
@@ -249,8 +241,8 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 #endif
 
 #define DULONG_MIN -0.49   /* min double value that fits in an unsigned long */
-#define DLONGLONG_MAX  9.2233720368547752E18 /* max double value  longlong */
-#define DLONGLONG_MIN -9.2233720368547752E18 /* min double value  longlong */
+#define DLONGLONG_MAX  9.2233720368547755807E18 /* max double value  longlong */
+#define DLONGLONG_MIN -9.2233720368547755808E18 /* min double value  longlong */
 #define DUINT_MAX 4294967295.49 /* max dbl that fits in a unsigned 4-byte int */
 #define DUINT_MIN -0.49   /* min dbl that fits in an unsigned 4-byte int */
 #define DINT_MAX  2147483647.49 /* max double value that fits in a 4-byte int */
@@ -938,16 +930,18 @@ int fits_write_compressed_img_plane(fitsfile *fptr, int  datatype,
       long *naxes,  int  nullcheck, 
       void *array,  void *nullval, long *nread, int  *status);
 
-int imcomp_init_table(fitsfile *outfptr, int compress_type,
-        int bitpix, int naxis,long *naxes,long *tilesize, 
-        int rice_blocksize,int rice_nbits,int *status);
-int imcomp_calc_max_elem (int comptype, int nx, int blocksize);
+int imcomp_init_table(fitsfile *outfptr,
+        int bitpix, int naxis,long *naxes, int writebitpix, int *status);
+int imcomp_calc_max_elem (int comptype, int nx, int zbitpix, int blocksize);
 int imcomp_copy_imheader(fitsfile *infptr, fitsfile *outfptr,
                 int *status);
+int imcomp_copy_img2comp(fitsfile *infptr, fitsfile *outfptr, int *status);
+int imcomp_copy_comp2img(fitsfile *infptr, fitsfile *outfptr, 
+                          int norec, int *status);
 int imcomp_compress_image (fitsfile *infptr, fitsfile *outfptr,
                  int *status);
 int imcomp_compress_tile (fitsfile *outfptr, long row, 
-    int datatype,  void *tiledata, long tilelen, int *status);
+    int datatype,  void *tiledata, long tilelen, long nx, long ny, int *status);
 
 /*  image decompression routines */
 
@@ -1100,7 +1094,6 @@ int ftp_open(char *filename, int rwmode, int *driverhandle);
 int ftp_file_open(char *filename, int rwmode, int *driverhandle);
 int ftp_compress_open(char *filename, int rwmode, int *driverhandle);
 
-
 int uncompress2mem(char *filename, FILE *diskfile,
              char **buffptr, size_t *buffsize,
              void *(*mem_realloc)(void *p, size_t newsize),
@@ -1136,24 +1129,22 @@ int compress2file_from_mem(
              size_t *filesize,   /* O - size of file, in bytes              */
              int *status);
 
-/* ==================== SHARED MEMORY DRIVER SECTION ======================= */
+
+#ifdef HAVE_GSIFTP
+/* prototypes for gsiftp driver I/O routines */
+#include "drvrgsiftp.h"
+#endif
 
 #ifdef HAVE_SHMEM_SERVICES
+/* prototypes for shared memory driver I/O routines  */
 #include "drvrsmem.h"
 #endif
 
-/* ==================== END OF SHARED MEMORY DRIVER SECTION ================ */
-
-#endif
-
-
 #if defined(vms) || defined(__vms) || defined(WIN32) || defined(__WIN32__) || (defined(macintosh) && !defined(TARGET_API_MAC_CARBON))
-
-/* ================================================================== */
 /* A hack for nonunix machines, which lack strcasecmp and strncasecmp */
-/* ================================================================== */
-
 int strcasecmp (const char *s1, const char *s2       );
 int strncasecmp(const char *s1, const char *s2, size_t n);
+#endif
 
+/* end of the entire "ifndef _FITSIO2_H" block */
 #endif

@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /*  This file, getcolsb.c, contains routines that read data elements from   */
 /*  a FITS image or table, with signed char (signed byte) data type.        */
 
@@ -246,9 +227,9 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
 */
 {
     long ii, i0, i1, i2, i3, i4, i5, i6, i7, i8, row, rstr, rstp, rinc;
-    long str[10], stp[10], incr[10], dir[10];
+    long str[9], stp[9], incr[9], dir[9];
     long nelem, nultyp, ninc, numcol;
-    LONGLONG felem, dsize[10], blcll[10], trcll[10];
+    LONGLONG felem, dsize[10], blcll[9], trcll[9];
     int hdutype, anyf;
     char ldummy, msg[FLEN_ERRMSG];
     int  nullcheck = 1;
@@ -265,7 +246,7 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
     {
         /* this is a compressed image in a binary table */
 
-        for (ii=0; ii <= naxis; ii++) {
+        for (ii=0; ii < naxis; ii++) {
 	    blcll[ii] = blc[ii];
 	    trcll[ii] = trc[ii];
 	}
@@ -315,7 +296,7 @@ int ffgsvsb(fitsfile *fptr, /* I - FITS file pointer                        */
         *anynul = FALSE;
 
     i0 = 0;
-    for (ii = 0; ii <= 9 ; ii++)
+    for (ii = 0; ii < 9; ii++)
     {
         str[ii] = 1;
         stp[ii] = 1;
@@ -788,8 +769,8 @@ int ffgclsb(fitsfile *fptr,   /* I - FITS file pointer                       */
     /*  Now read the pixels from the FITS column. If the column does not   */
     /*  have the same datatype as the output array, then we have to read   */
     /*  the raw values into a temporary buffer (of limited size).  In      */
-    /*  the case of a vector column read only 1 vector of values at a      */
-    /*  time then skip to the next row if more values need to be read.     */
+    /*  the case of a vector colum read only 1 vector of values at a time  */
+    /*  then skip to the next row if more values need to be read.          */
     /*  After reading the raw values, then call the fffXXYY routine to (1) */
     /*  test for undefined values, (2) convert the datatype if necessary,  */
     /*  and (3) scale the values by the FITS TSCALn and TZEROn linear      */

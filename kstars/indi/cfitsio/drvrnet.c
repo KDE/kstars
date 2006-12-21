@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /*  This file, drvrhttp.c contains driver routines for http, ftp and root 
     files. */
 
@@ -24,6 +5,7 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 /*  The FITSIO software is maintained by William Pence at the High Energy  */
 /*  Astrophysic Science Archive Research Center (HEASARC) at the NASA      */
 /*  Goddard Space Flight Center.                                           */
+
 
 /* Notes on the drivers:
 
@@ -50,7 +32,7 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
    </BODY></HTML>
 
    This redirect was from apache 1.2.5 but most of the other servers produce 
-   something very similar.  The parser for the redirects finds the first 
+   something very similiar.  The parser for the redirects finds the first 
    anchor <A> tag in the body and goes there.  If that wasn't what was intended
    by the remote system then hopefully the error stack, which includes notes 
    about the redirect will help the user fix the problem.
@@ -128,7 +110,7 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 
    ROOTD_PUT - on send <optional info> includes a text message of
    offset and length to put.  Then send the raw bytes you want to
-   write.  Then receive a status message
+   write.  Then recieve a status message
 
 
    When you are finished then you send the message:
@@ -166,10 +148,10 @@ generated.  Fixes the signal handling.
 
 Revision 1.38  1998/11/23 10:03:24  oneel
 Added in a useragent string, as suggested by:
-Tim Kimball  Data Systems Division  kimball@stsci.edu  410-338-4417
-Space Telescope Science Institute    http://www.stsci.edu/~kimball/
-3700 San Martin Drive                http://archive.stsci.edu/
-Baltimore MD 21218 USA               http://faxafloi.stsci.edu:4547/
+Tim Kimball · Data Systems Division ¦ kimball@stsci.edu · 410-338-4417
+Space Telescope Science Institute   ¦ http://www.stsci.edu/~kimball/
+3700 San Martin Drive               ¦ http://archive.stsci.edu/
+Baltimore MD 21218 USA              ¦ http://faxafloi.stsci.edu:4547/
 
    
  */
@@ -187,7 +169,11 @@ Baltimore MD 21218 USA               http://faxafloi.stsci.edu:4547/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
+
+#if defined(unix) || defined(__unix__)  || defined(__unix)
+#include <unistd.h>  
+#endif
+
 #include <signal.h>
 #include <setjmp.h>
 #include "fitsio2.h"
@@ -224,7 +210,7 @@ static char netoutfile[MAXLEN];
 #define ROOTD_FLUSH 2007       /*flush file */
 #define ROOTD_CLOSE 2008       /*close file */
 #define ROOTD_STAT  2009       /*return rootd statistics */
-#define ROOTD_ACK   2010       /*acknowledgment (all OK) */
+#define ROOTD_ACK   2010       /*acknowledgement (all OK) */
 #define ROOTD_ERR   2011       /*error code and message follow */
 
 typedef struct    /* structure containing disk file structure */ 
@@ -752,7 +738,7 @@ int http_file_open(char *url, int rwmode, int *handle)
      read the file from
    contentencoding is the mime type of the file, returned if the http server
      returns it
-   contentlength is the length of the file, returned if the http server returns
+   contentlength is the lenght of the file, returned if the http server returns
      it
 */
 static int http_open_network(char *url, FILE **httpfile, char *contentencoding,

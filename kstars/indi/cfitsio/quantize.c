@@ -1,23 +1,4 @@
 /*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
-/*
   The following code was written by Richard White at STScI and made
   available for use in CFITSIO in July 1999. 
 */
@@ -82,7 +63,7 @@ If the function value is zero, the data were not copied to idata.
 	int intflag;		/* true if data are really integer */
 	int i, j, iter;		/* loop indices */
         int anynulls = 0;       /* set if fdata contains any null values */
-        int nshift;
+        int nshift, itemp;
         int first_nonnull = 0;
 	double mean, stdev;	/* mean and RMS of differences */
 	double minval = 0., maxval = 0.;  /* min & max of fdata */
@@ -102,10 +83,14 @@ If the function value is zero, the data were not copied to idata.
 
 	/* Check to see if data are "floating point integer." */
         /* This also catches the case where all the pixels are null */
+
+        /* Since idata and fdata may point to the same memory location, */
+	/* we cannot write to idata unless we are sure we don't need   */
+	/* the corresponding float value any more */
+	
 	intflag = 1;		/* initial value */
 	for (i = 0;  i < nx;  i++) {
             if (fdata[i] == in_null_value) {
-                idata[i] = NULL_VALUE;
                 anynulls = 1;
             }
 	    else if (fdata[i] > INT32_MAX || 
@@ -114,21 +99,42 @@ If the function value is zero, the data were not copied to idata.
 		break;
 	    }
             else {
-  	        idata[i] = (int)(fdata[i] + 0.5);
-                *iminval = minvalue(idata[i], *iminval);
-                *imaxval = maxvalue(idata[i], *imaxval);
+  	        itemp = (int)(fdata[i] + 0.5);
 
-	        if (idata[i] != fdata[i]) {
+	        if (itemp != fdata[i]) {
 		    intflag = 0;	/* not integer */
 		    break;
                 }
 	    }
 	}
+
+        if (intflag) { /* data are "floating point integer" */
+	  for (i = 0;  i < nx;  i++) {
+            if (fdata[i] == in_null_value) {
+                idata[i] = NULL_VALUE;
+                anynulls = 1;
+            }
+            else {
+  	        idata[i] = (int)(fdata[i] + 0.5);
+                *iminval = minvalue(idata[i], *iminval);
+                *imaxval = maxvalue(idata[i], *imaxval);
+	    }
+	  }
+	}
+
 	if (intflag) {  /* data are "floating point integer" */
             if (anynulls) {
                 /* Shift the range of values so they lie close to NULL_VALUE. */
                 /* This will make the compression more efficient.             */
-                nshift = *iminval - NULL_VALUE - N_RESERVED_VALUES;
+                /* Maximum allowed shift is 2^31 - 1 = 2147483646 */
+                /* Can't use 2147483647 because OSF says this is not a legal number */
+
+                if (*iminval >= 0) {
+		   nshift = -(NULL_VALUE + 1) - N_RESERVED_VALUES;
+		} else {
+                  nshift = *iminval - NULL_VALUE - N_RESERVED_VALUES;
+                }
+
                 for (i = 0;  i < nx;  i++) {
                     if (idata[i] != NULL_VALUE) {
                         idata[i] -= nshift;
@@ -161,7 +167,7 @@ If the function value is zero, the data were not copied to idata.
 
         /* allocate temporary buffer for differences */
 	ndiff = nx - first_nonnull - 1;
-	if ((diff = malloc (ndiff * sizeof (float))) == NULL) {
+	if ((diff = (float *) malloc (ndiff * sizeof (float))) == NULL) {
             ffpmsg("Out of memory in 'fits_quantize_float'.");  
 	    return (0);
 	}
@@ -253,6 +259,7 @@ If the function value is zero, the data were not copied to idata.
             /* data contains null values; shift the range to be */
             /* close to the value used to represent null values */
             zeropt = minval - delta * (NULL_VALUE + N_RESERVED_VALUES);
+
 	    for (i = 0;  i < nx;  i++) {
                 if (fdata[i] != in_null_value) {
 	            temp = (fdata[i] - zeropt) / delta;
@@ -302,7 +309,7 @@ If the function value is zero, the data were not copied to idata.
 	int intflag;		/* true if data are really integer */
 	int i, j, iter;		/* loop indices */
         int anynulls = 0;       /* set if fdata contains any null values */
-        int nshift;
+        int nshift, itemp;
         int first_nonnull = 0;
 	double mean, stdev;	/* mean and RMS of differences */
 	double minval = 0., maxval = 0.;   /* min & max of fdata */
@@ -322,10 +329,14 @@ If the function value is zero, the data were not copied to idata.
 
 	/* Check to see if data are "floating point integer." */
         /* This also catches the case where all the pixels are null */
+
+        /* Since idata and fdata may point to the same memory location, */
+	/* we cannot write to idata unless we are sure we don't need   */
+	/* the corresponding float value any more */
+	
 	intflag = 1;		/* initial value */
 	for (i = 0;  i < nx;  i++) {
             if (fdata[i] == in_null_value) {
-                idata[i] = NULL_VALUE;
                 anynulls = 1;
             }
 	    else if (fdata[i] > INT32_MAX || 
@@ -334,21 +345,42 @@ If the function value is zero, the data were not copied to idata.
 		break;
 	    }
             else {
-  	        idata[i] = (int)(fdata[i] + 0.5);
-                *iminval = minvalue(idata[i], *iminval);
-                *imaxval = maxvalue(idata[i], *imaxval);
+  	        itemp = (int)(fdata[i] + 0.5);
 
-	        if (idata[i] != fdata[i]) {
+	        if (itemp != fdata[i]) {
 		    intflag = 0;	/* not integer */
 		    break;
                 }
 	    }
 	}
+
+        if (intflag) { /* data are "floating point integer" */
+	  for (i = 0;  i < nx;  i++) {
+            if (fdata[i] == in_null_value) {
+                idata[i] = NULL_VALUE;
+                anynulls = 1;
+            }
+            else {
+  	        idata[i] = (int)(fdata[i] + 0.5);
+                *iminval = minvalue(idata[i], *iminval);
+                *imaxval = maxvalue(idata[i], *imaxval);
+	    }
+	  }
+	}
+
 	if (intflag) {  /* data are "floating point integer" */
             if (anynulls) {
                 /* Shift the range of values so they lie close to NULL_VALUE. */
                 /* This will make the compression more efficient.             */
-                nshift = *iminval - NULL_VALUE - N_RESERVED_VALUES;
+                /* Maximum allowed shift is 2^31 - 1 = 2147483646 */
+                /* Can't use 2147483647 because OSF says this is not a legal number */
+
+                if (*iminval >= 0) {
+		   nshift = -(NULL_VALUE +1) - N_RESERVED_VALUES;
+		} else {
+                  nshift = *iminval - NULL_VALUE - N_RESERVED_VALUES;
+                }
+
                 for (i = 0;  i < nx;  i++) {
                     if (idata[i] != NULL_VALUE) {
                         idata[i] -= nshift;
@@ -381,7 +413,7 @@ If the function value is zero, the data were not copied to idata.
 
         /* allocate temporary buffer for differences */
 	ndiff = nx - first_nonnull - 1;
-	if ((diff = malloc (ndiff * sizeof (float))) == NULL) {
+	if ((diff = (float *) malloc (ndiff * sizeof (float))) == NULL) {
             ffpmsg("Out of memory in 'fits_quantize_double'.");  
 	    return (0);
 	}
@@ -482,6 +514,199 @@ If the function value is zero, the data were not copied to idata.
 
 	return (1);			/* yes, data have been quantized */
 }
+/*---------------------------------------------------------------------------*/
+int fits_rms_float (float fdata[], int nx, float in_null_value,
+                   double *rms, int *status) {
+
+/*
+Compute the background RMS (noise) in an array of image pixels.
+
+arguments:
+float fdata[]       i: array of image pixels
+int nx              i: length of fdata array
+float in_null_value i: value used to represent undefined pixels in fdata
+double rms          o: computed RMS value
+*/
+	float *diff;		/* difference array */
+	int ndiff;		/* size of diff array */
+	int i, j, iter;		/* loop indices */
+        int first_nonnull = 0;
+	double mean, stdev;	/* mean and RMS of differences */
+	double median;		/* median of diff array */
+
+	if (*status) return (*status);
+	
+	if (nx <= 1) {
+	    *rms = 0;
+	    return (0);
+	}
+
+        /* find first non-null pixel, and initialize min and max values */
+	for (i = 0;  i < nx;  i++) {
+	    if (fdata[i] != in_null_value) {
+               first_nonnull = i;
+               break;
+            }
+        }
+
+        /* allocate temporary buffer for differences */
+	ndiff = nx - first_nonnull - 1;
+	if ((diff = (float *) malloc (ndiff * sizeof (float))) == NULL) {
+            ffpmsg("Out of memory in 'fits_float_rms'."); 
+	    *status = 113;  /* memory allocation error */ 
+	    return (0);
+	}
+
+        /* calc ABS difference between successive non-null pixels */
+        j = first_nonnull;
+        ndiff = 0;
+	for (i = j + 1 ;  i < nx;  i++) {
+            if (fdata[i] != in_null_value) {
+ 	        diff[ndiff] = (float) (fabs (fdata[i] - fdata[j]));
+                j = i;
+                ndiff++;
+            }
+        }
+
+	/* use median of absolute deviations */
+
+	median = xMedian (diff, ndiff);
+	stdev = median * MEDIAN_TO_RMS;
+	
+	/* substitute sigma-clipping if median is zero */
+	if (stdev == 0.0) {
+
+            /* calculate differences between non-null pixels */
+            j = first_nonnull;
+            ndiff = 0;
+	    for (i = j + 1 ;  i < nx;  i++) {
+                if (fdata[i] != in_null_value) {
+ 	            diff[ndiff] = fdata[i] - fdata[j];
+                    j = i;
+                    ndiff++;
+                }
+            }
+
+	    FqMean (diff, ndiff, &mean, &stdev);
+
+	    for (iter = 0;  iter < NITER;  iter++) {
+		j = 0;
+		for (i = 0;  i < ndiff;  i++) {
+		    if (fabs (diff[i] - mean) < SIGMA_CLIP * stdev) {
+			if (j < i)
+			    diff[j] = diff[i];
+			j++;
+		    }
+		}
+		if (j == ndiff)
+		    break;
+		ndiff = j;
+		FqMean (diff, ndiff, &mean, &stdev);
+	    }
+	}
+	free (diff);
+	
+        *rms = stdev;
+
+	return (0);
+}
+/*---------------------------------------------------------------------------*/
+int fits_rms_short (short fdata[], int nx, short in_null_value,
+                   double *rms, int *status) {
+
+/*
+Compute the background RMS (noise) in an array of image pixels.
+
+arguments:
+short fdata[]       i: array of image pixels
+int nx              i: length of fdata array
+short in_null_value i: value used to represent undefined pixels in fdata
+double rms          o: computed RMS value
+*/
+	float *diff;		/* difference array */
+	int ndiff;		/* size of diff array */
+	int i, j, iter;		/* loop indices */
+        int first_nonnull = 0;
+	double mean, stdev;	/* mean and RMS of differences */
+	double median;		/* median of diff array */
+
+	if (*status) return (*status);
+	
+	if (nx <= 1) {
+	    *rms = 0;
+	    return (0);
+	}
+
+        /* find first non-null pixel, and initialize min and max values */
+	for (i = 0;  i < nx;  i++) {
+	    if (fdata[i] != in_null_value) {
+               first_nonnull = i;
+               break;
+            }
+        }
+
+        /* allocate temporary buffer for differences */
+	ndiff = nx - first_nonnull - 1;
+	if ((diff = (float *) malloc (ndiff * sizeof (float))) == NULL) {
+            ffpmsg("Out of memory in 'fits_float_rms'."); 
+	    *status = 113;  /* memory allocation error */ 
+	    return (0);
+	}
+
+        /* calc ABS difference between successive non-null pixels */
+        j = first_nonnull;
+        ndiff = 0;
+	for (i = j + 1 ;  i < nx;  i++) {
+            if (fdata[i] != in_null_value) {
+ 	        diff[ndiff] = (float) (abs (fdata[i] - fdata[j]));
+                j = i;
+                ndiff++;
+            }
+        }
+
+	/* use median of absolute deviations */
+
+	median = xMedian (diff, ndiff);
+	stdev = median * MEDIAN_TO_RMS;
+	
+	/* substitute sigma-clipping if median is zero */
+	if (stdev == 0.0) {
+
+            /* calculate differences between non-null pixels */
+            j = first_nonnull;
+            ndiff = 0;
+	    for (i = j + 1 ;  i < nx;  i++) {
+                if (fdata[i] != in_null_value) {
+ 	            diff[ndiff] = (float) (fdata[i] - fdata[j]);
+                    j = i;
+                    ndiff++;
+                }
+            }
+
+	    FqMean (diff, ndiff, &mean, &stdev);
+
+	    for (iter = 0;  iter < NITER;  iter++) {
+		j = 0;
+		for (i = 0;  i < ndiff;  i++) {
+		    if (fabs (diff[i] - mean) < SIGMA_CLIP * stdev) {
+			if (j < i)
+			    diff[j] = diff[i];
+			j++;
+		    }
+		}
+		if (j == ndiff)
+		    break;
+		ndiff = j;
+		FqMean (diff, ndiff, &mean, &stdev);
+	    }
+	}
+	free (diff);
+	
+        *rms = stdev;
+
+	return (0);
+}
+
 /*---------------------------------------------------------------------------*/
 /* This computes the mean and standard deviation. */
 

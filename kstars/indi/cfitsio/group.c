@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /*  This file, group.c, contains the grouping convention suport routines.  */
 
 /*  The FITSIO software was written by William Pence at the High Energy    */
@@ -33,8 +14,6 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 /*  by Jennings, Pence, Folk and Schlesinger. The development of the       */
 /*  grouping structure was partially funded under the NASA AISRP Program.  */ 
     
-
-
 #include "fitsio2.h"
 #include "group.h"
 #include <stdio.h>
@@ -70,7 +49,7 @@ D. Jennings, 01/02/99, ffgtop() now looks for relatve file paths when
                        the GRPLCn keyword value is supplied in the member
 		       HDU header.
 
-D. Jennings, 01/02/99, ffgtam() now tries to construct relative file paths
+D. Jennings, 01/02/99, ffgtam() now trys to construct relative file paths
                        from the member's file to the group table's file
 		       (and visa versa) when both the member's file and
 		       group table file are of access type FILE://.
@@ -680,7 +659,7 @@ int ffgtcp(fitsfile *infptr,  /* input FITS file pointer                     */
   copy a grouping table, and optionally all its members, to a new FITS file.
   If the cpopt is set to OPT_GCP_GPT (copy grouping table only) then the 
   existing members have their GRPIDn and GRPLCn keywords updated to reflect 
-  the existence of the new group, since they now belong to another group. If 
+  the existance of the new group, since they now belong to another group. If 
   cpopt is set to OPT_GCP_ALL (copy grouping table and members recursively) 
   then the original members are not updated; the new grouping table is 
   modified to include only the copied member HDUs and not the original members.
@@ -1231,7 +1210,7 @@ int ffgtop(fitsfile *mfptr,  /* FITS file pointer to the member HDU          */
 	      
 	      *status = fits_relurl2url(url[i],keyvalue,location,status);
 	      
-	      /* if an error occurred then contniue */
+	      /* if an error occured then contniue */
 	      
 	      if(*status != 0) 
 		{
@@ -1274,7 +1253,7 @@ int ffgtop(fitsfile *mfptr,  /* FITS file pointer to the member HDU          */
 
 	}while(0); /* end of file opening loop */
 
-      /* if an error occurred with the file opening then exit */
+      /* if an error occured with the file opening then exit */
 
       if(*status != 0) continue;
   
@@ -1761,14 +1740,9 @@ int ffgtam(fitsfile *gfptr,   /* FITS file pointer to grouping table HDU     */
 		  /* have to make sure the GRPLCn keyword matches too */
 
 		  sprintf(keyword,"GRPLC%d",(int)ngroups);
-	          if (mfptr) {
-		     /* SPR 1738 */
-		     *status = fits_read_key_longstr(mfptr,keyword,&tgrplc,card,
-						     status);
-		  } else {
-		     *status = BAD_GROUP_ID;
-                  }
-
+		  /* SPR 1738 */
+		  *status = fits_read_key_longstr(mfptr,keyword,&tgrplc,card,
+						  status);
 		  if (0 == *status) {
 		    strcpy(grplc,tgrplc);
 		    free(tgrplc);
@@ -2110,7 +2084,7 @@ int ffgmop(fitsfile *gfptr,  /* FITS file pointer to grouping table          */
 
 {
   int xtensionCol,extnameCol,extverCol,positionCol,locationCol,uriCol;
-  int grptype,hdutype = 0;
+  int grptype,hdutype;
   int dummy;
 
   long hdupos = 0;
@@ -4029,7 +4003,7 @@ int ffgmf(fitsfile *gfptr, /* pointer to grouping table HDU to search       */
       
       /*
 	if no location string was passed to the function then assume that
-	the calling application does not wish to use it as a comparison
+	the calling application does not wish to use it as a comparision
 	critera ==> if we got this far then we have a match
       */
 
@@ -4043,7 +4017,7 @@ int ffgmf(fitsfile *gfptr, /* pointer to grouping table HDU to search       */
       /*
 	if the grouping table MEMBER_LOCATION column exists then read the
 	location URL for the member, else set the location string to
-	a zero-length string for subsequent comparisons
+	a zero-length string for subsequent comparisions
       */
 
       if(locationCol != 0)
@@ -4323,7 +4297,7 @@ int ffgtcpr(fitsfile   *infptr,  /* input FITS file pointer                 */
 /*
   copy a Group to a new FITS file. If the cpopt parameter is set to 
   OPT_GCP_GPT (copy grouping table only) then the existing members have their 
-  GRPIDn and GRPLCn keywords updated to reflect the existence of the new group,
+  GRPIDn and GRPLCn keywords updated to reflect the existance of the new group,
   since they now belong to another group. If cpopt is set to OPT_GCP_ALL 
   (copy grouping table and members recursively) then the original members are 
   not updated; the new grouping table is modified to include only the copied 
@@ -4771,7 +4745,7 @@ void prepare_keyvalue(char *keyvalue) /* string containing keyword value     */
   strip off all single quote characters "'" and blank spaces from a keyword
   value retrieved via fits_read_key*() routines
 
-  this is necessary so that a standard comparison of keyword values may
+  this is necessary so that a standard comparision of keyword values may
   be made
 */
 
@@ -5735,21 +5709,21 @@ int  fits_get_url(fitsfile *fptr,       /* I ptr to FITS file to evaluate    */
       else if(strcasecmp(tmpStr3,"stdin://")        == 0)        
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make valid URL from stdin:// (fits_get_url)");
+	  ffpmsg("cannot make vaild URL from stdin:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 
       else if(strcasecmp(tmpStr3,"stdout://")       == 0)       
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make valid URL from stdout:// (fits_get_url)");
+	  ffpmsg("cannot make vaild URL from stdout:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 
       else if(strcasecmp(tmpStr3,"irafmem://")      == 0)      
 	{
 	  *status = URL_PARSE_ERROR;
-	  ffpmsg("cannot make valid URL from irafmem:// (fits_get_url)");
+	  ffpmsg("cannot make vaild URL from irafmem:// (fits_get_url)");
 	  *tmpStr1 = *tmpStr2 = 0;
 	}
 

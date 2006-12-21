@@ -80,6 +80,8 @@ set(libcfitsio_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/quantize.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fits_hcompress.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fits_hdecompress.c
 	)
   set (CFITSIO_LIBRARIES cfitsio)
 endif(NOT CFITSIO_FOUND)

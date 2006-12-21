@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /************************************************************************/
 /*                                                                      */
 /*                       CFITSIO Lexical Parser                         */
@@ -68,21 +49,6 @@ Alternate versions of the compress.c and wcsutil.c files (called compress_altern
 /*   Peter D Wilson   Sep 1999  Add row-range capability to ffcalc_rng  */
 /*                                                                      */
 /************************************************************************/
-
-/*THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND,
-EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO,
-ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY
-IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE
-DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE
-SOFTWARE WILL BE ERROR FREE.  IN NO EVENT SHALL NASA BE LIABLE FOR ANY
-DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR
-CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY
-CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY,
-CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY
-PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED
-FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR
-SERVICES PROVIDED HEREUNDER.*/
 
 #include <limits.h>
 #include <ctype.h>
@@ -543,9 +509,10 @@ int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
    char card[81], tform[16], nullKwd[9], tdimKwd[9];
 
    if( *status ) return( *status );
-   
+
    if( ffiprs( infptr, 0, expr, MAXDIMS, &Info.datatype, &nelem, &naxis,
                naxes, status ) ) {
+
       ffcprs();
       return( *status );
    }
@@ -604,6 +571,7 @@ int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
                case TDOUBLE:   strcat(tform,"D");  break;
                case TSTRING:   strcat(tform,"A");  break;
                case TBIT:      strcat(tform,"X");  break;
+               case TLONGLONG: strcat(tform,"K");  break;
                }
             } else {
                switch( Info.datatype ) {
@@ -635,7 +603,7 @@ int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
          if( ffgcrd( outfptr, nullKwd, card, status )==KEY_NO_EXIST ) {
             *status = 0;
             if( gParse.hdutype==BINARY_TBL ) {
-               long nullVal=0;
+	       LONGLONG nullVal=0;
                fits_binary_tform( parInfo, &typecode, &repeat, &width, status );
                if( typecode==TBYTE )
                   nullVal = UCHAR_MAX;
@@ -645,6 +613,9 @@ int ffcalc_rng( fitsfile *infptr,   /* I - Input FITS file                  */
                   nullVal = INT_MIN;
                else if( typecode==TLONG )
                   nullVal = LONG_MIN;
+               else if( typecode==TLONGLONG )
+                  nullVal = LONGLONG_MIN;
+		  
                if( nullVal ) {
                   ffpkyj( outfptr, nullKwd, nullVal, "Null value", status );
                   fits_set_btblnull( outfptr, colNo, nullVal, status );
@@ -986,7 +957,8 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
     /* declare variables static to preserve their values between calls */
     static void *Data, *Null;
     static int  datasize;
-    static long lastRow, jnull, repeat, resDataSize;
+    static long lastRow, repeat, resDataSize;
+    LONGLONG jnull;
     static parseInfo *userInfo;
     static long zeros[4] = {0,0,0,0};
 
@@ -1024,21 +996,21 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
           /* Check for a TNULL/BLANK keyword for output column/image */
 
           status = 0;
-          jnull = 0L;
+          jnull = 0;
           if (gParse.hdutype == IMAGE_HDU) {
              if (gParse.pixFilter->blank)
-                jnull = gParse.pixFilter->blank;
+                jnull = (LONGLONG) gParse.pixFilter->blank;
           }
           else {
-             ffgknj( outcol->fptr, "TNULL", outcol->colnum,
+             ffgknjj( outcol->fptr, "TNULL", outcol->colnum,
                         1, &jnull, (int*)&jj, &status );
 
              if( status==BAD_INTKEY ) {
                 /*  Probably ASCII table with text TNULL keyword  */
                 switch( userInfo->datatype ) {
-                   case TSHORT:  jnull = SHRT_MIN;      break;
-                   case TINT:    jnull = INT_MIN;       break;
-                   case TLONG:   jnull = LONG_MIN;      break;
+                   case TSHORT:  jnull = (LONGLONG) SHRT_MIN;      break;
+                   case TINT:    jnull = (LONGLONG) INT_MIN;       break;
+                   case TLONG:   jnull = (LONGLONG) LONG_MIN;      break;
                 }
              }
           }
@@ -1062,6 +1034,7 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
        case TSHORT:    datasize = sizeof(short);    break;
        case TINT:      datasize = sizeof(int);      break;
        case TLONG:     datasize = sizeof(long);     break;
+       case TLONGLONG: datasize = sizeof(LONGLONG); break;
        case TFLOAT:    datasize = sizeof(float);    break;
        case TDOUBLE:   datasize = sizeof(double);   break;
        case TSTRING:   datasize = sizeof(char*);    break;
@@ -1094,6 +1067,7 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
        case TSHORT:   *(short *)Null = (short)jnull;    break;
        case TINT:     *(int   *)Null = (int  )jnull;    break;
        case TLONG:    *(long  *)Null = (long )jnull;    break;
+       case TLONGLONG: *(LONGLONG  *)Null = (LONGLONG )jnull;    break;
        case TFLOAT:   *(float *)Null = FLOATNULLVALUE;  break;
        case TDOUBLE:  *(double*)Null = DOUBLENULLVALUE; break;
        case TSTRING: (*(char **)Null)[0] = '\1';
@@ -1116,7 +1090,6 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
 
     remain = nrows;
     while( remain ) {
-
        ntodo = minvalue(remain,2500);
        Evaluate_Parser ( firstrow, ntodo );
        if( gParse.status ) break;
@@ -1701,6 +1674,42 @@ int ffcvtn( int   inputType,  /* I - Data type of input array               */
       for(i=0;i<ntodo;i++) {
          if( undef[i] ) {
             ((long*)output)[i] = *(long*)nulval;
+            *anynull = 1;
+         }
+      }
+      break;
+
+   case TLONGLONG:
+      switch( inputType ) {
+      case TLOGICAL:
+      case TBYTE:
+         for( i=0; i<ntodo; i++ )
+            ((LONGLONG*)output)[i] = ((unsigned char*)input)[i];
+         break;
+      case TSHORT:
+         for( i=0; i<ntodo; i++ )
+            ((LONGLONG*)output)[i] = ((short*)input)[i];
+         break;
+      case TLONG:
+         for( i=0; i<ntodo; i++ )
+            ((LONGLONG*)output)[i] = ((long*)input)[i];
+         break;
+      case TFLOAT:
+         fffr4i8((float*)input,ntodo,1.,0.,0,0,NULL,NULL,
+                 (LONGLONG*)output,status);
+         break;
+      case TDOUBLE:
+         fffr8i8((double*)input,ntodo,1.,0.,0,0,NULL,NULL,
+                 (LONGLONG*)output,status);
+
+         break;
+      default:
+         *status = BAD_DATATYPE;
+         break;
+      }
+      for(i=0;i<ntodo;i++) {
+         if( undef[i] ) {
+            ((LONGLONG*)output)[i] = *(LONGLONG*)nulval;
             *anynull = 1;
          }
       }
@@ -2329,6 +2338,10 @@ if (gParse.hdutype != IMAGE_HDU) {
       if( gParse.hdutype == ASCII_TBL ) repeat = width;
       break;
    default:
+      if (typecode < 0) {
+        sprintf(temp, "variable-length array columns are not supported. typecode = %d", typecode);
+        ffpmsg(temp);
+      }
       gParse.status = PARSE_BAD_TYPE;
       return pERROR;
    }
@@ -2589,6 +2602,13 @@ int fits_pixel_filter (PixelFilter * filter, int * status)
 
    if (DEBUG_PIXFILTER)
       printf("input bitpix %d\n", bitpix);
+
+   if (Info.datatype == TDOUBLE) {
+       /*  for floating point expressions, set the default output image to
+           bitpix = -32 (float) unless the default is already a double */
+       if (bitpix != DOUBLE_IMG)
+           bitpix = FLOAT_IMG;
+   }
 
    /* override output image bitpix if specified by caller */
    if (filter->bitpix)
