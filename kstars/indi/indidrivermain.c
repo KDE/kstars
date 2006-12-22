@@ -51,6 +51,7 @@ static void usage(void);
 static void clientMsgCB(int fd, void *arg);
 static int dispatch (XMLEle *root, char msg[]);
 static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
+static int isPropDefined(const char *property_name);
 const char *pstateStr(IPState s);
 const char *sstateStr(ISState s);
 const char *ruleStr(ISRule r);
@@ -116,6 +117,19 @@ main (int ac, char *av[])
 	return (1);
 }
 
+/* Return 1 is property is already cached, 0 otherwise */
+static int isPropDefined(const char *property_name)
+{
+  int i=0;
+  
+  for (i=0; i < nroCheck; i++)
+    if (!strcmp(property_name, roCheck[i].propName))
+	return 1;
+
+  return 0;
+
+}
+
 /* functions we define that drivers may call */
 
 /* tell client to create a text vector property */
@@ -154,14 +168,17 @@ IDDefText (const ITextVectorProperty *tvp, const char *fmt, ...)
 	}
 
 	printf ("</defTextVector>\n");
+
+	if (!isPropDefined(tvp->name))
+	{	
+		/* Add this property to insure proper sanity check */
+		roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  	: (ROSC *) malloc  ( sizeof(ROSC));
+		SC      = &roCheck[nroCheck++];
 	
-	/* Add this property to insure proper sanity check */
-	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
-	                  : (ROSC *) malloc  ( sizeof(ROSC));
-	SC      = &roCheck[nroCheck++];
-	
-	strcpy(SC->propName, tvp->name);
-	SC->perm = tvp->p;
+		strcpy(SC->propName, tvp->name);
+		SC->perm = tvp->p;
+	}
 	
 	fflush (stdout);
 }
@@ -207,13 +224,17 @@ IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 
 	printf ("</defNumberVector>\n");
 	
-	/* Add this property to insure proper sanity check */
-	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
-	                  : (ROSC *) malloc  ( sizeof(ROSC));
-	SC      = &roCheck[nroCheck++];
+	if (!isPropDefined(n->name))
+	{	
+		/* Add this property to insure proper sanity check */
+		roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  	: (ROSC *) malloc  ( sizeof(ROSC));
+		SC      = &roCheck[nroCheck++];
 	
-	strcpy(SC->propName, n->name);
-	SC->perm = n->p;
+		strcpy(SC->propName, n->name);
+		SC->perm = n->p;
+
+	}
 	
 	fflush (stdout);
 }
@@ -257,13 +278,16 @@ IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
 
 	printf ("</defSwitchVector>\n");
 	
-	/* Add this property to insure proper sanity check */
-	roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
-	                  : (ROSC *) malloc  ( sizeof(ROSC));
-	SC      = &roCheck[nroCheck++];
+	if (!isPropDefined(s->name))
+	{	
+		/* Add this property to insure proper sanity check */
+		roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  	: (ROSC *) malloc  ( sizeof(ROSC));
+		SC      = &roCheck[nroCheck++];
 	
-	strcpy(SC->propName, s->name);
-	SC->perm = s->p;
+		strcpy(SC->propName, s->name);
+		SC->perm = s->p;
+	}
 	
 	fflush (stdout);
 }
@@ -309,6 +333,7 @@ void
 IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
 {
   int i;
+  ROSC *SC;
 
 	printf ("<defBLOBVector\n");
 	printf ("  device='%s'\n", b->device);
@@ -338,6 +363,18 @@ IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
   }
 
 	printf ("</defBLOBVector>\n");
+
+	if (!isPropDefined(b->name))
+	{	
+		/* Add this property to insure proper sanity check */
+		roCheck = roCheck ? (ROSC *) realloc ( roCheck, sizeof(ROSC) * (nroCheck+1))
+	                  	: (ROSC *) malloc  ( sizeof(ROSC));
+		SC      = &roCheck[nroCheck++];
+	
+		strcpy(SC->propName, b->name);
+		SC->perm = b->p;
+	}
+
 	fflush (stdout);
 }
 

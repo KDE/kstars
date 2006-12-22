@@ -1015,7 +1015,31 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 	int ob_type = 0;
 	XMLAtt* ap;
 	ObserverInfo* ob;
+	DvrInfo *observed;
+
+	Msg *mp;
+	char xmlAlertStr[BUFSZ];
+	char errmsg[BUFSZ];
+	XMLEle* xmlAlert = NULL;
+	unsigned int i=0;
 	
+	snprintf(xmlAlertStr, BUFSZ, "<getProperties version='%g'/>", INDIV);
+	
+	for (i=0; i < strlen(xmlAlertStr); i++)
+	{
+		xmlAlert = readXMLEle(dp->lp, xmlAlertStr[i], errmsg);
+		if (xmlAlert)
+			break;
+	}
+	
+	/* Shouldn't happen! */
+	if (!xmlAlert) return;
+	
+	/* build a new message */
+	mp = (Msg *) malloc (sizeof(Msg));
+	mp->ep = xmlAlert;
+	mp->count = 0;
+
 	ap = findXMLAtt(root, "device");
 	if (!ap)
 	{
@@ -1089,6 +1113,17 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		
 		nobserverinfo_active++;
 
+		/* Tell client to redefine its properties which shall update the observer with the current state/value of the observed property */
+		for (observed = dvrinfo; observed < &dvrinfo[ndvrinfo]; observed++) 
+		{
+			if (!strcmp(ob->dev, observed->dev))
+			{
+				mp->count++;
+				pushFQ (observed->msgq, mp);
+				break;
+			}
+		}
+
 		if (verbose > 1)
 			fprintf(stderr, "Added observer <%s> to listen to changes in %s.%s\n", dp->dev, ob->dev, ob->name);
 
@@ -1113,6 +1148,8 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		fprintf(stderr, "<%s> invalid action value: %s\n", tagXMLEle(root), valuXMLAtt(ap));
 	}
 
+	if (!mp->count) /* not added anywhere */
+	    freeMsg(mp);
 
 }
 
