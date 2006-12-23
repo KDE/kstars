@@ -292,7 +292,7 @@ void StopSlew(int direction)
     }
   else if(direction == WEST)
     {
-      slewCmd[2] = 0x11; 
+      slewCmd[2] = 0x10; 
       slewCmd[3] = 0x24;
     }
 
