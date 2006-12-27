@@ -39,8 +39,9 @@ public:
 	~modCalcAngDist();
 
 public slots:
-	void slotComputeDist();
-	void slotClearCoords();
+	void slotValidatePositions();
+	void slotObjectButton();
+	void slotResetTitle();
 	void slotInputFile();
 	void slotOutputFile();
 	void slotRunBatch();
@@ -50,10 +51,7 @@ private:
 	void processLines( QTextStream &istream );
 
 	/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
-	SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox);
-
-	/**Fill the angular distance. */
-	void showDist ( dms dist );
+	SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox, bool *ok);
 
 };
 

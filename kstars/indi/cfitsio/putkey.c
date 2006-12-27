@@ -1,22 +1,3 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /*  This file, putkey.c, contains routines that write keywords to          */
 /*  a FITS header.                                                         */
 
@@ -836,9 +817,6 @@ int ffpkyt( fitsfile *fptr,      /* I - FITS file pointer        */
     ffd2f(fraction, 16, fstring, status);  /* convert to 16 decimal string */
 
     cptr = strchr(fstring, '.');    /* find the decimal point */
-    if (!cptr) 
-	return BAD_F2C;
- 
     strcat(valstring, cptr);    /* append the fraction to the integer */
 
     ffmkky(keyname, valstring, comm, card, status);  /* construct the keyword*/
@@ -2201,9 +2179,7 @@ int ffphprll( fitsfile *fptr, /* I - FITS file pointer                        */
            tnaxes[ii] = (long) naxes[ii];
 	   
         /* write header for a compressed image */
-        imcomp_init_table(fptr, (fptr->Fptr)->request_compress_type, 
-        bitpix, naxis, tnaxes, (fptr->Fptr)->request_tilesize, 32,
-        (fptr->Fptr)->request_rice_nbits, status);
+        imcomp_init_table(fptr, bitpix, naxis, tnaxes, 1, status);
         return(*status);
       }
     }  
@@ -2428,10 +2404,8 @@ int ffphtb(fitsfile *fptr,  /* I - FITS file pointer                        */
           ffpkys(fptr, name, ttype[ii], comm, status);
         }
 
-        if (!tbcol || tbcol[ii] < 1 || tbcol[ii] > rowlen) {
+        if (tbcol[ii] < 1 || tbcol[ii] > rowlen)
            *status = BAD_TBCOL;
-           break;
-        }
 
         sprintf(comm, "beginning column of field %3d", ii + 1);
         ffkeyn("TBCOL", ii + 1, name, status);
@@ -2444,7 +2418,7 @@ int ffphtb(fitsfile *fptr,  /* I - FITS file pointer                        */
 
         if (tunit)
         {
-         if (*tunit && *(tunit[ii]) )  /* optional TUNITn keyword */
+         if (tunit[ii] && *(tunit[ii]) )  /* optional TUNITn keyword */
          {
           ffkeyn("TUNIT", ii + 1, name, status);
           ffpkys(fptr, name, tunit[ii], "physical unit of field", status) ;
@@ -2571,9 +2545,10 @@ int ffphbn(fitsfile *fptr,  /* I - FITS file pointer                        */
             /* the keyword comment.  */
 
             cptr = strchr(tfmt,'A');
+            cptr++;
 
             if (cptr)
-               iread = sscanf(cptr + 1,"%ld", &width);
+               iread = sscanf(cptr,"%ld", &width);
 
             if (iread == 1 && (width > repeat)) 
             {
@@ -2677,7 +2652,7 @@ int ffphbn(fitsfile *fptr,  /* I - FITS file pointer                        */
 
         if (tunit)
         {
-         if (*tunit && *(tunit[ii]) ) /* optional TUNITn keyword */
+         if (tunit[ii] && *(tunit[ii]) ) /* optional TUNITn keyword */
          {
           ffkeyn("TUNIT", ii + 1, name, status);
           ffpkys(fptr, name, tunit[ii],
@@ -2698,6 +2673,67 @@ int ffphbn(fitsfile *fptr,  /* I - FITS file pointer                        */
 
     if (*status > 0)
         ffpmsg("Failed to write binary table header keywords (ffphbn)");
+
+    return(*status);
+}
+/*--------------------------------------------------------------------------*/
+int ffphext(fitsfile *fptr,  /* I - FITS file pointer                       */
+           char *xtension,   /* I - value for the XTENSION keyword          */
+           int bitpix,       /* I - value for the BIXPIX keyword            */
+           int naxis,        /* I - value for the NAXIS keyword             */
+           long naxes[],     /* I - value for the NAXISn keywords           */
+           LONGLONG pcount,  /* I - value for the PCOUNT keyword            */
+           LONGLONG gcount,  /* I - value for the GCOUNT keyword            */
+           int *status)      /* IO - error status                           */
+/*
+  Put required Header keywords into a conforming extension:
+*/
+{
+    char message[FLEN_ERRMSG],comm[81], name[20];
+    int ii;
+ 
+    if (fptr->HDUposition != (fptr->Fptr)->curhdu)
+        ffmahd(fptr, (fptr->HDUposition) + 1, NULL, status);
+
+    if (*status > 0)
+        return(*status);
+    else if ((fptr->Fptr)->headend != (fptr->Fptr)->headstart[(fptr->Fptr)->curhdu] )
+        return(*status = HEADER_NOT_EMPTY);
+
+    if (naxis < 0 || naxis > 999)
+    {
+        sprintf(message,
+        "Illegal value for NAXIS keyword: %d", naxis);
+        ffpmsg(message);
+        return(*status = BAD_NAXIS);
+    }
+
+    ffpkys(fptr, "XTENSION", xtension, "extension type", status);
+    ffpkyj(fptr, "BITPIX",   bitpix,   "number of bits per data pixel", status);
+    ffpkyj(fptr, "NAXIS",    naxis,    "number of data axes", status);
+
+    strcpy(comm, "length of data axis ");
+    for (ii = 0; ii < naxis; ii++)
+    {
+        if (naxes[ii] < 0)
+        {
+            sprintf(message,
+            "Illegal negative value for NAXIS%d keyword: %.0f", ii + 1, (double) (naxes[ii]));
+            ffpmsg(message);
+            return(*status = BAD_NAXES);
+        }
+
+        sprintf(&comm[20], "%d", ii + 1);
+        ffkeyn("NAXIS", ii + 1, name, status);
+        ffpkyj(fptr, name, naxes[ii], comm, status);
+    }
+
+
+    ffpkyj(fptr, "PCOUNT", pcount, " ", status);
+    ffpkyj(fptr, "GCOUNT", gcount, " ", status);
+
+    if (*status > 0)
+        ffpmsg("Failed to write extension header keywords (ffphext)");
 
     return(*status);
 }

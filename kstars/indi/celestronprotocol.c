@@ -35,7 +35,16 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
+
+#ifndef HAVE_CONFIG_H
+#include "kstars/config-kstars.h"
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
+#else
+#include <termios.h>
+#endif
+
 #include <math.h>
 #include "celestronprotocol.h"
 
@@ -126,6 +135,9 @@ int CheckConnectTel(void)
 
 int ConnectTel(char *port)
 {
+#ifdef _WIN32
+  return -1;
+#else
   struct termios tty;
   char returnStr[128];
   int numRead;
@@ -178,7 +190,7 @@ int ConnectTel(char *port)
   else
    return -1;
 
-
+#endif
 }
 
 /* Assign and save slewRate for use in StartSlew */
@@ -280,7 +292,7 @@ void StopSlew(int direction)
     }
   else if(direction == WEST)
     {
-      slewCmd[2] = 0x11; 
+      slewCmd[2] = 0x10; 
       slewCmd[3] = 0x24;
     }
 

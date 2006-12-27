@@ -241,7 +241,7 @@ void telescopeProp::removeScope()
   index = ui->telescopeListBox->currentRow();
   finalIndex = findDeviceIndex(index);
 
-  if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove %1?", indi_driver->devices[finalIndex]->label), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
+  if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove %1?", indi_driver->devices[finalIndex]->label), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
            return;
 
   ui->telescopeListBox->takeItem(index);

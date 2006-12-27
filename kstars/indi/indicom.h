@@ -45,7 +45,16 @@
 #define INDICOM_H
 
 #include <time.h>
+
+#ifndef HAVE_CONFIG_H
+#include "kstars/config-kstars.h"
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
+#else
+#include <termios.h>
+#endif
+
 
 #define J2000 2451545.0
 #define ERRMSG_SIZE 1024

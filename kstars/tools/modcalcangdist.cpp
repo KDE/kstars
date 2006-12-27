@@ -20,6 +20,8 @@
 #include "dms.h"
 #include "widgets/dmsbox.h"
 #include "skypoint.h"
+#include "finddialog.h"
+#include "kstars.h"
 
 #include <qcheckbox.h>
 #include <qradiobutton.h>
@@ -34,53 +36,86 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	ra0Box->setDegType(false);
-	ra1Box->setDegType(false);
+	FirstRA->setDegType(false);
+	SecondRA->setDegType(false);
 
-	connect( Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()) );
-	connect( Compute, SIGNAL(clicked()), this, SLOT(slotComputeDist()) );
+	connect( FirstRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+	connect( FirstDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+	connect( SecondRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+	connect( SecondDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+	connect( FirstRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+	connect( FirstDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+	connect( SecondRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+	connect( SecondDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+	connect( FirstObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
+	connect( SecondObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
 	connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
 	connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
 	connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
 
 	show();
+	slotValidatePositions();
 }
 
 modCalcAngDist::~modCalcAngDist(){
 }
 
-SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox) {
+SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox, bool *ok) {
 	dms raCoord, decCoord;
 
-	raCoord = rBox->createDms(false);
-	decCoord = dBox->createDms();
+	bool ok2=false;
+	raCoord = rBox->createDms(false, &ok2);
+	if ( ok2 )
+	  decCoord = dBox->createDms(true, &ok2);
 
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	return sp;
+	if ( ok2 ) {
+	  if ( ok ) *ok = ok2;
+	  return SkyPoint (raCoord, decCoord);
+	} else {
+	  if ( ok ) *ok = ok2;
+	  return SkyPoint();
+	}
 }
 
-void modCalcAngDist::showDist ( dms angDist ) {
-	distBox->show( angDist );
-}
-
-void modCalcAngDist::slotClearCoords(){
-
-	ra0Box->clearFields();
-	dec0Box->clearFields();
-	ra1Box->clearFields();
-	dec1Box->clearFields();
-	distBox->clearFields();
-}
-
-void modCalcAngDist::slotComputeDist(){
+void modCalcAngDist::slotValidatePositions(){
 
 	SkyPoint sp0,sp1;
-	sp0 = getCoords(ra0Box, dec0Box);
-	sp1 = getCoords(ra1Box, dec1Box);
+	bool ok;
+	sp0 = getCoords(FirstRA, FirstDec, &ok);
 
-	dms aDist = sp0.angularDistanceTo(&sp1);
-	showDist( aDist );
+	if ( ok )
+	  sp1 = getCoords(SecondRA, SecondDec, &ok);
+
+	if ( ok ) 
+	  AngDist->setText( sp0.angularDistanceTo(&sp1).toDMSString() );
+	else 
+	  AngDist->setText( " .... " );
+}
+
+void modCalcAngDist::slotObjectButton() {
+	FindDialog fd( (KStars*)topLevelWidget()->parent() );
+	if ( fd.exec() == QDialog::Accepted ) {
+	  SkyObject *o = fd.currentItem();
+	  if ( sender()->objectName() == QString("FirstObjectButton") ) {
+	    FirstRA->showInHours( o->ra() );
+	    FirstDec->showInDegrees( o->dec() );
+	    FirstPositionBox->setTitle( i18n("First position") + ": " + o->name() );
+	  } else {
+	    SecondRA->showInHours( o->ra() );
+	    SecondDec->showInDegrees( o->dec() );
+	    SecondPositionBox->setTitle( i18n("Second position") + ": " + o->name() );
+	  }
+
+	  slotValidatePositions();
+	}
+}
+
+void modCalcAngDist::slotResetTitle() {
+  QString name = sender()->objectName();
+  if ( name.contains( "First" ) ) 
+    FirstPositionBox->setTitle( i18n("First position") );
+  else
+    SecondPositionBox->setTitle( i18n("Second position") );
 }
 
 void modCalcAngDist::slotInputFile() {

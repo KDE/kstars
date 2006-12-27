@@ -27,7 +27,10 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
-
+#ifdef _WIN32
+#define CX _CX
+#define CY _CY
+#endif
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -38,7 +41,10 @@
 #include <stdarg.h>
 
 #include "indicom.h"
-
+#ifdef _WIN32
+#undef CX
+#undef CY
+#endif
 const char * Direction[] = { "North", "West", "East", "South", "All"};
 const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"};
 
@@ -47,9 +53,11 @@ const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "S
 #define M_PI 3.14159265358979323846264338327950288419716939937510582097494459
 #endif
 
+#ifndef _WIN32
 #define PARITY_NONE    0
 #define PARITY_EVEN    1
 #define PARITY_ODD     2
+#endif
 
 /******** Prototypes ***********/
 double DegToRad( double num );
@@ -464,7 +472,6 @@ double JDtoGMST( double jd )
 
 int extractISOTime(char *timestr, struct tm *utm)
 {
-
   if (strptime(timestr, "%Y-%m-%dT%H:%M:%S", utm))
    return (0);
   if (strptime(timestr, "%Y/%m/%dT%H:%M:%S", utm))
@@ -475,7 +482,6 @@ int extractISOTime(char *timestr, struct tm *utm)
    return (0);
 
    return (-1);
-
 }
 
 /* sprint the variable a in sexagesimal format into out[].
@@ -788,6 +794,10 @@ int tty_read_section(int fd, char *buf, char stop_char, int timeout, int *nbytes
 
 int tty_connect(const char *device, int bit_rate, int word_size, int parity, int stop_bits, int *fd)
 {
+#ifdef _WIN32
+  return TTY_PORT_FAILURE;
+
+#else
  int t_fd=0;
  char *msg;
  int bps;
@@ -970,10 +980,14 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
   *fd = t_fd;
   /* return success */
   return TTY_OK;
+#endif
 }
 
 int tty_disconnect(int fd)
 {
+#ifdef _WIN32
+	return TTY_ERRNO;
+#else
 	int err;
 	tcflush(fd, TCIOFLUSH);
 	err = close(fd);
@@ -982,6 +996,7 @@ int tty_disconnect(int fd)
 		return TTY_ERRNO;
 
         return TTY_OK;
+#endif
 }
 
 void tty_error_msg(int err_code, char *err_msg, int err_msg_len)

@@ -22,7 +22,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kaction.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 
 #include <kdebug.h>
 #include <ktoolbar.h>
@@ -116,13 +116,13 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
         action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
     }
 
-    KStdAction::open(this, SLOT(fileOpen()), actionCollection());
-    KStdAction::save(this, SLOT(fileSave()), actionCollection());
-    KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
-    KStdAction::close(this, SLOT(slotClose()), actionCollection());
-    KStdAction::copy(this, SLOT(fitsCOPY()), actionCollection());
-    KStdAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
-    KStdAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
+    KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
+    KStandardAction::save(this, SLOT(fileSave()), actionCollection());
+    KStandardAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
+    KStandardAction::close(this, SLOT(slotClose()), actionCollection());
+    KStandardAction::copy(this, SLOT(fitsCOPY()), actionCollection());
+    KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
+    KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     action = new KAction(KIcon("viewmagfit.png"),  i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_D ));
@@ -169,7 +169,7 @@ void FITSViewer::slotClose()
 
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )
@@ -188,7 +188,7 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )
@@ -210,7 +210,7 @@ void FITSViewer::fileOpen()
 
   QString caption = i18n( "Save Changes to FITS?" );
 		QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )

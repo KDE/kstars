@@ -1,27 +1,37 @@
-/*
-Copyright (Unpublished-all rights reserved under the copyright laws of the United States), U.S. Government as represented by the Administrator of the National Aeronautics and Space Administration. No copyright is claimed in the United States under Title 17, U.S. Code.
-
-Permission to freely use, copy, modify, and distribute this software and its documentation without fee is hereby granted, provided that this copyright notice and disclaimer of warranty appears in all copies. (However, see the restriction on the use of the gzip compression code, below).
-
-e-mail: pence@tetra.gsfc.nasa.gov
-
-DISCLAIMER:
-
-THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL NASA BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY, CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER."
-
-The file compress.c contains (slightly modified) source code that originally came from gzip-1.2.4, copyright (C) 1992-1993 by Jean-loup Gailly. This gzip code is distributed under the GNU General Public License and thus requires that any software that uses the CFITSIO library (which in turn uses the gzip code) must conform to the provisions in the GNU General Public License. A copy of the GNU license is included at the beginning of compress.c file.
-
-Similarly, the file wcsutil.c contains 2 slightly modified routines from the Classic AIPS package that are also distributed under the GNU General Public License.
-
-Alternate versions of the compress.c and wcsutil.c files (called compress_alternate.c and wcsutil_alternate.c) are provided for users who want to use the CFITSIO library but are unwilling or unable to publicly release their software under the terms of the GNU General Public License. These alternate versions contains non-functional stubs for the file compression and uncompression routines and the world coordinate transformation routines used by CFITSIO. Replace the file `compress.c' with `compress_alternate.c' and 'wcsutil.c' with 'wcsutil_alternate.c before compiling the CFITSIO library. This will produce a version of CFITSIO which does not support reading or writing compressed FITS files, or doing image coordinate transformations, but is otherwise identical to the standard version. 
-
-*/
-
 /*  This file, fitscore.c, contains the core set of FITSIO routines.       */
 
 /*  The FITSIO software was written by William Pence at the High Energy    */
 /*  Astrophysic Science Archive Research Center (HEASARC) at the NASA      */
 /*  Goddard Space Flight Center.                                           */
+/*
+
+Copyright (Unpublished--all rights reserved under the copyright laws of
+the United States), U.S. Government as represented by the Administrator
+of the National Aeronautics and Space Administration.  No copyright is
+claimed in the United States under Title 17, U.S. Code.
+
+Permission to freely use, copy, modify, and distribute this software
+and its documentation without fee is hereby granted, provided that this
+copyright notice and disclaimer of warranty appears in all copies.
+
+DISCLAIMER:
+
+THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND,
+EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO,
+ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE
+DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE
+SOFTWARE WILL BE ERROR FREE.  IN NO EVENT SHALL NASA BE LIABLE FOR ANY
+DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES, ARISING OUT OF, RESULTING FROM, OR IN ANY WAY
+CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY,
+CONTRACT, TORT , OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY
+PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER OR NOT LOSS WAS SUSTAINED
+FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR
+SERVICES PROVIDED HEREUNDER."
+
+*/
 
 
 #include <string.h>
@@ -50,12 +60,15 @@ float ffvers(float *version)  /* IO - version number */
   return the current version number of the FITSIO software
 */
 {
-      *version = (float) 3.006;
+      *version = (float) 3.03;
 
-/*     20 February 2006
+/*     11 Dec 2006
 
 
    Previous releases:
+      *version = 3.02    18 Sep 2006
+      *version = 3.01       May 2006 included in FTOOLS 6.1 release
+      *version = 3.006   20 Feb 2006 
       *version = 3.005   20 Dec 2005 (beta, in heasoft swift release
       *version = 3.004   16 Sep 2005 (beta, in heasoft swift release
       *version = 3.003   28 Jul 2005 (beta, in heasoft swift release
@@ -1743,6 +1756,7 @@ then values of 'n' less than or equal to n_value will match.
 
     /* ===== Pattern match stage */
     for (pat=0; pat < npat; pat++) {
+
       spat = patterns[pat][0];
       
       i1 = 0; j1 = 0; m1 = -1; n1 = -1; a = ' ';  /* Initialize the place-holders */
@@ -1880,7 +1894,7 @@ then values of 'n' less than or equal to n_value will match.
 	  ic ++;
 	}
 	ic --;
-      } else if (s == 'a' && a != ' ') {
+      } else if (s == 'a') {
 	outrec[ic] = a;
       } else {
 	outrec[ic] = s;
@@ -1959,7 +1973,7 @@ int ffasfm(char *tform,    /* I - format code from the TFORMn keyword */
   type, the field width, and number of decimal places (if relevant)
 */
     int ii, datacode;
-    long longval, width = 0;
+    long longval, width;
     float fwidth;
     char *form, temp[FLEN_VALUE], message[FLEN_ERRMSG];
 
@@ -3395,6 +3409,8 @@ int ffgbclll( fitsfile *fptr,   /* I - FITS file pointer                      */
             strcat(dtype, "I");
         else if (abs(colptr->tdatatype) == TLONG)
             strcat(dtype, "J");
+        else if (abs(colptr->tdatatype) == TLONGLONG)
+            strcat(dtype, "K");
         else if (abs(colptr->tdatatype) == TFLOAT)
             strcat(dtype, "E");
         else if (abs(colptr->tdatatype) == TDOUBLE)
@@ -5158,7 +5174,7 @@ int ffcmph(fitsfile *fptr,  /* I -FITS file pointer                         */
         return(*status);
     }
 
-    buffer = malloc(buffsize);  /* allocate initial buffer */
+    buffer = (char *) malloc(buffsize);  /* allocate initial buffer */
     if (!buffer)
     {
         sprintf(message,"Failed to allocate buffer to copy the heap");
@@ -5911,7 +5927,7 @@ int ffwend(fitsfile *fptr,       /* I - FITS file pointer */
     The END keyword must either be placed immediately after the last
     keyword that was written (as indicated by the headend value), or
     must be in the first 80 bytes of the 2880-byte FITS record immediately 
-    preceding the data unit, whichever is further in the file. The
+    preceeding the data unit, whichever is further in the file. The
     latter will occur if space has been reserved for more header keywords
     which have not yet been written.
     */
@@ -7094,6 +7110,7 @@ int ffgkcl(char *tcard)
                   ZIMAGE, ZCMPTYPE, ZNAMEn, ZVALn, ZTILEn, 
                   ZBITPIX, ZNAXISn, ZSCALE, ZZERO, ZBLANK,
                   EXTNAME = 'COMPRESSED_IMAGE'
+		  ZSIMPLE, ZTENSION, ZEXTEND, ZBLOCKED, ZPCOUNT, ZGCOUNT
 
    TYP_SCAL_KEY:  BSCALE, BZERO, TSCALn, TZEROn
 
@@ -7180,6 +7197,18 @@ int ffgkcl(char *tcard)
 	else if (FSTRNCMP (card1, "ZERO   ", 7) == 0)
 	    return (TYP_CMPRS_KEY);
 	else if (FSTRNCMP (card1, "BLANK  ", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "SIMPLE ", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "TENSION", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "EXTEND ", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "BLOCKED", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "PCOUNT ", 7) == 0)
+	    return (TYP_CMPRS_KEY);
+	else if (FSTRNCMP (card1, "GCOUNT ", 7) == 0)
 	    return (TYP_CMPRS_KEY);
     }
     else if (*card == ' ')

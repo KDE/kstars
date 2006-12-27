@@ -34,53 +34,40 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
 
     // signals and slots connections
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
-    connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearTime()));
-    connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeTime()));
-
-	showCurrentTime();
-	show();
+    connect( DateTimeBox, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotUpdateCalendar()) );
+    connect( JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()) );
+    connect( ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()) );
+    showCurrentTime();
+    slotUpdateCalendar();
+    show();
 }
 
 modCalcJD::~modCalcJD(void)
 {
 }
 
-void modCalcJD::slotComputeTime (void)
-{
-	
-	if(DateRadio->isChecked()) {
-		computeFromCalendar();
-	} else if (JdRadio->isChecked()) {
-		JDBox->setFocus();
-		computeFromJd();
-	} else if (MjdRadio->isChecked()) {
-		ModJDBox->setFocus();
-		computeFromMjd();
-	}
-}
-
-void modCalcJD::computeFromCalendar (void)
+void modCalcJD::slotUpdateCalendar()
 {
 	long double julianDay, modjulianDay;
 	
-	julianDay = getDateTime().djd();
+	julianDay = KStarsDateTime(DateTimeBox->dateTime()).djd();
 	showJd( julianDay );
 
 	modjulianDay = julianDay - MJD0;
 	showMjd(modjulianDay);
 }
 
-void modCalcJD::computeFromMjd (void)
+void modCalcJD::slotUpdateModJD()
 {
 	long double julianDay, modjulianDay;
 
 	modjulianDay = KGlobal::locale()->readNumber( ModJDBox->text() );
 	julianDay = MJD0 + modjulianDay;
 	showJd( julianDay );
-	computeFromJd();
+	DateTimeBox->setDateTime( KStarsDateTime( julianDay ) );
 }
 
-void modCalcJD::computeFromJd (void)
+void modCalcJD::slotUpdateJD()
 {
 	long double julianDay, modjulianDay;
 	julianDay = KGlobal::locale()->readNumber( JDBox->text() );
@@ -93,22 +80,10 @@ void modCalcJD::computeFromJd (void)
 }
 
 
-void modCalcJD::slotClearTime (void)
-{
-	JDBox->setText (QString());
-	ModJDBox->setText (QString());
-	DateTimeBox->setDateTime( ExtDateTime::currentDateTime() );
-}
-
 void modCalcJD::showCurrentTime (void)
 {
 	KStarsDateTime dt = KStarsDateTime::currentDateTime();
 	DateTimeBox->setDateTime( dt );
-}
-
-KStarsDateTime modCalcJD::getDateTime (void)
-{
-	return KStarsDateTime( DateTimeBox->dateTime() );
 }
 
 void modCalcJD::showJd(long double julianDay)

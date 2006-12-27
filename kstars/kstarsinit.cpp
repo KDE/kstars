@@ -26,7 +26,7 @@
 #include <kstatusbar.h>
 #include <ktip.h>
 #include <kmessagebox.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kstandarddirs.h>
 #include <kdeversion.h>
 #include <ktoggleaction.h>
@@ -79,8 +79,8 @@ void KStars::initActions() {
 	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_R ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotRunScript() ) );
 
-	KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
-	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
+	KStandardAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
+	KStandardAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
 
 //Time Menu:
 	ka = new KAction( i18n( "Set Time to &Now" ), actionCollection(), "time_to_now" );
@@ -136,8 +136,8 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotManualFocus() ) );
 
 //View Menu:
-	KStdAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
-	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
+	KStandardAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
+	KStandardAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
 
 	ka = new KAction( KIcon( "viewmagfit" ), i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
 	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_Z ) );
@@ -147,7 +147,7 @@ void KStars::initActions() {
 	ka->setShortcut( KShortcut( Qt::CTRL+Qt::SHIFT+Qt::Key_Z ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );
 
-	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+	KStandardAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
 
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
 			KShortcut( "Space" ), this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
@@ -226,7 +226,7 @@ void KStars::initActions() {
 			actionCollection(), "show_viewToolBar");
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-	KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection(), "configure_toolbars" );
+	KStandardAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection(), "configure_toolbars" );
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
@@ -273,7 +273,7 @@ void KStars::initActions() {
 	ka->setShortcut( KShortcut( Qt::CTRL+Qt::Key_G  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotGeoLocator() ) );
 
-	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
+	KStandardAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
 
 	ka = new KAction( KIcon( "wizard" ), i18n( "Startup Wizard..." ), actionCollection(), "startwizard" );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotWizard() ) );
@@ -319,6 +319,7 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
 // devices Menu
+#ifndef Q_WS_WIN
 	ka = new KAction( i18n("Telescope Wizard..."), actionCollection(), "telescope_wizard");
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeWizard() ) );
 
@@ -338,11 +339,12 @@ void KStars::initActions() {
 
 	ka = new KAction( i18n("Configure INDI..."), actionCollection(), "configure_indi");
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
+#endif
 
 //Help Menu:
-//	KStdAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+//	KStandardAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
 
-//	KStdAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
+//	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
 	//Add timestep widget for toolbar
 	TimeStep = new TimeStepBox( toolBar("kstarsToolBar") );
@@ -618,8 +620,11 @@ void KStars::buildGUI() {
 	initStatusBar();
 	initActions();
 
+#ifdef Q_WS_WIN
+	createGUI("kstarsui-win.rc");
+#else
 	createGUI("kstarsui.rc");
-
+#endif
 	//Initialize FOV symbol from options
 	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );

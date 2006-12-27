@@ -35,7 +35,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 
 	// signals and slots connections
 	connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotChangeLocation()));
-	connect(Date, SIGNAL(valueChanged(ExtDate)), this, SLOT(slotChangeDate()));
+	connect(Date, SIGNAL(dateChanged(const ExtDate&)), this, SLOT(slotChangeDate()));
 	connect(LT, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertST(const QTime&)));
 	connect(ST, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertLT(const QTime&)));
 	connect(this, SIGNAL(frameShown()), this, SLOT(slotShown()));

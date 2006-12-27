@@ -42,15 +42,10 @@ public:
 	modCalcJD(QWidget *p);
 	~modCalcJD();
 	
-	void computeFromCalendar (void);
-	void computeFromMjd (void);
-	void computeFromJd (void);
-	KStarsDateTime getDateTime (void);
-
 public slots:
-		
-	void slotComputeTime(void);
-	void slotClearTime(void);
+       	void slotUpdateCalendar();
+	void slotUpdateModJD();
+	void slotUpdateJD();
 	void showCurrentTime(void);
 
 private:

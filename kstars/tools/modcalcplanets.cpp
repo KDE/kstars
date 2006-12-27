@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QString>
 #include <kfiledialog.h>
+#include <kglobal.h>
 #include <kmessagebox.h>
 
 #include "modcalcplanets.h"

@@ -116,8 +116,10 @@ class FITSImage : public QScrollArea
 	private:
 
 	double average();
+#ifndef Q_WS_WIN
 	double min(int & minIndex);
 	double max(int & maxIndex);
+#endif
 	double stddev();
 
 	int calculateMinMax(bool refresh=false);

@@ -19,6 +19,7 @@
 
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+#include <kglobal.h>
 
 #include "modcalcazel.h"
 

@@ -473,7 +473,7 @@ void KStars::slotExportImage() {
 								i18n( "A file named \"%1\" already exists. "
 										"Overwrite it?" , fileURL.fileName()),
 								i18n( "Overwrite File?" ),
-								KStdGuiItem::overwrite() );
+								KStandardGuiItem::overwrite() );
 
 		if(r==KMessageBox::Cancel) return;
 	}
@@ -495,7 +495,7 @@ void KStars::slotRunScript() {
 			message += i18n( "to cancel the download, press Cancel. " );
 
 			int result = KMessageBox::warningYesNoCancel( 0, message, i18n( "Really Execute Remote Script?" ),
-					KStdGuiItem::cont(), KStdGuiItem::save() );
+					KStandardGuiItem::cont(), KStandardGuiItem::save() );
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file

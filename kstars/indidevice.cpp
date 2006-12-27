@@ -44,7 +44,9 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
 #include <zlib.h>
 
 #include <QTextEdit>

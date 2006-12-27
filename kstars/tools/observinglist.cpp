@@ -31,8 +31,7 @@
 #include <kstatusbar.h>
 #include <ktextedit.h>
 #include <kinputdialog.h>
-#include <kicontheme.h>
-#include <kiconloader.h>
+#include <kicon.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
@@ -111,12 +110,11 @@ ObservingList::ObservingList( KStars *_ks )
 			this, SLOT( slotToggleSize() ) );
 
 	//Add icons to Push Buttons
-	KIconLoader *icons = KGlobal::iconLoader();
-	ui->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
-	ui->SaveButton->setIcon( icons->loadIcon( "filesave", K3Icon::Toolbar ) );
-	ui->SaveAsButton->setIcon( icons->loadIcon( "filesaveas", K3Icon::Toolbar ) );
-	ui->WizardButton->setIcon( icons->loadIcon( "wizard", K3Icon::Toolbar ) );
-	ui->MiniButton->setIcon( icons->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
+	ui->OpenButton->setIcon( KIcon("fileopen") );
+	ui->SaveButton->setIcon( KIcon("filesave") );
+	ui->SaveAsButton->setIcon( KIcon("filesaveas") );
+	ui->WizardButton->setIcon( KIcon("wizard") );
+	ui->MiniButton->setIcon( KIcon("window_nofullscreen") );
 
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
@@ -566,7 +564,7 @@ void ObservingList::saveCurrentList() {
 		if ( isModified ) {
 			QString message = i18n( "Do you want to save the current list before opening a new list?" );
 			if ( KMessageBox::questionYesNo( this, message,
-					i18n( "Save Current List?" ), KStdGuiItem::save(), KStdGuiItem::discard() ) == KMessageBox::Yes )
+					i18n( "Save Current List?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
 				slotSaveList();
 		}
 
@@ -634,7 +632,7 @@ void ObservingList::slotWizard() {
 
 void ObservingList::slotToggleSize() {
 	if ( isLarge() ) {
-		ui->MiniButton->setIcon( KGlobal::iconLoader()->loadIcon( "window_fullscreen", K3Icon::Toolbar ) );
+		ui->MiniButton->setIcon( KIcon("window_fullscreen") );
 
 		//switch widget stack to show TinyTable
 		ui->TableStack->setCurrentWidget( ui->TinyPage );
@@ -655,7 +653,7 @@ void ObservingList::slotToggleSize() {
 		bIsLarge = false;
 
 	} else {
-		ui->MiniButton->setIcon( KGlobal::iconLoader()->loadIcon( "window_nofullscreen", K3Icon::Toolbar ) );
+		ui->MiniButton->setIcon( KIcon("window_nofullscreen") );
 
 		//switch widget stack to show FullTable
 		ui->TableStack->setCurrentWidget( ui->FullPage );

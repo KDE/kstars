@@ -35,7 +35,6 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <termios.h>
 
  /*******************************************************************
 ** The device manager contain devices running from one indiserver
@@ -150,7 +149,9 @@ void DeviceManager::dataReceived()
 		cmd_err = QString("INDI: agent closed connection.");
 
 
+#ifdef HAVE_TERMIOS_H
             tcflush(serverFD, TCIFLUSH);
+#endif
 	    sNotifier->disconnect();
 	    close(serverFD);
 	    parent->removeDeviceMgr(mgrID);

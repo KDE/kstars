@@ -1,15 +1,12 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcJdDlg</class>
  <widget class="QWidget" name="modCalcJdDlg" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
-    <height>432</height>
+    <width>470</width>
+    <height>284</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -23,64 +20,95 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>Select Input Parameter</string>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QRadioButton" name="DateRadio" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>5</hsizetype>
-          <vsizetype>0</vsizetype>
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>Date</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="JdRadio" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>5</hsizetype>
-          <vsizetype>0</vsizetype>
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>Julian day</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="MjdRadio" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>5</hsizetype>
-          <vsizetype>0</vsizetype>
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>Modified Julian day</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>22</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="2" column="1" >
+        <widget class="KLineEdit" name="ModJDBox" />
+       </item>
+       <item row="0" column="1" >
+        <widget class="ExtDateTimeEdit" name="DateTimeBox" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="frameShape" >
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow" >
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>Julian day:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Date and time:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Modified Julian day:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="KLineEdit" name="JDBox" />
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>23</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" >
@@ -97,8 +125,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>59</width>
+         <height>30</height>
         </size>
        </property>
       </spacer>
@@ -120,159 +148,13 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>20</width>
-         <height>25</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="KPushButton" name="Compute" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>5</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
+         <width>60</width>
          <height>30</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>Convert</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>21</width>
-         <height>25</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="KPushButton" name="Clear" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>5</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>32767</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>Clear</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>31</width>
-         <height>25</height>
         </size>
        </property>
       </spacer>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="title" >
-      <string>Date Conversions</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Julian day:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Modified Julian day:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" >
-       <widget class="KLineEdit" name="ModJDBox" />
-      </item>
-      <item row="1" column="1" >
-       <widget class="KLineEdit" name="JDBox" />
-      </item>
-      <item row="0" column="1" >
-       <widget class="ExtDateTimeEdit" name="DateTimeBox" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>7</hsizetype>
-          <vsizetype>0</vsizetype>
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="frameShape" >
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow" >
-         <enum>QFrame::Raised</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Date and time:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
    </item>
    <item>
     <spacer>
@@ -281,38 +163,36 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>411</width>
+       <height>71</height>
       </size>
      </property>
     </spacer>
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>ExtDateTimeEdit</class>
-   <extends></extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <extends>QFrame</extends>
+   <header>extdatetimeedit.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
-   <extends></extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>JDBox</tabstop>
+  <tabstop>ModJDBox</tabstop>
+  <tabstop>NowButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

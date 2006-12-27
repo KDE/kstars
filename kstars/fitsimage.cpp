@@ -24,8 +24,8 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kdebug.h>
-#include <ktoolbar.h> 
-#include <kapplication.h>
+#include <ktoolbar.h>
+#include <kglobal.h>
 
 #include <ktemporaryfile.h>
 #include <kimageeffect.h> 

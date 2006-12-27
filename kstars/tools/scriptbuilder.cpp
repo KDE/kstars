@@ -25,7 +25,7 @@
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kprocess.h>
-#include <kstdguiitem.h>
+#include <kstandardguiitem.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
 #include <kiconloader.h>
@@ -959,7 +959,7 @@ void ScriptBuilder::slotSave() {
 						i18n( "A file named \"%1\" already exists. "
 								"Overwrite it?" , currentFileURL.fileName()),
 						i18n( "Overwrite File?" ),
-						KStdGuiItem::overwrite() );
+						KStandardGuiItem::overwrite() );
 
 				if(r==KMessageBox::Cancel) return;
 			}
@@ -1010,7 +1010,7 @@ void ScriptBuilder::saveWarning() {
 	if ( UnsavedChanges ) {
 		QString caption = i18n( "Save Changes to Script?" );
 		QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
-		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStdGuiItem::save(), KStdGuiItem::discard() );
+		int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		if ( ans == KMessageBox::Yes ) {
 			slotSave();
 			setUnsavedChanges( false );

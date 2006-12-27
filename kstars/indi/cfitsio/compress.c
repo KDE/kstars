@@ -1240,14 +1240,29 @@ local void make_table(nchar, bitlen, tablebits, table)
     unsigned i, k, len, ch, jutbits, avail, nextcode, mask;
 
     for (i = 1; i <= 16; i++) count[i] = 0;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
     for (i = 0; i < (unsigned)nchar; i++) count[bitlen[i]]++;
+*/
+    for (i = 0; i < (unsigned)nchar; i++) {
+        if (bitlen[i] > 16)
+        error("Bad table (case a)\n");
+        else count[bitlen[i]]++;
+    }
 
     start[1] = 0;
     for (i = 1; i <= 16; i++)
 	start[i + 1] = start[i] + (count[i] << (16 - i));
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
     if ((start[17] & 0xffff) != 0)
     {
 	error("Bad table\n");
+*/
+    if ((start[17] & 0xffff) != 0 || tablebits > 16) /* 16 for weight below */
+    {
+	error("Bad table (case b)\n");
+ 
         exit_code = ERROR;
         return;
     }
@@ -1264,15 +1279,26 @@ local void make_table(nchar, bitlen, tablebits, table)
 
     i = start[tablebits + 1] >> jutbits;
     if (i != 0) {
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	k = 1 << tablebits;
 	while (i != k) table[i++] = 0;
+*/
+
+	k = MINZIP(1 << tablebits, DIST_BUFSIZE);
+	while (i < k) table[i++] = 0;
     }
 
     avail = nchar;
     mask = (unsigned) 1 << (15 - tablebits);
     for (ch = 0; ch < (unsigned)nchar; ch++) {
 	if ((len = bitlen[ch]) == 0) continue;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	nextcode = start[len] + weight[len];
+*/
+	nextcode = MINZIP(start[len] + weight[len], DIST_BUFSIZE);
+
 	if (len <= (unsigned)tablebits) {
 	    for (i = start[len]; i < nextcode; i++) table[i] = ch;
 	} else {
@@ -1313,7 +1339,13 @@ local void read_pt_len(nn, nbit, i_special)
 	for (i = 0; i < 256; i++) pt_table[i] = c;
     } else {
 	i = 0;
+
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	while (i < n) {
+*/
+	while (i < MINZIP(n,NPT)) {
+
 	    c = bitbuf >> (BITBUFSIZ - 3);
 	    if (c == 7) {
 		mask = (unsigned) 1 << (BITBUFSIZ - 1 - 3);
@@ -1323,7 +1355,12 @@ local void read_pt_len(nn, nbit, i_special)
 	    pt_len[i++] = c;
 	    if (i == i_special) {
 		c = getbits(2);
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 		while (--c >= 0) pt_len[i++] = 0;
+*/
+		while (--c >= 0 && i < NPT) pt_len[i++] = 0;
+
 	    }
 	}
 	while (i < nn) pt_len[i++] = 0;
@@ -1343,7 +1380,12 @@ local void read_c_len()
 	for (i = 0; i < 4096; i++) c_table[i] = c;
     } else {
 	i = 0;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	while (i < n) {
+*/
+	while (i < MINZIP(n,NC)) {
+
 	    c = pt_table[bitbuf >> (BITBUFSIZ - 8)];
 	    if (c >= NT) {
 		mask = (unsigned) 1 << (BITBUFSIZ - 1 - 8);
@@ -1351,14 +1393,25 @@ local void read_c_len()
 		    if (bitbuf & mask) c = right[c];
 		    else               c = left [c];
 		    mask >>= 1;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 		} while (c >= NT);
+*/
+		} while (c >= NT && (mask || c != left[c]));
+
 	    }
 	    fillbuf((int) pt_len[c]);
 	    if (c <= 2) {
 		if      (c == 0) c = 1;
 		else if (c == 1) c = getbits(4) + 3;
 		else             c = getbits(CBIT) + 20;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 		while (--c >= 0) c_len[i++] = 0;
+*/
+		while (--c >= 0 && i < NC) c_len[i++] = 0;
+
+
 	    } else c_len[i++] = c - 2;
 	}
 	while (i < NC) c_len[i++] = 0;
@@ -1396,7 +1449,13 @@ local unsigned decode_c()
 	    if (bitbuf & mask) j = right[j];
 	    else               j = left [j];
 	    mask >>= 1;
+
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	} while (j >= NC);
+*/
+	} while (j >= NC && (mask || j != left[j]));
+
     }
     fillbuf((int) c_len[j]);
     return j;
@@ -1413,7 +1472,12 @@ local unsigned decode_p()
 	    if (bitbuf & mask) j = right[j];
 	    else               j = left [j];
 	    mask >>= 1;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	} while (j >= NP);
+*/
+	} while (j >= NP && (mask || j != left[j]));
+
     }
     fillbuf((int) pt_len[j]);
     if (j != 0) j = ((unsigned) 1 << (j - 1)) + getbits((int) (j - 1));
@@ -1461,7 +1525,12 @@ local unsigned decode(count, buffer)
     while (--jj1 >= 0) {
 	buffer[r] = buffer[i];
 	i = (i + 1) & (DICSIZ - 1);
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	if (++r == count) return r;
+*/
+	if (++r >= count) return r;
+
     }
     for ( ; ; ) {
 	c = decode_c();
@@ -1474,14 +1543,24 @@ local unsigned decode(count, buffer)
 	}
 	if (c <= UCHAR_MAX) {
 	    buffer[r] = c;
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	    if (++r == count) return r;
+*/
+	    if (++r >= count) return r;
+
 	} else {
 	    jj1 = c - (UCHAR_MAX + 1 - THRESHOLD);
 	    i = (r - decode_p() - 1) & (DICSIZ - 1);
 	    while (--jj1 >= 0) {
 		buffer[r] = buffer[i];
 		i = (i + 1) & (DICSIZ - 1);
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 		if (++r == count) return r;
+*/
+		if (++r >= count) return r;
+
 	    }
 	}
     }
@@ -1513,7 +1592,7 @@ local int unlzh(in, out)
 }
 
 /*=========================================================================*/
-/* this marks the beginning of the original file 'unlzw.c'                 */
+/* this marks the begining of the original file 'unlzw.c'                  */
 /*=========================================================================*/
 
 /* unlzw.c -- decompress files in LZW format.
@@ -2000,7 +2079,12 @@ local void read_tree()
 	/* Remember where the literals of this length start in literal[] : */
 	lit_base[len] = base;
 	/* And read the literals: */
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	for (n = leaves[len]; n > 0; n--) {
+*/
+	for (n = leaves[len]; n > 0 && base < LITERALS; n--) {
+
 	    literal[base++] = (uch)get_byte();
 	}
     }
@@ -2036,7 +2120,12 @@ local void build_tree_unpack()
     prefixp = &prefix_len[1<<peek_bits];
     for (len = 1; len <= peek_bits; len++) {
 	int prefixes = leaves[len] << (peek_bits-len); /* may be 0 */
+
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
 	while (prefixes--) *--prefixp = (uch)len;
+*/
+	while (prefixes-- && prefixp > prefix_len) *--prefixp = (uch)len;
+
     }
     /* The length of all other codes is unknown: */
     while (prefixp > prefix_len) *--prefixp = 0;
@@ -2536,9 +2625,11 @@ int *m;                 /* maximum lookup bits, returns actual */
   {
     *t = (struct huft *)NULL;
     *m = 0;
+/*	FreeBSD-SA-06:21.gzip 	security patch; applied 22-09-2006 (WDP)
     return 0;
+*/
+    return 2;
   }
-
 
   /* Find minimum and maximum length, bound *m by those */
   l = *m;
@@ -2591,10 +2682,13 @@ int *m;                 /* maximum lookup bits, returns actual */
   q = (struct huft *)NULL;      /* ditto */
   z = 0;                        /* ditto */
 
+
   /* go through the bit lengths (k already is bits in shortest code) */
   for (; k <= g; k++)
   {
+
     a = c[k];
+
     while (a--)
     {
       /* here i is the Huffman code of length k bits for value *p */
@@ -2646,8 +2740,9 @@ int *m;                 /* maximum lookup bits, returns actual */
 
       /* set up table entry in r */
       r.b = (uch)(k - w);
-      if (p >= v + n)
+      if (p >= v + n) {
         r.e = 99;               /* out of values--invalid code */
+      }
       else if (*p < s)
       {
         r.e = (uch)(*p < 256 ? 16 : 15);    /* 256 is end-of-block code */
@@ -2656,7 +2751,11 @@ int *m;                 /* maximum lookup bits, returns actual */
       }
       else
       {
+/* WDP added this to prevent seg fault reading a particular currupted .gz file */
+if (*p > 1000000)return 4;
+
         r.e = (uch)e[*p - s];   /* non-simple--look up in lists */
+
         r.v.n = d[*p++ - s];
       }
 
@@ -2670,16 +2769,11 @@ int *m;                 /* maximum lookup bits, returns actual */
         i ^= j;
       i ^= j;
 
-      /* it is possible given the code in this function that h never gets incremented
-         but it used to index into x, so be paranoid and check */
-      if (h > -1)
+      /* backup over finished tables */
+      while ((i & ((1 << w) - 1)) != x[h])
       {
-        /* backup over finished tables */
-        while ((i & ((1 << w) - 1)) != x[h])
-        {
-          h--;                    /* don't need to update q */
-          w -= l;
-        }
+        h--;                    /* don't need to update q */
+        w -= l;
       }
     }
   }
@@ -2992,13 +3086,13 @@ local int inflate_dynamic()
 
   /* build decoding table for trees--single level, 7 bit lookup */
   bl = 7;
+
   if ((i = huft_build(ll, 19, 19, NULL, NULL, &tl, &bl)) != 0)
   {
     if (i == 1)
       huft_free(tl);
     return i;                   /* incomplete code set */
   }
-
 
   /* read in literal and distance code lengths */
   n = nl + nd;
@@ -3057,6 +3151,7 @@ local int inflate_dynamic()
 
   /* build the decoding tables for literal/length and distance codes */
   bl = lbits;
+
   if ((i = huft_build(ll, nl, 257, cplens, cplext, &tl, &bl)) != 0)
   {
     if (i == 1) {
