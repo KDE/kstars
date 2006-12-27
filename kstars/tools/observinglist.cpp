@@ -564,7 +564,7 @@ void ObservingList::saveCurrentList() {
 		if ( isModified ) {
 			QString message = i18n( "Do you want to save the current list before opening a new list?" );
 			if ( KMessageBox::questionYesNo( this, message,
-					i18n( "Save Current List?" ), KStdGuiItem::save(), KStdGuiItem::discard() ) == KMessageBox::Yes )
+					i18n( "Save Current List?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
 				slotSaveList();
 		}
 

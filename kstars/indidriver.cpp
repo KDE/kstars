@@ -901,7 +901,7 @@ void INDIDriver::removeINDIHost()
            return;
         }
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStdGuiItem::del())!=KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove the %1 client?", ui->clientTreeWidget->currentItem()->text(1)), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
            return;
 
  	delete ksw->data()->INDIHostsList.takeAt(i);

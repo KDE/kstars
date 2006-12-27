@@ -213,7 +213,7 @@ void AddCatDialog::slotCreateCatalog() {
 									i18n( "A file named \"%1\" already exists. "
 											"Overwrite it?", u.fileName() ),
 									i18n( "Overwrite File?" ),
-									KStdGuiItem::overwrite() );
+									KStandardGuiItem::overwrite() );
 
 			if(r==KMessageBox::Cancel) return;
 		}
