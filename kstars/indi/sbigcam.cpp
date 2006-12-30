@@ -128,9 +128,9 @@ int SbigCam::OpenDriver()
  	SetDriverHandleParams  sdhp;
 
  	// Call the driver directly.
- 	if((res = ::SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
+ 	if((res = SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
 	   	// The driver was not open, so record the driver handle.
-	   	res = ::SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
+	   	res = SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
  	}else if(res == CE_DRIVER_NOT_CLOSED){
 		// The driver is already open which we interpret as having been
 		// opened by another instance of the class so get the driver to 
@@ -138,8 +138,8 @@ int SbigCam::OpenDriver()
 		sdhp.handle = INVALID_HANDLE_VALUE;
 		res = SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
 		if(res == CE_NO_ERROR){
-				if((res = ::SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
-						res = ::SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
+				if((res = SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
+						res = SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
 				}
 		}
  	}
@@ -547,14 +547,14 @@ int SbigCam::SBIGUnivDrvCommand(PAR_COMMAND command, void *params, void *results
  	}else{
 			// Handle is valid so install it in the driver.
 			sdhp.handle = GetDriverHandle();
-			res = ::SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
+			res = SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
 			if(res == CE_FAKE_DRIVER)
 			{
 			// The user is using the dummy driver. Tell him to download the real driver
 			IDMessage(DEVICE_NAME, "Error: SBIG Dummy Driver is being used now. You can only control your camera by downloading SBIG driver from INDI website @ indi.sf.net");
 			}
 			else if(res == CE_NO_ERROR){
-					res = ::SBIGUnivDrvCommand(command, params, results);
+					res = SBIGUnivDrvCommand(command, params, results);
 			}
  	}
  	return(res);
