@@ -15,6 +15,7 @@
 #include <kpushbutton.h>
 #include <kfiledialog.h>
 #include <klineedit.h>
+#include <kapplication.h>
 
 #include <qcheckbox.h>
 #include <qstringlist.h>
@@ -35,7 +36,7 @@ INDIFITSConf::INDIFITSConf(QWidget* parent)
    setCaption( i18n( "Configure INDI" ) );
    setButtons( KDialog::Ok|KDialog::Cancel );
 
-  KIconLoader *icons = KGlobal::iconLoader();
+  KIconLoader *icons = kapp->iconLoader();
   ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
   connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
   connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));

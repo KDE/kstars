@@ -22,6 +22,7 @@
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kiconloader.h>
+#include <kapplication.h>
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
@@ -52,7 +53,7 @@
 //These functions are declared in kstars.h
 
 void KStars::initActions() {
-	KGlobal::iconLoader()->addAppDir( "kstars" );
+	kapp->iconLoader()->addAppDir( "kstars" );
 
 //File Menu:
 	KAction *ka = new KAction( KIcon( "window_new" ), i18n("&New Window"), actionCollection(), "new_window" );
