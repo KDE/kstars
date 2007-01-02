@@ -22,24 +22,29 @@
 #include <kmessagebox.h>
 
 #include "modcalcapcoord.h"
+#include "kstars.h"
 #include "dms.h"
 #include "skypoint.h"
 #include "kstarsdatetime.h"
+#include "finddialog.h"
 #include "widgets/dmsbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-
-//#include <kapplication.h>
 
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 
 	setupUi(this);
 	showCurrentTime();
-	ra0Box->setDegType(false);
-	rafBox->setDegType(false);
+	RACat->setDegType(false);
+	DecCat->setDegType(true);
 
-	connect( Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()) );
-	connect( Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()) );
+	connect( ObjectButton, SIGNAL( clicked() ), this, SLOT( slotObject() ) );
+	connect( NowButton, SIGNAL( clicked() ), this, SLOT( showCurrentTime() ) );
+	connect( RACat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect( DecCat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect( UT, SIGNAL( timeChanged( const QTime &t ) ), this, SLOT( slotCompute() ) );
+	connect( Date, SIGNAL( dateChanged( const ExtDate &t ) ), this, SLOT( slotCompute() ) );
+
 	connect( utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()) );
 	connect( dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()) );
 	connect( raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()) );
@@ -55,56 +60,36 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
 modCalcApCoord::~modCalcApCoord(){
 }
 
-SkyPoint modCalcApCoord::getEquCoords (void) {
-	dms raCoord, decCoord;
-
-	raCoord = ra0Box->createDms(false);
-	decCoord = dec0Box->createDms();
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	return sp;
-}
-
 void modCalcApCoord::showCurrentTime (void)
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-	datBox->setDate( dt.date() );
-	timBox->setTime( dt.time() );
+	Date->setDate( dt.date() );
+	UT->setTime( dt.time() );
+	EpochTarget->setText( QString::number( dt.epoch(), 'f', 3 ) );
 }
 
-KStarsDateTime modCalcApCoord::getDateTime (void)
-{
-	return KStarsDateTime( datBox->date() , timBox->time() );
-}
+void modCalcApCoord::slotCompute(){
+	KStarsDateTime dt( Date->date(), UT->time() );
+	long double jd = dt.djd();
 
-void modCalcApCoord::showEquCoords ( const SkyPoint &sp ) {
-	rafBox->show( sp.ra() , false);
-	decfBox->show( sp.dec() );
-}
-
-void modCalcApCoord::slotClearCoords(){
-
-	ra0Box->clearFields();
-	dec0Box->clearFields();
-	rafBox->clearFields();
-	decfBox->clearFields();
-	epoch0Name->setText(QString());
-	datBox->setDate(ExtDate::currentDate());
-	timBox->setTime(QTime(0,0,0));
-}
-
-void modCalcApCoord::slotComputeCoords(){
-	long double jd = getDateTime().djd();
-	KStarsDateTime dt;
-	dt.setFromEpoch( epoch0Name->text() );
+	dt.setFromEpoch( EpochCat->value() );
 	long double jd0 = dt.djd();
 
-	SkyPoint sp;
-	sp = getEquCoords();
-
+	SkyPoint sp( RACat->createDms(false), DecCat->createDms() );
 	sp.apparentCoord(jd0, jd);
-	showEquCoords( sp );
+
+	RA->setText( sp.ra()->toHMSString() );
+	Dec->setText( sp.dec()->toDMSString() );
+}
+
+void modCalcApCoord::slotObject() {
+  FindDialog fd( (KStars*)topLevelWidget()->parent() );
+  if ( fd.exec() == QDialog::Accepted ) {
+    SkyObject *o = fd.currentItem();
+    RACat->showInHours( o->ra0() );
+    DecCat->showInDegrees( o->dec0() );
+    EpochCat->setValue( 2000.0 );
+  }
 }
 
 void modCalcApCoord::slotUtCheckedBatch(){
