@@ -43,6 +43,7 @@
 #include <kstandarddirs.h>
 #include <kaction.h>
 #include <kserversocket.h>
+#include <kapplication.h>
 
 //#include <kextsock.h>
 #include <unistd.h>
@@ -62,7 +63,7 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
   clientTreeWidget->setSortingEnabled(false);
 
-  KIconLoader *icons = KGlobal::iconLoader();
+  KIconLoader *icons = kapp->iconLoader();
   runningPix = QIcon(icons->loadIcon( "exec", K3Icon::Small));
   stopPix    = QIcon(icons->loadIcon( "button_cancel", K3Icon::Small));
   localMode  = QIcon(icons->loadIcon( "network_local", K3Icon::Small));

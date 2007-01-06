@@ -17,6 +17,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <QBrush>
 #include <kdebug.h>
 #include <klocale.h>
 

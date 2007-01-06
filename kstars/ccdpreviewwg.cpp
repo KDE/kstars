@@ -16,6 +16,7 @@
 #include "indimenu.h"
 #include "Options.h"
 
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -81,7 +82,7 @@ FILE *CCDwfp;
    brightnessChanged(brightnessBar->value());
    contrastChanged(contrastBar->value());    
 
-   KIconLoader *icons = KGlobal::iconLoader();
+   KIconLoader *icons = kapp->iconLoader();
   
   playPix    = icons->loadIcon( "player_play", K3Icon::Toolbar );
   pausePix   = icons->loadIcon( "player_pause", K3Icon::Toolbar );

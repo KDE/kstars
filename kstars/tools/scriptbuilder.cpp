@@ -32,6 +32,7 @@
 #include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <kapplication.h>
 
 #include "scriptbuilder.h"
 #include "scriptfunction.h"
@@ -255,7 +256,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
 
 	//Add icons to Push Buttons
-	KIconLoader *icons = KGlobal::iconLoader();
+	KIconLoader *icons = kapp->iconLoader();
 	sb->NewButton->setIcon( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
 	sb->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
 	sb->SaveButton->setIcon( icons->loadIconSet( "filesave", K3Icon::Toolbar ) );

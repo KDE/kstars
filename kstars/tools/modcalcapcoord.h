@@ -43,13 +43,14 @@ public:
 	/** Process Lines **/
 //	void processLines( const QFile * f );
 	void processLines( QTextStream &istream );
-public slots:
 
+private slots:
+	void slotCompute();
+	void slotObject();
 
-	/** No descriptions */
-	void slotComputeCoords();
-	/** No descriptions */
-	void slotClearCoords();
+/**Fill the Time and Date fields with the current values from the CPU clock. */
+	void showCurrentTime();
+ 
 	void slotUtCheckedBatch();
 	void slotDateCheckedBatch();
 	void slotRaCheckedBatch();
@@ -58,20 +59,6 @@ public slots:
 	void slotInputFile();
 	void slotOutputFile();
 	void slotRunBatch();
-
-private:
-/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
-	SkyPoint getEquCoords(void);
-
-/**Fill the Time and Date fields with the current values from the CPU clock. */
-	void showCurrentTime(void);
-
-/**@returns a KStarsDateTime constructed from the Time and Date fields. */
-	KStarsDateTime getDateTime (void);
-
-/**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
-	void showEquCoords ( const SkyPoint &sp );
-
 };
 
 #endif
