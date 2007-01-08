@@ -53,7 +53,7 @@
 //These functions are declared in kstars.h
 
 void KStars::initActions() {
-	kapp->iconLoader()->addAppDir( "kstars" );
+	KIconLoader::global()->addAppDir( "kstars" );
 
 //File Menu:
 	KAction *ka = new KAction( KIcon( "window_new" ), i18n("&New Window"), actionCollection(), "new_window" );

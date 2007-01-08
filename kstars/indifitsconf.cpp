@@ -36,7 +36,7 @@ INDIFITSConf::INDIFITSConf(QWidget* parent)
    setCaption( i18n( "Configure INDI" ) );
    setButtons( KDialog::Ok|KDialog::Cancel );
 
-  KIconLoader *icons = kapp->iconLoader();
+  KIconLoader *icons = KIconLoader::global();
   ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
   connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
   connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));

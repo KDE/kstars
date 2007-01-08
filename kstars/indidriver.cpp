@@ -63,7 +63,7 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
   clientTreeWidget->setSortingEnabled(false);
 
-  KIconLoader *icons = kapp->iconLoader();
+  KIconLoader *icons = KIconLoader::global();
   runningPix = QIcon(icons->loadIcon( "exec", K3Icon::Small));
   stopPix    = QIcon(icons->loadIcon( "button_cancel", K3Icon::Small));
   localMode  = QIcon(icons->loadIcon( "network_local", K3Icon::Small));

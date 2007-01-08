@@ -256,7 +256,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
 
 	//Add icons to Push Buttons
-	KIconLoader *icons = kapp->iconLoader();
+	KIconLoader *icons = KIconLoader::global();
 	sb->NewButton->setIcon( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
 	sb->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
 	sb->SaveButton->setIcon( icons->loadIconSet( "filesave", K3Icon::Toolbar ) );

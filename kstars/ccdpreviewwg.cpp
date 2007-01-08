@@ -82,7 +82,7 @@ FILE *CCDwfp;
    brightnessChanged(brightnessBar->value());
    contrastChanged(contrastBar->value());    
 
-   KIconLoader *icons = kapp->iconLoader();
+   KIconLoader *icons = KIconLoader::global();
   
   playPix    = icons->loadIcon( "player_play", K3Icon::Toolbar );
   pausePix   = icons->loadIcon( "player_pause", K3Icon::Toolbar );
