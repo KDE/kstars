@@ -43,7 +43,6 @@
 #include <kstandarddirs.h>
 #include <kaction.h>
 #include <kserversocket.h>
-#include <kapplication.h>
 
 //#include <kextsock.h>
 #include <unistd.h>

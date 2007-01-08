@@ -15,7 +15,6 @@
 #include <kpushbutton.h>
 #include <kfiledialog.h>
 #include <klineedit.h>
-#include <kapplication.h>
 
 #include <qcheckbox.h>
 #include <qstringlist.h>

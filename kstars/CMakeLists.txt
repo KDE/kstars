@@ -1,6 +1,6 @@
 add_subdirectory( skycomponents ) 
 add_subdirectory( widgets ) 
-add_subdirectory( indi ) 
+#add_subdirectory( indi ) 
 add_subdirectory( tools ) 
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
