@@ -23,6 +23,7 @@
 #include <kfiledialog.h>
 #include <kaction.h>
 #include <kstandardaction.h>
+#include <kactioncollection.h>
 
 #include <kdebug.h>
 #include <ktoolbar.h>
@@ -105,13 +106,15 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
-    	action = new KAction(KIcon(tempFile.fileName()),  i18n("Histogram"), actionCollection(), "image_histogram");
+        action  = new KAction(KIcon(tempFile.fileName()), i18n("Histogram"), this);
+        actionCollection()->addAction("image_histogram", action );
     	connect(action, SIGNAL(triggered(bool) ), SLOT (imageHistogram()));
     	action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
 	tempFile.close();
     }
     else {
-        action = new KAction(KIcon("wizard"),  i18n("Histogram"), actionCollection(), "image_histogram");
+        action  = new KAction(KIcon("wizard"), i18n("Histogram"), this);
+        actionCollection()->addAction("image_histogram", action );
         connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
         action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
     }
@@ -123,12 +126,15 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     KStandardAction::copy(this, SLOT(fitsCOPY()), actionCollection());
     KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
     KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
-    action = new KAction(KIcon("viewmagfit.png"),  i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
+    action  = new KAction(KIcon("viewmagfit.png"), i18n("&Default Zoom"), this);
+    actionCollection()->addAction("zoom_default", action );
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_D ));
-    action = new KAction(KIcon("sum"),  i18n( "Statistics"), actionCollection(), "image_stats");
+    action  = new KAction(KIcon("sum"), i18n("Statistics"), this);
+    actionCollection()->addAction("image_stats", action );
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
-    action = new KAction(KIcon("frame_spreadsheet.png"),  i18n( "FITS Header"), actionCollection(), "fits_editor");
+    action  = new KAction(KIcon("frame_spreadsheet.png"), i18n("FITS Header"), this);
+    actionCollection()->addAction("fits_editor", action );
     connect(action, SIGNAL(triggered(bool) ), SLOT(fitsHeader()));
 
    /* Create GUI */
