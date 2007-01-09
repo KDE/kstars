@@ -22,6 +22,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kstandardaction.h>
 
 #include <kdebug.h>
@@ -101,19 +102,23 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     }
 
     QFile tempFile;
-    KAction *action;
+    QAction *action;
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {
-    	action = new KAction(KIcon(tempFile.fileName()),  i18n("Histogram"), actionCollection(), "image_histogram");
+    	action = actionCollection()->addAction("image_histogram");
+        action->setIcon(KIcon(tempFile.fileName()));
+        action->setText(i18n("Histogram"));
     	connect(action, SIGNAL(triggered(bool) ), SLOT (imageHistogram()));
-    	action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
+    	action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
 	tempFile.close();
     }
     else {
-        action = new KAction(KIcon("wizard"),  i18n("Histogram"), actionCollection(), "image_histogram");
+        action = actionCollection()->addAction("image_histogram");
+        action->setIcon(KIcon("wizard"));
+        action->setText(i18n("Histogram"));
         connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
-        action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_H ));
+        action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
     }
 
     KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
@@ -123,17 +128,23 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     KStandardAction::copy(this, SLOT(fitsCOPY()), actionCollection());
     KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
     KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
-    action = new KAction(KIcon("viewmagfit.png"),  i18n( "&Default Zoom" ), actionCollection(), "zoom_default" );
+    action = actionCollection()->addAction("zoom_default" );
+    action->setIcon(KIcon("viewmagfit.png"));
+    action->setText(i18n( "&Default Zoom" ));
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
-    action->setShortcut(KShortcut( Qt::CTRL+Qt::Key_D ));
-    action = new KAction(KIcon("sum"),  i18n( "Statistics"), actionCollection(), "image_stats");
+    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));
+    action = actionCollection()->addAction("image_stats");
+    action->setIcon(KIcon("sum"));
+    action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
-    action = new KAction(KIcon("frame_spreadsheet.png"),  i18n( "FITS Header"), actionCollection(), "fits_editor");
+    action = actionCollection()->addAction("fits_editor");
+    action->setIcon(KIcon("frame_spreadsheet.png"));
+    action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(fitsHeader()));
 
    /* Create GUI */
    createGUI("fitsviewer.rc");
- 
+
    /* initially resize in accord with KDE rules */
    resize(INITIAL_W, INITIAL_H);
 }
@@ -231,10 +242,10 @@ void FITSViewer::fileOpen()
 
 void FITSViewer::fileSave()
 {
- 
+
   int err_status;
   char err_text[FLEN_STATUS];
-  
+
   KUrl backupCurrent = currentURL;
   QString currentDir = Options::fitsSaveDirectory();
 
@@ -255,7 +266,7 @@ void FITSViewer::fileSave()
 
 	if (QFile::exists(currentURL.path()))
         {
-		
+
             int r=KMessageBox::warningContinueCancel(0,
             i18n( "A file named \"%1\" already exists. "
                   "Overwrite it?", currentURL.fileName() ),
@@ -276,7 +287,7 @@ void FITSViewer::fileSave()
                               QString::fromUtf8(err_text)), i18n("FITS Save"));
 		  return;
 	  }
-  
+
 
 	statusBar()->changeItem(i18n("File saved."), 3);
 
@@ -364,25 +375,25 @@ void FITSViewer::fitsHeader()
 	KMessageBox::error(0, i18n("FITS record error: %1").arg(err_text), i18n("FITS Header"));
 	return;
    }
-   
+
    QDialog fitsHeaderDialog;
    Ui::fitsHeaderDialog header;
    header.setupUi(&fitsHeaderDialog);
 
 
-   
+
    header.tableWidget->setRowCount(nkeys);
    for (int i=0; i < nkeys; i++)
    {
-	   
+
    	record = recordList.mid(i*80, 80);
-   
+
    	// I love regexp!
    	properties = record.split(QRegExp("[=/]"));
-   
+
 	tempItem = new QTableWidgetItem(properties[0].simplified());
 	header.tableWidget->setItem(i, 0, tempItem);
-	
+
 	if (properties.size() > 1)
 	{
 		tempItem = new QTableWidgetItem(properties[1].simplified());
@@ -393,9 +404,9 @@ void FITSViewer::fitsHeader()
 		tempItem = new QTableWidgetItem(properties[2].simplified());
 		header.tableWidget->setItem(i, 2, tempItem);
 	}
-	
+
    }
-   
+
    header.tableWidget->resizeColumnsToContents();
 
    fitsHeaderDialog.exec();

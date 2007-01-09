@@ -227,7 +227,7 @@ void KStars::slotImageSequence()
 {
 	if (indiseq == NULL)
 		indiseq = new imagesequence(this);
-	
+
 	if (indiseq->updateStatus())
 		indiseq->show();
 }
@@ -347,7 +347,7 @@ void KStars::slotConfigureToolbars() {
 	saveMainWindowSettings( KGlobal::config(), "MainWindow" );
 	KEditToolbar ket(actionCollection());
 	connect( &ket, SIGNAL(newToolbarConfig()), this, SLOT(slotApplyToolbarConfig()) );
-	
+
 	//ket.exec();
 	//DEBUG
 	if ( ket.exec() == QDialog::Accepted ) {
@@ -831,17 +831,17 @@ void KStars::slotCoordSys() {
 void KStars::slotMapProjection() {
 	QString aname = sender()->objectName();
 
-	if ( aname == "project_lambert" ) 
+	if ( aname == "project_lambert" )
 		Options::setProjection( SkyMap::Lambert );
-	if ( aname == "project_azequidistant" ) 
+	if ( aname == "project_azequidistant" )
 		Options::setProjection( SkyMap::AzimuthalEquidistant );
-	if ( aname == "project_orthographic" ) 
+	if ( aname == "project_orthographic" )
 		Options::setProjection( SkyMap::Orthographic );
-	if ( aname == "project_equirectangular" ) 
+	if ( aname == "project_equirectangular" )
 		Options::setProjection( SkyMap::Equirectangular );
-	if ( aname == "project_stereographic" ) 
+	if ( aname == "project_stereographic" )
 		Options::setProjection( SkyMap::Stereographic );
-	if ( aname == "project_gnomonic" ) 
+	if ( aname == "project_gnomonic" )
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
@@ -910,7 +910,9 @@ void KStars::slotFOVEdit() {
 
 				if ( fields.count() == 4 ) {
 					QString nm = fields[0].trimmed();
-					KToggleAction *kta = new KToggleAction( nm, actionCollection(), nm.toUtf8(), fovGroup );
+					KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
+                                        kta->setText( nm );
+                                        kta->setActionGroup( fovGroup );
                                         connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
 					fovActionMenu->addAction( kta );
 				}
@@ -920,7 +922,8 @@ void KStars::slotFOVEdit() {
 		}
 
 		fovActionMenu->menu()->addSeparator();
-                KAction *ka = new KAction( i18n( "Edit FOV Symbols..." ), actionCollection(),  "edit_fov" );
+                QAction *ka = actionCollection()->addAction( "edit_fov" );
+                ka->setText( i18n( "Edit FOV Symbols..." ) );
                 connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
 		fovActionMenu->addAction( ka );
 
@@ -1041,7 +1044,9 @@ void KStars::slotShowGUIItem( bool show ) {
 }
 
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
-	KToggleAction *kta = new KToggleAction( name, actionCollection(),  actionName, cschemeGroup );
+        KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
+        kta->setText( name );
+        kta->setActionGroup( cschemeGroup );
 	connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
 	colorActionMenu->addAction( kta );
 }

@@ -20,9 +20,8 @@
 ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
 		const KIcon &_officon, const QString& offtext,
 		const KShortcut &accel, const QObject* receiver,
-		const char* slot, KActionCollection* parent,
-		const QString &name )
-: KAction( _onicon, ontext, parent, name ),
+		const char* slot, QObject* parent)
+: KAction( _onicon, ontext, parent ),
 		officon(_officon),
 		onicon(_onicon),
 		offcap(offtext),
@@ -36,9 +35,8 @@ ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
 
 ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
 		const KShortcut &accel, const QObject* receiver,
-		const char* slot, KActionCollection* parent,
-		const QString &name )
-: KAction(ontext, parent, name),
+		const char* slot, QObject* parent)
+: KAction(ontext, parent),
 		officon(),
 		onicon(),
 		offcap(offtext),
