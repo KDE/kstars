@@ -651,8 +651,11 @@ readFromClient (ClInfo *cp)
 		    cp->sawGetProperties = 1;
 		}
 
+		/* send message to all interested observers for dev */
+		mp = q2Observers(NULL, root, dev, NULL);
+
 		/* send message to driver(s) responsible for dev */
-		mp = q2Drivers (root, dev, NULL);
+		mp = q2Drivers (root, dev, mp);
 
 		/* echo new* commands back to other clients */
 		if (!strncmp (roottag, "new", 3))
@@ -854,9 +857,10 @@ q2Clients (ClInfo *notme, XMLEle *root, char *dev, Msg *mp)
 {
 	ClInfo *cp;
 
-	/* Ignore subscribtion requests, don't send them to clients */
+	/* Ignore subscribtion requests, don't send them to clients 
 	if (!strcmp(tagXMLEle(root), "propertyVectorSubscribtion"))
 		return NULL;
+        */
 
 	if (!mp) {
 	    /* build a new message */
@@ -906,40 +910,49 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	ObserverInfo *ob;
 	XMLAtt* ap;
 	int prop_state = 0;
-	char prop_dev[MAXINDIDEVICE];
 	char prop_name[MAXINDINAME];
 	
-	dev=dev;
+	if (dev == NULL) return mp;
+
+	if (sender == NULL)
+	{
+
+	   if (nobserverinfo_active == 0)
+		return mp;
+
+	   /* if message from a client (and not a driver), then let's first make sure we have an observer with it
+           before wasting any resources decoding the xml message */
+	   for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
+	   {
+		if (!strcmp(ob->dev, dev))
+			break;
+	   }
+
+	   /* If no observers interested, return */
+	   if (ob == &observerinfo[nobserverinfo])
+			return mp;
+	}
 
 	/* Subscribtion request */
 	if (!strcmp(tagXMLEle(root), "propertyVectorSubscribtion"))
 	{
 		manageObservers(sender, root);
-		return NULL;
+		return mp;
 	}
 	/* We discard messages */
        else if (!strcmp(tagXMLEle(root), "message"))
-		return NULL;
+		return mp;
 
 	/* We have no observers, return */
 	if (nobserverinfo_active == 0)
-		return NULL;
-
-	ap = findXMLAtt(root, "device");
-	if (!ap)
-	{
-		fprintf(stderr, "<%s> missing 'device' attribute.\n", tagXMLEle(root));
-		return NULL;
-	}
-	else
-		strncpy(prop_dev, valuXMLAtt(ap), MAXINDIDEVICE);
+		return mp;
 	
 	/* Del prop might not have name, so don't panic */
 	ap = findXMLAtt(root, "name");
 	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
-		return NULL;
+		return mp;
 	}
 	else if (ap)
 		strncpy(prop_name, valuXMLAtt(ap), MAXINDINAME);
@@ -949,7 +962,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
-		return NULL;
+		return mp;
 	}
 	else if (ap)
 	{
@@ -957,7 +970,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 		if (prop_state < 0)
 		{
 			fprintf(stderr, "<%s> invalid property state '%s'.\n", tagXMLEle(root), valuXMLAtt(ap));
-			return NULL;
+			return mp;
 		}
 	}
 
@@ -974,7 +987,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 		if (!ob->in_use)
 			continue;
 		
-		if (!strcmp(ob->dev, prop_dev) && ((!strcmp(tagXMLEle(root), "delProperty")) || (!strcmp(ob->name, prop_name))))
+		if (!strcmp(ob->dev, dev) && ((!strcmp(tagXMLEle(root), "delProperty")) || (!strcmp(ob->name, prop_name))))
 		{
 			/* Check for state requirtments only if property is of setXXXVector type
 			   defXXX and delXXX go through */
@@ -1023,6 +1036,9 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 	XMLEle* xmlAlert = NULL;
 	unsigned int i=0;
 	
+	if (dp == NULL || root == NULL)
+		return;
+
 	snprintf(xmlAlertStr, BUFSZ, "<getProperties version='%g'/>", INDIV);
 	
 	for (i=0; i < strlen(xmlAlertStr); i++)
@@ -1113,7 +1129,7 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		
 		nobserverinfo_active++;
 
-		/* Tell client to redefine its properties which shall update the observer with the current state/value of the observed property */
+		/* Tell driver to redefine its properties which shall update the observer with the current state/value of the observed property */
 		for (observed = dvrinfo; observed < &dvrinfo[ndvrinfo]; observed++) 
 		{
 			if (!strcmp(ob->dev, observed->dev))
