@@ -61,6 +61,7 @@ FindDialog::FindDialog( QWidget* parent )
 	connect( ui->SearchList, SIGNAL (itemSelectionChanged()), SLOT (updateSelection()));
 	connect( ui->SearchList, SIGNAL( itemDoubleClicked ( QListWidgetItem *  ) ), SLOT( slotOk() ) );
 
+	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 	// first create and paint dialog and then load list
 	QTimer::singleShot(0, this, SLOT( init() ));
 }

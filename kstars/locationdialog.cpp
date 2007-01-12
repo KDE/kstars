@@ -83,6 +83,7 @@ LocationDialog::LocationDialog( KStars *_ks )
 
 	initCityList();
 	resize (640, 480);
+	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
 
 //Do NOT delete members of filteredCityList! They are not created by LocationDialog

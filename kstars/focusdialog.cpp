@@ -52,6 +52,7 @@ FocusDialog::FocusDialog( KStars *_ks )
 	connect( fd->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
+	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
 
 FocusDialog::~FocusDialog(){

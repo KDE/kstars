@@ -65,6 +65,9 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 	acd->FieldPool->insertItem( i18n( "Minor Axis" ) );
 	acd->FieldPool->insertItem( i18n( "Position Angle" ) );
 	acd->FieldPool->insertItem( i18n( "Ignore" ) );
+	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+	connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
+	connect(this,SIGNAL(helpClicked()),this,SLOT(slotHelp()));
 }
 
 AddCatDialog::~AddCatDialog(){
