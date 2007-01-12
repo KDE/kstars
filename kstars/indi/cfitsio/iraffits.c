@@ -863,7 +863,7 @@ char	*hdrname)	/* IRAF image header file pathname */
 
 	/* add name */
 	newpixname[len] = '\0';
-	(void)strncat (newpixname, &pixname[4], SZ_IM2PIXFILE);
+	(void)strncat (newpixname, &pixname[4], SZ_IM2PIXFILE-strlen(newpixname)-1);
 	}
 
     /* Bare pixel file with no path is assumed to be same as HDR$filename */
@@ -881,7 +881,7 @@ char	*hdrname)	/* IRAF image header file pathname */
 
 	/* add name */
 	newpixname[len] = '\0';
-	(void)strncat (newpixname, pixname, SZ_IM2PIXFILE);
+	(void)strncat (newpixname, pixname, SZ_IM2PIXFILE-strlen(newpixname)-1);
 	}
 
     /* Pixel file has same name as header file, but with .pix extension */
