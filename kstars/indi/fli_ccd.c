@@ -830,6 +830,7 @@ int writeFITS(const char* filename, char errmsg[])
   ExposeTimeNP.s = IPS_OK;
   IDSetNumber(&ExposeTimeNP, NULL);
   uploadFile(filename);
+  unlink(filename);
  
   return status;
 }
