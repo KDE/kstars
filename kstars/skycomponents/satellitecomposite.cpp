@@ -67,7 +67,7 @@ void SatelliteComposite::init( KStarsData *data ) {
 		int nsteps = 48;
 		
 		//Loop over desired satellites and add their paths to the list
-		foreach ( QString satName, SatelliteNames ) {
+		foreach ( const QString &satName, SatelliteNames ) {
 			QVarLengthArray<SPositionSat *> pSat(SatelliteNames.size());
 			SatFindPosition( satName.toAscii().data(), JulianDay, dt, nsteps, pSat.data() );
 		

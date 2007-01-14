@@ -124,7 +124,7 @@ void FindDialog::filterByType() {
 
 	QStringList ObjNames;
 
-	foreach ( QString name, p->data()->skyComposite()->objectNames() ) {
+	foreach ( const QString &name, p->data()->skyComposite()->objectNames() ) {
 		//FIXME: We need pointers to the objects to filter by type
 	}
 

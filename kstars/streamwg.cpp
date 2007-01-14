@@ -49,7 +49,7 @@ FILE *wfp;
 
  setupUi(parent);
 
- foreach (QByteArray format, QImageWriter::supportedImageFormats())
+ foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
      imgFormatCombo->addItem(QString(format));
 
 }*/
@@ -72,7 +72,7 @@ FILE *wfp;
   pausePix   = icons->loadIcon( "player_pause", K3Icon::Toolbar );
   capturePix = icons->loadIcon( "frame_image", K3Icon::Toolbar );
   
-  foreach (QByteArray format, QImageWriter::supportedImageFormats())
+  foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
      imgFormatCombo->addItem(QString(format));
 
   playB->setPixmap(pausePix);	

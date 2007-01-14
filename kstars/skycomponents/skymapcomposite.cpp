@@ -72,7 +72,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	//FIXME: can't use Options::showCatalog as visibility fcn, 
 	//because it returns QList, not bool
 	m_CustomCatalogs = new SkyComposite( this );
-	foreach ( QString fname, Options::catalogFile() ) 
+	foreach ( const QString &fname, Options::catalogFile() ) 
 		m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 	
 	m_SolarSystem = new SolarSystemComposite( this, data );

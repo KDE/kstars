@@ -352,12 +352,12 @@ void DetailDialog::createLinksTab()
 	Links->setPalette( detPalette );
 	addPage( Links, i18n( "Links" ) );
 
-	foreach ( QString s, selectedObject->InfoTitle )
+	foreach ( const QString &s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
 
 	Links->InfoTitleList->setCurrentRow(0);
 
-	foreach ( QString s, selectedObject->ImageTitle )
+	foreach ( const QString &s, selectedObject->ImageTitle )
 		Links->ImageTitleList->addItem( s );
 
 	if ( ! Links->InfoTitleList->count() && ! Links->ImageTitleList->count() )
@@ -450,10 +450,10 @@ void DetailDialog::updateLists()
 	Links->InfoTitleList->clear();
 	Links->ImageTitleList->clear();
 
-	foreach ( QString s, selectedObject->InfoTitle )
+	foreach ( const QString &s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
 
-	foreach ( QString s, selectedObject->ImageTitle )
+	foreach ( const QString &s, selectedObject->ImageTitle )
         	Links->ImageTitleList->addItem( s );
 
 	if (selectedObject->InfoTitle.count() > 0 || selectedObject->ImageTitle.count() > 0)
