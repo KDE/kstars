@@ -73,11 +73,11 @@ void modCalcDayLength::slotLocation() {
 	LocationDialog ld(ks);
 
 	if ( ld.exec() == QDialog::Accepted ) {
-	  GeoLocation *newGeo = ld.selectedCity();
-	  if ( newGeo ) {
-	    geoPlace = newGeo;
-	    Location->setText( geoPlace->fullName() );
-	  }
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geoPlace = newGeo;
+			Location->setText( geoPlace->fullName() );
+		}
 	}
 
 	slotComputeAlmanac();

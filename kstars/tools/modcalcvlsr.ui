@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>562</height>
+    <width>488</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,7 +22,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
@@ -36,317 +36,127 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
-          <string>Select Time &amp;&amp; Location</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label" >
-              <property name="text" >
-               <string>Universal time:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QTimeEdit" name="UTBox" />
-            </item>
-            <item row="1" column="1" >
-             <widget class="ExtDateEdit" name="DateBox" />
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_2" >
-              <property name="text" >
-               <string>Date:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="2" >
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>191</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="LatitudeBox" />
-            </item>
-            <item row="2" column="1" >
-             <widget class="KLineEdit" name="ElevationBox" />
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_4" >
-              <property name="text" >
-               <string>Latitude:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="label_5" >
-              <property name="text" >
-               <string>Elevation (m):</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label_3" >
-              <property name="text" >
-               <string>Longitude:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="LongitudeBox" />
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
-          <string>Select Coordinates of Target</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="2" column="2" >
-           <widget class="KLineEdit" name="EpochBox" />
-          </item>
-          <item row="2" column="0" colspan="2" >
-           <widget class="QLabel" name="label_8" >
-            <property name="text" >
-             <string>Epoch:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2" >
-           <widget class="dmsBox" name="DecBox" />
-          </item>
-          <item row="0" column="1" colspan="2" >
-           <widget class="dmsBox" name="RABox" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_7" >
-            <property name="text" >
-             <string>Dec:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_6" >
-            <property name="text" >
-             <string>RA:</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QGridLayout" >
          <property name="margin" >
           <number>0</number>
          </property>
          <property name="spacing" >
           <number>6</number>
          </property>
-         <item>
-          <widget class="QGroupBox" name="groupBox_3" >
-           <property name="title" >
-            <string>Select Input Velocity</string>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="label_2" >
+           <property name="text" >
+            <string>Date and time:</string>
            </property>
-           <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>9</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item>
-             <widget class="QRadioButton" name="radioVlsr" >
-              <property name="text" >
-               <string>LSR</string>
-              </property>
-              <property name="checked" >
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioVhelio" >
-              <property name="text" >
-               <string>Heliocentric</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioVgeo" >
-              <property name="text" >
-               <string>Geocentric</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioVtopo" >
-              <property name="text" >
-               <string>Topocentric</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </widget>
          </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_4" >
-           <property name="title" >
-            <string>Radial Velocities</string>
+         <item row="0" column="1" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
            </property>
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>9</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QGridLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item row="3" column="0" >
-               <widget class="QLabel" name="textLabel3" >
-                <property name="text" >
-                 <string>Topocentric velocity:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="KLineEdit" name="VHelioBox" />
-              </item>
-              <item row="3" column="1" >
-               <widget class="KLineEdit" name="VTopoBox" />
-              </item>
-              <item row="2" column="1" >
-               <widget class="KLineEdit" name="VGeoBox" />
-              </item>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="azLabel" >
-                <property name="text" >
-                 <string>VLSR:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" >
-               <widget class="QLabel" name="textLabel2" >
-                <property name="text" >
-                 <string>Geocentric velocity:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="textLabel1" >
-                <property name="text" >
-                 <string>Heliocentric velocity:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" >
-               <widget class="KLineEdit" name="VLSRBox" />
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="ExtDateTimeEdit" name="Date" />
+           </item>
+           <item>
+            <widget class="KPushButton" name="NowButton" >
+             <property name="text" >
+              <string>Now</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="label_3" >
+           <property name="text" >
+            <string>Location:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="KPushButton" name="LocationButton" >
+           <property name="text" >
+            <string>Greenwich, United Kingdom</string>
+           </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>331</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Target position:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" >
          <property name="margin" >
           <number>0</number>
          </property>
          <property name="spacing" >
           <number>6</number>
          </property>
-         <item>
+         <item row="0" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Minimum</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="2" >
+          <widget class="KPushButton" name="ObjectButton" >
+           <property name="text" >
+            <string>Select Object...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3" >
           <spacer>
            <property name="orientation" >
             <enum>Qt::Horizontal</enum>
@@ -359,14 +169,37 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="KPushButton" name="ComputeButton" >
+         <item row="1" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="1" >
+          <widget class="QLabel" name="label_6" >
            <property name="text" >
-            <string>Compute</string>
+            <string>Right ascension:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="2" >
+          <widget class="dmsBox" name="RA" >
+           <property name="minimumSize" >
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3" >
           <spacer>
            <property name="orientation" >
             <enum>Qt::Horizontal</enum>
@@ -379,14 +212,30 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="KPushButton" name="ClearButton" >
+         <item row="2" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="2" column="1" >
+          <widget class="QLabel" name="label_7" >
            <property name="text" >
-            <string>Clear</string>
+            <string>Declination:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="2" >
+          <widget class="dmsBox" name="Dec" />
+         </item>
+         <item row="2" column="3" >
           <spacer>
            <property name="orientation" >
             <enum>Qt::Horizontal</enum>
@@ -394,6 +243,176 @@
            <property name="sizeHint" >
             <size>
              <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0" colspan="4" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>321</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="4" column="0" colspan="4" >
+          <widget class="QLabel" name="label_5" >
+           <property name="font" >
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text" >
+            <string>Radial velocities:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="1" >
+          <widget class="QLabel" name="azLabel" >
+           <property name="text" >
+            <string>V&lt;sub>LSR&lt;/sub>:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2" >
+          <widget class="KLineEdit" name="VLSR" />
+         </item>
+         <item row="5" column="3" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="6" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="6" column="1" >
+          <widget class="QLabel" name="textLabel1" >
+           <property name="text" >
+            <string>Heliocentric:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="2" >
+          <widget class="KLineEdit" name="VHelio" />
+         </item>
+         <item row="6" column="3" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="7" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="7" column="1" >
+          <widget class="QLabel" name="textLabel2" >
+           <property name="text" >
+            <string>Geocentric:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2" >
+          <widget class="KLineEdit" name="VGeo" />
+         </item>
+         <item row="7" column="3" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="8" column="0" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="8" column="1" >
+          <widget class="QLabel" name="textLabel3" >
+           <property name="text" >
+            <string>Topocentric:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="2" >
+          <widget class="KLineEdit" name="VTopo" />
+         </item>
+         <item row="8" column="3" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>61</width>
              <height>20</height>
             </size>
            </property>
@@ -765,14 +784,19 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>extdatetimeedit.h</header>
+   <class>KTextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>ktextbrowser.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -780,19 +804,19 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
   </customwidget>
   <customwidget>
-   <class>KTextBrowser</class>
-   <extends>QTextBrowser</extends>
-   <header>ktextbrowser.h</header>
+   <class>ExtDateTimeEdit</class>
+   <extends>QFrame</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -33,241 +33,150 @@
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
+#include "locationdialog.h"
+#include "finddialog.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit) {
-
+modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0) 
+{
 	setupUi(this);
-	showCurrentDateTime();
- 	initGeo();
-	showLongLat();
-	RABox->setDegType(false);
+	RA->setDegType(false);
 
-    // signals and slots connections
-    connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotComputeVelocities()));
-    connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
-    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+	Date->setDateTime( KStarsDateTime::currentDateTime() );
+	initGeo();
+
+	VLSR->setValidator( new QDoubleValidator( VLSR ) );
+	VHelio->setValidator( new QDoubleValidator( VHelio ) );
+	VGeo->setValidator( new QDoubleValidator( VGeo ) );
+	VTopo->setValidator( new QDoubleValidator( VTopo ) );
+
+	// signals and slots connections
+	connect(Date, SIGNAL( dateTimeChanged( const ExtDateTime & ) ), 
+				this, SLOT( slotCompute() ) );
+	connect(NowButton, SIGNAL( clicked() ), this, SLOT( slotNow() ) );
+	connect(LocationButton, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
+	connect(ObjectButton, SIGNAL( clicked() ), this, SLOT( slotFindObject() ) );
+	connect(RA, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect(Dec, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect(VLSR, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect(VHelio, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect(VGeo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+	connect(VTopo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+
+	connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
 	show();
 }
 
 modCalcVlsr::~modCalcVlsr(){
-    delete geoPlace;
 }
 
-SkyPoint modCalcVlsr::getEquCoords (void)
-{
-	dms raCoord, decCoord;
-
-	raCoord = RABox->createDms(false);
-	decCoord = DecBox->createDms();
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	return sp;
-}
-
-double modCalcVlsr::getVLSR (void)
-{
-	double vlsr = VLSRBox->text().toDouble();
-	return vlsr;
-}
-
-double modCalcVlsr::getVhel (void)
-{
-	double vh = VHelioBox->text().toDouble();
-	return vh;
-}
-
-double modCalcVlsr::getVgeo (void)
-{
-	double vg = VGeoBox->text().toDouble();
-	return vg;
-}
-
-double modCalcVlsr::getVtopo (void)
-{
-	double vt = VTopoBox->text().toDouble();
-	return vt;
-}
-
-
-KStarsDateTime modCalcVlsr::getDateTime (void)
-{
-	return KStarsDateTime( DateBox->date() , UTBox->time() );
-}
-
-dms modCalcVlsr::getLongitude(void)
-{
-	dms longitude;
-	longitude = LongitudeBox->createDms();
-	return longitude;
-}
-
-dms modCalcVlsr::getLatitude(void)
-{
-	dms latitude;
-	latitude = LatitudeBox->createDms();
-	return latitude;
-}
-
-double modCalcVlsr::getHeight(void)
-{
-	bool ok = false;
-	double height = ElevationBox->text().toDouble(&ok);
-	if (ok)
-		return height;
-	else {
-		kDebug() << i18n( "Could not parse height string; assuming 0" ) << endl;
-		return 0.0;
-	}
-
-}
-
-void modCalcVlsr::getGeoLocation (void)
-{
-	geoPlace->setLong( getLongitude() );
-	geoPlace->setLat(  getLatitude() );
-	geoPlace->setHeight( getHeight() );
-
-}
-
-void modCalcVlsr::showCurrentDateTime (void)
-{
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-
-	DateBox->setDate( dt.date() );
-	UTBox->setTime( dt.time() );
-	DateBoxBatch->setDate( dt.date() );
-	UTBoxBatch->setTime( dt.time() );
-}
-
-// SIRVE para algo?
 void modCalcVlsr::initGeo(void)
 {
 	KStars *ks = (KStars*) topLevelWidget()->parent();
-	geoPlace = new GeoLocation( ks->geo() );
+	geoPlace = ks->geo();
+	LocationButton->setText( geoPlace->fullName() );
 }
 
-
-
-void modCalcVlsr::showLongLat(void)
+void modCalcVlsr::slotNow()
 {
+	Date->setDateTime( KStarsDateTime::currentDateTime() );
+	slotCompute();
+}
 
+void modCalcVlsr::slotFindObject() {
+	FindDialog fd( (KStars*)topLevelWidget()->parent() );
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *o = fd.currentItem();
+		RA->showInHours( o->ra0() );
+		Dec->showInDegrees( o->dec0() );
+	}
+}
+
+void modCalcVlsr::slotLocation() {
 	KStars *ks = (KStars*) topLevelWidget()->parent();
-	LongitudeBox->show( ks->geo()->lng() );
-	LatitudeBox->show( ks->geo()->lat() );
-	LongitudeBoxBatch->show( ks->geo()->lng() );
-	LatitudeBoxBatch->show( ks->geo()->lat() );
-}
+	LocationDialog ld(ks);
 
-void modCalcVlsr::showVlsr (const double vlsr )
-{
-	VLSRBox->setText( KGlobal::locale()->formatNumber( vlsr ) );
-}
-
-void modCalcVlsr::showHelVel (const double vhel )
-{
-	VHelioBox->setText( KGlobal::locale()->formatNumber( vhel ) );
-}
-
-void modCalcVlsr::showGeoVel (const double vgeo )
-{
-	VGeoBox->setText( KGlobal::locale()->formatNumber( vgeo ) );
-}
-
-void modCalcVlsr::showTopoVel (const double vtop )
-{
-	VTopoBox->setText( KGlobal::locale()->formatNumber( vtop ) );
-}
-
-void modCalcVlsr::showEpoch( const KStarsDateTime &dt )
-{
-	double epochN = dt.epoch();
-//	Localization
-//	EpochBox->setText(KGlobal::locale()->formatNumber(epochN,3));
-	EpochBox->setText( KGlobal::locale()->formatNumber( epochN ) );
-
-}
-
-void modCalcVlsr::slotClearCoords()
-{
-
-	RABox->clearFields();
-	DecBox->clearFields();
-	LongitudeBox->clearFields();
-	LatitudeBox->clearFields();
-	EpochBox->setText(QString());
-	VLSRBox->setText(QString());
-	VHelioBox->setText(QString());
-	VGeoBox->setText(QString());
-	VTopoBox->setText(QString());
-
-	DateBox->setDate(ExtDate::currentDate());
-	UTBox->setTime(QTime(0,0,0));
-
-}
-
-void modCalcVlsr::slotComputeVelocities()
-{
-	SkyPoint sp = getEquCoords();
-	getGeoLocation();
-
-
-	QString epoch0 = EpochBox->text();
-	KStarsDateTime dt0;
-	dt0.setFromEpoch(epoch0);
-	KStarsDateTime dt1 = getDateTime();
-	double vst[3];
-	dms gsidt = dt1.gst();
-	geoPlace->TopocentricVelocity(vst, gsidt);
-
-	if ( radioVlsr->isChecked() ) {
-
-		double vlsr = getVLSR();
-		double vhelio = sp.vHeliocentric(vlsr, dt0.djd() );
-		showHelVel( vhelio );
-
-		double vg = sp.vGeocentric(vhelio, dt1.djd());
-		showGeoVel( vg );
-
-		showTopoVel ( sp.vTopocentric(vg, vst) );
-
-	} else if (radioVhelio->isChecked() ) {
-
-		double vhel = getVhel();
-		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
-		showVlsr(vlsr);
-
-		double vg = sp.vGeocentric(vhel, dt1.djd());
-		showGeoVel( vg );
-
-		showTopoVel ( sp.vTopocentric(vg, vst) );
-
-	} else if (radioVgeo->isChecked() ) {
-
-		double vgeo = getVgeo();
-		double vhel = sp.vGeoToVHelio(vgeo, dt1.djd() );
-		showHelVel(vhel) ;
-
-		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
-		showVlsr(vlsr);
-
-
-		showTopoVel ( sp.vTopocentric(vgeo, vst) );
-
-	} else {
-		double vtopo = getVtopo();
-		double vgeo = sp.vTopoToVGeo(vtopo, vst);
-		showGeoVel( vgeo );
-
-		double vhel = sp.vGeoToVHelio(vgeo, dt1.djd() );
-		showHelVel(vhel) ;
-
-		double vlsr = sp.vHelioToVlsr(vhel, dt0.djd() );
-		showVlsr(vlsr);
+	if ( ld.exec() == QDialog::Accepted ) {
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geoPlace = newGeo;
+			LocationButton->setText( geoPlace->fullName() );
+		}
 	}
 
+	slotCompute();
+}
+
+void modCalcVlsr::slotCompute()
+{
+	bool ok1(false), ok2(false);
+	SkyPoint sp( RA->createDms(false, &ok1), Dec->createDms(true, &ok2) );
+	if ( !ok1 || !ok2 ) return;
+
+	KStarsDateTime dt = Date->dateTime();
+	double vst[3];
+	geoPlace->TopocentricVelocity( vst, dt.gst() );
+
+	if ( sender()->objectName() == "VLSR" )   velocityFlag = 0;
+	if ( sender()->objectName() == "VHelio" ) velocityFlag = 1;
+	if ( sender()->objectName() == "VGeo" )   velocityFlag = 2;
+	if ( sender()->objectName() == "VTopo" )  velocityFlag = 3;
+
+	switch ( velocityFlag ) {
+		case 0: //Hold VLSR constant, compute the others
+		{
+			double vlsr = VLSR->text().toDouble();
+			double vhelio = sp.vHeliocentric( vlsr, dt.djd() );
+			double vgeo = sp.vGeocentric( vhelio, dt.djd() );
+
+			VHelio->setText( QString::number( vhelio ) );
+			VGeo->setText( QString::number( vgeo ) );
+			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+			break;
+		}
+		
+		case 1: //Hold VHelio constant, compute the others
+		{
+			double vhelio = VHelio->text().toDouble();
+			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+			double vgeo = sp.vGeocentric( vhelio, dt.djd() );
+
+			VLSR->setText( QString::number( vlsr ) );
+			VGeo->setText( QString::number( vgeo ) );
+			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+			break;
+		}
+
+		case 2: //Hold VGeo constant, compute the others
+		{
+			double vgeo = VGeo->text().toDouble();
+			double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
+			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+
+			VLSR->setText( QString::number( vlsr ) );
+			VHelio->setText( QString::number( vhelio ) );
+			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+			break;
+		}
+
+		case 3: //Hold VTopo constant, compute the others
+		{
+			double vtopo = VTopo->text().toDouble();
+			double vgeo = sp.vTopoToVGeo( vtopo, vst );
+			double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
+			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+
+			VLSR->setText( QString::number( vlsr ) );
+			VHelio->setText( QString::number( vhelio ) );
+			VGeo->setText( QString::number( vgeo ) );
+			break;
+		}
+
+		default: //oops
+			kDebug() << i18n("Error: I don't know which velocity to use for input.") << endl;
+			break;
+	}
 }
 
 void modCalcVlsr::slotUtChecked(){

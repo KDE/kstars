@@ -1,5 +1,5 @@
 /***************************************************************************
-                          modcalcazel.cpp  -  description
+                          modcalcaltaz.cpp  -  description
                              -------------------
     begin                : s� oct 26 2002
     copyright            : (C) 2002 by Jason Harris
@@ -21,28 +21,40 @@
 #include <kmessagebox.h>
 #include <kglobal.h>
 
-#include "modcalcazel.h"
+#include "modcalcaltaz.h"
 
 #include "skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
+#include "finddialog.h"
+#include "locationdialog.h"
 
 
-modCalcAzel::modCalcAzel(QWidget *parentSplit) 
-: QFrame(parentSplit) {
-
+modCalcAltAz::modCalcAltAz(QWidget *parentSplit) 
+: QFrame(parentSplit), horInputCoords(false) {
 	setupUi(this);
-	showCurrentDateTime();
- 	initGeo();
-	showLongLat();
-	horInputCoords = false;
-	raBox->setDegType(false);
 
-	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
-	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+	//Initialize Date/Time and Location data
+	KStars *ks = ((KStars*) topLevelWidget()->parent());
+	DateTime->setDateTime( ks->data()->lt() );
+	geoPlace = ks->geo();
+	LocationButton->setText( geoPlace->fullName() );
+
+	RA->setDegType(false);
+
+	connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
+	connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
+	connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
+	connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
+
+	connect(RA,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(Az,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(Alt, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+
 	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 	connect(InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()));
 	connect(OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()));
@@ -58,156 +70,80 @@ modCalcAzel::modCalcAzel(QWidget *parentSplit)
 	show();
 }
 
-modCalcAzel::~modCalcAzel(){
-    delete geoPlace;
+modCalcAltAz::~modCalcAltAz(){
 }
 
-SkyPoint modCalcAzel::getEquCoords (void)
+void modCalcAltAz::slotNow()
 {
-	dms raCoord, decCoord;
-
-	raCoord = raBox->createDms(false);
-	decCoord = decBox->createDms();
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	return sp;
+	DateTime->setDateTime( KStarsDateTime::currentDateTime() );
+	slotCompute();
 }
 
-SkyPoint modCalcAzel::getHorCoords (void)
+void modCalcAltAz::slotLocation()
 {
-	dms azCoord, elCoord;
-
-	azCoord = azBox->createDms();
-	elCoord = elBox->createDms();
-
-	SkyPoint sp = SkyPoint();
-
-	sp.setAz(azCoord);
-	sp.setAlt(elCoord);
-
-	return sp;
+	LocationDialog ld( (KStars*)topLevelWidget()->parent() );
+	if ( ld.exec() == QDialog::Accepted ) {
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geoPlace = newGeo;
+			LocationButton->setText( geoPlace->fullName() );
+			slotCompute();
+		}
+	}
 }
 
-void modCalcAzel::showCurrentDateTime (void)
+void modCalcAltAz::slotObject()
 {
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-
-	datBox->setDate( dt.date() );
-	timBox->setTime( dt.time() );
-	dateBoxBatch->setDate( dt.date() );
-	utBoxBatch->setTime( dt.time() );
+	FindDialog fd( (KStars*)topLevelWidget()->parent() );
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *o = fd.currentItem();
+		RA->showInHours( o->ra() );
+		Dec->showInDegrees( o->dec() );
+		slotCompute();
+	}
 }
 
-KStarsDateTime modCalcAzel::getDateTime (void)
+void modCalcAltAz::slotDateTimeChanged(const ExtDateTime &edt) 
 {
-	return KStarsDateTime( datBox->date() , timBox->time() );
+	LST = geoPlace->GSTtoLST( ((KStarsDateTime)edt).gst() );
 }
 
-dms modCalcAzel::getLongitude(void)
+void modCalcAltAz::slotCompute()
 {
-	dms longitude;
-	longitude = longBox->createDms();
-	return longitude;
-}
-
-dms modCalcAzel::getLatitude(void)
-{
-	dms latitude;
-	latitude = latBox->createDms();
-	return latitude;
-}
-
-void modCalcAzel::getGeoLocation (void)
-{
-	geoPlace->setLong( longBox->createDms() );
-	geoPlace->setLat(  latBox->createDms() );
-	geoPlace->setHeight( 0.0);
-
-}
-
-void modCalcAzel::initGeo(void)
-{
-	KStars *ks = (KStars*) topLevelWidget()->parent(); 
-	geoPlace = new GeoLocation( ks->geo() );
-}
-
-
-
-void modCalcAzel::showLongLat(void)
-{
-
-	KStars *ks = (KStars*) topLevelWidget()->parent();
-	longBox->show( ks->geo()->lng() );
-	latBox->show( ks->geo()->lat() );
-	longBoxBatch->show( ks->geo()->lng() );
-	latBoxBatch->show( ks->geo()->lat() );
-}
-
-void modCalcAzel::showHorCoords ( SkyPoint sp )
-{
-
-	azBox->show( sp.az() );
-	elBox->show( sp.alt() );
-
-}
-
-void modCalcAzel::showEquCoords ( SkyPoint sp )
-{
-	raBox->show( sp.ra(), false );
-	decBox->show( sp.dec() );
-	showEpoch( getDateTime() );
-}
-
-void modCalcAzel::showEpoch( const KStarsDateTime &dt )
-{
-	double epochN = dt.epoch();
-//	Localization
-//	epochName->setText(KGlobal::locale()->formatNumber(epochN,3));
-	epochName->setText( KGlobal::locale()->formatNumber( epochN ) );
-	
-}
-
-void modCalcAzel::slotClearCoords()
-{
-
-	raBox->clearFields();
-	decBox->clearFields();
-	azBox->clearFields();
-	elBox->clearFields();
-	epochName->setText(QString());
-
-	datBox->setDate(ExtDate::currentDate());
-	timBox->setTime(QTime(0,0,0));
-
-}
-
-void modCalcAzel::slotComputeCoords()
-{
-	SkyPoint sp;
-	KStarsDateTime dt;
-	dt.setFromEpoch( epochName->text() );
-	long double jd = getDateTime().djd();
-	long double jd0 = dt.djd();
-
-	dms LST( getDateTime().gst().Degrees() + getLongitude().Degrees() );
-
-	if(radioApCoords->isChecked()) {
-		sp = getEquCoords();
-		sp.apparentCoord(jd0, jd);
-		dms lat(getLatitude());
-		sp.EquatorialToHorizontal( &LST, &lat );
-		showHorCoords( sp );
+	//Determine whether we are calculating Alt/Az coordinates from RA/Dec,
+	//or vice versa.  We calculate Alt/Az by default, unless the signal 
+	//was sent by changing the Az or Alt value.
+	if ( sender()->objectName() == "Az" || sender()->objectName() == "Alt" ) {
+		//Validate Az and Alt coordinates
+		bool ok( false );
+		dms alt;
+		dms az = Az->createDms( true, &ok );
+		if ( ok ) alt = Alt->createDms( true, &ok );
+		if ( ok ) {
+			SkyPoint sp;
+			sp.setAz( az );
+			sp.setAlt( alt );
+			sp.HorizontalToEquatorial( &LST, geoPlace->lat() );
+			RA->showInHours( sp.ra() );
+			Dec->showInDegrees( sp.dec() );
+		}
 
 	} else {
-		sp = getHorCoords();
-		dms lat(getLatitude());
-		sp.HorizontalToEquatorial( &LST, &lat );
-		showEquCoords( sp );
+		//Validate RA and Dec coordinates
+		bool ok( false );
+		dms ra;
+		dms dec = Dec->createDms( true, &ok );
+		if ( ok ) ra = RA->createDms( false, &ok );
+		if ( ok ) {
+			SkyPoint sp( ra, dec );
+			sp.EquatorialToHorizontal( &LST, geoPlace->lat() );
+			Az->showInDegrees( sp.az() );
+			Alt->showInDegrees( sp.alt() );
+		}
 	}
-
 }
-void modCalcAzel::slotUtChecked(){
+
+void modCalcAltAz::slotUtChecked(){
 	if ( utCheckBatch->isChecked() )
 		utBoxBatch->setEnabled( false );
 	else {
@@ -215,7 +151,7 @@ void modCalcAzel::slotUtChecked(){
 	}
 }
 
-void modCalcAzel::slotDateChecked(){
+void modCalcAltAz::slotDateChecked(){
 	if ( dateCheckBatch->isChecked() )
 		dateBoxBatch->setEnabled( false );
 	else {
@@ -223,7 +159,7 @@ void modCalcAzel::slotDateChecked(){
 	}
 }
 
-void modCalcAzel::slotRaChecked(){
+void modCalcAltAz::slotRaChecked(){
 	if ( raCheckBatch->isChecked() ) {
 		raBoxBatch->setEnabled( false );
 		horNoCheck();
@@ -233,7 +169,7 @@ void modCalcAzel::slotRaChecked(){
 	}
 }
 
-void modCalcAzel::slotDecChecked(){
+void modCalcAltAz::slotDecChecked(){
 	if ( decCheckBatch->isChecked() ) {
 		decBoxBatch->setEnabled( false );
 		horNoCheck();
@@ -243,21 +179,21 @@ void modCalcAzel::slotDecChecked(){
 	}
 }
 
-void modCalcAzel::slotEpochChecked(){
+void modCalcAltAz::slotEpochChecked(){
 	if ( epochCheckBatch->isChecked() )
 		epochBoxBatch->setEnabled( false );
 	else 
 		epochBoxBatch->setEnabled( true );
 }
 
-void modCalcAzel::slotLongChecked(){
+void modCalcAltAz::slotLongChecked(){
 	if ( longCheckBatch->isChecked() )
 		longBoxBatch->setEnabled( false );
 	else 
 		longBoxBatch->setEnabled( true );
 }
 
-void modCalcAzel::slotLatChecked(){
+void modCalcAltAz::slotLatChecked(){
 	if ( latCheckBatch->isChecked() )
 		latBoxBatch->setEnabled( false );
 	else {
@@ -265,7 +201,7 @@ void modCalcAzel::slotLatChecked(){
 	}
 }
 
-void modCalcAzel::slotAzChecked(){
+void modCalcAltAz::slotAzChecked(){
 	if ( azCheckBatch->isChecked() ) {
 		azBoxBatch->setEnabled( false );
 		equNoCheck();
@@ -275,7 +211,7 @@ void modCalcAzel::slotAzChecked(){
 	}
 }
 
-void modCalcAzel::slotElChecked(){
+void modCalcAltAz::slotElChecked(){
 	if ( elCheckBatch->isChecked() ) {
 		elBoxBatch->setEnabled( false );
 		equNoCheck();
@@ -285,7 +221,7 @@ void modCalcAzel::slotElChecked(){
 	}
 }
 
-void modCalcAzel::horNoCheck() {
+void modCalcAltAz::horNoCheck() {
 	azCheckBatch->setChecked(false);
 	azBoxBatch->setEnabled(false);
 	elCheckBatch->setChecked(false);
@@ -294,7 +230,7 @@ void modCalcAzel::horNoCheck() {
 
 }
 
-void modCalcAzel::equNoCheck() {
+void modCalcAltAz::equNoCheck() {
 	raCheckBatch->setChecked(false);
 	raBoxBatch->setEnabled(false);
 	decCheckBatch->setChecked(false);
@@ -303,19 +239,19 @@ void modCalcAzel::equNoCheck() {
 }
 
 
-void modCalcAzel::slotInputFile() {
+void modCalcAltAz::slotInputFile() {
 	QString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
-void modCalcAzel::slotOutputFile() {
+void modCalcAltAz::slotOutputFile() {
 	QString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
-void modCalcAzel::slotRunBatch() {
+void modCalcAltAz::slotRunBatch() {
 	QString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
@@ -345,7 +281,7 @@ void modCalcAzel::slotRunBatch() {
 	}
 }
 
-void modCalcAzel::processLines( QTextStream &istream ) {
+void modCalcAltAz::processLines( QTextStream &istream ) {
 
 	// we open the output file
 
@@ -530,4 +466,4 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 	fOut.close();
 }
 
-#include "modcalcazel.moc"
+#include "modcalcaltaz.moc"

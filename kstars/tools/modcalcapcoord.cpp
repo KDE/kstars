@@ -42,8 +42,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
 	connect( NowButton, SIGNAL( clicked() ), this, SLOT( showCurrentTime() ) );
 	connect( RACat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
 	connect( DecCat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect( UT, SIGNAL( timeChanged( const QTime &t ) ), this, SLOT( slotCompute() ) );
-	connect( Date, SIGNAL( dateChanged( const ExtDate &t ) ), this, SLOT( slotCompute() ) );
+	connect( UT, SIGNAL( timeChanged( const QTime & ) ), this, SLOT( slotCompute() ) );
+	connect( Date, SIGNAL( dateChanged( const ExtDate & ) ), this, SLOT( slotCompute() ) );
 
 	connect( utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()) );
 	connect( dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()) );

@@ -32,7 +32,7 @@ set(libkstarstools_SRCS
 	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
 	tools/modcalcapcoord.cpp
-	tools/modcalcazel.cpp
+	tools/modcalcaltaz.cpp
 	tools/modcalcdaylength.cpp
 	tools/modcalceclipticcoords.cpp
 	tools/modcalcequinox.cpp
@@ -91,7 +91,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/lcgenerator.ui
 	tools/modcalcangdist.ui
 	tools/modcalcapcoord.ui
-	tools/modcalcazel.ui
+	tools/modcalcaltaz.ui
 	tools/modcalcdaylength.ui
 	tools/modcalceclipticcoords.ui
 	tools/modcalcequinox.ui

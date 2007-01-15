@@ -30,7 +30,7 @@
 #include "modcalcprec.h"
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
-#include "modcalcazel.h"
+#include "modcalcaltaz.h"
 #include "modcalcplanets.h"
 #include "modcalceclipticcoords.h"
 #include "modcalcangdist.h"
@@ -40,7 +40,7 @@
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialog( parent ), JDFrame(0), GeodCoordFrame(0),
         GalFrame(0), SidFrame(0), PrecFrame(0), AppFrame(0),
-        DayFrame(0), AzelFrame(0), PlanetsFrame(0), EquinoxFrame(0),
+        DayFrame(0), AltAzFrame(0), PlanetsFrame(0), EquinoxFrame(0),
 	EclFrame(0), AngDistFrame(0)
 {
 	split = new QSplitter ( this );
@@ -100,6 +100,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	acStack->addWidget( GeodCoordFrame );
 	GalFrame = new modCalcGalCoord( acStack );
 	acStack->addWidget( GalFrame );
+
 	SidFrame = new modCalcSidTime( acStack );
 	acStack->addWidget( SidFrame );
 	PrecFrame = new modCalcPrec( acStack );
@@ -108,8 +109,9 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	acStack->addWidget( AppFrame );
 	DayFrame = new modCalcDayLength( acStack );
 	acStack->addWidget( DayFrame );
-	AzelFrame = new modCalcAzel( acStack );
-	acStack->addWidget( AzelFrame );
+
+	AltAzFrame = new modCalcAltAz( acStack );
+	acStack->addWidget( AltAzFrame );
 	PlanetsFrame = new modCalcPlanets( acStack );
 	acStack->addWidget( PlanetsFrame );
 	EquinoxFrame = new modCalcEquinox( acStack );
@@ -123,8 +125,9 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	acStack->setCurrentWidget( splashScreen );
 
-	connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
+ 	connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
 		SLOT(slotItemSelection(QTreeWidgetItem *)));
+
 }
 
 AstroCalc::~AstroCalc()
@@ -149,6 +152,10 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 	if(!(s.compare(i18n("Solar System"))))
 		genSolarText();
 
+	//DEBUG
+	kDebug() << "s = " << s << endl;
+	kDebug() << acStack << " : " << AltAzFrame << endl;
+
 	if(!(s.compare(i18n("Sidereal Time"))))
 		acStack->setCurrentWidget( SidFrame );
 	if(!(s.compare(i18n("Julian Day"))))
@@ -160,7 +167,7 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 	if(!(s.compare(i18n("Apparent Coordinates"))))
 		acStack->setCurrentWidget( AppFrame );
 	if(!(s.compare(i18n("Horizontal Coordinates"))))
-		acStack->setCurrentWidget( AzelFrame );
+		acStack->setCurrentWidget( AltAzFrame );
 	if(!(s.compare(i18n("Ecliptic Coordinates"))))
 		acStack->setCurrentWidget( EclFrame );
 	if(!(s.compare(i18n("Geodetic Coordinates"))))

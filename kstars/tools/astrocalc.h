@@ -39,7 +39,7 @@ class modCalcSidTime;
 class modCalcPrec;
 class modCalcApCoord;
 class modCalcDayLength;
-class modCalcAzel;
+class modCalcAltAz;
 class modCalcEquinox;
 class modCalcPlanets;
 class modCalcEclCoords;
@@ -89,7 +89,7 @@ Q_OBJECT
 		QTreeWidget *navigationPanel;
 		QString previousElection;
 
-		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist, Vlsr};
+		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, AltAz, Planets, Ecliptic, AngDist, Vlsr};
 		typeOfPanel rightPanel;
 
 		QStringList ItemTitles;
@@ -102,7 +102,7 @@ Q_OBJECT
 		modCalcPrec *PrecFrame;
 		modCalcApCoord *AppFrame;
 		modCalcDayLength *DayFrame;
-		modCalcAzel *AzelFrame;
+		modCalcAltAz *AltAzFrame;
 		modCalcPlanets *PlanetsFrame;
 		modCalcEquinox *EquinoxFrame;
 		modCalcEclCoords *EclFrame;

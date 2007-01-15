@@ -1,9 +1,6 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
- <class>modCalcAzelDlg</class>
- <widget class="QWidget" name="modCalcAzelDlg" >
+ <class>modCalcAltAz</class>
+ <widget class="QWidget" name="modCalcAltAz" >
   <property name="enabled" >
    <bool>true</bool>
   </property>
@@ -11,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>539</height>
+    <width>528</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -27,159 +24,83 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>8</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
-          <string>Time &amp;&amp; Location</string>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="1" column="1" >
-             <widget class="ExtDateEdit" name="datBox" />
-            </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="timLabel" >
-              <property name="text" >
-               <string>Universal time:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="dateLabel" >
-              <property name="text" >
-               <string>Date:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QTimeEdit" name="timBox" />
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="longLabel" >
-              <property name="text" >
-               <string>Longitude:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="longBox" >
-              <property name="minimumSize" >
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="focusPolicy" >
-               <enum>Qt::StrongFocus</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="latLabel" >
-              <property name="text" >
-               <string>Latitude:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="latBox" >
-              <property name="minimumSize" >
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="focusPolicy" >
-               <enum>Qt::StrongFocus</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="0" column="1" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="ExtDateTimeEdit" name="DateTime" />
+           </item>
+           <item>
+            <widget class="KPushButton" name="NowButton" >
+             <property name="text" >
+              <string>Now</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="LocationLabel" >
+           <property name="text" >
+            <string>Location:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="KPushButton" name="LocationButton" >
+           <property name="text" >
+            <string>Greenwich, United Kingdom</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="DateLabel" >
+           <property name="text" >
+            <string>Date and time:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
-          <string>Select Input</string>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="radioApCoords" >
-            <property name="text" >
-             <string>Apparent coordinates</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioHorCoords" >
-            <property name="text" >
-             <string>Horizontal coordinates</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+         <property name="sizeHint" >
+          <size>
+           <width>411</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <layout class="QHBoxLayout" >
@@ -194,98 +115,75 @@
            <property name="title" >
             <string>Equatorial Coordinates</string>
            </property>
-           <layout class="QVBoxLayout" >
+           <layout class="QGridLayout" >
             <property name="margin" >
-             <number>8</number>
+             <number>9</number>
             </property>
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item>
-             <layout class="QGridLayout" >
-              <property name="margin" >
-               <number>0</number>
+            <item row="2" column="0" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
               </property>
-              <property name="spacing" >
-               <number>6</number>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
               </property>
-              <item row="0" column="1" >
-               <widget class="dmsBox" name="raBox" >
-                <property name="enabled" >
-                 <bool>true</bool>
-                </property>
-                <property name="minimumSize" >
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="focusPolicy" >
-                 <enum>Qt::StrongFocus</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="raLabel" >
-                <property name="text" >
-                 <string>Right ascension:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" >
-               <widget class="QLabel" name="epochLabel" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text" >
-                 <string>Epoch:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="decLabel" >
-                <property name="text" >
-                 <string>Declination:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="dmsBox" name="decBox" >
-                <property name="minimumSize" >
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="focusPolicy" >
-                 <enum>Qt::StrongFocus</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" >
-               <widget class="QLineEdit" name="epochName" >
-                <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize" >
-                 <size>
-                  <width>32767</width>
-                  <height>32767</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </spacer>
+            </item>
+            <item row="2" column="1" >
+             <widget class="KPushButton" name="ObjectButton" >
+              <property name="text" >
+               <string>Select Object...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="dmsBox" name="Dec" >
+              <property name="minimumSize" >
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="focusPolicy" >
+               <enum>Qt::StrongFocus</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="dmsBox" name="RA" >
+              <property name="enabled" >
+               <bool>true</bool>
+              </property>
+              <property name="minimumSize" >
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="focusPolicy" >
+               <enum>Qt::StrongFocus</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="decLabel" >
+              <property name="text" >
+               <string>Declination:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="raLabel" >
+              <property name="text" >
+               <string>Right ascension:</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -311,7 +209,7 @@
                <number>6</number>
               </property>
               <item row="1" column="1" >
-               <widget class="dmsBox" name="elBox" >
+               <widget class="dmsBox" name="Alt" >
                 <property name="minimumSize" >
                  <size>
                   <width>100</width>
@@ -324,7 +222,7 @@
                </widget>
               </item>
               <item row="0" column="1" >
-               <widget class="dmsBox" name="azBox" >
+               <widget class="dmsBox" name="Az" >
                 <property name="minimumSize" >
                  <size>
                   <width>100</width>
@@ -369,54 +267,6 @@
              </spacer>
             </item>
            </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="Compute" >
-           <property name="minimumSize" >
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>120</width>
-             <height>32767</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>Convert</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="Clear" >
-           <property name="minimumSize" >
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>120</width>
-             <height>32767</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>Clear</string>
-           </property>
           </widget>
          </item>
         </layout>
@@ -892,37 +742,68 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends></extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>ExtDateTimeEdit</class>
+   <extends>QFrame</extends>
+   <header>extdatetimeedit.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget3</tabstop>
+  <tabstop>NowButton</tabstop>
+  <tabstop>LocationButton</tabstop>
+  <tabstop>RA</tabstop>
+  <tabstop>Dec</tabstop>
+  <tabstop>ObjectButton</tabstop>
+  <tabstop>Az</tabstop>
+  <tabstop>Alt</tabstop>
+  <tabstop>decCheckBatch</tabstop>
+  <tabstop>decBoxBatch</tabstop>
+  <tabstop>dateBoxBatch</tabstop>
+  <tabstop>raCheckBatch</tabstop>
+  <tabstop>dateCheckBatch</tabstop>
+  <tabstop>epochCheckBatch</tabstop>
+  <tabstop>raBoxBatch</tabstop>
+  <tabstop>utCheckBatch</tabstop>
+  <tabstop>utBoxBatch</tabstop>
+  <tabstop>epochBoxBatch</tabstop>
+  <tabstop>elBoxBatch</tabstop>
+  <tabstop>longBoxBatch</tabstop>
+  <tabstop>elCheckBatch</tabstop>
+  <tabstop>azCheckBatch</tabstop>
+  <tabstop>latCheckBatch</tabstop>
+  <tabstop>longCheckBatch</tabstop>
+  <tabstop>azBoxBatch</tabstop>
+  <tabstop>latBoxBatch</tabstop>
+  <tabstop>allRadioBatch</tabstop>
+  <tabstop>inputRadioBatch</tabstop>
+  <tabstop>OutputLineEditBatch</tabstop>
+  <tabstop>OutputButtonBatch</tabstop>
+  <tabstop>InputLineEditBatch</tabstop>
+  <tabstop>InputButtonBatch</tabstop>
+  <tabstop>runButtonBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

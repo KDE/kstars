@@ -1,8 +1,8 @@
 /***************************************************************************
-                          modcalcLSRVel.h  -  description
+                          modcalcaltaz.h  -  description
                              -------------------
-    begin                : dom mar 13 2005
-    copyright            : (C) 2005 by Pablo de Vicente
+    begin                : sáb oct 26 2002
+    copyright            : (C) 2002 by Pablo de Vicente
     email                : pvicentea@wanadoo.es
  ***************************************************************************/
 
@@ -15,39 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCVLSR_H_
-#define MODCALCVLSR_H_
+#ifndef MODCALCALTAZ_H_
+#define MODCALCALTAZ_H_
 
-#include <kapplication.h>
-#include <QTextStream>
-
-#include "ui_modcalcvlsr.h"
+#include "ui_modcalcaltaz.h"
 
 class QWidget;
 class SkyPoint;
-class KStarsDateTime;
+class ExtDateTime;
 class GeoLocation;
 class dms;
 
 /**
   *@author Pablo de Vicente
-  *Module to compute the heliocentric radial velocity, geocentric radial velocity and 
-  *topocentric radial velocity for a source, given its coordinates, its Vlsr and the date and
-  *location on the Earth.
   */
-class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg  {
+class modCalcAltAz : public QFrame, public Ui::modCalcAltAz  {
 
 Q_OBJECT
 
 public: 
-	modCalcVlsr(QWidget *p);
-	~modCalcVlsr();
+	modCalcAltAz(QWidget *p);
+	~modCalcAltAz();
 	
-private slots:
+public slots:
+	void slotCompute();
 	void slotNow();
 	void slotLocation();
-	void slotFindObject();
-	void slotCompute();
+	void slotObject();
+	void slotDateTimeChanged(const ExtDateTime&);
 
 	void slotUtChecked();
 	void slotDateChecked();
@@ -56,31 +51,20 @@ private slots:
 	void slotEpochChecked();
 	void slotLongChecked();
 	void slotLatChecked();
-	void slotHeightChecked();
-	void slotVlsrChecked();
+	void slotAzChecked();
+	void slotElChecked();
 	void slotInputFile();
 	void slotOutputFile();
 	void slotRunBatch();
 
 private:
-
-	/**@returns a SkyPoint constructed from the coordinates in the 
-	 * RA and Dec dmsBoxes. */
-	SkyPoint skypoint();
-
-	/* Constructs the a GeoLocation object (geoPlace) from the calling classes.
-	 * This is for using as Geolocation the location setup in KStars 
-	 * */
-	void initGeo(void);
-
-	/* Method to process the lines from a file
-	 */
+	void horNoCheck();
+	void equNoCheck();
 	void processLines( QTextStream &istream );
-
+  
 	GeoLocation *geoPlace;
-	int velocityFlag;
+	dms LST;
+	bool horInputCoords;
 };
-
-
 
 #endif
