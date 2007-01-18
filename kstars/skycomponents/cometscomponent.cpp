@@ -69,8 +69,8 @@ void CometsComponent::init( KStarsData *data ) {
 
 			objectList().append( com );
 
-			//Add name to the list of object names
-			objectNames().append( name );
+			//Add *short* name to the list of object names
+			objectNames().append( com->name() );
 		}
 	}
 }

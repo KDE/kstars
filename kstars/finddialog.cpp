@@ -108,7 +108,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	if ( searchString.isEmpty() ) {
 		QListWidgetItem *defaultItem = ui->SearchList->findItems( i18n("Andromeda Galaxy"), Qt::MatchExactly )[0];
 		ui->SearchList->scrollToItem( defaultItem, QAbstractItemView::PositionAtTop );
-		ui->SearchList->setItemSelected( defaultItem, true );
+		ui->SearchList->setCurrentItem( defaultItem );
 
 	} else
 			selectFirstItem(); 
@@ -134,7 +134,7 @@ void FindDialog::filterByType() {
 
 void FindDialog::selectFirstItem() {
 	if( ui->SearchList->item(0))
-		ui->SearchList->setItemSelected( ui->SearchList->item(0), true );
+		ui->SearchList->setCurrentItem( ui->SearchList->item(0) );
 }
 
 void FindDialog::updateSelection() {
