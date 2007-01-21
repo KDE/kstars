@@ -12,6 +12,7 @@ include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools
 	${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot
 )
 
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
 set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
