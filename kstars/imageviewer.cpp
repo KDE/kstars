@@ -58,8 +58,8 @@ void ImageLabel::paintEvent (QPaintEvent */*ev*/)
 }
 
 ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
-	: KDialog( _ks ), m_ImageUrl(url), fileIsImage(false), downloadJob(0),
-		ks(_ks)
+	: KDialog( _ks ), ks(_ks), m_ImageUrl(url), fileIsImage(false),
+		downloadJob(0)
 {
 	setModal( false );
 	MainFrame = new QFrame( this );
@@ -103,7 +103,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	{
 		KTemporaryFile tempfile;
 		tempfile.open();
-		file.setFileName( tempfile.name() );
+		file.setFileName( tempfile.fileName() );
 	}// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be show
 
 	loadImageFromURL();
@@ -131,7 +131,7 @@ void ImageViewer::closeEvent (QCloseEvent *ev)
 
 void ImageViewer::loadImageFromURL()
 {
-	KUrl saveURL = KUrl::fromPath( file.name() );
+	KUrl saveURL = KUrl::fromPath( file.fileName() );
 	if (!saveURL.isValid())
 		kDebug()<<"tempfile-URL is malformed\n";
 
@@ -164,7 +164,7 @@ void ImageViewer::downloadReady (KJob *job)
 void ImageViewer::showImage()
 {
 	QImage image;
-	if (!image.load( file.name() ))		// if loading failed
+	if (!image.load( file.fileName() ))		// if loading failed
 	{
 		QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
 		KMessageBox::error (this, text);
@@ -230,7 +230,7 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KUrl &url) {
 // synchronous access to prevent segfaults
-	if (!KIO::NetAccess::copy (KUrl (file.name()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::copy (KUrl (file.fileName()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
 		KMessageBox::error (this, text);

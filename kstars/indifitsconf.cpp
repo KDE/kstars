@@ -11,7 +11,7 @@
 
 
 #include "indifitsconf.h"
-#include <kiconloader.h>
+
 #include <kpushbutton.h>
 #include <kfiledialog.h>
 #include <klineedit.h>
@@ -35,8 +35,7 @@ INDIFITSConf::INDIFITSConf(QWidget* parent)
    setCaption( i18n( "Configure INDI" ) );
    setButtons( KDialog::Ok|KDialog::Cancel );
 
-  KIconLoader *icons = KIconLoader::global();
-  ui->selectDirB->setPixmap( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
+  ui->selectDirB->setIcon( KIcon( "fileopen" ) );
   connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
   connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
 }

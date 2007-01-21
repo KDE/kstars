@@ -20,7 +20,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kpushbutton.h>
-#include <kiconloader.h>
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kfiledialog.h>
@@ -81,14 +80,12 @@ FILE *CCDwfp;
    brightnessChanged(brightnessBar->value());
    contrastChanged(contrastBar->value());    
 
-   KIconLoader *icons = KIconLoader::global();
+   playPix    = KIcon( "player_play" );
+   pausePix   = KIcon( "player_pause" );
+   capturePix = KIcon( "frame_image" );
   
-  playPix    = icons->loadIcon( "player_play", K3Icon::Toolbar );
-  pausePix   = icons->loadIcon( "player_pause", K3Icon::Toolbar );
-  capturePix = icons->loadIcon( "frame_image", K3Icon::Toolbar );
-  
-  playB->setPixmap(pausePix);	
-  captureB->setPixmap(capturePix);
+  playB->setIcon(pausePix);	
+  captureB->setIcon(capturePix);
   
   connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
   connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
@@ -125,7 +122,7 @@ void CCDPreviewWG::enableStream(bool enable)
   else
   {
     processStream = false;
-    playB->setPixmap(pausePix);
+    playB->setIcon(pausePix);
     hide();
   }
   
@@ -196,12 +193,12 @@ void CCDPreviewWG::playPressed()
 
  if (processStream)
  {
-  playB->setPixmap(playPix);	
+  playB->setIcon(playPix);	
   processStream = false;
  }
  else
  {
-  playB->setPixmap(pausePix);	
+  playB->setIcon(pausePix);	
   processStream = true;
  }
  

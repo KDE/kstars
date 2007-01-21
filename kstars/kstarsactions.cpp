@@ -79,6 +79,7 @@
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
 #include "ui_devmanager.h"
+#include "imageviewer.h"
 #include "indimenu.h"
 #include "indidriver.h"
 #include "indifitsconf.h"
@@ -518,8 +519,8 @@ void KStars::slotRunScript() {
 				if( KIO::NetAccess::download( fileURL, fname, this ) ) {
 					chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH ); //make it executable
 
-					if ( tmpfile.name() == fname ) { //upload to remote location
-						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
+					if ( tmpfile.fileName() == fname ) { //upload to remote location
+						if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
 							QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
 							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 						}

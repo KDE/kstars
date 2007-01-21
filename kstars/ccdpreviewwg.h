@@ -19,6 +19,8 @@
 #include <QCloseEvent>
 #include <QPixmap>
   
+#include <kicon.h>
+
 #include "ui_ccdpreview.h"
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
@@ -60,7 +62,7 @@ class CCDPreviewWG : public QWidget, public Ui::CCDPreviewForm
    
    private:
    INDIStdDevice        *stdDev;
-   QPixmap               playPix, pausePix, capturePix;
+   KIcon                 playPix, pausePix, capturePix;
    double fwhm;
    int mu;
    

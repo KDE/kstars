@@ -19,6 +19,8 @@
 #include <QCloseEvent>
 #include <QPixmap>
 
+#include <kicon.h>
+
 #include "ui_streamform.h"
 
  
@@ -60,7 +62,7 @@
       
    private:
    INDIStdDevice        *stdDev;
-   QPixmap              playPix, pausePix, capturePix;
+   KIcon                playPix, pausePix, capturePix;
    
    protected:
    void closeEvent ( QCloseEvent * e );
