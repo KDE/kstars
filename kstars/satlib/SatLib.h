@@ -74,8 +74,13 @@ typedef struct
     #undef declare_func
   #else
 /* the exe imports */
-    #define EXPORT
-    #define declare_func
+    #if __GNUC__- 0 >= 4
+      #define EXPORT __attribute__ ((visibility("default")))
+      #define declare_func
+    #else
+      #define EXPORT
+      #define declare_func
+    #endif
   #endif 
 #endif
 
