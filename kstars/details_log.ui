@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>DetailsLog</class>
  <widget class="QWidget" name="DetailsLog" >
   <property name="geometry" >
@@ -20,7 +17,7 @@
     <number>8</number>
    </property>
    <property name="spacing" >
-    <number>6</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QLabel" name="LogTitle" >
@@ -35,6 +32,9 @@
        <strikeout>false</strikeout>
       </font>
      </property>
+     <property name="autoFillBackground" >
+      <bool>true</bool>
+     </property>
      <property name="text" >
       <string>User Log</string>
      </property>
@@ -44,18 +44,30 @@
     </widget>
    </item>
    <item>
-    <widget class="LogEdit" name="UserLog" />
+    <widget class="LogEdit" name="UserLog" >
+     <property name="frameShape" >
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth" >
+      <number>4</number>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>LogEdit</class>
    <extends>KTextEdit</extends>
    <header>widgets/logedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

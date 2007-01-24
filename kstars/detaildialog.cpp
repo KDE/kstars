@@ -68,18 +68,17 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 : KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	setFaceType( Tabbed );
+	setBackgroundRole( QPalette::Base );
+
+	titlePalette = palette();
+	titlePalette.setColor( backgroundRole(), palette().color( QPalette::Active, QPalette::Highlight ) );
+	titlePalette.setColor( foregroundRole(), palette().color( QPalette::Active, QPalette::HighlightedText ) );
 
 	//Create thumbnail image
 	Thumbnail = new QPixmap( 200, 200 );
 
 	setCaption( i18n( "Object Details" ) );
 	setButtons( KDialog::Close );
-
-	//Modify color palette
-	detPalette = palette();
-	detPalette.setColor( backgroundRole(), palette().color( QPalette::Active, QPalette::Base ) );
-	detPalette.setColor( foregroundRole(), palette().color( QPalette::Active, QPalette::Text ) );
-	setPalette( detPalette );
 
 	createGeneralTab();
 	createPositionTab( ut, geo );
@@ -100,8 +99,9 @@ DetailDialog::~DetailDialog() {
 void DetailDialog::createGeneralTab()
 {
 	Data = new DataWidget(this);
-	Data->setPalette( detPalette );
 	addPage( Data, i18n("General") );
+
+	Data->Names->setPalette( titlePalette );
 
 	//Connections
 	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
@@ -262,8 +262,10 @@ void DetailDialog::createGeneralTab()
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
 	Pos = new PositionWidget(this);
-	Pos->setPalette( detPalette );
 	addPage( Pos,  i18n("Position") );
+
+	Pos->CoordTitle->setPalette( titlePalette );
+	Pos->RSTTitle->setPalette( titlePalette );
 
 	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
@@ -274,10 +276,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
 	Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
 	Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
-	Pos->RA->setPlainText( selectedObject->ra()->toHMSString() );
-	Pos->Dec->setPlainText( selectedObject->dec()->toDMSString() );
-	Pos->Az->setPlainText( selectedObject->az()->toDMSString() );
-	Pos->Alt->setPlainText( selectedObject->alt()->toDMSString() );
+	Pos->RA->setText( selectedObject->ra()->toHMSString() );
+	Pos->Dec->setText( selectedObject->dec()->toDMSString() );
+	Pos->Az->setText( selectedObject->az()->toDMSString() );
+	Pos->Alt->setText( selectedObject->alt()->toDMSString() );
 
 	//Hour Angle can be negative, but dms HMS expressions cannot.
 	//Here's a kludgy workaround:
@@ -288,15 +290,15 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 		ha.setH( 24.0 - ha.Hours() );
 		sgn = '-';
 	}
-	Pos->HA->setPlainText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+	Pos->HA->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
 
 	//Airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
 	if ( selectedObject->alt()->Degrees() > 0.0 )
-		Pos->Airmass->setPlainText( KGlobal::locale()->formatNumber(
+		Pos->Airmass->setText( KGlobal::locale()->formatNumber(
 				1./sin( selectedObject->alt()->radians() ), 2 ) );
 	else
-		Pos->Airmass->setPlainText( "--" );
+		Pos->Airmass->setText( "--" );
 
 	//Rise/Set/Transit Section:
 
@@ -321,25 +323,25 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	}
 
 	if ( rt.isValid() ) {
-		Pos->TimeRise->setPlainText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
-		Pos->TimeSet->setPlainText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
-		Pos->AzRise->setPlainText( raz.toDMSString() );
-		Pos->AzSet->setPlainText( saz.toDMSString() );
+		Pos->TimeRise->setText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
+		Pos->TimeSet->setText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
+		Pos->AzRise->setText( raz.toDMSString() );
+		Pos->AzSet->setText( saz.toDMSString() );
 	} else {
 		if ( selectedObject->alt()->Degrees() > 0.0 ) {
-			Pos->TimeRise->setPlainText( i18n( "Circumpolar" ) );
-			Pos->TimeSet->setPlainText( i18n( "Circumpolar" ) );
+			Pos->TimeRise->setText( i18n( "Circumpolar" ) );
+			Pos->TimeSet->setText( i18n( "Circumpolar" ) );
 		} else {
-			Pos->TimeRise->setPlainText( i18n( "Never rises" ) );
-			Pos->TimeSet->setPlainText( i18n( "Never rises" ) );
+			Pos->TimeRise->setText( i18n( "Never rises" ) );
+			Pos->TimeSet->setText( i18n( "Never rises" ) );
 		}
 
-		Pos->AzRise->setPlainText( i18nc( "Not Applicable", "N/A" ) );
-		Pos->AzSet->setPlainText( i18nc( "Not Applicable", "N/A" ) );
+		Pos->AzRise->setText( i18nc( "Not Applicable", "N/A" ) );
+		Pos->AzSet->setText( i18nc( "Not Applicable", "N/A" ) );
 	}
 
-	Pos->TimeTransit->setPlainText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
-	Pos->AltTransit->setPlainText( talt.toDMSString() );
+	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
+	Pos->AltTransit->setText( talt.toDMSString() );
 }
 
 void DetailDialog::createLinksTab()
@@ -349,8 +351,10 @@ void DetailDialog::createLinksTab()
 		return;
 
 	Links = new LinksWidget( this );
-	Links->setPalette( detPalette );
 	addPage( Links, i18n( "Links" ) );
+
+	Links->InfoTitle->setPalette( titlePalette );
+	Links->ImagesTitle->setPalette( titlePalette );
 
 	foreach ( const QString &s, selectedObject->InfoTitle )
 		Links->InfoTitleList->addItem( s );
@@ -389,7 +393,6 @@ void DetailDialog::createAdvancedTab()
 		return;
 
 	Adv = new DatabaseWidget( this );
-	Adv->setPalette( detPalette );
 	addPage( Adv,  i18n( "Advanced" ) );
 
 	connect( Adv->ADVTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(viewADVData()));
@@ -405,13 +408,14 @@ void DetailDialog::createLogTab()
 
 	// Log Tab
 	Log = new LogWidget( this );
-	Log->setPalette( detPalette );
 	addPage( Log,  i18n( "Log" ) );
 
+	Log->LogTitle->setPalette( titlePalette );
+
 	if ( selectedObject->userLog.isEmpty() )
-		Log->UserLog->setPlainText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
+		Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
 	else
-		Log->UserLog->setPlainText(selectedObject->userLog);
+		Log->UserLog->setText(selectedObject->userLog);
 
 	//Automatically save the log contents when the widget loses focus
 	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
@@ -976,46 +980,19 @@ void DetailDialog::updateThumbnail() {
 DataWidget::DataWidget( QWidget *p ) : QFrame( p )
 {
 	setupUi( this );
-
-	//Modify colors
-        QPalette revPalette( p->palette() );
-        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::HighlightedText ) );
-        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Highlight ) );
-
-        Names->setPalette( revPalette );
-        DataFrame->setPalette( revPalette );
+	DataFrame->setBackgroundRole( QPalette::Base );
 }
 
 PositionWidget::PositionWidget( QWidget *p ) : QFrame( p )
 {
 	setupUi( this );
-
-	//Modify colors
-        QPalette revPalette( p->palette() );
-        revPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::HighlightedText ) );
-        revPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Highlight ) );
-
-        CoordTitle->setPalette( revPalette );
-        CoordFrame->setPalette( revPalette );
-        RSTTitle->setPalette( revPalette );
-        RSTFrame->setPalette( revPalette );
+	CoordFrame->setBackgroundRole( QPalette::Base );
+	RSTFrame->setBackgroundRole( QPalette::Base );
 }
 
 LinksWidget::LinksWidget( QWidget *p ) : QFrame( p )
 {
 	setupUi( this );
-
-	// Modify colors
-        QPalette linkPalette( p->palette() );
-        linkPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::Base ) );
-        linkPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Text ) );
-
-        InfoTitle->setPalette( linkPalette );
-        ImagesTitle->setPalette( linkPalette );
-	QPalette plt = p->palette();
-	plt.setColor( QPalette::Active, QPalette::Dark, p->palette().color( QPalette::Active, QPalette::Highlight ) );
-	InfoTitleList->setPalette( plt );
-	ImageTitleList->setPalette( plt );
 }
 
 DatabaseWidget::DatabaseWidget( QWidget *p ) : QFrame( p )
@@ -1026,12 +1003,6 @@ DatabaseWidget::DatabaseWidget( QWidget *p ) : QFrame( p )
 LogWidget::LogWidget( QWidget *p ) : QFrame( p )
 {
 	setupUi( this );
-
-	//Modify colors
-        QPalette logPalette = p->palette();
-        logPalette.setColor( p->backgroundRole(), p->palette().color( QPalette::Active, QPalette::Base ) );
-        logPalette.setColor( p->foregroundRole(), p->palette().color( QPalette::Active, QPalette::Text ) );
-        LogTitle->setPalette(  logPalette );
 }
 
 #include "detaildialog.moc"

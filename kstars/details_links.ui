@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>DetailsLinks</class>
  <widget class="QWidget" name="DetailsLinks" >
   <property name="geometry" >
@@ -43,6 +40,9 @@
          <strikeout>false</strikeout>
         </font>
        </property>
+       <property name="autoFillBackground" >
+        <bool>true</bool>
+       </property>
        <property name="text" >
         <string>Information Links</string>
        </property>
@@ -53,6 +53,9 @@
      </item>
      <item>
       <widget class="QListWidget" name="InfoTitleList" >
+       <property name="frameShape" >
+        <enum>QFrame::Box</enum>
+       </property>
        <property name="frameShadow" >
         <enum>QFrame::Plain</enum>
        </property>
@@ -100,6 +103,9 @@
          <strikeout>false</strikeout>
         </font>
        </property>
+       <property name="autoFillBackground" >
+        <bool>true</bool>
+       </property>
        <property name="text" >
         <string>Image Links</string>
        </property>
@@ -111,7 +117,7 @@
      <item>
       <widget class="QListWidget" name="ImageTitleList" >
        <property name="frameShape" >
-        <enum>QFrame::StyledPanel</enum>
+        <enum>QFrame::Box</enum>
        </property>
        <property name="frameShadow" >
         <enum>QFrame::Plain</enum>

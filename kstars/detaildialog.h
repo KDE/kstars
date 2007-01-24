@@ -207,7 +207,7 @@ private:
 
 	SkyObject *selectedObject;
 	KStars* ksw;
-	QPalette detPalette;
+	QPalette titlePalette;
 
 	// Edit Link Dialog
 	QHBoxLayout *editLinkLayout;
