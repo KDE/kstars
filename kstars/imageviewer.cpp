@@ -39,9 +39,11 @@
 
 #include <kapplication.h>
 
-ImageLabel::ImageLabel( QWidget *parent ) : QLabel( parent )
+ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {
 	setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
+	setFrameStyle( QFrame::StyledPanel | QFrame::Plain );
+	setLineWidth( 2 );
 }
 
 ImageLabel::~ImageLabel()
@@ -92,7 +94,6 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	vlay->setMargin( 0 );
 	vlay->addWidget( View );
 	vlay->addWidget( Caption );
-	vlay->addStretch();
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
@@ -203,7 +204,8 @@ void ImageViewer::showImage()
 	//If the caption is wider than the image, set the window size 
 	//to fit the caption
 	if ( Caption->width() > w ) w = Caption->width();
-	View->setFixedSize( w, image.height() );
+	MainFrame->setFixedSize( w, image.height() + Caption->height() );
+
 	update();
 }
 

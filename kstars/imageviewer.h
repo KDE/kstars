@@ -32,7 +32,7 @@
 class KUrl;
 class KStars;
 
-class ImageLabel : public QLabel {
+class ImageLabel : public QFrame {
 	Q_OBJECT
 	public:
 		ImageLabel( QWidget *parent );
