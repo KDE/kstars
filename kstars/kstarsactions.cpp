@@ -345,7 +345,7 @@ void KStars::slotGeoLocator() {
 }
 
 void KStars::slotConfigureToolbars() {
-	saveMainWindowSettings( KGlobal::config(), "MainWindow" );
+	saveMainWindowSettings( KGlobal::config().data(), "MainWindow" );
 	KEditToolbar ket(actionCollection());
 	connect( &ket, SIGNAL(newToolbarConfig()), this, SLOT(slotApplyToolbarConfig()) );
 
@@ -361,7 +361,7 @@ void KStars::slotApplyToolbarConfig() {
 	kDebug() << "Recreating GUI..." << endl;
 
 	createGUI();
-	applyMainWindowSettings( KGlobal::config(), "MainWindow" );
+	applyMainWindowSettings( KGlobal::config().data(), "MainWindow" );
 }
 
 void KStars::slotViewOps() {
@@ -1077,11 +1077,11 @@ void KStars::slotAboutToQuit()
 	Options::setWindowHeight( height() );
 
 	//explicitly save the colorscheme data to the config file
-	data()->colorScheme()->saveToConfig( KGlobal::config() );
+	data()->colorScheme()->saveToConfig( KGlobal::config().data() );
 
 	//explicitly save toolbar settings to config file
-	toolBar("kstarsToolBar")->saveSettings( KGlobal::config(), "MainToolBar" );
-	toolBar( "viewToolBar" )->saveSettings( KGlobal::config(), "ViewToolBar" );
+	toolBar("kstarsToolBar")->saveSettings( KGlobal::config().data(), "MainToolBar" );
+	toolBar( "viewToolBar" )->saveSettings( KGlobal::config().data(), "ViewToolBar" );
 
 	//synch the config file with the Config object
 	writeConfig();
