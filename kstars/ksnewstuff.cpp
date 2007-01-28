@@ -40,7 +40,7 @@ KSNewStuff::KSNewStuff( KStars *_ks ) :
   QObject(), KNewStuff( "kstars", _ks ), ks(_ks), NGCUpdated( false )
 {
 	kdw = new KDirWatch( this );
-	kdw->addDir( KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true) );
+	kdw->addDir( KGlobal::dirs()->saveLocation("data", KGlobal::mainComponent().componentName(), true) );
 }
 
 bool KSNewStuff::install( const QString &fileName )
@@ -52,7 +52,7 @@ bool KSNewStuff::install( const QString &fileName )
 			return false;
 	
 	const KArchiveDirectory *archiveDir = archive.directory();
-	const QString destDir = KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true);      
+	const QString destDir = KGlobal::dirs()->saveLocation("data", KGlobal::mainComponent().componentName(), true);      
 	KStandardDirs::makeDir( destDir );
 
 	//monitor destDir for changes; inform updateData when files are created.
