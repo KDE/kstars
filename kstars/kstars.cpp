@@ -170,7 +170,7 @@ void KStars::applyConfig() {
 	((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
 
 	//color scheme
-	kstarsData->colorScheme()->loadFromConfig( KGlobal::config() );
+	kstarsData->colorScheme()->loadFromConfig( KGlobal::config().data() );
 	if ( Options::darkAppColors() ) {
 		QApplication::setPalette( DarkPalette );
 	} else {
@@ -184,8 +184,8 @@ void KStars::applyConfig() {
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	//Set toolbar options from config file
-	toolBar("kstarsToolBar")->applySettings( KGlobal::config(), "MainToolBar" );
-	toolBar( "viewToolBar" )->applySettings( KGlobal::config(), "ViewToolBar" );
+	toolBar("kstarsToolBar")->applySettings( KGlobal::config().data(), "MainToolBar" );
+	toolBar( "viewToolBar" )->applySettings( KGlobal::config().data(), "ViewToolBar" );
 
 	//Geographic location
 	data()->setLocationFromOptions();

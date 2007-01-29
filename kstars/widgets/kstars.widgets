@@ -1,7 +1,7 @@
 [Global]
 PluginName=KStarsWidgets
-Includes=kinstance.h
-Init=new KInstance("kstarswidgets");
+Includes=kcomponentdata.h
+Init=new KComponentData("kstarswidgets");
 
 [dmsBox]
 ToolTip=Line edit for displaying angle values (KStars)
