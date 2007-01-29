@@ -173,6 +173,7 @@ else (WIN32)
 endif (WIN32)
 
 target_link_libraries(cfitsio ${LIBS})
+set_target_properties(cfitsio PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 set_target_properties(cfitsio PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 install(TARGETS cfitsio DESTINATION ${LIB_INSTALL_DIR} )
