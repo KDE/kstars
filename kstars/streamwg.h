@@ -81,7 +81,7 @@
       Q_OBJECT
    
     public:
-      VideoWG(QWidget * parent =0, const char * name =0);
+      VideoWG(QWidget * parent =0);
       ~VideoWG();
       
       friend class StreamWG;

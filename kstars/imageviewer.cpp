@@ -232,7 +232,7 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KUrl &url) {
 // synchronous access to prevent segfaults
-	if (!KIO::NetAccess::copy (KUrl (file.fileName()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::file_copy (KUrl (file.fileName()), url, (QWidget*) 0))
 	{
 		QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
 		KMessageBox::error (this, text);

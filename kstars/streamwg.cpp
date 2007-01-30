@@ -206,7 +206,7 @@ void StreamWG::captureImage()
 }
 
 
-VideoWG::VideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+VideoWG::VideoWG(QWidget * parent) : QFrame(parent, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   grayTable=new QRgb[256];
@@ -236,7 +236,7 @@ void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
     
 }
 
-void VideoWG::paintEvent(QPaintEvent */*ev*/)
+void VideoWG::paintEvent(QPaintEvent * /*ev*/)
 {
   	
    if (streamImage)
@@ -247,7 +247,9 @@ void VideoWG::paintEvent(QPaintEvent */*ev*/)
 	streamImage = NULL;
    }
    
-   bitBlt(this, 0, 0, &kPix);
+   QPainter p(this);
+   p.drawPixmap(0, 0, kPix);
+   p.end();
    
 }
 
