@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QPainter>
 #include <kjobuidelegate.h>
+#include <kio/copyjob.h>
 
 #include <kapplication.h>
 #include <kdeversion.h>

@@ -29,6 +29,7 @@
 #include <kfiledialog.h>
 #include <kstatusbar.h>
 #include <kio/netaccess.h>
+#include <kio/copyjob.h>
 #include <kaction.h>
 #include <ktemporaryfile.h>
 
