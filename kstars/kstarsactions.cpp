@@ -559,7 +559,9 @@ void KStars::slotRunScript() {
 		QTextStream istream(&f);
 		QString line;
 		bool fileOK( true );
-
+#ifdef __GNUC__		
+#warning "dcop is dead need to port test on script";
+#endif		
 		while (  ! istream.atEnd() ) {
 			line = istream.readLine();
 			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
