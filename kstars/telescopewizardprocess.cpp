@@ -389,11 +389,8 @@ void telescopeWizardProcess::Reset()
   currentPort = -1;
   timeOutCount = 0;
 
-  if (progressScan)
-  {
-	delete (progressScan);
-	progressScan = NULL;
-  }
+  delete (progressScan);
+  progressScan = NULL;
   indiDev = NULL;
 
 }
