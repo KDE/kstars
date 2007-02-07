@@ -19,6 +19,7 @@
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kapplication.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"

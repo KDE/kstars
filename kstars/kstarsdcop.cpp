@@ -108,14 +108,14 @@ void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
 void KStars::waitFor( double sec ) {
     QTime tm;
     tm.start();
-    while ( tm.elapsed() < int( 1000.*sec ) ) { kapp->processEvents(); }
+    while ( tm.elapsed() < int( 1000.*sec ) ) { qApp->processEvents(); }
 }
 
 void KStars::waitForKey( const QString &k ) {
 	data()->resumeKey = QKeySequence::fromString( k );
 	if ( ! data()->resumeKey.isEmpty() ) {
             //When the resumeKey is pressed, resumeKey is set to empty
-            while ( ! data()->resumeKey.isEmpty() ) { kapp->processEvents(); }
+            while ( ! data()->resumeKey.isEmpty() ) { qApp->processEvents(); }
 
         } else {
 		kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." ) << endl;
@@ -422,7 +422,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
 
 		map()->exportSkyImage( &skyimage );
-		kapp->processEvents();
+		qApp->processEvents();
 
 		//skyImage is the size of the sky map.  The requested image size is w x h.
 		//If w x h is smaller than the skymap, then we simply crop the image.
@@ -477,7 +477,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 		ok = printer.autoConfigure();
 
 	if( ok ) {
-		kapp->setOverrideCursor( Qt::WaitCursor );
+		QApplication::setOverrideCursor( Qt::WaitCursor );
 
 		//Save current colorscheme and switch to Star Chart colors
 		//(if requested)
@@ -497,7 +497,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 			map()->forceUpdate();
 		}
 
-		kapp->restoreOverrideCursor();
+		QApplication::restoreOverrideCursor();
 	}
 }
 

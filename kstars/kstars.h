@@ -17,10 +17,7 @@
 #ifndef KSTARS_H_
 #define KSTARS_H_
 
-#include <config.h>
-
 #include <QtDBus/QtDBus>
-#include <kapplication.h>
 #include <kmainwindow.h>
 
 

@@ -1,8 +1,8 @@
 
-add_subdirectory( fli ) 
-add_subdirectory( webcam ) 
-add_subdirectory( apogee ) 
-add_subdirectory( cfitsio ) 
+add_subdirectory( fli )
+add_subdirectory( webcam )
+add_subdirectory( apogee )
+add_subdirectory( cfitsio )
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../..  )
 

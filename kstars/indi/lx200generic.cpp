@@ -18,12 +18,6 @@
 
 #endif
 
-#include "config.h"
-
-#ifndef HAVE_CONFIG_H
-#include "config-kstars.h"
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

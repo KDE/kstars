@@ -6,14 +6,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "sbigudrv.h"
 
-/* needed for KDE_EXPORT macros */
-/* DO NOT EDIT OR REMOVE THIS */
-#ifndef HAVE_CONFIG_H
-#include <kdemacros.h>
-#else
-#define KDE_EXPORT
-#endif
-
 /* JM: Dummy SBIG Universal Driver. The real one is proprietary */
 short KDE_EXPORT SBIGUnivDrvCommand(short command, void *Params, void *Results)
 {

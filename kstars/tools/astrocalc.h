@@ -18,10 +18,6 @@
 #ifndef ASTROCALC_H_
 #define ASTROCALC_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <QTreeWidgetItem>
 #include <kdialog.h>
 #include <kapplication.h>

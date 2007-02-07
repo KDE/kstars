@@ -31,6 +31,7 @@
 #include <ktoolbar.h>
 #include <kglobal.h>
 #include <kicon.h>
+#include <qapplication.h>
 
 #include "Options.h"
 #include "ksnewstuff.h"
@@ -61,7 +62,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 {
 	QDBusConnection::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportScriptableSlots);
 
-	connect( kapp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
+	connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
 	kstarsData = new KStarsData();
 	connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
@@ -78,7 +79,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 	if ( doSplash ) {
 		splash = new KStarsSplash(0);
-		connect( splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
+		connect( splash, SIGNAL( closeWindow() ), qApp, SLOT( quit() ) );
 		connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
 
 //Uncomment to show startup messages on console also

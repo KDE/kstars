@@ -259,7 +259,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			data->clock()->manualTick( true );
 			data->clock()->setScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
 			update();
-			kapp->processEvents();
+			qApp->processEvents();
 			break;
 
 		case Qt::Key_Period: //advance one step forward in time
@@ -267,7 +267,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			if ( data->clock()->isActive() ) data->clock()->stop();
 			data->clock()->manualTick( true );
 			update();
-			kapp->processEvents();
+			qApp->processEvents();
 			break;
 
 		case Qt::Key_C: //Center clicked object

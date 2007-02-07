@@ -46,8 +46,8 @@
 
 #include <time.h>
 
-#ifndef HAVE_CONFIG_H
-#include "kstars/config-kstars.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
