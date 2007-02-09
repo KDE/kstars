@@ -1063,7 +1063,7 @@ int ffiter(int n_cols,
     int ii, jj, tstatus, naxis, bitpix;
     int typecode, hdutype, jtype, type, anynul, nfiles, nbytes;
     long totaln, nleft, frow, felement, n_optimum, i_optimum, ntodo;
-    long rept, rowrept, width, tnull, naxes[9] = {1,1,1,1,1,1,1,1,1}, groups;
+    long rept = 0, rowrept, width, tnull, naxes[9] = {1,1,1,1,1,1,1,1,1}, groups;
     double zeros = 0.;
     char message[FLEN_ERRMSG], keyname[FLEN_KEYWORD], nullstr[FLEN_VALUE];
     char **stringptr, *nullptr, *cptr;

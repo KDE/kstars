@@ -1060,6 +1060,7 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 	if (!ap)
 	{
 		fprintf(stderr, "<%s> missing 'device' attribute.\n", tagXMLEle(root));
+                freeMsg(mp); 
 		return;
 	}
 	
@@ -1069,6 +1070,7 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 	if (!ap)
 	{
 		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
+                freeMsg(mp);
 		return;
 	}
 	
@@ -1081,6 +1083,7 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		if (ob_type < 0)
 		{
 			fprintf(stderr, "<%s> invalid notification state '%s'.\n", tagXMLEle(root), valuXMLAtt(ap));
+	                freeMsg(mp);
 			return;
 		}
 	}
@@ -1089,6 +1092,7 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 	if (!ap)
 	{
 		fprintf(stderr, "<%s> missing 'action' attribute.\n", tagXMLEle(root));
+                freeMsg(mp);
 		return;
 	}
 	
@@ -1099,8 +1103,10 @@ manageObservers (DvrInfo *dp, XMLEle *root)
 		for (ob = observerinfo; ob < &observerinfo[nobserverinfo]; ob++)
 		{
 			if (ob->in_use && (ob->dp == dp) && !strcmp(ob->dev, ob_dev) && !strcmp(ob->name, ob_name)
-						 && (ob->type == (unsigned) ob_type))
+						 && (ob->type == (unsigned) ob_type)) {
+				freeMsg(mp);
 				return;
+		        }
 		}
 		
 		/* Next check for the first avaiable slot to use */
