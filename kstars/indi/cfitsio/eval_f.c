@@ -958,7 +958,7 @@ int parse_data( long    totalrows,     /* I - Total rows to be processed     */
     static void *Data, *Null;
     static int  datasize;
     static long lastRow, repeat, resDataSize;
-    LONGLONG jnull;
+    LONGLONG jnull = 0;
     static parseInfo *userInfo;
     static long zeros[4] = {0,0,0,0};
 
