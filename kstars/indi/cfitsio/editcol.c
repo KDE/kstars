@@ -1819,7 +1819,10 @@ int ffcpcl(fitsfile *infptr,    /* I - FITS file pointer to input file  */
     }
     else
     {
-        free(dvalues);
+        if (fvalues)
+            free(fvalues);
+        if (dvalues)
+            free(dvalues);
     }
 
     return(*status);
