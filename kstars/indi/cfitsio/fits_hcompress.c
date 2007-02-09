@@ -872,6 +872,7 @@ int stat = 0;
 	if (0 == qwrite(outfile, (char *) nbitplanes, sizeof(nbitplanes))) {
 	        *nlength = noutchar;
 		ffpmsg("encode: output buffer too small");
+                free(signbits);
 		return(DATA_COMPRESSION_ERR);
         }
 	 
