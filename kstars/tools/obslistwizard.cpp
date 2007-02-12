@@ -404,7 +404,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
 	//Update the object count label
 	if ( doBuildList ) ObjectCount = obsList().size();
-	olw->CountLabel->setText( i18np("Your observing list currently has 1 object", "Your observing list currently has %n objects", ObjectCount ) );
+	olw->CountLabel->setText( i18np("Your observing list currently has 1 object", "Your observing list currently has %1 objects", ObjectCount ) );
 }
 
 void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
