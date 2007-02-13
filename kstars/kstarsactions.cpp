@@ -200,7 +200,7 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotGlossary(){
-// 	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
+// 	GlossaryDialog *dlg = new GlossaryDialog( this, true );
 // 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
 // 	KUrl u = glossaryfile;
 // 	Glossary *g = new Glossary( u );
