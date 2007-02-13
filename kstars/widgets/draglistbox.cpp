@@ -26,7 +26,7 @@
 #include "draglistbox.h"
 
 DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f )
-		: KListBox( parent, name, f ) {
+		: K3ListBox( parent, name, f ) {
 
     setObjectName( name );
 	setAcceptDrops( true );

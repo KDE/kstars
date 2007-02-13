@@ -21,7 +21,6 @@
 
 #include <kcombobox.h>
 #include <klocale.h>
-#include <klistbox.h>
 #include <kpushbutton.h>
 
 #include "wutdialog.h"

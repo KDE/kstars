@@ -22,7 +22,6 @@
 #include <QVBoxLayout>
 #include <QFrame>
 #include <knuminput.h>
-#include <klistbox.h>
 #include <k3listview.h>
 #include <kpushbutton.h>
 

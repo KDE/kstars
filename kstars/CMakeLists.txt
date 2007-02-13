@@ -202,7 +202,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} SatLib m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
