@@ -26,7 +26,6 @@
 #include <kdeversion.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
-#include <klistbox.h>
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kurlrequester.h>

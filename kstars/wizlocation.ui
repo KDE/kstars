@@ -219,7 +219,7 @@
     </layout>
    </item>
    <item>
-    <widget class="KListBox" name="CityListBox" >
+    <widget class="K3ListBox" name="CityListBox" >
      <property name="minimumSize" >
       <size>
        <width>180</width>
@@ -253,9 +253,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends></extends>
-   <header>klistbox.h</header>
+   <header>k3listbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

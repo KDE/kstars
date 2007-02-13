@@ -40,7 +40,6 @@
 
 #include <kled.h>
 #include <klineedit.h>
-#include <klistbox.h>
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <klocale.h>

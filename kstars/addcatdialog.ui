@@ -45,7 +45,7 @@
        </widget>
       </item>
       <item>
-       <widget class="KListBox" name="DataFileBox" >
+       <widget class="K3ListBox" name="DataFileBox" >
         <property name="enabled" >
          <bool>true</bool>
         </property>
@@ -297,7 +297,7 @@
  <customwidgets>
   <customwidget>
    <class>DragListBox</class>
-   <extends>KListBox</extends>
+   <extends>K3ListBox</extends>
    <header>widgets/draglistbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
@@ -338,9 +338,9 @@
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends></extends>
-   <header>klistbox.h</header>
+   <header>k3listbox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

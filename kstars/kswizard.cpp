@@ -20,7 +20,6 @@
 #include <QPixmap>
 
 #include <klineedit.h>
-#include <klistbox.h>
 #include <kpushbutton.h>
 
 #include "kstars.h"
