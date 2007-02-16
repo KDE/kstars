@@ -174,12 +174,13 @@ void PlanetViewer::updatePlanets() {
 			planet[i]->point(0)->setY( p->rsun()*s*c2 );
 
 			if ( centerPlanet() == pName[i] ) {
-				double xc = (pw->map->x2() + pw->map->x())*0.5;
-				double yc = (pw->map->y2() + pw->map->y())*0.5;
+				QRectF dataRect = pw->map->dataRect();
+				double xc = (dataRect.right() + dataRect.left())*0.5;
+				double yc = (dataRect.bottom() + dataRect.top())*0.5;
 				double dx = planet[i]->point(0)->x() - xc;
 				double dy = planet[i]->point(0)->y() - yc;
-				pw->map->setLimits( pw->map->x() + dx, pw->map->x2() + dx,
-						pw->map->y() + dy, pw->map->y2() + dy );
+				pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
+						dataRect.y() + dy, dataRect.bottom() + dy );
 			}
 
 			LastUpdate[i] = int(ut.date().jd());

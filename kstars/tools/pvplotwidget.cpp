@@ -34,17 +34,17 @@ PVPlotWidget::PVPlotWidget( QWidget *parent ) :
 PVPlotWidget::~ PVPlotWidget() {}
  
 void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
-	double xc = (x2() + x())*0.5;
-	double yc = (y2() + y())*0.5;
-	double xstep = 0.01*(x2() - x());
-	double ystep = 0.01*(y2() - y());
-	double dx = 0.5*dataWidth();
-	double dy = 0.5*dataHeight();
+	double xc = (dataRect().right() + dataRect().x())*0.5;
+	double yc = (dataRect().bottom() + dataRect().y())*0.5;
+	double xstep = 0.01*(dataRect().right() - dataRect().x());
+	double ystep = 0.01*(dataRect().bottom() - dataRect().y());
+	double dx = 0.5*dataRect().width();
+	double dy = 0.5*dataRect().height();
 	
 	switch ( e->key() ) {
 		case Qt::Key_Left:
 			if ( xc - xstep > -AUMAX ) {
-				setLimits( x() - xstep, x2() - xstep, y(), y2() );
+				setLimits( dataRect().x() - xstep, dataRect().right() - xstep, dataRect().y(), dataRect().bottom() );
 				pv->setCenterPlanet(QString());
 				update();
 			}
@@ -52,7 +52,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_Right:
 			if ( xc + xstep < AUMAX ) { 
-				setLimits( x() + xstep, x2() + xstep, y(), y2() );
+				setLimits( dataRect().x() + xstep, dataRect().right() + xstep, dataRect().y(), dataRect().bottom() );
 				pv->setCenterPlanet(QString());
 				update();
 			}
@@ -60,7 +60,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_Down:
 			if ( yc - ystep > -AUMAX ) {
-				setLimits( x(), x2(), y() - ystep, y2() - ystep );
+				setLimits( dataRect().x(), dataRect().right(), dataRect().y() - ystep, dataRect().bottom() - ystep );
 				pv->setCenterPlanet(QString());
 				update();
 			}
@@ -68,7 +68,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_Up:
 			if ( yc + ystep < AUMAX ) {
-				setLimits( x(), x2(), y() + ystep, y2() + ystep );
+				setLimits( dataRect().x(), dataRect().right(), dataRect().y() + ystep, dataRect().bottom() + ystep );
 				pv->setCenterPlanet(QString());
 				update();
 			}
@@ -191,17 +191,17 @@ void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
 void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	if ( mouseButtonDown ) {
 		//Determine how far we've moved
-		double xc = (x2() + x())*0.5;
-		double yc = (y2() + y())*0.5;
-		double xscale = dataWidth()/( width() - leftPadding() - rightPadding() );
-		double yscale = dataHeight()/( height() - topPadding() - bottomPadding() );
+		double xc = (dataRect().right() + dataRect().x())*0.5;
+		double yc = (dataRect().bottom() + dataRect().y())*0.5;
+		double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
+		double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
 		
 		xc += ( oldx  - e->x() )*xscale;
 		yc -= ( oldy - e->y() )*yscale; //Y data axis is reversed...
 		
 		if ( xc > -AUMAX && xc < AUMAX && yc > -AUMAX && yc < AUMAX ) {
-			setLimits( xc - 0.5*dataWidth(), xc + 0.5*dataWidth(), 
-					yc - 0.5*dataHeight(), yc + 0.5*dataHeight() );
+			setLimits( xc - 0.5*dataRect().width(), xc + 0.5*dataRect().width(), 
+					yc - 0.5*dataRect().height(), yc + 0.5*dataRect().height() );
 			update();
 			kapp->processEvents();
 		}
@@ -212,15 +212,15 @@ void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 }
 
 void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
-	double xscale = dataWidth()/( width() - leftPadding() - rightPadding() );
-	double yscale = dataHeight()/( height() - topPadding() - bottomPadding() );
+	double xscale = dataRect().width()/( width() - leftPadding() - rightPadding() );
+	double yscale = dataRect().height()/( height() - topPadding() - bottomPadding() );
 	
-	double xc = x() + xscale*( e->x() - leftPadding() );
-	double yc = y2() - yscale*( e->y() - topPadding() );
+	double xc = dataRect().x() + xscale*( e->x() - leftPadding() );
+	double yc = dataRect().bottom() - yscale*( e->y() - topPadding() );
 
 	if ( xc > -AUMAX && xc < AUMAX && yc > -AUMAX && yc < AUMAX ) {
-		setLimits( xc - 0.5*dataWidth(), xc + 0.5*dataWidth(), 
-				yc - 0.5*dataHeight(), yc + 0.5*dataHeight() );
+		setLimits( xc - 0.5*dataRect().width(), xc + 0.5*dataRect().width(), 
+				yc - 0.5*dataRect().height(), yc + 0.5*dataRect().height() );
 		update();
 	}
 
@@ -242,17 +242,17 @@ void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
 }
 
 void PVPlotWidget::slotZoomIn() {
-	double size( x2() - x() );
+	double size = dataRect().width();
 	if ( size > 0.8 ) {
-		setLimits( x() + 0.02*size, x2() - 0.02*size, y() + 0.02*size, y2() - 0.02*size );
+		setLimits( dataRect().x() + 0.02*size, dataRect().right() - 0.02*size, dataRect().y() + 0.02*size, dataRect().bottom() - 0.02*size );
 		update();
 	}
 }
 
 void PVPlotWidget::slotZoomOut() {
-	double size( x2() - x() );
-	if ( (x2() - x()) < 100.0 ) {
-		setLimits( x() - 0.02*size, x2() + 0.02*size, y() - 0.02*size, y2() + 0.02*size );
+	double size = dataRect().width();
+	if ( (size) < 100.0 ) {
+		setLimits( dataRect().x() - 0.02*size, dataRect().right() + 0.02*size, dataRect().y() - 0.02*size, dataRect().bottom() + 0.02*size );
 		update();
 	}
 }

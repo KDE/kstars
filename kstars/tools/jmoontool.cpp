@@ -124,10 +124,11 @@ void JMoonTool::initPlotObjects() {
 	orbit[3] = new KPlotObject( colCa, KPlotObject::LINES, 1.0 );
 	jpath    = new KPlotObject( colJp, KPlotObject::LINES, 1.0 );
 
-	double dy = 0.01*pw->dataHeight();
+	QRectF dataRect = pw->dataRect();
+	double dy = 0.01*dataRect.height();
 
 	//t is the offset from jd0, in days.
-	for ( double t=pw->y(); t<=pw->y2(); t+=dy ) {
+	for ( double t=dataRect.y(); t<=dataRect.bottom(); t+=dy ) {
 		KSNumbers num( jd0 + t );
 		jm.findPosition( &num, jup, ksun );
 
@@ -146,19 +147,20 @@ void JMoonTool::initPlotObjects() {
 }
 
 void JMoonTool::keyPressEvent( QKeyEvent *e ) {
+	QRectF dataRect = pw->dataRect();
 	switch ( e->key() ) {
 		case Qt::Key_BracketRight:
 		{
-			double dy = 0.02*pw->dataHeight();
-			pw->setLimits( pw->x(), pw->x2(), pw->y()+dy, pw->y2()+dy );
+			double dy = 0.02*dataRect.height();
+			pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()+dy, dataRect.bottom()+dy );
 			initPlotObjects();
 			pw->update();
 			break;
 		}
 		case Qt::Key_BracketLeft:
 		{
-			double dy = 0.02*pw->dataHeight();
-			pw->setLimits( pw->x(), pw->x2(), pw->y()-dy, pw->y2()-dy );
+			double dy = 0.02*dataRect.height();
+			pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()-dy, dataRect.bottom()-dy );
 			initPlotObjects();
 			pw->update();
 			break;
@@ -166,10 +168,10 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Plus:
 		case Qt::Key_Equal:
 		{
-			if ( pw->dataHeight() > 2.0 ) {
-				double dy = 0.45*pw->dataHeight();
-				double y0 = pw->y() + 0.5*pw->dataHeight();
-				pw->setLimits( pw->x(), pw->x2(), y0-dy, y0+dy );
+			if ( dataRect.height() > 2.0 ) {
+				double dy = 0.45*dataRect.height();
+				double y0 = dataRect.y() + 0.5*dataRect.height();
+				pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
 				initPlotObjects();
 				pw->update();
 			}
@@ -178,10 +180,10 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
 		case Qt::Key_Minus:
 		case Qt::Key_Underscore:
 		{
-			if ( pw->dataHeight() < 40.0 ) {
-				double dy = 0.55*pw->dataHeight();
-				double y0 = pw->y() + 0.5*pw->dataHeight();
-				pw->setLimits( pw->x(), pw->x2(), y0-dy, y0+dy );
+			if ( dataRect.height() < 40.0 ) {
+				double dy = 0.55*dataRect.height();
+				double y0 = dataRect.y() + 0.5*dataRect.height();
+				pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
 				initPlotObjects();
 				pw->update();
 			}
