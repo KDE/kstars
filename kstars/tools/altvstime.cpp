@@ -245,8 +245,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		pList.append( o );
 
 		//make sure existing curves are thin and red
-		for ( int i=0; i < View->objectCount(); ++i ) {
-			KPlotObject *obj = View->object( i );
+		QList< KPlotObject* > objects = View->plotObjects();
+		for ( int i=0; i < objects.count(); ++i ) {
+			KPlotObject *obj = objects.at( i );
 			if ( obj->size() == 2 ) {
 				obj->setLinePen( QPen( Qt::red, 1 ) );
 			}
@@ -257,7 +258,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 			po->addPoint( h, findAltitude( o, h ) );
 		}
-		View->addObject( po );
+		View->addPlotObject( po );
 
 		avtUI->PlotList->insertItem( o->translatedName() );
 		avtUI->PlotList->setCurrentItem( avtUI->PlotList->count() - 1 );
@@ -268,7 +269,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		//Set epochName to epoch shown in date tab
 		avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
 	}
-	kDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
+	kDebug() << "Currently, there are " << View->plotObjects().count() << " objects displayed." << endl;
 
 	//restore original position
 	if ( o->isSolarSystem() ) {
@@ -294,8 +295,9 @@ void AltVsTime::slotHighlight(void) {
 	int iPlotList = avtUI->PlotList->currentItem();
 
 	//highlight the curve of the selected object
-	for ( int i=0; i<View->objectCount(); ++i ) {
-		KPlotObject *obj = View->object( i );
+	QList< KPlotObject* > objects = View->plotObjects();
+	for ( int i=0; i<objects.count(); ++i ) {
+		KPlotObject *obj = objects.at( i );
 
 		if ( i == iPlotList ) {
 			obj->setLinePen( QPen( Qt::white, 2 ) );
@@ -335,7 +337,7 @@ void AltVsTime::slotClear(void) {
 	avtUI->raBox->clear();
 	avtUI->decBox->clear();
         avtUI->epochName->clear();
-	View->clearObjectList();
+	View->removeAllPlotObjects();
 	View->update();
 }
 
@@ -414,7 +416,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 				po->addPoint( h, findAltitude( o, h ) );
 			}
-			View->replaceObject( i, po );
+			View->replacePlotObject( i, po );
 
 			//restore original position
 			if ( o->isSolarSystem() ) {
@@ -430,7 +432,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 				po->addPoint( h, findAltitude( pList.at(i), h ) );
 			}
-			View->replaceObject( i, po );
+			View->replacePlotObject( i, po );
 		}
 	}
 
@@ -579,7 +581,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	//draw ground
 	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
-	foreach( KPlotObject *po, ObjectList ) 
+	foreach( KPlotObject *po, plotObjects() ) 
 		po->draw( &p, this );
 
 	p.setClipping( false );

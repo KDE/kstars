@@ -116,7 +116,7 @@ void JMoonTool::initPlotObjects() {
 	KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( "Jupiter" );
 	JupiterMoons jm;
 
-	if ( pw->objectCount() ) pw->clearObjectList();
+	pw->removeAllPlotObjects();
 
 	orbit[0] = new KPlotObject( colIo, KPlotObject::LINES, 1.0 );
 	orbit[1] = new KPlotObject( colEu, KPlotObject::LINES, 1.0 );
@@ -140,9 +140,9 @@ void JMoonTool::initPlotObjects() {
 	}
 
 	for ( unsigned int i=0; i<4; ++i )
-		pw->addObject( orbit[i] );
+		pw->addPlotObject( orbit[i] );
 
-	pw->addObject( jpath );
+	pw->addPlotObject( jpath );
 }
 
 void JMoonTool::keyPressEvent( QKeyEvent *e ) {

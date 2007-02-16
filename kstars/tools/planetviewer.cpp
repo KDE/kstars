@@ -203,7 +203,7 @@ void PlanetViewer::initPlotObjects() {
 	// Planets
 	ksun = new KPlotObject( Qt::yellow, KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
 	ksun->addPoint( 0.0, 0.0 );
-	pw->map->addObject( ksun );
+	pw->map->addPlotObject( ksun );
 
 	//Read in the orbit curves
 	KPlotObject *orbit[9];
@@ -221,7 +221,7 @@ void PlanetViewer::initPlotObjects() {
 			}
 		}
 
-		pw->map->addObject( orbit[i] );
+		pw->map->addPlotObject( orbit[i] );
 	}
 
 	for ( unsigned int i=0; i<9; ++i ) {
@@ -232,7 +232,7 @@ void PlanetViewer::initPlotObjects() {
 		p->helEcLong()->SinCos( s, c );
 
 		planet[i]->addPoint( p->rsun()*c, p->rsun()*s, i18n(pName[i].toLocal8Bit()) );
-		pw->map->addObject( planet[i] );
+		pw->map->addPlotObject( planet[i] );
 	}
 
 	update();
