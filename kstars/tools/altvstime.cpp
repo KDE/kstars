@@ -503,8 +503,10 @@ double AltVsTime::getEpoch(const QString &eName)
 }
 
 AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent )
-	: KPlotWidget( parent,x1, x2, y1, y2 )
+	: KPlotWidget( parent )
 {
+	setLimits( x1, x2, y1, y2 );
+
 	//Default SunRise/SunSet values
 	SunRise = 0.25;
 	SunSet = 0.75;
