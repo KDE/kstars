@@ -22,17 +22,8 @@
 #include "planetviewer.h"
 #include "libkdeedu/kdeeduplot/kplotobject.h"
 
-PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par ) :
-			KPlotWidget( par,x1, x2, y1, y2 ), 
-			mouseButtonDown(false), oldx(0), oldy(0)
-{
-	setFocusPolicy( Qt::StrongFocus );
-	setMouseTracking (true);
-	pv = (PlanetViewer*)topLevelWidget();
-}
-
 PVPlotWidget::PVPlotWidget( QWidget *parent ) :
-			KPlotWidget( parent,0.0, 1.0, 0.0, 1.0 ), 
+			KPlotWidget( parent ), 
 			mouseButtonDown(false), oldx(0), oldy(0)
 {
 	setFocusPolicy( Qt::StrongFocus );
