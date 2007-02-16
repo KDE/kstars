@@ -542,7 +542,7 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	QPainter p;
 
 	p.begin( this );
-	p.setRenderHint( QPainter::Antialiasing, UseAntialias );
+	p.setRenderHint( QPainter::Antialiasing, antialias() );
 	p.fillRect( rect(), backgroundColor() );
 	p.translate( leftPadding(), topPadding() );
 
