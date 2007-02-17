@@ -73,7 +73,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
 	View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
 	View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
-	View->axis(KPlotWidget::TopAxis)->setShowTickLabels( true );
+	View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
 	View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
 	View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
 
