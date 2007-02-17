@@ -25,12 +25,13 @@
 
 #include "draglistbox.h"
 
-DragListBox::DragListBox( QWidget *parent, const char *name, Qt::WFlags f )
-		: K3ListBox( parent, name, f ) {
+DragListBox::DragListBox( QWidget *parent, const char *name )
+		: KListWidget( parent ) {
 
+	if ( name ) 
     setObjectName( name );
 	setAcceptDrops( true );
-	dragging = false;
+	leftButtonDown = false;
 }
 
 DragListBox::~DragListBox() {}
@@ -42,55 +43,66 @@ void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
 }
 
 bool DragListBox::contains( const QString &s ) const {
-	for ( uint i=0; i<count(); ++i )
-		if ( text(i) == s ) return true;
-
-	return false;
+	QList<QListWidgetItem*> foundList = findItems( s, Qt::MatchExactly );
+	if ( foundList.isEmpty() ) return false;
+	else return true;
 }
 
 void DragListBox::dropEvent( QDropEvent *evt ) {
 	QString text;
 
-	int i = int( float(evt->pos().y())/float(itemHeight()) + 0.5 ) + topItem();
-	if ( i > int( count() ) + 1 ) i = count() + 1;
+	if ( evt->mimeData()->hasText() ) {
+		text = evt->mimeData()->text();
 
-	if ( Q3TextDrag::decode( evt, text ) ) {
-		//If we dragged an "Ignore" item from the FieldList to the FieldPool, then we don't
+		//Copy an item dragged from FieldPool to FieldList 
+		//If we dragged an "Ignore" item from the FieldPool to the FieldList, then we don't
 		//need to insert the item, because FieldPool already has a persistent Ignore item.
 		if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldList" &&
 				evt->source() != this )) {
-			insertItem( text, i );
+			int i = indexAt( evt->pos() ).row();
+			insertItem( i, text );
 		}
 
-		//If we dragged the "Ignore" item from FieldPool to FieldList, then we don't
+		//Remove an item dragged from FieldList to FieldPool.
+		//If we dragged the "Ignore" item from FieldList to FieldPool, then we don't
 		//want to remove the item from the FieldPool
 		if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldPool" &&
 				evt->source() != this ) ) {
 			DragListBox *fp = (DragListBox*)evt->source();
-			fp->removeItem( fp->currentItem() );
+			delete fp->takeItem( fp->currentRow() );
 		}
 	}
 }
 
 
 void DragListBox::mousePressEvent( QMouseEvent *evt ) {
-	Q3ListBox::mousePressEvent( evt );
-	dragging = true;
+	QListWidget::mousePressEvent( evt );
 
-	//Record position of the Ignore item; we may have to restore it.
-	if ( currentText() == i18n("Ignore") )
-		IgnoreIndex = currentItem();
-	else
-		IgnoreIndex = -1;
+	if ( evt->button() == Qt::LeftButton ) {
+		leftButtonDown = true;
+	}
 }
 
+void DragListBox::mouseReleaseEvent( QMouseEvent *evt ) {
+	QListWidget::mouseReleaseEvent( evt );
 
-void DragListBox::mouseMoveEvent( QMouseEvent * )
-{
-	if ( dragging ) {
-		Q3DragObject *drag = new Q3TextDrag( currentText(), this );
-		drag->dragMove();
-		dragging = false;
+	if ( evt->button() == Qt::LeftButton ) {
+		leftButtonDown = false;
+	}
+}
+
+void DragListBox::mouseMoveEvent( QMouseEvent *evt ) {
+
+	if ( leftButtonDown ) {
+		leftButtonDown = false; //Don't create multiple QDrag objects!
+
+		QDrag *drag = new QDrag( this );
+		QMimeData *mimeData = new QMimeData;
+		mimeData->setText( currentItem()->text() );
+		drag->setMimeData( mimeData );
+		
+		Qt::DropAction dropAction = drag->start();
+		evt->accept();
 	}
 }
 

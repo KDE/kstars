@@ -18,7 +18,7 @@
 #ifndef DRAGLISTBOX_H
 #define DRAGLISTBOX_H
 
-#include <k3listbox.h>
+#include <klistwidget.h>
 //Added by qt3to4:
 #include <QDragEnterEvent>
 #include <QMouseEvent>
@@ -28,18 +28,18 @@ class QDragEnterEvent;
 class QDragDropEvent;
 
 /**@class DragListBox
-	*@short Extension of KListBox that allows Drag-and-Drop 
+	*@short Extension of KListWidget that allows Drag-and-Drop 
 	*with other DragListBoxes
 	*@author Jason Harris
 	*@version 1.0
 	*/
 
-class DragListBox : public K3ListBox {
+class DragListBox : public KListWidget {
 	Q_OBJECT
 public:
 /**@short Default constructor
  */
-	DragListBox( QWidget *parent = 0, const char *name = 0, Qt::WFlags = 0 );
+	DragListBox( QWidget *parent = 0, const char* name = 0 );
 
 /**@short Default destructor
  */
@@ -52,8 +52,9 @@ public:
 	void dropEvent( QDropEvent *evt );
 	void mousePressEvent( QMouseEvent *evt );
 	void mouseMoveEvent( QMouseEvent * );
+	void mouseReleaseEvent( QMouseEvent * );
 private:
-	bool dragging;
+	bool leftButtonDown;
 	int IgnoreIndex;
 
 };

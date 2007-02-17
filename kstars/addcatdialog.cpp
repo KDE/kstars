@@ -54,17 +54,17 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
 
-	acd->FieldList->insertItem( i18n( "ID Number" ) );
-	acd->FieldList->insertItem( i18n( "Right Ascension" ) );
-	acd->FieldList->insertItem( i18n( "Declination" ) );
-	acd->FieldList->insertItem( i18n( "Object Type" ) );
+	acd->FieldList->addItem( i18n( "ID Number" ) );
+	acd->FieldList->addItem( i18n( "Right Ascension" ) );
+	acd->FieldList->addItem( i18n( "Declination" ) );
+	acd->FieldList->addItem( i18n( "Object Type" ) );
 
-	acd->FieldPool->insertItem( i18n( "Common Name" ) );
-	acd->FieldPool->insertItem( i18n( "Magnitude" ) );
-	acd->FieldPool->insertItem( i18n( "Major Axis" ) );
-	acd->FieldPool->insertItem( i18n( "Minor Axis" ) );
-	acd->FieldPool->insertItem( i18n( "Position Angle" ) );
-	acd->FieldPool->insertItem( i18n( "Ignore" ) );
+	acd->FieldPool->addItem( i18n( "Common Name" ) );
+	acd->FieldPool->addItem( i18n( "Magnitude" ) );
+	acd->FieldPool->addItem( i18n( "Major Axis" ) );
+	acd->FieldPool->addItem( i18n( "Minor Axis" ) );
+	acd->FieldPool->addItem( i18n( "Position Angle" ) );
+	acd->FieldPool->addItem( i18n( "Ignore" ) );
 	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 	connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
 	connect(this,SIGNAL(helpClicked()),this,SLOT(slotHelp()));
@@ -156,7 +156,7 @@ QString AddCatDialog::writeCatalogHeader() {
 	h += QString("# ");
 
 	for ( uint i=0; i < acd->FieldList->count(); ++i ) {
-		QString f = acd->FieldList->text( i );
+		QString f = acd->FieldList->item( i )->text();
 
 		if ( f == i18n( "ID Number" ) ) {
 			h += "ID  ";
@@ -191,7 +191,7 @@ void AddCatDialog::slotShowDataFile() {
 	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
 		acd->DataFileBox->clear();
 		QTextStream dataStream( &dataFile );
-		acd->DataFileBox->insertStringList( dataStream.readAll().split( "\n" ) );
+		acd->DataFileBox->addItems( dataStream.readAll().split( "\n" ) );
 		dataFile.close();
 	}
 }
