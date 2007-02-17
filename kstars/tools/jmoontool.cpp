@@ -118,11 +118,11 @@ void JMoonTool::initPlotObjects() {
 
 	pw->removeAllPlotObjects();
 
-	orbit[0] = new KPlotObject( colIo, KPlotObject::LINES, 1.0 );
-	orbit[1] = new KPlotObject( colEu, KPlotObject::LINES, 1.0 );
-	orbit[2] = new KPlotObject( colGn, KPlotObject::LINES, 1.0 );
-	orbit[3] = new KPlotObject( colCa, KPlotObject::LINES, 1.0 );
-	jpath    = new KPlotObject( colJp, KPlotObject::LINES, 1.0 );
+	orbit[0] = new KPlotObject( colIo, KPlotObject::Lines, 1.0 );
+	orbit[1] = new KPlotObject( colEu, KPlotObject::Lines, 1.0 );
+	orbit[2] = new KPlotObject( colGn, KPlotObject::Lines, 1.0 );
+	orbit[3] = new KPlotObject( colCa, KPlotObject::Lines, 1.0 );
+	jpath    = new KPlotObject( colJp, KPlotObject::Lines, 1.0 );
 
 	QRectF dataRect = pw->dataRect();
 	double dy = 0.01*dataRect.height();

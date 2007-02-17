@@ -92,7 +92,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_1: //Mercury
 		{
-			KPlotPoint *p = plotObjects().at(10)->point(0);
+			KPlotPoint *p = plotObjects().at(10)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Mercury" );
 			update();
@@ -101,7 +101,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_2: //Venus
 		{
-			KPlotPoint *p = plotObjects().at(12)->point(0);
+			KPlotPoint *p = plotObjects().at(12)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Venus" );
 			update();
@@ -110,7 +110,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_3: //Earth
 		{
-			KPlotPoint *p = plotObjects().at(14)->point(0);
+			KPlotPoint *p = plotObjects().at(14)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Earth" );
 			update();
@@ -119,7 +119,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_4: //Mars
 		{
-			KPlotPoint *p = plotObjects().at(16)->point(0);
+			KPlotPoint *p = plotObjects().at(16)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Mars" );
 			update();
@@ -128,7 +128,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_5: //Jupiter
 		{
-			KPlotPoint *p = plotObjects().at(18)->point(0);
+			KPlotPoint *p = plotObjects().at(18)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Jupiter" );
 			update();
@@ -137,7 +137,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_6: //Saturn
 		{
-			KPlotPoint *p = plotObjects().at(20)->point(0);
+			KPlotPoint *p = plotObjects().at(20)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Saturn" );
 			update();
@@ -146,7 +146,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_7: //Uranus
 		{
-			KPlotPoint *p = plotObjects().at(22)->point(0);
+			KPlotPoint *p = plotObjects().at(22)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Uranus" );
 			update();
@@ -155,7 +155,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_8: //Neptune
 		{
-			KPlotPoint *p = plotObjects().at(24)->point(0);
+			KPlotPoint *p = plotObjects().at(24)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Neptune" );
 			update();
@@ -164,7 +164,7 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 		
 		case Qt::Key_9: //Pluto
 		{
-			KPlotPoint *p = plotObjects().at(26)->point(0);
+			KPlotPoint *p = plotObjects().at(26)->points().at(0);
 			setLimits( p->x() - dx, p->x() + dx, p->y() - dy, p->y() + dy );
 			pv->setCenterPlanet( "Pluto" );
 			update();
@@ -226,9 +226,10 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
 
 	pv->setCenterPlanet( QString() );
 	for ( unsigned int i=0; i<9; ++i ) {
-		double dx = ( pv->planetObject(i)->point(0)->x() - xc )/xscale;
+		KPlotPoint *point = pv->planetObject(i)->points().at(0);
+		double dx = ( point->x() - xc )/xscale;
 		if ( dx < 4.0 ) {
-			double dy = ( pv->planetObject(i)->point(0)->y() - yc )/yscale;
+			double dy = ( point->y() - yc )/yscale;
 			if ( sqrt( dx*dx + dy*dy ) < 4.0 ) {
 				pv->setCenterPlanet( pv->planetName(i) );
 			}

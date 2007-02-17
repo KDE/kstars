@@ -170,15 +170,16 @@ void PlanetViewer::updatePlanets() {
 			double s, c, s2, c2;
 			p->helEcLong()->SinCos( s, c );
 			p->helEcLat()->SinCos( s2, c2 );
-			planet[i]->point(0)->setX( p->rsun()*c*c2 );
-			planet[i]->point(0)->setY( p->rsun()*s*c2 );
+			QList<KPlotPoint*> points = planet[i]->points();
+			points.at(0)->setX( p->rsun()*c*c2 );
+			points.at(0)->setY( p->rsun()*s*c2 );
 
 			if ( centerPlanet() == pName[i] ) {
 				QRectF dataRect = pw->map->dataRect();
 				double xc = (dataRect.right() + dataRect.left())*0.5;
 				double yc = (dataRect.bottom() + dataRect.top())*0.5;
-				double dx = planet[i]->point(0)->x() - xc;
-				double dy = planet[i]->point(0)->y() - yc;
+				double dx = points.at(0)->x() - xc;
+				double dy = points.at(0)->y() - yc;
 				pw->map->setLimits( dataRect.x() + dx, dataRect.right() + dx,
 						dataRect.y() + dy, dataRect.bottom() + dy );
 			}
@@ -202,14 +203,14 @@ void PlanetViewer::paintEvent( QPaintEvent* ) {
 
 void PlanetViewer::initPlotObjects() {
 	// Planets
-	ksun = new KPlotObject( Qt::yellow, KPlotObject::POINTS, 12, KPlotObject::CIRCLE );
+	ksun = new KPlotObject( Qt::yellow, KPlotObject::Points, 12, KPlotObject::Circle );
 	ksun->addPoint( 0.0, 0.0 );
 	pw->map->addPlotObject( ksun );
 
 	//Read in the orbit curves
 	KPlotObject *orbit[9];
 	for ( unsigned int i=0; i<9; ++i ) {
-		orbit[i] = new KPlotObject( Qt::white, KPlotObject::LINES, 1.0 );
+		orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
 		QFile orbitFile;
 		if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
@@ -226,7 +227,7 @@ void PlanetViewer::initPlotObjects() {
 	}
 
 	for ( unsigned int i=0; i<9; ++i ) {
-		planet[i] = new KPlotObject( pColor[i], KPlotObject::POINTS, 6, KPlotObject::CIRCLE );
+		planet[i] = new KPlotObject( pColor[i], KPlotObject::Points, 6, KPlotObject::Circle );
 
 		double s, c;
 		KSPlanetBase *p = PlanetList[i];

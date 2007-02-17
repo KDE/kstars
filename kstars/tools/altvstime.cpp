@@ -254,7 +254,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		}
 
 		//add new curve with width=2, and color=white
-		KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 2.0 );
+		KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
 		for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 			po->addPoint( h, findAltitude( o, h ) );
 		}
@@ -412,7 +412,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 			//update pList entry
 			pList.replace( i, o );
 
-			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 1 );
+			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 				po->addPoint( h, findAltitude( o, h ) );
 			}
@@ -428,7 +428,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 		} else {  //assume unfound object is a custom object
 			pList.at(i)->updateCoords( num ); //precess to desired epoch
 
-			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::LINES, 1 );
+			KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 				po->addPoint( h, findAltitude( pList.at(i), h ) );
 			}
