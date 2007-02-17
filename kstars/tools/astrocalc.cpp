@@ -50,7 +50,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	navigationPanel = new QTreeWidget(split);
 	navigationPanel->setColumnCount(1);
-	navigationPanel->setHeaderLabels( QStringList(i18n("Section")) );
+	navigationPanel->setHeaderLabels( QStringList(i18n("Calculator modules")) );
 	navigationPanel->setSortingEnabled( false );
 
 	QIcon jdIcon = QIcon ("jd.png");
@@ -87,6 +87,32 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	QTreeWidgetItem * solarItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Solar System")) );
 	solarItem->setIcon(0,solarIcon);
 	new QTreeWidgetItem(solarItem,QStringList(i18n("Planets Coordinates")) );
+
+	//Try to set the minimum width based on the width of the QTreeWidgetItems
+	//FIXME: This isn't working; apparently the widget items don't have geometry yet...
+	/*
+	//Set minimum width of Nav panel to the widest contained item
+	int maxWidth = 0;
+	for ( int iTop = 0; iTop < navigationPanel->topLevelItemCount(); iTop++ ) {
+		QTreeWidgetItem *topItem = navigationPanel->topLevelItem( iTop );
+		//DEBUG
+		kDebug() << "top:   " << iTop << endl;
+		for ( int iChild = 0; iChild < topItem->childCount(); iChild++ ) {
+			QTreeWidgetItem *childItem = topItem->child( iChild );
+			//DEBUG
+			kDebug() << "child: " << iChild << endl;
+			int w = navigationPanel->visualItemRect( childItem ).width();
+			//DEBUG
+			kDebug() << "Width: " << w << endl;
+			if ( w > maxWidth ) maxWidth = w;
+		}
+	}
+	navigationPanel->setMinimumWidth( maxWidth );
+	navigationPanel->adjustSize();
+	*/
+
+	//FIXME: remove these two lines when the above code is made to work
+	navigationPanel->setMinimumWidth( 200 );
 
 	//Populate widget stack
 	acStack = new QStackedWidget( split );
@@ -127,7 +153,6 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
  	connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
 		SLOT(slotItemSelection(QTreeWidgetItem *)));
-
 }
 
 AstroCalc::~AstroCalc()
