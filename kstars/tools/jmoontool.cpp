@@ -92,7 +92,7 @@ JMoonTool::JMoonTool(QWidget *parent)
 
 	pw = new KPlotWidget( page );
 	pw->setShowGrid( false );
-	pw->setAntialias( true );
+	pw->setAntialiasing( true );
 	pw->setLimits( -12.0, 12.0, -11.0, 11.0 );
 	pw->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "offset from Jupiter (arcmin)" ) );
 	pw->axis(KPlotWidget::LeftAxis)->setLabel( i18n( "time since now (days)" ) );
