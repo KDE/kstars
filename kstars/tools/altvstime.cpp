@@ -524,7 +524,7 @@ void AVTPlotWidget::mouseDoubleClickEvent( QMouseEvent * ) {
 }
 
 void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
-	QRect checkRect( leftPadding(), topPadding(), PixRect.width(), PixRect.height() );
+	QRect checkRect( leftPadding(), topPadding(), pixRect().width(), pixRect().height() );
 	int Xcursor = e->x();
 	int Ycursor = e->y();
 
@@ -551,11 +551,11 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	p.translate( leftPadding(), topPadding() );
 
 	setPixRect();
-	p.setClipRect( PixRect );
+	p.setClipRect( pixRect() );
 	p.setClipping( true );
 
-	int pW = PixRect.width();
-	int pH = PixRect.height();
+	int pW = pixRect().width();
+	int pH = pixRect().height();
 
 	//draw daytime sky if the Sun rises for the current date/location
 	//(when Sun does not rise, SunSet = -1.0)
@@ -610,8 +610,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	//Draw crosshairs at clicked position
 	if ( MousePoint.x() > 0 ) {
 		p.setPen( QPen( QBrush("gold"), 1.0, Qt::SolidLine ) );
-		p.drawLine( MousePoint.x(), 0, MousePoint.x(), PixRect.height() );
-		p.drawLine( 0, MousePoint.y(), PixRect.width(), MousePoint.y() );
+		p.drawLine( MousePoint.x(), 0, MousePoint.x(), pixRect().height() );
+		p.drawLine( 0, MousePoint.y(), pixRect().width(), MousePoint.y() );
 		
 		//Label each crosshair line (time and altitude)
 		p.setFont( smallFont );
