@@ -65,13 +65,14 @@ KStarsDateTime KStarsDateTime::currentDateTime(Qt::TimeSpec ts) {
 
 void KStarsDateTime::setDJD( long double _jd ) {
 	DJD = _jd;
+	long int ijd = (long int)_jd;
+	double dayfrac = _jd - (double)ijd + 0.5;
+	if ( dayfrac > 1.0 ) { ijd++; dayfrac -= 1.0; }
 
 	ExtDate dd;
-	dd.setJD( (long int)( _jd - 0.5 ) );
+	dd.setJD( ijd );
 	ExtDateTime::setDate( dd );
 
-	double dayfrac = _jd - (double)( date().jd() ) + 0.5;
-	if ( dayfrac > 1.0 ) dayfrac -= 1.0;
 	double hour = 24.*dayfrac;
 	int h = int(hour);
 	int m = int( 60.*(hour - h) );
