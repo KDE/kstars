@@ -33,77 +33,57 @@
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
 : QFrame(parentSplit) {
 	setupUi(this);
-	showCurrentYear();
 
+	connect( Year, SIGNAL( valueChanged(int) ), this, SLOT( slotCompute() ) );
+	showCurrentYear();
 	show();
 }
 
 modCalcEquinox::~modCalcEquinox(){
 }
 
-int modCalcEquinox::getYear (QString eName)
-{
-	bool ok = false;
-	int equinoxYear = eName.toInt(&ok);
-	if ( ok )
-		return equinoxYear;
-	else {
-		kDebug() << i18n( "Could not parse epoch string; assuming J2000" ) << endl;
-		return 2000;
-	}
-}
-
-void modCalcEquinox::showCurrentYear (void)
+void modCalcEquinox::showCurrentYear()
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-	yearEdit->setText( QString( "%1").arg( dt.date().year() ) );
+	Year->setValue( dt.date().year() );
 }
 
-void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
+void modCalcEquinox::slotCompute()
 {
-	long double julianDay = 0., jdf = 0.;
-	float deltaJd;
-	KStarsData *kd = (KStarsData*) topLevelWidget()->parent();
-	KSSun *Sun = new KSSun(kd);
-	int year0 = getYear( yearEdit->text() );
+	KStarsDateTime tSpring, tSummer, tAutumn, tWinter, tSpring2;
 
-	if (equinoxSolsticesComboBox->currentIndex() == 0 ) {
-		julianDay = Sun->springEquinox(year0);
-		jdf = Sun->summerSolstice(year0);
-	}
-	else if(equinoxSolsticesComboBox->currentIndex() == 1) {
-		julianDay = Sun->summerSolstice(year0);
-		jdf = Sun->autumnEquinox(year0);
-	}
-	else if (equinoxSolsticesComboBox->currentIndex() == 2 ) {
-		julianDay = Sun->autumnEquinox(year0);
-		jdf = Sun->winterSolstice(year0);
-	}
-	else if(equinoxSolsticesComboBox->currentIndex() == 3) {
-		julianDay = Sun->winterSolstice(year0);
-		jdf = Sun->springEquinox(year0+1);
-	}
+	KStars *ks = (KStars*) topLevelWidget()->parent();
+	KSSun *Sun = new KSSun(ks->data());
+	int year0 = Year->value();
 
-	deltaJd = (float) (jdf - julianDay);
-	showStartDateTime(julianDay);
-	showSeasonDuration(deltaJd);
+	tSpring.setDJD( Sun->springEquinox(year0)  );
+	tSummer.setDJD( Sun->summerSolstice(year0) );
+	tAutumn.setDJD( Sun->autumnEquinox(year0)  );
+	tWinter.setDJD( Sun->winterSolstice(year0) );
+	tSpring2.setDJD( Sun->springEquinox(year0+1)); //needed for Winer duration
 
-}
+	SpringEquinoxTime->setText( i18nc( "an event occurred at [time] on [date]", 
+																		 "%1 on %2", tSpring.time().toString(), 
+																		 tSpring.date().toString() ) );
+	SummerSolsticeTime->setText( i18nc( "an event occurred at [time] on [date]", 
+																			"%1 on %2", tSummer.time().toString(), 
+																			tSummer.date().toString() ) );
+	AutumnEquinoxTime->setText( i18nc( "an event occurred at [time] on [date]", 
+																		 "%1 on %2", tAutumn.time().toString(), 
+																		 tAutumn.date().toString() ) );
+	WinterSolsticeTime->setText( i18nc( "an event occurred at [time] on [date]", 
+																			"%1 on %2", tWinter.time().toString(), 
+																			tWinter.date().toString() ) );
 
-void modCalcEquinox::slotClear(void){
-	yearEdit->setText(QString());
-	seasonDuration->setText(QString());
-}
+	SpringDuration->setText( i18n( "%1 days", 
+																 QString::number( double(tSummer.djd()-tSpring.djd()) ) ) );
+	SummerDuration->setText( i18n( "%1 days", 
+																 QString::number( double(tAutumn.djd()-tSummer.djd()) ) ) );
+	AutumnDuration->setText( i18n( "%1 days", 
+																 QString::number( double(tWinter.djd()-tAutumn.djd()) ) ) );
+	WinterDuration->setText( i18n( "%1 days", 
+																 QString::number( double(tSpring2.djd()-tWinter.djd()) ) ) );
 
-void modCalcEquinox::showStartDateTime(long double jd)
-{
-	KStarsDateTime dt( jd );
-	startDateTimeEquinox->setDateTime( dt );
-}
-
-void modCalcEquinox::showSeasonDuration(float deltaJd)
-{
-	seasonDuration->setText( QString( "%1").arg( deltaJd ) );
 }
 
 void modCalcEquinox::slotYearCheckedBatch(){

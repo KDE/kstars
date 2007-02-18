@@ -1,15 +1,12 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcEquinoxDlg</class>
  <widget class="QWidget" name="modCalcEquinoxDlg" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>465</height>
+    <width>433</width>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -33,101 +30,179 @@
       </attribute>
       <layout class="QVBoxLayout" >
        <property name="margin" >
-        <number>8</number>
+        <number>9</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="textLabel1_2" >
+           <property name="text" >
+            <string>In the Year:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KIntNumInput" name="Year" >
+           <property name="value" >
+            <number>2000</number>
+           </property>
+           <property name="minimum" >
+            <number>-50000</number>
+           </property>
+           <property name="maximum" >
+            <number>50000</number>
+           </property>
+           <property name="prefix" >
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>16</width>
+             <height>31</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2" >
          <property name="title" >
-          <string>Select Input</string>
+          <string>Occurence of events</string>
          </property>
          <layout class="QHBoxLayout" >
           <property name="margin" >
-           <number>8</number>
+           <number>9</number>
           </property>
           <property name="spacing" >
            <number>6</number>
           </property>
           <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="textLabel3_3" >
+              <property name="text" >
+               <string>Autumn equinox:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QLabel" name="SpringEquinoxTime" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>  10:00 on 21 March 2007</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="textLabel2_2" >
+              <property name="text" >
+               <string>Spring equinox:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QLabel" name="SummerSolsticeTime" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>  10:00 on 21 June 2007</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" >
+             <widget class="QLabel" name="textLabel3_4" >
+              <property name="text" >
+               <string>Winter solstice:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="QLabel" name="AutumnEquinoxTime" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>  10:00 on 21 September 2007</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="textLabel3_2" >
+              <property name="text" >
+               <string>Summer solstice:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" >
+             <widget class="QLabel" name="WinterSolsticeTime" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>  10:00 on 21 December 2007</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <spacer>
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" >
              <size>
-              <width>34</width>
-              <height>31</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QComboBox" name="equinoxSolsticesComboBox" >
-            <item>
-             <property name="text" >
-              <string>Spring Equinox</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Summer Solstice</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Autumn Equinox</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Winter Solstice</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>16</width>
-              <height>31</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="textLabel1_2" >
-            <property name="text" >
-             <string>Year:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="KLineEdit" name="yearEdit" />
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>16</width>
-              <height>31</height>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
@@ -136,57 +211,127 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
+        <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
-          <string>Output Data</string>
+          <string>Length of seasons</string>
          </property>
-         <layout class="QGridLayout" >
+         <layout class="QHBoxLayout" >
           <property name="margin" >
-           <number>8</number>
+           <number>9</number>
           </property>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="1" column="1" >
-           <widget class="KLineEdit" name="seasonDuration" />
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel2_2" >
-            <property name="text" >
-             <string>Start date &amp; time:</string>
+          <item>
+           <layout class="QGridLayout" >
+            <property name="margin" >
+             <number>0</number>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="textLabel3_2" >
-            <property name="text" >
-             <string>Duration of the season:</string>
+            <property name="spacing" >
+             <number>6</number>
             </property>
-           </widget>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label_4" >
+              <property name="text" >
+               <string>Summer:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QLabel" name="SpringDuration" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>90 days</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="QLabel" name="AutumnDuration" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>90 days</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="label_5" >
+              <property name="text" >
+               <string>Autumn:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" >
+             <widget class="QLabel" name="WinterDuration" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>90 days</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label_3" >
+              <property name="text" >
+               <string>Spring:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" >
+             <widget class="QLabel" name="label_6" >
+              <property name="text" >
+               <string>Winter:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QLabel" name="SummerDuration" >
+              <property name="font" >
+               <font>
+                <family>Courier New</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>90 days</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1" >
-           <widget class="ExtDateTimeEdit" name="startDateTimeEquinox" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>5</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="minimumSize" >
+            <property name="sizeHint" >
              <size>
-              <width>16</width>
-              <height>22</height>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
-            <property name="frameShape" >
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow" >
-             <enum>QFrame::Raised</enum>
-            </property>
-           </widget>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -377,28 +522,21 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>ExtDateTimeEdit</class>
-   <extends></extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
-   <extends></extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends></extends>
+   <extends>QFrame</extends>
    <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KIntNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

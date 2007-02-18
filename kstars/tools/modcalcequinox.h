@@ -35,8 +35,7 @@ public:
 	
 public slots:
 
-	void slotComputeEquinoxesAndSolstices(void);
-	void slotClear(void);
+	void slotCompute();
 	void slotYearCheckedBatch();
 	void slotInputFile();
 	void slotOutputFile();
@@ -44,10 +43,7 @@ public slots:
 
 private:
 
-	int getYear (QString eName);
 	void showCurrentYear (void);
-	void showStartDateTime(long double jd);
-	void showSeasonDuration(float deltaJd);
 	void processLines( QTextStream &istream );
   
 };

@@ -67,7 +67,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	jdItem->setIcon(0,jdIcon);
 
 	new QTreeWidgetItem(timeItem,QStringList(i18n("Sidereal Time")) );
-	new QTreeWidgetItem(timeItem,QStringList(i18n("Day Duration")) );
+	new QTreeWidgetItem(timeItem,QStringList(i18n("Almanac")) );
 	new QTreeWidgetItem(timeItem,QStringList(i18n("Equinoxes & Solstices")) );
 //	dayItem->setIcon(0,sunsetIcon);
 
