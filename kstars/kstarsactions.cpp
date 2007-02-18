@@ -832,19 +832,17 @@ void KStars::slotCoordSys() {
 }
 
 void KStars::slotMapProjection() {
-	QString aname = sender()->objectName();
-
-	if ( aname == "project_lambert" )
+	if ( sender() == actionCollection()->action("project_lambert") )
 		Options::setProjection( SkyMap::Lambert );
-	if ( aname == "project_azequidistant" )
+	if ( sender() == actionCollection()->action("project_azequidistant") )
 		Options::setProjection( SkyMap::AzimuthalEquidistant );
-	if ( aname == "project_orthographic" )
+	if ( sender() == actionCollection()->action("project_orthographic") )
 		Options::setProjection( SkyMap::Orthographic );
-	if ( aname == "project_equirectangular" )
+	if ( sender() == actionCollection()->action("project_equirectangular") )
 		Options::setProjection( SkyMap::Equirectangular );
-	if ( aname == "project_stereographic" )
+	if ( sender() == actionCollection()->action("project_stereographic") )
 		Options::setProjection( SkyMap::Stereographic );
-	if ( aname == "project_gnomonic" )
+	if ( sender() == actionCollection()->action("project_gnomonic") )
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
