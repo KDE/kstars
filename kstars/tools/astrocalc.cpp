@@ -197,7 +197,7 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 		acStack->setCurrentWidget( EclFrame );
 	if(!(s.compare(i18n("Geodetic Coordinates"))))
 		acStack->setCurrentWidget( GeodCoordFrame );
-	if(!(s.compare(i18n("Day Duration"))))
+	if(!(s.compare(i18n("Almanac"))))
 		acStack->setCurrentWidget( DayFrame );
 	if(!(s.compare(i18n("Equinoxes & Solstices"))))
 		acStack->setCurrentWidget( EquinoxFrame );
@@ -218,8 +218,8 @@ void AstroCalc::genTimeText(void)
 			"</LI><LI>"
 			"<B>Sidereal Time:</B> Sidereal/Universal time conversion"
 			"</LI><LI>"
-			"<B>Day duration:</B> Sunrise, Sunset and noon time and "
-			"positions for those events"
+			"<B>Almanac:</B> Rise/Set/Transit timing and position data "
+			"for the Sun and Moon"
 			"</LI><LI>"
 			"<B>Equinoxes & Solstices:</B> Equinoxes, Solstices and duration of the "
 			"seasons"
