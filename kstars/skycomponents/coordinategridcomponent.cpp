@@ -57,7 +57,7 @@ void CoordinateGridComponent::init( KStarsData *data ) {
 		if ( OppositeRA > 24.0 ) OppositeRA -= 24.0;
 
 		SkyPoint o1( RA, -90.0 );
-		for ( double dec=-90. + 4.0; dec < 270.; dec += 4.0 ) {
+		for ( double dec=-90. + 4.0; dec <= 270.; dec += 4.0 ) {
 			double Dec = dec;
 			if ( dec > 90. ) {
 				Dec = 180. - dec;
