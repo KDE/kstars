@@ -689,27 +689,24 @@ void KStars::slotManualFocus() {
 	if ( Options::useAltAz() ) focusDialog.activateAzAltPage();
 
 	if ( focusDialog.exec() == QDialog::Accepted ) {
+		//DEBUG
+		kDebug() << "focusDialog point: " << &focusDialog << endl;
+
 		//If the requested position is very near the pole, we need to point first
 		//to an intermediate location just below the pole in order to get the longitudinal
 		//position (RA/Az) right.
-		double realAlt( focusDialog.point()->alt()->Degrees() );
-		double realDec( focusDialog.point()->dec()->Degrees() );
+		double realAlt( focusDialog.point().alt()->Degrees() );
+		double realDec( focusDialog.point().dec()->Degrees() );
 		if ( Options::useAltAz() && realAlt > 89.0 ) {
-			focusDialog.point()->setAlt( 89.0 );
+			focusDialog.point().setAlt( 89.0 );
+			focusDialog.point().HorizontalToEquatorial( LST(), geo()->lat() );
 		}
 		if ( ! Options::useAltAz() && realDec > 89.0 ) {
-			focusDialog.point()->setDec( 89.0 );
+			focusDialog.point().setDec( 89.0 );
+			focusDialog.point().EquatorialToHorizontal( LST(), geo()->lat() );
 		}
 
-		//Do we need to convert Az/Alt to RA/Dec?
-		if ( focusDialog.usedAltAz() )
-			focusDialog.point()->HorizontalToEquatorial( LST(), geo()->lat() );
-
-		//Do we need to convert RA/Dec to Alt/Az?
-		if ( ! focusDialog.usedAltAz() )
-			focusDialog.point()->EquatorialToHorizontal( LST(), geo()->lat() );
-
-		map()->setClickedPoint( focusDialog.point() );
+		map()->setClickedPoint( & focusDialog.point() );
 		if ( Options::isTracking() ) slotTrack();
 
 		map()->slotCenter();
@@ -723,10 +720,10 @@ void KStars::slotManualFocus() {
 		//automatically correct the final pointing from the intermediate offset position to the final position
 		if ( Options::useAltAz() ) {
 			data()->setSnapNextFocus();
-			map()->setDestinationAltAz( focusDialog.point()->alt()->Degrees(), focusDialog.point()->az()->Degrees() );
+			map()->setDestinationAltAz( focusDialog.point().alt()->Degrees(), focusDialog.point().az()->Degrees() );
 		} else {
 			data()->setSnapNextFocus();
-			map()->setDestination( focusDialog.point()->ra()->Hours(), focusDialog.point()->dec()->Degrees() );
+			map()->setDestination( focusDialog.point().ra()->Hours(), focusDialog.point().dec()->Degrees() );
 		}
 
 		//Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
@@ -846,7 +843,7 @@ void KStars::slotMapProjection() {
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
-	kDebug() << "Projection system: " << Options::projection() << endl;
+	kDebug() << i18n( "Projection system: ", Options::projection() ) << endl;
 
 	skymap->forceUpdate();
 }

@@ -46,7 +46,7 @@ public:
 	~FocusDialog();
 
 	/**@return pointer to the SkyPoint described by the entered RA, Dec */
-	inline SkyPoint* point() const { return Point; }
+	inline SkyPoint& point() { return Point; }
 
 	/**@return suggested size of focus window. */
 	QSize sizeHint() const;
@@ -84,11 +84,10 @@ public slots:
 		*If the point is validated, close the window.
 		*/
 	void validatePoint();
-	void slotOk();
 
 private:
 	KStars *ks;
-	SkyPoint *Point;
+	SkyPoint Point;
 	FocusDialogUI *fd;
 	bool UsedAltAz;
 };

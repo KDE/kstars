@@ -25,6 +25,7 @@
 #include "kstarsdata.h"
 #include "dms.h"
 #include "skypoint.h"
+#include "skymap.h"
 #include "focusdialog.h"
 
 FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
@@ -34,13 +35,15 @@ FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
 FocusDialog::FocusDialog( KStars *_ks )
 	: KDialog( _ks ), ks( _ks )
 {
-	Point = 0; //initialize pointer to null
+	//initialize point to the current focus position
+	Point.set( ks->map()->focus()->ra(), ks->map()->focus()->dec() ); 
+
 	UsedAltAz = false; //assume RA/Dec by default
 
 	fd = new FocusDialogUI(this);
 	setMainWidget(fd);
-        setCaption( i18n( "Set Focus Manually" ) );
-        setButtons( KDialog::Ok|KDialog::Cancel );
+	setCaption( i18n( "Set Focus Manually" ) );
+	setButtons( KDialog::Ok|KDialog::Cancel );
 
 	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
 	fd->raBox->setDegType(false); //RA box should be HMS-style
@@ -52,7 +55,6 @@ FocusDialog::FocusDialog( KStars *_ks )
 	connect( fd->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( fd->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
-	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
 
 FocusDialog::~FocusDialog(){
@@ -68,10 +70,6 @@ void FocusDialog::checkLineEdits() {
 		enableButtonOk( true );
 	else
 		enableButtonOk( false );
-}
-
-void FocusDialog::slotOk() {
-	emit okClicked();
 }
 
 void FocusDialog::validatePoint() {
@@ -91,10 +89,11 @@ void FocusDialog::validatePoint() {
 			return;
 		}
 
-		Point = new SkyPoint( ra, dec );
+		Point.set( ra, dec );
 		double epoch0 = getEpoch( fd->epochBox->text() );
 		long double jd0 = epochToJd ( epoch0 );
-		Point->apparentCoord(jd0, ks->data()->ut().djd() );
+		Point.apparentCoord(jd0, ks->data()->ut().djd() );
+		Point.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
 		QDialog::accept();
 	} else {
@@ -112,9 +111,10 @@ void FocusDialog::validatePoint() {
 				return;
 			}
 
-			Point = new SkyPoint();
-			Point->setAz( az );
-			Point->setAlt( alt );
+			Point.setAz( az );
+			Point.setAlt( alt );
+			Point.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
+
 			UsedAltAz = true;
 
 			QDialog::accept();
