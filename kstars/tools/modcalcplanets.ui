@@ -1,15 +1,12 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcPlanetsDlg</class>
  <widget class="QWidget" name="modCalcPlanetsDlg" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>534</height>
+    <width>549</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -40,7 +37,7 @@
          <property name="title" >
           <string>Input Parameters</string>
          </property>
-         <layout class="QVBoxLayout" >
+         <layout class="QHBoxLayout" >
           <property name="margin" >
            <number>9</number>
           </property>
@@ -48,14 +45,46 @@
            <number>6</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" >
+           <layout class="QGridLayout" >
             <property name="margin" >
              <number>0</number>
             </property>
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label" >
+              <property name="text" >
+               <string>Date and time:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" colspan="2" >
+             <widget class="ExtDateTimeEdit" name="DateTimeBox" />
+            </item>
+            <item row="0" column="0" colspan="3" >
+             <widget class="KPushButton" name="LocationButton" >
+              <property name="text" >
+               <string>Greenwich, United Kingdom</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="textLabel1" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>1</hsizetype>
+                <vsizetype>5</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>Solar system body:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2" >
              <spacer>
               <property name="orientation" >
                <enum>Qt::Horizontal</enum>
@@ -65,21 +94,22 @@
               </property>
               <property name="sizeHint" >
                <size>
-                <width>101</width>
+                <width>151</width>
                 <height>21</height>
                </size>
               </property>
              </spacer>
             </item>
-            <item>
-             <widget class="QLabel" name="textLabel1" >
-              <property name="text" >
-               <string>Solar system body:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
+            <item row="2" column="1" >
              <widget class="QComboBox" name="PlanetComboBox" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <item>
                <property name="text" >
                 <string>Mercury</string>
@@ -137,105 +167,6 @@
               </item>
              </widget>
             </item>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType" >
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>151</width>
-                <height>21</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item>
-             <layout class="QGridLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item row="0" column="1" >
-               <widget class="QTimeEdit" name="TimeBox" />
-              </item>
-              <item row="1" column="1" >
-               <widget class="ExtDateEdit" name="DateBox" />
-              </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="label_2" >
-                <property name="text" >
-                 <string>Date:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="label" >
-                <property name="text" >
-                 <string>UT:</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer>
-              <property name="orientation" >
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" >
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QGridLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="label_4" >
-                <property name="text" >
-                 <string>Latitude:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="label_3" >
-                <property name="text" >
-                 <string>Longitude:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" >
-               <widget class="dmsBox" name="LongBox" />
-              </item>
-              <item row="1" column="1" >
-               <widget class="dmsBox" name="LatBox" />
-              </item>
-             </layout>
-            </item>
            </layout>
           </item>
          </layout>
@@ -276,10 +207,18 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="dmsBox" name="RABox" />
+             <widget class="dmsBox" name="RABox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="DecBox" />
+             <widget class="dmsBox" name="DecBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -311,10 +250,18 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="dmsBox" name="AzBox" />
+             <widget class="dmsBox" name="AzBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="AltBox" />
+             <widget class="dmsBox" name="AltBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -342,7 +289,11 @@
              <number>6</number>
             </property>
             <item row="2" column="2" >
-             <widget class="KLineEdit" name="HelioDistBox" />
+             <widget class="KLineEdit" name="HelioDistBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0" colspan="2" >
              <widget class="QLabel" name="label_11" >
@@ -366,10 +317,18 @@
              </widget>
             </item>
             <item row="0" column="1" colspan="2" >
-             <widget class="dmsBox" name="HelioLongBox" />
+             <widget class="dmsBox" name="HelioLongBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1" colspan="2" >
-             <widget class="dmsBox" name="HelioLatBox" />
+             <widget class="dmsBox" name="HelioLatBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -387,10 +346,18 @@
              <number>6</number>
             </property>
             <item row="2" column="2" >
-             <widget class="KLineEdit" name="GeoDistBox" />
+             <widget class="KLineEdit" name="GeoDistBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1" colspan="2" >
-             <widget class="dmsBox" name="GeoLatBox" />
+             <widget class="dmsBox" name="GeoLatBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0" >
              <widget class="QLabel" name="label_13" >
@@ -414,7 +381,11 @@
              </widget>
             </item>
             <item row="0" column="1" colspan="2" >
-             <widget class="dmsBox" name="GeoLongBox" />
+             <widget class="dmsBox" name="GeoLongBox" >
+              <property name="readOnly" >
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -847,44 +818,72 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>ExtDateEdit</class>
-   <extends></extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends></extends>
+   <extends>QFrame</extends>
    <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ExtDateTimeEdit</class>
+   <extends>QFrame</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>LocationButton</tabstop>
+  <tabstop>PlanetComboBox</tabstop>
+  <tabstop>RABox</tabstop>
+  <tabstop>DecBox</tabstop>
+  <tabstop>AzBox</tabstop>
+  <tabstop>AltBox</tabstop>
+  <tabstop>HelioLongBox</tabstop>
+  <tabstop>HelioLatBox</tabstop>
+  <tabstop>HelioDistBox</tabstop>
+  <tabstop>GeoLongBox</tabstop>
+  <tabstop>GeoLatBox</tabstop>
+  <tabstop>GeoDistBox</tabstop>
+  <tabstop>PlanetComboBoxBatch</tabstop>
+  <tabstop>UTCheckBatch</tabstop>
+  <tabstop>UTBoxBatch</tabstop>
+  <tabstop>DateCheckBatch</tabstop>
+  <tabstop>DateBoxBatch</tabstop>
+  <tabstop>LatCheckBatch</tabstop>
+  <tabstop>LongCheckBatch</tabstop>
+  <tabstop>LongBoxBatch</tabstop>
+  <tabstop>LatBoxBatch</tabstop>
+  <tabstop>HelioEclCheckBatch</tabstop>
+  <tabstop>EquatorialCheckBatch</tabstop>
+  <tabstop>GeoEclCheckBatch</tabstop>
+  <tabstop>HorizontalCheckBatch</tabstop>
+  <tabstop>AllRadioBatch</tabstop>
+  <tabstop>InputRadioBatch</tabstop>
+  <tabstop>OutputFileBoxBatch</tabstop>
+  <tabstop>InputFileBoxBatch</tabstop>
+  <tabstop>RunButtonBatch</tabstop>
+  <tabstop>PlanetCheckBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

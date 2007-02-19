@@ -20,6 +20,9 @@
 #include <kmessagebox.h>
 
 #include "modcalcplanets.h"
+
+#include "geolocation.h"
+#include "locationdialog.h"
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -34,71 +37,55 @@
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
 : QFrame(parentSplit) {
 	setupUi(this);
-	showCurrentDateTime();
-	showLongLat();
+	
+	KStars *ks = (KStars*) topLevelWidget()->parent();
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+
+	DateTimeBox->setDateTime( dt );
+	DateBoxBatch->setDate( dt.date() );
+	UTBoxBatch->setTime( dt.time() );
+
+	geoPlace = ks->geo();
+	LocationButton->setText( geoPlace->fullName() );
+
 	RABox->setDegType(false);
 
-    // signals and slots connections
-    connect(PlanetComboBox, SIGNAL(activated(int)), this, SLOT(slotComputePosition()));
-    connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()));
-    connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()));
-    connect(LatCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatCheckedBatch()));
-    connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongCheckedBatch()));
-    connect(PlanetCheckBatch, SIGNAL(clicked()), this, SLOT(slotPlanetsCheckedBatch()));
+	// signals and slots connections
+	connect(PlanetComboBox, SIGNAL(activated(int)), this, SLOT(slotComputePosition()));
+	connect(DateTimeBox, SIGNAL(dateTimeChanged(ExtDateTime)), this, SLOT(slotComputePosition()));
+	connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
 
+	connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()));
+	connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()));
+	connect(LatCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatCheckedBatch()));
+	connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongCheckedBatch()));
+	connect(PlanetCheckBatch, SIGNAL(clicked()), this, SLOT(slotPlanetsCheckedBatch()));
+
+	slotComputePosition();
 	show();
 }
 
 modCalcPlanets::~modCalcPlanets(){
 }
 
-void modCalcPlanets::showCurrentDateTime (void)
+void modCalcPlanets::slotLocation()
 {
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+	LocationDialog ld( (KStars*) topLevelWidget()->parent() );
 
-	DateBox->setDate( dt.date() );
-	TimeBox->setTime( dt.time() );
-
-	DateBoxBatch->setDate( dt.date() );
-	UTBoxBatch->setTime( dt.time() );
-}
-
-KStarsDateTime modCalcPlanets::getDateTime (void)
-{
-	return KStarsDateTime( DateBox->date() , TimeBox->time() );
-}
-
-void modCalcPlanets::showLongLat(void)
-{
-
-	KStars *ks = (KStars*) topLevelWidget()->parent();
-	LongBox->show( ks->geo()->lng() );
-	LatBox->show( ks->geo()->lat() );
-
-	LongBoxBatch->show( ks->geo()->lng() );
-	LatBoxBatch->show( ks->geo()->lat() );
-}
-
-
-GeoLocation modCalcPlanets::getObserverPosition (void)
-{
-	GeoLocation geoPlace;
-
-	geoPlace.setLong( LongBox->createDms() );
-	geoPlace.setLat(  LatBox->createDms() );
-	geoPlace.setHeight( 0.0 );
-
-	return geoPlace;
+	if ( ld.exec() == QDialog::Accepted ) {
+		geoPlace = ld.selectedCity();
+		LocationButton->setText( geoPlace->fullName() );
+		slotComputePosition();
+	}
 }
 
 void modCalcPlanets::slotComputePosition (void)
 {
 	KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
-	KStarsDateTime dt = getDateTime();
+	KStarsDateTime dt = DateTimeBox->dateTime();
 	long double julianDay = dt.djd();
-	GeoLocation position( getObserverPosition() );
 	KSNumbers num( julianDay );
-	dms LST( position.GSTtoLST( dt.gst() ) );
+	dms LST( geoPlace->GSTtoLST( dt.gst() ) );
 
 	// Earth
 	KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
@@ -107,14 +94,14 @@ void modCalcPlanets::slotComputePosition (void)
 	// Mercury
 	if (PlanetComboBox->currentIndex() == 0 ) {
 		KSPlanet p( kd, I18N_NOOP( "Mercury" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 1) {
 		KSPlanet p( kd, I18N_NOOP( "Venus" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 2) {
@@ -122,50 +109,50 @@ void modCalcPlanets::slotComputePosition (void)
 	}
 	else if(PlanetComboBox->currentIndex() == 3) {
 		KSPlanet p( kd, I18N_NOOP( "Mars" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 4) {
 		KSPlanet p( kd, I18N_NOOP( "Jupiter" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 5) {
 		KSPlanet p( kd, I18N_NOOP( "Saturn" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 6) {
 		KSPlanet p( kd, I18N_NOOP( "Uranus" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 7) {
 		KSPlanet p( kd, I18N_NOOP( "Neptune" ));
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 8) {
 		KSPluto p( kd );
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 9) {
 		KSMoon p( kd );
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		showCoordinates( p );
 	}
 	else if(PlanetComboBox->currentIndex() == 10) {
 		KSSun p( kd );
-		p.findPosition( &num, position.lat(), &LST, &Earth);
-		p.EquatorialToHorizontal( &LST, position.lat());
+		p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
+		p.EquatorialToHorizontal( &LST, geoPlace->lat());
 		p.setRsun(0.0);
 		showCoordinates( p );
 	}

@@ -22,9 +22,8 @@
 #include <QTextStream>
 
 #include "ui_modcalcplanets.h"
-#include "geolocation.h"
-#include "kstarsdatetime.h"
 
+class GeoLocation;
 class KSPlanet;
 class KSMoon;
 class KSSun;
@@ -43,7 +42,8 @@ public:
 	
 public slots:
 
-	void slotComputePosition (void);
+	void slotLocation();
+	void slotComputePosition();
 	void slotUtCheckedBatch();
 	void slotDateCheckedBatch();
 	void slotLongCheckedBatch();
@@ -57,10 +57,6 @@ public slots:
 
 private:
 
-	void showCurrentDateTime (void);
-	KStarsDateTime getDateTime (void);
-	void showLongLat(void);
-	GeoLocation getObserverPosition (void);
 	void showCoordinates( const KSPlanet &ksp );
 	void showCoordinates( const KSMoon &ksp );
 	void showCoordinates( const KSSun &ksp );
@@ -72,7 +68,8 @@ private:
 	unsigned int requiredBatchFields(void);
 
 	// void processLines( QTextStream &istream );
-  
+
+	GeoLocation *geoPlace;
 };
 
 #endif
