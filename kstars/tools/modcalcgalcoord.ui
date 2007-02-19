@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcGalCoordDlg</class>
  <widget class="QWidget" name="modCalcGalCoordDlg" >
   <property name="geometry" >
@@ -24,6 +21,9 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
@@ -36,158 +36,6 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
-          <string>Choose Input Coordinates</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>87</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="equRadio" >
-            <property name="text" >
-             <string>Equatorial</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>87</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="galRadio" >
-            <property name="text" >
-             <string>Galactic</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>87</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>51</width>
-             <height>21</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KPushButton" name="Compute" >
-           <property name="text" >
-            <string>Convert</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>51</width>
-             <height>21</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KPushButton" name="Clear" >
-           <property name="text" >
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>71</width>
-             <height>21</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" >
          <property name="margin" >
           <number>0</number>
@@ -198,7 +46,7 @@
          <item>
           <widget class="QGroupBox" name="groupBox_2" >
            <property name="title" >
-            <string>Equatorial Coordinates</string>
+            <string>Equatorial Coordinates (J2000)</string>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -207,31 +55,6 @@
             <property name="spacing" >
              <number>6</number>
             </property>
-            <item row="2" column="1" >
-             <widget class="KLineEdit" name="epochName" >
-              <property name="enabled" >
-               <bool>true</bool>
-              </property>
-              <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>0</vsizetype>
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text" >
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="epochLabel" >
-              <property name="text" >
-               <string>Epoch:</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0" >
              <widget class="QLabel" name="decLabel" >
               <property name="text" >
@@ -247,10 +70,17 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="dmsBox" name="raBox" />
+             <widget class="dmsBox" name="RA" />
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="decBox" />
+             <widget class="dmsBox" name="Dec" />
+            </item>
+            <item row="2" column="1" >
+             <widget class="KPushButton" name="ObjectButton" >
+              <property name="text" >
+               <string>Select Object...</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -295,10 +125,10 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="dmsBox" name="lgBox" />
+             <widget class="dmsBox" name="GalLongitude" />
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="bgBox" />
+             <widget class="dmsBox" name="GalLatitude" />
             </item>
            </layout>
           </widget>
@@ -620,37 +450,51 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends></extends>
-   <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>RA</tabstop>
+  <tabstop>Dec</tabstop>
+  <tabstop>ObjectButton</tabstop>
+  <tabstop>GalLongitude</tabstop>
+  <tabstop>GalLatitude</tabstop>
+  <tabstop>raCheckBatch</tabstop>
+  <tabstop>raBoxBatch</tabstop>
+  <tabstop>decCheckBatch</tabstop>
+  <tabstop>decBoxBatch</tabstop>
+  <tabstop>epochCheckBatch</tabstop>
+  <tabstop>epochBoxBatch</tabstop>
+  <tabstop>galLongCheckBatch</tabstop>
+  <tabstop>galLongBoxBatch</tabstop>
+  <tabstop>galLatCheckBatch</tabstop>
+  <tabstop>galLatBoxBatch</tabstop>
+  <tabstop>allRadioBatch</tabstop>
+  <tabstop>inputRadioBatch</tabstop>
+  <tabstop>InputFileBoxBatch</tabstop>
+  <tabstop>OutputFileBoxBatch</tabstop>
+  <tabstop>runButtonBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

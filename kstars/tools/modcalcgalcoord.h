@@ -35,21 +35,12 @@ public:
 	
 	modCalcGalCoord(QWidget *p);
 	~modCalcGalCoord();
-	/**
-	* Obtains the galactic coords. from the Box.
-	*/
-	void getGalCoords (void);
-	void getEquCoords (void);
-	double getEpoch( QString t );
-	void showEquCoords(void);
-	void showGalCoords(void);
-	void GalToEqu(void);
-	void EquToGal(void);
-	
+
 public slots:
 
-	void slotClearCoords (void);
 	void slotComputeCoords (void);
+	void slotObject();
+
 	void slotGalLatCheckedBatch(void);
 	void slotGalLongCheckedBatch(void);
 	void slotRaCheckedBatch(void);

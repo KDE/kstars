@@ -113,7 +113,7 @@
          <item>
           <widget class="QGroupBox" name="groupBox_3" >
            <property name="title" >
-            <string>Equatorial Coordinates</string>
+            <string>Equatorial Coordinates (J2000)</string>
            </property>
            <layout class="QGridLayout" >
             <property name="margin" >
@@ -744,8 +744,13 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ExtDateTimeEdit</class>
+   <extends>QFrame</extends>
    <header>extdatetimeedit.h</header>
   </customwidget>
   <customwidget>
@@ -759,14 +764,9 @@
    <header>widgets/dmsbox.h</header>
   </customwidget>
   <customwidget>
-   <class>ExtDateTimeEdit</class>
-   <extends>QFrame</extends>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
    <header>extdatetimeedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

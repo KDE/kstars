@@ -24,18 +24,23 @@
 
 #include "dms.h"
 #include "skypoint.h"
-#include "kstarsdatetime.h"
+#include "kstars.h"
+#include "finddialog.h"
 #include "widgets/dmsbox.h"
 
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	equRadio->setChecked(true);
-	raBox->setDegType(false);
+	RA->setDegType(false);
 
-	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
-	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
+	connect( RA, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+	connect( Dec, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+	connect( GalLongitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+	connect( GalLatitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+
+	connect( ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()) );
+
 	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
 	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
 	connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
@@ -49,82 +54,53 @@ modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
 modCalcGalCoord::~modCalcGalCoord() {
 }
 
-void modCalcGalCoord::getGalCoords (void) {
-
-	galLong = lgBox->createDms();
-	galLat = bgBox->createDms();
-	epoch = epochName->text();
-}
-
-void modCalcGalCoord::getEquCoords (void) {
-
-	raCoord = raBox->createDms(false);
-	decCoord = decBox->createDms();
-	epoch = epochName->text();
-}
-
-void modCalcGalCoord::slotClearCoords (void) {
-
-	raBox->clearFields();
-	decBox->clearFields();
-	lgBox->clearFields();
-	bgBox->clearFields();
-
+void modCalcGalCoord::slotObject()
+{
+	FindDialog fd( (KStars*)topLevelWidget()->parent() );
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *o = fd.currentItem();
+		RA->showInHours( o->ra() );
+		Dec->showInDegrees( o->dec() );
+		slotComputeCoords();
+	}
 }
 
 void modCalcGalCoord::slotComputeCoords (void) {
+	if ( GalLongitude->hasFocus() ) GalLongitude->clearFocus();
 
-	if(galRadio->isChecked()) {
-		getGalCoords();
-//		checkEpoch();
-		GalToEqu();
-		showEquCoords();
+	//Determine whether we should compute galactic coords from 
+	//equatorial, or vice versa
+	if ( sender()->objectName() == "RA" || sender()->objectName() == "Dec" ) {
+		//Validate RA and Dec
+		bool ok(false);
+		dms dec;
+		dms ra = RA->createDms( false, &ok );
+		if ( ok ) 
+			dec = Dec->createDms( true, &ok );
+		if ( ok ) {
+			dms glong, glat;
+			SkyPoint sp( ra, dec );
+			sp.J2000ToB1950();
+			sp.Equatorial1950ToGalactic(glong, glat);
+			GalLongitude->showInDegrees(glong);
+			GalLatitude->showInDegrees(glat);
+		}
+
 	} else {
-		getEquCoords();
-//		checkEpoch();
-		EquToGal();
-		showGalCoords();
+		//Validate GLong and GLat
+		bool ok(false);
+		dms glat;
+		dms glong = GalLongitude->createDms( true, &ok );
+		if ( ok ) 
+			glat = GalLatitude->createDms( true, &ok );
+		if ( ok ) {
+			SkyPoint sp, ra, dec;
+			sp.GalacticToEquatorial1950( &glong, &glat );
+			sp.B1950ToJ2000();
+			RA->showInHours( sp.ra() );
+			Dec->showInDegrees( sp.dec() );
+		}
 	}
-
-}
-
-void modCalcGalCoord::showEquCoords(void) {
-	raBox->show( raCoord , false);
-	decBox->show( decCoord );
-}
-
-void modCalcGalCoord::showGalCoords(void) {
-	lgBox->show( galLong );
-	bgBox->show( galLat );
-}
-
-void modCalcGalCoord::GalToEqu(void) {
-
-	SkyPoint sp = SkyPoint();
-
-	sp.GalacticToEquatorial1950(&galLong, &galLat);
-	sp.set(*sp.ra(), *sp.dec() );
-
-	KStarsDateTime dt;
-	dt.setFromEpoch( epoch );
-	long double jdf = dt.djd();
-	sp.precessFromAnyEpoch(B1950,jdf);
-
-	raCoord.set( *sp.ra() );
-	decCoord.set( *sp.dec() );
-}
-
-void modCalcGalCoord::EquToGal(void) {
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-
-	KStarsDateTime dt;
-	dt.setFromEpoch( epoch );
-	long double jd0 = dt.djd();
-	sp.precessFromAnyEpoch(jd0,B1950);
-
-	sp.Equatorial1950ToGalactic(galLong, galLat);
-
 }
 
 void modCalcGalCoord::galCheck() {
@@ -248,7 +224,6 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 	SkyPoint sp;
 	dms raB, decB, galLatB, galLongB;
 	QString epoch0B;
-	KStarsDateTime dt;
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
@@ -342,9 +317,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 					ostream << epoch0B << space;
 
 			sp = SkyPoint (raB, decB);
-			dt.setFromEpoch( epoch0B );
-			long double jdf = dt.djd();
-			sp.precessFromAnyEpoch(B1950,jdf);
+			sp.J2000ToB1950();
 			sp.Equatorial1950ToGalactic(galLongB, galLatB);
 			ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << endl;
 
