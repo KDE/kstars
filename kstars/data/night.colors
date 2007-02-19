@@ -9,6 +9,7 @@
 #990000 :CNameColor
 #880000 :CLineColor
 #550000 :CBoundColor
+#660000 :CBoundHighColor
 #440000 :MWColor 
 #AA0000 :EqColor 
 #AA0000 :EclColor 

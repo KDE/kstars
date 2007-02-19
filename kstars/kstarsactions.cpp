@@ -1042,9 +1042,10 @@ void KStars::slotShowGUIItem( bool show ) {
 }
 
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
-        KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
-        kta->setText( name );
-        kta->setActionGroup( cschemeGroup );
+	KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
+	kta->setText( name );
+	kta->setObjectName( actionName );
+	kta->setActionGroup( cschemeGroup );
 	connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
 	colorActionMenu->addAction( kta );
 }

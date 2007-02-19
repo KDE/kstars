@@ -261,7 +261,7 @@ void KStars::initActions() {
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = actionCollection()->add<KToggleAction>( "show_viewToolBar");
-        a->setText( i18n( "Show View Toolbar" ) );
+	a->setText( i18n( "Show View Toolbar" ) );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	actionCollection()->addAction( KStandardAction::ConfigureToolbars, "configure_toolbars",
@@ -269,20 +269,20 @@ void KStars::initActions() {
 
 //Statusbar view options
 	a = actionCollection()->add<KToggleAction>( "show_statusBar");
-        a->setText( i18n( "Show Statusbar" ) );
+	a->setText( i18n( "Show Statusbar" ) );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = actionCollection()->add<KToggleAction>( "show_sbAzAlt");
-        a->setText( i18n( "Show Az/Alt Field" ) );
+	a->setText( i18n( "Show Az/Alt Field" ) );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 	a = actionCollection()->add<KToggleAction>( "show_sbRADec");
-        a->setText( i18n( "Show RA/Dec Field" ) );
+	a->setText( i18n( "Show RA/Dec Field" ) );
 	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
 	colorActionMenu = actionCollection()->add<KActionMenu>( "colorschemes" );
-        a->setText( i18n( "C&olor Schemes" ) );
+	colorActionMenu->setText( i18n( "C&olor Schemes" ) );
 	addColorMenuItem( i18n( "&Default" ), "cs_default" );
 	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
 	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );

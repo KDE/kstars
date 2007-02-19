@@ -143,7 +143,7 @@ void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double sca
 		//Highlight current constellation
 		bool highlightConstellation = false;
 		if ( seg->name1().toLower() == abbrev || seg->name2().toLower() == abbrev ) {
-			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 3, Qt::SolidLine ) );
+			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
 			highlightConstellation = true;
 		}
 

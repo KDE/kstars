@@ -9,6 +9,7 @@
 #666633 :CNameColor
 #5555AA :CLineColor
 #AAAACC :CBoundColor
+#8888AA :CBoundHighColor
 #DDDDDD :MWColor
 #000000 :EqColor
 #999900 :EclColor
