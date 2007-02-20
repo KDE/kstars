@@ -75,14 +75,14 @@ void modCalcEquinox::slotCompute()
 																			"%1 on %2", tWinter.time().toString(), 
 																			tWinter.date().toString() ) );
 
-	SpringDuration->setText( i18n( "%1 days", 
-																 QString::number( double(tSummer.djd()-tSpring.djd()) ) ) );
-	SummerDuration->setText( i18n( "%1 days", 
-																 QString::number( double(tAutumn.djd()-tSummer.djd()) ) ) );
-	AutumnDuration->setText( i18n( "%1 days", 
-																 QString::number( double(tWinter.djd()-tAutumn.djd()) ) ) );
-	WinterDuration->setText( i18n( "%1 days", 
-																 QString::number( double(tSpring2.djd()-tWinter.djd()) ) ) );
+	SpringDuration->setText( i18nc( "%1 is a decimal number, hence no plural call", "%1 days", 
+																 double(tSummer.djd()-tSpring.djd()) ) );
+	SummerDuration->setText( i18nc( "%1 is a decimal number, hence no plural call", "%1 days", 
+																 double(tAutumn.djd()-tSummer.djd()) ) );
+	AutumnDuration->setText( i18nc( "%1 is a decimal number, hence no plural call", "%1 days", 
+																 double(tWinter.djd()-tAutumn.djd()) ) );
+	WinterDuration->setText( i18nc( "%1 is a decimal number, hence no plural call", "%1 days", 
+																 double(tSpring2.djd()-tWinter.djd()) ) );
 
 }
 

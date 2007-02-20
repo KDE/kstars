@@ -843,7 +843,7 @@ void KStars::slotMapProjection() {
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
-	kDebug() << i18n( "Projection system: ", Options::projection() ) << endl;
+	kDebug() << i18n( "Projection system: %1", Options::projection() ) << endl;
 
 	skymap->forceUpdate();
 }
