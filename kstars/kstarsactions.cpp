@@ -345,7 +345,7 @@ void KStars::slotGeoLocator() {
 }
 
 void KStars::slotConfigureToolbars() {
-	saveMainWindowSettings( KGlobal::config().data(), "MainWindow" );
+	saveMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
 	KEditToolbar ket(actionCollection());
 	connect( &ket, SIGNAL(newToolbarConfig()), this, SLOT(slotApplyToolbarConfig()) );
 
@@ -361,7 +361,7 @@ void KStars::slotApplyToolbarConfig() {
 	kDebug() << "Recreating GUI..." << endl;
 
 	createGUI();
-	applyMainWindowSettings( KGlobal::config().data(), "MainWindow" );
+	applyMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
 }
 
 void KStars::slotViewOps() {
@@ -559,9 +559,9 @@ void KStars::slotRunScript() {
 		QTextStream istream(&f);
 		QString line;
 		bool fileOK( true );
-#ifdef __GNUC__		
+#ifdef __GNUC__
 #warning "dcop is dead need to port test on script";
-#endif		
+#endif
 		while (  ! istream.atEnd() ) {
 			line = istream.readLine();
 			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
@@ -1077,9 +1077,11 @@ void KStars::slotAboutToQuit()
 	//explicitly save the colorscheme data to the config file
 	data()->colorScheme()->saveToConfig( KGlobal::config().data() );
 
+        KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
 	//explicitly save toolbar settings to config file
-	toolBar("kstarsToolBar")->saveSettings( KGlobal::config().data(), "MainToolBar" );
-	toolBar( "viewToolBar" )->saveSettings( KGlobal::config().data(), "ViewToolBar" );
+	toolBar("kstarsToolBar")->saveSettings( cg );
+        cg = KGlobal::config()->group( "ViewToolBar" );
+	toolBar( "viewToolBar" )->saveSettings( cg );
 
 	//synch the config file with the Config object
 	writeConfig();

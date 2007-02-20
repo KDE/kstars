@@ -57,7 +57,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
 	AAVSODialog(0), findDialog(0), kns(0), obsList(0), avt(0), wut(0),
 	sb(0), pv(0), jmt(0), indimenu(0), indidriver(0), indiseq(0),
-	DialogIsObsolete(false), StartClockRunning( clockrun ), 
+	DialogIsObsolete(false), StartClockRunning( clockrun ),
 	StartDateString( startdate )
 {
 	QDBusConnection::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportScriptableSlots);
@@ -185,8 +185,8 @@ void KStars::applyConfig() {
 //	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
 
 	//Set toolbar options from config file
-	toolBar("kstarsToolBar")->applySettings( KGlobal::config().data(), "MainToolBar" );
-	toolBar( "viewToolBar" )->applySettings( KGlobal::config().data(), "ViewToolBar" );
+	toolBar("kstarsToolBar")->applySettings( KGlobal::config()->group( "MainToolBar" ) );
+	toolBar( "viewToolBar" )->applySettings( KGlobal::config()->group( "ViewToolBar" ) );
 
 	//Geographic location
 	data()->setLocationFromOptions();
@@ -250,7 +250,7 @@ void KStars::removeImageViewer( ImageViewer *iv ) {
 	kDebug() << k_funcinfo << endl;
 
 	int i = m_ImageViewerList.indexOf( iv );
-	if ( i != -1 ) 
+	if ( i != -1 )
 		m_ImageViewerList.takeAt( i )->deleteLater();
 }
 
