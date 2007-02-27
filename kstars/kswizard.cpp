@@ -49,8 +49,6 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 KSWizard::KSWizard( KStars *_ks )
  : KDialog( _ks ),  ksw( _ks )
 {
-	GeoID.resize(10000);
-
 	wizardStack = new QStackedWidget( this );
 	setMainWidget( wizardStack );
         setCaption( i18n("KStars Startup Wizard") );

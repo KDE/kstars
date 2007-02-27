@@ -18,7 +18,6 @@
 #ifndef KSWIZARD_H_
 #define KSWIZARD_H_
 
-#include <Q3MemArray>
 #include <kdialog.h>
 
 #include "ui_wizwelcome.h"
@@ -116,7 +115,6 @@ private:
 	WizDownloadUI *download;
 
 	KStars *ksw;
-	Q3MemArray<int> GeoID;
 	GeoLocation *Geo;
 	QList<GeoLocation*> filteredCityList;
 };
