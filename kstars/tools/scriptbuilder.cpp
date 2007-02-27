@@ -363,7 +363,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	initViewOptions();
 
 	//connect widgets in ScriptBuilderUI
-        connect( this, SIGNAL(rejected()), this, SLOT(slotClose()));
+	connect( this, SIGNAL(closeClicked()), this, SLOT(slotClose()));
 	connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
 	connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
 	connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
@@ -377,7 +377,6 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( sb->SaveAsButton, SIGNAL( clicked() ), this, SLOT( slotSaveAs() ) );
 	connect( sb->AddButton, SIGNAL( clicked() ), this, SLOT( slotAddFunction() ) );
 	connect( sb->RunButton, SIGNAL( clicked() ), this, SLOT( slotRunScript() ) );
-	connect( sb->closeButton, SIGNAL(clicked()), this, SLOT(slotClose()));
 
 	//Connections for Arg Widgets
 	connect( argSetGeoLocation->FindCityButton, SIGNAL( clicked() ), this, SLOT( slotFindCity() ) );
@@ -389,8 +388,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
 	connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
 	connect( argSetAltAz->AzBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAz() ) );
-	connect( argSetLocalTime->DateBox, SIGNAL( changed(ExtDate) ), this, SLOT( slotChangeDate() ) );
-	connect( argSetLocalTime->TimeBox, SIGNAL( valueChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
+	connect( argSetLocalTime->DateBox, SIGNAL( dateChanged(ExtDate) ), this, SLOT( slotChangeDate() ) );
+	connect( argSetLocalTime->TimeBox, SIGNAL( timeChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
 	connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
 	connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
 	connect( argSetTracking->CheckTrack, SIGNAL( stateChanged(int) ), this, SLOT( slotTracking() ) );
