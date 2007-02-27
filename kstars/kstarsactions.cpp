@@ -365,8 +365,6 @@ void KStars::slotApplyToolbarConfig() {
 }
 
 void KStars::slotViewOps() {
-	KStandardDirs stdDirs;
-
 	//An instance of your dialog could be already created and could be cached,
 	//in which case you want to display the cached dialog instead of creating
 	//another one
@@ -376,8 +374,7 @@ void KStars::slotViewOps() {
 	KConfigDialog* dialog = new KConfigDialog( this, "settings",
 					     Options::self() );
 
-	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( updateSettings() ) );
-	connect( dialog, SIGNAL( okClicked() ), this, SLOT( updateSettings() ) );
+	connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );
 
 	OpsCatalog *opcatalog    = new OpsCatalog( this );
 	OpsGuides  *opguides     = new OpsGuides( this );
