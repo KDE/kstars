@@ -34,6 +34,8 @@
 #include "skymap.h"
 #include "colorscheme.h"
 
+static int ItemColorData = Qt::UserRole + 1;
+
 OpsColors::OpsColors( KStars *_ks ) 
 	: QFrame( _ks ), ksw(_ks)
 {
@@ -42,14 +44,17 @@ OpsColors::OpsColors( KStars *_ks )
 	//Populate list of adjustable colors
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
 		QPixmap col( 30, 20 );
-		col.fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
-		ColorPalette->insertItem( col, ksw->data()->colorScheme()->nameAt( i ) );
+		QColor itemColor( ksw->data()->colorScheme()->colorAt( i ) );
+		col.fill( itemColor );
+		QListWidgetItem *item = new QListWidgetItem( ksw->data()->colorScheme()->nameAt( i ), ColorPalette );
+		item->setData( Qt::DecorationRole, col );
+		item->setData( ItemColorData, itemColor );
 	}
 
-	PresetBox->insertItem( i18nc( "use default color scheme", "Default Colors" ) );
-	PresetBox->insertItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
-	PresetBox->insertItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
-	PresetBox->insertItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
+	PresetBox->addItem( i18nc( "use default color scheme", "Default Colors" ) );
+	PresetBox->addItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+	PresetBox->addItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+	PresetBox->addItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
 	PresetFileList.append( "default.colors" );
 	PresetFileList.append( "chart.colors" );
@@ -66,7 +71,7 @@ OpsColors::OpsColors( KStars *_ks )
 			line = stream.readLine();
 			schemeName = line.left( line.indexOf( ':' ) );
 			filename = line.mid( line.indexOf( ':' ) +1, line.length() );
-			PresetBox->insertItem( schemeName );
+			PresetBox->addItem( schemeName );
 			PresetFileList.append( filename );
 	  }
 		file.close();
@@ -84,10 +89,10 @@ OpsColors::OpsColors( KStars *_ks )
 	else
 		kcfg_StarColorIntensity->setEnabled( true );
 		
-	connect( ColorPalette, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( newColor( Q3ListBoxItem* ) ) );
+	connect( ColorPalette, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( newColor( QListWidgetItem* ) ) );
 	connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
 	connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
-	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+	connect( PresetBox, SIGNAL( currentRowChanged( int ) ), this, SLOT( slotPreset( int ) ) );
 	connect( AddPreset, SIGNAL( clicked() ), this, SLOT( slotAddPreset() ) );
 	connect( RemovePreset, SIGNAL( clicked() ), this, SLOT( slotRemovePreset() ) );
 
@@ -97,25 +102,23 @@ OpsColors::OpsColors( KStars *_ks )
 //empty destructor
 OpsColors::~OpsColors() {}
 
-void OpsColors::newColor( Q3ListBoxItem *item ) {
+void OpsColors::newColor( QListWidgetItem *item ) {
+	if ( !item ) return;
+
 	QPixmap pixmap( 30, 20 );
 	QColor NewColor;
-	unsigned int i;
 
-	for ( i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-		if ( item->text() == ksw->data()->colorScheme()->nameAt( i ) ) {
-			QColor col( ksw->data()->colorScheme()->colorAt( i ) );
-
-			if(KColorDialog::getColor( col )) NewColor = col;
-			break;
-		}
-	}
+	int index = ColorPalette->row( item );
+	if ( index < 0 || index >= ColorPalette->count() ) return;
+	QColor col = item->data( ItemColorData ).value<QColor>();
+	if ( KColorDialog::getColor( col ) ) NewColor = col;
 
 	//NewColor will only be valid if the above if statement was found to be true during one of the for loop iterations
 	if ( NewColor.isValid() ) {
 		pixmap.fill( NewColor );
-		ColorPalette->changeItem( pixmap, item->text(), ColorPalette->index( item ) );
-		ksw->data()->colorScheme()->setColor( ksw->data()->colorScheme()->keyAt( i ), NewColor.name() );
+		item->setData( Qt::DecorationRole, pixmap );
+		item->setData( ItemColorData, NewColor );
+		ksw->data()->colorScheme()->setColor( ksw->data()->colorScheme()->keyAt( index ), NewColor.name() );
 	}
 
 	ksw->map()->forceUpdate();
@@ -151,8 +154,10 @@ bool OpsColors::setColors( QString filename ) {
 		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-		temp.fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
-		ColorPalette->changeItem( temp, ksw->data()->colorScheme()->nameAt( i ), i );
+		QColor itemColor( ksw->data()->colorScheme()->colorAt( i ) );
+		temp.fill( itemColor );
+		ColorPalette->item( i )->setData( Qt::DecorationRole, temp );
+		ColorPalette->item( i )->setData( ItemColorData, itemColor );
 	}
 
 	ksw->map()->forceUpdate();
@@ -167,18 +172,20 @@ void OpsColors::slotAddPreset() {
 
 	if ( okPressed && ! schemename.isEmpty() ) {
 		if ( ksw->data()->colorScheme()->save( schemename ) ) {
-			PresetBox->insertItem( schemename );
-			PresetBox->setCurrentItem( PresetBox->findItem( schemename ) );
+			QListWidgetItem *item = new QListWidgetItem( schemename, PresetBox );
 			QString fname = ksw->data()->colorScheme()->fileName();
 			PresetFileList.append( fname );
 			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8() );
+			PresetBox->setCurrentItem( item );
 		}
 	}
 }
 
 void OpsColors::slotRemovePreset() {
-	QString name = PresetBox->currentText();
-	QString filename = PresetFileList[ PresetBox->currentItem() ];
+	QListWidgetItem *current = PresetBox->currentItem();
+	if ( !current ) return;
+	QString name = current->text();
+	QString filename = PresetFileList[ PresetBox->currentRow() ];
 	QFile cdatFile;
 	cdatFile.setFileName( KStandardDirs::locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
@@ -190,16 +197,12 @@ void OpsColors::slotRemovePreset() {
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 	} else {
 		//Remove entry from the ListBox and from the QStringList holding filenames.
-		//We don't want another color scheme to be selected, so first
-		//temporarily disconnect the "highlighted" signal.
-		disconnect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
-		PresetBox->removeItem( PresetBox->currentItem() );
-		PresetBox->setCurrentItem( -1 );
+		//There seems to be no way to set no item selected, so select
+		// the first item.
+		PresetBox->setCurrentRow(0);
+		delete current;
 		RemovePreset->setEnabled( false );
 		
-		//Reconnect the "highlighted" signal
-		connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
-
 		//Read the contents of colors.dat into a QStringList, except for the entry to be removed.
 		QTextStream stream( &cdatFile );
 		QStringList slist;

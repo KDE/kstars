@@ -47,7 +47,7 @@ public:
 	~OpsColors();
 
 private slots:
-	void newColor( Q3ListBoxItem* item );
+	void newColor( QListWidgetItem* item );
 	void slotPreset( int i );
 	void slotAddPreset();
 	void slotRemovePreset();
