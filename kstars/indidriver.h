@@ -31,7 +31,6 @@ class QIcon;
 
 class KStars;
 
-class K3ListView;
 class KMenu;
 class KProcess;
 

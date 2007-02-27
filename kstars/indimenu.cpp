@@ -44,7 +44,6 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <k3listview.h>
 #include <kdebug.h>
 #include <kcombobox.h>
 #include <knuminput.h>

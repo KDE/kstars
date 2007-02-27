@@ -27,7 +27,6 @@
 #include <kprinter.h>
 #include <ktemporaryfile.h>
 #include <kurl.h>
-#include <k3listview.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <knuminput.h>
