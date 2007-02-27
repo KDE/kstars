@@ -15,9 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3dragobject.h>
-//Added by qt3to4:
 #include <QDragEnterEvent>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QDropEvent>
 #include <klocale.h>
@@ -38,8 +37,8 @@ DragListBox::~DragListBox() {}
 
 void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
 {
-	if ( Q3TextDrag::canDecode( evt ) )
-		evt->accept();
+	if ( evt->mimeData()->hasText() )
+		evt->acceptProposedAction();
 }
 
 bool DragListBox::contains( const QString &s ) const {
@@ -72,6 +71,7 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 			delete fp->takeItem( fp->currentRow() );
 		}
 	}
+	evt->acceptProposedAction();
 }
 
 
