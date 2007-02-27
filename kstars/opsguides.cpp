@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <q3buttongroup.h>
 #include <qcheckbox.h>
 #include "opsguides.h"
 

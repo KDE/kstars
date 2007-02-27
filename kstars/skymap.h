@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QMouseEvent>
-#include <Q3PointArray>
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QResizeEvent>
@@ -36,7 +35,6 @@
 class QPainter;
 class QPaintDevice;
 class QPoint;
-class Q3PointArray;
 class QPixmap;
 
 class dms;

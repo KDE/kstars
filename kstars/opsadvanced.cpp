@@ -17,7 +17,6 @@
 
 #include <qlabel.h>
 #include <qcheckbox.h>
-#include <q3groupbox.h>
 
 #include "opsadvanced.h"
 #include "Options.h"

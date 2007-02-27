@@ -19,7 +19,6 @@
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
-#include <Q3PtrList>
 
 #include <kapplication.h>
 #include <kmessagebox.h>

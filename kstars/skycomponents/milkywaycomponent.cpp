@@ -21,7 +21,6 @@
 #include <QPointF>
 #include <QPolygonF>
 #include <QPainter>
-#include <Q3PointArray>
 #include <QFile>
 
 #include "skycomposite.h"

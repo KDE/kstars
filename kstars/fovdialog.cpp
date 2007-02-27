@@ -17,7 +17,7 @@
 
 #include <qlayout.h>
 #include <qfile.h>
-#include <q3frame.h>
+#include <qframe.h>
 #include <qpainter.h>
 #include <qstringlist.h>
 //Added by qt3to4:

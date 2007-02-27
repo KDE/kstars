@@ -18,8 +18,6 @@
 #ifndef MODCALCJD_H_
 #define MODCALCJD_H_
 
-#include <q3vbox.h>
-
 #include <kapplication.h>
 #include "ui_modcalcjd.h"
 
