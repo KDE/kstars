@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <Q3PtrList>
 /***************************************************************************
                           deepskycomponent.h  -  K Desktop Planetarium
                              -------------------
