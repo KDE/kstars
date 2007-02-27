@@ -48,15 +48,11 @@
 
 #include <kdialog.h>
 #include "geolocation.h"
-#include "ui_locationdialog.h"
 
 class KStars;
-
-class LocationDialogUI : public QFrame, public Ui::LocationDialog {
-	Q_OBJECT
-	public:
-		LocationDialogUI( QWidget *parent );
-};
+namespace Ui {
+class LocationDialog;
+}
 
 class LocationDialog : public KDialog {
 	Q_OBJECT
@@ -144,7 +140,7 @@ private:
 	
 	bool dataModified, nameModified, bCityAdded;
 
-	LocationDialogUI *ui;
+	Ui::LocationDialog *ui;
 	KStars *ksw;
 	GeoLocation *SelectedCity;
 	QList<GeoLocation*> filteredCityList;

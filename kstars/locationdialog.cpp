@@ -28,16 +28,13 @@
 #include "kstarsdata.h"
 
 #include "locationdialog.h"
-
-LocationDialogUI::LocationDialogUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( this );
-}
+#include "ui_locationdialog.h"
 
 LocationDialog::LocationDialog( KStars *_ks )
     : KDialog( _ks ),  ksw( _ks )
 {
-	ui = new LocationDialogUI( this );
-	setMainWidget( ui );
+	ui = new Ui::LocationDialog();
+	ui->setupUi( mainWidget() );
 	setCaption( i18n( "Set Geographic Location" ) );
 	setButtons( KDialog::Ok|KDialog::Cancel );
 
