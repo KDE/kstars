@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <q3datetimeedit.h>  //need for QTimeEdit
 //#include <qcheckbox.h>
 //#include <qradiobutton.h>
 //#include <qstring.h>

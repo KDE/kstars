@@ -19,7 +19,6 @@
 #include "modcalcjd.moc"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-//#include <q3datetimeedit.h>  //need for QTimeEdit
 #include <qradiobutton.h>
 #include <klineedit.h>
 #include <klocale.h>

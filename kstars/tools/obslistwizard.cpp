@@ -17,7 +17,6 @@
 //#include <qcheckbox.h>
 //#include <qlabel.h>
 //#include <qlayout.h>
-//#include <q3widgetstack.h>
 
 #include <QVBoxLayout>
 #include <QFrame>

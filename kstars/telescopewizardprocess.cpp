@@ -18,7 +18,6 @@
 #include <QRadioButton>
 #include <QProgressBar>
 
-#include <k3listview.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <kprogressdialog.h>

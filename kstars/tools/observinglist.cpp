@@ -22,11 +22,9 @@
 //#include <qlabel.h>
 //#include <qlayout.h>
 //#include <qstringlist.h>
-//#include <q3widgetstack.h>
 #include <QFrame>
 #include <QTextStream>
 
-#include <k3listview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
