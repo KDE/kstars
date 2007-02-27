@@ -66,9 +66,8 @@ LocationDialog::LocationDialog( KStars *_ks )
 	connect( ui->AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
 	connect( ui->ClearFieldsButton, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
 
-	ui->DSTLabel->setNotifyClick( true );
-	ui->DSTLabel->setHtml( "<a href=\"showrules\">" + i18n("DST Rule:") + "</a>" );
-	connect( ui->DSTLabel, SIGNAL( urlClick(const QString &) ), this, SLOT( showTZRules() ) );
+	ui->DSTLabel->setText( "<a href=\"showrules\">" + i18n("DST Rule:") + "</a>" );
+	connect( ui->DSTLabel, SIGNAL( linkActivated(const QString &) ), this, SLOT( showTZRules() ) );
 
 	dataModified = false;
 	nameModified = false;
