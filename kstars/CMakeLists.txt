@@ -216,8 +216,6 @@ install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstar
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 endif (WIN32)
-##DCOP_IS_DEAD
-install( FILES  DESTINATION  ${INCLUDE_INSTALL_DIR} )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
 
