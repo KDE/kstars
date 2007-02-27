@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>FindDialog</class>
  <widget class="QWidget" name="FindDialog" >
   <property name="geometry" >
@@ -38,7 +35,11 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="SearchBox" />
+      <widget class="KLineEdit" name="SearchBox" >
+       <property name="showClearButton" stdset="0" >
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -63,25 +64,20 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="SearchList" />
+    <widget class="QListView" name="SearchList" />
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
-   <extends></extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
-   <extends></extends>
+   <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

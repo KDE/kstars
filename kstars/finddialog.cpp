@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QSortFilterProxyModel>
+#include <QStringListModel>
 #include <QTimer>
 
 #include <kmessagebox.h>
@@ -24,6 +26,45 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skyobject.h"
+
+static int AstroTypeRole = Qt::UserRole + 1;
+
+class AstroFindProxyModel : public QSortFilterProxyModel {
+	public:
+		AstroFindProxyModel( QObject *parent = 0 );
+		void setObjectType( int type );
+
+	protected:
+		virtual bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const;
+
+	private:
+		int objectType;
+};
+
+AstroFindProxyModel::AstroFindProxyModel( QObject *parent ) : QSortFilterProxyModel( parent ) {
+	setFilterCaseSensitivity( Qt::CaseInsensitive );
+	setDynamicSortFilter( true );
+	objectType = 0;
+}
+
+void AstroFindProxyModel::setObjectType( int type ) {
+	objectType = type;
+	// force the proxy model to update
+	setFilterFixedString( filterRegExp().pattern() );
+}
+
+bool AstroFindProxyModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const {
+	bool accept = true;
+	if ( objectType != 0 ) {
+		QVariant atype = source_parent.data( AstroTypeRole );
+		accept = atype.type() == QVariant::Int ? ( atype.toInt() == objectType ) : false;
+	}
+	if ( accept ) {
+		accept = QSortFilterProxyModel::filterAcceptsRow( source_row, source_parent );
+	}
+	return accept;
+}
+
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
@@ -45,21 +86,22 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 FindDialog::FindDialog( QWidget* parent )
-    : KDialog( parent ), currentitem(0), Filter(0)
+    : KDialog( parent ), currentitem(0), timer(0)
 {
 	ui = new FindDialogUI( this );
 	setMainWidget( ui );
         setCaption( i18n( "Find Object" ) );
         setButtons( KDialog::Ok|KDialog::Cancel );
 
+	sortModel = new AstroFindProxyModel( ui->SearchList );
+
 //Connect signals to slots
 //	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
 	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-	connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
+	connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
 	connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
 	connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect( ui->SearchList, SIGNAL (itemSelectionChanged()), SLOT (updateSelection()));
-	connect( ui->SearchList, SIGNAL( itemDoubleClicked ( QListWidgetItem *  ) ), SLOT( slotOk() ) );
+	connect( ui->SearchList, SIGNAL( doubleClicked( const QModelIndex & ) ), SLOT( slotOk() ) );
 
 	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 	// first create and paint dialog and then load list
@@ -72,101 +114,58 @@ FindDialog::~FindDialog() {
 void FindDialog::init() {
 	ui->SearchBox->clear();
 	ui->FilterType->setCurrentIndex(0);  // show all types of objects
-	filter();
+
+	KStars *p = (KStars *)parent();
+	// FIXME instead of a simple QStringListModel, there should be a custom
+	// implementation of QAbstractListModel, able to return also the
+	// id for the AstroTypeRole custom role.
+	QStringListModel *dataModel = new QStringListModel( sortModel );
+	dataModel->setStringList( p->data()->skyComposite()->objectNames() );
+	sortModel->setSourceModel( dataModel );
+	sortModel->sort( 0 );
+	ui->SearchList->setModel( sortModel );
+	updateSelection();
 }
 
 void FindDialog::filter() {  //Filter the list of names with the string in the SearchBox
-	KStars *p = (KStars *)parent();
-
-	ui->SearchList->clear();
-	QStringList ObjNames;
-
-	QString searchString = ui->SearchBox->text();
-	if ( searchString.isEmpty() ) {
-		ObjNames = p->data()->skyComposite()->objectNames();
-	} else {
-		QRegExp rx('^'+searchString);
-		rx.setCaseSensitivity( Qt::CaseInsensitive );
-		ObjNames = p->data()->skyComposite()->objectNames().filter(rx);
-	}
-	ObjNames.sort();
-
-//	if ( ObjNames.size() ) {
-//		if ( ObjNames.size() > 5000) {
-//			int index=0;
-//			while ( index+1000 < ObjNames.size() ) {
-//				ui->SearchList->addItems( ObjNames.mid( index, 1000 ) );
-//				index += 1000;
-//				kapp->processEvents();
-//			}
-//		} else
-			ui->SearchList->addItems( ObjNames );
-//	}
-
-	//If there's a search string, select the first object.  Otherwise, select a default object
-	//(because the first unfiltered object is some random comet)
-	if ( searchString.isEmpty() ) {
-		QListWidgetItem *defaultItem = ui->SearchList->findItems( i18n("Andromeda Galaxy"), Qt::MatchExactly )[0];
-		ui->SearchList->scrollToItem( defaultItem, QAbstractItemView::PositionAtTop );
-		ui->SearchList->setCurrentItem( defaultItem );
-
-	} else
-			selectFirstItem(); 
-
-	ui->SearchBox->setFocus();  // set cursor to QLineEdit
-}
-
-void FindDialog::filterByType() {
-	KStars *p = (KStars *)parent();
-
-	ui->SearchList->clear();	// QListBox
-	QString searchFor = ui->SearchBox->text().toLower();  // search string
-
-	QStringList ObjNames;
-
-	foreach ( const QString &name, p->data()->skyComposite()->objectNames() ) {
-		//FIXME: We need pointers to the objects to filter by type
-	}
-
-	selectFirstItem();    // Automatically highlight first item
-	ui->SearchBox->setFocus();  // set cursor to QLineEdit
-}
-
-void FindDialog::selectFirstItem() {
-	if( ui->SearchList->item(0))
-		ui->SearchList->setCurrentItem( ui->SearchList->item(0) );
+	sortModel->setFilterFixedString( ui->SearchBox->text() );
+	updateSelection();
 }
 
 void FindDialog::updateSelection() {
-	KStars *p = (KStars *)parent();
-	if ( ui->SearchList->selectedItems().size() ) {
-		QString objName = ui->SearchList->selectedItems()[0]->text();
-		currentitem = p->data()->skyComposite()->findByName( objName );
-		ui->SearchBox->setFocus();  // set cursor to QLineEdit
+	if ( sortModel->rowCount() <= 0 ) {
+		currentitem = 0;
+		button( Ok )->setEnabled( false );
+		return;
 	}
+
+	QModelIndex first = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
+	if ( first.isValid() )
+		ui->SearchList->selectionModel()->select( first, QItemSelectionModel::ClearAndSelect );
+
+	KStars *p = (KStars *)parent();
+	QString objName = first.data().toString();
+	currentitem = p->data()->skyComposite()->findByName( objName );
+	button( Ok )->setEnabled( true );
 }
 
 void FindDialog::setFilter( int f ) {
-        // Translate the Listbox index to the correct SkyObject Type ID
-        int f2( f ); // in most cases, they are the same number
-	if ( f >= 7 ) f2 = f + 1; //need to skip unused "Supernova Remnant" Type at position 7
-
-        // check if filter was changed or if filter is still the same
-	if ( Filter != f2 ) {
-		Filter = f2;
-		if ( Filter == 0 ) {  // any type will shown
-		// delete old connections and create new connections
-			disconnect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterByType() ) );
-			connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
-			filter();
-		}
-		else {
-		// delete old connections and create new connections
-			disconnect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filter() ) );
-			connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filterByType() ) );
-			filterByType();
-		}
+	if ( timer ) {
+		timer->stop();
 	}
+	sortModel->setObjectType( f );
+	updateSelection();
+}
+
+void FindDialog::enqueueSearch() {
+	if ( timer ) {
+		timer->stop();
+	} else {
+		timer = new QTimer( this );
+		timer->setSingleShot( true );
+		connect( timer, SIGNAL( timeout() ), this, SLOT( filter() ) );
+	}
+	timer->start( 500 );
 }
 
 void FindDialog::slotOk() {
@@ -181,6 +180,7 @@ void FindDialog::slotOk() {
 
 void FindDialog::keyPressEvent( QKeyEvent *e ) {
 	switch( e->key() ) {
+#if 0
 		case Qt::Key_Down :
 			if ( ui->SearchList->currentRow() < ((int) ui->SearchList->count()) - 1 )
 				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() + 1 );
@@ -191,6 +191,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
 				ui->SearchList->setCurrentRow( ui->SearchList->currentRow() - 1 );
 			break;
 
+#endif
 		case Qt::Key_Escape :
 			reject();
 			break;

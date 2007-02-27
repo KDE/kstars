@@ -28,6 +28,10 @@
 #include "ui_finddialog.h"
 #include "skyobject.h"
 
+class QTimer;
+
+class AstroFindProxyModel;
+
 class FindDialogUI : public QFrame, public Ui::FindDialog {
 	Q_OBJECT
 	public:
@@ -66,11 +70,6 @@ public slots:
 	*/
 	void filter();
 
-/**When the selection of the object type QComboBox is changed, filter 
-	*the List of objects so that only objects of the selected Type are shown.
-	*/
-	void filterByType();
-	
 	//FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
 /**Overloading the Standard KDialogBase slotOk() to show a "sorry" message 
 	*box if no object is selected when the user presses Ok.  The window is 
@@ -87,6 +86,8 @@ private slots:
 	*/
 	void updateSelection();
 
+	void enqueueSearch();
+
 /**Filter the list of named objects according to the given object type
  *@param f The integer representation of the object type
  *@see SkyObject
@@ -102,15 +103,10 @@ protected:
 	void keyPressEvent( QKeyEvent *e );
 
 private:
-/**
-	*Highlight the first item in the list
-	*/
-	void selectFirstItem();
-	
 	FindDialogUI* ui;
 	SkyObject* currentitem;
-	
-	int Filter;
+	AstroFindProxyModel* sortModel;
+	QTimer* timer;
 };
 
 #endif
