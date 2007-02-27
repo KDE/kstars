@@ -256,17 +256,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
 
 	//Add icons to Push Buttons
-	KIconLoader *icons = KIconLoader::global();
-	sb->NewButton->setIcon( icons->loadIcon( "filenew", K3Icon::Toolbar ) );
-	sb->OpenButton->setIcon( icons->loadIcon( "fileopen", K3Icon::Toolbar ) );
-	sb->SaveButton->setIcon( icons->loadIcon( "filesave", K3Icon::Toolbar ) );
-	sb->SaveAsButton->setIcon( icons->loadIcon( "filesaveas", K3Icon::Toolbar ) );
-	sb->RunButton->setIcon( icons->loadIcon( "launch", K3Icon::Toolbar ) );
-	sb->CopyButton->setIcon( icons->loadIcon( "reload", K3Icon::Toolbar ) );
-	sb->AddButton->setIcon( icons->loadIcon( "back", K3Icon::Toolbar ) );
-	sb->RemoveButton->setIcon( icons->loadIcon( "forward", K3Icon::Toolbar ) );
-	sb->UpButton->setIcon( icons->loadIcon( "up", K3Icon::Toolbar ) );
-	sb->DownButton->setIcon( icons->loadIcon( "down", K3Icon::Toolbar ) );
+	sb->NewButton->setIcon( KIcon( "filenew" ) );
+	sb->OpenButton->setIcon( KIcon( "fileopen" ) );
+	sb->SaveButton->setIcon( KIcon( "filesave" ) );
+	sb->SaveAsButton->setIcon( KIcon( "filesaveas" ) );
+	sb->RunButton->setIcon( KIcon( "launch" ) );
+	sb->CopyButton->setIcon( KIcon( "reload" ) );
+	sb->AddButton->setIcon( KIcon( "back" ) );
+	sb->RemoveButton->setIcon( KIcon( "forward" ) );
+	sb->UpButton->setIcon( KIcon( "up" ) );
+	sb->DownButton->setIcon( KIcon( "down" ) );
 
 	//Prepare the widget stack
 	argBlank = new QWidget();

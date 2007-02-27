@@ -129,7 +129,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
     KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     action = actionCollection()->addAction("zoom_default" );
-    action->setIcon(KIcon("viewmagfit.png"));
+    action->setIcon(KIcon("viewmagfit"));
     action->setText(i18n( "&Default Zoom" ));
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));
@@ -138,7 +138,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
     action = actionCollection()->addAction("fits_editor");
-    action->setIcon(KIcon("frame_spreadsheet.png"));
+    action->setIcon(KIcon("frame_spreadsheet"));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(fitsHeader()));
 
