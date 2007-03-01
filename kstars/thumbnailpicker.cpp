@@ -22,7 +22,6 @@
 #include <kjobuidelegate.h>
 #include <kio/copyjob.h>
 
-#include <kapplication.h>
 #include <kdeversion.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
@@ -179,7 +178,7 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 
 	//Add image to list
 	//If image is taller than desktop, rescale it.
-	//I tried to use kapp->style().pixelMetric( QStyle::PM_TitleBarHeight )
+	//I tried to use QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight )
 	//for the titlebar height, but this returned zero.
 	//Hard-coding 25 instead :(
 	if ( tmp.exists() ) {
@@ -194,11 +193,11 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 		uint w = im.width();
 		uint h = im.height();
 		uint pad = 0; /*FIXME LATER 4* KDialogBase::marginHint() + 2*ui->SearchLabel->height() + KDialogBase::actionButton( KDialogBase::Ok )->height() + 25;*/
-		uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
+		uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
 
 //	this returns zero...
 // 		//DEBUG
-// 		kDebug() << "Title bar height: " << kapp->style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
+// 		kDebug() << "Title bar height: " << QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
 
 		if ( h > hDesk )
 			im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
@@ -331,7 +330,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			uint w = im.width();
 			uint h = im.height();
 			uint pad = 0;/* FIXME later 4*marginHint() + 2*ui->SearchLabel->height() + actionButton( Ok )->height() + 25; */
-			uint hDesk = kapp->desktop()->availableGeometry().height() - pad;
+			uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
 
 			if ( h > hDesk )
 				im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );

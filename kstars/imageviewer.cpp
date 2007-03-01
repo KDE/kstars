@@ -23,6 +23,7 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
+#include <QApplication>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -37,8 +38,6 @@
 #include <ktoolbar.h>
 #include "imageviewer.h"
 #include "kstars.h"
-
-#include <kapplication.h>
 
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {
@@ -177,7 +176,7 @@ void ImageViewer::showImage()
 
 	//If the image is larger than screen width and/or screen height,
 	//shrink it to fit the screen
-	QRect deskRect = kapp->desktop()->availableGeometry();
+	QRect deskRect = QApplication::desktop()->availableGeometry();
 	int w = deskRect.width(); // screen width
 	int h = deskRect.height(); // screen height
 

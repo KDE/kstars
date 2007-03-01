@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QApplication>
 #include <QProgressBar>
 
 #include <kdeversion.h>
-#include <kapplication.h>
 #include <kaction.h>
+#include <kcomponentdata.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
@@ -60,7 +61,7 @@ bool KSNewStuff::install( const QString &fileName )
 
 	archiveDir->copyTo(destDir);
 	archive.close();
-	kapp->processEvents();
+	qApp->processEvents();
 	
 	//read the new data into the program
 	//this return might be the result of checking if everything is installed ok
@@ -86,7 +87,7 @@ void KSNewStuff::updateData( const QString &path ) {
 		prog.progressBar()->setMinimum( 0 );  
 		prog.progressBar()->setMaximum( 0 );  //show generic progress activity
 		prog.show();
-		kapp->processEvents();
+		qApp->processEvents();
 		
 		ks->data()->skyComposite()->reloadDeepSky( ks->data() );
 
@@ -128,7 +129,7 @@ void KSNewStuff::updateData( const QString &path ) {
 	ks->setCursor(QCursor(Qt::ArrowCursor));
 }
 
-void KSNewStuff::slotProcessEvents() { kapp->processEvents(); }
+void KSNewStuff::slotProcessEvents() { qApp->processEvents(); }
 
 #include "ksnewstuff.moc"
 
