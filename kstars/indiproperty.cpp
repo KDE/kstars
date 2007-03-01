@@ -41,7 +41,6 @@
  #include <qtimer.h>
  #include <qfile.h>
  #include <qdatastream.h>
- #include <qtooltip.h>
  #include <QFrame>
  #include <QHBoxLayout>
  #include <QVBoxLayout>

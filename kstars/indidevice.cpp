@@ -56,7 +56,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
-#include <QToolTip>
 #include <QButtonGroup>
 #include <QSocketNotifier>
 #include <QDateTime>

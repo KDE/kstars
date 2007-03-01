@@ -24,7 +24,6 @@
 
 #include <qregexp.h>
 #include <qstring.h>
-#include <QToolTip>
 #include <QFocusEvent>
 
 dmsBox::dmsBox(QWidget *parent, bool dg)
