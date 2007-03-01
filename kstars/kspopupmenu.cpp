@@ -307,8 +307,8 @@ bool KSPopupMenu::addINDI(void)
 			if (!dev->INDIStdSupport)
 				continue;
 
-			menuDevice = new KMenu();
-			insertItem(dev->label, menuDevice);
+			menuDevice = new KMenu(dev->label);
+			addMenu(menuDevice);
 
 			foreach (grp, dev->gl )
 			{
