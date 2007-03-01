@@ -451,7 +451,7 @@ void INDI_P::addGUI (XMLEle *root)
 	   label_w = new QLabel(label, pg->propertyContainer);
 
 	   label_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	   label_w->setFrameShape( QLabel::GroupBoxPanel );
+	   label_w->setFrameShape( QFrame::StyledPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setTextFormat( Qt::RichText );

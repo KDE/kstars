@@ -257,8 +257,10 @@ void CCDPreviewWG::captureImage()
 }
 
 
-CCDVideoWG::CCDVideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+CCDVideoWG::CCDVideoWG(QWidget * parent) : QFrame(parent)
 {
+  setObjectName(QLatin1String("CCDPreviewFrame"));
+  setAttribute(Qt::WA_OpaquePaintEvent);
   streamImage    = NULL;
   streamBuffer	  = NULL;
   displayBuffer    = NULL;
@@ -373,7 +375,9 @@ void CCDVideoWG::paintEvent(QPaintEvent */*ev*/)
 	streamImage = NULL;
    }
    
-   bitBlt(this, 0, 0, &kPix);
+   QPainter p(this);
+   p.drawPixmap(0, 0, kPix);
+   p.end();
    
 }
 

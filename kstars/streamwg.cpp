@@ -206,8 +206,9 @@ void StreamWG::captureImage()
 }
 
 
-VideoWG::VideoWG(QWidget * parent) : QFrame(parent, Qt::WNoAutoErase)
+VideoWG::VideoWG(QWidget * parent) : QFrame(parent)
 {
+  setAttribute(Qt::WA_OpaquePaintEvent);
   streamImage    = NULL;
   grayTable=new QRgb[256];
   for (int i=0;i<256;i++)

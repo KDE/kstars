@@ -85,7 +85,7 @@ class CCDPreviewWG : public QWidget, public Ui::CCDPreviewForm
       Q_OBJECT
    
     public:
-      CCDVideoWG(QWidget * parent =0, const char * name="CCDPreviewFrame");
+      CCDVideoWG(QWidget * parent =0);
       ~CCDVideoWG();
       
       friend class CCDPreviewWG;
