@@ -18,7 +18,6 @@
 #include <stdlib.h>
 
 #include <QToolTip>
-#include <QWhatsThis>
 #include <QHBoxLayout>
 
 #include <kdebug.h>
