@@ -20,7 +20,6 @@
 
 #include <QTreeWidgetItem>
 #include <kdialog.h>
-#include <kapplication.h>
 
 #include "dms.h"
 

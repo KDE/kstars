@@ -30,8 +30,6 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-//#include <kapplication.h> ..already included in modcalcapcoord.h
-
 modCalcAngDist::modCalcAngDist(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 

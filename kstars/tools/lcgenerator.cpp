@@ -21,7 +21,6 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kapplication.h>
 
 #include "lcgenerator.h"
 #include "imageviewer.h"

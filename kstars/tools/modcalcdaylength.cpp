@@ -30,8 +30,6 @@
 #include "widgets/timebox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-// #include <kapplication.h> 
-
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit) 
 : QFrame(parentSplit) {
 	setupUi(this);

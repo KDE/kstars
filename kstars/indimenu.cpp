@@ -41,7 +41,6 @@
 #include <kled.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>

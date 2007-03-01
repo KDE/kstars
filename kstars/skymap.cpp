@@ -28,9 +28,9 @@
 #include <QEvent>
 #include <QFile>
 #include <QPointF>
+#include <QApplication>
 
 #include <kactioncollection.h>
-#include <kapplication.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -690,7 +690,7 @@ void SkyMap::slewFocus( void ) {
 					fadeTransientLabel();
 
 				forceUpdate();
-				kapp->processEvents(); //keep up with other stuff
+				qApp->processEvents(); //keep up with other stuff
 
 				if ( Options::useAltAz() ) {
 					dX = destination()->az()->Degrees() - focus()->az()->Degrees();

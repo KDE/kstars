@@ -587,7 +587,7 @@ void KStars::slotRunScript() {
 		p << f.fileName();
 		p.start( KProcess::DontCare );
 
-		while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
+		while ( p.isRunning() ) qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
 	}
 }
 

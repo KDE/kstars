@@ -29,7 +29,6 @@
 #include <QVBoxLayout>
 #include <QTreeWidgetItem>
 
-#include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>

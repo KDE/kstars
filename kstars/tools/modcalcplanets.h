@@ -18,7 +18,6 @@
 #ifndef MODCALCPLANETS_H_
 #define MODCALCPLANETS_H_
 
-#include <kapplication.h>
 #include <QTextStream>
 
 #include "ui_modcalcplanets.h"

@@ -18,7 +18,6 @@
 #ifndef MODCALCSIDTIME_H_
 #define MODCALCSIDTIME_H_
 
-#include <kapplication.h>
 #include <QTextStream>
 #include "ui_modcalcsidtime.h"
 #include "widgets/calcframe.h"

@@ -27,7 +27,6 @@
 
 #include <kdebug.h>
 #include <ktoolbar.h>
-#include <kapplication.h>
 #include <ktemporaryfile.h>
 #include <kimageeffect.h>
 #include <kmenubar.h>
@@ -43,11 +42,11 @@
 #include <QClipboard>
 #include <QImage>
 #include <QRegExp>
-
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QTreeWidget>
 #include <QHeaderView>
+#include <QApplication>
 
 #include <math.h>
 #include <unistd.h>
@@ -311,7 +310,7 @@ void FITSViewer::fileSaveAs()
 
 void FITSViewer::fitsCOPY()
 {
-   kapp->clipboard()->setImage(*image->displayImage);
+   QApplication::clipboard()->setImage(*image->displayImage);
 }
 
 void FITSViewer::imageHistogram()

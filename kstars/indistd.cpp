@@ -46,7 +46,6 @@
  #include <klineedit.h>
  #include <kstatusbar.h>
  #include <kmessagebox.h>
- #include <kapplication.h>
  #include <kprogressdialog.h>
  #include <kurl.h>
  #include <kdirlister.h>

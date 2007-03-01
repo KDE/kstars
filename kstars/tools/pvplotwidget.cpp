@@ -16,7 +16,7 @@
 
 #include <math.h> //for sqrt()
 
-#include <kapplication.h>
+#include <qapplication.h>
 
 #include "pvplotwidget.h"
 #include "planetviewer.h"
@@ -203,7 +203,7 @@ void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 			setLimits( xc - 0.5*dataRect().width(), xc + 0.5*dataRect().width(), 
 					yc - 0.5*dataRect().height(), yc + 0.5*dataRect().height() );
 			update();
-			kapp->processEvents();
+			qApp->processEvents();
 		}
 		
 		oldx = e->x();

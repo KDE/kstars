@@ -23,9 +23,9 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QCloseEvent>
+#include <QApplication>
 
 #include <klocale.h>
-#include <kapplication.h>
 #include <kdebug.h>
 
 #include "kstarssplash.h"
@@ -104,7 +104,7 @@ void KStarsSplash::setMessage( const QString &s ) {
 	*repaint call will queued in event buffer. With flush all X11 events of
 	*this application will flushed.
 	*/
-	kapp->flush();
+	qApp->flush();
 }
 
 #include "kstarssplash.moc"

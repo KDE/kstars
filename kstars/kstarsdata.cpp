@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QApplication>
 #include <QRegExp>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
 
-#include <kapplication.h>
+#include <kcomponentdata.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -173,7 +174,7 @@ void KStarsData::slotInitialize() {
 	QFile imFile;
 	QString ImageName;
 
-	kapp->flush(); // flush all paint events before loading data
+	qApp->flush(); // flush all paint events before loading data
 
 	switch ( initCounter )
 	{

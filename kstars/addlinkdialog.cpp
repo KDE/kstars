@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <QVBoxLayout>
-#include <kapplication.h>
 #include <kurl.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>

@@ -18,6 +18,7 @@
 //needed in slotSave() for chmod() syscall
 #include <sys/stat.h>
 
+#include <QApplication>
 #include <QTreeWidget>
 #include <QTextStream>
 
@@ -32,7 +33,6 @@
 #include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
-#include <kapplication.h>
 
 #include "scriptbuilder.h"
 #include "scriptfunction.h"
@@ -1054,7 +1054,7 @@ void ScriptBuilder::slotRunScript() {
 	if ( ! p.start( KProcess::DontCare ) )
 		kDebug() << "Process did not start." << endl;
 
-	while ( p.isRunning() ) kapp->processEvents(); //otherwise tempfile may get deleted before script completes.
+	while ( p.isRunning() ) qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
 
 	//delete temp file
 	if ( f.exists() ) f.remove();
