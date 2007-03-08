@@ -57,25 +57,25 @@ void KStars::initActions() {
 
 //File Menu:
 	QAction *ka = actionCollection()->addAction( "new_window" );
-        ka->setIcon( KIcon( "window_new" ) );
+        ka->setIcon( KIcon( "window-new" ) );
         ka->setText( i18n("&New Window") );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_N ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
 
 	ka = actionCollection()->addAction( "close_window");
-        ka->setIcon( KIcon( "fileclose" ) );
+        ka->setIcon( KIcon( "window-close" ) );
         ka->setText( i18n("&Close Window") );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
 
 	ka = actionCollection()->addAction( "get_data" );
-        ka->setIcon( KIcon( "knewstuff" ) );
+        ka->setIcon( KIcon( "get-hot-new-stuff" ) );
         ka->setText( i18n( "&Download Data..." ) );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_D ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotDownload() ) );
 
 	ka = actionCollection()->addAction( "open_file");
-        ka->setIcon( KIcon( "fileopen" ) );
+        ka->setIcon( KIcon( "document-open" ) );
         ka->setText( i18n( "Open FITS...") );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_O ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotOpenFITS() ) );
@@ -107,8 +107,8 @@ void KStars::initActions() {
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_S  ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
 
-	ToggleAction *actTimeRun = new ToggleAction( KIcon( "player_pause" ), i18n( "Stop &Clock" ),
-				KIcon( "player_play" ), i18n("Start &Clock"),
+	ToggleAction *actTimeRun = new ToggleAction( KIcon( "media-playback-pause" ), i18n( "Stop &Clock" ),
+				KIcon( "media-playback-start" ), i18n("Start &Clock"),
                                 KShortcut(), this, SLOT( slotToggleTimer() ), this );
         actionCollection()->addAction( "clock_startstop", actTimeRun );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
@@ -145,7 +145,7 @@ void KStars::initActions() {
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotPointFocus() ) );
 
 	ka = actionCollection()->addAction( "find_object" );
-        ka->setIcon( KIcon( "find" ) );
+        ka->setIcon( KIcon( "edit-find" ) );
         ka->setText( i18n( "&Find Object..." ) );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_F ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotFind() ) );
@@ -167,13 +167,13 @@ void KStars::initActions() {
 	actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", this, SLOT( slotZoomOut() ) );
 
 	ka = actionCollection()->addAction( "zoom_default" );
-        ka->setIcon( KIcon( "viewmagfit" ) );
+        ka->setIcon( KIcon( "zoom-best-fit" ) );
         ka->setText( i18n( "&Default Zoom" ) );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_Z ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotDefaultZoom() ) );
 
 	ka = actionCollection()->addAction( "zoom_set" );
-        ka->setIcon( KIcon( "viewmag" ) );
+        ka->setIcon( KIcon( "zoom-original" ) );
         ka->setText( i18n( "&Zoom to Angular Size..." ) );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::SHIFT+Qt::Key_Z ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetZoom() ) );

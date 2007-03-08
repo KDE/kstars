@@ -62,11 +62,11 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
   clientTreeWidget->setSortingEnabled(false);
 
   runningPix = KIcon( "exec" );
-  stopPix    = KIcon( "button_cancel" );
-  localMode  = KIcon( "network_local" );
-  serverMode = KIcon( "network" );
+  stopPix    = KIcon( "dialog-cancel" );
+  localMode  = KIcon( "network-workgroup" );
+  serverMode = KIcon( "network-wired" );
 
-  connected           = KIcon( "connect_established" );
+  connected           = KIcon( "connection-established" );
   disconnected        = KIcon( "connect_no" );
   establishConnection = KIcon( "connect_creating" );
 

@@ -68,7 +68,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	setMainWidget( MainFrame );
 	setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
 	setButtons( KDialog::User1|KDialog::Close );
-	KGuiItem saveButton( i18n("Save"), "filesave", i18n("Save the image to disk") );
+	KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
 	setButtonGuiItem( KDialog::User1, saveButton );
 
 	View = new ImageLabel( MainFrame );

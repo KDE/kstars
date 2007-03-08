@@ -66,8 +66,8 @@ FILE *wfp;
 
    streamFrame      = new VideoWG(videoFrame);
       
-  playPix    = KIcon( "player_play" );
-  pausePix   = KIcon( "player_pause" );
+  playPix    = KIcon( "media-playback-start" );
+  pausePix   = KIcon( "media-playback-pause" );
   capturePix = KIcon( "frame_image" );
   
   foreach (const QByteArray &format, QImageWriter::supportedImageFormats())

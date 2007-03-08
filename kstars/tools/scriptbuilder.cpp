@@ -256,16 +256,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
 
 	//Add icons to Push Buttons
-	sb->NewButton->setIcon( KIcon( "filenew" ) );
-	sb->OpenButton->setIcon( KIcon( "fileopen" ) );
-	sb->SaveButton->setIcon( KIcon( "filesave" ) );
-	sb->SaveAsButton->setIcon( KIcon( "filesaveas" ) );
+	sb->NewButton->setIcon( KIcon( "document-new" ) );
+	sb->OpenButton->setIcon( KIcon( "document-open" ) );
+	sb->SaveButton->setIcon( KIcon( "document-save" ) );
+	sb->SaveAsButton->setIcon( KIcon( "document-save-as" ) );
 	sb->RunButton->setIcon( KIcon( "launch" ) );
-	sb->CopyButton->setIcon( KIcon( "reload" ) );
-	sb->AddButton->setIcon( KIcon( "back" ) );
-	sb->RemoveButton->setIcon( KIcon( "forward" ) );
-	sb->UpButton->setIcon( KIcon( "up" ) );
-	sb->DownButton->setIcon( KIcon( "down" ) );
+	sb->CopyButton->setIcon( KIcon( "view-refresh" ) );
+	sb->AddButton->setIcon( KIcon( "go-previous" ) );
+	sb->RemoveButton->setIcon( KIcon( "go-next" ) );
+	sb->UpButton->setIcon( KIcon( "go-up" ) );
+	sb->DownButton->setIcon( KIcon( "go-down" ) );
 
 	//Prepare the widget stack
 	argBlank = new QWidget();

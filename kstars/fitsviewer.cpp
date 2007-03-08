@@ -128,7 +128,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
     KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     action = actionCollection()->addAction("zoom_default" );
-    action->setIcon(KIcon("viewmagfit"));
+    action->setIcon(KIcon("zoom-best-fit"));
     action->setText(i18n( "&Default Zoom" ));
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));

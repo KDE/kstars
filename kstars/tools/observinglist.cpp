@@ -108,11 +108,11 @@ ObservingList::ObservingList( KStars *_ks )
 			this, SLOT( slotToggleSize() ) );
 
 	//Add icons to Push Buttons
-	ui->OpenButton->setIcon( KIcon("fileopen") );
-	ui->SaveButton->setIcon( KIcon("filesave") );
-	ui->SaveAsButton->setIcon( KIcon("filesaveas") );
+	ui->OpenButton->setIcon( KIcon("document-open") );
+	ui->SaveButton->setIcon( KIcon("document-save") );
+	ui->SaveAsButton->setIcon( KIcon("document-save-as") );
 	ui->WizardButton->setIcon( KIcon("wizard") );
-	ui->MiniButton->setIcon( KIcon("window_nofullscreen") );
+	ui->MiniButton->setIcon( KIcon("view-restore") );
 
 	ui->CenterButton->setEnabled( false );
 	ui->ScopeButton->setEnabled( false );
@@ -630,7 +630,7 @@ void ObservingList::slotWizard() {
 
 void ObservingList::slotToggleSize() {
 	if ( isLarge() ) {
-		ui->MiniButton->setIcon( KIcon("window_fullscreen") );
+		ui->MiniButton->setIcon( KIcon("view-fullscreen") );
 
 		//switch widget stack to show TinyTable
 		ui->TableStack->setCurrentWidget( ui->TinyPage );
@@ -651,7 +651,7 @@ void ObservingList::slotToggleSize() {
 		bIsLarge = false;
 
 	} else {
-		ui->MiniButton->setIcon( KIcon("window_nofullscreen") );
+		ui->MiniButton->setIcon( KIcon("view-restore") );
 
 		//switch widget stack to show FullTable
 		ui->TableStack->setCurrentWidget( ui->FullPage );

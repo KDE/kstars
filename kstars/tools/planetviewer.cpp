@@ -62,7 +62,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 	pw->TimeStep->setDaysOnly( true );
 	pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-	pw->RunButton->setIcon( KIcon("1rightarrow") );
+	pw->RunButton->setIcon( KIcon("arrow-right") );
 	pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 
 	resize( 500, 500 );
@@ -134,11 +134,11 @@ void PlanetViewer::slotRunClock() {
 	isClockRunning = !isClockRunning;
 
 	if ( isClockRunning ) {
-		pw->RunButton->setIcon( KIcon("player_pause") );
+		pw->RunButton->setIcon( KIcon("media-playback-pause") );
 		tmr.start( 100 );
 //		pw->DateBox->setEnabled( false );
 	} else {
-		pw->RunButton->setIcon( KIcon("1rightarrow") );
+		pw->RunButton->setIcon( KIcon("arrow-right") );
 		tmr.stop();
 //		pw->DateBox->setEnabled( true );
 	}

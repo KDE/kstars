@@ -35,7 +35,7 @@ INDIFITSConf::INDIFITSConf(QWidget* parent)
    setCaption( i18n( "Configure INDI" ) );
    setButtons( KDialog::Ok|KDialog::Cancel );
 
-  ui->selectDirB->setIcon( KIcon( "fileopen" ) );
+  ui->selectDirB->setIcon( KIcon( "document-open" ) );
   connect(ui->selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
   connect(ui->filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
 }

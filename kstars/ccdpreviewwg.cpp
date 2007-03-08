@@ -80,8 +80,8 @@ FILE *CCDwfp;
    brightnessChanged(brightnessBar->value());
    contrastChanged(contrastBar->value());    
 
-   playPix    = KIcon( "player_play" );
-   pausePix   = KIcon( "player_pause" );
+   playPix    = KIcon( "media-playback-start" );
+   pausePix   = KIcon( "media-playback-pause" );
    capturePix = KIcon( "frame_image" );
   
   playB->setIcon(pausePix);	
