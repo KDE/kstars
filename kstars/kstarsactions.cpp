@@ -347,7 +347,7 @@ void KStars::slotGeoLocator() {
 void KStars::slotConfigureToolbars() {
 	saveMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
 	KEditToolbar ket(actionCollection());
-	connect( &ket, SIGNAL(newToolbarConfig()), this, SLOT(slotApplyToolbarConfig()) );
+	connect( &ket, SIGNAL(newToolBarConfig()), this, SLOT(slotApplyToolbarConfig()) );
 
 	//ket.exec();
 	//DEBUG
