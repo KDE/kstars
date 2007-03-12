@@ -33,6 +33,7 @@
  #include <netdb.h>
  #include <ctype.h>
  #include <zlib.h>
+ #include <stdlib.h>
  
  #include <qtimer.h>
  #include <qlabel.h>
