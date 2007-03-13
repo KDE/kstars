@@ -19,6 +19,7 @@
 #define IMAGEVIEWER_H_
 
 #include <QFile>
+#include <QFrame>
 #include <QImage>
 #include <QPixmap>
 #include <QResizeEvent>
