@@ -89,6 +89,8 @@ void modCalcApCoord::slotObject() {
     RACat->showInHours( o->ra0() );
     DecCat->showInDegrees( o->dec0() );
     EpochCat->setValue( 2000.0 );
+
+		slotCompute();
   }
 }
 

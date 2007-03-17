@@ -34,7 +34,7 @@
 #include "modcalcplanets.h"
 #include "modcalceclipticcoords.h"
 #include "modcalcangdist.h"
-#include "modcalcequinox.h"
+#include "modcalcvizequinox.h"
 #include "modcalcvlsr.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :

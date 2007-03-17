@@ -50,16 +50,6 @@ public:
 	*/
 	virtual bool loadData();
 
-	long double springEquinox(int year);
-
-	long double summerSolstice(int year);
-
-	long double autumnEquinox(int year);
-
-	long double winterSolstice(int year);
-	
-	long double equinox(int year, int d, int m, double angle);
-
 
 protected:
 /**Determine geocentric RA, Dec coordinates for the Epoch given in the argument.

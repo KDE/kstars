@@ -1,9 +1,9 @@
 /***************************************************************************
-                          modcalcazel.h  -  description
+                          modcalcvizequinox.h  -  description
                              -------------------
-    begin                : mier abr 20 2004
-    copyright            : (C) 2004 by Pablo de Vicente
-    email                : pvicentea@wanadoo.es
+    begin                : Thu 22 Feb 2007
+    copyright            : (C) 2007 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,17 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MODCALCEQUINOX_H_
-#define MODCALCEQUINOX_H_
+#ifndef MODCALCVIZEQUINOX_H_
+#define MODCALCVIZEQUINOX_H_
 
-#include "ui_modcalcequinox.h"
-
-class QTextStream;
+#include "ui_modcalcvizequinox.h"
+#include "kstarsdatetime.h"
 
 /**
-  *@author Pablo de Vicente
+  *@class modCalcEquinox
+  *@author Jason Harris
   */
-class modCalcEquinox : public QFrame, public Ui::modCalcEquinoxDlg  {
+class modCalcEquinox : public QFrame, public Ui::modCalcEquinox  {
 
 Q_OBJECT
 
@@ -33,19 +33,18 @@ public:
 	modCalcEquinox(QWidget *p);
 	~modCalcEquinox();
 	
+	KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
+	double dmonth(int imonth);
+
 public slots:
 
 	void slotCompute();
-	void slotYearCheckedBatch();
-	void slotInputFile();
-	void slotOutputFile();
-	void slotRunBatch();
 
 private:
-
-	void showCurrentYear (void);
-	void processLines( QTextStream &istream );
-  
+	void addDateAxes();
+	KStarsDateTime findEquinox( bool Spring, KPlotObject *po );
+	KStarsDateTime findSolstice( bool Summer );
+	double DMonth[12];
 };
 
 #endif

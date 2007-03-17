@@ -129,34 +129,3 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 	return true;
 }
 
-long double KSSun::springEquinox(int year) {
-	return equinox(year, 18, 3, 0.);
-}
-
-long double KSSun::summerSolstice(int year) {
-	return equinox(year, 18, 6, 90.);
-}
-
-long double KSSun::autumnEquinox(int year) {
-	return equinox(year, 19, 9, 180.);
-}
-
-long double KSSun::winterSolstice(int year) {
-	return equinox(year, 18, 12, 270.);
-}
-
-long double KSSun::equinox(int year, int d, int m, double angle) {
-	long double jd0[5];
-	long double eclipticLongitude[5];
-	
-	for(int i = 0; i<5; ++i) {
-		jd0[i] = KStarsDateTime( ExtDate(year,m,d+i), QTime(0,0,0) ).djd();
-		KSNumbers *ksn = new KSNumbers(jd0[i]);
-		//FIXME this is the Earth position
-		findGeocentricPosition( ksn );
-		delete ksn;
-		eclipticLongitude[i] = (long double)ecLong()->Degrees();
-	}
-
-	return KSUtils::lagrangeInterpolation( eclipticLongitude, jd0, 5, angle );
-}

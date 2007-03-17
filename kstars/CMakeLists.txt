@@ -29,6 +29,7 @@ endif(NOT CFITSIO_FOUND)
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
+	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
@@ -36,7 +37,7 @@ set(libkstarstools_SRCS
 	tools/modcalcaltaz.cpp
 	tools/modcalcdaylength.cpp
 	tools/modcalceclipticcoords.cpp
-	tools/modcalcequinox.cpp
+	tools/modcalcvizequinox.cpp
 	tools/modcalcgalcoord.cpp
 	tools/modcalcgeodcoord.cpp
 	tools/modcalcjd.cpp
@@ -95,7 +96,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/modcalcaltaz.ui
 	tools/modcalcdaylength.ui
 	tools/modcalceclipticcoords.ui
-	tools/modcalcequinox.ui
+	tools/modcalcvizequinox.ui
 	tools/modcalcgalcoord.ui
 	tools/modcalcgeod.ui
 	tools/modcalcjd.ui
