@@ -29,7 +29,6 @@ endif(NOT CFITSIO_FOUND)
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
-	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
