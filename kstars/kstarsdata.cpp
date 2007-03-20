@@ -1154,7 +1154,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 					cmdCount++;
 				}
 			} else if ( fn[0] == "setGeoLocation" && ( fn.size() == 3 || fn.size() == 4 ) ) {
-				QString city( fn[1] ), province( QString::null ), country( fn[2] );
+				QString city( fn[1] ), province, country( fn[2] );
+				province = QString::null;
 				if ( fn.size() == 4 ) {
 					province = fn[2];
 					country = fn[3];
