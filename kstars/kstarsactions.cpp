@@ -462,7 +462,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-	KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
+	KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp" );
 
 	//Warn user if file exists!
 	if (QFile::exists(fileURL.path()))
