@@ -1,13 +1,19 @@
-//
-// C++ Interface: texcolorizer
-//
-// Description: Quaternions 
+/***************************************************************************
+                          quaternion.h  -  K Desktop Planetarium
+                             -------------------
 
-// Quaternions provides a class that deals with quaternion operations.
-//
-// Author: Torsten Rahn <tackat@kde.org>, (C) 2004
-//
-// Copyright: See COPYING file that comes with this distribution
+    copyright            : (C) 2004 by Torsten Rahn
+    email                : tackat@kde.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #ifndef QUATERNION_H
 #define QUATERNION_H
