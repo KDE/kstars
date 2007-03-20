@@ -5,6 +5,8 @@
  *
  * By Wu Yongwei
  *
+ * (note from jharris: this code is in the public domain
+ *  see: http://wyw.dcweb.cn/time.htm)
  */
 
 #ifndef _TIMEVAL_H

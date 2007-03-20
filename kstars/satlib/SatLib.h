@@ -1,6 +1,7 @@
 /***************************************************************************\
 *          SATLIB : A satellite position/orbital prediction library         *
 *         Made by Patrick Chevalley, Vincent Suc & Jean-Baptiste Butet.     *
+*                         Copyright (C) 2005                                *
 *                         http://www.sf.net/predictsatlib                   *
 *****************************************************************************
 * This Library is based on : PREDICT, Made by John A. Magliacan             *
