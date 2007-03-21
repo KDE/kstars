@@ -30,6 +30,7 @@ KSSun::KSSun( KStarsData *kd, QString fn, double pSize ) : KSPlanet( kd, I18N_NO
 	plong0 = 282.768422; //longitude of sun at perigee for JD0
 	e0 = 0.016713; //eccentricity of Earth's orbit at JD0
 	*/
+	setMag( -26.73 );
 }
 
 bool KSSun::loadData() {
