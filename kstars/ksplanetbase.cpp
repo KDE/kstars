@@ -224,10 +224,11 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
 	double cosDec, sinDec;
 	dec()->SinCos(cosDec, sinDec);
 
-	//JH: Fixing calculation of phase. Using formula from
-	//"Practical Astronomy With Your Calculator":
-	double d = ecLong()->radians() - helEcLong()->radians();
-	double f1 = 0.5*( 1 + cos( d ) );
+	/* Phase of the planet in degrees */
+	double earthSun = 1.;
+	double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun) 
+	  / (2 * rsun() * rearth() );   
+	double phase = acos ( cosPhase ) * 180.0 / dms::PI;
 
 	/* Computation of the visual magnitude (V band) of the planet.
 	* Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
@@ -238,17 +239,18 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
 	float magnitude = 30;
 
 	double param = 5 * log10(rsun() * rearth() );
+	double f1 = phase/100.;
 
 	if ( name() == "Mercury" ) {
-		if ( f1 > 1.5 ) f1 = 1.5; //JH: but this will never be true
+		if ( phase > 150. ) f1 = 1.5; 
 		magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
 	}
 	if ( name() =="Venus")
 		magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
 	if( name() == "Mars")
-		magnitude = -1.52 + param + 16.*f1;  //JH: was + 0.016*phase;
-	if( name() == "Jupiter")
-		magnitude = -9.25 + param + 0.5*f1;  //JH: was + 0.005*phase;
+		magnitude = -1.52 + param + 0.016*phase; 
+	if( name() == "Jupiter") 
+		magnitude = -9.25 + param + 0.005*phase;  
 
 	if( name() == "Saturn") {
 		double T = num->julianCenturies();
@@ -257,15 +259,15 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
 		double sinx = -cos(d0)*cosDec*cos(a0 - ra()->radians());
 		sinx = fabs(sinx-sin(d0)*sinDec);
 		double rings = -2.6*sinx + 1.25*sinx*sinx;
-		magnitude = -8.88 + param + 4.4*f1 + rings;  //JH: was  + 0.044*phase + rings
+		magnitude = -8.88 + param + 0.044*phase + rings;  
 	}
 
 	if( name() == "Uranus")
-		magnitude = -7.19 + param + 0.28*f1;  //JH: was 0.0028*phase;
+		magnitude = -7.19 + param + 0.0028*phase;  
 	if( name() == "Neptune")
 		magnitude = -6.87 + param;
 	if( name() == "Pluto" )
-		magnitude = -1.01 + param + 4.1*f1;  //JH: was 0.041*phase;
+		magnitude = -1.01 + param + 0.041*phase;
 
 	setMag(magnitude);
 }

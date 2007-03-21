@@ -25,7 +25,9 @@
 
 KSSun::KSSun( KStarsData *kd ) 
 : KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  ) 
-{}
+{
+	setMag( -26.73 );
+}
 
 bool KSSun::loadData() {
 	OrbitDataColl odc;
