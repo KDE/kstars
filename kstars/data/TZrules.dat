@@ -1,7 +1,7 @@
 #"US": DST starts on the first Sunday of April, reverts on the 
 #      last Sunday of October (2:00 am).  Canada uses this 
 #      rule as well.
-US  Apr  1Sun  02:00  Oct   Sun  02:00
+US  Mar  2Sun  02:00  Nov  1Sun  02:00
 
 #"MX": DST starts on the 1st Sunday of May, and switch back on 
 #      the last Sunday of September (2:00 am). (Mexico)
