@@ -9,7 +9,6 @@ add_subdirectory( satlib )
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
-	${CMAKE_SOURCE_DIR}/libkdeedu/kdeeduplot
 )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
@@ -203,7 +202,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduplot kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
