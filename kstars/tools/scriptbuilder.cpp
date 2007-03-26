@@ -25,7 +25,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandardguiitem.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
@@ -1049,9 +1049,9 @@ void ScriptBuilder::slotRunScript() {
 	//set rwx for owner, rx for group, rx for other
 	chmod( f.fileName().toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-	KProcess p;
+	K3Process p;
 	p << f.fileName();
-	if ( ! p.start( KProcess::DontCare ) )
+	if ( ! p.start( K3Process::DontCare ) )
 		kDebug() << "Process did not start." << endl;
 
 	while ( p.isRunning() ) qApp->processEvents(); //otherwise tempfile may get deleted before script completes.

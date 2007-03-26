@@ -941,7 +941,7 @@ bool KStarsData::readINDIHosts(void)
 }
 
 //FIXME: There's way too much code duplication here!
-//We should just execute the script through KProcess.
+//We should just execute the script through K3Process.
 //One complication is that we want to ignore some script commands
 //that don't make sense for dump mode.  However, it would be better
 //for the DCOP fcns themselves to detect whether a SkyMap object exists,

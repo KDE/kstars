@@ -35,7 +35,7 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <kmenu.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
@@ -424,7 +424,7 @@ bool INDIDriver::runDevice(IDevice *dev)
    return false;
   }
 
-  dev->proc = new KProcess;
+  dev->proc = new K3Process;
 
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString::number(dev->indiPort) << dev->driver;
@@ -437,9 +437,9 @@ bool INDIDriver::runDevice(IDevice *dev)
   else
     ui->localTreeWidget->currentItem()->setIcon(2, ui->serverMode);
 
-  connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)),  dev, SLOT(processstd(KProcess *, char*, int)));
+  connect(dev->proc, SIGNAL(receivedStderr (K3Process *, char *, int)),  dev, SLOT(processstd(K3Process *, char*, int)));
 
-  dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
+  dev->proc->start(K3Process::NotifyOnExit, K3Process::Stderr);
   //dev->proc->start();
 
   return (dev->proc->isRunning());
@@ -985,7 +985,7 @@ IDevice::IDevice(const QString &inLabel, const QString &inDriver, const QString 
 
 }
 
-void IDevice::processstd(KProcess* /*proc*/, char* buffer, int /*buflen*/)
+void IDevice::processstd(K3Process* /*proc*/, char* buffer, int /*buflen*/)
 {
   serverBuffer.append(buffer);
   emit newServerInput();

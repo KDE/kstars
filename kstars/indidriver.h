@@ -32,7 +32,7 @@ class QIcon;
 class KStars;
 
 class KMenu;
-class KProcess;
+class K3Process;
 
 struct INDIHostsInfo
 {
@@ -62,7 +62,7 @@ class IDevice : public QObject
       bool managed;
       int mgrID;
       int deviceType;
-      KProcess *proc;
+      K3Process *proc;
 
       /* Telescope specific attributes */
       double focal_length;
@@ -71,7 +71,7 @@ class IDevice : public QObject
       void restart();
       
       public slots:
-      void processstd(KProcess *proc, char* buffer, int buflen);
+      void processstd(K3Process *proc, char* buffer, int buflen);
       
       signals:
       void newServerInput();
