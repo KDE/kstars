@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 #include <QPaintEvent>
 
-#include "libkdeedu/kdeeduplot/kplotwidget.h"
+#include <kplotwidget.h>
 #include "ui_altvstime.h"
 
 class KStarsDateTime;

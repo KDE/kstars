@@ -43,9 +43,9 @@
 
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include "libkdeedu/kdeeduplot/kplotobject.h"
-#include "libkdeedu/kdeeduplot/kplotaxis.h"
-#include "libkdeedu/kdeeduplot/kplotwidget.h"
+#include <kplotobject.h>
+#include <kplotaxis.h>
+#include <kplotwidget.h>
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 	setupUi( this );
