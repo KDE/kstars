@@ -48,7 +48,7 @@ class EclipticPosition {
 
 		/**Constructor. */
 		EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
-			longitude(plong), latitude(plat), radius(prad) {};
+			longitude(plong), latitude(plat), radius(prad) {}
 
 		/**Assignment operator. Copy all values from the target object. */
 		EclipticPosition &operator=(EclipticPosition &r) {
@@ -56,7 +56,7 @@ class EclipticPosition {
 			this->latitude = r.latitude;
 			this->radius = r.radius;
 			return *this;
-		};
+		}
 };
 
 /**@class KSPlanetBase
@@ -91,12 +91,12 @@ public:
 
 /**@return pointer to Ecliptic Longitude coordinate
 	*/
-	const dms* ecLong( void ) const { return &ep.longitude; };
+	const dms* ecLong( void ) const { return &ep.longitude; }
 
 /**
 	*@return pointer to Ecliptic Latitude coordinate
 	*/
-	const dms* ecLat( void ) const { return &ep.latitude; };
+	const dms* ecLat( void ) const { return &ep.latitude; }
 
 /**@short Set Ecliptic Geocentric Longitude according to argument.
 	*@param elong Ecliptic Longitude
@@ -122,12 +122,12 @@ public:
 	
 	/**@return pointer to Ecliptic Heliocentric Longitude coordinate
 	*/
-	const dms* helEcLong( void ) const { return &helEcPos.longitude; };
+	const dms* helEcLong( void ) const { return &helEcPos.longitude; }
 
 /**
 	*@return pointer to Ecliptic Heliocentric Latitude coordinate
 	*/
-	const dms* helEcLat( void ) const { return &helEcPos.latitude; };
+	const dms* helEcLat( void ) const { return &helEcPos.latitude; }
 
 /**@short Set Ecliptic Heliocentric Longitude according to argument.
 	*@param elong Ecliptic Longitude
@@ -168,20 +168,20 @@ public:
 
 /**@return pointer to image of planet
 	*/
-	QImage* image( void ) { return &Image; };
+	QImage* image( void ) { return &Image; }
 
 /**@return pointer to unrotated image of planet
 	*/
-	QImage* image0( void ) { return &Image0; };
+	QImage* image0( void ) { return &Image0; }
 
 /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance)
 	*/
-	double rsun( void ) const { return ep.radius; };
+	double rsun( void ) const { return ep.radius; }
 
 /**@short Set the solar distance in AU.
 	*@param r the new solar distance in AU
 	*/
-	void setRsun( double r ) { ep.radius = r; };
+	void setRsun( double r ) { ep.radius = r; }
 
 /**@return distance from Earth, in Astronomical Units (1 AU is Earth-Sun distance)
 	*/
@@ -305,7 +305,7 @@ public:
 protected:
 	virtual bool loadData(QString n) {
 		kDebug() << "didn't reimplement for " << n << endl; return false;
-	};
+	}
 
 /**@short find the object's current geocentric equatorial coordinates (RA and Dec)
 	*This function is pure virtual; it must be overloaded by subclasses.

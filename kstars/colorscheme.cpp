@@ -291,7 +291,7 @@ bool ColorScheme::save( const QString &name ) {
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
 	for ( int i=0; i < KeyName.size(); ++i )
-		setColor( KeyName.at(i), conf->readEntry( KeyName.at(i), Default.at( i ) ) );
+		setColor( KeyName.at(i), conf->readEntry( KeyName.at(i).toUtf8(), Default.at( i ) ) );
 
 	setStarColorMode( conf->readEntry( "StarColorMode", 0 ) );
 	setStarColorIntensity( conf->readEntry( "StarColorIntensity", 5 ) );

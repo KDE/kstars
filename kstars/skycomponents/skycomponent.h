@@ -72,7 +72,7 @@ class SkyComponent
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void draw( KStars*, QPainter&, double ) {};
+		virtual void draw( KStars*, QPainter&, double ) {}
 		
 		/**
 			*@short Draw the object, if it is exportable to an image
@@ -83,7 +83,7 @@ class SkyComponent
 			*/
 		void drawExportable(KStars *ks, QPainter& psky, double scale);
 
-		virtual void drawPlanets(KStars * /*ks*/, QPainter& /*psky*/, double /*scale*/) {};
+		virtual void drawPlanets(KStars * /*ks*/, QPainter& /*psky*/, double /*scale*/) {}
 		
 		/**
 			*@short Initialize the component - load data from disk etc.
@@ -106,9 +106,9 @@ class SkyComponent
 			*@sa ListComponent::update()
 			*@sa ConstellationBoundaryComponent::update()
 			*/
-		virtual void update( KStarsData*, KSNumbers* ) {};
-		virtual void updatePlanets( KStarsData *, KSNumbers * ) {};
-		virtual void updateMoons( KStarsData *, KSNumbers * ) {};
+		virtual void update( KStarsData*, KSNumbers* ) {}
+		virtual void updatePlanets( KStarsData *, KSNumbers * ) {}
+		virtual void updateMoons( KStarsData *, KSNumbers * ) {}
 	
 		/**
 			*@return true if the component is to be drawn on the map.

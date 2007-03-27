@@ -35,7 +35,7 @@ public:
 /**Constructor */
 	TimeSpinBox( QWidget *parent, bool daysOnly = false );
 /**Destructor (empty)*/
-	~TimeSpinBox() {};
+	~TimeSpinBox() {}
 
 	/**Convert the internal value to a display string.
 		*@note reimplemented from QSpinBox

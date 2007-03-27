@@ -161,10 +161,10 @@ class KStars : public KMainWindow
 		Q_SCRIPTABLE Q_NOREPLY void lookTowards( const QString &direction );
 
 	/**DCOP interface function.  Zoom in one step. */
-		Q_SCRIPTABLE Q_NOREPLY void zoomIn() { slotZoomIn(); };
+		Q_SCRIPTABLE Q_NOREPLY void zoomIn() { slotZoomIn(); }
 
 	/**DCOP interface function.  Zoom out one step. */
-		Q_SCRIPTABLE Q_NOREPLY void zoomOut(){ slotZoomOut(); };
+		Q_SCRIPTABLE Q_NOREPLY void zoomOut(){ slotZoomOut(); }
 
 	/**DCOP interface function.  reset to the default zoom level. */
 		Q_SCRIPTABLE Q_NOREPLY void defaultZoom() { slotDefaultZoom(); }

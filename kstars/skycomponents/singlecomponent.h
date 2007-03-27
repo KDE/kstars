@@ -45,7 +45,7 @@ class SingleComponent : public SkyComponent
 			*@p psky Reference to the QPainter on which to paint
 			*@p scale the scaling factor for drawing (1.0 for screen draws)
 			*/
-		virtual void draw( KStars *, QPainter &, double ) {};
+		virtual void draw( KStars *, QPainter &, double ) {}
 		
 		/**
 			*Draw the object, if it is exportable to an image
