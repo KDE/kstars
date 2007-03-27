@@ -20,7 +20,7 @@
 
 #include "pvplotwidget.h"
 #include "planetviewer.h"
-#include "libkdeedu/kdeeduplot/kplotobject.h"
+#include "kplotobject.h"
 
 PVPlotWidget::PVPlotWidget( QWidget *parent ) :
 			KPlotWidget( parent ), 

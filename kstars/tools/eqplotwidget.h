@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "libkdeedu/kdeeduplot/kplotwidget.h"
+#include "kplotwidget.h"
 
 #ifndef EQPLOTWIDGET_H_
 #define EQPLOTWIDGET_H_

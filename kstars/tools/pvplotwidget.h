@@ -19,7 +19,7 @@
 
 #include <QFrame>
 
-#include "libkdeedu/kdeeduplot/kplotwidget.h"
+#include "kplotwidget.h"
 
 class PlanetViewer;
 

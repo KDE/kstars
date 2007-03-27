@@ -31,9 +31,9 @@
 #include "simclock.h"
 #include "dms.h"
 #include "ksnumbers.h"
-#include "libkdeedu/kdeeduplot/kplotwidget.h"
-#include "libkdeedu/kdeeduplot/kplotobject.h"
-#include "libkdeedu/kdeeduplot/kplotaxis.h"
+#include "kplotwidget.h"
+#include "kplotobject.h"
+#include "kplotaxis.h"
 
 JMoonTool::JMoonTool(QWidget *parent)
 	: KDialog( parent )

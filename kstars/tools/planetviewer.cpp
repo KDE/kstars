@@ -39,8 +39,8 @@
 #include "dms.h"
 #include "widgets/timestepbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include "libkdeedu/kdeeduplot/kplotobject.h"
-#include "libkdeedu/kdeeduplot/kplotaxis.h"
+#include "kplotobject.h"
+#include "kplotaxis.h"
 
 PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
   setupUi( this );
