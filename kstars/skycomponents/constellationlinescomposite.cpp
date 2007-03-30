@@ -57,10 +57,11 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 		QTextStream stream( &file );
 		ConstellationLinesComponent *clc=0;
 
+		SkyPoint *p, *pLast = 0;
+
 		while ( !stream.atEnd() ) {
 			QString line, name;
 			QChar mode;
-			SkyPoint *p, *pLast = 0;
 
 			line = stream.readLine();
 
@@ -86,9 +87,6 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 				} else {
 					p = data->skyComposite()->findStarByGenetiveName( name );
 
-#ifdef __GNUC__
-#warning pLast can not be !=0 as no code in the else branch is setting it (CID 3104)
-#endif
 					if ( p && pLast && clc ) {
 						clc->lineList().append( new SkyLine( pLast, p ) );
 					} else if ( !p )
@@ -104,3 +102,4 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 		if ( clc ) addComponent( clc );
 	}
 }
+
