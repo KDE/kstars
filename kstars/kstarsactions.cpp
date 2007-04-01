@@ -576,7 +576,7 @@ void KStars::slotRunScript() {
 				"indicating that it was not created using the KStars script builder. "
 				"This script may not function properly, and it may even contain malicious code. "
 				"Would you like to execute it anyway?" ),
-					i18n( "Script Validation Failed" ), KGuiItem( i18n( "Run Nevertheless" ) ), "daExecuteScript" );
+					i18n( "Script Validation Failed" ), KGuiItem( i18n( "Run Nevertheless" ) ), KStandardGuiItem::cancel(), "daExecuteScript" );
 			if ( answer == KMessageBox::Cancel ) return;
 		}
 
@@ -602,7 +602,7 @@ void KStars::slotPrint() {
 
 		int answer;
 		answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
-			KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), "askAgainPrintColors" );
+			KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors" );
 
 		if ( answer == KMessageBox::Cancel ) return;
 		if ( answer == KMessageBox::Yes ) switchColors = true;
