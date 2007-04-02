@@ -39,7 +39,6 @@
 #include "jupitermoons.h"
 #include "infoboxes.h"
 #include "simclock.h"
-#include "csegment.h"
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indiproperty.h"
@@ -156,11 +155,14 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 		showFocusCoords( true );
 		drawBoxes( p );
 
+		drawHighlightConstellation( p );
+
 		//draw FOV symbol
 		ks->data()->fovSymbol.draw( p, (float)(Options::fOVSize() * Options::zoomFactor()/57.3/60.0) );
 		drawTelescopeSymbols( p );
 		drawObservingList( p );
 		drawZoomBox( p );
+
 		if ( transientObject() ) drawTransientLabel( p );
 		if (isAngleMode()) {
 			updateAngleRuler();
@@ -183,6 +185,19 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 		p.setPen( QPen( Qt::white, 1.0, Qt::DotLine ) );
 		p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
 	}
+}
+
+void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
+	QPolygonF constell;
+	data->skyComposite()->constellation( focus(), &constell );
+	
+	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
+
+	QPolygonF poly;
+	foreach ( QPointF node, constell )
+		poly << toScreen( &SkyPoint( node.x(), node.y() ), scale );
+
+	psky.drawPolygon( poly );
 }
 
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale ) {
@@ -436,9 +451,9 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 							psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 
 						} else {
-							int s1 = 0.5*pxperdegree;
-							int s2 = pxperdegree;
-							int s3 = 2.0*pxperdegree;
+							int s1 = int( 0.5*pxperdegree );
+							int s2 = int( pxperdegree );
+							int s3 = int( 2.0*pxperdegree );
 
 							int x0 = int(P.x());   int y0 = int(P.y());
 							int x1 = x0 - s1/2;  int y1 = y0 - s1/2;

@@ -33,7 +33,7 @@ MapCanvas::MapCanvas( QWidget *parent ) : QFrame( parent ) {
 
 	setAutoFillBackground( false );
 
-	QString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
+	QString bgFile = KStandardDirs::locate( "data", "kstars/geomap.png" );
 	bgImage = new QPixmap( bgFile );
 
 	origin.setX( bgImage->width()/2 );

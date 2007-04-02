@@ -162,7 +162,7 @@ set(libkstarswidgets_SRCS
 
 set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
-	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp csegment.cpp 
+	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
 	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
 	fitshistogram.cpp ccdpreviewwg.cpp fitsimage.cpp fitsviewer.cpp 
 	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagesequence.cpp

@@ -52,7 +52,7 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() : stdDirs(0), locale(0),
+KStarsData::KStarsData() : locale(0),
 		LST(0), HourAngle(0), initTimer(0)
 {
 	startupComplete = false;
@@ -72,7 +72,6 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 	TypeName[11] = i18n( "constellation" );
 
 	//standard directories and locale objects
-	stdDirs = new KStandardDirs();
 	locale = new KLocale( "kstars" );
 
 	//Check to see if config file already exists.  If not, set
@@ -103,7 +102,6 @@ KStarsData::~KStarsData() {
 	objects--; //the number of existing KStarsData objects
 
 	//FIXME: Verify list of deletes
-	delete stdDirs;
 	delete locale;
 	delete initTimer;
 

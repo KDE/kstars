@@ -35,16 +35,3 @@ ConstellationLinesComponent::ConstellationLinesComponent(SkyComponent *parent, b
 ConstellationLinesComponent::~ConstellationLinesComponent() {
 }
 
-/*
-void ConstellationLinesComponent::draw(KStars *ks, QPainter& psky, double scale)
-{
-	if ( ! visible() ) return;
-	if ( ! lineList().size() ) return;
-
-	//Draw Constellation Lines
-	psky.setPen( 
-
-	foreach ( SkyLine *line, lineList() ) 
-		psky.drawLine( ks->map()->toScreen( line, scale ) );
-}
-*/

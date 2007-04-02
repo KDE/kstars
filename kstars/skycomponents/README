@@ -116,12 +116,9 @@ constellation (representing the "stick figure" of the constellation).
 
 Finally, we have the Components which don't inherit from either
 SingleComponent, ListComponent, or PointListComponent:
-ConstellationBoundaryComponent and JupiterMoonsComponent inherit from
-SkyComponent directly.  This is necessary because they contain a sky
-element that is not a SkyObject, a list of SkyObjects, or a list of
-SkyPoints.  Constellation boundaries are expressed as a list of
-"constellation segments" (class CSegment), and the 4 Jupiter moons
-have their own class (JMoons)
+JupiterMoonsComponent inherits from SkyComponent directly, because 
+the 4 Jupiter moons have their own class (JMoons) not derived 
+directly from a SkyPoint.
 
 
 4. Functions

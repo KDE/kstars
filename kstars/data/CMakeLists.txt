@@ -30,7 +30,25 @@ install( FILES kstars.png geomap.png
 	ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat 
 	ngcic06.dat ngcic07.dat ngcic08.dat ngcic09.dat ngcic10.dat 
 	ngcic11.dat ngcic12.dat ngcic13.dat ngcic14.dat 
-	milkyway.dat Cities.dat clines.dat cnames.dat cbound.dat 
+	milkyway.dat Cities.dat clines.dat cnames.dat 
+	AND.cbound ANT.cbound APS.cbound AQL.cbound AQR.cbound 
+	ARA.cbound ARI.cbound AUR.cbound BOO.cbound CAE.cbound 
+	CAM.cbound CAP.cbound CAR.cbound CAS.cbound CEN.cbound 
+	CEP.cbound CET.cbound CHA.cbound CIR.cbound CMA.cbound 
+	CMI.cbound CNC.cbound COL.cbound COM.cbound CRA.cbound 
+	CRB.cbound CRT.cbound CRU.cbound CRV.cbound CVN.cbound 
+	CYG.cbound DEL.cbound DOR.cbound DRA.cbound EQU.cbound 
+	ERI.cbound FOR.cbound GEM.cbound GRU.cbound HER.cbound 
+	HOR.cbound HYA.cbound HYI.cbound IND.cbound LAC.cbound 
+	LEO.cbound LEP.cbound LIB.cbound LMI.cbound LUP.cbound 
+	LYN.cbound LYR.cbound MEN.cbound MIC.cbound MON.cbound 
+	MUS.cbound NOR.cbound OCT.cbound OPH.cbound ORI.cbound 
+	PAV.cbound PEG.cbound PER.cbound PHE.cbound PIC.cbound 
+	PSA.cbound PSC.cbound PUP.cbound PYX.cbound RET.cbound 
+	SCD.cbound SCL.cbound SCO.cbound SCP.cbound SCT.cbound 
+	SEX.cbound SGE.cbound SGR.cbound TAU.cbound TEL.cbound 
+	TRA.cbound TRI.cbound TUC.cbound UMA.cbound UMI.cbound 
+	VEL.cbound VIR.cbound VOL.cbound VUL.cbound
 	image_url.dat info_url.dat 
 	mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop 
 	mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop 

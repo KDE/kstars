@@ -731,17 +731,26 @@ private:
 	*/
 	void drawTelescopeSymbols(QPainter &psky);
 	
-/**@short Draw symbols for objects in the observing list.
+/**
+	*@short Draw symbols for objects in the observing list.
 	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
-	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
+	*@param scale the scaling factor for the drawing device
 	*/
 	void drawObservingList( QPainter &psky, double scale = 1.0 );
 
-/**Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
+/**
+	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
 	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
-	void drawZoomBox( QPainter &psky);
+	void drawZoomBox( QPainter &psky );
+	
+/**
+	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
+	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
+	*@param scale the scaling factor for the drawing device
+	*/
+	void drawHighlightConstellation( QPainter &psky, double scale = 1.0 );
 	
 /**Draw the current TransientLabel.  TransientLabels are triggered when the mouse 
 	*hovers on an object.

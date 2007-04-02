@@ -18,7 +18,16 @@
 #ifndef CONSTELLATIONBOUNDARYCOMPONENT_H
 #define CONSTELLATIONBOUNDARYCOMPONENT_H
 
-#include "skycomponent.h"
+#include <QList>
+#include <QChar>
+#include <QPolygonF>
+
+#include "linelistcomponent.h"
+
+class SkyComposite;
+class KStarsData;
+class SkyMap;
+class KSNumbers;
 
 /**
 	*@class ConstellationBoundaryComponent
@@ -27,25 +36,7 @@
 	*@author Jason Harris
 	*@version 0.1
 	*/
-
-class SkyComposite;
-class KStarsData;
-class SkyMap;
-class KSNumbers;
-class CSegment;
-
-#include <QList>
-#include <QChar>
-
-//CBComponent doesn't fit into any of the three base-class Components
-//It comes closest to LineListComponent, but its members are CSegment objects,
-//not SkyLines.  Since CSegments are essentially themselves collections of
-//SkyLines, we could make this CBComposite, with LineListComponent
-//members.  However, a CSegment is a bit more than a list of lines; it also 
-//has two constell. names associated with it.  So, it's easiest to just 
-//make this class inherit SkyComponent directly, so we can define the unique 
-//QList<CSegment> member
-class ConstellationBoundaryComponent : public SkyComponent
+class ConstellationBoundaryComponent : public LineListComponent
 {
 	public:
 		
@@ -59,14 +50,6 @@ class ConstellationBoundaryComponent : public SkyComponent
 		*/
 		~ConstellationBoundaryComponent();
 		
-	/**
-		*@short Draw constellation boundaries on the sky map.
-		*@p ks pointer to the KStars object
-		*@p psky Reference to the QPainter on which to paint
-		*@p scale scaling factor (1.0 for screen draws)
-		*/
-		virtual void draw( KStars *ks, QPainter& psky, double scale );
-
 	/**
 		*@short Initialize the Constellation boundary component
 		*Reads the constellation boundary data from cbounds.dat.  
@@ -89,27 +72,13 @@ class ConstellationBoundaryComponent : public SkyComponent
 		*/
 		virtual void init(KStarsData *data);
 	
-		/**
-			*@short Update the sky position(s) of this component.
-			*
-			*This function usually just updates the Horizontal (Azimuth/Altitude)
-			*coordinates of its member object(s).  However, the precession and
-			*nutation must also be recomputed periodically.  Requests to do so are
-			*sent through the doPrecess parameter.
-			*@p data Pointer to the KStarsData object
-			*@p num Pointer to the KSNumbers object
-			*@note By default, the num parameter is NULL, indicating that 
-			*Precession/Nutation computation should be skipped; this computation 
-			*is only occasionally required.
-			*@sa SingleComponent::update()
-			*@sa ListComponent::update()
-			*/
-		virtual void update( KStarsData *data, KSNumbers *num=0 );
-		
-		QList<CSegment*>& segmentList();
+		QPolygonF boundary( const QString &name ) const;
+
+		QString constellation( SkyPoint *p );
+		bool inConstellation( const QString &name, SkyPoint *p );
 
 	private:
-		QList<CSegment*> m_SegmentList;
+		QHash<QString, QPolygonF> Boundary;
 };
 
 #endif

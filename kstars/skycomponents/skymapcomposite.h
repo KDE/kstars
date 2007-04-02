@@ -25,7 +25,7 @@
 #include "deepskyobject.h"
 #include "ksplanet.h"
 
-// #include "constellationboundarycomponent.h"
+#include "constellationboundarycomponent.h"
 // #include "constellationlinescomposite.h"
 #include "constellationnamescomponent.h"
 // #include "coordinategridcomposite.h"
@@ -168,7 +168,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void setStarColorIntensity( int newIntensity );
 		int starColorIntensity() const { return m_Stars->starColorIntensity(); }
 
-		QString constellation( SkyPoint *p );
+		QString constellation( SkyPoint *p, QPolygonF *boundary=0 );
+		bool inConstellation( const QString &name, SkyPoint *p );
 
 		virtual void emitProgressText( const QString &message );
 		virtual QStringList& objectNames() { return m_ObjectNames; }

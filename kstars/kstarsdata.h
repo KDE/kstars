@@ -61,7 +61,6 @@ class TimeZoneRule;
 class KSFileReader;
 class INDIHostsInfo;
 class ADVTreeData;
-class CSegment;
 class CustomCatalog;
 
 struct VariableStarInfo
@@ -464,7 +463,6 @@ private:
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
 //	QString cnameFile;
-	KStandardDirs *stdDirs;
 	KLocale *locale;
 
 	dms *LST, *HourAngle;

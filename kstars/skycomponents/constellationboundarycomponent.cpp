@@ -16,10 +16,11 @@
  ***************************************************************************/
 
 #include <QFile>
+#include <QDir>
 #include <QPainter>
 #include <QTextStream>
+#include <kstandarddirs.h>
 
-#include "csegment.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
@@ -29,160 +30,124 @@
 #include "constellationboundarycomponent.h"
 
 ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComponent *parent, bool (*visibleMethod)() )
-: SkyComponent( parent, visibleMethod )
+: LineListComponent( parent, visibleMethod )
 {
 }
 
 ConstellationBoundaryComponent::~ConstellationBoundaryComponent() 
 {
-	while ( ! segmentList().isEmpty() ) 
-		delete segmentList().takeFirst();
 }
 
-// bool KStarsData::readCLineData( void )
-void ConstellationBoundaryComponent::init(KStarsData *)
+void ConstellationBoundaryComponent::init(KStarsData *data)
 {
 	QFile file;
-	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
-		emitProgressText( i18n("Loading constellation boundaries") );
+	QString path = KStandardDirs::locate( "appdata", "AND.cbound" );
+	path.chop( 11 );
+	QDir DataDir( path );
+	QStringList filters;
+	filters << "*.cbound";
+	DataDir.setNameFilters( filters );
+	QStringList BoundFiles = DataDir.entryList();
 
-	  QTextStream stream( &file );
-		unsigned int nn(0);
-		double ra(0.0), dec(0.0);
-		QString d1, d2;
-		bool ok(false), comment(false);
+	setPen( QPen( QBrush( data->colorScheme()->colorNamed( "CBoundColor" ) ), 
+								1, Qt::SolidLine ) );
+
+	//Constellation boundary data is stored in a series of 
+	//*.cbound files, one per constellation.  Each file contains 
+	//the list of RA/Dec points along the constellation's border,
+	//and a flag indicating whether the segment is duplicated 
+	//in another constellation.  (Actually all segments have a 
+	//duplicate somewhere...the choice of calling one the duplicate 
+	//is entirely arbitrary).
+	//
+	//We store the boundary data in a QHash of QPolygonF's (for 
+	//fast determination of whether a SkyPoint is enclosed, and for 
+	//drawing a single boundary to the screen).  We also store the 
+	//non-duplicate segments in the Component's native list of 
+	//SkyLines (for fast drawing of all boundaries at once).
+	foreach ( QString bfile, BoundFiles ) {
+		if ( KSUtils::openDataFile( file, bfile ) ) {
+			QString cname = bfile.left(3);
+			QPolygonF poly;
+
+			emitProgressText( i18n("Loading constellation boundaries: %1").arg(cname) );
+			QTextStream stream( &file );
 		
-		//read the stream one field at a time.  Individual segments can span
-		//multiple lines, so our normal readLine() is less convenient here.
-		//Read fields into strings and then attempt to recast them as ints 
-		//or doubles..this lets us do error checking on the stream.
-		while ( !stream.atEnd() ) {
-			stream >> d1;
-			if ( d1.isEmpty() ) continue;
+			double ra(0.0), dec(0.0);
+			SkyPoint p, pLast(0.0, 0.0);
 
-			if ( d1.at(0) == '#' ) { 
-				comment = true; 
-				ok = true; 
-			} else {
-				comment = false;
-				nn = d1.toInt( &ok );
-			}
-			
-			if ( !ok || comment ) {
-				d1 = stream.readLine();
-				
-				if ( !ok ) 
-					kWarning() << i18n( "Unable to parse boundary segment." ) << endl;
-				
-			} else { 
-				CSegment *seg = new CSegment();
-				for ( unsigned int i=0; i<nn; ++i ) {
-					stream >> d1 >> d2;
-					ra = d1.toDouble( &ok );
-					if ( ok ) dec = d2.toDouble( &ok );
-					if ( !ok ) break;
-					
-					seg->addPoint( ra, dec );
-				}
-				
-				if ( !ok ) {
-					//uh oh, this entry was not parsed.  Skip to the next line.
-					kWarning() << i18n( "Unable to parse boundary segment." ) << endl;
-					delete seg;
-					d1 = stream.readLine();
-					
-				} else {
-					stream >> d1; //this should always equal 2
-					
-					nn = d1.toInt( &ok );
-					//error check
-					if ( !ok || nn != 2 ) {
-						kWarning() << i18n( "Bad Constellation Boundary data." ) << endl;
-						delete seg;
-						d1 = stream.readLine();
+			while ( !stream.atEnd() ) {
+				QString line;
+				bool drawFlag(false), ok(false);
+
+				line = stream.readLine();
+				//ignore lines beginning with "#":
+				if ( line.at( 0 ) != '#' ) {
+					QStringList fields = line.split( " ", QString::SkipEmptyParts );
+					if ( fields.count() == 3 ) {
+						ra = fields[0].toDouble(&ok);
+						if ( ok ) dec = fields[1].toDouble(&ok);
+						if ( ok ) drawFlag = fields[2].toInt(&ok);
+						
+						if ( ok ) {
+							poly << QPointF( ra, dec );
+
+							if ( drawFlag ) {
+								if ( pLast.ra()->Degrees()==0.0 && pLast.dec()->Degrees()==0.0 ) {
+									pLast = SkyPoint( ra, dec );
+								} else {
+									SkyLine *sl = new SkyLine( pLast, SkyPoint( ra, dec ) );
+									sl->update( data );
+									lineList().append( sl );
+
+									pLast = SkyPoint( ra, dec );
+								}
+							} else {
+								pLast = SkyPoint( ra, dec );
+							}
+						}
 					}
 				}
-
-				if ( ok ) {
-					stream >> d1 >> d2;
-					ok = seg->setNames( d1, d2 );
-					if ( ok ) m_SegmentList.append( seg );
-				}
 			}
+
+			Boundary[cname] = poly;
+			
 		}
+
+		file.close();
 	}
 }
 
-void ConstellationBoundaryComponent::draw(KStars *ks, QPainter& psky, double scale)
-{
-	if ( ! visible() ) return;
+QString ConstellationBoundaryComponent::constellation( SkyPoint *p ) {
+	QHashIterator<QString, QPolygonF> i(Boundary);
 
-	SkyMap *map = ks->map();
-	float Width = scale * map->width();
-	float Height = scale * map->height();
+	while (i.hasNext()) {
+		i.next();
 
-	QString abbrev = QString(); 
-	QString cname = ks->data()->skyComposite()->constellation( map->focus() ).toLower();
-	foreach ( SkyObject *o, ks->data()->skyComposite()->constellationNames() ) {
-		if ( o->name().toLower() == cname ) 
-			abbrev = o->name2().toLower();
+		QPolygonF poly = i.value();
+
+		if ( poly.contains( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
+			return i.key();
 	}
 
-	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
-	psky.setBrush( Qt::NoBrush );
-
-	foreach ( CSegment *seg, m_SegmentList ) {
-		bool started( false );
-		SkyPoint *p = seg->nodes()[0];
-		QPointF oStart = map->toScreen( p, scale );
-		if ( ( oStart.x() >= -1000. && oStart.x() <= Width+1000.
-				&& oStart.y() >= -1000. && oStart.y() <= Height+1000. ) ) {
-			started = true;
-		}
-
-		//Highlight current constellation
-		bool highlightConstellation = false;
-		if ( seg->name1().toLower() == abbrev || seg->name2().toLower() == abbrev ) {
-			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
-			highlightConstellation = true;
-		}
-
-		foreach ( SkyPoint *p, seg->nodes() ) {
-			QPointF o = map->toScreen( p, scale );
-
-			if ( ( o.x() >= -1000. && o.x() <= Width+1000.
-					&& o.y() >= -1000. && o.y() <= Height+1000. ) ) {
-				if ( started ) {
-					if ( Options::useAntialias() )
-						psky.drawLine( oStart, o );
-					else
-						psky.drawLine( QPoint(int(oStart.x()),int(oStart.y())), 
-									QPoint(int(o.x()), int(o.y())) );
-				} else {
-					started = true;
-				}
-				oStart = o;
-			} else {
-				started = false;
-			}
-		}
-
-		if ( highlightConstellation ) {
-			psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundColor" ) ), 1, Qt::SolidLine ) );
-		}
-
-	}
+	return i18n("Unknown");
 }
 
-void ConstellationBoundaryComponent::update(KStarsData *data, KSNumbers *num ) {
-	if ( visible() ) {  
-	  foreach ( CSegment *seg, segmentList() ) {
-	    foreach ( SkyPoint *p, seg->nodes() ) {
-				if ( num ) p->updateCoords( num );
-				p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			}
-		}
+bool ConstellationBoundaryComponent::inConstellation( const QString &name, SkyPoint *p ) {
+	if ( Boundary.contains( name ) ) {
+		QPolygonF poly = Boundary.value( name );
+		if ( poly.contains( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
+			return true;
 	}
+	
+	return false;
 }
 
-QList<CSegment*>& ConstellationBoundaryComponent::segmentList() { return m_SegmentList; }
+QPolygonF ConstellationBoundaryComponent::boundary( const QString &name ) const {
+	if ( Boundary.contains( name ) )
+		return Boundary.value( name );
+	else
+		return QPolygonF();
+}
+
+

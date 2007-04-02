@@ -27,7 +27,6 @@
 #include "quaternion.h"
 
 class KSNumbers;
-class CSegment;
 class SkyObject;
 
 /**@class SkyPoint
@@ -476,13 +475,7 @@ public:
 //// 5. Calculating Rise/Set/Transit data.
 //// =====================================
 
-//// To Be Moved from SkyObject....
-
-////
-//// 6. Constellation Identification
-//// =====================================
-
-	QString constellation( QList<CSegment> &seglist, QList<SkyObject> &cnames ) const;
+//TODO: move rise/set/transit stuff from SkyObject
 
 
 protected:
