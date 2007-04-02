@@ -33,6 +33,7 @@
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
+#include <knewstuff2/ui/knewstuffaction.h>
 
 #include "Options.h"
 #include "kstars.h"
@@ -68,11 +69,11 @@ void KStars::initActions() {
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
 
-	ka = actionCollection()->addAction( "get_data" );
-        ka->setIcon( KIcon( "get-hot-new-stuff" ) );
-        ka->setText( i18n( "&Download Data..." ) );
+        ka = KNS::standardAction(i18n("Vocabularies..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_D ) );
-	connect( ka, SIGNAL( triggered() ), this, SLOT( slotDownload() ) );
+        ka->setWhatsThis(i18n("Downloads new data"));
+        ka->setToolTip(ka->whatsThis());
+        ka->setStatusTip(ka->whatsThis());
 
 	ka = actionCollection()->addAction( "open_file");
         ka->setIcon( KIcon( "document-open" ) );

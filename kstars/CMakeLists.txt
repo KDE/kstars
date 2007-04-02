@@ -169,7 +169,7 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS}
 	imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
 	indifitsconf.cpp indigroup.cpp indimenu.cpp indiproperty.cpp indistd.cpp 
 	infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp 
-	ksfilereader.cpp ksmoon.cpp ksnewstuff.cpp ksnumbers.cpp ksplanet.cpp 
+	ksfilereader.cpp ksmoon.cpp ksnumbers.cpp ksplanet.cpp 
 	ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
@@ -202,7 +202,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF2_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -211,7 +211,7 @@ install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
-install( FILES kstarsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )

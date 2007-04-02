@@ -31,7 +31,6 @@ class KDialogBase;
 class KToolBar;
 
 class dms;
-class KSNewStuff;
 class KStarsData;
 class KStarsSplash;
 class SkyMap;
@@ -655,7 +654,6 @@ class KStars : public KMainWindow
 		
 		LCGenerator *AAVSODialog;
 		FindDialog *findDialog;
-		KSNewStuff *kns;
 
 		//FIXME: move to KStarsData
 		ObservingList *obsList;

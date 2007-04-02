@@ -45,6 +45,7 @@
 #include <ktoolbar.h>
 #include <kedittoolbar.h>
 #include <kicon.h>
+#include <knewstuff2/engine.h>
 
 #include "opscatalog.h"
 #include "opsguides.h"
@@ -88,7 +89,6 @@
 #include "fitsviewer.h"
 // #include "libkdeedu/kdeeduui/kdeeduglossary.h"
 
-#include "ksnewstuff.h"
 #include "imagesequence.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -178,8 +178,7 @@ void KStars::slotWizard() {
 }
 
 void KStars::slotDownload() {
-	if (!kns) kns = new KSNewStuff( this );
-	kns->download();
+	KNS::Entry::List entries = KNS::Engine::download();
 }
 
 void KStars::slotLCGenerator() {
@@ -1088,7 +1087,6 @@ void KStars::slotAboutToQuit()
 
 	delete AAVSODialog;
 	delete obsList;
-	if ( kns ) delete kns;
 	if ( findDialog ) delete findDialog;
 	if ( avt ) delete avt;
 	if ( sb ) delete sb;
