@@ -31,7 +31,7 @@
 #include <kimageeffect.h>
 #include <kmenubar.h>
 #include <kstatusbar.h>
-#include <kcommand.h>
+#include <k3command.h>
 #include <klineedit.h>
 #include <kicon.h>
 
@@ -72,7 +72,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     Dirty      = 0;
 
     /* Initiliaze menu actions */
-    history = new KCommandHistory(actionCollection());
+    history = new K3CommandHistory(actionCollection());
     history->setUndoLimit(10);
     history->setRedoLimit(10);
     history->documentSaved();

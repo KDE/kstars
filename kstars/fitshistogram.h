@@ -19,7 +19,7 @@
 #define FITSHISTOGRAM
  
 #include "ui_fitshistogramui.h"
-#include <kcommand.h>
+#include <k3command.h>
 
 #include <QPixmap>
 #include <QMouseEvent>
@@ -74,7 +74,7 @@ class QPixmap;
     
  };
  
- class FITSHistogramCommand : public KCommand
+ class FITSHistogramCommand : public K3Command
 {
   public:
         FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);

@@ -26,14 +26,13 @@
 #include <kdialog.h>
 #include <kmainwindow.h>
 #include <kurl.h>
-#include <kcommand.h>
 
 #include "indi/cfitsio/fitsio.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
 
-class KCommandHistory;
+class K3CommandHistory;
 class QScrollView;
 class FITSImage;
 class FITSHistogram;
@@ -77,7 +76,7 @@ class FITSViewer : public KMainWindow
 	FITSImage *image;					/* FITS image object */
 	FITSHistogram *histo;					/* FITS Histogram */
 	
-	KCommandHistory *history;				/* History for undo/redo */
+	K3CommandHistory *history;				/* History for undo/redo */
 	int Dirty;						/* Document modified? */
 	KUrl currentURL;					/* FITS File name and path */
 		
