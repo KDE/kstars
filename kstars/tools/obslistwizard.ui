@@ -22,7 +22,7 @@
    <item>
     <widget class="QStackedWidget" name="olwStack" >
      <property name="currentIndex" >
-      <number>6</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="WelcomePage" >
       <layout class="QVBoxLayout" >
@@ -792,6 +792,16 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
@@ -802,26 +812,37 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>extdatetimeedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>MagnitudeSpinBox</class>
    <extends>KDoubleNumInput</extends>
    <header>widgets/magnitudespinbox.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
+   <class>ExtDateEdit</class>
+   <extends>QSpinBox</extends>
+   <header>extdatetimeedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>TypeList</tabstop>
+  <tabstop>AllButton</tabstop>
+  <tabstop>NoneButton</tabstop>
+  <tabstop>DeepSkyButton</tabstop>
+  <tabstop>SolarSystemButton</tabstop>
+  <tabstop>RegionList</tabstop>
+  <tabstop>ConstellationList</tabstop>
+  <tabstop>RAMin</tabstop>
+  <tabstop>RAMax</tabstop>
+  <tabstop>DecMin</tabstop>
+  <tabstop>DecMax</tabstop>
+  <tabstop>RA</tabstop>
+  <tabstop>Dec</tabstop>
+  <tabstop>Radius</tabstop>
+  <tabstop>SelectByDate</tabstop>
+  <tabstop>Date</tabstop>
+  <tabstop>LocationButton</tabstop>
+  <tabstop>SelectByMagnitude</tabstop>
+  <tabstop>IncludeNoMag</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

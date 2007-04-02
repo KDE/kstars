@@ -428,7 +428,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 		if ( ra2 == 0.0 ) ra2 = 24.0;
 
 		if ( !rectOk ) {
-			kWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) << endl;
+			//			kWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) << endl;
 			return;
 		}
 
