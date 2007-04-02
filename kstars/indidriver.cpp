@@ -41,7 +41,7 @@
 #include <klineedit.h>
 #include <kstandarddirs.h>
 #include <kaction.h>
-#include <kserversocket.h>
+#include <k3serversocket.h>
 
 //#include <kextsock.h>
 #include <unistd.h>
