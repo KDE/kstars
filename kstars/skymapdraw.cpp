@@ -194,8 +194,13 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
 
 	QPolygonF poly;
-	foreach ( QPointF node, constell )
-		poly << toScreen( &SkyPoint( node.x(), node.y() ), scale );
+	foreach ( QPointF node, constell ) {
+		SkyPoint sp( node.x(), node.y() );
+		sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+		QPointF v = toScreen( &sp, scale, Options::useRefraction() );
+
+		poly << v;
+	}
 
 	psky.drawPolygon( poly );
 }
