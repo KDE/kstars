@@ -195,11 +195,11 @@ public:
 
 /**@return a pointer to the catalog Right Ascension.
 	*/
-	const dms* ra0() const { return &RA0; };
+	const dms* ra0() const { return &RA0; }
 
 /**@return a pointer to the catalog Declination.
 	*/
-	const dms* dec0() const { return &Dec0; };
+	const dms* dec0() const { return &Dec0; }
 
 /**@returns a pointer to the current Right Ascension.
 	*/

@@ -150,10 +150,10 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		ASYNC lookTowards( const QString direction );
 
 	/**DCOP interface function.  Zoom in one step. */
-		ASYNC zoomIn(void) { slotZoomIn(); };
+		ASYNC zoomIn(void) { slotZoomIn(); }
 
 	/**DCOP interface function.  Zoom out one step. */
-		ASYNC zoomOut(void){ slotZoomOut(); };
+		ASYNC zoomOut(void){ slotZoomOut(); }
 
 	/**DCOP interface function.  reset to the default zoom level. */
 		ASYNC defaultZoom(void) { slotDefaultZoom(); }
@@ -668,7 +668,7 @@ class KStars::privatedata {
 		KStarsData *kstarsData;
 
 		/**Constructor */
-		privatedata(KStars *parent) : ks(parent), splash(0), kstarsData(0) {};
+		privatedata(KStars *parent) : ks(parent), splash(0), kstarsData(0) {}
 		/**Destructor */
 		~privatedata();
 

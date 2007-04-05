@@ -95,7 +95,7 @@ public:
 
 /**Destructor (empty)
 	*/
-	~GeoLocation() {};
+	~GeoLocation() {}
 
 /**@return pointer to the longitude dms object
 	*/

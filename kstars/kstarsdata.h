@@ -441,7 +441,7 @@ public:
 
 	/**@return pointer to the localization (KLocale) object
 		*/
-	KLocale *getLocale() { return locale; };
+	KLocale *getLocale() { return locale; }
 
 	/**@return pointer to the Earth object
 		*/

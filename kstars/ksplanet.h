@@ -96,7 +96,7 @@ protected:
 				*@p c the C value
 				*/
 			OrbitData(double a, double b, double c) :
-				A(a), B(b), C(c) {};
+				A(a), B(b), C(c) {}
 			
 			double A, B, C;
 	};

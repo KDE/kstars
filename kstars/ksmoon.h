@@ -103,7 +103,7 @@ private:
 			double Ri;
 
 			MoonLRData( int pnd, int pnm, int pnm1, int pnf, double pLi, double pRi ):
-				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {};
+				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {}
 	};
 
 	static QPtrList<MoonLRData> LRData;
@@ -124,7 +124,7 @@ private:
 			double Bi;
 
 			MoonBData( int pnd, int pnm, int pnm1, int pnf, double pBi ):
-				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {};
+				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {}
 	};
 
 	static QPtrList<MoonBData> BData;

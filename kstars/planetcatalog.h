@@ -72,10 +72,10 @@ class PlanetCatalog : public QObject {
 		void findPosition( const KSNumbers *num, const dms *lat, const dms *LST );
 
 	/**@return pointer to the Sun. */
-		const KSSun *planetSun() const { return Sun; };
+		const KSSun *planetSun() const { return Sun; }
 
 	/**@return pointer to the Earth. (must not be const because we call findPosition on it in KSPlanetBase::updateCoords() )*/
-		KSPlanet *earth() { return Earth; };
+		KSPlanet *earth() { return Earth; }
 
 	/**Compute the present Horizontal coordinates of all planets. 
 		*@p LST pointer to the current local sidereal time

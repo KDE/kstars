@@ -42,7 +42,7 @@ public:
 	/**Constructor*/
 	CSegment();
 	/**Destructor (empty)*/
-	~CSegment() {};
+	~CSegment() {}
 	
 	/**Add a SkyPoint node to the boundary segment.
 		*@p ra the RA of the node
