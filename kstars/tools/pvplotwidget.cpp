@@ -17,7 +17,7 @@
 #include <math.h> //for sqrt()
 
 #include <qapplication.h>
-
+#include <KPlotPoint>
 #include "pvplotwidget.h"
 #include "planetviewer.h"
 #include "kplotobject.h"

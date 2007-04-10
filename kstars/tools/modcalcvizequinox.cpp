@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <math.h> //fabs()
-
+#include <KPlotPoint>
 #include "modcalcvizequinox.h"
 
 #include "dms.h"

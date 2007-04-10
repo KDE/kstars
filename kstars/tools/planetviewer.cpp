@@ -26,7 +26,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kicon.h>
-
+#include <KPlotPoint>
 #include "planetviewer.h"
 #include "ui_planetviewer.h"
 #include "kstars.h"
