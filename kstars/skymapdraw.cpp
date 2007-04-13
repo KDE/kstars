@@ -188,13 +188,54 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
-	QPolygonF constell;
-	data->skyComposite()->constellation( focus(), &constell );
+	QPolygonF cbound;
+	data->skyComposite()->constellation( focus(), &cbound );
 	
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
 
+	//If the solid ground is being drawn, then we may need to clip the 
+	//polygon at the Horizon.  cbound will be the clipped polygon
+	if ( Options::useAltAz() && Options::showGround() ) {
+		QPolygonF horizPolygon;
+		bool needClip( false );
+		foreach ( QPointF node, cbound ) {
+			SkyPoint sp( node.x(), node.y() );
+			sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+			horizPolygon << QPointF( sp.az()->Degrees(), sp.alt()->Degrees() );
+		}
+
+		QRectF rBound = horizPolygon.boundingRect();
+		//If the bounding rectangle's top edge is below the horizon,
+		//then we don't draw the polygon at all.  Note that the rectangle's 
+		//top edge is returned by the bottom() function!
+		if ( rBound.bottom() < 0.0 ) 
+			return;
+
+		//We need to clip if the bounding rect intersects the horizon
+		if ( rBound.contains( QPointF( rBound.center().x(), 0.0 ) ) ) {
+			QPolygonF clipper;
+			clipper << QPointF( rBound.left(), -0.5 ) << QPointF( rBound.right(), -0.5 )
+							<< QPointF( rBound.right(), rBound.top() ) //top() is bottom ;) 
+							<< QPointF( rBound.left(), rBound.top() );
+
+			horizPolygon = horizPolygon.subtracted( clipper );
+
+			//Now, convert the clipped horizPolygon vertices back to equatorial 
+			//coordinates, and store them back in cbound
+			cbound = QPolygonF();
+			foreach ( QPointF node, horizPolygon ) {
+				SkyPoint sp;
+				sp.setAz( node.x() );
+				sp.setAlt( node.y() );
+				sp.HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				cbound << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
+			}
+		}
+	}
+
+	//Transform the constellation boundary polygon to the screen
 	QPolygonF poly;
-	foreach ( QPointF node, constell ) {
+	foreach ( QPointF node, cbound ) {
 		SkyPoint sp( node.x(), node.y() );
 		sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 		QPointF v = toScreen( &sp, scale, Options::useRefraction() );
