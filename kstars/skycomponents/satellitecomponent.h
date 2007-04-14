@@ -21,7 +21,9 @@
 #include <QStringList>
 
 #include "linelistcomponent.h"
+extern "C" {
 #include "satlib/SatLib.h"
+}
 
 class SatelliteComponent : public LineListComponent {
 	public:
@@ -39,7 +41,7 @@ class SatelliteComponent : public LineListComponent {
 		*@short Initialize the component using a SPositionSat array
 		*@p data Pointer to the KStarsData object
 		*/
-		void init(KStarsData *data, SPositionSat *pSat[], int nsteps);
+		void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
 
 	private:
 		QStringList SatelliteNames;

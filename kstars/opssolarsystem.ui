@@ -1,47 +1,38 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>OpsSolarSystem</class>
  <widget class="QWidget" name="OpsSolarSystem" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>517</height>
+    <width>622</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>OpsSolarSystem</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
       <string>Sun, Moon &amp;&amp; Planets</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>8</number>
       </property>
-      <property name="spacing" >
-       <number>6</number>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
       </property>
       <item>
        <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
         <item row="1" column="1" >
          <widget class="QCheckBox" name="kcfg_ShowSaturn" >
           <property name="toolTip" >
@@ -108,27 +99,27 @@
          </widget>
         </item>
         <item row="0" column="2" >
-         <widget class="KPushButton" name="showAllPlanets" >
+         <widget class="KPushButton" native="1" name="showAllPlanets" >
           <property name="toolTip" >
            <string>Select all major bodies</string>
           </property>
           <property name="whatsThis" >
            <string>Press this to select all planets, the Sun and the Moon to be drawn in the map</string>
           </property>
-          <property name="text" >
+          <property name="text" stdset="0" >
            <string>Select All</string>
           </property>
          </widget>
         </item>
         <item row="1" column="2" >
-         <widget class="KPushButton" name="showNonePlanets" >
+         <widget class="KPushButton" native="1" name="showNonePlanets" >
           <property name="toolTip" >
            <string>Unselect all major bodies</string>
           </property>
           <property name="whatsThis" >
            <string>Press this button to unselect all planets, the Sun and the Moon so that they will not be drawn on the map</string>
           </property>
-          <property name="text" >
+          <property name="text" stdset="0" >
            <string>Select None</string>
           </property>
          </widget>
@@ -267,20 +258,20 @@
       <string>Minor Planets</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>8</number>
       </property>
-      <property name="spacing" >
-       <number>6</number>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
       </property>
       <item>
        <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
         <item row="2" column="1" >
          <widget class="QCheckBox" name="kcfg_ShowCometNames" >
           <property name="toolTip" >
@@ -358,23 +349,23 @@
          </widget>
         </item>
         <item row="2" column="2" >
-         <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName" >
+         <widget class="KDoubleNumInput" native="1" name="kcfg_MaxRadCometName" >
           <property name="toolTip" >
            <string>Maximum distance for comet names</string>
           </property>
           <property name="whatsThis" >
            <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
           </property>
-          <property name="maximum" >
-           <double>0</double>
+          <property name="maximum" stdset="0" >
+           <double>0.000000000000000</double>
           </property>
-          <property name="precision" >
+          <property name="precision" stdset="0" >
            <number>1</number>
           </property>
          </widget>
         </item>
         <item row="1" column="2" >
-         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroidName" >
+         <widget class="MagnitudeSpinBox" native="1" name="kcfg_MagLimitAsteroidName" >
           <property name="focusPolicy" >
            <enum>Qt::StrongFocus</enum>
           </property>
@@ -387,7 +378,7 @@
          </widget>
         </item>
         <item row="0" column="2" >
-         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid" >
+         <widget class="MagnitudeSpinBox" native="1" name="kcfg_MagLimitAsteroid" >
           <property name="focusPolicy" >
            <enum>Qt::StrongFocus</enum>
           </property>
@@ -443,20 +434,8 @@
       <string>Orbit Trails</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
         <item>
          <widget class="QCheckBox" name="kcfg_UseAutoTrail" >
           <property name="toolTip" >
@@ -472,12 +451,6 @@
         </item>
         <item>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
           <item>
            <widget class="QCheckBox" name="kcfg_FadePlanetTrails" >
             <property name="toolTip" >
@@ -508,14 +481,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="KPushButton" name="ClearAllTrails" >
+           <widget class="KPushButton" native="1" name="ClearAllTrails" >
             <property name="toolTip" >
              <string>Clear all orbit trails</string>
             </property>
             <property name="whatsThis" >
              <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
             </property>
-            <property name="text" >
+            <property name="text" stdset="0" >
              <string>Remove All Trails</string>
             </property>
            </widget>
@@ -529,10 +502,33 @@
         <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>586</width>
+          <height>21</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox" >
+        <property name="text" >
+         <string>Earth satellite tracks</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
         <property name="sizeHint" >
          <size>
           <width>20</width>
-          <height>16</height>
+          <height>40</height>
          </size>
         </property>
        </spacer>
@@ -543,28 +539,21 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>MagnitudeSpinBox</class>
-   <extends>KDoubleNumInput</extends>
-   <header>widgets/magnitudespinbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
    <extends></extends>
    <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>MagnitudeSpinBox</class>
+   <extends>KDoubleNumInput</extends>
+   <header>widgets/magnitudespinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

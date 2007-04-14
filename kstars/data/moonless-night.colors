@@ -1,7 +1,7 @@
 0:4
 #000000 :SkyColor
 #008f00 :MessColor
-#066 :NGCColor
+#006666 :NGCColor
 #382a7d :ICColor
 #930000 :HSTColor
 #577d7d :SNameColor
@@ -15,12 +15,13 @@
 #613d12 :EclColor
 #091f14 :HorzColor
 #909055 :CompassColor
-#456 :GridColor
+#445566 :GridColor
 #d2dbef :BoxTextColor
 #900000 :BoxGrabColor
-#000 :BoxBGColor
+#000000 :BoxBGColor
 #DD0000 :TargetColor
 #AAAAAA :UserLabelColor
 #993311 :PlanetTrailColor
-#456 :AngularRuler
-#F00 :ObsListColor
+#445566 :AngularRuler
+#FF0000 :ObsListColor
+#007777 :SatColor

@@ -19,10 +19,9 @@
 
 #include <QFile>
 
-#include "kstarsdata.h"
-
 #include "ksutils.h"
 #include "ksfilereader.h"
+#include "skypoint.h"
 
 #include "milkywaycomposite.h"
 #include "milkywaycomponent.h"

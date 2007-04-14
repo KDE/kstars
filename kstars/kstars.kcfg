@@ -494,6 +494,11 @@
 			<whatsthis>Toggle whether Pluto is drawn in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ShowSatellites" type="Bool">
+			<label>Draw satellite tracks in the sky map?</label>
+			<whatsthis>Toggle whether satellite tracks are drawn in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="ShowStars" type="Bool">
 			<label>Draw stars in the sky map?</label>
 			<whatsthis>Toggle whether stars are drawn in the sky map.</whatsthis>

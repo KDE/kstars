@@ -70,7 +70,7 @@ void ConstellationBoundaryComponent::init(KStarsData *data)
 			QString cname = bfile.left(3);
 			QPolygonF poly;
 
-			emitProgressText( i18n("Loading constellation boundaries: %1").arg(cname) );
+			emitProgressText( i18n("Loading constellation boundaries: %1", cname) );
 			QTextStream stream( &file );
 		
 			double ra(0.0), dec(0.0);

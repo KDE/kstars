@@ -110,6 +110,9 @@ ColorScheme::ColorScheme() : FileName() {
 	KeyName.append( "ObsListColor" );
 	Name.append( i18n( "Observing List Label" ) );
 	Default.append( "#F00" );
+	KeyName.append( "SatColor" );
+	Name.append( i18n( "Satellite Track" ) );
+	Default.append( "#0AA" );
 
 	//Set the default colors in the Palette.
 	for ( int i=0; i<KeyName.size(); ++i ) {

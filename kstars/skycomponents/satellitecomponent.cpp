@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QBrush>
+
 #include "kstarsdata.h"
 #include "skyline.h"
 #include "satellitecomponent.h"
@@ -27,8 +29,15 @@ SatelliteComponent::SatelliteComponent(SkyComponent *parent, bool (*visibleMetho
 SatelliteComponent::~SatelliteComponent() {
 }
 
-void SatelliteComponent::init( KStarsData *data, SPositionSat *pSat[], int npos ) {
+void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionSat *pSat[], int npos ) {
 	SkyPoint p1, p2;
+
+	setLabel( name );
+	setLabelPosition( LineListComponent::RightEdgeLabel );
+
+	setPen( QPen( QBrush( data->colorScheme()->colorNamed( "SatColor" ) ), 
+										 1, Qt::SolidLine ) );
+
 	p2.setAlt( pSat[0]->sat_ele );
 	p2.setAz( pSat[0]->sat_azi );
 	p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );

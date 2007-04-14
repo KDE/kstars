@@ -15,40 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QPolygonF>
+
+#include "skymapcomposite.h"
+
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-
-#include "skymapcomposite.h"
+#include "deepskyobject.h"
+#include "ksplanet.h"
 
 #include "constellationboundarycomponent.h"
 #include "constellationlinescomposite.h"
-//#include "constellationnamescomponent.h"
+#include "constellationnamescomponent.h"
 #include "coordinategridcomposite.h"
 #include "customcatalogcomponent.h"
-//#include "deepskycomponent.h"
+#include "deepskycomponent.h"
 #include "equatorcomponent.h"
 #include "eclipticcomponent.h"
 #include "horizoncomponent.h"
 #include "jupitermoonscomponent.h"
 #include "milkywaycomposite.h"
-//#include "solarsystemcomposite.h"
-//#include "starcomponent.h"
-//#include "telescopecomponent.h"
+#include "solarsystemcomposite.h"
+#include "starcomponent.h"
+#include "satellitecomposite.h"
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyComposite(parent)
 {
 	//Add all components
-	// beware the order of adding components
-	// first added component will be drawn first
-	// so horizon should be one of the last components
 	m_MilkyWay = new MilkyWayComposite( this, &Options::showMilkyWay );
 	addComponent( m_MilkyWay );
-
+	//Stars must come before constellation lines
 	m_Stars = new StarComponent( this, &Options::showStars );
 	addComponent( m_Stars );
-
 	m_CoordinateGrid = new CoordinateGridComposite( this, &Options::showGrid );
 	addComponent( m_CoordinateGrid );
 	m_CBounds = new ConstellationBoundaryComponent( this, &Options::showCBounds );
@@ -63,6 +63,9 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	addComponent( m_Ecliptic );
 	m_Horizon = new HorizonComponent(this, &Options::showHorizon);
 	addComponent( m_Horizon );
+
+	m_Satellites = new SatelliteComposite( this );
+	addComponent( m_Satellites );
 
 	m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky, 
 			&Options::showMessier, &Options::showNGC, &Options::showIC, 
@@ -105,7 +108,9 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	m_Stars->update( data, num );
 	//12. Solar system
 	m_SolarSystem->update( data, num );
-	//12. Horizon
+	//13. Satellites
+	m_Satellites->update( data, num );
+	//14. Horizon
 	m_Horizon->update( data, num );
 }
 
@@ -184,12 +189,17 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_SolarSystem->draw( ks, psky, scale );
 //	kDebug() << QString("Solar sys   : %1 ms").arg( t.elapsed() ) << endl;
 
-	//Draw object name labels
+	//12. Satellite tracks
+//	t.start();
+	m_Satellites->draw( ks, psky, scale );
+//	kDebug() << QString("Satellites  : %1 ms").arg( t.elapsed() ) << endl;
+
+	//13. Object name labels
 //	t.start();
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
 //	kDebug() << QString("Name labels : %1 ms").arg( t.elapsed() ) << endl;
 
-	//13. Horizon (and ground)
+	//14. Horizon (and ground)
 //	t.start();
 	m_Horizon->draw( ks, psky, scale );
 //	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() ) << endl;
@@ -374,6 +384,50 @@ bool SkyMapComposite::inConstellation( const QString &name, SkyPoint *p ) {
 
 void SkyMapComposite::emitProgressText( const QString &message ) {
 	emit progressText( message );
+}
+
+float SkyMapComposite::faintStarMagnitude() const { 
+	return m_Stars->faintMagnitude(); 
+}
+
+int SkyMapComposite::starColorMode() const { 
+	return m_Stars->starColorMode(); 
+}
+
+int SkyMapComposite::starColorIntensity() const { 
+	return m_Stars->starColorIntensity(); 
+}
+
+QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() { 
+	return m_DeepSky->objectList(); 
+}
+
+QList<SkyComponent*> SkyMapComposite::solarSystem() { 
+	return m_SolarSystem->components(); 
+}
+
+QList<SkyObject*>& SkyMapComposite::constellationNames() { 
+	return m_CNames->objectList(); 
+}
+
+QList<SkyObject*>& SkyMapComposite::stars() { 
+	return m_Stars->objectList(); 
+}
+
+QList<SkyObject*>& SkyMapComposite::asteroids() { 
+	return m_SolarSystem->asteroids(); 
+}
+
+QList<SkyObject*>& SkyMapComposite::comets() { 
+	return m_SolarSystem->comets(); 
+}
+
+KSPlanet* SkyMapComposite::earth() { 
+	return m_SolarSystem->earth(); 
+}
+
+QList<SkyComponent*> SkyMapComposite::customCatalogs() { 
+	return m_CustomCatalogs->components(); 
 }
 
 #include "skymapcomposite.moc"

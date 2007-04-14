@@ -79,13 +79,13 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 					clc = new ConstellationLinesComponent( this, Options::showCLines );
 					clc->setPen( QPen( QBrush( data->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); 
 
-					pLast = data->skyComposite()->findStarByGenetiveName( name );
+					pLast = (SkyPoint*) data->skyComposite()->findStarByGenetiveName( name );
 
 					if ( ! pLast )
 						kWarning() << i18n( "No star named %1 found." , name) << endl;
 
 				} else {
-					p = data->skyComposite()->findStarByGenetiveName( name );
+					p = (SkyPoint*) data->skyComposite()->findStarByGenetiveName( name );
 
 					if ( p && pLast && clc ) {
 						clc->lineList().append( new SkyLine( pLast, p ) );
