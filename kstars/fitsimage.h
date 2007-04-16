@@ -29,7 +29,7 @@
 #include <QScrollArea>
 #include <QLabel>
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kurl.h>
 
 #include "indi/cfitsio/fitsio.h"

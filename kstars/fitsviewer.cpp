@@ -64,7 +64,7 @@
 #include "Options.h"
 
 FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
-	: KMainWindow (parent)
+	: KXmlGuiWindow (parent)
 {
     image      = NULL;
     currentURL = *url;

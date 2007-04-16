@@ -24,7 +24,7 @@
 #include <QCloseEvent>
 
 #include <kdialog.h>
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kurl.h>
 
 #include "indi/cfitsio/fitsio.h"
@@ -37,7 +37,7 @@ class QScrollView;
 class FITSImage;
 class FITSHistogram;
 
-class FITSViewer : public KMainWindow  
+class FITSViewer : public KXmlGuiWindow  
 {
 	Q_OBJECT
 

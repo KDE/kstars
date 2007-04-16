@@ -18,7 +18,7 @@
 #define KSTARS_H_
 
 #include <QtDBus/QtDBus>
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 
 
 #include "tools/observinglist.h"
@@ -63,7 +63,7 @@ class ImageViewer;
 	*@version 1.0
 	*/
 
-class KStars : public KMainWindow
+class KStars : public KXmlGuiWindow
 {
   Q_OBJECT
   Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
