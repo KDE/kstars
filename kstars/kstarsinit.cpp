@@ -22,7 +22,6 @@
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kiconloader.h>
-#include <kapplication.h>
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
@@ -553,7 +552,7 @@ void KStars::initStatusBar() {
 void KStars::datainitFinished(bool worked) {
 	//Quit program if something went wrong with initialization of data
 	if (!worked) {
-		kapp->quit();
+		qApp->quit();
 		return;
 	}
 

@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 		KStarsData *dat = new KStarsData();
 		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
 		dat->initialize();
-		while (!dat->startupComplete) { kapp->processEvents(); }
+		while (!dat->startupComplete) { qApp->processEvents(); }
 
 		//Set Geographic Location
 		dat->setLocationFromOptions(); 
@@ -163,10 +163,10 @@ int main(int argc, char *argv[])
 		dat->setFullTimeUpdate();
 		dat->updateTime(dat->geo(), map );
 
-		kapp->processEvents();
+		qApp->processEvents();
 		map->setMapGeometry();
 		map->exportSkyImage( &sky );
-		kapp->processEvents();
+		qApp->processEvents();
 
 		if ( ! sky.save( fname, format ) ) kWarning() << i18n( "Unable to save image: %1 ", fname ) << endl;
 		else kDebug() << i18n( "Saved to file: %1", fname ) << endl;
