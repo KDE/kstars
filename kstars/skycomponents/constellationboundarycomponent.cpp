@@ -126,7 +126,7 @@ QString ConstellationBoundaryComponent::constellation( SkyPoint *p ) {
 
 		QPolygonF poly = i.value();
 
-		if ( poly.contains( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
+		if ( poly.containsPoint( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
 			return i.key();
 	}
 
@@ -136,7 +136,7 @@ QString ConstellationBoundaryComponent::constellation( SkyPoint *p ) {
 bool ConstellationBoundaryComponent::inConstellation( const QString &name, SkyPoint *p ) {
 	if ( Boundary.contains( name ) ) {
 		QPolygonF poly = Boundary.value( name );
-		if ( poly.contains( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
+		if ( poly.containsPoint( QPointF( p->ra()->Hours(), p->dec()->Degrees() ), Qt::OddEvenFill ) )
 			return true;
 	}
 	
