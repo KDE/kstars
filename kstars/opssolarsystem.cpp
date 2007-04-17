@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <kactioncollection.h>
 #include <kpushbutton.h>
 #include "opssolarsystem.h"
 #include "kstars.h"
@@ -58,7 +59,7 @@ void OpsSolarSystem::slotCometWidgets( bool on ) {
 
 void OpsSolarSystem::slotSelectPlanets() {
 	bool b=true;
-	if ( sender()->objectName() == QString( "showNonePlanets" ) ) b = false;
+	if ( sender() == ksw->actionCollection()->action( "showNonePlanets" ) ) b = false;
 	
 	kcfg_ShowSun->setChecked( b );
 	kcfg_ShowMoon->setChecked( b );

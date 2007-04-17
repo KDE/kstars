@@ -20,6 +20,7 @@
 #include <QTextStream>
 
 #include <kfiledialog.h>
+#include <kactioncollection.h>
 
 #include "opscatalog.h"
 #include "Options.h"
@@ -90,7 +91,7 @@ OpsCatalog::~OpsCatalog() {}
 
 void OpsCatalog::updateDisplay() {
 	//Modify display according to settings in the CatalogList
-	if ( sender()->objectName() == QString( "CatalogList" ) )
+	if ( sender() == ksw->actionCollection()->action( "CatalogList" ) )
 		Options::setShowDeepSky( true );
 
 	Options::setShowMessier( showMessier->checkState() );

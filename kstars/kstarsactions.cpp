@@ -98,23 +98,23 @@
 void KStars::slotViewToolBar() {
 	KToggleAction *a = (KToggleAction*)sender();
 
-	if ( a->objectName() == QString( "show_stars" ) ) {
+	if ( a == actionCollection()->action( "show_stars" ) ) {
 		Options::setShowStars( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_deepsky" ) ) {
+	} else if ( a == actionCollection()->action( "show_deepsky" ) ) {
 		Options::setShowDeepSky( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_planets" ) ) {
+	} else if ( a == actionCollection()->action( "show_planets" ) ) {
 		Options::setShowPlanets( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_clines" ) ) {
+	} else if ( a == actionCollection()->action( "show_clines" ) ) {
 		Options::setShowCLines( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_cnames" ) ) {
+	} else if ( a == actionCollection()->action( "show_cnames" ) ) {
 		Options::setShowCNames( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_cbounds" ) ) {
+	} else if ( a == actionCollection()->action( "show_cbounds" ) ) {
 		Options::setShowCBounds( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_mw" ) ) {
+	} else if ( a == actionCollection()->action( "show_mw" ) ) {
 		Options::setShowMilkyWay( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_grid" ) ) {
+	} else if ( a == actionCollection()->action( "show_grid" ) ) {
 		Options::setShowGrid( a->isChecked() );
-	} else if ( a->objectName() == QString( "show_horizon" ) ) {
+	} else if ( a == actionCollection()->action( "show_horizon" ) ) {
 		Options::setShowGround( a->isChecked() );
 	}
 
@@ -640,17 +640,16 @@ void KStars::slotToggleTimer() {
 
 //Pointing
 void KStars::slotPointFocus() {
-	QString sentFrom( sender()->objectName() );
 
-	if ( sentFrom == "zenith" )
+	if ( sender() == actionCollection()->action("zenith") )
 		map()->invokeKey( Qt::Key_Z );
-	else if ( sentFrom == "north" )
+	else if ( sender() == actionCollection()->action("north") )
 		map()->invokeKey( Qt::Key_N );
-	else if ( sentFrom == "east" )
+	else if ( sender() == actionCollection()->action("east") )
 		map()->invokeKey( Qt::Key_E );
-	else if ( sentFrom == "south" )
+	else if ( sender() == actionCollection()->action("south") )
 		map()->invokeKey( Qt::Key_S );
-	else if ( sentFrom == "west" )
+	else if ( sender() == actionCollection()->action("west") )
 		map()->invokeKey( Qt::Key_W );
 }
 
@@ -970,25 +969,25 @@ void KStars::slotClearAllTrails() {
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
 	//Toolbars
-	if ( sender()->objectName() == QString( "show_mainToolBar" ) ) {
+	if ( sender() == actionCollection()->action( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
 		if ( show ) toolBar("kstarsToolBar")->show();
 		else toolBar("kstarsToolBar")->hide();
 	}
 
-	if ( sender()->objectName() == QString( "show_viewToolBar" ) ) {
+	if ( sender() == actionCollection()->action( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );
 		if ( show ) toolBar( "viewToolBar" )->show();
 		else toolBar( "viewToolBar" )->hide();
 	}
 
-	if ( sender()->objectName() == QString( "show_statusBar" ) ) {
+	if ( sender() == actionCollection()->action( "show_statusBar" ) ) {
 		Options::setShowStatusBar( show );
 		if ( show ) statusBar()->show();
 		else  statusBar()->hide();
 	}
 
-	if ( sender()->objectName() == QString( "show_sbAzAlt" ) ) {
+	if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
 		Options::setShowAltAzField( show );
 		if ( show ) {
 			//To preserve the order (AzAlt before RADec), we have to remove
@@ -1011,7 +1010,7 @@ void KStars::slotShowGUIItem( bool show ) {
 		}
 	}
 
-	if ( sender()->objectName() == QString( "show_sbRADec" ) ) {
+	if ( sender() == actionCollection()->action( "show_sbRADec" ) ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
 			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
@@ -1027,13 +1026,13 @@ void KStars::slotShowGUIItem( bool show ) {
 
 //InfoBoxes: we only change options here; these are also connected to slots in
 //InfoBoxes that actually toggle the display.
-	if ( sender()->objectName() == QString( "show_boxes" ) )
+	if ( sender() == actionCollection()->action( "show_boxes" ) )
 		Options::setShowInfoBoxes( show );
-	if ( sender()->objectName() == QString( "show_time_box" ) )
+	if ( sender() == actionCollection()->action( "show_time_box" ) )
 		Options::setShowTimeBox( show );
-	if ( sender()->objectName() == QString( "show_location_box" ) )
+	if ( sender() == actionCollection()->action( "show_location_box" ) )
 		Options::setShowGeoBox( show );
-	if ( sender()->objectName() == QString( "show_focus_box" ) )
+	if ( sender() == actionCollection()->action( "show_focus_box" ) )
 		Options::setShowFocusBox( show );
 }
 
