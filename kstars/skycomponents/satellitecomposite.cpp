@@ -67,35 +67,24 @@ void SatelliteComposite::init( KStarsData *data ) {
 		
 		//Julian Day value for current date and time:
 		JD_0 = data->ut().djd();
-		double dt = 10.; //10-sec time steps 
 
 		//Loop over desired satellites, construct their paths over the next hour, 
 		//and add visible paths to the list
 		foreach ( const QString &satName, SatelliteNames ) {
 			emitProgressText( i18n("Creating satellite: %1", satName ) );
 
-			SatFindPosition( satName.toAscii().data(), JD_0, dt, NSTEPS, pSat.data() );
+			SatFindPosition( satName.toAscii().data(), JD_0, DT, NSTEPS, pSat.data() );
 		
 			//Make sure the satellite track is visible before adding it to the list.
 			bool isVisible = false;
 			for ( int i=0; i<NSTEPS; i++ ) {
-				//DEBUG
-				if ( satName == "HST" ) 
-					kDebug() << "HST alt: " << pSat[i]->sat_ele << "  az: " << pSat[i]->sat_azi << endl;
-
 				if ( pSat[i]->sat_ele > 10.0 ) { 
 					isVisible = true;
 					break;
 				}
 			}
 		
-			//DEBUG
-			kDebug() << satName << endl;
-
 			if ( isVisible ) {
-				//DEBUG
-				kDebug() << satName << " is visible!  Adding it to the display." << endl;
-
 				SatelliteComponent *sc = new SatelliteComponent( this, Options::showSatellites );
 				sc->init( satName, data, pSat.data(), NSTEPS );
 				addComponent( sc );
@@ -106,12 +95,8 @@ void SatelliteComposite::init( KStarsData *data ) {
 }
 
 void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
-	//DEBUG
-	kDebug() << k_funcinfo << endl;
-
 	//Julian Day value for current date and time:
 	JD_0 = data->ut().djd();
-	double dt = 10.; //10-sec time steps 
 
 	//Clear the current list of tracks
 	components().clear();
@@ -119,15 +104,11 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 	//Loop over desired satellites, construct their paths over the next hour, 
 	//and add visible paths to the list
 	foreach ( const QString &satName, SatelliteNames ) {
-		SatFindPosition( satName.toAscii().data(), JD_0, dt, NSTEPS, pSat.data() );
-	
+		SatFindPosition( satName.toAscii().data(), JD_0, DT, NSTEPS, pSat.data() );
+
 		//Make sure the satellite track is visible before adding it to the list.
 		bool isVisible = false;
 		for ( int i=0; i<NSTEPS; i++ ) {
-			//DEBUG
-			if ( satName == "HST" ) 
-				kDebug() << "HST alt: " << pSat[i]->sat_ele << "  az: " << pSat[i]->sat_azi << endl;
-
 			if ( pSat[i]->sat_ele > 10.0 ) { 
 				isVisible = true;
 				break;
@@ -138,7 +119,6 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 			SatelliteComponent *sc = new SatelliteComponent( this, Options::showSatellites );
 			sc->init( satName, data, pSat.data(), NSTEPS );
 			addComponent( sc );
-			
 		}
 	}
 }

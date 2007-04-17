@@ -92,6 +92,15 @@ class SkyLine {
 			*/
 		dms angularSize();
 
+		void setAngularSize( double size );
+
+		/**
+			*@return the SkyLine's position angle on the sky
+			*/
+		dms positionAngle();
+
+		void rotate( const dms &angle );
+
 		void update( KStarsData *data, KSNumbers *num=0 );
 
 	private:

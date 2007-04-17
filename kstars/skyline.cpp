@@ -37,6 +37,38 @@ dms SkyLine::angularSize() {
 	return angDist;
 }
 
+void SkyLine::setAngularSize( double size ) {
+	double pa=positionAngle().radians();
+
+	double x = (startPoint()->ra()->Degrees()  + size*cos(pa))/15.0;
+	double y = startPoint()->dec()->Degrees() - size*sin(pa);
+	
+	setEndPoint( SkyPoint( x, y ) );
+}
+
+dms SkyLine::positionAngle() {
+	double dx = startPoint()->ra()->radians() - endPoint()->ra()->radians();
+	double dy = endPoint()->dec()->radians() - startPoint()->dec()->radians();
+	
+	return dms( atan2( dy, dx )/dms::DegToRad ); 
+}
+
+void SkyLine::rotate( const dms &angle ) {
+	double dx = endPoint()->ra()->Degrees()  - startPoint()->ra()->Degrees();
+	double dy = endPoint()->dec()->Degrees() - startPoint()->dec()->Degrees();
+
+	double s, c;
+	angle.SinCos( s, c );
+
+	double dx0 = dx*c - dy*s;
+	double dy0 = dx*s + dy*c;
+
+	double x = (startPoint()->ra()->Degrees() + dx0)/15.0;
+	double y = startPoint()->dec()->Degrees() + dy0;
+
+	setEndPoint( SkyPoint( x, y ) );
+}
+
 void SkyLine::update( KStarsData *d, KSNumbers *num ) {
 	if ( num ) {
 		startPoint()->updateCoords( num );

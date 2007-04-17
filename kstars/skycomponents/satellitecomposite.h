@@ -25,7 +25,8 @@ extern "C" {
 #include "satlib/SatLib.h"
 }
 
-#define NSTEPS 360
+#define DT 10.0    //10-sec timesteps
+#define NSTEPS 360 //360 steps == 1 hour of coverage
 
 class KStarsData;
 

@@ -43,9 +43,14 @@ class SatelliteComponent : public LineListComponent {
 		*/
 		void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
 
+		void draw( KStars *ks, QPainter &psky, double scale );
+
+		QList<double>& jdList() { return JDList; }
+
 	private:
 		QStringList SatelliteNames;
 		long double JulianDate;
+		QList<double> JDList;
 };
 
 #endif
