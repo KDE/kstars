@@ -917,7 +917,8 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (sender == NULL)
 	{
 
-	   if (nobserverinfo_active == 0)
+	   // If we don't have observers, or the message is newXXX, discard.
+	   if (nobserverinfo_active == 0 || strstr(tagXMLEle(root), "new"))
 		return mp;
 
 	   /* if message from a client (and not a driver), then let's first make sure we have an observer with it
@@ -943,7 +944,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
        else if (!strcmp(tagXMLEle(root), "message"))
 		return mp;
 
-	/* We have no observers, return */
+	/* if We have no observers, return */
 	if (nobserverinfo_active == 0)
 		return mp;
 	
@@ -961,7 +962,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	ap = findXMLAtt(root, "state");
 	if (!ap && strcmp(tagXMLEle(root), "delProperty"))
 	{
-		fprintf(stderr, "<%s> missing 'name' attribute.\n", tagXMLEle(root));
+		fprintf(stderr, "<%s> missing 'state' attribute.\n", tagXMLEle(root));
 		return mp;
 	}
 	else if (ap)

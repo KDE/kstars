@@ -28,9 +28,11 @@
 #include <time.h>
 #include <stdlib.h>
 
-
 #include "stvdriver.h"
 
+#ifndef _WIN32
+#include <termios.h>
+#endif
 
 /* INDI Common Routines/RS232 */
 

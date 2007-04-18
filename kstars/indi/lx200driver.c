@@ -32,19 +32,13 @@
 #include "indidevapi.h"
 #include "lx200driver.h"
 
+#ifndef _WIN32
+#include <termios.h>
+#endif
+
 #define LX200_TIMEOUT	5		/* FD timeout in seconds */
 
 int controller_format;
-
-/**************************************************************************
- Basic I/O - OBSELETE
-**************************************************************************/
-/*int openPort(const char *portID);
-int portRead(char *buf, int nbytes, int timeout);
-int portWrite(const char * buf);
-int LX200readOut(int timeout);
-int Connect(const char* device);
-void Disconnect(void);*/
 
 /**************************************************************************
  Diagnostics
@@ -159,45 +153,6 @@ int selectCatalogObject(int fd, int catalog, int NNNN);
 /* Select a sub catalog */
 int selectSubCatalog(int fd, int catalog, int subCatalog);
 
-/**********************************************************************
-* BASIC - OBSELETE
-**********************************************************************/
-
-/*int Connect(const char *device)
-{
- IDLog("Connecting to device %s\n", device);
- 
- if (openPort(device) < 0)
-  return -1;
- else
-  return 0;
-}
-
-void Disconnect()
-{
-	IDLog("Disconnected.\n");
-	close(fd);
-}
-
-int testTelescope()
-{  
-  int i=0;
-  char ack[1] = { (char) 0x06 };
-  char MountAlign[64];
-  IDLog("Testing telescope's connection using ACK...\n");
-
-  for (i=0; i < 2; i++)
-  {
-    write(fd, ack, 1);
-    read_ret = portRead(MountAlign, 1, LX200_TIMEOUT);
-    if (read_ret == 1)
-     return 0;
-    usleep(50000);
-  }
-  
-  return -1;
-}
-*/
 int check_lx200_connection(int in_fd)
 {
 
@@ -214,7 +169,7 @@ int check_lx200_connection(int in_fd)
 
   for (i=0; i < 2; i++)
   {
-    write(in_fd, ack, 1);
+    if (write(in_fd, ack, 1) < 0) return -1;
     tty_read(in_fd, MountAlign, 1, LX200_TIMEOUT, &nbytes_read);
     if (nbytes_read == 1)
      return 0;
@@ -368,7 +323,7 @@ int getCalenderDate(int fd, char *date)
 	strncpy(mell_prefix, "20", 3);
 
  /* We need to have in in YYYY/MM/DD format */
- sprintf(date, "%s%02d/%02d/%02d", mell_prefix, yy, mm, dd);
+ snprintf(date, 16, "%s%02d/%02d/%02d", mell_prefix, yy, mm, dd);
 
  return (0);
 

@@ -133,6 +133,11 @@ newLilXML ()
 void
 delLilXML (LilXML *lp)
 {
+	/* benign if NULL */
+	if (!lp)
+	    return;
+
+	freeString(&lp->endtag);
 	(*myfree) (lp);
 }
 

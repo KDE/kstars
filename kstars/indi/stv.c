@@ -25,6 +25,11 @@
 #include <stdio.h>
 #include <zlib.h>
 #include <unistd.h>
+
+#ifndef _WIN32
+#include <termios.h>
+#endif
+
 /* INDI Core headers */
 
 #include "indidevapi.h"

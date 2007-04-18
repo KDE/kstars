@@ -54,6 +54,7 @@ const char * SolarSystem[] = { "Mercury", "Venus", "Moon", "Mars", "Jupiter", "S
 #endif
 
 #ifndef _WIN32
+#include <termios.h>
 #define PARITY_NONE    0
 #define PARITY_EVEN    1
 #define PARITY_ODD     2
@@ -799,7 +800,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
 
 #else
  int t_fd=0;
- char *msg;
+ char *msg=NULL;
  int bps;
  struct termios tty_setting;
 
