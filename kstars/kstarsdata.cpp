@@ -104,6 +104,8 @@ KStarsData::~KStarsData() {
 	//FIXME: Verify list of deletes
 	delete locale;
 	delete initTimer;
+	delete LST;
+	delete HourAngle;
 
 	while ( ! geoList.isEmpty() )
 		delete geoList.takeFirst();
@@ -113,6 +115,10 @@ KStarsData::~KStarsData() {
 
 	while ( !INDIHostsList.isEmpty())
 		delete INDIHostsList.takeFirst();
+	
+	while ( !ADVtreeList.isEmpty())
+		delete ADVtreeList.takeFirst();
+
 }
 
 QString KStarsData::typeName( int i ) {
