@@ -282,11 +282,16 @@ extern void IDLog (const char *msg, ...)
      
  /* signature of a callback, timout caller and work procedure function */
 
-/** \typedef IE_CBF Signature of a callback. */
+/** \typedef IE_CBF
+    \brief Signature of a callback. */
 typedef void (IE_CBF) (int readfiledes, void *userpointer);
-/** \typedef IE_CBF Signature of a timeout caller. */
+
+/** \typedef IE_TCF
+    \brief Signature of a timeout caller. */
 typedef void (IE_TCF) (void *userpointer);
-/** \typedef IE_CBF Signature of a work procedure function. */
+
+/** \typedef IE_WPF
+    \brief Signature of a work procedure function. */
 typedef void (IE_WPF) (void *userpointer);
 
 /* functions to add and remove callbacks, timers and work procedures */
