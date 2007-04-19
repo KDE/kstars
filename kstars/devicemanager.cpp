@@ -20,6 +20,11 @@
 #include "indi/indicom.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+#include <config-kstars.h>
+
+#ifdef HAVE_TERMIOS_H
+#include <termios.h>
+#endif
 
 #include <qsocketnotifier.h>
 #include <QTextEdit>

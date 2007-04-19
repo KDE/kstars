@@ -46,9 +46,7 @@
 
 #include <time.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config-kstars.h"
 
 
 #define J2000 2451545.0

@@ -917,7 +917,7 @@ q2Observers  (DvrInfo *sender, XMLEle *root, char *dev, Msg *mp)
 	if (sender == NULL)
 	{
 
-	   // If we don't have observers, or the message is newXXX, discard.
+	   /* If we don't have observers, or the message is newXXX, discard.*/
 	   if (nobserverinfo_active == 0 || strstr(tagXMLEle(root), "new"))
 		return mp;
 

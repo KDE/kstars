@@ -47,9 +47,7 @@
 #include "eventloop.h"
 
 /* N.B. INDI is INDEPENDENT from KStars */
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config-kstars.h"
 
 #ifdef HAVE_LINUX_VIDEODEV2_H
 #include "webcam/v4l2_base.h"
