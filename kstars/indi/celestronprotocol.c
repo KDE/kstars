@@ -35,12 +35,12 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
 #ifndef _WIN32
 #include <termios.h>
 #endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
 #include <math.h>
