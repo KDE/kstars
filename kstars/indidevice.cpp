@@ -59,7 +59,7 @@
 #include <QButtonGroup>
 #include <QSocketNotifier>
 #include <QDateTime>
-#include <QString>
+
 
 #include <kled.h>
 #include <klineedit.h>

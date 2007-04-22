@@ -17,7 +17,7 @@
 
 #include <QColor>
 #include <QPainter>
-#include <QString>
+
 #include <QPixmap>
 #include <kdebug.h>
 

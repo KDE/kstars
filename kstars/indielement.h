@@ -17,7 +17,7 @@
 #include <kdialog.h>
 #include <unistd.h>
 
-#include <QString>
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

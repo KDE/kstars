@@ -21,7 +21,7 @@
 #include "linelistcomponent.h"
 
 #include <QList>
-#include <QString>
+
 
 class SkyComposite;
 class KStarsData;

@@ -18,7 +18,7 @@
 #ifndef SKYCOMPONENT_H
 #define SKYCOMPONENT_H
 
-#include <QString>
+
 #include <kdebug.h>
 
 class QPainter;

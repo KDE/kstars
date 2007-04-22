@@ -19,7 +19,7 @@
 #include <QFile>
 #include <QPainter>
 #include <QTextStream>
-#include <QString>
+
 
 #include "kstars.h"
 #include "kstarsdata.h"

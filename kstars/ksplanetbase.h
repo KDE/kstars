@@ -19,7 +19,7 @@
 #ifndef KSPLANETBASE_H_
 #define KSPLANETBASE_H_
 
-#include <QString>
+
 #include <QList>
 #include <QImage>
 #include <QColor>

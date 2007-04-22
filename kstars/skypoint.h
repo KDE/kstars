@@ -20,7 +20,7 @@
 #ifndef SKYPOINT_H_
 #define SKYPOINT_H_
 
-#include <QString>
+
 #include <QList>
 
 #include "dms.h"
