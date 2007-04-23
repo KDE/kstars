@@ -138,7 +138,10 @@ void telescopeWizardProcess::processNext(void)
      linkResult = establishLink();
      if ( linkResult == 1)
      {
-	progressScan = new KProgressDialog(this, i18n("Autoscan"), i18n("Please wait while KStars scan communication ports for attached telescopes.\nThis process might take few minutes to complete."), true);
+	progressScan = new KProgressDialog(this, i18n("Autoscan"), 
+                i18n("Please wait while KStars scan communication ports for "
+                    "attached telescopes.\nThis process might take few "
+                    "minutes to complete."), Qt::Dialog);
 //   progressScan->setAllowCancel(true);
    	progressScan->setAutoClose(true);
    	progressScan->setAutoReset(true);
