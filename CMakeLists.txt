@@ -3,6 +3,7 @@ project(kstars)
 # some configure checks needed for kstars
 include(CheckIncludeFiles)
 
+find_package(ZLIB REQUIRED)
 macro_optional_find_package(CFitsio)
 macro_optional_find_package(SBIG)
 
