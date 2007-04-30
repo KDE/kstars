@@ -82,7 +82,7 @@ typedef void (CBNP) (const char *dev, const char *name, IDState driver_state, do
 
 /** \typedef CBLP
     \brief Light Property Callback.*/
-typedef void (CBLP) (const char *dev, const char *name, IDState driver_state, ISState *states, char *names[], int n);
+typedef void (CBLP) (const char *dev, const char *name, IDState driver_state, IPState *states, char *names[], int n);
 
 /** \typedef CBBP
     \brief Blob Property Callback.*/
