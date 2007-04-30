@@ -17,6 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "fitsviewer.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -55,7 +56,6 @@
 #include <errno.h>
 #include <netinet/in.h>
 
-#include "fitsviewer.h"
 #include "fitsimage.h"
 #include "fitshistogram.h"
 #include "ui_statform.h"

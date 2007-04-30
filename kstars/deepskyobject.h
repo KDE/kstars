@@ -58,7 +58,7 @@ public:
 	*@param pgc PGC catalog number
 	*@param ugc UGC catalog number
 	*/
-	DeepSkyObject( int t=SkyObject::STAR, dms r=dms(0.0), dms d=dms(0.0), 
+	explicit DeepSkyObject( int t=SkyObject::STAR, dms r=dms(0.0), dms d=dms(0.0), 
 			float m=0.0, QString n="unnamed", QString n2=QString(), 
 			QString lname=QString(), QString cat=QString(), 
 			float a=0.0, float b=0.0, double pa=0.0, 

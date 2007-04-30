@@ -8,53 +8,53 @@
     
     2004-01-18: This class handles INDI Standard properties.
  */
- 
- #include "indistd.h"
- #include "Options.h"
- #include "indielement.h"
- #include "indiproperty.h"
- #include "indigroup.h"
- #include "indidevice.h"
- #include "indidriver.h"
- #include "kstars.h"
- #include "kstarsdata.h"
- #include "skymap.h"
- #include "skyobject.h"
- #include "simclock.h"
- #include "devicemanager.h"
- #include "timedialog.h"
- #include "streamwg.h"
- #include "ccdpreviewwg.h"
- #include "fitsviewer.h"
- 
- #include <sys/socket.h>
- #include <netinet/in.h>
- #include <arpa/inet.h>
- #include <netdb.h>
- #include <ctype.h>
- #include <zlib.h>
- 
- #include <qtimer.h>
- #include <qlabel.h>
- #include <qfont.h>
- #include <qeventloop.h>
- #include <qsocketnotifier.h>
- 
- #include <klocale.h>
- #include <kdebug.h>
- #include <kpushbutton.h>
- #include <klineedit.h>
- #include <kstatusbar.h>
- #include <kmessagebox.h>
- #include <kprogressdialog.h>
- #include <kurl.h>
- #include <kdirlister.h>
- #include <kaction.h>
+
+#include "indistd.h"
+#include "Options.h"
+#include "indielement.h"
+#include "indiproperty.h"
+#include "indigroup.h"
+#include "indidevice.h"
+#include "indidriver.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skymap.h"
+#include "skyobject.h"
+#include "simclock.h"
+#include "devicemanager.h"
+#include "timedialog.h"
+#include "streamwg.h"
+#include "ccdpreviewwg.h"
+#include "fitsviewer.h"
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <ctype.h>
+#include <zlib.h>
+
+#include <QTimer>
+#include <QLabel>
+#include <QFont>
+#include <QEventLoop>
+#include <QSocketNotifier>
+
+#include <klocale.h>
+#include <kdebug.h>
+#include <kpushbutton.h>
+#include <klineedit.h>
+#include <kstatusbar.h>
+#include <kmessagebox.h>
+#include <kprogressdialog.h>
+#include <kurl.h>
+#include <kdirlister.h>
+#include <kaction.h>
 #include <kactioncollection.h> 
-  
- #define STD_BUFFER_SIZ		1024000
- #define FRAME_ILEN		1024
- 
+
+#define STD_BUFFER_SIZ		1024000
+#define FRAME_ILEN		1024
+
  INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
  {
  

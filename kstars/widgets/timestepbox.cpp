@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "timestepbox.h"
+
 #include <stdlib.h>
 
 #include <QHBoxLayout>
 
 #include <kdebug.h>
 #include <klocale.h>
-
-#include "timestepbox.h"
 
 TimeStepBox::TimeStepBox( QWidget *parent, bool daysonly )
 	: QWidget( parent ) {

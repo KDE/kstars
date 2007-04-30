@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcgalcoord.h"
+
 #include <QTextStream>
 
 #include <kfiledialog.h>
 #include <kmessagebox.h>
-
-#include "modcalcgalcoord.h"
 
 #include "dms.h"
 #include "skypoint.h"

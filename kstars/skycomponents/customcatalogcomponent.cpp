@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "customcatalogcomponent.h"
+
 #include <QDir>
 #include <QFile>
 #include <QPainter>
@@ -30,8 +32,6 @@
 #include "skymap.h"
 #include "starobject.h"
 #include "deepskyobject.h"
-
-#include "customcatalogcomponent.h"
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( " ", QString::SkipEmptyParts );
 

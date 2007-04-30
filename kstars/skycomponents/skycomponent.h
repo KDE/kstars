@@ -59,7 +59,7 @@ class SkyComponent
 			*whether this component should be drawn in the map.  Defaults
 			*to always visible.
 			*/
-		SkyComponent( SkyComponent *parent, bool (*visibleMethod)() = &alwaysVisible );
+		explicit SkyComponent( SkyComponent *parent, bool (*visibleMethod)() = &alwaysVisible );
 		
 		/**
 			*@short Destructor

@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "thumbnailpicker.h"
+#include "thumbnaileditor.h"
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QTextStream>
@@ -31,8 +34,6 @@
 #include <klocale.h>
 #include <ktemporaryfile.h>
 
-#include "thumbnailpicker.h"
-#include "thumbnaileditor.h"
 #include "ksutils.h"
 #include "detaildialog.h"
 #include "skyobject.h"

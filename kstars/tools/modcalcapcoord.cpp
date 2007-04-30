@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcapcoord.h"
+
 #include <QTextStream>
 
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "modcalcapcoord.h"
 #include "kstars.h"
 #include "dms.h"
 #include "skypoint.h"

@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "draglistbox.h"
+
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QDropEvent>
+
 #include <klocale.h>
 #include <kdebug.h>
-
-#include "draglistbox.h"
 
 DragListBox::DragListBox( QWidget *parent, const char *name )
 		: KListWidget( parent ) {

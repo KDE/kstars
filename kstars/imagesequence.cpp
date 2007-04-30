@@ -9,6 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include "imagesequence.h"
+
 #include <QObject>
 #include <QTimer>
 #include <QStringList>
@@ -19,7 +21,6 @@
 #include <klineedit.h>
 #include <knuminput.h>
 
-#include "imagesequence.h"
 #include "kstars.h"
 #include "indidriver.h"
 #include "indielement.h"

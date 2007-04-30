@@ -17,6 +17,7 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
+#include "fitsimage.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -26,7 +27,6 @@
 #include <kdebug.h>
 #include <ktoolbar.h>
 #include <kglobal.h>
-
 #include <ktemporaryfile.h>
 #include <kimageeffect.h> 
 #include <kmenubar.h>
@@ -35,9 +35,8 @@
 
 #include <QPaintEvent>
 #include <QScrollArea>
-
-#include <qfile.h>
-#include <qcursor.h>
+#include <QFile>
+#include <QCursor>
 
 
 #include <math.h>
@@ -46,7 +45,6 @@
 #include <netinet/in.h>
 
 #include "indi/indicom.h"
-#include "fitsimage.h"
 #include "fitsviewer.h"
 #include "ksutils.h"
 

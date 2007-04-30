@@ -20,7 +20,6 @@
 #include <QPainter>
 #include <QTextStream>
 
-
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"

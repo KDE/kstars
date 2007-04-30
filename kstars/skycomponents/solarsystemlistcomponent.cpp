@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "solarsystemlistcomponent.h"
+#include "solarsystemcomposite.h"
+
 #include <QPainter>
 #include <QPen>
 #include <klocale.h>
-
-#include "solarsystemlistcomponent.h"
-#include "solarsystemcomposite.h"
 
 #include "Options.h"
 #include "ksplanet.h"

@@ -20,6 +20,8 @@
 
 */ 
 
+#include "v4l2_base.h"
+
 #include <iostream>
 
 #include <sys/ioctl.h>
@@ -35,7 +37,6 @@
 #include <asm/types.h>          /* for videodev2.h */
 
 #include "ccvt.h"
-#include "v4l2_base.h"
 #include "../eventloop.h"
 #include "../indidevapi.h"
 

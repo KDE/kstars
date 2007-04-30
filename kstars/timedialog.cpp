@@ -16,19 +16,18 @@
  ***************************************************************************/
 
 
+#include "timedialog.h"
+
 #include <klocale.h>
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qspinbox.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
 #include <QFrame>
+#include <QLabel>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 
-#include "timedialog.h"
 #include "kstarsdata.h"
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatepicker.h"

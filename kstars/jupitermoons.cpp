@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "jupitermoons.h"
+
 #include <kdebug.h>
 
-#include "jupitermoons.h"
 #include "ksnumbers.h"
 #include "ksplanet.h"
 #include "kssun.h"

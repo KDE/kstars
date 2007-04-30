@@ -15,11 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "dms.h"
+
 #include <stdlib.h>
+
 #include <QRegExp>
 #include <QStringList>
 
-#include "dms.h"
 #include <kglobal.h>
 #include <klocale.h>
 

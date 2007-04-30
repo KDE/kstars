@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "locationdialog.h"
+#include "ui_locationdialog.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -26,9 +29,6 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-
-#include "locationdialog.h"
-#include "ui_locationdialog.h"
 
 LocationDialog::LocationDialog( KStars *_ks )
     : KDialog( _ks ),  ksw( _ks )

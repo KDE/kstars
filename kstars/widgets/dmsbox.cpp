@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
-
 #include "dmsbox.h"
+
+#include <stdlib.h>
 
 #include <kdebug.h>
 #include <klocale.h>
 
-#include <qregexp.h>
-#include <qstring.h>
+#include <QRegExp>
+#include <QString>
 #include <QFocusEvent>
 
 dmsBox::dmsBox(QWidget *parent, bool dg)

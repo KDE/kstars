@@ -35,12 +35,11 @@
  #include <kmessagebox.h>
 
  #include <QButtonGroup>
- #include <qcheckbox.h>
- #include <qlabel.h>
- #include <qlayout.h>
- #include <qtimer.h>
- #include <qfile.h>
- #include <qdatastream.h>
+ #include <QCheckBox>
+ #include <QLabel>
+ #include <QTimer>
+ #include <QFile>
+ #include <QDataStream>
  #include <QFrame>
  #include <QHBoxLayout>
  #include <QVBoxLayout>

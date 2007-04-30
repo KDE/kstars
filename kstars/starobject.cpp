@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "starobject.h"
+
 #include <QColor>
 #include <QPainter>
 
 #include <QPixmap>
 #include <kdebug.h>
 
-#include "starobject.h"
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"

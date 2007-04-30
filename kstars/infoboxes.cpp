@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "infoboxes.h"
+
 #include <kglobal.h>
 #include <kdebug.h>
-//#include <qpen.h>
-#include <qpainter.h>
-//Added by qt3to4:
+
+#include <QPainter>
 #include <QMouseEvent>
 
-#include "infoboxes.h"
 #include "kstarsdatetime.h"
 #include "dms.h"
 #include "geolocation.h"

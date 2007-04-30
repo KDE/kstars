@@ -65,7 +65,7 @@ class AVTPlotWidget : public KPlotWidget
 public:
 /**Constructor
 	*/
-	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0 );
+	explicit AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0 );
 
 /**Set the fractional positions of the Sunrise and Sunset positions, 
 	*in units where last midnight was 0.0, and next midnight is 1.0.  

@@ -51,7 +51,7 @@ public:
 		*@param deg if true use deg/arcmin/arcsec; otherwise 
 		*           use hours/min/sec.
 		*/
-	dmsBox(QWidget *parent, bool deg=true);
+	explicit dmsBox(QWidget *parent, bool deg=true);
 
 	/**Destructor (empty)*/
 	~dmsBox();

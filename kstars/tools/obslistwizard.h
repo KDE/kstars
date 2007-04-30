@@ -22,6 +22,7 @@
 #include "ui_obslistwizard.h"
 
 class KStars;
+class SkyObject;
 
 class ObsListWizardUI : public QFrame, public Ui::ObsListWizard {
 	Q_OBJECT

@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcvizequinox.h"
+
 #include <math.h> //fabs()
 #include <KPlotPoint>
-#include "modcalcvizequinox.h"
 
 #include "dms.h"
 #include "kstars.h"

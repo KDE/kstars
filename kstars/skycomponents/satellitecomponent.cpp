@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "satellitecomponent.h"
+
 #include <QBrush>
 #include <QPainter>
 
@@ -22,7 +24,6 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyline.h"
-#include "satellitecomponent.h"
 #include "Options.h"
 
 SatelliteComponent::SatelliteComponent(SkyComponent *parent, bool (*visibleMethod)())

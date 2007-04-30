@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QVBoxLayout>
+#include "addlinkdialog.h"
+
 #include <kurl.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <ktoolinvocation.h>
 
-#include "addlinkdialog.h"
 #include "skyobject.h"
 
 AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {

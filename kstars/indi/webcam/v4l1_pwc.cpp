@@ -18,6 +18,8 @@
 
 */
 
+#include "v4l1_pwc.h"
+
 #include <iostream>
 
 #include <sys/ioctl.h>
@@ -32,7 +34,6 @@
 
 #include "ccvt.h"
 #include "pwc-ioctl.h"
-#include "v4l1_pwc.h"
 #include "../eventloop.h"
 
 #define ERRMSG_SIZ	1024

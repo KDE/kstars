@@ -15,9 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kstandarddirs.h>
-#include <qfile.h>
 #include "ksutils.h"
+
+#include <QFile>
+#include <QString>
+
+#include <kstandarddirs.h>
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
 	bool result;

@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "thumbimage.h"
+
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPen>
-#include "thumbimage.h"
 
 QPixmap ThumbImage::croppedImage() {
 	return Image->copy( *CropRect );

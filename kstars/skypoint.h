@@ -68,7 +68,7 @@ public:
 	*@param r Right Ascension, expressed as a double
 	*@param d Declination, expressed as a double
 	*/
-	SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+	explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
 
 /**
 	*Empty destructor.

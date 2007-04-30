@@ -25,10 +25,12 @@
 #include "ui_addcatdialog.h"
 #include "deepskyobject.h"
 
+class KStars;
+
 class AddCatDialogUI : public QFrame, public Ui::AddCatDialog {
 	Q_OBJECT
 	public:
-		AddCatDialogUI( QWidget *parent=0 );
+		explicit AddCatDialogUI( QWidget *parent=0 );
 };
 
 /**

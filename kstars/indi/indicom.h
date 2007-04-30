@@ -46,7 +46,11 @@
 
 #include <time.h>
 
-#include "config-kstars.h"
+/* do NOT change this to config-kstars.h! 
+INDI is independent of KStars*/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 
 #define J2000 2451545.0

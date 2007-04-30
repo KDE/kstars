@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QFrame>
-
 #include "logedit.h"
+
+#include <QFrame>
 
 LogEdit::LogEdit( QWidget *parent ) : KTextEdit( parent ) 
 {

@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kspluto.h"
+
 #include <math.h>
 
-#include <qfile.h>
+#include <QFile>
+
 #include <kdebug.h>
 
-#include "kspluto.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h" //for J2000 define

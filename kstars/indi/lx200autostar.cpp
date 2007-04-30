@@ -18,13 +18,13 @@
 
 */
 
+#include "lx200autostar.h"
+#include "lx200driver.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#include "lx200autostar.h"
-#include "lx200driver.h"
 
 #define FirmwareGroup "Firmware data"
 #define FOCUS_GROUP   "Focus Control"

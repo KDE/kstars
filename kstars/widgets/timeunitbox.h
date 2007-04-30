@@ -46,7 +46,7 @@ class TimeUnitBox : public QWidget {
    Q_OBJECT
 public:
 	/**Constructor*/
-	TimeUnitBox(QWidget *parent=0, bool daysonly = false);
+	explicit TimeUnitBox(QWidget *parent=0, bool daysonly = false);
 	/**Destructor (empty)*/
 	~TimeUnitBox();
 	/**@return the value of UnitStep for the current spinbox value() */

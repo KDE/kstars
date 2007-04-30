@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "solarsystemcomposite.h"
+
 #include <QPainter>
 #include <klocale.h>
 
-#include "solarsystemcomposite.h"
 #include "solarsystemsinglecomponent.h"
 #include "asteroidscomponent.h"
 #include "cometscomponent.h"

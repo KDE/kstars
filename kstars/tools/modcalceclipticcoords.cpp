@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalceclipticcoords.h"
+
 #include <QTextStream>
 
 #include <klocale.h>
@@ -23,7 +25,6 @@
 #include <kurlrequester.h>
 
 #include "dms.h"
-#include "modcalceclipticcoords.h"
 #include "skypoint.h"
 #include "ksutils.h"
 #include "ksnumbers.h"

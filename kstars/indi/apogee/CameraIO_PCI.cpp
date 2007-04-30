@@ -21,11 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "CameraIO_PCI.h"
 #include "stdafx.h"
 #include <winioctl.h>
 
 #include "ApogeeLinux.h"        // This defines the IOCTL constants.
-#include "CameraIO_PCI.h"
 #include "time.h"
 
 

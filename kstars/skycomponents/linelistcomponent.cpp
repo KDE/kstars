@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "linelistcomponent.h"
+
 #include <QtAlgorithms>
 #include <QPainter>
 
@@ -23,8 +25,6 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "dms.h"
-
-#include "linelistcomponent.h"
 
 LineListComponent::LineListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 	: SkyComponent( parent, visibleMethod ), LabelPosition( NoLabel ), 

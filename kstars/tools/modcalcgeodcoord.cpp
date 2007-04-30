@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QTextStream>
-
 #include "modcalcgeodcoord.h"
+
+#include <QTextStream>
 
 #include <kfiledialog.h>
 #include <kglobal.h>

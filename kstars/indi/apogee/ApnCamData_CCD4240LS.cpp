@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "ApnCamData_CCD4240LS.h"
 
 #include <stdlib.h>
-#include <malloc.h>
 #include <string.h>
 
 

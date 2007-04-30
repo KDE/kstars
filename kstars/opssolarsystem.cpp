@@ -14,13 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <kactioncollection.h>
-#include <kpushbutton.h>
+
 #include "opssolarsystem.h"
 #include "kstars.h"
-#include "widgets/magnitudespinbox.h"
+
+#include <kactioncollection.h>
 
 OpsSolarSystem::OpsSolarSystem( KStars *_ks )
  : QFrame( _ks ), ksw(_ks)

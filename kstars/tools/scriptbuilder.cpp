@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "scriptbuilder.h"
+
 //needed in slotSave() for chmod() syscall
 #include <sys/stat.h>
 
@@ -34,7 +36,6 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 
-#include "scriptbuilder.h"
 #include "scriptfunction.h"
 #include "kstars.h"
 #include "kstarsdata.h"

@@ -46,8 +46,11 @@
 #include "cfitsio/fitsio.h"
 #include "eventloop.h"
 
-/* N.B. INDI is INDEPENDENT from KStars */
-#include "config-kstars.h"
+/* do NOT change this to config-kstars.h! 
+INDI is independent of KStars*/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #ifdef HAVE_LINUX_VIDEODEV2_H
 #include "webcam/v4l2_base.h"

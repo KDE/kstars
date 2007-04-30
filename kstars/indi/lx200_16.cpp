@@ -18,14 +18,14 @@
 
 */
 
+#include "lx200_16.h"
+#include "lx200driver.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
-
-#include "lx200_16.h"
-#include "lx200driver.h"
 
 #define LX16GROUP	"GPS/16 inch Features"
 

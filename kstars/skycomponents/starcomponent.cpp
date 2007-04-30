@@ -14,11 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include "starcomponent.h"
+
 #include <QPixmap>
 #include <QPainter>
 #include <QFile>
-
-#include "starcomponent.h"
 
 #include "Options.h"
 #include "kstars.h"

@@ -14,29 +14,28 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
- #include "fitshistogram.h"
- #include "fitsviewer.h"
- #include "fitsimage.h"
- //#include "indi/fitsrw.h"
- 
- #include <math.h>
- #include <stdlib.h>
- 
- #include <QPainter>
- #include <QSlider>
- #include <QCursor>
- #include <QPen>
- #include <QPixmap>
- #include <QRadioButton>
- #include <QPushButton>
- #include <QMouseEvent>
- #include <QPaintEvent>
- 
- #include <kdebug.h>
- #include <klineedit.h>
- #include <klocale.h>
- #include <kmessagebox.h>
+
+#include "fitshistogram.h"
+#include "fitsviewer.h"
+#include "fitsimage.h"
+
+#include <math.h>
+#include <stdlib.h>
+
+#include <QPainter>
+#include <QSlider>
+#include <QCursor>
+#include <QPen>
+#include <QPixmap>
+#include <QRadioButton>
+#include <QPushButton>
+#include <QMouseEvent>
+#include <QPaintEvent>
+
+#include <kdebug.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
  histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
  {

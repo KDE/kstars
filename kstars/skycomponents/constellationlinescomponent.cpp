@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "constellationlinescomponent.h"
+
 #include <QFile>
 #include <QPainter>
 #include <QTextStream>
-
-#include "constellationlinescomponent.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"

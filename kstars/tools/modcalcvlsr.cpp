@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <qcheckbox.h>
-//#include <qradiobutton.h>
-//#include <qstring.h>
-//#include <qtextstream.h>
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kmessagebox.h>

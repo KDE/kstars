@@ -17,11 +17,14 @@
 
 #include "timebox.h"
 #include "libkdeedu/extdate/extdatetime.h"
-#include <qdatetime.h>  //needed for QTime
-#include <qregexp.h>
+
+#include <stdlib.h>
+
+#include <QTime>
+#include <QRegExp>
+
 #include <kglobal.h>
 #include <klocale.h>
-#include <stdlib.h>
 #include <kdebug.h>
 
 timeBox::timeBox(QWidget *parent, bool tt) : QLineEdit(parent) 

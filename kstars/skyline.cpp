@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skyline.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#include "skyline.h"
 
 dms SkyLine::angularSize() {
 	double dalpha = startPoint()->ra()->radians() - endPoint()->ra()->radians();

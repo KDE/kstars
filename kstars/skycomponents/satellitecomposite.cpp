@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "satellitecomponent.h"
+#include "satellitecomposite.h"
+
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
@@ -22,9 +25,6 @@
 #include "Options.h"
 #include "ksutils.h"
 #include "kstarsdata.h"
-
-#include "satellitecomponent.h"
-#include "satellitecomposite.h"
 
 SatelliteComposite::SatelliteComposite( SkyComponent *parent ) 
 : SkyComposite( parent )

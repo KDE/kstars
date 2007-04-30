@@ -15,18 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qlayout.h> //still needed for secondary dialogs
-#include <qlineedit.h>
-#include <qimage.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include "detaildialog.h"
+
+#include <QString>
+#include <QLineEdit>
 #include <QPixmap>
-#include <QFocusEvent>
+#include <QRegExp>
 #include <QTextStream>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QTreeWidgetItem>
 
 #include <kstandarddirs.h>
@@ -34,12 +31,8 @@
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <ktoolinvocation.h>
-//#include <kio/job.h>
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
-
-
-#include "detaildialog.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"

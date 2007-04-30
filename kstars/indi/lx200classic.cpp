@@ -18,12 +18,12 @@
 
 */
 
+#include "lx200classic.h"
+#include "lx200driver.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "lx200classic.h"
-#include "lx200driver.h"
 
 extern LX200Generic *telescope;
 extern INumberVectorProperty eqNum;

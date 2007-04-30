@@ -43,7 +43,7 @@ class FITSLabel : public QLabel
 {
   public:
 
-  FITSLabel(FITSImage *img, QWidget *parent=NULL);
+  explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
   ~FITSLabel();
 
   protected:

@@ -44,7 +44,7 @@ class CCDPreviewWG : public QWidget, public Ui::CCDPreviewForm
    Q_OBJECT
    
     public:
-      CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent =0);
+      explicit CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent =0);
       ~CCDPreviewWG();
  
    friend class CCDVideoWG;

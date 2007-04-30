@@ -16,8 +16,7 @@
  ***************************************************************************/
 
 #include "modcalcdaylength.h"
-//#include "modcalcprec.h"
-//#include "dms.h"
+
 #include "skyobject.h"
 #include "geolocation.h"
 #include "kstars.h"

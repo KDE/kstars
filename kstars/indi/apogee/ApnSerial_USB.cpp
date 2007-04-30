@@ -21,9 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "ApnSerial_USB.h"
 #include "stdafx.h"
 #include "apogee.h"
-#include "ApnSerial_USB.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

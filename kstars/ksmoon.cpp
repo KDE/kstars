@@ -15,17 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksmoon.h"
+
 #include <stdlib.h>
 #include <math.h>
 
-#include <qfile.h>
-//Added by qt3to4:
+#include <QFile>
 #include <QTextStream>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "kssun.h"
-#include "ksmoon.h"
 #include "kstarsdata.h"
 
 KSMoon::KSMoon(KStarsData *kd)

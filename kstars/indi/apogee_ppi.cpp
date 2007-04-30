@@ -19,6 +19,10 @@
 
 #endif
  
+#include "apogee_ppi.h"
+#include "lilxml.h"
+#include "base64.h"
+
 #include <ctype.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -27,10 +31,6 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <zlib.h>
-
-#include "apogee_ppi.h"
-#include "lilxml.h"
-#include "base64.h"
 
 static void ISPoll(void *);
 

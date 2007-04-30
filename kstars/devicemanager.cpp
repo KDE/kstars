@@ -11,8 +11,9 @@
 
  */
 
-#include "Options.h"
 #include "devicemanager.h"
+
+#include "Options.h"
 #include "indimenu.h"
 #include "indiproperty.h"
 #include "indigroup.h"
@@ -25,8 +26,14 @@
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-#include <qsocketnotifier.h>
+#include <QSocketNotifier>
 #include <QTextEdit>
 
 #include <klocale.h>
@@ -34,12 +41,6 @@
 #include <kmessagebox.h>
 #include <kstatusbar.h>
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <stdlib.h>
-#include <unistd.h>
 
  /*******************************************************************
 ** The device manager contain devices running from one indiserver

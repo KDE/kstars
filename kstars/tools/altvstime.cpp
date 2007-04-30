@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "altvstime.h"
+
 #include <QVBoxLayout>
 #include <QPainter>
 #include <QMouseEvent>
@@ -27,8 +29,10 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <kdialog.h>
+#include <kplotobject.h>
+#include <kplotaxis.h>
+#include <kplotwidget.h>
 
-#include "altvstime.h"
 #include "ui_altvstime.h"
 #include "dms.h"
 #include "kstars.h"
@@ -43,9 +47,6 @@
 
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include <kplotobject.h>
-#include <kplotaxis.h>
-#include <kplotwidget.h>
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 	setupUi( this );

@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "deepskycomponent.h"
+
 #include <QFile>
 #include <QPainter>
-#include <klocale.h>
 
-#include "deepskycomponent.h"
+#include <klocale.h>
 
 #include "deepskyobject.h"
 #include "dms.h"

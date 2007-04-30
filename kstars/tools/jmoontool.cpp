@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "jmoontool.h"
+
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLayout>
@@ -23,7 +25,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "jmoontool.h"
 #include "jupitermoons.h"
 #include "kstars.h"
 #include "kstarsdata.h"

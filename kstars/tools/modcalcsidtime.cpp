@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcsidtime.h"
+
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "modcalcsidtime.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"

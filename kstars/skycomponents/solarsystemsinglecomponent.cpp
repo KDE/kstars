@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPainter>
-
-#include "skycomponent.h"
 #include "solarsystemsinglecomponent.h"
 #include "solarsystemcomposite.h"
+#include "skycomponent.h"
+
+#include <QPainter>
 
 #include "dms.h"
 #include "kstars.h"

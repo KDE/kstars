@@ -27,7 +27,7 @@
 class CalcFrame : public QFrame {
 	Q_OBJECT
 public:
-	CalcFrame( QWidget *parent=0, const char *name=0 );
+	explicit CalcFrame( QWidget *parent=0, const char *name=0 );
 	~CalcFrame() {}
 	
 signals:

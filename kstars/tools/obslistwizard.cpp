@@ -14,12 +14,11 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <qcheckbox.h>
-//#include <qlabel.h>
-//#include <qlayout.h>
+#include "obslistwizard.h"
 
 #include <QVBoxLayout>
 #include <QFrame>
+
 #include <knuminput.h>
 #include <k3listview.h>
 #include <kpushbutton.h>
@@ -32,10 +31,6 @@
 #include "starobject.h"
 #include "widgets/dmsbox.h"
 #include "widgets/magnitudespinbox.h"
-//#include "libkdeedu/extdate/extdatetimeedit.h"
-
-#include "obslistwizard.h"
-
 
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
   setupUi( this );

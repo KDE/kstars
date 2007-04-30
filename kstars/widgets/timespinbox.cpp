@@ -16,6 +16,22 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "timespinbox.h"
+
+#include <stdlib.h>
+#include <math.h>
+
+#include <QFontMetrics>
+#include <QLineEdit>
+#include <QStringList>
+
+#include <kdebug.h>
+#include <klocale.h>
+
+#define SECS_PER_DAY 86400.
+#define SIDEREAL_YEAR 31558149.77
+#define TROPICAL_YEAR 31556925.19
+
 //Time steps:
 //0-9:   0 sec, 0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 30 sec
 //10-14: 1 minute, 2, 5, 10, 15, 30 min
@@ -24,21 +40,6 @@
 //24-26: 1 week, 2, 3 weeks
 //27-32: 1 month, 2, 3, 4, 6, 9 months
 //33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
-
-#include <QFontMetrics>
-#include <QLineEdit>
-#include <QStringList>
-
-#include <kdebug.h>
-#include <klocale.h>
-#include <stdlib.h>
-#include <math.h>
-
-#include "timespinbox.h"
-
-#define SECS_PER_DAY 86400.
-#define SIDEREAL_YEAR 31558149.77
-#define TROPICAL_YEAR 31556925.19
 
 TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
 	: QSpinBox ( parent )

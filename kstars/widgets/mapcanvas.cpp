@@ -15,14 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "mapcanvas.h"
 #include <stdlib.h>
+
 #include <QPainter>
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
+
 #include <kstandarddirs.h>
 
-#include "mapcanvas.h"
 #include "../locationdialog.h"
 #include "../kstars.h"
 #include "../kstarsdata.h"

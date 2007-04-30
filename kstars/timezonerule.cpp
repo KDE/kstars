@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "timezonerule.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "timezonerule.h"
 #include "kstarsdatetime.h"
 
 TimeZoneRule::TimeZoneRule() {

@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "imageviewer.h"
+#include "kstars.h"
+
 #include <QFont>
 #include <QResizeEvent>
 #include <QKeyEvent>
@@ -33,11 +36,8 @@
 #include <kio/copyjob.h>
 #include <kaction.h>
 #include <ktemporaryfile.h>
-
 #include <kdebug.h>
 #include <ktoolbar.h>
-#include "imageviewer.h"
-#include "kstars.h"
 
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {

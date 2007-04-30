@@ -21,6 +21,8 @@
 #ifndef ORIONATLAS_H
 #define ORIONATLAS_H
 
+#include <sys/types.h>
+
 #include "indidevapi.h"
 #include "indicom.h"
 

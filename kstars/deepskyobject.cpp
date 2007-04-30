@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "deepskyobject.h"
+
 #include <kglobal.h>
 
-#include <qfile.h>
-#include <qregexp.h>
-#include <qpainter.h>
-#include <qimage.h>
-#include <qstring.h>
+#include <QFile>
+#include <QRegExp>
+#include <QPainter>
+#include <QImage>
+#include <QString>
 
-#include "deepskyobject.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"

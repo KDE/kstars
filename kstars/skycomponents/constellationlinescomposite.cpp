@@ -15,9 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "constellationlinescomposite.h"
+#include "constellationlinescomponent.h"
+
 #include <QFile>
 #include <QTextStream>
 #include <QBrush>
+
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -25,8 +29,6 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skyline.h"
-#include "constellationlinescomposite.h"
-#include "constellationlinescomponent.h"
 
 ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData * )
   : SkyComposite( parent )

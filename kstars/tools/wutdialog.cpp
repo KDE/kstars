@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "wutdialog.h"
+
 #include <QTimer>
 #include <QCursor>
 #include <QListWidgetItem>
@@ -23,7 +25,6 @@
 #include <klocale.h>
 #include <kpushbutton.h>
 
-#include "wutdialog.h"
 #include "ui_wutdialog.h"
 
 #include "kstars.h"

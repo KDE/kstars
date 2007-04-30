@@ -68,7 +68,7 @@ public:
 	*Constructor.  Read stored settings from KConfig object (focus position,
 	*zoom factor, sky color, etc.).  Run initPopupMenus().
 	*/
-	SkyMap( KStarsData *_data, KStars *_ks = 0 );
+	explicit SkyMap( KStarsData *_data, KStars *_ks = 0 );
 
 /**
 	*Destructor (empty)

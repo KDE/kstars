@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skymap.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -41,7 +43,6 @@
 #include <ktoolinvocation.h>
 #include <kicon.h>
 
-#include "skymap.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"

@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
 
+#include <stdlib.h>
+
+#include <QPushButton>
+#include <QVBoxLayout>
+
+#include <kdebug.h>
 
 TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
 	: QWidget( parent ) {

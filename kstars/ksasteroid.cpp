@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksasteroid.h"
+
 #include <kdebug.h>
 
-#include "ksasteroid.h"
 #include "dms.h"
 #include "ksnumbers.h"
 #include "ksutils.h"

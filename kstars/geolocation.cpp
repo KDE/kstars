@@ -17,10 +17,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-
 #include "geolocation.h"
 #include "timezonerule.h"
+
+#include <QString>
 
 GeoLocation::GeoLocation(){
 	GeoLocation( 0.0, 0.0 );

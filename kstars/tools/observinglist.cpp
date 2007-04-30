@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "observinglist.h"
+
 #include <stdio.h>
 
 #include <QFile>
 #include <QDir>
-//#include <qlabel.h>
-//#include <qlayout.h>
-//#include <qstringlist.h>
 #include <QFrame>
 #include <QTextStream>
 
@@ -36,7 +35,6 @@
 #include <ktemporaryfile.h>
 #include <klineedit.h>
 
-#include "observinglist.h"
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"

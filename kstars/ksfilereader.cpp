@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksfilereader.h"
+
 #include <qfile.h>
 #include <qstring.h>
-
-#include "ksfilereader.h"
 
 KSFileReader::KSFileReader(QFile& file) {
 	// read the whole file at once. This works well at least for the smaller files.

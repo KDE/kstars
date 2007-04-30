@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "milkywaycomposite.h"
+#include "milkywaycomponent.h"
+
 #include <klocale.h>
 
 #include <QFile>
@@ -22,9 +25,6 @@
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "skypoint.h"
-
-#include "milkywaycomposite.h"
-#include "milkywaycomponent.h"
 
 MilkyWayComposite::MilkyWayComposite( SkyComponent *parent, bool (*visibleMethod)() ) 
 	: SkyComposite(parent) 

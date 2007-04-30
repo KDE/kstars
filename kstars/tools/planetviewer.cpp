@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "planetviewer.h"
+
 #include <stdlib.h> //needed for abs() on some platforms
 
 #include <QFile>
@@ -22,12 +24,15 @@
 #include <QTextStream>
 #include <QKeyEvent>
 #include <QPaintEvent>
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kicon.h>
+#include <KPlotAxis>
+#include <KPlotObject>
 #include <KPlotPoint>
-#include "planetviewer.h"
+
 #include "ui_planetviewer.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -39,8 +44,6 @@
 #include "dms.h"
 #include "widgets/timestepbox.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
-#include "kplotobject.h"
-#include "kplotaxis.h"
 
 PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
   setupUi( this );

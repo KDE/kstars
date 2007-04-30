@@ -11,6 +11,7 @@
  */
  
 #include "ccdpreviewwg.h"
+
 #include "indistd.h"
 #include "indidriver.h"
 #include "indimenu.h"
@@ -27,13 +28,11 @@
 #include <kurl.h>
 #include <klineedit.h>
 
-#include <qsocketnotifier.h>
-#include <qimage.h>
-#include <qpainter.h>
-#include <qstringlist.h>
-#include <qdir.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QImage>
+#include <QPainter>
+#include <QStringList>
+#include <QDir>
+#include <QLayout>
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>

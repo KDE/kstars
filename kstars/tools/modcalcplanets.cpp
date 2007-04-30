@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcplanets.h"
+
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
-
-#include "modcalcplanets.h"
 
 #include "geolocation.h"
 #include "locationdialog.h"

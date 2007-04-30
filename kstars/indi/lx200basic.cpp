@@ -18,7 +18,14 @@
 
 #endif
 
-#include "config-kstars.h"
+#include "lx200basic.h"
+#include "lx200driver.h"
+
+/* do NOT change this to config-kstars.h! 
+INDI is independent of KStars*/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,8 +36,6 @@
 #include <time.h>
 
 #include "indicom.h"
-#include "lx200driver.h"
-#include "lx200basic.h"
 
 /*
 ** Return the timezone offset in hours (as a double, so fractional

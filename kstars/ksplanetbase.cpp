@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksplanetbase.h"
+
 #include <math.h>
 
-#include <qfile.h>
-#include <qpoint.h>
-#include <qmatrix.h>
+#include <QFile>
+#include <QPoint>
+#include <QMatrix>
 
-#include "ksplanetbase.h"
 #include "ksplanet.h"
 #include "kstarsdata.h"
 #include "ksutils.h"

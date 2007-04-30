@@ -45,7 +45,7 @@
    Q_OBJECT
    
     public:
-      StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
+      explicit StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
       ~StreamWG();
  
    friend class VideoWG;

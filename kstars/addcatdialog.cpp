@@ -15,12 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
+#include "addcatdialog.h"
+
 #include <QFrame>
 #include <QTextStream>
+
 #include <kcolorbutton.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -32,8 +31,6 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skycomponents/customcatalogcomponent.h"
-
-#include "addcatdialog.h"
 
 AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi(this);

@@ -17,10 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skypoint.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "skypoint.h"
 #include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"

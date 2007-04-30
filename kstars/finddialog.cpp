@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "finddialog.h"
+
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QTimer>
 
 #include <kmessagebox.h>
 
-#include "finddialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"

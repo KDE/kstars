@@ -33,7 +33,7 @@ class TimeSpinBox : public QSpinBox  {
 Q_OBJECT
 public:
 /**Constructor */
-	TimeSpinBox( QWidget *parent, bool daysOnly = false );
+	explicit TimeSpinBox( QWidget *parent, bool daysOnly = false );
 /**Destructor (empty)*/
 	~TimeSpinBox() {}
 

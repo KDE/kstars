@@ -35,7 +35,7 @@ class TimeStepBox : public QWidget  {
 Q_OBJECT
 public:
 	/**Constructor. */
-	TimeStepBox( QWidget *parent=0, bool daysonly=false );
+	explicit TimeStepBox( QWidget *parent=0, bool daysonly=false );
 	/**Destructor. (empty)*/
 	~TimeStepBox() {}
 

@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "asteroidscomponent.h"
+
 #include <QFile>
 #include <QPen>
 #include <QPainter>
-
-#include "asteroidscomponent.h"
 
 #include "Options.h"
 #include "ksasteroid.h"

@@ -47,7 +47,7 @@ public:
 	*@param s arcsecond portion of angle (int).  Defaults to zero.
 	*@param ms arcsecond portion of angle (int).  Defaults to zero.
 	*/
-	dms( const int &d=0, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
+	explicit dms( const int &d=0, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
 
 /**@short Construct an angle from a double value.
 	*
@@ -69,7 +69,7 @@ public:
 	*@param isDeg if true, value is in degrees; if false, value is in hours.
 	*@sa setFromString()
 	*/
-	dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
+	explicit dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
 
 /**Destructor (empty).
 	*/

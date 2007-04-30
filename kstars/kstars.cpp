@@ -19,10 +19,13 @@
 //JH 25.08.2001: added toolbar, converted menu items to KAction objects
 //JH 25.08.2001: main window now resizable, window size saved in config file
 
+#include "kstars.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <iostream.h>
+
+#include <QApplication>
+
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kiconloader.h>
@@ -31,10 +34,8 @@
 #include <ktoolbar.h>
 #include <kglobal.h>
 #include <kicon.h>
-#include <qapplication.h>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarssplash.h"
 #include "skymap.h"

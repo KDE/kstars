@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "opscatalog.h"
+
 #include <QList>
 #include <QListWidgetItem>
 #include <QTextStream>
@@ -22,7 +24,6 @@
 #include <kfiledialog.h>
 #include <kactioncollection.h>
 
-#include "opscatalog.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"

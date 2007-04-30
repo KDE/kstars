@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "opsadvanced.h"
+
 #include <qlabel.h>
 #include <qcheckbox.h>
 
-#include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
 #include "widgets/timestepbox.h"

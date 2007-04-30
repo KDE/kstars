@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-//Added by qt3to4:
+#include "colorscheme.h"
+
+#include <QFile>
 #include <QTextStream>
+
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -25,7 +27,6 @@
 #include <kstandarddirs.h>
 
 #include "ksutils.h"
-#include "colorscheme.h"
 
 ColorScheme::ColorScheme() : FileName() {
 	//Each color has two names associated with it.  The KeyName is its

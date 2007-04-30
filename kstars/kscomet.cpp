@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kscomet.h"
+
 #include <kdebug.h>
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "dms.h"
-#include "kscomet.h"
-
 
 KSComet::KSComet( KStarsData *_kd, const QString &_s, const QString &imfile,
 		long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp )

@@ -24,9 +24,9 @@
 
  */
 
+#include "indidevice.h"
 #include "indiproperty.h"
 #include "indigroup.h"
-#include "indidevice.h"
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indidriver.h"

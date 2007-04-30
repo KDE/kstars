@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "lcgenerator.h"
+
 #include <QFile>
 #include <QVBoxLayout>
 
@@ -22,7 +24,6 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-#include "lcgenerator.h"
 #include "imageviewer.h"
 #include "kstars.h"
 #include "kstarsdata.h"

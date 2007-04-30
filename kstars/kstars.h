@@ -78,7 +78,7 @@ class KStars : public KXmlGuiWindow
 		*
 		* @todo Refer to documentation on date format.
 		*/
-		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = QString() );
+		explicit KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = QString() );
 
 	/**Destructor.  Synchs config file.  Deletes objects.
 		*/

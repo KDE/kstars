@@ -14,7 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcheckbox.h>
 #include "opsguides.h"
 
 OpsGuides::OpsGuides( QWidget* parent )

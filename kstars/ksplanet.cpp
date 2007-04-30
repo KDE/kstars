@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksplanet.h"
+
 #include <math.h>
 
 #include <QFile>
@@ -22,7 +24,6 @@
 
 #include <kdebug.h>
 
-#include "ksplanet.h"
 #include "ksnumbers.h"
 #include "ksutils.h"
 #include "ksfilereader.h"

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skyobject.h"
+
 #include <iostream>
 
 #include <kglobal.h>
@@ -23,7 +25,6 @@
 #include <QTextStream>
 #include <QFile>
 
-#include "skyobject.h"
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
 #include "kspopupmenu.h"

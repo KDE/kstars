@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstringlist.h>
-#include <kdebug.h>
 #include "scriptfunction.h"
 
+#include <qstringlist.h>
+#include <kdebug.h>
 
 ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 		QString at1, QString an1, QString at2, QString an2, QString at3, QString an3,

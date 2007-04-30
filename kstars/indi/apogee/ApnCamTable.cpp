@@ -20,10 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 // ApnCamTable.cpp
 //
 
+#include "ApnCamTable.h"
 
 #include <string.h>
-
-#include "ApnCamTable.h"
 
 
 #define ALTA_MODEL_PREFIX "Alta-"

@@ -7,22 +7,16 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <qfile.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qstring.h>
-#include <qtimer.h>
+#include "telescopewizardprocess.h"
 
-#include <QTextEdit>
-#include <QRadioButton>
-#include <QProgressBar>
+#include <QFile>
+#include <QPixmap>
+#include <QString>
+#include <QTimer>
 
-#include <klineedit.h>
 #include <kmessagebox.h>
 #include <kprogressdialog.h>
 
-#include "telescopewizardprocess.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"

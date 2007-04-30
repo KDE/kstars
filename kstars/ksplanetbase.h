@@ -47,7 +47,7 @@ class EclipticPosition {
 		double radius;
 
 		/**Constructor. */
-		EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
+		explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
 			longitude(plong), latitude(plat), radius(prad) {}
 
 		/**Assignment operator. Copy all values from the target object. */

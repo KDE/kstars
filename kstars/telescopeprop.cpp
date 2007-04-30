@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "telescopeprop.h"
 
 #include <kpushbutton.h>
 #include <kcombobox.h>
@@ -25,7 +26,6 @@
 
 #include <vector>
 
-#include "telescopeprop.h"
 #include "kstars.h"
 #include "indimenu.h"
 #include "indidriver.h"

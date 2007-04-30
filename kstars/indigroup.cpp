@@ -10,21 +10,19 @@
     2004-16-1:	Start
    
  */
- 
- #include "indiproperty.h"
- #include "indigroup.h"
- #include "indidevice.h"
- #include "devicemanager.h"
- #include "indimenu.h"
- 
- #include <klocale.h>
- #include <kdialog.h>
- 
- #include <qlayout.h>
- #include <QFrame>
- #include <qtimer.h>
- #include <qtabwidget.h> 
-//Added by qt3to4:
+
+#include "indigroup.h"
+#include "indiproperty.h"
+#include "indidevice.h"
+#include "devicemanager.h"
+#include "indimenu.h"
+
+#include <klocale.h>
+#include <kdialog.h>
+
+#include <QFrame>
+#include <QTimer>
+#include <QTabWidget>
 #include <QVBoxLayout>
  
  /*******************************************************************

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kswizard.h"
+
 #include <QFile>
 #include <QStackedWidget>
 #include <QPixmap>
@@ -28,7 +30,6 @@
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
 #include "telescopewizardprocess.h"
-#include "kswizard.h"
 
 WizWelcomeUI::WizWelcomeUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );

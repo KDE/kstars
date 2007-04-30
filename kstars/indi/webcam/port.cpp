@@ -30,6 +30,8 @@
 
 //#include "config.h"
 
+#include "port.h"
+
 #include <stdio.h>
 #include <errno.h>
 
@@ -60,8 +62,6 @@
 #else
 #error Please define a platform in the Makefile
 #endif /* which OS */
-
-#include "port.h"
 
 port_t::port_t(int iport) {
   port = -1;

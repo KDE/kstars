@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcaltaz.h"
+
 #include <QTextStream>
 
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <kglobal.h>
-
-#include "modcalcaltaz.h"
 
 #include "skypoint.h"
 #include "geolocation.h"
@@ -31,7 +31,6 @@
 #include "widgets/dmsbox.h"
 #include "finddialog.h"
 #include "locationdialog.h"
-
 
 modCalcAltAz::modCalcAltAz(QWidget *parentSplit) 
 : QFrame(parentSplit), horInputCoords(false) {

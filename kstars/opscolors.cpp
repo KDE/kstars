@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "opscolors.h"
+
 #include <QFile>
 #include <QPixmap>
 #include <QTextStream>
@@ -28,7 +30,6 @@
 #include <kinputdialog.h>
 #include <kstandarddirs.h>
 
-#include "opscolors.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"

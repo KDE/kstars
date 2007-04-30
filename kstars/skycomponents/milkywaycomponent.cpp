@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "horizoncomponent.h"
+#include "milkywaycomponent.h"
 
 #include <QList>
 #include <QPointF>
@@ -33,8 +33,6 @@
 #include "Options.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
-
-#include "milkywaycomponent.h"
 
 MilkyWayComponent::MilkyWayComponent(SkyComponent *parent, bool (*visibleMethod)())
   : LineListComponent(parent, visibleMethod), FirstPoint(0)

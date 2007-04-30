@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "CameraIO_Linux.h"
+
 #include <assert.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -45,7 +47,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "time.h"
 //#include "tcl.h"
 //#include "ccd.h"
-#include "CameraIO_Linux.h"
 #include "ApogeeLinux.h"
 
 //////////////////////////////////////////////////////////////////////

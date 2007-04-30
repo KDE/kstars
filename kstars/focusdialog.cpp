@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "focusdialog.h"
+
 #include <QVBoxLayout>
 #include <kdebug.h>
 #include <klocale.h>
@@ -26,7 +28,6 @@
 #include "dms.h"
 #include "skypoint.h"
 #include "skymap.h"
-#include "focusdialog.h"
 
 FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );

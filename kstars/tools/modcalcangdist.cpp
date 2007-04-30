@@ -17,18 +17,18 @@
 
 #include "modcalcangdist.h"
 #include "modcalcangdist.moc"
+
+#include <QTextStream>
+
+#include <klocale.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+
 #include "dms.h"
 #include "widgets/dmsbox.h"
 #include "skypoint.h"
 #include "finddialog.h"
 #include "kstars.h"
-
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
-#include <klocale.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
 
 modCalcAngDist::modCalcAngDist(QWidget *parentSplit) 
 : QFrame(parentSplit) {

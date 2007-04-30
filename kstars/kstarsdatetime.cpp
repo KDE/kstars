@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
- 
 #include "kstarsdatetime.h"
+
+#include <kdebug.h>
+
 #include "ksnumbers.h"
 #include "dms.h"
 

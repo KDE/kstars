@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "infobox.h"
+
 #include <QPainter>
 #include <kdebug.h>
-
-#include "infobox.h"
 
 InfoBox::InfoBox(){
 	setText1( QString() );

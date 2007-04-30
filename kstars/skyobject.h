@@ -51,8 +51,8 @@ public:
 	*@param n2 Secondary name
 	*@param lname Long name (common name)
 	*/
-	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
-						float m=0.0, QString n=QString(), QString n2=QString(), QString lname=QString() );
+	explicit SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
+			float m=0.0, QString n=QString(), QString n2=QString(), QString lname=QString() );
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in data type of RA and Dec.

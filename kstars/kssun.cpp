@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kssun.h"
+
 #include <math.h>
 #include <qdatetime.h>
 
-#include "kssun.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"

@@ -22,6 +22,8 @@
 
 #include <iostream>
 
+#include "v4l1_base.h"
+
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,7 +35,6 @@
 #include <string.h>
 
 #include "ccvt.h"
-#include "v4l1_base.h"
 #include "../eventloop.h"
 #include "../indidevapi.h"
 

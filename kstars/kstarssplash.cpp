@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kstarssplash.h"
+
 #include <QFile>
 #include <QLabel>
 #include <QPixmap>
@@ -28,7 +30,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include "kstarssplash.h"
 #include "ksutils.h"
 
 //FIXME: program was crashing with KStarsSplash derived from KDialog,

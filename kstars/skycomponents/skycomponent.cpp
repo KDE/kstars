@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QList>
-#include <QPainter>
-
 #include "skycomponent.h"
 #include "skycomposite.h"
+
+#include <QList>
+#include <QPainter>
 
 #include "Options.h"
 #include "kstars.h"

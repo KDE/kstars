@@ -51,7 +51,7 @@ public:
 	*@param c the color for the planet
 	*@param pSize physical diameter of the planet, in km
 	*/
-	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file=QString(), 
+	explicit KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file=QString(), 
 		QColor c=Qt::white, double pSize=0 );
 
 /**Destructor (empty)

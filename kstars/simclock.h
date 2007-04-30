@@ -42,7 +42,7 @@ class SimClock : public QObject
 		 * @param parent parent object for the clock
 		 * @param when the date/time to which the SimClock should be initialized in UTC
 		 */
-		SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
+		explicit SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
 		/**
 		 * Constructor
 		 * @param old a SimClock to initialize from.

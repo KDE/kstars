@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "constellationboundarycomponent.h"
+
 #include <QFile>
 #include <QDir>
 #include <QPainter>
@@ -26,8 +28,6 @@
 #include "ksutils.h"
 #include "skymap.h"
 #include "Options.h"
-
-#include "constellationboundarycomponent.h"
 
 ConstellationBoundaryComponent::ConstellationBoundaryComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : LineListComponent( parent, visibleMethod )

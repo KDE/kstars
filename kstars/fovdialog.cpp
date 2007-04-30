@@ -15,13 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qfile.h>
-#include <qframe.h>
-#include <qpainter.h>
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
+#include "fovdialog.h"
+
+#include <QFile>
+#include <QFrame>
+#include <QPainter>
+#include <QStringList>
 #include <QTextStream>
 #include <QPaintEvent>
 
@@ -36,7 +35,6 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-#include "fovdialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ui_fovdialog.h"

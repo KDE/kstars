@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kstarsdata.h"
+
 #include <QApplication>
 #include <QRegExp>
 #include <QDir>
@@ -26,8 +28,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-
-#include "kstarsdata.h"
 
 #include "Options.h"
 #include "dms.h"

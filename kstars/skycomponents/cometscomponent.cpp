@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cometscomponent.h"
+
 #include <QFile>
 #include <QPen>
 #include <QPainter>
-
-#include "cometscomponent.h"
 
 #include "Options.h"
 #include "kscomet.h"

@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "thumbnaileditor.h"
+#include "ui_thumbnaileditor.h"
+#include "thumbnailpicker.h"
+
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QLabel>
@@ -25,9 +29,6 @@
 #include <kdebug.h>
 #include <kpushbutton.h>
 
-#include "thumbnaileditor.h"
-#include "ui_thumbnaileditor.h"
-#include "thumbnailpicker.h"
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
