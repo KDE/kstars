@@ -74,9 +74,9 @@ class FITSImage : public QScrollArea
 	enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
 	
 	/* Loads FITS image, scales it, and displays it in the GUI */
-	int  loadFits(QString filename);
+	int  loadFits(const QString &filename);
 	/* Save FITS */
-	int saveFITS(QString filename);
+	int saveFITS(const QString &filename);
 	/* Rescale image lineary from image_buffer, fit to window if desired */
 	int rescale(zoomType type);
 	/* Calculate stats */

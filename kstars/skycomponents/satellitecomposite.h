@@ -18,7 +18,7 @@
 #ifndef SATELLITECOMPOSITE_H
 #define SATELLITECOMPOSITE_H
 
-#include <QVarLengthArray>
+#include <QVector>
 
 #include "skycomposite.h"
 extern "C" {
@@ -54,10 +54,10 @@ class SatelliteComposite : public SkyComposite
 		*@param data Pointer to the KStarsData object
 		*@param num Pointer to the KSNumbers object
 		*/
-		virtual void update( KStarsData *data, KSNumbers *num );
+		virtual void update( KStarsData *data, KSNumbers *num=0 );
 
 	private:
-		QVarLengthArray<SPositionSat*> pSat;
+		QVector<SPositionSat*> pSat;
 		QStringList SatelliteNames;
 		long double JD_0;
 };

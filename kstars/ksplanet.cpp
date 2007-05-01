@@ -107,7 +107,8 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
 	return true;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, QColor c, double pSize )
+KSPlanet::KSPlanet( KStarsData *kd, const QString &s, 
+		const QString &imfile, QColor c, double pSize )
  : KSPlanetBase(kd, s, imfile, c, pSize ), data_loaded(false) {
 }
 

@@ -52,7 +52,9 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, float m,
-						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+		const QString &n, const QString &n2, 
+		const QString &lname )
+ : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
 	setName(n);
@@ -61,7 +63,9 @@ SkyObject::SkyObject( int t, dms r, dms d, float m,
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
-						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+		const QString &n, const QString &n2, 
+		const QString &lname )
+ : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
 	setName(n);

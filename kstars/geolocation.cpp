@@ -71,7 +71,9 @@ GeoLocation::GeoLocation( dms lng, dms lat,
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+		const QString &name, const QString &province, 
+		const QString &country, double tz, 
+		TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude.set( lng );
 	Latitude.set( lat );
 	Name = name;
@@ -85,7 +87,10 @@ GeoLocation::GeoLocation( double lng, double lat,
 	geodToCart();
 }
 
-GeoLocation::GeoLocation( double x, double y, double z, QString name, QString province, QString country, double TZ, TimeZoneRule *tzrule, int iEllips ) {
+GeoLocation::GeoLocation( double x, double y, double z, 
+		const QString &name, const QString &province, 
+		const QString &country, double TZ, 
+		TimeZoneRule *tzrule, int iEllips ) {
 	PosCartX = x;
 	PosCartY = y;
 	PosCartZ = z;

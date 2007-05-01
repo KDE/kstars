@@ -27,14 +27,14 @@
 class ScriptFunction
 {
 public:
-	ScriptFunction( QString name, QString desc, bool clockfcn=false,
-			QString at1=QString(), QString an1=QString(),
-			QString at2=QString(), QString an2=QString(),
-			QString at3=QString(), QString an3=QString(),
-			QString at4=QString(), QString an4=QString(),
-			QString at5=QString(), QString an5=QString(),
-			QString at6=QString(), QString an6=QString()
-	);
+	ScriptFunction( const QString &name, const QString &desc, 
+			bool clockfcn=false,
+			const QString &at1=QString(), const QString &an1=QString(),
+			const QString &at2=QString(), const QString &an2=QString(),
+			const QString &at3=QString(), const QString &an3=QString(),
+			const QString &at4=QString(), const QString &an4=QString(),
+			const QString &at5=QString(), const QString &an5=QString(),
+			const QString &at6=QString(), const QString &an6=QString() );
 	ScriptFunction( ScriptFunction *sf );
 	~ScriptFunction();
 

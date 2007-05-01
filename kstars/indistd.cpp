@@ -441,7 +441,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
    
 }
  
- void INDIStdDevice::updateSequencePrefix(QString newPrefix)
+ void INDIStdDevice::updateSequencePrefix( const QString &newPrefix)
  {
     seqPrefix = newPrefix;
     

@@ -124,7 +124,7 @@ FITSImage::~FITSImage()
   delete(displayImage);
 }
 	
-int FITSImage::loadFits (QString filename)
+int FITSImage::loadFits ( const QString &filename )
 {
  
   int status=0, nulval=0, anynull=0;
@@ -198,7 +198,7 @@ int FITSImage::loadFits (QString filename)
  
 }
 
-int FITSImage::saveFITS(QString filename)
+int FITSImage::saveFITS( const QString &filename )
 {
 	int status=0;
 	long fpixel[2], nelements;

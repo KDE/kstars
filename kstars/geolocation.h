@@ -77,7 +77,7 @@ public:
 	*@param iEllips type of geodetic ellipsoid model
 	*@param hght the elevation above sea level (in meters?)
 	*/
-	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+	GeoLocation( double lng, double lat, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
 	*@param x the x-position, in m
@@ -90,7 +90,7 @@ public:
 	*@param TZrule pointer to the daylight savings time rule
 	*@param iEllips type of geodetic ellipsoid model
 	*/
-	GeoLocation( double x, double y, double z, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
+	GeoLocation( double x, double y, double z, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
 
 
 /**Destructor (empty)

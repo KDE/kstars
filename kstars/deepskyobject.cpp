@@ -43,7 +43,8 @@ DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
 }
 
 DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
-			QString n, QString n2, QString lname, QString cat,
+			const QString &n, const QString &n2, 
+			const QString &lname, const QString &cat,
 			float a, float b, double pa, int pgc, int ugc )
 	: SkyObject( t, r, d, m, n, n2, lname ) {
 	MajorAxis = a;
@@ -56,7 +57,8 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
-			QString n, QString n2, QString lname, QString cat,
+			const QString &n, const QString &n2, 
+			const QString &lname, const QString &cat,
 			float a, float b, double pa, int pgc, int ugc )
 	: SkyObject( t, r, d, m, n, n2, lname ) {
 	MajorAxis = a;

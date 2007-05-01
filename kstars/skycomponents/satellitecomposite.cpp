@@ -65,32 +65,7 @@ void SatelliteComposite::init( KStarsData *data ) {
 			data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
 						 data->geo()->height(), sfPath.toAscii().data() );
 		
-		//Julian Day value for current date and time:
-		JD_0 = data->ut().djd();
-
-		//Loop over desired satellites, construct their paths over the next hour, 
-		//and add visible paths to the list
-		foreach ( const QString &satName, SatelliteNames ) {
-			emitProgressText( i18n("Creating satellite: %1", satName ) );
-
-			SatFindPosition( satName.toAscii().data(), JD_0, DT, NSTEPS, pSat.data() );
-		
-			//Make sure the satellite track is visible before adding it to the list.
-			bool isVisible = false;
-			for ( int i=0; i<NSTEPS; i++ ) {
-				if ( pSat[i]->sat_ele > 10.0 ) { 
-					isVisible = true;
-					break;
-				}
-			}
-		
-			if ( isVisible ) {
-				SatelliteComponent *sc = new SatelliteComponent( this, Options::showSatellites );
-				sc->init( satName, data, pSat.data(), NSTEPS );
-				addComponent( sc );
-				
-			}
-		}
+		update( data );
 	}
 }
 
@@ -119,6 +94,14 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 			SatelliteComponent *sc = new SatelliteComponent( this, Options::showSatellites );
 			sc->init( satName, data, pSat.data(), NSTEPS );
 			addComponent( sc );
+
+			//DEBUG
+			foreach ( SPositionSat *ps, pSat ) {
+				KStarsDateTime dt( ps->jd );
+				dms alt( ps->sat_ele );
+				dms az( ps->sat_azi );
+				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString() << endl;
+			}
 		}
 	}
 }

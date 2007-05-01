@@ -20,9 +20,13 @@
 #include <qstringlist.h>
 #include <kdebug.h>
 
-ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
-		QString at1, QString an1, QString at2, QString an2, QString at3, QString an3,
-		QString at4, QString an4, QString at5, QString an5, QString at6, QString an6 ) : INDIProp(QString()) {
+ScriptFunction::ScriptFunction( const QString &name, const QString &desc, 
+		bool clockfcn, const QString &at1, const QString &an1, 
+		const QString &at2, const QString &an2, 
+		const QString &at3, const QString &an3, 
+		const QString &at4, const QString &an4, 
+		const QString &at5, const QString &an5, 
+		const QString &at6, const QString &an6 ) : INDIProp(QString()) {
 	Name = name;
 	ClockFunction = clockfcn;
 

@@ -81,7 +81,7 @@ class CustomCatalogComponent: public ListComponent
 		*@p filename the name of the file containing the data to be read
 		*@return true if catalog was successfully added
 		*/
-		bool addCatalog(QString filename);
+		bool addCatalog(const QString &filename);
 		
 	/**
 		*@short Remove a catalog rom the program
@@ -100,7 +100,7 @@ class CustomCatalogComponent: public ListComponent
 		*@p showerrs if true, parse errors will be logged and reported
 		*@p errs reference to the string list containing the parse errors encountered
 		*/
-		bool processCustomDataLine(int lnum, QStringList d, QStringList Columns,
+		bool processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns,
 			bool showerrs, QStringList &errs);
 		
 	/**
@@ -115,7 +115,7 @@ class CustomCatalogComponent: public ListComponent
 		*@p showerrs if true, parse errors will be logged and reported
 		*@p errs reference to the string list containing the parse errors encountered
 		*/
-		bool parseCustomDataHeader(QStringList lines, QStringList &Columns,
+		bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
 			int &iStart, bool showerrs, QStringList &errs);
 		
 		QString m_Filename;

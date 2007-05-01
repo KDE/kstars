@@ -52,7 +52,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	explicit SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
-			float m=0.0, QString n=QString(), QString n2=QString(), QString lname=QString() );
+			float m=0.0, const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in data type of RA and Dec.
@@ -65,7 +65,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t, double r, double d, float m=0.0,
-						QString n=QString(), QString n2=QString(), QString lname=QString() );
+						const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data

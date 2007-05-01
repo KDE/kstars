@@ -169,7 +169,7 @@ void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
 	}
 }
 
-bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
+bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
 {
 
 	bool foundDataColumns( false ); //set to true if description of data columns found
@@ -312,7 +312,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( QStringList lines, QStringLi
 	}
 }
 
-bool CustomCatalogComponent::processCustomDataLine(int lnum, QStringList d, QStringList Columns, bool showerrs, QStringList &errs )
+bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns, bool showerrs, QStringList &errs )
 {
 
 	//object data

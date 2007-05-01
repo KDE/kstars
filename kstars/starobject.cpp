@@ -43,10 +43,14 @@ StarObject::StarObject( StarObject &o )
 	Variability = o.isVariable();
 }
 
-StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sptype,
-		double pmra, double pmdec, double par, bool mult, bool var )
-	: SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
+StarObject::StarObject( dms r, dms d, float m, 
+		const QString &n, const QString &n2, 
+		const QString &sptype, double pmra, double pmdec, 
+		double par, bool mult, bool var )
+ : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), 
+		SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+		Parallax(par), Multiplicity(mult), Variability(var) 
+// SONAME deprecated //, soName( 0 )
 {
 	QString lname;
 	if ( hasName() ) {
@@ -63,10 +67,14 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	setLongName(lname);
 }
 
-StarObject::StarObject( double r, double d, float m, QString n, QString n2, QString sptype,
-		double pmra, double pmdec, double par, bool mult, bool var )
-	: SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
+StarObject::StarObject( double r, double d, float m, 
+		const QString &n, const QString &n2, 
+		const QString &sptype, double pmra, double pmdec, 
+		double par, bool mult, bool var )
+ : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), 
+		SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+		Parallax(par), Multiplicity(mult), Variability(var) 
+// SONAME deprecated //, soName( 0 )
 {
 	QString lname;
 	if ( hasName() ) {

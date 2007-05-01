@@ -66,7 +66,7 @@
     /* INDI STD: Updates device location */
    void updateLocation();
    /* Update image prefix */
-   void updateSequencePrefix(QString newPrefix);
+   void updateSequencePrefix(const QString &newPrefix);
    
    int                  dataType;
    int 			initDevCounter;

@@ -82,7 +82,7 @@ public:
 	*
 	*@todo Figure out what @p kd does.
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file=QString(), const QColor &c=Qt::white, double pSize=0 );
+	KSPlanetBase( KStarsData *kd, const QString &s = i18n("unnamed"), const QString &image_file=QString(), const QColor &c=Qt::white, double pSize=0 );
 
 /**
 	*Destructor (empty)
@@ -303,7 +303,7 @@ public:
 	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos );
 
 protected:
-	virtual bool loadData(QString n) {
+	virtual bool loadData(const QString &n) {
 		kDebug() << "didn't reimplement for " << n << endl; return false;
 	}
 

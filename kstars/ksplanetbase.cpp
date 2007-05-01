@@ -30,8 +30,9 @@
 #include "kspopupmenu.h"
 #include "Options.h"
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, const QColor &c, double pSize )
- : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ), Rearth(0.0), Image(), data(kd),
+KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, 		const QString &image_file, const QColor &c, double pSize )
+ : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ), 
+		Rearth(0.0), Image(), data(kd),
 		PhysicalSize(pSize), m_Color( c ) {
 
 	 if (! image_file.isEmpty()) {
