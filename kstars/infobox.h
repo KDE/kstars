@@ -21,7 +21,8 @@
 #include <QPoint>
 #include <QRect>
 #include <QSize>
-
+#include <QObject>
+#include <QColor>
 
 /**@class InfoBox 
 	*InfoBoxencapsulates a lightweight floating "window" to be drawn directly 

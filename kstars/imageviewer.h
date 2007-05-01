@@ -32,6 +32,8 @@
 
 class KUrl;
 class KStars;
+class QLabel;
+class QVBoxLayout;
 
 class ImageLabel : public QFrame {
 	Q_OBJECT
