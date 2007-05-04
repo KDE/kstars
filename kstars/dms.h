@@ -77,22 +77,22 @@ public:
 
 /**@return integer degrees portion of the angle
 	*/
-  inline const int degree() const { return int( D ) ; }
+  inline int degree() const { return int( D ) ; }
 
 /**@return integer arcminutes portion of the angle.
 	*@note an arcminute is 1/60 degree.
 	*/
-  const int arcmin() const;
+  int arcmin() const;
 
 /**@return integer arcseconds portion of the angle
 	*@note an arcsecond is 1/60 arcmin, or 1/3600 degree.
 	*/
-  const int arcsec() const;
+  int arcsec() const;
 
 /**@return integer milliarcseconds portion of the angle
 	*@note a  milliarcsecond is 1/1000 arcsecond.
 	*/
-	const int marcsec() const;
+	int marcsec() const;
 
 /**@return angle in degrees expressed as a double.
 	*/
@@ -102,28 +102,28 @@ public:
 	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
-	inline const int hour() const { return int( reduce().Degrees()/15.0 ); }
+	inline int hour() const { return int( reduce().Degrees()/15.0 ); }
 
 /**@return integer minutes portion of the angle
 	*@note a minute is 1/60 hour (not the same as an arcminute)
 	*/
-	const int minute() const;
+	int minute() const;
 
 /**@return integer seconds portion of the angle
 	*@note a second is 1/3600 hour (not the same as an arcsecond)
 	*/
-	const int second() const;
+	int second() const;
 
 /**@return integer milliseconds portion of the angle
 	*@note a millisecond is 1/1000 second (not the same as a milliarcsecond)
 	*/
-	const int msecond() const;
+	int msecond() const;
 
 /**@return angle in hours expressed as a double.
 	*@note an angle can be measured in degrees/arcminutes/arcseconds
 	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
 	*/
-	inline const double Hours() const { return reduce().Degrees()/15.0; }
+	inline double Hours() const { return reduce().Degrees()/15.0; }
 
 /**Sets integer degrees portion of angle, leaving the arcminute and
 	*arcsecond values intact.
