@@ -21,9 +21,11 @@ set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	)
 
-if (NOT CFITSIO_FOUND)
+if (CFITSIO_FOUND)
+  set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
+  set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
   set (CFITSIO_LIBRARIES cfitsio)
-endif(NOT CFITSIO_FOUND)
+endif(CFITSIO_FOUND)
 
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
@@ -144,7 +146,7 @@ set(libkstarscomponents_SRCS
    skycomponents/skymapcomposite.cpp 
 )
 
-set(libkstarswidgets_SRCS
+set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
 	widgets/calcframe.cpp 
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 
@@ -157,16 +159,14 @@ set(libkstarswidgets_SRCS
 	widgets/timespinbox.cpp 
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
-	widgets/fitshistogramdraw.cpp
 )
 
-set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${libcfitsio_SRCS} 
+set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
 	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
-	fitshistogram.cpp ccdpreviewwg.cpp fitsimage.cpp fitsviewer.cpp 
-	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagesequence.cpp
-	imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
+	ccdpreviewwg.cpp focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp
+	imagesequence.cpp imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
 	indifitsconf.cpp indigroup.cpp indimenu.cpp indiproperty.cpp indistd.cpp 
 	infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp 
 	ksfilereader.cpp ksmoon.cpp ksnumbers.cpp ksplanet.cpp 
@@ -202,7 +202,7 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF2_LIBS} ${CFITSIO_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} SatLib m z )
+target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF2_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${CFITSIO_LIBRARIES} SatLib m z )
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 

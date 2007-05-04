@@ -25,7 +25,10 @@
 #include "timedialog.h"
 #include "streamwg.h"
 #include "ccdpreviewwg.h"
+
+#ifdef HAVE_CFITSIO_H
 #include "fitsviewer.h"
+#endif
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -109,17 +112,19 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
       return;
 	
     streamWindow->show();	
-    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);    
+    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
+    return;
   }
   else if (dataType == DATA_CCDPREVIEW)
   {
     if (!CCDPreviewWindow->processStream)
       return;
     CCDPreviewWindow->show();	
-    CCDPreviewWindow->streamFrame->newFrame( buffer, bufferSize, CCDPreviewWindow->streamWidth, CCDPreviewWindow->streamHeight);    
+    CCDPreviewWindow->streamFrame->newFrame( buffer, bufferSize, CCDPreviewWindow->streamWidth, CCDPreviewWindow->streamHeight);
+    return;
   }
-  else if (dataType == DATA_FITS || dataType == DATA_OTHER)
-  {
+  
+    // It's either FITS or OTHER
     char filename[256];
     FILE *fitsTempFile;
     int fd, nr, n=0;
@@ -188,26 +193,29 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        
     fclose(fitsTempFile);
        
-       // We're done if we have DATA_OTHER
+    // We're done if we have DATA_OTHER or DATA_FITS if CFITSIO is not enabled.
     if (dataType == DATA_OTHER)
     {
       ksw->statusBar()->changeItem( i18n("Data file saved to %1", QString(filename) ), 0);
       return;
     }
-    else if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
+
+    if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
     {
       ksw->statusBar()->changeItem( i18n("FITS file saved to %1", QString(filename) ), 0);
       emit FITSReceived(dp->label);
       return;
     } 
-       
+
+// Unless we have cfitsio, we're done.
+#ifdef HAVE_CFITSIO_H
     KUrl fileURL(filename);
-       
+
     FITSViewer * fv = new FITSViewer(&fileURL, ksw);
     fv->fitsChange();
     fv->show();
-  }
-       
+#endif
+
 }
 
  /* Process standard Text and Number properties arrives from the driver */

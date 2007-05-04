@@ -74,11 +74,13 @@ void KStars::initActions() {
         ka->setToolTip(ka->whatsThis());
         ka->setStatusTip(ka->whatsThis());
 
+	#ifdef HAVE_CFITSIO_H
 	ka = actionCollection()->addAction( "open_file");
         ka->setIcon( KIcon( "document-open" ) );
         ka->setText( i18n( "Open FITS...") );
 	ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_O ) );
 	connect( ka, SIGNAL( triggered() ), this, SLOT( slotOpenFITS() ) );
+	#endif
 
 	ka = actionCollection()->addAction( "export_image" );
         ka->setIcon( KIcon( "fileexport" ) );

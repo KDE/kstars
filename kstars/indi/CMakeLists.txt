@@ -1,8 +1,6 @@
-
 add_subdirectory( fli )
 add_subdirectory( webcam )
 add_subdirectory( apogee )
-add_subdirectory( cfitsio )
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../..  )
 
@@ -20,71 +18,6 @@ set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/observer.c
 	)
-
-if (NOT CFITSIO_FOUND)
-set(libcfitsio_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/buffers.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/cfileio.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/checksum.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/compress.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrfile.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrmem.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrnet.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/drvrsmem.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/editcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/edithdu.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_l.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_y.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/eval_f.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fitscore.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcold.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcole.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoli.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoll.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcols.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolsb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcolui.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getcoluj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/getkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/group.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/grparser.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/histo.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/iraffits.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/modkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcol.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcold.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcole.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoli.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluk.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoll.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcols.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolsb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolu.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcolui.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putcoluj.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/putkey.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/region.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/scalnull.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/swapproc.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcssub.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/wcsutil.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/imcompress.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/quantize.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/ricecomp.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/pliocomp.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fits_hcompress.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/cfitsio/fits_hdecompress.c
-	)
-  set (CFITSIO_LIBRARIES cfitsio m z)
-endif(NOT CFITSIO_FOUND)
 
 set(libapogee_usb_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/apogee/ApnCamData.cpp
@@ -161,24 +94,6 @@ set(libwebcam_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_c2.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/webcam/ccvt_misc.c
 	)
-########### next target ###############
-## cfitsio library                  ###
-if (NOT CFITSIO_FOUND)
-
-kde4_add_library(cfitsio SHARED ${libcfitsio_SRCS})
-if (WIN32)
-  set (LIBS )
-else (WIN32)
-  set (LIBS m)
-endif (WIN32)
-
-target_link_libraries(cfitsio ${LIBS})
-set_target_properties(cfitsio PROPERTIES VERSION 1.0.0 SOVERSION 1 )
-set_target_properties(cfitsio PROPERTIES COMPILE_FLAGS -fvisibility=default)
-
-install(TARGETS cfitsio DESTINATION ${LIB_INSTALL_DIR} )
-
-endif(NOT CFITSIO_FOUND)
 
 ########### next target ###############
 ## SBIG Universal Driver Dummy Library ###
@@ -325,6 +240,8 @@ install(TARGETS intelliscope  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ########### STV ###############
+if (CFITSIO_FOUND)
+
 set(stv_SRCS 
    indidrivermain.c 
    eventloop.c 
@@ -337,6 +254,7 @@ target_link_libraries(stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS stv DESTINATION ${BIN_INSTALL_DIR} )
 
+endif(CFITSIO_FOUND)
 ########### LINUX SPECIFC ###############
 #### Build the following targets on Linux Only ####
 
@@ -346,6 +264,7 @@ ADD_DEFINITIONS(-DTOP_DATADIR=\\"${KDE4_INSTALL_DIR}${DATA_INSTALL_DIR}/kstars\\
 
 ########### next target ###############
 ########### Apgoee PPI ##############
+if (CFITSIO_FOUND)
 set(apogee_ppi_SRCS
 	apogee_ppi.cpp
 	eventloop.c
@@ -365,6 +284,8 @@ kde4_add_executable(apogee_ppi ${apogee_ppi_SRCS} ${libapogee_PPI_SRCS} ${liblil
 target_link_libraries(apogee_ppi ${KDE4_KDECORE_LIBS} )
 
 install(TARGETS apogee_ppi  DESTINATION ${BIN_INSTALL_DIR} )
+
+endif (CFITSIO_FOUND)
 
 ########### next target ###############
 ###### FLI Precision Digital Focuser ######
@@ -410,6 +331,8 @@ install(TARGETS fliwheel  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 ############# FLI CCD ###############
+if (CFITSIO_FOUND)
+
 set(fliccd_SRCS eventloop.c fli_ccd.c indidrivermain.c)
 
 kde4_automoc(${fliccd_SRCS})
@@ -420,8 +343,11 @@ target_link_libraries(fliccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS fliccd  DESTINATION ${BIN_INSTALL_DIR} )
 
+endif (CFITSIO_FOUND)
 ########### next target ###############
 ### Meade Lunar Planetary Imager ########
+if (CFITSIO_FOUND)
+
 ADD_DEFINITIONS(-DHAVE_LINUX_VIDEODEV2_H)
 
 set(meade_lpi_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_lpi.cpp )
@@ -432,8 +358,12 @@ target_link_libraries(meade_lpi ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
 
 install(TARGETS meade_lpi  DESTINATION ${BIN_INSTALL_DIR} )
 
+endif (CFITSIO_FOUND)
+
 ########### next target ###############
 ########### V4L Philips ##############
+if (CFITSIO_FOUND)
+
 set(v4lphilips_SRCS eventloop.c indidrivermain.c v4ldriver.cpp v4lphilips.cpp indi_philips.cpp)
 
 kde4_add_executable(v4lphilips ${v4lphilips_SRCS} ${libwebcam_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -442,8 +372,12 @@ target_link_libraries(v4lphilips m z ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
 
 install(TARGETS v4lphilips  DESTINATION ${BIN_INSTALL_DIR} )
 
+endif (CFITSIO_FOUND)
+
 ########### next target ###############
 ########### V4L Driver ###############
+if (CFITSIO_FOUND)
+
 set(v4ldriver_SRCS eventloop.c indidrivermain.c v4ldriver.cpp indi_v4l.cpp)
 
 kde4_add_executable(v4ldriver ${v4ldriver_SRCS} ${libwebcam_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -452,8 +386,12 @@ target_link_libraries(v4ldriver m z ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
 
 install(TARGETS v4ldriver  DESTINATION ${BIN_INSTALL_DIR} )
 
+endif (CFITSIO_FOUND)
+
 ########### next target ###############
 ########### SBIG CCD ###############
+if (CFITSIO_FOUND)
+
 set(sbigccd_SRCS sbigcam.cpp eventloop.c indidrivermain.c)
 
 kde4_add_executable(sbigccd ${sbigccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -461,6 +399,8 @@ kde4_add_executable(sbigccd ${sbigccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS}
 target_link_libraries(sbigccd sbigudrv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${SBIG_LIBRARIES})
 
 install(TARGETS sbigccd  DESTINATION ${BIN_INSTALL_DIR} )
+
+endif (CFITSIO_FOUND)
 
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 

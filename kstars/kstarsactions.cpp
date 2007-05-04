@@ -86,7 +86,13 @@
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
+
+#include "config-kstars.h"
+
+#ifdef HAVE_CFITSIO_H
 #include "fitsviewer.h"
+#endif
+
 // #include "libkdeedu/kdeeduui/kdeeduglossary.h"
 
 #include "imagesequence.h"
@@ -293,7 +299,7 @@ void KStars::slotINDIConf() {
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
      Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
      Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
-     Options::setIndiFITSDisplay (indiconf.fitsAutoDisplayCheck->isChecked());
+     Options::setIndiFITSDisplay (indiconf.AutoDisplayCheck->isChecked());
      Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
      Options::setIndiVideoPort( indiconf.vidPort_IN->text());
      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());*/
@@ -449,6 +455,7 @@ void KStars::closeWindow() {
 
 void KStars::slotOpenFITS()
 {
+#ifdef HAVE_CFITSIO_H
 
   KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System" );
 
@@ -457,7 +464,7 @@ void KStars::slotOpenFITS()
 
   FITSViewer * fv = new FITSViewer(&fileURL, this);
   fv->show();
-
+#endif
 }
 
 void KStars::slotExportImage() {

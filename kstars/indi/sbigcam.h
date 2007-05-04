@@ -54,10 +54,9 @@
 	#include <netdb.h>
 	#include <zlib.h>
 	#include <memory>
-	/* FIXME use CFITSIO
-	#include "fitsrw.h"
-	*/
-	#include "cfitsio/fitsio.h"
+	
+	#include <fitsio.h>
+	
 	#include "indidevapi.h"
 	#include "eventloop.h"
 	#include "indicom.h"

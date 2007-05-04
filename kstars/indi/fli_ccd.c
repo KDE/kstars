@@ -36,8 +36,9 @@
 #include <netdb.h>
 #include <zlib.h>
 
+#include <fitsio.h>
+
 #include "fli/libfli.h"
-#include "cfitsio/fitsio.h"
 #include "indidevapi.h"
 #include "eventloop.h"
 #include "indicom.h"

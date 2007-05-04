@@ -505,6 +505,7 @@ void INDIDriver::saveDevicesToDisk()
    }
    outstream << "</devGroup>" << endl;
 
+#ifdef HAVE_CFITSIO_H
    // #2 CCDs
    outstream << "<devGroup group='CCDs'>" << endl;
    //for (unsigned i=0; i < devices.size(); i++)
@@ -519,6 +520,7 @@ void INDIDriver::saveDevicesToDisk()
      }
   }
   outstream << "</devGroup>" << endl;
+#endif
 
   // #3 Filter wheels
   outstream << "<devGroup group='Filter Wheels'>" << endl;
@@ -536,6 +538,7 @@ void INDIDriver::saveDevicesToDisk()
   }
   outstream << "</devGroup>" << endl;
 
+#ifdef HAVE_CFITSIO_H
    // #4 Video
    outstream << "<devGroup group='Video'>" << endl;
 
@@ -551,6 +554,7 @@ void INDIDriver::saveDevicesToDisk()
      }
    }
    outstream << "</devGroup>" << endl;
+#endif
 
    file.close();
 
@@ -692,6 +696,11 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   else if (groupName.indexOf("GPS") != -1)
     groupType = KSTARS_GPS;
 
+#ifndef HAVE_CFITSIO_H
+   // We dont create these groups if we don't have CFITSIO support
+   if (groupType == KSTARS_CCD || groupType == KSTARS_VIDEO)
+	return true;
+#endif
 
   //K3ListViewItem *group = new K3ListViewItem(topItem, lastGroup);
   QTreeWidgetItem *group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);

@@ -44,7 +44,7 @@
 
 /* Fits */
 
-#include "cfitsio/fitsio.h"
+#include <fitsio.h>
 
 /* STV's definitions */
 

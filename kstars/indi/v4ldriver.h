@@ -43,7 +43,7 @@
 
 #include "indidevapi.h"
 #include "indicom.h"
-#include "cfitsio/fitsio.h"
+#include <fitsio.h>
 #include "eventloop.h"
 
 /* do NOT change this to config-kstars.h! 
