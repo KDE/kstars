@@ -25,6 +25,8 @@ if (CFITSIO_FOUND)
   set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
   set (CFITSIO_LIBRARIES cfitsio)
+else (CFITSIO_FOUND)
+  set (CFITSIO_LIBRARIES "")
 endif(CFITSIO_FOUND)
 
 set(libkstarstools_SRCS 
