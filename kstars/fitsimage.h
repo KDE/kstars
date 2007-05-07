@@ -32,7 +32,7 @@
 #include <kxmlguiwindow.h>
 #include <kurl.h>
 
-#include "indi/cfitsio/fitsio.h"
+#include "fitsio.h"
 
 class KCommandHistory;
 class FITSViewer;

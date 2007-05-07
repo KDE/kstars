@@ -27,7 +27,7 @@
 #include <kxmlguiwindow.h>
 #include <kurl.h>
 
-#include "indi/cfitsio/fitsio.h"
+#include "fitsio.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
