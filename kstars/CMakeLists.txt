@@ -6,9 +6,19 @@ add_subdirectory( data )
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 
+if (CFITSIO_FOUND)
+  set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
+  set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
+  set (CFITSIO_LIBRARIES cfitsio)
+else (CFITSIO_FOUND)
+  set (CFITSIO_INCLUDE_DIR "")
+  set (CFITSIO_LIBRARIES "")
+endif(CFITSIO_FOUND)
+
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+        ${CFITSIO_INCLUDE_DIR}
 )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
@@ -20,14 +30,6 @@ set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/indicom.c 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	)
-
-if (CFITSIO_FOUND)
-  set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
-  set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
-  set (CFITSIO_LIBRARIES cfitsio)
-else (CFITSIO_FOUND)
-  set (CFITSIO_LIBRARIES "")
-endif(CFITSIO_FOUND)
 
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp

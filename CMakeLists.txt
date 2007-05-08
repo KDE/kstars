@@ -13,7 +13,7 @@ check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)
 check_include_files(termios.h TERMIOS_FOUND)
 macro_bool_to_01(TERMIOS_FOUND HAVE_TERMIOS_H)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CFITSIO_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # The generated file is called config.h since indi is non-kde code and expects a config.h
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
