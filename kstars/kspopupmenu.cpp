@@ -321,7 +321,7 @@ bool KSPopupMenu::addINDI(void)
 					//CCD_EXPOSE_DURATION is an INumber property, but it's so common
 					//that it's better to include in the context menu
 
-					if (prop->stdID == -1 || prop->stdID == MOVEMENT) continue;
+					if (prop->stdID == -1 || prop->stdID == TELESCOPE_MOTION_NS || prop->stdID == TELESCOPE_MOTION_WE) continue;
 					// Only switches are shown
 					if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO
 							&& prop->stdID !=CCD_EXPOSE_DURATION) continue;

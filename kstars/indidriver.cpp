@@ -14,6 +14,30 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+#include <QRadioButton>
+#include <QFile>
+#include <QTextStream>
+#include <QTreeWidget>
+#include <QIcon>
+#include <QDialog>
+
+#include <KMenu>
+#include <KMessageBox>
+#include <KPushButton>
+#include <KLineEdit>
+
+#include <kstandarddirs.h>
+#include <k3process.h>
+#include <kaction.h>
+#include <k3serversocket.h>
+#include <kactioncollection.h>
+#include <kiconloader.h>
+
 #include "indidriver.h"
 #include "indimenu.h"
 #include "ui_indihostconf.h"
@@ -26,28 +50,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#include <QRadioButton>
-#include <QFile>
-#include <QTextStream>
-#include <QTreeWidget>
-#include <QIcon>
-#include <QDialog>
-#include <kactioncollection.h>
-#include <kiconloader.h>
-#include <kmenu.h>
-#include <k3process.h>
-#include <kmessagebox.h>
-#include <kpushbutton.h>
-#include <klineedit.h>
-#include <kstandarddirs.h>
-#include <kaction.h>
-#include <k3serversocket.h>
-
-//#include <kextsock.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
+#include "config-kstars.h"
 
 #define  MAX_RETRIES 3
 

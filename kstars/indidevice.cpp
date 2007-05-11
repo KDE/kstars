@@ -73,11 +73,11 @@
 #include <kmenu.h>
 #include <kvbox.h>
 
-#define NINDI_STD	27
+#define NINDI_STD	28
 /* INDI standard property used across all clients to enable interoperability. */
 
 const char * indi_std[NINDI_STD] =
-  {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "MOVEMENT", "PARK", "CCD_EXPOSE_DURATION", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCDPREVIEW_STREAM", "CCDPREVIEW_CTRL", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
+  {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "OFFSET_UTC" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSE_DURATION", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCDPREVIEW_STREAM", "CCDPREVIEW_CTRL", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its
@@ -309,18 +309,19 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 	     break;
 
 	case PP_WO:
-	    if (pp->guitype == PG_TEXT)
+	   // FIXME for WO properties, only min/max needs to be updated
+	   /* if (pp->guitype == PG_TEXT)
 	      lp->write_w->setText(QString(pcdataXMLEle(ep)));
-	    else if (pp->guitype == PG_NUMERIC)
+	    else*/ if (pp->guitype == PG_NUMERIC)
 	    {
-	      lp->value = atof(pcdataXMLEle(ep));
+	      /*lp->value = atof(pcdataXMLEle(ep));
 	      numberFormat(iNumber, lp->format.toAscii(), lp->value);
 	      lp->text = iNumber;
 
 	      if (lp->spin_w)
                 lp->spin_w->setValue(lp->value);
 	      else
- 	        lp->write_w->setText(lp->text);
+ 	        lp->write_w->setText(lp->text);*/
 
 	       ap = findXMLAtt (ep, "min");
 	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }

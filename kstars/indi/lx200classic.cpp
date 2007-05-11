@@ -26,8 +26,9 @@
 #include <string.h>
 
 extern LX200Generic *telescope;
-extern INumberVectorProperty eqNum;
-extern ITextVectorProperty Time;
+extern INumberVectorProperty EquatorialCoordsWNP;
+extern INumberVectorProperty EquatorialCoordsRNP;
+extern ITextVectorProperty TimeTP;
 extern int MaxReticleFlashRate;
 
 #define BASIC_GROUP	"Main Control"
@@ -35,43 +36,42 @@ extern int MaxReticleFlashRate;
 #define MOVE_GROUP	"Movement Control"
 
 static IText   ObjectText[] = {{"objectText", "Info", 0, 0, 0, 0}};
-static ITextVectorProperty ObjectInfo = {mydev, "Object Info", "", BASIC_GROUP, IP_RO, 0, IPS_IDLE, ObjectText, NARRAY(ObjectText), "", 0};
+static ITextVectorProperty ObjectInfoTP = {mydev, "Object Info", "", BASIC_GROUP, IP_RO, 0, IPS_IDLE, ObjectText, NARRAY(ObjectText), "", 0};
 
 /* Library group */
 static ISwitch StarCatalogS[]    = {{"STAR", "", ISS_ON, 0, 0}, {"SAO", "", ISS_OFF, 0, 0}, {"GCVS", "", ISS_OFF, 0, 0}};
 static ISwitch DeepSkyCatalogS[] = {{"NGC", "", ISS_ON, 0, 0}, {"IC", "", ISS_OFF, 0, 0}, {"UGC", "", ISS_OFF, 0, 0}, {"Caldwell", "", ISS_OFF, 0, 0}, {"Arp", "", ISS_OFF, 0, 0}, {"Abell", "", ISS_OFF, 0, 0}, {"Messier", "", ISS_OFF, 0, 0}};
 static ISwitch SolarS[]          = { {"Select", "Select item...", ISS_ON, 0, 0}, {"1", "Mercury", ISS_OFF,0 , 0}, {"2", "Venus", ISS_OFF, 0, 0}, {"3", "Moon", ISS_OFF, 0, 0}, {"4", "Mars", ISS_OFF, 0, 0}, {"5", "Jupiter", ISS_OFF, 0, 0}, {"6", "Saturn", ISS_OFF, 0, 0}, {"7", "Uranus", ISS_OFF, 0, 0}, {"8", "Neptune", ISS_OFF, 0, 0}, {"9", "Pluto", ISS_OFF, 0 ,0}};
 
-static ISwitchVectorProperty StarCatalogSw   = { mydev, "Star Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StarCatalogS, NARRAY(StarCatalogS), "", 0};
-static ISwitchVectorProperty DeepSkyCatalogSw= { mydev, "Deep Sky Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), "", 0};
-static ISwitchVectorProperty SolarSw         = { mydev, "SOLAR_SYSTEM", "Solar System", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SolarS, NARRAY(SolarS), "", 0};
+static ISwitchVectorProperty StarCatalogSP   = { mydev, "Star Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, StarCatalogS, NARRAY(StarCatalogS), "", 0};
+static ISwitchVectorProperty DeepSkyCatalogSP= { mydev, "Deep Sky Catalogs", "", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, DeepSkyCatalogS, NARRAY(DeepSkyCatalogS), "", 0};
+static ISwitchVectorProperty SolarSP         = { mydev, "SOLAR_SYSTEM", "Solar System", LIBRARY_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SolarS, NARRAY(SolarS), "", 0};
 
 static INumber ObjectN[] = {{ "ObjectN", "Number", "%g", 1., 10000., 1., 0., 0, 0, 0}};
-static INumberVectorProperty ObjectNo= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN), "", 0 };
+static INumberVectorProperty ObjectNoNP= { mydev, "Object Number", "", LIBRARY_GROUP, IP_RW, 0, IPS_IDLE, ObjectN, NARRAY(ObjectN), "", 0 };
 
 static INumber MaxSlew[] = {{"maxSlew", "Rate", "%g", 2.0, 9.0, 1.0, 9., 0, 0 ,0}};
-static INumberVectorProperty MaxSlewRate = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew), "", 0};
+static INumberVectorProperty MaxSlewRateNP = { mydev, "Max slew Rate", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, MaxSlew, NARRAY(MaxSlew), "", 0};
 
 static INumber altLimit[] = {
        {"minAlt", "min Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0},
        {"maxAlt", "max Alt", "%+03f", -90., 90., 0., 0., 0, 0, 0}};
-static INumberVectorProperty elevationLimit = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit), "", 0};
+static INumberVectorProperty ElevationLimitNP = { mydev, "altLimit", "Slew elevation Limit", BASIC_GROUP, IP_RW, 0, IPS_IDLE, altLimit, NARRAY(altLimit), "", 0};
 
 void changeLX200ClassicDeviceName(const char *newName)
 {
- strcpy(ObjectInfo.device, newName);
- strcpy(SolarSw.device, newName);
- strcpy(StarCatalogSw.device, newName);
- strcpy(DeepSkyCatalogSw.device, newName);
- strcpy(ObjectNo.device, newName);
- strcpy(MaxSlewRate.device , newName );
- strcpy(elevationLimit.device , newName );
+ strcpy(ObjectInfoTP.device, newName);
+ strcpy(SolarSP.device, newName);
+ strcpy(StarCatalogSP.device, newName);
+ strcpy(DeepSkyCatalogSP.device, newName);
+ strcpy(ObjectNoNP.device, newName);
+ strcpy(MaxSlewRateNP.device , newName );
+ strcpy(ElevationLimitNP.device , newName );
 }
 
 LX200Classic::LX200Classic() : LX200Generic()
 {
-   ObjectInfo.tp[0].text = new char[128];
-   strcpy(ObjectInfo.tp[0].text, ""); 
+   ObjectInfoTP.tp[0].text = NULL;
    
    currentCatalog = LX200_STAR_C;
    currentSubCatalog = 0;
@@ -87,13 +87,13 @@ if (dev && strcmp (thisDevice, dev))
 
   LX200Generic::ISGetProperties(dev);
 
-  IDDefNumber (&elevationLimit, NULL);
-  IDDefText   (&ObjectInfo, NULL);
-  IDDefSwitch (&SolarSw, NULL);
-  IDDefSwitch (&StarCatalogSw, NULL);
-  IDDefSwitch (&DeepSkyCatalogSw, NULL);
-  IDDefNumber (&ObjectNo, NULL);
-  IDDefNumber (&MaxSlewRate, NULL);
+  IDDefNumber (&ElevationLimitNP, NULL);
+  IDDefText   (&ObjectInfoTP, NULL);
+  IDDefSwitch (&SolarSP, NULL);
+  IDDefSwitch (&StarCatalogSP, NULL);
+  IDDefSwitch (&DeepSkyCatalogSP, NULL);
+  IDDefNumber (&ObjectNoNP, NULL);
+  IDDefNumber (&MaxSlewRateNP, NULL);
 
 }
 
@@ -115,61 +115,69 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	if (strcmp (dev, thisDevice))
 	    return;
 
-    if ( !strcmp (name, ObjectNo.name) )
+    if ( !strcmp (name, ObjectNoNP.name) )
 	{
-	  if (checkPower(&ObjectNo))
+
+	  char object_name[256];
+
+	  if (checkPower(&ObjectNoNP))
 	    return;
 
-	  selectCatalogObject(fd, currentCatalog, (int) values[0]);
+	  if (selectCatalogObject(fd, currentCatalog, (int) values[0]) < 0)
+	  {
+		ObjectNoNP.s = IPS_ALERT;
+		IDSetNumber(&ObjectNoNP, "Failed to select catalog object.");
+		return;
+	  }
            
-	  getLX200RA(fd, &eqNum.np[0].value);
-	  getLX200DEC(fd, &eqNum.np[1].value);
+	  getLX200RA(fd, &targetRA);
+	  getLX200DEC(fd, &targetDEC);
 
-	  ObjectNo.s = eqNum.s = IPS_OK;
-	  IDSetNumber(&ObjectNo , "Object updated");
-	  IDSetNumber(&eqNum, NULL);
-	  
-	  if (getObjectInfo(fd, ObjectText[0].text) < 0)
+	  ObjectNoNP.s = IPS_OK;
+	  IDSetNumber(&ObjectNoNP , "Object updated.");
+
+	  if (getObjectInfo(fd, object_name) < 0)
 	    IDMessage(thisDevice, "Getting object info failed.");
 	  else
-	    IDSetText  (&ObjectInfo, NULL);
+	  {
+	    IUSaveText(&ObjectInfoTP.tp[0], object_name);
+	    IDSetText  (&ObjectInfoTP, NULL);
+	  }
 
 	  handleCoordSet();
-
 	  return;
         }
 	
-    if ( !strcmp (name, MaxSlewRate.name) )
+    if ( !strcmp (name, MaxSlewRateNP.name) )
     {
 
-	 if (checkPower(&MaxSlewRate))
+	 if (checkPower(&MaxSlewRateNP))
 	  return;
 
 	 if ( ( err = setMaxSlewRate(fd, (int) values[0]) < 0) )
 	 {
-	        handleError(&MaxSlewRate, err, "Setting maximum slew rate");
+	        handleError(&MaxSlewRateNP, err, "Setting maximum slew rate");
 		return;
 	 }
-	  MaxSlewRate.s = IPS_OK;
-	  MaxSlewRate.np[0].value = values[0];
-	  IDSetNumber(&MaxSlewRate, NULL);
+	  MaxSlewRateNP.s = IPS_OK;
+	  MaxSlewRateNP.np[0].value = values[0];
+	  IDSetNumber(&MaxSlewRateNP, NULL);
 	  return;
     }
 
 
-
-    if (!strcmp (name, elevationLimit.name))
+    if (!strcmp (name, ElevationLimitNP.name))
 	{
 	    // new elevation limits
 	    double minAlt = 0, maxAlt = 0;
 	    int i, nset;
 
-	  if (checkPower(&elevationLimit))
+	  if (checkPower(&ElevationLimitNP))
 	   return;
 
 	    for (nset = i = 0; i < n; i++)
 	    {
-		INumber *altp = IUFindNumber (&elevationLimit, names[i]);
+		INumber *altp = IUFindNumber (&ElevationLimitNP, names[i]);
 		if (altp == &altLimit[0])
 		{
 		    minAlt = values[i];
@@ -185,17 +193,17 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 		//char l[32], L[32];
 		if ( ( err = setMinElevationLimit(fd, (int) minAlt) < 0) )
 	 	{
-	         handleError(&elevationLimit, err, "Setting elevation limit");
+	         handleError(&ElevationLimitNP, err, "Setting elevation limit");
 	 	}
 		setMaxElevationLimit(fd, (int) maxAlt);
-		elevationLimit.np[0].value = minAlt;
-		elevationLimit.np[1].value = maxAlt;
-		elevationLimit.s = IPS_OK;
-		IDSetNumber (&elevationLimit, NULL);
+		ElevationLimitNP.np[0].value = minAlt;
+		ElevationLimitNP.np[1].value = maxAlt;
+		ElevationLimitNP.s = IPS_OK;
+		IDSetNumber (&ElevationLimitNP, NULL);
 	    } else
 	    {
-		elevationLimit.s = IPS_IDLE;
-		IDSetNumber(&elevationLimit, "elevation limit missing or invalid");
+		ElevationLimitNP.s = IPS_IDLE;
+		IDSetNumber(&ElevationLimitNP, "elevation limit missing or invalid");
 	    }
 
 	    return;
@@ -214,46 +222,46 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	    return;
       
         // Star Catalog
-	if (!strcmp (name, StarCatalogSw.name))
+	if (!strcmp (name, StarCatalogSP.name))
 	{
-	  if (checkPower(&StarCatalogSw))
+	  if (checkPower(&StarCatalogSP))
 	   return;
 
-	 IUResetSwitches(&StarCatalogSw);
-	 IUUpdateSwitches(&StarCatalogSw, states, names, n);
-	 index = getOnSwitch(&StarCatalogSw);
+	 IUResetSwitches(&StarCatalogSP);
+	 IUUpdateSwitches(&StarCatalogSP, states, names, n);
+	 index = getOnSwitch(&StarCatalogSP);
 
 	 currentCatalog = LX200_STAR_C;
 
 	  if (selectSubCatalog(fd, currentCatalog, index))
 	  {
 	   currentSubCatalog = index;
-	   StarCatalogSw.s = IPS_OK;
-	   IDSetSwitch(&StarCatalogSw, NULL);
+	   StarCatalogSP.s = IPS_OK;
+	   IDSetSwitch(&StarCatalogSP, NULL);
 	  }
 	  else
 	  {
-	   StarCatalogSw.s = IPS_IDLE;
-	   IDSetSwitch(&StarCatalogSw, "Catalog unavailable");
+	   StarCatalogSP.s = IPS_IDLE;
+	   IDSetSwitch(&StarCatalogSP, "Catalog unavailable");
 	  }
 	  return;
 	}
 
 	// Deep sky catalog
-	if (!strcmp (name, DeepSkyCatalogSw.name))
+	if (!strcmp (name, DeepSkyCatalogSP.name))
 	{
-	  if (checkPower(&DeepSkyCatalogSw))
+	  if (checkPower(&DeepSkyCatalogSP))
 	   return;
 
-	IUResetSwitches(&DeepSkyCatalogSw);
-	IUUpdateSwitches(&DeepSkyCatalogSw, states, names, n);
-	index = getOnSwitch(&DeepSkyCatalogSw);
+	IUResetSwitches(&DeepSkyCatalogSP);
+	IUUpdateSwitches(&DeepSkyCatalogSP, states, names, n);
+	index = getOnSwitch(&DeepSkyCatalogSP);
 
 	  if (index == LX200_MESSIER_C)
 	  {
 	    currentCatalog = index;
-	    DeepSkyCatalogSw.s = IPS_OK;
-	    IDSetSwitch(&DeepSkyCatalogSw, NULL);
+	    DeepSkyCatalogSP.s = IPS_OK;
+	    IDSetSwitch(&DeepSkyCatalogSP, NULL);
 	    return;
 	  }
 	  else
@@ -262,45 +270,46 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (selectSubCatalog(fd, currentCatalog, index))
 	  {
 	   currentSubCatalog = index;
-	   DeepSkyCatalogSw.s = IPS_OK;
-	   IDSetSwitch(&DeepSkyCatalogSw, NULL);
+	   DeepSkyCatalogSP.s = IPS_OK;
+	   IDSetSwitch(&DeepSkyCatalogSP, NULL);
 	  }
 	  else
 	  {
-	   DeepSkyCatalogSw.s = IPS_IDLE;
-	   IDSetSwitch(&DeepSkyCatalogSw, "Catalog unavailable");
+	   DeepSkyCatalogSP.s = IPS_IDLE;
+	   IDSetSwitch(&DeepSkyCatalogSP, "Catalog unavailable");
 	  }
 	  return;
 	}
 
 	// Solar system
-	if (!strcmp (name, SolarSw.name))
+	if (!strcmp (name, SolarSP.name))
 	{
 
-	  if (checkPower(&SolarSw))
+	  if (checkPower(&SolarSP))
 	   return;
 
-	   IUResetSwitches(&SolarSw);
-	   IUUpdateSwitches(&SolarSw, states, names, n);
-	   index = getOnSwitch(&SolarSw);
+	   if (IUUpdateSwitches(&SolarSP, states, names, n) < 0)
+		return;
+
+	   index = getOnSwitch(&SolarSP);
 
 	  // We ignore the first option : "Select item"
 	  if (index == 0)
 	  {
-	    SolarSw.s  = IPS_IDLE;
-	    IDSetSwitch(&SolarSw, NULL);
+	    SolarSP.s  = IPS_IDLE;
+	    IDSetSwitch(&SolarSP, NULL);
 	    return;
 	  }
 
           selectSubCatalog (fd, LX200_STAR_C, LX200_STAR);
 	  selectCatalogObject(fd, LX200_STAR_C, index + 900);
 
-	  ObjectNo.s = IPS_OK;
-	  SolarSw.s  = IPS_OK;
+	  ObjectNoNP.s = IPS_OK;
+	  SolarSP.s  = IPS_OK;
 
-	  getObjectInfo(fd, ObjectInfo.tp[0].text);
-	  IDSetNumber(&ObjectNo , "Object updated.");
-	  IDSetSwitch(&SolarSw, NULL);
+	  getObjectInfo(fd, ObjectInfoTP.tp[0].text);
+	  IDSetNumber(&ObjectNoNP , "Object updated.");
+	  IDSetSwitch(&SolarSP, NULL);
 
 	  if (currentCatalog == LX200_STAR_C || currentCatalog == LX200_DEEPSKY_C)
 	  	selectSubCatalog(fd, currentCatalog, currentSubCatalog);

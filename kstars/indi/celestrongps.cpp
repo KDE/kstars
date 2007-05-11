@@ -53,54 +53,54 @@ extern char* me;
 static void ISPoll(void *);
 
 /*INDI controls */
-static ISwitch PowerS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
 static ISwitch SlewModeS[]       = {{"Slew", "", ISS_ON, 0, 0}, {"Find", "", ISS_OFF, 0, 0}, {"Centering", "", ISS_OFF, 0, 0}, {"Guide", "", ISS_OFF, 0, 0}};
-static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0 , 0}, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0, 0}};
-static ISwitch abortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0}};
 
-/* equatorial position */
-static INumber eq[] = {
-    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},
-    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0},
-};
+/* Equatorial Coordinates: Request */
+static INumber EquatorialCoordsWN[] = {    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0}};
+static INumberVectorProperty EquatorialCoordsWNP = {  mydev, "EQUATORIAL_EOD_COORD_REQUEST", "Equatorial JNow", BASIC_GROUP, IP_WO, 120, IPS_IDLE,  EquatorialCoordsWN, NARRAY(EquatorialCoordsWN), "", 0};
 
-static INumberVectorProperty eqNum = {
-    mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RW, 0, IPS_IDLE,
-    eq, NARRAY(eq), "", 0};
+/* Equatorial Coordinates: Info */
+static INumber EquatorialCoordsRN[] = {    {"RA",  "RA  H:M:S", "%10.6m",  0., 24., 0., 0., 0, 0, 0},    {"DEC", "Dec D:M:S", "%10.6m", -90., 90., 0., 0., 0, 0, 0}};
+static INumberVectorProperty EquatorialCoordsRNP = {  mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RO, 120, IPS_IDLE,  EquatorialCoordsRN, NARRAY(EquatorialCoordsRN), "", 0};
 
 /* Tracking precision */
-INumber trackingPrecisionN[] = {
+INumber TrackingPrecisionN[] = {
     {"TrackRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
     {"TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
 };
-static INumberVectorProperty trackingPrecisionNP = {mydev, "Tracking Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, trackingPrecisionN, NARRAY(trackingPrecisionN), "", 0};
+static INumberVectorProperty TrackingPrecisionNP = {mydev, "Tracking Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackingPrecisionN, NARRAY(TrackingPrecisionN), "", 0};
 
 /* Slew precision */
-INumber slewPrecisionN[] = {
+INumber SlewPrecisionN[] = {
     {"SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
     {"SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
 };
-static INumberVectorProperty slewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, slewPrecisionN, NARRAY(slewPrecisionN), "", 0};
+static INumberVectorProperty SlewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, SlewPrecisionN, NARRAY(SlewPrecisionN), "", 0};
 
 /* Fundamental group */
-static ISwitchVectorProperty PowerSw	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
+static ISwitch ConnectS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitchVectorProperty ConnectSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, ConnectS, NARRAY(ConnectS), "", 0};
+
 static IText PortT[]			= {{"PORT", "Port", 0, 0, 0, 0}};
-static ITextVectorProperty Port		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), "", 0};
+static ITextVectorProperty PortTP		= { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE, PortT, NARRAY(PortT), "", 0};
 
 /* Movement group */
-static ISwitchVectorProperty OnCoordSetSw    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), "", 0};
-static ISwitchVectorProperty abortSlewSw     = { mydev, "ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, abortSlewS, NARRAY(abortSlewS), "", 0};
-static ISwitchVectorProperty SlewModeSw      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS), "", 0};
+static ISwitch OnCoordSetS[]     = {{"SLEW", "Slew", ISS_ON, 0 , 0}, {"TRACK", "Track", ISS_OFF, 0, 0}, {"SYNC", "Sync", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty OnCoordSetSP    = { mydev, "ON_COORD_SET", "On Set", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, OnCoordSetS, NARRAY(OnCoordSetS), "", 0};
+
+static ISwitch AbortSlewS[]      = {{"ABORT", "Abort", ISS_OFF, 0, 0}};
+static ISwitchVectorProperty AbortSlewSP     = { mydev, "TELESCOPE_ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, AbortSlewS, NARRAY(AbortSlewS), "", 0};
+static ISwitchVectorProperty SlewModeSP      = { mydev, "Slew rate", "", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, SlewModeS, NARRAY(SlewModeS), "", 0};
 
 /* Movement (Arrow keys on handset). North/South */
-static ISwitch MovementNSS[]       = {{"N", "North", ISS_OFF, 0, 0}, {"S", "South", ISS_OFF, 0, 0}};
+static ISwitch MovementNSS[]       = {{"MOTION_NORTH", "North", ISS_OFF, 0, 0}, {"MOTION_SOUTH", "South", ISS_OFF, 0, 0}};
 
-static ISwitchVectorProperty MovementNSSP      = { mydev, "MOVEMENT_NS", "North/South", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementNSS, NARRAY(MovementNSS), "", 0};
+static ISwitchVectorProperty MovementNSSP      = { mydev, "TELESCOPE_MOTION_NS", "North/South", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementNSS, NARRAY(MovementNSS), "", 0};
 
 /* Movement (Arrow keys on handset). West/East */
-static ISwitch MovementWES[]       = {{"W", "West", ISS_OFF, 0, 0}, {"E", "East", ISS_OFF, 0, 0}};
+static ISwitch MovementWES[]       = {{"MOTION_WEST", "West", ISS_OFF, 0, 0}, {"MOTION_EAST", "East", ISS_OFF, 0, 0}};
 
-static ISwitchVectorProperty MovementWESP      = { mydev, "MOVEMENT_WE", "West/East", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementWES, NARRAY(MovementWES), "", 0};
+static ISwitchVectorProperty MovementWESP      = { mydev, "TELESCOPE_MOTION_WE", "West/East", MOVE_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, MovementWES, NARRAY(MovementWES), "", 0};
 
 
 /* send client definitions of all properties */
@@ -158,23 +158,24 @@ void CelestronGPS::ISGetProperties(const char *dev)
     return;
 
   // COMM_GROUP
-  IDDefSwitch (&PowerSw, NULL);
-  IDDefText   (&Port, NULL);
+  IDDefSwitch (&ConnectSP, NULL);
+  IDDefText   (&PortTP, NULL);
   
   // BASIC_GROUP
-  IDDefNumber (&eqNum, NULL);
-  IDDefSwitch (&OnCoordSetSw, NULL);
-  IDDefSwitch (&abortSlewSw, NULL);
-  IDDefSwitch (&SlewModeSw, NULL);
+  IDDefNumber (&EquatorialCoordsWNP, NULL);
+  IDDefNumber (&EquatorialCoordsRNP, NULL);
+  IDDefSwitch (&OnCoordSetSP, NULL);
+  IDDefSwitch (&AbortSlewSP, NULL);
+  IDDefSwitch (&SlewModeSP, NULL);
 
   // Movement group
   IDDefSwitch (&MovementNSSP, NULL);
   IDDefSwitch (&MovementWESP, NULL);
-  IDDefNumber (&trackingPrecisionNP, NULL);
-  IDDefNumber (&slewPrecisionNP, NULL);
+  IDDefNumber (&TrackingPrecisionNP, NULL);
+  IDDefNumber (&SlewPrecisionNP, NULL);
   
   /* Send the basic data to the new client if the previous client(s) are already connected. */		
-  if (PowerSw.s == IPS_OK)
+  if (ConnectSP.s == IPS_OK)
         getBasicData();
 
 }
@@ -189,17 +190,17 @@ void CelestronGPS::ISNewText (const char *dev, const char *name, char *texts[], 
 	if (strcmp (dev, mydev))
 	    return;
 
-	if (!strcmp(name, Port.name) )
+	if (!strcmp(name, PortTP.name) )
 	{
-	  Port.s = IPS_OK;
+	  PortTP.s = IPS_OK;
 
-	  tp = IUFindText( &Port, names[0] );
+	  tp = IUFindText( &PortTP, names[0] );
 	  if (!tp)
 	   return;
 
 	  tp->text = new char[strlen(texts[0])+1];
 	  strcpy(tp->text, texts[0]);
-	  IDSetText (&Port, NULL);
+	  IDSetText (&PortTP, NULL);
 	  return;
 	}
 }
@@ -216,7 +217,7 @@ int CelestronGPS::handleCoordSet()
     // Slew
     case 0:
           lastSet = 0;
-	  if (eqNum.s == IPS_BUSY)
+	  if (EquatorialCoordsWNP.s == IPS_BUSY)
 	  {
 	     StopNSEW();
 	     // sleep for 500 mseconds
@@ -229,25 +230,27 @@ int CelestronGPS::handleCoordSet()
 	    return (-1);
 	  }
 
-	  eqNum.s = IPS_BUSY;
+	  EquatorialCoordsWNP.s = IPS_BUSY;
+	  EquatorialCoordsRNP.s = IPS_BUSY;
 	  fs_sexa(RAStr, targetRA, 2, 3600);
 	  fs_sexa(DecStr, targetDEC, 2, 3600);
-	  IDSetNumber(&eqNum, "Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&EquatorialCoordsWNP, "Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
+	  IDSetNumber(&EquatorialCoordsRNP, NULL);
 	  IDLog("Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
 	  break;
 
 
   // Track
   case 1: 
-          if (eqNum.s == IPS_BUSY)
+          if (EquatorialCoordsWNP.s == IPS_BUSY)
 	  {
 	      StopNSEW();
 	     // sleep for 500 mseconds
 	     usleep(500000);
 	  }
 
-	  if ( (fabs ( targetRA - currentRA ) >= (trackingPrecisionN[0].value/(15.0*60.0))) ||
- 	       (fabs (targetDEC - currentDEC) >= (trackingPrecisionN[1].value)/60.0))
+	  if ( (fabs ( targetRA - currentRA ) >= (TrackingPrecisionN[0].value/(15.0*60.0))) ||
+ 	       (fabs (targetDEC - currentDEC) >= (TrackingPrecisionN[1].value)/60.0))
 	  {
 
 		#ifdef CELESTRON_DEBUG
@@ -264,8 +267,10 @@ int CelestronGPS::handleCoordSet()
 		
 		fs_sexa(RAStr, targetRA, 2, 3600);
 	        fs_sexa(DecStr, targetDEC, 2, 3600);
-		eqNum.s = IPS_BUSY;
-		IDSetNumber(&eqNum, "Slewing to JNow RA %s - DEC %s", RAStr, DecStr);
+		EquatorialCoordsWNP.s = IPS_BUSY;
+		EquatorialCoordsRNP.s = IPS_BUSY;
+		IDSetNumber(&EquatorialCoordsWNP, "Slewing to JNow RA %s - DEC %s", RAStr, DecStr);
+		IDSetNumber(&EquatorialCoordsRNP, NULL);
 		IDLog("Slewing to JNOW RA %s - DEC %s", RAStr, DecStr);
 	  }
 	  else
@@ -273,13 +278,13 @@ int CelestronGPS::handleCoordSet()
 	    #ifdef CELESTRON_DEBUG
 	    IDLog("Tracking called, but tracking threshold not reached yet.\n");
 	    #endif
-	    eqNum.s = IPS_OK;
-	    eqNum.np[0].value = currentRA;
-	    eqNum.np[1].value = currentDEC;
+	    EquatorialCoordsRNP.s = IPS_OK;
+	    EquatorialCoordsRNP.np[0].value = currentRA;
+	    EquatorialCoordsRNP.np[1].value = currentDEC;
             if (lastSet != 1)
-	      IDSetNumber(&eqNum, "Tracking...");
+	      IDSetNumber(&EquatorialCoordsRNP, "Tracking...");
 	    else
-	      IDSetNumber(&eqNum, NULL);
+	      IDSetNumber(&EquatorialCoordsRNP, NULL);
 	  }
 	  lastSet = 1;
       break;
@@ -287,10 +292,12 @@ int CelestronGPS::handleCoordSet()
     // Sync
     case 2:
           lastSet = 2;
-	  OnCoordSetSw.s = IPS_OK;
+	  OnCoordSetSP.s = IPS_OK;
 	  SyncToCoords(targetRA, targetDEC);
-          eqNum.s = IPS_OK;
-   	  IDSetNumber(&eqNum, "Synchronization successful.");
+          EquatorialCoordsWNP.s = IPS_OK;
+	  EquatorialCoordsRNP.s = IPS_OK;
+   	  IDSetNumber(&EquatorialCoordsWNP, "Synchronization successful.");
+	  IDSetNumber(&EquatorialCoordsRNP, NULL);
 	  break;
    }
 
@@ -312,49 +319,49 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	time (&t);
 	tp = gmtime (&t);
 
-        if (!strcmp (name, trackingPrecisionNP.name))
+        if (!strcmp (name, TrackingPrecisionNP.name))
 	{
-		if (!IUUpdateNumbers(&trackingPrecisionNP, values, names, n))
+		if (!IUUpdateNumbers(&TrackingPrecisionNP, values, names, n))
 		{
-			trackingPrecisionNP.s = IPS_OK;
-			IDSetNumber(&trackingPrecisionNP, NULL);
+			TrackingPrecisionNP.s = IPS_OK;
+			IDSetNumber(&TrackingPrecisionNP, NULL);
 			return;
 		}
 		
-		trackingPrecisionNP.s = IPS_ALERT;
-		IDSetNumber(&trackingPrecisionNP, "unknown error while setting tracking precision");
+		TrackingPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&TrackingPrecisionNP, "unknown error while setting tracking precision");
 		return;
 	}
 
-	if (!strcmp(name, slewPrecisionNP.name))
+	if (!strcmp(name, SlewPrecisionNP.name))
 	{
-		IUUpdateNumbers(&slewPrecisionNP, values, names, n);
+		IUUpdateNumbers(&SlewPrecisionNP, values, names, n);
 		{
-			slewPrecisionNP.s = IPS_OK;
-			IDSetNumber(&slewPrecisionNP, NULL);
+			SlewPrecisionNP.s = IPS_OK;
+			IDSetNumber(&SlewPrecisionNP, NULL);
 			return;
 		}
 		
-		slewPrecisionNP.s = IPS_ALERT;
-		IDSetNumber(&slewPrecisionNP, "unknown error while setting slew precision");
+		SlewPrecisionNP.s = IPS_ALERT;
+		IDSetNumber(&SlewPrecisionNP, "unknown error while setting slew precision");
 		return;
 	}
 
-	if (!strcmp (name, eqNum.name))
+	if (!strcmp (name, EquatorialCoordsWNP.name))
 	{
 	  int i=0, nset=0;
 
-	  if (checkPower(&eqNum))
+	  if (checkPower(&EquatorialCoordsWNP))
 	   return;
 
 	    for (nset = i = 0; i < n; i++)
 	    {
-		INumber *eqp = IUFindNumber (&eqNum, names[i]);
-		if (eqp == &eq[0])
+		INumber *eqp = IUFindNumber (&EquatorialCoordsWNP, names[i]);
+		if (eqp == &EquatorialCoordsWN[0])
 		{
                     newRA = values[i];
 		    nset += newRA >= 0 && newRA <= 24.0;
-		} else if (eqp == &eq[1])
+		} else if (eqp == &EquatorialCoordsWN[1])
 		{
 		    newDEC = values[i];
 		    nset += newDEC >= -90.0 && newDEC <= 90.0;
@@ -363,7 +370,7 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 
 	  if (nset == 2)
 	  {
-	   //eqNum.s = IPS_BUSY;
+	   //EquatorialCoordsNP.s = IPS_BUSY;
 
 	   tp->tm_mon   += 1;
 	   tp->tm_year  += 1900;
@@ -389,14 +396,14 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	   
 	       if (handleCoordSet())
 	       {
-	        eqNum.s = IPS_IDLE;
-	    	IDSetNumber(&eqNum, NULL);
+	        EquatorialCoordsWNP.s = IPS_ALERT;
+	    	IDSetNumber(&EquatorialCoordsWNP, NULL);
 	       }
 	    }
 	    else
 	    {
-		eqNum.s = IPS_IDLE;
-		IDSetNumber(&eqNum, "RA or Dec missing or invalid.");
+		EquatorialCoordsWNP.s = IPS_ALERT;
+		IDSetNumber(&EquatorialCoordsWNP, "RA or Dec missing or invalid.");
 	    }
 
 	    return;
@@ -419,80 +426,82 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 
 	// FIRST Switch ALWAYS for power
-	if (!strcmp (name, PowerSw.name))
+	if (!strcmp (name, ConnectSP.name))
 	{
-	 if (IUUpdateSwitches(&PowerSw, states, names, n) < 0) return;
+	 if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0) return;
    	 connectTelescope();
 	 return;
 	}
 
-	if (!strcmp(name, OnCoordSetSw.name))
+	if (!strcmp(name, OnCoordSetSP.name))
 	{
-  	  if (checkPower(&OnCoordSetSw))
+  	  if (checkPower(&OnCoordSetSP))
 	   return;
 
 	  
-	  if (IUUpdateSwitches(&OnCoordSetSw, states, names, n) < 0) return;
-	  currentSet = getOnSwitch(&OnCoordSetSw);
+	  if (IUUpdateSwitches(&OnCoordSetSP, states, names, n) < 0) return;
+	  currentSet = getOnSwitch(&OnCoordSetSP);
 	}
 	
 	// Abort Slew
-	if (!strcmp (name, abortSlewSw.name))
+	if (!strcmp (name, AbortSlewSP.name))
 	{
-	  if (checkPower(&abortSlewSw))
+	  if (checkPower(&AbortSlewSP))
 	  {
-	    abortSlewSw.s = IPS_IDLE;
-	    IDSetSwitch(&abortSlewSw, NULL);
+	    AbortSlewSP.s = IPS_ALERT;
+	    IDSetSwitch(&AbortSlewSP, NULL);
 	    return;
 	  }
 	  
-	  IUResetSwitches(&abortSlewSw);
+	  IUResetSwitches(&AbortSlewSP);
 	  StopNSEW();
 
-	    if (eqNum.s == IPS_BUSY)
+	    if (EquatorialCoordsWNP.s == IPS_BUSY)
 	    {
-		abortSlewSw.s = IPS_OK;
-		eqNum.s       = IPS_IDLE;
-		IDSetSwitch(&abortSlewSw, "Slew aborted.");
-		IDSetNumber(&eqNum, NULL);
+		AbortSlewSP.s = IPS_OK;
+		EquatorialCoordsWNP.s       = IPS_IDLE;
+		EquatorialCoordsRNP.s       = IPS_IDLE;
+		IDSetSwitch(&AbortSlewSP, "Slew aborted.");
+		IDSetNumber(&EquatorialCoordsWNP, NULL);
+		IDSetNumber(&EquatorialCoordsRNP, NULL);
             }
 	    else if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	    {
 		MovementNSSP.s  = MovementWESP.s =  IPS_IDLE; 
 	
-		abortSlewSw.s = IPS_OK;		
-		eqNum.s       = IPS_IDLE;
+		AbortSlewSP.s = IPS_OK;		
+		EquatorialCoordsRNP.s       = IPS_IDLE;
 		IUResetSwitches(&MovementNSSP);
 		IUResetSwitches(&MovementWESP);
-		IUResetSwitches(&abortSlewSw);
+		IUResetSwitches(&AbortSlewSP);
 
-		IDSetSwitch(&abortSlewSw, "Slew aborted.");
+		IDSetSwitch(&AbortSlewSP, "Slew aborted.");
 		IDSetSwitch(&MovementNSSP, NULL);
 		IDSetSwitch(&MovementWESP, NULL);
-		IDSetNumber(&eqNum, NULL);
+		IDSetNumber(&EquatorialCoordsRNP, NULL);
 	    }
 	    else
 	    {
-	        abortSlewSw.s = IPS_IDLE;
-	        IDSetSwitch(&abortSlewSw, NULL);
+	        AbortSlewSP.s = IPS_OK;
+	        IDSetSwitch(&AbortSlewSP, NULL);
 	    }
 
 	    return;
 	}
 
 	// Slew mode
-	if (!strcmp (name, SlewModeSw.name))
+	if (!strcmp (name, SlewModeSP.name))
 	{
-	  if (checkPower(&SlewModeSw))
+	  if (checkPower(&SlewModeSP))
 	   return;
 
-	  IUResetSwitches(&SlewModeSw);
-	  IUUpdateSwitches(&SlewModeSw, states, names, n);
-	  index = getOnSwitch(&SlewModeSw);
+	  IUResetSwitches(&SlewModeSP);
+	  IUUpdateSwitches(&SlewModeSP, states, names, n);
+	  index = getOnSwitch(&SlewModeSP);
 	  SetRate(index);
           
-	  SlewModeSw.s = IPS_OK;
-	  IDSetSwitch(&SlewModeSw, NULL);
+	  SlewModeSP.s = IPS_OK;
+	  IDSetSwitch(&SlewModeSP, NULL);
 	  return;
 	}
 
@@ -511,7 +520,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
 		return;
 
-	current_move = getOnSwitch(&SlewModeSw);
+	current_move = getOnSwitch(&SlewModeSP);
 
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
@@ -555,7 +564,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
 		return;
 
-	current_move = getOnSwitch(&SlewModeSw);
+	current_move = getOnSwitch(&SlewModeSP);
 
 	// Previosuly active switch clicked again, so let's stop.
 	if (current_move == last_move)
@@ -598,7 +607,7 @@ int CelestronGPS::getOnSwitch(ISwitchVectorProperty *sp)
 
 int CelestronGPS::checkPower(ISwitchVectorProperty *sp)
 {
-  if (PowerSw.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
     if (!strcmp(sp->label, ""))
        IDMessage (mydev, "Cannot change property %s while the telescope is offline.", sp->name);
@@ -615,7 +624,7 @@ int CelestronGPS::checkPower(ISwitchVectorProperty *sp)
 
 int CelestronGPS::checkPower(INumberVectorProperty *np)
 {
-  if (PowerSw.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
     if (!strcmp(np->label, ""))
        IDMessage (mydev, "Cannot change property %s while the telescope is offline.", np->name);
@@ -632,7 +641,7 @@ int CelestronGPS::checkPower(INumberVectorProperty *np)
 int CelestronGPS::checkPower(ITextVectorProperty *tp)
 {
 
-  if (PowerSw.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
     if (!strcmp(tp->label, ""))
        IDMessage (mydev, "Cannot change property %s while the telescope is offline.", tp->name);
@@ -654,21 +663,21 @@ void CelestronGPS::ISPoll()
        double currentRA, currentDEC;
        int status;
 
-	switch (eqNum.s)
+	switch (EquatorialCoordsWNP.s)
 	{
 	case IPS_IDLE:
-	if (PowerSw.s != IPS_OK)
+	if (ConnectSP.s != IPS_OK)
 	 break;
 	currentRA = GetRA();
 	currentDEC = GetDec();
 
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
-	        eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
+	        EquatorialCoordsRNP.np[0].value = currentRA;
+		EquatorialCoordsRNP.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
-		IDSetNumber (&eqNum, NULL);
+		IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	}
         break;
@@ -684,16 +693,16 @@ void CelestronGPS::ISPoll()
 	    IDLog("targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
 	    #endif
 
-	    eqNum.np[0].value = currentRA;
-	    eqNum.np[1].value = currentDEC;
+	    EquatorialCoordsRNP.np[0].value = currentRA;
+	    EquatorialCoordsRNP.np[1].value = currentDEC;
 
-	    status = CheckCoords(targetRA, targetDEC, slewPrecisionN[0].value/(15.0*60.0) , slewPrecisionN[1].value/60.0);
+	    status = CheckCoords(targetRA, targetDEC, SlewPrecisionN[0].value/(15.0*60.0) , SlewPrecisionN[1].value/60.0);
 
 	    // Wait until acknowledged or within 3.6', change as desired.
 	    switch (status)
 	    {
 	    case 0:		/* goto in progress */
-		IDSetNumber (&eqNum, NULL);
+		IDSetNumber (&EquatorialCoordsRNP, NULL);
 		break;
 	    case 1:		/* goto complete within tolerance */
 	    case 2:		/* goto complete but outside tolerance */
@@ -702,31 +711,29 @@ void CelestronGPS::ISPoll()
 
 		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 
-		eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
+		EquatorialCoordsRNP.np[0].value = currentRA;
+		EquatorialCoordsRNP.np[1].value = currentDEC;
 
-		eqNum.s = IPS_OK;
+		EquatorialCoordsWNP.s = IPS_OK;
+		EquatorialCoordsRNP.s = IPS_OK;
 
 		if (currentSet == 0)
 		{
-		  IUResetSwitches(&OnCoordSetSw);
-		  OnCoordSetSw.sp[0].s = ISS_ON;
-		  IDSetNumber (&eqNum, "Slew is complete");
+		  IDSetNumber (&EquatorialCoordsWNP, "Slew is complete.");
+		  IDSetNumber (&EquatorialCoordsRNP, NULL);
 		}
 		else
 		{
-		  IUResetSwitches(&OnCoordSetSw);
-		  OnCoordSetSw.sp[1].s = ISS_ON;
-		  IDSetNumber (&eqNum, "Slew is complete. Tracking...");
+		  IDSetNumber (&EquatorialCoordsWNP, "Slew is complete. Tracking...");
+		  IDSetNumber (&EquatorialCoordsRNP, NULL);
 		}
 		
-		IDSetSwitch (&OnCoordSetSw, NULL);
 		break;
 	    }   
 	    break;
 
 	case IPS_OK:
-	if (PowerSw.s != IPS_OK)
+	if (ConnectSP.s != IPS_OK)
 	 break;
 	currentRA = GetRA();
 	currentDEC = GetDec();
@@ -734,11 +741,11 @@ void CelestronGPS::ISPoll()
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
 
-		eqNum.np[0].value = currentRA;
-		eqNum.np[1].value = currentDEC;
+		EquatorialCoordsRNP.np[0].value = currentRA;
+		EquatorialCoordsRNP.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
-		IDSetNumber (&eqNum, NULL);
+		IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	}
         break;
@@ -756,10 +763,10 @@ void CelestronGPS::ISPoll()
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
 
-	     eqNum.np[0].value = currentRA;
-	     eqNum.np[1].value = currentDEC;
+	     EquatorialCoordsRNP.np[0].value = currentRA;
+	     EquatorialCoordsRNP.np[1].value = currentDEC;
 
-	     IDSetNumber (&eqNum, NULL);
+	     IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	     break;
 	 case IPS_OK:
@@ -776,10 +783,10 @@ void CelestronGPS::ISPoll()
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
 
-	     eqNum.np[0].value = currentRA;
-	     eqNum.np[1].value = currentDEC;
+	     EquatorialCoordsRNP.np[0].value = currentRA;
+	     EquatorialCoordsRNP.np[1].value = currentDEC;
 
-	     IDSetNumber (&eqNum, NULL);
+	     IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	     break;
 	 case IPS_OK:
@@ -796,35 +803,35 @@ void CelestronGPS::getBasicData()
   targetRA = GetRA();
   targetDEC = GetDec();
 
-  eqNum.np[0].value = targetRA;
-  eqNum.np[1].value = targetDEC;
+  EquatorialCoordsRNP.np[0].value = targetRA;
+  EquatorialCoordsRNP.np[1].value = targetDEC;
 
-  IDSetNumber(&eqNum, NULL);
+  IDSetNumber(&EquatorialCoordsRNP, NULL);
 
 }
 
 void CelestronGPS::connectTelescope()
 {
 
-     switch (PowerSw.sp[0].s)
+     switch (ConnectSP.sp[0].s)
      {
       case ISS_ON:
 
-         if (ConnectTel(Port.tp[0].text) < 0)
+         if (ConnectTel(PortTP.tp[0].text) < 0)
 	 {
-	   PowerS[0].s = ISS_OFF;
-	   PowerS[1].s = ISS_ON;
-	   IDSetSwitch (&PowerSw, "Error connecting to port %s. Make sure you have BOTH write and read permission to the port.", Port.tp[0].text);
+	   ConnectS[0].s = ISS_OFF;
+	   ConnectS[1].s = ISS_ON;
+	   IDSetSwitch (&ConnectSP, "Error connecting to port %s. Make sure you have BOTH write and read permission to the port.", PortTP.tp[0].text);
 	   return;
 	 }
 
-	PowerSw.s = IPS_OK;
-	IDSetSwitch (&PowerSw, "Telescope is online. Retrieving basic data...");
+	ConnectSP.s = IPS_OK;
+	IDSetSwitch (&ConnectSP, "Telescope is online. Retrieving basic data...");
 	getBasicData();
 	break;
 
      case ISS_OFF:
-         IDSetSwitch (&PowerSw, "Telescope is offline.");
+         IDSetSwitch (&ConnectSP, "Telescope is offline.");
 	 IDLog("Telescope is offline.");
 	 DisconnectTel();
 	 break;
@@ -834,24 +841,24 @@ void CelestronGPS::connectTelescope()
 
 void CelestronGPS::slewError(int slewCode)
 {
-    eqNum.s = IPS_IDLE;
+    EquatorialCoordsWNP.s = IPS_ALERT;
 
     switch (slewCode)
     {
       case 1:
-       IDSetNumber (&eqNum, "Invalid newDec in SlewToCoords");
+       IDSetNumber (&EquatorialCoordsWNP, "Invalid newDec in SlewToCoords");
        break;
       case 2:
-       IDSetNumber (&eqNum, "RA count overflow in SlewToCoords");
+       IDSetNumber (&EquatorialCoordsWNP, "RA count overflow in SlewToCoords");
        break;
       case 3:
-       IDSetNumber (&eqNum, "Dec count overflow in SlewToCoords");
+       IDSetNumber (&EquatorialCoordsWNP, "Dec count overflow in SlewToCoords");
        break;
       case 4:
-       IDSetNumber (&eqNum, "No acknowledgment from telescope after SlewToCoords");
+       IDSetNumber (&EquatorialCoordsWNP, "No acknowledgment from telescope after SlewToCoords");
        break;
       default:
-       IDSetNumber (&eqNum, "Unknown error");
+       IDSetNumber (&EquatorialCoordsWNP, "Unknown error");
        break;
     }
 

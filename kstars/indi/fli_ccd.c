@@ -129,8 +129,8 @@ long int Domains[] = { FLIDOMAIN_USB, FLIDOMAIN_SERIAL, FLIDOMAIN_PARALLEL_PORT,
 /*INDI controls */
 
 /* Connect/Disconnect */
-static ISwitch PowerS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
-static ISwitchVectorProperty PowerSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
+static ISwitch ConnectS[]          	= {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
+static ISwitchVectorProperty ConnectSP	= { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 60, IPS_IDLE, ConnectS, NARRAY(ConnectS), "", 0};
 
 /* Types of Ports */
 static ISwitch PortS[]           	= {{"USB", "", ISS_ON, 0, 0}, {"Serial", "", ISS_OFF, 0, 0}, {"Parallel", "", ISS_OFF, 0, 0}, {"INet", "", ISS_OFF, 0, 0}};
@@ -155,8 +155,11 @@ static INumber FrameN[]          	= {
  static INumberVectorProperty BinningNP = { mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), "", 0};
  
  /* Exposure time */
-  static INumber ExposeTimeN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
-  static INumberVectorProperty ExposeTimeNP = { mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, ExposeTimeN, NARRAY(ExposeTimeN), "", 0};
+  static INumber ExposeTimeWN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeWNP = { mydev, "CCD_EXPOSE_DURATION_REQUEST", "Expose", EXPOSE_GROUP, IP_WO, 36000, IPS_IDLE, ExposeTimeWN, NARRAY(ExposeTimeWN), "", 0};
+
+  static INumber ExposeTimeRN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeRNP = { mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RO, 36000, IPS_IDLE, ExposeTimeRN, NARRAY(ExposeTimeRN), "", 0};
  
   /* Temperature control */
  static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
@@ -208,13 +211,14 @@ void ISGetProperties (const char *dev)
     return;
 
   /* COMM_GROUP */
-  IDDefSwitch(&PowerSP, NULL);
+  IDDefSwitch(&ConnectSP, NULL);
   IDDefSwitch(&PortSP, NULL);
   IDDefBLOB(&imageBP, NULL);
   
   /* Expose */
   IDDefSwitch(&FrameTypeSP, NULL);  
-  IDDefNumber(&ExposeTimeNP, NULL);
+  IDDefNumber(&ExposeTimeWNP, NULL);
+  IDDefNumber(&ExposeTimeRNP, NULL);
   IDDefNumber(&TemperatureNP, NULL);
   
   /* Image Group */
@@ -239,7 +243,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	    return;
 	    
 	ISInit();
-	    
+
 	/* Port type */
 	if (!strcmp (name, PortSP.name))
 	{
@@ -254,10 +258,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	}
 	
 	/* Connection */
-	if (!strcmp (name, PowerSP.name))
+	if (!strcmp (name, ConnectSP.name))
 	{
-	  IUResetSwitches(&PowerSP);
-	  IUUpdateSwitches(&PowerSP, states, names, n);
+	  if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0)
+		return;
    	  connectCCD();
 	  return;
 	}
@@ -268,14 +272,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
        if (checkPowerS(&FrameTypeSP))
          return;
 	 
-       FrameTypeSP.s = IPS_IDLE;
-	 
        for (i = 0; i < n ; i++)
        {
          sp = IUFindSwitch(&FrameTypeSP, names[i]);
 	 
 	 if (!sp)
 	 {
+	      FrameTypeSP.s = IPS_ALERT;
 	      IDSetSwitch(&FrameTypeSP, "Unknown error. %s is not a member of %s property.", names[0], name);
 	      return;
 	 }
@@ -292,6 +295,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
   	   {
 	    IUResetSwitches(&FrameTypeSP);
 	    FrameTypeS[LIGHT_FRAME].s = ISS_ON;
+	    FrameTypeSP.s = IPS_ALERT;
             IDSetSwitch(&FrameTypeSP, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
 	    IDLog("FLISetFrameType() failed. %s.\n", strerror((int)-err));
 	    return;
@@ -316,6 +320,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
   	   {
 	    IUResetSwitches(&FrameTypeSP);
 	    FrameTypeS[LIGHT_FRAME].s = ISS_ON;
+	    FrameTypeSP.s = IPS_ALERT;
             IDSetSwitch(&FrameTypeSP, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
 	    IDLog("FLISetFrameType() failed. %s.\n", strerror((int)-err));
 	    return;
@@ -363,36 +368,37 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 	ISInit();
 	
     /* Exposure time */
-    if (!strcmp (ExposeTimeNP.name, name))
+    if (!strcmp (ExposeTimeWNP.name, name))
     {
-       if (checkPowerN(&ExposeTimeNP))
+       if (checkPowerN(&ExposeTimeWNP))
          return;
 
-       if (ExposeTimeNP.s == IPS_BUSY)
+       if (ExposeTimeWNP.s == IPS_BUSY)
        {
           if ( (err = FLICancelExposure(fli_dev)))
 	  {
-	    	ExposeTimeNP.s = IPS_IDLE;
-	    	IDSetNumber(&ExposeTimeNP, "FLICancelExposure() failed. %s.", strerror((int)-err));
+	    	ExposeTimeWNP.s = IPS_ALERT;
+	    	IDSetNumber(&ExposeTimeWNP, "FLICancelExposure() failed. %s.", strerror((int)-err));
 	    	IDLog("FLICancelExposure() failed. %s.\n", strerror((int)-err));
 	    	return;
 	  }
 	
-	  ExposeTimeNP.s = IPS_IDLE;
-	  ExposeTimeN[0].value = 0;
+	  ExposeTimeWNP.s = IPS_IDLE;
+	  ExposeTimeRNP.s = IPS_IDLE;
+	  ExposeTimeRN[0].value = 0;
 
-	  IDSetNumber(&ExposeTimeNP, "Exposure cancelled.");
+	  IDSetNumber(&ExposeTimeWNP, "Exposure cancelled.");
+	  IDSetNumber(&ExposeTimeRNP, NULL);
 	  IDLog("Exposure Cancelled.\n");
 	  return;
         }
     
-       ExposeTimeNP.s = IPS_IDLE;
-       
-       np = IUFindNumber(&ExposeTimeNP, names[0]);
+       np = IUFindNumber(&ExposeTimeWNP, names[0]);
 	 
        if (!np)
        {
-	   IDSetNumber(&ExposeTimeNP, "Error: %s is not a member of %s property.", names[0], name);
+	   ExposeTimeWNP.s = IPS_ALERT;
+	   IDSetNumber(&ExposeTimeWNP, "Error: %s is not a member of %s property.", names[0], name);
 	   return;
        }
 	 
@@ -402,7 +408,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
       /* Set duration */  
      if ( (err = FLISetExposureTime(fli_dev, np->value * 1000.) ))
      {
-       IDSetNumber(&ExposeTimeNP, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
+       ExposeTimeWNP.s = IPS_ALERT;
+       IDSetNumber(&ExposeTimeWNP, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
        IDLog("FLISetExposureTime() failed. %s.\n", strerror((int)-err));
        return;
      }
@@ -601,7 +608,7 @@ void ISPoll(void *p)
 	 
         /*IDLog("In Poll.\n");*/
 	
-	switch (ExposeTimeNP.s)
+	switch (ExposeTimeWNP.s)
 	{
 	  case IPS_IDLE:
 	    break;
@@ -612,46 +619,33 @@ void ISPoll(void *p)
 	  case IPS_BUSY:
 	    if ( (err = FLIGetExposureStatus(fli_dev, &timeleft)))
 	    { 
-	      ExposeTimeNP.s = IPS_IDLE; 
-	      ExposeTimeN[0].value = 0;
+	      ExposeTimeWNP.s = IPS_ALERT; 
+	      ExposeTimeRN[0].value = 0;
 	      
-	      IDSetNumber(&ExposeTimeNP, "FLIGetExposureStatus() failed. %s.", strerror((int)-err));
+	      IDSetNumber(&ExposeTimeWNP, "FLIGetExposureStatus() failed. %s.", strerror((int)-err));
+	      IDSetNumber(&ExposeTimeRNP, NULL);
 	      IDLog("FLIGetExposureStatus() failed. %s.\n", strerror((int)-err));
 	      break;
 	    }
 	    
-	    /*ExposeProgressN[0].value = (timeleft / 1000.);*/
-	    
 	    if (timeleft > 0)
 	    {
-	      ExposeTimeN[0].value = timeleft / 1000.;
-	      IDSetNumber(&ExposeTimeNP, NULL); 
+	      ExposeTimeRN[0].value = timeleft / 1000.;
+	      IDSetNumber(&ExposeTimeRNP, NULL); 
 	      break;
 	    }
-	    /*{
-	      IDSetNumber(&ExposeProgressNP, NULL);
-	      break;
-	    }*/
-	    
+
 	    /* We're done exposing */
-	    ExposeTimeNP.s = IPS_IDLE; 
-	    ExposeTimeN[0].value = 0;
-	    /*ExposeProgressNP.s = IPS_IDLE;*/
-	    IDSetNumber(&ExposeTimeNP, "Exposure done, downloading image...");
+	    /*ExposeTimeWNP.s = IPS_OK;*/
+	    ExposeTimeRNP.s = IPS_OK;  
+	    ExposeTimeRN[0].value = 0;
+	    IDSetNumber(&ExposeTimeWNP, "Exposure done, downloading image...");
+	    IDSetNumber(&ExposeTimeRNP, NULL);
 	    IDLog("Exposure done, downloading image...\n");
-	    /*IDSetNumber(&ExposeProgressNP, NULL);*/
-	    
+
 	    /* grab and save image */
-	     if (grabImage())
-	      break;
-	    
-	    /* Multiple image exposure 
-	    if ( imagesLeft > 0)
-	    { 
-	      IDMessage(mydev, "Image #%d will be taken in %0.f seconds.", imageCount+1, DelayN[0].value);
-	      IDLog("Image #%d will be taken in %0.f seconds.", imageCount+1, DelayN[0].value);
-	      IEAddTimer (DelayN[0].value * 1000., handleExposure, NULL);
-	    }*/
+	     grabImage();
+
 	    break;
 	    
 	  case IPS_ALERT:
@@ -797,7 +791,6 @@ int grabImage()
 
 int writeFITS(const char* filename, char errmsg[])
 {
-  int i=0, j=0;
   fitsfile *fptr;       /* pointer to the FITS file; defined in fitsio.h */
   int status;
   long  fpixel = 1, naxis = 2, nelements;
@@ -828,8 +821,8 @@ int writeFITS(const char* filename, char errmsg[])
   fits_report_error(stderr, status);  /* print out any error messages */
 
   /* Success */
-  ExposeTimeNP.s = IPS_OK;
-  IDSetNumber(&ExposeTimeNP, NULL);
+  ExposeTimeWNP.s = IPS_OK;
+  IDSetNumber(&ExposeTimeWNP, NULL);
   uploadFile(filename);
   unlink(filename);
  
@@ -963,8 +956,8 @@ void handleExposure(void *p)
   {
      if ((err = FLISetExposureTime(fli_dev, 50)))
      {
-       ExposeTimeNP.s = IPS_IDLE;
-       IDSetNumber(&ExposeTimeNP, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
+       ExposeTimeWNP.s = IPS_ALERT;
+       IDSetNumber(&ExposeTimeWNP, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
        IDLog("FLISetExposureTime() failed. %s.\n", strerror((int)-err));
        return;
      }
@@ -972,15 +965,15 @@ void handleExposure(void *p)
     
   if ((err = FLIExposeFrame(fli_dev)))
   {
-    	ExposeTimeNP.s = IPS_IDLE;
-    	IDSetNumber(&ExposeTimeNP, "FLIExposeFrame() failed. %s.", strerror((int)-err));
+    	ExposeTimeWNP.s = IPS_ALERT;
+    	IDSetNumber(&ExposeTimeWNP, "FLIExposeFrame() failed. %s.", strerror((int)-err));
     	IDLog("FLIExposeFrame() failed. %s.\n", strerror((int)-err));
     	return;
   }
  
-   ExposeTimeNP.s = IPS_BUSY;
+   ExposeTimeWNP.s = IPS_BUSY;
 		  
-   IDSetNumber(&ExposeTimeNP, "Taking a %g seconds frame...", FLIImg->expose / 1000.);
+   IDSetNumber(&ExposeTimeWNP, "Taking a %g seconds frame...", FLIImg->expose / 1000.);
    
    IDLog("Taking a frame...\n");
 }
@@ -1087,9 +1080,9 @@ void getBasicData()
 int manageDefaults(char errmsg[])
 {
   long err;
-  int exposeTimeMS;
+  /*int exposeTimeMS;
   
-  exposeTimeMS = (int) (ExposeTimeN[0].value * 1000.);
+  exposeTimeMS = (int) (ExposeTimeWN[0].value * 1000.);
   
   IDLog("Setting default exposure time of %d ms.\n", exposeTimeMS);
   if ( (err = FLISetExposureTime(fli_dev, exposeTimeMS) ))
@@ -1097,7 +1090,7 @@ int manageDefaults(char errmsg[])
     snprintf(errmsg, ERRMSG_SIZE, "FLISetExposureTime() failed. %s.\n", strerror((int)-err));
     IDLog(errmsg, NULL);
     return -1;
-  }
+  }*/
   
   /* Default frame type is NORMAL */
   if ( (err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
@@ -1151,7 +1144,7 @@ int getOnSwitch(ISwitchVectorProperty *sp)
 
 int checkPowerS(ISwitchVectorProperty *sp)
 {
-  if (PowerSP.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
     if (!strcmp(sp->label, ""))
     	IDMessage (mydev, "Cannot change property %s while the CCD is offline.", sp->name);
@@ -1168,7 +1161,7 @@ int checkPowerS(ISwitchVectorProperty *sp)
 
 int checkPowerN(INumberVectorProperty *np)
 {
-  if (PowerSP.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
      if (!strcmp(np->label, ""))
     	IDMessage (mydev, "Cannot change property %s while the CCD is offline.", np->name);
@@ -1186,7 +1179,7 @@ int checkPowerN(INumberVectorProperty *np)
 int checkPowerT(ITextVectorProperty *tp)
 {
 
-  if (PowerSP.s != IPS_OK)
+  if (ConnectSP.s != IPS_OK)
   {
     if (!strcmp(tp->label, ""))
     	IDMessage (mydev, "Cannot change property %s while the CCD is offline.", tp->name);
@@ -1210,35 +1203,35 @@ void connectCCD()
 	IDLog ("In ConnectCCD\n");
    
   /* USB by default {USB, SERIAL, PARALLEL, INET} */
-	switch (PowerS[0].s)
+	switch (ConnectS[0].s)
 	{
 		case ISS_ON:
 		IDLog("Current portSwitch is %d\n", portSwitchIndex);
 		IDLog("Attempting to find the camera in domain %ld\n", Domains[portSwitchIndex]);
 		if (findcam(Domains[portSwitchIndex])) {
-			PowerSP.s = IPS_IDLE;
-			PowerS[0].s = ISS_OFF;
-			PowerS[1].s = ISS_ON;
-			IDSetSwitch(&PowerSP, "Error: no cameras were detected.");
+			ConnectSP.s = IPS_IDLE;
+			ConnectS[0].s = ISS_OFF;
+			ConnectS[1].s = ISS_ON;
+			IDSetSwitch(&ConnectSP, "Error: no cameras were detected.");
 			IDLog("Error: no cameras were detected.\n");
 			return;
 		}
 
 		if ((err = FLIOpen(&fli_dev, FLICam->name, FLIDEVICE_CAMERA | FLICam->domain)))
 		{
-			PowerSP.s = IPS_IDLE;
-			PowerS[0].s = ISS_OFF;
-			PowerS[1].s = ISS_ON;
-			IDSetSwitch(&PowerSP, "Error: FLIOpen() failed. %s.", strerror( (int) -err));
+			ConnectSP.s = IPS_IDLE;
+			ConnectS[0].s = ISS_OFF;
+			ConnectS[1].s = ISS_ON;
+			IDSetSwitch(&ConnectSP, "Error: FLIOpen() failed. %s.", strerror( (int) -err));
 			IDLog("Error: FLIOpen() failed. %s.\n", strerror( (int) -err));
 			return;
 		}
       
 		/* Sucess! */
-		PowerS[0].s = ISS_ON;
-		PowerS[1].s = ISS_OFF;
-		PowerSP.s = IPS_OK;
-		IDSetSwitch(&PowerSP, "CCD is online. Retrieving basic data.");
+		ConnectS[0].s = ISS_ON;
+		ConnectS[1].s = ISS_OFF;
+		ConnectSP.s = IPS_OK;
+		IDSetSwitch(&ConnectSP, "CCD is online. Retrieving basic data.");
 		IDLog("CCD is online. Retrieving basic data.\n");
 		getBasicData();
 		if (manageDefaults(errmsg))
@@ -1251,18 +1244,18 @@ void connectCCD()
 		break;
       
 		case ISS_OFF:
-			PowerS[0].s = ISS_OFF;
-			PowerS[1].s = ISS_ON;
-			PowerSP.s = IPS_IDLE;
+			ConnectS[0].s = ISS_OFF;
+			ConnectS[1].s = ISS_ON;
+			ConnectSP.s = IPS_IDLE;
 			if ((err = FLIClose(fli_dev))) {
-				PowerSP.s = IPS_IDLE;
-				PowerS[0].s = ISS_OFF;
-				PowerS[1].s = ISS_ON;
-				IDSetSwitch(&PowerSP, "Error: FLIClose() failed. %s.", strerror( (int) -err));
+				ConnectSP.s = IPS_IDLE;
+				ConnectS[0].s = ISS_OFF;
+				ConnectS[1].s = ISS_ON;
+				IDSetSwitch(&ConnectSP, "Error: FLIClose() failed. %s.", strerror( (int) -err));
 				IDLog("Error: FLIClose() failed. %s.\n", strerror( (int) -err));
 				return;
 			}
-			IDSetSwitch(&PowerSP, "CCD is offline.");
+			IDSetSwitch(&ConnectSP, "CCD is offline.");
 			break;
      }
 }
@@ -1270,7 +1263,7 @@ void connectCCD()
 /* isCCDConnected: return 1 if we have a connection, 0 otherwise */
 int isCCDConnected(void)
 {
-  return ((PowerS[0].s == ISS_ON) ? 1 : 0);
+  return ((ConnectS[0].s == ISS_ON) ? 1 : 0);
 }
 
 int findcam(flidomain_t domain)

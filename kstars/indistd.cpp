@@ -511,7 +511,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
   INDI_E *lp;
 
   /* Update UTC */
-  pp = dp->findProp("UTC_OFFSET");
+  pp = dp->findProp("OFFSET_UTC");
   if (!pp) return;
   
   lp = pp->findElement("OFFSET");
@@ -772,7 +772,8 @@ void INDIStdDevice::timerDone()
         return;
        }
 	
-       prop = dp->findProp("EQUATORIAL_EOD_COORD");
+       // We issue command to the REQUEST property
+       prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
        
        if (prop == NULL)
        {
@@ -893,13 +894,13 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    	if (stdDev->devTimer->isActive())
 		 	stdDev->devTimer->stop();
 
-   	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
+   	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
        	if (prop == NULL)
 	{
 		  prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
 		  if (prop == NULL)
                   {
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
+                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
                     if (prop == NULL)
         		return false;
                     else
@@ -989,14 +990,18 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	break;
    
    /* Handle Abort */
-   case ABORT_MOTION:
+   case TELESCOPE_ABORT_MOTION:
          kDebug() << "Stopping timer." << endl;
 	 stdDev->devTimer->stop();
  	 pp->newSwitch(switchIndex);
 	 return true;
 	 break;
 	 
-   case MOVEMENT:
+   case TELESCOPE_MOTION_NS:
+      pp->newSwitch(switchIndex);
+      break;
+
+   case TELESCOPE_MOTION_WE:
       pp->newSwitch(switchIndex);
       break;
       
@@ -1027,9 +1032,10 @@ bool INDIStdProperty::newSwitch(int id, INDI_E* el)
        prop->newText();
       }
       break;
-    case ABORT_MOTION:
-    case PARK:
-    case MOVEMENT:
+    case TELESCOPE_ABORT_MOTION:
+    case TELESCOPE_PARK:
+    case TELESCOPE_MOTION_NS:
+    case TELESCOPE_MOTION_WE:
        //TODO add text in the status bar "Slew aborted."
        stdDev->devTimer->stop();
        break;

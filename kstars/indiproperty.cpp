@@ -154,7 +154,9 @@ void INDI_P::newText()
 {
   INDI_E * lp;
 
-  for ( int i=0; i < el.size(); ++i )
+  // FIXME why do I have ++i?
+  //for ( int i=0; i < el.size(); ++i )
+  for ( int i=0; i < el.size(); i++ )
   {
     lp = el[i];
     /* If PG_SCALE */
@@ -167,7 +169,8 @@ void INDI_P::newText()
       {
       case PP_RW:
         if (lp->write_w->text().isEmpty())
-          lp->text = lp->read_w->text();
+	   return;
+          //lp->text = lp->read_w->text();
         else
           lp->text = lp->write_w->text();
         break;
@@ -176,6 +179,10 @@ void INDI_P::newText()
         break;
 
       case PP_WO:
+        // Ignore if it's empty
+	if (lp->write_w->text().isEmpty())
+		return;
+
         lp->text = lp->write_w->text();
         break;
       }

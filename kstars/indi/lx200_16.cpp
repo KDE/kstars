@@ -65,29 +65,38 @@ static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_
 #define	MAXINDIGROUP	32
 #define	MAXINDIFORMAT	32
 
-static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), "", 0};
+static ISwitchVectorProperty FanStatusSP	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), "", 0};
 
-static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), "", 0};
+static ISwitchVectorProperty HomeSearchSP	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), "", 0};
 
-static ISwitchVectorProperty FieldDeRotatorSw	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS), "", 0};
+static ISwitchVectorProperty FieldDeRotatorSP	= { mydev, "Field De-rotator", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FieldDeRotatorS, NARRAY(FieldDeRotatorS), "", 0};
 
 //static ISwitches SlewAltAzSw		= { mydev, "AltAzSet", "On Alt/Az Set",  SlewAltAzS, NARRAY(SlewAltAzS), ILS_IDLE, 0, LX16Group};
 
-/* horizontal position */
-static INumber hor[] = {
+/* Horizontal Coordinates: Read Only */
+static INumber HorizontalCoordsRN[] = {
     {"ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0., 0, 0, 0},
     {"AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0., 0, 0, 0}};
-    
-static INumberVectorProperty horNum = {
-    mydev, "HORIZONTAL_COORD", "Horizontal Coords", LX16GROUP, IP_RW, 0, IPS_IDLE,
-    hor, NARRAY(hor), "", 0};
+static INumberVectorProperty HorizontalCoordsRNP = {
+    mydev, "HORIZONTAL_COORD", "Horizontal Coords", LX16GROUP, IP_RO, 120, IPS_IDLE,
+    HorizontalCoordsRN, NARRAY(HorizontalCoordsRN), "", 0};
+
+/* Horizontal Coordinates: Request Only */
+static INumber HorizontalCoordsWN[] = {
+    {"ALT",  "Alt  D:M:S", "%10.6m",  -90., 90., 0., 0., 0, 0, 0},
+    {"AZ", "Az D:M:S", "%10.6m", 0., 360., 0., 0., 0, 0, 0}};
+static INumberVectorProperty HorizontalCoordsWNP = {
+    mydev, "HORIZONTAL_COORD_REQUEST", "Horizontal Coords", LX16GROUP, IP_WO, 120, IPS_IDLE,
+    HorizontalCoordsWN, NARRAY(HorizontalCoordsWN), "", 0};
+
 
 void changeLX200_16DeviceName(const char * newName)
 {
-  strcpy(horNum.device, newName);
-  strcpy(FanStatusSw.device, newName);
-  strcpy(HomeSearchSw.device, newName);
-  strcpy(FieldDeRotatorSw.device,newName);
+  strcpy(HorizontalCoordsWNP.device, newName);
+  strcpy(HorizontalCoordsRNP.device, newName);
+  strcpy(FanStatusSP.device, newName);
+  strcpy(HomeSearchSP.device, newName);
+  strcpy(FieldDeRotatorSP.device,newName);
 }
 
 LX200_16::LX200_16() : LX200Autostar()
@@ -104,11 +113,12 @@ if (dev && strcmp (thisDevice, dev))
   // process parent first
   LX200Autostar::ISGetProperties(dev);
 
-  IDDefNumber (&horNum, NULL);
+  IDDefNumber (&HorizontalCoordsWNP, NULL);
+  IDDefNumber (&HorizontalCoordsRNP, NULL);
 
-  IDDefSwitch (&FanStatusSw, NULL);
-  IDDefSwitch (&HomeSearchSw, NULL);
-  IDDefSwitch (&FieldDeRotatorSw, NULL);
+  IDDefSwitch (&FanStatusSP, NULL);
+  IDDefSwitch (&HomeSearchSP, NULL);
+  IDDefSwitch (&FieldDeRotatorSP, NULL);
 
 }
 
@@ -133,21 +143,21 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
   if (strcmp (dev, thisDevice))
     return;
 
-  if ( !strcmp (name, horNum.name) )
+  if ( !strcmp (name, HorizontalCoordsWNP.name) )
   {
       int i=0, nset=0;
 
-      if (checkPower(&horNum))
+      if (checkPower(&HorizontalCoordsWNP))
 	   return;
 
         for (nset = i = 0; i < n; i++)
 	    {
-		INumber *horp = IUFindNumber (&horNum, names[i]);
-		if (horp == &hor[0])
+		INumber *horp = IUFindNumber (&HorizontalCoordsWNP, names[i]);
+		if (horp == &HorizontalCoordsWN[0])
 		{
                     newAlt = values[i];
 		    nset += newAlt >= -90. && newAlt <= 90.0;
-		} else if (horp == &hor[1])
+		} else if (horp == &HorizontalCoordsWN[1])
 		{
 		    newAz = values[i];
 		    nset += newAz >= 0. && newAz <= 360.0;
@@ -158,25 +168,25 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 	  {
 	   if ( (err = setObjAz(fd, newAz)) < 0 || (err = setObjAlt(fd, newAlt)) < 0)
 	   {
-	     handleError(&horNum, err, "Setting Alt/Az");
+	     handleError(&HorizontalCoordsWNP, err, "Setting Alt/Az");
 	     return;
 	   }
-	        horNum.s = IPS_OK;
-	       //horNum.n[0].value = values[0];
-	       //horNum.n[1].value = values[1];
+	       //HorizontalCoordsWNP.s = IPS_OK;
+	       //HorizontalCoordsWNP.n[0].value = values[0];
+	       //HorizontalCoordsWNP.n[1].value = values[1];
 	       targetAz  = newAz;
 	       targetAlt = newAlt;
 
 	       fs_sexa(azStr, targetAz, 2, 3600);
 	       fs_sexa(altStr, targetAlt, 2, 3600);
 
-	       IDSetNumber (&horNum, "Attempting to slew to Alt %s - Az %s", altStr, azStr);
+	       //IDSetNumber (&HorizontalCoordsWNP, "Attempting to slew to Alt %s - Az %s", altStr, azStr);
 	       handleAltAzSlew();
 	  }
 	  else
 	  {
-		horNum.s = IPS_IDLE;
-		IDSetNumber(&horNum, "Altitude or Azimuth missing or invalid");
+		HorizontalCoordsWNP.s = IPS_ALERT;
+		IDSetNumber(&HorizontalCoordsWNP, "Altitude or Azimuth missing or invalid");
 	  }
 	
 	  return;  
@@ -196,20 +206,20 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
   if (strcmp (dev, thisDevice))
     return;
 
-   if (!strcmp(name, FanStatusSw.name))
+   if (!strcmp(name, FanStatusSP.name))
    {
-      if (checkPower(&FanStatusSw))
+      if (checkPower(&FanStatusSP))
        return;
 
-          IUResetSwitches(&FanStatusSw);
-          IUUpdateSwitches(&FanStatusSw, states, names, n);
-          index = getOnSwitch(&FanStatusSw);
+          IUResetSwitches(&FanStatusSP);
+          IUUpdateSwitches(&FanStatusSP, states, names, n);
+          index = getOnSwitch(&FanStatusSP);
 
 	  if (index == 0)
 	  {
 	    if ( (err = turnFanOn(fd)) < 0)
 	    {
-	      handleError(&FanStatusSw, err, "Changing fan status");
+	      handleError(&FanStatusSP, err, "Changing fan status");
 	      return;
 	    }
 	  }
@@ -217,43 +227,43 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 	  {
 	    if ( (err = turnFanOff(fd)) < 0)
 	    {
-	      handleError(&FanStatusSw, err, "Changing fan status");
+	      handleError(&FanStatusSP, err, "Changing fan status");
 	      return;
 	    }
 	  }
 	  
-	  FanStatusSw.s = IPS_OK;
-	  IDSetSwitch (&FanStatusSw, index == 0 ? "Fan is ON" : "Fan is OFF");
+	  FanStatusSP.s = IPS_OK;
+	  IDSetSwitch (&FanStatusSP, index == 0 ? "Fan is ON" : "Fan is OFF");
 	  return;
    }
 
-   if (!strcmp(name, HomeSearchSw.name))
+   if (!strcmp(name, HomeSearchSP.name))
    {
-      if (checkPower(&HomeSearchSw))
+      if (checkPower(&HomeSearchSP))
        return;
 
-          IUResetSwitches(&HomeSearchSw);
-          IUUpdateSwitches(&HomeSearchSw, states, names, n);
-          index = getOnSwitch(&HomeSearchSw);
+          IUResetSwitches(&HomeSearchSP);
+          IUUpdateSwitches(&HomeSearchSP, states, names, n);
+          index = getOnSwitch(&HomeSearchSP);
 
 	  index == 0 ? seekHomeAndSave(fd) : seekHomeAndSet(fd);
-	  HomeSearchSw.s = IPS_BUSY;
-	  IDSetSwitch (&HomeSearchSw, index == 0 ? "Seek Home and Save" : "Seek Home and Set");
+	  HomeSearchSP.s = IPS_BUSY;
+	  IDSetSwitch (&HomeSearchSP, index == 0 ? "Seek Home and Save" : "Seek Home and Set");
 	  return;
    }
 
-   if (!strcmp(name, FieldDeRotatorSw.name))
+   if (!strcmp(name, FieldDeRotatorSP.name))
    {
-      if (checkPower(&FieldDeRotatorSw))
+      if (checkPower(&FieldDeRotatorSP))
        return;
 
-          IUResetSwitches(&FieldDeRotatorSw);
-          IUUpdateSwitches(&FieldDeRotatorSw, states, names, n);
-          index = getOnSwitch(&FieldDeRotatorSw);
+          IUResetSwitches(&FieldDeRotatorSP);
+          IUUpdateSwitches(&FieldDeRotatorSP, states, names, n);
+          index = getOnSwitch(&FieldDeRotatorSP);
 
 	  index == 0 ? seekHomeAndSave(fd) : seekHomeAndSet(fd);
-	  FieldDeRotatorSw.s = IPS_OK;
-	  IDSetSwitch (&FieldDeRotatorSw, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
+	  FieldDeRotatorSP.s = IPS_OK;
+	  IDSetSwitch (&FieldDeRotatorSP, index == 0 ? "Field deRotator is ON" : "Field deRotator is OFF");
 	  return;
    }
 
@@ -266,7 +276,7 @@ void LX200_16::handleAltAzSlew()
         int i=0;
 	char altStr[64], azStr[64];
 
-	  if (horNum.s == IPS_BUSY)
+	  if (HorizontalCoordsWNP.s == IPS_BUSY)
 	  {
 	     abortSlew(fd);
 
@@ -276,16 +286,18 @@ void LX200_16::handleAltAzSlew()
 
 	  if ((i = slewToAltAz(fd)))
 	  {
-	    horNum.s = IPS_IDLE;
-	    IDSetNumber(&horNum, "Slew not possible");
+	    HorizontalCoordsWNP.s = IPS_ALERT;
+	    IDSetNumber(&HorizontalCoordsWNP, "Slew is not possible.");
 	    return;
 	  }
 
-	  horNum.s = IPS_BUSY;
+	  HorizontalCoordsWNP.s = IPS_BUSY;
+	  HorizontalCoordsRNP.s = IPS_BUSY;
 	  fs_sexa(azStr, targetAz, 2, 3600);
 	  fs_sexa(altStr, targetAlt, 2, 3600);
 
-	  IDSetNumber(&horNum, "Slewing to Alt %s - Az %s", altStr, azStr);
+	  IDSetNumber(&HorizontalCoordsWNP, "Slewing to Alt %s - Az %s", altStr, azStr);
+	  IDSetNumber(&HorizontalCoordsRNP, NULL);
 	  return;
 }
 
@@ -297,7 +309,7 @@ void LX200_16::handleAltAzSlew()
    
    LX200Autostar::ISPoll();
 
-   	switch (HomeSearchSw.s)
+   	switch (HomeSearchSP.s)
 	{
 	case IPS_IDLE:
 	     break;
@@ -306,26 +318,26 @@ void LX200_16::handleAltAzSlew()
 
 	    if ( (err = getHomeSearchStatus(fd, &searchResult)) < 0)
 	    {
-	      handleError(&HomeSearchSw, err, "Home search");
+	      handleError(&HomeSearchSP, err, "Home search");
 	      return;
 	    }
 
 	    if (searchResult == 0)
 	    {
-	      HomeSearchSw.s = IPS_IDLE;
-	      IDSetSwitch(&HomeSearchSw, "Home search failed.");
+	      HomeSearchSP.s = IPS_ALERT;
+	      IDSetSwitch(&HomeSearchSP, "Home search failed.");
 	    }
 	    else if (searchResult == 1)
 	    {
-	      HomeSearchSw.s = IPS_OK;
-	      IDSetSwitch(&HomeSearchSw, "Home search successful.");
+	      HomeSearchSP.s = IPS_OK;
+	      IDSetSwitch(&HomeSearchSP, "Home search successful.");
 	    }
 	    else if (searchResult == 2)
-	      IDSetSwitch(&HomeSearchSw, "Home search in progress...");
+	      IDSetSwitch(&HomeSearchSP, "Home search in progress...");
 	    else
 	    {
-	      HomeSearchSw.s = IPS_IDLE;
-	      IDSetSwitch(&HomeSearchSw, "Home search error.");
+	      HomeSearchSP.s = IPS_ALERT;
+	      IDSetSwitch(&HomeSearchSP, "Home search error.");
 	    }
 	    break;
 
@@ -335,7 +347,7 @@ void LX200_16::handleAltAzSlew()
 	  break;
 	}
 
-	switch (horNum.s)
+	switch (HorizontalCoordsWNP.s)
 	{
 	case IPS_IDLE:
 	     break;
@@ -344,31 +356,32 @@ void LX200_16::handleAltAzSlew()
 
 	    if ( (err = getLX200Az(fd, &currentAz)) < 0 || (err = getLX200Alt(fd, &currentAlt)) < 0)
 	    {
-	      IDSetNumber(&horNum, NULL);
-	      handleError(&horNum, err, "Get Alt/Az");
+	      handleError(&HorizontalCoordsWNP, err, "Get Alt/Az");
 	      return;
 	    }
 	    
 	    dx = targetAz - currentAz;
 	    dy = targetAlt - currentAlt;
 
-            horNum.np[0].value = currentAlt;
-	    horNum.np[1].value = currentAz;
+            HorizontalCoordsRNP.np[0].value = currentAlt;
+	    HorizontalCoordsRNP.np[1].value = currentAz;
 
-	    IDLog("targetAz is %g, currentAz is %g\n", targetAz, currentAz);
-	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);
+	    /*IDLog("targetAz is %g, currentAz is %g\n", targetAz, currentAz);
+	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);*/
 
 
 	    // accuracy threshold (3'), can be changed as desired.
 	    if ( fabs(dx) <= 0.05 && fabs(dy) <= 0.05)
 	    {
 
-		horNum.s = IPS_OK;
+		HorizontalCoordsWNP.s = IPS_OK;
+		HorizontalCoordsRNP.s = IPS_OK;
 		currentAz = targetAz;
 		currentAlt = targetAlt;
-                IDSetNumber (&horNum, "Slew is complete");
+                IDSetNumber (&HorizontalCoordsWNP, "Slew is complete.");
+		IDSetNumber (&HorizontalCoordsRNP, NULL);
 	    } else
-	    	IDSetNumber (&horNum, NULL);
+	    	IDSetNumber (&HorizontalCoordsRNP, NULL);
 	    break;
 
 	case IPS_OK:
@@ -386,10 +399,10 @@ void LX200_16::handleAltAzSlew()
    getLX200Az(fd, &targetAz);
    getLX200Alt(fd, &targetAlt);
 
-   horNum.np[0].value = targetAlt;
-   horNum.np[1].value = targetAz;
+   HorizontalCoordsRNP.np[0].value = targetAlt;
+   HorizontalCoordsRNP.np[1].value = targetAz;
 
-   IDSetNumber (&horNum, NULL);
+   IDSetNumber (&HorizontalCoordsRNP, NULL);
    
    LX200Autostar::getBasicData();
 

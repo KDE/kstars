@@ -107,12 +107,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	fovGroup = new QActionGroup( this );
 	cschemeGroup = new QActionGroup( this );
 
-#ifdef CFITSIO_FOUND
-	kDebug() << "CFITSIO found" << endl;
-#else
-	kDebug() << "CFITSIO NOT found" << endl;
-#endif
-
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
 	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
 #else

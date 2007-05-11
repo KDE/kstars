@@ -51,9 +51,10 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
-enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
+enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, OFFSET_UTC, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, HORIZONTAL_COORD,  /* Telescope */
-                     ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, MOVEMENT, PARK,  /* Telescope */
+                     TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
+		     TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
                      CCD_EXPOSE_DURATION, CCD_TEMPERATURE, CCD_FRAME,           /* CCD */
                      CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO, CCDPREVIEW_STREAM,  /* CCD */
                      CCDPREVIEW_CTRL,						/* CCD */
