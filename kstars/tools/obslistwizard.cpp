@@ -65,7 +65,7 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
 	connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
 	connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
 	connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->Date, SIGNAL( valueChanged( ExtDate ) ), this, SLOT( slotUpdateObjectCount() ) );
+	connect( olw->Date, SIGNAL( dateChanged(const ExtDate&) ), this, SLOT( slotUpdateObjectCount() ) );
 	connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
 	connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
 
