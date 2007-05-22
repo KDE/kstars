@@ -13,6 +13,9 @@
 #define _TIMEVAL_H
 
 #ifdef _WIN32
+#ifdef USE_KDEWIN32_LIB
+#include <sys/time.h>
+#else
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -66,7 +69,7 @@ __inline int gettimeofday(struct timeval *tv, struct timezone *tz)
 
     return 0;
 }
-
+#endif /* USE_KDEWIN32_LIB */
 #else  /* _WIN32 */
 
 #include <time.h>
