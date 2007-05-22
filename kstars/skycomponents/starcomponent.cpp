@@ -132,11 +132,11 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		//Skip this star if it's unnamed and we aren't showing magnitudes
 		if ( curStar->name() == i18n("star") && !Options::showStarMagnitudes() ) continue;
 
-		QPointF o = map->toScreen( curStar, scale );
+		QPointF op = map->toScreen( curStar, scale );
 		// draw label if currently on screen
-		if (o.x() >= 0. && o.x() <= Width && o.y() >=0. && o.y() <= Height ) {
+		if (op.x() >= 0. && op.x() <= Width && op.y() >=0. && op.y() <= Height ) {
 			bool drawName = ( Options::showStarNames() && curStar->name() != i18n("star") );
-			curStar->drawLabel( psky, o.x(), o.y(), Options::zoomFactor(),
+			curStar->drawLabel( psky, op.x(), op.y(), Options::zoomFactor(),
 								drawName, Options::showStarMagnitudes(), scale );
 		}
 	}

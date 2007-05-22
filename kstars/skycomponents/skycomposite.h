@@ -112,7 +112,7 @@ class SkyComposite : public SkyComponent
 			*@sa updateMoons()
 			*@sa SolarSystemComposite::updatePlanets()
 			*/
-		virtual void updatePlanets( KStarsData * /*data*/, KSNumbers */*num*/ ) {}
+		virtual void updatePlanets( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
 
 		/**
 			*@short Delegate moon position updates to the SolarSystemComposite
