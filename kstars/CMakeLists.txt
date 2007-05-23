@@ -6,6 +6,8 @@ add_subdirectory( data )
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 
+Find_package(ZLIB REQUIRED)
+
 if (CFITSIO_FOUND)
   set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
@@ -206,7 +208,19 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui ccdpreview.ui
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars ${KDE4_KDECORE_LIBS} kdeeduui extdate ${KDE4_KDEPRINT_LIBS} ${KDE4_KNEWSTUFF2_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${CFITSIO_LIBRARIES} SatLib m z )
+target_link_libraries(kstars
+    ${KDE4_KDECORE_LIBS}
+    kdeeduui
+	extdate
+	${KDE4_KDEPRINT_LIBS}
+	${KDE4_KNEWSTUFF2_LIBS}
+	${KDE4_KDE3SUPPORT_LIBS}
+	${CFITSIO_LIBRARIES}
+	SatLib
+	${ZLIB_LIBRARIES})
+if(NOT WIN32)
+  target_link_libraries(kstars m)
+endif(NOT WIN32)
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 

@@ -26,8 +26,13 @@ enum
 	Q_W = 3
 };
 
-typedef int xmmint[4] __attribute__ ((aligned (16)));
-typedef float xmmfloat[4] __attribute__ ((aligned (16)));
+#ifdef __GNUC__
+  typedef int xmmint[4] __attribute__ ((aligned (16)));
+  typedef float xmmfloat[4] __attribute__ ((aligned (16)));
+#else
+  typedef int xmmint[4];
+  typedef float xmmfloat[4];
+#endif
 
 typedef xmmfloat matrix[3];
 

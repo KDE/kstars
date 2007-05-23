@@ -1051,20 +1051,21 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				cmdCount++;
 			} else if ( fn[0] == "setLocalTime" && fn.size() == 7 ) {
 				bool ok(false);
-				int yr(0), mth(0), day(0) ,hr(0), min(0), sec(0);
+				// min is a macro - use mnt
+				int yr(0), mth(0), day(0) ,hr(0), mnt(0), sec(0);
 				yr = fn[1].toInt(&ok);
 				if ( ok ) mth = fn[2].toInt(&ok);
 				if ( ok ) day = fn[3].toInt(&ok);
 				if ( ok ) hr  = fn[4].toInt(&ok);
-				if ( ok ) min = fn[5].toInt(&ok);
+				if ( ok ) mnt = fn[5].toInt(&ok);
 				if ( ok ) sec = fn[6].toInt(&ok);
 				if ( ok ) {
-					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
+					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
 					cmdCount++;
 				} else {
 					kWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
 						.subs( day ).subs( mth ).subs( yr )
-						.subs( hr ).subs( min ).subs( sec ).toString() << endl;
+						.subs( hr ).subs( mnt ).subs( sec ).toString() << endl;
 				}
 			} else if ( fn[0] == "changeViewOption" && fn.size() == 3 ) {
 				bool bOk(false), nOk(false), dOk(false);

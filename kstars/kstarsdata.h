@@ -59,8 +59,8 @@ class JupiterMoons;
 
 class TimeZoneRule;
 class KSFileReader;
-class INDIHostsInfo;
-class ADVTreeData;
+struct INDIHostsInfo;
+struct ADVTreeData;
 class CustomCatalog;
 
 struct VariableStarInfo
