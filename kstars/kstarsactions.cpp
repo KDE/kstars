@@ -397,7 +397,7 @@ void KStars::slotViewOps() {
 }
 
 void KStars::slotApplyConfigChanges() {
-	Options::writeConfig();
+	Options::self()->writeConfig();
 	applyConfig();
 	data()->setFullTimeUpdate();
 	map()->forceUpdate();

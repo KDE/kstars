@@ -201,7 +201,7 @@ void KStars::readConfig() {
 }
 
 void KStars::writeConfig() {
-	Options::writeConfig();
+	Options::self()->writeConfig();
 
 	//Store current simulation time
 	data()->StoredDate.setDJD( data()->lt().djd() );
