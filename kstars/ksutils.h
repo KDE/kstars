@@ -30,6 +30,7 @@
 #include <QString>
 
 class QFile;
+class QString;
 
 class KSUtils {
 	public:

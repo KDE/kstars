@@ -158,7 +158,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		bool inConstellation( const QString &name, SkyPoint *p );
 
 		virtual void emitProgressText( const QString &message );
-		virtual QStringList& objectNames() { return m_ObjectNames; }
+		virtual QHash<int, QStringList>& objectNames();
+		virtual QStringList& objectNames( int k );
 		QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
 
 		QList<DeepSkyObject*>& deepSkyObjects();
@@ -189,7 +190,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		StarComponent *m_Stars;
 		SatelliteComposite *m_Satellites;
 
-		QStringList m_ObjectNames;
+		QHash<int, QStringList> m_ObjectNames;
 		QList<SkyObject*> m_LabeledObjects;
 };
 

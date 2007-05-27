@@ -211,7 +211,7 @@ void AltVsTime::slotAddSource(void) {
 void AltVsTime::slotBrowseObject(void) {
 	FindDialog fd(ks);
 	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.currentItem();
+		SkyObject *o = fd.selectedObject();
 		processObject( o );
 	}
 
@@ -512,7 +512,7 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 	SunRise = 0.25;
 	SunSet = 0.75;
 
-	MousePoint = QPoint( -1.0, -1.0 );
+	MousePoint = QPoint( -1, -1 );
 }
 
 void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {

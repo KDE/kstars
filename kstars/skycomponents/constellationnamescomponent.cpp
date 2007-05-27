@@ -73,7 +73,7 @@ void ConstellationNamesComponent::init(KStarsData *)
 			objectList().append( o );
 
 			//Add name to the list of object names
-			objectNames().append( name );
+			objectNames(SkyObject::CONSTELLATION).append( name );
 		}
 		file.close();
 	}

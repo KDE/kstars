@@ -46,9 +46,9 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
 void SolarSystemSingleComponent::init(KStarsData *) {
 	ksp()->loadData();
 
-	if ( ! ksp()->name().isEmpty() ) objectNames().append( ksp()->name() );
+	if ( ! ksp()->name().isEmpty() ) objectNames(ksp()->type()).append( ksp()->name() );
 	if ( ! ksp()->longname().isEmpty() && ksp()->longname() != ksp()->name() )
-		objectNames().append( ksp()->longname() );
+		objectNames(ksp()->type()).append( ksp()->longname() );
 }
 
 void SolarSystemSingleComponent::update(KStarsData *data, KSNumbers *num) {

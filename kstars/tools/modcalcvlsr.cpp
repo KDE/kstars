@@ -82,7 +82,7 @@ void modCalcVlsr::slotNow()
 void modCalcVlsr::slotFindObject() {
 	FindDialog fd( (KStars*)topLevelWidget()->parent() );
 	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.currentItem();
+		SkyObject *o = fd.selectedObject();
 		RA->showInHours( o->ra0() );
 		Dec->showInDegrees( o->dec0() );
 	}

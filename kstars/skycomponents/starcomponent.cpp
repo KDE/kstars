@@ -279,6 +279,6 @@ void StarComponent::processStar( const QString &line ) {
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 	objectList().append(o);
 
-	if ( ! name.isEmpty() && name != i18n("star") ) objectNames().append( name );
-	if ( ! gname.isEmpty() && gname != name ) objectNames().append( o->gname(false) );
+	if ( ! name.isEmpty() && name != i18n("star") ) objectNames(SkyObject::STAR).append( name );
+	if ( ! gname.isEmpty() && gname != name ) objectNames(SkyObject::STAR).append( o->gname(false) );
 }

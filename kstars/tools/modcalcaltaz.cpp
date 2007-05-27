@@ -95,7 +95,7 @@ void modCalcAltAz::slotObject()
 {
 	FindDialog fd( (KStars*)topLevelWidget()->parent() );
 	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.currentItem();
+		SkyObject *o = fd.selectedObject();
 		RA->showInHours( o->ra() );
 		Dec->showInDegrees( o->dec() );
 		slotCompute();

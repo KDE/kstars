@@ -70,7 +70,7 @@ void CometsComponent::init( KStarsData *data ) {
 			objectList().append( com );
 
 			//Add *short* name to the list of object names
-			objectNames().append( com->name() );
+			objectNames(SkyObject::COMET).append( com->name() );
 		}
 	}
 }

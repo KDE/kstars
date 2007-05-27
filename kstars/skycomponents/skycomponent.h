@@ -186,7 +186,8 @@ class SkyComponent
 
 		virtual void emitProgressText( const QString &message );
 
-		virtual QStringList& objectNames() { return parent()->objectNames(); }
+		virtual QHash<int, QStringList>& objectNames() { return parent()->objectNames(); }
+		virtual QStringList& objectNames(int type) { return parent()->objectNames(type); }
 
 	protected:
 

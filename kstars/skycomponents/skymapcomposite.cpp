@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPolygonF>
-
 #include "skymapcomposite.h"
+
+#include <QPolygonF>
 
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "starobject.h"
 #include "deepskyobject.h"
 #include "ksplanet.h"
 
@@ -315,6 +316,14 @@ void SkyMapComposite::setStarColorIntensity( int newIntensity ) {
 	m_Stars->setStarColorIntensity( newIntensity );
 }
 
+QHash<int, QStringList>& SkyMapComposite::objectNames() {
+	return m_ObjectNames;
+}
+
+QStringList& SkyMapComposite::objectNames( int type ) {
+	return m_ObjectNames[ type ];
+}
+
 SkyObject* SkyMapComposite::findByName( const QString &name ) {
 	//We search the children in an "intelligent" order (most-used 
 	//object types first), in order to avoid wasting too much time 
@@ -335,7 +344,8 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
 
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 	foreach( SkyObject *s, m_Stars->objectList() ) 
-		if ( s->name2() == name ) return s;
+		if ( s->name2() == name || ((StarObject*)s)->gname(false) == name ) 
+			return (SkyObject*)s;
 
 	return 0;
 }

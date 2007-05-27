@@ -29,8 +29,8 @@
 #include "skyobject.h"
 
 class QTimer;
-
-class AstroFindProxyModel;
+class QStringListModel;
+class QSortFilterProxyModel;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
 	Q_OBJECT
@@ -62,13 +62,13 @@ public:
 
 /**@return the currently-selected item from the listbox of named objects
 	*/
-	inline SkyObject* currentItem() const { return currentitem; }
+	inline SkyObject* selectedObject() const;
 
 public slots:
 /**When Text is entered in the QLineEdit, filter the List of objects
 	*so that only objects which start with the filter text are shown.
 	*/
-	void filter();
+	void filterByName();
 
 	//FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
 /**Overloading the Standard KDialogBase slotOk() to show a "sorry" message 
@@ -78,24 +78,28 @@ public slots:
 	void slotOk();
 
 private slots:
-/**Init object list after opening dialog.
+/**
+	*Init object list after opening dialog.
 	*/
 	void init();
 
-/**Set the selected item in the list to the item specified.
+/**
+	*Set the selected item to the first item in the list
 	*/
-	void updateSelection();
+	void initSelection();
 
 	void enqueueSearch();
 
-/**Filter the list of named objects according to the given object type
- *@param f The integer representation of the object type
- *@see SkyObject
+/**
+	*Filter the list of named objects according to the given object type
+	*@param f The integer representation of the object type
+	*@see SkyObject
 	*/
-	void setFilter( int f );
+	void filterByType( int f );
 
 protected:
-/**Process Keystrokes.  The Up and Down arrow keys are used to select the 
+/**
+	*Process Keystrokes.  The Up and Down arrow keys are used to select the 
 	*Previous/Next item in the listbox of named objects.  The Esc key closes 
 	*the window with no selection, using reject().
 	*@param e The QKeyEvent pointer 
@@ -105,7 +109,8 @@ protected:
 private:
 	FindDialogUI* ui;
 	SkyObject* currentitem;
-	AstroFindProxyModel* sortModel;
+	QStringListModel *fModel;
+	QSortFilterProxyModel* sortModel;
 	QTimer* timer;
 };
 

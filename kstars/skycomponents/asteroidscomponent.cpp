@@ -113,7 +113,7 @@ void AsteroidsComponent::init(KStarsData *data)
 			objectList().append( ast );
 
 			//Add name to the list of object names
-			objectNames().append( name );
+			objectNames(SkyObject::ASTEROID).append( name );
 		}
 	}
 }

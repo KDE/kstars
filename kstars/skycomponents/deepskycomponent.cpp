@@ -182,11 +182,11 @@ void DeepSkyComponent::init(KStarsData *data)
 
 				//Add name to the list of object names
 				if ( ! name.isEmpty() ) 
-					objectNames().append( name );
+					objectNames(type).append( name );
 
 				//Add long name to the list of object names
 				if ( ! longname.isEmpty() && longname != name ) 
-					objectNames().append( longname );
+					objectNames(type).append( longname );
 
 			} //end while-filereader
 		}
@@ -407,40 +407,40 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 void DeepSkyComponent::clear() {
 	while ( ! m_MessierList.isEmpty() ) {
 		SkyObject *o = m_MessierList.takeFirst();
-		int i = objectNames().indexOf( o->name() );
-		if ( i >= 0 ) objectNames().removeAt( i );
-		i = objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) objectNames().removeAt( i );
+		int i = objectNames(o->type()).indexOf( o->name() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+		i = objectNames(o->type()).indexOf( o->longname() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
 		delete o;
 	}
 
 	while ( ! m_NGCList.isEmpty() ) {
 		SkyObject *o = m_NGCList.takeFirst();
-		int i = objectNames().indexOf( o->name() );
-		if ( i >= 0 ) objectNames().removeAt( i );
-		i = objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) objectNames().removeAt( i );
+		int i = objectNames(o->type()).indexOf( o->name() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+		i = objectNames(o->type()).indexOf( o->longname() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
 		delete o;
 	}
 
 	while ( ! m_ICList.isEmpty() ) {
 		SkyObject *o = m_ICList.takeFirst();
-		int i = objectNames().indexOf( o->name() );
-		if ( i >= 0 ) objectNames().removeAt( i );
-		i = objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) objectNames().removeAt( i );
+		int i = objectNames(o->type()).indexOf( o->name() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+		i = objectNames(o->type()).indexOf( o->longname() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
 		delete o;
 	}
 
 	while ( ! m_OtherList.isEmpty() ) {
 		SkyObject *o = m_OtherList.takeFirst();
-		int i = objectNames().indexOf( o->name() );
-		if ( i >= 0 ) objectNames().removeAt( i );
-		i = objectNames().indexOf( o->longname() );
-		if ( i >= 0 ) objectNames().removeAt( i );
+		int i = objectNames(o->type()).indexOf( o->name() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+		i = objectNames(o->type()).indexOf( o->longname() );
+		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
 		delete o;
 	}

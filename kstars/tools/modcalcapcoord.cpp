@@ -86,7 +86,7 @@ void modCalcApCoord::slotCompute(){
 void modCalcApCoord::slotObject() {
   FindDialog fd( (KStars*)topLevelWidget()->parent() );
   if ( fd.exec() == QDialog::Accepted ) {
-    SkyObject *o = fd.currentItem();
+    SkyObject *o = fd.selectedObject();
     RACat->showInHours( o->ra0() );
     DecCat->showInDegrees( o->dec0() );
     EpochCat->setValue( 2000.0 );

@@ -1818,20 +1818,20 @@ void ScriptBuilder::slotFindCity() {
 void ScriptBuilder::slotFindObject() {
 	FindDialog fd( ks );
 
-	if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
+	if ( fd.exec() == QDialog::Accepted && fd.selectedObject() ) {
 		setUnsavedChanges( true );
 
-		argLookToward->FocusEdit->setEditText( fd.currentItem()->name() );
+		argLookToward->FocusEdit->setEditText( fd.selectedObject()->name() );
 	}
 }
 
 void ScriptBuilder::slotINDIFindObject() {
   FindDialog fd( ks );
 
-  if ( fd.exec() == QDialog::Accepted && fd.currentItem() ) {
+  if ( fd.exec() == QDialog::Accepted && fd.selectedObject() ) {
     setUnsavedChanges( true );
 
-    argSetTargetNameINDI->targetName->setText( fd.currentItem()->name() );
+    argSetTargetNameINDI->targetName->setText( fd.selectedObject()->name() );
   }
 }
 

@@ -20,6 +20,8 @@
 
 #include <QFile>
 #include <QFrame>
+#include <QLabel>
+#include <QVBoxLayout>
 #include <QImage>
 #include <QPixmap>
 #include <QResizeEvent>
