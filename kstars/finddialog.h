@@ -62,7 +62,7 @@ public:
 
 /**@return the currently-selected item from the listbox of named objects
 	*/
-	inline SkyObject* selectedObject() const;
+	SkyObject* selectedObject() const;
 
 public slots:
 /**When Text is entered in the QLineEdit, filter the List of objects
