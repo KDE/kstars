@@ -190,8 +190,9 @@ class SkyMapComposite : public QObject, public SkyComposite
 		StarComponent *m_Stars;
 		SatelliteComposite *m_Satellites;
 
-		QHash<int, QStringList> m_ObjectNames;
 		QList<SkyObject*> m_LabeledObjects;
+		QHash<int, QStringList> m_ObjectNames;
+		QHash<QString, QString> m_ConstellationNames;
 };
 
 #endif

@@ -50,7 +50,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 
 	foreach ( SkyObject *o, objectList() ) { 
 		KSAsteroid *ast = (KSAsteroid*)o;
-		if ( ast->mag() > Options::magLimitAsteroid() ) break;
+		if ( ast->mag() > Options::magLimitAsteroid() ) continue;
 
 		if ( map->checkVisibility( ast ) )
 		{

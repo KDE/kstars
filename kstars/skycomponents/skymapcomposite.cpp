@@ -382,10 +382,27 @@ void SkyMapComposite::reloadComets( KStarsData *data ) {
 
 QString SkyMapComposite::constellation( SkyPoint *p, QPolygonF *bound ) {
 	QString name = m_CBounds->constellation( p );
+	QString fullname;
+
+	if(m_ConstellationNames.isEmpty()) {
+		foreach( SkyObject *p, m_CNames->objectList() ) {
+			QString longname = p->name().lower().replace( 0, 1, p->name().at(0).upper());
+			if ( longname.contains( " " ) ) {
+				int i = longname.indexOf(" ")+1;
+				longname.replace( i, 1, longname.at(i).upper() );
+			}
+			m_ConstellationNames[ ( p->name2().upper() ) ] = longname;
+		}
+	}
+
 	if ( bound && name != i18n("Unknown") )
 		*bound = m_CBounds->boundary( name );
 
-	return name;
+	fullname = m_ConstellationNames[ name.upper() ];
+	if( ! fullname.isEmpty() )
+		return fullname;
+	else
+		return name;
 }
 
 bool SkyMapComposite::inConstellation( const QString &name, SkyPoint *p ) {
