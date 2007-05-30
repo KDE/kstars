@@ -47,8 +47,9 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Mercury"), "mercury.png", QColor( "slateblue" ), 4879.4 /*diameter in km*/ ), Options::showMercury, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP("Venus"), "venus.png", QColor( "lightgreen" ), 12103.6 /*diameter in km*/ ), Options::showVenus, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Mars" ), "mars.png", QColor( "red" ), 6792.4 /*diameter in km*/ ), Options::showMars, 4 ) );
-	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", QColor( "goldenrod" ), 142984. /*diameter in km*/ ), Options::showJupiter, 4 ) );
-	m_JupiterMoons = new JupiterMoonsComponent( this, &Options::showJupiter);
+	SolarSystemSingleComponent *jup = new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Jupiter" ), "jupiter.png", QColor( "goldenrod" ), 142984. /*diameter in km*/ ), Options::showJupiter, 4 );
+	addComponent( jup );
+	m_JupiterMoons = new JupiterMoonsComponent( this, jup, &Options::showJupiter);
 	addComponent( m_JupiterMoons );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Saturn" ), "saturn.png", QColor( "khaki" ), 120536. /*diameter in km*/ ), Options::showSaturn, 4 ) );
 	addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, I18N_NOOP( "Uranus" ), "uranus.png", QColor( "lightseagreen" ), 51118. /*diameter in km*/ ), Options::showUranus, 4 ) );

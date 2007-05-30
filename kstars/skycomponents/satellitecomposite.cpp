@@ -100,7 +100,7 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 				KStarsDateTime dt( ps->jd );
 				dms alt( ps->sat_ele );
 				dms az( ps->sat_azi );
-				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString() << endl;
+//				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString() << endl;
 			}
 		}
 	}

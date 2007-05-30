@@ -21,6 +21,7 @@
 #include "skycomponent.h"
 
 class SkyComposite;
+class SolarSystemSingleComponent;
 class KStarsData;
 class SkyMap;
 class KSNumbers;
@@ -41,7 +42,7 @@ class JupiterMoonsComponent : public SkyComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		JupiterMoonsComponent( SkyComponent *parent, bool (*visibleMethod)() );
+		JupiterMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *jup, bool (*visibleMethod)() );
 		
 		/**
 		 *@short Destructor
@@ -68,6 +69,7 @@ class JupiterMoonsComponent : public SkyComponent
 	private:
 
 		JupiterMoons *jmoons;
+		SolarSystemSingleComponent *m_Jupiter;
 };
 
 #endif

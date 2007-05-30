@@ -64,6 +64,8 @@ class SolarSystemSingleComponent : public SingleComponent
 			*/
 		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
+		void draw( KStars *ks, QPainter &psky, double scale );
+
 		/**
 			*@short Set the size scale. Default value is 1.0 and only
 			*Saturn uses a scale of 2.5.
@@ -75,8 +77,6 @@ class SolarSystemSingleComponent : public SingleComponent
 		KSPlanet* earth() { return m_Earth; }
 		
 		KSPlanetBase *ksp() { return (KSPlanetBase*)skyObject(); }
-
-		void draw( KStars *ks, QPainter &psky, double scale );
 
 		/** 
 			*@short Draws the planet's trail, if necessary.
