@@ -24,7 +24,6 @@
 
 class QWidget;
 class SkyPoint;
-class KStarsDateTime;
 class GeoLocation;
 class dms;
 

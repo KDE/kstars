@@ -26,9 +26,7 @@
 
 #include "ui_thumbnailpicker.h"
 
-class ThumbnailEditor;
 class QPixmap;
-class QFile;
 class QRect;
 class DetailDialog;
 class SkyObject;

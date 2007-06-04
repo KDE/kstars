@@ -24,10 +24,7 @@
 
 #include "linelistcomponent.h"
 
-class SkyComposite;
 class KStarsData;
-class SkyMap;
-class KSNumbers;
 
 /**
 	*@class ConstellationBoundaryComponent

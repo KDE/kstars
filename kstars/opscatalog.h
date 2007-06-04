@@ -32,10 +32,8 @@
 	*@version 1.0
 	*/
 
-class QWidget;
 class KStars;
 class QListWidgetItem;
-class CustomCatalogComponent;
 
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {

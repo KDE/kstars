@@ -27,7 +27,6 @@
 
 class GeoLocation;
 class KStars;
-class KPushButton;
 class QStackedWidget;
 
 class WizWelcomeUI : public QFrame, public Ui::WizWelcome {

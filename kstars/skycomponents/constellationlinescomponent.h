@@ -28,10 +28,6 @@
 	*@version 0.1
 	*/
 
-class SkyComposite;
-class KStarsData;
-class SkyMap;
-class KSNumbers;
 
 #include <QList>
 #include <QChar>

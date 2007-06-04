@@ -34,7 +34,6 @@
 #include "skycomponent.h"
 
 class QColor;
-class SkyComposite;
 class KStarsData;
 class SkyMap;
 class KSNumbers;

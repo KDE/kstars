@@ -25,7 +25,6 @@ class SolarSystemComposite;
 
 class KStars;
 class KStarsData;
-class KSNumbers;
 
 /**
 	*@class AsteroidsComponent

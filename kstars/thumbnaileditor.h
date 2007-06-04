@@ -26,7 +26,6 @@
 #include "ui_thumbnaileditor.h"
 
 class ThumbnailPicker;
-class QPoint;
 
 class ThumbnailEditorUI : public QFrame, public Ui::ThumbnailEditor {
 	Q_OBJECT

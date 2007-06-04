@@ -33,7 +33,6 @@
   */
 
 class QString;
-class dms;
 class SkyPoint;
 
 class modCalcPrec : public QFrame, public Ui::modCalcPrecDlg  {

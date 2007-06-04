@@ -22,9 +22,7 @@
 #include "ui_modcalcsidtime.h"
 #include "widgets/calcframe.h"
 
-class dms;
 class QTime;
-class ExtDate;
 class GeoLocation;
 
 /**

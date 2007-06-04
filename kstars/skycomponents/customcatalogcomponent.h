@@ -29,8 +29,6 @@
 #include "listcomponent.h"
 
 class KStarsData;
-class SkyMap;
-class KSNumbers;
 class CustomCatalog;
 
 //JH: TODO: this class should only contain one custom catalog.

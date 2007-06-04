@@ -44,7 +44,6 @@ class KStarsData;
 class KSPlanetBase;
 class KSPopupMenu;
 class SkyObject;
-class DeepSkyObject;
 
 /**@class SkyMap
 	*

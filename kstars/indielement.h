@@ -73,7 +73,6 @@ class KLed;
 class KLineEdit;
 class KDoubleSpinBox;
 class KPushButton;
-class KCheckBox;
 class KSqueezedTextLabel;
 
 class QLabel;

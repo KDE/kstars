@@ -25,7 +25,6 @@
 #include <QDropEvent>
 
 class QDragEnterEvent;
-class QDragDropEvent;
 
 /**@class DragListBox
 	*@short Extension of KListWidget that allows Drag-and-Drop 

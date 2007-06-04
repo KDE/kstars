@@ -26,7 +26,6 @@
 
 #define NCATEGORY 8
 
-class QListWidgetItem;
 class KStars;
 class GeoLocation;
 class SkyObject;

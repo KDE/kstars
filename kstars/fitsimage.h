@@ -34,7 +34,6 @@
 
 #include "fitsio.h"
 
-class KCommandHistory;
 class FITSViewer;
 class FITSImage;
 

@@ -22,7 +22,6 @@
 
 class QWidget;
 class VBox;
-class KStarsDateTime;
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the

@@ -22,7 +22,6 @@
 class INDI_G;
 class INDIStdProperty;
 
-class KMenu;
 class KComboBox;
 class KLed;
 

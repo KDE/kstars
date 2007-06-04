@@ -35,7 +35,6 @@
 	*@version 1.0
 	*/
 
-class QWidget;
 class KStars;
 
 class OpsColors : public QFrame, public Ui::OpsColors

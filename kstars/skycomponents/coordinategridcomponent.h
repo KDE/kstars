@@ -28,9 +28,7 @@
 	*@version 0.1
 	*/
 
-class SkyComposite;
 class KStarsData;
-class SkyMap;
 
 class CoordinateGridComponent : public LineListComponent
 {

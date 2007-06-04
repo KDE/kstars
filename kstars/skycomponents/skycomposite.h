@@ -24,7 +24,6 @@
 
 class KStars;
 class KStarsData;
-class GeoLocation;
 class KSNumbers;
 
 /**

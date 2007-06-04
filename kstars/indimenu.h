@@ -21,31 +21,17 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 
-class INDI_E;
-class INDI_P;
-class INDI_G;
 class INDI_D;
 
-class KLed;
-class KLineEdit;
-class KComboBox;
-class KDoubleSpinBox;
-class KPushButton;
 
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
 class QFrame;
-class QLineEdit;
 class QString;
 class QTextEdit;
-class QListView;
-class QSocketNotifier;
 class QTabWidget;
-class QSpacerItem;
 class QGridLayout;
-class QButtonGroup;
-class QCheckBox;
 
 class KStars;
 class DeviceManager;

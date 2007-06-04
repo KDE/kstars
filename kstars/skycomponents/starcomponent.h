@@ -33,8 +33,6 @@
 class SkyComponent;
 class KStars;
 class KStarsData;
-class SkyMap;
-class KSNumbers;
 class KSFileReader;
 
 class StarComponent: public ListComponent

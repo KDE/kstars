@@ -29,7 +29,6 @@ class ConstellationBoundaryComponent;
 class ConstellationLinesComposite;
 class ConstellationNamesComponent;
 class CoordinateGridComposite;
-class CustomCatalogComponent;
 class DeepSkyComponent;
 class EclipticComponent;
 class EquatorComponent;

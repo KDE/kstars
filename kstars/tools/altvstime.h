@@ -27,14 +27,10 @@
 #include "ui_altvstime.h"
 
 class KStarsDateTime;
-class QTime;
-class QVariant;
 class QVBoxLayout;
 class KDialog;
-class KLocale;
 class SkyObject;
 class SkyPoint;
-class dms;
 class GeoLocation;
 class KStars;
 

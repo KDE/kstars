@@ -26,12 +26,10 @@
 #include "ui_devmanager.h"
 
 class QTreeWidgetItem;
-class QListWidgetItem;
 class QIcon;
 
 class KStars;
 
-class KMenu;
 class K3Process;
 
 struct INDIHostsInfo

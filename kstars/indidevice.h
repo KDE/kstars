@@ -28,31 +28,16 @@ class INDI_G;
 class INDI_E;
 class INDIMenu;
 class INDIStdDevice;
-class SkyObject;
 
-class KLed;
-class KLineEdit;
-class KComboBox;
-class KDoubleSpinBox;
-class KPushButton;
-class KMenu;
-class KVBox;
 
-class QTable;
 class QLabel;
 class QHBoxLayout;
 class QVBoxLayout;
 class QFrame;
-class QLineEdit;
 class QString;
 class QTextEdit;
-class QListView;
 class QTabWidget;
-class QSpacerItem;
 class QGridLayout;
-class QButtonGroup;
-class QCheckBox;
-class QSocketNotifier;
 
 /*************************************************************************
 ** The INDI Tree

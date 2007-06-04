@@ -23,10 +23,7 @@
 #include <QList>
 
 
-class SkyComposite;
 class KStarsData;
-class SkyMap;
-class KSNumbers;
 
 /**
 	*@class MilkyWayComponent

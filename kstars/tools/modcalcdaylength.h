@@ -20,7 +20,6 @@
 
 #include "ui_modcalcdaylength.h"
 
-class KStarsDateTime;
 class GeoLocation;
 
 /** Module to compute the equatorial coordinates for a given date and time

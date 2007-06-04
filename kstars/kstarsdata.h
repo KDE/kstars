@@ -42,23 +42,14 @@
 class QFile;
 class QTimer;
 
-class KStandardDirs;
 
 class dms;
 class SkyMap;
-class SkyPoint;
 class SkyObject;
-class DeepSkyObject;
 class StarObject;
 class KSPlanet;
-class KSAsteroid;
-class KSComet;
-class KSMoon;
-class PlanetCatalog;
-class JupiterMoons;
 
 class TimeZoneRule;
-class KSFileReader;
 struct INDIHostsInfo;
 struct ADVTreeData;
 class CustomCatalog;

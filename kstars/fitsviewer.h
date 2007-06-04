@@ -33,7 +33,6 @@
 #define INITIAL_H	480
 
 class K3CommandHistory;
-class QScrollView;
 class FITSImage;
 class FITSHistogram;
 

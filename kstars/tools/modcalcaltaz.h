@@ -21,7 +21,6 @@
 #include "ui_modcalcaltaz.h"
 
 class QWidget;
-class SkyPoint;
 class ExtDateTime;
 class GeoLocation;
 class dms;

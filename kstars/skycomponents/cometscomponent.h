@@ -18,10 +18,8 @@
 #ifndef COMETSCOMPONENT_H
 #define COMETSCOMPONENT_H
 
-class SkyComposite;
 class KStars;
 class KStarsData;
-class KSNumbers;
 
 #include "solarsystemlistcomponent.h"
 #include <QList>

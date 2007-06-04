@@ -26,7 +26,6 @@
 
 
 class KStars;
-class QStringList;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
   Q_OBJECT

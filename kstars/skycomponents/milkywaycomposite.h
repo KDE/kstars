@@ -23,7 +23,6 @@
 #include <QObject>
 #include "skycomposite.h"
 
-class KStarsData;
 
 /**
 	*@class MlkyWayComposite

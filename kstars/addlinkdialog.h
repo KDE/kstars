@@ -25,9 +25,7 @@
 
 #include "ui_addlinkdialog.h"
 
-class QLayout;
 class QString;
-class SkyMap;
 
 class AddLinkDialogUI : public QFrame, public Ui::AddLinkDialog {
 	Q_OBJECT

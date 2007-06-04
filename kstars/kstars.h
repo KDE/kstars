@@ -25,10 +25,7 @@
 
 // forward declaration is enough. We only need pointers
 class QPalette;
-class QVBoxLayout;
 class KActionMenu;
-class KDialogBase;
-class KToolBar;
 
 class dms;
 class KStarsData;
@@ -36,13 +33,10 @@ class KStarsSplash;
 class SkyMap;
 class GeoLocation;
 class FindDialog;
-class LocationDialog;
-class TimeDialog;
 class InfoBoxes;
 class ToggleAction;
 class TimeStepBox;
 
-class AstroCalc;
 class INDIMenu;
 class INDIDriver;
 class imagesequence;

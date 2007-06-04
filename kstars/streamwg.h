@@ -26,11 +26,9 @@
  
  
  class QImage;
- class QSocketNotifier;
- class VideoWG;
+  class VideoWG;
  class INDIStdDevice;
- class QPainter;
- class QVBoxLayout;
+  class QVBoxLayout;
  
 /* class StreamWGUI : public QFrame, public Ui::streamForm
  {
