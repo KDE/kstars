@@ -2,7 +2,7 @@ add_subdirectory( fli )
 add_subdirectory( webcam )
 add_subdirectory( apogee )
 
-include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../..  )
+include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../.. ${CFITSIO_INCLUDE_DIR} )
 
 
 option(ssh_tunnel "INDI Server binds locally. Remote clients may only connect via SSH Tunneling." OFF)
