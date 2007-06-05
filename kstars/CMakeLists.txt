@@ -11,17 +11,15 @@ Find_package(ZLIB REQUIRED)
 if (CFITSIO_FOUND)
   set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
-  set (CFITSIO_LIBRARIES cfitsio)
-else (CFITSIO_FOUND)
-  set (CFITSIO_INCLUDE_DIR "")
-  set (CFITSIO_LIBRARIES "")
 endif(CFITSIO_FOUND)
 
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
-        ${CFITSIO_INCLUDE_DIR}
 )
+if (CFITSIO_FOUND)
+  include_directories(${CFITSIO_INCLUDE_DIR})
+endif (CFITSIO_FOUND)
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
@@ -215,12 +213,14 @@ target_link_libraries(kstars
 	${KDE4_KDEPRINT_LIBS}
 	${KDE4_KNEWSTUFF2_LIBS}
 	${KDE4_KDE3SUPPORT_LIBS}
-	${CFITSIO_LIBRARIES}
 	SatLib
 	${ZLIB_LIBRARIES})
 if(NOT WIN32)
   target_link_libraries(kstars m)
 endif(NOT WIN32)
+if (CFITSIO_FOUND)
+  target_link_libraries(kstars ${CFITSIO_LIBRARIES})
+endif (CFITSIO_FOUND)
 
 install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
