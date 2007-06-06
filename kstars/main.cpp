@@ -186,6 +186,7 @@ int main(int argc, char *argv[])
 	}
 	
 	new KStars( true, ! args->isSet( "paused" ), datestring );
+	args->clear();
 	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return a.exec();
 
