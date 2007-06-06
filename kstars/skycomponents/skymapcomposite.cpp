@@ -386,19 +386,19 @@ QString SkyMapComposite::constellation( SkyPoint *p, QPolygonF *bound ) {
 
 	if(m_ConstellationNames.isEmpty()) {
 		foreach( SkyObject *p, m_CNames->objectList() ) {
-			QString longname = p->name().lower().replace( 0, 1, p->name().at(0).upper());
+			QString longname = p->name().toLower().replace( 0, 1, p->name().at(0).toUpper());
 			if ( longname.contains( " " ) ) {
 				int i = longname.indexOf(" ")+1;
-				longname.replace( i, 1, longname.at(i).upper() );
+				longname.replace( i, 1, longname.at(i).toUpper() );
 			}
-			m_ConstellationNames[ ( p->name2().upper() ) ] = longname;
+			m_ConstellationNames[ ( p->name2().toUpper() ) ] = longname;
 		}
 	}
 
 	if ( bound && name != i18n("Unknown") )
 		*bound = m_CBounds->boundary( name );
 
-	fullname = m_ConstellationNames[ name.upper() ];
+	fullname = m_ConstellationNames[ name.toUpper() ];
 	if( ! fullname.isEmpty() )
 		return fullname;
 	else
