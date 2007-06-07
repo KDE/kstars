@@ -76,7 +76,7 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 SkyObject::~SkyObject() {
 }
 
-void SkyObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createEmptyMenu( this ); pmenu->popup( pos );
 }
 

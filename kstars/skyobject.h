@@ -161,7 +161,7 @@ public:
 	*function gets called.  By overloading the function, we don't have to check the 
 	*object type when we need the menu.
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos );
+	virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
 /**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.

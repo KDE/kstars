@@ -28,9 +28,9 @@
 #include "geolocation.h"
 #include "skypoint.h"
 
-InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
-		QPoint gp, bool gshade, QPoint fp, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) :
+InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
+		const QPoint &gp, bool gshade, const QPoint &fp, bool fshade,
+		const QColor &colorText, const QColor &colorGrab, const QColor &colorBG ) :
 		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG),
 		GeoBox(0), FocusBox(0), TimeBox(0)
 {

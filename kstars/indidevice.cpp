@@ -646,7 +646,7 @@ INDI_P * INDI_D::findProp (const QString &name)
   return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (QString grouptag, 
+INDI_G *  INDI_D::findGroup (const QString &grouptag, 
 	int create, QString & errmsg)
 {
 
@@ -661,10 +661,11 @@ INDI_G *  INDI_D::findGroup (QString grouptag,
   /* couldn't find an existing group, create a new one if create is 1*/
   if (create)
   {
-    if (grouptag.isEmpty())
-    grouptag = QString("Group%1").arg(gl.size() + 1);
+    QString newgrouptag = grouptag;
+    if (newgrouptag.isEmpty())
+    newgrouptag = QString("Group%1").arg(gl.size() + 1);
 
-    curGroup = new INDI_G(this, grouptag);
+    curGroup = new INDI_G(this, newgrouptag);
     gl.append(curGroup);
     return curGroup;
   }

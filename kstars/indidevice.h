@@ -102,7 +102,7 @@ class INDI_D : public KDialog
    ******************************************************************/
    INDI_P *   findProp    (const QString &name);
    INDI_E *   findElem    (const QString &name);
-   INDI_G *   findGroup   (QString grouptag, int create, QString & errmsg);
+   INDI_G *   findGroup   (const QString &grouptag, int create, QString & errmsg);
    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, QString & errmsg);
 
    /*****************************************************************

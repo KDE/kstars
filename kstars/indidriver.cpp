@@ -700,7 +700,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     groupType = KSTARS_GPS;
 
 #ifndef HAVE_CFITSIO_H
-   // We dont create these groups if we don't have CFITSIO support
+   // We do not create these groups if we don't have CFITSIO support
    if (groupType == KSTARS_CCD || groupType == KSTARS_VIDEO)
 	return true;
 #endif

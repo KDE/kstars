@@ -52,7 +52,7 @@ InfoBox::InfoBox( int x, int y, bool shade, const QString &t1, const QString &t2
 	Visible = true;
 }
 
-InfoBox::InfoBox( QPoint pt, bool shade, const QString &t1, const QString &t2, const QString &t3 ) {
+InfoBox::InfoBox( const QPoint &pt, bool shade, const QString &t1, const QString &t2, const QString &t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
@@ -97,7 +97,7 @@ void InfoBox::updateSize() {
 //	kDebug() << "Size=" << Size.width() << "," << Size.height() << endl;
 }
 
-bool InfoBox::constrain( QRect r, bool inside ) {
+bool InfoBox::constrain( const QRect &r, bool inside ) {
 	if ( inside ) {
 		//Place InfoBox within QRect r:
 		if ( x() < r.x() ) move( r.x(), y() );
@@ -120,7 +120,7 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 	}
 }
 
-void InfoBox::draw( QPainter &p, QColor bgColor, unsigned int bgMode ) {
+void InfoBox::draw( QPainter &p, const QColor &bgColor, unsigned int bgMode ) {
 	QRect r;
 	int w,h;
 
@@ -169,7 +169,7 @@ void InfoBox::move( int x, int y ) {
 	Pos.setX( x ); Pos.setY( y ); emit moved( QPoint(x,y) );
 }
 
-void InfoBox::move( QPoint p ) {
+void InfoBox::move( const QPoint &p ) {
 	move( p.x(), p.y() ); emit moved( QPoint( p.x(), p.y() ) );
 }
 

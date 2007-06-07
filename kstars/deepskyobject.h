@@ -214,7 +214,7 @@ public:
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos );
+	virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos );
 
 private:
 	unsigned char Catalog; 

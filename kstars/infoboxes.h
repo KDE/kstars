@@ -97,12 +97,12 @@ public:
 	*@param colorBG The background color for infoboxes
 	*/
 	InfoBoxes( int w, int h,
-			QPoint tp, bool tshade,
-			QPoint gp, bool gshade,
-			QPoint fp, bool fshade,
-			QColor colorText=QColor("white"),
-			QColor colorGrab=QColor("red"),
-			QColor colorBG=QColor("black") );
+			const QPoint &tp, bool tshade,
+			const QPoint &gp, bool gshade,
+			const QPoint &fp, bool fshade,
+			const QColor &colorText=QColor("white"),
+			const QColor &colorGrab=QColor("red"),
+			const QColor &colorBG=QColor("black") );
 
 /**Destructor (empty)*/
 	~InfoBoxes();

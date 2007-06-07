@@ -134,7 +134,7 @@ void OpsColors::slotPreset( int index ) {
 	}
 }
 
-bool OpsColors::setColors( QString filename ) {
+bool OpsColors::setColors( const QString &filename ) {
 	QPixmap temp( 30, 20 );
 
 	//just checking if colorscheme is removable...

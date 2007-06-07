@@ -86,7 +86,7 @@ StarObject::StarObject( double r, double d, float m,
 	setLongName(lname);
 }
 
-void StarObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createStarMenu( this ); pmenu->popup( pos );
 }
 

@@ -49,7 +49,7 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, 		const QString &i
 	ImageAngle = 0.0;
 }
 
-void KSPlanetBase::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+void KSPlanetBase::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createPlanetMenu( this ); pmenu->popup( pos );
 }
 

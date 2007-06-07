@@ -72,7 +72,7 @@ AddCatDialog::~AddCatDialog(){
 
 void AddCatDialog::slotOk() {
 //Overriding slotOk() so that custom data file can be validated before
-//QDialog::accept() is emitted and the window is closed.
+//KDialog::accept() is emitted and the window is closed.
 
 //the validation code needs to be aware of AddCatDialog members, so I will just
 //emit the okClicked() signal, which is connected to AddCatDialog::validateFile()
@@ -228,7 +228,7 @@ void AddCatDialog::slotCreateCatalog() {
 			outStream << CatalogContents;
 			OutFile.close();
 
-			emit QDialog::accept();
+			emit KDialog::accept();
 			close();
 		}
 	}

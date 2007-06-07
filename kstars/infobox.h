@@ -62,7 +62,7 @@ public:
 		*@param t2 The second line of text
 		*@param t3 The third line of text
 		*/
-	InfoBox( QPoint p, bool shade, const QString &t1=QString(), const QString &t2=QString(), const QString &t3=QString() );
+	InfoBox( const QPoint &p, bool shade, const QString &t1=QString(), const QString &t2=QString(), const QString &t3=QString() );
 
 	/**Destructor (empty)*/
 	~InfoBox();
@@ -75,7 +75,7 @@ public:
 		*@see InfoBox::updateSize()
 		*@see InfoBox::constrain()
 		*/
-	void draw( QPainter &p, QColor BGColor, unsigned int BGMode );
+	void draw( QPainter &p, const QColor &BGColor, unsigned int BGMode );
 
 	/**Toggle the Shaded state of the box.
 		*/
@@ -92,7 +92,7 @@ public:
 		*only in the data type of its arguments.
 		*@param p the new (X,Y) position
 		*/
-	void move( QPoint p );
+	void move( const QPoint &p );
 
 	/**Reset the width and height.
 		*@param w the new width
@@ -115,7 +115,7 @@ public:
 		*@param inside if true (the default), the box must lie inside the rect r.  
 		*Otherwise, the box must lie *outside* rect r.
 		*/
-	bool constrain( QRect r, bool inside=true );
+	bool constrain( const QRect &r, bool inside=true );
 
 	/**Reset the first text string
 		*@param newt the new text.

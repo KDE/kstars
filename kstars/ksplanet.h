@@ -52,7 +52,7 @@ public:
 	*@param pSize physical diameter of the planet, in km
 	*/
 	explicit KSPlanet( KStarsData *kd, const QString &s="unnamed", const QString &image_file=QString(), 
-		QColor c=Qt::white, double pSize=0 );
+		const QColor & c=Qt::white, double pSize=0 );
 
 /**Destructor (empty)
 	*/

@@ -54,7 +54,7 @@ private slots:
 	void slotStarColorIntensity( int );
 
 private:
-	bool setColors( QString filename );
+	bool setColors( const QString &filename );
 
 	KStars *ksw;
 

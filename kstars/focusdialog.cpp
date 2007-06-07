@@ -96,7 +96,7 @@ void FocusDialog::validatePoint() {
 		Point.apparentCoord(jd0, ks->data()->ut().djd() );
 		Point.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
-		QDialog::accept();
+		KDialog::accept();
 	} else {
 		dms az(  fd->azBox->createDms( true, &azOk ) );
 		dms alt( fd->altBox->createDms( true, &altOk ) );
@@ -118,9 +118,9 @@ void FocusDialog::validatePoint() {
 
 			UsedAltAz = true;
 
-			QDialog::accept();
+			KDialog::accept();
 		} else {
-			QDialog::reject();
+			KDialog::reject();
 		}
 	}
 }

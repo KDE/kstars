@@ -70,7 +70,7 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
 	Image = 0;
 }
 
-void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) {
+void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {
     pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
 }
 
