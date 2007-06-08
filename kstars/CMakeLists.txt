@@ -13,9 +13,11 @@ if (CFITSIO_FOUND)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
 endif(CFITSIO_FOUND)
 
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+	${ZLIB_INCLUDE_DIR}
 )
 if (CFITSIO_FOUND)
   include_directories(${CFITSIO_INCLUDE_DIR})
