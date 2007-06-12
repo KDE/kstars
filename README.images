@@ -6,11 +6,13 @@
 ---------------------------------------------
 
 KStars uses images in the skymap that are under copyright.  
-In most cases, these images are freely available for 
-non-commercial uses.  When required, we have obtained 
-permission from the image's author.  For each image, we 
-credit the author or source and provide a link to their 
-website, when available.
+All of the images that ship with KStars are in the public 
+domain or have a permissive license.  Some images which are 
+available via the "Get New Stuff" tool are free for 
+non-commercial use only; these images are listed here as well.
+When required, we have obtained permission from the image's 
+author.  For each image, we credit the author or source and 
+provide a link to their website, when available.
 
 Key:
 FFNP:     Free for non-profit/non-commercial use
@@ -32,7 +34,8 @@ ING:      Isaac Newton Group of Telescopes (La Palma)
 NASA/GSFC:Nat'l Aeronautics and Space Admin./Goddard Spaceflight Center
 
 
-Messier Catalog Inline Image Credits:
+Messier Catalog Inline Image Credits (these are not shipped 
+with KStars; they are available via the "Get New Stuff" tool):
 
 M   1: Till Credner and Sven Kohle (FFNP)
 M   2: Doug Williams, N. A.Sharp NOAO/AURA/NSF (FFE/FFNP)
