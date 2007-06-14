@@ -18,7 +18,6 @@
 #ifndef SATELLITECOMPONENT_H
 #define SATELLITECOMPONENT_H
 
-#include <QStringList>
 
 #include "linelistcomponent.h"
 extern "C" {

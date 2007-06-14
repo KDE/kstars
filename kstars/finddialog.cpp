@@ -19,7 +19,6 @@
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
-#include <QStringList>
 #include <QTimer>
 
 #include <kmessagebox.h>

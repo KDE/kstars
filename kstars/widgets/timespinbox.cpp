@@ -23,7 +23,6 @@
 
 #include <QFontMetrics>
 #include <QLineEdit>
-#include <QStringList>
 
 #include <kdebug.h>
 #include <klocale.h>

@@ -30,7 +30,6 @@
 
 #include <QImage>
 #include <QPainter>
-#include <QStringList>
 #include <QDir>
 #include <QLayout>
 #include <QResizeEvent>

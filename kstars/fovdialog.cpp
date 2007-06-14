@@ -20,7 +20,6 @@
 #include <QFile>
 #include <QFrame>
 #include <QPainter>
-#include <QStringList>
 #include <QTextStream>
 #include <QPaintEvent>
 

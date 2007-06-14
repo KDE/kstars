@@ -19,7 +19,6 @@
 #define SKYMAPCOMPOSITE_H
 
 #include <QList>
-#include <QStringList>
 
 #include "skycomposite.h"
 

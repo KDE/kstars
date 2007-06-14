@@ -20,7 +20,6 @@
 #include <stdlib.h>
 
 #include <QRegExp>
-#include <QStringList>
 
 #include <kglobal.h>
 #include <klocale.h>

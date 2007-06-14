@@ -13,7 +13,6 @@
 
 #include <QObject>
 #include <QTimer>
-#include <QStringList>
 
 #include <kdebug.h>
 #include <kmessagebox.h>
