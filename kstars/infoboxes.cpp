@@ -62,7 +62,7 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
 
 InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 		int gx, int gy, bool gshade, int fx, int fy, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) :
+		const QColor &colorText, const QColor &colorGrab, const QColor &colorBG ) :
 		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG) {
 
 	GrabbedBox = 0;
@@ -95,8 +95,8 @@ void InfoBoxes::resize( int w, int h ) {
 	checkBorders(false);
 }
 
-void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
-		QColor bgColor, unsigned int bgMode ) {
+void InfoBoxes::drawBoxes( QPainter &p, const QColor &FGColor, const QColor &grabColor,
+		const QColor &bgColor, unsigned int bgMode ) {
 	if ( isVisible() ) {
 		if ( GeoBox->isVisible() ) {
 			p.setPen( QPen( FGColor ) );

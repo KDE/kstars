@@ -75,9 +75,9 @@ public:
 			int tx=0, int ty=0, bool tshade=false,
 			int gx=0, int gy=600, bool gshade=false,
 			int fx=600, int fy=0, bool fshade=false,
-			QColor colorText=QColor("white"),
-			QColor colorGrab=QColor("red"),
-			QColor colorBG=QColor("black") );
+			const QColor &colorText=QColor("white"),
+			const QColor &colorGrab=QColor("red"),
+			const QColor &colorBG=QColor("black") );
 
 /**Constructor.  Create three infoboxes and place them in the skymap.
 	*Differs from the above function only in the types of its arguments.
@@ -140,8 +140,8 @@ public:
 	*@param BGColor The background color (brush color) to use
 	*@param BGMode  0=no BG fill; 1=transparent BG fill; 2=Opaque BG fill.
 	*/
-	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
-			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),
+	void drawBoxes( QPainter &p, const QColor &FGColor=QColor("white"),
+			const QColor &grabColor=QColor("red"), const QColor &BGColor=QColor("black"),
 			unsigned int BGMode=0 );
 	
 /**Determine whether a mouse click occurred inside one of the infoboxes.
