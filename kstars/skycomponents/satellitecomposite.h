@@ -18,6 +18,7 @@
 #ifndef SATELLITECOMPOSITE_H
 #define SATELLITECOMPOSITE_H
 
+#include <QStringList>
 #include <QVector>
 
 #include "skycomposite.h"

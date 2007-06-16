@@ -21,9 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "ApnSerial.h"
 #include "stdafx.h"
 #include "apogee.h"
-#include "ApnSerial.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

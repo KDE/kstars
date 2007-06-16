@@ -22,7 +22,6 @@
  #include "skymap.h"
 
  #include "indi/base64.h"
- #include "indi/indicom.h"
 
  #include <kmenu.h>
  #include <klineedit.h>

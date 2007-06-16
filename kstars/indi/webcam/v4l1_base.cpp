@@ -20,10 +20,9 @@
 
 */
 
-#include <iostream>
-
 #include "v4l1_base.h"
 
+#include <iostream>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>

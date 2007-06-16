@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcvlsr.h"
+
 #include <kfiledialog.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
-
-#include "modcalcvlsr.h"
 
 #include "ksnumbers.h"
 #include "dms.h"

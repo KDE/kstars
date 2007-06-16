@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "satellitecomponent.h"
 #include "satellitecomposite.h"
+#include "satellitecomponent.h"
 
 #include <QFile>
 #include <QFileInfo>

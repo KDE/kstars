@@ -18,6 +18,8 @@
 
 #endif
 
+#include "celestrongps.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +29,6 @@
 #include <time.h>
 
 #include "celestronprotocol.h"
-#include "celestrongps.h"
 
 #define mydev 		"Celestron GPS"
 

@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "astrocalc.h"
+
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTreeWidget>
 #include <QTextEdit>
 #include <klocale.h>
 
-#include "astrocalc.h"
 #include "dms.h"
 #include "modcalcjd.h"
 #include "modcalcgeodcoord.h"

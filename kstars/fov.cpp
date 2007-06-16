@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "fov.h"
+
 #include <qpainter.h>
 #include <qfile.h>
 //Added by qt3to4:
@@ -22,8 +24,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-
-#include "fov.h"
 
 FOV::FOV( const QString &n, float sz, int sh, const QString &col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
 {}

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "modcalcprec.h"
+
 //#include <qcheckbox.h>
 //#include <qradiobutton.h>
 //#include <qtextstream.h>
@@ -23,7 +25,6 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "modcalcprec.h"
 #include "modcalcprec.moc"
 #include "skypoint.h"
 #include "dms.h"

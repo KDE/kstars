@@ -17,7 +17,6 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
-#include <QPixmap>
 
 #include <kicon.h>
 

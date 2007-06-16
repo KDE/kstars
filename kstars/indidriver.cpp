@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "indidriver.h"
+
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -38,7 +40,6 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 
-#include "indidriver.h"
 #include "indimenu.h"
 #include "ui_indihostconf.h"
 #include "devicemanager.h"
