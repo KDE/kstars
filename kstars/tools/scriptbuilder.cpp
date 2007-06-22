@@ -27,7 +27,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kio/netaccess.h>
-#include <k3process.h>
+#include <kprocess.h>
 #include <kstandardguiitem.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
@@ -1048,15 +1048,20 @@ void ScriptBuilder::slotRunScript() {
 	f.close();
 
 	//set rwx for owner, rx for group, rx for other
-	chmod( f.fileName().toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+	chmod( QFile::encodeName( f.fileName() ), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
 
-	K3Process p;
+	KProcess p;
 	p << f.fileName();
-	if ( ! p.start( K3Process::DontCare ) )
-		kDebug() << "Process did not start." << endl;
+	p.start();
 
-	while ( p.isRunning() ) qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
+	if( !p.waitForStarted() )
+            kDebug() << "Process did not start." << endl;
 
+	while ( !p.waitForFinished(10) ) {
+	    qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
+	    if( p.state() != QProcess::Running )
+		break;
+        }
 	//delete temp file
 	if ( f.exists() ) f.remove();
 
@@ -1064,6 +1069,9 @@ void ScriptBuilder::slotRunScript() {
 //	show();
 }
 
+/*
+  This can't work anymore and is also not protable in any way :(
+*/
 void ScriptBuilder::writeScript( QTextStream &ostream ) {
 	QString mainpre  = "dcop $KSTARS $MAIN  ";
 	QString clockpre = "dcop $KSTARS $CLOCK ";

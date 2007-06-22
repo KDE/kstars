@@ -34,7 +34,7 @@
 #include <KLineEdit>
 
 #include <kstandarddirs.h>
-#include <k3process.h>
+#include <kprocess.h>
 #include <kaction.h>
 #include <k3serversocket.h>
 #include <kactioncollection.h>
@@ -428,7 +428,7 @@ bool INDIDriver::runDevice(IDevice *dev)
    return false;
   }
 
-  dev->proc = new K3Process;
+  dev->proc = new KProcess;
 
   *dev->proc << "indiserver";
   *dev->proc << "-v" << "-r" << "0" << "-p" << QString::number(dev->indiPort) << dev->driver;
@@ -441,12 +441,13 @@ bool INDIDriver::runDevice(IDevice *dev)
   else
     ui->localTreeWidget->currentItem()->setIcon(2, ui->serverMode);
 
-  connect(dev->proc, SIGNAL(receivedStderr (K3Process *, char *, int)),  dev, SLOT(processstd(K3Process *, char*, int)));
+  connect(dev->proc, SIGNAL(readyReadStandardError  ()),  dev, SLOT(processstd()));
 
-  dev->proc->start(K3Process::NotifyOnExit, K3Process::Stderr);
+  dev->proc->start();
+  dev->proc->setReadChannel(QProcess::StandardError);
   //dev->proc->start();
 
-  return (dev->proc->isRunning());
+  return (dev->proc->waitForStarted());
 }
 
 void INDIDriver::removeDevice(IDevice *dev)
@@ -573,7 +574,8 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
      {
        if (!dev->proc)
         return false;
-       else return (dev->proc->isRunning());
+       else
+        return (dev->proc->state() == QProcess::Running);
      }
 
     return false;
@@ -998,9 +1000,9 @@ IDevice::IDevice(const QString &inLabel, const QString &inDriver, const QString 
 
 }
 
-void IDevice::processstd(K3Process* /*proc*/, char* buffer, int /*buflen*/)
+void IDevice::processstd()
 {
-  serverBuffer.append(buffer);
+  serverBuffer.append(proc->readAllStandardError());
   emit newServerInput();
 }
 

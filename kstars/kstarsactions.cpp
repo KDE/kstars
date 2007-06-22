@@ -40,7 +40,7 @@
 #include <kinputdialog.h>
 #include <kmenu.h>
 #include <kstatusbar.h>
-#include <k3process.h>
+#include <kprocess.h>
 #include <kdeversion.h>
 #include <ktoolbar.h>
 #include <kedittoolbar.h>
@@ -589,11 +589,17 @@ void KStars::slotRunScript() {
 		//Add statusbar message that script is running
 		statusBar()->changeItem( i18n( "Running script: %1", fileURL.fileName() ), 0 );
 
-		K3Process p;
+		KProcess p;
 		p << f.fileName();
-		p.start( K3Process::DontCare );
+		p.start();
+		if( !p.waitForStarted() )
+		  return;
 
-		while ( p.isRunning() ) qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
+		while ( p.waitForFinished( 10 ) ) {
+		    qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
+		    if( p.state() != QProcess::Running )
+		        break;
+		}
 	}
 }
 
