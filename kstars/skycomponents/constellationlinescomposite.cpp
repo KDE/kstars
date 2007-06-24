@@ -28,9 +28,9 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "skyline.h"
+#include "skyobject.h"
 
-ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent, KStarsData * )
+ConstellationLinesComposite::ConstellationLinesComposite( SkyComponent *parent )
   : SkyComposite( parent )
 {
 }
@@ -59,8 +59,6 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 		QTextStream stream( &file );
 		ConstellationLinesComponent *clc=0;
 
-		SkyPoint *p, *pLast = 0;
-
 		while ( !stream.atEnd() ) {
 			QString line, name;
 			QChar mode;
@@ -80,22 +78,15 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 					if ( clc ) addComponent( clc );
 					clc = new ConstellationLinesComponent( this, Options::showCLines );
 					clc->setPen( QPen( QBrush( data->colorScheme()->colorNamed( "CLineColor" ) ), 1, Qt::SolidLine ) ); 
-
-					pLast = (SkyPoint*) data->skyComposite()->findStarByGenetiveName( name );
-
-					if ( ! pLast )
-						kWarning() << i18n( "No star named %1 found." , name) << endl;
-
-				} else {
-					p = (SkyPoint*) data->skyComposite()->findStarByGenetiveName( name );
-
-					if ( p && pLast && clc ) {
-						clc->lineList().append( new SkyLine( pLast, p ) );
-					} else if ( !p )
-						kWarning() << i18n( "No star named %1 found." , name) << endl;
-
-					pLast = p;
 				}
+
+				SkyObject *star = data->skyComposite()->findStarByGenetiveName( name );
+				if ( star && clc ) {
+					SkyPoint p( star->ra(), star->dec() );
+					p.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+					clc->appendPoint( p );
+				} else if ( !star )
+					kWarning() << i18n( "No star named %1 found." , name) << endl;
 			}
 		}
 		file.close();

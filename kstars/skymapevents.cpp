@@ -333,6 +333,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kDebug() << "Use Antialiasing: " << Options::useAntialias() << endl;
 			forceUpdate();
 			break;
+
+		//Test code: create a SkyLine
+		case Qt::Key_V:
+			kDebug() << "Create a skyline: " << endl;
+			SkyLine sl( SkyPoint( 12.34, 33.50 ), SkyPoint( 14.00, 40.00 ) );
+			kDebug() << "  " << sl.points().size() << " :: "
+					<< sl.point(0)->ra()->toHMSString() << " : " 
+					<< sl.point(1)->ra()->toHMSString() << endl;
+
+			SkyPoint p( 11.75, 30.25 );
+			sl.setPoint( 1, &p );
+			kDebug() << "  " << sl.points().size() << " :: "
+					<< sl.point(0)->ra()->toHMSString() << " : " 
+					<< sl.point(1)->ra()->toHMSString() << endl;
 	}
 
 	setOldFocus( focus() );

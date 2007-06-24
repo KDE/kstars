@@ -26,86 +26,104 @@ class KStarsData;
 /**
 	*@class SkyLine
 	*
-	*A line segment in the sky, composed of the two SkyPoints at its endpoints.
-	*SkyLines are used for constellation lines and boundaries, the coordinate 
-	*grid and the equator, ecliptic and horizon.
+	*A series of connected line segments in the sky, composed of SkyPoints at 
+	*its vertices.  SkyLines are used for constellation lines and boundaries, 
+	*the coordinate grid, and the equator, ecliptic and horizon.
 	*
-	*@note the SkyLine is always a straight line, it is not the 
-	*Great Circle segment joining the two endpoints.  Therefore, line segments 
+	*@note the SkyLine segments are always straight lines, they are not 
+	*Great Circle segments joining the two endpoints.  Therefore, line segments 
 	*that need to follow great circles must be approximated with many short 
-	*SkyLines.
+	*SkyLine segments.
 	*/
 class SkyLine {
 	public:
 		/**
-			*Default Constructor.  Create a null SkyLine.
+			*Default Constructor (empty).
 			*/
-		SkyLine() { m_p1 = SkyPoint( 0.0, 0.0 ); m_p2 = SkyPoint( 0.0, 0.0 ); }
+		SkyLine();
 
 		/**
-			*Constructor.  Create a SkyLine with the endpoints given as 
-			*arguments.
-			*@param p1 Reference to the SkyLine's start point.
-			*@param p2 Reference to the SkyLine's end point.
+			*Constructor.  Create a SkyLine with a single segment.
+			*@param start Reference to the segment's start point.
+			*@param end Reference to the segment's end point.
 			*/
-		SkyLine( const SkyPoint &start, const SkyPoint &end ) { m_p1 = start; m_p2 = end; }
+		SkyLine( const SkyPoint &start, const SkyPoint &end );
 
 		/**
-			*Constructor.  Create a SkyLine with the endpoints given as 
-			*arguments.
+			*Constructor.  Create a SkyLine with a single segment.
 			*@param start Pointer to the SkyLine's start point.
 			*@param end Pointer to the SkyLine's end point.
 			*/
-		SkyLine( SkyPoint *start, SkyPoint *end ) { m_p1 = *start; m_p2 = *end; }
+		SkyLine( SkyPoint *start, SkyPoint *end );
+
+		/**
+			*Constructor.  Create a SkyLine from an existing list of SkyPoints.
+			*@param list the list of SkyPoints.
+			*/
+		SkyLine( QList<SkyPoint*> list );
 
 		/**
 			*Destructor (empty)
 			*/
-			~SkyLine() {}
+			~SkyLine();
 
 		/**
-			*@return a const pointer to the SkyLine's start point
+			*Append a segment to the list by adding a new endpoint.
+			*@param p the new endpoint to be added
 			*/
-		inline SkyPoint* startPoint() { return &m_p1; }
+		void append( SkyPoint *p );
 
 		/**
-			*@return a const pointer to the SkyLine's end point
+			*Append a segment to the list by adding a new endpoint.
+			*@param p the new endpoint to be added
 			*/
-		inline SkyPoint* endPoint() { return &m_p2; }
+		void append( const SkyPoint &p );
 
 		/**
-			*Set the SkyLine's start point
-			*@param p1 the new start point
+			*@return a const pointer to a point in the SkyLine
+			*param i the index position of the point
 			*/
-		inline void setStartPoint( const SkyPoint &p1 ) { m_p1 = p1; }
-		inline void setStartPoint( SkyPoint *p1 ) { m_p1 = *p1; }
+		inline SkyPoint* point( int i ) const { return m_pList[i]; }
+
+		inline QList<SkyPoint*>& points() { return m_pList; }
 
 		/**
-			*Set the SkyLine's end point
-			*@param p2 the new end point
+			*Set point i in the SkyLine
+			*@param i the index position of the point to modify
+			*@param p1 the new SkyPoint
 			*/
-		inline void setEndPoint( const SkyPoint &p2 ) { m_p2 = p2; }
-		inline void setEndPoint( SkyPoint *p2 ) { m_p2 = *p2; }
+		void setPoint( int i, SkyPoint *p );
 
 		/**
-			*@return the angle subtended by the SkyLine
+			*@return the angle subtended by any line segment along the SkyLine.
+			*@param i the index of the line segment to be measured.
+			*If no argument is given, the first segment is assumed.
 			*/
-		dms angularSize();
+		dms angularSize( int i=0 ) const;
 
-		void setAngularSize( double size );
+//DEPRECATE: this was only used in SatelliteComponent, internalize it there
+//		/**
+//			*@short Change the length of a line segment.
+//			*Modifies segment i to length size, without changing its 
+//			*starting point or position angle.
+//			*@note subsequent segments are not moved; this is probably only useful 
+//			*for single-segment lines.
+//			*/
+//		void setAngularSize( int i, double size );
 
 		/**
-			*@return the SkyLine's position angle on the sky
+			*@return the SkyLine segment's position angle on the sky
+			*@param i the index of the line segment to be measured.
 			*/
-		dms positionAngle();
+		dms positionAngle( int i=0 ) const;
 
-		void rotate( const dms &angle );
+//DEPRECATE: this was only used in SatelliteComponent, internalize it there
+//		void rotate( const dms &angle );
 
 		void update( KStarsData *data, KSNumbers *num=0 );
 
 	private:
-		SkyPoint m_p1;
-		SkyPoint m_p2;
+		QList<SkyPoint*> m_pList;
 };
 
 #endif

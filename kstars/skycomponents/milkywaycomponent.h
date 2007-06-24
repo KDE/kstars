@@ -75,8 +75,6 @@ class MilkyWayComponent : public LineListComponent
 			*/
 		virtual void init(KStarsData *data);
 	
-		void addPoint( const SkyPoint &p );
-		
 		QHash<int, bool> skip;
  private:
 		SkyPoint *FirstPoint;

@@ -41,7 +41,7 @@ SolarSystemListComponent::~SolarSystemListComponent()
 	//Object deletes handled by parent class (ListComponent)
 }
 
-void SolarSystemListComponent::update(KStarsData *data, KSNumbers *num ) {
+void SolarSystemListComponent::update(KStarsData *data, KSNumbers * ) {
 	if ( visible() ) {
 		foreach ( SkyObject *o, objectList() ) {
 			KSPlanetBase *p = (KSPlanetBase*)o;

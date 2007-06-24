@@ -58,7 +58,6 @@ class EquatorComponent: public LineListComponent
 		 *@p data Pointer to the KStarsData object
 		 */
 		virtual void init(KStarsData *data);
-		
 };
 
 #endif

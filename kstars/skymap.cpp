@@ -424,10 +424,10 @@ void SkyMap::slotEndAngularDistance() {
 		//end point to the position of the SkyObject
 		double maxrad = 1000.0/Options::zoomFactor();
 		if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
-			AngularRuler.setEndPoint( *so );
+			AngularRuler.setPoint( 1, so );
 			sbMessage = so->translatedLongName() + "   ";
 		} else
-			AngularRuler.setEndPoint( mousePoint() );
+			AngularRuler.setPoint( 1, mousePoint() );
 		
 		angularDistance = AngularRuler.angularSize();
 		sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
@@ -452,8 +452,7 @@ void SkyMap::slotImage() {
 	KUrl url ( sURL );
 	if ( url.isEmpty() ) return;
 
-	ImageViewer *iv = ks->addImageViewer( url, clickedObject()->messageFromTitle(message) );
-//	iv->show();
+	ks->addImageViewer( url, clickedObject()->messageFromTitle(message) );
 }
 
 void SkyMap::slotInfo() {
@@ -908,37 +907,84 @@ QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *onscre
 
 //Return the on-screen portion of the given SkyLine, if any portion of it 
 //is onscreen
-QLineF SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
-	bool on1, on2;
+QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
+	QList<QPointF> screenLine;
+	
+	//Initialize spLast to the first point
+	SkyPoint *spLast = line->point(0);
+	bool on(false), onLast(false); //on-screen flags
 
-	QPointF p1 = toScreen( line->startPoint(), scale, oRefract, &on1 );
-	QPointF p2 = toScreen( line->endPoint(), scale, oRefract, &on2 );
+	foreach ( SkyPoint *sp, line->points() ) {
+		QPointF p = toScreen( sp, scale, oRefract, &on );
+		QPointF pLast = toScreen( spLast, scale, oRefract,&onLast );
 
-	//If either endpoint is undefined; return a null line
-	//FIXME: it's possible that we'll need to do more if only one endpoint 
-	//is undefined...
-	if ( p1.x() < -1000000. || p2.x() < -1000000. )
-		return QLine();
+		//Make sure the point is not null
+		if ( ! isPointNull( p ) ) {
 
-	//If not clipping the line, or both endpoints are onscreen, return the line between them
-	if ( ! doClipLines || (on1 && on2) ) {
-		return QLineF( p1, p2 );
+			//If either this point or the previous are offscreen
+			//and the user wants clipped lines, then we have to 
+			//interpolate to find the intersection of the line 
+			//segment with the screen edge
+			if ( doClipLines ) {
+				clipLine( p, pLast );
+				if ( ! isPointNull( p ) ) {
+					screenLine.append( pLast );
+					screenLine.append( p );
+				}
+			}
+			//If the current point is onscreen, add it to the list
+			else if ( on ) {
+				//First, add pLast if it is offscreen
+				if ( !onLast ) 
+					screenLine.append( pLast );
+
+				screenLine.append( p );
+			}
+		}
+
+		spLast = sp;
 	}
 
-	//If we get here, both endpoints are defined, but at least one is offscreen.
-	//Find the point(s) at which the line intersects the rectangle of the SkyMap.
-	//NOTE: even if both endpoints are offscreen, it's possible that a segment 
-	//of the line is onscreen
-	float w = (float)width();
-	float h = (float)height();
+	return screenLine;
+}
+
+void SkyMap::clipLine( QPointF &p1, QPointF &p2 ) {
+	//If the SkyMap rect contains both points or either point is null, 
+	//we can return immediately
+	if ( isPointNull( p1 ) || isPointNull( p2 ) )
+		return;
+	bool on1 = rect().contains( p1.toPoint() );
+	bool on2 = rect().contains( p2.toPoint() );
+	if ( on1 && on2 )
+		return;
+
+	//Given two points defining a line segment, determine the 
+	//endpoints of the segment which is clipped by the boundaries 
+	//of the SkyMap QRectF.
 	QLineF screenLine( p1, p2 );
-	QLine topEdge( rect().topLeft(), rect().topRight() );
-	QLine bottomEdge( rect().bottomLeft(), rect().bottomRight() );
-	QLine leftEdge( rect().topLeft(), rect().bottomLeft() );
-	QLine rightEdge( rect().topRight(), rect().bottomRight() );
+
+	//Define screen edges to be just beyond the rect() bounds, so that clipped 
+	//positions are considered "offscreen"
+	QPoint topLeft( rect().left()-1, rect().top()-1 );
+	QPoint bottomLeft( rect().left()-1, rect().top() + width()+1 );
+	QPoint topRight( rect().left() + rect().width()+1, rect().top()-1 );
+	QPoint bottomRight( rect().left() + rect().width()+1, rect().top() + width()+1 );
+	QLine topEdge( topLeft, topRight );
+	QLine bottomEdge( bottomLeft, bottomRight );
+	QLine leftEdge( topLeft, bottomLeft );
+	QLine rightEdge( topRight, bottomRight );
 
 	QPointF edgePoint1;
 	QPointF edgePoint2;
+
+	//If both points are offscreen in the same direction, return a null point.
+	if ( ( p1.x() <= topLeft.x() && p2.x() <= topLeft.x() ) ||
+				( p1.y() <= topLeft.y() && p2.y() <= topLeft.y() ) ||
+				( p1.x() >= topRight.x() && p2.x() >= topRight.x() ) ||
+				( p1.y() >= bottomLeft.y() && p2.y() >= bottomLeft.y() ) ) {
+		p1 = QPointF( -10000000., -10000000. );
+		return;
+	}
 
 	//When an intersection betwen the line and a screen edge is found, the 
 	//intersection point is stored in edgePoint2.
@@ -952,8 +998,16 @@ QLineF SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClip
 		if ( edgePoint2.isNull() ) 
 			edgePoint2 = edgePoint1;
 		else {
-			//Two intersection points found.  Return this line
-			return QLineF( edgePoint1, edgePoint2 );
+			//Two intersection points found.  Return this line segment
+			//First make sure that edgePoint1 corresponds to p1
+			if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+				p1 = edgePoint1;
+				p2 = edgePoint2;
+			} else {
+				p1 = edgePoint2;
+				p2 = edgePoint1;
+			}
+			return;
 		}
 	}
 
@@ -961,8 +1015,16 @@ QLineF SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClip
 		if ( edgePoint2.isNull() ) 
 			edgePoint2 = edgePoint1;
 		else {
-			//Two intersection points found.  Return this line
-			return QLineF( edgePoint1, edgePoint2 );
+			//Two intersection points found.  Return this line segment
+			//First make sure that edgePoint1 corresponds to p1
+			if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+				p1 = edgePoint1;
+				p2 = edgePoint2;
+			} else {
+				p1 = edgePoint2;
+				p2 = edgePoint1;
+			}
+			return;
 		}
 	}
 	
@@ -970,27 +1032,42 @@ QLineF SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClip
 		if ( edgePoint2.isNull() ) 
 			edgePoint2 = edgePoint1;
 		else {
-			//Two intersection points found.  Return this line
-			return QLineF( edgePoint1, edgePoint2 );
+			//Two intersection points found.  Return this line segment
+			//First make sure that edgePoint1 corresponds to p1
+			if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+				p1 = edgePoint1;
+				p2 = edgePoint2;
+			} else {
+				p1 = edgePoint2;
+				p2 = edgePoint1;
+			}
+			return;
 		}
 	}
 	
 	//If we get here, zero or one intersection point was found.
-	//If no intersection points were found, the line is offscreen
-	if ( edgePoint2.isNull() )
-		return QLineF();
+	//If no intersection points were found, the line must be totally offscreen
+	//return a null point
+	if ( edgePoint2.isNull() ) {
+		p1 = QPointF( -10000000., -10000000. );
+		return;
+	}
 
 	//If one intersection point was found, then one of the original endpoints
 	//was onscreen.  Return the line that connects this point to the edgePoint
 
 	//edgePoint2 is the one defined edgePoint.
-	if ( on2 ) return QLineF( edgePoint2, p2 );
-	return QLineF( p1, edgePoint2 );
+	if ( on2 ) 
+		p1 = edgePoint2;
+	else 
+		p2 = edgePoint2;
+
+	return;
 }
 
-QLine SkyMap::toScreenI( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
-	return toScreen( line, scale, oRefract, doClipLines ).toLine();
-}
+// QLine SkyMap::toScreenI( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
+// 	return toScreen( line, scale, oRefract, doClipLines ).toLine();
+// }
 
 SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {
 	//Determine RA and Dec of a point, given (dx, dy): it's pixel
@@ -1121,8 +1198,11 @@ float SkyMap::fov() {
 }
 
 bool SkyMap::checkVisibility( SkyLine *sl ) {
-	return ( checkVisibility( sl->startPoint() ) 
-				|| checkVisibility( sl->endPoint() ) );
+	foreach ( SkyPoint *p, sl->points() )
+		if ( checkVisibility( p ) )
+			return true;
+
+	return false;
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p ) {
@@ -1308,12 +1388,22 @@ void SkyMap::updateAngleRuler() {
 	double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
 
 	if (! unusablePoint (dx, dy)) {
-		AngularRuler.setEndPoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+		SkyPoint p = fromScreen( dx, dy, data->LST, data->geo()->lat() );
+		AngularRuler.setPoint( 1, &p );
 	}
+
+	//DEBUG
+	kDebug() << "AngRuler: " << AngularRuler.point(0)->ra()->toHMSString() << " :: " << AngularRuler.point(1)->ra()->toHMSString() << endl;
+
 }
 
 bool SkyMap::isSlewing() const  {
 	return (slewing || ( clockSlewing && data->clock()->isActive() ) );
+}
+
+bool SkyMap::isPointNull( const QPointF &p ) {
+	if ( p.x() < -100000. ) return true;
+	return false;
 }
 
 #include "skymap.moc"

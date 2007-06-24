@@ -136,10 +136,11 @@ set(libkstarscomponents_SRCS
    skycomponents/starcomponent.cpp 
    skycomponents/deepskycomponent.cpp 
    skycomponents/customcatalogcomponent.cpp 
+   skycomponents/constellationboundarycomposite.cpp 
+   skycomponents/constellationboundarycomponent.cpp 
    skycomponents/constellationlinescomposite.cpp 
    skycomponents/constellationlinescomponent.cpp 
    skycomponents/constellationnamescomponent.cpp 
-   skycomponents/constellationboundarycomponent.cpp 
    skycomponents/coordinategridcomposite.cpp 
    skycomponents/coordinategridcomponent.cpp 
    skycomponents/eclipticcomponent.cpp 

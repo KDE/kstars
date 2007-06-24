@@ -28,7 +28,6 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h"
-#include "skyline.h"
 #include "dms.h"
 #include "Options.h"
 #include "ksutils.h"
@@ -46,22 +45,6 @@ MilkyWayComponent::~MilkyWayComponent()
 
 void MilkyWayComponent::init(KStarsData *)
 {
-}
-
-void MilkyWayComponent::addPoint( const SkyPoint &p )
-{
-	if ( lineList().size() == 0 ) {
-		if ( ! FirstPoint ) {
-			FirstPoint = new SkyPoint( p );
-			return;
-		}
-
-		lineList().append( new SkyLine( *FirstPoint, p ) );
-		return;
-	}
-	
-	SkyPoint *pLast = lineList().last()->endPoint();
-	lineList().append( new SkyLine( *pLast, p ) );
 }
 
 void MilkyWayComponent::draw(KStars *ks, QPainter& psky, double scale)
@@ -182,18 +165,10 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 	
 	if ( Options::fillMilkyWay() ) {
 		//Construct a QPolygonF from the on-screen line segments
-		foreach ( SkyLine *sl, lineList() ) {
-			//Last argument: don't clip lines that are partly off-screen
-			QLineF screenline = map->toScreen( sl, scale, true, false );
-			
-			if ( ! screenline.isNull() ) {
-				//Add both end-points if this is the first segment
-				if ( ! polyMW.size() )
-					polyMW << screenline.p1() << screenline.p2();
-				else
-					polyMW << screenline.p2();
-			}
-		}
+		QList<QPointF> pList = map->toScreen( &(skyLine()), scale, Options::useRefraction(), false );
+
+		foreach ( QPointF p, pList )
+			polyMW << p;
 		
 		if ( polyMW.size() ) {
 			psky.drawPolygon( polyMW );
@@ -201,13 +176,9 @@ void MilkyWayComponent::drawFloat( KStars *ks, QPainter& psky, double scale )
 
 	} else { //Draw MW outline only
 		//Draw all non-hidden, onscreen line segments
-		
-		int limit = lineList().size() - 1;   // because we appended 1st point
-		// to end of list so we can
-		// clip and wrap the polygons
-		for ( int i=1 ; i < limit ; i++ ) {
+		for ( int i=1 ; i < lineList().size() ; i++ ) {
 			if ( ! skip.contains(i) )
-				psky.drawLine( map->toScreen( lineList().at(i), scale ) );
+				psky.drawLine( map->toScreen( lineList().at(i), scale ), map->toScreen( lineList().at(i-1), scale ) );
 		}
 	}
 }

@@ -24,18 +24,18 @@
 #include <QPen>
 
 #include "skycomponent.h"
+#include "skyline.h"
 
 class KStars;
-class SkyLine;
 
 /**
- *@class LineListComponent
- *An abstract parent class, to be inherited by SkyComponents that store a QList
- *of SkyLines.
- *
- *@author Jason Harris
- *@version 0.1
- */
+	*@class LineListComponent
+	*An abstract parent class, to be inherited by SkyComponents that store 
+	*a SkyLine (which contains a list of connected line segments)
+	*
+	*@author Jason Harris
+	*@version 0.1
+	*/
 class LineListComponent : public SkyComponent
 {
 	public:
@@ -46,14 +46,14 @@ class LineListComponent : public SkyComponent
 		
 		enum { NoLabel = 0, LeftEdgeLabel = 1, RightEdgeLabel = 2, UnknownLabel };
 
-		const QString& label() const { return Label; }
-		void setLabel( const QString &label ) { Label = label; }
+		inline const QString& label() const { return Label; }
+		inline void setLabel( const QString &label ) { Label = label; }
 
-		int labelPosition() const { return LabelPosition; }
-		void setLabelPosition( int Pos ) { LabelPosition = Pos; }
+		inline int labelPosition() const { return LabelPosition; }
+		inline void setLabelPosition( int Pos ) { LabelPosition = Pos; }
 
-		const QPen& pen() const { return Pen; }
-		void setPen( const QPen &p ) { Pen = p; }
+		inline const QPen& pen() const { return Pen; }
+		inline void setPen( const QPen &p ) { Pen = p; }
 
 		/**Draw the list of objects on the SkyMap*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
@@ -78,11 +78,13 @@ class LineListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
-		QList<SkyLine*>& lineList() { return m_LineList; }
+		inline const QList<SkyPoint*>& lineList() { return m_SkyLine.points(); }
+		inline SkyLine& skyLine() { return m_SkyLine; }
+		inline void appendPoint( const SkyPoint &p ) { m_SkyLine.append( p ); }
 
 	private:
 		SkyComponent *Parent;
-		QList<SkyLine*> m_LineList;
+		SkyLine m_SkyLine;
 		int LabelPosition;
 		QString Label;
 		QPen Pen;

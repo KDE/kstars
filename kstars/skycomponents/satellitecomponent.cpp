@@ -35,25 +35,19 @@ SatelliteComponent::~SatelliteComponent() {
 }
 
 void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionSat *pSat[], int npos ) {
-	SkyPoint p1, p2;
-
 	setLabel( name );
 	setLabelPosition( LineListComponent::RightEdgeLabel );
 
 	setPen( QPen( QBrush( data->colorScheme()->colorNamed( "SatColor" ) ), 
 										 2.5, Qt::SolidLine ) );
 
-	p2.setAlt( pSat[0]->sat_ele );
-	p2.setAz( pSat[0]->sat_azi );
-	p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+	for ( int i=0; i<npos; i++ ) {
+		SkyPoint p;
+		p.setAlt( pSat[i]->sat_ele );
+		p.setAz( pSat[i]->sat_azi );
+		p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
-	for ( uint i=1; i<npos; i++ ) {
-		p1 = p2;
-		p2.setAlt( pSat[i]->sat_ele );
-		p2.setAz( pSat[i]->sat_azi );
-		p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-
-		lineList().append( new SkyLine( p1, p2 ) );
+		appendPoint( p );
 		jdList().append( pSat[i]->jd );
 
 	}
@@ -70,59 +64,55 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	//as the julian day.  Parse these days, and interpolate to find 
 	//times with :00 seconds (e.g., 12:34:00)
 	KStarsDateTime dtLast( jdList()[0] );
-	for ( uint i=1; i<jdList().size(); ++i ) {
+	for ( int i=1; i<jdList().size(); ++i ) {
 		KStarsDateTime dt( jdList()[i] );
-		SkyLine *sl = lineList()[i];
-		SkyLine *sl2;
+		SkyPoint *sp = lineList()[i];
+		SkyPoint *sp2;
 		if ( i<lineList().size()-1 )
-			sl2 = lineList()[i+1];
+			sp2 = lineList()[i+1];
 		else
-			sl2 = lineList()[i-1];
+			sp2 = lineList()[i-1];
 
-		if ( sl->startPoint()->alt()->Degrees() > 0.0 
+		if ( sp->alt()->Degrees() > 0.0 
 				 && dt.time().minute() != dtLast.time().minute() ) {
 			double t1 = double(dtLast.time().second());
 			double t2 = double(dt.time().second()) + 60.0;
 			double f = ( 60.0 - t1 )/( t2 - t1 );
 
-			//Create a SkyLine which is a tickmark at the position along 
-			//the track corresponding to the even-second time.
+			//Determine the position of the tickmark along 
+			//the track, corresponding to the even-second time.
 			//f is the fractional distance between the endpoints.
-			SkyLine *sl = lineList()[i];
-			double ra = f*sl->endPoint()->ra()->Hours() 
-				+ (1.0-f)*sl->startPoint()->ra()->Hours();
-			double dc = f*sl->endPoint()->dec()->Degrees() 
-				+ (1.0-f)*sl->startPoint()->dec()->Degrees();
-			SkyPoint sp(ra, dc);
-			SkyLine satTick( &sp, sl2->endPoint() );
+			double ra = f*sp->ra()->Hours() + (1.0-f)*sp2->ra()->Hours();
+			double dc = f*sp->dec()->Degrees() + (1.0-f)*sp2->dec()->Degrees();
+			SkyPoint sTick1(ra, dc);
+			sTick1.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
 
-			//satTick is a skyline that starts at the tick position,
-			//and is parallel to the satellite track.  We want to change 
-			//the endpoint so it's perpendicular to the track, and 
-			//change its length to be a few pixels
-//			satTick.rotate( 90.0 );
-			satTick.setAngularSize( 300/Options::zoomFactor() );
-			satTick.startPoint()->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
-			satTick.endPoint()->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+			//To draw a line perpendicular to the satellite track at the position of the tick,
+			//We take advantage of QLineF::normalVector().  So first generate a QLineF that 
+			//lies along the satellite track, from sTick1 to sp2 (which is a nearby position 
+			//along the track).  Then change its length to 10 pixels, and finall use 
+			//normalVector() to rotate it 90 degrees.
+			QLineF seg( ks->map()->toScreen( &sTick1, scale ), ks->map()->toScreen( sp2, scale ) );
+			seg.setLength( 10.0 );
+			QLineF tick = seg.normalVector();
 
-			QLineF tick = ks->map()->toScreen( &satTick, scale );
-			double labelpa = atan2( tick.dy(), tick.dx() )/dms::DegToRad;
-			QLineF tick2 = tick.normalVector();
-			if ( tick2.y2() < tick2.y1() ) {
+			//If the tick is extending below the satellite track, rotate it by 180 degrees
+			if ( tick.y2() < tick.y1() ) {
 				//Rotate tick by 180 degrees
-				double x1 = tick2.x1();
-				double y1 = tick2.y1();
-				tick2 = QLineF( x1, y1, x1 - tick2.dx(), y1 - tick2.dy() );
+				double x1 = tick.x1();
+				double y1 = tick.y1();
+				tick = QLineF( x1, y1, x1 - tick.dx(), y1 - tick.dy() );
 			}
-			psky.drawLine( tick2 );
+			psky.drawLine( tick );
 
 			//Now, add a label to the tickmark showing the time
+			double labelpa = atan2( tick.dy(), tick.dx() )/dms::DegToRad;
 			if ( labelpa > 270.0 ) labelpa -= 360.0;
 			else if ( labelpa > 90.0 ) labelpa -= 180.0;
 			else if ( labelpa < -270.0 ) labelpa += 360.0;
 			else if ( labelpa < -90.0  ) labelpa += 180.0;
 
-			QTime tlabel = dt.time().addSecs( 3600.0*ks->data()->geo()->TZ() );
+			QTime tlabel = dt.time().addSecs( int(3600.0*ks->data()->geo()->TZ()) );
 			psky.save();
 			QFont stdFont( psky.font() );
 			QFont smallFont( stdFont );
@@ -140,4 +130,4 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	}
 
 }
-	
+

@@ -334,6 +334,8 @@ public:
 
 	bool isSlewing() const;
 
+	bool isPointNull( const QPointF &p );
+
 /**@short update the geometry of the angle ruler
  */
 	void updateAngleRuler();
@@ -363,14 +365,17 @@ public:
     
 /**@short Draw a clipped line from p1 to p2
  */
-    void drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
+//DEPRECATED
+//    void drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
 
 /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
  * between *p1 and *p2 that just clips.
  */
-    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
+//DEPRECATED
+//    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
     
-    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
+//DEPRECATED
+//    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
     
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
@@ -399,10 +404,12 @@ public:
 	*if false, do not use refraction regardless of user option
 	*@param doClipLines if true, lines will be truncated at the screen edge
 	*/
-	QLineF toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
+	QList<QPointF> toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
 
-	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
-    
+//	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
+
+	void clipLine( QPointF &p1, QPointF &p2 );
+
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
 	*@param dx horizontal pixel offset from center of SkyMap.

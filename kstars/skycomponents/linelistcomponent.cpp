@@ -17,14 +17,15 @@
 
 #include "linelistcomponent.h"
 
+#include <math.h> //fabs()
 #include <QtAlgorithms>
 #include <QPainter>
 
-#include "skyline.h" 
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "dms.h"
+#include "Options.h"
 
 LineListComponent::LineListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 	: SkyComponent( parent, visibleMethod ), LabelPosition( NoLabel ), 
@@ -34,98 +35,132 @@ LineListComponent::LineListComponent( SkyComponent *parent, bool (*visibleMethod
 
 LineListComponent::~LineListComponent()
 {
-	qDeleteAll( m_LineList );
 }
 
 void LineListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( visible() ) {
-		foreach ( SkyLine *sl, lineList() ) {
-			sl->update( data, num );
-		}
-	}
+	if ( visible() ) 
+		m_SkyLine.update( data, num );
 }
 
 void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	if ( ! visible() ) return;
 
 	SkyMap *map = ks->map();
-	KStarsData *data = ks->data();
 
 	psky.setPen( pen() );
 
-	QLineF segment;
-	QLineF segLeft = QLineF();   //the segment that intersects the left edge
-	QLineF segRight = QLineF();   //the segment that intersects the right edge
-	QLineF segTop = QLineF();    //the segment that intersects the top edge
-	QLineF segBottom = QLineF(); //the segment that intersects the bottom edge
+	QList<QPointF> pList;
+	int iLeft = -1;   //the segment that intersects the left edge
+	int iRight = -1;  //the segment that intersects the right edge
+	int iTop = -1;    //the segment that intersects the top edge
+	int iBottom = -1; //the segment that intersects the bottom edge
 
-	foreach ( SkyLine *sl, lineList() ) {
-		if ( map->checkVisibility( sl ) ) {
-			segment = map->toScreen( sl, scale );
+	//Each SkyLine is a series of line segments in the celestial coordinate system.  
+	//Transform each segment to screen coordinates, and draw the segments that are on-screen
+	pList = map->toScreen( &m_SkyLine, scale, Options::useRefraction(), true /*clip offscreen segments*/ );
 
-			if ( ! segment.isNull() ) { 
-				psky.drawLine( segment );
-				
-				if ( LabelPosition != NoLabel ) {
-					//Identify segLeft, the segment which brackets x=20.
-					if ( ( segment.x1() >= 20.0 && segment.x2() < 20.0 ) ||
-							 ( segment.x2() >= 20.0 && segment.x1() < 20.0 ) )
-						segLeft = segment;
+	//highZoomFactor = true when FOV is less than 1 degree (1/57.3 radians)
+	bool highZoomFactor( false );
+	if ( Options::zoomFactor() > map->width()*57.3 )
+		highZoomFactor = true;
 
-					//Identify segRight, the segment which brackets x=width-60.
-					if ( ( segment.x1() >= map->width()-60.0 && segment.x2() < map->width()-60.0 ) ||
-							 ( segment.x2() >= map->width()-60.0 && segment.x1() < map->width()-60.0 ) )
-						segRight = segment;
+	QPointF pLast( -10000000., -10000000. );
+	foreach ( QPointF p, pList ) {
+		if ( ! map->isPointNull( pLast ) && ! map->isPointNull( p ) ) {
 
-					//Identify segTop, the segment which brackets y=10.
-					if ( ( segment.y1() >= 20.0 && segment.y2() < 20.0 ) ||
-							 ( segment.y2() >= 20.0 && segment.y1() < 20.0 ) ) 
-						segTop = segment;
+			if ( fabs(p.x()-pLast.x()) < map->width() || highZoomFactor )
+				psky.drawLine( pLast, p );
 
-					//Identify segBottom, the segment which brackets y=height-30.
-					if ( ( segment.y1() >= map->height()-30.0 && segment.y2() < map->height()-30.0 ) ||
-							 ( segment.y2() >= map->height()-30.0 && segment.y1() < map->height()-30.0 ) )
-						segBottom = segment;
-				}
-			}
+			//Next, identify the index of the point whose segment brackets
+			//the left-edge position (x=20), the right-edge position (x=width()-60),
+			//the top-edge position (y=20), and the bottom-edge pos. (y=height()-30)
+			float xLeft = 20.;
+			float xRight = psky.window().width() - 60.;
+			float yTop = 20.;
+			float yBottom = psky.window().height() - 30.;
+			if ( (p.x() >= xLeft && pLast.x() < xLeft) || (pLast.x() >= xLeft && p.x() < xLeft) )
+				iLeft = pList.indexOf( p );
+			if ( (p.x() >= xRight && pLast.x() < xRight) || (pLast.x() >= xRight && p.x() < xRight) )
+				iRight = pList.indexOf( p );
+			if ( (p.y() >= yTop && pLast.y() < yTop) || (pLast.y() >= yTop && p.y() < yTop) )
+				iTop = pList.indexOf( p );
+			if ( (p.y() >= yBottom && pLast.y() < yBottom) || (pLast.y() >= yBottom && p.y() < yBottom) )
+				iBottom = pList.indexOf( p );
 		}
+
+		pLast = p;
 	}
 
+	//Now label the LineListComponent.  We have stored the index of line segments 
+	//near each edge of the screen.  Draw the label near one of these segments,
+	//according to the value of LabelPosition
 	if ( LabelPosition != NoLabel ) {
+		//Make sure we have at least one edge segment defined
+		if ( iLeft < 0 && iRight < 0 && iTop < 0 && iBottom < 0 ) return;
+
 		//Draw the label at segLeft or segRight.  If this segment is undefined,
 		//choose segTop or segBottom, wheichever is further left or right
-		segment = segLeft;
-		double tx = 20.0;
-		double ty = segment.y1() - 5.0;
-		if ( LabelPosition == RightEdgeLabel ) {
-			segment = segRight;
-			tx = map->width() - 60.0;
-			ty = segment.y1() - 5.0;
-		}
-		
-		if ( segment.isNull() ) {
-			if ( segTop.isNull() && segBottom.isNull() ) //No segments found for label
-				return;
-			
-			if ( ! segTop.isNull() && ! segBottom.isNull() ) {
-				segment = segBottom;
-				if ( ( LabelPosition == LeftEdgeLabel && segTop.x1() < segBottom.x1() ) ||
-						 ( LabelPosition == RightEdgeLabel && segTop.x1() > segBottom.x1() ) )
-					segment = segTop;
-				
-			} else if ( ! segTop.isNull() ) {
-				segment = segTop;
-			} else if ( ! segBottom.isNull() ) {
-				segment = segBottom;
+		int iLabel;
+		double tx;
+		double ty;
+
+		if ( LabelPosition == LeftEdgeLabel ) {
+			if ( iLeft >= 0 ) {
+				iLabel = iLeft;
+				tx = 20.0;
+				ty = pList[iLabel].y() - 5.0;
+
+			//if iLeft is undefined, try the top or bottom edge, whichever is further left
+			} else {
+				if ( iTop >= 0 && iBottom >= 0 ) {
+					if ( pList[iTop].x() < pList[iBottom].x() ) 
+						iLabel = iTop;
+					else
+						iLabel = iBottom;
+				} else if ( iTop >= 0 ) {
+					iLabel = iTop;
+
+				} else if ( iBottom >= 0 ) {
+					iLabel = iBottom;
+				}
+
+				tx = pList[iLabel].x();
+				ty = pList[iLabel].y() - 5.0;
 			}
-
-			tx = segment.x1();
-			ty = segment.y1() - 5.0;
 		}
 
-		double sx = double( segment.x1() - segment.x2() );
-		double sy = double( segment.y1() - segment.y2() );
+		if ( LabelPosition == RightEdgeLabel ) {
+			if ( iRight >= 0 ) {
+				iLabel = iRight;
+				tx = psky.window().width() - 60.0;
+				ty = pList[iLabel].y() - 5.0;
+
+			//if iRight is undefined, try the top or bottom edge, whichever is further right
+			} else {
+				if ( iTop >= 0 && iBottom >= 0 ) {
+					if ( pList[iTop].x() > pList[iBottom].x() ) 
+						iLabel = iTop;
+					else
+						iLabel = iBottom;
+				} else if ( iTop >= 0 ) {
+					iLabel = iTop;
+
+				} else if ( iBottom >= 0 ) {
+					iLabel = iBottom;
+				}
+
+				tx = pList[iLabel].x();
+				ty = pList[iLabel].y() - 5.0;
+			}
+		}
+
+		if ( iLabel == 0 )
+			iLabel = 1;
+
+
+		double sx = double( pList[iLabel].x() - pList[iLabel-1].x() );
+		double sy = double( pList[iLabel].y() - pList[iLabel-1].y() );
 		double angle = atan2( sy, sx )*180.0/dms::PI;
 		if ( sx < 0.0 ) angle -= 180.0;
 
@@ -133,7 +168,7 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 		psky.translate( tx, ty );
 		
 		psky.rotate( double( angle ) );  //rotate the coordinate system
-		psky.drawText( 0.0, 0.0, Label );
+		psky.drawText( 0, 0, Label );
 		psky.restore(); //reset coordinate system
 	}
 }

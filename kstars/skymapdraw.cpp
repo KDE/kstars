@@ -56,94 +56,96 @@ void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     *z = sinDec;
 }
 
-void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale )
-{
-/**
- if both points are clipped: do nothing
- if no   points are clipped: draw the line
- if one    point is clipped: find approx point on edge and draw to it.
+//DEPRECATED
+// void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale )
+// {
+// /**
+//  if both points are clipped: do nothing
+//  if no   points are clipped: draw the line
+//  if one    point is clipped: find approx point on edge and draw to it.
+// 
+// We do the interpolation in x-y-z space because interpolation in [ra, dec] gives
+// weird results, especially around the poles.
+// **/
+// 	bool onscreen1, onscreen2;
+//     QPointF o1, o2, oMid;
+//     o1 = toScreen( p1, scale, Options::useRefraction(), &onscreen1 );
+//     o2 = toScreen( p2, scale, Options::useRefraction(), &onscreen2 );
+// 
+//     if (!onscreen1 && !onscreen2 ) {
+//         return;
+//     }
+//     else if (onscreen1 && onscreen2 ) {
+//          psky.drawLine( o1, o2 );
+//     }
+//     else if (onscreen1) {
+//         oMid = clipLine( p1, p2, scale );
+//         psky.drawLine( o1, oMid );
+//     }
+//     else {
+//         oMid = clipLine( p2, p1, scale );
+//         psky.drawLine ( o2, oMid );
+//     }
+// }
 
-We do the interpolation in x-y-z space because interpolation in [ra, dec] gives
-weird results, especially around the poles.
-**/
-	bool onscreen1, onscreen2;
-    QPointF o1, o2, oMid;
-    o1 = toScreen( p1, scale, Options::useRefraction(), &onscreen1 );
-    o2 = toScreen( p2, scale, Options::useRefraction(), &onscreen2 );
-
-    if (!onscreen1 && !onscreen2 ) {
-        return;
-    }
-    else if (onscreen1 && onscreen2 ) {
-         psky.drawLine( o1, o2 );
-    }
-    else if (onscreen1) {
-        oMid = clipLine( p1, p2, scale );
-        psky.drawLine( o1, oMid );
-    }
-    else {
-        oMid = clipLine( p2, p1, scale );
-        psky.drawLine ( o2, oMid );
-    }
-}
-
-QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
-{
-/* ASSUMES p1 was not clipped but p2 was. 
- * Return the QPoint that barely clips in the line twixt p1 and p2.
- */              
-    int iteration = 15;         // For "perfect" clipping:
-                                // 2^interations should be >= max pixels/line
-    bool onscreen = true;       // so we start at midpoint
-    SkyPoint mid;
-    QPointF oMid;
-    double x, y, z, dx, dy, dz, ra, dec;
-    int newx, newy, oldx, oldy;
-    oldx = oldy = -10000;        // any old value that is not the first omid
-    
-    toXYZ( p1, &x, &y, &z );
-    toXYZ( p2, &dx, &dy, &dz );
-    dx -= x;
-    dy -= y;
-    dz -= z;
-    // Successive approximation to point on line that just clips.
-    while(iteration-- > 0) {
-        dx *= .5;
-        dy *= .5;
-        dz *= .5;
-        if ( ! onscreen ) {              // move back toward visible p1
-            x -= dx;
-            y -= dy;
-            z -= dz;
-        }
-        else {                        // move out toward clipped p2
-            x += dx;
-            y += dy;
-            z += dz;
-        }
-        // [x, y, z] => [ra, dec] 
-        ra = atan2( y, x );
-        dec = asin( z / sqrt(x*x + y*y + z*z) );
-        
-        mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-        oMid = toScreen( &mid, scale, Options::useRefraction(), &onscreen );
-        newx = (int) oMid.x();
-        newy = (int) oMid.y();
-        if ( (oldx == newx) && (oldy == newy) ) {
-            break;
-        }
-        oldx = newx;
-        oldy = newy;
-    }
-    return  oMid;
-}
-
-QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale) {
-    QPointF qpf = clipLine( p1, p2, scale );
-    return QPoint( (int) qpf.x(), (int) qpf.y() );
-}
+//DEPRECATED
+// QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
+// {
+// /* ASSUMES p1 was not clipped but p2 was. 
+//  * Return the QPoint that barely clips in the line twixt p1 and p2.
+//  */              
+//     int iteration = 15;         // For "perfect" clipping:
+//                                 // 2^interations should be >= max pixels/line
+//     bool onscreen = true;       // so we start at midpoint
+//     SkyPoint mid;
+//     QPointF oMid;
+//     double x, y, z, dx, dy, dz, ra, dec;
+//     int newx, newy, oldx, oldy;
+//     oldx = oldy = -10000;        // any old value that is not the first omid
+//     
+//     toXYZ( p1, &x, &y, &z );
+//     toXYZ( p2, &dx, &dy, &dz );
+//     dx -= x;
+//     dy -= y;
+//     dz -= z;
+//     // Successive approximation to point on line that just clips.
+//     while(iteration-- > 0) {
+//         dx *= .5;
+//         dy *= .5;
+//         dz *= .5;
+//         if ( ! onscreen ) {              // move back toward visible p1
+//             x -= dx;
+//             y -= dy;
+//             z -= dz;
+//         }
+//         else {                        // move out toward clipped p2
+//             x += dx;
+//             y += dy;
+//             z += dz;
+//         }
+//         // [x, y, z] => [ra, dec] 
+//         ra = atan2( y, x );
+//         dec = asin( z / sqrt(x*x + y*y + z*z) );
+//         
+//         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
+//         mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+// 
+//         oMid = toScreen( &mid, scale, Options::useRefraction(), &onscreen );
+//         newx = (int) oMid.x();
+//         newy = (int) oMid.y();
+//         if ( (oldx == newx) && (oldy == newy) ) {
+//             break;
+//         }
+//         oldx = newx;
+//         oldy = newy;
+//     }
+//     return  oMid;
+// }
+// 
+// QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale) {
+//     QPointF qpf = clipLine( p1, p2, scale );
+//     return QPoint( (int) qpf.x(), (int) qpf.y() );
+// }
 
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
@@ -174,8 +176,8 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 void SkyMap::drawAngleRuler( QPainter &p ) {
 	p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 1.0, Qt::DotLine ) );
 
-	QPointF startPoint = toScreen( AngularRuler.startPoint() );
-	QPointF endPoint = toScreen( AngularRuler.endPoint() );
+	QPointF startPoint = toScreen( AngularRuler.point(0) );
+	QPointF endPoint = toScreen( AngularRuler.point(1) );
 	p.drawLine( startPoint, endPoint );
 }
 

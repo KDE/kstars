@@ -54,7 +54,7 @@ MilkyWayComposite::MilkyWayComposite( SkyComponent *parent, bool (*visibleMethod
 		if ( first || line.at( 0 ) == 'M' )  {
 			if ( !first ) {
 				// wrap polygon back to first point 
-				poly->addPoint( SkyPoint( startRa, startDec ) );
+				poly->appendPoint( SkyPoint( startRa, startDec ) );
 				poly =  new MilkyWayComponent( this, visibleMethod );
 				addComponent( poly );
 			}
@@ -63,13 +63,13 @@ MilkyWayComposite::MilkyWayComposite( SkyComponent *parent, bool (*visibleMethod
 			first = false;
 			index = 0;
 		}
-		poly->addPoint( SkyPoint(ra, dec) );
+		poly->appendPoint( SkyPoint(ra, dec) );
 		if ( line.at( 0 ) == 'S' ) poly->skip[index] = true;
 		index++;
 	}
 	// wrap last polygon
 	if ( !first ) {
-		poly->addPoint( SkyPoint(startRa, startDec) );
+		poly->appendPoint( SkyPoint(startRa, startDec) );
 		poly->skip[index] = true;                    // not really needed
 	}
 }

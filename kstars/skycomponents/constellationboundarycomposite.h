@@ -1,5 +1,5 @@
 /***************************************************************************
-               constellationlinescomposite.h  -  K Desktop Planetarium
+               constellationboundarycomposite.h  -  K Desktop Planetarium
                              -------------------
     begin                : 25 Oct. 2005
     copyright            : (C) 2005 by Jason Harris
@@ -15,20 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATIONLINESCOMPOSITE_H
-#define CONSTELLATIONLINESCOMPOSITE_H
+#ifndef CONSTELLATIONBOUNDARYCOMPOSITE_H
+#define CONSTELLATIONBOUNDARYCOMPOSITE_H
 
 #include "skycomposite.h"
 
+#include <QHash>
+#include <QPolygonF>
+
 /**
-	*@class ConstellationLinesComposite
-	*Collection of lines making the 88 constellations
+	*@class ConstellationBoundaryComposite
+	*Collection of lines comprising the borders between constellations
 
 	*@author Jason Harris
 	*@version 0.1
 	*/
 
-class ConstellationLinesComposite : public SkyComposite 
+class ConstellationBoundaryComposite : public SkyComposite 
 {
 	public:
 	/**
@@ -37,19 +40,27 @@ class ConstellationLinesComposite : public SkyComposite
 		*(meridians and parallels)
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationLinesComposite( SkyComponent *parent );
+		ConstellationBoundaryComposite( SkyComponent *parent );
 
 	/**
-		*@short Initialize the Constellation lines composite
+		*@short Initialize the Constellation boundary composite
+		*Reads the constellation boundary data from cbounds.dat.  
+		*The boundary data is defined by a series of RA,Dec coordinate pairs 
+		*defining the "nodes" of the boundaries.  The nodes are organized into 
+		*"segments", such that each segment represents a continuous series 
+		*of boundary-line intervals that divide two particular constellations.
 		*
-		*Reads the constellation lines data from clines.dat.
-		*Each line in the file contains a command character ("M" means move to 
-		*this position without drawing a line, "D" means draw a line from 
-		*the previous position to this one), followed by the genetive name of 
-		*a star, which marks the position of the constellation node.
-		*@p data Pointer to the KStarsData object
+		*@param data Pointer to the KStarsData object
 		*/
 		virtual void init( KStarsData *data );
+
+		QPolygonF boundary( const QString &name ) const;
+
+		QString constellation( SkyPoint *p );
+		bool inConstellation( const QString &name, SkyPoint *p );
+
+	private:
+		QHash<QString, QPolygonF> Boundary;
 };
 
 

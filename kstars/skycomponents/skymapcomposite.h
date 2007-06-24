@@ -24,7 +24,7 @@
 
 class QPolygonF;
 
-class ConstellationBoundaryComponent;
+class ConstellationBoundaryComposite;
 class ConstellationLinesComposite;
 class ConstellationNamesComponent;
 class CoordinateGridComposite;
@@ -174,7 +174,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void progressText( const QString &message );
 
 	private:
-		ConstellationBoundaryComponent *m_CBounds;
+		ConstellationBoundaryComposite *m_CBounds;
 		ConstellationNamesComponent *m_CNames;
 		ConstellationLinesComposite *m_CLines;
 		CoordinateGridComposite *m_CoordinateGrid;

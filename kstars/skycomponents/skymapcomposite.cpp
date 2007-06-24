@@ -27,7 +27,7 @@
 #include "deepskyobject.h"
 #include "ksplanet.h"
 
-#include "constellationboundarycomponent.h"
+#include "constellationboundarycomposite.h"
 #include "constellationlinescomposite.h"
 #include "constellationnamescomponent.h"
 #include "coordinategridcomposite.h"
@@ -52,9 +52,9 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 	addComponent( m_Stars );
 	m_CoordinateGrid = new CoordinateGridComposite( this, &Options::showGrid );
 	addComponent( m_CoordinateGrid );
-	m_CBounds = new ConstellationBoundaryComponent( this, &Options::showCBounds );
+	m_CBounds = new ConstellationBoundaryComposite( this );
 	addComponent( m_CBounds );
-	m_CLines = new ConstellationLinesComposite( this, data );
+	m_CLines = new ConstellationLinesComposite( this );
 	addComponent( m_CLines );
 	m_CNames = new ConstellationNamesComponent( this, &Options::showCNames );
 	addComponent( m_CNames );
@@ -192,7 +192,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 	//12. Satellite tracks
 //	t.start();
-	m_Satellites->draw( ks, psky, scale );
+//SATELLITE_DISABLE
+//	m_Satellites->draw( ks, psky, scale );
 //	kDebug() << QString("Satellites  : %1 ms").arg( t.elapsed() ) << endl;
 
 	//13. Object name labels

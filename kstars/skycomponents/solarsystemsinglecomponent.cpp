@@ -51,7 +51,7 @@ void SolarSystemSingleComponent::init(KStarsData *) {
 		objectNames(ksp()->type()).append( ksp()->longname() );
 }
 
-void SolarSystemSingleComponent::update(KStarsData *data, KSNumbers *num) {
+void SolarSystemSingleComponent::update(KStarsData *data, KSNumbers *) {
 	if ( visible() )
 		ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
