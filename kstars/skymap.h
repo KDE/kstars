@@ -371,11 +371,9 @@ public:
 /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
  * between *p1 and *p2 that just clips.
  */
-//DEPRECATED
-//    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
     
-//DEPRECATED
-//    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
     
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
@@ -385,12 +383,13 @@ public:
 	*@param useRefraction true = use Options::useRefraction() value.  
 	*false = do not use refraction.  This argument is only needed 
 	*for the Horizon, which should never be refracted.
-	*@param onscreen pointer to a bool to indicate whether the point is onscreen
+	*@param onVisibleHemisphere pointer to a bool to indicate whether the point is
+    * on the visible part of the Celestial Sphere.
 	*/
-	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
+	QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
 	QPointF toScreenQuaternion( SkyPoint *o, double scale=1.0 );
 
-	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onscreen=NULL);
+	QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
 
 /**
 	*@return the given SkyLine, transformed to screen pixel coordinates.
@@ -405,6 +404,24 @@ public:
 	*@param doClipLines if true, lines will be truncated at the screen edge
 	*/
 	QList<QPointF> toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
+
+/** 
+    *@return whether the give QPoint is on the SkyMap.
+    */
+
+    bool onScreen( QPoint &point );
+/** 
+    *@return whether the give QPointF is on the SkyMap.
+    */
+
+    bool onScreen( QPointF &pointF );
+
+/**
+   *@return true if the line connecting the two points is possibly on screen.
+   * will return some false postives.
+   */
+    bool onScreen( QPointF &p1, QPointF &p2 );
+    bool onScreen( QPoint &p1, QPoint &p2 );
 
 //	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
 

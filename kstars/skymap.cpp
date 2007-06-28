@@ -782,7 +782,7 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o, double scale ) {
 	return p;
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onscreen) {
+QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onVisibleHemisphere) {
 
 	QPointF p;
 	double Y, dX;
@@ -825,11 +825,11 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onscre
 		p.setX( 0.5*Width  - zoomscale*dX );
 		p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
 		
-		if ( onscreen != NULL ) {
-			if ( rect().contains( p.toPoint() ) )
-				*onscreen = true;
+		if ( onVisibleHemisphere != NULL ) {
+			if ( rect().contains( p.toPoint() ) )  //FIXME -jbb
+				*onVisibleHemisphere = true;
 			else
-				*onscreen = false;
+				*onVisibleHemisphere = false;
 		}
 
 		return p;
@@ -851,15 +851,21 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onscre
 	//c is the cosine of the angular distance from the center
 	double c = sinY0*sinY + cosY0*cosY*cosdX;
 
+    if (onVisibleHemisphere != NULL) {
+        *onVisibleHemisphere = true;
+    }
+
 	if ( c < 0.0 ) { 
 		//Object is on "back side" of the celestial sphere; 
 		//Set null coordinates and return
-		p.setX( -10000000. );
-		p.setY( -10000000. );
-		if ( onscreen != NULL)
-			*onscreen = false;
-
-		return p;
+        if (onVisibleHemisphere == NULL) {
+		    p.setX( -10000000. );
+		    p.setY( -10000000. );
+            return p;
+        }
+        else {
+			*onVisibleHemisphere = false;
+        }
 	}
 
 	double k;
@@ -891,19 +897,38 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onscre
 	p.setX( 0.5*Width  - zoomscale*k*cosY*sindX );
 	p.setY( 0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 
-	if ( onscreen != NULL ) {
-		if ( rect().contains( p.toPoint() ) )
-			*onscreen = true;
-		else
-			*onscreen = false;
-	}
-
 	return p;
 }
 
-QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *onscreen) {
-	return toScreen( o, scale, oRefract, onscreen ).toPoint();
+QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *onVisibleHemisphere) {
+	return toScreen( o, scale, oRefract, onVisibleHemisphere ).toPoint();
 }
+
+bool SkyMap::onScreen( QPoint &point ) {
+    return rect().contains( point ); 
+}
+
+bool SkyMap::onScreen( QPointF &pointF ) {
+    return rect().contains( pointF.toPoint() ); 
+}
+
+bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
+	if ( ( p1.x() < 0        && p2.x() < 0 ) ||
+         ( p1.y() < 0        && p2.y() < 0 ) ||
+         ( p1.x() > width()  && p2.x() > width() ) ||
+         ( p1.y() > height() && p2.y() >= height() ) ) return false;
+    return true;
+}
+
+bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
+	if ( ( p1.x() < 0        && p2.x() < 0 ) ||
+         ( p1.y() < 0        && p2.y() < 0 ) ||
+         ( p1.x() > width()  && p2.x() > width() ) ||
+         ( p1.y() > height() && p2.y() >= height() ) ) return false;
+    return true;
+}
+
+
 
 //Return the on-screen portion of the given SkyLine, if any portion of it 
 //is onscreen

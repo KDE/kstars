@@ -21,6 +21,8 @@
 #define NCIRCLE 360   //number of segments used to define equator, ecliptic and horizon
 
 #include <QList>
+#include <QPointF>
+
 #include <QPen>
 
 #include "skycomponent.h"
@@ -56,8 +58,10 @@ class LineListComponent : public SkyComponent
 		inline void setPen( const QPen &p ) { Pen = p; }
 
 		/**Draw the list of objects on the SkyMap*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		virtual void draw( KStars *ks, QPainter& psky, double scale );
 		
+        void drawLabels( KStars *ks, QPainter &psky, double scale, QList<QPointF> &pList );
+
 		/**Draw the object, if it is exportable to an image
 		*@see isExportable()
 		*/

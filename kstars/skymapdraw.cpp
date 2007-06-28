@@ -56,96 +56,71 @@ void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     *z = sinDec;
 }
 
-//DEPRECATED
-// void SkyMap::drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale )
-// {
-// /**
-//  if both points are clipped: do nothing
-//  if no   points are clipped: draw the line
-//  if one    point is clipped: find approx point on edge and draw to it.
-// 
-// We do the interpolation in x-y-z space because interpolation in [ra, dec] gives
-// weird results, especially around the poles.
-// **/
-// 	bool onscreen1, onscreen2;
-//     QPointF o1, o2, oMid;
-//     o1 = toScreen( p1, scale, Options::useRefraction(), &onscreen1 );
-//     o2 = toScreen( p2, scale, Options::useRefraction(), &onscreen2 );
-// 
-//     if (!onscreen1 && !onscreen2 ) {
-//         return;
-//     }
-//     else if (onscreen1 && onscreen2 ) {
-//          psky.drawLine( o1, o2 );
-//     }
-//     else if (onscreen1) {
-//         oMid = clipLine( p1, p2, scale );
-//         psky.drawLine( o1, oMid );
-//     }
-//     else {
-//         oMid = clipLine( p2, p1, scale );
-//         psky.drawLine ( o2, oMid );
-//     }
-// }
+QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
+{
+/* ASSUMES p1 was not clipped but p2 was. 
+ * Return the QPoint that barely clips in the line twixt p1 and p2.
+ */              
+    int iteration = 15;          // For "perfect" clipping:
+                                 // 2^interations should be >= max pixels/line
+    bool isVisible = true;       // so we start at midpoint
+    SkyPoint mid;
+    QPointF oMid;
+    double x, y, z, dx, dy, dz, ra, dec;
+    int newx, newy, oldx, oldy;
+    oldx = oldy = -10000;        // any old value that is not the first omid
+     
+    toXYZ( p1, &x, &y, &z );
+    // -jbb printf("\np1: %6.4f %6.4f %6.4f\n", x, y, z);
 
-//DEPRECATED
-// QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
-// {
-// /* ASSUMES p1 was not clipped but p2 was. 
-//  * Return the QPoint that barely clips in the line twixt p1 and p2.
-//  */              
-//     int iteration = 15;         // For "perfect" clipping:
-//                                 // 2^interations should be >= max pixels/line
-//     bool onscreen = true;       // so we start at midpoint
-//     SkyPoint mid;
-//     QPointF oMid;
-//     double x, y, z, dx, dy, dz, ra, dec;
-//     int newx, newy, oldx, oldy;
-//     oldx = oldy = -10000;        // any old value that is not the first omid
-//     
-//     toXYZ( p1, &x, &y, &z );
-//     toXYZ( p2, &dx, &dy, &dz );
-//     dx -= x;
-//     dy -= y;
-//     dz -= z;
-//     // Successive approximation to point on line that just clips.
-//     while(iteration-- > 0) {
-//         dx *= .5;
-//         dy *= .5;
-//         dz *= .5;
-//         if ( ! onscreen ) {              // move back toward visible p1
-//             x -= dx;
-//             y -= dy;
-//             z -= dz;
-//         }
-//         else {                        // move out toward clipped p2
-//             x += dx;
-//             y += dy;
-//             z += dz;
-//         }
-//         // [x, y, z] => [ra, dec] 
-//         ra = atan2( y, x );
-//         dec = asin( z / sqrt(x*x + y*y + z*z) );
-//         
-//         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-//         mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-// 
-//         oMid = toScreen( &mid, scale, Options::useRefraction(), &onscreen );
-//         newx = (int) oMid.x();
-//         newy = (int) oMid.y();
-//         if ( (oldx == newx) && (oldy == newy) ) {
-//             break;
-//         }
-//         oldx = newx;
-//         oldy = newy;
-//     }
-//     return  oMid;
-// }
-// 
-// QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale) {
-//     QPointF qpf = clipLine( p1, p2, scale );
-//     return QPoint( (int) qpf.x(), (int) qpf.y() );
-// }
+    toXYZ( p2, &dx, &dy, &dz );
+    
+    // -jbb printf("p2: %6.4f %6.4f %6.4f\n", dx, dy, dz);
+    dx -= x;
+    dy -= y;
+    dz -= z;
+    // Successive approximation to point on line that just clips.
+    while(iteration-- > 0) {
+        dx *= .5;
+        dy *= .5;
+        dz *= .5;
+        if ( ! isVisible ) {              // move back toward visible p1
+            x -= dx;
+            y -= dy;
+            z -= dz;
+        }
+        else {                        // move out toward clipped p2
+            x += dx;
+            y += dy;
+            z += dz;
+        }
+
+        // -jbb printf("  : %6.4f %6.4f %6.4f\n", x, y, z);
+        // [x, y, z] => [ra, dec] 
+        ra = atan2( y, x );
+        dec = asin( z / sqrt(x*x + y*y + z*z) );
+         
+        mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
+        mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+ 
+        oMid = toScreen( &mid, scale, false, &isVisible );
+        newx = (int) oMid.x();
+        newy = (int) oMid.y();
+
+       // -jbb printf("new x/y: %4d %4d", newx, newy);
+        if ( (oldx == newx) && (oldy == newy) ) {
+            break;
+        }
+        oldx = newx;
+        oldy = newy;
+    }
+    return  oMid;
+}
+ 
+QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2, double scale) {
+    QPointF qpf = clipLine( p1, p2, scale );
+    return QPoint( (int) qpf.x(), (int) qpf.y() );
+}
 
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
@@ -235,8 +210,50 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 		}
 	}
 
-	//Transform the constellation boundary polygon to the screen
+	//Transform the constellation boundary polygon to the screen and clip
+    // against the celestial horizon
+
+    if (cbound.size() < 2) return;
+
+	bool isVisible, isVisibleLast;
+    SkyPoint  *pThis, *pLast;
+    QPointF oThis, oLast, oMid;
+
+    QPointF node = cbound.at( 0 );
+    pLast = new SkyPoint( node.x(), node.y() );
+
+    pLast->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    oLast = toScreen( pLast, scale, Options::useRefraction(), &isVisibleLast );
+
+    int limit = cbound.size(); 
+                                  
+    for ( int i=1 ; i < limit ; i++ ) {
+        node = cbound.at( i );
+        pThis = new SkyPoint( node.x(), node.y() );
+		pThis->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        oThis = toScreen( pThis, scale, Options::useRefraction(), &isVisible );
+
+        if ( isVisible && isVisibleLast ) {
+            psky.drawLine( oLast, oThis );
+        }
+
+        else if ( isVisibleLast ) {
+            oMid = clipLineI( pLast, pThis, scale );
+            // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
+            psky.drawLine( oLast, oMid );
+        }
+        else if ( isVisible ) {
+            oMid = clipLineI( pThis, pLast, scale );
+            psky.drawLine( oMid, oThis );
+        }
+
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
+    }
+/****    
 	QPolygonF poly;
+    bool isVisible;
 	foreach ( QPointF node, cbound ) {
 		SkyPoint sp( node.x(), node.y() );
 		sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
@@ -246,6 +263,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 	}
 
 	psky.drawPolygon( poly );
+****/
 }
 
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale ) {
