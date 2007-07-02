@@ -40,31 +40,28 @@ static const char notice[] =
 	I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
 
-static KCmdLineOptions options[] =
-{
-	{ "!dump", I18N_NOOP( "Dump sky image to file" ), 0 },
-	{ "script ", I18N_NOOP( "Script to execute" ), 0 },
-	{ "width ", I18N_NOOP( "Width of sky image" ), "640" },
-	{ "height ", I18N_NOOP( "Height of sky image" ), "480" },
-	{ "filename ", I18N_NOOP( "Filename for sky image" ), "kstars.png" },
-	{ "date ", I18N_NOOP( "Date and time" ), "" },
-	{ "!paused", I18N_NOOP( "Start with clock paused" ), 0 },
-	KCmdLineLastOption
-};
-
 int main(int argc, char *argv[])
 {
-	KAboutData aboutData( "kstars", I18N_NOOP("KStars"),
-		KSTARS_VERSION, description, KAboutData::License_GPL,
-		I18N_NOOP("(c) 2001-2003, The KStars Team"), notice, "http://edu.kde.org/kstars");
-	aboutData.addAuthor("Jason Harris",0, "jharris@30doradus.org", "http://www.30doradus.org");
-	aboutData.addAuthor("Heiko Evermann",0, "heiko@evermann.de", "http://www.evermann.de");
-	aboutData.addAuthor("Thomas Kabelmann", 0, "tk78@gmx.de", 0);
-	aboutData.addAuthor("Pablo de Vicente", 0, "pvicentea@wanadoo.es", 0);
-	aboutData.addAuthor("Jasem Mutlaq", 0, "mutlaqja@ikarustech.com", 0 );
-	aboutData.addAuthor("Carsten Niehaus", 0, "cniehaus@gmx.de", 0);
-	aboutData.addAuthor("Mark Hollomon", 0, "mhh@mindspring.com", 0);
+	KAboutData aboutData( "kstars", 0, ki18n("KStars"),
+		KSTARS_VERSION, ki18n(description), KAboutData::License_GPL,
+		ki18n("(c) 2001-2003, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
+	aboutData.addAuthor(ki18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
+	aboutData.addAuthor(ki18n("Heiko Evermann"),KLocalizedString(), "heiko@evermann.de", "http://www.evermann.de");
+	aboutData.addAuthor(ki18n("Thomas Kabelmann"), KLocalizedString(), "tk78@gmx.de");
+	aboutData.addAuthor(ki18n("Pablo de Vicente"), KLocalizedString(), "pvicentea@wanadoo.es");
+	aboutData.addAuthor(ki18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
+	aboutData.addAuthor(ki18n("Carsten Niehaus"), KLocalizedString(), "cniehaus@gmx.de");
+	aboutData.addAuthor(ki18n("Mark Hollomon"), KLocalizedString(), "mhh@mindspring.com");
 	KCmdLineArgs::init( argc, argv, &aboutData );
+
+	KCmdLineOptions options;
+	options.add("!dump", ki18n( "Dump sky image to file" ));
+	options.add("script ", ki18n( "Script to execute" ));
+	options.add("width ", ki18n( "Width of sky image" ), "640");
+	options.add("height ", ki18n( "Height of sky image" ), "480");
+	options.add("filename ", ki18n( "Filename for sky image" ), "kstars.png");
+	options.add("date ", ki18n( "Date and time" ));
+	options.add("!paused", ki18n( "Start with clock paused" ));
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
