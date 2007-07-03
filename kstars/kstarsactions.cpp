@@ -87,7 +87,7 @@
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
 
-#include "config-kstars.h"
+#include <config-kstars.h>
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer.h"

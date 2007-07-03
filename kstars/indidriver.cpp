@@ -51,7 +51,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#include "config-kstars.h"
+#include <config-kstars.h>
 
 #define  MAX_RETRIES 3
 
