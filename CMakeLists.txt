@@ -18,7 +18,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
 macro_log_feature(SBIG_FOUND "libsbigudrv" "SBIG Universal Driver is needed by KStars" "http://indi.sourceforge.net/" FALSE "1.00" "")
-macro_log_feature(CFITSIO_FOUND "libcfisio" "CFITSIO Library is needed by KStars for many INDI drivers & for KStars FITS Viewer." "http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html" FALSE "3.03" "")
+macro_log_feature(CFITSIO_FOUND "libcfitsio" "CFITSIO Library is needed by KStars for many INDI drivers & for KStars FITS Viewer." "http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html" FALSE "3.03" "")
 
 add_subdirectory( kstars )
 
