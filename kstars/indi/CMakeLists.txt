@@ -338,7 +338,6 @@ if (CFITSIO_FOUND)
 
 set(fliccd_SRCS eventloop.c fli_ccd.c indidrivermain.c)
 
-kde4_automoc(${fliccd_SRCS})
 
 kde4_add_executable(fliccd ${fliccd_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
