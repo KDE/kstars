@@ -235,11 +235,11 @@ public:
 	*/
 	SkyPoint recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo=0 );
 
-	inline const bool hasName() const { return ! Name.isEmpty(); }
+	inline bool hasName() const { return ! Name.isEmpty(); }
 	
-	inline const bool hasName2() const { return ! Name2.isEmpty(); }
+	inline bool hasName2() const { return ! Name2.isEmpty(); }
 	
-	inline const bool hasLongName() const { return ! LongName.isEmpty(); }
+	inline bool hasLongName() const { return ! LongName.isEmpty(); }
 	
 /**
 	*@short Given the Image title from a URL file, try to convert it to an image credit string.
