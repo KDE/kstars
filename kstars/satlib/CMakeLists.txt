@@ -13,5 +13,5 @@ else(NOT WIN32)
   target_link_libraries(SatLib ${KDEWIN32_LIBRARIES})
 endif(NOT WIN32)
 
-set_target_properties(SatLib PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+set_target_properties(SatLib PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS SatLib  DESTINATION ${LIB_INSTALL_DIR} )

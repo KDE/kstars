@@ -107,7 +107,7 @@ kde4_add_library(sbigudrv SHARED ${sbigudrv_LIB_SRCS})
 
 target_link_libraries(sbigudrv)
 
-set_target_properties(sbigudrv PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+set_target_properties(sbigudrv PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS sbigudrv  DESTINATION ${LIB_INSTALL_DIR} )
 
 # is this right to do?
