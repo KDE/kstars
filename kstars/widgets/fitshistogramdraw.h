@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FITSHISTOGRAMAREA_H
-#define FITSHISTOGRAMAREA_H
+#ifndef FITSHISTOGRAMDRAW_H
+#define FITSHISTOGRAMDRAW_H
 
 #include <QFrame>
 

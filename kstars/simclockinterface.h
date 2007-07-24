@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_SIMCLOCKIF_H__
-#define KSTARS_SIMCLOCKIF_H__
+#ifndef KSTARSSIMCLOCKINTERFACE_H__
+#define KSTARSSIMCLOCKINTERFACE_H__
 
 #include <dcopobject.h>
 
