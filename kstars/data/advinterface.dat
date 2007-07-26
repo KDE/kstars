@@ -134,7 +134,7 @@ Atomic Data:http://legacy.gsfc.nasa.gov/db-perl/W3Browse/w3query.pl?navtrail=%3C
 [END]
 [KSLABEL]NASA Extragalactic Database (NED)
 Photometry:http://nedwww.ipac.caltech.edu/cgi-bin/nph-datasearch?objname=KSOBJ&meas_type=bot&ebars_spec=ebars&label_spec=no&x_spec=freq&y_spec=Fnu_jy&xr=-1&search_type=Photometry
-Images & Maps:http://nedwww.ipac.caltech.edu/cgi-bin/nph-imgdatan?objname=KSOBJ
+Images & Maps:http://nedwww.ipac.caltech.edu/cgi-bin/nph-imgdata?objname=KSOBJ
 Redshift:http://nedwww.ipac.caltech.edu/cgi-bin/nph-datasearch?objname=KSOBJ&search_type=Redshifts&zv_breaker=30000.0
 [KSLABEL]Positions
 [KSINTERFACE]http://nedwww.ipac.caltech.edu/cgi-bin/nph-datasearch?objname=KSOBJ&out_csys=KSINTERFACE&out_equinox=J2000.0&search_type=Positions
