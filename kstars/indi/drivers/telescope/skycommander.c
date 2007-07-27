@@ -125,10 +125,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
  dev=dev;name=name;values=values;names=names;n=n;
 }
 
-void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], char *formats[], char *names[], int n)
-{
-  dev=dev;name=name;sizes=sizes;blobs=blobs;formats=formats;names=names;n=n;
-}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 
 void ISPoll (void *p)
 {

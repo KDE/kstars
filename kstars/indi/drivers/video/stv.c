@@ -1504,8 +1504,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
   }
 }
 
-void ISNewBLOB (const char *dev, const char *name, int sizes[], char *blobs[], char *formats[], char *names[], int n){}
-
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 
 int writeFITS(const char* filename, IMAGE_INFO *image_info, char errmsg[])
 {

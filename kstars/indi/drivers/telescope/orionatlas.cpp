@@ -143,8 +143,8 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 { ISInit(); telescope->ISNewNumber(dev, name, values, names, n);}
 void ISPoll (void *p) { telescope->ISPoll();    IEAddTimer (POLLMS, ISPoll, NULL); p=p;}
-void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
-{}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 
 OrionAtlas::OrionAtlas()
 {

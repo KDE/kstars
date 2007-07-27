@@ -136,11 +136,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
   MainCam->ISNewNumber(dev, name, values, names, n);
 }
 
-void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
-{
-
-  // We use this if we're receiving binary data from the client. Most likely we won't for this driver.
-
-}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 
 

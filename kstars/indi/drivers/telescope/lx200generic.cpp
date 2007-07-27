@@ -333,7 +333,7 @@ void ISInit()
   *((int *) UTCOffsetN[0].aux0) = 0;
   
   
-  if (strstr(me, "lx200classic"))
+  if (strstr(me, "indi_lx200classic"))
   {
      fprintf(stderr , "initilizaing from LX200 classic device...\n");
      // 1. mydev = device_name
@@ -345,7 +345,7 @@ void ISInit()
      MaxReticleFlashRate = 3;
   }
 
-  else if (strstr(me, "lx200gps"))
+  else if (strstr(me, "indi_lx200gps"))
   {
      fprintf(stderr , "initilizaing from LX200 GPS device...\n");
      // 1. mydev = device_name
@@ -356,7 +356,7 @@ void ISInit()
 
      MaxReticleFlashRate = 9;
   }
-  else if (strstr(me, "lx200_16"))
+  else if (strstr(me, "indi_lx200_16"))
   {
 
     IDLog("Initilizaing from LX200 16 device...\n");
@@ -368,7 +368,7 @@ void ISInit()
 
    MaxReticleFlashRate = 3;
  }
- else if (strstr(me, "lx200autostar"))
+ else if (strstr(me, "indi_lx200autostar"))
  {
    fprintf(stderr , "initilizaing from autostar device...\n");
   
@@ -398,8 +398,8 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n)
 { ISInit(); telescope->ISNewNumber(dev, name, values, names, n);}
 void ISPoll (void *p) { telescope->ISPoll(); IEAddTimer (POLLMS, ISPoll, NULL); p=p;}
-void ISNewBLOB (const char */*dev*/, const char */*name*/, int */*sizes[]*/, char **/*blobs[]*/, char **/*formats[]*/, char **/*names[]*/, int /*n*/)
-{}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 
 /**************************************************
 *** LX200 Generic Implementation
@@ -420,6 +420,7 @@ LX200Generic::LX200Generic()
    fd             = -1;
 
    // Children call parent routines, this is the default
+   IDLog("INDI Library v%g\n", INDI_LIBV);
    IDLog("initilizaing from generic LX200 device...\n");
    IDLog("Driver Version: 2007-05-11\n");
  

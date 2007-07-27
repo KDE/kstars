@@ -86,13 +86,8 @@ void ISNewNumber(	const char *dev, const char *name, double values[],
 #endif
 //==========================================================================
 #ifdef INDI
-void ISNewBLOB(	const char */*dev*/, const char */*name*/, int */*sizes[]*/,	
-								char	** /*blobs[]*/,	char **/*formats[]*/, char **/*names[]*/, 
-								int 	/*num*/)
-{
- 	// We use this if we're receiving binary data from the client. 
-	// Most likely we won't for this driver.
-}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
+void ISSnoopDevice (XMLEle *root) {}
 #endif
 //==========================================================================
 SbigCam::SbigCam()
@@ -547,14 +542,14 @@ int SbigCam::SBIGUnivDrvCommand(PAR_COMMAND command, void *params, void *results
  	}else{
 			// Handle is valid so install it in the driver.
 			sdhp.handle = GetDriverHandle();
-			res = SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
+			res = ::SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
 			if(res == CE_FAKE_DRIVER)
 			{
 			// The user is using the dummy driver. Tell him to download the real driver
 			IDMessage(DEVICE_NAME, "Error: SBIG Dummy Driver is being used now. You can only control your camera by downloading SBIG driver from INDI website @ indi.sf.net");
 			}
 			else if(res == CE_NO_ERROR){
-					res = SBIGUnivDrvCommand(command, params, results);
+					res = ::SBIGUnivDrvCommand(command, params, results);
 			}
  	}
  	return(res);
