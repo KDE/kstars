@@ -186,18 +186,40 @@ extern int nXMLEle (XMLEle *ep);
 extern int nXMLAtt (XMLEle *ep);
 
 /* editing functions */
+/** \brief add an element with the given tag to the given element. parent can be NULL to make a new root.
+    \return if parent is NULL, a new root is returned, otherwise, parent is returned.
+*/
+extern XMLEle *addXMLEle (XMLEle *parent, const char *tag);
+
+/** \brief set the pcdata of the given element
+    \param ep pointer to an XML element.
+    \param pcdata pcdata to set.
+*/
+extern void editXMLEle (XMLEle *ep, const char *pcdata);
+
 /** \brief Add an XML attribute to an existing XML element.
     \param ep pointer to an XML element
     \param name the name of the XML attribute to add.
     \param value the value of the XML attribute to add.
 */
-extern void addXMLAtt (XMLEle *ep, const char *name, char *value);
+extern void addXMLAtt (XMLEle *ep, const char *name, const char *value);
 
 /** \brief Remove an XML attribute from an XML element.
     \param ep pointer to an XML element.
     \param name the name of the XML attribute to remove
 */
 extern void rmXMLAtt (XMLEle *ep, const char *name);
+
+/** \brief change the value of an attribute to str.
+*   \param ap pointer to XML attribute
+*   \param str new attribute value
+*/
+extern void editXMLAtt (XMLAtt *ap, const char *str);
+
+/** \brief return a string with all xml-sensitive characters within the passed string replaced with their entity sequence equivalents.
+*   N.B. caller must use the returned string before calling us again.
+*/
+extern char *entityXML (char *str);
 
 /* convenience functions */
 /** \brief Find an XML element's attribute value.
@@ -221,6 +243,18 @@ extern XMLEle *readXMLFile (FILE *fp, LilXML *lp, char errmsg[]);
     \param level the printing level, set to 0 to print the whole element.
 */
 extern void prXMLEle (FILE *fp, XMLEle *e, int level);
+
+/** \brief sample print ep to string s.
+*   N.B. s must be at least as large as that reported by sprlXMLEle()+1.
+*   N.B. set level = 0 on first call.
+*   \return return length of resulting string (sans trailing \0)
+*/
+extern int sprXMLEle (char *s, XMLEle *ep, int level);
+
+/** \brief return number of bytes in a string guaranteed able to hold result of sprXLMEle(ep) (sans trailing \0).
+*   N.B. set level = 0 on first call.
+*/
+extern int sprlXMLEle (XMLEle *ep, int level);
 
 /* install alternatives to malloc/realloc/free */
 extern void indi_xmlMalloc (void *(*newmalloc)(size_t size),
