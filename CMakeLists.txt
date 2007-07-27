@@ -4,8 +4,11 @@ project(kstars)
 include(CheckIncludeFiles)
 
 find_package(ZLIB REQUIRED)
+find_package(USB)
+
 macro_optional_find_package(CFitsio)
 macro_optional_find_package(SBIG)
+
 
 macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
 
