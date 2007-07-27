@@ -44,7 +44,7 @@
 #include "ui_indihostconf.h"
 #include "devicemanager.h"
 #include "indidevice.h"
-#include "indi/indicom.h"
+#include "indi/libs/indicom.h"
 #include "Options.h"
 
 #include "kstars.h"
