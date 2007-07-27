@@ -1,149 +1,148 @@
 <ScopeDrivers>
-	<driver>lx200basic</driver>
-	<driver>lx200autostar</driver>
-	<driver>lx200classic</driver>
-	<driver>lx200gps</driver>
-	<driver>lx200_16</driver>
-	<driver>celestrongps</driver>
-	<driver>apmount</driver>
-	<driver>temma</driver>
-	<driver>skycommander</driver>
+	<driver>indi_lx200basic</driver>
+	<driver>indi_lx200autostar</driver>
+	<driver>indi_lx200classic</driver>
+	<driver>indi_lx200gps</driver>
+	<driver>indi_lx200_16</driver>
+	<driver>indi_celestron_gps</driver>
+	<driver>indi_temma</driver>
+	<driver>indi_skycommander</driver>
 </ScopeDrivers>
 <devGroup group="Telescopes">
 	<device label="LX200 Basic" focal_length="" aperture="">
-		<driver>lx200basic</driver>
+		<driver>indi_lx200basic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="LX200 Autostar" focal_length="" aperture="">
-		<driver>lx200autostar</driver>
-		<version>1.0</version>
+		<driver>indi_lx200autostar</driver>
+		<version>2.0</version>
 	</device>
 	<device label="LX200 Classic" focal_length="" aperture="">
-		<driver>lx200classic</driver>
+		<driver>indi_lx200classic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="LX200 GPS" focal_length="" aperture="">
-		<driver>lx200gps</driver>
-		<version>1.0</version>
+		<driver>indi_lx200gps</driver>
+		<version>2.0</version>
 	</device>
 	<device label="LX200 16" focal_length="4064" aperture="406.4">
-		<driver>lx200_16</driver>
-		<version>1.0</version>
+		<driver>indi_lx200_16</driver>
+		<version>2.0</version>
 	</device>
 	<device label="LX90" focal_length="2000" aperture="203.2">
-		<driver>lx200autostar</driver>
-		<version>1.0</version>
+		<driver>indi_lx200autostar</driver>
+		<version>2.0</version>
 	</device>
 	<device label="ETX125" focal_length="1900" aperture="127">
-		<driver>lx200autostar</driver>
-		<version>1.0</version>
+		<driver>indi_lx200autostar</driver>
+		<version>2.0</version>
 	</device>
 	<device label="ETX105" focal_length="1470" aperture="105">
-		<driver>lx200autostar</driver>
-		<version>1.0</version>
+		<driver>indi_lx200autostar</driver>
+		<version>2.0</version>
 	</device>
 	<device label="ETX90"  focal_length="1250" aperture="88.9">
-		<driver>lx200autostar</driver>
-		<version>1.0</version>
+		<driver>indi_lx200autostar</driver>
+		<version>2.0</version>
 	</device>
 	<device label="Celestron GPS" focal_length="" aperture="">
-		<driver>celestrongps</driver>
-		<version>0.9</version>
+		<driver>indi_celestron_gps</driver>
+		<version>1.0</version>
 	</device>
 	<device label="Celestron NexStar" focal_length="" aperture="">
-		<driver>celestrongps</driver>
-		<version>0.9</version>
+		<driver>indi_celestron_gps</driver>
+		<version>1.0</version>
 	</device>
 	<device label="Astro-Electronic FS-2" focal_length="" aperture="">
-		<driver>lx200basic</driver>
-		<version>0.1</version>
+		<driver>indi_lx200basic</driver>
+		<version>1.0</version>
 	</device>
 	<device label="Orion Atlas" focal_length="" aperture="">
-		<driver>orionatlas</driver>
+		<driver>indi_orion_atlas</driver>
 		<version>0.1</version>
 	</device>
 	<device label="Sky Scan" focal_length="" aperture="">
-		<driver>orionatlas</driver>
+		<driver>indi_orion_atlas</driver>
 		<version>0.1</version>
 	</device>
 	<device label="Losmandy Gemini" focal_length="" aperture="">
-		<driver>lx200basic</driver>
+		<driver>indi_lx200basic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="Mel Bartels" focal_length="" aperture="">
-		<driver>lx200basic</driver>
+		<driver>indi_lx200basic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="Temma Takahashi" focal_length="" aperture="">
-	  	<driver>temma</driver>
+		<driver>indi_temma</driver>
 	  	<version>0.1</version>
 	</device>
 	<device label="Sky Commander" focal_length="" aperture="">
-		<driver>skycommander</driver>
+		<driver>indi_skycommander</driver>
 		<version>0.1</version>
 	</device>
 	<device label="Argo Navis" focal_length="" aperture="">
-		<driver>lx200basic</driver>
+		<driver>indi_lx200basic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="Intelliscope" focal_length="" aperture="">
-		<driver>intelliscope</driver>
+		<driver>indi_intelliscope</driver>
 		<version>0.2</version>
 	</device>
 	<device label="SkyWizard" focal_length="" aperture="">
-		<driver>intelliscope</driver>
+		<driver>indi_intelliscope</driver>
 		<version>0.2</version>
 	</device>
 </devGroup>
 <devGroup group="CCDs">
 	<device label="SBIG CCD">
-		<driver>sbigccd</driver>
+		<driver>indi_sbig_ccd</driver>
 		<version>1.0</version>
 	</device>
 	<device label="FLI CCD">
-		<driver>fliccd</driver>
+		<driver>indi_fli_ccd</driver>
 		<version>1.0</version>
 	</device>
-	<device label="Apogee PPI">
-	  	<driver>apogee_ppi</driver>
-	  	<version>0.1</version>
+	<device label="Apogee Alta">
+		<driver>indi_apogee_alta</driver>
+	  	<version>0.2</version>
 	</device>
 </devGroup>
 <devGroup group="Focusers">
 	<device label="FLI PDF">
-		<driver>flipdf</driver>
+		<driver>indi_fli_pdf</driver>
 		<version>0.1</version>
 	</device>
 	<device label="Robo Focus">
-		<driver>robofocus</driver>
+		<driver>indi_robofocus</driver>
 		<version>0.1</version>
 	</device>
 </devGroup>
 <devGroup group="Filter Wheels">
   	<device label="FLI Wheel">
-    		<driver>fliwheel</driver>
+		<driver>indi_fli_wheel</driver>
     		<version>0.9</version>
     	</device>
 	<device label="TruTech Wheel">
-		<driver>trutechwheel</driver>
+		<driver>indi_trutech_wheel</driver>
 		<version>0.1</version>
     	</device>
 </devGroup>
 <devGroup group="Video">
 	<device label="Generic Video4Linux">
-		<driver>v4ldriver</driver>
+		<driver>indi_v4l_generic</driver>
 		<version>1.0</version>
 	</device>
 	<device label="Philips Webcam">
-		<driver>v4lphilips</driver>
+		<driver>indi_v4l_philips</driver>
 		<version>1.0</version>
 	</device>
 	<device label="Meade LPI">
-		<driver>meade_lpi</driver>
+		<driver>indi_meade_lpi</driver>
 		<version>0.1</version>
 	</device>
 	<device label="SBIG STV">
-		<driver>stv</driver>
+		<driver>indi_sbig_stv</driver>
 		<version>0.1</version>
 	</device>
 </devGroup>

@@ -40,7 +40,7 @@ INDI is intended for developers who seek a scalable API for device control and a
 
 \section Development Developing under INDI
 
-<p>Please refere to the <a href="http://indi.sf.net/manual/">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework.</p>
+<p>Please refere to the <a href="http://indi.sourceforge.net/index.php/Manual">INDI Developers Manual</a> for a complete guide on INDI's driver developemnt framework.</p>
 
 <p>The INDI Library API is divided into the following main sections:</p>
 <ul>
@@ -69,7 +69,11 @@ You can find information on INDI development in the <a href="http://indi.sf.net"
  * N.B. this is indepedent of the API itself.
  */
 
-#define	INDIV	1.6
+#define	INDIV	1.7
+
+
+/* INDI Library version */
+#define INDI_LIBV	0.6
 
 /*******************************************************************************
  * Manifest constants
@@ -78,29 +82,41 @@ You can find information on INDI development in the <a href="http://indi.sf.net"
 /** \typedef ISState
     \brief Switch state.
 */
-typedef enum {
-    ISS_OFF, ISS_ON
+typedef enum 
+{
+    ISS_OFF,		/*!< Switch is OFF */
+    ISS_ON		/*!< Switch is ON */
 } ISState;				/* switch state */
 
 /** \typedef IPState
     \brief Property state.
 */
-typedef enum {
-    IPS_IDLE, IPS_OK, IPS_BUSY, IPS_ALERT
+typedef enum 
+{
+    IPS_IDLE,		/*!< State is idle */
+    IPS_OK,		/*!< State is ok */
+    IPS_BUSY,		/*!< State is busy */
+    IPS_ALERT		/*!< State is alert */
 } IPState;				/* property state */
 
 /** \typedef ISRule
     \brief Switch vector rule hint.
 */
-typedef enum {
-    ISR_1OFMANY, ISR_ATMOST1, ISR_NOFMANY
+typedef enum 
+{
+    ISR_1OFMANY,	/*!< Only 1 switch of many can be ON (e.g. radio buttons) */
+    ISR_ATMOST1,        /*!< There is only ONE switch */
+    ISR_NOFMANY         /*!< Any number of switches can be ON (e.g. check boxes) */
 } ISRule;				/* switch vector rule hint */
 
 /** \typedef IPerm
     \brief Permission hint, with respect to client.
 */
-typedef enum {
-    IP_RO, IP_WO, IP_RW
+typedef enum 
+{
+    IP_RO,		/*!< Read Only */
+    IP_WO,		/*!< Write Only */
+    IP_RW		/*!< Read & Write */
 } IPerm;				/* permission hint, WRT client */
 
 /* The XML strings for these attributes may be any length but implementations

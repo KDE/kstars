@@ -45,17 +45,20 @@
 #include "eventloop.h"
 #include "indidevapi.h"
 #include "indicom.h"
-#include "observer.h"
 
 static void usage(void);
 static void clientMsgCB(int fd, void *arg);
 static int dispatch (XMLEle *root, char msg[]);
 static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
 static int isPropDefined(const char *property_name);
+static int crackIPState (char *str, IPState *ip);
+static int crackISState (char *str, ISState *ip);
+static void xmlv1(void);
 const char *pstateStr(IPState s);
 const char *sstateStr(ISState s);
 const char *ruleStr(ISRule r);
 const char *permStr(IPerm p);
+
 
 static int nroCheck;			/* # of elements in roCheck */
 static int verbose;			/* chatty */
@@ -139,6 +142,7 @@ IDDefText (const ITextVectorProperty *tvp, const char *fmt, ...)
 	int i;
 	ROSC *SC;
 
+	xmlv1();
 	printf ("<defTextVector\n");
 	printf ("  device='%s'\n", tvp->device);
 	printf ("  name='%s'\n", tvp->name);
@@ -190,6 +194,7 @@ IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 	int i;
 	ROSC *SC;
 
+	xmlv1();
 	printf ("<defNumberVector\n");
 	printf ("  device='%s'\n", n->device);
 	printf ("  name='%s'\n", n->name);
@@ -215,10 +220,10 @@ IDDefNumber (const INumberVectorProperty *n, const char *fmt, ...)
 	    printf ("    name='%s'\n", np->name);
 	    printf ("    label='%s'\n", np->label);
 	    printf ("    format='%s'\n", np->format);
-	    printf ("    min='%g'\n", np->min);
-	    printf ("    max='%g'\n", np->max);
-	    printf ("    step='%g'>\n", np->step);
-	    printf ("      %g\n", np->value);
+	    printf ("    min='%.20g'\n", np->min);
+	    printf ("    max='%.20g'\n", np->max);
+	    printf ("    step='%.20g'>\n", np->step);
+	    printf ("      %.20g\n", np->value);
 	    printf ("  </defNumber>\n");
 	}
 
@@ -247,6 +252,7 @@ IDDefSwitch (const ISwitchVectorProperty *s, const char *fmt, ...)
 	int i;
 	ROSC *SC;
 
+	xmlv1();
 	printf ("<defSwitchVector\n");
 	printf ("  device='%s'\n", s->device);
 	printf ("  name='%s'\n", s->name);
@@ -298,6 +304,7 @@ IDDefLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<defLightVector\n");
 	printf ("  device='%s'\n", lvp->device);
 	printf ("  name='%s'\n", lvp->name);
@@ -335,6 +342,7 @@ IDDefBLOB (const IBLOBVectorProperty *b, const char *fmt, ...)
   int i;
   ROSC *SC;
 
+	xmlv1();
 	printf ("<defBLOBVector\n");
 	printf ("  device='%s'\n", b->device);
 	printf ("  name='%s'\n", b->name);
@@ -384,6 +392,7 @@ IDSetText (const ITextVectorProperty *tvp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<setTextVector\n");
 	printf ("  device='%s'\n", tvp->device);
 	printf ("  name='%s'\n", tvp->name);
@@ -417,6 +426,7 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<setNumberVector\n");
 	printf ("  device='%s'\n", nvp->device);
 	printf ("  name='%s'\n", nvp->name);
@@ -436,7 +446,7 @@ IDSetNumber (const INumberVectorProperty *nvp, const char *fmt, ...)
 	for (i = 0; i < nvp->nnp; i++) {
 	    INumber *np = &nvp->np[i];
 	    printf ("  <oneNumber name='%s'>\n", np->name);
-	    printf ("      %.10g\n", np->value);
+	    printf ("      %.20g\n", np->value);
 	    printf ("  </oneNumber>\n");
 	}
 
@@ -450,6 +460,7 @@ IDSetSwitch (const ISwitchVectorProperty *svp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<setSwitchVector\n");
 	printf ("  device='%s'\n", svp->device);
 	printf ("  name='%s'\n", svp->name);
@@ -483,6 +494,7 @@ IDSetLight (const ILightVectorProperty *lvp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<setLightVector\n");
 	printf ("  device='%s'\n", lvp->device);
 	printf ("  name='%s'\n", lvp->name);
@@ -515,6 +527,7 @@ IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
 {
 	int i;
 
+	xmlv1();
 	printf ("<setBLOBVector\n");
 	printf ("  device='%s'\n", bvp->device);
 	printf ("  name='%s'\n", bvp->name);
@@ -559,6 +572,7 @@ void IUUpdateMinMax(INumberVectorProperty *nvp)
 {
   int i;
 
+  xmlv1();
   printf ("<setNumberVector\n");
   printf ("  device='%s'\n", nvp->device);
   printf ("  name='%s'\n", nvp->name);
@@ -586,6 +600,8 @@ void IUUpdateMinMax(INumberVectorProperty *nvp)
 void
 IDMessage (const char *dev, const char *fmt, ...)
 {
+
+        xmlv1();
 	printf ("<message\n");
 	if (dev)
 	    printf (" device='%s'\n", dev);
@@ -608,6 +624,7 @@ IDMessage (const char *dev, const char *fmt, ...)
 void
 IDDelete (const char *dev, const char *name, const char *fmt, ...)
 {
+	xmlv1();
 	printf ("<delProperty\n  device='%s'\n", dev);
 	if (name)
 	    printf (" name='%s'\n", name);
@@ -621,6 +638,42 @@ IDDelete (const char *dev, const char *name, const char *fmt, ...)
 	    va_end (ap);
 	}
 	printf ("/>\n");
+	fflush (stdout);
+}
+
+/* tell indiserver we want to snoop on the given device/property.
+ * name ignored if NULL or empty.
+ */
+void
+IDSnoopDevice (const char *snooped_device_name, char *snooped_property_name)
+{
+	xmlv1();
+	if (snooped_property_name && snooped_property_name[0])
+	    printf ("<getProperties device='%s' name='%s'/>\n",
+				    snooped_device_name, snooped_property_name);
+	else
+	    printf ("<getProperties device='%s'/>\n", snooped_device_name);
+	fflush (stdout);
+}
+
+/* tell indiserver whether we want BLOBs from the given snooped device.
+ * silently ignored if given device is not already registered for snooping.
+ */
+void 
+IDSnoopBLOBs (const char *snooped_device, BLOBHandling bh)
+{
+	char *how;
+
+	switch (bh) {
+	case B_NEVER: how = "Never"; break;
+	case B_ALSO:  how = "Also";  break;
+	case B_ONLY:  how = "Only";  break;
+	default: return;
+	}
+
+	xmlv1();
+	printf ("<enableBLOB device='%s'>%s</enableBLOB>\n",
+						snooped_device, how);
 	fflush (stdout);
 }
 
@@ -660,6 +713,19 @@ void
 IERmWorkProc (int workprocid)
 {
 	rmWorkProc (workprocid);
+}
+
+
+int
+IEDeferLoop (int maxms, int *flagp)
+{
+	return (deferLoop (maxms, flagp));
+}
+
+int
+IEDeferLoop0 (int maxms, int *flagp)
+{
+	return (deferLoop0 (maxms, flagp));
 }
 
 /* find a member of an IText vector, else NULL */
@@ -947,6 +1013,208 @@ void IUFillTextVector(ITextVectorProperty *tvp, IText *tp, int ntp, const char *
 
 }
 
+/*****************************************************************************
+ * convenience functions for use in your implementation of ISSnoopDevice().
+ */
+
+/* crack the snooped driver setNumberVector or defNumberVector message into
+ * the given INumberVectorProperty.
+ * return 0 if type, device and name match and all members are present, else
+ * return -1
+ */
+int
+IUSnoopNumber (XMLEle *root, INumberVectorProperty *nvp)
+{
+	char *dev, *name;
+	XMLEle *ep;
+	int i;
+
+	/* check and crack type, device, name and state */
+	if (strcmp (tagXMLEle(root)+3, "NumberVector") ||
+					crackDN (root, &dev, &name, NULL) < 0)
+	    return (-1);
+	if (strcmp (dev, nvp->device) || strcmp (name, nvp->name))
+	    return (-1);	/* not this property */
+	(void) crackIPState (findXMLAttValu (root,"state"), &nvp->s);
+
+	/* match each INumber with a oneNumber */
+	for (i = 0; i < nvp->nnp; i++) {
+	    for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (!strcmp (tagXMLEle(ep), "oneNumber") &&
+			!strcmp (nvp->np[i].name, findXMLAttValu(ep, "name"))) {
+		    if (f_scansexa (pcdataXMLEle(ep), &nvp->np[i].value) < 0)
+			return (-1);	/* bad number format */
+		    break;
+		}
+	    }
+	    if (!ep)
+		return (-1);	/* element not found */
+	}
+
+	/* ok */
+	return (0);
+}
+
+/* crack the snooped driver setTextVector or defTextVector message into
+ * the given ITextVectorProperty.
+ * return 0 if type, device and name match and all members are present, else
+ * return -1
+ */
+int
+IUSnoopText (XMLEle *root, ITextVectorProperty *tvp)
+{
+	char *dev, *name;
+	XMLEle *ep;
+	int i;
+
+	/* check and crack type, device, name and state */
+	if (strcmp (tagXMLEle(root)+3, "TextVector") ||
+					crackDN (root, &dev, &name, NULL) < 0)
+	    return (-1);
+	if (strcmp (dev, tvp->device) || strcmp (name, tvp->name))
+	    return (-1);	/* not this property */
+	(void) crackIPState (findXMLAttValu (root,"state"), &tvp->s);
+
+	/* match each IText with a oneText */
+	for (i = 0; i < tvp->ntp; i++) {
+	    for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (!strcmp (tagXMLEle(ep), "oneText") &&
+			!strcmp (tvp->tp[i].name, findXMLAttValu(ep, "name"))) {
+		    IUSaveText (&tvp->tp[i], pcdataXMLEle(ep));
+		    break;
+		}
+	    }
+	    if (!ep)
+		return (-1);	/* element not found */
+	}
+
+	/* ok */
+	return (0);
+}
+
+/* crack the snooped driver setLightVector or defLightVector message into
+ * the given ILightVectorProperty. it is not necessary that all ILight names
+ * be found.
+ * return 0 if type, device and name match, else return -1.
+ */
+int
+IUSnoopLight (XMLEle *root, ILightVectorProperty *lvp)
+{
+	char *dev, *name;
+	XMLEle *ep;
+	int i;
+
+	/* check and crack type, device, name and state */
+	if (strcmp (tagXMLEle(root)+3, "LightVector") ||
+					crackDN (root, &dev, &name, NULL) < 0)
+	    return (-1);
+	if (strcmp (dev, lvp->device) || strcmp (name, lvp->name))
+	    return (-1);	/* not this property */
+
+	(void) crackIPState (findXMLAttValu (root,"state"), &lvp->s);
+
+	/* match each oneLight with one ILight */
+	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+	    if (!strcmp (tagXMLEle(ep), "oneLight")) {
+		char *name = findXMLAttValu (ep, "name");
+		for (i = 0; i < lvp->nlp; i++) {
+		    if (!strcmp (lvp->lp[i].name, name)) {
+			if (crackIPState(pcdataXMLEle(ep), &lvp->lp[i].s) < 0) {
+			    return (-1);	/* unrecognized state */
+			}
+			break;
+		    }
+		}
+	    }
+	}
+
+	/* ok */
+	return (0);
+}
+
+/* crack the snooped driver setSwitchVector or defSwitchVector message into the
+ * given ISwitchVectorProperty. it is not necessary that all ISwitch names be
+ * found.
+ * return 0 if type, device and name match, else return -1.
+ */
+int
+IUSnoopSwitch (XMLEle *root, ISwitchVectorProperty *svp)
+{
+	char *dev, *name;
+	XMLEle *ep;
+	int i;
+
+	/* check and crack type, device, name and state */
+	if (strcmp (tagXMLEle(root)+3, "SwitchVector") ||
+					crackDN (root, &dev, &name, NULL) < 0)
+	    return (-1);
+	if (strcmp (dev, svp->device) || strcmp (name, svp->name))
+	    return (-1);	/* not this property */
+	(void) crackIPState (findXMLAttValu (root,"state"), &svp->s);
+
+	/* match each oneSwitch with one ISwitch */
+	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+	    if (!strcmp (tagXMLEle(ep), "oneSwitch")) {
+		char *name = findXMLAttValu (ep, "name");
+		for (i = 0; i < svp->nsp; i++) {
+		    if (!strcmp (svp->sp[i].name, name)) {
+			if (crackISState(pcdataXMLEle(ep), &svp->sp[i].s) < 0) {
+			    return (-1);	/* unrecognized state */
+			}
+			break;
+		    }
+		}
+	    }
+	}
+
+	/* ok */
+	return (0);
+}
+
+/* crack the snooped driver setBLOBVector message into the given
+ * IBLOBVectorProperty. it is not necessary that all IBLOB names be found.
+ * return 0 if type, device and name match, else return -1.
+ * N.B. we assume any existing blob in bvp has been malloced, which we free
+ *   and replace with a newly malloced blob if found.
+ */
+int
+IUSnoopBLOB (XMLEle *root, IBLOBVectorProperty *bvp)
+{
+	char *dev, *name;
+	XMLEle *ep;
+	int i;
+
+	/* check and crack type, device, name and state */
+	if (strcmp (tagXMLEle(root), "setBLOBVector") ||
+					crackDN (root, &dev, &name, NULL) < 0)
+	    return (-1);
+	if (strcmp (dev, bvp->device) || strcmp (name, bvp->name))
+	    return (-1);	/* not this property */
+	(void) crackIPState (findXMLAttValu (root,"state"), &bvp->s);
+
+	/* match each oneBLOB with one IBLOB */
+	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+	    if (!strcmp (tagXMLEle(ep), "oneBLOB")) {
+		char *name = findXMLAttValu (ep, "name");
+		for (i = 0; i < bvp->nbp; i++) {
+		    IBLOB *bp = &bvp->bp[i];
+		    if (!strcmp (bp->name, name)) {
+			strcpy (bp->format, findXMLAttValu (ep,"format"));
+			bp->size = atof (findXMLAttValu (ep,"size"));
+			bp->bloblen = pcdatalenXMLEle(ep)+1;
+			if (bp->blob)
+			    free (bp->blob);
+			bp->blob = strcpy(malloc(bp->bloblen),pcdataXMLEle(ep));
+			break;
+		    }
+		}
+	    }
+	}
+
+	/* ok */
+	return (0);
+}
+
 /* print usage message and exit (1) */
 static void
 usage(void)
@@ -1003,16 +1271,16 @@ clientMsgCB (int fd, void *arg)
 static int
 dispatch (XMLEle *root, char msg[])
 {
-	XMLEle *epx;
-	int n;
-        int i=0;
+	char *rtag = tagXMLEle(root);
+	XMLEle *ep;
+	int n,i=0;
 
 	if (verbose)
 	    prXMLEle (stderr, root, 0);
 
 	/* check tag in surmised decreasing order of likelyhood */
 
-	if (!strcmp (tagXMLEle(root), "newNumberVector")) {
+	if (!strcmp (rtag, "newNumberVector")) {
 	    static double *doubles;
 	    static char **names;
 	    static int maxn;
@@ -1029,9 +1297,9 @@ dispatch (XMLEle *root, char msg[])
 	    }
 
 	    /* pull out each name/value pair */
-	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneNumber") == 0) {
-		    XMLAtt *na = findXMLAtt (epx, "name");
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneNumber") == 0) {
+		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
 			if (n >= maxn) {
 			    /* grow for this and another */
@@ -1040,9 +1308,9 @@ dispatch (XMLEle *root, char msg[])
 			    newsz = maxn*sizeof(char *);
 			    names = (char **) realloc (names, newsz);
 			}
-			if (f_scansexa (pcdataXMLEle(epx), &doubles[n]) < 0)
+			if (f_scansexa (pcdataXMLEle(ep), &doubles[n]) < 0)
 			    IDMessage (dev,"%s: Bad format %s", name,
-							    pcdataXMLEle(epx));
+							    pcdataXMLEle(ep));
 			else
 			    names[n++] = valuXMLAtt(na);
 		    }
@@ -1067,11 +1335,12 @@ dispatch (XMLEle *root, char msg[])
 	    return (0);
 	}
 
-	if (!strcmp (tagXMLEle(root), "newSwitchVector")) {
+	if (!strcmp (rtag, "newSwitchVector")) {
 	    static ISState *states;
 	    static char **names;
 	    static int maxn;
 	    char *dev, *name;
+	    XMLEle *ep;
 
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
@@ -1079,14 +1348,14 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* seed for reallocs */
 	    if (!states) {
-		states = (ISState *) malloc (sizeof(void*));
-		names = (char **) malloc (sizeof(void*));
+		states = (ISState *) malloc (1);
+		names = (char **) malloc (1);
 	    }
 
 	    /* pull out each name/state pair */
-	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneSwitch") == 0) {
-		    XMLAtt *na = findXMLAtt (epx, "name");
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneSwitch") == 0) {
+		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
 			if (n >= maxn) {
 			    int newsz = (maxn=n+1)*sizeof(ISState);
@@ -1094,17 +1363,17 @@ dispatch (XMLEle *root, char msg[])
 			    newsz = maxn*sizeof(char *);
 			    names = (char **) realloc (names, newsz);
 			}
-			if (strcmp (pcdataXMLEle(epx),"On") == 0) {
+			if (strcmp (pcdataXMLEle(ep),"On") == 0) {
 			    states[n] = ISS_ON;
 			    names[n] = valuXMLAtt(na);
 			    n++;
-			} else if (strcmp (pcdataXMLEle(epx),"Off") == 0) {
+			} else if (strcmp (pcdataXMLEle(ep),"Off") == 0) {
 			    states[n] = ISS_OFF;
 			    names[n] = valuXMLAtt(na);
 			    n++;
 			} else 
 			    IDMessage (dev, "%s: must be On or Off: %s", name,
-							    pcdataXMLEle(epx));
+							    pcdataXMLEle(ep));
 		    }
 		}
 	    }
@@ -1127,7 +1396,7 @@ dispatch (XMLEle *root, char msg[])
 	    return (0);
 	}
 
-	if (!strcmp (tagXMLEle(root), "newTextVector")) {
+	if (!strcmp (rtag, "newTextVector")) {
 	    static char **texts;
 	    static char **names;
 	    static int maxn;
@@ -1144,16 +1413,16 @@ dispatch (XMLEle *root, char msg[])
 	    }
 
 	    /* pull out each name/text pair */
-	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneText") == 0) {
-		    XMLAtt *na = findXMLAtt (epx, "name");
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneText") == 0) {
+		    XMLAtt *na = findXMLAtt (ep, "name");
 		    if (na) {
 			if (n >= maxn) {
 			    int newsz = (maxn=n+1)*sizeof(char *);
 			    texts = (char **) realloc (texts, newsz);
 			    names = (char **) realloc (names, newsz);
 			}
-			texts[n] = pcdataXMLEle(epx);
+			texts[n] = pcdataXMLEle(ep);
 			names[n] = valuXMLAtt(na);
 			n++;
 		    }
@@ -1178,13 +1447,15 @@ dispatch (XMLEle *root, char msg[])
 	    return (0);
 	}
 
-	if (!strcmp (tagXMLEle(root), "newBLOBVector")) {
+	if (!strcmp (rtag, "newBLOBVector")) {
 	    static char **blobs;
 	    static char **names;
 	    static char **formats;
 	    static int *blobsizes;
+	    static int *sizes;
 	    static int maxn;
 	    char *dev, *name;
+	    int i;
 
 	    /* pull out device and name */
 	    if (crackDN (root, &dev, &name, msg) < 0)
@@ -1192,18 +1463,19 @@ dispatch (XMLEle *root, char msg[])
 
 	    /* seed for reallocs */
 	    if (!blobs) {
-		blobs = (char **) malloc (sizeof(void*));
-		names = (char **) malloc (sizeof(void*));
-		formats = (char **) malloc (sizeof(void*));
-		blobsizes = (int *) malloc (sizeof(void*));
+		blobs = (char **) malloc (1);
+		names = (char **) malloc (1);
+		formats = (char **) malloc (1);
+		blobsizes = (int *) malloc (1);
+		sizes = (int *) malloc (1);
 	    }
 
-	    /* pull out each name/BLOB pair */
-	    for (n = 0, epx = nextXMLEle(root,1); epx; epx = nextXMLEle(root,0)) {
-		if (strcmp (tagXMLEle(epx), "oneBLOB") == 0) {
-		    XMLAtt *na = findXMLAtt (epx, "name");
-		    XMLAtt *fa = findXMLAtt (epx, "format");
-		    XMLAtt *sa = findXMLAtt (epx, "size");
+	    /* pull out each name/BLOB pair, decode */
+	    for (n = 0, ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
+		if (strcmp (tagXMLEle(ep), "oneBLOB") == 0) {
+		    XMLAtt *na = findXMLAtt (ep, "name");
+		    XMLAtt *fa = findXMLAtt (ep, "format");
+		    XMLAtt *sa = findXMLAtt (ep, "size");
 		    if (na && fa && sa) {
 			if (n >= maxn) {
 			    int newsz = (maxn=n+1)*sizeof(char *);
@@ -1211,26 +1483,30 @@ dispatch (XMLEle *root, char msg[])
 			    names = (char **) realloc (names, newsz);
 			    formats = (char **) realloc(formats,newsz);
 			    newsz = maxn*sizeof(int);
+			    sizes = (int *) realloc(sizes,newsz);
 			    blobsizes = (int *) realloc(blobsizes,newsz);
 			}
-			blobs[n] = pcdataXMLEle(epx);
+			blobs[n] = malloc (3*pcdatalenXMLEle(ep)/4);
+			blobsizes[n] = from64tobits(blobs[n], pcdataXMLEle(ep));
 			names[n] = valuXMLAtt(na);
 			formats[n] = valuXMLAtt(fa);
-			blobsizes[n] = atoi(valuXMLAtt(sa));
+			sizes[n] = atoi(valuXMLAtt(sa));
 			n++;
 		    }
 		}
 	    }
 
 	    /* invoke driver if something to do, but not an error if not */
-	    if (n > 0)
-		ISNewBLOB (dev, name, blobsizes, blobs, formats, names, n);
-	    else
+	    if (n > 0) {
+		ISNewBLOB (dev, name, sizes, blobsizes, blobs, formats,names,n);
+		for (i = 0; i < n; i++)
+		    free (blobs[i]);
+	    } else
 		IDMessage (dev, "%s: newBLOBVector with no valid members",name);
 	    return (0);
 	}
-	
-	if (!strcmp (tagXMLEle(root), "getProperties")) {
+
+	if (!strcmp (rtag, "getProperties")) {
 	    XMLAtt *ap;
 	    double v;
 
@@ -1251,10 +1527,28 @@ dispatch (XMLEle *root, char msg[])
 	    ISGetProperties (ap ? valuXMLAtt(ap) : NULL);
 	    return (0);
 	}
-	else if (!processObservers(root))
-		return (0);
 
-	sprintf (msg, "Unknown command: %s", tagXMLEle(root));
+	/* other commands might be from a snooped device.
+	 * we don't know here which devices are being snooped so we send
+	 * all remaining valid messages
+	 */
+	if (        !strcmp (rtag, "setNumberVector") ||
+		    !strcmp (rtag, "setTextVector") ||
+		    !strcmp (rtag, "setLightVector") ||
+		    !strcmp (rtag, "setSwitchVector") ||
+		    !strcmp (rtag, "setBLOBVector") ||
+		    !strcmp (rtag, "defNumberVector") ||
+		    !strcmp (rtag, "defTextVector") ||
+		    !strcmp (rtag, "defLightVector") ||
+		    !strcmp (rtag, "defSwitchVector") ||
+		    !strcmp (rtag, "defBLOBVector") ||
+		    !strcmp (rtag, "message") ||
+		    !strcmp (rtag, "delProperty")) {
+	    ISSnoopDevice (root);
+	    return (0);
+	}
+
+	sprintf (msg, "Unknown command: %s", rtag);
 	return(1);
 }
 
@@ -1298,6 +1592,32 @@ pstateStr (IPState s)
 	}
 }
 
+/* crack string into IPState.
+ * return 0 if ok, else -1
+ */
+static int
+crackIPState (char *str, IPState *ip)
+{
+	     if (!strcmp (str, "Idle"))  *ip = IPS_IDLE;
+	else if (!strcmp (str, "Ok"))    *ip = IPS_OK;
+	else if (!strcmp (str, "Busy"))  *ip = IPS_BUSY;
+	else if (!strcmp (str, "Alert")) *ip = IPS_ALERT;
+	else return (-1);
+	return (0);
+}
+
+/* crack string into ISState.
+ * return 0 if ok, else -1
+ */
+static int
+crackISState (char *str, ISState *ip)
+{
+	     if (!strcmp (str, "On"))  *ip = ISS_ON;
+	else if (!strcmp (str, "Off")) *ip = ISS_OFF;
+	else return (-1);
+	return (0);
+}
+
 /* return static string corresponding to the given switch state */
 const char *
 sstateStr (ISState s)
@@ -1339,3 +1659,9 @@ permStr (IPerm p)
 	}
 }
 
+/* print the boilerplate comment introducing xml */
+static void
+xmlv1()
+{
+	printf ("<?xml version='1.0'?>\n");
+}

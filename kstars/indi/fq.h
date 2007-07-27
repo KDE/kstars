@@ -23,6 +23,7 @@ extern void delFQ (FQ *q);
 extern void pushFQ (FQ *q, void *e);
 extern void *popFQ (FQ *q);
 extern void *peekFQ (FQ *q);
+extern void *peekiFQ (FQ *q, int i);
 extern int nFQ (FQ *q);
 extern void setMemFuncsFQ (void *(*newmalloc)(size_t size),
    void *(*newrealloc)(void *ptr, size_t size),

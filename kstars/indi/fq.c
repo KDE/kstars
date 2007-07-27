@@ -105,7 +105,18 @@ popFQ (FQ *q)
 void *
 peekFQ (FQ *q)
 {
-	return (q->nq > 0 ? q->q[q->head - q->nq] : NULL);
+	return (peekiFQ(q,0));
+}
+
+/* return ith element from head of the given FQ.
+ * this can be used for iteration as:
+ *   for (i = 0; i < nFQ(q); i++)
+ *     void *e = peekiFQ(q,i);
+ */
+void *
+peekiFQ (FQ *q, int i)
+{
+	return (q->nq > 0 ? q->q[q->head - q->nq + i] : NULL);
 }
 
 /* return the number of elements in the given FQ */

@@ -34,6 +34,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 #include <time.h>
 #include <sys/types.h>
@@ -58,20 +59,20 @@ static int ncbinuse;			/* n entries in cback[] marked in_use */
 static int lastcb;			/* cback index of last cb called */
 
 /* info about one registered timer function.
- * the entries are kept sorted by decreasing time remaining before firing.
+ * the entries are kept sorted by decreasing time from epoch, ie,
+ *   the next entry to fire is at the end of the array.
  */
 typedef struct {
-    int tgo;				/* trigger time, ms from epoch */
+    double tgo;				/* trigger time, ms from epoch */
     void *ud;				/* user's data handle */
     TCF *fp;				/* timer function */
     int tid;				/* unique id for this timer */
 } TF;
 static TF *timef;			/* malloced list of timer functions */
 static int ntimef;			/* n entries in ntimef[] */
-static struct timeval epoch;		/* arbitrary t0 */
 static int tid;				/* source of unique timer ids */
 #define	EPOCHDT(tp) 			/* ms from epoch to timeval *tp */  \
-	(((tp)->tv_sec-epoch.tv_sec)*1000 + ((tp)->tv_usec-epoch.tv_usec)/1000)
+	(((tp)->tv_usec)/1000.0 + ((tp)->tv_sec)*1000.0)
 
 /* info about one registered work procedure.
  * the malloced array wproc is never shrunk, entries are reused. new id's are
@@ -91,6 +92,7 @@ static void runWorkProc (void);
 static void callCallback(fd_set *rfdp);
 static void checkTimer();
 static void oneLoop(void);
+static void deferTO (void *p);
 
 /* inf loop to dispatch callbacks, work procs and timers as necessary.
  * never returns.
@@ -98,12 +100,55 @@ static void oneLoop(void);
 void
 eventLoop()
 {
-	/* init epoch to now */
-	gettimeofday (&epoch, NULL);
-
 	/* run loop forever */
 	while (1)
 	    oneLoop();
+}
+
+/* allow other timers/callbacks/workprocs to run until time out in maxms
+ * or *flagp becomes non-0. wait forever if maxms is 0.
+ * return 0 if flag did flip, else -1 if never changed and we timed out.
+ * the expected usage for this is for the caller to arrange for a T/C/W to set
+ *   a flag, then give caller an in-line way to wait for the flag to change.
+ */
+int
+deferLoop (int maxms, int *flagp)
+{
+	int toflag = 0;
+	int totid = maxms ? addTimer (maxms, deferTO, &toflag) : 0;
+
+	while (!*flagp) {
+	    oneLoop();
+	    if (toflag)
+		return (-1);	/* totid already dead */
+	}
+
+	if (totid)
+	    rmTimer (totid);
+	return (0);
+}
+
+/* allow other timers/callbacks/workprocs to run until time out in maxms
+ * or *flagp becomes 0. wait forever if maxms is 0.
+ * return 0 if flag did flip, else -1 if never changed and we timed out.
+ * the expected usage for this is for the caller to arrange for a T/C/W to set
+ *   a flag, then give caller an in-line way to wait for the flag to change.
+ */
+int
+deferLoop0 (int maxms, int *flagp)
+{
+	int toflag = 0;
+	int totid = maxms ? addTimer (maxms, deferTO, &toflag) : 0;
+
+	while (*flagp) {
+	    oneLoop();
+	    if (toflag)
+		return (-1);	/* totid already dead */
+	}
+
+	if (totid)
+	    rmTimer (totid);
+	return (0);
 }
 
 /* register a new callback, fp, to be called with ud as arg when fd is ready.
@@ -178,7 +223,7 @@ addTimer (int ms, TCF *fp, void *ud)
 	tp->fp = fp;
 	tp->tgo = EPOCHDT(&t) + ms;
 
-	/* bubble down sorted by start time */
+	/* insert maintaining sort */
 	for ( ; tp > timef && tp[0].tgo > tp[-1].tgo; tp--) {
 	    TF tmptf = tp[-1];
 	    tp[-1] = tp[0];
@@ -309,7 +354,7 @@ static void
 checkTimer()
 {
 	struct timeval now;
-	int tgonow;
+	double tgonow;
 	TF *tp;
 
 	/* skip if list is empty */
@@ -320,8 +365,8 @@ checkTimer()
 	tgonow = EPOCHDT (&now);
 	tp = &timef[ntimef-1];
 	if (tp->tgo <= tgonow) {
+	    ntimef--;			/* pop then call */
 	    (*tp->fp) (tp->ud);
-	    ntimef--;		/* we assume it didn't remove itself */
 	}
 }
 
@@ -360,14 +405,15 @@ oneLoop()
 	    tvp->tv_sec = tvp->tv_usec = 0;
 	} else if (ntimef > 0) {
 	    struct timeval now;
-	    int late;
+	    double late;
 	    gettimeofday (&now, NULL);
-	    late = timef[ntimef-1].tgo - EPOCHDT (&now);
+	    late = timef[ntimef-1].tgo - EPOCHDT (&now);	/* ms late */
 	    if (late < 0)
 		late = 0;
+	    late /= 1000.0;					/* secs late */
 	    tvp = &tv;
-	    tvp->tv_sec = late/1000;
-	    tvp->tv_usec = 1000*(late%1000);
+	    tvp->tv_sec = (long)floor(late);
+	    tvp->tv_usec = (long)floor((late - tvp->tv_sec)*1000000.0);
 	} else
 	    tvp = NULL;
 
@@ -384,6 +430,15 @@ oneLoop()
 	    runWorkProc();
 	else
 	    callCallback(&rfd);
+}
+
+/* timer callback used to implement deferLoop().
+ * arg is pointer to int which we set to 1
+ */
+static void
+deferTO (void *p)
+{
+	*(int*)p = 1;
 }
 
 #if defined(MAIN_TEST)

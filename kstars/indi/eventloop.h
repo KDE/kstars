@@ -96,6 +96,10 @@ extern int addTimer (int ms, TCF *fp, void *ud);
 */
 extern void rmTimer (int tid);
 
+/* utility functions */
+extern int deferLoop (int maxms, int *flagp);
+extern int deferLoop0 (int maxms, int *flagp);
+
 #ifdef __cplusplus
 }
 #endif
