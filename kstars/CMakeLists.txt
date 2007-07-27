@@ -26,10 +26,10 @@ endif (CFITSIO_FOUND)
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
-set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/lilxml.c )
+set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/lilxml.c )
 
 set(libindicom_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/indicom.c 
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	)
 

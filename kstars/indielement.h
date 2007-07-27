@@ -12,7 +12,7 @@
 #ifndef INDIELEMENT_H_
 #define INDIELEMENT_H_
 
-#include "indi/lilxml.h"
+#include "indi/libs/lilxml.h"
 
 #include <kdialog.h>
 #include <unistd.h>

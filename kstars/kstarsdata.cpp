@@ -41,7 +41,7 @@
 #include "simclock.h"
 #include "timezonerule.h"
 #include "indidriver.h"
-#include "indi/lilxml.h"
+#include "indi/libs/lilxml.h"
 #include "indistd.h"
 #include "detaildialog.h"
 

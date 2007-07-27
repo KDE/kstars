@@ -44,7 +44,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 
-#include "indi/indicom.h"
+#include "indi/libs/indicom.h"
 #include "fitsviewer.h"
 #include "ksutils.h"
 

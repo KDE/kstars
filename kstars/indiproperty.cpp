@@ -15,7 +15,7 @@
  #include "devicemanager.h"
  #include "indimenu.h"
  #include "indistd.h"
- #include "indi/indicom.h"
+ #include "indi/libs/indicom.h"
  #include "Options.h"
  #include "kstars.h"
  #include "timedialog.h"

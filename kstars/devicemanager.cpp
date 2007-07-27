@@ -18,7 +18,7 @@
 #include "indiproperty.h"
 #include "indigroup.h"
 #include "indidevice.h"
-#include "indi/indicom.h"
+#include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include <config-kstars.h>

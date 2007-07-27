@@ -254,7 +254,7 @@ Please select your telescope model from the list below. Click next after selecti
         <widget class="QLabel" name="textLabel1" >
          <property name="text" >
           <string>&lt;b>Tip&lt;/b>
-&lt;br>Some non-Meade telescopes support a subset of the LX200 command set. Select &lt;tt>LX200 Generic&lt;/tt> to control such devices.</string>
+&lt;br>Some non-Meade telescopes support a subset of the LX200 command set. Select &lt;tt>LX200 Basic&lt;/tt> to control such devices.</string>
          </property>
          <property name="wordWrap" >
           <bool>true</bool>

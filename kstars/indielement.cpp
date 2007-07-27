@@ -14,7 +14,7 @@
 #include "indigroup.h"
 #include "indidevice.h"
 
-#include "indi/indicom.h"
+#include "indi/libs/indicom.h"
 
 #include <QCheckBox>
 #include <QLabel>

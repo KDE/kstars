@@ -31,7 +31,7 @@
 #include "indimenu.h"
 #include "indidriver.h"
 #include "indistd.h"
-#include "indi/indicom.h"
+#include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "skyobject.h"
 #include "timedialog.h"
