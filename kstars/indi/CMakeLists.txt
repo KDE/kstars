@@ -1,6 +1,3 @@
-#add_subdirectory( drivers )
-#add_subdirectory( libs )
-
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../.. )
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs)
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee)
@@ -344,7 +341,6 @@ install(TARGETS indi_intelliscope DESTINATION ${BIN_INSTALL_DIR} )
 
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
-ADD_DEFINITIONS(-DTOP_DATADIR=\\"${KDE4_INSTALL_DIR}${DATA_INSTALL_DIR}/kstars\\")
 ADD_DEFINITIONS(-DLINUX)
 
 #####################################
@@ -435,6 +431,8 @@ endif (CFITSIO_FOUND)
 #################################################################################
 
 ########### Apogee Alta ############
+if (CFITSIO_FOUND)
+
 set(apogee_alta_SRCS
 	${indimain_SRCS}
 	${libapogee_SRCS}	
