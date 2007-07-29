@@ -52,8 +52,9 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() : locale(0),
-		LST(0), HourAngle(0), initTimer(0)
+KStarsData::KStarsData(KStars* kstars) : locale(0),
+		LST(0), HourAngle(0), initTimer(0), m_kstars(kstars), 
+        m_updateID(0), m_updateNumID(0), m_updateNum(0)
 {
 	startupComplete = false;
 	objects++;
@@ -273,6 +274,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	}
 
 	KSNumbers num( ut().djd() );
+    m_updateNum = num;
 
 	//TIMING
 	QTime t;
@@ -282,6 +284,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//TIMING
 		//		t.start();
 
+        m_updateNumID++;
 		skyComposite()->update( this, &num );
 
 		//TIMING
@@ -318,6 +321,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//TIMING
 		//		t.start();
 
+        m_updateID++;
 		skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
 
 		//Update focus
@@ -417,6 +421,7 @@ bool KStarsData::readCityData( void ) {
 		while ( fileReader.hasMoreLines() ) {
 			citiesFound |= processCity( fileReader.readLine() );
 		}
+        file.close();  // -jbb because I changed KSFileReader.
 	}
 // end new code
 

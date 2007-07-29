@@ -405,7 +405,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 
 	//select by constellation
 	if ( isItemSelected( i18n("by constellation"), olw->RegionList ) ) {
-		QString c( ksw->data()->skyComposite()->constellation( o ) );
+		QString c( ksw->data()->skyComposite()->constellationName( o ) );
 		if ( isItemSelected( c, olw->ConstellationList ) ) {
 			if ( doBuildList ) obsList().append ( o );
 		} else if ( doAdjustCount ) --ObjectCount;

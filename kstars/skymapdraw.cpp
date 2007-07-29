@@ -101,7 +101,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
         dec = asin( z / sqrt(x*x + y*y + z*z) );
          
         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        mid.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
  
         oMid = toScreen( &mid, scale, false, &isVisible );
         newx = (int) oMid.x();
@@ -165,6 +165,8 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
+    return;  // -jbb for now
+    /***
 	QPolygonF cbound;
 	data->skyComposite()->constellation( focus(), &cbound );
 	
@@ -251,6 +253,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
         oLast = oThis;
         isVisibleLast = isVisible;
     }
+***/
 /****    
 	QPolygonF poly;
     bool isVisible;

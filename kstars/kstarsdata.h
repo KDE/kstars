@@ -20,6 +20,8 @@
 
 #include <iostream>
 
+#include <ksnumbers.h>
+
 #include <QList>
 #include <QMap>
 #include <QKeySequence>
@@ -53,6 +55,8 @@ class TimeZoneRule;
 struct INDIHostsInfo;
 struct ADVTreeData;
 class CustomCatalog;
+
+class KStars;
 
 struct VariableStarInfo
 {
@@ -97,7 +101,7 @@ public:
 	friend class ObsListWizard;
 
 	/**Constructor. */
-	KStarsData();
+	KStarsData( KStars* kstars=0 );
 
 	/**Destructor.  Delete data objects. */
   virtual ~KStarsData();
@@ -319,6 +323,10 @@ public:
 	
 	void appendTelescopeObject(SkyObject * object);*/
 
+    unsigned int updateID() { return m_updateID; }
+    unsigned int updateNumID() { return m_updateNumID; }
+    KSNumbers* updateNum()  { return &m_updateNum; }
+
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/
@@ -476,6 +484,11 @@ private:
 	static int objects;
 	static QList<GeoLocation*> geoList;
 	static QMap<QString, TimeZoneRule> Rulebook;
+
+    KStars*      m_kstars;
+    quint32      m_updateID;
+    quint32      m_updateNumID;
+    KSNumbers    m_updateNum;
 };
 
 

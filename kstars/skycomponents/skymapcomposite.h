@@ -22,17 +22,23 @@
 
 #include "skycomposite.h"
 
+class SkyMesh;
+class SkyLabeler;
+class SkyMap;
+class KStars;
+
 class QPolygonF;
 
-class ConstellationBoundaryComposite;
-class ConstellationLinesComposite;
+class ConstellationBoundary;
+class ConstellationBoundaryPoly;
+class ConstellationLines;
 class ConstellationNamesComponent;
-class CoordinateGridComposite;
+class CoordinateGrid;
 class DeepSkyComponent;
 class EclipticComponent;
 class EquatorComponent;
 class HorizonComponent;
-class MilkyWayComposite;
+class MilkyWay;
 class SolarSystemComposite;
 class StarComponent;
 class SatelliteComposite;
@@ -61,6 +67,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		*@p data pointer to the KStarsData object
 		*/
 		SkyMapComposite(SkyComponent *parent, KStarsData *data);
+
+        ~SkyMapComposite();
 
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 
@@ -105,6 +113,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 			*/
 		virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
 
+		//virtual void draw( );
+
 		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
 		/**
@@ -144,7 +154,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void reloadComets( KStarsData *data );
 
 		//Accessors for StarComponent
-		SkyObject* findStarByGenetiveName( const QString &name );
+		SkyObject* findStarByGenetiveName( const QString name );
 		void setFaintStarMagnitude( float newMag );
 		float faintStarMagnitude() const;
 		void setStarColorMode( int newMode );
@@ -152,8 +162,8 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void setStarColorIntensity( int newIntensity );
 		int starColorIntensity() const;
 
-		QString constellation( SkyPoint *p, QPolygonF *boundary=0 );
-		bool inConstellation( const QString &name, SkyPoint *p );
+		QString constellationName( SkyPoint *p );
+		//bool inConstellation( const QString &name, SkyPoint *p );
 
 		virtual void emitProgressText( const QString &message );
 		virtual QHash<int, QStringList>& objectNames();
@@ -170,25 +180,33 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		QList<SkyComponent*> customCatalogs(); 
 
+        SkyMesh*    skyMesh() { return m_skyMesh; }
+        SkyLabeler* skyLabeler() { return m_skyLabeler; }
+        
 	signals:
 		void progressText( const QString &message );
 
 	private:
-		ConstellationBoundaryComposite *m_CBounds;
+		ConstellationBoundary *m_CBounds;
+		ConstellationBoundaryPoly *m_CBoundsBoundary;
 		ConstellationNamesComponent *m_CNames;
-		ConstellationLinesComposite *m_CLines;
-		CoordinateGridComposite *m_CoordinateGrid;
+		ConstellationLines *m_CLines;
+		CoordinateGrid *m_CoordinateGrid;
 		DeepSkyComponent *m_DeepSky;
 		EquatorComponent *m_Equator;
 		EclipticComponent *m_Ecliptic;
 		HorizonComponent *m_Horizon;
-		MilkyWayComposite *m_MilkyWay;
+		MilkyWay *m_MilkyWay;
 		SolarSystemComposite *m_SolarSystem;
 		SkyComposite *m_CustomCatalogs;
 		StarComponent *m_Stars;
 		SatelliteComposite *m_Satellites;
 
-		QList<SkyObject*> m_LabeledObjects;
+        SkyMesh*                m_skyMesh;
+        SkyLabeler*             m_skyLabeler;
+        SkyMap*                 m_map;
+
+		QList<SkyObject*>       m_LabeledObjects;
 		QHash<int, QStringList> m_ObjectNames;
 		QHash<QString, QString> m_ConstellationNames;
 };

@@ -18,6 +18,8 @@
 #ifndef DEEPSKYCOMPONENT_H
 #define DEEPSKYCOMPONENT_H
 
+#include "typedef.h"
+
 /**
 	*@class DeepSkyComponent
 	*Represents the deep sky objects separated by catalogs. 
@@ -39,14 +41,16 @@ class SkyMap;
 class KSNumbers;
 class DeepSkyObject;
 class SkyPoint;
+class SkyMesh;
+
+typedef QVector< DeepSkyObject*>    DeepSkyList; 
+typedef QHash< int, DeepSkyList*>   DeepSkyIndex;
 
 class DeepSkyComponent: public SkyComponent
 {
 	public:
 
-		DeepSkyComponent( SkyComponent*, bool (*vMethodDeepSky)(), bool (*vMethodMess)(), 
-				bool (*vMethodNGC)(), bool (*vMethodIC)(), 
-				bool (*vMethodOther)(), bool (*vMethodImages)() );
+		DeepSkyComponent( SkyComponent* );
 		
 		~DeepSkyComponent();
 
@@ -83,7 +87,7 @@ class DeepSkyComponent: public SkyComponent
 		virtual void init(KStarsData *data);
 
 		/**
-			*@short Update the sky positions of this component.
+			*@short Update the sky positions of this component.  FIXME -jbb does nothing now
 			*
 			*This function usually just updates the Horizontal (Azimuth/Altitude)
 			*coordinates of the objects in this component.  If the KSNumbers* 
@@ -96,12 +100,6 @@ class DeepSkyComponent: public SkyComponent
 			*is only occasionally required.
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
-		
-		bool (*visibleMessier)();
-		bool (*visibleNGC)();
-		bool (*visibleIC)();
-		bool (*visibleOther)();
-		bool (*visibleImages)();
 
 		/**
 			*@short Search the children of this SkyComponent for 
@@ -117,15 +115,33 @@ class DeepSkyComponent: public SkyComponent
 
 		void clear();
 
+        bool selected();
+
 	private:
-		void drawDeepSkyCatalog( QPainter& psky, SkyMap *map, QList<DeepSkyObject*>& catalog, 
-					QColor& color, QColor& color2, bool drawObject, bool drawImage, double scale );
+        double      m_scale;
+        KStarsData* m_data;
+        SkyMap*     m_map;
+
+        void drawDeepSkyCatalog( QPainter& psky, bool drawObject, DeepSkyIndex* dsIndex,
+                                 const QString& colorString);
 
 		QList<DeepSkyObject*> m_DeepSkyList;
 		QList<DeepSkyObject*> m_MessierList;
 		QList<DeepSkyObject*> m_NGCList;
 		QList<DeepSkyObject*> m_ICList;
 		QList<DeepSkyObject*> m_OtherList;
+
+        SkyMesh* m_skyMesh;
+		DeepSkyIndex m_DeepSkyIndex;
+		DeepSkyIndex m_MessierIndex;
+		DeepSkyIndex m_NGCIndex;
+		DeepSkyIndex m_ICIndex;
+		DeepSkyIndex m_OtherIndex;
+
+        void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex );
+        void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel );
+
+        QHash<QString, DeepSkyObject*> nameHash;
 };
 
 #endif

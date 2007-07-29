@@ -37,7 +37,7 @@ class EclipticComponent: public LineListComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComponent object
 		 */
-		EclipticComponent(SkyComponent *parent, bool (*visibleMethod)());
+		EclipticComponent(SkyComponent *parent );
 
 		/**
 		 *@short Destructor
@@ -58,6 +58,7 @@ class EclipticComponent: public LineListComponent
 		 */
 		virtual void init(KStarsData *data);
 
+        bool selected();
 };
 
 #endif

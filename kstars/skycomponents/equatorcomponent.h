@@ -39,7 +39,7 @@ class EquatorComponent: public LineListComponent
 		 *@short Constructor
 		 *@p parent pointer to the parent SkyComposite
 		 */
-		EquatorComponent(SkyComponent *parent, bool (*visibleMethod)());
+		EquatorComponent(SkyComponent *parent );
 
 		/**
 		 *@short Destructor
@@ -58,6 +58,8 @@ class EquatorComponent: public LineListComponent
 		 *@p data Pointer to the KStarsData object
 		 */
 		virtual void init(KStarsData *data);
+
+        bool selected();
 };
 
 #endif

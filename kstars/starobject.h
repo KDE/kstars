@@ -252,6 +252,9 @@ class StarObject : public SkyObject {
 	*/
 	static void updateColors( bool desaturateColors, int saturation );
 
+    quint64 updateID;
+    quint64 updateNumID;
+
 protected:
 	static QMap<QString, QColor> ColorMap;
 

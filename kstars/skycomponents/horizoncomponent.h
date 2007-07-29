@@ -40,7 +40,7 @@ class HorizonComponent: public PointListComponent
 		 *@short Constructor
 		 *@p parent Pointer to the parent SkyComposite object
 		 */
-		HorizonComponent(SkyComponent *parent, bool (*visibleMethod)());
+		HorizonComponent(SkyComponent *parent );
 
 		/**
 		 *@short Destructor
@@ -62,6 +62,8 @@ class HorizonComponent: public PointListComponent
 		virtual void init(KStarsData *data);
 
 		virtual void update( KStarsData*, KSNumbers* );
+
+        bool selected();
 
 	private:
 		void drawCompassLabels( KStars *ks, QPainter& psky, double scale );

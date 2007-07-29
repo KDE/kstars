@@ -147,7 +147,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 		addAction( aType );
 	}
 
-	labConstellation = new QLabel( "<b>"+ks->data()->skyComposite()->constellation( obj )+"</b>", this );
+	labConstellation = new QLabel( "<b>"+ks->data()->skyComposite()->constellationName( obj )+"</b>", this );
 	labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
 	aConstellation = new KAction( this );
         ks->actionCollection()->addAction( "title_constellation", aConstellation );

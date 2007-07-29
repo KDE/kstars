@@ -22,11 +22,10 @@
 
 #include <QList>
 #include <QPointF>
-
-#include <QPen>
+#include <QPen> 
 
 #include "skycomponent.h"
-#include "skyline.h"
+#include "skypoint.h"
 
 class KStars;
 
@@ -42,8 +41,8 @@ class LineListComponent : public SkyComponent
 {
 	public:
 	
-		LineListComponent( SkyComponent *parent, bool (*visibleMethod)() );
-		
+		LineListComponent( SkyComponent *parent );
+
 		virtual ~LineListComponent();
 		
 		enum { NoLabel = 0, LeftEdgeLabel = 1, RightEdgeLabel = 2, UnknownLabel };
@@ -82,13 +81,15 @@ class LineListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
-		inline const QList<SkyPoint*>& lineList() { return m_SkyLine.points(); }
-		inline SkyLine& skyLine() { return m_SkyLine; }
-		inline void appendPoint( const SkyPoint &p ) { m_SkyLine.append( p ); }
+        inline QList<SkyPoint*>* points() { return &pointList; }
+
+        inline void appendP( SkyPoint* p ) {
+            pointList.append( p ); 
+        }
 
 	private:
 		SkyComponent *Parent;
-		SkyLine m_SkyLine;
+		QList<SkyPoint*> pointList;
 		int LabelPosition;
 		QString Label;
 		QPen Pen;

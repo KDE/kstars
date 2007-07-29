@@ -247,7 +247,7 @@ void DetailDialog::createGeneralTab()
 	}
 
 	//Common to all types:
-	Data->Constellation->setText( ksw->data()->skyComposite()->constellation( selectedObject ) );
+	Data->Constellation->setText( ksw->data()->skyComposite()->constellationName( selectedObject ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {

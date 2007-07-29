@@ -91,7 +91,7 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 		}
 			
 		if ( isVisible ) {
-			SatelliteComponent *sc = new SatelliteComponent( this, Options::showSatellites );
+			SatelliteComponent *sc = new SatelliteComponent( this );
 			sc->init( satName, data, pSat.data(), NSTEPS );
 			addComponent( sc );
 

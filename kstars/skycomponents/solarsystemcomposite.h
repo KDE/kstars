@@ -26,6 +26,7 @@ class KSMoon;
 class JupiterMoonsComponent;
 class AsteroidsComponent;
 class CometsComponent;
+class SkyLabeler;
 
 /**@class SolarSystemComposite
 * The solar system composite manages all planets, asteroids and comets.
@@ -39,7 +40,7 @@ class CometsComponent;
 class SolarSystemComposite : public SkyComposite
 {
 	public:
-		SolarSystemComposite(SkyComponent *parent, KStarsData *data);
+		SolarSystemComposite( SkyComponent *parent, KStarsData *data );
 		~SolarSystemComposite();
 		
 		KSPlanet* earth() { return m_Earth; }
@@ -48,6 +49,8 @@ class SolarSystemComposite : public SkyComposite
 
 		
 		virtual void init(KStarsData *data);
+
+        bool selected();
 
 		virtual void update( KStarsData *data, KSNumbers *num );
 		
@@ -64,6 +67,8 @@ class SolarSystemComposite : public SkyComposite
 		void reloadAsteroids( KStarsData *data );
 		void reloadComets( KStarsData *data );
 
+        SkyLabeler* skyLabeler() { return m_skyLabeler; }
+
 	private:
 		KSPlanet *m_Earth;
 		KSSun *m_Sun;
@@ -71,6 +76,7 @@ class SolarSystemComposite : public SkyComposite
 		JupiterMoonsComponent *m_JupiterMoons;
 		AsteroidsComponent *m_AsteroidsComponent;
 		CometsComponent *m_CometsComponent;
+        SkyLabeler* m_skyLabeler;
 };
 
 #endif

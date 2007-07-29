@@ -39,7 +39,7 @@ class PointListComponent : public SkyComponent
 {
 	public:
 	
-		PointListComponent( SkyComponent *parent, bool (*visibleMethod)() );
+		PointListComponent( SkyComponent *parent );
 		
 		virtual ~PointListComponent();
 		

@@ -1,4 +1,4 @@
-/***************************************************************************
+/****************************************************************************
                           linelistcomponent.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2006/11/01
@@ -27,31 +27,33 @@
 #include "dms.h"
 #include "Options.h"
 
-LineListComponent::LineListComponent( SkyComponent *parent, bool (*visibleMethod)() )
-	: SkyComponent( parent, visibleMethod ), LabelPosition( NoLabel ),
-		Label( QString() )
-{
-}
+
+LineListComponent::LineListComponent( SkyComponent *parent )
+	: SkyComponent( parent ), LabelPosition( NoLabel ), Label( QString() )
+{}
 
 LineListComponent::~LineListComponent()
-{
-}
+{}
 
 void LineListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( visible() )
-		m_SkyLine.update( data, num );
+    if ( ! num ) return;
+    if ( ! selected() ) return;
+
+    foreach ( SkyPoint* p, pointList ) {
+        p->updateCoords( num );
+        p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
 }
 
 void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
-	if ( ! visible() ) return;
+	if ( ! selected() ) return;
 
 	SkyMap *map = ks->map();
 
 	psky.setPen( pen() );
 
 	bool isVisible, isVisibleLast;
-    bool onScreen, onScreenLast;
     SkyPoint  *pLast, *pThis;
 
 	QList<QPointF> pList; // for sending to drawLabels()
@@ -61,14 +63,14 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 
         QPointF oThis, oLast, oMid;
 
-        pLast = lineList().at( 0 );
+        pLast = points()->at( 0 );
 
         oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
 
-        int limit = lineList().size();
+        int limit = points()->size();
 
         for ( int i=1 ; i < limit ; i++ ) {
-            pThis = lineList().at( i );
+            pThis = points()->at( i );
             oThis = map->toScreen( pThis, scale, false, &isVisible );
 
             if ( map->onScreen(oThis, oLast ) ) {
@@ -95,14 +97,14 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
     else {
 
         QPoint oThis, oLast, oMid;
-        pLast = lineList().at( 0 );
+        pLast = points()->at( 0 );
 
         oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
 
-        int limit = lineList().size();
+        int limit = points()->size();
 
         for ( int i=1 ; i < limit ; i++ ) {
-            pThis = lineList().at( i );
+            pThis = points()->at( i );
             oThis = map->toScreenI( pThis, scale, false, &isVisible );
 
             if ( map->onScreen(oThis, oLast ) ) {

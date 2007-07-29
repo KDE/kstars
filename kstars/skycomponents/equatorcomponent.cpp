@@ -30,13 +30,18 @@
 #include "kstars.h"
 #include "skymap.h"
 
-EquatorComponent::EquatorComponent(SkyComponent *parent, bool (*visibleMethod)()) : LineListComponent(parent, visibleMethod)
-{
-}
+EquatorComponent::EquatorComponent(SkyComponent *parent ) : 
+    LineListComponent(parent )
+{}
 
 EquatorComponent::~EquatorComponent()
+{}
+
+bool EquatorComponent::selected()
 {
+    return Options::showEquator();
 }
+
 
 void EquatorComponent::init(KStarsData *data)
 {
@@ -48,8 +53,8 @@ void EquatorComponent::init(KStarsData *data)
 										 1, Qt::SolidLine ) );
 
 	for ( unsigned int i=0; i<=NCIRCLE; ++i ) {
-		SkyPoint p( i*24./NCIRCLE, 0.0 );
-		p.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		appendPoint( p );
+		SkyPoint* p = new SkyPoint( i*24./NCIRCLE, 0.0 );
+		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		appendP( p );
 	}
 }

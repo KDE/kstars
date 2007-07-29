@@ -1,0 +1,296 @@
+/***************************************************************************
+                         skylabeler.cpp  -  K Desktop Planetarium
+                             -------------------
+    begin                : 2007-07-10
+    copyright            : (C) 2007 by James B. Bowlin
+    email                : bowlin@mindspring.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include <stdio.h>
+
+#include "skylabeler.h"
+#include "skymap.h"
+
+//-------------------------------------------------------------------------//
+// A Little data container class
+//-------------------------------------------------------------------------//
+
+class LabelRun {
+    public:
+        LabelRun(int s, int e) : start(s), end(e) {}
+        int start;
+        int end;
+};
+
+//-------------------------------------------------------------------------//
+// Now for the main event
+//-------------------------------------------------------------------------//
+
+SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() )
+{
+    m_errors = 0;
+    m_minDeltaX = 30;    // when to merge two adjacent regions 
+    m_yDensity  = 1.0;   // controls vertical resolution
+
+    m_marks = m_hits = m_misses = m_elements = 0;
+}
+
+SkyLabeler::~SkyLabeler()
+{
+    for (int y = 0; y < screenRows.size(); y++ ) {
+        LabelRow* row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++) {
+            delete row->at(i);
+        }
+        delete row;
+    }
+}
+
+void SkyLabeler::setFont( const QFont& font )
+{
+    m_fontMetrics = QFontMetrics( font );
+}
+
+void SkyLabeler::reset( SkyMap* skyMap, const QFont& font)
+{
+    setFont( font );
+    reset( skyMap );
+}
+
+void SkyLabeler::reset( SkyMap* skyMap )
+{
+    m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
+
+    int maxY = int( skyMap->height() / m_yScale );
+
+    int m_maxX = skyMap->width();
+    m_size = (maxY + 1) * m_maxX;
+
+    // Resize if needed:
+    if ( maxY > m_maxY ) {
+        screenRows.resize( m_maxY );
+        for ( int y = m_maxY; y <= maxY; y++) {
+            screenRows.append( new LabelRow() );
+        }
+        //printf("resize: %d -> %d, size:%d\n", m_maxY, maxY, screenRows.size());
+    }
+
+    // Clear all pre-existing rows as needed
+
+    int minMaxY = (maxY < m_maxY) ? maxY : m_maxY;
+
+    for (int y = 0; y <= minMaxY; y++) {
+        LabelRow* row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++) {
+            delete row->at(i);
+        }
+        row->clear();
+    }
+
+    // never decrease m_maxY:
+    if ( m_maxY < maxY ) m_maxY = maxY;
+
+    // reset the counters
+    m_marks = m_hits = m_misses = m_elements = 0;
+}
+
+
+// We use Run Length Encoding to hold the information instead of an array of
+// chars.  This is both faster and smaller but the code is more complicated.
+//
+// This code is easy to break and hard to fix.
+
+bool SkyLabeler::mark( const QPointF& p, const QString& text )
+{
+    if ( m_maxY < 1 ) {
+        if ( ! m_errors++ )
+            fprintf(stderr, "Someone forgot to reset the SkyLabeler!\n");
+        return true;
+    }
+
+    // setup min/max x/y of rectangluar region covering text
+    // no range checking for x
+
+    int minX = int( p.x() );
+    int maxX = int( p.x() + m_fontMetrics.width( text ) );
+
+    // but we still need range checking for y
+    //
+    int maxY = int( p.y()  / m_yScale);
+    if ( maxY < 0 ) maxY = 0;
+    if ( maxY > m_maxY ) maxY = m_maxY;
+
+    int minY = int( (p.y() - m_fontMetrics.height() ) / m_yScale);
+    if ( minY < 0 ) minY = 0;
+
+    // check to see if we overlap any existing label
+    // We must check all rows before we start marking
+
+    for (int y = minY; y <= maxY; y++ ) {
+        LabelRow* row = screenRows[ y ];
+        int i;
+        for ( i = 0; i < row->size(); i++) {
+            if ( row->at( i )->end < minX ) continue;  // skip past these
+            if ( row->at( i )->start > maxX ) break;
+            m_misses++;
+            return false;
+        }
+    }
+
+    m_hits++;
+    m_marks += (maxX - minX + 1) * (maxY - minY + 1);
+
+    // Okay, there was no overlap so let's insert the current rectangle into
+    // screenRows.
+
+    for ( int y = minY; y <= maxY; y++ ) {
+        LabelRow* row = screenRows[ y ];
+
+        // Simplest case: an empty row
+        if ( row->size() < 1 ) {
+            row->append( new LabelRun( minX, maxX ) );
+            m_elements++;
+            continue;
+        }
+
+        // Find out our place in the universe (or row).
+        // H'mm.  Maybe we could cache these numbers above.
+        int i;
+        for ( i = 0; i < row->size(); i++ ) {
+            if ( row->at(i)->end >= minX ) break;
+        }
+
+        // i now points to first label PAST ours
+
+        // if we are first, append or merge at start of list
+        if ( i == 0 ) {        
+            if ( row->at(0)->start - maxX < m_minDeltaX ) {
+                row->at(0)->start = minX;
+            }
+            else {
+                row->insert( 0, new LabelRun(minX, maxX) );
+                m_elements++;
+            }
+            continue;
+        }
+
+        // if we are past the last label, merge or append at end
+        else if ( i == row->size() ) {
+            if ( minX - row->at(i-1)->end < m_minDeltaX ) {
+                row->at(i-1)->end = maxX;
+            }
+            else {
+                row->append( new LabelRun(minX, maxX) );
+                m_elements++;
+            }
+            continue;
+        }
+
+        // if we got here, we must insert or merge the new label
+        //  between [i-1] and [i]
+
+        bool mergeHead = ( minX - row->at(i-1)->end < m_minDeltaX );
+        bool mergeTail = ( row->at(i)->start - maxX < m_minDeltaX );
+
+        // double merge => combine all 3 into one
+        if ( mergeHead && mergeTail ) {
+            row->at(i-1)->end = row->at(i)->end;
+            delete row->at( i );
+            row->removeAt( i );
+            m_elements--;
+        }
+
+        // Merge label with [i-1]
+        else if ( mergeHead ) {
+            row->at(i-1)->end = maxX;
+        }
+
+        // Merge label with [i]
+        else if ( mergeTail ) {
+            row->at(i)->start = minX;
+        }
+
+        // insert between the two
+        else {
+            row->insert( i, new LabelRun( minX, maxX) );
+            m_elements++;
+        }
+    }
+
+    return true;
+}
+
+
+float SkyLabeler::fillRatio()
+{
+    if ( m_size == 0 ) return 0.0;
+    return 100.0 * float(m_marks) / float(m_size);
+}
+
+float SkyLabeler::hitRatio()
+{
+    if (m_hits == 0 ) return 0.0;
+    return 100.0 * float(m_hits) / ( float(m_hits + m_misses) );
+}
+
+void SkyLabeler::printInfo()
+{
+    printf("SkyLabeler:\n");
+    printf("  fillRatio=%.1f%%\n", fillRatio() );
+    printf("  hits=%d  misses=%d  ratio=%.1f%%\n", m_hits, m_misses, hitRatio());
+    printf("  yScale=%.1f yDensity=%.1f maxY=%d\n", m_yScale, m_yDensity, m_maxY );
+
+    printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n", 
+            screenRows.size(), m_elements, float(m_size) / 1024.0 );
+
+    // Check for errors in the data structure
+    for (int y = 0; y <= m_maxY; y++) {
+        LabelRow* row = screenRows[y];
+        int size = row->size();
+        if ( size < 2 ) continue;
+
+        bool error = false;
+        for (int i = 1; i < size; i++) {
+            if ( row->at(i-1)->end > row->at(i)->start ) error = true;
+        }
+        if ( ! error ) continue;
+
+        printf("ERROR: %3d: ", y );
+        for (int i=0; i < row->size(); i++) {
+            printf("(%d, %d) ", row->at(i)->start, row->at(i)->end );
+        }
+        printf("\n");
+    }
+}
+
+void SkyLabeler::incDensity()
+{
+    if ( m_yDensity < 1.0 )
+        m_yDensity += 0.1;
+    else
+        m_yDensity++;
+
+    if ( m_yDensity > 12.0 ) m_yDensity = 12.0;
+}
+
+void SkyLabeler::decDensity()
+{
+    if ( m_yDensity  <= 1.0) 
+        m_yDensity -= 0.1;
+    else
+        m_yDensity--;
+
+    if ( m_yDensity < 0.1 ) m_yDensity = 0.1;
+}
+
+
+

@@ -29,6 +29,7 @@
 	*/
 
 class KStarsData;
+class SkyLabeler;
 
 #include <QList>
 #include "skyobject.h"
@@ -40,7 +41,7 @@ class ConstellationNamesComponent : public ListComponent
 		*@short Constructor
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationNamesComponent(SkyComponent *parent, bool (*visibleMethod)());
+		ConstellationNamesComponent(SkyComponent *parent );
 	/**
 		*@short Destructor.  Delete list members
 		*/
@@ -71,6 +72,10 @@ class ConstellationNamesComponent : public ListComponent
 		*/
 		virtual void init(KStarsData *data);
 
+        bool selected();
+
+    private:
+        SkyLabeler* m_skyLabeler;
 };
 
 #endif

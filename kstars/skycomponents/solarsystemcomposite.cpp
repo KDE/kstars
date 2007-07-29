@@ -35,9 +35,12 @@
 #include "kspluto.h"
 #include "jupitermoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
+
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data )
   : SkyComposite(parent)
 {
+
+    m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
 	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
 	m_Sun = new KSSun(data);
@@ -65,6 +68,12 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
 SolarSystemComposite::~SolarSystemComposite()
 {
 	delete m_Earth;
+}
+
+bool SolarSystemComposite::selected()
+{
+    return true;
+    // FIXME: should be: return Options::showSolarSystem();
 }
 
 void SolarSystemComposite::init(KStarsData *data)
@@ -107,6 +116,8 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
+    if ( ! selected() ) return;
+
 	//FIXME: first draw the objects which are far away
 	//(Thomas had been doing this by keeping separate pointers to
 	//inner solar system objects, but I'd rather handle it here in the draw

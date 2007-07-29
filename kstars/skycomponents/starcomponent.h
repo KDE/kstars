@@ -29,19 +29,25 @@
 #define NHIPFILES 127
 
 #include "listcomponent.h"
+#include "typedef.h"
 
 class SkyComponent;
 class KStars;
 class KStarsData;
 class KSFileReader;
+class SkyMesh;
+class StarObject;
+class SkyLabeler;
 
 class StarComponent: public ListComponent
 {
 	public:
 
-		StarComponent(SkyComponent*, bool (*visibleMethod)());
-		
+		StarComponent( SkyComponent* );
+
 		virtual ~StarComponent();
+
+        void update( KStarsData *data, KSNumbers *num );
 
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
@@ -52,12 +58,12 @@ class StarComponent: public ListComponent
 /**@return the current setting of the color mode for stars (0=real colors, 
 	*1=solid red, 2=solid white or 3=solid black).
 	*/
-	int starColorMode( void ) const { return m_ColorMode; }
+	    int starColorMode( void ) const { return m_ColorMode; }
 
 /**@short Set the color mode for stars (0=real colors, 1=solid red, 2=solid
 	*white or 3=solid black).
 	*/
-	void setStarColorMode( int mode ) { m_ColorMode = mode; }
+	    void setStarColorMode( int mode ) { m_ColorMode = mode; }
 
 /**@short Retrieve the color-intensity value for stars.
 	*
@@ -67,7 +73,7 @@ class StarComponent: public ListComponent
 	*the color-saturation level for star images.
 	*@return the current setting of the color intensity setting for stars.
 	*/
-	int starColorIntensity( void ) const { return m_ColorIntensity; }
+	    int starColorIntensity( void ) const { return m_ColorIntensity; }
 
 /**@short Sets the color-intensity value for stars.
 	*
@@ -76,16 +82,29 @@ class StarComponent: public ListComponent
 	*the relative thickness of this colored border, so it effectively adjusts
 	*the color-saturation level for star images.
 	*/
-	void setStarColorIntensity( int value ) { m_ColorIntensity = value; }
+	    void setStarColorIntensity( int value ) { m_ColorIntensity = value; }
 
-	float faintMagnitude() const { return m_FaintMagnitude; }
-	void setFaintMagnitude( float newMagnitude );
+	    float faintMagnitude() const { return m_FaintMagnitude; }
+
+	    void setFaintMagnitude( float newMagnitude );
+
+        SkyObject* objectNearest(SkyPoint *p, double &maxrad );
+
+        SkyObject* findStarByGenetiveName( const QString name );
 
 	private:
+        SkyMesh*              m_skyMesh;
+        QVector< StarList* >  m_starIndex;
+        SkyLabeler*           m_skyLabeler;
+        
+        qint64 lastFilePos;
+
+        QHash<QString, SkyObject*> m_genName;
+
 		// some helper methods
 		bool openStarFile(int i);
 
-	/**
+	/** 
 		*Parse a line from a stars data file, construct a StarObject from the data,
 		*and add it to the StarComponent.
 		*
@@ -116,8 +135,9 @@ class StarComponent: public ListComponent
 		*/
 		void processStar( const QString &line );
 
+        bool selected();
+
 		KStarsData *m_Data;
-		KSFileReader *starFileReader;
 		float m_FaintMagnitude;
 		int m_ColorMode, m_ColorIntensity;
 };

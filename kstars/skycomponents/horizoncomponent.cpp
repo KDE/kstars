@@ -21,6 +21,7 @@
 #include <QPointF>
 #include <QPainter>
 
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
@@ -31,14 +32,12 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-HorizonComponent::HorizonComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: PointListComponent(parent, visibleMethod)
-{
-}
+HorizonComponent::HorizonComponent(SkyComponent *parent ) 
+: PointListComponent( parent )
+{}
 
 HorizonComponent::~HorizonComponent()
-{
-}
+{}
 
 void HorizonComponent::init(KStarsData *data)
 {
@@ -55,11 +54,17 @@ void HorizonComponent::init(KStarsData *data)
 	}
 }
 
-void HorizonComponent::update( KStarsData *data, KSNumbers * ) {
-	if ( visible() ) {
-		foreach ( SkyPoint *p, pointList() ) {
-			p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-		}
+bool HorizonComponent::selected()
+{
+    return Options::showHorizon();
+}
+
+void HorizonComponent::update( KStarsData *data, KSNumbers * )
+{
+	if ( ! selected() ) return;
+
+	foreach ( SkyPoint *p, pointList() ) {
+		p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 	}
 }
 
@@ -69,7 +74,7 @@ void HorizonComponent::update( KStarsData *data, KSNumbers * ) {
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( ! visible() ) return;
+	if ( ! selected() ) return;
 
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();

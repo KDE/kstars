@@ -26,13 +26,18 @@
 #include "skyline.h"
 #include "Options.h"
 
-SatelliteComponent::SatelliteComponent(SkyComponent *parent, bool (*visibleMethod)())
-: LineListComponent(parent, visibleMethod)
+SatelliteComponent::SatelliteComponent(SkyComponent *parent )
+: LineListComponent(parent)
+{}
+
+SatelliteComponent::~SatelliteComponent() 
+{}
+
+bool SatelliteComponent::selected()
 {
+    return Options::showSatellites();
 }
 
-SatelliteComponent::~SatelliteComponent() {
-}
 
 void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionSat *pSat[], int npos ) {
 	setLabel( name );
@@ -42,12 +47,12 @@ void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionS
 										 2.5, Qt::SolidLine ) );
 
 	for ( int i=0; i<npos; i++ ) {
-		SkyPoint p;
-		p.setAlt( pSat[i]->sat_ele );
-		p.setAz( pSat[i]->sat_azi );
-		p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+		SkyPoint* p = new SkyPoint();
+		p->setAlt( pSat[i]->sat_ele );
+		p->setAz( pSat[i]->sat_azi );
+		p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
-		appendPoint( p );
+		appendP( p );
 		jdList().append( pSat[i]->jd );
 
 	}
@@ -66,12 +71,12 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	KStarsDateTime dtLast( jdList()[0] );
 	for ( int i=1; i<jdList().size(); ++i ) {
 		KStarsDateTime dt( jdList()[i] );
-		SkyPoint *sp = lineList()[i];
+		SkyPoint *sp = points()->at(i);
 		SkyPoint *sp2;
-		if ( i<lineList().size()-1 )
-			sp2 = lineList()[i+1];
+		if ( i<points()->size()-1 )
+			sp2 = points()->at(i+1);
 		else
-			sp2 = lineList()[i-1];
+			sp2 = points()->at(i-1);
 
 		if ( sp->alt()->Degrees() > 0.0 
 				 && dt.time().minute() != dtLast.time().minute() ) {

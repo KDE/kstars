@@ -27,12 +27,16 @@
 #include "dms.h"
 #include "Options.h"
 
-EclipticComponent::EclipticComponent(SkyComponent *parent, bool (*visibleMethod)()) : LineListComponent(parent, visibleMethod)
-{
-}
+EclipticComponent::EclipticComponent(SkyComponent *parent ) : 
+    LineListComponent( parent )
+{}
 
 EclipticComponent::~EclipticComponent()
+{}
+
+bool EclipticComponent::selected()
 {
+    return Options::showEcliptic();
 }
 
 void EclipticComponent::init(KStarsData *data)
@@ -49,10 +53,10 @@ void EclipticComponent::init(KStarsData *data)
 
 	for ( unsigned int i=0; i<=NCIRCLE; ++i ) {
 		elng.setD( double( i ) );
-		SkyPoint o;
-		o.setFromEcliptic( num.obliquity(), &elng, &elat );
-		o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		appendPoint( o );
+		SkyPoint* o = new SkyPoint();
+		o->setFromEcliptic( num.obliquity(), &elng, &elat );
+		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+		appendP( o );
 	}
 }
 
