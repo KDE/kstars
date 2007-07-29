@@ -1,0 +1,241 @@
+//#     Filename:       SpatialDomain.cpp
+//#
+//#     The SpatialDomain
+//#     classes are defined here.
+//#
+//#     Author:         Peter Z. Kunszt based on A. Szalay's code
+//#     
+//#     Date:           October 23, 1998
+//#
+//#		Copyright (C) 2000  Peter Z. Kunszt, Alex S. Szalay, Aniruddha R. Thakar
+//#                     The Johns Hopkins University
+//#
+//#     Modification History:
+//#
+//#     Oct 18, 2001 : Dennis C. Dinge -- Replaced ValVec with std::vector
+//#
+
+#include "SpatialDomain.h"
+#include "SpatialException.h"
+
+#define COMMENT '#'
+// ===========================================================================
+//
+// Member functions for class SpatialDomain
+//
+// ===========================================================================
+
+/////////////CONSTRUCTOR//////////////////////////////////
+//
+// Initialize
+//
+SpatialDomain::SpatialDomain(const SpatialIndex * i) :
+  index(i) {
+}
+
+/////////////DESTRUCTOR///////////////////////////////////
+//
+SpatialDomain::~SpatialDomain()
+{
+}
+
+/////////////SETINDEX/////////////////////////////////////
+//
+void
+SpatialDomain::setIndex(const SpatialIndex * idx)
+{
+  index = idx;
+}
+
+/////////////ADD//////////////////////////////////////////
+//
+void
+SpatialDomain::add(SpatialConvex & c)
+{
+  convexes_.push_back(c);
+}
+
+#ifdef HAVE_BITLIST
+/////////////INTERSECT////////////////////////////////////
+//
+bool
+SpatialDomain::intersect(const SpatialIndex * idx, 
+			 BitList & partial, BitList & full) {
+  index = idx;
+
+  if ( idx->maxlevel_ > 10 )
+    throw SpatialException("Intersection with Bitlists more than 10 levels deep is impractical.");
+  size_t i;
+  // initialize empty lists
+  full.clear(); partial.clear();
+  full.trim();  partial.trim();
+  full.set((uint32)index->leafCount()-1, false);
+  partial.set((uint32)index->leafCount()-1, false);
+
+  for(i = 0; i < convexes_.size(); i++)  // intersect every convex
+    convexes_[i].intersect(index, &partial, &full);
+
+  return true;
+}
+#endif
+
+/////////////INTERSECT////////////////////////////////////
+//
+bool
+SpatialDomain::intersect(const SpatialIndex * idx, 
+			 ValueVectorUint64 & partial, ValueVectorUint64 & full) {
+  index = idx;
+
+  size_t i;
+  // initialize empty lists
+  full.clear();
+  partial.clear();
+
+  for(i = 0; i < convexes_.size(); i++)  // intersect every convex
+    convexes_[i].intersect(index, &partial, &full);
+
+  qsort(&(partial.front()), partial.size(), sizeof (uint64), compUint64); 
+  qsort(&(full.front()), full.size(), sizeof (uint64), compUint64);
+
+
+  return true;
+}
+
+/////////////INTERSECT////////////////////////////////////
+//
+bool
+SpatialDomain::intersect(const SpatialIndex * idx, 
+			 ValueVectorUint64 & idList) {
+  index = idx;
+
+  size_t i;
+  // initialize empty lists
+  idList.clear();
+
+  for(i = 0; i < convexes_.size(); i++)  // intersect every convex
+    convexes_[i].intersect(index, &idList);
+
+  topBit_ = 1;
+  size_t n = (index->maxlevel_+2) * 2 - 1 ;
+  topBit_ = topBit_ << n;
+  qsort(&(idList.front()), idList.size(), sizeof (uint64), compUint64);
+
+  return true;
+}
+
+void
+SpatialDomain::ignoreCrLf(istream &in) {
+  char c = in.peek();
+  while (c == 10 || c == 13) {
+    in.ignore();
+    c = in.peek();
+  }
+}
+/////////////READ/////////////////////////////////////////
+//
+void
+SpatialDomain::read(istream &in) {
+  size_t nconv;
+  char comstr[20];
+
+  while(in.peek() == COMMENT)  // ignore comments
+      in.ignore(10000,'\n');
+  in >> nconv; 
+  ignoreCrLf(in);
+  for(size_t i = 0; i < nconv; i++) {
+    comstr[0] = '\0';
+    if(in.peek() == COMMENT) // here comes a command
+      in >> comstr;
+
+    if(strcmp(comstr,"#TRIANGLE")==0) {
+      SpatialVector v1,v2,v3;
+      in >> v1;
+      in >> v2;
+      in >> v3;
+      SpatialConvex cvx(&v1,&v2,&v3);
+      add(cvx);
+      ignoreCrLf(in);
+    } else if(strcmp(comstr,"#RECTANGLE")==0) {
+      SpatialVector v1,v2,v3,v4;
+      in >> v1;
+      in >> v2;
+      in >> v3;
+      in >> v4;
+      SpatialConvex cvx(&v1,&v2,&v3,&v4);
+      add(cvx);
+      ignoreCrLf(in);
+    } else if(strcmp(comstr,"#TRIANGLE_RADEC")==0) {
+      float64 ra1,ra2,ra3;
+      float64 dec1,dec2,dec3;
+      in >> ra1 >> dec1;
+      in >> ra2 >> dec2;
+      in >> ra3 >> dec3;
+      SpatialVector v1(ra1,dec1);
+      SpatialVector v2(ra2,dec2);
+      SpatialVector v3(ra3,dec3);
+      SpatialConvex cvx(&v1,&v2,&v3);
+      add(cvx);
+      ignoreCrLf(in);
+    } else if(strcmp(comstr,"#RECTANGLE_RADEC")==0) {
+      float64 ra1,ra2,ra3,ra4;
+      float64 dec1,dec2,dec3,dec4;
+      in >> ra1 >> dec1;
+      in >> ra2 >> dec2;
+      in >> ra3 >> dec3;
+      in >> ra4 >> dec4;
+      SpatialVector v1(ra1,dec1);
+      SpatialVector v2(ra2,dec2);
+      SpatialVector v3(ra3,dec3);
+      SpatialVector v4(ra4,dec4);
+      SpatialConvex cvx(&v1,&v2,&v3,&v4);
+      add(cvx);
+      ignoreCrLf(in);		// added,gyuri,11/12/2002
+    } else  if(strcmp(comstr,"#CONVEX_RADEC")==0) {
+      SpatialConvex conv;
+      conv.readRaDec(in);
+      add(conv);
+      ignoreCrLf(in);		// added,gyuri,11/12/2002
+    } else {
+      SpatialConvex conv;
+      in >> conv;
+      add(conv);
+      ignoreCrLf(in);		// added,gyuri,11/12/2002
+    }
+    comstr[0] = 0;
+  }
+}
+
+/////////////Write////////////////////////////////////////
+//
+void
+SpatialDomain::write(ostream &out) const {
+  out << "#DOMAIN" << endl;
+  out << convexes_.size() << endl;
+  for (size_t i = 0; i < convexes_.size() ; i++)
+    out << convexes_[i];
+}
+
+/////////////COMPUINT64///////////////////////////////////
+// compare ids
+//
+int 
+compUint64(const void* v1, const void* v2) {
+  return (  ( *((uint64 *)v1) < *((uint64 *)v2) ) ? -1 :
+	    ( ( *((uint64 *)v1) > *((uint64 *)v2) ) ? 1 : 0 ) );
+}
+
+/////////////COMPRANGE///////////////////////////////////
+// compare ids
+//
+int 
+compRange(const void* v1, const void* v2) {
+  uint64 a = *((uint64 *)v1);
+  uint64 b = *((uint64 *)v2);
+
+  while( (a & SpatialDomain::topBit_) == 0 ) a = a << 2 ;
+  while( (b & SpatialDomain::topBit_) == 0 ) b = b << 2 ;
+
+  return (  ( a < b ) ? -1 : ( ( a > b ) ? 1 : 0 ) );
+}
+
+uint64 SpatialDomain::topBit_ = 0;

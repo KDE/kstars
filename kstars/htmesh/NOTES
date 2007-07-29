@@ -1,0 +1,25 @@
+test if a triangle (id) is rejected:
+
+	Implicitly, id is used in macro NV
+
+  mark =  testNode(V(NV(0)),V(NV(1)),V(NV(2)));
+
+testNode takes SpatialVectors and returns reject, full, partial or dontknow
+it would make more sense to have a testnode(id) and macros have no implicit reference to id
+
+OPTIMIZE:
+	The expresiion index->nodes_[id] gets evaluated three times, instead of once.
+
+
+testNode(
+	index->vertices_[ index->nodes_[id].v_[0]]
+	index->vertices_[ index->nodes_[id].v_[1]]
+	index->vertices_[ index->nodes_[id].v_[2]]
+
+This simple thing  took the runtime from 6.36 to 6.24 (time intersect -count -range 14 ex4)
+
+INTERESTING TRIVIA:
+	in gnu C++, references are slower than pointers
+
+  // Slow: const struct SpatialIndex::QuadNode &indexNode = index_->nodes_[id];
+  const struct SpatialIndex::QuadNode *indexNode = &index_->nodes_[id]; //faster 

@@ -1,0 +1,14 @@
+It is my understanding that the vast majority of the code in this
+directory (kstars/kstars/htmesh) was released by a group of programmers
+at Johns Hopkins University under the modified-BSD license which is
+code compatible with the GPL which is used for the rest of KStars.
+
+The minor patches I contributed to make the code work on my system
+are, of course, also released under the modified-BSD license.  In
+addition the six files I wrote to provide an interface to the library
+are being released under a dual licenses: modified-BSD, and GPLv2
+or later.
+
+-- James B. Bowlin
+   bowlin@mindspring.com
+   2007-07-23
