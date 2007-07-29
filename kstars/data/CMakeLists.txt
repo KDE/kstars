@@ -1,6 +1,7 @@
 ########### install files ###############
 
 install( FILES kstars.png geomap.png 
+    Cities.dat
     stars.dat
     ngcic.dat
     cbounds.dat
