@@ -4,6 +4,9 @@ install( FILES kstars.png geomap.png
     Cities.dat
     stars.dat
     ngcic.dat
+    clines.dat
+    cnames.dat
+    milkyway.dat
     cbounds.dat
 	image_url.dat info_url.dat 
 	mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop 
