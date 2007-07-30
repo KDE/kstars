@@ -52,7 +52,7 @@ KSWizard::KSWizard( KStars *_ks )
 {
 	wizardStack = new QStackedWidget( this );
 	setMainWidget( wizardStack );
-        setCaption( i18n("KStars Startup Wizard") );
+        setCaption( i18n("Setup Wizard") );
         setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
         setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page") ) );
         setButtonGuiItem( KDialog::User2, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );

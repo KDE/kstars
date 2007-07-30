@@ -49,7 +49,9 @@ KStarsSplash::KStarsSplash( QWidget *parent )
 //        setCaption( i18n( "Loading KStars..." ) );
 //        setButtons( 0 );
 
-        QVBoxLayout *topLayout = new QVBoxLayout( this );
+    setWindowTitle( i18n("KStars") );
+
+    QVBoxLayout *topLayout = new QVBoxLayout( this );
 	topLayout->setMargin( 0 );
 	topLayout->setSpacing( 0 );
 
