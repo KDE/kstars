@@ -26,6 +26,7 @@ class KStarsData;
 class SkyMap;
 class KSNumbers;
 class JupiterMoons;
+class SkyLabeler;
 
 /**
 	*@class JupiterMoonsComponent
@@ -70,6 +71,7 @@ class JupiterMoonsComponent : public SkyComponent
 
 		JupiterMoons *jmoons;
 		SolarSystemSingleComponent *m_Jupiter;
+        SkyLabeler* m_skyLabeler;
 };
 
 #endif

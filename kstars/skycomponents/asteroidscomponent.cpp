@@ -36,7 +36,7 @@
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
 : SolarSystemListComponent(parent, visibleMethod, msize)
 {
-    m_skyLabeler = ((SolarSystemComposite*) parent)->skyLabeler();
+    m_skyLabeler = parent->skyLabeler();
 }
 
 AsteroidsComponent::~AsteroidsComponent()
@@ -106,24 +106,6 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	
 	SkyMap *map = ks->map();
 
-   // set the zoom-dependent font
-   // copied from SkyObject -jbb
-
-    QFont stdFont( psky.font() );
-    QFont smallFont( stdFont );
-    smallFont.setPointSize( stdFont.pointSize() - 2 );
-    if ( Options::zoomFactor() < 10.0 * MINZOOM ) {
-        psky.setFont( smallFont ); 
-    } 
-    else {
-        psky.setFont( stdFont );
-    }
-    
-    m_skyLabeler->setFont( psky.font() );
-
-    double labelOffset = 
-        4.0 + 0.5 * scale * dms::PI * Options::zoomFactor()/10800.0;
-
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 	foreach ( SkyObject *o, objectList() ) { 
 		KSAsteroid *ast = (KSAsteroid*) o;
@@ -148,14 +130,10 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 		if ( ! Options::showAsteroidNames() || 
              ast->mag() >= Options::magLimitAsteroidName() ) continue;
 
-        QPointF XXX = QPointF( o.x() + labelOffset, o.y() + labelOffset );
-        if ( ! m_skyLabeler->mark( XXX, ast->translatedName() ) ) continue;
-
-		psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-		ast->drawNameLabel( psky, o.x(), o.y(), scale );
+        psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+        m_skyLabeler->drawOffsetLabel( psky, o, ast->translatedName() );
         psky.setPen( QPen( QColor( "grey" ) ) );
-
-	}
+    }
 }
 
 

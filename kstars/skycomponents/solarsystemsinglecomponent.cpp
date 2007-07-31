@@ -28,6 +28,7 @@
 #include "ksplanet.h"
 #include "skymap.h"
 #include "Options.h"
+#include "skylabeler.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize)
 : SingleComponent( parent, visibleMethod )
@@ -36,6 +37,7 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
 	sizeScale = 1.0;
 	setStoredObject( kspb );
 	m_Earth = parent->earth();
+    m_skyLabeler = parent->skyLabeler();
 }
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
@@ -97,79 +99,83 @@ void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
 }
 
 void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale ) {
-	if ( !visible() ) return;
+	if ( ! visible() ) return;
 
 	SkyMap *map = ks->map();
 
 	//TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
-	if ( map->checkVisibility( ksp() ) ) {
-		float Width = scale * map->width();
-		float Height = scale * map->height();
+	if ( ! map->checkVisibility( ksp() ) ) return;
 
-		float sizemin = 4.0;
-		if ( ksp()->name() == "Sun" || ksp()->name() == "Moon" ) sizemin = 8.0;
-		sizemin = sizemin * scale;
+	float Width = scale * map->width();
+	float Height = scale * map->height();
 
-		//TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
-		psky.setPen( ksp()->color() );
-		psky.setBrush( ksp()->color() );
-		QPointF o = map->toScreen( ksp(), scale );
+	float sizemin = 4.0;
+	if ( ksp()->name() == "Sun" || ksp()->name() == "Moon" ) sizemin = 8.0;
+	sizemin = sizemin * scale;
 
-		//Is planet onscreen?
-		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
-			float size = ksp()->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
-			if ( size < sizemin ) size = sizemin;
+	//TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
+	psky.setPen( ksp()->color() );
+	psky.setBrush( ksp()->color() );
+	QPointF o = map->toScreen( ksp(), scale );
 
-			//Draw planet image if:
-			if ( Options::showPlanetImages() &&  //user wants them,
-//FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
-					! ksp()->image()->isNull() &&  //image loaded ok,
-					size < Width ) {  //and size isn't too big.
+	//Is planet onscreen?
+    if ( ! map->onScreen( o ) ) return;
 
-				//Image size must be modified to account for possibility that rotated image's
-				//size is bigger than original image size.  The rotated image is a square
-				//superscribed on the original image.  The superscribed square is larger than
-				//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
-				//which the two squares are rotated (in our case, equal to the position angle +
-				//the north angle, reduced between 0 and 90 degrees).
-				//The proof is left as an exercise to the student :)
-				dms pa( map->findPA( ksp(), o.x(), o.y(), scale ) );
-				double spa, cpa;
-				pa.SinCos( spa, cpa );
-				cpa = fabs(cpa);
-				spa = fabs(spa);
-				size = size * (cpa + spa);
+	//if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 
-				//Because Saturn has rings, we inflate its image size by a factor 2.5
-				if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
+    float size = ksp()->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+   	if ( size < sizemin ) size = sizemin;
+
+   	//Draw planet image if:
+   	if ( Options::showPlanetImages() &&  //user wants them,
+       //FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
+   			! ksp()->image()->isNull() &&  //image loaded ok,
+   			size < Width ) {  //and size isn't too big.
+
+   		//Image size must be modified to account for possibility that rotated image's
+   		//size is bigger than original image size.  The rotated image is a square
+   		//superscribed on the original image.  The superscribed square is larger than
+   		//the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+   		//which the two squares are rotated (in our case, equal to the position angle +
+   		//the north angle, reduced between 0 and 90 degrees).
+   		//The proof is left as an exercise to the student :)
+   		dms pa( map->findPA( ksp(), o.x(), o.y(), scale ) );
+   		double spa, cpa;
+   		pa.SinCos( spa, cpa );
+   		cpa = fabs(cpa);
+   		spa = fabs(spa);
+   		size = size * (cpa + spa);
+
+   		//Because Saturn has rings, we inflate its image size by a factor 2.5
+   		if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
 
 //FIXME: resize_mult ??
 //				if (resize_mult != 1) {
 //					size *= resize_mult;
 //				}
 
-				ksp()->scaleRotateImage( size, pa.Degrees() );
-				float x1 = o.x() - 0.5*ksp()->image()->width();
-				float y1 = o.y() - 0.5*ksp()->image()->height();
-				if ( Options::useAntialias() )
-					psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
-				else
-					psky.drawImage( int(x1), int(y1), *( ksp()->image() ) );
+   		ksp()->scaleRotateImage( size, pa.Degrees() );
+   		float x1 = o.x() - 0.5*ksp()->image()->width();
+   		float y1 = o.y() - 0.5*ksp()->image()->height();
+   		if ( Options::useAntialias() )
+   			psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+   		else
+   			psky.drawImage( int(x1), int(y1), *( ksp()->image() ) );
 
-			} else { //Otherwise, draw a simple circle.
-				if ( Options::useAntialias() )
-					psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
-				else
-					psky.drawEllipse( QRect(int(o.x()-0.5*size), int(o.y()-0.5*size), int(size), int(size)) );
-			}
+   	}
+    else { //Otherwise, draw a simple circle.
+   		if ( Options::useAntialias() )
+   			psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
+   		else
+   			psky.drawEllipse( QRect(int(o.x()-0.5*size), int(o.y()-0.5*size), int(size), int(size)) );
+   	}
 
-			//draw Name
-			if ( Options::showPlanetNames() ) {
-				psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-				ksp()->drawNameLabel( psky, o.x(), o.y(), scale );
-			}
-		}
-	}
+   	//draw Name
+   	if ( ! Options::showPlanetNames() ) return;
+
+	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+    float offset = ksp()->labelOffset();
+    m_skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset ), ksp()->translatedName() );
 }
 
 void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {

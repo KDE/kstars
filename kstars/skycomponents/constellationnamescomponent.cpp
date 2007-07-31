@@ -89,6 +89,8 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 	SkyMap *map = ks->map();
     QString name;
 
+    m_skyLabeler->useStdFont( psky );
+
 	//Draw Constellation Names
 	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
@@ -113,12 +115,8 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 
         float dx = 5.*( name.length() );
         o.setX( o.x() - dx );
-        if ( ! m_skyLabeler->mark( o, name) ) continue;
+        m_skyLabeler->drawLabel( psky, o, name);
+    }
 
-		if ( Options::useAntialias() )
-			psky.drawText( o, name ); 
-		else
-			psky.drawText( QPoint( int(o.x()), int(o.y()) ), name ); 
-
-	}
+    m_skyLabeler->resetFont( psky );
 }

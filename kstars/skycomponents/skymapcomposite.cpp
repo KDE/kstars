@@ -176,7 +176,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     //kDebug() << QString("Number trixels: %1\n").arg( m_skyMesh.intersectSize());
 
     // FIXME: ensure we are using the proper font here -jbb
-    m_skyLabeler->reset( m_map, m_map->font() ); 
+    m_skyLabeler->reset( m_map, psky, scale ); 
 
 
 	//TIMING
@@ -482,6 +482,7 @@ QString SkyMapComposite::constellationName( SkyPoint *p ) {
 void SkyMapComposite::emitProgressText( const QString &message ) {
 	emit progressText( message );
     qApp->processEvents();         // -jbb: this seemed to make it work.
+    //kDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
 float SkyMapComposite::faintStarMagnitude() const { 

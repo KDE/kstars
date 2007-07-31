@@ -28,6 +28,8 @@
 #include "kstarsdata.h"
 #include "Options.h"
 
+#include "skycomponents/skylabeler.h"
+
 QMap<QString, QColor> StarObject::ColorMap;
 
 StarObject::StarObject( StarObject &o )
@@ -321,14 +323,7 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
 	//set the zoom-dependent font
 	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
+    SkyLabeler::setZoomFont( psky );
 	drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
 	psky.setFont( stdFont );
 }

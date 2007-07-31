@@ -36,6 +36,7 @@ class KSNumbers;
 class KSPlanet;
 class KSPlanetBase;
 class KStarsData;
+class SkyLabeler;
 
 class SolarSystemSingleComponent : public SingleComponent
 {
@@ -106,6 +107,7 @@ class SolarSystemSingleComponent : public SingleComponent
 
 		QColor m_Color;
 		KSPlanet *m_Earth;
+        SkyLabeler* m_skyLabeler;
 };
 
 #endif

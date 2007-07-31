@@ -24,10 +24,13 @@
 
 #include <QFont>
 
+#include "skylabel.h"
+
 class QString;
 class QPointF;
 
 class SkyMap;
+class QPainter;
 class LabelRun;
 
 typedef QList<LabelRun*>    LabelRow;
@@ -66,13 +69,8 @@ typedef QVector<LabelRow*>  ScreenRows;
  *
  *   2) every time you want to draw a new screen, reset the labeler.
  *
- *   3) call setFont() for the font of the labels you want to draw.
+ *   3) For most labels just call drawLabel() or drawOffsetLabel()
  *
- *   4) before drawing a label call mark( QPointF, QString) with the position
- *      and text of the label.  If mark() returns true, it is safe to draw
- *      the label and the pixels in the virtual screen that cover the new label
- *      will be marked.  If mark returns false, the label would overlap. No
- *      change is made to the virtual screen.
  *
  * Implications:  This works totally on a first come, first served basis.  So
  * unlike a z-buffer where you draw the most important things last, here you
@@ -107,30 +105,27 @@ typedef QVector<LabelRow*>  ScreenRows;
 
 
 class SkyLabeler {
-    private:
-        ScreenRows screenRows;       
-
-        int m_maxX;
-        int m_maxY;
-        int m_size;
-        int m_minDeltaX;
-
-        int m_marks;
-        int m_hits;
-        int m_misses;
-        int m_elements;
-        int m_errors;
-
-        qreal m_yDensity;
-        qreal m_yScale;
-
-        QFontMetricsF m_fontMetrics;
-
-        void reset( SkyMap* skyMap );
-
 	public:
-        /* trivial constructor and destructor.
+
+        //----- Static Methods ----------------------------------------------//        
+
+        /* @short adjusts the font in psky to be smaller if we are zoomed out.
+         * This static function allows us to prevent code duplication since it
+         * can be used without a SkyLabeler instance.  This is used in SkyObject
+         * and StarObject in addition to be used in this class.
          */
+        static void setZoomFont( QPainter& psky );
+
+        /* @short returns the zoom dependent label offset.  This is used in this
+         * class and in SkyObject.  It is important that the offsets be the same
+         * so highlighted labels are always drawn exactly on top of the normally
+         * drawn labels.
+         */
+        static double zoomOffset( double scale );
+
+
+        //----- Constructor, Destructor -------------------------------------//
+
         SkyLabeler();
         ~SkyLabeler();
 
@@ -138,21 +133,60 @@ class SkyLabeler {
          * screen (if needed) to match skyMap.  A font must be specified which
          * is taken to be the average or normal font that will be used.  The
          * size of the horizontal strips will be (slightly) optimized for this
-         * font.
+         * font.  We also adjust the font size in psky to smaller fonts if the
+         * screen is zoomed out.  You can mimic this setting with the static
+         * method SkyLabeler::setZoomFont( psky ).
          */
-        void reset( SkyMap* skyMap, const QFont& font );
+        void reset( SkyMap* skyMap, QPainter& psky, double scale );
 
        /* @short tells the labeler the font you will be using so it can figure
-        * out the height and width of the labels.
+        * out the height and width of the labels.  Also sets this font in the
+        * psky since this is almost always what is wanted.
         */
-        void setFont( const QFont& font );
+        void setFont( QPainter& psky, const QFont& font );
+
+        /* @short decreases the size of the font in psky and in the SkyLabeler
+         * by the delta points.  Negative deltas will increase the font size.
+         */
+        void shrinkFont( QPainter& psky, int delta );
+
+        /* @short a convenience routine that draws the label specified
+         * in the SkyLabel.
+         */
+        void drawLabel( QPainter& psky, SkyLabel& skyLabel ) {
+             drawLabel( psky, skyLabel.point() , skyLabel.text );
+        }
+
+        /* @short attempts to draw the label at the given position but will
+         * not draw it if it would overlap an existing label.
+         */
+        void drawLabel( QPainter& psky, const QPointF& p, const QString& text );
+
+        /* @short like drawLabel() but offsets the location by a zoom dependent
+         * offset.
+         */
+        void drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text );
 
         /* @short tells the labeler the location and text of a label you want
          * to draw.  Returns true if there is room for the label and returns
          * false otherwise.  If it returns true, the location of the label is
          * marked on the virtual screen so future labels won't overlap it.
+         *
+         * It is usually easier to use drawLabel() or drawLabelOffest() instead
+         * which both call mark() internally.
          */
         bool mark( const QPointF& p, const QString& text);
+
+        /* @short sets the font in SkyLabeler and in psky to the font psky
+         * had originally when reset() was called.  Used by ConstellationNames.
+         */
+        void useStdFont(QPainter& psky); 
+
+        /* @short sets the font in SkyLabeler and in psky back to the zoom
+         * dependent value that was set in reset().  Also used in
+         * ConstellationLines.
+         */
+        void resetFont(QPainter& psky);  
 
         /* @short diagnostic. the *percentage* of pixels that have been filled.
          * Expect return values between 0.0 and 100.0.  A fillRatio above 20
@@ -182,6 +216,27 @@ class SkyLabeler {
 
         int hits()  { return m_hits; };
         int marks() { return m_marks; }
+
+    private:
+        ScreenRows screenRows;       
+
+        int m_maxX;
+        int m_maxY;
+        int m_size;
+        int m_minDeltaX;
+
+        int m_marks;
+        int m_hits;
+        int m_misses;
+        int m_elements;
+        int m_errors;
+
+        qreal  m_yDensity;
+        qreal  m_yScale;
+        double m_offset;
+
+        QFont         m_stdFont, m_skyFont;
+        QFontMetricsF m_fontMetrics;
 
 };
 

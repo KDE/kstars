@@ -185,36 +185,10 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	maglim = Options::magLimitDrawStarInfo();
 	psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
-    m_skyLabeler->setFont( psky.font() );
-
-    // -jbb: please bear with me.  This is a work in progress to trouble shoot
-    // the idea of keeping labels from overlapping ...
-
-    for (int i =0; i < labelList.size(); i++) {
-        SkyLabel label = labelList[ i ];
-        //kDebug() << starLabel.star->name() << endl;
-       
-        QPointF o = label.point();
-        if ( ! m_skyLabeler->mark( o, label.text ) ) continue; 
-
-        if ( Options::useAntialias() )  {
-            psky.drawText( o, label.text );
-         }
-        else
-            psky.drawText( QPoint( int(o.x()), int(o.y()) ), label.text );
     
+    for (int i =0; i < labelList.size(); i++) {
+        m_skyLabeler->drawLabel( psky, labelList[ i ] );    
     }
-
-	psky.setFont( stdFont );
 }
 
  
@@ -259,6 +233,7 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
     }
 
 	Options::setMagLimitDrawStar( newMagnitude );
+    emitProgressText( i18n( "Loading stars done." ) );
 }
 
 

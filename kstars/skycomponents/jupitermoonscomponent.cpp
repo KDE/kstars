@@ -29,11 +29,16 @@
 #include "dms.h"
 #include "Options.h"
 #include "solarsystemsinglecomponent.h"
+#include "solarsystemcomposite.h"
+#include "skylabeler.h"
 
-JupiterMoonsComponent::JupiterMoonsComponent( SkyComponent *p, SolarSystemSingleComponent *jupiterComponent, bool (*visibleMethod)() ) : SkyComponent( p, visibleMethod )
+JupiterMoonsComponent::JupiterMoonsComponent( SkyComponent *p,
+        SolarSystemSingleComponent *jupiterComponent, 
+        bool (*visibleMethod)() ) : SkyComponent( p, visibleMethod )
 {
 	jmoons = 0;
 	m_Jupiter = jupiterComponent;
+    m_skyLabeler = ((SolarSystemComposite*)p)->skyLabeler();
 }
 
 JupiterMoonsComponent::~JupiterMoonsComponent()
@@ -61,66 +66,62 @@ void JupiterMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
 
 void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( !Options::showJupiter() ) return;
+	if ( ! Options::showJupiter() ) return;
 
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();
 	float Height = scale * map->height();
 	
 	psky.setPen( QPen( QColor( "white" ) ) );
-	if ( Options::zoomFactor() > 10.*MINZOOM ) {
-		QFont pfont = psky.font();
-		QFont moonFont = psky.font();
-		moonFont.setPointSize( pfont.pointSize() - 2 );
-		psky.setFont( moonFont );
 
-		//In order to get the z-order right for the moons and Jupiter, 
-		//we need to first draw the moons that are further away than Jupiter, 
-		//then re-draw Jupiter, then draw the moons nearer than Jupiter.
-		QList<QPointF> frontMoons;
-		for ( unsigned int i=0; i<4; ++i ) {
-			QPointF o = map->toScreen( jmoons->pos(i), scale );
+	if ( Options::zoomFactor() <= 10.*MINZOOM ) return;
 
-			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
-				if ( jmoons->z(i) < 0.0 ) { //Moon is nearer than Jupiter
-					frontMoons.append( o );
-				} else {
-					//Draw Moons that are further than Jupiter
-					if ( Options::useAntialias() )
-						psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-					else
-						psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
-				}
-			}
-		}
+    m_skyLabeler->shrinkFont( psky, 2 );
+   	
+   	//In order to get the z-order right for the moons and Jupiter, 
+   	//we need to first draw the moons that are further away than Jupiter, 
+   	//then re-draw Jupiter, then draw the moons nearer than Jupiter.
+   	QList<QPointF> frontMoons;
+   	for ( unsigned int i=0; i<4; ++i ) {
+   		QPointF o = map->toScreen( jmoons->pos(i), scale );
 
-		//Now redraw Jupiter
-		m_Jupiter->draw( ks, psky, scale );
+   		if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
+   			if ( jmoons->z(i) < 0.0 ) { //Moon is nearer than Jupiter
+   				frontMoons.append( o );
+   			} else {
+   				//Draw Moons that are further than Jupiter
+   				if ( Options::useAntialias() )
+   					psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+   				else
+   					psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
+   			}
+   		}
+   	}
 
-		//Now draw the remaining moons, as stored in frontMoons
-		psky.setPen( QPen( QColor( "white" ) ) );
-		foreach ( QPointF o, frontMoons ) {
-			if ( Options::useAntialias() )
-				psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-			else
-				psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
-		}
+   	//Now redraw Jupiter
+   	m_Jupiter->draw( ks, psky, scale );
 
-		//Draw Moon name labels if at high zoom
-		if (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) {
-			for ( unsigned int i=0; i<4; ++i ) {
-				QPointF o = map->toScreen( jmoons->pos(i), scale );
+   	//Now draw the remaining moons, as stored in frontMoons
+   	psky.setPen( QPen( QColor( "white" ) ) );
+   	foreach ( QPointF o, frontMoons ) {
+   		if ( Options::useAntialias() )
+   			psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+   		else
+   			psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
+   	}
 
-				if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
-					float offset = 3.0*scale;
-					if ( Options::useAntialias() )
-						psky.drawText( QPointF( o.x() + offset, o.y() + offset ), jmoons->name(i));
-					else
-						psky.drawText( int(o.x() + offset), int(o.y() + offset), jmoons->name(i));
-				}
-			}
-		}
-		//reset font
-		psky.setFont( pfont );
-	}
+   	//Draw Moon name labels if at high zoom
+   	if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
+   	for ( unsigned int i=0; i<4; ++i ) {
+   		QPointF o = map->toScreen( jmoons->pos(i), scale );
+
+        if ( ! map->onScreen( o ) ) continue;
+   		//if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
+   		float offset = 3.0 * scale;
+
+        m_skyLabeler->drawLabel( psky,
+                QPointF( o.x() + offset, o.y() + offset), jmoons->name(i) );
+   	}
+   	//reset font
+   	m_skyLabeler->resetFont( psky );
 }

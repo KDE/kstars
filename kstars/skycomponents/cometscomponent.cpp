@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "cometscomponent.h"
+#include "solarsystemcomposite.h"
 
 #include <QFile>
 #include <QPen>
@@ -28,10 +29,12 @@
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "skymap.h"
+#include "skylabeler.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize ) 
 : SolarSystemListComponent( parent, visibleMethod, msize ) 
 {
+    m_skyLabeler = parent->skyLabeler();
 }
 
 CometsComponent::~CometsComponent() {
@@ -84,33 +87,35 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 	float Width = scale * map->width();
 	float Height = scale * map->height();
 
+    psky.setPen( QPen( QColor( "darkcyan" ) ) );
+    psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
+
 	foreach ( SkyObject *o, objectList() ) {
 		KSComet *com = (KSComet*)o;
 
-		if ( map->checkVisibility( com ) )
-		{
-			psky.setPen( QPen( QColor( "darkcyan" ) ) );
-			psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
-			QPointF o = map->toScreen( com, scale );
+		if ( ! map->checkVisibility( com ) ) continue;
+   	
+   		QPointF o = map->toScreen( com, scale );
 
-			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
-			{
-				float size = com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
-				if ( size < 1 ) size = 1;
-				float x1 = o.x() - 0.5*size;
-				float y1 = o.y() - 0.5*size;
+        if ( ! map->onScreen( o ) ) continue;
+   		//if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
+	
+		float size = com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+		if ( size < 1 ) size = 1;
+		float x1 = o.x() - 0.5*size;
+		float y1 = o.y() - 0.5*size;
 
-				if ( Options::useAntialias() )
-					psky.drawEllipse( QRectF( x1, y1, size, size ) );
-				else
-					psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
+		if ( Options::useAntialias() )
+			psky.drawEllipse( QRectF( x1, y1, size, size ) );
+		else
+			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
-				//draw Name
-				if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
-					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					com->drawNameLabel( psky, o.x(), o.y(), scale );
-				}
-			}
-		}
+		if ( ! Options::showCometNames() ) continue;
+        if (  com->rsun() >= Options::maxRadCometName() ) continue;
+
+		//draw Name
+	    psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
+        m_skyLabeler->drawOffsetLabel( psky, o, com->translatedName() );
+        psky.setPen( QPen( QColor( "darkcyan" ) ) );
 	}
 }

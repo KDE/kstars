@@ -33,6 +33,7 @@
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skycomponents/skylabeler.h"
 
 QString SkyObject::emptyString = QString();
 QString SkyObject::unnamedString = QString(i18n("unnamed"));
@@ -423,14 +424,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
 	//set the zoom-dependent font
 	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
+    SkyLabeler::setZoomFont( psky );
 	double offset = labelOffset( scale );
 	if ( Options::useAntialias() )
 		psky.drawText( QPointF(x+offset, y+offset), translatedName() );
@@ -441,6 +435,6 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale 
 }
 
 double SkyObject::labelOffset( double scale ) {
-	double size = scale * dms::PI * Options::zoomFactor()/10800.0;
-	return 0.5*size + 4.;
+    return SkyLabeler::zoomOffset( scale );
 }
+

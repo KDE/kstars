@@ -17,12 +17,16 @@
 
 #include <stdio.h>
 
+#include <QPainter>
+
+#include "Options.h"
+#include "kstarsdata.h"   // MINZOOM
 #include "skylabeler.h"
 #include "skymap.h"
 
-//-------------------------------------------------------------------------//
+//---------------------------------------------------------------------------//
 // A Little data container class
-//-------------------------------------------------------------------------//
+//---------------------------------------------------------------------------//
 
 class LabelRun {
     public:
@@ -31,18 +35,43 @@ class LabelRun {
         int end;
 };
 
-//-------------------------------------------------------------------------//
-// Now for the main event
-//-------------------------------------------------------------------------//
+
+//----- Now for the main event ----------------------------------------------//
+
+//----- Static Methods ------------------------------------------------------//
+
+void SkyLabeler::setZoomFont( QPainter& psky )
+{
+    QFont font( psky.font() );
+    int deltaSize = 0;
+    if ( Options::zoomFactor() < 2.0 * MINZOOM ) 
+        deltaSize = 2;
+    else if ( Options::zoomFactor() < 10.0 * MINZOOM ) 
+        deltaSize = 1;
+
+    if ( deltaSize ) {
+        font.setPointSize( font.pointSize() - deltaSize );
+        psky.setFont( font );
+    }
+}
+
+double SkyLabeler::zoomOffset( double scale )
+{
+    double offset = scale * dms::PI * Options::zoomFactor()/10800.0;
+    return 4.0 + offset * 0.5;
+}
+
+//----- Constructor ---------------------------------------------------------//
 
 SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() )
 {
     m_errors = 0;
-    m_minDeltaX = 30;    // when to merge two adjacent regions 
+    m_minDeltaX = 30;    // when to merge two adjacent regions
     m_yDensity  = 1.0;   // controls vertical resolution
 
     m_marks = m_hits = m_misses = m_elements = 0;
 }
+
 
 SkyLabeler::~SkyLabeler()
 {
@@ -55,19 +84,66 @@ SkyLabeler::~SkyLabeler()
     }
 }
 
-void SkyLabeler::setFont( const QFont& font )
+void SkyLabeler::drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text )
 {
+    drawLabel( psky, QPointF(p.x() + m_offset, p.y() + m_offset), text );
+}
+
+void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& text )
+{
+    if ( ! mark( p, text ) ) return;
+
+    if ( Options::useAntialias() )  {
+        psky.drawText( p, text );
+     }
+    else {
+        psky.drawText( QPoint( int(p.x()), int(p.y()) ), text );
+    }
+}
+
+
+void SkyLabeler::setFont( QPainter& psky, const QFont& font )
+{
+    psky.setFont( font );
     m_fontMetrics = QFontMetrics( font );
 }
 
-void SkyLabeler::reset( SkyMap* skyMap, const QFont& font)
+
+void SkyLabeler::shrinkFont( QPainter& psky, int delta )
 {
-    setFont( font );
-    reset( skyMap );
+    QFont font( psky.font() );
+    font.setPointSize( font.pointSize() - delta );
+    setFont( psky, font );
 }
 
-void SkyLabeler::reset( SkyMap* skyMap )
+void SkyLabeler::useStdFont(QPainter& psky)
+{ 
+    setFont( psky, m_stdFont );
+}
+
+void SkyLabeler::resetFont(QPainter& psky)
+{ 
+    setFont( psky, m_skyFont );
+}
+
+
+void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
 {
+    // ----- Set up Zoom Dependent Font -----
+
+    m_stdFont = QFont( psky.font() );
+    SkyLabeler::setZoomFont( psky );
+    m_skyFont = psky.font( );
+    m_fontMetrics = QFontMetrics( m_skyFont );
+
+
+    // ----- Set up Zoom Dependent Offset -----
+
+    m_offset = SkyLabeler::zoomOffset( scale );
+
+    
+    // ----- Prepare Virtual Screen -----
+
     m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
 
     int maxY = int( skyMap->height() / m_yScale );
@@ -172,7 +248,7 @@ bool SkyLabeler::mark( const QPointF& p, const QString& text )
         // i now points to first label PAST ours
 
         // if we are first, append or merge at start of list
-        if ( i == 0 ) {        
+        if ( i == 0 ) {
             if ( row->at(0)->start - maxX < m_minDeltaX ) {
                 row->at(0)->start = minX;
             }
@@ -249,7 +325,7 @@ void SkyLabeler::printInfo()
     printf("  hits=%d  misses=%d  ratio=%.1f%%\n", m_hits, m_misses, hitRatio());
     printf("  yScale=%.1f yDensity=%.1f maxY=%d\n", m_yScale, m_yDensity, m_maxY );
 
-    printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n", 
+    printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n",
             screenRows.size(), m_elements, float(m_size) / 1024.0 );
 
     // Check for errors in the data structure
@@ -284,13 +360,11 @@ void SkyLabeler::incDensity()
 
 void SkyLabeler::decDensity()
 {
-    if ( m_yDensity  <= 1.0) 
+    if ( m_yDensity  <= 1.0)
         m_yDensity -= 0.1;
     else
         m_yDensity--;
 
     if ( m_yDensity < 0.1 ) m_yDensity = 0.1;
 }
-
-
 
