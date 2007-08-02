@@ -25,21 +25,39 @@
 // these are just for the draw routine:
 #include <QPainter>
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 
 
-SkyMesh::SkyMesh(int level) : HTMesh(level, level, NUM_BUF), m_drawID(0), callCnt(0)
+SkyMesh::SkyMesh( KStarsData* data, int level) : HTMesh(level, level, NUM_MESH_BUF),
+    m_drawID(0), callCnt(0), m_data( data )
 {
     errLimit = HTMesh::size() / 4;
 }
 
-void SkyMesh::aperture(SkyPoint *p, double radius, BufNum bufNum)
+void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 {
-    //FIXME: -jbb add reverse-precession here.
+    //FIXME: is the reverse precession correct here?
+    
+    SkyPoint p1( p0->ra(), p0->dec() );
 
-    if (radius > 90.0) radius = 90.0;
-    HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius, bufNum);
+    long double now = m_data->updateNum()->julianDay();
+    p1.apparentCoord( now, J2000 );
+
+    /**
+    if ( radius == 1.0 ) {
+        printf("\nra0 = %8.4f  dec0 = %8.4f\n", p0->ra()->Degrees(), p0->dec()->Degrees() );
+        printf("ra1 = %8.4f  dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
+        SkyPoint p2( p1.ra(), p1.dec() );
+        p2.updateCoords( m_data->updateNum() );
+        printf("ra2 = %8.4f  dec2 = %8.4f\n", p2.ra()->Degrees(), p2.dec()->Degrees() );
+        printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
+        printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );
+    }
+    **/
+
+    HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
 }
 
@@ -269,7 +287,7 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF &points, int debug )
     return indexHash;
 }
 
-void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, BufNum bufNum)
+void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bufNum)
 {
     SkyMap*     map  = kstars->map();
     KStarsData* data = kstars->data();

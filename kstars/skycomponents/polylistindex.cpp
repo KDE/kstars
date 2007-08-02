@@ -81,7 +81,7 @@ void PolyListIndex::summary()
 
 PolyList* PolyListIndex::ContainingPoly( SkyPoint *p ) 
 {
-    printf("called ContainingPoly(p)\n");
+    //printf("called ContainingPoly(p)\n");
    
     // we save the pointers in a hash because most often there is only one
     // constellation and we can avoid doing the expensive boundary calculations
@@ -117,7 +117,7 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
         PolyList* polyList = iter.key();
         iter++;
 
-        kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
+        //kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
 
         const QPolygonF& poly = polyList->poly();
         if ( poly.containsPoint( QPointF( p->ra()->Hours(), 

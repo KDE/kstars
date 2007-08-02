@@ -106,6 +106,15 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
 }
 
+void StarObject::update( KStarsData* data )
+{
+    updateID = data->updateID();
+    if ( updateNumID != data->updateNumID() ) {
+        updateCoords( data->updateNum() );
+    }
+    EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+}
+
 QString StarObject::sptype( void ) const {
 	return SpType;
 }

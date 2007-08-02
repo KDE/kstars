@@ -115,32 +115,25 @@ void LineListIndex::appendBoth(LineList* lineList, int debug) {
 }
 
 
-// We no longer even have a list of components so we are forced to iterate
-// through the values of the IndexHash.  Perhaps we should re-instate the
-// list in order to make this a bit faster at the cost of extra memory
+//void LineListIndex::update( KStarsData *data, KSNumbers *num )
+//{}
 
-void LineListIndex::update( KStarsData *data, KSNumbers *num )
+void LineListIndex::update( KStarsData *data, LineList* lineList )
 {
-    return;  // FIXME -jbb should just remove this function
-    if ( ! selected() ) return;
 
-    skyMesh()->incDrawID();
-    DrawID drawID = skyMesh()->drawID();
+    lineList->updateID = data->updateID();
+    SkyList* points = lineList->points();
 
-    foreach (LineListList* listList, lineIndex()->values() ) {
-        for ( int i = 0; i < listList->size(); i++) {
-            LineList* lineList = listList->at( i );
-
-            if ( lineList->drawID == drawID ) continue;
-            lineList->drawID = drawID;
-
-            SkyList* points = lineList->points();
-            for (int j = 0; j < points->size(); j++ ) {
-                SkyPoint* p = points->at( j );
-                if ( num ) p->updateCoords( num );
-                p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            }
+    if ( lineList->updateNumID != data->updateNumID() ) {
+        lineList->updateNumID = data->updateNumID();
+        KSNumbers* num = data->updateNum();
+        for (int i = 0; i < points->size(); i++ ) {
+            points->at( i )->updateCoords( num );
         }
+    }
+
+    for (int i = 0; i < points->size(); i++ ) {
+        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }
 
@@ -179,9 +172,9 @@ bool LineListIndex::skipAt( LineList* lineList, int i )
 void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
 {
 	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
     KStarsData* data = kstars->data();
-
+    DrawID drawID = skyMesh()->drawID();
+    UpdateID updateID = data->updateID();
 	bool isVisible, isVisibleLast;
     SkyPoint *pLast, *pThis;
     QPoint oThis, oLast, oMid;
@@ -199,7 +192,7 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            lineList->update( data );
+            if ( lineList->updateID != updateID ) update( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -236,9 +229,9 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
 void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale )
 {
 	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
-
     KStarsData* data = kstars->data();
+    DrawID drawID = skyMesh()->drawID();
+    UpdateID updateID = data->updateID();
 	QPolygonF polyMW;
 	bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
@@ -256,7 +249,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            lineList->update( data );
+            if ( lineList->updateID != updateID ) update( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -292,9 +285,9 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
 void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
 {
 	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
-
     KStarsData* data = kstars->data();
+    DrawID drawID = skyMesh()->drawID();
+    UpdateID updateID = data->updateID();
 	bool isVisible, isVisibleLast;
     SkyPoint *pLast, *pThis;
     QPolygon polygon;
@@ -313,7 +306,7 @@ void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            lineList->update( data );
+            if ( lineList->updateID != updateID ) update( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();
@@ -351,9 +344,10 @@ void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
 void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scale )
 {
 	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
-
     KStarsData* data = kstars->data();
+    DrawID drawID = skyMesh()->drawID();
+    UpdateID updateID = data->updateID();
+
 	QPolygonF polygon;
 	bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
@@ -372,7 +366,7 @@ void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scal
             if ( lineList->drawID == drawID ) continue; 
             lineList->drawID = drawID;
 
-            lineList->update( data );
+            if ( lineList->updateID != updateID ) update( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();

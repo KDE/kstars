@@ -98,3 +98,14 @@ void CoordinateGrid::init( KStarsData *data )
     summary();
 }
 
+// Don't precess the coordinate grid
+void CoordinateGrid::update( KStarsData *data, LineList* lineList )
+{
+    lineList->updateID = data->updateID();
+    SkyList* points = lineList->points();
+    for (int i = 0; i < points->size(); i++ ) {
+        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+}
+
+

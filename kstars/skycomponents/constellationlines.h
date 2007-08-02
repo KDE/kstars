@@ -54,6 +54,11 @@ class ConstellationLines : public LineListIndex
 		*/
 		void init( KStarsData *data );
 
+        /* @short we need to override the update routine because stars are
+         * updated differently from mere SkyPoints.
+         */
+        void update( KStarsData *data, LineList* lineList );
+
        /* @short Set the QColor and QPen for drawing.
         */
         void preDraw( KStars *ks, QPainter &psky );

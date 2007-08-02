@@ -113,9 +113,7 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 		if ( ! Options::showCometNames() ) continue;
         if (  com->rsun() >= Options::maxRadCometName() ) continue;
 
-		//draw Name
-	    psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-        m_skyLabeler->drawOffsetLabel( psky, o, com->translatedName() );
-        psky.setPen( QPen( QColor( "darkcyan" ) ) );
+		//Queue label
+        m_skyLabeler->addOffsetLabel( o, com->translatedName(), COMET_LABEL );
 	}
 }

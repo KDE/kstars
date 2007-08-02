@@ -20,6 +20,7 @@
 #include <QPainter>
 
 #include "Options.h"
+#include "kstars.h"
 #include "kstarsdata.h"   // MINZOOM
 #include "skylabeler.h"
 #include "skymap.h"
@@ -63,13 +64,23 @@ double SkyLabeler::zoomOffset( double scale )
 
 //----- Constructor ---------------------------------------------------------//
 
-SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() )
+SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() ),
+    labelList( NUM_LABEL_TYPES )
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
     m_yDensity  = 1.0;   // controls vertical resolution
 
     m_marks = m_hits = m_misses = m_elements = 0;
+       
+    // FIXME!  This sucks. There must be a better way.
+    labelName[         STAR_LABEL ] = "Star";
+    labelName[     ASTEROID_LABEL ] = "Asteroid";
+    labelName[        COMET_LABEL ] = "Comet";
+    labelName[       PLANET_LABEL ] = "Planet";
+    labelName[ JUPITER_MOON_LABEL ] = "Jupiter Moon";
+    labelName[     DEEP_SKY_LABEL ] = "Deep Sky Object";
+    labelName[ CONSTEL_NAME_LABEL ] = "Constellation Name";
 }
 
 
@@ -147,6 +158,7 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
     m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
 
     int maxY = int( skyMap->height() / m_yScale );
+    if ( maxY < 1 ) maxY = 1;                         // prevents a crash below?
 
     int m_maxX = skyMap->width();
     m_size = (maxY + 1) * m_maxX;
@@ -177,6 +189,11 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
 
     // reset the counters
     m_marks = m_hits = m_misses = m_elements = 0;
+
+    //----- Clear out labelList -----
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList[ i ].clear();
+    }
 }
 
 
@@ -306,6 +323,56 @@ bool SkyLabeler::mark( const QPointF& p, const QString& text )
 }
 
 
+void SkyLabeler::addLabel( const QPointF& p, const QString& text, label_t type )
+{
+    labelList[ type ].append( SkyLabel( p, text ) );
+}
+
+void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t type )
+{
+    labelList[ type ].append( SkyLabel( p.x() + m_offset, p.y() + m_offset, text ) );
+}
+
+void SkyLabeler::draw( KStars* kstars, QPainter& psky )
+{
+    KStarsData* data = kstars->data();
+
+    psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+    //psky.setPen( QColor( "red" ) );
+    drawLabels( psky, PLANET_LABEL );
+
+    if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
+        shrinkFont( psky, 2 );
+	    //psky.setPen( QPen( QColor( "white" ) ) );
+        drawLabels( psky, JUPITER_MOON_LABEL );
+        resetFont( psky );
+    }
+
+    drawLabels( psky, ASTEROID_LABEL );
+    drawLabels( psky, COMET_LABEL );
+
+    if ( labelList[ CONSTEL_NAME_LABEL ].size() > 0 ) {
+        useStdFont( psky );
+	    psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
+        drawLabels( psky, CONSTEL_NAME_LABEL );
+        resetFont( psky );
+    }
+
+	psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+    drawLabels( psky, STAR_LABEL );
+
+}
+
+void SkyLabeler::drawLabels( QPainter& psky, label_t type )
+{
+    LabelList list = labelList[ type ];
+    for ( int i = 0; i < list.size(); i ++ ) {
+        drawLabel( psky, list.at( i ).o, list.at( i ).text ); //FIXME? const correctness?
+    }
+}
+
+//----- Diagnostic and information routines -----
+
 float SkyLabeler::fillRatio()
 {
     if ( m_size == 0 ) return 0.0;
@@ -327,6 +394,10 @@ void SkyLabeler::printInfo()
 
     printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n",
             screenRows.size(), m_elements, float(m_size) / 1024.0 );
+
+    for ( int i = 0; i < NUM_LABEL_TYPES; i++ ) {
+        printf("  %20ss: %d\n", labelName[ i ], labelList[ i ].size() );
+    }
 
     // Check for errors in the data structure
     for (int y = 0; y <= m_maxY; y++) {

@@ -36,6 +36,20 @@ class LabelRun;
 typedef QList<LabelRun*>    LabelRow;
 typedef QVector<LabelRow*>  ScreenRows;
 
+typedef QList<SkyLabel>     LabelList;
+
+enum label_t {
+            STAR_LABEL,
+        ASTEROID_LABEL,
+           COMET_LABEL,
+          PLANET_LABEL,
+    JUPITER_MOON_LABEL,
+        DEEP_SKY_LABEL,
+    CONSTEL_NAME_LABEL,         
+       NUM_LABEL_TYPES
+};
+
+
 /*@class SkyLabeler
  * The purpose of this class is to prevent labels from overlapping.  We do this
  * by creating a virtual (lower Y-resolution) screen. Each "pixel" of this
@@ -69,21 +83,26 @@ typedef QVector<LabelRow*>  ScreenRows;
  *
  *   2) every time you want to draw a new screen, reset the labeler.
  *
- *   3) For most labels just call drawLabel() or drawOffsetLabel()
+ *   3) Either:
+ *
+ *     A) Call drawLabel() or drawOffsetLabel(), or
+ *
+ *     B) Call addLabel() or addOffsetLabel()
+ *
+ *  4) Call draw() if addLabel() or addOffsetLabel() were used.
  *
  *
- * Implications:  This works totally on a first come, first served basis.  So
- * unlike a z-buffer where you draw the most important things last, here you
- * want to draw the most important things first.  Some care needs to be taken
- * with the order in which labels are drawn.  We may, someday, want to give the
- * user the control over the label order/priority.
  *
- * I've created a simple SkyLabel class that holds a QPointF and a QString.
- * These can be used to store labels while drawing objects which will allow us
- * to unlink the time objects are drawn from the time their associated labels
- * are drawn.  An alternative approach would be to simple iterate through the
- * objects twice, once to draw the objects and a second time to draw the labels.
- * We will just have to see which approach is most efficient.
+ * SkyLabeler works totally on a first come, first served basis which is almost
+ * the direct opposite of a z-buffer where the objects drawn last are most
+ * visible.  This is why the addLabel() and draw() routines were created.
+ * They allow us to time-shift the drawing of labels and thus gives us control
+ * over their priority.  The drawLabel() routines are still available but are
+ * not being used.  The addLabel() routines adds a label to a specfic buffer.
+ * Each type of label has its own buffer which lets us control the font and
+ * color as well as the priority.  The priority is now manually set in the
+ * draw() routine by adjusting the order in which the various buffers get
+ * drawn.
  *
  * Finally, even though this code was written to be very efficient, we might
  * want to take some care in how many labels we throw at it.  Sending it 
@@ -100,7 +119,7 @@ typedef QVector<LabelRow*>  ScreenRows;
  * this throttling automatically but I haven't really thought about that
  * problem yet.
  * 
- * -- James B. Bowlin  2007-07-22
+ * -- James B. Bowlin  2007-08-02
  */
 
 
@@ -154,7 +173,7 @@ class SkyLabeler {
          * in the SkyLabel.
          */
         void drawLabel( QPainter& psky, SkyLabel& skyLabel ) {
-             drawLabel( psky, skyLabel.point() , skyLabel.text );
+             drawLabel( psky, skyLabel.o , skyLabel.text );
         }
 
         /* @short attempts to draw the label at the given position but will
@@ -188,6 +207,27 @@ class SkyLabeler {
          */
         void resetFont(QPainter& psky);  
 
+        /* @short queues the label in the "type" buffer for later drawing.
+         */
+        void addLabel( const QPointF& p, const QString& text, label_t type );
+
+        /* @short queues the label in the "type" buffer for later drawing.  A
+         * zoom dependent offset is automatically added to the coordinates.
+         */
+        void addOffsetLabel( const QPointF& p, const QString& text, label_t type );
+
+        /*@short draws the labels stored in all the buffers.  You can change the
+         * priority by editing the .cpp file and changing the order in which
+         * buffers are drawn.  You can also change the fonts and colors there
+         * too.
+         */
+        void draw( KStars* kstars, QPainter& psky );
+
+        /* @short a convenience routine that draws all the labels from a single
+         * buffer.  Currently this is only called from within draw() above.
+         */
+        void drawLabels( QPainter& psky, label_t type );
+
         /* @short diagnostic. the *percentage* of pixels that have been filled.
          * Expect return values between 0.0 and 100.0.  A fillRatio above 20
          * is pretty busy and crowded.  I think a fillRatio of about 10 looks
@@ -211,11 +251,17 @@ class SkyLabeler {
          */
         void printInfo();
 
+        /* @short these two routines are tied to the "F" and "G" keys in
+         * skymapactions.cpp to allow users/devs to fiddle with the label
+         * density.
+         */
         void incDensity();
         void decDensity();
 
         int hits()  { return m_hits; };
         int marks() { return m_marks; }
+
+        char *labelName[NUM_LABEL_TYPES];
 
     private:
         ScreenRows screenRows;       
@@ -237,6 +283,8 @@ class SkyLabeler {
 
         QFont         m_stdFont, m_skyFont;
         QFontMetricsF m_fontMetrics;
+
+        QVector<LabelList>   labelList;
 
 };
 

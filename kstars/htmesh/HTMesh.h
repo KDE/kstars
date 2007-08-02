@@ -55,41 +55,6 @@ class MeshBuffer;
  */
 
 class HTMesh {
-    private:
-        const char *name;
-        SpatialIndex *htm;
-        int m_level, m_buildLevel;
-        int numTrixels, magicNum;
-
-        // These store the result sets:
-        MeshBuffer** m_meshBuffer;
-        BufNum m_numBuffers;
-
-        double degree2Rad;
-        double edge, edge10, eps;
-
-        int htmDebug;
-
-        /* @short fills the specified buffer with the intersection results in the
-         * RangeConvex.
-         */
-        bool performIntersection(RangeConvex* convex, BufNum bufNum=0);
-
-        /* @short users can only use the allocated buffers
-         */
-        inline bool validBufNum(BufNum bufNum)
-        {
-            if (bufNum < m_numBuffers) return true;
-            fprintf(stderr, "%s: bufNum: %d >= numBuffers: %d\n",
-            name, bufNum, m_numBuffers);
-            return false;
-        }
-
-        /* @short used by the line intersection routine.  Maybe there is a
-         * simpler and faster approach that does not require this conversion.
-         */
-        void toXYZ( double ra, double dec, double *x, double *y, double *z);
-
 public:
         /* @short constructor.
          * @param level is passed on to the underlying SpatialIndex
@@ -178,6 +143,40 @@ public:
         void vertices(Trixel id, double *ra1, double *dec1,
                                  double *ra2, double *dec2,
                                  double *ra3, double *dec3);
+    private:
+        const char *name;
+        SpatialIndex *htm;
+        int m_level, m_buildLevel;
+        int numTrixels, magicNum;
+
+        // These store the result sets:
+        MeshBuffer** m_meshBuffer;
+        BufNum m_numBuffers;
+
+        double degree2Rad;
+        double edge, edge10, eps;
+
+        int htmDebug;
+
+        /* @short fills the specified buffer with the intersection results in the
+         * RangeConvex.
+         */
+        bool performIntersection(RangeConvex* convex, BufNum bufNum=0);
+
+        /* @short users can only use the allocated buffers
+         */
+        inline bool validBufNum(BufNum bufNum)
+        {
+            if (bufNum < m_numBuffers) return true;
+            fprintf(stderr, "%s: bufNum: %d >= numBuffers: %d\n",
+            name, bufNum, m_numBuffers);
+            return false;
+        }
+
+        /* @short used by the line intersection routine.  Maybe there is a
+         * simpler and faster approach that does not require this conversion.
+         */
+        void toXYZ( double ra, double dec, double *x, double *y, double *z);
 
 };
 

@@ -45,10 +45,12 @@ class LineList {
          * most once per draw cycle.  It is public because it is both set and
          * read by the LineListIndex class.
          */
-        DrawID drawID;
+        DrawID   drawID;
+        UpdateID updateID;
+        UpdateID updateNumID;
 
 
-        void update( KStarsData* data );
+        //void update( KStarsData* data );
         /* @short return the list of points for iterating or appending
          * (or whatever).
          */
@@ -56,9 +58,7 @@ class LineList {
 
     private:
         SkyList pointList;
-        UpdateID updateID;
-        UpdateID updateNumID;
-
+        
 };
 
 #endif

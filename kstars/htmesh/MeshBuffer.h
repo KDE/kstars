@@ -23,11 +23,6 @@ class HTMesh;
  */
 
 class MeshBuffer {
-    private:
-        Trixel *m_buffer;
-        int m_size;
-        int maxSize;
-        int m_error;
 
     public:
         MeshBuffer(HTMesh *mesh);
@@ -58,6 +53,12 @@ class MeshBuffer {
         /* @short fills the buffer with consecutive integers
          */
         void fill();
+
+    private:
+        Trixel *m_buffer;
+        int    m_size;
+        int    maxSize;
+        int    m_error;
 
 };
 

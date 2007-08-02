@@ -76,8 +76,6 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	if ( Options::zoomFactor() <= 10.*MINZOOM ) return;
 
-    m_skyLabeler->shrinkFont( psky, 2 );
-   	
    	//In order to get the z-order right for the moons and Jupiter, 
    	//we need to first draw the moons that are further away than Jupiter, 
    	//then re-draw Jupiter, then draw the moons nearer than Jupiter.
@@ -119,9 +117,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
    		//if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
    		float offset = 3.0 * scale;
 
-        m_skyLabeler->drawLabel( psky,
-                QPointF( o.x() + offset, o.y() + offset), jmoons->name(i) );
+        m_skyLabeler->addLabel( QPointF( o.x() + offset, o.y() + offset), 
+                jmoons->name(i), JUPITER_MOON_LABEL );
    	}
-   	//reset font
-   	m_skyLabeler->resetFont( psky );
 }

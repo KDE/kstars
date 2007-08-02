@@ -374,9 +374,7 @@ The Data Container Classes
 
 The data container classes: LineList, SkipList, and PolyList are
 simple data containers with no non-trivial code.  All of them just
-have header files and no .cpp files.  Update.  LineList gained a
-linelist.cpp file in order to to just-in-time updating.
-
+have header files and no .cpp files.  
 
 The End Use Classes
 

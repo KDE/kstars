@@ -29,6 +29,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skyobject.h"
+#include "starobject.h"
 #include "skymap.h"
 
 #include "skymesh.h"
@@ -107,4 +108,20 @@ void ConstellationLines::init( KStarsData *data ) {
 
     summary();
 }
+
+// JIT updating makes this simple.  Star updates are called from within both
+// StarComponent and ConstellationLines.  If the update is redundant then
+// StarObject::update() simply returns without doing any work.
+
+void ConstellationLines::update( KStarsData *data, LineList* lineList )
+{
+    lineList->updateID = data->updateID();
+
+    SkyList* points = lineList->points();
+    for (int i = 0; i < points->size(); i++ ) {
+        StarObject* star = (StarObject*) points->at( i );
+        star->update( data );
+    }
+}
+
 

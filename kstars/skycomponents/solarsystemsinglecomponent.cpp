@@ -173,9 +173,9 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
    	//draw Name
    	if ( ! Options::showPlanetNames() ) return;
 
-	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
     float offset = ksp()->labelOffset();
-    m_skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset ), ksp()->translatedName() );
+    m_skyLabeler->addLabel( QPointF( o.x() + offset, o.y() + offset ), ksp()->translatedName(),
+            PLANET_LABEL );
 }
 
 void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {

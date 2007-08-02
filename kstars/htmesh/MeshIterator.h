@@ -20,10 +20,6 @@ class HTMesh;
  */
 
 class MeshIterator {
-    private:
-        const Trixel  *index;
-        int   m_size;
-        mutable int cnt;
 
     public:
         MeshIterator(HTMesh *mesh, BufNum bufNum=0);
@@ -44,6 +40,11 @@ class MeshIterator {
          * to iterate again over the same result set.
          */
         void reset() const { cnt = 0; }
+
+    private:
+        const Trixel  *index;
+        int           m_size;
+        mutable int   cnt;
 
 };
 

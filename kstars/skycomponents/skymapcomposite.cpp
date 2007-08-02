@@ -51,12 +51,13 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyCo
 {
     m_skyLabeler = new SkyLabeler();
 
-    m_skyMesh = new SkyMesh( 5 );
-    m_skyMesh->debug( 0 );              //  1 => print "indexing ..."
-                                       //  2 => prints totals too
-                                       // 10 => prints detailed lists
-                                       // You can also set the debug level of individual
-                                       // appendLine() and appendPoly() calls.
+    m_skyMesh = new SkyMesh( data, 5 );  // level 5 mesh = 8192 trixels
+
+    m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
+                                         //  2 => prints totals too
+                                         // 10 => prints detailed lists
+                                         // You can also set the debug level of individual
+                                         // appendLine() and appendPoly() calls.
     //Add all components
 	m_MilkyWay = new MilkyWay( this );
 	addComponent( m_MilkyWay );
@@ -121,14 +122,14 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 {
     //printf("updating SkyMapComposite\n");
 	//1. Milky Way
-	m_MilkyWay->update( data, num );
+	//m_MilkyWay->update( data, num );
 	//2. Coordinate grid
-	m_CoordinateGrid->update( data, num );
+	//m_CoordinateGrid->update( data, num );
 	//3. Constellation boundaries
-	m_CBounds->update( data, num );
+	//m_CBounds->update( data, num );
 	m_CBoundsBoundary->update( data, num );  // FIXME: -jbb do we need this???
 	//4. Constellation lines
-	m_CLines->update( data, num );
+	//m_CLines->update( data, num );
 	//5. Constellation names
 	m_CNames->update( data, num );
 	//6. Equator
@@ -247,6 +248,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 //	t.start();
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
 //	kDebug() << QString("Name labels : %1 ms").arg( t.elapsed() ) << endl;
+
+    m_skyLabeler->draw( ks, psky );
 
 	//14. Horizon (and ground)
 //	t.start();

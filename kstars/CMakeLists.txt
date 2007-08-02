@@ -126,7 +126,6 @@ set(libkstarscomponents_SRCS
    skycomponents/skylabeler.cpp 
    skycomponents/skymapcomposite.cpp 
    skycomponents/skymesh.cpp
-   skycomponents/linelist.cpp
    skycomponents/linelistindex.cpp
    skycomponents/skiplistindex.cpp
    skycomponents/polylistindex.cpp

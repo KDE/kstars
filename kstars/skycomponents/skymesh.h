@@ -31,22 +31,27 @@
 
 #include "typedef.h"
 
-// These defines control the trixel storage.  Separate buffers are available for
+// These enums control the trixel storage.  Separate buffers are available for
 // indexing and intersecting.  Currently only one buffer is required.  Multiple
 // buffers could be used for intermingling drawing and searching or to have a
 // non-precessed aperture for objects that don't precess.  If a buffer number
-// is greater than or equal to NUM_BUF a brief error message wil be priinted
+// is greater than or equal to NUM_BUF a brief error message will be printed
 // and then KStars will crash.  This is a feature, not a bug.
 
-#define DRAW_BUF        (0)
-#define OBJ_NEAREST_BUF (1)
-#define IN_CONSTELL_BUF (2)
-#define NUM_BUF         (3)
+
+enum MeshBufNum_t { 
+    DRAW_BUF        = 0,
+    OBJ_NEAREST_BUF = 1,
+    IN_CONSTELL_BUF = 2,
+    NUM_MESH_BUF
+};
+
 
 class SkyPoint;
 class QPolygonF;
 
 class KStars;
+class KStarsData;
 class QPainter;
 
 /*@class SkyMesh
@@ -94,14 +99,6 @@ class QPainter;
 
 class SkyMesh : public HTMesh
 {
-    private:
-        unsigned int m_drawID;
-        int errLimit;
-        int callCnt;
-        int m_debug;
-
-        IndexHash indexHash;
-
     public:
 
        /* Constructor.  The level indicates how fine a mesh we will use. The
@@ -111,7 +108,7 @@ class SkyMesh : public HTMesh
         * a level 5 mesh will have triagles size roughly of .05 radians or 2.8
         * degrees.
         */
-        SkyMesh( int level );
+        SkyMesh( KStarsData* data, int level );
 
        /* @return the current drawID which gets incremented each time aperture()
         * is calld.
@@ -126,7 +123,7 @@ class SkyMesh : public HTMesh
         * degree is added to the radius to account for proper motion,
         * refraction and other imperfections.
         */
-        void aperture( SkyPoint *center, double radius, BufNum bufNum=0 );
+        void aperture( SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
         
        /* @short returns the index of the trixel containing p.
         */
@@ -202,7 +199,16 @@ class SkyMesh : public HTMesh
         void incDrawID() { m_drawID++; }
         
 
-        void draw( KStars *kstars, QPainter& psky, double scale, BufNum bufNum=0 );
+        void draw( KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bufNum=DRAW_BUF );
+
+    private:
+        unsigned int m_drawID;
+        int errLimit;
+        int callCnt;
+        int m_debug;
+
+        IndexHash   indexHash;
+        KStarsData* m_data;
 
 };
 

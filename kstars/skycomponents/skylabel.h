@@ -23,11 +23,15 @@
 class SkyLabel {
 
     public:
-        SkyLabel( double ra, double dec, QString& text_in) : 
+        SkyLabel( qreal ra, qreal dec, const QString& text_in) : 
             o( ra, dec), text(text_in)
         {}
 
-        SkyLabel( QPointF o_in, QString& text_in) : o(o_in), text(text_in)
+//        SkyLabel( double ra, double dec, QString& text_in) : 
+//            o( ra, dec), text(text_in)
+//        {}
+
+        SkyLabel( const QPointF o_in, const QString& text_in) : o(o_in), text(text_in)
         {}
 
         //~StarLabel() { delete m_p; }

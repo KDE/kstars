@@ -126,13 +126,11 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 		else
 			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
-		//draw Name
-		if ( ! Options::showAsteroidNames() || 
+        if ( map->isSlewing() || ! Options::showAsteroidNames() || 
              ast->mag() >= Options::magLimitAsteroidName() ) continue;
 
-        psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-        m_skyLabeler->drawOffsetLabel( psky, o, ast->translatedName() );
-        psky.setPen( QPen( QColor( "grey" ) ) );
+		//Queue Name
+        m_skyLabeler->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
     }
 }
 

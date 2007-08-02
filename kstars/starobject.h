@@ -27,6 +27,7 @@
 class QPainter;
 class QString;
 class KSPopupMenu;
+class KStarsData;
 
 /**@class StarObject 
 	*This is a subclass of SkyObject.  It adds the Spectral type, and flags
@@ -134,6 +135,10 @@ class StarObject : public SkyObject {
 	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
 	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+
+    /* @short added for JIT updates from both StarComponent and ConstellatoinLines
+     */
+    void update( KStarsData* data );
 
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).

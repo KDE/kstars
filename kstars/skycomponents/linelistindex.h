@@ -62,11 +62,11 @@ class LineListIndex : public SkyComposite
          */
         LineListIndex( SkyComponent *parent, const char* name="" );
 
-        /* @short updates all the SkyPoints in the m_listList.   Subclasses
-         * such as ConstellationLines should define their own update(...)
-         * method if they don't want their parts updated.
+        /* @short does nothing.  Can be overridden if needed
          */
-        virtual void update( KStarsData *data, KSNumbers *num );
+        //virtual void update( KStarsData *data, KSNumbers *num );
+
+        virtual void update( KStarsData *data, LineList* lineList );
 
         /* @short Returns a QList of LineList objects.
          */

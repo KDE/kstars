@@ -78,7 +78,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	SkyMap *map = ks->map();
     KStarsData* data = ks->data();
     UpdateID updateID = data->updateID();
-    UpdateID updateNumID = data->updateNumID();
 
     QList<SkyLabel> labelList;
     double labelMagLim = Options::magLimitDrawStarInfo();
@@ -128,13 +127,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject *curStar = (StarObject*) starList->at( i );
 
-            if ( curStar->updateID != updateID ) {
-                curStar->updateID = updateID;
-                if ( curStar->updateNumID != updateNumID ) {
-                    curStar->updateCoords( data->updateNum() );
-                }
-                curStar->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            }
+            if ( curStar->updateID != updateID ) 
+                curStar->update( data );
 
             float mag = curStar->mag();
 
@@ -156,6 +150,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
             if ( noLabels ) continue;
             if ( mag > labelMagLim ) continue;
             if ( curStar->name() == i18n("star") ) continue;
+            //if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) continue;
 
             // NOTE: the code below was copied here from StarObject.  Perhaps
             // there is a cleaner way. -jbb
@@ -176,18 +171,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
                     sName.sprintf("%.1f", curStar->mag() );
             }
     
-		    labelList.append( SkyLabel( o.x() + offset, o.y() + offset, sName) );
+            m_skyLabeler->addLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
 	    }
-    }
-
-	//Loop for drawing star labels
-	if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) return;
-
-	maglim = Options::magLimitDrawStarInfo();
-	psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
-    
-    for (int i =0; i < labelList.size(); i++) {
-        m_skyLabeler->drawLabel( psky, labelList[ i ] );    
     }
 }
 
