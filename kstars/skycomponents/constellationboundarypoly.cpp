@@ -34,8 +34,7 @@
 
 ConstellationBoundaryPoly::ConstellationBoundaryPoly( SkyComponent *parent )
   : PolyListIndex( parent )
-{   
-}
+{}
 
 
 //-------------------------------------------------------------------
@@ -62,6 +61,33 @@ bool ConstellationBoundaryPoly::inConstellation( const QString &name, SkyPoint *
 	    return true;
 
 	return false;
+}
+
+// We don't need the rotation update but we still need to precess (I think).
+// This is a minor nightmare.  If we need to precess the boundaries then
+// we may want to rethink the data storage.
+void ConstellationBoundaryPoly::update( KStarsData *data, KSNumbers *num )
+{
+    /** -jbb need to use an iterator over the PolgonF in order to
+     * update then inclosed ra, dec values.
+
+    if ( ! num ) return;
+    PolyIndex* index = polyIndex();
+    for (int i = 0; i < index->size(); i++ ) {
+        PolyListList* listList = index->at( i );
+        for ( int j = 0; j < listList->size(); j++ ) {
+            QPolygonF poly = listList->at( j )->poly();
+            for ( int k = 0; k < poly->size(); k++ ) {
+                QPointF p = 
+                double ra = poly->at( k ).x();
+                double dec = poly->at( k ).y();
+                SkyPoint p( ra, dec );
+                p->updateCoords( num );
+
+            }
+        }
+    }
+    **/
 }
 
 /**

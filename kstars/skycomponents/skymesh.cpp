@@ -66,6 +66,12 @@ Trixel SkyMesh::index(SkyPoint *p)
     return HTMesh::index( p->ra()->Degrees(), p->dec()->Degrees() );
 }
 
+Trixel SkyMesh::index( double ra, double dec)
+{
+    return HTMesh::index( ra, dec );
+}
+
+
 void SkyMesh::index(SkyPoint *p, double radius)
 {
     HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius);

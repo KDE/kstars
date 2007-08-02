@@ -29,6 +29,8 @@
 #define NHIPFILES 127
 
 #include "listcomponent.h"
+#include "kstarsdatetime.h"
+
 #include "typedef.h"
 
 class SkyComponent;
@@ -38,6 +40,9 @@ class KSFileReader;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
+
+
+typedef QVector< StarList* > StarIndex;
 
 class StarComponent: public ListComponent
 {
@@ -93,9 +98,11 @@ class StarComponent: public ListComponent
         SkyObject* findStarByGenetiveName( const QString name );
 
 	private:
-        SkyMesh*              m_skyMesh;
-        QVector< StarList* >  m_starIndex;
-        SkyLabeler*           m_skyLabeler;
+        SkyMesh*       m_skyMesh;
+        StarIndex*     m_starIndex;
+        SkyLabeler*    m_skyLabeler;
+
+        KStarsDateTime m_indexDate;
         
         qint64 lastFilePos;
 

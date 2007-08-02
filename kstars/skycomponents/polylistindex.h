@@ -25,7 +25,8 @@
 
 class PolyList;
 
-typedef QVector<PolyList*> PolyListList;
+typedef QVector<PolyList*>        PolyListList;
+typedef QVector<PolyListList*>    PolyIndex;
 typedef QHash<QString, PolyList*> PolyNameHash;
 
 /* @class PolyListIndex
@@ -53,13 +54,15 @@ class PolyListIndex : public SkyComposite
 
         PolyList* ContainingPoly( SkyPoint *p );
 
+        PolyIndex* polyIndex() { return & m_polyIndex; }
+
         const PolyNameHash& nameHash() { return m_nameHash; }
 
         void summary();
 
 	private:
         SkyMesh*                 m_skyMesh;
-        QVector<PolyListList*>   m_polyIndex;
+        PolyIndex                m_polyIndex;
         int                      m_polyIndexCnt;
 		PolyNameHash             m_nameHash;
 

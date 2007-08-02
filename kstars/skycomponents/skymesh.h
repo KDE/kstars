@@ -129,6 +129,8 @@ class SkyMesh : public HTMesh
         */
         Trixel index( SkyPoint *p );
 
+        Trixel index( double ra, double dec );
+
        /* @short finds the indices of the trixels covering the circle
         * specified by center and radius.
         */

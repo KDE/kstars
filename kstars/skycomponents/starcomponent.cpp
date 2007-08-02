@@ -37,13 +37,14 @@
 
 
 StarComponent::StarComponent(SkyComponent *parent ) 
-: ListComponent(parent), m_FaintMagnitude(-5.0)
+: ListComponent(parent), m_indexDate( J2000 ), m_FaintMagnitude(-5.0)
 {
     m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
     m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
 
+    m_starIndex = new StarIndex();
     for (int i = 0; i < m_skyMesh->size(); i++) {
-        m_starIndex.append( new StarList() );
+        m_starIndex->append( new StarList() );
     }
 
     lastFilePos = 0;
@@ -57,8 +58,46 @@ bool StarComponent::selected()
     return Options::showStars();
 }
 
+// We use the update hook to re-index all the stars when the
+// date has changed by more than 150 years.
+
 void StarComponent::update( KStarsData *data, KSNumbers *num )
-{}
+{
+    if ( ! num ) return;
+    if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
+    
+    printf("Now: %.1f\n", data->ut().epoch() );
+    printf("LU : %.1f\n", m_indexDate.epoch() );
+
+    m_indexDate.setDJD( data->ut().djd() );
+
+    printf("Re-indexing Stars ...\n");
+
+    // Create a new index
+    StarIndex* newIndex = new StarIndex();
+    for (int i = 0; i < m_skyMesh->size(); i++) {
+        newIndex->append( new StarList() );
+    }
+
+    // Fill it with stars from old index
+    double ra, dec;
+
+    for ( int i = 0; i < m_skyMesh->size(); i++ ) {
+        StarList* starList = m_starIndex->at( i );
+        for ( int j = 0; j < starList->size(); j++ ) {
+            StarObject* star = starList->at( j );
+            star->getIndexCoords( num, &ra, &dec );
+            Trixel trixel = m_skyMesh->index( ra, dec );
+            newIndex->at( trixel )->append( star );
+        }
+        delete starList;
+    }
+    delete m_starIndex;
+    m_starIndex = newIndex;
+
+    printf("Done.\n");
+}
+
 
 void StarComponent::init(KStarsData *data)
 {
@@ -123,7 +162,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//Loop for drawing star images
     MeshIterator region(m_skyMesh, DRAW_BUF);
     while ( region.hasNext() ) {
-        StarList* starList = m_starIndex[ region.next() ];
+        StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject *curStar = (StarObject*) starList->at( i );
 
@@ -304,7 +343,7 @@ void StarComponent::processStar( const QString &line ) {
 	objectList().append(o);
 
     int starID = m_skyMesh->index( (SkyPoint*) o );
-    m_starIndex[starID]->append( o );
+    m_starIndex->at( starID )->append( o );
 
     if ( ! gname.isEmpty() ) m_genName.insert( gname, o );
 
@@ -330,7 +369,7 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
 	StarObject *oBest = 0;
     MeshIterator region(m_skyMesh, OBJ_NEAREST_BUF);
     while ( region.hasNext() ) {
-        StarList* starList = m_starIndex[ region.next() ];
+        StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject* star =  starList->at( i );
             if ( star->name() == i18n("star") ) continue;  // prevents "star" popups --jbb

@@ -125,3 +125,9 @@ void ConstellationLines::update( KStarsData *data, LineList* lineList )
 }
 
 
+void ConstellationLines::update( KStarsData *data, KSNumbers *num )
+{
+    
+}
+
+

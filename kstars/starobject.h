@@ -136,6 +136,14 @@ class StarObject : public SkyObject {
 	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
+    /* @short fills ra and dec with the coordinates of the star with the proper
+     * motion correction but without precesion and its friends.  It is used
+     * in StarComponent to re-index all the stars.
+     *
+     * NOTE: ra and dec both in degrees.
+     */
+    void getIndexCoords( KSNumbers *num, double *ra, double *dec );
+
     /* @short added for JIT updates from both StarComponent and ConstellatoinLines
      */
     void update( KStarsData* data );

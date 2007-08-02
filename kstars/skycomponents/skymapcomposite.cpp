@@ -127,7 +127,7 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	//m_CoordinateGrid->update( data, num );
 	//3. Constellation boundaries
 	//m_CBounds->update( data, num );
-	m_CBoundsBoundary->update( data, num );  // FIXME: -jbb do we need this???
+	m_CBoundsBoundary->update( data, num );
 	//4. Constellation lines
 	//m_CLines->update( data, num );
 	//5. Constellation names
@@ -142,6 +142,9 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	m_CustomCatalogs->update( data, num );
 	//10. Stars
 	m_Stars->update( data, num );
+
+    //m_CLines->update( data, num );  // MUST follow stars.
+
 	//12. Solar system
 	m_SolarSystem->update( data, num );
 	//13. Satellites

@@ -59,6 +59,11 @@ class ConstellationLines : public LineListIndex
          */
         void update( KStarsData *data, LineList* lineList );
 
+        /* @short we use the update hook to re-index the constellation lines
+         * every 150 years to account for proper motion of the stars.
+         */
+        void update( KStarsData *data, KSNumbers *num );
+
        /* @short Set the QColor and QPen for drawing.
         */
         void preDraw( KStars *ks, QPainter &psky );

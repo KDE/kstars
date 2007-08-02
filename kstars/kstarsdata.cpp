@@ -54,7 +54,7 @@ int KStarsData::objects = 0;
 
 KStarsData::KStarsData(KStars* kstars) : locale(0),
 		LST(0), HourAngle(0), initTimer(0), m_kstars(kstars), 
-        m_updateID(0), m_updateNumID(0), m_updateNum(0)
+        m_updateID(0), m_updateNumID(0), m_updateNum( J2000 )
 {
 	startupComplete = false;
 	objects++;
@@ -274,8 +274,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	}
 
 	KSNumbers num( ut().djd() );
-    m_updateNum = num;
-
+   
 	//TIMING
 	QTime t;
 
@@ -285,6 +284,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//		t.start();
 
         m_updateNumID++;
+        m_updateNum = num;
 		skyComposite()->update( this, &num );
 
 		//TIMING
