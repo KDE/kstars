@@ -373,7 +373,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	{
         	tmpAction = ksw->actionCollection()->action("capture_sequence");
   		if (!tmpAction)
-	  		kDebug() << "Warning: capture_sequence action not found" << endl;
+	  		kDebug() << "Warning: capture_sequence action not found";
   		else
 	  		tmpAction->setEnabled(true);
         }
@@ -675,7 +675,7 @@ bool INDIStdDevice::handleNonSidereal()
     int trackIndex=0;
     INDI_E *nameEle;
 
-    kDebug() << "Object of type " << currentObject->typeName() << endl;
+    kDebug() << "Object of type " << currentObject->typeName();
   //TODO Meade claims that the library access is available to
   // all telescopes, which is unture. Only classic meade support
   // that. They claim that library function will be available to all
@@ -701,7 +701,7 @@ bool INDIStdDevice::handleNonSidereal()
       if (setMode->el.at(i)->name == "TRACK")
       { trackIndex = i; break; }
 
-    kDebug() << "Device supports SOLAR_SYSTEM property" << endl;
+    kDebug() << "Device supports SOLAR_SYSTEM property";
 
     for (int i=0; i < prop->el.count(); i++)
      if (currentObject->name().toLower() == prop->el.at(i)->label.toLower())
@@ -721,21 +721,21 @@ bool INDIStdDevice::handleNonSidereal()
      }
   }
 
-   kDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer" << endl;
-   kDebug() << "Starting timer for object of type " << currentObject->typeName() << endl;
+   kDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer";
+   kDebug() << "Starting timer for object of type " << currentObject->typeName();
    
 
    switch (currentObject->type())
    {
     // Planet/Moon
     case 2:
-       kDebug() << "Initiating pulse tracking for " << currentObject->name() << endl;
+       kDebug() << "Initiating pulse tracking for " << currentObject->name();
        devTimer->start(INDI_PULSE_TRACKING);
        break;
     // Comet/Asteroid
     case 9:
     case 10:
-      kDebug() << "Initiating pulse tracking for " << currentObject->name() << endl;
+      kDebug() << "Initiating pulse tracking for " << currentObject->name();
       devTimer->start(INDI_PULSE_TRACKING);
       break;
     default:
@@ -788,12 +788,12 @@ void INDIStdDevice::timerDone()
        if (prop->state == PS_BUSY)
         return;
 
-       kDebug() << "Timer called, starting processing" << endl;
+       kDebug() << "Timer called, starting processing";
 
 	SkyPoint sp(currentObject->ra(), currentObject->dec());
 	
-	kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString() << endl;
-	kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString() << endl;
+	kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString();
+	kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString();
 
 	if (useJ2000)
 	{
@@ -858,12 +858,12 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
 	        if (device->deviceType == KSTARS_TELESCOPE)
 		{
 		   Options::setIndiTelescopePort( lp->text );
-		   kDebug() << "Setting telescope port " << lp->text << endl;
+		   kDebug() << "Setting telescope port " << lp->text;
 		}
 		else if (device->deviceType == KSTARS_VIDEO)
 		{
 		   Options::setIndiVideoPort( lp->text );
-		   kDebug() << "Setting video port " << lp->text << endl;
+		   kDebug() << "Setting video port " << lp->text;
 		}
 		break;
 	      }
@@ -991,7 +991,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    
    /* Handle Abort */
    case TELESCOPE_ABORT_MOTION:
-         kDebug() << "Stopping timer." << endl;
+         kDebug() << "Stopping timer.";
 	 stdDev->devTimer->stop();
  	 pp->newSwitch(switchIndex);
 	 return true;

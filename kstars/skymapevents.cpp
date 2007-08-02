@@ -319,24 +319,24 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			t.start();
 			foreach ( SkyObject *star, data->skyComposite()->stars() )
 				toScreen( star );
-			kDebug() << QString("toScreen() for all stars took %1 ms").arg(t.elapsed()) << endl;
+			kDebug() << QString("toScreen() for all stars took %1 ms").arg(t.elapsed());
 			t.start();
 			foreach ( SkyObject *star, data->skyComposite()->stars() )
 				toScreenQuaternion( star );
-			kDebug() << QString("toScreenQuaternion() for all stars took %1 ms").arg(t.elapsed()) << endl;
+			kDebug() << QString("toScreenQuaternion() for all stars took %1 ms").arg(t.elapsed());
 			break;
 		}
 //END_TIMING
 
 		case Qt::Key_A:
 			Options::setUseAntialias( ! Options::useAntialias() );
-			kDebug() << "Use Antialiasing: " << Options::useAntialias() << endl;
+			kDebug() << "Use Antialiasing: " << Options::useAntialias();
 			forceUpdate();
 			break;
 
 		//Test code: create a SkyLine
 		case Qt::Key_V:
-			kDebug() << "Create a skyline: " << endl;
+			kDebug() << "Create a skyline: ";
 			SkyLine sl( SkyPoint( 12.34, 33.50 ), SkyPoint( 14.00, 40.00 ) );
 			kDebug() << "  " << sl.points().size() << " :: "
 					<< sl.point(0)->ra()->toHMSString() << " : " 
@@ -741,7 +741,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	data->skyComposite()->draw( ks, psky );
 
 	//TIMING
-// 	kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed()) << endl;
+// 	kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed());
 
 	//Finish up
 	psky.end();
@@ -753,7 +753,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	drawOverlays( sky2 );
 
 	//TIMING
-//	kDebug() << QString("drawOverlays() took %1 ms").arg(t2.elapsed()) << endl;
+//	kDebug() << QString("drawOverlays() took %1 ms").arg(t2.elapsed());
 
 	//TIMING
 //	t2.start();
@@ -764,11 +764,11 @@ void SkyMap::paintEvent( QPaintEvent * )
 	psky2.end();
 
 	//TIMING
-//	kDebug() << QString("drawImage() took %1 ms").arg(t2.elapsed()) << endl;
+//	kDebug() << QString("drawImage() took %1 ms").arg(t2.elapsed());
 
 	computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 
 	//TIMING
-//	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed()) << endl;
+//	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed());
 }
 

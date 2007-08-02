@@ -91,10 +91,10 @@ bool InfoBox::toggleShade() {
 
 void InfoBox::updateSize() {
 	int dh = ShadedTextHeight/2;
-//	kDebug() << "Full=" << FullTextWidth + 2*padx() << "," << FullTextHeight - dh + 2*pady() << endl;
+//	kDebug() << "Full=" << FullTextWidth + 2*padx() << "," << FullTextHeight - dh + 2*pady();
 	if ( Shaded ) resize( ShadedTextWidth + 2*padx(), ShadedTextHeight - dh + 2*pady() );
 	else resize( FullTextWidth + 2*padx(), FullTextHeight - dh + 2*pady() );
-//	kDebug() << "Size=" << Size.width() << "," << Size.height() << endl;
+//	kDebug() << "Size=" << Size.width() << "," << Size.height();
 }
 
 bool InfoBox::constrain( const QRect &r, bool inside ) {

@@ -399,7 +399,7 @@ void INDIDriver::updateMenuActions()
   tmpAction = ksw->actionCollection()->action("capture_sequence");
 
   if (!tmpAction)
-  	kDebug() << "Warning: capture_sequence action not found" << endl;
+  	kDebug() << "Warning: capture_sequence action not found";
   else
   	tmpAction->setEnabled(activeImaging);
 
@@ -410,7 +410,7 @@ void INDIDriver::updateMenuActions()
   // Troubled Code START
   tmpAction = ksw->actionCollection()->action("indi_cpl");
   if (!tmpAction)
-  	kDebug() << "Warning: indi_cpl action not found" << endl;
+  	kDebug() << "Warning: indi_cpl action not found";
   else
     	tmpAction->setEnabled(activeDevice);
   // Troubled Code END
@@ -637,7 +637,7 @@ bool INDIDriver::readXMLDriver()
     }
     else if (errmsg[0])
     {
-      kDebug() << QString(errmsg) << endl;
+      kDebug() << QString(errmsg);
       return false;
     }
   }
@@ -685,7 +685,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   groupName = valuXMLAtt(ap);
 
-  kDebug() << "Group Name: " << groupName << endl;
+  kDebug() << "Group Name: " << groupName;
 
   if (groupName.indexOf("Telescopes") != -1)
     groupType = KSTARS_TELESCOPE;

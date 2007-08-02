@@ -205,7 +205,7 @@ void telescopeProp::updateScopeDetails(int index)
    finalIndex = findDeviceIndex(index);
    if (finalIndex == -1)
    {
-      kDebug() << "final index is invalid. internal error." << endl;
+      kDebug() << "final index is invalid. internal error.";
       return;
    }
 

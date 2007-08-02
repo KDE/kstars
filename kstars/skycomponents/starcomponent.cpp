@@ -183,11 +183,11 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 								int(100.*float(iStarFile)/float(NHIPFILES)) ) );
 
 			if ( ! openStarFile( iStarFile++ ) ) {
-				kDebug() << "Could not open star data file: " << iStarFile << endl;
+				kDebug() << "Could not open star data file: " << iStarFile;
 			}
 
 			if ( iStarLine && ! starFileReader->setLine( iStarLine ) ) {
-				kDebug() << i18n( "Could not set line number %1 in star data file." , iStarLine) << endl;
+				kDebug() << i18n( "Could not set line number %1 in star data file." , iStarLine);
 			} else {
 				iStarLine = 0; //start at the begnning of the next file
 

@@ -396,7 +396,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		if(UTCheckBatch->isChecked() ) {
 			utB = QTime::fromString( fields[i] );
 			if ( !utB.isValid() ) {
-				kWarning() << i18n( "Line %1 contains an invalid time" , nline) << endl;
+				kWarning() << i18n( "Line %1 contains an invalid time" , nline) ;
 				lineIsValid=false;
 				nline++;
 				continue;

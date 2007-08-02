@@ -285,7 +285,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		skyComposite()->update( this, &num );
 
 		//TIMING
-		//		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed()) << endl;
+		//		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed());
 	}
 
 	if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 ) {
@@ -296,7 +296,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		skyComposite()->updatePlanets( this, &num );
 
 		//TIMING
-		//		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed()) << endl;
+		//		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed());
 	}
 
 	// Moon moves ~30 arcmin/hr, so update its position every minute.
@@ -308,7 +308,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		skyComposite()->updateMoons( this, &num );
 
 		//TIMING
-		//		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed()) << endl;
+		//		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed());
 	}
 
 	//Update Alt/Az coordinates.  Timescale varies with zoom level
@@ -324,7 +324,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		skymap->updateFocus();
 
 		//TIMING
-		//		kDebug() << QString("SkyMapComposite::update() for Alt/Az took %1 ms").arg(t.elapsed()) << endl;
+		//		kDebug() << QString("SkyMapComposite::update() for Alt/Az took %1 ms").arg(t.elapsed());
 
 		if ( clock()->isManualMode() )
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
@@ -348,7 +348,7 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	setSnapNextFocus();
 
 	//DEBUG
-	kDebug() << "setting DateTime :" << newDate.toString() << ":" << endl;
+	kDebug() << "setting DateTime :" << newDate.toString() << ":";
 
 	clock()->setUTC( newDate );
 
@@ -456,8 +456,8 @@ bool KStarsData::processCity( const QString& line ) {
 		fields[i] = fields[i].trimmed();
 
 	if ( fields.size() < 11 ) {
-		kDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" ) <<endl;
-		kDebug()<< totalLine.toLocal8Bit() <<endl;
+		kDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" );
+		kDebug()<< totalLine.toLocal8Bit();
 		return false;
 	} else if ( fields.size() < 12 ) {
 		// allow old format (without TZ) for mycities.dat
@@ -474,51 +474,51 @@ bool KStarsData::processCity( const QString& line ) {
 
 	latD = fields[3].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	latM = fields[4].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	latS = fields[5].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	QChar ctemp = fields[6].at(0);
 	latsgn = ctemp;
 	if (latsgn != 'N' && latsgn != 'S') {
-		kDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
+		kDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	lngD = fields[7].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	lngM = fields[8].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	lngS = fields[9].toInt( &intCheck );
 	if ( !intCheck ) {
-		kDebug() << fields[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine << endl;
+		kDebug() << fields[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
 	ctemp = fields[10].at(0);
 	lngsgn = ctemp;
 	if (lngsgn != 'E' && lngsgn != 'W') {
-		kDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine << endl;
+		kDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine;
 		return false;
 	}
 
@@ -536,7 +536,7 @@ bool KStarsData::processCity( const QString& line ) {
 		bool doubleCheck = true;
 		TZ = fields[11].toDouble( &doubleCheck);
 		if ( !doubleCheck ) {
-			kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine << endl;
+			kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine;
 			return false;
 		}
 	}
@@ -545,7 +545,7 @@ bool KStarsData::processCity( const QString& line ) {
 	TZrule = &( Rulebook[ fields[12] ] );
 
 //	if ( fields[12]=="--" )
-//		kDebug() << "Empty rule start month: " << TZrule->StartMonth << endl;
+//		kDebug() << "Empty rule start month: " << TZrule->StartMonth;
 	geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
 	return true;
 }
@@ -660,7 +660,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 
 		} else {
 			if ( KSUtils::openDataFile( file, urlfile ) ) {
-				if ( locale->language() != "en_US" ) kDebug() << i18n( "No localized URL file; using default English file." ) << endl;
+				if ( locale->language() != "en_US" ) kDebug() << i18n( "No localized URL file; using default English file." );
 				// we found urlfile, we need to copy it to locale
 				localeFile.setFileName( KStandardDirs::locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(QIODevice::WriteOnly)) {
@@ -675,7 +675,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
 					localeFile.close();
 					file.reset();
 				} else {
-					kDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" ) << endl;
+					kDebug() << i18n( "Failed to copy default URL file to locale folder, modifying default object links is not possible" );
 				}
 				fileFound = true;
 			}
@@ -702,7 +702,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
 			SkyObject *o = skyComposite()->findByName(name);
 
 			if ( !o ) {
-				kWarning() << k_funcinfo << i18n( "Object named %1 not found", name ) << endl;
+				kWarning() << k_funcinfo << i18n( "Object named %1 not found", name ) ;
 			} else {
 				if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
 					if ( type==0 ) { //image URL
@@ -750,7 +750,7 @@ bool KStarsData::readUserLog(void)
 		//of star genetive names, so stars are identified that way in the user log.
 		SkyObject *o = skyComposite()->findByName(name);
 		if ( !o ) {
-			kWarning() << k_funcinfo << name << " not found" << endl;
+			kWarning() << k_funcinfo << name << " not found" ;
 		} else {
 			o->userLog = data;
 		}
@@ -936,7 +936,7 @@ bool KStarsData::readINDIHosts(void)
 			delXMLEle(root);
 		}
 		else if (errmsg[0])
-			kDebug() << errmsg << endl;
+			kDebug() << errmsg;
 	}
 
 	delLilXML(xmlParser);
@@ -963,7 +963,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
 	QFile f( scriptname );
 	if ( !f.open( QIODevice::ReadOnly) ) {
-		kDebug() << i18n( "Could not open file %1", f.fileName() ) << endl;
+		kDebug() << i18n( "Could not open file %1", f.fileName() );
 		return false;
 	}
 
@@ -1180,7 +1180,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				}
 
 				if ( !cityFound )
-					kWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) << endl;
+					kWarning() << i18n( "Could not set location named %1, %2, %3" , city, province, country) ;
 			}
 		}
 	}  //end while

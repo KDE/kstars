@@ -307,7 +307,7 @@ public:
 
 protected:
 	virtual bool loadData(const QString &n) {
-		kDebug() << "didn't reimplement for " << n << endl; return false;
+		kDebug() << "didn't reimplement for " << n; return false;
 	}
 
 /**@short find the object's current geocentric equatorial coordinates (RA and Dec)

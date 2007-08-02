@@ -158,7 +158,7 @@ int FITSImage::loadFits ( const QString &filename )
   stats.dim[0] = naxes[0];
   stats.dim[1] = naxes[1];
 
-  kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << " Image Type: " << data_type << endl;
+  kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << " Image Type: " << data_type;
 
   delete (image_buffer);
   delete (displayImage);
@@ -307,7 +307,7 @@ int FITSImage::calculateMinMax(bool refresh)
 	    else if (image_buffer[i] > stats.max) stats.max = image_buffer[i];
     }
     
-    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max << endl;
+    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max;
     return 0;
 }
 

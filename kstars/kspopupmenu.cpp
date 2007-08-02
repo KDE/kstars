@@ -39,7 +39,7 @@ KSPopupMenu::KSPopupMenu( KStars *_ks )
 KSPopupMenu::~KSPopupMenu()
 {
     //DEBUG
-    //kDebug() << "aName: " << aName << endl;
+    //kDebug() << "aName: " << aName;
     //if ( aName )            delete aName;
     //if ( aName2 )           delete aName2;
     //if ( aType )            delete aType;
@@ -48,7 +48,7 @@ KSPopupMenu::~KSPopupMenu()
     //if ( aSetTime )         delete aSetTime;
     //if ( aTransitTime )     delete aTransitTime;
     //DEBUG
-    //kDebug() << "labName: " << labName << endl;
+    //kDebug() << "labName: " << labName;
     //if ( labName )          labName->deleteLater();
     //if ( labName2 )         labName2->deleteLater();
     //if ( labType )          labType->deleteLater();
@@ -57,7 +57,7 @@ KSPopupMenu::~KSPopupMenu()
     //if ( labSetTime )       labSetTime->deleteLater();
     //if ( labTransitTime )   labTransitTime->deleteLater();
     ////DEBUG
-    //kDebug() << "menuDevice: " << menuDevice << endl;
+    //kDebug() << "menuDevice: " << menuDevice;
     //if ( menuDevice )       delete menuDevice;
 }
 
@@ -334,7 +334,7 @@ bool KSPopupMenu::addINDI(void)
 					{
 						//menuDevice->insertItem (prop->label, id);
 						//menuDevice->setItemChecked(id, false);
-						//kDebug() << "Expose ID: " << id << endl;
+						//kDebug() << "Expose ID: " << id;
 						//id++;
 						QAction *a = menuDevice->addAction( prop->label );
 					        a->setCheckable( true );

@@ -215,7 +215,7 @@ float TimeSpinBox::timeScale( void ) const {
 }
 
 void TimeSpinBox::reportChange() {
-	kDebug() << i18n( "Reporting new timestep value: " ) << timeScale() << endl;
+	kDebug() << i18n( "Reporting new timestep value: " ) << timeScale();
 	emit scaleChanged( timeScale() );
 }
 

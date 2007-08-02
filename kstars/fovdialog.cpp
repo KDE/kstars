@@ -250,8 +250,8 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 void NewFOV::slotComputeFOV() {
 	KStars *ks = (KStars*)(parent()->parent());
 
-	if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) ) kDebug() << "A" << endl;
-	if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B" << endl;
+	if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) ) kDebug() << "A";
+	if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B";
 
 	if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );

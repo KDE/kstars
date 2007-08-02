@@ -1055,7 +1055,7 @@ void ScriptBuilder::slotRunScript() {
 	p.start();
 
 	if( !p.waitForStarted() )
-            kDebug() << "Process did not start." << endl;
+            kDebug() << "Process did not start.";
 
 	while ( !p.waitForFinished(10) ) {
 	    qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
@@ -1150,7 +1150,7 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			  // Initially, any read script is valid!
 			  ScriptList.last()->setValid(true);
 			}
-			else kWarning() << i18n( "Could not parse script.  Line was: %1", line ) << endl;
+			else kWarning() << i18n( "Could not parse script.  Line was: %1", line ) ;
 
 		} // end if left(4) == "dcop"
 	} // end while !atEnd()
@@ -1790,7 +1790,7 @@ void ScriptBuilder::slotShowDoc() {
   if (found == NULL)
   {
     sb->AddButton->setEnabled( false );
-    kWarning() << i18n( "Function index out of bounds." ) << endl;
+    kWarning() << i18n( "Function index out of bounds." ) ;
     return;
   }
 
@@ -2786,7 +2786,7 @@ void ScriptBuilder::slotINDISetFilterNum()
 }
 
 void ScriptBuilder::warningMismatch (const QString &expected) const {
-	kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) << endl;
+	kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
 }
 
 #include "scriptbuilder.moc"

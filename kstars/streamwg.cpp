@@ -81,7 +81,7 @@ FILE *wfp;
 
   //videoFrame->resize(640, 480);
 
-  //kDebug() << "Video Frame Width " << videoFrame->width() << endl;
+  //kDebug() << "Video Frame Width " << videoFrame->width();
    
  }
  

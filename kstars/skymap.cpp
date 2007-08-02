@@ -889,7 +889,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onVisi
 			k = 1.0/c;
 			break;
 		default: //should never get here
-			kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() << endl;
+			kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
 			k = 1.0;  //just default to Orthographic
 			break;
 	}
@@ -1140,7 +1140,7 @@ SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {
 			c.setRadians( atan( r ) );
 			break;
 		default: //should never get here
-			kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() << endl;
+			kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
 			c.setRadians( asin( r ) );  //just default to Orthographic
 			break;
 	}
@@ -1418,7 +1418,7 @@ void SkyMap::updateAngleRuler() {
 	}
 
 	//DEBUG
-	kDebug() << "AngRuler: " << AngularRuler.point(0)->ra()->toHMSString() << " :: " << AngularRuler.point(1)->ra()->toHMSString() << endl;
+	kDebug() << "AngRuler: " << AngularRuler.point(0)->ra()->toHMSString() << " :: " << AngularRuler.point(1)->ra()->toHMSString();
 
 }
 

@@ -645,8 +645,8 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 
 	if ( !URLFile.open( QIODevice::WriteOnly) )
 	{
-		kDebug() << "DetailDialog: Failed to open " << URLFile.fileName() << endl;
-		kDebug() << "KStars cannot save to user database" << endl;
+		kDebug() << "DetailDialog: Failed to open " << URLFile.fileName();
+		kDebug() << "KStars cannot save to user database";
 		return;
 	}
 

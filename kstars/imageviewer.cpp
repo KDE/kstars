@@ -98,7 +98,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
 	if (!m_ImageUrl.isValid())		//check URL
-		kDebug()<<"URL is malformed: "<< m_ImageUrl << endl;
+		kDebug()<<"URL is malformed: "<< m_ImageUrl;
 	setWindowTitle (m_ImageUrl.fileName()); // the title of the window
 
 	{

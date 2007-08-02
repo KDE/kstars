@@ -277,7 +277,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
 	aberrate(num);
 
 	if ( lat || LST )
-		kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) << endl;
+		kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
 }
 
 void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){

@@ -127,7 +127,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
   double fits_w=0, fits_h=0;
   float *buffer = viewer->image->getImageBuffer();
 
-  kDebug() << "hist_width: " << hist_width << " - hist_height: " << hist_height << endl;
+  kDebug() << "hist_width: " << hist_width << " - hist_height: " << hist_height;
 
   viewer->image->getFITSSize(&fits_w, &fits_h);
   viewer->image->getFITSMinMax(&fits_min, &fits_max);

@@ -491,7 +491,7 @@ void KStars::initFOV() {
 
 	if ( ! f.exists() ) {
 		if ( ! f.open( QIODevice::WriteOnly ) ) {
-			kDebug() << i18n( "Could not open fov.dat." ) << endl;
+			kDebug() << i18n( "Could not open fov.dat." );
 		} else {
 			QTextStream ostream(&f);
 			ostream << i18nc( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
@@ -523,7 +523,7 @@ void KStars::initFOV() {
 			}
 		}
 	} else {
-		kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
+		kDebug() << i18n( "Could not open file: %1", f.fileName() );
 	}
 
 	fovActionMenu->addSeparator();
@@ -619,7 +619,7 @@ void KStars::datainitFinished(bool worked) {
 	KTipDialog::showTip( "kstars/tips" );
 
 	//DEBUG
-	kDebug() << "The current Date/Time is: " << ExtDateTime::currentDateTime().toString() << endl;
+	kDebug() << "The current Date/Time is: " << ExtDateTime::currentDateTime().toString();
 }
 
 void KStars::initFocus() {

@@ -219,7 +219,7 @@ void INDI_P::convertSwitch(QAction *action)
  int switchIndex=0;
 
 
-  //kDebug() << "Name: " << name << " ID: " << id << endl;
+  //kDebug() << "Name: " << name << " ID: " << id;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
  if (stdID == CCD_EXPOSE_DURATION && action->text() == label)
  {

@@ -134,12 +134,12 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 			file.close();
 			KIO::NetAccess::removeTempFile( tmpFile );
 		} else {
-			kDebug() << "Could not read local copy of google image page" << endl;
+			kDebug() << "Could not read local copy of google image page";
 			KIO::NetAccess::removeTempFile( tmpFile );
 			return;
 		}
 	} else {
-		kDebug() << KIO::NetAccess::lastErrorString() << endl;
+		kDebug() << KIO::NetAccess::lastErrorString();
 		return;
 	}
 
@@ -198,7 +198,7 @@ void ThumbnailPicker::downloadReady(KJob *job) {
 
 //	this returns zero...
 // 		//DEBUG
-// 		kDebug() << "Title bar height: " << QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
+// 		kDebug() << "Title bar height: " << QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight );
 
 		if ( h > hDesk )
 			im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );

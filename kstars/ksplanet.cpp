@@ -148,7 +148,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
 				*/
 	  	}
 		sum[i] *= Tpow[i];
-		//kDebug() << name() << " : sum[" << i << "] = " << sum[i] <<endl;
+		//kDebug() << name() << " : sum[" << i << "] = " << sum[i];
   	}
 
 	epret.longitude.setRadians( sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5] );

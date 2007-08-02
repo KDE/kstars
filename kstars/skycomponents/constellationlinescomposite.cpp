@@ -86,7 +86,7 @@ void ConstellationLinesComposite::init( KStarsData *data ) {
 					p.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 					clc->appendPoint( p );
 				} else if ( !star )
-					kWarning() << i18n( "No star named %1 found." , name) << endl;
+					kWarning() << i18n( "No star named %1 found." , name) ;
 			}
 		}
 		file.close();

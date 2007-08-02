@@ -117,7 +117,7 @@ void KStars::waitForKey( const QString &k ) {
             while ( ! data()->resumeKey.isEmpty() ) { qApp->processEvents(); }
 
         } else {
-		kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." ) << endl;
+		kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." );
 	}
 }
 
@@ -418,7 +418,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 		else if ( ext.toLower() == "gif" ) { format = "GIF"; }
 		else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
 		else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) << endl; }
+		else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
 
 		map()->exportSkyImage( &skyimage );
 		qApp->processEvents();
@@ -451,8 +451,8 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 			p.end();
 		}
 
-		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname ) << endl;
-		else kDebug() << i18n( "Image saved to file: %1", fname ) << endl;
+		if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname );
+		else kDebug() << i18n( "Image saved to file: %1", fname );
 
 		if ( tmpfile.fileName() == fname ) { //attempt to upload image to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
@@ -508,7 +508,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "establishINDI() failed." << endl;
+    kDebug() << "establishINDI() failed.";
     return;
   }
 	QTreeWidgetItem *driverItem = NULL;
@@ -516,7 +516,7 @@ void KStars::startINDI (const QString &deviceName, bool useLocal)
 
 	if (found.empty())
 	{
-	   kDebug() << "Device " << deviceName << " not found!" << endl;
+	   kDebug() << "Device " << deviceName << " not found!";
 	   return;
 	}
 
@@ -552,7 +552,7 @@ void KStars::setINDIDevice (const QString &deviceName)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "establishINDI() failed." << endl;
+    kDebug() << "establishINDI() failed.";
     return;
   }
 
@@ -566,7 +566,7 @@ void KStars::shutdownINDI (const QString &deviceName)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "establishINDI() failed." << endl;
+    kDebug() << "establishINDI() failed.";
     return;
   }
 
@@ -575,7 +575,7 @@ void KStars::shutdownINDI (const QString &deviceName)
 
 	if (found.empty())
 	{
-	   kDebug() << "Device " << deviceName << " not found!" << endl;
+	   kDebug() << "Device " << deviceName << " not found!";
 	   return;
 	}
 
@@ -593,7 +593,7 @@ void KStars::switchINDI(bool turnOn)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "switchINDI: establishINDI() failed." << endl;
+    kDebug() << "switchINDI: establishINDI() failed.";
     return;
   }
 
@@ -602,7 +602,7 @@ void KStars::switchINDI(bool turnOn)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -628,7 +628,7 @@ void KStars::setINDIPort(const QString &port)
 
    if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIPort: establishINDI() failed." << endl;
+    kDebug() << "setINDIPort: establishINDI() failed.";
     return;
   }
 
@@ -637,7 +637,7 @@ void KStars::setINDIPort(const QString &port)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -664,7 +664,7 @@ void KStars::setINDITargetCoord(double RA, double DEC)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDITarget: establishINDI() failed." << endl;
+    kDebug() << "setINDITarget: establishINDI() failed.";
     return;
   }
 
@@ -673,7 +673,7 @@ void KStars::setINDITargetCoord(double RA, double DEC)
      dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -705,7 +705,7 @@ void KStars::setINDITargetName(const QString &objectName)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDITarget: establishINDI() failed." << endl;
+    kDebug() << "setINDITarget: establishINDI() failed.";
     return;
   }
 
@@ -717,7 +717,7 @@ void KStars::setINDITargetName(const QString &objectName)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -748,7 +748,7 @@ void KStars::setINDIAction(const QString &action)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIAction: establishINDI() failed." << endl;
+    kDebug() << "setINDIAction: establishINDI() failed.";
     return;
   }
 
@@ -757,7 +757,7 @@ void KStars::setINDIAction(const QString &action)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -778,7 +778,7 @@ void KStars::waitForINDIAction(const QString &action)
 //
 //  if (!indidriver || !indimenu)
 //  {
-//    kDebug() << "waitForINDIAction: establishINDI() failed." << endl;
+//    kDebug() << "waitForINDIAction: establishINDI() failed.";
 //    return;
 //  }
 //
@@ -787,7 +787,7 @@ void KStars::waitForINDIAction(const QString &action)
 //    dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
 //  if (!dev)
 //  {
-//    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+//    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
 //    return;
 //  }
 //
@@ -816,7 +816,7 @@ void KStars::setINDIFocusSpeed(unsigned int speed)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIFocusSpeed: establishINDI() failed." << endl;
+    kDebug() << "setINDIFocusSpeed: establishINDI() failed.";
     return;
   }
 
@@ -825,7 +825,7 @@ void KStars::setINDIFocusSpeed(unsigned int speed)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -847,7 +847,7 @@ void KStars::startINDIFocus(int focusDir)
 {
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIFocus: establishINDI() failed!" << endl;
+    kDebug() << "setINDIFocus: establishINDI() failed!";
     return;
   }
 
@@ -867,7 +867,7 @@ void KStars::setINDIGeoLocation(double longitude, double latitude)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIGeoLocation: establishINDI() failed." << endl;
+    kDebug() << "setINDIGeoLocation: establishINDI() failed.";
     return;
   }
 
@@ -876,7 +876,7 @@ void KStars::setINDIGeoLocation(double longitude, double latitude)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -908,7 +908,7 @@ void KStars::setINDIFocusTimeout(int timeout)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "startINDIFocus: establishINDI() failed." << endl;
+    kDebug() << "startINDIFocus: establishINDI() failed.";
     return;
   }
 
@@ -917,7 +917,7 @@ void KStars::setINDIFocusTimeout(int timeout)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -946,7 +946,7 @@ void KStars::startINDIExposure(int timeout)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "startINDIExposure: establishINDI() failed." << endl;
+    kDebug() << "startINDIExposure: establishINDI() failed.";
     return;
   }
 
@@ -955,7 +955,7 @@ void KStars::startINDIExposure(int timeout)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -983,7 +983,7 @@ void KStars::setINDIFilterNum(int filter_num)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDIFilterNum: establishINDI() failed." << endl;
+    kDebug() << "setINDIFilterNum: establishINDI() failed.";
     return;
   }
 
@@ -992,7 +992,7 @@ void KStars::setINDIFilterNum(int filter_num)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -1019,7 +1019,7 @@ void KStars::setINDIUTC(const QString &UTCDateTime)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "startINDIUTC: establishINDI() failed." << endl;
+    kDebug() << "startINDIUTC: establishINDI() failed.";
     return;
   }
 
@@ -1028,7 +1028,7 @@ void KStars::setINDIUTC(const QString &UTCDateTime)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 
@@ -1063,7 +1063,7 @@ void KStars::setINDICCDTemp(int temp)
 
   if (!indidriver || !indimenu)
   {
-    kDebug() << "setINDICCDTemp: establishINDI() failed." << endl;
+    kDebug() << "setINDICCDTemp: establishINDI() failed.";
     return;
   }
 
@@ -1072,7 +1072,7 @@ void KStars::setINDICCDTemp(int temp)
     dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
   if (!dev)
   {
-    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!" << endl;
+    kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
     return;
   }
 

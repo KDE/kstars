@@ -152,18 +152,18 @@ void histDrawArea::mouseReleaseEvent ( QMouseEvent * event )
 
 void histDrawArea::resizeEvent ( QResizeEvent * event )
 {
-	//kDebug() << "Resize Event: new Width: " << event->size().width() << " - new Height: " << event->size().height() << endl;
+	//kDebug() << "Resize Event: new Width: " << event->size().width() << " - new Height: " << event->size().height();
 
 	valid_width  = event->size().width() - CIRCLE_DIM;
 	valid_height = event->size().height() - CIRCLE_DIM;
 
-	//kDebug() << "Resize Event: VALID Width: " << valid_width << " - VALID height: " << valid_height << endl;
+	//kDebug() << "Resize Event: VALID Width: " << valid_width << " - VALID height: " << valid_height;
 	enclosedRect.setRect(CIRCLE_DIM/2, CIRCLE_DIM/2, valid_width, valid_height);
 
 	upperLimitX = valid_width;
 	lowerLimitX  = 0;
 
-	//kDebug() << "Calling construction histogram" << endl;
+	//kDebug() << "Calling construction histogram";
 	data->constructHistogram(valid_width, valid_height);
 }
 

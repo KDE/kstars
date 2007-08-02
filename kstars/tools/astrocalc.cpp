@@ -97,14 +97,14 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	for ( int iTop = 0; iTop < navigationPanel->topLevelItemCount(); iTop++ ) {
 		QTreeWidgetItem *topItem = navigationPanel->topLevelItem( iTop );
 		//DEBUG
-		kDebug() << "top:   " << iTop << endl;
+		kDebug() << "top:   " << iTop;
 		for ( int iChild = 0; iChild < topItem->childCount(); iChild++ ) {
 			QTreeWidgetItem *childItem = topItem->child( iChild );
 			//DEBUG
-			kDebug() << "child: " << iChild << endl;
+			kDebug() << "child: " << iChild;
 			int w = navigationPanel->visualItemRect( childItem ).width();
 			//DEBUG
-			kDebug() << "Width: " << w << endl;
+			kDebug() << "Width: " << w;
 			if ( w > maxWidth ) maxWidth = w;
 		}
 	}
@@ -165,7 +165,7 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 	if (item==0L) return;
 
 	//DEBUG
-	kDebug() << "Item clicked: " << item->text(0) << endl;
+	kDebug() << "Item clicked: " << item->text(0);
 
 	QString s = item->text(0);
 
@@ -179,8 +179,8 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 		genSolarText();
 
 	//DEBUG
-	kDebug() << "s = " << s << endl;
-	kDebug() << acStack << " : " << AltAzFrame << endl;
+	kDebug() << "s = " << s;
+	kDebug() << acStack << " : " << AltAzFrame;
 
 	if(!(s.compare(i18n("Sidereal Time"))))
 		acStack->setCurrentWidget( SidFrame );

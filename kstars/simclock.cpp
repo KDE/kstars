@@ -125,7 +125,7 @@ void SimClock::stop() {
 	}
 
 	if (!ManualMode && tmr.isActive()) {
-		kDebug() << i18n( "Stopping the timer" ) << endl;
+		kDebug() << i18n( "Stopping the timer" );
 		tmr.stop();
 		emit clockStopped();
 	}
@@ -143,7 +143,7 @@ void SimClock::start() {
 	}
 
 	if (! ManualMode && ! tmr.isActive()) {
-		kDebug() << i18n( "Starting the timer" ) << endl;
+		kDebug() << i18n( "Starting the timer" );
 		sysmark.start();
 		julianmark = UTC.djd();
 		lastelapsed = 0;
@@ -165,13 +165,13 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
 				  UTC.toString(), KGlobal::locale()->formatNumber( UTC.djd() ) ) << endl;
 		emit timeChanged();
 	} else {
-		kDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." ) << endl;
+		kDebug() << i18n( "Cannot set SimClock:  Invalid Date/Time." );
 	}
 }
 
 void SimClock::setScale(float s) {
 	if (Scale != s ) {
-		kDebug() << i18n( "New clock scale: %1 sec", s ) << endl;
+		kDebug() << i18n( "New clock scale: %1 sec", s );
 		Scale = s;
 		if (tmr.isActive()) {
 			julianmark = UTC.djd();

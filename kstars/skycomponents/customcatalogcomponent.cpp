@@ -125,7 +125,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
 			KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ),
 					i18n( "Error opening file" ) );
 		else
-			kDebug() << i18n( "Could not open custom data file: %1", m_Filename ) << endl;
+			kDebug() << i18n( "Could not open custom data file: %1", m_Filename );
 	}
 }
 

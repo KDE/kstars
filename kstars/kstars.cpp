@@ -108,9 +108,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	cschemeGroup = new QActionGroup( this );
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
-	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
+	kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
 #else
-	kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions." << endl;
+	kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
 #endif
 }
 
@@ -247,7 +247,7 @@ ImageViewer* KStars::addImageViewer( const KUrl &url, const QString &message ) {
 
 void KStars::removeImageViewer( ImageViewer *iv ) {
 	//DEBUG
-	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo;
 
 	int i = m_ImageViewerList.indexOf( iv );
 	if ( i != -1 )

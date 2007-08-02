@@ -180,7 +180,7 @@ void DeviceManager::dataReceived()
                 //prXMLEle (stdout, root, 0);
 		if (dispatchCommand(root, cmd_err) < 0)
 		{
-		    kDebug() << cmd_err << endl;
+		    kDebug() << cmd_err;
 		    prXMLEle (stdout, root, 0);
 		}
 
@@ -188,7 +188,7 @@ void DeviceManager::dataReceived()
 	    }
 	    else if (*errmsg)
 	    {
-		kDebug() << errmsg << endl;
+		kDebug() << errmsg;
 	    }
 	}
 }
@@ -388,7 +388,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
         if (dp == NULL)
 	{
-	  kDebug() << "Warning: dp is null." << endl;
+	  kDebug() << "Warning: dp is null.";
 	  return;
 	}
 

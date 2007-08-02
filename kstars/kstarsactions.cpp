@@ -357,13 +357,13 @@ void KStars::slotConfigureToolbars() {
 	//ket.exec();
 	//DEBUG
 	if ( ket.exec() == QDialog::Accepted ) {
-		kDebug() << "KEditToolbar dialog returned Accepted" << endl;
+		kDebug() << "KEditToolbar dialog returned Accepted";
 	}
 }
 
 void KStars::slotApplyToolbarConfig() {
 	//DEBUG
-	kDebug() << "Recreating GUI..." << endl;
+	kDebug() << "Recreating GUI...";
 
 	createGUI();
 	applyMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
@@ -428,7 +428,7 @@ void KStars::slotFind() {
 		findDialog = new FindDialog( this );
 	}
 
-	if ( !findDialog ) kWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
+	if ( !findDialog ) kWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
 
 	if ( findDialog->exec() == QDialog::Accepted && findDialog->selectedObject() ) {
 		map()->setClickedObject( findDialog->selectedObject() );
@@ -698,7 +698,7 @@ void KStars::slotManualFocus() {
 
 	if ( focusDialog.exec() == QDialog::Accepted ) {
 		//DEBUG
-		kDebug() << "focusDialog point: " << &focusDialog << endl;
+		kDebug() << "focusDialog point: " << &focusDialog;
 
 		//If the requested position is very near the pole, we need to point first
 		//to an intermediate location just below the pole in order to get the longitudinal
@@ -851,7 +851,7 @@ void KStars::slotMapProjection() {
 		Options::setProjection( SkyMap::Gnomonic );
 
 	//DEBUG
-	kDebug() << i18n( "Projection system: %1", Options::projection() ) << endl;
+	kDebug() << i18n( "Projection system: %1", Options::projection() );
 
 	skymap->forceUpdate();
 }
@@ -893,7 +893,7 @@ void KStars::slotFOVEdit() {
 			initFOV();
 		} else {
 			if ( ! f.open( QIODevice::WriteOnly ) ) {
-				kDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
+				kDebug() << i18n( "Could not open fov.dat for writing." );
 			} else {
 				QTextStream ostream(&f);
 
@@ -924,7 +924,7 @@ void KStars::slotFOVEdit() {
 				}
 			}
 		} else {
-			kDebug() << i18n( "Could not open file: %1", f.fileName() ) << endl;
+			kDebug() << i18n( "Could not open file: %1", f.fileName() );
 		}
 
 		fovActionMenu->menu()->addSeparator();
@@ -1059,7 +1059,7 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
-	kDebug() << "removing " << actionName << endl;
+	kDebug() << "removing " << actionName;
 	colorActionMenu->removeAction( actionCollection()->action( actionName ) );
 }
 

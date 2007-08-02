@@ -150,7 +150,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
 	if ( ! hasColorNamed( name ) ) {
-		kWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) << endl;
+		kWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
 		//color = "#FFFFFF"; //set to white if no color found
 		return QColor( Qt::white );
 	}
