@@ -72,6 +72,11 @@ class ConstellationNamesComponent : public ListComponent
 		*/
 		virtual void init(KStarsData *data);
 
+        /* @short we need a custom routine (for now) so we don't
+         * precess the locations of the names.
+         */
+        void update( KStarsData *data, KSNumbers *num );
+
         bool selected();
 
     private:

@@ -99,7 +99,7 @@ void CoordinateGrid::init( KStarsData *data )
 }
 
 // Don't precess the coordinate grid
-void CoordinateGrid::update( KStarsData *data, LineList* lineList )
+void CoordinateGrid::JITupdate( KStarsData *data, LineList* lineList )
 {
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();

@@ -115,11 +115,12 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
         pmDec() * num->julianMillenia() / 3600.0;
 }
 
-void StarObject::update( KStarsData* data )
+void StarObject::JITupdate( KStarsData* data )
 {
     updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
         updateCoords( data->updateNum() );
+        updateNumID = data->updateNumID();
     }
     EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }

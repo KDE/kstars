@@ -57,7 +57,7 @@ class ConstellationLines : public LineListIndex
         /* @short we need to override the update routine because stars are
          * updated differently from mere SkyPoints.
          */
-        void update( KStarsData *data, LineList* lineList );
+        void JITupdate( KStarsData *data, LineList* lineList );
 
         /* @short we use the update hook to re-index the constellation lines
          * every 150 years to account for proper motion of the stars.

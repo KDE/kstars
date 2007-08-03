@@ -60,6 +60,8 @@ class ConstellationBoundary : public LineListIndex
 
         void preDraw( KStars *ks, QPainter &psky );
         
+        void JITupdate( KStarsData *data, LineList* lineList );
+
 	    ConstellationBoundaryPoly* boundaries() { return m_Boundary; }
 
     private:

@@ -101,34 +101,6 @@ bool MilkyWay::selected()
     return Options::showMilkyWay();
 }
 
-// We interate over the values in the poly/lineIndex so we don't
-// need to keep a separate list of lineLists just to do the updates
-// -- jbb
-void MilkyWay::update( KStarsData *data, KSNumbers *num )
-{
-    return;  // FIXME: -jbb just remove the whole routine.
-    if ( ! selected() ) return;
-
-    skyMesh()->incDrawID();
-    DrawID drawID = skyMesh()->drawID();
-
-    foreach (LineListList* listList, polyIndex()->values() ) {
-        for ( int i = 0; i < listList->size(); i++) {
-            LineList* lineList = listList->at( i );
-
-            if ( lineList->drawID == drawID ) continue;
-            lineList->drawID = drawID;
-
-            SkyList* points = lineList->points();
-            for (int j = 0; j < points->size(); j++ ) {
-                SkyPoint* p = points->at( j );
-                if ( num ) p->updateCoords( num );
-                p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            }
-        }
-    }
-}
-
 void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)
 {
 	if ( !selected() ) return;

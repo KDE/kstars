@@ -41,7 +41,8 @@
 
 enum MeshBufNum_t { 
     DRAW_BUF        = 0,
-    OBJ_NEAREST_BUF = 1,
+    NO_PRECESS_BUF  = 1,
+    OBJ_NEAREST_BUF = 0,
     IN_CONSTELL_BUF = 2,
     NUM_MESH_BUF
 };
@@ -134,7 +135,7 @@ class SkyMesh : public HTMesh
        /* @short finds the indices of the trixels covering the circle
         * specified by center and radius.
         */
-        void index( SkyPoint *center, double radius );
+        void index( SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
 
        /* @short finds the indices of the trixels covering the line segment
         * connecting p1 and p2.

@@ -146,7 +146,7 @@ class StarObject : public SkyObject {
 
     /* @short added for JIT updates from both StarComponent and ConstellatoinLines
      */
-    void update( KStarsData* data );
+    void JITupdate( KStarsData* data );
 
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).

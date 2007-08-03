@@ -54,6 +54,8 @@ LineListIndex::LineListIndex( SkyComponent *parent, const char* name )
   : SkyComposite( parent ), m_name(name) 
 {
     m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
+    m_lineIndex = new LineListHash();
+    m_polyIndex = new LineListHash();
     m_lineIndexCnt = m_polyIndexCnt = 0;
 }
 
@@ -62,6 +64,8 @@ LineListIndex::LineListIndex( SkyComponent *parent, bool (*visibleMethod)(), con
   : SkyComposite( parent, visibleMethod ), m_name(name)
 {
     m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
+    m_lineIndex = new LineListHash(); 
+    m_polyIndex = new LineListHash();
     m_lineIndexCnt = m_polyIndexCnt = 0;
 }
 
@@ -118,7 +122,7 @@ void LineListIndex::appendBoth(LineList* lineList, int debug) {
 //void LineListIndex::update( KStarsData *data, KSNumbers *num )
 //{}
 
-void LineListIndex::update( KStarsData *data, LineList* lineList )
+void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
 {
 
     lineList->updateID = data->updateID();
@@ -192,7 +196,7 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) update( data, lineList );
+            if ( lineList->updateID != updateID ) JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -249,7 +253,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) update( data, lineList );
+            if ( lineList->updateID != updateID ) JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -306,7 +310,7 @@ void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) update( data, lineList );
+            if ( lineList->updateID != updateID ) JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();
@@ -366,7 +370,7 @@ void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scal
             if ( lineList->drawID == drawID ) continue; 
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) update( data, lineList );
+            if ( lineList->updateID != updateID ) JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();

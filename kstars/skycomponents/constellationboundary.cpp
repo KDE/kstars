@@ -143,6 +143,16 @@ void ConstellationBoundary::init( KStarsData *data ) {
 
 }
 
+// Don't precess the coordinate grid
+void ConstellationBoundary::JITupdate( KStarsData *data, LineList* lineList )
+{
+    lineList->updateID = data->updateID();
+    SkyList* points = lineList->points();
+    for (int i = 0; i < points->size(); i++ ) {
+        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+}
+
 bool ConstellationBoundary::selected()
 {
     return Options::showCBounds();

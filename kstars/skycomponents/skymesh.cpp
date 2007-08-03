@@ -45,7 +45,7 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     long double now = m_data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
 
-    /**
+    /***
     if ( radius == 1.0 ) {
         printf("\nra0 = %8.4f  dec0 = %8.4f\n", p0->ra()->Degrees(), p0->dec()->Degrees() );
         printf("ra1 = %8.4f  dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
@@ -55,7 +55,7 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
         printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
         printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );
     }
-    **/
+    ***/
 
     HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
@@ -72,9 +72,9 @@ Trixel SkyMesh::index( double ra, double dec)
 }
 
 
-void SkyMesh::index(SkyPoint *p, double radius)
+void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
 {
-    HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius);
+    HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius, (BufNum) bufNum );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2 )

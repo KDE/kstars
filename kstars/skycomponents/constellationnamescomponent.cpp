@@ -82,6 +82,15 @@ void ConstellationNamesComponent::init(KStarsData *)
 	}
 }
 
+// Don't precess the location of the names
+void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
+{
+    for ( int i = 0; i < objectList().size(); i++ ) {
+        objectList().at( i )->EquatorialToHorizontal( data->lst(), 
+                                                      data->geo()->lat() );
+    }
+}
+
 void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( ! selected() ) return;

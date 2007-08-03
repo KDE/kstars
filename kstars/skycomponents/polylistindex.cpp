@@ -35,7 +35,6 @@
 PolyListIndex::PolyListIndex( SkyComponent *parent )
   : SkyComposite( parent)
 {   
-    
     m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
     m_polyIndexCnt = 0;
     for (int i = 0; i < skyMesh()->size(); i++) {
@@ -43,10 +42,8 @@ PolyListIndex::PolyListIndex( SkyComponent *parent )
     }
 }
 
-
 void PolyListIndex::update( KStarsData *data, KSNumbers *num )
 {}
-
 
 void PolyListIndex::appendPoly( PolyList* polyList, int debug)
 {
@@ -91,8 +88,9 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
 
     QHash<PolyList*, bool> polyHash;
     QHash<PolyList*, bool>::const_iterator iter;
-
-    skyMesh()->aperture( p, 1.0, IN_CONSTELL_BUF );
+ 
+    // the boundaries don't precess so we use index() not aperture()
+    skyMesh()->index( p, 1.0, IN_CONSTELL_BUF );         
     MeshIterator region( skyMesh(), IN_CONSTELL_BUF );
     while ( region.hasNext() ) {
 

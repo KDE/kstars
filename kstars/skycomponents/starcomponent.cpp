@@ -167,7 +167,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		    StarObject *curStar = (StarObject*) starList->at( i );
 
             if ( curStar->updateID != updateID ) 
-                curStar->update( data );
+                curStar->JITupdate( data );
 
             float mag = curStar->mag();
 
@@ -372,7 +372,7 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
         StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject* star =  starList->at( i );
-            if ( star->name() == i18n("star") ) continue;  // prevents "star" popups --jbb
+            //if ( star->name() == i18n("star") ) continue;  // prevents "star" popups --jbb
             //kDebug() << QString("found: %1\n").arg(star->name());
 		    double r = star->angularDistanceTo( p ).Degrees();
 		    if ( r < maxrad ) {

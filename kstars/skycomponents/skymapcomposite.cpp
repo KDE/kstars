@@ -127,7 +127,6 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	//m_CoordinateGrid->update( data, num );
 	//3. Constellation boundaries
 	//m_CBounds->update( data, num );
-	m_CBoundsBoundary->update( data, num );
 	//4. Constellation lines
 	//m_CLines->update( data, num );
 	//5. Constellation names
@@ -172,12 +171,22 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
     m_map = ks->map();
+
+    // This ensures that the JIT updates are synchronized for the entire draw
+    // cycle so the sky moves as a single sheet.
+    ks->data()->syncUpdateIDs();
+
     float radius = m_map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
     SkyPoint* focus = m_map->focus();
-    m_skyMesh->aperture(focus, radius + 1.0, DRAW_BUF); // divide by 2 for testing
-    //kDebug() << QString("Number trixels: %1\n").arg( m_skyMesh.intersectSize());
+    m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
+
+    /**
+    if ( Options::showGrid() || Options::showCBounds() ) {
+        m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
+    }
+    **/
 
     // FIXME: ensure we are using the proper font here -jbb
     m_skyLabeler->reset( m_map, psky, scale ); 
@@ -262,8 +271,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
     // -jbb uncomment these to see trixel outlines:
 
-    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
+    psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+    m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
 
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );

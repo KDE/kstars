@@ -41,7 +41,7 @@ class CoordinateGrid : public LineListIndex
 
         void init( KStarsData *data );
 
-        void update( KStarsData *data, LineList* lineList );
+        void JITupdate( KStarsData *data, LineList* lineList );
 
         void preDraw( KStars *ks, QPainter &psky );
 

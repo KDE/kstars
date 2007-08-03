@@ -326,6 +326,7 @@ public:
     unsigned int updateID() { return m_updateID; }
     unsigned int updateNumID() { return m_updateNumID; }
     KSNumbers* updateNum()  { return &m_updateNum; }
+    void syncUpdateIDs();
 
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
@@ -486,9 +487,9 @@ private:
 	static QMap<QString, TimeZoneRule> Rulebook;
 
     KStars*      m_kstars;
-    quint32      m_updateID;
-    quint32      m_updateNumID;
-    KSNumbers    m_updateNum;
+    quint32      m_preUpdateID, m_updateID;
+    quint32      m_preUpdateNumID, m_updateNumID;
+    KSNumbers    m_preUpdateNum, m_updateNum;
 };
 
 

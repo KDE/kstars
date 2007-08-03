@@ -38,16 +38,6 @@ class LineList;
 
 class LineListIndex : public SkyComposite
 {
-    private:
-        const char*  m_name;
-        int          m_lineIndexCnt;
-        int          m_polyIndexCnt;
-
-        LineListList m_listList;
-        SkyMesh*     m_skyMesh;
-        LineListHash m_lineIndex;
-        LineListHash m_polyIndex;
-
     public:
         /* @short Constructor
          * Simply set the internal skyMesh, parent, and name.
@@ -65,8 +55,7 @@ class LineListIndex : public SkyComposite
         /* @short does nothing.  Can be overridden if needed
          */
         //virtual void update( KStarsData *data, KSNumbers *num );
-
-        virtual void update( KStarsData *data, LineList* lineList );
+        virtual void JITupdate( KStarsData *data, LineList* lineList );
 
         /* @short Returns a QList of LineList objects.
          */
@@ -79,12 +68,12 @@ class LineListIndex : public SkyComposite
         /* @short Returns the Hash of QLists of LineLists that
          * is used for doing the indexing line segments.
          */
-        LineListHash* lineIndex() { return &m_lineIndex; }
+        LineListHash* lineIndex() { return m_lineIndex; }
 
         /* @short Returns the Hash of QLists of LineLists that
          * is used for indexing filled polygons.
          */
-        LineListHash* polyIndex() { return &m_polyIndex; }
+        LineListHash* polyIndex() { return m_polyIndex; }
 
         /* @short Typically called from within a subclasses init() method.
          * Adds the trixels covering the outline of lineList to the lineIndex.
@@ -173,6 +162,16 @@ class LineListIndex : public SkyComposite
 
         void intro();
         void summary();
+
+    private:
+        const char*  m_name;
+        int          m_lineIndexCnt;
+        int          m_polyIndexCnt;
+
+        LineListList  m_listList;
+        SkyMesh*      m_skyMesh;
+        LineListHash* m_lineIndex;
+        LineListHash* m_polyIndex;
 
 };
 

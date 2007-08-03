@@ -113,14 +113,14 @@ void ConstellationLines::init( KStarsData *data ) {
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::update() simply returns without doing any work.
 
-void ConstellationLines::update( KStarsData *data, LineList* lineList )
+void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
 {
     lineList->updateID = data->updateID();
 
     SkyList* points = lineList->points();
     for (int i = 0; i < points->size(); i++ ) {
         StarObject* star = (StarObject*) points->at( i );
-        star->update( data );
+        star->JITupdate( data );
     }
 }
 

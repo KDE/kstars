@@ -48,8 +48,6 @@ class MilkyWay : public SkipListIndex
        
 		void draw( QPainter& psky );
 
-        void update( KStarsData *data, KSNumbers *num );
-
         bool selected();
 };
 #endif

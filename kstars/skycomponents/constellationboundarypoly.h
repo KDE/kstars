@@ -44,10 +44,6 @@ class ConstellationBoundaryPoly : public PolyListIndex
 		*/
 		ConstellationBoundaryPoly( SkyComponent *parent );
 
-        /* @short this is now required to precess the boundaries.
-         */
-        void update( KStarsData *data, KSNumbers *num );
-
 		const QPolygonF& boundary( const QString &name ) const;
 
 		QString constellationName( SkyPoint *p );
