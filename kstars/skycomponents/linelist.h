@@ -34,8 +34,8 @@ class KStarsData;
  * @author James B. Bowlin
  * @version 0.2
 */
-class LineList {
-
+class LineList
+{
 	public:
         LineList() : drawID(0), updateID(0) {}
 

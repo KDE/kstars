@@ -117,6 +117,7 @@ void ConstellationBoundary::init( KStarsData *data ) {
 
         // always add the point to the boundary (and toss dupes)
         polyList->append( QPointF( ra, dec ) );
+        if ( ra < 0 ) polyList->wrapRA( true );
         
         if ( flag ) {
 

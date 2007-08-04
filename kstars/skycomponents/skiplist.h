@@ -33,9 +33,6 @@
  */
 class SkipList : public LineList
 {
-    private:
-         IndexHash m_skip;     
-         
 	public:
         /* @short returns the entire skip hash.  Used by the
          * indexLines() routine so all the line segments in
@@ -52,6 +49,10 @@ class SkipList : public LineList
          * segment.
          */
         bool skip( int i ) { return m_skip.contains( i );  }
+
+    private:
+         IndexHash m_skip;
+
 };
 
 #endif

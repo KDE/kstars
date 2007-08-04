@@ -66,34 +66,31 @@ void StarComponent::update( KStarsData *data, KSNumbers *num )
     if ( ! num ) return;
     if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
     
-    printf("Now: %.1f\n", data->ut().epoch() );
-    printf("LU : %.1f\n", m_indexDate.epoch() );
-
     m_indexDate.setDJD( data->ut().djd() );
 
     printf("Re-indexing Stars ...\n");
 
+    // delete the old index 
+    for ( int i = 0; i < m_starIndex->size(); i++ ) {
+        delete m_starIndex->at( i );
+    }
+    delete m_starIndex;
+
     // Create a new index
-    StarIndex* newIndex = new StarIndex();
+    m_starIndex = new StarIndex();
     for (int i = 0; i < m_skyMesh->size(); i++) {
-        newIndex->append( new StarList() );
+        m_starIndex->append( new StarList() );
     }
 
     // Fill it with stars from old index
     double ra, dec;
 
-    for ( int i = 0; i < m_skyMesh->size(); i++ ) {
-        StarList* starList = m_starIndex->at( i );
-        for ( int j = 0; j < starList->size(); j++ ) {
-            StarObject* star = starList->at( j );
-            star->getIndexCoords( num, &ra, &dec );
-            Trixel trixel = m_skyMesh->index( ra, dec );
-            newIndex->at( trixel )->append( star );
-        }
-        delete starList;
+    for ( int i = 0; i < objectList().size(); i++ ) {
+        StarObject* star = (StarObject*) objectList()[ i ];
+        star->getIndexCoords( num, &ra, &dec );
+        Trixel trixel = m_skyMesh->index( ra, dec );
+        m_starIndex->at( trixel )->append( star );
     }
-    delete m_starIndex;
-    m_starIndex = newIndex;
 
     printf("Done.\n");
 }
@@ -188,14 +185,14 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
             if ( noLabels ) continue;
             if ( mag > labelMagLim ) continue;
-            if ( curStar->name() == i18n("star") ) continue;
             //if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) continue;
 
             // NOTE: the code below was copied here from StarObject.  Perhaps
             // there is a cleaner way. -jbb
             float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
 
-            bool drawName = ( Options::showStarNames() && curStar->name() != i18n("star") );
+            //bool drawName = ( Options::showStarNames() && curStar->name() != i18n("star") );
+            bool drawName = ( Options::showStarNames() );
 
             QString sName( i18n("star") + ' ' );
             if ( drawName ) {

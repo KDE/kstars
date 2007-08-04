@@ -188,9 +188,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     }
     **/
 
-    // FIXME: ensure we are using the proper font here -jbb
     m_skyLabeler->reset( m_map, psky, scale ); 
-
 
 	//TIMING
 	//QTime t;
@@ -271,8 +269,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
     // -jbb uncomment these to see trixel outlines:
 
-    psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
+    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
 
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );

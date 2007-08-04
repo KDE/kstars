@@ -108,11 +108,11 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
-    *ra = ra0()->Degrees() + 
-        pmRA() * num->julianMillenia() / cos( dec0()->radians() ) / 3600.0;
+    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
+    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
-    *dec = dec0()->Degrees() + 
-        pmDec() * num->julianMillenia() / 3600.0;
+    *ra = ra0()->Degrees() + dra;       
+    *dec = dec0()->Degrees() + ddec;
 }
 
 void StarObject::JITupdate( KStarsData* data )

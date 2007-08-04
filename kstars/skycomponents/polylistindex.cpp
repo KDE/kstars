@@ -88,13 +88,17 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
 
     QHash<PolyList*, bool> polyHash;
     QHash<PolyList*, bool>::const_iterator iter;
- 
+
+    printf("\n");
+
     // the boundaries don't precess so we use index() not aperture()
     skyMesh()->index( p, 1.0, IN_CONSTELL_BUF );         
     MeshIterator region( skyMesh(), IN_CONSTELL_BUF );
     while ( region.hasNext() ) {
 
         Trixel trixel = region.next();
+        //printf("Trixel: %4d %s\n", trixel, skyMesh()->indexToName( trixel ) );
+
         PolyListList *polyListList = m_polyIndex[ trixel ];
 
         //printf("    size: %d\n", polyListList->size() );
@@ -110,6 +114,10 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
     // Don't bother with boundaries if there is only one
     if ( polyHash.size() == 1 ) return iter.key();
 
+    QPointF point( p->ra()->Hours(), p->dec()->Degrees() );
+    QPointF wrapPoint( p->ra()->Hours() - 24.0, p->dec()->Degrees() );
+    bool wrapRA = p->ra()->Hours() > 12.0;
+
     while ( iter != polyHash.constEnd() ) {
 
         PolyList* polyList = iter.key();
@@ -118,9 +126,14 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
         //kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
 
         const QPolygonF& poly = polyList->poly();
-        if ( poly.containsPoint( QPointF( p->ra()->Hours(), 
-                                 p->dec()->Degrees() ), Qt::OddEvenFill ) )
-            return polyList;
+        if ( wrapRA && polyList->wrapRA() ) {
+            if ( poly.containsPoint( wrapPoint, Qt::OddEvenFill ) )
+                return polyList;
+        }
+        else {
+            if ( poly.containsPoint( point, Qt::OddEvenFill ) )
+                return polyList;
+        }
     }
 
     return 0;

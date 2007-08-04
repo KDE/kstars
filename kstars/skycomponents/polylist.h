@@ -29,22 +29,17 @@
  *
  * @author James B. Bowlin @version 0.1
  */
-class PolyList {
-
-    private: 
-        QPolygonF m_poly;
-        QString   m_name;
-
+class PolyList
+{
     public:
-
         /* @short trivial constructor that also sets the name.   It was
          * convenient to specify the name at construction time.
          */
-        PolyList( QString name) { m_name = name; };
+        PolyList( QString name) : m_wrapRA(false) { m_name = name; };
 
         /* @short returns the QPolygonF that holds the points.
          */
-const QPolygonF& poly() { return m_poly; }
+        const QPolygonF& poly() { return m_poly; }
 
         /* @short we need a new append() method to append QPointF's
          * instead of SkyPoints.
@@ -59,6 +54,15 @@ const QPolygonF& poly() { return m_poly; }
         /* @short returns the name.
          */
         const QString &name() { return m_name; }
+
+        bool wrapRA() { return m_wrapRA; }
+        void wrapRA( bool wrap ) { m_wrapRA = wrap; }
+
+    private: 
+        QPolygonF m_poly;
+        QString   m_name;
+        bool      m_wrapRA;
+
 };
 
 #endif
