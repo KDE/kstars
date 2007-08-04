@@ -21,6 +21,7 @@
 #include <QHash>
 
 #include "linelistindex.h"
+#include "kstarsdatetime.h"
 
 class SkyMesh;
 class LineListComponent;
@@ -69,6 +70,10 @@ class ConstellationLines : public LineListIndex
         void preDraw( KStars *ks, QPainter &psky );
 
         bool selected();
+
+    private:
+
+        KStarsDateTime m_indexDate;
 
 };
 

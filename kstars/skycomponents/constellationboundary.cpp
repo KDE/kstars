@@ -41,7 +41,7 @@
 #include "skymesh.h"
 
 ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
-  : LineListIndex( parent, "Constellation Boundaries" )
+  : NoPrecessIndex( parent, "Constellation Boundaries" )
 {
     m_Boundary = new ConstellationBoundaryPoly( parent );
 }
@@ -142,16 +142,6 @@ void ConstellationBoundary::init( KStarsData *data ) {
     summary();
     m_Boundary->summary();
 
-}
-
-// Don't precess the coordinate grid
-void ConstellationBoundary::JITupdate( KStarsData *data, LineList* lineList )
-{
-    lineList->updateID = data->updateID();
-    SkyList* points = lineList->points();
-    for (int i = 0; i < points->size(); i++ ) {
-        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    }
 }
 
 bool ConstellationBoundary::selected()

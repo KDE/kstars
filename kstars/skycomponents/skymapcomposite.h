@@ -21,6 +21,7 @@
 #include <QList>
 
 #include "skycomposite.h"
+#include "ksnumbers.h"
 
 class SkyMesh;
 class SkyLabeler;
@@ -205,6 +206,8 @@ class SkyMapComposite : public QObject, public SkyComposite
         SkyMesh*                m_skyMesh;
         SkyLabeler*             m_skyLabeler;
         SkyMap*                 m_map;
+
+        KSNumbers               m_reindexNum;
 
 		QList<SkyObject*>       m_LabeledObjects;
 		QHash<int, QStringList> m_ObjectNames;

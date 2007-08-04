@@ -25,11 +25,16 @@
 
 #include <QPainter>
 
+#include "ksnumbers.h"
+
 #include "../htmesh/HTMesh.h"
 #include "../htmesh/MeshIterator.h"
 #include "../htmesh/MeshBuffer.h"
 
 #include "typedef.h"
+
+class KSNumbers;
+class StarObject;
 
 // These enums control the trixel storage.  Separate buffers are available for
 // indexing and intersecting.  Currently only one buffer is required.  Multiple
@@ -130,7 +135,7 @@ class SkyMesh : public HTMesh
         */
         Trixel index( SkyPoint *p );
 
-        Trixel index( double ra, double dec );
+        Trixel indexStar( StarObject *star );
 
        /* @short finds the indices of the trixels covering the circle
         * specified by center and radius.
@@ -199,8 +204,11 @@ class SkyMesh : public HTMesh
 
         void debug( int debug ) { m_debug = debug; }
 
-        void incDrawID() { m_drawID++; }
-        
+        int incDrawID() { return ++m_drawID; }
+       
+        //void setDate( KStarsDateTime& date ) { m_date.setDJD( date.djd() ); }
+        //void setDate( KStarsDateTime* date ) { m_date.setDJD( date->djd() ); }
+        void setKSNumbers( KSNumbers* num ) { m_KSNumbers = KSNumbers( *num ); }
 
         void draw( KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bufNum=DRAW_BUF );
 
@@ -212,7 +220,7 @@ class SkyMesh : public HTMesh
 
         IndexHash   indexHash;
         KStarsData* m_data;
-
+        KSNumbers   m_KSNumbers;
 };
 
 

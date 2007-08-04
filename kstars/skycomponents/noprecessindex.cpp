@@ -1,8 +1,8 @@
 /***************************************************************************
-                          coordinategrid.h  -  K Desktop Planetarium
+                       noprecessindex.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 15 Sept. 2005
-    copyright            : (C) 2005 by Jason Harris
+    begin                : 2007-08-04
+    copyright            : (C) 2007 James B. Bowlin
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -15,36 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
 
+//#include "kstars.h"
+#include "skypoint.h"
+#include "kstarsdata.h"
 #include "noprecessindex.h"
+#include "linelist.h"
 
-/**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
+NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const char* name ) 
+	: LineListIndex(parent, name) 
+{}
 
-	*@author Jason Harris
-	*@version 0.1
-	*/
-
-class CoordinateGrid : public NoPrecessIndex
+// Don't precess the coordinate grid
+void NoPrecessIndex::JITupdate( KStarsData *data, LineList* lineList )
 {
-	public:
-	/**
-		*@short Constructor
-		*Simply adds all of the coordinate grid circles 
-		*(meridians and parallels)
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		CoordinateGrid( SkyComponent *parent );
-
-        void init( KStarsData *data );
-
-        void preDraw( KStars *ks, QPainter &psky );
-
-        bool selected();
-};
+    lineList->updateID = data->updateID();
+    SkyList* points = lineList->points();
+    for (int i = 0; i < points->size(); i++ ) {
+        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+}
 
 
-#endif

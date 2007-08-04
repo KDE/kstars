@@ -22,11 +22,11 @@
 #include <QHash>
 
 #include "skycomposite.h"
+#include "skymesh.h"
 #include "typedef.h"
 
 class QPainter;
 class KStars;
-class SkyMesh;
 class LineList;
 
 /* @class LineListIndex
@@ -59,7 +59,7 @@ class LineListIndex : public SkyComposite
 
         /* @short Returns a QList of LineList objects.
          */
-        LineListList* listList()  { return &m_listList;  }
+        //LineListList* listList()  { return &m_listList;  }
 
         /* @short Returns the SkyMesh object.
          */
@@ -74,6 +74,8 @@ class LineListIndex : public SkyComposite
          * is used for indexing filled polygons.
          */
         LineListHash* polyIndex() { return m_polyIndex; }
+
+        void reindexLines();
 
         /* @short Typically called from within a subclasses init() method.
          * Adds the trixels covering the outline of lineList to the lineIndex.
@@ -101,6 +103,8 @@ class LineListIndex : public SkyComposite
          * passed in.  Defaults to setting a thin white pen.
          */
         virtual void preDraw( KStars *ks, QPainter &psky );
+
+        virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
 
         /* @short Returns an IndexHash from the SkyMesh that contains the set of
          * trixels that cover lineList.  Overridden by SkipListIndex so it can
@@ -168,7 +172,7 @@ class LineListIndex : public SkyComposite
         int          m_lineIndexCnt;
         int          m_polyIndexCnt;
 
-        LineListList  m_listList;
+        //LineListList  m_listList;
         SkyMesh*      m_skyMesh;
         LineListHash* m_lineIndex;
         LineListHash* m_polyIndex;

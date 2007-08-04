@@ -18,7 +18,7 @@
 #ifndef CONSTELLATIONBOUNDARY_H
 #define CONSTELLATIONBOUNDARY_H
 
-#include "linelistindex.h"
+#include "noprecessindex.h"
 
 #include <QHash>
 #include <QPolygonF>
@@ -33,7 +33,7 @@ class ConstellationBoundaryPoly;
 	*@version 0.1
 	*/
 
-class ConstellationBoundary : public LineListIndex 
+class ConstellationBoundary : public NoPrecessIndex 
 {
 	public:
 	/**
@@ -60,8 +60,6 @@ class ConstellationBoundary : public LineListIndex
 
         void preDraw( KStars *ks, QPainter &psky );
         
-        void JITupdate( KStarsData *data, LineList* lineList );
-
 	    ConstellationBoundaryPoly* boundaries() { return m_Boundary; }
 
     private:

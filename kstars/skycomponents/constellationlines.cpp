@@ -36,7 +36,7 @@
 #include "ksfilereader.h"
 
 ConstellationLines::ConstellationLines( SkyComponent *parent )
-  : LineListIndex( parent, "Constellation Lines" )
+  : LineListIndex( parent, "Constellation Lines" ), m_indexDate( J2000 )
 {}
 
 bool ConstellationLines::selected()
@@ -127,7 +127,15 @@ void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
 
 void ConstellationLines::update( KStarsData *data, KSNumbers *num )
 {
-    
+    return;
+    if ( ! num ) return;
+
+    if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
+    m_indexDate.setDJD( data->ut().djd() );
+
+    printf("Re-indexing Constellation Lines ...\n");
+    reindexLines();
+    printf("Done.\n");
 }
 
 

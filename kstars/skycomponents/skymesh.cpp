@@ -21,6 +21,8 @@
 
 #include "skypoint.h"
 #include "skymesh.h"
+#include "starobject.h"
+#include "ksnumbers.h"
 
 // these are just for the draw routine:
 #include <QPainter>
@@ -29,9 +31,8 @@
 #include "skymap.h"
 #include "kstarsdata.h"
 
-
 SkyMesh::SkyMesh( KStarsData* data, int level) : HTMesh(level, level, NUM_MESH_BUF),
-    m_drawID(0), callCnt(0), m_data( data )
+m_drawID(0), callCnt(0), m_data( data ), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
 }
@@ -41,33 +42,34 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     //FIXME: is the reverse precession correct here?
     
     SkyPoint p1( p0->ra(), p0->dec() );
-
     long double now = m_data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
 
-    /***
     if ( radius == 1.0 ) {
-        printf("\nra0 = %8.4f  dec0 = %8.4f\n", p0->ra()->Degrees(), p0->dec()->Degrees() );
-        printf("ra1 = %8.4f  dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
+        printf("\n ra0 = %8.4f   dec0 = %8.4f\n", p0->ra()->Degrees(), p0->dec()->Degrees() );
+        printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
+
         SkyPoint p2( p1.ra(), p1.dec() );
         p2.updateCoords( m_data->updateNum() );
-        printf("ra2 = %8.4f  dec2 = %8.4f\n", p2.ra()->Degrees(), p2.dec()->Degrees() );
+        printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra()->Degrees(), p2.dec()->Degrees() );
         printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
         printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );
     }
-    ***/
 
     HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
+    //HTMesh::intersect( p0->ra0()->Degrees(), p0->dec0()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
 }
 
 Trixel SkyMesh::index(SkyPoint *p)
 {
-    return HTMesh::index( p->ra()->Degrees(), p->dec()->Degrees() );
+    return HTMesh::index( p->ra0()->Degrees(), p->dec0()->Degrees() );
 }
 
-Trixel SkyMesh::index( double ra, double dec)
+Trixel SkyMesh::indexStar( StarObject *star )
 {
+    double ra, dec;
+    star->getIndexCoords( &m_KSNumbers, &ra, &dec );
     return HTMesh::index( ra, dec );
 }
 
@@ -79,23 +81,23 @@ void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2 )
 {
-    HTMesh::intersect( p1->ra()->Degrees(), p1->dec()->Degrees(),
-                        p2->ra()->Degrees(), p2->dec()->Degrees() );
+    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
+                        p2->ra0()->Degrees(), p2->dec0()->Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3 )
 {
-    HTMesh::intersect( p1->ra()->Degrees(), p1->dec()->Degrees(),
-                        p2->ra()->Degrees(), p2->dec()->Degrees(),
-                        p3->ra()->Degrees(), p3->dec()->Degrees() );
+    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
+                        p2->ra0()->Degrees(), p2->dec0()->Degrees(),
+                        p3->ra0()->Degrees(), p3->dec0()->Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3, SkyPoint* p4 )
 {
-    HTMesh::intersect( p1->ra()->Degrees(), p1->dec()->Degrees(),
-                        p2->ra()->Degrees(), p2->dec()->Degrees(),
-                        p3->ra()->Degrees(), p3->dec()->Degrees(),
-                        p4->ra()->Degrees(), p4->dec()->Degrees() );
+    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
+                        p2->ra0()->Degrees(), p2->dec0()->Degrees(),
+                        p3->ra0()->Degrees(), p3->dec0()->Degrees(),
+                        p4->ra0()->Degrees(), p4->dec0()->Degrees() );
 }
 
 void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3 )
@@ -141,10 +143,10 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip, int debug
 
         if ( region.size() > errLimit ) {
             printf("\nSkyMesh::indexLine: too many trixels: %d\n", region.size() );
-            printf("    ra1  = %f;\n", pThis->ra()->Degrees());
-            printf("    ra2  = %f;\n", pLast->ra()->Degrees());
-            printf("    dec1 = %f;\n", pThis->dec()->Degrees());
-            printf("    dec2 = %f;\n", pLast->dec()->Degrees());
+            printf("    ra1  = %f;\n", pThis->ra0()->Degrees());
+            printf("    ra2  = %f;\n", pLast->ra0()->Degrees());
+            printf("    dec1 = %f;\n", pThis->dec0()->Degrees());
+            printf("    dec2 = %f;\n", pLast->dec0()->Degrees());
             HTMesh::setDebug( 10 );
             index( pThis, pLast );
             HTMesh::setDebug ( 0 );
@@ -186,31 +188,6 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points, int debug )
 
     for( int p = 1; p <= end; p+= 2 ) {
 
-        /**
-        if (false) {
-            endP = ( p == end) ? points->at(p+1) : points->at(p+2);
-            if ( startRa == endP->ra()->Degrees() &&
-                 startDec == endP->dec()->Degrees() ) continue;
-        }
-
-        if ( false ) {
-            printf("%d: poly %3d of %3d:\n", callCnt,  ++cnt, end );
-            printf("    ra1 = %f;\n", startP->ra()->Degrees());
-            printf("    ra2 = %f;\n", points->at(p)->ra()->Degrees());
-            printf("    ra3 = %f;\n", points->at(p+1)->ra()->Degrees());
-            if ( p < end )
-                printf("    ra4 = %f;\n", points->at(p+2)->ra()->Degrees());
-
-            printf("    dec1 = %f;\n", startP->dec()->Degrees());
-            printf("    dec2 = %f;\n", points->at(p)->dec()->Degrees());
-            printf("    dec3 = %f;\n", points->at(p+1)->dec()->Degrees());
-            if ( p < end )
-                printf("    dec4 = %f;\n", points->at(p+2)->dec()->Degrees());
-
-            printf("\n");
-        }
-        **/
-
         if ( p == end ) {
             index( startP, points->at(p), points->at(p+1) );
         }
@@ -223,17 +200,17 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points, int debug )
         if ( region.size() > errLimit ) {
             printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size() );
 
-            printf("    ra1 = %f;\n", startP->ra()->Degrees());
-            printf("    ra2 = %f;\n", points->at(p)->ra()->Degrees());
-            printf("    ra3 = %f;\n", points->at(p+1)->ra()->Degrees());
+            printf("    ra1 = %f;\n", startP->ra0()->Degrees());
+            printf("    ra2 = %f;\n", points->at(p)->ra0()->Degrees());
+            printf("    ra3 = %f;\n", points->at(p+1)->ra0()->Degrees());
             if ( p < end )
-                printf("    ra4 = %f;\n", points->at(p+2)->ra()->Degrees());
+                printf("    ra4 = %f;\n", points->at(p+2)->ra0()->Degrees());
 
-            printf("    dec1 = %f;\n", startP->dec()->Degrees());
-            printf("    dec2 = %f;\n", points->at(p)->dec()->Degrees());
-            printf("    dec3 = %f;\n", points->at(p+1)->dec()->Degrees());
+            printf("    dec1 = %f;\n", startP->dec0()->Degrees());
+            printf("    dec2 = %f;\n", points->at(p)->dec0()->Degrees());
+            printf("    dec3 = %f;\n", points->at(p+1)->dec0()->Degrees());
             if ( p < end )
-                printf("    dec4 = %f;\n", points->at(p+2)->dec()->Degrees());
+                printf("    dec4 = %f;\n", points->at(p+2)->dec0()->Degrees());
 
             printf("\n");
 
@@ -297,6 +274,7 @@ void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bu
 {
     SkyMap*     map  = kstars->map();
     KStarsData* data = kstars->data();
+    //KSNumbers*  num  = data->updateNum();
 
     //QPainter psky;
     //psky.begin( map );
@@ -310,6 +288,9 @@ void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bu
         SkyPoint s1( r1 / 15.0, d1 );
         SkyPoint s2( r2 / 15.0, d2 );
         SkyPoint s3( r3 / 15.0, d3 );
+        //s1.updateCoords( num );
+        //s2.updateCoords( num );
+        //s3.updateCoords( num );
         s1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s3.EquatorialToHorizontal( data->lst(), data->geo()->lat() );

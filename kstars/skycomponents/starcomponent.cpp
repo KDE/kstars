@@ -37,7 +37,7 @@
 
 
 StarComponent::StarComponent(SkyComponent *parent ) 
-: ListComponent(parent), m_indexDate( J2000 ), m_FaintMagnitude(-5.0)
+: ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0)
 {
     m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
     m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
@@ -58,17 +58,24 @@ bool StarComponent::selected()
     return Options::showStars();
 }
 
-// We use the update hook to re-index all the stars when the
-// date has changed by more than 150 years.
+// We use the update hook to re-index all the stars when the date has changed by
+// more than 150 years.
 
-void StarComponent::update( KStarsData *data, KSNumbers *num )
+void StarComponent::reindex( KSNumbers *num )
 {
     if ( ! num ) return;
-    if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
-    
-    m_indexDate.setDJD( data->ut().djd() );
 
-    printf("Re-indexing Stars ...\n");
+    if ( fabs( num->julianCenturies() - 
+         m_reindexNum.julianCenturies() ) < 1.5 ) return;
+
+    //if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
+    
+    //m_reindexNum = KSNumbers( data
+
+    printf("Re-indexing Stars to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+
+    m_reindexNum = KSNumbers( *num );
+    m_skyMesh->setKSNumbers( num );
 
     // delete the old index 
     for ( int i = 0; i < m_starIndex->size(); i++ ) {
@@ -83,12 +90,9 @@ void StarComponent::update( KStarsData *data, KSNumbers *num )
     }
 
     // Fill it with stars from old index
-    double ra, dec;
-
     for ( int i = 0; i < objectList().size(); i++ ) {
         StarObject* star = (StarObject*) objectList()[ i ];
-        star->getIndexCoords( num, &ra, &dec );
-        Trixel trixel = m_skyMesh->index( ra, dec );
+        Trixel trixel = m_skyMesh->indexStar( star );
         m_starIndex->at( trixel )->append( star );
     }
 
@@ -99,7 +103,6 @@ void StarComponent::update( KStarsData *data, KSNumbers *num )
 void StarComponent::init(KStarsData *data)
 {
 	emitProgressText( i18n("Loading stars" ) );
-
 	m_ColorMode = data->colorScheme()->starColorMode(); 
 	m_ColorIntensity = data->colorScheme()->starColorIntensity();
 	m_Data = data;
@@ -150,7 +153,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		//draw loop isn't too expensive.
 		StarObject::updateColors( (! Options::useAntialias() || 
 			map->isSlewing()), ks->data()->colorScheme()->starColorIntensity() );
-
 
     double zoom = Options::zoomFactor();
 
@@ -219,6 +221,9 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
     m_FaintMagnitude = newMagnitude;  // store new highest magnitude level
    
     //int filePos = lastFilePos;
+
+    m_skyMesh->setKSNumbers( &m_reindexNum );
+    printf("Indexing stars for year %.1f\n",  2000.0 + m_reindexNum.julianCenturies() * 100.0 );
 
     float currentMag = -5.0;
 
@@ -320,7 +325,6 @@ void StarComponent::processStar( const QString &line ) {
 
         if ( ! gname.isEmpty() && gname.at(0) != '.') 
 		    visibleName = gname;
-
     }
 
     //if ( ! gname.isEmpty() && gname.at(0) == '.') kDebug() << gname << endl;
@@ -339,8 +343,8 @@ void StarComponent::processStar( const QString &line ) {
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 	objectList().append(o);
 
-    int starID = m_skyMesh->index( (SkyPoint*) o );
-    m_starIndex->at( starID )->append( o );
+    Trixel trixel = m_skyMesh->indexStar( o );
+    m_starIndex->at( trixel )->append( o );
 
     if ( ! gname.isEmpty() ) m_genName.insert( gname, o );
 

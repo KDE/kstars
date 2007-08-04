@@ -27,7 +27,7 @@
 #include "linelist.h"
 
 CoordinateGrid::CoordinateGrid( SkyComponent *parent ) 
-	: LineListIndex(parent, "Coordinate Grid") 
+	: NoPrecessIndex(parent, "Coordinate Grid") 
 {}
 
 bool CoordinateGrid::selected()
@@ -97,15 +97,4 @@ void CoordinateGrid::init( KStarsData *data )
 
     summary();
 }
-
-// Don't precess the coordinate grid
-void CoordinateGrid::JITupdate( KStarsData *data, LineList* lineList )
-{
-    lineList->updateID = data->updateID();
-    SkyList* points = lineList->points();
-    for (int i = 0; i < points->size(); i++ ) {
-        points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    }
-}
-
 

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          coordinategrid.h  -  K Desktop Planetarium
+                        noprecessindex.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 15 Sept. 2005
-    copyright            : (C) 2005 by Jason Harris
+    begin                : 2007-08-04
+    copyright            : (C) 2007 James B. Bowlin
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -15,35 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
+#ifndef NO_PRECESS_INDEX_H
+#define NO_PRECESS_INDEX_H
 
-#include "noprecessindex.h"
+#include "linelistindex.h"
 
 /**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
+	*@class NoPrecessIndex
 
-	*@author Jason Harris
+	*@author James B. Bowlin
 	*@version 0.1
 	*/
 
-class CoordinateGrid : public NoPrecessIndex
+class NoPrecessIndex : public LineListIndex 
 {
 	public:
-	/**
-		*@short Constructor
-		*Simply adds all of the coordinate grid circles 
-		*(meridians and parallels)
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		CoordinateGrid( SkyComponent *parent );
+	    /* @short Constructor
+		 */
+		NoPrecessIndex( SkyComponent *parent, const char* name );
 
-        void init( KStarsData *data );
+        /* @ short override JITupdate so we don't perform the
+         * precession correction, only rotation.
+         */
+        void JITupdate( KStarsData *data, LineList* lineList );
 
-        void preDraw( KStars *ks, QPainter &psky );
-
-        bool selected();
+        virtual MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
 };
 
 

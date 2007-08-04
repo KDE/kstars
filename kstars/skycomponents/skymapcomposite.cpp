@@ -47,7 +47,8 @@
 #include "skymesh.h"
 #include "skylabeler.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : SkyComposite(parent)
+SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : 
+    SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = new SkyLabeler();
 
@@ -142,7 +143,7 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	//10. Stars
 	m_Stars->update( data, num );
 
-    //m_CLines->update( data, num );  // MUST follow stars.
+    m_CLines->update( data, num );  // MUST follow stars.
 
 	//12. Solar system
 	m_SolarSystem->update( data, num );
@@ -172,6 +173,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
     m_map = ks->map();
 
+    m_Stars->reindex( &m_reindexNum );
     // This ensures that the JIT updates are synchronized for the entire draw
     // cycle so the sky moves as a single sheet.
     ks->data()->syncUpdateIDs();
@@ -182,11 +184,9 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-    /**
     if ( Options::showGrid() || Options::showCBounds() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
-    **/
 
     m_skyLabeler->reset( m_map, psky, scale ); 
 
@@ -269,12 +269,13 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
     // -jbb uncomment these to see trixel outlines:
 
-    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
+    psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+    m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
 
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
 
+    m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
 }
 
 //Select nearest object to the given skypoint, but give preference 

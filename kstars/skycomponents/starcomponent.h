@@ -30,6 +30,7 @@
 
 #include "listcomponent.h"
 #include "kstarsdatetime.h"
+#include "ksnumbers.h"
 
 #include "typedef.h"
 
@@ -52,7 +53,7 @@ class StarComponent: public ListComponent
 
 		virtual ~StarComponent();
 
-        void update( KStarsData *data, KSNumbers *num );
+        void reindex( KSNumbers *num );
 
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
 
@@ -102,7 +103,7 @@ class StarComponent: public ListComponent
         StarIndex*     m_starIndex;
         SkyLabeler*    m_skyLabeler;
 
-        KStarsDateTime m_indexDate;
+        KSNumbers      m_reindexNum;
         
         qint64 lastFilePos;
 

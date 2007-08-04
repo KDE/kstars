@@ -113,18 +113,36 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
         printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size() );
 }
 
-void LineListIndex::appendBoth(LineList* lineList, int debug) {
+void LineListIndex::appendBoth(LineList* lineList, int debug)
+{
     appendLine( lineList, debug );
     appendPoly( lineList, debug );
 }
 
+void LineListIndex::reindexLines() 
+{
+    LineListHash* oldIndex = m_lineIndex;
+
+    DrawID drawID = skyMesh()->incDrawID();
+
+    foreach (LineListList* listList, lineIndex()->values() ) {
+        for ( int i = 0; i < listList->size(); i++) {
+            LineList* lineList = listList->at( i );
+            if ( lineList->drawID == drawID ) continue;
+            lineList->drawID = drawID;
+            printf("linelist size = %3d\n", lineList->points()->size() );
+            appendLine( lineList, 10 );
+        }
+        //delete listList;
+    }
+    delete oldIndex;
+}
 
 //void LineListIndex::update( KStarsData *data, KSNumbers *num )
 //{}
 
 void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
 {
-
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();
 
@@ -183,7 +201,7 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
     SkyPoint *pLast, *pThis;
     QPoint oThis, oLast, oMid;
 
-    MeshIterator region( skyMesh(), DRAW_BUF );
+    MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
         LineListList *lineListList = lineIndex()->value( region.next() );
@@ -241,7 +259,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oLast, oMid;
 
-    MeshIterator region( skyMesh(), DRAW_BUF );
+    MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
         LineListList* lineListList = lineIndex()->value( region.next() );
@@ -297,7 +315,7 @@ void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
     QPolygon polygon;
     QPoint oThis, oLast, oMid;
 
-    MeshIterator region( skyMesh(), DRAW_BUF );
+    MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
         LineListList* lineListList = polyIndex()->value( region.next() );
@@ -357,7 +375,7 @@ void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scal
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oLast, oMid;
 
-    MeshIterator region( skyMesh(), DRAW_BUF );
+    MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
         LineListList* lineListList =  polyIndex()->value( region.next() );
