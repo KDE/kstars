@@ -12,9 +12,6 @@
     <height>445</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>OpsColors</string>
-  </property>
   <layout class="QHBoxLayout" >
    <property name="margin" >
     <number>8</number>

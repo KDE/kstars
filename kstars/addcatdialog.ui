@@ -12,9 +12,6 @@
     <height>652</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>AddCatDialog</string>
-  </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
     <number>8</number>
