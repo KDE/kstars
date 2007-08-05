@@ -260,9 +260,10 @@ Index classes
 -------------
 
   + LineListIndex
-    - CoordinateGrid
     - ConstellationLines
-    - ConsellationBoundary
+    + NoPrecessIndex
+      - CoordinateGrid
+      - ConsellationBoundary
     + SkipListIndex
       - MilkWay
 
@@ -283,6 +284,8 @@ The three abstract index classes and their associated data containers:
    LineListIndex    SkipListIndex       PolyListIndex
         ||               ||                  ||
      LineList         SkipList            PolyList
+
+NoPrecessIndex uses the plain LineList data container.
 
 The LineList/LineListIndex (which we will call LineList[Index] for
 brevity) provide the base for all the other classes.  They can be used
@@ -309,13 +312,12 @@ The LineListIndex class
 The bulk of the code is in LineListLindex as can be seem by these
 relative sizes:
 
-  $ wc *index.cpp constellationboundarypoly.cpp skymesh.cpp
+  $ wc *index.cpp 
 
-    402  1496 13414 linelistindex.cpp
-     44   144  1685 skiplistindex.cpp
-    172   583  5440 constellationboundarypoly.cpp
-    269   926  8806 skymesh.cpp
-
+    572  2088 19073 linelistindex.cpp
+     60   200  2138 noprecessindex.cpp
+    143   489  4594 polylistindex.cpp
+     43   137  1623 skiplistindex.cpp
 
 LineListIndex contains code to index both filled polygons and lines.
 There are two versions of each draw routine, one for integer drawing

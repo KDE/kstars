@@ -137,13 +137,12 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	//7. Ecliptic
 	m_Ecliptic->update( data, num );
 	//8. Deep sky
-	m_DeepSky->update( data, num );
+	//m_DeepSky->update( data, num );
 	//9. Custom catalogs
 	m_CustomCatalogs->update( data, num );
 	//10. Stars
-	m_Stars->update( data, num );
-
-    m_CLines->update( data, num );  // MUST follow stars.
+	//m_Stars->update( data, num );
+    //m_CLines->update( data, num );  // MUST follow stars.
 
 	//12. Solar system
 	m_SolarSystem->update( data, num );
@@ -174,6 +173,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     m_map = ks->map();
 
     m_Stars->reindex( &m_reindexNum );
+    m_CLines->reindex( &m_reindexNum );
+
     // This ensures that the JIT updates are synchronized for the entire draw
     // cycle so the sky moves as a single sheet.
     ks->data()->syncUpdateIDs();
@@ -184,7 +185,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-    if ( Options::showGrid() || Options::showCBounds() ) {
+    if ( Options::showGrid() || Options::showCBounds() && ! m_skyMesh->isZoomedIn() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 

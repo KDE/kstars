@@ -21,7 +21,7 @@
 #include <QHash>
 
 #include "linelistindex.h"
-#include "kstarsdatetime.h"
+#include "ksnumbers.h"
 
 class SkyMesh;
 class LineListComponent;
@@ -55,25 +55,28 @@ class ConstellationLines : public LineListIndex
 		*/
 		void init( KStarsData *data );
 
+
+        const IndexHash& getIndexHash(LineList* lineList, int debug);
+
         /* @short we need to override the update routine because stars are
          * updated differently from mere SkyPoints.
          */
         void JITupdate( KStarsData *data, LineList* lineList );
 
-        /* @short we use the update hook to re-index the constellation lines
-         * every 150 years to account for proper motion of the stars.
+        /* @short
+         *
          */
-        void update( KStarsData *data, KSNumbers *num );
+        void reindex( KSNumbers *num );
 
-       /* @short Set the QColor and QPen for drawing.
-        */
+        /* @short Set the QColor and QPen for drawing.
+         */
         void preDraw( KStars *ks, QPainter &psky );
 
         bool selected();
 
     private:
 
-        KStarsDateTime m_indexDate;
+        KSNumbers m_reindexNum;
 
 };
 

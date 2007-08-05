@@ -35,6 +35,7 @@ SkyMesh::SkyMesh( KStarsData* data, int level) : HTMesh(level, level, NUM_MESH_B
 m_drawID(0), callCnt(0), m_data( data ), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
+    m_zoomFraction = 0.25;
 }
 
 void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
@@ -59,6 +60,7 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
     //HTMesh::intersect( p0->ra0()->Degrees(), p0->dec0()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
+    m_zoomedIn = ( (float) intersectSize( bufNum ) < (float) size() * m_zoomFraction );
 }
 
 Trixel SkyMesh::index(SkyPoint *p)
@@ -71,6 +73,14 @@ Trixel SkyMesh::indexStar( StarObject *star )
     double ra, dec;
     star->getIndexCoords( &m_KSNumbers, &ra, &dec );
     return HTMesh::index( ra, dec );
+}
+
+void SkyMesh::indexStar( StarObject* star1, StarObject* star2 )
+{
+    double ra1, ra2, dec1, dec2;
+    star1->getIndexCoords( &m_KSNumbers, &ra1, &dec1 );
+    star2->getIndexCoords( &m_KSNumbers, &ra2, &dec2 );
+    HTMesh::intersect( ra1, dec1, ra2, dec2 );
 }
 
 
@@ -120,6 +130,31 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, int debug )
     return indexLine( points, NULL, debug);
 }
 
+const IndexHash& SkyMesh::indexStarLine( SkyList* points, int debug )
+{
+    SkyPoint *pThis, *pLast;
+
+    indexHash.clear();
+
+    if ( points->size() == 0 ) return indexHash;
+
+    pLast = points->at( 0 );
+    for ( int i=1 ; i < points->size() ; i++ ) {
+        pThis = points->at( i );
+
+        indexStar( (StarObject*) pThis, (StarObject*) pLast );
+        MeshIterator region( this );
+
+        while ( region.hasNext() ) {
+            indexHash[ region.next() ] = true;
+        }
+        pLast = pThis;
+    }
+
+    //printf("indexStarLine %d -> %d\n", points->size(), indexHash.size() );
+    return indexHash;
+}
+
 
 const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip, int debug )
 {
@@ -150,7 +185,6 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip, int debug
             HTMesh::setDebug( 10 );
             index( pThis, pLast );
             HTMesh::setDebug ( 0 );
-
         }
 
         // This was used to track down a bug in my HTMesh code. The bug was caught

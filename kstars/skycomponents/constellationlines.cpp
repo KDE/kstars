@@ -36,7 +36,7 @@
 #include "ksfilereader.h"
 
 ConstellationLines::ConstellationLines( SkyComponent *parent )
-  : LineListIndex( parent, "Constellation Lines" ), m_indexDate( J2000 )
+  : LineListIndex( parent, "Constellation Lines" ), m_reindexNum(J2000)
 {}
 
 bool ConstellationLines::selected()
@@ -109,6 +109,11 @@ void ConstellationLines::init( KStarsData *data ) {
     summary();
 }
 
+const IndexHash& ConstellationLines::getIndexHash(LineList* lineList, int debug) {
+    return skyMesh()->indexStarLine( lineList->points(),  debug );
+}
+
+
 // JIT updating makes this simple.  Star updates are called from within both
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::update() simply returns without doing any work.
@@ -124,18 +129,19 @@ void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
     }
 }
 
-
-void ConstellationLines::update( KStarsData *data, KSNumbers *num )
+void ConstellationLines::reindex( KSNumbers *num )
 {
-    return;
     if ( ! num ) return;
 
-    if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
-    m_indexDate.setDJD( data->ut().djd() );
+    if ( fabs( num->julianCenturies() - 
+         m_reindexNum.julianCenturies() ) < 1.5 ) return;
 
-    printf("Re-indexing Constellation Lines ...\n");
-    reindexLines();
+    printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+
+    m_reindexNum = KSNumbers( *num );
+    skyMesh()->setKSNumbers( num );
+    LineListIndex::reindexLines();
+    
     printf("Done.\n");
 }
-
 

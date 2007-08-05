@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-//#include "kstars.h"
+#include "Options.h"
 #include "skypoint.h"
 #include "kstarsdata.h"
 #include "noprecessindex.h"
@@ -26,7 +26,7 @@ NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const char* name )
 	: LineListIndex(parent, name) 
 {}
 
-// Don't precess the coordinate grid
+// Don't precess the points, just account for the Earth's rotation
 void NoPrecessIndex::JITupdate( KStarsData *data, LineList* lineList )
 {
     lineList->updateID = data->updateID();
@@ -34,6 +34,27 @@ void NoPrecessIndex::JITupdate( KStarsData *data, LineList* lineList )
     for (int i = 0; i < points->size(); i++ ) {
         points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
+}
+
+void NoPrecessIndex::draw( KStars *kstars, QPainter &psky, double scale )
+{
+    if ( ! selected() ) return;
+
+    preDraw(kstars, psky);
+    
+    if ( skyMesh()->isZoomedIn() ) {
+        if ( Options::useAntialias() )
+            drawLinesFloat( kstars, psky, scale );
+        else
+            drawLinesInt( kstars, psky, scale );
+    }
+    else {
+        if ( Options::useAntialias() )
+            drawAllLinesFloat( kstars, psky, scale );
+        else
+            drawAllLinesInt( kstars, psky, scale );
+    }
+
 }
 
 

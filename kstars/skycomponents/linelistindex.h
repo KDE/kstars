@@ -129,6 +129,10 @@ class LineListIndex : public SkyComposite
          */
         virtual void draw( KStars *ks, QPainter &psky, double scale );
 
+        void drawAllLinesInt( KStars *ks, QPainter &psky, double scale );
+
+        void drawAllLinesFloat( KStars *ks, QPainter &psky, double scale );
+
         /* @short Draws all the lines in m_listList as simple lines in integer
          * mode.
          */

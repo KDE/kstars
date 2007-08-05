@@ -39,6 +39,8 @@ class NoPrecessIndex : public LineListIndex
          */
         void JITupdate( KStarsData *data, LineList* lineList );
 
+        virtual void draw( KStars *ks, QPainter &psky, double scale );
+
         virtual MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
 };
 

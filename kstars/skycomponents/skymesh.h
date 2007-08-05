@@ -135,7 +135,12 @@ class SkyMesh : public HTMesh
         */
         Trixel index( SkyPoint *p );
 
+        
         Trixel indexStar( StarObject *star );
+
+        void indexStar( StarObject* star1, StarObject* star2 );
+
+        const IndexHash& indexStarLine( SkyList* points, int debug );
 
        /* @short finds the indices of the trixels covering the circle
         * specified by center and radius.
@@ -212,6 +217,8 @@ class SkyMesh : public HTMesh
 
         void draw( KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bufNum=DRAW_BUF );
 
+        bool isZoomedIn() { return  m_zoomedIn; }
+        
     private:
         unsigned int m_drawID;
         int errLimit;
@@ -221,6 +228,8 @@ class SkyMesh : public HTMesh
         IndexHash   indexHash;
         KStarsData* m_data;
         KSNumbers   m_KSNumbers;
+        float       m_zoomFraction;
+        bool        m_zoomedIn;
 };
 
 
