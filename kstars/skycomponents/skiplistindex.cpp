@@ -25,13 +25,13 @@
 #include "skiplistindex.h"
 
 
-SkipListIndex::SkipListIndex( SkyComponent *parent, char* name )
+SkipListIndex::SkipListIndex( SkyComponent *parent, const QString& name )
 	: LineListIndex(parent, name )
 {}
 
-const IndexHash& SkipListIndex::getIndexHash(LineList* lineList, int debug) {
+const IndexHash& SkipListIndex::getIndexHash(LineList* lineList ) {
     SkipList* skipList = (SkipList*) lineList;
-    return skyMesh()->indexLine( skipList->points(), skipList->skipHash(),  debug );
+    return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
 }
 
 bool SkipListIndex::skipAt( LineList* lineList, int i ) {

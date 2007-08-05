@@ -231,8 +231,7 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
     if ( ! fileReader.open( "stars.dat" ) ) return;
 
     if (lastFilePos == 0 ) {
-        fileReader.setProgress( m_Data, QString("Loading stars (%1%)"), 
-                                125994, 100);
+        fileReader.setProgress( m_Data, i18n("Loading stars"), 125994, 100 );
     }
 
     if (lastFilePos > 0 ) fileReader.seek( lastFilePos );
@@ -259,7 +258,7 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
     }
 
 	Options::setMagLimitDrawStar( newMagnitude );
-    emitProgressText( i18n( "Loading stars done." ) );
+    emitProgressText( i18n("Loading stars done.") );
 }
 
 

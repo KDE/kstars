@@ -56,7 +56,7 @@ class ConstellationLines : public LineListIndex
 		void init( KStarsData *data );
 
 
-        const IndexHash& getIndexHash(LineList* lineList, int debug);
+        const IndexHash& getIndexHash(LineList* lineList );
 
         /* @short we need to override the update routine because stars are
          * updated differently from mere SkyPoints.
@@ -77,6 +77,7 @@ class ConstellationLines : public LineListIndex
     private:
 
         KSNumbers m_reindexNum;
+        double    m_reindexInterval;
 
 };
 

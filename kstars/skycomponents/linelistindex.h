@@ -45,21 +45,15 @@ class LineListIndex : public SkyComposite
          * @param mesh Pointer to the universal SkyMesh instance
          * @param name name of the subclass used for debugging
          */
-        LineListIndex( SkyComponent *parent, bool (*visibleMethod)(), const char* name="");
+        LineListIndex( SkyComponent *parent, const QString& name="" );
 
-        /* @short this constuctor allows for instances (and subclasses) that
-         * don't have/need a (*visibleMethod)().
+        /* @short this is called from within the draw routines when the updateID
+         * of the lineList is stale.  It is virtual because different subclasses
+         * have different update routines.  NoPrecessIndex doesn't precess in
+         * the updates and ConstellationLines must update its points as stars,
+         * not points.  that doesn't precess the points.
          */
-        LineListIndex( SkyComponent *parent, const char* name="" );
-
-        /* @short does nothing.  Can be overridden if needed
-         */
-        //virtual void update( KStarsData *data, KSNumbers *num );
         virtual void JITupdate( KStarsData *data, LineList* lineList );
-
-        /* @short Returns a QList of LineList objects.
-         */
-        //LineListList* listList()  { return &m_listList;  }
 
         /* @short Returns the SkyMesh object.
          */
@@ -75,6 +69,11 @@ class LineListIndex : public SkyComposite
          */
         LineListHash* polyIndex() { return m_polyIndex; }
 
+        /* @short as the name says, recreates the lineIndex using the LineLists
+         * in the previous index.  Since we are indexing everything at J2000
+         * this is only used by ConstellationLines which needs to reindex 
+         * because of the proper motion of the stars.
+         */
         void reindexLines();
 
         /* @short Typically called from within a subclasses init() method.
@@ -98,27 +97,15 @@ class LineListIndex : public SkyComposite
          */
         void appendBoth( LineList* lineList, int debug=0 );
         
-        /* @short Gives the subclasses access to the top of the draw() method.
-         * Typically used for setting the QPen, etc. in the QPainter being
-         * passed in.  Defaults to setting a thin white pen.
-         */
-        virtual void preDraw( KStars *ks, QPainter &psky );
-
-        virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
-
         /* @short Returns an IndexHash from the SkyMesh that contains the set of
          * trixels that cover lineList.  Overridden by SkipListIndex so it can
          * pass SkyMesh an IndexHash indicating which line segments should not
          * be indexed @param lineList contains the list of points to be covered.
          */
-        virtual const IndexHash& getIndexHash(LineList* lineList, int debug);
+        virtual const IndexHash& getIndexHash(LineList* lineList );
 
-        /* @short Also overridden by SkipListIndex.  Controls skipping inside of
-         * the draw() routines.  The default behavior is to simply return false
-         * but this was moved into the .cpp file to prevent this header file
-         * from generating repeated unused parameter warnings.
-         */
-        virtual bool skipAt( LineList* lineList, int i );
+
+        //----- Drawing Routines -----
 
         /* @short.  The top level draw routine.  Draws all the LineLists for any
          * subclass in one fell swoop which minimizes some of the loop overhead.
@@ -129,8 +116,34 @@ class LineListIndex : public SkyComposite
          */
         virtual void draw( KStars *ks, QPainter &psky, double scale );
 
+        /* @short Gives the subclasses access to the top of the draw() method.
+         * Typically used for setting the QPen, etc. in the QPainter being
+         * passed in.  Defaults to setting a thin white pen.
+         */
+        virtual void preDraw( KStars *ks, QPainter &psky );
+
+        /* @short Also overridden by SkipListIndex.  Controls skipping inside of
+         * the draw() routines.  The default behavior is to simply return false
+         * but this was moved into the .cpp file to prevent this header file
+         * from generating repeated unused parameter warnings.
+         */
+        virtual bool skipAt( LineList* lineList, int i );
+
+        /* @short a callback overridden by NoPrecessIndex so it can use the
+         * drawing code with the non-reverse-precessed mesh buffer.
+         */
+        virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
+
+        /* @short Draws all the lines without making use of the index.  Used by
+         * NoPrecessIndex for cases when the screen is zoomed out and creating
+         * the 2nd mesh buffer would be more expensive than just drawing
+         * everything.  There are no filled versions of the "All" routines
+         * simply because they were not needed.
+         */
         void drawAllLinesInt( KStars *ks, QPainter &psky, double scale );
 
+        /* @short same as above but with anti-aliased lines.
+         */
         void drawAllLinesFloat( KStars *ks, QPainter &psky, double scale );
 
         /* @short Draws all the lines in m_listList as simple lines in integer
@@ -153,26 +166,25 @@ class LineListIndex : public SkyComposite
          */
         void drawFilledFloat(KStars *ks, QPainter& psky, double scale);
 
-        /* @short Adds a LineList to the end of the internal list of LineLists.
-         */
-        //inline void append( LineList* lineList) {
-        //    m_listList.append( lineList );
-        //}
 
-        /* @short the name is used mostly for debugging and is not for public
-         * consumption (which is why it is a char* and not a QString).  The name
-         * is specied in the constructor so each subclass can provide its own
-         * unique identifier.  When the indexLines() or indexPolygons() routines
-         * are called with a non-zero debug flag then the name of the subclass
-         * will be printed out in addition to the debugging info.
-         */
-        const char* name() { return m_name; }
+        //----- Debugging and Info Routines -----
 
+        /* @short
+         */
+        QString& name() { return m_name; }
+
+        /* @short displays a message that we are loading m_name.  Also prints
+         * out the message if skyMesh debug is greater than zero.
+         */
         void intro();
+
+        /* @short prints out some summary statistics if the skyMesh debug is
+         * greater than 1.
+         */
         void summary();
 
     private:
-        const char*  m_name;
+        QString      m_name;
         int          m_lineIndexCnt;
         int          m_polyIndexCnt;
 

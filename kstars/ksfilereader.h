@@ -135,14 +135,14 @@ class KSFileReader : public QObject, public QTextStream
         void progressText( const QString &message );
 
     private:
-        QFile  m_file;
-	    int    m_curLine;
-        qint64 m_maxLen;
+        QFile         m_file;
+        qint64        m_maxLen;
+	    unsigned int  m_curLine;
 
-        unsigned int m_totalLines;
-        unsigned int m_targetLine;
-        unsigned int m_targetIncrement;
-        QString m_label;
+        unsigned int  m_totalLines;
+        unsigned int  m_targetLine;
+        unsigned int  m_targetIncrement;
+        QString       m_label;
 
 };
 

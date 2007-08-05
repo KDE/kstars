@@ -42,6 +42,11 @@ class KStarsData;
 class StarObject : public SkyObject {
 	public:
 
+        /* @short returns the reindex interval (in centuries!) for the given
+         * magnitude of proper motion (in milliarcsec/year).  ASSUMING a 
+         * 25 arc-minute margin for proper motion.
+         */
+        static double reindexInterval( double pm );
 /**
 	*Copy constructor
 	*/
@@ -147,6 +152,10 @@ class StarObject : public SkyObject {
     /* @short added for JIT updates from both StarComponent and ConstellatoinLines
      */
     void JITupdate( KStarsData* data );
+
+    /* @short returns the magnitude of the proper motion correction in milliarcsec/year
+     */
+    double pmMagnitude();
 
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).

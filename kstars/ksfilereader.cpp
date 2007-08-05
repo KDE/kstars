@@ -31,12 +31,11 @@
 #endif 
 
 KSFileReader::KSFileReader( qint64 maxLen ) : 
-    QTextStream(), m_curLine(0), m_maxLen(maxLen), m_targetLine(MAXUINT)
-{
-}
+    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
+{}
 
 KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) : 
-    QTextStream(), m_curLine(0), m_maxLen(maxLen), m_targetLine(MAXUINT)
+    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
 {
     QIODevice* device = (QIODevice*) & file;
     QTextStream::setDevice( device );
@@ -82,7 +81,7 @@ void KSFileReader::showProgress()
     int percent = 1 + (m_curLine * 100) / m_totalLines;
 
     //kDebug() << m_label.arg( percent ) << endl;
-    emit progressText( m_label.arg( percent ) );
+    emit progressText( QString("%1 (%2%)").arg( m_label ).arg( percent ) );
     qApp->processEvents();
 }
 

@@ -32,16 +32,26 @@ class NoPrecessIndex : public LineListIndex
 	public:
 	    /* @short Constructor
 		 */
-		NoPrecessIndex( SkyComponent *parent, const char* name );
+		NoPrecessIndex( SkyComponent *parent, const QString& name );
 
-        /* @ short override JITupdate so we don't perform the
-         * precession correction, only rotation.
+        /* @ short override JITupdate so we don't perform the precession
+         * correction, only rotation.
          */
         void JITupdate( KStarsData *data, LineList* lineList );
 
-        virtual void draw( KStars *ks, QPainter &psky, double scale );
+        /* @short we override draw() so we can switch between indexed and
+         * non-indexed drawing for speed optimization.
+         */
+        void draw( KStars *ks, QPainter &psky, double scale );
 
-        virtual MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
+        /* @short we need to use the buffer that does not have the
+         * reverse-precession correction.
+         */
+        MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
+
+    private:
+
+        bool lastZoom;
 };
 
 

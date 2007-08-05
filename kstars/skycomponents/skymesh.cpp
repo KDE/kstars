@@ -31,17 +31,16 @@
 #include "skymap.h"
 #include "kstarsdata.h"
 
-SkyMesh::SkyMesh( KStarsData* data, int level) : HTMesh(level, level, NUM_MESH_BUF),
-m_drawID(0), callCnt(0), m_data( data ), m_KSNumbers( 0 )
+SkyMesh::SkyMesh( KStarsData* data, int level) :
+    HTMesh(level, level, NUM_MESH_BUF),
+    m_drawID(0), m_data( data ), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
-    m_zoomFraction = 0.25;
+    m_zoomedInPercent = 25;
 }
 
 void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 {
-    //FIXME: is the reverse precession correct here?
-    
     SkyPoint p1( p0->ra(), p0->dec() );
     long double now = m_data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
@@ -58,9 +57,13 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     }
 
     HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
-    //HTMesh::intersect( p0->ra0()->Degrees(), p0->dec0()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
-    m_zoomedIn = ( (float) intersectSize( bufNum ) < (float) size() * m_zoomFraction );
+}
+
+bool SkyMesh::isZoomedIn( int percent )
+{
+    if ( ! percent ) percent = m_zoomedInPercent;
+    return ( intersectSize( DRAW_BUF ) * 100 < percent * size() ); 
 }
 
 Trixel SkyMesh::index(SkyPoint *p)
@@ -125,12 +128,12 @@ void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3, co
                        p4.x() * 15.0, p4.y() );
 }
 
-const IndexHash& SkyMesh::indexLine( SkyList* points, int debug )
+const IndexHash& SkyMesh::indexLine( SkyList* points )
 {
-    return indexLine( points, NULL, debug);
+    return indexLine( points, NULL );
 }
 
-const IndexHash& SkyMesh::indexStarLine( SkyList* points, int debug )
+const IndexHash& SkyMesh::indexStarLine( SkyList* points )
 {
     SkyPoint *pThis, *pLast;
 
@@ -156,7 +159,7 @@ const IndexHash& SkyMesh::indexStarLine( SkyList* points, int debug )
 }
 
 
-const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip, int debug )
+const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
 {
     SkyPoint *pThis, *pLast;
 
@@ -207,7 +210,7 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip, int debug
 // the many duplicate indices that are generated with this procedure.
 // There are probably faster and better ways to do this.
 
-const IndexHash& SkyMesh::indexPoly( SkyList *points, int debug )
+const IndexHash& SkyMesh::indexPoly( SkyList *points )
 {
 
     indexHash.clear();
@@ -218,7 +221,6 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points, int debug )
 
     int end = points->size() - 2;     // 1) size - 1  -> last index,
                                       // 2) minimum of 2 points
-    callCnt++;
 
     for( int p = 1; p <= end; p+= 2 ) {
 
@@ -256,7 +258,7 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points, int debug )
     return indexHash;
 }
 
-const IndexHash& SkyMesh::indexPoly( const QPolygonF &points, int debug )
+const IndexHash& SkyMesh::indexPoly( const QPolygonF &points )
 {
     indexHash.clear();
 
@@ -266,8 +268,6 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF &points, int debug )
 
     int end = points.size() - 2;     // 1) size - 1  -> last index,
                                       // 2) minimum of 2 points
-    callCnt++;
-
     for( int p = 1; p <= end; p+= 2 ) {
 
         if ( p == end ) {

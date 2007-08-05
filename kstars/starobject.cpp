@@ -32,6 +32,14 @@
 
 QMap<QString, QColor> StarObject::ColorMap;
 
+//----- Static Methods -----
+//
+double StarObject::reindexInterval( double pm )
+{
+    // arcminutes * sec/min * [milliarcsec/year] / ( years/century * milliarcsec / arcsec )
+    return 25.0 * 60.0 * pm / ( 100.0 * 10000.0 ); 
+}
+
 StarObject::StarObject( StarObject &o )
 	: SkyObject (o) 
 {
@@ -113,6 +121,11 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 
     *ra = ra0()->Degrees() + dra;       
     *dec = dec0()->Degrees() + ddec;
+}
+
+double StarObject::pmMagnitude()
+{
+    return sqrt( pmRA() * pmRA() + pmDec() * pmDec() );
 }
 
 void StarObject::JITupdate( KStarsData* data )

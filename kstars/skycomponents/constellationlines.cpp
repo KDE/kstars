@@ -36,7 +36,7 @@
 #include "ksfilereader.h"
 
 ConstellationLines::ConstellationLines( SkyComponent *parent )
-  : LineListIndex( parent, "Constellation Lines" ), m_reindexNum(J2000)
+  : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
 {}
 
 bool ConstellationLines::selected()
@@ -73,7 +73,7 @@ void ConstellationLines::init( KStarsData *data ) {
     QChar mode;
     QString line, name;
     LineList *lineList(0);
-
+    double maxPM(0.0);
     KSFileReader fileReader;
     if ( ! fileReader.open( "clines.dat" ) ) return;
 
@@ -95,9 +95,11 @@ void ConstellationLines::init( KStarsData *data ) {
             lineList = new LineList();
         }
 
-        SkyObject *star = data->skyComposite()->findStarByGenetiveName( name );
+        StarObject *star = (StarObject*) data->skyComposite()->findStarByGenetiveName( name );
         if ( star && lineList ) {
             lineList->points()->append( star );
+            double pm = star->pmMagnitude();
+            if ( maxPM < pm ) maxPM = pm;
         }
         else if ( ! star )
             kWarning() << i18n( "No star named %1 found." , name) << endl;
@@ -105,12 +107,16 @@ void ConstellationLines::init( KStarsData *data ) {
 
     //Add the last clc component
     if ( lineList ) appendLine( lineList );
-
+    
+    m_reindexInterval = StarObject::reindexInterval( maxPM );
+    printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
+    printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
+   
     summary();
 }
 
-const IndexHash& ConstellationLines::getIndexHash(LineList* lineList, int debug) {
-    return skyMesh()->indexStarLine( lineList->points(),  debug );
+const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
+    return skyMesh()->indexStarLine( lineList->points() );
 }
 
 
@@ -134,7 +140,7 @@ void ConstellationLines::reindex( KSNumbers *num )
     if ( ! num ) return;
 
     if ( fabs( num->julianCenturies() - 
-         m_reindexNum.julianCenturies() ) < 1.5 ) return;
+         m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
 
     printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
 

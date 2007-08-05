@@ -41,7 +41,7 @@
 #include "skymesh.h"
 
 ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
-  : NoPrecessIndex( parent, "Constellation Boundaries" )
+  : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {
     m_Boundary = new ConstellationBoundaryPoly( parent );
 }
@@ -74,7 +74,7 @@ void ConstellationBoundary::init( KStarsData *data ) {
     if ( ! fileReader.open( fname ) ) return;
 
     fileReader.setProgress( data, 
-        QString("Loading Consellation Boundaries (%1%)"), 13124, 20, 100 );
+            i18n("Loading Consellation Boundaries"), 13124, 20, 100 );
 
     lastRa = lastDec = -1000.0;
 

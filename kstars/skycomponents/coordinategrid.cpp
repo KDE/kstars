@@ -27,7 +27,7 @@
 #include "linelist.h"
 
 CoordinateGrid::CoordinateGrid( SkyComponent *parent ) 
-	: NoPrecessIndex(parent, "Coordinate Grid") 
+	: NoPrecessIndex(parent, i18n("Coordinate Grid") ) 
 {}
 
 bool CoordinateGrid::selected()

@@ -15,14 +15,20 @@ while(<>) {
     m/\S/ or     do {  next;};
     chomp;
     my $star = kstars_unpack($_) or do {
-        warn "FORMAT ERROR ($ERROR):\n$_\n";
+        warn sprintf("%4d: FORMAT ERROR ($ERROR):\n$_\n", $.);
         next;
     };
     $star->{line} = $.;
     push @STARS, $star;
-	$star->{name} or next;
-	print_star_line($star);
+    #$star->{name} or next;
+    #print_star_line($star);
 }
+
+@STARS = sort { $b->{pm} <=> $a->{pm} } @STARS;
+for my $star ( @STARS ) {
+    print_star_line($star);
+}
+
 exit;
 #my @missing = grep {! $_->{gname} || $_->{gname} =~ /^xx/} @STARS;
  
@@ -30,6 +36,7 @@ exit;
 
 sub print_star_line {
 	my $star = shift;
+    printf "%8.2f ", $star->{pm};
 	printf "%s %s %s%s%s %s%s%s %s%s",
 	@$star{qw/ra_str dec_str dra ddec parallax mag bv_index spec_type mult/};
 	my $s2;
@@ -77,7 +84,7 @@ sub kstars_unpack {
                 (\d{5}\.\d)\s    # Parallax
               ([\d-]\d\.\d\d)    # Magnitude
               ([\d-]\d\.\d\d)    # B-V index
-              ([A-Z].)\s         # Spectral Type
+              ([A-Z ].|sd)\s     # Spectral Type
               (\d)               # Multiplicity
 		  }x or do 
 	{
@@ -94,12 +101,15 @@ sub kstars_unpack {
 		bv_index  => $7,
         spec_type => $8,
 		mult      => $9,
+        line      => $.,
+        pm        => sqrt($3 * $3 + $4 * $4),
     };
 	$star->{ra}       = hms_to_hour($star->{ra_str});
 	$star->{dec}      = hms_to_hour($star->{dec_str}); 
 	$star->{ra_hm}    = hms_to_hm($star->{ra_str});
 	$star->{dec_hm}   = hms_to_hm($star->{dec_str});
-	$line or return $star;
+
+    $line or return $star;
 
 	my $s2 = substr($line, 0, 12, "");
 	#print "$s2\n";

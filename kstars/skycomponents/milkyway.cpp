@@ -36,7 +36,7 @@
 
 
 MilkyWay::MilkyWay( SkyComponent *parent ) : 
-    SkipListIndex( parent, "Milky Way" )
+    SkipListIndex( parent, i18n("Milky Way") )
 {}
 
 void MilkyWay::init( KStarsData *data )

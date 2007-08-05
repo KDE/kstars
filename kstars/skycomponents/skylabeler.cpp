@@ -146,7 +146,7 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
     SkyLabeler::setZoomFont( psky );
     m_skyFont = psky.font( );
     m_fontMetrics = QFontMetrics( m_skyFont );
-
+    m_minDeltaX = m_fontMetrics.width("MMMMM");
 
     // ----- Set up Zoom Dependent Offset -----
 
