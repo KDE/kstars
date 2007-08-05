@@ -169,14 +169,8 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const d
 	if ( cosLong < 0 ) RARad += dms::PI;
 	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
 
-	//DMS_SPEED
-	//dms newRA, newDec;
-	//newRA.setRadians( RARad );
-	//newDec.setRadians( asin( sinDec ) );
 	RA.setRadians( RARad );
-	RA0.set( RA );
 	Dec.setRadians( asin(sinDec) );
-	Dec0.set( Dec );
 }
 
 void SkyPoint::precess( const KSNumbers *num) {
