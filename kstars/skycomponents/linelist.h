@@ -1,7 +1,7 @@
 /***************************************************************************
                           linelist.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2007/07/06
+    begin                : 2007-07-06
     copyright            : (C) 2007 by James B. Bowlin
     email                : bowlin@mindspring.com
  ***************************************************************************/
@@ -28,8 +28,7 @@ class KStarsData;
 
 /* @class LineList
  * A simple data container used by LineListIndex.  It contains a list of
- * SkyPoints and an integer drawID. 
- *
+ * SkyPoints and integer drawID, updateID and updateNumID. 
  *
  * @author James B. Bowlin
  * @version 0.2
@@ -37,7 +36,7 @@ class KStarsData;
 class LineList
 {
 	public:
-        LineList() : drawID(0), updateID(0) {}
+        LineList() : drawID(0), updateID(0), updateNumID(0) {}
 
         /* A global drawID (in SkyMesh) is updated at the start of each draw
          * cycle.  Since an extended object is often covered by more than one
