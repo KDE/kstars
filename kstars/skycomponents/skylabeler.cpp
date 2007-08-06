@@ -29,12 +29,13 @@
 // A Little data container class
 //---------------------------------------------------------------------------//
 
-class LabelRun {
-    public:
-        LabelRun(int s, int e) : start(s), end(e) {}
-        int start;
-        int end;
-};
+typedef struct LabelRun
+{
+    LabelRun(int s, int e) : start(s), end(e) {}
+    int start;
+    int end;
+
+} LabelRun;
 
 
 //----- Now for the main event ----------------------------------------------//
@@ -146,7 +147,7 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
     SkyLabeler::setZoomFont( psky );
     m_skyFont = psky.font( );
     m_fontMetrics = QFontMetrics( m_skyFont );
-    m_minDeltaX = m_fontMetrics.width("MMMMM");
+    m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
 
     // ----- Set up Zoom Dependent Offset -----
 
