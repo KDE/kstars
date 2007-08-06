@@ -46,6 +46,9 @@ StarComponent::StarComponent(SkyComponent *parent )
     for (int i = 0; i < m_skyMesh->size(); i++) {
         m_starIndex->append( new StarList() );
     }
+    m_highPMStars.append( new HighPMStarList( m_skyMesh, 840.0 ) );
+    m_highPMStars.append( new HighPMStarList( m_skyMesh, 304.0 ) );
+    m_reindexInterval = StarObject::reindexInterval( 304.0 );
 
     lastFilePos = 0;
 }
@@ -66,13 +69,20 @@ void StarComponent::reindex( KSNumbers *num )
     if ( ! num ) return;
 
     if ( fabs( num->julianCenturies() - 
-         m_reindexNum.julianCenturies() ) < 1.5 ) return;
+         m_reindexNum.julianCenturies() ) > m_reindexInterval ) {
+        reindexAll( num );
+        return;
+    }
 
-    //if (fabs( data->ut().epoch() - m_indexDate.epoch() ) < 150.0 ) return;
-    
-    //m_reindexNum = KSNumbers( data
+    for ( int j = 0; j < m_highPMStars.size(); j++ ) {
+        m_highPMStars.at( j )->reindex( num, m_starIndex );
+    }
+}
 
-    printf("Re-indexing Stars to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+void StarComponent::reindexAll( KSNumbers *num )
+{
+
+    //printf("Re-indexing Stars to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
 
     m_reindexNum = KSNumbers( *num );
     m_skyMesh->setKSNumbers( num );
@@ -96,7 +106,12 @@ void StarComponent::reindex( KSNumbers *num )
         m_starIndex->at( trixel )->append( star );
     }
 
-    printf("Done.\n");
+    // Let everyone know we have re-indexed to num
+    for ( int j = 0; j < m_highPMStars.size(); j++ ) {
+        m_highPMStars.at( j )->setIndexTime( num );
+    }
+
+    //printf("Done.\n");
 }
 
 
@@ -126,13 +141,17 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
     //shortcuts to inform whether to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
+	double maglim = Options::magLimitDrawStar();
+
+    if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {        // -jbb
+        setFaintMagnitude( maglim );
+    }
 
 	//adjust maglimit for ZoomLevel
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);
 	double lgz = log10(Options::zoomFactor());
 
-	double maglim = Options::magLimitDrawStar();
 	if ( lgz <= 0.75*lgmax )
         maglim -= (Options::magLimitDrawStar() - 
                    Options::magLimitDrawStarZoomOut() ) *
@@ -223,14 +242,15 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
     //int filePos = lastFilePos;
 
     m_skyMesh->setKSNumbers( &m_reindexNum );
-    printf("Indexing stars for year %.1f\n",  2000.0 + m_reindexNum.julianCenturies() * 100.0 );
+    //printf("Indexing stars for year %.1f\n",  
+    //        2000.0 + m_reindexNum.julianCenturies() * 100.0 );
 
     float currentMag = -5.0;
 
 	KSFileReader fileReader;
     if ( ! fileReader.open( "stars.dat" ) ) return;
 
-    if (lastFilePos == 0 ) {
+    if ( lastFilePos == 0 ) {
         fileReader.setProgress( m_Data, i18n("Loading stars"), 125994, 100 );
     }
 
@@ -247,7 +267,17 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 			// check star magnitude
         currentMag = line.mid( 46,5 ).toFloat();
         
-        processStar( line );
+        StarObject* star = processStar( line );
+
+	    objectList().append( star );
+        Trixel trixel = m_skyMesh->indexStar( star );
+        m_starIndex->at( trixel )->append( star );
+        double pm = star->pmMagnitude();
+
+        for (int j = 0; j < m_highPMStars.size(); j++ ) {
+            HighPMStarList* list = m_highPMStars.at( j );
+            if ( list->append( trixel, star, pm ) ) break;
+        }
 
         if ( currentMag > m_FaintMagnitude ) {   // Done!
             lastFilePos = fileReader.pos();
@@ -257,12 +287,18 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
         fileReader.showProgress();
     }
 
-	Options::setMagLimitDrawStar( newMagnitude );
-    emitProgressText( i18n("Loading stars done.") );
+	//Options::setMagLimitDrawStar( newMagnitude );       -jbb
+    //if ( lastFilePos == 0 ) emitProgressText( i18n("Loading stars done.") );
+
+    //for (int j = 0; j < m_highPMStars.size(); j++ ) {
+    //    m_highPMStars.at( j )->stats();
+    //}
+
+    //printf("star catalog reindexInterval = %6.1f years\n", 100.0 * m_reindexInterval );
 }
 
 
-void StarComponent::processStar( const QString &line ) {
+StarObject* StarComponent::processStar( const QString &line ) {
 	QString name, gname, SpType, visibleName;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
 	bool mult(false), var(false);
@@ -340,10 +376,6 @@ void StarComponent::processStar( const QString &line ) {
 
 	StarObject *o = new StarObject( r, d, mag, name, visibleName, SpType, pmra, pmdec, plx, mult, var );
 	o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-	objectList().append(o);
-
-    Trixel trixel = m_skyMesh->indexStar( o );
-    m_starIndex->at( trixel )->append( o );
 
     if ( ! gname.isEmpty() ) m_genName.insert( gname, o );
 
@@ -353,6 +385,7 @@ void StarComponent::processStar( const QString &line ) {
 	if ( ! gname.isEmpty() && gname != name ) {
         objectNames(SkyObject::STAR).append( o->gname(false) );
     }
+    return o;
 }
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {

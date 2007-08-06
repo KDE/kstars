@@ -109,8 +109,8 @@ void ConstellationLines::init( KStarsData *data ) {
     if ( lineList ) appendLine( lineList );
     
     m_reindexInterval = StarObject::reindexInterval( maxPM );
-    printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
-    printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
+    //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
+    //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
    
     summary();
 }
@@ -119,10 +119,9 @@ const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexStarLine( lineList->points() );
 }
 
-
 // JIT updating makes this simple.  Star updates are called from within both
 // StarComponent and ConstellationLines.  If the update is redundant then
-// StarObject::update() simply returns without doing any work.
+// StarObject::JITupdate() simply returns without doing any work.
 
 void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
 {
@@ -142,12 +141,12 @@ void ConstellationLines::reindex( KSNumbers *num )
     if ( fabs( num->julianCenturies() - 
          m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
 
-    printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+    //printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
 
     m_reindexNum = KSNumbers( *num );
     skyMesh()->setKSNumbers( num );
     LineListIndex::reindexLines();
     
-    printf("Done.\n");
+    //printf("Done.\n");
 }
 

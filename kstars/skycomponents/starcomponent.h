@@ -33,6 +33,7 @@
 #include "ksnumbers.h"
 
 #include "typedef.h"
+#include "highpmstarlist.h"
 
 class SkyComponent;
 class KStars;
@@ -43,7 +44,7 @@ class StarObject;
 class SkyLabeler;
 
 
-typedef QVector< StarList* > StarIndex;
+//typedef QVector< StarList* > StarIndex;
 
 class StarComponent: public ListComponent
 {
@@ -104,13 +105,15 @@ class StarComponent: public ListComponent
         SkyLabeler*    m_skyLabeler;
 
         KSNumbers      m_reindexNum;
+        double         m_reindexInterval;
+
+        QVector<HighPMStarList*> m_highPMStars;
         
         qint64 lastFilePos;
 
         QHash<QString, SkyObject*> m_genName;
 
-		// some helper methods
-		bool openStarFile(int i);
+        void reindexAll( KSNumbers *num );
 
 	/** 
 		*Parse a line from a stars data file, construct a StarObject from the data,
@@ -141,7 +144,7 @@ class StarComponent: public ListComponent
 		*
 		*@param line pointer to the line of data to be processed as a StarObject
 		*/
-		void processStar( const QString &line );
+		StarObject* processStar( const QString &line );
 
         bool selected();
 

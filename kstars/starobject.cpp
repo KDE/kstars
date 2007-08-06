@@ -36,8 +36,12 @@ QMap<QString, QColor> StarObject::ColorMap;
 //
 double StarObject::reindexInterval( double pm )
 {
-    // arcminutes * sec/min * [milliarcsec/year] / ( years/century * milliarcsec / arcsec )
-    return 25.0 * 60.0 * pm / ( 100.0 * 10000.0 ); 
+    if ( pm < 1.0e-6) return 1.0e6;
+
+    // arcminutes * sec/min * milliarcsec/sec centuries/year 
+    // / [milliarcsec/year] = centuries
+
+    return 25.0 * 60.0 * 10.0 / pm;
 }
 
 StarObject::StarObject( StarObject &o )

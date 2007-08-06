@@ -39,7 +39,8 @@ typedef unsigned short                 BufNum;
 
 typedef QVector< SkyPoint*>            SkyList;
 typedef QHash< Trixel, bool>           IndexHash;
-typedef QVector< StarObject*>          StarList;
+typedef QList< StarObject*>            StarList;
+typedef QVector< StarList* >           StarIndex;
 typedef QVector< LineList*>            LineListList;
 typedef QHash< Trixel, LineListList*>  LineListHash;  // Wanted LineListIndex but
                                                       // that is used by a class.

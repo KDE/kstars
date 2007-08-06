@@ -194,15 +194,16 @@ void OpsCatalog::slotRemoveCatalog() {
 }
 
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
+	kcfg_MagLimitDrawStar->setValue( newValue );                             // -jbb
 	kcfg_MagLimitDrawStarZoomOut->setMaximum( newValue );
-	ksw->data()->skyComposite()->setFaintStarMagnitude( newValue );
+	//ksw->data()->skyComposite()->setFaintStarMagnitude( newValue );        // -jbb
 }
 
 void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 	kcfg_MagLimitDrawStar->setMinimum( newValue );
 	Options::setMagLimitDrawStarZoomOut( newValue );
 	// force redraw
-	ksw->map()->forceUpdate();
+	//ksw->map()->forceUpdate();                                             // -jbb
 }
 
 void OpsCatalog::slotStarWidgets(bool on) {
