@@ -90,13 +90,11 @@ void AsteroidsComponent::init(KStarsData *data)
 
 void AsteroidsComponent::update( KStarsData *data, KSNumbers *num )
 {
-    //int cnt(0);
+    if ( ! selected() ) return;
+
     foreach ( SkyObject *o, objectList() ) {
 		KSPlanetBase *p = (KSPlanetBase*) o;
 		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        //if ( ++cnt > 10 ) continue;
-        //printf("%2d: (%8.3f, %8.3f )\n", cnt, p->ra()->Degrees(), p->dec()->Degrees() );
-
     }
 }
 
