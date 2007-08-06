@@ -754,10 +754,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 	double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
 	double north;
 	if ( dy ) {
-		north = atan( dx/dy )*180.0/dms::PI;
-		//resolve atan ambiguity:
-		if ( dy < 0.0 ) north += 180.0;
-		if ( north >= 360.0 ) north -= 360.;
+		north = atan2( dx, dy )*180.0/dms::PI;
 	} else {
 		north = 90.0;
 		if ( dx > 0 ) north = -90.0;
@@ -776,8 +773,38 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o, double scale ) {
 //	Quaternion invRotAxis = m_rotAxis.inverse();
 	oq.rotateAroundAxis( m_rotAxis );
 
-	p.setX( 0.5*width()  - scale*oq.v[Q_X] );
-	p.setY( 0.5*height() - scale*oq.v[Q_Y] );
+	double zoomscale = scale*Options::zoomFactor();
+	double k;
+	//c is the cosine of the angular distance from the center.
+	//I believe this is just the z coordinate.
+	double c = oq.v[Q_Z];
+	switch ( Options::projection() ) {
+		case Lambert:
+			k = sqrt( 2.0/( 1.0 + c ) );
+			break;
+		case AzimuthalEquidistant:
+		{
+			double crad = acos(c);
+			k = crad/sin(crad);
+			break;
+		}
+		case Orthographic:
+			k = 1.0;
+			break;
+		case Stereographic:
+			k = 2.0/(1.0 + c);
+			break;
+		case Gnomonic:
+			k = 1.0/c;
+			break;
+		default: //should never get here
+			kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() << endl;
+			k = 1.0;  //just default to Orthographic
+			break;
+	}
+
+	p.setX( 0.5*width()  - zoomscale*oq.v[Q_X] );
+	p.setY( 0.5*height() - zoomscale*oq.v[Q_Y] );
 
 	return p;
 }
@@ -1134,7 +1161,7 @@ SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {
 			c.setRadians( asin( r ) );
 			break;
 		case Stereographic:
-			c.setRadians( 2.0*atan( r/2.0 ) );
+			c.setRadians( 2.0*atan2( r, 2.0 ) );
 			break;
 		case Gnomonic:
 			c.setRadians( atan( r ) );
