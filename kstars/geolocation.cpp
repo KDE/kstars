@@ -154,14 +154,14 @@ void GeoLocation::cartToGeod(void)
 	sqrtP2 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
 
 	rpro = PosCartZ/sqrtP2;
-	latd = atan(rpro/(1-e2));
+	latd = atan2(rpro, (1-e2));
 	lat1 = 0.;
 
 	while ( fabs( latd-lat1 ) > RIT ) {
 		lat1 = latd;
 		s1 = sin(lat1);
 		xn = axis/(sqrt(1-e2*s1*s1));
-		latd = atan( rpro*(1+e2*xn*s1/PosCartZ) );
+		latd = atan2( rpro*(1+e2*xn*s1), PosCartZ );
 	}
 
 	sinl = sin(latd);

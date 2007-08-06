@@ -346,7 +346,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 		float sy = o.y() - o2.y();
 		float angle;
 		if ( sx ) {
-			angle = atan( sy/sx )*180.0/dms::PI;
+			angle = atan2( sy, sx )*180.0/dms::PI;
 		} else {
 			angle = 90.0;
 			if ( sy < 0 ) angle = -90.0;

@@ -106,11 +106,7 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 		double yv = a * sqrt( 1.0 - e*e ) * sinE;
 
 		//v is the true anomaly; r is the distance from the Sun
-
-		v = atan( yv/xv ) / dms::DegToRad;
-		//resolve atan ambiguity
-		if ( xv < 0.0 ) v += 180.0;
-
+		v = atan2( yv, xv ) / dms::DegToRad;
 		r = sqrt( xv*xv + yv*yv );
 	}
 
@@ -142,12 +138,9 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 	zh -= ze;
 
 	//Finally, the spherical ecliptic coordinates:
-	double ELongRad = atan( yh/xh );
-	//resolve atan ambiguity
-	if ( xh < 0.0 ) ELongRad += dms::PI;
-
+	double ELongRad = atan2( yh, xh );
 	double rr = sqrt( xh*xh + yh*yh );
-	double ELatRad = atan( zh/rr );  //(rr can't possibly be negative, so no atan ambiguity)
+	double ELatRad = atan2( zh, rr );
 
 	ep.longitude.setRadians( ELongRad );
 	ep.latitude.setRadians( ELatRad );

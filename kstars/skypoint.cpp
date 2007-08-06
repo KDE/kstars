@@ -145,10 +145,7 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
 
 	tanDec = sinDec/cosDec;
 	double y = sinRA*cosOb + tanDec*sinOb;
-	double ELongRad = atan( y/cosRA );
-	//resolve atan ambiguity
-	if ( cosRA < 0 ) ELongRad += dms::PI;
-	if ( cosRA > 0 && y < 0 ) ELongRad += 2.0*dms::PI;
+	double ELongRad = atan2( y, cosRA );
 
 	EcLong.setRadians( ELongRad );
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
@@ -163,11 +160,7 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const d
 	double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
 
 	double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
-	double RARad =  atan( y / cosLong );
-
-	//resolve ambiguity of atan:
-	if ( cosLong < 0 ) RARad += dms::PI;
-	if ( cosLong > 0 && y < 0 ) RARad += 2.0*dms::PI;
+	double RARad =  atan2( y, cosLong );
 
 	RA.setRadians( RARad );
 	Dec.setRadians( asin(sinDec) );
@@ -192,15 +185,8 @@ void SkyPoint::precess( const KSNumbers *num) {
 	}
 
 	//Extract RA, Dec from the vector:
-	RA.setRadians( atan( v[1]/v[0] ) );
+	RA.setRadians( atan2( v[1], v[0] ) );
 	Dec.setRadians( asin( v[2] ) );
-
-	//resolve ambiguity of atan()
-	if ( v[0] < 0.0 ) {
-		RA.setD( RA.Degrees() + 180.0 );
-	} else if( v[1] < 0.0 ) {
-		RA.setD( RA.Degrees() + 360.0 );
-	}
 }
 
 void SkyPoint::nutate(const KSNumbers *num) {
