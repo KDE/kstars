@@ -94,9 +94,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 	Rj = sqrt(Xj*Xj +Yj*Yj + Zj*Zj );
 	tdelay = 0.0057755183*Rj;  //light travel delay, in days
 	
-	LAMBDA = atan(Yj/Xj);
-	if (Xj < 0) LAMBDA += dms::PI; //resolve atan ambiguity
-	ALPHA = atan( Zj/sqrt( Xj*Xj + Yj*Yj ) );
+	LAMBDA = atan2(Yj, Xj);
+	ALPHA = atan2( Zj, sqrt( Xj*Xj + Yj*Yj ) );
 	
 	//days since 10 Aug 1976 0h (minus light-travel delay)
 	t = num->julianDay() - 2443000.5 - tdelay;
@@ -479,8 +478,7 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 		*/
 	}
 	
-	D = atan( A6[4] / C6[4] );
-	if ( C6[4] < 0.0 ) D += dms::PI;
+	D = atan2( A6[4], C6[4] );
 	
 	//X and Y are now the rectangular coordinates of each satellite, 
 	//in units of Jupiter's Equatorial radius.

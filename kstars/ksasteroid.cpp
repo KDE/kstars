@@ -67,7 +67,7 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 
 	//v is the true anomaly; r is the distance from the Sun
 
-	double v = atan( yv/xv ) / dms::DegToRad;
+	double v = atan2( yv, xv ) / dms::DegToRad;
 	//resolve atan ambiguity
 	if ( xv < 0.0 ) v += 180.0;
 
@@ -87,10 +87,8 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 	double zh = r * ( sinvw * sini );
 
 	//the spherical ecliptic coordinates:
-	double ELongRad = atan( yh/xh );
-	//resolve atan ambiguity
-	if ( xh < 0.0 ) ELongRad += dms::PI;
-	double ELatRad = atan( zh/r );  //(r can't possibly be negative, so no atan ambiguity)
+	double ELongRad = atan2( yh, xh );
+	double ELatRad = atan2( zh, r ); 
 
 	helEcPos.longitude.setRadians( ELongRad );
 	helEcPos.latitude.setRadians( ELatRad );
@@ -113,12 +111,9 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 	}
 
 	//the spherical geocentricecliptic coordinates:
-	ELongRad = atan( yh/xh );
-	//resolve atan ambiguity
-	if ( xh < 0.0 ) ELongRad += dms::PI;
-
+	ELongRad = atan2( yh, xh );
 	double rr = sqrt( xh*xh + yh*yh + zh*zh );
-	ELatRad = atan( zh/rr );  //(rr can't possibly be negative, so no atan ambiguity)
+	ELatRad = atan2( zh, rr );
 
 	ep.longitude.setRadians( ELongRad );
 	ep.latitude.setRadians( ELatRad );

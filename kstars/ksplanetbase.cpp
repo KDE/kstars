@@ -112,14 +112,14 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const d
 	HA.SinCos( sinHA, cosHA );
 	dec()->SinCos( sinDec, cosDec );
 
-	D = atan( ( rcosp*sinHA )/( r*cosDec/6378.14 - rcosp*cosHA ) );
+	D = atan2( rcosp*sinHA, r*cosDec/6378.14 - rcosp*cosHA );
 	dms temp;
 	temp.setRadians( ra()->radians() - D );
 	setRA( temp );
 
 	HA2.setD( LST->Degrees() - ra()->Degrees() );
 	cosHA2 = cos( HA2.radians() );
-	temp.setRadians( atan( cosHA2*( r*sinDec/6378.14 - rsinp )/( r*cosDec*cosHA/6378.14 - rcosp ) ) );
+	temp.setRadians( atan2( cosHA2*( r*sinDec/6378.14 - rsinp ), r*cosDec*cosHA/6378.14 - rcosp ) );
 	setDec( temp );
 
 	EquatorialToEcliptic( num->obliquity() );
@@ -180,7 +180,7 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
 	double dy = dec()->Degrees() - test.dec()->Degrees();
 	double pa;
 	if ( dy ) {
-		pa = atan( dx/dy )*180.0/dms::PI;
+		pa = atan2( dx, dy )*180.0/dms::PI;
 	} else {
 		pa = 90.0;
 		if ( dx > 0 ) pa = -90.0;
