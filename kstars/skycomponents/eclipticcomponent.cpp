@@ -55,6 +55,8 @@ void EclipticComponent::init(KStarsData *data)
 		elng.setD( double( i ) );
 		SkyPoint* o = new SkyPoint();
 		o->setFromEcliptic( num.obliquity(), &elng, &elat );
+		o->setRA0( o->ra()->Hours() );
+		o->setDec0( o->dec()->Degrees() );
 		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 		appendP( o );
 	}
