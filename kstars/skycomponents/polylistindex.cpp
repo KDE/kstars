@@ -42,9 +42,6 @@ PolyListIndex::PolyListIndex( SkyComponent *parent )
     }
 }
 
-void PolyListIndex::update( KStarsData *data, KSNumbers *num )
-{}
-
 void PolyListIndex::appendPoly( PolyList* polyList, int debug)
 {
     m_nameHash.insert( polyList->name(), polyList );

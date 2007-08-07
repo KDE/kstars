@@ -38,7 +38,6 @@ typedef QHash<QString, PolyList*> PolyNameHash;
 
 class PolyListIndex : public SkyComposite
 {
-
 	public:
 	/**
 		*@short Constructor
@@ -47,8 +46,6 @@ class PolyListIndex : public SkyComposite
 		PolyListIndex( SkyComponent *parent );
 
         void appendPoly( PolyList* polyList, int debug=0);
-
-        void update( KStarsData *data, KSNumbers *num );
 
         SkyMesh* skyMesh() { return m_skyMesh; }
 
