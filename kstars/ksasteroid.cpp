@@ -66,11 +66,7 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 	double yv = a * sqrt( 1.0 - e*e ) * sinE;
 
 	//v is the true anomaly; r is the distance from the Sun
-
 	double v = atan2( yv, xv ) / dms::DegToRad;
-	//resolve atan ambiguity
-	if ( xv < 0.0 ) v += 180.0;
-
 	double r = sqrt( xv*xv + yv*yv );
 
 	//vw is the sum of the true anomaly and the argument of perihelion
