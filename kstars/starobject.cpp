@@ -108,14 +108,23 @@ void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
 }
 
 void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
-	SkyPoint::updateCoords( num );
-
 	//Correct for proper motion of stars.  Determine RA and Dec offsets.
 	//Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
 	//That is numerically identical to the number of arcsec per millenium, so multiply by
 	//KSNumbers::julianMillenia() to find the offsets in arcsec.
-	setRA( ra()->Hours() + pmRA()*num->julianMillenia() / 15. / cos( dec()->radians() )/3600. );
-	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
+
+    // Correction:  The method below computes the proper motion before the
+    // precession.  If we precessed first then the direction of the proper
+    // motion correction would depend on how far we've precessed.  -jbb 
+    double saveRA = ra0()->Hours();
+    double saveDec = dec0()->Degrees();
+
+	setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
+	setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+
+	SkyPoint::updateCoords( num );
+    setRA0( saveRA );
+    setDec0( saveDec );
 }
 
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
