@@ -22,6 +22,7 @@
 #include <klocale.h>
 
 #include "kstars.h"
+#include "simclockadaptor.h"
 
 int SimClock::idgen = 1;
 
@@ -31,7 +32,9 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 		QObject(parent),
 		tmr(this)
 {
-        QDBusConnection::sessionBus().registerObject("/kstars/SimClock",  this, QDBusConnection::ExportScriptableSlots);
+	new SimClockAdaptor(this);
+        QDBusConnection::sessionBus().registerObject("/KStars/SimClock",  this);
+
 	if (! when.isValid() ) tmr.stop();
 	setUTC(when);
 	julianmark = UTC.djd();

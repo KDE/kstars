@@ -187,6 +187,9 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS}
 	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp
 )
 
+qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+
 set( kstars_KCFG_SRCS Options.kcfgc )
 
 kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})

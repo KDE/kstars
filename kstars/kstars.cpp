@@ -48,7 +48,8 @@
 #include "imagesequence.h"
 #include <toggleaction.h>
 
-// to remove warnings
+#include "kstarsadaptor.h"
+
 #include "indimenu.h"
 #include "indidriver.h"
 
@@ -60,7 +61,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	DialogIsObsolete(false), StartClockRunning( clockrun ),
 	StartDateString( startdate )
 {
-	QDBusConnection::sessionBus().registerObject("/kstars",  this, QDBusConnection::ExportScriptableSlots);
+	new KstarsAdaptor(this);
+	QDBusConnection::sessionBus().registerObject("/KStars",  this);
+	QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
 	connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
