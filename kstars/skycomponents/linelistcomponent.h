@@ -28,6 +28,8 @@
 #include "skypoint.h"
 
 class KStars;
+class SkyLabeler;
+class SkyMap;
 
 /**
 	*@class LineListComponent
@@ -59,7 +61,8 @@ class LineListComponent : public SkyComponent
 		/**Draw the list of objects on the SkyMap*/
 		virtual void draw( KStars *ks, QPainter& psky, double scale );
 		
-        void drawLabels( KStars *ks, QPainter &psky, double scale, QList<QPointF> &pList );
+
+		void drawLabels( KStars* kstars, QPainter& psky, double scale );
 
 		/**Draw the object, if it is exportable to an image
 		*@see isExportable()
@@ -93,6 +96,14 @@ class LineListComponent : public SkyComponent
 		int LabelPosition;
 		QString Label;
 		QPen Pen;
+
+		SkyLabeler* m_skyLabeler;
+		//int m_labelIndex[4];
+		int m_iLeft, m_iRight, m_iTop, m_iBot;
+
+		QPointF angleAt( SkyMap* map, int i, double *angle, double scale );
+
+		void drawTheLabel( QPainter& psky, QPointF& o, double angle );
 };
 
 #endif

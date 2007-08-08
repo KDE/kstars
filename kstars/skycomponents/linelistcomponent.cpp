@@ -26,11 +26,14 @@
 #include "skymap.h"
 #include "dms.h"
 #include "Options.h"
+#include "skylabeler.h"
 
 
 LineListComponent::LineListComponent( SkyComponent *parent )
 	: SkyComponent( parent ), LabelPosition( NoLabel ), Label( QString() )
-{}
+{
+	m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
+}
 
 LineListComponent::~LineListComponent()
 {}
@@ -46,7 +49,8 @@ void LineListComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
+void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
+{
 	if ( ! selected() ) return;
 
 	SkyMap *map = ks->map();
@@ -56,15 +60,28 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
 	bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
 
-	QList<QPointF> pList; // for sending to drawLabels()
+	float xLeft  = 100000.;
+	float xRight = 0.;
+    float yTop   = 100000.;
+	float yBot   = 0.;
 
+	m_skyLabeler->useStdFont( psky );
+	QFontMetricsF fm( psky.font() );
+	m_skyLabeler->resetFont( psky );
+
+	float margin = fm.width("MMM");
+	float rightMargin = psky.window().width() - margin - fm.width( Label );
+	float leftMargin  = margin;
+	float topMargin   = fm.height();
+	float botMargin   = psky.window().height() - 4.0 * fm.height();
+
+	m_iLeft = m_iRight = m_iTop = m_iBot = 0;
 
     if ( Options::useAntialias() ) {
 
         QPointF oThis, oLast, oMid;
 
         pLast = points()->at( 0 );
-
         oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
 
         int limit = points()->size();
@@ -76,11 +93,33 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
             if ( map->onScreen(oThis, oLast ) ) {
                 if ( isVisible && isVisibleLast ) {
                     psky.drawLine( oLast, oThis );
+
+					qreal x = oThis.x();
+					qreal y = oThis.y();
+					if ( x > leftMargin && x < rightMargin &&
+						 y < botMargin  && y > topMargin) {
+
+						if ( x < xLeft ) {
+							m_iLeft = i;
+							xLeft = x;
+						}
+						if ( x > xRight ) {
+							m_iRight = i;
+							xRight = x;
+						}
+						if (  y > yBot ) {
+							m_iBot = i;
+							yBot = y;
+						}
+						if ( y < yTop ) {
+							m_iTop = i;
+							yTop = y;
+						}
+					}
                 }
 
                 else if ( isVisibleLast && ! isVisible ) {
                     oMid = map->clipLine( pLast, pThis, scale );
-                    // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
                     psky.drawLine( oLast, oMid );
                 }
                 else if ( isVisible && ! isVisibleLast ) {
@@ -111,7 +150,6 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
                 if ( isVisible && isVisibleLast ) {
                     psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
                 }
-
                 else if ( isVisibleLast ) {
                     oMid = map->clipLineI( pLast, pThis, scale );
                     // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
@@ -128,136 +166,91 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale ) {
             isVisibleLast = isVisible;
         }
     }
+
+	drawLabels( ks, psky, scale );
 }
-/***********************************
-	//Each SkyLine is a series of line segments in the celestial coordinate system.
-	//Transform each segment to screen coordinates, and draw the segments that are on-screen
-	pList = map->toScreen( &m_SkyLine, scale, Options::useRefraction(), true) //clip offscreen segments );
 
-	//highZoomFactor = true when FOV is less than 1 degree (1/57.3 radians)
-	bool highZoomFactor( false );
-	if ( Options::zoomFactor() > map->width()*57.3 )
-		highZoomFactor = true;
+void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale )
+{
 
-	QPointF pLast( -10000000., -10000000. );
-	foreach ( QPointF p, pList ) {
-		if ( ! map->isPointNull( pLast ) && ! map->isPointNull( p ) ) {
+	if ( LabelPosition == NoLabel ) return;
 
-			if ( fabs(p.x()-pLast.x()) < map->width() || highZoomFactor )
-				psky.drawLine( pLast, p );
+	int     i[4];
+	double  a[4] = { 360.0, 360.0, 360.0, 360.0 };
+	QPointF o[4];
 
-*********************************/
-/********
-			//Next, identify the index of the point whose segment brackets
-			//the left-edge position (x=20), the right-edge position (x=width()-60),
-			//the top-edge position (y=20), and the bottom-edge pos. (y=height()-30)
-			float xLeft = 20.;
-			float xRight = psky.window().width() - 60.;
-			float yTop = 20.;
-			float yBottom = psky.window().height() - 30.;
-			if ( (p.x() >= xLeft && pLast.x() < xLeft) || (pLast.x() >= xLeft && p.x() < xLeft) )
-				iLeft = pList.indexOf( p );
-			if ( (p.x() >= xRight && pLast.x() < xRight) || (pLast.x() >= xRight && p.x() < xRight) )
-				iRight = pList.indexOf( p );
-			if ( (p.y() >= yTop && pLast.y() < yTop) || (pLast.y() >= yTop && p.y() < yTop) )
-				iTop = pList.indexOf( p );
-			if ( (p.y() >= yBottom && pLast.y() < yBottom) || (pLast.y() >= yBottom && p.y() < yBottom) )
-				iBottom = pList.indexOf( p );
-        }
-		pLast = p;
-        drawLabels(ks, psky, scale, pList);
-    }
-}
-********/
-
-
-void LineListComponent::drawLabels( KStars *ks, QPainter &psky, double scale, QList<QPointF> &pList ) {
-
-    int iLeft = -1;   //the segment that intersects the left edge
-	int iRight = -1;  //the segment that intersects the right edge
-	int iTop = -1;    //the segment that intersects the top edge
-	int iBottom = -1; //the segment that intersects the bottom edge
-
-	//Now label the LineListComponent.  We have stored the index of line segments
-	//near each edge of the screen.  Draw the label near one of these segments,
-	//according to the value of LabelPosition
-	if ( LabelPosition != NoLabel ) {
-		//Make sure we have at least one edge segment defined
-		if ( iLeft < 0 && iRight < 0 && iTop < 0 && iBottom < 0 ) return;
-
-		//Draw the label at segLeft or segRight.  If this segment is undefined,
-		//choose segTop or segBottom, wheichever is further left or right
-		int iLabel;
-		double tx;
-		double ty;
-
-		if ( LabelPosition == LeftEdgeLabel ) {
-			if ( iLeft >= 0 ) {
-				iLabel = iLeft;
-				tx = 20.0;
-				ty = pList[iLabel].y() - 5.0;
-
-			//if iLeft is undefined, try the top or bottom edge, whichever is further left
-			} else {
-				if ( iTop >= 0 && iBottom >= 0 ) {
-					if ( pList[iTop].x() < pList[iBottom].x() )
-						iLabel = iTop;
-					else
-						iLabel = iBottom;
-				} else if ( iTop >= 0 ) {
-					iLabel = iTop;
-
-				} else if ( iBottom >= 0 ) {
-					iLabel = iBottom;
-				}
-                //FIXME: -jbb to prevent crashes on index out of range
-
-				//tx = pList[iLabel].x();
-				//ty = pList[iLabel].y() - 5.0;
-			}
-		}
-
-		if ( LabelPosition == RightEdgeLabel ) {
-			if ( iRight >= 0 ) {
-				iLabel = iRight;
-				tx = psky.window().width() - 60.0;
-				ty = pList[iLabel].y() - 5.0;
-
-			//if iRight is undefined, try the top or bottom edge, whichever is further right
-			} else {
-				if ( iTop >= 0 && iBottom >= 0 ) {
-					if ( pList[iTop].x() > pList[iBottom].x() )
-						iLabel = iTop;
-					else
-						iLabel = iBottom;
-				} else if ( iTop >= 0 ) {
-					iLabel = iTop;
-
-				} else if ( iBottom >= 0 ) {
-					iLabel = iBottom;
-				}
-
-                //FIXME: -jbb to prevent crashes on index out of range
-
-				//tx = pList[iLabel].x();
-				//ty = pList[iLabel].y() - 5.0;
-			}
-		}
-
-		if ( iLabel == 0 )
-			iLabel = 1;
-
-
-		//double sx = double( pList[iLabel].x() - pList[iLabel-1].x() );
-		//double sy = double( pList[iLabel].y() - pList[iLabel-1].y() );
-		//double angle = atan2( sy, sx )*180.0/dms::PI;
-		//if ( sx < 0.0 ) angle -= 180.0;
-
-		//psky.save();
-		// FIXME: -jbb psky.translate( tx, ty );
-
-		//psky.rotate( double( angle ) );  //rotate the coordinate system
-		//psky.drawText( 0, 0, Label );
-		//psky.restore(); //reset coordinate system
+	if ( LabelPosition == LeftEdgeLabel ) {
+		i[0] = m_iLeft;
+		i[1] = m_iTop;
+		i[2] = m_iBot;
+		i[3] = m_iRight;
 	}
+	else {
+		i[0] = m_iRight;
+		i[1] = m_iBot;
+		i[2] = m_iTop;
+		i[3] = m_iLeft;
+	}
+
+	// Make sure we have at least one valid point
+	for ( int j = 1; j < 4; j++) {
+		if ( i[0] ) break;
+		i[0] = i[j];
+	}
+	if ( i[0] == 0 ) return;
+
+	SkyMap *map = kstars->map();
+	double comfyAngle = 45.0;
+
+	// Try the points in order and print the label if we can draw it at
+	// a comfortable angle for viewing;
+
+	for ( int j = 0; j < 4; j++) {
+		o[j] = angleAt( map, i[j], &a[j], scale );
+		//printf("a[%d]=%.f  ", j, a[j]);
+		if ( fabs( a[j] ) < comfyAngle ) {
+			//printf("\n");
+			return drawTheLabel( psky, o[j], a[j] );
+		}
+	}
+	//printf("\n");
+
+	// No angle was great so pick the best angle
+	int ii = 0;
+	for ( int j = 1; j < 4; j++) {
+		if ( fabs(a[j]) < fabs(a[ii]) ) ii = j;
+	}
+
+	return drawTheLabel( psky, o[ii], a[ii] );
 }
+
+void LineListComponent::drawTheLabel( QPainter& psky, QPointF& o, double angle )
+{
+	m_skyLabeler->useStdFont( psky );
+	QFontMetricsF fm( psky.font() );
+
+	psky.save();
+	psky.translate( o );
+
+	psky.rotate( double( angle ) );              //rotate the coordinate system
+	psky.drawText( QPointF( 0., fm.height() ), Label );
+	psky.restore();                              //reset coordinate system
+
+	m_skyLabeler->resetFont( psky );
+}
+
+QPointF LineListComponent::angleAt( SkyMap* map, int i, double *angle, double scale )
+{
+	SkyPoint* pThis = points()->at( i );
+	SkyPoint* pLast = points()->at( i - 1 );
+	QPointF oThis = map->toScreen( pThis, scale, false );
+	QPointF oLast = map->toScreen( pLast, scale, false );
+	double sx = double( oThis.x() - oLast.x() );
+	double sy = double( oThis.y() - oLast.y() );
+	*angle = atan2( sy, sx ) * 180.0 / dms::PI;
+	if ( *angle < -90.0 ) *angle += 180.0;
+	if ( *angle >  90.0 ) *angle -= 180.0;
+	return oThis;
+}
+
+
