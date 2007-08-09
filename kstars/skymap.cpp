@@ -541,8 +541,8 @@ void SkyMap::setFocus( const dms &ra, const dms &dec ) {
 
 void SkyMap::setFocus( double ra, double dec ) {
 	//QUATERNION
-	m_rotAxis.createFromEuler( 360.0 - dec*dms::DegToRad, 360.0 - 15.0*ra*dms::DegToRad, 0.0 );
-	m_rotAxis = m_rotAxis.inverse();
+  m_rotAxis.createFromEuler( (360. - dec)*dms::DegToRad, (15.0*ra)*dms::DegToRad, 0.0 );
+  m_rotAxis = m_rotAxis.inverse();
 
 	Focus.set( ra, dec );
 	focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
