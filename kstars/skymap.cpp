@@ -540,6 +540,10 @@ void SkyMap::setFocus( const dms &ra, const dms &dec ) {
 }
 
 void SkyMap::setFocus( double ra, double dec ) {
+	//QUATERNION
+	m_rotAxis.createFromEuler( 360.0 - dec*dms::DegToRad, 360.0 - 15.0*ra*dms::DegToRad, 0.0 );
+	m_rotAxis = m_rotAxis.inverse();
+
 	Focus.set( ra, dec );
 	focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 }
@@ -803,8 +807,8 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o, double scale ) {
 			break;
 	}
 
-	p.setX( 0.5*width()  - zoomscale*oq.v[Q_X] );
-	p.setY( 0.5*height() - zoomscale*oq.v[Q_Y] );
+	p.setX( 0.5*width()  - zoomscale*k*oq.v[Q_X] );
+	p.setY( 0.5*height() - zoomscale*k*oq.v[Q_Y] );
 
 	return p;
 }
