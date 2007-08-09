@@ -113,6 +113,54 @@ void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& tex
     }
 }
 
+bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, QString& text, 
+		                    double angle )
+{
+
+	// Create bounding rectangle by rotating the (height x width) rectangle
+	qreal h = m_fontMetrics.height();
+	qreal w = m_fontMetrics.width( text );
+	qreal s =  sin( angle * dms::PI / 180.0 );
+	qreal c = cos( angle * dms::PI / 180.0 );
+
+	qreal w2 = w / 2.0;
+
+	qreal top, bot, left, right;
+	
+	// These numbers really do depend on the sign of the angle like this
+	if ( angle >= 0.0 ) {
+		top   = o.y()           - s * w2;
+		bot   = o.y() + c *  h  + s * w2;
+		left  = o.x() - c * w2  - s * h;
+		right = o.x() + c * w2;
+	}
+	else {
+		top   = o.y()           + s * w2;
+		bot   = o.y() + c *  h  - s * w2;
+		left  = o.x() - c * w2;
+		right = o.x() + c * w2  - s * h;
+	}
+
+	// return false if label would overlap existing label
+	if ( ! markRegion( left, right, top, bot) )
+		return false;
+
+	// for debugging the bounding rectangle:
+	//psky.drawLine( QPointF( left,  top ), QPointF( right, top ) );
+	//psky.drawLine( QPointF( right, top ), QPointF( right, bot ) );
+	//psky.drawLine( QPointF( right, bot ), QPointF( left,  bot ) );
+	//psky.drawLine( QPointF( left,  bot ), QPointF( left,  top ) );
+
+	// otherwise draw the label and return true
+	psky.save();
+	psky.translate( o );
+
+	psky.rotate( angle );                        //rotate the coordinate system
+	psky.drawText( QPointF( -w2, h ), text );
+	psky.restore();                              //reset coordinate system
+
+	return true;
+}
 
 void SkyLabeler::setFont( QPainter& psky, const QFont& font )
 {
@@ -208,10 +256,10 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
 
     qreal maxX =  p.x() + m_fontMetrics.width( text );
 	qreal minY = p.y() - m_fontMetrics.height();
-	return markRegion( p.y(), minY, p.x(), maxX );
+	return markRegion( p.x(), maxX, p.y(), minY );
 }
 
-bool SkyLabeler::markRegion( qreal top, qreal bot, qreal left, qreal right )
+bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 {
     if ( m_maxY < 1 ) {
         if ( ! m_errors++ )
@@ -376,7 +424,6 @@ void SkyLabeler::draw( KStars* kstars, QPainter& psky )
 
 	psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
     drawLabels( psky, STAR_LABEL );
-
 }
 
 void SkyLabeler::drawLabels( QPainter& psky, label_t type )

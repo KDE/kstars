@@ -77,16 +77,17 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
 	// We don't draw the label here but we need the proper font in order to set
 	// the margins correctly.  Since psky no contains the zoom dependent font as
 	// its default font, we need to play the little dance below.
-	m_skyLabeler->useStdFont( psky );
+	skyLabeler()->useStdFont( psky );
 	QFontMetricsF fm( psky.font() );
-	m_skyLabeler->resetFont( psky );
+	skyLabeler()->resetFont( psky );
 
 	// Create the margins within which is is okay to draw the label
-	float margin      = fm.width("MMM");
-	float rightMargin = psky.window().width() - margin - fm.width( Label );
-	float leftMargin  = margin;
+	float sideMargin   =  fm.width("MM") + fm.width( Label ) / 2.0;
+
+	float leftMargin  = sideMargin;
+	float rightMargin = psky.window().width() - sideMargin;
 	float topMargin   = fm.height();
-	float botMargin   = psky.window().height() - 4.0 * fm.height();
+	float botMargin   = psky.window().height() - 2.0 * fm.height();
 
     if ( Options::useAntialias() ) {
 
@@ -207,100 +208,63 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale
 	// near the left or right side of the screen.
 	if ( LabelPosition == LeftEdgeLabel ) {
 		i[0] = m_iLeft;
-		i[1] = m_iTop;
+		i[1] = m_iRight;
 		i[2] = m_iBot;
-		i[3] = m_iRight;
+		i[3] = m_iTop;
 	}
 	else {
 		i[0] = m_iRight;
-		i[1] = m_iBot;
-		i[2] = m_iTop;
-		i[3] = m_iLeft;
+		i[1] = m_iLeft;
+		i[2] = m_iBot;
+		i[3] = m_iTop;
 	}
 
 	// Make sure we have at least one valid point
-	int minI = 0;
+	int firstI = 0;
 
-	for ( ; minI < 4; minI++ ) {
-		if ( i[minI] ) break;
+	for ( ; firstI < 4; firstI++ ) {
+		if ( i[firstI] ) break;
 	}
 
 	// return if there are no valid candidates
-	if ( minI >= 4 ) return;
+	if ( firstI >= 4 ) return;
+
+	skyLabeler()->useStdFont( psky );
 
 	// Try the points in order and print the label if we can draw it at
 	// a comfortable angle for viewing;
-	for ( int j = minI; j < 4; j++ ) {
+	for ( int j = firstI; j < 4; j++ ) {
 		o[j] = angleAt( map, i[j], &a[j], scale );
 		if ( fabs( a[j] ) > comfyAngle ) continue;
-		if ( drawTheLabel( psky, o[j], a[j] ) ) return;
+		if ( skyLabeler()->drawLabel( psky, o[j], Label, a[j] ) ) {
+			skyLabeler()->resetFont( psky );
+			return;
+		}
 		okay[j] = false;
 	}
 
 	//--- No angle was comfy so pick the one with the smallest angle ---
 
 	// Index of the index/angle/point that gets displayed	
-	int ii = minI;
+	int bestI = firstI;
 
 	// find first valid candidate that does not overlap existing labels
-	for ( ; ii < 4; ii++ ) {
-		if ( i[ii] && okay[ii] ) break;
+	for ( ; bestI < 4; bestI++ ) {
+		if ( i[bestI] && okay[bestI] ) break;
 	}
 
 	// return if all candiates either overlap or are invalid
-	if ( ii >= 4 ) return;
+	if ( bestI >= 4 ) return;
 
 	// find the valid non-overlap candidate with the smallest angle
-	for ( int j = ii + 1; j < 4; j++ ) {
-		if ( i[j] && okay[j] && fabs(a[j]) < fabs(a[ii]) ) ii = j;
+	for ( int j = bestI + 1; j < 4; j++ ) {
+		if ( i[j] && okay[j] && fabs(a[j]) < fabs(a[bestI]) ) bestI = j;
 	}
 
-	drawTheLabel( psky, o[ii], a[ii] );
+	skyLabeler()->drawLabel( psky, o[bestI], Label, a[bestI] );
+	skyLabeler()->resetFont( psky );
 }
 
-bool LineListComponent::drawTheLabel( QPainter& psky, QPointF& o, double angle )
-{
-	m_skyLabeler->useStdFont( psky );
-	QFontMetricsF fm( psky.font() );
-
-	// Create bounding rectangle by rotating the (height x width) rectangle
-	qreal h = fm.height();
-	qreal w = fm.width(Label);
-	qreal s = sin( angle * dms::PI / 180.);
-	qreal c = cos( angle * dms::PI / 180.);
-
-	qreal top, bot, left, right;
-	
-	// These numbers really do depend on the sign of the angle like this
-	if ( angle >= 0.0 ) {
-		top   =  o.y();
-		bot   =  o.y() + c * h + s * w;
-		left  =  o.x() - s * h;
-		right =  o.x() + c * w;
-	}
-	else {
-		top   = o.y() + s * w;
-		bot   = o.y() + c * h;
-		left  = o.x();
-		right = o.x() + c * w - s * h;
-	}
-
-	// return false if label would overlap existing label
-	if ( ! m_skyLabeler->markRegion( top, bot, left, right ) )
-		return false;
-
-	// otherwise draw the label and return true
-	psky.save();
-	psky.translate( o );
-
-	psky.rotate( angle );                        //rotate the coordinate system
-	psky.drawText( QPointF( 0.0, fm.height() ), Label );
-	psky.restore();                              //reset coordinate system
-
-	m_skyLabeler->resetFont( psky );
-
-	return true;
-}
 
 QPointF LineListComponent::angleAt( SkyMap* map, int i, double *angle, double scale )
 {

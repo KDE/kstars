@@ -95,9 +95,11 @@ class LineListComponent : public SkyComponent
 
 		/* @short a convenience routine to append a SkyPoint to the points list.
 		 */
-        inline void appendP( SkyPoint* p ) {
+        void appendP( SkyPoint* p ) {
             pointList.append( p ); 
         }
+
+		SkyLabeler* skyLabeler() { return m_skyLabeler; }
 
 	private:
 		SkyComponent *Parent;
