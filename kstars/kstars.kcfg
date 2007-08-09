@@ -354,6 +354,11 @@
 			<whatsthis>Toggle whether constellation boundaries are drawn in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ShowHighlightedCBound" type="Bool">
+			<label>Highlight the central constellation boundary in the sky map?</label>
+			<whatsthis>Toggle whether constellation boundary containing the central focus point is highlighted in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="ShowCLines" type="Bool">
 			<label>Draw constellation lines in the sky map?</label>
 			<whatsthis>Toggle whether constellation lines are drawn in the sky map.</whatsthis>
@@ -677,6 +682,11 @@
 		</entry>
 		<entry name="CBoundColor" type="String">
 			<label>Color of constellation boundaries</label>
+			<whatsthis>The color for the constellation boundary lines.</whatsthis>
+			<default>#222</default>
+		</entry>
+		<entry name="CBoundHighColor" type="String">
+			<label>Color of highlighted constellation boundary</label>
 			<whatsthis>The color for the constellation boundary lines.</whatsthis>
 			<default>#222</default>
 		</entry>

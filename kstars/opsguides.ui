@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>OpsGuides</class>
  <widget class="QWidget" name="OpsGuides" >
   <property name="geometry" >
@@ -9,16 +6,10 @@
     <x>0</x>
     <y>0</y>
     <width>423</width>
-    <height>577</height>
+    <height>502</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
     <widget class="QCheckBox" name="kcfg_ShowCLines" >
      <property name="toolTip" >
@@ -36,6 +27,13 @@
     <widget class="QCheckBox" name="kcfg_ShowCBounds" >
      <property name="text" >
       <string>Constellation &amp;boundaries</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_ShowHighlightedCBound" >
+     <property name="text" >
+      <string>Highlight central constellation boundary</string>
      </property>
     </widget>
    </item>
@@ -58,11 +56,20 @@
       <string>Constellation Name Options</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
+      </property>
+      <property name="leftMargin" >
+       <number>8</number>
+      </property>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
       </property>
       <item>
        <widget class="QRadioButton" name="kcfg_UseLatinConstellNames" >
