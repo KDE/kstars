@@ -103,7 +103,7 @@ void SkyLabeler::drawOffsetLabel( QPainter& psky, const QPointF& p, const QStrin
 
 void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& text )
 {
-    if ( ! mark( p, text ) ) return;
+    if ( ! markText( p, text ) ) return;
 
     if ( Options::useAntialias() )  {
         psky.drawText( p, text );
@@ -203,7 +203,15 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
 //
 // This code is easy to break and hard to fix.
 
-bool SkyLabeler::mark( const QPointF& p, const QString& text )
+bool SkyLabeler::markText( const QPointF& p, const QString& text )
+{
+
+    qreal maxX =  p.x() + m_fontMetrics.width( text );
+	qreal minY = p.y() - m_fontMetrics.height();
+	return markRegion( p.y(), minY, p.x(), maxX );
+}
+
+bool SkyLabeler::markRegion( qreal top, qreal bot, qreal left, qreal right )
 {
     if ( m_maxY < 1 ) {
         if ( ! m_errors++ )
@@ -211,20 +219,27 @@ bool SkyLabeler::mark( const QPointF& p, const QString& text )
         return true;
     }
 
-    // setup min/max x/y of rectangluar region covering text
-    // no range checking for x
+    // setup x coordinates of rectangular region
+	int minX = int( left );
+	int maxX = int( right );
+	if (maxX < minX) {
+		maxX = minX;
+		minX = int( right );
+	}
 
-    int minX = int( p.x() );
-    int maxX = int( p.x() + m_fontMetrics.width( text ) );
+    // setup y coordinates
+    int maxY = int( bot / m_yScale );
+	int minY = int( top / m_yScale );
 
-    // but we still need range checking for y
-    //
-    int maxY = int( p.y()  / m_yScale);
     if ( maxY < 0 ) maxY = 0;
     if ( maxY > m_maxY ) maxY = m_maxY;
-
-    int minY = int( (p.y() - m_fontMetrics.height() ) / m_yScale);
     if ( minY < 0 ) minY = 0;
+    if ( minY > m_maxY ) minY = m_maxY;
+
+	if ( maxY < minY ) {
+		maxY = minY;
+		minY = int( bot / m_yScale );
+	}
 
     // check to see if we overlap any existing label
     // We must check all rows before we start marking

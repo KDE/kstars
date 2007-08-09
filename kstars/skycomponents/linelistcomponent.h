@@ -58,10 +58,15 @@ class LineListComponent : public SkyComponent
 		inline const QPen& pen() const { return Pen; }
 		inline void setPen( const QPen &p ) { Pen = p; }
 
-		/**Draw the list of objects on the SkyMap*/
+		/* @short Draw the list of objects on the SkyMap
+		 */
 		virtual void draw( KStars *ks, QPainter& psky, double scale );
 		
-
+		/* @short draw the label if any.  Is currently called at the bottom of
+		 * draw() but that call could be removed and it could be called
+		 * externally AFTER draw() has been called so draw() can set up the label
+		 * position candidates.
+		 */
 		void drawLabels( KStars* kstars, QPainter& psky, double scale );
 
 		/**Draw the object, if it is exportable to an image
@@ -84,8 +89,12 @@ class LineListComponent : public SkyComponent
 			*/
 		virtual void update( KStarsData *data, KSNumbers *num=0 );
 		
+		/* @short returns pointer to the points list.
+		 */
         inline QList<SkyPoint*>* points() { return &pointList; }
 
+		/* @short a convenience routine to append a SkyPoint to the points list.
+		 */
         inline void appendP( SkyPoint* p ) {
             pointList.append( p ); 
         }
@@ -98,12 +107,24 @@ class LineListComponent : public SkyComponent
 		QPen Pen;
 
 		SkyLabeler* m_skyLabeler;
-		//int m_labelIndex[4];
-		int m_iLeft, m_iRight, m_iTop, m_iBot;
+		int m_iLeft, m_iRight, m_iTop, m_iBot;  // the four label position
+												// candidates
 
+
+		/* @short This routine does two things at once.  It returns the QPointF
+		 * coresponding to pointList[i] and also computes the angle using
+		 * pointList[i] and pointList[i-1] therefore you MUST ensure that:
+		 *
+		 *       1 <= i < pointList.size().
+		 */
 		QPointF angleAt( SkyMap* map, int i, double *angle, double scale );
 
-		void drawTheLabel( QPainter& psky, QPointF& o, double angle );
+		/* @short Tries to draw the label at the position and angle specfied. If
+		 * the label would overlap an existing label it is not drawn and we
+		 * return false, otherwise the label is drawn, its position is marked
+		 * and we return true.
+		 */
+		bool drawTheLabel( QPainter& psky, QPointF& o, double angle );
 };
 
 #endif

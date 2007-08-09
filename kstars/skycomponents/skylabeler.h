@@ -45,7 +45,7 @@ enum label_t {
           PLANET_LABEL,
     JUPITER_MOON_LABEL,
         DEEP_SKY_LABEL,
-    CONSTEL_NAME_LABEL,         
+    CONSTEL_NAME_LABEL,
        NUM_LABEL_TYPES
 };
 
@@ -58,8 +58,8 @@ enum label_t {
  * a label, call mark( QPointF, QString ) of that label.  We will check to see
  * if it would overlap any existing label.  If there is overlap we return false.
  * If there is no overlap then we mark all the pixels that cover the new label
- * and return true.  
- * 
+ * and return true.
+ *
  * Since we need to check for overlap for every label every time it is
  * potentially drawn on the screen, efficiency is essential.  So instead of
  * having a 2-dimensional array of boolean values we use Run Length Encoding
@@ -76,7 +76,7 @@ enum label_t {
  * pixel.  A LabelRow is a list of LabelRun's stored in ascending order.  This
  * saves a lot of space over an explicit array and it also makes checking for
  * overlaps faster and even makes inserting new overlaps faster on average.
- * 
+ *
  * Synopsis:
  *
  *   1) Create a new SkyLabeler
@@ -105,7 +105,7 @@ enum label_t {
  * drawn.
  *
  * Finally, even though this code was written to be very efficient, we might
- * want to take some care in how many labels we throw at it.  Sending it 
+ * want to take some care in how many labels we throw at it.  Sending it
  * a large number of overlapping labels can be wasteful. Also, if one type
  * of object floods it with labels early on then there may not be any room
  * left for other types of labels.  Therefore for some types of objects (stars)
@@ -118,7 +118,7 @@ enum label_t {
  * the magnitude limits.  It may even be possible to have KStars do some of
  * this throttling automatically but I haven't really thought about that
  * problem yet.
- * 
+ *
  * -- James B. Bowlin  2007-08-02
  */
 
@@ -126,7 +126,7 @@ enum label_t {
 class SkyLabeler {
 	public:
 
-        //----- Static Methods ----------------------------------------------//        
+        //----- Static Methods ----------------------------------------------//
 
         /* @short adjusts the font in psky to be smaller if we are zoomed out.
          * This static function allows us to prevent code duplication since it
@@ -146,6 +146,7 @@ class SkyLabeler {
         //----- Constructor, Destructor -------------------------------------//
 
         SkyLabeler();
+
         ~SkyLabeler();
 
         /* @short clears the virtual screen (if needed) and resizes the virtual
@@ -194,18 +195,23 @@ class SkyLabeler {
          * It is usually easier to use drawLabel() or drawLabelOffest() instead
          * which both call mark() internally.
          */
-        bool mark( const QPointF& p, const QString& text);
+        bool markText( const QPointF& p, const QString& text);
+
+		/* @short Works just like markText() above but for an arbitrary
+		 * rectangular region bounded by top, bot, left, and right.
+		 */
+        bool markRegion( qreal top, qreal bot, qreal left, qreal right );
 
         /* @short sets the font in SkyLabeler and in psky to the font psky
          * had originally when reset() was called.  Used by ConstellationNames.
          */
-        void useStdFont(QPainter& psky); 
+        void useStdFont(QPainter& psky);
 
         /* @short sets the font in SkyLabeler and in psky back to the zoom
          * dependent value that was set in reset().  Also used in
          * ConstellationLines.
          */
-        void resetFont(QPainter& psky);  
+        void resetFont(QPainter& psky);
 
         /* @short queues the label in the "type" buffer for later drawing.
          */
@@ -261,10 +267,8 @@ class SkyLabeler {
         int hits()  { return m_hits; };
         int marks() { return m_marks; }
 
-        char *labelName[NUM_LABEL_TYPES];
-
     private:
-        ScreenRows screenRows;       
+        ScreenRows screenRows;
 
         int m_maxX;
         int m_maxY;
@@ -285,6 +289,8 @@ class SkyLabeler {
         QFontMetricsF m_fontMetrics;
 
         QVector<LabelList>   labelList;
+
+        char *labelName[NUM_LABEL_TYPES];
 
 };
 
