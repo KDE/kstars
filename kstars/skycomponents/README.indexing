@@ -256,16 +256,19 @@ structures, we have several different classes to handle them.
 
 Class Structure:
 
-Index classes
+Index Classes
 -------------
 
   + LineListIndex
     - ConstellationLines
+    + SkipListIndex
+      - MilkWay
     + NoPrecessIndex
       - CoordinateGrid
       - ConsellationBoundary
-    + SkipListIndex
-      - MilkWay
+      + LabeledListIndex
+	    - Ecliptic
+		- Equator
 
   + PolyListIndex
     - ConstellationBoundaryPoly
@@ -285,7 +288,12 @@ The three abstract index classes and their associated data containers:
         ||               ||                  ||
      LineList         SkipList            PolyList
 
-NoPrecessIndex uses the plain LineList data container.
+NoPrecessIndex and LabeledListIndex uses the plain LineList data
+container. NoPrecessIndex does not precess the data in the containers
+and LabeledListIndex additionally allows a single label to be added to a
+curved line (equator, ecliptic).  The LabeledListIndex code could easily
+be combined into NoPrecessIndex but I think it is more clear as a
+separate subclass at the expense of almost repeated code.
 
 The LineList/LineListIndex (which we will call LineList[Index] for
 brevity) provide the base for all the other classes.  They can be used
@@ -380,13 +388,15 @@ have header files and no .cpp files.
 
 The End Use Classes
 
-There are currently (as of 2007/07/12) five different end use classes:
+There are currently (as of 2007/08/09) seven different end use classes:
 
     - CoordinateGrid
     - ConstellationLines
     - ConsellationBoundary
     - MilkWay
     - ConstellationBoundaryPoly
+	- Ecliptic
+	- Equator
 
 These classes are typically small and simple, with just an init()
 routine to populate and append a bunch of LineList's (or their

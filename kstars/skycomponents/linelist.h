@@ -54,7 +54,8 @@ class LineList
          * (or whatever).
          */
         SkyList* points() { return &pointList; }
-
+        SkyPoint* at( int i ) { return pointList.at( i ); }
+		void append( SkyPoint* p ) { pointList.append( p ); }
     private:
         SkyList pointList;
         

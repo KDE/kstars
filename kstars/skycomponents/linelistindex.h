@@ -129,6 +129,11 @@ class LineListIndex : public SkyComposite
          */
         virtual bool skipAt( LineList* lineList, int i );
 
+		
+		virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
+
+		virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i );
+
         /* @short a callback overridden by NoPrecessIndex so it can use the
          * drawing code with the non-reverse-precessed mesh buffer.
          */

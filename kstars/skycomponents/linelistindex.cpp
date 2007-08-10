@@ -174,6 +174,13 @@ bool LineListIndex::skipAt( LineList* lineList, int i )
 }                                      // -jbb
 
 
+// Yet another 2 callbacks.  These are used in LabeledListIndex
+void LineListIndex::updateLabelCandidates( const QPointF& o, LineList* lineList, int i )
+{}
+
+void LineListIndex::updateLabelCandidates( const QPoint& o, LineList* lineList, int i )
+{}
+
 //-----------------------------------------------------------------------------
 // The four^H^H six drawing routines below are very, very similar.  I think any
 // further compactification of the code will move more decisions into the inner
@@ -221,6 +228,7 @@ void LineListIndex::drawAllLinesInt( KStars *kstars, QPainter& psky, double scal
 
                     if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
+						updateLabelCandidates( oThis, lineList, i );
                     }
                     else if ( isVisibleLast ) {
                         oMid = map->clipLineI( pLast, pThis, scale );
@@ -282,6 +290,7 @@ void LineListIndex::drawAllLinesFloat( KStars *kstars, QPainter& psky, double sc
 
                     if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast, oThis );
+						updateLabelCandidates( oThis, lineList, i );
                     }
                     else if ( isVisibleLast ) {
                         oMid = map->clipLineI( pLast, pThis, scale );
@@ -339,6 +348,7 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
 
                     if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
+						updateLabelCandidates( oThis, lineList, i );
                     }
                     else if ( isVisibleLast ) {
                         oMid = map->clipLineI( pLast, pThis, scale );
@@ -396,6 +406,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
 
                     if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast, oThis );
+						updateLabelCandidates( oThis, lineList, i );
                     }
                     else if ( isVisibleLast ) {
                         oMid = map->clipLineI( pLast, pThis, scale );

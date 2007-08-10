@@ -34,8 +34,8 @@
 #include "coordinategrid.h"
 #include "customcatalogcomponent.h"
 #include "deepskycomponent.h"
-#include "equatorcomponent.h"
-#include "eclipticcomponent.h"
+#include "equator.h"
+#include "ecliptic.h"
 #include "horizoncomponent.h"
 #include "jupitermoonscomponent.h"
 #include "milkyway.h"
@@ -81,10 +81,10 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
 	m_CNames = new ConstellationNamesComponent( this );
 	addComponent( m_CNames );
 
-	m_Equator = new EquatorComponent( this );
+	m_Equator = new Equator( this );
 	addComponent( m_Equator );
 
-	m_Ecliptic = new EclipticComponent( this );
+	m_Ecliptic = new Ecliptic( this );
 	addComponent( m_Ecliptic );
 
 	m_Horizon = new HorizonComponent( this );
@@ -133,9 +133,9 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 	//5. Constellation names
 	m_CNames->update( data, num );
 	//6. Equator
-	m_Equator->update( data, num );
+	//m_Equator->update( data, num );
 	//7. Ecliptic
-	m_Ecliptic->update( data, num );
+	//m_Ecliptic->update( data, num );
 	//8. Deep sky
 	//m_DeepSky->update( data, num );
 	//9. Custom catalogs

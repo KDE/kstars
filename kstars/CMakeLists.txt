@@ -128,6 +128,7 @@ set(libkstarscomponents_SRCS
    skycomponents/skymapcomposite.cpp 
    skycomponents/skymesh.cpp
    skycomponents/linelistindex.cpp
+   skycomponents/labeledlistindex.cpp
    skycomponents/noprecessindex.cpp
    skycomponents/skiplistindex.cpp
    skycomponents/polylistindex.cpp
@@ -151,8 +152,8 @@ set(libkstarscomponents_SRCS
    skycomponents/constellationlines.cpp 
    skycomponents/constellationnamescomponent.cpp 
    skycomponents/coordinategrid.cpp 
-   skycomponents/eclipticcomponent.cpp 
-   skycomponents/equatorcomponent.cpp 
+   skycomponents/ecliptic.cpp 
+   skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 
    skycomponents/milkyway.cpp 
    skycomponents/skycomponent.cpp 

@@ -42,6 +42,7 @@ void NoPrecessIndex::draw( KStars *kstars, QPainter &psky, double scale )
 
     preDraw( kstars, psky );
    
+	/**
     if ( lastZoom ^ skyMesh()->isZoomedIn() ) {
         lastZoom = skyMesh()->isZoomedIn();
         if ( lastZoom ) 
@@ -49,6 +50,7 @@ void NoPrecessIndex::draw( KStars *kstars, QPainter &psky, double scale )
         else
             printf("Zoomed out.\n");
     }
+	**/
     
     if ( skyMesh()->isZoomedIn() ) {
         if ( Options::useAntialias() )

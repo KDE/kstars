@@ -36,8 +36,8 @@ class ConstellationLines;
 class ConstellationNamesComponent;
 class CoordinateGrid;
 class DeepSkyComponent;
-class EclipticComponent;
-class EquatorComponent;
+class Ecliptic;
+class Equator;
 class HorizonComponent;
 class MilkyWay;
 class SolarSystemComposite;
@@ -188,20 +188,20 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void progressText( const QString &message );
 
 	private:
-		ConstellationBoundary *m_CBounds;
-		ConstellationBoundaryPoly *m_CBoundsBoundary;
+		ConstellationBoundary       *m_CBounds;
+		ConstellationBoundaryPoly   *m_CBoundsBoundary;
 		ConstellationNamesComponent *m_CNames;
-		ConstellationLines *m_CLines;
-		CoordinateGrid *m_CoordinateGrid;
-		DeepSkyComponent *m_DeepSky;
-		EquatorComponent *m_Equator;
-		EclipticComponent *m_Ecliptic;
-		HorizonComponent *m_Horizon;
-		MilkyWay *m_MilkyWay;
-		SolarSystemComposite *m_SolarSystem;
-		SkyComposite *m_CustomCatalogs;
-		StarComponent *m_Stars;
-		SatelliteComposite *m_Satellites;
+		ConstellationLines          *m_CLines;
+		CoordinateGrid              *m_CoordinateGrid;
+		DeepSkyComponent            *m_DeepSky;
+		Equator                     *m_Equator;
+		Ecliptic                    *m_Ecliptic;
+		HorizonComponent            *m_Horizon;
+		MilkyWay                    *m_MilkyWay;
+		SolarSystemComposite        *m_SolarSystem;
+		SkyComposite                *m_CustomCatalogs;
+		StarComponent               *m_Stars;
+		SatelliteComposite          *m_Satellites;
 
         SkyMesh*                m_skyMesh;
         SkyLabeler*             m_skyLabeler;
