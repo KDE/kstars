@@ -287,7 +287,7 @@ void KStars::initActions() {
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
 	colorActionMenu = actionCollection()->add<KActionMenu>( "colorschemes" );
 	colorActionMenu->setText( i18n( "C&olor Schemes" ) );
-	addColorMenuItem( i18n( "&Default" ), "cs_default" );
+	addColorMenuItem( i18n( "&Classic" ), "cs_classic" );
 	addColorMenuItem( i18n( "&Star Chart" ), "cs_chart" );
 	addColorMenuItem( i18n( "&Night Vision" ), "cs_night" );
 	addColorMenuItem( i18n( "&Moonless Night" ), "cs_moonless-night" );

@@ -101,7 +101,7 @@ install( FILES kstars.png geomap.png
 	moon24.png moon25.png moon26.png moon27.png moon28.png moon29.png 
 	moon30.png moon31.png moon32.png moon33.png moon34.png moon35.png 
 	wzstars.png wzgeo.png wzscope.png wzdownload.png wizardside.png 
-	chart.colors default.colors moonless-night.colors night.colors 
+	chart.colors classic.colors moonless-night.colors night.colors 
 	tips TZrules.dat valaav.txt advinterface.dat satellites.dat
 	histogram.png noimage.png glossary.xml  
 	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
