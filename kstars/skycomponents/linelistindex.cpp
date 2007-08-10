@@ -53,7 +53,7 @@
 LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )
   : SkyComposite( parent ), m_name(name) 
 {
-    m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
+    m_skyMesh = SkyMesh::Instance();
     m_lineIndex = new LineListHash();
     m_polyIndex = new LineListHash();
     m_lineIndexCnt = m_polyIndexCnt = 0;

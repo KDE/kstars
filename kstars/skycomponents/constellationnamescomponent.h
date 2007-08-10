@@ -79,8 +79,6 @@ class ConstellationNamesComponent : public ListComponent
 
         bool selected();
 
-    private:
-        SkyLabeler* m_skyLabeler;
 };
 
 #endif

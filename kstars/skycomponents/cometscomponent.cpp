@@ -34,7 +34,6 @@
 CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize ) 
 : SolarSystemListComponent( parent, visibleMethod, msize ) 
 {
-    m_skyLabeler = parent->skyLabeler();
 }
 
 CometsComponent::~CometsComponent() {
@@ -114,6 +113,6 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
         if (  com->rsun() >= Options::maxRadCometName() ) continue;
 
 		//Queue label
-        m_skyLabeler->addOffsetLabel( o, com->translatedName(), COMET_LABEL );
+		SkyLabeler::Instance()->addOffsetLabel( o, com->translatedName(), COMET_LABEL );
 	}
 }

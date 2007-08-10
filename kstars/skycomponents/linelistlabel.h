@@ -38,7 +38,7 @@ class LineListLabel
 {
 	public:
 	
-		LineListLabel( SkyComponent* parent, const QString& text );
+		LineListLabel( const QString& text );
 
 		enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
 

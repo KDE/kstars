@@ -39,15 +39,14 @@
 StarComponent::StarComponent(SkyComponent *parent ) 
 : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0)
 {
-    m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
-    m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
+    m_skyMesh = SkyMesh::Instance();
 
     m_starIndex = new StarIndex();
     for (int i = 0; i < m_skyMesh->size(); i++) {
         m_starIndex->append( new StarList() );
     }
-    m_highPMStars.append( new HighPMStarList( m_skyMesh, 840.0 ) );
-    m_highPMStars.append( new HighPMStarList( m_skyMesh, 304.0 ) );
+    m_highPMStars.append( new HighPMStarList( 840.0 ) );
+    m_highPMStars.append( new HighPMStarList( 304.0 ) );
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
 
     lastFilePos = 0;
@@ -228,7 +227,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
                     sName.sprintf("%.1f", curStar->mag() );
             }
     
-            m_skyLabeler->addLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
+			SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
 	    }
     }
 }

@@ -84,7 +84,7 @@ void MilkyWay::init( KStarsData *data )
             continue;
         }
 
-		skipList->points()->append( new SkyPoint(ra, dec) );
+		skipList->append( new SkyPoint(ra, dec) );
         lastRa = ra;
         lastDec = dec;
 		if ( firstChar == 'S' ) skipList->setSkip( iSkip );

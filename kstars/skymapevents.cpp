@@ -353,13 +353,13 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             break;
 **/
         case Qt::Key_B:  // print labeler info
-            data->skyComposite()->skyLabeler()->printInfo();
+			SkyLabeler::Instance()->printInfo();
             break;
         case Qt::Key_F:  // print labeler info
-            data->skyComposite()->skyLabeler()->decDensity();
+			SkyLabeler::Instance()->decDensity();
             break;
         case Qt::Key_G:  // print labeler info
-            data->skyComposite()->skyLabeler()->incDensity();
+			SkyLabeler::Instance()->incDensity();
             break;
 
 

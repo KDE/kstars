@@ -31,9 +31,7 @@
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent )
 : ListComponent(parent )
-{
-    m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
-}
+{}
 
 ConstellationNamesComponent::~ConstellationNamesComponent() 
 {}
@@ -124,7 +122,7 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 
         float dx = 5.*( name.length() );
         o.setX( o.x() - dx );
-        m_skyLabeler->addLabel( o, name, CONSTEL_NAME_LABEL);
+		SkyLabeler::Instance()->addLabel( o, name, CONSTEL_NAME_LABEL);
     }
 
     //m_skyLabeler->resetFont( psky );

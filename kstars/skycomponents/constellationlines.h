@@ -23,9 +23,6 @@
 #include "linelistindex.h"
 #include "ksnumbers.h"
 
-class SkyMesh;
-class LineListComponent;
-
    /*
 	*@class ConstellationLines
 	*Collection of lines making the 88 constellations
@@ -40,7 +37,6 @@ class ConstellationLines : public LineListIndex
 	public:
 	   /* @short Constructor
 	    * @p parent Pointer to the parent SkyComponent object
-        * @p mesh Pointer to the one true SkyMesh used for indexing.
 		*/
 		ConstellationLines( SkyComponent *parent );
 

@@ -94,16 +94,25 @@ class QPainter;
 
 class SkyMesh : public HTMesh
 {
-    public:
+	protected:
 
-        /* Constructor.  The level indicates how fine a mesh we will use. The
-         * number of triangles (trixels) in the mesh will be 8 * 4^level so a
-         * mesh of level 5 will have 8 * 4^5 = 8 * 2^10 = 8192 trixels.
-         * The size of the triangles are roughly pi / * 2^(level + 1) so
-         * a level 5 mesh will have triagles size roughly of .05 radians or 2.8
-         * degrees.
+		SkyMesh( KStarsData* data, int level );
+		SkyMesh( SkyMesh& skyMesh );
+
+    public:
+		/* @short creates the single instance of SkyMesh.  The level indicates
+		 * how fine a mesh we will use. The number of triangles (trixels) in the
+		 * mesh will be 8 * 4^level so a mesh of level 5 will have 8 * 4^5 = 8 *
+		 * 2^10 = 8192 trixels.  The size of the triangles are roughly pi / *
+		 * 2^(level + 1) so a level 5 mesh will have triagles size roughly of
+		 * .05 radians or 2.8 degrees.
          */
-        SkyMesh( KStarsData* data, int level );
+		static SkyMesh* Create( KStarsData* data, int level );
+
+		/* @short returns the single instance of SkyMesh or null if it has not
+		 * yet been created.
+		 */
+		static SkyMesh* Instance();
 
         /**@short finds the set of trixels that cover the circular aperture
          * specified after first performing a reverse precession correction on
@@ -280,6 +289,8 @@ class SkyMesh : public HTMesh
         KStarsData* m_data;
         KSNumbers   m_KSNumbers;
         int         m_zoomedInPercent;
+
+		static SkyMesh* pinstance;
 };
 
 #endif

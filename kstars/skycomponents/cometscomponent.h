@@ -75,9 +75,6 @@ class CometsComponent : public SolarSystemListComponent
 		*@li 94-98 Magnitude [double]
 		*/
 		virtual void init(KStarsData *data);
-	
-    private:
-        SkyLabeler* m_skyLabeler;
 
 };
 

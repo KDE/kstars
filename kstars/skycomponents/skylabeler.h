@@ -123,10 +123,17 @@ enum label_t {
  */
 
 
-class SkyLabeler {
+class SkyLabeler
+{
+	protected:
+		SkyLabeler();
+		SkyLabeler( SkyLabeler& skyLabler );
+
 	public:
 
 		//----- Static Methods ----------------------------------------------//
+
+		static SkyLabeler* Instance();
 
 		/* @short adjusts the font in psky to be smaller if we are zoomed out.
 		 * This static function allows us to prevent code duplication since it
@@ -142,11 +149,7 @@ class SkyLabeler {
 		 */
 		static double zoomOffset( double scale );
 
-
-		//----- Constructor, Destructor -------------------------------------//
-
-		SkyLabeler();
-
+		//--------------------------------------------------------------------//
 		~SkyLabeler();
 
 		/* @short clears the virtual screen (if needed) and resizes the virtual
@@ -316,6 +319,7 @@ class SkyLabeler {
 
 		char *labelName[NUM_LABEL_TYPES];
 
+		static SkyLabeler* pinstance;
 };
 
 #endif

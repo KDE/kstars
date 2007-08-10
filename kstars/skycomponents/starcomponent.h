@@ -102,7 +102,6 @@ class StarComponent: public ListComponent
 	private:
         SkyMesh*       m_skyMesh;
         StarIndex*     m_starIndex;
-        SkyLabeler*    m_skyLabeler;
 
         KSNumbers      m_reindexNum;
         double         m_reindexInterval;

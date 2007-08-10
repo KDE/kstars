@@ -30,9 +30,11 @@ typedef struct HighPMStar
 } HighPMStar;
 
 
-HighPMStarList::HighPMStarList( SkyMesh* mesh, double threshold )
-    : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0), m_skyMesh(mesh)
-{}
+HighPMStarList::HighPMStarList( double threshold )
+    : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0) 
+{
+	m_skyMesh = SkyMesh::Instance();
+}
 
 HighPMStarList::~HighPMStarList()
 {

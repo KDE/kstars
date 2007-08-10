@@ -21,8 +21,6 @@
 #include "linelistindex.h"
 #include "skiplist.h"
 
-class SkyMesh;
-
 /* @class SkipListIndex
  * This class should store SkipLists instead of LineLists.  The two methods
  * are used inside of LineListIndex to access the SkipLists' skip hashes.

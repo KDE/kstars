@@ -125,7 +125,7 @@ void ConstellationBoundary::init( KStarsData *data ) {
 
             SkyPoint* point = new SkyPoint( ra, dec );
             point->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            lineList->points()->append( point );
+            lineList->append( point );
             lastRa  = ra;
             lastDec = dec;
         }

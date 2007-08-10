@@ -25,10 +25,10 @@
 #include "skylabeler.h"
 #include "linelist.h"
 
-LineListLabel::LineListLabel( SkyComponent* parent, const QString& text ) 
+LineListLabel::LineListLabel( const QString& text ) 
 	: m_text( text )
 {
-	m_skyLabeler = ((SkyMapComposite*)parent)->skyLabeler();
+	m_skyLabeler = SkyLabeler::Instance();
 }
 
 void LineListLabel::reset( QPainter &psky )

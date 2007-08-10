@@ -72,7 +72,7 @@ void CoordinateGrid::init( KStarsData *data )
                 //printf("%4d %6.2f ", components().size(), dec2);
                 SkyPoint* p = new SkyPoint( ra, dec2 );
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-                lineList->points()->append( p );
+                lineList->append( p );
             }
 
             appendLine( lineList );
@@ -88,7 +88,7 @@ void CoordinateGrid::init( KStarsData *data )
                 //printf("%4d %6.2f ", components().size(), ra2);
                 SkyPoint* p = new SkyPoint( ra2, dec );
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-                lineList->points()->append( p );
+                lineList->append( p );
            }
            appendLine( lineList );
            //printf("\n");

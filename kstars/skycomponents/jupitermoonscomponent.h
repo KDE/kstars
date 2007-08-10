@@ -71,7 +71,6 @@ class JupiterMoonsComponent : public SkyComponent
 
 		JupiterMoons *jmoons;
 		SolarSystemSingleComponent *m_Jupiter;
-        SkyLabeler* m_skyLabeler;
 };
 
 #endif

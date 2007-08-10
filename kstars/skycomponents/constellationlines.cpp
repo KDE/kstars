@@ -97,7 +97,7 @@ void ConstellationLines::init( KStarsData *data ) {
 
         StarObject *star = (StarObject*) data->skyComposite()->findStarByGenetiveName( name );
         if ( star && lineList ) {
-            lineList->points()->append( star );
+            lineList->append( star );
             double pm = star->pmMagnitude();
             if ( maxPM < pm ) maxPM = pm;
         }

@@ -35,7 +35,7 @@
 PolyListIndex::PolyListIndex( SkyComponent *parent )
   : SkyComposite( parent)
 {   
-    m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
+    m_skyMesh = SkyMesh::Instance();
     m_polyIndexCnt = 0;
     for (int i = 0; i < skyMesh()->size(); i++) {
         m_polyIndex.append( new PolyListList() );
@@ -102,7 +102,7 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
 
         for (int i = 0; i < polyListList->size(); i++) {
             PolyList* polyList = polyListList->at( i );
-            polyHash.insert( (PolyList*) polyList, true );
+            polyHash.insert( polyList, true );
         }
     }
 

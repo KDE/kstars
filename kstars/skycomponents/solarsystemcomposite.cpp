@@ -40,7 +40,6 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
   : SkyComposite(parent)
 {
 
-    m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
 	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
 	m_Sun = new KSSun(data);

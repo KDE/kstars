@@ -50,9 +50,9 @@
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : 
     SkyComposite(parent), m_reindexNum( J2000 )
 {
-    m_skyLabeler = new SkyLabeler();
+    m_skyLabeler = SkyLabeler::Instance();
 
-    m_skyMesh = new SkyMesh( data, 5 );  // level 5 mesh = 8192 trixels
+    m_skyMesh = SkyMesh::Create( data, 5 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
                                          //  2 => prints totals too

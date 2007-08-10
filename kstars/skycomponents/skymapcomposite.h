@@ -180,9 +180,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		KSPlanet* earth();
 
 		QList<SkyComponent*> customCatalogs(); 
-
-        SkyMesh*    skyMesh() { return m_skyMesh; }
-        SkyLabeler* skyLabeler() { return m_skyLabeler; }
         
 	signals:
 		void progressText( const QString &message );

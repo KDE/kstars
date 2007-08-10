@@ -31,6 +31,20 @@
 #include "skymap.h"
 #include "kstarsdata.h"
 
+SkyMesh* SkyMesh::pinstance = 0;
+
+SkyMesh* SkyMesh::Create( KStarsData* data, int level )
+{
+	if ( pinstance ) delete pinstance;
+	pinstance = new SkyMesh( data, level );
+	return pinstance;
+}
+
+SkyMesh* SkyMesh::Instance( )
+{
+	return pinstance;
+}
+
 SkyMesh::SkyMesh( KStarsData* data, int level) :
     HTMesh(level, level, NUM_MESH_BUF),
     m_drawID(0), m_data( data ), m_KSNumbers( 0 )

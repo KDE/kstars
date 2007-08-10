@@ -40,7 +40,7 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
 	m_ICList = QList<DeepSkyObject*>();
 	m_OtherList = QList<DeepSkyObject*>();
 
-    m_skyMesh = ((SkyMapComposite*) parent)->skyMesh();
+    m_skyMesh = SkyMesh::Instance();
 }
 
 DeepSkyComponent::~DeepSkyComponent()

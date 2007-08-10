@@ -30,7 +30,7 @@
 
 Ecliptic::Ecliptic(SkyComponent *parent ) : 
    LineListIndex( parent, i18n("Ecliptic") ), 
-	m_label( parent, i18n("Ecliptic") )
+	m_label( LineListIndex::name() )
 {}
 
 

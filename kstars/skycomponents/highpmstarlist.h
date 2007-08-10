@@ -42,7 +42,7 @@ class HighPMStarList
 	public:
         /* @short Constructor
          */
-        HighPMStarList( SkyMesh* mesh, double threshold );
+        HighPMStarList( double threshold );
 
         ~HighPMStarList();
 

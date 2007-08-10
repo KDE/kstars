@@ -32,7 +32,7 @@
 LineListComponent::LineListComponent( SkyComponent *parent )
 	: SkyComponent( parent ), LabelPosition( NoLabel ), Label( QString() )
 {
-	m_skyLabeler = ((SkyMapComposite*) parent)->skyLabeler();
+	m_skyLabeler = SkyLabeler::Instance();
 }
 
 LineListComponent::~LineListComponent()

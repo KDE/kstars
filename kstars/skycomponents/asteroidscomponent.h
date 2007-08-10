@@ -22,7 +22,6 @@
 #include <QList>
 #include "typedef.h"
 
-class SkyMesh;
 class SkyLabeler;
 class SolarSystemComposite;
 
@@ -88,9 +87,7 @@ class AsteroidsComponent: public SolarSystemListComponent
         void update( KStarsData *data, KSNumbers *num );
 
     private:
-        SkyMesh*    m_skyMesh;
         AsterIndex  m_asterIndex;
-        SkyLabeler* m_skyLabeler;
 
 };
 

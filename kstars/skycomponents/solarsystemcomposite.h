@@ -67,8 +67,6 @@ class SolarSystemComposite : public SkyComposite
 		void reloadAsteroids( KStarsData *data );
 		void reloadComets( KStarsData *data );
 
-        SkyLabeler* skyLabeler() { return m_skyLabeler; }
-
 	private:
 		KSPlanet *m_Earth;
 		KSSun *m_Sun;

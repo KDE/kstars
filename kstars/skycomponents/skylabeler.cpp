@@ -42,6 +42,15 @@ typedef struct LabelRun
 
 //----- Static Methods ------------------------------------------------------//
 
+
+SkyLabeler* SkyLabeler::pinstance = 0;
+SkyLabeler* SkyLabeler::Instance( )
+{
+	if ( ! pinstance ) pinstance = new SkyLabeler();
+	return pinstance;
+}
+
+
 void SkyLabeler::setZoomFont( QPainter& psky )
 {
     QFont font( psky.font() );

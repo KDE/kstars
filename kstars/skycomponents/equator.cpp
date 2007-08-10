@@ -30,7 +30,7 @@
 
 Equator::Equator(SkyComponent *parent ) : 
     NoPrecessIndex( parent, i18n("Equator") ),
-	m_label( parent, i18n("Equator") )
+	m_label( LineListIndex::name() )
 {}
 
 bool Equator::selected()
@@ -73,4 +73,3 @@ void Equator::init(KStarsData *data)
 		appendLine( lineList );
 	}
 }
-

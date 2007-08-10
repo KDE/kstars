@@ -37,7 +37,6 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
 	sizeScale = 1.0;
 	setStoredObject( kspb );
 	m_Earth = parent->earth();
-    m_skyLabeler = parent->skyLabeler();
 }
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
@@ -174,8 +173,8 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
    	if ( ! Options::showPlanetNames() ) return;
 
     float offset = ksp()->labelOffset();
-    m_skyLabeler->addLabel( QPointF( o.x() + offset, o.y() + offset ), ksp()->translatedName(),
-            PLANET_LABEL );
+	SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset ), 
+			ksp()->translatedName(), PLANET_LABEL );
 }
 
 void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {

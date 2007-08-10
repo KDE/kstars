@@ -35,9 +35,7 @@
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
 : SolarSystemListComponent(parent, visibleMethod, msize)
-{
-    m_skyLabeler = parent->skyLabeler();
-}
+{}
 
 AsteroidsComponent::~AsteroidsComponent()
 {
@@ -128,7 +126,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
              ast->mag() >= Options::magLimitAsteroidName() ) continue;
 
 		//Queue Name
-        m_skyLabeler->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
+		SkyLabeler::Instance()->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
     }
 }
 
