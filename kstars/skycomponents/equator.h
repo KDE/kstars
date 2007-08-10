@@ -18,7 +18,8 @@
 #ifndef EQUATOR_H
 #define EQUATOR_H
 
-#include "labeledlistindex.h"
+#include "noprecessindex.h"
+#include "linelistlabel.h"
 
 class KStarsData;
 
@@ -29,7 +30,7 @@ class KStarsData;
 	*@author James B. Bowlin
 	*@version 0.1
 	*/
-class Equator : public LabeledListIndex
+class Equator : public NoPrecessIndex
 {
 	public:
 
@@ -40,6 +41,16 @@ class Equator : public LabeledListIndex
 		Equator( SkyComponent *parent );
 
 		void preDraw( KStars *kstars, QPainter& psky );
+		
+		void draw( KStars *kstars, QPainter& psky, double scale );
+
+		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+			m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
+		}
+
+		void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
+			m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
+		}
 
 		/**@short Initialize the Equator
 		 *@p data pointer to the KStarsData object
@@ -47,6 +58,10 @@ class Equator : public LabeledListIndex
 		virtual void init( KStarsData *data );
 
         bool selected();
+
+	private:
+		
+		LineListLabel m_label;
 };
 
 #endif

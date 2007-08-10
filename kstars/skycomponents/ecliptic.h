@@ -18,8 +18,8 @@
 #ifndef ECLIPTIC_H
 #define ECLIPTIC_H
 
-#include "labeledlistindex.h"
-
+#include "linelistindex.h"
+#include "linelistlabel.h"
 class KStarsData;
 
 /**
@@ -29,7 +29,7 @@ class KStarsData;
 	*@author James B. Bowlin
 	*@version 0.1
 	*/
-class Ecliptic : public LabeledListIndex
+class Ecliptic : public LineListIndex
 {
 	public:
 
@@ -39,7 +39,7 @@ class Ecliptic : public LabeledListIndex
 		 */
 		Ecliptic( SkyComponent *parent );
 
-		void preDraw( KStars *kstars, QPainter& psky );
+		void draw( KStars *kstars, QPainter& psky, double scale );
 
 		/**@short Initialize the Ecliptic
 		 *@p data pointer to the KStarsData object
@@ -47,6 +47,18 @@ class Ecliptic : public LabeledListIndex
 		virtual void init( KStarsData *data );
 
         bool selected();
+
+		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+			m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
+		}
+
+		void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
+			m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
+		}
+
+	private:
+		LineListLabel m_label;
+
 };
 
 #endif

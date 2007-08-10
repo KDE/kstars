@@ -1,5 +1,5 @@
 /***************************************************************************
-					labeledlistindex.cpp -  K Desktop Planetarium
+					linelistlabel.cpp -  K Desktop Planetarium
 							 -------------------
 	begin				: 2007-08-08
 	copyright			: (C) 2007 James B. Bowlin
@@ -21,19 +21,17 @@
 #include "kstars.h"
 #include "skymap.h"
 #include "kstarsdata.h"
-#include "labeledlistindex.h"
+#include "linelistlabel.h"
 #include "skylabeler.h"
 #include "linelist.h"
 
-LabeledListIndex::LabeledListIndex( SkyComponent *parent, const QString& name ) 
-	: NoPrecessIndex( parent, name )
+LineListLabel::LineListLabel( SkyComponent* parent, const QString& text ) 
+	: m_text( text )
 {
 	m_skyLabeler = ((SkyMapComposite*)parent)->skyLabeler();
 }
 
-// We intercept the draw() call to create the context for tracking the
-// label position candidates.
-void LabeledListIndex::draw( KStars *kstars, QPainter &psky, double scale )
+void LineListLabel::reset( QPainter &psky )
 {
 	// These are the indices of the farthest left point, farthest right point,
 	// etc.  The are data members so the drawLabels() routine can use them.
@@ -57,7 +55,7 @@ void LabeledListIndex::draw( KStars *kstars, QPainter &psky, double scale )
 	skyLabeler()->useStdFont( psky );
 	QFontMetricsF fm = skyLabeler()->fontMetrics();
 	float height     = fm.height();
-	float width      = fm.width( name() );
+	float width      = fm.width( m_text );
 	float sideMargin = fm.width("MM") + width / 2.0;
 	skyLabeler()->resetFont( psky );
 
@@ -66,15 +64,12 @@ void LabeledListIndex::draw( KStars *kstars, QPainter &psky, double scale )
 	m_marginLeft  = sideMargin;
 	m_marginTop   = height;
 	m_marginBot   = psky.window().height() - 2.0 * height;
-
-	// Now we return you to your regularly scheduled program
-	NoPrecessIndex::draw( kstars, psky, scale );
-	
-	drawLabels( kstars, psky, scale );
 }
 
-void LabeledListIndex::updateLabelCandidates( qreal x, qreal y, LineList* lineList, int i )
+void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList, int i )
 {
+	if ( i < 1 ) return;
+
 	if ( x < m_marginLeft || x > m_marginRight ||
 		 y < m_marginTop  || y > m_marginBot ) return;
 
@@ -101,7 +96,7 @@ void LabeledListIndex::updateLabelCandidates( qreal x, qreal y, LineList* lineLi
 }
 
 
-void LabeledListIndex::drawLabels( KStars* kstars, QPainter& psky, double scale )
+void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
 {
 
 	SkyMap *map = kstars->map();
@@ -147,7 +142,7 @@ void LabeledListIndex::drawLabels( KStars* kstars, QPainter& psky, double scale 
 	for ( int j = first; j < 4; j++ ) {
 		o[j] = angleAt( map, list[j], idx[j], &a[j], scale );
 		if ( fabs( a[j] ) > comfyAngle ) continue;
-		if ( skyLabeler()->drawLabel( psky, o[j], name(), a[j] ) ) {
+		if ( skyLabeler()->drawLabel( psky, o[j], m_text, a[j] ) ) {
 			skyLabeler()->resetFont( psky );
 			return;
 		}
@@ -172,12 +167,12 @@ void LabeledListIndex::drawLabels( KStars* kstars, QPainter& psky, double scale 
 		if ( idx[j] && okay[j] && fabs(a[j]) < fabs(a[best]) ) best = j;
 	}
 
-	skyLabeler()->drawLabel( psky, o[best], name(), a[best] );
+	skyLabeler()->drawLabel( psky, o[best], m_text, a[best] );
 	skyLabeler()->resetFont( psky );
 }
 
 
-QPointF LabeledListIndex::angleAt( SkyMap* map, LineList* list, int i, double *angle, double scale )
+QPointF LineListLabel::angleAt( SkyMap* map, LineList* list, int i, double *angle, double scale )
 {
 	SkyPoint* pThis = list->at( i );
 	SkyPoint* pLast = list->at( i - 1 );

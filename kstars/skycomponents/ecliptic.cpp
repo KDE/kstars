@@ -29,7 +29,8 @@
 #include "linelist.h"
 
 Ecliptic::Ecliptic(SkyComponent *parent ) : 
-    LabeledListIndex( parent, i18n("Ecliptic") )
+   LineListIndex( parent, i18n("Ecliptic") ), 
+	m_label( parent, i18n("Ecliptic") )
 {}
 
 
@@ -38,10 +39,27 @@ bool Ecliptic::selected()
     return Options::showEcliptic();
 }
 
-void Ecliptic::preDraw( KStars *kstars, QPainter &psky )
+void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 {
 	QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
 	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+
+	m_label.reset( psky );
+
+	if ( ! skyMesh()->isZoomedIn() ) {
+		if ( Options::useAntialias() )
+			drawLinesFloat( kstars, psky, scale );
+		else 
+			drawLinesInt( kstars, psky, scale );
+	}
+	else {
+		if ( Options::useAntialias() )
+			drawAllLinesFloat( kstars, psky, scale );
+		else 
+			drawAllLinesInt( kstars, psky, scale );
+	}
+
+	m_label.draw( kstars, psky, scale );
 }
 
 void Ecliptic::init(KStarsData *data)

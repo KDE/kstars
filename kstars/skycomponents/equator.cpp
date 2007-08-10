@@ -29,9 +29,9 @@
 #include "linelist.h"
 
 Equator::Equator(SkyComponent *parent ) : 
-    LabeledListIndex( parent, i18n("Equator") )
+    NoPrecessIndex( parent, i18n("Equator") ),
+	m_label( parent, i18n("Equator") )
 {}
-
 
 bool Equator::selected()
 {
@@ -42,6 +42,14 @@ void Equator::preDraw( KStars *kstars, QPainter &psky )
 {
 	QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
 	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+
+	m_label.reset( psky );
+}
+
+void Equator::draw( KStars *kstars, QPainter &psky, double scale )
+{
+	NoPrecessIndex::draw( kstars, psky, scale );
+	m_label.draw( kstars, psky, scale );
 }
 
 void Equator::init(KStarsData *data)

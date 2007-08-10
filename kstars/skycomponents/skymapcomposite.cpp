@@ -185,7 +185,9 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-    if ( Options::showGrid() || Options::showCBounds() && ! m_skyMesh->isZoomedIn() ) {
+    if ( Options::showGrid() || Options::showCBounds() || 
+			Options::showEquator() && ! m_skyMesh->isZoomedIn() ) {
+
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 

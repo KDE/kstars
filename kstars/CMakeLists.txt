@@ -128,7 +128,7 @@ set(libkstarscomponents_SRCS
    skycomponents/skymapcomposite.cpp 
    skycomponents/skymesh.cpp
    skycomponents/linelistindex.cpp
-   skycomponents/labeledlistindex.cpp
+   skycomponents/linelistlabel.cpp
    skycomponents/noprecessindex.cpp
    skycomponents/skiplistindex.cpp
    skycomponents/polylistindex.cpp

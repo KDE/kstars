@@ -113,7 +113,7 @@ void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& tex
     }
 }
 
-bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, QString& text, 
+bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text, 
 		                    double angle )
 {
 

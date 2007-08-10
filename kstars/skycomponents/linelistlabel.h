@@ -1,6 +1,6 @@
 
 /***************************************************************************
-					  labeledlistindex.h  -  K Desktop Planetarium
+					  linelistlabel.h  -  K Desktop Planetarium
 							 -------------------
 	begin				: 2007-08-08
 	copyright			: (C) 2007 by James B. Bowlin
@@ -16,17 +16,16 @@
  *																		 *
  ***************************************************************************/
 
-#ifndef LABELED_LIST_INDEX_H
-#define LABELED_LIST_INDEX_H
+#ifndef LINE_LIST_LABEL_H
+#define LINE_LIST_LABEL_H
 
-#define NCIRCLE 360   //number of segments used to define equator, ecliptic
 
 #include <QPointF>
-
-#include "noprecessindex.h"
+#include <QPainter>
 
 class SkyLabeler;
 class SkyMap;
+class LineList;
 
 /**
 	*@class LabelListIndex
@@ -35,42 +34,32 @@ class SkyMap;
 	*@author James B. Bowlin
 	*@version 0.1
 	*/
-class LabeledListIndex : public NoPrecessIndex
+class LineListLabel
 {
 	public:
 	
-		LabeledListIndex( SkyComponent *parent, const QString& name );
+		LineListLabel( SkyComponent* parent, const QString& text );
 
 		enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
 
-		/* @short we override draw() in order to prepare the context for
-		 * selecting label position candidates.
+		/* @short prepare the context for selecting label position candidates.
 		 */
-		void Draw( KStars *kstars, QPainter &psky, double scale );
+		void reset( QPainter &psky );
 
 		/* @short draw the label if any.  Is currently called at the bottom of
 		 * draw() but that call could be removed and it could be called
 		 * externally AFTER draw() has been called so draw() can set up the label
 		 * position candidates.
 		 */
-		void drawLabels( KStars* kstars, QPainter& psky, double scale );
+		void draw( KStars* kstars, QPainter& psky, double scale );
 		
-		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
-			updateLabelCandidates( o.x(), o.y(), lineList, i );
-		}
-
-		void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
-			updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
-		}
-
 		void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
-
-		virtual void draw( KStars *ks, QPainter &psky, double scale );
 
 		SkyLabeler* skyLabeler() { return m_skyLabeler; }
 
 	private:
-		SkyLabeler* m_skyLabeler;
+		const QString m_text;
+		SkyLabeler*   m_skyLabeler;
 
 		// these two arrays track/contain 4 candidate points
 		int         m_labIndex[4];

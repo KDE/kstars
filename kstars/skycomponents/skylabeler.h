@@ -214,7 +214,7 @@ class SkyLabeler {
 		 * return false, otherwise the label is drawn, its position is marked
 		 * and we return true.
 		 */
-		bool drawLabel( QPainter& psky, QPointF& o, QString& text, double angle );
+		bool drawLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
 
 		/* @short queues the label in the "type" buffer for later drawing.
 		 */
