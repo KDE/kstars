@@ -601,14 +601,14 @@ void KStars::datainitFinished(bool worked) {
 	connect( data(), SIGNAL( clearCache() ), this,
 		 SLOT( clearCachedFindDialog() ) );
 
-	//show the window.  must be before kswizard and messageboxes
-	show();
-
 	//Initialize focus
 	initFocus();
 
 	//Propagate config settings
 	applyConfig();
+
+	//show the window.  must be before kswizard and messageboxes
+	show();
 
 	//If this is the first startup, show the wizard
 	if ( Options::runStartupWizard() ) {
