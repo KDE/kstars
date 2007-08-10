@@ -30,12 +30,12 @@ ScriptFunction::ScriptFunction( const QString &name, const QString &desc,
 	Name = name;
 	ClockFunction = clockfcn;
 
-	ArgType[0] = at1;  ArgName[0] = an1;
-	ArgType[1] = at2;  ArgName[1] = an2;
-	ArgType[2] = at3;  ArgName[2] = an3;
-	ArgType[3] = at4;  ArgName[3] = an4;
-	ArgType[4] = at5;  ArgName[4] = an5;
-	ArgType[5] = at6;  ArgName[5] = an6;
+	ArgType[0] = at1;  ArgDBusType[0] = DBusType(at1); ArgName[0] = an1;
+	ArgType[1] = at2;  ArgDBusType[1] = DBusType(at2); ArgName[1] = an2;
+	ArgType[2] = at3;  ArgDBusType[2] = DBusType(at3); ArgName[2] = an3;
+	ArgType[3] = at4;  ArgDBusType[3] = DBusType(at4); ArgName[3] = an4;
+	ArgType[4] = at5;  ArgDBusType[4] = DBusType(at5); ArgName[4] = an5;
+	ArgType[5] = at6;  ArgDBusType[5] = DBusType(at6); ArgName[5] = an6;
 
 	//Construct a richtext description of the function
 	QString nameStyle  = "<span style=\"font-family:monospace;font-weight:600\">%1</span>";  //bold
@@ -84,7 +84,7 @@ ScriptFunction::ScriptFunction( const QString &name, const QString &desc,
 	}
 
 	//Set Valid=false if there are arguments (indicates that this fcn's args must be filled in)
-	bool Valid = true;
+	Valid = true;
 	if ( NumArgs ) Valid = false;
 
 	//Finish writing function prototype
@@ -111,6 +111,7 @@ ScriptFunction::ScriptFunction( ScriptFunction *sf )
 	for ( unsigned int i=0; i<6; i++ ) {
 		ArgType[i] = sf->argType(i);
 		ArgName[i] = sf->argName(i);
+		ArgDBusType[i] = sf->argDBusType(i);
 		//ArgVal[i]  = QString();
 		// JM: Some default argument values might be passed from another object as well
 		ArgVal[i]  = sf->argVal(i);
@@ -119,6 +120,23 @@ ScriptFunction::ScriptFunction( ScriptFunction *sf )
 
 ScriptFunction::~ScriptFunction()
 {
+}
+
+QString ScriptFunction::DBusType(QString type)
+{
+
+	if (type == QString("int"))
+		return QString("int32");
+	else if (type == QString("uint"))
+		return QString("uint32");
+	else if (type == QString("double"))
+		return type;
+	else if (type == QString("QString"))
+		return QString("string");
+	else if (type == QString("bool"))
+	return QString("boolean");
+
+	return NULL;
 }
 
 QString ScriptFunction::prototype() const {
@@ -164,13 +182,18 @@ QString ScriptFunction::prototype() const {
 
 QString ScriptFunction::scriptLine() const {
 	QString out( Name );
+	QString dbus_type;
 	unsigned int i=0;
-	while ( ! ArgName[i].isEmpty() && i < 6 ) {
-		// Wrap arg in quotes if it contains a space
-		if ( ArgVal[i].contains(" ") ) {
-			out += " \"" + ArgVal[i] + '\"';
-		} else {
-			out += ' ' + ArgVal[i];
+
+	while ( ! ArgName[i].isEmpty() && i < 6 ) 
+	{
+		// Write DBus style prototype compatible with dbus-send format
+		if ( ArgDBusType[i]=="string")
+		{
+			out += " " + ArgDBusType[i] + ":'" + ArgVal[i] + "'";
+		} else 
+		{
+			out += " " + ArgDBusType[i] + ":" + ArgVal[i];
 		}
 		++i;
 	}

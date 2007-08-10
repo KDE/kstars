@@ -958,6 +958,8 @@ bool KStarsData::readINDIHosts(void)
 //also, even functions that do make sense in this context have aspects that should
 //be modified or ignored.  For example, we don't need to call slotCenter() on recentering
 //commands, just setDestination().  (sltoCenter() does additional things that we do not need).
+
+//FIXME JM: This needs to be ported to DBus
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 	int cmdCount(0);
 

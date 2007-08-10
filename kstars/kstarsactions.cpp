@@ -557,26 +557,24 @@ void KStars::slotRunScript() {
 		}
 
 		// Before we run the script, make sure that it's safe.  Each line must either begin with "#"
-		// or begin with "dcop $KSTARS".  Otherwise, the line must be equal to one of the following:
-		// "KSTARS=`dcopfind -a 'kstars*'`";  "MAIN=KStarsInterface";  or "CLOCK=clock#1"
+		// or begin with "dbus-send". INDI scripts are much more complicated, so this simple test is not 
+		// suitable. INDI Scripting will return in KDE 4.1
+
 		QTextStream istream(&f);
 		QString line;
 		bool fileOK( true );
-#ifdef __GNUC__
-#warning "dcop is dead need to port test on script";
-#endif
+
 		while (  ! istream.atEnd() ) {
 			line = istream.readLine();
-			if ( line.left(1) != "#" && line.left(12) != "dcop $KSTARS"
-					&& line.trimmed() != "KSTARS=`dcopfind -a 'kstars*'`"
-					&& line.trimmed() != "MAIN=KStarsInterface"
-					&& line.trimmed() != "CLOCK=clock#1" ) {
+			if ( line.left(1) != "#" && line.left(9) != "dbus-send")
+			{
 				fileOK = false;
 				break;
 			}
 		}
 
-		if ( ! fileOK ) {
+		if ( ! fileOK ) 
+		{
 			int answer;
 			answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script contains unrecognized elements,"
 				"indicating that it was not created using the KStars script builder. "
@@ -595,7 +593,8 @@ void KStars::slotRunScript() {
 		if( !p.waitForStarted() )
 		  return;
 
-		while ( p.waitForFinished( 10 ) ) {
+		while ( p.waitForFinished( 10 ) ) 
+		{
 		    qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
 		    if( p.state() != QProcess::Running )
 		        break;

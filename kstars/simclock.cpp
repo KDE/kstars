@@ -24,7 +24,7 @@
 #include "kstars.h"
 #include "simclockadaptor.h"
 
-int SimClock::idgen = 1;
+//int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 

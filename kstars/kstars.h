@@ -267,6 +267,8 @@ class KStars : public KXmlGuiWindow
 		*/
 		Q_SCRIPTABLE Q_NOREPLY void printImage( bool usePrintDialog, bool useChartColors );
 		
+	// TODO INDI Scripting to be supported in KDE 4.1
+	#if 0
 	/**DCOP interface function.  Establish an INDI driver. 
 		*@param deviceName The INDI device name
 		*@param useLocal establish driver locally?
@@ -368,6 +370,7 @@ class KStars : public KXmlGuiWindow
 		*/
 		Q_SCRIPTABLE Q_NOREPLY void setINDICCDTemp(int temp);
 		
+	#endif
 
 	/**
 		*Update time-dependent data and (possibly) repaint the sky map.

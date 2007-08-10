@@ -131,7 +131,9 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	KStarsFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
 	KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 
+	//TODO JM: INDI Scripting to be supported in KDE 4.1
 	// INDI functions
+	#if 0
 	ScriptFunction *startINDIFunc(NULL), *shutdownINDIFunc(NULL), *switchINDIFunc(NULL), *setINDIPortFunc(NULL), *setINDIScopeActionFunc(NULL), *setINDITargetCoordFunc(NULL), *setINDITargetNameFunc(NULL), *setINDIGeoLocationFunc(NULL), *setINDIUTCFunc(NULL), *setINDIActionFunc(NULL), *waitForINDIActionFunc(NULL), *setINDIFocusSpeedFunc(NULL), *startINDIFocusFunc(NULL), *setINDIFocusTimeoutFunc(NULL), *setINDICCDTempFunc(NULL), *setINDIFilterNumFunc(NULL), *setINDIFrameTypeFunc(NULL), *startINDIExposureFunc(NULL), *setINDIDeviceFunc(NULL);
 
 	startINDIFunc = new ScriptFunction( "startINDI", i18n("Establish an INDI device either in local mode or server mode."), false, "QString", "deviceName", "bool", "useLocal");
@@ -208,6 +210,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	startINDIExposureFunc = new ScriptFunction ( "startINDIExposure", i18n("Start Camera/CCD exposure. The duration is in seconds."), false, "int", "timeout");
 	startINDIExposureFunc->setINDIProperty("CCD_EXPOSE_DURATION");
 	INDIFunctionList.append( startINDIExposureFunc);
+	#endif
 
 	// JM: We're using QTreeWdiget for Qt4 now
 	QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
@@ -220,6 +223,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	sb->FunctionTree->setHeaderLabels( QStringList(i18n("Functions")) );
 	sb->FunctionTree->setSortingEnabled( false );
 
+	#if 0
 	QTreeWidgetItem *INDI_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("INDI"));
         QTreeWidgetItem *INDI_general = new QTreeWidgetItem( INDI_tree, QStringList("General"));
 	QTreeWidgetItem *INDI_telescope = new QTreeWidgetItem( INDI_tree, QStringList("Telescope"));
@@ -255,6 +259,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 	// Filter
 	new QTreeWidgetItem(INDI_filter, QStringList(setINDIFilterNumFunc->prototype()));
+	#endif
 
 	//Add icons to Push Buttons
 	sb->NewButton->setIcon( KIcon( "document-new" ) );
@@ -285,6 +290,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	argPrintImage = new ArgPrintImage( sb->ArgStack );
 	argSetColor = new ArgSetColor( sb->ArgStack );
 	argLoadColorScheme = new ArgLoadColorScheme( sb->ArgStack );
+
+	#if 0
 	argStartINDI = new ArgStartINDI ( sb->ArgStack );
 	argSetDeviceINDI = new ArgSetDeviceINDI (sb->ArgStack);
 	argShutdownINDI = new ArgShutdownINDI ( sb->ArgStack );
@@ -318,6 +325,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_BIAS");
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_DARK");
 	argSetFrameTypeINDI->typeCombo->addItem("FRAME_FLAT");
+	#endif
 
 	sb->ArgStack->addWidget( argBlank );
 	sb->ArgStack->addWidget( argLookToward );
@@ -336,6 +344,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	sb->ArgStack->addWidget( argSetColor );
 	sb->ArgStack->addWidget( argLoadColorScheme );
 
+	#if 0
 	sb->ArgStack->addWidget( argStartINDI);
 	sb->ArgStack->addWidget( argSetDeviceINDI);
 	sb->ArgStack->addWidget( argShutdownINDI);
@@ -355,6 +364,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	sb->ArgStack->addWidget( argSetFrameTypeINDI);
 	sb->ArgStack->addWidget( argSetCCDTempINDI);
 	sb->ArgStack->addWidget( argSetFilterNumINDI);
+	#endif
 
 	sb->ArgStack->setCurrentIndex( 0 );
 
@@ -410,8 +420,9 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
 	connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme() ) );
 
-	connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
+	//connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
 
+	#if 0
 	// Connections for INDI's Arg widgets
 
 	// INDI Start Device
@@ -473,6 +484,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
 	// INDI Set Filter Num
 	connect (argSetFilterNumINDI->filter_num, SIGNAL( valueChanged(int) ), this, SLOT(slotINDISetFilterNum()));
+	#endif
 
 
 	//disbale some buttons
@@ -491,8 +503,8 @@ ScriptBuilder::~ScriptBuilder()
   while ( ! KStarsFunctionList.isEmpty() )
     delete KStarsFunctionList.takeFirst();
 
-  while ( ! INDIFunctionList.isEmpty() )
-    delete INDIFunctionList.takeFirst();
+//  while ( ! INDIFunctionList.isEmpty() )
+//    delete INDIFunctionList.takeFirst();
 
   while ( ! ScriptList.isEmpty() )
     delete ScriptList.takeFirst();
@@ -929,7 +941,8 @@ void ScriptBuilder::slotOpen() {
 	}
 }
 
-void ScriptBuilder::slotSave() {
+void ScriptBuilder::slotSave() 
+{
 	QString fname;
 	KTemporaryFile tmpfile;
 	tmpfile.open();
@@ -1072,27 +1085,34 @@ void ScriptBuilder::slotRunScript() {
 /*
   This can't work anymore and is also not protable in any way :(
 */
-void ScriptBuilder::writeScript( QTextStream &ostream ) {
-	QString mainpre  = "dcop $KSTARS $MAIN  ";
-	QString clockpre = "dcop $KSTARS $CLOCK ";
+void ScriptBuilder::writeScript( QTextStream &ostream ) 
+{
+	// FIXME Without --print-reply, the dbus-send doesn't do anything, why??
+	QString dbus_call  = "dbus-send --dest=org.kde.kstars --print-reply ";
+	QString main_method = "/KStars org.kde.kstars.";
+	QString clock_method = "/KStars/SimClock org.kde.kstars.SimClock.";
 
 	//Write script header
 	ostream << "#!/bin/bash" << endl;
-	ostream << "#KStars DCOP script: " << currentScriptName << endl;
+	ostream << "#KStars DBus script: " << currentScriptName << endl;
 	ostream << "#by " << currentAuthor << endl;
 	ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString() << endl;
 	ostream << "#" << endl;
-	ostream << "KSTARS=`dcopfind -a 'kstars*'`" << endl;
-	ostream << "MAIN=KStarsInterface" << endl;
-	ostream << "CLOCK=clock#1" << endl;
 
 	foreach ( ScriptFunction *sf, ScriptList )
 	{
 	        if (!sf->valid()) continue;
-		if ( sf->isClockFunction() ) {
-			ostream << clockpre << sf->scriptLine() << endl;
-		} else {
-			ostream << mainpre  << sf->scriptLine() << endl;
+
+		if ( sf->isClockFunction() )
+		{
+			ostream << dbus_call << clock_method << sf->scriptLine() << endl;
+		} else 
+		{
+			ostream << dbus_call << main_method << sf->scriptLine() << endl;
+
+			// TODO INDI scripting to be supported under KDE 4.1 
+			#if 0
+			
 			if (sb->AppendINDIWait->isChecked() && !sf->INDIProperty().isEmpty())
 			{
 			  // Special case for telescope action, we need to know the parent property
@@ -1111,6 +1131,7 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 			  else
 			    ostream << mainpre << "waitForINDIAction " << sf->argVal(0) << " " << sf->INDIProperty() << endl;
 			}
+			#endif
 		}
 	}
 
@@ -1118,8 +1139,11 @@ void ScriptBuilder::writeScript( QTextStream &ostream ) {
 	ostream << "##" << endl;
 }
 
-void ScriptBuilder::readScript( QTextStream &istream ) {
+void ScriptBuilder::readScript( QTextStream &istream ) 
+{
 	QString line;
+	QString service_name = "org.kde.kstars.";
+	QString fn_name;
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
@@ -1133,18 +1157,32 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 			currentAuthor = line.mid( 4 ).trimmed();
 
 		//Actual script functions
-		if ( line.left(4) == "dcop" ) {
+		if ( line.left(4) == "dbus" ) {
 
 		//is ClockFunction?
 			bool clockfcn( false );
-			if ( line.contains( "$CLOCK" ) ) clockfcn = true;
+			if ( line.contains( "SimClock" ) ) 
+			{
+				clockfcn = true;
+				service_name += "SimClock.";
+			}
 
-			//remove leading dcop prefix
-			line = line.mid( 20 );
+			//remove leading dbus prefix
+			line = line.mid( line.lastIndexOf(service_name) + service_name.count() );
+
+
+			fn_name = line.left(line.indexOf(" "));
+		
+			line = line.mid(line.indexOf(" ") + 1);
 
 			//construct a stringlist that is fcn name and its arg name/value pairs
-			QStringList fn = line.split( " " );
-			if ( parseFunction( fn ) )
+			QStringList fn;
+
+			// If the function lacks any arguments, do not attempt to split
+			if (fn_name != line)
+				fn = line.split(" ");
+
+			if ( parseFunction( fn_name, fn ) )
 			{
 			  sb->ScriptListBox->addItem( ScriptList.last()->name() );
 			  // Initially, any read script is valid!
@@ -1162,12 +1200,12 @@ void ScriptBuilder::readScript( QTextStream &istream ) {
 	}
 }
 
-bool ScriptBuilder::parseFunction( QStringList &fn )
+bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
 {
         // clean up the string list first if needed
         // We need to perform this in case we havea quoted string "NGC 3000" because this will counted
         // as two arguments, and it should be counted as one.
-        bool foundQuote(false), quoteProcessed(false);
+        //bool foundQuote(false), quoteProcessed(false);
 	QString cur, arg;
 	QStringList::iterator it;
 
@@ -1175,6 +1213,12 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	{
 	  cur = (*it);
 
+	  cur = cur.mid(cur.indexOf(":") + 1).remove("'");
+	
+	  (*it) = cur;
+	}
+
+	#if 0
 	  if ( cur.startsWith('\"'))
 	  {
 	    arg += cur.right(cur.length() - 1);
@@ -1203,32 +1247,38 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 	if (quoteProcessed)
 	  fn = arg.split( "'" );
 
+	#endif
+
 	//loop over known functions to find a name match
 	foreach ( ScriptFunction *sf, KStarsFunctionList )
 	{
-		if ( fn[0] == sf->name() ) {
+		if ( fn_name == sf->name() ) 
+		{
 
-			if ( fn[0] == "setGeoLocation" ) {
-				QString city( fn[1] ), prov, cntry( fn[2] );
+			if ( fn_name == "setGeoLocation" ) 
+			{
+				QString city( fn[0] ), prov, cntry( fn[1] );
 				prov.clear();
-				if ( fn.count() == 4 ) { prov = fn[2]; cntry = fn[3]; }
-				if ( fn.count() == 3 || fn.count() == 4 ) {
+				if ( fn.count() == 4 ) { prov = fn[1]; cntry = fn[2]; }
+				if ( fn.count() == 3 || fn.count() == 4 ) 
+				{
 					ScriptList.append( new ScriptFunction( sf ) );
 					ScriptList.last()->setArg( 0, city );
 					ScriptList.last()->setArg( 1, prov );
 					ScriptList.last()->setArg( 2, cntry );
 				} else return false;
 
-			} else if ( fn.count() != sf->numArgs() + 1 ) return false;
+			} else if ( fn.count() != sf->numArgs()) return false;
 
 			ScriptList.append( new ScriptFunction( sf ) );
 
 			for ( int i=0; i<sf->numArgs(); ++i )
-				ScriptList.last()->setArg( i, fn[i+1] );
+				ScriptList.last()->setArg( i, fn[i] );
 
 			return true;
 		}
 
+		#if 0
 		foreach ( ScriptFunction *sf, INDIFunctionList )
 		{
 		  if ( fn[0] == sf->name() )
@@ -1244,6 +1294,7 @@ bool ScriptBuilder::parseFunction( QStringList &fn )
 		    return true;
 		  }
 		}
+		#endif
 	}
 
 	//if we get here, no function-name match was found
@@ -1301,6 +1352,7 @@ void ScriptBuilder::slotAddFunction() {
 		    break;
 		}
 
+	 #if 0
 	 if (found == NULL)
 	 {
 	   foreach ( sc, INDIFunctionList )
@@ -1310,6 +1362,7 @@ void ScriptBuilder::slotAddFunction() {
 			break;
 		}
 	 }
+	#endif
 
 	 if (found == NULL) return;
 
@@ -1556,6 +1609,9 @@ void ScriptBuilder::slotArgWidget() {
 			else argTimeScale->TimeScale->tsbox()->changeScale( 0.0 );
 
 		}
+
+		//TODO JM: INDI Scripting to be included in KDE 4.1
+		#if 0
 		else if (sf->name() == "startINDI") {
 		  sb->ArgStack->setCurrentWidget( argStartINDI);
 
@@ -1760,6 +1816,7 @@ void ScriptBuilder::slotArgWidget() {
 		    else argSetFilterNumINDI->filter_num->setValue(0);
 
 		  }
+		 #endif
 	}
 }
 
@@ -1777,6 +1834,7 @@ void ScriptBuilder::slotShowDoc() {
       		break;
 	}
 
+#if 0
   if (found == NULL)
   {
     foreach (sc, INDIFunctionList )
@@ -1786,6 +1844,7 @@ void ScriptBuilder::slotShowDoc() {
 		break;
 	}
   }
+#endif
 
   if (found == NULL)
   {
@@ -1833,6 +1892,9 @@ void ScriptBuilder::slotFindObject() {
 	}
 }
 
+//TODO JM: INDI Scripting to be included in KDE 4.1
+
+#if 0
 void ScriptBuilder::slotINDIFindObject() {
   FindDialog fd( ks );
 
@@ -1849,6 +1911,7 @@ void ScriptBuilder::slotINDIWaitCheck(bool /*toggleState*/)
    setUnsavedChanges(true);
 
 }
+#endif
 
 void ScriptBuilder::slotShowOptions() {
 	//Show tree-view of view options
@@ -2201,7 +2264,7 @@ void ScriptBuilder::slotChangeColorName() {
 		argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentIndex() ) );
 		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
-		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
+		//if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
@@ -2217,7 +2280,7 @@ void ScriptBuilder::slotChangeColor() {
 
 		sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
 		QString cname( argSetColor->ColorValue->color().name() );
-		if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
+		//if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
 		sf->setArg( 1, cname );
 		sf->setValid( true );
 	} else {
@@ -2247,6 +2310,9 @@ void ScriptBuilder::slotClose()
 
 }
 
+//TODO JM: INDI Scripting to be included in KDE 4.1
+
+#if 0
 void ScriptBuilder::slotINDIStartDeviceName()
 {
   ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
@@ -2784,6 +2850,7 @@ void ScriptBuilder::slotINDISetFilterNum()
 
 
 }
+#endif
 
 void ScriptBuilder::warningMismatch (const QString &expected) const {
 	kWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;

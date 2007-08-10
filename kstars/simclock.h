@@ -136,7 +136,7 @@ class SimClock : public QObject
 		bool ManualMode, ManualActive;
 
 		// used to generate names for dcop interfaces
-		static int idgen;
+		//static int idgen;
 		// how often to update
 		static int TimerInterval;
 };

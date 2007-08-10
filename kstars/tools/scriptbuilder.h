@@ -93,7 +93,7 @@ public:
 	void saveWarning();
 	void readScript( QTextStream &istream );
 	void writeScript( QTextStream &ostream );
-	bool parseFunction( QStringList &fn );
+	bool parseFunction( QString fn_name, QStringList &fn );
 
 public slots:
 	void slotAddFunction();
@@ -137,6 +137,7 @@ public slots:
 	void slotChangeColorName();
 	void slotLoadColorScheme();
 	
+	#if 0
 	void slotINDIWaitCheck(bool toggleState);
 	void slotINDIFindObject();
 	void slotINDIStartDeviceName();
@@ -161,6 +162,7 @@ public slots:
 	void slotINDISetFrameType();
 	void slotINDISetCCDTemp();
 	void slotINDISetFilterNum();
+	#endif
 
 private:
 	void initViewOptions();
@@ -170,7 +172,11 @@ private:
 
 	KStars *ks; //parent needed for sub-dialogs
 	QList<ScriptFunction*> KStarsFunctionList;
+
+	#if 0
 	QList<ScriptFunction*> INDIFunctionList;
+	#endif
+
 	QList<ScriptFunction*> ScriptList;
 	QVBoxLayout *vlay;
 
@@ -190,6 +196,8 @@ private:
 	ArgPrintImage *argPrintImage;
 	ArgSetColor *argSetColor;
 	ArgLoadColorScheme *argLoadColorScheme;
+
+	#if 0
 	ArgStartINDI *argStartINDI;
 	ArgSetDeviceINDI *argSetDeviceINDI;
 	ArgShutdownINDI *argShutdownINDI;
@@ -209,6 +217,7 @@ private:
 	ArgSetFrameTypeINDI *argSetFrameTypeINDI;
 	ArgSetCCDTempINDI *argSetCCDTempINDI;
 	ArgSetFilterNumINDI *argSetFilterNumINDI;
+	#endif
 	
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;

@@ -44,6 +44,7 @@ public:
 	QString argType( unsigned int n ) const { return ArgType[n]; }
 	QString argName( unsigned int n ) const { return ArgName[n]; }
 	QString argVal( unsigned int n ) const { return ArgVal[n]; }
+	QString argDBusType (unsigned int n) const { return ArgDBusType[n];}
 
 	void setValid( bool b ) { Valid = b; }
 	bool valid() const { return Valid; }
@@ -59,10 +60,12 @@ public:
 	
 	void    setINDIProperty(QString prop) { INDIProp = prop; }
 	QString INDIProperty() const { return INDIProp; }
+	QString DBusType(QString type);
 
 private:
 	QString Name, Description;
 	QString ArgType[6];
+	QString ArgDBusType[6];
 	QString ArgName[6];
 	QString ArgVal[6];
 	QString INDIProp;

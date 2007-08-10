@@ -500,6 +500,8 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 	}
 }
 
+// TODO JM: INDI Scripting to be supported in KDE 4.1
+#if 0
 void KStars::startINDI (const QString &deviceName, bool useLocal)
 {
 
@@ -1091,3 +1093,5 @@ void KStars::setINDICCDTemp(int temp)
   prop->newText();
 
 }
+#endif
+
