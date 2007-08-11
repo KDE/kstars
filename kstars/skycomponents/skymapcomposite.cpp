@@ -471,6 +471,7 @@ void SkyMapComposite::reloadComets( KStarsData *data ) {
 
 QString SkyMapComposite::constellationName( SkyPoint *p ) {
 	QString name = m_CBoundsBoundary->constellationName( p );
+	return name;
 	QString fullname;
 
 	if(m_ConstellationNames.isEmpty()) {
