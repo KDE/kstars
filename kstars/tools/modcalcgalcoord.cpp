@@ -70,7 +70,22 @@ void modCalcGalCoord::slotComputeCoords (void) {
 
 	//Determine whether we should compute galactic coords from 
 	//equatorial, or vice versa
-	if ( sender()->objectName() == "RA" || sender()->objectName() == "Dec" ) {
+	if ( sender()->objectName() == "GalLongitude" || sender()->objectName() == "GalLatitude" ) {
+		//Validate GLong and GLat
+		bool ok(false);
+		dms glat;
+		dms glong = GalLongitude->createDms( true, &ok );
+		if ( ok ) 
+			glat = GalLatitude->createDms( true, &ok );
+		if ( ok ) {
+			SkyPoint sp, ra, dec;
+			sp.GalacticToEquatorial1950( &glong, &glat );
+			sp.B1950ToJ2000();
+			RA->showInHours( sp.ra() );
+			Dec->showInDegrees( sp.dec() );
+		}
+
+	} else {
 		//Validate RA and Dec
 		bool ok(false);
 		dms dec;
@@ -84,21 +99,6 @@ void modCalcGalCoord::slotComputeCoords (void) {
 			sp.Equatorial1950ToGalactic(glong, glat);
 			GalLongitude->showInDegrees(glong);
 			GalLatitude->showInDegrees(glat);
-		}
-
-	} else {
-		//Validate GLong and GLat
-		bool ok(false);
-		dms glat;
-		dms glong = GalLongitude->createDms( true, &ok );
-		if ( ok ) 
-			glat = GalLatitude->createDms( true, &ok );
-		if ( ok ) {
-			SkyPoint sp, ra, dec;
-			sp.GalacticToEquatorial1950( &glong, &glat );
-			sp.B1950ToJ2000();
-			RA->showInHours( sp.ra() );
-			Dec->showInDegrees( sp.dec() );
 		}
 	}
 }

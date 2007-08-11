@@ -70,8 +70,6 @@ double modCalcEquinox::dmonth(int i) {
 
 void modCalcEquinox::slotCompute()
 {
-	KStarsDateTime tSpring, tSummer, tAutumn, tWinter, tSpring2;
-
 	KStars *ks = (KStars*) topLevelWidget()->parent();
 	KSSun Sun( ks->data() );
 	int year0 = Year->value();
@@ -110,6 +108,12 @@ void modCalcEquinox::slotCompute()
 	dSummer = findSolstice( true );
 	dAutumn = findEquinox( false, ecl );
 	dWinter = findSolstice( false );
+
+	//Display the Date/Time of each event in the text fields
+	VEquinox->setText( dSpring.toString() );
+	SSolstice->setText( dSummer.toString() );
+	AEquinox->setText( dAutumn.toString() );
+	WSolstice->setText( dWinter.toString() );
 
 	//Add vertical dotted lines at times of the equinoxes and solstices
 	KPlotObject *poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
