@@ -122,13 +122,13 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
 
         //kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
 
-        const QPolygonF& poly = polyList->poly();
+        const QPolygonF* poly = polyList->poly();
         if ( wrapRA && polyList->wrapRA() ) {
-            if ( poly.containsPoint( wrapPoint, Qt::OddEvenFill ) )
+            if ( poly->containsPoint( wrapPoint, Qt::OddEvenFill ) )
                 return polyList;
         }
         else {
-            if ( poly.containsPoint( point, Qt::OddEvenFill ) )
+            if ( poly->containsPoint( point, Qt::OddEvenFill ) )
                 return polyList;
         }
     }

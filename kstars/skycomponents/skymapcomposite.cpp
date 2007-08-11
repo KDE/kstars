@@ -491,6 +491,14 @@ QString SkyMapComposite::constellationName( SkyPoint *p ) {
 		return name;
 }
 
+const QPolygonF* SkyMapComposite::constellationPoly( SkyPoint *p ) {
+	return m_CBoundsBoundary->constellationPoly( p );
+}
+
+const QPolygonF* SkyMapComposite::constellationPoly( const QString& name ) {
+	return m_CBoundsBoundary->constellationPoly( name );
+}
+
 
 //bool SkyMapComposite::inConstellation( const QString &name, SkyPoint *p ) {
 //	return m_CBounds->inConstellation( name, p );

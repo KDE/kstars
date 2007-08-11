@@ -242,7 +242,7 @@ class SkyMesh : public HTMesh
         /* @short does the same as above but with a QPolygonF as the
          * container for the points.
          */
-        const IndexHash& indexPoly( const QPolygonF &points );
+        const IndexHash& indexPoly( const QPolygonF* points );
 
         /* @short Returns the debug level.  This is used as a global debug level
          * for LineListIndex and its subclasses.

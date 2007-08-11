@@ -272,23 +272,23 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points )
     return indexHash;
 }
 
-const IndexHash& SkyMesh::indexPoly( const QPolygonF &points )
+const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 {
     indexHash.clear();
 
-    if (points.size() < 3) return indexHash;
+    if (points->size() < 3) return indexHash;
 
-    const QPointF startP = points.first();
+    const QPointF startP = points->first();
 
-    int end = points.size() - 2;     // 1) size - 1  -> last index,
+    int end = points->size() - 2;     // 1) size - 1  -> last index,
                                       // 2) minimum of 2 points
     for( int p = 1; p <= end; p+= 2 ) {
 
         if ( p == end ) {
-            index( startP, points.at(p), points.at(p+1) );
+            index( startP, points->at(p), points->at(p+1) );
         }
         else {
-            index( startP, points.at(p), points.at(p+1), points.at(p+2) );
+            index( startP, points->at(p), points->at(p+1), points->at(p+2) );
         }
 
         MeshIterator region( this );
@@ -297,16 +297,16 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF &points )
             printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size() );
 
             printf("    ra1 = %f;\n", startP.x() );
-            printf("    ra2 = %f;\n", points.at(p).x() );
-            printf("    ra3 = %f;\n", points.at(p+1).x()) ;
+            printf("    ra2 = %f;\n", points->at(p).x() );
+            printf("    ra3 = %f;\n", points->at(p+1).x()) ;
             if ( p < end )
-                printf("    ra4 = %f;\n", points.at(p+2).x() );
+                printf("    ra4 = %f;\n", points->at(p+2).x() );
 
             printf("    dec1 = %f;\n", startP.y() );
-            printf("    dec2 = %f;\n", points.at(p).y() );
-            printf("    dec3 = %f;\n", points.at(p+1).y() );
+            printf("    dec2 = %f;\n", points->at(p).y() );
+            printf("    dec3 = %f;\n", points->at(p+1).y() );
             if ( p < end )
-                printf("    dec4 = %f;\n", points.at(p+2).y());
+                printf("    dec4 = %f;\n", points->at(p+2).y());
 
             printf("\n");
 

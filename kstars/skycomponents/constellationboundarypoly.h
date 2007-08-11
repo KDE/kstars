@@ -44,9 +44,11 @@ class ConstellationBoundaryPoly : public PolyListIndex
 		*/
 		ConstellationBoundaryPoly( SkyComponent *parent );
 
-		const QPolygonF& boundary( const QString &name ) const;
-
 		QString constellationName( SkyPoint *p );
+
+		const QPolygonF* constellationPoly( SkyPoint *p );
+
+		const QPolygonF* constellationPoly( const QString& name );
 
     	bool inConstellation( const QString &name, SkyPoint *p );
 

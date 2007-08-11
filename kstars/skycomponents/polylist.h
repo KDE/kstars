@@ -39,7 +39,7 @@ class PolyList
 
         /* @short returns the QPolygonF that holds the points.
          */
-        const QPolygonF& poly() { return m_poly; }
+        const QPolygonF* poly() { return &m_poly; }
 
         /* @short we need a new append() method to append QPointF's
          * instead of SkyPoints.

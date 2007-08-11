@@ -44,10 +44,26 @@ ConstellationBoundaryPoly::ConstellationBoundaryPoly( SkyComponent *parent )
 
 QString ConstellationBoundaryPoly::constellationName( SkyPoint *p ) 
 {
-    PolyList *poly = ContainingPoly( p );
-    if ( poly ) return poly->name();
+    PolyList *polyList = ContainingPoly( p );
+    if ( polyList ) return polyList->name();
 
  	return i18n("Unknown");
+}
+
+const QPolygonF* ConstellationBoundaryPoly::constellationPoly( const QString &name )
+{
+	if ( nameHash().contains( name ) )
+		return nameHash().value( name )->poly();
+
+	return 0;
+}
+
+const QPolygonF* ConstellationBoundaryPoly::constellationPoly( SkyPoint *p ) 
+{
+    PolyList *polyList = ContainingPoly( p );
+    if ( polyList ) return polyList->poly();
+
+ 	return 0;
 }
 
 
@@ -55,8 +71,8 @@ bool ConstellationBoundaryPoly::inConstellation( const QString &name, SkyPoint *
 {
     PolyList* polyList = nameHash().value( name );
     if ( ! polyList ) return false;
-    const QPolygonF& poly = polyList->poly();
-	if ( poly.containsPoint( QPointF( p->ra()->Hours(), 
+    const QPolygonF* poly = polyList->poly();
+	if ( poly->containsPoint( QPointF( p->ra()->Hours(), 
                              p->dec()->Degrees() ), Qt::OddEvenFill ) )
 	    return true;
 
@@ -64,12 +80,4 @@ bool ConstellationBoundaryPoly::inConstellation( const QString &name, SkyPoint *
 }
 
 
-/**
-const QPolygonF& ConstellationBoundaryPoly::boundary( const QString &name ) const
-{
-	if ( nameHash.contains( name ) )
-		return nameHash.value( name )->poly();
-	else
-		return QPolygonF();  // FIXME: ref to temp.  -jbb
-}
-**/
+

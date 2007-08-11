@@ -165,6 +165,9 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		QString constellationName( SkyPoint *p );
 		//bool inConstellation( const QString &name, SkyPoint *p );
+		const QPolygonF* constellationPoly( SkyPoint *p );
+
+		const QPolygonF* constellationPoly( const QString& name );
 
 		virtual void emitProgressText( const QString &message );
 		virtual QHash<int, QStringList>& objectNames();
