@@ -60,7 +60,7 @@ public:
 	
 	void    setINDIProperty(QString prop) { INDIProp = prop; }
 	QString INDIProperty() const { return INDIProp; }
-	QString DBusType(QString type);
+	QString DBusType(const QString &type);
 
 private:
 	QString Name, Description;

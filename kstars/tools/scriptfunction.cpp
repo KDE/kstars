@@ -122,7 +122,7 @@ ScriptFunction::~ScriptFunction()
 {
 }
 
-QString ScriptFunction::DBusType(QString type)
+QString ScriptFunction::DBusType(const QString &type)
 {
 
 	if (type == QString("int"))
