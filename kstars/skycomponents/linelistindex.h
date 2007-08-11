@@ -198,6 +198,8 @@ class LineListIndex : public SkyComposite
         LineListHash* m_lineIndex;
         LineListHash* m_polyIndex;
 
+		LineListList  m_listList;
+
 };
 
 #endif
