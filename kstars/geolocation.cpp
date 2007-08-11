@@ -161,7 +161,7 @@ void GeoLocation::cartToGeod(void)
 		lat1 = latd;
 		s1 = sin(lat1);
 		xn = axis/(sqrt(1-e2*s1*s1));
-		latd = atan2( rpro*(1+e2*xn*s1), PosCartZ );
+		latd = atan2( (long double)rpro*(1+e2*xn*s1), PosCartZ );
 	}
 
 	sinl = sin(latd);
