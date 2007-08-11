@@ -42,7 +42,7 @@ class Equator : public NoPrecessIndex
 
 		void preDraw( KStars *kstars, QPainter& psky );
 		
-		void draw( KStars *kstars, QPainter& psky, double scale );
+		void drawLabel( KStars *kstars, QPainter& psky, double scale );
 
 		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
 			m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );

@@ -58,9 +58,17 @@ void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 		else 
 			drawAllLinesInt( kstars, psky, scale );
 	}
+}
+
+
+void Ecliptic::drawLabel( KStars *kstars, QPainter& psky, double scale )
+{
+    QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
+	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );	
 
 	m_label.draw( kstars, psky, scale );
 }
+
 
 void Ecliptic::init(KStarsData *data)
 {

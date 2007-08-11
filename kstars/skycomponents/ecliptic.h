@@ -41,6 +41,8 @@ class Ecliptic : public LineListIndex
 
 		void draw( KStars *kstars, QPainter& psky, double scale );
 
+		void drawLabel( KStars *kstars, QPainter& psky, double scale );
+
 		/**@short Initialize the Ecliptic
 		 *@p data pointer to the KStarsData object
 		 */

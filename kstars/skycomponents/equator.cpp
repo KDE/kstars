@@ -46,12 +46,6 @@ void Equator::preDraw( KStars *kstars, QPainter &psky )
 	m_label.reset( psky );
 }
 
-void Equator::draw( KStars *kstars, QPainter &psky, double scale )
-{
-	NoPrecessIndex::draw( kstars, psky, scale );
-	m_label.draw( kstars, psky, scale );
-}
-
 void Equator::init(KStarsData *data)
 {
 	KSNumbers num( data->ut().djd() );
@@ -73,3 +67,15 @@ void Equator::init(KStarsData *data)
 		appendLine( lineList );
 	}
 }
+
+		
+void Equator::drawLabel( KStars *kstars, QPainter& psky, double scale )
+{
+
+	QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
+	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+
+	m_label.draw( kstars, psky, scale );
+}
+
+

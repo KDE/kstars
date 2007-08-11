@@ -77,9 +77,7 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
 	// We don't draw the label here but we need the proper font in order to set
 	// the margins correctly.  Since psky no contains the zoom dependent font as
 	// its default font, we need to play the little dance below.
-	skyLabeler()->useStdFont( psky );
 	QFontMetricsF fm( psky.font() );
-	skyLabeler()->resetFont( psky );
 
 	// Create the margins within which is is okay to draw the label
 	float sideMargin   =  fm.width("MM") + fm.width( Label ) / 2.0;
@@ -229,17 +227,14 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale
 	// return if there are no valid candidates
 	if ( firstI >= 4 ) return;
 
-	skyLabeler()->useStdFont( psky );
 
 	// Try the points in order and print the label if we can draw it at
 	// a comfortable angle for viewing;
 	for ( int j = firstI; j < 4; j++ ) {
 		o[j] = angleAt( map, i[j], &a[j], scale );
 		if ( fabs( a[j] ) > comfyAngle ) continue;
-		if ( skyLabeler()->drawLabel( psky, o[j], Label, a[j] ) ) {
-			skyLabeler()->resetFont( psky );
+		if ( skyLabeler()->drawLabel( psky, o[j], Label, a[j] ) )
 			return;
-		}
 		okay[j] = false;
 	}
 
@@ -262,7 +257,6 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale
 	}
 
 	skyLabeler()->drawLabel( psky, o[bestI], Label, a[bestI] );
-	skyLabeler()->resetFont( psky );
 }
 
 

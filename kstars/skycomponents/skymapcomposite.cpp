@@ -189,6 +189,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     }
 
     m_skyLabeler->reset( m_map, psky, scale ); 
+	m_skyLabeler->useStdFont( psky );
 
 	//TIMING
 	//QTime t;
@@ -259,13 +260,17 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
 //	kDebug() << QString("Name labels : %1 ms").arg( t.elapsed() ) << endl;
 
-    m_skyLabeler->draw( ks, psky );
-
 	//14. Horizon (and ground)
 //	t.start();
 	m_Horizon->draw( ks, psky, scale );
 //	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() ) << endl;
 
+	m_Ecliptic->drawLabel( ks, psky, scale );
+	m_Equator->drawLabel( ks, psky, scale );
+
+	m_skyLabeler->resetFont( psky );
+    m_skyLabeler->draw( ks, psky );
+	m_skyLabeler->useStdFont( psky );
 
     // -jbb uncomment these to see trixel outlines:
 
