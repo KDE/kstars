@@ -24,10 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(AFX_CAMERAIO_PCI_H__0F583058_8596_11D4_915F_0060676644C1__INCLUDED_)
 #define AFX_CAMERAIO_PCI_H__0F583058_8596_11D4_915F_0060676644C1__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "CameraIO.h"
 
 class CCameraIO_PCI : public CCameraIO  

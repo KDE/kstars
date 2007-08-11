@@ -27,12 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(_APNUSBSYS_H__INCLUDED_)
 #define _APNUSBSYS_H__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
-
-
 #define VND_ANCHOR_LOAD_INTERNAL		0xA0
 
 #define VND_APOGEE_CMD_BASE				0xC0

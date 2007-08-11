@@ -643,7 +643,8 @@ void
 IDLog (const char *fmt, ...)
 {
 	va_list ap;
-	fprintf (stderr, "%s ", timestamp());
+	/* JM: Since all INDI's stderr are timestampped now, we don't need to time stamp ID Log */
+	/*fprintf (stderr, "%s ", timestamp());*/
 	va_start (ap, fmt);
 	vfprintf (stderr, fmt, ap);
 	va_end (ap);

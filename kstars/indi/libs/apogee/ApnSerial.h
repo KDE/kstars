@@ -24,10 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(AFX_APNSERIAL_H__A27F1749_FA8F_40E8_A03F_4A28C8378DD1__INCLUDED_)
 #define AFX_APNSERIAL_H__A27F1749_FA8F_40E8_A03F_4A28C8378DD1__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "Apogee.h"
 
 

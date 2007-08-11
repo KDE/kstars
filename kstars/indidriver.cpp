@@ -431,7 +431,7 @@ bool INDIDriver::runDevice(IDevice *dev)
   dev->proc = new KProcess;
 
   *dev->proc << "indiserver";
-  *dev->proc << "-v" << "-r" << "0" << "-p" << QString::number(dev->indiPort) << dev->driver;
+  *dev->proc << "-v" << "-p" << QString::number(dev->indiPort) << dev->driver;
 
   // Check Mode
   dev->mode = ui->localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
@@ -684,8 +684,6 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   }
 
   groupName = valuXMLAtt(ap);
-
-  kDebug() << "Group Name: " << groupName;
 
   if (groupName.indexOf("Telescopes") != -1)
     groupType = KSTARS_TELESCOPE;

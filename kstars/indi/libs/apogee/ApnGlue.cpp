@@ -55,8 +55,7 @@ ApnGlueGetMaxValues (double *exptime, int *roiw, int *roih, int *osw,
  * binning etc.
  */
 int
-ApnGlueSetExpGeom (int roiw, int roih, int osw, int osh, int binw, int binh,
-int roix, int roiy, int *impixw, int *impixh, char whynot[])
+ApnGlueSetExpGeom (int roiw, int roih, int osw, int osh, int binw, int binh, int roix, int roiy, int *impixw, int *impixh, char whynot[])
 {
 	int maxw, maxh;
 
@@ -164,21 +163,24 @@ ApnGlueExpDone(void)
  * return 0 if ok else -1 with reason in whynot[].
  */
 int
-ApnGlueReadPixels (char *buf, int nbuf, char whynot[])
+ApnGlueReadPixels (unsigned short *buf, int nbuf, char whynot[])
 {
 	unsigned short w, h;
 	unsigned long c, r;
 
 	checkalta();
 
-	r = alta->GetImageData ((unsigned short *)buf, w, h, c);
+	r = alta->GetImageData (buf, w, h, c);
 
-	if (r != CAPNCAMERA_SUCCESS) {
+	if (r != CAPNCAMERA_SUCCESS) 
+	{
 	    sprintf (whynot, "GetImageData returned %ld\n", r);
 	    return (-1);
 	}
-	if (w*h*2 != nbuf) {
-	    sprintf (whynot, "Expecting %d pixels but found %d", nbuf/2, w*h);
+
+	if (w*h != nbuf) 
+	{
+	    sprintf (whynot, "Expecting %d pixels but found %d", nbuf, w*h);
 	    return (-1);
 	}
 

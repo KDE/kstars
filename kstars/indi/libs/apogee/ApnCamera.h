@@ -9,10 +9,6 @@
 #if !defined(AFX_APNCAMERA_H__CF513996_359F_4103_BBA6_2C730AE2C301__INCLUDED_)
 #define AFX_APNCAMERA_H__CF513996_359F_4103_BBA6_2C730AE2C301__INCLUDED_
  
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "Apogee.h"
 
 #include "Apn.h"

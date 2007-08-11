@@ -24,10 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(AFX_APNCAMERA_NET_H__D6F0E3AB_536C_4937_9E2B_DCF682D0DD31__INCLUDED_)
 #define AFX_APNCAMERA_NET_H__D6F0E3AB_536C_4937_9E2B_DCF682D0DD31__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "ApnCamera.h"
 
 class CApnCamera_NET : public CApnCamera  

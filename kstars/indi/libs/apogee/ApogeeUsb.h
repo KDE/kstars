@@ -1,11 +1,6 @@
 #if !defined(_APOGEEUSB_H__INCLUDED_)
 #define _APOGEEUSB_H__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
-
 #ifndef APN_USB_TYPE
 #define APN_USB_TYPE unsigned short
 #endif

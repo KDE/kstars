@@ -22,7 +22,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#define	INDIVERSION	1.6	/* we support this or less */
+#define	INDIVERSION	1.7	/* we support this or less */
 
 /* GUI layout */
 #define PROPERTY_LABEL_WIDTH	100

@@ -24,10 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(AFX_APNSERIAL_NET_H__F31A372D_2B82_4998_B74C_FFAD8E3EEE86__INCLUDED_)
 #define AFX_APNSERIAL_NET_H__F31A372D_2B82_4998_B74C_FFAD8E3EEE86__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "ApnSerial.h"
 
 

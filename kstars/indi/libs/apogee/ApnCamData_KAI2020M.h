@@ -6,10 +6,6 @@
 //
 /////////////////////////////////////////////////////////////
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER> 1000
-
 #include "ApnCamData.h"
 
 class CApnCamData_KAI2020M : public CApnCamData

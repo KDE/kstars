@@ -24,10 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #if !defined(AFX_APNSERIAL_USB_H__D7A1A328_6505_438F_BCCE_FA3F3B5EECC2__INCLUDED_)
 #define AFX_APNSERIAL_USB_H__D7A1A328_6505_438F_BCCE_FA3F3B5EECC2__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "ApnSerial.h"
 
 class CApnSerial_USB : public CApnSerial  

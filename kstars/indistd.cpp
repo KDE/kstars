@@ -26,6 +26,8 @@
 #include "streamwg.h"
 #include "ccdpreviewwg.h"
 
+#include <config-kstars.h>
+
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer.h"
 #endif

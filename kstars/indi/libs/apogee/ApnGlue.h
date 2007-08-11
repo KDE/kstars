@@ -19,7 +19,7 @@ extern int ApnGlueStartExp (double *exptime, int shutter);
 
 extern int ApnGlueExpDone(void);
 
-extern int ApnGlueReadPixels (char *buf, int nbuf, char whynot[]);
+extern int ApnGlueReadPixels (unsigned short *buf, int nbuf, char whynot[]);
 
 extern void ApnGlueSetTemp (double C);
 
