@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATIONBOUNDARY_H
-#define CONSTELLATIONBOUNDARY_H
+#ifndef CONSTELLATION_BOUNDARY_LINES_H
+#define CONSTELLATION_BOUNDARY_LINES_H
 
 #include "noprecessindex.h"
 
 #include <QHash>
 #include <QPolygonF>
 
-class ConstellationBoundaryPoly;
+class ConstellationBoundary;
 
 /**
 	*@class ConstellationBoundary
@@ -33,7 +33,7 @@ class ConstellationBoundaryPoly;
 	*@version 0.1
 	*/
 
-class ConstellationBoundary : public NoPrecessIndex 
+class ConstellationBoundaryLines : public NoPrecessIndex 
 {
 	public:
 	/**
@@ -42,7 +42,7 @@ class ConstellationBoundary : public NoPrecessIndex
 		*(meridians and parallels)
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		ConstellationBoundary( SkyComponent *parent );
+		ConstellationBoundaryLines( SkyComponent *parent );
 
 	/**
 		*@short Initialize the Constellation boundary 
@@ -59,11 +59,6 @@ class ConstellationBoundary : public NoPrecessIndex
         bool selected();
 
         void preDraw( KStars *ks, QPainter &psky );
-        
-	    ConstellationBoundaryPoly* boundaries() { return m_Boundary; }
-
-    private:
-        ConstellationBoundaryPoly* m_Boundary;
 };
 
 

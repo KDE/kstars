@@ -28,7 +28,7 @@
 #include "ksplanet.h"
 
 #include "constellationboundary.h"
-#include "constellationboundarypoly.h"
+#include "constellationboundarylines.h"
 #include "constellationlines.h"
 #include "constellationnamescomponent.h"
 #include "coordinategrid.h"
@@ -69,11 +69,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
 	m_CoordinateGrid = new CoordinateGrid( this );
 	addComponent( m_CoordinateGrid );
 
-	m_CBounds = new ConstellationBoundary( this );
-	addComponent( m_CBounds );
-
-    m_CBoundsBoundary = m_CBounds->boundaries();
-    addComponent( m_CBoundsBoundary );
+	m_CBoundLines = new ConstellationBoundaryLines( this );
+	addComponent( m_CBoundLines );
 
 	m_CLines = new ConstellationLines( this );
 	addComponent( m_CLines );
@@ -208,7 +205,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 	//3. Constellation boundaries
 //	t.start();
-	m_CBounds->draw( ks, psky, scale );
+	m_CBoundLines->draw( ks, psky, scale );
 //	kDebug() << QString("Cons Bound : %1 ms").arg( t.elapsed() ) << endl;
 
 	//4. Constellation lines
@@ -468,42 +465,6 @@ void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
 void SkyMapComposite::reloadComets( KStarsData *data ) {
 	m_SolarSystem->reloadComets( data );
 }
-
-QString SkyMapComposite::constellationName( SkyPoint *p ) {
-	QString name = m_CBoundsBoundary->constellationName( p );
-	return name;
-	QString fullname;
-
-	if(m_ConstellationNames.isEmpty()) {
-		foreach( SkyObject *p, m_CNames->objectList() ) {
-			QString longname = p->name().toLower().replace( 0, 1, p->name().at(0).toUpper());
-			if ( longname.contains( " " ) ) {
-				int i = longname.indexOf(" ")+1;
-				longname.replace( i, 1, longname.at(i).toUpper() );
-			}
-			m_ConstellationNames[ ( p->name2().toUpper() ) ] = longname;
-		}
-	}
-
-	fullname = m_ConstellationNames[ name.toUpper() ];
-	if( ! fullname.isEmpty() )
-		return fullname;
-	else
-		return name;
-}
-
-const QPolygonF* SkyMapComposite::constellationPoly( SkyPoint *p ) {
-	return m_CBoundsBoundary->constellationPoly( p );
-}
-
-const QPolygonF* SkyMapComposite::constellationPoly( const QString& name ) {
-	return m_CBoundsBoundary->constellationPoly( name );
-}
-
-
-//bool SkyMapComposite::inConstellation( const QString &name, SkyPoint *p ) {
-//	return m_CBounds->inConstellation( name, p );
-//}
 
 void SkyMapComposite::emitProgressText( const QString &message ) {
 	emit progressText( message );

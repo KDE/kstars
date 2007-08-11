@@ -1,5 +1,5 @@
 /***************************************************************************
-               constellationboundarypoly.h  -  K Desktop Planetarium
+               constellationboundary.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2007-07-10
     copyright            : (C) 2007 James B. Bowlin
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTELLATIONBOUNDARYPOLY_H
-#define CONSTELLATIONBOUNDARYPOLY_H
+#ifndef CONSTELLATION_BOUNDARY_H
+#define CONSTELLATION_BOUNDARY_H
 
 #include "polylistindex.h"
 
@@ -35,14 +35,18 @@ typedef QVector<PolyList*> PolyListList;
  * @version 0.1
 */
 
-class ConstellationBoundaryPoly : public PolyListIndex
+class ConstellationBoundary : public PolyListIndex
 {
+	protected:
+		ConstellationBoundary( SkyComponent *parent );
+
+		ConstellationBoundary( ConstellationBoundary& constellationBoundary );
+
 	public:
-	/**
-		*@short Constructor
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		ConstellationBoundaryPoly( SkyComponent *parent );
+	
+		static ConstellationBoundary* Create( SkyComponent* parent );
+		
+		static ConstellationBoundary* Instance();
 
 		QString constellationName( SkyPoint *p );
 
@@ -53,6 +57,7 @@ class ConstellationBoundaryPoly : public PolyListIndex
     	bool inConstellation( const QString &name, SkyPoint *p );
 
     private:
+		static ConstellationBoundary* pinstance;
 
 };
 

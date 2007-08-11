@@ -148,7 +148,7 @@ set(libkstarscomponents_SRCS
    skycomponents/deepskycomponent.cpp 
    skycomponents/customcatalogcomponent.cpp 
    skycomponents/constellationboundary.cpp 
-   skycomponents/constellationboundarypoly.cpp 
+   skycomponents/constellationboundarylines.cpp 
    skycomponents/constellationlines.cpp 
    skycomponents/constellationnamescomponent.cpp 
    skycomponents/coordinategrid.cpp 

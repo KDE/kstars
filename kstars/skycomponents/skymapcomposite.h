@@ -31,7 +31,7 @@ class KStars;
 class QPolygonF;
 
 class ConstellationBoundary;
-class ConstellationBoundaryPoly;
+class ConstellationBoundaryLines;
 class ConstellationLines;
 class ConstellationNamesComponent;
 class CoordinateGrid;
@@ -163,12 +163,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void setStarColorIntensity( int newIntensity );
 		int starColorIntensity() const;
 
-		QString constellationName( SkyPoint *p );
-		//bool inConstellation( const QString &name, SkyPoint *p );
-		const QPolygonF* constellationPoly( SkyPoint *p );
-
-		const QPolygonF* constellationPoly( const QString& name );
-
 		virtual void emitProgressText( const QString &message );
 		virtual QHash<int, QStringList>& objectNames();
 		virtual QStringList& objectNames( int k );
@@ -188,8 +182,7 @@ class SkyMapComposite : public QObject, public SkyComposite
 		void progressText( const QString &message );
 
 	private:
-		ConstellationBoundary       *m_CBounds;
-		ConstellationBoundaryPoly   *m_CBoundsBoundary;
+		ConstellationBoundaryLines  *m_CBoundLines;
 		ConstellationNamesComponent *m_CNames;
 		ConstellationLines          *m_CLines;
 		CoordinateGrid              *m_CoordinateGrid;

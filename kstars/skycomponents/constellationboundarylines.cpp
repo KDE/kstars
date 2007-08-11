@@ -1,5 +1,5 @@
 /***************************************************************************
-                 constellationboundary.cpp -  K Desktop Planetarium
+                 constellationboundarylines.cpp -  K Desktop Planetarium
                              -------------------
     begin                : 25 Oct. 2005
     copyright            : (C) 2005 by Jason Harris
@@ -35,15 +35,15 @@
 #include "linelist.h"
 #include "polylist.h"
 #include "linelistindex.h"
+#include "constellationboundarylines.h"
 #include "constellationboundary.h"
-#include "constellationboundarypoly.h"
 
 #include "skymesh.h"
 
-ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
+ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
   : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {
-    m_Boundary = new ConstellationBoundaryPoly( parent );
+    ConstellationBoundary::Create( parent );
 }
 
 // FIXME: -jbb: need to update this information.
@@ -59,7 +59,7 @@ ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
 // screen).  We also store the non-duplicate segments in the Component's native
 // list of SkyLines (for fast drawing of all boundaries at once).
 
-void ConstellationBoundary::init( KStarsData *data ) {
+void ConstellationBoundaryLines::init( KStarsData *data ) {
 
     char* fname = "cbounds.dat";
     int flag;
@@ -67,6 +67,8 @@ void ConstellationBoundary::init( KStarsData *data ) {
 	LineList *lineList = 0;
     PolyList *polyList = 0;
     bool ok;
+
+	ConstellationBoundary* boundaryPoly = ConstellationBoundary::Instance();
 
     intro();
 
@@ -88,7 +90,7 @@ void ConstellationBoundary::init( KStarsData *data ) {
             if ( lineList ) appendLine( lineList );
             lineList = 0; //new LineList();
 
-            if ( polyList ) m_Boundary->appendPoly( polyList );
+            if ( polyList ) boundaryPoly->appendPoly( polyList );
             QString cName = line.mid(1, 3); 
             polyList = new PolyList( cName );
             
@@ -137,19 +139,19 @@ void ConstellationBoundary::init( KStarsData *data ) {
     }
 
     if ( lineList ) appendLine( lineList );
-    if ( polyList ) m_Boundary->appendPoly( polyList );
+    if ( polyList ) boundaryPoly->appendPoly( polyList );
 
     summary();
-    m_Boundary->summary();
+    boundaryPoly->summary();
 
 }
 
-bool ConstellationBoundary::selected()
+bool ConstellationBoundaryLines::selected()
 {
     return Options::showCBounds();
 }
 
-void ConstellationBoundary::preDraw( KStars *kstars, QPainter &psky )
+void ConstellationBoundaryLines::preDraw( KStars *kstars, QPainter &psky )
 {
     QColor color = kstars->data()->colorScheme()->colorNamed( "CBoundColor" );
     //color = QColor("red");
