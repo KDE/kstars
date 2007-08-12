@@ -71,7 +71,7 @@ SolarSystemComposite::~SolarSystemComposite()
 
 bool SolarSystemComposite::selected()
 {
-    return true;
+    return Options::showPlanets();
     // FIXME: should be: return Options::showSolarSystem();
 }
 
@@ -88,6 +88,8 @@ void SolarSystemComposite::init(KStarsData *data)
 
 void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	m_JupiterMoons->update( data, num );
@@ -99,6 +101,8 @@ void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Earth->findPosition( num );
 	foreach ( SkyComponent *comp, components() ) {
 		comp->updatePlanets( data, num );
@@ -107,6 +111,8 @@ void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Sun->findPosition( num );
 	m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
 	m_Moon->findPhase( m_Sun );
@@ -126,6 +132,8 @@ void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 {
+	if ( ! selected() ) return;
+
 	foreach ( SkyComponent *comp, components() ) {
 		comp->drawTrails( ks, psky, scale );
 	}
