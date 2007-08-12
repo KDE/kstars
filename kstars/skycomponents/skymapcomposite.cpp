@@ -43,9 +43,9 @@
 #include "starcomponent.h"
 #include "satellitecomposite.h"
 
-//#include "ksfilereader.h"
 #include "skymesh.h"
 #include "skylabeler.h"
+#include "infoboxes.h"
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : 
     SkyComposite(parent), m_reindexNum( J2000 )
@@ -190,6 +190,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
     m_skyLabeler->reset( m_map, psky, scale ); 
 	m_skyLabeler->useStdFont( psky );
+	ks->infoBoxes()->reserveBoxes( psky );
 
 	//TIMING
 	//QTime t;

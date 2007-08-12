@@ -28,7 +28,7 @@
 
 class QString;
 class QPointF;
-
+class KStars;
 class SkyMap;
 class QPainter;
 class LabelRun;
@@ -257,6 +257,8 @@ class SkyLabeler
 		 * rectangular region bounded by top, bot, left, and right.
 		 */
 		bool markRegion( qreal left, qreal right, qreal top, qreal bot );
+
+		bool markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky );
 
 
 		//----- Diagnostics and Information -----//

@@ -268,6 +268,22 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
 	return markRegion( p.x(), maxX, p.y(), minY );
 }
 
+bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky )
+{
+	/***
+	QColor color( "red" );
+	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );	
+
+	qreal x2 = x + width;
+	qreal y2 = y + height;
+	psky.drawLine( QPointF( x, y ),  QPointF( x2, y ));
+	psky.drawLine( QPointF( x2, y ), QPointF( x2, y2 ));
+	psky.drawLine( QPointF( x2, y2 ),QPointF( x, y2 ));
+	psky.drawLine( QPointF( x, y2 ), QPointF( x,y ));
+	***/
+
+	return markRegion( x, x + width, y + height, y );
+}
 bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 {
     if ( m_maxY < 1 ) {
@@ -294,13 +310,13 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     if ( minY > m_maxY ) minY = m_maxY;
 
 	if ( maxY < minY ) {
+		int temp = maxY;
 		maxY = minY;
-		minY = int( bot / m_yScale );
+		minY = temp;
 	}
 
     // check to see if we overlap any existing label
     // We must check all rows before we start marking
-
     for (int y = minY; y <= maxY; y++ ) {
         LabelRow* row = screenRows[ y ];
         int i;

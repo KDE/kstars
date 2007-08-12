@@ -41,6 +41,8 @@ bool Ecliptic::selected()
 
 void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 {
+	if ( ! selected() ) return;
+
 	QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
 	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
@@ -63,6 +65,8 @@ void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 
 void Ecliptic::drawLabel( KStars *kstars, QPainter& psky, double scale )
 {
+	if ( ! selected() ) return;
+
     QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
 	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );	
 

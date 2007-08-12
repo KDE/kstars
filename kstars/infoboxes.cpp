@@ -27,6 +27,7 @@
 #include "dms.h"
 #include "geolocation.h"
 #include "skypoint.h"
+#include "skycomponents/skylabeler.h"
 
 InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
 		const QPoint &gp, bool gshade, const QPoint &fp, bool fshade,
@@ -124,6 +125,24 @@ void InfoBoxes::drawBoxes( QPainter &p, const QColor &FGColor, const QColor &gra
 			}
 			FocusBox->draw( p, bgColor, bgMode );
 		}
+	}
+}
+
+void InfoBoxes::reserveBoxes( QPainter& psky )
+{
+	if ( ! isVisible() ) return;
+	SkyLabeler* skyLabeler = SkyLabeler::Instance();
+
+	if ( GeoBox->isVisible() ) {
+		skyLabeler->markRect( GeoBox->x(), GeoBox->y(), GeoBox->width(), GeoBox->height(), psky );
+	}
+
+	if ( TimeBox->isVisible() ) {
+		skyLabeler->markRect( TimeBox->x(), TimeBox->y(), TimeBox->width(), TimeBox->height(), psky );
+	}
+
+	if ( FocusBox->isVisible() ) {
+		skyLabeler->markRect( FocusBox->x(), FocusBox->y(), FocusBox->width(), FocusBox->height(), psky );
 	}
 }
 

@@ -29,6 +29,12 @@ LineListLabel::LineListLabel( const QString& text )
 	: m_text( text )
 {
 	m_skyLabeler = SkyLabeler::Instance();
+
+	// prevent a crash if drawLabel() is called before reset()
+	for ( int i = 0; i < 4; i++ ) {
+		m_labList[i] = 0;
+		m_labIndex[i] = 0;
+	}
 }
 
 void LineListLabel::reset( QPainter &psky )

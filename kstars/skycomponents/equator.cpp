@@ -72,6 +72,8 @@ void Equator::init(KStarsData *data)
 void Equator::drawLabel( KStars *kstars, QPainter& psky, double scale )
 {
 
+	if ( ! selected() ) return;
+
 	QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
 	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
