@@ -72,13 +72,16 @@ void LineListIndex::appendLine( LineList* lineList, int debug)
     if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = getIndexHash( lineList );
+	IndexHash::const_iterator iter = indexHash.constBegin();
+	while ( iter != indexHash.constEnd() ) {
+		Trixel trixel = iter.key();
+		iter++;
 
-    foreach ( Trixel trixel, indexHash.keys() ) {
         if ( ! lineIndex()->contains( trixel ) ) {
             lineIndex()->insert(trixel, new LineListList() );
         }
         lineIndex()->value( trixel )->append( lineList );
-    }
+	}
 
 	m_listList.append( lineList);
 
@@ -91,9 +94,11 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
     if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = skyMesh()->indexPoly( lineList->points() );
+	IndexHash::const_iterator iter = indexHash.constBegin();
+	while ( iter != indexHash.constEnd() ) {
+		Trixel trixel = iter.key();
+		iter++;
 
-    foreach (Trixel trixel, indexHash.keys()) {     // foreach okay because we
-                                                 // we needed a copy anyway
         if ( ! polyIndex()->contains( trixel ) ) {
             polyIndex()->insert( trixel, new LineListList() );
         }
