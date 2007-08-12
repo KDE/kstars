@@ -5,13 +5,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>575</height>
+    <width>626</width>
+    <height>585</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="QGroupBox" name="groupBox" >
+    <widget class="QCheckBox" name="kcfg_ShowPlanets" >
+     <property name="text" >
+      <string>Show solar system objects</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="MajorBodiesBox" >
      <property name="title" >
       <string>Sun, Moon &amp;&amp; Planets</string>
      </property>
@@ -96,27 +103,27 @@
          </widget>
         </item>
         <item row="0" column="2" >
-         <widget class="KPushButton" native="1" name="showAllPlanets" >
+         <widget class="KPushButton" name="showAllPlanets" >
           <property name="toolTip" >
            <string>Select all major bodies</string>
           </property>
           <property name="whatsThis" >
            <string>Press this to select all planets, the Sun and the Moon to be drawn in the map</string>
           </property>
-          <property name="text" stdset="0" >
+          <property name="text" >
            <string>Select All</string>
           </property>
          </widget>
         </item>
         <item row="1" column="2" >
-         <widget class="KPushButton" native="1" name="showNonePlanets" >
+         <widget class="KPushButton" name="showNonePlanets" >
           <property name="toolTip" >
            <string>Unselect all major bodies</string>
           </property>
           <property name="whatsThis" >
            <string>Press this button to unselect all planets, the Sun and the Moon so that they will not be drawn on the map</string>
           </property>
-          <property name="text" stdset="0" >
+          <property name="text" >
            <string>Select None</string>
           </property>
          </widget>
@@ -250,7 +257,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
+    <widget class="QGroupBox" name="MinorBodiesBox" >
      <property name="title" >
       <string>Minor Planets</string>
      </property>
@@ -346,23 +353,23 @@
          </widget>
         </item>
         <item row="2" column="2" >
-         <widget class="KDoubleNumInput" native="1" name="kcfg_MaxRadCometName" >
+         <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName" >
           <property name="toolTip" >
            <string>Maximum distance for comet names</string>
           </property>
           <property name="whatsThis" >
            <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
           </property>
-          <property name="maximum" stdset="0" >
+          <property name="maximum" >
            <double>0.000000000000000</double>
           </property>
-          <property name="precision" stdset="0" >
+          <property name="precision" >
            <number>1</number>
           </property>
          </widget>
         </item>
         <item row="1" column="2" >
-         <widget class="MagnitudeSpinBox" native="1" name="kcfg_MagLimitAsteroidName" >
+         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroidName" >
           <property name="focusPolicy" >
            <enum>Qt::StrongFocus</enum>
           </property>
@@ -375,7 +382,7 @@
          </widget>
         </item>
         <item row="0" column="2" >
-         <widget class="MagnitudeSpinBox" native="1" name="kcfg_MagLimitAsteroid" >
+         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid" >
           <property name="focusPolicy" >
            <enum>Qt::StrongFocus</enum>
           </property>
@@ -426,7 +433,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3" >
+    <widget class="QGroupBox" name="TrailsBox" >
      <property name="title" >
       <string>Orbit Trails</string>
      </property>
@@ -478,14 +485,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="KPushButton" native="1" name="ClearAllTrails" >
+           <widget class="KPushButton" name="ClearAllTrails" >
             <property name="toolTip" >
              <string>Clear all orbit trails</string>
             </property>
             <property name="whatsThis" >
              <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
             </property>
-            <property name="text" stdset="0" >
+            <property name="text" >
              <string>Remove All Trails</string>
             </property>
            </widget>
@@ -538,14 +545,14 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>

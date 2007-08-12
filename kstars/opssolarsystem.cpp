@@ -25,6 +25,7 @@ OpsSolarSystem::OpsSolarSystem( KStars *_ks )
 {
 	setupUi( this );
 
+	connect( kcfg_ShowPlanets, SIGNAL( toggled(bool) ), SLOT( slotAllWidgets(bool) ) );
 	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
 	connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
 	connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );
@@ -38,6 +39,12 @@ OpsSolarSystem::OpsSolarSystem( KStars *_ks )
 
 OpsSolarSystem::~OpsSolarSystem()
 {
+}
+
+void OpsSolarSystem::slotAllWidgets( bool on ) {
+	MajorBodiesBox->setEnabled( on );
+	MinorBodiesBox->setEnabled( on );
+	TrailsBox->setEnabled( on );
 }
 
 void OpsSolarSystem::slotAsteroidWidgets( bool on ) {
@@ -57,7 +64,8 @@ void OpsSolarSystem::slotCometWidgets( bool on ) {
 
 void OpsSolarSystem::slotSelectPlanets() {
 	bool b=true;
-	if ( sender() == ksw->actionCollection()->action( "showNonePlanets" ) ) b = false;
+	if ( QString(sender()->name()) == "showNonePlanets" )
+		b = false;
 	
 	kcfg_ShowSun->setChecked( b );
 	kcfg_ShowMoon->setChecked( b );

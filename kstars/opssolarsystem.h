@@ -38,6 +38,7 @@ public:
 	~OpsSolarSystem();
 
 private slots:
+	void slotAllWidgets(bool on);
 	void slotAsteroidWidgets(bool on);
 	void slotCometWidgets(bool on);
 	void slotSelectPlanets();
