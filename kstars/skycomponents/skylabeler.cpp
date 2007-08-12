@@ -195,6 +195,19 @@ void SkyLabeler::resetFont(QPainter& psky)
     setFont( psky, m_skyFont );
 }
 
+void SkyLabeler::getMargins( QPainter& psky, const QString& text, float *left,
+		                     float *right, float *top, float *bot )
+{
+	float height     = m_fontMetrics.height();
+	float width      = m_fontMetrics.width( text );
+	float sideMargin = m_fontMetrics.width("MM") + width / 2.0;
+
+	// Create the margins within which it is okay to draw the label
+	*right = psky.window().width() - sideMargin;
+	*left  = sideMargin;
+	*top   = height;
+	*bot   = psky.window().height() - 2.0 * height;
+}
 
 void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
 {

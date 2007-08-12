@@ -266,8 +266,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_Horizon->draw( ks, psky, scale );
 //	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() ) << endl;
 
-	m_Ecliptic->drawLabel( ks, psky, scale );
-	m_Equator->drawLabel( ks, psky, scale );
+	//m_Ecliptic->drawLabel( ks, psky, scale );
+	//m_Equator->drawLabel( ks, psky, scale );
 
 	m_skyLabeler->resetFont( psky );
     m_skyLabeler->draw( ks, psky );

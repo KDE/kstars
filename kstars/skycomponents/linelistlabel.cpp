@@ -55,19 +55,8 @@ void LineListLabel::reset( QPainter &psky )
 	m_farTop   = 100000.0;
 	m_farBot   = 0.0;
 
-	// We don't draw the label here but we need the proper font in order to set
-	// the margins correctly.  Since psky no contains the zoom dependent font as
-	// its default font, we need to play the little dance below.
-	QFontMetricsF fm = skyLabeler()->fontMetrics();
-	float height     = fm.height();
-	float width      = fm.width( m_text );
-	float sideMargin = fm.width("MM") + width / 2.0;
-
-	// Create the margins within which it is okay to draw the label
-	m_marginRight = psky.window().width() - sideMargin;
-	m_marginLeft  = sideMargin;
-	m_marginTop   = height;
-	m_marginBot   = psky.window().height() - 2.0 * height;
+	skyLabeler()->getMargins( psky, m_text, &m_marginLeft, &m_marginRight,
+			                  &m_marginTop, &m_marginBot );
 }
 
 void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList, int i )
@@ -123,7 +112,7 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
 
 	// We no longer adjust the order but if we were to it would be here
  	static int Order[4]  = 
-		 { RightCandidate, LeftCandidate, BotCandidate, TopCandidate }; 
+		 { LeftCandidate, BotCandidate, TopCandidate, LeftCandidate }; 
 
 	for ( int j = 0; j < 4; j++ ) {
 		idx[j]	= m_labIndex[ Order[ j ] ];

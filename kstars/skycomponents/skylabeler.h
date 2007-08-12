@@ -194,6 +194,12 @@ class SkyLabeler
 
 		//----- Drawing/Adding Labels -----//
 
+		/* @short sets four margins for help in keeping labels entirely on the
+		 * screen.
+		 */
+		void getMargins( QPainter& psky, const QString& text, float *left,
+				         float *right, float *top, float *bot );
+
 		/* @short a convenience routine that draws the label specified
 		 * in the SkyLabel.
 		 */

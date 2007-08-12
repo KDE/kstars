@@ -46,6 +46,12 @@ void Equator::preDraw( KStars *kstars, QPainter &psky )
 	m_label.reset( psky );
 }
 
+void Equator::draw( KStars *kstars, QPainter &psky, double scale )
+{
+	NoPrecessIndex::draw( kstars, psky, scale );
+	m_label.draw( kstars, psky, scale );
+}
+
 void Equator::init(KStarsData *data)
 {
 	KSNumbers num( data->ut().djd() );

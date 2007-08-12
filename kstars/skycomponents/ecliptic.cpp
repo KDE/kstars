@@ -60,6 +60,7 @@ void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 		else 
 			drawAllLinesInt( kstars, psky, scale );
 	}
+	m_label.draw( kstars, psky, scale );
 }
 
 

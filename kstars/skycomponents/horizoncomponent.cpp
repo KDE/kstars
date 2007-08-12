@@ -84,6 +84,13 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	QPolygon groundPoly;
 	SkyPoint *pAnchor(0), *pAnchor2(0);
 
+ 	static const QString horizonLabel = i18n("Horizon");
+	float marginLeft, marginRight, marginTop, marginBot;
+	SkyLabeler::Instance()->getMargins( psky, horizonLabel, &marginLeft, &marginRight,
+			                            &marginTop, &marginBot );
+
+	printf("%.f %.f %.f %.f\n", marginLeft, marginRight, marginTop, marginBot );
+
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
 	if ( Options::showGround() )
@@ -115,7 +122,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
-				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+				if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 					pAnchor = p;
 
 				if ( o.y() > 0. ) allGround = false;
@@ -135,7 +142,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 				groundPoly << QPoint(int(o.x()),int(o.y()));
 
 			//Set the anchor point if this point is onscreen
-			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+			if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 				pAnchor = p;
 
 			if ( o.y() > 0. ) allGround = false;
@@ -156,7 +163,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
-				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+				if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 					pAnchor = p;
 
 				if ( o.y() > 0. ) allGround = false;
@@ -288,7 +295,10 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	//Draw Horizon name label
 	//pAnchor contains the last point of the Horizon before it went offcreen 
 	//on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
-	if ( ! pAnchor )  return;
+	if ( ! pAnchor ) {
+		drawCompassLabels( ks, psky, scale );
+		return;
+	}
 
 	int iAnchor = pointList().indexOf( pAnchor );
 	if ( iAnchor == pointList().size()-1 ) iAnchor = 0;
@@ -355,7 +365,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	if ( angle < -90.0 ) angle += 180.0;
 	if ( angle >  90.0 ) angle -= 180.0;
 
-	SkyLabeler::Instance()->drawLabel( psky, o1, i18n("Horizon"), angle );
+	SkyLabeler::Instance()->drawLabel( psky, o1, horizonLabel, angle );
 
 	drawCompassLabels( ks, psky, scale );
 }
