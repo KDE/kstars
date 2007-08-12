@@ -89,8 +89,6 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	SkyLabeler::Instance()->getMargins( psky, horizonLabel, &marginLeft, &marginRight,
 			                            &marginTop, &marginBot );
 
-	printf("%.f %.f %.f %.f\n", marginLeft, marginRight, marginTop, marginBot );
-
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
 	if ( Options::showGround() )
