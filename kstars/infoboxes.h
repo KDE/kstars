@@ -261,6 +261,9 @@ private:
 	const QColor boxColor, grabColor, bgColor;
 	QPoint GrabPos;
 	InfoBox *GeoBox, *FocusBox, *TimeBox;
+	InfoBox* m_box[3];
+
+	int m_saveFocus[3][2];
 };
 
 #endif

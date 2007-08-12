@@ -166,6 +166,7 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
+	return; // -jbb
 	const QPolygonF* cbound =
 		ConstellationBoundary::Instance()->constellationPoly( focus() );
 

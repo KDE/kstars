@@ -35,7 +35,6 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
 		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG),
 		GeoBox(0), FocusBox(0), TimeBox(0)
 {
-
 	int tx = tp.x();
 	int ty = tp.y();
 	int gx = gp.x();
@@ -54,6 +53,9 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
 	GeoBox   = new InfoBox( gx, gy, gshade, QString(), QString() );
 	TimeBox  = new InfoBox( tx, ty, tshade, QString(), QString(), QString() );
 	FocusBox = new InfoBox( fx, fy, fshade, QString(), QString(), QString() );
+	m_box[0] = GeoBox;
+	m_box[1] = TimeBox;
+	m_box[2] = FocusBox;
 
 	fixCollisions( TimeBox );
 	fixCollisions( FocusBox );
@@ -77,6 +79,9 @@ InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 	GeoBox   = new InfoBox( gx, gy, gshade, QString(), QString() );
 	TimeBox  = new InfoBox( tx, ty, tshade, QString(), QString(), QString() );
 	FocusBox = new InfoBox( fx, fy, fshade, QString(), QString(), QString() );
+	m_box[0] = GeoBox;
+	m_box[1] = TimeBox;
+	m_box[2] = FocusBox;
 
 	fixCollisions( TimeBox );
 	fixCollisions( FocusBox );
@@ -98,51 +103,35 @@ void InfoBoxes::resize( int w, int h ) {
 
 void InfoBoxes::drawBoxes( QPainter &p, const QColor &FGColor, const QColor &grabColor,
 		const QColor &bgColor, unsigned int bgMode ) {
-	if ( isVisible() ) {
-		if ( GeoBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
-			if ( GrabbedBox == 1 ) {
-				p.setPen( QPen( grabColor ) );
-				p.drawRect( GeoBox->x(), GeoBox->y(), GeoBox->width(), GeoBox->height() );
-			}
-			GeoBox->draw( p, bgColor, bgMode );
-		}
 
-		if ( TimeBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
-			if ( GrabbedBox == 2 ) {
-				p.setPen( QPen( grabColor ) );
-				p.drawRect( TimeBox->x(), TimeBox->y(), TimeBox->width(), TimeBox->height() );
-			}
-			TimeBox->draw( p, bgColor, bgMode );
-		}
+	if (  ! isVisible() ) return;
 
-		if ( FocusBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
-			if ( GrabbedBox == 3 ) {
-				p.setPen( QPen( grabColor ) );
-				p.drawRect( FocusBox->x(), FocusBox->y(), FocusBox->width(), FocusBox->height() );
-			}
-			FocusBox->draw( p, bgColor, bgMode );
+	p.setPen( QPen( FGColor ) );
+
+	for ( int i = 0; i < 3; i++ ) {
+		InfoBox* box = m_box[i];
+		if ( ! box->isVisible() ) continue;
+		if ( GrabbedBox == i + 1 ) {
+			p.setPen( QPen( grabColor ) );
+			p.drawRect( box->x(), box->y(), box->width(), box->height() );
 		}
+		box->draw( p, bgColor, bgMode );
+		m_saveFocus[i][0] = box->x();
+		m_saveFocus[i][1] = box->y();
 	}
 }
 
 void InfoBoxes::reserveBoxes( QPainter& psky )
 {
 	if ( ! isVisible() ) return;
+
 	SkyLabeler* skyLabeler = SkyLabeler::Instance();
-
-	if ( GeoBox->isVisible() ) {
-		skyLabeler->markRect( GeoBox->x(), GeoBox->y(), GeoBox->width(), GeoBox->height(), psky );
-	}
-
-	if ( TimeBox->isVisible() ) {
-		skyLabeler->markRect( TimeBox->x(), TimeBox->y(), TimeBox->width(), TimeBox->height(), psky );
-	}
-
-	if ( FocusBox->isVisible() ) {
-		skyLabeler->markRect( FocusBox->x(), FocusBox->y(), FocusBox->width(), FocusBox->height(), psky );
+	for ( int i = 0; i < 3; i++ ) {
+		InfoBox* box = m_box[i];
+		if ( ! box->isVisible() ) continue;
+		int x = m_saveFocus[i][0];
+		int y = m_saveFocus[i][1];
+		skyLabeler->markRect( x, y, box->width(), box->height(), psky );
 	}
 }
 
