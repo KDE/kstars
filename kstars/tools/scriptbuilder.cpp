@@ -618,13 +618,13 @@ void ScriptBuilder::initViewOptions() {
 	new QTreeWidgetItem( opsShowObj, fields );
 	fields.clear();
 
-	argChangeViewOption->OptionName->addItem( "ShowSAO" );
+	argChangeViewOption->OptionName->addItem( "ShowStars" );
 	argChangeViewOption->OptionName->addItem( "ShowDeepSky" );
 	argChangeViewOption->OptionName->addItem( "ShowMess" );
 	argChangeViewOption->OptionName->addItem( "ShowMessImages" );
 	argChangeViewOption->OptionName->addItem( "ShowNGC" );
 	argChangeViewOption->OptionName->addItem( "ShowIC" );
-	argChangeViewOption->OptionName->addItem( "ShowPlanets" );
+	argChangeViewOption->OptionName->addItem( "ShowSolarSystem" );
 	argChangeViewOption->OptionName->addItem( "ShowSun" );
 	argChangeViewOption->OptionName->addItem( "ShowMoon" );
 	argChangeViewOption->OptionName->addItem( "ShowMercury" );

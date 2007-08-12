@@ -434,7 +434,7 @@
 			<whatsthis>Toggle whether the Milky Way contour is filled.  When this option is false, the Milky Way is shown as an outline.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="ShowPlanets" type="Bool">
+		<entry name="ShowSolarSystem" type="Bool">
 			<label>Meta-option for all planets in the sky map.</label>
 			<whatsthis>Meta-option to control whether all major planets (and the Sun and Moon) are drawn in the sky map.</whatsthis>
 			<default>true</default>

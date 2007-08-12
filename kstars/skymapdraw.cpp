@@ -274,7 +274,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
 	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
-	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
+	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
 	bool drawComets( drawPlanets && Options::showComets() );
 	bool drawAsteroids( drawPlanets && Options::showAsteroids() );
 	bool drawMessier( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );

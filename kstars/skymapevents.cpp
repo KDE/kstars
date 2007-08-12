@@ -721,7 +721,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 // 				&& Options::hideOnSlew() );
 //
 // 	//shortcuts to inform whether to draw different objects
-// 	bool drawPlanets( Options::showPlanets() && !(checkSlewing && Options::hidePlanets() ) );
+// 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
 // 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
 // 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
 // 	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );

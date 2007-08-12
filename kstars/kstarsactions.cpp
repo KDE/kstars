@@ -109,7 +109,7 @@ void KStars::slotViewToolBar() {
 	} else if ( a == actionCollection()->action( "show_deepsky" ) ) {
 		Options::setShowDeepSky( a->isChecked() );
 	} else if ( a == actionCollection()->action( "show_planets" ) ) {
-		Options::setShowPlanets( a->isChecked() );
+		Options::setShowSolarSystem( a->isChecked() );
 	} else if ( a == actionCollection()->action( "show_clines" ) ) {
 		Options::setShowCLines( a->isChecked() );
 	} else if ( a == actionCollection()->action( "show_cnames" ) ) {

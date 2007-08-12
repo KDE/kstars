@@ -11,7 +11,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="QCheckBox" name="kcfg_ShowPlanets" >
+    <widget class="QCheckBox" name="kcfg_ShowSolarSystem" >
      <property name="text" >
       <string>Show solar system objects</string>
      </property>

@@ -347,9 +347,6 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	//Turn off animated slews for the next time step.
 	setSnapNextFocus();
 
-	//DEBUG
-	kDebug() << "setting DateTime :" << newDate.toString() << ":";
-
 	clock()->setUTC( newDate );
 
 	LTime = geo()->UTtoLT( ut() );
@@ -1114,7 +1111,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( fn[1] == "ShowPluto"       && bOk ) { Options::setShowPluto(    bVal ); cmdCount++; }
 				if ( fn[1] == "ShowAsteroids"   && bOk ) { Options::setShowAsteroids( bVal ); cmdCount++; }
 				if ( fn[1] == "ShowComets"      && bOk ) { Options::setShowComets(   bVal ); cmdCount++; }
-				if ( fn[1] == "ShowPlanets"     && bOk ) { Options::setShowPlanets(  bVal ); cmdCount++; }
+				if ( fn[1] == "ShowSolarSystem" && bOk ) { Options::setShowSolarSystem( bVal ); cmdCount++; }
 				if ( fn[1] == "ShowDeepSky"     && bOk ) { Options::setShowDeepSky(  bVal ); cmdCount++; }
 				if ( fn[1] == "ShowStarNames"      && bOk ) { Options::setShowStarNames(      bVal ); cmdCount++; }
 				if ( fn[1] == "ShowStarMagnitudes" && bOk ) { Options::setShowStarMagnitudes( bVal ); cmdCount++; }

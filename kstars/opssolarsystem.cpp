@@ -25,7 +25,7 @@ OpsSolarSystem::OpsSolarSystem( KStars *_ks )
 {
 	setupUi( this );
 
-	connect( kcfg_ShowPlanets, SIGNAL( toggled(bool) ), SLOT( slotAllWidgets(bool) ) );
+	connect( kcfg_ShowSolarSystem, SIGNAL( toggled(bool) ), SLOT( slotAllWidgets(bool) ) );
 	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
 	connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
 	connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );

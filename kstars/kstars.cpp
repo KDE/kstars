@@ -165,7 +165,7 @@ void KStars::applyConfig() {
 	((KToggleAction*)actionCollection()->action("show_sbRADec"))->setChecked( Options::showRADecField() );
 	((KToggleAction*)actionCollection()->action("show_stars"))->setChecked( Options::showStars() );
 	((KToggleAction*)actionCollection()->action("show_deepsky"))->setChecked( Options::showDeepSky() );
-	((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showPlanets() );
+	((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showSolarSystem() );
 	((KToggleAction*)actionCollection()->action("show_clines"))->setChecked( Options::showCLines() );
 	((KToggleAction*)actionCollection()->action("show_cnames"))->setChecked( Options::showCNames() );
 	((KToggleAction*)actionCollection()->action("show_cbounds"))->setChecked( Options::showCBounds() );
