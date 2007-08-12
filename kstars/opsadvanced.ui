@@ -5,16 +5,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
+    <width>484</width>
     <height>582</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="leftMargin" >
+    <number>8</number>
+   </property>
+   <property name="topMargin" >
+    <number>8</number>
+   </property>
+   <property name="rightMargin" >
+    <number>8</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>8</number>
    </property>
    <item>
     <widget class="QCheckBox" name="kcfg_UseRefraction" >
@@ -84,11 +93,20 @@
       <string>Observing List Labels</string>
      </property>
      <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
+      </property>
+      <property name="leftMargin" >
+       <number>8</number>
+      </property>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
       </property>
       <item>
        <widget class="QRadioButton" name="kcfg_ObsListSymbol" >
@@ -141,11 +159,20 @@
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="textLabelHideTimeStep" >
@@ -181,19 +208,37 @@
       <string>Configure Hidden Objects</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
       </property>
+      <property name="leftMargin" >
+       <number>8</number>
+      </property>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QCheckBox" name="kcfg_HideStars" >
@@ -251,10 +296,22 @@
       </item>
       <item>
        <layout class="QGridLayout" >
-        <property name="margin" >
+        <property name="leftMargin" >
          <number>0</number>
         </property>
-        <property name="spacing" >
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>6</number>
+        </property>
+        <property name="verticalSpacing" >
          <number>6</number>
         </property>
         <item rowspan="2" row="4" column="0" >
@@ -368,6 +425,13 @@
           </property>
          </widget>
         </item>
+        <item row="6" column="0" >
+         <widget class="QCheckBox" name="kcfg_HideLabels" >
+          <property name="text" >
+           <string>Object labels</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -394,19 +458,14 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>TimeStepBox</class>
-   <extends>QSpinBox</extends>
-   <header>widgets/timestepbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>MagnitudeSpinBox</class>
    <extends>KDoubleNumInput</extends>
    <header>widgets/magnitudespinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TimeStepBox</class>
+   <extends>QSpinBox</extends>
+   <header>widgets/timestepbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -329,6 +329,11 @@
 			<whatsthis>Toggle whether faint stars are hidden while the display is in motion.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="HideLabels" type="Bool">
+			<label>Hide object name labels while moving?</label>
+			<whatsthis>Toggle whether name labels are hidden while the display is in motion.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="ShowAsteroids" type="Bool">
 			<label>Draw asteroids in the sky map?</label>
 			<whatsthis>Toggle whether asteroids are drawn in the sky map.</whatsthis>

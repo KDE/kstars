@@ -268,12 +268,14 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 }
 
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale ) {
+	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
+	if ( checkSlewing && Options::hideLabels() ) return;
+
 	float Width = scale * width();
 	float Height = scale * height();
 
 	psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
-	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
 	bool drawComets( drawPlanets && Options::showComets() );
 	bool drawAsteroids( drawPlanets && Options::showAsteroids() );

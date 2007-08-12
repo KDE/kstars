@@ -47,17 +47,6 @@ void OpsAdvanced::slotToggleHideOptions() {
 	textLabelHideTimeStep->setEnabled( kcfg_HideOnSlew->isChecked() );
 	SlewTimeScale->setEnabled( kcfg_HideOnSlew->isChecked() );
 	HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
-/*	kcfg_MagLimitHideStar->setEnabled( kcfg_HideOnSlew->isChecked() );
-	textLabelMag1->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HidePlanets->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideMessier->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideNGC->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideIC->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideMilkyWay->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideCNames->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideCLines->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideCBounds->setEnabled( kcfg_HideOnSlew->isChecked() );
-	kcfg_HideGrid->setEnabled( kcfg_HideOnSlew->isChecked() );*/
 }
 
 #include "opsadvanced.moc"

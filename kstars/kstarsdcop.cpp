@@ -295,6 +295,7 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
 	if ( op == "HideCLines"  && bOk ) Options::setHideCLines(  bVal );
 	if ( op == "HideCBounds" && bOk ) Options::setHideCBounds( bVal );
 	if ( op == "HideGrid"    && bOk ) Options::setHideGrid(    bVal );
+	if ( op == "HideLabels"  && bOk ) Options::setHideLabels(  bVal );
 
 	if ( op == "UseAltAz"         && bOk ) Options::setUseAltAz(      bVal );
 	if ( op == "UseRefraction"    && bOk ) Options::setUseRefraction( bVal );
