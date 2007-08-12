@@ -446,8 +446,19 @@ void SkyMap::slotCancelAngularDistance(void) {
 
 void SkyMap::slotImage() {
 	QString message = ((KAction*)sender())->text();
+	message = message.replace( "&", "" ); //Get rid of accelerator markers
 	int index = clickedObject()->ImageTitle.indexOf(message);
-	QString sURL = clickedObject()->ImageList[ index ];
+
+	QString sURL = QString();
+	if ( index >= 0 && index < clickedObject()->ImageList.size() ) {
+		sURL = clickedObject()->ImageList[ index ];
+	} else {
+		kWarning() << "ImageList index out of bounds: " << index << endl;
+		if ( index == -1 ) {
+			kWarning() << "Message string \"" << message << "\" not found in ImageTitle." << endl;
+			kDebug() << clickedObject()->ImageTitle << endl;
+		}
+	}
 
 	KUrl url ( sURL );
 	if ( url.isEmpty() ) return;
@@ -457,8 +468,20 @@ void SkyMap::slotImage() {
 
 void SkyMap::slotInfo() {
 	QString message = ((KAction*)sender())->text();
+	message = message.replace( "&", "" ); //Get rid of accelerator markers
 	int index = clickedObject()->InfoTitle.indexOf(message);
-	QString sURL = clickedObject()->InfoList[ index ];
+
+	QString sURL = QString();
+	if ( index >= 0 && index < clickedObject()->InfoList.size() ) {
+		sURL = clickedObject()->InfoList[ index ];
+	} else {
+		kWarning() << "InfoList index out of bounds: " << index << endl;
+		if ( index == -1 ) {
+			kWarning() << "Message string \"" << message << "\" not found in InfoTitle." << endl;
+			kDebug() << clickedObject()->InfoTitle << endl;
+		}
+	}
+
 	KUrl url ( sURL );
 	if (!url.isEmpty())
 		KToolInvocation::invokeBrowser(sURL);
@@ -541,7 +564,7 @@ void SkyMap::setFocus( const dms &ra, const dms &dec ) {
 
 void SkyMap::setFocus( double ra, double dec ) {
 	//QUATERNION
-  m_rotAxis.createFromEuler( (360. - dec)*dms::DegToRad, (15.0*ra)*dms::DegToRad, 0.0 );
+  m_rotAxis.createFromEuler( (dec)*dms::DegToRad, (15.0*ra)*dms::DegToRad, 0.0 );
   m_rotAxis = m_rotAxis.inverse();
 
 	Focus.set( ra, dec );
