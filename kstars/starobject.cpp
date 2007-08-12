@@ -343,7 +343,8 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 		psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
 }
 
-void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
+QString StarObject::nameLabel( bool drawName, bool drawMag )
+{
 	QString sName( i18n("star") + ' ' );
 	if ( drawName ) {
 		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
@@ -356,7 +357,11 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 		else
 			sName.sprintf("%.1f", mag() );
 	}
+	return sName;
+}
 
+void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
+	QString sName = nameLabel( drawName, drawMag );
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
 	if ( Options::useAntialias() )

@@ -175,6 +175,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     double zoom = Options::zoomFactor();
 
     bool drawMag = Options::showStarMagnitudes();
+	bool drawName = Options::showStarNames();
 
 	//Loop for drawing star images
     MeshIterator region(m_skyMesh, DRAW_BUF);
@@ -207,26 +208,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
             if ( mag > labelMagLim ) continue;
             //if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) continue;
 
-            // NOTE: the code below was copied here from StarObject.  Perhaps
-            // there is a cleaner way. -jbb
             float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
-
-            //bool drawName = ( Options::showStarNames() && curStar->name() != i18n("star") );
-            bool drawName = ( Options::showStarNames() );
-
-            QString sName( i18n("star") + ' ' );
-            if ( drawName ) {
-                if ( curStar->translatedName() != i18n("star") && ! curStar->translatedName().isEmpty() )
-                    sName = curStar->translatedName() + ' ';
-                else if ( ! curStar->gname().trimmed().isEmpty() ) sName = curStar->gname( true ) + ' ';
-            }
-            if ( drawMag ) {
-                if ( drawName )
-                    sName += QString().sprintf("%.1f", curStar->mag() );
-                else
-                    sName.sprintf("%.1f", curStar->mag() );
-            }
-    
+			QString sName = curStar->nameLabel( drawName, drawMag );
 			SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
 	    }
     }

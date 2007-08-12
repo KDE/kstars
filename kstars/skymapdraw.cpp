@@ -46,6 +46,7 @@
 #include "indidevice.h"
 #include "observinglist.h"
 #include "skycomponents/constellationboundary.h"
+#include "skycomponents/skylabeler.h"
 
 void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     double sinRa, sinDec, cosRa, cosDec;
@@ -280,6 +281,9 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	float Width = scale * width();
 	float Height = scale * height();
 
+	SkyLabeler* skyLabeler = SkyLabeler::Instance();
+	skyLabeler->resetFont( psky );      // use the zoom dependent font
+
 	psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
 	bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
@@ -297,36 +301,46 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 		//Only draw an attached label if the object is being drawn to the map
 		//reproducing logic from other draw funcs here...not an optimal solution
 		if ( obj->type() == SkyObject::STAR ) {
-			if ( ! drawStars ) return;
-			if ( obj->mag() > Options::magLimitDrawStar() ) return;
-			if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) return;
+			if ( ! drawStars ) continue;
+			if ( obj->mag() > Options::magLimitDrawStar() ) continue;
+			if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) continue;
 		}
 		if ( obj->type() == SkyObject::PLANET ) {
-			if ( ! drawPlanets ) return;
-			if ( obj->name() == "Sun" && ! Options::showSun() ) return;
-			if ( obj->name() == "Mercury" && ! Options::showMercury() ) return;
-			if ( obj->name() == "Venus" && ! Options::showVenus() ) return;
-			if ( obj->name() == "Moon" && ! Options::showMoon() ) return;
-			if ( obj->name() == "Mars" && ! Options::showMars() ) return;
-			if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) return;
-			if ( obj->name() == "Saturn" && ! Options::showSaturn() ) return;
-			if ( obj->name() == "Uranus" && ! Options::showUranus() ) return;
-			if ( obj->name() == "Neptune" && ! Options::showNeptune() ) return;
-			if ( obj->name() == "Pluto" && ! Options::showPluto() ) return;
+			if ( ! drawPlanets ) continue;
+			if ( obj->name() == "Sun" && ! Options::showSun() ) continue;
+			if ( obj->name() == "Mercury" && ! Options::showMercury() ) continue;
+			if ( obj->name() == "Venus" && ! Options::showVenus() ) continue;
+			if ( obj->name() == "Moon" && ! Options::showMoon() ) continue;
+			if ( obj->name() == "Mars" && ! Options::showMars() ) continue;
+			if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) continue;
+			if ( obj->name() == "Saturn" && ! Options::showSaturn() ) continue;
+			if ( obj->name() == "Uranus" && ! Options::showUranus() ) continue;
+			if ( obj->name() == "Neptune" && ! Options::showNeptune() ) continue;
+			if ( obj->name() == "Pluto" && ! Options::showPluto() ) continue;
 		}
 		if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
-			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) continue;
 		}
-		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
-		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
+		if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
+		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
 
-		if ( checkVisibility( obj ) ) {
-			QPointF o = toScreen( obj, scale );
-			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-				obj->drawNameLabel( psky, o.x(), o.y(), scale );
+		if ( ! checkVisibility( obj ) ) continue;
+		QPointF o = toScreen( obj, scale );
+		if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
+
+		if ( obj->type() == SkyObject::STAR ) {
+			StarObject* star = (StarObject*) obj;
+			float offset = scale * (6. + 0.5*( 5.0 - star->mag() ) 
+					+ 0.01 * ( Options::zoomFactor() /500. ) );
+			QString sName = star->nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
+			//kDebug() << QString("Star: %1\n").arg(sName);
+			skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset), sName );
+		}
+		else {
+			skyLabeler->drawOffsetLabel( psky, o, obj->translatedName() );
 		}
 	}
 
@@ -334,8 +348,11 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
 		QPointF o = toScreen( focusObject(), scale );
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-			focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
+			skyLabeler->drawOffsetLabel( psky, o, focusObject()->translatedName() );
+			//focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
 	}
+
+	skyLabeler->useStdFont( psky );   // For the guides that all use the StdFont.
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {

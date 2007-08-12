@@ -224,6 +224,8 @@ class StarObject : public SkyObject {
 			bool useRealColors, int scIntensity, bool drawMultiple=true, 
 			double scale=1.0 );
 
+	QString nameLabel( bool drawName, bool drawMag );
+
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
 
 /**
