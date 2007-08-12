@@ -45,6 +45,7 @@
 #include "indielement.h"
 #include "indidevice.h"
 #include "observinglist.h"
+#include "skycomponents/constellationboundary.h"
 
 void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     double sinRa, sinDec, cosRa, cosDec;
@@ -165,19 +166,22 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
-    return;  // -jbb for now
-    /***
-	QPolygonF cbound;
-	data->skyComposite()->constellation( focus(), &cbound );
-	
+	const QPolygonF* cbound =
+		ConstellationBoundary::Instance()->constellationPoly( focus() );
+
+	if ( ! cbound ) return;
+
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
 
+	QPolygonF clippedPoly;
+	bool needClip( false );
 	//If the solid ground is being drawn, then we may need to clip the 
 	//polygon at the Horizon.  cbound will be the clipped polygon
 	if ( Options::useAltAz() && Options::showGround() ) {
 		QPolygonF horizPolygon;
-		bool needClip( false );
-		foreach ( QPointF node, cbound ) {
+
+		for ( int i = 0; i < cbound->size(); i++ ) {
+			QPointF node = cbound->at( i );
 			SkyPoint sp( node.x(), node.y() );
 			sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			horizPolygon << QPointF( sp.az()->Degrees(), sp.alt()->Degrees() );
@@ -192,6 +196,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 
 		//We need to clip if the bounding rect intersects the horizon
 		if ( rBound.contains( QPointF( rBound.center().x(), 0.0 ) ) ) {
+			needClip = true;
 			QPolygonF clipper;
 			clipper << QPointF( rBound.left(), -0.5 ) << QPointF( rBound.right(), -0.5 )
 							<< QPointF( rBound.right(), rBound.top() ) //top() is bottom ;) 
@@ -201,13 +206,13 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 
 			//Now, convert the clipped horizPolygon vertices back to equatorial 
 			//coordinates, and store them back in cbound
-			cbound = QPolygonF();
+
 			foreach ( QPointF node, horizPolygon ) {
 				SkyPoint sp;
 				sp.setAz( node.x() );
 				sp.setAlt( node.y() );
 				sp.HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cbound << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
+				clippedPoly << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
 			}
 		}
 	}
@@ -215,22 +220,24 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 	//Transform the constellation boundary polygon to the screen and clip
     // against the celestial horizon
 
-    if (cbound.size() < 2) return;
+	const QPolygonF* bound = needClip ? &clippedPoly : cbound;
+
+    if (bound->size() < 2) return;
 
 	bool isVisible, isVisibleLast;
     SkyPoint  *pThis, *pLast;
     QPointF oThis, oLast, oMid;
 
-    QPointF node = cbound.at( 0 );
+    QPointF node = bound->at( 0 );
     pLast = new SkyPoint( node.x(), node.y() );
 
     pLast->EquatorialToHorizontal( data->LST, data->geo()->lat() );
     oLast = toScreen( pLast, scale, Options::useRefraction(), &isVisibleLast );
 
-    int limit = cbound.size(); 
+    int limit = bound->size(); 
                                   
     for ( int i=1 ; i < limit ; i++ ) {
-        node = cbound.at( i );
+        node = bound->at( i );
         pThis = new SkyPoint( node.x(), node.y() );
 		pThis->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         oThis = toScreen( pThis, scale, Options::useRefraction(), &isVisible );
@@ -253,7 +260,6 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
         oLast = oThis;
         isVisibleLast = isVisible;
     }
-***/
 /****    
 	QPolygonF poly;
     bool isVisible;

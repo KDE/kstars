@@ -86,7 +86,7 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
     QHash<PolyList*, bool> polyHash;
     QHash<PolyList*, bool>::const_iterator iter;
 
-    printf("\n");
+    //printf("\n");
 
     // the boundaries don't precess so we use index() not aperture()
     skyMesh()->index( p, 1.0, IN_CONSTELL_BUF );         
