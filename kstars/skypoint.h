@@ -248,15 +248,6 @@ public:
 	*/
 	void HorizontalToEquatorial( const dms* LST, const dms* lat );
 
-	/**@short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
-	*/
-	void EquatorialToEcliptic( const KSNumbers *num );
-
-	/**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
-	*/
-
-	void EclipticToEquatorial( const KSNumbers *num );
-
 /**Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
 	*The ecliptic coordinates are returned as reference arguments (since
 	*they are not stored internally)

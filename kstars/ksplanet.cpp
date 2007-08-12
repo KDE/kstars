@@ -237,6 +237,7 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
 		}
 
 		ep.longitude.setRadians( atan2( y, x ) );
+		ep.longitude.reduce();
 		ep.latitude.setRadians( atan2( z, sqrt( x*x + y*y ) ) );
 		setRsun( trialpos.radius );
 		setRearth( dst );

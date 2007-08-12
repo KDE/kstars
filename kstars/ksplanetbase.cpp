@@ -122,6 +122,18 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const d
 	temp.setRadians( atan2( cosHA2*( r*sinDec/6378.14 - rsinp ), r*cosDec*cosHA/6378.14 - rcosp ) );
 	setDec( temp );
 
+	//Make sure Dec is between -90 and +90
+	if ( dec()->Degrees() > 90.0 ) {
+		setDec( 180.0 - dec()->Degrees() );
+		setRA( ra()->Hours() + 12.0 );
+		ra()->reduce();
+	}
+	if ( dec()->Degrees() < -90.0 ) {
+		setDec( 180.0 + dec()->Degrees() );
+		setRA( ra()->Hours() + 12.0 );
+		ra()->reduce();
+	}
+
 	EquatorialToEcliptic( num->obliquity() );
 }
 

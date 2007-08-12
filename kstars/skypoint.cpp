@@ -146,8 +146,8 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
 	tanDec = sinDec/cosDec;
 	double y = sinRA*cosOb + tanDec*sinOb;
 	double ELongRad = atan2( y, cosRA );
-
 	EcLong.setRadians( ELongRad );
+	EcLong.reduce();
 	EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
@@ -161,8 +161,8 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const d
 
 	double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
 	double RARad =  atan2( y, cosLong );
-
 	RA.setRadians( RARad );
+	RA.reduce();
 	Dec.setRadians( asin(sinDec) );
 }
 
@@ -186,6 +186,7 @@ void SkyPoint::precess( const KSNumbers *num) {
 
 	//Extract RA, Dec from the vector:
 	RA.setRadians( atan2( v[1], v[0] ) );
+	RA.reduce();
 	Dec.setRadians( asin( v[2] ) );
 }
 
