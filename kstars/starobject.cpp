@@ -28,10 +28,24 @@
 #include "kstarsdata.h"
 #include "Options.h"
 
+#include "skycomponents/skylabeler.h"
+
 QMap<QString, QColor> StarObject::ColorMap;
 
+//----- Static Methods -----
+//
+double StarObject::reindexInterval( double pm )
+{
+    if ( pm < 1.0e-6) return 1.0e6;
+
+    // arcminutes * sec/min * milliarcsec/sec centuries/year 
+    // / [milliarcsec/year] = centuries
+
+    return 25.0 * 60.0 * 10.0 / pm;
+}
+
 StarObject::StarObject( StarObject &o )
-	: SkyObject (o)
+	: SkyObject (o) 
 {
 	SpType = o.SpType;
 //SONAME: deprecated (?) JH
@@ -41,6 +55,7 @@ StarObject::StarObject( StarObject &o )
 	Parallax = o.parallax();
 	Multiplicity = o.isMultiple();
 	Variability = o.isVariable();
+    updateID = updateNumID = 0;
 }
 
 StarObject::StarObject( dms r, dms d, float m, 
@@ -49,7 +64,7 @@ StarObject::StarObject( dms r, dms d, float m,
 		double par, bool mult, bool var )
  : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), 
 		SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-		Parallax(par), Multiplicity(mult), Variability(var) 
+		Parallax(par), Multiplicity(mult), Variability(var)
 // SONAME deprecated //, soName( 0 )
 {
 	QString lname;
@@ -65,6 +80,7 @@ StarObject::StarObject( dms r, dms d, float m,
 	}
 
 	setLongName(lname);
+    updateID = updateNumID = 0;
 }
 
 StarObject::StarObject( double r, double d, float m, 
@@ -73,7 +89,7 @@ StarObject::StarObject( double r, double d, float m,
 		double par, bool mult, bool var )
  : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()), 
 		SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-		Parallax(par), Multiplicity(mult), Variability(var) 
+		Parallax(par), Multiplicity(mult), Variability(var)
 // SONAME deprecated //, soName( 0 )
 {
 	QString lname;
@@ -84,6 +100,7 @@ StarObject::StarObject( double r, double d, float m,
 		lname = gname();
 
 	setLongName(lname);
+    updateID = updateNumID = 0;
 }
 
 void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
@@ -91,14 +108,47 @@ void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
 }
 
 void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
-	SkyPoint::updateCoords( num );
-
 	//Correct for proper motion of stars.  Determine RA and Dec offsets.
 	//Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
 	//That is numerically identical to the number of arcsec per millenium, so multiply by
 	//KSNumbers::julianMillenia() to find the offsets in arcsec.
-	setRA( ra()->Hours() + pmRA()*num->julianMillenia() / 15. / cos( dec()->radians() )/3600. );
-	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
+
+    // Correction:  The method below computes the proper motion before the
+    // precession.  If we precessed first then the direction of the proper
+    // motion correction would depend on how far we've precessed.  -jbb 
+    double saveRA = ra0()->Hours();
+    double saveDec = dec0()->Degrees();
+
+	setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
+	setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+
+	SkyPoint::updateCoords( num );
+    setRA0( saveRA );
+    setDec0( saveDec );
+}
+
+void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
+{
+    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
+    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+
+    *ra = ra0()->Degrees() + dra;       
+    *dec = dec0()->Degrees() + ddec;
+}
+
+double StarObject::pmMagnitude()
+{
+    return sqrt( pmRA() * pmRA() + pmDec() * pmDec() );
+}
+
+void StarObject::JITupdate( KStarsData* data )
+{
+    updateID = data->updateID();
+    if ( updateNumID != data->updateNumID() ) {
+        updateCoords( data->updateNum() );
+        updateNumID = data->updateNumID();
+    }
+    EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 QString StarObject::sptype( void ) const {
@@ -293,7 +343,8 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 		psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
 }
 
-void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
+QString StarObject::nameLabel( bool drawName, bool drawMag )
+{
 	QString sName( i18n("star") + ' ' );
 	if ( drawName ) {
 		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
@@ -306,7 +357,11 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 		else
 			sName.sprintf("%.1f", mag() );
 	}
+	return sName;
+}
 
+void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
+	QString sName = nameLabel( drawName, drawMag );
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
 	if ( Options::useAntialias() )
@@ -318,14 +373,7 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool 
 void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
 	//set the zoom-dependent font
 	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
-	smallFont.setPointSize( stdFont.pointSize() - 2 );
-	if ( Options::zoomFactor() < 10.*MINZOOM ) {
-		psky.setFont( smallFont );
-	} else {
-		psky.setFont( stdFont );
-	}
-
+    SkyLabeler::setZoomFont( psky );
 	drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
 	psky.setFont( stdFont );
 }

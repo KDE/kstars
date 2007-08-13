@@ -27,6 +27,7 @@
 class QPainter;
 class QString;
 class KSPopupMenu;
+class KStarsData;
 
 /**@class StarObject 
 	*This is a subclass of SkyObject.  It adds the Spectral type, and flags
@@ -41,6 +42,11 @@ class KSPopupMenu;
 class StarObject : public SkyObject {
 	public:
 
+        /* @short returns the reindex interval (in centuries!) for the given
+         * magnitude of proper motion (in milliarcsec/year).  ASSUMING a 
+         * 25 arc-minute margin for proper motion.
+         */
+        static double reindexInterval( double pm );
 /**
 	*Copy constructor
 	*/
@@ -135,6 +141,22 @@ class StarObject : public SkyObject {
 	*/
 	virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
+    /* @short fills ra and dec with the coordinates of the star with the proper
+     * motion correction but without precesion and its friends.  It is used
+     * in StarComponent to re-index all the stars.
+     *
+     * NOTE: ra and dec both in degrees.
+     */
+    void getIndexCoords( KSNumbers *num, double *ra, double *dec );
+
+    /* @short added for JIT updates from both StarComponent and ConstellatoinLines
+     */
+    void JITupdate( KStarsData* data );
+
+    /* @short returns the magnitude of the proper motion correction in milliarcsec/year
+     */
+    double pmMagnitude();
+
 /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
 	*Note that the RA component is multiplied by cos(dec).
 	*@param pmra the new RA propoer motion
@@ -202,6 +224,8 @@ class StarObject : public SkyObject {
 			bool useRealColors, int scIntensity, bool drawMultiple=true, 
 			double scale=1.0 );
 
+	QString nameLabel( bool drawName, bool drawMag );
+
 	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
 
 /**
@@ -251,6 +275,9 @@ class StarObject : public SkyObject {
 	*almost always be passed as data()->colorScheme()->starColorIntensity())
 	*/
 	static void updateColors( bool desaturateColors, int saturation );
+
+    quint64 updateID;
+    quint64 updateNumID;
 
 protected:
 	static QMap<QString, QColor> ColorMap;

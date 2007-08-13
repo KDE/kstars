@@ -143,7 +143,7 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
 	dec()->SinCos( sinDec, cosDec );
 	Obliquity->SinCos( sinOb, cosOb );
 
-	tanDec = sinDec/cosDec;
+	tanDec = sinDec/cosDec;                    // FIXME: -jbb div by zero?
 	double y = sinRA*cosOb + tanDec*sinOb;
 	double ELongRad = atan2( y, cosRA );
 	EcLong.setRadians( ELongRad );

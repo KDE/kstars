@@ -25,8 +25,12 @@
 
 ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
 : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
-{
-}
+{}
+
+ListComponent::ListComponent( SkyComponent *parent )
+: SkyComponent( parent ), m_CurrentIndex(0)
+{}
+
 
 ListComponent::~ListComponent()
 {
@@ -77,6 +81,7 @@ SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 
 	return oBest;
 }
+
 
 SkyObject* ListComponent::first() {
 	m_CurrentIndex = 0;

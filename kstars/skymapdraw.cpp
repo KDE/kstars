@@ -45,6 +45,8 @@
 #include "indielement.h"
 #include "indidevice.h"
 #include "observinglist.h"
+#include "skycomponents/constellationboundary.h"
+#include "skycomponents/skylabeler.h"
 
 void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     double sinRa, sinDec, cosRa, cosDec;
@@ -101,7 +103,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2, double scale )
         dec = asin( z / sqrt(x*x + y*y + z*z) );
          
         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        mid.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
  
         oMid = toScreen( &mid, scale, false, &isVisible );
         newx = (int) oMid.x();
@@ -166,17 +168,22 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
-	QPolygonF cbound;
-	data->skyComposite()->constellation( focus(), &cbound );
-	
+	const QPolygonF* cbound =
+		ConstellationBoundary::Instance()->constellationPoly( focus() );
+
+	if ( ! cbound ) return;
+
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
 
+	QPolygonF clippedPoly;
+	bool needClip( false );
 	//If the solid ground is being drawn, then we may need to clip the 
 	//polygon at the Horizon.  cbound will be the clipped polygon
 	if ( Options::useAltAz() && Options::showGround() ) {
 		QPolygonF horizPolygon;
-		bool needClip( false );
-		foreach ( QPointF node, cbound ) {
+
+		for ( int i = 0; i < cbound->size(); i++ ) {
+			QPointF node = cbound->at( i );
 			SkyPoint sp( node.x(), node.y() );
 			sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 			horizPolygon << QPointF( sp.az()->Degrees(), sp.alt()->Degrees() );
@@ -191,6 +198,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 
 		//We need to clip if the bounding rect intersects the horizon
 		if ( rBound.contains( QPointF( rBound.center().x(), 0.0 ) ) ) {
+			needClip = true;
 			QPolygonF clipper;
 			clipper << QPointF( rBound.left(), -0.5 ) << QPointF( rBound.right(), -0.5 )
 							<< QPointF( rBound.right(), rBound.top() ) //top() is bottom ;) 
@@ -200,13 +208,13 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 
 			//Now, convert the clipped horizPolygon vertices back to equatorial 
 			//coordinates, and store them back in cbound
-			cbound = QPolygonF();
+
 			foreach ( QPointF node, horizPolygon ) {
 				SkyPoint sp;
 				sp.setAz( node.x() );
 				sp.setAlt( node.y() );
 				sp.HorizontalToEquatorial( data->LST, data->geo()->lat() );
-				cbound << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
+				clippedPoly << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
 			}
 		}
 	}
@@ -214,22 +222,24 @@ void SkyMap::drawHighlightConstellation( QPainter &psky, double scale ) {
 	//Transform the constellation boundary polygon to the screen and clip
     // against the celestial horizon
 
-    if (cbound.size() < 2) return;
+	const QPolygonF* bound = needClip ? &clippedPoly : cbound;
+
+    if (bound->size() < 2) return;
 
 	bool isVisible, isVisibleLast;
     SkyPoint  *pThis, *pLast;
     QPointF oThis, oLast, oMid;
 
-    QPointF node = cbound.at( 0 );
+    QPointF node = bound->at( 0 );
     pLast = new SkyPoint( node.x(), node.y() );
 
     pLast->EquatorialToHorizontal( data->LST, data->geo()->lat() );
     oLast = toScreen( pLast, scale, Options::useRefraction(), &isVisibleLast );
 
-    int limit = cbound.size(); 
+    int limit = bound->size(); 
                                   
     for ( int i=1 ; i < limit ; i++ ) {
-        node = cbound.at( i );
+        node = bound->at( i );
         pThis = new SkyPoint( node.x(), node.y() );
 		pThis->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         oThis = toScreen( pThis, scale, Options::useRefraction(), &isVisible );
@@ -274,6 +284,9 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	float Width = scale * width();
 	float Height = scale * height();
 
+	SkyLabeler* skyLabeler = SkyLabeler::Instance();
+	skyLabeler->resetFont( psky );      // use the zoom dependent font
+
 	psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
@@ -290,36 +303,46 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 		//Only draw an attached label if the object is being drawn to the map
 		//reproducing logic from other draw funcs here...not an optimal solution
 		if ( obj->type() == SkyObject::STAR ) {
-			if ( ! drawStars ) return;
-			if ( obj->mag() > Options::magLimitDrawStar() ) return;
-			if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) return;
+			if ( ! drawStars ) continue;
+			if ( obj->mag() > Options::magLimitDrawStar() ) continue;
+			if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) continue;
 		}
 		if ( obj->type() == SkyObject::PLANET ) {
-			if ( ! drawPlanets ) return;
-			if ( obj->name() == "Sun" && ! Options::showSun() ) return;
-			if ( obj->name() == "Mercury" && ! Options::showMercury() ) return;
-			if ( obj->name() == "Venus" && ! Options::showVenus() ) return;
-			if ( obj->name() == "Moon" && ! Options::showMoon() ) return;
-			if ( obj->name() == "Mars" && ! Options::showMars() ) return;
-			if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) return;
-			if ( obj->name() == "Saturn" && ! Options::showSaturn() ) return;
-			if ( obj->name() == "Uranus" && ! Options::showUranus() ) return;
-			if ( obj->name() == "Neptune" && ! Options::showNeptune() ) return;
-			if ( obj->name() == "Pluto" && ! Options::showPluto() ) return;
+			if ( ! drawPlanets ) continue;
+			if ( obj->name() == "Sun" && ! Options::showSun() ) continue;
+			if ( obj->name() == "Mercury" && ! Options::showMercury() ) continue;
+			if ( obj->name() == "Venus" && ! Options::showVenus() ) continue;
+			if ( obj->name() == "Moon" && ! Options::showMoon() ) continue;
+			if ( obj->name() == "Mars" && ! Options::showMars() ) continue;
+			if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) continue;
+			if ( obj->name() == "Saturn" && ! Options::showSaturn() ) continue;
+			if ( obj->name() == "Uranus" && ! Options::showUranus() ) continue;
+			if ( obj->name() == "Neptune" && ! Options::showNeptune() ) continue;
+			if ( obj->name() == "Pluto" && ! Options::showPluto() ) continue;
 		}
 		if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
-			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) return;
-			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) return;
+			if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) continue;
+			if ( ((DeepSkyObject*)obj)->isCatalogNone() && ! drawOther ) continue;
 		}
-		if ( obj->type() == SkyObject::COMET && ! drawComets ) return;
-		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
+		if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
+		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
 
-		if ( checkVisibility( obj ) ) {
-			QPointF o = toScreen( obj, scale );
-			if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-				obj->drawNameLabel( psky, o.x(), o.y(), scale );
+		if ( ! checkVisibility( obj ) ) continue;
+		QPointF o = toScreen( obj, scale );
+		if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
+
+		if ( obj->type() == SkyObject::STAR ) {
+			StarObject* star = (StarObject*) obj;
+			float offset = scale * (6. + 0.5*( 5.0 - star->mag() ) 
+					+ 0.01 * ( Options::zoomFactor() /500. ) );
+			QString sName = star->nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
+			//kDebug() << QString("Star: %1\n").arg(sName);
+			skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset), sName );
+		}
+		else {
+			skyLabeler->drawOffsetLabel( psky, o, obj->translatedName() );
 		}
 	}
 
@@ -327,8 +350,11 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
 		QPointF o = toScreen( focusObject(), scale );
 		if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-			focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
+			skyLabeler->drawOffsetLabel( psky, o, focusObject()->translatedName() );
+			//focusObject()->drawNameLabel( psky, o.x(), o.y(), scale );
 	}
+
+	skyLabeler->useStdFont( psky );   // For the guides that all use the StdFont.
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {

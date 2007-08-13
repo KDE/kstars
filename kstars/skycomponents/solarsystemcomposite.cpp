@@ -35,9 +35,11 @@
 #include "kspluto.h"
 #include "jupitermoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data)
+
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data )
   : SkyComposite(parent)
 {
+
 	m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
 	m_Sun = new KSSun(data);
@@ -67,6 +69,12 @@ SolarSystemComposite::~SolarSystemComposite()
 	delete m_Earth;
 }
 
+bool SolarSystemComposite::selected()
+{
+    return Options::showSolarSystem();
+    // FIXME: should be: return Options::showSolarSystem();
+}
+
 void SolarSystemComposite::init(KStarsData *data)
 {
 	if (!m_Earth->loadData())
@@ -80,6 +88,8 @@ void SolarSystemComposite::init(KStarsData *data)
 
 void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	m_JupiterMoons->update( data, num );
@@ -91,6 +101,8 @@ void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Earth->findPosition( num );
 	foreach ( SkyComponent *comp, components() ) {
 		comp->updatePlanets( data, num );
@@ -99,6 +111,8 @@ void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
 	m_Sun->findPosition( num );
 	m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
 	m_Moon->findPhase( m_Sun );
@@ -107,6 +121,8 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
+    if ( ! selected() ) return;
+
 	//FIXME: first draw the objects which are far away
 	//(Thomas had been doing this by keeping separate pointers to
 	//inner solar system objects, but I'd rather handle it here in the draw
@@ -116,6 +132,8 @@ void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
 {
+	if ( ! selected() ) return;
+
 	foreach ( SkyComponent *comp, components() ) {
 		comp->drawTrails( ks, psky, scale );
 	}

@@ -5,6 +5,7 @@ add_subdirectory( tools )
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
+add_subdirectory( htmesh ) 
 
 Find_package(ZLIB REQUIRED)
 
@@ -16,6 +17,7 @@ endif(CFITSIO_FOUND)
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
+    #${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
 )
@@ -29,7 +31,7 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/lilxml.c )
 
 set(libindicom_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c 
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
 	)
 
@@ -121,6 +123,15 @@ kde4_add_ui_files(libkstarstools_SRCS
 
 
 set(libkstarscomponents_SRCS 
+   skycomponents/skylabeler.cpp 
+   skycomponents/highpmstarlist.cpp 
+   skycomponents/skymapcomposite.cpp 
+   skycomponents/skymesh.cpp
+   skycomponents/linelistindex.cpp
+   skycomponents/linelistlabel.cpp
+   skycomponents/noprecessindex.cpp
+   skycomponents/skiplistindex.cpp
+   skycomponents/polylistindex.cpp
    skycomponents/singlecomponent.cpp 
    skycomponents/listcomponent.cpp 
    skycomponents/pointlistcomponent.cpp 
@@ -136,21 +147,17 @@ set(libkstarscomponents_SRCS
    skycomponents/starcomponent.cpp 
    skycomponents/deepskycomponent.cpp 
    skycomponents/customcatalogcomponent.cpp 
-   skycomponents/constellationboundarycomposite.cpp 
-   skycomponents/constellationboundarycomponent.cpp 
-   skycomponents/constellationlinescomposite.cpp 
-   skycomponents/constellationlinescomponent.cpp 
+   skycomponents/constellationboundary.cpp 
+   skycomponents/constellationboundarylines.cpp 
+   skycomponents/constellationlines.cpp 
    skycomponents/constellationnamescomponent.cpp 
-   skycomponents/coordinategridcomposite.cpp 
-   skycomponents/coordinategridcomponent.cpp 
-   skycomponents/eclipticcomponent.cpp 
-   skycomponents/equatorcomponent.cpp 
+   skycomponents/coordinategrid.cpp 
+   skycomponents/ecliptic.cpp 
+   skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 
-   skycomponents/milkywaycomposite.cpp 
-   skycomponents/milkywaycomponent.cpp 
+   skycomponents/milkyway.cpp 
    skycomponents/skycomponent.cpp 
    skycomponents/skycomposite.cpp 
-   skycomponents/skymapcomposite.cpp 
 )
 
 set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
@@ -194,7 +201,6 @@ set( kstars_KCFG_SRCS Options.kcfgc )
 
 kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
-
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
@@ -219,6 +225,7 @@ target_link_libraries(kstars
 	${KDE4_KNEWSTUFF2_LIBS}
 	${KDE4_KDE3SUPPORT_LIBS}
 	SatLib
+	htmesh
 	${ZLIB_LIBRARIES})
 if(NOT WIN32)
   target_link_libraries(kstars m)
@@ -231,7 +238,6 @@ install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
-
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )

@@ -29,6 +29,7 @@
 #include "indidevice.h"
 #include "indigroup.h"
 #include "indiproperty.h"
+#include "skycomponents/constellationboundary.h"
 
 #include <kactioncollection.h>
 
@@ -147,7 +148,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 		addAction( aType );
 	}
 
-	labConstellation = new QLabel( "<b>"+ks->data()->skyComposite()->constellation( obj )+"</b>", this );
+	labConstellation = new QLabel( "<b>"+
+			ConstellationBoundary::Instance()->constellationName( obj )+"</b>", this );
 	labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
 	aConstellation = new KAction( this );
         ks->actionCollection()->addAction( "title_constellation", aConstellation );

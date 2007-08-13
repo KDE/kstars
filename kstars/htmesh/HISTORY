@@ -1,0 +1,2 @@
+RangeConvexTST.CPP: 	HAS TESTSUBTRIANLGLE
+	eliminated t5estsubtriangle, to make testpartial recursive.

@@ -1270,10 +1270,13 @@ void SkyMap::forceUpdate( bool now )
 }
 
 float SkyMap::fov() {
-	if ( width() >= height() )
-		return 28.65*width()/Options::zoomFactor();
-	else
-		return 28.65*height()/Options::zoomFactor();
+    float diagonalPixels = sqrt( width() * width() + height() * height() );
+    return 28.6427 * diagonalPixels / Options::zoomFactor();
+	
+    //if ( width() >= height() )
+	//	return 28.65*width()/Options::zoomFactor();
+	//else
+	//	return 28.65*height()/Options::zoomFactor();
 }
 
 bool SkyMap::checkVisibility( SkyLine *sl ) {
@@ -1295,7 +1298,7 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
 	// + and either of the following is true:
 	//   - focus is above the horizon
 	//   - field of view is larger than 50 degrees
-	if ( useAltAz && Options::showGround() && p->alt()->Degrees() < -2.0
+	if ( useAltAz && Options::showHorizon && Options::showGround() && p->alt()->Degrees() < -2.0
 				&& ( focus()->alt()->Degrees() > 0. || fov() > 50. ) ) return false;
 
 	if ( useAltAz ) {

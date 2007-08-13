@@ -26,6 +26,12 @@ SkyComposite::SkyComposite(SkyComponent *parent )
 {
 }
 
+SkyComposite::SkyComposite(SkyComponent *parent, bool (*visibleMethod)())
+: SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
+{
+}
+
+
 SkyComposite::~SkyComposite()
 {
 	while ( !components().isEmpty() )

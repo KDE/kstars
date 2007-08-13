@@ -78,6 +78,14 @@ public:
 			Orthographic=2, Equirectangular=3, Stereographic=4, 
 			Gnomonic=5, UnknownProjection };
 
+    
+/**@return the angular field of view of the sky map, in degrees.
+	*@note it must use either the height or the width of the window to calculate the 
+	*FOV angle.  It chooses whichever is larger.
+	*/
+	float fov();
+
+
 /**
 	*@return pointer to InfoBoxes object.
 	*/
@@ -789,12 +797,6 @@ private:
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
 	void drawAngleRuler( QPainter &psky );
-
-/**@return the angular field of view of the sky map, in degrees.
-	*@note it must use either the height or the width of the window to calculate the 
-	*FOV angle.  It chooses whichever is larger.
-	*/
-	float fov();
 
 /**@short Begin fading out the name label attached to TransientObject.
 	*

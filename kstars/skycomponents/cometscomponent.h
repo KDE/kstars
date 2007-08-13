@@ -20,6 +20,7 @@
 
 class KStars;
 class KStarsData;
+class SkyLabeler;
 
 #include "solarsystemlistcomponent.h"
 #include <QList>
@@ -74,7 +75,7 @@ class CometsComponent : public SolarSystemListComponent
 		*@li 94-98 Magnitude [double]
 		*/
 		virtual void init(KStarsData *data);
-	
+
 };
 
 #endif

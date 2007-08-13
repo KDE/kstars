@@ -17,9 +17,10 @@
 
 #include "asteroidscomponent.h"
 
-#include <QFile>
 #include <QPen>
 #include <QPainter>
+
+#include "skycomponent.h"
 
 #include "Options.h"
 #include "ksasteroid.h"
@@ -29,91 +30,104 @@
 #include "ksfilereader.h"
 #include "skymap.h"
 
+#include "solarsystemcomposite.h"
+#include "skylabeler.h"
+
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
 : SolarSystemListComponent(parent, visibleMethod, msize)
-{
-}
+{}
 
 AsteroidsComponent::~AsteroidsComponent()
 {
 	//object deletion handled in grandparent dtor (ListComponent)
 }
 
-void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
+bool AsteroidsComponent::selected()
 {
-	if ( !visible() ) return;
-	
-	SkyMap *map = ks->map();
-
-	float Width = scale * map->width();
-	float Height = scale * map->height();
-
-	foreach ( SkyObject *o, objectList() ) { 
-		KSAsteroid *ast = (KSAsteroid*)o;
-		if ( ast->mag() > Options::magLimitAsteroid() ) continue;
-
-		if ( map->checkVisibility( ast ) )
-		{
-			psky.setPen( QPen( QColor( "gray" ) ) );
-			psky.setBrush( QBrush( QColor( "gray" ) ) );
-			QPointF o = map->toScreen( ast, scale );
-
-			if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
-			{
-				float size = ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
-				if ( size < 1 ) size = 1.;
-				float x1 = o.x() - 0.5*size;
-				float y1 = o.y() - 0.5*size;
-
-				if ( Options::useAntialias() )
-					psky.drawEllipse( QRectF( x1, y1, size, size ) );
-				else
-					psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
-
-				//draw Name
-				if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
-					psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "PNameColor" ) ) );
-					ast->drawNameLabel( psky, o.x(), o.y(), scale );
-				}
-			}
-		}
-	}
+    return Options::showAsteroids();
 }
 
 void AsteroidsComponent::init(KStarsData *data)
 {
-	QFile file;
 
-	if ( KSUtils::openDataFile( file, "asteroids.dat" ) ) {
-		emitProgressText( i18n("Loading asteroids") );
+    QString line, name;
+    int mJD;
+    double a, e, dble_i, dble_w, dble_N, dble_M, H;
+    long double JD;
 
-		KSFileReader fileReader( file );
-		while( fileReader.hasMoreLines() ) {
-			QString line, name;
-			int mJD;
-			double a, e, dble_i, dble_w, dble_N, dble_M, H;
-			long double JD;
-			KSAsteroid *ast = 0;
+    KSFileReader fileReader;
+ 
+	if ( ! fileReader.open("asteroids.dat" ) ) return;
 
-			line = fileReader.readLine();
-			name = line.mid( 6, 17 ).trimmed();
-			mJD  = line.mid( 24, 5 ).toInt();
-			a    = line.mid( 30, 9 ).toDouble();
-			e    = line.mid( 41, 10 ).toDouble();
-			dble_i = line.mid( 52, 9 ).toDouble();
-			dble_w = line.mid( 62, 9 ).toDouble();
-			dble_N = line.mid( 72, 9 ).toDouble();
-			dble_M = line.mid( 82, 11 ).toDouble();
-			H = line.mid( 94, 5 ).toDouble();
+	emitProgressText( i18n("Loading asteroids") );
 
-			JD = double( mJD ) + 2400000.5;
+	while( fileReader.hasMoreLines() ) {
+		KSAsteroid *ast = 0;
+		line = fileReader.readLine();
+		name = line.mid( 6, 17 ).trimmed();
+		mJD  = line.mid( 24, 5 ).toInt();
+		a    = line.mid( 30, 9 ).toDouble();
+		e    = line.mid( 41, 10 ).toDouble();
+		dble_i = line.mid( 52, 9 ).toDouble();
+		dble_w = line.mid( 62, 9 ).toDouble();
+		dble_N = line.mid( 72, 9 ).toDouble();
+		dble_M = line.mid( 82, 11 ).toDouble();
+		H = line.mid( 94, 5 ).toDouble();
 
-			ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i), dms(dble_w), dms(dble_N), dms(dble_M), H );
-			ast->setAngularSize( 0.005 );
-			objectList().append( ast );
+		JD = double( mJD ) + 2400000.5;
 
-			//Add name to the list of object names
-			objectNames(SkyObject::ASTEROID).append( name );
-		}
-	}
+		ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i), 
+                              dms(dble_w), dms(dble_N), dms(dble_M), H );
+		ast->setAngularSize( 0.005 );
+		objectList().append( ast );
+
+		//Add name to the list of object names
+		objectNames(SkyObject::ASTEROID).append( name );
+    }
 }
+
+void AsteroidsComponent::update( KStarsData *data, KSNumbers *num )
+{
+    if ( ! selected() ) return;
+
+    foreach ( SkyObject *o, objectList() ) {
+		KSPlanetBase *p = (KSPlanetBase*) o;
+		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+}
+
+void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
+{
+	if ( ! selected() ) return;
+	
+	SkyMap *map = ks->map();
+
+    psky.setBrush( QBrush( QColor( "gray" ) ) );
+	foreach ( SkyObject *o, objectList() ) { 
+		KSAsteroid *ast = (KSAsteroid*) o;
+
+		if ( ast->mag() > Options::magLimitAsteroid() ) continue;
+		if ( ! map->checkVisibility( ast ) ) continue;
+		
+        QPointF o = map->toScreen( ast, scale );
+        if ( ! map->onScreen( o ) ) continue;
+
+		float size = ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+		if ( size < 1 ) size = 1.;
+		float x1 = o.x() - 0.5*size;
+		float y1 = o.y() - 0.5*size;
+
+		if ( Options::useAntialias() )
+			psky.drawEllipse( QRectF( x1, y1, size, size ) );
+		else
+			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
+
+        if ( map->isSlewing() || ! Options::showAsteroidNames() || 
+             ast->mag() >= Options::magLimitAsteroidName() ) continue;
+
+		//Queue Name
+		SkyLabeler::Instance()->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
+    }
+}
+
+

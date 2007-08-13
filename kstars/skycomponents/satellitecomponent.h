@@ -30,7 +30,7 @@ class SatelliteComponent : public LineListComponent {
 		*@short Constructor
 		*@p parent Pointer to the parent SkyComponent object
 		*/
-		SatelliteComponent(SkyComponent*, bool (*visibleMethod)());
+		SatelliteComponent(SkyComponent* parent);
 	/**
 		*@short Destructor.  Delete list members
 		*/
@@ -41,6 +41,8 @@ class SatelliteComponent : public LineListComponent {
 		*@p data Pointer to the KStarsData object
 		*/
 		void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
+
+        bool selected();
 
 		void draw( KStars *ks, QPainter &psky, double scale );
 

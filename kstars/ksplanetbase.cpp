@@ -119,7 +119,11 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const d
 
 	HA2.setD( LST->Degrees() - ra()->Degrees() );
 	cosHA2 = cos( HA2.radians() );
-	temp.setRadians( atan2( cosHA2*( r*sinDec/6378.14 - rsinp ), r*cosDec*cosHA/6378.14 - rcosp ) );
+
+	//temp.setRadians( atan2( cosHA2*( r*sinDec/6378.14 - rsinp ), r*cosDec*cosHA/6378.14 - rcosp ) );
+	// The atan2() version above makes the planets move crazy in the htm branch -jbb
+	temp.setRadians( atan( cosHA2*( r*sinDec/6378.14 - rsinp )/( r*cosDec*cosHA/6378.14 - rcosp ) ) );
+
 	setDec( temp );
 
 	//Make sure Dec is between -90 and +90

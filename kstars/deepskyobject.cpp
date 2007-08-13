@@ -40,6 +40,7 @@ DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
 	PGC = o.pgc();
 	setCatalog( o.catalog() );
 	Image = o.image();
+    updateID = updateNumID = 0;
 }
 
 DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
@@ -54,6 +55,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
 	UGC = ugc;
 	setCatalog( cat );
 	Image = 0;
+    updateID = updateNumID = 0;
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
@@ -68,6 +70,7 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
 	UGC = ugc;
 	setCatalog( cat );
 	Image = 0;
+    updateID = updateNumID = 0;
 }
 
 void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {

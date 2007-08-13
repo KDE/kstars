@@ -1,0 +1,31 @@
+#ifndef _HTMesh_h
+#define _HTMesh_h
+
+class HTMesh;
+
+extern HTMesh::HTMesh(int level_in, int build_level_in);
+extern HTMesh::~HTMesh();
+extern long HTMesh::lookupId(double ra, double dec);
+
+extern const char* HTMesh::idToName(long id);
+
+extern const char* HTMesh::lookupName(double ra, double dec);
+
+extern void HTMesh::intersectCircle(double ra, double dec, double rad);
+
+extern void HTMesh::intersectRectangle(double ra, double dec, double dra, double ddec);
+    
+extern void HTMesh::intersectPolygon4(double ra1, double dec1, double ra2, double dec2,
+        double ra3, double dec3, double ra4, double dec4);
+
+extern bool HTMesh::hasNext();
+
+extern long HTMesh::nextId();
+
+extern const char * HTMesh::nextName();
+
+exern long HTMesh::totalTriangles();
+
+extern int HTMesh::resultSize();
+                           
+#endif

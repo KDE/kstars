@@ -52,8 +52,10 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
-KStarsData::KStarsData() : locale(0),
-		LST(0), HourAngle(0), initTimer(0)
+KStarsData::KStarsData(KStars* kstars) : locale(0),
+		LST(0), HourAngle(0), initTimer(0), m_kstars(kstars), 
+        m_preUpdateID(0), m_preUpdateNumID(0), 
+        m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
 	startupComplete = false;
 	objects++;
@@ -273,7 +275,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 	}
 
 	KSNumbers num( ut().djd() );
-
+   
 	//TIMING
 	QTime t;
 
@@ -282,6 +284,8 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//TIMING
 		//		t.start();
 
+        m_preUpdateNumID++;
+        m_preUpdateNum = KSNumbers( num );
 		skyComposite()->update( this, &num );
 
 		//TIMING
@@ -318,6 +322,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		//TIMING
 		//		t.start();
 
+        m_preUpdateID++;
 		skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
 
 		//Update focus
@@ -330,6 +335,14 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
 		else skymap->forceUpdate();
 	}
+}
+
+void KStarsData::syncUpdateIDs() 
+{
+    m_updateID = m_preUpdateID;
+    if ( m_updateNumID == m_preUpdateNumID ) return;
+    m_updateNumID = m_preUpdateNumID;
+    m_updateNum = KSNumbers( m_preUpdateNum );
 }
 
 void KStarsData::setFullTimeUpdate() {
@@ -414,6 +427,7 @@ bool KStarsData::readCityData( void ) {
 		while ( fileReader.hasMoreLines() ) {
 			citiesFound |= processCity( fileReader.readLine() );
 		}
+        file.close();  // -jbb because I changed KSFileReader.
 	}
 // end new code
 

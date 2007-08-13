@@ -53,6 +53,7 @@
 #include "indimenu.h"
 #include "devicemanager.h"
 #include "indistd.h"
+#include "skycomponents/constellationboundary.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
 : KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
@@ -247,7 +248,8 @@ void DetailDialog::createGeneralTab()
 	}
 
 	//Common to all types:
-	Data->Constellation->setText( ksw->data()->skyComposite()->constellation( selectedObject ) );
+	Data->Constellation->setText(
+			ConstellationBoundary::Instance()->constellationName( selectedObject ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {

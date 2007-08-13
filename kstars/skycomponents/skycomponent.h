@@ -120,6 +120,10 @@ class SkyComponent
 			*/
 		bool (*visible)();
 
+        /** -jbb this is a MUCH better way:
+         */
+        virtual bool selected() { return true; }
+
 		/**
 			*The parent of a component may be a composite or nothing.
 			*It's useful to know it's parent, if a component want to 

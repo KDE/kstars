@@ -36,6 +36,7 @@ class KSNumbers;
 class KSPlanet;
 class KSPlanetBase;
 class KStarsData;
+class SkyLabeler;
 
 class SolarSystemSingleComponent : public SingleComponent
 {

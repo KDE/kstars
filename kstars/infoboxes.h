@@ -144,6 +144,11 @@ public:
 			const QColor &grabColor=QColor("red"), const QColor &BGColor=QColor("black"),
 			unsigned int BGMode=0 );
 	
+	/* Use the SkyLabeler to reserve the space under to boxes to prevent labels
+ 	 * from overlapping the boxes.
+ 	 */
+	void reserveBoxes( QPainter& psky );
+
 /**Determine whether a mouse click occurred inside one of the infoboxes.
 	*Also, set the internal variable GrabBox to indicate which box was grabbed.
 	*Finally, set the internal variable GrabPos to record the relative position of the
@@ -256,6 +261,9 @@ private:
 	const QColor boxColor, grabColor, bgColor;
 	QPoint GrabPos;
 	InfoBox *GeoBox, *FocusBox, *TimeBox;
+	InfoBox* m_box[3];
+
+	int m_saveFocus[3][2];
 };
 
 #endif

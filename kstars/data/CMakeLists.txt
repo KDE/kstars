@@ -1,54 +1,13 @@
 ########### install files ###############
 
 install( FILES kstars.png geomap.png 
-	hip001.dat hip002.dat hip003.dat hip004.dat hip005.dat 
-	hip006.dat hip007.dat hip008.dat hip009.dat hip010.dat 
-	hip011.dat hip012.dat hip013.dat hip014.dat hip015.dat 
-	hip016.dat hip017.dat hip018.dat hip019.dat hip020.dat 
-	hip021.dat hip022.dat hip023.dat hip024.dat hip025.dat 
-	hip026.dat hip027.dat hip028.dat hip029.dat hip030.dat 
-	hip031.dat hip032.dat hip033.dat hip034.dat hip035.dat 
-	hip036.dat hip037.dat hip038.dat hip039.dat hip040.dat 
-	hip041.dat hip042.dat hip043.dat hip044.dat hip045.dat 
-	hip046.dat hip047.dat hip048.dat hip049.dat hip050.dat 
-	hip051.dat hip052.dat hip053.dat hip054.dat hip055.dat 
-	hip056.dat hip057.dat hip058.dat hip059.dat hip060.dat 
-	hip061.dat hip062.dat hip063.dat hip064.dat hip065.dat 
-	hip066.dat hip067.dat hip068.dat hip069.dat hip070.dat 
-	hip071.dat hip072.dat hip073.dat hip074.dat hip075.dat 
-	hip076.dat hip077.dat hip078.dat hip079.dat hip080.dat 
-	hip081.dat hip082.dat hip083.dat hip084.dat hip085.dat 
-	hip086.dat hip087.dat hip088.dat hip089.dat hip090.dat 
-	hip091.dat hip092.dat hip093.dat hip094.dat hip095.dat 
-	hip096.dat hip097.dat hip098.dat hip099.dat hip100.dat 
-	hip101.dat hip102.dat hip103.dat hip104.dat hip105.dat 
-	hip106.dat hip107.dat hip108.dat hip109.dat hip110.dat 
-	hip111.dat hip112.dat hip113.dat hip114.dat hip115.dat 
-	hip116.dat hip117.dat hip118.dat hip119.dat hip120.dat 
-	hip121.dat hip122.dat hip123.dat hip124.dat hip125.dat 
-	hip126.dat hip127.dat 
-	ngcic01.dat ngcic02.dat ngcic03.dat ngcic04.dat ngcic05.dat 
-	ngcic06.dat ngcic07.dat ngcic08.dat ngcic09.dat ngcic10.dat 
-	ngcic11.dat ngcic12.dat ngcic13.dat ngcic14.dat 
-	milkyway.dat Cities.dat clines.dat cnames.dat 
-	AND.cbound ANT.cbound APS.cbound AQL.cbound AQR.cbound 
-	ARA.cbound ARI.cbound AUR.cbound BOO.cbound CAE.cbound 
-	CAM.cbound CAP.cbound CAR.cbound CAS.cbound CEN.cbound 
-	CEP.cbound CET.cbound CHA.cbound CIR.cbound CMA.cbound 
-	CMI.cbound CNC.cbound COL.cbound COM.cbound CRA.cbound 
-	CRB.cbound CRT.cbound CRU.cbound CRV.cbound CVN.cbound 
-	CYG.cbound DEL.cbound DOR.cbound DRA.cbound EQU.cbound 
-	ERI.cbound FOR.cbound GEM.cbound GRU.cbound HER.cbound 
-	HOR.cbound HYA.cbound HYI.cbound IND.cbound LAC.cbound 
-	LEO.cbound LEP.cbound LIB.cbound LMI.cbound LUP.cbound 
-	LYN.cbound LYR.cbound MEN.cbound MIC.cbound MON.cbound 
-	MUS.cbound NOR.cbound OCT.cbound OPH.cbound ORI.cbound 
-	PAV.cbound PEG.cbound PER.cbound PHE.cbound PIC.cbound 
-	PSA.cbound PSC.cbound PUP.cbound PYX.cbound RET.cbound 
-	SCD.cbound SCL.cbound SCO.cbound SCP.cbound SCT.cbound 
-	SEX.cbound SGE.cbound SGR.cbound TAU.cbound TEL.cbound 
-	TRA.cbound TRI.cbound TUC.cbound UMA.cbound UMI.cbound 
-	VEL.cbound VIR.cbound VOL.cbound VUL.cbound
+    Cities.dat
+    stars.dat
+    ngcic.dat
+    clines.dat
+    cnames.dat
+    milkyway.dat
+    cbounds.dat
 	image_url.dat info_url.dat 
 	mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop 
 	mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop 

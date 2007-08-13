@@ -20,11 +20,17 @@
 
 #include "solarsystemlistcomponent.h"
 #include <QList>
+#include "typedef.h"
 
+class SkyLabeler;
 class SolarSystemComposite;
 
 class KStars;
 class KStarsData;
+class KSAsteroid;
+
+typedef QList<KSAsteroid*> AsterList;
+typedef QHash<Trixel, AsterList*> AsterIndex;
 
 /**
 	*@class AsteroidsComponent
@@ -75,6 +81,14 @@ class AsteroidsComponent: public SolarSystemListComponent
 		*@li 94-98 Magnitude [double]
 		*/
 		virtual void init( KStarsData *data );
+
+        bool selected();
+
+        void update( KStarsData *data, KSNumbers *num );
+
+    private:
+        AsterIndex  m_asterIndex;
+
 };
 
 #endif

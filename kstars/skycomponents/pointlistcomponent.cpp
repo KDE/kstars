@@ -20,10 +20,9 @@
 #include "skypoint.h" 
 #include "kstarsdata.h"
 
-PointListComponent::PointListComponent( SkyComponent *parent, bool (*visibleMethod)() )
-: SkyComponent( parent, visibleMethod )
-{
-}
+PointListComponent::PointListComponent( SkyComponent *parent ) :
+  SkyComponent( parent )
+{}
 
 PointListComponent::~PointListComponent()
 {

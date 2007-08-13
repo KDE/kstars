@@ -216,6 +216,9 @@ public:
 	*/
 	virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos );
 
+    quint64 updateID;
+    quint64 updateNumID;
+
 private:
 	unsigned char Catalog; 
 	double PositionAngle;

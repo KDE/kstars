@@ -31,6 +31,7 @@
 #include "starobject.h"
 #include "widgets/dmsbox.h"
 #include "widgets/magnitudespinbox.h"
+#include "skycomponents/constellationboundary.h"
 
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
   setupUi( this );
@@ -405,7 +406,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 
 	//select by constellation
 	if ( isItemSelected( i18n("by constellation"), olw->RegionList ) ) {
-		QString c( ksw->data()->skyComposite()->constellation( o ) );
+		QString c( ConstellationBoundary::Instance()->constellationName( o ) );
 		if ( isItemSelected( c, olw->ConstellationList ) ) {
 			if ( doBuildList ) obsList().append ( o );
 		} else if ( doAdjustCount ) --ObjectCount;

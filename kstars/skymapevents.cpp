@@ -43,6 +43,8 @@
 #include "kspopupmenu.h"
 #include "ksmoon.h"
 
+#include "skycomponents/skylabeler.h"
+
 void SkyMap::resizeEvent( QResizeEvent * )
 {
 	computeSkymap = true; // skymap must be new computed
@@ -124,7 +126,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			if ( Options::useAltAz() ) {
 				focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/Options::zoomFactor() );
 				if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
-				focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+				focus()->HorizontalToEquatorial(data->LST, data->geo()->lat() );
 			} else {
 				focus()->setDec( focus()->dec()->Degrees() - step * MINZOOM/Options::zoomFactor() );
 				if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
@@ -335,6 +337,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			break;
 
 		//Test code: create a SkyLine
+        /**
 		case Qt::Key_V:
 			kDebug() << "Create a skyline: ";
 			SkyLine sl( SkyPoint( 12.34, 33.50 ), SkyPoint( 14.00, 40.00 ) );
@@ -347,6 +350,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 			kDebug() << "  " << sl.points().size() << " :: "
 					<< sl.point(0)->ra()->toHMSString() << " : " 
 					<< sl.point(1)->ra()->toHMSString() << endl;
+            break;
+**/
+        case Qt::Key_B:  // print labeler info
+			SkyLabeler::Instance()->printInfo();
+            break;
+        case Qt::Key_F:  // print labeler info
+			SkyLabeler::Instance()->decDensity();
+            break;
+        case Qt::Key_G:  // print labeler info
+			SkyLabeler::Instance()->incDensity();
+            break;
+
+
+
 	}
 
 	setOldFocus( focus() );

@@ -21,6 +21,7 @@
 #include <QPointF>
 #include <QPainter>
 
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
@@ -28,17 +29,16 @@
 #include "skypoint.h" 
 #include "dms.h"
 #include "Options.h"
+#include "skylabeler.h"
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-HorizonComponent::HorizonComponent(SkyComponent *parent, bool (*visibleMethod)()) 
-: PointListComponent(parent, visibleMethod)
-{
-}
+HorizonComponent::HorizonComponent(SkyComponent *parent ) 
+: PointListComponent( parent )
+{}
 
 HorizonComponent::~HorizonComponent()
-{
-}
+{}
 
 void HorizonComponent::init(KStarsData *data)
 {
@@ -55,11 +55,17 @@ void HorizonComponent::init(KStarsData *data)
 	}
 }
 
-void HorizonComponent::update( KStarsData *data, KSNumbers * ) {
-	if ( visible() ) {
-		foreach ( SkyPoint *p, pointList() ) {
-			p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-		}
+bool HorizonComponent::selected()
+{
+    return Options::showHorizon();
+}
+
+void HorizonComponent::update( KStarsData *data, KSNumbers * )
+{
+	if ( ! selected() ) return;
+
+	foreach ( SkyPoint *p, pointList() ) {
+		p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 	}
 }
 
@@ -69,7 +75,7 @@ void HorizonComponent::update( KStarsData *data, KSNumbers * ) {
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( ! visible() ) return;
+	if ( ! selected() ) return;
 
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();
@@ -77,6 +83,11 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	QPolygonF groundPolyF;
 	QPolygon groundPoly;
 	SkyPoint *pAnchor(0), *pAnchor2(0);
+
+ 	static const QString horizonLabel = i18n("Horizon");
+	float marginLeft, marginRight, marginTop, marginBot;
+	SkyLabeler::Instance()->getMargins( psky, horizonLabel, &marginLeft, &marginRight,
+			                            &marginTop, &marginBot );
 
 	psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
@@ -109,7 +120,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
-				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+				if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 					pAnchor = p;
 
 				if ( o.y() > 0. ) allGround = false;
@@ -129,7 +140,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 				groundPoly << QPoint(int(o.x()),int(o.y()));
 
 			//Set the anchor point if this point is onscreen
-			if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+			if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 				pAnchor = p;
 
 			if ( o.y() > 0. ) allGround = false;
@@ -150,7 +161,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 					groundPoly << QPoint(int(o.x()),int(o.y()));
 
 				//Set the anchor point if this point is onscreen
-				if ( o.x() < Width && o.y() > 0. && o.y() < Height ) 
+				if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot ) 
 					pAnchor = p;
 
 				if ( o.y() > 0. ) allGround = false;
@@ -278,91 +289,83 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 	else
 		psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
 
-	drawCompassLabels( ks, psky, scale );
 
 	//Draw Horizon name label
 	//pAnchor contains the last point of the Horizon before it went offcreen 
 	//on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
-	if ( pAnchor ) {
-		int iAnchor = pointList().indexOf( pAnchor );
-		if ( iAnchor == pointList().size()-1 ) iAnchor = 0;
-		else iAnchor++;
-		pAnchor2 = pointList().at( iAnchor );
-	
-		QPointF o1 = map->toScreen( pAnchor, scale, false );
-		QPointF o2 = map->toScreen( pAnchor2, scale, false );
-		
-		float x1, x2;
-		//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
-		if ( o2.x() > Width ) {
-			x1 = (Width - o1.x())/(o2.x() - o1.x());
-			x2 = (o2.x() - Width)/(o2.x() - o1.x());
-		} else if ( o2.y() < 0 ) {
-			x1 = o1.y()/(o1.y() - o2.y());
-			x2 = -1.0*o2.y()/(o1.y() - o2.y());
-		} else if ( o2.y() > Height ) {
-			x1 = (Height - o1.y())/(o2.y() - o1.y());
-			x2 = (o2.y() - Height)/(o2.y() - o1.y());
-		} else {  //should never get here
-			x1 = 0.0;
-			x2 = 1.0;
-		}
-	
-		//ra0 is the exact RA at which the Horizon intersects a screen edge
-		double ra0 = x1*pAnchor2->ra()->Hours() + x2*pAnchor->ra()->Hours();
-		//dec0 is the exact Dec at which the Horizon intersects a screen edge
-		double dec0 = x1*pAnchor2->dec()->Degrees() + x2*pAnchor->dec()->Degrees();
-	
-		//LabelPoint is offset from the anchor point by -2.0 degrees in azimuth
-		//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
-		//independent of zoom.
-		SkyPoint LabelPoint(ra0, dec0);
-		LabelPoint.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
-		LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
-		LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
-		LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	
-		o = map->toScreen( &LabelPoint, scale, false );
-
-		if ( o.x() > Width || o.x() < 0 ) {
-			//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
-			//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
-		LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
-			LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
-			LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-		}
-	
-		//p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
-		//2000./zoomFactor).  We use p2 to determine the rotation angle for the
-		//Horizon label, which we want to be parallel to the line between LabelPoint and p2.
-		SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
-		p2.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
-		p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
-		p2.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	
-		o2 = map->toScreen( &p2, scale, false );
-	
-		float sx = o.x() - o2.x();
-		float sy = o.y() - o2.y();
-		float angle;
-		if ( sx ) {
-			angle = atan2( sy, sx )*180.0/dms::PI;
-		} else {
-			angle = 90.0;
-			if ( sy < 0 ) angle = -90.0;
-		}
-	
-		//Finally, draw the "Horizon" label at the determined location and angle
-		psky.save();
-		if ( Options::useAntialias() )
-			psky.translate( o.x(), o.y() );
-		else
-			psky.translate( int(o.x()), int(o.y()) );
-
-		psky.rotate( double( angle ) );  //rotate the coordinate system
-		psky.drawText( 0, 0, i18n( "Horizon" ) );
-		psky.restore(); //reset coordinate system
+	if ( ! pAnchor ) {
+		drawCompassLabels( ks, psky, scale );
+		return;
 	}
+
+	int iAnchor = pointList().indexOf( pAnchor );
+	if ( iAnchor == pointList().size()-1 ) iAnchor = 0;
+	else iAnchor++;
+	pAnchor2 = pointList().at( iAnchor );
+
+	QPointF o1 = map->toScreen( pAnchor, scale, false );
+	QPointF o2 = map->toScreen( pAnchor2, scale, false );
+	
+	float x1, x2;
+	//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
+	if ( o2.x() > Width ) {
+		x1 = (Width - o1.x())/(o2.x() - o1.x());
+		x2 = (o2.x() - Width)/(o2.x() - o1.x());
+	} else if ( o2.y() < 0 ) {
+		x1 = o1.y()/(o1.y() - o2.y());
+		x2 = -1.0*o2.y()/(o1.y() - o2.y());
+	} else if ( o2.y() > Height ) {
+		x1 = (Height - o1.y())/(o2.y() - o1.y());
+		x2 = (o2.y() - Height)/(o2.y() - o1.y());
+	} else {  //should never get here
+		x1 = 0.0;
+		x2 = 1.0;
+	}
+
+	//ra0 is the exact RA at which the Horizon intersects a screen edge
+	double ra0 = x1*pAnchor2->ra()->Hours() + x2*pAnchor->ra()->Hours();
+	//dec0 is the exact Dec at which the Horizon intersects a screen edge
+	double dec0 = x1*pAnchor2->dec()->Degrees() + x2*pAnchor->dec()->Degrees();
+
+	//LabelPoint is offset from the anchor point by -2.0 degrees in azimuth
+	//and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
+	//independent of zoom.
+	SkyPoint LabelPoint(ra0, dec0);
+	LabelPoint.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+	LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
+	LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
+	LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+
+	o = map->toScreen( &LabelPoint, scale, false );
+
+	if ( o.x() > Width || o.x() < 0 ) {
+		//the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
+		//or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
+	LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
+		LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
+		LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+	}
+
+	//p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
+	//2000./zoomFactor).  We use p2 to determine the rotation angle for the
+	//Horizon label, which we want to be parallel to the line between LabelPoint and p2.
+	SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
+	p2.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+	p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
+	p2.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+
+	o2 = map->toScreen( &p2, scale, false );
+
+	float sx = o.x() - o2.x();
+	float sy = o.y() - o2.y();
+	float angle;
+	angle = atan2( sy, sx )*180.0/dms::PI;
+	if ( angle < -90.0 ) angle += 180.0;
+	if ( angle >  90.0 ) angle -= 180.0;
+
+	SkyLabeler::Instance()->drawLabel( psky, o1, horizonLabel, angle );
+
+	drawCompassLabels( ks, psky, scale );
 }
 
 
@@ -372,108 +375,26 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
 	SkyMap *map = ks->map();
 	float Width = scale * map->width();
 	float Height = scale * map->height();
+ 	SkyLabeler* skyLabeler = SkyLabeler::Instance();
+	double az = -0.01;
+	static QString name[8];
+	name[0] = i18nc( "Northeast", "NE" );
+	name[1] = i18nc( "East", "E" );
+	name[2] = i18nc( "Southeast", "SE" );
+	name[3] = i18nc( "South", "S" );
+	name[4] = i18nc( "Southwest", "SW" );
+	name[5] = i18nc( "West", "W" );
+	name[6] = i18nc( "Northwest", "NW" );
+	name[7] = i18nc( "North", "N" );
 
-	//North
-	c.setAz( 359.99 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "North", "N" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "North", "N" ) );
-	}
-
-	//NorthEast
-	c.setAz( 45.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "Northeast", "NE" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Northeast", "NE" ) );
-	}
-
-	//East
-	c.setAz( 90.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "East", "E" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "East", "E" ) );
-	}
-
-	//SouthEast
-	c.setAz( 135.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "Southeast", "SE" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Southeast", "SE" ) );
-	}
-
-	//South
-	c.setAz( 179.99 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "South", "S" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "South", "S" ) );
-	}
-
-	//SouthWest
-	c.setAz( 225.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "Southwest", "SW" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Southwest", "SW" ) );
-	}
-
-	//West
-	c.setAz( 270.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "West", "W" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "West", "W" ) );
-	}
-
-	//NorthWest
-	c.setAz( 315.0 );
-	c.setAlt( 0.0 );
-	if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-	cpoint = map->toScreen( &c, scale, false );
-	cpoint.setY( cpoint.y() + scale*20. );
-	if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-		if ( Options::useAntialias() )
-			psky.drawText( cpoint, i18nc( "Northwest", "NW" ) );
-		else
-			psky.drawText( int(cpoint.x()), int(cpoint.y()), i18nc( "Northwest", "NW" ) );
+	for ( int i = 0; i < 8; i++ ) {
+		az += 45.0;
+		c.setAz( az );
+		c.setAlt( 0.0 );
+		if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+		cpoint = map->toScreen( &c, scale, false );
+		if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
+			skyLabeler->drawLabel( psky, cpoint, name[i], 0.0 );
+		}
 	}
 }
