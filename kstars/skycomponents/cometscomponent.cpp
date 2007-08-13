@@ -83,6 +83,9 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 	
 	SkyMap *map = ks->map();
 
+	bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
+	double rsunLabelLimit = Options::maxRadCometName();
+
 	float Width = scale * map->width();
 	float Height = scale * map->height();
 
@@ -109,10 +112,7 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 		else
 			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
-		if ( ! Options::showCometNames() ) continue;
-        if (  com->rsun() >= Options::maxRadCometName() ) continue;
-
-		//Queue label
+		if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
 		SkyLabeler::Instance()->addOffsetLabel( o, com->translatedName(), COMET_LABEL );
 	}
 }

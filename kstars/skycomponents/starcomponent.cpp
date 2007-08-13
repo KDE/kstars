@@ -136,7 +136,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     double labelMagLim = Options::magLimitDrawStarInfo();
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    bool noLabels =  checkSlewing || ! ( Options::showStarMagnitudes() || Options::showStarNames() );
+    bool hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+		                ! ( Options::showStarMagnitudes() || Options::showStarNames() );
 
     //shortcuts to inform whether to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
@@ -204,7 +205,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 			curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0), 
 					       starColorIntensity(), true, scale );
 
-            if ( noLabels ) continue;
+            if ( hideLabels ) continue;
             if ( mag > labelMagLim ) continue;
             //if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) continue;
 

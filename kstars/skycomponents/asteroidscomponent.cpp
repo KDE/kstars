@@ -101,8 +101,11 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	if ( ! selected() ) return;
 	
 	SkyMap *map = ks->map();
+	bool hideLabels =  ! Options::showAsteroidNames() || (map->isSlewing() && Options::hideLabels() );
+	float labelMagLimit  =  Options::magLimitAsteroidName();
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
+
 	foreach ( SkyObject *o, objectList() ) { 
 		KSAsteroid *ast = (KSAsteroid*) o;
 
@@ -122,10 +125,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 		else
 			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
-        if ( map->isSlewing() || ! Options::showAsteroidNames() || 
-             ast->mag() >= Options::magLimitAsteroidName() ) continue;
-
-		//Queue Name
+		if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
 		SkyLabeler::Instance()->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
     }
 }
