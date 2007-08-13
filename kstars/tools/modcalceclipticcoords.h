@@ -19,7 +19,7 @@
 #define MODCALCECLIPTICCOORDS_H_
 
 #include "ui_modcalceclipticcoords.h"
-#include "dms.h"
+#include "kstarsdatetime.h"
 
 /**
   * Class which implements the KStars calculator module to compute
@@ -37,17 +37,12 @@ public:
 	modCalcEclCoords(QWidget *p);
 	~modCalcEclCoords();
 
-	void getEclCoords (void);
-	void getEquCoords (void);
-	void showEquCoords(void);
-	void showEclCoords(void);
-	void EclToEqu(void);
-	void EquToEcl(void);
-	
 public slots:
+	void slotNow(void);
+	void slotObject(void);
+	void slotDateTimeChanged(const ExtDateTime &edt);
+	void slotCompute(void);
 
-	void slotClearCoords (void);
-	void slotComputeCoords (void);
 	void slotEclLatCheckedBatch(void);
 	void slotEclLongCheckedBatch(void);
 	void slotRaCheckedBatch(void);
@@ -60,9 +55,7 @@ private:
 	void eclCheck(void);
 	void processLines( QTextStream &is );
 
-	dms eclipLong, eclipLat, raCoord, decCoord;
-	QString epoch;
-	bool eclInputCoords;
+	KStarsDateTime kdt;
 };
 #endif
 

@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>modCalcEclCoordsDlg</class>
  <widget class="QWidget" name="modCalcEclCoordsDlg" >
   <property name="geometry" >
@@ -13,133 +10,47 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="leftMargin" >
+    <number>9</number>
+   </property>
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
-          <string>Choose Input Coordinates</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>39</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="equRadio" >
-            <property name="text" >
-             <string>Geocentric equatorial</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>37</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="eclRadio" >
-            <property name="text" >
-             <string>Geocentric ecliptic</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>39</width>
-              <height>25</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
          <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
+          <widget class="QLabel" name="label_5" >
+           <property name="text" >
+            <string>Date and time:</string>
            </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>51</width>
-             <height>21</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="Compute" >
+          <widget class="ExtDateTimeEdit" name="DateTime" />
+         </item>
+         <item>
+          <widget class="KPushButton" name="NowButton" >
            <property name="text" >
-            <string>Convert</string>
+            <string>Now</string>
            </property>
           </widget>
          </item>
@@ -148,36 +59,10 @@
            <property name="orientation" >
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
            <property name="sizeHint" >
             <size>
-             <width>51</width>
-             <height>21</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KPushButton" name="Clear" >
-           <property name="text" >
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>71</width>
-             <height>21</height>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>
@@ -186,11 +71,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <widget class="QGroupBox" name="groupBox_3" >
@@ -198,22 +92,24 @@
             <string>Equatorial Coordinates</string>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>8</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>8</number>
+            </property>
+            <property name="rightMargin" >
+             <number>8</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>8</number>
+            </property>
+            <property name="horizontalSpacing" >
              <number>6</number>
             </property>
-            <item row="2" column="1" >
-             <widget class="KLineEdit" name="epochName" />
-            </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="epochLabel" >
-              <property name="text" >
-               <string>Epoch:</string>
-              </property>
-             </widget>
-            </item>
+            <property name="verticalSpacing" >
+             <number>6</number>
+            </property>
             <item row="0" column="0" >
              <widget class="QLabel" name="raLabel" >
               <property name="text" >
@@ -229,10 +125,17 @@
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="dmsBox" name="raBox" />
+             <widget class="dmsBox" name="RA" />
             </item>
             <item row="1" column="1" >
-             <widget class="dmsBox" name="decBox" />
+             <widget class="dmsBox" name="Dec" />
+            </item>
+            <item row="2" column="1" >
+             <widget class="KPushButton" name="ObjectButton" >
+              <property name="text" >
+               <string>Select Object...</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -243,39 +146,60 @@
             <string>Ecliptic Coordinates</string>
            </property>
            <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>8</number>
-            </property>
             <property name="spacing" >
              <number>6</number>
             </property>
+            <property name="leftMargin" >
+             <number>8</number>
+            </property>
+            <property name="topMargin" >
+             <number>8</number>
+            </property>
+            <property name="rightMargin" >
+             <number>8</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>8</number>
+            </property>
             <item>
              <layout class="QGridLayout" >
-              <property name="margin" >
+              <property name="leftMargin" >
                <number>0</number>
               </property>
-              <property name="spacing" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <property name="horizontalSpacing" >
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing" >
                <number>6</number>
               </property>
               <item row="1" column="0" >
                <widget class="QLabel" name="label_2" >
                 <property name="text" >
-                 <string>Ecl. latitude:</string>
+                 <string>Latitude:</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="0" >
                <widget class="QLabel" name="label" >
                 <property name="text" >
-                 <string>Ecl. longitude:</string>
+                 <string>Longitude:</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1" >
-               <widget class="dmsBox" name="ecLongBox" />
+               <widget class="dmsBox" name="EcLong" />
               </item>
               <item row="1" column="1" >
-               <widget class="dmsBox" name="ecLatBox" />
+               <widget class="dmsBox" name="EcLat" />
               </item>
              </layout>
             </item>
@@ -317,11 +241,20 @@
        <string>Batch Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>8</number>
+       </property>
+       <property name="topMargin" >
+        <number>8</number>
+       </property>
+       <property name="rightMargin" >
+        <number>8</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>8</number>
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox_4" >
@@ -329,10 +262,22 @@
           <string>Select Fields in Input File</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>8</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="2" column="3" colspan="2" >
@@ -421,11 +366,20 @@
           <string>Select Parameters for Output</string>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>8</number>
+          </property>
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
           </property>
           <item>
            <spacer>
@@ -492,10 +446,22 @@
           <string>Select Filenames</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>8</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="1" column="0" >
@@ -523,11 +489,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -548,9 +523,7 @@
          <item>
           <widget class="KPushButton" name="runButtonBatch" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>7</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -597,48 +570,39 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>ExtDateTimeEdit</class>
+   <extends>QFrame</extends>
+   <header>extdatetimeedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends></extends>
-   <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>equRadio</tabstop>
-  <tabstop>eclRadio</tabstop>
-  <tabstop>Compute</tabstop>
-  <tabstop>Clear</tabstop>
-  <tabstop>raBox</tabstop>
-  <tabstop>decBox</tabstop>
-  <tabstop>epochName</tabstop>
-  <tabstop>ecLongBox</tabstop>
-  <tabstop>ecLatBox</tabstop>
+  <tabstop>RA</tabstop>
+  <tabstop>Dec</tabstop>
+  <tabstop>EcLong</tabstop>
+  <tabstop>EcLat</tabstop>
   <tabstop>raCheckBatch</tabstop>
   <tabstop>raBoxBatch</tabstop>
   <tabstop>decCheckBatch</tabstop>

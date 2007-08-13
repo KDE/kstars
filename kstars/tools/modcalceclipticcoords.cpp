@@ -25,21 +25,34 @@
 #include <kurlrequester.h>
 
 #include "dms.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 #include "skypoint.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
-#include "kstarsdatetime.h"
+#include "finddialog.h"
 #include "widgets/dmsbox.h"
 
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 : QFrame(parentSplit) {
 
 	setupUi(this);
-	equRadio->setChecked(true);
-	raBox->setDegType(false);
+	RA->setDegType(false);
 
-	connect(Compute, SIGNAL(clicked()), this, SLOT(slotComputeCoords()));
-	connect(Clear, SIGNAL(clicked()), this, SLOT(slotClearCoords()));
+	//Initialize Date/Time and Location data
+	KStars *ks = ((KStars*) topLevelWidget()->parent());
+	DateTime->setDateTime( ks->data()->lt() );
+	kdt = ((KStarsDateTime)DateTime->dateTime());
+
+	connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
+	connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
+	connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
+
+	connect(RA,     SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(Dec,    SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(EcLong, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+	connect(EcLat,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+
 	connect(ecLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLatCheckedBatch()));
 	connect(ecLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotEclLongCheckedBatch()));
 	connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
@@ -53,81 +66,58 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 modCalcEclCoords::~modCalcEclCoords() {
 }
 
-void modCalcEclCoords::getEclCoords (void) {
-
-	eclipLong = ecLongBox->createDms();
-	eclipLat = ecLatBox->createDms();
-	epoch = epochName->text();
+void modCalcEclCoords::slotNow() {
+	DateTime->setDateTime( KStarsDateTime::currentDateTime() );
+	slotCompute();
 }
 
-void modCalcEclCoords::getEquCoords (void) {
-
-	raCoord = raBox->createDms(false);
-	decCoord = decBox->createDms();
-	epoch = epochName->text();
-}
-
-void modCalcEclCoords::slotClearCoords (void) {
-
-	raBox->clearFields();
-	decBox->clearFields();
-	ecLongBox->clearFields();
-	ecLatBox->clearFields();
-
-}
-
-void modCalcEclCoords::slotComputeCoords (void) {
-
-	if(eclRadio->isChecked()) {
-		getEclCoords();
-		EclToEqu();
-		showEquCoords();
-	} else {
-		getEquCoords();
-		EquToEcl();
-		showEclCoords();
+void modCalcEclCoords::slotObject() {
+	FindDialog fd( (KStars*)topLevelWidget()->parent() );
+	if ( fd.exec() == QDialog::Accepted ) {
+		SkyObject *o = fd.selectedObject();
+		RA->showInHours( o->ra() );
+		Dec->showInDegrees( o->dec() );
+		slotCompute();
 	}
-
 }
 
-void modCalcEclCoords::showEquCoords(void) {
-	raBox->show( raCoord , false);
-	decBox->show( decCoord );
+void modCalcEclCoords::slotDateTimeChanged(const ExtDateTime &edt) {
+	kdt = ((KStarsDateTime)edt);
 }
 
-void modCalcEclCoords::showEclCoords(void) {
-	ecLongBox->show( eclipLong );
-	ecLatBox->show( eclipLat );
-}
+void modCalcEclCoords::slotCompute(void) {
+	KSNumbers num( kdt.djd() );
 
-void modCalcEclCoords::EclToEqu(void) {
+	//Determine whether we are calculating ecliptic coordinates from equatorial,
+	//or vice versa.  We calculate ecliptic by default, unless the signal 
+	//was sent by changing the EcLong or EcLat value.
+	if ( sender()->objectName() == "EcLong" || sender()->objectName() == "EcLat" ) {
+		//Validate ecliptic coordinates
+		bool ok( false );
+		dms elat;
+		dms elong = EcLong->createDms( true, &ok );
+		if ( ok ) elat = EcLat->createDms( true, &ok );
+		if ( ok ) {
+			SkyPoint sp;
+			sp.setFromEcliptic( num.obliquity(), &elong, &elat );
+			RA->showInHours( sp.ra() );
+			Dec->showInDegrees( sp.dec() );
+		}
 
-	SkyPoint sp = SkyPoint();
-
-	KStarsDateTime dt;
-	dt.setFromEpoch( epoch );
-	KSNumbers *num = new KSNumbers( dt.djd() );
-
-//	sp.setEclLong(eclipLong);
-//	sp.setEclLat(eclipLat);
-	sp.setFromEcliptic(num->obliquity(), &eclipLong, &eclipLat);
-
-	raCoord.set( *sp.ra() );
-	decCoord.set( *sp.dec() );
-
-	delete num;
-}
-
-void modCalcEclCoords::EquToEcl(void) {
-
-	SkyPoint sp = SkyPoint (raCoord, decCoord);
-	KStarsDateTime dt;
-	dt.setFromEpoch( epoch );
-	KSNumbers *num = new KSNumbers( dt.djd() );
-
-	sp.findEcliptic(num->obliquity(), eclipLong, eclipLat);
-
-	delete num;
+	} else {
+		//Validate RA and Dec coordinates
+		bool ok( false );
+		dms ra;
+		dms dec = Dec->createDms( true, &ok );
+		if ( ok ) ra = RA->createDms( false, &ok );
+		if ( ok ) {
+			SkyPoint sp( ra, dec );
+			dms elong, elat;
+			sp.findEcliptic( num.obliquity(), elong, elat );
+			EcLong->showInDegrees( elong );
+			EcLat->showInDegrees( elat );
+		}
+	}
 }
 
 void modCalcEclCoords::eclCheck() {
@@ -136,7 +126,7 @@ void modCalcEclCoords::eclCheck() {
 	ecLatBoxBatch->setEnabled(false);
 	ecLongCheckBatch->setChecked(false);
 	ecLongBoxBatch->setEnabled(false);
-	eclInputCoords = false;
+//	eclInputCoords = false;
 
 }
 
@@ -147,7 +137,7 @@ void modCalcEclCoords::equCheck() {
 	decCheckBatch->setChecked(false);
 	decBoxBatch->setEnabled(false);
 	//epochCheckBatch->setChecked(false);
-	eclInputCoords = true;
+//	eclInputCoords = true;
 
 }
 
@@ -259,58 +249,58 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 
 		// Input coords are ecliptic coordinates:
 
-		if (eclInputCoords) {
-
-			// Read Ecliptic Longitude and write in ostream if corresponds
-
-			if(ecLongCheckBatch->isChecked() ) {
-				eclLongB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				eclLongB = ecLongBoxBatch->createDms(true);
-
-			if ( allRadioBatch->isChecked() )
-				ostream << eclLongB.toDMSString() << space;
-			else
-				if(ecLongCheckBatch->isChecked() )
-					ostream << eclLongB.toDMSString() << space;
-
-			// Read Ecliptic Latitude and write in ostream if corresponds
-
-			if(ecLatCheckBatch->isChecked() ) {
-				eclLatB = dms::fromString( fields[i], true);
-				i++;
-			} else
-			if ( allRadioBatch->isChecked() )
-				ostream << eclLatB.toDMSString() << space;
-			else
-				if(ecLatCheckBatch->isChecked() )
-					ostream << eclLatB.toDMSString() << space;
-
-			// Read Epoch and write in ostream if corresponds
-
-			if(epochCheckBatch->isChecked() ) {
-				epoch0B = fields[i];
-				i++;
-			} else
-				epoch0B = epochBoxBatch->text();
-
-			if ( allRadioBatch->isChecked() )
-				ostream << epoch0B << space;
-			else
-				if(epochCheckBatch->isChecked() )
-					ostream << epoch0B << space;
-
-			sp = SkyPoint ();
-
-			KStarsDateTime dt;
-			dt.setFromEpoch( epoch0B );
-			KSNumbers *num = new KSNumbers( dt.djd() );
-			sp.setFromEcliptic(num->obliquity(), &eclLongB, &eclLatB);
-			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
-		// Input coords. are equatorial coordinates:
-
-		} else {
+// 		if (eclInputCoords) {
+// 
+// 			// Read Ecliptic Longitude and write in ostream if corresponds
+// 
+// 			if(ecLongCheckBatch->isChecked() ) {
+// 				eclLongB = dms::fromString( fields[i], true);
+// 				i++;
+// 			} else
+// 				eclLongB = ecLongBoxBatch->createDms(true);
+// 
+// 			if ( allRadioBatch->isChecked() )
+// 				ostream << eclLongB.toDMSString() << space;
+// 			else
+// 				if(ecLongCheckBatch->isChecked() )
+// 					ostream << eclLongB.toDMSString() << space;
+// 
+// 			// Read Ecliptic Latitude and write in ostream if corresponds
+// 
+// 			if(ecLatCheckBatch->isChecked() ) {
+// 				eclLatB = dms::fromString( fields[i], true);
+// 				i++;
+// 			} else
+// 			if ( allRadioBatch->isChecked() )
+// 				ostream << eclLatB.toDMSString() << space;
+// 			else
+// 				if(ecLatCheckBatch->isChecked() )
+// 					ostream << eclLatB.toDMSString() << space;
+// 
+// 			// Read Epoch and write in ostream if corresponds
+// 
+// 			if(epochCheckBatch->isChecked() ) {
+// 				epoch0B = fields[i];
+// 				i++;
+// 			} else
+// 				epoch0B = epochBoxBatch->text();
+// 
+// 			if ( allRadioBatch->isChecked() )
+// 				ostream << epoch0B << space;
+// 			else
+// 				if(epochCheckBatch->isChecked() )
+// 					ostream << epoch0B << space;
+// 
+// 			sp = SkyPoint ();
+// 
+// 			KStarsDateTime dt;
+// 			dt.setFromEpoch( epoch0B );
+// 			KSNumbers *num = new KSNumbers( dt.djd() );
+// 			sp.setFromEcliptic(num->obliquity(), &eclLongB, &eclLatB);
+// 			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+// 		// Input coords. are equatorial coordinates:
+// 
+// 		} else {
 
 			// Read RA and write in ostream if corresponds
 
@@ -362,7 +352,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
 			ostream << eclLongB.toDMSString() << space << eclLatB.toDMSString() << endl;
 			delete num;
 
-		}
+//		}
 
 	}
 
