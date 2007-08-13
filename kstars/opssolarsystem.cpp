@@ -64,7 +64,7 @@ void OpsSolarSystem::slotCometWidgets( bool on ) {
 
 void OpsSolarSystem::slotSelectPlanets() {
 	bool b=true;
-	if ( QString(sender()->name()) == "showNonePlanets" )
+	if ( QString(sender()->objectName()) == "showNonePlanets" )
 		b = false;
 	
 	kcfg_ShowSun->setChecked( b );
