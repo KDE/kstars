@@ -343,25 +343,56 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 		psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
 }
 
+// The two routines below seem overly complicated but at least they are doing
+// the right thing now.  Please resist the temptation to simplify them unless
+// you are prepared to ensure there is no ugly label overlap for all 8 cases
+// they deal with ( drawName x DrawMag x star-has-name).  -jbb
+
 QString StarObject::nameLabel( bool drawName, bool drawMag )
 {
-	QString sName( i18n("star") + ' ' );
+	QString sName;
 	if ( drawName ) {
-		if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
-			sName = translatedName() + ' ';
-		else if ( ! gname().trimmed().isEmpty() ) sName = gname( true ) + ' ';
-	}
-	if ( drawMag ) {
-		if ( drawName )
-			sName += QString().sprintf("%.1f", mag() );
+	    if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
+			sName = translatedName();
+		else if ( ! gname().trimmed().isEmpty() ) 
+			sName = gname( true );
+		else {
+			if ( drawMag ) 
+				return QString().sprintf("%.1f", mag() );
+		}	
+		if ( ! drawMag )
+			return sName;
 		else
-			sName.sprintf("%.1f", mag() );
+			return sName + QString().sprintf(" %.1f", mag() );
 	}
+	return QString().sprintf("%.1f", mag() );
+}
+
+QString StarObject::customLabel( bool drawName, bool drawMag )
+{
+	QString sName;
+	if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
+		sName = translatedName();
+	else if ( ! gname().trimmed().isEmpty() ) 
+		sName = gname( true );
+	else
+		sName = i18n("star");
+
+	if ( drawMag  && drawName ) {
+		if ( sName == i18n("star") ) 
+			return QString().sprintf("%.1f, ", mag() ) + sName;
+		else
+			return sName + QString().sprintf(" %.1f", mag() );
+	}	
+	else if ( drawMag && ! drawName ) 
+		return QString().sprintf("%.1f, ", mag() ) + sName;
+
 	return sName;
 }
 
-void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale ) {
-	QString sName = nameLabel( drawName, drawMag );
+void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, double scale )
+{
+	QString sName = customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
 	if ( Options::useAntialias() )
@@ -374,6 +405,6 @@ void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale
 	//set the zoom-dependent font
 	QFont stdFont( psky.font() );
     SkyLabeler::setZoomFont( psky );
-	drawLabel( psky, x, y, Options::zoomFactor(), true, false, scale );
+	drawLabel( psky, x, y, Options::zoomFactor(), scale );
 	psky.setFont( stdFont );
 }

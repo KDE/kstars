@@ -224,9 +224,16 @@ class StarObject : public SkyObject {
 			bool useRealColors, int scIntensity, bool drawMultiple=true, 
 			double scale=1.0 );
 
+	/* @short returns the name, the magnitude or both.
+	 */
 	QString nameLabel( bool drawName, bool drawMag );
 
-	void drawLabel( QPainter &psky, float x, float y, double zoom, bool drawName, bool drawMag, double scale );
+	/* @short does the same as above except when only the magnitude is selected
+	 * in which case it returns "$mag, name".  This prevents label overlap.
+	 */
+	QString customLabel( bool drawName, bool drawMag );
+
+	void drawLabel( QPainter &psky, float x, float y, double zoom, double scale );
 
 /**
 	*@short draw the star's name label on the map

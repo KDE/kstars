@@ -337,8 +337,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 			StarObject* star = (StarObject*) obj;
 			float offset = scale * (6. + 0.5*( 5.0 - star->mag() ) 
 					+ 0.01 * ( Options::zoomFactor() /500. ) );
-			QString sName = star->nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
-			//kDebug() << QString("Star: %1\n").arg(sName);
+			QString sName = star->customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 			skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset), sName );
 		}
 		else {

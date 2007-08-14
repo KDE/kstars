@@ -9,7 +9,6 @@ my @DEC_REGIONS = (
 #    [90, 50], [50, 20], [20, -20], 
     [-20, -50], [-50, -90]);
 
-my $cnt;
 
 while(<>) {
     m/^\s*#/ and do {  next};
@@ -20,16 +19,14 @@ while(<>) {
         next;
     };
     $star->{line} = $.;
-    $star->{name} or next;
     push @STARS, $star;
+    #$star->{name} or next;
     #print_star_line($star);
-
 }
 
-@STARS = sort { $b->{mag} <=> $a->{mag} } @STARS;
+@STARS = sort { $b->{pm} <=> $a->{pm} } @STARS;
 for my $star ( @STARS ) {
-	printf "%4.1f %s\n", $star->{mag}, $star->{name};
-	#print_star_line($star);
+    print_star_line($star);
 }
 
 exit;
@@ -39,7 +36,7 @@ exit;
 
 sub print_star_line {
 	my $star = shift;
-	#printf "%8.2f ", $star->{pm};
+    printf "%8.2f ", $star->{pm};
 	printf "%s %s %s%s%s %s%s%s %s%s",
 	@$star{qw/ra_str dec_str dra ddec parallax mag bv_index spec_type mult/};
 	my $s2;
@@ -62,7 +59,7 @@ exit;
 
 
 sub print_stars {
-    my @stars = sort {$a->{mag} <=> $b->{mag}} @_;
+    my @stars = sort {$a->{ra} <=> $b->{ra}} @_;
     for my $dec_region (@DEC_REGIONS) {
         my ($top, $bot) = @$dec_region;
         print "\nFrom $top to $bot:\n";
