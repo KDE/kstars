@@ -1,3 +1,8 @@
+
+check_function_exists(drand48 HAVE_DRAND48)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-htmesh.h )
+
 ### HTMesh library
 set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HtmRange.cpp

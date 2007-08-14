@@ -18,7 +18,9 @@
 #include "SkipListElement.h" 
 #include "SkipList.h"
 
+#include <config-htmesh.h>
 
+#ifndef HAVE_DRAND48
 double drand48()
 {
   double result;
@@ -32,6 +34,7 @@ double drand48()
 #endif
   return result;
 }
+#endif /* HAVE_DRAND48 */
 
 
 ////////////////////////////////////////////////////////////////////////////////
