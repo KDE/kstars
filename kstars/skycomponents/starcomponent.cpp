@@ -132,7 +132,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     KStarsData* data = ks->data();
     UpdateID updateID = data->updateID();
 
-    QList<SkyLabel> labelList;
     double labelMagLim = Options::magLimitDrawStarInfo();
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );

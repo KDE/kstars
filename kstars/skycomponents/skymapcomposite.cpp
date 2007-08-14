@@ -169,11 +169,14 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
     m_map = ks->map();
 
+	// We delay one draw cycle before re-indexing
     m_Stars->reindex( &m_reindexNum );
     m_CLines->reindex( &m_reindexNum );
+	// This queues re-indexing for the next draw cycle
+    m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
 
     // This ensures that the JIT updates are synchronized for the entire draw
-    // cycle so the sky moves as a single sheet.
+    // cycle so the sky moves as a single sheet.  May not be needed.
     ks->data()->syncUpdateIDs();
 
     float radius = m_map->fov();
@@ -280,8 +283,6 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
-
-    m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
 }
 
 //Select nearest object to the given skypoint, but give preference 
