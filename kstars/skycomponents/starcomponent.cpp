@@ -132,8 +132,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     KStarsData* data = ks->data();
     UpdateID updateID = data->updateID();
 
-    double labelMagLim = Options::magLimitDrawStarInfo();
-
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
     bool hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
 		                ! ( Options::showStarMagnitudes() || Options::showStarNames() );
@@ -157,6 +155,12 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
                    (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 
 	float sizeFactor = 6.0 + (lgz - lgmin);
+ 
+	double labelMagLim = Options::magLimitDrawStarInfo();
+	//labelMagLim += ( 7.9 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
+	labelMagLim += ( 16.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
+	if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
+	//printf("labelMagLim = %.1f\n", labelMagLim );
 
 	//Set the brush
 	QColor fillColor( Qt::white );

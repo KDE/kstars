@@ -498,6 +498,7 @@ void SkyLabeler::printInfo()
     printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n",
             screenRows.size(), m_elements, float(m_size) / 1024.0 );
 
+	return;
     for ( int i = 0; i < NUM_LABEL_TYPES; i++ ) {
         printf("  %20ss: %d\n", labelName[ i ], labelList[ i ].size() );
     }
