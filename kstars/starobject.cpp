@@ -19,7 +19,7 @@
 
 #include <QColor>
 #include <QPainter>
-
+#include <QFontMetricsF>
 #include <QPixmap>
 #include <kdebug.h>
 
@@ -394,6 +394,11 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, doubl
 {
 	QString sName = customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
+
+	//QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
+	//qreal width = fm.width( sName );
+	//qreal height = fm.height();
+	//psky.fillRect( x+offset, y+offset - height * 0.8 , width, height, QBrush("darkBlue") );
 
 	if ( Options::useAntialias() )
 		psky.drawText( QPointF( x+offset, y+offset ), sName );

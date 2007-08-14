@@ -427,11 +427,13 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 
 void SkyLabeler::addLabel( const QPointF& p, const QString& text, label_t type )
 {
+	if ( text.isEmpty() ) return;
     labelList[ type ].append( SkyLabel( p, text ) );
 }
 
 void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t type )
 {
+	if ( text.isEmpty() ) return;
     labelList[ type ].append( SkyLabel( p.x() + m_offset, p.y() + m_offset, text ) );
 }
 
