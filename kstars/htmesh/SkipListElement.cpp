@@ -86,7 +86,7 @@ std::ostream& operator<<(std::ostream& os, const SkipListElement& element)
   return(os);
 }
 
-static long xMatrix[SKIPLIST_MAXLEVEL][SKIPLIST_MAXLEVEL] = {{0}};;
+static long xMatrix[SKIPLIST_MAXLEVEL][SKIPLIST_MAXLEVEL] = {{0}};
 // static long xFlag = 1; 
 
 void SkipListElement::prmatrix()
@@ -115,4 +115,4 @@ void SkipListElement::setLevel(long level)
   myLevel=level;
   
     
-}; // set level of element
+} // set level of element
