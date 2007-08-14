@@ -1,3 +1,2 @@
-SKIP /kstars/indi/
-SKIP /kstars/satlib/
+SKIP /kstars/indi/\|/kstars/satlib/\|/kstars/htmesh/
 
