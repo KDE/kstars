@@ -76,6 +76,13 @@ struct VariableStarInfo
 class KStarsData : public QObject
 {
 	Q_OBJECT
+
+protected:
+	/**Constructor. */
+	KStarsData( KStars* kstars=0 );
+
+	KStarsData( KStarsData& ksd );
+	
 public:
 	//Friend classes can see the private data.
 	//FIXME: can we avoid having so many friend classes?
@@ -100,8 +107,9 @@ public:
 	friend class telescopeWizardProcess;
 	friend class ObsListWizard;
 
-	/**Constructor. */
-	KStarsData( KStars* kstars=0 );
+	static KStarsData* Create( KStars* kstars=0 );
+
+	static KStarsData* Instance();
 
 	/**Destructor.  Delete data objects. */
   virtual ~KStarsData();
@@ -490,6 +498,8 @@ private:
     quint32      m_preUpdateID, m_updateID;
     quint32      m_preUpdateNumID, m_updateNumID;
     KSNumbers    m_preUpdateNum, m_updateNum;
+
+	static KStarsData* pinstance;
 };
 
 

@@ -52,6 +52,21 @@ QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>()
 
 int KStarsData::objects = 0;
 
+KStarsData* KStarsData::pinstance = 0;
+
+KStarsData* KStarsData::Create( KStars* kstars )
+{
+    if ( pinstance ) delete pinstance;
+    pinstance = new KStarsData( kstars );
+    return pinstance;
+}
+
+KStarsData* KStarsData::Instance( )
+{
+    return pinstance;
+}
+
+
 KStarsData::KStarsData(KStars* kstars) : locale(0),
 		LST(0), HourAngle(0), initTimer(0), m_kstars(kstars), 
         m_preUpdateID(0), m_preUpdateNumID(0), 

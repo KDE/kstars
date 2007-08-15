@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-		KStarsData *dat = new KStarsData();
+		KStarsData *dat = KStarsData::Create();
 		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
 		dat->initialize();
 		while (!dat->startupComplete) { qApp->processEvents(); }

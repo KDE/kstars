@@ -70,6 +70,8 @@ class SkyMap : public QWidget  {
 	*/
 	explicit SkyMap( KStarsData *_data, KStars *_ks = 0 );
 
+	SkyMap( SkyMap& skyMap );
+
 public:
 
 	static SkyMap* Create( KStarsData *_data, KStars *_ks = 0 );
