@@ -54,6 +54,8 @@ class StarComponent: public ListComponent
 
 		virtual ~StarComponent();
 
+		void update( KStarsData *data, KSNumbers *num );
+
         void reindex( KSNumbers *num );
 
 		virtual void draw(KStars *ks, QPainter& psky, double scale);
@@ -149,6 +151,7 @@ class StarComponent: public ListComponent
 
 		KStarsData *m_Data;
 		float m_FaintMagnitude;
+		float m_zoomMagLimit;
 		int m_ColorMode, m_ColorIntensity;
 };
 

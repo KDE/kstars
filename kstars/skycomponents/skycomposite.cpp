@@ -88,6 +88,9 @@ SkyObject* SkyComposite::findByName( const QString &name ) {
 }
 
 SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
+
+	if ( ! selected() ) return 0;
+
 	SkyObject *oTry = 0;
 	SkyObject *oBest = 0;
 

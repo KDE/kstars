@@ -101,7 +101,8 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	if ( ! selected() ) return;
 	
 	SkyMap *map = ks->map();
-	bool hideLabels =  ! Options::showAsteroidNames() || (map->isSlewing() && Options::hideLabels() );
+	bool hideLabels =  ! Options::showAsteroidNames() ||
+		( map->isSlewing() && Options::hideLabels() );
 
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);
@@ -110,6 +111,8 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	labelMagLimit += ( 20.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
 	if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
 	//printf("labelMagLim = %.1f\n", labelMagLimit );
+
+	float sizeFactor = scale * dms::PI * Options::zoomFactor()/10800.0;
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
@@ -122,10 +125,10 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
         QPointF o = map->toScreen( ast, scale );
         if ( ! map->onScreen( o ) ) continue;
 
-		float size = ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
-		if ( size < 1 ) size = 1.;
-		float x1 = o.x() - 0.5*size;
-		float y1 = o.y() - 0.5*size;
+		float size = ast->angSize() * sizeFactor;
+		if ( size < 1.0 ) size = 1.0;
+		float x1 = o.x() - 0.5 * size;
+		float y1 = o.y() - 0.5 * size;
 
 		if ( Options::useAntialias() )
 			psky.drawEllipse( QRectF( x1, y1, size, size ) );
@@ -137,4 +140,21 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
     }
 }
 
+SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+	SkyObject *oBest = 0;
+
+	if ( ! selected() ) return 0;
+
+	foreach ( SkyObject *o, objectList() ) {
+		if ( o->mag() > Options::magLimitAsteroid() ) continue;
+
+		double r = o->angularDistanceTo( p ).Degrees();
+		if ( r < maxrad ) {
+			oBest = o;
+			maxrad = r;
+		}
+	}
+
+	return oBest;
+}
 

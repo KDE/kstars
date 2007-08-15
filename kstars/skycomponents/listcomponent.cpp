@@ -51,11 +51,11 @@ void ListComponent::clear() {
 
 void ListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( visible() ) {
-		foreach ( SkyObject *o, objectList() ) {
-			if ( num ) o->updateCoords( num );
-			o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		}
+	if ( ! selected() ) return;
+
+	foreach ( SkyObject *o, objectList() ) {
+		if ( num ) o->updateCoords( num );
+		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	}
 }
 
@@ -70,6 +70,8 @@ SkyObject* ListComponent::findByName( const QString &name ) {
 
 SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 	SkyObject *oBest = 0;
+
+	if ( ! selected() ) return 0;
 
 	foreach ( SkyObject *o, objectList() ) {
 		double r = o->angularDistanceTo( p ).Degrees();

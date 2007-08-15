@@ -306,21 +306,17 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     m_skyMesh->aperture( p, maxrad + 1.0, OBJ_NEAREST_BUF);
     //kDebug() << QString("Nearest trixels: %1\n").arg( m_skyMesh->intersectSize());
 
-    if ( Options::showStars() ) {
-	    oBest = m_Stars->objectNearest( p, rBest );
-	    //reduce rBest by 0.75 for stars brighter than 4th mag
-	    if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
-    }
+	oBest = m_Stars->objectNearest( p, rBest );
+	//reduce rBest by 0.75 for stars brighter than 4th mag
+	if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
 
-    if ( Options::showDeepSky() ) {
-	    //m_DeepSky internally discriminates among deepsky catalogs
-	    //and renormalizes rTry
-	    oTry = m_DeepSky->objectNearest( p, rTry ); 
-	    if ( rTry < rBest ) {
-		    rBest = rTry;
-		    oBest = oTry;
-	    }
-    }
+	//m_DeepSky internally discriminates among deepsky catalogs
+	//and renormalizes rTry
+	oTry = m_DeepSky->objectNearest( p, rTry ); 
+	if ( rTry < rBest ) {
+		rBest = rTry;
+		oBest = oTry;
+	}
 
 	rTry = maxrad;
 	oTry = m_CustomCatalogs->objectNearest( p, rTry );

@@ -379,6 +379,9 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 // "other" catalog = 0.4
 // Messier object = 0.25
 SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+
+	if ( ! selected() ) return 0;
+
 	SkyObject *oTry = 0;
 	SkyObject *oBest = 0;
 	double rTry = maxrad;

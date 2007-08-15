@@ -85,6 +85,8 @@ void ConstellationNamesComponent::init(KStarsData *)
 // Don't precess the location of the names
 void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
 {
+	if ( ! selected() ) return;
+
     for ( int i = 0; i < objectList().size(); i++ ) {
         objectList().at( i )->EquatorialToHorizontal( data->lst(), 
                                                       data->geo()->lat() );

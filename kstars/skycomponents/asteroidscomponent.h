@@ -86,6 +86,11 @@ class AsteroidsComponent: public SolarSystemListComponent
 
         void update( KStarsData *data, KSNumbers *num );
 
+		/* @short we need to overide objectNearest to bail on asteroids dimmer
+		 * than the draw threshold.
+		 */
+		SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
     private:
         AsterIndex  m_asterIndex;
 

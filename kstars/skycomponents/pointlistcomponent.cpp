@@ -32,10 +32,10 @@ PointListComponent::~PointListComponent()
 
 void PointListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( visible() ) {
-		foreach ( SkyPoint *p, pointList() ) {
-			if ( num ) p->updateCoords( num );
-			p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-		}
+	if ( ! selected() ) return;
+
+	foreach ( SkyPoint *p, pointList() ) {
+		if ( num ) p->updateCoords( num );
+		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 	}
 }

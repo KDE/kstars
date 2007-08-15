@@ -50,6 +50,7 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
 
     lastFilePos = 0;
+	m_zoomMagLimit = 0.0;
 }
 
 StarComponent::~StarComponent()
@@ -59,6 +60,9 @@ bool StarComponent::selected()
 {
     return Options::showStars();
 }
+
+void StarComponent::update( KStarsData *data, KSNumbers *num )
+{}
 
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
@@ -138,7 +142,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
     //shortcuts to inform whether to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
-	double maglim = Options::magLimitDrawStar();
+	float maglim = Options::magLimitDrawStar();
 
     if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {        // -jbb
         setFaintMagnitude( maglim );
@@ -153,6 +157,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
         maglim -= (Options::magLimitDrawStar() - 
                    Options::magLimitDrawStarZoomOut() ) *
                    (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+
+	m_zoomMagLimit = maglim;
 
 	float sizeFactor = 6.0 + (lgz - lgmin);
  
@@ -391,8 +397,8 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
         StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject* star =  starList->at( i );
-            //if ( star->name() == i18n("star") ) continue;  // prevents "star" popups --jbb
-            //kDebug() << QString("found: %1\n").arg(star->name());
+			if ( star->mag() > m_zoomMagLimit ) continue;
+
 		    double r = star->angularDistanceTo( p ).Degrees();
 		    if ( r < maxrad ) {
 			    oBest = star;
