@@ -102,7 +102,14 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	
 	SkyMap *map = ks->map();
 	bool hideLabels =  ! Options::showAsteroidNames() || (map->isSlewing() && Options::hideLabels() );
-	float labelMagLimit  =  Options::magLimitAsteroidName();
+
+	double lgmin = log10(MINZOOM);
+	double lgmax = log10(MAXZOOM);
+	double lgz = log10(Options::zoomFactor());
+	double labelMagLimit  =  Options::magLimitAsteroidName();
+	labelMagLimit += ( 20.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
+	if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
+	//printf("labelMagLim = %.1f\n", labelMagLimit );
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
