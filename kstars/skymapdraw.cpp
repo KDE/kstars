@@ -357,15 +357,13 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, 
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {
-	if ( transientObject() ) {
-		p.setPen( TransientColor );
+	if ( ! transientObject() || ! checkVisibility( transientObject() ) ) return;
 
-		if ( checkVisibility( transientObject() ) ) {
-			QPointF o = toScreen( transientObject() );
-			if ( o.x() >= 0. && o.x() <= width() && o.y() >= 0. && o.y() <= height() ) 
-				transientObject()->drawNameLabel( p, o.x(), o.y(), 1.0 );
-		}
-	}
+	QPointF o = toScreen( transientObject() );
+	if ( ! onScreen( o ) ) return;
+
+	p.setPen( TransientColor );
+	transientObject()->drawNameLabel( p, o.x(), o.y(), 1.0 );
 }
 
 void SkyMap::drawBoxes( QPainter &p ) {

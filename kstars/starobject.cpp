@@ -395,10 +395,11 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, doubl
 	QString sName = customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 	float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
-	//QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
-	//qreal width = fm.width( sName );
-	//qreal height = fm.height();
-	//psky.fillRect( x+offset, y+offset - height * 0.8 , width, height, QBrush("darkBlue") );
+	QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
+	qreal width = fm.width( sName );
+	qreal height = fm.height();
+	QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+	psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color ) );
 
 	if ( Options::useAntialias() )
 		psky.drawText( QPointF( x+offset, y+offset ), sName );
@@ -408,8 +409,7 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, doubl
 
 void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
 	//set the zoom-dependent font
-	QFont stdFont( psky.font() );
-    SkyLabeler::SetZoomFont( psky );
+    SkyLabeler::Instance()->resetFont( psky );
 	drawLabel( psky, x, y, Options::zoomFactor(), scale );
-	psky.setFont( stdFont );
+	SkyLabeler::Instance()->useStdFont( psky );
 }
