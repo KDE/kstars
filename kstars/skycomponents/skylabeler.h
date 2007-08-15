@@ -140,14 +140,29 @@ class SkyLabeler
 		 * can be used without a SkyLabeler instance.  This is used in SkyObject
 		 * and StarObject in addition to be used in this class.
 		 */
-		static void setZoomFont( QPainter& psky );
+		static void SetZoomFont( QPainter& psky );
 
 		/* @short returns the zoom dependent label offset.  This is used in this
 		 * class and in SkyObject.  It is important that the offsets be the same
 		 * so highlighted labels are always drawn exactly on top of the normally
 		 * drawn labels.
 		 */
-		static double zoomOffset( double scale );
+		static double ZoomOffset( double scale );
+
+		/* @short static version of addOffsetLabel() below.
+		 */
+		inline static void AddOffsetLabel( const QPointF& p, const QString& text, label_t type )
+		{
+			pinstance->addOffsetLabel( p, text, type );
+		}
+
+		/* @short static version of addLabel() below.
+		 */
+		inline static void AddLabel( const QPointF& p, const QString& text, label_t type )
+		{
+			pinstance->addLabel( p, text, type );
+		}
+
 
 		//--------------------------------------------------------------------//
 		~SkyLabeler();

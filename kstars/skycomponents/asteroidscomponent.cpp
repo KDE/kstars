@@ -133,7 +133,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 			psky.drawEllipse( QRect( int(x1), int(y1), int(size), int(size) ) );
 
 		if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
-		SkyLabeler::Instance()->addOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
+		SkyLabeler::AddOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
     }
 }
 

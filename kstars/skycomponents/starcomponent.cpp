@@ -214,7 +214,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
             float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
 			QString sName = curStar->nameLabel( drawName, drawMag );
-			SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
+			SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
 	    }
     }
 }

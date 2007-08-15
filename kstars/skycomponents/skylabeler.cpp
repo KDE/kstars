@@ -51,7 +51,7 @@ SkyLabeler* SkyLabeler::Instance( )
 }
 
 
-void SkyLabeler::setZoomFont( QPainter& psky )
+void SkyLabeler::SetZoomFont( QPainter& psky )
 {
     QFont font( psky.font() );
     int deltaSize = 0;
@@ -66,7 +66,7 @@ void SkyLabeler::setZoomFont( QPainter& psky )
     }
 }
 
-double SkyLabeler::zoomOffset( double scale )
+double SkyLabeler::ZoomOffset( double scale )
 {
     double offset = scale * dms::PI * Options::zoomFactor()/10800.0;
     return 4.0 + offset * 0.5;
@@ -214,14 +214,14 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
     // ----- Set up Zoom Dependent Font -----
 
     m_stdFont = QFont( psky.font() );
-    SkyLabeler::setZoomFont( psky );
+    SkyLabeler::SetZoomFont( psky );
     m_skyFont = psky.font( );
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
 
     // ----- Set up Zoom Dependent Offset -----
 
-    m_offset = SkyLabeler::zoomOffset( scale );
+    m_offset = SkyLabeler::ZoomOffset( scale );
 
     
     // ----- Prepare Virtual Screen -----

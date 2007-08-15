@@ -122,7 +122,7 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 
         float dx = 5.*( name.length() );
         o.setX( o.x() - dx );
-		SkyLabeler::Instance()->addLabel( o, name, CONSTEL_NAME_LABEL);
+		SkyLabeler::AddLabel( o, name, CONSTEL_NAME_LABEL);
     }
 
     //m_skyLabeler->resetFont( psky );

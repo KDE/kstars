@@ -116,7 +116,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
    		//if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
    		float offset = 3.0 * scale;
 
-		SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset), 
+		SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), 
                 jmoons->name(i), JUPITER_MOON_LABEL );
    	}
 }

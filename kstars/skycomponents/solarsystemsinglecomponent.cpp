@@ -173,7 +173,7 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
    	if ( ! Options::showPlanetNames() ) return;
 
     float offset = ksp()->labelOffset();
-	SkyLabeler::Instance()->addLabel( QPointF( o.x() + offset, o.y() + offset ), 
+	SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset ), 
 			ksp()->translatedName(), PLANET_LABEL );
 }
 
