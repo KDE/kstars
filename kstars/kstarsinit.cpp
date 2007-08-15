@@ -698,7 +698,7 @@ void KStars::initFocus() {
 }
 void KStars::buildGUI() {
 	//create the skymap
-	skymap = new SkyMap( data(), this );
+	skymap = SkyMap::Create( data(), this );
 	setCentralWidget( skymap );
 
 	//Initialize menus, toolbars, and statusbars

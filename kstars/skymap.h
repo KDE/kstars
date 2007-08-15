@@ -62,14 +62,21 @@ class SkyObject;
 
 class SkyMap : public QWidget  {
    Q_OBJECT
-public:
-/**
+
+	protected:
+	/**
 	*Constructor.  Read stored settings from KConfig object (focus position,
 	*zoom factor, sky color, etc.).  Run initPopupMenus().
 	*/
 	explicit SkyMap( KStarsData *_data, KStars *_ks = 0 );
 
-/**
+public:
+
+	static SkyMap* Create( KStarsData *_data, KStars *_ks = 0 );
+
+	static SkyMap* Instance();
+
+	/**
 	*Destructor (empty)
 	*/
 	~SkyMap();
@@ -868,6 +875,9 @@ private:
 
 	//QUATERNION
 	Quaternion m_rotAxis;
+
+	static SkyMap* pinstance;
+
 };
 
 #endif

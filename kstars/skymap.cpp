@@ -59,6 +59,20 @@
 #include "kscomet.h"
 #include "starobject.h"
 
+SkyMap* SkyMap::pinstance = 0;
+
+SkyMap* SkyMap::Create( KStarsData *_data, KStars *_ks )
+{
+    if ( pinstance ) delete pinstance;
+    pinstance = new SkyMap( _data, _ks );
+    return pinstance;
+}
+
+SkyMap* SkyMap::Instance( )
+{
+    return pinstance;
+}
+
 SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
 	: QWidget(_ks), computeSkymap(true), angularDistanceMode(false),
 		ks(_ks), data(_data), pmenu(0), sky(0), sky2(0), IBoxes(0),
