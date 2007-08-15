@@ -242,14 +242,31 @@ void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
 	if ( ! selected() ) return;
 
+	bool drawFlag;
+
     m_scale = scale;
     m_data  = ks->data();
     m_map   = ks->map();
 
-    drawDeepSkyCatalog( psky, Options::showMessier(), &m_MessierIndex, "MessColor" );
-    drawDeepSkyCatalog( psky, Options::showNGC(),     &m_NGCIndex,     "NGCColor" );
-    drawDeepSkyCatalog( psky, Options::showIC(),      &m_ICIndex,      "ICColor" );
-    drawDeepSkyCatalog( psky, Options::showOther(),   &m_OtherIndex,   "NGCColor" );
+	drawFlag = Options::showMessier() &&  
+		! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
+
+    drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor" );
+
+	drawFlag = Options::showNGC() &&  
+		! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
+
+    drawDeepSkyCatalog( psky, drawFlag,     &m_NGCIndex,     "NGCColor" );
+
+	drawFlag = Options::showIC() &&  
+		! ( Options::hideOnSlew() && Options::hideIC() && SkyMap::IsSlewing() );
+
+    drawDeepSkyCatalog( psky, drawFlag,      &m_ICIndex,      "ICColor" );
+
+	drawFlag = Options::showOther() &&  
+		! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
+
+    drawDeepSkyCatalog( psky, drawFlag,   &m_OtherIndex,   "NGCColor" );
 }
 
 void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,

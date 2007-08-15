@@ -27,6 +27,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "skymap.h"
 #include "ksutils.h"
 #include "skyobject.h"
 #include "ksfilereader.h"
@@ -148,7 +149,8 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
 
 bool ConstellationBoundaryLines::selected()
 {
-    return Options::showCBounds();
+    return Options::showCBounds() &&
+		! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
 }
 
 void ConstellationBoundaryLines::preDraw( KStars *kstars, QPainter &psky )

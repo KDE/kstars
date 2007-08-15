@@ -41,7 +41,8 @@ ConstellationLines::ConstellationLines( SkyComponent *parent )
 
 bool ConstellationLines::selected()
 {
-    return Options::showCLines();
+    return Options::showCLines() &&
+		! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
 }
 
 void ConstellationLines::preDraw( KStars *kstars, QPainter &psky )

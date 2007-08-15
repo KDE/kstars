@@ -76,6 +76,9 @@ public:
 
 	static SkyMap* Instance();
 
+	static bool IsSlewing() { return pinstance->isSlewing(); }
+
+
 	/**
 	*Destructor (empty)
 	*/

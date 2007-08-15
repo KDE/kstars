@@ -23,6 +23,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "skymap.h"
 #include "coordinategrid.h"
 #include "linelist.h"
 
@@ -32,7 +33,8 @@ CoordinateGrid::CoordinateGrid( SkyComponent *parent )
 
 bool CoordinateGrid::selected()
 {
-    return Options::showGrid();
+    return Options::showGrid() &&
+		! ( Options::hideOnSlew() && Options::hideGrid() && SkyMap::IsSlewing() );
 }
 
 void CoordinateGrid::preDraw( KStars *kstars, QPainter &psky )

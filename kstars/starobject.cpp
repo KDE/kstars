@@ -409,7 +409,7 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, doubl
 void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
 	//set the zoom-dependent font
 	QFont stdFont( psky.font() );
-    SkyLabeler::setZoomFont( psky );
+    SkyLabeler::SetZoomFont( psky );
 	drawLabel( psky, x, y, Options::zoomFactor(), scale );
 	psky.setFont( stdFont );
 }

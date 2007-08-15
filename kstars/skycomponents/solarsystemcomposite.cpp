@@ -27,6 +27,7 @@
 
 #include "Options.h"
 #include "kstars.h"
+#include "skymap.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "ksplanet.h"
@@ -71,8 +72,8 @@ SolarSystemComposite::~SolarSystemComposite()
 
 bool SolarSystemComposite::selected()
 {
-    return Options::showSolarSystem();
-    // FIXME: should be: return Options::showSolarSystem();
+    return Options::showSolarSystem() &&
+		! ( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
 }
 
 void SolarSystemComposite::init(KStarsData *data)

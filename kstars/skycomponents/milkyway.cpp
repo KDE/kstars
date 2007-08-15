@@ -98,7 +98,8 @@ void MilkyWay::init( KStarsData *data )
 
 bool MilkyWay::selected() 
 {
-    return Options::showMilkyWay();
+    return Options::showMilkyWay() &&
+		! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
 void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)

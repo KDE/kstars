@@ -38,7 +38,9 @@ ConstellationNamesComponent::~ConstellationNamesComponent()
 
 bool ConstellationNamesComponent::selected()
 {
-    return Options::showCNames();
+    return Options::showCNames() &&
+		! ( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
+
 }
 
 void ConstellationNamesComponent::init(KStarsData *)
