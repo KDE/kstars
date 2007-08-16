@@ -26,6 +26,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skyobject.h"
+#include "ksfilereader.h"
 
 #include "polylist.h"
 #include "polylistindex.h"
@@ -42,16 +43,35 @@ PolyListIndex::PolyListIndex( SkyComponent *parent )
     }
 }
 
+void PolyListIndex::appendPoly( PolyList* polyList, KSFileReader* file, int debug)
+{
+	if ( ! file || debug == -1)
+		return appendPoly( polyList, debug );
+
+    m_nameHash.insert( polyList->name(), polyList );
+
+	while ( file->hasMoreLines() ) {
+		QString line = file->readLine();
+		if ( line.at( 0 ) == ':' ) return;
+		Trixel trixel = line.toInt();
+        m_polyIndex[ trixel ]->append( polyList );
+	}
+}
+
 void PolyListIndex::appendPoly( PolyList* polyList, int debug)
 {
     m_nameHash.insert( polyList->name(), polyList );
 
-    if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
+    if ( debug >= 0 && debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = skyMesh()->indexPoly( polyList->poly() );
+	IndexHash::const_iterator iter = indexHash.constBegin();
+	while ( iter != indexHash.constEnd() ) {
+		Trixel trixel = iter.key();
+		iter++;
 
-    foreach (Trixel trixel, indexHash.keys()) {    // foreach okay because we
-                                                // we needed a copy anyway
+		if ( debug == -1 ) printf("%d\n", trixel );
+
         m_polyIndex[ trixel ]->append( polyList );
     }
 
@@ -66,6 +86,13 @@ void PolyListIndex::summary()
 
     int total = skyMesh()->size();
     int polySize = m_polyIndex.size();
+
+	/**
+	for ( int i = 0; i < polySize; i++ ) {
+		PolyListList* listList = m_polyIndex.at( i );
+		printf("%4d: %d\n", i, listList->size() );
+	}
+	**/
 
     if ( polySize > 0 )
         printf("%4d out of %4d trixels in poly index %3d%%\n",

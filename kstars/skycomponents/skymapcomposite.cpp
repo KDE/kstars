@@ -52,7 +52,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
 {
     m_skyLabeler = SkyLabeler::Instance();
 
-    m_skyMesh = SkyMesh::Create( data, 5 );  // level 5 mesh = 8192 trixels
+    m_skyMesh = SkyMesh::Create( data, 4 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
                                          //  2 => prints totals too

@@ -126,6 +126,10 @@ public:
          */
         int size() const { return numTrixels; }
 
+		/* @short returns the mesh level.
+		 */
+		int level() const { return m_level; }
+
         /* @short sets the debug level which is used to print out intermediate
          * results in the line intersection routine.
          */

@@ -62,6 +62,8 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
 
 void ConstellationBoundaryLines::init( KStarsData *data ) {
 
+	int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
+	                                  //  0 => normal
     char* fname = "cbounds.dat";
     int flag;
     double ra, dec, lastRa, lastDec;
@@ -73,11 +75,20 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
 
     intro();
 
+	// Open the .idx file and skip past the first line
+	KSFileReader idxReader, *idxFile = 0;
+	QString idxFname = QString("cbounds-%1.idx").arg( SkyMesh::Instance()->level() );
+	if ( idxReader.open( idxFname ) ) {
+		idxReader.readLine();
+		idxFile = &idxReader;
+	}
+
+	// now open the file that contains the points
 	KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
     fileReader.setProgress( data, 
-            i18n("Loading Consellation Boundaries"), 13124, 20, 100 );
+            i18n("Loading Consellation Boundaries"), 13124, 5, 100 );
 
     lastRa = lastDec = -1000.0;
 
@@ -86,17 +97,15 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
         fileReader.showProgress();
 
         if ( line.at( 0 ) == '#' ) continue;     // ignore comments
-        if ( line.at( 0 ) == ':' ) {             // :NAM line
+        if ( line.at( 0 ) == ':' ) {             // :constellation line
 
             if ( lineList ) appendLine( lineList );
-            lineList = 0; //new LineList();
+            lineList = 0;
 
-            if ( polyList ) boundaryPoly->appendPoly( polyList );
+            if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
             QString cName = line.mid(1, 3); 
             polyList = new PolyList( cName );
-            
-            //kDebug() << QString(":%1\n").arg( polyList->name() );
-
+			if ( verbose == -1 ) printf(":\n");
             continue;
         }
 
@@ -109,8 +118,6 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
                     fname, fileReader.lineNumber() );
             continue;
         }
-
-        //fprintf(stderr, "%12.7f %12.7f %d\n", ra, dec, flag);
 
         if ( ra == lastRa && dec == lastDec ) {
             fprintf(stderr, "%s: tossing dupe on line %4d: (%f, %f)\n", 
@@ -140,11 +147,10 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
     }
 
     if ( lineList ) appendLine( lineList );
-    if ( polyList ) boundaryPoly->appendPoly( polyList );
+    if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
 
     summary();
     boundaryPoly->summary();
-
 }
 
 bool ConstellationBoundaryLines::selected()

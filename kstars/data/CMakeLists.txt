@@ -8,6 +8,7 @@ install( FILES kstars.png geomap.png
     cnames.dat
     milkyway.dat
     cbounds.dat
+	cbounds-3.idx  cbounds-4.idx  cbounds-5.idx  cbounds-6.idx
 	image_url.dat info_url.dat 
 	mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop 
 	mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop 
