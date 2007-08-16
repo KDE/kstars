@@ -24,6 +24,7 @@
 #include <QPainter>
 #include <QTextStream>
 #include <QFile>
+#include <QFontMetricsF>
 
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
@@ -426,6 +427,13 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale 
 	QFont stdFont( psky.font() );
     SkyLabeler::SetZoomFont( psky );
 	double offset = labelOffset( scale );
+
+	QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
+	qreal width = fm.width( translatedName() );
+	qreal height = fm.height();
+	QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+	psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color ) );
+
 	if ( Options::useAntialias() )
 		psky.drawText( QPointF(x+offset, y+offset), translatedName() );
 	else
