@@ -34,7 +34,7 @@
 #include "skymesh.h"
 #include "skylabel.h"
 #include "skylabeler.h"
-
+#include "kstarssplash.h"
 
 StarComponent::StarComponent(SkyComponent *parent ) 
 : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0)
@@ -51,6 +51,7 @@ StarComponent::StarComponent(SkyComponent *parent )
 
     lastFilePos = 0;
 	m_zoomMagLimit = 0.0;
+	m_splash = 0;
 }
 
 StarComponent::~StarComponent()
@@ -144,10 +145,25 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
 	float maglim = Options::magLimitDrawStar();
 
-    if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {        // -jbb
-        setFaintMagnitude( maglim );
+	// First show a splash screen but don't load any data so we can present
+	// a pretty face.  Then load data the next time through and finally erase
+	// the splash screen.
+    if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {
+		if ( ! m_splash ) {
+			m_splash = new KStarsSplash(0, i18n("Please wait while loading faint stars ...") );
+			m_splash->show();
+			m_splash->raise();
+		}
+		else {
+			printf("reading data ...\n");
+        	setFaintMagnitude( maglim );
+			printf("Done!\n");
+			delete m_splash;
+			m_splash = 0;
+		}
     }
 
+	
 	//adjust maglimit for ZoomLevel
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);

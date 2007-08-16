@@ -42,8 +42,9 @@ class KStarsSplash : public QDialog
 
 	public:
 	/**Constructor. Create widgets.  Load KStars logo.  Start load timer.
-		*/
-		KStarsSplash( QWidget *parent );
+	 * A non-empty customMessage will replace "Welcome to KStars [...]".
+	*/
+		KStarsSplash( QWidget *parent, const QString& customMessage="" );
 
 	/**Destructor
 		*/

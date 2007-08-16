@@ -35,12 +35,17 @@
 //FIXME: program was crashing with KStarsSplash derived from KDialog,
 //so I am temporarily using QDialog.  Try switching back to KDialog
 //later on (this message added 20-June-2006)
-KStarsSplash::KStarsSplash( QWidget *parent )
+KStarsSplash::KStarsSplash( QWidget *parent, const QString& customMessage)
 	: QDialog( parent )
 {
-        QPalette p = palette();
-        p.setColor( QPalette::Window, Qt::black );
-        setPalette( p );
+
+	QString message = customMessage.isEmpty() ? 
+		i18n( "Welcome to KStars. Please stand by while loading..." ) :
+		customMessage;
+
+	QPalette p = palette();
+	p.setColor( QPalette::Window, Qt::black );
+	setPalette( p );
 
 	//Set up widgets for splashscreen.
 // KDialog stuff:
@@ -78,7 +83,7 @@ KStarsSplash::KStarsSplash( QWidget *parent )
 	pal.setColor( QPalette::Inactive, QPalette::WindowText, QColor( "White" ) );
 	label->setPalette( pal );
 	label->setAlignment( Qt::AlignHCenter );
-	label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );
+	label->setText( message );
 	topLayout->addWidget( label );
 
 //initialize the progress message label
@@ -86,7 +91,8 @@ KStarsSplash::KStarsSplash( QWidget *parent )
 	textCurrentStatus->setObjectName( "label2" );
 	textCurrentStatus->setPalette( pal );
 	textCurrentStatus->setAlignment( Qt::AlignHCenter );
-	topLayout->addWidget( textCurrentStatus );
+	if ( customMessage.isEmpty() )
+		topLayout->addWidget( textCurrentStatus );
 
 	setMessage(QString());  // force repaint of widget with no text
 }

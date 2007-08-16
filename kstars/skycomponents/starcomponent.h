@@ -43,6 +43,7 @@ class SkyMesh;
 class StarObject;
 class SkyLabeler;
 
+class KStarsSplash;
 
 //typedef QVector< StarList* > StarIndex;
 
@@ -153,6 +154,8 @@ class StarComponent: public ListComponent
 		float m_FaintMagnitude;
 		float m_zoomMagLimit;
 		int m_ColorMode, m_ColorIntensity;
+
+		KStarsSplash* m_splash;
 };
 
 #endif
