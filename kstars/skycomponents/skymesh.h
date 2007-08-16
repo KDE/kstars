@@ -47,7 +47,7 @@ enum MeshBufNum_t {
     DRAW_BUF        = 0,
     NO_PRECESS_BUF  = 1,
     OBJ_NEAREST_BUF = 2,
-    IN_CONSTELL_BUF = 2,
+    IN_CONSTELL_BUF = 3,
     NUM_MESH_BUF
 };
 

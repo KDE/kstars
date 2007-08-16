@@ -274,9 +274,6 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_Horizon->draw( ks, psky, scale );
 //	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() );
 
-	//m_Ecliptic->drawLabel( ks, psky, scale );
-	//m_Equator->drawLabel( ks, psky, scale );
-
 	m_skyLabeler->resetFont( psky );
     m_skyLabeler->draw( ks, psky );
 	m_skyLabeler->useStdFont( psky );
@@ -284,13 +281,13 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_skyMesh->inDraw( false );
 
     // -jbb uncomment these to see trixel outlines:
-    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
-
+	//
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
-}
 
+    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) ); 
+    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
+}
 //Select nearest object to the given skypoint, but give preference 
 //to certain object types.
 //we multiply each object type's smallest angular distance by the 
@@ -309,8 +306,8 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 	SkyObject *oTry = 0;
 	SkyObject *oBest = 0;
 
+	//printf("%.1f %.1f\n", p->ra()->Degrees(), p->dec()->Degrees() );
     m_skyMesh->aperture( p, maxrad + 1.0, OBJ_NEAREST_BUF);
-    //kDebug() << QString("Nearest trixels: %1\n").arg( m_skyMesh->intersectSize());
 
 	oBest = m_Stars->objectNearest( p, rBest );
 	//reduce rBest by 0.75 for stars brighter than 4th mag
