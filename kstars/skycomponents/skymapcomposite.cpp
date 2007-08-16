@@ -182,6 +182,11 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     float radius = m_map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
+	if (  0 && m_skyMesh->inDraw() ) {
+		printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
+		return;
+	}
+	m_skyMesh->inDraw( true );
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
@@ -276,8 +281,9 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     m_skyLabeler->draw( ks, psky );
 	m_skyLabeler->useStdFont( psky );
 
-    // -jbb uncomment these to see trixel outlines:
+	m_skyMesh->inDraw( false );
 
+    // -jbb uncomment these to see trixel outlines:
     //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
 

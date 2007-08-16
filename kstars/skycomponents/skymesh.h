@@ -46,7 +46,7 @@ class StarObject;
 enum MeshBufNum_t {
     DRAW_BUF        = 0,
     NO_PRECESS_BUF  = 1,
-    OBJ_NEAREST_BUF = 0,
+    OBJ_NEAREST_BUF = 2,
     IN_CONSTELL_BUF = 2,
     NUM_MESH_BUF
 };
@@ -280,6 +280,9 @@ class SkyMesh : public HTMesh
          */
         bool isZoomedIn(int percent=0 ); 
 
+		bool inDraw() { return m_inDraw; }
+		void inDraw( bool inDraw ) { m_inDraw = inDraw; }
+
     private:
         DrawID m_drawID;
         int    errLimit;
@@ -290,6 +293,7 @@ class SkyMesh : public HTMesh
         KSNumbers   m_KSNumbers;
         int         m_zoomedInPercent;
 
+		bool        m_inDraw;
 		static SkyMesh* pinstance;
 };
 
