@@ -91,8 +91,7 @@ KStarsSplash::KStarsSplash( QWidget *parent, const QString& customMessage)
 	textCurrentStatus->setObjectName( "label2" );
 	textCurrentStatus->setPalette( pal );
 	textCurrentStatus->setAlignment( Qt::AlignHCenter );
-	if ( customMessage.isEmpty() )
-		topLayout->addWidget( textCurrentStatus );
+	topLayout->addWidget( textCurrentStatus );
 
 	setMessage(QString());  // force repaint of widget with no text
 }
@@ -107,13 +106,13 @@ void KStarsSplash::closeEvent( QCloseEvent *e ) {
 
 void KStarsSplash::setMessage( const QString &s ) {
 	textCurrentStatus->setText( s );
-	repaint();  // repaint splash screen
+	//repaint();  // repaint splash screen  -jbb: this seems no longer needed
 /**
 	*Flush all event data. This is needed because events will buffered and
 	*repaint call will queued in event buffer. With flush all X11 events of
 	*this application will flushed.
 	*/
-	qApp->flush();
+	//qApp->flush();                       -jbb: this seems no longer needed
 }
 
 #include "kstarssplash.moc"

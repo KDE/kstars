@@ -53,7 +53,7 @@ bool KSFileReader::open( const QString& fname )
     return true;
 }
 
-void KSFileReader::setProgress( KStarsData* data, QString label, 
+void KSFileReader::setProgress( QString label, 
                                 unsigned int totalLines, 
                                 unsigned int numUpdates,
                                 unsigned int firstNumUpdates)
@@ -66,7 +66,7 @@ void KSFileReader::setProgress( KStarsData* data, QString label,
     m_targetIncrement = m_totalLines / numUpdates;
 
     connect( this, SIGNAL( progressText( const QString & ) ), 
-	    data, SIGNAL( progressText( const QString & ) ) );
+	    KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 
 }
 
@@ -80,7 +80,6 @@ void KSFileReader::showProgress()
 
     int percent = 1 + (m_curLine * 100) / m_totalLines;
 
-    //kDebug() << m_label.arg( percent ) << endl;
     emit progressText( QString("%1 (%2%)").arg( m_label ).arg( percent ) );
     qApp->processEvents();
 }

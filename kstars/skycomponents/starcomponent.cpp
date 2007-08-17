@@ -151,6 +151,9 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {
 		if ( ! m_splash ) {
 			m_splash = new KStarsSplash(0, i18n("Please wait while loading faint stars ...") );
+			QObject::connect( KStarsData::Instance(), SIGNAL( progressText(QString) ),
+					m_splash, SLOT( setMessage(QString) ));
+
 			m_splash->show();
 			m_splash->raise();
 		}
@@ -163,7 +166,6 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		}
     }
 
-	
 	//adjust maglimit for ZoomLevel
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);
@@ -258,9 +260,9 @@ void StarComponent::setFaintMagnitude( float newMagnitude ) {
 	KSFileReader fileReader;
     if ( ! fileReader.open( "stars.dat" ) ) return;
 
-    if ( lastFilePos == 0 ) {
-        fileReader.setProgress( m_Data, i18n("Loading stars"), 125994, 100 );
-    }
+    //if ( lastFilePos == 0 ) {
+        fileReader.setProgress( i18n("Loading stars"), 125994, 100 );
+    //}
 
     if (lastFilePos > 0 ) fileReader.seek( lastFilePos );
 

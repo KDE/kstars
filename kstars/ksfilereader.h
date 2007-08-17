@@ -24,7 +24,6 @@
 
 //class QFile;
 class QString;
-class KStarsData;
 
 /* @class KSFileReader
  * I totally rewrote this because the earlier scheme of reading all the lines of
@@ -110,14 +109,12 @@ class KSFileReader : public QObject, public QTextStream
 
         /* @short Prepares this instance to emit progress reports on how much
          * of the file has been read (in percent).
-         * @param data unfortunately we need a pointer to KStarsData in order
-         *        to send the progress messages.
          * @param totalLines the total number of lines in the file
          * @param numUpdates the number of progress reports to send
          * @param firstNumUpdates set to 100 to get the first report at 1%
          *        or set to 20 to get the first report at 5% etc.
          */
-        void setProgress( KStarsData* data, QString label,
+        void setProgress( QString label,
                           unsigned int totalLines,
                           unsigned int numUpdates=10,
                           unsigned int firstNumUpdates=0);
