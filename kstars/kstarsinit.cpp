@@ -665,7 +665,7 @@ void KStars::initFocus() {
 	map()->oldfocus()->setAlt( map()->focus()->alt()->Degrees() );
 
 	//Check whether initial position is below the horizon.
-	if ( Options::useAltAz() && Options::showGround() &&
+	if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
 		QString caption = i18n( "Initial Position is Below Horizon" );
 		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
