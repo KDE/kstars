@@ -133,9 +133,18 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
 	// a comfortable angle for viewing;
 	for ( int j = first; j < 4; j++ ) {
 		o[j] = angleAt( map, list[j], idx[j], &a[j], scale );
-		if ( fabs( a[j] ) > comfyAngle ) continue;
+
+		if ( ! idx[j] || ! map->checkVisibility( list[j]->at( idx[j] ) ) ) {
+			okay[j] = false;
+			continue;
+		}
+
+		if ( fabs( a[j] ) > comfyAngle )
+			continue;
+
 		if ( skyLabeler()->drawLabel( psky, o[j], m_text, a[j] ) )
 			return;
+
 		okay[j] = false;
 	}
 
