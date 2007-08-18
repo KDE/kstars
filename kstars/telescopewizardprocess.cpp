@@ -46,7 +46,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
    QString locStr;
    QFile sideIMG;
 
-   if (KSUtils::openDataFile(sideIMG, "wizardside.png"))
+   if (KSUtils::openDataFile(sideIMG, "wzscope.png"))
        ui->wizardPix->setPixmap(QPixmap(sideIMG.fileName()));
 
    ui->backB->hide();

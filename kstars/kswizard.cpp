@@ -39,10 +39,6 @@ WizLocationUI::WizLocationUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
 
-WizDevicesUI::WizDevicesUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( this );
-}
-
 WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 	setupUi( this );
 }
@@ -59,12 +55,10 @@ KSWizard::KSWizard( KStars *_ks )
 
 	welcome  = new WizWelcomeUI( wizardStack );
 	location = new WizLocationUI( wizardStack );
-	devices  = new WizDevicesUI( wizardStack );
 	download = new WizDownloadUI( wizardStack );
 
 	wizardStack->addWidget( welcome );
 	wizardStack->addWidget( location );
-	wizardStack->addWidget( devices );
 	wizardStack->addWidget( download );
 	wizardStack->setCurrentWidget( welcome );
 
@@ -84,12 +78,6 @@ KSWizard::KSWizard( KStars *_ks )
 	}
 	location->Banner->setPixmap( im );
 
-	if ( KSUtils::openDataFile( imFile, "wzscope.png" ) ) {
-		imFile.close(); //Just need the filename...
-		im.load( imFile.fileName() );
-	}
-	devices->Banner->setPixmap( im );
-
 	if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
 		imFile.close(); //Just need the filename...
 		im.load( imFile.fileName() );
@@ -103,7 +91,6 @@ KSWizard::KSWizard( KStars *_ks )
 	connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
 	connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( devices->TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
 	connect( download->DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
 
 	//Disable Back button
@@ -118,7 +105,6 @@ KSWizard::~KSWizard()
 {
 	delete welcome;
 	delete location;
-	delete devices;
 	delete download;
 }
 
@@ -202,11 +188,6 @@ void KSWizard::slotFilterCities() {
 
 	if ( location->CityListBox->firstItem() )  // set first item in list as selected
 		location->CityListBox->setCurrentItem( location->CityListBox->firstItem() );
-}
-
-void KSWizard::slotTelescopeSetup() {
-	telescopeWizardProcess twiz(ksw);
-	twiz.exec();
 }
 
 #include "kswizard.moc"

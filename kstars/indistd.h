@@ -22,7 +22,6 @@
  class KStars;
  class SkyObject;
  class StreamWG;
- class CCDPreviewWG;
   class KProgressDialog;
  class KDirLister;
  class SkyObject;
@@ -40,7 +39,6 @@
    INDI_D      		*dp;			/* associated device */
 
    StreamWG             *streamWindow;
-   CCDPreviewWG    *CCDPreviewWindow;
    SkyObject   		*currentObject;
    QTimer      		*devTimer;	
    KProgressDialog      *downloadDialog;

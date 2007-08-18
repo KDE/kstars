@@ -24,7 +24,6 @@
 #include "devicemanager.h"
 #include "timedialog.h"
 #include "streamwg.h"
-#include "ccdpreviewwg.h"
 
 #include <config-kstars.h>
 
@@ -72,7 +71,6 @@
    
    currentObject  	= NULL; 
    streamWindow   	= new StreamWG(this, NULL);
-   CCDPreviewWindow   	= new CCDPreviewWG(this, NULL);
 	 
    devTimer 		= new QTimer(this);
    seqLister		= new KDirLister();
@@ -93,8 +91,6 @@
    //ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
    streamWindow->enableStream(false);
    streamWindow->close();
-   CCDPreviewWindow->enableStream(false);
-   CCDPreviewWindow->close();
    streamDisabled();
    delete (telescopeSkyObject);
    delete (seqLister);
@@ -105,7 +101,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
   if (dataFormat == ".fits") dataType = DATA_FITS;
   else if (dataFormat == ".stream") dataType = DATA_STREAM;
-  else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;	  
   else dataType = DATA_OTHER;
 
   if (dataType == DATA_STREAM)
@@ -115,14 +110,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	
     streamWindow->show();	
     streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
-    return;
-  }
-  else if (dataType == DATA_CCDPREVIEW)
-  {
-    if (!CCDPreviewWindow->processStream)
-      return;
-    CCDPreviewWindow->show();	
-    CCDPreviewWindow->streamFrame->newFrame( buffer, bufferSize, CCDPreviewWindow->streamWidth, CCDPreviewWindow->streamHeight);
     return;
   }
   
@@ -280,35 +267,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	 streamWindow->setSize(wd, ht);
 	 //streamWindow->allocateStreamBuffer();
 	 break;
-    case CCDPREVIEW_CTRL:	 
-         el = pp->findElement("WIDTH");
-	 if (!el) return;
-	 wd = (int) el->value;
-	 el = pp->findElement("HEIGHT");
-	 if (!el) return;
-	 ht = (int) el->value;
-	 el = pp->findElement("BYTEORDER");
-	 if (!el) return;
-	 bo = (int) el->value;
-	 el = pp->findElement("BYTESPERPIXEL");
-	 if (!el) return;
-	 bpp = (int) el->value;	 
-	 el = pp->findElement("MAXGOODDATA");
-	 if (!el) return;
-	 mgd = (long) el->value;
-	 CCDPreviewWindow->setCtrl(wd, ht, bo ,bpp,mgd);
-         
-	 break;
-
-   case CCD_INFO:
-	 el = pp->findElement("CCD_FWHM_PIXEL");
-	 if (!el) return;
-	 fwhm = el->value;
-	 el = pp->findElement("CCD_PIXEL_SIZE");
-	 if (!el) return;
-	 mu = (int) el->value;
-	 CCDPreviewWindow->setCCDInfo(fwhm, mu);
-	 break;
 
        case EQUATORIAL_COORD:
        case EQUATORIAL_EOD_COORD:
@@ -411,15 +369,6 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
           streamWindow->enableStream(true);
        else
           streamWindow->enableStream(false);
-       break;
-       
-       case CCDPREVIEW_STREAM:
-       lp = pp->findElement("ON");
-       if (!lp) return;
-       if (lp->state == PS_ON)
-          CCDPreviewWindow->enableStream(true);
-       else
-          CCDPreviewWindow->enableStream(false);
        break;
        
     default:

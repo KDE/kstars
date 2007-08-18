@@ -22,7 +22,6 @@
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
-#include "ui_wizdevices.h"
 #include "ui_wizdownload.h"
 
 class GeoLocation;
@@ -39,12 +38,6 @@ class WizLocationUI : public QFrame, public Ui::WizLocation {
 	Q_OBJECT
 	public:
 		WizLocationUI( QWidget *parent=0 );
-};
-
-class WizDevicesUI : public QFrame, public Ui::WizDevices {
-	Q_OBJECT
-	public:
-		WizDevicesUI( QWidget *parent=0 );
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload {
@@ -98,8 +91,6 @@ private slots:
 		*/
 	void slotFilterCities();
 
-	void slotTelescopeSetup();
-
 private:
 	/**
 		*@short Initialize the geographic location page.
@@ -110,7 +101,6 @@ private:
 	QStackedWidget *wizardStack;
 	WizWelcomeUI *welcome;
 	WizLocationUI *location;
-	WizDevicesUI *devices;
 	WizDownloadUI *download;
 
 	KStars *ksw;
