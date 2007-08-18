@@ -28,10 +28,10 @@
 <refsynopsisdiv>
 <cmdsynopsis>
 <command>indiserver</command>
+<group choice="opt"><option>-l <replaceable>directory</replaceable></option></group>
+<group choice="opt"><option>-m <replaceable>size</replaceable></option></group>
 <group choice="opt"><option>-p <replaceable>port</replaceable></option></group>
-<group choice="opt"><option>-r
-<replaceable>attempts</replaceable></option></group>
-<group><option>-vv</option></group>
+<group choice="opt" rep="repeat"><option><replaceable>-v</replaceable></option></group>
 <group choice="req" rep="repeat"><option><replaceable>driver</replaceable></option></group>
 </cmdsynopsis>
 </refsynopsisdiv>
@@ -42,9 +42,19 @@
 such as telescopes and focusers via the INDI protocol.
 <command>indiserver</command> is a server that sits between the &kstars;
 user interface and the low-level hardware drivers.</para>
-<para>The <acronym>INDI</acronym> server is a network server, int hat either
+<para>The <acronym>INDI</acronym> server is a network server, that is either
 local or remote clients may connect to it to control astronomical
-instruments.  The <acronym>INDI</acronym> server must be running on the
+instruments. It acceps that following arguments:
+<ul>
+<li> -l d to log driver messages to <d>/YYYY-MM-DD.islog.</li>
+<li> -m m  : kill client if gets more than this many MB behind, default 10</li>
+<li> -p p  : alternate IP port, default 7624</li>
+<li> -v    : show key events, no traffic</li>
+<li> -vv   : -v + key message content</li>
+<li> -vvv  : -vv + complete xml</li>
+<li> driver : executable or device@host[:port]</li>
+</ul>
+The <acronym>INDI</acronym> server must be running on the
 machine that is physically connected to the astronomical instruments.</para>
 <note><para>There is usually no need to run the <acronym>INDI</acronym>
 server directly.  Using the &kstars; device manager, you can set up

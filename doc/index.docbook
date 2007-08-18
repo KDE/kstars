@@ -142,14 +142,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001</year><year>2002</year><year>2003</year>
+<year>2001-2007</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-10-08</date>
-<releaseinfo>1.0</releaseinfo>
+<date>2007-08-18</date>
+<releaseinfo>1.1</releaseinfo>
 
 <abstract>
 <para>
@@ -255,10 +255,7 @@ telescopes including Meade's LX200 family and Celestron GPS.  Several
 popular CCD cameras, webcams, and computerized focusers are also supported.  
 Simple slew/track commands are integrated directly into the main window's 
 popup menu, and the INDI Control Panel provides full access to all of 
-your telescope's functions.  Many of these actions can also be scripted 
-through KDE's &DCOP; mechanism (our own <link 
-linkend="tool-scriptbuilder">Script Builder</link> tool provides a simple 
-point-and-click interface for these scripts).  INDI's Client/Server 
+your telescope's functions. INDI's Client/Server 
 architecture allows for seamless control of any number of <link 
 linkend="indi-kstars-setup">local</link> or <link 
 linkend="indi-remote-control">remote</link> telescopes using a single

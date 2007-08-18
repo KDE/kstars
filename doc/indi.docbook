@@ -13,113 +13,106 @@ devices:</para>
 
 <table id="device-table" pgwide="1" frame="all">
 <title>Supported Telescopes</title>
-<tgroup cols="3" colsep="1" rowsep="1">
+<tgroup cols="2" colsep="1" rowsep="1">
 <thead>
 <row>
 <entry>Telescope</entry>
 <entry>Device driver</entry>
-<entry>Version</entry>
 </row>
 </thead>
 <tbody>
 <row>
 <entry>LX200 8"-12" Classic</entry>
-<entry>lx200classic</entry>
-<entry>1.0</entry>
+<entry>indi_lx200classic</entry>
 </row>
 <row>
 <entry>Autostar based telescopes</entry>
-<entry>lx200autostar</entry>
-<entry>1.0</entry>
+<entry>indi_lx200autostar</entry>
 </row>
 <row>
 <entry>LX200 GPS 8"-16"</entry>
-<entry>lx200gps</entry>
-<entry>1.0</entry>
+<entry>indi_lx200gps</entry>
 </row>
 <row>
 <entry>LX200 Classic 16"</entry>
-<entry>lx200_16</entry>
-<entry>1.0</entry>
+<entry>indi_lx200_16</entry>
 </row>
 <row>
 <entry>NexStar GPS, CGE, AS-GT</entry>
-<entry>celestrongps</entry>
-<entry>0.9</entry>
+<entry>indi_celestrongps</entry>
 </row>
 <row>
 <entry>New GT, NexStar 5i/8i</entry>
-<entry>celestrongps</entry>
-<entry>0.9</entry>
+<entry>indi_celestrongps</entry>
 </row>
 <row>
 <entry>Takahashi Temma</entry>
-<entry>temma</entry>
-<entry>0.1</entry>
-</row>
-<row>
-<entry>Astro-Physics AP</entry>
-<entry>apmount</entry>
-<entry>0.1</entry>
+<entry>indi_temma</entry>
 </row>
 <row>
 <entry>Astro-Electronic FS-2</entry>
-<entry>lx200basic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>Argo Navis</entry>
-<entry>lx200basic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>Losmandy Gemini</entry>
-<entry>lx200basic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>Mel Bartels Controllers</entry>
-<entry>lx200basic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>Sky Commander</entry>
-<entry>skycommander</entry>
-<entry>0.1</entry>
+<entry>indi_skycommander</entry>
+</row>
+<row>
+<entry>Intelliscope/SkyWizard</entry>
+<entry>indi_intelliscope</entry>
+</row>
+<row>
+<entry>Orion Atlas</entry>
+<entry>indi_orion_atlas</entry>
 </row>
 </tbody>
 </tgroup>
 </table>
 <table id="focuser-table" pgwide="1" frame="all">
 <title>Supported Focusers</title>
-<tgroup cols="3" colsep="1" rowsep="1">
+<tgroup cols="2" colsep="1" rowsep="1">
 <thead>
 <row>
 <entry>Focuser</entry>
 <entry>Device driver</entry>
-<entry>Version</entry>
 </row>
 </thead>
 <tbody>
 <row>
 <entry>Meade LX200GPS Microfocuser</entry>
-<entry>lx200gps</entry>
-<entry>0.9</entry>
+<entry>indi_lx200gps</entry>
 </row>
 <row>
 <entry>Meade 1206 Primary Mirror Focuser</entry>
-<entry>lx200generic</entry>
-<entry>0.9</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>JMI NGF Series</entry>
-<entry>lx200generic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
 </row>
 <row>
 <entry>JMI MOTOFOCUS</entry>
-<entry>lx200generic</entry>
-<entry>0.1</entry>
+<entry>indi_lx200basic</entry>
+</row>
+<row>
+<entry>FLI Precision Focuser</entry>
+<entry>indi_fli_pdf</entry>
+</row>
+<row>
+<entry>RoboFocus</entry>
+<entry>indi_robofocus</entry>
 </row>
 </tbody>
 </tgroup>
@@ -127,29 +120,25 @@ devices:</para>
 
 <table id="ccd-table" pgwide="1" frame="all">
 <title>Supported CCDs</title>
-<tgroup cols="3" colsep="1" rowsep="1">
+<tgroup cols="2" colsep="1" rowsep="1">
 <thead>
 <row>
 <entry>CCD</entry>
 <entry>Device driver</entry>
-<entry>Version</entry>
 </row>
 </thead>
 <tbody>
 <row>
 <entry>Finger Lakes Instruments CCDs</entry>
-<entry>fliccd</entry>
-<entry>1.0</entry>
+<entry>indi_fli_ccd</entry>
 </row>
 <row>
 <entry>Santa Barbara Instrument CCDs</entry>
-<entry>sbigccd</entry>
-<entry>0.1</entry>
+<entry>indi_sbig_ccd</entry>
 </row>
 <row>
 <entry>Apogee CCDs</entry>
-<entry>apogee_ppi, apogee_pci, apogee_isa, apogee_usb</entry>
-<entry>0.1</entry>
+<entry>indi_apogee_alta</entry>
 </row>
 </tbody>
 </tgroup>
@@ -157,51 +146,53 @@ devices:</para>
 
 <table id="filter-table" pgwide="1" frame="all">
   <title>Supported Filter Wheels</title>
-  <tgroup cols="3" colsep="1" rowsep="1">
+  <tgroup cols="2" colsep="1" rowsep="1">
     <thead>
       <row>
 	<entry>Filter Wheel</entry>
 	<entry>Device driver</entry>
-	<entry>Version</entry>
       </row>
     </thead>
     <tbody>
       <row>
 	<entry>FLI Filter Wheels</entry>
-	<entry>fliwheel</entry>
-	<entry>0.9</entry>
+	<entry>indi_fli_wheel</entry>
       </row>
+      <row>
+	<entry>True Technology Wheel</entry>
+	<entry>indi_trutech_wheel</entry>
+      </row>
+
     </tbody>
   </tgroup>
   </table>
   
 <table id="video-table" pgwide="1" frame="all">
 <title>Supported Webcams</title>
-<tgroup cols="3" colsep="1" rowsep="1">
+<tgroup cols="2" colsep="1" rowsep="1">
 <thead>
 <row>
 <entry>Webcam</entry>
 <entry>Device driver</entry>
-<entry>Version</entry>
 </row>
 </thead>
 <tbody>
 <row>
 <entry>Any Video4Linux compatible device</entry>
-<entry>v4ldriver</entry>
-<entry>1.0</entry>
+<entry>indi_v4l_generic</entry>
 </row>
 <row>
 <entry>Philips webcam</entry>
-<entry>v4lphilips</entry>
-<entry>1.0</entry>
+<entry>indi_v4l_philips</entry>
 </row>
 <row>
 <entry>Meade Lunar Planetary Imager</entry>
-<entry>meade_lpi</entry>
-<entry>0.1</entry>
+<entry>indi_meade_lpi</entry>
 </row>
-
+<row>
+<entry>SBIG STV</entry>
+<entry>indi_sbig_stv</entry>
+</row>
 </tbody>
 </tgroup>
 </table>
@@ -390,11 +381,11 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 </para>
 </note>
 
-<para>That is it: your telescope is ready to explore the heavens.</para>
+<para>This is it: your telescope is ready to explore the heavens!</para>
 
 <warning>
 <title>WARNING</title>
-<para>Never use the telescope to look at the sun. Looking at the sun might cause irreversible damage to your eyes and as well as your equipment.</para>
+<para>Never use the telescope to look at the sun. Looking at the sun might cause irreversible damage to your eyes and your equipment.</para>
 </warning>
 </sect1>
 
@@ -407,7 +398,8 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <para>KStars supports the following imaging devices:</para>
 <itemizedlist>
   <listitem><para>Finger Lakes instruments CCDs</para></listitem>
-  <listitem><para>Apogee CCDs: Parallel, ISA, PCI, and USB modes are supported. You need to install <ulink url="http://indi.sf.net/apogee_kernel.tar.gz">Apogee kernel drivers</ulink> for your specific mode (for USB mode, you only need libusb).</para></listitem>
+  <listitem><para>SBIG CCDs: In order to use SBIG CCDs, you must download and install the Universal SBIG Driver library from <ulink url="http://indi.sourceforge.net">INDI</ulink> website.</para></listitem>
+  <listitem><para>Apogee CCDs: Only USB versions are supported. You must have libusb installed.</para></listitem>
   <listitem><para><ulink url="http://www.exploits.org/v4l/">Video4Linux</ulink> compatible devices. Philips webcam extended features are supported as well.</para></listitem>
 </itemizedlist>
 
@@ -416,7 +408,7 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
 
 <important>
-<para>The FLICCD driver requires root privileges in order to operate properly. Note that running the driver as root is considered a security risk</para>
+<para>The fli and apogee drivers requires root privileges in order to operate properly. Note that running the driver as root is considered a security risk.</para>
 </important>
 </sect1>
 
@@ -647,9 +639,13 @@ as following:</para>
 ...]</para>
 
 <para>Options:</para>
+<para> -l d  : log driver messages to d/YYYY-MM-DD.islog</para>
+<para> -m m  : kill client if gets more than this many MB behind, default 10</para>
 <para> -p p  : alternate IP port, default 7624</para>
-<para> -r n  : max restart attempts, default 2</para>
-<para> -v    : more verbose to stderr</para>
+<para> -v    : show key events, no traffic</para>
+<para> -vv   : -v + key message content</para>
+<para> -vvv  : -vv + complete xml</para>
+<para> driver : executable or device@host[:port]</para>
 
 <para>For example, if you want to start an INDI server running an LX200 GPS
 driver and listening to connections on port 8000, you would run the
@@ -826,7 +822,7 @@ under the <guimenu>Devices</guimenu> menu. The default device is
 </orderedlist>
 
 <para>If you think all settings are correct but the telescope still moves erratically or not at all, then please send a report to
-<email>kstars-devel@kde.org</email></para>
+<email>indi-devel@lists.sourceforge.net</email></para>
 </answer>
 </qandaentry>
 </qandaset>

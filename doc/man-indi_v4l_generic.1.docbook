@@ -16,18 +16,18 @@
 </refentryinfo>
 
 <refmeta>
-<refentrytitle><command>fliccd</command></refentrytitle>
+<refentrytitle><command>indi_v4l_generic</command></refentrytitle>
 <manvolnum>1</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname><command>fliccd</command></refname>
-<refpurpose>Finger Lakes Instruments CCD driver for INDI telescope control</refpurpose>
+<refname><command>indi_v4l_generic</command></refname>
+<refpurpose>Video4Linux Generic driver for INDI telescope control</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <cmdsynopsis>
-<command>fliccd</command>
+<command>indi_v4l_generic</command>
 <group><option>-v</option></group>
 </cmdsynopsis>
 </refsynopsisdiv>
@@ -36,7 +36,7 @@
 <title>Description</title>
 <para>&kstars; allows you to configure and control astronomical instruments
 such as telescopes and focusers via the <acronym>INDI</acronym> protocol.
-<command>fliccd</command> is a device driver for supporting particular
+<command>indi_v4l_generic</command> is a device driver for supporting particular
 types of external hardware.</para>
 <para>This driver is not intended to be run directly.  Instead you should
 use &kstars; to configure and operate your astronomical instruments.  Most
@@ -78,9 +78,8 @@ website</ulink>.</para>
 
 <refsect1>
 <title>Authors</title>
-<para><command>fliccd</command> was written by &Jasem.Mutlaq;</para>
+<para><command>indi_v4l_generic</command> was written by &Jasem.Mutlaq;</para>
 <para>This man page based on the one written for Debian by <personname><firstname>Ben</firstname><surname>Burton</surname></personname> <email>bab@debian.org</email></para>
-
 </refsect1>
 
 </refentry>

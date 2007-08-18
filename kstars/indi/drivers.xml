@@ -7,6 +7,8 @@
 	<driver>indi_celestron_gps</driver>
 	<driver>indi_temma</driver>
 	<driver>indi_skycommander</driver>
+	<driver>indi_intelliscope</driver>
+	<driver>indi_orion_atlas</driver>
 </ScopeDrivers>
 <devGroup group="Telescopes">
 	<device label="LX200 Basic" focal_length="" aperture="">
