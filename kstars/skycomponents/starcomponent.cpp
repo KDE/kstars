@@ -51,7 +51,7 @@ StarComponent::StarComponent(SkyComponent *parent )
 
     lastFilePos = 0;
 	m_zoomMagLimit = 0.0;
-	m_splash = 0;
+	m_reloadSplash = m_reindexSplash = 0;
 }
 
 StarComponent::~StarComponent()
@@ -60,6 +60,16 @@ StarComponent::~StarComponent()
 bool StarComponent::selected()
 {
     return Options::showStars();
+}
+
+void StarComponent::init(KStarsData *data)
+{
+	emitProgressText( i18n("Loading stars" ) );
+	m_ColorMode = data->colorScheme()->starColorMode(); 
+	m_ColorIntensity = data->colorScheme()->starColorIntensity();
+	m_Data = data;
+
+	readData( Options::magLimitDrawStar() );
 }
 
 void StarComponent::update( KStarsData *data, KSNumbers *num )
@@ -72,12 +82,14 @@ void StarComponent::reindex( KSNumbers *num )
 {
     if ( ! num ) return;
 
+	// for large time steps we re-index all points
     if ( fabs( num->julianCenturies() - 
          m_reindexNum.julianCenturies() ) > m_reindexInterval ) {
         reindexAll( num );
         return;
     }
 
+	// otherwise we just re-index fast movers as needed
     for ( int j = 0; j < m_highPMStars.size(); j++ ) {
         m_highPMStars.at( j )->reindex( num, m_starIndex );
     }
@@ -85,48 +97,78 @@ void StarComponent::reindex( KSNumbers *num )
 
 void StarComponent::reindexAll( KSNumbers *num )
 {
+	/***
+	if ( ! m_reindexSplash ) {
+		m_reindexSplash = new KStarsSplash(0, 
+				i18n("Please wait while re-indexing stars ...") );
+		QObject::connect( KStarsData::Instance(), 
+				SIGNAL( progressText( QString ) ),
+				m_reindexSplash, SLOT( setMessage( QString ) ) );
 
-    //printf("Re-indexing Stars to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
+		m_reindexSplash->show();
+		m_reindexSplash->raise();
+		return;
+	}
+	***/
+
+    printf("Re-indexing Stars to year %4.1f...\n",
+			2000.0 + num->julianCenturies() * 100.0);
 
     m_reindexNum = KSNumbers( *num );
     m_skyMesh->setKSNumbers( num );
 
-    // delete the old index 
+    // clear out the old index 
     for ( int i = 0; i < m_starIndex->size(); i++ ) {
-        delete m_starIndex->at( i );
-    }
-    delete m_starIndex;
-
-    // Create a new index
-    m_starIndex = new StarIndex();
-    for (int i = 0; i < m_skyMesh->size(); i++) {
-        m_starIndex->append( new StarList() );
+        m_starIndex->at( i )->clear();
     }
 
-    // Fill it with stars from old index
-    for ( int i = 0; i < objectList().size(); i++ ) {
+	// re-populate it from the objectList
+	int size = objectList().size();
+    for ( int i = 0; i < size; i++ ) {
         StarObject* star = (StarObject*) objectList()[ i ];
         Trixel trixel = m_skyMesh->indexStar( star );
         m_starIndex->at( trixel )->append( star );
     }
 
-    // Let everyone know we have re-indexed to num
+    // Let everyone else know we have re-indexed to num
     for ( int j = 0; j < m_highPMStars.size(); j++ ) {
         m_highPMStars.at( j )->setIndexTime( num );
     }
 
-    //printf("Done.\n");
+	//delete m_reindexSplash;
+	//m_reindexSplash = 0;
+
+    printf("Done.\n");
 }
 
-
-void StarComponent::init(KStarsData *data)
+void StarComponent::rereadData() 
 {
-	emitProgressText( i18n("Loading stars" ) );
-	m_ColorMode = data->colorScheme()->starColorMode(); 
-	m_ColorIntensity = data->colorScheme()->starColorIntensity();
-	m_Data = data;
+	float magLimit =  Options::magLimitDrawStar();
+	SkyMap* map = SkyMap::Instance();
+	if ( ( map->isSlewing() && Options::hideOnSlew() && Options::hideStars()) ||
+		 m_FaintMagnitude >= magLimit ) 
+		return;
 
-	setFaintMagnitude( Options::magLimitDrawStar() );
+	// First show a splash screen but don't load any data so we can present
+	// a pretty face.  Then load data the next time through and finally erase
+	// the splash screen.
+
+	if ( ! m_reloadSplash ) {
+		m_reloadSplash = new KStarsSplash(0, 
+				i18n("Please wait while loading faint stars ...") );
+		QObject::connect( KStarsData::Instance(), 
+				SIGNAL( progressText( QString ) ),
+				m_reloadSplash, SLOT( setMessage( QString ) ) );
+
+		m_reloadSplash->show();
+		m_reloadSplash->raise();
+		return;
+	}
+	printf("reading data ...\n");
+   	readData( magLimit );
+	printf("Done!\n");
+	delete m_reloadSplash;
+	m_reloadSplash = 0;
 }
 
 void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
@@ -145,27 +187,10 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
 	float maglim = Options::magLimitDrawStar();
 
-	// First show a splash screen but don't load any data so we can present
-	// a pretty face.  Then load data the next time through and finally erase
-	// the splash screen.
-    if ( ! hideFaintStars && ( m_FaintMagnitude < maglim ) ) {
-		if ( ! m_splash ) {
-			m_splash = new KStarsSplash(0, i18n("Please wait while loading faint stars ...") );
-			QObject::connect( KStarsData::Instance(), SIGNAL( progressText(QString) ),
-					m_splash, SLOT( setMessage(QString) ));
+	rereadData();
 
-			m_splash->show();
-			m_splash->raise();
-		}
-		else {
-			printf("reading data ...\n");
-        	setFaintMagnitude( maglim );
-			printf("Done!\n");
-			delete m_splash;
-			m_splash = 0;
-		}
-    }
-
+    reindex( ks->data()->updateNum() );
+	
 	//adjust maglimit for ZoomLevel
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);
@@ -244,7 +269,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 }
 
  
-void StarComponent::setFaintMagnitude( float newMagnitude ) {
+void StarComponent::readData( float newMagnitude ) {
 	// only load star data if the new magnitude is fainter than we've seen so far
 	if ( newMagnitude <= m_FaintMagnitude ) return;
     m_FaintMagnitude = newMagnitude;  // store new highest magnitude level

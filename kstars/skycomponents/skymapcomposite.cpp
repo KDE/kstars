@@ -170,7 +170,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     m_map = ks->map();
 
 	// We delay one draw cycle before re-indexing
-    m_Stars->reindex( &m_reindexNum );
+	// we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
+	// so we do it here.
     m_CLines->reindex( &m_reindexNum );
 	// This queues re-indexing for the next draw cycle
     m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
@@ -179,25 +180,31 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     // cycle so the sky moves as a single sheet.  May not be needed.
     ks->data()->syncUpdateIDs();
 
+	// prepare the aperture
     float radius = m_map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
-	if (  0 && m_skyMesh->inDraw() ) {
+	if ( m_skyMesh->inDraw() ) {
 		printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
 		return;
 	}
+
 	m_skyMesh->inDraw( true );
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
+	// create the no-precess aperture only if needed
     if ( Options::showGrid() || Options::showCBounds() || 
 			Options::showEquator() && ! m_skyMesh->isZoomedIn() ) {
 
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
+	// clear marks from old labels and prep fonts
     m_skyLabeler->reset( m_map, psky, scale ); 
 	m_skyLabeler->useStdFont( psky );
+
+	// info boxes have highest label priority
 	ks->infoBoxes()->reserveBoxes( psky );
 
 	//TIMING
@@ -274,6 +281,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_Horizon->draw( ks, psky, scale );
 //	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() );
 
+	// use zoomed-in font if needed and draw all the labels
 	m_skyLabeler->resetFont( psky );
     m_skyLabeler->draw( ks, psky );
 	m_skyLabeler->useStdFont( psky );
@@ -387,10 +395,6 @@ void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
 	foreach ( SkyComponent *comp, solarSystem() ) {
 		comp->clearTrailsExcept( exOb );
 	}
-}
-
-void SkyMapComposite::setFaintStarMagnitude( float newMag ) {
-	m_Stars->setFaintMagnitude( newMag );
 }
 
 void SkyMapComposite::setStarColorMode( int newMode ) {

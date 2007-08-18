@@ -96,11 +96,20 @@ class StarComponent: public ListComponent
 
 	    float faintMagnitude() const { return m_FaintMagnitude; }
 
-	    void setFaintMagnitude( float newMagnitude );
+	    void readData( float newMagnitude );
 
         SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
         SkyObject* findStarByGenetiveName( const QString name );
+
+		/* @short usually does nothing.  If we are drawing faint stars and if
+		 * Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
+		 * the first time we are called we just pop up a splash screen. Then
+		 * the second time we are called we actually re-read the data file and
+		 * finally erase the pop up.
+		 */
+		void rereadData();
+
 
 	private:
         SkyMesh*       m_skyMesh;
@@ -155,7 +164,8 @@ class StarComponent: public ListComponent
 		float m_zoomMagLimit;
 		int m_ColorMode, m_ColorIntensity;
 
-		KStarsSplash* m_splash;
+		KStarsSplash* m_reloadSplash;
+		KStarsSplash* m_reindexSplash;
 };
 
 #endif

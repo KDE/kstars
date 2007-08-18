@@ -156,7 +156,6 @@ class SkyMapComposite : public QObject, public SkyComposite
 
 		//Accessors for StarComponent
 		SkyObject* findStarByGenetiveName( const QString name );
-		void setFaintStarMagnitude( float newMag );
 		float faintStarMagnitude() const;
 		void setStarColorMode( int newMode );
 		int starColorMode() const;
