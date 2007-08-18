@@ -106,7 +106,7 @@ void ThumbnailPicker::slotFillList() {
 	for ( ; itList != itListEnd; ++itList ) {
 		QString s( *itList );
 		KUrl u( s );
-		if ( u.isValid() && KIO::NetAccess::exists(u, true, this) ) {
+		if ( u.isValid() && KIO::NetAccess::exists(u, KIO::NetAccess::SourceSide, this) ) {
 			QString tmpFile;
 			{
 				KTemporaryFile ktf;
@@ -126,7 +126,7 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 	QString PageHTML;
 
 	//Read the google image page's HTML into the PageHTML QString:
-	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile, this ) ) {
+	if ( KIO::NetAccess::exists(URL, KIO::NetAccess::SourceSide, this) && KIO::NetAccess::download( URL, tmpFile, this ) ) {
 		QFile file( tmpFile );
 		if ( file.open( QIODevice::ReadOnly ) ) {
 			QTextStream instream(&file);
@@ -347,7 +347,7 @@ void ThumbnailPicker::slotSetFromURL() {
 			ui->ImageList->setCurrentRow( 0 );
 			slotSetFromList(0);
 
-		} else if ( KIO::NetAccess::exists(u, true, this) ) {
+		} else if ( KIO::NetAccess::exists(u, KIO::NetAccess::SourceSide, this) ) {
 			QString tmpFile;
 			{
 				KTemporaryFile ktf;
