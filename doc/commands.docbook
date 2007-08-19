@@ -53,7 +53,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Open FITS...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open a FITS image in the FITS Editor tool
+<listitem><para>Open a FITS image in the FITS Viewer tool
 </para></listitem>
 </varlistentry>
 
@@ -746,33 +746,6 @@ in its popup menu.
 </para></listitem>
 </varlistentry>
 
-<varlistentry>
-<term>[All Named Objects]</term>
-<listitem><para>
-<indexterm><primary>Objects in the Sky</primary>
-<secondary>Internet Links</secondary>
-<tertiary>Customizing</tertiary></indexterm>
-<guimenuitem>Add Link...</guimenuitem>: This allows you to add your own
-custom links to the popup menu of any object.  It opens a small window
-in which you enter the &URL; of the link, and the text you want to
-appear in the popup menu.  There is also a pair of radio buttons which
-allow you to specify whether the &URL; is an image or an
-<acronym>HTML</acronym> document, so &kstars; knows whether to launch
-the web browser or the image viewer.  You can use this to add links to
-files on your local disk, so this feature could be used to attach
-observing logs or other custom information to objects in &kstars;.
-Your custom links are automatically loaded whenever &kstars; starts up,
-and they are stored in the folder <filename
-class="directory">~/.kde/share/apps/kstars/</filename>, in files
-<filename>myimage_url.dat</filename> and
-<filename>myinfo_url.dat</filename>.  If you build an extensive list
-of custom links, consider submitting them to us, we would like to
-include them in the next version of &kstars;!
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
 </sect2>
 </sect1>
 
@@ -908,7 +881,7 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></term>
-<listitem><para>Run a &kstars; DCOP script</para></listitem>
+<listitem><para>Run a &kstars; DBus script</para></listitem>
 </varlistentry>
 
 <varlistentry>

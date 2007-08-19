@@ -69,18 +69,16 @@ void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
 	addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
 }
 
-void KSPopupMenu::createStarMenu( StarObject *star ) {
+void KSPopupMenu::createStarMenu( StarObject *star ) 
+{
 	//Add name, rise/set time, center/track, and detail-window items
 	initPopupMenu( star, star->translatedLongName(), i18n( "Spectral type: %1" , star->sptype()),
 		i18n( "star" ) );
 
 //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
-	if ( star->name() != "star" ) {
-		addLinksToMenu( star );
-	} else {
 		addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 		addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
-	}
+	
 }
 
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
@@ -89,7 +87,6 @@ void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
 	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
-	addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
@@ -99,7 +96,6 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 
 	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
 
-	addLinksToMenu( obj, true, false ); //don't allow user to add more links (temporary)
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
@@ -109,7 +105,6 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 		oname = ((KSMoon *)p)->phaseName();
 	}
 	initPopupMenu( p, p->translatedName(), oname, i18n("Solar System"), true, true, true, true, addTrail );
-	addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QString &s2, const QString &s3,
@@ -248,47 +243,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 		addSeparator();
 }
 
-void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom ) {
-	QString sURL;
-	QStringList::Iterator itList, itTitle, itListEnd;
-
-	itList  = obj->ImageList.begin();
-	itTitle = obj->ImageTitle.begin();
-	itListEnd = obj->ImageList.end();
-
-	int id = 100;
-	for ( ; itList != itListEnd; ++itList ) {
-		QString t = QString(*itTitle);
-		sURL = QString(*itList);
-		addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage() ) );
-		++itTitle;
-	}
-
-	if ( showDSS ) {
-	  addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-	  addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
-	  addSeparator();
-	}
-	else if ( obj->ImageList.count() ) addSeparator();
-
-	itList  = obj->InfoList.begin();
-	itTitle = obj->InfoTitle.begin();
-	itListEnd = obj->InfoList.end();
-
-	id = 200;
-	for ( ; itList != itListEnd; ++itList ) {
-		QString t = QString(*itTitle);
-		sURL = QString(*itList);
-		addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo() ) );
-		++itTitle;
-	}
-
-	if ( allowCustom ) {
-		addSeparator();
-		addAction( i18n( "Add Link..." ), ks->map(), SLOT( addLink() ) );
-	}
-}
-
 bool KSPopupMenu::addINDI(void)
 {
 	INDIMenu *indiMenu = ks->getINDIMenu();
@@ -297,7 +251,6 @@ bool KSPopupMenu::addINDI(void)
 	INDI_G *grp;
 	INDI_P *prop(NULL);
 	INDI_E *element;
-	int id=0;
 
 	if (indiMenu->mgr.count() == 0)
 		return false;
@@ -373,7 +326,7 @@ bool KSPopupMenu::addINDI(void)
 			{
 				menuDevice->addSeparator();
 				//menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
-				QAction *a = menuDevice->addAction(i18n("Center && Track Crosshair"));
+				menuDevice->addAction(i18n("Center && Track Crosshair"));
 				if (dev->findElem("RA"))
 					prop = dev->findElem("RA")->pp;
 				else

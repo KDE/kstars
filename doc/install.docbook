@@ -27,16 +27,16 @@ Releases are also posted to <ulink url="http://edu.kde.org/kstars">the
 and Mandrake.  Some distributions package &kstars; as a separate application, some
 just provide a kdeedu package, which includes &kstars;.
 </para><para>
-If you would like the latest CVS development version of &kstars;, please
-follow <ulink url="http://edu.kde.org/kstars/cvs.html">these instructions</ulink>.
+If you would like the latest SVN development version of &kstars;, please
+follow <ulink url="http://edu.kde.org/kstars/svn.php">these instructions</ulink>.
 </para>
 </sect1>
 
 <sect1 id="requirements">
 <title>Requirements</title>
 <para>
-In order to successfully run &kstars;, you need &kde; >=3.2 and
-&Qt;>=3.2.
+In order to successfully run &kstars;, you need &kde; >=4.0 and
+&Qt;>=4.3.
 </para>
 <para>
 To compile &kstars;, you will also have to have the following packages
@@ -48,7 +48,7 @@ installed:
 <listitem><para>fam-devel</para></listitem>
 <listitem><para>png-devel</para></listitem>
 <listitem><para>jpeg-devel</para></listitem>
-<listitem><para>autoconf (>=2.5)</para></listitem>
+<listitem><para>cmake</para></listitem>
 </itemizedlist></para>
 
 <para>
