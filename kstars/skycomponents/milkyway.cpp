@@ -55,8 +55,12 @@ void MilkyWay::init( KStarsData *data )
 	KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
+    fileReader.setProgress( i18n("Loading Milky Way"), 2136, 5 );
+
 	while ( fileReader.hasMoreLines() ) {
 		line = fileReader.readLine();
+
+		fileReader.showProgress();
 
         QChar firstChar = line.at( 0 );
         if ( firstChar == '#' ) continue; 
