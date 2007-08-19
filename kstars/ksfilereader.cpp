@@ -39,7 +39,6 @@ KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
 {
     QIODevice* device = (QIODevice*) & file;
     QTextStream::setDevice( device );
-	m_curLine = 0;
     m_targetLine = MAXUINT;
 }
 
@@ -55,19 +54,16 @@ bool KSFileReader::open( const QString& fname )
 
 void KSFileReader::setProgress( QString label, 
                                 unsigned int totalLines, 
-                                unsigned int numUpdates,
-                                unsigned int firstNumUpdates)
+                                unsigned int numUpdates )
 {
-    if ( firstNumUpdates == 0 ) firstNumUpdates = numUpdates;
-
     m_label = label;
-    m_totalLines = totalLines;
-    m_targetLine = m_totalLines / firstNumUpdates;
+    m_totalLines = totalLines; 
+	if ( m_totalLines < 1 ) m_totalLines = 1;
+    m_targetLine = m_totalLines / 100;
     m_targetIncrement = m_totalLines / numUpdates;
 
     connect( this, SIGNAL( progressText( const QString & ) ), 
 	    KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
-
 }
 
 void KSFileReader::showProgress()
@@ -78,8 +74,9 @@ void KSFileReader::showProgress()
     else
         m_targetLine += m_targetIncrement;
 
-    int percent = 1 + (m_curLine * 100) / m_totalLines;
-
+    int percent = int(.5 + (m_curLine * 100.0) / m_totalLines);
+	//printf("%8d %8d %3d\n", m_curLine, m_totalLines, percent );
+	if ( percent > 100 ) percent = 100;
     emit progressText( QString("%1 (%2%)").arg( m_label ).arg( percent ) );
     qApp->processEvents();
 }

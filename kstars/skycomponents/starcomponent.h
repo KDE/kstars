@@ -26,8 +26,6 @@
 *@version 0.1
 */
 
-#define NHIPFILES 127
-
 #include "listcomponent.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
@@ -42,8 +40,9 @@ class KSFileReader;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
-
 class KStarsSplash;
+
+#define MAX_LINENUMBER_MAG 90
 
 //typedef QVector< StarList* > StarIndex;
 
@@ -110,6 +109,8 @@ class StarComponent: public ListComponent
 		 */
 		void rereadData();
 
+		void readLineNumbers();
+		int lineNumber( float mag );
 
 	private:
         SkyMesh*       m_skyMesh;
@@ -118,13 +119,17 @@ class StarComponent: public ListComponent
         KSNumbers      m_reindexNum;
         double         m_reindexInterval;
 
+		int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
+        qint64         m_lastFilePos;
+        int            m_lastLineNum;
+		bool           m_validLineNums;
+
         QVector<HighPMStarList*> m_highPMStars;
         
-        qint64 lastFilePos;
-
         QHash<QString, SkyObject*> m_genName;
 
         void reindexAll( KSNumbers *num );
+
 
 	/** 
 		*Parse a line from a stars data file, construct a StarObject from the data,

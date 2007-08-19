@@ -87,7 +87,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
 	KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
-    fileReader.setProgress( i18n("Loading Consellation Boundaries"), 13124, 10, 100 );
+    fileReader.setProgress( i18n("Loading Consellation Boundaries"), 13124, 10 );
 
     lastRa = lastDec = -1000.0;
 

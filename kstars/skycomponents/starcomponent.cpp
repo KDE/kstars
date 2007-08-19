@@ -49,9 +49,11 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_highPMStars.append( new HighPMStarList( 304.0 ) );
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
 
-    lastFilePos = 0;
+    m_lastFilePos  = 0;
+    m_lastLineNum  = 0;
 	m_zoomMagLimit = 0.0;
 	m_reloadSplash = m_reindexSplash = 0;
+	m_validLineNums = false;
 }
 
 StarComponent::~StarComponent()
@@ -69,6 +71,7 @@ void StarComponent::init(KStarsData *data)
 	m_ColorIntensity = data->colorScheme()->starColorIntensity();
 	m_Data = data;
 
+	readLineNumbers();
 	readData( Options::magLimitDrawStar() );
 }
 
@@ -97,8 +100,7 @@ void StarComponent::reindex( KSNumbers *num )
 
 void StarComponent::reindexAll( KSNumbers *num )
 {
-	/***
-	if ( ! m_reindexSplash ) {
+	if (  0 && ! m_reindexSplash ) {
 		m_reindexSplash = new KStarsSplash(0, 
 				i18n("Please wait while re-indexing stars ...") );
 		QObject::connect( KStarsData::Instance(), 
@@ -109,7 +111,6 @@ void StarComponent::reindexAll( KSNumbers *num )
 		m_reindexSplash->raise();
 		return;
 	}
-	***/
 
     printf("Re-indexing Stars to year %4.1f...\n",
 			2000.0 + num->julianCenturies() * 100.0);
@@ -146,27 +147,25 @@ void StarComponent::rereadData()
 	float magLimit =  Options::magLimitDrawStar();
 	SkyMap* map = SkyMap::Instance();
 	if ( ( map->isSlewing() && Options::hideOnSlew() && Options::hideStars()) ||
-		 m_FaintMagnitude >= magLimit ) 
+			m_FaintMagnitude >= magLimit ) 
 		return;
 
-	// First show a splash screen but don't load any data so we can present
-	// a pretty face.  Then load data the next time through and finally erase
-	// the splash screen.
-
-	if ( ! m_reloadSplash ) {
-		m_reloadSplash = new KStarsSplash(0, 
-				i18n("Please wait while loading faint stars ...") );
-		QObject::connect( KStarsData::Instance(), 
-				SIGNAL( progressText( QString ) ),
-				m_reloadSplash, SLOT( setMessage( QString ) ) );
-
-		m_reloadSplash->show();
-		m_reloadSplash->raise();
+	// bail out if there are no more lines to read
+	if ( m_lastLineNum >= m_lineNumber[ MAX_LINENUMBER_MAG ] )
 		return;
-	}
-	printf("reading data ...\n");
+
+	m_reloadSplash = new KStarsSplash( 0, 
+			i18n("Please wait while loading faint stars ...") );
+
+	QObject::connect( KStarsData::Instance(), 
+			SIGNAL( progressText( QString ) ),
+			m_reloadSplash, SLOT( setMessage( QString ) ) );
+
+	m_reloadSplash->show();
+	m_reloadSplash->raise();
+	//printf("reading data ...\n");
    	readData( magLimit );
-	printf("Done!\n");
+	//printf("done\n");
 	delete m_reloadSplash;
 	m_reloadSplash = 0;
 }
@@ -181,12 +180,12 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
     bool hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
-		                ! ( Options::showStarMagnitudes() || Options::showStarNames() );
+			! ( Options::showStarMagnitudes() || Options::showStarNames() );
 
     //shortcuts to inform whether to draw different objects
 	bool hideFaintStars( checkSlewing && Options::hideStars() );
 	float maglim = Options::magLimitDrawStar();
-
+	double hideStarsMag = Options::magLimitHideStar();
 	rereadData();
 
     reindex( ks->data()->updateNum() );
@@ -206,10 +205,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 	float sizeFactor = 6.0 + (lgz - lgmin);
  
 	double labelMagLim = Options::magLimitDrawStarInfo();
-	//labelMagLim += ( 7.9 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
 	labelMagLim += ( 16.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
 	if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
-	//printf("labelMagLim = %.1f\n", labelMagLim );
 
 	//Set the brush
 	QColor fillColor( Qt::white );
@@ -223,7 +220,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		//Strictly speaking, we don't need to do this every time, but once per 
 		//draw loop isn't too expensive.
 		StarObject::updateColors( (! Options::useAntialias() || 
-			map->isSlewing()), ks->data()->colorScheme()->starColorIntensity() );
+				map->isSlewing()), ks->data()->colorScheme()->starColorIntensity() );
 
     double zoom = Options::zoomFactor();
 
@@ -243,8 +240,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
             float mag = curStar->mag();
 
 		    // break loop if maglim is reached
-		    if ( mag > maglim || 
-                 ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
+		    if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
+				break;
 
 		    if ( ! map->checkVisibility( curStar ) ) continue;
 		    
@@ -257,9 +254,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 			curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0), 
 					       starColorIntensity(), true, scale );
 
-            if ( hideLabels ) continue;
-            if ( mag > labelMagLim ) continue;
-            //if ( checkSlewing || ! (Options::showStarMagnitudes() || Options::showStarNames()) ) continue;
+            if ( hideLabels || mag > labelMagLim ) continue;
 
             float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
 			QString sName = curStar->nameLabel( drawName, drawMag );
@@ -269,41 +264,78 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 }
 
  
-void StarComponent::readData( float newMagnitude ) {
+void StarComponent::readLineNumbers()
+{
+	KSFileReader fileReader;
+    if ( ! fileReader.open( "starlnum.idx" ) ) return;
+
+	while ( fileReader.hasMoreLines() ) {
+		QString line = fileReader.readLine();
+		if ( line.at(0) == '#' ) continue;  // ignore comments
+		int mag = line.mid( 0, 2 ).toInt();
+		int lineNumber = line.mid( 3 ).toInt();
+		if ( mag < 0 || mag > MAX_LINENUMBER_MAG ) {
+			fprintf(stderr, "Waring: mag %d, out of range\n", mag );
+			continue;
+		}
+		m_lineNumber[ mag ] = lineNumber;
+	}
+	m_validLineNums = true;
+}
+
+int StarComponent::lineNumber( float magF )
+{
+	if ( ! m_validLineNums ) return -1;
+
+	int mag = int( magF * 10.0 );
+	if ( mag < 0 ) mag = 0;
+	if ( mag > MAX_LINENUMBER_MAG ) mag = MAX_LINENUMBER_MAG;
+	return m_lineNumber[ mag ];
+}
+
+void StarComponent::readData( float newMagnitude )
+{
 	// only load star data if the new magnitude is fainter than we've seen so far
 	if ( newMagnitude <= m_FaintMagnitude ) return;
+    float currentMag = m_FaintMagnitude;
     m_FaintMagnitude = newMagnitude;  // store new highest magnitude level
-   
-    //int filePos = lastFilePos;
-
+  
+	// prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
-    //printf("Indexing stars for year %.1f\n",  
-    //        2000.0 + m_reindexNum.julianCenturies() * 100.0 );
-
-    float currentMag = -5.0;
 
 	KSFileReader fileReader;
     if ( ! fileReader.open( "stars.dat" ) ) return;
 
-    //if ( lastFilePos == 0 ) {
-        fileReader.setProgress( i18n("Loading stars"), 125994, 100 );
-    //}
+	int totalLines = lineNumber( newMagnitude );
+	totalLines -= lineNumber( currentMag );
+	int updates;
+	if ( totalLines > 50000 ) 
+		updates = 100;
+	else if ( totalLines > 20000 ) 
+		updates =  50;
+	else if ( totalLines > 10000 )
+		updates =  10;
+	else
+		updates =   5;
 
-    if (lastFilePos > 0 ) fileReader.seek( lastFilePos );
+	// only show progress with valid line numbers
+	if ( m_validLineNums ) 
+		fileReader.setProgress( i18n("Loading stars"), totalLines, updates );
 
-    //bool first(true);
+    if (m_lastFilePos > 0 ) fileReader.seek( m_lastFilePos );
+
 	while ( fileReader.hasMoreLines() ) {
 		QString line = fileReader.readLine();
 
-        //if ( first) { kDebug() << line << endl; first = false; }
+		// DIY because QTextStream::pos() can take many seconds!
+		m_lastFilePos += line.length() + 1;
 
         if ( line.isEmpty() ) continue;       // ignore blank lines
-		if ( line.left(1) == "#" ) continue;  // ignore comments
-			// check star magnitude
-        currentMag = line.mid( 46,5 ).toFloat();
-        
-        StarObject* star = processStar( line );
+		if ( line.at(0) == '#' ) continue;    // ignore comments
 
+        StarObject* star = processStar( line );
+		currentMag = star->mag();	
+        
 	    objectList().append( star );
         Trixel trixel = m_skyMesh->indexStar( star );
         m_starIndex->at( trixel )->append( star );
@@ -314,22 +346,13 @@ void StarComponent::readData( float newMagnitude ) {
             if ( list->append( trixel, star, pm ) ) break;
         }
 
-        if ( currentMag > m_FaintMagnitude ) {   // Done!
-            lastFilePos = fileReader.pos();
-            break; 
-        }
+		fileReader.showProgress();
 
-        fileReader.showProgress();
+        if ( currentMag > m_FaintMagnitude )   // Done!
+            break; 
     }
 
-	//Options::setMagLimitDrawStar( newMagnitude );       -jbb
-    //if ( lastFilePos == 0 ) emitProgressText( i18n("Loading stars done.") );
-
-    //for (int j = 0; j < m_highPMStars.size(); j++ ) {
-    //    m_highPMStars.at( j )->stats();
-    //}
-
-    //printf("star catalog reindexInterval = %6.1f years\n", 100.0 * m_reindexInterval );
+	m_lastLineNum += fileReader.lineNumber();
 }
 
 

@@ -62,7 +62,7 @@ void DeepSkyComponent::init(KStarsData *data)
     KSFileReader fileReader;
     if ( ! fileReader.open( "ngcic.dat" ) ) return; 
 
-    fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 5, 100);
+    fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
 
     while ( fileReader.hasMoreLines() ) {
         QString line, con, ss, name, name2, longname;
