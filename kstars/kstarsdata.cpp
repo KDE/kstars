@@ -729,7 +729,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
 			SkyObject *o = skyComposite()->findByName(name);
 
 			if ( !o ) {
-				kWarning() << k_funcinfo << i18n( "Object named %1 not found", name ) ;
+				kWarning() << i18n( "Object named %1 not found", name ) ;
 			} else {
 				if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
 					if ( type==0 ) { //image URL
@@ -777,7 +777,7 @@ bool KStarsData::readUserLog(void)
 		//of star genetive names, so stars are identified that way in the user log.
 		SkyObject *o = skyComposite()->findByName(name);
 		if ( !o ) {
-			kWarning() << k_funcinfo << name << " not found" ;
+			kWarning() << name << " not found" ;
 		} else {
 			o->userLog = data;
 		}

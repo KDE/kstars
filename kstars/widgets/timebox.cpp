@@ -161,7 +161,7 @@ ExtDate timeBox::createDate (bool */*ok*/)
 	ExtDate date = ExtDate().fromString(entry);
 
 	if ( !date.isValid() ) {
-		kDebug() << k_funcinfo << "Invalid date";
+		kDebug() << "Invalid date";
 		showDate(ExtDate::currentDate());
 		entry = text().trimmed();
 		return ExtDate::currentDate();
