@@ -267,6 +267,7 @@ void KStarsData::slotInitialize() {
 			break;
 	} // switch ( initCounter )
 
+	qApp->processEvents();
 	initCounter++;
 }
 
