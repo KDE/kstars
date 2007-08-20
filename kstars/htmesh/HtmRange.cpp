@@ -2,10 +2,8 @@
 #include <iomanip>  // setw()
 #include <HtmRange.h>
 
-#ifdef _WIN32
 #include <stdio.h>
 #include <string.h>
-#endif
 
 #define INSIDE     1
 #define OUTSIDE   -1
