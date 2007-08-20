@@ -612,14 +612,14 @@ htmInterface::domainCmd( char *str ) {
 }
 
 #ifdef _WIN32
-ostream& operator<<(ostream& os, const int64 &i64)
+std::ostream& operator<<(std::ostream& os, const int64 &i64)
 {
   char buff[256];
   sprintf(buff, "%I64d", i64);
   os << buff;
   return os;
 }
-ostream& operator<<(ostream& os, const uint64 &ui64)
+std::ostream& operator<<(std::ostream& os, const uint64 &ui64)
 {
 	char buff[256];
 	sprintf(buff, "%I64d", ui64);

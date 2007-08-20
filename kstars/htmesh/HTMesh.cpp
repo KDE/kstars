@@ -84,8 +84,8 @@ const char* HTMesh::indexToName(Trixel trixel) const
 void HTMesh::fillBuffer(BufNum bufNum)
 {
     
-    if ( ! validBufNum(bufNum) );
-    m_meshBuffer[bufNum]->fill();
+    if ( ! validBufNum(bufNum) )    // is this correct?
+        m_meshBuffer[bufNum]->fill();
 }
 
 

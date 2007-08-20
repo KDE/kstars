@@ -147,8 +147,7 @@ const float64 gEpsilon = 1.0E-15;
  
 #   ifdef _EXPORTING
 #	define LINKAGE	__declspec(dllexport)
-#   endif
-#   ifdef _IMPORTING
+#   else
 #	define	LINKAGE	__declspec(dllimport)
 #   endif
 

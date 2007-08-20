@@ -22,7 +22,7 @@
 #include "typedef.h"
 
 class SkyMesh;
-class HighPMStar;
+struct HighPMStar;
 
 /* @class HighPMStarList
  * Holds a list of stars with high proper motion along with the trixel each star

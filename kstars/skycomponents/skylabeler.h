@@ -31,7 +31,7 @@ class QPointF;
 class KStars;
 class SkyMap;
 class QPainter;
-class LabelRun;
+struct LabelRun;
 
 typedef QList<LabelRun*>	LabelRow;
 typedef QVector<LabelRow*>  ScreenRows;

@@ -29,11 +29,15 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/cc_aux.c
 )
 
-ADD_DEFINITIONS(-fexceptions)
+if(NOT MSVC)
+  ADD_DEFINITIONS(-fexceptions)
+endif(NOT MSVC)
 
 kde4_add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 
-add_definitions(-DUSE_KDEWIN32_LIB -DBUILD_DLL)
+add_definitions(-D_EXPORTING)
 
-set_target_properties(htmesh PROPERTIES VERSION 1.0.0 SOVERSION 1 )
+set_target_properties(htmesh PROPERTIES
+    VERSION 1.0.0
+    SOVERSION 1)
 install(TARGETS htmesh DESTINATION ${LIB_INSTALL_DIR} )

@@ -92,8 +92,8 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
     psky.setPen( QPen( QColor( "darkcyan" ) ) );
     psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
 
-	foreach ( SkyObject *o, objectList() ) {
-		KSComet *com = (KSComet*)o;
+	foreach ( SkyObject *so, objectList() ) {
+		KSComet *com = (KSComet*)so;
 
 		if ( ! map->checkVisibility( com ) ) continue;
    	
