@@ -340,8 +340,6 @@ class SkyLabeler
 
 		QVector<LabelList>   labelList;
 
-		char *labelName[NUM_LABEL_TYPES];
-
 		static SkyLabeler* pinstance;
 };
 

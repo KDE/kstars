@@ -82,15 +82,6 @@ SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() ),
     m_yDensity  = 1.0;   // controls vertical resolution
 
     m_marks = m_hits = m_misses = m_elements = 0;
-       
-    // FIXME!  This sucks. There must be a better way.
-    labelName[         STAR_LABEL ] = "Star";
-    labelName[     ASTEROID_LABEL ] = "Asteroid";
-    labelName[        COMET_LABEL ] = "Comet";
-    labelName[       PLANET_LABEL ] = "Planet";
-    labelName[ JUPITER_MOON_LABEL ] = "Jupiter Moon";
-    labelName[     DEEP_SKY_LABEL ] = "Deep Sky Object";
-    labelName[ CONSTEL_NAME_LABEL ] = "Constellation Name";
 }
 
 
@@ -118,18 +109,17 @@ void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& tex
         psky.drawText( p, text );
      }
     else {
-        psky.drawText( QPoint( int(p.x()), int(p.y()) ), text );
+        psky.drawText( int( p.x() ), int( p.y() ), text );
     }
 }
 
 bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text, 
 		                    double angle )
 {
-
 	// Create bounding rectangle by rotating the (height x width) rectangle
 	qreal h = m_fontMetrics.height();
 	qreal w = m_fontMetrics.width( text );
-	qreal s =  sin( angle * dms::PI / 180.0 );
+	qreal s = sin( angle * dms::PI / 180.0 );
 	qreal c = cos( angle * dms::PI / 180.0 );
 
 	qreal w2 = w / 2.0;
@@ -165,7 +155,13 @@ bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text,
 	psky.translate( o );
 
 	psky.rotate( angle );                        //rotate the coordinate system
-	psky.drawText( QPointF( -w2, h ), text );
+    if ( Options::useAntialias() )  {
+        psky.drawText( QPointF( -w2, h ), text );
+     }
+    else {
+        psky.drawText( int( -w2 ), int( h ), text );
+    }
+
 	psky.restore();                              //reset coordinate system
 
 	return true;
@@ -176,7 +172,6 @@ void SkyLabeler::setFont( QPainter& psky, const QFont& font )
     psky.setFont( font );
     m_fontMetrics = QFontMetrics( font );
 }
-
 
 void SkyLabeler::shrinkFont( QPainter& psky, int delta )
 {
@@ -499,6 +494,17 @@ void SkyLabeler::printInfo()
             screenRows.size(), m_elements, float(m_size) / 1024.0 );
 
 	return;
+
+	static char *labelName[NUM_LABEL_TYPES];
+
+    labelName[         STAR_LABEL ] = "Star";
+    labelName[     ASTEROID_LABEL ] = "Asteroid";
+    labelName[        COMET_LABEL ] = "Comet";
+    labelName[       PLANET_LABEL ] = "Planet";
+    labelName[ JUPITER_MOON_LABEL ] = "Jupiter Moon";
+    labelName[     DEEP_SKY_LABEL ] = "Deep Sky Object";
+    labelName[ CONSTEL_NAME_LABEL ] = "Constellation Name";
+
     for ( int i = 0; i < NUM_LABEL_TYPES; i++ ) {
         printf("  %20ss: %d\n", labelName[ i ], labelList[ i ].size() );
     }
