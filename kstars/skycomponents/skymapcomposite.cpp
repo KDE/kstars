@@ -264,8 +264,7 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 
 	//11. Solar system
 //	t.start();
-	if ( Options::showSolarSystem() )
-		m_SolarSystem->draw( ks, psky, scale );
+	m_SolarSystem->draw( ks, psky, scale );	
 //	kDebug() << QString("Solar sys   : %1 ms").arg( t.elapsed() );
 
 	//12. Satellite tracks
