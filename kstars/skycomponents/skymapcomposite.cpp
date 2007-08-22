@@ -52,7 +52,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
 {
     m_skyLabeler = SkyLabeler::Instance();
 
-    m_skyMesh = SkyMesh::Create( data, 4 );  // level 5 mesh = 8192 trixels
+    m_skyMesh = SkyMesh::Create( data, 3 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
                                          //  2 => prints totals too
@@ -167,6 +167,8 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
+	QTime t;
+	t.start();
     m_map = ks->map();
 
 	// We delay one draw cycle before re-indexing
@@ -194,8 +196,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
 	// create the no-precess aperture only if needed
-    if ( Options::showGrid() || Options::showCBounds() || 
-			Options::showEquator() && ! m_skyMesh->isZoomedIn() ) {
+    if ( ( Options::showGrid() || Options::showCBounds() || 
+			Options::showEquator() ) && m_skyMesh->isZoomedIn() ) {
 
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
@@ -287,6 +289,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	m_skyLabeler->useStdFont( psky );
 
 	m_skyMesh->inDraw( false );
+
+	//kDebug() << QString("draw took %1 ms").arg( t.elapsed() ) << endl;
 
     // -jbb uncomment these to see trixel outlines:
 	//
