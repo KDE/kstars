@@ -50,10 +50,10 @@ void OpsSolarSystem::slotAllWidgets( bool on ) {
 void OpsSolarSystem::slotAsteroidWidgets( bool on ) {
 	kcfg_MagLimitAsteroid->setEnabled( on );
 	kcfg_ShowAsteroidNames->setEnabled( on );
-	kcfg_MagLimitAsteroidName->setEnabled( on );
+	kcfg_AsteroidLabelDensity->setEnabled( on );
 	textLabel3->setEnabled( on );
-	textLabel5->setEnabled( on );
 	textLabel6->setEnabled( on );
+	LabelDensity->setEnabled( on );
 }
 
 void OpsSolarSystem::slotCometWidgets( bool on ) {

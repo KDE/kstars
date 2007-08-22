@@ -209,13 +209,12 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 void OpsCatalog::slotStarWidgets(bool on) {
 	LabelMagStars->setEnabled(on);
 	LabelMagStarsZoomOut->setEnabled(on);
-	LabelMagStarInfo->setEnabled(on);
+	LabelDensity->setEnabled(on);
 	LabelMag1->setEnabled(on);
 	LabelMag2->setEnabled(on);
-	LabelMag3->setEnabled(on);
 	kcfg_MagLimitDrawStar->setEnabled(on);
 	kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
-	kcfg_MagLimitDrawStarInfo->setEnabled(on);
+	kcfg_StarLabelDensity->setEnabled(on);
 	kcfg_ShowStarNames->setEnabled(on);
 	kcfg_ShowStarMagnitudes->setEnabled(on);
 }

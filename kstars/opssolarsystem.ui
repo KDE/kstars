@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>585</height>
+    <width>506</width>
+    <height>593</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -23,18 +23,6 @@
       <string>Sun, Moon &amp;&amp; Planets</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="leftMargin" >
-       <number>8</number>
-      </property>
-      <property name="topMargin" >
-       <number>8</number>
-      </property>
-      <property name="rightMargin" >
-       <number>8</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>8</number>
-      </property>
       <item>
        <layout class="QGridLayout" >
         <item row="1" column="1" >
@@ -247,8 +235,8 @@
         </property>
         <property name="sizeHint" >
          <size>
-          <width>21</width>
-          <height>20</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
        </spacer>
@@ -262,30 +250,18 @@
       <string>Minor Planets</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="leftMargin" >
-       <number>8</number>
-      </property>
-      <property name="topMargin" >
-       <number>8</number>
-      </property>
-      <property name="rightMargin" >
-       <number>8</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>8</number>
-      </property>
       <item>
        <layout class="QGridLayout" >
-        <item row="2" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowCometNames" >
+        <item row="0" column="0" >
+         <widget class="QCheckBox" name="kcfg_ShowAsteroids" >
           <property name="toolTip" >
-           <string>Show names of comets near the Sun</string>
+           <string>Draw asteroids?</string>
           </property>
           <property name="whatsThis" >
-           <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
+           <string>If checked, asteroids will be drawn on the map</string>
           </property>
           <property name="text" >
-           <string>Show names of comets within</string>
+           <string>Asteroids</string>
           </property>
          </widget>
         </item>
@@ -296,38 +272,29 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowComets" >
-          <property name="toolTip" >
-           <string>Draw comets?</string>
-          </property>
-          <property name="whatsThis" >
-           <string>If checked, comets will be drawn on the map</string>
-          </property>
-          <property name="text" >
-           <string>Comets</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3" >
-         <widget class="QLabel" name="textLabel6" >
-          <property name="text" >
-           <string>mag</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowAsteroidNames" >
-          <property name="toolTip" >
-           <string>Attach names to bright asteroids?</string>
-          </property>
-          <property name="whatsThis" >
-           <string>If checked, then name labels will be attached to bright asteroids</string>
-          </property>
-          <property name="text" >
-           <string>Show names of asteroids brighter than</string>
-          </property>
-         </widget>
+        <item row="0" column="2" >
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid" >
+            <property name="focusPolicy" >
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="toolTip" >
+             <string>faint limit for asteroids</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Set the faintest magnitude for drawing asteroids</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel6" >
+            <property name="text" >
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="1" column="0" >
          <spacer>
@@ -345,74 +312,108 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="3" >
-         <widget class="QLabel" name="textLabel4" >
+        <item row="1" column="1" >
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QCheckBox" name="kcfg_ShowAsteroidNames" >
+            <property name="toolTip" >
+             <string>Attach name labels to asteroids?</string>
+            </property>
+            <property name="whatsThis" >
+             <string>If checked, then name labels will be attached to asteroids</string>
+            </property>
+            <property name="text" >
+             <string>Show names</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="LabelDensity" >
+            <property name="text" >
+             <string>Label density:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="2" >
+         <widget class="QSlider" name="kcfg_AsteroidLabelDensity" >
+          <property name="maximum" >
+           <number>20</number>
+          </property>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" >
+         <widget class="QCheckBox" name="kcfg_ShowComets" >
+          <property name="toolTip" >
+           <string>Draw comets?</string>
+          </property>
+          <property name="whatsThis" >
+           <string>If checked, comets will be drawn on the map</string>
+          </property>
           <property name="text" >
-           <string>AU</string>
+           <string>Comets</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" >
+         <widget class="QCheckBox" name="kcfg_ShowCometNames" >
+          <property name="toolTip" >
+           <string>Show names of comets near the Sun</string>
+          </property>
+          <property name="whatsThis" >
+           <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
+          </property>
+          <property name="text" >
+           <string>Show names of comets within</string>
           </property>
          </widget>
         </item>
         <item row="2" column="2" >
-         <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName" >
-          <property name="toolTip" >
-           <string>Maximum distance for comet names</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
-          </property>
-          <property name="maximum" >
-           <double>0.000000000000000</double>
-          </property>
-          <property name="precision" >
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2" >
-         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroidName" >
-          <property name="focusPolicy" >
-           <enum>Qt::StrongFocus</enum>
-          </property>
-          <property name="toolTip" >
-           <string>Faint limit for asteroid name labels</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Set the faint limit for drawing asteroid name labels</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" >
-         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid" >
-          <property name="focusPolicy" >
-           <enum>Qt::StrongFocus</enum>
-          </property>
-          <property name="toolTip" >
-           <string>faint limit for asteroids</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Set the faintest magnitude for drawing asteroids</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3" >
-         <widget class="QLabel" name="textLabel5" >
-          <property name="text" >
-           <string>mag</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowAsteroids" >
-          <property name="toolTip" >
-           <string>Draw asteroids?</string>
-          </property>
-          <property name="whatsThis" >
-           <string>If checked, asteroids will be drawn on the map</string>
-          </property>
-          <property name="text" >
-           <string>Asteroids</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName" >
+            <property name="toolTip" >
+             <string>Maximum distance for comet names</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
+            </property>
+            <property name="maximum" >
+             <double>0.000000000000000</double>
+            </property>
+            <property name="precision" >
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel4" >
+            <property name="text" >
+             <string>AU</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -423,8 +424,8 @@
         </property>
         <property name="sizeHint" >
          <size>
-          <width>20</width>
-          <height>40</height>
+          <width>21</width>
+          <height>16</height>
          </size>
         </property>
        </spacer>
@@ -439,65 +440,61 @@
      </property>
      <layout class="QVBoxLayout" >
       <item>
-       <layout class="QVBoxLayout" >
+       <widget class="QCheckBox" name="kcfg_UseAutoTrail" >
+        <property name="toolTip" >
+         <string>Auto-trail tracked bodies</string>
+        </property>
+        <property name="whatsThis" >
+         <string>If checked then any solar system body will have a temporary trail attached while it is centered in the display.</string>
+        </property>
+        <property name="text" >
+         <string>Always show trail when tracking a solar system body</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
         <item>
-         <widget class="QCheckBox" name="kcfg_UseAutoTrail" >
+         <widget class="QCheckBox" name="kcfg_FadePlanetTrails" >
           <property name="toolTip" >
-           <string>Auto-trail tracked bodies</string>
+           <string>Fade trail color into the background?</string>
           </property>
           <property name="whatsThis" >
-           <string>If checked then any solar system body will have a temporary trail attached while it is centered in the display.</string>
+           <string>If checked, the color of the planet trail will be blended into the background sky color.</string>
           </property>
           <property name="text" >
-           <string>Always show trail when tracking a solar system body</string>
+           <string>Fade trails to background color</string>
           </property>
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" >
-          <item>
-           <widget class="QCheckBox" name="kcfg_FadePlanetTrails" >
-            <property name="toolTip" >
-             <string>Fade trail color into the background?</string>
-            </property>
-            <property name="whatsThis" >
-             <string>If checked, the color of the planet trail will be blended into the background sky color.</string>
-            </property>
-            <property name="text" >
-             <string>Fade trails to background color</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="KPushButton" name="ClearAllTrails" >
-            <property name="toolTip" >
-             <string>Clear all orbit trails</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
-            </property>
-            <property name="text" >
-             <string>Remove All Trails</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="KPushButton" name="ClearAllTrails" >
+          <property name="toolTip" >
+           <string>Clear all orbit trails</string>
+          </property>
+          <property name="whatsThis" >
+           <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
+          </property>
+          <property name="text" >
+           <string>Remove All Trails</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -511,7 +508,7 @@
         </property>
         <property name="sizeHint" >
          <size>
-          <width>586</width>
+          <width>41</width>
           <height>21</height>
          </size>
         </property>
@@ -532,7 +529,7 @@
         <property name="sizeHint" >
          <size>
           <width>20</width>
-          <height>40</height>
+          <height>20</height>
          </size>
         </property>
        </spacer>

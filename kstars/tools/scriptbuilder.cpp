@@ -848,10 +848,10 @@ void ScriptBuilder::initViewOptions() {
 	argChangeViewOption->OptionName->addItem( "magLimitDrawStarZoomOut" );
 	argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSky" );
 	argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSkyZoomOut" );
-	argChangeViewOption->OptionName->addItem( "magLimitDrawStarInfo" );
+	argChangeViewOption->OptionName->addItem( "starLabelDensity" );
 	argChangeViewOption->OptionName->addItem( "magLimitHideStar" );
 	argChangeViewOption->OptionName->addItem( "magLimitAsteroid" );
-	argChangeViewOption->OptionName->addItem( "magLimitAsteroidName" );
+	argChangeViewOption->OptionName->addItem( "asteroidLabelDensity" );
 	argChangeViewOption->OptionName->addItem( "maxRadCometName" );
 
 	//init the list of color names and values

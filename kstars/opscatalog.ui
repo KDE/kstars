@@ -1,57 +1,48 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>OpsCatalog</class>
  <widget class="QWidget" name="OpsCatalog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>591</height>
+    <width>511</width>
+    <height>626</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
     <widget class="QGroupBox" name="StarBox" >
      <property name="title" >
       <string>Stars</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
+     <layout class="QHBoxLayout" >
       <item>
-       <widget class="QCheckBox" name="kcfg_ShowStars" >
-        <property name="text" >
-         <string>&amp;Hipparcos star catalog</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
+       <layout class="QVBoxLayout" >
+        <item>
+         <widget class="QCheckBox" name="kcfg_ShowStars" >
+          <property name="text" >
+           <string>&amp;Hipparcos star catalog</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="1" column="0" >
@@ -93,129 +84,138 @@
         <item>
          <spacer>
           <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType" >
+           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" >
            <size>
-            <width>40</width>
-            <height>20</height>
+            <width>20</width>
+            <height>16</height>
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <layout class="QGridLayout" >
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="1" >
+           <widget class="QCheckBox" name="kcfg_ShowStarNames" >
+            <property name="text" >
+             <string>Show &amp;name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QCheckBox" name="kcfg_ShowStarMagnitudes" >
+            <property name="text" >
+             <string>Show ma&amp;gnitude</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" >
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" >
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="LabelDensity" >
+            <property name="text" >
+             <string>Label density:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="kcfg_StarLabelDensity" >
+            <property name="maximum" >
+             <number>20</number>
+            </property>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
        <spacer>
         <property name="orientation" >
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType" >
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" >
          <size>
-          <width>20</width>
-          <height>16</height>
+          <width>40</width>
+          <height>20</height>
          </size>
         </property>
        </spacer>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="LabelMagStarInfo" >
-          <property name="text" >
-           <string>For stars brighter than: </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStarInfo" />
-        </item>
-        <item>
-         <widget class="QLabel" name="LabelMag3" >
-          <property name="text" >
-           <string>mag</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="0" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowStarNames" >
-          <property name="text" >
-           <string>Show &amp;name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowStarMagnitudes" >
-          <property name="text" >
-           <string>Show ma&amp;gnitude</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" >
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType" >
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>16</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="0" >
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType" >
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>16</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>
@@ -226,19 +226,37 @@
       <string>Deep-Sky Catalogs</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
       </property>
+      <property name="leftMargin" >
+       <number>8</number>
+      </property>
+      <property name="topMargin" >
+       <number>8</number>
+      </property>
+      <property name="rightMargin" >
+       <number>8</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>8</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QListWidget" name="CatalogList" >
@@ -249,11 +267,20 @@
         </item>
         <item>
          <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>0</number>
+          </property>
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
           </property>
           <item>
            <widget class="KPushButton" name="AddCatalog" >
@@ -298,18 +325,39 @@
       </item>
       <item>
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
         </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
         <item>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="1" column="0" >
@@ -368,21 +416,16 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>MagnitudeSpinBox</class>
    <extends>KDoubleNumInput</extends>
    <header>widgets/magnitudespinbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

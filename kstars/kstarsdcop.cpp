@@ -310,10 +310,10 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
 	if ( op == "MagLimitDrawDeepSky"     && dOk ) Options::setMagLimitDrawDeepSky( dVal );
 	if ( op == "MagLimitDrawStarZoomOut" && dOk ) Options::setMagLimitDrawStarZoomOut(        dVal );
 	if ( op == "MagLimitDrawDeepSkyZoomOut" && dOk ) Options::setMagLimitDrawDeepSkyZoomOut(  dVal );
-	if ( op == "MagLimitDrawStarInfo" && dOk ) Options::setMagLimitDrawStarInfo( dVal );
+	if ( op == "StarLabelDensity" && dOk ) Options::setStarLabelDensity( dVal );
 	if ( op == "MagLimitHideStar"     && dOk ) Options::setMagLimitHideStar(     dVal );
 	if ( op == "MagLimitAsteroid"     && dOk ) Options::setMagLimitAsteroid(     dVal );
-	if ( op == "MagLimitAsteroidName" && dOk ) Options::setMagLimitAsteroidName( dVal );
+	if ( op == "AsteroidLabelDensity" && dOk ) Options::setAsteroidLabelDensity( dVal );
 	if ( op == "MaxRadCometName"      && dOk ) Options::setMaxRadCometName(      dVal );
 
 	//these three are a "radio group"

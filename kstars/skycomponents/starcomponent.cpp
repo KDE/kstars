@@ -204,7 +204,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	float sizeFactor = 6.0 + (lgz - lgmin);
  
-	double labelMagLim = Options::magLimitDrawStarInfo();
+	double labelMagLim = Options::starLabelDensity();
 	labelMagLim += ( 16.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
 	if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
 
