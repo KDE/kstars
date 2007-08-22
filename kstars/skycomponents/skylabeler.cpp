@@ -434,8 +434,8 @@ void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t 
 
 void SkyLabeler::draw( KStars* kstars, QPainter& psky )
 {
+	resetFont( psky );
     KStarsData* data = kstars->data();
-
     psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     //psky.setPen( QColor( "red" ) );
     drawLabels( psky, PLANET_LABEL );
@@ -450,15 +450,6 @@ void SkyLabeler::draw( KStars* kstars, QPainter& psky )
     drawLabels( psky, ASTEROID_LABEL );
     drawLabels( psky, COMET_LABEL );
 
-    if ( labelList[ CONSTEL_NAME_LABEL ].size() > 0 ) {
-        useStdFont( psky );
-	    psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
-        drawLabels( psky, CONSTEL_NAME_LABEL );
-        resetFont( psky );
-    }
-
-	psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
-    drawLabels( psky, STAR_LABEL );
 }
 
 void SkyLabeler::drawLabels( QPainter& psky, label_t type )

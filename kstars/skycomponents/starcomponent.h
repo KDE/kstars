@@ -30,6 +30,7 @@
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
 
+#include "skylabel.h"
 #include "typedef.h"
 #include "highpmstarlist.h"
 
@@ -44,8 +45,6 @@ class KStarsSplash;
 
 #define MAX_LINENUMBER_MAG 90
 
-//typedef QVector< StarList* > StarIndex;
-
 class StarComponent: public ListComponent
 {
 	public:
@@ -56,11 +55,18 @@ class StarComponent: public ListComponent
 
 		void update( KStarsData *data, KSNumbers *num );
 
+        bool selected();
+
         void reindex( KSNumbers *num );
 
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+		void draw(KStars *ks, QPainter& psky, double scale);
 
-		virtual void init(KStarsData *data);
+		/* @short draw all the labels in the prioritized LabelLists and then
+		 * clear the LabelLists.
+		 */
+		void drawLabels(KStars *ks, QPainter& psky, double scale);
+
+		void init(KStarsData *data);
 
 		KStarsData *data() { return m_Data; }
 
@@ -109,8 +115,18 @@ class StarComponent: public ListComponent
 		 */
 		void rereadData();
 
+		/* @short reads in the small starlnum.idx file that contains the line
+		 * numbers from the stars.dat file that correspond to rough 90
+		 * different magnitudes.  This allows us to estimate the number of
+		 * lines that need to get read when partially reading stars.dat.
+		 */
 		void readLineNumbers();
+
+		/* @short returns an estimate of the stars.dat line number for a given
+		 * star magnitude.
+		 */
 		int lineNumber( float mag );
+
 
 	private:
         SkyMesh*       m_skyMesh;
@@ -120,16 +136,29 @@ class StarComponent: public ListComponent
         double         m_reindexInterval;
 
 		int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
+		LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
         qint64         m_lastFilePos;
         int            m_lastLineNum;
 		bool           m_validLineNums;
+		bool           m_hideLabels;
+
+		KStarsData*    m_Data;
+		float          m_FaintMagnitude;
+		float          m_zoomMagLimit;
+		int            m_ColorMode, m_ColorIntensity;
+
+		KStarsSplash*  m_reloadSplash;
+		KStarsSplash*  m_reindexSplash;
 
         QVector<HighPMStarList*> m_highPMStars;
-        
         QHash<QString, SkyObject*> m_genName;
 
-        void reindexAll( KSNumbers *num );
+		/* @short adds a label to the lists of labels to be drawn prioritized
+		 * by magnitude.
+		 */
+		void addLabel( const QPointF& p, const QString& text, float mag);
 
+        void reindexAll( KSNumbers *num );
 
 	/** 
 		*Parse a line from a stars data file, construct a StarObject from the data,
@@ -162,15 +191,6 @@ class StarComponent: public ListComponent
 		*/
 		StarObject* processStar( const QString &line );
 
-        bool selected();
-
-		KStarsData *m_Data;
-		float m_FaintMagnitude;
-		float m_zoomMagLimit;
-		int m_ColorMode, m_ColorIntensity;
-
-		KStarsSplash* m_reloadSplash;
-		KStarsSplash* m_reindexSplash;
 };
 
 #endif

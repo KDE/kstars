@@ -209,84 +209,35 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 	// info boxes have highest label priority
 	ks->infoBoxes()->reserveBoxes( psky );
 
-	//TIMING
-	//QTime t;
-    //t.start();
-	//1. Milky Way
-//	t.start();
     m_MilkyWay->draw( ks, psky, scale );
-//	kDebug() << QString("Milky Way  : %1 ms").arg( t.elapsed() );
 
-	//2. Coordinate grid
-//	t.start();
 	m_CoordinateGrid->draw( ks, psky, scale );
-//	kDebug() << QString("Coord grid : %1 ms").arg( t.elapsed() );
 
-	//3. Constellation boundaries
-//	t.start();
 	m_CBoundLines->draw( ks, psky, scale );
-//	kDebug() << QString("Cons Bound : %1 ms").arg( t.elapsed() );
 
-	//4. Constellation lines
-//	t.start();
 	m_CLines->draw( ks, psky, scale );
-//	kDebug() << QString("Cons Lines : %1 ms").arg( t.elapsed() );
 
-	//5. Constellation names
-//	t.start();
-	m_CNames->draw( ks, psky, scale );
-//	kDebug() << QString("Cons Names : %1 ms").arg( t.elapsed() );
-
-	//6. Equator
-//	t.start();
 	m_Equator->draw( ks, psky, scale );
-//	kDebug() << QString("Equator     : %1 ms").arg( t.elapsed() );
 
-	//7. Ecliptic
-//	t.start();
 	m_Ecliptic->draw( ks, psky, scale );
-//	kDebug() << QString("Ecliptic    : %1 ms").arg( t.elapsed() );
 
-	//8. Deep sky
-//	t.start();
 	m_DeepSky->draw( ks, psky, scale );
-//	kDebug() << QString("Deep sky    : %1 ms").arg( t.elapsed() );
 
-	//9. Custom catalogs
-//	t.start();
 	m_CustomCatalogs->draw( ks, psky, scale );
-//	kDebug() << QString("Custom cat  : %1 ms").arg( t.elapsed() );
 
-	//10. Stars
-//	t.restart();
 	m_Stars->draw( ks, psky, scale );
-//	kDebug() << QString("Stars       : %1 ms").arg( t.elapsed() );
 
-	//11. Solar system
-//	t.start();
 	m_SolarSystem->draw( ks, psky, scale );	
-//	kDebug() << QString("Solar sys   : %1 ms").arg( t.elapsed() );
 
-	//12. Satellite tracks
-//	t.start();
-//SATELLITE_DISABLE
-//	m_Satellites->draw( ks, psky, scale );
-//	kDebug() << QString("Satellites  : %1 ms").arg( t.elapsed() );
+	//m_Satellites->draw( ks, psky, scale );
 
-	//13. Object name labels
-//	t.start();
 	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
-//	kDebug() << QString("Name labels : %1 ms").arg( t.elapsed() );
 
-	//14. Horizon (and ground)
-//	t.start();
 	m_Horizon->draw( ks, psky, scale );
-//	kDebug() << QString("Horizon     : %1 ms").arg( t.elapsed() );
 
-	// use zoomed-in font if needed and draw all the labels
-	m_skyLabeler->resetFont( psky );
     m_skyLabeler->draw( ks, psky );
-	m_skyLabeler->useStdFont( psky );
+	m_CNames->draw( ks, psky, scale );
+	m_Stars->drawLabels( ks, psky, scale );
 
 	m_skyMesh->inDraw( false );
 

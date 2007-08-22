@@ -19,6 +19,10 @@
 #define SKYLABEL_H
 
 #include <QPointF>
+#include <QList>
+
+class SkyLabel;
+typedef QList<SkyLabel>                LabelList;
 
 class SkyLabel {
 

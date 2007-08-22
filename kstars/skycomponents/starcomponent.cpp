@@ -54,6 +54,10 @@ StarComponent::StarComponent(SkyComponent *parent )
 	m_zoomMagLimit = 0.0;
 	m_reloadSplash = m_reindexSplash = 0;
 	m_validLineNums = false;
+
+	for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ ) {
+		m_labelList[ i ] = new LabelList;
+	}
 }
 
 StarComponent::~StarComponent()
@@ -179,7 +183,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
     UpdateID updateID = data->updateID();
 
 	bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    bool hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
 			! ( Options::showStarMagnitudes() || Options::showStarNames() );
 
     //shortcuts to inform whether to draw different objects
@@ -204,8 +208,8 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
 	float sizeFactor = 6.0 + (lgz - lgmin);
  
-	double labelMagLim = Options::starLabelDensity();
-	labelMagLim += ( 16.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
+	double labelMagLim = Options::starLabelDensity() / 5.0;
+	labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
 	if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
 
 	//Set the brush
@@ -254,16 +258,46 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 			curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0), 
 					       starColorIntensity(), true, scale );
 
-            if ( hideLabels || mag > labelMagLim ) continue;
+            if ( m_hideLabels || mag > labelMagLim ) continue;
 
             float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
 			QString sName = curStar->nameLabel( drawName, drawMag );
-			SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
+			//SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
+			addLabel( QPointF( o.x() + offset, o.y() + offset), sName, mag );
 	    }
     }
 }
 
- 
+void StarComponent::addLabel( const QPointF& p, const QString& text, float mag)
+{
+	int idx = int( mag * 10.0 );
+	if ( idx < 0 ) idx = 0;
+	if ( idx > MAX_LINENUMBER_MAG ) idx = MAX_LINENUMBER_MAG;
+	m_labelList[ idx ]->append( SkyLabel( p, text ) );
+}
+
+void StarComponent::drawLabels(KStars *ks, QPainter& psky, double scale)
+{
+	if ( m_hideLabels ) return;
+
+	SkyLabeler* labeler = SkyLabeler::Instance();
+
+	psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
+
+	int max = int( m_zoomMagLimit * 10.0 );
+	if ( max < 0 ) max = 0;
+	if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
+
+	for ( int i = 0; i <= max; i++ ) {
+		LabelList* list = m_labelList[ i ];
+		for ( int j = 0; j < list->size(); j++ ) {
+			labeler->drawLabel( psky, list->at( j ) );
+		}
+		list->clear();
+	}
+
+}
+
 void StarComponent::readLineNumbers()
 {
 	KSFileReader fileReader;

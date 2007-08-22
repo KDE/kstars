@@ -36,8 +36,6 @@ struct LabelRun;
 typedef QList<LabelRun*>	LabelRow;
 typedef QVector<LabelRow*>  ScreenRows;
 
-typedef QList<SkyLabel>	 LabelList;
-
 enum label_t {
 			STAR_LABEL,
 		ASTEROID_LABEL,
@@ -218,7 +216,7 @@ class SkyLabeler
 		/* @short a convenience routine that draws the label specified
 		 * in the SkyLabel.
 		 */
-		void drawLabel( QPainter& psky, SkyLabel& skyLabel ) {
+		void drawLabel( QPainter& psky, const SkyLabel& skyLabel ) {
 			 drawLabel( psky, skyLabel.o , skyLabel.text );
 		}
 
