@@ -107,8 +107,8 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 	double lgmin = log10(MINZOOM);
 	double lgmax = log10(MAXZOOM);
 	double lgz = log10(Options::zoomFactor());
-	double labelMagLimit  =  Options::asteroidLabelDensity();
-	labelMagLimit += ( 20.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
+	double labelMagLimit  = 2.5 + Options::asteroidLabelDensity() / 5.0;
+	labelMagLimit += ( 15.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
 	if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
 	//printf("labelMagLim = %.1f\n", labelMagLimit );
 
