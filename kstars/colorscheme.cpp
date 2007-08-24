@@ -294,19 +294,21 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
+	KConfigGroup cg (conf, "");
 	for ( int i=0; i < KeyName.size(); ++i )
-		setColor( KeyName.at(i), conf->group("").readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
+		setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
-	setStarColorMode( conf->group("").readEntry( "StarColorMode", 0 ) );
-	setStarColorIntensity( conf->group("").readEntry( "StarColorIntensity", 5 ) );
+	setStarColorMode( cg.readEntry( "StarColorMode", 0 ) );
+	setStarColorIntensity( cg.readEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
+	KConfigGroup cg (conf, "");
 	for ( int i=0; i < KeyName.size(); ++i ) {
 		QString c = colorNamed( KeyName.at(i) ).name();
-		conf->group("").writeEntry( KeyName.at(i), c );
+		cg.writeEntry( KeyName.at(i), c );
 	}
 
-	conf->group("").writeEntry( "StarColorMode", starColorMode() );
-	conf->group("").writeEntry( "StarColorIntensity", starColorIntensity() );
+	cg.writeEntry( "StarColorMode", starColorMode() );
+	cg.writeEntry( "StarColorIntensity", starColorIntensity() );
 }
