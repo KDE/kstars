@@ -24,6 +24,7 @@
 
 class QTime;
 class GeoLocation;
+class KStars;
 
 /**
   * Class which implements the KStars calculator module to compute Universal
@@ -49,11 +50,12 @@ private slots:
 	void slotConvertLT( const QTime &st );
 	void slotShown();
 
-	void slotUtChecked();
 	void slotDateChecked();
-	void slotStChecked();
-	void slotLongChecked();
+	void slotLocationChecked();
+	void slotLocationBatch();
+	void slotCheckFiles();
 	void slotRunBatch();
+	void slotViewBatch();
 	void processLines( QTextStream &istream );
 
 private:
@@ -65,11 +67,9 @@ private:
 	QTime computeLTtoST(QTime lt);
 	QTime computeSTtoLT(QTime st);
 
-	void sidNoCheck();
-	void utNoCheck();
-
-	bool bSyncTime, stInputTime;
-	GeoLocation *geo;
+	bool bSyncTime;
+	GeoLocation *geo, *geoBatch;
+	KStars *ks;
 };
 
 #endif

@@ -31,6 +31,8 @@
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 	setupUi(this);
 
+	ks = (KStars*) topLevelWidget()->parent();
+
 	//Preset date and location
 	showCurrentTimeAndLocation();
 
@@ -41,11 +43,16 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 	connect(ST, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertLT(const QTime&)));
 	connect(this, SIGNAL(frameShown()), this, SLOT(slotShown()));
 
-	connect(LongCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
+	connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotLocationChecked()));
 	connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
-	connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
-	connect(STCheckBatch, SIGNAL(clicked()), this, SLOT(slotStChecked()));
+	connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+	connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+	connect(LocationButtonBatch, SIGNAL(clicked()), this, SLOT(slotLocationBatch()));
 	connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+	connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
+
+	RunButtonBatch->setEnabled( false );
+	ViewButtonBatch->setEnabled( false );
 
 	bSyncTime = false;
 	show();
@@ -57,19 +64,18 @@ modCalcSidTime::~modCalcSidTime(void) {
 
 void modCalcSidTime::showCurrentTimeAndLocation()
 {
-	KStars *ks = (KStars*) topLevelWidget()->parent();
-
 	LT->setTime( ks->data()->lt().time() );
 	Date->setDate( ks->data()->lt().date() );
 
 	geo = ks->geo();
 	LocationButton->setText( geo->fullName() );
+	geoBatch = ks->geo();
+	LocationButtonBatch->setText( geoBatch->fullName() );
 
 	slotConvertST( LT->time() );
 }
 
 void modCalcSidTime::slotChangeLocation() {
-	KStars *ks = (KStars*) topLevelWidget()->parent();
 	LocationDialog ld(ks);
 
 	if ( ld.exec() == QDialog::Accepted ) {
@@ -110,7 +116,6 @@ void modCalcSidTime::slotConvertLT(const QTime &st){
 	}
 }
 
-
 QTime modCalcSidTime::computeLTtoST( QTime lt )
 {
 	KStarsDateTime utdt = geo->LTtoUT( KStarsDateTime( Date->date(), lt ) );
@@ -128,58 +133,46 @@ QTime modCalcSidTime::computeSTtoLT( QTime st )
 }
 
 //** Batch mode **//
-void modCalcSidTime::slotUtChecked(){
-
-	if ( UTCheckBatch->isChecked() )
-		InputTimeBoxBatch->setEnabled( false );
-	else
-		InputTimeBoxBatch->setEnabled( true );
-}
-
 void modCalcSidTime::slotDateChecked(){
-
-	if ( DateCheckBatch->isChecked() )
-		DateBoxBatch->setEnabled( false );
-	else
-		DateBoxBatch->setEnabled( true );
+	DateBatch->setEnabled( ! DateCheckBatch->isChecked() );
 }
 
-void modCalcSidTime::slotStChecked(){
+void modCalcSidTime::slotLocationChecked(){
+	LocationButtonBatch->setEnabled( ! LocationCheckBatch->isChecked() );
 
-	if ( STCheckBatch->isChecked() )
-		OutputTimeBoxBatch->setEnabled( false );
-	else
-		OutputTimeBoxBatch->setEnabled( true );
+	if ( LocationCheckBatch->isChecked() ) {
+		QString message = i18n("Location strings consist of the "
+			"comma-separated names of the city, province and country.  "
+			"If the string contains spaces, enclose it in quotes so it "
+			"gets parsed properly.");
+
+		KMessageBox::information( 0, message, i18n("Hint for writing location strings"),
+				"DontShowLocationStringMessageBox" );
+	}
 }
 
-void modCalcSidTime::slotLongChecked(){
+void modCalcSidTime::slotLocationBatch() {
+	LocationDialog ld(ks);
 
-	if ( LongCheckBatch->isChecked() )
-		LongitudeBoxBatch->setEnabled( false );
-	else
-		LongitudeBoxBatch->setEnabled( true );
+	if ( ld.exec() == QDialog::Accepted ) {
+		GeoLocation *newGeo = ld.selectedCity();
+		if ( newGeo ) {
+			geoBatch = newGeo;
+			LocationButtonBatch->setText( geoBatch->fullName() );
+		}
+	}
 }
 
-void modCalcSidTime::sidNoCheck() {
-
-	OutputTimeBoxBatch->setEnabled(false);
-	stInputTime = false;
-
-}
-
-void modCalcSidTime::utNoCheck() {
-
-	InputTimeBoxBatch->setEnabled(false);
-	stInputTime = true;
+void modCalcSidTime::slotCheckFiles() {
+	if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() ) {
+		RunButtonBatch->setEnabled( true );
+	} else {
+		RunButtonBatch->setEnabled( false );
+	}
 }
 
 void modCalcSidTime::slotRunBatch() {
-
-	QString inputFileName;
-
-	inputFileName = InputFileBoxBatch->url().path();
-
-	// We open the input file and read its content
+	QString inputFileName = InputFileBatch->url().path();
 
 	if ( QFile::exists(inputFileName) ) {
 		QFile f( inputFileName );
@@ -190,135 +183,134 @@ void modCalcSidTime::slotRunBatch() {
 			return;
 		}
 
-//		processLines(&f);
 		QTextStream istream(&f);
 		processLines(istream);
-//		readFile( istream );
+
+		ViewButtonBatch->setEnabled( true );
+
 		f.close();
 	} else  {
 		QString message = i18n( "Invalid file: %1", inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = QString();
-		InputFileBoxBatch->setUrl( inputFileName );
 		return;
 	}
 }
 
 void modCalcSidTime::processLines( QTextStream &istream ) {
-
-	// we open the output file
-
-//	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url().path();
-	QFile fOut( outputFileName );
+	QFile fOut( OutputFileBatch->url().path() );
 	fOut.open(QIODevice::WriteOnly);
 	QTextStream ostream(&fOut);
 
 	QString line;
-	QString space = " ";
-	int i = 0;
-	long double jd0, jdf;
-	dms longB, LST;
-	double epoch0B(0.0);
-	QTime utB, stB;
-	ExtDate dtB;
+	dms LST;
+	QTime inTime, outTime;
+	ExtDate dt;
+
+	if ( ! DateCheckBatch->isChecked() )
+		dt = DateBatch->date();
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
 		line.trimmed();
 
-		//Go through the line, looking for parameters
+		QStringList fields = line.split( " ", QString::SkipEmptyParts );
 
-		QStringList fields = line.split( " " );
+		//Find and parse the location string
+		if (LocationCheckBatch->isChecked() ) {
+			//First, look for a pair of quotation marks, and parse the string between them
+			QChar q = '\"';
+			if ( line.indexOf(q) == -1 ) q = '\'';
+			if ( line.count(q)==2  ) {
+				int iStart = line.indexOf(q);
+				int iEnd = line.indexOf(q, iStart+1);
+				QString locationString = line.mid(iStart, iEnd-iStart+1);
+				line.replace( locationString, "" );
+				fields = line.split( " ", QString::SkipEmptyParts );
+				locationString.replace( q, "" );
 
-		i = 0;
+				QStringList locationFields = locationString.split( ",", QString::SkipEmptyParts );
+				for (int i=0; i<locationFields.size(); i++)
+					locationFields[i] = locationFields[i].trimmed();
 
-		// Read Longitude and write in ostream if corresponds
+				if ( locationFields.size() == 1 ) locationFields.insert( 1, "" );
+				if ( locationFields.size() == 2 ) locationFields.insert( 1, "" );
+				if ( locationFields.size() != 3 ) {
+					kDebug() << i18n("Error: could not parse location string: ") << locationString << endl;
+					continue;
+				}
 
-		if (LongCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],true);
-			i++;
-		} else
-			longB = LongitudeBoxBatch->createDms(true);
-
-		if ( AllRadioBatch->isChecked() )
-			ostream << longB.toDMSString() << space;
-		else
-			if (LongCheckBatch->isChecked() )
-				ostream << longB.toDMSString() << space;
-
-		// Read date and write in ostream if corresponds
-
-		if(DateCheckBatch->isChecked() ) {
-			 dtB = ExtDate::fromString( fields[i] );
-			 i++;
-		} else
-			dtB = DateBoxBatch->date();
-		if ( AllRadioBatch->isChecked() )
-			ostream << dtB.toString().append(space);
-		else
-			if(DateCheckBatch->isChecked() )
-			 	ostream << dtB.toString().append(space);
-
-
-		// We make the first calculations
-		KStarsDateTime dt;
-		dt.setFromEpoch( epoch0B );
-		jdf = KStarsDateTime(dtB,utB).djd();
-		jd0 = dt.djd();
-
-		LST = dms( longB.Degrees() + KStarsDateTime(dtB,utB).gst().Degrees() );
-
-		// Universal Time is the input time.
-		if (!stInputTime) {
-
-		// Read Ut and write in ostream if corresponds
-
-			if(UTCheckBatch->isChecked() ) {
-				utB = QTime::fromString( fields[i] );
-				i++;
-			} else
-				utB = InputTimeBoxBatch->time();
-
-			if ( AllRadioBatch->isChecked() )
-				ostream << utB.toString() << space;
-			else
-				if(UTCheckBatch->isChecked() )
-					ostream << utB.toString() << space;
-
-
-//FIXME: UT became LT
-//			stB = computeUTtoST( utB, dtB, longB );
-//			ostream << stB.toString()  << endl;
-
-		// Input coords are horizontal coordinates
-
-		} else {
-
-			if(STCheckBatch->isChecked() ) {
-				stB = QTime::fromString( fields[i] );
-				i++;
-			} else
-				stB = OutputTimeBoxBatch->time();
-
-			if ( AllRadioBatch->isChecked() )
-				ostream << stB.toString() << space;
-			else
-				if(STCheckBatch->isChecked() )
-					ostream << stB.toString() << space;
-
-
-//FIXME: UT became LT
-//			utB = computeSTtoUT( stB, dtB, longB );
-//			ostream << utB.toString()  << endl;
-
+				geoBatch = ks->data()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
+				if ( ! geoBatch ) {
+					kDebug() << i18n("Error: location not found in database: ") << locationString << endl;
+					continue;
+				}
+			}
 		}
 
+		if ( DateCheckBatch->isChecked() ) {
+			//Parse one of the fields as the date
+			foreach ( QString s, fields ) {
+				dt = ExtDate::fromString( s );
+				if ( dt.isValid() ) break;
+			}
+			if ( ! dt.isValid() ) {
+				kDebug() << i18n("Error: did not find a valid date string in: ") << line << endl;
+				continue;
+			}
+		}
+
+		//Parse one of the fields as the time
+		foreach ( QString s, fields ) {
+			if ( s.contains(':') ) {
+				if ( s.length() == 4 ) s = "0"+s;
+				inTime = QTime::fromString( s );
+				if ( inTime.isValid() ) break;
+			}
+		}
+		if ( ! inTime.isValid() ) {
+			kDebug() << i18n("Error: did not find a valid time string in: ") << line << endl;
+			continue;
+		}
+
+		if ( ComputeComboBatch->currentIndex() == 0 ) {
+			//inTime is the local time, compute LST
+			KStarsDateTime ksdt( dt, inTime );
+			ksdt = geoBatch->LTtoUT( ksdt );
+			dms lst = geoBatch->GSTtoLST( ksdt.gst() );
+			outTime = QTime( lst.hour(), lst.minute(), lst.second() );
+		} else {
+			//inTime is the sidereal time, compute the local time
+			KStarsDateTime ksdt( dt, QTime(0,0,0) );
+			dms lst;
+			lst.setH( inTime.hour(), inTime.minute(), inTime.second() );
+			QTime ut = ksdt.GSTtoUT( geoBatch->LSTtoGST( lst ) );
+			ksdt.setTime( ut );
+			ksdt = geoBatch->UTtoLT( ksdt );
+			outTime = ksdt.time();
+		}
+
+		//Write to output file
+		ostream << dt.toString() << "  \"" 
+						<< geoBatch->fullName() << "\"  " 
+						<< inTime.toString() << "  " << outTime.toString() << endl;
 	}
 
+	fOut.close();
+}
+
+void modCalcSidTime::slotViewBatch() {
+	QFile fOut( OutputFileBatch->url().path() );
+	fOut.open(QIODevice::ReadOnly);
+	QTextStream istream(&fOut);
+	QStringList text;
+
+	while ( ! istream.atEnd() )
+		text.append( istream.readLine() );
 
 	fOut.close();
+
+	KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().path() );
 }
 
 #include "modcalcsidtime.moc"

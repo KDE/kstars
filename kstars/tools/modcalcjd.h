@@ -39,13 +39,16 @@ public:
 	~modCalcJD();
 	
 public slots:
-       	void slotUpdateCalendar();
+	void slotUpdateCalendar();
 	void slotUpdateModJD();
 	void slotUpdateJD();
 	void showCurrentTime(void);
+	void slotRunBatch();
+	void slotViewBatch();
+	void slotCheckFiles();
 
 private:
-
+	void processLines( QTextStream &istream, int inputData );
 	/** Shows Julian Day in the Box */
 	void showJd(long double jd);
 	/** Shows the modified Julian Day in the Box */

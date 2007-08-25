@@ -406,6 +406,18 @@ void KStarsData::setTimeDirection( float scale ) {
 	TimeRunsForward = ( scale < 0 ? false : true );
 }
 
+GeoLocation* KStarsData::locationNamed( const QString &city, const QString &province, const QString &country ) {
+	foreach ( GeoLocation *loc, geoList ) {
+		if ( loc->translatedName() == city &&
+				( province.isEmpty() || loc->translatedProvince() == province ) &&
+				( country.isEmpty() || loc->translatedCountry() == country ) ) {
+			return loc;
+		}
+	}
+
+	return 0;
+}
+
 void KStarsData::setLocationFromOptions() {
 	setLocation( GeoLocation ( Options::longitude(), Options::latitude(),
 			Options::cityName(), Options::provinceName(), Options::countryName(),

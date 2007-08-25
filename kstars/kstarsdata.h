@@ -279,7 +279,9 @@ public:
 	
 	/**@return pointer to the GeoLocation object*/
 	GeoLocation *geo() { return &Geo; }
-	
+
+	GeoLocation *locationNamed( const QString &city, const QString &province=0, const QString &country=0 );
+
 	QString typeName( int );
  
 	/**@return reference to the CustomCatalogs list

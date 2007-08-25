@@ -5,42 +5,57 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>431</height>
+    <width>505</width>
+    <height>361</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Sidereal Time</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>9</number>
+       </property>
+       <property name="topMargin" >
+        <number>9</number>
+       </property>
+       <property name="rightMargin" >
+        <number>9</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>9</number>
+       </property>
        <item>
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="2" column="0" colspan="3" >
@@ -105,11 +120,20 @@
          </item>
          <item row="0" column="1" colspan="2" >
           <layout class="QHBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
            </property>
            <item>
             <widget class="ExtDateEdit" name="Date" />
@@ -158,205 +182,128 @@
        <string>Batch Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_4" >
-         <property name="title" >
-          <string>Select Parameters in Input File</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QComboBox" name="ComputeComboBatch" >
+           <item>
+            <property name="text" >
+             <string>Compute sidereal time</string>
             </property>
-            <property name="spacing" >
-             <number>6</number>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Compute standard time</string>
             </property>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="UTCheckBatch" >
-              <property name="toolTip" >
-               <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
-              </property>
-              <property name="text" >
-               <string>UT:</string>
-              </property>
-              <property name="checked" >
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="QTimeEdit" name="OutputTimeBoxBatch" />
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="STCheckBatch" >
-              <property name="enabled" >
-               <bool>true</bool>
-              </property>
-              <property name="toolTip" >
-               <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
-              </property>
-              <property name="text" >
-               <string>LST:</string>
-              </property>
-              <property name="checked" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" >
-             <widget class="QTimeEdit" name="InputTimeBoxBatch" />
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>6</number>
-            </property>
-            <item row="0" column="1" >
-             <widget class="ExtDateEdit" name="DateBoxBatch" />
-            </item>
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="DateCheckBatch" >
-              <property name="enabled" >
-               <bool>true</bool>
-              </property>
-              <property name="toolTip" >
-               <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
-              </property>
-              <property name="text" >
-               <string>Date:</string>
-              </property>
-              <property name="checked" >
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="LongitudeBoxBatch" />
-            </item>
-            <item row="1" column="0" >
-             <widget class="QCheckBox" name="LongCheckBatch" >
-              <property name="toolTip" >
-               <string>If checked, value will be read from input file. If not, value will be read from adjacent box</string>
-              </property>
-              <property name="text" >
-               <string>Longitude:</string>
-              </property>
-              <property name="checked" >
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_5" >
+        <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
-          <string>Select Parameters for Output File</string>
-         </property>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="AllRadioBatch" >
-            <property name="text" >
-             <string>All parameters</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="InputRadioBatch" >
-            <property name="text" >
-             <string>Only parameters in input file</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_6" >
-         <property name="title" >
-          <string>Select Filenames</string>
+          <string>Input parameters</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="KUrlRequester" name="OutputFileBoxBatch" />
-          </item>
-          <item row="0" column="1" >
-           <widget class="KUrlRequester" name="InputFileBoxBatch" />
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_4" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="DateLabelBatch" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text" >
-             <string>Output file:</string>
+             <string>Date:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
+          <item row="0" column="1" >
+           <widget class="ExtDateEdit" name="DateBatch" />
+          </item>
+          <item row="0" column="2" >
+           <widget class="QCheckBox" name="DateCheckBatch" >
             <property name="text" >
-             <string>Input file:</string>
+             <string>Read from input file</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="LocationLabelBatch" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Location:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="KPushButton" name="LocationButtonBatch" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text" >
+             <string>Greenwich, United Kingdom</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QCheckBox" name="LocationCheckBatch" >
+            <property name="text" >
+             <string>Read from input file</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" >
+         <item row="0" column="0" >
+          <widget class="QLabel" name="label_3" >
+           <property name="text" >
+            <string>Input file:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="KUrlRequester" name="InputFileBatch" />
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="label_4" >
+           <property name="text" >
+            <string>Output file:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="KUrlRequester" name="OutputFileBatch" />
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
          <item>
           <spacer>
            <property name="orientation" >
@@ -371,11 +318,22 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="RunButtonBatch" >
-           <property name="text" >
-            <string>Run</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" >
+           <item>
+            <widget class="KPushButton" name="RunButtonBatch" >
+             <property name="text" >
+              <string>Compute</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KPushButton" name="ViewButtonBatch" >
+             <property name="text" >
+              <string>View output</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <spacer>
@@ -399,8 +357,8 @@
          </property>
          <property name="sizeHint" >
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>31</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -413,29 +371,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
    <class>ExtDateEdit</class>
    <extends>QSpinBox</extends>
    <header>extdatetimeedit.h</header>
   </customwidget>
   <customwidget>
-   <class>dmsBox</class>
-   <extends>KLineEdit</extends>
-   <header>widgets/dmsbox.h</header>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
