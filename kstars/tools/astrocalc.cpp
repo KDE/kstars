@@ -28,7 +28,6 @@
 #include "modcalcgeodcoord.h"
 #include "modcalcgalcoord.h"
 #include "modcalcsidtime.h"
-#include "modcalcprec.h"
 #include "modcalcapcoord.h"
 #include "modcalcdaylength.h"
 #include "modcalcaltaz.h"
@@ -40,7 +39,7 @@
 
 AstroCalc::AstroCalc( QWidget* parent ) :
 	KDialog( parent ), JDFrame(0), GeodCoordFrame(0),
-        GalFrame(0), SidFrame(0), PrecFrame(0), AppFrame(0),
+        GalFrame(0), SidFrame(0), AppFrame(0),
         DayFrame(0), AltAzFrame(0), PlanetsFrame(0), EquinoxFrame(0),
 	EclFrame(0), AngDistFrame(0)
 {
@@ -74,51 +73,42 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	QTreeWidgetItem * coordItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Coordinate Converters")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("Equatorial/Galactic")) );
-	new QTreeWidgetItem(coordItem,QStringList(i18n("Precession")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("Apparent Coordinates")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("Horizontal Coordinates")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("Ecliptic Coordinates")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("Angular Distance")) );
+	new QTreeWidgetItem(coordItem,QStringList(i18n("Geodetic Coordinates")) );
 	new QTreeWidgetItem(coordItem,QStringList(i18n("LSR Velocity")) );
-
-	QTreeWidgetItem * geoItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Earth Coordinates")) );
-	geoItem->setIcon(0,geodIcon);
-	new QTreeWidgetItem(geoItem,QStringList(i18n("Geodetic Coordinates")) );
 
 	QTreeWidgetItem * solarItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Solar System")) );
 	solarItem->setIcon(0,solarIcon);
 	new QTreeWidgetItem(solarItem,QStringList(i18n("Planets Coordinates")) );
 
-	//Try to set the minimum width based on the width of the QTreeWidgetItems
-	//FIXME: This isn't working; apparently the widget items don't have geometry yet...
-	/*
-	//Set minimum width of Nav panel to the widest contained item
-	int maxWidth = 0;
-	for ( int iTop = 0; iTop < navigationPanel->topLevelItemCount(); iTop++ ) {
-		QTreeWidgetItem *topItem = navigationPanel->topLevelItem( iTop );
-		//DEBUG
-		kDebug() << "top:   " << iTop;
-		for ( int iChild = 0; iChild < topItem->childCount(); iChild++ ) {
-			QTreeWidgetItem *childItem = topItem->child( iChild );
-			//DEBUG
-			kDebug() << "child: " << iChild;
-			int w = navigationPanel->visualItemRect( childItem ).width();
-			//DEBUG
-			kDebug() << "Width: " << w;
-			if ( w > maxWidth ) maxWidth = w;
-		}
-	}
-	navigationPanel->setMinimumWidth( maxWidth );
-	navigationPanel->adjustSize();
-	*/
-
-	//FIXME: remove these two lines when the above code is made to work
+	//FIXME: Would be better to make the navigationPanel fit its contents, 
+	//but I wasn't able to make it work
 	navigationPanel->setMinimumWidth( 200 );
 
 	//Populate widget stack
 	acStack = new QStackedWidget( split );
 
-	splashScreen = new QTextEdit( i18n("<H2>KStars Astrocalculator</H2>"), acStack );
+	QString message = i18n("<QT>"
+			"<H2>KStars Astrocalculator</H2>"
+			"<P>"
+			"The KStars Astrocalculator contains several <B>modules</b> "
+			"which perform a variety of astronomy-related calculations.  "
+			"The modules are organized into several categories: "
+			"<UL>"
+			"<LI><B>Time calculators: </B>"
+			"Convert between time systems, and predict the timing of celestial events</LI>"
+			"<LI><B>Coordinate converters: </B>"
+			"Convert between various coordinate systems</LI>"
+			"<LI><B>Solar system: </B>"
+			"Predict the position of any planet, from a given location on Earth at a given time</LI>"
+			"</UL>"
+			"</QT>"
+	);
+
+	splashScreen = new QTextEdit( message, acStack );
 	acStack->addWidget( splashScreen );
 
 	JDFrame = new modCalcJD( acStack );
@@ -130,8 +120,6 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
 	SidFrame = new modCalcSidTime( acStack );
 	acStack->addWidget( SidFrame );
-	PrecFrame = new modCalcPrec( acStack );
-	acStack->addWidget( PrecFrame );
 	AppFrame = new modCalcApCoord( acStack );
 	acStack->addWidget( AppFrame );
 	DayFrame = new modCalcDayLength( acStack );
@@ -173,8 +161,6 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 		genTimeText();
 	if(!(s.compare(i18n("Coordinate Converters"))))
 		genCoordText();
-	if(!(s.compare(i18n("Earth Coordinates"))))
-		genGeodText();
 	if(!(s.compare(i18n("Solar System"))))
 		genSolarText();
 
@@ -188,8 +174,6 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 		acStack->setCurrentWidget( JDFrame );
 	if(!(s.compare(i18n("Equatorial/Galactic"))))
 		acStack->setCurrentWidget( GalFrame );
-	if(!(s.compare(i18n("Precession"))))
-		acStack->setCurrentWidget( PrecFrame );
 	if(!(s.compare(i18n("Apparent Coordinates"))))
 		acStack->setCurrentWidget( AppFrame );
 	if(!(s.compare(i18n("Horizontal Coordinates"))))
@@ -235,8 +219,6 @@ void AstroCalc::genCoordText(void)
 			"Section with algorithms for the conversion of "
 			"different astronomical systems of coordinates"
 			"<UL><LI>"
-			"<B>Precessor:</B> Precession of coordinates between epochs"
-			"</LI><LI>"
 			"<B>Galactic:</B> Galactic/Equatorial coordinates conversion"
 			"</LI><LI>"
 			"<B>Apparent:</B> Computation of current equatorial coordinates"
@@ -250,20 +232,10 @@ void AstroCalc::genCoordText(void)
 			"<B>Angular Distance:</B> Computation of angular distance between "
 			"two objects whose positions are given in equatorial coordinates"
 			"</LI><LI>"
-			"<B>LRS Velocity:</B> Computation of the heliocentric, geocentric "
-			"and topocentric radial velocity of a source from its LSR velocity"
-			"</LI></UL>"
-			"</QT>"));
-	acStack->setCurrentWidget( splashScreen );
-}
-
-void AstroCalc::genGeodText(void)
-{
-	splashScreen->setHtml(i18n("<QT>"
-			"Section with algorithms for the conversion of "
-			"systems of coordinates for the Earth"
-			"<UL><LI>"
 			"<B>Geodetic Coords:</B> Geodetic/XYZ coordinate conversion"
+			"</LI><LI>"
+			"<B>LSR Velocity:</B> Computation of the heliocentric, geocentric "
+			"and topocentric radial velocity of a source from its LSR velocity"
 			"</LI></UL>"
 			"</QT>"));
 	acStack->setCurrentWidget( splashScreen );

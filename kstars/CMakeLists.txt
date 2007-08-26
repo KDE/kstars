@@ -51,7 +51,6 @@ set(libkstarstools_SRCS
 	tools/modcalcgeodcoord.cpp
 	tools/modcalcjd.cpp
 	tools/modcalcplanets.cpp
-	tools/modcalcprec.cpp
 	tools/modcalcsidtime.cpp
 	tools/modcalcvlsr.cpp
 	tools/observinglist.cpp
@@ -110,7 +109,6 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/modcalcgeod.ui
 	tools/modcalcjd.ui
 	tools/modcalcplanets.ui
-	tools/modcalcprec.ui
 	tools/modcalcsidtime.ui
 	tools/modcalcvlsr.ui
 	tools/observinglist.ui

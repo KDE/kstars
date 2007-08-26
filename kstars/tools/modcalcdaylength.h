@@ -21,6 +21,7 @@
 #include "ui_modcalcdaylength.h"
 
 class GeoLocation;
+class KStars;
 
 /** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
@@ -36,15 +37,27 @@ public:
 
 public slots:
 	void slotLocation();
+	void slotLocationBatch();
 	void slotComputeAlmanac();
+	void slotRunBatch();
+	void slotViewBatch();
+	void slotCheckFiles();
 
 private:
+	void updateAlmanac( const ExtDate &d, GeoLocation *geo );
 	QTime lengthOfDay(QTime setQTime, QTime riseQTime);
  
  	void showCurrentDate(void);
 	void initGeo(void);
-	
-	GeoLocation *geoPlace;
+	void processLines( QTextStream &istream );
+
+	KStars *ks;
+	GeoLocation *geoPlace, *geoBatch;
+	QString srTimeString, stTimeString, ssTimeString;
+	QString mrTimeString, mtTimeString, msTimeString;
+	QString srAzString, stAltString, ssAzString;
+	QString mrAzString, mtAltString, msAzString;
+	QString daylengthString, lunarphaseString;
 };
 
 #endif
