@@ -115,7 +115,7 @@ void AstroCalc::slotItemSelection(QListViewItem *item)
 		genCoordText();
 	if(!(election.compare(i18n("Julian Day"))))
 		genJdFrame();
-	if(!(election.compare(i18n("Galactic Cooordinates"))))
+	if(!(election.compare(i18n("Galactic Coordinates"))))
 		genGalFrame();
 	if(!(election.compare(i18n("Precession"))))
 		genPrecFrame();
