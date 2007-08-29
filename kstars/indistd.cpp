@@ -211,9 +211,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
  void INDIStdDevice::setTextValue(INDI_P *pp)
  {
    INDI_E *el;
-   int wd, ht, bpp, bo, mu;
-   long mgd;
-   double fwhm;
+   int wd, ht;
    int d, m, y, min, sec, hour;
    ExtDate indiDate;
    QTime indiTime;
@@ -251,7 +249,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
        handleDevCounter();
       break;
       
-    case CCD_EXPOSE_DURATION:
+    case CCD_EXPOSURE:
        if (pp->state == PS_IDLE || pp->state == PS_OK)
          pp->set_w->setText(i18n("Start"));
        break;
@@ -328,7 +326,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
         initDeviceOptions();
 	emit linkAccepted();
 
-        imgProp = dp->findProp("CCD_EXPOSE_DURATION");
+        imgProp = dp->findProp("CCD_EXPOSURE");
 	if (imgProp)
 	{
         	tmpAction = ksw->actionCollection()->action("capture_sequence");
@@ -462,7 +460,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
   INDI_E *lp;
 
   /* Update UTC */
-  pp = dp->findProp("OFFSET_UTC");
+  pp = dp->findProp("TIME_UTC_OFFSET");
   if (!pp) return;
   
   lp = pp->findElement("OFFSET");
@@ -791,7 +789,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    switch (pp->stdID)
    {
      /* Set expose duration button to 'cancel' when busy */
-     case CCD_EXPOSE_DURATION:
+     case CCD_EXPOSURE:
        pp->set_w->setText(i18n("Cancel"));
        break;
      

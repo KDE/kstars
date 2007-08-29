@@ -315,24 +315,18 @@ bool KSPopupMenu::addINDI(void)
 					//due to an issue with the LX200 telescopes (the telescope does
 					//not update RA/DEC while moving N/W/E/S) so it's better off the
 					//skymap. It's avaiable in the INDI control panel nonetheless.
-					//CCD_EXPOSE_DURATION is an INumber property, but it's so common
+					//CCD_EXPOSURE is an INumber property, but it's so common
 					//that it's better to include in the context menu
 
 					if (prop->stdID == -1 || prop->stdID == TELESCOPE_MOTION_NS || prop->stdID == TELESCOPE_MOTION_WE) continue;
 					// Only switches are shown
 					if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO
-							&& prop->stdID !=CCD_EXPOSE_DURATION) continue;
+							&& prop->stdID !=CCD_EXPOSURE) continue;
 
 					menuDevice->addSeparator();
 
-					//prop->assosiatedPopup = menuDevice;
-
-					if (prop->stdID == CCD_EXPOSE_DURATION)
+					if (prop->stdID == CCD_EXPOSURE)
 					{
-						//menuDevice->insertItem (prop->label, id);
-						//menuDevice->setItemChecked(id, false);
-						//kDebug() << "Expose ID: " << id;
-						//id++;
 						QAction *a = menuDevice->addAction( prop->label );
 					        a->setCheckable( true );
 					        a->setChecked( false );
@@ -358,7 +352,7 @@ bool KSPopupMenu::addINDI(void)
 					}
 
 					//QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
-					connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(convertSwitch(QAction*) ) );
+					connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(actionTriggered(QAction*) ) );
 
 				} // end property
 			} // end group
@@ -367,16 +361,13 @@ bool KSPopupMenu::addINDI(void)
 			if ( dev->findElem("RA") || dev->findElem("ALT"))
 			{
 				menuDevice->addSeparator();
-				//menuDevice->insertItem(i18n("Center && Track Crosshair"), id++);
-				QAction *a = menuDevice->addAction(i18n("Center && Track Crosshair"));
+				QAction *a = menuDevice->addAction(i18n("Track Crosshair"));
 				if (dev->findElem("RA"))
 					prop = dev->findElem("RA")->pp;
 				else
 					prop = dev->findElem("ALT")->pp;
 
-				//prop->assosiatedPopup = menuDevice;
-				//QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));
-				connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(convertSwitch(QAction*) ) );
+				connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(actionTriggered(QAction*) ) );
 			}
 		} // end device
 	} // end device manager

@@ -89,7 +89,7 @@ static INumber FilterCountN[]	  = { {"Count", "", "%2.0f",  0 , MAX_FILTER_COUNT
 static INumberVectorProperty FilterCountNP = { mydev, "Filter Count", "", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterCountN, NARRAY(FilterCountN), "", 0};
 
 /* Filter Position */
-static INumber FilterPositionN[]	  = { {"SLOT", "Active Filter", "%2.0f",  1 , DEFAULT_FILTER_COUNT, 1, 1, 0, 0, 0}};
+static INumber FilterPositionN[]	  = { {"FILTER_SLOT_VALUE", "Active Filter", "%2.0f",  1 , DEFAULT_FILTER_COUNT, 1, 1, 0, 0, 0}};
 static INumberVectorProperty FilterPositionNP = { mydev, "FILTER_SLOT", "Filter", MAIN_GROUP, IP_RW, 0, IPS_IDLE, FilterPositionN, NARRAY(FilterPositionN), "", 0};
 
 /* send client definitions of all properties */

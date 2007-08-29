@@ -100,7 +100,7 @@ class INDI_P : public QObject
     void newSwitch(int id);
     void newAbstractButton(QAbstractButton *button);
     void newBlob();
-    void convertSwitch(QAction* action);
+    void actionTriggered(QAction* action);
     
     signals:
     void okState();

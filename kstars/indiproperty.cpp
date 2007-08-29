@@ -212,23 +212,25 @@ void INDI_P::newText()
 
 }
 
-void INDI_P::convertSwitch(QAction *action)
+void INDI_P::actionTriggered(QAction *action)
 {
 
  INDI_E *lp;
  int switchIndex=0;
 
+ // & are automagically added to action names by KDE for easy shortcut access,
+ // but we need to remove them to be able to parse them properly. Is this a KDE Bug??
+ QString menuAction(action->text().remove("&"));
 
-  //kDebug() << "Name: " << name << " ID: " << id;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
- if (stdID == CCD_EXPOSE_DURATION && action->text() == label)
+ if (stdID == CCD_EXPOSURE && action->text() == label)
  {
    newText();
    return;
  }
 
  /* Another special case, center telescope */
- if (action->text() == i18n("Center && Track Crosshair"))
+ if (menuAction == i18n("Track Crosshair"))
  {
         if (!indistd->stdDev->dp->isOn()) return;
 	if (indistd->stdDev->telescopeSkyObject == NULL) return;
@@ -238,14 +240,15 @@ void INDI_P::convertSwitch(QAction *action)
 	return;
  }
 
- lp = findElement(action->text());
+ lp = findElement(menuAction);
 
  if (!lp)
    return;
 
+  
  for (int i=0; i < el.size(); i++)
  {
-   if (el[i]->label == action->text())
+   if (el[i]->label == menuAction)
    {
      switchIndex = i;
      break;
@@ -258,6 +261,7 @@ void INDI_P::convertSwitch(QAction *action)
    return;
  else if (lp->state == PS_OFF)
          newSwitch(switchIndex);
+	 
 }
 
 void INDI_P::newAbstractButton(QAbstractButton *button)
@@ -603,7 +607,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
 	if (perm == PP_RO)
 	  return 0;
 
-        if (name == "CCD_EXPOSE_DURATION")
+        if (name == "CCD_EXPOSURE")
 	          setupSetButton("Start");
         else
 		  setupSetButton("Set");

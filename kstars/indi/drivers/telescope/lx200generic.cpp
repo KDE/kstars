@@ -225,7 +225,7 @@ ITextVectorProperty TimeTP = { mydev, "TIME_UTC", "UTC Time", DATETIME_GROUP, IP
  Property: DST Corrected UTC Offfset
 *********************************************/
 static INumber UTCOffsetN[] = {{"OFFSET", "Offset", "%0.3g" , -12.,12.,0.5,0., 0, 0, 0}};
-INumberVectorProperty UTCOffsetNP = { mydev, "OFFSET_UTC", "UTC Offset", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTCOffsetN , NARRAY(UTCOffsetN), "", 0};
+INumberVectorProperty UTCOffsetNP = { mydev, "TIME_UTC_OFFSET", "UTC Offset", DATETIME_GROUP, IP_RW, 0, IPS_IDLE, UTCOffsetN , NARRAY(UTCOffsetN), "", 0};
 
 /********************************************
  Property: Sidereal Time

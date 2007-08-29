@@ -155,14 +155,14 @@ static INumber FrameN[]          	= {
  static INumberVectorProperty BinningNP = { mydev, "CCD_BINNING", "Binning", IMAGE_GROUP, IP_RW, 60, IPS_IDLE, BinningN, NARRAY(BinningN), "", 0};
  
  /* Exposure time */
-  static INumber ExposeTimeWN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
-  static INumberVectorProperty ExposeTimeWNP = { mydev, "CCD_EXPOSE_DURATION_REQUEST", "Expose", EXPOSE_GROUP, IP_WO, 36000, IPS_IDLE, ExposeTimeWN, NARRAY(ExposeTimeWN), "", 0};
+  static INumber ExposeTimeWN[]    = {{ "CCD_EXPOSURE_VALUE", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeWNP = { mydev, "CCD_EXPOSURE_REQUEST", "Expose", EXPOSE_GROUP, IP_WO, 36000, IPS_IDLE, ExposeTimeWN, NARRAY(ExposeTimeWN), "", 0};
 
-  static INumber ExposeTimeRN[]    = {{ "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
-  static INumberVectorProperty ExposeTimeRNP = { mydev, "CCD_EXPOSE_DURATION", "Expose", EXPOSE_GROUP, IP_RO, 36000, IPS_IDLE, ExposeTimeRN, NARRAY(ExposeTimeRN), "", 0};
+  static INumber ExposeTimeRN[]    = {{ "CCD_EXPOSURE_VALUE", "Duration (s)", "%5.2f", 0., 36000., .5, 1., 0, 0, 0}};
+  static INumberVectorProperty ExposeTimeRNP = { mydev, "CCD_EXPOSURE", "Expose", EXPOSE_GROUP, IP_RO, 36000, IPS_IDLE, ExposeTimeRN, NARRAY(ExposeTimeRN), "", 0};
  
   /* Temperature control */
- static INumber TemperatureN[]	  = { {"TEMPERATURE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
+ static INumber TemperatureN[]	  = { {"CCD_TEMPERATURE_VALUE", "Temperature", "%+06.2f", MIN_CCD_TEMP, MAX_CCD_TEMP, .2, 0., 0, 0, 0}};
  static INumberVectorProperty TemperatureNP = { mydev, "CCD_TEMPERATURE", "Temperature (C)", EXPOSE_GROUP, IP_RW, 60, IPS_IDLE, TemperatureN, NARRAY(TemperatureN), "", 0};
  
   /* Pixel size (µm) */

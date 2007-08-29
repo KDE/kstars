@@ -67,8 +67,8 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
   runningPix = KIcon( "exec" );
   stopPix    = KIcon( "dialog-cancel" );
-  localMode  = KIcon( "network-workgroup" );
-  serverMode = KIcon( "network-wired" );
+  localMode  = KIcon( "system" );
+  serverMode = KIcon( "network" );
 
   connected           = KIcon( "connection-established" );
   disconnected        = KIcon( "connect_no" );
@@ -387,7 +387,7 @@ void INDIDriver::updateMenuActions()
 	foreach (INDI_D *device, dev_mgr->indi_dev)
 	{
 
-        		imgProp = device->findProp("CCD_EXPOSE_DURATION");
+        		imgProp = device->findProp("CCD_EXPOSURE");
 			if (imgProp && device->isOn())
 			{
 			  activeImaging = true;
@@ -443,8 +443,10 @@ bool INDIDriver::runDevice(IDevice *dev)
 
   connect(dev->proc, SIGNAL(readyReadStandardError  ()),  dev, SLOT(processstd()));
 
-  dev->proc->start();
+  dev->proc->setOutputChannelMode(KProcess::SeparateChannels);
   dev->proc->setReadChannel(QProcess::StandardError);
+  dev->proc->start();
+  
   //dev->proc->start();
 
   return (dev->proc->waitForStarted());
@@ -1000,6 +1002,8 @@ IDevice::IDevice(const QString &inLabel, const QString &inDriver, const QString 
 
 void IDevice::processstd()
 {
+  if (proc == NULL)
+	return;
   serverBuffer.append(proc->readAllStandardError());
   emit newServerInput();
 }
