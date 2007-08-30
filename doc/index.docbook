@@ -84,6 +84,24 @@
 </author>
 
 <othercredit role="developer">
+<firstname>Jasem</firstname>
+<surname>Mutlaq</surname>
+<affiliation>
+<address><email>mutlaqja AT ikarustech DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>James</firstname>
+<surname>Bowlin</surname>
+<affiliation>
+<address><email>bowlin AT mindspring DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
 <firstname>Heiko</firstname>
 <surname>Evermann</surname>
 <affiliation>
@@ -111,19 +129,10 @@
 </othercredit>
 
 <othercredit role="developer">
-<firstname>Jasem</firstname>
-<surname>Mutlaq</surname>
-<affiliation>
-<address><email>mutlaqja@ikarustech.com</email></address>
-</affiliation>
-<contrib>Core Developer</contrib>
-</othercredit>
-
-<othercredit role="developer">
 <firstname>Carsten</firstname>
 <surname>Niehaus</surname>
 <affiliation>
-<address><email>cniehaus@gmx.de</email></address>
+<address><email>&Carsten.Niehaus.mail;</email></address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
@@ -204,7 +213,7 @@ linkend="tool-details">Detailed Information Window</link>, where
 you can examine positional data about the object, and query a huge
 treasury of online databases for professional-grade astronomical data
 and literature references about the object.  You can even attach your
-own Internet links, images and text notes, making &kstars; a graphical
+own internet links, images and text notes, making &kstars; a graphical
 front-end to your observing logs and your personal astronomical notebook.
 </para>
 <para>
@@ -242,7 +251,7 @@ learning about astronomy and the night sky.  To this end, the &kstars;
 Handbook includes the <link linkend="astroinfo">AstroInfo
 Project</link>, a series of short, hyperlinked articles on astronomical
 topics that can be explored with &kstars;.  In addition, &kstars;
-includes &DCOP; functions that allow you to <link
+includes <acronym>DBUS</acronym> functions that allow you to <link
 linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars;
 a powerful "demo engine" for classroom use or general illustration of
 astronomical topics.
@@ -280,10 +289,7 @@ the automated bug reporting tool, accessible from the Help menu.
 &credits;     <!--Credits and License-->
 &install;     <!--Installation-->
 
-<index id='doc-index'></index>
-<!-- For DocBook 4.2, remove the above line and use this instead
 &documentation.index;
--->
 </book>
 <!--
 Local Variables:

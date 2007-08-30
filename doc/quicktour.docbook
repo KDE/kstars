@@ -25,10 +25,9 @@ The above screenshot shows a typical view of the KStars program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
 the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
-colors</link> and relative brightnesses.  If you look closely, you can 
-also see the Moon near the left edge of the window.  In three corners 
+colors</link> and relative brightnesses.  In three corners 
 of the sky display, there are on-screen text labels displaying data on 
-the current time (<quote>LT: 16:41:39 22 Jan 2005</quote>), the current 
+the current time (<quote>LT: 16:38:42 23 Jan 2008</quote>), the current 
 Geographic Location (<quote>Tucson, Arizona, USA</quote>), and the 
 current object in the center of the display (<quote>Focused on: Betelgeuse 
 (alpha Orionis)</quote>).  Above the sky display, there are two toolbars.  
@@ -73,13 +72,6 @@ the <guilabel>Get New Stuff</guilabel> tool.  When you are all done,
 press the <guilabel>Finish</guilabel> button in the Setup Wizard to
 start exploring &kstars;.
 </para>
-
-<note>
-<para>
-The Download Extra Data tool is only available if you have KDE 3.3.x
-installed.
-</para>
-</note>
 </sect1>
 
 <sect1 id="lookaround">
@@ -97,7 +89,7 @@ of recomputing object positions, which makes the scrolling smoother
 (you can configure what gets hidden while scrolling in the <link
 linkend="config">Configure &kstars;</link> window).
 
-There are seven ways to change the magnification (or
+There are several ways to change the magnification (or
 <firstterm>Zoom level</firstterm>) of the display:</para>
 
 <orderedlist>
@@ -140,7 +132,7 @@ Zoom out until you can see a green curve; this represents your local
 the default &kstars; configuration, the display will be solid green
 below the horizon, representing the solid ground of the Earth.  There
 is also a white curve, which represents the <link
-linkend="ai-cequator">celestial equator</link>, and a tan curve, which
+linkend="ai-cequator">celestial equator</link>, and a brown curve, which
 represents the <link linkend="ai-ecliptic">Ecliptic</link>, the path
 that the Sun appears to follow across the sky over the course of a
 year.  The Sun is always found somewhere along the Ecliptic, and the
@@ -194,16 +186,18 @@ menu</link>.
 </para>
 
 <para>
-The top section contains information labels (which are not selectable).
-The top one to three labels display the object's name(s) and object
-type.  The next three labels show the object's rise, transit, and
-set times.  If the rise and set times say "circumpolar", it means that
-the object is always above the horizon for the present location.
+The top section contains some lines of information which are not
+selectable: the object's names ("M 42"; "Orion Nebula"),
+object type ("gaseous nebula"), and the constellation
+which contains the object ("Ori").  The next three lines show the 
+object's rise, set, and transit times.  If the rise and set times 
+say "circumpolar", it means that the object is always above the 
+horizon for the present location.
 </para>
 <para>
-The middle section contains items for performing actions on the 
-object, such as <guimenuitem>Center and Track</guimenuitem>,  
-<guimenuitem>Details...</guimenuitem>, and 
+The middle section contains actions which can be performed on the
+selected object, such as <guimenuitem>Center and Track</guimenuitem>,
+<guimenuitem>Details...</guimenuitem>, and
 <guimenuitem>Attach Label</guimenuitem>.  See the <link 
 linkend="popup-menu">popup menu description</link> for a full list 
 and description of each action.
