@@ -45,15 +45,15 @@ user interface and the low-level hardware drivers.</para>
 <para>The <acronym>INDI</acronym> server is a network server, that is either
 local or remote clients may connect to it to control astronomical
 instruments. It acceps that following arguments:
-<ul>
-<li> -l d to log driver messages to <d>/YYYY-MM-DD.islog.</li>
-<li> -m m  : kill client if gets more than this many MB behind, default 10</li>
-<li> -p p  : alternate IP port, default 7624</li>
-<li> -v    : show key events, no traffic</li>
-<li> -vv   : -v + key message content</li>
-<li> -vvv  : -vv + complete xml</li>
-<li> driver : executable or device@host[:port]</li>
-</ul>
+<itemizedlist>
+<listitem><para> -l d to log driver messages to <d>/YYYY-MM-DD.islog.</para></listitem>
+<listitem><para> -m m  : kill client if gets more than this many MB behind, default 10</para></listitem>
+<listitem><para> -p p  : alternate IP port, default 7624</para></listitem>
+<listitem><para> -v    : show key events, no traffic</para></listitem>
+<listitem><para> -vv   : -v + key message content</para></listitem>
+<listitem><para> -vvv  : -vv + complete xml</para></listitem>
+<listitem><para> driver : executable or device@host[:port]</para></listitem>
+</itemizedlist>
 The <acronym>INDI</acronym> server must be running on the
 machine that is physically connected to the astronomical instruments.</para>
 <note><para>There is usually no need to run the <acronym>INDI</acronym>
