@@ -45,6 +45,10 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 
 	connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotLocationChecked()));
 	connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
+	connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
+	connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
+	connect(ComputeComboBatch, SIGNAL(currentIndexChanged()), this, SLOT(slotHelpLabel()));
+
 	connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
 	connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
 	connect(LocationButtonBatch, SIGNAL(clicked()), this, SLOT(slotLocationBatch()));
@@ -151,6 +155,28 @@ void modCalcSidTime::slotLocationChecked(){
 	}
 }
 
+void modCalcSidTime::slotHelpLabel() {
+	QStringList inList;
+	if ( ComputeComboBatch->currentIndex() == 0 )
+		inList.append( i18n("local time") );
+	else
+		inList.append( i18n("sidereal time") );
+
+	if ( DateCheckBatch->checkState() == Qt::Checked )
+		inList.append( i18n("date") );
+
+	if ( LocationCheckBatch->checkState() == Qt::Checked )
+		inList.append( i18n("location") );
+
+	QString inListString = inList[0];
+	if ( inList.size() == 2 )
+		inListString = i18n("%1 and %2", inList[0], inList[1]);
+	if ( inList.size() == 3 )
+		inListString = i18n("%1, %2 and %3", inList[0], inList[1], inList[2]);
+
+	HelpLabel->setText( i18n("Specify %1 in the input file.", inListString) );
+}
+
 void modCalcSidTime::slotLocationBatch() {
 	LocationDialog ld(ks);
 
@@ -212,7 +238,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 
 	while ( ! istream.atEnd() ) {
 		line = istream.readLine();
-		line.trimmed();
+		line = line.trimmed();
 
 		QStringList fields = line.split( " ", QString::SkipEmptyParts );
 

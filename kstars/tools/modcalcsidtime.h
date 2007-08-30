@@ -56,6 +56,7 @@ private slots:
 	void slotCheckFiles();
 	void slotRunBatch();
 	void slotViewBatch();
+	void slotHelpLabel();
 	void processLines( QTextStream &istream );
 
 private:

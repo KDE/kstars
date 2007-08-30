@@ -274,7 +274,7 @@ void modCalcDayLength::processLines( QTextStream &istream ) {
 			<< QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString()).arg(geoBatch->lat()->toDMSString()) << endl
 			<< "# " << i18n("computed by KStars") << endl
 			<< "#" << endl
-			<< "# SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet      MRiseAz      MTranAlt      MSetAz     LunarPhase" << endl
+			<< "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet      MRiseAz      MTranAlt      MSetAz     LunarPhase" << endl
 			<< "#" << endl;
 
 	QString line;
@@ -288,7 +288,7 @@ void modCalcDayLength::processLines( QTextStream &istream ) {
 		d = ExtDate::fromString( line );
 		if ( d.isValid() ) {
 			updateAlmanac( d, geoBatch );
-			ostream << "  " 
+			ostream << d.toString( Qt::ISODate ) << "  "
 				<< srTimeString << "  " << stTimeString << "  " << ssTimeString << "  " 
 				<< srAzString << "  " << stAltString << "  " << ssAzString << "  " 
 				<< daylengthString << "    " 

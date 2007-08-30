@@ -32,11 +32,17 @@
 #include "kplotaxis.h"
 #include "kplotwidget.h"
 
+#include <kmessagebox.h>
+
 modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
 	: QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter() {
 	setupUi(this);
 
 	connect( Year, SIGNAL( valueChanged(int) ), this, SLOT( slotCompute() ) );
+	connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+	connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+	connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+	connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
 
 	KStars *ks = (KStars*) topLevelWidget()->parent();
 
@@ -55,6 +61,9 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
 	//This will call slotCompute():
 	Year->setValue( ks->data()->lt().date().year() );
 
+	RunButtonBatch->setEnabled( false );
+	ViewButtonBatch->setEnabled( false );
+
 	show();
 }
 
@@ -66,6 +75,88 @@ double modCalcEquinox::dmonth(int i) {
 		return DMonth[i];
 	else
 		return 0.0;
+}
+
+void modCalcEquinox::slotCheckFiles() {
+	if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() ) {
+		RunButtonBatch->setEnabled( true );
+	} else {
+		RunButtonBatch->setEnabled( false );
+	}
+}
+
+void modCalcEquinox::slotRunBatch() {
+	QString inputFileName = InputFileBatch->url().path();
+
+	if ( QFile::exists(inputFileName) ) {
+		QFile f( inputFileName );
+		if ( !f.open( QIODevice::ReadOnly) ) {
+			QString message = i18n( "Could not open file %1.", f.fileName() );
+			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+			inputFileName = QString();
+			return;
+		}
+
+		QTextStream istream(&f);
+		processLines( istream );
+
+		ViewButtonBatch->setEnabled( true );
+
+		f.close();
+	} else  {
+		QString message = i18n( "Invalid file: %1", inputFileName );
+		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+		inputFileName = QString();
+		return;
+	}
+}
+
+void modCalcEquinox::processLines( QTextStream &istream ) {
+	QFile fOut( OutputFileBatch->url().path() );
+	fOut.open(QIODevice::WriteOnly);
+	QTextStream ostream(&fOut);
+	int originalYear = Year->value();
+
+	//Write header to output file
+	ostream << i18n("# Timing of Equinoxes and Solstices\n")
+					<< i18n("# computed by KStars\n#\n")
+					<< i18n("# Vernal Equinox\t\tSummer Solstice\t\t\tAutumnal Equinox\t\tWinter Solstice\n#\n");
+
+	while ( ! istream.atEnd() ) {
+		QString line = istream.readLine();
+		bool ok = false;
+		int year = line.toInt( &ok );
+
+		//for now I will simply change the value of the Year widget to trigger
+		//computation of the Equinoxes and Solstices.
+		if ( ok ) {
+			//triggers slotCompute(), which sets values of dSpring et al.:
+			Year->setValue( year ); 
+
+			//Write to output file
+			ostream << dSpring.toString() << "\t" 
+							<< dSummer.toString() << "\t" 
+							<< dAutumn.toString() << "\t" 
+							<< dWinter.toString() << endl;
+		}
+	}
+
+	if ( Year->value() != originalYear )
+		Year->setValue( originalYear );
+}
+
+void modCalcEquinox::slotViewBatch() {
+	QFile fOut( OutputFileBatch->url().path() );
+	fOut.open(QIODevice::ReadOnly);
+	QTextStream istream(&fOut);
+	QStringList text;
+
+	while ( ! istream.atEnd() )
+		text.append( istream.readLine() );
+
+	fOut.close();
+
+	KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().path() );
 }
 
 void modCalcEquinox::slotCompute()
@@ -104,10 +195,10 @@ void modCalcEquinox::slotCompute()
 	}
 	Plot->addPlotObject( ecl );
 
-	dSpring = findEquinox( true, ecl ); 
-	dSummer = findSolstice( true );
-	dAutumn = findEquinox( false, ecl );
-	dWinter = findSolstice( false );
+	dSpring = findEquinox( Year->value(), true, ecl ); 
+	dSummer = findSolstice( Year->value(), true );
+	dAutumn = findEquinox( Year->value(), false, ecl );
+	dWinter = findSolstice( Year->value(), false );
 
 	//Display the Date/Time of each event in the text fields
 	VEquinox->setText( dSpring.toString() );
@@ -151,7 +242,7 @@ void modCalcEquinox::addDateAxes() {
 	Plot->addPlotObject( poBottomAxis );
 
 	//Tick mark for each month
-	long double jd0 = KStarsDateTime( ExtDate(Year->value(), 1, 1), QTime(0,0,0) ).djd(); 
+//	long double jd0 = KStarsDateTime( ExtDate(Year->value(), 1, 1), QTime(0,0,0) ).djd(); 
 	for ( int imonth=0; imonth<12; imonth++ ) {
 		KPlotObject *poMonth = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
 		poMonth->addPoint( dmonth(imonth), Plot->dataRect().top() );
@@ -164,11 +255,11 @@ void modCalcEquinox::addDateAxes() {
 	}
 }
 
-KStarsDateTime modCalcEquinox::findEquinox( bool Spring, KPlotObject *ecl ) {
+KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *ecl ) {
 	//Interpolate to find the moment when the Sun crosses the equator in March
 	int month = 3;
 	if ( ! Spring ) month = 9;
-	int i = ExtDate( Year->value(), month, 16 ).dayOfYear();
+	int i = ExtDate( year, month, 16 ).dayOfYear();
 	double dec1, dec2;
 	dec2 = ecl->points()[i]->y();
 	do {
@@ -182,12 +273,12 @@ KStarsDateTime modCalcEquinox::findEquinox( bool Spring, KPlotObject *ecl ) {
 	double d = fabs(dec2 - dec1);
 	double f = 1.0 - fabs(dec2)/d; //fractional distance of the zero, from point1 to point2 
 
-	KStarsDateTime dt0( ExtDate( Year->value(), 1, 1 ), QTime(0,0,0) );
+	KStarsDateTime dt0( ExtDate( year, 1, 1 ), QTime(0,0,0) );
 	KStarsDateTime dt = dt0.addSecs( 86400.0*(x1-1 + f*(x2-x1)) ); 
 	return dt;
 }
 
-KStarsDateTime modCalcEquinox::findSolstice( bool Summer ) {
+KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
 	//Find the moment when the Sun reaches maximum declination
 	//First find three points which bracket the maximum (i.e., x2 > x1,x3)
 	//Start at June 16th, which will always be approaching the solstice
@@ -198,7 +289,7 @@ KStarsDateTime modCalcEquinox::findSolstice( bool Summer ) {
 	int month = 6;
 	if ( ! Summer ) month = 12;
 
-	jd3 = KStarsDateTime( ExtDate( Year->value(), month, 16 ), QTime(0,0,0) ).djd();
+	jd3 = KStarsDateTime( ExtDate( year, month, 16 ), QTime(0,0,0) ).djd();
 	KSNumbers num( jd3 );
 	KSSun Sun( ks->data() );
 	Sun.findPosition( &num );

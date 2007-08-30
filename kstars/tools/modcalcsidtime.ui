@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
-    <height>361</height>
+    <width>507</width>
+    <height>463</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -279,6 +279,29 @@
         </widget>
        </item>
        <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>16</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="HelpLabel" >
+         <property name="text" >
+          <string>Specify local time in the input file.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QGridLayout" >
          <item row="0" column="0" >
           <widget class="QLabel" name="label_3" >
@@ -357,8 +380,8 @@
          </property>
          <property name="sizeHint" >
           <size>
-           <width>31</width>
-           <height>20</height>
+           <width>465</width>
+           <height>16</height>
           </size>
          </property>
         </spacer>

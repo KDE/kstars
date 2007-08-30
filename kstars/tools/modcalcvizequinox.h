@@ -36,14 +36,17 @@ public:
 	KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
 	double dmonth(int imonth);
 
-public slots:
-
+private slots:
 	void slotCompute();
+	void slotCheckFiles();
+	void slotRunBatch();
+	void slotViewBatch();
 
 private:
+	void processLines( QTextStream &istream );
 	void addDateAxes();
-	KStarsDateTime findEquinox( bool Spring, KPlotObject *po );
-	KStarsDateTime findSolstice( bool Summer );
+	KStarsDateTime findEquinox( int year, bool Spring, KPlotObject *po );
+	KStarsDateTime findSolstice( int year, bool Summer );
 	double DMonth[12];
 };
 
