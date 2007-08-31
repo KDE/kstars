@@ -19,10 +19,6 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialIndex.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialInterface.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialVector.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/XP_Fast.Cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/XP_HTM.Cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/XP_SQT.Cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/sqlInterface.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HTMesh.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshBuffer.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshIterator.cpp
