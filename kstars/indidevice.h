@@ -139,6 +139,11 @@ class INDI_D : public KDialog
    void registerProperty(INDI_P *pp);
    bool isINDIStd(INDI_P *pp);
 
+   public slots:
+   void engageTracking();
+
+   
+
 };
 
 #endif

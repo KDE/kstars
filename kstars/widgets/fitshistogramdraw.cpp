@@ -22,7 +22,7 @@
 #include <QPainterPath>
 #include <QMouseEvent>
 
-histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), circle_dim(15), line_height(70)
+histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), line_height(70)
 {
 	data = (FITSHistogram*) parent;
 
@@ -34,6 +34,21 @@ histDrawArea::histDrawArea(QWidget* parent) : QFrame(parent), height_adj(10), ci
 
 }
 
+void histDrawArea::init()
+{
+	valid_width  = maximumWidth() - CIRCLE_DIM;
+	valid_height = maximumHeight() - CIRCLE_DIM;
+
+	//kDebug() << "constructor VALID Width: " << valid_width << " - VALID height: " << valid_height;
+	enclosedRect.setRect(CIRCLE_DIM/2, CIRCLE_DIM/2, valid_width, valid_height);
+
+	upperLimitX = valid_width;
+	lowerLimitX  = 0;
+
+	//kDebug() << "Calling construction histogram";
+	data->constructHistogram(valid_width, valid_height);
+}
+
 histDrawArea::~histDrawArea()
 {
 }
@@ -42,12 +57,9 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 {
   Q_UNUSED(event);
 
-   if (data->histArray == NULL)
-	return;
-
   int hist_height    = height() - height_adj; 
-  int red_line_x = (int) (upperLimitX + circle_dim / 2.);
-  int blue_line_x = (int) (lowerLimitX + circle_dim / 2.);
+  int red_line_x = (int) (upperLimitX + CIRCLE_DIM / 2.);
+  int blue_line_x = (int) (lowerLimitX + CIRCLE_DIM / 2.);
 
   QPainter painter(this);
 
@@ -59,9 +71,13 @@ void histDrawArea::paintEvent(QPaintEvent *event)
   painter.drawRect(enclosedRect);
 
   hist_height = valid_height + CIRCLE_DIM/2;
+  //hist_height = valid_height;// + CIRCLE_DIM/2;
+
+  //kDebug() << "hist_height: " << hist_height << " valid height: " << valid_height << "CIRCLE_DIM " << CIRCLE_DIM << endl;
   // Paint Histogram
   for (int i=0; i < valid_width; i++)
-   	painter.drawLine(i+CIRCLE_DIM/2, hist_height, i+CIRCLE_DIM/2, valid_height  - data->histArray[i] + CIRCLE_DIM/2); 
+   	painter.drawLine(i+CIRCLE_DIM/2, hist_height, i+CIRCLE_DIM/2, hist_height - data->histArray[i]);
+	//painter.drawLine(i, hist_height, i, valid_height - data->histArray[i]);  
 
    pen.setColor(Qt::red);
    painter.setPen(pen);
@@ -78,12 +94,12 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 
    // Paint Red Circle
    painter.setBrush(Qt::red);
-   upperLimit.setRect(upperLimitX, 0, circle_dim, circle_dim);
+   upperLimit.setRect(upperLimitX, 0, CIRCLE_DIM, CIRCLE_DIM);
    painter.drawEllipse(upperLimit);
 
    // Paint Blue Circle
    painter.setBrush(Qt::blue);
-   lowerLimit.setRect(lowerLimitX, valid_height, circle_dim, circle_dim);
+   lowerLimit.setRect(lowerLimitX, valid_height, CIRCLE_DIM, CIRCLE_DIM);
    painter.drawEllipse(lowerLimit);
 
 }
@@ -91,12 +107,14 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 {
 
+	int event_x = event->x() - CIRCLE_DIM / 2.;
+
  	if (event->buttons() & Qt::LeftButton)
 	{
 
 		if (circle_drag_upper)
 		{
-			upperLimitX = event->x() - circle_dim / 2.;
+			upperLimitX = event_x;
 			if (upperLimitX < 0)
 				upperLimitX = 0;
 			else if (upperLimitX > valid_width)
@@ -109,7 +127,7 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 		
 		if (circle_drag_lower)
 		{
-		  	lowerLimitX = event->x() - circle_dim / 2.;
+		  	lowerLimitX = event_x;
 			if (lowerLimitX < 0)
 				lowerLimitX = 0;
 			else if (lowerLimitX > valid_width)
@@ -132,7 +150,7 @@ void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 		}
 	}
 	else
-		data->updateIntenFreq(event->x());
+		data->updateIntenFreq(event_x);
 
 }
 
@@ -150,7 +168,7 @@ void histDrawArea::mouseReleaseEvent ( QMouseEvent * event )
 
 }
 
-void histDrawArea::resizeEvent ( QResizeEvent * event )
+/*void histDrawArea::resizeEvent ( QResizeEvent * event )
 {
 	//kDebug() << "Resize Event: new Width: " << event->size().width() << " - new Height: " << event->size().height();
 
@@ -165,7 +183,7 @@ void histDrawArea::resizeEvent ( QResizeEvent * event )
 
 	//kDebug() << "Calling construction histogram";
 	data->constructHistogram(valid_width, valid_height);
-}
+}*/
 
 int histDrawArea::getUpperLimit()
 {

@@ -97,10 +97,10 @@ class INDI_P : public QObject
     
     public slots:
     void newText();
-    void newSwitch(int id);
+    void newSwitch(INDI_E *lp);
     void newAbstractButton(QAbstractButton *button);
     void newBlob();
-    void actionTriggered(QAction* action);
+    /*void actionTriggered(QAction* action);*/
     
     signals:
     void okState();

@@ -139,6 +139,7 @@ class INDI_E : public QObject
    public slots:
    void spinChanged(double value);
    void sliderChanged(int value);
+   void actionTriggered();
    void browseBlob();
 
 };

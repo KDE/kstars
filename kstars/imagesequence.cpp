@@ -117,6 +117,9 @@ bool imagesequence::setupCCDs()
 			if (!imgProp)
 				continue;
 
+			if (!devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
+				continue;
+
 			imgDeviceFound = true;
 		 
 			if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())

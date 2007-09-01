@@ -441,7 +441,6 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 	fprintf(serverFP, "  device='%s'\n",qPrintable( pp->pg->dp->name));
 	fprintf(serverFP, "  name='%s'\n>",qPrintable( pp->name));
 
-	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
         foreach(lp, pp->el)
 	{
 	    fprintf(serverFP, "  <oneNumber\n");
@@ -453,28 +452,15 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
 
 }
 
-void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
+void DeviceManager::sendNewSwitch (INDI_P *pp, INDI_E *lp)
 {
-        INDI_E *lp;
-	//int i=0;
-
 	fprintf (serverFP,"<newSwitchVector\n");
 	fprintf (serverFP,"  device='%s'\n",qPrintable( pp->pg->dp->name));
 	fprintf (serverFP,"  name='%s'>\n",qPrintable( pp->name));
-
-        lp = pp->el[index];
-	//for (lp = pp->el.first(); lp != NULL; lp = pp->el.next(), i++)
-          //foreach(lp, pp->el)
-          //{
-	  	//if (i == index)
-          	//{
-	    		fprintf (serverFP,"  <oneSwitch\n");
-	    		fprintf (serverFP,"    name='%s'>\n",qPrintable( lp->name));
-	    		fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
-	    		fprintf (serverFP,"  </oneSwitch>\n");
-	    	//	break;
-	  	//}
-	  //}
+	fprintf (serverFP,"  <oneSwitch\n");
+	fprintf (serverFP,"    name='%s'>\n",qPrintable( lp->name));
+	fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
+	fprintf (serverFP,"  </oneSwitch>\n");
 
 	fprintf (serverFP, "</newSwitchVector>\n");
 

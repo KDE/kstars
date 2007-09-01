@@ -151,13 +151,9 @@ void INDI_P::drawLt(PState lstate)
 
 void INDI_P::newText()
 {
-  INDI_E * lp;
-
-  // FIXME why do I have ++i?
-  //for ( int i=0; i < el.size(); ++i )
-  for ( int i=0; i < el.size(); i++ )
+ 
+  foreach(INDI_E *lp, el)
   {
-    lp = el[i];
     /* If PG_SCALE */
     if (lp->spin_w)
       lp->targetValue = lp->spin_w->value();
@@ -167,10 +163,10 @@ void INDI_P::newText()
       switch (perm)
       {
       case PP_RW:
+	// FIXME is this problematic?? 
         if (lp->write_w->text().isEmpty())
-	   return;
-          //lp->text = lp->read_w->text();
-        else
+		lp->text = lp->read_w->text();
+       else
           lp->text = lp->write_w->text();
         break;
 
@@ -212,6 +208,7 @@ void INDI_P::newText()
 
 }
 
+#if 0
 void INDI_P::actionTriggered(QAction *action)
 {
 
@@ -227,17 +224,6 @@ void INDI_P::actionTriggered(QAction *action)
  {
    newText();
    return;
- }
-
- /* Another special case, center telescope */
- if (menuAction == i18n("Track Crosshair"))
- {
-        if (!indistd->stdDev->dp->isOn()) return;
-	if (indistd->stdDev->telescopeSkyObject == NULL) return;
-	indistd->ksw->map()->setClickedObject(indistd->stdDev->telescopeSkyObject);
-	indistd->ksw->map()->setClickedPoint(indistd->stdDev->telescopeSkyObject);
-	indistd->ksw->map()->slotCenter();
-	return;
  }
 
  lp = findElement(menuAction);
@@ -263,23 +249,23 @@ void INDI_P::actionTriggered(QAction *action)
          newSwitch(switchIndex);
 	 
 }
+#endif
 
 void INDI_P::newAbstractButton(QAbstractButton *button)
 {
-
-   for (int i=0; i < el.size(); i++)
-	if (el[i]->push_w->text() == button->text())
-	{
-			newSwitch(i);
-			break;
-	}
-
+   foreach(INDI_E *lp, el)
+   {
+      if (lp->push_w->text() == button->text())
+      {
+		newSwitch(lp);
+		break;
+      }
+   }
 }
 
-void INDI_P::newSwitch(int id)
+void INDI_P::newSwitch(INDI_E *lp)
 {
   QFont buttonFont;
-  INDI_E *lp = el[id];
 
   switch (guitype)
   {
@@ -287,10 +273,6 @@ void INDI_P::newSwitch(int id)
       if (lp->state == PS_ON)
         return;
 
-      //for (unsigned int i=0; i < el.size(); i++)
-        //el[i]->state = PS_OFF;
-
-      // Using foreach instead of above
       foreach( INDI_E *elm, el)
 	   elm->state = PS_OFF;
 
@@ -298,16 +280,18 @@ void INDI_P::newSwitch(int id)
       break;
 
     case PG_BUTTONS:
-      for (int i=0; i < el.size(); i++)
-      {
-        if (i == (int) id) continue;
 
-        el[i]->push_w->setDown(false);
-        buttonFont = el[i]->push_w->font();
+	foreach( INDI_E *elm, el)
+	{
+		if (elm == lp)
+			continue;
+
+        elm->push_w->setDown(false);
+        buttonFont = elm->push_w->font();
         buttonFont.setBold(false);
-        el[i]->push_w->setFont(buttonFont);
-        el[i]->state = PS_OFF;
-      }
+        elm->push_w->setFont(buttonFont);
+        elm->state = PS_OFF;
+       }
 
       lp->push_w->setDown(true);
       buttonFont = lp->push_w->font();
@@ -326,15 +310,14 @@ void INDI_P::newSwitch(int id)
       break;
 
   }
-
   state = PS_BUSY;
 
   drawLt(state);
 
-  if (indistd->newSwitch(id, lp))
+  if (indistd->newSwitch(lp))
     return;
 
-  pg->dp->parentMgr->sendNewSwitch (this, id);
+  pg->dp->parentMgr->sendNewSwitch (this, lp);
 }
 
 /* Display file dialog to select and upload a file to the client
@@ -926,17 +909,14 @@ int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
 
 void INDI_P::activateSwitch(const QString &name)
 {
-  int iCounter = 0;
-
-  for ( int i=0; i < el.size(); ++i )
+  foreach (INDI_E *lp, el)
   {
-    if (el[i]->name == name && el[i]->push_w)
-      newSwitch(iCounter);
-
-      iCounter++;
-  }
+	if (lp->name == name && lp->push_w)
+	{
+		newSwitch(lp);
+		break;
+	}
+   }
 }
-
-
 
 #include "indiproperty.moc"

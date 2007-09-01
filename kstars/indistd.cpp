@@ -394,7 +394,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
      return;
     
     // Turn stream off
-    pp->newSwitch(1); 
+    pp->newSwitch(el); 
    
 }
  
@@ -621,8 +621,7 @@ bool INDIStdDevice::handleNonSidereal()
    if (!currentObject)
       return false;
 
-    int trackIndex=0;
-    INDI_E *nameEle;
+    INDI_E *nameEle = NULL, *tracklp = NULL;
 
     kDebug() << "Object of type " << currentObject->typeName();
   //TODO Meade claims that the library access is available to
@@ -646,27 +645,28 @@ bool INDIStdDevice::handleNonSidereal()
   // If the device support it
   if (prop && setMode)
   {
-    for (int i=0; i < setMode->el.count(); i++)
-      if (setMode->el.at(i)->name == "TRACK")
-      { trackIndex = i; break; }
+     tracklp = setMode->findElement( "TRACK" );
+     if (tracklp == NULL) return false;
 
     kDebug() << "Device supports SOLAR_SYSTEM property";
 
-    for (int i=0; i < prop->el.count(); i++)
-     if (currentObject->name().toLower() == prop->el.at(i)->label.toLower())
+     foreach(INDI_E *lp, prop->el)
      {
-       prop->newSwitch(i);
-       setMode->newSwitch(trackIndex);
+           if (currentObject->name().toLower() == lp->label.toLower())
+           {
+       		prop->newSwitch(lp);
+		setMode->newSwitch(tracklp);
        
-       /* Send object name if available */
-       nameEle = dp->findElem("OBJECT_NAME");
-       if (nameEle && nameEle->pp->perm != PP_RO)
-       {
-           nameEle->write_w->setText(currentObject->name());
-           nameEle->pp->newText();
-       }
+       		/* Send object name if available */
+       		nameEle = dp->findElem("OBJECT_NAME");
+       		if (nameEle && nameEle->pp->perm != PP_RO)
+       		{
+           		nameEle->write_w->setText(currentObject->name());
+           		nameEle->pp->newText();
+       		}
 
-       return true;
+       	    return true;
+     	   }
      }
   }
 
@@ -824,7 +824,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  
  }
  
- bool INDIStdProperty::convertSwitch(int switchIndex, INDI_E *lp)
+ bool INDIStdProperty::actionTriggered(INDI_E *lp)
  {
  
   INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
@@ -846,17 +846,22 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
        	if (prop == NULL)
 	{
-		  prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
+		  prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
 		  if (prop == NULL)
-                  {
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
-                    if (prop == NULL)
-        		return false;
-                    else
-                        selectedCoord = 1;		/* Select horizontal */
-                  }
-		  else
-		        useJ2000 = true;
+		  {
+		  	prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
+
+		  	if (prop == NULL)
+                  	{
+                    		prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
+                    		if (prop == NULL)
+        				return false;
+                    		else
+                        	selectedCoord = 1;		/* Select horizontal */
+                  	}
+		        else
+		        	useJ2000 = true;
+		  }
 	}
 
         switch (selectedCoord)
@@ -932,7 +937,7 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
          break;
        }
 
-       pp->newSwitch(switchIndex);
+       pp->newSwitch(lp);
        prop->newText();
 	
 	return true;
@@ -942,20 +947,21 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
    case TELESCOPE_ABORT_MOTION:
          kDebug() << "Stopping timer.";
 	 stdDev->devTimer->stop();
- 	 pp->newSwitch(switchIndex);
+ 	 pp->newSwitch(lp);
 	 return true;
 	 break;
 	 
    case TELESCOPE_MOTION_NS:
-      pp->newSwitch(switchIndex);
+      pp->newSwitch(lp);
+      return true;
       break;
 
    case TELESCOPE_MOTION_WE:
-      pp->newSwitch(switchIndex);
+      pp->newSwitch(lp);
+      return true;
       break;
       
    default:
-         return false;
 	 break;
    }
   
@@ -964,15 +970,14 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
  }
  
 // Return true if the complete operation is done here, or false if the operation is to be completed in the properties newSwitch()
-bool INDIStdProperty::newSwitch(int id, INDI_E* el)
+bool INDIStdProperty::newSwitch(INDI_E* el)
 {
   INDI_P *prop;
-  el=el; 
 
   switch (pp->stdID)
   {
     case CONNECTION: 
-      if (id == 1)
+      if (el->name == QString("DISCONNECT"))
         stdDev->streamDisabled();
       else
       { 

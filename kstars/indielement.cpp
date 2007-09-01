@@ -13,6 +13,7 @@
 #include "indiproperty.h"
 #include "indigroup.h"
 #include "indidevice.h"
+#include "indistd.h"
 
 #include "indi/libs/indicom.h"
 
@@ -442,5 +443,31 @@ void INDI_E::browseBlob()
 
 }
 
+void INDI_E::actionTriggered()
+{
+  switch (pp->guitype)
+  {
+	case PG_TEXT:
+        case PG_NUMERIC:
+		// Just tell parent to process the number/text
+		pp->newText();
+         break;
+
+        case PG_BUTTONS:
+        case PG_RADIO:
+        case PG_MENU:
+		// If INDI Standard can handle the swtich then process and return, otherwise
+ 		// Just issue a new generic switch.
+ 		if (pp->indistd->actionTriggered(this))
+   			return;
+		else if (state == PS_OFF)
+         		pp->newSwitch(this);
+         break;
+
+        default:
+        break;
+  }
+
+}
 
 #include "indielement.moc"

@@ -68,10 +68,10 @@ FILE *wfp;
       
   playPix    = KIcon( "media-playback-start" );
   pausePix   = KIcon( "media-playback-pause" );
-  capturePix = KIcon( "frame_image" );
+  capturePix = KIcon( "thumbnail-show" );
   
   foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
-     imgFormatCombo->addItem(QString(format));
+     imgFormatCombo->addItem(QString(format)); 
 
   playB->setIcon(pausePix);	
   captureB->setIcon(capturePix);
@@ -210,7 +210,8 @@ VideoWG::VideoWG(QWidget * parent) : QFrame(parent)
 {
   setAttribute(Qt::WA_OpaquePaintEvent);
   streamImage    = NULL;
-  grayTable=new QRgb[256];
+  //grayTable=new QRgb[256];
+  grayTable.resize(256);
   for (int i=0;i<256;i++)
         grayTable[i]=qRgb(i,i,i);
 }
@@ -218,23 +219,23 @@ VideoWG::VideoWG(QWidget * parent) : QFrame(parent)
 VideoWG::~VideoWG() 
 {
  delete (streamImage);
- delete [] (grayTable);
+ //delete [] (grayTable);
 }
 
 void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
 {
-   //delete (streamImage);
-   //streamImage = NULL;
-  
-  //if (color)
+
+
+  // TODO This is highly inefficient. Need to be replaced with a direct blit.
   if (buffSiz > totalBaseCount)
-     streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
+     streamImage = new QImage(buffer, w, h, QImage::Format_RGB32);
    else
-   
-    streamImage = new QImage(buffer, w, h, 8, grayTable, 256, QImage::IgnoreEndian);
-    
+    {
+    streamImage = new QImage(buffer, w, h, QImage::Format_Indexed8);
+    streamImage->setColorTable(grayTable);
+    }
+
    update();
-    
 }
 
 void VideoWG::paintEvent(QPaintEvent * /*ev*/)

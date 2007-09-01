@@ -25,11 +25,15 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QDialog>
+#include <QVarLengthArray>
  
 #define CIRCLE_DIM	16
- 
+
+const int INITIAL_MAXIMUM_WIDTH = 1024;
+
 class FITSViewer;
 class QPixmap;
+
  
  class histogramUI : public QDialog, public Ui::FITSHistogramUI
  {
@@ -56,7 +60,6 @@ class QPixmap;
     int type;
     int napply;
     double histFactor;
-    int *histArray;
     double fits_min, fits_max;
     
     private:
@@ -64,6 +67,7 @@ class QPixmap;
     double binSize;
     histogramUI *ui;
     int histogram_height, histogram_width;
+    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
     FITSViewer * viewer;
     
     public slots:

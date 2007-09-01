@@ -33,6 +33,7 @@
 #include "indistd.h"
 #include "indi/libs/indicom.h"
 #include "kstars.h"
+#include "skymap.h"
 #include "skyobject.h"
 #include "timedialog.h"
 #include "geolocation.h"
@@ -1050,6 +1051,20 @@ INDI_E * INDI_D::findElem(const QString &name)
   }
 
   return NULL;
+}
+
+void INDI_D::engageTracking()
+{
+
+  if (!isOn()) return;
+
+  if (stdDev->telescopeSkyObject == NULL) return;
+
+  stdDev->ksw->map()->setClickedObject(stdDev->telescopeSkyObject);
+  stdDev->ksw->map()->setClickedPoint(stdDev->telescopeSkyObject);
+  stdDev->ksw->map()->slotCenter();
+  return;
+
 }
 
 

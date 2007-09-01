@@ -52,7 +52,7 @@ class DeviceManager : public QObject
    ******************************************************************/
    void sendNewText    (INDI_P *pp);
    void sendNewNumber  (INDI_P *pp);
-   void sendNewSwitch  (INDI_P *pp, int index);
+   void sendNewSwitch  (INDI_P *pp, INDI_E *lp);
    void startBlob (const QString &devName, const QString &propName, const QString &timestamp);
    void sendOneBlob(const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer);
    void finishBlob();

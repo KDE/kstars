@@ -133,11 +133,11 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));
     action = actionCollection()->addAction("image_stats");
-    action->setIcon(KIcon("sum"));
+    action->setIcon(KIcon("datashowchart"));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
     action = actionCollection()->addAction("fits_editor");
-    action->setIcon(KIcon("frame_spreadsheet"));
+    action->setIcon(KIcon("fileview-text"));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(fitsHeader()));
 
@@ -234,6 +234,14 @@ void FITSViewer::fileOpen()
 
 
   currentURL = fileURL;
+
+  // Close FITS if open and delete it
+  if (histo != NULL)
+  {
+  	histo->close();
+  	delete (histo);
+  	histo = NULL;
+  }
 
   initFITS();
 

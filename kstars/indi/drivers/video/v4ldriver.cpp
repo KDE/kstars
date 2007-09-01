@@ -62,8 +62,8 @@ void V4L_Driver::initProperties(const char *dev)
   IUFillTextVector(&PortTP, PortT, NARRAY(PortT), dev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_IDLE);
 
  /* Video Stream */
-  IUFillSwitch(&StreamS[0], "ON", "", ISS_OFF);
-  IUFillSwitch(&StreamS[1], "OFF", "", ISS_ON);
+  IUFillSwitch(&StreamS[0], "ON", "Stream On", ISS_OFF);
+  IUFillSwitch(&StreamS[1], "OFF", "Stream Off", ISS_ON);
   IUFillSwitchVector(&StreamSP, StreamS, NARRAY(StreamS), dev, "VIDEO_STREAM", "Video Stream", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE);
 
   /* Compression */
@@ -81,8 +81,8 @@ void V4L_Driver::initProperties(const char *dev)
   IUFillTextVector(&camNameTP, camNameT, NARRAY(camNameT), dev, "Camera Model", "", COMM_GROUP, IP_RO, 0, IPS_IDLE);
   
   /* Expose */
-  IUFillNumber(&ExposeTimeN[0], "EXPOSE_DURATION", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
-  IUFillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "CCD_EXPOSE_DURATION", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
+  IUFillNumber(&ExposeTimeN[0], "CCD_EXPOSURE_VALUE", "Duration (s)", "%5.2f", 0., 36000., 0.5, 1.);
+  IUFillNumberVector(&ExposeTimeNP, ExposeTimeN, NARRAY(ExposeTimeN), dev, "CCD_EXPOSURE", "Expose", COMM_GROUP, IP_RW, 60, IPS_IDLE);
 
 /* Frame Rate */
   IUFillNumber(&FrameRateN[0], "RATE", "Rate", "%0.f", 1., 50., 1., 10.);

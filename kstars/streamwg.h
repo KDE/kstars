@@ -17,6 +17,8 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QCloseEvent>
+#include <QVector>
+#include <QColor>
 
 #include <kicon.h>
 
@@ -87,7 +89,7 @@
       
     private:
       int		totalBaseCount;
-      QRgb              *grayTable;
+      QVector<QRgb>     grayTable;
       QImage		*streamImage;
       QPixmap		 kPix;
       

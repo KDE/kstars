@@ -325,35 +325,29 @@ bool KSPopupMenu::addINDI(void)
 
 					menuDevice->addSeparator();
 
-					if (prop->stdID == CCD_EXPOSURE)
+					foreach ( element, prop->el )
 					{
-						QAction *a = menuDevice->addAction( prop->label );
-					        a->setCheckable( true );
-					        a->setChecked( false );
-					}
-					else
-					{
-						foreach ( element, prop->el )
-						{
-							//menuDevice->insertItem (element->label, id++);
-							QAction *a = menuDevice->addAction(element->label);
-							if (element->state == PS_ON)
+							if (prop->stdID == CCD_EXPOSURE)
 							{
-								// Slew, Track, Sync, Exppse are never checked in the skymap
-								if ( (element->name != "SLEW") && (element->name != "TRACK") &&
-										(element->name != "SYNC") )
-									a->setChecked(true);
-								else
-									a->setChecked(false);
+								QAction *a = menuDevice->addAction(prop->label);
+								a->setCheckable( false );
+					        		a->setChecked( false );
+								connect(a, SIGNAL(triggered(bool)), element, SLOT(actionTriggered()));
+								continue;
 							}
+							
+							QAction *a = menuDevice->addAction(element->label);
+							connect(a, SIGNAL(triggered(bool)), element, SLOT(actionTriggered()));
+
+							// We never set ON_COORD_SET to checked
+							if (prop->stdID == ON_COORD_SET)
+								continue;
+
+							if (element->state == PS_ON)
+								a->setChecked(true);
 							else
-								a->setChecked(false);
+								a->setChecked(false);	
 						}
-					}
-
-					//QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
-					connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(actionTriggered(QAction*) ) );
-
 				} // end property
 			} // end group
 
@@ -362,12 +356,8 @@ bool KSPopupMenu::addINDI(void)
 			{
 				menuDevice->addSeparator();
 				QAction *a = menuDevice->addAction(i18n("Track Crosshair"));
-				if (dev->findElem("RA"))
-					prop = dev->findElem("RA")->pp;
-				else
-					prop = dev->findElem("ALT")->pp;
 
-				connect( menuDevice, SIGNAL( triggered(QAction*) ), prop, SLOT(actionTriggered(QAction*) ) );
+				connect( a, SIGNAL( triggered(bool) ), dev, SLOT(engageTracking()));
 			}
 		} // end device
 	} // end device manager

@@ -102,9 +102,9 @@
     INDIStdDevice *stdDev;              /* pointer to common std device */
     INDI_P	  *pp;			/* associated property */
     
-    /* Perform switch converting */
-    bool convertSwitch(int switchIndex, INDI_E *lp);
-    bool newSwitch(int id, INDI_E* el);
+    /* Perform action trigged by INDI property */
+    bool actionTriggered(INDI_E *lp);
+    bool newSwitch(INDI_E* el);
     
     public slots:
     void newTime();
