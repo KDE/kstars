@@ -380,7 +380,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
                 pThis = points->at( i );
                 oThis = map->toScreenI( pThis, scale, false, &isVisible );
 
-                if ( ! skipAt( lineList, i ) ) {
+                if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                     if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast, oThis );
