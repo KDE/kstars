@@ -349,6 +349,10 @@ void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
 
 void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale )
 {
+	bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
+    if ( Options::zoomFactor() < 20.0 * MINZOOM ) 
+        psky.setRenderHint(QPainter::Antialiasing, false );
+	
 	SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = kstars->data()->updateID();
@@ -402,6 +406,7 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
             }
         }
     }
+	psky.setRenderHint(QPainter::Antialiasing, antiAlias );
 }
 
 void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
@@ -465,6 +470,10 @@ void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
 
 void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scale )
 {
+	bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
+    if ( Options::zoomFactor() < 20.0 * MINZOOM ) 
+        psky.setRenderHint(QPainter::Antialiasing, false );
+	
 	SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = kstars->data()->updateID();
@@ -520,6 +529,7 @@ void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scal
             polygon.clear();
         }
     }
+	psky.setRenderHint(QPainter::Antialiasing, antiAlias );
 }
 
 void LineListIndex::intro()
