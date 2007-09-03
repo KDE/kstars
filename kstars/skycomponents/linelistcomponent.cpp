@@ -87,98 +87,63 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
 	float topMargin   = fm.height();
 	float botMargin   = psky.window().height() - 2.0 * fm.height();
 
-    if ( Options::useAntialias() ) {
+    QPointF oThis, oLast, oMid;
 
-        QPointF oThis, oLast, oMid;
+    pLast = points()->at( 0 );
+    oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
 
-        pLast = points()->at( 0 );
-        oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
+    int limit = points()->size();
 
-        int limit = points()->size();
+    for ( int i=1 ; i < limit ; i++ ) {
+        pThis = points()->at( i );
+        oThis = map->toScreen( pThis, scale, false, &isVisible );
 
-        for ( int i=1 ; i < limit ; i++ ) {
-            pThis = points()->at( i );
-            oThis = map->toScreen( pThis, scale, false, &isVisible );
+        if ( map->onScreen(oThis, oLast ) ) {
+            if ( isVisible && isVisibleLast ) {
+                psky.drawLine( oLast, oThis );
+				
+				// Keep track of index of leftmost, rightmost, etc point.
+				// Only allow points that fit within the margins.
+				qreal x = oThis.x();
+				qreal y = oThis.y();
+				if ( x > leftMargin && x < rightMargin &&
+					 y < botMargin  && y > topMargin) {
 
-            if ( map->onScreen(oThis, oLast ) ) {
-                if ( isVisible && isVisibleLast ) {
-                    psky.drawLine( oLast, oThis );
-					
-					// Keep track of index of leftmost, rightmost, etc point.
-					// Only allow points that fit within the margins.
-					qreal x = oThis.x();
-					qreal y = oThis.y();
-					if ( x > leftMargin && x < rightMargin &&
-						 y < botMargin  && y > topMargin) {
-
-						if ( x < xLeft ) {
-							m_iLeft = i;
-							xLeft = x;
-						}
-						if ( x > xRight ) {
-							m_iRight = i;
-							xRight = x;
-						}
-						if (  y > yBot ) {
-							m_iBot = i;
-							yBot = y;
-						}
-						if ( y < yTop ) {
-							m_iTop = i;
-							yTop = y;
-						}
+					if ( x < xLeft ) {
+						m_iLeft = i;
+						xLeft = x;
 					}
-                }
-
-                else if ( isVisibleLast && ! isVisible ) {
-                    oMid = map->clipLine( pLast, pThis, scale );
-                    psky.drawLine( oLast, oMid );
-                }
-                else if ( isVisible && ! isVisibleLast ) {
-                    oMid = map->clipLine( pThis, pLast, scale );
-                    psky.drawLine( oMid, oThis );
-                }
+					if ( x > xRight ) {
+						m_iRight = i;
+						xRight = x;
+					}
+					if (  y > yBot ) {
+						m_iBot = i;
+						yBot = y;
+					}
+					if ( y < yTop ) {
+						m_iTop = i;
+						yTop = y;
+					}
+				}
             }
 
-            pLast = pThis;
-            oLast = oThis;
-            isVisibleLast = isVisible;
-        }
-    }
-    else {
-
-        QPoint oThis, oLast, oMid;
-        pLast = points()->at( 0 );
-
-        oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
-
-        int limit = points()->size();
-
-        for ( int i=1 ; i < limit ; i++ ) {
-            pThis = points()->at( i );
-            oThis = map->toScreenI( pThis, scale, false, &isVisible );
-
-            if ( map->onScreen(oThis, oLast ) ) {
-                if ( isVisible && isVisibleLast ) {
-                    psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
-                }
-                else if ( isVisibleLast ) {
-                    oMid = map->clipLineI( pLast, pThis, scale );
-                    psky.drawLine( oLast.x(), oLast.y(), oMid.x(), oMid.y() );
-                }
-                else if ( isVisible ) {
-                    oMid = map->clipLineI( pThis, pLast, scale );
-                    psky.drawLine( oMid.x(), oMid.y(), oThis.x(), oThis.y() );
-                }
+            else if ( isVisibleLast && ! isVisible ) {
+                oMid = map->clipLine( pLast, pThis, scale );
+                psky.drawLine( oLast, oMid );
             }
-
-            pLast = pThis;
-            oLast = oThis;
-            isVisibleLast = isVisible;
+            else if ( isVisible && ! isVisibleLast ) {
+                oMid = map->clipLine( pThis, pLast, scale );
+                psky.drawLine( oMid, oThis );
+            }
         }
+
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
     }
 
-	drawLabels( ks, psky, scale );
+ 	drawLabels( ks, psky, scale );
 }
 
 void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale )

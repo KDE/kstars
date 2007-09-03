@@ -156,17 +156,10 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
    		ksp()->scaleRotateImage( size, pa.Degrees() );
    		float x1 = o.x() - 0.5*ksp()->image()->width();
    		float y1 = o.y() - 0.5*ksp()->image()->height();
-   		if ( Options::useAntialias() )
-   			psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
-   		else
-   			psky.drawImage( int(x1), int(y1), *( ksp()->image() ) );
-
+   		psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
    	}
     else { //Otherwise, draw a simple circle.
-   		if ( Options::useAntialias() )
-   			psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
-   		else
-   			psky.drawEllipse( QRect(int(o.x()-0.5*size), int(o.y()-0.5*size), int(size), int(size)) );
+   		psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
    	}
 
    	//draw Name
@@ -226,10 +219,7 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
 			if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
 
 			if ( doDrawLine ) {
-				if ( Options::useAntialias() )
-					psky.drawLine( oLast, o );
-				else
-					psky.drawLine( int(oLast.x()), int(oLast.y()), int(o.x()), int(o.y()) );
+				psky.drawLine( oLast, o );
 			} else {
 				doDrawLine = true;
 			}

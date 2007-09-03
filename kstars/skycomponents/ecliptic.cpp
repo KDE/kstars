@@ -49,16 +49,10 @@ void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 	m_label.reset( psky );
 
 	if ( ! skyMesh()->isZoomedIn() ) {
-		if ( Options::useAntialias() )
-			drawLinesFloat( kstars, psky, scale );
-		else 
-			drawLinesInt( kstars, psky, scale );
+		drawLines( kstars, psky, scale );
 	}
 	else {
-		if ( Options::useAntialias() )
-			drawAllLinesFloat( kstars, psky, scale );
-		else 
-			drawAllLinesInt( kstars, psky, scale );
+		drawAllLines( kstars, psky, scale );
 	}
 	m_label.draw( kstars, psky, scale );
 }

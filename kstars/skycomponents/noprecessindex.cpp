@@ -41,28 +41,13 @@ void NoPrecessIndex::draw( KStars *kstars, QPainter &psky, double scale )
     if ( ! selected() ) return;
 
     preDraw( kstars, psky );
-   
-	/**
-    if ( lastZoom ^ skyMesh()->isZoomedIn() ) {
-        lastZoom = skyMesh()->isZoomedIn();
-        if ( lastZoom ) 
-            printf("Zoomed in.\n");
-        else
-            printf("Zoomed out.\n");
-    }
-	**/
-    
+       
     if ( skyMesh()->isZoomedIn() ) {
-        if ( Options::useAntialias() )
-            drawLinesFloat( kstars, psky, scale );
-        else
-            drawLinesInt( kstars, psky, scale );
+        drawLines( kstars, psky, scale );
     }
     else {
-        if ( Options::useAntialias() )
-            drawAllLinesFloat( kstars, psky, scale );
-        else
-            drawAllLinesInt( kstars, psky, scale );
+        drawLines( kstars, psky, scale );
+        //drawAllLines( kstars, psky, scale );
     }
 
 }

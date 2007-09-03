@@ -105,12 +105,7 @@ void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& tex
 {
     if ( ! markText( p, text ) ) return;
 
-    if ( Options::useAntialias() )  {
-        psky.drawText( p, text );
-     }
-    else {
-        psky.drawText( int( p.x() ), int( p.y() ), text );
-    }
+    psky.drawText( p, text );
 }
 
 bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text, 
@@ -155,13 +150,7 @@ bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text,
 	psky.translate( o );
 
 	psky.rotate( angle );                        //rotate the coordinate system
-    if ( Options::useAntialias() )  {
-        psky.drawText( QPointF( -w2, h ), text );
-     }
-    else {
-        psky.drawText( int( -w2 ), int( h ), text );
-    }
-
+    psky.drawText( QPointF( -w2, h ), text );
 	psky.restore();                              //reset coordinate system
 
 	return true;

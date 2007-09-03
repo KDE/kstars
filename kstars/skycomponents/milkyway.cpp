@@ -121,16 +121,10 @@ void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)
 	//psky.setBrush( QBrush( QColor("green"  ) ) );
 
     if ( Options::fillMilkyWay() ) {
-        if ( Options::useAntialias() ) 
-        	drawFilledFloat( kstars, psky, scale );
-        else
-        	drawFilledInt( kstars, psky, scale );
+        drawFilled( kstars, psky, scale );
     }
     else {
-        if ( Options::useAntialias() ) 
-        	drawLinesFloat( kstars, psky, scale );        
-        else
-        	drawLinesInt( kstars, psky, scale );
+        drawLines( kstars, psky, scale );        
     }
 }
 

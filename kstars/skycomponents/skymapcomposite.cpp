@@ -195,10 +195,9 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-	// create the no-precess aperture only if needed
-    if ( ( Options::showGrid() || Options::showCBounds() || 
-			Options::showEquator() ) && m_skyMesh->isZoomedIn() ) {
-
+	// create the no-precess aperture if needed
+    if ( Options::showGrid() || Options::showCBounds() || 
+			Options::showEquator() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
@@ -248,8 +247,8 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
 
-    //psky.setPen(  QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) ); 
-    //m_skyMesh->draw( ks, psky, scale, IN_CONSTELL_BUF );
+    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) ); 
+    //m_skyMesh->draw( ks, psky, scale, NO_PRECESS_BUF );
 }
 //Select nearest object to the given skypoint, but give preference 
 //to certain object types.

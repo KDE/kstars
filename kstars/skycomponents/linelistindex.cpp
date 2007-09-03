@@ -168,10 +168,7 @@ void LineListIndex::draw( KStars *kstars, QPainter &psky, double scale )
 
     preDraw(kstars, psky);
 
-    if ( Options::useAntialias() )
-        drawLinesFloat( kstars, psky, scale );
-    else
-        drawLinesInt( kstars, psky, scale );
+    drawLines( kstars, psky, scale );
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
@@ -188,60 +185,8 @@ void LineListIndex::updateLabelCandidates( const QPointF& o, LineList* lineList,
 void LineListIndex::updateLabelCandidates( const QPoint& o, LineList* lineList, int i )
 {}
 
-//-----------------------------------------------------------------------------
-// The four^H^H six drawing routines below are very, very similar.  I think any
-// further compactification of the code will move more decisions into the inner
-// loops having an negative impact on performance.
-//-----------------------------------------------------------------------------
 
-void LineListIndex::drawAllLinesInt( KStars *kstars, QPainter& psky, double scale)
-{
-	SkyMap *map = kstars->map();
-    UpdateID updateID = kstars->data()->updateID();
-	bool isVisible, isVisibleLast;
-    SkyPoint *pLast, *pThis;
-    QPoint oThis, oLast, oMid;
-
-
-    for (int i = 0; i < m_listList.size(); i++) {
-        LineList* lineList = m_listList.at( i );
-
-        if ( lineList->updateID != updateID ) 
-            JITupdate( kstars->data(), lineList );
-
-        SkyList* points = lineList->points();
-        pLast = points->first();
-        oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
-
-        for ( int i = 1 ; i < points->size() ; i++ ) {
-            pThis = points->at( i );
-            oThis = map->toScreenI( pThis, scale, false, &isVisible );
-
-            if ( ! skipAt( lineList, i ) ) {
-
-                if ( isVisible && isVisibleLast ) {
-                    psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
-					updateLabelCandidates( oThis, lineList, i );
-                }
-                else if ( isVisibleLast ) {
-                    oMid = map->clipLineI( pLast, pThis, scale );
-                    psky.drawLine( oLast.x(), oLast.y(), oMid.x(), oMid.y() );
-                }
-                else if ( isVisible ) {
-                    oMid = map->clipLineI( pThis, pLast, scale );
-                    psky.drawLine( oMid.x(), oMid.y(), oThis.x(), oThis.y() );
-                }
-            }
-
-            pLast = pThis;
-            oLast = oThis;
-            isVisibleLast = isVisible;
-        }
-    }
-}
-
-
-void LineListIndex::drawAllLinesFloat( KStars *kstars, QPainter& psky, double scale )
+void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 {
 	SkyMap *map = kstars->map();
     UpdateID updateID = kstars->data()->updateID();
@@ -249,7 +194,6 @@ void LineListIndex::drawAllLinesFloat( KStars *kstars, QPainter& psky, double sc
 	bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oLast, oMid;
-
 
     for (int i = 0; i < m_listList.size(); i++) {
         LineList* lineList = m_listList.at( i );
@@ -259,13 +203,13 @@ void LineListIndex::drawAllLinesFloat( KStars *kstars, QPainter& psky, double sc
 
         SkyList* points = lineList->points();
         pLast = points->first();
-        oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
+        oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
 
         for ( int i = 1 ; i < points->size() ; i++ ) {
             pThis = points->at( i );
-            oThis = map->toScreenI( pThis, scale, false, &isVisible );
+            oThis = map->toScreen( pThis, scale, false, &isVisible );
 
-            if ( ! skipAt( lineList, i ) ) {
+            if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                 if ( isVisible && isVisibleLast ) {
                     psky.drawLine( oLast, oThis );
@@ -289,70 +233,8 @@ void LineListIndex::drawAllLinesFloat( KStars *kstars, QPainter& psky, double sc
 }
 
 
-void LineListIndex::drawLinesInt( KStars *kstars, QPainter& psky, double scale)
+void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 {
-	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
-    UpdateID updateID = kstars->data()->updateID();
-	bool isVisible, isVisibleLast;
-    SkyPoint *pLast, *pThis;
-    QPoint oThis, oLast, oMid;
-
-    MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
-
-        LineListList *lineListList = lineIndex()->value( region.next() );
-        if ( lineListList == 0 ) continue;
-
-        for (int i = 0; i < lineListList->size(); i++) {
-            LineList* lineList = lineListList->at( i );
-
-            //draw each LineList at most once
-            if ( lineList->drawID == drawID ) continue;
-            lineList->drawID = drawID;
-
-            if ( lineList->updateID != updateID )
-                JITupdate( kstars->data(), lineList );
-
-            SkyList* points = lineList->points();
-            pLast = points->first();
-            oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
-
-            for ( int i = 1 ; i < points->size() ; i++ ) {
-                pThis = points->at( i );
-                oThis = map->toScreenI( pThis, scale, false, &isVisible );
-
-                if ( ! skipAt( lineList, i ) ) {
-
-                    if ( isVisible && isVisibleLast ) {
-                        psky.drawLine( oLast.x(), oLast.y(), oThis.x(), oThis.y() );
-						updateLabelCandidates( oThis, lineList, i );
-                    }
-                    else if ( isVisibleLast ) {
-                        oMid = map->clipLineI( pLast, pThis, scale );
-                        psky.drawLine( oLast.x(), oLast.y(), oMid.x(), oMid.y() );
-                    }
-                    else if ( isVisible ) {
-                        oMid = map->clipLineI( pThis, pLast, scale );
-                        psky.drawLine( oMid.x(), oMid.y(), oThis.x(), oThis.y() );
-                    }
-                }
-
-                pLast = pThis;
-                oLast = oThis;
-                isVisibleLast = isVisible;
-            }
-        }
-    }
-}
-
-
-void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale )
-{
-	bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
-    if ( Options::zoomFactor() < 20.0 * MINZOOM ) 
-        psky.setRenderHint(QPainter::Antialiasing, false );
-	
 	SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = kstars->data()->updateID();
@@ -378,24 +260,28 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
 
             SkyList* points = lineList->points();
             pLast = points->first();
-            oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
+            oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
 
             for ( int i = 1 ; i < points->size() ; i++ ) {
                 pThis = points->at( i );
-                oThis = map->toScreenI( pThis, scale, false, &isVisible );
+                oThis = map->toScreen( pThis, scale, false, &isVisible );
 
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                     if ( isVisible && isVisibleLast ) {
-                        psky.drawLine( oLast, oThis );
-						updateLabelCandidates( oThis, lineList, i );
+						map->onscreenLine( oLast, oThis );
+                        if ( ! map->isPointNull( oLast ) && 
+								! map->isPointNull( oThis ) ) {
+                            psky.drawLine( oLast, oThis );
+                            updateLabelCandidates( oThis, lineList, i );
+                        }
                     }
                     else if ( isVisibleLast ) {
-                        oMid = map->clipLineI( pLast, pThis, scale );
+                        oMid = map->clipLine( pLast, pThis, scale );
                         psky.drawLine( oLast, oMid );
                     }
                     else if ( isVisible ) {
-                        oMid = map->clipLineI( pThis, pLast, scale );
+                        oMid = map->clipLine( pThis, pLast, scale );
                         psky.drawLine( oMid, oThis );
                     }
                 }
@@ -406,73 +292,14 @@ void LineListIndex::drawLinesFloat( KStars *kstars, QPainter& psky, double scale
             }
         }
     }
-	psky.setRenderHint(QPainter::Antialiasing, antiAlias );
-}
-
-void LineListIndex::drawFilledInt( KStars *kstars, QPainter& psky, double scale)
-{
-	SkyMap *map = kstars->map();
-    DrawID drawID = skyMesh()->drawID();
-    UpdateID updateID = kstars->data()->updateID();
-	bool isVisible, isVisibleLast;
-    SkyPoint *pLast, *pThis;
-    QPolygon polygon;
-    QPoint oThis, oLast, oMid;
-
-    MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
-
-        LineListList* lineListList = polyIndex()->value( region.next() );
-        if ( lineListList == 0 ) continue;
-
-        for (int i = 0; i < lineListList->size(); i++) {
-            LineList* lineList = lineListList->at( i );
-
-            //draw each LineList at most once
-            if ( lineList->drawID == drawID ) continue;
-            lineList->drawID = drawID;
-
-            if ( lineList->updateID != updateID ) 
-                JITupdate( kstars->data(), lineList );
-
-            SkyList* points = lineList->points();
-            pLast = points->last();
-            oLast = map->toScreenI( pLast, scale, false, &isVisibleLast );
-
-            for ( int i = 0; i < points->size(); ++i ) {
-                pThis = points->at( i );
-                oThis = map->toScreenI( pThis, scale, false, &isVisible );
-
-                if ( isVisible && isVisibleLast ) {
-                    polygon << oThis;
-                }
-                else if ( isVisibleLast ) {
-                    oMid = map->clipLineI( pLast, pThis, scale );
-                    polygon << oMid;
-                }
-                else if ( isVisible ) {
-                    oMid = map->clipLineI( pThis, pLast, scale );
-                    polygon << oMid;
-                    polygon << oThis;
-                }
-
-                pLast = pThis;
-                oLast = oThis;
-                isVisibleLast = isVisible;
-            }
-
-            if ( polygon.size() ) psky.drawPolygon( polygon );
-            polygon.clear();
-        }
-    }
 }
 
 
-void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scale )
+void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
 {
-	bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
-    if ( Options::zoomFactor() < 20.0 * MINZOOM ) 
-        psky.setRenderHint(QPainter::Antialiasing, false );
+	//bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
+    //if ( Options::zoomFactor() > 10.0 * MINZOOM ) 
+    //    psky.setRenderHint(QPainter::Antialiasing, false );
 	
 	SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
@@ -529,7 +356,7 @@ void LineListIndex::drawFilledFloat( KStars *kstars, QPainter& psky, double scal
             polygon.clear();
         }
     }
-	psky.setRenderHint(QPainter::Antialiasing, antiAlias );
+	//psky.setRenderHint(QPainter::Antialiasing, antiAlias );
 }
 
 void LineListIndex::intro()

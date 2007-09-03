@@ -145,31 +145,17 @@ class LineListIndex : public SkyComposite
          * everything.  There are no filled versions of the "All" routines
          * simply because they were not needed.
          */
-        void drawAllLinesInt( KStars *ks, QPainter &psky, double scale );
-
-        /* @short same as above but with anti-aliased lines.
-         */
-        void drawAllLinesFloat( KStars *ks, QPainter &psky, double scale );
-
-        /* @short Draws all the lines in m_listList as simple lines in integer
-         * mode.
-         */
-        void drawLinesInt( KStars *ks, QPainter &psky, double scale );
+        void drawAllLines( KStars *ks, QPainter &psky, double scale );
 
         /* @short Draws all the lines in m_listList as simple lines in float
          * mode.
          */
-        void drawLinesFloat( KStars *ks, QPainter &psky, double scale );
-
-        /* @short Draws all the lines in m_listList as filled polygons in
-         * integer mode.
-         */
-        void drawFilledInt(KStars *ks, QPainter& psky, double scale);
+        void drawLines( KStars *ks, QPainter &psky, double scale );
 
         /* @short Draws all the lines in m_listList as filled polygons in float
          * mode.
          */
-        void drawFilledFloat(KStars *ks, QPainter& psky, double scale);
+        void drawFilled(KStars *ks, QPainter& psky, double scale);
 
 
         //----- Debugging and Info Routines -----

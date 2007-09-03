@@ -156,10 +156,7 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
 				if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
 	
 				if ( doDrawLine ) {
-					if ( Options::useAntialias() )
-						psky.drawLine( oLast, o );
-					else
-						psky.drawLine( int(oLast.x()), int(oLast.y()), int(o.x()), int(o.y()) );
+					psky.drawLine( oLast, o );
 				} else {
 					doDrawLine = true;
 				}

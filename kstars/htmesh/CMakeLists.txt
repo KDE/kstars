@@ -1,4 +1,4 @@
-
+KDE4_NO_ENABLE_FINAL(htmesh)
 check_function_exists(drand48 HAVE_DRAND48)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-htmesh.h )

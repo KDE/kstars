@@ -87,10 +87,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
    				frontMoons.append( o );
    			} else {
    				//Draw Moons that are further than Jupiter
-   				if ( Options::useAntialias() )
-   					psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-   				else
-   					psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
+   				psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
    			}
    		}
    	}
@@ -101,10 +98,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
    	//Now draw the remaining moons, as stored in frontMoons
    	psky.setPen( QPen( QColor( "white" ) ) );
    	foreach ( QPointF o, frontMoons ) {
-   		if ( Options::useAntialias() )
-   			psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-   		else
-   			psky.drawEllipse( QRect( int(o.x())-1, int(o.y())-1, 2, 2 ) );
+   		psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
    	}
 
    	//Draw Moon name labels if at high zoom

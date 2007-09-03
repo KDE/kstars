@@ -445,7 +445,7 @@ public:
 
 //	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
 
-	void clipLine( QPointF &p1, QPointF &p2 );
+	void onscreenLine( QPointF &p1, QPointF &p2 );
 
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.

@@ -1019,7 +1019,7 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, boo
 			//interpolate to find the intersection of the line 
 			//segment with the screen edge
 			if ( doClipLines ) {
-				clipLine( p, pLast );
+				onscreenLine( p, pLast );
 				if ( ! isPointNull( p ) ) {
 					screenLine.append( pLast );
 					screenLine.append( p );
@@ -1041,7 +1041,7 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, boo
 	return screenLine;
 }
 
-void SkyMap::clipLine( QPointF &p1, QPointF &p2 ) {
+void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
 	//If the SkyMap rect contains both points or either point is null, 
 	//we can return immediately
 	if ( isPointNull( p1 ) || isPointNull( p2 ) )
@@ -1059,9 +1059,9 @@ void SkyMap::clipLine( QPointF &p1, QPointF &p2 ) {
 	//Define screen edges to be just beyond the rect() bounds, so that clipped 
 	//positions are considered "offscreen"
 	QPoint topLeft( rect().left()-1, rect().top()-1 );
-	QPoint bottomLeft( rect().left()-1, rect().top() + width()+1 );
+	QPoint bottomLeft( rect().left()-1, rect().top() + height()+1 );
 	QPoint topRight( rect().left() + rect().width()+1, rect().top()-1 );
-	QPoint bottomRight( rect().left() + rect().width()+1, rect().top() + width()+1 );
+	QPoint bottomRight( rect().left() + rect().width()+1, rect().top() + height()+1 );
 	QLine topEdge( topLeft, topRight );
 	QLine bottomEdge( bottomLeft, bottomRight );
 	QLine leftEdge( topLeft, bottomLeft );
@@ -1120,7 +1120,6 @@ void SkyMap::clipLine( QPointF &p1, QPointF &p2 ) {
 			return;
 		}
 	}
-	
 	if ( screenLine.intersect( QLineF(bottomEdge), &edgePoint1 ) == 1 ) {
 		if ( edgePoint2.isNull() ) 
 			edgePoint2 = edgePoint1;
@@ -1137,7 +1136,6 @@ void SkyMap::clipLine( QPointF &p1, QPointF &p2 ) {
 			return;
 		}
 	}
-	
 	//If we get here, zero or one intersection point was found.
 	//If no intersection points were found, the line must be totally offscreen
 	//return a null point
