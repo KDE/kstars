@@ -241,7 +241,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 	QPolygonF polyMW;
 	bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
-    QPointF oThis, oLast, oMid;
+    QPointF oThis, oThis2, oLast, oMid;
 
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
@@ -264,7 +264,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 
             for ( int i = 1 ; i < points->size() ; i++ ) {
                 pThis = points->at( i );
-                oThis = map->toScreen( pThis, scale, false, &isVisible );
+                oThis2 = oThis = map->toScreen( pThis, scale, false, &isVisible );
 
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
@@ -287,7 +287,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
                 }
 
                 pLast = pThis;
-                oLast = oThis;
+                oLast = oThis2;
                 isVisibleLast = isVisible;
             }
         }
