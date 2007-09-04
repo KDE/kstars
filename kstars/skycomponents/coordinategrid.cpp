@@ -26,6 +26,7 @@
 #include "skymap.h"
 #include "coordinategrid.h"
 #include "linelist.h"
+#include "dms.h"
 
 CoordinateGrid::CoordinateGrid( SkyComponent *parent ) 
 	: NoPrecessIndex(parent, i18n("Coordinate Grid") ) 
@@ -58,7 +59,7 @@ void CoordinateGrid::init( KStarsData *data )
     double maxDec =  90.0;
     double dDec   =  20.0;
     double dDec2  =   4.0;
-    double dRa2   =  2. / 5.;
+    double dRa2   =   0.2;
 
     double max, dec, dec2, ra, ra2;
 
@@ -76,18 +77,24 @@ void CoordinateGrid::init( KStarsData *data )
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 lineList->append( p );
             }
-
             appendLine( lineList );
             //printf("\n");
         }
     }
 
     for ( dec = minDec; dec < maxDec + eps; dec += dDec ) {
+
+		// Adjust point density 
+		int nPoints = int(round( fabs(cos(dec* dms::PI / 180.0)) * dRa / dRa2 )); 
+		if ( nPoints < 5 ) nPoints = 5;
+		double dRa3 = dRa / nPoints;
+		//printf( "npoints = %d\n", nPoints);
+
         for ( ra = minRa; ra < maxRa + eps; ra += dRa ) {
            lineList = new LineList();
            //printf("%6.2f: ", dec);
-           for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
-                //printf("%4d %6.2f ", components().size(), ra2);
+           for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa3 ) {
+                //printf("%4d %6.2f ", components().size(), ra3);
                 SkyPoint* p = new SkyPoint( ra2, dec );
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 lineList->append( p );

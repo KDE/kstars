@@ -447,6 +447,8 @@ public:
 
 	void onscreenLine( QPointF &p1, QPointF &p2 );
 
+	bool onscreenLine2( QPointF &p1, QPointF &p2 );
+
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
 	*@param dx horizontal pixel offset from center of SkyMap.
