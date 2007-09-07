@@ -1,3 +1,5 @@
+KDE4_NO_ENABLE_FINAL(indi)
+
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../.. )
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs)
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee)
