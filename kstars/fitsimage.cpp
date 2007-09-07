@@ -314,6 +314,7 @@ int FITSImage::rescale(zoomType type)
 {
   float val=0;
   double bscale, bzero;
+  QAction *toolAction = NULL;
  
   // Get Min Max failed, scaling is not possible
   if (type == ZOOM_KEEP_LEVEL)
@@ -370,7 +371,11 @@ int FITSImage::rescale(zoomType type)
 			currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
 			if (currentZoom <= ZOOM_MIN)
-  			viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
+			{
+				toolAction = viewer->actionCollection()->action("view_zoom_out");
+				if (toolAction != NULL)
+  					toolAction->setEnabled (false);
+			}
 			
 			image_frame->resize( (int) currentWidth, (int) currentHeight);
 
@@ -412,15 +417,22 @@ int FITSImage::rescale(zoomType type)
 
 void FITSImage::fitsZoomIn()
 {
- 
+  QAction *toolAction = NULL;
+
   if (currentZoom < ZOOM_DEFAULT)
 	currentZoom += ZOOM_LOW_INCR;
   else
 	currentZoom += ZOOM_HIGH_INCR;
 
-   viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
+   toolAction = viewer->actionCollection()->action("view_zoom_out");
+   if (toolAction != NULL)
+	toolAction->setEnabled (true);
    if (currentZoom >= ZOOM_MAX)
-     viewer->actionCollection()->action("view_zoom_in")->setEnabled (false);
+   {
+     toolAction = viewer->actionCollection()->action("view_zoom_in");
+     if (toolAction != NULL)
+	toolAction->setEnabled (false);
+   }
    
    currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
    currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);

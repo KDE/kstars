@@ -107,7 +107,7 @@ void histDrawArea::paintEvent(QPaintEvent *event)
 void histDrawArea::mouseMoveEvent ( QMouseEvent * event )
 {
 
-	int event_x = event->x() - CIRCLE_DIM / 2.;
+	int event_x = (int) (event->x() - CIRCLE_DIM / 2.);
 
  	if (event->buttons() & Qt::LeftButton)
 	{

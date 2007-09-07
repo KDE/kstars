@@ -32,6 +32,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 
+#include <KUndoStack>
 #include <kdebug.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -121,7 +122,7 @@ void FITSHistogram::applyScale()
   
   histC = new FITSHistogramCommand(viewer, this, type, min, max);
   
-  viewer->history->addCommand(histC);
+  viewer->history->push(histC);
 }
  
 void FITSHistogram::constructHistogram(int hist_width, int hist_height)
@@ -243,7 +244,7 @@ FITSHistogramCommand::~FITSHistogramCommand()
   //delete (oldImage);
 }
             
-void FITSHistogramCommand::execute()
+void FITSHistogramCommand::redo()
 {
 
   float val, bufferVal;
@@ -323,7 +324,7 @@ void FITSHistogramCommand::execute()
   viewer->fitsChange();
 }
 
-void FITSHistogramCommand::unexecute()
+void FITSHistogramCommand::undo()
 {
 
   FITSImage *image = viewer->image;
@@ -337,7 +338,7 @@ void FITSHistogramCommand::unexecute()
   
 }
 
-QString FITSHistogramCommand::name() const
+QString FITSHistogramCommand::text() const
 {
 
  switch (type)

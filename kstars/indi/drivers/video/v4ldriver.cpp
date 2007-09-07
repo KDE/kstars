@@ -418,17 +418,13 @@ void V4L_Driver::updateFrame()
   {
       frameCount++;
 
-     // Drop some frames
-     /*if (FrameN[2].value > 160)
-     {* FIXME find an optimal solution to drop frame rates */
         dropLarge--;
         if (dropLarge == 0)
         {
-          dropLarge = (int) (5.0 * (FrameN[2].value / 160.0));
+          dropLarge = (int) (((ImageTypeS[0].s == ISS_ON) ? 5.0 : 15.0) * (FrameN[2].value / 160.0));
 	  updateStream();
           return;
         }
-     
   }
   else if (ExposeTimeNP.s == IPS_BUSY)
   {

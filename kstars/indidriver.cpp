@@ -398,11 +398,14 @@ void INDIDriver::updateMenuActions()
 
   tmpAction = ksw->actionCollection()->action("capture_sequence");
 
-  if (!tmpAction)
-  	kDebug() << "Warning: capture_sequence action not found";
-  else
+  if (tmpAction != NULL)
   	tmpAction->setEnabled(activeImaging);
 
+  tmpAction = NULL;
+  tmpAction = ksw->actionCollection()->action("indi_cpl");
+  if (tmpAction != NULL)
+  	tmpAction->setEnabled(activeDevice);
+#if 0
   /* FIXME The following seems to cause a crash in KStars when we use
      the telescope wizard to automatically search for scopes. I can't
      find any correlation! */
@@ -414,6 +417,7 @@ void INDIDriver::updateMenuActions()
   else
     	tmpAction->setEnabled(activeDevice);
   // Troubled Code END
+#endif
 
 
 }

@@ -32,9 +32,10 @@
 #define INITIAL_W	640
 #define INITIAL_H	480
 
-class K3CommandHistory;
+class KUndoStack;
 class FITSImage;
 class FITSHistogram;
+
 
 class FITSViewer : public KXmlGuiWindow  
 {
@@ -63,7 +64,7 @@ class FITSViewer : public KXmlGuiWindow
 	void fileSave();
         void fileSaveAs();
 	void fitsCOPY();
-	void fitsRestore();
+	void fitsRestore(bool clean=true);
 	void fitsStatistics();
 	void fitsHeader();
 	void slotClose();
@@ -73,9 +74,9 @@ class FITSViewer : public KXmlGuiWindow
 	bool    initFITS();
 	
 	FITSImage *image;					/* FITS image object */
-	FITSHistogram *histo;					/* FITS Histogram */
+	FITSHistogram *histogram;				/* FITS Histogram */
 	
-	K3CommandHistory *history;				/* History for undo/redo */
+	KUndoStack *history;					/* History for undo/redo */
 	int Dirty;						/* Document modified? */
 	KUrl currentURL;					/* FITS File name and path */
 		

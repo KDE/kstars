@@ -99,6 +99,7 @@ class INDI_P : public QObject
     void newText();
     void newSwitch(INDI_E *lp);
     void newAbstractButton(QAbstractButton *button);
+    void newComboBoxItem(const QString &item);
     void newBlob();
     /*void actionTriggered(QAction* action);*/
     

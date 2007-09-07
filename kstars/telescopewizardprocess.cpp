@@ -311,7 +311,8 @@ void telescopeWizardProcess::processPort()
 
      Options::setIndiMessages( INDIMessageBar );
 
-     pp->newSwitch(0);
+     lp = pp->findElement("CONNECT");
+     pp->newSwitch(lp);
 
      timeOutCount = 0;
 
@@ -365,7 +366,10 @@ void telescopeWizardProcess::scanPorts()
      pp = indiDev->findProp("CONNECTION");
      if (!pp) return;
 
-     pp->newSwitch(0);
+     lp = pp->findElement("CONNECT");
+     if (!lp) return;
+
+     pp->newSwitch(lp);
 
 }
 

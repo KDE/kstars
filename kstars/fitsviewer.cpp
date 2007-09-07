@@ -31,10 +31,9 @@
 #include <ktemporaryfile.h>
 #include <kmenubar.h>
 #include <kstatusbar.h>
-#include <k3command.h>
 #include <klineedit.h>
 #include <kicon.h>
-
+#include <KUndoStack>
 
 #include <QFile>
 #include <QCursor>
@@ -47,6 +46,8 @@
 #include <QTreeWidget>
 #include <QHeaderView>
 #include <QApplication>
+
+
 
 #include <math.h>
 #include <unistd.h>
@@ -67,15 +68,16 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
 {
     image      = NULL;
     currentURL = *url;
-    histo      = NULL;
+    histogram      = NULL;
     Dirty      = 0;
 
-    /* Initiliaze menu actions */
-    history = new K3CommandHistory(actionCollection());
+    history = new KUndoStack();
     history->setUndoLimit(10);
-    history->setRedoLimit(10);
-    history->documentSaved();
-    connect(history, SIGNAL(documentRestored()), this, SLOT(fitsRestore()));
+    history->clear();
+    connect(history, SIGNAL(cleanChanged(bool)), this, SLOT(fitsRestore(bool)));
+
+    history->createUndoAction(actionCollection());
+    history->createRedoAction(actionCollection());
 
     /* Setup image widget */
     image = new FITSImage(this);
@@ -182,7 +184,10 @@ void FITSViewer::slotClose()
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )
+		{
+			history->clear();
 			fitsRestore();
+		}
    }
 
    if (Dirty == 0)
@@ -201,7 +206,10 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )
+		{
+			history->clear();
 			fitsRestore();
+		}
    }
 
    if (Dirty == 0)
@@ -223,7 +231,10 @@ void FITSViewer::fileOpen()
 		if ( ans == KMessageBox::Yes )
 			fileSave();
 		else if ( ans == KMessageBox::No )
+		{
+			history->clear();
 			fitsRestore();
+		}
    }
 
    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
@@ -235,11 +246,11 @@ void FITSViewer::fileOpen()
   currentURL = fileURL;
 
   // Close FITS if open and delete it
-  if (histo != NULL)
+  if (histogram != NULL)
   {
-  	histo->close();
-  	delete (histo);
-  	histo = NULL;
+  	histogram->close();
+  	delete (histogram);
+  	histogram = NULL;
   }
 
   initFITS();
@@ -323,22 +334,24 @@ void FITSViewer::fitsCOPY()
 void FITSViewer::imageHistogram()
 {
 
-  if (histo == NULL)
+  if (histogram == NULL)
   {
-    histo = new FITSHistogram(this);
-    histo->show();
+    histogram = new FITSHistogram(this);
+    histogram->show();
   }
   else
-    histo->show();
+    histogram->show();
 
 }
 
-void FITSViewer::fitsRestore()
+void FITSViewer::fitsRestore(bool clean)
 {
-
- Dirty = 0;
- setWindowTitle(currentURL.fileName());
+ if (clean)
+ {
+ 	Dirty = 0;
+ 	setWindowTitle(currentURL.fileName());
  }
+}
 
 void FITSViewer::fitsChange()
 {

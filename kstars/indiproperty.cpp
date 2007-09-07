@@ -47,6 +47,7 @@
 
  #include <unistd.h>
  #include <stdlib.h>
+ #include <assert.h>
 
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
@@ -263,9 +264,23 @@ void INDI_P::newAbstractButton(QAbstractButton *button)
    }
 }
 
+void INDI_P::newComboBoxItem(const QString &item)
+{
+   foreach(INDI_E *lp, el)
+   {
+      if (lp->push_w->text() == item)
+      {
+		newSwitch(lp);
+		break;
+      }
+   }
+}
+
 void INDI_P::newSwitch(INDI_E *lp)
 {
   QFont buttonFont;
+
+  assert(lp != NULL);
 
   switch (guitype)
   {
@@ -684,7 +699,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
 	PHBox->addWidget(om_w);
 	PHBox->addItem(HorSpacer);
 
-	QObject::connect(om_w, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
+	QObject::connect(om_w, SIGNAL( activated ( const QString &)), this, SLOT(newComboBoxItem( const QString &)));
 
        	return (0);
 }

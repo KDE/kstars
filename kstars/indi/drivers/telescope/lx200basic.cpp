@@ -48,6 +48,7 @@ LX200Basic *telescope = NULL;
 extern char* me;
 
 #define BASIC_GROUP	"Main Control"
+#define OPTIONS_GROUP   "Options"
 
 #define currentRA	EqN[0].value
 #define currentDEC	EqN[1].value
@@ -173,11 +174,11 @@ void LX200Basic::initProperties()
 
    IUFillNumber(&SlewPrecisionN[0], "SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0);
    IUFillNumber(&SlewPrecisionN[1], "SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0);
-   IUFillNumberVector(&SlewPrecisionNP, SlewPrecisionN, NARRAY(SlewPrecisionN), mydev, "Slew Precision", "", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumberVector(&SlewPrecisionNP, SlewPrecisionN, NARRAY(SlewPrecisionN), mydev, "Slew Precision", "", OPTIONS_GROUP, IP_RW, 0, IPS_IDLE);
 
    IUFillNumber(&TrackPrecisionN[0], "TrackRA", "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0);
    IUFillNumber(&TrackPrecisionN[1], "TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0);
-   IUFillNumberVector(&TrackPrecisionNP, TrackPrecisionN, NARRAY(TrackPrecisionN), mydev, "Tracking Precision", "", BASIC_GROUP, IP_RW, 0, IPS_IDLE);
+   IUFillNumberVector(&TrackPrecisionNP, TrackPrecisionN, NARRAY(TrackPrecisionN), mydev, "Tracking Precision", "", OPTIONS_GROUP, IP_RW, 0, IPS_IDLE);
 
 
    
