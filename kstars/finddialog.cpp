@@ -58,6 +58,7 @@ FindDialog::FindDialog( QWidget* parent )
 
 	fModel = new QStringListModel( this );
 	sortModel = new QSortFilterProxyModel( ui->SearchList );
+	sortModel->setFilterCaseSensitivity( Qt::CaseInsensitive );
 	ui->SearchList->setModel( sortModel );
 	sortModel->setSourceModel( fModel );
 	ui->SearchList->setModel( sortModel );
@@ -148,46 +149,48 @@ void FindDialog::initSelection() {
 		return;
 	}
 
-	//Pre-select the first item
-	QModelIndex selectItem = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
-	switch ( ui->FilterType->currentIndex() ) {
-		case 0: //All objects, choose Andromeda galaxy
-		{
-			QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
-			selectItem = sortModel->mapFromSource( qmi );
-			break;
-		}
-		case 1: //Stars, choose Aldebaran
-		{
-			QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
-			selectItem = sortModel->mapFromSource( qmi );
-			break;
-		}
-		case 2: //Solar system or Asteroids, choose Aaltje
-		case 9:
-		{
-			QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
-			selectItem = sortModel->mapFromSource( qmi );
-			break;
-		}
-		case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
-		{
-			QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
-			selectItem = sortModel->mapFromSource( qmi );
-			break;
+	if ( ui->SearchBox->text().isEmpty() ) {
+		//Pre-select the first item
+		QModelIndex selectItem = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
+		switch ( ui->FilterType->currentIndex() ) {
+			case 0: //All objects, choose Andromeda galaxy
+			{
+				QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
+				selectItem = sortModel->mapFromSource( qmi );
+				break;
+			}
+			case 1: //Stars, choose Aldebaran
+			{
+				QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
+				selectItem = sortModel->mapFromSource( qmi );
+				break;
+			}
+			case 2: //Solar system or Asteroids, choose Aaltje
+			case 9:
+			{
+				QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
+				selectItem = sortModel->mapFromSource( qmi );
+				break;
+			}
+			case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
+			{
+				QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
+				selectItem = sortModel->mapFromSource( qmi );
+				break;
+			}
+		
 		}
 	
-	}
-
-	if ( selectItem.isValid() ) {
-		ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
-		ui->SearchList->scrollTo( selectItem );
-		ui->SearchList->setCurrentIndex( selectItem );
-		button( Ok )->setEnabled( true );
+		if ( selectItem.isValid() ) {
+			ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+			ui->SearchList->scrollTo( selectItem );
+			ui->SearchList->setCurrentIndex( selectItem );
+			button( Ok )->setEnabled( true );
+		}
 	}
 }
 
-void FindDialog::filterByType( int f ) {
+void FindDialog::filterByType( int /*f*/ ) {
 	if ( timer ) {
 		timer->stop();
 	}
@@ -198,6 +201,22 @@ void FindDialog::filterByType( int f ) {
 void FindDialog::filterByName() {  //Filter the list of names with the string in the SearchBox
 	sortModel->setFilterFixedString( ui->SearchBox->text() );
 	initSelection();
+
+	//Select the first item in the list that begins with the filter string
+	QStringList mItems = fModel->stringList().filter( QRegExp( "^"+ui->SearchBox->text(), Qt::CaseInsensitive ) );
+	mItems.sort();
+
+	if ( mItems.size() ) {
+		QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
+		QModelIndex selectItem = sortModel->mapFromSource( qmi );
+	
+		if ( selectItem.isValid() ) {
+			ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+			ui->SearchList->scrollTo( selectItem );
+			ui->SearchList->setCurrentIndex( selectItem );
+			button( Ok )->setEnabled( true );
+		}
+	}
 }
 
 SkyObject* FindDialog::selectedObject() const {
