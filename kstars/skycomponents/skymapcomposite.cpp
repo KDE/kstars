@@ -351,14 +351,6 @@ void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
 	}
 }
 
-void SkyMapComposite::setStarColorMode( int newMode ) {
-	m_Stars->setStarColorMode( newMode );
-}
-
-void SkyMapComposite::setStarColorIntensity( int newIntensity ) {
-	m_Stars->setStarColorIntensity( newIntensity );
-}
-
 QHash<int, QStringList>& SkyMapComposite::objectNames() {
 	return m_ObjectNames;
 }

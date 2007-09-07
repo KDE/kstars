@@ -148,12 +148,6 @@ bool OpsColors::setColors( const QString &filename ) {
 	kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
 	kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
 
-	if ( ksw->data()->skyComposite()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
-		ksw->data()->skyComposite()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
-
-	if ( ksw->data()->skyComposite()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
-		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
-
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
 		QColor itemColor( ksw->data()->colorScheme()->colorAt( i ) );
 		temp.fill( itemColor );
@@ -239,8 +233,6 @@ void OpsColors::slotRemovePreset() {
 
 void OpsColors::slotStarColorMode( int i ) {
 	ksw->data()->colorScheme()->setStarColorMode( i );
-	if ( ksw->data()->skyComposite()->starColorMode() != ksw->data()->colorScheme()->starColorMode() )
-		ksw->data()->skyComposite()->setStarColorMode( ksw->data()->colorScheme()->starColorMode() );
 
 	if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
 		kcfg_StarColorIntensity->setEnabled( false );
@@ -250,9 +242,6 @@ void OpsColors::slotStarColorMode( int i ) {
 
 void OpsColors::slotStarColorIntensity( int i ) {
 	ksw->data()->colorScheme()->setStarColorIntensity( i );
-	if ( ksw->data()->skyComposite()->starColorIntensity() != ksw->data()->colorScheme()->starColorIntensity() )
-		ksw->data()->skyComposite()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
-
 }
 
 #include "opscolors.moc"

@@ -71,8 +71,6 @@ bool StarComponent::selected()
 void StarComponent::init(KStarsData *data)
 {
 	emitProgressText( i18n("Loading stars" ) );
-	m_ColorMode = data->colorScheme()->starColorMode(); 
-	m_ColorIntensity = data->colorScheme()->starColorIntensity();
 	m_Data = data;
 
 	readLineNumbers();
@@ -224,16 +222,16 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 		//Strictly speaking, we don't need to do this every time, but once per 
 		//draw loop isn't too expensive.
 		StarObject::updateColors( (! Options::useAntialias() || 
-				map->isSlewing()), ks->data()->colorScheme()->starColorIntensity() );
+				map->isSlewing()), starColorIntensity() );
 
-    double zoom = Options::zoomFactor();
+	double zoom = Options::zoomFactor();
 
-    bool drawMag = Options::showStarMagnitudes();
+	bool drawMag = Options::showStarMagnitudes();
 	bool drawName = Options::showStarNames();
 
 	//Loop for drawing star images
-    MeshIterator region(m_skyMesh, DRAW_BUF);
-    while ( region.hasNext() ) {
+	MeshIterator region(m_skyMesh, DRAW_BUF);
+	while ( region.hasNext() ) {
         StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
 		    StarObject *curStar = (StarObject*) starList->at( i );
@@ -510,4 +508,10 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
 	return (SkyObject*) oBest;
 }
 
+int StarComponent::starColorMode( void ) const { 
+	return m_Data->colorScheme()->starColorMode(); 
+}
 
+int StarComponent::starColorIntensity( void ) const { 
+	return m_Data->colorScheme()->starColorIntensity(); 
+}

@@ -73,12 +73,7 @@ class StarComponent: public ListComponent
 /**@return the current setting of the color mode for stars (0=real colors, 
 	*1=solid red, 2=solid white or 3=solid black).
 	*/
-	    int starColorMode( void ) const { return m_ColorMode; }
-
-/**@short Set the color mode for stars (0=real colors, 1=solid red, 2=solid
-	*white or 3=solid black).
-	*/
-	    void setStarColorMode( int mode ) { m_ColorMode = mode; }
+	int starColorMode( void ) const;
 
 /**@short Retrieve the color-intensity value for stars.
 	*
@@ -88,44 +83,35 @@ class StarComponent: public ListComponent
 	*the color-saturation level for star images.
 	*@return the current setting of the color intensity setting for stars.
 	*/
-	    int starColorIntensity( void ) const { return m_ColorIntensity; }
+	int starColorIntensity( void ) const;
 
-/**@short Sets the color-intensity value for stars.
-	*
-	*When using the "realistic colors" mode for stars, stars are rendered as 
-	*white circles with a colored border.  The "color intensity" setting modulates
-	*the relative thickness of this colored border, so it effectively adjusts
-	*the color-saturation level for star images.
-	*/
-	    void setStarColorIntensity( int value ) { m_ColorIntensity = value; }
+	float faintMagnitude() const { return m_FaintMagnitude; }
 
-	    float faintMagnitude() const { return m_FaintMagnitude; }
+	void readData( float newMagnitude );
 
-	    void readData( float newMagnitude );
+	SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
-        SkyObject* objectNearest(SkyPoint *p, double &maxrad );
+	SkyObject* findStarByGenetiveName( const QString name );
 
-        SkyObject* findStarByGenetiveName( const QString name );
+	/* @short usually does nothing.  If we are drawing faint stars and if
+		* Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
+		* the first time we are called we just pop up a splash screen. Then
+		* the second time we are called we actually re-read the data file and
+		* finally erase the pop up.
+		*/
+	void rereadData();
 
-		/* @short usually does nothing.  If we are drawing faint stars and if
-		 * Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
-		 * the first time we are called we just pop up a splash screen. Then
-		 * the second time we are called we actually re-read the data file and
-		 * finally erase the pop up.
-		 */
-		void rereadData();
+	/* @short reads in the small starlnum.idx file that contains the line
+		* numbers from the stars.dat file that correspond to rough 90
+		* different magnitudes.  This allows us to estimate the number of
+		* lines that need to get read when partially reading stars.dat.
+		*/
+	void readLineNumbers();
 
-		/* @short reads in the small starlnum.idx file that contains the line
-		 * numbers from the stars.dat file that correspond to rough 90
-		 * different magnitudes.  This allows us to estimate the number of
-		 * lines that need to get read when partially reading stars.dat.
-		 */
-		void readLineNumbers();
-
-		/* @short returns an estimate of the stars.dat line number for a given
-		 * star magnitude.
-		 */
-		int lineNumber( float mag );
+	/* @short returns an estimate of the stars.dat line number for a given
+		* star magnitude.
+		*/
+	int lineNumber( float mag );
 
 
 	private:
@@ -145,7 +131,6 @@ class StarComponent: public ListComponent
 		KStarsData*    m_Data;
 		float          m_FaintMagnitude;
 		float          m_zoomMagLimit;
-		int            m_ColorMode, m_ColorIntensity;
 
 		KStarsSplash*  m_reloadSplash;
 		KStarsSplash*  m_reindexSplash;
