@@ -29,7 +29,6 @@
 #include <kdebug.h>
 #include <ktoolbar.h>
 #include <ktemporaryfile.h>
-#include <kimageeffect.h>
 #include <kmenubar.h>
 #include <kstatusbar.h>
 #include <k3command.h>

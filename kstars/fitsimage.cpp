@@ -28,7 +28,6 @@
 #include <ktoolbar.h>
 #include <kglobal.h>
 #include <ktemporaryfile.h>
-#include <kimageeffect.h> 
 #include <kmenubar.h>
 #include <kprogressdialog.h>
 #include <kstatusbar.h>
