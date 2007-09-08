@@ -102,7 +102,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
             lineList = 0;
 
             if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
-            QString cName = line.mid(1, 3); 
+            QString cName = line.mid(1); 
             polyList = new PolyList( cName );
 			if ( verbose == -1 ) printf(":\n");
             continue;
