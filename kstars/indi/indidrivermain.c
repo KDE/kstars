@@ -934,6 +934,16 @@ void IUFillSwitch(ISwitch *sp, const char *name, const char * label, ISState s)
   sp->aux = NULL;
 }
 
+void IUFillLight(ILight *lp, const char *name, const char * label, IPState s)
+{
+  strcpy(lp->name, name);
+  strcpy(lp->label, label);
+  lp->s = s;
+  lp->lvp = NULL;
+  lp->aux = NULL;
+}
+
+
 void IUFillNumber(INumber *np, const char *name, const char * label, const char *format, double min, double max, double step, double value)
 {
 
@@ -978,6 +988,19 @@ void IUFillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const 
   svp->s	= s;
   svp->sp	= sp;
   svp->nsp	= nsp;
+}
+
+void IUFillLightVector(ILightVectorProperty *lvp, ILight *lp, int nlp, const char * dev, const char *name, const char *label, const char *group, IPState s)
+{
+  strcpy(lvp->device, dev);
+  strcpy(lvp->name, name);
+  strcpy(lvp->label, label);
+  strcpy(lvp->group, group);
+  strcpy(lvp->timestamp, "");
+  
+  lvp->s	= s;
+  lvp->lp	= lp;
+  lvp->nlp	= nlp;
 }
  
 void IUFillNumberVector(INumberVectorProperty *nvp, INumber *np, int nnp, const char * dev, const char *name, const char *label, const char* group, IPerm p, double timeout, IPState s)

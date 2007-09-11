@@ -488,6 +488,14 @@ extern void IUSaveText (IText *tp, const char *newtext);
 */
 extern void IUFillSwitch(ISwitch *sp, const char *name, const char * label, ISState s);
 
+/** \brief Assign attributes for a light property. The light's auxiliary elements will be set to NULL.
+    \param lp pointer a light property to fill
+    \param name the light name
+    \param label the light label
+    \param s the light state (IDLE, WARNING, OK, ALERT)
+*/
+extern void IUFillLight(ILight *lp, const char *name, const char * label, IPState s);
+
 /** \brief Assign attributes for a number property. The number's auxiliary elements will be set to NULL.
     \param np pointer a number property to fill
     \param name the number name
@@ -508,6 +516,7 @@ extern void IUFillNumber(INumber *np, const char *name, const char * label, cons
 */
 extern void IUFillText(IText *tp, const char *name, const char * label, const char *initialText);
 
+
 /** \brief Assign attributes for a switch vector property. The vector's auxiliary elements will be set to NULL.
     \param svp pointer a switch vector property to fill
     \param sp pointer to an array of switches
@@ -522,6 +531,18 @@ extern void IUFillText(IText *tp, const char *name, const char * label, const ch
     \param s the vector property initial state.
 */
 extern void IUFillSwitchVector(ISwitchVectorProperty *svp, ISwitch *sp, int nsp, const char * dev, const char *name, const char *label, const char *group, IPerm p, ISRule r, double timeout, IPState s);
+
+/** \brief Assign attributes for a light vector property. The vector's auxiliary elements will be set to NULL.
+    \param lvp pointer a light vector property to fill
+    \param lp pointer to an array of lights
+    \param nlp the dimension of lp
+    \param dev the device name this vector property belongs to
+    \param name the vector property name
+    \param label the vector property label
+    \param group the vector property group
+    \param s the vector property initial state.
+*/
+extern void IUFillLightVector(ILightVectorProperty *lvp, ILight *lp, int nlp, const char * dev, const char *name, const char *label, const char *group, IPState s);
 
 /** \brief Assign attributes for a number vector property. The vector's auxiliary elements will be set to NULL.
     \param nvp pointer a number vector property to fill
