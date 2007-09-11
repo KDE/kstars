@@ -18,9 +18,9 @@ endif(ssh_tunnel)
 
 set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/lilxml.c )
 
-set(libindicom_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
+set(libindicom_SRCS
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c
+	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c
 	)
 
 set(libapogee_SRCS
@@ -224,9 +224,9 @@ install(TARGETS indiserver  DESTINATION ${BIN_INSTALL_DIR} )
 #####################################
 
 ########### LX200 Basic #############
-set(lx200basic_SRCS 
+set(lx200basic_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200basic.cpp )
 
 kde4_add_executable(indi_lx200basic NOGUI ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -238,13 +238,13 @@ install(TARGETS indi_lx200basic DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
 
 ########### LX200 Generic ###########
-set(lx200generic_SRCS 
+set(lx200generic_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c 
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200autostar.cpp 
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200_16.cpp 
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200gps.cpp 
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200generic.cpp 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200autostar.cpp
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200_16.cpp
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200gps.cpp
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200generic.cpp
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200classic.cpp )
 
 kde4_add_executable(indi_lx200generic NOGUI ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -253,24 +253,31 @@ target_link_libraries(indi_lx200generic  ${KDE4_KDECORE_LIBS} m )
 
 install(TARGETS indi_lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/indi_lx200classic)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200classic)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200classic)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200classic)
 
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/indi_lx200autostar)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200autostar)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200autostar)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200autostar)
 
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/indi_lx200_16)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200_16)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200_16)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200_16)
 
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f ${BIN_INSTALL_DIR}/indi_lx200gps)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200gps)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200gps)
+ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200gps)
+
+INSTALL (FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200classic
+    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200autostar
+    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200_16
+    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200gps
+    DESTINATION ${BIN_INSTALL_DIR})
 
 #################################################################################
 
 ########### Celestron GPS ############
-set(celestrongps_SRCS 
+set(celestrongps_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/celestronprotocol.c 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/celestronprotocol.c
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/celestrongps.cpp )
 
 kde4_add_executable(indi_celestron_gps NOGUI ${celestrongps_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -282,7 +289,7 @@ install(TARGETS indi_celestron_gps DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
 
 ########### Orion Atlas #############
-set(orionatlas_SRCS 
+set(orionatlas_SRCS
    ${indimain_SRCS}
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/orionatlas.cpp )
 
@@ -295,7 +302,7 @@ install(TARGETS indi_orion_atlas DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
 
 ########### Takahashi Temma ##########
-set(temma_SRCS 
+set(temma_SRCS
    ${indimain_SRCS}
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/temmadriver.c )
 
@@ -308,9 +315,9 @@ install(TARGETS indi_temma DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
 
 ########### Sky Commander #############
-set(skycommander_SRCS 
+set(skycommander_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/skycommander.c )
 
 kde4_add_executable(indi_skycommander ${skycommander_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -322,9 +329,9 @@ install(TARGETS indi_skycommander  DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
 
 ########### Intelliscope ###############
-set(intelliscope_SRCS 
+set(intelliscope_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/lx200driver.c
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/telescope/intelliscope.c )
 
 kde4_add_executable(indi_intelliscope ${intelliscope_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
@@ -434,7 +441,7 @@ if (CFITSIO_FOUND)
 
 set(apogee_alta_SRCS
 	${indimain_SRCS}
-	${libapogee_SRCS}	
+	${libapogee_SRCS}
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/ccd/indialta.c
 )
 
@@ -473,9 +480,9 @@ endif (CFITSIO_FOUND)
 ########### STV #######################
 if (CFITSIO_FOUND)
 
-set(stv_SRCS 
+set(stv_SRCS
    ${indimain_SRCS}
-   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/video/stvdriver.c 
+   ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/video/stvdriver.c
    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/video/stv.c )
 
 kde4_add_executable(indi_sbig_stv NOGUI ${stv_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
