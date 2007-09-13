@@ -47,6 +47,9 @@ FocusDialog::FocusDialog( KStars *_ks )
 	setButtons( KDialog::Ok|KDialog::Cancel );
 
 	fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
+	fd->raBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
+	fd->azBox->setMinimumWidth( fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width() );
+
 	fd->raBox->setDegType(false); //RA box should be HMS-style
 	fd->raBox->setFocus(); //set input focus
 	enableButtonOk( false ); //disable until both lineedits are filled
