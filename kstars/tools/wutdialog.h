@@ -55,10 +55,9 @@ class WUTDialog : public KDialog  {
 	private slots:
 
 		/**@short Load the list of visible objects for selected object type.
-			*@p type the object-type classification number
-			*@see the SkyObject TYPE enum
+			*@p category the string describing the type of object
 			*/
-		void slotLoadList(int type);
+		void slotLoadList(const QString &category);
 
 		/**@short Determine which objects are visible, and store them in
 			*an array of lists, classified by object type 
@@ -67,7 +66,7 @@ class WUTDialog : public KDialog  {
 
 		/**@short display the rise/transit/set times for selected object 
 			*/
-		void slotDisplayObject(Q3ListBoxItem *item);
+		void slotDisplayObject(const QString &name);
 
 		/**@short Apply user's choice of what part of the night should 
 			*be examined:
@@ -75,7 +74,7 @@ class WUTDialog : public KDialog  {
 			*@li 1: Morning only (midnight to sunrise)
 			*@li 2: All night (sunset to sunrise)
 			*/
-		void slotEveningMorning( int index );
+		void slotEveningMorning( int flag );
 
 		/**@short Adjust the date for the WUT tool
 			*@note this does NOT affect the date of the sky map 
@@ -99,6 +98,9 @@ class WUTDialog : public KDialog  {
 		KStars *kstars;
 		WUTDialogUI *WUT;
 		
+		QList<SkyObject*>& visibleObjects( const QString &category );
+		bool isCategoryInitialized( const QString &category );
+
 		/**@short Initialize all SIGNAL/SLOT connections, used in constructor */
 		void makeConnections();
 		
@@ -111,22 +113,15 @@ class WUTDialog : public KDialog  {
 			*/
 		bool checkVisibility(SkyObject *o);
 
-		/**@short split the objects in object-type categories */
-		void splitObjectList();
-
-		/**@short Append object to the correct object-type list. */
-		void appendToList(SkyObject *o);
-
 		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 		KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
 
 		GeoLocation *geo;
 		int EveningFlag;
 		
-		struct List {
-			QList<SkyObject*> visibleList[NCATEGORY];
-			bool initialized[NCATEGORY];
-		} lists;
+		QStringList m_Categories;
+		QHash< QString, QList< SkyObject* > > m_VisibleList;
+		QHash< QString, bool > m_CategoryInitialized;
 
 };
 

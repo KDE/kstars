@@ -94,31 +94,36 @@ void WUTDialog::makeConnections() {
 	connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
 	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
 	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
-	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(Q3ListBoxItem*) ),
-			SLOT( slotDisplayObject(Q3ListBoxItem*) ) );
+	connect( WUT->CategoryListWidget, SIGNAL( currentTextChanged(const QString &) ), 
+		 SLOT( slotLoadList(const QString &) ) );
+	connect( WUT->ObjectListWidget, SIGNAL( currentTextChanged(const QString &) ),
+			SLOT( slotDisplayObject(const QString &) ) );
 	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
 }
 
 void WUTDialog::initCategories() {
-	WUT->CategoryListBox->insertItem( i18n( "Planets" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Comets" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Asteroids" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Stars" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Constellations" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Star Clusters" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Nebulae" ) );
-	WUT->CategoryListBox->insertItem( i18n( "Galaxies" ) );
-	WUT->CategoryListBox->setSelected(0, true);
+	m_Categories << i18n( "Planets" ) << i18n( "Comets" ) 
+	    << i18n( "Asteroids" ) << i18n( "Stars" ) 
+	    << i18n( "Constellations" ) << i18n( "Star Clusters" ) 
+	    << i18n( "Nebulae" ) << i18n( "Galaxies" );
+
+	foreach ( QString c, m_Categories ) 
+	    WUT->CategoryListWidget->addItem( c );
+	
+	WUT->CategoryListWidget->setCurrentRow( 0 );
 }
 
 void WUTDialog::init() {
 	QString sRise, sSet, sDuration;
 
 	// reset all lists
-	for (int i=0; i<NCATEGORY; i++) {
-		lists.visibleList[i].clear();
-		lists.initialized[i] = false;
+	foreach ( QString c, m_Categories ) {
+	  if ( m_VisibleList.contains( c ) )
+	    visibleObjects( c ).clear();
+	  else
+	    m_VisibleList[ c ] = QList<SkyObject*>();
+
+	  m_CategoryInitialized[ c ] = false;
 	}
 
 	// sun almanac information
@@ -196,94 +201,118 @@ void WUTDialog::init() {
 	oSun->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
 	oMoon->findPhase( oSun );
 
-	splitObjectList();
-	// load first list
-	slotLoadList(0);
+	if ( WUT->CategoryListWidget->currentItem() )
+	  slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
 
 	delete num;
 	delete oldNum;
 }
 
-void WUTDialog::splitObjectList() {
-	// don't append objects which are never visible
-	for ( SkyObject *o = kstars->data()->skyComposite()->first(); o; o = kstars->data()->skyComposite()->next() ) {
-		bool visible = true;
-		// is object circumpolar or never visible
-		if (o->checkCircumpolar(geo->lat()) == true) {
-			// never visible
-			if (o->alt()->Degrees() <= 0) visible = false;
-		}
-		if (visible == true) appendToList(o);
-	}
+QList<SkyObject*>& WUTDialog::visibleObjects( const QString &category ) {
+  return m_VisibleList[ category ];
 }
 
-void WUTDialog::appendToList(SkyObject *o) {
-	// split into several lists
-	switch (o->type()) {
-		//case SkyObject::CATALOG_STAR			: //Omitting CATALOG_STARs from list
-		case SkyObject::PLANET            : lists.visibleList[0].append(o); break;
-		case SkyObject::COMET             : lists.visibleList[1].append(o); break;
-		case SkyObject::ASTEROID          : lists.visibleList[2].append(o); break;
-		case SkyObject::STAR              : lists.visibleList[3].append(o); break;
-		case SkyObject::CONSTELLATION     : lists.visibleList[4].append(o); break;
-		case SkyObject::OPEN_CLUSTER      :
-		case SkyObject::GLOBULAR_CLUSTER  : lists.visibleList[5].append(o); break;
-		case SkyObject::GASEOUS_NEBULA    :
-		case SkyObject::PLANETARY_NEBULA  :
-		case SkyObject::SUPERNOVA_REMNANT : lists.visibleList[6].append(o); break;
-		case SkyObject::GALAXY            : lists.visibleList[7].append(o); break;
-	}
+bool WUTDialog::isCategoryInitialized( const QString &category ) {
+  return m_CategoryInitialized[ category ];
 }
 
-void WUTDialog::slotLoadList(int i) {
-	if (i < 0)
-		return;
+void WUTDialog::slotLoadList( const QString &c ) {
+	if ( ! m_VisibleList.contains( c ) ) return;
 
-	WUT->ObjectListBox->clear();
+	WUT->ObjectListWidget->clear();
 	setCursor(QCursor(Qt::WaitCursor));
-//DONT_NEED_INVISLIST
-//	QList<SkyObject*> invisibleList;
-	foreach ( SkyObject *o, lists.visibleList[i] ) {
-		bool visible = true;
-		if (lists.initialized[i] == false) {
-			if (i == 0) {  //planets, sun and moon
-				if (o->name() == "Sun" ) visible = false;  // don't ever display the sun
-				else visible = checkVisibility(o);
-			}
-//DONT_NEED_INVISLIST
-//			if (visible == false) {
-//				// collect all invisible objects
-//				invisibleList.append(o);
-//			}
+
+	if ( ! isCategoryInitialized(c) ) {
+
+	  if ( c == m_Categories[0] ) { //Planets
+	    foreach ( QString name, kstars->data()->skyComposite()->objectNames( SkyObject::PLANET ) ) {
+	      SkyObject *o = kstars->data()->skyComposite()->findByName( name );
+
+	      if ( checkVisibility( o ) )
+		visibleObjects(c).append(o);
+	    }
+
+	    m_CategoryInitialized[ c ] = true;
+	  }
+
+	  else if ( c == m_Categories[1] ) { //Comets
+	    foreach ( SkyObject *o, kstars->data()->skyComposite()->comets() )
+	      if ( checkVisibility(o) )
+		visibleObjects(c).append(o);
+
+	    m_CategoryInitialized[ c ] = true;
+	  }
+
+	  else if ( c == m_Categories[2] ) { //Asteroids
+	    foreach ( SkyObject *o, kstars->data()->skyComposite()->asteroids() )
+	      if ( checkVisibility(o) && o->name() != i18n("Pluto") )
+		visibleObjects(c).append(o);
+
+	    m_CategoryInitialized[ c ] = true;
+	  }
+
+	  else if ( c == m_Categories[3] ) { //Stars
+	    foreach ( SkyObject *o, kstars->data()->skyComposite()->stars() )
+	      if ( o->name() != i18n("star") && checkVisibility(o) )
+		visibleObjects(c).append(o);
+
+	    m_CategoryInitialized[ c ] = true;
+	  }
+
+	  else if ( c == m_Categories[4] ) { //Constellations
+	    foreach ( SkyObject *o, kstars->data()->skyComposite()->constellationNames() )
+	      if ( checkVisibility(o) )
+		visibleObjects(c).append(o);
+
+	    m_CategoryInitialized[ c ] = true;
+	  }
+
+	  else { //all deep-sky objects, need to split clusters, nebulae and galaxies
+	    foreach ( DeepSkyObject *dso, kstars->data()->skyComposite()->deepSkyObjects() ) {
+	      SkyObject *o = (SkyObject*)dso;
+	      if ( checkVisibility(o) ) {
+		switch( o->type() ) {
+		case SkyObject::OPEN_CLUSTER: //fall through
+		case SkyObject::GLOBULAR_CLUSTER:
+		  visibleObjects(m_Categories[5]).append(o); //star clusters
+		  break;
+		case SkyObject::GASEOUS_NEBULA: //fall through
+		case SkyObject::PLANETARY_NEBULA: //fall through
+		case SkyObject::SUPERNOVA_REMNANT:
+		  visibleObjects(m_Categories[6]).append(o); //nebulae
+		  break;
+		case SkyObject::GALAXY:
+		  visibleObjects(m_Categories[7]).append(o); //galaxies
+		  break;
 		}
-		// append to listbox
-		if (visible == true) WUT->ObjectListBox->insertItem( o->name() );
-		else {
-			int k=lists.visibleList[i].indexOf(o);
-			if ( k >= 0 ) lists.visibleList[i].removeAt(k);
-		}
+	      }
+	    }
+
+	    m_CategoryInitialized[ m_Categories[5] ] = true;
+	    m_CategoryInitialized[ m_Categories[6] ] = true;
+	    m_CategoryInitialized[ m_Categories[7] ] = true;
+	  }
 	}
-//DONT_NEED_INVISLIST
-//	// remove all invisible objects from list
-//	if (invisibleList.isEmpty() == false) {
-//		for ( uint j=0; j < invisibleList.size(); ++j ) {
-//			lists.visibleList[i].takeAt(j);
-//		}
-//	}
+
+	//Now the category has been initialized, we can populate the list widget
+	foreach ( SkyObject *o, visibleObjects(c) ) 
+		WUT->ObjectListWidget->addItem( o->name() );
 
 	setCursor(QCursor(Qt::ArrowCursor));
-	lists.initialized[i] = true;
 
 	// highlight first item
-	if ( WUT->ObjectListBox->count() ) {
-		WUT->ObjectListBox->setSelected(0, true);
-		WUT->ObjectListBox->setFocus();
+	if ( WUT->ObjectListWidget->count() ) {
+	  WUT->ObjectListWidget->setCurrentRow( 0 );
+	  WUT->ObjectListWidget->setFocus();
 	}
 }
 
 bool WUTDialog::checkVisibility(SkyObject *o) {
 	bool visible( false );
 	double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
+
+	// reject objects that never rise
+	if (o->checkCircumpolar(geo->lat()) == true && o->alt()->Degrees() <= 0) return false;
 
 	//Initial values for T1, T2 assume all night option of EveningMorningBox
 	KStarsDateTime T1 = Evening;
@@ -316,7 +345,7 @@ bool WUTDialog::checkVisibility(SkyObject *o) {
 	return visible;
 }
 
-void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
+void WUTDialog::slotDisplayObject( const QString &name ) {
 	QTime tRise, tSet, tTransit;
 	QString sRise, sTransit, sSet;
 
@@ -326,18 +355,18 @@ void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
 	WUT->DetailButton->setEnabled( false );
 
 	SkyObject *o = 0;
-	if ( item == 0 )
+	if ( name.isEmpty() )
 	{  //no object selected
 		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
 		o = 0;
 	} else {
-		o = kstars->data()->objectNamed( item->text() );
+		o = kstars->data()->objectNamed( name );
 
 		if ( !o ) { //should never get here
 			WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
 		}
 	}
-	if (o && item) {
+	if (o) {
 		WUT->ObjectBox->setTitle( o->name() );
 
 		if ( o->checkCircumpolar( geo->lat() ) ) {
@@ -378,8 +407,8 @@ void WUTDialog::slotDisplayObject(Q3ListBoxItem *item) {
 void WUTDialog::slotCenter() {
 	SkyObject *o = 0;
 	// get selected item
-	if (WUT->ObjectListBox->selectedItem() != 0) {
-		o = kstars->data()->objectNamed( WUT->ObjectListBox->selectedItem()->text() );
+	if (WUT->ObjectListWidget->currentItem() != 0) {
+		o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
 	}
 	if (o != 0) {
 		kstars->map()->setFocusPoint( o );
@@ -391,8 +420,8 @@ void WUTDialog::slotCenter() {
 void WUTDialog::slotDetails() {
 	SkyObject *o = 0;
 	// get selected item
-	if (WUT->ObjectListBox->selectedItem() != 0) {
-		o = kstars->data()->objectNamed( WUT->ObjectListBox->selectedItem()->text() );
+	if (WUT->ObjectListWidget->currentItem() != 0) {
+		o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
 	}
 	if (o != 0) {
 		DetailDialog detail(o, kstars->data()->LTime, geo, kstars);
@@ -423,9 +452,8 @@ void WUTDialog::slotChangeDate() {
 
 		WUT->DateLabel->setText( i18n( "The night of %1", Evening.date().toString() ) );
 
-		int i = WUT->CategoryListBox->currentItem();
 		init();
-		slotLoadList( i );
+		slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
 	}
 }
 
@@ -441,9 +469,8 @@ void WUTDialog::slotChangeLocation() {
 
 			WUT->LocationLabel->setText( i18n( "at %1", geo->fullName() ) );
 
-			int i = WUT->CategoryListBox->currentItem();
 			init();
-			slotLoadList( i );
+			slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
 		}
 	}
 }
@@ -451,11 +478,8 @@ void WUTDialog::slotChangeLocation() {
 void WUTDialog::slotEveningMorning( int index ) {
 	if ( EveningFlag != index ) {
 		EveningFlag = index;
-//		splitObjectList();
-//		slotLoadList( WUT->CategoryListBox->currentItem() );
-		int i = WUT->CategoryListBox->currentItem();
 		init();
-		slotLoadList( i );
+		slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
 	}
 }
 
