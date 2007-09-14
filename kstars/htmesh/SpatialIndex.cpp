@@ -20,7 +20,7 @@
 #ifdef _WIN32
 #include <malloc.h>
 #else
-#ifdef __macosx
+#ifdef __APPLE__
 #include <sys/malloc.h>
 #else
 #include <stdlib.h>

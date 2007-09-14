@@ -422,7 +422,7 @@ VarStrToken::next( const char *d ) {
     s = str_;
   }
 
-#if defined(_WIN32) || defined(__macosx)
+#if defined(_WIN32) || defined(__APPLE__)
   // Windows claims its strtok is thread-safe
   token_ = strtok( s, delimiters_ );
 #else

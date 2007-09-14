@@ -116,7 +116,7 @@ const float64 gEpsilon = 1.0E-15;
 // standard explicit template instantiation, define.
 //
 
-#if defined(__macosx)
+#if defined (__APPLE__)
 #   define LINKAGE
 #endif
 

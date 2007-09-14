@@ -174,7 +174,7 @@ htmInterface::getInt64() {
 	return _atoi64(token.data());
 #elif defined(SpatialDigitalUnix)
 	return atol(token.data());
-#elif defined(__macosx)
+#elif defined(__APPLE__)
 	return atol(token.data());
 #else
 	return atoll(token.data());
