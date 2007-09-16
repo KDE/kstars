@@ -19,29 +19,25 @@
 
 #include "fitsimage.h"
 
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kdebug.h>
-#include <ktoolbar.h>
-#include <kglobal.h>
-#include <ktemporaryfile.h>
-#include <kmenubar.h>
-#include <kprogressdialog.h>
-#include <kstatusbar.h>
+#include <math.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <netinet/in.h>
 
+#include <QApplication>
 #include <QPaintEvent>
 #include <QScrollArea>
 #include <QFile>
 #include <QCursor>
 
-
-#include <math.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <netinet/in.h>
+#include <KDebug>
+#include <KLocale>
+#include <KAction>
+#include <KActionCollection>
+#include <KStatusBar>
+#include <KProgressDialog>
+#include <KMessageBox>
+#include <KFileDialog>
 
 #include "indi/libs/indicom.h"
 #include "fitsviewer.h"
@@ -130,6 +126,14 @@ int FITSImage::loadFits ( const QString &filename )
   long fpixel[2], nelements, naxes[2];
   char error_status[32];
 
+  KProgressDialog fitsProg(NULL, i18n("Loading FITS"), i18n("Please hold while loading FITS file..."));
+  fitsProg.setAllowCancel(true);
+  fitsProg.progressBar()->setRange(0, 100);
+  fitsProg.progressBar()->setValue(40);
+  fitsProg.show();
+
+  qApp->processEvents();
+
   if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
   {
 	fits_report_error(stderr, status);
@@ -137,6 +141,9 @@ int FITSImage::loadFits ( const QString &filename )
 	KMessageBox::error(0, i18n("FITS file open error: %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
 	return -1;
   }
+
+  fitsProg.progressBar()->setValue(60);
+  qApp->processEvents();
 
   if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
   {
@@ -154,6 +161,9 @@ int FITSImage::loadFits ( const QString &filename )
 	return -1;
   }
 
+  fitsProg.progressBar()->setValue(70);
+  qApp->processEvents();
+
   stats.dim[0] = naxes[0];
   stats.dim[1] = naxes[1];
 
@@ -165,6 +175,9 @@ int FITSImage::loadFits ( const QString &filename )
   image_buffer = new float[stats.dim[0] * stats.dim[1]];
   
   displayImage = new QImage(stats.dim[0], stats.dim[1], QImage::Format_Indexed8);
+
+  fitsProg.progressBar()->setValue(80);
+  qApp->processEvents();
 
   displayImage->setNumColors(256);
  
@@ -181,6 +194,9 @@ int FITSImage::loadFits ( const QString &filename )
 	return -1;
  }
 
+ fitsProg.progressBar()->setValue(90);
+ qApp->processEvents();
+
  currentZoom   = 100;
  currentWidth  = stats.dim[0];
  currentHeight = stats.dim[1];
@@ -189,7 +205,13 @@ int FITSImage::loadFits ( const QString &filename )
  if (rescale(ZOOM_FIT_WINDOW))
 	return -1;
 
+  fitsProg.progressBar()->setValue(95);
+  qApp->processEvents();
+
   calculateStats();
+ 
+  fitsProg.progressBar()->setValue(100);
+  qApp->processEvents();
 
   setAlignment(Qt::AlignCenter);
 

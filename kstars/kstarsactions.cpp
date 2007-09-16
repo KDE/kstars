@@ -593,7 +593,7 @@ void KStars::slotRunScript() {
 		if( !p.waitForStarted() )
 		  return;
 
-		while ( p.waitForFinished( 10 ) ) 
+		while ( !p.waitForFinished( 10 ) ) 
 		{
 		    qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
 		    if( p.state() != QProcess::Running )
