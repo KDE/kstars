@@ -130,7 +130,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSPowerSP))
        return;
 
-      if (IUUpdateSwitches(&GPSPowerSP, states, names, n) < 0)
+      if (IUUpdateSwitch(&GPSPowerSP, states, names, n) < 0)
 		return;
 
       index = getOnSwitch(&GPSPowerSP);
@@ -146,7 +146,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSStatusSP))
        return;
 
-      if (IUUpdateSwitches(&GPSStatusSP, states, names, n) < 0)
+      if (IUUpdateSwitch(&GPSStatusSP, states, names, n) < 0)
 		return;
 
       index = getOnSwitch(&GPSStatusSP);
@@ -181,7 +181,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&GPSUpdateSP))
        return;
 
-	if (IUUpdateSwitches(&GPSUpdateSP, states, names, n) < 0)
+	if (IUUpdateSwitch(&GPSUpdateSP, states, names, n) < 0)
 		return;
 
 	index = getOnSwitch(&GPSUpdateSP);
@@ -220,7 +220,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&AltDecPecSP))
        return;
 
-      if (IUUpdateSwitches(&AltDecPecSP, states, names, n) < 0)
+      if (IUUpdateSwitch(&AltDecPecSP, states, names, n) < 0)
 	return;
 
       index = getOnSwitch(&AltDecPecSP);
@@ -248,7 +248,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
        if (checkPower(&AzRaPecSP))
        return; 
 
-      if (IUUpdateSwitches(&AzRaPecSP, states, names, n) < 0)
+      if (IUUpdateSwitch(&AzRaPecSP, states, names, n) < 0)
 		return;
 
       index = getOnSwitch(&AzRaPecSP);
@@ -299,7 +299,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
      if (checkPower(&OTAUpdateSP))
       return;
       
-      IUResetSwitches(&OTAUpdateSP);
+      IUResetSwitch(&OTAUpdateSP);
       
       if ( (error_type = getOTATemp(fd, &OTATempNP.np[0].value)) < 0)
       {

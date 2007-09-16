@@ -251,7 +251,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
 	if (!strcmp (name, OnCoordSetSw.name)) {
 		if (POWSW){
-			IUResetSwitches(&OnCoordSetSw);
+			IUResetSwitch(&OnCoordSetSw);
 			sp = IUFindSwitch (&OnCoordSetSw, names[0]);
 			if (!sp)
 				return;
@@ -260,8 +260,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
 			sp->s = states[0];
 
-			IUResetSwitches(&OnCoordSetSw);
-			IUUpdateSwitches(&OnCoordSetSw, states, names, n);
+			IUResetSwitch(&OnCoordSetSw);
+			IUUpdateSwitch(&OnCoordSetSw, states, names, n);
 			/*			    currentSet = getOnSwitch(&OnCoordSetSw); */
 			OnCoordSetSw.s = IPS_OK;
 			IDSetSwitch(&OnCoordSetSw, NULL);

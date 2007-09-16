@@ -227,8 +227,8 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (checkPower(&StarCatalogSP))
 	   return;
 
-	 IUResetSwitches(&StarCatalogSP);
-	 IUUpdateSwitches(&StarCatalogSP, states, names, n);
+	 IUResetSwitch(&StarCatalogSP);
+	 IUUpdateSwitch(&StarCatalogSP, states, names, n);
 	 index = getOnSwitch(&StarCatalogSP);
 
 	 currentCatalog = LX200_STAR_C;
@@ -253,8 +253,8 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (checkPower(&DeepSkyCatalogSP))
 	   return;
 
-	IUResetSwitches(&DeepSkyCatalogSP);
-	IUUpdateSwitches(&DeepSkyCatalogSP, states, names, n);
+	IUResetSwitch(&DeepSkyCatalogSP);
+	IUUpdateSwitch(&DeepSkyCatalogSP, states, names, n);
 	index = getOnSwitch(&DeepSkyCatalogSP);
 
 	  if (index == LX200_MESSIER_C)
@@ -288,7 +288,7 @@ void LX200Classic::ISNewNumber (const char *dev, const char *name, double values
 	  if (checkPower(&SolarSP))
 	   return;
 
-	   if (IUUpdateSwitches(&SolarSP, states, names, n) < 0)
+	   if (IUUpdateSwitch(&SolarSP, states, names, n) < 0)
 		return;
 
 	   index = getOnSwitch(&SolarSP);

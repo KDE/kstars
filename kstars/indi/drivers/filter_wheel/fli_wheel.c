@@ -165,8 +165,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, PortSP.name))
 	{
 		PortSP.s = IPS_IDLE; 
-		IUResetSwitches(&PortSP);
-		IUUpdateSwitches(&PortSP, states, names, n);
+		IUResetSwitch(&PortSP);
+		IUUpdateSwitch(&PortSP, states, names, n);
 		portSwitchIndex = getOnSwitch(&PortSP);
 		
 		PortSP.s = IPS_OK; 
@@ -177,8 +177,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, PowerSP.name))
 	{
-		IUResetSwitches(&PowerSP);
-		IUUpdateSwitches(&PowerSP, states, names, n);
+		IUResetSwitch(&PowerSP);
+		IUUpdateSwitch(&PowerSP, states, names, n);
 		connectFilter();
 		return;
 	}

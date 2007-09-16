@@ -437,7 +437,7 @@ extern ISwitch *IUFindOnSwitch (const ISwitchVectorProperty *tp);
 *
 * \param svp a pointer to a switch vector property.
 */
-extern void IUResetSwitches(const ISwitchVectorProperty *svp);
+extern void IUResetSwitch(ISwitchVectorProperty *svp);
 
 /** \brief Update all switches in a switch vector property.
 *
@@ -447,7 +447,7 @@ extern void IUResetSwitches(const ISwitchVectorProperty *svp);
 * \param n the number of ISwitch members to update.
 * \return 0 if update successful, -1 otherwise.
 */
-extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n);
+extern int IUUpdateSwitch(ISwitchVectorProperty *svp, ISState *states, char *names[], int n);
 
 /** \brief Update all numbers in a number vector property.
 *
@@ -457,7 +457,7 @@ extern int IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *n
 * \param n the number of INumber members to update.
 * \return 0 if update successful, -1 otherwise. Update will fail if values are out of scope, or in case of property name mismatch.
 */
-extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n);
+extern int IUUpdateNumber(INumberVectorProperty *nvp, double values[], char *names[], int n);
 
 /** \brief Update all text members in a text vector property.
 *
@@ -467,12 +467,12 @@ extern int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *na
 * \param n the number of IText members to update.
 * \return 0 if update successful, -1 otherwise. Update will fail in case of property name mismatch.
 */
-extern int IUUpdateTexts(ITextVectorProperty *tvp, char * texts[], char *names[], int n);
+extern int IUUpdateText(ITextVectorProperty *tvp, char * texts[], char *names[], int n);
 
 /** \brief Function to update the min and max elements of a number in the client
     \param nvp pointer to an INumberVectorProperty.
  */
-extern void IUUpdateMinMax(INumberVectorProperty *nvp);
+extern void IUUpdateMinMax(const INumberVectorProperty *nvp);
 
 /** \brief Function to reliably save new text in a IText.
     \param tp pointer to an IText member.

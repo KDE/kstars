@@ -321,7 +321,7 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 
         if (!strcmp (name, TrackingPrecisionNP.name))
 	{
-		if (!IUUpdateNumbers(&TrackingPrecisionNP, values, names, n))
+		if (!IUUpdateNumber(&TrackingPrecisionNP, values, names, n))
 		{
 			TrackingPrecisionNP.s = IPS_OK;
 			IDSetNumber(&TrackingPrecisionNP, NULL);
@@ -335,7 +335,7 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 
 	if (!strcmp(name, SlewPrecisionNP.name))
 	{
-		IUUpdateNumbers(&SlewPrecisionNP, values, names, n);
+		IUUpdateNumber(&SlewPrecisionNP, values, names, n);
 		{
 			SlewPrecisionNP.s = IPS_OK;
 			IDSetNumber(&SlewPrecisionNP, NULL);
@@ -387,8 +387,8 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	       
 	   if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	   {
-	   	IUResetSwitches(&MovementNSSP);
-		IUResetSwitches(&MovementWESP);
+	   	IUResetSwitch(&MovementNSSP);
+		IUResetSwitch(&MovementWESP);
 		MovementNSSP.s = MovementWESP.s = IPS_IDLE;
 		IDSetSwitch(&MovementNSSP, NULL);
 		IDSetSwitch(&MovementWESP, NULL);
@@ -428,7 +428,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// FIRST Switch ALWAYS for power
 	if (!strcmp (name, ConnectSP.name))
 	{
-	 if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0) return;
+	 if (IUUpdateSwitch(&ConnectSP, states, names, n) < 0) return;
    	 connectTelescope();
 	 return;
 	}
@@ -439,7 +439,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   return;
 
 	  
-	  if (IUUpdateSwitches(&OnCoordSetSP, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&OnCoordSetSP, states, names, n) < 0) return;
 	  currentSet = getOnSwitch(&OnCoordSetSP);
 	}
 	
@@ -453,7 +453,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 	  }
 	  
-	  IUResetSwitches(&AbortSlewSP);
+	  IUResetSwitch(&AbortSlewSP);
 	  StopNSEW();
 
 	    if (EquatorialCoordsWNP.s == IPS_BUSY)
@@ -471,9 +471,9 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	
 		AbortSlewSP.s = IPS_OK;		
 		EquatorialCoordsRNP.s       = IPS_IDLE;
-		IUResetSwitches(&MovementNSSP);
-		IUResetSwitches(&MovementWESP);
-		IUResetSwitches(&AbortSlewSP);
+		IUResetSwitch(&MovementNSSP);
+		IUResetSwitch(&MovementWESP);
+		IUResetSwitch(&AbortSlewSP);
 
 		IDSetSwitch(&AbortSlewSP, "Slew aborted.");
 		IDSetSwitch(&MovementNSSP, NULL);
@@ -495,8 +495,8 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&SlewModeSP))
 	   return;
 
-	  IUResetSwitches(&SlewModeSP);
-	  IUUpdateSwitches(&SlewModeSP, states, names, n);
+	  IUResetSwitch(&SlewModeSP);
+	  IUUpdateSwitch(&SlewModeSP, states, names, n);
 	  index = getOnSwitch(&SlewModeSP);
 	  SetRate(index);
           
@@ -517,7 +517,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// -1 means all off previously
 	 last_move = getOnSwitch(&MovementNSSP);
 
-	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
+	 if (IUUpdateSwitch(&MovementNSSP, states, names, n) < 0)
 		return;
 
 	current_move = getOnSwitch(&SlewModeSP);
@@ -526,7 +526,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (current_move == last_move)
 	{
 		StopSlew((current_move == 0) ? NORTH : SOUTH);
-		IUResetSwitches(&MovementNSSP);
+		IUResetSwitch(&MovementNSSP);
 	    	MovementNSSP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementNSSP, NULL);
 		return;
@@ -561,7 +561,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// -1 means all off previously
 	 last_move = getOnSwitch(&MovementWESP);
 
-	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
+	 if (IUUpdateSwitch(&MovementWESP, states, names, n) < 0)
 		return;
 
 	current_move = getOnSwitch(&SlewModeSP);
@@ -570,7 +570,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (current_move == last_move)
 	{
 		StopSlew((current_move ==0) ? WEST : EAST);
-		IUResetSwitches(&MovementWESP);
+		IUResetSwitch(&MovementWESP);
 	    	MovementWESP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementWESP, NULL);
 		return;

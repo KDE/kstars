@@ -597,10 +597,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     /* If the clients wants to update this property, let's perform the following */
 	  
     /* A. We reset all switches (in this case CONNECT and DISCONNECT) to ISS_OFF */
-    IUResetSwitches(&PowerSP);
+    IUResetSwitch(&PowerSP);
 
-    /* B. We update the switches by sending their names and updated states IUUpdateSwitches function */
-    IUUpdateSwitches(&PowerSP, states, names, n);
+    /* B. We update the switches by sending their names and updated states IUUpdateSwitch function */
+    IUUpdateSwitch(&PowerSP, states, names, n);
 	  
     /* C. We try to establish a connection to our device */
     connectRobofocus();
@@ -1248,7 +1248,7 @@ void connectRobofocus(void) {
    {
 
       PowerSP.s = IPS_ALERT;
-      IUResetSwitches(&PowerSP);
+      IUResetSwitch(&PowerSP);
       IDSetSwitch(&PowerSP, "Error connecting to port >%s<", PortT[0].text);
       return;
     }
@@ -1262,9 +1262,9 @@ void connectRobofocus(void) {
 
     IERmWorkProc ( wp) ;
     tty_disconnect(fd);
-    IUResetSwitches(&PowerSP);    
-    IUResetSwitches(&PowerSwitchesSP);
-    IUResetSwitches(&DirectionSP);
+    IUResetSwitch(&PowerSP);    
+    IUResetSwitch(&PowerSwitchesSP);
+    IUResetSwitch(&DirectionSP);
     AbsMovementNP.s= RelMovementNP.s= TimerNP.s= SpeedNP.s= SetBacklashNP.s= SetRegisterPositionNP.s= MinMaxPositionNP.s= DirectionSP.s= PowerSwitchesSP.s= SettingsNP.s= TemperatureNP.s= PositionNP.s = PortTP.s = PowerSP.s = IPS_IDLE;
 
     IDSetSwitch(&PowerSP, "Robofocus is offline.");

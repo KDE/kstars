@@ -246,8 +246,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, PortSP.name))
 	{
    	  PortSP.s = IPS_IDLE; 
-	  IUResetSwitches(&PortSP);
-	  IUUpdateSwitches(&PortSP, states, names, n);
+	  IUResetSwitch(&PortSP);
+	  IUUpdateSwitch(&PortSP, states, names, n);
 	  portSwitchIndex = getOnSwitch(&PortSP);
 	  
 	  PortSP.s = IPS_OK; 
@@ -258,7 +258,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, ConnectSP.name))
 	{
-	  if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0)
+	  if (IUUpdateSwitch(&ConnectSP, states, names, n) < 0)
 		return;
    	  connectCCD();
 	  return;
@@ -291,7 +291,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	   
 	   if ((err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_NORMAL) ))
   	   {
-	    IUResetSwitches(&FrameTypeSP);
+	    IUResetSwitch(&FrameTypeSP);
 	    FrameTypeS[LIGHT_FRAME].s = ISS_ON;
 	    FrameTypeSP.s = IPS_ALERT;
             IDSetSwitch(&FrameTypeSP, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
@@ -299,7 +299,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	    return;
 	   }
 	  
-	   IUResetSwitches(&FrameTypeSP);
+	   IUResetSwitch(&FrameTypeSP);
 	   sp->s = ISS_ON; 
 	   FrameTypeSP.s = IPS_OK;
 	   IDSetSwitch(&FrameTypeSP, NULL);
@@ -316,7 +316,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	   
 	   if ((err = FLISetFrameType(fli_dev, FLI_FRAME_TYPE_DARK) ))
   	   {
-	    IUResetSwitches(&FrameTypeSP);
+	    IUResetSwitch(&FrameTypeSP);
 	    FrameTypeS[LIGHT_FRAME].s = ISS_ON;
 	    FrameTypeSP.s = IPS_ALERT;
             IDSetSwitch(&FrameTypeSP, "FLISetFrameType() failed. %s.\n", strerror((int)-err));
@@ -324,7 +324,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	    return;
 	   }
 	   
-	   IUResetSwitches(&FrameTypeSP);
+	   IUResetSwitch(&FrameTypeSP);
 	   sp->s = ISS_ON;
 	   FrameTypeSP.s = IPS_OK;
 	   IDSetSwitch(&FrameTypeSP, NULL);

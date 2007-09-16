@@ -108,7 +108,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  if (checkPower(&FocusSpeedNP))
 	   return;
 
-	  if (IUUpdateNumbers(&FocusSpeedNP, values, names, n) < 0)
+	  if (IUUpdateNumber(&FocusSpeedNP, values, names, n) < 0)
 		return;
 
 	  setGPSFocuserSpeed(fd,  ( (int) FocusSpeedN[0].value));
@@ -159,7 +159,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  if (checkPower(&FocusMotionSP))
 	   return;
 
-	  IUResetSwitches(&FocusMotionSP);
+	  IUResetSwitch(&FocusMotionSP);
 	  
 	  // If speed is "halt"
 	  if (FocusSpeedN[0].value == 0)
@@ -169,7 +169,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	    return;
 	  }
 	  
-	  IUUpdateSwitches(&FocusMotionSP, states, names, n);
+	  IUUpdateSwitch(&FocusMotionSP, states, names, n);
 	  index = getOnSwitch(&FocusMotionSP);
 	  
 	  

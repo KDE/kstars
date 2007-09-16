@@ -140,7 +140,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	/* Connection */
 	if (!strcmp (name, PowerSP.name))
 	{
-		IUUpdateSwitches(&PowerSP, states, names, n);
+		IUUpdateSwitch(&PowerSP, states, names, n);
 		connectFilter();
 		return;
 	}
@@ -193,7 +193,7 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 
 	if (!strcmp(name, PortTP.name))
 	{
-		if (IUUpdateTexts(&PortTP, texts, names, n))
+		if (IUUpdateText(&PortTP, texts, names, n))
 		  return;
 
 		PortTP.s = IPS_OK;
@@ -243,7 +243,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 				return;
 			}
 
-			IUUpdateNumbers(&FilterPositionNP, values, names, n);
+			IUUpdateNumber(&FilterPositionNP, values, names, n);
 			err = tty_write(fd, filter_command, CMD_SIZE, &nbytes);
 
 			FilterPositionNP.s = IPS_OK;
@@ -272,7 +272,7 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 		np = IUFindNumber(&FilterCountNP, names[0]);
 		if (np == &FilterCountN[0])
 		{
-			if (IUUpdateNumbers(&FilterCountNP, values, names, n) <0)
+			if (IUUpdateNumber(&FilterCountNP, values, names, n) <0)
 				return;
 
 			FilterPositionN[0].min = 1;

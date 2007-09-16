@@ -412,43 +412,43 @@ static void ISInit() {
 void ISResetButtons( char *message) {
 
   ControlSP.s= IPS_IDLE ;
-  IUResetSwitches(&ControlSP);
+  IUResetSwitch(&ControlSP);
   IDSetSwitch(&ControlSP, NULL);
   
   ValueSP.s= IPS_IDLE ;
-  IUResetSwitches(&ValueSP);
+  IUResetSwitch(&ValueSP);
   IDSetSwitch(&ValueSP, NULL);
 
   AuxiliarySP.s= IPS_IDLE ;
-  IUResetSwitches(&AuxiliarySP);
+  IUResetSwitch(&AuxiliarySP);
   IDSetSwitch(&AuxiliarySP, NULL);
 
   AcquireSP.s= IPS_IDLE ;
-  IUResetSwitches(&AcquireSP);
+  IUResetSwitch(&AcquireSP);
   IDSetSwitch(&AcquireSP, NULL);
 
   GuideSP.s= IPS_IDLE ;
-  IUResetSwitches(&GuideSP);
+  IUResetSwitch(&GuideSP);
   IDSetSwitch(&GuideSP, NULL);
 
   ProcessSP.s= IPS_IDLE ;
-  IUResetSwitches(&ProcessSP);
+  IUResetSwitch(&ProcessSP);
   IDSetSwitch(&ProcessSP, NULL);
 
   ImageInfoSP.s= IPS_IDLE ;
-  IUResetSwitches(&ImageInfoSP);
+  IUResetSwitch(&ImageInfoSP);
   IDSetSwitch(&ImageInfoSP, NULL);
 
   BufferStatusSP.s= IPS_IDLE ;
-  IUResetSwitches(&BufferStatusSP);
+  IUResetSwitch(&BufferStatusSP);
   IDSetSwitch(&BufferStatusSP, NULL);
 
 /*   SP.s= IPS_IDLE ; */
-/*   IUResetSwitches(&SP); */
+/*   IUResetSwitch(&SP); */
 /*   IDSetSwitch(&SP, NULL); */
 
   DownloadSP.s= IPS_IDLE ;
-  IUResetSwitches(&DownloadSP);
+  IUResetSwitch(&DownloadSP);
 
   IDSetSwitch(&DownloadSP, "%s", message);
     
@@ -708,11 +708,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	  
     /* A. We reset all switches (in this case CONNECT and DISCONNECT) to ISS_OFF */
     
-    IUResetSwitches(&PowerSP);
+    IUResetSwitch(&PowerSP);
 
-    /* B. We update the switches by sending their names and updated states IUUpdateSwitches function */
+    /* B. We update the switches by sending their names and updated states IUUpdateSwitch function */
     
-    IUUpdateSwitches(&PowerSP, states, names, n);
+    IUUpdateSwitch(&PowerSP, states, names, n);
 	  
     /* C. We try to establish a connection to our device or terminate it*/
 
@@ -741,7 +741,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       if(( fd= STV_Connect( PortT[0].text, baud))== -1) {
 
 	PowerSP.s = IPS_ALERT;
-	IUResetSwitches( &PowerSP);
+	IUResetSwitch( &PowerSP);
 	IDSetSwitch( &PowerSP, "Error connecting to port %s", PortT[0].text);
 
 	return;
@@ -781,11 +781,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       ISResetButtons(NULL) ;
 	
       GuideSP.s= IPS_IDLE ;
-      IUResetSwitches(&GuideSP);
+      IUResetSwitch(&GuideSP);
       IDSetSwitch(&GuideSP, NULL);
 
       TXDisplaySP.s= IPS_IDLE ;
-      IUResetSwitches(&TXDisplaySP);
+      IUResetSwitch(&TXDisplaySP);
       IDSetSwitch(&TXDisplaySP, NULL);
       
       DisplayCTP.s = IPS_IDLE;
@@ -809,7 +809,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       IDSetBLOB (&imageBP, NULL);
 
       PowerSP.s = IPS_IDLE;
-      IUResetSwitches(&PowerSP);
+      IUResetSwitch(&PowerSP);
       IDSetSwitch(&PowerSP, "STV is offline");
 
       break;
@@ -821,8 +821,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     /* Setup und interrupt buttons */
 
     ISResetButtons(NULL) ;
-    IUResetSwitches(&AuxiliarySP);
-    IUUpdateSwitches(&AuxiliarySP, states, names, n);
+    IUResetSwitch(&AuxiliarySP);
+    IUUpdateSwitch(&AuxiliarySP, states, names, n);
 
     for( i = 0; i < n; i++) {
       
@@ -840,13 +840,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       AuxiliarySP.s= IPS_OK ;
-      IUResetSwitches(&AuxiliarySP) ;
+      IUResetSwitch(&AuxiliarySP) ;
       IDSetSwitch(&AuxiliarySP, NULL) ;
 
     } else {
 
       AuxiliarySP.s= IPS_ALERT ;
-      IUResetSwitches(&AuxiliarySP) ;
+      IUResetSwitch(&AuxiliarySP) ;
       IDSetSwitch(&AuxiliarySP, "Check connection") ;
     }
 
@@ -854,8 +854,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
     /* Parameter, value and the rotary knobs */
     ISResetButtons(NULL) ;
-    IUResetSwitches(&ControlSP);
-    IUUpdateSwitches(&ControlSP, states, names, n);
+    IUResetSwitch(&ControlSP);
+    IUUpdateSwitch(&ControlSP, states, names, n);
 
     acquiring=   OFF ;
     guiding=     OFF ; 
@@ -883,21 +883,21 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       ControlSP.s= IPS_OK ;
-      IUResetSwitches(&ControlSP) ;
+      IUResetSwitch(&ControlSP) ;
       IDSetSwitch(&ControlSP, NULL) ;
 
     } else {
 
       ControlSP.s= IPS_ALERT ;
-      IUResetSwitches(&ControlSP) ;
+      IUResetSwitch(&ControlSP) ;
       IDSetSwitch(&ControlSP, "Check connection") ;
     }
   } else if( !strcmp (name, ValueSP.name)) {
 
     /* Button Value, left/right knob */
     ISResetButtons(NULL) ;
-    IUResetSwitches(&ValueSP);
-    IUUpdateSwitches(&ValueSP, states, names, n);
+    IUResetSwitch(&ValueSP);
+    IUUpdateSwitch(&ValueSP, states, names, n);
 
     acquiring=   OFF ;
     guiding=     OFF ; 
@@ -924,21 +924,21 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       ValueSP.s= IPS_OK ;
-      IUResetSwitches(&ValueSP) ;
+      IUResetSwitch(&ValueSP) ;
       IDSetSwitch(&ValueSP, NULL) ;
 
     } else {
 
       ValueSP.s= IPS_ALERT ;
-      IUResetSwitches(&ValueSP) ;
+      IUResetSwitch(&ValueSP) ;
       IDSetSwitch(&ValueSP, "Check connection") ;
     }
   } else if( !strcmp (name, AcquireSP.name)) {
 
     /* Focus, Image Monitor buttons */
     ISResetButtons(NULL) ;
-    IUResetSwitches(&AcquireSP);
-    IUUpdateSwitches(&AcquireSP, states, names, n);
+    IUResetSwitch(&AcquireSP);
+    IUUpdateSwitch(&AcquireSP, states, names, n);
 
     acquiring=  ON  ;
     guiding=    OFF ;
@@ -964,13 +964,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       AcquireSP.s= IPS_OK ;
-      IUResetSwitches(&AcquireSP) ;
+      IUResetSwitch(&AcquireSP) ;
       IDSetSwitch(&AcquireSP, NULL) ;
 
     } else {
 
       AcquireSP.s= IPS_ALERT ;
-      IUResetSwitches(&AcquireSP) ;
+      IUResetSwitch(&AcquireSP) ;
       IDSetSwitch(&AcquireSP, "Check connection") ;
     }
 
@@ -978,8 +978,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
     /* Calibrate, Track buttons */
     ISResetButtons(NULL) ;
-    IUResetSwitches(&GuideSP);
-    IUUpdateSwitches(&GuideSP, states, names, n);
+    IUResetSwitch(&GuideSP);
+    IUUpdateSwitch(&GuideSP, states, names, n);
 
     acquiring=  OFF  ;
     guiding=    ON ;
@@ -1001,20 +1001,20 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       GuideSP.s= IPS_OK ;
-      IUResetSwitches(&GuideSP) ;
+      IUResetSwitch(&GuideSP) ;
       IDSetSwitch(&GuideSP, NULL) ;
 
     } else {
 
       GuideSP.s= IPS_ALERT ;
-      IUResetSwitches(&GuideSP) ;
+      IUResetSwitch(&GuideSP) ;
       IDSetSwitch(&GuideSP, "Check connection") ;
     }
   } else if( !strcmp (name, ProcessSP.name)) {
 
     ISResetButtons(NULL) ;
-    IUResetSwitches(&ProcessSP);
-    IUUpdateSwitches(&ProcessSP, states, names, n);
+    IUResetSwitch(&ProcessSP);
+    IUUpdateSwitch(&ProcessSP, states, names, n);
 
     acquiring=  OFF ;
     guiding=    OFF ;
@@ -1036,13 +1036,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       ProcessSP.s= IPS_OK ;
-      IUResetSwitches(&ProcessSP) ;
+      IUResetSwitch(&ProcessSP) ;
       IDSetSwitch(&ProcessSP, NULL) ;
 
     } else {
 
       ProcessSP.s= IPS_ALERT ;
-      IUResetSwitches(&ProcessSP) ;
+      IUResetSwitch(&ProcessSP) ;
       IDSetSwitch(&ProcessSP, "Check connection") ;
     }
   } else if( !strcmp (name, ImageInfoSP.name)) {
@@ -1084,13 +1084,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res== 0) {
 
       ImageInfoSP.s= IPS_OK ;
-      IUResetSwitches( &ImageInfoSP) ;
+      IUResetSwitch( &ImageInfoSP) ;
       IDSetSwitch( &ImageInfoSP, NULL) ;
 
     } else {
 
       ImageInfoSP.s= IPS_ALERT ;
-      IUResetSwitches( &ImageInfoSP) ;
+      IUResetSwitch( &ImageInfoSP) ;
       /*IDSetSwitch( &ImageInfoSP, "Check connection") ; */
       IDSetSwitch( &ImageInfoSP, NULL) ;
     }
@@ -1106,8 +1106,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
     /* Enable or disable compression for image download */
     ISResetButtons(NULL) ;
-    IUResetSwitches(&CompressionSP);
-    IUUpdateSwitches(&CompressionSP, states, names, n);
+    IUResetSwitch(&CompressionSP);
+    IUUpdateSwitch(&CompressionSP, states, names, n);
 
     for( i = 0; i < n; i++) {
       
@@ -1131,7 +1131,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     ISResetButtons(NULL) ;
 
     BufferStatusSP.s= IPS_ALERT ;
-    IUResetSwitches(&BufferStatusSP) ;
+    IUResetSwitch(&BufferStatusSP) ;
     IDSetSwitch(&BufferStatusSP, "Wait...") ;
      
     if( ( AcquireSP.s != OFF) || ( GuideSP.s != OFF) || ( ProcessSP.s != OFF)) {
@@ -1143,19 +1143,19 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       ISResetButtons( "Interrupting ongoing image acquisition, calibration or tracking\n") ;
 
       AcquireSP.s= IPS_IDLE ;
-      IUResetSwitches(&AcquireSP);
+      IUResetSwitch(&AcquireSP);
       IDSetSwitch(&AcquireSP, NULL);
 
       GuideSP.s= IPS_IDLE ;
-      IUResetSwitches(&GuideSP);
+      IUResetSwitch(&GuideSP);
       IDSetSwitch(&GuideSP, NULL);
 
       ProcessSP.s= IPS_IDLE ;
-      IUResetSwitches(&ProcessSP);
+      IUResetSwitch(&ProcessSP);
       IDSetSwitch(&ProcessSP, NULL);
 
       ImageInfoSP.s= IPS_IDLE ;
-      IUResetSwitches(&ImageInfoSP);
+      IUResetSwitch(&ImageInfoSP);
       IDSetSwitch(&ImageInfoSP, NULL);
 
       res= STV_Interrupt() ;
@@ -1191,12 +1191,12 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( 0 <= res) { 
 
       BufferStatusSP.s= IPS_OK ;
-      IUResetSwitches(&BufferStatusSP) ;
+      IUResetSwitch(&BufferStatusSP) ;
       IDSetSwitch(&BufferStatusSP, NULL) ;
     } else {
 
       BufferStatusSP.s= IPS_ALERT ;
-      IUResetSwitches(&BufferStatusSP) ;
+      IUResetSwitch(&BufferStatusSP) ;
       IDSetSwitch(&BufferStatusSP, "Check connection") ;
     }
  
@@ -1213,19 +1213,19 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
       ISResetButtons( "Interrupting ongoing image acquisition, calibration or tracking\n") ;
 
       AcquireSP.s= IPS_IDLE ;
-      IUResetSwitches(&AcquireSP);
+      IUResetSwitch(&AcquireSP);
       IDSetSwitch(&AcquireSP, NULL);
 
       GuideSP.s= IPS_IDLE ;
-      IUResetSwitches(&GuideSP);
+      IUResetSwitch(&GuideSP);
       IDSetSwitch(&GuideSP, NULL);
 
       ProcessSP.s= IPS_IDLE ;
-      IUResetSwitches(&ProcessSP);
+      IUResetSwitch(&ProcessSP);
       IDSetSwitch(&ProcessSP, NULL);
 
       ImageInfoSP.s= IPS_IDLE ;
-      IUResetSwitches(&ImageInfoSP);
+      IUResetSwitch(&ImageInfoSP);
       IDSetSwitch(&ImageInfoSP, NULL);
 
       res= STV_Interrupt() ;
@@ -1242,7 +1242,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     }
 
     DownloadSP.s= IPS_ALERT ;
-    IUResetSwitches(&DownloadSP) ;
+    IUResetSwitch(&DownloadSP) ;
     IDSetSwitch(&DownloadSP, NULL) ;
 
     compression= OFF ;
@@ -1290,13 +1290,13 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	IDSetText( &UTCTP, "Error setting time, check connection") ;
       }
       DownloadSP.s= IPS_OK ;
-      IUResetSwitches(&DownloadSP) ;
+      IUResetSwitch(&DownloadSP) ;
       IDSetSwitch(&DownloadSP, NULL) ;
 
     } else { /* res could be -1 (STV_RequestImageData) */
 
       DownloadSP.s= IPS_ALERT ;
-      IUResetSwitches(&DownloadSP) ;
+      IUResetSwitch(&DownloadSP) ;
       IDSetSwitch(&DownloadSP, "Check connection") ;
       IDSetSwitch(&DownloadSP, NULL) ;
     }
@@ -1312,8 +1312,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     processing= OFF  ;
 
     ISResetButtons(NULL) ;
-    IUResetSwitches(&TXDisplaySP);
-    IUUpdateSwitches(&TXDisplaySP, states, names, n);
+    IUResetSwitch(&TXDisplaySP);
+    IUUpdateSwitch(&TXDisplaySP, states, names, n);
 
     for( i = 0; i < n; i++) {
       
@@ -1366,7 +1366,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
     if( res != 0) {
 
       TXDisplaySP.s= IPS_ALERT ;
-      IUResetSwitches(&TXDisplaySP) ;
+      IUResetSwitch(&TXDisplaySP) ;
       IDSetSwitch(&TXDisplaySP, "Check connection") ;
     }
 
@@ -1389,7 +1389,7 @@ void ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 
   if( !strcmp (name, PortTP.name)) {
 
-    if (IUUpdateTexts(&PortTP, texts, names, n) < 0)
+    if (IUUpdateText(&PortTP, texts, names, n) < 0)
 	return;
 
     PortTP.s = IPS_OK;

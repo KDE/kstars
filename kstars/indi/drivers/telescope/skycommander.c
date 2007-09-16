@@ -97,8 +97,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
    if (!strcmp(name, PowerSP.name))
    {
-      IUResetSwitches(&PowerSP);
-      IUUpdateSwitches(&PowerSP, states, names, n);
+      IUResetSwitch(&PowerSP);
+      IUUpdateSwitch(&PowerSP, states, names, n);
       connectTelescope();
       return;
    }
@@ -167,7 +167,7 @@ void connectTelescope(void)
      if (tty_connect(PortT[0].text, 9600, 8, 0, 1, &fd) != TTY_OK)
      {
        PowerSP.s = IPS_ALERT;
-       IUResetSwitches(&PowerSP);
+       IUResetSwitch(&PowerSP);
        IDSetSwitch(&PowerSP, "Error connecting to port %s", PortT[0].text);
        return;
      }
@@ -178,7 +178,7 @@ void connectTelescope(void)
 
    case ISS_OFF:
 	tty_disconnect(fd);
-	IUResetSwitches(&PowerSP);
+	IUResetSwitch(&PowerSP);
         eqNum.s = PortTP.s = PowerSP.s = IPS_IDLE;
 	IDSetSwitch(&PowerSP, "Sky Commander is offline.");
         IDSetText(&PortTP, NULL);

@@ -186,8 +186,8 @@ void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states
      /* Connection */
      if (!strcmp (name, PowerSP.name))
      {
-          IUResetSwitches(&PowerSP);
-	  IUUpdateSwitches(&PowerSP, states, names, n);
+          IUResetSwitch(&PowerSP);
+	  IUUpdateSwitch(&PowerSP, states, names, n);
    	  connectCamera();
 	  return;
      }
@@ -195,8 +195,8 @@ void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states
      /* Compression */
      if (!strcmp(name, CompressSP.name))
      {
-       IUResetSwitches(&CompressSP);
-       IUUpdateSwitches(&CompressSP, states, names, n);
+       IUResetSwitch(&CompressSP);
+       IUUpdateSwitch(&CompressSP, states, names, n);
        CompressSP.s = IPS_OK;
        
        IDSetSwitch(&CompressSP, NULL);
@@ -206,8 +206,8 @@ void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states
      /* Image Type */
      if (!strcmp(name, ImageTypeSP.name))
      {
-       IUResetSwitches(&ImageTypeSP);
-       IUUpdateSwitches(&ImageTypeSP, states, names, n);
+       IUResetSwitch(&ImageTypeSP);
+       IUUpdateSwitch(&ImageTypeSP, states, names, n);
        ImageTypeSP.s = IPS_OK;
        
        IDSetSwitch(&ImageTypeSP, NULL);
@@ -221,8 +221,8 @@ void V4L_Driver::ISNewSwitch (const char *dev, const char *name, ISState *states
       if (checkPowerS(&StreamSP))
          return;
        
-       IUResetSwitches(&StreamSP);
-       IUUpdateSwitches(&StreamSP, states, names, n);
+       IUResetSwitch(&StreamSP);
+       IUUpdateSwitch(&StreamSP, states, names, n);
        StreamSP.s = IPS_IDLE;
        
           
@@ -287,7 +287,7 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
 
       FrameNP.s = IPS_OK;
       
-      if (IUUpdateNumbers(&FrameNP, values, names, n) < 0)
+      if (IUUpdateNumber(&FrameNP, values, names, n) < 0)
        return;
       
       if (v4l_base->setSize( (int) FrameN[2].value, (int) FrameN[3].value) != -1)
@@ -319,7 +319,7 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
       
      FrameRateNP.s = IPS_IDLE;
      
-     if (IUUpdateNumbers(&FrameRateNP, values, names, n) < 0)
+     if (IUUpdateNumber(&FrameRateNP, values, names, n) < 0)
        return;
        
      v4l_base->setFPS( (int) FrameRateN[0].value );
@@ -338,7 +338,7 @@ void V4L_Driver::ISNewNumber (const char *dev, const char *name, double values[]
        
      ImageAdjustNP.s = IPS_IDLE;
      
-     if (IUUpdateNumbers(&ImageAdjustNP, values, names, n) < 0)
+     if (IUUpdateNumber(&ImageAdjustNP, values, names, n) < 0)
        return;
      
      #ifndef HAVE_LINUX_VIDEODEV2_H

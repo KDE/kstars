@@ -324,7 +324,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp(name, ConnectSP.name))
 	{
 
-		if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0)
+		if (IUUpdateSwitch(&ConnectSP, states, names, n) < 0)
 				return;
 
 		if (ConnectS[ON_S].s == ISS_ON)
@@ -378,7 +378,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 		    	if (smsg)
 			{
 				ApnGlueSetFan (fs);
-				IUResetSwitches (&FanSpeedSP);
+				IUResetSwitch (&FanSpeedSP);
 				FanSpeedSP.sp[fs].s = ISS_ON;
 				FanSpeedSP.s = IPS_OK;
 				IDSetSwitch (&FanSpeedSP, smsg);
@@ -403,7 +403,7 @@ void ISNewNumber (const char *dev, const char *name, double *doubles, char *name
 
 	if (!strcmp (name, ExposureWNP.name)) 
 	{
-		if (IUUpdateNumbers(&ExposureWNP, doubles, names, n) < 0)
+		if (IUUpdateNumber(&ExposureWNP, doubles, names, n) < 0)
 			return;
 
 	            if (ExposureWNP.s == IPS_BUSY) 
@@ -459,21 +459,21 @@ void ISNewNumber (const char *dev, const char *name, double *doubles, char *name
 
 		if (!strcmp (name, ExposureSettingsNP.name))
 		{
-			if (IUUpdateNumbers(&ExposureSettingsNP, doubles, names, n) < 0)
+			if (IUUpdateNumber(&ExposureSettingsNP, doubles, names, n) < 0)
 				return;
 			else
 				current_prop = &ExposureSettingsNP;
 		}
 		else if (!strcmp (name, FrameNP.name))
 		{
-			if (IUUpdateNumbers(&FrameNP, doubles, names, n) < 0)
+			if (IUUpdateNumber(&FrameNP, doubles, names, n) < 0)
 				return;
 			else
 				current_prop = &FrameNP;
 		}
 		else if (!strcmp (name, BinningNP.name))
 		{
-			if (IUUpdateNumbers(&BinningNP, doubles, names, n) < 0)
+			if (IUUpdateNumber(&BinningNP, doubles, names, n) < 0)
 				return;
 			else
 				current_prop = &BinningNP;
@@ -510,7 +510,7 @@ void ISNewNumber (const char *dev, const char *name, double *doubles, char *name
  	if (!strcmp(name, TemperatureWNP.name))
 	{
 
-	    if (IUUpdateNumbers(&TemperatureWNP, doubles, names, n) < 0)
+	    if (IUUpdateNumber(&TemperatureWNP, doubles, names, n) < 0)
 		return;
 
 	    double newt = TemperatureWNP.np[0].value;

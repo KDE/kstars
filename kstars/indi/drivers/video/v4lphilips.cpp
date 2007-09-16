@@ -134,8 +134,8 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
      /* Connection */
      if (!strcmp (name, PowerSP.name))
      {
-          IUResetSwitches(&PowerSP);
-	  IUUpdateSwitches(&PowerSP, states, names, n);
+          IUResetSwitch(&PowerSP);
+	  IUUpdateSwitch(&PowerSP, states, names, n);
    	  connectCamera();
 	  return;
      }
@@ -150,8 +150,8 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 
        AntiFlickerSP.s = IPS_IDLE;
        
-       IUResetSwitches(&AntiFlickerSP);
-       IUUpdateSwitches(&AntiFlickerSP, states, names, n);
+       IUResetSwitch(&AntiFlickerSP);
+       IUUpdateSwitch(&AntiFlickerSP, states, names, n);
        
        if (AntiFlickerS[0].s == ISS_ON)
        {
@@ -190,8 +190,8 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 
        BackLightSP.s = IPS_IDLE;
        
-       IUResetSwitches(&BackLightSP);
-       IUUpdateSwitches(&BackLightSP, states, names, n);
+       IUResetSwitch(&BackLightSP);
+       IUUpdateSwitch(&BackLightSP, states, names, n);
        
        if (BackLightS[0].s == ISS_ON)
        {
@@ -230,8 +230,8 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 
        NoiseReductionSP.s = IPS_IDLE;
        
-       IUResetSwitches(&NoiseReductionSP);
-       IUUpdateSwitches(&NoiseReductionSP, states, names, n);
+       IUResetSwitch(&NoiseReductionSP);
+       IUUpdateSwitch(&NoiseReductionSP, states, names, n);
        
        for (int i=0; i < 4; i++)
         if (NoiseReductionS[i].s == ISS_ON)
@@ -242,7 +242,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	
        if (v4l_pwc->setNoiseRemoval(index, errmsg) < 0)
        {
-         IUResetSwitches(&NoiseReductionSP);
+         IUResetSwitch(&NoiseReductionSP);
 	 NoiseReductionS[0].s = ISS_ON;
 	 IDSetSwitch(&NoiseReductionSP, "%s", errmsg);
 	 return;
@@ -262,8 +262,8 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 
        WhiteBalanceModeSP.s = IPS_IDLE;
        
-       IUResetSwitches(&WhiteBalanceModeSP);
-       IUUpdateSwitches(&WhiteBalanceModeSP, states, names, n);
+       IUResetSwitch(&WhiteBalanceModeSP);
+       IUUpdateSwitch(&WhiteBalanceModeSP, states, names, n);
        
        for (int i=0; i < 5; i++)
         if (WhiteBalanceModeS[i].s == ISS_ON)
@@ -278,7 +278,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	  case 0:
 	   if (v4l_pwc->setWhiteBalanceMode(PWC_WB_AUTO, errmsg) < 0)
 	   {
-	     IUResetSwitches(&WhiteBalanceModeSP),
+	     IUResetSwitch(&WhiteBalanceModeSP),
 	     WhiteBalanceModeS[0].s = ISS_ON;
 	     IDSetSwitch(&WhiteBalanceModeSP, "%s", errmsg);
 	     return;
@@ -289,7 +289,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 case 1:
 	  if (v4l_pwc->setWhiteBalanceMode(PWC_WB_MANUAL, errmsg) < 0)
 	   {
-	     IUResetSwitches(&WhiteBalanceModeSP),
+	     IUResetSwitch(&WhiteBalanceModeSP),
 	     WhiteBalanceModeS[0].s = ISS_ON;
 	     IDSetSwitch(&WhiteBalanceModeSP, "%s", errmsg);
 	     return;
@@ -300,7 +300,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 case 2:
 	  if (v4l_pwc->setWhiteBalanceMode(PWC_WB_INDOOR, errmsg) < 0)
 	   {
-	     IUResetSwitches(&WhiteBalanceModeSP),
+	     IUResetSwitch(&WhiteBalanceModeSP),
 	     WhiteBalanceModeS[0].s = ISS_ON;
 	     IDSetSwitch(&WhiteBalanceModeSP, "%s", errmsg);
 	     return;
@@ -311,7 +311,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 case 3:
 	  if (v4l_pwc->setWhiteBalanceMode(PWC_WB_OUTDOOR, errmsg) < 0)
 	   {
-	     IUResetSwitches(&WhiteBalanceModeSP),
+	     IUResetSwitch(&WhiteBalanceModeSP),
 	     WhiteBalanceModeS[0].s = ISS_ON;
 	     IDSetSwitch(&WhiteBalanceModeSP, "%s", errmsg);
 	     return;
@@ -322,7 +322,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	 case 4:
 	  if (v4l_pwc->setWhiteBalanceMode(PWC_WB_FL, errmsg) < 0)
 	   {
-	     IUResetSwitches(&WhiteBalanceModeSP),
+	     IUResetSwitch(&WhiteBalanceModeSP),
 	     WhiteBalanceModeS[0].s = ISS_ON;
 	     IDSetSwitch(&WhiteBalanceModeSP, "%s", errmsg);
 	     return;
@@ -346,14 +346,14 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
     
 	CamSettingSP.s = IPS_IDLE;
 	
-	IUResetSwitches(&CamSettingSP);
-	IUUpdateSwitches(&CamSettingSP, states, names, n);
+	IUResetSwitch(&CamSettingSP);
+	IUUpdateSwitch(&CamSettingSP, states, names, n);
 	
 	if (CamSettingS[0].s == ISS_ON)
 	{
 	  if (v4l_pwc->saveSettings(errmsg) < 0)
 	  {
-	    IUResetSwitches(&CamSettingSP);
+	    IUResetSwitch(&CamSettingSP);
 	    IDSetSwitch(&CamSettingSP, "%s", errmsg);
 	    return;
 	  }
@@ -366,7 +366,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	if (CamSettingS[1].s == ISS_ON)
 	{
 	   v4l_pwc->restoreSettings();
-	   IUResetSwitches(&CamSettingSP);
+	   IUResetSwitch(&CamSettingSP);
 	   CamSettingSP.s = IPS_OK;
 	   IDSetSwitch(&CamSettingSP, "Settings restored.");
            updateV4L1Controls();
@@ -376,7 +376,7 @@ void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *state
 	if (CamSettingS[2].s == ISS_ON)
 	{
 	  v4l_pwc->restoreFactorySettings();
-	  IUResetSwitches(&CamSettingSP);
+	  IUResetSwitch(&CamSettingSP);
 	  CamSettingSP.s = IPS_OK;
 	  IDSetSwitch(&CamSettingSP, "Factory settings restored.");
           updateV4L1Controls();
@@ -416,7 +416,7 @@ void V4L_Philips::ISNewNumber (const char *dev, const char *name, double values[
      
      int oldFP = (int) FrameRateN[0].value; 
      
-     if (IUUpdateNumbers(&FrameRateNP, values, names, n) < 0)
+     if (IUUpdateNumber(&FrameRateNP, values, names, n) < 0)
        return;
        
      if (v4l_pwc->setFrameRate( (int) FrameRateN[0].value, errmsg) < 0)
@@ -462,7 +462,7 @@ void V4L_Philips::ISNewNumber (const char *dev, const char *name, double values[
      oldBalance[0] = (int) WhiteBalanceN[0].value;
      oldBalance[1] = (int) WhiteBalanceN[1].value;
      
-     if (IUUpdateNumbers(&WhiteBalanceNP, values, names, n) < 0)
+     if (IUUpdateNumber(&WhiteBalanceNP, values, names, n) < 0)
        return;
      
      if (v4l_pwc->setWhiteBalanceRed( (int) WhiteBalanceN[0].value * 256, errmsg))
@@ -480,7 +480,7 @@ void V4L_Philips::ISNewNumber (const char *dev, const char *name, double values[
        return;
      }
      
-     IUResetSwitches(&WhiteBalanceModeSP);
+     IUResetSwitch(&WhiteBalanceModeSP);
      WhiteBalanceModeS[1].s = ISS_ON;
      WhiteBalanceModeSP.s   = IPS_OK;
      WhiteBalanceNP.s = IPS_OK;
@@ -619,12 +619,12 @@ void V4L_Philips::getBasicData()
   IDSetSwitch(&AntiFlickerSP, NULL);
   
   index = v4l_pwc->getNoiseRemoval();
-  IUResetSwitches(&NoiseReductionSP);
+  IUResetSwitch(&NoiseReductionSP);
   NoiseReductionS[index].s = ISS_ON;
   IDSetSwitch(&NoiseReductionSP, NULL);
   
   index = v4l_pwc->getWhiteBalance();
-  IUResetSwitches(&WhiteBalanceModeSP);
+  IUResetSwitch(&WhiteBalanceModeSP);
   switch (index)
   {
     case PWC_WB_AUTO:

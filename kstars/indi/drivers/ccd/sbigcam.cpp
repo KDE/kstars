@@ -1457,8 +1457,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
  
 	// CCD CONNECTION:
 	if(!strcmp(name, m_icam_connection_sp.name)){
-  	IUResetSwitches(&m_icam_connection_sp);
-  	IUUpdateSwitches(&m_icam_connection_sp, states, names, num);
+  	IUResetSwitch(&m_icam_connection_sp);
+  	IUUpdateSwitch(&m_icam_connection_sp, states, names, num);
 		// Check open/close request:
 		if(m_icam_connection_s[0].s == ISS_ON){
 				// Open device:
@@ -1505,8 +1505,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 	// CCD REQUEST:
   if(!strcmp(name, m_icam_ccd_request_sp.name)){
 			if(CheckConnection(&m_icam_ccd_request_sp) == false) return;
-			IUResetSwitches(&m_icam_ccd_request_sp);
-			IUUpdateSwitches(&m_icam_ccd_request_sp, states, names, num);
+			IUResetSwitch(&m_icam_ccd_request_sp);
+			IUUpdateSwitch(&m_icam_ccd_request_sp, states, names, num);
 			m_icam_ccd_request_sp.s = IPS_OK;
 			IDSetSwitch(&m_icam_ccd_request_sp, 0);
 			UpdateCcdFrameProperties(true);
@@ -1516,8 +1516,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 	// CCD FAN:
   if(!strcmp(name, m_icam_fan_state_sp.name)){
 		if(CheckConnection(&m_icam_fan_state_sp) == false) return;
-		IUResetSwitches(&m_icam_fan_state_sp);
-		IUUpdateSwitches(&m_icam_fan_state_sp, states, names, num);
+		IUResetSwitch(&m_icam_fan_state_sp);
+		IUUpdateSwitch(&m_icam_fan_state_sp, states, names, num);
 		// Switch FAN ON/OFF:
 		MiscellaneousControlParams mcp;
   	if(m_icam_fan_state_s[0].s == ISS_ON){
@@ -1549,8 +1549,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 
 	// CCD FRAME TYPE: 
   if(!strcmp(name, m_icam_frame_type_sp.name)){
-		IUResetSwitches(&m_icam_frame_type_sp);
-		IUUpdateSwitches(&m_icam_frame_type_sp, states, names, num);
+		IUResetSwitch(&m_icam_frame_type_sp);
+		IUUpdateSwitch(&m_icam_frame_type_sp, states, names, num);
 		m_icam_frame_type_sp.s = IPS_OK;
 		IDSetSwitch(&m_icam_frame_type_sp, 0);
 		return;
@@ -1560,8 +1560,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 	#ifndef USE_CCD_BINNING_STANDARD_PROPERTY
   if(!strcmp(name, m_icam_binning_mode_sp.name)){
 		if(CheckConnection(&m_icam_binning_mode_sp) == false) return;
-		IUResetSwitches(&m_icam_binning_mode_sp);
-		IUUpdateSwitches(&m_icam_binning_mode_sp, states, names, num);
+		IUResetSwitch(&m_icam_binning_mode_sp);
+		IUUpdateSwitch(&m_icam_binning_mode_sp, states, names, num);
 		m_icam_binning_mode_sp.s = IPS_OK;
 		IDSetSwitch(&m_icam_binning_mode_sp, 0);
 		UpdateCcdFrameProperties(true);
@@ -1571,8 +1571,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 
 	// CCD TEMPERATURE: 
   if(!strcmp(name, m_icam_temperature_msg_sp.name)){
-		IUResetSwitches(&m_icam_temperature_msg_sp);
-		IUUpdateSwitches(&m_icam_temperature_msg_sp, states, names, num);
+		IUResetSwitch(&m_icam_temperature_msg_sp);
+		IUUpdateSwitch(&m_icam_temperature_msg_sp, states, names, num);
 		m_icam_temperature_msg_sp.s = IPS_OK;
 		IDSetSwitch(&m_icam_temperature_msg_sp, 0);
 		return;
@@ -1583,8 +1583,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 		if(CheckConnection(&m_icfw_type_sp) == false) return;
 		// Allow change of CFW's type only if not already connected.
 		if(m_icfw_connection_s[0].s == ISS_OFF){
-			IUResetSwitches(&m_icfw_type_sp);
-			IUUpdateSwitches(&m_icfw_type_sp, states, names, num);
+			IUResetSwitch(&m_icfw_type_sp);
+			IUUpdateSwitch(&m_icfw_type_sp, states, names, num);
 			str = "";
 		}else{
 			str = "Cannot change CFW type while connected!";
@@ -1597,8 +1597,8 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
 	// CFW CONNECTION:
   if(!strcmp(name, m_icfw_connection_sp.name)){
 		if(CheckConnection(&m_icfw_connection_sp) == false) return;
-		IUResetSwitches(&m_icfw_connection_sp);
-		IUUpdateSwitches(&m_icfw_connection_sp, states, names, num);
+		IUResetSwitch(&m_icfw_connection_sp);
+		IUUpdateSwitch(&m_icfw_connection_sp, states, names, num);
 		m_icfw_connection_sp.s = IPS_BUSY;
 		IDSetSwitch(&m_icfw_connection_sp, 0);
 		if(m_icfw_connection_s[0].s == ISS_ON){
@@ -1657,7 +1657,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 
 	// CCD EXPOSE DURATION: 	
 	if(!strcmp(name, m_icam_expose_time_np.name)){
-		IUUpdateNumbers(&m_icam_expose_time_np, values, names, num);
+		IUUpdateNumber(&m_icam_expose_time_np, values, names, num);
 		if(m_icam_expose_time_np.s == IPS_BUSY){
 				StopExposure();
 		}else{
@@ -1694,7 +1694,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 	// CCD TEMPERATURE POOLING:
 	if(!strcmp(name, m_icam_temperature_polling_np.name)){
 		m_icam_temperature_polling_np.s = IPS_OK;
-		IUUpdateNumbers(&m_icam_temperature_polling_np, values, names, num);
+		IUUpdateNumber(&m_icam_temperature_polling_np, values, names, num);
 		IDSetNumber(&m_icam_temperature_polling_np, 0);
 	} 
 
@@ -1705,7 +1705,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 		// Update the values according the actual CCD binning mode possibilities.
 		// HOR_BIN == value[0], VER_BIN == value[1]
 		if(values[0] != values[1]) values[1] = values[0];
-		IUUpdateNumbers(&m_icam_ccd_binning_np, values, names, num);
+		IUUpdateNumber(&m_icam_ccd_binning_np, values, names, num);
 		IDSetNumber(&m_icam_ccd_binning_np, 0);
 		UpdateCcdFrameProperties(true);
 	}
@@ -1731,26 +1731,26 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 				}
 			}
 		}
-		IUUpdateNumbers(&m_icam_ccd_frame_np, values, names, num);
+		IUUpdateNumber(&m_icam_ccd_frame_np, values, names, num);
 		IDSetNumber(&m_icam_ccd_frame_np, 0);
 	} 
 	#else
 	// CCD FRAME X:
 	if(!strcmp(name, m_icam_frame_x_np.name)){
 		m_icam_frame_x_np.s = IPS_OK;
-		IUUpdateNumbers(&m_icam_frame_x_np, values, names, num);
+		IUUpdateNumber(&m_icam_frame_x_np, values, names, num);
 		IDSetNumber(&m_icam_frame_x_np, 0);
 	} 
 	// CCD FRAME Y:
 	if(!strcmp(name, m_icam_frame_y_np.name)){
 		m_icam_frame_y_np.s = IPS_OK;
-		IUUpdateNumbers(&m_icam_frame_y_np, values, names, num);
+		IUUpdateNumber(&m_icam_frame_y_np, values, names, num);
 		IDSetNumber(&m_icam_frame_y_np, 0);
 	} 
 	// CCD FRAME W:
 	if(!strcmp(name, m_icam_frame_w_np.name)){
 		m_icam_frame_w_np.s = IPS_OK;
-		IUUpdateNumbers(&m_icam_frame_w_np, values, names, num);
+		IUUpdateNumber(&m_icam_frame_w_np, values, names, num);
 		IDSetNumber(&m_icam_frame_w_np, 0);
 		// Update Min/Max of CCD_FRAME_X:
 		m_icam_frame_x_n[0].max = 	m_icam_frame_w_n[0].max - 
@@ -1761,7 +1761,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 	// CCD FRAME H:
 	if(!strcmp(name, m_icam_frame_h_np.name)){
 		m_icam_frame_h_np.s = IPS_OK;
-		IUUpdateNumbers(&m_icam_frame_h_np, values, names, num);
+		IUUpdateNumber(&m_icam_frame_h_np, values, names, num);
 		IDSetNumber(&m_icam_frame_h_np, 0);
 		// Update Min/Max of CCD_FRAME_Y:
 		m_icam_frame_y_n[0].max = 	m_icam_frame_h_n[0].max - 
@@ -1781,7 +1781,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 		if(m_icfw_connection_s[0].s != ISS_ON) return;
 		m_icfw_slot_np.s = IPS_BUSY;
 		IDSetNumber(&m_icfw_slot_np, 0);
-		IUUpdateNumbers(&m_icfw_slot_np, values, names, num);
+		IUUpdateNumber(&m_icfw_slot_np, values, names, num);
 		if(CfwGoto(&cfwr) == CE_NO_ERROR){
 			type = GetCfwSelType();
 			if(type == CFWSEL_CFW6A || type == CFWSEL_CFW8){

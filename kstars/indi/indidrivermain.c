@@ -568,7 +568,7 @@ IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
 }
 
 /* tell client to update min/max elements of an existing number vector property */
-void IUUpdateMinMax(INumberVectorProperty *nvp)
+void IUUpdateMinMax(const INumberVectorProperty *nvp)
 {
   int i;
 
@@ -784,7 +784,7 @@ IUFindOnSwitch(const ISwitchVectorProperty *svp)
 
 /* Set all switches to off */
 void 
-IUResetSwitches(const ISwitchVectorProperty *svp)
+IUResetSwitch(ISwitchVectorProperty *svp)
 {
   int i;
   
@@ -794,7 +794,7 @@ IUResetSwitches(const ISwitchVectorProperty *svp)
 
 /* Update property switches in accord with states and names. */
 int 
-IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
+IUUpdateSwitch(ISwitchVectorProperty *svp, ISState *states, char *names[], int n)
 {
  int i=0;
  ISwitch *sp;
@@ -806,7 +806,7 @@ IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int
  	sp = IUFindOnSwitch(svp);
  	if (sp) strncpy(sn, sp->name, MAXINDINAME);
  
-	IUResetSwitches(svp);
+	IUResetSwitch(svp);
  }
  
  for (i = 0; i < n ; i++)
@@ -834,7 +834,7 @@ IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int
 	}
 	if (t_count != 1)
 	{
-		IUResetSwitches(svp);
+		IUResetSwitch(svp);
 		sp = IUFindSwitch(svp, sn);
 		if (sp) sp->s = ISS_ON;
 		svp->s = IPS_IDLE;
@@ -848,7 +848,7 @@ IUUpdateSwitches(ISwitchVectorProperty *svp, ISState *states, char *names[], int
 }
 
 /* Update property numbers in accord with values and names */
-int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], int n)
+int IUUpdateNumber(INumberVectorProperty *nvp, double values[], char *names[], int n)
 {
   int i=0;
   
@@ -885,7 +885,7 @@ int IUUpdateNumbers(INumberVectorProperty *nvp, double values[], char *names[], 
 }
 
 /* Update property text in accord with texts and names */
-int IUUpdateTexts(ITextVectorProperty *tvp, char * texts[], char *names[], int n)
+int IUUpdateText(ITextVectorProperty *tvp, char * texts[], char *names[], int n)
 {
   int i=0;
   

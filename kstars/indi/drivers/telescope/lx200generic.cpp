@@ -605,7 +605,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	}
 	
 	// Everything Ok, save time value	
-	if (IUUpdateTexts(&TimeTP, texts, names, n) < 0)
+	if (IUUpdateText(&TimeTP, texts, names, n) < 0)
 		return;
 
 	TimeTP.s = IPS_OK;
@@ -630,7 +630,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
         // Tracking Precision
         if (!strcmp (name, TrackingPrecisionNP.name))
 	{
-		if (!IUUpdateNumbers(&TrackingPrecisionNP, values, names, n))
+		if (!IUUpdateNumber(&TrackingPrecisionNP, values, names, n))
 		{
 			TrackingPrecisionNP.s = IPS_OK;
 			IDSetNumber(&TrackingPrecisionNP, NULL);
@@ -645,7 +645,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	// Slew Precision
 	if (!strcmp(name, SlewPrecisionNP.name))
 	{
-		IUUpdateNumbers(&SlewPrecisionNP, values, names, n);
+		IUUpdateNumber(&SlewPrecisionNP, values, names, n);
 		{
 			SlewPrecisionNP.s = IPS_OK;
 			IDSetNumber(&SlewPrecisionNP, NULL);
@@ -676,7 +676,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 			}
 		
 		*((int *) UTCOffsetN[0].aux0) = 1;
-		IUUpdateNumbers(&UTCOffsetNP, values, names, n);
+		IUUpdateNumber(&UTCOffsetNP, values, names, n);
 		UTCOffsetNP.s = IPS_OK;
 		IDSetNumber(&UTCOffsetNP, NULL);
 		return;
@@ -729,8 +729,8 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	   
 	   if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
 	   {
-	   	IUResetSwitches(&MovementNSSP);
-		IUResetSwitches(&MovementWESP);
+	   	IUResetSwitch(&MovementNSSP);
+		IUResetSwitch(&MovementWESP);
 		MovementNSSP.s = MovementWESP.s = IPS_IDLE;
 		IDSetSwitch(&MovementNSSP, NULL);
 		IDSetSwitch(&MovementWESP, NULL);
@@ -877,7 +877,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 	  if (FocusTimerNP.s == IPS_BUSY)
 	   return;
 	   
-	  IUUpdateNumbers(&FocusTimerNP, values, names, n);
+	  IUUpdateNumber(&FocusTimerNP, values, names, n);
 	  
 	  FocusTimerNP.s = IPS_OK;
 	  
@@ -909,7 +909,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// FIRST Switch ALWAYS for power
 	if (!strcmp (name, ConnectSP.name))
 	{
-	 if (IUUpdateSwitches(&ConnectSP, states, names, n) < 0) return;
+	 if (IUUpdateSwitch(&ConnectSP, states, names, n) < 0) return;
    	 connectTelescope();
 	 return;
 	}
@@ -920,7 +920,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
   	  if (checkPower(&OnCoordSetSP))
 	   return;
 
-	  if (IUUpdateSwitches(&OnCoordSetSP, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&OnCoordSetSP, states, names, n) < 0) return;
 	  currentSet = getOnSwitch(&OnCoordSetSP);
 	  OnCoordSetSP.s = IPS_OK;
 	  IDSetSwitch(&OnCoordSetSP, NULL);
@@ -981,7 +981,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 	  }
 	  
-	  IUResetSwitches(&AbortSlewSP);
+	  IUResetSwitch(&AbortSlewSP);
 	  if (abortSlew(fd) < 0)
 	  {
 		AbortSlewSP.s = IPS_ALERT;
@@ -1005,9 +1005,9 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 		AbortSlewSP.s = IPS_OK;		
 		EquatorialCoordsRNP.s       = IPS_IDLE;
 		EquatorialCoordsWNP.s       = IPS_IDLE;
-		IUResetSwitches(&MovementNSSP);
-		IUResetSwitches(&MovementWESP);
-		IUResetSwitches(&AbortSlewSP);
+		IUResetSwitch(&MovementNSSP);
+		IUResetSwitch(&MovementWESP);
+		IUResetSwitch(&AbortSlewSP);
 
 		IDSetSwitch(&AbortSlewSP, "Slew aborted.");
 		IDSetSwitch(&MovementNSSP, NULL);
@@ -1030,7 +1030,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&AlignmentSw))
 	   return;
 
-	  if (IUUpdateSwitches(&AlignmentSw, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&AlignmentSw, states, names, n) < 0) return;
 	  index = getOnSwitch(&AlignmentSw);
 
 	  if ( ( err = setAlignmentMode(fd, index) < 0) )
@@ -1051,7 +1051,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&SitesSP))
 	   return;
 
-	  if (IUUpdateSwitches(&SitesSP, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&SitesSP, states, names, n) < 0) return;
 	  currentSiteNum = getOnSwitch(&SitesSP) + 1;
 	  
 	  if ( ( err = selectSite(fd, currentSiteNum) < 0) )
@@ -1104,7 +1104,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	    return;
 	  }
 	  
-	  if (IUUpdateSwitches(&FocusMotionSP, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&FocusMotionSP, states, names, n) < 0) return;
 	  index = getOnSwitch(&FocusMotionSP);
 	  
 	  if ( ( err = setFocuserMotion(fd, index) < 0) )
@@ -1132,7 +1132,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&SlewModeSP))
 	   return;
 
-	  if (IUUpdateSwitches(&SlewModeSP, states, names, n) < 0) return;
+	  if (IUUpdateSwitch(&SlewModeSP, states, names, n) < 0) return;
 	  index = getOnSwitch(&SlewModeSP);
 	   
 	  if ( ( err = setSlewMode(fd, index) < 0) )
@@ -1158,7 +1158,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// -1 means all off previously
 	 last_move = getOnSwitch(&MovementNSSP);
 
-	 if (IUUpdateSwitches(&MovementNSSP, states, names, n) < 0)
+	 if (IUUpdateSwitch(&MovementNSSP, states, names, n) < 0)
 		return;
 
 	current_move = getOnSwitch(&MovementNSSP);
@@ -1167,7 +1167,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (current_move == last_move)
 	{
 		HaltMovement(fd, (current_move == 0) ? LX200_NORTH : LX200_SOUTH);
-		IUResetSwitches(&MovementNSSP);
+		IUResetSwitch(&MovementNSSP);
 	    	MovementNSSP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementNSSP, NULL);
 		return;
@@ -1206,7 +1206,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	// -1 means all off previously
 	 last_move = getOnSwitch(&MovementWESP);
 
-	 if (IUUpdateSwitches(&MovementWESP, states, names, n) < 0)
+	 if (IUUpdateSwitch(&MovementWESP, states, names, n) < 0)
 		return;
 
 	current_move = getOnSwitch(&MovementWESP);
@@ -1215,7 +1215,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	if (current_move == last_move)
 	{
 		HaltMovement(fd, (current_move ==0) ? LX200_WEST : LX200_EAST);
-		IUResetSwitches(&MovementWESP);
+		IUResetSwitch(&MovementWESP);
 	    	MovementWESP.s = IPS_IDLE;
 	    	IDSetSwitch(&MovementWESP, NULL);
 		return;
@@ -1248,8 +1248,8 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&TrackModeSP))
 	   return;
 
-	  IUResetSwitches(&TrackModeSP);
-	  IUUpdateSwitches(&TrackModeSP, states, names, n);
+	  IUResetSwitch(&TrackModeSP);
+	  IUUpdateSwitch(&TrackModeSP, states, names, n);
 	  trackingMode = getOnSwitch(&TrackModeSP);
 	  
 	  if ( ( err = selectTrackingMode(fd, trackingMode) < 0) )
@@ -1271,15 +1271,15 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  if (checkPower(&FocusModeSP))
 	   return;
 
-	  IUResetSwitches(&FocusModeSP);
-	  IUUpdateSwitches(&FocusModeSP, states, names, n);
+	  IUResetSwitch(&FocusModeSP);
+	  IUUpdateSwitch(&FocusModeSP, states, names, n);
 
 	  index = getOnSwitch(&FocusModeSP);
 
 	  /* disable timer and motion */
 	  if (index == 0)
 	  {
-	    IUResetSwitches(&FocusMotionSP);
+	    IUResetSwitch(&FocusMotionSP);
 	    FocusMotionSP.s = IPS_IDLE;
 	    FocusTimerNP.s  = IPS_IDLE;
 	    IDSetSwitch(&FocusMotionSP, NULL);
@@ -1455,8 +1455,8 @@ void LX200Generic::updateFocusTimer(void *p)
 	      FocusTimerNP.s  = IPS_OK;
 	      FocusModeSP.s   = IPS_OK;
 	      
-              IUResetSwitches(&FocusMotionSP);
-              IUResetSwitches(&FocusModeSP);
+              IUResetSwitch(&FocusMotionSP);
+              IUResetSwitch(&FocusModeSP);
 	      FocusModeS[0].s = ISS_ON;
 	      
 	      IDSetSwitch(&FocusModeSP, NULL);
@@ -1526,7 +1526,7 @@ void LX200Generic::ISPoll()
 		
 	       EquatorialCoordsRNP.np[0].value = lastRA  = currentRA;
 	       EquatorialCoordsRNP.np[1].value = lastDEC = currentDEC;
-	       //IUResetSwitches(&OnCoordSetSP);
+	       //IUResetSwitch(&OnCoordSetSP);
 	       //OnCoordSetSP.s = IPS_OK;
 	       
 	       EquatorialCoordsWNP.s = IPS_OK;
@@ -1555,12 +1555,12 @@ void LX200Generic::ISPoll()
 			  return;
 			}
 			
-			IUResetSwitches(&SlewModeSP);
+			IUResetSwitch(&SlewModeSP);
 			SlewModeS[LX200_SLEW_GUIDE].s = ISS_ON;
 			IDSetSwitch(&SlewModeSP, NULL);
 			
 			MoveTo(fd, LX200_EAST);
-			IUResetSwitches(&MovementWESP);
+			IUResetSwitch(&MovementWESP);
 			MovementWES[1].s = ISS_ON;
 			MovementWESP.s = IPS_BUSY;
 			IDSetSwitch(&MovementWESP, NULL);
