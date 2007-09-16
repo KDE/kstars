@@ -599,6 +599,8 @@ void KStars::slotRunScript() {
 		    if( p.state() != QProcess::Running )
 		        break;
 		}
+
+		statusBar()->changeItem( i18n( "Script finished."), 0 );
 	}
 }
 
