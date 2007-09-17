@@ -86,6 +86,7 @@
    signals:
    void linkRejected();
    void linkAccepted();
+   void newTelescope();
    void FITSReceived(QString deviceLabel);
  
  };

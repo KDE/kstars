@@ -18,6 +18,8 @@
 #include "indiproperty.h"
 #include "indigroup.h"
 #include "indidevice.h"
+#include "indistd.h"
+#include "indidriver.h"
 #include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
@@ -321,6 +323,8 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 	indi_dev.append(dp);
 
 	emit newDevice();
+
+	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->getINDIDriver(), SLOT(newTelescopeDiscovered()));
 
 	// Reset label
 	parent->currentLabel = QString();

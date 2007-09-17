@@ -208,10 +208,6 @@ private:
 	KStars* ksw;
 	QPalette titlePalette;
 
-	// Edit Link Dialog
-	QHBoxLayout *editLinkLayout;
-	QLabel *editLinkURL;
-	QLineEdit *editLinkField;
 	QPixmap *Thumbnail;
 	int currentItemIndex;
 	QStringList dataList;

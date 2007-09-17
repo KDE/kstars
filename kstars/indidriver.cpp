@@ -168,22 +168,22 @@ void INDIDriver::shutdownHost(int mgrID)
 
 void INDIDriver::activateRunService()
 {
-  processDeviceStatus(0);
+  processDeviceStatus(DEV_START);
 }
 
 void INDIDriver::activateStopService()
 {
-  processDeviceStatus(1);
+  processDeviceStatus(DEV_TERMINATE);
 }
 
 void INDIDriver::activateHostConnection()
 {
-  processHostStatus(0);
+  processHostStatus(DEV_START);
 }
 
 void INDIDriver::activateHostDisconnection()
 {
-  processHostStatus(1);
+  processHostStatus(DEV_TERMINATE);
 }
 
 void INDIDriver::updateLocalButtons()
@@ -231,7 +231,7 @@ void INDIDriver::updateClientButtons()
 }
 
 
-void INDIDriver::processDeviceStatus(int id)
+void INDIDriver::processDeviceStatus(DevAction dev_request)
 {
   if (ui->localTreeWidget->currentItem() == NULL)
     return;
@@ -241,7 +241,7 @@ void INDIDriver::processDeviceStatus(int id)
   foreach (IDevice *dev, devices)
      if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
      {
-	dev->state = (id == 0) ? 1 : 0;
+	dev->state = (dev_request == DEV_TERMINATE) ? DEV_START : DEV_TERMINATE;
 	if (dev->state)
 	{
 
@@ -303,11 +303,11 @@ void INDIDriver::processDeviceStatus(int id)
 }
 
 // Host Status = Remote Client
-void INDIDriver::processHostStatus(int id)
+void INDIDriver::processHostStatus(DevAction dev_request)
 {
    int mgrID;
    int retries=0;
-   bool toConnect = (id == 0);
+   bool toConnect = (dev_request == DEV_START);
    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
    if (!currentItem) return;
    //INDIHostsInfo *hostInfo;
@@ -363,6 +363,29 @@ void INDIDriver::processHostStatus(int id)
     }
 }
 
+void INDIDriver::newDeviceDiscovered()
+{
+
+  emit newDevice();
+
+  updateMenuActions();
+}
+
+void INDIDriver::newTelescopeDiscovered()
+{
+
+  emit newTelescope();
+ 
+}
+
+void INDIDriver::newCCDDiscovered()
+{
+
+  emit newCCD();
+ 
+}
+
+  
 void INDIDriver::updateMenuActions()
 {
 

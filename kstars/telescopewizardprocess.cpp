@@ -68,7 +68,9 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
   ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
   ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
 
-  if (ksw->geo()->translatedProvince().isEmpty())
+  // FIXME is there a better way to check if a translated message is empty?
+  //if (ksw->geo()->translatedProvince().isEmpty())
+  if (ksw->geo()->translatedProvince() == QString("(I18N_EMPTY_MESSAGE)"))
   	ui->locationOut->setText( QString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
   else
   	ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
@@ -76,7 +78,6 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 						     .arg(ksw->geo()->translatedCountry()));
 
 
-   //for (unsigned int i=0; i < indidriver->devices.size(); i++)
     foreach (IDevice *device, indidriver->devices)
               if (device->deviceType == KSTARS_TELESCOPE)
    		    ui->telescopeCombo->addItem(device->label);
@@ -85,7 +86,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     portList << Options::indiTelescopePort();
     
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
-             << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";// << "/dev/ttyUSB4";
+             << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
 
    connect(ui->helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
    connect(ui->nextB, SIGNAL(clicked()), this, SLOT(processNext()));
@@ -93,8 +94,8 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
    connect(ui->setTimeB, SIGNAL(clicked()), this, SLOT(newTime()));
    connect(ui->setLocationB, SIGNAL(clicked()), this, SLOT(newLocation()));
 
-   newDeviceTimer = new QTimer(this);
-   QObject::connect( newDeviceTimer, SIGNAL(timeout()), this, SLOT(processPort()) );
+   //newDeviceTimer = new QTimer(this);
+   //QObject::connect( newDeviceTimer, SIGNAL(timeout()), this, SLOT(processPort()) );
 
 }
 
@@ -107,7 +108,6 @@ telescopeWizardProcess::~telescopeWizardProcess()
 
 void telescopeWizardProcess::processNext(void)
 {
-  int linkResult=0;
 
  switch (currentPage)
  {
@@ -129,26 +129,7 @@ void telescopeWizardProcess::processNext(void)
      ui->wizardContainer->setCurrentIndex(currentPage);
      break;
   case PORT_P:
-     linkResult = establishLink();
-     if ( linkResult == 1)
-     {
-	progressScan = new KProgressDialog(this, i18n("Autoscan"), 
-                i18n("Please wait while KStars scan communication ports for "
-                    "attached telescopes.\nThis process might take few "
-                    "minutes to complete."), Qt::Dialog);
-//   progressScan->setAllowCancel(true);
-   	progressScan->setAutoClose(true);
-   	progressScan->setAutoReset(true);
-   	progressScan->progressBar()->setMinimum(0);
-   	progressScan->progressBar()->setMaximum(portList.count());
-   	progressScan->progressBar()->setValue(0);
-   	progressScan->show();
-
-    }
-    else if (linkResult == 2)
-      KMessageBox::queuedMessageBox(0, KMessageBox::Information, i18n("Please wait while KStars tries to connect to your telescope..."));
-    else if (linkResult == -1)
-      KMessageBox::error(0, i18n("Error. Unable to locate telescope drivers."));
+     establishLink();
      break;
   default:
      break;
@@ -220,11 +201,11 @@ void telescopeWizardProcess::newLocation()
 
 }
 
-int telescopeWizardProcess::establishLink()
+void telescopeWizardProcess::establishLink()
 {
 	QList <QTreeWidgetItem *> found;
 	if (!indidriver || !indimenu)
-	  return (0);
+	  return;
 	  
 	
 	QTreeWidgetItem *driverItem = NULL;
@@ -232,14 +213,19 @@ int telescopeWizardProcess::establishLink()
          
 	found = indidriver->ui->localTreeWidget->findItems(ui->telescopeCombo->currentText(), Qt::MatchExactly | Qt::MatchRecursive);
 	
-	if (found.empty()) return -1;
+	if (found.empty())
+	{
+		KMessageBox::error(0, i18n("Error. Unable to locate telescope drivers."));
+		return;
+	}
+
 	driverItem = found.first();
 
 	// If device is already running, we need to shut it down first
 	if (indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
 	{
 		indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
-		indidriver->processDeviceStatus(1);
+		indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
 	}
 	   
 	// Set custome label for device
@@ -249,18 +235,35 @@ int telescopeWizardProcess::establishLink()
 	indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
 	// Make sure we start is locally
 	indidriver->ui->localR->setChecked(true);
+	// Connect new device discovered with process ports
+	connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()));
 	// Run it
-	indidriver->processDeviceStatus(0);
+	indidriver->processDeviceStatus(INDIDriver::DEV_START);
 
 	if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
-	 return (3);
-
-	newDeviceTimer->start(1500);
+	 return;
 
 	if (ui->portIn->text().isEmpty())
-	 return (1);
-        else
-	 return (2);
+	{
+			progressScan = new KProgressDialog(this, i18n("Telescope Wizard"), 
+                	i18n("Please wait while KStars scan communication ports for "
+                    	"attached telescopes.\nThis process might take few "
+                    	"minutes to complete."), Qt::Dialog);
+   			progressScan->progressBar()->setValue(0);
+   			
+	}
+	else
+	{
+		progressScan = new KProgressDialog(this, i18n("Telescope Wizard"), i18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
+   		progressScan->progressBar()->setValue(portList.count());
+	}
+      		
+
+	progressScan->setAutoClose(true);
+   	progressScan->setAutoReset(true);
+   	progressScan->progressBar()->setMinimum(0);
+   	progressScan->progressBar()->setMaximum(portList.count());
+	progressScan->show();
 
 }
 
@@ -276,7 +279,7 @@ void telescopeWizardProcess::processPort()
 
      if (timeOutCount >= TIMEOUT_THRESHHOLD)
      {
-       indidriver->processDeviceStatus(1);
+       indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
        Reset();
        KMessageBox::error(0, i18n("Error: connection timeout. Unable to communicate with an INDI server"));
        close();
@@ -289,7 +292,7 @@ void telescopeWizardProcess::processPort()
      // port empty, start autoscan
      if (ui->portIn->text().isEmpty())
      {
-       newDeviceTimer->stop();
+       //newDeviceTimer->stop();
        linkRejected = false;
        connect(indiDev->stdDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()));
        connect(indiDev->stdDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()));
@@ -307,14 +310,14 @@ void telescopeWizardProcess::processPort()
      pp = indiDev->findProp("CONNECTION");
      if (!pp) return;
 
-     newDeviceTimer->stop();
+     //newDeviceTimer->stop();
 
      Options::setIndiMessages( INDIMessageBar );
 
      lp = pp->findElement("CONNECT");
      pp->newSwitch(lp);
 
-     timeOutCount = 0;
+     Reset();
 
      indimenu->show();
 
@@ -330,12 +333,14 @@ void telescopeWizardProcess::scanPorts()
      if (!indiDev || !indidriver || !indimenu || linkRejected)
       return;
 
+     //disconnect (indidriver, SIGNAL(newDevice()), this, SLOT(scanPorts()));
+
      currentPort++;
 
      if (progressScan->wasCancelled())
      {
       linkRejected = true;
-      indidriver->processDeviceStatus(1);
+      indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
       Reset();
       return;
      }
@@ -347,7 +352,7 @@ void telescopeWizardProcess::scanPorts()
       KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
 	
       linkRejected = true;
-      indidriver->processDeviceStatus(1);
+      indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
       Reset();
       return;
      }
@@ -357,6 +362,7 @@ void telescopeWizardProcess::scanPorts()
 
      pp = indiDev->findProp("DEVICE_PORT");
      if (!pp) return;
+
      lp = pp->findElement("PORT");
      if (!lp) return;
      

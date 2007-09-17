@@ -563,7 +563,9 @@ void INDIStdDevice::updateLocation()
      }
      break;
 
-
+     case EQUATORIAL_EOD_COORD:
+	emit newTelescope();
+	break;
 
      // Update Device menu actions
      drivers->updateMenuActions();

@@ -103,6 +103,8 @@ class INDIDriver : public KDialog
    INDIDriver(KStars *ks);
    ~INDIDriver();
 
+    enum DevAction { DEV_START, DEV_TERMINATE };
+
     bool readXMLDriver();
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
@@ -128,13 +130,13 @@ class INDIDriver : public KDialog
     bool isDeviceRunning(const QString &deviceLabel);
 
     void saveHosts();
+    void processDeviceStatus(DevAction);
+    void processHostStatus(DevAction);
 
     QList<IDevice *> devices;
 
-public Q_SLOTS:
+public slots:
     void updateMenuActions();
-    void processDeviceStatus(int);
-    void processHostStatus(int);
     void addINDIHost();
     void modifyINDIHost();
     void removeINDIHost();
@@ -145,6 +147,14 @@ public Q_SLOTS:
     void activateStopService();
     void activateHostConnection();
     void activateHostDisconnection();
+    void newDeviceDiscovered();
+    void newTelescopeDiscovered();
+    void newCCDDiscovered();
+
+ signals:
+	void newDevice();
+	void newTelescope();
+	void newCCD();
 };
 
 #endif

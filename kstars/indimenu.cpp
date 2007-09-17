@@ -138,7 +138,7 @@ DeviceManager *dev;
 	        device->mgrID   = mgrCounter;
 	        device->managed = true;
       		mgr.append(dev);
-		connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
+		connect(dev, SIGNAL(newDevice()), drivers, SLOT(newDeviceDiscovered()));
                 connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
 
 		mgrCounter++;

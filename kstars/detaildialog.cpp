@@ -471,7 +471,8 @@ void DetailDialog::editLinkDialog()
 	KDialog editDialog( this );
 	editDialog.setCaption( i18n("Edit Link") );
 	editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
-	QFrame *editFrame = new QFrame( &editDialog );
+	//QFrame *editFrame = new QFrame( &editDialog );
+        QFrame editFrame( &editDialog );
 
 	if (Links->InfoTitleList->currentItem())
 	{
@@ -499,20 +500,17 @@ void DetailDialog::editLinkDialog()
 	}
 	else return;
 
-	editLinkURL = new QLabel(i18n("URL:"), editFrame);
-	editLinkField = new QLineEdit(editFrame);
-	editLinkField->setObjectName("lineedit");
-	editLinkField->setMinimumWidth(300);
-	editLinkField->home(false);
-	editLinkField->setText(currentItemURL);
-	editLinkLayout = new QHBoxLayout(editFrame);
-	editLinkLayout->setMargin(6);
-	editLinkLayout->setSpacing(6);
-	editLinkLayout->setObjectName("editlinklayout");
-	editLinkLayout->addWidget(editLinkURL);
-	editLinkLayout->addWidget(editLinkField);
+        QLabel editLinkURL(i18n("URL:"), &editFrame);
+	QLineEdit editLinkField(&editFrame);
+	editLinkField.setObjectName("lineedit");
+	editLinkField.home(false);
+	editLinkField.setText(currentItemURL);
+	QHBoxLayout editLinkLayout(&editFrame);
+	editLinkLayout.setObjectName("editlinklayout");
+	editLinkLayout.addWidget(&editLinkURL);
+	editLinkLayout.addWidget(&editLinkField);
 
-	editDialog.setMainWidget(editFrame);
+	editDialog.setMainWidget(&editFrame);
 
 	bool go( true );
 	// If user presses cancel then skip the action
@@ -520,18 +518,18 @@ void DetailDialog::editLinkDialog()
 		go = false;
 
 	// If nothing changed, skip th action
-	if (editLinkField->text() == currentItemURL)
+	if (editLinkField.text() == currentItemURL)
 		go = false;
 
 	if ( go ) {
-		replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField->text();
+		replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField.text();
 	
 		// Info Link, we only replace URL since title hasn't changed
 		if (type==0)
-			selectedObject->InfoList.replace(row, editLinkField->text());
+			selectedObject->InfoList.replace(row, editLinkField.text());
 		// Image Links
 		else
-			selectedObject->ImageList.replace(row, editLinkField->text());
+			selectedObject->ImageList.replace(row, editLinkField.text());
 	
 		// Update local files
 		updateLocalDatabase(type, search_line, replace_line);
@@ -544,10 +542,10 @@ void DetailDialog::editLinkDialog()
 	}
 
 	//Now cleanup all the objects that were created
-	delete editFrame;
+	/*delete editFrame;
 	delete editLinkField;
 	delete editLinkURL;
-	delete editLinkLayout;
+	delete editLinkLayout;*/
 }
 
 void DetailDialog::removeLinkDialog()
@@ -642,7 +640,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
 	}
 
 	// Copy URL file to temp file
-	KIO::NetAccess::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1 , true, false, NULL);
+	KIO::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1 , true, false, false);
 
 
 	if ( !URLFile.open( QIODevice::WriteOnly) )

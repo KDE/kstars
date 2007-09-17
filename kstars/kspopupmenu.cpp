@@ -292,7 +292,6 @@ bool KSPopupMenu::addINDI(void)
 	INDI_G *grp;
 	INDI_P *prop(NULL);
 	INDI_E *element;
-	int id=0;
 
 	if (indiMenu->mgr.count() == 0)
 		return false;

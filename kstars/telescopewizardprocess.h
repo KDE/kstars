@@ -38,7 +38,6 @@ private:
 	KStars * ksw;
 	INDIMenu   *indimenu;
 	INDIDriver *indidriver;
-	QTimer *newDeviceTimer;
 	Ui::telescopeWizard *ui;
 
 	INDI_D *indiDev;
@@ -53,7 +52,7 @@ private:
 	bool INDIMessageBar;
         bool linkRejected;
 
-	int establishLink();
+	void establishLink();
 	void Reset();
 
 public slots:
@@ -66,8 +65,5 @@ public slots:
 	void linkSuccess();
 
 };
-
-
-
 
 #endif
