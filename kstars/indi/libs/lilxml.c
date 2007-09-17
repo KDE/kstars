@@ -394,7 +394,7 @@ nXMLAtt (XMLEle *ep)
 /* search ep for an attribute with the given name and return its value.
  * return "" if not found.
  */
-char *
+const char *
 findXMLAttValu (XMLEle *ep, const char *name)
 {
 	XMLAtt *a = findXMLAtt (ep, name);
@@ -438,7 +438,7 @@ editXMLEle (XMLEle *ep, const char *pcdata)
 }
 
 /* add an attribute to the given XML element */
-void
+XMLAtt *
 addXMLAtt (XMLEle *ep, const char *name, const char *valu)
 {
 	XMLAtt *ap = growAtt (ep);
@@ -659,7 +659,7 @@ static int
 decodeEntity (char *ent, int *cp)
 {
 	static struct {
-	    char *ent;
+	    const char *ent;
 	    char c;
 	} enttable[] = {
 	    {"&amp;",  '&'},
@@ -668,7 +668,7 @@ decodeEntity (char *ent, int *cp)
 	    {"&gt;",   '>'},
 	    {"&quot;", '"'},
 	};
-	int i;
+	unsigned int i;
 
 	for (i = 0; i < sizeof(enttable)/sizeof(enttable[0]); i++) {
 	    if (strcmp (ent, enttable[i].ent) == 0) {

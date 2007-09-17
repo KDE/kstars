@@ -59,14 +59,11 @@
 #define BPP		2		/* Bytes per pixel */
 #define TEMPFILE_LEN	16
 
-static int inited;			/* set after done with 1-time stuff */
 static int impixw, impixh;		/* image size, final binned FitsBP */
 static int expTID;			/* exposure callback timer id, if any */
 
 /* info when exposure started */
 static struct timeval exp0;		/* when exp started */
-static double ra0, dec0, alt0, az0, am0;
-static double winds0, windd0, hum0, extt0, mirrort0;
 
 /* we premanently allocate an image buffer that is surely always large enough.
  * we do this for the following reasons:
@@ -316,7 +313,6 @@ void ISGetProperties (char const *dev)
 
 void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-	ISwitch *sp;
 
 	if (strcmp (dev, MYDEV))
 	    return;
@@ -392,8 +388,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 
 }
 
-void ISNewNumber (const char *dev, const char *name, double *doubles, char *names[], int n)
+void ISNewNumber (const char * dev, const char *name, double *doubles, char *names[], int n)
 {
+	INDI_UNUSED(dev);
+
 	if (ConnectS[ON_S].s != ISS_ON)
 	{
 		IDMessage(MYDEV, "Apogee Alta is offline. Please connect before issuing any commands.");
@@ -529,18 +527,32 @@ void
 ISNewText (const char *dev, const char *name, char *texts[], char *names[],
 int n)
 {
+  INDI_UNUSED(dev);
+  INDI_UNUSED(name);
+  INDI_UNUSED(texts);
+  INDI_UNUSED(names);
+  INDI_UNUSED(n);
 }
 
 void
 ISNewBLOB (const char *dev, const char *name, int sizes[],
     int blobsizes[], char *blobs[], char *formats[], char *names[], int n)
 {
+  INDI_UNUSED(dev);
+  INDI_UNUSED(name);
+  INDI_UNUSED(sizes);
+  INDI_UNUSED(blobsizes);
+  INDI_UNUSED(blobs);
+  INDI_UNUSED(formats);
+  INDI_UNUSED(names);
+  INDI_UNUSED(n);
 }
 
 /* indiserver is sending us a message from a snooped device */
 void
 ISSnoopDevice (XMLEle *root)
 {
+INDI_UNUSED(root);
 }
 
 /* save conditions at start of exposure */
@@ -557,6 +569,7 @@ getStartConditions()
  */
 static void expTO (void *vp)
 {
+	INDI_UNUSED(vp);
 	int npix = impixw*impixh;
 	char whynot[1024];
 	unsigned short *fits;
@@ -865,6 +878,7 @@ setHeader (char *fits)
 /* timer to read the cooler, repeats forever */
 static void coolerTO (void *vp)
 {
+	INDI_UNUSED(vp);
 	static int lasts = 9999;
 	double cnow;
 	int status;

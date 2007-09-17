@@ -1230,8 +1230,21 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
   return;
 }
 
-void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) {}
-void ISSnoopDevice (XMLEle *root) {}
+void ISNewBLOB (const char *dev, const char *name, int sizes[], int blobsizes[], char *blobs[], char *formats[], char *names[], int n) 
+{
+  INDI_UNUSED(dev);
+  INDI_UNUSED(name);
+  INDI_UNUSED(sizes);
+  INDI_UNUSED(blobsizes);
+  INDI_UNUSED(blobs);
+  INDI_UNUSED(formats);
+  INDI_UNUSED(names);
+  INDI_UNUSED(n);
+}
+void ISSnoopDevice (XMLEle *root) 
+{
+  INDI_UNUSED(root);
+}
 
 /* void connectRobofocus(void)
  * This function is called when the state of PowerSP is changed in the ISNewSwitch() function.

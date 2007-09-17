@@ -51,8 +51,8 @@ static void clientMsgCB(int fd, void *arg);
 static int dispatch (XMLEle *root, char msg[]);
 static int crackDN (XMLEle *root, char **dev, char **name, char msg[]);
 static int isPropDefined(const char *property_name);
-static int crackIPState (char *str, IPState *ip);
-static int crackISState (char *str, ISState *ip);
+static int crackIPState (const char *str, IPState *ip);
+static int crackISState (const char *str, ISState *ip);
 static void xmlv1(void);
 const char *pstateStr(IPState s);
 const char *sstateStr(ISState s);
@@ -546,7 +546,7 @@ IDSetBLOB (const IBLOBVectorProperty *bvp, const char *fmt, ...)
 
 	for (i = 0; i < bvp->nbp; i++) {
 	    IBLOB *bp = &bvp->bp[i];
-	    char *encblob;
+	    unsigned char *encblob;
 	    int j, l;
 
 	    printf ("  <oneBLOB\n");
@@ -662,7 +662,7 @@ IDSnoopDevice (const char *snooped_device_name, char *snooped_property_name)
 void 
 IDSnoopBLOBs (const char *snooped_device, BLOBHandling bh)
 {
-	char *how;
+	const char *how;
 
 	switch (bh) {
 	case B_NEVER: how = "Never"; break;
@@ -1139,7 +1139,7 @@ IUSnoopLight (XMLEle *root, ILightVectorProperty *lvp)
 	/* match each oneLight with one ILight */
 	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
 	    if (!strcmp (tagXMLEle(ep), "oneLight")) {
-		char *name = findXMLAttValu (ep, "name");
+		const char *name = findXMLAttValu (ep, "name");
 		for (i = 0; i < lvp->nlp; i++) {
 		    if (!strcmp (lvp->lp[i].name, name)) {
 			if (crackIPState(pcdataXMLEle(ep), &lvp->lp[i].s) < 0) {
@@ -1178,7 +1178,7 @@ IUSnoopSwitch (XMLEle *root, ISwitchVectorProperty *svp)
 	/* match each oneSwitch with one ISwitch */
 	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
 	    if (!strcmp (tagXMLEle(ep), "oneSwitch")) {
-		char *name = findXMLAttValu (ep, "name");
+		const char *name = findXMLAttValu (ep, "name");
 		for (i = 0; i < svp->nsp; i++) {
 		    if (!strcmp (svp->sp[i].name, name)) {
 			if (crackISState(pcdataXMLEle(ep), &svp->sp[i].s) < 0) {
@@ -1218,7 +1218,7 @@ IUSnoopBLOB (XMLEle *root, IBLOBVectorProperty *bvp)
 	/* match each oneBLOB with one IBLOB */
 	for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0)) {
 	    if (!strcmp (tagXMLEle(ep), "oneBLOB")) {
-		char *name = findXMLAttValu (ep, "name");
+		const char *name = findXMLAttValu (ep, "name");
 		for (i = 0; i < bvp->nbp; i++) {
 		    IBLOB *bp = &bvp->bp[i];
 		    if (!strcmp (bp->name, name)) {
@@ -1619,7 +1619,7 @@ pstateStr (IPState s)
  * return 0 if ok, else -1
  */
 static int
-crackIPState (char *str, IPState *ip)
+crackIPState (const char *str, IPState *ip)
 {
 	     if (!strcmp (str, "Idle"))  *ip = IPS_IDLE;
 	else if (!strcmp (str, "Ok"))    *ip = IPS_OK;
@@ -1633,7 +1633,7 @@ crackIPState (char *str, IPState *ip)
  * return 0 if ok, else -1
  */
 static int
-crackISState (char *str, ISState *ip)
+crackISState (const char *str, ISState *ip)
 {
 	     if (!strcmp (str, "On"))  *ip = ISS_ON;
 	else if (!strcmp (str, "Off")) *ip = ISS_OFF;

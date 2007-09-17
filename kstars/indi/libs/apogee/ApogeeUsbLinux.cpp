@@ -85,7 +85,7 @@ ULONG   firmwareRevision;
 
 															
 // This is an example of an exported function.
-APN_USB_TYPE ApnUsbOpen( unsigned short DevNumber ,  char *SysDeviceName )
+APN_USB_TYPE ApnUsbOpen( unsigned short DevNumber ,  char * /*SysDeviceName*/ )
 {
 
 	struct usb_bus *bus;

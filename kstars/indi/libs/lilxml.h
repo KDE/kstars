@@ -202,7 +202,7 @@ extern void editXMLEle (XMLEle *ep, const char *pcdata);
     \param name the name of the XML attribute to add.
     \param value the value of the XML attribute to add.
 */
-extern void addXMLAtt (XMLEle *ep, const char *name, const char *value);
+extern XMLAtt* addXMLAtt (XMLEle *ep, const char *name, const char *value);
 
 /** \brief Remove an XML attribute from an XML element.
     \param ep pointer to an XML element.
@@ -227,7 +227,7 @@ extern char *entityXML (char *str);
     \param name the name of the XML attribute to retrieve its value.
     \return the value string of an XML element on success. NULL on failure.
 */
-extern char *findXMLAttValu (XMLEle *ep, const char *name);
+extern const char *findXMLAttValu (XMLEle *ep, const char *name);
 
 /** \brief Handy wrapper to read one xml file.
     \param fp pointer to FILE to read.

@@ -32,7 +32,7 @@ ApnGlueOpen()
 /* return the max values for the camera.
  */
 void
-ApnGlueGetMaxValues (double *exptime, int *roiw, int *roih, int *osw,
+ApnGlueGetMaxValues (double * /*exptime*/, int *roiw, int *roih, int *osw,
      int *osh, int *binw, int *binh, int *shutter, double *mintemp)
 {
 	checkalta();

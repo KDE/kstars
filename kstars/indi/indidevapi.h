@@ -702,6 +702,9 @@ extern void ISSnoopDevice (XMLEle *root);
 
 /*@}*/
 
+/* Handy readability macro to avoid unused variables warnings */
+#define INDI_UNUSED(x) (void) x
+
 #ifdef __cplusplus
 }
 #endif

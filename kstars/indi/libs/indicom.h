@@ -52,7 +52,6 @@ INDI is independent of KStars*/
 #include <config.h>
 #endif
 
-
 #define J2000 2451545.0
 #define ERRMSG_SIZE 1024
 #define INDI_DEBUG

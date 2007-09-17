@@ -84,7 +84,7 @@
 /* associate a usage count with queuded client or device message */
 typedef struct {
     int count;				/* number of consumers left */
-    int cl;				/* content length */
+    unsigned int cl;			/* content length */
     char *cp;				/* content: buf or malloced */
     char buf[MAXWSIZ];		/* local buf for most messages */
 } Msg;
@@ -114,7 +114,7 @@ typedef struct {
     int s;				/* socket for this client */
     LilXML *lp;				/* XML parsing context */
     FQ *msgq;				/* Msg queue */
-    int nsent;				/* bytes of current Msg sent so far */
+    unsigned int nsent;				/* bytes of current Msg sent so far */
 } ClInfo;
 static ClInfo *clinfo;			/*  malloced pool of clients */
 static int nclinfo;			/* n total (not active) */
@@ -132,7 +132,7 @@ typedef struct {
     int restarts;			/* times process has been restarted */
     LilXML *lp;				/* XML parsing context */
     FQ *msgq;				/* Msg queue */
-    int nsent;				/* bytes of current Msg sent so far */
+    unsigned int nsent;			/* bytes of current Msg sent so far */
 } DvrInfo;
 static DvrInfo *dvrinfo;		/* malloced array of drivers */
 static int ndvrinfo;			/* n total */
@@ -159,14 +159,14 @@ static void startLocalDvr (DvrInfo *dp);
 static void startRemoteDvr (DvrInfo *dp);
 static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
-static void q2RDrivers (char *dev, Msg *mp);
-static void q2SDrivers (int isblob, char *dev, char *name, Msg *mp);
-static void q2Clients (ClInfo *notme, int isblob, char *dev, char *name,
+static void q2RDrivers (const char *dev, Msg *mp);
+static void q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp);
+static void q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name,
     Msg *mp);
-static void addSDevice (DvrInfo *dp, char *dev, char *name);;
-static Snoopee *findSDevice (DvrInfo *dp, char *dev, char *name);
-static void addClDevice (ClInfo *cp, char *dev, char *name);
-static int findClDevice (ClInfo *cp, char *dev, char *name);
+static void addSDevice (DvrInfo *dp, const char *dev, const char *name);;
+static Snoopee *findSDevice (DvrInfo *dp, const char *dev, const char *name);
+static void addClDevice (ClInfo *cp, const char *dev, const char *name);
+static int findClDevice (ClInfo *cp, const char *dev, const char *name);
 static int readFromDriver (DvrInfo *dp);
 static int stderrFromDriver (DvrInfo *dp);
 static int msgQSize (FQ *q);
@@ -179,7 +179,7 @@ static void sendDriverMsg (DvrInfo *cp);
 static void crackBLOB (char *enableBLOB, BLOBHandling *bp);
 static void traceMsg (XMLEle *root);
 static char *tstamp (char *s);
-static void logDMsg (XMLEle *root, char *dev);
+static void logDMsg (XMLEle *root, const char *dev);
 static void Bye(void);
 
 int
@@ -728,8 +728,8 @@ readFromClient (ClInfo *cp)
 	    XMLEle *root = readXMLEle (cp->lp, buf[i], err);
 	    if (root) {
 		char *roottag = tagXMLEle(root);
-		char *dev = findXMLAttValu (root, "device");
-		char *name = findXMLAttValu (root, "name");
+		const char *dev = findXMLAttValu (root, "device");
+		const char *name = findXMLAttValu (root, "name");
 		int isblob = !strcmp (tagXMLEle(root), "setBLOBVector");
 		Msg *mp;
 
@@ -810,8 +810,8 @@ readFromDriver (DvrInfo *dp)
 	    XMLEle *root = readXMLEle (dp->lp, buf[i], err);
 	    if (root) {
 		char *roottag = tagXMLEle(root);
-		char *dev = findXMLAttValu (root, "device");
-		char *name = findXMLAttValu (root, "name");
+		const char *dev = findXMLAttValu (root, "device");
+		const char *name = findXMLAttValu (root, "name");
 		int isblob = !strcmp (tagXMLEle(root), "setBLOBVector");
 		Msg *mp;
 
@@ -978,7 +978,7 @@ restartDvr (DvrInfo *dp)
  * if dev not specified.
  */
 static void
-q2RDrivers (char *dev, Msg *mp)
+q2RDrivers (const char *dev, Msg *mp)
 {
 	int sawremote = 0;
 	DvrInfo *dp;
@@ -1010,7 +1010,7 @@ q2RDrivers (char *dev, Msg *mp)
  * if BLOB always honor current mode.
  */
 static void
-q2SDrivers (int isblob, char *dev, char *name, Msg *mp)
+q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp)
 {
 	DvrInfo *dp;
 
@@ -1038,7 +1038,7 @@ q2SDrivers (int isblob, char *dev, char *name, Msg *mp)
  * init with blob mode set to B_NEVER.
  */
 static void
-addSDevice (DvrInfo *dp, char *dev, char *name)
+addSDevice (DvrInfo *dp, const char *dev, const char *name)
 {
 	Snoopee *sp;
 	char *ip;
@@ -1071,7 +1071,7 @@ addSDevice (DvrInfo *dp, char *dev, char *name)
 /* return Snoopee if dp is snooping dev/name, else NULL.
  */
 static Snoopee *
-findSDevice (DvrInfo *dp, char *dev, char *name)
+findSDevice (DvrInfo *dp, const char *dev, const char *name)
 {
 	int i; 
 
@@ -1090,7 +1090,7 @@ findSDevice (DvrInfo *dp, char *dev, char *name)
  * if BLOB always honor current mode.
  */
 static void
-q2Clients (ClInfo *notme, int isblob, char *dev, char *name, Msg *mp)
+q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp)
 {
 	ClInfo *cp;
 	int ql;
@@ -1295,7 +1295,7 @@ sendDriverMsg (DvrInfo *dp)
 /* return 0 if cp may be interested in dev/name else -1
  */
 static int
-findClDevice (ClInfo *cp, char *dev, char *name)
+findClDevice (ClInfo *cp, const char *dev, const char *name)
 {
 	int i;
 
@@ -1313,7 +1313,7 @@ findClDevice (ClInfo *cp, char *dev, char *name)
 /* add the given device and property to the devs[] list of client if new.
  */
 static void
-addClDevice (ClInfo *cp, char *dev, char *name)
+addClDevice (ClInfo *cp, const char *dev, const char *name)
 {
 	Property *pp;
 	char *ip;
@@ -1378,15 +1378,15 @@ crackBLOB (char *enableBLOB, BLOBHandling *bp)
 static void
 traceMsg (XMLEle *root)
 {
-	static char *prtags[] = {
+	static const char *prtags[] = {
 	    "defNumber", "oneNumber",
 	    "defText",   "oneText",
 	    "defSwitch", "oneSwitch",
 	    "defLight",  "oneLight",
 	};
 	XMLEle *e;
-	char *msg, *perm, *pcd;
-	int i;
+	const char *msg, *perm, *pcd;
+	unsigned int i;
 
 	/* print tag header */
 	fprintf (stderr, "%s %s %s %s", tagXMLEle(root),
@@ -1435,11 +1435,11 @@ tstamp (char *s)
 /* log message in root known to be from device dev to ldir, if any.
  */
 static void
-logDMsg (XMLEle *root, char *dev)
+logDMsg (XMLEle *root, const char *dev)
 {
 	char stamp[64];
 	char logfn[1024];
-	char *ts, *ms;
+	const char *ts, *ms;
 	FILE *fp;
 
 	/* get message, if any */
@@ -1450,7 +1450,10 @@ logDMsg (XMLEle *root, char *dev)
 	/* get timestamp now if not provided */
 	ts = findXMLAttValu (root, "timestamp");
 	if (!ts[0])
-	    tstamp (ts = stamp);
+	{
+	    tstamp (stamp);
+	    ts = stamp;
+	}
 
 	/* append to log file, name is date portion of time stamp */
 	sprintf (logfn, "%s/%.10s.islog", ldir, ts);

@@ -19,7 +19,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-bool CApnCamera::GetDeviceHandle( void *hCamera, char *CameraInfo )
+bool CApnCamera::GetDeviceHandle( void * /*hCamera*/, char *CameraInfo )
 {
 
 	strcpy( CameraInfo, m_SysDeviceName );
@@ -239,7 +239,7 @@ bool CApnCamera::CloseDriver()
 	return true;
 }
 
-void CApnCamera::SetNetworkTransferMode( int TransferMode )
+void CApnCamera::SetNetworkTransferMode( int /*TransferMode*/ )
 {
         return;
 }
