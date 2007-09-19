@@ -1764,7 +1764,7 @@ void LX200Generic::getBasicData()
     timeFormat = (timeFormat == 24) ? LX200_24 : LX200_AM;
     // We always do 24 hours
     if (timeFormat != LX200_24)
-      toggleTimeFormat(fd);
+      err = toggleTimeFormat(fd);
   }
 
   getLX200RA(fd, &targetRA);

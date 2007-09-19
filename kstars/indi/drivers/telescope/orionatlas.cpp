@@ -298,11 +298,7 @@ void OrionAtlas::ISNewNumber (const char *dev, const char *name, double values[]
 void OrionAtlas::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
 
-    int index;
-    ISwitch *swp;
-
-    // Suppress warning
-    names = names;
+    INDI_UNUSED(names);
 
     // ignore if not ours //
     if (strcmp(dev,mydev))
@@ -564,8 +560,8 @@ int OrionAtlas::MoveScope(int System, double c1, double c2)
         if (Command=='R') {
             IDMessage(mydev,"Beginning slew to RA=%f Dec=%f\n",c1,c2);
             // RA:
-            uints[0]=c1*65536.0/24.0;
-            ints[1]=c2*65536.0/360.0;
+            uints[0]= (unsigned short int) (c1*65536.0/24.0);
+            ints[1]=  (signed short int) (c2*65536.0/360.0);
             sendStr[2]=bytes[0];    sendStr[1]=bytes[1];
             sendStr[4]=bytes[2];    sendStr[3]=bytes[3];
         }
@@ -573,8 +569,8 @@ int OrionAtlas::MoveScope(int System, double c1, double c2)
             //c2=c2-lat+90.0; // decorrect
             IDMessage(mydev,"Beginning slew to Az=%f Alt=%f\n",c1,c2);
             // Az
-            uints[0]=c1*65536.0/360.0;
-            ints[1]=c2*65536.0/360.0;
+            uints[0]= (unsigned short int) (c1*65536.0/360.0);
+            ints[1]= (signed short int) (c2*65536.0/360.0);
             sendStr[2]=bytes[0];    sendStr[1]=bytes[1];
             sendStr[4]=bytes[2];    sendStr[3]=bytes[3];
         }
@@ -779,8 +775,7 @@ void OrionAtlas::log(const char *fmt,...)
     if (fmt) {
         va_list ap;
         va_start (ap, fmt);
-        time_t t;
-        fprintf(stderr, "%i: ", time(NULL));
+        fprintf(stderr, "%i: ", ((int) time(NULL)));
         vfprintf(stderr, fmt, ap);
         va_end(ap);
     }

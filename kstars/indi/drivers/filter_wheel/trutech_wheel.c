@@ -164,8 +164,8 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 		int nbytes=0;
 		unsigned char type = 0x03;
 		unsigned char chksum = COMM_INIT + type + COMM_FILL;
-		/*char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum }; */
-		unsigned char filter_command[CMD_SIZE];
+		/*char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum };*/
+		char filter_command[CMD_SIZE];
 		snprintf(filter_command, CMD_SIZE,  "%c%c%c%c%c", COMM_PRE, COMM_INIT, type, COMM_FILL, chksum);
 
 		if (checkPowerS(&HomeSP))
@@ -249,7 +249,8 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 			char type = 0x01;
 			char chksum = COMM_INIT + type + (char) targetFilter;
 			/*char filter_command[5] = { COMM_PRE, COMM_INIT, type, targetFilter, chksum };*/
-			unsigned char filter_command[CMD_SIZE];
+			char filter_command[CMD_SIZE];
+
 			snprintf(filter_command, CMD_SIZE,  "%c%c%c%c%c", COMM_PRE, COMM_INIT, type, COMM_FILL, chksum);
 
 			if (targetFilter < FilterPositionN[0].min || targetFilter > FilterPositionN[0].max)

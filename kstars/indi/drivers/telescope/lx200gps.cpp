@@ -118,7 +118,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
  void LX200GPS::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
  {
-    int index;
+    int index=0, err=0;
     char msg[64];
 
     if (strcmp (dev, thisDevice))
@@ -134,7 +134,11 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 		return;
 
       index = getOnSwitch(&GPSPowerSP);
-      index == 0 ? turnGPSOn(fd) : turnGPSOff(fd);
+      if (index == 0)
+	 turnGPSOn(fd);
+      else
+	turnGPSOff(fd);
+
       GPSPowerSP.s = IPS_OK;
       IDSetSwitch (&GPSPowerSP, index == 0 ? "GPS System is ON" : "GPS System is OFF" );
       return;
@@ -153,17 +157,17 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
       if (index == 0)
       {
-	   gpsSleep(fd);
+	   err = gpsSleep(fd);
 	   strcpy(msg, "GPS system is in sleep mode.");
       }
       else if (index == 1)
       {
-	   gpsWakeUp(fd);
+	   err = gpsWakeUp(fd);
            strcpy(msg, "GPS system is reactivated.");
       }
       else
       {
-	   gpsRestart(fd);
+	   err = gpsRestart(fd);
 	   strcpy(msg, "GPS system is restarting...");
 	   updateTime();
 	   updateLocation();
@@ -227,12 +231,12 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       
        if (index == 0)
       {
-        enableDecAltPec(fd);
+        err = enableDecAltPec(fd);
 	strcpy (msg, "Alt/Dec Compensation Enabled");
       }
       else
       {
-        disableDecAltPec(fd);
+        err = disableDecAltPec(fd);
 	strcpy (msg, "Alt/Dec Compensation Disabled");
       }
 
@@ -255,12 +259,12 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 
        if (index == 0)
       {
-        enableRaAzPec(fd);
+        err = enableRaAzPec(fd);
 	strcpy (msg, "Ra/Az Compensation Enabled");
       }
       else
       {
-        disableRaAzPec(fd);
+        err = disableRaAzPec(fd);
 	strcpy (msg, "Ra/Az Compensation Disabled");
       }
 
@@ -275,7 +279,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       if (checkPower(&AltDecBackSlashSP))
       return;
 
-     activateAltDecAntiBackSlash(fd);
+     err = activateAltDecAntiBackSlash(fd);
      AltDecBackSlashSP.s = IPS_OK;
      IDSetSwitch(&AltDecBackSlashSP, "Alt/Dec Anti-backslash enabled");
      return;
@@ -286,7 +290,7 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
      if (checkPower(&AzRaBackSlashSP))
       return;
 
-     activateAzRaAntiBackSlash(fd);
+     err = activateAzRaAntiBackSlash(fd);
      AzRaBackSlashSP.s = IPS_OK;
      IDSetSwitch(&AzRaBackSlashSP, "Az/Ra Anti-backslash enabled");
      return;

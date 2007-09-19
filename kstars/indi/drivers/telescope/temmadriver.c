@@ -116,8 +116,11 @@ void ISSnoopDevice (XMLEle *root)
   INDI_UNUSED(root);
 }
 
-void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n) {
-        /*IText *tp;*/
+void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n) 
+{
+
+	INDI_UNUSED(names);
+	INDI_UNUSED(n);
 
 	if (strcmp (dev, mydev))
 		return;
@@ -321,6 +324,8 @@ double calcLST(char *strlst){
 /* update the mount over time */
 void readMountcurrentpos (void *p)
 {
+	INDI_UNUSED(p);
+
 	char result[32];
 
 	if(POWSW){

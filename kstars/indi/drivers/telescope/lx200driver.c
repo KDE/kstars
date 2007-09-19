@@ -610,7 +610,7 @@ int updateSkyCommanderCoord(int fd, double *ra, double *dec)
   int error_type;
   int nbytes_read=0;
 
-  write(fd, CR, 1);
+  error_type = write(fd, CR, 1);
 
   error_type = tty_read(fd, coords, 16, LX200_TIMEOUT, &nbytes_read);
   /*read_ret = portRead(coords, 16, LX200_TIMEOUT);*/
@@ -642,7 +642,7 @@ int updateIntelliscopeCoord (int fd, double *ra, double *dec)
   int nbytes_read=0;
 
   /*IDLog ("Sending a Q\n");*/
-  write (fd, CR, 1);
+  error_type = write (fd, CR, 1);
   /* We start at 14 bytes in case its a Sky Wizard, 
      but read one more later it if it's a intelliscope */
   /*read_ret = portRead (coords, 14, LX200_TIMEOUT);*/

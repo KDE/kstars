@@ -163,7 +163,7 @@ static void q2RDrivers (const char *dev, Msg *mp);
 static void q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp);
 static void q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name,
     Msg *mp);
-static void addSDevice (DvrInfo *dp, const char *dev, const char *name);;
+static void addSDevice (DvrInfo *dp, const char *dev, const char *name);
 static Snoopee *findSDevice (DvrInfo *dp, const char *dev, const char *name);
 static void addClDevice (ClInfo *cp, const char *dev, const char *name);
 static int findClDevice (ClInfo *cp, const char *dev, const char *name);
