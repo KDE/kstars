@@ -164,7 +164,7 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 		int nbytes=0;
 		unsigned char type = 0x03;
 		unsigned char chksum = COMM_INIT + type + COMM_FILL;
-		//char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum };
+		/*char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum }; */
 		unsigned char filter_command[CMD_SIZE];
 		snprintf(filter_command, CMD_SIZE,  "%c%c%c%c%c", COMM_PRE, COMM_INIT, type, COMM_FILL, chksum);
 
