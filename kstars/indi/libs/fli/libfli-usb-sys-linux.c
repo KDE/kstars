@@ -76,7 +76,7 @@ typedef struct
   u_int8_t  iProduct;
   u_int8_t  iSerialNumber;
   u_int8_t  bNumConfigurations;
-}  usb_device_descriptor __attribute__ ((packed));
+}  usb_device_descriptor;
 
 struct usbdevfs_bulktransfer {
   unsigned int ep;

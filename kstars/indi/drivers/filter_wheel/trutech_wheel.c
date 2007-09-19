@@ -50,9 +50,9 @@ int  isFilterConnected(void);
 
 static int targetFilter;
 static int fd;
-static char COMM_PRE  = 0x01;
-static char COMM_INIT = 0xA5;
-static char COMM_FILL = 0x20;
+const unsigned char COMM_PRE  = 0x01;
+const unsigned char COMM_INIT = 0xA5;
+const unsigned char COMM_FILL = 0x20;
 
 #define mydev           		"TruTech Wheel"
 #define MAIN_GROUP			"Main Control"
@@ -162,10 +162,11 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 	if (!strcmp (name, HomeSP.name))
 	{
 		int nbytes=0;
-		char type = 0x03;
-		char chksum = COMM_INIT + type + COMM_FILL;
-		char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum };
-
+		unsigned char type = 0x03;
+		unsigned char chksum = COMM_INIT + type + COMM_FILL;
+		//char filter_command[5] = { COMM_PRE, COMM_INIT, type, COMM_FILL, chksum };
+		unsigned char filter_command[CMD_SIZE];
+		snprintf(filter_command, CMD_SIZE,  "%c%c%c%c%c", COMM_PRE, COMM_INIT, type, COMM_FILL, chksum);
 
 		if (checkPowerS(&HomeSP))
 			return;
@@ -247,7 +248,9 @@ void ISNewNumber (const char *dev, const char *name, double values[], char *name
 			int nbytes=0;
 			char type = 0x01;
 			char chksum = COMM_INIT + type + (char) targetFilter;
-			char filter_command[5] = { COMM_PRE, COMM_INIT, type, targetFilter, chksum };
+			//char filter_command[5] = { COMM_PRE, COMM_INIT, type, targetFilter, chksum };
+			unsigned char filter_command[CMD_SIZE];
+			snprintf(filter_command, CMD_SIZE,  "%c%c%c%c%c", COMM_PRE, COMM_INIT, type, COMM_FILL, chksum);
 
 			if (targetFilter < FilterPositionN[0].min || targetFilter > FilterPositionN[0].max)
 			{
