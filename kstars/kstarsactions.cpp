@@ -410,8 +410,14 @@ void KStars::slotSetTime() {
 		data()->changeDateTime( geo()->LTtoUT( timedialog.selectedDateTime() ) );
 
 		if ( Options::useAltAz() ) {
-			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+			if ( map()->focusObject() ) {
+				map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+				map()->setFocus( map()->focusObject() );
+			} else
+				map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
 		}
+
+		map()->forceUpdateNow();
 
 		//If focusObject has a Planet Trail, clear it and start anew.
 		if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
@@ -419,6 +425,28 @@ void KStars::slotSetTime() {
 		  ((KSPlanetBase*)map()->focusObject())->clearTrail();
 		  ((KSPlanetBase*)map()->focusObject())->addToTrail();
 		}
+	}
+}
+
+//Set Time to CPU clock
+void KStars::slotSetTimeToNow() {
+	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+
+	if ( Options::useAltAz() ) {
+		if ( map()->focusObject() ) {
+				map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+				map()->setFocus( map()->focusObject() );
+		} else
+			map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+	}
+
+	map()->forceUpdateNow();
+
+	//If focusObject has a Planet Trail, clear it and start anew.
+	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
+	     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
+	  ((KSPlanetBase*)map()->focusObject())->clearTrail();
+	  ((KSPlanetBase*)map()->focusObject())->addToTrail();
 	}
 }
 
@@ -622,22 +650,6 @@ void KStars::slotPrint() {
 	}
 
 	printImage( true, switchColors );
-}
-
-//Set Time to CPU clock
-void KStars::slotSetTimeToNow() {
-	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
-
-	if ( Options::useAltAz() ) {
-		map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
-	}
-
-	//If focusObject has a Planet Trail, clear it and start anew.
-	if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
-	     ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
-	  ((KSPlanetBase*)map()->focusObject())->clearTrail();
-	  ((KSPlanetBase*)map()->focusObject())->addToTrail();
-	}
 }
 
 void KStars::slotToggleTimer() {
