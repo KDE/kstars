@@ -22,7 +22,6 @@
 #include <QDesktopWidget>
 #include <QTextStream>
 #include <QPainter>
-#include <kjobuidelegate.h>
 #include <kio/copyjob.h>
 
 #include <kdeversion.h>
@@ -32,7 +31,7 @@
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <klocale.h>
-#include <ktemporaryfile.h>
+#include <kstandarddirs.h>
 
 #include "ksutils.h"
 #include "detaildialog.h"
@@ -72,12 +71,11 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 
 ThumbnailPicker::~ThumbnailPicker() {
 	while ( ! PixList.isEmpty() ) delete PixList.takeFirst();
-	while ( ! JobList.isEmpty() ) delete JobList.takeFirst();
 }
 
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
-	//Preload list with object's ImageList:
+	//Preload ImageList with the URLs in the object's ImageList:
 	QStringList ImageList( Object->ImageList );
 
 	//Query Google Image Search:
@@ -95,30 +93,60 @@ void ThumbnailPicker::slotFillList() {
 	//Total Number of images to be loaded:
 	int nImages = ImageList.count();
 	if ( nImages ) {
-		ui->SearchProgress->setMinimum( nImages );
-		ui->SearchProgress->setMaximum( nImages );
+		ui->SearchProgress->setMinimum( 0 );
+		ui->SearchProgress->setMaximum( nImages-1 );
 		ui->SearchLabel->setText( i18n( "Loading images..." ) );
 	}
 
 	//Add images from the ImageList
-	QStringList::Iterator itList  = ImageList.begin();
-	QStringList::Iterator itListEnd = ImageList.end();
-	for ( ; itList != itListEnd; ++itList ) {
-		QString s( *itList );
-		KUrl u( s );
-		if ( u.isValid() && KIO::NetAccess::exists(u, KIO::NetAccess::SourceSide, this) ) {
-			QString tmpFile;
-			{
-				KTemporaryFile ktf;
-				ktf.open();
-				tmpFile = ktf.fileName(); //just need filename
-			}
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile ), false );
-			JobList.append( j ); //false = no progress window
+	for ( int i=0; i<ImageList.size(); ++i ) {
+		QString s( ImageList[i] );
+		KUrl u( ImageList[i] );
+
+		if ( u.isValid() ) {
+			KIO::StoredTransferJob *j = KIO::storedGet( u, false, false );
 			j->setUiDelegate(0);
-			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
+			connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
 		}
 	}
+}
+
+void ThumbnailPicker::slotJobResult( KJob *job ) {
+	KIO::StoredTransferJob *stjob = (KIO::StoredTransferJob*)job;
+
+	//Update Progressbar
+	if ( ! ui->SearchProgress->isHidden() ) {
+		ui->SearchProgress->setValue(ui->SearchProgress->value()+1);
+		if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() ) {
+			ui->SearchProgress->hide();
+			ui->SearchLabel->setText( i18n( "Search results:" ) );
+		}
+	}
+
+	//If there was a problem, just return silently without adding image to list.
+	if ( job->error() ) {
+		kDebug() << " error=" << job->error();
+		job->kill();
+		return;
+	}
+
+	QPixmap *pm = new QPixmap();
+	pm->loadFromData( stjob->data() );
+
+	uint w = pm->width();
+	uint h = pm->height();
+	uint pad = 0; /*FIXME LATER 4* KDialogBase::marginHint() + 2*ui->SearchLabel->height() + KDialogBase::actionButton( KDialogBase::Ok )->height() + 25;*/
+	uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
+
+	if ( h > hDesk )
+		*pm = pm->scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+	PixList.append( pm );
+
+	//Add 50x50 image and URL to listbox
+	//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
+	//		cjob->srcURLs().first().prettyUrl() );
+	ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), stjob->url().prettyUrl() ));
 }
 
 void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL ) {
@@ -154,64 +182,6 @@ void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
 	}
 }
 
-//FIXME: Do we need to remove the completed job from JobList, and/or delete it?
-void ThumbnailPicker::downloadReady(KJob *job) {
-	//Note: no need to delete the job, it is automatically deleted !
-
-	//Update Progressbar
-	if ( ! ui->SearchProgress->isHidden() ) {
-		ui->SearchProgress->setValue(ui->SearchProgress->value()+1);
-		if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() ) {
-			ui->SearchProgress->hide();
-			ui->SearchLabel->setText( i18n( "Search results:" ) );
-		}
-	}
-
-	//If there was a problem, just return silently without adding image to list.
-	if ( job->error() ) {
-//		job->showErrorDialog();
-		return;
-	}
-
-	KIO::CopyJob *cjob = (KIO::CopyJob*)job;
-	QFile tmp( cjob->destUrl().path() );
-	tmp.close(); // to get the newest information of the file
-
-	//Add image to list
-	//If image is taller than desktop, rescale it.
-	//I tried to use QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight )
-	//for the titlebar height, but this returned zero.
-	//Hard-coding 25 instead :(
-	if ( tmp.exists() ) {
-		QImage im( tmp.fileName() );
-
-		if ( im.isNull() ) {
-		  //	KMessageBox::sorry( 0, i18n("Failed to load image"),
-		  //			i18n("Could not load the specified image") );
-			return;
-		}
-
-		uint w = im.width();
-		uint h = im.height();
-		uint pad = 0; /*FIXME LATER 4* KDialogBase::marginHint() + 2*ui->SearchLabel->height() + KDialogBase::actionButton( KDialogBase::Ok )->height() + 25;*/
-		uint hDesk = QApplication::desktop()->availableGeometry().height() - pad;
-
-//	this returns zero...
-// 		//DEBUG
-// 		kDebug() << "Title bar height: " << QApplication::style().pixelMetric( QStyle::PM_TitleBarHeight );
-
-		if ( h > hDesk )
-			im = im.scaled( w*hDesk/h, hDesk, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-
-		PixList.append( new QPixmap( QPixmap::fromImage( im ) ) );
-
-		//Add 50x50 image and URL to listbox
-		//ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
-		//		cjob->srcURLs().first().prettyUrl() );
-		ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), cjob->srcUrls().first().prettyUrl() ));
-	}
-}
-
 QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 	int w( pm->width() ), h( pm->height() );
 	int bigSize( w );
@@ -242,10 +212,11 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 		im = im.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
 		//bitBlt sizexsize square section of image
-                QPainter p;
-                p.begin( &result );
-                p.drawImage( rx, ry, im, sx, sy, size, size );
-                p.end();
+		QPainter p;
+		p.begin( &result );
+		p.drawImage( rx, ry, im, sx, sy, size, size );
+		p.end();
+
 		if ( setImage ) {
 			bx = int( sx*float(pm->width())/float(w) );
 			by = int( sy*float(pm->width())/float(w) );
@@ -253,10 +224,11 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 		}
 
 	} else { //image is smaller than size x size
-                QPainter p;
-                p.begin( &result );
-                p.drawImage( rx, ry, pm->toImage() );
-                p.end();
+		QPainter p;
+		p.begin( &result );
+		p.drawImage( rx, ry, pm->toImage() );
+		p.end();
+
 		if ( setImage ) {
 			bx = int( rx*float(pm->width())/float(w) );
 			by = int( ry*float(pm->width())/float(w) );
@@ -338,29 +310,18 @@ void ThumbnailPicker::slotSetFromURL() {
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
 			PixList.insert( 0, new QPixmap( QPixmap::fromImage( im ) ) );
-			//ui->ImageList->insertItem( shrinkImage( PixList.first(), 50 ),
-			//		u.prettyUrl(), 0 );
 			ui->ImageList->insertItem( 0, new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), u.prettyUrl() ));
 
 			//Select the new image
-			//ui->ImageList->setCurrentItem( 0 );
 			ui->ImageList->setCurrentRow( 0 );
 			slotSetFromList(0);
 
-		} else if ( KIO::NetAccess::exists(u, KIO::NetAccess::SourceSide, this) ) {
-			QString tmpFile;
-			{
-				KTemporaryFile ktf;
-				ktf.open();
-				tmpFile = ktf.fileName();
-			} //just need filename
-			KIO::Job *j = KIO::copy( u, KUrl( tmpFile ), false );
-			JobList.append( j ); //false = no progress window
-                        j->setUiDelegate(0);
-			connect (j, SIGNAL (result(KJob *)), SLOT (downloadReady (KJob *)));
+		} else {
+			KIO::StoredTransferJob *j = KIO::storedGet( u, false, false );
+			j->setUiDelegate(0);
+			connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
 		}
 	}
 }
-
 
 #include "thumbnailpicker.moc"

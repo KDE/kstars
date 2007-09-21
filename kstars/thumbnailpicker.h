@@ -60,7 +60,7 @@ private slots:
 	void slotFillList();
 
 /**Make sure download has finished, then make sure file exists, then add image to list */
-	void downloadReady (KJob *);
+	void slotJobResult(KJob *);
 
 private:
 	QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
