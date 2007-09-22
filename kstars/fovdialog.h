@@ -21,9 +21,9 @@
 #include <QPaintEvent>
 #include <kdialog.h>
 
+#include "fov.h"
 #include "ui_fovdialog.h"
 #include "ui_newfov.h"
-#include "fov.h"
 
 /**@class FOVDialog Dialog to select a Field-of-View indicator (or create a new one)
 	*@author Jason Harris
@@ -31,6 +31,7 @@
 	*/
 
 class KStars;
+class FOVWidget;
 
 class FOVDialogUI : public QFrame, public Ui::FOVDialog {
     Q_OBJECT
@@ -53,14 +54,11 @@ public:
     unsigned int currentItem() const;
     QList<FOV*> FOVList;
 
-protected:
-    void paintEvent( QPaintEvent * );
-
 private slots:
     void slotNewFOV();
     void slotEditFOV();
     void slotRemoveFOV();
-    void slotSelect(Q3ListBoxItem*);
+    void slotSelect(int);
 
 private:
     void initList();
@@ -84,9 +82,6 @@ public:
 public slots:
     void slotUpdateFOV();
     void slotComputeFOV();
-
-protected:
-    void paintEvent( QPaintEvent * );
 
 private:
     FOV f;

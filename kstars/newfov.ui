@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>NewFOV</class>
  <widget class="QWidget" name="NewFOV" >
   <property name="geometry" >
@@ -16,19 +13,37 @@
    <string>New FOV Indicator</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>10</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="leftMargin" >
+    <number>10</number>
+   </property>
+   <property name="topMargin" >
+    <number>10</number>
+   </property>
+   <property name="rightMargin" >
+    <number>10</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>10</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="textLabel1" >
@@ -49,7 +64,7 @@
         <string>Name for FOV symbol</string>
        </property>
        <property name="whatsThis" >
-        <string>The name of the field-of-view (FOV) symbol.  This name appears in the FOV menu and in the &quot;Edit FOV Symbols&quot; tool.</string>
+        <string>The name of the field-of-view (FOV) symbol.  This name appears in the FOV menu and in the "Edit FOV Symbols" tool.</string>
        </property>
       </widget>
      </item>
@@ -62,27 +77,54 @@
        <string>Eyepiece</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
          </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
            </property>
            <item>
             <widget class="QLabel" name="textLabel5" >
@@ -109,19 +151,37 @@
          </item>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
            </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="TLength1" >
@@ -139,7 +199,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <widget class="QLabel" name="textLabel6_2" >
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -157,11 +216,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            </item>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="EyeLength" >
@@ -179,7 +247,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <widget class="QLabel" name="textLabel6_2_2" >
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -197,11 +264,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            </item>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="EyeFOV" >
@@ -219,7 +295,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <widget class="QLabel" name="textLabel6_2_2_2" >
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -257,11 +332,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -287,7 +371,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            <property name="whatsThis" >
             <string>This button will compute the field-of-view (FOV) angle for a specific eyepiece/telescope combination.  You must first specify the focal lengths of the telescope and eyepiece, and the FOV angle of the eyepiece in the above entry fields.
 
-The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
            </property>
            <property name="text" >
             <string>Compute FOV</string>
@@ -303,10 +387,22 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
        <string>Camera</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="margin" >
+       <property name="leftMargin" >
         <number>0</number>
        </property>
-       <property name="spacing" >
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
+       <property name="horizontalSpacing" >
+        <number>6</number>
+       </property>
+       <property name="verticalSpacing" >
         <number>6</number>
        </property>
        <item row="2" column="1" >
@@ -317,7 +413,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
          <property name="whatsThis" >
           <string>This button will compute the field-of-view (FOV) angle for a specific camera/telescope combination.  You must first specify the focal length of the telescope and the size of the CCD chip or film negative.
 
-The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
          </property>
          <property name="text" >
           <string>Compute FOV</string>
@@ -374,19 +470,37 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
        </item>
        <item row="0" column="0" colspan="2" >
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
          </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
            </property>
            <item>
             <widget class="QLabel" name="textLabel5_2" >
@@ -406,19 +520,37 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
          </item>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
            </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="TLength2" >
@@ -442,7 +574,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                </property>
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -460,11 +591,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            </item>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="ChipSize" >
@@ -482,7 +622,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <widget class="QLabel" name="textLabel6_2_3_2" >
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -509,27 +648,54 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        <string>Radiotelescope</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
          </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
            </property>
            <item>
             <widget class="QLabel" name="textLabel5_2_3" >
@@ -549,19 +715,37 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
          </item>
          <item>
           <layout class="QVBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
            </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="RTDiameter" >
@@ -585,7 +769,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                </property>
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -603,11 +786,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            </item>
            <item>
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="KDoubleNumInput" name="WaveLength" >
@@ -625,7 +817,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               <widget class="QLabel" name="textLabel6_2_3_2_3" >
                <property name="font" >
                 <font>
-                 <family></family>
                  <pointsize>12</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
@@ -663,11 +854,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -693,7 +893,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
            <property name="whatsThis" >
             <string>This button will compute the Half Power Beam Width (HPBW) angle for a specific radiotelescope and observing wavelength combination, assuming no multibeam receiver is available at the telescope.  You must first specify the diameter of the radiotelescope and the observing wavelength.
 
-The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of view&quot; edit box.</string>
+The computed HPBW angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
            </property>
            <property name="text" >
             <string>Compute HPBW</string>
@@ -711,11 +911,20 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="fieldoFviewLabel" >
@@ -732,7 +941,7 @@ The computed HPBW angle (in arcminutes) will be displayed in the &quot;Field of 
        <property name="whatsThis" >
         <string>Enter the desired angular size for the field-of-view (FOV) symbol.
 
-You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;Camera&quot; Tabs to compute an angular size for specific eyepieces or cameras.</string>
+You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to compute an angular size for specific eyepieces or cameras.</string>
        </property>
       </widget>
      </item>
@@ -756,26 +965,56 @@ You can either enter a value directly, or use the &quot;Eyepiece&quot; or &quot;
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
      </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
+     </property>
      <item>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
        <item>
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="1" column="1" >
@@ -855,18 +1094,25 @@ Circle, Square, Crosshairs, Bullseye.</string>
      </item>
      <item>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QFrame" name="ViewBox" >
+        <widget class="FOVWidget" name="ViewBox" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>0</hsizetype>
-           <vsizetype>0</vsizetype>
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -895,39 +1141,35 @@ Circle, Square, Crosshairs, Bullseye.</string>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KColorButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
-   <extends></extends>
+   <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FOVWidget</class>
+   <extends>QFrame</extends>
+   <header>widgets/fovwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

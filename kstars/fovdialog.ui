@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>FOVDialog</class>
  <widget class="QWidget" name="FOVDialog" >
   <property name="geometry" >
@@ -16,35 +13,40 @@
    <string>Edit FOV Symbols</string>
   </property>
   <layout class="QHBoxLayout" >
-   <property name="margin" >
-    <number>10</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="leftMargin" >
+    <number>10</number>
+   </property>
+   <property name="topMargin" >
+    <number>10</number>
+   </property>
+   <property name="rightMargin" >
+    <number>10</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>10</number>
+   </property>
    <item>
-    <widget class="K3ListBox" name="FOVListBox" >
-     <property name="minimumSize" >
-      <size>
-       <width>160</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="whatsThis" >
-      <string>The list of defined field-of-view (FOV) symbols.  You can add a symbol to the list using the &quot;New&quot; button, remove a symbol using the &quot;Remove&quot; button, and modify a symbol using the &quot;Edit&quot; button.  A schematic of the highlighted symbol is drawn at right.</string>
-     </property>
-     <property name="vScrollBarMode" >
-      <enum>Q3ScrollView::AlwaysOn</enum>
-     </property>
-    </widget>
+    <widget class="KListWidget" name="FOVListBox" />
    </item>
    <item>
     <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="KPushButton" name="NewButton" >
@@ -118,7 +120,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QFrame" name="ViewBox" >
+      <widget class="FOVWidget" name="ViewBox" >
        <property name="minimumSize" >
         <size>
          <width>80</width>
@@ -157,18 +159,20 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>K3ListBox</class>
-   <extends></extends>
-   <header>k3listbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>FOVWidget</class>
+   <extends>QFrame</extends>
+   <header>widgets/fovwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

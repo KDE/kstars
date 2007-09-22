@@ -911,8 +911,9 @@ void KStars::slotFOVEdit() {
                 QTextStream ostream(&f);
 
                 foreach ( FOV *fov, fovdlg.FOVList )
-                ostream << fov->name() << ":" << fov->size()
-                << ":" << QString::number( fov->shape() ) << ":" << fov->color() << endl;
+                    ostream << fov->name() << ":" << fov->size()
+                            << ":" << QString::number( fov->shape() ) 
+                            << ":" << fov->color() << endl;
 
                 f.close();
             }
@@ -931,8 +932,10 @@ void KStars::slotFOVEdit() {
                     QString nm = fields[0].trimmed();
                     KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
                     kta->setText( nm );
+                    kta->setObjectName( nm.toUtf8() );
                     kta->setActionGroup( fovGroup );
                     connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
+                    if ( nm == Options::fOVName() ) kta->setChecked( true );
                     fovActionMenu->addAction( kta );
                 }
             }

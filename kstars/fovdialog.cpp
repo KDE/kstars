@@ -36,8 +36,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ui_fovdialog.h"
-#include "ui_newfov.h"
+#include "widgets/fovwidget.h"
 
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
@@ -56,7 +55,7 @@ FOVDialog::FOVDialog( KStars *_ks )
     setCaption( i18n( "Set FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
-    connect( fov->FOVListBox, SIGNAL( currentChanged( Q3ListBoxItem* ) ), SLOT( slotSelect( Q3ListBoxItem* ) ) );
+    connect( fov->FOVListBox, SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
     connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
     connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
@@ -73,14 +72,12 @@ void FOVDialog::initList() {
     QFile f;
 
     QString nm, cl;
-    int sh(0);
+    int sh(0), irow(0);
     float sz(0.0);
 
     f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
 
     if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
-        Q3ListBoxItem *item = 0;
-
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
             fields = stream.readLine().split( ":" );
@@ -99,24 +96,25 @@ void FOVDialog::initList() {
 
             if ( ok ) {
                 FOV *newfov = new FOV( nm, sz, sh, cl );
-                fov->FOVListBox->insertItem( nm );
+                fov->FOVListBox->addItem( nm );
                 FOVList.append( newfov );
 
                 //Tag item if its name matches the current fov symbol in the main window
-                if ( nm == ks->data()->fovSymbol.name() ) item = fov->FOVListBox->item( fov->FOVListBox->count()-1 );
+                if ( nm == ks->data()->fovSymbol.name() ) 
+                    irow = fov->FOVListBox->count()-1;
             }
         }
 
         f.close();
 
         //preset the listbox selection to the current setting in the main window
-        fov->FOVListBox->setSelected( item, true );
-        slotSelect( item );
+        fov->FOVListBox->setCurrentRow( irow );
+        slotSelect( irow );
     }
 }
 
-void FOVDialog::slotSelect(Q3ListBoxItem *item) {
-    if ( item == 0 ) { //no item selected
+void FOVDialog::slotSelect( int irow ) {
+    if ( irow < 0 ) { //no item selected
         fov->RemoveButton->setEnabled( false );
         fov->EditButton->setEnabled( false );
     } else {
@@ -125,27 +123,8 @@ void FOVDialog::slotSelect(Q3ListBoxItem *item) {
     }
 
     //paint dialog with selected FOV symbol
-    update();
-}
-
-void FOVDialog::paintEvent( QPaintEvent * ) {
-    //Draw the selected target symbol in the pixmap.
-    QPainter p;
-    p.begin( fov->ViewBox );
-    p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
-
-    if ( fov->FOVListBox->currentItem() >= 0 ) {
-        FOV *f = FOVList[ fov->FOVListBox->currentItem() ];
-        if ( f->size() > 0 ) {
-            f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
-            QFont smallFont = p.font();
-            smallFont.setPointSize( p.font().pointSize() - 2 );
-            p.setFont( smallFont );
-            p.drawText( 0, fov->ViewBox->contentsRect().height(), ki18nc("angular size in arcminutes", "%1 arcmin").subs( f->size(), 3 ).toString() );
-        }
-    }
-
-    p.end();
+    fov->ViewBox->setFOV( FOVList[ currentItem() ] );
+    fov->ViewBox->update();
 }
 
 void FOVDialog::slotNewFOV() {
@@ -154,16 +133,18 @@ void FOVDialog::slotNewFOV() {
     if ( newfdlg.exec() == QDialog::Accepted ) {
         FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
-        fov->FOVListBox->insertItem( newfdlg.ui->FOVName->text() );
-        fov->FOVListBox->setSelected( fov->FOVListBox->count() -1, true );
+
         FOVList.append( newfov );
+
+        fov->FOVListBox->addItem( newfdlg.ui->FOVName->text() );
+        fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
     }
 }
 
 void FOVDialog::slotEditFOV() {
     NewFOV newfdlg( this );
     //Preload current values
-    FOV *f = FOVList[ fov->FOVListBox->currentItem() ];
+    FOV *f = FOVList[ currentItem() ];
 
     if (!f)
         return;
@@ -177,21 +158,22 @@ void FOVDialog::slotEditFOV() {
     if ( newfdlg.exec() == QDialog::Accepted ) {
         FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
-        fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
+
+        fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
 
         //Use the following replacement for QPtrList::replace():
         //(see Qt4 porting guide at doc.trolltech.com)
-        delete FOVList[ fov->FOVListBox->currentItem() ];
-        FOVList[ fov->FOVListBox->currentItem() ] = newfov;
+        delete FOVList[ currentItem() ];
+        FOVList[ currentItem() ] = newfov;
     }
 }
 
 void FOVDialog::slotRemoveFOV() {
-    uint i = fov->FOVListBox->currentItem();
+    int i = currentItem();
     delete FOVList.takeAt( i );
-    fov->FOVListBox->removeItem( i );
+    delete fov->FOVListBox->takeItem( i );
     if ( i == fov->FOVListBox->count() ) i--; //last item was removed
-    fov->FOVListBox->setSelected( i, true );
+    fov->FOVListBox->setCurrentRow( i );
     fov->FOVListBox->update();
 
     if ( FOVList.isEmpty() ) {
@@ -235,16 +217,8 @@ void NewFOV::slotUpdateFOV() {
     else
         enableButtonOk( false );
 
-    update();
-}
-
-void NewFOV::paintEvent( QPaintEvent * ) {
-    QPainter p;
-    p.begin( ui->ViewBox );
-    p.fillRect( ui->ViewBox->contentsRect(), QColor( "black" ) );
-    f.draw( p, (float)( 0.3*ui->ViewBox->contentsRect().width() ) );
-    p.drawText( 0, 0, ki18nc("angular size in arcminutes", "%1 arcmin").subs( f.size(), 3 ).toString() );
-    p.end();
+    ui->ViewBox->setFOV( &f );
+    ui->ViewBox->update();
 }
 
 void NewFOV::slotComputeFOV() {
@@ -266,6 +240,6 @@ void NewFOV::slotComputeFOV() {
     }
 }
 
-unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentItem(); }
+unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentRow(); }
 
 #include "fovdialog.moc"
