@@ -31,40 +31,40 @@
 
 
 ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
-	setupUi( this );
+    setupUi( this );
 }
 
 ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp )
- : KDialog( _tp ),  tp( _tp )
+        : KDialog( _tp ),  tp( _tp )
 {
-	ui = new ThumbnailEditorUI( this );
-        setMainWidget( ui );
-        setCaption( i18n( "Edit Thumbnail Image" ) );
-        setButtons( KDialog::Ok|KDialog::Cancel );
+    ui = new ThumbnailEditorUI( this );
+    setMainWidget( ui );
+    setCaption( i18n( "Edit Thumbnail Image" ) );
+    setButtons( KDialog::Ok|KDialog::Cancel );
 
-	ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
-		tp->imageRect()->width(), tp->imageRect()->height() );
-	ui->ImageCanvas->setImage( tp->currentListImage() );
+    ui->ImageCanvas->setCropRect( tp->imageRect()->x(), tp->imageRect()->y(),
+                                  tp->imageRect()->width(), tp->imageRect()->height() );
+    ui->ImageCanvas->setImage( tp->currentListImage() );
 
-	connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
-	slotUpdateCropLabel();
+    connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
+    slotUpdateCropLabel();
 
-	update();
+    update();
 }
 
 ThumbnailEditor::~ThumbnailEditor()
 {}
 
 QPixmap ThumbnailEditor::thumbnail() {
-	QImage im = ui->ImageCanvas->croppedImage().toImage();
-	im = im.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-	return QPixmap::fromImage( im );
+    QImage im = ui->ImageCanvas->croppedImage().toImage();
+    im = im.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+    return QPixmap::fromImage( im );
 }
 
 void ThumbnailEditor::slotUpdateCropLabel() {
-	QRect *r = ui->ImageCanvas->cropRect();
-	ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" ,
-			  r->left(), r->top(), r->width(), r->height() ) );
+    QRect *r = ui->ImageCanvas->cropRect();
+    ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" ,
+                                  r->left(), r->top(), r->width(), r->height() ) );
 }
 
 #include "thumbnaileditor.moc"

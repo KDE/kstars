@@ -39,36 +39,36 @@ typedef QHash<QString, PolyList*> PolyNameHash;
 
 class PolyListIndex : public SkyComposite
 {
-	public:
-	/**
-		*@short Constructor
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		PolyListIndex( SkyComponent *parent );
+public:
+    /**
+    	*@short Constructor
+    	*@p parent Pointer to the parent SkyComponent object
+    	*/
+    PolyListIndex( SkyComponent *parent );
 
-        void appendPoly( PolyList* polyList, int debug=0);
+    void appendPoly( PolyList* polyList, int debug=0);
 
-		/* @short reads the indices from the KSFileReader instead of using
-		 * the SkyMesh to create them.  If the file pointer is null or if
-		 * debug == -1 then we fall back to using the index.
-		 */
-		void appendPoly( PolyList* polyList, KSFileReader* file, int debug);
+    /* @short reads the indices from the KSFileReader instead of using
+     * the SkyMesh to create them.  If the file pointer is null or if
+     * debug == -1 then we fall back to using the index.
+     */
+    void appendPoly( PolyList* polyList, KSFileReader* file, int debug);
 
-        SkyMesh* skyMesh() { return m_skyMesh; }
+    SkyMesh* skyMesh() { return m_skyMesh; }
 
-        PolyList* ContainingPoly( SkyPoint *p );
+    PolyList* ContainingPoly( SkyPoint *p );
 
-        PolyIndex* polyIndex() { return & m_polyIndex; }
+    PolyIndex* polyIndex() { return & m_polyIndex; }
 
-        const PolyNameHash& nameHash() { return m_nameHash; }
+    const PolyNameHash& nameHash() { return m_nameHash; }
 
-        void summary();
+    void summary();
 
-	private:
-        SkyMesh*                 m_skyMesh;
-        PolyIndex                m_polyIndex;
-        int                      m_polyIndexCnt;
-		PolyNameHash             m_nameHash;
+private:
+    SkyMesh*                 m_skyMesh;
+    PolyIndex                m_polyIndex;
+    int                      m_polyIndexCnt;
+    PolyNameHash             m_nameHash;
 
 
 };

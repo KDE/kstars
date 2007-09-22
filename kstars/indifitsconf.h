@@ -16,32 +16,32 @@
 class INDIFITSConfUI : public QFrame, public Ui::INDIConf
 {
 
-  public:
+public:
 
-  INDIFITSConfUI(QWidget *parent=0);
+    INDIFITSConfUI(QWidget *parent=0);
 
 };
 
 class INDIFITSConf : public KDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  INDIFITSConf(QWidget* parent = 0);
-  ~INDIFITSConf();
-  /*$PUBLIC_FUNCTIONS$*/
+    INDIFITSConf(QWidget* parent = 0);
+    ~INDIFITSConf();
+    /*$PUBLIC_FUNCTIONS$*/
 
-   void loadOptions();
-   void saveOptions();
-   INDIFITSConfUI *ui;
+    void loadOptions();
+    void saveOptions();
+    INDIFITSConfUI *ui;
 
 public slots:
-  void comboUpdate(int newIndex);
-  void saveFITSDirectory();
+    void comboUpdate(int newIndex);
+    void saveFITSDirectory();
 
- private:
- int lastIndex;
- QStringList filterList;
+private:
+    int lastIndex;
+    QStringList filterList;
 
 
 };

@@ -36,20 +36,20 @@ ConstellationBoundary* ConstellationBoundary::pinstance = 0;
 
 ConstellationBoundary* ConstellationBoundary::Create( SkyComponent* parent )
 {
-	if ( pinstance ) return pinstance;
-	pinstance = new  ConstellationBoundary( parent );
-	return pinstance;
+    if ( pinstance ) return pinstance;
+    pinstance = new  ConstellationBoundary( parent );
+    return pinstance;
 }
 
 ConstellationBoundary* ConstellationBoundary::Instance()
 {
-	return pinstance;
+    return pinstance;
 }
 
 
 
 ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
-  : PolyListIndex( parent )
+        : PolyListIndex( parent )
 {}
 
 
@@ -58,28 +58,28 @@ ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
 // start here.  (Some of them may not be needed (or working)).
 //-------------------------------------------------------------------
 
-QString ConstellationBoundary::constellationName( SkyPoint *p ) 
+QString ConstellationBoundary::constellationName( SkyPoint *p )
 {
     PolyList *polyList = ContainingPoly( p );
     if ( polyList ) return polyList->name();
 
- 	return i18n("Unknown");
+    return i18n("Unknown");
 }
 
 const QPolygonF* ConstellationBoundary::constellationPoly( const QString &name )
 {
-	if ( nameHash().contains( name ) )
-		return nameHash().value( name )->poly();
+    if ( nameHash().contains( name ) )
+        return nameHash().value( name )->poly();
 
-	return 0;
+    return 0;
 }
 
-const QPolygonF* ConstellationBoundary::constellationPoly( SkyPoint *p ) 
+const QPolygonF* ConstellationBoundary::constellationPoly( SkyPoint *p )
 {
     PolyList *polyList = ContainingPoly( p );
     if ( polyList ) return polyList->poly();
 
- 	return 0;
+    return 0;
 }
 
 
@@ -88,11 +88,11 @@ bool ConstellationBoundary::inConstellation( const QString &name, SkyPoint *p )
     PolyList* polyList = nameHash().value( name );
     if ( ! polyList ) return false;
     const QPolygonF* poly = polyList->poly();
-	if ( poly->containsPoint( QPointF( p->ra()->Hours(), 
-                             p->dec()->Degrees() ), Qt::OddEvenFill ) )
-	    return true;
+    if ( poly->containsPoint( QPointF( p->ra()->Hours(),
+                                       p->dec()->Degrees() ), Qt::OddEvenFill ) )
+        return true;
 
-	return false;
+    return false;
 }
 
 

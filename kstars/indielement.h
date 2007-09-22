@@ -47,20 +47,20 @@ typedef enum {PS_IDLE = 0, PS_OK, PS_BUSY, PS_ALERT, PS_N} PState;
 #define	PS_ON	PS_OK		/* alternate name */
 typedef enum {PP_RW = 0, PP_WO, PP_RO} PPerm;
 typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
-  PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
+              PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
 
 /* INDI std properties */
-/* N.B. Need to modify corresponding entry in indidevice.cpp when changed */    
+/* N.B. Need to modify corresponding entry in indidevice.cpp when changed */
 enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
                      EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, HORIZONTAL_COORD,  /* Telescope */
                      TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
-		     TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
+                     TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
                      CCD_EXPOSURE, CCD_TEMPERATURE, CCD_FRAME,           /* CCD */
-                     CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO, 
+                     CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
                      VIDEO_STREAM,						/* Video */
-		     FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
+                     FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
                      FILTER_SLOT};						/* Filter */
-		     
+
 /* Devices families that we explicitly support (i.e. with std properties) */
 enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
 
@@ -90,17 +90,17 @@ XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, QString & e
 /* INDI Element */
 class INDI_E : public QObject
 {
- Q_OBJECT
- public:
-  INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel);
-  ~INDI_E();
+    Q_OBJECT
+public:
+    INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel);
+    ~INDI_E();
     QString name;			/* name */
     QString label;			/* label is the name by default, unless specified */
     PState state;			/* control on/off t/f etc */
     INDI_P *pp;				/* parent property */
 
     QHBoxLayout    *EHBox;   		/* Horizontal layout */
-    
+
     /* GUI widgets, only malloced when needed */
     KSqueezedTextLabel *label_w;	// label
     KLineEdit	   *read_w;		// read field
@@ -112,35 +112,35 @@ class INDI_E : public QObject
     KPushButton    *browse_w;		// browse button
     QCheckBox      *check_w;		// check box
     QSpacerItem    *hSpacer;		// Horizontal spacer
-    
+
     double min, max, step;		// params for scale
     double value;			// current value
     double targetValue;			// target value
     QString text;			// current text
     QString format;			// number format, if applicable
-    
-   int buildTextGUI    (const QString &initText);
-   int buildNumberGUI  (double initValue);
-   int buildLightGUI();
-   int buildBLOBGUI();
-   void drawLt();
-   
-   void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);
-   void updateValue(double newValue);
-   void setMin (double inMin);
-   void setMax (double inMax);
-   
-   void setupElementLabel();
-   void setupElementRead(int length);
-   void setupElementWrite(int length);
-   void setupElementScale(int length);
-   void setupBrowseButton();
-   
-   public slots:
-   void spinChanged(double value);
-   void sliderChanged(int value);
-   void actionTriggered();
-   void browseBlob();
+
+    int buildTextGUI    (const QString &initText);
+    int buildNumberGUI  (double initValue);
+    int buildLightGUI();
+    int buildBLOBGUI();
+    void drawLt();
+
+    void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);
+    void updateValue(double newValue);
+    void setMin (double inMin);
+    void setMax (double inMax);
+
+    void setupElementLabel();
+    void setupElementRead(int length);
+    void setupElementWrite(int length);
+    void setupElementScale(int length);
+    void setupBrowseButton();
+
+public slots:
+    void spinChanged(double value);
+    void sliderChanged(int value);
+    void actionTriggered();
+    void browseBlob();
 
 };
 

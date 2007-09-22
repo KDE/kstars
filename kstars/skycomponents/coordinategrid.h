@@ -30,20 +30,20 @@
 
 class CoordinateGrid : public NoPrecessIndex
 {
-	public:
-	/**
-		*@short Constructor
-		*Simply adds all of the coordinate grid circles 
-		*(meridians and parallels)
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		CoordinateGrid( SkyComponent *parent );
+public:
+    /**
+    	*@short Constructor
+    	*Simply adds all of the coordinate grid circles 
+    	*(meridians and parallels)
+    	*@p parent Pointer to the parent SkyComponent object
+    	*/
+    CoordinateGrid( SkyComponent *parent );
 
-        void init( KStarsData *data );
+    void init( KStarsData *data );
 
-        void preDraw( KStars *ks, QPainter &psky );
+    void preDraw( KStars *ks, QPainter &psky );
 
-        bool selected();
+    bool selected();
 };
 
 

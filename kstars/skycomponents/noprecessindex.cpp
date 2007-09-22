@@ -22,8 +22,8 @@
 #include "noprecessindex.h"
 #include "linelist.h"
 
-NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name ) 
-	: LineListIndex( parent, name ), lastZoom( true )
+NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name )
+        : LineListIndex( parent, name ), lastZoom( true )
 {}
 
 // Don't precess the points, just account for the Earth's rotation
@@ -41,7 +41,7 @@ void NoPrecessIndex::draw( KStars *kstars, QPainter &psky, double scale )
     if ( ! selected() ) return;
 
     preDraw( kstars, psky );
-       
+
     if ( skyMesh()->isZoomedIn() ) {
         drawLines( kstars, psky, scale );
     }

@@ -32,9 +32,9 @@ class DetailDialog;
 class SkyObject;
 
 class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
-	Q_OBJECT
-	public:
-		ThumbnailPickerUI( QWidget *p );
+    Q_OBJECT
+public:
+    ThumbnailPickerUI( QWidget *p );
 };
 
 /**@short Dialog for modifying an object's thumbnail image
@@ -42,39 +42,39 @@ class ThumbnailPickerUI : public QFrame, public Ui::ThumbnailPicker {
 	*/
 class ThumbnailPicker : public KDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent=0 );
-	~ThumbnailPicker();
+    ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent=0 );
+    ~ThumbnailPicker();
 
-	QPixmap* image() { return Image; }
-	QPixmap* currentListImage() { return PixList.at( SelectedImageIndex ); }
-	bool imageFound() const { return bImageFound; }
-	QRect* imageRect() const { return ImageRect; }
+    QPixmap* image() { return Image; }
+    QPixmap* currentListImage() { return PixList.at( SelectedImageIndex ); }
+    bool imageFound() const { return bImageFound; }
+    QRect* imageRect() const { return ImageRect; }
 
 private slots:
-	void slotEditImage();
-	void slotUnsetImage();
-	void slotSetFromList( int i );
-	void slotSetFromURL();
-	void slotFillList();
+    void slotEditImage();
+    void slotUnsetImage();
+    void slotSetFromList( int i );
+    void slotSetFromURL();
+    void slotFillList();
 
-/**Make sure download has finished, then make sure file exists, then add image to list */
-	void slotJobResult(KJob *);
+    /**Make sure download has finished, then make sure file exists, then add image to list */
+    void slotJobResult(KJob *);
 
 private:
-	QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
-	void parseGooglePage( QStringList &ImList, const QString &URL );
+    QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
+    void parseGooglePage( QStringList &ImList, const QString &URL );
 
-	int SelectedImageIndex;
-	ThumbnailPickerUI *ui;
-	QPixmap *Image;
-	DetailDialog *dd;
-	SkyObject *Object;
-	QList<KIO::Job*> JobList;
-	QList<QPixmap*> PixList;
-	bool bImageFound;
-	QRect *ImageRect;
+    int SelectedImageIndex;
+    ThumbnailPickerUI *ui;
+    QPixmap *Image;
+    DetailDialog *dd;
+    SkyObject *Object;
+    QList<KIO::Job*> JobList;
+    QList<QPixmap*> PixList;
+    bool bImageFound;
+    QRect *ImageRect;
 };
 
 #endif

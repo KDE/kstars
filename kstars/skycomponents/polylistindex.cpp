@@ -34,8 +34,8 @@
 #include "skymesh.h"
 
 PolyListIndex::PolyListIndex( SkyComponent *parent )
-  : SkyComposite( parent)
-{   
+        : SkyComposite( parent)
+{
     m_skyMesh = SkyMesh::Instance();
     m_polyIndexCnt = 0;
     for (int i = 0; i < skyMesh()->size(); i++) {
@@ -45,17 +45,17 @@ PolyListIndex::PolyListIndex( SkyComponent *parent )
 
 void PolyListIndex::appendPoly( PolyList* polyList, KSFileReader* file, int debug)
 {
-	if ( ! file || debug == -1)
-		return appendPoly( polyList, debug );
+    if ( ! file || debug == -1)
+        return appendPoly( polyList, debug );
 
     m_nameHash.insert( polyList->name(), polyList );
 
-	while ( file->hasMoreLines() ) {
-		QString line = file->readLine();
-		if ( line.at( 0 ) == ':' ) return;
-		Trixel trixel = line.toInt();
+    while ( file->hasMoreLines() ) {
+        QString line = file->readLine();
+        if ( line.at( 0 ) == ':' ) return;
+        Trixel trixel = line.toInt();
         m_polyIndex[ trixel ]->append( polyList );
-	}
+    }
 }
 
 void PolyListIndex::appendPoly( PolyList* polyList, int debug)
@@ -65,18 +65,18 @@ void PolyListIndex::appendPoly( PolyList* polyList, int debug)
     if ( debug >= 0 && debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = skyMesh()->indexPoly( polyList->poly() );
-	IndexHash::const_iterator iter = indexHash.constBegin();
-	while ( iter != indexHash.constEnd() ) {
-		Trixel trixel = iter.key();
-		iter++;
+    IndexHash::const_iterator iter = indexHash.constBegin();
+    while ( iter != indexHash.constEnd() ) {
+        Trixel trixel = iter.key();
+        iter++;
 
-		if ( debug == -1 ) printf("%d\n", trixel );
+        if ( debug == -1 ) printf("%d\n", trixel );
 
         m_polyIndex[ trixel ]->append( polyList );
     }
 
     if ( debug > 9 )
-            printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size() );
+        printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size() );
 }
 
 
@@ -87,23 +87,23 @@ void PolyListIndex::summary()
     int total = skyMesh()->size();
     int polySize = m_polyIndex.size();
 
-	/**
-	for ( int i = 0; i < polySize; i++ ) {
-		PolyListList* listList = m_polyIndex.at( i );
-		printf("%4d: %d\n", i, listList->size() );
-	}
-	**/
+    /**
+    for ( int i = 0; i < polySize; i++ ) {
+    	PolyListList* listList = m_polyIndex.at( i );
+    	printf("%4d: %d\n", i, listList->size() );
+    }
+    **/
 
     if ( polySize > 0 )
         printf("%4d out of %4d trixels in poly index %3d%%\n",
-                polySize, total, 100 * polySize / total );
+               polySize, total, 100 * polySize / total );
 
 }
 
-PolyList* PolyListIndex::ContainingPoly( SkyPoint *p ) 
+PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
 {
     //printf("called ContainingPoly(p)\n");
-   
+
     // we save the pointers in a hash because most often there is only one
     // constellation and we can avoid doing the expensive boundary calculations
     // and just return it if we know it is unique.  We can avoid this minor
@@ -116,7 +116,7 @@ PolyList* PolyListIndex::ContainingPoly( SkyPoint *p )
     //printf("\n");
 
     // the boundaries don't precess so we use index() not aperture()
-    skyMesh()->index( p, 1.0, IN_CONSTELL_BUF );         
+    skyMesh()->index( p, 1.0, IN_CONSTELL_BUF );
     MeshIterator region( skyMesh(), IN_CONSTELL_BUF );
     while ( region.hasNext() ) {
 

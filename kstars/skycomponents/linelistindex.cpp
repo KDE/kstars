@@ -51,7 +51,7 @@
 
 
 LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )
-  : SkyComposite( parent ), m_name(name) 
+        : SkyComposite( parent ), m_name(name)
 {
     m_skyMesh = SkyMesh::Instance();
     m_lineIndex = new LineListHash();
@@ -62,7 +62,7 @@ LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )
 // This is a callback for the indexLines() function below
 const IndexHash& LineListIndex::getIndexHash(LineList* lineList )
 {
-     return skyMesh()->indexLine( lineList->points() );
+    return skyMesh()->indexLine( lineList->points() );
 }
 
 
@@ -72,18 +72,18 @@ void LineListIndex::appendLine( LineList* lineList, int debug)
     if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = getIndexHash( lineList );
-	IndexHash::const_iterator iter = indexHash.constBegin();
-	while ( iter != indexHash.constEnd() ) {
-		Trixel trixel = iter.key();
-		iter++;
+    IndexHash::const_iterator iter = indexHash.constBegin();
+    while ( iter != indexHash.constEnd() ) {
+        Trixel trixel = iter.key();
+        iter++;
 
         if ( ! lineIndex()->contains( trixel ) ) {
             lineIndex()->insert(trixel, new LineListList() );
         }
         lineIndex()->value( trixel )->append( lineList );
-	}
+    }
 
-	m_listList.append( lineList);
+    m_listList.append( lineList);
 
     if ( debug > 9 )
         printf("LineList: %3d: %d\n", ++m_lineIndexCnt, indexHash.size() );
@@ -94,10 +94,10 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
     if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
     const IndexHash& indexHash = skyMesh()->indexPoly( lineList->points() );
-	IndexHash::const_iterator iter = indexHash.constBegin();
-	while ( iter != indexHash.constEnd() ) {
-		Trixel trixel = iter.key();
-		iter++;
+    IndexHash::const_iterator iter = indexHash.constBegin();
+    while ( iter != indexHash.constEnd() ) {
+        Trixel trixel = iter.key();
+        iter++;
 
         if ( ! polyIndex()->contains( trixel ) ) {
             polyIndex()->insert( trixel, new LineListList() );
@@ -115,7 +115,7 @@ void LineListIndex::appendBoth(LineList* lineList, int debug)
     appendPoly( lineList, debug );
 }
 
-void LineListIndex::reindexLines() 
+void LineListIndex::reindexLines()
 {
     m_lineIndexCnt = 0;
 
@@ -172,7 +172,7 @@ void LineListIndex::draw( KStars *kstars, QPainter &psky, double scale )
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-bool LineListIndex::skipAt( LineList* lineList, int i ) 
+bool LineListIndex::skipAt( LineList* lineList, int i )
 {                                      // left this in .cpp because
     return false;                      // it generates compiler warnings.
 }                                      // -jbb
@@ -188,17 +188,17 @@ void LineListIndex::updateLabelCandidates( const QPoint& o, LineList* lineList, 
 
 void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 {
-	SkyMap *map = kstars->map();
+    SkyMap *map = kstars->map();
     UpdateID updateID = kstars->data()->updateID();
-	QPolygonF polyMW;
-	bool isVisible, isVisibleLast;
+    QPolygonF polyMW;
+    bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oLast, oMid;
 
     for (int i = 0; i < m_listList.size(); i++) {
         LineList* lineList = m_listList.at( i );
-    
-        if ( lineList->updateID != updateID ) 
+
+        if ( lineList->updateID != updateID )
             JITupdate( kstars->data(), lineList );
 
         SkyList* points = lineList->points();
@@ -213,7 +213,7 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 
                 if ( isVisible && isVisibleLast ) {
                     psky.drawLine( oLast, oThis );
-					updateLabelCandidates( oThis, lineList, i );
+                    updateLabelCandidates( oThis, lineList, i );
                 }
                 else if ( isVisibleLast ) {
                     oMid = map->clipLineI( pLast, pThis, scale );
@@ -235,11 +235,11 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 
 void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 {
-	SkyMap *map = kstars->map();
+    SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = kstars->data()->updateID();
-	QPolygonF polyMW;
-	bool isVisible, isVisibleLast;
+    QPolygonF polyMW;
+    bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oThis2, oLast, oMid;
 
@@ -255,7 +255,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) 
+            if ( lineList->updateID != updateID )
                 JITupdate( kstars->data(), lineList );
 
             SkyList* points = lineList->points();
@@ -269,10 +269,10 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                     if ( isVisible && isVisibleLast ) {
-						if ( map->onscreenLine2( oLast, oThis ) ) {
+                        if ( map->onscreenLine2( oLast, oThis ) ) {
                             psky.drawLine( oLast, oThis );
                             updateLabelCandidates( oThis, lineList, i );
-							//psky.drawEllipse( QRectF( oThis.x(), oThis.y(), 2, 2 ) );
+                            //psky.drawEllipse( QRectF( oThis.x(), oThis.y(), 2, 2 ) );
                         }
                     }
                     else if ( isVisibleLast ) {
@@ -296,16 +296,16 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 
 void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
 {
-	//bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
-    //if ( Options::zoomFactor() > 10.0 * MINZOOM ) 
+    //bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
+    //if ( Options::zoomFactor() > 10.0 * MINZOOM )
     //    psky.setRenderHint(QPainter::Antialiasing, false );
-	
-	SkyMap *map = kstars->map();
+
+    SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = kstars->data()->updateID();
 
-	QPolygonF polygon;
-	bool isVisible, isVisibleLast;
+    QPolygonF polygon;
+    bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
     QPointF oThis, oLast, oMid;
 
@@ -318,11 +318,11 @@ void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
         for (int i = 0; i < lineListList->size(); i++) {
             LineList* lineList = lineListList->at( i );
 
-            // draw each Linelist at most once  
-            if ( lineList->drawID == drawID ) continue; 
+            // draw each Linelist at most once
+            if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
 
-            if ( lineList->updateID != updateID ) 
+            if ( lineList->updateID != updateID )
                 JITupdate( kstars->data(), lineList );
 
             SkyList* points = lineList->points();
@@ -355,7 +355,7 @@ void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
             polygon.clear();
         }
     }
-	//psky.setRenderHint(QPainter::Antialiasing, antiAlias );
+    //psky.setRenderHint(QPainter::Antialiasing, antiAlias );
 }
 
 void LineListIndex::intro()
@@ -374,12 +374,12 @@ void LineListIndex::summary()
     int polySize = polyIndex()->size();
     int lineSize = lineIndex()->size();
 
-    if ( lineSize > 0 ) 
+    if ( lineSize > 0 )
         printf("%4d out of %4d trixels in line index %3d%%\n",
-                lineSize, total, 100 * lineSize / total );
+               lineSize, total, 100 * lineSize / total );
 
     if ( polySize > 0 )
         printf("%4d out of %4d trixels in poly index %3d%%\n",
-                polySize, total, 100 * polySize / total );
+               polySize, total, 100 * polySize / total );
 
 }

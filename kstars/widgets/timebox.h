@@ -35,59 +35,59 @@ class ExtDate;
 
 class timeBox : public QLineEdit  {
 public:
-	/**
-	 * Constructor for the timeBox object.
-	 * @param parent is the parent QWidget
-	 * @param tt boolean. true means that the object will hold a Time.
-	 * false means that the object will hold a Date.
-	 */
-	explicit timeBox(QWidget *parent, bool tt=true);
+    /**
+     * Constructor for the timeBox object.
+     * @param parent is the parent QWidget
+     * @param tt boolean. true means that the object will hold a Time.
+     * false means that the object will hold a Date.
+     */
+    explicit timeBox(QWidget *parent, bool tt=true);
 
-	~timeBox();
+    ~timeBox();
 
-	/**
-	* Fills the QLineEdit fields of the timebox object from a QTime object
-	* showing hours, minutes and seconds.
-	* @param t QTime object from which to fill the entry fields
-	*/
-	void showTime(QTime t);
+    /**
+    * Fills the QLineEdit fields of the timebox object from a QTime object
+    * showing hours, minutes and seconds.
+    * @param t QTime object from which to fill the entry fields
+    */
+    void showTime(QTime t);
 
-	/**
-	* Fills the QLineEdit fields of the timebox object from a QTime object
-	* showing hours, minutes and seconds.
-	* @param t QTime object from which to fill the entry fields
-	*/
-	void showDate(ExtDate t);
+    /**
+    * Fills the QLineEdit fields of the timebox object from a QTime object
+    * showing hours, minutes and seconds.
+    * @param t QTime object from which to fill the entry fields
+    */
+    void showDate(ExtDate t);
 
-	/**
-	* returns a QTime object constructed from the fields of the timebox
-	*/
-	QTime createTime(bool *ok=0);
+    /**
+    * returns a QTime object constructed from the fields of the timebox
+    */
+    QTime createTime(bool *ok=0);
 
-	/**
-	* returns a ExtDate object constructed from the fields of the timebox
-	*/
-	ExtDate createDate(bool *ok=0);
+    /**
+    * returns a ExtDate object constructed from the fields of the timebox
+    */
+    ExtDate createDate(bool *ok=0);
 
 
-	/**
-	* Fills the degrees entry field with string @p s
-	*                 */
-	void setEntry(QString s) { setText(s); }
+    /**
+    * Fills the degrees entry field with string @p s
+    *                 */
+    void setEntry(QString s) { setText(s); }
 
-	/**
-	* returns a boolean. True indicates that the object holds a
-	* Time Box. False that the object holds a Date Box.
-	*/
-	bool timeType(void) const {return timet;}
+    /**
+    * returns a boolean. True indicates that the object holds a
+    * Time Box. False that the object holds a Date Box.
+    */
+    bool timeType(void) const {return timet;}
 
-	/**
-	* Clears all entries.
-	*/
-	void clearFields (void) { setEntry(QString()); }
+    /**
+    * Clears all entries.
+    */
+    void clearFields (void) { setEntry(QString()); }
 
 private:
-	bool timet;
+    bool timet;
 };
 
 #endif

@@ -32,20 +32,20 @@
 #include "skymesh.h"
 
 DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
-: SkyComponent(parent)
+        : SkyComponent(parent)
 {
     m_DeepSkyList = QList<DeepSkyObject*>();
-	m_MessierList = QList<DeepSkyObject*>();
-	m_NGCList = QList<DeepSkyObject*>();
-	m_ICList = QList<DeepSkyObject*>();
-	m_OtherList = QList<DeepSkyObject*>();
+    m_MessierList = QList<DeepSkyObject*>();
+    m_NGCList = QList<DeepSkyObject*>();
+    m_ICList = QList<DeepSkyObject*>();
+    m_OtherList = QList<DeepSkyObject*>();
 
     m_skyMesh = SkyMesh::Instance();
 }
 
 DeepSkyComponent::~DeepSkyComponent()
 {
-	clear();
+    clear();
 }
 
 bool DeepSkyComponent::selected()
@@ -60,7 +60,7 @@ void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
 void DeepSkyComponent::init(KStarsData *data)
 {
     KSFileReader fileReader;
-    if ( ! fileReader.open( "ngcic.dat" ) ) return; 
+    if ( ! fileReader.open( "ngcic.dat" ) ) return;
 
     fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
 
@@ -81,7 +81,7 @@ void DeepSkyComponent::init(KStarsData *data)
         while ( line.mid(6,8).trimmed().isEmpty() && fileReader.hasMoreLines() ) {
             line = fileReader.readLine();
         }
-        
+
         iflag = line.at( 0 ); //check for NGC/IC catalog flag
         if ( iflag == 'I' ) cat = "IC";
         else if ( iflag == 'N' ) cat = "NGC";
@@ -100,7 +100,7 @@ void DeepSkyComponent::init(KStarsData *data)
 
         //B magnitude
         ss = line.mid( 23, 4 );
-        if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
+    if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
 
         //object type
         type = line.mid( 29, 1 ).toInt();
@@ -110,8 +110,8 @@ void DeepSkyComponent::init(KStarsData *data)
         if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
         ss = line.mid( 37, 5 );
         if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
-        //position angle.  The catalog PA is zero when the Major axis 
-        //is horizontal.  But we want the angle measured from North, so 
+        //position angle.  The catalog PA is zero when the Major axis
+        //is horizontal.  But we want the angle measured from North, so
         //we set PA = 90 - pa.
         ss = line.mid( 43, 3 );
         if (ss == "   " ) { pa = 90; } else { pa = 90 - ss.toInt(); }
@@ -141,7 +141,7 @@ void DeepSkyComponent::init(KStarsData *data)
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
 
-        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+    if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
         bool hasName = true;
         QString snum;
@@ -160,7 +160,7 @@ void DeepSkyComponent::init(KStarsData *data)
             } else {
                 name2 = QString();
             }
-        } 
+        }
         else {
             if ( ! longname.isEmpty() ) name = longname;
             else {
@@ -184,7 +184,7 @@ void DeepSkyComponent::init(KStarsData *data)
 
         Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
 
-        //Assign object to general DeepSkyObjects list, 
+        //Assign object to general DeepSkyObjects list,
         //and a secondary list based on its catalog.
         m_DeepSkyList.append( o );
         if ( o->isCatalogM()) {
@@ -193,25 +193,25 @@ void DeepSkyComponent::init(KStarsData *data)
         }
         else if (o->isCatalogNGC() ) {
             m_NGCList.append( o );
-             appendIndex( o, &m_NGCIndex, trixel );
-        } 
+            appendIndex( o, &m_NGCIndex, trixel );
+        }
         else if ( o->isCatalogIC() ) {
             m_ICList.append( o );
-             appendIndex( o, &m_ICIndex, trixel );
+            appendIndex( o, &m_ICIndex, trixel );
         }
         else {
             m_OtherList.append( o );
-             appendIndex( o, &m_OtherIndex, trixel );
+            appendIndex( o, &m_OtherIndex, trixel );
         }
 
         //Add name to the list of object names
-        if ( ! name.isEmpty() ) 
+        if ( ! name.isEmpty() )
             objectNames(type).append( name );
 
         //Add long name to the list of object names
-        if ( ! longname.isEmpty() && longname != name ) 
+        if ( ! longname.isEmpty() && longname != name )
             objectNames(type).append( longname );
-    
+
         fileReader.showProgress();
     }
 }
@@ -240,31 +240,31 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 
 void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	bool drawFlag;
+    bool drawFlag;
 
     m_scale = scale;
     m_data  = ks->data();
     m_map   = ks->map();
 
-	drawFlag = Options::showMessier() &&  
-		! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
+    drawFlag = Options::showMessier() &&
+               ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor" );
 
-	drawFlag = Options::showNGC() &&  
-		! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
+    drawFlag = Options::showNGC() &&
+               ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( psky, drawFlag,     &m_NGCIndex,     "NGCColor" );
 
-	drawFlag = Options::showIC() &&  
-		! ( Options::hideOnSlew() && Options::hideIC() && SkyMap::IsSlewing() );
+    drawFlag = Options::showIC() &&
+               ! ( Options::hideOnSlew() && Options::hideIC() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( psky, drawFlag,      &m_ICIndex,      "ICColor" );
 
-	drawFlag = Options::showOther() &&  
-		! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
+    drawFlag = Options::showOther() &&
+               ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( psky, drawFlag,   &m_OtherIndex,   "NGCColor" );
 }
@@ -273,27 +273,27 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
         DeepSkyIndex* dsIndex, const QString& colorString)
 {
     bool drawImage =  Options::showMessierImages();
-    if ( ! ( drawObject || drawImage ) ) return; 
+    if ( ! ( drawObject || drawImage ) ) return;
 
     UpdateID updateID = m_data->updateID();
     UpdateID updateNumID = m_data->updateNumID();
 
-	psky.setPen( m_data->colorScheme()->colorNamed( colorString ) );
-	psky.setBrush( Qt::NoBrush );
+    psky.setPen( m_data->colorScheme()->colorNamed( colorString ) );
+    psky.setBrush( Qt::NoBrush );
     QColor color        = m_data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = m_data->colorScheme()->colorNamed( "HSTColor" );
 
-	double maglim = Options::magLimitDrawDeepSky();
+    double maglim = Options::magLimitDrawDeepSky();
 
-	//FIXME
-	//disabling faint limits until the NGC/IC catalog has reasonable mags
-	//adjust maglimit for ZoomLevel
-	//double lgmin = log10(MINZOOM);
-	//double lgmax = log10(MAXZOOM);
-	//double lgz = log10(Options::zoomFactor());
-	//if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-	//else
-	maglim = 40.0; //show all deep-sky objects
+    //FIXME
+    //disabling faint limits until the NGC/IC catalog has reasonable mags
+    //adjust maglimit for ZoomLevel
+    //double lgmin = log10(MINZOOM);
+    //double lgmax = log10(MAXZOOM);
+    //double lgz = log10(Options::zoomFactor());
+    //if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+    //else
+    maglim = 40.0; //show all deep-sky objects
 
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region( m_skyMesh, DRAW_BUF );
@@ -309,7 +309,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //if ( obj->drawID == drawID ) continue;  // only draw each line once
             //obj->drawID = drawID;
 
-			if ( ! m_map->checkVisibility( obj ) ) continue;
+            if ( ! m_map->checkVisibility( obj ) ) continue;
 
             if ( obj->updateID != updateID ) {
                 obj->updateID = updateID;
@@ -319,51 +319,51 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                 obj->EquatorialToHorizontal( m_data->lst(), m_data->geo()->lat() );
             }
 
-   			float mag = obj->mag();
-   			float size = m_scale * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float mag = obj->mag();
+            float size = m_scale * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
-   			//only draw objects if flags set, it's bigger than 1 pixel (unless 
-   			//zoom > 2000.), and it's brighter than maglim (unless mag is 
-   			//undefined (=99.9)
-   			if ( (size > 1.0 || Options::zoomFactor() > 2000.) && 
-   					 (mag > 90.0 || mag < (float)maglim) ) {
-   				QPointF o = m_map->toScreen( obj, m_scale );
-                   if ( ! m_map->onScreen( o ) ) continue;
-   				double PositionAngle = m_map->findPA( obj, o.x(), o.y(), m_scale );
+            //only draw objects if flags set, it's bigger than 1 pixel (unless
+            //zoom > 2000.), and it's brighter than maglim (unless mag is
+            //undefined (=99.9)
+            if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
+                    (mag > 90.0 || mag < (float)maglim) ) {
+                QPointF o = m_map->toScreen( obj, m_scale );
+                if ( ! m_map->onScreen( o ) ) continue;
+                double PositionAngle = m_map->findPA( obj, o.x(), o.y(), m_scale );
 
-   				//Draw Image
-   				if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-   					obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
-   				}
+                //Draw Image
+                if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
+                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
+                }
 
-   				//Draw Symbol
-   				if ( drawObject ) {
-   					//change color if extra images are available
-   					// most objects don't have those, so we only change colors temporarily
-   					// for the few exceptions. Changing color is expensive!!!
-   					bool bColorChanged = false;
-   					if ( obj->isCatalogM() && obj->ImageList.count() > 1 ) {
-   						psky.setPen( colorExtra );
-   						bColorChanged = true;
-   					} else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
-   						psky.setPen( colorExtra );
-   						bColorChanged = true;
-   					}
+                //Draw Symbol
+                if ( drawObject ) {
+                    //change color if extra images are available
+                    // most objects don't have those, so we only change colors temporarily
+                    // for the few exceptions. Changing color is expensive!!!
+                    bool bColorChanged = false;
+                    if ( obj->isCatalogM() && obj->ImageList.count() > 1 ) {
+                        psky.setPen( colorExtra );
+                        bColorChanged = true;
+                    } else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
+                        psky.setPen( colorExtra );
+                        bColorChanged = true;
+                    }
 
-   					obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
+                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
 
-   					if ( bColorChanged ) {
-   						psky.setPen( color );
-   					}
-				}
-			} 
+                    if ( bColorChanged ) {
+                        psky.setPen( color );
+                    }
+                }
+            }
             else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
-				if ( obj->image() ) {
-					obj->deleteImage();
-				}
-			}
-		}
-	}
+                if ( obj->image() ) {
+                    obj->deleteImage();
+                }
+            }
+        }
+    }
 }
 
 
@@ -372,7 +372,7 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
     return nameHash[ name ];
 }
 
-//we multiply each catalog's smallest angular distance by the 
+//we multiply each catalog's smallest angular distance by the
 //following factors before selecting the final nearest object:
 // IC catalog = 0.8
 // NGC catalog = 0.5
@@ -380,13 +380,13 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 // Messier object = 0.25
 SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 
-	if ( ! selected() ) return 0;
+    if ( ! selected() ) return 0;
 
-	SkyObject *oTry = 0;
-	SkyObject *oBest = 0;
-	double rTry = maxrad;
-	double rBest = maxrad;
-	double r;
+    SkyObject *oTry = 0;
+    SkyObject *oBest = 0;
+    double rTry = maxrad;
+    double rBest = maxrad;
+    double r;
     DeepSkyList* dsList;
     SkyObject* obj;
 
@@ -396,42 +396,42 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
             obj = (SkyObject*) dsList->at( i );
-		    r = obj->angularDistanceTo( p ).Degrees();
-		    if ( r < rTry ) {
-			    rTry = r;
-			    oTry = obj;
-		    }
+            r = obj->angularDistanceTo( p ).Degrees();
+            if ( r < rTry ) {
+                rTry = r;
+                oTry = obj;
+            }
         }
-	}
+    }
 
-	rTry *= 0.8;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry *= 0.8;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	rTry = maxrad;
+    rTry = maxrad;
     region.reset();
     while ( region.hasNext() ) {
         dsList = m_NGCIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
             obj = (SkyObject*) dsList->at( i );
-		    r = obj->angularDistanceTo( p ).Degrees();
-		    if ( r < rTry ) {
-			    rTry = r;
-			    oTry = obj;
-		    }
+            r = obj->angularDistanceTo( p ).Degrees();
+            if ( r < rTry ) {
+                rTry = r;
+                oTry = obj;
+            }
         }
-	}
+    }
 
-	rTry *= 0.6;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry *= 0.6;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	rTry = maxrad;
+    rTry = maxrad;
 
     region.reset();
     while ( region.hasNext() ) {
@@ -439,21 +439,21 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
             obj = (SkyObject*) dsList->at( i );
-		    r = obj->angularDistanceTo( p ).Degrees();
-		    if ( r < rTry ) {
-			    rTry = r;
-			    oTry = obj;
-		    }
+            r = obj->angularDistanceTo( p ).Degrees();
+            if ( r < rTry ) {
+                rTry = r;
+                oTry = obj;
+            }
         }
-	}
+    }
 
-	rTry *= 0.6;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry *= 0.6;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	rTry = maxrad;
+    rTry = maxrad;
 
     region.reset();
     while ( region.hasNext() ) {
@@ -461,72 +461,72 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
             obj = (SkyObject*) dsList->at( i );
-		    r = obj->angularDistanceTo( p ).Degrees();
-		    if ( r < rTry ) {
-			    rTry = r;
-			    oTry = obj;
-		    }
+            r = obj->angularDistanceTo( p ).Degrees();
+            if ( r < rTry ) {
+                rTry = r;
+                oTry = obj;
+            }
         }
-	}
+    }
 
     // -jbb: this is the template of the non-indexed way
     //
-	//foreach ( SkyObject *o, m_MessierList ) {
-	//	r = o->angularDistanceTo( p ).Degrees();
-	//	if ( r < rTry ) {
-	//		rTry = r;
-	//		oTry = o;
-	//	}
-	//}
+    //foreach ( SkyObject *o, m_MessierList ) {
+    //	r = o->angularDistanceTo( p ).Degrees();
+    //	if ( r < rTry ) {
+    //		rTry = r;
+    //		oTry = o;
+    //	}
+    //}
 
-	rTry *= 0.5;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry *= 0.5;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	maxrad = rBest;
-	return oBest;
+    maxrad = rBest;
+    return oBest;
 }
 
 void DeepSkyComponent::clear() {
-	while ( ! m_MessierList.isEmpty() ) {
-		SkyObject *o = m_MessierList.takeFirst();
-		int i = objectNames(o->type()).indexOf( o->name() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-		i = objectNames(o->type()).indexOf( o->longname() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+    while ( ! m_MessierList.isEmpty() ) {
+        SkyObject *o = m_MessierList.takeFirst();
+        int i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
-		delete o;
-	}
+        delete o;
+    }
 
-	while ( ! m_NGCList.isEmpty() ) {
-		SkyObject *o = m_NGCList.takeFirst();
-		int i = objectNames(o->type()).indexOf( o->name() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-		i = objectNames(o->type()).indexOf( o->longname() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+    while ( ! m_NGCList.isEmpty() ) {
+        SkyObject *o = m_NGCList.takeFirst();
+        int i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
-		delete o;
-	}
+        delete o;
+    }
 
-	while ( ! m_ICList.isEmpty() ) {
-		SkyObject *o = m_ICList.takeFirst();
-		int i = objectNames(o->type()).indexOf( o->name() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-		i = objectNames(o->type()).indexOf( o->longname() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+    while ( ! m_ICList.isEmpty() ) {
+        SkyObject *o = m_ICList.takeFirst();
+        int i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
-		delete o;
-	}
+        delete o;
+    }
 
-	while ( ! m_OtherList.isEmpty() ) {
-		SkyObject *o = m_OtherList.takeFirst();
-		int i = objectNames(o->type()).indexOf( o->name() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-		i = objectNames(o->type()).indexOf( o->longname() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+    while ( ! m_OtherList.isEmpty() ) {
+        SkyObject *o = m_OtherList.takeFirst();
+        int i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
-		delete o;
-	}
+        delete o;
+    }
 }

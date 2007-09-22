@@ -23,57 +23,57 @@
 #include "linelistindex.h"
 #include "ksnumbers.h"
 
-   /*
-	*@class ConstellationLines
-	*Collection of lines making the 88 constellations
+/*
+*@class ConstellationLines
+*Collection of lines making the 88 constellations
 
-	*@author Jason Harris
-	*@version 0.1
-	*/
+*@author Jason Harris
+*@version 0.1
+*/
 
-class ConstellationLines : public LineListIndex 
+class ConstellationLines : public LineListIndex
 {
 
-	public:
-	   /* @short Constructor
-	    * @p parent Pointer to the parent SkyComponent object
-		*/
-		ConstellationLines( SkyComponent *parent );
+public:
+    /* @short Constructor
+     * @p parent Pointer to the parent SkyComponent object
+    */
+    ConstellationLines( SkyComponent *parent );
 
-	   /* @short Initialize the Constellation lines 
-		*
-		*Reads the constellation lines data from clines.dat.
-		*Each line in the file contains a command character ("M" means move to 
-		*this position without drawing a line, "D" means draw a line from 
-		*the previous position to this one), followed by the genetive name of 
-		*a star, which marks the position of the constellation node.
-		*@p data Pointer to the KStarsData object
-		*/
-		void init( KStarsData *data );
+    /* @short Initialize the Constellation lines
+    *
+    *Reads the constellation lines data from clines.dat.
+    *Each line in the file contains a command character ("M" means move to 
+    *this position without drawing a line, "D" means draw a line from 
+    *the previous position to this one), followed by the genetive name of 
+    *a star, which marks the position of the constellation node.
+    *@p data Pointer to the KStarsData object
+    */
+    void init( KStarsData *data );
 
 
-        const IndexHash& getIndexHash(LineList* lineList );
+    const IndexHash& getIndexHash(LineList* lineList );
 
-        /* @short we need to override the update routine because stars are
-         * updated differently from mere SkyPoints.
-         */
-        void JITupdate( KStarsData *data, LineList* lineList );
+    /* @short we need to override the update routine because stars are
+     * updated differently from mere SkyPoints.
+     */
+    void JITupdate( KStarsData *data, LineList* lineList );
 
-        /* @short
-         *
-         */
-        void reindex( KSNumbers *num );
+    /* @short
+     *
+     */
+    void reindex( KSNumbers *num );
 
-        /* @short Set the QColor and QPen for drawing.
-         */
-        void preDraw( KStars *ks, QPainter &psky );
+    /* @short Set the QColor and QPen for drawing.
+     */
+    void preDraw( KStars *ks, QPainter &psky );
 
-        bool selected();
+    bool selected();
 
-    private:
+private:
 
-        KSNumbers m_reindexNum;
-        double    m_reindexInterval;
+    KSNumbers m_reindexNum;
+    double    m_reindexInterval;
 
 };
 

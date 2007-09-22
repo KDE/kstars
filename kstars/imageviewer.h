@@ -38,16 +38,16 @@ class QLabel;
 class QVBoxLayout;
 
 class ImageLabel : public QFrame {
-	Q_OBJECT
-	public:
-		ImageLabel( QWidget *parent );
-		~ImageLabel();
-		void setImage( const QImage &img ) { m_Image = img; }
+    Q_OBJECT
+public:
+    ImageLabel( QWidget *parent );
+    ~ImageLabel();
+    void setImage( const QImage &img ) { m_Image = img; }
 
-	protected:
-		void paintEvent( QPaintEvent *e);
-	private:
-		QImage m_Image;
+protected:
+    void paintEvent( QPaintEvent *e);
+private:
+    QImage m_Image;
 };
 
 /**@class ImageViewer
@@ -66,67 +66,67 @@ class ImageLabel : public QFrame {
 	*because the files are at this time local saved and this works not so long.
 	*/
 class ImageViewer : public KDialog {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-	/**Constructor. */
-		ImageViewer (const KUrl &imageURL, const QString &capText, KStars *ks );
+public:
+    /**Constructor. */
+    ImageViewer (const KUrl &imageURL, const QString &capText, KStars *ks );
 
-	/**Destructor. If there is a partially downloaded image file, delete it.*/
-		~ImageViewer();
+    /**Destructor. If there is a partially downloaded image file, delete it.*/
+    ~ImageViewer();
 
-	protected:
-	/**The window is resized when a file finishes downloading, before it is displayed.
-		*The resizeEvent converts the downloaded QImage to a QPixmap 
-		*@note (JH: not sure why this conversion is not done in showImage)
-		*/
-		void resizeEvent (QResizeEvent *ev);
+protected:
+    /**The window is resized when a file finishes downloading, before it is displayed.
+    	*The resizeEvent converts the downloaded QImage to a QPixmap 
+    	*@note (JH: not sure why this conversion is not done in showImage)
+    	*/
+    void resizeEvent (QResizeEvent *ev);
 
-	/**Make sure all events have been processed before closing the dialog */
-		void closeEvent (QCloseEvent *ev);
+    /**Make sure all events have been processed before closing the dialog */
+    void closeEvent (QCloseEvent *ev);
 
-	private:
-	/**Display the downloaded image.  Resize the window to fit the image,  If the image is
-		*larger than the screen, make the image as large as possible while preserving the
-		*original aspect ratio
-		*/
-		void showImage( void );
+private:
+    /**Display the downloaded image.  Resize the window to fit the image,  If the image is
+    	*larger than the screen, make the image as large as possible while preserving the
+    	*original aspect ratio
+    	*/
+    void showImage( void );
 
-	/**Download the image file pointed to by the URL string.
-		*/
-		void loadImageFromURL( void );
+    /**Download the image file pointed to by the URL string.
+    	*/
+    void loadImageFromURL( void );
 
-	/**Save the downloaded image to a local file.
-		*/
-		void saveFile (KUrl &url);
-		
-	/**Kill running download jobs, if close of window is forced.
-		*/
-		void checkJob();
+    /**Save the downloaded image to a local file.
+    	*/
+    void saveFile (KUrl &url);
 
-		QFile file;
-		KStars *ks;
+    /**Kill running download jobs, if close of window is forced.
+    	*/
+    void checkJob();
 
-		const KUrl m_ImageUrl;
-		bool fileIsImage;
-		QString filename;
+    QFile file;
+    KStars *ks;
 
-		KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-		
-		ImageLabel *View;
-		QLabel *Caption;
-		QFrame *MainFrame;
-		QVBoxLayout *vlay;
+    const KUrl m_ImageUrl;
+    bool fileIsImage;
+    QString filename;
 
-	private slots:
-	/**Make sure download has finished, then make sure file exists, then display the image */
-		void downloadReady (KJob *);
+    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 
-	/**Saves. File. To. Disc. */
-		void saveFileToDisc( void );
+    ImageLabel *View;
+    QLabel *Caption;
+    QFrame *MainFrame;
+    QVBoxLayout *vlay;
 
-	/**Close the window.*/
-		void close( void );
+private slots:
+    /**Make sure download has finished, then make sure file exists, then display the image */
+    void downloadReady (KJob *);
+
+    /**Saves. File. To. Disc. */
+    void saveFileToDisc( void );
+
+    /**Close the window.*/
+    void close( void );
 };
 
 #endif

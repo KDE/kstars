@@ -25,25 +25,25 @@ class INDIDriver;
 
 class telescopeProp : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit telescopeProp(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
-  ~telescopeProp();
+    explicit telescopeProp(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
+    ~telescopeProp();
 
 public slots:
-  void newScope();
-  void saveScope();
-  void updateScopeDetails(int index);
-  void removeScope();
+    void newScope();
+    void saveScope();
+    void updateScopeDetails(int index);
+    void removeScope();
 
- private:
-  int findDeviceIndex(int listIndex);
-  Ui::scopeProp *ui;
+private:
+    int findDeviceIndex(int listIndex);
+    Ui::scopeProp *ui;
 
-  bool newScopePending;
-  KStars *ksw;
-  INDIDriver *indi_driver;
+    bool newScopePending;
+    KStars *ksw;
+    INDIDriver *indi_driver;
 
 };
 

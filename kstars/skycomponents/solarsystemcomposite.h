@@ -39,42 +39,42 @@ class SkyLabeler;
 
 class SolarSystemComposite : public SkyComposite
 {
-	public:
-		SolarSystemComposite( SkyComponent *parent, KStarsData *data );
-		~SolarSystemComposite();
-		
-		KSPlanet* earth() { return m_Earth; }
-		QList<SkyObject*>& asteroids();
-		QList<SkyObject*>& comets();
+public:
+    SolarSystemComposite( SkyComponent *parent, KStarsData *data );
+    ~SolarSystemComposite();
 
-		
-		virtual void init(KStarsData *data);
+    KSPlanet* earth() { return m_Earth; }
+    QList<SkyObject*>& asteroids();
+    QList<SkyObject*>& comets();
 
-        bool selected();
 
-		virtual void update( KStarsData *data, KSNumbers *num );
-		
-		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
-		
-		virtual void updateMoons( KStarsData *data, KSNumbers *num );
+    virtual void init(KStarsData *data);
 
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
-		
-		//Do the drawing in this class, since we are keeping the list of objects 
-		//with Trails here
-		void drawTrails( KStars *ks, QPainter& psky, double scale );
+    bool selected();
 
-		void reloadAsteroids( KStarsData *data );
-		void reloadComets( KStarsData *data );
+    virtual void update( KStarsData *data, KSNumbers *num );
 
-	private:
-		KSPlanet *m_Earth;
-		KSSun *m_Sun;
-		KSMoon *m_Moon;
-		JupiterMoonsComponent *m_JupiterMoons;
-		AsteroidsComponent *m_AsteroidsComponent;
-		CometsComponent *m_CometsComponent;
-        SkyLabeler* m_skyLabeler;
+    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
+
+    virtual void updateMoons( KStarsData *data, KSNumbers *num );
+
+    virtual void draw(KStars *ks, QPainter& psky, double scale);
+
+    //Do the drawing in this class, since we are keeping the list of objects
+    //with Trails here
+    void drawTrails( KStars *ks, QPainter& psky, double scale );
+
+    void reloadAsteroids( KStarsData *data );
+    void reloadComets( KStarsData *data );
+
+private:
+    KSPlanet *m_Earth;
+    KSSun *m_Sun;
+    KSMoon *m_Moon;
+    JupiterMoonsComponent *m_JupiterMoons;
+    AsteroidsComponent *m_AsteroidsComponent;
+    CometsComponent *m_CometsComponent;
+    SkyLabeler* m_skyLabeler;
 };
 
 #endif

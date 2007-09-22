@@ -43,34 +43,34 @@
 class KStarsData;
 class KSPluto : public KSAsteroid  {
 public:
-/**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
-	*in orbital element data (which is hard-coded for now).
-	*@param kd pointer to the KStarsData object
-	*@param fn filename of Pluto's image
-	*@param pSize physical diameter of Pluto, in km
-	*/
-	explicit KSPluto(KStarsData *kd, const QString &fn=QString(), double pSize=0);
+    /**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
+    	*in orbital element data (which is hard-coded for now).
+    	*@param kd pointer to the KStarsData object
+    	*@param fn filename of Pluto's image
+    	*@param pSize physical diameter of Pluto, in km
+    	*/
+    explicit KSPluto(KStarsData *kd, const QString &fn=QString(), double pSize=0);
 
-/**Destructor (empty) */
-	virtual ~KSPluto();
+    /**Destructor (empty) */
+    virtual ~KSPluto();
 
 protected:
-/**A custom findPosition() function for Pluto.  Computes the values of the 
-	*orbital elements on the requested date, and calls KSAsteroid::findGeocentricPosition()
-	*using those elements.
-	*@param num time-dependent values for the desired date
-	*@param Earth planet Earth (needed to calculate geocentric coords)
-	*@return true if position was successfully calculated.
-	*/
-	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+    /**A custom findPosition() function for Pluto.  Computes the values of the
+    	*orbital elements on the requested date, and calls KSAsteroid::findGeocentricPosition()
+    	*using those elements.
+    	*@param num time-dependent values for the desired date
+    	*@param Earth planet Earth (needed to calculate geocentric coords)
+    	*@return true if position was successfully calculated.
+    	*/
+    virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 private:
-	//The base orbital elements for J2000 (these don't change with time)
-	double a0, e0;
-	dms i0, w0, M0, N0;
+    //The base orbital elements for J2000 (these don't change with time)
+    double a0, e0;
+    dms i0, w0, M0, N0;
 
-	//Rates-of-change for each orbital element
-	double a1, e1, i1, w1, M1, N1;
+    //Rates-of-change for each orbital element
+    double a1, e1, i1, w1, M1, N1;
 };
 
 #endif

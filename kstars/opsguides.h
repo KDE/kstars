@@ -21,15 +21,15 @@
 
 class OpsGuides : public QFrame, public Ui::OpsGuides
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	OpsGuides( QWidget* parent = 0 );
-	~OpsGuides();
+    OpsGuides( QWidget* parent = 0 );
+    ~OpsGuides();
 
 private slots:
-	void slotToggleConstellOptions();
-	void slotToggleMilkyWayOptions();
+    void slotToggleConstellOptions();
+    void slotToggleMilkyWayOptions();
 };
 
 #endif // OPSGUIDES_H_

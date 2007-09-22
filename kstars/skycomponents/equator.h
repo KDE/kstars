@@ -32,38 +32,38 @@ class KStarsData;
 	*/
 class Equator : public NoPrecessIndex
 {
-	public:
+public:
 
-		/* @short Constructor
-		 * @p parent pointer to the parent SkyComponent object
-		 * name is the name of the subclass
-		 */
-		Equator( SkyComponent *parent );
+    /* @short Constructor
+     * @p parent pointer to the parent SkyComponent object
+     * name is the name of the subclass
+     */
+    Equator( SkyComponent *parent );
 
-		void preDraw( KStars *kstars, QPainter& psky );
-		
-		void draw( KStars *kstars, QPainter &psky, double scale );
+    void preDraw( KStars *kstars, QPainter& psky );
 
-		void drawLabel( KStars *kstars, QPainter& psky, double scale );
+    void draw( KStars *kstars, QPainter &psky, double scale );
 
-		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
-			m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
-		}
+    void drawLabel( KStars *kstars, QPainter& psky, double scale );
 
-		void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
-			m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
-		}
+    void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+        m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
+    }
 
-		/**@short Initialize the Equator
-		 *@p data pointer to the KStarsData object
-		 */
-		virtual void init( KStarsData *data );
+    void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
+        m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
+    }
 
-        bool selected();
+    /**@short Initialize the Equator
+     *@p data pointer to the KStarsData object
+     */
+    virtual void init( KStarsData *data );
 
-	private:
-		
-		LineListLabel m_label;
+    bool selected();
+
+private:
+
+    LineListLabel m_label;
 };
 
 #endif

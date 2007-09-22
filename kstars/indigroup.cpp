@@ -24,56 +24,56 @@
 #include <QTimer>
 #include <QTabWidget>
 #include <QVBoxLayout>
- 
- /*******************************************************************
+
+/*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
 INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
 {
-  dp = parentDevice;
-  
-  name = inName;
+    dp = parentDevice;
 
-  //propertyContainer = new QFrame(dp->groupContainer);
-  propertyContainer = new QFrame();
-  propertyLayout    = new QVBoxLayout(propertyContainer);
-  propertyLayout->setMargin(20);
-  propertyLayout->setSpacing(KDialog::spacingHint());
-  VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
-  
-  propertyLayout->addItem(VerticalSpacer); 
-    
-  dp->groupContainer->addTab(propertyContainer, name);
+    name = inName;
+
+    //propertyContainer = new QFrame(dp->groupContainer);
+    propertyContainer = new QFrame();
+    propertyLayout    = new QVBoxLayout(propertyContainer);
+    propertyLayout->setMargin(20);
+    propertyLayout->setSpacing(KDialog::spacingHint());
+    VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+
+    propertyLayout->addItem(VerticalSpacer);
+
+    dp->groupContainer->addTab(propertyContainer, name);
 }
 
 INDI_G::~INDI_G()
 {
-  while ( ! pl.isEmpty() ) delete pl.takeFirst();
-  
-  delete(propertyContainer);
+    while ( ! pl.isEmpty() ) delete pl.takeFirst();
+
+    delete(propertyContainer);
 }
 
 void INDI_G::addProperty(INDI_P *pp)
 {
-   propertyLayout->addLayout(pp->PHBox);
-   propertyLayout->addItem(VerticalSpacer);   
+    propertyLayout->addLayout(pp->PHBox);
+    propertyLayout->addItem(VerticalSpacer);
 
-   pl.append(pp);
-   
-   // Registering the property should be the last thing
-   dp->registerProperty(pp);
+    pl.append(pp);
+
+    // Registering the property should be the last thing
+    dp->registerProperty(pp);
 
 }
 
 bool INDI_G::removeProperty(INDI_P *pp)
 {
-  int i = pl.indexOf( pp );
-  if ( i != -1 ) {
-    delete pl.takeAt(i);
-    return true;
-  } else {
-    return false;
-  }
+    int i = pl.indexOf( pp );
+    if ( i != -1 ) {
+        delete pl.takeAt(i);
+        return true;
+    } else {
+        return false;
+    }
 }

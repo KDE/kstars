@@ -30,40 +30,40 @@ class dms;
   */
 class modCalcAltAz : public QFrame, public Ui::modCalcAltAz  {
 
-Q_OBJECT
+    Q_OBJECT
 
-public: 
-	modCalcAltAz(QWidget *p);
-	~modCalcAltAz();
-	
+public:
+    modCalcAltAz(QWidget *p);
+    ~modCalcAltAz();
+
 public slots:
-	void slotCompute();
-	void slotNow();
-	void slotLocation();
-	void slotObject();
-	void slotDateTimeChanged(const ExtDateTime&);
+    void slotCompute();
+    void slotNow();
+    void slotLocation();
+    void slotObject();
+    void slotDateTimeChanged(const ExtDateTime&);
 
-	void slotUtChecked();
-	void slotDateChecked();
-	void slotRaChecked();
-	void slotDecChecked();
-	void slotEpochChecked();
-	void slotLongChecked();
-	void slotLatChecked();
-	void slotAzChecked();
-	void slotElChecked();
-	void slotInputFile();
-	void slotOutputFile();
-	void slotRunBatch();
+    void slotUtChecked();
+    void slotDateChecked();
+    void slotRaChecked();
+    void slotDecChecked();
+    void slotEpochChecked();
+    void slotLongChecked();
+    void slotLatChecked();
+    void slotAzChecked();
+    void slotElChecked();
+    void slotInputFile();
+    void slotOutputFile();
+    void slotRunBatch();
 
 private:
-	void horNoCheck();
-	void equNoCheck();
-	void processLines( QTextStream &istream );
-  
-	GeoLocation *geoPlace;
-	dms LST;
-	bool horInputCoords;
+    void horNoCheck();
+    void equNoCheck();
+    void processLines( QTextStream &istream );
+
+    GeoLocation *geoPlace;
+    dms LST;
+    bool horInputCoords;
 };
 
 #endif

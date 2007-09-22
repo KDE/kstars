@@ -25,33 +25,33 @@ extern "C" {
 }
 
 class SatelliteComponent : public LineListComponent {
-	public:
-	/**
-		*@short Constructor
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		SatelliteComponent(SkyComponent* parent);
-	/**
-		*@short Destructor.  Delete list members
-		*/
-		~SatelliteComponent();
-		
-	/**
-		*@short Initialize the component using a SPositionSat array
-		*@p data Pointer to the KStarsData object
-		*/
-		void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
+public:
+    /**
+    	*@short Constructor
+    	*@p parent Pointer to the parent SkyComponent object
+    	*/
+    SatelliteComponent(SkyComponent* parent);
+    /**
+    	*@short Destructor.  Delete list members
+    	*/
+    ~SatelliteComponent();
 
-        bool selected();
+    /**
+    	*@short Initialize the component using a SPositionSat array
+    	*@p data Pointer to the KStarsData object
+    	*/
+    void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
 
-		void draw( KStars *ks, QPainter &psky, double scale );
+    bool selected();
 
-		QList<double>& jdList() { return JDList; }
+    void draw( KStars *ks, QPainter &psky, double scale );
 
-	private:
-		QStringList SatelliteNames;
-		long double JulianDate;
-		QList<double> JDList;
+    QList<double>& jdList() { return JDList; }
+
+private:
+    QStringList SatelliteNames;
+    long double JulianDate;
+    QList<double> JDList;
 };
 
 #endif

@@ -26,82 +26,82 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
-SatelliteComposite::SatelliteComposite( SkyComponent *parent ) 
-: SkyComposite( parent )
+SatelliteComposite::SatelliteComposite( SkyComponent *parent )
+        : SkyComposite( parent )
 {
-	for ( uint i=0; i<NSTEPS; ++i )
-		pSat.append( new SPositionSat );
+    for ( uint i=0; i<NSTEPS; ++i )
+        pSat.append( new SPositionSat );
 
 }
 
-SatelliteComposite::~SatelliteComposite() 
+SatelliteComposite::~SatelliteComposite()
 {
-	for ( uint i=0; i<NSTEPS; ++i )
-		delete pSat[i];
+    for ( uint i=0; i<NSTEPS; ++i )
+        delete pSat[i];
 }
 
 void SatelliteComposite::init( KStarsData *data ) {
-	emitProgressText( i18n("Creating Earth satellites" ) );
+    emitProgressText( i18n("Creating Earth satellites" ) );
 
-	QFile file;
+    QFile file;
 
-	//Extract satellite names from every third line of the satellites.dat file
-	if ( KSUtils::openDataFile( file, "satellites.dat" ) ) {
-		QString sfPath = QFileInfo( file ).absoluteFilePath();
-		QTextStream stream( &file );
-		int i = 0;
-		while ( !stream.atEnd() ) {
-			QString name = stream.readLine().trimmed();
-			if ( i % 3 == 0 )
-				SatelliteNames.append( name );
+    //Extract satellite names from every third line of the satellites.dat file
+    if ( KSUtils::openDataFile( file, "satellites.dat" ) ) {
+        QString sfPath = QFileInfo( file ).absoluteFilePath();
+        QTextStream stream( &file );
+        int i = 0;
+        while ( !stream.atEnd() ) {
+            QString name = stream.readLine().trimmed();
+            if ( i % 3 == 0 )
+                SatelliteNames.append( name );
 
-			i++;
-		}
-		file.close();
+            i++;
+        }
+        file.close();
 
-		//Read in data from the satellite file and construct paths for 
-		//the present geographic location
-		SatInit( data->geo()->translatedName().toUtf8().data(), 
-			data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
-						 data->geo()->height(), sfPath.toAscii().data() );
-		
-		update( data );
-	}
+        //Read in data from the satellite file and construct paths for
+        //the present geographic location
+        SatInit( data->geo()->translatedName().toUtf8().data(),
+                 data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
+                 data->geo()->height(), sfPath.toAscii().data() );
+
+        update( data );
+    }
 }
 
 void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
-	//Julian Day value for current date and time:
-	JD_0 = data->ut().djd();
+    //Julian Day value for current date and time:
+    JD_0 = data->ut().djd();
 
-	//Clear the current list of tracks
-	components().clear();
+    //Clear the current list of tracks
+    components().clear();
 
-	//Loop over desired satellites, construct their paths over the next hour, 
-	//and add visible paths to the list
-	foreach ( const QString &satName, SatelliteNames ) {
-		SatFindPosition( satName.toAscii().data(), JD_0, DT, NSTEPS, pSat.data() );
+    //Loop over desired satellites, construct their paths over the next hour,
+    //and add visible paths to the list
+    foreach ( const QString &satName, SatelliteNames ) {
+        SatFindPosition( satName.toAscii().data(), JD_0, DT, NSTEPS, pSat.data() );
 
-		//Make sure the satellite track is visible before adding it to the list.
-		bool isVisible = false;
-		for ( int i=0; i<NSTEPS; i++ ) {
-			if ( pSat[i]->sat_ele > 10.0 ) { 
-				isVisible = true;
-				break;
-			}
-		}
-			
-		if ( isVisible ) {
-			SatelliteComponent *sc = new SatelliteComponent( this );
-			sc->init( satName, data, pSat.data(), NSTEPS );
-			addComponent( sc );
+        //Make sure the satellite track is visible before adding it to the list.
+        bool isVisible = false;
+        for ( int i=0; i<NSTEPS; i++ ) {
+            if ( pSat[i]->sat_ele > 10.0 ) {
+                isVisible = true;
+                break;
+            }
+        }
 
-			//DEBUG
-			foreach ( SPositionSat *ps, pSat ) {
-				KStarsDateTime dt( ps->jd );
-				dms alt( ps->sat_ele );
-				dms az( ps->sat_azi );
-//				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
-			}
-		}
-	}
+        if ( isVisible ) {
+            SatelliteComponent *sc = new SatelliteComponent( this );
+            sc->init( satName, data, pSat.data(), NSTEPS );
+            addComponent( sc );
+
+            //DEBUG
+            foreach ( SPositionSat *ps, pSat ) {
+                KStarsDateTime dt( ps->jd );
+                dms alt( ps->sat_ele );
+                dms az( ps->sat_azi );
+                //				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
+            }
+        }
+    }
 }

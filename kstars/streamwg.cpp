@@ -8,7 +8,7 @@
     
     2004-03-16: A class to handle video streaming.
  */
- 
+
 #include "streamwg.h"
 #include "indistd.h"
 #include "Options.h"
@@ -53,206 +53,206 @@ FILE *wfp;
      imgFormatCombo->addItem(QString(format));
 
 }*/
-  
- StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
- {
- 
-   //QFrame *page   = plainPage();
-   //ui		  = new StreamWGUI(page);
-   setupUi(this);
-   stdDev         = inStdDev;
-   streamWidth    = streamHeight = -1;
-   processStream  = colorFrame = false;
 
-   streamFrame      = new VideoWG(videoFrame);
-      
-  playPix    = KIcon( "media-playback-start" );
-  pausePix   = KIcon( "media-playback-pause" );
-  capturePix = KIcon( "thumbnail-show" );
-  
-  foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
-     imgFormatCombo->addItem(QString(format)); 
+StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
+{
 
-  playB->setIcon(pausePix);	
-  captureB->setIcon(capturePix);
-  
-  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+    //QFrame *page   = plainPage();
+    //ui		  = new StreamWGUI(page);
+    setupUi(this);
+    stdDev         = inStdDev;
+    streamWidth    = streamHeight = -1;
+    processStream  = colorFrame = false;
 
-  //videoFrame->resize(640, 480);
+    streamFrame      = new VideoWG(videoFrame);
 
-  //kDebug() << "Video Frame Width " << videoFrame->width();
-   
- }
- 
+    playPix    = KIcon( "media-playback-start" );
+    pausePix   = KIcon( "media-playback-pause" );
+    capturePix = KIcon( "thumbnail-show" );
+
+    foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
+    imgFormatCombo->addItem(QString(format));
+
+    playB->setIcon(pausePix);
+    captureB->setIcon(capturePix);
+
+    connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
+    connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+
+    //videoFrame->resize(640, 480);
+
+    //kDebug() << "Video Frame Width " << videoFrame->width();
+
+}
+
 StreamWG::~StreamWG()
 {
-//  delete streamBuffer;
+    //  delete streamBuffer;
 }
 
 void StreamWG::closeEvent ( QCloseEvent * e )
 {
-  stdDev->streamDisabled();
-  processStream = false;
-  e->accept();
+    stdDev->streamDisabled();
+    processStream = false;
+    e->accept();
 }
 
 void StreamWG::setColorFrame(bool color)
 {
-  colorFrame = color;
+    colorFrame = color;
 }
 
 void StreamWG::enableStream(bool enable)
 {
-  if (enable)
-  {
-    processStream = true;
-    show();
-  }
-  else
-  {
-    processStream = false;
-    playB->setIcon(pausePix);
-    hide();
-  }
-  
+    if (enable)
+    {
+        processStream = true;
+        show();
+    }
+    else
+    {
+        processStream = false;
+        playB->setIcon(pausePix);
+        hide();
+    }
+
 }
 
 void StreamWG::setSize(int wd, int ht)
 {
-  
-  streamWidth  = wd;
-  streamHeight = ht;
-  
-  streamFrame->totalBaseCount = wd * ht;
-  
-  resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 4 + layout()->spacing());  
-  streamFrame->resize(wd, ht);
+
+    streamWidth  = wd;
+    streamHeight = ht;
+
+    streamFrame->totalBaseCount = wd * ht;
+
+    resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 4 + layout()->spacing());
+    streamFrame->resize(wd, ht);
 }
 
 void StreamWG::resizeEvent(QResizeEvent *ev)
 {
-  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 4 - layout()->spacing());
+    streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 4 - layout()->spacing());
 
 }
 
 void StreamWG::playPressed()
 {
 
- if (processStream)
- {
-  playB->setIcon(playPix);	
-  processStream = false;
- }
- else
- {
-  playB->setIcon(pausePix);	
-  processStream = true;
- }
- 
+    if (processStream)
+    {
+        playB->setIcon(playPix);
+        processStream = false;
+    }
+    else
+    {
+        playB->setIcon(pausePix);
+        processStream = true;
+    }
+
 }
 
 void StreamWG::captureImage()
 {
-  QString fname;
-  QString fmt;
-  KUrl currentFileURL;
-  QString currentDir = Options::fitsSaveDirectory();
-  KTemporaryFile tmpfile;
-  tmpfile.open();
+    QString fname;
+    QString fmt;
+    KUrl currentFileURL;
+    QString currentDir = Options::fitsSaveDirectory();
+    KTemporaryFile tmpfile;
+    tmpfile.open();
 
-  fmt = imgFormatCombo->currentText();
+    fmt = imgFormatCombo->currentText();
 
-  currentFileURL = KFileDialog::getSaveUrl( currentDir, fmt );
-  
-  if (currentFileURL.isEmpty()) return;
+    currentFileURL = KFileDialog::getSaveUrl( currentDir, fmt );
 
-  if ( currentFileURL.isValid() )
-  {
-	currentDir = currentFileURL.directory();
+    if (currentFileURL.isEmpty()) return;
 
-	if ( currentFileURL.isLocalFile() )
-  	   fname = currentFileURL.path();
-	else
-	   fname = tmpfile.fileName();
+    if ( currentFileURL.isValid() )
+    {
+        currentDir = currentFileURL.directory();
 
-	if (fname.right(fmt.length()).toLower() != fmt.toLower()) 
-	{
-	  fname += '.';
-	  fname += fmt.toLower();
-	}
-	  
-	streamFrame->kPix.save(fname, fmt.toAscii());
-	
-	//set rwx for owner, rx for group, rx for other
-	chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+        if ( currentFileURL.isLocalFile() )
+            fname = currentFileURL.path();
+        else
+            fname = tmpfile.fileName();
 
-	if ( tmpfile.fileName() == fname )
-	{ //need to upload to remote location
-	
-	  if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
-	  {
-		QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
-		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-	  }
-	}
-  }
-  else
-  {
-		QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
-		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-  }
+        if (fname.right(fmt.length()).toLower() != fmt.toLower())
+        {
+            fname += '.';
+            fname += fmt.toLower();
+        }
+
+        streamFrame->kPix.save(fname, fmt.toAscii());
+
+        //set rwx for owner, rx for group, rx for other
+        chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+
+        if ( tmpfile.fileName() == fname )
+        { //need to upload to remote location
+
+            if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
+            {
+                QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
+                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+            }
+        }
+    }
+    else
+    {
+        QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+    }
 
 }
 
 
 VideoWG::VideoWG(QWidget * parent) : QFrame(parent)
 {
-  setAttribute(Qt::WA_OpaquePaintEvent);
-  streamImage    = NULL;
-  //grayTable=new QRgb[256];
-  grayTable.resize(256);
-  for (int i=0;i<256;i++)
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    streamImage    = NULL;
+    //grayTable=new QRgb[256];
+    grayTable.resize(256);
+    for (int i=0;i<256;i++)
         grayTable[i]=qRgb(i,i,i);
 }
-      
-VideoWG::~VideoWG() 
+
+VideoWG::~VideoWG()
 {
- delete (streamImage);
- //delete [] (grayTable);
+    delete (streamImage);
+    //delete [] (grayTable);
 }
 
 void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
 {
 
 
-  // TODO This is highly inefficient. Need to be replaced with a direct blit.
-  if (buffSiz > totalBaseCount)
-     streamImage = new QImage(buffer, w, h, QImage::Format_RGB32);
-   else
+    // TODO This is highly inefficient. Need to be replaced with a direct blit.
+    if (buffSiz > totalBaseCount)
+        streamImage = new QImage(buffer, w, h, QImage::Format_RGB32);
+    else
     {
-    streamImage = new QImage(buffer, w, h, QImage::Format_Indexed8);
-    streamImage->setColorTable(grayTable);
+        streamImage = new QImage(buffer, w, h, QImage::Format_Indexed8);
+        streamImage->setColorTable(grayTable);
     }
 
-   update();
+    update();
 }
 
 void VideoWG::paintEvent(QPaintEvent * /*ev*/)
 {
-  	
-   if (streamImage)
-   {
-	if (streamImage->isNull()) return;
-	kPix = QPixmap::fromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
-	delete (streamImage);
-	streamImage = NULL;
-   }
-   
-   QPainter p(this);
-   p.drawPixmap(0, 0, kPix);
-   p.end();
-   
+
+    if (streamImage)
+    {
+        if (streamImage->isNull()) return;
+        kPix = QPixmap::fromImage(streamImage->scaled(width(), height(), Qt::KeepAspectRatio));
+        delete (streamImage);
+        streamImage = NULL;
+    }
+
+    QPainter p(this);
+    p.drawPixmap(0, 0, kPix);
+    p.end();
+
 }
 
 #include "streamwg.moc"

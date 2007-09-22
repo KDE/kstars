@@ -33,26 +33,26 @@ class VBox;
   */
 class modCalcJD : public QFrame, public Ui::modCalcJdDlg
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	modCalcJD(QWidget *p);
-	~modCalcJD();
-	
+    modCalcJD(QWidget *p);
+    ~modCalcJD();
+
 public slots:
-	void slotUpdateCalendar();
-	void slotUpdateModJD();
-	void slotUpdateJD();
-	void showCurrentTime(void);
-	void slotRunBatch();
-	void slotViewBatch();
-	void slotCheckFiles();
+    void slotUpdateCalendar();
+    void slotUpdateModJD();
+    void slotUpdateJD();
+    void showCurrentTime(void);
+    void slotRunBatch();
+    void slotViewBatch();
+    void slotCheckFiles();
 
 private:
-	void processLines( QTextStream &istream, int inputData );
-	/** Shows Julian Day in the Box */
-	void showJd(long double jd);
-	/** Shows the modified Julian Day in the Box */
-	void showMjd(long double mjd);
+    void processLines( QTextStream &istream, int inputData );
+    /** Shows Julian Day in the Box */
+    void showJd(long double jd);
+    /** Shows the modified Julian Day in the Box */
+    void showMjd(long double mjd);
 };
 
 #endif

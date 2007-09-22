@@ -34,27 +34,27 @@ class QDragEnterEvent;
 	*/
 
 class DragListBox : public KListWidget {
-	Q_OBJECT
+    Q_OBJECT
 public:
-/**@short Default constructor
- */
-	explicit DragListBox( QWidget *parent = 0, const char* name = 0 );
+    /**@short Default constructor
+     */
+    explicit DragListBox( QWidget *parent = 0, const char* name = 0 );
 
-/**@short Default destructor
- */
-	~DragListBox();
+    /**@short Default destructor
+     */
+    ~DragListBox();
 
-	int ignoreIndex() const { return IgnoreIndex; }
-	bool contains( const QString &s ) const;
+    int ignoreIndex() const { return IgnoreIndex; }
+    bool contains( const QString &s ) const;
 
-	void dragEnterEvent( QDragEnterEvent *evt );
-	void dropEvent( QDropEvent *evt );
-	void mousePressEvent( QMouseEvent *evt );
-	void mouseMoveEvent( QMouseEvent * );
-	void mouseReleaseEvent( QMouseEvent * );
+    void dragEnterEvent( QDragEnterEvent *evt );
+    void dropEvent( QDropEvent *evt );
+    void mousePressEvent( QMouseEvent *evt );
+    void mouseMoveEvent( QMouseEvent * );
+    void mouseReleaseEvent( QMouseEvent * );
 private:
-	bool leftButtonDown;
-	int IgnoreIndex;
+    bool leftButtonDown;
+    int IgnoreIndex;
 
 };
 

@@ -41,13 +41,13 @@
  */
 XMLAtt * findAtt (XMLEle *ep, const char *name, QString & errmsg)
 {
-	XMLAtt *ap = findXMLAtt (ep, name);
-	if (ap)
-	    return (ap);
+    XMLAtt *ap = findXMLAtt (ep, name);
+    if (ap)
+        return (ap);
 
-	errmsg = QString("INDI: <%1> missing attribute '%2'").arg(tagXMLEle(ep)).arg(name);
+    errmsg = QString("INDI: <%1> missing attribute '%2'").arg(tagXMLEle(ep)).arg(name);
 
-	return NULL;
+    return NULL;
 }
 
 /* search element for given child. pp is just to build a better errmsg.
@@ -55,12 +55,12 @@ XMLAtt * findAtt (XMLEle *ep, const char *name, QString & errmsg)
  */
 XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, QString & errmsg)
 {
-	XMLEle *cp = findXMLEle (ep, child);
-	if (cp)
-	    return (cp);
+    XMLEle *cp = findXMLEle (ep, child);
+    if (cp)
+        return (cp);
 
-	errmsg  = QString().arg("INDI: <%1 %2 %3> missing child '%4'").arg(tagXMLEle(ep), pp->pg->dp->name, pp->name, child);
-	return (NULL);
+    errmsg  = QString().arg("INDI: <%1 %2 %3> missing child '%4'").arg(tagXMLEle(ep), pp->pg->dp->name, pp->name, child);
+    return (NULL);
 }
 
 /*******************************************************************
@@ -68,24 +68,24 @@ XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, QString & errmsg)
 *******************************************************************/
 INDI_E::INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel)
 {
-  name = inName;
-  label = inLabel;
+    name = inName;
+    label = inLabel;
 
-  pp = parentProperty;
+    pp = parentProperty;
 
-  EHBox     = new QHBoxLayout;
-  EHBox->setMargin(0);
-  EHBox->setSpacing(KDialog::spacingHint());
-  label_w   = NULL;
-  read_w    = NULL;
-  write_w   = NULL;
-  spin_w    = NULL;
-  slider_w  = NULL;
-  push_w    = NULL;
-  browse_w  = NULL;
-  check_w   = NULL;
-  led_w     = NULL;
-  hSpacer   = NULL;
+    EHBox     = new QHBoxLayout;
+    EHBox->setMargin(0);
+    EHBox->setSpacing(KDialog::spacingHint());
+    label_w   = NULL;
+    read_w    = NULL;
+    write_w   = NULL;
+    spin_w    = NULL;
+    slider_w  = NULL;
+    push_w    = NULL;
+    browse_w  = NULL;
+    check_w   = NULL;
+    led_w     = NULL;
+    hSpacer   = NULL;
 
 }
 
@@ -106,277 +106,277 @@ INDI_E::~INDI_E()
 
 void INDI_E::setupElementLabel()
 {
- QPalette palette;
+    QPalette palette;
 
- label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
- label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
- label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
- label_w->setFrameShape( KSqueezedTextLabel::Box );
+    label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
+    label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
+    label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
+    label_w->setFrameShape( KSqueezedTextLabel::Box );
 
- palette.setColor(label_w->backgroundRole(),  QColor( 224, 232, 238 ));
- label_w->setPalette(palette);
- label_w->setTextFormat( Qt::RichText );
- label_w->setAlignment( Qt::AlignCenter );
- label_w->setWordWrap(true);
+    palette.setColor(label_w->backgroundRole(),  QColor( 224, 232, 238 ));
+    label_w->setPalette(palette);
+    label_w->setTextFormat( Qt::RichText );
+    label_w->setAlignment( Qt::AlignCenter );
+    label_w->setWordWrap(true);
 
- if (label.length() > MAX_LABEL_LENGTH)
- {
-   QFont tempFont(  label_w->font() );
-   tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
-   label_w->setFont( tempFont );
- }
+    if (label.length() > MAX_LABEL_LENGTH)
+    {
+        QFont tempFont(  label_w->font() );
+        tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
+        label_w->setFont( tempFont );
+    }
 
- label_w->setText(label);
+    label_w->setText(label);
 
- EHBox->addWidget(label_w);
+    EHBox->addWidget(label_w);
 }
 
 int INDI_E::buildTextGUI(const QString &initText)
 {
 
-  setupElementLabel();
+    setupElementLabel();
 
-  text = initText;
+    text = initText;
 
-  switch (pp->perm)
-  {
+    switch (pp->perm)
+    {
     case PP_RW:
-    setupElementRead(ELEMENT_READ_WIDTH);
-    setupElementWrite(ELEMENT_WRITE_WIDTH);
+        setupElementRead(ELEMENT_READ_WIDTH);
+        setupElementWrite(ELEMENT_WRITE_WIDTH);
 
-    break;
+        break;
 
     case PP_RO:
-    setupElementRead(ELEMENT_FULL_WIDTH);
-    break;
+        setupElementRead(ELEMENT_FULL_WIDTH);
+        break;
 
     case PP_WO:
-    setupElementWrite(ELEMENT_FULL_WIDTH);
-    break;
-  }
+        setupElementWrite(ELEMENT_FULL_WIDTH);
+        break;
+    }
 
-  pp->PVBox->addLayout(EHBox);
-  return (0);
+    pp->PVBox->addLayout(EHBox);
+    return (0);
 
 }
 
 int INDI_E::buildBLOBGUI()
 {
 
-  setupElementLabel();
+    setupElementLabel();
 
-  text = i18n("INDI DATA STREAM");
+    text = i18n("INDI DATA STREAM");
 
-  switch (pp->perm)
-  {
+    switch (pp->perm)
+    {
     case PP_RW:
-      setupElementRead(ELEMENT_READ_WIDTH);
-      setupElementWrite(ELEMENT_WRITE_WIDTH);
-      setupBrowseButton();
+        setupElementRead(ELEMENT_READ_WIDTH);
+        setupElementWrite(ELEMENT_WRITE_WIDTH);
+        setupBrowseButton();
 
-      break;
+        break;
 
     case PP_RO:
-      setupElementRead(ELEMENT_FULL_WIDTH);
-      break;
+        setupElementRead(ELEMENT_FULL_WIDTH);
+        break;
 
     case PP_WO:
-      setupElementWrite(ELEMENT_FULL_WIDTH);
-      setupBrowseButton();
-      break;
-  }
+        setupElementWrite(ELEMENT_FULL_WIDTH);
+        setupBrowseButton();
+        break;
+    }
 
-  pp->PVBox->addLayout(EHBox);
-  return (0);
+    pp->PVBox->addLayout(EHBox);
+    return (0);
 
 }
 
 int INDI_E::buildNumberGUI  (double initValue)
 {
-  bool scale = false;
- char iNumber[32];
+    bool scale = false;
+    char iNumber[32];
 
-  value = initValue;
-  numberFormat(iNumber, format.toAscii(), value);
-  text = iNumber;
+    value = initValue;
+    numberFormat(iNumber, format.toAscii(), value);
+    text = iNumber;
 
-  setupElementLabel();
+    setupElementLabel();
 
-  if (step != 0 && (max - min)/step <= MAXSCSTEPS)
-    scale = true;
+    if (step != 0 && (max - min)/step <= MAXSCSTEPS)
+        scale = true;
 
-  switch (pp->perm)
-  {
+    switch (pp->perm)
+    {
     case PP_RW:
-     setupElementRead(ELEMENT_READ_WIDTH);
-     if (scale)
-       setupElementScale(ELEMENT_WRITE_WIDTH);
-     else
-       setupElementWrite(ELEMENT_WRITE_WIDTH);
+        setupElementRead(ELEMENT_READ_WIDTH);
+        if (scale)
+            setupElementScale(ELEMENT_WRITE_WIDTH);
+        else
+            setupElementWrite(ELEMENT_WRITE_WIDTH);
 
-       pp->PVBox->addLayout(EHBox);
-     break;
+        pp->PVBox->addLayout(EHBox);
+        break;
 
     case PP_RO:
-    setupElementRead(ELEMENT_READ_WIDTH);
-    pp->PVBox->addLayout(EHBox);
-    break;
+        setupElementRead(ELEMENT_READ_WIDTH);
+        pp->PVBox->addLayout(EHBox);
+        break;
 
     case PP_WO:
-    if (scale)
-     setupElementScale(ELEMENT_FULL_WIDTH);
-    else
-     setupElementWrite(ELEMENT_FULL_WIDTH);
+        if (scale)
+            setupElementScale(ELEMENT_FULL_WIDTH);
+        else
+            setupElementWrite(ELEMENT_FULL_WIDTH);
 
-     pp->PVBox->addLayout(EHBox);
+        pp->PVBox->addLayout(EHBox);
 
-    break;
-  }
+        break;
+    }
 
-  return (0);
+    return (0);
 
 }
 
 int INDI_E::buildLightGUI()
 {
 
-        led_w = new KLed (pp->pg->propertyContainer);
-	led_w->setMaximumSize(16,16);
-	led_w->setLook( KLed::Sunken );
-	drawLt();
+    led_w = new KLed (pp->pg->propertyContainer);
+    led_w->setMaximumSize(16,16);
+    led_w->setLook( KLed::Sunken );
+    drawLt();
 
-	EHBox->addWidget(led_w);
+    EHBox->addWidget(led_w);
 
-	setupElementLabel();
+    setupElementLabel();
 
-	pp->PVBox->addLayout(EHBox);
+    pp->PVBox->addLayout(EHBox);
 
-	return (0);
+    return (0);
 }
 
 void INDI_E::drawLt()
 {
-        /* set state light */
-	switch (state)
-	{
-	  case PS_IDLE:
-	  led_w->setColor(Qt::gray);
-	  break;
+    /* set state light */
+    switch (state)
+    {
+    case PS_IDLE:
+        led_w->setColor(Qt::gray);
+        break;
 
-	  case PS_OK:
-	  led_w->setColor(Qt::green);
-	  break;
+    case PS_OK:
+        led_w->setColor(Qt::green);
+        break;
 
-	  case PS_BUSY:
-	  led_w->setColor(Qt::yellow);
-	  break;
+    case PS_BUSY:
+        led_w->setColor(Qt::yellow);
+        break;
 
-	  case PS_ALERT:
-	  led_w->setColor(Qt::red);
-	  break;
+    case PS_ALERT:
+        led_w->setColor(Qt::red);
+        break;
 
-	  default:
-	  break;
+    default:
+        break;
 
-	}
+    }
 }
 
 
 void INDI_E::updateValue(double newValue)
 {
-  char iNumber[32];
+    char iNumber[32];
 
-  value = newValue;
+    value = newValue;
 
-  numberFormat(iNumber, format.toAscii(), value);
-  text = iNumber;
+    numberFormat(iNumber, format.toAscii(), value);
+    text = iNumber;
 
-  if (write_w)
-	write_w->setText(text);
+    if (write_w)
+        write_w->setText(text);
 
-  if (spin_w)
-	spin_w->setValue(value);
+    if (spin_w)
+        spin_w->setValue(value);
 
-  if (slider_w)
-	slider_w->setValue(((int)value));
+    if (slider_w)
+        slider_w->setValue(((int)value));
 
 }
 
 void INDI_E::setupElementScale(int length)
 {
 
- int steps = (int) ((max - min) / step);
- spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
- slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
- slider_w->setRange(0, steps);
- slider_w->setPageStep(1);
- slider_w->setValue((int) ((value - min) / step));
+    int steps = (int) ((max - min) / step);
+    spin_w    = new KDoubleSpinBox(min, max, step, value, pp->pg->propertyContainer,2 );
+    slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
+    slider_w->setRange(0, steps);
+    slider_w->setPageStep(1);
+    slider_w->setValue((int) ((value - min) / step));
 
- connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
- connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
+    connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
+    connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
 
 
-  /* FIXME make sure the size stuff work */
-  if (length == ELEMENT_FULL_WIDTH)
-	spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  else
-	spin_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    /* FIXME make sure the size stuff work */
+    if (length == ELEMENT_FULL_WIDTH)
+        spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    else
+        spin_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
- spin_w->setMinimumWidth( (int) (length * 0.45) );
- slider_w->setMinimumWidth( (int) (length * 0.55) );
+    spin_w->setMinimumWidth( (int) (length * 0.45) );
+    slider_w->setMinimumWidth( (int) (length * 0.55) );
 
- EHBox->addWidget(slider_w);
- EHBox->addWidget(spin_w);
+    EHBox->addWidget(slider_w);
+    EHBox->addWidget(spin_w);
 
 }
 
 void INDI_E::spinChanged(double value)
 {
-  int slider_value = (int) ((value - min) / step);
-  slider_w->setValue(slider_value);
+    int slider_value = (int) ((value - min) / step);
+    slider_w->setValue(slider_value);
 }
 
 void INDI_E::sliderChanged(int value)
 {
 
- double spin_value = (value * step) + min;
- spin_w->setValue(spin_value);
+    double spin_value = (value * step) + min;
+    spin_w->setValue(spin_value);
 
 }
 
 void INDI_E::setMin (double inMin)
 {
-  min = inMin;
-  if (spin_w)
-  {
-    spin_w->setMinimum(min);
-    spin_w->setValue(value);
-  }
-  if (slider_w)
-  {
-    slider_w->setMaximum((int) ((max - min) / step));
-    slider_w->setMinimum(0);
-    slider_w->setPageStep(1);
-    slider_w->setValue( (int) ((value - min) / step ));
-  }
+    min = inMin;
+    if (spin_w)
+    {
+        spin_w->setMinimum(min);
+        spin_w->setValue(value);
+    }
+    if (slider_w)
+    {
+        slider_w->setMaximum((int) ((max - min) / step));
+        slider_w->setMinimum(0);
+        slider_w->setPageStep(1);
+        slider_w->setValue( (int) ((value - min) / step ));
+    }
 
 }
 
 void INDI_E::setMax (double inMax)
 {
- max = inMax;
- if (spin_w)
- {
-   spin_w->setMaximum(max);
-   spin_w->setValue(value);
- }
- if (slider_w)
- {
-    slider_w->setMaximum((int) ((max - min) / step));
-    slider_w->setMinimum(0);
-    slider_w->setPageStep(1);
-    slider_w->setValue( (int) ((value - min) / step ));
- }
+    max = inMax;
+    if (spin_w)
+    {
+        spin_w->setMaximum(max);
+        spin_w->setValue(value);
+    }
+    if (slider_w)
+    {
+        slider_w->setMaximum((int) ((max - min) / step));
+        slider_w->setMinimum(0);
+        slider_w->setPageStep(1);
+        slider_w->setValue( (int) ((value - min) / step ));
+    }
 
 }
 
@@ -395,78 +395,78 @@ void INDI_E::setupElementWrite(int length)
 void INDI_E::setupElementRead(int length)
 {
 
-  read_w = new KLineEdit( pp->pg->propertyContainer );
-  read_w->setMinimumWidth( length );
-  read_w->setFocusPolicy( Qt::NoFocus );
-  read_w->setCursorPosition( 0 );
-  read_w->setAlignment( Qt::AlignCenter );
-  read_w->setReadOnly( true );
-  read_w->setText(text);
+    read_w = new KLineEdit( pp->pg->propertyContainer );
+    read_w->setMinimumWidth( length );
+    read_w->setFocusPolicy( Qt::NoFocus );
+    read_w->setCursorPosition( 0 );
+    read_w->setAlignment( Qt::AlignCenter );
+    read_w->setReadOnly( true );
+    read_w->setText(text);
 
-  EHBox->addWidget(read_w);
+    EHBox->addWidget(read_w);
 
 }
 
 void INDI_E::setupBrowseButton()
 {
-   browse_w = new KPushButton("...", pp->pg->propertyContainer);
-   browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-   browse_w->setMinimumWidth( MIN_SET_WIDTH );
-   browse_w->setMaximumWidth( MAX_SET_WIDTH );
+    browse_w = new KPushButton("...", pp->pg->propertyContainer);
+    browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    browse_w->setMinimumWidth( MIN_SET_WIDTH );
+    browse_w->setMaximumWidth( MAX_SET_WIDTH );
 
-   EHBox->addWidget(browse_w);
-   QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
+    EHBox->addWidget(browse_w);
+    QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
 }
 
 
 void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char * newFormat)
 {
-  min = newMin;
-  max = newMax;
-  step = newStep;
-  format = newFormat;
+    min = newMin;
+    max = newMax;
+    step = newStep;
+    format = newFormat;
 }
 
 void INDI_E::browseBlob()
 {
 
-  KUrl currentURL;
+    KUrl currentURL;
 
-  currentURL = KFileDialog::getOpenUrl( QDir::homePath(), "*");
+    currentURL = KFileDialog::getOpenUrl( QDir::homePath(), "*");
 
-  // if user presses cancel
-  if (currentURL.isEmpty())
-		  return;
+    // if user presses cancel
+    if (currentURL.isEmpty())
+        return;
 
-  if ( currentURL.isValid() )
-    write_w->setText(currentURL.path());
+    if ( currentURL.isValid() )
+        write_w->setText(currentURL.path());
 
 }
 
 void INDI_E::actionTriggered()
 {
-  switch (pp->guitype)
-  {
-	case PG_TEXT:
-        case PG_NUMERIC:
-		// Just tell parent to process the number/text
-		pp->newText();
-         break;
-
-        case PG_BUTTONS:
-        case PG_RADIO:
-        case PG_MENU:
-		// If INDI Standard can handle the swtich then process and return, otherwise
- 		// Just issue a new generic switch.
- 		if (pp->indistd->actionTriggered(this))
-   			return;
-		else if (state == PS_OFF)
-         		pp->newSwitch(this);
-         break;
-
-        default:
+    switch (pp->guitype)
+    {
+    case PG_TEXT:
+    case PG_NUMERIC:
+        // Just tell parent to process the number/text
+        pp->newText();
         break;
-  }
+
+    case PG_BUTTONS:
+    case PG_RADIO:
+    case PG_MENU:
+        // If INDI Standard can handle the swtich then process and return, otherwise
+        // Just issue a new generic switch.
+        if (pp->indistd->actionTriggered(this))
+            return;
+        else if (state == PS_OFF)
+            pp->newSwitch(this);
+        break;
+
+    default:
+        break;
+    }
 
 }
 

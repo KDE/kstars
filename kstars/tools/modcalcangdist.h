@@ -25,33 +25,33 @@ class dmsBox;
 class SkyPoint;
 class QTextStream;
 
-/** Module to compute the angular distance between two points in the sky 
+/** Module to compute the angular distance between two points in the sky
   *@author Pablo de Vicente
   *@version 0.9
   */
 class modCalcAngDist : public QFrame, public Ui::modCalcAngDistDlg  {
 
-Q_OBJECT
+    Q_OBJECT
 public:
-/**Constructor. */
-	modCalcAngDist(QWidget *p);
-/**Destructor. */
-	~modCalcAngDist();
+    /**Constructor. */
+    modCalcAngDist(QWidget *p);
+    /**Destructor. */
+    ~modCalcAngDist();
 
 public slots:
-	void slotValidatePositions();
-	void slotObjectButton();
-	void slotResetTitle();
-	void slotInputFile();
-	void slotOutputFile();
-	void slotRunBatch();
+    void slotValidatePositions();
+    void slotObjectButton();
+    void slotResetTitle();
+    void slotInputFile();
+    void slotOutputFile();
+    void slotRunBatch();
 
 private:
-	/** Process Lines **/
-	void processLines( QTextStream &istream );
+    /** Process Lines **/
+    void processLines( QTextStream &istream );
 
-	/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
-	SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox, bool *ok);
+    /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
+    SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox, bool *ok);
 
 };
 

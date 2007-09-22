@@ -37,28 +37,28 @@ class QListWidgetItem;
 
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	OpsCatalog( KStars *_ks );
-	~OpsCatalog();
+    OpsCatalog( KStars *_ks );
+    ~OpsCatalog();
 
 private slots:
-	void updateDisplay();
-	void selectCatalog();
-	void slotAddCatalog();
-	void slotLoadCatalog();
-	void slotRemoveCatalog();
-	void slotSetDrawStarMagnitude(double newValue);
-	void slotSetDrawStarZoomOutMagnitude(double newValue);
-	void slotStarWidgets(bool on);
-	
-private:
-	void insertCatalog( const QString & filename );
-	QString getCatalogName( const QString &filename );
+    void updateDisplay();
+    void selectCatalog();
+    void slotAddCatalog();
+    void slotLoadCatalog();
+    void slotRemoveCatalog();
+    void slotSetDrawStarMagnitude(double newValue);
+    void slotSetDrawStarZoomOutMagnitude(double newValue);
+    void slotStarWidgets(bool on);
 
-	QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
-	KStars *ksw;
+private:
+    void insertCatalog( const QString & filename );
+    QString getCatalogName( const QString &filename );
+
+    QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
+    KStars *ksw;
 };
 
 #endif  //OPSCATALOG_H_

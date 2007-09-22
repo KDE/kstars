@@ -36,14 +36,14 @@ class QAction;
 /* INDI property */
 class INDI_P : public QObject
 {
-  Q_OBJECT
-   public:
-   INDI_P(INDI_G *parentGroup, const QString &inName);
-   ~INDI_P();
+    Q_OBJECT
+public:
+    INDI_P(INDI_G *parentGroup, const QString &inName);
+    ~INDI_P();
 
     QString	name;			/* property name */
     QString     label;			/* property label */
-    
+
     INDI_G	*pg;			/* parent group */
     INDIStdProperty *indistd;		/* Assosciated std routines class */
     double	timeout;		/* timeout, seconds */
@@ -52,60 +52,60 @@ class INDI_P : public QObject
     PPerm       perm;		        /* permissions wrt client */
     PGui        guitype;		/* type of GUI, if any */
 
-    
+
     int 	stdID;			/* Standard property ID, if any */
-    
+
     QLabel      *label_w;		/* Label widget */
     QPushButton *set_w;		        /* set button */
-    
+
     QSpacerItem    *HorSpacer;		/* Horizontal spacer */
     QHBoxLayout    *PHBox;   		/* Horizontal container */
     QVBoxLayout    *PVBox;   		/* Vertical container */
-    
+
     QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
     KComboBox      *om_w;		/* Combo box for menu */
-    
+
     QList<INDI_E*> el;		/* list of elements */
 
     /* Draw state LED */
     void drawLt(PState lstate);
-    
+
     /* First step in adding a new GUI element */
     void addGUI(XMLEle *root);
-    
+
     /* Set Property's parent group */
     void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
-    
+
     /* Find an element within the property */
     INDI_E * findElement(const QString &elementName);
     /* Search for an element, and if found, evaluate its state */
-    bool isOn(const QString &component);	
-   
-   /* Build Functions */ 
-   int buildTextGUI    (XMLEle *root, QString & errmsg);
-   int buildNumberGUI  (XMLEle *root, QString & errmsg);
-   int buildSwitchesGUI(XMLEle *root, QString & errmsg);
-   int buildMenuGUI    (XMLEle *root, QString & errmsg);
-   int buildLightsGUI  (XMLEle *root, QString & errmsg);
-   int buildBLOBGUI    (XMLEle *root, QString & errmsg);
-      
-   /* Setup the 'set' button in the property */
+    bool isOn(const QString &component);
+
+    /* Build Functions */
+    int buildTextGUI    (XMLEle *root, QString & errmsg);
+    int buildNumberGUI  (XMLEle *root, QString & errmsg);
+    int buildSwitchesGUI(XMLEle *root, QString & errmsg);
+    int buildMenuGUI    (XMLEle *root, QString & errmsg);
+    int buildLightsGUI  (XMLEle *root, QString & errmsg);
+    int buildBLOBGUI    (XMLEle *root, QString & errmsg);
+
+    /* Setup the 'set' button in the property */
     void setupSetButton(const QString &caption);
-    
-   /* Turn a switch on */
+
+    /* Turn a switch on */
     void activateSwitch(const QString &name);
-    
-    public slots:
+
+public slots:
     void newText();
     void newSwitch(INDI_E *lp);
     void newAbstractButton(QAbstractButton *button);
     void newComboBoxItem(const QString &item);
     void newBlob();
     /*void actionTriggered(QAction* action);*/
-    
-    signals:
+
+signals:
     void okState();
-    
+
 };
 
 #endif

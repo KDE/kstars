@@ -38,50 +38,50 @@ class DeviceManager;
 
 class INDIMenu : public QWidget
 {
-  Q_OBJECT
- public:
-   INDIMenu(QWidget * parent = 0);
-   ~INDIMenu();
+    Q_OBJECT
+public:
+    INDIMenu(QWidget * parent = 0);
+    ~INDIMenu();
 
-   /*****************************************************************
-   * GUI stuff
-   ******************************************************************/
-   QVBoxLayout	*mainLayout;
-   QTabWidget	*mainTabWidget;
-   QTextEdit 	*msgST_w;
-   
-   QPushButton  *clear;
-   QString	currentLabel;
-   
+    /*****************************************************************
+    * GUI stuff
+    ******************************************************************/
+    QVBoxLayout	*mainLayout;
+    QTabWidget	*mainTabWidget;
+    QTextEdit 	*msgST_w;
 
-   KStars *ksw;
+    QPushButton  *clear;
+    QString	currentLabel;
 
-   QList<DeviceManager*> mgr;
 
-   void updateStatus();
-   //bool removeDevice(QString devName);
-   void removeDeviceMgr(int mgrID);
-   void setCustomLabel(const QString &deviceName);
+    KStars *ksw;
 
-   int mgrCounter;
-   bool processServer();
-   int processClient(const QString &hostname, const QString &portnumber);
-   INDI_D * findDevice(const QString &deviceName);
-   INDI_D * findDeviceByLabel(const QString &label);
+    QList<DeviceManager*> mgr;
 
-   void setCurrentDevice(const QString &device) { currentDevice = device; }
-   QString getCurrentDevice() { return currentDevice; }
+    void updateStatus();
+    //bool removeDevice(QString devName);
+    void removeDeviceMgr(int mgrID);
+    void setCustomLabel(const QString &deviceName);
 
-   private:
-   QString currentDevice;
+    int mgrCounter;
+    bool processServer();
+    int processClient(const QString &hostname, const QString &portnumber);
+    INDI_D * findDevice(const QString &deviceName);
+    INDI_D * findDeviceByLabel(const QString &label);
 
-   public slots:
-   void discoverDevice();
-   void announceDevice();
+    void setCurrentDevice(const QString &device) { currentDevice = device; }
+    QString getCurrentDevice() { return currentDevice; }
 
-   signals:
-   void driverDisconnected(int mgrID);
-   void newDevice();
+private:
+    QString currentDevice;
+
+public slots:
+    void discoverDevice();
+    void announceDevice();
+
+signals:
+    void driverDisconnected(int mgrID);
+    void newDevice();
 
 };
 

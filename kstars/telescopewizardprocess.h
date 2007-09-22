@@ -25,44 +25,44 @@ class KProgressDialog;
 class telescopeWizardProcess : public QDialog
 {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit telescopeWizardProcess( QWidget* parent = 0, const char* name = 0);
-	~telescopeWizardProcess();
+    explicit telescopeWizardProcess( QWidget* parent = 0, const char* name = 0);
+    ~telescopeWizardProcess();
 
-	unsigned int currentPage;
-	enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
+    unsigned int currentPage;
+    enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
 
 private:
-	KStars * ksw;
-	INDIMenu   *indimenu;
-	INDIDriver *indidriver;
-	Ui::telescopeWizard *ui;
+    KStars * ksw;
+    INDIMenu   *indimenu;
+    INDIDriver *indidriver;
+    Ui::telescopeWizard *ui;
 
-	INDI_D *indiDev;
+    INDI_D *indiDev;
 
-	KProgressDialog *progressScan;
+    KProgressDialog *progressScan;
 
-	QStringList portList;
-	QString currentDevice;
+    QStringList portList;
+    QString currentDevice;
 
-	int currentPort;
-	int timeOutCount;
-	bool INDIMessageBar;
-        bool linkRejected;
+    int currentPort;
+    int timeOutCount;
+    bool INDIMessageBar;
+    bool linkRejected;
 
-	void establishLink();
-	void Reset();
+    void establishLink();
+    void Reset();
 
 public slots:
-	void processNext();
-	void processBack();
-	void newTime();
-	void newLocation();
-	void processPort();
-	void scanPorts();
-	void linkSuccess();
+    void processNext();
+    void processBack();
+    void newTime();
+    void newLocation();
+    void processPort();
+    void scanPorts();
+    void linkSuccess();
 
 };
 

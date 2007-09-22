@@ -33,9 +33,9 @@ class QStringListModel;
 class QSortFilterProxyModel;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
-	Q_OBJECT
-	public:
-		FindDialogUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    FindDialogUI( QWidget *parent=0 );
 };
 
 /**@class FindDialog
@@ -48,70 +48,70 @@ class FindDialogUI : public QFrame, public Ui::FindDialog {
 	*@version 1.0
 	*/
 class FindDialog : public KDialog {
-Q_OBJECT
+    Q_OBJECT
 
 public:
-/**Constructor. Creates all widgets and packs them in QLayouts.  Connects
-	*Signals and Slots.  Runs initObjectList().
-	*/
-	FindDialog( QWidget* parent = 0 );
+    /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
+    	*Signals and Slots.  Runs initObjectList().
+    	*/
+    FindDialog( QWidget* parent = 0 );
 
-/**Destructor
-	*/
-	~FindDialog();
+    /**Destructor
+    	*/
+    ~FindDialog();
 
-/**@return the currently-selected item from the listbox of named objects
-	*/
-	SkyObject* selectedObject() const;
+    /**@return the currently-selected item from the listbox of named objects
+    	*/
+    SkyObject* selectedObject() const;
 
 public slots:
-/**When Text is entered in the QLineEdit, filter the List of objects
-	*so that only objects which start with the filter text are shown.
-	*/
-	void filterByName();
+    /**When Text is entered in the QLineEdit, filter the List of objects
+    	*so that only objects which start with the filter text are shown.
+    	*/
+    void filterByName();
 
-	//FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
-/**Overloading the Standard KDialogBase slotOk() to show a "sorry" message 
-	*box if no object is selected when the user presses Ok.  The window is 
-	*not closed in this case.
-	*/
-	void slotOk();
+    //FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
+    /**Overloading the Standard KDialogBase slotOk() to show a "sorry" message
+    	*box if no object is selected when the user presses Ok.  The window is 
+    	*not closed in this case.
+    	*/
+    void slotOk();
 
 private slots:
-/**
-	*Init object list after opening dialog.
-	*/
-	void init();
+    /**
+    	*Init object list after opening dialog.
+    	*/
+    void init();
 
-/**
-	*Set the selected item to the first item in the list
-	*/
-	void initSelection();
+    /**
+    	*Set the selected item to the first item in the list
+    	*/
+    void initSelection();
 
-	void enqueueSearch();
+    void enqueueSearch();
 
-/**
-	*Filter the list of named objects according to the given object type
-	*@param f The integer representation of the object type
-	*@see SkyObject
-	*/
-	void filterByType( int f );
+    /**
+    	*Filter the list of named objects according to the given object type
+    	*@param f The integer representation of the object type
+    	*@see SkyObject
+    	*/
+    void filterByType( int f );
 
 protected:
-/**
-	*Process Keystrokes.  The Up and Down arrow keys are used to select the 
-	*Previous/Next item in the listbox of named objects.  The Esc key closes 
-	*the window with no selection, using reject().
-	*@param e The QKeyEvent pointer 
-	*/
-	void keyPressEvent( QKeyEvent *e );
+    /**
+    	*Process Keystrokes.  The Up and Down arrow keys are used to select the 
+    	*Previous/Next item in the listbox of named objects.  The Esc key closes 
+    	*the window with no selection, using reject().
+    	*@param e The QKeyEvent pointer 
+    	*/
+    void keyPressEvent( QKeyEvent *e );
 
 private:
-	FindDialogUI* ui;
-	SkyObject* currentitem;
-	QStringListModel *fModel;
-	QSortFilterProxyModel* sortModel;
-	QTimer* timer;
+    FindDialogUI* ui;
+    SkyObject* currentitem;
+    QStringListModel *fModel;
+    QSortFilterProxyModel* sortModel;
+    QTimer* timer;
 };
 
 #endif

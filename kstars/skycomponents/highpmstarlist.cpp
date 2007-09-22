@@ -31,9 +31,9 @@ typedef struct HighPMStar
 
 
 HighPMStarList::HighPMStarList( double threshold )
-    : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0) 
+        : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0)
 {
-	m_skyMesh = SkyMesh::Instance();
+    m_skyMesh = SkyMesh::Instance();
 }
 
 HighPMStarList::~HighPMStarList()
@@ -63,12 +63,12 @@ void HighPMStarList::setIndexTime( KSNumbers *num )
 
 void HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
 {
-    if ( fabs( num->julianCenturies() - 
-         m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
+    if ( fabs( num->julianCenturies() -
+               m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
 
     m_reindexNum = KSNumbers( *num );
     m_skyMesh->setKSNumbers( num );
-    
+
     int cnt(0);
 
     for ( int i = 0; i < m_stars.size(); i++ ) {

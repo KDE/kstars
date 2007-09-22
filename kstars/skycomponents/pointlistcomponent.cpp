@@ -21,21 +21,21 @@
 #include "kstarsdata.h"
 
 PointListComponent::PointListComponent( SkyComponent *parent ) :
-  SkyComponent( parent )
+        SkyComponent( parent )
 {}
 
 PointListComponent::~PointListComponent()
 {
-	while ( ! pointList().isEmpty() ) 
-		delete  pointList().takeFirst();
+    while ( ! pointList().isEmpty() )
+        delete  pointList().takeFirst();
 }
 
 void PointListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	foreach ( SkyPoint *p, pointList() ) {
-		if ( num ) p->updateCoords( num );
-		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-	}
+    foreach ( SkyPoint *p, pointList() ) {
+        if ( num ) p->updateCoords( num );
+        p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
 }

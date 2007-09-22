@@ -28,36 +28,36 @@ class KStars;
   *@author Pablo de Vicente
   */
 class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg  {
-Q_OBJECT
-public: 
-/**Constructor. */
-	modCalcDayLength(QWidget *p);
-/**Destructor. */
-	~modCalcDayLength();
+    Q_OBJECT
+public:
+    /**Constructor. */
+    modCalcDayLength(QWidget *p);
+    /**Destructor. */
+    ~modCalcDayLength();
 
 public slots:
-	void slotLocation();
-	void slotLocationBatch();
-	void slotComputeAlmanac();
-	void slotRunBatch();
-	void slotViewBatch();
-	void slotCheckFiles();
+    void slotLocation();
+    void slotLocationBatch();
+    void slotComputeAlmanac();
+    void slotRunBatch();
+    void slotViewBatch();
+    void slotCheckFiles();
 
 private:
-	void updateAlmanac( const ExtDate &d, GeoLocation *geo );
-	QTime lengthOfDay(QTime setQTime, QTime riseQTime);
- 
- 	void showCurrentDate(void);
-	void initGeo(void);
-	void processLines( QTextStream &istream );
+    void updateAlmanac( const ExtDate &d, GeoLocation *geo );
+    QTime lengthOfDay(QTime setQTime, QTime riseQTime);
 
-	KStars *ks;
-	GeoLocation *geoPlace, *geoBatch;
-	QString srTimeString, stTimeString, ssTimeString;
-	QString mrTimeString, mtTimeString, msTimeString;
-	QString srAzString, stAltString, ssAzString;
-	QString mrAzString, mtAltString, msAzString;
-	QString daylengthString, lunarphaseString;
+    void showCurrentDate(void);
+    void initGeo(void);
+    void processLines( QTextStream &istream );
+
+    KStars *ks;
+    GeoLocation *geoPlace, *geoBatch;
+    QString srTimeString, stTimeString, ssTimeString;
+    QString mrTimeString, mtTimeString, msTimeString;
+    QString srAzString, stAltString, ssAzString;
+    QString mrAzString, mtAltString, msAzString;
+    QString daylengthString, lunarphaseString;
 };
 
 #endif

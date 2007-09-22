@@ -23,45 +23,45 @@ class FITSHistogram;
 
 class histDrawArea : public QFrame
 {
-   Q_OBJECT
-	
-	public:
-		histDrawArea(QWidget *parent);
-		~histDrawArea();
+    Q_OBJECT
 
-		int getUpperLimit();
-		int getLowerLimit();
-		int getValidWidth();
-		int getValidHeight();
-		void init();
+public:
+    histDrawArea(QWidget *parent);
+    ~histDrawArea();
 
-	protected:
-		 void paintEvent(QPaintEvent *event);
-		 void mouseMoveEvent ( QMouseEvent * event );
-		 void mousePressEvent ( QMouseEvent * event );
-		 void mouseReleaseEvent ( QMouseEvent * event );
-		 //void resizeEvent ( QResizeEvent * event );
+    int getUpperLimit();
+    int getLowerLimit();
+    int getValidWidth();
+    int getValidHeight();
+    void init();
 
-	private:
-		FITSHistogram *data;
-		const int height_adj;
-		const int line_height;
-		float upperLimitX;
-		float lowerLimitX;
+protected:
+    void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent ( QMouseEvent * event );
+    void mousePressEvent ( QMouseEvent * event );
+    void mouseReleaseEvent ( QMouseEvent * event );
+    //void resizeEvent ( QResizeEvent * event );
 
-		bool circle_drag_upper;
-		bool circle_drag_lower;
+private:
+    FITSHistogram *data;
+    const int height_adj;
+    const int line_height;
+    float upperLimitX;
+    float lowerLimitX;
 
-		int valid_width;
-		int valid_height;
+    bool circle_drag_upper;
+    bool circle_drag_lower;
 
-		QRectF upperLimit;
-		QRectF lowerLimit;
-		QRect enclosedRect;
-		
-	public slots:
-		void updateLowerLimit();
-		void updateUpperLimit();
+    int valid_width;
+    int valid_height;
+
+    QRectF upperLimit;
+    QRectF lowerLimit;
+    QRect enclosedRect;
+
+public slots:
+    void updateLowerLimit();
+    void updateUpperLimit();
 };
 
 #endif

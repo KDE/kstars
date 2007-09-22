@@ -59,144 +59,144 @@
 #define STD_BUFFER_SIZ		1024000
 #define FRAME_ILEN		1024
 
- INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
- {
- 
-   dp			= associatedDevice;
-   ksw  		= kswPtr;
-   initDevCounter	= 0;
-   seqCount		= 0;
-   batchMode 		= false;
-   ISOMode   		= false;
-   
-   currentObject  	= NULL; 
-   streamWindow   	= new StreamWG(this, NULL);
-	 
-   devTimer 		= new QTimer(this);
-   seqLister		= new KDirLister();
-   
-   telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
-	
-   connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
-   connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
-   
-   //downloadDialog = new KProgressDialog(NULL, i18n("INDI"), i18n("Downloading Data..."));
-   //downloadDialog->reject();
-   
-   parser		= newLilXML();
- }
- 
- INDIStdDevice::~INDIStdDevice()
- {
-   //ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
-   streamWindow->enableStream(false);
-   streamWindow->close();
-   streamDisabled();
-   delete (telescopeSkyObject);
-   delete (seqLister);
- }
- 
+INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
+{
+
+    dp			= associatedDevice;
+    ksw  		= kswPtr;
+    initDevCounter	= 0;
+    seqCount		= 0;
+    batchMode 		= false;
+    ISOMode   		= false;
+
+    currentObject  	= NULL;
+    streamWindow   	= new StreamWG(this, NULL);
+
+    devTimer 		= new QTimer(this);
+    seqLister		= new KDirLister();
+
+    telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
+
+    connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
+    connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
+
+    //downloadDialog = new KProgressDialog(NULL, i18n("INDI"), i18n("Downloading Data..."));
+    //downloadDialog->reject();
+
+    parser		= newLilXML();
+}
+
+INDIStdDevice::~INDIStdDevice()
+{
+    //ksw->data()->skyComposite()->removeTelescopeMarker(telescopeSkyObject);
+    streamWindow->enableStream(false);
+    streamWindow->close();
+    streamDisabled();
+    delete (telescopeSkyObject);
+    delete (seqLister);
+}
+
 void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat)
 {
 
-  if (dataFormat == ".fits") dataType = DATA_FITS;
-  else if (dataFormat == ".stream") dataType = DATA_STREAM;
-  else dataType = DATA_OTHER;
+    if (dataFormat == ".fits") dataType = DATA_FITS;
+    else if (dataFormat == ".stream") dataType = DATA_STREAM;
+    else dataType = DATA_OTHER;
 
-  if (dataType == DATA_STREAM)
-  {
-    if (!streamWindow->processStream)
-      return;
-	
-    streamWindow->show();	
-    streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
-    return;
-  }
-  
+    if (dataType == DATA_STREAM)
+    {
+        if (!streamWindow->processStream)
+            return;
+
+        streamWindow->show();
+        streamWindow->streamFrame->newFrame( buffer, bufferSize, streamWindow->streamWidth, streamWindow->streamHeight);
+        return;
+    }
+
     // It's either FITS or OTHER
     char filename[256];
     FILE *fitsTempFile;
     int fd, nr, n=0;
     QString currentDir = Options::fitsSaveDirectory();
-       
+
     streamWindow->close();
-        
+
     if (dataType == DATA_FITS && !batchMode && Options::indiFITSDisplay())
     {
-      strcpy(filename, "/tmp/fitsXXXXXX");
-      if ((fd = mkstemp(filename)) < 0)
-      { 
-	KMessageBox::error(NULL, "Error making temporary filename.");
-	return;
-      }
-      close(fd);
+        strcpy(filename, "/tmp/fitsXXXXXX");
+        if ((fd = mkstemp(filename)) < 0)
+        {
+            KMessageBox::error(NULL, "Error making temporary filename.");
+            return;
+        }
+        close(fd);
     }
     else
     {
-      char ts[32];
-      struct tm *tp;
-      time_t t;
-      time (&t);
-      tp = gmtime (&t);
-	  
-      if (currentDir[currentDir.length() -1] == '/')
-	currentDir.truncate(currentDir.length() - 1);
-	  
-      strncpy(filename, currentDir.toAscii().data(), currentDir.length());
-      filename[currentDir.length()] = '\0';
-	  
-      if (dataType == DATA_FITS)
-      {
-	char tempFileStr[256];
-	strncpy(tempFileStr, filename, 256);
-	    
-	if ( batchMode && !ISOMode)
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
-	else if (!batchMode && !Options::indiFITSDisplay())
-	{
-	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	  snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
-	}
-	else
-	{
-	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
-	}
-	     
-	seqCount++;
-      }
-      else
-      {
-	strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
-	strncat(filename, ts, sizeof(ts));
-	strncat(filename, dataFormat.toAscii().data(), 10);
-      }
+        char ts[32];
+        struct tm *tp;
+        time_t t;
+        time (&t);
+        tp = gmtime (&t);
+
+        if (currentDir[currentDir.length() -1] == '/')
+            currentDir.truncate(currentDir.length() - 1);
+
+        strncpy(filename, currentDir.toAscii().data(), currentDir.length());
+        filename[currentDir.length()] = '\0';
+
+        if (dataType == DATA_FITS)
+        {
+            char tempFileStr[256];
+            strncpy(tempFileStr, filename, 256);
+
+            if ( batchMode && !ISOMode)
+                snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
+            else if (!batchMode && !Options::indiFITSDisplay())
+            {
+                strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+                snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
+            }
+            else
+            {
+                strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+                snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
+            }
+
+            seqCount++;
+        }
+        else
+        {
+            strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
+            strncat(filename, ts, sizeof(ts));
+            strncat(filename, dataFormat.toAscii().data(), 10);
+        }
     }
-	  
+
     fitsTempFile = fopen(filename, "w");
-       
+
     if (fitsTempFile == NULL) return;
-       
+
     for (nr=0; nr < (int) bufferSize; nr += n)
-      n = fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
-       
+        n = fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
+
     fclose(fitsTempFile);
-       
+
     // We're done if we have DATA_OTHER or DATA_FITS if CFITSIO is not enabled.
     if (dataType == DATA_OTHER)
     {
-      ksw->statusBar()->changeItem( i18n("Data file saved to %1", QString(filename) ), 0);
-      return;
+        ksw->statusBar()->changeItem( i18n("Data file saved to %1", QString(filename) ), 0);
+        return;
     }
 
     if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
     {
-      ksw->statusBar()->changeItem( i18n("FITS file saved to %1", QString(filename) ), 0);
-      emit FITSReceived(dp->label);
-      return;
-    } 
+        ksw->statusBar()->changeItem( i18n("FITS file saved to %1", QString(filename) ), 0);
+        emit FITSReceived(dp->label);
+        return;
+    }
 
-// Unless we have cfitsio, we're done.
+    // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO_H
     KUrl fileURL(filename);
 
@@ -207,832 +207,832 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
 }
 
- /* Process standard Text and Number properties arrives from the driver */
- void INDIStdDevice::setTextValue(INDI_P *pp)
- {
-   INDI_E *el;
-   int wd, ht;
-   int d, m, y, min, sec, hour;
-   ExtDate indiDate;
-   QTime indiTime;
-   KStarsDateTime indiDateTime;
-   
-  switch (pp->stdID)
-  {
+/* Process standard Text and Number properties arrives from the driver */
+void INDIStdDevice::setTextValue(INDI_P *pp)
+{
+    INDI_E *el;
+    int wd, ht;
+    int d, m, y, min, sec, hour;
+    ExtDate indiDate;
+    QTime indiTime;
+    KStarsDateTime indiDateTime;
+
+    switch (pp->stdID)
+    {
 
     case TIME_UTC:
-      if ( Options::indiAutoTime() )
-       handleDevCounter();
-       
-       // Update KStars time once we receive update from INDI
-       el = pp->findElement("UTC");
-       if (!el) return;
-       
-       sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
-       indiDate.setYMD(y, m, d);
-       indiTime.setHMS(hour, min, sec);
-       indiDateTime.setDate(indiDate);
-       indiDateTime.setTime(indiTime);
-       
-       ksw->data()->changeDateTime(indiDateTime);
-       ksw->data()->syncLST();
-       
-      break;
-      
+        if ( Options::indiAutoTime() )
+            handleDevCounter();
+
+        // Update KStars time once we receive update from INDI
+        el = pp->findElement("UTC");
+        if (!el) return;
+
+        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
+        indiDate.setYMD(y, m, d);
+        indiTime.setHMS(hour, min, sec);
+        indiDateTime.setDate(indiDate);
+        indiDateTime.setTime(indiTime);
+
+        ksw->data()->changeDateTime(indiDateTime);
+        ksw->data()->syncLST();
+
+        break;
+
     case TIME_LST:
-      if ( Options::indiAutoTime())
-       handleDevCounter();
-      break;
-    
+        if ( Options::indiAutoTime())
+            handleDevCounter();
+        break;
+
     case GEOGRAPHIC_COORD:
-      if ( Options::indiAutoGeo() )
-       handleDevCounter();
-      break;
-      
+        if ( Options::indiAutoGeo() )
+            handleDevCounter();
+        break;
+
     case CCD_EXPOSURE:
-       if (pp->state == PS_IDLE || pp->state == PS_OK)
-         pp->set_w->setText(i18n("Start"));
-       break;
-       
+        if (pp->state == PS_IDLE || pp->state == PS_OK)
+            pp->set_w->setText(i18n("Start"));
+        break;
+
     case CCD_FRAME:
-         el = pp->findElement("WIDTH");
-	 if (!el) return;
-	 wd = (int) el->value;
-	 el = pp->findElement("HEIGHT");
-	 if (!el) return;
-	 ht = (int) el->value;
-	 
-	 streamWindow->setSize(wd, ht);
-	 //streamWindow->allocateStreamBuffer();
-	 break;
+        el = pp->findElement("WIDTH");
+        if (!el) return;
+        wd = (int) el->value;
+        el = pp->findElement("HEIGHT");
+        if (!el) return;
+        ht = (int) el->value;
 
-       case EQUATORIAL_COORD:
-       case EQUATORIAL_EOD_COORD:
-	if (!dp->isOn()) break;
-	el = pp->findElement("RA");
-	if (!el) return;
-	telescopeSkyObject->setRA(el->value);
-	el = pp->findElement("DEC");
-	if (!el) return;
-	telescopeSkyObject->setDec(el->value);
-	telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
+        streamWindow->setSize(wd, ht);
+        //streamWindow->allocateStreamBuffer();
+        break;
 
-	if (ksw->map()->focusObject() == telescopeSkyObject)
-		ksw->map()->updateFocus();
-	else  
-		ksw->map()->update();
-	break;
-	
-
-	case HORIZONTAL_COORD:
+    case EQUATORIAL_COORD:
+    case EQUATORIAL_EOD_COORD:
         if (!dp->isOn()) break;
-	el = pp->findElement("ALT");
-	if (!el) return;
-	telescopeSkyObject->setAlt(el->value);
-	el = pp->findElement("AZ");
-	if (!el) return;
-	telescopeSkyObject->setAz(el->value);
-	telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
-	// Force immediate update of skymap if the focus object is our telescope. 
-	if (ksw->map()->focusObject() == telescopeSkyObject)
-	      ksw->map()->updateFocus();
-	else
-	      ksw->map()->update();
-	break;
+        el = pp->findElement("RA");
+        if (!el) return;
+        telescopeSkyObject->setRA(el->value);
+        el = pp->findElement("DEC");
+        if (!el) return;
+        telescopeSkyObject->setDec(el->value);
+        telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
+
+        if (ksw->map()->focusObject() == telescopeSkyObject)
+            ksw->map()->updateFocus();
+        else
+            ksw->map()->update();
+        break;
+
+
+    case HORIZONTAL_COORD:
+        if (!dp->isOn()) break;
+        el = pp->findElement("ALT");
+        if (!el) return;
+        telescopeSkyObject->setAlt(el->value);
+        el = pp->findElement("AZ");
+        if (!el) return;
+        telescopeSkyObject->setAz(el->value);
+        telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
+        // Force immediate update of skymap if the focus object is our telescope.
+        if (ksw->map()->focusObject() == telescopeSkyObject)
+            ksw->map()->updateFocus();
+        else
+            ksw->map()->update();
+        break;
 
     default:
         break;
-	
-  }
- 
- }
 
- void INDIStdDevice::setLabelState(INDI_P *pp)
- {
+    }
+
+}
+
+void INDIStdDevice::setLabelState(INDI_P *pp)
+{
     INDI_E *lp;
     INDI_P *imgProp;
     QAction *tmpAction;
     INDIDriver *drivers = ksw->getINDIDriver();
     QFont buttonFont;
-    
+
     switch (pp->stdID)
     {
-      case CONNECTION:
-      lp = pp->findElement("CONNECT");
-      if (!lp) return;
-      
-      if (lp->state == PS_ON)
-      {
-        initDeviceOptions();
-	emit linkAccepted();
+    case CONNECTION:
+        lp = pp->findElement("CONNECT");
+        if (!lp) return;
 
-        imgProp = dp->findProp("CCD_EXPOSURE");
-	if (imgProp)
-	{
-        	tmpAction = ksw->actionCollection()->action("capture_sequence");
-  		if (!tmpAction)
-	  		kDebug() << "Warning: capture_sequence action not found";
-  		else
-	  		tmpAction->setEnabled(true);
+        if (lp->state == PS_ON)
+        {
+            initDeviceOptions();
+            emit linkAccepted();
+
+            imgProp = dp->findProp("CCD_EXPOSURE");
+            if (imgProp)
+            {
+                tmpAction = ksw->actionCollection()->action("capture_sequence");
+                if (!tmpAction)
+                    kDebug() << "Warning: capture_sequence action not found";
+                else
+                    tmpAction->setEnabled(true);
+            }
         }
-      }
-      else
-      {
-        if (streamWindow)
-	{
-	  //sNotifier->disconnect();
-	  //dp->parentMgr->sNotifier->disconnect();
-	  streamWindow->enableStream(false);
-	  streamWindow->close();
-	  
-	    //close(streamFD);
-	}
-	
-	if (ksw->map()->focusObject() == telescopeSkyObject)
-	{
-		ksw->map()->stopTracking();
-		ksw->map()->setFocusObject(NULL);
-	}
+        else
+        {
+            if (streamWindow)
+            {
+                //sNotifier->disconnect();
+                //dp->parentMgr->sNotifier->disconnect();
+                streamWindow->enableStream(false);
+                streamWindow->close();
 
-	drivers->updateMenuActions();
-       	ksw->map()->forceUpdateNow();
-        emit linkRejected();
-      }
-      break;
-      
-      case VIDEO_STREAM:
-       lp = pp->findElement("ON");
-       if (!lp) return;
-       if (lp->state == PS_ON)
-          streamWindow->enableStream(true);
-       else
-          streamWindow->enableStream(false);
-       break;
-       
+                //close(streamFD);
+            }
+
+            if (ksw->map()->focusObject() == telescopeSkyObject)
+            {
+                ksw->map()->stopTracking();
+                ksw->map()->setFocusObject(NULL);
+            }
+
+            drivers->updateMenuActions();
+            ksw->map()->forceUpdateNow();
+            emit linkRejected();
+        }
+        break;
+
+    case VIDEO_STREAM:
+        lp = pp->findElement("ON");
+        if (!lp) return;
+        if (lp->state == PS_ON)
+            streamWindow->enableStream(true);
+        else
+            streamWindow->enableStream(false);
+        break;
+
     default:
-      break;
+        break;
     }
- 
- }
 
- void INDIStdDevice::streamDisabled()
- {
+}
+
+void INDIStdDevice::streamDisabled()
+{
     INDI_P *pp;
     INDI_E *el;
-    
+
     //pp = dp->findProp("CONNECTION");
     //if (!pp) return;
     //if (pp->state == PS_OFF) return;
-    
+
     pp = dp->findProp("VIDEO_STREAM");
     if (!pp) return;
-    
+
     el = pp->findElement("OFF");
     if (!el) return;
-    
+
     if (el->state == PS_ON)
-     return;
-    
+        return;
+
     // Turn stream off
-    pp->newSwitch(el); 
-   
+    pp->newSwitch(el);
+
 }
- 
- void INDIStdDevice::updateSequencePrefix( const QString &newPrefix)
- {
+
+void INDIStdDevice::updateSequencePrefix( const QString &newPrefix)
+{
     seqPrefix = newPrefix;
-    
+
     seqLister->setNameFilter(QString("%1_*.fits").arg(seqPrefix));
-    
+
     seqCount = 0;
-    
+
     if (ISOMode) return;
-    
+
     seqLister->openUrl(Options::fitsSaveDirectory());
-    
+
     checkSeqBoundary(seqLister->items());
- 
- }
- 
- void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
- {
+
+}
+
+void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
+{
     int newFileIndex;
     QString tempName;
-    
+
     // No need to check when in ISO mode
     if (ISOMode)
-     return;
+        return;
 
     char *tempPrefix = new char[64];
-    
-	KFileItemList::const_iterator it = items.begin();
-	const KFileItemList::const_iterator end = items.end();
+
+    KFileItemList::const_iterator it = items.begin();
+    const KFileItemList::const_iterator end = items.end();
     for ( ; it != end; ++it )
     {
-       tempName = (*it)->name();
-       
-       // find the prefix first
-       if (tempName.count(seqPrefix) == 0)
-         continue;
-	 
-       strncpy(tempPrefix, tempName.toAscii().data(), 64);
-       tempPrefix[63] = '\0';
-       
-       char * t = tempPrefix;
-       
-       // skip chars
-       while (*t) { if (isdigit(*t)) break; t++; }
-       //tempPrefix = t;
-       
-       newFileIndex = strtol(t, NULL, 10);
-       
+        tempName = (*it)->name();
+
+        // find the prefix first
+        if (tempName.count(seqPrefix) == 0)
+            continue;
+
+        strncpy(tempPrefix, tempName.toAscii().data(), 64);
+        tempPrefix[63] = '\0';
+
+        char * t = tempPrefix;
+
+        // skip chars
+    while (*t) { if (isdigit(*t)) break; t++; }
+        //tempPrefix = t;
+
+        newFileIndex = strtol(t, NULL, 10);
+
         if (newFileIndex >= seqCount)
-	  seqCount = newFileIndex + 1;
-   }
-   
-   delete [] (tempPrefix);
-          
- }
- 
- void INDIStdDevice::updateTime()
+            seqCount = newFileIndex + 1;
+    }
+
+    delete [] (tempPrefix);
+
+}
+
+void INDIStdDevice::updateTime()
 {
-  INDI_P *pp;
-  INDI_E *lp;
+    INDI_P *pp;
+    INDI_E *lp;
 
-  /* Update UTC */
-  pp = dp->findProp("TIME_UTC_OFFSET");
-  if (!pp) return;
-  
-  lp = pp->findElement("OFFSET");
-  
-  if (!lp) return;
- 
-   // Send DST corrected TZ
-   lp->updateValue(ksw->data()->geo()->TZ());
-   pp->newText();
-  
-  pp = dp->findProp("TIME_UTC");
-  if (!pp) return;
-  
-  lp = pp->findElement("UTC");
-  
-  if (!lp) return;
-  
-  QTime newTime( ksw->data()->ut().time());
-  ExtDate newDate( ksw->data()->ut().date());
+    /* Update UTC */
+    pp = dp->findProp("TIME_UTC_OFFSET");
+    if (!pp) return;
 
-  lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
-					.arg(newDate.day()).arg(newTime.hour())
-					.arg(newTime.minute()).arg(newTime.second()));
-  pp->newText();
-  
- /* TODO Do we want to send sidereal time? Test it on the LX200 
-  pp  = dp->findProp("TIME_LST");
-  if (!pp) return;
-  lp = pp->findElement("LST");
-  if (!lp) return;
-   
-  lp->write_w->setText(ksw->LST()->toHMSString());
-  pp->newText();
- */
+    lp = pp->findElement("OFFSET");
+
+    if (!lp) return;
+
+    // Send DST corrected TZ
+    lp->updateValue(ksw->data()->geo()->TZ());
+    pp->newText();
+
+    pp = dp->findProp("TIME_UTC");
+    if (!pp) return;
+
+    lp = pp->findElement("UTC");
+
+    if (!lp) return;
+
+    QTime newTime( ksw->data()->ut().time());
+    ExtDate newDate( ksw->data()->ut().date());
+
+    lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
+                         .arg(newDate.day()).arg(newTime.hour())
+                         .arg(newTime.minute()).arg(newTime.second()));
+    pp->newText();
+
+    /* TODO Do we want to send sidereal time? Test it on the LX200
+     pp  = dp->findProp("TIME_LST");
+     if (!pp) return;
+     lp = pp->findElement("LST");
+     if (!lp) return;
+      
+     lp->write_w->setText(ksw->LST()->toHMSString());
+     pp->newText();
+    */
 
 }
 
 void INDIStdDevice::updateLocation()
 {
-   INDI_P *pp;
-   INDI_E * latEle, * longEle;
-   GeoLocation *geo = ksw->geo();
+    INDI_P *pp;
+    INDI_E * latEle, * longEle;
+    GeoLocation *geo = ksw->geo();
 
-   pp = dp->findProp("GEOGRAPHIC_COORD");
-   if (!pp) return;
-    
-  dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
-  dms fullCir(360,0,0);
+    pp = dp->findProp("GEOGRAPHIC_COORD");
+    if (!pp) return;
 
-  if (tempLong.degree() < 0)
-     tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
+    dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
+    dms fullCir(360,0,0);
+
+    if (tempLong.degree() < 0)
+        tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
 
     latEle  = pp->findElement("LAT");
     if (!latEle) return;
     longEle = pp->findElement("LONG");
     if (!longEle) return;
-    
+
     longEle->write_w->setText(QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
     latEle->write_w->setText(QString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
-    
+
     pp->newText();
 }
 
- 
- void INDIStdDevice::registerProperty(INDI_P *pp)
- {
-   INDI_E * portEle;
-   INDIDriver *drivers = ksw->getINDIDriver();
-   QString str;
- 
-   switch (pp->stdID)
-   {
-     case DEVICE_PORT:
-     portEle = pp->findElement("PORT");
-     if (!portEle) return;
-     
-     if (drivers)
-     {
-       //for (unsigned int i=0; i < drivers->devices.size(); i++)
-       foreach(IDevice *device, drivers->devices)
-       {
-         if (device->mgrID == dp->parentMgr->mgrID)
-	 {
-	        if (device->deviceType == KSTARS_TELESCOPE)
-		{
-     		   portEle->read_w->setText( Options::indiTelescopePort() );
-     		   portEle->write_w->setText( Options::indiTelescopePort() );
-     		   portEle->text = Options::indiTelescopePort();
-		   break;
-		}
-		else if (device->deviceType == KSTARS_VIDEO)
-		{
-		   portEle->read_w->setText( Options::indiVideoPort() );
-     		   portEle->write_w->setText( Options::indiVideoPort() );
-     		   portEle->text = Options::indiVideoPort();
-		   break;
-		}
-	}
-      }     
-     }
-     break;
 
-     case EQUATORIAL_EOD_COORD:
-	emit newTelescope();
-	break;
+void INDIStdDevice::registerProperty(INDI_P *pp)
+{
+    INDI_E * portEle;
+    INDIDriver *drivers = ksw->getINDIDriver();
+    QString str;
 
-     // Update Device menu actions
-     drivers->updateMenuActions();
-   }
+    switch (pp->stdID)
+    {
+    case DEVICE_PORT:
+        portEle = pp->findElement("PORT");
+        if (!portEle) return;
+
+        if (drivers)
+        {
+            //for (unsigned int i=0; i < drivers->devices.size(); i++)
+            foreach(IDevice *device, drivers->devices)
+            {
+                if (device->mgrID == dp->parentMgr->mgrID)
+                {
+                    if (device->deviceType == KSTARS_TELESCOPE)
+                    {
+                        portEle->read_w->setText( Options::indiTelescopePort() );
+                        portEle->write_w->setText( Options::indiTelescopePort() );
+                        portEle->text = Options::indiTelescopePort();
+                        break;
+                    }
+                    else if (device->deviceType == KSTARS_VIDEO)
+                    {
+                        portEle->read_w->setText( Options::indiVideoPort() );
+                        portEle->write_w->setText( Options::indiVideoPort() );
+                        portEle->text = Options::indiVideoPort();
+                        break;
+                    }
+                }
+            }
+        }
+        break;
+
+    case EQUATORIAL_EOD_COORD:
+        emit newTelescope();
+        break;
+
+        // Update Device menu actions
+        drivers->updateMenuActions();
+    }
 }
- 
+
 void INDIStdDevice::initDeviceOptions()
 {
 
-  INDI_P *prop;
+    INDI_P *prop;
 
-  initDevCounter = 0;
+    initDevCounter = 0;
 
-  if ( Options::indiAutoTime() )
-  {
-  	prop = dp->findProp("TIME_UTC");
-  	  if (prop)
-	  {
+    if ( Options::indiAutoTime() )
+    {
+        prop = dp->findProp("TIME_UTC");
+        if (prop)
+        {
             updateTime();
-	    initDevCounter += 5;
-	  }
-  }
+            initDevCounter += 5;
+        }
+    }
 
-  if ( Options::indiAutoGeo() )
-  {
-  	prop = dp->findProp("GEOGRAPHIC_COORD");
-   	if (prop)
-	{
-   		updateLocation();
-         	initDevCounter += 2;
-	}
-  }
+    if ( Options::indiAutoGeo() )
+    {
+        prop = dp->findProp("GEOGRAPHIC_COORD");
+        if (prop)
+        {
+            updateLocation();
+            initDevCounter += 2;
+        }
+    }
 
-  if ( Options::indiMessages() )
-    ksw->statusBar()->changeItem( i18n("%1 is online.", dp->name), 0);
+    if ( Options::indiMessages() )
+        ksw->statusBar()->changeItem( i18n("%1 is online.", dp->name), 0);
 
-  ksw->map()->forceUpdateNow();
+    ksw->map()->forceUpdateNow();
 }
 
- void INDIStdDevice::handleDevCounter()
+void INDIStdDevice::handleDevCounter()
 {
 
-  if (initDevCounter <= 0)
-   return;
+    if (initDevCounter <= 0)
+        return;
 
-  initDevCounter--;
+    initDevCounter--;
 
-  if ( initDevCounter == 0 && Options::indiMessages() )
-    ksw->statusBar()->changeItem( i18n("%1 is online and ready.", dp->name), 0);
+    if ( initDevCounter == 0 && Options::indiMessages() )
+        ksw->statusBar()->changeItem( i18n("%1 is online and ready.", dp->name), 0);
 
 }
 
 bool INDIStdDevice::handleNonSidereal()
 {
-   if (!currentObject)
-      return false;
+    if (!currentObject)
+        return false;
 
     INDI_E *nameEle = NULL, *tracklp = NULL;
 
     kDebug() << "Object of type " << currentObject->typeName();
-  //TODO Meade claims that the library access is available to
-  // all telescopes, which is unture. Only classic meade support
-  // that. They claim that library function will be available to all
-  // in "later" firmware revisions for the autostar and GPS.
-  // As a temporary solution, I'm going to explicitly check for the
-  // device name which ideally I'm not supposed to do since all properties
-  // should be defined from the INDI driver, but since the INDI autostar
-  // and gps define the library functions (based on Meade's future claims)
-  // I will check the device name until Meade's respondes to my query.
+    //TODO Meade claims that the library access is available to
+    // all telescopes, which is unture. Only classic meade support
+    // that. They claim that library function will be available to all
+    // in "later" firmware revisions for the autostar and GPS.
+    // As a temporary solution, I'm going to explicitly check for the
+    // device name which ideally I'm not supposed to do since all properties
+    // should be defined from the INDI driver, but since the INDI autostar
+    // and gps define the library functions (based on Meade's future claims)
+    // I will check the device name until Meade's respondes to my query.
 
-  // Update: Solution
-  // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
-  // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
-  // based on the object type. Objects with high proper motions will require faster updates.
-  // handle Non Sideral is ONLY called when tracking an object, not slewing.
-  INDI_P *prop = dp->findProp(QString("SOLAR_SYSTEM"));
-  INDI_P *setMode = dp->findProp(QString("ON_COORD_SET"));
+    // Update: Solution
+    // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
+    // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
+    // based on the object type. Objects with high proper motions will require faster updates.
+    // handle Non Sideral is ONLY called when tracking an object, not slewing.
+    INDI_P *prop = dp->findProp(QString("SOLAR_SYSTEM"));
+    INDI_P *setMode = dp->findProp(QString("ON_COORD_SET"));
 
-  // If the device support it
-  if (prop && setMode)
-  {
-     tracklp = setMode->findElement( "TRACK" );
-     if (tracklp == NULL) return false;
+    // If the device support it
+    if (prop && setMode)
+    {
+        tracklp = setMode->findElement( "TRACK" );
+        if (tracklp == NULL) return false;
 
-    kDebug() << "Device supports SOLAR_SYSTEM property";
+        kDebug() << "Device supports SOLAR_SYSTEM property";
 
-     foreach(INDI_E *lp, prop->el)
-     {
-           if (currentObject->name().toLower() == lp->label.toLower())
-           {
-       		prop->newSwitch(lp);
-		setMode->newSwitch(tracklp);
-       
-       		/* Send object name if available */
-       		nameEle = dp->findElem("OBJECT_NAME");
-       		if (nameEle && nameEle->pp->perm != PP_RO)
-       		{
-           		nameEle->write_w->setText(currentObject->name());
-           		nameEle->pp->newText();
-       		}
+        foreach(INDI_E *lp, prop->el)
+        {
+            if (currentObject->name().toLower() == lp->label.toLower())
+            {
+                prop->newSwitch(lp);
+                setMode->newSwitch(tracklp);
 
-       	    return true;
-     	   }
-     }
-  }
+                /* Send object name if available */
+                nameEle = dp->findElem("OBJECT_NAME");
+                if (nameEle && nameEle->pp->perm != PP_RO)
+                {
+                    nameEle->write_w->setText(currentObject->name());
+                    nameEle->pp->newText();
+                }
 
-   kDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer";
-   kDebug() << "Starting timer for object of type " << currentObject->typeName();
-   
-
-   switch (currentObject->type())
-   {
-    // Planet/Moon
-    case 2:
-       kDebug() << "Initiating pulse tracking for " << currentObject->name();
-       devTimer->start(INDI_PULSE_TRACKING);
-       break;
-    // Comet/Asteroid
-    case 9:
-    case 10:
-      kDebug() << "Initiating pulse tracking for " << currentObject->name();
-      devTimer->start(INDI_PULSE_TRACKING);
-      break;
-    default:
-      break;
+                return true;
+            }
+        }
     }
 
-   return false;
+    kDebug() << "Device doesn't support SOLAR_SYSTEM property, issuing a timer";
+    kDebug() << "Starting timer for object of type " << currentObject->typeName();
+
+
+    switch (currentObject->type())
+    {
+        // Planet/Moon
+    case 2:
+        kDebug() << "Initiating pulse tracking for " << currentObject->name();
+        devTimer->start(INDI_PULSE_TRACKING);
+        break;
+        // Comet/Asteroid
+    case 9:
+    case 10:
+        kDebug() << "Initiating pulse tracking for " << currentObject->name();
+        devTimer->start(INDI_PULSE_TRACKING);
+        break;
+    default:
+        break;
+    }
+
+    return false;
 }
 
 
 void INDIStdDevice::timerDone()
 {
-      INDI_P *prop;
-      INDI_E *RAEle, *DecEle;
-      INDI_E *el;
-      bool useJ2000 = false;
+    INDI_P *prop;
+    INDI_E *RAEle, *DecEle;
+    INDI_E *el;
+    bool useJ2000 = false;
 
-       if (!dp->isOn())
-       {
-        devTimer->stop();
-	return;
-       }
-
-       prop = dp->findProp("ON_COORD_SET");
-       if (prop == NULL || !currentObject)
-        return;
-
-       el   = prop->findElement("TRACK");
-       if (!el) return;
-       
-       if (el->state != PS_ON)
-       {
+    if (!dp->isOn())
+    {
         devTimer->stop();
         return;
-       }
-	
-       // We issue command to the REQUEST property
-       prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
-       
-       if (prop == NULL)
-       {
-         prop = dp->findProp("EQUATORIAL_COORD");
-	 if (prop) useJ2000 = true;
-       }
-       
-       if (prop == NULL || !currentObject)
+    }
+
+    prop = dp->findProp("ON_COORD_SET");
+    if (prop == NULL || !currentObject)
         return;
 
-       // wait until slew is done
-       if (prop->state == PS_BUSY)
+    el   = prop->findElement("TRACK");
+    if (!el) return;
+
+    if (el->state != PS_ON)
+    {
+        devTimer->stop();
+        return;
+    }
+
+    // We issue command to the REQUEST property
+    prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
+
+    if (prop == NULL)
+    {
+        prop = dp->findProp("EQUATORIAL_COORD");
+        if (prop) useJ2000 = true;
+    }
+
+    if (prop == NULL || !currentObject)
         return;
 
-       kDebug() << "Timer called, starting processing";
+    // wait until slew is done
+    if (prop->state == PS_BUSY)
+        return;
 
-	SkyPoint sp(currentObject->ra(), currentObject->dec());
-	
-	kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString();
-	kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString();
+    kDebug() << "Timer called, starting processing";
 
-	if (useJ2000)
-	{
-		sp.set(currentObject->ra(), currentObject->dec());
-        	sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
-        }
+    SkyPoint sp(currentObject->ra(), currentObject->dec());
 
-       // We need to get from JNow (Skypoint) to J2000
-       // The ra0() of a skyPoint is the same as its JNow ra() without this process
+    kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString();
+    kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString();
 
-       // Use J2000 coordinate as required by INDI
-       RAEle  = prop->findElement("RA");
-       if (!RAEle) return;
-       DecEle = prop->findElement("DEC");
-       if (!DecEle) return;
-     
-       RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour())
-        						 .arg(sp.ra()->minute())
-							 .arg(sp.ra()->second()));
-        DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree())
-                                                         .arg(sp.dec()->arcmin())
-							 .arg(sp.dec()->arcsec()));
-	prop->newText();
+    if (useJ2000)
+    {
+        sp.set(currentObject->ra(), currentObject->dec());
+        sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
+    }
+
+    // We need to get from JNow (Skypoint) to J2000
+    // The ra0() of a skyPoint is the same as its JNow ra() without this process
+
+    // Use J2000 coordinate as required by INDI
+    RAEle  = prop->findElement("RA");
+    if (!RAEle) return;
+    DecEle = prop->findElement("DEC");
+    if (!DecEle) return;
+
+    RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour())
+                            .arg(sp.ra()->minute())
+                            .arg(sp.ra()->second()));
+    DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree())
+                             .arg(sp.dec()->arcmin())
+                             .arg(sp.dec()->arcsec()));
+    prop->newText();
 
 }
 
 INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, INDIStdDevice *stdDevPtr)
 {
-   pp     = associatedProperty;
-   ksw    = kswPtr;
-   stdDev = stdDevPtr;
+    pp     = associatedProperty;
+    ksw    = kswPtr;
+    stdDev = stdDevPtr;
 }
- 
- INDIStdProperty::~INDIStdProperty() 
- {
- 
- }
- 
- void INDIStdProperty::newText()
- {
-   INDI_E *lp;
-   INDIDriver *drivers = ksw->getINDIDriver();
-   
-   switch (pp->stdID)
-   {
-     /* Set expose duration button to 'cancel' when busy */
-     case CCD_EXPOSURE:
-       pp->set_w->setText(i18n("Cancel"));
-       break;
-     
-      /* Save Port name in KStars options */
-     case DEVICE_PORT:
+
+INDIStdProperty::~INDIStdProperty()
+{
+
+}
+
+void INDIStdProperty::newText()
+{
+    INDI_E *lp;
+    INDIDriver *drivers = ksw->getINDIDriver();
+
+    switch (pp->stdID)
+    {
+        /* Set expose duration button to 'cancel' when busy */
+    case CCD_EXPOSURE:
+        pp->set_w->setText(i18n("Cancel"));
+        break;
+
+        /* Save Port name in KStars options */
+    case DEVICE_PORT:
         lp = pp->findElement("PORT");
-	
-        if (lp && drivers) 
-	{
-          //for (unsigned int i=0; i < drivers->devices.size(); i++)
-	  foreach( IDevice *device, drivers->devices)
-          {
-              if (device->mgrID == stdDev->dp->parentMgr->mgrID)
-	      {
-	        if (device->deviceType == KSTARS_TELESCOPE)
-		{
-		   Options::setIndiTelescopePort( lp->text );
-		   kDebug() << "Setting telescope port " << lp->text;
-		}
-		else if (device->deviceType == KSTARS_VIDEO)
-		{
-		   Options::setIndiVideoPort( lp->text );
-		   kDebug() << "Setting video port " << lp->text;
-		}
-		break;
-	      }
-	  }
+
+        if (lp && drivers)
+        {
+            //for (unsigned int i=0; i < drivers->devices.size(); i++)
+            foreach( IDevice *device, drivers->devices)
+            {
+                if (device->mgrID == stdDev->dp->parentMgr->mgrID)
+                {
+                    if (device->deviceType == KSTARS_TELESCOPE)
+                    {
+                        Options::setIndiTelescopePort( lp->text );
+                        kDebug() << "Setting telescope port " << lp->text;
+                    }
+                    else if (device->deviceType == KSTARS_VIDEO)
+                    {
+                        Options::setIndiVideoPort( lp->text );
+                        kDebug() << "Setting video port " << lp->text;
+                    }
+                    break;
+                }
+            }
         }
-     
-	break;
-   }
- 
- }
- 
- bool INDIStdProperty::actionTriggered(INDI_E *lp)
- {
- 
-  INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
-  INDI_P * prop;
-  SkyPoint sp;
-  int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
-  bool useJ2000 (false);
-  
-  switch (pp->stdID)
-  {
-    /* Handle Slew/Track/Sync */
+
+        break;
+    }
+
+}
+
+bool INDIStdProperty::actionTriggered(INDI_E *lp)
+{
+
+    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
+    INDI_P * prop;
+    SkyPoint sp;
+    int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
+    bool useJ2000 (false);
+
+    switch (pp->stdID)
+    {
+        /* Handle Slew/Track/Sync */
     case ON_COORD_SET:
-    	// #1 set current object to NULL
-    	stdDev->currentObject = NULL;
-   	// #2 Deactivate timer if present
-   	if (stdDev->devTimer->isActive())
-		 	stdDev->devTimer->stop();
+        // #1 set current object to NULL
+        stdDev->currentObject = NULL;
+        // #2 Deactivate timer if present
+        if (stdDev->devTimer->isActive())
+            stdDev->devTimer->stop();
 
-   	prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
-       	if (prop == NULL)
-	{
-		  prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
-		  if (prop == NULL)
-		  {
-		  	prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
+        prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
+        if (prop == NULL)
+        {
+            prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
+            if (prop == NULL)
+            {
+                prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
 
-		  	if (prop == NULL)
-                  	{
-                    		prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
-                    		if (prop == NULL)
-        				return false;
-                    		else
-                        	selectedCoord = 1;		/* Select horizontal */
-                  	}
-		        else
-		        	useJ2000 = true;
-		  }
-	}
+                if (prop == NULL)
+                {
+                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
+                    if (prop == NULL)
+                        return false;
+                    else
+                        selectedCoord = 1;		/* Select horizontal */
+                }
+                else
+                    useJ2000 = true;
+            }
+        }
 
         switch (selectedCoord)
         {
-          // Equatorial
-          case 0:
-           if (prop->perm == PP_RO) return false;
-           RAEle  = prop->findElement("RA");
-       	   if (!RAEle) return false;
-   	   DecEle = prop->findElement("DEC");
-   	   if (!DecEle) return false;
-           break;
+            // Equatorial
+        case 0:
+            if (prop->perm == PP_RO) return false;
+            RAEle  = prop->findElement("RA");
+            if (!RAEle) return false;
+            DecEle = prop->findElement("DEC");
+            if (!DecEle) return false;
+            break;
 
-         // Horizontal
-         case 1:
-          if (prop->perm == PP_RO) return false;
-          AzEle = prop->findElement("AZ");
-          if (!AzEle) return false;
-          AltEle = prop->findElement("ALT");
-          if (!AltEle) return false;
-          break;
+            // Horizontal
+        case 1:
+            if (prop->perm == PP_RO) return false;
+            AzEle = prop->findElement("AZ");
+            if (!AzEle) return false;
+            AltEle = prop->findElement("ALT");
+            if (!AltEle) return false;
+            break;
         }
-   
+
         stdDev->currentObject = ksw->map()->clickedObject();
-  	// Track is similar to slew, except that for non-sidereal objects
-	// it tracks the objects automatically via a timer.
-   	if ((lp->name == "TRACK"))
-       		if (stdDev->handleNonSidereal())
-	        	return true;
+        // Track is similar to slew, except that for non-sidereal objects
+        // it tracks the objects automatically via a timer.
+        if ((lp->name == "TRACK"))
+            if (stdDev->handleNonSidereal())
+                return true;
 
-      /* Send object name if available */
-      if (stdDev->currentObject)
-          {
-             nameEle = pp->pg->dp->findElem("OBJECT_NAME");
-             if (nameEle && nameEle->pp->perm != PP_RO)
-             {
-                 nameEle->write_w->setText(stdDev->currentObject->name());
-                 nameEle->pp->newText();
-             }
-          }
+        /* Send object name if available */
+        if (stdDev->currentObject)
+        {
+            nameEle = pp->pg->dp->findElem("OBJECT_NAME");
+            if (nameEle && nameEle->pp->perm != PP_RO)
+            {
+                nameEle->write_w->setText(stdDev->currentObject->name());
+                nameEle->pp->newText();
+            }
+        }
 
-       switch (selectedCoord)
-       {
-         case 0:
+        switch (selectedCoord)
+        {
+        case 0:
             if (stdDev->currentObject)
-		sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
+                sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
             else
                 sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
 
-      	 if (useJ2000)
-            sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+            if (useJ2000)
+                sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-    	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+            RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+            DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
-          break;
+            break;
 
-       case 1:
-         if (stdDev->currentObject)
-         {
-           sp.setAz(*stdDev->currentObject->az());
-           sp.setAlt(*stdDev->currentObject->alt());
-         }
-         else
-         {
-           sp.setAz(*ksw->map()->clickedPoint()->az());
-           sp.setAlt(*ksw->map()->clickedPoint()->alt());
-         }
+        case 1:
+            if (stdDev->currentObject)
+            {
+                sp.setAz(*stdDev->currentObject->az());
+                sp.setAlt(*stdDev->currentObject->alt());
+            }
+            else
+            {
+                sp.setAz(*ksw->map()->clickedPoint()->az());
+                sp.setAlt(*ksw->map()->clickedPoint()->alt());
+            }
 
-          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+            AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+            AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
 
-         break;
-       }
+            break;
+        }
 
-       pp->newSwitch(lp);
-       prop->newText();
-	
-	return true;
-	break;
-   
-   /* Handle Abort */
-   case TELESCOPE_ABORT_MOTION:
-         kDebug() << "Stopping timer.";
-	 stdDev->devTimer->stop();
- 	 pp->newSwitch(lp);
-	 return true;
-	 break;
-	 
-   case TELESCOPE_MOTION_NS:
-      pp->newSwitch(lp);
-      return true;
-      break;
+        pp->newSwitch(lp);
+        prop->newText();
 
-   case TELESCOPE_MOTION_WE:
-      pp->newSwitch(lp);
-      return true;
-      break;
-      
-   default:
-	 break;
-   }
-  
-  return false;
- 
- }
- 
+        return true;
+        break;
+
+        /* Handle Abort */
+    case TELESCOPE_ABORT_MOTION:
+        kDebug() << "Stopping timer.";
+        stdDev->devTimer->stop();
+        pp->newSwitch(lp);
+        return true;
+        break;
+
+    case TELESCOPE_MOTION_NS:
+        pp->newSwitch(lp);
+        return true;
+        break;
+
+    case TELESCOPE_MOTION_WE:
+        pp->newSwitch(lp);
+        return true;
+        break;
+
+    default:
+        break;
+    }
+
+    return false;
+
+}
+
 // Return true if the complete operation is done here, or false if the operation is to be completed in the properties newSwitch()
 bool INDIStdProperty::newSwitch(INDI_E* el)
 {
-  INDI_P *prop;
+    INDI_P *prop;
 
-  switch (pp->stdID)
-  {
-    case CONNECTION: 
-      if (el->name == QString("DISCONNECT"))
-        stdDev->streamDisabled();
-      else
-      { 
-       prop = pp->pg->dp->findProp("DEVICE_PORT");
-       if (prop)
-       prop->newText();
-      }
-      break;
+    switch (pp->stdID)
+    {
+    case CONNECTION:
+        if (el->name == QString("DISCONNECT"))
+            stdDev->streamDisabled();
+        else
+        {
+            prop = pp->pg->dp->findProp("DEVICE_PORT");
+            if (prop)
+                prop->newText();
+        }
+        break;
     case TELESCOPE_ABORT_MOTION:
     case TELESCOPE_PARK:
     case TELESCOPE_MOTION_NS:
     case TELESCOPE_MOTION_WE:
-       //TODO add text in the status bar "Slew aborted."
-       stdDev->devTimer->stop();
-       break;
+        //TODO add text in the status bar "Slew aborted."
+        stdDev->devTimer->stop();
+        break;
     default:
-       break;
-   }
-   
-   return false;
+        break;
+    }
+
+    return false;
 
 }
 
 void INDIStdProperty::newTime()
 {
-   INDI_E * timeEle;
-   INDI_P *SDProp;
-   
-   timeEle = pp->findElement("UTC");
-   if (!timeEle) return;
-   
-   TimeDialog timedialog ( ksw->data()->ut(), ksw, true );
+    INDI_E * timeEle;
+    INDI_P *SDProp;
 
-	if ( timedialog.exec() == QDialog::Accepted )
-	{
-		QTime newTime( timedialog.selectedTime() );
-		ExtDate newDate( timedialog.selectedDate() );
+    timeEle = pp->findElement("UTC");
+    if (!timeEle) return;
 
-                timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
-					.arg(newDate.year()).arg(newDate.month())
-					.arg(newDate.day()).arg(newTime.hour())
-					.arg(newTime.minute()).arg(newTime.second()));
-	        pp->newText();
-	}
-	else return;
-	
-   SDProp  = pp->pg->dp->findProp("TIME_LST");
-   if (!SDProp) return;
-   timeEle = SDProp->findElement("LST");
-   if (!timeEle) return;
-   
-   timeEle->write_w->setText(ksw->LST()->toHMSString());
-   SDProp->newText();
+    TimeDialog timedialog ( ksw->data()->ut(), ksw, true );
+
+    if ( timedialog.exec() == QDialog::Accepted )
+    {
+        QTime newTime( timedialog.selectedTime() );
+        ExtDate newDate( timedialog.selectedDate() );
+
+        timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
+                                  .arg(newDate.year()).arg(newDate.month())
+                                  .arg(newDate.day()).arg(newTime.hour())
+                                  .arg(newTime.minute()).arg(newTime.second()));
+        pp->newText();
+    }
+    else return;
+
+    SDProp  = pp->pg->dp->findProp("TIME_LST");
+    if (!SDProp) return;
+    timeEle = SDProp->findElement("LST");
+    if (!timeEle) return;
+
+    timeEle->write_w->setText(ksw->LST()->toHMSString());
+    SDProp->newText();
 }
 
 #include "indistd.moc"

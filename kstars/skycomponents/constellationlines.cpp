@@ -36,13 +36,13 @@
 #include "ksfilereader.h"
 
 ConstellationLines::ConstellationLines( SkyComponent *parent )
-  : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
+        : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
 {}
 
 bool ConstellationLines::selected()
 {
     return Options::showCLines() &&
-		! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
+           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
 }
 
 void ConstellationLines::preDraw( KStars *kstars, QPainter &psky )
@@ -108,11 +108,11 @@ void ConstellationLines::init( KStarsData *data ) {
 
     //Add the last clc component
     if ( lineList ) appendLine( lineList );
-    
+
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
     //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
-   
+
     summary();
 }
 
@@ -139,15 +139,15 @@ void ConstellationLines::reindex( KSNumbers *num )
 {
     if ( ! num ) return;
 
-    if ( fabs( num->julianCenturies() - 
-         m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
+    if ( fabs( num->julianCenturies() -
+               m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
 
     //printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);
 
     m_reindexNum = KSNumbers( *num );
     skyMesh()->setKSNumbers( num );
     LineListIndex::reindexLines();
-    
+
     //printf("Done.\n");
 }
 

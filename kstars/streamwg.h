@@ -8,10 +8,10 @@
     
     2004-03-16: A class to handle video streaming.
  */
- 
+
  #ifndef STREAMWG_H_
  #define STREAMWG_H_
- 
+
 #include <QPixmap>
 #include <QVBoxLayout>
 #include <QResizeEvent>
@@ -24,13 +24,13 @@
 
 #include "ui_streamform.h"
 
- 
- 
- class QImage;
-  class VideoWG;
- class INDIStdDevice;
-  class QVBoxLayout;
- 
+
+
+class QImage;
+class VideoWG;
+class INDIStdDevice;
+class QVBoxLayout;
+
 /* class StreamWGUI : public QFrame, public Ui::streamForm
  {
    Q_OBJECT
@@ -39,63 +39,63 @@
      StreamWGUI(QWidget *parent=0);
  };*/
 
- class StreamWG : public QWidget, public Ui::streamForm
- {
-   Q_OBJECT
-   
-    public:
-      explicit StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
-      ~StreamWG();
- 
-   friend class VideoWG;
-   friend class INDIStdDevice;
-   
-   void setColorFrame(bool color);
-   void setSize(int wd, int ht);
-   void enableStream(bool enable);
-   
-   bool	processStream;
-   int         		 streamWidth, streamHeight;
-   VideoWG		*streamFrame;
-   bool			 colorFrame;
-      
-   private:
-   INDIStdDevice        *stdDev;
-   KIcon                playPix, pausePix, capturePix;
-   
-   protected:
-   void closeEvent ( QCloseEvent * e );
-   void resizeEvent(QResizeEvent *ev);
-   
-   
-   public slots: 
-   void playPressed();
-   void captureImage();
+class StreamWG : public QWidget, public Ui::streamForm
+{
+    Q_OBJECT
+
+public:
+    explicit StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
+    ~StreamWG();
+
+    friend class VideoWG;
+    friend class INDIStdDevice;
+
+    void setColorFrame(bool color);
+    void setSize(int wd, int ht);
+    void enableStream(bool enable);
+
+    bool	processStream;
+    int         		 streamWidth, streamHeight;
+    VideoWG		*streamFrame;
+    bool			 colorFrame;
+
+private:
+    INDIStdDevice        *stdDev;
+    KIcon                playPix, pausePix, capturePix;
+
+protected:
+    void closeEvent ( QCloseEvent * e );
+    void resizeEvent(QResizeEvent *ev);
 
 
- };
- 
- class VideoWG : public QFrame
- {
-      Q_OBJECT
-   
-    public:
-      VideoWG(QWidget * parent =0);
-      ~VideoWG();
-      
-      friend class StreamWG;
-      
-      void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
-      
-    private:
-      int		totalBaseCount;
-      QVector<QRgb>     grayTable;
-      QImage		*streamImage;
-      QPixmap		 kPix;
-      
-    protected:
-     void paintEvent(QPaintEvent *ev);
-     
+public slots:
+    void playPressed();
+    void captureImage();
+
+
+};
+
+class VideoWG : public QFrame
+{
+    Q_OBJECT
+
+public:
+    VideoWG(QWidget * parent =0);
+    ~VideoWG();
+
+    friend class StreamWG;
+
+    void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
+
+private:
+    int		totalBaseCount;
+    QVector<QRgb>     grayTable;
+    QImage		*streamImage;
+    QPixmap		 kPix;
+
+protected:
+    void paintEvent(QPaintEvent *ev);
+
 };
 
 #endif

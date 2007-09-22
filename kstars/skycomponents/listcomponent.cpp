@@ -24,76 +24,76 @@
 #include "skyobject.h"
 
 ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
-: SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
+        : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
 {}
 
 ListComponent::ListComponent( SkyComponent *parent )
-: SkyComponent( parent ), m_CurrentIndex(0)
+        : SkyComponent( parent ), m_CurrentIndex(0)
 {}
 
 
 ListComponent::~ListComponent()
 {
-	clear();
+    clear();
 }
 
 void ListComponent::clear() {
-	while ( ! objectList().isEmpty() ) {
-		SkyObject *o = objectList().takeFirst();
-		int i = objectNames(o->type()).indexOf( o->name() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-		i = objectNames(o->type()).indexOf( o->longname() );
-		if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+    while ( ! objectList().isEmpty() ) {
+        SkyObject *o = objectList().takeFirst();
+        int i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
 
-		delete o;
-	}
+        delete o;
+    }
 }
 
 void ListComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	foreach ( SkyObject *o, objectList() ) {
-		if ( num ) o->updateCoords( num );
-		o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-	}
+    foreach ( SkyObject *o, objectList() ) {
+        if ( num ) o->updateCoords( num );
+        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
 }
 
 SkyObject* ListComponent::findByName( const QString &name ) {
-	foreach ( SkyObject *o, objectList() ) 
-		if ( o->name() == name || o->longname() == name || o->name2() == name )
-			return o;
+    foreach ( SkyObject *o, objectList() )
+    if ( o->name() == name || o->longname() == name || o->name2() == name )
+        return o;
 
-	//No object found
-	return 0;
+    //No object found
+    return 0;
 }
 
 SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
-	SkyObject *oBest = 0;
+    SkyObject *oBest = 0;
 
-	if ( ! selected() ) return 0;
+    if ( ! selected() ) return 0;
 
-	foreach ( SkyObject *o, objectList() ) {
-		double r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			oBest = o;
-			maxrad = r;
-		}
-	}
+    foreach ( SkyObject *o, objectList() ) {
+        double r = o->angularDistanceTo( p ).Degrees();
+        if ( r < maxrad ) {
+            oBest = o;
+            maxrad = r;
+        }
+    }
 
-	return oBest;
+    return oBest;
 }
 
 
 SkyObject* ListComponent::first() {
-	m_CurrentIndex = 0;
-	return ObjectList[m_CurrentIndex];
+    m_CurrentIndex = 0;
+    return ObjectList[m_CurrentIndex];
 }
 
 SkyObject* ListComponent::next() {
-	m_CurrentIndex++;
-	if ( m_CurrentIndex >= ObjectList.size() )
-		return 0;
-	else
-		return ObjectList[m_CurrentIndex];
+    m_CurrentIndex++;
+    if ( m_CurrentIndex >= ObjectList.size() )
+        return 0;
+    else
+        return ObjectList[m_CurrentIndex];
 }

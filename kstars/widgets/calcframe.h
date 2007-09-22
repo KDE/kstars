@@ -25,16 +25,16 @@
 	*@version 1.0
 	*/
 class CalcFrame : public QFrame {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit CalcFrame( QWidget *parent=0, const char *name=0 );
-	~CalcFrame() {}
-	
+    explicit CalcFrame( QWidget *parent=0, const char *name=0 );
+    ~CalcFrame() {}
+
 signals:
-	void frameShown();
-	
+    void frameShown();
+
 protected:
-	void showEvent( QShowEvent * ) { emit frameShown(); }
+    void showEvent( QShowEvent * ) { emit frameShown(); }
 };
 
 #endif

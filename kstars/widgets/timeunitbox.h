@@ -23,7 +23,7 @@
 #define ALLUNITS 8
 #define DAYUNITS 5
 
-/**@class TimeUnitBox 
+/**@class TimeUnitBox
 	*A pair of buttons, arranged one above the other, labeled "+"/"-".  These buttons 
 	*are to be paired with the TimeSpinBox widget.  Their function is to provide 
 	*a way to cycle through the possible time steps using larger intervals than the up/down
@@ -43,60 +43,60 @@
 class QPushButton;
 
 class TimeUnitBox : public QWidget {
-   Q_OBJECT
+    Q_OBJECT
 public:
-	/**Constructor*/
-	explicit TimeUnitBox(QWidget *parent=0, bool daysonly = false);
-	/**Destructor (empty)*/
-	~TimeUnitBox();
-	/**@return the value of UnitStep for the current spinbox value() */
-	int unitValue();
+    /**Constructor*/
+    explicit TimeUnitBox(QWidget *parent=0, bool daysonly = false);
+    /**Destructor (empty)*/
+    ~TimeUnitBox();
+    /**@return the value of UnitStep for the current spinbox value() */
+    int unitValue();
 
-	/**@short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
-		*@return the value of UnitStep for the index value given as an argument.
-		*/
-	int getUnitValue( int );
+    /**@short the same as unitValue, except you can get the UnitStep for any value, not just the current one.
+    	*@return the value of UnitStep for the index value given as an argument.
+    	*/
+    int getUnitValue( int );
 
-	/**Set the value which describes which time-unit is displayed in the TimeSpinBox.
-		*@p value the new value
-		*/
-	void setValue( int value ) { Value = value; }
-	/**@return the internal value describing the time-unit of the TimeSpinBox.
-		*/
-	int value() const { return Value; }
+    /**Set the value which describes which time-unit is displayed in the TimeSpinBox.
+    	*@p value the new value
+    	*/
+    void setValue( int value ) { Value = value; }
+    /**@return the internal value describing the time-unit of the TimeSpinBox.
+    	*/
+    int value() const { return Value; }
 
-	/**Set the minimum value for the internal time-unit value
-		*/
-	void setMinimum( int minValue ) { MinimumValue = minValue; }
-	/**Set the maximum value for the internal time-unit value
-		*/
-	void setMaximum( int maxValue ) { MaximumValue = maxValue; }
+    /**Set the minimum value for the internal time-unit value
+    	*/
+    void setMinimum( int minValue ) { MinimumValue = minValue; }
+    /**Set the maximum value for the internal time-unit value
+    	*/
+    void setMaximum( int maxValue ) { MaximumValue = maxValue; }
 
-	/**@return the minimum value for the internal time-unit value
-		*/
-	int minValue() const { return MinimumValue; }
-	/**@return the maximum value for the internal time-unit value
-		*/
-	int maxValue() const { return MaximumValue; }
+    /**@return the minimum value for the internal time-unit value
+    	*/
+    int minValue() const { return MinimumValue; }
+    /**@return the maximum value for the internal time-unit value
+    	*/
+    int maxValue() const { return MaximumValue; }
 
-	bool daysOnly() const { return DaysOnly; }
-	void setDaysOnly( bool daysonly );
+    bool daysOnly() const { return DaysOnly; }
+    void setDaysOnly( bool daysonly );
 
 signals:
-	void valueChanged(int);
+    void valueChanged(int);
 
 private slots:
-	/**Increment the internal time-unit value
-		*/
-	void increase();
-	/**Decrement the internal time-unit value
-		*/
-	void decrease();
+    /**Increment the internal time-unit value
+    	*/
+    void increase();
+    /**Decrement the internal time-unit value
+    	*/
+    void decrease();
 
 private:
-	bool DaysOnly;
-	QPushButton *UpButton, *DownButton;
-	int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
+    bool DaysOnly;
+    QPushButton *UpButton, *DownButton;
+    int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
 };
 
 #endif

@@ -28,9 +28,9 @@
 #include "Options.h"
 #include "linelist.h"
 
-Ecliptic::Ecliptic(SkyComponent *parent ) : 
-   LineListIndex( parent, i18n("Ecliptic") ), 
-	m_label( LineListIndex::name() )
+Ecliptic::Ecliptic(SkyComponent *parent ) :
+        LineListIndex( parent, i18n("Ecliptic") ),
+        m_label( LineListIndex::name() )
 {}
 
 
@@ -41,58 +41,58 @@ bool Ecliptic::selected()
 
 void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
-	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-	m_label.reset( psky );
+    m_label.reset( psky );
 
-	if ( ! skyMesh()->isZoomedIn() ) {
-		drawLines( kstars, psky, scale );
-	}
-	else {
-		drawAllLines( kstars, psky, scale );
-	}
-	m_label.draw( kstars, psky, scale );
+    if ( ! skyMesh()->isZoomedIn() ) {
+        drawLines( kstars, psky, scale );
+    }
+    else {
+        drawAllLines( kstars, psky, scale );
+    }
+    m_label.draw( kstars, psky, scale );
 }
 
 
 void Ecliptic::drawLabel( KStars *kstars, QPainter& psky, double scale )
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
     QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
-	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );	
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-	m_label.draw( kstars, psky, scale );
+    m_label.draw( kstars, psky, scale );
 }
 
 
 void Ecliptic::init(KStarsData *data)
 {
-	KSNumbers num( data->ut().djd() );
-	dms elat(0.0), elng(0.0);
+    KSNumbers num( data->ut().djd() );
+    dms elat(0.0), elng(0.0);
 
-	double eps    =   0.1;
+    double eps    =   0.1;
     double minRa  =   0.0;
     double maxRa  =  23.0;
     double dRa    =   2.0;
-	double dRa2   =  2. / 5.;
-	double ra, ra2;
+    double dRa2   =  2. / 5.;
+    double ra, ra2;
 
-	for ( ra = minRa; ra < maxRa; ra += dRa ) {
-		LineList* lineList = new LineList();
-		for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
-			elng.setH( ra2 );
-			SkyPoint* o = new SkyPoint();
-			o->setFromEcliptic( num.obliquity(), &elng, &elat );
-			o->setRA0( o->ra()->Hours() );
-			o->setDec0( o->dec()->Degrees() );
-			o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			lineList->append( o );
-		}
-		appendLine( lineList );
-	}
+    for ( ra = minRa; ra < maxRa; ra += dRa ) {
+        LineList* lineList = new LineList();
+        for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
+            elng.setH( ra2 );
+            SkyPoint* o = new SkyPoint();
+            o->setFromEcliptic( num.obliquity(), &elng, &elat );
+            o->setRA0( o->ra()->Hours() );
+            o->setDec0( o->dec()->Degrees() );
+            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            lineList->append( o );
+        }
+        appendLine( lineList );
+    }
 }
 

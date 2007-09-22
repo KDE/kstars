@@ -36,94 +36,94 @@ class KStarsData;
 	*SkyLine segments.
 	*/
 class SkyLine {
-	public:
-		/**
-			*Default Constructor (empty).
-			*/
-		SkyLine();
+public:
+    /**
+    	*Default Constructor (empty).
+    	*/
+    SkyLine();
 
-		/**
-			*Constructor.  Create a SkyLine with a single segment.
-			*@param start Reference to the segment's start point.
-			*@param end Reference to the segment's end point.
-			*/
-		SkyLine( const SkyPoint &start, const SkyPoint &end );
+    /**
+    	*Constructor.  Create a SkyLine with a single segment.
+    	*@param start Reference to the segment's start point.
+    	*@param end Reference to the segment's end point.
+    	*/
+    SkyLine( const SkyPoint &start, const SkyPoint &end );
 
-		/**
-			*Constructor.  Create a SkyLine with a single segment.
-			*@param start Pointer to the SkyLine's start point.
-			*@param end Pointer to the SkyLine's end point.
-			*/
-		SkyLine( SkyPoint *start, SkyPoint *end );
+    /**
+    	*Constructor.  Create a SkyLine with a single segment.
+    	*@param start Pointer to the SkyLine's start point.
+    	*@param end Pointer to the SkyLine's end point.
+    	*/
+    SkyLine( SkyPoint *start, SkyPoint *end );
 
-		/**
-			*Constructor.  Create a SkyLine from an existing list of SkyPoints.
-			*@param list the list of SkyPoints.
-			*/
-		SkyLine( QList<SkyPoint*> list );
+    /**
+    	*Constructor.  Create a SkyLine from an existing list of SkyPoints.
+    	*@param list the list of SkyPoints.
+    	*/
+    SkyLine( QList<SkyPoint*> list );
 
-		/**
-			*Destructor (empty)
-			*/
-			~SkyLine();
+    /**
+    	*Destructor (empty)
+    	*/
+    ~SkyLine();
 
-		/**
-			*Append a segment to the list by adding a new endpoint.
-			*@param p the new endpoint to be added
-			*/
-		void append( SkyPoint *p );
+    /**
+    	*Append a segment to the list by adding a new endpoint.
+    	*@param p the new endpoint to be added
+    	*/
+    void append( SkyPoint *p );
 
-		/**
-			*Append a segment to the list by adding a new endpoint.
-			*@param p the new endpoint to be added
-			*/
-		void append( const SkyPoint &p );
+    /**
+    	*Append a segment to the list by adding a new endpoint.
+    	*@param p the new endpoint to be added
+    	*/
+    void append( const SkyPoint &p );
 
-		/**
-			*@return a const pointer to a point in the SkyLine
-			*param i the index position of the point
-			*/
-		inline SkyPoint* point( int i ) const { return m_pList[i]; }
+    /**
+    	*@return a const pointer to a point in the SkyLine
+    	*param i the index position of the point
+    	*/
+    inline SkyPoint* point( int i ) const { return m_pList[i]; }
 
-		inline QList<SkyPoint*>& points() { return m_pList; }
+    inline QList<SkyPoint*>& points() { return m_pList; }
 
-		/**
-			*Set point i in the SkyLine
-			*@param i the index position of the point to modify
-			*@param p1 the new SkyPoint
-			*/
-		void setPoint( int i, SkyPoint *p );
+    /**
+    	*Set point i in the SkyLine
+    	*@param i the index position of the point to modify
+    	*@param p1 the new SkyPoint
+    	*/
+    void setPoint( int i, SkyPoint *p );
 
-		/**
-			*@return the angle subtended by any line segment along the SkyLine.
-			*@param i the index of the line segment to be measured.
-			*If no argument is given, the first segment is assumed.
-			*/
-		dms angularSize( int i=0 ) const;
+    /**
+    	*@return the angle subtended by any line segment along the SkyLine.
+    	*@param i the index of the line segment to be measured.
+    	*If no argument is given, the first segment is assumed.
+    	*/
+    dms angularSize( int i=0 ) const;
 
-//DEPRECATE: this was only used in SatelliteComponent, internalize it there
-//		/**
-//			*@short Change the length of a line segment.
-//			*Modifies segment i to length size, without changing its 
-//			*starting point or position angle.
-//			*@note subsequent segments are not moved; this is probably only useful 
-//			*for single-segment lines.
-//			*/
-//		void setAngularSize( int i, double size );
+    //DEPRECATE: this was only used in SatelliteComponent, internalize it there
+    //		/**
+    //			*@short Change the length of a line segment.
+    //			*Modifies segment i to length size, without changing its
+    //			*starting point or position angle.
+    //			*@note subsequent segments are not moved; this is probably only useful
+    //			*for single-segment lines.
+    //			*/
+    //		void setAngularSize( int i, double size );
 
-		/**
-			*@return the SkyLine segment's position angle on the sky
-			*@param i the index of the line segment to be measured.
-			*/
-		dms positionAngle( int i=0 ) const;
+    /**
+    	*@return the SkyLine segment's position angle on the sky
+    	*@param i the index of the line segment to be measured.
+    	*/
+    dms positionAngle( int i=0 ) const;
 
-//DEPRECATE: this was only used in SatelliteComponent, internalize it there
-//		void rotate( const dms &angle );
+    //DEPRECATE: this was only used in SatelliteComponent, internalize it there
+    //		void rotate( const dms &angle );
 
-		void update( KStarsData *data, KSNumbers *num=0 );
+    void update( KStarsData *data, KSNumbers *num=0 );
 
-	private:
-		QList<SkyPoint*> m_pList;
+private:
+    QList<SkyPoint*> m_pList;
 };
 
 #endif

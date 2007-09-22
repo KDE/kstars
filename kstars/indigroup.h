@@ -26,20 +26,20 @@ class QVBoxLayout;
 /* INDI group */
 class INDI_G
 {
-  public:
-  INDI_G(INDI_D *parentDevice, const QString &inName);
-  ~INDI_G();
+public:
+    INDI_G(INDI_D *parentDevice, const QString &inName);
+    ~INDI_G();
 
-  QString       name;			/* Group name */
-  INDI_D 	*dp;			/* Parent device */
-  QFrame        *propertyContainer;	/* Properties container */
-  QVBoxLayout   *propertyLayout;        /* Properties layout */
-  QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
+    QString       name;			/* Group name */
+    INDI_D 	*dp;			/* Parent device */
+    QFrame        *propertyContainer;	/* Properties container */
+    QVBoxLayout   *propertyLayout;        /* Properties layout */
+    QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 
-  QList<INDI_P*> pl;			/* malloced list of pointers to properties */
-  
-  void addProperty(INDI_P *pp);
-  bool removeProperty(INDI_P *pp);
+    QList<INDI_P*> pl;			/* malloced list of pointers to properties */
+
+    void addProperty(INDI_P *pp);
+    bool removeProperty(INDI_P *pp);
 };
 
 #endif

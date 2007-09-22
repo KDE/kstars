@@ -35,9 +35,9 @@
 class KSPlanetBase;
 
 class PlanetViewerUI : public QFrame, public Ui::PlanetViewer {
-Q_OBJECT
+    Q_OBJECT
 public:
-	PlanetViewerUI(QWidget *parent = 0 );
+    PlanetViewerUI(QWidget *parent = 0 );
 };
 
 /**@class PlanetViewer
@@ -47,46 +47,46 @@ public:
 	*/
 class PlanetViewer : public KDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	PlanetViewer(QWidget *parent = 0);
-	~PlanetViewer();
+    PlanetViewer(QWidget *parent = 0);
+    ~PlanetViewer();
 
-	QString centerPlanet() const { return CenterPlanet; }
-	void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
-	
-	KPlotObject* planetObject(uint i) const { return planet[i]; }
-	QString planetName(uint i) const { return pName[i]; }
+    QString centerPlanet() const { return CenterPlanet; }
+    void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
+
+    KPlotObject* planetObject(uint i) const { return planet[i]; }
+    QString planetName(uint i) const { return pName[i]; }
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-	virtual void paintEvent( QPaintEvent* );
+    virtual void keyPressEvent( QKeyEvent *e );
+    virtual void paintEvent( QPaintEvent* );
 
 private slots:
-	void initPlotObjects();
-	void tick();
-	void setTimeScale(float);
-	void slotChangeDate( const ExtDate &d );
-	void slotRunClock();
-	void slotToday();
-	void slotCloseWindow();
+    void initPlotObjects();
+    void tick();
+    void setTimeScale(float);
+    void slotChangeDate( const ExtDate &d );
+    void slotRunClock();
+    void slotToday();
+    void slotCloseWindow();
 
 private:
-	void updatePlanets();
-	
-	PlanetViewerUI *pw;
-	KStarsDateTime ut;
-	double scale;
-	bool isClockRunning;
-	QTimer tmr;
-	int UpdateInterval[9], LastUpdate[9];
-	QString pName[9], pColor[9];
-	QString CenterPlanet;
+    void updatePlanets();
 
-	QList<KSPlanetBase*> PlanetList;
+    PlanetViewerUI *pw;
+    KStarsDateTime ut;
+    double scale;
+    bool isClockRunning;
+    QTimer tmr;
+    int UpdateInterval[9], LastUpdate[9];
+    QString pName[9], pColor[9];
+    QString CenterPlanet;
 
-	KPlotObject *ksun;
-	KPlotObject *planet[9];
+    QList<KSPlanetBase*> PlanetList;
+
+    KPlotObject *ksun;
+    KPlotObject *planet[9];
 };
 
 #endif

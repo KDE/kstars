@@ -36,48 +36,48 @@ class SkyLabeler;
 
 class ConstellationNamesComponent : public ListComponent
 {
-	public:
-	/**
-		*@short Constructor
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		ConstellationNamesComponent(SkyComponent *parent );
-	/**
-		*@short Destructor.  Delete list members
-		*/
-		~ConstellationNamesComponent();
-		
-	/**
-		*@short Draw constellation names on the sky map.
-		*@p ks pointer to the KStars object
-		*@p psky Reference to the QPainter on which to paint
-		*@p scale scaling factor (1.0 for screen draws)
-		*/
-		virtual void draw( KStars *ks, QPainter& psky, double scale );
+public:
+    /**
+    	*@short Constructor
+    	*@p parent Pointer to the parent SkyComponent object
+    	*/
+    ConstellationNamesComponent(SkyComponent *parent );
+    /**
+    	*@short Destructor.  Delete list members
+    	*/
+    ~ConstellationNamesComponent();
 
-	/**
-		*@short Initialize the Constellation names component
-		*Reads the constellation names data from cnames.dat
-		*Each line in the file is parsed according to column position:
-		*@li 0-1     RA hours [int]
-		*@li 2-3     RA minutes [int]
-		*@li 4-5     RA seconds [int]
-		*@li 6       Dec sign [char; '+' or '-']
-		*@li 7-8     Dec degrees [int]
-		*@li 9-10    Dec minutes [int]
-		*@li 11-12   Dec seconds [int]
-		*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-		*@li 17-     Constellation name [string]
-		*@p data Pointer to the KStarsData object
-		*/
-		virtual void init(KStarsData *data);
+    /**
+    	*@short Draw constellation names on the sky map.
+    	*@p ks pointer to the KStars object
+    	*@p psky Reference to the QPainter on which to paint
+    	*@p scale scaling factor (1.0 for screen draws)
+    	*/
+    virtual void draw( KStars *ks, QPainter& psky, double scale );
 
-        /* @short we need a custom routine (for now) so we don't
-         * precess the locations of the names.
-         */
-        void update( KStarsData *data, KSNumbers *num );
+    /**
+    	*@short Initialize the Constellation names component
+    	*Reads the constellation names data from cnames.dat
+    	*Each line in the file is parsed according to column position:
+    	*@li 0-1     RA hours [int]
+    	*@li 2-3     RA minutes [int]
+    	*@li 4-5     RA seconds [int]
+    	*@li 6       Dec sign [char; '+' or '-']
+    	*@li 7-8     Dec degrees [int]
+    	*@li 9-10    Dec minutes [int]
+    	*@li 11-12   Dec seconds [int]
+    	*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
+    	*@li 17-     Constellation name [string]
+    	*@p data Pointer to the KStarsData object
+    	*/
+    virtual void init(KStarsData *data);
 
-        bool selected();
+    /* @short we need a custom routine (for now) so we don't
+     * precess the locations of the names.
+     */
+    void update( KStarsData *data, KSNumbers *num );
+
+    bool selected();
 
 };
 

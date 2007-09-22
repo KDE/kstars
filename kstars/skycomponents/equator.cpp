@@ -28,9 +28,9 @@
 #include "Options.h"
 #include "linelist.h"
 
-Equator::Equator(SkyComponent *parent ) : 
-    NoPrecessIndex( parent, i18n("Equator") ),
-	m_label( LineListIndex::name() )
+Equator::Equator(SkyComponent *parent ) :
+        NoPrecessIndex( parent, i18n("Equator") ),
+        m_label( LineListIndex::name() )
 {}
 
 bool Equator::selected()
@@ -40,50 +40,50 @@ bool Equator::selected()
 
 void Equator::preDraw( KStars *kstars, QPainter &psky )
 {
-	QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
-	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-	m_label.reset( psky );
+    m_label.reset( psky );
 }
 
 void Equator::draw( KStars *kstars, QPainter &psky, double scale )
 {
-	NoPrecessIndex::draw( kstars, psky, scale );
-	m_label.draw( kstars, psky, scale );
+    NoPrecessIndex::draw( kstars, psky, scale );
+    m_label.draw( kstars, psky, scale );
 }
 
 void Equator::init(KStarsData *data)
 {
-	KSNumbers num( data->ut().djd() );
+    KSNumbers num( data->ut().djd() );
 
-	double eps    =   0.1;
+    double eps    =   0.1;
     double minRa  =   0.0;
     double maxRa  =  23.0;
     double dRa    =   2.0;
-	double dRa2   =  .5 / 5.;
-	double ra, ra2;
+    double dRa2   =  .5 / 5.;
+    double ra, ra2;
 
-	for ( ra = minRa; ra < maxRa; ra += dRa ) {
-		LineList* lineList = new LineList();
-		for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
-			SkyPoint* o = new SkyPoint( ra2, 0.0 );
-			o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-			lineList->append( o );
-		}
-		appendLine( lineList );
-	}
+    for ( ra = minRa; ra < maxRa; ra += dRa ) {
+        LineList* lineList = new LineList();
+        for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
+            SkyPoint* o = new SkyPoint( ra2, 0.0 );
+            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            lineList->append( o );
+        }
+        appendLine( lineList );
+    }
 }
 
-		
+
 void Equator::drawLabel( KStars *kstars, QPainter& psky, double scale )
 {
 
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
-	psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-	m_label.draw( kstars, psky, scale );
+    m_label.draw( kstars, psky, scale );
 }
 
 

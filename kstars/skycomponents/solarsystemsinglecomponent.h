@@ -40,73 +40,73 @@ class SkyLabeler;
 
 class SolarSystemSingleComponent : public SingleComponent
 {
-	public:
-		/** Initialize visible method, minimum size and sizeScale. */
-		SolarSystemSingleComponent(SolarSystemComposite*, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize);
+public:
+    /** Initialize visible method, minimum size and sizeScale. */
+    SolarSystemSingleComponent(SolarSystemComposite*, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize);
 
-		~SolarSystemSingleComponent();
+    ~SolarSystemSingleComponent();
 
-		/**
-			*@short Initialize the solar system body
-			*Reads in the orbital data from data files.
-			*@p data Pointer to the KStarsData object
-			*/
-			virtual void init(KStarsData *data);
-	
-		virtual void update( KStarsData *data, KSNumbers *num );
+    /**
+    	*@short Initialize the solar system body
+    	*Reads in the orbital data from data files.
+    	*@p data Pointer to the KStarsData object
+    	*/
+    virtual void init(KStarsData *data);
 
-		/**
-			*@short Update the coordinates of the planet.
-			*
-			*This function updates the position of the moving solar system body.
-			*@p data Pointer to the KStarsData object
-			*@p num Pointer to the KSNumbers object
-			*/
-		virtual void updatePlanets( KStarsData *data, KSNumbers *num );
+    virtual void update( KStarsData *data, KSNumbers *num );
 
-		void draw( KStars *ks, QPainter &psky, double scale );
+    /**
+    	*@short Update the coordinates of the planet.
+    	*
+    	*This function updates the position of the moving solar system body.
+    	*@p data Pointer to the KStarsData object
+    	*@p num Pointer to the KSNumbers object
+    	*/
+    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
-		/**
-			*@short Set the size scale. Default value is 1.0 and only
-			*Saturn uses a scale of 2.5.
-			*/
-		void setSizeScale(float scale);
-		
-	protected:
-		
-		KSPlanet* earth() { return m_Earth; }
-		
-		KSPlanetBase *ksp() { return (KSPlanetBase*)skyObject(); }
+    void draw( KStars *ks, QPainter &psky, double scale );
 
-		/** 
-			*@short Draws the planet's trail, if necessary.
-			*/
-		void drawTrails( KStars *ks, QPainter& psky, double scale );
-		
-	/**
-		*@short Add a Trail to the specified SkyObject.
-		*@p o Pointer to the SkyObject to which a Trail will be added
-		*/
-		virtual bool addTrail( SkyObject *o );
+    /**
+    	*@short Set the size scale. Default value is 1.0 and only
+    	*Saturn uses a scale of 2.5.
+    	*/
+    void setSizeScale(float scale);
 
-	/**
-		*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
-		*@p o Pointer to the SkyObject to which a Trail will be added
-		*/
-		virtual bool hasTrail( SkyObject *o, bool& found );
-		virtual bool removeTrail( SkyObject *o );
-		virtual void clearTrailsExcept( SkyObject *exOb );
+protected:
 
-	private:
+    KSPlanet* earth() { return m_Earth; }
 
-		// minimum size for drawing name labels
-		int minsize;
-		// scale for drawing name labels
-		// only Saturn has a scale of 2.5
-		float sizeScale;
+    KSPlanetBase *ksp() { return (KSPlanetBase*)skyObject(); }
 
-		QColor m_Color;
-		KSPlanet *m_Earth;
+    /**
+    	*@short Draws the planet's trail, if necessary.
+    	*/
+    void drawTrails( KStars *ks, QPainter& psky, double scale );
+
+    /**
+    	*@short Add a Trail to the specified SkyObject.
+    	*@p o Pointer to the SkyObject to which a Trail will be added
+    	*/
+    virtual bool addTrail( SkyObject *o );
+
+    /**
+    	*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
+    	*@p o Pointer to the SkyObject to which a Trail will be added
+    	*/
+    virtual bool hasTrail( SkyObject *o, bool& found );
+    virtual bool removeTrail( SkyObject *o );
+    virtual void clearTrailsExcept( SkyObject *exOb );
+
+private:
+
+    // minimum size for drawing name labels
+    int minsize;
+    // scale for drawing name labels
+    // only Saturn has a scale of 2.5
+    float sizeScale;
+
+    QColor m_Color;
+    KSPlanet *m_Earth;
 };
 
 #endif

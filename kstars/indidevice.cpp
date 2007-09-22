@@ -78,7 +78,7 @@
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
-  {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "TIME_UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
+    {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "TIME_UTC_OFFSET" , "GEOGRAPHIC_COORD", "EQUATORIAL_COORD", "EQUATORIAL_EOD_COORD", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET", "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "CCD_EXPOSURE", "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "VIDEO_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT" };
 
 /*******************************************************************
 ** INDI Device: The work-horse. Responsible for handling its
@@ -86,50 +86,50 @@ const char * indi_std[NINDI_STD] =
 *******************************************************************/
 INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel) : KDialog( 0 )
 {
-  name      = inName;
-  label     = inLabel;
-  parent    = menuParent;
-  parentMgr = parentManager;
+    name      = inName;
+    label     = inLabel;
+    parent    = menuParent;
+    parentMgr = parentManager;
 
- deviceVBox     = new QFrame();
- deviceLayout   = new QVBoxLayout(deviceVBox);
- groupContainer = new QTabWidget(deviceVBox);
+    deviceVBox     = new QFrame();
+    deviceLayout   = new QVBoxLayout(deviceVBox);
+    groupContainer = new QTabWidget(deviceVBox);
 
- msgST_w        = new QTextEdit(deviceVBox);
- msgST_w->setReadOnly(true);
- msgST_w->setMaximumHeight(100);
+    msgST_w        = new QTextEdit(deviceVBox);
+    msgST_w->setReadOnly(true);
+    msgST_w->setMaximumHeight(100);
 
- dataBuffer = (unsigned char *) malloc (1);
+    dataBuffer = (unsigned char *) malloc (1);
 
- stdDev 	= new INDIStdDevice(this, parent->ksw);
+    stdDev 	= new INDIStdDevice(this, parent->ksw);
 
- curGroup       = NULL;
+    curGroup       = NULL;
 
- INDIStdSupport = false;
+    INDIStdSupport = false;
 
- deviceLayout->addWidget(groupContainer);
- deviceLayout->addWidget(msgST_w);
+    deviceLayout->addWidget(groupContainer);
+    deviceLayout->addWidget(msgST_w);
 
- parent->mainTabWidget->addTab(deviceVBox, label);
+    parent->mainTabWidget->addTab(deviceVBox, label);
 }
 
 INDI_D::~INDI_D()
 {
-   while ( ! gl.isEmpty() ) delete gl.takeFirst();
+    while ( ! gl.isEmpty() ) delete gl.takeFirst();
 
-   delete(deviceVBox);
-   delete (stdDev);
-   free (dataBuffer);
-   dataBuffer = NULL;
-   deviceVBox = NULL;
-   stdDev     = NULL;
+    delete(deviceVBox);
+    delete (stdDev);
+    free (dataBuffer);
+    dataBuffer = NULL;
+    deviceVBox = NULL;
+    stdDev     = NULL;
 }
 
 void INDI_D::registerProperty(INDI_P *pp)
 {
 
-   if (isINDIStd(pp))
-    pp->pg->dp->INDIStdSupport = true;
+    if (isINDIStd(pp))
+        pp->pg->dp->INDIStdSupport = true;
 
     stdDev->registerProperty(pp);
 
@@ -137,14 +137,14 @@ void INDI_D::registerProperty(INDI_P *pp)
 
 bool INDI_D::isINDIStd(INDI_P *pp)
 {
-  for (uint i=0; i < NINDI_STD; i++)
-    if (!strcmp(pp->name.toAscii(), indi_std[i]))
-    {
-      pp->stdID = i;
-      return true;
-    }
+    for (uint i=0; i < NINDI_STD; i++)
+        if (!strcmp(pp->name.toAscii(), indi_std[i]))
+        {
+            pp->stdID = i;
+            return true;
+        }
 
-  return false;
+    return false;
 }
 
 /* Remove a property from a group, if there are no more properties
@@ -152,12 +152,12 @@ bool INDI_D::isINDIStd(INDI_P *pp)
 int INDI_D::removeProperty(INDI_P *pp)
 {
     for (int i=0; i < gl.size(); i++)
-       if (gl[i]->removeProperty(pp))
-       {
-         if (gl[i]->pl.count() == 0)
-           delete gl.takeAt(i);
-         return 0;
-	}
+        if (gl[i]->removeProperty(pp))
+        {
+            if (gl[i]->pl.count() == 0)
+                delete gl.takeAt(i);
+            return 0;
+        }
 
 
     kDebug() << "INDI: Device " << name << " has no property named " << pp->name;
@@ -169,23 +169,23 @@ int INDI_D::removeProperty(INDI_P *pp)
  */
 int INDI_D::setAnyCmd (XMLEle *root, QString & errmsg)
 {
-	XMLAtt *ap;
-	INDI_P *pp;
+    XMLAtt *ap;
+    INDI_P *pp;
 
-	ap = findAtt (root, "name", errmsg);
-	if (!ap)
-	    return (-1);
+    ap = findAtt (root, "name", errmsg);
+    if (!ap)
+        return (-1);
 
-	pp = findProp (valuXMLAtt(ap));
-	if (!pp)
-	{
-	    errmsg = QString("INDI: <%1> device %2 has no property named %3").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
-	    return (-1);
-	}
+    pp = findProp (valuXMLAtt(ap));
+    if (!pp)
+    {
+        errmsg = QString("INDI: <%1> device %2 has no property named %3").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
+        return (-1);
+    }
 
-	parentMgr->checkMsg (root, this);
+    parentMgr->checkMsg (root, this);
 
-	return (setValue (pp, root, errmsg));
+    return (setValue (pp, root, errmsg));
 }
 
 /* set the given GUI property according to the XML command.
@@ -193,53 +193,53 @@ int INDI_D::setAnyCmd (XMLEle *root, QString & errmsg)
  */
 int INDI_D::setValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
-	XMLAtt *ap;
+    XMLAtt *ap;
 
-	/* set overall property state, if any */
-	ap = findXMLAtt (root, "state");
-	if (ap)
-	{
-	    if (crackLightState (valuXMLAtt(ap), &pp->state) == 0)
-	      pp->drawLt (pp->state);
-	    else
-	    {
-		errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
-		return (-1);
-	    }
-	}
+    /* set overall property state, if any */
+    ap = findXMLAtt (root, "state");
+    if (ap)
+    {
+        if (crackLightState (valuXMLAtt(ap), &pp->state) == 0)
+            pp->drawLt (pp->state);
+        else
+        {
+            errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
+            return (-1);
+        }
+    }
 
-	/* allow changing the timeout */
-	ap = findXMLAtt (root, "timeout");
-	if (ap)
-	    pp->timeout = atof(valuXMLAtt(ap));
+    /* allow changing the timeout */
+    ap = findXMLAtt (root, "timeout");
+    if (ap)
+        pp->timeout = atof(valuXMLAtt(ap));
 
-	/* process specific GUI features */
-	switch (pp->guitype)
-	{
-	case PG_NONE:
-	    break;
+    /* process specific GUI features */
+    switch (pp->guitype)
+    {
+    case PG_NONE:
+        break;
 
-	case PG_NUMERIC:	/* FALLTHRU */
-	case PG_TEXT:
-	    return (setTextValue (pp, root, errmsg));
-	    break;
+    case PG_NUMERIC:	/* FALLTHRU */
+    case PG_TEXT:
+        return (setTextValue (pp, root, errmsg));
+        break;
 
-	case PG_BUTTONS:
-	case PG_LIGHTS:
-	case PG_RADIO:
-	case PG_MENU:
-	    return (setLabelState (pp, root, errmsg));
-	    break;
+    case PG_BUTTONS:
+    case PG_LIGHTS:
+    case PG_RADIO:
+    case PG_MENU:
+        return (setLabelState (pp, root, errmsg));
+        break;
 
-	case PG_BLOB:
-	    return (setBLOB(pp, root, errmsg));
-	    break;
+    case PG_BLOB:
+        return (setBLOB(pp, root, errmsg));
+        break;
 
-	default:
-	    break;
-	}
+    default:
+        break;
+    }
 
-	return (0);
+    return (0);
 }
 
 
@@ -249,98 +249,98 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, QString & errmsg)
  */
 int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
-	XMLEle *ep;
-	XMLAtt *ap;
-	INDI_E *lp;
-	QString elementName;
-	char iNumber[32];
-	double min, max;
+    XMLEle *ep;
+    XMLAtt *ap;
+    INDI_E *lp;
+    QString elementName;
+    char iNumber[32];
+    double min, max;
 
-	for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
-	{
-	    if (strcmp (tagXMLEle(ep), "oneText") && strcmp(tagXMLEle(ep), "oneNumber"))
-		continue;
+    for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
+    {
+        if (strcmp (tagXMLEle(ep), "oneText") && strcmp(tagXMLEle(ep), "oneNumber"))
+            continue;
 
-	    ap = findXMLAtt(ep, "name");
-	    if (!ap)
-	    {
-	        kDebug() << "Error: unable to find attribute 'name' for property " << pp->name;
-	        return (-1);
-	    }
+        ap = findXMLAtt(ep, "name");
+        if (!ap)
+        {
+            kDebug() << "Error: unable to find attribute 'name' for property " << pp->name;
+            return (-1);
+        }
 
-	    elementName = valuXMLAtt(ap);
+        elementName = valuXMLAtt(ap);
 
-	    lp = pp->findElement(elementName);
+        lp = pp->findElement(elementName);
 
-	    if (!lp)
-	    {
-	      errmsg = QString("Error: unable to find element '%1' in property '%2'").arg(elementName).arg(pp->name);
-	      return (-1);
-	    }
+        if (!lp)
+        {
+            errmsg = QString("Error: unable to find element '%1' in property '%2'").arg(elementName).arg(pp->name);
+            return (-1);
+        }
 
-	    //fprintf(stderr, "tag okay, getting perm\n");
-	   switch (pp->perm)
-	   {
-	   case PP_RW:	// FALLTHRU
-	   case PP_RO:
-	     if (pp->guitype == PG_TEXT)
-	     {
-	     	lp->text = QString(pcdataXMLEle(ep));
-		lp->read_w->setText(lp->text);
-             }
-	     else if (pp->guitype == PG_NUMERIC)
-	     {
-	       lp->value = atof(pcdataXMLEle(ep));
-	       numberFormat(iNumber, lp->format.toAscii(), lp->value);
-	       lp->text = iNumber;
-	       lp->read_w->setText(lp->text);
+        //fprintf(stderr, "tag okay, getting perm\n");
+        switch (pp->perm)
+        {
+        case PP_RW:	// FALLTHRU
+        case PP_RO:
+            if (pp->guitype == PG_TEXT)
+            {
+                lp->text = QString(pcdataXMLEle(ep));
+                lp->read_w->setText(lp->text);
+            }
+            else if (pp->guitype == PG_NUMERIC)
+            {
+                lp->value = atof(pcdataXMLEle(ep));
+                numberFormat(iNumber, lp->format.toAscii(), lp->value);
+                lp->text = iNumber;
+                lp->read_w->setText(lp->text);
 
-	       ap = findXMLAtt (ep, "min");
-	       if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
-	       ap = findXMLAtt (ep, "max");
-	       if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
+                ap = findXMLAtt (ep, "min");
+                if (ap) { min = atof(valuXMLAtt(ap)); lp->setMin(min); }
+                ap = findXMLAtt (ep, "max");
+                if (ap) { max = atof(valuXMLAtt(ap)); lp->setMax(max); }
 
-	       /*if (lp->spin_w)
-	       {
-	        lp->spin_w->setValue(lp->value);
-		lp->spinChanged(lp->value);
-	     }*/
+                /*if (lp->spin_w)
+                {
+                 lp->spin_w->setValue(lp->value);
+                lp->spinChanged(lp->value);
+                }*/
 
-	     }
-	     break;
+            }
+            break;
 
-	case PP_WO:
-	   // FIXME for WO properties, only min/max needs to be updated
-	   /* if (pp->guitype == PG_TEXT)
-	      lp->write_w->setText(QString(pcdataXMLEle(ep)));
-	    else*/ if (pp->guitype == PG_NUMERIC)
-	    {
-	      /*lp->value = atof(pcdataXMLEle(ep));
-	      numberFormat(iNumber, lp->format.toAscii(), lp->value);
-	      lp->text = iNumber;
+        case PP_WO:
+            // FIXME for WO properties, only min/max needs to be updated
+            /* if (pp->guitype == PG_TEXT)
+               lp->write_w->setText(QString(pcdataXMLEle(ep)));
+             else*/ if (pp->guitype == PG_NUMERIC)
+            {
+                /*lp->value = atof(pcdataXMLEle(ep));
+                numberFormat(iNumber, lp->format.toAscii(), lp->value);
+                lp->text = iNumber;
 
-	      if (lp->spin_w)
-                lp->spin_w->setValue(lp->value);
-	      else
- 	        lp->write_w->setText(lp->text);*/
+                if (lp->spin_w)
+                         lp->spin_w->setValue(lp->value);
+                else
+                   lp->write_w->setText(lp->text);*/
 
-	       ap = findXMLAtt (ep, "min");
-	       if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
-	       ap = findXMLAtt (ep, "max");
-	       if (ap) { max = (int) atof(valuXMLAtt(ap)); lp->setMax(max); }
-	    }
-	    break;
+                ap = findXMLAtt (ep, "min");
+                if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
+                ap = findXMLAtt (ep, "max");
+                if (ap) { max = (int) atof(valuXMLAtt(ap)); lp->setMax(max); }
+            }
+            break;
 
-	  }
-       }
+        }
+    }
 
-       /* handle standard cases if needed */
-       stdDev->setTextValue(pp);
+    /* handle standard cases if needed */
+    stdDev->setTextValue(pp);
 
-	// suppress warning
-	errmsg = errmsg;
+    // suppress warning
+    errmsg = errmsg;
 
-	return (0);
+    return (0);
 }
 
 /* set the given BUTTONS or LIGHTS property from the given element.
@@ -349,94 +349,94 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
  */
 int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 {
-	int menuChoice=0;
-	unsigned i=0;
-	XMLEle *ep;
-	XMLAtt *ap;
-        INDI_E *lp = NULL;
-	int islight;
-	PState state;
+    int menuChoice=0;
+    unsigned i=0;
+    XMLEle *ep;
+    XMLAtt *ap;
+    INDI_E *lp = NULL;
+    int islight;
+    PState state;
 
-	/* for each child element */
-	for (ep = nextXMLEle (root, 1), i=0; ep != NULL; ep = nextXMLEle (root, 0), i++)
-	{
+    /* for each child element */
+    for (ep = nextXMLEle (root, 1), i=0; ep != NULL; ep = nextXMLEle (root, 0), i++)
+    {
 
-	    /* only using light and switch */
-	    islight = !strcmp (tagXMLEle(ep), "oneLight");
-	    if (!islight && strcmp (tagXMLEle(ep), "oneSwitch"))
-		continue;
+        /* only using light and switch */
+        islight = !strcmp (tagXMLEle(ep), "oneLight");
+        if (!islight && strcmp (tagXMLEle(ep), "oneSwitch"))
+            continue;
 
-	    ap =  findXMLAtt (ep, "name");
-	    /* no name */
-	    if (!ap)
-	    {
-		errmsg = QString("INDI: <%1> %2 %3 %4 requires name").arg(tagXMLEle(root)).arg(name,pp->name).arg(tagXMLEle(ep));
-		return (-1);
-	    }
+        ap =  findXMLAtt (ep, "name");
+        /* no name */
+        if (!ap)
+        {
+            errmsg = QString("INDI: <%1> %2 %3 %4 requires name").arg(tagXMLEle(root)).arg(name,pp->name).arg(tagXMLEle(ep));
+            return (-1);
+        }
 
-	    if ((islight && crackLightState (pcdataXMLEle(ep), &state) < 0)
-		    || (!islight && crackSwitchState (pcdataXMLEle(ep), &state) < 0))
-	    {
-		errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(pcdataXMLEle(ep)).arg(name).arg(pp->name).arg(tagXMLEle(ep));
-		return (-1);
-	    }
+        if ((islight && crackLightState (pcdataXMLEle(ep), &state) < 0)
+                || (!islight && crackSwitchState (pcdataXMLEle(ep), &state) < 0))
+        {
+            errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(pcdataXMLEle(ep)).arg(name).arg(pp->name).arg(tagXMLEle(ep));
+            return (-1);
+        }
 
-	    /* find matching label */
-	    //fprintf(stderr, "Find matching label. Name from XML is %s\n", valuXMLAtt(ap));
-	    lp = pp->findElement(QString(valuXMLAtt(ap)));
+        /* find matching label */
+        //fprintf(stderr, "Find matching label. Name from XML is %s\n", valuXMLAtt(ap));
+        lp = pp->findElement(QString(valuXMLAtt(ap)));
 
-	    if (!lp)
-	    {
-		errmsg = QString("INDI: <%1> %2 %3 has no choice named %4").arg(tagXMLEle(root)).arg(name).arg(pp->name).arg(valuXMLAtt(ap));
-		return (-1);
-	    }
+        if (!lp)
+        {
+            errmsg = QString("INDI: <%1> %2 %3 has no choice named %4").arg(tagXMLEle(root)).arg(name).arg(pp->name).arg(valuXMLAtt(ap));
+            return (-1);
+        }
 
-	    QFont buttonFont;
-	    /* engage new state */
-	    lp->state = state;
+        QFont buttonFont;
+        /* engage new state */
+        lp->state = state;
 
-	    switch (pp->guitype)
-	    {
-	     case PG_BUTTONS:
-	      if (islight)
-	       break;
+        switch (pp->guitype)
+        {
+        case PG_BUTTONS:
+            if (islight)
+                break;
 
-                lp->push_w->setDown(state == PS_ON ? true : false);
-		buttonFont = lp->push_w->font();
-		buttonFont.setBold(state == PS_ON ? true : false);
-		lp->push_w->setFont(buttonFont);
+            lp->push_w->setDown(state == PS_ON ? true : false);
+            buttonFont = lp->push_w->font();
+            buttonFont.setBold(state == PS_ON ? true : false);
+            lp->push_w->setFont(buttonFont);
 
-		break;
+            break;
 
-	     case PG_RADIO:
-                 lp->check_w->setChecked(state == PS_ON ? true : false);
-		 break;
-	     case PG_MENU:
-	       if (state == PS_ON)
-	       {
-	      	if (menuChoice)
-	      	{
-			errmsg = QString("INDI: <%1> %2 %3 has multiple ON states").arg(tagXMLEle(root)).arg(name).arg(pp->name);
-			return (-1);
-              	}
-	      	menuChoice = 1;
-	        pp->om_w->setCurrentIndex(i);
-	       }
-	       break;
+        case PG_RADIO:
+            lp->check_w->setChecked(state == PS_ON ? true : false);
+            break;
+        case PG_MENU:
+            if (state == PS_ON)
+            {
+                if (menuChoice)
+                {
+                    errmsg = QString("INDI: <%1> %2 %3 has multiple ON states").arg(tagXMLEle(root)).arg(name).arg(pp->name);
+                    return (-1);
+                }
+                menuChoice = 1;
+                pp->om_w->setCurrentIndex(i);
+            }
+            break;
 
-	     case PG_LIGHTS:
-	      lp->drawLt();
-	      break;
+        case PG_LIGHTS:
+            lp->drawLt();
+            break;
 
-	     default:
-	      break;
-	   }
+        default:
+            break;
+        }
 
-	}
+    }
 
-	stdDev->setLabelState(pp);
+    stdDev->setLabelState(pp);
 
-	return (0);
+    return (0);
 }
 
 /* Set BLOB vector. Process incoming data stream
@@ -445,28 +445,28 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 {
 
-  XMLEle *ep;
-  INDI_E *blobEL;
+    XMLEle *ep;
+    INDI_E *blobEL;
 
-  for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0))
-  {
-
-    if (strcmp(tagXMLEle(ep), "oneBLOB") == 0)
+    for (ep = nextXMLEle(root,1); ep; ep = nextXMLEle(root,0))
     {
 
-      blobEL = pp->findElement(QString(findXMLAttValu (ep, "name")));
+        if (strcmp(tagXMLEle(ep), "oneBLOB") == 0)
+        {
 
-      if (blobEL)
-	return processBlob(blobEL, ep, errmsg);
-      else
-      {
-	errmsg = QString("INDI: set %1.%2.%3 not found").arg(name).arg(pp->name).arg(findXMLAttValu(ep, "name"));
-	return (-1);
-      }
+            blobEL = pp->findElement(QString(findXMLAttValu (ep, "name")));
+
+            if (blobEL)
+                return processBlob(blobEL, ep, errmsg);
+            else
+            {
+                errmsg = QString("INDI: set %1.%2.%3 not found").arg(name).arg(pp->name).arg(findXMLAttValu(ep, "name"));
+                return (-1);
+            }
+        }
     }
-  }
 
-  return (0);
+    return (0);
 
 }
 
@@ -475,204 +475,204 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 */
 int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
 {
-  XMLAtt *ap;
-  int blobSize=0, r=0, dataType=0;
-  uLongf dataSize=0;
-  QString dataFormat;
-  char *baseBuffer;
-  unsigned char *blobBuffer(NULL);
-  bool iscomp(false);
+    XMLAtt *ap;
+    int blobSize=0, r=0, dataType=0;
+    uLongf dataSize=0;
+    QString dataFormat;
+    char *baseBuffer;
+    unsigned char *blobBuffer(NULL);
+    bool iscomp(false);
 
-  ap = findXMLAtt(ep, "size");
-  if (!ap)
-  {
-    errmsg = QString("INDI: set %1 size not found").arg(blobEL->name);
-    return (-1);
-  }
-
-  dataSize = atoi(valuXMLAtt(ap));
-
-  ap = findXMLAtt(ep, "format");
-  if (!ap)
-  {
-    errmsg = QString("INDI: set %1 format not found").arg(blobEL->name);
-    return (-1);
-  }
-
-  dataFormat = QString(valuXMLAtt(ap));
-
-  baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
-  blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
-  blobBuffer = (unsigned char *) baseBuffer;
-
-  /* Blob size = 0 when only state changes */
-  if (dataSize == 0)
-  {
-    free (blobBuffer);
-    return (0);
-  }
-  else if (blobSize < 0)
-  {
-    free (blobBuffer);
-    errmsg = QString("INDI: %1.%2.%3 bad base64").arg(name).arg(blobEL->pp->name).arg(blobEL->name);
-    return (-1);
-  }
-
-  iscomp = (dataFormat.indexOf(".z") != -1);
-
-  dataFormat.remove(".z");
-
-  if (dataFormat == ".fits") dataType = DATA_FITS;
-  else if (dataFormat == ".stream") dataType = DATA_STREAM;
-  else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;
-  else dataType = DATA_OTHER;
-
-  //kDebug() << "We're getting data with size " << dataSize;
-  //kDebug() << "data format " << dataFormat;
-
-  if (iscomp)
-  {
-
-    dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
-    r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
-    if (r != Z_OK)
+    ap = findXMLAtt(ep, "size");
+    if (!ap)
     {
-      errmsg = QString("INDI: %1.%2.%3 compression error: %d").arg(name).arg(blobEL->pp->name).arg(r);
-      free (blobBuffer);
-      return -1;
+        errmsg = QString("INDI: set %1 size not found").arg(blobEL->name);
+        return (-1);
     }
 
-    //kDebug() << "compressed";
-  }
-  else
-  {
-    //kDebug() << "uncompressed!!";
-    dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
-    memcpy(dataBuffer, blobBuffer, dataSize);
-  }
+    dataSize = atoi(valuXMLAtt(ap));
 
-  stdDev->handleBLOB(dataBuffer, dataSize, dataFormat);
+    ap = findXMLAtt(ep, "format");
+    if (!ap)
+    {
+        errmsg = QString("INDI: set %1 format not found").arg(blobEL->name);
+        return (-1);
+    }
 
-  free (blobBuffer);
+    dataFormat = QString(valuXMLAtt(ap));
 
-  return (0);
+    baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
+    blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
+    blobBuffer = (unsigned char *) baseBuffer;
+
+    /* Blob size = 0 when only state changes */
+    if (dataSize == 0)
+    {
+        free (blobBuffer);
+        return (0);
+    }
+    else if (blobSize < 0)
+    {
+        free (blobBuffer);
+        errmsg = QString("INDI: %1.%2.%3 bad base64").arg(name).arg(blobEL->pp->name).arg(blobEL->name);
+        return (-1);
+    }
+
+    iscomp = (dataFormat.indexOf(".z") != -1);
+
+    dataFormat.remove(".z");
+
+    if (dataFormat == ".fits") dataType = DATA_FITS;
+    else if (dataFormat == ".stream") dataType = DATA_STREAM;
+    else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;
+    else dataType = DATA_OTHER;
+
+    //kDebug() << "We're getting data with size " << dataSize;
+    //kDebug() << "data format " << dataFormat;
+
+    if (iscomp)
+    {
+
+        dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
+        r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
+        if (r != Z_OK)
+        {
+            errmsg = QString("INDI: %1.%2.%3 compression error: %d").arg(name).arg(blobEL->pp->name).arg(r);
+            free (blobBuffer);
+            return -1;
+        }
+
+        //kDebug() << "compressed";
+    }
+    else
+    {
+        //kDebug() << "uncompressed!!";
+        dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
+        memcpy(dataBuffer, blobBuffer, dataSize);
+    }
+
+    stdDev->handleBLOB(dataBuffer, dataSize, dataFormat);
+
+    free (blobBuffer);
+
+    return (0);
 
 }
 
 bool INDI_D::isOn()
 {
 
-  INDI_P *prop;
+    INDI_P *prop;
 
-  prop = findProp(QString("CONNECTION"));
-  if (!prop)
-   return false;
+    prop = findProp(QString("CONNECTION"));
+    if (!prop)
+        return false;
 
-  return (prop->isOn(QString("CONNECT")));
+    return (prop->isOn(QString("CONNECT")));
 }
 
 INDI_P * INDI_D::addProperty (XMLEle *root, QString & errmsg)
 {
-	INDI_P *pp = NULL;
-	INDI_G *pg = NULL;
-	XMLAtt *ap = NULL;
+    INDI_P *pp = NULL;
+    INDI_G *pg = NULL;
+    XMLAtt *ap = NULL;
 
-        // Search for group tag
-	ap = findAtt (root, "group", errmsg);
-        if (!ap)
-        {
-                kDebug() << errmsg;
-                return NULL;
-        }
-	// Find an existing group, if none found, create one
-        pg = findGroup(QString(valuXMLAtt(ap)), 1, errmsg);
+    // Search for group tag
+    ap = findAtt (root, "group", errmsg);
+    if (!ap)
+    {
+        kDebug() << errmsg;
+        return NULL;
+    }
+    // Find an existing group, if none found, create one
+    pg = findGroup(QString(valuXMLAtt(ap)), 1, errmsg);
 
-	if (!pg)
-	 return NULL;
+    if (!pg)
+        return NULL;
 
-        /* get property name and add new property to dp */
-	ap = findAtt (root, "name", errmsg);
-	if (ap == NULL)
-	    return NULL;
+    /* get property name and add new property to dp */
+    ap = findAtt (root, "name", errmsg);
+    if (ap == NULL)
+        return NULL;
 
-	if (findProp (valuXMLAtt(ap)))
-	{
-	    errmsg = QString("INDI: <%1 %2 %3> already exists.").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
-	    return NULL;
-	}
+    if (findProp (valuXMLAtt(ap)))
+    {
+        errmsg = QString("INDI: <%1 %2 %3> already exists.").arg(tagXMLEle(root)).arg(name).arg(valuXMLAtt(ap));
+        return NULL;
+    }
 
-	/* Remove Vertical spacer from group layout, this is done every time
-	  * a new property arrives. The spacer is then appended to the end of the
-	  * properties */
-	pg->propertyLayout->removeItem(pg->VerticalSpacer);
+    /* Remove Vertical spacer from group layout, this is done every time
+      * a new property arrives. The spacer is then appended to the end of the
+      * properties */
+    pg->propertyLayout->removeItem(pg->VerticalSpacer);
 
-	pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
+    pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
 
-	/* init state */
-	ap = findAtt (root, "state", errmsg);
-	if (!ap)
-	{
-	    delete(pp);
-	    return (NULL);
-	}
+    /* init state */
+    ap = findAtt (root, "state", errmsg);
+    if (!ap)
+    {
+        delete(pp);
+        return (NULL);
+    }
 
-	if (crackLightState (valuXMLAtt(ap), &pp->state) < 0)
-	{
-	    errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
-	    delete(pp);
-	    return (NULL);
-	}
+    if (crackLightState (valuXMLAtt(ap), &pp->state) < 0)
+    {
+        errmsg = QString("INDI: <%1> bogus state %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
+        delete(pp);
+        return (NULL);
+    }
 
-	/* init timeout */
-	ap = findAtt (root, "timeout", errmsg);
-	/* default */
-	pp->timeout = ap ? atof(valuXMLAtt(ap)) : 0;
+    /* init timeout */
+    ap = findAtt (root, "timeout", errmsg);
+    /* default */
+    pp->timeout = ap ? atof(valuXMLAtt(ap)) : 0;
 
-	/* log any messages */
-	parentMgr->checkMsg (root, this);
+    /* log any messages */
+    parentMgr->checkMsg (root, this);
 
-	pp->addGUI(root);
+    pp->addGUI(root);
 
-	/* ok! */
-	return (pp);
+    /* ok! */
+    return (pp);
 }
 
 INDI_P * INDI_D::findProp (const QString &name)
 {
-  for (int i = 0; i < gl.size(); i++)
-    for (int j = 0; j < gl[i]->pl.size(); j++)
-      if (name == gl[i]->pl[j]->name)
-        return (gl[i]->pl[j]);
+    for (int i = 0; i < gl.size(); i++)
+        for (int j = 0; j < gl[i]->pl.size(); j++)
+            if (name == gl[i]->pl[j]->name)
+                return (gl[i]->pl[j]);
 
-  return NULL;
+    return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (const QString &grouptag, 
-	int create, QString & errmsg)
+INDI_G *  INDI_D::findGroup (const QString &grouptag,
+                             int create, QString & errmsg)
 {
 
-  for ( int i=0; i < gl.size(); ++i ) {
-    if (gl[i]->name == grouptag)
-    {
-      curGroup = gl[i];
-      return gl[i];
+    for ( int i=0; i < gl.size(); ++i ) {
+        if (gl[i]->name == grouptag)
+        {
+            curGroup = gl[i];
+            return gl[i];
+        }
     }
-  }
 
-  /* couldn't find an existing group, create a new one if create is 1*/
-  if (create)
-  {
-    QString newgrouptag = grouptag;
-    if (newgrouptag.isEmpty())
-    newgrouptag = QString("Group%1").arg(gl.size() + 1);
+    /* couldn't find an existing group, create a new one if create is 1*/
+    if (create)
+    {
+        QString newgrouptag = grouptag;
+        if (newgrouptag.isEmpty())
+            newgrouptag = QString("Group%1").arg(gl.size() + 1);
 
-    curGroup = new INDI_G(this, newgrouptag);
-    gl.append(curGroup);
-    return curGroup;
-  }
+        curGroup = new INDI_G(this, newgrouptag);
+        gl.append(curGroup);
+        return curGroup;
+    }
 
-  errmsg = QString("INDI: group %1 not found in %2").arg(grouptag).arg(name);
-  return NULL;
+    errmsg = QString("INDI: group %1 not found in %2").arg(grouptag).arg(name);
+    return NULL;
 }
 
 
@@ -680,28 +680,28 @@ INDI_G *  INDI_D::findGroup (const QString &grouptag,
  * return 0 if ok else -1 with excuse in errmsg[]
  */
 
- int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
+int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
 {
-	XMLAtt *ap;
+    XMLAtt *ap;
 
-	ap = findXMLAtt(root, "perm");
-	if (!ap) 
-	{
-	    errmsg = QString("INDI: <%1 %2 %2> missing attribute 'perm'").arg(tagXMLEle(root)).arg(pp->pg->dp->name).arg(pp->name);
-	    return (-1);
-	}
-	if (!strcmp(valuXMLAtt(ap), "ro") || !strcmp(valuXMLAtt(ap), "r"))
-	    *permp = PP_RO;
-	else if (!strcmp(valuXMLAtt(ap), "wo"))
-	    *permp = PP_WO;
-	else if (!strcmp(valuXMLAtt(ap), "rw") || !strcmp(valuXMLAtt(ap), "w"))
-	    *permp = PP_RW;
-	else {
-		errmsg = QString("INDI: <%1> unknown perm %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
-	    return (-1);
-	}
+    ap = findXMLAtt(root, "perm");
+    if (!ap)
+    {
+        errmsg = QString("INDI: <%1 %2 %2> missing attribute 'perm'").arg(tagXMLEle(root)).arg(pp->pg->dp->name).arg(pp->name);
+        return (-1);
+    }
+    if (!strcmp(valuXMLAtt(ap), "ro") || !strcmp(valuXMLAtt(ap), "r"))
+        *permp = PP_RO;
+    else if (!strcmp(valuXMLAtt(ap), "wo"))
+        *permp = PP_WO;
+    else if (!strcmp(valuXMLAtt(ap), "rw") || !strcmp(valuXMLAtt(ap), "w"))
+        *permp = PP_RW;
+    else {
+        errmsg = QString("INDI: <%1> unknown perm %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
+        return (-1);
+    }
 
-	return (0);
+    return (0);
 }
 
 /* convert the given light/property state string to the PState at psp.
@@ -709,27 +709,27 @@ INDI_G *  INDI_D::findGroup (const QString &grouptag,
  */
 int INDI_D::crackLightState (char *name, PState *psp)
 {
-	typedef struct
-	{
-	    PState s;
-	    const char *name;
-	} PSMap;
+    typedef struct
+    {
+        PState s;
+        const char *name;
+    } PSMap;
 
-	PSMap psmap[] =
-	{
-	    {PS_IDLE,  "Idle"},
-	    {PS_OK,    "Ok"},
-	    {PS_BUSY,  "Busy"},
-	    {PS_ALERT, "Alert"},
-	};
+    PSMap psmap[] =
+        {
+            {PS_IDLE,  "Idle"},
+            {PS_OK,    "Ok"},
+            {PS_BUSY,  "Busy"},
+            {PS_ALERT, "Alert"},
+        };
 
-	for (int i = 0; i < 4; i++)
-	    if (!strcmp (psmap[i].name, name)) {
-		*psp = psmap[i].s;
-		return (0);
-	    }
+    for (int i = 0; i < 4; i++)
+        if (!strcmp (psmap[i].name, name)) {
+            *psp = psmap[i].s;
+            return (0);
+        }
 
-	return (-1);
+    return (-1);
 }
 
 /* convert the given switch state string to the PState at psp.
@@ -737,70 +737,70 @@ int INDI_D::crackLightState (char *name, PState *psp)
  */
 int INDI_D::crackSwitchState (char *name, PState *psp)
 {
-	typedef struct
-	{
-	    PState s;
-	    const char *name;
-	} PSMap;
+    typedef struct
+    {
+        PState s;
+        const char *name;
+    } PSMap;
 
-	PSMap psmap[] =
-	{
-	    {PS_ON,  "On"},
-	    {PS_OFF, "Off"},
-	};
+    PSMap psmap[] =
+        {
+            {PS_ON,  "On"},
+            {PS_OFF, "Off"},
+        };
 
 
-	for (int i = 0; i < 2; i++)
-	    if (!strcmp (psmap[i].name, name))
-	    {
-		*psp = psmap[i].s;
-		return (0);
-	    }
+    for (int i = 0; i < 2; i++)
+        if (!strcmp (psmap[i].name, name))
+        {
+            *psp = psmap[i].s;
+            return (0);
+        }
 
-	return (-1);
+    return (-1);
 }
 
 int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
 {
-       	INDI_P *pp = NULL;
-	PPerm p;
-	bool isGroupVisible=false;
+    INDI_P *pp = NULL;
+    PPerm p;
+    bool isGroupVisible=false;
 
-	/* build a new property */
-	pp = addProperty (root, errmsg);
+    /* build a new property */
+    pp = addProperty (root, errmsg);
 
-	if (pp == NULL)
-	    return (-1);
+    if (pp == NULL)
+        return (-1);
 
-	/* get the permission, it will determine layout issues */
-	if (findPerm (pp, root, &p, errmsg))
-	{
-	    delete(pp);
-	    return (-1);
-	}
+    /* get the permission, it will determine layout issues */
+    if (findPerm (pp, root, &p, errmsg))
+    {
+        delete(pp);
+        return (-1);
+    }
 
-	/* we know it will be a general text GUI */
-	pp->guitype = PG_TEXT;
-	pp->perm = p;
+    /* we know it will be a general text GUI */
+    pp->guitype = PG_TEXT;
+    pp->perm = p;
 
-	if (pp->pg->propertyContainer->isVisible())
-	{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-	}
+    if (pp->pg->propertyContainer->isVisible())
+    {
+        isGroupVisible = true;
+        pp->pg->dp->parent->mainTabWidget->hide();
+    }
 
-	if (pp->buildTextGUI(root, errmsg) < 0)
-	{
-	  delete (pp);
-	  return (-1);
-	}
+    if (pp->buildTextGUI(root, errmsg) < 0)
+    {
+        delete (pp);
+        return (-1);
+    }
 
-	pp->pg->addProperty(pp);
+    pp->pg->addProperty(pp);
 
-	if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
+    if (isGroupVisible)
+        pp->pg->dp->parent->mainTabWidget->show();
 
-	return (0);
+    return (0);
 }
 
 /* build GUI for a number property.
@@ -808,46 +808,46 @@ int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
  */
 int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
 {
-        INDI_P *pp = NULL;
-        PPerm p;
-	bool isGroupVisible=false;
+    INDI_P *pp = NULL;
+    PPerm p;
+    bool isGroupVisible=false;
 
-        /* build a new property */
-	pp = addProperty (root, errmsg);
+    /* build a new property */
+    pp = addProperty (root, errmsg);
 
-	if (pp == NULL)
-	    return (-1);
+    if (pp == NULL)
+        return (-1);
 
-	/* get the permission, it will determine layout issues */
-	if (findPerm (pp, root, &p, errmsg))
-	{
-	    delete(pp);
-	    return (-1);
-	}
+    /* get the permission, it will determine layout issues */
+    if (findPerm (pp, root, &p, errmsg))
+    {
+        delete(pp);
+        return (-1);
+    }
 
-	/* we know it will be a number GUI */
-	pp->guitype = PG_NUMERIC;
-	pp->perm = p;
+    /* we know it will be a number GUI */
+    pp->guitype = PG_NUMERIC;
+    pp->perm = p;
 
-        if (pp->pg->propertyContainer->isVisible())
-	{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-	}
+    if (pp->pg->propertyContainer->isVisible())
+    {
+        isGroupVisible = true;
+        pp->pg->dp->parent->mainTabWidget->hide();
+    }
 
-	if (pp->buildNumberGUI(root, errmsg) < 0)
-	{
-	  delete (pp);
-	  return (-1);
-	}
+    if (pp->buildNumberGUI(root, errmsg) < 0)
+    {
+        delete (pp);
+        return (-1);
+    }
 
-	pp->pg->addProperty(pp);
+    pp->pg->addProperty(pp);
 
-        if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
+    if (isGroupVisible)
+        pp->pg->dp->parent->mainTabWidget->show();
 
 
-	return (0);
+    return (0);
 }
 
 /* build GUI for switches property.
@@ -856,102 +856,102 @@ int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
  */
 int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
 {
-	INDI_P *pp;
-	XMLAtt *ap;
-	XMLEle *ep;
-	int n, err;
-	bool isGroupVisible=false;
+    INDI_P *pp;
+    XMLAtt *ap;
+    XMLEle *ep;
+    int n, err;
+    bool isGroupVisible=false;
 
-	/* build a new property */
-	pp = addProperty (root, errmsg);
-	if (!pp)
-	    return (-1);
+    /* build a new property */
+    pp = addProperty (root, errmsg);
+    if (!pp)
+        return (-1);
 
-	ap = findAtt (root, "rule", errmsg);
-	if (!ap)
-	{
-	    delete(pp);
-	    return (-1);
-	}
+    ap = findAtt (root, "rule", errmsg);
+    if (!ap)
+    {
+        delete(pp);
+        return (-1);
+    }
 
-	/* decide GUI. might use MENU if OneOf but too many for button array */
-	if (!strcmp (valuXMLAtt(ap), "OneOfMany") || !strcmp (valuXMLAtt(ap), "AtMostOne"))
-	{
-	    /* count number of switches -- make menu if too many */
-	    for ( ep = nextXMLEle(root, 1) , n = 0 ; ep != NULL; ep = nextXMLEle(root, 0))
-		if (!strcmp (tagXMLEle(ep), "defSwitch"))
-		    n++;
+    /* decide GUI. might use MENU if OneOf but too many for button array */
+    if (!strcmp (valuXMLAtt(ap), "OneOfMany") || !strcmp (valuXMLAtt(ap), "AtMostOne"))
+    {
+        /* count number of switches -- make menu if too many */
+        for ( ep = nextXMLEle(root, 1) , n = 0 ; ep != NULL; ep = nextXMLEle(root, 0))
+            if (!strcmp (tagXMLEle(ep), "defSwitch"))
+                n++;
 
-	    if (n > MAXRADIO)
-	    {
-	        pp->guitype = PG_MENU;
-		if (pp->pg->propertyContainer->isVisible())
-		{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-		}
-		err = pp->buildMenuGUI (root, errmsg);
-		if (err < 0)
-		{
-		    delete(pp);
-		    pp = 0;
-		    return err;
-		}
+        if (n > MAXRADIO)
+        {
+            pp->guitype = PG_MENU;
+            if (pp->pg->propertyContainer->isVisible())
+            {
+                isGroupVisible = true;
+                pp->pg->dp->parent->mainTabWidget->hide();
+            }
+            err = pp->buildMenuGUI (root, errmsg);
+            if (err < 0)
+            {
+                delete(pp);
+                pp = 0;
+                return err;
+            }
 
-		pp->pg->addProperty(pp);
-		if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
-		return (err);
-	    }
+            pp->pg->addProperty(pp);
+            if (isGroupVisible)
+                pp->pg->dp->parent->mainTabWidget->show();
+            return (err);
+        }
 
-	    /* otherwise, build 1-4 button layout */
-	    pp->guitype = PG_BUTTONS;
-	    if (pp->pg->propertyContainer->isVisible())
-		{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-		}
-	    err = pp->buildSwitchesGUI(root, errmsg);
-	    if (err < 0)
-	    {
-	      delete (pp);
-	      pp =0;
-	      return err;
-	    }
+        /* otherwise, build 1-4 button layout */
+        pp->guitype = PG_BUTTONS;
+        if (pp->pg->propertyContainer->isVisible())
+        {
+            isGroupVisible = true;
+            pp->pg->dp->parent->mainTabWidget->hide();
+        }
+        err = pp->buildSwitchesGUI(root, errmsg);
+        if (err < 0)
+        {
+            delete (pp);
+            pp =0;
+            return err;
+        }
 
-	    pp->pg->addProperty(pp);
-	    if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
-	    return (err);
+        pp->pg->addProperty(pp);
+        if (isGroupVisible)
+            pp->pg->dp->parent->mainTabWidget->show();
+        return (err);
 
-	}
-	else if (!strcmp (valuXMLAtt(ap), "AnyOfMany"))
-	{
-	    /* 1-4 checkboxes layout */
-	    pp->guitype = PG_RADIO;
-	    if (pp->pg->propertyContainer->isVisible())
-		{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-		}
-	    err = pp->buildSwitchesGUI(root, errmsg);
-	    if (err < 0)
-	    {
-	      delete (pp);
-	      pp=0;
-	      return err;
-	    }
+    }
+    else if (!strcmp (valuXMLAtt(ap), "AnyOfMany"))
+    {
+        /* 1-4 checkboxes layout */
+        pp->guitype = PG_RADIO;
+        if (pp->pg->propertyContainer->isVisible())
+        {
+            isGroupVisible = true;
+            pp->pg->dp->parent->mainTabWidget->hide();
+        }
+        err = pp->buildSwitchesGUI(root, errmsg);
+        if (err < 0)
+        {
+            delete (pp);
+            pp=0;
+            return err;
+        }
 
-	    if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
-	    pp->pg->addProperty(pp);
-	    return (err);
-	}
+        if (isGroupVisible)
+            pp->pg->dp->parent->mainTabWidget->show();
+        pp->pg->addProperty(pp);
+        return (err);
+    }
 
-	errmsg = QString("INDI: <%1> unknown rule %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
+    errmsg = QString("INDI: <%1> unknown rule %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
 
-	delete(pp);
-	return (-1);
+    delete(pp);
+    return (-1);
 }
 
 
@@ -960,110 +960,110 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
  * return 0 if ok, else -1 with reason in errmsg[] */
 int INDI_D::buildLightsGUI (XMLEle *root, QString & errmsg)
 {
-	INDI_P *pp;
-	bool isGroupVisible=false;
+    INDI_P *pp;
+    bool isGroupVisible=false;
 
-	// build a new property
-	pp = addProperty (root, errmsg);
-	if (!pp)
-	    return (-1);
+    // build a new property
+    pp = addProperty (root, errmsg);
+    if (!pp)
+        return (-1);
 
-	pp->guitype = PG_LIGHTS;
+    pp->guitype = PG_LIGHTS;
 
-	if (pp->pg->propertyContainer->isVisible())
-	{
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-	}
+    if (pp->pg->propertyContainer->isVisible())
+    {
+        isGroupVisible = true;
+        pp->pg->dp->parent->mainTabWidget->hide();
+    }
 
-	if (pp->buildLightsGUI(root, errmsg) < 0)
-	{
-	  delete (pp);
-	  return (-1);
-	}
+    if (pp->buildLightsGUI(root, errmsg) < 0)
+    {
+        delete (pp);
+        return (-1);
+    }
 
-	pp->pg->addProperty(pp);
+    pp->pg->addProperty(pp);
 
-	if (isGroupVisible)
-		pp->pg->dp->parent->mainTabWidget->show();
+    if (isGroupVisible)
+        pp->pg->dp->parent->mainTabWidget->show();
 
-	return (0);
+    return (0);
 }
 
 /* build GUI for a BLOB GUI.
  * return 0 if ok, else -1 with reason in errmsg[] */
 int INDI_D::buildBLOBGUI  (XMLEle *root, QString & errmsg)
 {
-  INDI_P *pp;
-  PPerm p;
-  bool isGroupVisible=false;
+    INDI_P *pp;
+    PPerm p;
+    bool isGroupVisible=false;
 
-  // build a new property
-  pp = addProperty (root, errmsg);
-  if (!pp)
-    return (-1);
+    // build a new property
+    pp = addProperty (root, errmsg);
+    if (!pp)
+        return (-1);
 
-  /* get the permission, it will determine layout issues */
-  if (findPerm (pp, root, &p, errmsg))
-  {
-    delete(pp);
-    return (-1);
-  }
+    /* get the permission, it will determine layout issues */
+    if (findPerm (pp, root, &p, errmsg))
+    {
+        delete(pp);
+        return (-1);
+    }
 
-  /* we know it will be a number GUI */
-  pp->perm = p;
-  pp->guitype = PG_BLOB;
+    /* we know it will be a number GUI */
+    pp->perm = p;
+    pp->guitype = PG_BLOB;
 
-  if (pp->pg->propertyContainer->isVisible())
-  {
-		isGroupVisible = true;
-		pp->pg->dp->parent->mainTabWidget->hide();
-  }
+    if (pp->pg->propertyContainer->isVisible())
+    {
+        isGroupVisible = true;
+        pp->pg->dp->parent->mainTabWidget->hide();
+    }
 
-  if (pp->buildBLOBGUI(root, errmsg) < 0)
-  {
-    delete (pp);
-    return (-1);
-  }
+    if (pp->buildBLOBGUI(root, errmsg) < 0)
+    {
+        delete (pp);
+        return (-1);
+    }
 
-  pp->pg->addProperty(pp);
+    pp->pg->addProperty(pp);
 
-  if (isGroupVisible)
-	pp->pg->dp->parent->mainTabWidget->show();
+    if (isGroupVisible)
+        pp->pg->dp->parent->mainTabWidget->show();
 
-  return (0);
+    return (0);
 }
 
 INDI_E * INDI_D::findElem(const QString &name)
 {
-  INDI_G *grp;
-  INDI_P *prop;
-  INDI_E *el;
+    INDI_G *grp;
+    INDI_P *prop;
+    INDI_E *el;
 
-  for ( int i=0; i < gl.size(); ++i ) {
-    grp = gl[i];
-    for ( int j=0; j < grp->pl.size(); j++ )
-    {
-       prop = grp->pl[j];
-       el = prop->findElement(name);
-       if (el != NULL) return el;
+    for ( int i=0; i < gl.size(); ++i ) {
+        grp = gl[i];
+        for ( int j=0; j < grp->pl.size(); j++ )
+        {
+            prop = grp->pl[j];
+            el = prop->findElement(name);
+            if (el != NULL) return el;
+        }
     }
-  }
 
-  return NULL;
+    return NULL;
 }
 
 void INDI_D::engageTracking()
 {
 
-  if (!isOn()) return;
+    if (!isOn()) return;
 
-  if (stdDev->telescopeSkyObject == NULL) return;
+    if (stdDev->telescopeSkyObject == NULL) return;
 
-  stdDev->ksw->map()->setClickedObject(stdDev->telescopeSkyObject);
-  stdDev->ksw->map()->setClickedPoint(stdDev->telescopeSkyObject);
-  stdDev->ksw->map()->slotCenter();
-  return;
+    stdDev->ksw->map()->setClickedObject(stdDev->telescopeSkyObject);
+    stdDev->ksw->map()->setClickedPoint(stdDev->telescopeSkyObject);
+    stdDev->ksw->map()->slotCenter();
+    return;
 
 }
 

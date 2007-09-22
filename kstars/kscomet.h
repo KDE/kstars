@@ -20,7 +20,7 @@
 
 #include "ksplanetbase.h"
 
-/**@class KSComet 
+/**@class KSComet
 	*@short A subclass of KSPlanetBase that implements comets.
 	*
 	*The orbital elements are stored as private member variables, and
@@ -46,45 +46,45 @@ class dms;
 
 class KSComet : public KSPlanetBase
 {
-	public:
-		/**Constructor.
-			*@param kd pointer to the KStarsData object
-			*@param s the name of the comet
-			*@param image_file the filename for an image of the comet
-			*@param JD the Julian Day for the orbital elements
-			*@param q the perihelion distance of the comet's orbit (AU)
-			*@param e the eccentricity of the comet's orbit
-			*@param i the inclination angle of the comet's orbit
-			*@param w the argument of the orbit's perihelion
-			*@param N the longitude of the orbit's ascending node
-			*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
-			*/
-		KSComet( KStarsData *kd, const QString &s, const QString &image_file,
-			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
+public:
+    /**Constructor.
+    	*@param kd pointer to the KStarsData object
+    	*@param s the name of the comet
+    	*@param image_file the filename for an image of the comet
+    	*@param JD the Julian Day for the orbital elements
+    	*@param q the perihelion distance of the comet's orbit (AU)
+    	*@param e the eccentricity of the comet's orbit
+    	*@param i the inclination angle of the comet's orbit
+    	*@param w the argument of the orbit's perihelion
+    	*@param N the longitude of the orbit's ascending node
+    	*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
+    	*/
+    KSComet( KStarsData *kd, const QString &s, const QString &image_file,
+             long double JD, double q, double e, dms i, dms w, dms N, double Tp );
 
-		/**Destructor (empty)*/
-		virtual ~KSComet() {}
+    /**Destructor (empty)*/
+    virtual ~KSComet() {}
 
-		/**Unused virtual function inherited from KSPlanetBase, 
-			*so it's simply empty here.
-			*/
-		virtual bool loadData();
+    /**Unused virtual function inherited from KSPlanetBase,
+    	*so it's simply empty here.
+    	*/
+    virtual bool loadData();
 
 
-	protected:
-	/**Calculate the geocentric RA, Dec coordinates of the Comet.
-		*@note reimplemented from KSPlanetBase
-		*@param num time-dependent values for the desired date
-		*@param Earth planet Earth (needed to calculate geocentric coords)
-		*@return true if position was successfully calculated.
-		*/
-		virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+protected:
+    /**Calculate the geocentric RA, Dec coordinates of the Comet.
+    	*@note reimplemented from KSPlanetBase
+    	*@param num time-dependent values for the desired date
+    	*@param Earth planet Earth (needed to calculate geocentric coords)
+    	*@return true if position was successfully calculated.
+    	*/
+    virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
-	private:
-		KStarsData *kd;
-		long double JD, JDp;
-		double q, e, a, P;
-		dms i, w, N;
+private:
+    KStarsData *kd;
+    long double JD, JDp;
+    double q, e, a, P;
+    dms i, w, N;
 
 };
 

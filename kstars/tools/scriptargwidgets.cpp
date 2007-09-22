@@ -18,135 +18,135 @@
 #include "scriptargwidgets.h"
 
 ArgLookToward::ArgLookToward ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetRaDec::ArgSetRaDec ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetAltAz::ArgSetAltAz ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetLocalTime::ArgSetLocalTime ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgWaitFor::ArgWaitFor ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgWaitForKey::ArgWaitForKey ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetTrack::ArgSetTrack ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgChangeViewOption::ArgChangeViewOption ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetGeoLocation::ArgSetGeoLocation ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgTimeScale::ArgTimeScale ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgZoom::ArgZoom ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgExportImage::ArgExportImage ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgPrintImage::ArgPrintImage ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetColor::ArgSetColor ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgLoadColorScheme::ArgLoadColorScheme ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgStartINDI::ArgStartINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetDeviceINDI::ArgSetDeviceINDI(QWidget *p) : QFrame( p ) {
-   setupUi( this);
+    setupUi( this);
 }
 
 ArgShutdownINDI::ArgShutdownINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSwitchINDI::ArgSwitchINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetPortINDI::ArgSetPortINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetTargetCoordINDI::ArgSetTargetCoordINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetTargetNameINDI::ArgSetTargetNameINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetActionINDI::ArgSetActionINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetFocusSpeedINDI::ArgSetFocusSpeedINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgStartFocusINDI::ArgStartFocusINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetFocusTimeoutINDI::ArgSetFocusTimeoutINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetGeoLocationINDI::ArgSetGeoLocationINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgStartExposureINDI::ArgStartExposureINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetUTCINDI::ArgSetUTCINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetScopeActionINDI::ArgSetScopeActionINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetFrameTypeINDI::ArgSetFrameTypeINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetCCDTempINDI::ArgSetCCDTempINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 ArgSetFilterNumINDI::ArgSetFilterNumINDI ( QWidget *p ) : QFrame( p ) {
-  setupUi( this );
+    setupUi( this );
 }
 
 #include "scriptargwidgets.moc"

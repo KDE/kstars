@@ -40,104 +40,104 @@ class FITSImage;
 
 class FITSLabel : public QLabel
 {
-  public:
+public:
 
-  explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
-  ~FITSLabel();
+    explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
+    ~FITSLabel();
 
-  protected:
-  void mouseMoveEvent(QMouseEvent *e);
+protected:
+    void mouseMoveEvent(QMouseEvent *e);
 
-  private:
-  FITSImage *image;
+private:
+    FITSImage *image;
 
 };
 
 class FITSImage : public QScrollArea
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-	
-	friend class ContrastBrightnessDlg;
-	friend class FITSFrame;
-	friend class FITSViewer;
-	friend class FITSHistogram;
-	friend class FITSHistogramCommand;
-	friend class FITSChangeCommand;
-	
-	FITSImage(QWidget * parent);
-	~FITSImage();
-	
-	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
-	enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
-	
-	/* Loads FITS image, scales it, and displays it in the GUI */
-	int  loadFits(const QString &filename);
-	/* Save FITS */
-	int saveFITS(const QString &filename);
-	/* Rescale image lineary from image_buffer, fit to window if desired */
-	int rescale(zoomType type);
-	/* Calculate stats */
-	void calculateStats();
-	
+public:
 
-	// Access functions
-        FITSViewer * getViewer() { return viewer; }
-        double getCurrentZoom() { return currentZoom; }
-	float * getImageBuffer() { return image_buffer; }
-	void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
-	void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
-	long getWidth() { return stats.dim[0]; }
-	long getHeight() { return stats.dim[1]; }
-	double getStdDev() { return stats.stddev; }
-	double getAverage() { return stats.average; }
-	QImage * getDisplayImage() { return displayImage; }
-	int getFITSRecord(QString &recordList, int &nkeys);
-	
-	// Set functions
-	void setFITSMinMax(double newMin,  double newMax);
-	
-	/* TODO Make this stat PRIVATE 
-	stats struct to hold statisical data about the FITS data */
-	struct 
-	{
-		double min, max;
-		double average;
-		double stddev;
-		int bitpix;
-		int ndim;
-		long dim[2];
-	} stats;
+    friend class ContrastBrightnessDlg;
+    friend class FITSFrame;
+    friend class FITSViewer;
+    friend class FITSHistogram;
+    friend class FITSHistogramCommand;
+    friend class FITSChangeCommand;
 
-	QImage  *displayImage;				/* FITS image that is displayed in the GUI */
-	
-	private:
+    FITSImage(QWidget * parent);
+    ~FITSImage();
 
-	double average();
+    enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
+    enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
+
+    /* Loads FITS image, scales it, and displays it in the GUI */
+    int  loadFits(const QString &filename);
+    /* Save FITS */
+    int saveFITS(const QString &filename);
+    /* Rescale image lineary from image_buffer, fit to window if desired */
+    int rescale(zoomType type);
+    /* Calculate stats */
+    void calculateStats();
+
+
+    // Access functions
+    FITSViewer * getViewer() { return viewer; }
+    double getCurrentZoom() { return currentZoom; }
+    float * getImageBuffer() { return image_buffer; }
+    void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
+    void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    long getWidth() { return stats.dim[0]; }
+    long getHeight() { return stats.dim[1]; }
+    double getStdDev() { return stats.stddev; }
+    double getAverage() { return stats.average; }
+    QImage * getDisplayImage() { return displayImage; }
+    int getFITSRecord(QString &recordList, int &nkeys);
+
+    // Set functions
+    void setFITSMinMax(double newMin,  double newMax);
+
+    /* TODO Make this stat PRIVATE
+    stats struct to hold statisical data about the FITS data */
+    struct
+    {
+        double min, max;
+        double average;
+        double stddev;
+        int bitpix;
+        int ndim;
+        long dim[2];
+    } stats;
+
+    QImage  *displayImage;				/* FITS image that is displayed in the GUI */
+
+private:
+
+    double average();
 #ifndef Q_WS_WIN
-	double min(int & minIndex);
-	double max(int & maxIndex);
+    double min(int & minIndex);
+    double max(int & maxIndex);
 #endif
-	double stddev();
+    double stddev();
 
-	int calculateMinMax(bool refresh=false);
+    int calculateMinMax(bool refresh=false);
 
-	FITSViewer *viewer;				/* parent FITSViewer */	
-	FITSLabel *image_frame;
-	float *image_buffer;				/* scaled image buffer (0-255) range */
+    FITSViewer *viewer;				/* parent FITSViewer */
+    FITSLabel *image_frame;
+    float *image_buffer;				/* scaled image buffer (0-255) range */
 
-	double currentWidth,currentHeight;		/* Current width and height due to zoom */
-	const double zoomFactor;			/* Image zoom factor */
-	double currentZoom;				/* Current Zoom level */
-	fitsfile* fptr;
-	int data_type;					/* FITS data type when opened */
+    double currentWidth,currentHeight;		/* Current width and height due to zoom */
+    const double zoomFactor;			/* Image zoom factor */
+    double currentZoom;				/* Current Zoom level */
+    fitsfile* fptr;
+    int data_type;					/* FITS data type when opened */
 
-	
-	public slots:
-	void fitsZoomIn();
-	void fitsZoomOut();
-	void fitsZoomDefault();
+
+public slots:
+    void fitsZoomIn();
+    void fitsZoomOut();
+    void fitsZoomDefault();
 };
 
 #endif

@@ -31,35 +31,35 @@ class KStarsData;
 	*/
 class Ecliptic : public LineListIndex
 {
-	public:
+public:
 
-		/* @short Constructor
-		 * @p parent pointer to the parent SkyComponent object
-		 * name is the name of the subclass
-		 */
-		Ecliptic( SkyComponent *parent );
+    /* @short Constructor
+     * @p parent pointer to the parent SkyComponent object
+     * name is the name of the subclass
+     */
+    Ecliptic( SkyComponent *parent );
 
-		void draw( KStars *kstars, QPainter& psky, double scale );
+    void draw( KStars *kstars, QPainter& psky, double scale );
 
-		void drawLabel( KStars *kstars, QPainter& psky, double scale );
+    void drawLabel( KStars *kstars, QPainter& psky, double scale );
 
-		/**@short Initialize the Ecliptic
-		 *@p data pointer to the KStarsData object
-		 */
-		virtual void init( KStarsData *data );
+    /**@short Initialize the Ecliptic
+     *@p data pointer to the KStarsData object
+     */
+    virtual void init( KStarsData *data );
 
-        bool selected();
+    bool selected();
 
-		void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
-			m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
-		}
+    void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+        m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
+    }
 
-		void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
-			m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
-		}
+    void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
+        m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
+    }
 
-	private:
-		LineListLabel m_label;
+private:
+    LineListLabel m_label;
 
 };
 

@@ -29,25 +29,25 @@
 	*/
 class MilkyWay : public SkipListIndex
 {
-	public:
-		/**
-			*@short Constructor
-			*@p parent pointer to the parent SkyComponent
-			*/
-		MilkyWay( SkyComponent *parent );
+public:
+    /**
+    	*@short Constructor
+    	*@p parent pointer to the parent SkyComponent
+    	*/
+    MilkyWay( SkyComponent *parent );
 
-        void init( KStarsData *data );
+    void init( KStarsData *data );
 
-		/**
-			*@short Draw the Milky Way on the sky map
-			*@p ks Pointer to the KStars object
-			*@p psky Reference to the QPainter on which to paint
-			*@p scale the scaling factor for drawing (1.0 for screen draws)
-			*/
-		void draw( KStars *ks, QPainter& psky, double scale );
-       
-		void draw( QPainter& psky );
+    /**
+    	*@short Draw the Milky Way on the sky map
+    	*@p ks Pointer to the KStars object
+    	*@p psky Reference to the QPainter on which to paint
+    	*@p scale the scaling factor for drawing (1.0 for screen draws)
+    	*/
+    void draw( KStars *ks, QPainter& psky, double scale );
 
-        bool selected();
+    void draw( QPainter& psky );
+
+    bool selected();
 };
 #endif

@@ -35,23 +35,23 @@ SkyMesh* SkyMesh::pinstance = 0;
 
 SkyMesh* SkyMesh::Create( KStarsData* data, int level )
 {
-	if ( pinstance ) delete pinstance;
-	pinstance = new SkyMesh( data, level );
-	return pinstance;
+    if ( pinstance ) delete pinstance;
+    pinstance = new SkyMesh( data, level );
+    return pinstance;
 }
 
 SkyMesh* SkyMesh::Instance( )
 {
-	return pinstance;
+    return pinstance;
 }
 
 SkyMesh::SkyMesh( KStarsData* data, int level) :
-    HTMesh(level, level, NUM_MESH_BUF),
-    m_drawID(0), m_data( data ), m_KSNumbers( 0 )
+        HTMesh(level, level, NUM_MESH_BUF),
+        m_drawID(0), m_data( data ), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
     m_zoomedInPercent = 25;
-	m_inDraw = false;
+    m_inDraw = false;
 }
 
 void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
@@ -74,15 +74,15 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
 
-	return;
-	if ( m_inDraw && bufNum != DRAW_BUF )
-		printf("Warining: overlapping buffer: %d\n", bufNum);
+    return;
+    if ( m_inDraw && bufNum != DRAW_BUF )
+        printf("Warining: overlapping buffer: %d\n", bufNum);
 }
 
 bool SkyMesh::isZoomedIn( int percent )
 {
     if ( ! percent ) percent = m_zoomedInPercent;
-    return ( intersectSize( DRAW_BUF ) * 100 < percent * size() ); 
+    return ( intersectSize( DRAW_BUF ) * 100 < percent * size() );
 }
 
 Trixel SkyMesh::index(SkyPoint *p)
@@ -110,30 +110,30 @@ void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
 {
     HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius, (BufNum) bufNum );
 
-	return;
-	if ( m_inDraw && bufNum != DRAW_BUF )
-		printf("Warining: overlapping buffer: %d\n", bufNum);
+    return;
+    if ( m_inDraw && bufNum != DRAW_BUF )
+        printf("Warining: overlapping buffer: %d\n", bufNum);
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2 )
 {
     HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                        p2->ra0()->Degrees(), p2->dec0()->Degrees() );
+                       p2->ra0()->Degrees(), p2->dec0()->Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3 )
 {
     HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                        p2->ra0()->Degrees(), p2->dec0()->Degrees(),
-                        p3->ra0()->Degrees(), p3->dec0()->Degrees() );
+                       p2->ra0()->Degrees(), p2->dec0()->Degrees(),
+                       p3->ra0()->Degrees(), p3->dec0()->Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3, SkyPoint* p4 )
 {
     HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                        p2->ra0()->Degrees(), p2->dec0()->Degrees(),
-                        p3->ra0()->Degrees(), p3->dec0()->Degrees(),
-                        p4->ra0()->Degrees(), p4->dec0()->Degrees() );
+                       p2->ra0()->Degrees(), p2->dec0()->Degrees(),
+                       p3->ra0()->Degrees(), p3->dec0()->Degrees(),
+                       p4->ra0()->Degrees(), p4->dec0()->Degrees() );
 }
 
 void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3 )
@@ -243,7 +243,7 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points )
     SkyPoint* startP = points->first();
 
     int end = points->size() - 2;     // 1) size - 1  -> last index,
-                                      // 2) minimum of 2 points
+    // 2) minimum of 2 points
 
     for( int p = 1; p <= end; p+= 2 ) {
 
@@ -290,7 +290,7 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
     const QPointF startP = points->first();
 
     int end = points->size() - 2;     // 1) size - 1  -> last index,
-                                      // 2) minimum of 2 points
+    // 2) minimum of 2 points
     for( int p = 1; p <= end; p+= 2 ) {
 
         if ( p == end ) {

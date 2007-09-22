@@ -18,62 +18,62 @@
 #include "toggleaction.h"
 
 ToggleAction::ToggleAction( const KIcon &_onicon,  const QString& ontext,
-		const KIcon &_officon, const QString& offtext,
-		const KShortcut &accel, const QObject* receiver,
-		const char* slot, QObject* parent)
-: KAction( _onicon, ontext, parent ),
-		officon(_officon),
-		onicon(_onicon),
-		offcap(offtext),
-		oncap(ontext),
-		state(true)
+                            const KIcon &_officon, const QString& offtext,
+                            const KShortcut &accel, const QObject* receiver,
+                            const char* slot, QObject* parent)
+        : KAction( _onicon, ontext, parent ),
+        officon(_officon),
+        onicon(_onicon),
+        offcap(offtext),
+        oncap(ontext),
+        state(true)
 {
-	setShortcut( accel );
-	if ( slot && receiver )
-		connect( this, SIGNAL( triggered() ), receiver, slot );
+    setShortcut( accel );
+    if ( slot && receiver )
+        connect( this, SIGNAL( triggered() ), receiver, slot );
 }
 
 ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
-		const KShortcut &accel, const QObject* receiver,
-		const char* slot, QObject* parent)
-: KAction(ontext, parent),
-		officon(),
-		onicon(),
-		offcap(offtext),
-		oncap(ontext),
-		state(true)
+                           const KShortcut &accel, const QObject* receiver,
+                           const char* slot, QObject* parent)
+        : KAction(ontext, parent),
+        officon(),
+        onicon(),
+        offcap(offtext),
+        oncap(ontext),
+        state(true)
 {
-	setShortcut( accel );
-	if (  slot && receiver )
-		connect( this, SIGNAL( triggered() ), receiver, slot );
+    setShortcut( accel );
+    if (  slot && receiver )
+        connect( this, SIGNAL( triggered() ), receiver, slot );
 }
 
 void ToggleAction::turnOff() {
-	// FIXME use KIcon only
-	//if ( !officon.isNull() ) setIcon(officon);
-	setText(offcap);
-	setToolTip(offTip);
-	state = false;
+    // FIXME use KIcon only
+    //if ( !officon.isNull() ) setIcon(officon);
+    setText(offcap);
+    setToolTip(offTip);
+    state = false;
 }
 
 void ToggleAction::turnOn() {
-	// FIXME use KIcon only
-	//if ( !onicon.isNull() ) setIcon(onicon);
-	setText(oncap);
-	setToolTip(onTip);
-	state = true;
+    // FIXME use KIcon only
+    //if ( !onicon.isNull() ) setIcon(onicon);
+    setText(oncap);
+    setToolTip(onTip);
+    state = true;
 }
 
 void ToggleAction::setOnToolTip(const QString &tip) {
-	onTip = tip;
-	if (state)
-		setToolTip(tip);
+    onTip = tip;
+    if (state)
+        setToolTip(tip);
 }
 
 void ToggleAction::setOffToolTip(const QString &tip) {
-	offTip = tip;
-	if (!state)
-		setToolTip(tip);
+    offTip = tip;
+    if (!state)
+        setToolTip(tip);
 }
 
 #include "toggleaction.moc"

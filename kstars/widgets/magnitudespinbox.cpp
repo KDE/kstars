@@ -18,12 +18,12 @@
 #include "magnitudespinbox.h"
 
 MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent )
-	: KDoubleNumInput( 0.0, 10.0, 0.0, parent, 0.1 /*step*/, 1 /*precision*/ )
+        : KDoubleNumInput( 0.0, 10.0, 0.0, parent, 0.1 /*step*/, 1 /*precision*/ )
 {
 }
 
 MagnitudeSpinBox::MagnitudeSpinBox( double minValue, double maxValue,
-	QWidget * parent )
-	: KDoubleNumInput( minValue, maxValue, minValue, parent, 0.1 /* step */, 1 )
+                                    QWidget * parent )
+        : KDoubleNumInput( minValue, maxValue, minValue, parent, 0.1 /* step */, 1 )
 {
 }

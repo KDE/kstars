@@ -26,7 +26,7 @@
 
 
 SkipListIndex::SkipListIndex( SkyComponent *parent, const QString& name )
-	: LineListIndex(parent, name )
+        : LineListIndex(parent, name )
 {}
 
 const IndexHash& SkipListIndex::getIndexHash(LineList* lineList ) {

@@ -30,12 +30,12 @@
     #define MAXUINT (~0) 
 #endif 
 
-KSFileReader::KSFileReader( qint64 maxLen ) : 
-    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
+KSFileReader::KSFileReader( qint64 maxLen ) :
+        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
 {}
 
-KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) : 
-    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
+KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
+        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)
 {
     QIODevice* device = (QIODevice*) & file;
     QTextStream::setDevice( device );
@@ -52,31 +52,31 @@ bool KSFileReader::open( const QString& fname )
     return true;
 }
 
-void KSFileReader::setProgress( QString label, 
-                                unsigned int totalLines, 
+void KSFileReader::setProgress( QString label,
+                                unsigned int totalLines,
                                 unsigned int numUpdates )
 {
     m_label = label;
-    m_totalLines = totalLines; 
-	if ( m_totalLines < 1 ) m_totalLines = 1;
+    m_totalLines = totalLines;
+    if ( m_totalLines < 1 ) m_totalLines = 1;
     m_targetLine = m_totalLines / 100;
     m_targetIncrement = m_totalLines / numUpdates;
 
-    connect( this, SIGNAL( progressText( const QString & ) ), 
-	    KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
+    connect( this, SIGNAL( progressText( const QString & ) ),
+             KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 }
 
 void KSFileReader::showProgress()
 {
     if ( m_curLine < m_targetLine ) return;
-    if ( m_targetLine < m_targetIncrement ) 
+    if ( m_targetLine < m_targetIncrement )
         m_targetLine = m_targetIncrement;
     else
         m_targetLine += m_targetIncrement;
 
     int percent = int(.5 + (m_curLine * 100.0) / m_totalLines);
-	//printf("%8d %8d %3d\n", m_curLine, m_totalLines, percent );
-	if ( percent > 100 ) percent = 100;
+    //printf("%8d %8d %3d\n", m_curLine, m_totalLines, percent );
+    if ( percent > 100 ) percent = 100;
     emit progressText( QString("%1 (%2%)").arg( m_label ).arg( percent ) );
     qApp->processEvents();
 }

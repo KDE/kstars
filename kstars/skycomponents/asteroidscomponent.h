@@ -41,58 +41,58 @@ typedef QHash<Trixel, AsterList*> AsterIndex;
 	*/
 class AsteroidsComponent: public SolarSystemListComponent
 {
-	public:
+public:
 
-	/**
-		*@short Default constructor.
-		*@p parent pointer to the parent SolarSystemComposite
-		*@p visibleMethod 
-		*@p msize
-		*/
-		AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
-		
-	/**
-		*Destructor.  Delete all list members
-		*/
-		virtual ~AsteroidsComponent();
+    /**
+    	*@short Default constructor.
+    	*@p parent pointer to the parent SolarSystemComposite
+    	*@p visibleMethod 
+    	*@p msize
+    	*/
+    AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
 
-	/**
-		*@short Draw the asteroids onto the skymap
-		*@p ks pointer to the KStars object
-		*@p psky reference to the QPainter on which to paint
-		*@p scale scaling factor (1.0 for screen draws)
-		*/
-		virtual void draw( KStars *ks, QPainter& psky, double scale );
+    /**
+    	*Destructor.  Delete all list members
+    	*/
+    virtual ~AsteroidsComponent();
 
-	/**
-		*@short Initialize the asteroids list.
-		*Reads in the asteroids data from the asteroids.dat file.
-		*@p data Pointer to the KStarsData object
-		*
-		*Each line in the data file is parsed as follows:
-		*@li 6-23 Name [string]
-		*@li 24-29 Modified Julian Day of orbital elements [int]
-		*@li 30-39 semi-major axis of orbit in AU [double]
-		*@li 41-51 eccentricity of orbit [double]
-		*@li 52-61 inclination angle of orbit in degrees [double]
-		*@li 62-71 argument of perihelion in degrees [double]
-		*@li 72-81 Longitude of the Ascending Node in degrees [double]
-		*@li 82-93 Mean Anomaly in degrees [double]
-		*@li 94-98 Magnitude [double]
-		*/
-		virtual void init( KStarsData *data );
+    /**
+    	*@short Draw the asteroids onto the skymap
+    	*@p ks pointer to the KStars object
+    	*@p psky reference to the QPainter on which to paint
+    	*@p scale scaling factor (1.0 for screen draws)
+    	*/
+    virtual void draw( KStars *ks, QPainter& psky, double scale );
 
-        bool selected();
+    /**
+    	*@short Initialize the asteroids list.
+    	*Reads in the asteroids data from the asteroids.dat file.
+    	*@p data Pointer to the KStarsData object
+    	*
+    	*Each line in the data file is parsed as follows:
+    	*@li 6-23 Name [string]
+    	*@li 24-29 Modified Julian Day of orbital elements [int]
+    	*@li 30-39 semi-major axis of orbit in AU [double]
+    	*@li 41-51 eccentricity of orbit [double]
+    	*@li 52-61 inclination angle of orbit in degrees [double]
+    	*@li 62-71 argument of perihelion in degrees [double]
+    	*@li 72-81 Longitude of the Ascending Node in degrees [double]
+    	*@li 82-93 Mean Anomaly in degrees [double]
+    	*@li 94-98 Magnitude [double]
+    	*/
+    virtual void init( KStarsData *data );
 
-        void update( KStarsData *data, KSNumbers *num );
+    bool selected();
 
-		/* @short we need to overide objectNearest to bail on asteroids dimmer
-		 * than the draw threshold.
-		 */
-		SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+    void update( KStarsData *data, KSNumbers *num );
 
-    private:
-        AsterIndex  m_asterIndex;
+    /* @short we need to overide objectNearest to bail on asteroids dimmer
+     * than the draw threshold.
+     */
+    SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
+private:
+    AsterIndex  m_asterIndex;
 
 };
 

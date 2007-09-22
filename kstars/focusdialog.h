@@ -26,71 +26,71 @@
 class KStars;
 
 class FocusDialogUI : public QFrame, public Ui::FocusDialog {
-	Q_OBJECT
-	public:
-		FocusDialogUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    FocusDialogUI( QWidget *parent=0 );
 };
 
 
-/**@class FocusDialog 
+/**@class FocusDialog
 	*@short A small dialog for setting the focus coordinates manually.
 	*@author Jason Harris
 	*@version 1.0
 	*/
 class FocusDialog : public KDialog {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/**Constructor. */
-	FocusDialog( KStars *_ks );
+    /**Constructor. */
+    FocusDialog( KStars *_ks );
 
-	/**Destructor (empty). */
-	~FocusDialog();
+    /**Destructor (empty). */
+    ~FocusDialog();
 
-	/**@return pointer to the SkyPoint described by the entered RA, Dec */
-	inline SkyPoint& point() { return Point; }
+    /**@return pointer to the SkyPoint described by the entered RA, Dec */
+    inline SkyPoint& point() { return Point; }
 
-	/**@return suggested size of focus window. */
-	QSize sizeHint() const;
+    /**@return suggested size of focus window. */
+    QSize sizeHint() const;
 
-	/**@return whether user set the AltAz coords */
-	inline bool usedAltAz() const { return UsedAltAz; }
+    /**@return whether user set the AltAz coords */
+    inline bool usedAltAz() const { return UsedAltAz; }
 
-	/**
-	  *@short Show the Az/Alt page instead of the RA/Dec page.
-		*/
-	void activateAzAltPage() const;
+    /**
+      *@short Show the Az/Alt page instead of the RA/Dec page.
+    	*/
+    void activateAzAltPage() const;
 
-	/**
-	  *@short Convenience function to convert an epoch number (e.g., 2000.0) 
-		*to the corresponding Julian Day number (e.g., 2451545.0).
-		*@param epoch the epoch value to be converted.
-		*FIXME: This should probably move to KStarsDateTime
-		*/
-	long double epochToJd (double epoch);
+    /**
+      *@short Convenience function to convert an epoch number (e.g., 2000.0) 
+    	*to the corresponding Julian Day number (e.g., 2451545.0).
+    	*@param epoch the epoch value to be converted.
+    	*FIXME: This should probably move to KStarsDateTime
+    	*/
+    long double epochToJd (double epoch);
 
-	/**
-	  *@short Convert a string to an epoch number; essentially just 
-		*converts the string to a double.
-		*@param eName the tring representation of the epoch number.
-		*@return the epoch number described by the string argument.
-		*FIXME: This should probably move to KStarsDateTime
-		*/
-	double getEpoch (const QString &eName);
+    /**
+      *@short Convert a string to an epoch number; essentially just 
+    	*converts the string to a double.
+    	*@param eName the tring representation of the epoch number.
+    	*@return the epoch number described by the string argument.
+    	*FIXME: This should probably move to KStarsDateTime
+    	*/
+    double getEpoch (const QString &eName);
 
 public slots:
-	/**If text has been entered in both KLineEdits, enable the Ok button. */
-	void checkLineEdits();
+    /**If text has been entered in both KLineEdits, enable the Ok button. */
+    void checkLineEdits();
 
-	/**Attempt to interpret the text in the KLineEdits as Ra and Dec values.
-		*If the point is validated, close the window.
-		*/
-	void validatePoint();
+    /**Attempt to interpret the text in the KLineEdits as Ra and Dec values.
+    	*If the point is validated, close the window.
+    	*/
+    void validatePoint();
 
 private:
-	KStars *ks;
-	SkyPoint Point;
-	FocusDialogUI *fd;
-	bool UsedAltAz;
+    KStars *ks;
+    SkyPoint Point;
+    FocusDialogUI *fd;
+    bool UsedAltAz;
 };
 
 #endif

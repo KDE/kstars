@@ -33,40 +33,40 @@
 class KStars;
 
 class FOVDialogUI : public QFrame, public Ui::FOVDialog {
-	Q_OBJECT
-	public:
-		FOVDialogUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    FOVDialogUI( QWidget *parent=0 );
 };
 
 class NewFOVUI : public QFrame, public Ui::NewFOV {
-	Q_OBJECT
-	public:
-		NewFOVUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    NewFOVUI( QWidget *parent=0 );
 };
 
 class FOVDialog : public KDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	FOVDialog( KStars *ks );
-	~FOVDialog();
-	unsigned int currentItem() const;
-	QList<FOV*> FOVList;
+    FOVDialog( KStars *ks );
+    ~FOVDialog();
+    unsigned int currentItem() const;
+    QList<FOV*> FOVList;
 
 protected:
-	void paintEvent( QPaintEvent * );
+    void paintEvent( QPaintEvent * );
 
 private slots:
-	void slotNewFOV();
-	void slotEditFOV();
-	void slotRemoveFOV();
-	void slotSelect(Q3ListBoxItem*);
+    void slotNewFOV();
+    void slotEditFOV();
+    void slotRemoveFOV();
+    void slotSelect(Q3ListBoxItem*);
 
 private:
-	void initList();
+    void initList();
 
-	KStars *ks;
-	FOVDialogUI *fov;
+    KStars *ks;
+    FOVDialogUI *fov;
 };
 
 /**@class NewFOV Dialog for defining a new FOV symbol
@@ -75,21 +75,21 @@ private:
 	*/
 class NewFOV : public KDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	NewFOV( QWidget *parent=0 );
-	~NewFOV() {}
-	NewFOVUI *ui;
+    NewFOV( QWidget *parent=0 );
+    ~NewFOV() {}
+    NewFOVUI *ui;
 
 public slots:
-	void slotUpdateFOV();
-	void slotComputeFOV();
+    void slotUpdateFOV();
+    void slotComputeFOV();
 
 protected:
-	void paintEvent( QPaintEvent * );
+    void paintEvent( QPaintEvent * );
 
 private:
-	FOV f;
+    FOV f;
 };
 
 #endif

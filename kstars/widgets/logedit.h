@@ -21,22 +21,22 @@
 #include <ktextedit.h>
 #include <QFocusEvent>
 
-/**@class LogEdit is a simple derivative of KTextEdit, that just adds a 
+/**@class LogEdit is a simple derivative of KTextEdit, that just adds a
 	*focusOut() signal, emitted when the edit loses focus.
 	*@author Jason Harris
 	*@version 1.0
 	*/
 class LogEdit : public KTextEdit {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	LogEdit( QWidget *parent=0 );
-	~LogEdit() {}
-	
+    LogEdit( QWidget *parent=0 );
+    ~LogEdit() {}
+
 signals:
-	void focusOut();
-	
+    void focusOut();
+
 protected:
-	void focusOutEvent( QFocusEvent *e );
+    void focusOutEvent( QFocusEvent *e );
 };
 
 

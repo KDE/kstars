@@ -30,46 +30,46 @@
 #include <kaction.h>
 
 class ToggleAction : public KAction {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		/**Constructor. */
-		ToggleAction( const KIcon &onicon,  const QString &ontext,
-			      const KIcon &officon, const QString &offtext,
-			      const KShortcut &accel,
-			      const QObject* receiver, const char* slot,
-                              QObject *parent );
+public:
+    /**Constructor. */
+    ToggleAction( const KIcon &onicon,  const QString &ontext,
+                  const KIcon &officon, const QString &offtext,
+                  const KShortcut &accel,
+                  const QObject* receiver, const char* slot,
+                  QObject *parent );
 
-		/**Constructor. Same as above, but without icons. */
-		ToggleAction( const QString &ontext, const QString &offtext,
-			      const KShortcut &accel,
-			      const QObject* receiver, const char* slot,
-                              QObject *parent );
+    /**Constructor. Same as above, but without icons. */
+    ToggleAction( const QString &ontext, const QString &offtext,
+                  const KShortcut &accel,
+                  const QObject* receiver, const char* slot,
+                  QObject *parent );
 
-		/**Sets the ToolTip text for the "on" state.
-			*@param tip the tooltip string
-			*/
-		void setOnToolTip(const QString &tip);
+    /**Sets the ToolTip text for the "on" state.
+    	*@param tip the tooltip string
+    	*/
+    void setOnToolTip(const QString &tip);
 
-		/**Sets the ToolTip text for the "off" state.
-			*@param tip the tooltip string
-			*/
-		void setOffToolTip(const QString &tip);
+    /**Sets the ToolTip text for the "off" state.
+    	*@param tip the tooltip string
+    	*/
+    void setOffToolTip(const QString &tip);
 
-	public slots:
-		/**Put the Action in the "off" state.  Update the icon and tooltip. */
-		void turnOff();
-		/**Put the Action in the "on" state.  Update the icon and tooltip. */
-		void turnOn();
+public slots:
+    /**Put the Action in the "off" state.  Update the icon and tooltip. */
+    void turnOff();
+    /**Put the Action in the "on" state.  Update the icon and tooltip. */
+    void turnOn();
 
-	private:
-		QIcon officon;
-		QIcon onicon;
-		QString offcap;
-		QString oncap;
-		QString onTip;
-		QString offTip;
-		bool state;
+private:
+    QIcon officon;
+    QIcon onicon;
+    QString offcap;
+    QString oncap;
+    QString onTip;
+    QString offTip;
+    bool state;
 };
 
 

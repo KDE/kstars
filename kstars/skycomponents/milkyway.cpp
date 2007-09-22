@@ -35,8 +35,8 @@
 #include "milkyway.h"
 
 
-MilkyWay::MilkyWay( SkyComponent *parent ) : 
-    SkipListIndex( parent, i18n("Milky Way") )
+MilkyWay::MilkyWay( SkyComponent *parent ) :
+        SkipListIndex( parent, i18n("Milky Way") )
 {}
 
 void MilkyWay::init( KStarsData *data )
@@ -44,41 +44,41 @@ void MilkyWay::init( KStarsData *data )
     intro();
 
     char* fname = "milkyway.dat";
-	QString line;
+    QString line;
     double ra, dec, lastRa, lastDec;
-	SkipList *skipList = 0;
+    SkipList *skipList = 0;
     bool ok;
     int iSkip = 0;
 
     lastRa = lastDec = -1000.0;
 
-	KSFileReader fileReader;
+    KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
     fileReader.setProgress( i18n("Loading Milky Way"), 2136, 5 );
 
-	while ( fileReader.hasMoreLines() ) {
-		line = fileReader.readLine();
+    while ( fileReader.hasMoreLines() ) {
+        line = fileReader.readLine();
 
-		fileReader.showProgress();
+        fileReader.showProgress();
 
         QChar firstChar = line.at( 0 );
-        if ( firstChar == '#' ) continue; 
+        if ( firstChar == '#' ) continue;
 
-        ra = line.mid( 2, 8 ).toDouble(&ok);        
-		if ( ok ) dec = line.mid( 11, 8 ).toDouble(&ok);
+        ra = line.mid( 2, 8 ).toDouble(&ok);
+        if ( ok ) dec = line.mid( 11, 8 ).toDouble(&ok);
         if ( !ok ) {
             fprintf(stderr, "%s: conversion error on line: %d\n",
                     fname, fileReader.lineNumber());
             continue;
         }
 
-		if ( firstChar == 'M' )  {
-			if (  skipList )  appendBoth( skipList );
-			skipList = 0;
+        if ( firstChar == 'M' )  {
+            if (  skipList )  appendBoth( skipList );
+            skipList = 0;
             iSkip = 0;
             lastRa = lastDec = -1000.0;
-		}
+        }
 
         if ( ! skipList ) skipList = new SkipList();
 
@@ -88,43 +88,43 @@ void MilkyWay::init( KStarsData *data )
             continue;
         }
 
-		skipList->append( new SkyPoint(ra, dec) );
+        skipList->append( new SkyPoint(ra, dec) );
         lastRa = ra;
         lastDec = dec;
-		if ( firstChar == 'S' ) skipList->setSkip( iSkip );
+        if ( firstChar == 'S' ) skipList->setSkip( iSkip );
         iSkip++;
-	}
+    }
     if ( skipList ) appendBoth( skipList );
 
     summary();
-        //printf("Done.\n");
+    //printf("Done.\n");
 }
 
-bool MilkyWay::selected() 
+bool MilkyWay::selected()
 {
     return Options::showMilkyWay() &&
-		! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
+           ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
 void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)
 {
-	if ( !selected() ) return;
+    if ( !selected() ) return;
 
     QColor color =  QColor( kstars->data()->colorScheme()->colorNamed( "MWColor" ) );
 
-	psky.setPen( QPen( color, 3, Qt::SolidLine ) );
+    psky.setPen( QPen( color, 3, Qt::SolidLine ) );
     psky.setBrush( QBrush( color ) );
 
-	// Uncomment these two lines to get more visible images for debugging.  -jbb
-	//
-	//psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
-	//psky.setBrush( QBrush( QColor("green"  ) ) );
+    // Uncomment these two lines to get more visible images for debugging.  -jbb
+    //
+    //psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
+    //psky.setBrush( QBrush( QColor("green"  ) ) );
 
     if ( Options::fillMilkyWay() ) {
         drawFilled( kstars, psky, scale );
     }
     else {
-        drawLines( kstars, psky, scale );        
+        drawLines( kstars, psky, scale );
     }
 }
 

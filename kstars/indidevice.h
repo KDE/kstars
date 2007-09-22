@@ -55,12 +55,12 @@ class QGridLayout;
 
 
 /* INDI device */
-class INDI_D : public KDialog  
+class INDI_D : public KDialog
 {
- Q_OBJECT
-  public:
-   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, const QString &inName, const QString &inLabel);
-   ~INDI_D();
+    Q_OBJECT
+public:
+    INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, const QString &inName, const QString &inLabel);
+    ~INDI_D();
 
     QString 	name;			/* device name */
     QString	label;			/* device label */
@@ -69,80 +69,80 @@ class INDI_D : public KDialog
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
-    
+
     INDIStdDevice  *stdDev;
 
     QList<INDI_G*> gl;			/* list of pointers to groups */
-  
+
     INDI_G        *curGroup;
     bool	  INDIStdSupport;
 
     INDIMenu      *parent;
     DeviceManager *parentMgr;
-    
+
     enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
-   /*****************************************************************
-   * Build
-   ******************************************************************/
-   int buildTextGUI    (XMLEle *root, QString & errmsg);
-   int buildNumberGUI  (XMLEle *root, QString & errmsg);
-   int buildSwitchesGUI(XMLEle *root, QString & errmsg);
-   int buildMenuGUI    (INDI_P *pp, XMLEle *root, QString & errmsg);
-   int buildLightsGUI  (XMLEle *root, QString & errmsg);
-   int buildBLOBGUI    (XMLEle *root, QString & errmsg);
-   
-   /*****************************************************************
-   * Add
-   ******************************************************************/
-   INDI_P *  addProperty (XMLEle *root, QString & errmsg);
+    /*****************************************************************
+    * Build
+    ******************************************************************/
+    int buildTextGUI    (XMLEle *root, QString & errmsg);
+    int buildNumberGUI  (XMLEle *root, QString & errmsg);
+    int buildSwitchesGUI(XMLEle *root, QString & errmsg);
+    int buildMenuGUI    (INDI_P *pp, XMLEle *root, QString & errmsg);
+    int buildLightsGUI  (XMLEle *root, QString & errmsg);
+    int buildBLOBGUI    (XMLEle *root, QString & errmsg);
 
-   /*****************************************************************
-   * Find
-   ******************************************************************/
-   INDI_P *   findProp    (const QString &name);
-   INDI_E *   findElem    (const QString &name);
-   INDI_G *   findGroup   (const QString &grouptag, int create, QString & errmsg);
-   int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, QString & errmsg);
+    /*****************************************************************
+    * Add
+    ******************************************************************/
+    INDI_P *  addProperty (XMLEle *root, QString & errmsg);
 
-   /*****************************************************************
-   * Set/New
-   ******************************************************************/
-   int setValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
-   int setLabelState  (INDI_P *pp, XMLEle *root, QString & errmsg);
-   int setTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
-   int setBLOB        (INDI_P *pp, XMLEle * root, QString & errmsg);
-       
-   int newValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
-   int newTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
+    /*****************************************************************
+    * Find
+    ******************************************************************/
+    INDI_P *   findProp    (const QString &name);
+    INDI_E *   findElem    (const QString &name);
+    INDI_G *   findGroup   (const QString &grouptag, int create, QString & errmsg);
+    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, QString & errmsg);
 
-   int setAnyCmd      (XMLEle *root, QString & errmsg);
-   int newAnyCmd      (XMLEle *root, QString & errmsg);
+    /*****************************************************************
+    * Set/New
+    ******************************************************************/
+    int setValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
+    int setLabelState  (INDI_P *pp, XMLEle *root, QString & errmsg);
+    int setTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
+    int setBLOB        (INDI_P *pp, XMLEle * root, QString & errmsg);
 
-   int  removeProperty(INDI_P *pp);
+    int newValue       (INDI_P *pp, XMLEle *root, QString & errmsg);
+    int newTextValue   (INDI_P *pp, XMLEle *root, QString & errmsg);
 
-   /*****************************************************************
-   * Crack
-   ******************************************************************/
-   int crackLightState  (char *name, PState *psp);
-   int crackSwitchState (char *name, PState *psp);
-   
-   /*****************************************************************
-   * Data processing
-   ******************************************************************/
-   int processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg);
-   
-   /*****************************************************************
-   * INDI standard property policy
-   ******************************************************************/
-   bool isOn();
-   void registerProperty(INDI_P *pp);
-   bool isINDIStd(INDI_P *pp);
+    int setAnyCmd      (XMLEle *root, QString & errmsg);
+    int newAnyCmd      (XMLEle *root, QString & errmsg);
 
-   public slots:
-   void engageTracking();
+    int  removeProperty(INDI_P *pp);
 
-   
+    /*****************************************************************
+    * Crack
+    ******************************************************************/
+    int crackLightState  (char *name, PState *psp);
+    int crackSwitchState (char *name, PState *psp);
+
+    /*****************************************************************
+    * Data processing
+    ******************************************************************/
+    int processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg);
+
+    /*****************************************************************
+    * INDI standard property policy
+    ******************************************************************/
+    bool isOn();
+    void registerProperty(INDI_P *pp);
+    bool isINDIStd(INDI_P *pp);
+
+public slots:
+    void engageTracking();
+
+
 
 };
 

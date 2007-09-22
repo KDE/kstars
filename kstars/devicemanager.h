@@ -10,71 +10,71 @@
     2004-16-1:	Start
    
  */
- 
+
  #ifndef DEVICEMANAGER_H_
  #define DEVICEMANAGER_H_
- 
+
  #include "indielement.h"
- 
- class INDIMenu;
- class INDI_P;
- class INDI_D;
- 
- class QSocketNotifier;
- 
- // INDI device manager
+
+class INDIMenu;
+class INDI_P;
+class INDI_D;
+
+class QSocketNotifier;
+
+// INDI device manager
 class DeviceManager : public QObject
 {
-   Q_OBJECT
-   public:
-   DeviceManager(INDIMenu *INDIparent, int inID);
-   ~DeviceManager();
+    Q_OBJECT
+public:
+    DeviceManager(INDIMenu *INDIparent, int inID);
+    ~DeviceManager();
 
-   INDIMenu *parent;
+    INDIMenu *parent;
 
-   QList<INDI_D*> indi_dev;
+    QList<INDI_D*> indi_dev;
 
-   int			mgrID;
-   int			serverFD;
-   FILE			*serverFP;
-   LilXML		*XMLParser;
-   QSocketNotifier 	*sNotifier;
-   QString		host;
-   QString		port;
+    int			mgrID;
+    int			serverFD;
+    FILE			*serverFP;
+    LilXML		*XMLParser;
+    QSocketNotifier 	*sNotifier;
+    QString		host;
+    QString		port;
 
-   int dispatchCommand   (XMLEle *root, QString & errmsg);
+    int dispatchCommand   (XMLEle *root, QString & errmsg);
 
-   INDI_D *  addDevice   (XMLEle *dep , QString & errmsg);
-   INDI_D *  findDev     (XMLEle *root, int  create, QString & errmsg);
+    INDI_D *  addDevice   (XMLEle *dep , QString & errmsg);
+    INDI_D *  findDev     (XMLEle *root, int  create, QString & errmsg);
 
-   /*****************************************************************
-   * Send to server
-   ******************************************************************/
-   void sendNewText    (INDI_P *pp);
-   void sendNewNumber  (INDI_P *pp);
-   void sendNewSwitch  (INDI_P *pp, INDI_E *lp);
-   void startBlob (const QString &devName, const QString &propName, const QString &timestamp);
-   void sendOneBlob(const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer);
-   void finishBlob();
+    /*****************************************************************
+    * Send to server
+    ******************************************************************/
+    void sendNewText    (INDI_P *pp);
+    void sendNewNumber  (INDI_P *pp);
+    void sendNewSwitch  (INDI_P *pp, INDI_E *lp);
+    void startBlob (const QString &devName, const QString &propName, const QString &timestamp);
+    void sendOneBlob(const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer);
+    void finishBlob();
 
-   /*****************************************************************
-   * Misc.
-   ******************************************************************/
-   int  delPropertyCmd (XMLEle *root, QString & errmsg);
-   int  removeDevice   (const QString &devName, QString & errmsg);
-   INDI_D *  findDev   (const QString &devName, QString & errmsg);
+    /*****************************************************************
+    * Misc.
+    ******************************************************************/
+    int  delPropertyCmd (XMLEle *root, QString & errmsg);
+    int  removeDevice   (const QString &devName, QString & errmsg);
+    INDI_D *  findDev   (const QString &devName, QString & errmsg);
 
-   int  messageCmd     (XMLEle *root, QString & errmsg);
-   void checkMsg       (XMLEle *root, INDI_D *dp);
-   void doMsg          (XMLEle *msg , INDI_D *dp);
+    int  messageCmd     (XMLEle *root, QString & errmsg);
+    void checkMsg       (XMLEle *root, INDI_D *dp);
+    void doMsg          (XMLEle *msg , INDI_D *dp);
 
-   bool indiConnect    (const QString &inHost, const QString &inPort);
+    bool indiConnect    (const QString &inHost, const QString &inPort);
 
-  public slots:
-   void dataReceived();
-   
-  signals:
-   void newDevice();
+public slots:
+    void dataReceived();
+
+signals:
+    void newDevice();
 
 };
 

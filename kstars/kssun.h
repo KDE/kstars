@@ -32,32 +32,32 @@ class KStarsData;
 
 class KSSun : public KSPlanet  {
 public:
-/**Constructor.  Defines constants needed by findPosition().
-	*Sets Ecliptic coordinates appropriate for J2000.
-	*@param kd pointer to KStarsData object
-	*/
-	KSSun( KStarsData *kd );
+    /**Constructor.  Defines constants needed by findPosition().
+    	*Sets Ecliptic coordinates appropriate for J2000.
+    	*@param kd pointer to KStarsData object
+    	*/
+    KSSun( KStarsData *kd );
 
-/**Destructor (empty)
-	*/
-	virtual ~KSSun() {}
+    /**Destructor (empty)
+    	*/
+    virtual ~KSSun() {}
 
-/**Read orbital data from disk
-	*@note reimplemented from KSPlanet
-	*@note we actually read Earth's orbital data.  The Sun's geocentric
-	*ecliptic coordinates are by definition exactly the opposite of the 
-	*Earth's heliocentric ecliptic coordinates.
-	*/
-	virtual bool loadData();
+    /**Read orbital data from disk
+    	*@note reimplemented from KSPlanet
+    	*@note we actually read Earth's orbital data.  The Sun's geocentric
+    	*ecliptic coordinates are by definition exactly the opposite of the 
+    	*Earth's heliocentric ecliptic coordinates.
+    	*/
+    virtual bool loadData();
 
 
 protected:
-/**Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
-	*@p Epoch current Julian Date
-	*@p Earth pointer to earth object
-	*/
-	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+    /**Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
+    	*@p Epoch current Julian Date
+    	*@p Earth pointer to earth object
+    	*/
+    virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 };
-	long double equinox(int year, int d, int m, int angle);
+long double equinox(int year, int d, int m, int angle);
 
 #endif

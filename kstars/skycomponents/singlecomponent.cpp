@@ -25,53 +25,53 @@
 #include "skyobject.h"
 
 SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
-: SkyComponent( parent, visibleMethod )
+        : SkyComponent( parent, visibleMethod )
 {
 }
 
 SingleComponent::~SingleComponent()
 {
-	int i = objectNames(m_StoredObject->type()).indexOf( m_StoredObject->name() );
-	if ( i >= 0 )
-		objectNames(m_StoredObject->type()).removeAt( i );
+    int i = objectNames(m_StoredObject->type()).indexOf( m_StoredObject->name() );
+    if ( i >= 0 )
+        objectNames(m_StoredObject->type()).removeAt( i );
 
-	i = objectNames(m_StoredObject->type()).indexOf( m_StoredObject->longname() );
-	if ( i >= 0 )
-		objectNames(m_StoredObject->type()).removeAt( i );
+    i = objectNames(m_StoredObject->type()).indexOf( m_StoredObject->longname() );
+    if ( i >= 0 )
+        objectNames(m_StoredObject->type()).removeAt( i );
 
-	delete m_StoredObject;
+    delete m_StoredObject;
 }
 
 void SingleComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( visible() ) {
-		if ( num ) skyObject()->updateCoords( num );
-		skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-	}
+    if ( visible() ) {
+        if ( num ) skyObject()->updateCoords( num );
+        skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
 }
 
 SkyObject* SingleComponent::findByName( const QString &name ) {
-	if ( skyObject()->name() == name || skyObject()->longname() == name 
-		|| skyObject()->name2() == name )
-			return skyObject();
+    if ( skyObject()->name() == name || skyObject()->longname() == name
+            || skyObject()->name2() == name )
+        return skyObject();
 
-	return 0;
+    return 0;
 }
 
 SkyObject* SingleComponent::objectNearest( SkyPoint *p, double &maxrad ) {
-	double r = skyObject()->angularDistanceTo( p ).Degrees();
-	if ( r < maxrad ) {
-		maxrad = r;
-		return skyObject();
-	}
+    double r = skyObject()->angularDistanceTo( p ).Degrees();
+    if ( r < maxrad ) {
+        maxrad = r;
+        return skyObject();
+    }
 
-	return 0;
+    return 0;
 }
 
 SkyObject* SingleComponent::first() {
-	return skyObject();
+    return skyObject();
 }
 
 SkyObject* SingleComponent::next() {
-	return 0;
+    return 0;
 }

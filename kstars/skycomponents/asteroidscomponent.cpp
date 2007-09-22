@@ -34,12 +34,12 @@
 #include "skylabeler.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-: SolarSystemListComponent(parent, visibleMethod, msize)
+        : SolarSystemListComponent(parent, visibleMethod, msize)
 {}
 
 AsteroidsComponent::~AsteroidsComponent()
 {
-	//object deletion handled in grandparent dtor (ListComponent)
+    //object deletion handled in grandparent dtor (ListComponent)
 }
 
 bool AsteroidsComponent::selected()
@@ -56,33 +56,33 @@ void AsteroidsComponent::init(KStarsData *data)
     long double JD;
 
     KSFileReader fileReader;
- 
-	if ( ! fileReader.open("asteroids.dat" ) ) return;
 
-	emitProgressText( i18n("Loading asteroids") );
+    if ( ! fileReader.open("asteroids.dat" ) ) return;
 
-	while( fileReader.hasMoreLines() ) {
-		KSAsteroid *ast = 0;
-		line = fileReader.readLine();
-		name = line.mid( 6, 17 ).trimmed();
-		mJD  = line.mid( 24, 5 ).toInt();
-		a    = line.mid( 30, 9 ).toDouble();
-		e    = line.mid( 41, 10 ).toDouble();
-		dble_i = line.mid( 52, 9 ).toDouble();
-		dble_w = line.mid( 62, 9 ).toDouble();
-		dble_N = line.mid( 72, 9 ).toDouble();
-		dble_M = line.mid( 82, 11 ).toDouble();
-		H = line.mid( 94, 5 ).toDouble();
+    emitProgressText( i18n("Loading asteroids") );
 
-		JD = double( mJD ) + 2400000.5;
+    while( fileReader.hasMoreLines() ) {
+        KSAsteroid *ast = 0;
+        line = fileReader.readLine();
+        name = line.mid( 6, 17 ).trimmed();
+        mJD  = line.mid( 24, 5 ).toInt();
+        a    = line.mid( 30, 9 ).toDouble();
+        e    = line.mid( 41, 10 ).toDouble();
+        dble_i = line.mid( 52, 9 ).toDouble();
+        dble_w = line.mid( 62, 9 ).toDouble();
+        dble_N = line.mid( 72, 9 ).toDouble();
+        dble_M = line.mid( 82, 11 ).toDouble();
+        H = line.mid( 94, 5 ).toDouble();
 
-		ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i), 
+        JD = double( mJD ) + 2400000.5;
+
+        ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i),
                               dms(dble_w), dms(dble_N), dms(dble_M), H );
-		ast->setAngularSize( 0.005 );
-		objectList().append( ast );
+        ast->setAngularSize( 0.005 );
+        objectList().append( ast );
 
-		//Add name to the list of object names
-		objectNames(SkyObject::ASTEROID).append( name );
+        //Add name to the list of object names
+        objectNames(SkyObject::ASTEROID).append( name );
     }
 }
 
@@ -91,67 +91,67 @@ void AsteroidsComponent::update( KStarsData *data, KSNumbers *num )
     if ( ! selected() ) return;
 
     foreach ( SkyObject *o, objectList() ) {
-		KSPlanetBase *p = (KSPlanetBase*) o;
-		p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        KSPlanetBase *p = (KSPlanetBase*) o;
+        p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }
 
 void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
 {
-	if ( ! selected() ) return;
-	
-	SkyMap *map = ks->map();
-	bool hideLabels =  ! Options::showAsteroidNames() ||
-		( map->isSlewing() && Options::hideLabels() );
+    if ( ! selected() ) return;
 
-	double lgmin = log10(MINZOOM);
-	double lgmax = log10(MAXZOOM);
-	double lgz = log10(Options::zoomFactor());
-	double labelMagLimit  = 2.5 + Options::asteroidLabelDensity() / 5.0;
-	labelMagLimit += ( 15.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
-	if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
-	//printf("labelMagLim = %.1f\n", labelMagLimit );
+    SkyMap *map = ks->map();
+    bool hideLabels =  ! Options::showAsteroidNames() ||
+                       ( map->isSlewing() && Options::hideLabels() );
 
-	float sizeFactor = scale * dms::PI * Options::zoomFactor()/10800.0;
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+    double labelMagLimit  = 2.5 + Options::asteroidLabelDensity() / 5.0;
+    labelMagLimit += ( 15.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
+    if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
+    //printf("labelMagLim = %.1f\n", labelMagLimit );
+
+    float sizeFactor = scale * dms::PI * Options::zoomFactor()/10800.0;
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
-	foreach ( SkyObject *so, objectList() ) { 
-		KSAsteroid *ast = (KSAsteroid*) so;
+    foreach ( SkyObject *so, objectList() ) {
+        KSAsteroid *ast = (KSAsteroid*) so;
 
-		if ( ast->mag() > Options::magLimitAsteroid() ) continue;
-		if ( ! map->checkVisibility( ast ) ) continue;
-		
+        if ( ast->mag() > Options::magLimitAsteroid() ) continue;
+        if ( ! map->checkVisibility( ast ) ) continue;
+
         QPointF o = map->toScreen( ast, scale );
         if ( ! map->onScreen( o ) ) continue;
 
-		float size = ast->angSize() * sizeFactor;
-		if ( size < 1.0 ) size = 1.0;
-		float x1 = o.x() - 0.5 * size;
-		float y1 = o.y() - 0.5 * size;
+        float size = ast->angSize() * sizeFactor;
+        if ( size < 1.0 ) size = 1.0;
+        float x1 = o.x() - 0.5 * size;
+        float y1 = o.y() - 0.5 * size;
 
-		psky.drawEllipse( QRectF( x1, y1, size, size ) );
+        psky.drawEllipse( QRectF( x1, y1, size, size ) );
 
-		if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
-		SkyLabeler::AddOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
+        if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
+        SkyLabeler::AddOffsetLabel( o, ast->translatedName(), ASTEROID_LABEL );
     }
 }
 
 SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
-	SkyObject *oBest = 0;
+    SkyObject *oBest = 0;
 
-	if ( ! selected() ) return 0;
+    if ( ! selected() ) return 0;
 
-	foreach ( SkyObject *o, objectList() ) {
-		if ( o->mag() > Options::magLimitAsteroid() ) continue;
+    foreach ( SkyObject *o, objectList() ) {
+        if ( o->mag() > Options::magLimitAsteroid() ) continue;
 
-		double r = o->angularDistanceTo( p ).Degrees();
-		if ( r < maxrad ) {
-			oBest = o;
-			maxrad = r;
-		}
-	}
+        double r = o->angularDistanceTo( p ).Degrees();
+        if ( r < maxrad ) {
+            oBest = o;
+            maxrad = r;
+        }
+    }
 
-	return oBest;
+    return oBest;
 }
 

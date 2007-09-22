@@ -31,9 +31,9 @@ class GeoLocation;
 class SkyObject;
 
 class WUTDialogUI : public QFrame, public Ui::WUTDialog {
-	Q_OBJECT
-	public:
-		WUTDialogUI( QWidget *p=0 );
+    Q_OBJECT
+public:
+    WUTDialogUI( QWidget *p=0 );
 };
 
 /**@class WUTDialog
@@ -43,85 +43,85 @@ class WUTDialogUI : public QFrame, public Ui::WUTDialog {
 	*@version 1.0
 	*/
 class WUTDialog : public KDialog  {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		/**@short Constructor*/
-		WUTDialog(KStars *ks);
-		/**@short Destructor*/
-		~WUTDialog();
+    /**@short Constructor*/
+    WUTDialog(KStars *ks);
+    /**@short Destructor*/
+    ~WUTDialog();
 
-	private slots:
+private slots:
 
-		/**@short Load the list of visible objects for selected object type.
-			*@p category the string describing the type of object
-			*/
-		void slotLoadList(const QString &category);
+    /**@short Load the list of visible objects for selected object type.
+    	*@p category the string describing the type of object
+    	*/
+    void slotLoadList(const QString &category);
 
-		/**@short Determine which objects are visible, and store them in
-			*an array of lists, classified by object type 
-			*/
-		void init();
+    /**@short Determine which objects are visible, and store them in
+    	*an array of lists, classified by object type 
+    	*/
+    void init();
 
-		/**@short display the rise/transit/set times for selected object 
-			*/
-		void slotDisplayObject(const QString &name);
+    /**@short display the rise/transit/set times for selected object
+    	*/
+    void slotDisplayObject(const QString &name);
 
-		/**@short Apply user's choice of what part of the night should 
-			*be examined:
-			*@li 0: Evening only (sunset to midnight)
-			*@li 1: Morning only (midnight to sunrise)
-			*@li 2: All night (sunset to sunrise)
-			*/
-		void slotEveningMorning( int flag );
+    /**@short Apply user's choice of what part of the night should
+    	*be examined:
+    	*@li 0: Evening only (sunset to midnight)
+    	*@li 1: Morning only (midnight to sunrise)
+    	*@li 2: All night (sunset to sunrise)
+    	*/
+    void slotEveningMorning( int flag );
 
-		/**@short Adjust the date for the WUT tool
-			*@note this does NOT affect the date of the sky map 
-			*/
-		void slotChangeDate();
-		
-		/**@short Adjust the geographic location for the WUT tool
-			*@note this does NOT affect the geographic location for the sky map
-			*/
-		void slotChangeLocation();
-		
-		/**@short open the detail dialog for the current object
-			*/
-		void slotDetails();
+    /**@short Adjust the date for the WUT tool
+    	*@note this does NOT affect the date of the sky map 
+    	*/
+    void slotChangeDate();
 
-		/**@short center the display on the current object
-			*/
-		void slotCenter();
-	private:
+    /**@short Adjust the geographic location for the WUT tool
+    	*@note this does NOT affect the geographic location for the sky map
+    	*/
+    void slotChangeLocation();
 
-		KStars *kstars;
-		WUTDialogUI *WUT;
-		
-		QList<SkyObject*>& visibleObjects( const QString &category );
-		bool isCategoryInitialized( const QString &category );
+    /**@short open the detail dialog for the current object
+    	*/
+    void slotDetails();
 
-		/**@short Initialize all SIGNAL/SLOT connections, used in constructor */
-		void makeConnections();
-		
-		/**@short Initialize catgory list, used in constructor */
-		void initCategories();
-		
-		/**@short Check visibility of object
-			*@p o the object to check
-			*@return true if visible
-			*/
-		bool checkVisibility(SkyObject *o);
+    /**@short center the display on the current object
+    	*/
+    void slotCenter();
+private:
 
-		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
-		KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
+    KStars *kstars;
+    WUTDialogUI *WUT;
 
-		GeoLocation *geo;
-		int EveningFlag;
-		
-		QStringList m_Categories;
-		QHash< QString, QList< SkyObject* > > m_VisibleList;
-		QHash< QString, bool > m_CategoryInitialized;
+    QList<SkyObject*>& visibleObjects( const QString &category );
+    bool isCategoryInitialized( const QString &category );
+
+    /**@short Initialize all SIGNAL/SLOT connections, used in constructor */
+    void makeConnections();
+
+    /**@short Initialize catgory list, used in constructor */
+    void initCategories();
+
+    /**@short Check visibility of object
+    	*@p o the object to check
+    	*@return true if visible
+    	*/
+    bool checkVisibility(SkyObject *o);
+
+    QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
+    KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
+
+    GeoLocation *geo;
+    int EveningFlag;
+
+    QStringList m_Categories;
+    QHash< QString, QList< SkyObject* > > m_VisibleList;
+    QHash< QString, bool > m_CategoryInitialized;
 
 };
 

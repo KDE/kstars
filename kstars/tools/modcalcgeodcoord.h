@@ -32,47 +32,47 @@ class GeoLocation;
   */
 class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg {
 
-	Q_OBJECT
-	public:
-	
-		modCalcGeodCoord(QWidget *p);
-		~modCalcGeodCoord();
-	
-		void genGeoCoords(void);
-		void getCartGeoCoords (void);
-		void getSphGeoCoords (void);
-		void showSpheGeoCoords(void);
-		void showCartGeoCoords(void);
+    Q_OBJECT
+public:
 
-	public slots:
-	
-		void slotComputeGeoCoords (void);
-		void slotClearGeoCoords (void);		
-		void setEllipsoid(int i);
-		void slotLongCheckedBatch();
-		void slotLatCheckedBatch();
-		void slotElevCheckedBatch();
-		void slotXCheckedBatch();
-		void slotYCheckedBatch();
-		void slotZCheckedBatch();
-		void slotOutputFile();
-		void slotInputFile();
-	private:
+    modCalcGeodCoord(QWidget *p);
+    ~modCalcGeodCoord();
 
-		void geoCheck(void);
-		void xyzCheck(void);
-		void showLongLat(void);
-		void processLines( QTextStream &istream );
-		void slotRunBatch(void);
+    void genGeoCoords(void);
+    void getCartGeoCoords (void);
+    void getSphGeoCoords (void);
+    void showSpheGeoCoords(void);
+    void showCartGeoCoords(void);
 
-//		QRadioButton *cartRadio, *spheRadio;
-//		QVBox *vbox, *rightBox;
-//		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
-//		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
+public slots:
 
-		GeoLocation *geoPlace;
-		bool xyzInputCoords;
+    void slotComputeGeoCoords (void);
+    void slotClearGeoCoords (void);
+    void setEllipsoid(int i);
+    void slotLongCheckedBatch();
+    void slotLatCheckedBatch();
+    void slotElevCheckedBatch();
+    void slotXCheckedBatch();
+    void slotYCheckedBatch();
+    void slotZCheckedBatch();
+    void slotOutputFile();
+    void slotInputFile();
+private:
+
+    void geoCheck(void);
+    void xyzCheck(void);
+    void showLongLat(void);
+    void processLines( QTextStream &istream );
+    void slotRunBatch(void);
+
+    //		QRadioButton *cartRadio, *spheRadio;
+    //		QVBox *vbox, *rightBox;
+    //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
+    //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
+
+    GeoLocation *geoPlace;
+    bool xyzInputCoords;
 
 };
-	
+
 #endif

@@ -20,7 +20,7 @@
 
 #include "ksplanetbase.h"
 
-/**@class KSAsteroid 
+/**@class KSAsteroid
 	*@short A subclass of KSPlanetBase that implements asteroids.
 	*
 	*The orbital elements are stored as private member variables, and it
@@ -47,55 +47,55 @@ class dms;
 
 class KSAsteroid : public KSPlanetBase
 {
-	public:
-		/**Constructor.
-			*@p kd pointer to the KStarsData object
-			*@p s the name of the asteroid
-			*@p image_file the filename for an image of the asteroid
-			*@p JD the Julian Day for the orbital elements
-			*@p a the semi-major axis of the asteroid's orbit (AU)
-			*@p e the eccentricity of the asteroid's orbit
-			*@p i the inclination angle of the asteroid's orbit
-			*@p w the argument of the orbit's perihelion
-			*@p N the longitude of the orbit's ascending node
-			*@p M the mean anomaly for the Julian Day
-			*@p H absolute magnitude
-			*/
-		KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
-			long double JD, double a, double e, dms i, dms w, dms N, dms M, double H );
+public:
+    /**Constructor.
+    	*@p kd pointer to the KStarsData object
+    	*@p s the name of the asteroid
+    	*@p image_file the filename for an image of the asteroid
+    	*@p JD the Julian Day for the orbital elements
+    	*@p a the semi-major axis of the asteroid's orbit (AU)
+    	*@p e the eccentricity of the asteroid's orbit
+    	*@p i the inclination angle of the asteroid's orbit
+    	*@p w the argument of the orbit's perihelion
+    	*@p N the longitude of the orbit's ascending node
+    	*@p M the mean anomaly for the Julian Day
+    	*@p H absolute magnitude
+    	*/
+    KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
+                long double JD, double a, double e, dms i, dms w, dms N, dms M, double H );
 
-		/**Destructor (empty)*/
-		virtual ~KSAsteroid() {}
+    /**Destructor (empty)*/
+    virtual ~KSAsteroid() {}
 
-		/**This is inherited from KSPlanetBase.  We don't use it in this class,
-			*so it is empty.
-			*/
-		virtual bool loadData();
+    /**This is inherited from KSPlanetBase.  We don't use it in this class,
+    	*so it is empty.
+    	*/
+    virtual bool loadData();
 
-	protected:
-/**Calculate the geocentric RA, Dec coordinates of the Asteroid.
-	*@note reimplemented from KSPlanetBase
-	*@param num time-dependent values for the desired date
-	*@param Earth planet Earth (needed to calculate geocentric coords)
-	*@return true if position was successfully calculated.
-	*/
-		virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+protected:
+    /**Calculate the geocentric RA, Dec coordinates of the Asteroid.
+    	*@note reimplemented from KSPlanetBase
+    	*@param num time-dependent values for the desired date
+    	*@param Earth planet Earth (needed to calculate geocentric coords)
+    	*@return true if position was successfully calculated.
+    	*/
+    virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
-		//these set functions are needed for the new KSPluto subclass
-		void set_a( double newa ) { a = newa; }
-		void set_e( double newe ) { e = newe; }
-		void set_P( double newP ) { P = newP; }
-		void set_i( double newi ) { i.setD( newi ); }
-		void set_w( double neww ) { w.setD( neww ); }
-		void set_M( double newM ) { M.setD( newM ); }
-		void set_N( double newN ) { N.setD( newN ); }
-		void setJD( long double jd ) { JD = jd; }
+    //these set functions are needed for the new KSPluto subclass
+    void set_a( double newa ) { a = newa; }
+    void set_e( double newe ) { e = newe; }
+    void set_P( double newP ) { P = newP; }
+    void set_i( double newi ) { i.setD( newi ); }
+    void set_w( double neww ) { w.setD( neww ); }
+    void set_M( double newM ) { M.setD( newM ); }
+    void set_N( double newN ) { N.setD( newN ); }
+    void setJD( long double jd ) { JD = jd; }
 
-	private:
-		KStarsData *kd;
-		long double JD;
-		double a, e, H, P;
-		dms i, w, M, N;
+private:
+    KStarsData *kd;
+    long double JD;
+    double a, e, H, P;
+    dms i, w, M, N;
 };
 
 #endif

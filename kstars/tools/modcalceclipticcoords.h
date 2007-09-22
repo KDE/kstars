@@ -30,32 +30,32 @@
   */
 class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg  {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
-	
-	modCalcEclCoords(QWidget *p);
-	~modCalcEclCoords();
+
+    modCalcEclCoords(QWidget *p);
+    ~modCalcEclCoords();
 
 public slots:
-	void slotNow(void);
-	void slotObject(void);
-	void slotDateTimeChanged(const ExtDateTime &edt);
-	void slotCompute(void);
+    void slotNow(void);
+    void slotObject(void);
+    void slotDateTimeChanged(const ExtDateTime &edt);
+    void slotCompute(void);
 
-	void slotEclLatCheckedBatch(void);
-	void slotEclLongCheckedBatch(void);
-	void slotRaCheckedBatch(void);
-	void slotDecCheckedBatch(void);
-	void slotEpochCheckedBatch(void);
-	void slotRunBatch();
+    void slotEclLatCheckedBatch(void);
+    void slotEclLongCheckedBatch(void);
+    void slotRaCheckedBatch(void);
+    void slotDecCheckedBatch(void);
+    void slotEpochCheckedBatch(void);
+    void slotRunBatch();
 
 private:
-	void equCheck(void);
-	void eclCheck(void);
-	void processLines( QTextStream &is );
+    void equCheck(void);
+    void eclCheck(void);
+    void processLines( QTextStream &is );
 
-	KStarsDateTime kdt;
+    KStarsDateTime kdt;
 };
 #endif
 

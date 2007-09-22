@@ -30,19 +30,19 @@ class KPlotWidget;
 	*/
 class JMoonTool : public KDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	JMoonTool(QWidget *parent = 0);
-	~JMoonTool();
+    JMoonTool(QWidget *parent = 0);
+    ~JMoonTool();
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
+    virtual void keyPressEvent( QKeyEvent *e );
 
 private:
-	void initPlotObjects();
-	KPlotWidget *pw;
-	KStars *ksw;
-	QColor colJp, colIo, colEu, colGn, colCa;
+    void initPlotObjects();
+    KPlotWidget *pw;
+    KStars *ksw;
+    QColor colJp, colIo, colEu, colGn, colCa;
 };
 
 #endif

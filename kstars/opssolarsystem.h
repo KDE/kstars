@@ -31,20 +31,20 @@ class KStars;
 	*/
 class OpsSolarSystem : public QFrame, public Ui::OpsSolarSystem
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	OpsSolarSystem( KStars *_ks );
-	~OpsSolarSystem();
+    OpsSolarSystem( KStars *_ks );
+    ~OpsSolarSystem();
 
 private slots:
-	void slotAllWidgets(bool on);
-	void slotAsteroidWidgets(bool on);
-	void slotCometWidgets(bool on);
-	void slotSelectPlanets();
+    void slotAllWidgets(bool on);
+    void slotAsteroidWidgets(bool on);
+    void slotCometWidgets(bool on);
+    void slotSelectPlanets();
 
 private:
-	KStars *ksw;
+    KStars *ksw;
 };
 
 #endif

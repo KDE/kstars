@@ -31,36 +31,36 @@ extern "C" {
 
 class KStarsData;
 
-class SatelliteComposite : public SkyComposite 
+class SatelliteComposite : public SkyComposite
 {
-	public:
-	/**
-		*@short Constructor
-		*@param parent Pointer to the parent SkyComponent object
-		*/
-		SatelliteComposite( SkyComponent *parent );
+public:
+    /**
+    	*@short Constructor
+    	*@param parent Pointer to the parent SkyComponent object
+    	*/
+    SatelliteComposite( SkyComponent *parent );
 
-		~SatelliteComposite();
+    ~SatelliteComposite();
 
-	/**
-		*@short Initialize the Satellite composite
-		*
-		*@param data Pointer to the KStarsData object
-		*/
-		virtual void init( KStarsData *data );
+    /**
+    	*@short Initialize the Satellite composite
+    	*
+    	*@param data Pointer to the KStarsData object
+    	*/
+    virtual void init( KStarsData *data );
 
-	/**
-		*@short Update the satellite tracks
-		*
-		*@param data Pointer to the KStarsData object
-		*@param num Pointer to the KSNumbers object
-		*/
-		virtual void update( KStarsData *data, KSNumbers *num=0 );
+    /**
+    	*@short Update the satellite tracks
+    	*
+    	*@param data Pointer to the KStarsData object
+    	*@param num Pointer to the KSNumbers object
+    	*/
+    virtual void update( KStarsData *data, KSNumbers *num=0 );
 
-	private:
-		QVector<SPositionSat*> pSat;
-		QStringList SatelliteNames;
-		long double JD_0;
+private:
+    QVector<SPositionSat*> pSat;
+    QStringList SatelliteNames;
+    long double JD_0;
 };
 
 #endif

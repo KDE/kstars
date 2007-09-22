@@ -21,12 +21,12 @@
 #define EQPLOTWIDGET_H_
 
 class eqPlotWidget : public KPlotWidget {
-Q_OBJECT
+    Q_OBJECT
 public:
-	eqPlotWidget( QWidget *parent=0 );
+    eqPlotWidget( QWidget *parent=0 );
 
 protected:
-	virtual void paintEvent( QPaintEvent * );
+    virtual void paintEvent( QPaintEvent * );
 };
 
 #endif

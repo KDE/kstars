@@ -30,225 +30,225 @@
 #include "finddialog.h"
 #include "kstars.h"
 
-modCalcAngDist::modCalcAngDist(QWidget *parentSplit) 
-: QFrame(parentSplit) {
+modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
+        : QFrame(parentSplit) {
 
-	setupUi(this);
-	FirstRA->setDegType(false);
-	SecondRA->setDegType(false);
+    setupUi(this);
+    FirstRA->setDegType(false);
+    SecondRA->setDegType(false);
 
-	connect( FirstRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
-	connect( FirstDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
-	connect( SecondRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
-	connect( SecondDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
-	connect( FirstRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
-	connect( FirstDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
-	connect( SecondRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
-	connect( SecondDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
-	connect( FirstObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
-	connect( SecondObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
-	connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
-	connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
-	connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
+    connect( FirstRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+    connect( FirstDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+    connect( SecondRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+    connect( SecondDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()) );
+    connect( FirstRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+    connect( FirstDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+    connect( SecondRA, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+    connect( SecondDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
+    connect( FirstObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
+    connect( SecondObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
+    connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
+    connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
+    connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
 
-	show();
-	slotValidatePositions();
+    show();
+    slotValidatePositions();
 }
 
 modCalcAngDist::~modCalcAngDist(){
 }
 
 SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox, bool *ok) {
-	dms raCoord, decCoord;
+    dms raCoord, decCoord;
 
-	bool ok2=false;
-	raCoord = rBox->createDms(false, &ok2);
-	if ( ok2 )
-	  decCoord = dBox->createDms(true, &ok2);
+    bool ok2=false;
+    raCoord = rBox->createDms(false, &ok2);
+    if ( ok2 )
+        decCoord = dBox->createDms(true, &ok2);
 
-	if ( ok2 ) {
-	  if ( ok ) *ok = ok2;
-	  return SkyPoint (raCoord, decCoord);
-	} else {
-	  if ( ok ) *ok = ok2;
-	  return SkyPoint();
-	}
+    if ( ok2 ) {
+        if ( ok ) *ok = ok2;
+        return SkyPoint (raCoord, decCoord);
+    } else {
+        if ( ok ) *ok = ok2;
+        return SkyPoint();
+    }
 }
 
 void modCalcAngDist::slotValidatePositions(){
 
-	SkyPoint sp0,sp1;
-	bool ok;
-	sp0 = getCoords(FirstRA, FirstDec, &ok);
+    SkyPoint sp0,sp1;
+    bool ok;
+    sp0 = getCoords(FirstRA, FirstDec, &ok);
 
-	if ( ok )
-	  sp1 = getCoords(SecondRA, SecondDec, &ok);
+    if ( ok )
+        sp1 = getCoords(SecondRA, SecondDec, &ok);
 
-	if ( ok ) 
-	  AngDist->setText( sp0.angularDistanceTo(&sp1).toDMSString() );
-	else 
-	  AngDist->setText( " .... " );
+    if ( ok )
+        AngDist->setText( sp0.angularDistanceTo(&sp1).toDMSString() );
+    else
+        AngDist->setText( " .... " );
 }
 
 void modCalcAngDist::slotObjectButton() {
-	FindDialog fd( (KStars*)topLevelWidget()->parent() );
-	if ( fd.exec() == QDialog::Accepted ) {
-	  SkyObject *o = fd.selectedObject();
-	  if ( sender()->objectName() == QString("FirstObjectButton") ) {
-	    FirstRA->showInHours( o->ra() );
-	    FirstDec->showInDegrees( o->dec() );
-	    FirstPositionBox->setTitle( i18n("First position") + ": " + o->name() );
-	  } else {
-	    SecondRA->showInHours( o->ra() );
-	    SecondDec->showInDegrees( o->dec() );
-	    SecondPositionBox->setTitle( i18n("Second position") + ": " + o->name() );
-	  }
+    FindDialog fd( (KStars*)topLevelWidget()->parent() );
+    if ( fd.exec() == QDialog::Accepted ) {
+        SkyObject *o = fd.selectedObject();
+        if ( sender()->objectName() == QString("FirstObjectButton") ) {
+            FirstRA->showInHours( o->ra() );
+            FirstDec->showInDegrees( o->dec() );
+            FirstPositionBox->setTitle( i18n("First position") + ": " + o->name() );
+        } else {
+            SecondRA->showInHours( o->ra() );
+            SecondDec->showInDegrees( o->dec() );
+            SecondPositionBox->setTitle( i18n("Second position") + ": " + o->name() );
+        }
 
-	  slotValidatePositions();
-	}
+        slotValidatePositions();
+    }
 }
 
 void modCalcAngDist::slotResetTitle() {
-  QString name = sender()->objectName();
-  if ( name.contains( "First" ) ) 
-    FirstPositionBox->setTitle( i18n("First position") );
-  else
-    SecondPositionBox->setTitle( i18n("Second position") );
+    QString name = sender()->objectName();
+    if ( name.contains( "First" ) )
+        FirstPositionBox->setTitle( i18n("First position") );
+    else
+        SecondPositionBox->setTitle( i18n("Second position") );
 }
 
 void modCalcAngDist::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+    QString inputFileName;
+    inputFileName = KFileDialog::getOpenFileName( );
+    InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcAngDist::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+    QString outputFileName;
+    outputFileName = KFileDialog::getSaveFileName( );
+    OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcAngDist::slotRunBatch() {
 
-	QString inputFileName;
+    QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+    inputFileName = InputLineEditBatch->text();
 
-	// We open the input file and read its content
+    // We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
-		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.fileName() );
-			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = QString();
-			return;
-		}
+    if ( QFile::exists(inputFileName) ) {
+        QFile f( inputFileName );
+        if ( !f.open( QIODevice::ReadOnly) ) {
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            inputFileName = QString();
+            return;
+        }
 
-//		processLines(&f);
-		QTextStream istream(&f);
-		processLines(istream);
-//		readFile( istream );
-		f.close();
-	} else  {
-		QString message = i18n( "Invalid file: %1", inputFileName );
-		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = QString();
-		InputLineEditBatch->setText( inputFileName );
-		return;
-	}
+        //		processLines(&f);
+        QTextStream istream(&f);
+        processLines(istream);
+        //		readFile( istream );
+        f.close();
+    } else  {
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        inputFileName = QString();
+        InputLineEditBatch->setText( inputFileName );
+        return;
+    }
 }
 
 //void modCalcAngDist::processLines( const QFile * fIn ) {
 void modCalcAngDist::processLines( QTextStream &istream ) {
 
-	// we open the output file
+    // we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
-	fOut.open(QIODevice::WriteOnly);
-	QTextStream ostream(&fOut);
+    //	QTextStream istream(&fIn);
+    QString outputFileName;
+    outputFileName = OutputLineEditBatch->text();
+    QFile fOut( outputFileName );
+    fOut.open(QIODevice::WriteOnly);
+    QTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
-	int i = 0;
-	SkyPoint sp0, sp1;
-	dms ra0B, dec0B, ra1B, dec1B, dist;
+    QString line;
+    QString space = " ";
+    int i = 0;
+    SkyPoint sp0, sp1;
+    dms ra0B, dec0B, ra1B, dec1B, dist;
 
-	while ( ! istream.atEnd() ) {
-		line = istream.readLine();
-		line.trimmed();
+    while ( ! istream.atEnd() ) {
+        line = istream.readLine();
+        line.trimmed();
 
-		//Go through the line, looking for parameters
+        //Go through the line, looking for parameters
 
-		QStringList fields = line.split( " " );
+        QStringList fields = line.split( " " );
 
-		i = 0;
+        i = 0;
 
-		// Read RA and write in ostream if corresponds
+        // Read RA and write in ostream if corresponds
 
-		if(ra0CheckBatch->isChecked() ) {
-			ra0B = dms::fromString( fields[i],false);
-			i++;
-		} else
-			ra0B = ra0BoxBatch->createDms(false);
+        if(ra0CheckBatch->isChecked() ) {
+            ra0B = dms::fromString( fields[i],false);
+            i++;
+        } else
+            ra0B = ra0BoxBatch->createDms(false);
 
-		if ( allRadioBatch->isChecked() )
-			ostream << ra0B.toHMSString() << space;
-		else
-			if(ra0CheckBatch->isChecked() )
-				ostream << ra0B.toHMSString() << space;
+        if ( allRadioBatch->isChecked() )
+            ostream << ra0B.toHMSString() << space;
+        else
+            if(ra0CheckBatch->isChecked() )
+                ostream << ra0B.toHMSString() << space;
 
-		// Read DEC and write in ostream if corresponds
+        // Read DEC and write in ostream if corresponds
 
-		if(dec0CheckBatch->isChecked() ) {
-			dec0B = dms::fromString( fields[i], true);
-			i++;
-		} else
-			dec0B = dec0BoxBatch->createDms();
+        if(dec0CheckBatch->isChecked() ) {
+            dec0B = dms::fromString( fields[i], true);
+            i++;
+        } else
+            dec0B = dec0BoxBatch->createDms();
 
-		if ( allRadioBatch->isChecked() )
-			ostream << dec0B.toDMSString() << space;
-		else
-			if(dec0CheckBatch->isChecked() )
-				ostream << dec0B.toDMSString() << space;
-		
-		// Read RA and write in ostream if corresponds
+        if ( allRadioBatch->isChecked() )
+            ostream << dec0B.toDMSString() << space;
+        else
+            if(dec0CheckBatch->isChecked() )
+                ostream << dec0B.toDMSString() << space;
 
-		if(ra1CheckBatch->isChecked() ) {
-			ra1B = dms::fromString( fields[i],false);
-			i++;
-		} else
-			ra1B = ra1BoxBatch->createDms(false);
+        // Read RA and write in ostream if corresponds
 
-		if ( allRadioBatch->isChecked() )
-			ostream << ra1B.toHMSString() << space;
-		else
-			if(ra1CheckBatch->isChecked() )
-				ostream << ra1B.toHMSString() << space;
+        if(ra1CheckBatch->isChecked() ) {
+            ra1B = dms::fromString( fields[i],false);
+            i++;
+        } else
+            ra1B = ra1BoxBatch->createDms(false);
 
-		// Read DEC and write in ostream if corresponds
+        if ( allRadioBatch->isChecked() )
+            ostream << ra1B.toHMSString() << space;
+        else
+            if(ra1CheckBatch->isChecked() )
+                ostream << ra1B.toHMSString() << space;
 
-		if(dec1CheckBatch->isChecked() ) {
-			dec1B = dms::fromString( fields[i], true);
-			i++;
-		} else
-			dec1B = dec1BoxBatch->createDms();
+        // Read DEC and write in ostream if corresponds
 
-		if ( allRadioBatch->isChecked() )
-			ostream << dec1B.toDMSString() << space;
-		else
-			if(dec1CheckBatch->isChecked() )
-				ostream << dec1B.toDMSString() << space;
+        if(dec1CheckBatch->isChecked() ) {
+            dec1B = dms::fromString( fields[i], true);
+            i++;
+        } else
+            dec1B = dec1BoxBatch->createDms();
 
-		sp0 = SkyPoint (ra0B, dec0B);
-		sp1 = SkyPoint (ra1B, dec1B);
-		dist = sp0.angularDistanceTo(&sp1);
+        if ( allRadioBatch->isChecked() )
+            ostream << dec1B.toDMSString() << space;
+        else
+            if(dec1CheckBatch->isChecked() )
+                ostream << dec1B.toDMSString() << space;
 
-		ostream << dist.toDMSString() << endl;
-	}
+        sp0 = SkyPoint (ra0B, dec0B);
+        sp1 = SkyPoint (ra1B, dec1B);
+        dist = sp0.angularDistanceTo(&sp1);
 
-	fOut.close();
+        ostream << dist.toDMSString() << endl;
+    }
+
+    fOut.close();
 }

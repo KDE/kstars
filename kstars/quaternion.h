@@ -20,18 +20,18 @@
 
 enum
 {
-	Q_X = 0,
-	Q_Y = 1,
-	Q_Z = 2,
-	Q_W = 3
+    Q_X = 0,
+    Q_Y = 1,
+    Q_Z = 2,
+    Q_W = 3
 };
 
 #ifdef __GNUC__
-  typedef int xmmint[4] __attribute__ ((aligned (16)));
-  typedef float xmmfloat[4] __attribute__ ((aligned (16)));
+typedef int xmmint[4] __attribute__ ((aligned (16)));
+typedef float xmmfloat[4] __attribute__ ((aligned (16)));
 #else
-  typedef int xmmint[4];
-  typedef float xmmfloat[4];
+typedef int xmmint[4];
+typedef float xmmfloat[4];
 #endif
 
 typedef xmmfloat matrix[3];
@@ -47,40 +47,40 @@ static const xmmint sgn_pppm = { 0, 0, 0, 1 << 31 };
 
 class Quaternion {
 public:
-	Quaternion();
-	Quaternion(float w, float x, float y, float z);
-	Quaternion(float alpha, float beta);
-	virtual ~Quaternion(){ }
+    Quaternion();
+    Quaternion(float w, float x, float y, float z);
+    Quaternion(float alpha, float beta);
+    virtual ~Quaternion(){ }
 
-	// Operators
-	Quaternion operator*(const Quaternion &q) const;
-	bool operator==(const Quaternion &q) const;
-	void operator*=(const Quaternion &q);
+    // Operators
+    Quaternion operator*(const Quaternion &q) const;
+    bool operator==(const Quaternion &q) const;
+    void operator*=(const Quaternion &q);
 
-	void set(float w, float x, float y, float z);
-	void normalize();
+    void set(float w, float x, float y, float z);
+    void normalize();
 
-	Quaternion inverse() const;
+    Quaternion inverse() const;
 
-	void createFromEuler(float pitch, float yaw, float roll);
-	void display() const;
+    void createFromEuler(float pitch, float yaw, float roll);
+    void display() const;
 
-	virtual void rotateAroundAxis(const Quaternion &q);
+    virtual void rotateAroundAxis(const Quaternion &q);
 
-	void getSpherical(float &alpha, float &beta);
+    void getSpherical(float &alpha, float &beta);
 
-	void scalar(float mult);
+    void scalar(float mult);
 
-	void toMatrix(matrix &m);
-	void rotateAroundAxis(const matrix &m);
+    void toMatrix(matrix &m);
+    void rotateAroundAxis(const matrix &m);
 
-	// TODO: Better add accessors...
-	xmmfloat v;
+    // TODO: Better add accessors...
+    xmmfloat v;
 };
 
 class QuaternionSSE : public Quaternion {
 public:
-	void rotateAroundAxis(const Quaternion &q);
+    void rotateAroundAxis(const Quaternion &q);
 };
 
 #endif

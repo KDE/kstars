@@ -37,49 +37,49 @@ class FITSImage;
 class FITSHistogram;
 
 
-class FITSViewer : public KXmlGuiWindow  
+class FITSViewer : public KXmlGuiWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-	
-	friend class FITSChangeCommand;
-	friend class FITSImage;
-	friend class FITSHistogram;
-	friend class FITSHistogramCommand;
-	
-	/**Constructor. */
-	FITSViewer (const KUrl *imageName, QWidget *parent);
-	~FITSViewer();
+public:
 
-	protected:
-	
-	void closeEvent(QCloseEvent *ev);
-	
-	public slots:
-	void fitsChange();
-	
-	private slots:
-	void fileOpen();
-	void fileSave();
-        void fileSaveAs();
-	void fitsCOPY();
-	void fitsRestore(bool clean=true);
-	void fitsStatistics();
-	void fitsHeader();
-	void slotClose();
-	void imageHistogram();
-	
-	private:
-	bool    initFITS();
-	
-	FITSImage *image;					/* FITS image object */
-	FITSHistogram *histogram;				/* FITS Histogram */
-	
-	KUndoStack *history;					/* History for undo/redo */
-	int Dirty;						/* Document modified? */
-	KUrl currentURL;					/* FITS File name and path */
-		
+    friend class FITSChangeCommand;
+    friend class FITSImage;
+    friend class FITSHistogram;
+    friend class FITSHistogramCommand;
+
+    /**Constructor. */
+    FITSViewer (const KUrl *imageName, QWidget *parent);
+    ~FITSViewer();
+
+protected:
+
+    void closeEvent(QCloseEvent *ev);
+
+public slots:
+    void fitsChange();
+
+private slots:
+    void fileOpen();
+    void fileSave();
+    void fileSaveAs();
+    void fitsCOPY();
+    void fitsRestore(bool clean=true);
+    void fitsStatistics();
+    void fitsHeader();
+    void slotClose();
+    void imageHistogram();
+
+private:
+    bool    initFITS();
+
+    FITSImage *image;					/* FITS image object */
+    FITSHistogram *histogram;				/* FITS Histogram */
+
+    KUndoStack *history;					/* History for undo/redo */
+    int Dirty;						/* Document modified? */
+    KUrl currentURL;					/* FITS File name and path */
+
 };
 
 #endif

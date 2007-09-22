@@ -23,184 +23,184 @@
 #include <QString>
 
 GeoLocation::GeoLocation(){
-	GeoLocation( 0.0, 0.0 );
-	TZrule = NULL;
+    GeoLocation( 0.0, 0.0 );
+    TZrule = NULL;
 }
 
 GeoLocation::GeoLocation( const GeoLocation &g ) {
-	Longitude = g.Longitude;
-	Latitude  = g.Latitude;
-	Name      = g.Name;
-	Province  = g.Province;
-	Country   = g.Country;
-	TimeZone  = g.TimeZone;
-	TZrule    = g.TZrule;
-	Height    = g.Height;
-	indexEllipsoid = g.indexEllipsoid;
-	setEllipsoid ( indexEllipsoid );
-	geodToCart();
+    Longitude = g.Longitude;
+    Latitude  = g.Latitude;
+    Name      = g.Name;
+    Province  = g.Province;
+    Country   = g.Country;
+    TimeZone  = g.TimeZone;
+    TZrule    = g.TZrule;
+    Height    = g.Height;
+    indexEllipsoid = g.indexEllipsoid;
+    setEllipsoid ( indexEllipsoid );
+    geodToCart();
 }
 
 GeoLocation::GeoLocation( GeoLocation *g ) {
-	Longitude = g->Longitude;
-	Latitude  = g->Latitude;
-	Name      = g->Name;
-	Province  = g->Province;
-	Country   = g->Country;
-	TimeZone  = g->TimeZone;
-	TZrule    = g->TZrule;
-	Height    = g->Height;
-	indexEllipsoid = g->indexEllipsoid;
-	setEllipsoid ( indexEllipsoid );
-	geodToCart();
+    Longitude = g->Longitude;
+    Latitude  = g->Latitude;
+    Name      = g->Name;
+    Province  = g->Province;
+    Country   = g->Country;
+    TimeZone  = g->TimeZone;
+    TZrule    = g->TZrule;
+    Height    = g->Height;
+    indexEllipsoid = g->indexEllipsoid;
+    setEllipsoid ( indexEllipsoid );
+    geodToCart();
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
-	Longitude = lng;
-	Latitude = lat;
-	Name = name;
-	Province = province;
-	Country = country;
-	TimeZone = tz;
-	TZrule = tzrule;
-	Height = hght;
-	indexEllipsoid = iEllips;
-	setEllipsoid ( indexEllipsoid );
-	geodToCart();
+                          const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+    Longitude = lng;
+    Latitude = lat;
+    Name = name;
+    Province = province;
+    Country = country;
+    TimeZone = tz;
+    TZrule = tzrule;
+    Height = hght;
+    indexEllipsoid = iEllips;
+    setEllipsoid ( indexEllipsoid );
+    geodToCart();
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-		const QString &name, const QString &province, 
-		const QString &country, double tz, 
-		TimeZoneRule *tzrule, int iEllips, double hght ) {
-	Longitude.set( lng );
-	Latitude.set( lat );
-	Name = name;
-	Province = province;
-	Country = country;
-	TimeZone = tz;
-	TZrule = tzrule;
-	Height = hght;
-	indexEllipsoid = iEllips;
-	setEllipsoid ( indexEllipsoid );
-	geodToCart();
+                          const QString &name, const QString &province,
+                          const QString &country, double tz,
+                          TimeZoneRule *tzrule, int iEllips, double hght ) {
+    Longitude.set( lng );
+    Latitude.set( lat );
+    Name = name;
+    Province = province;
+    Country = country;
+    TimeZone = tz;
+    TZrule = tzrule;
+    Height = hght;
+    indexEllipsoid = iEllips;
+    setEllipsoid ( indexEllipsoid );
+    geodToCart();
 }
 
-GeoLocation::GeoLocation( double x, double y, double z, 
-		const QString &name, const QString &province, 
-		const QString &country, double TZ, 
-		TimeZoneRule *tzrule, int iEllips ) {
-	PosCartX = x;
-	PosCartY = y;
-	PosCartZ = z;
-	Name = name;
-	Province = province;
-	Country = country;
-	TimeZone = TZ;
-	TZrule = tzrule;
-	indexEllipsoid = iEllips;
-	setEllipsoid ( indexEllipsoid );
-	cartToGeod();
+GeoLocation::GeoLocation( double x, double y, double z,
+                          const QString &name, const QString &province,
+                          const QString &country, double TZ,
+                          TimeZoneRule *tzrule, int iEllips ) {
+    PosCartX = x;
+    PosCartY = y;
+    PosCartZ = z;
+    Name = name;
+    Province = province;
+    Country = country;
+    TimeZone = TZ;
+    TZrule = tzrule;
+    indexEllipsoid = iEllips;
+    setEllipsoid ( indexEllipsoid );
+    cartToGeod();
 }
 
 QString GeoLocation::fullName() const {
-	QString s;
-	if ( province().isEmpty() ) {
-		s = translatedName() + ", " + translatedCountry();
-	} else {
-		s = translatedName() + ", " + translatedProvince() + ", " + translatedCountry();
-	}
-	
-	return s;
+    QString s;
+    if ( province().isEmpty() ) {
+        s = translatedName() + ", " + translatedCountry();
+    } else {
+        s = translatedName() + ", " + translatedProvince() + ", " + translatedCountry();
+    }
+
+    return s;
 }
 
 void GeoLocation::reset( GeoLocation *g ) {
-	indexEllipsoid = g->ellipsoid();
-	setEllipsoid ( indexEllipsoid );
-	setLong( g->lng()->Degrees() );
-	setLat( g->lat()->Degrees() );
-	Name      = g->name();
-	Province  = g->province();
-	Country   = g->country();
-	TimeZone  = g->TZ();
-	TZrule    = g->tzrule();
-	Height    = g->height();
+    indexEllipsoid = g->ellipsoid();
+    setEllipsoid ( indexEllipsoid );
+    setLong( g->lng()->Degrees() );
+    setLat( g->lat()->Degrees() );
+    Name      = g->name();
+    Province  = g->province();
+    Country   = g->country();
+    TimeZone  = g->TZ();
+    TZrule    = g->tzrule();
+    Height    = g->height();
 }
 
 
 void GeoLocation::setEllipsoid(int index) {
-	static const double A[] = { 6378140.0, 6378137.0, 6378137.0, 6378137.0, 6378136.0 };
-	static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
+    static const double A[] = { 6378140.0, 6378137.0, 6378137.0, 6378137.0, 6378136.0 };
+    static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
-	axis = A[index];
-	flattening = F[index];	
+    axis = A[index];
+    flattening = F[index];
 }
 
 void GeoLocation::changeEllipsoid(int index) {
-	
-	setEllipsoid(index);
-	cartToGeod();
-	
+
+    setEllipsoid(index);
+    cartToGeod();
+
 }
 
 void GeoLocation::cartToGeod(void)
 {
-	static const double RIT = 2.7778e-6;
-	double e2, rpro, lat1, xn, s1, sqrtP2, latd, sinl;
+    static const double RIT = 2.7778e-6;
+    double e2, rpro, lat1, xn, s1, sqrtP2, latd, sinl;
 
-	e2 = 2*flattening-flattening*flattening;
+    e2 = 2*flattening-flattening*flattening;
 
-	sqrtP2 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
+    sqrtP2 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
 
-	rpro = PosCartZ/sqrtP2;
-	latd = atan2(rpro, (1-e2));
-	lat1 = 0.;
+    rpro = PosCartZ/sqrtP2;
+    latd = atan2(rpro, (1-e2));
+    lat1 = 0.;
 
-	while ( fabs( latd-lat1 ) > RIT ) {
-		lat1 = latd;
-		s1 = sin(lat1);
-		xn = axis/(sqrt(1-e2*s1*s1));
-		latd = atan2( (long double)rpro*(1+e2*xn*s1), PosCartZ );
-	}
+    while ( fabs( latd-lat1 ) > RIT ) {
+        lat1 = latd;
+        s1 = sin(lat1);
+        xn = axis/(sqrt(1-e2*s1*s1));
+        latd = atan2( (long double)rpro*(1+e2*xn*s1), PosCartZ );
+    }
 
-	sinl = sin(latd);
-	xn = axis/( sqrt(1-e2*sinl*sinl) );
+    sinl = sin(latd);
+    xn = axis/( sqrt(1-e2*sinl*sinl) );
 
-	Height = sqrtP2/cos(latd)-xn;
-	Longitude.setRadians( atan2(PosCartY,PosCartX) );
-	Latitude.setRadians(latd);
+    Height = sqrtP2/cos(latd)-xn;
+    Longitude.setRadians( atan2(PosCartY,PosCartX) );
+    Latitude.setRadians(latd);
 }
 
 void GeoLocation::geodToCart (void) {
-	double e2, xn;
-	double sinLong, cosLong, sinLat, cosLat;
+    double e2, xn;
+    double sinLong, cosLong, sinLat, cosLat;
 
-	e2 = 2*flattening-flattening*flattening;
-	
-	Longitude.SinCos(sinLong,cosLong);
-	Latitude.SinCos(sinLat,cosLat);
-	
-	xn = axis/( sqrt(1-e2*sinLat*sinLat) );
-	PosCartX = (xn+Height)*cosLat*cosLong;
-	PosCartY = (xn+Height)*cosLat*sinLong;
-	PosCartZ = (xn*(1-e2)+Height)*sinLat;
+    e2 = 2*flattening-flattening*flattening;
+
+    Longitude.SinCos(sinLong,cosLong);
+    Latitude.SinCos(sinLat,cosLat);
+
+    xn = axis/( sqrt(1-e2*sinLat*sinLat) );
+    PosCartX = (xn+Height)*cosLat*cosLong;
+    PosCartY = (xn+Height)*cosLat*sinLong;
+    PosCartZ = (xn*(1-e2)+Height)*sinLat;
 }
 
 void GeoLocation::TopocentricVelocity(double vtopo[], dms gst) {
-	
-	double Wearth = 7.29211510e-5;     // rads/s
-	dms angularVEarth;
-	
-	dms time= GSTtoLST(gst);
-	// angularVEarth.setRadians(time.Hours()*Wearth*3600.);
-	double se, ce;
-	// angularVEarth.SinCos(se,ce);
-	time.SinCos(se,ce);
 
-	double d0 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
-	// km/s
-	vtopo[0] = - d0 * Wearth * se /1000.;
-	vtopo[1] = d0 * Wearth * ce /1000.;
-	vtopo[2] = 0.;
+    double Wearth = 7.29211510e-5;     // rads/s
+    dms angularVEarth;
+
+    dms time= GSTtoLST(gst);
+    // angularVEarth.setRadians(time.Hours()*Wearth*3600.);
+    double se, ce;
+    // angularVEarth.SinCos(se,ce);
+    time.SinCos(se,ce);
+
+    double d0 = sqrt(PosCartX*PosCartX+PosCartY*PosCartY);
+    // km/s
+    vtopo[0] = - d0 * Wearth * se /1000.;
+    vtopo[1] = d0 * Wearth * ce /1000.;
+    vtopo[2] = 0.;
 }

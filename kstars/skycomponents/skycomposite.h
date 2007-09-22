@@ -44,145 +44,145 @@ class KSNumbers;
 	*/
 class SkyComposite : public SkyComponent
 {
-	public:
+public:
 
-		/**
-			*@short Constructor
-			*@p parent pointer to the parent SkyComponent
-			*/
-		SkyComposite( SkyComponent *parent );
-		SkyComposite( SkyComponent *parent, bool (*visibleMethod)());
+    /**
+    	*@short Constructor
+    	*@p parent pointer to the parent SkyComponent
+    	*/
+    SkyComposite( SkyComponent *parent );
+    SkyComposite( SkyComponent *parent, bool (*visibleMethod)());
 
-		/**
-			*@short Destructor
-			*/
-		~SkyComposite();
-		
-		/**
-			*@short Delegate draw requests to all sub components
-			*@p ks Pointer to the KStars object
-			*@p psky Reference to the QPainter on which to paint
-			*@p scale the scaling factor for drawing (1.0 for screen draws)
-			*/
-		virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
+    /**
+    	*@short Destructor
+    	*/
+    ~SkyComposite();
 
-		/**
-			*@short Delegate drawExportable requests to all sub 
-			*components.
-			*@p ks Pointer to the KStars object
-			*@p psky Reference to the QPainter on which to paint
-			*@p scale the scaling factor for drawing (1.0 for screen draws)
-			*/
-		virtual void drawExportable(KStars *ks, QPainter& psky, double scale = 1.0);
-		
-		/**
-			*@short Delegate init requests to all sub components
-			*@p data Pointer to the KStarsData object
-			*/
-		virtual void init(KStarsData *data);
-	
-		/**
-			*@short Delegate update-position requests to all sub components
-			*
-			*This function usually just updates the Horizontal (Azimuth/Altitude)
-			*coordinates.  However, the precession and nutation must also be 
-			*recomputed periodically.  Requests to do so are sent through the
-			*doPrecess parameter.
-			*@p data Pointer to the KStarsData object
-			*@p num Pointer to the KSNumbers object
-			*@sa updatePlanets()
-			*@sa updateMoons()
-			*@note By default, the num parameter is NULL, indicating that 
-			*Precession/Nutation computation should be skipped; this computation 
-			*is only occasionally required.
-			*/
-		virtual void update(KStarsData *data, KSNumbers *num=0 );
-		
-		/**
-			*@short Delegate planet position updates to the SolarSystemComposite
-			*
-			*Planet positions change over time, so they need to be recomputed 
-			*periodically, but not on every call to update().  This function 
-			*will recompute the positions of all solar system bodies except the 
-			*Earth's Moon and Jupiter's Moons (because these objects' positions 
-			*change on a much more rapid timescale).
-			*@p data Pointer to the KStarsData object
-			*@p num Pointer to the KSNumbers object
-			*@sa update()
-			*@sa updateMoons()
-			*@sa SolarSystemComposite::updatePlanets()
-			*/
-		virtual void updatePlanets( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
+    /**
+    	*@short Delegate draw requests to all sub components
+    	*@p ks Pointer to the KStars object
+    	*@p psky Reference to the QPainter on which to paint
+    	*@p scale the scaling factor for drawing (1.0 for screen draws)
+    	*/
+    virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
 
-		/**
-			*@short Delegate moon position updates to the SolarSystemComposite
-			*
-			*Planet positions change over time, so they need to be recomputed 
-			*periodically, but not on every call to update().  This function 
-			*will recompute the positions of the Earth's Moon and Jupiter's four
-			*Galilean moons.  These objects are done separately from the other 
-			*solar system bodies, because their positions change more rapidly,
-			*and so updateMoons() must be called more often than updatePlanets().
-			*@p data Pointer to the KStarsData object
-			*@p num Pointer to the KSNumbers object
-			*@sa update()
-			*@sa updatePlanets()
-			*@sa SolarSystemComposite::updateMoons()
-			*/
-		virtual void updateMoons( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
+    /**
+    	*@short Delegate drawExportable requests to all sub 
+    	*components.
+    	*@p ks Pointer to the KStars object
+    	*@p psky Reference to the QPainter on which to paint
+    	*@p scale the scaling factor for drawing (1.0 for screen draws)
+    	*/
+    virtual void drawExportable(KStars *ks, QPainter& psky, double scale = 1.0);
 
-		/**
-			*@short Add a new sub component to the composite
-			*@p comp Pointer to the SkyComponent to be added
-			*/
-		void addComponent(SkyComponent *comp);
-		
-		/**
-			*@short Remove a sub component from the composite
-			*@p comp Pointer to the SkyComponent to be removed.
-			*/
-		void removeComponent(SkyComponent *comp);
-		
-		/**
-			*@short Add a Trail to the specified SkyObject
-			*Loop over all child SkyComponents; if the SkyObject
-			*in the argument is found, add a Trail to it.
-			*@p o Pointer to the SkyObject to which a Trail will be added
-			*@return true if the object was found and a Trail was added 
-			*/
-		virtual bool addTrail( SkyObject * /*o*/ ) { return false;}
-		virtual bool hasTrail( SkyObject * /*o*/, bool & /*found*/ ) { return false;}
-		virtual bool removeTrail( SkyObject * /*o*/ ) {return false;}
+    /**
+    	*@short Delegate init requests to all sub components
+    	*@p data Pointer to the KStarsData object
+    	*/
+    virtual void init(KStarsData *data);
 
-		virtual SkyObject* first();
-		virtual SkyObject* next();
+    /**
+    	*@short Delegate update-position requests to all sub components
+    	*
+    	*This function usually just updates the Horizontal (Azimuth/Altitude)
+    	*coordinates.  However, the precession and nutation must also be 
+    	*recomputed periodically.  Requests to do so are sent through the
+    	*doPrecess parameter.
+    	*@p data Pointer to the KStarsData object
+    	*@p num Pointer to the KSNumbers object
+    	*@sa updatePlanets()
+    	*@sa updateMoons()
+    	*@note By default, the num parameter is NULL, indicating that 
+    	*Precession/Nutation computation should be skipped; this computation 
+    	*is only occasionally required.
+    	*/
+    virtual void update(KStarsData *data, KSNumbers *num=0 );
 
-		/**
-			*@short Search the children of this SkyComposite for 
-			*a SkyObject whose name matches the argument.
-			*
-			*The objects' primary, secondary and long-form names will 
-			*all be checked for a match.
-			*@p name the name to be matched
-			*@return a pointer to the SkyObject whose name matches
-			*the argument, or a NULL pointer if no match was found.
-			*/
-		virtual SkyObject* findByName( const QString &name );
+    /**
+    	*@short Delegate planet position updates to the SolarSystemComposite
+    	*
+    	*Planet positions change over time, so they need to be recomputed 
+    	*periodically, but not on every call to update().  This function 
+    	*will recompute the positions of all solar system bodies except the 
+    	*Earth's Moon and Jupiter's Moons (because these objects' positions 
+    	*change on a much more rapid timescale).
+    	*@p data Pointer to the KStarsData object
+    	*@p num Pointer to the KSNumbers object
+    	*@sa update()
+    	*@sa updateMoons()
+    	*@sa SolarSystemComposite::updatePlanets()
+    	*/
+    virtual void updatePlanets( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
 
-		/**
-			*@short Identify the nearest SkyObject to the given SkyPoint,
-			*among the children of this SkyComposite
-			*@p p pointer to the SkyPoint around which to search.
-			*@p maxrad reference to current search radius 
-			*@return a pointer to the nearest SkyObject
-			*/
-		virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+    /**
+    	*@short Delegate moon position updates to the SolarSystemComposite
+    	*
+    	*Planet positions change over time, so they need to be recomputed 
+    	*periodically, but not on every call to update().  This function 
+    	*will recompute the positions of the Earth's Moon and Jupiter's four
+    	*Galilean moons.  These objects are done separately from the other 
+    	*solar system bodies, because their positions change more rapidly,
+    	*and so updateMoons() must be called more often than updatePlanets().
+    	*@p data Pointer to the KStarsData object
+    	*@p num Pointer to the KSNumbers object
+    	*@sa update()
+    	*@sa updatePlanets()
+    	*@sa SolarSystemComposite::updateMoons()
+    	*/
+    virtual void updateMoons( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
 
-		QList<SkyComponent*>& components() { return m_Components; }
+    /**
+    	*@short Add a new sub component to the composite
+    	*@p comp Pointer to the SkyComponent to be added
+    	*/
+    void addComponent(SkyComponent *comp);
 
-	private:
-		QList<SkyComponent*> m_Components;
-		int m_CurrentIndex;
+    /**
+    	*@short Remove a sub component from the composite
+    	*@p comp Pointer to the SkyComponent to be removed.
+    	*/
+    void removeComponent(SkyComponent *comp);
+
+    /**
+    	*@short Add a Trail to the specified SkyObject
+    	*Loop over all child SkyComponents; if the SkyObject
+    	*in the argument is found, add a Trail to it.
+    	*@p o Pointer to the SkyObject to which a Trail will be added
+    	*@return true if the object was found and a Trail was added 
+    	*/
+    virtual bool addTrail( SkyObject * /*o*/ ) { return false;}
+    virtual bool hasTrail( SkyObject * /*o*/, bool & /*found*/ ) { return false;}
+    virtual bool removeTrail( SkyObject * /*o*/ ) {return false;}
+
+    virtual SkyObject* first();
+    virtual SkyObject* next();
+
+    /**
+    	*@short Search the children of this SkyComposite for 
+    	*a SkyObject whose name matches the argument.
+    	*
+    	*The objects' primary, secondary and long-form names will 
+    	*all be checked for a match.
+    	*@p name the name to be matched
+    	*@return a pointer to the SkyObject whose name matches
+    	*the argument, or a NULL pointer if no match was found.
+    	*/
+    virtual SkyObject* findByName( const QString &name );
+
+    /**
+    	*@short Identify the nearest SkyObject to the given SkyPoint,
+    	*among the children of this SkyComposite
+    	*@p p pointer to the SkyPoint around which to search.
+    	*@p maxrad reference to current search radius 
+    	*@return a pointer to the nearest SkyObject
+    	*/
+    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
+    QList<SkyComponent*>& components() { return m_Components; }
+
+private:
+    QList<SkyComponent*> m_Components;
+    int m_CurrentIndex;
 };
 
 #endif

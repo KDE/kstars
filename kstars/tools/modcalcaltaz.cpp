@@ -32,41 +32,41 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 
-modCalcAltAz::modCalcAltAz(QWidget *parentSplit) 
-: QFrame(parentSplit), horInputCoords(false) {
-	setupUi(this);
+modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
+        : QFrame(parentSplit), horInputCoords(false) {
+    setupUi(this);
 
-	//Initialize Date/Time and Location data
-	KStars *ks = ((KStars*) topLevelWidget()->parent());
-	DateTime->setDateTime( ks->data()->lt() );
-	geoPlace = ks->geo();
-	LocationButton->setText( geoPlace->fullName() );
+    //Initialize Date/Time and Location data
+    KStars *ks = ((KStars*) topLevelWidget()->parent());
+    DateTime->setDateTime( ks->data()->lt() );
+    geoPlace = ks->geo();
+    LocationButton->setText( geoPlace->fullName() );
 
-	RA->setDegType(false);
+    RA->setDegType(false);
 
-	connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
-	connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
-	connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
-	connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
+    connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
+    connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
+    connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
+    connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
 
-	connect(RA,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
-	connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
-	connect(Az,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
-	connect(Alt, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+    connect(RA,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+    connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+    connect(Az,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
+    connect(Alt, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
 
-	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
-	connect(InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()));
-	connect(OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()));
-	connect(utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
-	connect(dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
-	connect(azCheckBatch, SIGNAL(clicked()), this, SLOT(slotAzChecked()));
-	connect(elCheckBatch, SIGNAL(clicked()), this, SLOT(slotElChecked()));
-	connect(latCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatChecked()));
-	connect(longCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
-	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaChecked()));
-	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecChecked()));
+    connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+    connect(InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()));
+    connect(OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()));
+    connect(utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
+    connect(dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
+    connect(azCheckBatch, SIGNAL(clicked()), this, SLOT(slotAzChecked()));
+    connect(elCheckBatch, SIGNAL(clicked()), this, SLOT(slotElChecked()));
+    connect(latCheckBatch, SIGNAL(clicked()), this, SLOT(slotLatChecked()));
+    connect(longCheckBatch, SIGNAL(clicked()), this, SLOT(slotLongChecked()));
+    connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaChecked()));
+    connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecChecked()));
 
-	show();
+    show();
 }
 
 modCalcAltAz::~modCalcAltAz(){
@@ -74,395 +74,395 @@ modCalcAltAz::~modCalcAltAz(){
 
 void modCalcAltAz::slotNow()
 {
-	DateTime->setDateTime( KStarsDateTime::currentDateTime() );
-	slotCompute();
+    DateTime->setDateTime( KStarsDateTime::currentDateTime() );
+    slotCompute();
 }
 
 void modCalcAltAz::slotLocation()
 {
-	LocationDialog ld( (KStars*)topLevelWidget()->parent() );
-	if ( ld.exec() == QDialog::Accepted ) {
-		GeoLocation *newGeo = ld.selectedCity();
-		if ( newGeo ) {
-			geoPlace = newGeo;
-			LocationButton->setText( geoPlace->fullName() );
-			slotCompute();
-		}
-	}
+    LocationDialog ld( (KStars*)topLevelWidget()->parent() );
+    if ( ld.exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld.selectedCity();
+        if ( newGeo ) {
+            geoPlace = newGeo;
+            LocationButton->setText( geoPlace->fullName() );
+            slotCompute();
+        }
+    }
 }
 
 void modCalcAltAz::slotObject()
 {
-	FindDialog fd( (KStars*)topLevelWidget()->parent() );
-	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.selectedObject();
-		RA->showInHours( o->ra() );
-		Dec->showInDegrees( o->dec() );
-		slotCompute();
-	}
+    FindDialog fd( (KStars*)topLevelWidget()->parent() );
+    if ( fd.exec() == QDialog::Accepted ) {
+        SkyObject *o = fd.selectedObject();
+        RA->showInHours( o->ra() );
+        Dec->showInDegrees( o->dec() );
+        slotCompute();
+    }
 }
 
-void modCalcAltAz::slotDateTimeChanged(const ExtDateTime &edt) 
+void modCalcAltAz::slotDateTimeChanged(const ExtDateTime &edt)
 {
-	LST = geoPlace->GSTtoLST( ((KStarsDateTime)edt).gst() );
+    LST = geoPlace->GSTtoLST( ((KStarsDateTime)edt).gst() );
 }
 
 void modCalcAltAz::slotCompute()
 {
-	//Determine whether we are calculating Alt/Az coordinates from RA/Dec,
-	//or vice versa.  We calculate Alt/Az by default, unless the signal 
-	//was sent by changing the Az or Alt value.
-	if ( sender()->objectName() == "Az" || sender()->objectName() == "Alt" ) {
-		//Validate Az and Alt coordinates
-		bool ok( false );
-		dms alt;
-		dms az = Az->createDms( true, &ok );
-		if ( ok ) alt = Alt->createDms( true, &ok );
-		if ( ok ) {
-			SkyPoint sp;
-			sp.setAz( az );
-			sp.setAlt( alt );
-			sp.HorizontalToEquatorial( &LST, geoPlace->lat() );
-			RA->showInHours( sp.ra() );
-			Dec->showInDegrees( sp.dec() );
-		}
+    //Determine whether we are calculating Alt/Az coordinates from RA/Dec,
+    //or vice versa.  We calculate Alt/Az by default, unless the signal
+    //was sent by changing the Az or Alt value.
+    if ( sender()->objectName() == "Az" || sender()->objectName() == "Alt" ) {
+        //Validate Az and Alt coordinates
+        bool ok( false );
+        dms alt;
+        dms az = Az->createDms( true, &ok );
+        if ( ok ) alt = Alt->createDms( true, &ok );
+        if ( ok ) {
+            SkyPoint sp;
+            sp.setAz( az );
+            sp.setAlt( alt );
+            sp.HorizontalToEquatorial( &LST, geoPlace->lat() );
+            RA->showInHours( sp.ra() );
+            Dec->showInDegrees( sp.dec() );
+        }
 
-	} else {
-		//Validate RA and Dec coordinates
-		bool ok( false );
-		dms ra;
-		dms dec = Dec->createDms( true, &ok );
-		if ( ok ) ra = RA->createDms( false, &ok );
-		if ( ok ) {
-			SkyPoint sp( ra, dec );
-			sp.EquatorialToHorizontal( &LST, geoPlace->lat() );
-			Az->showInDegrees( sp.az() );
-			Alt->showInDegrees( sp.alt() );
-		}
-	}
+    } else {
+        //Validate RA and Dec coordinates
+        bool ok( false );
+        dms ra;
+        dms dec = Dec->createDms( true, &ok );
+        if ( ok ) ra = RA->createDms( false, &ok );
+        if ( ok ) {
+            SkyPoint sp( ra, dec );
+            sp.EquatorialToHorizontal( &LST, geoPlace->lat() );
+            Az->showInDegrees( sp.az() );
+            Alt->showInDegrees( sp.alt() );
+        }
+    }
 }
 
 void modCalcAltAz::slotUtChecked(){
-	if ( utCheckBatch->isChecked() )
-		utBoxBatch->setEnabled( false );
-	else {
-		utBoxBatch->setEnabled( true );
-	}
+    if ( utCheckBatch->isChecked() )
+        utBoxBatch->setEnabled( false );
+    else {
+        utBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotDateChecked(){
-	if ( dateCheckBatch->isChecked() )
-		dateBoxBatch->setEnabled( false );
-	else {
-		dateBoxBatch->setEnabled( true );
-	}
+    if ( dateCheckBatch->isChecked() )
+        dateBoxBatch->setEnabled( false );
+    else {
+        dateBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotRaChecked(){
-	if ( raCheckBatch->isChecked() ) {
-		raBoxBatch->setEnabled( false );
-		horNoCheck();
-	}
-	else {
-		raBoxBatch->setEnabled( true );
-	}
+    if ( raCheckBatch->isChecked() ) {
+        raBoxBatch->setEnabled( false );
+        horNoCheck();
+    }
+    else {
+        raBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotDecChecked(){
-	if ( decCheckBatch->isChecked() ) {
-		decBoxBatch->setEnabled( false );
-		horNoCheck();
-	}
-	else {
-		decBoxBatch->setEnabled( true );
-	}
+    if ( decCheckBatch->isChecked() ) {
+        decBoxBatch->setEnabled( false );
+        horNoCheck();
+    }
+    else {
+        decBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotEpochChecked(){
-	if ( epochCheckBatch->isChecked() )
-		epochBoxBatch->setEnabled( false );
-	else 
-		epochBoxBatch->setEnabled( true );
+    if ( epochCheckBatch->isChecked() )
+        epochBoxBatch->setEnabled( false );
+    else
+        epochBoxBatch->setEnabled( true );
 }
 
 void modCalcAltAz::slotLongChecked(){
-	if ( longCheckBatch->isChecked() )
-		longBoxBatch->setEnabled( false );
-	else 
-		longBoxBatch->setEnabled( true );
+    if ( longCheckBatch->isChecked() )
+        longBoxBatch->setEnabled( false );
+    else
+        longBoxBatch->setEnabled( true );
 }
 
 void modCalcAltAz::slotLatChecked(){
-	if ( latCheckBatch->isChecked() )
-		latBoxBatch->setEnabled( false );
-	else {
-		latBoxBatch->setEnabled( true );
-	}
+    if ( latCheckBatch->isChecked() )
+        latBoxBatch->setEnabled( false );
+    else {
+        latBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotAzChecked(){
-	if ( azCheckBatch->isChecked() ) {
-		azBoxBatch->setEnabled( false );
-		equNoCheck();
-	}
-	else {
-		azBoxBatch->setEnabled( true );
-	}
+    if ( azCheckBatch->isChecked() ) {
+        azBoxBatch->setEnabled( false );
+        equNoCheck();
+    }
+    else {
+        azBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::slotElChecked(){
-	if ( elCheckBatch->isChecked() ) {
-		elBoxBatch->setEnabled( false );
-		equNoCheck();
-	}
-	else {
-		elBoxBatch->setEnabled( true );
-	}
+    if ( elCheckBatch->isChecked() ) {
+        elBoxBatch->setEnabled( false );
+        equNoCheck();
+    }
+    else {
+        elBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcAltAz::horNoCheck() {
-	azCheckBatch->setChecked(false);
-	azBoxBatch->setEnabled(false);
-	elCheckBatch->setChecked(false);
-	elBoxBatch->setEnabled(false);
-	horInputCoords = false;
+    azCheckBatch->setChecked(false);
+    azBoxBatch->setEnabled(false);
+    elCheckBatch->setChecked(false);
+    elBoxBatch->setEnabled(false);
+    horInputCoords = false;
 
 }
 
 void modCalcAltAz::equNoCheck() {
-	raCheckBatch->setChecked(false);
-	raBoxBatch->setEnabled(false);
-	decCheckBatch->setChecked(false);
-	decBoxBatch->setEnabled(false);
-	horInputCoords = true;
+    raCheckBatch->setChecked(false);
+    raBoxBatch->setEnabled(false);
+    decCheckBatch->setChecked(false);
+    decBoxBatch->setEnabled(false);
+    horInputCoords = true;
 }
 
 
 void modCalcAltAz::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputLineEditBatch->setText( inputFileName );
+    QString inputFileName;
+    inputFileName = KFileDialog::getOpenFileName( );
+    InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcAltAz::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputLineEditBatch->setText( outputFileName );
+    QString outputFileName;
+    outputFileName = KFileDialog::getSaveFileName( );
+    OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcAltAz::slotRunBatch() {
-	QString inputFileName;
+    QString inputFileName;
 
-	inputFileName = InputLineEditBatch->text();
+    inputFileName = InputLineEditBatch->text();
 
-	// We open the input file and read its content
+    // We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
-		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.fileName() );
-			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = QString();
-			return;
-		}
+    if ( QFile::exists(inputFileName) ) {
+        QFile f( inputFileName );
+        if ( !f.open( QIODevice::ReadOnly) ) {
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            inputFileName = QString();
+            return;
+        }
 
-//		processLines(&f);
-		QTextStream istream(&f);
-		processLines(istream);
-//		readFile( istream );
-		f.close();
-	} else  {
-		QString message = i18n( "Invalid file: %1", inputFileName );
-		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = QString();
-		InputLineEditBatch->setText( inputFileName );
-		return;
-	}
+        //		processLines(&f);
+        QTextStream istream(&f);
+        processLines(istream);
+        //		readFile( istream );
+        f.close();
+    } else  {
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        inputFileName = QString();
+        InputLineEditBatch->setText( inputFileName );
+        return;
+    }
 }
 
 void modCalcAltAz::processLines( QTextStream &istream ) {
 
-	// we open the output file
+    // we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
-	fOut.open(QIODevice::WriteOnly);
-	QTextStream ostream(&fOut);
+    //	QTextStream istream(&fIn);
+    QString outputFileName;
+    outputFileName = OutputLineEditBatch->text();
+    QFile fOut( outputFileName );
+    fOut.open(QIODevice::WriteOnly);
+    QTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
-	int i = 0;
-	long double jd0, jdf;
-	dms LST;
-	SkyPoint sp;
-	dms raB, decB, latB, longB, azB, elB;
-	QString epoch0B;
-	QTime utB;
-	ExtDate dtB;
+    QString line;
+    QString space = " ";
+    int i = 0;
+    long double jd0, jdf;
+    dms LST;
+    SkyPoint sp;
+    dms raB, decB, latB, longB, azB, elB;
+    QString epoch0B;
+    QTime utB;
+    ExtDate dtB;
 
-	while ( ! istream.atEnd() ) {
-		line = istream.readLine();
-		line.trimmed();
+    while ( ! istream.atEnd() ) {
+        line = istream.readLine();
+        line.trimmed();
 
-		//Go through the line, looking for parameters
+        //Go through the line, looking for parameters
 
-		QStringList fields = line.split( " " );
+        QStringList fields = line.split( " " );
 
-		i = 0;
+        i = 0;
 
-		// Read Ut and write in ostream if corresponds
-		
-		if(utCheckBatch->isChecked() ) {
-			utB = QTime::fromString( fields[i] );
-			i++;
-		} else
-			utB = utBoxBatch->time();
-		
-		if ( allRadioBatch->isChecked() )
-			ostream << utB.toString() << space;
-		else
-			if(utCheckBatch->isChecked() )
-				ostream << utB.toString() << space;
-			
-		// Read date and write in ostream if corresponds
-		
-		if(dateCheckBatch->isChecked() ) {
-			 dtB = ExtDate::fromString( fields[i] );
-			 i++;
-		} else
-			dtB = dateBoxBatch->date();
-		if ( allRadioBatch->isChecked() )
-			ostream << dtB.toString().append(space);
-		else
-			if(dateCheckBatch->isChecked() )
-			 	ostream << dtB.toString().append(space);
-		
-		// Read Longitude and write in ostream if corresponds
-		
-		if (longCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],true);
-			i++;
-		} else
-			longB = longBoxBatch->createDms(true);
-		
-		if ( allRadioBatch->isChecked() )
-			ostream << longB.toDMSString() << space;
-		else
-			if (longCheckBatch->isChecked() )
-				ostream << longB.toDMSString() << space;
-		
-		// Read Latitude
+        // Read Ut and write in ostream if corresponds
 
+        if(utCheckBatch->isChecked() ) {
+            utB = QTime::fromString( fields[i] );
+            i++;
+        } else
+            utB = utBoxBatch->time();
 
-		if (latCheckBatch->isChecked() ) {
-			latB = dms::fromString( fields[i], true);
-			i++;
-		} else
-			latB = latBoxBatch->createDms(true);
-		if ( allRadioBatch->isChecked() )
-			ostream << latB.toDMSString() << space;
-		else
-			if (latCheckBatch->isChecked() )
-				ostream << latB.toDMSString() << space;
-		
-		// Read Epoch and write in ostream if corresponds
-	
-		if(epochCheckBatch->isChecked() ) {
-			epoch0B = fields[i];
-			i++;
-		} else
-			epoch0B = epochBoxBatch->text();
+        if ( allRadioBatch->isChecked() )
+            ostream << utB.toString() << space;
+        else
+            if(utCheckBatch->isChecked() )
+                ostream << utB.toString() << space;
 
-		if ( allRadioBatch->isChecked() )
-			ostream << epoch0B << space;
-		else
-			if(epochCheckBatch->isChecked() )
-				ostream << epoch0B << space;
+        // Read date and write in ostream if corresponds
 
-		// We make the first calculations
-		KStarsDateTime dt;
-		dt.setFromEpoch( epoch0B );
-		jdf = KStarsDateTime(dtB,utB).djd();
-		jd0 = dt.djd();
+        if(dateCheckBatch->isChecked() ) {
+            dtB = ExtDate::fromString( fields[i] );
+            i++;
+        } else
+            dtB = dateBoxBatch->date();
+        if ( allRadioBatch->isChecked() )
+            ostream << dtB.toString().append(space);
+        else
+            if(dateCheckBatch->isChecked() )
+                ostream << dtB.toString().append(space);
 
-		LST = KStarsDateTime(dtB,utB).gst().Degrees() + longB.Degrees();
-		
-		// Equatorial coordinates are the input coords.
-		if (!horInputCoords) {
-		// Read RA and write in ostream if corresponds
+        // Read Longitude and write in ostream if corresponds
 
-			if(raCheckBatch->isChecked() ) {
-				raB = dms::fromString( fields[i],false);
-				i++;
-			} else
-				raB = raBoxBatch->createDms(false);
+        if (longCheckBatch->isChecked() ) {
+            longB = dms::fromString( fields[i],true);
+            i++;
+        } else
+            longB = longBoxBatch->createDms(true);
 
-			if ( allRadioBatch->isChecked() )
-				ostream << raB.toHMSString() << space;
-			else
-				if(raCheckBatch->isChecked() )
-					ostream << raB.toHMSString() << space;
+        if ( allRadioBatch->isChecked() )
+            ostream << longB.toDMSString() << space;
+        else
+            if (longCheckBatch->isChecked() )
+                ostream << longB.toDMSString() << space;
 
-			// Read DEC and write in ostream if corresponds
-
-			if(decCheckBatch->isChecked() ) {
-				decB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				decB = decBoxBatch->createDms();
-
-			if ( allRadioBatch->isChecked() )
-				ostream << decB.toDMSString() << space;
-			else
-				if(decCheckBatch->isChecked() )
-					ostream << decB.toDMSString() << space;
-
-			sp = SkyPoint (raB, decB);
-			sp.apparentCoord(jd0, jdf);
-			sp.EquatorialToHorizontal( &LST, &latB );
-			ostream << sp.az()->toDMSString() << space << sp.alt()->toDMSString() << endl;
-
-		// Input coords are horizontal coordinates
-		
-		} else {
-			if(azCheckBatch->isChecked() ) {
-				azB = dms::fromString( fields[i],false);
-				i++;
-			} else
-				azB = azBoxBatch->createDms();
-
-			if ( allRadioBatch->isChecked() )
-				ostream << azB.toHMSString() << space;
-			else
-				if(raCheckBatch->isChecked() )
-					ostream << azB.toHMSString() << space;
-
-			// Read DEC and write in ostream if corresponds
-
-			if(elCheckBatch->isChecked() ) {
-				elB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				elB = decBoxBatch->createDms();
-
-			if ( allRadioBatch->isChecked() )
-				ostream << elB.toDMSString() << space;
-			else
-				if(elCheckBatch->isChecked() )
-					ostream << elB.toDMSString() << space;
-
-			sp.setAz(azB);
-			sp.setAlt(elB);
-			sp.HorizontalToEquatorial( &LST, &latB );
-			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
-		}
-
-	}
+        // Read Latitude
 
 
-	fOut.close();
+        if (latCheckBatch->isChecked() ) {
+            latB = dms::fromString( fields[i], true);
+            i++;
+        } else
+            latB = latBoxBatch->createDms(true);
+        if ( allRadioBatch->isChecked() )
+            ostream << latB.toDMSString() << space;
+        else
+            if (latCheckBatch->isChecked() )
+                ostream << latB.toDMSString() << space;
+
+        // Read Epoch and write in ostream if corresponds
+
+        if(epochCheckBatch->isChecked() ) {
+            epoch0B = fields[i];
+            i++;
+        } else
+            epoch0B = epochBoxBatch->text();
+
+        if ( allRadioBatch->isChecked() )
+            ostream << epoch0B << space;
+        else
+            if(epochCheckBatch->isChecked() )
+                ostream << epoch0B << space;
+
+        // We make the first calculations
+        KStarsDateTime dt;
+        dt.setFromEpoch( epoch0B );
+        jdf = KStarsDateTime(dtB,utB).djd();
+        jd0 = dt.djd();
+
+        LST = KStarsDateTime(dtB,utB).gst().Degrees() + longB.Degrees();
+
+        // Equatorial coordinates are the input coords.
+        if (!horInputCoords) {
+            // Read RA and write in ostream if corresponds
+
+            if(raCheckBatch->isChecked() ) {
+                raB = dms::fromString( fields[i],false);
+                i++;
+            } else
+                raB = raBoxBatch->createDms(false);
+
+            if ( allRadioBatch->isChecked() )
+                ostream << raB.toHMSString() << space;
+            else
+                if(raCheckBatch->isChecked() )
+                    ostream << raB.toHMSString() << space;
+
+            // Read DEC and write in ostream if corresponds
+
+            if(decCheckBatch->isChecked() ) {
+                decB = dms::fromString( fields[i], true);
+                i++;
+            } else
+                decB = decBoxBatch->createDms();
+
+            if ( allRadioBatch->isChecked() )
+                ostream << decB.toDMSString() << space;
+            else
+                if(decCheckBatch->isChecked() )
+                    ostream << decB.toDMSString() << space;
+
+            sp = SkyPoint (raB, decB);
+            sp.apparentCoord(jd0, jdf);
+            sp.EquatorialToHorizontal( &LST, &latB );
+            ostream << sp.az()->toDMSString() << space << sp.alt()->toDMSString() << endl;
+
+            // Input coords are horizontal coordinates
+
+        } else {
+            if(azCheckBatch->isChecked() ) {
+                azB = dms::fromString( fields[i],false);
+                i++;
+            } else
+                azB = azBoxBatch->createDms();
+
+            if ( allRadioBatch->isChecked() )
+                ostream << azB.toHMSString() << space;
+            else
+                if(raCheckBatch->isChecked() )
+                    ostream << azB.toHMSString() << space;
+
+            // Read DEC and write in ostream if corresponds
+
+            if(elCheckBatch->isChecked() ) {
+                elB = dms::fromString( fields[i], true);
+                i++;
+            } else
+                elB = decBoxBatch->createDms();
+
+            if ( allRadioBatch->isChecked() )
+                ostream << elB.toDMSString() << space;
+            else
+                if(elCheckBatch->isChecked() )
+                    ostream << elB.toDMSString() << space;
+
+            sp.setAz(azB);
+            sp.setAlt(elB);
+            sp.HorizontalToEquatorial( &LST, &latB );
+            ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+        }
+
+    }
+
+
+    fOut.close();
 }
 
 #include "modcalcaltaz.moc"

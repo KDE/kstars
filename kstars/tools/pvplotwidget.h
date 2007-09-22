@@ -25,30 +25,30 @@ class PlanetViewer;
 
 class PVPlotWidget : public KPlotWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	PVPlotWidget( QWidget *parent=0 );
-	~PVPlotWidget();
+    PVPlotWidget( QWidget *parent=0 );
+    ~PVPlotWidget();
 
 public slots:
-	void slotZoomIn();
-	void slotZoomOut();
+    void slotZoomIn();
+    void slotZoomOut();
 
 signals:
-	void doubleClicked( double, double );
+    void doubleClicked( double, double );
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-	virtual void mousePressEvent( QMouseEvent *e );
-	virtual void mouseMoveEvent( QMouseEvent *e );
-	virtual void mouseReleaseEvent( QMouseEvent * );
-	virtual void mouseDoubleClickEvent( QMouseEvent *e );
-	virtual void wheelEvent( QWheelEvent *e );
+    virtual void keyPressEvent( QKeyEvent *e );
+    virtual void mousePressEvent( QMouseEvent *e );
+    virtual void mouseMoveEvent( QMouseEvent *e );
+    virtual void mouseReleaseEvent( QMouseEvent * );
+    virtual void mouseDoubleClickEvent( QMouseEvent *e );
+    virtual void wheelEvent( QWheelEvent *e );
 
 private:
-	bool mouseButtonDown;
-	int oldx, oldy;
-	PlanetViewer *pv;
+    bool mouseButtonDown;
+    int oldx, oldy;
+    PlanetViewer *pv;
 };
 
 #endif

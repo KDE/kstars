@@ -30,16 +30,16 @@
 #include "skylabeler.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent )
-: ListComponent(parent )
+        : ListComponent(parent )
 {}
 
-ConstellationNamesComponent::~ConstellationNamesComponent() 
+ConstellationNamesComponent::~ConstellationNamesComponent()
 {}
 
 bool ConstellationNamesComponent::selected()
 {
     return Options::showCNames() &&
-		! ( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
+           ! ( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
 
 }
 
@@ -48,85 +48,85 @@ void ConstellationNamesComponent::init(KStarsData *)
     KSFileReader fileReader;
     if ( ! fileReader.open( "cnames.dat" ) ) return;
 
-	emitProgressText( i18n("Loading constellation names" ) );
+    emitProgressText( i18n("Loading constellation names" ) );
 
-	while ( fileReader.hasMoreLines() ) {
-		QString line, name, abbrev;
-		int rah, ram, ras, dd, dm, ds;
-		QChar sgn;
+    while ( fileReader.hasMoreLines() ) {
+        QString line, name, abbrev;
+        int rah, ram, ras, dd, dm, ds;
+        QChar sgn;
 
-		line = fileReader.readLine();
+        line = fileReader.readLine();
 
-		rah = line.mid( 0, 2 ).toInt();
-		ram = line.mid( 2, 2 ).toInt();
-		ras = line.mid( 4, 2 ).toInt();
+        rah = line.mid( 0, 2 ).toInt();
+        ram = line.mid( 2, 2 ).toInt();
+        ras = line.mid( 4, 2 ).toInt();
 
-		sgn = line.at( 6 );
-		dd = line.mid( 7, 2 ).toInt();
-		dm = line.mid( 9, 2 ).toInt();
-		ds = line.mid( 11, 2 ).toInt();
+        sgn = line.at( 6 );
+        dd = line.mid( 7, 2 ).toInt();
+        dm = line.mid( 9, 2 ).toInt();
+        ds = line.mid( 11, 2 ).toInt();
 
-		abbrev = line.mid( 13, 3 );
-		name  = line.mid( 17 ).trimmed();
+        abbrev = line.mid( 13, 3 );
+        name  = line.mid( 17 ).trimmed();
 
-		dms r; r.setH( rah, ram, ras );
-		dms d( dd, dm,  ds );
+        dms r; r.setH( rah, ram, ras );
+        dms d( dd, dm,  ds );
 
-		if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
+        if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
-		SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
-		objectList().append( o );
+        SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
+        objectList().append( o );
 
-		//Add name to the list of object names
-		objectNames(SkyObject::CONSTELLATION).append( name );
-	}
+        //Add name to the list of object names
+        objectNames(SkyObject::CONSTELLATION).append( name );
+    }
 }
 
 // Don't precess the location of the names
 void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
     for ( int i = 0; i < objectList().size(); i++ ) {
-        objectList().at( i )->EquatorialToHorizontal( data->lst(), 
-                                                      data->geo()->lat() );
+        objectList().at( i )->EquatorialToHorizontal( data->lst(),
+                data->geo()->lat() );
     }
 }
 
 void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
 {
-	if ( ! selected() ) return;
+    if ( ! selected() ) return;
 
-	SkyMap *map = ks->map();
+    SkyMap *map = ks->map();
     QString name;
 
-	SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    SkyLabeler* skyLabeler = SkyLabeler::Instance();
 
     skyLabeler->useStdFont( psky );
 
-	psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
+    psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     for ( int i = 0; i < objectList().size(); i++) {
         SkyObject* p = objectList().at( i );
-		if ( ! map->checkVisibility( p ) ) continue;
+        if ( ! map->checkVisibility( p ) ) continue;
 
-		QPointF o = map->toScreen( p, scale );
+        QPointF o = map->toScreen( p, scale );
         if ( ! map->onScreen( o ) ) continue;
 
         if ( Options::useLatinConstellNames() ) {
-			name = p->name();
-		}
+            name = p->name();
+        }
         else if ( Options::useLocalConstellNames() ) {
-			name = i18nc( "Constellation name (optional)", 
-				          p->name().toLocal8Bit().data() );
-		}
+            name = i18nc( "Constellation name (optional)",
+                          p->name().toLocal8Bit().data() );
+        }
         else {
-			name = p->name2();
+            name = p->name2();
         }
 
         float dx = 5.*( name.length() );
         o.setX( o.x() - dx );
-		skyLabeler->drawLabel( psky, o, name );
+        skyLabeler->drawLabel( psky, o, name );
     }
 
     skyLabeler->resetFont( psky );

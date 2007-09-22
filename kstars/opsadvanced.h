@@ -35,18 +35,18 @@ class KStars;
 
 class OpsAdvanced : public QFrame, public Ui::OpsAdvanced
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	OpsAdvanced( KStars *_ks );
-	~OpsAdvanced();
+    OpsAdvanced( KStars *_ks );
+    ~OpsAdvanced();
 
 private slots:
-	void slotChangeTimeScale( float newScale );
-	void slotToggleHideOptions();
+    void slotChangeTimeScale( float newScale );
+    void slotToggleHideOptions();
 
 private:
-	KStars *ksw;
+    KStars *ksw;
 };
 
 #endif  //OPSADVANCED_H_

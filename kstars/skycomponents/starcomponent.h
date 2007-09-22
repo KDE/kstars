@@ -47,134 +47,134 @@ class KStarsSplash;
 
 class StarComponent: public ListComponent
 {
-	public:
+public:
 
-		StarComponent( SkyComponent* );
+    StarComponent( SkyComponent* );
 
-		virtual ~StarComponent();
+    virtual ~StarComponent();
 
-		void update( KStarsData *data, KSNumbers *num );
+    void update( KStarsData *data, KSNumbers *num );
 
-        bool selected();
+    bool selected();
 
-        void reindex( KSNumbers *num );
+    void reindex( KSNumbers *num );
 
-		void draw(KStars *ks, QPainter& psky, double scale);
+    void draw(KStars *ks, QPainter& psky, double scale);
 
-		/* @short draw all the labels in the prioritized LabelLists and then
-		 * clear the LabelLists.
-		 */
-		void drawLabels(KStars *ks, QPainter& psky, double scale);
+    /* @short draw all the labels in the prioritized LabelLists and then
+     * clear the LabelLists.
+     */
+    void drawLabels(KStars *ks, QPainter& psky, double scale);
 
-		void init(KStarsData *data);
+    void init(KStarsData *data);
 
-		KStarsData *data() { return m_Data; }
+    KStarsData *data() { return m_Data; }
 
-/**@return the current setting of the color mode for stars (0=real colors, 
-	*1=solid red, 2=solid white or 3=solid black).
-	*/
-	int starColorMode( void ) const;
+    /**@return the current setting of the color mode for stars (0=real colors,
+    	*1=solid red, 2=solid white or 3=solid black).
+    	*/
+    int starColorMode( void ) const;
 
-/**@short Retrieve the color-intensity value for stars.
-	*
-	*When using the "realistic colors" mode for stars, stars are rendered as 
-	*white circles with a colored border.  The "color intensity" setting modulates
-	*the relative thickness of this colored border, so it effectively adjusts
-	*the color-saturation level for star images.
-	*@return the current setting of the color intensity setting for stars.
-	*/
-	int starColorIntensity( void ) const;
+    /**@short Retrieve the color-intensity value for stars.
+    	*
+    	*When using the "realistic colors" mode for stars, stars are rendered as 
+    	*white circles with a colored border.  The "color intensity" setting modulates
+    	*the relative thickness of this colored border, so it effectively adjusts
+    	*the color-saturation level for star images.
+    	*@return the current setting of the color intensity setting for stars.
+    	*/
+    int starColorIntensity( void ) const;
 
-	float faintMagnitude() const { return m_FaintMagnitude; }
+    float faintMagnitude() const { return m_FaintMagnitude; }
 
-	void readData( float newMagnitude );
+    void readData( float newMagnitude );
 
-	SkyObject* objectNearest(SkyPoint *p, double &maxrad );
+    SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
-	SkyObject* findStarByGenetiveName( const QString name );
+    SkyObject* findStarByGenetiveName( const QString name );
 
-	/* @short usually does nothing.  If we are drawing faint stars and if
-		* Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
-		* the first time we are called we just pop up a splash screen. Then
-		* the second time we are called we actually re-read the data file and
-		* finally erase the pop up.
-		*/
-	void rereadData();
+    /* @short usually does nothing.  If we are drawing faint stars and if
+    	* Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
+    	* the first time we are called we just pop up a splash screen. Then
+    	* the second time we are called we actually re-read the data file and
+    	* finally erase the pop up.
+    	*/
+    void rereadData();
 
-	/* @short reads in the small starlnum.idx file that contains the line
-		* numbers from the stars.dat file that correspond to rough 90
-		* different magnitudes.  This allows us to estimate the number of
-		* lines that need to get read when partially reading stars.dat.
-		*/
-	void readLineNumbers();
+    /* @short reads in the small starlnum.idx file that contains the line
+    	* numbers from the stars.dat file that correspond to rough 90
+    	* different magnitudes.  This allows us to estimate the number of
+    	* lines that need to get read when partially reading stars.dat.
+    	*/
+    void readLineNumbers();
 
-	/* @short returns an estimate of the stars.dat line number for a given
-		* star magnitude.
-		*/
-	int lineNumber( float mag );
+    /* @short returns an estimate of the stars.dat line number for a given
+    	* star magnitude.
+    	*/
+    int lineNumber( float mag );
 
 
-	private:
-        SkyMesh*       m_skyMesh;
-        StarIndex*     m_starIndex;
+private:
+    SkyMesh*       m_skyMesh;
+    StarIndex*     m_starIndex;
 
-        KSNumbers      m_reindexNum;
-        double         m_reindexInterval;
+    KSNumbers      m_reindexNum;
+    double         m_reindexInterval;
 
-		int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
-		LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
-        qint64         m_lastFilePos;
-        int            m_lastLineNum;
-		bool           m_validLineNums;
-		bool           m_hideLabels;
+    int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
+    LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
+    qint64         m_lastFilePos;
+    int            m_lastLineNum;
+    bool           m_validLineNums;
+    bool           m_hideLabels;
 
-		KStarsData*    m_Data;
-		float          m_FaintMagnitude;
-		float          m_zoomMagLimit;
+    KStarsData*    m_Data;
+    float          m_FaintMagnitude;
+    float          m_zoomMagLimit;
 
-		KStarsSplash*  m_reloadSplash;
-		KStarsSplash*  m_reindexSplash;
+    KStarsSplash*  m_reloadSplash;
+    KStarsSplash*  m_reindexSplash;
 
-        QVector<HighPMStarList*> m_highPMStars;
-        QHash<QString, SkyObject*> m_genName;
+    QVector<HighPMStarList*> m_highPMStars;
+    QHash<QString, SkyObject*> m_genName;
 
-		/* @short adds a label to the lists of labels to be drawn prioritized
-		 * by magnitude.
-		 */
-		void addLabel( const QPointF& p, const QString& text, float mag);
+    /* @short adds a label to the lists of labels to be drawn prioritized
+     * by magnitude.
+     */
+    void addLabel( const QPointF& p, const QString& text, float mag);
 
-        void reindexAll( KSNumbers *num );
+    void reindexAll( KSNumbers *num );
 
-	/** 
-		*Parse a line from a stars data file, construct a StarObject from the data,
-		*and add it to the StarComponent.
-		*
-		*Each line is parsed according to the column
-		*position in the line:
-		*@li 0-1      RA hours [int]
-		*@li 2-3      RA minutes [int]
-		*@li 4-8      RA seconds [float]
-		*@li 10       Dec sign [char; '+' or '-']
-		*@li 11-12    Dec degrees [int]
-		*@li 13-14    Dec minutes [int]
-		*@li 15-18    Dec seconds [float]
-		*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
-		*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
-		*@li 38-44    Parallax (milli-arcsec) [float]
-		*@li 46-50    Magnitude [float]
-		*@li 51-55    B-V color index [float]
-		*@li 56-57    Spectral type [string]
-		*@li 59       Multiplicity flag (1=true, 0=false) [int]
-		*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
-		*@li 66-71    Variability period (days; blank if not variable) [float]
-		*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
-		*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
-		*             everything after the colon is the genetive name for the star (e.g.,
-		*             "alpha Orionis").
-		*
-		*@param line pointer to the line of data to be processed as a StarObject
-		*/
-		StarObject* processStar( const QString &line );
+    /**
+    	*Parse a line from a stars data file, construct a StarObject from the data,
+    	*and add it to the StarComponent.
+    	*
+    	*Each line is parsed according to the column
+    	*position in the line:
+    	*@li 0-1      RA hours [int]
+    	*@li 2-3      RA minutes [int]
+    	*@li 4-8      RA seconds [float]
+    	*@li 10       Dec sign [char; '+' or '-']
+    	*@li 11-12    Dec degrees [int]
+    	*@li 13-14    Dec minutes [int]
+    	*@li 15-18    Dec seconds [float]
+    	*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
+    	*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
+    	*@li 38-44    Parallax (milli-arcsec) [float]
+    	*@li 46-50    Magnitude [float]
+    	*@li 51-55    B-V color index [float]
+    	*@li 56-57    Spectral type [string]
+    	*@li 59       Multiplicity flag (1=true, 0=false) [int]
+    	*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
+    	*@li 66-71    Variability period (days; blank if not variable) [float]
+    	*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
+    	*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
+    	*             everything after the colon is the genetive name for the star (e.g.,
+    	*             "alpha Orionis").
+    	*
+    	*@param line pointer to the line of data to be processed as a StarObject
+    	*/
+    StarObject* processStar( const QString &line );
 
 };
 

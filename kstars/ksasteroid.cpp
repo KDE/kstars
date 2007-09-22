@@ -25,101 +25,101 @@
 #include "kstarsdata.h"
 
 KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile,
-		long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
- : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
+                        long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
+        : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
 
-	setType( 10 ); //Asteroid
-	setMag( H );
-	//Compute the orbital Period from Kepler's 3rd law:
-	P = 365.2568984 * pow(a, 1.5); //period in days
+    setType( 10 ); //Asteroid
+    setMag( H );
+    //Compute the orbital Period from Kepler's 3rd law:
+    P = 365.2568984 * pow(a, 1.5); //period in days
 }
 
 bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-	//Precess the longitude of the Ascending Node to the desired epoch:
-	dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
+    //Precess the longitude of the Ascending Node to the desired epoch:
+    dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
 
-	//determine the mean anomaly for the desired date.  This is the mean anomaly for the
-	//ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
-	//times the asteroid's mean daily motion (360/P):
-	dms m = dms( double( M.Degrees() + ( num->julianDay() - JD ) * 360.0/P ) ).reduce();
-	double sinm, cosm;
-	m.SinCos( sinm, cosm );
+    //determine the mean anomaly for the desired date.  This is the mean anomaly for the
+    //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
+    //times the asteroid's mean daily motion (360/P):
+    dms m = dms( double( M.Degrees() + ( num->julianDay() - JD ) * 360.0/P ) ).reduce();
+    double sinm, cosm;
+    m.SinCos( sinm, cosm );
 
-	//compute eccentric anomaly:
-	double E = m.Degrees() + e*180.0/dms::PI * sinm * ( 1.0 + e*cosm );
+    //compute eccentric anomaly:
+    double E = m.Degrees() + e*180.0/dms::PI * sinm * ( 1.0 + e*cosm );
 
-	if ( e > 0.05 ) { //need more accurate approximation, iterate...
-		double E0;
-		int iter(0);
-		do {
-			E0 = E;
-			iter++;
-			E = E0 - ( E0 - e*180.0/dms::PI *sin( E0*dms::DegToRad ) - m.Degrees() )/(1 - e*cos( E0*dms::DegToRad ) );
-		} while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
-	}
+    if ( e > 0.05 ) { //need more accurate approximation, iterate...
+        double E0;
+        int iter(0);
+        do {
+            E0 = E;
+            iter++;
+            E = E0 - ( E0 - e*180.0/dms::PI *sin( E0*dms::DegToRad ) - m.Degrees() )/(1 - e*cos( E0*dms::DegToRad ) );
+        } while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
+    }
 
-	double sinE, cosE;
-	dms E1( E );
-	E1.SinCos( sinE, cosE );
+    double sinE, cosE;
+    dms E1( E );
+    E1.SinCos( sinE, cosE );
 
-	double xv = a * ( cosE - e );
-	double yv = a * sqrt( 1.0 - e*e ) * sinE;
+    double xv = a * ( cosE - e );
+    double yv = a * sqrt( 1.0 - e*e ) * sinE;
 
-	//v is the true anomaly; r is the distance from the Sun
-	double v = atan2( yv, xv ) / dms::DegToRad;
-	double r = sqrt( xv*xv + yv*yv );
+    //v is the true anomaly; r is the distance from the Sun
+    double v = atan2( yv, xv ) / dms::DegToRad;
+    double r = sqrt( xv*xv + yv*yv );
 
-	//vw is the sum of the true anomaly and the argument of perihelion
-	dms vw( v + w.Degrees() );
-	double sinN, cosN, sinvw, cosvw, sini, cosi;
+    //vw is the sum of the true anomaly and the argument of perihelion
+    dms vw( v + w.Degrees() );
+    double sinN, cosN, sinvw, cosvw, sini, cosi;
 
-	N.SinCos( sinN, cosN );
-	vw.SinCos( sinvw, cosvw );
-	i.SinCos( sini, cosi );
+    N.SinCos( sinN, cosN );
+    vw.SinCos( sinvw, cosvw );
+    i.SinCos( sini, cosi );
 
-	//xh, yh, zh are the heliocentric cartesian coords with the ecliptic plane congruent with zh=0.
-	double xh = r * ( cosN * cosvw - sinN * sinvw * cosi );
-	double yh = r * ( sinN * cosvw + cosN * sinvw * cosi );
-	double zh = r * ( sinvw * sini );
+    //xh, yh, zh are the heliocentric cartesian coords with the ecliptic plane congruent with zh=0.
+    double xh = r * ( cosN * cosvw - sinN * sinvw * cosi );
+    double yh = r * ( sinN * cosvw + cosN * sinvw * cosi );
+    double zh = r * ( sinvw * sini );
 
-	//the spherical ecliptic coordinates:
-	double ELongRad = atan2( yh, xh );
-	double ELatRad = atan2( zh, r );
+    //the spherical ecliptic coordinates:
+    double ELongRad = atan2( yh, xh );
+    double ELatRad = atan2( zh, r );
 
-	helEcPos.longitude.setRadians( ELongRad );
-	helEcPos.latitude.setRadians( ELatRad );
-	setRsun( r );
+    helEcPos.longitude.setRadians( ELongRad );
+    helEcPos.latitude.setRadians( ELatRad );
+    setRsun( r );
 
-	if ( Earth ) {
-		//xe, ye, ze are the Earth's heliocentric cartesian coords
-		double cosBe, sinBe, cosLe, sinLe;
-		Earth->ecLong()->SinCos( sinLe, cosLe );
-		Earth->ecLat()->SinCos( sinBe, cosBe );
-	
-		double xe = Earth->rsun() * cosBe * cosLe;
-		double ye = Earth->rsun() * cosBe * sinLe;
-		double ze = Earth->rsun() * sinBe;
-	
-		//convert to geocentric ecliptic coordinates by subtracting Earth's coords:
-		xh -= xe;
-		yh -= ye;
-		zh -= ze;
-	}
+    if ( Earth ) {
+        //xe, ye, ze are the Earth's heliocentric cartesian coords
+        double cosBe, sinBe, cosLe, sinLe;
+        Earth->ecLong()->SinCos( sinLe, cosLe );
+        Earth->ecLat()->SinCos( sinBe, cosBe );
 
-	//the spherical geocentricecliptic coordinates:
-	ELongRad = atan2( yh, xh );
-	double rr = sqrt( xh*xh + yh*yh + zh*zh );
-	ELatRad = atan2( zh, rr );
+        double xe = Earth->rsun() * cosBe * cosLe;
+        double ye = Earth->rsun() * cosBe * sinLe;
+        double ze = Earth->rsun() * sinBe;
 
-	ep.longitude.setRadians( ELongRad );
-	ep.latitude.setRadians( ELatRad );
-	if ( Earth ) setRearth( Earth );
-	
-	EclipticToEquatorial( num->obliquity() );
-	nutate( num );
-	aberrate( num );
+        //convert to geocentric ecliptic coordinates by subtracting Earth's coords:
+        xh -= xe;
+        yh -= ye;
+        zh -= ze;
+    }
 
-	return true;
+    //the spherical geocentricecliptic coordinates:
+    ELongRad = atan2( yh, xh );
+    double rr = sqrt( xh*xh + yh*yh + zh*zh );
+    ELatRad = atan2( zh, rr );
+
+    ep.longitude.setRadians( ELongRad );
+    ep.latitude.setRadians( ELatRad );
+    if ( Earth ) setRearth( Earth );
+
+    EclipticToEquatorial( num->obliquity() );
+    nutate( num );
+    aberrate( num );
+
+    return true;
 }
 
 //Unused virtual function from KSPlanetBase

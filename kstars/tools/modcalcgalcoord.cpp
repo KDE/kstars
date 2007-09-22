@@ -29,26 +29,26 @@
 #include "widgets/dmsbox.h"
 
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)
-: QFrame(parentSplit) {
+        : QFrame(parentSplit) {
 
-	setupUi(this);
-	RA->setDegType(false);
+    setupUi(this);
+    RA->setDegType(false);
 
-	connect( RA, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
-	connect( Dec, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
-	connect( GalLongitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
-	connect( GalLatitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+    connect( RA, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+    connect( Dec, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+    connect( GalLongitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
+    connect( GalLatitude, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()) );
 
-	connect( ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()) );
+    connect( ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()) );
 
-	connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
-	connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
-	connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
-	connect(galLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLongCheckedBatch()));
-	connect(galLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLatCheckedBatch()));
-	connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+    connect(decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()));
+    connect(raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()));
+    connect(epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()));
+    connect(galLongCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLongCheckedBatch()));
+    connect(galLatCheckBatch, SIGNAL(clicked()), this, SLOT(slotGalLatCheckedBatch()));
+    connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
-	show();
+    show();
 }
 
 modCalcGalCoord::~modCalcGalCoord() {
@@ -56,277 +56,277 @@ modCalcGalCoord::~modCalcGalCoord() {
 
 void modCalcGalCoord::slotObject()
 {
-	FindDialog fd( (KStars*)topLevelWidget()->parent() );
-	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.selectedObject();
-		RA->showInHours( o->ra() );
-		Dec->showInDegrees( o->dec() );
-		slotComputeCoords();
-	}
+    FindDialog fd( (KStars*)topLevelWidget()->parent() );
+    if ( fd.exec() == QDialog::Accepted ) {
+        SkyObject *o = fd.selectedObject();
+        RA->showInHours( o->ra() );
+        Dec->showInDegrees( o->dec() );
+        slotComputeCoords();
+    }
 }
 
 void modCalcGalCoord::slotComputeCoords (void) {
-	if ( GalLongitude->hasFocus() ) GalLongitude->clearFocus();
+    if ( GalLongitude->hasFocus() ) GalLongitude->clearFocus();
 
-	//Determine whether we should compute galactic coords from 
-	//equatorial, or vice versa
-	if ( sender()->objectName() == "GalLongitude" || sender()->objectName() == "GalLatitude" ) {
-		//Validate GLong and GLat
-		bool ok(false);
-		dms glat;
-		dms glong = GalLongitude->createDms( true, &ok );
-		if ( ok ) 
-			glat = GalLatitude->createDms( true, &ok );
-		if ( ok ) {
-			SkyPoint sp, ra, dec;
-			sp.GalacticToEquatorial1950( &glong, &glat );
-			sp.B1950ToJ2000();
-			RA->showInHours( sp.ra() );
-			Dec->showInDegrees( sp.dec() );
-		}
+    //Determine whether we should compute galactic coords from
+    //equatorial, or vice versa
+    if ( sender()->objectName() == "GalLongitude" || sender()->objectName() == "GalLatitude" ) {
+        //Validate GLong and GLat
+        bool ok(false);
+        dms glat;
+        dms glong = GalLongitude->createDms( true, &ok );
+        if ( ok )
+            glat = GalLatitude->createDms( true, &ok );
+        if ( ok ) {
+            SkyPoint sp, ra, dec;
+            sp.GalacticToEquatorial1950( &glong, &glat );
+            sp.B1950ToJ2000();
+            RA->showInHours( sp.ra() );
+            Dec->showInDegrees( sp.dec() );
+        }
 
-	} else {
-		//Validate RA and Dec
-		bool ok(false);
-		dms dec;
-		dms ra = RA->createDms( false, &ok );
-		if ( ok ) 
-			dec = Dec->createDms( true, &ok );
-		if ( ok ) {
-			dms glong, glat;
-			SkyPoint sp( ra, dec );
-			sp.J2000ToB1950();
-			sp.Equatorial1950ToGalactic(glong, glat);
-			GalLongitude->showInDegrees(glong);
-			GalLatitude->showInDegrees(glat);
-		}
-	}
+    } else {
+        //Validate RA and Dec
+        bool ok(false);
+        dms dec;
+        dms ra = RA->createDms( false, &ok );
+        if ( ok )
+            dec = Dec->createDms( true, &ok );
+        if ( ok ) {
+            dms glong, glat;
+            SkyPoint sp( ra, dec );
+            sp.J2000ToB1950();
+            sp.Equatorial1950ToGalactic(glong, glat);
+            GalLongitude->showInDegrees(glong);
+            GalLatitude->showInDegrees(glat);
+        }
+    }
 }
 
 void modCalcGalCoord::galCheck() {
 
-	galLatCheckBatch->setChecked(false);
-	galLatBoxBatch->setEnabled(false);
-	galLongCheckBatch->setChecked(false);
-	galLongBoxBatch->setEnabled(false);
-	galInputCoords = false;
+    galLatCheckBatch->setChecked(false);
+    galLatBoxBatch->setEnabled(false);
+    galLongCheckBatch->setChecked(false);
+    galLongBoxBatch->setEnabled(false);
+    galInputCoords = false;
 
 }
 
 void modCalcGalCoord::equCheck() {
 
-	raCheckBatch->setChecked(false);
-	raBoxBatch->setEnabled(false);
-	decCheckBatch->setChecked(false);
-	decBoxBatch->setEnabled(false);
-	epochCheckBatch->setChecked(false);
-	galInputCoords = true;
+    raCheckBatch->setChecked(false);
+    raBoxBatch->setEnabled(false);
+    decCheckBatch->setChecked(false);
+    decBoxBatch->setEnabled(false);
+    epochCheckBatch->setChecked(false);
+    galInputCoords = true;
 
 }
 
 void modCalcGalCoord::slotRaCheckedBatch(){
 
-	if ( raCheckBatch->isChecked() ) {
-		raBoxBatch->setEnabled( false );
-		galCheck();
-	} else {
-		raBoxBatch->setEnabled( true );
-	}
+    if ( raCheckBatch->isChecked() ) {
+        raBoxBatch->setEnabled( false );
+        galCheck();
+    } else {
+        raBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcGalCoord::slotDecCheckedBatch(){
 
-	if ( decCheckBatch->isChecked() ) {
-		decBoxBatch->setEnabled( false );
-		galCheck();
-	} else {
-		decBoxBatch->setEnabled( true );
-	}
+    if ( decCheckBatch->isChecked() ) {
+        decBoxBatch->setEnabled( false );
+        galCheck();
+    } else {
+        decBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcGalCoord::slotEpochCheckedBatch(){
 
-	epochCheckBatch->setChecked(false);
+    epochCheckBatch->setChecked(false);
 
-	if ( epochCheckBatch->isChecked() ) {
-		epochBoxBatch->setEnabled( false );
-		galCheck();
-	} else {
-		epochBoxBatch->setEnabled( true );
-	}
+    if ( epochCheckBatch->isChecked() ) {
+        epochBoxBatch->setEnabled( false );
+        galCheck();
+    } else {
+        epochBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcGalCoord::slotGalLatCheckedBatch(){
 
-	if ( galLatCheckBatch->isChecked() ) {
-		galLatBoxBatch->setEnabled( false );
-		equCheck();
-	} else {
-		galLatBoxBatch->setEnabled( true );
-	}
+    if ( galLatCheckBatch->isChecked() ) {
+        galLatBoxBatch->setEnabled( false );
+        equCheck();
+    } else {
+        galLatBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcGalCoord::slotGalLongCheckedBatch(){
 
-	if ( galLongCheckBatch->isChecked() ) {
-		galLongBoxBatch->setEnabled( false );
-		equCheck();
-	} else {
-		galLongBoxBatch->setEnabled( true );
-	}
+    if ( galLongCheckBatch->isChecked() ) {
+        galLongBoxBatch->setEnabled( false );
+        equCheck();
+    } else {
+        galLongBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcGalCoord::slotRunBatch() {
 
-	QString inputFileName;
+    QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url().path();
+    inputFileName = InputFileBoxBatch->url().path();
 
-	// We open the input file and read its content
+    // We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
-		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.fileName() );
-			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = QString();
-			return;
-		}
+    if ( QFile::exists(inputFileName) ) {
+        QFile f( inputFileName );
+        if ( !f.open( QIODevice::ReadOnly) ) {
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            inputFileName = QString();
+            return;
+        }
 
-//		processLines(&f);
-		QTextStream istream(&f);
-		processLines(istream);
-//		readFile( istream );
-		f.close();
-	} else  {
-		QString message = i18n( "Invalid file: %1", inputFileName );
-		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = QString();
-		InputFileBoxBatch->setUrl( inputFileName );
-		return;
-	}
+        //		processLines(&f);
+        QTextStream istream(&f);
+        processLines(istream);
+        //		readFile( istream );
+        f.close();
+    } else  {
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        inputFileName = QString();
+        InputFileBoxBatch->setUrl( inputFileName );
+        return;
+    }
 }
 
 void modCalcGalCoord::processLines( QTextStream &istream ) {
 
-	// we open the output file
+    // we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url().path();
-	QFile fOut( outputFileName );
-	fOut.open(QIODevice::WriteOnly);
-	QTextStream ostream(&fOut);
+    //	QTextStream istream(&fIn);
+    QString outputFileName;
+    outputFileName = OutputFileBoxBatch->url().path();
+    QFile fOut( outputFileName );
+    fOut.open(QIODevice::WriteOnly);
+    QTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
-	int i = 0;
-	SkyPoint sp;
-	dms raB, decB, galLatB, galLongB;
-	QString epoch0B;
+    QString line;
+    QString space = " ";
+    int i = 0;
+    SkyPoint sp;
+    dms raB, decB, galLatB, galLongB;
+    QString epoch0B;
 
-	while ( ! istream.atEnd() ) {
-		line = istream.readLine();
-		line.trimmed();
+    while ( ! istream.atEnd() ) {
+        line = istream.readLine();
+        line.trimmed();
 
-		//Go through the line, looking for parameters
+        //Go through the line, looking for parameters
 
-		QStringList fields = line.split( " " );
+        QStringList fields = line.split( " " );
 
-		i = 0;
+        i = 0;
 
-		// Input coords are galactic coordinates:
+        // Input coords are galactic coordinates:
 
-		if (galInputCoords) {
+        if (galInputCoords) {
 
-			// Read Galactic Longitude and write in ostream if corresponds
+            // Read Galactic Longitude and write in ostream if corresponds
 
-			if(galLongCheckBatch->isChecked() ) {
-				galLongB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				galLongB = galLongBoxBatch->createDms(true);
+            if(galLongCheckBatch->isChecked() ) {
+                galLongB = dms::fromString( fields[i], true);
+                i++;
+            } else
+                galLongB = galLongBoxBatch->createDms(true);
 
-			if ( allRadioBatch->isChecked() )
-				ostream << galLongB.toDMSString() << space;
-			else
-				if(galLongCheckBatch->isChecked() )
-					ostream << galLongB.toDMSString() << space;
+            if ( allRadioBatch->isChecked() )
+                ostream << galLongB.toDMSString() << space;
+            else
+                if(galLongCheckBatch->isChecked() )
+                    ostream << galLongB.toDMSString() << space;
 
-			// Read Galactic Latitude and write in ostream if corresponds
+            // Read Galactic Latitude and write in ostream if corresponds
 
-			if(galLatCheckBatch->isChecked() ) {
-				galLatB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				galLatB = galLatBoxBatch->createDms(true);
+            if(galLatCheckBatch->isChecked() ) {
+                galLatB = dms::fromString( fields[i], true);
+                i++;
+            } else
+                galLatB = galLatBoxBatch->createDms(true);
 
-			if ( allRadioBatch->isChecked() )
-				ostream << galLatB.toDMSString() << space;
-			else
-				if(galLatCheckBatch->isChecked() )
-					ostream << galLatB.toDMSString() << space;
+            if ( allRadioBatch->isChecked() )
+                ostream << galLatB.toDMSString() << space;
+            else
+                if(galLatCheckBatch->isChecked() )
+                    ostream << galLatB.toDMSString() << space;
 
-			sp = SkyPoint ();
-			sp.GalacticToEquatorial1950(&galLongB, &galLatB);
-			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << epoch0B << endl;
-		// Input coords. are equatorial coordinates:
+            sp = SkyPoint ();
+            sp.GalacticToEquatorial1950(&galLongB, &galLatB);
+            ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << epoch0B << endl;
+            // Input coords. are equatorial coordinates:
 
-		} else {
+        } else {
 
-			// Read RA and write in ostream if corresponds
+            // Read RA and write in ostream if corresponds
 
-			if(raCheckBatch->isChecked() ) {
-				raB = dms::fromString( fields[i],false);
-				i++;
-			} else
-				raB = raBoxBatch->createDms(false);
+            if(raCheckBatch->isChecked() ) {
+                raB = dms::fromString( fields[i],false);
+                i++;
+            } else
+                raB = raBoxBatch->createDms(false);
 
-			if ( allRadioBatch->isChecked() )
-				ostream << raB.toHMSString() << space;
-			else
-				if(raCheckBatch->isChecked() )
-					ostream << raB.toHMSString() << space;
+            if ( allRadioBatch->isChecked() )
+                ostream << raB.toHMSString() << space;
+            else
+                if(raCheckBatch->isChecked() )
+                    ostream << raB.toHMSString() << space;
 
-			// Read DEC and write in ostream if corresponds
+            // Read DEC and write in ostream if corresponds
 
-			if(decCheckBatch->isChecked() ) {
-				decB = dms::fromString( fields[i], true);
-				i++;
-			} else
-				decB = decBoxBatch->createDms();
+            if(decCheckBatch->isChecked() ) {
+                decB = dms::fromString( fields[i], true);
+                i++;
+            } else
+                decB = decBoxBatch->createDms();
 
-			if ( allRadioBatch->isChecked() )
-				ostream << decB.toDMSString() << space;
-			else
-				if(decCheckBatch->isChecked() )
-					ostream << decB.toDMSString() << space;
+            if ( allRadioBatch->isChecked() )
+                ostream << decB.toDMSString() << space;
+            else
+                if(decCheckBatch->isChecked() )
+                    ostream << decB.toDMSString() << space;
 
-			// Read Epoch and write in ostream if corresponds
+            // Read Epoch and write in ostream if corresponds
 
-			if(epochCheckBatch->isChecked() ) {
-				epoch0B = fields[i];
-				i++;
-			} else
-				epoch0B = epochBoxBatch->text();
+            if(epochCheckBatch->isChecked() ) {
+                epoch0B = fields[i];
+                i++;
+            } else
+                epoch0B = epochBoxBatch->text();
 
-			if ( allRadioBatch->isChecked() )
-				ostream << epoch0B << space;
-			else
-				if(epochCheckBatch->isChecked() )
-					ostream << epoch0B << space;
+            if ( allRadioBatch->isChecked() )
+                ostream << epoch0B << space;
+            else
+                if(epochCheckBatch->isChecked() )
+                    ostream << epoch0B << space;
 
-			sp = SkyPoint (raB, decB);
-			sp.J2000ToB1950();
-			sp.Equatorial1950ToGalactic(galLongB, galLatB);
-			ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << endl;
+            sp = SkyPoint (raB, decB);
+            sp.J2000ToB1950();
+            sp.Equatorial1950ToGalactic(galLongB, galLatB);
+            ostream << galLongB.toDMSString() << space << galLatB.toDMSString() << endl;
 
-		}
+        }
 
-	}
+    }
 
 
-	fOut.close();
+    fOut.close();
 }
 
 #include "modcalcgalcoord.moc"

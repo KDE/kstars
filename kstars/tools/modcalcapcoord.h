@@ -30,32 +30,32 @@ class QTextStream;
   */
 class modCalcApCoord : public QFrame, public Ui::modCalcApCoordDlg  {
 
-Q_OBJECT
+    Q_OBJECT
 public:
-/**Constructor. */
-	modCalcApCoord(QWidget *p);
-/**Destructor. */
-	~modCalcApCoord();
+    /**Constructor. */
+    modCalcApCoord(QWidget *p);
+    /**Destructor. */
+    ~modCalcApCoord();
 
-	/** Process Lines **/
-//	void processLines( const QFile * f );
-	void processLines( QTextStream &istream );
+    /** Process Lines **/
+    //	void processLines( const QFile * f );
+    void processLines( QTextStream &istream );
 
 private slots:
-	void slotCompute();
-	void slotObject();
+    void slotCompute();
+    void slotObject();
 
-/**Fill the Time and Date fields with the current values from the CPU clock. */
-	void showCurrentTime();
- 
-	void slotUtCheckedBatch();
-	void slotDateCheckedBatch();
-	void slotRaCheckedBatch();
-	void slotDecCheckedBatch();
-	void slotEpochCheckedBatch();
-	void slotInputFile();
-	void slotOutputFile();
-	void slotRunBatch();
+    /**Fill the Time and Date fields with the current values from the CPU clock. */
+    void showCurrentTime();
+
+    void slotUtCheckedBatch();
+    void slotDateCheckedBatch();
+    void slotRaCheckedBatch();
+    void slotDecCheckedBatch();
+    void slotEpochCheckedBatch();
+    void slotInputFile();
+    void slotOutputFile();
+    void slotRunBatch();
 };
 
 #endif

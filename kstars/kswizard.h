@@ -29,21 +29,21 @@ class KStars;
 class QStackedWidget;
 
 class WizWelcomeUI : public QFrame, public Ui::WizWelcome {
-	Q_OBJECT
-	public:
-		WizWelcomeUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    WizWelcomeUI( QWidget *parent=0 );
 };
 
 class WizLocationUI : public QFrame, public Ui::WizLocation {
-	Q_OBJECT
-	public:
-		WizLocationUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    WizLocationUI( QWidget *parent=0 );
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload {
-	Q_OBJECT
-	public:
-		WizDownloadUI( QWidget *parent=0 );
+    Q_OBJECT
+public:
+    WizDownloadUI( QWidget *parent=0 );
 };
 
 /**
@@ -57,55 +57,55 @@ class WizDownloadUI : public QFrame, public Ui::WizDownload {
 	*/
 class KSWizard : public KDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	/**
-		*Constructor
-		*@p parent pointer to the parent widget
-		*/
-	KSWizard( KStars *_ks );
+    /**
+    	*Constructor
+    	*@p parent pointer to the parent widget
+    	*/
+    KSWizard( KStars *_ks );
 
-	/**Destructor */
-	~KSWizard();
+    /**Destructor */
+    ~KSWizard();
 
-	/**
-		*@return pointer to the geographic location selected by the user
-		*/
-	GeoLocation* geo() const { return Geo; }
+    /**
+    	*@return pointer to the geographic location selected by the user
+    	*/
+    GeoLocation* geo() const { return Geo; }
 
 private slots:
-	void slotNextPage();
-	void slotPrevPage();
+    void slotNextPage();
+    void slotPrevPage();
 
-	/**
-		*Set the geo pointer to the user's selected city, and display
-		*its longitude and latitude in the window.
-		*@note called when the highlighted city in the list box changes
-		*/
-	void slotChangeCity();
+    /**
+    	*Set the geo pointer to the user's selected city, and display
+    	*its longitude and latitude in the window.
+    	*@note called when the highlighted city in the list box changes
+    	*/
+    void slotChangeCity();
 
-	/**
-		*Display only those cities which meet the user's search criteria 
-		*in the city list box.
-		*@note called when one of the name filters is modified
-		*/
-	void slotFilterCities();
+    /**
+    	*Display only those cities which meet the user's search criteria 
+    	*in the city list box.
+    	*@note called when one of the name filters is modified
+    	*/
+    void slotFilterCities();
 
 private:
-	/**
-		*@short Initialize the geographic location page.
-		*Populate the city list box, and highlight the current location in the list.
-		*/
-	void initGeoPage();
-	
-	QStackedWidget *wizardStack;
-	WizWelcomeUI *welcome;
-	WizLocationUI *location;
-	WizDownloadUI *download;
+    /**
+    	*@short Initialize the geographic location page.
+    	*Populate the city list box, and highlight the current location in the list.
+    	*/
+    void initGeoPage();
 
-	KStars *ksw;
-	GeoLocation *Geo;
-	QList<GeoLocation*> filteredCityList;
+    QStackedWidget *wizardStack;
+    WizWelcomeUI *welcome;
+    WizLocationUI *location;
+    WizDownloadUI *download;
+
+    KStars *ksw;
+    GeoLocation *Geo;
+    QList<GeoLocation*> filteredCityList;
 };
 
 #endif

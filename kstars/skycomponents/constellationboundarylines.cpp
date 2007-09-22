@@ -42,7 +42,7 @@
 #include "skymesh.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
-  : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
+        : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {
     ConstellationBoundary::Create( parent );
 }
@@ -62,29 +62,29 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
 
 void ConstellationBoundaryLines::init( KStarsData *data ) {
 
-	int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
-	                                  //  0 => normal
+    int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
+    //  0 => normal
     char* fname = "cbounds.dat";
     int flag;
     double ra, dec, lastRa, lastDec;
-	LineList *lineList = 0;
+    LineList *lineList = 0;
     PolyList *polyList = 0;
     bool ok;
 
-	ConstellationBoundary* boundaryPoly = ConstellationBoundary::Instance();
+    ConstellationBoundary* boundaryPoly = ConstellationBoundary::Instance();
 
     intro();
 
-	// Open the .idx file and skip past the first line
-	KSFileReader idxReader, *idxFile = 0;
-	QString idxFname = QString("cbounds-%1.idx").arg( SkyMesh::Instance()->level() );
-	if ( idxReader.open( idxFname ) ) {
-		idxReader.readLine();
-		idxFile = &idxReader;
-	}
+    // Open the .idx file and skip past the first line
+    KSFileReader idxReader, *idxFile = 0;
+    QString idxFname = QString("cbounds-%1.idx").arg( SkyMesh::Instance()->level() );
+    if ( idxReader.open( idxFname ) ) {
+        idxReader.readLine();
+        idxFile = &idxReader;
+    }
 
-	// now open the file that contains the points
-	KSFileReader fileReader;
+    // now open the file that contains the points
+    KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
     fileReader.setProgress( i18n("Loading Consellation Boundaries"), 13124, 10 );
@@ -92,7 +92,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
     lastRa = lastDec = -1000.0;
 
     while ( fileReader.hasMoreLines() ) {
-		QString line = fileReader.readLine();
+        QString line = fileReader.readLine();
         fileReader.showProgress();
 
         if ( line.at( 0 ) == '#' ) continue;     // ignore comments
@@ -102,15 +102,15 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
             lineList = 0;
 
             if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
-            QString cName = line.mid(1); 
+            QString cName = line.mid(1);
             polyList = new PolyList( cName );
-			if ( verbose == -1 ) printf(":\n");
+            if ( verbose == -1 ) printf(":\n");
             continue;
         }
 
         // read in the data from the line
-		ra = line.mid(  0, 12 ).toDouble( &ok );
-		if ( ok ) dec = line.mid( 13, 12 ).toDouble( &ok );
+        ra = line.mid(  0, 12 ).toDouble( &ok );
+        if ( ok ) dec = line.mid( 13, 12 ).toDouble( &ok );
         if ( ok ) flag = line.mid( 26,  1 ).toInt(&ok);
         if ( !ok ) {
             fprintf(stderr, "%s: conversion error on line: %d\n",
@@ -119,7 +119,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
         }
 
         if ( ra == lastRa && dec == lastDec ) {
-            fprintf(stderr, "%s: tossing dupe on line %4d: (%f, %f)\n", 
+            fprintf(stderr, "%s: tossing dupe on line %4d: (%f, %f)\n",
                     fname, fileReader.lineNumber(), ra, dec);
             continue;
         }
@@ -127,7 +127,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
         // always add the point to the boundary (and toss dupes)
         polyList->append( QPointF( ra, dec ) );
         if ( ra < 0 ) polyList->wrapRA( true );
-        
+
         if ( flag ) {
 
             if ( ! lineList ) lineList = new LineList();
@@ -155,7 +155,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
 bool ConstellationBoundaryLines::selected()
 {
     return Options::showCBounds() &&
-		! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
+           ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
 }
 
 void ConstellationBoundaryLines::preDraw( KStars *kstars, QPainter &psky )

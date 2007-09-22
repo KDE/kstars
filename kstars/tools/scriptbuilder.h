@@ -34,47 +34,47 @@ class KStars;
 class ScriptFunction;
 
 class OptionsTreeViewWidget : public QFrame, public Ui::OptionsTreeView {
-Q_OBJECT
+    Q_OBJECT
 public:
-	OptionsTreeViewWidget( QWidget *p );
+    OptionsTreeViewWidget( QWidget *p );
 };
 
 class OptionsTreeView : public KDialog {
-Q_OBJECT
+    Q_OBJECT
 public:
-	OptionsTreeView( QWidget *p );
-	~OptionsTreeView();
-	QTreeWidget* optionsList() { return otvw->OptionsList; }
- 
+    OptionsTreeView( QWidget *p );
+    ~OptionsTreeView();
+    QTreeWidget* optionsList() { return otvw->OptionsList; }
+
 private:
-	OptionsTreeViewWidget *otvw;
+    OptionsTreeViewWidget *otvw;
 };
 
 class ScriptNameWidget : public QFrame, public Ui::ScriptNameDialog {
-Q_OBJECT
+    Q_OBJECT
 public:
-	ScriptNameWidget( QWidget *p );
+    ScriptNameWidget( QWidget *p );
 };
 
 class ScriptNameDialog : public KDialog {
-Q_OBJECT
+    Q_OBJECT
 public:
-	ScriptNameDialog( QWidget *p );
-	~ScriptNameDialog();
-	QString scriptName() const { return snw->ScriptName->text(); }
-	QString authorName() const { return snw->AuthorName->text(); }
- 
-private slots: 
-	void slotEnableOkButton();
+    ScriptNameDialog( QWidget *p );
+    ~ScriptNameDialog();
+    QString scriptName() const { return snw->ScriptName->text(); }
+    QString authorName() const { return snw->AuthorName->text(); }
+
+private slots:
+    void slotEnableOkButton();
 
 private:
-	ScriptNameWidget *snw;
+    ScriptNameWidget *snw;
 };
 
 class ScriptBuilderUI : public QFrame, public Ui::ScriptBuilder {
-Q_OBJECT
+    Q_OBJECT
 public:
-	ScriptBuilderUI( QWidget *p );
+    ScriptBuilderUI( QWidget *p );
 };
 
 /**@class ScriptBuilder
@@ -83,151 +83,151 @@ public:
 	*@version 1.0
 	*/
 class ScriptBuilder : public KDialog {
-Q_OBJECT
+    Q_OBJECT
 public:
-	ScriptBuilder( QWidget *parent );
-	~ScriptBuilder();
+    ScriptBuilder( QWidget *parent );
+    ~ScriptBuilder();
 
-	bool unsavedChanges() const { return UnsavedChanges; }
-	void setUnsavedChanges( bool b=true );
-	void saveWarning();
-	void readScript( QTextStream &istream );
-	void writeScript( QTextStream &ostream );
-	bool parseFunction( QString fn_name, QStringList &fn );
+    bool unsavedChanges() const { return UnsavedChanges; }
+    void setUnsavedChanges( bool b=true );
+    void saveWarning();
+    void readScript( QTextStream &istream );
+    void writeScript( QTextStream &ostream );
+    bool parseFunction( QString fn_name, QStringList &fn );
 
 public slots:
-	void slotAddFunction();
-	void slotMoveFunctionUp();
-	void slotMoveFunctionDown();
-	void slotArgWidget();
-	void slotShowDoc();
+    void slotAddFunction();
+    void slotMoveFunctionUp();
+    void slotMoveFunctionDown();
+    void slotArgWidget();
+    void slotShowDoc();
 
-	void slotNew();
-	void slotOpen();
-	void slotSave();
-	void slotSaveAs();
-	void slotRunScript();
-	void slotClose();
+    void slotNew();
+    void slotOpen();
+    void slotSave();
+    void slotSaveAs();
+    void slotRunScript();
+    void slotClose();
 
-	void slotCopyFunction();
-	void slotRemoveFunction();
+    void slotCopyFunction();
+    void slotRemoveFunction();
 
-	void slotFindCity();
-	void slotFindObject();
-	void slotShowOptions();
-	void slotLookToward();
-	void slotRa();
-	void slotDec();
-	void slotAz();
-	void slotAlt();
-	void slotChangeDate();
-	void slotChangeTime();
-	void slotWaitFor();
-	void slotWaitForKey();
-	void slotTracking();
-	void slotViewOption();
-	void slotChangeCity();
-	void slotChangeProvince();
-	void slotChangeCountry();
-	void slotTimeScale();
-	void slotZoom();
-	void slotExportImage();
-	void slotPrintImage();
-	void slotChangeColor();
-	void slotChangeColorName();
-	void slotLoadColorScheme();
-	
+    void slotFindCity();
+    void slotFindObject();
+    void slotShowOptions();
+    void slotLookToward();
+    void slotRa();
+    void slotDec();
+    void slotAz();
+    void slotAlt();
+    void slotChangeDate();
+    void slotChangeTime();
+    void slotWaitFor();
+    void slotWaitForKey();
+    void slotTracking();
+    void slotViewOption();
+    void slotChangeCity();
+    void slotChangeProvince();
+    void slotChangeCountry();
+    void slotTimeScale();
+    void slotZoom();
+    void slotExportImage();
+    void slotPrintImage();
+    void slotChangeColor();
+    void slotChangeColorName();
+    void slotLoadColorScheme();
+
 	#if 0
-	void slotINDIWaitCheck(bool toggleState);
-	void slotINDIFindObject();
-	void slotINDIStartDeviceName();
-	void slotINDIStartDeviceMode();
-	void slotINDISetDevice();
-	void slotINDIShutdown();
-	void slotINDISwitchDeviceConnection();
-	void slotINDISetPortDevicePort();
-	void slotINDISetTargetCoordDeviceRA();
-	void slotINDISetTargetCoordDeviceDEC();
-	void slotINDISetTargetNameTargetName();
-	void slotINDISetActionName();
-	void slotINDIWaitForActionName();
-	void slotINDISetFocusSpeed();
-	void slotINDIStartFocusDirection();
-	void slotINDISetFocusTimeout();
-	void slotINDISetGeoLocationDeviceLong();
-	void slotINDISetGeoLocationDeviceLat();
-	void slotINDIStartExposureTimeout();
-	void slotINDISetUTC();
-	void slotINDISetScopeAction();
-	void slotINDISetFrameType();
-	void slotINDISetCCDTemp();
-	void slotINDISetFilterNum();
+    void slotINDIWaitCheck(bool toggleState);
+    void slotINDIFindObject();
+    void slotINDIStartDeviceName();
+    void slotINDIStartDeviceMode();
+    void slotINDISetDevice();
+    void slotINDIShutdown();
+    void slotINDISwitchDeviceConnection();
+    void slotINDISetPortDevicePort();
+    void slotINDISetTargetCoordDeviceRA();
+    void slotINDISetTargetCoordDeviceDEC();
+    void slotINDISetTargetNameTargetName();
+    void slotINDISetActionName();
+    void slotINDIWaitForActionName();
+    void slotINDISetFocusSpeed();
+    void slotINDIStartFocusDirection();
+    void slotINDISetFocusTimeout();
+    void slotINDISetGeoLocationDeviceLong();
+    void slotINDISetGeoLocationDeviceLat();
+    void slotINDIStartExposureTimeout();
+    void slotINDISetUTC();
+    void slotINDISetScopeAction();
+    void slotINDISetFrameType();
+    void slotINDISetCCDTemp();
+    void slotINDISetFilterNum();
 	#endif
 
 private:
-	void initViewOptions();
-	void warningMismatch (const QString &expected) const;
+    void initViewOptions();
+    void warningMismatch (const QString &expected) const;
 
-	ScriptBuilderUI *sb;
+    ScriptBuilderUI *sb;
 
-	KStars *ks; //parent needed for sub-dialogs
-	QList<ScriptFunction*> KStarsFunctionList;
-
-	#if 0
-	QList<ScriptFunction*> INDIFunctionList;
-	#endif
-
-	QList<ScriptFunction*> ScriptList;
-	QVBoxLayout *vlay;
-
-	QWidget *argBlank;
-	ArgLookToward *argLookToward;
-	ArgSetRaDec *argSetRaDec;
-	ArgSetAltAz *argSetAltAz;
-	ArgSetLocalTime *argSetLocalTime;
-	ArgWaitFor *argWaitFor;
-	ArgWaitForKey *argWaitForKey;
-	ArgSetTrack *argSetTracking;
-	ArgChangeViewOption *argChangeViewOption;
-	ArgSetGeoLocation *argSetGeoLocation;
-	ArgTimeScale *argTimeScale;
-	ArgZoom *argZoom;
-	ArgExportImage *argExportImage;
-	ArgPrintImage *argPrintImage;
-	ArgSetColor *argSetColor;
-	ArgLoadColorScheme *argLoadColorScheme;
+    KStars *ks; //parent needed for sub-dialogs
+    QList<ScriptFunction*> KStarsFunctionList;
 
 	#if 0
-	ArgStartINDI *argStartINDI;
-	ArgSetDeviceINDI *argSetDeviceINDI;
-	ArgShutdownINDI *argShutdownINDI;
-	ArgSwitchINDI *argSwitchINDI;
-	ArgSetPortINDI *argSetPortINDI;
-	ArgSetTargetCoordINDI *argSetTargetCoordINDI;
-	ArgSetTargetNameINDI *argSetTargetNameINDI;
-	ArgSetActionINDI *argSetActionINDI;
-	ArgSetActionINDI *argWaitForActionINDI;
-	ArgSetFocusSpeedINDI *argSetFocusSpeedINDI;
-	ArgStartFocusINDI *argStartFocusINDI;
-	ArgSetFocusTimeoutINDI *argSetFocusTimeoutINDI;
-	ArgSetGeoLocationINDI *argSetGeoLocationINDI;
-	ArgStartExposureINDI *argStartExposureINDI;
-	ArgSetUTCINDI *argSetUTCINDI;
-	ArgSetScopeActionINDI *argSetScopeActionINDI;
-	ArgSetFrameTypeINDI *argSetFrameTypeINDI;
-	ArgSetCCDTempINDI *argSetCCDTempINDI;
-	ArgSetFilterNumINDI *argSetFilterNumINDI;
+    QList<ScriptFunction*> INDIFunctionList;
 	#endif
-	
-	ScriptNameDialog *snd;
-	OptionsTreeView *otv;
 
-	QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+    QList<ScriptFunction*> ScriptList;
+    QVBoxLayout *vlay;
 
-	bool UnsavedChanges;
-	KUrl currentFileURL;
-	QString currentDir;
-	QString currentScriptName, currentAuthor;
+    QWidget *argBlank;
+    ArgLookToward *argLookToward;
+    ArgSetRaDec *argSetRaDec;
+    ArgSetAltAz *argSetAltAz;
+    ArgSetLocalTime *argSetLocalTime;
+    ArgWaitFor *argWaitFor;
+    ArgWaitForKey *argWaitForKey;
+    ArgSetTrack *argSetTracking;
+    ArgChangeViewOption *argChangeViewOption;
+    ArgSetGeoLocation *argSetGeoLocation;
+    ArgTimeScale *argTimeScale;
+    ArgZoom *argZoom;
+    ArgExportImage *argExportImage;
+    ArgPrintImage *argPrintImage;
+    ArgSetColor *argSetColor;
+    ArgLoadColorScheme *argLoadColorScheme;
+
+	#if 0
+    ArgStartINDI *argStartINDI;
+    ArgSetDeviceINDI *argSetDeviceINDI;
+    ArgShutdownINDI *argShutdownINDI;
+    ArgSwitchINDI *argSwitchINDI;
+    ArgSetPortINDI *argSetPortINDI;
+    ArgSetTargetCoordINDI *argSetTargetCoordINDI;
+    ArgSetTargetNameINDI *argSetTargetNameINDI;
+    ArgSetActionINDI *argSetActionINDI;
+    ArgSetActionINDI *argWaitForActionINDI;
+    ArgSetFocusSpeedINDI *argSetFocusSpeedINDI;
+    ArgStartFocusINDI *argStartFocusINDI;
+    ArgSetFocusTimeoutINDI *argSetFocusTimeoutINDI;
+    ArgSetGeoLocationINDI *argSetGeoLocationINDI;
+    ArgStartExposureINDI *argStartExposureINDI;
+    ArgSetUTCINDI *argSetUTCINDI;
+    ArgSetScopeActionINDI *argSetScopeActionINDI;
+    ArgSetFrameTypeINDI *argSetFrameTypeINDI;
+    ArgSetCCDTempINDI *argSetCCDTempINDI;
+    ArgSetFilterNumINDI *argSetFilterNumINDI;
+	#endif
+
+    ScriptNameDialog *snd;
+    OptionsTreeView *otv;
+
+    QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+
+    bool UnsavedChanges;
+    KUrl currentFileURL;
+    QString currentDir;
+    QString currentScriptName, currentAuthor;
 };
 
 #endif

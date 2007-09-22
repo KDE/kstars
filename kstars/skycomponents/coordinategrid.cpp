@@ -28,19 +28,19 @@
 #include "linelist.h"
 #include "dms.h"
 
-CoordinateGrid::CoordinateGrid( SkyComponent *parent ) 
-	: NoPrecessIndex(parent, i18n("Coordinate Grid") ) 
+CoordinateGrid::CoordinateGrid( SkyComponent *parent )
+        : NoPrecessIndex(parent, i18n("Coordinate Grid") )
 {}
 
 bool CoordinateGrid::selected()
 {
     return Options::showGrid() &&
-		! ( Options::hideOnSlew() && Options::hideGrid() && SkyMap::IsSlewing() );
+           ! ( Options::hideOnSlew() && Options::hideGrid() && SkyMap::IsSlewing() );
 }
 
 void CoordinateGrid::preDraw( KStars *kstars, QPainter &psky )
 {
-    QColor color = kstars->data()->colorScheme()->colorNamed( "GridColor" ); 
+    QColor color = kstars->data()->colorScheme()->colorNamed( "GridColor" );
     psky.setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
 }
 
@@ -67,11 +67,11 @@ void CoordinateGrid::init( KStarsData *data )
 
     for ( ra = minRa; ra < maxRa; ra += dRa ) {
         for ( dec = -90.0; dec < maxDec - eps; dec += dDec ) {
-           lineList = new LineList();
-           //printf("%6.2f: ", ra);
-           max = dec + dDec;
-           if ( max > 90.0 ) max = 90.0;
-           for ( dec2 = dec; dec2 <= max + eps; dec2 += dDec2 ) {
+            lineList = new LineList();
+            //printf("%6.2f: ", ra);
+            max = dec + dDec;
+            if ( max > 90.0 ) max = 90.0;
+            for ( dec2 = dec; dec2 <= max + eps; dec2 += dDec2 ) {
                 //printf("%4d %6.2f ", components().size(), dec2);
                 SkyPoint* p = new SkyPoint( ra, dec2 );
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -84,23 +84,23 @@ void CoordinateGrid::init( KStarsData *data )
 
     for ( dec = minDec; dec < maxDec + eps; dec += dDec ) {
 
-		// Adjust point density 
-		int nPoints = int(round( fabs(cos(dec* dms::PI / 180.0)) * dRa / dRa2 )); 
-		if ( nPoints < 5 ) nPoints = 5;
-		double dRa3 = dRa / nPoints;
-		//printf( "npoints = %d\n", nPoints);
+        // Adjust point density
+        int nPoints = int(round( fabs(cos(dec* dms::PI / 180.0)) * dRa / dRa2 ));
+        if ( nPoints < 5 ) nPoints = 5;
+        double dRa3 = dRa / nPoints;
+        //printf( "npoints = %d\n", nPoints);
 
         for ( ra = minRa; ra < maxRa + eps; ra += dRa ) {
-           lineList = new LineList();
-           //printf("%6.2f: ", dec);
-           for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa3 ) {
+            lineList = new LineList();
+            //printf("%6.2f: ", dec);
+            for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa3 ) {
                 //printf("%4d %6.2f ", components().size(), ra3);
                 SkyPoint* p = new SkyPoint( ra2, dec );
                 p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 lineList->append( p );
-           }
-           appendLine( lineList );
-           //printf("\n");
+            }
+            appendLine( lineList );
+            //printf("\n");
         }
     }
 

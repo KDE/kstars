@@ -28,12 +28,12 @@
 class KStars;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-/**@short Cunstructor
-	*/
-	ObservingListUI( QWidget *parent );
+    /**@short Cunstructor
+    	*/
+    ObservingListUI( QWidget *parent );
 };
 
 /**@class ObservingList
@@ -68,121 +68,121 @@ public:
 
 class ObservingList : public KDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-/**@short Cunstructor
-	*/
-	ObservingList( KStars *_ks );
-/**@short Destuctor (empty)
-	*/
-	~ObservingList() {}
+    /**@short Cunstructor
+    	*/
+    ObservingList( KStars *_ks );
+    /**@short Destuctor (empty)
+    	*/
+    ~ObservingList() {}
 
-/**@return true if the object is in the observing list
-	*@p o pointer to the object to test.
-	*/
-	bool contains( const SkyObject *o );
+    /**@return true if the object is in the observing list
+    	*@p o pointer to the object to test.
+    	*/
+    bool contains( const SkyObject *o );
 
-/**@return true if the window is in its default "large" state.
-	*/
-	bool isLarge() const { return bIsLarge; }
+    /**@return true if the window is in its default "large" state.
+    	*/
+    bool isLarge() const { return bIsLarge; }
 
-/**@return reference to the current observing list
-	*/
-	QList<SkyObject*>& obsList() { return m_ObservingList; }
+    /**@return reference to the current observing list
+    	*/
+    QList<SkyObject*>& obsList() { return m_ObservingList; }
 
-/**@return pointer to the currently-selected object in the observing list
-	*@note if more than one object is selected, this function returns 0.
-	*/
-	SkyObject *currentObject() const { return m_CurrentObject; }
+    /**@return pointer to the currently-selected object in the observing list
+    	*@note if more than one object is selected, this function returns 0.
+    	*/
+    SkyObject *currentObject() const { return m_CurrentObject; }
 
-/**@short If the current list has unsaved changes, ask the user about saving it.
-	*@note also clears the list in preparation of opening a new one
-	*/
-	void saveCurrentList();
+    /**@short If the current list has unsaved changes, ask the user about saving it.
+    	*@note also clears the list in preparation of opening a new one
+    	*/
+    void saveCurrentList();
 
 public slots:
-/**@short add a new object to list
-	*@p o pointer to the object to add to the list
-	*/
-	void slotAddObject( SkyObject *o=NULL );
- 
-/**@short Remove skyobjects which are highlighted in the 
-	*observing list tool from the observing list.
-	*/
-	void slotRemoveObjects();
+    /**@short add a new object to list
+    	*@p o pointer to the object to add to the list
+    	*/
+    void slotAddObject( SkyObject *o=NULL );
 
-/**@short Remove skyobject from the observing list.
-	*@p o pointer to the SkyObject to be removed.
-	*Use SkyMap::clickedObject() if o is NULL (default)
-	*/
-	void slotRemoveObject( SkyObject *o=NULL );
+    /**@short Remove skyobjects which are highlighted in the
+    	*observing list tool from the observing list.
+    	*/
+    void slotRemoveObjects();
 
-/**@short center the selected object in the display
-	*/
-	void slotCenterObject();
+    /**@short Remove skyobject from the observing list.
+    	*@p o pointer to the SkyObject to be removed.
+    	*Use SkyMap::clickedObject() if o is NULL (default)
+    	*/
+    void slotRemoveObject( SkyObject *o=NULL );
 
-/**@short slew the telescope to the selected object
-	*/
-	void slotSlewToObject();
+    /**@short center the selected object in the display
+    	*/
+    void slotCenterObject();
 
-/**@short Show the details window for the selected object
-	*/
-	void slotDetails();
+    /**@short slew the telescope to the selected object
+    	*/
+    void slotSlewToObject();
 
-/**@short Show the details window for the selected object
-	*/
-	void slotAVT();
+    /**@short Show the details window for the selected object
+    	*/
+    void slotDetails();
 
-/**@short Tasks needed when changing the selected object
-	*Save the user log of the previous selected object, 
-	*find the new selected object in the obsList, and 
-	*show the notes associated with the new selected object
-	*/
-	void slotNewSelection();
+    /**@short Show the details window for the selected object
+    	*/
+    void slotAVT();
 
-	//	void slotNewCurrent();
+    /**@short Tasks needed when changing the selected object
+    	*Save the user log of the previous selected object, 
+    	*find the new selected object in the obsList, and 
+    	*show the notes associated with the new selected object
+    	*/
+    void slotNewSelection();
 
-/**@short load an observing list from disk.
-	*/
-	void slotOpenList();
+    //	void slotNewCurrent();
 
-/**@short save the current observing list to disk.
-	*/
-	void slotSaveList();
+    /**@short load an observing list from disk.
+    	*/
+    void slotOpenList();
 
-/**@short save the current observing list to disk, specify filename.
-	*/
-	void slotSaveListAs();
+    /**@short save the current observing list to disk.
+    	*/
+    void slotSaveList();
 
-/**@short construct a new observing list using the wizard.
-	*/
-	void slotWizard();
+    /**@short save the current observing list to disk, specify filename.
+    	*/
+    void slotSaveListAs();
 
-/**@short toggle between the large and small window states
-	*/
-	void slotToggleSize();
+    /**@short construct a new observing list using the wizard.
+    	*/
+    void slotWizard();
 
-/**@short Save the user log text to a file.
-	*@note the log is attached to the current object in obsList.
-	*/
-	void saveCurrentUserLog();
+    /**@short toggle between the large and small window states
+    	*/
+    void slotToggleSize();
+
+    /**@short Save the user log text to a file.
+    	*@note the log is attached to the current object in obsList.
+    	*/
+    void saveCurrentUserLog();
 
 protected slots:
-	void slotClose();
+    void slotClose();
 
 private:
-	void syncTableSelection( bool syncFullTable=true );
+    void syncTableSelection( bool syncFullTable=true );
 
-	KStars *ks;
-	ObservingListUI *ui;
-	QList<SkyObject*> m_ObservingList;
-	QList<SkyObject*> m_SelectedObjects;
-	SkyObject *LogObject, *m_CurrentObject;
-	uint noNameStars;
+    KStars *ks;
+    ObservingListUI *ui;
+    QList<SkyObject*> m_ObservingList;
+    QList<SkyObject*> m_SelectedObjects;
+    SkyObject *LogObject, *m_CurrentObject;
+    uint noNameStars;
 
-	bool isModified, bIsLarge;
-	QString ListName, FileName;
+    bool isModified, bIsLarge;
+    QString ListName, FileName;
 };
 
 #endif // OBSERVINGLIST_H_

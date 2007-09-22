@@ -55,95 +55,95 @@ class LocationDialog;
 }
 
 class LocationDialog : public KDialog {
-	Q_OBJECT
+    Q_OBJECT
 
-public: 
-/**
-	*Constructor.  Create all widgets, and pack them into QLayouts.
-	*Connect Signals to Slots.  Run initCityList().
-	*/
-	LocationDialog( KStars *_ks );
-/**
-	*Destructor (empty)
-	*/
-	~LocationDialog();
+public:
+    /**
+    	*Constructor.  Create all widgets, and pack them into QLayouts.
+    	*Connect Signals to Slots.  Run initCityList().
+    	*/
+    LocationDialog( KStars *_ks );
+    /**
+    	*Destructor (empty)
+    	*/
+    ~LocationDialog();
 
-/**
-	*Initialize list of cities.  Note that the database is not read in here,
-	*that is done in the KStars constructor.  This simply loads the local QListBox
-	*with the names of the cities from the kstarsData object.
-	*/
-  void initCityList( void );
+    /**
+    	*Initialize list of cities.  Note that the database is not read in here,
+    	*that is done in the KStars constructor.  This simply loads the local QListBox
+    	*with the names of the cities from the kstarsData object.
+    	*/
+    void initCityList( void );
 
-/**@return pointer to the highlighted city in the List.
-	*/
-	GeoLocation* selectedCity() const { return SelectedCity; }
-	
-/**@return pointer to the List of filtered city pointers.
- */
-	QList<GeoLocation*> filteredList() { return filteredCityList; }
-	
-/**@short Show only cities within 3 degrees of point specified by arguments
-	*@param longitude the longitude of the search point (int)
-	*@param latitude the latitude of the search point (int)
-	*/
-	void findCitiesNear( int longitude, int latitude );
+    /**@return pointer to the highlighted city in the List.
+    	*/
+    GeoLocation* selectedCity() const { return SelectedCity; }
 
-/**@return the city name of the selected location.
-	*/
-	QString selectedCityName( void ) const { return SelectedCity->translatedName(); }
+    /**@return pointer to the List of filtered city pointers.
+     */
+    QList<GeoLocation*> filteredList() { return filteredCityList; }
 
-/**@return the province name of the selected location.
-	*/
-	QString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
+    /**@short Show only cities within 3 degrees of point specified by arguments
+    	*@param longitude the longitude of the search point (int)
+    	*@param latitude the latitude of the search point (int)
+    	*/
+    void findCitiesNear( int longitude, int latitude );
 
-/**@return the country name of the selected location.
-	*/
-	QString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
+    /**@return the city name of the selected location.
+    	*/
+    QString selectedCityName( void ) const { return SelectedCity->translatedName(); }
 
-/**@return true if the AddCityBUtton is enabled
-	*/
-	bool addCityEnabled();
+    /**@return the province name of the selected location.
+    	*/
+    QString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
+
+    /**@return the country name of the selected location.
+    	*/
+    QString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
+
+    /**@return true if the AddCityBUtton is enabled
+    	*/
+    bool addCityEnabled();
 
 public slots:
-/**
-	*When text is entered in the City/Province/Country Filter KLineEdits,
-	*the List of cities is trimmed to show only cities beginning with the entered text.
-	*Also, the QMemArray of ID numbers is kept in sync with the filtered list.
-	*/
-  void filterCity( void );
+    /**
+    	*When text is entered in the City/Province/Country Filter KLineEdits,
+    	*the List of cities is trimmed to show only cities beginning with the entered text.
+    	*Also, the QMemArray of ID numbers is kept in sync with the filtered list.
+    	*/
+    void filterCity( void );
 
-/**
-	*When the selected city in the QListBox changes, repaint the MapCanvas
-	*so that the crosshairs icon appears on the newly selected city.
-	*/
-	void changeCity( void );
+    /**
+    	*When the selected city in the QListBox changes, repaint the MapCanvas
+    	*so that the crosshairs icon appears on the newly selected city.
+    	*/
+    void changeCity( void );
 
-/**
-	*When the "Add new city" QPushButton is clicked, add the manually-entered
-	*city information to the user's custom city database.
-	*/
-	void addCity( void );
+    /**
+    	*When the "Add new city" QPushButton is clicked, add the manually-entered
+    	*city information to the user's custom city database.
+    	*/
+    void addCity( void );
 
-	void clearFields( void );
-	void showTZRules( void );
-	void nameChanged( void );
-	void dataChanged( void );
-//	void prepareToAccept( void );
-	void slotOk();
+    void clearFields( void );
+    void showTZRules( void );
+    void nameChanged( void );
+    void dataChanged( void );
+    //	void prepareToAccept( void );
+    void slotOk();
 
 private:
-/**
-	*Make sure Longitude and Latitude values are valid.
-	*/
-	bool checkLongLat( void );
-	
-	bool dataModified, nameModified, bCityAdded;
+    /**
+    	*Make sure Longitude and Latitude values are valid.
+    	*/
+    bool checkLongLat( void );
 
-	Ui::LocationDialog *ui;
-	KStars *ksw;
-	GeoLocation *SelectedCity;
-	QList<GeoLocation*> filteredCityList;
+    bool dataModified, nameModified, bCityAdded;
+
+    Ui::LocationDialog *ui;
+    KStars *ksw;
+    GeoLocation *SelectedCity;
+    QList<GeoLocation*> filteredCityList;
 };
 
 #endif

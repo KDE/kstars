@@ -37,27 +37,27 @@ typedef QVector<PolyList*> PolyListList;
 
 class ConstellationBoundary : public PolyListIndex
 {
-	protected:
-		ConstellationBoundary( SkyComponent *parent );
+protected:
+    ConstellationBoundary( SkyComponent *parent );
 
-		ConstellationBoundary( ConstellationBoundary& constellationBoundary );
+    ConstellationBoundary( ConstellationBoundary& constellationBoundary );
 
-	public:
-	
-		static ConstellationBoundary* Create( SkyComponent* parent );
-		
-		static ConstellationBoundary* Instance();
+public:
 
-		QString constellationName( SkyPoint *p );
+    static ConstellationBoundary* Create( SkyComponent* parent );
 
-		const QPolygonF* constellationPoly( SkyPoint *p );
+    static ConstellationBoundary* Instance();
 
-		const QPolygonF* constellationPoly( const QString& name );
+    QString constellationName( SkyPoint *p );
 
-    	bool inConstellation( const QString &name, SkyPoint *p );
+    const QPolygonF* constellationPoly( SkyPoint *p );
 
-    private:
-		static ConstellationBoundary* pinstance;
+    const QPolygonF* constellationPoly( const QString& name );
+
+    bool inConstellation( const QString &name, SkyPoint *p );
+
+private:
+    static ConstellationBoundary* pinstance;
 
 };
 

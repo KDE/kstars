@@ -18,7 +18,7 @@
 
 #include "calcframe.h"
 
-CalcFrame::CalcFrame( QWidget *parent, const char *name ) : QFrame( parent ) 
+CalcFrame::CalcFrame( QWidget *parent, const char *name ) : QFrame( parent )
 {
     setObjectName( name );
 }

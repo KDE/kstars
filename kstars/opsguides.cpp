@@ -17,25 +17,25 @@
 #include "opsguides.h"
 
 OpsGuides::OpsGuides( QWidget* parent )
-	: QFrame( parent )
+        : QFrame( parent )
 {
-	setupUi( this );
+    setupUi( this );
 
-	connect( kcfg_ShowCNames, SIGNAL( clicked() ), 
-					 this, SLOT( slotToggleConstellOptions() ) );
-	connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ), 
-					 this, SLOT( slotToggleMilkyWayOptions() ) );
+    connect( kcfg_ShowCNames, SIGNAL( clicked() ),
+             this, SLOT( slotToggleConstellOptions() ) );
+    connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
+             this, SLOT( slotToggleMilkyWayOptions() ) );
 }
 
 OpsGuides::~OpsGuides()
 {}
 
 void OpsGuides::slotToggleConstellOptions() {
-	ConstellOptions->setEnabled( kcfg_ShowCNames->isChecked() );
+    ConstellOptions->setEnabled( kcfg_ShowCNames->isChecked() );
 }
 
 void OpsGuides::slotToggleMilkyWayOptions() {
-	kcfg_FillMilkyWay->setEnabled( kcfg_ShowMilkyWay->isChecked() );
+    kcfg_FillMilkyWay->setEnabled( kcfg_ShowMilkyWay->isChecked() );
 }
 
 #include "opsguides.moc"

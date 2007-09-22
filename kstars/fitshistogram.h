@@ -14,10 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef FITSHISTOGRAM
 #define FITSHISTOGRAM
- 
+
 #include "ui_fitshistogramui.h"
 
 #include <QUndoCommand>
@@ -26,7 +26,7 @@
 #include <QPaintEvent>
 #include <QDialog>
 #include <QVarLengthArray>
- 
+
 #define CIRCLE_DIM	16
 
 const int INITIAL_MAXIMUM_WIDTH = 1024;
@@ -34,26 +34,26 @@ const int INITIAL_MAXIMUM_WIDTH = 1024;
 class FITSViewer;
 class QPixmap;
 
- 
- class histogramUI : public QDialog, public Ui::FITSHistogramUI
- {
-   Q_OBJECT
 
-    public:
-     histogramUI(QDialog *parent=0);
+class histogramUI : public QDialog, public Ui::FITSHistogramUI
+{
+    Q_OBJECT
 
- };
+public:
+    histogramUI(QDialog *parent=0);
 
- class FITSHistogram : public QDialog
- {
-   Q_OBJECT
+};
 
-   friend class histDrawArea;
+class FITSHistogram : public QDialog
+{
+    Q_OBJECT
 
-   public:
+    friend class histDrawArea;
+
+public:
     FITSHistogram(QWidget *parent);
     ~FITSHistogram();
-    
+
     void constructHistogram(int hist_width, int hist_height);
     void updateHistogram();
     int  findMax(int hist_width);
@@ -61,41 +61,41 @@ class QPixmap;
     int napply;
     double histFactor;
     double fits_min, fits_max;
-    
-    private:
-    
+
+private:
+
     double binSize;
     histogramUI *ui;
     int histogram_height, histogram_width;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
     FITSViewer * viewer;
-    
-    public slots:
+
+public slots:
     void applyScale();
     void updateBoxes(int lowerLimit, int upperLimit);
     void updateIntenFreq(int x);
-    
-    
- };
- 
- class FITSHistogramCommand : public QUndoCommand
-{
-  public:
-        FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
-	virtual ~FITSHistogramCommand();
-            
-        virtual void redo();
-        virtual void undo();
-        virtual QString text() const;
 
-    
-    private:
-        FITSHistogram *histo;
-        int type;
-	int min, max;
-	float *buffer;
-        FITSViewer *viewer;
+
 };
- 
- 
+
+class FITSHistogramCommand : public QUndoCommand
+{
+public:
+    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
+    virtual ~FITSHistogramCommand();
+
+    virtual void redo();
+    virtual void undo();
+    virtual QString text() const;
+
+
+private:
+    FITSHistogram *histo;
+    int type;
+    int min, max;
+    float *buffer;
+    FITSViewer *viewer;
+};
+
+
 #endif

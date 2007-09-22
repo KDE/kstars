@@ -35,48 +35,48 @@ class dms;
   */
 class modCalcVlsr : public QFrame, public Ui::modCalcVlsrDlg  {
 
-Q_OBJECT
+    Q_OBJECT
 
-public: 
-	modCalcVlsr(QWidget *p);
-	~modCalcVlsr();
-	
+public:
+    modCalcVlsr(QWidget *p);
+    ~modCalcVlsr();
+
 private slots:
-	void slotNow();
-	void slotLocation();
-	void slotFindObject();
-	void slotCompute();
+    void slotNow();
+    void slotLocation();
+    void slotFindObject();
+    void slotCompute();
 
-	void slotUtChecked();
-	void slotDateChecked();
-	void slotRaChecked();
-	void slotDecChecked();
-	void slotEpochChecked();
-	void slotLongChecked();
-	void slotLatChecked();
-	void slotHeightChecked();
-	void slotVlsrChecked();
-	void slotInputFile();
-	void slotOutputFile();
-	void slotRunBatch();
+    void slotUtChecked();
+    void slotDateChecked();
+    void slotRaChecked();
+    void slotDecChecked();
+    void slotEpochChecked();
+    void slotLongChecked();
+    void slotLatChecked();
+    void slotHeightChecked();
+    void slotVlsrChecked();
+    void slotInputFile();
+    void slotOutputFile();
+    void slotRunBatch();
 
 private:
 
-	/**@returns a SkyPoint constructed from the coordinates in the 
-	 * RA and Dec dmsBoxes. */
-	SkyPoint skypoint();
+    /**@returns a SkyPoint constructed from the coordinates in the
+     * RA and Dec dmsBoxes. */
+    SkyPoint skypoint();
 
-	/* Constructs the a GeoLocation object (geoPlace) from the calling classes.
-	 * This is for using as Geolocation the location setup in KStars 
-	 * */
-	void initGeo(void);
+    /* Constructs the a GeoLocation object (geoPlace) from the calling classes.
+     * This is for using as Geolocation the location setup in KStars 
+     * */
+    void initGeo(void);
 
-	/* Method to process the lines from a file
-	 */
-	void processLines( QTextStream &istream );
+    /* Method to process the lines from a file
+     */
+    void processLines( QTextStream &istream );
 
-	GeoLocation *geoPlace;
-	int velocityFlag;
+    GeoLocation *geoPlace;
+    int velocityFlag;
 };
 
 

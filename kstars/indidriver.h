@@ -34,74 +34,74 @@ class KProcess;
 
 struct INDIHostsInfo
 {
-  QString name;
-  QString hostname;
-  QString portnumber;
-  bool isConnected;
-  int mgrID;
+    QString name;
+    QString hostname;
+    QString portnumber;
+    bool isConnected;
+    int mgrID;
 };
 
 class IDevice : public QObject
 {
-     Q_OBJECT
-     
-     public:
-        IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion);
-	~IDevice();
+    Q_OBJECT
 
-      enum ServeMODE { M_LOCAL, M_SERVER };
-      QString label;
-      QString driver;
-      QString version;
-      QString serverBuffer;
-      int state;
-      int mode;
-      int indiPort;
-      bool managed;
-      int mgrID;
-      int deviceType;
-      KProcess *proc;
+public:
+    IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion);
+    ~IDevice();
 
-      /* Telescope specific attributes */
-      double focal_length;
-      double aperture;
+    enum ServeMODE { M_LOCAL, M_SERVER };
+    QString label;
+    QString driver;
+    QString version;
+    QString serverBuffer;
+    int state;
+    int mode;
+    int indiPort;
+    bool managed;
+    int mgrID;
+    int deviceType;
+    KProcess *proc;
 
-      void restart();
-      
-      public Q_SLOTS:
-      void processstd();
-      
-      Q_SIGNALS:
-      void newServerInput();
-      
+    /* Telescope specific attributes */
+    double focal_length;
+    double aperture;
+
+    void restart();
+
+public Q_SLOTS:
+    void processstd();
+
+Q_SIGNALS:
+    void newServerInput();
+
 };
 
 class DeviceManagerUI : public QFrame, public Ui::devManager
 {
-   Q_OBJECT
+    Q_OBJECT
 
-   public:
-	DeviceManagerUI(QWidget *parent=0);
+public:
+    DeviceManagerUI(QWidget *parent=0);
 
-   QIcon runningPix;
-   QIcon stopPix;
-   QIcon connected;
-   QIcon disconnected;
-   QIcon establishConnection;
-   QIcon localMode;
-   QIcon serverMode;
+    QIcon runningPix;
+    QIcon stopPix;
+    QIcon connected;
+    QIcon disconnected;
+    QIcon establishConnection;
+    QIcon localMode;
+    QIcon serverMode;
 
 };
 
 class INDIDriver : public KDialog
 {
 
-   Q_OBJECT
+    Q_OBJECT
 
-   public:
+public:
 
-   INDIDriver(KStars *ks);
-   ~INDIDriver();
+    INDIDriver(KStars *ks);
+    ~INDIDriver();
 
     enum DevAction { DEV_START, DEV_TERMINATE };
 
@@ -151,10 +151,10 @@ public slots:
     void newTelescopeDiscovered();
     void newCCDDiscovered();
 
- signals:
-	void newDevice();
-	void newTelescope();
-	void newCCD();
+signals:
+    void newDevice();
+    void newTelescope();
+    void newCCD();
 };
 
 #endif

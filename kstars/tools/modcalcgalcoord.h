@@ -29,33 +29,33 @@
   */
 class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg  {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
-	
-	modCalcGalCoord(QWidget *p);
-	~modCalcGalCoord();
+
+    modCalcGalCoord(QWidget *p);
+    ~modCalcGalCoord();
 
 public slots:
 
-	void slotComputeCoords (void);
-	void slotObject();
+    void slotComputeCoords (void);
+    void slotObject();
 
-	void slotGalLatCheckedBatch(void);
-	void slotGalLongCheckedBatch(void);
-	void slotRaCheckedBatch(void);
-	void slotDecCheckedBatch(void);
-	void slotEpochCheckedBatch(void);
-	void slotRunBatch();
+    void slotGalLatCheckedBatch(void);
+    void slotGalLongCheckedBatch(void);
+    void slotRaCheckedBatch(void);
+    void slotDecCheckedBatch(void);
+    void slotEpochCheckedBatch(void);
+    void slotRunBatch();
 
 private:
-	void equCheck(void);
-	void galCheck(void);
-	void processLines( QTextStream &is );
+    void equCheck(void);
+    void galCheck(void);
+    void processLines( QTextStream &is );
 
-	dms galLong, galLat, raCoord, decCoord;
-	QString epoch;
-	bool galInputCoords;
+    dms galLong, galLat, raCoord, decCoord;
+    QString epoch;
+    bool galInputCoords;
 };
 #endif
 

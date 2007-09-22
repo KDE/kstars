@@ -56,35 +56,35 @@
 ** data.
 *******************************************************************/
 INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
-/*KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)*/
+        /*KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)*/
 {
 
- ksw = (KStars *) parent;
+    ksw = (KStars *) parent;
 
- mgrCounter = 0;
- 
-// mgr.setAutoDelete(true);
+    mgrCounter = 0;
 
- mainLayout    = new QVBoxLayout(this);
- mainLayout->setMargin(10);
- mainLayout->setSpacing(10);
+    // mgr.setAutoDelete(true);
 
- mainTabWidget = new QTabWidget(this);
+    mainLayout    = new QVBoxLayout(this);
+    mainLayout->setMargin(10);
+    mainLayout->setSpacing(10);
 
- mainLayout->addWidget(mainTabWidget);
+    mainTabWidget = new QTabWidget(this);
 
- currentLabel = QString();
+    mainLayout->addWidget(mainTabWidget);
 
- setWindowTitle(i18n("INDI Control Panel"));
- setAttribute(Qt::WA_ShowModal, false);
- //setModal(false);
+    currentLabel = QString();
 
- resize( 640, 480);
+    setWindowTitle(i18n("INDI Control Panel"));
+    setAttribute(Qt::WA_ShowModal, false);
+    //setModal(false);
+
+    resize( 640, 480);
 }
 
 INDIMenu::~INDIMenu()
 {
-  while ( ! mgr.isEmpty() ) delete mgr.takeFirst();
+    while ( ! mgr.isEmpty() ) delete mgr.takeFirst();
 }
 
 /*********************************************************************
@@ -93,165 +93,165 @@ INDIMenu::~INDIMenu()
 *********************************************************************/
 void INDIMenu::updateStatus()
 {
-   INDIDriver *drivers = ksw->getINDIDriver();
+    INDIDriver *drivers = ksw->getINDIDriver();
 
-   // Local/Server
-   processServer();
+    // Local/Server
+    processServer();
 
-   if (drivers)
-   {
-    if (drivers->activeDriverCount() == 0)
+    if (drivers)
     {
-       KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
-       return;
+        if (drivers->activeDriverCount() == 0)
+        {
+            KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+            return;
+        }
     }
-   }
-   else if (mgr.size() == 0)
-   {
-      KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
-      return;
-   }
+    else if (mgr.size() == 0)
+    {
+        KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
+        return;
+    }
 
-  //deviceContainer->show();
-  show();
+    //deviceContainer->show();
+    show();
 
 }
 
 bool INDIMenu::processServer()
 {
 
-INDIDriver *drivers = ksw->getINDIDriver();
-DeviceManager *dev;
+    INDIDriver *drivers = ksw->getINDIDriver();
+    DeviceManager *dev;
 
     if (drivers == NULL)
-     return false;
+        return false;
 
     //for (unsigned int i=0; i < drivers->devices.size(); i++)
     foreach (IDevice *device, drivers->devices)
     {
-      // Devices ready to run but not yet managed
-      if (device->state && device->managed == false && device->mode == IDevice::M_LOCAL)
-      {
-        dev = new DeviceManager(this, mgrCounter);
-    	if  (dev->indiConnect("localhost", QString::number(device->indiPort)))
-	{
-	        device->mgrID   = mgrCounter;
-	        device->managed = true;
-      		mgr.append(dev);
-		connect(dev, SIGNAL(newDevice()), drivers, SLOT(newDeviceDiscovered()));
+        // Devices ready to run but not yet managed
+        if (device->state && device->managed == false && device->mode == IDevice::M_LOCAL)
+        {
+            dev = new DeviceManager(this, mgrCounter);
+            if  (dev->indiConnect("localhost", QString::number(device->indiPort)))
+            {
+                device->mgrID   = mgrCounter;
+                device->managed = true;
+                mgr.append(dev);
+                connect(dev, SIGNAL(newDevice()), drivers, SLOT(newDeviceDiscovered()));
                 connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
 
-		mgrCounter++;
+                mgrCounter++;
 
-	}
-    	else
-	{
-      		delete (dev);
-		return false;
-	}
-      }
-      // Devices running and they need to be shutdown
-      else if (!device->state && device->managed == true && device->mode == IDevice::M_LOCAL)
-      {
-           device->managed = false;
-           removeDeviceMgr(device->mgrID);
-	   return true;
+            }
+            else
+            {
+                delete (dev);
+                return false;
+            }
+        }
+        // Devices running and they need to be shutdown
+        else if (!device->state && device->managed == true && device->mode == IDevice::M_LOCAL)
+        {
+            device->managed = false;
+            removeDeviceMgr(device->mgrID);
+            return true;
 
-      }
+        }
     }
 
-  return true;
+    return true;
 
-  }
+}
 
 int INDIMenu::processClient(const QString &hostname, const QString &portnumber)
 {
 
-  DeviceManager *dev;
-  INDIDriver *drivers = ksw->getINDIDriver();
+    DeviceManager *dev;
+    INDIDriver *drivers = ksw->getINDIDriver();
 
-  dev = new DeviceManager(this, mgrCounter);
-  if (dev->indiConnect(hostname, portnumber))
-  {
-      mgr.append(dev);
-      if (drivers)
-	{
-      	connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
-        connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
-	}
-  }
-  else
-  {
-     delete (dev);
-     return (-1);
-  }
+    dev = new DeviceManager(this, mgrCounter);
+    if (dev->indiConnect(hostname, portnumber))
+    {
+        mgr.append(dev);
+        if (drivers)
+        {
+            connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
+            connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
+        }
+    }
+    else
+    {
+        delete (dev);
+        return (-1);
+    }
 
- mgrCounter++;
- return (mgrCounter - 1);
+    mgrCounter++;
+    return (mgrCounter - 1);
 }
 
 void INDIMenu::removeDeviceMgr(int mgrID)
 {
 
-  for (int i=0; i < mgr.size(); i++)
-  {
-    if (mgrID == mgr.at(i)->mgrID)
-	{
-      		delete mgr.takeAt(i);
-	        emit driverDisconnected(mgrID);
-	}
-  }
+    for (int i=0; i < mgr.size(); i++)
+    {
+        if (mgrID == mgr.at(i)->mgrID)
+        {
+            delete mgr.takeAt(i);
+            emit driverDisconnected(mgrID);
+        }
+    }
 
-  //FIXME try to hide unnecessary left over, only leave the msg box
-  // don't use KDialogBase.. just a regular QWidget will suffice
-     //if (mgr.empty())
-	//deviceContainer->hide();
+    //FIXME try to hide unnecessary left over, only leave the msg box
+    // don't use KDialogBase.. just a regular QWidget will suffice
+    //if (mgr.empty())
+    //deviceContainer->hide();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)
 {
-  for (int i=0; i < mgr.size(); i++)
-    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
-      if (mgr[i]->indi_dev[j]->name == deviceName)
-        return mgr[i]->indi_dev[j];
+    for (int i=0; i < mgr.size(); i++)
+        for (int j=0; j < mgr[i]->indi_dev.size(); j++)
+            if (mgr[i]->indi_dev[j]->name == deviceName)
+                return mgr[i]->indi_dev[j];
 
-  return NULL;
+    return NULL;
 }
 
 INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
 {
-  for (int i=0; i < mgr.size(); i++)
-    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
-      if (mgr[i]->indi_dev[j]->label == label)
-        return mgr[i]->indi_dev[j];
+    for (int i=0; i < mgr.size(); i++)
+        for (int j=0; j < mgr[i]->indi_dev.size(); j++)
+            if (mgr[i]->indi_dev[j]->label == label)
+                return mgr[i]->indi_dev[j];
 
-  return NULL;
+    return NULL;
 }
 
 
 void INDIMenu::setCustomLabel(const QString &deviceName)
 {
-  int nset=0;
+    int nset=0;
 
-  for (int i=0; i < mgr.size(); i++)
-    for (int j=0; j < mgr[i]->indi_dev.size(); j++)
-      if (mgr[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
-        nset++;
+    for (int i=0; i < mgr.size(); i++)
+        for (int j=0; j < mgr[i]->indi_dev.size(); j++)
+            if (mgr[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
+                nset++;
 
-  if (nset)
-    currentLabel = deviceName + QString(" %1").arg(nset+1);
-  else
-    currentLabel = deviceName;
+    if (nset)
+        currentLabel = deviceName + QString(" %1").arg(nset+1);
+    else
+        currentLabel = deviceName;
 }
 
 void INDIMenu::discoverDevice()
 {
-  QTimer::singleShot( 1000, this, SLOT(announceDevice()) );
+    QTimer::singleShot( 1000, this, SLOT(announceDevice()) );
 }
 
 void INDIMenu::announceDevice()
 {
-  newDevice();
+    newDevice();
 }
 
 

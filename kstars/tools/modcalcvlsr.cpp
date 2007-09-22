@@ -32,35 +32,35 @@
 #include "finddialog.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0) 
+modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
 {
-	setupUi(this);
-	RA->setDegType(false);
+    setupUi(this);
+    RA->setDegType(false);
 
-	Date->setDateTime( KStarsDateTime::currentDateTime() );
-	initGeo();
+    Date->setDateTime( KStarsDateTime::currentDateTime() );
+    initGeo();
 
-	VLSR->setValidator( new QDoubleValidator( VLSR ) );
-	VHelio->setValidator( new QDoubleValidator( VHelio ) );
-	VGeo->setValidator( new QDoubleValidator( VGeo ) );
-	VTopo->setValidator( new QDoubleValidator( VTopo ) );
+    VLSR->setValidator( new QDoubleValidator( VLSR ) );
+    VHelio->setValidator( new QDoubleValidator( VHelio ) );
+    VGeo->setValidator( new QDoubleValidator( VGeo ) );
+    VTopo->setValidator( new QDoubleValidator( VTopo ) );
 
-	// signals and slots connections
-	connect(Date, SIGNAL( dateTimeChanged( const ExtDateTime & ) ), 
-				this, SLOT( slotCompute() ) );
-	connect(NowButton, SIGNAL( clicked() ), this, SLOT( slotNow() ) );
-	connect(LocationButton, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
-	connect(ObjectButton, SIGNAL( clicked() ), this, SLOT( slotFindObject() ) );
-	connect(RA, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect(Dec, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect(VLSR, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect(VHelio, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect(VGeo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
-	connect(VTopo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    // signals and slots connections
+    connect(Date, SIGNAL( dateTimeChanged( const ExtDateTime & ) ),
+            this, SLOT( slotCompute() ) );
+    connect(NowButton, SIGNAL( clicked() ), this, SLOT( slotNow() ) );
+    connect(LocationButton, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
+    connect(ObjectButton, SIGNAL( clicked() ), this, SLOT( slotFindObject() ) );
+    connect(RA, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    connect(Dec, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    connect(VLSR, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    connect(VHelio, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    connect(VGeo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
+    connect(VTopo, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
 
-	connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
+    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
 
-	show();
+    show();
 }
 
 modCalcVlsr::~modCalcVlsr(){
@@ -68,408 +68,408 @@ modCalcVlsr::~modCalcVlsr(){
 
 void modCalcVlsr::initGeo(void)
 {
-	KStars *ks = (KStars*) topLevelWidget()->parent();
-	geoPlace = ks->geo();
-	LocationButton->setText( geoPlace->fullName() );
+    KStars *ks = (KStars*) topLevelWidget()->parent();
+    geoPlace = ks->geo();
+    LocationButton->setText( geoPlace->fullName() );
 }
 
 void modCalcVlsr::slotNow()
 {
-	Date->setDateTime( KStarsDateTime::currentDateTime() );
-	slotCompute();
+    Date->setDateTime( KStarsDateTime::currentDateTime() );
+    slotCompute();
 }
 
 void modCalcVlsr::slotFindObject() {
-	FindDialog fd( (KStars*)topLevelWidget()->parent() );
-	if ( fd.exec() == QDialog::Accepted ) {
-		SkyObject *o = fd.selectedObject();
-		RA->showInHours( o->ra0() );
-		Dec->showInDegrees( o->dec0() );
-	}
+    FindDialog fd( (KStars*)topLevelWidget()->parent() );
+    if ( fd.exec() == QDialog::Accepted ) {
+        SkyObject *o = fd.selectedObject();
+        RA->showInHours( o->ra0() );
+        Dec->showInDegrees( o->dec0() );
+    }
 }
 
 void modCalcVlsr::slotLocation() {
-	KStars *ks = (KStars*) topLevelWidget()->parent();
-	LocationDialog ld(ks);
+    KStars *ks = (KStars*) topLevelWidget()->parent();
+    LocationDialog ld(ks);
 
-	if ( ld.exec() == QDialog::Accepted ) {
-		GeoLocation *newGeo = ld.selectedCity();
-		if ( newGeo ) {
-			geoPlace = newGeo;
-			LocationButton->setText( geoPlace->fullName() );
-		}
-	}
+    if ( ld.exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld.selectedCity();
+        if ( newGeo ) {
+            geoPlace = newGeo;
+            LocationButton->setText( geoPlace->fullName() );
+        }
+    }
 
-	slotCompute();
+    slotCompute();
 }
 
 void modCalcVlsr::slotCompute()
 {
-	bool ok1(false), ok2(false);
-	SkyPoint sp( RA->createDms(false, &ok1), Dec->createDms(true, &ok2) );
-	if ( !ok1 || !ok2 ) return;
+    bool ok1(false), ok2(false);
+    SkyPoint sp( RA->createDms(false, &ok1), Dec->createDms(true, &ok2) );
+    if ( !ok1 || !ok2 ) return;
 
-	KStarsDateTime dt = Date->dateTime();
-	double vst[3];
-	geoPlace->TopocentricVelocity( vst, dt.gst() );
+    KStarsDateTime dt = Date->dateTime();
+    double vst[3];
+    geoPlace->TopocentricVelocity( vst, dt.gst() );
 
-	if ( sender()->objectName() == "VLSR" )   velocityFlag = 0;
-	if ( sender()->objectName() == "VHelio" ) velocityFlag = 1;
-	if ( sender()->objectName() == "VGeo" )   velocityFlag = 2;
-	if ( sender()->objectName() == "VTopo" )  velocityFlag = 3;
+    if ( sender()->objectName() == "VLSR" )   velocityFlag = 0;
+    if ( sender()->objectName() == "VHelio" ) velocityFlag = 1;
+    if ( sender()->objectName() == "VGeo" )   velocityFlag = 2;
+    if ( sender()->objectName() == "VTopo" )  velocityFlag = 3;
 
-	switch ( velocityFlag ) {
-		case 0: //Hold VLSR constant, compute the others
-		{
-			double vlsr = VLSR->text().toDouble();
-			double vhelio = sp.vHeliocentric( vlsr, dt.djd() );
-			double vgeo = sp.vGeocentric( vhelio, dt.djd() );
+    switch ( velocityFlag ) {
+    case 0: //Hold VLSR constant, compute the others
+        {
+            double vlsr = VLSR->text().toDouble();
+            double vhelio = sp.vHeliocentric( vlsr, dt.djd() );
+            double vgeo = sp.vGeocentric( vhelio, dt.djd() );
 
-			VHelio->setText( QString::number( vhelio ) );
-			VGeo->setText( QString::number( vgeo ) );
-			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
-			break;
-		}
-		
-		case 1: //Hold VHelio constant, compute the others
-		{
-			double vhelio = VHelio->text().toDouble();
-			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
-			double vgeo = sp.vGeocentric( vhelio, dt.djd() );
+            VHelio->setText( QString::number( vhelio ) );
+            VGeo->setText( QString::number( vgeo ) );
+            VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+            break;
+        }
 
-			VLSR->setText( QString::number( vlsr ) );
-			VGeo->setText( QString::number( vgeo ) );
-			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
-			break;
-		}
+    case 1: //Hold VHelio constant, compute the others
+        {
+            double vhelio = VHelio->text().toDouble();
+            double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+            double vgeo = sp.vGeocentric( vhelio, dt.djd() );
 
-		case 2: //Hold VGeo constant, compute the others
-		{
-			double vgeo = VGeo->text().toDouble();
-			double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
-			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+            VLSR->setText( QString::number( vlsr ) );
+            VGeo->setText( QString::number( vgeo ) );
+            VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+            break;
+        }
 
-			VLSR->setText( QString::number( vlsr ) );
-			VHelio->setText( QString::number( vhelio ) );
-			VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
-			break;
-		}
+    case 2: //Hold VGeo constant, compute the others
+        {
+            double vgeo = VGeo->text().toDouble();
+            double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
+            double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
 
-		case 3: //Hold VTopo constant, compute the others
-		{
-			double vtopo = VTopo->text().toDouble();
-			double vgeo = sp.vTopoToVGeo( vtopo, vst );
-			double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
-			double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
+            VLSR->setText( QString::number( vlsr ) );
+            VHelio->setText( QString::number( vhelio ) );
+            VTopo->setText( QString::number( sp.vTopocentric(vgeo, vst) ) );
+            break;
+        }
 
-			VLSR->setText( QString::number( vlsr ) );
-			VHelio->setText( QString::number( vhelio ) );
-			VGeo->setText( QString::number( vgeo ) );
-			break;
-		}
+    case 3: //Hold VTopo constant, compute the others
+        {
+            double vtopo = VTopo->text().toDouble();
+            double vgeo = sp.vTopoToVGeo( vtopo, vst );
+            double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
+            double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
 
-		default: //oops
-			kDebug() << i18n("Error: I do not know which velocity to use for input.");
-			break;
-	}
+            VLSR->setText( QString::number( vlsr ) );
+            VHelio->setText( QString::number( vhelio ) );
+            VGeo->setText( QString::number( vgeo ) );
+            break;
+        }
+
+    default: //oops
+        kDebug() << i18n("Error: I do not know which velocity to use for input.");
+        break;
+    }
 }
 
 void modCalcVlsr::slotUtChecked(){
-	if ( UTCheckBatch->isChecked() )
-		UTBoxBatch->setEnabled( false );
-	else {
-		UTBoxBatch->setEnabled( true );
-	}
+    if ( UTCheckBatch->isChecked() )
+        UTBoxBatch->setEnabled( false );
+    else {
+        UTBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotDateChecked(){
-	if ( DateCheckBatch->isChecked() )
-		DateBoxBatch->setEnabled( false );
-	else {
-		DateBoxBatch->setEnabled( true );
-	}
+    if ( DateCheckBatch->isChecked() )
+        DateBoxBatch->setEnabled( false );
+    else {
+        DateBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotRaChecked(){
-	if ( RACheckBatch->isChecked() ) {
-		RABoxBatch->setEnabled( false );
-	}
-	else {
-		RABoxBatch->setEnabled( true );
-	}
+    if ( RACheckBatch->isChecked() ) {
+        RABoxBatch->setEnabled( false );
+    }
+    else {
+        RABoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotDecChecked(){
-	if ( DecCheckBatch->isChecked() ) {
-		DecBoxBatch->setEnabled( false );
-	}
-	else {
-		DecBoxBatch->setEnabled( true );
-	}
+    if ( DecCheckBatch->isChecked() ) {
+        DecBoxBatch->setEnabled( false );
+    }
+    else {
+        DecBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotEpochChecked(){
-	if ( EpochCheckBatch->isChecked() )
-		EpochBoxBatch->setEnabled( false );
-	else
-		EpochBoxBatch->setEnabled( true );
+    if ( EpochCheckBatch->isChecked() )
+        EpochBoxBatch->setEnabled( false );
+    else
+        EpochBoxBatch->setEnabled( true );
 }
 
 void modCalcVlsr::slotLongChecked(){
-	if ( LongCheckBatch->isChecked() )
-		LongitudeBoxBatch->setEnabled( false );
-	else
-		LongitudeBoxBatch->setEnabled( true );
+    if ( LongCheckBatch->isChecked() )
+        LongitudeBoxBatch->setEnabled( false );
+    else
+        LongitudeBoxBatch->setEnabled( true );
 }
 
 void modCalcVlsr::slotLatChecked(){
-	if ( LatCheckBatch->isChecked() )
-		LatitudeBoxBatch->setEnabled( false );
-	else {
-		LatitudeBoxBatch->setEnabled( true );
-	}
+    if ( LatCheckBatch->isChecked() )
+        LatitudeBoxBatch->setEnabled( false );
+    else {
+        LatitudeBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotHeightChecked(){
-	if ( ElevationCheckBatch->isChecked() )
-		ElevationBoxBatch->setEnabled( false );
-	else {
-		ElevationBoxBatch->setEnabled( true );
-	}
+    if ( ElevationCheckBatch->isChecked() )
+        ElevationBoxBatch->setEnabled( false );
+    else {
+        ElevationBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotVlsrChecked(){
-	if ( InputVelocityCheckBatch->isChecked() )
-		InputVelocityBoxBatch->setEnabled( false );
-	else {
-		InputVelocityBoxBatch->setEnabled( true );
-	}
+    if ( InputVelocityCheckBatch->isChecked() )
+        InputVelocityBoxBatch->setEnabled( false );
+    else {
+        InputVelocityBoxBatch->setEnabled( true );
+    }
 }
 
 void modCalcVlsr::slotInputFile() {
-	QString inputFileName;
-	inputFileName = KFileDialog::getOpenFileName( );
-	InputFileBoxBatch->setUrl( inputFileName );
+    QString inputFileName;
+    inputFileName = KFileDialog::getOpenFileName( );
+    InputFileBoxBatch->setUrl( inputFileName );
 }
 
 void modCalcVlsr::slotOutputFile() {
-	QString outputFileName;
-	outputFileName = KFileDialog::getSaveFileName( );
-	OutputFileBoxBatch->setUrl( outputFileName );
+    QString outputFileName;
+    outputFileName = KFileDialog::getSaveFileName( );
+    OutputFileBoxBatch->setUrl( outputFileName );
 }
 
 void modCalcVlsr::slotRunBatch() {
-	QString inputFileName;
+    QString inputFileName;
 
-	inputFileName = InputFileBoxBatch->url().path();
+    inputFileName = InputFileBoxBatch->url().path();
 
-	// We open the input file and read its content
+    // We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
-		if ( !f.open( QIODevice::ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.", f.fileName() );
-			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-			inputFileName = QString();
-			return;
-		}
+    if ( QFile::exists(inputFileName) ) {
+        QFile f( inputFileName );
+        if ( !f.open( QIODevice::ReadOnly) ) {
+            QString message = i18n( "Could not open file %1.", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            inputFileName = QString();
+            return;
+        }
 
-//		processLines(&f);
-		QTextStream istream(&f);
-		processLines(istream);
-//		readFile( istream );
-		f.close();
-	} else  {
-		QString message = i18n( "Invalid file: %1", inputFileName );
-		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-		inputFileName = QString();
-		InputFileBoxBatch->setUrl( inputFileName );
-		return;
-	}
+        //		processLines(&f);
+        QTextStream istream(&f);
+        processLines(istream);
+        //		readFile( istream );
+        f.close();
+    } else  {
+        QString message = i18n( "Invalid file: %1", inputFileName );
+        KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
+        inputFileName = QString();
+        InputFileBoxBatch->setUrl( inputFileName );
+        return;
+    }
 }
 
 void modCalcVlsr::processLines( QTextStream &istream ) {
 
-	// we open the output file
+    // we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
-	outputFileName = OutputFileBoxBatch->url().path();
-	QFile fOut( outputFileName );
-	fOut.open(QIODevice::WriteOnly);
-	QTextStream ostream(&fOut);
+    //	QTextStream istream(&fIn);
+    QString outputFileName;
+    outputFileName = OutputFileBoxBatch->url().path();
+    QFile fOut( outputFileName );
+    fOut.open(QIODevice::WriteOnly);
+    QTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
-	int i = 0;
-	long double jd0;
-	SkyPoint spB;
-	double sra, cra, sdc, cdc;
-	dms raB, decB, latB, longB;
-	QString epoch0B;
-	double vhB, vgB, vtB, vlsrB, heightB;
-	double vtopo[3];
-	QTime utB;
-	ExtDate dtB;
-	KStarsDateTime dt0B;
+    QString line;
+    QString space = " ";
+    int i = 0;
+    long double jd0;
+    SkyPoint spB;
+    double sra, cra, sdc, cdc;
+    dms raB, decB, latB, longB;
+    QString epoch0B;
+    double vhB, vgB, vtB, vlsrB, heightB;
+    double vtopo[3];
+    QTime utB;
+    ExtDate dtB;
+    KStarsDateTime dt0B;
 
-	while ( ! istream.atEnd() ) {
-		line = istream.readLine();
-		line.trimmed();
+    while ( ! istream.atEnd() ) {
+        line = istream.readLine();
+        line.trimmed();
 
-		//Go through the line, looking for parameters
+        //Go through the line, looking for parameters
 
-		QStringList fields = line.split( " " );
+        QStringList fields = line.split( " " );
 
-		i = 0;
+        i = 0;
 
-		// Read Ut and write in ostream if corresponds
+        // Read Ut and write in ostream if corresponds
 
-		if(UTCheckBatch->isChecked() ) {
-			utB = QTime::fromString( fields[i] );
-			i++;
-		} else
-			utB = UTBoxBatch->time();
+        if(UTCheckBatch->isChecked() ) {
+            utB = QTime::fromString( fields[i] );
+            i++;
+        } else
+            utB = UTBoxBatch->time();
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << utB.toString() << space;
-		else
-			if(UTCheckBatch->isChecked() )
-				ostream << utB.toString() << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << utB.toString() << space;
+        else
+            if(UTCheckBatch->isChecked() )
+                ostream << utB.toString() << space;
 
-		// Read date and write in ostream if corresponds
+        // Read date and write in ostream if corresponds
 
-		if(DateCheckBatch->isChecked() ) {
-			 dtB = ExtDate::fromString( fields[i] );
-			 i++;
-		} else
-			dtB = DateBoxBatch->date();
-		if ( AllRadioBatch->isChecked() )
-			ostream << dtB.toString().append(space);
-		else
-			if(DateCheckBatch->isChecked() )
-			 	ostream << dtB.toString().append(space);
+        if(DateCheckBatch->isChecked() ) {
+            dtB = ExtDate::fromString( fields[i] );
+            i++;
+        } else
+            dtB = DateBoxBatch->date();
+        if ( AllRadioBatch->isChecked() )
+            ostream << dtB.toString().append(space);
+        else
+            if(DateCheckBatch->isChecked() )
+                ostream << dtB.toString().append(space);
 
-		// Read RA and write in ostream if corresponds
+        // Read RA and write in ostream if corresponds
 
-		if(RACheckBatch->isChecked() ) {
-			raB = dms::fromString( fields[i],false);
-			i++;
-		} else
-			raB = RABoxBatch->createDms(false);
+        if(RACheckBatch->isChecked() ) {
+            raB = dms::fromString( fields[i],false);
+            i++;
+        } else
+            raB = RABoxBatch->createDms(false);
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << raB.toHMSString() << space;
-		else
-			if(RACheckBatch->isChecked() )
-				ostream << raB.toHMSString() << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << raB.toHMSString() << space;
+        else
+            if(RACheckBatch->isChecked() )
+                ostream << raB.toHMSString() << space;
 
-		// Read DEC and write in ostream if corresponds
+        // Read DEC and write in ostream if corresponds
 
-		if(DecCheckBatch->isChecked() ) {
-			decB = dms::fromString( fields[i], true);
-			i++;
-		} else
-			decB = DecBoxBatch->createDms();
+        if(DecCheckBatch->isChecked() ) {
+            decB = dms::fromString( fields[i], true);
+            i++;
+        } else
+            decB = DecBoxBatch->createDms();
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << decB.toDMSString() << space;
-		else
-			if(DecCheckBatch->isChecked() )
-				ostream << decB.toDMSString() << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << decB.toDMSString() << space;
+        else
+            if(DecCheckBatch->isChecked() )
+                ostream << decB.toDMSString() << space;
 
-		// Read Epoch and write in ostream if corresponds
+        // Read Epoch and write in ostream if corresponds
 
-		if(EpochCheckBatch->isChecked() ) {
-			epoch0B = fields[i];
-			i++;
-		} else
-			epoch0B = EpochBoxBatch->text();
+        if(EpochCheckBatch->isChecked() ) {
+            epoch0B = fields[i];
+            i++;
+        } else
+            epoch0B = EpochBoxBatch->text();
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << epoch0B << space;
-		else
-			if(EpochCheckBatch->isChecked() )
-				ostream << epoch0B << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << epoch0B << space;
+        else
+            if(EpochCheckBatch->isChecked() )
+                ostream << epoch0B << space;
 
-		// Read vlsr and write in ostream if corresponds
+        // Read vlsr and write in ostream if corresponds
 
-		if(InputVelocityCheckBatch->isChecked() ) {
-			vlsrB = fields[i].toDouble();
-			i++;
-		} else
-			vlsrB = InputVelocityComboBatch->currentText().toDouble();
+        if(InputVelocityCheckBatch->isChecked() ) {
+            vlsrB = fields[i].toDouble();
+            i++;
+        } else
+            vlsrB = InputVelocityComboBatch->currentText().toDouble();
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << vlsrB << space;
-		else
-			if(InputVelocityCheckBatch->isChecked() )
-				ostream << vlsrB << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << vlsrB << space;
+        else
+            if(InputVelocityCheckBatch->isChecked() )
+                ostream << vlsrB << space;
 
-		// Read Longitude and write in ostream if corresponds
+        // Read Longitude and write in ostream if corresponds
 
-		if (LongCheckBatch->isChecked() ) {
-			longB = dms::fromString( fields[i],true);
-			i++;
-		} else
-			longB = LongitudeBoxBatch->createDms(true);
+        if (LongCheckBatch->isChecked() ) {
+            longB = dms::fromString( fields[i],true);
+            i++;
+        } else
+            longB = LongitudeBoxBatch->createDms(true);
 
-		if ( AllRadioBatch->isChecked() )
-			ostream << longB.toDMSString() << space;
-		else
-			if (LongCheckBatch->isChecked() )
-				ostream << longB.toDMSString() << space;
+        if ( AllRadioBatch->isChecked() )
+            ostream << longB.toDMSString() << space;
+        else
+            if (LongCheckBatch->isChecked() )
+                ostream << longB.toDMSString() << space;
 
-		// Read Latitude
-
-
-		if (LatCheckBatch->isChecked() ) {
-			latB = dms::fromString( fields[i], true);
-			i++;
-		} else
-			latB = LatitudeBoxBatch->createDms(true);
-		if ( AllRadioBatch->isChecked() )
-			ostream << latB.toDMSString() << space;
-		else
-			if (LatCheckBatch->isChecked() )
-				ostream << latB.toDMSString() << space;
-
-		// Read height and write in ostream if corresponds
-
-		if(ElevationCheckBatch->isChecked() ) {
-			heightB = fields[i].toDouble();
-			i++;
-		} else
-			heightB = ElevationBoxBatch->text().toDouble();
-
-		if ( AllRadioBatch->isChecked() )
-			ostream << heightB << space;
-		else
-			if(ElevationCheckBatch->isChecked() )
-				ostream << heightB << space;
-
-		// We make the first calculations
-
-		spB = SkyPoint (raB, decB);
-		dt0B.setFromEpoch(epoch0B);
-		vhB = spB.vHeliocentric(vlsrB, dt0B.djd());
-		jd0 = KStarsDateTime(dtB,utB).djd();
-		vgB = spB.vGeocentric(vlsrB, jd0);
-		geoPlace->setLong( longB );
-		geoPlace->setLat(  latB );
-		geoPlace->setHeight( heightB );
-		dms gsidt = KStarsDateTime(dtB,utB).gst();
-		geoPlace->TopocentricVelocity(vtopo, gsidt);
-		spB.ra()->SinCos(sra, cra);
-		spB.dec()->SinCos(sdc, cdc);
-		vtB = vgB - (vtopo[0]*cdc*cra + vtopo[1]*cdc*sra + vtopo[2]*sdc);
-
-		ostream << vhB << space << vgB << space << vtB << endl;
-
-	}
+        // Read Latitude
 
 
-	fOut.close();
+        if (LatCheckBatch->isChecked() ) {
+            latB = dms::fromString( fields[i], true);
+            i++;
+        } else
+            latB = LatitudeBoxBatch->createDms(true);
+        if ( AllRadioBatch->isChecked() )
+            ostream << latB.toDMSString() << space;
+        else
+            if (LatCheckBatch->isChecked() )
+                ostream << latB.toDMSString() << space;
+
+        // Read height and write in ostream if corresponds
+
+        if(ElevationCheckBatch->isChecked() ) {
+            heightB = fields[i].toDouble();
+            i++;
+        } else
+            heightB = ElevationBoxBatch->text().toDouble();
+
+        if ( AllRadioBatch->isChecked() )
+            ostream << heightB << space;
+        else
+            if(ElevationCheckBatch->isChecked() )
+                ostream << heightB << space;
+
+        // We make the first calculations
+
+        spB = SkyPoint (raB, decB);
+        dt0B.setFromEpoch(epoch0B);
+        vhB = spB.vHeliocentric(vlsrB, dt0B.djd());
+        jd0 = KStarsDateTime(dtB,utB).djd();
+        vgB = spB.vGeocentric(vlsrB, jd0);
+        geoPlace->setLong( longB );
+        geoPlace->setLat(  latB );
+        geoPlace->setHeight( heightB );
+        dms gsidt = KStarsDateTime(dtB,utB).gst();
+        geoPlace->TopocentricVelocity(vtopo, gsidt);
+        spB.ra()->SinCos(sra, cra);
+        spB.dec()->SinCos(sdc, cdc);
+        vtB = vgB - (vtopo[0]*cdc*cra + vtopo[1]*cdc*sra + vtopo[2]*sdc);
+
+        ostream << vhB << space << vgB << space << vtB << endl;
+
+    }
+
+
+    fOut.close();
 }
 
 #include "modcalcvlsr.moc"

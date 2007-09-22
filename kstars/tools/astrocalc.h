@@ -48,59 +48,59 @@ class modCalcVlsr;
 class AstroCalc : public KDialog
 {
 
-Q_OBJECT 
-	public:
+    Q_OBJECT
+public:
     /** construtor */
-	AstroCalc(QWidget *parent = 0);
+    AstroCalc(QWidget *parent = 0);
 
     /** destructor */
-	~AstroCalc();
+    ~AstroCalc();
 
-		/**Generate explanatory text for time modules. */
-		void genTimeText(void);
+    /**Generate explanatory text for time modules. */
+    void genTimeText(void);
 
-		/**Generate explanatory text for coordinate modules. */
-		void genCoordText(void);
+    /**Generate explanatory text for coordinate modules. */
+    void genCoordText(void);
 
-		/**Generate explanatory text for geodetic modules. */
-		void genGeodText(void);
+    /**Generate explanatory text for geodetic modules. */
+    void genGeodText(void);
 
-		/**Generate explanatory text for solar system modules. */
-		void genSolarText(void);
+    /**Generate explanatory text for solar system modules. */
+    void genSolarText(void);
 
-		/**@returns suggested size of calculator window. */
-		QSize sizeHint() const;
+    /**@returns suggested size of calculator window. */
+    QSize sizeHint() const;
 
-	public slots:
-		/**Determine which item is selected in the function menu QListBox.
-			*Generate the corresponding calculator module.
-			*/
-		void slotItemSelection(QTreeWidgetItem *it);
-		
-	private:
-		
-		QSplitter *split;
-		QTreeWidget *navigationPanel;
-		QString previousElection;
+public slots:
+    /**Determine which item is selected in the function menu QListBox.
+    	*Generate the corresponding calculator module.
+    	*/
+    void slotItemSelection(QTreeWidgetItem *it);
 
-		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Apparent, AltAz, Planets, Ecliptic, AngDist, Vlsr};
-		typeOfPanel rightPanel;
+private:
 
-		QStringList ItemTitles;
-		QStackedWidget *acStack;
-		QTextEdit *splashScreen;
-		modCalcJD *JDFrame;
-		modCalcGeodCoord *GeodCoordFrame;
-		modCalcGalCoord *GalFrame;
-		modCalcSidTime *SidFrame;
-		modCalcApCoord *AppFrame;
-		modCalcDayLength *DayFrame;
-		modCalcAltAz *AltAzFrame;
-		modCalcPlanets *PlanetsFrame;
-		modCalcEquinox *EquinoxFrame;
-		modCalcEclCoords *EclFrame;
-		modCalcAngDist *AngDistFrame;
-		modCalcVlsr *VlsrFrame;
+    QSplitter *split;
+    QTreeWidget *navigationPanel;
+    QString previousElection;
+
+    enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Apparent, AltAz, Planets, Ecliptic, AngDist, Vlsr};
+    typeOfPanel rightPanel;
+
+    QStringList ItemTitles;
+    QStackedWidget *acStack;
+    QTextEdit *splashScreen;
+    modCalcJD *JDFrame;
+    modCalcGeodCoord *GeodCoordFrame;
+    modCalcGalCoord *GalFrame;
+    modCalcSidTime *SidFrame;
+    modCalcApCoord *AppFrame;
+    modCalcDayLength *DayFrame;
+    modCalcAltAz *AltAzFrame;
+    modCalcPlanets *PlanetsFrame;
+    modCalcEquinox *EquinoxFrame;
+    modCalcEclCoords *EclFrame;
+    modCalcAngDist *AngDistFrame;
+    modCalcVlsr *VlsrFrame;
 };
 
 #endif

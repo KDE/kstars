@@ -36,46 +36,46 @@ class LineList;
 	*/
 class LineListLabel
 {
-	public:
-	
-		LineListLabel( const QString& text );
+public:
 
-		enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
+    LineListLabel( const QString& text );
 
-		/* @short prepare the context for selecting label position candidates.
-		 */
-		void reset( QPainter &psky );
+    enum { TopCandidate, BotCandidate, LeftCandidate, RightCandidate };
 
-		/* @short draw the label if any.  Is currently called at the bottom of
-		 * draw() but that call could be removed and it could be called
-		 * externally AFTER draw() has been called so draw() can set up the label
-		 * position candidates.
-		 */
-		void draw( KStars* kstars, QPainter& psky, double scale );
-		
-		void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
+    /* @short prepare the context for selecting label position candidates.
+     */
+    void reset( QPainter &psky );
 
-		SkyLabeler* skyLabeler() { return m_skyLabeler; }
+    /* @short draw the label if any.  Is currently called at the bottom of
+     * draw() but that call could be removed and it could be called
+     * externally AFTER draw() has been called so draw() can set up the label
+     * position candidates.
+     */
+    void draw( KStars* kstars, QPainter& psky, double scale );
 
-	private:
-		const QString m_text;
-		SkyLabeler*   m_skyLabeler;
+    void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
 
-		// these two arrays track/contain 4 candidate points
-		int         m_labIndex[4];
-		LineList*   m_labList[4];
+    SkyLabeler* skyLabeler() { return m_skyLabeler; }
 
-		float       m_marginLeft, m_marginRight, m_marginTop, m_marginBot;
-		float       m_farLeft, m_farRight, m_farTop, m_farBot;
-		
-		/* @short This routine does two things at once.  It returns the QPointF
-		 * coresponding to pointList[i] and also computes the angle using
-		 * pointList[i] and pointList[i-1] therefore you MUST ensure that:
-		 *
-		 *	   1 <= i < pointList.size().
-		 */
-		QPointF angleAt( SkyMap* map, LineList* list, int i,
-						 double *angle, double scale );
+private:
+    const QString m_text;
+    SkyLabeler*   m_skyLabeler;
+
+    // these two arrays track/contain 4 candidate points
+    int         m_labIndex[4];
+    LineList*   m_labList[4];
+
+    float       m_marginLeft, m_marginRight, m_marginTop, m_marginBot;
+    float       m_farLeft, m_farRight, m_farTop, m_farBot;
+
+    /* @short This routine does two things at once.  It returns the QPointF
+     * coresponding to pointList[i] and also computes the angle using
+     * pointList[i] and pointList[i-1] therefore you MUST ensure that:
+     *
+     *	   1 <= i < pointList.size().
+     */
+    QPointF angleAt( SkyMap* map, LineList* list, int i,
+                     double *angle, double scale );
 };
 
 #endif

@@ -24,111 +24,111 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd ) 
-: KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  ) 
+KSSun::KSSun( KStarsData *kd )
+        : KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
 {
-	setMag( -26.73 );
+    setMag( -26.73 );
 }
 
 bool KSSun::loadData() {
-	OrbitDataColl odc;
-	return (odm.loadData(odc, "earth") != 0);
+    OrbitDataColl odc;
+    return (odm.loadData(odc, "earth") != 0);
 }
 
 bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-	if (Earth) {
-		//
-		// For the precision we need, the earth's orbit is circular.
-		// So don't bother to iterate like KSPlanet does. Just subtract
-		// The current delay and recompute (once).
-		//
-	  
-		//The light-travel time delay, in millenia
-		//0.0057755183 is the inverse speed of light, in days/AU
-		double delay = (.0057755183 * Earth->rsun()) / 365250.0;
-		//
-		// MHH 2002-02-04 I don't like this. But it avoids code duplication.
-		// Maybe we can find a better way.
-		//
-		const KSPlanet *pEarth = static_cast<const KSPlanet *>(Earth);
-		EclipticPosition trialpos;
-		pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
+    if (Earth) {
+        //
+        // For the precision we need, the earth's orbit is circular.
+        // So don't bother to iterate like KSPlanet does. Just subtract
+        // The current delay and recompute (once).
+        //
 
-		setEcLong( trialpos.longitude.Degrees() + 180.0 );
-		setEcLong( ecLong()->reduce().Degrees() );
-		setEcLat( -1.0*trialpos.latitude.Degrees() );
+        //The light-travel time delay, in millenia
+        //0.0057755183 is the inverse speed of light, in days/AU
+        double delay = (.0057755183 * Earth->rsun()) / 365250.0;
+        //
+        // MHH 2002-02-04 I don't like this. But it avoids code duplication.
+        // Maybe we can find a better way.
+        //
+        const KSPlanet *pEarth = static_cast<const KSPlanet *>(Earth);
+        EclipticPosition trialpos;
+        pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
 
-	} else {
-		double sum[6];
-		dms EarthLong, EarthLat; //heliocentric coords of Earth
-		OrbitDataColl odc;
-		double T = num->julianMillenia(); //Julian millenia since J2000
-		double Tpow[6];
+        setEcLong( trialpos.longitude.Degrees() + 180.0 );
+        setEcLong( ecLong()->reduce().Degrees() );
+        setEcLat( -1.0*trialpos.latitude.Degrees() );
 
-		Tpow[0] = 1.0;
-		for (int i=1; i<6; ++i) {
-			Tpow[i] = Tpow[i-1] * T;
-		}
-			//First, find heliocentric coordinates
+    } else {
+        double sum[6];
+        dms EarthLong, EarthLat; //heliocentric coords of Earth
+        OrbitDataColl odc;
+        double T = num->julianMillenia(); //Julian millenia since J2000
+        double Tpow[6];
 
-		if ( ! odm.loadData(odc, "earth") ) return false;
+        Tpow[0] = 1.0;
+        for (int i=1; i<6; ++i) {
+            Tpow[i] = Tpow[i-1] * T;
+        }
+        //First, find heliocentric coordinates
 
-		//Ecliptic Longitude
-		for (int i=0; i<6; ++i) {
-			sum[i] = 0.0;
-			for (int j = 0; j < odc.Lon[i].size(); ++j) {
-				sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*T );
-			}
-			sum[i] *= Tpow[i];
-			//kDebug() << name() << " : sum[" << i << "] = " << sum[i];
-		}
+        if ( ! odm.loadData(odc, "earth") ) return false;
 
-		EarthLong.setRadians( sum[0] + sum[1] + sum[2] +
-				sum[3] + sum[4] + sum[5] );
-		EarthLong.setD( EarthLong.reduce().Degrees() );
+        //Ecliptic Longitude
+        for (int i=0; i<6; ++i) {
+            sum[i] = 0.0;
+            for (int j = 0; j < odc.Lon[i].size(); ++j) {
+                sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*T );
+            }
+            sum[i] *= Tpow[i];
+            //kDebug() << name() << " : sum[" << i << "] = " << sum[i];
+        }
 
-		//Compute Ecliptic Latitude
-		for (int i=0; i<6; ++i) {
-			sum[i] = 0.0;
-			for (int j = 0; j < odc.Lat[i].size(); ++j) {
-				sum[i] += odc.Lat[i][j].A * cos( odc.Lat[i][j].B + odc.Lat[i][j].C*T );
-			}
-			sum[i] *= Tpow[i];
-		}
+        EarthLong.setRadians( sum[0] + sum[1] + sum[2] +
+                              sum[3] + sum[4] + sum[5] );
+        EarthLong.setD( EarthLong.reduce().Degrees() );
+
+        //Compute Ecliptic Latitude
+        for (int i=0; i<6; ++i) {
+            sum[i] = 0.0;
+            for (int j = 0; j < odc.Lat[i].size(); ++j) {
+                sum[i] += odc.Lat[i][j].A * cos( odc.Lat[i][j].B + odc.Lat[i][j].C*T );
+            }
+            sum[i] *= Tpow[i];
+        }
 
 
-		EarthLat.setRadians( sum[0] + sum[1] + sum[2] + sum[3] +
-				sum[4] + sum[5] );
+        EarthLat.setRadians( sum[0] + sum[1] + sum[2] + sum[3] +
+                             sum[4] + sum[5] );
 
-		//Compute Heliocentric Distance
-		for (int i=0; i<6; ++i) {
-			sum[i] = 0.0;
-			for (int j = 0; j < odc.Dst[i].size(); ++j) {
-				sum[i] += odc.Dst[i][j].A * cos( odc.Dst[i][j].B + odc.Dst[i][j].C*T );
-			}
-			sum[i] *= Tpow[i];
-		}
+        //Compute Heliocentric Distance
+        for (int i=0; i<6; ++i) {
+            sum[i] = 0.0;
+            for (int j = 0; j < odc.Dst[i].size(); ++j) {
+                sum[i] += odc.Dst[i][j].A * cos( odc.Dst[i][j].B + odc.Dst[i][j].C*T );
+            }
+            sum[i] *= Tpow[i];
+        }
 
-		ep.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
+        ep.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
-		setEcLong( EarthLong.Degrees() + 180.0 );
-		setEcLong( ecLong()->reduce().Degrees() );
-		setEcLat( -1.0*EarthLat.Degrees() );
-	}
+        setEcLong( EarthLong.Degrees() + 180.0 );
+        setEcLong( ecLong()->reduce().Degrees() );
+        setEcLat( -1.0*EarthLat.Degrees() );
+    }
 
-	//Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
-	EclipticToEquatorial( num->obliquity() );
+    //Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
+    EclipticToEquatorial( num->obliquity() );
 
-	nutate(num);
-	aberrate(num);
+    nutate(num);
+    aberrate(num);
 
-	// We obtain the apparent geocentric ecliptic coordinates. That is, after 
-	// nutation and aberration have been applied.
-	EquatorialToEcliptic( num->obliquity() );
-	
-	//Determine the position angle
-	findPA( num );
+    // We obtain the apparent geocentric ecliptic coordinates. That is, after
+    // nutation and aberration have been applied.
+    EquatorialToEcliptic( num->obliquity() );
 
-	return true;
+    //Determine the position angle
+    findPA( num );
+
+    return true;
 }
 

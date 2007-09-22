@@ -43,5 +43,5 @@ typedef QList< StarObject*>            StarList;
 typedef QVector< StarList*>            StarIndex;
 typedef QVector< LineList*>            LineListList;
 typedef QHash< Trixel, LineListList*>  LineListHash;  // Wanted LineListIndex but
-                                                      // that is used by a class.
+// that is used by a class.
 

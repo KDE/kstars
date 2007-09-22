@@ -37,40 +37,40 @@ class SkyLabeler;
 	*/
 class JupiterMoonsComponent : public SkyComponent
 {
-	public:
+public:
 
-		/**
-		 *@short Constructor
-		 *@p parent pointer to the parent SkyComposite
-		 */
-		JupiterMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *jup, bool (*visibleMethod)() );
-		
-		/**
-		 *@short Destructor
-		 */
-		virtual ~JupiterMoonsComponent();
+    /**
+     *@short Constructor
+     *@p parent pointer to the parent SkyComposite
+     */
+    JupiterMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *jup, bool (*visibleMethod)() );
 
-		/**
-		 *@short Draw the Jovian moons on the sky map
-		 *@p map Pointer to the SkyMap object
-		 *@p psky Reference to the QPainter on which to paint
-		 *@p scale the scaling factor for drawing (1.0 for screen draws)
-		 */
-		virtual void draw(KStars *ks, QPainter& psky, double scale);
+    /**
+     *@short Destructor
+     */
+    virtual ~JupiterMoonsComponent();
 
-		/**
-		 *@short Initialize the Jovian moons
-		 *@p data Pointer to the KStarsData object
-		 */
-		virtual void init(KStarsData *data);
-	
-		virtual void update( KStarsData *data, KSNumbers *num );
-		virtual void updateMoons( KStarsData *data, KSNumbers *num );
-		
-	private:
+    /**
+     *@short Draw the Jovian moons on the sky map
+     *@p map Pointer to the SkyMap object
+     *@p psky Reference to the QPainter on which to paint
+     *@p scale the scaling factor for drawing (1.0 for screen draws)
+     */
+    virtual void draw(KStars *ks, QPainter& psky, double scale);
 
-		JupiterMoons *jmoons;
-		SolarSystemSingleComponent *m_Jupiter;
+    /**
+     *@short Initialize the Jovian moons
+     *@p data Pointer to the KStarsData object
+     */
+    virtual void init(KStarsData *data);
+
+    virtual void update( KStarsData *data, KSNumbers *num );
+    virtual void updateMoons( KStarsData *data, KSNumbers *num );
+
+private:
+
+    JupiterMoons *jmoons;
+    SolarSystemSingleComponent *m_Jupiter;
 };
 
 #endif

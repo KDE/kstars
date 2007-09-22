@@ -33,32 +33,32 @@ class ConstellationBoundary;
 	*@version 0.1
 	*/
 
-class ConstellationBoundaryLines : public NoPrecessIndex 
+class ConstellationBoundaryLines : public NoPrecessIndex
 {
-	public:
-	/**
-		*@short Constructor
-		*Simply adds all of the coordinate grid circles 
-		*(meridians and parallels)
-		*@p parent Pointer to the parent SkyComponent object
-		*/
-		ConstellationBoundaryLines( SkyComponent *parent );
+public:
+    /**
+    	*@short Constructor
+    	*Simply adds all of the coordinate grid circles 
+    	*(meridians and parallels)
+    	*@p parent Pointer to the parent SkyComponent object
+    	*/
+    ConstellationBoundaryLines( SkyComponent *parent );
 
-	/**
-		*@short Initialize the Constellation boundary 
-		*Reads the constellation boundary data from cbounds.dat.  
-		*The boundary data is defined by a series of RA,Dec coordinate pairs 
-		*defining the "nodes" of the boundaries.  The nodes are organized into 
-		*"segments", such that each segment represents a continuous series 
-		*of boundary-line intervals that divide two particular constellations.
-		*
-		*@param data Pointer to the KStarsData object
-		*/
-		void init( KStarsData *data );
+    /**
+    	*@short Initialize the Constellation boundary 
+    	*Reads the constellation boundary data from cbounds.dat.  
+    	*The boundary data is defined by a series of RA,Dec coordinate pairs 
+    	*defining the "nodes" of the boundaries.  The nodes are organized into 
+    	*"segments", such that each segment represents a continuous series 
+    	*of boundary-line intervals that divide two particular constellations.
+    	*
+    	*@param data Pointer to the KStarsData object
+    	*/
+    void init( KStarsData *data );
 
-        bool selected();
+    bool selected();
 
-        void preDraw( KStars *ks, QPainter &psky );
+    void preDraw( KStars *ks, QPainter &psky );
 };
 
 

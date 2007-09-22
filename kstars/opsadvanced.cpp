@@ -24,29 +24,29 @@
 #include "kstars.h"
 #include "widgets/timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( KStars *_ks ) 
-	: QFrame( _ks ), ksw(_ks)
+OpsAdvanced::OpsAdvanced( KStars *_ks )
+        : QFrame( _ks ), ksw(_ks)
 {
-	setupUi( this );
+    setupUi( this );
 
-	//Initialize the timestep value
-	SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );
+    //Initialize the timestep value
+    SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );
 
-	connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
+    connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
 
-	connect( kcfg_HideOnSlew, SIGNAL( clicked() ), this, SLOT( slotToggleHideOptions() ) );
+    connect( kcfg_HideOnSlew, SIGNAL( clicked() ), this, SLOT( slotToggleHideOptions() ) );
 }
 
 OpsAdvanced::~OpsAdvanced() {}
 
 void OpsAdvanced::slotChangeTimeScale( float newScale ) {
-	Options::setSlewTimeScale( newScale );
+    Options::setSlewTimeScale( newScale );
 }
 
 void OpsAdvanced::slotToggleHideOptions() {
-	textLabelHideTimeStep->setEnabled( kcfg_HideOnSlew->isChecked() );
-	SlewTimeScale->setEnabled( kcfg_HideOnSlew->isChecked() );
-	HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
+    textLabelHideTimeStep->setEnabled( kcfg_HideOnSlew->isChecked() );
+    SlewTimeScale->setEnabled( kcfg_HideOnSlew->isChecked() );
+    HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
 }
 
 #include "opsadvanced.moc"

@@ -29,8 +29,8 @@
 
 SkyComponent::SkyComponent( SkyComponent *parent, bool (*visibleMethod)() )
 {
-	Parent = parent;
-	visible = visibleMethod;
+    Parent = parent;
+    visible = visibleMethod;
 }
 
 SkyComponent::~SkyComponent()
@@ -39,18 +39,18 @@ SkyComponent::~SkyComponent()
 
 bool SkyComponent::isExportable()
 {
-	return true;
+    return true;
 }
 
 void SkyComponent::drawExportable(KStars *ks, QPainter& psky, double scale)
 {
-	if (isExportable())
-		draw(ks, psky, scale);
+    if (isExportable())
+        draw(ks, psky, scale);
 }
 
 //Hand the message up to SkyMapComposite
 void SkyComponent::emitProgressText( const QString &message ) {
-	parent()->emitProgressText( message );
+    parent()->emitProgressText( message );
 }
 
 SkyObject* SkyComponent::findByName( const QString & ) { return 0; }

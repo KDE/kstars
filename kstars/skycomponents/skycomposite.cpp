@@ -22,99 +22,99 @@
 #include "skyobject.h"
 
 SkyComposite::SkyComposite(SkyComponent *parent )
-: SkyComponent( parent ), m_CurrentIndex(0)
+        : SkyComponent( parent ), m_CurrentIndex(0)
 {
 }
 
 SkyComposite::SkyComposite(SkyComponent *parent, bool (*visibleMethod)())
-: SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
+        : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
 {
 }
 
 
 SkyComposite::~SkyComposite()
 {
-	while ( !components().isEmpty() )
-		delete components().takeFirst();
+    while ( !components().isEmpty() )
+        delete components().takeFirst();
 }
 
 void SkyComposite::addComponent(SkyComponent *component)
 {
-	components().append(component);
+    components().append(component);
 }
 
 void SkyComposite::removeComponent(SkyComponent *component)
 {
-	int index = components().indexOf(component);
-	if (index != -1)
-	{
-		// component is in list
-		components().removeAt(index);
-		delete component;
-	}
+    int index = components().indexOf(component);
+    if (index != -1)
+    {
+        // component is in list
+        components().removeAt(index);
+        delete component;
+    }
 }
 
 void SkyComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
-	foreach (SkyComponent *component, components())
-		component->draw(ks, psky, scale);
+    foreach (SkyComponent *component, components())
+    component->draw(ks, psky, scale);
 }
 
 void SkyComposite::drawExportable(KStars *ks, QPainter& psky, double scale)
 {
-	foreach (SkyComponent *component, components())
-		component->drawExportable(ks, psky, scale);
+    foreach (SkyComponent *component, components())
+    component->drawExportable(ks, psky, scale);
 }
 
 void SkyComposite::init(KStarsData *data)
 {
-	foreach (SkyComponent *component, components())
-		component->init(data);
+    foreach (SkyComponent *component, components())
+    component->init(data);
 }
 
 void SkyComposite::update(KStarsData *data, KSNumbers *num )
 {
-	foreach (SkyComponent *component, components())
-		component->update( data, num );
+    foreach (SkyComponent *component, components())
+    component->update( data, num );
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {
-	SkyObject *o = 0;
-	foreach ( SkyComponent *comp, components() ) {
-		o = comp->findByName( name );
-		if ( o ) return o;
-	}
-	return 0;
+    SkyObject *o = 0;
+    foreach ( SkyComponent *comp, components() ) {
+        o = comp->findByName( name );
+        if ( o ) return o;
+    }
+    return 0;
 }
 
 SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
-	if ( ! selected() ) return 0;
+    if ( ! selected() ) return 0;
 
-	SkyObject *oTry = 0;
-	SkyObject *oBest = 0;
+    SkyObject *oTry = 0;
+    SkyObject *oBest = 0;
 
-	foreach ( SkyComponent *comp, components() ) {
-		oTry = comp->objectNearest( p, maxrad );
-		if ( oTry ) oBest = oTry; //found a closer object
-	}
+    foreach ( SkyComponent *comp, components() ) {
+        oTry = comp->objectNearest( p, maxrad );
+        if ( oTry ) oBest = oTry; //found a closer object
+    }
 
-	return oBest; //will be 0 if no object nearer than maxrad was found
+    return oBest; //will be 0 if no object nearer than maxrad was found
 }
 
 SkyObject* SkyComposite::first() {
-	m_CurrentIndex = 0;
-	return m_Components[m_CurrentIndex]->first();
+    m_CurrentIndex = 0;
+    return m_Components[m_CurrentIndex]->first();
 }
 
 SkyObject* SkyComposite::next() {
-	SkyObject *result = m_Components[m_CurrentIndex]->next();
+    SkyObject *result = m_Components[m_CurrentIndex]->next();
 
-	if ( !result ) {
-		m_CurrentIndex++;
-		if ( m_CurrentIndex >= m_Components.size() ) return 0;
-		return m_Components[m_CurrentIndex]->first();
-	}
+    if ( !result ) {
+        m_CurrentIndex++;
+        if ( m_CurrentIndex >= m_Components.size() ) return 0;
+        return m_Components[m_CurrentIndex]->first();
+    }
 
-	return result;
+    return result;
 }

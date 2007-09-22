@@ -47,67 +47,67 @@
 #include "skylabeler.h"
 #include "infoboxes.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) : 
-    SkyComposite(parent), m_reindexNum( J2000 )
+SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
+        SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();
 
     m_skyMesh = SkyMesh::Create( data, 3 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
-                                         //  2 => prints totals too
-                                         // 10 => prints detailed lists
-                                         // You can also set the debug level of individual
-                                         // appendLine() and appendPoly() calls.
+    //  2 => prints totals too
+    // 10 => prints detailed lists
+    // You can also set the debug level of individual
+    // appendLine() and appendPoly() calls.
     //Add all components
-	m_MilkyWay = new MilkyWay( this );
-	addComponent( m_MilkyWay );
-	//Stars must come before constellation lines
-	m_Stars = new StarComponent( this );
-	addComponent( m_Stars );
+    m_MilkyWay = new MilkyWay( this );
+    addComponent( m_MilkyWay );
+    //Stars must come before constellation lines
+    m_Stars = new StarComponent( this );
+    addComponent( m_Stars );
 
-	m_CoordinateGrid = new CoordinateGrid( this );
-	addComponent( m_CoordinateGrid );
+    m_CoordinateGrid = new CoordinateGrid( this );
+    addComponent( m_CoordinateGrid );
 
-	m_CBoundLines = new ConstellationBoundaryLines( this );
-	addComponent( m_CBoundLines );
+    m_CBoundLines = new ConstellationBoundaryLines( this );
+    addComponent( m_CBoundLines );
 
-	m_CLines = new ConstellationLines( this );
-	addComponent( m_CLines );
+    m_CLines = new ConstellationLines( this );
+    addComponent( m_CLines );
 
-	m_CNames = new ConstellationNamesComponent( this );
-	addComponent( m_CNames );
+    m_CNames = new ConstellationNamesComponent( this );
+    addComponent( m_CNames );
 
-	m_Equator = new Equator( this );
-	addComponent( m_Equator );
+    m_Equator = new Equator( this );
+    addComponent( m_Equator );
 
-	m_Ecliptic = new Ecliptic( this );
-	addComponent( m_Ecliptic );
+    m_Ecliptic = new Ecliptic( this );
+    addComponent( m_Ecliptic );
 
-	m_Horizon = new HorizonComponent( this );
-	addComponent( m_Horizon );
+    m_Horizon = new HorizonComponent( this );
+    addComponent( m_Horizon );
 
-	m_Satellites = new SatelliteComposite( this );
-	addComponent( m_Satellites );
+    m_Satellites = new SatelliteComposite( this );
+    addComponent( m_Satellites );
 
-	//m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky, 
-	//		&Options::showMessier, &Options::showNGC, &Options::showIC, 
-	//		&Options::showOther, &Options::showMessierImages );
+    //m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky,
+    //		&Options::showMessier, &Options::showNGC, &Options::showIC,
+    //		&Options::showOther, &Options::showMessierImages );
 
     m_DeepSky = new DeepSkyComponent( this );
-	addComponent( m_DeepSky );
+    addComponent( m_DeepSky );
 
-	//FIXME: can't use Options::showCatalog as visibility fcn, 
-	//because it returns QList, not bool
-	m_CustomCatalogs = new SkyComposite( this );
-	foreach ( const QString &fname, Options::catalogFile() ) 
-		m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
-	
-	m_SolarSystem = new SolarSystemComposite( this, data );
-	addComponent( m_SolarSystem );
+    //FIXME: can't use Options::showCatalog as visibility fcn,
+    //because it returns QList, not bool
+    m_CustomCatalogs = new SkyComposite( this );
+    foreach ( const QString &fname, Options::catalogFile() )
+    m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
 
-	connect( this, SIGNAL( progressText( const QString & ) ), 
-					data, SIGNAL( progressText( const QString & ) ) );
+    m_SolarSystem = new SolarSystemComposite( this, data );
+    addComponent( m_SolarSystem );
+
+    connect( this, SIGNAL( progressText( const QString & ) ),
+             data, SIGNAL( progressText( const QString & ) ) );
 }
 
 SkyMapComposite::~SkyMapComposite()
@@ -119,140 +119,140 @@ SkyMapComposite::~SkyMapComposite()
 void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 {
     //printf("updating SkyMapComposite\n");
-	//1. Milky Way
-	//m_MilkyWay->update( data, num );
-	//2. Coordinate grid
-	//m_CoordinateGrid->update( data, num );
-	//3. Constellation boundaries
-	//m_CBounds->update( data, num );
-	//4. Constellation lines
-	//m_CLines->update( data, num );
-	//5. Constellation names
-	m_CNames->update( data, num );
-	//6. Equator
-	//m_Equator->update( data, num );
-	//7. Ecliptic
-	//m_Ecliptic->update( data, num );
-	//8. Deep sky
-	//m_DeepSky->update( data, num );
-	//9. Custom catalogs
-	m_CustomCatalogs->update( data, num );
-	//10. Stars
-	//m_Stars->update( data, num );
+    //1. Milky Way
+    //m_MilkyWay->update( data, num );
+    //2. Coordinate grid
+    //m_CoordinateGrid->update( data, num );
+    //3. Constellation boundaries
+    //m_CBounds->update( data, num );
+    //4. Constellation lines
+    //m_CLines->update( data, num );
+    //5. Constellation names
+    m_CNames->update( data, num );
+    //6. Equator
+    //m_Equator->update( data, num );
+    //7. Ecliptic
+    //m_Ecliptic->update( data, num );
+    //8. Deep sky
+    //m_DeepSky->update( data, num );
+    //9. Custom catalogs
+    m_CustomCatalogs->update( data, num );
+    //10. Stars
+    //m_Stars->update( data, num );
     //m_CLines->update( data, num );  // MUST follow stars.
 
-	//12. Solar system
-	m_SolarSystem->update( data, num );
-	//13. Satellites
-	m_Satellites->update( data, num );
-	//14. Horizon
-	m_Horizon->update( data, num );
+    //12. Solar system
+    m_SolarSystem->update( data, num );
+    //13. Satellites
+    m_Satellites->update( data, num );
+    //14. Horizon
+    m_Horizon->update( data, num );
 }
 
 void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 {
-	m_SolarSystem->updatePlanets( data, num );
+    m_SolarSystem->updatePlanets( data, num );
 }
 
 void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 {
-	m_SolarSystem->updateMoons( data, num );
+    m_SolarSystem->updateMoons( data, num );
 }
 
-//Reimplement draw function so that we have control over the order of 
+//Reimplement draw function so that we have control over the order of
 //elements, and we can add object labels
 //
-//The order in which components are drawn naturally determines the 
-//z-ordering (the layering) of the components.  Objects which 
+//The order in which components are drawn naturally determines the
+//z-ordering (the layering) of the components.  Objects which
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 {
-	QTime t;
-	t.start();
+    QTime t;
+    t.start();
     m_map = ks->map();
 
-	// We delay one draw cycle before re-indexing
-	// we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
-	// so we do it here.
+    // We delay one draw cycle before re-indexing
+    // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
+    // so we do it here.
     m_CLines->reindex( &m_reindexNum );
-	// This queues re-indexing for the next draw cycle
+    // This queues re-indexing for the next draw cycle
     m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
 
     // This ensures that the JIT updates are synchronized for the entire draw
     // cycle so the sky moves as a single sheet.  May not be needed.
     ks->data()->syncUpdateIDs();
 
-	// prepare the aperture
+    // prepare the aperture
     float radius = m_map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
-	if ( m_skyMesh->inDraw() ) {
-		printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
-		return;
-	}
+    if ( m_skyMesh->inDraw() ) {
+        printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
+        return;
+    }
 
-	m_skyMesh->inDraw( true );
+    m_skyMesh->inDraw( true );
     SkyPoint* focus = m_map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-	// create the no-precess aperture if needed
-    if ( Options::showGrid() || Options::showCBounds() || 
-			Options::showEquator() ) {
+    // create the no-precess aperture if needed
+    if ( Options::showGrid() || Options::showCBounds() ||
+            Options::showEquator() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
-	// clear marks from old labels and prep fonts
-    m_skyLabeler->reset( m_map, psky, scale ); 
-	m_skyLabeler->useStdFont( psky );
+    // clear marks from old labels and prep fonts
+    m_skyLabeler->reset( m_map, psky, scale );
+    m_skyLabeler->useStdFont( psky );
 
-	// info boxes have highest label priority
-	ks->infoBoxes()->reserveBoxes( psky );
+    // info boxes have highest label priority
+    ks->infoBoxes()->reserveBoxes( psky );
 
     m_MilkyWay->draw( ks, psky, scale );
 
-	m_CoordinateGrid->draw( ks, psky, scale );
+    m_CoordinateGrid->draw( ks, psky, scale );
 
-	m_CBoundLines->draw( ks, psky, scale );
+    m_CBoundLines->draw( ks, psky, scale );
 
-	m_CLines->draw( ks, psky, scale );
+    m_CLines->draw( ks, psky, scale );
 
-	m_Equator->draw( ks, psky, scale );
+    m_Equator->draw( ks, psky, scale );
 
-	m_Ecliptic->draw( ks, psky, scale );
+    m_Ecliptic->draw( ks, psky, scale );
 
-	m_DeepSky->draw( ks, psky, scale );
+    m_DeepSky->draw( ks, psky, scale );
 
-	m_CustomCatalogs->draw( ks, psky, scale );
+    m_CustomCatalogs->draw( ks, psky, scale );
 
-	m_Stars->draw( ks, psky, scale );
+    m_Stars->draw( ks, psky, scale );
 
-	m_SolarSystem->draw( ks, psky, scale );	
+    m_SolarSystem->draw( ks, psky, scale );
 
-	//m_Satellites->draw( ks, psky, scale );
+    //m_Satellites->draw( ks, psky, scale );
 
-	ks->map()->drawObjectLabels( labelObjects(), psky, scale );
+    ks->map()->drawObjectLabels( labelObjects(), psky, scale );
 
-	m_Horizon->draw( ks, psky, scale );
+    m_Horizon->draw( ks, psky, scale );
 
     m_skyLabeler->draw( ks, psky );
-	m_CNames->draw( ks, psky, scale );
-	m_Stars->drawLabels( ks, psky, scale );
+    m_CNames->draw( ks, psky, scale );
+    m_Stars->drawLabels( ks, psky, scale );
 
-	m_skyMesh->inDraw( false );
+    m_skyMesh->inDraw( false );
 
-	//kDebug() << QString("draw took %1 ms").arg( t.elapsed() ) << endl;
+    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() ) << endl;
 
     // -jbb uncomment these to see trixel outlines:
-	//
+    //
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
 
-    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) ); 
+    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( ks, psky, scale, NO_PRECESS_BUF );
 }
-//Select nearest object to the given skypoint, but give preference 
+//Select nearest object to the given skypoint, but give preference
 //to certain object types.
-//we multiply each object type's smallest angular distance by the 
+//we multiply each object type's smallest angular distance by the
 //following factors before selecting the final nearest object:
 // faint stars = 1.0 (not weighted)
 // stars brighter than 4th mag = 0.75
@@ -263,118 +263,118 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
 // custom object = 0.5
 // Solar system = 0.25
 SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
-	double rTry = maxrad;
-	double rBest = maxrad;
-	SkyObject *oTry = 0;
-	SkyObject *oBest = 0;
+    double rTry = maxrad;
+    double rBest = maxrad;
+    SkyObject *oTry = 0;
+    SkyObject *oBest = 0;
 
-	//printf("%.1f %.1f\n", p->ra()->Degrees(), p->dec()->Degrees() );
+    //printf("%.1f %.1f\n", p->ra()->Degrees(), p->dec()->Degrees() );
     m_skyMesh->aperture( p, maxrad + 1.0, OBJ_NEAREST_BUF);
 
-	oBest = m_Stars->objectNearest( p, rBest );
-	//reduce rBest by 0.75 for stars brighter than 4th mag
-	if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
+    oBest = m_Stars->objectNearest( p, rBest );
+    //reduce rBest by 0.75 for stars brighter than 4th mag
+    if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
 
-	//m_DeepSky internally discriminates among deepsky catalogs
-	//and renormalizes rTry
-	oTry = m_DeepSky->objectNearest( p, rTry ); 
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    //m_DeepSky internally discriminates among deepsky catalogs
+    //and renormalizes rTry
+    oTry = m_DeepSky->objectNearest( p, rTry );
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	rTry = maxrad;
-	oTry = m_CustomCatalogs->objectNearest( p, rTry );
-	rTry *= 0.5;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry = maxrad;
+    oTry = m_CustomCatalogs->objectNearest( p, rTry );
+    rTry *= 0.5;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	rTry = maxrad;
-	oTry = m_SolarSystem->objectNearest( p, rTry );
-	rTry *= 0.25;
-	if ( rTry < rBest ) {
-		rBest = rTry;
-		oBest = oTry;
-	}
+    rTry = maxrad;
+    oTry = m_SolarSystem->objectNearest( p, rTry );
+    rTry *= 0.25;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
 
-	maxrad = rBest;
-	return oBest; //will be 0 if no object nearer than maxrad was found
+    maxrad = rBest;
+    return oBest; //will be 0 if no object nearer than maxrad was found
 
 }
 
 bool SkyMapComposite::addNameLabel( SkyObject *o ) {
-	if ( !o ) return false;
-	labelObjects().append( o );
-	return true;
+    if ( !o ) return false;
+    labelObjects().append( o );
+    return true;
 }
 
 bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
-	if ( !o ) return false;
-	int index = labelObjects().indexOf( o );
-	if ( index < 0 ) return false;
-	labelObjects().removeAt( index );
-	return true;
+    if ( !o ) return false;
+    int index = labelObjects().indexOf( o );
+    if ( index < 0 ) return false;
+    labelObjects().removeAt( index );
+    return true;
 }
 
 bool SkyMapComposite::addTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->addTrail( o ) ) return true;
-	}
-	//Did not find object o
-	return false;
+    foreach ( SkyComponent *comp, solarSystem() ) {
+        if ( comp->addTrail( o ) ) return true;
+    }
+    //Did not find object o
+    return false;
 }
 
 bool SkyMapComposite::hasTrail( SkyObject *o, bool &found ) {
-	found = false;
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->hasTrail( o, found ) ) return true;
-		//It's possible we found the object, but it had no trail:
-		if ( found ) return false;
-	}
-	//Did not find object o
-	return false;
+    found = false;
+    foreach ( SkyComponent *comp, solarSystem() ) {
+        if ( comp->hasTrail( o, found ) ) return true;
+        //It's possible we found the object, but it had no trail:
+        if ( found ) return false;
+    }
+    //Did not find object o
+    return false;
 }
 
 bool SkyMapComposite::removeTrail( SkyObject *o ) {
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		if ( comp->removeTrail( o ) ) return true;
-	}
-	//Did not find object o
-	return false;
+    foreach ( SkyComponent *comp, solarSystem() ) {
+        if ( comp->removeTrail( o ) ) return true;
+    }
+    //Did not find object o
+    return false;
 }
 
 void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
-	foreach ( SkyComponent *comp, solarSystem() ) {
-		comp->clearTrailsExcept( exOb );
-	}
+    foreach ( SkyComponent *comp, solarSystem() ) {
+        comp->clearTrailsExcept( exOb );
+    }
 }
 
 QHash<int, QStringList>& SkyMapComposite::objectNames() {
-	return m_ObjectNames;
+    return m_ObjectNames;
 }
 
 QStringList& SkyMapComposite::objectNames( int type ) {
-	return m_ObjectNames[ type ];
+    return m_ObjectNames[ type ];
 }
 
 SkyObject* SkyMapComposite::findByName( const QString &name ) {
-	//We search the children in an "intelligent" order (most-used 
-	//object types first), in order to avoid wasting too much time 
-	//looking for a match.  The most important part of this ordering 
-	//is that stars should be last (because the stars list is so long)
-	SkyObject *o = 0;
-	o = m_SolarSystem->findByName( name );
-	if ( o ) return o;
-	o = m_DeepSky->findByName( name );
-	if ( o ) return o;
-	o = m_CustomCatalogs->findByName( name );
-	if ( o ) return o;
-	o = m_Stars->findByName( name );
-	if ( o ) return o;
+    //We search the children in an "intelligent" order (most-used
+    //object types first), in order to avoid wasting too much time
+    //looking for a match.  The most important part of this ordering
+    //is that stars should be last (because the stars list is so long)
+    SkyObject *o = 0;
+    o = m_SolarSystem->findByName( name );
+    if ( o ) return o;
+    o = m_DeepSky->findByName( name );
+    if ( o ) return o;
+    o = m_CustomCatalogs->findByName( name );
+    if ( o ) return o;
+    o = m_Stars->findByName( name );
+    if ( o ) return o;
 
-	return 0;
+    return 0;
 }
 
 
@@ -393,83 +393,83 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 **/
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
-	m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+    m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
 }
 
 void SkyMapComposite::removeCustomCatalog( const QString &name ) {
-  foreach( SkyComponent *sc, m_CustomCatalogs->components() ) {
-    CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
+    foreach( SkyComponent *sc, m_CustomCatalogs->components() ) {
+        CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
 
-    if ( ccc->name() == name ) {
-      m_CustomCatalogs->removeComponent( ccc );
-      return;
+        if ( ccc->name() == name ) {
+            m_CustomCatalogs->removeComponent( ccc );
+            return;
+        }
     }
-  }
-  
-  kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
+
+    kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
 void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
-	m_DeepSky->clear();
-	m_DeepSky->init( data );
+    m_DeepSky->clear();
+    m_DeepSky->init( data );
 }
 
 void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
-	m_SolarSystem->reloadAsteroids( data );
+    m_SolarSystem->reloadAsteroids( data );
 }
 
 void SkyMapComposite::reloadComets( KStarsData *data ) {
-	m_SolarSystem->reloadComets( data );
+    m_SolarSystem->reloadComets( data );
 }
 
 void SkyMapComposite::emitProgressText( const QString &message ) {
-	emit progressText( message );
+    emit progressText( message );
     qApp->processEvents();         // -jbb: this seemed to make it work.
     //kDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
-float SkyMapComposite::faintStarMagnitude() const { 
-	return m_Stars->faintMagnitude(); 
+float SkyMapComposite::faintStarMagnitude() const {
+    return m_Stars->faintMagnitude();
 }
 
-int SkyMapComposite::starColorMode() const { 
-	return m_Stars->starColorMode(); 
+int SkyMapComposite::starColorMode() const {
+    return m_Stars->starColorMode();
 }
 
-int SkyMapComposite::starColorIntensity() const { 
-	return m_Stars->starColorIntensity(); 
+int SkyMapComposite::starColorIntensity() const {
+    return m_Stars->starColorIntensity();
 }
 
-QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() { 
-	return m_DeepSky->objectList(); 
+QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() {
+    return m_DeepSky->objectList();
 }
 
-QList<SkyComponent*> SkyMapComposite::solarSystem() { 
-	return m_SolarSystem->components(); 
+QList<SkyComponent*> SkyMapComposite::solarSystem() {
+    return m_SolarSystem->components();
 }
 
-QList<SkyObject*>& SkyMapComposite::constellationNames() { 
-	return m_CNames->objectList(); 
+QList<SkyObject*>& SkyMapComposite::constellationNames() {
+    return m_CNames->objectList();
 }
 
-QList<SkyObject*>& SkyMapComposite::stars() { 
-	return m_Stars->objectList(); 
+QList<SkyObject*>& SkyMapComposite::stars() {
+    return m_Stars->objectList();
 }
 
-QList<SkyObject*>& SkyMapComposite::asteroids() { 
-	return m_SolarSystem->asteroids(); 
+QList<SkyObject*>& SkyMapComposite::asteroids() {
+    return m_SolarSystem->asteroids();
 }
 
-QList<SkyObject*>& SkyMapComposite::comets() { 
-	return m_SolarSystem->comets(); 
+QList<SkyObject*>& SkyMapComposite::comets() {
+    return m_SolarSystem->comets();
 }
 
-KSPlanet* SkyMapComposite::earth() { 
-	return m_SolarSystem->earth(); 
+KSPlanet* SkyMapComposite::earth() {
+    return m_SolarSystem->earth();
 }
 
-QList<SkyComponent*> SkyMapComposite::customCatalogs() { 
-	return m_CustomCatalogs->components(); 
+QList<SkyComponent*> SkyMapComposite::customCatalogs() {
+    return m_CustomCatalogs->components();
 }
 
 #include "skymapcomposite.moc"
