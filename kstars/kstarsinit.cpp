@@ -516,8 +516,8 @@ void KStars::initFOV() {
                 kta->setText( nm );
                 connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol() ) );
 
-                /* FIXME update deprecated KToggleFunctions */
-                //kta->setExclusiveGroup( "fovsymbol" );
+                kta->setObjectName( nm.toUtf8() );
+                kta->setActionGroup( fovGroup );
                 if ( nm == Options::fOVName() ) kta->setChecked( true );
                 fovActionMenu->addAction( kta );
             }
