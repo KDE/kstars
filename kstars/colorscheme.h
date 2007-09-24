@@ -59,7 +59,7 @@ public:
     /**
       *@return true if the Palette contains the given key name
     	*/
-    bool hasColorNamed( const QString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
+    bool hasColorNamed( const QString &name ) const { return ( Palette.contains( name ) ); }
 
     /**
     	*@short Retrieve a color by name.  
