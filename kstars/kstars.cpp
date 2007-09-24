@@ -86,7 +86,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
 
         //Uncomment to show startup messages on console also
-        // 		connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
+        //connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
 
         splash->show();
     } else {
