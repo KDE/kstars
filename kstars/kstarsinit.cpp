@@ -58,31 +58,32 @@ void KStars::initActions() {
     KIconLoader::global()->addAppDir( "kstars" );
 
     //File Menu:
-    QAction *ka = actionCollection()->addAction( "new_window" );
-    ka->setIcon( KIcon( "window-new" ) );
-    ka->setText( i18n("&New Window") );
-    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_N ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
+//FIXME: New window disabled
+//     QAction *ka = actionCollection()->addAction( "new_window" );
+//     ka->setIcon( KIcon( "window-new" ) );
+//     ka->setText( i18n("&New Window") );
+//     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_N ) );
+//     connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
+// 
+//     ka = actionCollection()->addAction( "close_window");
+//     ka->setIcon( KIcon( "window-close" ) );
+//     ka->setText( i18n("&Close Window") );
+//     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
+//     connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
 
-    ka = actionCollection()->addAction( "close_window");
-    ka->setIcon( KIcon( "window-close" ) );
-    ka->setText( i18n("&Close Window") );
-    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
-
-    ka = KNS::standardAction(i18n("Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
+    QAction *ka = KNS::standardAction(i18n("Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_D ) );
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
 
-	#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_CFITSIO_H
     ka = actionCollection()->addAction( "open_file");
     ka->setIcon( KIcon( "document-open" ) );
     ka->setText( i18n( "Open FITS...") );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_O ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotOpenFITS() ) );
-	#endif
+#endif
 
     ka = actionCollection()->addAction( "export_image" );
     ka->setIcon( KIcon( "fileexport" ) );
@@ -356,10 +357,11 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_U ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotWUT() ) );
 
-    ka = actionCollection()->addAction( "glossary");
-    ka->setText( i18n( "Glossary...") );
-    ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_K ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
+//FIXME: implement glossary
+//     ka = actionCollection()->addAction( "glossary");
+//     ka->setText( i18n( "Glossary...") );
+//     ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_K ) );
+//     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGlossary() ) );
 
     ka = actionCollection()->addAction( "scriptbuilder");
     ka->setText( i18n( "Script Builder...") );
