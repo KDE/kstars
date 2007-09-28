@@ -573,6 +573,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     QPainter p;
     p.begin( pd );
+    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
     //scale image such that it fills 90% of the x or y dimension on the paint device
     double xscale = double(p.device()->width()) / double(width());
