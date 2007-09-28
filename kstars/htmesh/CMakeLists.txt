@@ -25,9 +25,7 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/cc_aux.c
 )
 
-if(NOT MSVC)
-  ADD_DEFINITIONS(-fexceptions)
-endif(NOT MSVC)
+ADD_DEFINITIONS(${KDE4_ENABLE_EXCEPTIONS})
 
 kde4_add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 
