@@ -24,11 +24,6 @@
 #include "indidevapi.h"
 #include "indicom.h"
 
-#define	POLLMS		1000			/* poll period, ms */
-#define mydev		"LX200 Basic"		/* The device name */
-
-
-
 class LX200Basic
 {
  public:
@@ -40,16 +35,16 @@ class LX200Basic
  void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
  void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
  void ISPoll ();
- 
-  void connectionLost();
-  void connectionResumed();
+
+ void connection_lost();
+ void connection_resumed();
 
 private:
 
-  void initProperties();
+  enum LX200_STATUS { LX200_SLEW, LX200_TRACK, LX200_SYNC, LX200_PARK };
 
   /* Switches */
-  ISwitch PowerS[2];
+  ISwitch ConnectS[2];
   ISwitch OnCoordSetS[3];
   ISwitch AbortSlewS[1];
   
@@ -59,49 +54,60 @@ private:
 
   /* Numbers */
   INumber EqN[2];
-  INumber SlewPrecisionN[2];
-  INumber TrackPrecisionN[2];
+  INumber SlewAccuracyN[2];
+  INumber TrackAccuracyN[2];
   
   /* Switch Vectors */
-  ISwitchVectorProperty PowerSP;
+  ISwitchVectorProperty ConnectSP;
   ISwitchVectorProperty OnCoordSetSP;
   ISwitchVectorProperty AbortSlewSP;
   
    /* Number Vectors */
   INumberVectorProperty EqNP;
-  INumberVectorProperty SlewPrecisionNP;
-  INumberVectorProperty TrackPrecisionNP;
+  INumberVectorProperty SlewAccuracyNP;
+  INumberVectorProperty TrackAccuracyNP;
   
-   /* Text Vectors */
-   ITextVectorProperty PortTP;
-   ITextVectorProperty ObjectTP;
+  /* Text Vectors */
+  ITextVectorProperty PortTP;
+  ITextVectorProperty ObjectTP;
 
- void getBasicData();
- int checkPower(INumberVectorProperty *np);
- int checkPower(ISwitchVectorProperty *sp);
- int checkPower(ITextVectorProperty *tp);
- void handleError(ISwitchVectorProperty *svp, int err, const char *msg);
- void handleError(INumberVectorProperty *nvp, int err, const char *msg);
- void handleError(ITextVectorProperty *tvp, int err, const char *msg);
- bool isTelescopeOn(void);
- void connectTelescope();
- void slewError(int slewCode);
-  int handleCoordSet();
- int getOnSwitch(ISwitchVectorProperty *sp);
- void correctFault();
- void enableSimulation(bool enable);
+ /*******************************************************/
+ /* Connection Routines
+ ********************************************************/
+ void init_properties();
+ void get_initial_data();
+ void connect_telescope();
+ bool is_connected(void);
  
+ /*******************************************************/
+ /* Misc routines
+ ********************************************************/
+ bool process_coords();
+ int get_switch_index(ISwitchVectorProperty *sp);
+
+ /*******************************************************/
+ /* Simulation Routines
+ ********************************************************/
+ void enable_simulation(bool enable);
+ 
+ /*******************************************************/
+ /* Error handling routines
+ ********************************************************/
+ void slew_error(int slewCode);
+ void reset_all_properties();
+ void handle_error(INumberVectorProperty *nvp, int err, const char *msg);
+ void correct_fault();
 
  protected:
 
-  double JD;
+  double JD;				/* Julian Date */
   double targetRA;
   double targetDEC;
   double lastRA;
   double lastDEC;
   bool   simulation;
   bool   fault;
-  int    fd;
+  int    fd;				/* Telescope tty file descriptor */
 
   int currentSet;
   int lastSet;
