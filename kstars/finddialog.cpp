@@ -196,6 +196,7 @@ void FindDialog::filterByType( int /*f*/ ) {
     }
 
     init();
+    ui->SearchList->QWidget::setFocus();
 }
 
 void FindDialog::filterByName() {  //Filter the list of names with the string in the SearchBox
@@ -257,7 +258,24 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Escape :
         reject();
         break;
-
+    case Qt::Key_Up :
+    {
+        int currentRow = ui->SearchList->currentIndex().row();
+        if ( currentRow > 0 ) {
+            QModelIndex selectItem = sortModel->index( currentRow-1, sortModel->filterKeyColumn(), QModelIndex() );
+            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+        }
+        break;
+    }
+    case Qt::Key_Down :
+    {
+        int currentRow = ui->SearchList->currentIndex().row();
+        if ( currentRow < sortModel->rowCount()-1 ) {
+            QModelIndex selectItem = sortModel->index( currentRow+1, sortModel->filterKeyColumn(), QModelIndex() );
+            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+        }
+        break;
+    }
     }
 }
 
