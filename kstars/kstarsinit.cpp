@@ -424,55 +424,64 @@ void KStars::initActions() {
     //show_stars:
     a = actionCollection()->add<KToggleAction>( "show_stars" );
     a->setIcon( KIcon( "kstars_stars" ) );
-    a->setText( i18n( "Toggle Stars" ) );
+    a->setText( i18nc( "Toggle Stars in the display", "Stars" ) );
+    a->setToolTip( i18n("Toggle stars") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_deepsky:
     a = actionCollection()->add<KToggleAction>( "show_deepsky" );
     a->setIcon( KIcon( "kstars_deepsky" ) );
-    a->setText( i18n( "Toggle Deep Sky Objects" ) );
+    a->setText( i18nc( "Toggle Deep Sky Objects in the display", "Deep Sky" ) );
+    a->setToolTip( i18n("Toggle deep sky objects") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_planets:
     a = actionCollection()->add<KToggleAction>( "show_planets" );
     a->setIcon( KIcon( "kstars_planets" ) );
-    a->setText( i18n( "Toggle Solar System" ) );
+    a->setText( i18nc( "Toggle Solar System objects in the display", "Solar System" ) );
+    a->setToolTip( i18n("Toggle Solar system objects") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_clines:
     a = actionCollection()->add<KToggleAction>( "show_clines" );
     a->setIcon( KIcon( "kstars_clines" ) );
-    a->setText( i18n( "Toggle Constellation Lines" ) );
+    a->setText( i18nc( "Toggle Constellation Lines in the display", "Const. Lines" ) );
+    a->setToolTip( i18n("Toggle constellation lines") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_cnames:
     a = actionCollection()->add<KToggleAction>( "show_cnames" );
     a->setIcon( KIcon( "kstars_cnames" ) );
-    a->setText( i18n( "Toggle Constellation Names" ) );
+    a->setText( i18nc( "Toggle Constellation Names in the display", "Const. Names" ) );
+    a->setToolTip( i18n("Toggle constellation names") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_cbound:
     a = actionCollection()->add<KToggleAction>( "show_cbounds" );
     a->setIcon( KIcon( "kstars_cbound" ) );
-    a->setText( i18n( "Toggle Constellation Boundaries" ) );
+    a->setText( i18nc( "Toggle Constellation Boundaries in the display", "C. Boundaries" ) );
+    a->setToolTip( i18n("Toggle constellation boundaries") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_mw:
     a = actionCollection()->add<KToggleAction>( "show_mw" );
     a->setIcon( KIcon( "kstars_mw" ) );
-    a->setText( i18n( "Toggle Milky Way" ) );
+    a->setText( i18nc( "Toggle Milky Way in the display", "Milky Way" ) );
+    a->setToolTip( i18n("Toggle milky way") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_grid:
     a = actionCollection()->add<KToggleAction>( "show_grid" );
     a->setIcon( KIcon( "kstars_grid" ) );
-    a->setText( i18n( "Toggle Coordinate Grid" ) );
+    a->setText( i18nc( "Toggle Coordinate Grid in the display", "Coord. grid" ) );
+    a->setToolTip( i18n("Toggle coordinate grid") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_horizon:
     a = actionCollection()->add<KToggleAction>( "show_horizon" );
     a->setIcon( KIcon( "kstars_horizon" ) );
-    a->setText( i18n( "Toggle Ground" ) );
+    a->setText( i18nc( "Toggle the opaque fill of the ground polygon in the display", "Ground" ) );
+    a->setToolTip( i18n("Toggle opaque ground") );
     connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     if (Options::fitsSaveDirectory().isEmpty())
