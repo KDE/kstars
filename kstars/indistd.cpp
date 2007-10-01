@@ -429,7 +429,7 @@ void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
     const KFileItemList::const_iterator end = items.end();
     for ( ; it != end; ++it )
     {
-        tempName = (*it)->name();
+        tempName = (*it).name();
 
         // find the prefix first
         if (tempName.count(seqPrefix) == 0)
