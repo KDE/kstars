@@ -21,6 +21,8 @@
 #include "ui_modcalcvizequinox.h"
 #include "kstarsdatetime.h"
 
+class QTextStream;
+
 /**
   *@class modCalcEquinox
   *@author Jason Harris

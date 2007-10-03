@@ -22,6 +22,7 @@
 
 class QWidget;
 class VBox;
+class QTextStream;
 
 /**
   * Class for KStars module which computes JD, MJD and Date/Time from the
