@@ -162,7 +162,7 @@ void LCGenerator::updateStarList()
     KUrl AAVSOFile("http://www.aavso.org/observing/aids/valaav.txt");
     KUrl saveFile (file->fileName());
 
-    downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
+    downloadJob = KIO::file_copy(AAVSOFile, saveFile, -1, KIO::Overwrite);
     connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 }
 

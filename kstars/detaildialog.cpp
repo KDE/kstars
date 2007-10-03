@@ -640,7 +640,7 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
     }
 
     // Copy URL file to temp file
-    KIO::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1 , true, false, false);
+    KIO::file_copy(KUrl::fromPath(URLFile.fileName()), KUrl::fromPath(TempFileName), -1, KIO::Overwrite | KIO::HideProgressInfo );
 
 
     if ( !URLFile.open( QIODevice::WriteOnly) )
