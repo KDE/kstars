@@ -47,7 +47,7 @@ class OrionAtlas
  int checkPower(INumberVectorProperty *np);
  int checkPower(ISwitchVectorProperty *sp);
  int checkPower(ITextVectorProperty *tp);
- void powerTelescope();
+ void ConnectTel();
  void log(const char *fmt,...);
 // void slewError(int slewCode);
 // int handleCoordSet();

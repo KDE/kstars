@@ -69,7 +69,7 @@ static void ISPoll(void *);
 
 /* Fundamental group */
 static ISwitch PowerS[] = {{"CONNECT","Connect",ISS_OFF,0,0},{"DISCONNECT","Disconnect",ISS_ON,0,0},{"RECONNECT","Reconnect",ISS_OFF,0,0}};
-static ISwitchVectorProperty PowerSw = { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_OK, PowerS, NARRAY(PowerS), "", 0};
+static ISwitchVectorProperty PowerSw = { mydev, "CONNECTION" , "Connection", COMM_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, PowerS, NARRAY(PowerS), "", 0};
 static IText PortT[] = {{"PORT", "Port", 0, 0, 0, 0}};
 static ITextVectorProperty Port = { mydev, "DEVICE_PORT", "Ports", COMM_GROUP, IP_RW, 0, IPS_OK, PortT, NARRAY(PortT), "", 0};
 
@@ -305,13 +305,15 @@ void OrionAtlas::ISNewSwitch (const char *dev, const char *name, ISState *states
         return;
 
     // FIRST Switch ALWAYS for power
-    if (!strcmp(name,PowerSw.name)) {
-        IUResetSwitch(&PowerSw); // sets all to off?
-        IUUpdateSwitch(&PowerSw,states,names,n);
-        if (PowerS[2].s  == ISS_ON) {
-            DisconnectTel();
-        }
-        powerTelescope();
+    if (!strcmp(name,PowerSw.name)) 
+    {
+        if (IUUpdateSwitch(&PowerSw,states,names,n) < 0)
+		return;
+
+        if (PowerS[1].s  == ISS_ON)
+        	DisconnectTel();
+	else
+        	ConnectTel();
         return;
         }
     else if (!strcmp(name,UpdateSw.name)) {
@@ -432,10 +434,11 @@ void OrionAtlas::getBasicData()
     UpdateCoords();
 }
 
-void OrionAtlas::powerTelescope()
+void OrionAtlas::ConnectTel()
 {
     if (PowerSw.sp[0].s==ISS_ON||PowerSw.sp[2].s==ISS_ON) { // CONNECT or RECONNECT
-        if (ConnectTel(Port.tp[0].text) < 0) {
+        if (ConnectTel(Port.tp[0].text) < 0) 
+	{
             PowerS[0].s = PowerS[2].s = ISS_OFF;
             PowerS[1].s = ISS_ON;
             IDSetSwitch (&PowerSw, "Error connecting to port %s", Port.tp[0].text);
