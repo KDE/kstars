@@ -96,6 +96,7 @@ struct _xml_ele {
     int nel;				/* number of child elements */
     int eit;				/* used to iterate over el[] */
     String pcdata;			/* character data in this element */
+    int pcdata_hasent;			/* 1 if pcdata contains an entity char*/
 };
 
 /* internal representation of an attribute */
@@ -104,6 +105,10 @@ struct _xml_att {
     String valu;			/* value */
     XMLEle *ce;				/* containing element */
 };
+
+/* characters that need escaping as "entities" in attr values and pcdata
+ */
+static char entities[] = "&<>'\"";
 
 /* default memory managers, override with indi_xmlMalloc() */
 static void *(*mymalloc)(size_t size) = malloc;
@@ -362,7 +367,7 @@ pcdatalenXMLEle (XMLEle *ep)
 	return (ep->pcdata.sl);
 }
 
-/* return the nanme of the given attribute */
+/* return the name of the given attribute */
 char *
 nameXMLAtt (XMLAtt *ap)
 {
@@ -435,6 +440,7 @@ editXMLEle (XMLEle *ep, const char *pcdata)
 {
 	freeString (&ep->pcdata);
 	appendString (&ep->pcdata, pcdata);
+	ep->pcdata_hasent = (strpbrk (pcdata, entities) != NULL);
 }
 
 /* add an attribute to the given XML element */
@@ -490,15 +496,13 @@ prXMLEle (FILE *fp, XMLEle *ep, int level)
 		prXMLEle (fp, ep->el[i], level+1);
 	}
 	if (ep->pcdata.sl > 0) {
-	    char *nl;
 	    if (ep->nel == 0)
 		fprintf (fp, ">\n");
-	    /* indent if none or one line */
-	    nl = strpbrk (ep->pcdata.s, "\n\r");
-	    if (!nl || nl == &ep->pcdata.s[ep->pcdata.sl-1])
-		fprintf (fp, "%*s", indent+PRINDENT, "");
-	    fprintf (fp, "%s", entityXML(ep->pcdata.s));
-	    if (!nl)
+	    if (ep->pcdata_hasent)
+		fprintf (fp, "%s", entityXML(ep->pcdata.s));
+	    else
+		fprintf (fp, "%s", ep->pcdata.s);
+	    if (ep->pcdata.s[ep->pcdata.sl-1] != '\n')
 		fprintf (fp, "\n");
 	}
 	if (ep->nel > 0 || ep->pcdata.sl > 0)
@@ -529,15 +533,15 @@ sprXMLEle (char *s, XMLEle *ep, int level)
 		sl += sprXMLEle (s+sl, ep->el[i], level+1);
 	}
 	if (ep->pcdata.sl > 0) {
-	    char *nl;
 	    if (ep->nel == 0)
 		sl += sprintf (s+sl, ">\n");
-	    /* indent if none or one line */
-	    nl = strpbrk (ep->pcdata.s, "\n\r");
-	    if (!nl || nl == &ep->pcdata.s[ep->pcdata.sl-1])
-		sl += sprintf (s+sl, "%*s", indent+PRINDENT, "");
-	    sl += sprintf (s+sl, "%s", entityXML(ep->pcdata.s));
-	    if (!nl)
+	    if (ep->pcdata_hasent)
+		sl += sprintf (s+sl, "%s", entityXML(ep->pcdata.s));
+	    else {
+		strcpy (s+sl, ep->pcdata.s);
+		sl += ep->pcdata.sl;
+	    }
+	    if (ep->pcdata.s[ep->pcdata.sl-1] != '\n')
 		sl += sprintf (s+sl, "\n");
 	}
 	if (ep->nel > 0 || ep->pcdata.sl > 0)
@@ -569,15 +573,13 @@ sprlXMLEle (XMLEle *ep, int level)
 		l += sprlXMLEle (ep->el[i], level+1);
 	}
 	if (ep->pcdata.sl > 0) {
-	    char *nl;
 	    if (ep->nel == 0)
 		l += 2;
-	    /* indent if none or one line */
-	    nl = strpbrk (ep->pcdata.s, "\n\r");
-	    if (!nl || nl == &ep->pcdata.s[ep->pcdata.sl-1])
-		l += indent+PRINDENT;
-	    l += strlen (entityXML(ep->pcdata.s));
-	    if (!nl)
+	    if (ep->pcdata_hasent)
+		l += strlen (entityXML(ep->pcdata.s));
+	    else
+		l += ep->pcdata.sl;
+	    if (ep->pcdata.s[ep->pcdata.sl-1] != '\n')
 		l += 1;
 	}
 	if (ep->nel > 0 || ep->pcdata.sl > 0)
@@ -595,7 +597,6 @@ sprlXMLEle (XMLEle *ep, int level)
 char *
 entityXML (char *s)
 {
-	static char entities[] = "&<>'\"";
 	static char *malbuf;
 	int nmalbuf = 0;
 	char *sret;
@@ -649,10 +650,7 @@ entityXML (char *s)
 	return (sret);
 }
 
-
-
-
-/* if ent is a recognized xml entitty sequence, set *cp to char and return 1
+/* if ent is a recognized xml entity sequence, set *cp to char and return 1
  * else return 0
  */
 static int
@@ -808,16 +806,10 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 		growString (&lp->entity, c);
 		lp->cs = ENTINCON;
 	    } else if (c == '<') {
-		/* if text contains a nl trim trailing blanks.
-		 * chomp trailing nl if it's the only one.
-		 */
-		char *nl = strpbrk (lp->ce->pcdata.s, "\n\r");
-		if (nl)
-		    while (lp->ce->pcdata.sl > 0 &&
-				lp->ce->pcdata.s[lp->ce->pcdata.sl-1] == ' ')
-			lp->ce->pcdata.s[--(lp->ce->pcdata.sl)] = '\0';
-		if (nl == &lp->ce->pcdata.s[lp->ce->pcdata.sl-1])
-		    lp->ce->pcdata.s[--(lp->ce->pcdata.sl)] = '\0';/*safe!*/
+		/* chomp trailing whitespace */
+		while (lp->ce->pcdata.sl > 0 &&
+			    isspace(lp->ce->pcdata.s[lp->ce->pcdata.sl-1]))
+		    lp->ce->pcdata.s[--(lp->ce->pcdata.sl)] = '\0';
 		lp->cs = SAWLTINCON;
 	    } else {
 		growString (&lp->ce->pcdata, c);
@@ -826,12 +818,14 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 
 	case ENTINCON:			/* working on entity in content */
 	    if (c == ';') {
-		/* if find a recongized esp seq, add equiv char else raw seq */
+		/* if find a recognized esc seq, add equiv char else raw seq */
 		growString (&lp->entity, c);
 		if (decodeEntity (lp->entity.s, &c))
 		    growString (&lp->ce->pcdata, c);
-		else
+		else {
 		    appendString(&lp->ce->pcdata, lp->entity.s);
+		    lp->ce->pcdata_hasent = 1;
+		}
 		freeString (&lp->entity);
 		lp->cs = INCON;
 	    } else
