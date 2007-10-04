@@ -1,5 +1,5 @@
 /* INDI Server.
- * Copyright (C) 2006 Elwood C. Downey ecdowney@clearskyinstitute.com
+ * Copyright (C) 2007 Elwood C. Downey ecdowney@clearskyinstitute.com
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -15,43 +15,30 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
- *
  * argv lists names of Driver programs to run or sockets to connect for Devices.
- * Drivers are restarted if they exit up to 4 times, sockets are not reopened.
- * Each Driver's stdin/out are assumed to provide INDI traffic and are connected
- *   here via pipes. Drivers' stderr are connected to our stderr.
+ * Drivers are restarted if they exit or connection closes.
+ * Each local Driver's stdin/out are assumed to provide INDI traffic and are
+ *   connected here via pipes. Local Drivers' stderr are connected to our
+ *   stderr with date stamp and driver name prepended.
  * We only support Drivers that advertise support for one Device. The problem
  *   with multiple Devices in one Driver is without a way to know what they
  *   _all_ are there is no way to avoid sending all messages to all Drivers.
- *   For efficiency, we want Client traffic to be restricted to only those
- *   Devices for which they have queried via getProperties.
- *   Similary, messages to Devices on sockets always include Device so
- *   chained indiserver will only pass back info from that Device.
- * all newXXX() received from one Client are echoed to all other Clients who
- *   have shown an interest in the same Device.
+ * Outbound messages are limited to Devices and Properties seen inbound.
+ *   Messages to Devices on sockets always include Device so the chained
+ *   indiserver will only pass back info from that Device.
+ * All newXXX() received from one Client are echoed to all other Clients who
+ *   have shown an interest in the same Device and property.
  *
  * Implementation notes:
  *
  * We fork each driver and open a server socket listening for INDI clients.
  * Then forever we listen for new clients and pass traffic between clients and
- * drivers, subject to optimizations based on sniffing getProperties messages.
- * Whereas it is often the case that a message from a driver will be sent to
- * more than one client, to avoid starving fast clients able to read quickly
- * while waiting for messages to drain to slow clients, each client message
- * is put on a queue for each interested client with a count of consumers.
- * Similarly, even though it is more rare for a message to be sent to more
- * than one driver, we still want to avoid blocking on a driver slow to
- * consume its message so driver messages are also queued in like fashion to
- * clients. Note that the same messages can be destined for both clients and
- * devices (for example, new* messages from clients are sent to drivers and
- * echoed to clients) it is allowed for one message to be on both driver and
- * client queues. Once queued, select(2) is used to write only to clients and
- * drivers that are known ready to read or accept more traffic. A message is
- * freed once it is no longer in use by clients or drivers.
- *
- * TODO:
- * Writing large BLOBs is sufficiently likely to dominate we should fork a new
- *   process each time we write one to a client.
+ * drivers, subject to optimizations based on sniffing messages for matching
+ * Devices and Properties. Since one message might be destined to more than
+ * one client or device, they are queued and only removed after the last
+ * consumer is finished. XMLEle are converted to linear strings before being
+ * sent to optimize write system calls and avoid blocking to slow clients.
+ * Clients that get more than maxqsiz bytes behind are shut down.
  */
 
 #include <stdio.h>
@@ -161,7 +148,7 @@ static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
 static void q2RDrivers (const char *dev, Msg *mp);
 static void q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp);
-static void q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name,
+static int q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name,
     Msg *mp);
 static void addSDevice (DvrInfo *dp, const char *dev, const char *name);
 static Snoopee *findSDevice (DvrInfo *dp, const char *dev, const char *name);
@@ -174,8 +161,8 @@ static void setMsgXMLEle (Msg *mp, XMLEle *root);
 static void setMsgStr (Msg *mp, char *str);
 static void freeMsg (Msg *mp);
 static Msg *newMsg (void);
-static void sendClientMsg (ClInfo *cp);
-static void sendDriverMsg (DvrInfo *cp);
+static int sendClientMsg (ClInfo *cp);
+static int sendDriverMsg (DvrInfo *cp);
 static void crackBLOB (char *enableBLOB, BLOBHandling *bp);
 static void traceMsg (XMLEle *root);
 static char *tstamp (char *s);
@@ -244,11 +231,10 @@ main (int ac, char *av[])
 	ndvrinfo = ac;
 	dvrinfo = (DvrInfo *) calloc (ndvrinfo, sizeof(DvrInfo));
 
-	/* start each driver, malloc name once and keep it */
+	/* start each driver */
 	while (ac-- > 0) {
-	    dvrinfo[ac].name = strcpy (malloc(strlen(*av)+1), *av);
+	    dvrinfo[ac].name = *av++;
 	    startDvr (&dvrinfo[ac]);
-	    av++;
 	}
 
 	/* announce we are online */
@@ -622,13 +608,12 @@ indiRun(void)
 	    if (cp->active) {
 		if (FD_ISSET(cp->s, &rs)) {
 		    if (readFromClient(cp) < 0)
-			return;	/* sending fd likely no longer good */
+			return;	/* fds effected */
 		    s--;
 		}
-	    }
-	    if (cp->active) {	/* check again, might have shut down */
 		if (s > 0 && FD_ISSET(cp->s, &ws)) {
-		    sendClientMsg(cp);
+		    if (sendClientMsg(cp) < 0)
+			return;	/* fds effected */
 		    s--;
 		}
 	    }
@@ -639,16 +624,17 @@ indiRun(void)
 	    DvrInfo *dp = &dvrinfo[i];
 	    if (dp->pid != REMOTEDVR && FD_ISSET(dp->efd, &rs)) {
 		if (stderrFromDriver(dp) < 0)
-		    return;	/* fd's likely reassigned after restart */
+		    return;	/* fds effected */
 		s--;
 	    }
 	    if (s > 0 && FD_ISSET(dp->rfd, &rs)) {
 		if (readFromDriver(dp) < 0)
-		    return;	/* fd's likely reassigned after restart */
+		    return;	/* fds effected */
 		s--;
 	    }
 	    if (s > 0 && FD_ISSET(dp->wfd, &ws) && nFQ(dp->msgq) > 0) {
-		sendDriverMsg(dp);
+		if (sendDriverMsg(dp) < 0)
+		    return;	/* fds effected */
 		s--;
 	    }
 	}
@@ -701,12 +687,13 @@ newClient()
 
 /* read more from the given client, send to each appropriate driver when see
  * xml closure. also send all newXXX() to all other interested clients.
- * shut down client if any trouble and return -1, else return 0.
+ * return -1 if had to shut down anything, else 0.
  */
 static int
 readFromClient (ClInfo *cp)
 {
 	char buf[MAXRBUF];
+	int shutany = 0;
 	int i, nr;
 
 	/* read client */
@@ -750,12 +737,9 @@ readFromClient (ClInfo *cp)
 		else if (!strcmp (roottag, "getProperties") && !cp->nprops)
 		    cp->allprops = 1;
 
-		/* that's all if enableBLOB */
-		if (!strcmp (roottag, "enableBLOB")) {
+		/* snag enableBLOB -- send to remote drivers too */
+		if (!strcmp (roottag, "enableBLOB"))
 		    crackBLOB (pcdataXMLEle(root), &cp->blob);
-		    delXMLEle (root);
-		    continue;
-		}
 
 		/* build a new message -- set content iff anyone cares */
 		mp = newMsg();
@@ -764,8 +748,10 @@ readFromClient (ClInfo *cp)
 		q2RDrivers (dev, mp);
 
 		/* echo new* commands back to other clients */
-		if (!strncmp (roottag, "new", 3))
-		    q2Clients (cp, isblob, dev, name, mp);
+		if (!strncmp (roottag, "new", 3)) {
+		    if (q2Clients (cp, isblob, dev, name, mp) < 0)
+			shutany++;
+		}
 
 		/* set message content if anyone cares else forget it */
 		if (mp->count > 0)
@@ -774,21 +760,29 @@ readFromClient (ClInfo *cp)
 		    freeMsg (mp);
 		delXMLEle (root);
 
-	    } else if (err[0])
-		fprintf (stderr, "%s: Client %d: %s\n", tstamp(0), cp->s, err);
+	    } else if (err[0]) {
+		char *ts = tstamp(NULL);
+		fprintf (stderr, "%s: Client %d: XML error: %s\n", ts,
+								cp->s, err);
+		fprintf (stderr, "%s: Client %d: XML read: %.*s\n", ts,
+							    cp->s, nr, buf);
+		shutdownClient (cp);
+		return (-1);
+	    }
 	}
 
-	return (0);
+	return (shutany ? -1 : 0);
 }
 
 /* read more from the given driver, send to each interested client when see
  * xml closure. if driver dies, try restarting.
- * return 0 if ok else -1 if had to restart.
+ * return 0 if ok else -1 if had to shut down anything.
  */
 static int
 readFromDriver (DvrInfo *dp)
 {
 	char buf[MAXRBUF];
+	int shutany = 0;
 	int i, nr;
 
 	/* read driver */
@@ -853,7 +847,8 @@ readFromDriver (DvrInfo *dp)
 		mp = newMsg();
 
 		/* send to interested clients */
-		q2Clients (NULL, isblob, dev, name, mp);
+		if (q2Clients (NULL, isblob, dev, name, mp) < 0)
+		    shutany++;
 
 		/* send to snooping drivers */
 		q2SDrivers (isblob, dev, name, mp);
@@ -865,12 +860,18 @@ readFromDriver (DvrInfo *dp)
 		    freeMsg (mp);
 		delXMLEle (root);
 
-	    } else if (err[0])
-		fprintf (stderr, "%s: Driver %s: %s\n", tstamp(NULL),
+	    } else if (err[0]) {
+		char *ts = tstamp(NULL);
+		fprintf (stderr, "%s: Driver %s: XML error: %s\n", ts,
 								dp->name, err);
+		fprintf (stderr, "%s: Driver %s: XML read: %.*s\n", ts,
+							    dp->name, nr, buf);
+		restartDvr (dp);
+		return (-1);
+	    }
 	}
 
-	return (0);
+	return (shutany ? -1 : 0);
 }
 
 /* read more from the given driver stderr, add prefix and send to our stderr.
@@ -897,7 +898,7 @@ stderrFromDriver (DvrInfo *dp)
 	}
 	nexbuf += nr;
 
-	/* prefix each whole line to our stdderr, save extra for next time */
+	/* prefix each whole line to our stderr, save extra for next time */
 	for (i = 0; i < nexbuf; i++) {
 	    if (exbuf[i] == '\n') {
 		fprintf (stderr, "%s: Driver %s: %.*s\n", tstamp(NULL),
@@ -1088,10 +1089,12 @@ findSDevice (DvrInfo *dp, const char *dev, const char *name)
 
 /* put Msg mp on queue of each client interested in dev/name, except notme.
  * if BLOB always honor current mode.
+ * return -1 if had to shut down any clients, else 0.
  */
-static void
+static int
 q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp)
 {
+	int shutany = 0;
 	ClInfo *cp;
 	int ql;
 
@@ -1112,6 +1115,7 @@ q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp
 		    fprintf (stderr, "%s: Client %d: %d bytes behind, shutting down\n",
 						    tstamp(NULL), cp->s, ql);
 		shutdownClient (cp);
+		shutany++;
 		continue;
 	    }
 
@@ -1123,6 +1127,8 @@ q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp
 			    "%s: Client %d: q message copy %d nq %d for %s\n",
 			    tstamp(NULL), cp->s, mp->count, nFQ(cp->msgq), dev);
 	}
+
+	return (shutany ? -1 : 0);
 }
 
 /* return size of all Msqs on the given q */
@@ -1146,7 +1152,7 @@ setMsgXMLEle (Msg *mp, XMLEle *root)
 {
 	/* want cl to only count content, but need room for final \0 */
 	mp->cl = sprlXMLEle (root, 0);
-	if (mp->cl < sizeof(mp->buf)-1)
+	if (mp->cl < sizeof(mp->buf))
 	    mp->cp = mp->buf;
 	else
 	    mp->cp = malloc (mp->cl+1);
@@ -1160,7 +1166,7 @@ setMsgStr (Msg *mp, char *str)
 {
 	/* want cl to only count content, but need room for final \0 */
 	mp->cl = strlen (str);
-	if (mp->cl < sizeof(mp->buf)-1)
+	if (mp->cl < sizeof(mp->buf))
 	    mp->cp = mp->buf;
 	else
 	    mp->cp = malloc (mp->cl+1);
@@ -1179,7 +1185,7 @@ newMsg (void)
 static void
 freeMsg (Msg *mp)
 {
-	if (mp->cp != mp->buf)
+	if (mp->cp && mp->cp != mp->buf)
 	    free (mp->cp);
 	free (mp);
 }
@@ -1188,8 +1194,9 @@ freeMsg (Msg *mp)
  * client. pop message from queue when complete and free the message if we are
  * the last one to use it. shut down this client if trouble.
  * N.B. we assume we will never be called with cp->msgq empty.
+ * return 0 if ok else -1 if had to shut down.
  */
-static void
+static int
 sendClientMsg (ClInfo *cp)
 {
 	int nsend, nw;
@@ -1213,7 +1220,7 @@ sendClientMsg (ClInfo *cp)
 		fprintf (stderr, "%s: Client %d: write: %s\n", tstamp(NULL),
 						    cp->s, strerror(errno));
 	    shutdownClient (cp);
-	    return;
+	    return (-1);
 	}
 
 	/* trace */
@@ -1236,14 +1243,17 @@ sendClientMsg (ClInfo *cp)
 	    popFQ (cp->msgq);
 	    cp->nsent = 0;
 	}
+
+	return (0);
 }
 
 /* write the next chunk of the current message in the queue to the given
  * driver. pop message from queue when complete and free the message if we are
  * the last one to use it. restart this driver if touble.
  * N.B. we assume we will never be called with dp->msgq empty.
+ * return 0 if ok else -1 if had to shut down.
  */
-static void
+static int
 sendDriverMsg (DvrInfo *dp)
 {
 	int nsend, nw;
@@ -1267,7 +1277,7 @@ sendDriverMsg (DvrInfo *dp)
 		fprintf (stderr, "%s: Driver %s: write: %s\n", tstamp(NULL),
 						    dp->name, strerror(errno));
 	    restartDvr (dp);
-	    return;
+	    return (-1);
 	}
 
 	/* trace */
@@ -1290,6 +1300,8 @@ sendDriverMsg (DvrInfo *dp)
 	    popFQ (dp->msgq);
 	    dp->nsent = 0;
 	}
+
+	return (0);
 }
 
 /* return 0 if cp may be interested in dev/name else -1
@@ -1407,7 +1419,7 @@ traceMsg (XMLEle *root)
 	for (e = nextXMLEle(root,1); e; e = nextXMLEle(root,0))
 	    for (i = 0; i < sizeof(prtags)/sizeof(prtags[0]); i++)
 		if (strcmp (prtags[i], tagXMLEle(e)) == 0)
-		    fprintf (stderr, " %s='%s'", findXMLAttValu(e,"name"),
+		    fprintf (stderr, "\n %10s='%s'", findXMLAttValu(e,"name"),
 							    pcdataXMLEle (e));
 
 	fprintf (stderr, "\n");
@@ -1416,6 +1428,7 @@ traceMsg (XMLEle *root)
 /* fill s with current UT string.
  * if no s, use a static buffer
  * return s or buffer.
+ * N.B. if use our buffer, be sure to use before calling again
  */
 static char *
 tstamp (char *s)
