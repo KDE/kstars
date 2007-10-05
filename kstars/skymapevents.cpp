@@ -322,7 +322,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Q:
         {
             KUrl u( "http://www.30doradus.org/kstars/kstars-4.x.png" );
-            KIO::StoredTransferJob *j = KIO::storedGet( u, false, false );
+            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
             j->setUiDelegate(0);
             connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
             break;

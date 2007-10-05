@@ -104,7 +104,7 @@ void ThumbnailPicker::slotFillList() {
         KUrl u( ImageList[i] );
 
         if ( u.isValid() ) {
-            KIO::StoredTransferJob *j = KIO::storedGet( u, false, false );
+            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
             j->setUiDelegate(0);
             connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
         }
@@ -317,7 +317,7 @@ void ThumbnailPicker::slotSetFromURL() {
             slotSetFromList(0);
 
         } else {
-            KIO::StoredTransferJob *j = KIO::storedGet( u, false, false );
+            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
             j->setUiDelegate(0);
             connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
         }
