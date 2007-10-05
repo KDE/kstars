@@ -24,6 +24,9 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
+#include <kdebug.h>
+
+#include <QtCore/QTextStream>
 
 #include "kstarsdatetime.h"
 

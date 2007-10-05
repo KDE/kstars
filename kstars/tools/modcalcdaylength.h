@@ -22,6 +22,7 @@
 
 class GeoLocation;
 class KStars;
+class QTextStream;
 
 /** Module to compute the equatorial coordinates for a given date and time
  * from a given epoch or equinox
