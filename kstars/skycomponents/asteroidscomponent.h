@@ -60,9 +60,8 @@ public:
     	*@short Draw the asteroids onto the skymap
     	*@p ks pointer to the KStars object
     	*@p psky reference to the QPainter on which to paint
-    	*@p scale scaling factor (1.0 for screen draws)
     	*/
-    virtual void draw( KStars *ks, QPainter& psky, double scale );
+    virtual void draw( KStars *ks, QPainter& psky );
 
     /**
     	*@short Initialize the asteroids list.

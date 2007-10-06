@@ -51,9 +51,8 @@ public:
     	*@short Draw custom catalog objects on the sky map.
     	*@p ks pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale scaling factor (1.0 for screen draws)
     	*/
-    virtual void draw(KStars *ks, QPainter& psky, double scale);
+    virtual void draw( KStars *ks, QPainter& psky );
 
     /**
     	*@short Initialize the Custom catalog

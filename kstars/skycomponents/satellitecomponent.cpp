@@ -58,8 +58,8 @@ void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionS
     }
 }
 
-void SatelliteComponent::draw( KStars *ks, QPainter &psky, double scale ) {
-    LineListComponent::draw( ks, psky, scale );
+void SatelliteComponent::draw( KStars *ks, QPainter &psky ) {
+    LineListComponent::draw( ks, psky );
 
     if ( jdList().size() == 0 ) return;
 
@@ -97,7 +97,7 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky, double scale ) {
             //lies along the satellite track, from sTick1 to sp2 (which is a nearby position
             //along the track).  Then change its length to 10 pixels, and finall use
             //normalVector() to rotate it 90 degrees.
-            QLineF seg( ks->map()->toScreen( &sTick1, scale ), ks->map()->toScreen( sp2, scale ) );
+            QLineF seg( ks->map()->toScreen( &sTick1 ), ks->map()->toScreen( sp2 ) );
             seg.setLength( 10.0 );
             QLineF tick = seg.normalVector();
 

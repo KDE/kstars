@@ -83,7 +83,7 @@ void ConstellationNamesComponent::init(KStarsData *)
 }
 
 // Don't precess the location of the names
-void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
+void ConstellationNamesComponent::update( KStarsData *data, KSNumbers */*num*/ )
 {
     if ( ! selected() ) return;
 
@@ -93,7 +93,7 @@ void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
+void ConstellationNamesComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
@@ -110,7 +110,7 @@ void ConstellationNamesComponent::draw(KStars *ks, QPainter& psky, double scale)
         SkyObject* p = objectList().at( i );
         if ( ! map->checkVisibility( p ) ) continue;
 
-        QPointF o = map->toScreen( p, scale );
+        QPointF o = map->toScreen( p );
         if ( ! map->onScreen( o ) ) continue;
 
         if ( Options::useLatinConstellNames() ) {

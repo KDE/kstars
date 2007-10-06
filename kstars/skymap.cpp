@@ -78,6 +78,8 @@ SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
         ks(_ks), data(_data), pmenu(0), sky(0), sky2(0), IBoxes(0),
         ClickedObject(0), FocusObject(0), TransientObject(0), sp(0)
 {
+    m_Scale = 1.0;
+
     sp = new SkyPoint();            // needed by coordinate grid
     ZoomRect = QRect();
 
@@ -782,7 +784,7 @@ void SkyMap::invokeKey( int key ) {
     delete e;
 }
 
-double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
+double SkyMap::findPA( SkyObject *o, float x, float y ) {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
@@ -790,7 +792,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
     if ( newDec > 90.0 ) newDec = 90.0;
     SkyPoint test( o->ra()->Hours(), newDec );
     if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-    QPointF t = toScreen( &test, scale );
+    QPointF t = toScreen( &test );
     double dx = double( t.x() - x );
     double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
     double north;
@@ -805,16 +807,16 @@ double SkyMap::findPA( SkyObject *o, float x, float y, double scale ) {
 }
 
 //QUATERNION
-void SkyMap::slotRotateTo( SkyPoint *p ) {}
+void SkyMap::slotRotateTo( SkyPoint */*p*/ ) {}
 
 //QUATERNION
-QPointF SkyMap::toScreenQuaternion( SkyPoint *o, double scale ) {
+QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
     QPointF p;
     Quaternion oq = o->quat();
     //	Quaternion invRotAxis = m_rotAxis.inverse();
     oq.rotateAroundAxis( m_rotAxis );
 
-    double zoomscale = scale*Options::zoomFactor();
+    double zoomscale = m_Scale*Options::zoomFactor();
     double k;
     //c is the cosine of the angular distance from the center.
     //I believe this is just the z coordinate.
@@ -850,16 +852,16 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o, double scale ) {
     return p;
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onVisibleHemisphere) {
+QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
 
     QPointF p;
     double Y, dX;
     double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
-    float Width = width() * scale;
-    float Height = height() * scale;
+    float Width = width() * m_Scale;
+    float Height = height() * m_Scale;
 
-    double zoomscale = Options::zoomFactor() * scale;
+    double zoomscale = Options::zoomFactor() * m_Scale;
 
     //oRefract = true means listen to Options::useRefraction()
     //false means do not use refraction
@@ -894,7 +896,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onVisi
         p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
 
         if ( onVisibleHemisphere != NULL ) {
-            if ( rect().contains( p.toPoint() ) )  //FIXME -jbb
+            if ( scaledRect().contains( p.toPoint() ) )  //FIXME -jbb
                 *onVisibleHemisphere = true;
             else
                 *onVisibleHemisphere = false;
@@ -968,31 +970,39 @@ QPointF SkyMap::toScreen( SkyPoint *o, double scale, bool oRefract, bool *onVisi
     return p;
 }
 
-QPoint SkyMap::toScreenI( SkyPoint *o, double scale, bool oRefract, bool *onVisibleHemisphere) {
-    return toScreen( o, scale, oRefract, onVisibleHemisphere ).toPoint();
+QPoint SkyMap::toScreenI( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
+    return toScreen( o, oRefract, onVisibleHemisphere ).toPoint();
+}
+
+QRect SkyMap::scaledRect() {
+    return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
 }
 
 bool SkyMap::onScreen( QPoint &point ) {
-    return rect().contains( point );
+    return scaledRect().contains( point );
 }
 
 bool SkyMap::onScreen( QPointF &pointF ) {
-    return rect().contains( pointF.toPoint() );
+    return scaledRect().contains( pointF.toPoint() );
 }
 
 bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
     if ( ( p1.x() < 0        && p2.x() < 0 ) ||
             ( p1.y() < 0        && p2.y() < 0 ) ||
-            ( p1.x() > width()  && p2.x() > width() ) ||
-            ( p1.y() > height() && p2.y() >= height() ) ) return false;
+            ( p1.x() > scaledRect().width() && 
+              p2.x() > scaledRect().width() ) ||
+            ( p1.y() > scaledRect().height() && 
+              p2.y() > scaledRect().height() ) ) return false;
     return true;
 }
 
 bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
     if ( ( p1.x() < 0        && p2.x() < 0 ) ||
             ( p1.y() < 0        && p2.y() < 0 ) ||
-            ( p1.x() > width()  && p2.x() > width() ) ||
-            ( p1.y() > height() && p2.y() >= height() ) ) return false;
+            ( p1.x() > scaledRect().width() && 
+              p2.x() > scaledRect().width() ) ||
+            ( p1.y() > scaledRect().height() && 
+              p2.y() > scaledRect().height() ) ) return false;
     return true;
 }
 
@@ -1000,7 +1010,7 @@ bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
 
 //Return the on-screen portion of the given SkyLine, if any portion of it
 //is onscreen
-QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
+QList<QPointF> SkyMap::toScreen( SkyLine *line, bool oRefract, bool doClipLines ) {
     QList<QPointF> screenLine;
 
     //Initialize spLast to the first point
@@ -1008,8 +1018,8 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, boo
     bool on(false), onLast(false); //on-screen flags
 
     foreach ( SkyPoint *sp, line->points() ) {
-        QPointF p = toScreen( sp, scale, oRefract, &on );
-        QPointF pLast = toScreen( spLast, scale, oRefract,&onLast );
+        QPointF p = toScreen( sp, oRefract, &on );
+        QPointF pLast = toScreen( spLast, oRefract,&onLast );
 
         //Make sure the point is not null
         if ( ! isPointNull( p ) ) {
@@ -1044,8 +1054,8 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, double scale, bool oRefract, boo
 bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
     //If the SkyMap rect contains both points or either point is null,
     //we can return immediately
-    bool on1 = rect().contains( p1.toPoint() );
-    bool on2 = rect().contains( p2.toPoint() );
+    bool on1 = scaledRect().contains( p1.toPoint() );
+    bool on2 = scaledRect().contains( p2.toPoint() );
     if ( on1 && on2 )
         return true;
 
@@ -1054,12 +1064,12 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
     //of the SkyMap QRectF.
     QLineF screenLine( p1, p2 );
 
-    //Define screen edges to be just beyond the rect() bounds, so that clipped
+    //Define screen edges to be just beyond the scaledRect() bounds, so that clipped
     //positions are considered "offscreen"
-    QPoint topLeft( rect().left()-1, rect().top()-1 );
-    QPoint bottomLeft( rect().left()-1, rect().top() + height()+1 );
-    QPoint topRight( rect().left() + rect().width()+1, rect().top()-1 );
-    QPoint bottomRight( rect().left() + rect().width()+1, rect().top() + height()+1 );
+    QPoint topLeft( scaledRect().left()-1, scaledRect().top()-1 );
+    QPoint bottomLeft( scaledRect().left()-1, scaledRect().top() + height()+1 );
+    QPoint topRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top()-1 );
+    QPoint bottomRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top() + height()+1 );
     QLine topEdge( topLeft, topRight );
     QLine bottomEdge( bottomLeft, bottomRight );
     QLine leftEdge( topLeft, bottomLeft );
@@ -1158,8 +1168,8 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
     //we can return immediately
     if ( isPointNull( p1 ) || isPointNull( p2 ) )
         return;
-    bool on1 = rect().contains( p1.toPoint() );
-    bool on2 = rect().contains( p2.toPoint() );
+    bool on1 = scaledRect().contains( p1.toPoint() );
+    bool on2 = scaledRect().contains( p2.toPoint() );
     if ( on1 && on2 )
         return;
 
@@ -1168,12 +1178,12 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
     //of the SkyMap QRectF.
     QLineF screenLine( p1, p2 );
 
-    //Define screen edges to be just beyond the rect() bounds, so that clipped
+    //Define screen edges to be just beyond the scaledRect() bounds, so that clipped
     //positions are considered "offscreen"
-    QPoint topLeft( rect().left()-1, rect().top()-1 );
-    QPoint bottomLeft( rect().left()-1, rect().top() + height()+1 );
-    QPoint topRight( rect().left() + rect().width()+1, rect().top()-1 );
-    QPoint bottomRight( rect().left() + rect().width()+1, rect().top() + height()+1 );
+    QPoint topLeft( scaledRect().left()-1, scaledRect().top()-1 );
+    QPoint bottomLeft( scaledRect().left()-1, scaledRect().top() + height()+1 );
+    QPoint topRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top()-1 );
+    QPoint bottomRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top() + height()+1 );
     QLine topEdge( topLeft, topRight );
     QLine bottomEdge( bottomLeft, bottomRight );
     QLine leftEdge( topLeft, bottomLeft );

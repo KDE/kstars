@@ -77,7 +77,7 @@ void StarComponent::init(KStarsData *data)
     readData( Options::magLimitDrawStar() );
 }
 
-void StarComponent::update( KStarsData *data, KSNumbers *num )
+void StarComponent::update( KStarsData */*data*/, KSNumbers */*num*/ )
 {}
 
 // We use the update hook to re-index all the stars when the date has changed by
@@ -172,7 +172,7 @@ void StarComponent::rereadData()
     m_reloadSplash = 0;
 }
 
-void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
+void StarComponent::draw(KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
@@ -247,18 +247,18 @@ void StarComponent::draw(KStars *ks, QPainter& psky, double scale)
 
             if ( ! map->checkVisibility( curStar ) ) continue;
 
-            QPointF o = map->toScreen( curStar, scale );
+            QPointF o = map->toScreen( curStar );
 
             if ( ! map->onScreen( o ) ) continue;
-            float size = scale * ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
+            float size = map->scale() * ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
             if ( size <= 0. ) continue;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
-                           starColorIntensity(), true, scale );
+                           starColorIntensity(), true );
 
             if ( m_hideLabels || mag > labelMagLim ) continue;
 
-            float offset = scale * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
+            float offset = map->scale() * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
             QString sName = curStar->nameLabel( drawName, drawMag );
             //SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
             addLabel( QPointF( o.x() + offset, o.y() + offset), sName, mag );
@@ -274,7 +274,7 @@ void StarComponent::addLabel( const QPointF& p, const QString& text, float mag)
     m_labelList[ idx ]->append( SkyLabel( p, text ) );
 }
 
-void StarComponent::drawLabels(KStars *ks, QPainter& psky, double scale)
+void StarComponent::drawLabels(KStars *ks, QPainter& psky)
 {
     if ( m_hideLabels ) return;
 

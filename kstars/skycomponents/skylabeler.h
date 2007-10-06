@@ -173,7 +173,7 @@ public:
      * screen is zoomed out.  You can mimic this setting with the static
      * method SkyLabeler::setZoomFont( psky ).
      */
-    void reset( SkyMap* skyMap, QPainter& psky, double scale );
+    void reset( SkyMap* skyMap, QPainter& psky );
 
 
     //----- Font Setting -----//

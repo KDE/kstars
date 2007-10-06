@@ -97,7 +97,7 @@ void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
     }
 }
 
-void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale ) {
+void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky ) {
     if ( ! visible() ) return;
 
     SkyMap *map = ks->map();
@@ -105,24 +105,22 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
     //TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
     if ( ! map->checkVisibility( ksp() ) ) return;
 
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+    float Width = map->scale() * map->width();
+//    float Height = map->scale() * map->height();
 
     float sizemin = 4.0;
     if ( ksp()->name() == "Sun" || ksp()->name() == "Moon" ) sizemin = 8.0;
-    sizemin = sizemin * scale;
+    sizemin = sizemin * map->scale();
 
     //TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
     psky.setPen( ksp()->color() );
     psky.setBrush( ksp()->color() );
-    QPointF o = map->toScreen( ksp(), scale );
+    QPointF o = map->toScreen( ksp() );
 
     //Is planet onscreen?
     if ( ! map->onScreen( o ) ) return;
 
-    //if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
-
-    float size = ksp()->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+    float size = ksp()->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
     if ( size < sizemin ) size = sizemin;
 
     //Draw planet image if:
@@ -138,7 +136,7 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
         //which the two squares are rotated (in our case, equal to the position angle +
         //the north angle, reduced between 0 and 90 degrees).
         //The proof is left as an exercise to the student :)
-        dms pa( map->findPA( ksp(), o.x(), o.y(), scale ) );
+        dms pa( map->findPA( ksp(), o.x(), o.y() ) );
         double spa, cpa;
         pa.SinCos( spa, cpa );
         cpa = fabs(cpa);
@@ -170,20 +168,20 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky, double scale 
                           ksp()->translatedName(), PLANET_LABEL );
 }
 
-void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
+void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky ) {
     if ( ! visible() || ! ksp()->hasTrail() ) return;
 
     SkyMap *map = ks->map();
     KStarsData *data = ks->data();
 
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
 
     QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
     QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
     SkyPoint p = ksp()->trail().first();
-    QPointF o = map->toScreen( &p, scale );
+    QPointF o = map->toScreen( &p );
     QPointF oLast( o );
 
     bool doDrawLine(false);
@@ -211,7 +209,7 @@ void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky, double 
             psky.setPen( QPen( tcolor, 1 ) );
         }
 
-        o = map->toScreen( &p, scale );
+        o = map->toScreen( &p );
         if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 
             //Want to disable line-drawing if this point and the last are both outside bounds of display.

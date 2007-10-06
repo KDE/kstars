@@ -64,7 +64,7 @@ public:
     	*/
     virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
-    void draw( KStars *ks, QPainter &psky, double scale );
+    void draw( KStars *ks, QPainter &psky );
 
     /**
     	*@short Set the size scale. Default value is 1.0 and only
@@ -81,7 +81,7 @@ protected:
     /**
     	*@short Draws the planet's trail, if necessary.
     	*/
-    void drawTrails( KStars *ks, QPainter& psky, double scale );
+    void drawTrails( KStars *ks, QPainter& psky );
 
     /**
     	*@short Add a Trail to the specified SkyObject.

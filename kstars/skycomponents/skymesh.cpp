@@ -327,7 +327,7 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
     return indexHash;
 }
 
-void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bufNum)
+void SkyMesh::draw(KStars *kstars, QPainter& psky, MeshBufNum_t bufNum)
 {
     SkyMap*     map  = kstars->map();
     KStarsData* data = kstars->data();
@@ -351,9 +351,9 @@ void SkyMesh::draw(KStars *kstars, QPainter& psky, double scale, MeshBufNum_t bu
         s1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s3.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        QPointF q1 = map->toScreen( &s1, scale );
-        QPointF q2 = map->toScreen( &s2, scale );
-        QPointF q3 = map->toScreen( &s3, scale );
+        QPointF q1 = map->toScreen( &s1 );
+        QPointF q2 = map->toScreen( &s2 );
+        QPointF q3 = map->toScreen( &s3 );
         psky.drawLine( q1, q2 );
         psky.drawLine( q2, q3 );
         psky.drawLine( q3, q1 );

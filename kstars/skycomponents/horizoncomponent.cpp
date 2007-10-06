@@ -73,13 +73,13 @@ void HorizonComponent::update( KStarsData *data, KSNumbers * )
 //To select the valid half, we start with the azimuth of the central focus point.
 //The valid horizon points have azimuth between this az +- 90
 //This is true for Equatorial or Horizontal coordinates
-void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
+void HorizonComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
     SkyMap *map = ks->map();
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
     QPolygonF groundPolyF;
     QPolygon groundPoly;
     SkyPoint *pAnchor(0), *pAnchor2(0);
@@ -113,7 +113,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
         az1 += 360.;
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() > az1 ) {
-                o = map->toScreen( p, scale, false );
+                o = map->toScreen( p, false );
                 if ( Options::useAntialias() )
                     groundPolyF << o;
                 else
@@ -133,7 +133,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
     //Add points in normal range, 0 to 360
     foreach ( SkyPoint *p, pointList() ) {
         if ( p->az()->Degrees() > az1 && p->az()->Degrees() < az2 ) {
-            o = map->toScreen( p, scale, false );
+            o = map->toScreen( p, false );
             if ( Options::useAntialias() )
                 groundPolyF << o;
             else
@@ -154,7 +154,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
         az2 -= 360.;
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() < az2 ) {
-                o = map->toScreen( p, scale, false );
+                o = map->toScreen( p, false );
                 if ( Options::useAntialias() )
                     groundPolyF << o;
                 else
@@ -246,7 +246,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
                 << QPoint( -10, groundPoly.first().y() );
             }
         } else { //complete polygon along bottom of sky circle
-            double r0 = 2.0*sin(0.25*dms::PI);
+            double r0 = 2.0*map->scale()*sin(0.25*dms::PI);
             double t1 = 360.;
             double t2 = 180.;
 
@@ -294,7 +294,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
     //pAnchor contains the last point of the Horizon before it went offcreen
     //on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
     if ( ! pAnchor ) {
-        drawCompassLabels( ks, psky, scale );
+        drawCompassLabels( ks, psky );
         return;
     }
 
@@ -303,8 +303,8 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
     else iAnchor++;
     pAnchor2 = pointList().at( iAnchor );
 
-    QPointF o1 = map->toScreen( pAnchor, scale, false );
-    QPointF o2 = map->toScreen( pAnchor2, scale, false );
+    QPointF o1 = map->toScreen( pAnchor, false );
+    QPointF o2 = map->toScreen( pAnchor2, false );
 
     float x1, x2;
     //there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
@@ -336,7 +336,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
     LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
     LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
 
-    o = map->toScreen( &LabelPoint, scale, false );
+    o = map->toScreen( &LabelPoint, false );
 
     if ( o.x() > Width || o.x() < 0 ) {
         //the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
@@ -354,7 +354,7 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
     p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
     p2.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
 
-    o2 = map->toScreen( &p2, scale, false );
+    o2 = map->toScreen( &p2, false );
 
     float sx = o.x() - o2.x();
     float sy = o.y() - o2.y();
@@ -365,16 +365,16 @@ void HorizonComponent::draw(KStars *ks, QPainter& psky, double scale)
 
     SkyLabeler::Instance()->drawLabel( psky, o1, horizonLabel, angle );
 
-    drawCompassLabels( ks, psky, scale );
+    drawCompassLabels( ks, psky );
 }
 
 
-void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double scale ) {
+void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky ) {
     SkyPoint c;
     QPointF cpoint;
     SkyMap *map = ks->map();
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     double az = -0.01;
     static QString name[8];
@@ -392,7 +392,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky, double sca
         c.setAz( az );
         c.setAlt( 0.0 );
         if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
-        cpoint = map->toScreen( &c, scale, false );
+        cpoint = map->toScreen( &c, false );
         if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
             skyLabeler->drawLabel( psky, cpoint, name[i], 0.0 );
         }

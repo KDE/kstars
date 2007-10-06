@@ -70,26 +70,24 @@ public:
     	*@short Draw the object on the SkyMap
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*/
-    virtual void draw( KStars*, QPainter&, double ) {}
+    virtual void draw( KStars */*ks*/, QPainter &/*psky*/ ) {}
 
     /**
     	*@short Draw the object, if it is exportable to an image
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*@see isExportable()
     	*/
-    void drawExportable(KStars *ks, QPainter& psky, double scale);
+    void drawExportable( KStars *ks, QPainter& psky );
 
-    virtual void drawPlanets(KStars * /*ks*/, QPainter& /*psky*/, double /*scale*/) {}
+    virtual void drawPlanets(KStars */*ks*/, QPainter &/*psky*/ ) {}
 
     /**
     	*@short Initialize the component - load data from disk etc.
     	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init(KStarsData * /*data*/) { kDebug() << "Should never see this"; }
+    virtual void init( KStarsData */*data*/ ) { kDebug() << "Should never see this"; }
 
     /**
     	*@short Update the sky position(s) of this component.
@@ -151,7 +149,7 @@ public:
     virtual bool hasTrail( SkyObject *o, bool &found );
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *o );
-    virtual void drawTrails( KStars *, QPainter &, double );
+    virtual void drawTrails( KStars *, QPainter & );
 
     virtual SkyObject* first() { return 0; }
     virtual SkyObject* next() { return 0; }

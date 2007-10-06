@@ -42,9 +42,8 @@ public:
     	*@short Draw the Milky Way on the sky map
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*/
-    void draw( KStars *ks, QPainter& psky, double scale );
+    void draw( KStars *ks, QPainter& psky );
 
     void draw( QPainter& psky );
 

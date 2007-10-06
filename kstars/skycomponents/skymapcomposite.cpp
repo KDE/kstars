@@ -165,7 +165,7 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 //The order in which components are drawn naturally determines the
 //z-ordering (the layering) of the components.  Objects which
 //should appear "behind" others should be drawn first.
-void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
+void SkyMapComposite::draw( KStars *ks, QPainter& psky )
 {
     QTime t;
     t.start();
@@ -202,41 +202,42 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     }
 
     // clear marks from old labels and prep fonts
-    m_skyLabeler->reset( m_map, psky, scale );
+    m_skyLabeler->reset( m_map, psky );
     m_skyLabeler->useStdFont( psky );
 
     // info boxes have highest label priority
     ks->infoBoxes()->reserveBoxes( psky );
 
-    m_MilkyWay->draw( ks, psky, scale );
+    m_MilkyWay->draw( ks, psky );
 
-    m_CoordinateGrid->draw( ks, psky, scale );
+    m_CoordinateGrid->draw( ks, psky );
 
-    m_CBoundLines->draw( ks, psky, scale );
+    m_CBoundLines->draw( ks, psky );
 
-    m_CLines->draw( ks, psky, scale );
+    m_CLines->draw( ks, psky );
 
-    m_Equator->draw( ks, psky, scale );
+    m_Equator->draw( ks, psky );
 
-    m_Ecliptic->draw( ks, psky, scale );
+    m_Ecliptic->draw( ks, psky );
 
-    m_DeepSky->draw( ks, psky, scale );
+    m_DeepSky->draw( ks, psky );
 
-    m_CustomCatalogs->draw( ks, psky, scale );
+    m_CustomCatalogs->draw( ks, psky );
 
-    m_Stars->draw( ks, psky, scale );
+    m_Stars->draw( ks, psky );
 
-    m_SolarSystem->draw( ks, psky, scale );
+    m_SolarSystem->draw( ks, psky );
 
-    //m_Satellites->draw( ks, psky, scale );
+    //DISABLE_SATELLITES
+    //m_Satellites->draw( ks, psky );
 
-    ks->map()->drawObjectLabels( labelObjects(), psky, scale );
+    ks->map()->drawObjectLabels( labelObjects(), psky );
 
-    m_Horizon->draw( ks, psky, scale );
+    m_Horizon->draw( ks, psky );
 
     m_skyLabeler->draw( ks, psky );
-    m_CNames->draw( ks, psky, scale );
-    m_Stars->drawLabels( ks, psky, scale );
+    m_CNames->draw( ks, psky );
+    m_Stars->drawLabels( ks, psky );
 
     m_skyMesh->inDraw( false );
 
@@ -245,10 +246,10 @@ void SkyMapComposite::draw(KStars *ks, QPainter& psky, double scale)
     // -jbb uncomment these to see trixel outlines:
     //
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, scale, OBJ_NEAREST_BUF );
+    //m_skyMesh->draw( ks, psky, OBJ_NEAREST_BUF );
 
     //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, scale, NO_PRECESS_BUF );
+    //m_skyMesh->draw( ks, psky, NO_PRECESS_BUF );
 }
 //Select nearest object to the given skypoint, but give preference
 //to certain object types.

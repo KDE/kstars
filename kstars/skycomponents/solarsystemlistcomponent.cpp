@@ -106,7 +106,7 @@ void SolarSystemListComponent::clearTrailsExcept( SkyObject *exOb ) {
     }
 }
 
-void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double scale ) {
+void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky ) {
     if ( ! visible() ) return;
 
     foreach ( SkyObject *obj, m_TrailList ) {
@@ -116,14 +116,14 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
         SkyMap *map = ks->map();
         KStarsData *data = ks->data();
 
-        float Width = scale * map->width();
-        float Height = scale * map->height();
+        float Width = map->scale() * map->width();
+        float Height = map->scale() * map->height();
 
         QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
         QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
         SkyPoint p = ksp->trail().first();
-        QPointF o = map->toScreen( &p, scale );
+        QPointF o = map->toScreen( &p );
         QPointF oLast( o );
 
         bool doDrawLine(false);
@@ -149,7 +149,7 @@ void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky, double sc
                 psky.setPen( QPen( tcolor, 1 ) );
             }
 
-            o = map->toScreen( &p, scale );
+            o = map->toScreen( &p );
             if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 
                 //Want to disable line-drawing if this point and the last are both outside bounds of display.

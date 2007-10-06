@@ -58,11 +58,11 @@ public:
 
     virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
-    virtual void draw(KStars *ks, QPainter& psky, double scale);
+    virtual void draw( KStars *ks, QPainter& psky );
 
     //Do the drawing in this class, since we are keeping the list of objects
     //with Trails here
-    void drawTrails( KStars *ks, QPainter& psky, double scale );
+    void drawTrails( KStars *ks, QPainter& psky );
 
     void reloadAsteroids( KStarsData *data );
     void reloadComets( KStarsData *data );

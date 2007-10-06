@@ -221,8 +221,7 @@ inline virtual QString longname( void ) const { return hasLongName() ? LongName 
     //	double vperiod() const { return VPeriod; }
 
     void draw( QPainter &psky, float x, float y, float size,
-               bool useRealColors, int scIntensity, bool drawMultiple=true,
-               double scale=1.0 );
+               bool useRealColors, int scIntensity, bool drawMultiple=true );
 
     /* @short returns the name, the magnitude or both.
      */

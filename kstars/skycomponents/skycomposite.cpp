@@ -54,28 +54,28 @@ void SkyComposite::removeComponent(SkyComponent *component)
     }
 }
 
-void SkyComposite::draw(KStars *ks, QPainter& psky, double scale)
+void SkyComposite::draw( KStars *ks, QPainter& psky )
 {
-    foreach (SkyComponent *component, components())
-    component->draw(ks, psky, scale);
+    foreach ( SkyComponent *component, components() )
+        component->draw( ks, psky );
 }
 
-void SkyComposite::drawExportable(KStars *ks, QPainter& psky, double scale)
+void SkyComposite::drawExportable( KStars *ks, QPainter& psky )
 {
-    foreach (SkyComponent *component, components())
-    component->drawExportable(ks, psky, scale);
+    foreach ( SkyComponent *component, components() )
+        component->drawExportable( ks, psky );
 }
 
-void SkyComposite::init(KStarsData *data)
+void SkyComposite::init( KStarsData *data )
 {
-    foreach (SkyComponent *component, components())
-    component->init(data);
+    foreach ( SkyComponent *component, components() )
+        component->init( data );
 }
 
 void SkyComposite::update(KStarsData *data, KSNumbers *num )
 {
     foreach (SkyComponent *component, components())
-    component->update( data, num );
+        component->update( data, num );
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {

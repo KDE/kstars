@@ -162,31 +162,31 @@ void LineListIndex::preDraw( KStars *kstars, QPainter &psky )
     psky.setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
 }
 
-void LineListIndex::draw( KStars *kstars, QPainter &psky, double scale )
+void LineListIndex::draw( KStars *kstars, QPainter &psky )
 {
     if ( ! selected() ) return;
 
     preDraw(kstars, psky);
 
-    drawLines( kstars, psky, scale );
+    drawLines( kstars, psky );
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-bool LineListIndex::skipAt( LineList* lineList, int i )
+bool LineListIndex::skipAt( LineList */*lineList*/, int /*i*/ )
 {                                      // left this in .cpp because
     return false;                      // it generates compiler warnings.
 }                                      // -jbb
 
 
 // Yet another 2 callbacks.  These are used in LabeledListIndex
-void LineListIndex::updateLabelCandidates( const QPointF& o, LineList* lineList, int i )
+void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
 {}
 
-void LineListIndex::updateLabelCandidates( const QPoint& o, LineList* lineList, int i )
+void LineListIndex::updateLabelCandidates( const QPoint& /*o*/, LineList* /*lineList*/, int /*i*/ )
 {}
 
 
-void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
+void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky )
 {
     SkyMap *map = kstars->map();
     UpdateID updateID = kstars->data()->updateID();
@@ -203,11 +203,11 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 
         SkyList* points = lineList->points();
         pLast = points->first();
-        oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
+        oLast = map->toScreen( pLast, false, &isVisibleLast );
 
         for ( int i = 1 ; i < points->size() ; i++ ) {
             pThis = points->at( i );
-            oThis = map->toScreen( pThis, scale, false, &isVisible );
+            oThis = map->toScreen( pThis, false, &isVisible );
 
             if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
@@ -216,11 +216,11 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
                     updateLabelCandidates( oThis, lineList, i );
                 }
                 else if ( isVisibleLast ) {
-                    oMid = map->clipLineI( pLast, pThis, scale );
+                    oMid = map->clipLineI( pLast, pThis );
                     psky.drawLine( oLast, oMid );
                 }
                 else if ( isVisible ) {
-                    oMid = map->clipLineI( pThis, pLast, scale );
+                    oMid = map->clipLineI( pThis, pLast );
                     psky.drawLine( oMid, oThis );
                 }
             }
@@ -233,7 +233,7 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky, double scale )
 }
 
 
-void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
+void LineListIndex::drawLines( KStars *kstars, QPainter& psky )
 {
     SkyMap *map = kstars->map();
     DrawID drawID = skyMesh()->drawID();
@@ -260,11 +260,11 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 
             SkyList* points = lineList->points();
             pLast = points->first();
-            oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
+            oLast = map->toScreen( pLast, false, &isVisibleLast );
 
             for ( int i = 1 ; i < points->size() ; i++ ) {
                 pThis = points->at( i );
-                oThis2 = oThis = map->toScreen( pThis, scale, false, &isVisible );
+                oThis2 = oThis = map->toScreen( pThis, false, &isVisible );
 
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
@@ -276,11 +276,11 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
                         }
                     }
                     else if ( isVisibleLast ) {
-                        oMid = map->clipLine( pLast, pThis, scale );
+                        oMid = map->clipLine( pLast, pThis );
                         psky.drawLine( oLast, oMid );
                     }
                     else if ( isVisible ) {
-                        oMid = map->clipLine( pThis, pLast, scale );
+                        oMid = map->clipLine( pThis, pLast );
                         psky.drawLine( oMid, oThis );
                     }
                 }
@@ -294,7 +294,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky, double scale )
 }
 
 
-void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
+void LineListIndex::drawFilled( KStars *kstars, QPainter& psky )
 {
     //bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
     //if ( Options::zoomFactor() > 10.0 * MINZOOM )
@@ -327,21 +327,21 @@ void LineListIndex::drawFilled( KStars *kstars, QPainter& psky, double scale )
 
             SkyList* points = lineList->points();
             pLast = points->last();
-            oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
+            oLast = map->toScreen( pLast, false, &isVisibleLast );
 
             for ( int i = 0; i < points->size(); ++i ) {
                 pThis = points->at( i );
-                oThis = map->toScreen( pThis, scale, false, &isVisible );
+                oThis = map->toScreen( pThis, false, &isVisible );
 
                 if ( isVisible && isVisibleLast ) {
                     polygon << oThis;
                 }
                 else if ( isVisibleLast ) {
-                    oMid = map->clipLine( pLast, pThis, scale );
+                    oMid = map->clipLine( pLast, pThis );
                     polygon << oMid;
                 }
                 else if ( isVisible ) {
-                    oMid = map->clipLine( pThis, pLast, scale );
+                    oMid = map->clipLine( pThis, pLast );
                     polygon << oMid;
                     polygon << oThis;
                 }

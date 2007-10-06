@@ -49,7 +49,7 @@ public:
     /**
     	*@short Draws the bodies' trails, if necessary.
     	*/
-    void drawTrails(KStars *ks, QPainter& psky, double scale);
+    void drawTrails( KStars *ks, QPainter& psky );
 
     /**
     	*@short Add a Trail to the specified SkyObject.

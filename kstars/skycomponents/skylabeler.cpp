@@ -193,7 +193,7 @@ void SkyLabeler::getMargins( QPainter& psky, const QString& text, float *left,
     *bot   = psky.window().height() - 2.0 * height;
 }
 
-void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
+void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky )
 {
     // ----- Set up Zoom Dependent Font -----
 
@@ -204,12 +204,9 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky, double scale )
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
 
     // ----- Set up Zoom Dependent Offset -----
-
-    m_offset = SkyLabeler::ZoomOffset( scale );
-
+    m_offset = SkyLabeler::ZoomOffset( skyMap->scale() );
 
     // ----- Prepare Virtual Screen -----
-
     m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
 
     int maxY = int( skyMap->height() / m_yScale );

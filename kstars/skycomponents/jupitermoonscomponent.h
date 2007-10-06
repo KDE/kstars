@@ -54,9 +54,8 @@ public:
      *@short Draw the Jovian moons on the sky map
      *@p map Pointer to the SkyMap object
      *@p psky Reference to the QPainter on which to paint
-     *@p scale the scaling factor for drawing (1.0 for screen draws)
      */
-    virtual void draw(KStars *ks, QPainter& psky, double scale);
+    virtual void draw( KStars *ks, QPainter& psky );
 
     /**
      *@short Initialize the Jovian moons

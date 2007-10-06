@@ -21,10 +21,14 @@
 #include <QPixmap>
 #include <QKeySequence>
 #include <QPainter>
+//QPRINTER_FOR_NOW
+#include <QPrinter>
+#include <QPrintDialog>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <kprinter.h>
+//QPRINTER_FOR_NOW
+//#include <kprinter.h>
 #include <ktemporaryfile.h>
 #include <kurl.h>
 #include <kpushbutton.h>
@@ -465,16 +469,26 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
-    KPrinter printer( true, QPrinter::HighResolution );
+    //QPRINTER_FOR_NOW
+//    KPrinter printer( true, QPrinter::HighResolution );
+    QPrinter printer( QPrinter::HighResolution );
     printer.setFullPage( false );
 
     //Set up the printer (either with the Print Dialog,
     //or using the default settings)
     bool ok( false );
-    if ( usePrintDialog )
-        ok = printer.setup( this, i18n("Print Sky") );
-    else
-        ok = printer.autoConfigure();
+    if ( usePrintDialog ) {
+        //QPRINTER_FOR_NOW
+//        ok = printer.setup( this, i18n("Print Sky") );
+        QPrintDialog dialog( &printer, this );
+        dialog.setWindowTitle( i18n("Print Sky") );
+        if ( dialog.exec() == QDialog::Accepted )
+            ok = true;
+    } else {
+        //QPRINTER_FOR_NOW
+//        ok = printer.autoConfigure();
+        ok = true;
+    }
 
     if( ok ) {
         QApplication::setOverrideCursor( Qt::WaitCursor );

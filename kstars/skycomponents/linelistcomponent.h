@@ -60,19 +60,19 @@ public:
 
     /* @short Draw the list of objects on the SkyMap
      */
-    virtual void draw( KStars *ks, QPainter& psky, double scale );
+    virtual void draw( KStars *ks, QPainter& psky );
 
     /* @short draw the label if any.  Is currently called at the bottom of
      * draw() but that call could be removed and it could be called
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
      */
-    void drawLabels( KStars* kstars, QPainter& psky, double scale );
+    void drawLabels( KStars* kstars, QPainter& psky );
 
     /**Draw the object, if it is exportable to an image
     *@see isExportable()
     */
-    void drawExportable(KStars *ks, QPainter& psky, double scale);
+    void drawExportable( KStars *ks, QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.
@@ -119,7 +119,7 @@ private:
      *
      *       1 <= i < pointList.size().
      */
-    QPointF angleAt( SkyMap* map, int i, double *angle, double scale );
+    QPointF angleAt( SkyMap* map, int i, double *angle );
 
     /* @short Tries to draw the label at the position and angle specfied. If
      * the label would overlap an existing label it is not drawn and we

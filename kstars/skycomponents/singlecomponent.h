@@ -43,18 +43,16 @@ public:
     	*@short Draw the object on the SkyMap
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*/
-    virtual void draw( KStars *, QPainter &, double ) {}
+    virtual void draw( KStars */*ks*/, QPainter &/*psky*/ ) {}
 
     /**
     	*Draw the object, if it is exportable to an image
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*@see isExportable()
     	*/
-    void drawExportable( KStars *ks, QPainter& psky, double scale );
+    void drawExportable( KStars *ks, QPainter& psky );
 
     /**
     	*@short Update the sky position of this component.

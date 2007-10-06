@@ -39,7 +39,7 @@ MilkyWay::MilkyWay( SkyComponent *parent ) :
         SkipListIndex( parent, i18n("Milky Way") )
 {}
 
-void MilkyWay::init( KStarsData *data )
+void MilkyWay::init( KStarsData */*data*/ )
 {
     intro();
 
@@ -106,7 +106,7 @@ bool MilkyWay::selected()
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
-void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)
+void MilkyWay::draw( KStars *kstars, QPainter& psky )
 {
     if ( !selected() ) return;
 
@@ -121,10 +121,10 @@ void MilkyWay::draw(KStars *kstars, QPainter& psky, double scale)
     //psky.setBrush( QBrush( QColor("green"  ) ) );
 
     if ( Options::fillMilkyWay() ) {
-        drawFilled( kstars, psky, scale );
+        drawFilled( kstars, psky );
     }
     else {
-        drawLines( kstars, psky, scale );
+        drawLines( kstars, psky );
     }
 }
 

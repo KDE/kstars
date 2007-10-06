@@ -53,7 +53,7 @@ public:
     	*@short Draw the object, if it is exportable to an image
     	*@see isExportable()
     	*/
-    void drawExportable(KStars *ks, QPainter& psky, double scale);
+    void drawExportable( KStars *ks, QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.

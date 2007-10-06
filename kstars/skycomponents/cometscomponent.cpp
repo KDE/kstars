@@ -77,7 +77,7 @@ void CometsComponent::init( KStarsData *data ) {
     }
 }
 
-void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
+void CometsComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( !visible() ) return;
 
@@ -86,8 +86,8 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+//     float Width = map->scale() * map->width();
+//     float Height = map->scale() * map->height();
 
     psky.setPen( QPen( QColor( "darkcyan" ) ) );
     psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
@@ -97,12 +97,12 @@ void CometsComponent::draw( KStars *ks, QPainter& psky, double scale )
 
         if ( ! map->checkVisibility( com ) ) continue;
 
-        QPointF o = map->toScreen( com, scale );
+        QPointF o = map->toScreen( com );
 
         if ( ! map->onScreen( o ) ) continue;
         //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 
-        float size = com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+        float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
         if ( size < 1 ) size = 1;
         float x1 = o.x() - 0.5*size;
         float y1 = o.y() - 0.5*size;

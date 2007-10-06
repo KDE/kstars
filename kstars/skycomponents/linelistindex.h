@@ -114,7 +114,7 @@ public:
      * MilkyWay draw() routine calls all of the more specific draw()
      * routines below.
      */
-    virtual void draw( KStars *ks, QPainter &psky, double scale );
+    virtual void draw( KStars *ks, QPainter &psky );
 
     /* @short Gives the subclasses access to the top of the draw() method.
      * Typically used for setting the QPen, etc. in the QPainter being
@@ -145,17 +145,17 @@ public:
      * everything.  There are no filled versions of the "All" routines
      * simply because they were not needed.
      */
-    void drawAllLines( KStars *ks, QPainter &psky, double scale );
+    void drawAllLines( KStars *ks, QPainter &psky );
 
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */
-    void drawLines( KStars *ks, QPainter &psky, double scale );
+    void drawLines( KStars *ks, QPainter &psky );
 
     /* @short Draws all the lines in m_listList as filled polygons in float
      * mode.
      */
-    void drawFilled(KStars *ks, QPainter& psky, double scale);
+    void drawFilled(KStars *ks, QPainter& psky );
 
 
     //----- Debugging and Info Routines -----

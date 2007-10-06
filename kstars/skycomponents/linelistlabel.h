@@ -51,7 +51,7 @@ public:
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
      */
-    void draw( KStars* kstars, QPainter& psky, double scale );
+    void draw( KStars* kstars, QPainter& psky );
 
     void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
 
@@ -75,7 +75,7 @@ private:
      *	   1 <= i < pointList.size().
      */
     QPointF angleAt( SkyMap* map, LineList* list, int i,
-                     double *angle, double scale );
+                     double *angle );
 };
 
 #endif

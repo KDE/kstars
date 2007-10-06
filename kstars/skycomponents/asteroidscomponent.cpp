@@ -86,7 +86,7 @@ void AsteroidsComponent::init(KStarsData *data)
     }
 }
 
-void AsteroidsComponent::update( KStarsData *data, KSNumbers *num )
+void AsteroidsComponent::update( KStarsData *data, KSNumbers */*num*/ )
 {
     if ( ! selected() ) return;
 
@@ -96,7 +96,7 @@ void AsteroidsComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
+void AsteroidsComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
@@ -112,7 +112,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
     if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
     //printf("labelMagLim = %.1f\n", labelMagLimit );
 
-    float sizeFactor = scale * dms::PI * Options::zoomFactor()/10800.0;
+    float sizeFactor = map->scale() * dms::PI * Options::zoomFactor()/10800.0;
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
@@ -122,7 +122,7 @@ void AsteroidsComponent::draw( KStars *ks, QPainter& psky, double scale)
         if ( ast->mag() > Options::magLimitAsteroid() ) continue;
         if ( ! map->checkVisibility( ast ) ) continue;
 
-        QPointF o = map->toScreen( ast, scale );
+        QPointF o = map->toScreen( ast );
         if ( ! map->onScreen( o ) ) continue;
 
         float size = ast->angSize() * sizeFactor;

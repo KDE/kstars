@@ -59,12 +59,12 @@ public:
 
     void reindex( KSNumbers *num );
 
-    void draw(KStars *ks, QPainter& psky, double scale);
+    void draw( KStars *ks, QPainter& psky );
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists.
      */
-    void drawLabels(KStars *ks, QPainter& psky, double scale);
+    void drawLabels( KStars *ks, QPainter& psky );
 
     void init(KStarsData *data);
 

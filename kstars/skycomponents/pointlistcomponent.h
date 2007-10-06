@@ -44,12 +44,12 @@ public:
     virtual ~PointListComponent();
 
     /**Draw the list of objects on the SkyMap*/
-    virtual void draw(KStars * /*ks*/, QPainter& /*psky*/, double /*scale*/) {}
+    virtual void draw( KStars */*ks*/, QPainter &/*psky*/ ) {}
 
     /**Draw the object, if it is exportable to an image
     *@see isExportable()
     */
-    void drawExportable(KStars *ks, QPainter& psky, double scale);
+    void drawExportable( KStars *ks, QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.

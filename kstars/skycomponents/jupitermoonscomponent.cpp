@@ -63,13 +63,13 @@ void JupiterMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
         jmoons->findPosition( num, (KSPlanet*)(m_Jupiter->skyObject()), (KSSun*)(parent()->findByName( "Sun" )) );
 }
 
-void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
+void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! Options::showJupiter() ) return;
 
     SkyMap *map = ks->map();
-    float Width = scale * map->width();
-    float Height = scale * map->height();
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
 
     psky.setPen( QPen( QColor( "white" ) ) );
 
@@ -80,7 +80,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
     //then re-draw Jupiter, then draw the moons nearer than Jupiter.
     QList<QPointF> frontMoons;
     for ( unsigned int i=0; i<4; ++i ) {
-        QPointF o = map->toScreen( jmoons->pos(i), scale );
+        QPointF o = map->toScreen( jmoons->pos(i) );
 
         if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
             if ( jmoons->z(i) < 0.0 ) { //Moon is nearer than Jupiter
@@ -93,7 +93,7 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
     }
 
     //Now redraw Jupiter
-    m_Jupiter->draw( ks, psky, scale );
+    m_Jupiter->draw( ks, psky );
 
     //Now draw the remaining moons, as stored in frontMoons
     psky.setPen( QPen( QColor( "white" ) ) );
@@ -104,11 +104,11 @@ void JupiterMoonsComponent::draw(KStars *ks, QPainter& psky, double scale)
     //Draw Moon name labels if at high zoom
     if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
     for ( unsigned int i=0; i<4; ++i ) {
-        QPointF o = map->toScreen( jmoons->pos(i), scale );
+        QPointF o = map->toScreen( jmoons->pos(i) );
 
         if ( ! map->onScreen( o ) ) continue;
         //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
-        float offset = 3.0 * scale;
+        float offset = 3.0 * map->scale();
 
         SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset),
                               jmoons->name(i), JUPITER_MOON_LABEL );

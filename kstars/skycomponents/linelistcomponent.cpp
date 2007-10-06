@@ -40,7 +40,7 @@ LineListComponent::~LineListComponent()
 
 
 // I don't think the ecliptic or the celestial equator should precess. -jbb
-void LineListComponent::update( KStarsData *data, KSNumbers *num )
+void LineListComponent::update( KStarsData *data, KSNumbers */*num*/ )
 {
     if ( ! selected() ) return;
 
@@ -50,7 +50,7 @@ void LineListComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
+void LineListComponent::draw( KStars *ks, QPainter &psky )
 {
     if ( ! selected() ) return;
 
@@ -90,13 +90,13 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
     QPointF oThis, oLast, oMid;
 
     pLast = points()->at( 0 );
-    oLast = map->toScreen( pLast, scale, false, &isVisibleLast );
+    oLast = map->toScreen( pLast, false, &isVisibleLast );
 
     int limit = points()->size();
 
     for ( int i=1 ; i < limit ; i++ ) {
         pThis = points()->at( i );
-        oThis = map->toScreen( pThis, scale, false, &isVisible );
+        oThis = map->toScreen( pThis, false, &isVisible );
 
         if ( map->onScreen(oThis, oLast ) ) {
             if ( isVisible && isVisibleLast ) {
@@ -129,11 +129,11 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
             }
 
             else if ( isVisibleLast && ! isVisible ) {
-                oMid = map->clipLine( pLast, pThis, scale );
+                oMid = map->clipLine( pLast, pThis );
                 psky.drawLine( oLast, oMid );
             }
             else if ( isVisible && ! isVisibleLast ) {
-                oMid = map->clipLine( pThis, pLast, scale );
+                oMid = map->clipLine( pThis, pLast );
                 psky.drawLine( oMid, oThis );
             }
         }
@@ -143,10 +143,10 @@ void LineListComponent::draw( KStars *ks, QPainter &psky, double scale )
         isVisibleLast = isVisible;
     }
 
-    drawLabels( ks, psky, scale );
+    drawLabels( ks, psky );
 }
 
-void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale )
+void LineListComponent::drawLabels( KStars* kstars, QPainter& psky )
 {
     if ( LabelPosition == NoLabel ) return;
 
@@ -196,7 +196,7 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale
     // Try the points in order and print the label if we can draw it at
     // a comfortable angle for viewing;
     for ( int j = firstI; j < 4; j++ ) {
-        o[j] = angleAt( map, i[j], &a[j], scale );
+        o[j] = angleAt( map, i[j], &a[j] );
         if ( fabs( a[j] ) > comfyAngle ) continue;
         if ( skyLabeler()->drawLabel( psky, o[j], Label, a[j] ) )
             return;
@@ -225,13 +225,13 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky, double scale
 }
 
 
-QPointF LineListComponent::angleAt( SkyMap* map, int i, double *angle, double scale )
+QPointF LineListComponent::angleAt( SkyMap* map, int i, double *angle )
 {
     SkyPoint* pThis = points()->at( i );
     SkyPoint* pLast = points()->at( i - 1 );
 
-    QPointF oThis = map->toScreen( pThis, scale, false );
-    QPointF oLast = map->toScreen( pLast, scale, false );
+    QPointF oThis = map->toScreen( pThis, false );
+    QPointF oLast = map->toScreen( pLast, false );
 
     double sx = double( oThis.x() - oLast.x() );
     double sy = double( oThis.y() - oLast.y() );

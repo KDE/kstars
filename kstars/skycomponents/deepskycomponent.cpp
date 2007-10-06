@@ -53,7 +53,7 @@ bool DeepSkyComponent::selected()
     return Options::showDeepSky();
 }
 
-void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
+void DeepSkyComponent::update( KStarsData */*data*/, KSNumbers */*num*/ )
 {}
 
 
@@ -238,13 +238,12 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 }
 
 
-void DeepSkyComponent::draw(KStars *ks, QPainter& psky, double scale)
+void DeepSkyComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
     bool drawFlag;
 
-    m_scale = scale;
     m_data  = ks->data();
     m_map   = ks->map();
 
@@ -320,20 +319,20 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             }
 
             float mag = obj->mag();
-            float size = m_scale * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float size = m_map->scale() * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
                     (mag > 90.0 || mag < (float)maglim) ) {
-                QPointF o = m_map->toScreen( obj, m_scale );
+                QPointF o = m_map->toScreen( obj );
                 if ( ! m_map->onScreen( o ) ) continue;
-                double PositionAngle = m_map->findPA( obj, o.x(), o.y(), m_scale );
+                double PositionAngle = m_map->findPA( obj, o.x(), o.y() );
 
                 //Draw Image
                 if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
+                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_map->scale() );
                 }
 
                 //Draw Symbol
@@ -350,7 +349,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                         bColorChanged = true;
                     }
 
-                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_scale );
+                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_map->scale() );
 
                     if ( bColorChanged ) {
                         psky.setPen( color );

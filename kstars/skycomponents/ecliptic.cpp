@@ -39,7 +39,7 @@ bool Ecliptic::selected()
     return Options::showEcliptic();
 }
 
-void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
+void Ecliptic::draw( KStars *kstars, QPainter &psky )
 {
     if ( ! selected() ) return;
 
@@ -49,23 +49,23 @@ void Ecliptic::draw( KStars *kstars, QPainter &psky, double scale )
     m_label.reset( psky );
 
     if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( kstars, psky, scale );
+        drawLines( kstars, psky );
     }
     else {
-        drawAllLines( kstars, psky, scale );
+        drawAllLines( kstars, psky );
     }
-    m_label.draw( kstars, psky, scale );
+    m_label.draw( kstars, psky );
 }
 
 
-void Ecliptic::drawLabel( KStars *kstars, QPainter& psky, double scale )
+void Ecliptic::drawLabel( KStars *kstars, QPainter& psky )
 {
     if ( ! selected() ) return;
 
     QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-    m_label.draw( kstars, psky, scale );
+    m_label.draw( kstars, psky );
 }
 
 

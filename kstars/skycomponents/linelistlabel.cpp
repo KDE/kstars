@@ -89,7 +89,7 @@ void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList,
 }
 
 
-void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
+void LineListLabel::draw( KStars* kstars, QPainter& psky )
 {
 
     SkyMap *map = kstars->map();
@@ -132,7 +132,7 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
     // Try the points in order and print the label if we can draw it at
     // a comfortable angle for viewing;
     for ( int j = first; j < 4; j++ ) {
-        o[j] = angleAt( map, list[j], idx[j], &a[j], scale );
+        o[j] = angleAt( map, list[j], idx[j], &a[j] );
 
         if ( ! idx[j] || ! map->checkVisibility( list[j]->at( idx[j] ) ) ) {
             okay[j] = false;
@@ -170,13 +170,13 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky, double scale )
 }
 
 
-QPointF LineListLabel::angleAt( SkyMap* map, LineList* list, int i, double *angle, double scale )
+QPointF LineListLabel::angleAt( SkyMap* map, LineList* list, int i, double *angle )
 {
     SkyPoint* pThis = list->at( i );
     SkyPoint* pLast = list->at( i - 1 );
 
-    QPointF oThis = map->toScreen( pThis, scale, false );
-    QPointF oLast = map->toScreen( pLast, scale, false );
+    QPointF oThis = map->toScreen( pThis, false );
+    QPointF oLast = map->toScreen( pLast, false );
 
     double sx = double( oThis.x() - oLast.x() );
     double sy = double( oThis.y() - oLast.y() );

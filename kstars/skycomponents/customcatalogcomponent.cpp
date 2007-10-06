@@ -129,13 +129,13 @@ void CustomCatalogComponent::init( KStarsData * ) {
     }
 }
 
-void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
+void CustomCatalogComponent::draw( KStars *ks, QPainter& psky )
 {
     if ( ! visible() ) return;
 
     SkyMap *map = ks->map();
-    float Width  = scale * map->width();
-    float Height = scale * map->height();
+    float Width  = map->scale() * map->width();
+    float Height = map->scale() * map->height();
 
     psky.setBrush( Qt::NoBrush );
     psky.setPen( QColor( m_catColor ) );
@@ -144,7 +144,7 @@ void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
     foreach ( SkyObject *obj, objectList() ) {
 
         if ( map->checkVisibility( obj ) ) {
-            QPointF o = map->toScreen( obj, scale );
+            QPointF o = map->toScreen( obj );
 
             if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) {
 
@@ -153,16 +153,15 @@ void CustomCatalogComponent::draw(KStars *ks, QPainter& psky, double scale)
                     float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
                     float mag = starobj->mag();
                     float sizeFactor = 2.0;
-                    int size = int( sizeFactor*(zoomlim - mag) ) + 1;
-                    if (size>23) size=23;
-                    starobj->draw( psky, o.x(), o.y(), size, Options::starColorMode(), Options::starColorIntensity(), true, scale );
+                    int size = int( map->scale()*sizeFactor*(zoomlim - mag) ) + 1;
+                    if (size>int(23*map->scale())) size=int(23*map->scale());
+                    starobj->draw( psky, o.x(), o.y(), size, Options::starColorMode(), Options::starColorIntensity(), true );
                 } else {
                     //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
                     DeepSkyObject *dso = (DeepSkyObject*)obj;
-                    double pa = 90. + map->findPA( dso, o.x(), o.y(), scale );
-                    dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-
-                    dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
+                    double pa = 90. + map->findPA( dso, o.x(), o.y() );
+                    dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor(), map->scale() );
+                    dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor(), map->scale() );
                 }
             }
         }

@@ -44,7 +44,7 @@ public:
 
     bool selected();
 
-    void draw( KStars *ks, QPainter &psky, double scale );
+    void draw( KStars *ks, QPainter &psky );
 
     QList<double>& jdList() { return JDList; }
 

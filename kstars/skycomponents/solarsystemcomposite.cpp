@@ -120,7 +120,7 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
     m_JupiterMoons->updateMoons( data, num );
 }
 
-void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
+void SolarSystemComposite::draw( KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
@@ -128,15 +128,15 @@ void SolarSystemComposite::draw(KStars *ks, QPainter& psky, double scale)
     //(Thomas had been doing this by keeping separate pointers to
     //inner solar system objects, but I'd rather handle it here in the draw
     //function if possible
-    SkyComposite::draw(ks, psky, scale);
+    SkyComposite::draw( ks, psky );
 }
 
-void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky, double scale )
+void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky )
 {
     if ( ! selected() ) return;
 
     foreach ( SkyComponent *comp, components() ) {
-        comp->drawTrails( ks, psky, scale );
+        comp->drawTrails( ks, psky );
     }
 }
 

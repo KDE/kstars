@@ -42,7 +42,7 @@ public:
     /* @short we override draw() so we can switch between indexed and
      * non-indexed drawing for speed optimization.
      */
-    void draw( KStars *ks, QPainter &psky, double scale );
+    void draw( KStars *ks, QPainter &psky );
 
     /* @short we need to use the buffer that does not have the
      * reverse-precession correction.

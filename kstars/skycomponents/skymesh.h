@@ -272,7 +272,7 @@ public:
      * duty in the production code to save space in which case this function
      * may become less useful.
      */
-    void draw( KStars *kstars, QPainter& psky, double scale, MeshBufNum_t
+    void draw( KStars *kstars, QPainter& psky, MeshBufNum_t
                bufNum=DRAW_BUF );
 
     /* @short Returns true of the most recent aperture() call produced

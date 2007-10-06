@@ -42,10 +42,10 @@ bool SkyComponent::isExportable()
     return true;
 }
 
-void SkyComponent::drawExportable(KStars *ks, QPainter& psky, double scale)
+void SkyComponent::drawExportable( KStars *ks, QPainter& psky )
 {
     if (isExportable())
-        draw(ks, psky, scale);
+        draw( ks, psky );
 }
 
 //Hand the message up to SkyMapComposite
@@ -62,4 +62,4 @@ bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 void SkyComponent::clearTrailsExcept( SkyObject * ) { return; }
-void SkyComponent::drawTrails( KStars *, QPainter &, double ) { return; }
+void SkyComponent::drawTrails( KStars *, QPainter & ) { return; }

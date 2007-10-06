@@ -377,41 +377,33 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
 
     /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
     	*
-    	*Each of the draw functions is called, with a value for the Scale parameter computed to fit the 
-    	*geometry of the QPaintDevice.
     	*@param pd pointer to the QPaintDevice on which to draw.  
     	*@see KStars::slotExportImage()
     	*@see KStars::slotPrint()
     	*/
     void exportSkyImage( QPaintDevice *pd );
 
-    /**@short Draw a clipped line from p1 to p2
-     */
-    //DEPRECATED
-    //    void drawClippedLine( SkyPoint *p1, SkyPoint *p2, QPainter& psky, double scale );
-
     /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
      * between *p1 and *p2 that just clips.
      */
-    QPointF clipLine( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
 
-    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2, double scale);
+    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
     	*pixel coordinates in the SkyMap.
     	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
     	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
-    	*@param scale scaling factor
     	*@param useRefraction true = use Options::useRefraction() value.  
     	*false = do not use refraction.  This argument is only needed 
     	*for the Horizon, which should never be refracted.
     	*@param onVisibleHemisphere pointer to a bool to indicate whether the point is
         * on the visible part of the Celestial Sphere.
     	*/
-    QPointF toScreen( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
-    QPointF toScreenQuaternion( SkyPoint *o, double scale=1.0 );
+    QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+    QPointF toScreenQuaternion( SkyPoint *o );
 
-    QPoint toScreenI( SkyPoint *o, double scale=1.0, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+    QPoint toScreenI( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
 
     /**
     	*@return the given SkyLine, transformed to screen pixel coordinates.
@@ -420,17 +412,26 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
     	*a null line is returned.
     	*
     	*@param o pointer to the SkyLine which is to be transformed to screen coordinates
-    	*@param scale the scaling factor for the drawing device
     	*@param useRefraction if true, refract according to the user option UseRefraction; 
     	*if false, do not use refraction regardless of user option
     	*@param doClipLines if true, lines will be truncated at the screen edge
     	*/
-    QList<QPointF> toScreen( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
+    QList<QPointF> toScreen( SkyLine *o, bool useRefraction=true, bool doClipLines=true );
+
+    /**
+        *@return the current scale factor for drawing the map.
+        *@note the scale factor should be 1.0 unless we are printing.
+        */
+    inline double scale() { return m_Scale; }
+
+    /**
+        *@return the bounding rectangle of the skymap, scaled by the current scale factor
+        */
+    QRect scaledRect();
 
     /**
         *@return whether the give QPoint is on the SkyMap.
         */
-
     bool onScreen( QPoint &point );
     /**
         *@return whether the give QPointF is on the SkyMap.
@@ -445,10 +446,7 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
     bool onScreen( QPointF &p1, QPointF &p2 );
     bool onScreen( QPoint &p1, QPoint &p2 );
 
-    //	QLine toScreenI( SkyLine *o, double scale=1.0, bool useRefraction=true, bool doClipLines=true );
-
     void onscreenLine( QPointF &p1, QPointF &p2 );
-
     bool onscreenLine2( QPointF &p1, QPointF &p2 );
 
     /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
@@ -508,18 +506,16 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
     	*a slightly increased Dec as the object, and calculating the angle w.r.t. the 
     	*Y-axis of the line connecing the object to its test point. 
     	*/
-    double findPA( SkyObject *o, float x, float y, double scale=1.0 );
+    double findPA( SkyObject *o, float x, float y );
 
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
     	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
     	*is true.
     	*@param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
     	*@param psky painter for the sky
-    	*@param scale scaling of the label and lots of other things; exact
-    	*             meaning lost to science.
     	*@note the labelObjects list is managed by the SkyMapComponents class
     	*/
-    void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky, double scale = 1.0 );
+    void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
 
 public slots:
     //DEBUG_KIO_JOB
@@ -769,14 +765,12 @@ private:
 
     /**Draw the Focus, Geo and Time InfoBoxes.  This is called by drawOverlays().
     	*@param p reference to the QPainter on which to draw (this should be the Sky pixmap).
-    	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
     	*@see SkyMap::drawOverlays()
     	*/
     void drawBoxes( QPainter &p );
 
     /**Draw symbols at the position of each Telescope currently being controlled by KStars.
     	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
-    	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
     	*/
     void drawTelescopeSymbols(QPainter &psky);
@@ -784,28 +778,24 @@ private:
     /**
     	*@short Draw symbols for objects in the observing list.
     	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
-    	*@param scale the scaling factor for the drawing device
     	*/
-    void drawObservingList( QPainter &psky, double scale = 1.0 );
+    void drawObservingList( QPainter &psky );
 
     /**
     	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
     	*/
     void drawZoomBox( QPainter &psky );
 
     /**
     	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@param scale the scaling factor for the drawing device
     	*/
-    void drawHighlightConstellation( QPainter &psky, double scale = 1.0 );
+    void drawHighlightConstellation( QPainter &psky );
 
     /**Draw the current TransientLabel.  TransientLabels are triggered when the mouse
     	*hovers on an object.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
     	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
     	*/
     void drawTransientLabel( QPainter &psky );
@@ -813,7 +803,6 @@ private:
     /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
     	*when in Angular-Ruler mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
     	*/
     void drawAngleRuler( QPainter &psky );
 
@@ -856,6 +845,8 @@ private:
     double Range;
     double RefractCorr1[184], RefractCorr2[184];
     double y0;
+
+    double m_Scale;
 
     //data for checkVisibility
     bool isPoleVisible;

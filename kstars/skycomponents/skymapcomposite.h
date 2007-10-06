@@ -110,9 +110,8 @@ public:
     	*@short Delegate draw requests to all sub components
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
-    	*@p scale the scaling factor for drawing (1.0 for screen draws)
     	*/
-    virtual void draw(KStars *ks, QPainter& psky, double scale = 1.0);
+    virtual void draw( KStars *ks, QPainter& psky );
 
     //virtual void draw( );
 

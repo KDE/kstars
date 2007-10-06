@@ -54,7 +54,7 @@ public:
 
     ~DeepSkyComponent();
 
-    virtual void draw(KStars *ks, QPainter& psky, double scale);
+    virtual void draw( KStars *ks, QPainter& psky );
 
     /**
     	*@short Read the ngcic.dat deep-sky database.
@@ -118,7 +118,6 @@ public:
     bool selected();
 
 private:
-    double      m_scale;
     KStarsData* m_data;
     SkyMap*     m_map;
 
