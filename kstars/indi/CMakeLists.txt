@@ -185,24 +185,16 @@ target_link_libraries(indi_lx200generic  ${KDE4_KDECORE_LIBS} m )
 
 install(TARGETS indi_lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200classic)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200classic)
-
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200autostar)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200autostar)
-
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200_16)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200_16)
-
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND rm ARGS -f indi_lx200gps)
-ADD_CUSTOM_COMMAND(TARGET indi_lx200generic POST_BUILD COMMAND ln ARGS -s indi_lx200generic indi_lx200gps)
-
-INSTALL (FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200classic
-    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200autostar
-    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200_16
-    ${CMAKE_CURRENT_BINARY_DIR}/indi_lx200gps
-    DESTINATION ${BIN_INSTALL_DIR})
+#TODO fix for windows.
+if(UNIX)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/make_lx200generic_symlink.cmake 
+"exec_program(${CMAKE_COMMAND} ARGS -E create_symlink ${BIN_INSTALL_DIR}/indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200classic)\n
+exec_program(${CMAKE_COMMAND} ARGS -E create_symlink ${BIN_INSTALL_DIR}/indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200autostar)\n 
+exec_program(${CMAKE_COMMAND} ARGS -E create_symlink ${BIN_INSTALL_DIR}/indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200_16)\n
+exec_program(${CMAKE_COMMAND} ARGS -E create_symlink ${BIN_INSTALL_DIR}/indi_lx200generic ${BIN_INSTALL_DIR}/indi_lx200gps)\n
+")
+set_target_properties(indi_lx200generic PROPERTIES POST_INSTALL_SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/make_lx200generic_symlink.cmake)
+endif(UNIX)
 
 #################################################################################
 
