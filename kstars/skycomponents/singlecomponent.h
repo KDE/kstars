@@ -44,7 +44,7 @@ public:
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars */*ks*/, QPainter &/*psky*/ ) {}
+    virtual void draw( KStars* /*ks*/, QPainter& /*psky*/ ) {}
 
     /**
     	*Draw the object, if it is exportable to an image

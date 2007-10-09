@@ -543,7 +543,9 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
     update();
 }
 
-void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
+void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
+    Q_UNUSED(e)
+
     QPainter p;
 
     p.begin( this );

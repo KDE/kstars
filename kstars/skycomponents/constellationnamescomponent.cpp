@@ -83,8 +83,10 @@ void ConstellationNamesComponent::init(KStarsData *)
 }
 
 // Don't precess the location of the names
-void ConstellationNamesComponent::update( KStarsData *data, KSNumbers */*num*/ )
+void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
 {
+    Q_UNUSED(num)
+
     if ( ! selected() ) return;
 
     for ( int i = 0; i < objectList().size(); i++ ) {

@@ -77,8 +77,11 @@ void StarComponent::init(KStarsData *data)
     readData( Options::magLimitDrawStar() );
 }
 
-void StarComponent::update( KStarsData */*data*/, KSNumbers */*num*/ )
-{}
+void StarComponent::update( KStarsData *data, KSNumbers *num )
+{
+    Q_UNUSED(data)
+    Q_UNUSED(num)
+}
 
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.

@@ -172,8 +172,11 @@ void LineListIndex::draw( KStars *kstars, QPainter &psky )
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-bool LineListIndex::skipAt( LineList */*lineList*/, int /*i*/ )
-{                                      // left this in .cpp because
+bool LineListIndex::skipAt( LineList *lineList, int i )
+{
+    Q_UNUSED(lineList)
+    Q_UNUSED(i)
+                                        // left this in .cpp because
     return false;                      // it generates compiler warnings.
 }                                      // -jbb
 

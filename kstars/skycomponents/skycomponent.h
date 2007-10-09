@@ -71,7 +71,7 @@ public:
     	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars */*ks*/, QPainter &/*psky*/ ) {}
+    virtual void draw( KStars* /*ks*/, QPainter& /*psky*/ ) {}
 
     /**
     	*@short Draw the object, if it is exportable to an image
@@ -81,13 +81,13 @@ public:
     	*/
     void drawExportable( KStars *ks, QPainter& psky );
 
-    virtual void drawPlanets(KStars */*ks*/, QPainter &/*psky*/ ) {}
+    virtual void drawPlanets(KStars* /*ks*/, QPainter& /*psky*/ ) {}
 
     /**
     	*@short Initialize the component - load data from disk etc.
     	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init( KStarsData */*data*/ ) { kDebug() << "Should never see this"; }
+    virtual void init( KStarsData* /*data*/ ) { kDebug() << "Should never see this"; }
 
     /**
     	*@short Update the sky position(s) of this component.

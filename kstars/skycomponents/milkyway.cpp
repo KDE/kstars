@@ -39,8 +39,10 @@ MilkyWay::MilkyWay( SkyComponent *parent ) :
         SkipListIndex( parent, i18n("Milky Way") )
 {}
 
-void MilkyWay::init( KStarsData */*data*/ )
+void MilkyWay::init( KStarsData *data )
 {
+    Q_UNUSED(data)
+
     intro();
 
     char* fname = "milkyway.dat";
