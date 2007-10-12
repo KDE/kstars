@@ -75,7 +75,7 @@ typedef unsigned long long	uint64;
 
 // emulate the standard bool type where not supported by compiler
 
-#  if !defined(SXGENERAL_H) && !defined(__sgi) && !defined(__linux) && !defined(_WIN32)
+#  if !defined(SXGENERAL_H) && !defined(__sgi) && !defined(__linux) && !defined(_WIN32) && !defined(__FreeBSD__)
 #    ifdef __unix
 /*
  * The following ifndef must ALWAYS be present since C++ may use

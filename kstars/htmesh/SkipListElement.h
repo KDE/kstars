@@ -24,7 +24,11 @@
 #ifdef _WIN32
 #define KEY_MAX _I64_MAX
 #else
-#define KEY_MAX LONG_LONG_MAX
+#  ifdef __FreeBSD__
+#    define KEY_MAX LLONG_MAX
+#  else
+#    define KEY_MAX LONG_LONG_MAX
+#  endif
 #endif
 
 typedef int64 Key;            // key type
