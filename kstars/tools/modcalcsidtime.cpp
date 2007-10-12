@@ -47,7 +47,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
     connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotHelpLabel()));
-    connect(ComputeComboBatch, SIGNAL(currentIndexChanged()), this, SLOT(slotHelpLabel()));
+    connect(ComputeComboBatch, SIGNAL(currentIndexChanged(int)), this, SLOT(slotHelpLabel()));
 
     connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
     connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
