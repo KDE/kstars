@@ -48,7 +48,7 @@ NGC 253:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/10/images/
 NGC 253:Show HST Image (1998):http://imgsrc.hubblesite.org/hu/db/1998/42/images/a/formats/web_print.jpg
 NGC 300:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/13/images/e/formats/web_print.jpg
 NGC 346:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2005/04/images/a/formats/web_print.jpg
-NGC 604:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/30/images/b/formats/web_print.jpg
+NGC 604:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/30/images/a/formats/web_print.jpg
 NGC 891:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
 NGC 1275:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/14/images/a/formats/web_print.jpg
 NGC 1300:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2005/01/images/a/formats/web_print.jpg
@@ -78,7 +78,7 @@ NGC 2440:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/35/images/e/form
 NGC 2736:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/16/images/a/formats/web_print.jpg
 NGC 2787:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/07/images/a/formats/web_print.jpg
 NGC 2903:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/10/images/a/formats/web_print.jpg
-NGC 3079:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/28/images/a/formats/web_print.jpg
+NGC 3079:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/28/images/b/formats/large_web.jpg
 NGC 3132:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/39/images/a/formats/web_print.jpg
 NGC 3310:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/26/images/a/formats/web_print.jpg
 NGC 3314:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/14/images/a/formats/web_print.jpg
@@ -115,7 +115,7 @@ NGC 6543:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/01/images
 NGC 6543:Show HST Image (2004):http://imgsrc.hubblesite.org/hu/db/2004/27/images/a/formats/web_print.jpg
 NGC 6745:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/34/images/a/formats/web_print.jpg
 NGC 6751:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/12/images/a/formats/web_print.jpg
-NGC 6782:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/37/images/a/formats/web_print.jpg
+NGC 6782:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/37/images/a/formats/large_web.jpg
 NGC 6818:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1998/11/images/h/formats/full_jpg.jpg
 NGC 6822:Show HST Image (Hubble V):http://imgsrc.hubblesite.org/hu/db/2001/39/images/a/formats/web_print.jpg
 NGC 6822:Show HST Image (Hubble X):http://imgsrc.hubblesite.org/hu/db/2001/01/images/a/formats/web_print.jpg
@@ -141,7 +141,7 @@ Mars:Global Dust Storm (HST):http://imgsrc.hubblesite.org/hu/db/2001/31/images/a
 Jupiter:Jupiter and Io (HST):http://imgsrc.hubblesite.org/hu/db/1999/13/images/a/formats/web_print.jpg
 Jupiter:Galilean Satellites (HST):http://imgsrc.hubblesite.org/hu/db/1995/35/images/a/formats/web_print.jpg
 Jupiter:Triple Eclipse (HST):http://imgsrc.hubblesite.org/hu/db/2004/30/images/a/formats/web_print.jpg
-Jupiter:Comet Impact Scars (HST):http://imgsrc.hubblesite.org/hu/db/1995/15/images/a/formats/web_print.jpg
+Jupiter:Comet Impact Scars (HST):http://imgsrc.hubblesite.org/hu/db/1995/49/images/d/formats/large_web.jpg
 Saturn:Show HST Image (1996):http://imgsrc.hubblesite.org/hu/db/1996/16/images/a/formats/web_print.jpg
 Saturn:Show HST Image (2001):http://imgsrc.hubblesite.org/hu/db/2001/15/images/a/formats/web_print.jpg
 Saturn:Show HST Image (2003):http://imgsrc.hubblesite.org/hu/db/2003/23/images/a/formats/web_print.jpg
@@ -698,6 +698,7 @@ Mars:Show MGS Image:http://www.msss.com/mars/pictures/usgs_color_mosaics/334.jpg
 Mars:Show Viking Lander Image:http://pds.jpl.nasa.gov/planets/images/browse/mars/vlpan11.jpg
 Mars:Show Pathfinder Lander Image:http://mpfwww.jpl.nasa.gov/MPF/ops/81696_full.jpg
 Jupiter:Show Voyager 1 Image:http://pds.jpl.nasa.gov/planets/images/browse/jupiter/jupiter.jpg
+Jupiter:Show New Horizons Image:http://pluto.jhuapl.edu/gallery/sciencePhotos/images/large/100907_11.jpg
 Saturn:Show Collage of Saturn and moons:http://nssdc.gsfc.nasa.gov/image/planetary/saturn/saturn_family.jpg
 Uranus:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-31a-02-preview.jpg
 #
