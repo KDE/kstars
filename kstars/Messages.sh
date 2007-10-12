@@ -39,9 +39,10 @@ awk 'BEGIN {FS=":"}; {print "i18nc(\"Image/info menu item (should be translated)
 sort --unique info_url.tmp >> kstars_i18n.cpp
 
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
-cat data/hip*.dat | perl -e 'while ( $line=<STDIN> ) { $starname = substr ($line,72);    chop $starname; if ( $starname =~ /(.*)\:/ ) { $starname = $1 . " ";   }   if ( $starname =~ /(.*\w)(\s+)/) { $starname = $1;	$starnames{$starname} = 1;   } } foreach $star( sort keys %starnames) { printf "i18nc(\"star name\",\"%s\");\n", $star; }' >> kstars_i18n.cpp;
+cat data/stars.dat | gawk 'BEGIN { FS=","; } ($1!~/\#/ && NF==3) { print $3; }' >> kstars_i18n.cpp;
+
 # extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
-cat data/ngcic*.dat | gawk '{ split(substr( $0, 77 ), name, " "); \
+cat data/ngcic.dat | gawk '{ split(substr( $0, 77 ), name, " "); \
 if ( name[1]!="" ) { \
 printf( "%s", name[1] ); i=2; \
 while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
