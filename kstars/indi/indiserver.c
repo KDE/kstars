@@ -1,4 +1,4 @@
-/* INDI Server.
+/* INDI Server for protocol version 1.7.
  * Copyright (C) 2007 Elwood C. Downey ecdowney@clearskyinstitute.com
 
     This library is free software; you can redistribute it and/or
@@ -108,7 +108,7 @@ static int nclinfo;			/* n total (not active) */
 
 /* info for each connected driver */
 typedef struct {
-    char *name;				/* persistent malloced name */
+    const char *name;				/* persistent malloced name */
     char dev[MAXINDIDEVICE];		/* device served by this driver */
     Snoopee *sprops;			/* malloced array of props we snoop */
     int nsprops;			/* n entries in sprops[] */
@@ -146,10 +146,11 @@ static void startLocalDvr (DvrInfo *dp);
 static void startRemoteDvr (DvrInfo *dp);
 static int openINDIServer (char host[], int indi_port);
 static void restartDvr (DvrInfo *dp);
-static void q2RDrivers (const char *dev, Msg *mp);
-static void q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp);
+static void q2RDrivers (const char *dev, Msg *mp, XMLEle *root);
+static void q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp,
+    XMLEle *root);
 static int q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name,
-    Msg *mp);
+    Msg *mp, XMLEle *root);
 static void addSDevice (DvrInfo *dp, const char *dev, const char *name);
 static Snoopee *findSDevice (DvrInfo *dp, const char *dev, const char *name);
 static void addClDevice (ClInfo *cp, const char *dev, const char *name);
@@ -721,11 +722,13 @@ readFromClient (ClInfo *cp)
 		Msg *mp;
 
 		if (verbose > 2) {
-		    fprintf (stderr, "%s: Client %d: read:\n", tstamp(0),cp->s);
-		    prXMLEle (stderr, root, 0);
-		} else if (verbose > 1) {
 		    fprintf (stderr, "%s: Client %d: read ",tstamp(NULL),cp->s);
 		    traceMsg (root);
+		} else if (verbose > 1) {
+		    fprintf (stderr, "%s: Client %d: read <%s device='%s' name='%s'>\n",
+				    tstamp(NULL), cp->s, tagXMLEle(root),
+				    findXMLAttValu (root, "device"),
+				    findXMLAttValu (root, "name"));
 		}
 
 		/* snag interested properties.
@@ -745,11 +748,11 @@ readFromClient (ClInfo *cp)
 		mp = newMsg();
 
 		/* send message to driver(s) responsible for dev */
-		q2RDrivers (dev, mp);
+		q2RDrivers (dev, mp, root);
 
 		/* echo new* commands back to other clients */
 		if (!strncmp (roottag, "new", 3)) {
-		    if (q2Clients (cp, isblob, dev, name, mp) < 0)
+		    if (q2Clients (cp, isblob, dev, name, mp, root) < 0)
 			shutany++;
 		}
 
@@ -810,11 +813,13 @@ readFromDriver (DvrInfo *dp)
 		Msg *mp;
 
 		if (verbose > 2) {
-		    fprintf(stderr,"%s: Driver %s: read:\n",tstamp(0),dp->name);
-		    prXMLEle (stderr, root, 0);
-		} else if (verbose > 1) {
 		    fprintf(stderr, "%s: Driver %s: read ", tstamp(0),dp->name);
 		    traceMsg (root);
+		} else if (verbose > 1) {
+		    fprintf (stderr, "%s: Driver %s: read <%s device='%s' name='%s'>\n",
+				    tstamp(NULL), dp->name, tagXMLEle(root),
+				    findXMLAttValu (root, "device"),
+				    findXMLAttValu (root, "name"));
 		}
 
 		/* that's all if driver is just registering a snoop */
@@ -847,11 +852,11 @@ readFromDriver (DvrInfo *dp)
 		mp = newMsg();
 
 		/* send to interested clients */
-		if (q2Clients (NULL, isblob, dev, name, mp) < 0)
+		if (q2Clients (NULL, isblob, dev, name, mp, root) < 0)
 		    shutany++;
 
 		/* send to snooping drivers */
-		q2SDrivers (isblob, dev, name, mp);
+		q2SDrivers (isblob, dev, name, mp, root);
 
 		/* set message content if anyone cares else forget it */
 		if (mp->count > 0)
@@ -979,7 +984,7 @@ restartDvr (DvrInfo *dp)
  * if dev not specified.
  */
 static void
-q2RDrivers (const char *dev, Msg *mp)
+q2RDrivers (const char *dev, Msg *mp, XMLEle *root)
 {
 	int sawremote = 0;
 	DvrInfo *dp;
@@ -992,7 +997,7 @@ q2RDrivers (const char *dev, Msg *mp)
 	    int isremote = (dp->pid == REMOTEDVR);
 	    if (dev[0] && dp->dev[0] && strcmp (dev, dp->dev))
 		continue;	/* driver known to not support this dev */
-	    if (!dev[0] && sawremote)
+	    if (!dev[0] && isremote && sawremote)
 		continue;	/* already sent generic to another remote */
 	    if (isremote)
 		sawremote = 1;
@@ -1001,9 +1006,10 @@ q2RDrivers (const char *dev, Msg *mp)
 	    mp->count++;
 	    pushFQ (dp->msgq, mp);
 	    if (verbose > 1)
-		fprintf (stderr,
-		    "%s: Driver %s: q responsible message copy %d nq %d for %s\n",
-		    tstamp(NULL), dp->name, mp->count, nFQ(dp->msgq), dev);
+		fprintf (stderr, "%s: Driver %s: queuing responsible for <%s device='%s' name='%s'>\n",
+				    tstamp(NULL), dp->name, tagXMLEle(root),
+				    findXMLAttValu (root, "device"),
+				    findXMLAttValu (root, "name"));
 	}
 }
 
@@ -1011,7 +1017,7 @@ q2RDrivers (const char *dev, Msg *mp)
  * if BLOB always honor current mode.
  */
 static void
-q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp)
+q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp, XMLEle *root)
 {
 	DvrInfo *dp;
 
@@ -1028,9 +1034,10 @@ q2SDrivers (int isblob, const char *dev, const char *name, Msg *mp)
 	    mp->count++;
 	    pushFQ (dp->msgq, mp);
 	    if (verbose > 1) {
-		fprintf (stderr,
-		    "%s: Driver %s: q snooped message copy %d nq %d from %s\n",
-			tstamp(NULL), dp->name, mp->count, nFQ(dp->msgq), dev);
+		fprintf (stderr, "%s: Driver %s: queuing snooped <%s device='%s' name='%s'>\n",
+				    tstamp(NULL), dp->name, tagXMLEle(root),
+				    findXMLAttValu (root, "device"),
+				    findXMLAttValu (root, "name"));
 	    }
 	}
 }
@@ -1080,7 +1087,7 @@ findSDevice (DvrInfo *dp, const char *dev, const char *name)
 	    Snoopee *sp = &dp->sprops[i];
 	    Property *pp = &sp->prop;
 	    if (!strcmp (pp->dev, dev) &&
-		    (!pp->name[0] || !name[0] || !strcmp(pp->name, name)))
+		    (!pp->name[0] || !strcmp(pp->name, name)))
 		return (sp);
 	}
 
@@ -1092,7 +1099,7 @@ findSDevice (DvrInfo *dp, const char *dev, const char *name)
  * return -1 if had to shut down any clients, else 0.
  */
 static int
-q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp)
+q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp, XMLEle *root)
 {
 	int shutany = 0;
 	ClInfo *cp;
@@ -1123,9 +1130,10 @@ q2Clients (ClInfo *notme, int isblob, const char *dev, const char *name, Msg *mp
 	    mp->count++;
 	    pushFQ (cp->msgq, mp);
 	    if (verbose > 1)
-		fprintf (stderr,
-			    "%s: Client %d: q message copy %d nq %d for %s\n",
-			    tstamp(NULL), cp->s, mp->count, nFQ(cp->msgq), dev);
+		fprintf (stderr, "%s: Client %d: queuing <%s device='%s' name='%s'>\n",
+				    tstamp(NULL), cp->s, tagXMLEle(root),
+				    findXMLAttValu (root, "device"),
+				    findXMLAttValu (root, "name"));
 	}
 
 	return (shutany ? -1 : 0);
@@ -1229,8 +1237,8 @@ sendClientMsg (ClInfo *cp)
 				tstamp(NULL), cp->s, mp->count, nFQ(cp->msgq),
 				nw, &mp->cp[cp->nsent]);
 	} else if (verbose > 1) {
-	    fprintf (stderr, "%s: Client %d: sending msg copy %d nq %d\n",
-				tstamp(NULL), cp->s, mp->count, nFQ(cp->msgq));
+	    fprintf(stderr, "%s: Client %d: sending %.50s\n", tstamp(NULL),
+						    cp->s, &mp->cp[cp->nsent]);
 	}
 
 	/* update amount sent. when complete: free message if we are the last
@@ -1286,8 +1294,8 @@ sendDriverMsg (DvrInfo *dp)
 			    tstamp(NULL), dp->name, mp->count, nFQ(dp->msgq),
 			    nw, &mp->cp[dp->nsent]);
 	} else if (verbose > 1) {
-	    fprintf (stderr, "%s: Driver %s: sending msg copy %d nq %d\n",
-			    tstamp(NULL), dp->name, mp->count, nFQ(dp->msgq));
+	    fprintf(stderr, "%s: Driver %s: sending %.50s\n", tstamp(NULL),
+						dp->name, &mp->cp[dp->nsent]);
 	}
 
 	/* update amount sent. when complete: free message if we are the last
@@ -1316,7 +1324,7 @@ findClDevice (ClInfo *cp, const char *dev, const char *name)
 	for (i = 0; i < cp->nprops; i++) {
 	    Property *pp = &cp->props[i];
 	    if (!strcmp (pp->dev, dev) &&
-		    (!pp->name[0] || !name[0] || !strcmp(pp->name, name)))
+				    (!pp->name[0] || !strcmp(pp->name, name)))
 		return (0);
 	}
 	return (-1);
