@@ -174,8 +174,31 @@ set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
 	widgets/timeunitbox.cpp
 )
 
-set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS} 
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+set( kstars_KCFG_SRCS Options.kcfgc )
+
+if (WIN32)
+    # workaround for win32 command line to long problem
+    # build intermediate libraries 
+    kde4_add_ui_files(libkstarscomponents_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
+       details_position.ui details_links.ui details_database.ui details_log.ui 
+       devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
+       fovdialog.ui newfov.ui locationdialog.ui 
+       fitshistogramui.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
+       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui
+       opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
+       statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 
+       thumbnailpicker.ui thumbnaileditor.ui 
+)
+
+    kde4_add_kcfg_files(libkstarscomponents_SRCS ${kstars_KCFG_SRCS})
+
+    kde4_add_library(kstarscomponents ${libkstarscomponents_SRCS} ${libkstarstools_SRCS})
+    target_link_libraries (kstarscomponents)
+    set (libkstarscomponents_SRCS)
+
+endif (WIN32)
+
+set(kstars_extra_SRCS
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
 	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
 	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagesequence.cpp 
@@ -193,10 +216,11 @@ set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS}
 	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp
 )
 
+set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS} 
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS}
+)
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
-
-set( kstars_KCFG_SRCS Options.kcfgc )
 
 kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
@@ -226,6 +250,9 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES})
+if(WIN32)
+target_link_libraries(kstars kstarscomponents htmesh SatLib)
+endif(WIN32)
 if(NOT WIN32)
   target_link_libraries(kstars m)
 endif(NOT WIN32)
