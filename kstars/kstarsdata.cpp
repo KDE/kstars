@@ -195,6 +195,7 @@ void KStarsData::slotInitialize() {
     QFile imFile;
     QString ImageName;
 
+    initTimer->stop();  // stop timer to avoid endless loop
     qApp->flush(); // flush all paint events before loading data
 
     switch ( initCounter )
@@ -267,8 +268,10 @@ void KStarsData::slotInitialize() {
         break;
     } // switch ( initCounter )
 
+    initCounter++;  // before processEvents!
+    if(initTimer)   // restart timer
+      initTimer->start(1);
     qApp->processEvents();
-    initCounter++;
 }
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
@@ -598,7 +601,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 
         while ( !stream.atEnd() ) {
             QString line = stream.readLine().trimmed();
-            if ( line.left(1) != "#" && line.length() ) { //ignore commented and blank lines
+            if ( line.length() && !line.startsWith('#') ) { //ignore commented and blank lines
                 QStringList fields = line.split( " ", QString::SkipEmptyParts );
                 id = fields[0];
                 QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
@@ -656,7 +659,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                                 QString line = gStream.readLine();
 
                                 //If global-file line begins with "XXX:" then this line should be removed from the local file.
-                                if ( line.left( 4 ) == "XXX:"  && urlData.contains( line.mid( 4 ) ) ) {
+                                if ( line.startsWith(QLatin1String("XXX:"))  && urlData.contains( line.mid( 4 ) ) ) {
                                     urlData.removeAt( urlData.indexOf( line.mid( 4 ) ) );
                                 } else {
                                     //does local file contain the current global file line, up to second ':' ?
@@ -707,7 +710,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                     QTextStream writeStream(&localeFile);
                     while ( ! readStream.atEnd() ) {
                         QString line = readStream.readLine();
-                        if ( line.left( 4 ) != "XXX:" ) //do not write "deleted" lines
+                        if ( !line.startsWith("XXX:") ) //do not write "deleted" lines
                             writeStream << line << endl;
                     }
 
@@ -733,11 +736,13 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
         QString line = stream.readLine();
 
         //ignore comment lines
-        if ( line.left(1) != "#" ) {
-            QString name = line.mid( 0, line.indexOf(':') );
-            QString sub = line.mid( line.indexOf(':')+1 );
-            QString title = sub.mid( 0, sub.indexOf(':') );
-            QString url = sub.mid( sub.indexOf(':')+1 );
+        if ( !line.startsWith('#') ) {
+            int idx = line.indexOf(':');
+            QString name = line.left( idx );
+            QString sub = line.mid( idx + 1 );
+            idx = sub.indexOf(':');
+            QString title = sub.left( idx );
+            QString url = sub.mid( idx + 1 );
             SkyObject *o = skyComposite()->findByName(name);
 
             if ( !o ) {
@@ -774,14 +779,14 @@ bool KStarsData::readUserLog(void)
     while (!buffer.isEmpty()) {
         int startIndex, endIndex;
 
-        startIndex = buffer.indexOf("[KSLABEL:");
+        startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
         sub = buffer.mid(startIndex);
-        endIndex = sub.indexOf("[KSLogEnd]");
+        endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
         // Read name after KSLABEL identifer
-        name = sub.mid(startIndex + 9, sub.indexOf("]") - (startIndex + 9));
+        name = sub.mid(startIndex + 9, sub.indexOf(']') - (startIndex + 9));
         // Read data and skip new line
-        data   = sub.mid(sub.indexOf("]") + 2, endIndex - (sub.indexOf("]") + 2));
+        data   = sub.mid(sub.indexOf(']') + 2, endIndex - (sub.indexOf(']') + 2));
         buffer = buffer.mid(endIndex + 11);
 
         //Find the sky object named 'name'.
@@ -803,6 +808,7 @@ bool KStarsData::readADVTreeData(void)
 {
     QFile file;
     QString Interface;
+    QString Name, Link, subName;
 
     if (!KSUtils::openDataFile(file, "advinterface.dat"))
         return false;
@@ -812,19 +818,18 @@ bool KStarsData::readADVTreeData(void)
 
     while  (!stream.atEnd())
     {
-        QString Name, Link, subName;
         int Type, interfaceIndex;
 
         Line = stream.readLine();
 
-        if (Line.startsWith("[KSLABEL]"))
+        if (Line.startsWith(QLatin1String("[KSLABEL]")))
         {
             Name = Line.mid(9);
             Type = 0;
         }
-        else if (Line.startsWith("[END]"))
+        else if (Line.startsWith(QLatin1String("[END]")))
             Type = 1;
-        else if (Line.startsWith("[KSINTERFACE]"))
+        else if (Line.startsWith(QLatin1String("[KSINTERFACE]")))
         {
             Interface = Line.mid(13);
             continue;
@@ -832,17 +837,18 @@ bool KStarsData::readADVTreeData(void)
 
         else
         {
-            Name = Line.mid(0, Line.indexOf(":"));
-            Link = Line.mid(Line.indexOf(":") + 1);
+            int idx = Line.indexOf(':');
+            Name = Line.left(idx);
+            Link = Line.mid(idx + 1);
 
             // Link is empty, using Interface instead
             if (Link.isEmpty())
             {
                 Link = Interface;
                 subName = Name;
-                interfaceIndex = Link.indexOf("KSINTERFACE");
+                interfaceIndex = Link.indexOf(QLatin1String("KSINTERFACE"));
                 Link.remove(interfaceIndex, 11);
-                Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
+                Link = Link.insert(interfaceIndex, subName.replace(' ', '+'));
 
             }
 
@@ -893,24 +899,21 @@ bool KStarsData::readVARData(void)
     QTextStream stream(&file);
     stream.readLine();
 
+    QString Name, Designation, Line;
     while  (!stream.atEnd())
     {
-        QString Name;
-        QString Designation;
-        QString Line;
-
         Line = stream.readLine();
 
-        if (Line[0] == QChar('*'))
+        if (Line.startsWith('*'))
             break;
 
-        Designation = Line.mid(0,8).trimmed();
-        Name          = Line.mid(10,20).simplified();
+        Designation = Line.left(8).trimmed();
+        Name        = Line.mid(10,20).simplified();
 
         VariableStarInfo *VInfo = new VariableStarInfo;
 
         VInfo->Designation = Designation;
-        VInfo->Name          = Name;
+        VInfo->Name        = Name;
         VariableStarsList.append(VInfo);
     }
 
@@ -1013,7 +1016,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
         QString line = istream.readLine();
 
         //found a dcop line
-        if ( line.left(4) == "dcop" ) {
+        if ( line.startsWith(QLatin1String("dcop")) ) {
             line = line.mid( 20 );  //strip away leading characters
             QStringList fn = line.split( " " );
 

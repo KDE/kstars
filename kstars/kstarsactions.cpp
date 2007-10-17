@@ -1090,8 +1090,10 @@ void KStars::establishINDI()
 void KStars::slotAboutToQuit()
 {
     //store focus values in Options
-    Options::setFocusRA( skymap->focus()->ra()->Hours() );
-    Options::setFocusDec( skymap->focus()->dec()->Degrees() );
+    if( skymap && skymap->focus() && skymap->focus()->ra() ) {
+      Options::setFocusRA( skymap->focus()->ra()->Hours() );
+      Options::setFocusDec( skymap->focus()->dec()->Degrees() );
+    }
 
     //Store Window geometry in Options object
     Options::setWindowWidth( width() );
