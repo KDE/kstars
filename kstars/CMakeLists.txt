@@ -260,7 +260,11 @@ if (CFITSIO_FOUND)
   target_link_libraries(kstars ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 
-install(TARGETS kstars  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS kstars 
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+)
 
 
 ########### install files ###############
