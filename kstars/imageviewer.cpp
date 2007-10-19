@@ -34,6 +34,7 @@
 #include <kstatusbar.h>
 #include <kio/netaccess.h>
 #include <kio/copyjob.h>
+#include <kio/jobuidelegate.h>
 #include <kaction.h>
 #include <ktemporaryfile.h>
 #include <kdebug.h>
@@ -147,7 +148,7 @@ void ImageViewer::downloadReady (KJob *job)
 
     if ( job->error() )
     {
-        static_cast<KIO::Job*>(job)->showErrorDialog();
+      static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
         closeEvent (0);
         return;		// exit this function
     }
