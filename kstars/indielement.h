@@ -70,7 +70,7 @@ enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, K
 /* Forward decleration */
 class KLed;
 class KLineEdit;
-class KDoubleSpinBox;
+class QDoubleSpinBox;
 class KPushButton;
 class KSqueezedTextLabel;
 
@@ -106,7 +106,7 @@ public:
     KLineEdit	   *read_w;		// read field
     KLineEdit	   *write_w;		// write field
     KLed	   *led_w;		// light led
-    KDoubleSpinBox *spin_w;		// spinbox
+    QDoubleSpinBox *spin_w;		// spinbox
     QSlider	   *slider_w;		// Slider
     KPushButton    *push_w;		// push button
     KPushButton    *browse_w;		// browse button
