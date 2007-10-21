@@ -678,6 +678,7 @@ Cottbus                          :                       : Germany              
 Couer d'Alene                    : Idaho                 : USA                   : 47 : 41 : 52 : N : 116 : 47 :  5 : W : -8.0 : US
 Council Bluffs                   : Iowa                  : USA                   : 41 : 15 : 42 : N :  95 : 51 : 53 : W : -6.0 : US
 Courtenay                        : British Columbia      : Canada                : 49 : 41 : 00 : N : 124 : 59 : 00 : W : -8.0 : US
+Coventry                         :                       : United Kingdom        : 52 : 24 : 21 : N :   1 : 30 : 45 : W :  0.0 : EU
 Covington                        : Kentucky              : USA                   : 39 :  5 : 12 : N :  84 : 30 : 42 : W : -5.0 : US
 Cranbrook                        : British Columbia      : Canada                : 49 : 40 : 47 : N : 115 : 45 : 36 : W : -8.0 : US
 Cranford                         : New Jersey            : USA                   : 40 : 39 : 43 : N :  74 : 12 : 57 : W : -5.0 : US
@@ -1240,6 +1241,7 @@ Hawthorne                        : Nevada                : USA                  
 Haystack Obs.                    : Massachusetts         : USA                   : 42 : 37 :  4 : N :  71 : 29 : 15 : W : -5.0 : US
 Hayward                          : California            : USA                   : 37 : 39 : 53 : N : 122 :  4 : 37 : W : -8.0 : US
 Hazard                           : Kentucky              : USA                   : 37 : 13 :  1 : N :  83 : 10 :  1 : W : -5.0 : US
+Head-Smashed-In Buffalo Jump     : Alberta               : Canada                : 49 : 44 : 57 : N : 113 : 37 : 26 : W : -7.0 : US
 Hearst                           : Ontario               : Canada                : 49 : 41 : 00 : N : 83  : 40 : 00 : W : -5.0 : US
 Heidelberg                       :                       : Germany               : 49 : 23 :  9 : N :   8 : 43 : 14 : E :  1.0 : EU
 Heilbronn                        :                       : Germany               : 49 : 08 : 00 : N :   9 : 13 : 00 : E : 1.0  : EU
@@ -1630,6 +1632,7 @@ Leck                             :                       : Germany              
 Lee                              :                       : Lebanon               : 33 : 54 :  4 : N :  35 : 28 : 14 : E :  3.0 : --
 Leeds                            :                       : United Kingdom        : 53 : 47 : 59 : N :   1 : 32 : 59 : W : 0.0  : EU
 Leganés                          :                       : Spain                 : 40 : 19 : 59 : N :  03 : 45 : 55 : W : 1.0  : EU
+Leicester                        :                       : United Kingdom        : 52 : 38 : 04 : N :   1 :  7 : 45 : W : 0.0 : EU
 Leiden                           :                       : Netherlands           : 52 :  9 :  3 : N :   4 : 28 : 59 : E :  1.0 : EU
 Leiden Sur                       :                       : South Africa           : 25 : 46 :  4 : S :  27 : 52 : 30 : E :  2.0 : --
 Leipzig                          :                       : Germany               : 51 : 24 : 32 : N :  12 : 13 : 26 : E : 1.0  : EU
@@ -2818,6 +2821,7 @@ Springfield                      : Missouri              : USA                  
 Springfield                      : Ohio                  : USA                   : 39 : 55 : 37 : N :  83 : 48 : 28 : W : -5.0 : US
 Springfield                      : Oregon                : USA                   : 44 :  2 : 59 : N : 123 :  1 : 11 : W : -8.0 : US
 Springfield                      : Vermont               : USA                   : 43 : 17 : 48 : N :  72 : 28 : 54 : W : -5.0 : US
+Spuzzum                          : British Columbia      : Canada                : 49 : 41 : 26 : N : 121 : 24 : 50 : W : -8.0 : US
 Squamish                         : British Columbia      : Canada                : 49 : 45 : 00 : N : 123 : 08 : 00 : W : -8.0 : US
 St-Basile-de-tableau             : Quebec                : Canada                : 48 : 22 : 00 : N : 70  : 28 : 00 : W : -5.0 : US
 St-Hubert                        : Quebec                : Canada                : 45 : 30 :  0 : N :  73 : 34 : 47 : W : -5.0 : US
