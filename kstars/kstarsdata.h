@@ -42,8 +42,6 @@
 #define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
 class QFile;
-class QTimer;
-
 
 class dms;
 class SkyMap;
@@ -485,7 +483,6 @@ private:
     KStarsDateTime NextDSTChange;
     KStarsDateTime StoredDate;
 
-    QTimer *initTimer;
     int initCounter;
 
     QString TypeName[12];

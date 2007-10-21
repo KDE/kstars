@@ -20,7 +20,7 @@
 #include <QApplication>
 #include <QRegExp>
 #include <QDir>
-#include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 
 #include <kcomponentdata.h>
@@ -68,7 +68,7 @@ KStarsData* KStarsData::Instance( )
 
 
 KStarsData::KStarsData(KStars* kstars) : locale(0),
-        LST(0), HourAngle(0), initTimer(0), m_kstars(kstars),
+        LST(0), HourAngle(0), m_kstars(kstars),
         m_preUpdateID(0), m_preUpdateNumID(0),
         m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
@@ -120,7 +120,6 @@ KStarsData::~KStarsData() {
 
     //FIXME: Verify list of deletes
     delete locale;
-    delete initTimer;
     delete LST;
     delete HourAngle;
 
@@ -148,15 +147,13 @@ QString KStarsData::typeName( int i ) {
 void KStarsData::initialize() {
     if (startupComplete) return;
 
-    initTimer = new QTimer;
-    QObject::connect(initTimer, SIGNAL(timeout()), this, SLOT( slotInitialize() ) );
+    QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
     initCounter = 0;
-    initTimer->start(1);
 }
 
 void KStarsData::initError(const QString &s, bool required = false) {
     QString message, caption;
-    initTimer->stop();
+
     if (required) {
         message = i18n( "The file %1 could not be found. "
                         "KStars cannot run properly without this file. "
@@ -179,23 +176,18 @@ void KStarsData::initError(const QString &s, bool required = false) {
 
     if ( KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem( i18n( "Retry" ) ) ) == KMessageBox::Continue ) {
         initCounter--;
-        initTimer->start(1);
+        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
     } else {
         if (required) {
-            delete initTimer;
-            initTimer = 0L;
             emit initFinished(false);
         } else {
-            initTimer->start(1);
+            QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
         }
     }
 }
 
 void KStarsData::slotInitialize() {
-    QFile imFile;
-    QString ImageName;
 
-    initTimer->stop();  // stop timer to avoid endless loop
     qApp->flush(); // flush all paint events before loading data
 
     switch ( initCounter )
@@ -237,8 +229,6 @@ void KStarsData::slotInitialize() {
             initError( "image_url.dat", false );
         }
 
-
-
         break;
 
     case 4: //Load Information URLs//
@@ -258,19 +248,15 @@ void KStarsData::slotInitialize() {
         readADVTreeData();
         break;
 
-
     default:
-        initTimer->stop();
-        delete initTimer;
-        initTimer = 0L;
         startupComplete = true;
         emit initFinished(true);
         break;
     } // switch ( initCounter )
 
     initCounter++;  // before processEvents!
-    if(initTimer)   // restart timer
-      initTimer->start(1);
+    if(!startupComplete)
+        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
     qApp->processEvents();
 }
 
@@ -492,7 +478,7 @@ bool KStarsData::processCity( const QString& line ) {
     totalLine = line;
 
     // separate fields
-    fields = line.split( ":" );
+    fields = line.split( ':' );
 
     for ( int i=0; i< fields.size(); ++i )
         fields[i] = fields[i].trimmed();
@@ -1018,7 +1004,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
         //found a dcop line
         if ( line.startsWith(QLatin1String("dcop")) ) {
             line = line.mid( 20 );  //strip away leading characters
-            QStringList fn = line.split( " " );
+            QStringList fn = line.split( ' ' );
 
             if ( fn[0] == "lookTowards" && fn.size() >= 2 ) {
                 double az(-1.0);
