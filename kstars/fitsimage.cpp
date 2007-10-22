@@ -20,9 +20,13 @@
 #include "fitsimage.h"
 
 #include <math.h>
-#include <unistd.h>
+#ifndef __MINGW__
+  #include <unistd.h>
+#endif
 #include <stdlib.h>
-#include <netinet/in.h>
+#ifndef __MINGW__
+  #include <netinet/in.h>
+#endif
 
 #include <QApplication>
 #include <QPaintEvent>

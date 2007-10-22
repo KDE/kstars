@@ -50,11 +50,15 @@
 
 
 #include <math.h>
-#include <unistd.h>
+#ifndef __MINGW__
+  #include <unistd.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <netinet/in.h>
+#ifndef __MINGW__
+  #include <netinet/in.h>
+#endif
 
 #include "fitsimage.h"
 #include "fitshistogram.h"
