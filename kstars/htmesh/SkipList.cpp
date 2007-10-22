@@ -415,7 +415,7 @@ void SkipList::stat()
   {
     int *hist;
     hist = new int[20];
-	int i;
+    int i;
     long totalPointers, usedPointers;
     for(i=0; i<20; i++){
       hist[i] = 0;
@@ -444,7 +444,7 @@ void SkipList::stat()
     std::cout << "Used  pointers " << usedPointers << std::endl;
     std::cout << "Total pointers " << totalPointers << " efficiency = " << 
       (double) usedPointers / (double) totalPointers << std::endl;
-    delete hist;
+    delete [] hist;
   }
   return;
 }
