@@ -66,7 +66,7 @@ rm -f tips.cpp
 
 $EXTRACTRC *.ui tools/*.ui *.rc >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h -o $podir/kstars.pot
+$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 
