@@ -157,7 +157,7 @@ void KStars::initActions() {
 
     //FIXME: Use ToggleAction
     ka = actionCollection()->addAction( "track_object" );
-    ka->setIcon( KIcon( "decrypted" ) );
+    ka->setIcon( KIcon( "document-decrypt" ) );
     ka->setText( i18n( "Engage &Tracking" ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_T  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotTrack() ) );

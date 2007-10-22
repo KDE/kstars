@@ -296,7 +296,7 @@ void SkyMap::slotCenter( void ) {
     setFocusObject( ClickedObject );
     Options::setIsTracking( true );
     if ( ks ) {
-        ks->actionCollection()->action("track_object")->setIcon( KIcon("encrypted") );
+        ks->actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
         ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 

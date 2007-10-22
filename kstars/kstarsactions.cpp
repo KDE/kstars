@@ -682,7 +682,7 @@ void KStars::slotTrack() {
     if ( Options::isTracking() ) {
         Options::setIsTracking( false );
         actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( KIcon("decrypted") );
+        actionCollection()->action("track_object")->setIcon( KIcon("document-decrypt") );
         if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
             ((KSPlanetBase*)map()->focusObject())->clearTrail();
             data()->temporaryTrail = false;
@@ -698,7 +698,7 @@ void KStars::slotTrack() {
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( KIcon("encrypted") );
+        actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
     }
 
     map()->forceUpdate();
