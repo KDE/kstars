@@ -50,13 +50,13 @@
 
 
 #include <math.h>
-#ifndef __MINGW__
+#ifndef __MINGW32__
   #include <unistd.h>
 #endif
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#ifndef __MINGW__
+#ifndef __MINGW32__
   #include <netinet/in.h>
 #endif
 

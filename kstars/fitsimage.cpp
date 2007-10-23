@@ -20,11 +20,11 @@
 #include "fitsimage.h"
 
 #include <math.h>
-#ifndef __MINGW__
+#ifndef __MINGW32__
   #include <unistd.h>
 #endif
 #include <stdlib.h>
-#ifndef __MINGW__
+#ifndef __MINGW32__
   #include <netinet/in.h>
 #endif
 
