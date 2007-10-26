@@ -261,6 +261,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
         pLast = pThis;
         oLast = oThis;
         isVisibleLast = isVisible;
+        delete pThis;
     }
     /****
     	QPolygonF poly;
