@@ -17,7 +17,6 @@
 
 #include "detaildialog.h"
 
-#include <QString>
 #include <QLineEdit>
 #include <QPixmap>
 #include <QRegExp>

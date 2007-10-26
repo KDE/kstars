@@ -27,7 +27,6 @@
 #ifndef KSTARS_KSUTILS_H__
 #define KSTARS_KSUTILS_H__
 
-#include <QString>
 
 class QFile;
 class QString;

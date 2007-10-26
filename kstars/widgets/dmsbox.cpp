@@ -23,7 +23,6 @@
 #include <klocale.h>
 
 #include <QRegExp>
-#include <QString>
 #include <QFocusEvent>
 
 dmsBox::dmsBox(QWidget *parent, bool dg)

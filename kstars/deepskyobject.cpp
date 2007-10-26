@@ -23,7 +23,6 @@
 #include <QRegExp>
 #include <QPainter>
 #include <QImage>
-#include <QString>
 
 #include "kstarsdata.h"
 #include "ksutils.h"

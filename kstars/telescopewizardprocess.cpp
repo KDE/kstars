@@ -11,7 +11,6 @@
 
 #include <QFile>
 #include <QPixmap>
-#include <QString>
 #include <QTimer>
 
 #include <kmessagebox.h>

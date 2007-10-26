@@ -18,7 +18,6 @@
 #include "ksutils.h"
 
 #include <QFile>
-#include <QString>
 
 #include <kstandarddirs.h>
 
