@@ -227,41 +227,40 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     if (bound->size() < 2) return;
 
     bool isVisible, isVisibleLast;
-    SkyPoint  *pThis, *pLast;
+    SkyPoint pThis, pLast;
     QPointF oThis, oLast, oMid;
 
     QPointF node = bound->at( 0 );
-    pLast = new SkyPoint( node.x(), node.y() );
+    pLast.set( node.x(), node.y() );
 
-    pLast->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-    oLast = toScreen( pLast, Options::useRefraction(), &isVisibleLast );
+    pLast.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    oLast = toScreen( &pLast, Options::useRefraction(), &isVisibleLast );
 
     int limit = bound->size();
 
     for ( int i=1 ; i < limit ; i++ ) {
         node = bound->at( i );
-        pThis = new SkyPoint( node.x(), node.y() );
-        pThis->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-        oThis = toScreen( pThis, Options::useRefraction(), &isVisible );
+        pThis.set( node.x(), node.y() );
+        pThis.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        oThis = toScreen( &pThis, Options::useRefraction(), &isVisible );
 
         if ( isVisible && isVisibleLast ) {
             psky.drawLine( oLast, oThis );
         }
 
         else if ( isVisibleLast ) {
-            oMid = clipLineI( pLast, pThis );
+            oMid = clipLineI( &pLast, &pThis );
             // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
             psky.drawLine( oLast, oMid );
         }
         else if ( isVisible ) {
-            oMid = clipLineI( pThis, pLast );
+            oMid = clipLineI( &pThis, &pLast );
             psky.drawLine( oMid, oThis );
         }
 
         pLast = pThis;
         oLast = oThis;
         isVisibleLast = isVisible;
-        delete pThis;
     }
     /****
     	QPolygonF poly;
