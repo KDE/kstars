@@ -27,6 +27,7 @@
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skymap.h"
 
 #include "skycomponents/skylabeler.h"
 
@@ -390,9 +391,10 @@ QString StarObject::customLabel( bool drawName, bool drawMag )
     return sName;
 }
 
-void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, double scale )
+void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom )
 {
     QString sName = customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
+    double scale = SkyMap::Instance()->scale();
     float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
 
     QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
@@ -407,9 +409,9 @@ void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom, doubl
         psky.drawText( QPoint( int(x+offset), int(y+offset) ), sName );
 }
 
-void StarObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
+void StarObject::drawNameLabel( QPainter &psky, double x, double y ) {
     //set the zoom-dependent font
     SkyLabeler::Instance()->resetFont( psky );
-    drawLabel( psky, x, y, Options::zoomFactor(), scale );
+    drawLabel( psky, x, y, Options::zoomFactor() );
     SkyLabeler::Instance()->useStdFont( psky );
 }

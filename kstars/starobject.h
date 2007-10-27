@@ -232,17 +232,16 @@ inline virtual QString longname( void ) const { return hasLongName() ? LongName 
      */
     QString customLabel( bool drawName, bool drawMag );
 
-    void drawLabel( QPainter &psky, float x, float y, double zoom, double scale );
+    void drawLabel( QPainter &psky, float x, float y, double zoom );
 
     /**
     	*@short draw the star's name label on the map
     	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
     	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
     	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
-    	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
     	*@note overridden from SkyObject
     	*/
-    virtual void drawNameLabel( QPainter &psky, double x, double y, double scale = 1.0 );
+    virtual void drawNameLabel( QPainter &psky, double x, double y );
 
     /**Show star object popup menu.  Overloaded from virtual
     	*SkyObject::showPopupMenu()

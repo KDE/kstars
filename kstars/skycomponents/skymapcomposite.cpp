@@ -235,7 +235,7 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
 
     m_Horizon->draw( ks, psky );
 
-    m_skyLabeler->draw( ks, psky );
+    m_skyLabeler->drawQueuedLabels( ks, psky );
     m_CNames->draw( ks, psky );
     m_Stars->drawLabels( ks, psky );
 

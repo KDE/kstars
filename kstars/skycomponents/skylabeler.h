@@ -48,7 +48,8 @@ enum label_t {
 };
 
 
-/*@class SkyLabeler
+/**
+ *@class SkyLabeler
  * The purpose of this class is to prevent labels from overlapping.  We do this
  * by creating a virtual (lower Y-resolution) screen. Each "pixel" of this
  * screen essentially contains a boolean value telling us whether or not there
@@ -145,20 +146,21 @@ public:
      * so highlighted labels are always drawn exactly on top of the normally
      * drawn labels.
      */
-    static double ZoomOffset( double scale );
+    static double ZoomOffset();
 
+//FIX_LABEL
     /* @short static version of addOffsetLabel() below.
      */
-    inline static void AddOffsetLabel( const QPointF& p, const QString& text, label_t type )
-    {
-        pinstance->addOffsetLabel( p, text, type );
-    }
+//     inline static void AddOffsetLabel( const QPointF& p, SkyObject *obj, label_t type )
+//     {
+//         pinstance->addOffsetLabel( p, obj, type );
+//     }
 
     /* @short static version of addLabel() below.
      */
-    inline static void AddLabel( const QPointF& p, const QString& text, label_t type )
+    inline static void AddLabel( const QPointF& p, SkyObject *obj, label_t type )
     {
-        pinstance->addLabel( p, text, type );
+        pinstance->addLabel( p, obj, type );
     }
 
 
@@ -207,28 +209,39 @@ public:
 
     //----- Drawing/Adding Labels -----//
 
-    /* @short sets four margins for help in keeping labels entirely on the
+    /**
+     *@short sets four margins for help in keeping labels entirely on the
      * screen.
      */
     void getMargins( QPainter& psky, const QString& text, float *left,
                      float *right, float *top, float *bot );
 
-    /* @short a convenience routine that draws the label specified
+    /**
+     *@short a convenience routine that draws the label specified
      * in the SkyLabel.
      */
     void drawLabel( QPainter& psky, const SkyLabel& skyLabel ) {
-        drawLabel( psky, skyLabel.o , skyLabel.text );
+        drawObjectLabel( psky, skyLabel.o , skyLabel.obj );
     }
 
-    /* @short attempts to draw the label at the given position but will
-     * not draw it if it would overlap an existing label.
+    /**
+     *@short attempts to draw the label at the given position but will
+     *not draw it if it would overlap an existing label.
+     *@param psky reference to the QPainter to draw on
+     *@param p reference to the pixel coordinates of the SkyObject to be labeled
+     *@param o pointer to the SkyObject to be labeled
      */
-    void drawLabel( QPainter& psky, const QPointF& p, const QString& text );
+    void drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o );
 
-    /* @short like drawLabel() but offsets the location by a zoom dependent
-     * offset.
-     */
-    void drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text );
+//FIX_LABEL
+    /** 
+      *@short like drawLabel() but offsets the label so it appears next 
+      *to the object, rather than at its center.
+      *@param p the screen position of thecenter of the object
+      *@param text The label text
+      *@param offset the offset in pixels from the object center to the label position
+      */
+//     void drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text, double offset );
 
 
     /* @short Tries to draw the text at the position and angle specfied. If
@@ -236,28 +249,29 @@ public:
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.
      */
-    bool drawLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
+    bool drawGuideLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
 
     /* @short queues the label in the "type" buffer for later drawing.
      */
-    void addLabel( const QPointF& p, const QString& text, label_t type );
+    void addLabel( const QPointF& p, SkyObject *obj, label_t type );
 
+//FIX_LABELS
     /* @short queues the label in the "type" buffer for later drawing.  A
      * zoom dependent offset is automatically added to the coordinates.
      */
-    void addOffsetLabel( const QPointF& p, const QString& text, label_t type );
+//    void addOffsetLabel( const QPointF& p, const QString& text, label_t type );
 
     /*@short draws the labels stored in all the buffers.  You can change the
      * priority by editing the .cpp file and changing the order in which
      * buffers are drawn.  You can also change the fonts and colors there
      * too.
      */
-    void draw( KStars* kstars, QPainter& psky );
+    void drawQueuedLabels( KStars* kstars, QPainter& psky );
 
     /* @short a convenience routine that draws all the labels from a single
      * buffer.  Currently this is only called from within draw() above.
      */
-    void drawLabels( QPainter& psky, label_t type );
+    void drawQueuedLabelsType( QPainter& psky, label_t type );
 
 
     //----- Marking Regions -----//

@@ -363,7 +363,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     if ( angle < -90.0 ) angle += 180.0;
     if ( angle >  90.0 ) angle -= 180.0;
 
-    SkyLabeler::Instance()->drawLabel( psky, o1, horizonLabel, angle );
+    SkyLabeler::Instance()->drawGuideLabel( psky, o1, horizonLabel, angle );
 
     drawCompassLabels( ks, psky );
 }
@@ -394,7 +394,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky ) {
         if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
         cpoint = map->toScreen( &c, false );
         if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-            skyLabeler->drawLabel( psky, cpoint, name[i], 0.0 );
+            skyLabeler->drawGuideLabel( psky, cpoint, name[i], 0.0 );
         }
     }
 }

@@ -66,8 +66,9 @@ void SkyLabeler::SetZoomFont( QPainter& psky )
     }
 }
 
-double SkyLabeler::ZoomOffset( double scale )
+double SkyLabeler::ZoomOffset()
 {
+    double scale = SkyMap::Instance()->scale();
     double offset = scale * dms::PI * Options::zoomFactor()/10800.0;
     return 4.0 + offset * 0.5;
 }
@@ -96,19 +97,20 @@ SkyLabeler::~SkyLabeler()
     }
 }
 
-void SkyLabeler::drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text )
+//FIX_LABEL
+// void SkyLabeler::drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text, double offset )
+// {
+//     drawLabel( psky, QPointF(p.x() + offset, p.y() + offset), text );
+// }
+
+//FIX_LABEL
+void SkyLabeler::drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o )
 {
-    drawLabel( psky, QPointF(p.x() + m_offset, p.y() + m_offset), text );
+    if ( ! markText( p, o->translatedName() ) ) return;
+    o->drawNameLabel( psky, p.x(), p.y() );
 }
 
-void SkyLabeler::drawLabel( QPainter& psky, const QPointF& p, const QString& text )
-{
-    if ( ! markText( p, text ) ) return;
-
-    psky.drawText( p, text );
-}
-
-bool SkyLabeler::drawLabel( QPainter& psky, QPointF& o, const QString& text,
+bool SkyLabeler::drawGuideLabel( QPainter& psky, QPointF& o, const QString& text,
                             double angle )
 {
     // Create bounding rectangle by rotating the (height x width) rectangle
@@ -204,7 +206,7 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky )
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
 
     // ----- Set up Zoom Dependent Offset -----
-    m_offset = SkyLabeler::ZoomOffset( skyMap->scale() );
+    m_offset = SkyLabeler::ZoomOffset();
 
     // ----- Prepare Virtual Screen -----
     m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
@@ -406,43 +408,44 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 }
 
 
-void SkyLabeler::addLabel( const QPointF& p, const QString& text, label_t type )
+void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, label_t type )
 {
-    if ( text.isEmpty() ) return;
-    labelList[ type ].append( SkyLabel( p, text ) );
+    if ( obj->translatedName().isEmpty() ) return;
+    labelList[ type ].append( SkyLabel( p, obj ) );
 }
 
-void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t type )
-{
-    if ( text.isEmpty() ) return;
-    labelList[ type ].append( SkyLabel( p.x() + m_offset, p.y() + m_offset, text ) );
-}
+//FIX_LABELS
+// void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t type )
+// {
+//     if ( text.isEmpty() ) return;
+//     labelList[ type ].append( SkyLabel( p.x() + m_offset, p.y() + m_offset, text ) );
+// }
 
-void SkyLabeler::draw( KStars* kstars, QPainter& psky )
+void SkyLabeler::drawQueuedLabels( KStars* kstars, QPainter& psky )
 {
     resetFont( psky );
     KStarsData* data = kstars->data();
     psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     //psky.setPen( QColor( "red" ) );
-    drawLabels( psky, PLANET_LABEL );
+    drawQueuedLabelsType( psky, PLANET_LABEL );
 
     if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
         shrinkFont( psky, 2 );
         //psky.setPen( QPen( QColor( "white" ) ) );
-        drawLabels( psky, JUPITER_MOON_LABEL );
+        drawQueuedLabelsType( psky, JUPITER_MOON_LABEL );
         resetFont( psky );
     }
 
-    drawLabels( psky, ASTEROID_LABEL );
-    drawLabels( psky, COMET_LABEL );
+    drawQueuedLabelsType( psky, ASTEROID_LABEL );
+    drawQueuedLabelsType( psky, COMET_LABEL );
 
 }
 
-void SkyLabeler::drawLabels( QPainter& psky, label_t type )
+void SkyLabeler::drawQueuedLabelsType( QPainter& psky, label_t type )
 {
     LabelList list = labelList[ type ];
     for ( int i = 0; i < list.size(); i ++ ) {
-        drawLabel( psky, list.at( i ).o, list.at( i ).text ); //FIXME? const correctness?
+        drawObjectLabel( psky, list.at( i ).o, list.at( i ).obj ); //FIXME? const correctness?
     }
 }
 

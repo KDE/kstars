@@ -27,11 +27,11 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
-#include "kspopupmenu.h"
 #include "Options.h"
+#include "skymap.h"
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, 		const QString &image_file, const QColor &c, double pSize )
-        : SkyObject( 2, 0.0, 0.0, 0.0, s, QString() ),
+        : TrailObject( 2, 0.0, 0.0, 0.0, s ),
         Rearth(0.0), Image(), data(kd),
 PhysicalSize(pSize), m_Color( c ) {
 
@@ -47,10 +47,6 @@ PhysicalSize(pSize), m_Color( c ) {
     }
     PositionAngle = 0.0;
     ImageAngle = 0.0;
-}
-
-void KSPlanetBase::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
-    pmenu->createPlanetMenu( this ); pmenu->popup( pos );
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -180,11 +176,6 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
     AngularSize = asin(PhysicalSize/Rearth/AU_KM)*60.*180./dms::PI;
 }
 
-void KSPlanetBase::updateTrail( dms *LST, const dms *lat ) {
-    for ( int i=0; i < Trail.size(); ++i )
-        Trail[i].EquatorialToHorizontal( LST, lat );
-}
-
 void KSPlanetBase::findPA( const KSNumbers *num ) {
     //Determine position angle of planet (assuming that it is aligned with
     //the Ecliptic, which is only roughly correct).
@@ -204,7 +195,8 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     setPA( pa );
 }
 
-double KSPlanetBase::labelOffset( double scale ) {
+double KSPlanetBase::labelOffset() {
+    double scale = SkyMap::Instance()->scale();
     double size = angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
 
     //Determine minimum size for offset

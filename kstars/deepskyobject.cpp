@@ -29,6 +29,7 @@
 #include "dms.h"
 #include "kspopupmenu.h"
 #include "Options.h"
+#include "skymap.h"
 
 DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
         : SkyObject( o ) {
@@ -109,12 +110,13 @@ QImage* DeepSkyObject::readImage( void ) {
     return Image;
 }
 
-void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom ) {
     // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
     // if we use size 0.0 the star wouldn't be drawn
     float majorAxis = a();
     if ( majorAxis == 0.0 ) {	majorAxis = 1.0; }
 
+    double scale = SkyMap::Instance()->scale();
     float size = scale * majorAxis * dms::PI * zoom / 10800.0;
     int isize = int(size);
 
@@ -296,11 +298,12 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
     }
 }
 
-void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom ) {
     QImage *image = readImage();
     QImage ScaledImage;
 
     if ( image ) {
+        double scale = SkyMap::Instance()->scale();
         float w = a() * scale * dms::PI * zoom/10800.0;
 
         if ( w < 0.75*psky.window().width() ) {
@@ -322,10 +325,11 @@ void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double Position
     }
 }
 
-double DeepSkyObject::labelOffset( double scale ) {
+double DeepSkyObject::labelOffset() {
     //Calculate object size in pixels
     double majorAxis = a();
     if ( majorAxis == 0.0 && type() == 1 ) majorAxis = 1.0; //catalog stars
+    double scale = SkyMap::Instance()->scale();
     double size = majorAxis * scale * dms::PI * Options::zoomFactor()/10800.0;
     return 0.5*size + 4.;
 }

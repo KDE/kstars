@@ -22,14 +22,17 @@
 #include "ksnumbers.h"
 #include "ksplanet.h"
 #include "kssun.h"
+#include "trailobject.h"
 
 JupiterMoons::JupiterMoons(){
-    Name[0] = i18nc( "Jupiter's moon Io", "Io" );
-    Name[1] = i18nc( "Jupiter's moon Europa", "Europa" );
-    Name[2] = i18nc( "Jupiter's moon Ganymede", "Ganymede" );
-    Name[3] = i18nc( "Jupiter's moon Callisto", "Callisto" );
+    //Initialize the Moon objects.  The magnitude data are from the 
+    //wikipedia articles for each moon, as of Oct 2007.
+    Moon[0] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, i18nc( "Jupiter's moon Io", "Io" ) );
+    Moon[1] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, i18nc( "Jupiter's moon Europa", "Europa" ) );
+    Moon[2] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, i18nc( "Jupiter's moon Ganymede", "Ganymede" ) );
+    Moon[3] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, i18nc( "Jupiter's moon Callisto", "Callisto" ) );
 
-    for ( unsigned int i=0; i<4; ++i ) {
+    for ( uint i=0; i<4; ++i ) {
         XJ[i] = 0.0;
         YJ[i] = 0.0;
         ZJ[i] = 0.0;
@@ -37,18 +40,26 @@ JupiterMoons::JupiterMoons(){
 }
 
 JupiterMoons::~JupiterMoons(){
+    delete[] Moon;
 }
 
-int JupiterMoons::moonNamed( const QString &name ) const {
-    for ( int i=0; i<4; ++i ) {
-        if ( Name[i] == name ) return i;
+QString JupiterMoons::name( int id ) const { 
+    return Moon[id]->translatedName(); 
+}
+
+TrailObject* JupiterMoons::moonNamed( const QString &name ) const {
+    for ( uint i=0; i<4; ++i ) {
+        if ( Moon[i]->name() == name ) {
+            return Moon[i];
+            break;
+        }
     }
-    return -1;
+    return 0;
 }
 
 void JupiterMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-    for ( int i=0; i<4; ++i )
-        Pos[i].EquatorialToHorizontal( LST, lat );
+    for ( uint i=0; i<4; ++i )
+        moon(i)->EquatorialToHorizontal( LST, lat );
 }
 
 void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, const KSSun *Sun ) {
@@ -484,7 +495,6 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
     //in units of Jupiter's Equatorial radius.
     //When Z is negative, the planet is nearer to the Sun than Jupiter.
 
-    //For now, take a constant mean value for Jupiter's angular size (40 arcsec = 0.011 degrees).
     pa = Jupiter->pa()*dms::PI/180.0;
 
     for ( int i=0; i<4; ++i ) {
@@ -492,8 +502,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
         YJ[i] = A6[i] * sin( D ) + C6[i] * cos( D );
         ZJ[i] = B6[i];
 
-        Pos[i].setRA( Jupiter->ra()->Hours() - 0.011*( XJ[i] * cos( pa ) - YJ[i] * sin( pa ) )/15.0 );
-        Pos[i].setDec( Jupiter->dec()->Degrees() - 0.011*( XJ[i] * sin( pa ) + YJ[i] * cos( pa ) ) );
+        Moon[i]->setRA( Jupiter->ra()->Hours() - 0.011*( XJ[i] * cos( pa ) - YJ[i] * sin( pa ) )/15.0 );
+        Moon[i]->setDec( Jupiter->dec()->Degrees() - 0.011*( XJ[i] * sin( pa ) + YJ[i] * cos( pa ) ) );
 
         if ( ZJ[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;

@@ -160,8 +160,8 @@ void CustomCatalogComponent::draw( KStars *ks, QPainter& psky )
                     //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
                     DeepSkyObject *dso = (DeepSkyObject*)obj;
                     double pa = 90. + map->findPA( dso, o.x(), o.y() );
-                    dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor(), map->scale() );
-                    dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor(), map->scale() );
+                    dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
+                    dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
                 }
             }
         }

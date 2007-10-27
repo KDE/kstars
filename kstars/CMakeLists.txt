@@ -210,7 +210,7 @@ set(kstars_extra_SRCS
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
 	opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp opssolarsystem.cpp 
-	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp 
+	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp trailobject.cpp
 	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp streamwg.cpp 
 	telescopewizardprocess.cpp telescopeprop.cpp timedialog.cpp timezonerule.cpp 
 	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp

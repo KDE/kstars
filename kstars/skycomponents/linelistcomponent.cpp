@@ -200,7 +200,7 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky )
     for ( int j = firstI; j < 4; j++ ) {
         o[j] = angleAt( map, i[j], &a[j] );
         if ( fabs( a[j] ) > comfyAngle ) continue;
-        if ( skyLabeler()->drawLabel( psky, o[j], Label, a[j] ) )
+        if ( skyLabeler()->drawGuideLabel( psky, o[j], Label, a[j] ) )
             return;
         okay[j] = false;
     }
@@ -223,7 +223,7 @@ void LineListComponent::drawLabels( KStars* kstars, QPainter& psky )
         if ( i[j] && okay[j] && fabs(a[j]) < fabs(a[bestI]) ) bestI = j;
     }
 
-    skyLabeler()->drawLabel( psky, o[bestI], Label, a[bestI] );
+    skyLabeler()->drawGuideLabel( psky, o[bestI], Label, a[bestI] );
 }
 
 

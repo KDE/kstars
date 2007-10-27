@@ -21,7 +21,7 @@
 #include "starobject.h"
 #include "ksmoon.h"
 #include "skyobject.h"
-#include "ksplanetbase.h"
+#include "trailobject.h"
 #include "skymap.h"
 
 #include "indimenu.h"
@@ -103,7 +103,7 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
-    bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
+    bool addTrail( ! ((TrailObject*)p)->hasTrail() );
     QString oname;
     if ( p->name() == "Moon" ) {
         oname = ((KSMoon *)p)->phaseName();

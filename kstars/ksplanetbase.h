@@ -26,20 +26,19 @@
 
 #include <kdebug.h>
 
-#include "skyobject.h"
-#include "dms.h"
-
-#define MAXTRAIL 400  //maximum number of points in a planet trail
+#include "trailobject.h"
 
 class QPoint;
 class KSNumbers;
 class KSPopupMenu;
+class KStarsData;
 
-/**@class EclipticPosition
-	*@short The ecliptic position of a planet (Longitude, Latitude, and distance from Sun).
-	*@author Mark Hollomon
-	*@version 1.0
-	*/
+/**
+ *@class EclipticPosition
+ *@short The ecliptic position of a planet (Longitude, Latitude, and distance from Sun).
+ *@author Mark Hollomon
+ *@version 1.0
+ */
 class EclipticPosition {
 public:
     dms longitude;
@@ -59,29 +58,30 @@ public:
     }
 };
 
-/**@class KSPlanetBase
-	*A subclass of SkyObject that provides additional information
-	*needed for solar system objects. This is a base class for KSPlanet,
-	* KSPluto, KSSun and KSMoon.
-	*@short Provides necessary information about objects in the solar system.
-	*@author Mark Hollomon
-	*@version 1.0
-	*/
-
-class KStarsData;
-class KSPlanetBase : public SkyObject {
+/**
+  *@class KSPlanetBase
+  *A subclass of TrailObject that provides additional information
+  *needed for most solar system objects. This is a base class for 
+  *KSSun, KSMoon, KSPlanet, KSAsteroid, and KSComet.  Those classes 
+  *cover all solar system objects except planetary moons, which are 
+  *derived directly from TrailObject
+  *@short Provides necessary information about objects in the solar system.
+  *@author Mark Hollomon
+  *@version 1.0
+  */
+class KSPlanetBase : public TrailObject {
 public:
 
-    /**Constructor.  Calls SkyObject constructor with type=2 (planet),
-    	*coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-    	*@param kd Some kind of data
-    	*@param s Name of planet
-    	*@param image_file filename of the planet's image
-    	*@param c color of the symbol to use for this planet
-    	*@param pSize the planet's physical size, in km
-    	*
-    	*@todo Figure out what @p kd does.
-    	*/
+    /**
+      *Constructor.  Calls SkyObject constructor with type=2 (planet),
+      *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
+      *@param kd Some kind of data
+      *@param s Name of planet
+      *@param image_file filename of the planet's image
+      *@param c color of the symbol to use for this planet
+      *@param pSize the planet's physical size, in km
+      *@param kd pointer to the KStarsData object.
+      */
     explicit KSPlanetBase( KStarsData *kd,
                            const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
@@ -209,115 +209,94 @@ public:
     virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
     /**
-    	*@short Find position, including correction for Figure-of-the-Earth.
-    	*@param num KSNumbers pointer for the target date/time
-    	*@param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
-    	*@param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
-    	*@param Earth pointer to the Earth (not used for the Moon)
-    	*/
+     *@short Find position, including correction for Figure-of-the-Earth.
+     *@param num KSNumbers pointer for the target date/time
+     *@param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
+     *@param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
+     *@param Earth pointer to the Earth (not used for the Moon)
+     */
     void findPosition( const KSNumbers *num, const dms *lat=0, const dms *LST=0, const KSPlanetBase *Earth = 0 );
 
-    /**@return the Planet's position angle.
-    	*/
+    /**
+     *@return the Planet's position angle.
+     */
     virtual double pa() const { return PositionAngle; }
 
-    /**@short Set the Planet's position angle.
-    	*@param p the new position angle
-    	*/
+    /**
+     *@short Set the Planet's position angle.
+     *@param p the new position angle
+     */
     void setPA( double p ) { PositionAngle = p; }
 
-    /**@return the Planet's angular size, in arcminutes
-    	*/
+    /**
+     *@return the Planet's angular size, in arcminutes
+     */
     double angSize() const { return AngularSize; }
 
-    /**@short set the planet's angular size, in km.
-    	*@param size the planet's size, in km
-    	*/
+    /**
+     *@short set the planet's angular size, in km.
+     *@param size the planet's size, in km
+     */
     void setAngularSize( double size ) { AngularSize = size; }
 
-    /**@return the Planet's physical size, in km
-    	*/
+    /**
+     *@return the Planet's physical size, in km
+     */
     double physicalSize() const { return PhysicalSize; }
 
-    /**@short set the planet's physical size, in km.
-    	*@param size the planet's size, in km
-    	*/
+    /**
+     *@short set the planet's physical size, in km.
+     *@param size the planet's size, in km
+     */
     void setPhysicalSize( double size ) { PhysicalSize = size; }
 
     /**
-    	*@return the color for the planet symbol
-    	*/
+     *@return the color for the planet symbol
+     */
     QColor& color() { return m_Color; }
 
     /**
-    	*@short Set the color for the planet symbol
-    	*/
+     *@short Set the color for the planet symbol
+     */
     void setColor( const QColor &c ) { m_Color = c; }
 
-    /**@return true if the KSPlanet is one of the eight major planets
+    /**
+     *@return true if the KSPlanet is one of the eight major planets
      */
     bool isMajorPlanet() const;
 
-    /**@return whether the planet has a trail
+    /**
+     *@short rotate Planet image
+     *@param imageAngle the new angle of rotation for the image
      */
-    bool hasTrail() const { return ( Trail.count() > 0 ); }
-
-    /**@return a reference to the planet's trail
-    	*/
-    QList<SkyPoint>& trail() { return Trail; }
-
-    /**@short adds a point to the planet's trail
-    	*/
-    void addToTrail() { Trail.append( SkyPoint( ra(), dec() ) ); }
-
-    /**@short removes the oldest point from the trail
-    	*/
-    void clipTrail() { Trail.removeFirst(); }
-
-    /**@short clear the Trail
-    	*/
-    void clearTrail() { Trail.clear(); }
-
-    /**@short update Horizontal coords of the trail
-    	*/
-    void updateTrail( dms *LST, const dms *lat );
-
-    /**@short rotate Planet image
-    	*@param imageAngle the new angle of rotation for the image
-    	*/
     void rotateImage( double imageAngle );
 
-    /**@short scale and rotate Planet image
-    	*@param scale the scaling factor
-    	*@param imageAngle the new angle of rotation for the image
-    	*/
+    /**
+     *@short scale and rotate Planet image
+     *@param scale the scaling factor
+     *@param imageAngle the new angle of rotation for the image
+     */
     void scaleRotateImage( float scale, double imageAngle );
 
     /**
-    	*@return the pixel distance for offseting the object's name label
-    	*/
-    virtual double labelOffset( double scale = 1.0 );
-
-    /**Show Solar System object popup menu.  Overloaded from virtual
-    	*SkyObject::showPopupMenu()
-    	*@param pmenu pointer to the KSPopupMenu object
-    	*@param pos QPojnt holding the x,y coordinates for the menu
-    	*/
-    virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
+     *@return the pixel distance for offseting the object's name label
+     */
+    virtual double labelOffset();
 
 protected:
     virtual bool loadData(const QString &n) {
         kDebug() << "didn't reimplement for " << n; return false;
     }
 
-    /**@short find the object's current geocentric equatorial coordinates (RA and Dec)
-    	*This function is pure virtual; it must be overloaded by subclasses.
-    	*This function is private; it is called by the public function findPosition()
-    	*which also includes the figure-of-the-earth correction, localizeCoords().
-    	*@param num pointer to current KSNumbers object
-    	*@param Earth pointer to planet Earth (needed to calculate geocentric coords)
-    	*@return true if position was successfully calculated.
-    	*/
+    /**
+     *@short find the object's current geocentric equatorial coordinates (RA and Dec)
+     *This function is pure virtual; it must be overloaded by subclasses.
+     *This function is private; it is called by the public function findPosition()
+     *which also includes the figure-of-the-earth correction, localizeCoords().
+     *@param num pointer to current KSNumbers object
+     *@param Earth pointer to planet Earth (needed to calculate geocentric coords)
+     *@return true if position was successfully calculated.
+     */
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL ) = 0;
 
     /**Determine the position angle of the planet for a given date
@@ -331,25 +310,26 @@ protected:
     // Heliocentric ecliptic position referred to the equinox of the epoch
     // as obtained from VSOP.
     EclipticPosition helEcPos;
-    QList<SkyPoint> Trail;
     double  Rearth;
 
 private:
-    /**@short correct the position for the fact that the location is not at the center of the Earth,
-    	*but a position on its surface.  This causes a small parallactic shift in a solar system
-    	*body's apparent position.  The effect is most significant for the Moon.
-    	*This function is private, and should only be called from the public findPosition() function.
-    	*@param num pointer to a ksnumbers object for the target date/time
-    	*@param lat pointer to the geographic latitude of the location.
-    	*@param LST pointer to the local sidereal time.
-    	*/
+    /**
+     *@short correct the position for the fact that the location is not at the center of the Earth,
+     *but a position on its surface.  This causes a small parallactic shift in a solar system
+     *body's apparent position.  The effect is most significant for the Moon.
+     *This function is private, and should only be called from the public findPosition() function.
+     *@param num pointer to a ksnumbers object for the target date/time
+     *@param lat pointer to the geographic latitude of the location.
+     *@param LST pointer to the local sidereal time.
+     */
     void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
 
-    /* Computes the visual magnitude for the major planets.
-     * @param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
-     *        saturn magnitude.
-     * @param Earth pointer to an Earth object. Needed to know the distance between the Earth and the
-     *        Sun.
+    /** 
+     *@short Computes the visual magnitude for the major planets.
+     *@param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
+     *           saturn's magnitude.
+     *@param Earth pointer to an Earth object. Needed to know the distance between the Earth and the
+     *             Sun.
      */
     void findMagnitude(const KSNumbers *num);
 

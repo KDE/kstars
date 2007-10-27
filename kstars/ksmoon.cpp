@@ -30,7 +30,10 @@
 
 KSMoon::KSMoon(KStarsData *kd)
         : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
-{}
+{
+    //Reset object type
+    setType( SkyObject::MOON );
+}
 
 KSMoon::~KSMoon() {
     while ( ! LRData.isEmpty() ) delete LRData.takeFirst();

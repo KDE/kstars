@@ -110,6 +110,6 @@ void CometsComponent::draw( KStars *ks, QPainter& psky )
         psky.drawEllipse( QRectF( x1, y1, size, size ) );
 
         if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
-        SkyLabeler::AddOffsetLabel( o, com->translatedName(), COMET_LABEL );
+        SkyLabeler::AddLabel( o, com, COMET_LABEL );
     }
 }

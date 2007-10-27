@@ -138,10 +138,11 @@ private:
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
 
-    /* @short adds a label to the lists of labels to be drawn prioritized
-     * by magnitude.
+    /** 
+     *@short adds a label to the lists of labels to be drawn prioritized
+     *by magnitude.
      */
-    void addLabel( const QPointF& p, const QString& text, float mag);
+    void addLabel( const QPointF& p, StarObject *star );
 
     void reindexAll( KSNumbers *num );
 

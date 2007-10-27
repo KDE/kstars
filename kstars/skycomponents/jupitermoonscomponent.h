@@ -66,6 +66,37 @@ public:
     virtual void update( KStarsData *data, KSNumbers *num );
     virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
+    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
+    /**
+    	*@return a pointer to a moon if its name matches the argument
+    	*
+    	*@p name the name to be matched
+    	*@return a SkyObject pointer to the moon whose name matches
+    	*the argument, or a NULL pointer if no match was found.
+    	*/
+    virtual SkyObject* findByName( const QString &name );
+
+protected:
+    /**
+    	*@short Draws the moons' trails, if necessary.
+    	*/
+    void drawTrails( KStars *ks, QPainter& psky );
+
+    /**
+    	*@short Add a Trail to the specified SkyObject.
+    	*@p o Pointer to the SkyObject to which a Trail will be added
+    	*/
+    virtual bool addTrail( SkyObject *o );
+
+    /**
+    	*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
+    	*@p o Pointer to the SkyObject to which a Trail will be added
+    	*/
+    virtual bool hasTrail( SkyObject *o, bool& found );
+    virtual bool removeTrail( SkyObject *o );
+    virtual void clearTrailsExcept( SkyObject *exOb );
+
 private:
 
     JupiterMoons *jmoons;

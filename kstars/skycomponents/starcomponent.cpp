@@ -227,10 +227,11 @@ void StarComponent::draw(KStars *ks, QPainter& psky )
         StarObject::updateColors( (! Options::useAntialias() ||
                                    map->isSlewing()), starColorIntensity() );
 
-    double zoom = Options::zoomFactor();
-
-    bool drawMag = Options::showStarMagnitudes();
-    bool drawName = Options::showStarNames();
+//FIX_LABEL
+//     double zoom = Options::zoomFactor();
+// 
+//     bool drawMag = Options::showStarMagnitudes();
+//     bool drawName = Options::showStarNames();
 
     //Loop for drawing star images
     MeshIterator region(m_skyMesh, DRAW_BUF);
@@ -261,23 +262,26 @@ void StarComponent::draw(KStars *ks, QPainter& psky )
 
             if ( m_hideLabels || mag > labelMagLim ) continue;
 
-            float offset = map->scale() * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
-            QString sName = curStar->nameLabel( drawName, drawMag );
+//FIX_LABEL
+//             float offset = map->scale() * (6. + 0.5*( 5.0 - mag ) + 0.01*( zoom/500. ) );
+//             QString sName = curStar->nameLabel( drawName, drawMag );
+
             //SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset), sName, STAR_LABEL );
-            addLabel( QPointF( o.x() + offset, o.y() + offset), sName, mag );
+//            addLabel( QPointF( o.x() + offset, o.y() + offset), sName, mag );
+            addLabel( o, curStar );
         }
     }
 }
 
-void StarComponent::addLabel( const QPointF& p, const QString& text, float mag)
+void StarComponent::addLabel( const QPointF& p, StarObject *star )
 {
-    int idx = int( mag * 10.0 );
+    int idx = int( star->mag() * 10.0 );
     if ( idx < 0 ) idx = 0;
     if ( idx > MAX_LINENUMBER_MAG ) idx = MAX_LINENUMBER_MAG;
-    m_labelList[ idx ]->append( SkyLabel( p, text ) );
+    m_labelList[ idx ]->append( SkyLabel( p, star ) );
 }
 
-void StarComponent::drawLabels(KStars *ks, QPainter& psky)
+void StarComponent::drawLabels(KStars */*ks*/, QPainter& psky)
 {
     if ( m_hideLabels ) return;
 

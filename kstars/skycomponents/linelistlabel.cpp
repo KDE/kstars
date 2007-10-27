@@ -30,7 +30,7 @@ LineListLabel::LineListLabel( const QString& text )
 {
     m_skyLabeler = SkyLabeler::Instance();
 
-    // prevent a crash if drawLabel() is called before reset()
+    // prevent a crash if drawGuideLabel() is called before reset()
     for ( int i = 0; i < 4; i++ ) {
         m_labList[i] = 0;
         m_labIndex[i] = 0;
@@ -142,7 +142,7 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky )
         if ( fabs( a[j] ) > comfyAngle )
             continue;
 
-        if ( skyLabeler()->drawLabel( psky, o[j], m_text, a[j] ) )
+        if ( skyLabeler()->drawGuideLabel( psky, o[j], m_text, a[j] ) )
             return;
 
         okay[j] = false;
@@ -166,7 +166,7 @@ void LineListLabel::draw( KStars* kstars, QPainter& psky )
         if ( idx[j] && okay[j] && fabs(a[j]) < fabs(a[best]) ) best = j;
     }
 
-    skyLabeler()->drawLabel( psky, o[best], m_text, a[best] );
+    skyLabeler()->drawGuideLabel( psky, o[best], m_text, a[best] );
 }
 
 

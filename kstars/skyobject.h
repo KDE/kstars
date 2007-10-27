@@ -81,8 +81,8 @@ public:
     	*The type classification of the SkyObject.
     	*/
     enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
-                GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8, COMET=9,
-                ASTEROID=10, CONSTELLATION=11, TYPE_UNKNOWN };
+                GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
+                COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, TYPE_UNKNOWN };
 
     /**@return object's primary name.
     	*/
@@ -154,7 +154,7 @@ virtual QString longname( void ) const { return hasLongName() ? LongName : unnam
 
     /**@return true if the object is a solar system body.
     	*/
-    inline bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 ); }
+    inline bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 || type() == 12 ); }
 
     /**Show Type-specific popup menu.  This is a two-line function that needs to be
     	*overloaded by each subclass of SkyObject, to make sure that the correct popupmenu 
@@ -256,16 +256,15 @@ virtual QString longname( void ) const { return hasLongName() ? LongName : unnam
     	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
     	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
     	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
-    	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
     	*@note overridden in StarObject
     	*/
-    virtual void drawNameLabel( QPainter &psky, double x, double y, double scale = 1.0 );
+    virtual void drawNameLabel( QPainter &psky, double x, double y );
 
     /**
     	*@return the pixel distance for offseting the object's name label
     	*@note overridden in DeepSkyObject, KSPlanetBase
     	*/
-    virtual double labelOffset( double scale = 1.0 );
+    virtual double labelOffset();
 
     QStringList ImageList, ImageTitle;
     QStringList InfoList, InfoTitle;

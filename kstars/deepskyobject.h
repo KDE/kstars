@@ -196,17 +196,17 @@ public:
     /**
       *Draw the object's symbol on the map
     	*/
-    void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
+    void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom );
 
     /**
       *Draw the Object's image on the map
     	*/
-    void drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom, double scale=1.0 );
+    void drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom );
 
     /**
     	*@return the pixel distance for offseting the object's name label
     	*/
-    virtual double labelOffset( double scale = 1.0 );
+    virtual double labelOffset();
 
     /**
       *Show Deep-sky object popup menu.  Overloaded from virtual 

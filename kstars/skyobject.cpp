@@ -422,11 +422,11 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     file.close();
 }
 
-void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale ) {
+void SkyObject::drawNameLabel( QPainter &psky, double x, double y ) {
     //set the zoom-dependent font
     QFont stdFont( psky.font() );
     SkyLabeler::SetZoomFont( psky );
-    double offset = labelOffset( scale );
+    double offset = labelOffset();
 
     QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
     qreal width = fm.width( translatedName() );
@@ -442,7 +442,7 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y, double scale 
     psky.setFont( stdFont );
 }
 
-double SkyObject::labelOffset( double scale ) {
-    return SkyLabeler::ZoomOffset( scale );
+double SkyObject::labelOffset() {
+    return SkyLabeler::ZoomOffset();
 }
 

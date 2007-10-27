@@ -1,9 +1,9 @@
 /***************************************************************************
-                          skylabel.h  -  K Desktop Planetarium
+                          trailobject.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2007/07/20
-    copyright            : (C) 2007 by James B. Bowlin
-    email                : bowlin@mindspring.com
+    begin                : Sat Oct 27 2007
+    copyright            : (C) 2007 by Jason Harris
+    email                : kstars@30doradus.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,35 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYLABEL_H
-#define SKYLABEL_H
+#include "trailobject.h"
+#include "kspopupmenu.h"
 
-#include <QPointF>
-#include <QList>
-#include "skyobject.h"
+TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n ) 
+  : SkyObject( t, r, d, m, n )
+{}
 
-class SkyLabel;
-typedef QList<SkyLabel>                LabelList;
+TrailObject::TrailObject( int t, double r, double d, float m, const QString &n ) 
+  : SkyObject( t, r, d, m, n )
+{}
 
-class SkyLabel {
+void TrailObject::updateTrail( dms *LST, const dms *lat ) {
+    for ( int i=0; i < Trail.size(); ++i )
+        Trail[i].EquatorialToHorizontal( LST, lat );
+}
 
-public:
-    SkyLabel( qreal ra, qreal dec, SkyObject *obj_in ) :
-            o( ra, dec), obj(obj_in)
-    {}
+void TrailObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
+    pmenu->createPlanetMenu( this ); pmenu->popup( pos );
+}
 
-    //        SkyLabel( double ra, double dec, QString& text_in) :
-    //            o( ra, dec), text(text_in)
-    //        {}
-
-    SkyLabel( const QPointF o_in, SkyObject *obj_in ) : o(o_in), obj(obj_in)
-    {}
-
-    //~StarLabel() { delete m_p; }
-
-    QPointF& point() { return o; }
-    QPointF  o;
-    SkyObject *obj;
-};
-
-#endif

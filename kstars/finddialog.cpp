@@ -108,6 +108,7 @@ void FindDialog::init() {
             ssObjects += p->data()->skyComposite()->objectNames( SkyObject::PLANET );
             ssObjects += p->data()->skyComposite()->objectNames( SkyObject::COMET );
             ssObjects += p->data()->skyComposite()->objectNames( SkyObject::ASTEROID );
+            ssObjects += p->data()->skyComposite()->objectNames( SkyObject::MOON );
             ssObjects += i18n("Sun");
             fModel->setStringList( ssObjects );
             break;

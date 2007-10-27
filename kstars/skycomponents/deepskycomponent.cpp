@@ -335,7 +335,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
 
                 //Draw Image
                 if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_map->scale() );
+                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
                 }
 
                 //Draw Symbol
@@ -352,7 +352,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                         bColorChanged = true;
                     }
 
-                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor(), m_map->scale() );
+                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
 
                     if ( bColorChanged ) {
                         psky.setPen( color );

@@ -685,6 +685,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         setClickedObject( data->skyComposite()->objectNearest( clickedPoint(), maxrad ) );
 
         if ( clickedObject() ) {
+            //DEBUG
+            kDebug() << "clickedObject: " << clickedObject() << endl;
+
             setClickedPoint( clickedObject() );
 
             if ( e->button() == Qt::RightButton ) {
