@@ -144,7 +144,7 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
     //12. Solar system
     m_SolarSystem->update( data, num );
     //13. Satellites
-    m_Satellites->update( data, num );
+    //m_Satellites->update( data, num );
     //14. Horizon
     m_Horizon->update( data, num );
 }
