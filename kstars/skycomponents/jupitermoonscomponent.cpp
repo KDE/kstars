@@ -175,24 +175,14 @@ void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
         QPointF o = map->toScreen( jmoons->moon(i) );
 
         if ( ! map->onScreen( o ) ) continue;
-        //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
 
-//FIX_LABEL
-//        float offset = 3.0 * map->scale();
-//        SkyLabeler::AddLabel( QPointF( o.x() + offset, o.y() + offset),
-//                              jmoons->name(i), JUPITER_MOON_LABEL );
         SkyLabeler::AddLabel( o, jmoons->moon(i), JUPITER_MOON_LABEL );
     }
 }
 
 void JupiterMoonsComponent::drawTrails( KStars *ks, QPainter& psky ) {
-    //DEBUG
-    kDebug() << "Jupiter Moon trailS " << endl;
-
     for ( uint i=0; i<4; ++i ) {
         TrailObject *moon = jmoons->moon(i);
-        //DEBUG
-        kDebug() << QString("Jupiter Moon %1 has trail: %2").arg(i).arg(moon->trail().size()) << endl;
 
         if ( ! visible() || ! moon->hasTrail() ) continue;
 

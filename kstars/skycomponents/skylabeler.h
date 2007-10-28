@@ -120,8 +120,6 @@ enum label_t {
  *
  * -- James B. Bowlin  2007-08-02
  */
-
-
 class SkyLabeler
 {
 protected:
@@ -147,14 +145,6 @@ public:
      * drawn labels.
      */
     static double ZoomOffset();
-
-//FIX_LABEL
-    /* @short static version of addOffsetLabel() below.
-     */
-//     inline static void AddOffsetLabel( const QPointF& p, SkyObject *obj, label_t type )
-//     {
-//         pinstance->addOffsetLabel( p, obj, type );
-//     }
 
     /* @short static version of addLabel() below.
      */
@@ -233,17 +223,6 @@ public:
      */
     void drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o );
 
-//FIX_LABEL
-    /** 
-      *@short like drawLabel() but offsets the label so it appears next 
-      *to the object, rather than at its center.
-      *@param p the screen position of thecenter of the object
-      *@param text The label text
-      *@param offset the offset in pixels from the object center to the label position
-      */
-//     void drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text, double offset );
-
-
     /* @short Tries to draw the text at the position and angle specfied. If
      * the label would overlap an existing label it is not drawn and we
      * return false, otherwise the label is drawn, its position is marked
@@ -254,12 +233,6 @@ public:
     /* @short queues the label in the "type" buffer for later drawing.
      */
     void addLabel( const QPointF& p, SkyObject *obj, label_t type );
-
-//FIX_LABELS
-    /* @short queues the label in the "type" buffer for later drawing.  A
-     * zoom dependent offset is automatically added to the coordinates.
-     */
-//    void addOffsetLabel( const QPointF& p, const QString& text, label_t type );
 
     /*@short draws the labels stored in all the buffers.  You can change the
      * priority by editing the .cpp file and changing the order in which

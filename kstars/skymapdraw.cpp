@@ -333,32 +333,12 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         QPointF o = toScreen( obj );
         if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
 
-//FIX_LABEL
-//         if ( obj->type() == SkyObject::STAR ) {
-//             StarObject* star = (StarObject*) obj;
-//             float offset = m_Scale * (6. + 0.5*( 5.0 - star->mag() )
-//                                     + 0.01 * ( Options::zoomFactor() /500. ) );
-//             QString sName = star->customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
-//             skyLabeler->drawLabel( psky, QPointF( o.x() + offset, o.y() + offset), sName );
-//         }
-//         else {
-//             skyLabeler->drawOffsetLabel( psky, o, obj->translatedName(), obj->labelOffset(m_Scale) );
-//         }
-
         skyLabeler->drawObjectLabel( psky, o, obj );
     }
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
         QPointF o = toScreen( focusObject() );
-
-//FIX_LABEL
-//         QString label = focusObject()->translatedName();
-//         if ( focusObject()->type() == SkyObject::STAR )
-//             label = ((StarObject*)focusObject())->customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
-// 
-//         if ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height )
-//             skyLabeler->drawOffsetLabel( psky, o, label, focusObject()->labelOffset(m_Scale) );
 
         skyLabeler->drawObjectLabel( psky, o, focusObject() );
     }

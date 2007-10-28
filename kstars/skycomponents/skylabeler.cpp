@@ -97,13 +97,6 @@ SkyLabeler::~SkyLabeler()
     }
 }
 
-//FIX_LABEL
-// void SkyLabeler::drawOffsetLabel( QPainter& psky, const QPointF& p, const QString& text, double offset )
-// {
-//     drawLabel( psky, QPointF(p.x() + offset, p.y() + offset), text );
-// }
-
-//FIX_LABEL
 void SkyLabeler::drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o )
 {
     if ( ! markText( p, o->translatedName() ) ) return;
@@ -413,13 +406,6 @@ void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, label_t type )
     if ( obj->translatedName().isEmpty() ) return;
     labelList[ type ].append( SkyLabel( p, obj ) );
 }
-
-//FIX_LABELS
-// void SkyLabeler::addOffsetLabel( const QPointF& p, const QString& text, label_t type )
-// {
-//     if ( text.isEmpty() ) return;
-//     labelList[ type ].append( SkyLabel( p.x() + m_offset, p.y() + m_offset, text ) );
-// }
 
 void SkyLabeler::drawQueuedLabels( KStars* kstars, QPainter& psky )
 {
