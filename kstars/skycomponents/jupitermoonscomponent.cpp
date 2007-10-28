@@ -186,9 +186,15 @@ void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
 }
 
 void JupiterMoonsComponent::drawTrails( KStars *ks, QPainter& psky ) {
+    //DEBUG
+    kDebug() << "Jupiter Moon trailS " << endl;
+
     for ( uint i=0; i<4; ++i ) {
         TrailObject *moon = jmoons->moon(i);
-        if ( ! visible() || ! moon->hasTrail() ) return;
+        //DEBUG
+        kDebug() << QString("Jupiter Moon %1 has trail: %2").arg(i).arg(moon->trail().size()) << endl;
+
+        if ( ! visible() || ! moon->hasTrail() ) continue;
 
         SkyMap *map = ks->map();
         KStarsData *data = ks->data();

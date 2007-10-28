@@ -60,8 +60,6 @@ public:
 
     virtual void draw( KStars *ks, QPainter& psky );
 
-    //Do the drawing in this class, since we are keeping the list of objects
-    //with Trails here
     void drawTrails( KStars *ks, QPainter& psky );
 
     void reloadAsteroids( KStarsData *data );

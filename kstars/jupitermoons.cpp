@@ -507,5 +507,11 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
 
         if ( ZJ[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;
+
+        //Update Trails
+        if ( Moon[i]->hasTrail() ) {
+            Moon[i]->addToTrail();
+            if ( Moon[i]->trail().size() > MAXTRAIL ) Moon[i]->trail().takeFirst();
+        }
     }
 }

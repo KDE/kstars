@@ -226,6 +226,7 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
 
     m_Stars->draw( ks, psky );
 
+    m_SolarSystem->drawTrails( ks, psky );
     m_SolarSystem->draw( ks, psky );
 
     //DISABLE_SATELLITES
