@@ -200,7 +200,7 @@ void JupiterMoonsComponent::drawTrails( KStars *ks, QPainter& psky ) {
         QPointF oLast( o );
 
         bool doDrawLine(false);
-        int i = 0;
+        int j = 0;
         int n = moon->trail().size();
 
         if ( ( o.x() >= -1000. && o.x() <= Width+1000.
@@ -217,10 +217,10 @@ void JupiterMoonsComponent::drawTrails( KStars *ks, QPainter& psky ) {
             if ( Options::fadePlanetTrails() ) {
                 //Define interpolated color
                 QColor tcolor = QColor(
-                                    (i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
-                                    (i*tcolor1.green() + (n-i)*tcolor2.green())/n,
-                                    (i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
-                ++i;
+                                    (j*tcolor1.red()   + (n-j)*tcolor2.red())/n,
+                                    (j*tcolor1.green() + (n-j)*tcolor2.green())/n,
+                                    (j*tcolor1.blue()  + (n-j)*tcolor2.blue())/n );
+                ++j;
                 psky.setPen( QPen( tcolor, 1 ) );
             }
 

@@ -20,7 +20,6 @@
 #include <QFrame>
 
 #include <knuminput.h>
-#include <k3listview.h>
 #include <kpushbutton.h>
 
 #include "kstars.h"
