@@ -45,14 +45,14 @@ $KDEDIR/share/apps/kstars/comets.dat for a system-wide install).
 Be sure to delete the header lines from this file; the first 
 line should begin with "1P/Halley".
 
-Next, please remove all entries for "Shoemaker-Levy 9" from the 
-file.  This comet crashed into Jupiter in 1993, so it no longer 
-exists (although it could be argued that we should keep it and 
-insert it in the sky for dates prior to the crash date).
+Next, please remove all comets whose names begin with "D/".  These
+comets no longer exist, and so they should not be included in the
+simulation.
 
-Finally, also remove comets named "SOHO" or "SOLWIND".  These 
-comets are discovered by spacecraft monitoring the Sun, and 
-they actually fall into the Sun shortly after being discovered.
+Finally, also remove comets named "SOHO" or "SOLWIND".  These comets
+are discovered by spacecraft monitoring the Sun, and they actually
+fall into the Sun shortly after being discovered (I don't know why
+they are not named with "D/").
 
 
 Step 3: The Asteroids
