@@ -34,7 +34,6 @@ class SkyMap;
 class GeoLocation;
 class FindDialog;
 class InfoBoxes;
-class ToggleAction;
 class TimeStepBox;
 
 class INDIMenu;
@@ -645,8 +644,6 @@ private:
 
     TimeStepBox *TimeStep;
 
-    ToggleAction *actCoordSys;
-    ToggleAction *actObsList;
     KActionMenu *colorActionMenu, *fovActionMenu;
 
     LCGenerator *AAVSODialog;

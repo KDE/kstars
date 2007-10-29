@@ -44,7 +44,6 @@
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "infoboxes.h"
-#include "toggleaction.h"
 #include "indimenu.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
@@ -153,9 +152,8 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_F ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotFind() ) );
 
-    //FIXME: Use ToggleAction
     ka = actionCollection()->addAction( "track_object" );
-    ka->setIcon( KIcon( "document-decrypt" ) );
+    ka->setIcon( KIcon( "document-encrypt" ) );
     ka->setText( i18n( "Engage &Tracking" ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_T  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotTrack() ) );
@@ -183,9 +181,12 @@ void KStars::initActions() {
 
     actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
 
-    actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
-                                    KShortcut( "Space" ), this, SLOT( slotCoordSys() ), this );
-    actionCollection()->addAction( "coordsys", actCoordSys );
+    ka = actionCollection()->addAction( "coordsys" );
+    QString text = i18n("Equatorial &Coordinates");
+    if ( Options::useAltAz() ) text = i18n("Horizontal &Coordinates");
+    ka->setText( text );
+    ka->setShortcuts( KShortcut( "Space" ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotCoordSys() ) );
 
     ka = actionCollection()->addAction( "project_lambert" );
     ka->setText( i18n( "&Lambert Azimuthal Equal-area" ) );

@@ -46,7 +46,6 @@
 #include "infoboxes.h"
 #include "observinglist.h"
 #include "imagesequence.h"
-#include <toggleaction.h>
 
 #include "kstarsadaptor.h"
 
@@ -55,7 +54,7 @@
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
-        actCoordSys(0), actObsList(0), colorActionMenu(0), fovActionMenu(0),
+        colorActionMenu(0), fovActionMenu(0),
         AAVSODialog(0), findDialog(0), obsList(0), avt(0), wut(0),
         sb(0), pv(0), jmt(0), indimenu(0), indidriver(0), indiseq(0),
         DialogIsObsolete(false), StartClockRunning( clockrun ),
@@ -153,8 +152,9 @@ void KStars::applyConfig() {
         actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
     }
 
-    //Toggle actions
-    if ( Options::useAltAz() ) ((ToggleAction*)actionCollection()->action("coordsys"))->turnOff();
+    if ( Options::useAltAz() ) actionCollection()->action("coordsys")->setText(i18n("Horizontal &Coordinates"));
+    else actionCollection()->action("coordsys")->setText(i18n("Equatorial &Coordinates"));
+
     ((KToggleAction*)actionCollection()->action("show_time_box"))->setChecked( Options::showTimeBox() );
     ((KToggleAction*)actionCollection()->action("show_location_box"))->setChecked( Options::showGeoBox() );
     ((KToggleAction*)actionCollection()->action("show_focus_box"))->setChecked( Options::showFocusBox() );

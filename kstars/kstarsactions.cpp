@@ -65,7 +65,6 @@
 #include "ksmoon.h"
 #include "simclock.h"
 #include "infoboxes.h"
-#include "toggleaction.h"
 #include "timedialog.h"
 #include "locationdialog.h"
 #include "finddialog.h"
@@ -836,14 +835,14 @@ void KStars::slotCoordSys() {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), geo()->lat() );
             }
         }
-        actCoordSys->turnOn();
+        actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
             map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(),
                                   map()->focus()->az()->Degrees() );
         }
-        actCoordSys->turnOff();
+        actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
     }
     map()->forceUpdate();
 }

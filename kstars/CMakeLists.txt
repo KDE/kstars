@@ -213,7 +213,7 @@ set(kstars_extra_SRCS
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp trailobject.cpp
 	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp streamwg.cpp 
 	telescopewizardprocess.cpp telescopeprop.cpp timedialog.cpp timezonerule.cpp 
-	toggleaction.cpp thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp
+	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp
 )
 
 set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS} 
