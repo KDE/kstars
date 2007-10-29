@@ -112,14 +112,12 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_S  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
 
-    ToggleAction *actTimeRun = new ToggleAction( KIcon( "media-playback-pause" ), i18n( "Stop &Clock" ),
-                               KIcon( "media-playback-start" ), i18n("Start &Clock"),
-                               KShortcut(), this, SLOT( slotToggleTimer() ), this );
-    actionCollection()->addAction( "clock_startstop", actTimeRun );
-    actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
-    actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
-    QObject::connect(data()->clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
-    QObject::connect(data()->clock(), SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
+    KToggleAction *ta = actionCollection()->add<KToggleAction>( "clock_startstop" );
+    ta->setIcon( KIcon( "media-playback-pause" ) );
+    ta->setText( i18n( "Stop &Clock" ) );
+    QObject::connect( ta, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
+    QObject::connect(data()->clock(), SIGNAL(clockStarted()), ta, SLOT(slotToggled()) );
+    QObject::connect(data()->clock(), SIGNAL(clockStopped()), ta, SLOT(slotToggled()) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 
@@ -239,51 +237,51 @@ void KStars::initActions() {
 
     //Settings Menu:
     //Info Boxes option actions
-    KToggleAction *a = actionCollection()->add<KToggleAction>( "show_boxes" );
-    a->setText( i18nc( "Show the information boxes", "Show &Info Boxes") );
-    a->setChecked( Options::showInfoBoxes() );
-    QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_boxes" );
+    ta->setText( i18nc( "Show the information boxes", "Show &Info Boxes") );
+    ta->setChecked( Options::showInfoBoxes() );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_time_box");
-    a->setText( i18nc( "Show time-related info box", "Show &Time Box") );
-    QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_time_box");
+    ta->setText( i18nc( "Show time-related info box", "Show &Time Box") );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_focus_box");
-    a->setText( i18nc( "Show focus-related info box", "Show &Focus Box") );
-    QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_focus_box");
+    ta->setText( i18nc( "Show focus-related info box", "Show &Focus Box") );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_location_box");
-    a->setText( i18nc( "Show location-related info box", "Show &Location Box") );
-    QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_location_box");
+    ta->setText( i18nc( "Show location-related info box", "Show &Location Box") );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
     //Toolbar options
-    a = actionCollection()->add<KToggleAction>( "show_mainToolBar");
-    a->setText( i18n( "Show Main Toolbar" ) );
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_mainToolBar");
+    ta->setText( i18n( "Show Main Toolbar" ) );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_viewToolBar");
-    a->setText( i18n( "Show View Toolbar" ) );
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_viewToolBar");
+    ta->setText( i18n( "Show View Toolbar" ) );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
     actionCollection()->addAction( KStandardAction::ConfigureToolbars, "configure_toolbars",
                                    this, SLOT( slotConfigureToolbars() ) );
 
     //Statusbar view options
-    a = actionCollection()->add<KToggleAction>( "show_statusBar");
-    a->setText( i18n( "Show Statusbar" ) );
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_statusBar");
+    ta->setText( i18n( "Show Statusbar" ) );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_sbAzAlt");
-    a->setText( i18n( "Show Az/Alt Field" ) );
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_sbAzAlt");
+    ta->setText( i18n( "Show Az/Alt Field" ) );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    a = actionCollection()->add<KToggleAction>( "show_sbRADec");
-    a->setText( i18n( "Show RA/Dec Field" ) );
-    QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    ta = actionCollection()->add<KToggleAction>( "show_sbRADec");
+    ta->setText( i18n( "Show RA/Dec Field" ) );
+    QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
     //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
     colorActionMenu = actionCollection()->add<KActionMenu>( "colorschemes" );
@@ -422,67 +420,67 @@ void KStars::initActions() {
     //viewToolBar actions:
     //
     //show_stars:
-    a = actionCollection()->add<KToggleAction>( "show_stars" );
-    a->setIcon( KIcon( "kstars_stars" ) );
-    a->setText( i18nc( "Toggle Stars in the display", "Stars" ) );
-    a->setToolTip( i18n("Toggle stars") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_stars" );
+    ta->setIcon( KIcon( "kstars_stars" ) );
+    ta->setText( i18nc( "Toggle Stars in the display", "Stars" ) );
+    ta->setToolTip( i18n("Toggle stars") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_deepsky:
-    a = actionCollection()->add<KToggleAction>( "show_deepsky" );
-    a->setIcon( KIcon( "kstars_deepsky" ) );
-    a->setText( i18nc( "Toggle Deep Sky Objects in the display", "Deep Sky" ) );
-    a->setToolTip( i18n("Toggle deep sky objects") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_deepsky" );
+    ta->setIcon( KIcon( "kstars_deepsky" ) );
+    ta->setText( i18nc( "Toggle Deep Sky Objects in the display", "Deep Sky" ) );
+    ta->setToolTip( i18n("Toggle deep sky objects") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_planets:
-    a = actionCollection()->add<KToggleAction>( "show_planets" );
-    a->setIcon( KIcon( "kstars_planets" ) );
-    a->setText( i18nc( "Toggle Solar System objects in the display", "Solar System" ) );
-    a->setToolTip( i18n("Toggle Solar system objects") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_planets" );
+    ta->setIcon( KIcon( "kstars_planets" ) );
+    ta->setText( i18nc( "Toggle Solar System objects in the display", "Solar System" ) );
+    ta->setToolTip( i18n("Toggle Solar system objects") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_clines:
-    a = actionCollection()->add<KToggleAction>( "show_clines" );
-    a->setIcon( KIcon( "kstars_clines" ) );
-    a->setText( i18nc( "Toggle Constellation Lines in the display", "Const. Lines" ) );
-    a->setToolTip( i18n("Toggle constellation lines") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_clines" );
+    ta->setIcon( KIcon( "kstars_clines" ) );
+    ta->setText( i18nc( "Toggle Constellation Lines in the display", "Const. Lines" ) );
+    ta->setToolTip( i18n("Toggle constellation lines") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_cnames:
-    a = actionCollection()->add<KToggleAction>( "show_cnames" );
-    a->setIcon( KIcon( "kstars_cnames" ) );
-    a->setText( i18nc( "Toggle Constellation Names in the display", "Const. Names" ) );
-    a->setToolTip( i18n("Toggle constellation names") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_cnames" );
+    ta->setIcon( KIcon( "kstars_cnames" ) );
+    ta->setText( i18nc( "Toggle Constellation Names in the display", "Const. Names" ) );
+    ta->setToolTip( i18n("Toggle constellation names") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_cbound:
-    a = actionCollection()->add<KToggleAction>( "show_cbounds" );
-    a->setIcon( KIcon( "kstars_cbound" ) );
-    a->setText( i18nc( "Toggle Constellation Boundaries in the display", "C. Boundaries" ) );
-    a->setToolTip( i18n("Toggle constellation boundaries") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_cbounds" );
+    ta->setIcon( KIcon( "kstars_cbound" ) );
+    ta->setText( i18nc( "Toggle Constellation Boundaries in the display", "C. Boundaries" ) );
+    ta->setToolTip( i18n("Toggle constellation boundaries") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_mw:
-    a = actionCollection()->add<KToggleAction>( "show_mw" );
-    a->setIcon( KIcon( "kstars_mw" ) );
-    a->setText( i18nc( "Toggle Milky Way in the display", "Milky Way" ) );
-    a->setToolTip( i18n("Toggle milky way") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_mw" );
+    ta->setIcon( KIcon( "kstars_mw" ) );
+    ta->setText( i18nc( "Toggle Milky Way in the display", "Milky Way" ) );
+    ta->setToolTip( i18n("Toggle milky way") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_grid:
-    a = actionCollection()->add<KToggleAction>( "show_grid" );
-    a->setIcon( KIcon( "kstars_grid" ) );
-    a->setText( i18nc( "Toggle Coordinate Grid in the display", "Coord. grid" ) );
-    a->setToolTip( i18n("Toggle coordinate grid") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_grid" );
+    ta->setIcon( KIcon( "kstars_grid" ) );
+    ta->setText( i18nc( "Toggle Coordinate Grid in the display", "Coord. grid" ) );
+    ta->setToolTip( i18n("Toggle coordinate grid") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     //show_horizon:
-    a = actionCollection()->add<KToggleAction>( "show_horizon" );
-    a->setIcon( KIcon( "kstars_horizon" ) );
-    a->setText( i18nc( "Toggle the opaque fill of the ground polygon in the display", "Ground" ) );
-    a->setToolTip( i18n("Toggle opaque ground") );
-    connect( a, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+    ta = actionCollection()->add<KToggleAction>( "show_horizon" );
+    ta->setIcon( KIcon( "kstars_horizon" ) );
+    ta->setText( i18nc( "Toggle the opaque fill of the ground polygon in the display", "Ground" ) );
+    ta->setToolTip( i18n("Toggle opaque ground") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     if (Options::fitsSaveDirectory().isEmpty())
         Options::setFitsSaveDirectory(QDir:: homePath());
