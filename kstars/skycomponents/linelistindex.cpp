@@ -206,11 +206,11 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky )
 
         SkyList* points = lineList->points();
         pLast = points->first();
-        oLast = map->toScreen( pLast, false, &isVisibleLast );
+        oLast = map->toScreen( pLast, true, &isVisibleLast );
 
         for ( int i = 1 ; i < points->size() ; i++ ) {
             pThis = points->at( i );
-            oThis = map->toScreen( pThis, false, &isVisible );
+            oThis = map->toScreen( pThis, true, &isVisible );
 
             if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
@@ -263,11 +263,11 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky )
 
             SkyList* points = lineList->points();
             pLast = points->first();
-            oLast = map->toScreen( pLast, false, &isVisibleLast );
+            oLast = map->toScreen( pLast, true, &isVisibleLast );
 
             for ( int i = 1 ; i < points->size() ; i++ ) {
                 pThis = points->at( i );
-                oThis2 = oThis = map->toScreen( pThis, false, &isVisible );
+                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
 
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
@@ -330,11 +330,11 @@ void LineListIndex::drawFilled( KStars *kstars, QPainter& psky )
 
             SkyList* points = lineList->points();
             pLast = points->last();
-            oLast = map->toScreen( pLast, false, &isVisibleLast );
+            oLast = map->toScreen( pLast, true, &isVisibleLast );
 
             for ( int i = 0; i < points->size(); ++i ) {
                 pThis = points->at( i );
-                oThis = map->toScreen( pThis, false, &isVisible );
+                oThis = map->toScreen( pThis, true, &isVisible );
 
                 if ( isVisible && isVisibleLast ) {
                     polygon << oThis;

@@ -175,8 +175,8 @@ QPointF LineListLabel::angleAt( SkyMap* map, LineList* list, int i, double *angl
     SkyPoint* pThis = list->at( i );
     SkyPoint* pLast = list->at( i - 1 );
 
-    QPointF oThis = map->toScreen( pThis, false );
-    QPointF oLast = map->toScreen( pLast, false );
+    QPointF oThis = map->toScreen( pThis );
+    QPointF oLast = map->toScreen( pLast );
 
     double sx = double( oThis.x() - oLast.x() );
     double sy = double( oThis.y() - oLast.y() );

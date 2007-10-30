@@ -92,13 +92,13 @@ void LineListComponent::draw( KStars *ks, QPainter &psky )
     QPointF oThis, oLast, oMid;
 
     pLast = points()->at( 0 );
-    oLast = map->toScreen( pLast, false, &isVisibleLast );
+    oLast = map->toScreen( pLast, true, &isVisibleLast );
 
     int limit = points()->size();
 
     for ( int i=1 ; i < limit ; i++ ) {
         pThis = points()->at( i );
-        oThis = map->toScreen( pThis, false, &isVisible );
+        oThis = map->toScreen( pThis, true, &isVisible );
 
         if ( map->onScreen(oThis, oLast ) ) {
             if ( isVisible && isVisibleLast ) {
@@ -232,8 +232,8 @@ QPointF LineListComponent::angleAt( SkyMap* map, int i, double *angle )
     SkyPoint* pThis = points()->at( i );
     SkyPoint* pLast = points()->at( i - 1 );
 
-    QPointF oThis = map->toScreen( pThis, false );
-    QPointF oLast = map->toScreen( pLast, false );
+    QPointF oThis = map->toScreen( pThis );
+    QPointF oLast = map->toScreen( pLast );
 
     double sx = double( oThis.x() - oLast.x() );
     double sy = double( oThis.y() - oLast.y() );

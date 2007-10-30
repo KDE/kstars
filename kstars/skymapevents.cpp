@@ -572,8 +572,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             QString sX, sY, s;
             sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
             sY = mousePoint()->alt()->toDMSString(true); //true = force +/- symbol
-            if ( Options::useAltAz() && Options::useRefraction() )
-                sY = refract( mousePoint()->alt(), true ).toDMSString(true);
 
             s = sX + ",  " + sY;
             ks->statusBar()->changeItem( s, 1 );
@@ -679,15 +677,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         setClickedPoint( mousePoint() );
+        clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
         setClickedObject( data->skyComposite()->objectNearest( clickedPoint(), maxrad ) );
 
         if ( clickedObject() ) {
-            //DEBUG
-            kDebug() << "clickedObject: " << clickedObject() << endl;
-
             setClickedPoint( clickedObject() );
 
             if ( e->button() == Qt::RightButton ) {
