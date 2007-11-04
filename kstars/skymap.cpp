@@ -1370,14 +1370,25 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
     if ( alt->Degrees() <= -2.000 ) return dms( alt->Degrees() );
 
     int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
-    dms result;
+    int index2( index + 1 );
 
-    if ( findApparent ) {
-        result.setD( alt->Degrees() + RefractCorr1[index] );
-    } else {
-        result.setD( alt->Degrees() + RefractCorr2[index] );
+    //compute dx, normalized distance from nearest position in lookup table
+    double x1 = 0.5*float(index) - 1.75;
+    if ( alt->Degrees()<x1 ) index2 = index - 1;
+    if ( index2 < 0 ) index2 = index + 1;
+    if ( index2 > 183 ) index2 = index - 1;
+    double x2 = 0.5*float(index2) - 1.75;
+    double dx = (alt->Degrees() - x1)/(x2 - x1);
+
+    double y1 = RefractCorr1[index];
+    double y2 = RefractCorr1[index2];
+    if ( !findApparent ) {
+        y1 = RefractCorr2[index];
+        y2 = RefractCorr2[index2];
     }
 
+    //linear interpolation to find refracted altitude
+    dms result( alt->Degrees() + y2*dx + y1*(1.0-dx) );
     return result;
 }
 
