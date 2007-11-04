@@ -45,6 +45,7 @@
 #include "ksplanetbase.h"
 #include "ksmoon.h"
 #include "thumbnailpicker.h"
+#include "Options.h"
 
 #include "indielement.h"
 #include "indiproperty.h"
@@ -270,7 +271,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->RA->setText( selectedObject->ra()->toHMSString() );
     Pos->Dec->setText( selectedObject->dec()->toDMSString() );
     Pos->Az->setText( selectedObject->az()->toDMSString() );
-    Pos->Alt->setText( selectedObject->alt()->toDMSString() );
+    dms a( selectedObject->alt()->Degrees() );
+    if ( Options::useAltAz() && Options::useRefraction() )
+        a = ksw->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
+    Pos->Alt->setText( a.toDMSString() );
 
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:

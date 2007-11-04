@@ -317,14 +317,16 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
         break;
 
-        //DEBUG_KIO_JOB
-        // *** Testing KIO::Job stuff
+    //DEBUG_REFRACT
     case Qt::Key_Q:
         {
-            KUrl u( "http://www.30doradus.org/kstars/kstars-4.x.png" );
-            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
-            j->setUiDelegate(0);
-            connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
+            for ( double alt=-0.5; alt<30.5; alt+=1.0 ) {
+                dms a( alt );
+                dms b( refract( &a, true ) ); //find apparent alt from true alt
+                dms c( refract( &b, false ) );
+
+                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString() << endl;
+            }
             break;
         }
 
@@ -570,14 +572,18 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         if ( ks ) {
             QString sX, sY, s;
-            sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
-            sY = mousePoint()->alt()->toDMSString(true); //true = force +/- symbol
+            sX = mousePoint()->az()->toDMSString(true);  //true: force +/- symbol
+
+            dms a( mousePoint()->alt()->Degrees() );
+            if ( Options::useAltAz() && Options::useRefraction() )
+                a = refract( mousePoint()->alt(), true ); //true: compute apparent alt from true alt
+            sY = a.toDMSString(true); //true: force +/- symbol
 
             s = sX + ",  " + sY;
             ks->statusBar()->changeItem( s, 1 );
 
             sX = mousePoint()->ra()->toHMSString();
-            sY = mousePoint()->dec()->toDMSString(true); //true = force +/- symbol
+            sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
             s = sX + ",  " + sY;
             ks->statusBar()->changeItem( s, 2 );
         }
@@ -678,6 +684,16 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+
+        //DEBUG
+        QPointF p = toScreen( clickedPoint() ); 
+        double dx2 = (width()/2.0 - p.x())/Options::zoomFactor();
+        double dy2 = (height()/2.0 - p.y())/Options::zoomFactor();
+        SkyPoint sp = fromScreen( dx2, dy2, data->LST, data->geo()->lat() );
+        kDebug() << "SP1: " << clickedPoint()->az()->toDMSString() 
+                << clickedPoint()->alt()->toDMSString() << endl;
+        kDebug() << "SP2: " << sp.az()->toDMSString() 
+                << sp.alt()->toDMSString() << endl;
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
