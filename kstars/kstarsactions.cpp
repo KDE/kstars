@@ -968,7 +968,7 @@ void KStars::slotObsList() {
 
 //Help Menu
 void KStars::slotTipOfDay() {
-    KTipDialog::showTip("kstars/tips", true);
+    KTipDialog::showTip(this, "kstars/tips", true);
 }
 
 // Toggle to and from full screen mode

@@ -626,7 +626,7 @@ void KStars::datainitFinished(bool worked) {
     }
 
     //Show TotD
-    KTipDialog::showTip( "kstars/tips" );
+    KTipDialog::showTip(this, "kstars/tips");
 
     //DEBUG
     kDebug() << "The current Date/Time is: " << ExtDateTime::currentDateTime().toString();
