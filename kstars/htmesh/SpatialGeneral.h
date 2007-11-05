@@ -80,8 +80,8 @@ typedef unsigned long long	uint64;
 
 // emulate the standard bool type where not supported by compiler
 
-#  if !defined(SXGENERAL_H) && !defined(__sgi) && !defined(__linux) && !defined(_WIN32) && !defined(__FreeBSD__)
-#    ifdef __unix
+#  if !defined(SXGENERAL_H) && !defined(__sgi) && !defined(__linux__) && !defined(_WIN32) && !defined(__FreeBSD__)
+#    ifdef __unix__
 /*
  * The following ifndef must ALWAYS be present since C++ may use
  * _BOOL_EXISTS to prevent the header from trying to redefine a
@@ -98,8 +98,8 @@ const bool                      true = 1;
 
 #         endif
 #      endif  /* _BOOL_EXISTS */
-#    endif  /* __unix */
-#  endif  /* __sgi && __linux */
+#    endif  /* __unix__ */
+#  endif  /* __sgi && __linux__ */
 
 // Global Math Constants
 
@@ -125,7 +125,7 @@ const float64 gEpsilon = 1.0E-15;
 #   define LINKAGE
 #endif
 
-#if defined(__unix)
+#if defined(__unix__)
 
 #   if defined(__osf__)
 #      define SpatialDigitalUnix 1
@@ -136,7 +136,7 @@ const float64 gEpsilon = 1.0E-15;
 #   elif defined(__sun)
 #      define SpatialSUN 1
 #      define SpatialStandardTemplate 1
-#   elif defined(__linux)
+#   elif defined(__linux__)
 #      define SpatialLinux 1
 #      define SpatialStandardTemplate 1
 #   endif
