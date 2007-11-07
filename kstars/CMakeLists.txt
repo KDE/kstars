@@ -238,6 +238,14 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
        thumbnailpicker.ui thumbnaileditor.ui 
 )
 
+if(MSVC)
+  set(kstars_SRCS ${kstars_SRCS} kstars.rc)
+endif(MSVC)
+
+if(MINGW)
+   KDE_ADD_RESOURCES2(kstars_SRCS kstars.rc)
+endif(MINGW)
+
 kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(kstars
