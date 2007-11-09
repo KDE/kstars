@@ -151,6 +151,8 @@ class V4L_Driver
    int  writeFITS(const char *filename, char errmsg[]);
    int  grabImage(void);
    void addFITSKeywords(fitsfile *fptr);
+   void allocateBuffers();
+   void releaseBuffers();
 
    /* Helper functions */
    int  checkPowerN(INumberVectorProperty *np);
@@ -166,6 +168,7 @@ class V4L_Driver
    #endif
 
    char device_name[MAXINDIDEVICE];
+   unsigned char *fitsData;		/* Buffer to hold the FITS file */
    int frameCount;			/* For debugging */
    double divider;			/* For limits */
    img_t * V4LFrame;			/* Video frame */

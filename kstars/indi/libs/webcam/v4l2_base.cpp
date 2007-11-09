@@ -1184,7 +1184,7 @@ int  V4L2_Base::setINTControl(unsigned int ctrl_id, double new_value, char *errm
 
    CLEAR(control);
 
-   cerr << "The id is " << ctrl_id << " new value is " << new_value << endl;
+   //cerr << "The id is " << ctrl_id << " new value is " << new_value << endl;
 
    control.id = ctrl_id;
    control.value = (int) new_value;

@@ -124,9 +124,6 @@ void V4L_Philips::ISGetProperties (const char *dev)
 
 void V4L_Philips::ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n)
 {
-     char errmsg[ERRMSG_SIZE]; 
-     int index=0;
-	
 	/* ignore if not ours */
      if (dev && strcmp (device_name, dev))
 	 return;
@@ -526,8 +523,6 @@ void V4L_Philips::connectCamera()
 
       v4l_base->registerCallback(newFrame, this);
       
-      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
-      
       IDLog("Philips Webcam is online. Retrieving basic data.\n");
       getBasicData();
       
@@ -538,8 +533,6 @@ void V4L_Philips::connectCamera()
       PowerS[1].s = ISS_ON;
       PowerSP.s = IPS_IDLE;
       
-      free(V4LFrame->compressedFrame);
-      V4LFrame->compressedFrame = NULL;
       v4l_base->disconnectCam();
       
       IDSetSwitch(&PowerSP, "Philips Webcam is offline.");

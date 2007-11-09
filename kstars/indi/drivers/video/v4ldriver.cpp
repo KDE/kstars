@@ -23,27 +23,18 @@
 
 V4L_Driver::V4L_Driver()
 {
-  V4LFrame = (img_t *) malloc (sizeof(img_t));
- 
-  if (V4LFrame == NULL)
-  {
-     IDMessage(NULL, "Error: unable to initialize driver. Low memory.");
-     IDLog("Error: unable to initialize driver. Low memory.");
-     return;
-  }
- 
+  allocateBuffers();
+
   camNameT[0].text  = NULL; 
   PortT[0].text     = NULL;
   IUSaveText(&PortT[0], "/dev/video0");
 
   divider = 128.;
- 
-
 }
 
 V4L_Driver::~V4L_Driver()
 {
-  free (V4LFrame);
+  releaseBuffers();
 }
 
 
@@ -534,6 +525,8 @@ int V4L_Driver::writeFITS(const char * filename, char errmsg[])
     long naxes[2];
     char filename_rw[TEMPFILE_LEN+1];
 
+    INDI_UNUSED(errmsg);
+
     // Append ! to file name to over write it.
     snprintf(filename_rw, TEMPFILE_LEN+1, "!%s", filename);
 
@@ -579,7 +572,6 @@ void V4L_Driver::uploadFile(const char * filename)
 {
    
    FILE * fitsFile;
-   unsigned char *fitsData;
    int r=0;
    unsigned int nr = 0;
    uLong  totalBytes;
@@ -599,7 +591,8 @@ void V4L_Driver::uploadFile(const char * filename)
    if (fitsFile == NULL)
     return;
    
-   fitsData = new unsigned char[totalBytes];
+   fitsData = (fitsData == NULL) ? (unsigned char *) malloc(sizeof(unsigned char) * totalBytes) :
+				   (unsigned char *) realloc(fitsData, sizeof(unsigned char) * totalBytes);
    /* #1 Read file from disk */ 
    for (unsigned int i=0; i < totalBytes; i+= nr)
    {
@@ -646,7 +639,6 @@ void V4L_Driver::uploadFile(const char * filename)
    imageBP.s = IPS_OK;
    IDSetBLOB (&imageBP, NULL);
    
-   delete [] fitsData;
 } 
 
 void V4L_Driver::connectCamera()
@@ -675,8 +667,6 @@ void V4L_Driver::connectCamera()
 
       v4l_base->registerCallback(newFrame, this);
       
-      V4LFrame->compressedFrame = (unsigned char *) malloc (sizeof(unsigned char) * 1);
-      
       IDLog("V4L Device is online. Retrieving basic data.\n");
       getBasicData();
       
@@ -687,8 +677,6 @@ void V4L_Driver::connectCamera()
       PowerS[1].s = ISS_ON;
       PowerSP.s = IPS_IDLE;
       
-      free(V4LFrame->compressedFrame);
-      V4LFrame->compressedFrame = NULL;
       v4l_base->disconnectCam();
       
       IDSetSwitch(&PowerSP, "Video4Linux Generic Device is offline.");
@@ -816,4 +804,35 @@ int V4L_Driver::checkPowerT(ITextVectorProperty *tp)
   return 0;
 
 }
+
+void V4L_Driver::allocateBuffers()
+{
+     V4LFrame = (img_t *) malloc (sizeof(img_t));
+ 
+     if (V4LFrame == NULL)
+     {
+       IDMessage(NULL, "Error: unable to initialize driver. Low memory.");
+       IDLog("Error: unable to initialize driver. Low memory.");
+       exit(-1);
+     }
+
+     fitsData			= (unsigned char *) malloc (sizeof(unsigned char) * 1);
+     V4LFrame->Y                = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+     V4LFrame->U                = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+     V4LFrame->V                = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+     V4LFrame->colorBuffer      = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+     V4LFrame->compressedFrame  = (unsigned char *) malloc (sizeof(unsigned char) * 1);
+}
+
+void V4L_Driver::releaseBuffers()
+{
+  free(fitsData);
+  free(V4LFrame->Y);
+  free(V4LFrame->U);
+  free(V4LFrame->V);
+  free(V4LFrame->colorBuffer);
+  free(V4LFrame->compressedFrame);
+  free (V4LFrame);
+}
+
 
