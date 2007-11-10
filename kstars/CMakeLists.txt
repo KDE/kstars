@@ -238,14 +238,14 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
        thumbnailpicker.ui thumbnaileditor.ui 
 )
 
-if(MSVC)
-  set(kstars_SRCS ${kstars_SRCS} kstars.rc)
-endif(MSVC)
-
-if(MINGW)
-   KDE_ADD_RESOURCES2(kstars_SRCS kstars.rc)
-endif(MINGW)
-
+set(kstars_icons
+    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/16x16/apps/kstars.png
+    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/32x32/apps/kstars.png
+    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/48x48/apps/kstars.png
+    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/64x64/apps/kstars.png
+    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/128x128/apps/kstars.png
+)
+kde4_add_win32_app_icon(kstars kstars_SRCS ${kstars_icons})
 kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(kstars
