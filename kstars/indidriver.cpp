@@ -65,7 +65,7 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = KIcon( "exec" );
+    runningPix = KIcon( "system-run" );
     stopPix    = KIcon( "dialog-cancel" );
     localMode  = KIcon( "system" );
     serverMode = KIcon( "network" );
