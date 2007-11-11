@@ -265,7 +265,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->OpenButton->setIcon( KIcon( "document-open" ) );
     sb->SaveButton->setIcon( KIcon( "document-save" ) );
     sb->SaveAsButton->setIcon( KIcon( "document-save-as" ) );
-    sb->RunButton->setIcon( KIcon( "launch" ) );
+    sb->RunButton->setIcon( KIcon( "system-run" ) );
     sb->CopyButton->setIcon( KIcon( "view-refresh" ) );
     sb->AddButton->setIcon( KIcon( "go-previous" ) );
     sb->RemoveButton->setIcon( KIcon( "go-next" ) );

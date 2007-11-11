@@ -91,7 +91,7 @@ void KStars::initActions() {
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotExportImage() ) );
 
     ka = actionCollection()->addAction( "run_script" );
-    ka->setIcon( KIcon( "launch" ) );
+    ka->setIcon( KIcon( "system-run" ) );
     ka->setText( i18n( "&Run Script..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_R ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotRunScript() ) );
