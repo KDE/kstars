@@ -38,7 +38,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
 
     //Initialize Date/Time and Location data
     KStars *ks = ((KStars*) topLevelWidget()->parent());
-    DateTime->setDateTime( ks->data()->lt() );
+    DateTime->setDateTime( ks->data()->lt().dateTime() );
     geoPlace = ks->geo();
     LocationButton->setText( geoPlace->fullName() );
 
@@ -47,7 +47,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
-    connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
+    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
 
     connect(RA,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
@@ -74,7 +74,7 @@ modCalcAltAz::~modCalcAltAz(){
 
 void modCalcAltAz::slotNow()
 {
-    DateTime->setDateTime( KStarsDateTime::currentDateTime() );
+    DateTime->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
     slotCompute();
 }
 
@@ -102,9 +102,9 @@ void modCalcAltAz::slotObject()
     }
 }
 
-void modCalcAltAz::slotDateTimeChanged(const ExtDateTime &edt)
+void modCalcAltAz::slotDateTimeChanged(const QDateTime &dt)
 {
-    LST = geoPlace->GSTtoLST( ((KStarsDateTime)edt).gst() );
+    LST = geoPlace->GSTtoLST( ((KStarsDateTime)dt).gst() );
 }
 
 void modCalcAltAz::slotCompute()
@@ -300,7 +300,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
     dms raB, decB, latB, longB, azB, elB;
     QString epoch0B;
     QTime utB;
-    ExtDate dtB;
+    QDate dtB;
 
     while ( ! istream.atEnd() ) {
         line = istream.readLine();
@@ -329,7 +329,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
         // Read date and write in ostream if corresponds
 
         if(dateCheckBatch->isChecked() ) {
-            dtB = ExtDate::fromString( fields[i] );
+            dtB = QDate::fromString( fields[i] );
             i++;
         } else
             dtB = dateBoxBatch->date();

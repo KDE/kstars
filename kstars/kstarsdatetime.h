@@ -19,28 +19,30 @@
 #define KSTARSDATETIME_H_
 
 #define J2000 2451545.0 //Julian Date for noon on Jan 1, 2000 (epoch J2000)
-//defined here because this file is included in every other class.
 #define B1950 2433282.4235  // Julian date for Jan 0.9235, 1950
 #define SIDEREALSECOND 1.002737909 //number of sidereal seconds in one solar second
 
-#include "libkdeedu/extdate/extdatetime.h"
+#include <kdatetime.h>
 
 class dms;
 
 /**@class KStarsDateTime
-	*@short Extension of ExtDateTime for KStars
-	*Instead of an integer Julian Day, KStarsDateTime uses a long double Julian Day, 
-	*in which the fractional portion encodes the time of day to a precision of a less than a second.
-	*Also adds Greenwich Sidereal Time.
-	*@note Local time and Local sideral time are not handled here.  Because they depend on the 
-	*geographic location, they are part of the GeoLocation class.
-	*@sa GeoLocation::GSTtoLST()
-	*@sa GeoLocation::UTtoLT()
-	*@author Jason Harris
-	*@version 1.0
-	*/
+  *@short Extension of KDateTime for KStars
+  *KStarsDateTime can represent the date/time as a Julian Day, using a long double, 
+  *in which the fractional portion encodes the time of day to a precision of a less than a second.
+  *Also adds Greenwich Sidereal Time and "epoch", which is just the date expressed as a floating
+  *point number representing the year, with the fractional part representing the date and time 
+  *(with poor time resolution; typically the Epoch is only taken to the hundredths place, which is 
+  *a few days).
+  *@note Local time and Local sideral time are not handled here.  Because they depend on the 
+  *geographic location, they are part of the GeoLocation class.
+  *@sa GeoLocation::GSTtoLST()
+  *@sa GeoLocation::UTtoLT()
+  *@author Jason Harris
+  *@version 1.0
+  */
 
-class KStarsDateTime : public ExtDateTime
+class KStarsDateTime : public KDateTime
 {
 public:
     /**
@@ -53,8 +55,6 @@ public:
     	*@short Constructor  
     	*Creates a date/time at the specified Julian Day.
     	*@p jd The Julian Day
-    	*@note this is overloaded from ExtDateTime.  It does not allow for assigning the 
-    	*time of day, because the jd argument is an integer
     	*/
     KStarsDateTime( long int jd );
 
@@ -80,17 +80,23 @@ public:
 
     /**
     	*@short Copy constructor
-    	*@p kdt The ExtDateTime object to copy.
+    	*@p kdt The KDateTime object to copy.
     	*/
-    KStarsDateTime( const ExtDateTime &kdt );
+    KStarsDateTime( const KDateTime &kdt );
+
+    /**
+    	*@short Copy constructor
+    	*@p qdt The QDateTime object to copy.
+    	*/
+    KStarsDateTime( const QDateTime &qdt );
 
     /**
     	*@short Constructor
     	*Create a KStarsDateTimne based on the specified Date and Time.
-    	*@p _d The ExtDate to assign
+    	*@p _d The QDate to assign
     	*@p _t The QTime to assign
     	*/
-    KStarsDateTime( const ExtDate &_d, const QTime &_t );
+    KStarsDateTime( const QDate &_d, const QTime &_t );
 
     /**
     	*Assign the (long double) Julian Day value, which includes the time of day
@@ -100,10 +106,10 @@ public:
     void setDJD( long double jd );
 
     /**
-    	*Assign the Date according to an ExtDate object.
-    	*@p d the ExtDate to assign
+    	*Assign the Date according to a QDate object.
+    	*@p d the QDate to assign
     	*/
-    void setDate( const ExtDate &d );
+    void setDate( const QDate &d );
 
     /**
     	*Assign the Time according to a QTime object.
@@ -115,20 +121,20 @@ public:
     	*Modify the Date/Time by adding a number of seconds.  
     	*@p s the number of seconds to add.  The number can be negative.
     	*/
-    KStarsDateTime addSecs( long double s ) const { return KStarsDateTime( djd() + s/86400. ); }
+    inline KStarsDateTime addSecs( double s ) const { return KStarsDateTime( djd() + (long double)s/86400. ); }
 
     /**
     	*Modify the Date/Time by adding a number of days.  
     	*@p nd the number of days to add.  The number can be negative.
     	*/
-    KStarsDateTime addDays( int nd ) const { return KStarsDateTime( djd() + (long double)nd ); }
+    inline KStarsDateTime addDays( int nd ) const { return KStarsDateTime( djd() + (long double)nd ); }
 
-    bool operator == ( const KStarsDateTime &d ) const { return DJD == d.djd(); }
-    bool operator != ( const KStarsDateTime &d ) const { return DJD != d.djd(); }
-    bool operator  < ( const KStarsDateTime &d ) const { return DJD  < d.djd(); }
-    bool operator <= ( const KStarsDateTime &d ) const { return DJD <= d.djd(); }
-    bool operator  > ( const KStarsDateTime &d ) const { return DJD  > d.djd(); }
-    bool operator >= ( const KStarsDateTime &d ) const { return DJD >= d.djd(); }
+    inline bool operator == ( const KStarsDateTime &d ) const { return DJD == d.djd(); }
+    inline bool operator != ( const KStarsDateTime &d ) const { return DJD != d.djd(); }
+    inline bool operator  < ( const KStarsDateTime &d ) const { return DJD  < d.djd(); }
+    inline bool operator <= ( const KStarsDateTime &d ) const { return DJD <= d.djd(); }
+    inline bool operator  > ( const KStarsDateTime &d ) const { return DJD  > d.djd(); }
+    inline bool operator >= ( const KStarsDateTime &d ) const { return DJD >= d.djd(); }
 
     /**
     	*@return the date and time according to the CPU clock
@@ -136,12 +142,20 @@ public:
     	*computed from the Local Time or the Universal Time.
     	*@sa Qt::TimeSpec
     	*/
-    static KStarsDateTime currentDateTime(Qt::TimeSpec ts = Qt::LocalTime);
+    static KStarsDateTime currentDateTime(KDateTime::Spec ts = KDateTime::Spec::ClockTime());
+
+    /**
+     *@return a KStarsDateTime object parsed from the given string.
+     *@note This function is format-agnostic; it will try several formats
+     *when parsing the string.
+     *@param s the string expressing the date/time to be parsed.
+     */
+    static KStarsDateTime fromString( const QString &s );
 
     /**
     	*@return the julian day as a long double, including the time as the fractional portion.
     	*/
-    long double djd() const { return DJD; }
+    inline long double djd() const { return DJD; }
 
     /**
     	*@return the fraction of the Julian Day corresponding to the current time.
@@ -149,14 +163,14 @@ public:
     	*jdFrac() ranges between values of -0.5 and +0.5 for the previous and next midnights,
     	*respectively.
     	*/
-    double jdFrac() const { return ((time().hour()-12) + (time().minute()
+    inline double jdFrac() const { return ((time().hour()-12) + (time().minute()
                                         + (time().second() + time().msec()/1000.)/60.)/60.)/24.; }
 
     /**
     	*@return the Julian Day value for the current date, but at 0h UT.  
     	*@note the returned value is always an integer value + 0.5.
     	*/
-    long double JDat0hUT() const { return int( djd() - 0.5 ) + 0.5; }
+    inline long double JDat0hUT() const { return int( djd() - 0.5 ) + 0.5; }
 
     /**
     	*@return The Greenwich Sidereal Time
@@ -177,7 +191,7 @@ public:
     	*@note the epoch is shorthand for the date, expressed as a floating-point year value.
     	*@sa setFromEpoch()
     	*/
-    double epoch() const { return ( double( date().year() )
+    inline double epoch() const { return ( double( date().year() )
                                         + double( date().dayOfYear() )/double( date().daysInYear() ) ); }
 
     /**

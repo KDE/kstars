@@ -45,7 +45,7 @@ public slots:
     void slotCheckFiles();
 
 private:
-    void updateAlmanac( const ExtDate &d, GeoLocation *geo );
+    void updateAlmanac( const QDate &d, GeoLocation *geo );
     QTime lengthOfDay(QTime setQTime, QTime riseQTime);
 
     void showCurrentDate(void);

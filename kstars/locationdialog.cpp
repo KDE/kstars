@@ -386,7 +386,7 @@ void LocationDialog::showTZRules( void ) {
     //list widget, in order to set its width properly.  Why doesn't it just resize
     //the widget to fit the contents automatically?  I tried setting the sizePolicy,
     //no joy...
-    int w = 1.1*lw->visualItemRect( lw->item(0) ).width();
+    int w = int( 1.1*lw->visualItemRect( lw->item(0) ).width() );
     lw->setMinimumWidth( w );
     tzd->setMainWidget( lw );
     tzd->exec();

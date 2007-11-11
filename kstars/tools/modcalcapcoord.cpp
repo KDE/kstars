@@ -29,7 +29,6 @@
 #include "kstarsdatetime.h"
 #include "finddialog.h"
 #include "widgets/dmsbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
         : QFrame(parentSplit) {
@@ -44,7 +43,7 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
     connect( RACat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
     connect( DecCat, SIGNAL( editingFinished() ), this, SLOT( slotCompute() ) );
     connect( UT, SIGNAL( timeChanged( const QTime & ) ), this, SLOT( slotCompute() ) );
-    connect( Date, SIGNAL( dateChanged( const ExtDate & ) ), this, SLOT( slotCompute() ) );
+    connect( Date, SIGNAL( dateChanged( const QDate & ) ), this, SLOT( slotCompute() ) );
 
     connect( utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()) );
     connect( dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateCheckedBatch()) );
@@ -200,7 +199,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
     long double jd, jd0;
     SkyPoint sp;
     QTime utB;
-    ExtDate dtB;
+    QDate dtB;
     dms raB, decB;
     QString epoch0B;
 
@@ -231,7 +230,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
         // Read date and write in ostream if corresponds
 
         if(dateCheckBatch->isChecked() ) {
-            dtB = ExtDate::fromString( fields[i] );
+            dtB = QDate::fromString( fields[i] );
             i++;
         } else
             dtB = dateBoxBatch->date();

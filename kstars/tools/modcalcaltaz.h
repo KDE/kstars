@@ -21,7 +21,6 @@
 #include "ui_modcalcaltaz.h"
 
 class QWidget;
-class ExtDateTime;
 class GeoLocation;
 class dms;
 
@@ -41,7 +40,7 @@ public slots:
     void slotNow();
     void slotLocation();
     void slotObject();
-    void slotDateTimeChanged(const ExtDateTime&);
+    void slotDateTimeChanged(const QDateTime&);
 
     void slotUtChecked();
     void slotDateChecked();

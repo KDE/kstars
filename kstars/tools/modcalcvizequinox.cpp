@@ -27,7 +27,7 @@
 #include "ksnumbers.h"
 #include "kssun.h"
 #include "widgets/dmsbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
+
 #include "kplotobject.h"
 #include "kplotaxis.h"
 #include "kplotwidget.h"
@@ -52,9 +52,9 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
     Plot->axis(KPlotWidget::BottomAxis)->setVisible( false );
     Plot->axis(KPlotWidget::TopAxis)->setVisible( false );
 
-    long double jd0 = KStarsDateTime( ExtDate(Year->value(), 1, 1), QTime(0,0,0) ).djd();
+    long double jd0 = KStarsDateTime( QDate(Year->value(), 1, 1), QTime(0,0,0) ).djd();
     for ( int imonth=0; imonth < 12; imonth++ ) {
-        KStarsDateTime kdt( ExtDate(Year->value(), imonth+1, 1), QTime(0,0,0) );
+        KStarsDateTime kdt( QDate(Year->value(), imonth+1, 1), QTime(0,0,0) );
         DMonth[imonth] = kdt.djd() - jd0;
     }
 
@@ -179,7 +179,7 @@ void modCalcEquinox::slotCompute()
     KPlotObject *ecl = new KPlotObject( ks->data()->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
     ecl->setLinePen( QPen( ecl->pen().color(), 4 ) );
 
-    KStarsDateTime dt( ExtDate(year0, 1, 1), QTime(0,0,0) );
+    KStarsDateTime dt( QDate(year0, 1, 1), QTime(0,0,0) );
     long double jd0 = dt.djd(); //save JD on Jan 1st
     Plot->setLimits( 1.0, double(dt.date().daysInYear()), -30.0, 30.0 );
 
@@ -242,7 +242,6 @@ void modCalcEquinox::addDateAxes() {
     Plot->addPlotObject( poBottomAxis );
 
     //Tick mark for each month
-    //	long double jd0 = KStarsDateTime( ExtDate(Year->value(), 1, 1), QTime(0,0,0) ).djd();
     for ( int imonth=0; imonth<12; imonth++ ) {
         KPlotObject *poMonth = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
         poMonth->addPoint( dmonth(imonth), Plot->dataRect().top() );
@@ -259,7 +258,7 @@ KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *
     //Interpolate to find the moment when the Sun crosses the equator in March
     int month = 3;
     if ( ! Spring ) month = 9;
-    int i = ExtDate( year, month, 16 ).dayOfYear();
+    int i = QDate( year, month, 16 ).dayOfYear();
     double dec1, dec2;
     dec2 = ecl->points()[i]->y();
     do {
@@ -273,7 +272,7 @@ KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *
     double d = fabs(dec2 - dec1);
     double f = 1.0 - fabs(dec2)/d; //fractional distance of the zero, from point1 to point2
 
-    KStarsDateTime dt0( ExtDate( year, 1, 1 ), QTime(0,0,0) );
+    KStarsDateTime dt0( QDate( year, 1, 1 ), QTime(0,0,0) );
     KStarsDateTime dt = dt0.addSecs( 86400.0*(x1-1 + f*(x2-x1)) );
     return dt;
 }
@@ -289,7 +288,7 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     int month = 6;
     if ( ! Summer ) month = 12;
 
-    jd3 = KStarsDateTime( ExtDate( year, month, 16 ), QTime(0,0,0) ).djd();
+    jd3 = KStarsDateTime( QDate( year, month, 16 ), QTime(0,0,0) ).djd();
     KSNumbers num( jd3 );
     KSSun Sun( ks->data() );
     Sun.findPosition( &num );

@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgSetLocalTime</class>
  <widget class="QWidget" name="ArgSetLocalTime" >
   <property name="geometry" >
@@ -13,22 +10,40 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="leftMargin" >
+    <number>8</number>
+   </property>
+   <property name="topMargin" >
+    <number>8</number>
+   </property>
+   <property name="rightMargin" >
+    <number>8</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>8</number>
+   </property>
    <item>
-    <widget class="ExtDateEdit" name="DateBox" />
+    <widget class="KDateWidget" name="DateWidget" />
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <spacer>
@@ -70,14 +85,11 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>libkdeedu/extdate/extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KDateWidget</class>
+   <extends>QWidget</extends>
+   <header>kdatewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

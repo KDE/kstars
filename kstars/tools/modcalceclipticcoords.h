@@ -40,7 +40,7 @@ public:
 public slots:
     void slotNow(void);
     void slotObject(void);
-    void slotDateTimeChanged(const ExtDateTime &edt);
+    void slotDateTimeChanged(const QDateTime &edt);
     void slotCompute(void);
 
     void slotEclLatCheckedBatch(void);

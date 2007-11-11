@@ -32,7 +32,6 @@
 #include "ksmoon.h"
 #include "kspluto.h"
 #include "widgets/dmsbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
         : QFrame(parentSplit) {
@@ -41,7 +40,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
     KStars *ks = (KStars*) topLevelWidget()->parent();
     KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
-    DateTimeBox->setDateTime( dt );
+    DateTimeBox->setDateTime( dt.dateTime() );
     DateBoxBatch->setDate( dt.date() );
     UTBoxBatch->setTime( dt.time() );
 
@@ -52,7 +51,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
 
     // signals and slots connections
     connect(PlanetComboBox, SIGNAL(activated(int)), this, SLOT(slotComputePosition()));
-    connect(DateTimeBox, SIGNAL(dateTimeChanged(ExtDateTime)), this, SLOT(slotComputePosition()));
+    connect(DateTimeBox, SIGNAL(dateTimeChanged( QDateTime )), this, SLOT(slotComputePosition()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
 
     connect(UTCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtCheckedBatch()));
@@ -328,7 +327,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     QString planetB;
     unsigned int i = 0, nline = 0;
     QTime utB;
-    ExtDate dtB;
+    QDate dtB;
     dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
     double rSunB(0.0), rEarthB(0.0);
 
@@ -414,7 +413,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         // Read date and write in ostream if corresponds
 
         if(DateCheckBatch->isChecked() ) {
-            dtB = ExtDate::fromString( fields[i], Qt::ISODate );
+            dtB = QDate::fromString( fields[i], Qt::ISODate );
             if ( !dtB.isValid() ) {
                 kWarning() << i18n( "Line %1 contains an invalid date: " , nline) <<
                 fields[i] << endl ;

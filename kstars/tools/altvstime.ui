@@ -1,68 +1,56 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>AltVsTime</class>
  <widget class="QWidget" name="AltVsTime" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
-    <height>196</height>
+    <width>607</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Altitude vs. Time</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
-    <widget class="QTabWidget" name="tabWidget2" >
+    <widget class="AVTPlotWidget" name="View" >
      <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>7</hsizetype>
-       <vsizetype>0</vsizetype>
+      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>400</width>
+       <height>400</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget2" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
        <string>Sources</string>
       </attribute>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
+      <layout class="QVBoxLayout" >
        <item>
         <layout class="QGridLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="textLabel4" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>0</hsizetype>
-             <vsizetype>5</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="textLabel1" >
            <property name="text" >
-            <string>Dec:</string>
+            <string>Name:</string>
            </property>
           </widget>
          </item>
@@ -83,48 +71,33 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="2" >
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
+         <item row="0" column="3" >
+          <widget class="KPushButton" name="browseButton" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="sizeHint" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="1" >
-          <widget class="KLineEdit" name="epochName" >
-           <property name="minimumSize" >
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>80</width>
-             <height>32767</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="textLabel1" >
            <property name="text" >
-            <string>Name:</string>
+            <string>Find Object...</string>
            </property>
           </widget>
          </item>
-         <item rowspan="2" row="1" column="0" >
+         <item rowspan="4" row="0" column="4" >
+          <widget class="KListWidget" name="PlotList" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
           <widget class="QLabel" name="textLabel2" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -137,50 +110,13 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="textLabel3" >
-           <property name="text" >
-            <string>Epoch:</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="1" colspan="2" >
           <widget class="dmsBox" name="raBox" />
          </item>
-         <item rowspan="2" row="2" column="1" colspan="2" >
-          <widget class="dmsBox" name="decBox" />
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="KPushButton" name="browseButton" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>1</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text" >
-            <string>Find Object...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
+         <item row="1" column="3" >
           <widget class="KPushButton" name="addButton" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>1</vsizetype>
+            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -190,12 +126,26 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="0" >
+          <widget class="QLabel" name="textLabel4" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text" >
+            <string>Dec:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2" >
+          <widget class="dmsBox" name="decBox" />
+         </item>
+         <item row="2" column="3" >
           <widget class="KPushButton" name="clearFieldsButton" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>1</vsizetype>
+            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -211,12 +161,46 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="3" column="0" >
+          <widget class="QLabel" name="textLabel3" >
+           <property name="text" >
+            <string>Epoch:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1" >
+          <widget class="KLineEdit" name="epochName" >
+           <property name="minimumSize" >
+            <size>
+             <width>80</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>80</width>
+             <height>26</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2" >
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="3" >
           <widget class="KPushButton" name="clearButton" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>5</hsizetype>
-             <vsizetype>1</vsizetype>
+            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -228,19 +212,6 @@
          </item>
         </layout>
        </item>
-       <item>
-        <widget class="K3ListBox" name="PlotList" >
-         <property name="minimumSize" >
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="vScrollBarMode" >
-          <enum>Q3ScrollView::AlwaysOn</enum>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab" >
@@ -248,19 +219,37 @@
        <string>Date &amp;&amp; Location</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>8</number>
+       </property>
+       <property name="topMargin" >
+        <number>8</number>
+       </property>
+       <property name="rightMargin" >
+        <number>8</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>8</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="textLabel5" >
@@ -270,14 +259,7 @@
           </widget>
          </item>
          <item>
-          <widget class="ExtDateEdit" name="dateBox" >
-           <property name="minimumSize" >
-            <size>
-             <width>90</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
+          <widget class="KDateWidget" name="DateWidget" />
          </item>
          <item>
           <spacer>
@@ -299,11 +281,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <widget class="KPushButton" name="cityButton" >
@@ -315,9 +306,7 @@
          <item>
           <widget class="QLabel" name="textLabel7" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>0</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -333,9 +322,7 @@
          <item>
           <widget class="QLabel" name="textLabel6" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>0</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -368,11 +355,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -406,42 +402,36 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>K3ListBox</class>
-   <extends></extends>
-   <header>k3listbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KDateWidget</class>
+   <extends>QWidget</extends>
+   <header>kdatewidget.h</header>
   </customwidget>
   <customwidget>
-   <class>ExtDateEdit</class>
-   <extends></extends>
-   <header>extdatetimeedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>AVTPlotWidget</class>
+   <extends>KPlotWidget</extends>
+   <header>tools/avtplotwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -452,7 +442,6 @@
   <tabstop>browseButton</tabstop>
   <tabstop>clearFieldsButton</tabstop>
   <tabstop>clearButton</tabstop>
-  <tabstop>PlotList</tabstop>
   <tabstop>cityButton</tabstop>
   <tabstop>updateButton</tabstop>
  </tabstops>

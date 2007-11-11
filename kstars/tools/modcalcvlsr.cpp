@@ -30,14 +30,13 @@
 #include "widgets/dmsbox.h"
 #include "locationdialog.h"
 #include "finddialog.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
 {
     setupUi(this);
     RA->setDegType(false);
 
-    Date->setDateTime( KStarsDateTime::currentDateTime() );
+    Date->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
     initGeo();
 
     VLSR->setValidator( new QDoubleValidator( VLSR ) );
@@ -46,7 +45,7 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFl
     VTopo->setValidator( new QDoubleValidator( VTopo ) );
 
     // signals and slots connections
-    connect(Date, SIGNAL( dateTimeChanged( const ExtDateTime & ) ),
+    connect(Date, SIGNAL( dateTimeChanged( const QDateTime & ) ),
             this, SLOT( slotCompute() ) );
     connect(NowButton, SIGNAL( clicked() ), this, SLOT( slotNow() ) );
     connect(LocationButton, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
@@ -75,7 +74,7 @@ void modCalcVlsr::initGeo(void)
 
 void modCalcVlsr::slotNow()
 {
-    Date->setDateTime( KStarsDateTime::currentDateTime() );
+    Date->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
     slotCompute();
 }
 
@@ -310,7 +309,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
     double vhB, vgB, vtB, vlsrB, heightB;
     double vtopo[3];
     QTime utB;
-    ExtDate dtB;
+    QDate dtB;
     KStarsDateTime dt0B;
 
     while ( ! istream.atEnd() ) {
@@ -340,7 +339,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
         // Read date and write in ostream if corresponds
 
         if(DateCheckBatch->isChecked() ) {
-            dtB = ExtDate::fromString( fields[i] );
+            dtB = QDate::fromString( fields[i] );
             i++;
         } else
             dtB = DateBoxBatch->date();

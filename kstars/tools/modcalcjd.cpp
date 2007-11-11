@@ -17,7 +17,6 @@
 
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <qradiobutton.h>
 #include <klineedit.h>
@@ -37,7 +36,7 @@ modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
 
     // signals and slots connections
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
-    connect( DateTimeBox, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotUpdateCalendar()) );
+    connect( DateTimeBox, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotUpdateCalendar()) );
     connect( JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()) );
     connect( ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()) );
     connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
@@ -75,7 +74,7 @@ void modCalcJD::slotUpdateModJD()
     modjulianDay = KGlobal::locale()->readNumber( ModJDBox->text() );
     julianDay = MJD0 + modjulianDay;
     showJd( julianDay );
-    DateTimeBox->setDateTime( KStarsDateTime( julianDay ) );
+    DateTimeBox->setDateTime( KStarsDateTime( julianDay ).dateTime() );
 }
 
 void modCalcJD::slotUpdateJD()
@@ -84,7 +83,7 @@ void modCalcJD::slotUpdateJD()
     julianDay = KGlobal::locale()->readNumber( JDBox->text() );
     KStarsDateTime dt( julianDay );
 
-    DateTimeBox->setDateTime( dt );
+    DateTimeBox->setDateTime( dt.dateTime() );
 
     modjulianDay = julianDay - MJD0;
     showMjd( modjulianDay );
@@ -93,8 +92,7 @@ void modCalcJD::slotUpdateJD()
 
 void modCalcJD::showCurrentTime (void)
 {
-    KStarsDateTime dt = KStarsDateTime::currentDateTime();
-    DateTimeBox->setDateTime( dt );
+    DateTimeBox->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
 }
 
 void modCalcJD::showJd(long double julianDay)
@@ -158,7 +156,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
             if ( data[0].length() > 10 )
                 dt = KStarsDateTime::fromString( data[0] );
             else
-                dt = KStarsDateTime( ExtDate::fromString( data[0] ), QTime(0,0,0) );
+                dt = KStarsDateTime( QDate::fromString( data[0] ), QTime(0,0,0) );
 
             //DEBUG
             kDebug() << data[0] << endl;
@@ -179,9 +177,9 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
                     dt.setTime( t );
                     //Now try the second field as a date
                     if ( data.size() > 1 ) {
-                        ExtDate d = ExtDate::fromString( data[1] );
+                        QDate d = QDate::fromString( data[1] );
                         if ( d.isValid() ) dt.setDate( d );
-                        else dt.setDate( ExtDate::currentDate() );
+                        else dt.setDate( QDate::currentDate() );
                     }
                 }
             }

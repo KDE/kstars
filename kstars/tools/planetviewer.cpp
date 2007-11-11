@@ -43,7 +43,6 @@
 #include "kspluto.h"
 #include "dms.h"
 #include "widgets/timestepbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
@@ -93,7 +92,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 
     for ( uint i=0; i<9; ++i ) {
         PlanetList[i]->findPosition( &num, 0, 0 ); //NULL args: don't need geocent. coords.
-        LastUpdate[i] = int( ut.date().jd() );
+        LastUpdate[i] = int( ut.date().toJulianDay() );
     }
 
     //The planets' update intervals are 0.25% of one period:
@@ -112,7 +111,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
     connect( pw->TimeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
     connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
-    connect( pw->DateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
+    connect( pw->DateBox, SIGNAL( valueChanged( const QDate & ) ), SLOT( slotChangeDate( const QDate & ) ) );
     connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
 }
@@ -147,7 +146,7 @@ void PlanetViewer::slotRunClock() {
     }
 }
 
-void PlanetViewer::slotChangeDate( const ExtDate & ) {
+void PlanetViewer::slotChangeDate( const QDate & ) {
     ut.setDate( pw->DateBox->date() );
     updatePlanets();
 }
@@ -166,7 +165,7 @@ void PlanetViewer::updatePlanets() {
 
     //Check each planet to see if it needs to be updated
     for ( unsigned int i=0; i<9; ++i ) {
-        if ( abs( int(ut.date().jd()) - LastUpdate[i] ) > UpdateInterval[i] ) {
+        if ( abs( int(ut.date().toJulianDay()) - LastUpdate[i] ) > UpdateInterval[i] ) {
             KSPlanetBase *p = PlanetList[i];
             p->findPosition( &num );
 
@@ -187,7 +186,7 @@ void PlanetViewer::updatePlanets() {
                                     dataRect.y() + dy, dataRect.bottom() + dy );
             }
 
-            LastUpdate[i] = int(ut.date().jd());
+            LastUpdate[i] = int(ut.date().toJulianDay());
             changed = true;
         }
     }

@@ -53,10 +53,6 @@ LCGenerator::LCGenerator( QWidget* parent)
     lcg->DesignationBox->clear();
     lcg->NameBox->clear();
 
-    // FIXME ExDateEdit is broken, check LCGenerator again
-    // When it gets fixed
-    lcg->StartDateBox->setRange(-20000000, 20000000);
-    lcg->EndDateBox->setRange(-20000000, 20000000);
     lcg->StartDateBox->setDate(ksw->data()->lt().date());
     lcg->EndDateBox->setDate(ksw->data()->lt().date());
 
@@ -88,7 +84,7 @@ LCGenerator::~LCGenerator()
 
 void LCGenerator::VerifyData()
 {
-    ExtDate StartDate, EndDate;
+    QDate StartDate, EndDate;
     QString Designation, AverageDays;
 
     if ( ! lcg->StartDateBox->date().isValid() ) {
@@ -116,15 +112,15 @@ void LCGenerator::VerifyData()
 
 }
 
-void LCGenerator::DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay)
+void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay)
 {
 
     QString buf(Hostprefix);
     QString Yes("yes");
     QString No("no");
 
-    buf.append('?'+QString::number(StartDate.jd()));
-    buf.append('?'+QString::number(EndDate.jd()));
+    buf.append('?'+QString::number(StartDate.toJulianDay()));
+    buf.append('?'+QString::number(EndDate.toJulianDay()));
     buf.append('?'+Designation);
     buf.append('?'+AverageDay);
     buf.append('?'+ (lcg->FainterCheck->isChecked() ? Yes : No));

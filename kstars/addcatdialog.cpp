@@ -152,7 +152,7 @@ QString AddCatDialog::writeCatalogHeader() {
     h += QString("# Epoch: %1\n").arg( acd->Epoch->value() );
     h += QString("# ");
 
-    for ( uint i=0; i < acd->FieldList->count(); ++i ) {
+    for ( int i=0; i < acd->FieldList->count(); ++i ) {
         QString f = acd->FieldList->item( i )->text();
 
         if ( f == i18n( "ID Number" ) ) {

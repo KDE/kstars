@@ -27,7 +27,6 @@
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "widgets/timebox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 #include <kmessagebox.h>
 
@@ -41,7 +40,7 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
     initGeo();
     slotComputeAlmanac();
 
-    connect( Date, SIGNAL(dateChanged(const ExtDate&)), this, SLOT(slotComputeAlmanac() ) );
+    connect( Date, SIGNAL(dateChanged(const QDate&)), this, SLOT(slotComputeAlmanac() ) );
     connect( Location, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
 
     connect( LocationBatch, SIGNAL( clicked() ), this, SLOT( slotLocationBatch() ) );
@@ -106,7 +105,7 @@ void modCalcDayLength::slotLocationBatch() {
     }
 }
 
-void modCalcDayLength::updateAlmanac( const ExtDate &d, GeoLocation *geo ) {
+void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     //Determine values needed for the Almanac
     long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
     KSNumbers * num = new KSNumbers(jd0);
@@ -278,14 +277,14 @@ void modCalcDayLength::processLines( QTextStream &istream ) {
     << "#" << endl;
 
     QString line;
-    ExtDate d;
+    QDate d;
 
     while ( ! istream.atEnd() ) {
         line = istream.readLine();
         line = line.trimmed();
 
         //Parse the line as a date, then compute Almanac values
-        d = ExtDate::fromString( line );
+        d = QDate::fromString( line );
         if ( d.isValid() ) {
             updateAlmanac( d, geoBatch );
             ostream << d.toString( Qt::ISODate ) << "  "

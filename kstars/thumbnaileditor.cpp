@@ -46,6 +46,9 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp )
                                   tp->imageRect()->width(), tp->imageRect()->height() );
     ui->ImageCanvas->setImage( tp->currentListImage() );
 
+    //DEBUG
+    kDebug() << tp->currentListImage()->size() << endl;
+
     connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
     slotUpdateCropLabel();
 

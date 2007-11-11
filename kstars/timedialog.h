@@ -30,21 +30,19 @@
 
 class QHBoxLayout;
 class QVBoxLayout;
-class ExtDatePicker;
-class QSpinBox;
-class QLabel;
-class QPushButton;
-class KStars;
+class KDatePicker;
+class QTimeEdit;
+class KPushButton;
+class GeoLocation;
 
 /**@class TimeDialog
-	*A class for adjusting the Time and Date.  Contains a ExtDatePicker widget
-	*for selecting the date, and three QSpinBoxes for selecting the Hour,
-	*Minute and Second.  There is also a "Now" QPushbutton for selecting the
-	*Time and Date from the system clock.
-	*@short Dialog for adjusting the Time and Date.
-	*@author Jason Harris
-	*@version 0.9
-	*/
+  *A class for adjusting the Time and Date.  Contains a KDatePicker widget
+  *for selecting the date, and a QTimeEdit for selecting the time.  There 
+  *is also a "Now" button for selecting the Time and Date from the system clock.
+  *@short Dialog for adjusting the Time and Date.
+  *@author Jason Harris
+  *@version 1.0
+  */
 
 class TimeDialog : public KDialog {
     Q_OBJECT
@@ -53,7 +51,7 @@ public:
     	*Constructor.  Creates widgets and packs them into QLayouts.
     	*Connects	Signals and Slots.
     	*/
-    TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFrame=false );
+    TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame=false );
 
     /**
     	*Destructor (empty)
@@ -64,9 +62,9 @@ public:
     	*/
     QTime selectedTime( void );
 
-    /**@returns a ExtDate object with the selected date
+    /**@returns a QDate object with the selected date
     	*/
-    ExtDate selectedDate( void );
+    QDate selectedDate( void );
 
     /**@returns a KStarsDateTime object with the selected date and time
     	*/
@@ -74,34 +72,12 @@ public:
 
 public slots:
     /**
-    	*When the "Now" QPushButton is pressed, read the time and date
-    	*from the system clock.  Change the selected date in the ExtDatePicker
-    	*to the system's date, and the displayed Hour, Minute and Second
+    	*When the "Now" button is pressed, read the time and date
+    	*from the system clock.  Change the selected date in the KDatePicker
+    	*to the system's date, and the displayed time
     	*to the system time.
     	*/
     void setNow( void );
-
-    /**
-    	*When the value of the HourBox QSpinBox is changed, prefix a "0" to
-    	*the displayed text, if the value is less than 10.
-    	*
-    	*It would be nice if I could use one slot for these three widgets;
-    	*my understanding is that the slot has no knowledge of which
-    	*widget sent the signal...
-    	*/
-    void HourPrefix( int value );
-
-    /**
-    	*When the value of the MinuteBox QSpinBox is changed, prefix a "0" to
-    	*the displayed text, if the value is less than 10.
-    	*/
-    void MinutePrefix( int value );
-
-    /**
-    	*When the value of the SecondBox QSpinBox is changed, prefix a "0" to
-    	*the displayed text, if the value is less than 10.
-    	*/
-    void SecondPrefix( int value );
 
 protected:
     void keyReleaseEvent( QKeyEvent* );
@@ -110,13 +86,10 @@ private:
     bool UTCNow;
     QHBoxLayout *hlay;
     QVBoxLayout *vlay;
-    ExtDatePicker *dPicker;
-    QSpinBox* HourBox;
-    QLabel* TextLabel1;
-    QSpinBox* MinuteBox;
-    QLabel* TextLabel1_2;
-    QSpinBox* SecondBox;
-    QPushButton* NowButton;
+    KDatePicker *dPicker;
+    QTimeEdit *tEdit;
+    KPushButton* NowButton;
+    GeoLocation *geo;
 };
 
 #endif

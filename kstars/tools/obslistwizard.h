@@ -23,6 +23,7 @@
 
 class KStars;
 class SkyObject;
+class GeoLocation;
 
 class ObsListWizardUI : public QFrame, public Ui::ObsListWizard {
     Q_OBJECT
@@ -57,6 +58,7 @@ private slots:
     void slotDeepSkyButton();
     void slotSolarSystemButton();
     void slotChangeLocation();
+    void slotToggleDateWidgets();
 
     /**@short Construct the observing list by applying the selected filters
     	*/
@@ -92,6 +94,8 @@ private:
     ObsListWizardUI *olw;
     uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;
     uint GalaxyCount, OpenClusterCount, GlobClusterCount, GasNebCount, PlanNebCount;
+
+    GeoLocation *geo;
 };
 
 #endif

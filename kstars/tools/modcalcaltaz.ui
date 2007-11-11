@@ -9,53 +9,92 @@
     <x>0</x>
     <y>0</y>
     <width>528</width>
-    <height>487</height>
+    <height>496</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Horizontal Coordinates</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="leftMargin" >
+    <number>9</number>
+   </property>
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget3" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>9</number>
+       </property>
+       <property name="topMargin" >
+        <number>9</number>
+       </property>
+       <property name="rightMargin" >
+        <number>9</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>9</number>
+       </property>
        <item>
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="0" column="1" >
           <layout class="QHBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
            </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
+           </property>
            <item>
-            <widget class="ExtDateTimeEdit" name="DateTime" />
+            <widget class="QDateTimeEdit" name="DateTime" />
            </item>
            <item>
             <widget class="KPushButton" name="NowButton" >
@@ -104,11 +143,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <widget class="QGroupBox" name="groupBox_3" >
@@ -116,10 +164,22 @@
             <string>Equatorial Coordinates (J2000)</string>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>9</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>9</number>
+            </property>
+            <property name="rightMargin" >
+             <number>9</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>9</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>6</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>6</number>
             </property>
             <item row="2" column="0" >
@@ -194,18 +254,39 @@
             <string>Horizontal Coordinates</string>
            </property>
            <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>8</number>
-            </property>
             <property name="spacing" >
              <number>6</number>
             </property>
+            <property name="leftMargin" >
+             <number>8</number>
+            </property>
+            <property name="topMargin" >
+             <number>8</number>
+            </property>
+            <property name="rightMargin" >
+             <number>8</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>8</number>
+            </property>
             <item>
              <layout class="QGridLayout" >
-              <property name="margin" >
+              <property name="leftMargin" >
                <number>0</number>
               </property>
-              <property name="spacing" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <property name="horizontalSpacing" >
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing" >
                <number>6</number>
               </property>
               <item row="1" column="1" >
@@ -291,11 +372,20 @@
        <string>Batch Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>8</number>
+       </property>
+       <property name="topMargin" >
+        <number>8</number>
+       </property>
+       <property name="rightMargin" >
+        <number>8</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>8</number>
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox_7" >
@@ -303,26 +393,56 @@
           <string>Select Fields in Input File</string>
          </property>
          <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
           </property>
+          <property name="leftMargin" >
+           <number>8</number>
+          </property>
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
             <property name="spacing" >
              <number>6</number>
             </property>
+            <property name="leftMargin" >
+             <number>0</number>
+            </property>
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
             <item>
              <layout class="QGridLayout" >
-              <property name="margin" >
+              <property name="leftMargin" >
                <number>0</number>
               </property>
-              <property name="spacing" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <property name="horizontalSpacing" >
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing" >
                <number>6</number>
               </property>
               <item row="3" column="0" >
@@ -348,16 +468,6 @@
                 </property>
                 <property name="focusPolicy" >
                  <enum>Qt::StrongFocus</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" >
-               <widget class="ExtDateEdit" name="dateBoxBatch" >
-                <property name="minimumSize" >
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
                 </property>
                </widget>
               </item>
@@ -420,31 +530,53 @@
               <item row="4" column="1" >
                <widget class="KLineEdit" name="epochBoxBatch" >
                 <property name="sizePolicy" >
-                 <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>5</vsizetype>
+                 <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                </widget>
               </item>
+              <item row="1" column="1" >
+               <widget class="QDateEdit" name="dateBoxBatch" />
+              </item>
              </layout>
             </item>
             <item>
              <layout class="QVBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
               <property name="spacing" >
                <number>6</number>
               </property>
+              <property name="leftMargin" >
+               <number>0</number>
+              </property>
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
               <item>
                <layout class="QGridLayout" >
-                <property name="margin" >
+                <property name="leftMargin" >
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="topMargin" >
+                 <number>0</number>
+                </property>
+                <property name="rightMargin" >
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin" >
+                 <number>0</number>
+                </property>
+                <property name="horizontalSpacing" >
+                 <number>6</number>
+                </property>
+                <property name="verticalSpacing" >
                  <number>6</number>
                 </property>
                 <item row="3" column="1" >
@@ -595,11 +727,20 @@
           <string>Fields in Output File Plus Result</string>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>8</number>
+          </property>
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
           </property>
           <item>
            <widget class="QRadioButton" name="allRadioBatch" >
@@ -627,10 +768,22 @@
           <string>Files</string>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>8</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>8</number>
+          </property>
+          <property name="rightMargin" >
+           <number>8</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>8</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>6</number>
           </property>
           <item row="1" column="1" >
@@ -664,11 +817,20 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -689,9 +851,7 @@
          <item>
           <widget class="KPushButton" name="runButtonBatch" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>7</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -744,29 +904,19 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ExtDateTimeEdit</class>
-   <extends>QFrame</extends>
-   <header>extdatetimeedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>extdatetimeedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -780,7 +930,6 @@
   <tabstop>Alt</tabstop>
   <tabstop>decCheckBatch</tabstop>
   <tabstop>decBoxBatch</tabstop>
-  <tabstop>dateBoxBatch</tabstop>
   <tabstop>raCheckBatch</tabstop>
   <tabstop>dateCheckBatch</tabstop>
   <tabstop>epochCheckBatch</tabstop>

@@ -15,13 +15,13 @@
 
 #include <kmessagebox.h>
 #include <kprogressdialog.h>
+#include <kdatetime.h>
 
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "timedialog.h"
 #include "ksutils.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
 #include "indimenu.h"
 #include "indidriver.h"
@@ -62,7 +62,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     Options::setIndiMessages( false );
 
     QTime newTime( ksw->data()->lt().time() );
-    ExtDate newDate( ksw->data()->lt().date() );
+    QDate newDate( ksw->data()->lt().date() );
 
     ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
     ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
@@ -171,7 +171,7 @@ void telescopeWizardProcess::processBack(void)
 
 void telescopeWizardProcess::newTime()
 {
-    TimeDialog timedialog (ksw->data()->lt(), ksw);
+    TimeDialog timedialog (ksw->data()->lt(), ksw->geo(), ksw);
 
     if ( timedialog.exec() == QDialog::Accepted )
     {

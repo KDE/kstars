@@ -148,7 +148,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 
 int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
     // Determine the calendar date of StartDay for the month and year of the given date.
-    ExtDate test;
+    QDate test;
 
     // TimeZoneRule is empty, return -1
     if ( isEmptyRule() ) return -1;
@@ -158,11 +158,11 @@ int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
 
     // Since StartWeek was not zero, StartDay is the day of the week, not the calendar date
     else if ( StartWeek==5 ) { // count back from end of month until StartDay is found.
-        for ( test = ExtDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
+        for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
                 test.day() > 21; test = test.addDays( -1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
     } else { // Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
-        for ( test = ExtDate( d.date().year(), d.date().month(), (StartWeek-1)*7 + 1 );
+        for ( test = QDate( d.date().year(), d.date().month(), (StartWeek-1)*7 + 1 );
                 test.day() < 7*StartWeek; test = test.addDays( 1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
     }
@@ -171,7 +171,7 @@ int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
 
 int TimeZoneRule::findRevertDay( const KStarsDateTime &d ) {
     // Determine the calendar date of RevertDay for the month and year of the given date.
-    ExtDate test;
+    QDate test;
 
     // TimeZoneRule is empty, return -1
     if ( isEmptyRule() ) return -1;
@@ -181,11 +181,11 @@ int TimeZoneRule::findRevertDay( const KStarsDateTime &d ) {
 
     // Since RevertWeek was not zero, RevertDay is the day of the week, not the calendar date
     else if ( RevertWeek==5 ) { //count back from end of month until RevertDay is found.
-        for ( test = ExtDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
+        for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
                 test.day() > 21; test = test.addDays( -1 ) )
             if ( test.dayOfWeek() == RevertDay ) break;
     } else { //Count forward from day 1, 8 or 15 (depending on RevertWeek) until correct day of week is found
-        for ( test = ExtDate( d.date().year(), d.date().month(), (RevertWeek-1)*7 + 1 );
+        for ( test = QDate( d.date().year(), d.date().month(), (RevertWeek-1)*7 + 1 );
                 test.day() < 7*RevertWeek; test = test.addDays( 1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
     }
@@ -228,8 +228,8 @@ bool TimeZoneRule::isDSTActive( const KStarsDateTime &date ) {
 void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
     KStarsDateTime result;
 
-    // return a very remote date if the rule is the empty rule.
-    if ( isEmptyRule() ) result = KStarsDateTime( INVALID_DAY );
+    // return an invalid date if the rule is the empty rule.
+    if ( isEmptyRule() ) result = KDateTime();
 
     else if ( deltaTZ() ) {
         // Next change is reverting back to standard time.
@@ -239,8 +239,8 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
         int y = date.date().year();
         if ( RevertMonth < date.date().month() ) ++y;
 
-        result = KStarsDateTime( ExtDate( y, RevertMonth, 1 ), RevertTime );
-        result = KStarsDateTime( ExtDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
+        result = KStarsDateTime( QDate( y, RevertMonth, 1 ), RevertTime );
+        result = KStarsDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
 
     } else {
         // Next change is starting DST.
@@ -250,8 +250,8 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
         int y = date.date().year();
         if ( StartMonth < date.date().month() ) ++y;
 
-        result = KStarsDateTime( ExtDate( y, StartMonth, 1 ), StartTime );
-        result = KStarsDateTime( ExtDate( y, StartMonth, findStartDay( result ) ), StartTime );
+        result = KStarsDateTime( QDate( y, StartMonth, 1 ), StartTime );
+        result = KStarsDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
     }
 
     kDebug() << i18n( "Next Daylight Savings Time change (Local Time): " ) << result.toString();
@@ -262,8 +262,8 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
 void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
     KStarsDateTime result;
 
-    // return a very remote date if the rule is the empty rule
-    if ( isEmptyRule() ) next_change_ltime = KStarsDateTime( INVALID_DAY );
+    // return an invalid date if the rule is the empty rule
+    if ( isEmptyRule() ) next_change_ltime = KDateTime();
 
     if ( deltaTZ() ) {
         // Last change was starting DST.
@@ -273,8 +273,8 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
         int y = date.date().year();
         if ( StartMonth > date.date().month() ) --y;
 
-        result = KStarsDateTime( ExtDate( y, StartMonth, 1 ), StartTime );
-        result = KStarsDateTime( ExtDate( y, StartMonth, findStartDay( result ) ), StartTime );
+        result = KStarsDateTime( QDate( y, StartMonth, 1 ), StartTime );
+        result = KStarsDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
 
     } else if ( StartMonth ) {
         //Last change was reverting to standard time.
@@ -284,8 +284,8 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
         int y = date.date().year();
         if ( RevertMonth > date.date().month() ) --y;
 
-        result = KStarsDateTime( ExtDate( y, RevertMonth, 1 ), RevertTime );
-        result = KStarsDateTime( ExtDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
+        result = KStarsDateTime( QDate( y, RevertMonth, 1 ), RevertTime );
+        result = KStarsDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
     }
 
     kDebug() << i18n( "Previous Daylight Savings Time change (Local Time): " ) << result.toString();

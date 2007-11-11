@@ -13,7 +13,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -32,20 +32,7 @@
          <item row="0" column="1" >
           <layout class="QHBoxLayout" >
            <item>
-            <widget class="ExtDateTimeEdit" name="DateTimeBox" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="frameShape" >
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow" >
-              <enum>QFrame::Raised</enum>
-             </property>
-            </widget>
+            <widget class="QDateTimeEdit" name="DateTimeBox" />
            </item>
            <item>
             <widget class="KPushButton" name="NowButton" >
@@ -268,11 +255,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ExtDateTimeEdit</class>
-   <extends>QFrame</extends>
-   <header>extdatetimeedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

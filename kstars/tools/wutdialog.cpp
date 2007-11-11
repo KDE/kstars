@@ -430,7 +430,7 @@ void WUTDialog::slotDetails() {
 }
 
 void WUTDialog::slotChangeDate() {
-    TimeDialog td( T0, this );
+    TimeDialog td( T0, kstars->geo(), this );
     if ( td.exec() == QDialog::Accepted ) {
         T0 = td.selectedDateTime();
         //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date

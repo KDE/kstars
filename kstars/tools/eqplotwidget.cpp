@@ -33,7 +33,7 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     p.begin(this);
 
     modCalcEquinox *mc = (modCalcEquinox*)parent();
-    KStarsDateTime dt( ExtDate(mc->Year->value(), 1, 1), QTime(0,0,0) );
+    KStarsDateTime dt( QDate(mc->Year->value(), 1, 1), QTime(0,0,0) );
     long double jd0 = dt.djd(); //save JD on Jan 1st
 
     QPointF pSpring = mapToWidget( QPointF( mc->dSpring.djd() - jd0 - 4, -28.0 ) );
@@ -88,7 +88,7 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
         }
         QRect r( -16, -8, 32, 16 );
         r.moveCenter( c );
-        p.drawText( r, Qt::AlignCenter, ExtDate::shortMonthName(i+1) );
+        p.drawText( r, Qt::AlignCenter, QDate::shortMonthName(i+1) );
     }
     p.restore();
     p.end();

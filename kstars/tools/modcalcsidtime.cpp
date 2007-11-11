@@ -26,7 +26,6 @@
 #include "simclock.h"
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     setupUi(this);
@@ -38,7 +37,7 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
 
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotChangeLocation()));
-    connect(Date, SIGNAL(dateChanged(const ExtDate&)), this, SLOT(slotChangeDate()));
+    connect(Date, SIGNAL(dateChanged(const QDate&)), this, SLOT(slotChangeDate()));
     connect(LT, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertST(const QTime&)));
     connect(ST, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertLT(const QTime&)));
     connect(this, SIGNAL(frameShown()), this, SLOT(slotShown()));
@@ -231,7 +230,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
     QString line;
     dms LST;
     QTime inTime, outTime;
-    ExtDate dt;
+    QDate dt;
 
     if ( ! DateCheckBatch->isChecked() )
         dt = DateBatch->date();
@@ -277,7 +276,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         if ( DateCheckBatch->isChecked() ) {
             //Parse one of the fields as the date
             foreach ( QString s, fields ) {
-                dt = ExtDate::fromString( s );
+                dt = QDate::fromString( s );
                 if ( dt.isValid() ) break;
             }
             if ( ! dt.isValid() ) {

@@ -16,11 +16,11 @@
  ***************************************************************************/
 
 #include "timebox.h"
-#include "libkdeedu/extdate/extdatetime.h"
 
 #include <stdlib.h>
 
 #include <QTime>
+#include <QDate>
 #include <QRegExp>
 
 #include <kglobal.h>
@@ -42,12 +42,12 @@ timeBox::timeBox(QWidget *parent, bool tt) : QLineEdit(parent)
     timet = tt;
 }
 
-void timeBox::showTime (QTime t)
+void timeBox::showTime( const QTime &t )
 {
     setEntry( t.toString("hh:mm:ss") );
 }
 
-void timeBox::showDate (ExtDate t)
+void timeBox::showDate( const QDate &t )
 {
     setEntry( t.toString() );
 
@@ -151,20 +151,20 @@ QTime timeBox::createTime ( bool *ok )
 }
 
 
-ExtDate timeBox::createDate (bool */*ok*/)
+QDate timeBox::createDate (bool */*ok*/)
 {
 
     QString entry = text().trimmed();
 
     // if entry is an empty string or invalid date use current date
 
-    ExtDate date = ExtDate().fromString(entry);
+    QDate date = QDate::fromString(entry);
 
     if ( !date.isValid() ) {
         kDebug() << "Invalid date";
-        showDate(ExtDate::currentDate());
+        showDate(QDate::currentDate());
         entry = text().trimmed();
-        return ExtDate::currentDate();
+        return QDate::currentDate();
     } else {
         return date;
     }

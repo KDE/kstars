@@ -82,12 +82,12 @@ private:
     void createGUI();
 
     /** Parses star information and connects to the AAVSO server with the information embedded in the URL
-    	*@param FinalStartDate The start date in Julian days
-    	*@param FinalEndDate The end date in Julian days
+    	*@param FinalStartDate The start date 
+    	*@param FinalEndDate The end date 
     	*@param FinalDesignation The AAVSO star designation
     	*@param AverageDay Number of average days for binning the light curve
     	*/
-    void DownloadCurve(const ExtDate &StartDate, const ExtDate &EndDate, const QString &Designation, const QString &AverageDay);
+    void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay);
 
     KStars *ksw;
     QVBoxLayout *vlay;

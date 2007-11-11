@@ -77,7 +77,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     if ( ! StartDateString.isEmpty() && startDate.isValid() )
         data()->changeDateTime( geo()->LTtoUT( startDate ) );
     else
-        data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+        data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
     if ( doSplash ) {
         splash = new KStarsSplash(0);

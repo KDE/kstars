@@ -45,7 +45,7 @@
           </widget>
          </item>
          <item>
-          <widget class="ExtDateTimeEdit" name="DateTime" />
+          <widget class="QDateTimeEdit" name="DateTime" />
          </item>
          <item>
           <widget class="KPushButton" name="NowButton" >
@@ -571,11 +571,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ExtDateTimeEdit</class>
-   <extends>QFrame</extends>
-   <header>extdatetimeedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

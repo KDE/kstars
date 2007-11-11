@@ -44,9 +44,9 @@
 #include "finddialog.h"
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
+#include "avtplotwidget.h"
 
 #include "kstarsdatetime.h"
-#include "libkdeedu/extdate/extdatetimeedit.h"
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
@@ -67,18 +67,17 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->setMargin( 0 );
     topLayout->setSpacing( spacingHint() );
 
-    View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
-    View->setMinimumSize( 400, 400 );
-    View->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding );
-    View->setShowGrid( false );
-    View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
-    View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
-    View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
-    View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
-    View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
-    View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
-
     avtUI = new AltVsTimeUI( page );
+
+    avtUI->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
+    avtUI->View->setShowGrid( false );
+    avtUI->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
+    avtUI->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
+    avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
+    avtUI->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
+    avtUI->View->axis(KPlotWidget::TopAxis)->setLabel( i18n( "Local Sidereal Time" ) );
+    avtUI->View->axis(KPlotWidget::LeftAxis)->setLabel( i18nc( "the angle of an object above (or below) the horizon", "Altitude" ) );
+
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
 
@@ -87,7 +86,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->longBox->setReadOnly( true );
     avtUI->latBox->setReadOnly( true );
 
-    topLayout->addWidget( View );
     topLayout->addWidget( avtUI );
 
     geo = ks->geo();
@@ -114,7 +112,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
     connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-    connect( avtUI->PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
+    connect( avtUI->PlotList, SIGNAL( itemSelectionChanged(int) ), this, SLOT( slotHighlight() ) );
 
     //ther edit boxes should not pass on the return key!
     avtUI->nameBox->setTrapReturnKey( true );
@@ -204,7 +202,7 @@ void AltVsTime::slotAddSource(void) {
             avtUI->decBox->QWidget::setFocus();
     }
 
-    View->update();
+    avtUI->View->update();
 }
 
 //Use find dialog to choose an object
@@ -215,7 +213,7 @@ void AltVsTime::slotBrowseObject(void) {
         processObject( o );
     }
 
-    View->update();
+    avtUI->View->update();
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
@@ -246,7 +244,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         pList.append( o );
 
         //make sure existing curves are thin and red
-        QList< KPlotObject* > objects = View->plotObjects();
+        QList< KPlotObject* > objects = avtUI->View->plotObjects();
         for ( int i=0; i < objects.count(); ++i ) {
             KPlotObject *obj = objects.at( i );
             if ( obj->size() == 2 ) {
@@ -259,10 +257,10 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
             po->addPoint( h, findAltitude( o, h ) );
         }
-        View->addPlotObject( po );
+        avtUI->View->addPlotObject( po );
 
-        avtUI->PlotList->insertItem( o->translatedName() );
-        avtUI->PlotList->setCurrentItem( avtUI->PlotList->count() - 1 );
+        avtUI->PlotList->addItem( o->translatedName() );
+        avtUI->PlotList->setCurrentRow( avtUI->PlotList->count() - 1 );
         avtUI->raBox->showInHours(o->ra() );
         avtUI->decBox->showInDegrees(o->dec() );
         avtUI->nameBox->setText(o->translatedName() );
@@ -270,7 +268,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         //Set epochName to epoch shown in date tab
         avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
     }
-    kDebug() << "Currently, there are " << View->plotObjects().count() << " objects displayed.";
+    kDebug() << "Currently, there are " << avtUI->View->plotObjects().count() << " objects displayed.";
 
     //restore original position
     if ( o->isSolarSystem() ) {
@@ -293,10 +291,10 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 }
 
 void AltVsTime::slotHighlight(void) {
-    int iPlotList = avtUI->PlotList->currentItem();
+    int iPlotList = avtUI->PlotList->currentRow();
 
     //highlight the curve of the selected object
-    QList< KPlotObject* > objects = View->plotObjects();
+    QList< KPlotObject* > objects = avtUI->View->plotObjects();
     for ( int i=0; i<objects.count(); ++i ) {
         KPlotObject *obj = objects.at( i );
 
@@ -307,14 +305,14 @@ void AltVsTime::slotHighlight(void) {
         }
     }
 
-    View->update();
+    avtUI->View->update();
 
     for ( int i=0; i < pList.size(); ++i ) {
         if ( i == iPlotList ) {
             SkyObject *p = pList.at(i);
             avtUI->raBox->showInHours( p->ra() );
             avtUI->decBox->showInDegrees( p->dec() );
-            avtUI->nameBox->setText( avtUI->PlotList->currentText() );
+            avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
         }
     }
 }
@@ -338,8 +336,8 @@ void AltVsTime::slotClear(void) {
     avtUI->raBox->clear();
     avtUI->decBox->clear();
     avtUI->epochName->clear();
-    View->removeAllPlotObjects();
-    View->update();
+    avtUI->View->removeAllPlotObjects();
+    avtUI->View->update();
 }
 
 void AltVsTime::slotClearBoxes(void) {
@@ -377,7 +375,7 @@ void AltVsTime::computeSunRiseSetTimes() {
     }
 
     //Notify the View about new sun rise/set times:
-    View->setSunRiseSetTimes( sunRise, sunSet );
+    avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 
     //Restore Sun coordinates:
     oSun->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
@@ -396,8 +394,8 @@ void AltVsTime::slotUpdateDateLoc(void) {
     //First determine time of sunset and sunrise
     computeSunRiseSetTimes();
 
-    for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
-        QString oName = avtUI->PlotList->text( i ).toLower();
+    for ( int i = 0; i < avtUI->PlotList->count(); ++i ) {
+        QString oName = avtUI->PlotList->item( i )->text().toLower();
 
         SkyObject *o = ks->data()->objectNamed( oName );
         if ( o ) {
@@ -417,7 +415,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( o, h ) );
             }
-            View->replacePlotObject( i, po );
+            avtUI->View->replacePlotObject( i, po );
 
             //restore original position
             if ( o->isSolarSystem() ) {
@@ -433,7 +431,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
             for ( double h=-12.0; h<=12.0; h+=0.5 ) {
                 po->addPoint( h, findAltitude( pList.at(i), h ) );
             }
-            View->replacePlotObject( i, po );
+            avtUI->View->replacePlotObject( i, po );
         }
     }
 
@@ -442,7 +440,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
     setLSTLimits();
     slotHighlight();
-    View->update();
+    avtUI->View->update();
 
     delete num;
 }
@@ -460,7 +458,7 @@ void AltVsTime::slotChooseCity(void) {
 }
 
 int AltVsTime::currentPlotListItem() const {
-    return avtUI->PlotList->currentItem();
+    return avtUI->PlotList->currentRow();
 }
 
 void AltVsTime::setLSTLimits(void) {
@@ -471,20 +469,20 @@ void AltVsTime::setLSTLimits(void) {
     double h1 = lst.Hours();
     if ( h1 > 12.0 ) h1 -= 24.0;
     double h2 = h1 + 24.0;
-    View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
 void AltVsTime::showCurrentDate (void)
 {
     KStarsDateTime dt = KStarsDateTime::currentDateTime();
     if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
-    avtUI->dateBox->setDate( dt.date() );
+    avtUI->DateWidget->setDate( dt.date() );
 }
 
 KStarsDateTime AltVsTime::getDate (void)
 {
     //convert midnight local time to UT:
-    KStarsDateTime dt( avtUI->dateBox->date(), QTime() );
+    KStarsDateTime dt( avtUI->DateWidget->date(), QTime() );
     dt = geo->LTtoUT( dt );
     return dt;
 }
@@ -501,137 +499,6 @@ double AltVsTime::getEpoch(const QString &eName)
     }
 
     return epoch;
-}
-
-AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent )
-        : KPlotWidget( parent )
-{
-    setLimits( x1, x2, y1, y2 );
-
-    //Default SunRise/SunSet values
-    SunRise = 0.25;
-    SunSet = 0.75;
-
-    MousePoint = QPoint( -1, -1 );
-}
-
-void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
-    mouseMoveEvent( e );
-}
-
-void AVTPlotWidget::mouseDoubleClickEvent( QMouseEvent * ) {
-    MousePoint = QPoint(-1, -1);
-    update();
-}
-
-void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
-    QRect checkRect( leftPadding(), topPadding(), pixRect().width(), pixRect().height() );
-    int Xcursor = e->x();
-    int Ycursor = e->y();
-
-    if ( ! checkRect.contains( e->x(), e->y() ) ) {
-        if ( e->x() < checkRect.left() )   Xcursor = checkRect.left();
-        if ( e->x() > checkRect.right() )  Xcursor = checkRect.right();
-        if ( e->y() < checkRect.top() )    Ycursor = checkRect.top();
-        if ( e->y() > checkRect.bottom() ) Ycursor = checkRect.bottom();
-    }
-
-    Xcursor -= leftPadding();
-    Ycursor -= topPadding();
-
-    MousePoint = QPoint( Xcursor, Ycursor );
-    update();
-}
-
-void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
-    Q_UNUSED(e)
-
-    QPainter p;
-
-    p.begin( this );
-    p.setRenderHint( QPainter::Antialiasing, antialiasing() );
-    p.fillRect( rect(), backgroundColor() );
-    p.translate( leftPadding(), topPadding() );
-
-    setPixRect();
-    p.setClipRect( pixRect() );
-    p.setClipping( true );
-
-    int pW = pixRect().width();
-    int pH = pixRect().height();
-
-    //draw daytime sky if the Sun rises for the current date/location
-    //(when Sun does not rise, SunSet = -1.0)
-    if ( SunSet != -1.0 ) {
-        //If Sun does not set, then just fill the daytime sky color
-        if ( SunSet == 1.0 ) {
-            p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
-        } else {
-            //Display centered on midnight, so need to modulate dawn/dusk by 0.5
-            int dawn = int(pW*(0.5 + SunRise));
-            int dusk = int(pW*(SunSet - 0.5));
-            p.fillRect( 0, 0, dusk, int(0.5*pH), QColor( 0, 100, 200 ) );
-            p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), QColor( 0, 100, 200 ) );
-
-            //draw twilight gradients
-            unsigned short int W = 40;
-            for ( unsigned short int i=0; i<W; ++i ) {
-                p.setPen( QColor( 0, int(100*i/W), 200*i/W ) );
-                p.drawLine( dusk - (i-20), 0, dusk - (i-20), pH );
-                p.drawLine( dawn + (i-20), 0, dawn + (i-20), pH );
-            }
-        }
-    }
-
-    //draw ground
-    p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
-
-    foreach( KPlotObject *po, plotObjects() )
-    po->draw( &p, this );
-
-    p.setClipping( false );
-    drawAxes( &p );
-
-    //Add vertical line indicating "now"
-    QTime t = QTime::currentTime();
-    double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
-    while ( x > 24.0 ) x -= 24.0;
-    int ix = int(x*pW/24.0); //convert to screen pixel coords
-    p.setPen( QPen( QBrush("white"), 2.0, Qt::DotLine ) );
-    p.drawLine( ix, 0, ix, pH );
-
-    //Label this vertical line with the current time
-    p.save();
-    QFont smallFont = p.font();
-    smallFont.setPointSize( smallFont.pointSize() - 2 );
-    p.setFont( smallFont );
-    p.translate( ix + 10, pH - 20 );
-    p.rotate(-90);
-    p.drawText(0, 0, t.toString( "hh:mm" ) );
-    p.restore();
-
-    //Draw crosshairs at clicked position
-    if ( MousePoint.x() > 0 ) {
-        p.setPen( QPen( QBrush("gold"), 1.0, Qt::SolidLine ) );
-        p.drawLine( MousePoint.x(), 0, MousePoint.x(), pixRect().height() );
-        p.drawLine( 0, MousePoint.y(), pixRect().width(), MousePoint.y() );
-
-        //Label each crosshair line (time and altitude)
-        p.setFont( smallFont );
-        double a = (pH - MousePoint.y())*180.0/pH - 90.0;
-        p.drawText( 20, MousePoint.y() + 10, QString::number(a,'f',2) + QChar(176) );
-
-        double h = MousePoint.x()*24.0/pW - 12.0;
-        if ( h < 0.0 ) h += 24.0;
-        t = QTime( int(h), int(60.*(h - int(h))) );
-        p.save();
-        p.translate( MousePoint.x() + 10, pH - 20 );
-        p.rotate(-90);
-        p.drawText( 0, 0, t.toString("hh:mm") );
-        p.restore();
-    }
-
-    p.end();
 }
 
 #include "altvstime.moc"

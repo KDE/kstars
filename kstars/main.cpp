@@ -112,27 +112,22 @@ int main(int argc, char *argv[])
         if ( ! datestring.isEmpty() ) {
             if ( datestring.contains( "-" ) ) { //assume ISODate format
                 if ( datestring.contains( ":" ) ) { //also includes time
-                    kdt = KStarsDateTime::fromString( datestring, Qt::ISODate );
+                    kdt = KDateTime::fromString( datestring, KDateTime::ISODate );
                 } else { //string probably contains date only
-                    kdt.setDate( ExtDate::fromString( datestring, Qt::ISODate ) );
+                    kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setTime( QTime( 0, 0, 0 ) );
                 }
             } else { //assume Text format for date string
-                kdt = dat->geo()->LTtoUT( KStarsDateTime::fromString( datestring, Qt::TextDate ) );
+                kdt = dat->geo()->LTtoUT( KDateTime::fromString( datestring, KDateTime::QtTextDate ) );
             }
 
             if ( ! kdt.isValid() ) {
-                kWarning() << i18n( "Could not parse Date/Time string: " ) << datestring ;
-                kWarning() << i18n( "Valid date formats: " ) ;
-                kWarning() << "  1950-02-25  ;  1950-02-25 05:30:00" ;
-                kWarning() << "  Feb 25 1950 ;  Feb 25 1950 05:30:00" ;
-                kWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" ;
                 kWarning() << i18n( "Using CPU date/time instead." ) ;
 
-                kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
+                kdt = KStarsDateTime::currentUtcDateTime();
             }
         } else {
-            kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
+            kdt = KStarsDateTime::currentUtcDateTime();
         }
         dat->clock()->setUTC( kdt );
 
@@ -178,8 +173,11 @@ int main(int argc, char *argv[])
 
     //Try to parse the given date string
     QString datestring = args->getOption( "date" );
+    //DEBUG
+    kDebug() << "Date string: " << datestring << endl;
+
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
-        kWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead.", datestring ) ;
+        kWarning() << i18n( "Using CPU date/time instead." ) ;
         datestring = QString();
     }
 

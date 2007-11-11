@@ -629,7 +629,7 @@ void KStars::datainitFinished(bool worked) {
     KTipDialog::showTip(this, "kstars/tips");
 
     //DEBUG
-    kDebug() << "The current Date/Time is: " << ExtDateTime::currentDateTime().toString();
+    kDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
 }
 
 void KStars::initFocus() {

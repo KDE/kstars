@@ -45,7 +45,6 @@
 #include "locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "widgets/timestepbox.h"
-#include "libkdeedu/extdate/extdatewidget.h"
 
 OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
     setupUi( this );
@@ -399,7 +398,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
     connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
     connect( argSetAltAz->AzBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAz() ) );
-    connect( argSetLocalTime->DateBox, SIGNAL( dateChanged(ExtDate) ), this, SLOT( slotChangeDate() ) );
+    connect( argSetLocalTime->DateWidget, SIGNAL( changed(const QDate&) ), this, SLOT( slotChangeDate() ) );
     connect( argSetLocalTime->TimeBox, SIGNAL( timeChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
     connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
     connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
@@ -1540,8 +1539,8 @@ void ScriptBuilder::slotArgWidget() {
             year = sf->argVal(0).toInt(&ok);
             if (ok) month = sf->argVal(1).toInt(&ok);
             if (ok) day   = sf->argVal(2).toInt(&ok);
-            if (ok) argSetLocalTime->DateBox->setDate( ExtDate( year, month, day ) );
-            else argSetLocalTime->DateBox->setDate( ExtDate::currentDate() );
+            if (ok) argSetLocalTime->DateWidget->setDate( QDate( year, month, day ) );
+            else argSetLocalTime->DateWidget->setDate( QDate::currentDate() );
 
             hour = sf->argVal(3).toInt(&ok);
             if ( sf->argVal(3).isEmpty() ) ok = false;
@@ -2035,7 +2034,7 @@ void ScriptBuilder::slotChangeDate() {
     if ( sf->name() == "setLocalTime" ) {
         setUnsavedChanges( true );
 
-        ExtDate date = argSetLocalTime->DateBox->date();
+        QDate date = argSetLocalTime->DateWidget->date();
 
         sf->setArg( 0, QString( "%1" ).arg( date.year()   ) );
         sf->setArg( 1, QString( "%1" ).arg( date.month()  ) );

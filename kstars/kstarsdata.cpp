@@ -109,7 +109,7 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     setTimeDirection( 0.0 );
 
     //The StoredDate is used when saving user settings in a script; initialize to invalid date
-    StoredDate.setDJD( (long double)INVALID_DAY );
+    StoredDate = KDateTime();
 
     temporaryTrail = false;
 }
@@ -351,10 +351,11 @@ void KStarsData::syncUpdateIDs()
 }
 
 void KStarsData::setFullTimeUpdate() {
-    LastSkyUpdate.setDJD(    (long double)INVALID_DAY );
-    LastPlanetUpdate.setDJD( (long double)INVALID_DAY );
-    LastMoonUpdate.setDJD(   (long double)INVALID_DAY );
-    LastNumUpdate.setDJD(    (long double)INVALID_DAY );
+    //Set the update markers to invalid dates to trigger updates in each category
+    LastSkyUpdate = KDateTime();
+    LastPlanetUpdate = KDateTime();
+    LastMoonUpdate = KDateTime();
+    LastNumUpdate = KDateTime();
 }
 
 void KStarsData::syncLST() {
@@ -1090,7 +1091,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) mnt = fn[5].toInt(&ok);
                 if ( ok ) sec = fn[6].toInt(&ok);
                 if ( ok ) {
-                    changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
+                    changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,mnt,sec) ) ) );
                     cmdCount++;
                 } else {
                     kWarning() << ki18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )

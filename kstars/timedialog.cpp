@@ -19,21 +19,22 @@
 #include "timedialog.h"
 
 #include <klocale.h>
+#include <kpushbutton.h>
+#include <kdatepicker.h>
 
 #include <QFrame>
-#include <QLabel>
-#include <QPushButton>
-#include <QSpinBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QTimeEdit>
 
+#include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "simclock.h"
-#include "libkdeedu/extdate/extdatepicker.h"
+#include "geolocation.h"
 
-TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFrame )
-        : KDialog( parent )
+TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame )
+        : KDialog( parent ), geo( _geo )
 {
     UTCNow = UTCFrame;
 
@@ -47,58 +48,17 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFram
     vlay->setSpacing( 2 );
     hlay = new QHBoxLayout(); //this layout will be added to the VLayout
     hlay->setSpacing( 2 );
-    dPicker = new ExtDatePicker( page );
-    dPicker->setDate( now.date() );
 
-    HourBox = new QSpinBox( page );
-    HourBox->setObjectName( "HourBox" );
-    QFont Box_font(  HourBox->font() );
-    Box_font.setBold( true );
-    HourBox->setFont( Box_font );
-    HourBox->setWrapping( true );
-    HourBox->setMaximum( 23 );
-    HourBox->setButtonSymbols( QSpinBox::PlusMinus );
-    HourBox->setValue( now.time().hour() );
-
-    TextLabel1 = new QLabel( page );
-    TextLabel1->setObjectName( "TextLabel1" );
-    TextLabel1->setText( " :" );
-    TextLabel1->setFont( Box_font );
-
-    MinuteBox = new QSpinBox( page );
-    MinuteBox->setObjectName( "MinuteBox" );
-    QFont MinuteBox_font(  MinuteBox->font() );
-    MinuteBox->setFont( Box_font );
-    MinuteBox->setWrapping( true );
-    MinuteBox->setMaximum( 59 );
-    MinuteBox->setButtonSymbols( QSpinBox::PlusMinus );
-    MinuteBox->setValue( now.time().minute() );
-
-    TextLabel1_2 = new QLabel( page );
-    TextLabel1_2->setObjectName( "TextLabel1_2" );
-    TextLabel1_2->setFont( Box_font );
-
-    SecondBox = new QSpinBox( page );
-    SecondBox->setObjectName( "SecondBox" );
-    SecondBox->setFont( Box_font );
-    SecondBox->setMaximum( 59 );
-    SecondBox->setWrapping( true );
-    SecondBox->setButtonSymbols( QSpinBox::PlusMinus );
-    SecondBox->setValue( now.time().second() );
-
-    NowButton = new QPushButton( page );
+    dPicker = new KDatePicker( now.date(), page );
+    tEdit = new QTimeEdit( now.time(), page );
+    NowButton = new KPushButton( page );
     NowButton->setObjectName( "NowButton" );
     NowButton->setText( UTCNow ? i18n( "UTC Now"  ) : i18n( "Now"  ) );
-    NowButton->setFont( Box_font );
 
     vlay->addWidget( dPicker, 0, 0 );
     vlay->addLayout( hlay, 0 );
 
-    hlay->addWidget( HourBox, 0, 0 );
-    hlay->addWidget( TextLabel1, 0, 0 );
-    hlay->addWidget( MinuteBox, 0, 0 );
-    hlay->addWidget( TextLabel1_2, 0, 0 );
-    hlay->addWidget( SecondBox, 0, 0 );
+    hlay->addWidget( tEdit );
     hlay->addWidget( NowButton );
 
     vlay->activate();
@@ -106,14 +66,11 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget *parent, bool UTCFram
     QObject::connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ));
     QObject::connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ));
     QObject::connect( NowButton, SIGNAL( clicked() ), this, SLOT( setNow() ));
-    QObject::connect( HourBox, SIGNAL( valueChanged( int ) ), this, SLOT( HourPrefix( int ) ));
-    QObject::connect( MinuteBox, SIGNAL( valueChanged( int ) ), this, SLOT( MinutePrefix( int ) ));
-    QObject::connect( SecondBox, SIGNAL( valueChanged( int ) ), this, SLOT( SecondPrefix( int ) ));
 }
 
 //Add handler for Escape key to close window
 //Use keyReleaseEvent because keyPressEvents are already consumed
-//by the ExtDatePicker.
+//by the KDatePicker.
 void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
     switch( kev->key() ) {
     case Qt::Key_Escape:
@@ -128,39 +85,20 @@ void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
 
 void TimeDialog::setNow( void )
 {
-    KStarsDateTime dt( UTCNow ? KStarsDateTime::currentDateTime(Qt::UTC) : KStarsDateTime::currentDateTime() );
+    KStarsDateTime dt( KStarsDateTime::currentDateTime( KDateTime::Spec::UTC() ) );
+    if ( ! UTCNow )
+        dt = geo->UTtoLT( dt );
 
     dPicker->setDate( dt.date() );
-    QTime t = dt.time();
-
-    HourBox->setValue( t.hour() );
-    MinuteBox->setValue( t.minute() );
-    SecondBox->setValue( t.second() );
-}
-
-void TimeDialog::HourPrefix( int value ) {
-    HourBox->setPrefix( QString() );
-    if ( value < 10 ) HourBox->setPrefix( "0" );
-}
-
-void TimeDialog::MinutePrefix( int value ) {
-    MinuteBox->setPrefix( QString() );
-    if ( value < 10 ) MinuteBox->setPrefix( "0" );
-}
-
-void TimeDialog::SecondPrefix( int value ) {
-    SecondBox->setPrefix( QString() );
-    if ( value < 10 ) SecondBox->setPrefix( "0" );
+    tEdit->setTime( dt.time() );
 }
 
 QTime TimeDialog::selectedTime( void ) {
-    QTime t( HourBox->value(), MinuteBox->value(), SecondBox->value() );
-    return t;
+    return tEdit->time();
 }
 
-ExtDate TimeDialog::selectedDate( void ) {
-    ExtDate d( dPicker->date() );
-    return d;
+QDate TimeDialog::selectedDate( void ) {
+    return dPicker->date();
 }
 
 KStarsDateTime TimeDialog::selectedDateTime( void ) {

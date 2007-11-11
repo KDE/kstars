@@ -403,7 +403,7 @@ void KStars::slotApplyConfigChanges() {
 }
 
 void KStars::slotSetTime() {
-    TimeDialog timedialog ( data()->lt(), this );
+    TimeDialog timedialog ( data()->lt(), geo(), this );
 
     if ( timedialog.exec() == QDialog::Accepted ) {
         data()->changeDateTime( geo()->LTtoUT( timedialog.selectedDateTime() ) );
@@ -429,7 +429,7 @@ void KStars::slotSetTime() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-    data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+    data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
     if ( Options::useAltAz() ) {
         if ( map()->focusObject() ) {

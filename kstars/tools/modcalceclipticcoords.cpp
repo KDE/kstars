@@ -41,12 +41,12 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 
     //Initialize Date/Time and Location data
     KStars *ks = ((KStars*) topLevelWidget()->parent());
-    DateTime->setDateTime( ks->data()->lt() );
+    DateTime->setDateTime( ks->data()->lt().dateTime() );
     kdt = ((KStarsDateTime)DateTime->dateTime());
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
-    connect(DateTime, SIGNAL(dateTimeChanged(const ExtDateTime&)), this, SLOT(slotDateTimeChanged(const ExtDateTime&)));
+    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
 
     connect(RA,     SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(Dec,    SIGNAL(editingFinished()), this, SLOT(slotCompute()));
@@ -67,7 +67,7 @@ modCalcEclCoords::~modCalcEclCoords() {
 }
 
 void modCalcEclCoords::slotNow() {
-    DateTime->setDateTime( KStarsDateTime::currentDateTime() );
+    DateTime->setDateTime( KStarsDateTime::currentDateTime().dateTime() );
     slotCompute();
 }
 
@@ -81,7 +81,7 @@ void modCalcEclCoords::slotObject() {
     }
 }
 
-void modCalcEclCoords::slotDateTimeChanged(const ExtDateTime &edt) {
+void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt) {
     kdt = ((KStarsDateTime)edt);
 }
 

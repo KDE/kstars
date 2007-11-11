@@ -24,6 +24,7 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "geolocation.h"
 #include "locationdialog.h"
 #include "skyobject.h"
 #include "deepskyobject.h"
@@ -65,9 +66,10 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->Date, SIGNAL( dateChanged(const ExtDate&) ), this, SLOT( slotUpdateObjectCount() ) );
+    connect( olw->Date, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
+    connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
@@ -223,7 +225,19 @@ void ObsListWizard::slotChangeLocation()
 
     if ( ld.exec() == QDialog::Accepted ) {
         //set geographic location
+        if ( ld.selectedCity() ) {
+            geo = ld.selectedCity();
+            olw->LocationButton->setText( geo->translatedName() );
+        }
     }
+}
+
+void ObsListWizard::slotToggleDateWidgets()
+{
+    olw->Date->setEnabled( olw->SelectByDate->isChecked() );
+    olw->LocationButton->setEnabled( olw->SelectByDate->isChecked() );
+
+    slotUpdateObjectCount();
 }
 
 void ObsListWizard::slotUpdateObjectCount()

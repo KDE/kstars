@@ -105,7 +105,7 @@ void KStars::zoom( double z ) {
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-    data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
+    data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
 
 void KStars::waitFor( double sec ) {
@@ -198,7 +198,7 @@ void KStars::readConfig() {
     //Reset date, if one was stored
     if ( data()->StoredDate.isValid() ) {
         data()->changeDateTime( geo()->LTtoUT( data()->StoredDate ) );
-        data()->StoredDate.setDJD( (long double)INVALID_DAY ); //invalidate StoredDate
+        data()->StoredDate = KDateTime(); //invalidate StoredDate
     }
 
     map()->forceUpdate();

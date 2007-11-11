@@ -17,8 +17,8 @@ endif(CFITSIO_FOUND)
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
-    #${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
-	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
+#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
 )
 if (CFITSIO_FOUND)
@@ -38,6 +38,7 @@ set(libindicom_SRCS
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
+	tools/avtplotwidget.cpp
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/lcgenerator.cpp
@@ -251,7 +252,7 @@ kde4_add_executable(kstars ${kstars_SRCS})
 target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
     kdeeduui
-	extdate
+#	extdate
 	${KDE4_KDEPRINT_LIBS}
 	${KDE4_KNEWSTUFF2_LIBS}
 	${KDE4_KDE3SUPPORT_LIBS}

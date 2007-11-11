@@ -352,9 +352,9 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
     QString ot3 = TimeBox->text3();
 
     TimeBox->setText1( i18nc( "Local Time", "LT: " ) + lt.time().toString()
-                       + "   " + lt.date().toString( "%d %b %Y" ) );
+                       + "   " + lt.date().toString( "dd MMM yyyy" ) );
     TimeBox->setText2( i18nc( "Universal Time", "UT: " ) + ut.time().toString()
-                       + "   " + ut.date().toString( "%d %b %Y" ) );
+                       + "   " + ut.date().toString( "dd MMM yyyy" ) );
 
     QString STString;
     STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );

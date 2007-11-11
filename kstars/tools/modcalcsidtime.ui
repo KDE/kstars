@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>517</width>
     <height>463</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
@@ -136,7 +136,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="ExtDateEdit" name="Date" />
+            <widget class="QDateEdit" name="Date" />
            </item>
            <item>
             <spacer>
@@ -232,9 +232,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="ExtDateEdit" name="DateBatch" />
-          </item>
           <item row="0" column="2" >
            <widget class="QCheckBox" name="DateCheckBatch" >
             <property name="text" >
@@ -274,6 +271,9 @@
              <string>Read from input file</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QDateEdit" name="DateBatch" />
           </item>
          </layout>
         </widget>
@@ -393,11 +393,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ExtDateEdit</class>
-   <extends>QSpinBox</extends>
-   <header>extdatetimeedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

@@ -213,7 +213,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
     INDI_E *el;
     int wd, ht;
     int d, m, y, min, sec, hour;
-    ExtDate indiDate;
+    QDate indiDate;
     QTime indiTime;
     KStarsDateTime indiDateTime;
 
@@ -479,7 +479,7 @@ void INDIStdDevice::updateTime()
     if (!lp) return;
 
     QTime newTime( ksw->data()->ut().time());
-    ExtDate newDate( ksw->data()->ut().date());
+    QDate newDate( ksw->data()->ut().date());
 
     lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
                          .arg(newDate.day()).arg(newTime.hour())
@@ -1011,12 +1011,12 @@ void INDIStdProperty::newTime()
     timeEle = pp->findElement("UTC");
     if (!timeEle) return;
 
-    TimeDialog timedialog ( ksw->data()->ut(), ksw, true );
+    TimeDialog timedialog ( ksw->data()->ut(), ksw->geo(), ksw, true );
 
     if ( timedialog.exec() == QDialog::Accepted )
     {
         QTime newTime( timedialog.selectedTime() );
-        ExtDate newDate( timedialog.selectedDate() );
+        QDate newDate( timedialog.selectedDate() );
 
         timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
                                   .arg(newDate.year()).arg(newDate.month())

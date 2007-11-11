@@ -66,7 +66,7 @@ private slots:
     void initPlotObjects();
     void tick();
     void setTimeScale(float);
-    void slotChangeDate( const ExtDate &d );
+    void slotChangeDate( const QDate &d );
     void slotRunClock();
     void slotToday();
     void slotCloseWindow();

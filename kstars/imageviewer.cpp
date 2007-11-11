@@ -121,12 +121,12 @@ ImageViewer::~ImageViewer() {
     if ( downloadJob ) delete downloadJob;
 }
 
-void ImageViewer::resizeEvent (QResizeEvent *ev )
+void ImageViewer::resizeEvent (QResizeEvent */*ev*/ )
 {
     update();
 }
 
-void ImageViewer::closeEvent (QCloseEvent *ev)
+void ImageViewer::closeEvent (QCloseEvent */*ev*/ )
 {
     ks->removeImageViewer( this );
 }
