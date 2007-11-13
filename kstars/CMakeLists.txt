@@ -246,7 +246,7 @@ set(kstars_icons
     ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/64x64/apps/kstars.png
     ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/128x128/apps/kstars.png
 )
-kde4_add_win32_app_icon(kstars kstars_SRCS ${kstars_icons})
+kde4_add_win32_app_icon(kstars_SRCS ${kstars_icons})
 kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(kstars
