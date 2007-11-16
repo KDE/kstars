@@ -61,14 +61,14 @@ public:
     	*@param r Right Ascension pointer
     	*@param d Declination pointer
     	*/
-SkyPoint( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
+    SkyPoint( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
 
     /**Alternate constructor using double arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension, expressed as a double
     	*@param d Declination, expressed as a double
     	*/
-explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+    explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
 
     /**
     	*Empty destructor.
@@ -91,7 +91,7 @@ explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
     	*@param r Right Ascension
     	*@param d Declination
     	*/
-inline void set( const dms *r, const dms *d ) { set( *r, *d ); }
+    inline void set( const dms *r, const dms *d ) { set( *r, *d ); }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -103,7 +103,7 @@ inline void set( const dms *r, const dms *d ) { set( *r, *d ); }
     /**Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/
-inline void setRA0( dms r ) { RA0.set( r ); }
+    inline void setRA0( dms r ) { RA0.set( r ); }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.

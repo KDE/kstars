@@ -73,6 +73,9 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
+    geo = ksw->geo();
+    olw->LocationButton->setText( geo->fullName() );
+
     initialize();
 }
 
@@ -227,7 +230,7 @@ void ObsListWizard::slotChangeLocation()
         //set geographic location
         if ( ld.selectedCity() ) {
             geo = ld.selectedCity();
-            olw->LocationButton->setText( geo->translatedName() );
+            olw->LocationButton->setText( geo->fullName() );
         }
     }
 }
@@ -242,6 +245,7 @@ void ObsListWizard::slotToggleDateWidgets()
 
 void ObsListWizard::slotUpdateObjectCount()
 {
+    QApplication::setOverrideCursor( Qt::WaitCursor );
     ObjectCount = 0;
     if ( isItemSelected( i18n( "Stars" ), olw->TypeList ) )
         ObjectCount += StarCount;
@@ -263,6 +267,7 @@ void ObsListWizard::slotUpdateObjectCount()
         ObjectCount += PlanNebCount;
 
     applyFilters( false ); //false = only adjust counts, do not build list
+    QApplication::restoreOverrideCursor();
 }
 
 void ObsListWizard::applyFilters( bool doBuildList )
@@ -300,13 +305,23 @@ void ObsListWizard::applyFilters( bool doBuildList )
         if ( doBuildList ) {
             for ( int i=0; i < starIndex; ++i ) {
                 SkyObject *o = (SkyObject*)(starList[i]);
-                if ( needRegion ) applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount
+                if ( needRegion ) 
+                    applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount
+
+                //Filter objects visible from geo at Date
+                if ( olw->SelectByDate->isChecked() )
+                    applyObservableFilter( o, doBuildList, false );
             }
         } else {
             ObjectCount -= (starList.size() - starIndex); //reduce StarCount by appropriate amount
             for ( int i=0; i < starIndex; ++i ) {
                 SkyObject *o = starList[i];
-                if ( needRegion ) applyRegionFilter( o, doBuildList );
+                if ( needRegion ) 
+                    applyRegionFilter( o, doBuildList );
+
+                //Filter objects visible from geo at Date
+                if ( olw->SelectByDate->isChecked() )
+                    applyObservableFilter( o, doBuildList );
             }
         }
     }
@@ -324,6 +339,20 @@ void ObsListWizard::applyFilters( bool doBuildList )
             applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Uranus"), doBuildList );
             applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Neptune"), doBuildList );
             applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Pluto"), doBuildList );
+        }
+
+        //Filter objects visible from geo at Date
+        if ( olw->SelectByDate->isChecked() ) {
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mercury"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Venus"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mars"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Jupiter"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Saturn"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Uranus"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Neptune"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Pluto"), doBuildList );
         }
     }
 
@@ -363,54 +392,61 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
                 if ( olw->SelectByMagnitude->isChecked() ) {
                     if ( o->mag() > 90. ) {
-                        if ( olw->IncludeNoMag->isChecked() )
+                        if ( olw->IncludeNoMag->isChecked() ) {
                             if ( needRegion ) applyRegionFilter( o, doBuildList );
-                            else if ( ! doBuildList )
-                                --ObjectCount;
+                            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                        } else if ( ! doBuildList )
+                            --ObjectCount;
                     } else {
-                        if ( o->mag() <= maglimit )
+                        if ( o->mag() <= maglimit ) {
                             if ( needRegion ) applyRegionFilter( o, doBuildList );
-                            else if ( ! doBuildList )
-                                --ObjectCount;
+                            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                        } else if ( ! doBuildList )
+                            --ObjectCount;
                     }
                 } else {
                     if ( needRegion ) applyRegionFilter( o, doBuildList );
+                    if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
                 }
             }
         }
     }
 
     //Comets
-    if ( needRegion && isItemSelected( i18n( "Comets" ), olw->TypeList ) ) {
+    if ( isItemSelected( i18n( "Comets" ), olw->TypeList ) ) {
         foreach ( SkyObject *o, ksw->data()->skyComposite()->comets() ) {
-            //comets don't have magnitudes at this point, so skip mag check
-            applyRegionFilter( o, doBuildList );
+            if ( needRegion ) applyRegionFilter( o, doBuildList );
+            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
         }
     }
 
     //Asteroids
-    if ( (needRegion || olw->SelectByMagnitude->isChecked() ) && isItemSelected( i18n( "Asteroids" ), olw->TypeList ) ) {
+    if ( isItemSelected( i18n( "Asteroids" ), olw->TypeList ) ) {
         foreach ( SkyObject *o, ksw->data()->skyComposite()->asteroids() ) {
             if ( olw->SelectByMagnitude->isChecked() ) {
                 if ( o->mag() > 90. ) {
                     if ( olw->IncludeNoMag->isChecked() )
                         if ( needRegion ) applyRegionFilter( o, doBuildList );
-                        else if ( ! doBuildList )
-                            --ObjectCount;
+                        if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                    else if ( ! doBuildList )
+                        --ObjectCount;
                 } else {
                     if ( o->mag() <= maglimit )
                         if ( needRegion ) applyRegionFilter( o, doBuildList );
-                        else if ( ! doBuildList )
-                            --ObjectCount;
+                        if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                    else if ( ! doBuildList )
+                        --ObjectCount;
                 }
             } else {
                 if ( needRegion ) applyRegionFilter( o, doBuildList );
+                if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
             }
         }
     }
 
     //Update the object count label
     if ( doBuildList ) ObjectCount = obsList().size();
+
     olw->CountLabel->setText( i18np("Your observing list currently has 1 object", "Your observing list currently has %1 objects", ObjectCount ) );
 }
 
@@ -502,6 +538,28 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
     //No region filter, just add the object
     else if ( doBuildList ) {
         obsList().append( o );
+    }
+}
+
+void ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount ) {
+    SkyPoint p( o->ra(), o->dec() );
+
+    //Check altitude of object every hour from 18:00 to midnight
+    //If it's ever above 15 degrees, flag it as visible
+    KStarsDateTime Evening( olw->Date->date(), QTime( 18, 0, 0 ) );
+    KStarsDateTime Midnight( olw->Date->date().addDays(1), QTime( 0, 0, 0 ) );
+    bool visible = false;
+    for ( KStarsDateTime t = Evening; t < Midnight; t = t.addSecs( 3600.0 ) ) {
+        dms LST = geo->GSTtoLST( t.gst() );
+        p.EquatorialToHorizontal( &LST, geo->lat() );
+        if ( p.alt()->Degrees() > 15.0 ) visible = true;
+    }
+
+    if ( ! visible ) {
+        if ( doAdjustCount ) 
+            --ObjectCount;
+        if ( doBuildList )
+            obsList().takeAt( obsList().indexOf(o) );
     }
 }
 

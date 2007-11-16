@@ -344,7 +344,6 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 
 }
 
-/** No descriptions */
 void SkyPoint::apparentCoord(long double jd0, long double jdf){
 
     precessFromAnyEpoch(jd0,jdf);

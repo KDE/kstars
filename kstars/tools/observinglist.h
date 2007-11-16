@@ -19,12 +19,14 @@
 #define OBSERVINGLIST_H_
 
 #include <QList>
+#include <QAbstractTableModel>
 #include <kdialog.h>
 
 #include "skyobject.h"
 #include "ui_observinglist.h"
 
-
+class QSortFilterProxyModel;
+class QStandardItemModel;
 class KStars;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
@@ -42,12 +44,12 @@ public:
 	*
 	*By selecting an object in the list, you can perform a number of functions
 	*on that object:
-	*+ Center it in the display (TBD)
-	*+ Examine its Details Window (TBD)
-	*+ Point the telescope at it (TBD)
+	*+ Center it in the display 
+	*+ Examine its Details Window 
+	*+ Point the telescope at it 
 	*+ Attach a custom icon or name label (TBD)
 	*+ Attach a trail (solar system only) (TBD)
-	*+ Open the AltVsTime tool (TBD)
+	*+ Open the AltVsTime tool 
 	*
 	*The user can also save/load their observing lists, and can export 
 	*list data (TBD: as HTML table?  CSV format?  plain text?)
@@ -110,7 +112,7 @@ public slots:
     /**@short Remove skyobjects which are highlighted in the
     	*observing list tool from the observing list.
     	*/
-    void slotRemoveObjects();
+    void slotRemoveSelectedObjects();
 
     /**@short Remove skyobject from the observing list.
     	*@p o pointer to the SkyObject to be removed.
@@ -172,17 +174,18 @@ protected slots:
     void slotClose();
 
 private:
-    void syncTableSelection( bool syncFullTable=true );
-
     KStars *ks;
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList;
-    QList<SkyObject*> m_SelectedObjects;
+//    QList<SkyObject*> m_SelectedObjects;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
 
     bool isModified, bIsLarge;
     QString ListName, FileName;
+
+    QStandardItemModel *m_Model;
+    QSortFilterProxyModel *m_SortModel;
 };
 
 #endif // OBSERVINGLIST_H_

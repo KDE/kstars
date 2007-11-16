@@ -685,15 +685,15 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-        //DEBUG
-        QPointF p = toScreen( clickedPoint() ); 
-        double dx2 = (width()/2.0 - p.x())/Options::zoomFactor();
-        double dy2 = (height()/2.0 - p.y())/Options::zoomFactor();
-        SkyPoint sp = fromScreen( dx2, dy2, data->LST, data->geo()->lat() );
-        kDebug() << "SP1: " << clickedPoint()->az()->toDMSString() 
-                << clickedPoint()->alt()->toDMSString() << endl;
-        kDebug() << "SP2: " << sp.az()->toDMSString() 
-                << sp.alt()->toDMSString() << endl;
+//         //DEBUG_REFRACTION_CHECK
+//         QPointF p = toScreen( clickedPoint() ); 
+//         double dx2 = (width()/2.0 - p.x())/Options::zoomFactor();
+//         double dy2 = (height()/2.0 - p.y())/Options::zoomFactor();
+//         SkyPoint sp = fromScreen( dx2, dy2, data->LST, data->geo()->lat() );
+//         kDebug() << "SP1: " << clickedPoint()->az()->toDMSString() 
+//                 << clickedPoint()->alt()->toDMSString() << endl;
+//         kDebug() << "SP2: " << sp.az()->toDMSString() 
+//                 << sp.alt()->toDMSString() << endl;
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();

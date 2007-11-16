@@ -23,6 +23,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <QListWidget>
 
 #include <kmessagebox.h>
 #include <kstandarddirs.h>

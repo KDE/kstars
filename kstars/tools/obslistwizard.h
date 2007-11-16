@@ -69,6 +69,7 @@ private:
     void initialize();
     void applyFilters( bool doBuildList );
     void applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
+    void applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
 
     /**
     	*Convenience function for safely getting the selected state of a QListWidget item by name.
