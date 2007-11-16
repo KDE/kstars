@@ -82,6 +82,7 @@ ObservingList::ObservingList( KStars *_ks )
         << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
+    m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
 
     //Connections
@@ -224,7 +225,8 @@ void ObservingList::slotRemoveSelectedObjects() {
     //Go backwards so item alignment doesn't get screwed up as rows are removed.
     for ( int irow = m_Model->rowCount()-1; irow >= 0; --irow ) {
         if ( ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-            QModelIndex mIndex = m_Model->index( irow, 0 );
+            QModelIndex mSortIndex = m_SortModel->index( irow, 0 );
+            QModelIndex mIndex = m_SortModel->mapToSource( mSortIndex );
             foreach ( SkyObject *o, obsList() ) {
                 if ( o->translatedName() == mIndex.data().toString() ) {
                     slotRemoveObject( o );
@@ -239,10 +241,10 @@ void ObservingList::slotRemoveSelectedObjects() {
 }
 
 void ObservingList::slotNewSelection() {
-    QModelIndexList selectedItems = ui->TableView->selectionModel()->selectedRows();
+    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
 
     //Enable widgets when one object selected
-    if ( selectedItems.size() == 1 ) {
+    if ( selectedItems.size() == m_Model->columnCount() ) {
         QString newName( selectedItems[0].data().toString() );
 
         //Enable buttons
@@ -475,7 +477,7 @@ void ObservingList::slotDetails() {
 }
 
 void ObservingList::slotAVT() {
-    QModelIndexList selectedItems = ui->TableView->selectionModel()->selectedRows();
+    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
 
     if ( selectedItems.size() ) {
         AltVsTime avt( ks );
