@@ -45,7 +45,7 @@ KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
 bool KSFileReader::open( const QString& fname )
 {
     if (  !KSUtils::openDataFile( m_file, fname ) ) {
-        kWarning() << QString("Couldn't open(%1)").arg(fname) << endl;
+        kWarning() << QString("Couldn't open(%1)").arg(fname);
         return false;
     }
     QTextStream::setDevice( &m_file );

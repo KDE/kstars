@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
     //Try to parse the given date string
     QString datestring = args->getOption( "date" );
     //DEBUG
-    kDebug() << "Date string: " << datestring << endl;
+    kDebug() << "Date string: " << datestring;
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
         kWarning() << i18n( "Using CPU date/time instead." ) ;

@@ -469,10 +469,10 @@ void SkyMap::slotImage() {
     if ( index >= 0 && index < clickedObject()->ImageList.size() ) {
         sURL = clickedObject()->ImageList[ index ];
     } else {
-        kWarning() << "ImageList index out of bounds: " << index << endl;
+        kWarning() << "ImageList index out of bounds: " << index;
         if ( index == -1 ) {
-            kWarning() << "Message string \"" << message << "\" not found in ImageTitle." << endl;
-            kDebug() << clickedObject()->ImageTitle << endl;
+            kWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
+            kDebug() << clickedObject()->ImageTitle;
         }
     }
 
@@ -491,10 +491,10 @@ void SkyMap::slotInfo() {
     if ( index >= 0 && index < clickedObject()->InfoList.size() ) {
         sURL = clickedObject()->InfoList[ index ];
     } else {
-        kWarning() << "InfoList index out of bounds: " << index << endl;
+        kWarning() << "InfoList index out of bounds: " << index;
         if ( index == -1 ) {
-            kWarning() << "Message string \"" << message << "\" not found in InfoTitle." << endl;
-            kDebug() << clickedObject()->InfoTitle << endl;
+            kWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
+            kDebug() << clickedObject()->InfoTitle;
         }
     }
 
@@ -841,7 +841,7 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
         k = 1.0/c;
         break;
     default: //should never get here
-        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() << endl;
+        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection();
         k = 1.0;  //just default to Orthographic
         break;
     }

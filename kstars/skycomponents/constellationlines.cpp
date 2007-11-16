@@ -103,7 +103,7 @@ void ConstellationLines::init( KStarsData *data ) {
             if ( maxPM < pm ) maxPM = pm;
         }
         else if ( ! star )
-            kWarning() << i18n( "No star named %1 found." , name) << endl;
+            kWarning() << i18n( "No star named %1 found." , name);
     }
 
     //Add the last clc component

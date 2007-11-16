@@ -242,7 +242,7 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
 
     m_skyMesh->inDraw( false );
 
-    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() ) << endl;
+    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() );
 
     // -jbb uncomment these to see trixel outlines:
     //

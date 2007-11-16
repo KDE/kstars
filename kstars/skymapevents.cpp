@@ -325,7 +325,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
                 dms b( refract( &a, true ) ); //find apparent alt from true alt
                 dms c( refract( &b, false ) );
 
-                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString() << endl;
+                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString();
             }
             break;
         }
@@ -412,7 +412,7 @@ void SkyMap::slotJobResult( KJob *job ) {
     pm.loadFromData( stjob->data() );
 
     //DEBUG
-    kDebug() << "Pixmap: " << pm.width() << "x" << pm.height() << endl;
+    kDebug() << "Pixmap: " << pm.width() << "x" << pm.height();
 
 }
 

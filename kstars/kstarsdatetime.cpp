@@ -72,7 +72,7 @@ KStarsDateTime KStarsDateTime::currentDateTime( KDateTime::Spec spec ) {
 
 KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     //DEBUG
-    kDebug() << "Date string: " << s << endl;
+    kDebug() << "Date string: " << s;
 
     KStarsDateTime dtResult = KDateTime::fromString( s, KDateTime::QtTextDate );
     if ( dtResult.isValid() ) return dtResult;

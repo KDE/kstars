@@ -366,7 +366,7 @@ void LineListIndex::intro()
     emitProgressText( i18n( "Loading %1", name() ));
 
     if ( skyMesh()->debug() < 1 ) return;
-    kDebug() << QString("Loading %1 ...").arg( name() ) << endl;
+    kDebug() << QString("Loading %1 ...").arg( name() );
 }
 
 void LineListIndex::summary()

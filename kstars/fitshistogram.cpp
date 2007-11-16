@@ -174,13 +174,13 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     {
         if (histArray[i] == -1 && (i+1) != hist_width)
         {
-            //kDebug () << "Histarray of " << i << " is not filled, it will take value of " << i+1 << " which is " << histArray[i+1] << endl;
+            //kDebug () << "Histarray of " << i << " is not filled, it will take value of " << i+1 << " which is " << histArray[i+1];
             histArray[i] = histArray[i+1];
         }
 
-        //kDebug() << "Normalizing, we have for i " << i << " a value of: " << histArray[i] << endl;
+        //kDebug() << "Normalizing, we have for i " << i << " a value of: " << histArray[i];
         histArray[i] = (int) (((double) histArray[i]) * histFactor);
-        //kDebug() << "Normalized to " << histArray[i] << " since the factor is " << histFactor << endl;
+        //kDebug() << "Normalized to " << histArray[i] << " since the factor is " << histFactor;
     }
 
     histogram_height = hist_height;

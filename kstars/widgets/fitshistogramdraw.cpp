@@ -73,7 +73,7 @@ void histDrawArea::paintEvent(QPaintEvent *event)
     hist_height = valid_height + CIRCLE_DIM/2;
     //hist_height = valid_height;// + CIRCLE_DIM/2;
 
-    //kDebug() << "hist_height: " << hist_height << " valid height: " << valid_height << "CIRCLE_DIM " << CIRCLE_DIM << endl;
+    //kDebug() << "hist_height: " << hist_height << " valid height: " << valid_height << "CIRCLE_DIM " << CIRCLE_DIM;
     // Paint Histogram
     for (int i=0; i < valid_width; i++)
         painter.drawLine(i+CIRCLE_DIM/2, hist_height, i+CIRCLE_DIM/2, hist_height - data->histArray[i]);

@@ -180,7 +180,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
     if ( k < 0 ) return; //object not in observing list
 
     //DEBUG
-    kDebug() << "Removing " << o->name() << endl;
+    kDebug() << "Removing " << o->name();
 
     if ( o == LogObject )
         saveCurrentUserLog();
@@ -210,7 +210,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
         }
     }
 
-    if ( !found ) kDebug() << "Did not find object named " << o->translatedName() << " in the Table!" << endl;
+    if ( !found ) kDebug() << "Did not find object named " << o->translatedName() << " in the Table!";
 
     obsList().removeAt(k);
     if ( ! isModified ) isModified = true;

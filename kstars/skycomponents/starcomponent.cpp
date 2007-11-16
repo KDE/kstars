@@ -447,7 +447,7 @@ StarObject* StarComponent::processStar( const QString &line ) {
             visibleName = gname;
     }
 
-    //if ( ! gname.isEmpty() && gname.at(0) == '.') kDebug() << gname << endl;
+    //if ( ! gname.isEmpty() && gname.at(0) == '.') kDebug() << gname;
 
     // HEV: look up star name in internationalization filesource
     if ( name.isEmpty() ) name = i18n("star");
