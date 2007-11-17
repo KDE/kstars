@@ -395,7 +395,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KTextEdit" name="NotesEditt" />
+    <widget class="KTextEdit" name="NotesEdit" />
    </item>
   </layout>
  </widget>
