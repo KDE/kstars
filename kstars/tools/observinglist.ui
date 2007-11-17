@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
+    <width>415</width>
     <height>491</height>
    </rect>
   </property>
@@ -176,7 +176,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>350</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
@@ -356,9 +356,6 @@
      <property name="editTriggers" >
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="alternatingRowColors" >
-      <bool>true</bool>
-     </property>
      <property name="selectionBehavior" >
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
@@ -398,29 +395,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KTextEdit" name="NotesEdit" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize" >
-      <size>
-       <width>0</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>32767</width>
-       <height>160</height>
-      </size>
-     </property>
-     <property name="whatsThis" >
-      <string>Your observing notes for the highlighted object</string>
-     </property>
-    </widget>
+    <widget class="KTextEdit" name="NotesEditt" />
    </item>
   </layout>
  </widget>

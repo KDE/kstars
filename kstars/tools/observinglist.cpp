@@ -84,6 +84,8 @@ ObservingList::ObservingList( KStars *_ks )
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
+    ui->TableView->horizontalHeader()->setStretchLastSection( true );
+    ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
 
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
@@ -128,6 +130,9 @@ ObservingList::ObservingList( KStars *_ks )
     ui->RemoveButton->setEnabled( false );
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
+
+    //Hide the MiniButton until I can figure out how to resize the Dialog!
+    ui->MiniButton->hide();
 }
 
 bool ObservingList::contains( const SkyObject *q ) {
@@ -305,12 +310,15 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( false );
         ui->RemoveButton->setEnabled( false );
+        //FIXME: after 4.0, set this label to "Select one object to record notes on it here"
+        ui->NotesLabel->setText( i18n( "observing notes for object:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
         m_CurrentObject = 0;
 
         //Clear the user log text box.
         saveCurrentUserLog();
+        ui->NotesEdit->setPlainText("");
 
     } else { //more than one object selected.
         ui->CenterButton->setEnabled( false );
@@ -318,12 +326,15 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
+        //FIXME: after 4.0, set this label to "Select one object to record notes on it here"
+        ui->NotesLabel->setText( i18n( "observing notes for object:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
         m_CurrentObject = 0;
 
         //Clear the user log text box.
         saveCurrentUserLog();
+        ui->NotesEdit->setPlainText("");
     }
 
 }
@@ -643,6 +654,13 @@ void ObservingList::slotWizard() {
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( KIcon("view-fullscreen") );
+        //Abbreviate text on each button
+
+        ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
+        ui->ScopeButton->setText( i18nc( "First letter in 'Scope'", "S" ) );
+        ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
+        ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
+        ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
 
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
@@ -651,15 +669,9 @@ void ObservingList::slotToggleSize() {
         ui->TableView->hideColumn(4);
         ui->TableView->hideColumn(5);
 
-        //Hide the horizontal header
+        //Hide the headers
         ui->TableView->horizontalHeader()->hide();
-
-        //Abbreviate text on each button
-        ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
-        ui->ScopeButton->setText( i18nc( "First letter in 'Scope'", "S" ) );
-        ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
-        ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
-        ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
+        ui->TableView->verticalHeader()->hide();
 
         //Hide Observing notes
         ui->NotesLabel->hide();
@@ -677,7 +689,7 @@ void ObservingList::slotToggleSize() {
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
 
-        ui->TableView->resize( w + left + right, height() );
+        resize( w + left + right, height() );
 
         bIsLarge = false;
 
