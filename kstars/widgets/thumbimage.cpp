@@ -49,8 +49,10 @@ ThumbImage::~ThumbImage()
 void ThumbImage::paintEvent( QPaintEvent* ) {
     QPainter p;
     p.begin( this );
-    p.setPen( QPen( QColor( "Grey" ), 2 ) );
 
+    p.drawPixmap( 0, 0, *Image );
+
+    p.setPen( QPen( QColor( "Grey" ), 2 ) );
     p.drawRect( *CropRect );
 
     p.setPen( QPen( QColor( "Grey" ), 0 ) );
