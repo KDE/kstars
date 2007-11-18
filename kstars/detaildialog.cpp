@@ -371,8 +371,10 @@ void DetailDialog::createLinksTab()
     connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
     connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
     connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
-    connect( Links->InfoTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectImagesList() ) );
-    connect( Links->ImageTitleList, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT( unselectInfoList() ) );
+    connect( Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
+    connect( Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
     connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
 }
 
@@ -417,27 +419,23 @@ void DetailDialog::createLogTab()
 }
 
 
-void DetailDialog::unselectInfoList()
+void DetailDialog::setCurrentLink(QListWidgetItem *it)
 {
-    //Links->InfoList->setSelected( Links->InfoList->currentItem(), false );
-    Links->InfoTitleList->clearSelection();
-}
-
-void DetailDialog::unselectImagesList()
-{
-    //Links->ImagesList->setSelected( Links->ImagesList->currentItem(), false );
-    Links->ImageTitleList->clearSelection();
+    m_CurrentLink = it;
 }
 
 void DetailDialog::viewLink()
 {
     QString URL;
 
-    if ( Links->InfoTitleList->currentItem())
-        URL = QString( selectedObject->InfoList.at( Links->InfoTitleList->currentRow() ) );
-    else if ( Links->ImageTitleList->currentItem() )
-        URL = QString( selectedObject->ImageList.at( Links->ImageTitleList->currentRow() ) );
-    else return;
+    if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
+        int i = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
+        if (i >= 0) URL = QString( selectedObject->InfoList.at( i ) );
+    }
+    else if ( m_CurrentLink->listWidget() == Links->ImageTitleList ) {
+        int i = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
+        if (i >= 0) URL = QString( selectedObject->ImageList.at( i ) );
+    }
 
     if ( !URL.isEmpty() )
         KToolInvocation::invokeBrowser(URL);
@@ -474,13 +472,14 @@ void DetailDialog::editLinkDialog()
     KDialog editDialog( this );
     editDialog.setCaption( i18n("Edit Link") );
     editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
-    //QFrame *editFrame = new QFrame( &editDialog );
     QFrame editFrame( &editDialog );
 
-    if (Links->InfoTitleList->currentItem())
+    if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = Links->InfoTitleList->currentRow();
-        currentItemTitle = Links->InfoTitleList->currentItem()->text();
+        row = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
+        if ( row < 0 ) return;
+
+        currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->InfoList[row];
         search_line = selectedObject->name();
         search_line += ':';
@@ -489,10 +488,12 @@ void DetailDialog::editLinkDialog()
         search_line += currentItemURL;
         type       = 0;
     }
-    else if (Links->ImageTitleList->currentItem())
+    else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = Links->ImageTitleList->currentRow();
-        currentItemTitle = Links->ImageTitleList->currentItem()->text();
+        row = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
+        if ( row < 0 ) return;
+
+        currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->ImageList[row];
         search_line = selectedObject->name();
         search_line += ':';
@@ -503,17 +504,24 @@ void DetailDialog::editLinkDialog()
     }
     else return;
 
+    QLineEdit editNameField(&editFrame);
+    editNameField.setObjectName("nameedit");
+    editNameField.home(false);
+    editNameField.setText(currentItemTitle);
     QLabel editLinkURL(i18n("URL:"), &editFrame);
     QLineEdit editLinkField(&editFrame);
-    editLinkField.setObjectName("lineedit");
+    editLinkField.setObjectName("urledit");
     editLinkField.home(false);
     editLinkField.setText(currentItemURL);
+    QVBoxLayout vlay(&editFrame);
+    vlay.setObjectName("vlay");
     QHBoxLayout editLinkLayout(&editFrame);
     editLinkLayout.setObjectName("editlinklayout");
     editLinkLayout.addWidget(&editLinkURL);
     editLinkLayout.addWidget(&editLinkField);
-
-    editDialog.setMainWidget(&editFrame);
+    vlay.addWidget( &editNameField );
+    vlay.addLayout( &editLinkLayout );
+    editDialog.setMainWidget( &editFrame );
 
     bool go( true );
     // If user presses cancel then skip the action
@@ -521,18 +529,22 @@ void DetailDialog::editLinkDialog()
         go = false;
 
     // If nothing changed, skip th action
-    if (editLinkField.text() == currentItemURL)
+    if (editLinkField.text() == currentItemURL && editNameField.text() == currentItemTitle)
         go = false;
 
     if ( go ) {
-        replace_line = selectedObject->name() + ':' + currentItemTitle + ':' + editLinkField.text();
+        replace_line = selectedObject->name() + ':' + editNameField.text() + ':' + editLinkField.text();
 
-        // Info Link, we only replace URL since title hasn't changed
-        if (type==0)
+        // Info Link
+        if (type==0) {
+            selectedObject->InfoTitle.replace(row, editNameField.text());
             selectedObject->InfoList.replace(row, editLinkField.text());
+
         // Image Links
-        else
+        } else {
+            selectedObject->ImageTitle.replace(row, editNameField.text());
             selectedObject->ImageList.replace(row, editLinkField.text());
+        }
 
         // Update local files
         updateLocalDatabase(type, search_line, replace_line);
@@ -543,12 +555,6 @@ void DetailDialog::editLinkDialog()
         else
             Links->ImageTitleList->setCurrentRow(row);
     }
-
-    //Now cleanup all the objects that were created
-    /*delete editFrame;
-    delete editLinkField;
-    delete editLinkURL;
-    delete editLinkLayout;*/
 }
 
 void DetailDialog::removeLinkDialog()
@@ -561,10 +567,10 @@ void DetailDialog::removeLinkDialog()
     TempFile.open();
     TempFileName = TempFile.fileName();
 
-    if (Links->InfoTitleList->currentItem())
+    if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = Links->InfoTitleList->currentRow();
-        currentItemTitle = Links->InfoTitleList->currentItem()->text();
+        row = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
+        currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->InfoList[row];
         LineEntry = selectedObject->name();
         LineEntry += ':';
@@ -573,10 +579,10 @@ void DetailDialog::removeLinkDialog()
         LineEntry += currentItemURL;
         type       = 0;
     }
-    else if (Links->ImageTitleList->currentItem())
+    else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = Links->ImageTitleList->currentRow();
-        currentItemTitle = Links->ImageTitleList->currentItem()->text();
+        row = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
+        currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->ImageList[row];
         LineEntry = selectedObject->name();
         LineEntry += ':';
@@ -606,9 +612,9 @@ void DetailDialog::removeLinkDialog()
 
     // Set focus to the 1st item in the list
     if (type == 0)
-        Links->InfoTitleList->setCurrentRow(0);
+        Links->InfoTitleList->clearSelection();
     else
-        Links->ImageTitleList->setCurrentRow(0);
+        Links->ImageTitleList->clearSelection();
 
 }
 

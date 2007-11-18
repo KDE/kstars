@@ -40,6 +40,7 @@
 class GeoLocation;
 class QHBoxLayout;
 class QLineEdit;
+class QListWidgetItem;
 class QPixmap;
 class QString;
 class QStringList;
@@ -126,17 +127,14 @@ public slots:
     	*/
     void viewLink();
 
-    /**@short Unselect the currently selected item in the Images list
-    	*@note used when an item is selected in the Info list
-    	*@sa unselectInfoList()
-    	*/
-    void unselectImagesList();
-
-    /**@short Unselect the currently selected item in the Info list
-    	*@note used when an item is selected in the Images list
-    	*@sa unselectImagesList()
-    	*/
-    void unselectInfoList();
+    /**
+     *@short Set the currently-selected URL resource.
+     *
+     *This function is needed because there are two QListWidgets, 
+     *each with its own selection.  We need to know which the user selected
+     *most recently.
+     */
+    void setCurrentLink(QListWidgetItem *it);
 
     /**@short Rebuild the Image and Info URL lists for this object.
     	*@note used when an item is added to either list.
@@ -207,6 +205,8 @@ private:
     SkyObject *selectedObject;
     KStars* ksw;
     QPalette titlePalette;
+
+    QListWidgetItem *m_CurrentLink;
 
     QPixmap *Thumbnail;
     int currentItemIndex;
