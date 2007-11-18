@@ -725,7 +725,8 @@ void  DetailDialog::viewADVData()
     QString link;
     QTreeWidgetItem * current = Adv->ADVTree->currentItem();
 
-    if (!current)  return;
+    //If the item has children or is invalid, do nothing
+    if ( !current || current->childCount()>0 )  return;
 
     foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
     {
