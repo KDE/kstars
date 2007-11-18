@@ -1016,39 +1016,12 @@ void KStars::slotShowGUIItem( bool show ) {
 
     if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
         Options::setShowAltAzField( show );
-        if ( show ) {
-            //To preserve the order (AzAlt before RADec), we have to remove
-            //the RADec field and then add both back.
-            if ( statusBar()->hasItem(1) ) statusBar()->removeItem( 1 );
-            if ( statusBar()->hasItem(2) ) statusBar()->removeItem( 2 );
-
-            QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-            statusBar()->insertPermanentFixedItem( s, 1 );
-            statusBar()->setItemAlignment( 1, Qt::AlignRight | Qt::AlignVCenter );
-            statusBar()->changeItem( QString(), 1 );
-
-            if ( Options::showRADecField() ) {
-                statusBar()->insertPermanentFixedItem( s, 2 );
-                statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-                statusBar()->changeItem( QString(), 2 );
-            }
-        } else {
-            statusBar()->removeItem( 1 );
-        }
+        if ( ! show ) { statusBar()->changeItem( QString(), 1 ); }
     }
 
     if ( sender() == actionCollection()->action( "show_sbRADec" ) ) {
         Options::setShowRADecField( show );
-        if ( show ) {
-            QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-            if ( ! statusBar()->hasItem(2) ) {
-                statusBar()->insertPermanentFixedItem( s, 2 );
-                statusBar()->setItemAlignment( 2, Qt::AlignRight | Qt::AlignVCenter );
-            }
-            statusBar()->changeItem( QString(), 2 );
-        } else {
-            statusBar()->removeItem( 2 );
-        }
+        if ( ! show ) { statusBar()->changeItem( QString(), 2 ); }
     }
 
     //InfoBoxes: we only change options here; these are also connected to slots in

@@ -322,14 +322,19 @@ void SkyMap::slotCenter( void ) {
 
     //display coordinates in statusBar
     if ( ks ) {
-        QString sX = focusPoint()->az()->toDMSString();
-        QString sY = focusPoint()->alt()->toDMSString(true);
-        if ( Options::useAltAz() && Options::useRefraction() )
-            sY = refract( focusPoint()->alt(), true ).toDMSString(true);
-        QString s = sX + ",  " + sY;
-        ks->statusBar()->changeItem( s, 1 );
-        s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
-        ks->statusBar()->changeItem( s, 2 );
+        if ( Options::showAltAzField() ) {
+            QString sX = focusPoint()->az()->toDMSString();
+            QString sY = focusPoint()->alt()->toDMSString(true);
+            if ( Options::useAltAz() && Options::useRefraction() )
+                sY = refract( focusPoint()->alt(), true ).toDMSString(true);
+            QString s = sX + ",  " + sY;
+            ks->statusBar()->changeItem( s, 1 );
+        }
+
+        if ( Options::showRADecField() ) {
+            QString s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
+            ks->statusBar()->changeItem( s, 2 );
+        }
     }
 
     showFocusCoords(); //update FocusBox

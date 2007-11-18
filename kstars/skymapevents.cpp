@@ -568,24 +568,28 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         setClickedPoint( mousePoint() );
 
         forceUpdate();  // must be new computed
-    } else {
 
+    } else { //mouse button not down
         if ( ks ) {
             QString sX, sY, s;
-            sX = mousePoint()->az()->toDMSString(true);  //true: force +/- symbol
 
-            dms a( mousePoint()->alt()->Degrees() );
-            if ( Options::useAltAz() && Options::useRefraction() )
-                a = refract( mousePoint()->alt(), true ); //true: compute apparent alt from true alt
-            sY = a.toDMSString(true); //true: force +/- symbol
+            if ( Options::showAltAzField() ) {
+                sX = mousePoint()->az()->toDMSString(true);  //true: force +/- symbol
+                dms a( mousePoint()->alt()->Degrees() );
+                if ( Options::useAltAz() && Options::useRefraction() )
+                    a = refract( mousePoint()->alt(), true ); //true: compute apparent alt from true alt
+                sY = a.toDMSString(true); //true: force +/- symbol
+    
+                s = sX + ",  " + sY;
+                ks->statusBar()->changeItem( s, 1 );
+            }
 
-            s = sX + ",  " + sY;
-            ks->statusBar()->changeItem( s, 1 );
-
-            sX = mousePoint()->ra()->toHMSString();
-            sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
-            s = sX + ",  " + sY;
-            ks->statusBar()->changeItem( s, 2 );
+            if ( Options::showRADecField() ) {
+                sX = mousePoint()->ra()->toHMSString();
+                sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
+                s = sX + ",  " + sY;
+                ks->statusBar()->changeItem( s, 2 );
+            }
         }
     }
 }
