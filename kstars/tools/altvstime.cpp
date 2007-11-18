@@ -112,9 +112,9 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
     connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-    connect( avtUI->PlotList, SIGNAL( itemSelectionChanged(int) ), this, SLOT( slotHighlight() ) );
+    connect( avtUI->PlotList, SIGNAL( currentRowChanged(int) ), this, SLOT( slotHighlight(int) ) );
 
-    //ther edit boxes should not pass on the return key!
+    //the edit boxes should not pass on the return key!
     avtUI->nameBox->setTrapReturnKey( true );
     avtUI->raBox->setTrapReturnKey( true );
     avtUI->decBox->setTrapReturnKey( true );
@@ -290,15 +290,13 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
     return p->alt()->Degrees();
 }
 
-void AltVsTime::slotHighlight(void) {
-    int iPlotList = avtUI->PlotList->currentRow();
-
+void AltVsTime::slotHighlight( int row ) {
     //highlight the curve of the selected object
     QList< KPlotObject* > objects = avtUI->View->plotObjects();
     for ( int i=0; i<objects.count(); ++i ) {
         KPlotObject *obj = objects.at( i );
 
-        if ( i == iPlotList ) {
+        if ( i == row ) {
             obj->setLinePen( QPen( Qt::white, 2 ) );
         } else {
             obj->setLinePen( QPen( Qt::red, 1 ) );
@@ -308,7 +306,7 @@ void AltVsTime::slotHighlight(void) {
     avtUI->View->update();
 
     for ( int i=0; i < pList.size(); ++i ) {
-        if ( i == iPlotList ) {
+        if ( i == row ) {
             SkyObject *p = pList.at(i);
             avtUI->raBox->showInHours( p->ra() );
             avtUI->decBox->showInDegrees( p->dec() );
@@ -439,7 +437,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
     else DayOffset = 0;
 
     setLSTLimits();
-    slotHighlight();
+    slotHighlight( avtUI->PlotList->currentRow() );
     avtUI->View->update();
 
     delete num;

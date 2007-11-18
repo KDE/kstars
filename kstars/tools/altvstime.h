@@ -159,7 +159,7 @@ public slots:
     /**Update the plot to highlight the altitude curve of the objects
     	*which is highlighted in the listbox.
     	*/
-    void slotHighlight(void);
+    void slotHighlight(int);
 
 private:
     AltVsTimeUI *avtUI;
