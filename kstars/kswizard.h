@@ -91,6 +91,8 @@ private slots:
     	*/
     void slotFilterCities();
 
+    void slotDownload();
+
 private:
     /**
     	*@short Initialize the geographic location page.

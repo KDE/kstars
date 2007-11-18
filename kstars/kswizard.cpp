@@ -23,6 +23,7 @@
 
 #include <klineedit.h>
 #include <kpushbutton.h>
+#include <knewstuff2/engine.h>
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -91,7 +92,7 @@ KSWizard::KSWizard( KStars *_ks )
     connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-    connect( download->DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
+    connect( download->DownloadButton, SIGNAL( clicked() ), this, SLOT( slotDownload() ) );
 
     //Disable Back button
     enableButton( KDialog::User2, false );
@@ -145,7 +146,7 @@ void KSWizard::initGeoPage() {
     location->CityListBox->sort();
 
     //preset to current city
-    location->CityListBox->setCurrentItem( index + 1 );
+    location->CityListBox->setCurrentItem( index );
 }
 
 void KSWizard::slotChangeCity() {
@@ -188,6 +189,12 @@ void KSWizard::slotFilterCities() {
 
     if ( location->CityListBox->firstItem() )  // set first item in list as selected
         location->CityListBox->setCurrentItem( location->CityListBox->firstItem() );
+}
+
+void KSWizard::slotDownload() {
+    KNS::Engine engine( this );
+    engine.init( "kstars.knsrc" );
+    KNS::Entry::List entries = engine.downloadDialogModal( this );
 }
 
 #include "kswizard.moc"
