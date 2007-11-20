@@ -1385,7 +1385,31 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							if ( size > 0 ) {
 								QChar c = starobj->color();
 								QPixmap *spixmap = starpix->getPixmap( &c, size );
+
+								// Try to paint with the selected color
+								spixmap->fill(QColor( data->CustomCatalogs.at(i)->color() ));
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
+								// After drawing the star we display some extra info like
+								// the name ...
+								bool drawName = ( Options::showStarNames() && (starobj->name() != i18n("star") ) );
+								if ( !checkSlewing && (starobj->mag() <= Options::magLimitDrawStarInfo() )
+										&& ( drawName || Options::showStarMagnitudes() ) ) {
+
+											psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+											QFont stdFont( psky.font() );
+											QFont smallFont( stdFont );
+											smallFont.setPointSize( stdFont.pointSize() - 2 );
+											if ( Options::zoomFactor() < 10.*MINZOOM ) {
+												psky.setFont( smallFont );
+											} else {
+												psky.setFont( stdFont );
+											}
+
+											starobj->drawLabel( psky, o.x(), o.y(), Options::zoomFactor(), drawName, Options::showStarMagnitudes(), scale );
+
+											//reset font
+											psky.setFont( stdFont );
+								}
 							}
 						} else {
 							DeepSkyObject *dso = (DeepSkyObject*)obj;

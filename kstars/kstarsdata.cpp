@@ -1133,6 +1133,11 @@ bool KStarsData::addCatalog( QString filename ) {
 			ObjNames.append( o );
 			if ( o->hasLongName() && o->longname() != o->name() ) 
 				ObjNames.append( o, true ); //Add long name
+			// PdV
+			//if (reloadMode) {
+		        //        o->EquatorialToHorizontal( LST, geo()->lat() );
+			//}
+
 		}
 
 		return true;
@@ -2146,11 +2151,12 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 			}
 		}
 
+
 		//Custom Catalogs
 		for ( unsigned int j=0; j< CustomCatalogs.count(); ++j ) {
-			CustomCatalog *cat = CustomCatalogs.at(j);
+			QPtrList<SkyObject> cat = CustomCatalogs.at(j)->objList();
 			if ( Options::showCatalog()[j] ) {
-				for ( SkyObject *o = cat->objList().first(); o; o = cat->objList().next() ) {
+                                 for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );
 					o->EquatorialToHorizontal( LST, geo->lat() );
 				}
