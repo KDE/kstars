@@ -203,21 +203,24 @@ void INDI_P::convertSwitch(int id)
 {
  
  INDI_E *lp;
+ QString mLabel;
  int switchIndex=0;
  
  if (assosiatedPopup == NULL)
   return;
 
+  mLabel = assosiatedPopup->text(id).replace("&", "");
+
   //kdDebug() << "Name: " << name << " ID: " << id << endl;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
- if (stdID == CCD_EXPOSE_DURATION && assosiatedPopup->text(id) == label)
+ if (stdID == CCD_EXPOSE_DURATION && mLabel.find(label) != -1)
  {
    newText();
    return;
  }
 
  /* Another special case, center telescope */
- if (assosiatedPopup->text(id) == i18n("Center && Track Crosshair"))
+ if (mLabel.find("Crosshair") != -1)
  {
         if (!indistd->stdDev->dp->isOn()) return;
 	if (indistd->stdDev->telescopeSkyObject == NULL) return;
@@ -227,14 +230,14 @@ void INDI_P::convertSwitch(int id)
 	return;
  }
    
- lp = findElement(assosiatedPopup->text(id));
+ lp = findElement(mLabel);
  
  if (!lp)
    return;
    
  for (uint i=0; i < el.count(); i++)
  {
-   if (el.at(i)->label == assosiatedPopup->text(id))
+   if (el.at(i)->label == mLabel)
    {
      switchIndex = i;
      break;
