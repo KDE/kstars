@@ -46,7 +46,7 @@ user interface and the low-level hardware drivers.</para>
 local or remote clients may connect to it to control astronomical
 instruments. It acceps that following arguments:
 <itemizedlist>
-<listitem><para> -l d to log driver messages to <d>/YYYY-MM-DD.islog.</para></listitem>
+<listitem><para> -l d to log driver messages to <filename>/<replaceable>YYYY-MM-DD</replaceable>.islog</filename>.</para></listitem>
 <listitem><para> -m m  : kill client if gets more than this many MB behind, default 10</para></listitem>
 <listitem><para> -p p  : alternate IP port, default 7624</para></listitem>
 <listitem><para> -v    : show key events, no traffic</para></listitem>
