@@ -88,11 +88,11 @@ void LCGenerator::VerifyData()
     QString Designation, AverageDays;
 
     if ( ! lcg->StartDateBox->date().isValid() ) {
-        KMessageBox::error(this, i18n("Start date inavlid."));
+        KMessageBox::error(this, i18n("Start date invalid."));
         return;
     }
     if ( ! lcg->EndDateBox->date().isValid() ) {
-        KMessageBox::error(this, i18n("End date inavlid."));
+        KMessageBox::error(this, i18n("End date invalid."));
         return;
     }
 
