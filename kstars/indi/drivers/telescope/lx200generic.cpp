@@ -32,6 +32,12 @@
 #include "lx200gps.h"
 #include "lx200classic.h"
 
+#include <config.h>
+
+#ifdef HAVE_NOVA_H
+#include <libnova.h>
+#endif
+
 LX200Generic *telescope = NULL;
 int MaxReticleFlashRate = 3;
 
@@ -120,12 +126,6 @@ static ISwitchVectorProperty OnCoordSetSP= { mydev, "ON_COORD_SET", "On Set", BA
 *********************************************/
 static ISwitch AbortSlewS[]		= {{"ABORT", "Abort", ISS_OFF, 0, 0 }};
 static ISwitchVectorProperty AbortSlewSP= { mydev, "TELESCOPE_ABORT_MOTION", "Abort Slew/Track", BASIC_GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AbortSlewS, NARRAY(AbortSlewS), "", 0};
-
-/********************************************
- Property: Park telescope to HOME
-*********************************************/
-static ISwitch ParkS[]		 	= { {"PARK", "Park", ISS_OFF, 0, 0} };
-ISwitchVectorProperty ParkSP		= {mydev, "TELESCOPE_PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, ParkS, NARRAY(ParkS), "", 0 };
 
 /**********************************************************************************************/
 /************************************** GROUP: Motion *****************************************/
@@ -277,7 +277,6 @@ void changeLX200GenericDeviceName(const char * newName)
   strcpy(EquatorialCoordsRNP.device, newName);
   strcpy(OnCoordSetSP.device , newName );
   strcpy(AbortSlewSP.device , newName );
-  strcpy(ParkSP.device, newName);
 
   // MOTION_GROUP
   strcpy(SlewModeSP.device , newName );
@@ -465,7 +464,6 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefNumber (&EquatorialCoordsRNP, NULL);
   IDDefSwitch (&OnCoordSetSP, NULL);
   IDDefSwitch (&AbortSlewSP, NULL);
-  IDDefSwitch (&ParkSP, NULL);
 
   // MOTION_GROUP
   IDDefNumber (&TrackingFreqNP, NULL);
@@ -482,8 +480,11 @@ void LX200Generic::ISGetProperties(const char *dev)
   IDDefNumber(&FocusTimerNP, NULL);
 
   // DATETIME_GROUP
+  #ifdef HAVE_NOVA_H
   IDDefText   (&TimeTP, NULL);
   IDDefNumber(&UTCOffsetNP, NULL);
+  #endif
+
   IDDefNumber (&SDTimeNP, NULL);
 
   // SITE_GROUP
@@ -539,6 +540,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	     return;
        }
 
+       #ifdef HAVE_NOVA_H
        if (!strcmp (name, TimeTP.name))
        {
 	  if (checkPower(&TimeTP))
@@ -552,9 +554,10 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 		return;
 	 }
 
-	 struct tm utm;
-	 struct tm ltm;
-	 time_t time_epoch;
+	 struct ln_date utm;
+	 struct ln_zonedate ltm;
+	 //struct tm ltm;
+	 //time_t time_epoch;
 
         if (*((int *) UTCOffsetN[0].aux0) == 0)
 	{
@@ -571,24 +574,30 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	  }
 
 	 // update JD
-         JD = UTtoJD(&utm);
+         JD = ln_get_julian_day(&utm);
 	 IDLog("New JD is %f\n", (float) JD);
 
         // Get epoch since given UTC (we're assuming it's LOCAL for now, then we'll subtract UTC to get local)
 	// Since mktime only returns epoch given a local calender time
-	 time_epoch = mktime(&utm);
+	 //time_epoch = mktime(&utm);
 
 	 // Add UTC Offset to get local time. The offset is assumed to be DST corrected.
-	time_epoch += (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+	//time_epoch += (int) (UTCOffsetN[0].value * 60.0 * 60.0);
+
+	// FIXME: UTC should be passed in hours, not seconds. This is a bug with libnova
+	ln_date_to_zonedate(&utm, &ltm, UTCOffsetN[0].value*3600.0);
+
+	//IDLog("UT time is: %04d/%02d/%02d T %02d:%02d:%02d\n", utm.years, utm.months, utm.days, utm.hours, utm.minutes, utm.seconds);
+	//IDLog("Local time is: %04d/%02d/%02d T %02d:%02d:%02d\n", ltm.years, ltm.months, ltm.days, ltm.hours, ltm.minutes, ltm.seconds);
 
 	// Now let's get the local time
-	localtime_r(&time_epoch, &ltm);
+	//localtime_r(&time_epoch, &ltm);
 		
-	ltm.tm_mon +=1;
-        ltm.tm_year += 1900;
+	//ltm.tm_mon +=1;
+        //ltm.tm_year += 1900;
 
 	// Set Local Time
-	if ( ( err = setLocalTime(fd, ltm.tm_hour, ltm.tm_min, ltm.tm_sec) < 0) )
+	if ( ( err = setLocalTime(fd, ltm.hours, ltm.minutes, ltm.seconds) < 0) )
 	{
 	          handleError(&TimeTP, err, "Setting local time");
         	  return;
@@ -597,12 +606,12 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	// GPS needs UTC date?
 	// TODO Test This!
 	// Make it calender representation
-	 utm.tm_mon  += 1;
-	 utm.tm_year += 1900;
+	 //utm.tm_mon  += 1;
+	 //utm.tm_year += 1900;
 
 	if (!strcmp(dev, "LX200 GPS"))
 	{
-			if ( ( err = setCalenderDate(fd, utm.tm_mday, utm.tm_mon, utm.tm_year) < 0) )
+			if ( ( err = setCalenderDate(fd, utm.days, utm.months, utm.years) < 0) )
 	  		{
 		  		handleError(&TimeTP, err, "Setting TimeT date.");
 		  		return;
@@ -610,7 +619,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	}
 	else
 	{
-			if ( ( err = setCalenderDate(fd, ltm.tm_mday, ltm.tm_mon, ltm.tm_year) < 0) )
+			if ( ( err = setCalenderDate(fd, ltm.days, ltm.months, ltm.years) < 0) )
 	  		{
 		  		handleError(&TimeTP, err, "Setting local date.");
 		  		return;
@@ -628,6 +637,7 @@ void LX200Generic::ISNewText (const char *dev, const char *name, char *texts[], 
 	getSDTime(fd, &SDTimeN[0].value);
 	IDSetNumber(&SDTimeNP, NULL);
 	}
+	#endif
 }
 
 
@@ -670,6 +680,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 		return;
 	}
 
+	#ifdef HAVE_NOVA_H
 	// DST Correct TimeT Offset
 	if (!strcmp (name, UTCOffsetNP.name))
 	{
@@ -694,6 +705,7 @@ void LX200Generic::ISNewNumber (const char *dev, const char *name, double values
 		IDSetNumber(&UTCOffsetNP, NULL);
 		return;
 	}
+	#endif
 
 	if (!strcmp (name, EquatorialCoordsWNP.name))
 	{
@@ -940,6 +952,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	}
 	
 	// Parking
+#if 0
 	if (!strcmp(name, ParkSP.name))
 	{
 	  if (checkPower(&ParkSP))
@@ -983,6 +996,7 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	   currentSet = LX200_PARK;
 	   handleCoordSet();
 	}
+#endif
 	  
 	// Abort Slew
 	if (!strcmp (name, AbortSlewSP.name))
@@ -1561,26 +1575,6 @@ void LX200Generic::ISPoll()
 		  case LX200_SYNC:
 		  	break;
 		  
-		  case LX200_PARK:
-		        if (setSlewMode(fd, LX200_SLEW_GUIDE) < 0)
-			{ 
-			  handleError(&SlewModeSP, err, "Setting slew mode");
-			  return;
-			}
-			
-			IUResetSwitch(&SlewModeSP);
-			SlewModeS[LX200_SLEW_GUIDE].s = ISS_ON;
-			IDSetSwitch(&SlewModeSP, NULL);
-			
-			MoveTo(fd, LX200_EAST);
-			IUResetSwitch(&MovementWESP);
-			MovementWES[1].s = ISS_ON;
-			MovementWESP.s = IPS_BUSY;
-			IDSetSwitch(&MovementWESP, NULL);
-			
-			ParkSP.s = IPS_OK;
-		  	IDSetSwitch (&ParkSP, "Park is complete. Turn off the telescope now.");
-		  	break;
 		}
 
 	    } else
@@ -1745,6 +1739,7 @@ void LX200Generic::getBasicData()
 {
 
   int err;
+  #ifdef HAVE_NOVA_H
   struct tm *timep;
   time_t ut;
   time (&ut);
@@ -1752,6 +1747,7 @@ void LX200Generic::getBasicData()
   strftime (TimeTP.tp[0].text, strlen(TimeTP.tp[0].text), "%Y-%m-%dT%H:%M:%S", timep);
 
   IDLog("PC UTC time is %s\n", TimeTP.tp[0].text);
+  #endif
 
   getAlignment();
   
@@ -1923,30 +1919,6 @@ int LX200Generic::handleCoordSet()
 	  IDSetNumber(&EquatorialCoordsWNP, "Synchronization successful.");
 	  IDSetNumber(&EquatorialCoordsRNP, NULL);
 	  break;
-
-   // PARK
-   // Set RA to LST and DEC to 0 degrees, slew, then change to 'guide' slew after slew is complete.
-   case LX200_PARK:
-          if (EquatorialCoordsWNP.s == IPS_BUSY)
-	  {
-	     abortSlew(fd);
-
-	     // sleep for 200 mseconds
-	     usleep(200000);
-	  }
-
-	  if ((err = Slew(fd)))
-	  {
-	    	slewError(err);
-	    	return (-1);
-	  }
-		
-	  ParkSP.s = IPS_BUSY;
-	  EquatorialCoordsRNP.s = IPS_BUSY;
-	  IDSetNumber(&EquatorialCoordsRNP, NULL);
-	  IDSetSwitch(&ParkSP, "The telescope is slewing to park position. Turn off the telescope after park is complete.");
-	  
-	  break;
 	  
    }
    
@@ -2079,9 +2051,7 @@ void LX200Generic::connectTelescope()
 
 void LX200Generic::slewError(int slewCode)
 {
-    ParkSP.s = IPS_IDLE;
     EquatorialCoordsWNP.s = IPS_ALERT;
-    IDSetSwitch(&ParkSP, NULL);
 
     if (slewCode == 1)
 	IDSetNumber(&EquatorialCoordsWNP, "Object below horizon.");
@@ -2136,7 +2106,7 @@ void LX200Generic::enableSimulation(bool enable)
 
 void LX200Generic::updateTime()
 {
-
+  #ifdef HAVE_NOVA_H
   char cdate[32];
   double ctime;
   int h, m, s, lx200_utc_offset=0;
@@ -2206,6 +2176,7 @@ void LX200Generic::updateTime()
   IDSetText(&TimeTP, NULL);
   IDSetNumber(&SDTimeNP, NULL);
   IDSetNumber(&UTCOffsetNP, NULL);
+  #endif
 
 }
 

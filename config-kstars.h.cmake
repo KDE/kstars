@@ -1,4 +1,3 @@
-
 /* Define to 1 if you have the <linux/videodev2.h> header file. */
 #cmakedefine HAVE_LINUX_VIDEODEV2_H 1
 
@@ -10,3 +9,6 @@
 
 /* Define if you have fitsio.h */
 #cmakedefine   HAVE_CFITSIO_H 1
+
+/* Define if you have libnova.h */
+#cmakedefine   HAVE_NOVA_H 1

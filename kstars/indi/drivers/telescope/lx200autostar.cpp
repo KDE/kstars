@@ -26,7 +26,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define FirmwareGroup "Firmware data"
+#define BASIC_GROUP   "Main Control"
+#define FIRMWARE_GROUP "Firmware data"
 #define FOCUS_GROUP   "Focus Control"
 
 
@@ -37,7 +38,6 @@ extern INumberVectorProperty SDTimeNP;
 extern INumberVectorProperty EquatorialCoordsWNP;
 extern INumberVectorProperty EquatorialCoordsRNP;
 extern INumberVectorProperty FocusTimerNP;
-extern ISwitchVectorProperty ParkSP;
 extern ISwitchVectorProperty ConnectSP;
 extern ISwitchVectorProperty FocusMotionSP;
 
@@ -47,23 +47,30 @@ static IText   VersionT[] ={{ "Date", "", 0, 0, 0, 0} ,
 			   { "Full", "", 0, 0, 0, 0} ,
 			   { "Name", "" ,0 ,0 ,0 ,0}};
 
-static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FirmwareGroup, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), "" ,0};
+static ITextVectorProperty VersionInfo = {mydev, "Firmware Info", "", FIRMWARE_GROUP, IP_RO, 0, IPS_IDLE, VersionT, NARRAY(VersionT), "" ,0};
 
 // Focus Control
 static INumber	FocusSpeedN[]	 = {{"SPEED", "Speed", "%0.f", 0.0, 4.0, 1.0, 0.0, 0, 0, 0}};
 static INumberVectorProperty	FocusSpeedNP  = {mydev, "FOCUS_SPEED", "Speed", FOCUS_GROUP, IP_RW, 0, IPS_IDLE, FocusSpeedN, NARRAY(FocusSpeedN), "", 0};
 
+/********************************************
+ Property: Park telescope to HOME
+*********************************************/
+static ISwitch ParkS[]		 	= { {"PARK", "Park", ISS_OFF, 0, 0} };
+ISwitchVectorProperty ParkSP		= {mydev, "TELESCOPE_PARK", "Park Scope", BASIC_GROUP, IP_RW, ISR_ATMOST1, 0, IPS_IDLE, ParkS, NARRAY(ParkS), "", 0 };
+
+
 void changeLX200AutostarDeviceName(const char *newName)
 {
   strcpy(VersionInfo.device, newName);
   strcpy(FocusSpeedNP.device, newName);
+  strcpy(ParkSP.device, newName);
 }
 
 LX200Autostar::LX200Autostar() : LX200Generic()
 {
 
 }
-
 
 void LX200Autostar::ISGetProperties (const char *dev)
 {
@@ -73,6 +80,7 @@ if (dev && strcmp (thisDevice, dev))
 
     LX200Generic::ISGetProperties(dev);
 
+    IDDefSwitch (&ParkSP, NULL);
     IDDefText   (&VersionInfo, NULL);
     IDDefNumber (&FocusSpeedNP, NULL);
 

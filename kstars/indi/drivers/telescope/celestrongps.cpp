@@ -157,8 +157,6 @@ CelestronGPS::CelestronGPS()
    currentSet   = 0;
    lastSet      = -1;
 
-   JD = 0;
-
    // Children call parent routines, this is the default
    IDLog("initilizaing from Celeston GPS device...\n");
 
@@ -388,13 +386,6 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	   tp->tm_mon   += 1;
 	   tp->tm_year  += 1900;
 
-	   // update JD
-           JD = UTtoJD(tp);
-
-	   #ifdef CELESTRON_DEBUG
-	   IDLog("We recevined JNOW RA %f - DEC %f\n", newRA, newDEC);;
-	   #endif
-	   
 	   targetRA  = newRA;
 	   targetDEC = newDEC;
 	       
@@ -721,8 +712,6 @@ void CelestronGPS::ISPoll()
 	    case 2:		/* goto complete but outside tolerance */
 		currentRA = targetRA;
 		currentDEC = targetDEC;
-
-		/*apparentCoord( JD, (double) J2000, &currentRA, &currentDEC);*/
 
 		EquatorialCoordsRNP.np[0].value = currentRA;
 		EquatorialCoordsRNP.np[1].value = currentDEC;

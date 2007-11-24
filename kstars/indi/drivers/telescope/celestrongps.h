@@ -50,7 +50,6 @@ class CelestronGPS
  private:
   int timeFormat;
 
-  double JD;
   double currentRA;
   double currentDEC;
   double targetRA;

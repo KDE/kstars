@@ -31,6 +31,10 @@
 #include <termios.h>
 #include <time.h>
 
+#include <config.h>
+
+#include <libnova.h>
+
 #include "indicom.h"
 #include "indidevapi.h"
 #include "eventloop.h"
@@ -289,20 +293,10 @@ void ISNewSwitch (const char *dev, const char *name, ISState *states, char *name
 }
 
 double calcLST(char *strlst){
-	time_t computertime;
-	struct tm gmt;
-	double jd, gmst;
-	double lst;
-	/*int a,b;*/
+	double jd,gmst,lst;
 
-	time(&computertime);
-	gmtime_r(&computertime, &gmt);
-	gmt.tm_mon+=1;
-	gmt.tm_year+=1900;
-	currentUTC=(double)gmt.tm_hour+(double)gmt.tm_min/60+(double)gmt.tm_sec/3600;
-
-	jd=UTtoJD(&gmt);
-	gmst=JDtoGMST(jd);
+	jd = ln_get_julian_from_sys();
+	gmst = ln_get_mean_sidereal_time(jd);
 
 	lst=(gmst-longitude)/15;	
 

@@ -24,11 +24,9 @@
 /** \file indicom.h
     \brief Implementations for common driver routines.
 
-    The INDI Common Routine Library provides astronomical, mathematical, and formatting routines employed by many INDI drivers. Currently, the library is composed of the following sections:
+    The INDI Common Routine Library provides formatting and serial routines employed by many INDI drivers. Currently, the library is composed of the following sections:
 
     <ul>
-    <li>Math Functions</li>
-    <li>Ephemeris Functions</li>
     <li>Formatting Functions</li>
     <li>Conversion Functions</li>
     <li>TTY Functions</li>
@@ -45,11 +43,10 @@
 #define INDICOM_H
 
 #include <time.h>
-
-/* do NOT change this to config-kstars.h! 
-INDI is independent of KStars*/
-#ifdef HAVE_CONFIG_H
 #include <config.h>
+
+#ifdef HAVE_NOVA_H
+#include <libnova.h>
 #endif
 
 #define J2000 2451545.0
@@ -66,34 +63,6 @@ enum TTY_ERROR { TTY_OK=0, TTY_READ_ERROR=-1, TTY_WRITE_ERROR=-2, TTY_SELECT_ERR
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/**
- * \defgroup mathFunctions Math Functions: Functions to perform common math routines.
- */
-/*@{*/
-
-/** \brief Convert degrees to radians.
-    \param num number in degrees.
-    \return number in radians.
-*/
-double DegToRad( double num );
-
-/** \brief Convert radians to degrees.
-    \param num number in radians.
-    \return number in degrees.
-*/
-double RadToDeg( double num );
-
-/** \brief Get the sin and cosine of a number.
-
-    The function attempts to use GNU sincos extension when possible. The sin and cosine values for \e Degrees are stored in the \e sina and \e cosa parameters.
-    \param Degrees the number in degrees to return its sin and cosine.
-    \param sina pointer to a double to hold the sin value.
-    \param cosa pointer to a double to hold the cosine value.
-*/
-void SinCos( double Degrees, double *sina, double *cosa );
-
-/*@}*/
 
 /**
  * \defgroup ttyFunctions TTY Functions: Functions to perform common terminal access routines.
@@ -171,111 +140,6 @@ int tty_timeout(int fd, int timeout);
 /*@}*/
 
 /**
- * \defgroup ephemerisFunctions Ephemeris Functions: Functions to perform common ephemeris routines.
-   
-   The ephemeris functions are date-dependent. Call updateAstroValues() to update orbital values used in many algorithms before using any ephemeris function. You only need to call updateAstroValues() again if you need to update the orbital values for a different date.
- */
-/*@{*/
-
-/** \brief Returns the obliquity of orbit.
-*/
-double obliquity();
-
-/** \brief  Returns the constant of aberration (20.49 arcsec). */
-double constAberr();
-
-/** \brief Returns the mean solar anomaly. */
-double sunMeanAnomaly();
-
-/** \brief Returns the mean solar longitude. */
-double sunMeanLongitude();
-
-/** \brief Returns the true solar anomaly. */
-double sunTrueAnomaly();
-
-/** \brief Returns the true solar longitude. */
-double sunTrueLongitude();
-
-/** \brief Returns the longitude of the Earth's perihelion point. */
-double earthPerihelionLongitude();
-
-/** \brief Returns eccentricity of Earth's orbit.*/
-double earthEccentricity();
-
-/** \brief Returns the change in obliquity due to the nutation of Earth's orbit. */
-double dObliq();
-
-/** \brief Returns the change in Ecliptic Longitude due to nutation. */
-double dEcLong();
-
-/** \brief Returns Julian centuries since J2000*/
-double julianCenturies();
-
-/** \brief Returns element of P1 precession array at position [i1][i2] */
-double p1( int i1, int i2 );
-
-/** \brief Returns element of P2 precession array at position [i1][i2] */
-double p2( int i1, int i2 );
-
-/** \brief Update all orbital values for the given date as an argument. Any subsecquent functions will use values affected by this date until changed.
-    \param jd Julian date
- */
-void updateAstroValues( double jd );
-
-/** \brief Calculates the declination on the celestial sphere at 0 degrees altitude given the siderial time and latitude.
-    \param latitude Current latitude.
-    \param SDTime Current sideral time.
-    \return Returns declinatation at 0 degrees altitude for the given parameters.
- */
-double calculateDec(double latitude, double SDTime);
-
-/** \brief Calculates the right ascension on the celestial sphere at 0 degrees azimuth given the siderial time.
-    \param SDTime Current sidereal time.
-    \return Returns right ascension at 0 degrees azimith for the given parameters.
- */
-double calculateRA(double SDTime);
-
-/** \brief Calculates the angular distance between two points on the celestial sphere. 
-    \param fromRA Right ascension of starting point in degrees.
-    \param fromDEC Declination of starting point in degrees.
-    \param toRA Right ascension of ending point in degrees.
-    \param toDEC Declination of ending point in degrees.
-    \return Angular separation in degrees.
-*/
-double angularDistance(double fromRA, double fromDEC, double toRA, double toDEC);
-
-/** \brief Nutate a given RA and Dec.
-    \param RA a pointer to a double containing the Right ascension in degrees to nutate. The function stores the processed Right ascension back in this variable.
-    \param Dec a pointer to a double containing the delination in degrees to nutate. The function stores the processed delination back in this variable.
-*/
-void nutate(double *RA, double *Dec);
-
-/** \brief Aberrate a given RA and Dec.
-    \param RA a pointer to a double containing the Right ascension in degrees to aberrate. The function stores the processed Right ascension back in this variable.
-    \param Dec a pointer to a double containing the delination in degrees to aberrate. The function stores the processed delination back in this variable.
-*/
-void aberrate(double *RA, double *Dec);
-
-/** \brief Precess the given RA and Dec from any epoch to any epoch.
-    \param jd0 starting epoch.
-    \param jdf final epoch.
-    \param RA a pointer to a double containing the Right ascension in degrees to precess. The function stores the processed Right ascension back in this variable.
-    \param Dec a pointer to a double containing the delination in degrees to precess. The function stores the processed delination back in this variable.
-*/
-void precessFromAnyEpoch(double jd0, double jdf, double *RA, double *Dec);
-
-/** \brief Calculate the apparent coordiantes for RA and Dec from any epoch to any epoch.
-    \param jd0 starting epoch.
-    \param jdf final epoch.
-    \param RA a pointer to a double containing the Right ascension in hours. The function stores the processed Right ascension back in this variable.
-    \param Dec a pointer to a double containing the delination in degrees. The function stores the processed delination back in this variable.
-*/
-void apparentCoord(double jd0, double jdf, double *RA, double *Dec);
-
-/*@}*/
-
-
-/**
  * \defgroup convertFunctions Formatting Functions: Functions to perform handy formatting and conversion routines.
  */
 /*@{*/
@@ -308,31 +172,14 @@ int fs_sexa (char *out, double a, int w, int fracbase);
  */
 int f_scansexa (const char *str0, double *dp);
 
+#ifdef HAVE_NOVA_H
 /** \brief Extract ISO 8601 time and store it in a tm struct.
     \param timestr a string containing date and time in ISO 8601 format.
-    \param utm a pointer to a \e tm structure to store the extracted time and date.
+    \param iso_date a pointer to a \e ln_date structure to store the extracted time and date (libnova).
     \return 0 on success, -1 on failure.
 */
-int extractISOTime(char *timestr, struct tm *utm);
-
-/** \brief Converts Universal Time to Julian Date.
-    \param utm a pointer to a structure holding the universal time and date.
-    \return The Julian date fot the passed universal time.
-*/
-double UTtoJD(struct tm *utm);
-
-/** \brief Return the degree, minute, and second components of a sexagesimal number.
-    \param value sexagesimal number to decompose.
-    \param d a pointer to double to store the degrees field.
-    \param m a pointer to a double to store the minutes field.
-    \param s a pointer to a double to store the seconds field.
-*/
-
-/** \brief Converts Julian Date to Greenwich Sidereal Time.
-    \param jd The Julian date 
-    \return GMST in degrees
-*/
-double JDtoGMST( double jd );
+int extractISOTime(char *timestr, struct ln_date *iso_date);
+#endif
 
 void getSexComponents(double value, int *d, int *m, int *s);
 

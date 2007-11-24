@@ -25,6 +25,10 @@ if (CFITSIO_FOUND)
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif (CFITSIO_FOUND)
 
+if (NOVA_FOUND)
+    include_directories(${NOVA_INCLUDE_DIR})
+endif (NOVA_FOUND)
+
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
@@ -258,7 +262,8 @@ target_link_libraries(kstars
 	${KDE4_KDE3SUPPORT_LIBS}
 	SatLib
 	htmesh
-	${ZLIB_LIBRARIES})
+	${ZLIB_LIBRARIES}
+        ${NOVA_LIBRARIES})
 if(WIN32)
 target_link_libraries(kstars kstarscomponents htmesh SatLib)
 endif(WIN32)
