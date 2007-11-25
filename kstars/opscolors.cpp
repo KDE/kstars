@@ -57,7 +57,7 @@ OpsColors::OpsColors( KStars *_ks )
     PresetBox->addItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
     PresetBox->addItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
-    PresetFileList.append( "default.colors" );
+    PresetFileList.append( "classic.colors" );
     PresetFileList.append( "chart.colors" );
     PresetFileList.append( "night.colors" );
     PresetFileList.append( "moonless-night.colors" );

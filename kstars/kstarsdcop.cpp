@@ -354,7 +354,7 @@ void KStars::loadColorScheme( const QString &_name ) {
     bool ok( false );
 
     //Parse default names which don't follow the regular file-naming scheme
-    if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "default.colors";
+    if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
     if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
     if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
 
