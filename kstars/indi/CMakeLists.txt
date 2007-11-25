@@ -474,6 +474,7 @@ endif (CFITSIO_FOUND)
 
 ########### STV #######################
 if (CFITSIO_FOUND)
+if (NOVA_FOUND)
 
 set(stv_SRCS
    ${indimain_SRCS}
@@ -482,14 +483,11 @@ set(stv_SRCS
 
 kde4_add_executable(indi_sbig_stv NOGUI ${stv_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_sbig_stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
-
-if (NOVA_FOUND)
-  target_link_libraries(indi_sbig_stv ${NOVA_LIBRARIES})
-endif (NOVA_FOUND)
+target_link_libraries(indi_sbig_stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
 
 install(TARGETS indi_sbig_stv DESTINATION ${BIN_INSTALL_DIR} )
 
+endif (NOVA_FOUND)
 endif(CFITSIO_FOUND)
 
 #################################################################################
