@@ -188,13 +188,7 @@ QString ScriptFunction::scriptLine() const {
     while ( ! ArgName[i].isEmpty() && i < 6 )
     {
         // Write DBus style prototype compatible with dbus-send format
-        if ( ArgDBusType[i]=="string")
-        {
-            out += " " + ArgDBusType[i] + ":'" + ArgVal[i] + "'";
-        } else
-        {
-            out += " " + ArgDBusType[i] + ":" + ArgVal[i];
-        }
+        out += " " + ArgDBusType[i] + ":" + ArgVal[i];
         ++i;
     }
 
