@@ -134,6 +134,10 @@ kde4_add_library(sbigudrv SHARED ${sbigudrv_LIB_SRCS})
 
 target_link_libraries(sbigudrv)
 
+if (NOVA_FOUND)
+  target_link_libraries(sbigudrv ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
+
 set_target_properties(sbigudrv PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS sbigudrv
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
@@ -155,7 +159,11 @@ set(indiserver_SRCS indiserver.c fq.c)
 
 kde4_add_executable(indiserver NOGUI ${indiserver_SRCS}  ${liblilxml_SRCS})
 
-target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} pthread )
+target_link_libraries(indiserver  ${KDE4_KDECORE_LIBS} pthread )
+
+if (NOVA_FOUND)
+  target_link_libraries(indiserver ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indiserver  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -171,7 +179,11 @@ set(lx200basic_SRCS
 
 kde4_add_executable(indi_lx200basic NOGUI ${lx200basic_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_lx200basic  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} )
+target_link_libraries(indi_lx200basic  ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_lx200basic ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_lx200basic DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -189,7 +201,11 @@ set(lx200generic_SRCS
 
 kde4_add_executable(indi_lx200generic NOGUI ${lx200generic_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_lx200generic  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} m )
+target_link_libraries(indi_lx200generic  ${KDE4_KDECORE_LIBS} m )
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_lx200generic ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_lx200generic DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -214,7 +230,11 @@ set(celestrongps_SRCS
 
 kde4_add_executable(indi_celestron_gps NOGUI ${celestrongps_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_celestron_gps ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} m )
+target_link_libraries(indi_celestron_gps ${KDE4_KDECORE_LIBS} m )
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_lx200basic ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_celestron_gps DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -227,7 +247,11 @@ set(orionatlas_SRCS
 
 kde4_add_executable(indi_orion_atlas NOGUI ${orionatlas_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_orion_atlas ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES})
+target_link_libraries(indi_orion_atlas ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_orion_atlas ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_orion_atlas DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -257,7 +281,11 @@ set(skycommander_SRCS
 
 kde4_add_executable(indi_skycommander ${skycommander_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_skycommander  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} m )
+target_link_libraries(indi_skycommander  ${KDE4_KDECORE_LIBS} m )
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_skycommander ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_skycommander  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -271,7 +299,11 @@ set(intelliscope_SRCS
 
 kde4_add_executable(indi_intelliscope ${intelliscope_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_intelliscope  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} m )
+target_link_libraries(indi_intelliscope  ${KDE4_KDECORE_LIBS} m )
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_intelliscope ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_intelliscope DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -297,7 +329,11 @@ set(flipdf_SRCS
 
 kde4_add_executable(indi_fli_pdf ${flipdf_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_pdf m ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES})
+target_link_libraries(indi_fli_pdf m ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_fli_pdf ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_pdf DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -313,7 +349,11 @@ set(robofocus_SRCS
 
 kde4_add_executable(indi_robofocus ${robofocus_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_robofocus ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES})
+target_link_libraries(indi_robofocus ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_robofocus ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_robofocus DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -331,7 +371,11 @@ set(trutechwheel_SRCS
 
 kde4_add_executable(indi_trutech_wheel ${trutechwheel_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_trutech_wheel  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES})
+target_link_libraries(indi_trutech_wheel  ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_trutech_wheel ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_trutech_wheel DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -345,7 +389,11 @@ set(fliwheel_SRCS
 
 kde4_add_executable(indi_fli_wheel ${fliwheel_SRCS}  ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_wheel ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES})
+target_link_libraries(indi_fli_wheel ${KDE4_KDECORE_LIBS})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_fli_wheel ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_wheel DESTINATION ${BIN_INSTALL_DIR} )
 #################################################################################
@@ -364,7 +412,11 @@ set(fliccd_SRCS
 
 kde4_add_executable(indi_fli_ccd ${fliccd_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_fli_ccd ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_ccd DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -382,7 +434,11 @@ set(apogee_alta_SRCS
 
 kde4_add_executable(indi_apogee_alta ${apogee_alta_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_apogee_alta ${KDE4_KDECORE_LIBS} ${LIBUSB_LIBRARIES} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_apogee_alta ${KDE4_KDECORE_LIBS} ${LIBUSB_LIBRARIES} ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_apogee_alta ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_apogee_alta DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -400,7 +456,11 @@ set(sbigccd_SRCS
 
 kde4_add_executable(indi_sbig_ccd ${sbigccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_sbig_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${SBIG_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_sbig_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${SBIG_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_sbig_ccd ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_sbig_ccd DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -422,7 +482,11 @@ set(stv_SRCS
 
 kde4_add_executable(indi_sbig_stv NOGUI ${stv_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_sbig_stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_sbig_stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_sbig_stv ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_sbig_stv DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -443,7 +507,11 @@ set(meade_lpi_SRCS
 
 kde4_add_executable(indi_meade_lpi ${meade_lpi_SRCS} ${libwebcam_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_meade_lpi ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_meade_lpi ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_meade_lpi ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_meade_lpi DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -463,7 +531,11 @@ set(v4lphilips_SRCS
 
 kde4_add_executable(indi_v4l_philips ${v4lphilips_SRCS} ${libwebcam_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_v4l_philips m z ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_v4l_philips m z ${KDE4_KDECORE_LIBS}  ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_v4l_philips ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_v4l_philips DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -482,7 +554,11 @@ set(v4ldriver_SRCS
 
 kde4_add_executable(indi_v4l_generic ${v4ldriver_SRCS} ${libwebcam_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_v4l_generic m z ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
+target_link_libraries(indi_v4l_generic m z ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
+
+if (NOVA_FOUND)
+  target_link_libraries(indi_v4l_generic ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS indi_v4l_generic DESTINATION ${BIN_INSTALL_DIR} )
 

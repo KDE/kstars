@@ -263,7 +263,7 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
-        ${NOVA_LIBRARIES})
+        )
 if(WIN32)
 target_link_libraries(kstars kstarscomponents htmesh SatLib)
 endif(WIN32)
@@ -273,6 +273,10 @@ endif(NOT WIN32)
 if (CFITSIO_FOUND)
   target_link_libraries(kstars ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
+
+if (NOVA_FOUND)
+  target_link_libraries(kstars ${NOVA_LIBRARIES})
+endif (NOVA_FOUND)
 
 install(TARGETS kstars 
     RUNTIME DESTINATION ${BIN_INSTALL_DIR}
