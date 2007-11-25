@@ -90,8 +90,19 @@ This assumes that you moved only the asteroid names field to the
 end of the line, so the absolute magnitude field is now column 9.
 
 Don't forget to move the names field back to its proper location,
-again using your favorite editor.
+again using your favorite editor.  
 
-Finally, copy "asteroids.dat" to ~/.kde/share/apps/kstars/ (for 
-single-user install) or $KDEDIR/share/apps/kstars/ (for system
-install).
+*IMPORTANT*: The JPL column formatting has changed, so you will have
+to adjust the position of the name column to the left by two places.
+You can do this non-destructively by removing the first column in each
+line, and removing the space between the ID number and the name.
+Then, add two spaces just before the MJD field (after the name) to
+keep the column positions of the rest of the line the same.  Here's a
+before and after example:
+
+ 136199 Eris            54200 67.7311622 0.43999155  44.15946 151.55827  35.88446 197.9656645  -1.17 0.15 JPL 16
+136199Eris              54200 67.7311622 0.43999155  44.15946 151.55827  35.88446 197.9656645  -1.17 0.15 JPL 16
+
+Finally, copy your modified "asteroids.dat" to 
+~/.kde/share/apps/kstars/ (for a single-user install) or 
+$KDEDIR/share/apps/kstars/ (for a system-wide install).
