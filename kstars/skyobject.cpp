@@ -431,8 +431,10 @@ void SkyObject::drawNameLabel( QPainter &psky, double x, double y ) {
     QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
     qreal width = fm.width( translatedName() );
     qreal height = fm.height();
+
+    //FIXME: Implement label background options
     QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color ) );
+    psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color, Qt::Dense4Pattern ) );
 
     if ( Options::useAntialias() )
         psky.drawText( QPointF(x+offset, y+offset), translatedName() );
