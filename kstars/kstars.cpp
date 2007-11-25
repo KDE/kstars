@@ -27,6 +27,7 @@
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <qpalette.h>
+#include <kstatusbar.h>
 
 #include "Options.h"
 #include "kstars.h"
@@ -190,9 +191,10 @@ void KStars::applyConfig() {
 
 	//Infoboxes, toolbars, statusbars
 	infoBoxes()->setVisible( Options::showInfoBoxes() );
-//May not need these; I think calling setChecked() on the actions should trigger slotShowGUIItem()
-//	if ( !Options::showMainToolBar() ) ks->toolBar( "mainToolBar" )->hide();
-//	if ( !Options::showViewToolBar() ) ks->toolBar( "viewToolBar" )->hide();
+	if ( ! Options::showMainToolBar() ) toolBar( "mainToolBar" )->hide();
+	if ( ! Options::showViewToolBar() ) toolBar( "viewToolBar" )->hide();
+	if ( ! Options::showAltAzField() ) statusBar()->removeItem(1);
+	if ( ! Options::showRADecField() ) statusBar()->removeItem(2);
 
 	//Geographic location
 	setGeoLocation( Options::cityName(), Options::provinceName(), Options::countryName() );
