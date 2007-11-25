@@ -356,12 +356,13 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
     transientObject()->drawNameLabel( p, o.x(), o.y() );
 }
 
+//FIXME: Implement Options::boxBGMode()
 void SkyMap::drawBoxes( QPainter &p ) {
     if ( ks ) { //only if we are drawing in the GUI window
         ks->infoBoxes()->drawBoxes( p,
                                     data->colorScheme()->colorNamed( "BoxTextColor" ),
                                     data->colorScheme()->colorNamed( "BoxGrabColor" ),
-                                    data->colorScheme()->colorNamed( "BoxBGColor" ), Options::boxBGMode() );
+                                    data->colorScheme()->colorNamed( "BoxBGColor" ), 1 /*Options::boxBGMode()*/ );
     }
 }
 
