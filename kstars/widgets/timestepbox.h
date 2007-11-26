@@ -23,14 +23,14 @@
 #include "timeunitbox.h"
 
 /**@class TimeStepBox
-	*This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a 
-	*TimeUnitBox (a second pair of up/down buttons).
-	*The second set of buttons makes larger steps through the 82 possible 
-	*time-step values, skipping to the next even unit of time.
-	*@short Composite spinbox for specifying a time step.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+ *This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a 
+ *TimeUnitBox (a second pair of up/down buttons).
+ *The second set of buttons makes larger steps through the 82 possible 
+ *time-step values, skipping to the next even unit of time.
+ *@short Composite spinbox for specifying a time step.
+ *@author Jason Harris
+ *@version 1.0
+ */
 class TimeStepBox : public QWidget  {
     Q_OBJECT
 public:
