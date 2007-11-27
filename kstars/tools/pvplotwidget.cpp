@@ -30,6 +30,7 @@ PVPlotWidget::PVPlotWidget( QWidget *parent ) :
 {
     setFocusPolicy( Qt::StrongFocus );
     setMouseTracking (true);
+    setAntialiasing(true);
     pv = (PlanetViewer*)topLevelWidget();
 }
 

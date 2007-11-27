@@ -19,14 +19,18 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QTime>
+#include <QLinearGradient>
 
 #include <KPlotObject>
+#include <kdebug.h>
 
 #include "avtplotwidget.h"
 
 AVTPlotWidget::AVTPlotWidget( QWidget *parent )
         : KPlotWidget( parent )
 {
+    setAntialiasing(true);
+
     //Default SunRise/SunSet values
     SunRise = 0.25;
     SunSet = 0.75;
@@ -79,29 +83,33 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     int pW = pixRect().width();
     int pH = pixRect().height();
 
+    QColor SkyColor( 0, 100, 200 );
+
     //draw daytime sky if the Sun rises for the current date/location
     //(when Sun does not rise, SunSet = -1.0)
     if ( SunSet != -1.0 ) {
         //If Sun does not set, then just fill the daytime sky color
         if ( SunSet == 1.0 ) {
-            p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
+            p.fillRect( 0, 0, pW, int(0.5*pH), SkyColor );
         } else {
             //Display centered on midnight, so need to modulate dawn/dusk by 0.5
             int dawn = int(pW*(0.5 + SunRise));
             int dusk = int(pW*(SunSet - 0.5));
-            p.fillRect( 0, 0, dusk, int(0.5*pH), QColor( 0, 100, 200 ) );
-            p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), QColor( 0, 100, 200 ) );
+            p.fillRect( 0, 0, dusk, int(0.5*pH), SkyColor );
+            p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), SkyColor );
 
             //draw twilight gradients
-            unsigned short int W = 40;
-            for ( unsigned short int i=0; i<W; ++i ) {
-                p.setPen( QColor( 0, int(100*i/W), 200*i/W ) );
-                p.drawLine( dusk - (i-20), 0, dusk - (i-20), pH );
-                p.drawLine( dawn + (i-20), 0, dawn + (i-20), pH );
-            }
-        }
+	    QLinearGradient grad = QLinearGradient( QPointF(dusk-20.0, 0.0), QPointF(dusk+20.0, 0.0) );
+	    grad.setColorAt(0, SkyColor );
+	    grad.setColorAt(1, Qt::black );
+	    p.fillRect( QRectF( dusk-20.0, 0.0, 40.0, pH ), grad );
+	    
+	    grad.setStart( QPointF(dawn+20.0, 0.0) );
+	    grad.setFinalStop( QPointF(dawn-20.0, 0.0) );
+	    p.fillRect( QRectF( dawn-20.0, 0.0, 40.0, pH ), grad );
+	}
     }
-
+	    
     //draw ground
     p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
@@ -132,8 +140,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     //Draw crosshairs at clicked position
     if ( MousePoint.x() > 0 ) {
         p.setPen( QPen( QBrush("gold"), 1.0, Qt::SolidLine ) );
-        p.drawLine( MousePoint.x(), 0, MousePoint.x(), pixRect().height() );
-        p.drawLine( 0, MousePoint.y(), pixRect().width(), MousePoint.y() );
+        p.drawLine( QLineF( MousePoint.x()+0.5, 0.5, MousePoint.x()+0.5, pixRect().height()-0.5 ) );
+        p.drawLine( QLineF( 0.5, MousePoint.y()+0.5, pixRect().width()-0.5, MousePoint.y()+0.5 ) );
 
         //Label each crosshair line (time and altitude)
         p.setFont( smallFont );
