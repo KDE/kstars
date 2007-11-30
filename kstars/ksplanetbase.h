@@ -92,6 +92,11 @@ public:
     */
     virtual ~KSPlanetBase() {}
 
+    virtual bool loadData() {
+        kDebug() << "no loadData() implementation for " << name() << endl; 
+        return false;
+    }
+
     /**@return pointer to Ecliptic Longitude coordinate
     	*/
     const dms* ecLong( void ) const { return &ep.longitude; }
@@ -153,11 +158,6 @@ public:
     	*@param elat Ecliptic Latitude
     	*/
     void setHelEcLat( double elat ) { helEcPos.latitude.setD( elat ); }
-
-    /**@short Load the planet's orbital data from disk.
-    	*@return true if data successfully loaded
-    	*/
-    virtual bool loadData() = 0;
 
     /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
     	*@param Obliquity current Obliquity of the Ecliptic (angle from Equator)
@@ -281,13 +281,9 @@ public:
     /**
      *@return the pixel distance for offseting the object's name label
      */
-    virtual double labelOffset();
+    virtual double labelOffset() const;
 
 protected:
-    virtual bool loadData(const QString &n) {
-        kDebug() << "didn't reimplement for " << n; return false;
-    }
-
     /**
      *@short find the object's current geocentric equatorial coordinates (RA and Dec)
      *This function is pure virtual; it must be overloaded by subclasses.

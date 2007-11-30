@@ -97,12 +97,6 @@ SkyLabeler::~SkyLabeler()
     }
 }
 
-void SkyLabeler::drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o )
-{
-    if ( ! markText( p, o->translatedName() ) ) return;
-    o->drawNameLabel( psky, p.x(), p.y() );
-}
-
 bool SkyLabeler::drawGuideLabel( QPainter& psky, QPointF& o, const QString& text,
                             double angle )
 {
@@ -255,6 +249,25 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
     qreal maxX =  p.x() + m_fontMetrics.width( text );
     qreal minY = p.y() - m_fontMetrics.height();
     return markRegion( p.x(), maxX, p.y(), minY );
+}
+
+bool SkyLabeler::markText( QPainter &psky, const QPointF& p, const 
+QString& text )
+{
+    qreal maxX =  p.x() + m_fontMetrics.width( text );
+    qreal minY = p.y() - m_fontMetrics.height();
+    bool mark =  markRegion( p.x(), maxX, p.y(), minY );
+    if ( ! mark ) return mark;
+
+    qreal x = p.x();
+    qreal y = p.y();
+    qreal x2 = maxX;
+    qreal y2 = minY;
+    psky.drawLine( QPointF(x,  y),  QPointF(x2, y));
+    psky.drawLine( QPointF(x2, y),  QPointF(x2, y2));
+    psky.drawLine( QPointF(x2, y2), QPointF(x,  y2));
+    psky.drawLine( QPointF(x,  y2), QPointF(x,  y));
+    return mark;
 }
 
 bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky )
@@ -431,7 +444,7 @@ void SkyLabeler::drawQueuedLabelsType( QPainter& psky, label_t type )
 {
     LabelList list = labelList[ type ];
     for ( int i = 0; i < list.size(); i ++ ) {
-        drawObjectLabel( psky, list.at( i ).o, list.at( i ).obj ); //FIXME? const correctness?
+        list.at(i).obj->drawNameLabel( psky, list.at(i).o );
     }
 }
 

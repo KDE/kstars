@@ -422,29 +422,56 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     file.close();
 }
 
-void SkyObject::drawNameLabel( QPainter &psky, double x, double y ) {
-    //set the zoom-dependent font
-    QFont stdFont( psky.font() );
-    SkyLabeler::SetZoomFont( psky );
-    double offset = labelOffset();
+QString SkyObject::labelString() const {
+    return translatedName();
+}
 
-    QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
-    qreal width = fm.width( translatedName() );
-    qreal height = fm.height();
+void SkyObject::drawNameLabel( QPainter &psky, const QPointF &_p ) {
+    QString sLabel = labelString();
+    SkyLabeler *labeler = SkyLabeler::Instance();
+
+    double offset = labelOffset();
+    QPointF p( _p.x()+offset, _p.y()+offset );
+
+    if ( ! labeler->markText( p, sLabel ) ) {
+        return;
+    }
+
+    //FIXME: we shouldn't be changing the font back and forth for every object!
+//    //set the zoom-dependent font
+//    QFont stdFont( psky.font() );
+//    SkyLabeler::SetZoomFont( psky );
+
+    QRectF rect = labeler->fontMetrics().boundingRect( sLabel );
+    rect.moveTo( p.x(), p.y() );
+
+    psky.drawText( rect.topLeft(), sLabel );
+
+//    psky.setFont( stdFont );
+}
+
+//Rude name labels don't check for collisions with other labels, 
+//these get drawn no matter what.  Transient labels are rude labels.
+//To mitigate confusion from possibly "underlapping" labels, paint a 
+//semi-transparent background.
+void SkyObject::drawRudeNameLabel( QPainter &psky, const QPointF &p ) {
+    QString sLabel = labelString();
+    double offset = labelOffset();
+    QRectF rect = psky.fontMetrics().boundingRect( sLabel );
+    rect.moveTo( p.x()+offset, p.y()+offset );
+
+    //Interestingly, the fontMetric boundingRect isn't where you might think...
+    //We need to tweak rect to get the BG rectangle rect2
+    QRectF rect2 = rect;
+    rect2.moveTop( rect.top() - 0.6*rect.height() );
+    rect2.setHeight( 0.8*rect.height() );
 
     //FIXME: Implement label background options
     QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color, Qt::Dense4Pattern ) );
-
-    if ( Options::useAntialias() )
-        psky.drawText( QPointF(x+offset, y+offset), translatedName() );
-    else
-        psky.drawText( QPoint(int(x+offset), int(y+offset)), translatedName() );
-
-    psky.setFont( stdFont );
+    psky.fillRect( rect2, QBrush( color, Qt::Dense4Pattern ) );
+    psky.drawText( rect.topLeft(), sLabel );
 }
 
-double SkyObject::labelOffset() {
+double SkyObject::labelOffset() const {
     return SkyLabeler::ZoomOffset();
 }
-

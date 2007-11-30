@@ -196,7 +196,7 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     setPA( pa );
 }
 
-double KSPlanetBase::labelOffset() {
+double KSPlanetBase::labelOffset() const {
     double scale = SkyMap::Instance()->scale();
     double size = angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
 

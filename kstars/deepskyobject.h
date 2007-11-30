@@ -206,7 +206,7 @@ public:
     /**
     	*@return the pixel distance for offseting the object's name label
     	*/
-    virtual double labelOffset();
+    virtual double labelOffset() const;
 
     /**
       *Show Deep-sky object popup menu.  Overloaded from virtual 

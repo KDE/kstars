@@ -349,7 +349,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 // you are prepared to ensure there is no ugly label overlap for all 8 cases
 // they deal with ( drawName x DrawMag x star-has-name).  -jbb
 
-QString StarObject::nameLabel( bool drawName, bool drawMag )
+QString StarObject::nameLabel( bool drawName, bool drawMag ) const
 {
     QString sName;
     if ( drawName ) {
@@ -391,29 +391,12 @@ QString StarObject::customLabel( bool drawName, bool drawMag )
     return sName;
 }
 
-void StarObject::drawLabel( QPainter &psky, float x, float y, double zoom )
-{
-    QString sName = customLabel( Options::showStarNames(), Options::showStarMagnitudes() );
-    double scale = SkyMap::Instance()->scale();
-    float offset = scale * (6. + 0.5*( 5.0 - mag() ) + 0.01*( zoom/500. ) );
-
-    QFontMetricsF fm = SkyLabeler::Instance()->fontMetrics();
-    qreal width = fm.width( sName );
-    qreal height = fm.height();
-
-    //FIXME: Implement label background options
-    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    psky.fillRect( QRectF( x+offset, y+offset - height * 0.7, width, height ), QBrush( color, Qt::Dense4Pattern ) );
-
-    if ( Options::useAntialias() )
-        psky.drawText( QPointF( x+offset, y+offset ), sName );
-    else
-        psky.drawText( QPoint( int(x+offset), int(y+offset) ), sName );
+//If this works, we can maybe get rid of customLabel() and nameLabel()??
+QString StarObject::labelString() const {
+    return nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 }
 
-void StarObject::drawNameLabel( QPainter &psky, double x, double y ) {
-    //set the zoom-dependent font
-    SkyLabeler::Instance()->resetFont( psky );
-    drawLabel( psky, x, y, Options::zoomFactor() );
-    SkyLabeler::Instance()->useStdFont( psky );
+double StarObject::labelOffset() const {
+    return SkyMap::Instance()->scale() * 
+        (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
 }

@@ -47,7 +47,7 @@ public:
     	*@short Draw the list of objects on the SkyMap
     	*@note This is a pure virtual function, it is overridden by its subclasses.
     	*/
-    virtual void draw( KStars *, QPainter &, double ) {}
+    virtual void draw( KStars *, QPainter & ) {}
 
     /**
     	*@short Draw the object, if it is exportable to an image

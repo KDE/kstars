@@ -325,7 +325,7 @@ void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double Position
     }
 }
 
-double DeepSkyObject::labelOffset() {
+double DeepSkyObject::labelOffset() const {
     //Calculate object size in pixels
     double majorAxis = a();
     if ( majorAxis == 0.0 && type() == 1 ) majorAxis = 1.0; //catalog stars

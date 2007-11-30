@@ -95,14 +95,19 @@ public:
     ~StarObject() {}
 
     /**
+     *@return true if the star has a name ("star" doesn't count)
+     */
+    inline bool hasName() const { return ( !Name.isEmpty() && Name!=starString ); }
+
+    /**
     	*If star is unnamed return "star" otherwise return the name
     	*/
-inline virtual QString name( void ) const { return hasName() ? Name : starString;}
+    inline virtual QString name( void ) const { return hasName() ? Name : starString;}
 
     /**
     	*If star is unnamed return "star" otherwise return the longname
     	*/
-inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
+    inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
     /**
     	*@return QColor corresponding to the star's Spectral Type
     	*/
@@ -225,23 +230,20 @@ inline virtual QString longname( void ) const { return hasLongName() ? LongName 
 
     /* @short returns the name, the magnitude or both.
      */
-    QString nameLabel( bool drawName, bool drawMag );
+    QString nameLabel( bool drawName, bool drawMag ) const;
 
     /* @short does the same as above except when only the magnitude is selected
      * in which case it returns "$mag, name".  This prevents label overlap.
      */
     QString customLabel( bool drawName, bool drawMag );
 
-    void drawLabel( QPainter &psky, float x, float y, double zoom );
+    virtual QString labelString() const;
 
     /**
-    	*@short draw the star's name label on the map
-    	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-    	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
-    	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::toScreen())
-    	*@note overridden from SkyObject
-    	*/
-    virtual void drawNameLabel( QPainter &psky, double x, double y );
+     *@return the pixel distance for offseting the star's name label
+     *This takes the zoom level and the star's brightness into account.
+     */
+    virtual double labelOffset() const;
 
     /**Show star object popup menu.  Overloaded from virtual
     	*SkyObject::showPopupMenu()

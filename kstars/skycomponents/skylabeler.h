@@ -132,21 +132,24 @@ public:
 
     static SkyLabeler* Instance();
 
-    /* @short adjusts the font in psky to be smaller if we are zoomed out.
+    /**
+     * @short adjusts the font in psky to be smaller if we are zoomed out.
      * This static function allows us to prevent code duplication since it
      * can be used without a SkyLabeler instance.  This is used in SkyObject
      * and StarObject in addition to be used in this class.
      */
     static void SetZoomFont( QPainter& psky );
 
-    /* @short returns the zoom dependent label offset.  This is used in this
+    /**
+     * @short returns the zoom dependent label offset.  This is used in this
      * class and in SkyObject.  It is important that the offsets be the same
      * so highlighted labels are always drawn exactly on top of the normally
      * drawn labels.
      */
     static double ZoomOffset();
 
-    /* @short static version of addLabel() below.
+    /**
+     * @short static version of addLabel() below.
      */
     inline static void AddLabel( const QPointF& p, SkyObject *obj, label_t type )
     {
@@ -157,7 +160,8 @@ public:
     //--------------------------------------------------------------------//
     ~SkyLabeler();
 
-    /* @short clears the virtual screen (if needed) and resizes the virtual
+    /**
+     * @short clears the virtual screen (if needed) and resizes the virtual
      * screen (if needed) to match skyMap.  A font must be specified which
      * is taken to be the average or normal font that will be used.  The
      * size of the horizontal strips will be (slightly) optimized for this
@@ -170,29 +174,34 @@ public:
 
     //----- Font Setting -----//
 
-    /* @short tells the labeler the font you will be using so it can figure
+    /**
+     * @short tells the labeler the font you will be using so it can figure
      * out the height and width of the labels.  Also sets this font in the
      * psky since this is almost always what is wanted.
      */
     void setFont( QPainter& psky, const QFont& font );
 
-    /* @short decreases the size of the font in psky and in the SkyLabeler
+    /**
+     * @short decreases the size of the font in psky and in the SkyLabeler
      * by the delta points.  Negative deltas will increase the font size.
      */
     void shrinkFont( QPainter& psky, int delta );
 
-    /* @short sets the font in SkyLabeler and in psky to the font psky
+    /**
+     * @short sets the font in SkyLabeler and in psky to the font psky
      * had originally when reset() was called.  Used by ConstellationNames.
      */
     void useStdFont(QPainter& psky);
 
-    /* @short sets the font in SkyLabeler and in psky back to the zoom
+    /**
+     * @short sets the font in SkyLabeler and in psky back to the zoom
      * dependent value that was set in reset().  Also used in
      * ConstellationLines.
      */
     void resetFont(QPainter& psky);
 
-    /* @short returns the fontMetricsF we have already created.
+    /**
+     * @short returns the fontMetricsF we have already created.
      */
     QFontMetricsF& fontMetrics() { return m_fontMetrics; }
 
@@ -207,41 +216,28 @@ public:
                      float *right, float *top, float *bot );
 
     /**
-     *@short a convenience routine that draws the label specified
-     * in the SkyLabel.
-     */
-    void drawLabel( QPainter& psky, const SkyLabel& skyLabel ) {
-        drawObjectLabel( psky, skyLabel.o , skyLabel.obj );
-    }
-
-    /**
-     *@short attempts to draw the label at the given position but will
-     *not draw it if it would overlap an existing label.
-     *@param psky reference to the QPainter to draw on
-     *@param p reference to the pixel coordinates of the SkyObject to be labeled
-     *@param o pointer to the SkyObject to be labeled
-     */
-    void drawObjectLabel( QPainter& psky, const QPointF& p, SkyObject *o );
-
-    /* @short Tries to draw the text at the position and angle specfied. If
+     * @short Tries to draw the text at the position and angle specfied. If
      * the label would overlap an existing label it is not drawn and we
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.
      */
     bool drawGuideLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
 
-    /* @short queues the label in the "type" buffer for later drawing.
+    /**
+     * @short queues the label in the "type" buffer for later drawing.
      */
     void addLabel( const QPointF& p, SkyObject *obj, label_t type );
 
-    /*@short draws the labels stored in all the buffers.  You can change the
+    /**
+     *@short draws the labels stored in all the buffers.  You can change the
      * priority by editing the .cpp file and changing the order in which
      * buffers are drawn.  You can also change the fonts and colors there
      * too.
      */
     void drawQueuedLabels( KStars* kstars, QPainter& psky );
 
-    /* @short a convenience routine that draws all the labels from a single
+    /**
+     * @short a convenience routine that draws all the labels from a single
      * buffer.  Currently this is only called from within draw() above.
      */
     void drawQueuedLabelsType( QPainter& psky, label_t type );
@@ -249,7 +245,8 @@ public:
 
     //----- Marking Regions -----//
 
-    /* @short tells the labeler the location and text of a label you want
+    /**
+     * @short tells the labeler the location and text of a label you want
      * to draw.  Returns true if there is room for the label and returns
      * false otherwise.  If it returns true, the location of the label is
      * marked on the virtual screen so future labels won't overlap it.
@@ -259,7 +256,10 @@ public:
      */
     bool markText( const QPointF& p, const QString& text);
 
-    /* @short Works just like markText() above but for an arbitrary
+    bool markText( QPainter& psky, const QPointF& p, const QString& text);
+
+    /**
+     * @short Works just like markText() above but for an arbitrary
      * rectangular region bounded by top, bot, left, and right.
      */
     bool markRegion( qreal left, qreal right, qreal top, qreal bot );
@@ -269,7 +269,8 @@ public:
 
     //----- Diagnostics and Information -----//
 
-    /* @short diagnostic. the *percentage* of pixels that have been filled.
+    /**
+     * @short diagnostic. the *percentage* of pixels that have been filled.
      * Expect return values between 0.0 and 100.0.  A fillRatio above 20
      * is pretty busy and crowded.  I think a fillRatio of about 10 looks
      * good.  The fillRatio will be lowered of the screen is zoomed out
@@ -277,7 +278,8 @@ public:
      */
     float fillRatio();
 
-    /* @short diagnostic, the number of times mark() returned true divided by
+    /**
+     * @short diagnostic, the number of times mark() returned true divided by
      * the total number of times mark was called multiplied by 100.  Expect
      * return values between 0.0 an 100.  A hit ratio of 100 means no labels
      * would have overlapped.  A ratio of zero means no labels got drawn
@@ -287,12 +289,14 @@ public:
      */
     float hitRatio();
 
-    /* @short diagnostic, prints some brief statistics to the console.
+    /**
+     * @short diagnostic, prints some brief statistics to the console.
      * Currently this is connected to the "b" key in SkyMapEvents.
      */
     void printInfo();
 
-    /* @short these two routines are tied to the "F" and "G" keys in
+    /**
+     * @short these two routines are tied to the "F" and "G" keys in
      * skymapactions.cpp to allow users/devs to fiddle with the label
      * density.
      */

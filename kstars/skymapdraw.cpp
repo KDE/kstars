@@ -333,17 +333,17 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         QPointF o = toScreen( obj );
         if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
 
-        skyLabeler->drawObjectLabel( psky, o, obj );
+        obj->drawNameLabel( psky, o );
     }
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
         QPointF o = toScreen( focusObject() );
 
-        skyLabeler->drawObjectLabel( psky, o, focusObject() );
+        focusObject()->drawRudeNameLabel( psky, o );
     }
 
-    skyLabeler->useStdFont( psky );   // For the guides that all use the StdFont.
+    skyLabeler->useStdFont( psky );   // use the StdFont for the guides.
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {
@@ -353,7 +353,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
     if ( ! onScreen( o ) ) return;
 
     p.setPen( TransientColor );
-    transientObject()->drawNameLabel( p, o.x(), o.y() );
+    transientObject()->drawRudeNameLabel( p, o );
 }
 
 //FIXME: Implement Options::boxBGMode()
@@ -392,7 +392,7 @@ void SkyMap::drawObservingList( QPainter &psky ) {
                         }
                     }
                     if ( Options::obsListText() ) {
-                        obj->drawNameLabel( psky, o.x(), o.y() );
+                        obj->drawRudeNameLabel( psky, o );
                     }
                 }
             }
