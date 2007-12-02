@@ -184,6 +184,8 @@ void KStars::slotWizard() {
 
 void KStars::slotDownload() {
     KNS::Entry::List entries = KNS::Engine::download();
+    // we need to delete the entry* items in the returned list
+	qDeleteAll(entries);
 }
 
 void KStars::slotLCGenerator() {
