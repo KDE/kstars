@@ -127,6 +127,8 @@ public:
     	*/
     void clearFields (void) { setDMS(QString()); }
 
+    inline bool isEmpty() { return EmptyFlag; }
+ 
 protected:
     void focusInEvent( QFocusEvent *e );
     void focusOutEvent( QFocusEvent *e );

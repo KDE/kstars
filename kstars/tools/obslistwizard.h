@@ -59,6 +59,9 @@ private slots:
     void slotSolarSystemButton();
     void slotChangeLocation();
     void slotToggleDateWidgets();
+    void slotToggleMagWidgets();
+
+    void slotCheckRegion();
 
     /**@short Construct the observing list by applying the selected filters
     	*/

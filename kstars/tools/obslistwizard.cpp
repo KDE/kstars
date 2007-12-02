@@ -59,17 +59,18 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     //Update the count of objects when certain UI elements are modified
     connect( olw->TypeList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->ConstellationList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
+    connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
     connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Date, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
+    connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidget() ) );
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
@@ -241,6 +242,31 @@ void ObsListWizard::slotToggleDateWidgets()
     olw->LocationButton->setEnabled( olw->SelectByDate->isChecked() );
 
     slotUpdateObjectCount();
+}
+
+void ObsListWizard::slotToggleMagWidgets()
+{
+    olw->Mag->setEnabled( olw->SelectByMagnitude->isChecked() );
+    olw->IncludeNoMag->setEnabled( olw->SelectByMagnitude->isChecked() );
+
+    slotUpdateObjectCount();
+}
+
+void ObsListWizard::slotCheckRegion()
+{
+    if ( sender()->objectName() == "RAMin" || sender()->objectName() == "RAMax"
+      || sender()->objectName() == "DecMin" || sender()->objectName() == "DecMax" ) {
+        if ( ! olw->RAMin->isEmpty() && ! olw->RAMax->isEmpty() 
+          && ! olw->DecMin->isEmpty() && ! olw->DecMax->isEmpty() ) {
+            slotUpdateObjectCount();
+        }
+
+    } else {
+        if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() 
+          && ! olw->Radius->isEmpty() ) {
+            slotUpdateObjectCount();
+        }
+    }
 }
 
 void ObsListWizard::slotUpdateObjectCount()
