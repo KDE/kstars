@@ -20,6 +20,7 @@
 #include <kdialog.h>
 
 #include "ui_obslistwizard.h"
+#include "skypoint.h"
 
 class KStars;
 class SkyObject;
@@ -61,7 +62,7 @@ private slots:
     void slotToggleDateWidgets();
     void slotToggleMagWidgets();
 
-    void slotCheckRegion();
+    void slotParseRegion();
 
     /**@short Construct the observing list by applying the selected filters
     	*/
@@ -98,7 +99,8 @@ private:
     ObsListWizardUI *olw;
     uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;
     uint GalaxyCount, OpenClusterCount, GlobClusterCount, GasNebCount, PlanNebCount;
-
+    double xRect1, xRect2, yRect1, yRect2, rCirc;
+    SkyPoint pCirc;
     GeoLocation *geo;
 };
 

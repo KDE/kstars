@@ -46,6 +46,7 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
     setButtonGuiItem( KDialog::User1, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
     setButtonGuiItem( KDialog::User2, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
+    enableButton( KDialog::User1, false );
 
     connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
     connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
@@ -59,18 +60,18 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     //Update the count of objects when certain UI elements are modified
     connect( olw->TypeList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->ConstellationList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
-    connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
-    connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
-    connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
-    connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
-    connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotCheckRegion() ) );
+    connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
+    connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
+    connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
+    connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
+    connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
+    connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Date, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
     connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
-    connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidget() ) );
+    connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidgets() ) );
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
@@ -173,9 +174,9 @@ void ObsListWizard::slotNextPage() {
 
     olw->olwStack->setCurrentIndex( NextPage );
     if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
-        enableButton( KDialog::User1, false );
+        enableButton( KDialog::User2, false );
 
-    enableButton( KDialog::User2, true );
+    enableButton( KDialog::User1, true );
 }
 
 //Advance to the previous page in the stack.  However, because the
@@ -193,9 +194,9 @@ void ObsListWizard::slotPrevPage() {
 
     olw->olwStack->setCurrentIndex( PrevPage );
     if ( olw->olwStack->currentIndex() == 0 )
-        enableButton( KDialog::User2, false );
+        enableButton( KDialog::User1, false );
 
-    enableButton( KDialog::User1, true );
+    enableButton( KDialog::User2, true );
 }
 
 void ObsListWizard::slotAllButton() {
@@ -252,18 +253,68 @@ void ObsListWizard::slotToggleMagWidgets()
     slotUpdateObjectCount();
 }
 
-void ObsListWizard::slotCheckRegion()
+void ObsListWizard::slotParseRegion()
 {
     if ( sender()->objectName() == "RAMin" || sender()->objectName() == "RAMax"
       || sender()->objectName() == "DecMin" || sender()->objectName() == "DecMax" ) {
         if ( ! olw->RAMin->isEmpty() && ! olw->RAMax->isEmpty() 
           && ! olw->DecMin->isEmpty() && ! olw->DecMax->isEmpty() ) {
+            bool rectOk = false;
+            xRect1 = 0.0;
+            xRect2 = 0.0;
+            yRect1 = 0.0;
+            yRect2 = 0.0;
+
+            xRect1 = olw->RAMin->createDms( false, &rectOk ).Hours();
+            if ( rectOk ) xRect2 = olw->RAMax->createDms( false, &rectOk ).Hours();
+            if ( rectOk ) yRect1 = olw->DecMin->createDms( true, &rectOk ).Degrees();
+            if ( rectOk ) yRect2 = olw->DecMax->createDms( true, &rectOk ).Degrees();
+            if ( xRect2 == 0.0 ) xRect2 = 24.0;
+
+            if ( !rectOk ) {
+                //			kWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) ;
+                return;
+            }
+
+            //Make sure yRect1 < yRect2.
+            if ( yRect1 > yRect2 ) {
+                double temp = yRect2;
+                yRect2 = yRect1;
+                yRect1 = temp;
+            }
+
+            //If xRect1 > xRect2, we may need to swap the two values, or subtract 24h from xRect1.
+            if ( xRect1 > xRect2 ) {
+                if ( xRect1 - xRect2 > 12.0 ) { //the user probably wants a region that straddles 0h
+                    xRect1 -= 24.0;
+                } else { //the user probably wants xRect2 to be the lower limit
+                    double temp = xRect2;
+                    xRect2 = xRect1;
+                    xRect1 = temp;
+                }
+            }
+
             slotUpdateObjectCount();
         }
 
     } else {
-        if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() 
-          && ! olw->Radius->isEmpty() ) {
+            if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() 
+            && ! olw->Radius->isEmpty() ) {
+            bool circOk = false;
+
+            double ra = olw->RA->createDms( false, &circOk ).Hours();
+            double dc(0.0);
+            if ( circOk ) dc = olw->Dec->createDms( true, &circOk ).Degrees();
+            if ( circOk ) {
+                pCirc.set( ra, dc );
+                rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
+            }
+
+            if ( !circOk ) {
+                kWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
+                return;
+            }
+
             slotUpdateObjectCount();
         }
     }
@@ -328,6 +379,9 @@ void ObsListWizard::applyFilters( bool doBuildList )
             }
         }
 
+        //DEBUG
+        kDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex) << endl;
+
         if ( doBuildList ) {
             for ( int i=0; i < starIndex; ++i ) {
                 SkyObject *o = (SkyObject*)(starList[i]);
@@ -339,7 +393,9 @@ void ObsListWizard::applyFilters( bool doBuildList )
                     applyObservableFilter( o, doBuildList, false );
             }
         } else {
-            ObjectCount -= (starList.size() - starIndex); //reduce StarCount by appropriate amount
+            //reduce StarCount by appropriate amount
+            ObjectCount -= StarCount;
+            ObjectCount += starIndex;
             for ( int i=0; i < starIndex; ++i ) {
                 SkyObject *o = starList[i];
                 if ( needRegion ) 
@@ -477,8 +533,8 @@ void ObsListWizard::applyFilters( bool doBuildList )
 }
 
 void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
-                                       bool doAdjustCount ) {
-
+                                       bool doAdjustCount )
+{
     //select by constellation
     if ( isItemSelected( i18n("by constellation"), olw->RegionList ) ) {
         QString c( ConstellationBoundary::Instance()->constellationName( o ) );
@@ -489,46 +545,14 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 
     //select by rectangular region
     else if ( isItemSelected( i18n("in a rectangular region"), olw->RegionList ) ) {
-        bool rectOk = false;
-        double ra1, ra2, dc1, dc2;
-
-        ra1 = olw->RAMin->createDms( false, &rectOk ).Hours();
-        if ( rectOk ) ra2 = olw->RAMax->createDms( false, &rectOk ).Hours();
-        if ( rectOk ) dc1 = olw->DecMin->createDms( true, &rectOk ).Degrees();
-        if ( rectOk ) dc2 = olw->DecMax->createDms( true, &rectOk ).Degrees();
-        if ( ra2 == 0.0 ) ra2 = 24.0;
-
-        if ( !rectOk ) {
-            //			kWarning() << i18n( "Illegal rectangle specified, no region selection possible." ) ;
-            return;
-        }
-
-        //Make sure dc1 < dc2.
-        if ( dc1 > dc2 ) {
-            double temp = dc2;
-            dc2 = dc1;
-            dc1 = temp;
-        }
-
-        //If ra1 > ra2, we may need to swap the two values, or subtract 24h from ra1.
-        if ( ra1 > ra2 ) {
-            if ( ra1 - ra2 > 12.0 ) { //the user probably wants a region that straddles 0h
-                ra1 -= 24.0;
-            } else { //the user probably wants ra2 to be the lower limit
-                double temp = ra2;
-                ra2 = ra1;
-                ra1 = temp;
-            }
-        }
-
         double ra = o->ra()->Hours();
         double dec = o->dec()->Degrees();
         bool addObject = false;
-        if ( dec >= dc1 && dec <= dc2 ) {
-            if ( ra1 < 0.0 ) {
-                if (ra >= ra1 + 24.0 || ra <= ra2 ) { addObject = true; }
+        if ( dec >= yRect1 && dec <= yRect2 ) {
+            if ( xRect1 < 0.0 ) {
+                if (ra >= xRect1 + 24.0 || ra <= xRect2 ) { addObject = true; }
             } else {
-                if ( ra >= ra1 && ra <= ra2 ) { addObject = true; }
+                if ( ra >= xRect1 && ra <= xRect2 ) { addObject = true; }
             }
         }
 
@@ -539,23 +563,6 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
     //select by circular region
     //make sure circ region data are valid
     else if ( isItemSelected( i18n("in a circular region"), olw->RegionList ) ) {
-        bool circOk = false;
-        double rCirc;
-        SkyPoint pCirc;
-
-        double ra = olw->RA->createDms( false, &circOk ).Hours();
-        double dc(0.0);
-        if ( circOk ) dc = olw->Dec->createDms( true, &circOk ).Degrees();
-        if ( circOk ) {
-            pCirc.set( ra, dc );
-            rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
-        }
-
-        if ( !circOk ) {
-            kWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
-            return;
-        }
-
         if ( o->angularDistanceTo( &pCirc ).Degrees() < rCirc ) {
             if ( doBuildList ) obsList().append( o );
         } else if ( doAdjustCount ) --ObjectCount;
