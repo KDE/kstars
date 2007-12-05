@@ -233,7 +233,7 @@ kde4_add_executable(indi_celestron_gps NOGUI ${celestrongps_SRCS} ${liblilxml_SR
 target_link_libraries(indi_celestron_gps ${KDE4_KDECORE_LIBS} m )
 
 if (NOVA_FOUND)
-  target_link_libraries(indi_lx200basic ${NOVA_LIBRARIES})
+  target_link_libraries(indi_celestron_gps ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
 install(TARGETS indi_celestron_gps DESTINATION ${BIN_INSTALL_DIR} )
