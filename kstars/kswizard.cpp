@@ -173,7 +173,7 @@ void KSWizard::slotFilterCities() {
     foreach ( GeoLocation *loc, ksw->data()->geoList ) {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
-        QString sp;
+        QString sp = "";
         if ( !loc->province().isEmpty() )
             sp = loc->translatedProvince();
 
