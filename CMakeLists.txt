@@ -5,8 +5,8 @@ KDE4_NO_ENABLE_FINAL(kstars)
 include(CheckIncludeFiles)
 
 find_package(ZLIB REQUIRED)
-find_package(USB)
 
+macro_optional_find_package(USB)
 macro_optional_find_package(CFitsio)
 macro_optional_find_package(SBIG)
 macro_optional_find_package(Nova)
@@ -23,6 +23,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
 
+macro_log_feature(LIBUSB_FOUND "libusb" "User level access to USB devices" "http://libusb.sourceforge.net/" FALSE "" "for KStars INDI support.")
 macro_log_feature(SBIG_FOUND "libsbigudrv" "SBIG Universal Driver is needed by KStars." "http://indi.sourceforge.net/" FALSE "1.00" "")
 macro_log_feature(CFITSIO_FOUND "libcfitsio" "CFITSIO Library is needed by KStars." "http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html" FALSE "3.03" "")
 macro_log_feature(NOVA_FOUND "libnova" "libnova is needed by KStars." "http://libnova.sourceforge.net" FALSE "0.12.1" "")
