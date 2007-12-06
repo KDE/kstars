@@ -24,17 +24,17 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <KPlotWidget>
+#include <KPlotObject>
+#include <KPlotAxis>
 
-#include "jupitermoons.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksplanet.h"
 #include "simclock.h"
 #include "dms.h"
 #include "ksnumbers.h"
-#include "kplotwidget.h"
-#include "kplotobject.h"
-#include "kplotaxis.h"
+#include "jupitermoons.h"
 
 JMoonTool::JMoonTool(QWidget *parent)
         : KDialog( parent )

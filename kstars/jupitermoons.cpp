@@ -27,10 +27,10 @@
 JupiterMoons::JupiterMoons(){
     //Initialize the Moon objects.  The magnitude data are from the 
     //wikipedia articles for each moon, as of Oct 2007.
-    Moon[0] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, i18nc( "Jupiter's moon Io", "Io" ) );
-    Moon[1] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, i18nc( "Jupiter's moon Europa", "Europa" ) );
-    Moon[2] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, i18nc( "Jupiter's moon Ganymede", "Ganymede" ) );
-    Moon[3] = new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, i18nc( "Jupiter's moon Callisto", "Callisto" ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, i18nc( "Jupiter's moon Io", "Io" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, i18nc( "Jupiter's moon Europa", "Europa" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, i18nc( "Jupiter's moon Ganymede", "Ganymede" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, i18nc( "Jupiter's moon Callisto", "Callisto" ) ) );
 
     for ( uint i=0; i<4; ++i ) {
         XJ[i] = 0.0;
@@ -40,7 +40,7 @@ JupiterMoons::JupiterMoons(){
 }
 
 JupiterMoons::~JupiterMoons(){
-    delete[] Moon;
+    qDeleteAll( Moon );
 }
 
 QString JupiterMoons::name( int id ) const { 
