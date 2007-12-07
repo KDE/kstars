@@ -17,6 +17,7 @@
 
 #include "eqplotwidget.h"
 #include <QPainter>
+#include <kdebug.h>
 #include "kstarsdatetime.h"
 #include "modcalcvizequinox.h"
 
@@ -32,7 +33,7 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     QPainter p;
     p.begin(this);
 
-    modCalcEquinox *mc = (modCalcEquinox*)parent();
+    modCalcEquinox *mc = (modCalcEquinox*)(parent()->parent()->parent()->parent());
     KStarsDateTime dt( QDate(mc->Year->value(), 1, 1), QTime(0,0,0) );
     long double jd0 = dt.djd(); //save JD on Jan 1st
 

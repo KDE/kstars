@@ -201,10 +201,10 @@ void modCalcEquinox::slotCompute()
     dWinter = findSolstice( Year->value(), false );
 
     //Display the Date/Time of each event in the text fields
-    VEquinox->setText( dSpring.toString() );
-    SSolstice->setText( dSummer.toString() );
-    AEquinox->setText( dAutumn.toString() );
-    WSolstice->setText( dWinter.toString() );
+    VEquinox->setText( dSpring.toString("%d %b %Y   %H:%M") );
+    SSolstice->setText( dSummer.toString("%d %b %Y   %H:%M") );
+    AEquinox->setText( dAutumn.toString("%d %b %Y   %H:%M") );
+    WSolstice->setText( dWinter.toString("%d %b %Y   %H:%M") );
 
     //Add vertical dotted lines at times of the equinoxes and solstices
     KPlotObject *poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
