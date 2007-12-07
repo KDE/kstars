@@ -19,7 +19,7 @@
 #define JUPITERMOONS_H_
 
 #include <QString>
-#include <QList>
+#include <QVector>
 
 class KSNumbers;
 class KSPlanet;
@@ -122,7 +122,7 @@ public:
     double z( int i ) const { return ZJ[i]; }
 
 private:
-    QList<TrailObject*> Moon;
+    QVector<TrailObject*> Moon;
     bool InFront[4];
     //the rectangular position, relative to Jupiter.  X-axis is equator of Jupiter; usints are Jup. Radius
     double XJ[4], YJ[4], ZJ[4];
