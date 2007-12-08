@@ -424,7 +424,7 @@ endif (CFITSIO_FOUND)
 #################################################################################
 
 ########### Apogee Alta ############
-if (CFITSIO_FOUND)
+if (CFITSIO_FOUND AND LIBUSB_FOUND)
 
 set(apogee_alta_SRCS
 	${indimain_SRCS}
@@ -442,7 +442,7 @@ endif (NOVA_FOUND)
 
 install(TARGETS indi_apogee_alta DESTINATION ${BIN_INSTALL_DIR} )
 
-endif (CFITSIO_FOUND)
+endif (CFITSIO_FOUND AND LIBUSB_FOUND)
 
 #################################################################################
 
