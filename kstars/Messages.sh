@@ -31,10 +31,10 @@ awk 'BEGIN {FS=":"}; {print "\"" $3 "\""; }' < data/Cities.dat | \
 sort --unique countries.tmp >> kstars_i18n.cpp
 
 # extract image/info menu items
-awk 'BEGIN {FS=":"}; {print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | \
+awk 'BEGIN {FS=":"}; {gsub(/\"/, \"\\\"\"); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | \
     sed 's/i18nc(.*,"");//' >> "image_url.tmp"
 sort --unique image_url.tmp >> kstars_i18n.cpp
-awk 'BEGIN {FS=":"}; {print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | \
+awk 'BEGIN {FS=":"}; {gsub(/\"/, \"\\\"\"); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | \
     sed 's/i18nc(.*,"");//' >> "info_url.tmp"
 sort --unique info_url.tmp >> kstars_i18n.cpp
 
