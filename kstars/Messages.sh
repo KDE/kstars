@@ -31,9 +31,9 @@ awk 'BEGIN {FS=":"}; {print "\"" $3 "\""; }' < data/Cities.dat | \
 sort --unique countries.tmp >> kstars_i18n.cpp
 
 # extract image/info menu items
-awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\""); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | sed 's/i18nc(.*,"");//' >> "image_url.tmp"
+awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/image_url.dat | sed 's/i18nc(.*,"");//' >> "image_url.tmp"
 sort --unique image_url.tmp >> kstars_i18n.cpp
-awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\""); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | sed 's/i18nc(.*,"");//' >> "info_url.tmp"
+awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "i18nc(\"Image/info menu item (should be translated)\",\"" $2 "\");"; }' < data/info_url.dat | sed 's/i18nc(.*,"");//' >> "info_url.tmp"
 sort --unique info_url.tmp >> kstars_i18n.cpp
 
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
