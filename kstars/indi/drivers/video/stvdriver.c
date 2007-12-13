@@ -30,6 +30,9 @@
 
 #include "stvdriver.h"
 
+/* Config parameters */
+#include <config.h>
+
 #ifndef _WIN32
 #include <termios.h>
 #endif
@@ -1147,36 +1150,27 @@ int STV_MenueCCDTemperature( int delay) {
   tcflush(fd, TCIOFLUSH);
   return 0 ;
 }
-int STV_SetDateTime( char *times) {
 
+#ifdef HAVE_NOVA_H
+int STV_SetDateTime( char *times) 
+{
   int i ;
   int res ;
   int turn ;
-  time_t curtime;
-  struct tm utc; 
-  struct tm *utcp; 
+  struct ln_date utm;
   int delay= 20000 ;
   /*fprintf(stderr, "STV_SetTime\n") ; */
   
-  if((times== NULL) || (( res= strlen(times))==0)) {
-
-  /* Get the current time. */
-    curtime = time (NULL);
-    utcp = gmtime( &curtime);
-    /* I'm not C guru */
-    utc.tm_mon  = utcp->tm_mon ;
-    utc.tm_mday = utcp->tm_mday ;
-    utc.tm_year = utcp->tm_year ;
-    utc.tm_hour = utcp->tm_hour ;
-    utc.tm_min  = utcp->tm_min ;
-    utc.tm_sec  = utcp->tm_sec ;
-  } else {
-
-    if( extractISOTime( times, &utc) < 0) {
-      fprintf( stderr, "Bad time string %s\n", times) ;
-      return -1 ;
-    }
-  }
+  if((times== NULL) || (( res= strlen(times))==0)) 
+	ln_get_date_from_sys(&utm);
+  else
+   {
+      if( extractISOTime( times, &utm) < 0) 
+      {
+	      fprintf( stderr, "Bad time string %s\n", times) ;
+      	      return -1 ;
+      }
+   }
   /* Print out the date and time in the standard format. */
   /*fprintf( stderr, "TIME %s\n", asctime (utc)) ; */
 
@@ -1195,7 +1189,7 @@ int STV_SetDateTime( char *times) {
     usleep( delay) ;
   }
 
-  for( i=0 ; i< utc.tm_mon  ; i++) { /* Set Month menu */
+  for( i=0 ; i< utm.months  ; i++) { /* Set Month menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1210,7 +1204,7 @@ int STV_SetDateTime( char *times) {
     tcflush(fd, TCIOFLUSH);
   }
 
-  for( i= 0; i< utc.tm_mday-1  ; i++) { /* Set Day menu -1? */
+  for( i= 0; i< utm.days-1  ; i++) { /* Set Day menu -1? */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1225,7 +1219,11 @@ int STV_SetDateTime( char *times) {
     usleep( delay) ; /* sleep a 1/100 second */
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc.tm_year -99  ; i++) { /* Set Year menu */
+ 
+  /* JM: Is this how you want not? Please verify the code! */
+  int ymenu = utm.years % 100;
+
+  for( i=0 ; i< ymenu  ; i++) { /* Set Year menu */
     res= STV_LRRotaryIncrease() ;   
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1239,7 +1237,7 @@ int STV_SetDateTime( char *times) {
     usleep( delay) ; 
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc.tm_hour ; i++) { /* Set Hour menu */
+  for( i=0 ; i< utm.hours ; i++) { /* Set Hour menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1253,7 +1251,7 @@ int STV_SetDateTime( char *times) {
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
   }
-  for( i=0 ; i< utc.tm_min  ; i++) { /* Set Minute menu */
+  for( i=0 ; i< utm.minutes  ; i++) { /* Set Minute menu */
     res= STV_LRRotaryIncrease() ; 
     usleep( delay) ;
     tcflush(fd, TCIOFLUSH);
@@ -1266,11 +1264,11 @@ int STV_SetDateTime( char *times) {
     tcflush(fd, TCIOFLUSH);
   }
 
-  if ( utc.tm_sec < 15) {
+  if ( utm.seconds < 15) {
     turn= 0 ;
-  } else if ( utc.tm_sec < 30) {
+  } else if ( utm.seconds < 30) {
     turn= 1 ;
-  } else if ( utc.tm_sec < 45) {
+  } else if ( utm.seconds < 45) {
     turn= 2 ;
   } else {
     turn= 3 ;
@@ -1291,6 +1289,7 @@ int STV_SetDateTime( char *times) {
   res= STV_Interrupt() ;
   return 0 ;
 }
+#endif
 
 int STV_MenueDateTime( int delay) {
 
