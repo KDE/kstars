@@ -333,7 +333,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         QPointF o = toScreen( obj );
         if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
 
-        obj->drawNameLabel( psky, o );
+        obj->drawRudeNameLabel( psky, o );
     }
 
     //Attach a label to the centered object

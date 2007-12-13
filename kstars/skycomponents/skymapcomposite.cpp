@@ -232,13 +232,13 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
     //DISABLE_SATELLITES
     //m_Satellites->draw( ks, psky );
 
-    ks->map()->drawObjectLabels( labelObjects(), psky );
-
     m_Horizon->draw( ks, psky );
 
     m_skyLabeler->drawQueuedLabels( ks, psky );
     m_CNames->draw( ks, psky );
     m_Stars->drawLabels( ks, psky );
+
+    ks->map()->drawObjectLabels( labelObjects(), psky );
 
     m_skyMesh->inDraw( false );
 
