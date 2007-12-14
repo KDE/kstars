@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText" >
        <property name="text" >
-        <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>This wizard will help you set up some basic options, such as your location on Earth.&lt;/p>&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;/p>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>To get started, press the &lt;span style=&quot; font-weight:600;&quot;>Next&lt;/span> button.&lt;/p>&lt;/body>&lt;/html></string>
+        <string><html><head></head><body><p>This wizard will help you set up some basic options, such as your location on Earth.</p><p></p><p>To get started, press the <span style=" font-weight:600;">Next</span> button.</p></body></html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>

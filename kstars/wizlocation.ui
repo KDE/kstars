@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText" >
        <property name="text" >
-        <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Select a City near your location from the list. You may filter the list by the name of your city, province, and country.&lt;/p>&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>Once you have selected a City, press &lt;span style=&quot; font-weight:600;&quot;>Next&lt;/span>.&lt;/p>&lt;/body>&lt;/html></string>
+        <string><html><head></head><body><p>Select a City near your location from the list. You may filter the list by the name of your city, province, and country.</p><p>Once you have selected a City, press <span style=" font-weight:600;">Next</span>.</p></body></html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>

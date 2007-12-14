@@ -299,6 +299,13 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
     bool drawStars = ( Options::showStars() );
     bool hideFaintStars( checkSlewing && Options::hideStars() );
 
+    //Attach a label to the centered object
+    if ( focusObject() != NULL && Options::useAutoLabel() ) {
+        QPointF o = toScreen( focusObject() );
+
+        focusObject()->drawNameLabel( psky, o );
+    }
+
     foreach ( SkyObject *obj, labelObjects ) {
         //Only draw an attached label if the object is being drawn to the map
         //reproducing logic from other draw funcs here...not an optimal solution
@@ -333,14 +340,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         QPointF o = toScreen( obj );
         if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
 
-        obj->drawRudeNameLabel( psky, o );
-    }
-
-    //Attach a label to the centered object
-    if ( focusObject() != NULL && Options::useAutoLabel() ) {
-        QPointF o = toScreen( focusObject() );
-
-        focusObject()->drawRudeNameLabel( psky, o );
+        obj->drawNameLabel( psky, o );
     }
 
     skyLabeler->useStdFont( psky );   // use the StdFont for the guides.

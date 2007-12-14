@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="DownloadText" >
        <property name="text" >
-        <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Sans Serif; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>You may now download optional data files to enhance KStars, such as Messier object images, or a more complete NGC/IC catalog. Press the &lt;span style=&quot; font-weight:600;&quot;>Download Extra Data&lt;/span> button to proceed. &lt;/p>&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>You can also use this tool later, by selecting &lt;span style=&quot; font-weight:600;&quot;>Download data&lt;/span> from the &lt;span style=&quot; font-weight:600;&quot;>File&lt;/span> menu.&lt;/p>&lt;/body>&lt;/html></string>
+        <string><html><head></head><body><p>You may now download optional data files to enhance KStars, such as Messier object images, or a more complete NGC/IC catalog. Press the <span style=" font-weight:600;">Download Extra Data</span> button to proceed. </p><p>You can also use this tool later, by selecting <span style=" font-weight:600;">Download data</span> from the <span style=" font-weight:600;">File</span> menu.</p></body></html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>
