@@ -349,7 +349,7 @@ set(robofocus_SRCS
 
 kde4_add_executable(indi_robofocus ${robofocus_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_robofocus ${KDE4_KDECORE_LIBS})
+target_link_libraries(indi_robofocus ${KDE4_KDECORE_LIBS} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_robofocus ${NOVA_LIBRARIES})
@@ -371,7 +371,7 @@ set(trutechwheel_SRCS
 
 kde4_add_executable(indi_trutech_wheel ${trutechwheel_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_trutech_wheel  ${KDE4_KDECORE_LIBS})
+target_link_libraries(indi_trutech_wheel  ${KDE4_KDECORE_LIBS} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_trutech_wheel ${NOVA_LIBRARIES})
@@ -389,7 +389,7 @@ set(fliwheel_SRCS
 
 kde4_add_executable(indi_fli_wheel ${fliwheel_SRCS}  ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_wheel ${KDE4_KDECORE_LIBS})
+target_link_libraries(indi_fli_wheel ${KDE4_KDECORE_LIBS} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_fli_wheel ${NOVA_LIBRARIES})
@@ -412,7 +412,7 @@ set(fliccd_SRCS
 
 kde4_add_executable(indi_fli_ccd ${fliccd_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES})
+target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_fli_ccd ${NOVA_LIBRARIES})
