@@ -44,7 +44,14 @@ SkyLine::SkyLine( QList<SkyPoint*> list ) {
 }
 
 SkyLine::~SkyLine() {
+  clear();
+}
+
+void SkyLine::clear() {
+  if ( m_pList.size() ) {
     qDeleteAll( m_pList );
+    m_pList.clear();
+  }
 }
 
 void SkyLine::append( const SkyPoint &p ) {
@@ -63,7 +70,7 @@ void SkyLine::setPoint( int i, SkyPoint *p ) {
         return;
     }
 
-    m_pList[i]->set( p->ra(), p->dec() );
+    m_pList[i]->set( p->ra()->Hours(), p->dec()->Degrees() );
 }
 
 dms SkyLine::angularSize( int i ) const{

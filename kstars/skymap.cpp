@@ -428,12 +428,19 @@ void SkyMap::slotDSS2( void ) {
 }
 
 void SkyMap::slotBeginAngularDistance() {
-    //ANGULAR
-    //	setPreviousClickedPoint( mousePoint() );
     angularDistanceMode = true;
-    AngularRuler = SkyLine( mousePoint(), mousePoint() );
-    //	beginRulerPoint = toScreen( previousClickedPoint() );
-    //	endRulerPoint =  QPointF( beginRulerPoint.x(),beginRulerPoint.y() );
+    AngularRuler.clear();
+
+    //If the cursor is near a SkyObject, reset the AngularRuler's 
+    //start point to the position of the SkyObject
+    double maxrad = 1000.0/Options::zoomFactor();
+    if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
+        AngularRuler.append( so );
+        AngularRuler.append( so );
+    } else {
+        AngularRuler.append( mousePoint() );
+        AngularRuler.append( mousePoint() );
+    }
 }
 
 void SkyMap::slotEndAngularDistance() {
@@ -456,13 +463,13 @@ void SkyMap::slotEndAngularDistance() {
         ks->statusBar()->changeItem( sbMessage, 0 );
 
         angularDistanceMode=false;
-        AngularRuler = SkyLine(); //null SkyLine
+	AngularRuler.clear();
     }
 }
 
 void SkyMap::slotCancelAngularDistance(void) {
     angularDistanceMode=false;
-    AngularRuler = SkyLine(); //null SkyLine
+    AngularRuler.clear();
 }
 
 void SkyMap::slotImage() {
@@ -1614,19 +1621,7 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    //determine RA, Dec of mouse pointer
-    QPoint mp( mapFromGlobal( QCursor::pos() ) );
-    double dx = ( 0.5*width()  - mp.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
-
-    if (! unusablePoint (dx, dy)) {
-        SkyPoint p = fromScreen( dx, dy, data->LST, data->geo()->lat() );
-        AngularRuler.setPoint( 1, &p );
-    }
-
-    //DEBUG
-    kDebug() << "AngRuler: " << AngularRuler.point(0)->ra()->toHMSString() << " :: " << AngularRuler.point(1)->ra()->toHMSString();
-
+      AngularRuler.setPoint( 1, mousePoint() );
 }
 
 bool SkyMap::isSlewing() const  {

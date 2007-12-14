@@ -87,6 +87,8 @@ public:
 
     inline QList<SkyPoint*>& points() { return m_pList; }
 
+    void clear();
+
     /**
     	*Set point i in the SkyLine
     	*@param i the index position of the point to modify
