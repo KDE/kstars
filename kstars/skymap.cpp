@@ -884,18 +884,22 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
         else Y = o->alt()->radians();
 
         if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
-            dX = 2*dms::PI + focus()->az()->radians() - o->az()->radians();
+            dX = -2.0*dms::PI + focus()->az()->reduce().radians() - o->az()->reduce().radians();
+        } else if ( focus()->az()->Degrees() < 90.0 && o->az()->Degrees() > 270.0 ) {
+            dX = 2.0*dms::PI + focus()->az()->reduce().radians() - o->az()->reduce().radians();
         } else {
-            dX = focus()->az()->radians() - o->az()->radians();
+            dX = focus()->az()->reduce().radians() - o->az()->reduce().radians();
         }
 
         focus()->alt()->SinCos( sinY0, cosY0 );
 
     } else {
         if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
-            dX = 2*dms::PI + o->ra()->radians() - focus()->ra()->radians();
+            dX = 2.0*dms::PI + o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
+        } else if (focus()->ra()->Hours() < 6.0 && o->ra()->Hours() > 18.0) {
+            dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians() - 2.0*dms::PI;
         } else {
-            dX = o->ra()->radians() - focus()->ra()->radians();
+            dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
         }
         Y = o->dec()->radians();
         focus()->dec()->SinCos( sinY0, cosY0 );
@@ -903,8 +907,12 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
 
     //Special case: Equirectangular projection is very simple
     if ( Options::projection() == Equirectangular ) {
+
         p.setX( 0.5*Width  - zoomscale*dX );
-        p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
+        if ( Options::useAltAz() )
+            p.setY( 0.5*Height - zoomscale*(Y - focus()->alt()->radians()) );
+        else
+            p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
 
         if ( onVisibleHemisphere != NULL ) {
             if ( scaledRect().contains( p.toPoint() ) )  //FIXME -jbb
