@@ -451,12 +451,11 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
 
     /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
     	*screen pixel coordinate offsets from the center of the Sky pixmap.
-    	*@param dx horizontal pixel offset from center of SkyMap.
-    	*@param dy vertical pixel offset from center of SkyMap.
-    	*@param LSTh pointer to the local sidereal time, as a dms object.
+    	*@param the screen pixel position to convert
+    	*@param LST pointer to the local sidereal time, as a dms object.
     	*@param lat pointer to the current geographic laitude, as a dms object
     	*/
-    SkyPoint fromScreen( double dx, double dy, dms *LST, const dms *lat );
+    SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat );
 
     /**@short Determine if the skypoint p is likely to be visible in the display
     	*window.
@@ -830,10 +829,9 @@ private:
     /**Check if the current point on screen is a valid point on the sky. This is needed
     	*to avoid a crash of the program if the user clicks on a point outside the sky (the
     	*corners of the sky map at the lowest zoom level are the invalid points).  
-    	*@param dx the screen pixel X-coordinate, relative to the screen center
-    	*@param dy the screen pixel Y-coordinate, relative to the screen center
+    	*@param p the screen pixel position
     	*/
-    bool unusablePoint (double dx, double dy);
+    bool unusablePoint ( const QPointF &p );
 
     bool mouseButtonDown, midMouseButtonDown;
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor

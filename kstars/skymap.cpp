@@ -872,7 +872,6 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
 
     float Width = width() * m_Scale;
     float Height = height() * m_Scale;
-
     double zoomscale = Options::zoomFactor() * m_Scale;
 
     //oRefract = true means listen to Options::useRefraction()
@@ -1294,27 +1293,32 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
 // 	return toScreen( line, scale, oRefract, doClipLines ).toLine();
 // }
 
-SkyPoint SkyMap::fromScreen( double dx, double dy, dms *LST, const dms *lat ) {
-    //Determine RA and Dec of a point, given (dx, dy): it's pixel
+SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
+    //Determine RA and Dec of a point, given (dx, dy): its pixel
     //coordinates in the SkyMap with the center of the map as the origin.
     SkyPoint result;
     double sinY0, cosY0, sinc, cosc;
+
+    //Convert pixel position to x and y offsets in radians
+    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
+    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
 
     //Special case: Equirectangular
     if ( Options::projection() == Equirectangular ) {
         if ( Options::useAltAz() ) {
             dms az, alt;
             dx = -1.0*dx;  //Azimuth goes in opposite direction compared to RA
-            az.setRadians( Options::zoomFactor()*dx + focus()->az()->radians() );
-            alt.setRadians( Options::zoomFactor()*dy + focus()->alt()->radians() );
+            az.setRadians( dx + focus()->az()->radians() );
+            alt.setRadians( dy + focus()->alt()->radians() );
             result.setAz( az.reduce() );
             result.setAlt( alt );
             result.HorizontalToEquatorial( LST, lat );
             return result;
         } else {
             dms ra, dec;
-            ra.setRadians( Options::zoomFactor()*dx + focus()->ra()->radians() );
-            dec.setRadians( Options::zoomFactor()*dy + focus()->dec()->radians() );
+	    
+            ra.setRadians( dx + focus()->ra()->radians() );
+            dec.setRadians( dy + focus()->dec()->radians() );
             result.set( ra.reduce(), dec );
             result.EquatorialToHorizontal( LST, lat );
             return result;
@@ -1413,12 +1417,9 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 void SkyMap::forceUpdate( bool now )
 {
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
-    double dx = ( 0.5*width()  - mp.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
-
-    if (! unusablePoint (dx, dy)) {
+    if (! unusablePoint ( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+        setMousePoint( fromScreen( mp, data->LST, data->geo()->lat() ) );
     }
 
     computeSkymap = true;
@@ -1481,8 +1482,12 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     }
 }
 
-bool SkyMap::unusablePoint (double dx, double dy)
+bool SkyMap::unusablePoint ( const QPointF &p )
 {
+    //Convert pixel position to x and y offsets in radians
+    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
+    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
+
     if (dx >= 1.41 || dx <= -1.41 || dy >= 1.41 || dy <= -1.41)
         return true;
     else

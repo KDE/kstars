@@ -492,17 +492,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
     }
 
-    double dx = ( 0.5*width()  - e->x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - e->y() )/Options::zoomFactor();
-    double dyPix = 0.5*height() - e->y();
-
-    if (unusablePoint (dx, dy)) return;	// break if point is unusable
+    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+    setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
     mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 
-
+    double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
         float yoff = dyPix - y0;
 
@@ -563,7 +559,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         data->HourAngle->setH( dHA );
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
@@ -610,13 +606,10 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
         //of the sky pixmap's width to the Zoom Circle's diameter
         float factor = float(width()) / float(ZoomRect.width());
 
-        double dx = ( 0.5*width()  - ZoomRect.center().x() )/Options::zoomFactor();
-        double dy = ( 0.5*height() - ZoomRect.center().y() )/Options::zoomFactor();
-
         infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( dx, dy, data->LST, data->geo()->lat() );
+        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->LST, data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
@@ -668,9 +661,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     QTimer t;
     t.singleShot (500, this, SLOT (setMouseMoveCursor()));
 
-    double dx = ( 0.5*width()  - e->x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - e->y() )/Options::zoomFactor();
-    if (unusablePoint (dx, dy)) return;	// break if point is unusable
+    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
         y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
@@ -684,20 +675,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( dx, dy, data->LST, data->geo()->lat() ) );
+        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-
-//         //DEBUG_REFRACTION_CHECK
-//         QPointF p = toScreen( clickedPoint() ); 
-//         double dx2 = (width()/2.0 - p.x())/Options::zoomFactor();
-//         double dy2 = (height()/2.0 - p.y())/Options::zoomFactor();
-//         SkyPoint sp = fromScreen( dx2, dy2, data->LST, data->geo()->lat() );
-//         kDebug() << "SP1: " << clickedPoint()->az()->toDMSString() 
-//                 << clickedPoint()->alt()->toDMSString() << endl;
-//         kDebug() << "SP2: " << sp.az()->toDMSString() 
-//                 << sp.alt()->toDMSString() << endl;
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
@@ -747,12 +728,10 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
             return;
         }
 
-        double dx = ( 0.5*width()  - e->x() )/Options::zoomFactor();
-        double dy = ( 0.5*height() - e->y() )/Options::zoomFactor();
-        if (unusablePoint (dx, dy)) return;	// break if point is unusable
+        if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
         if (mouseButtonDown ) mouseButtonDown = false;
-        if ( dx != 0.0 || dy != 0.0 )  slotCenter();
+        if ( e->x() != width()/2 || e->y() != height()/2 ) slotCenter();
     }
 }
 
