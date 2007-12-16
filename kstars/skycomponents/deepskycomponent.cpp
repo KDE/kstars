@@ -18,8 +18,11 @@
 #include "deepskycomponent.h"
 
 #include <QPainter>
+#include <QDir>
+#include <QFile>
 
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "deepskyobject.h"
 #include "dms.h"
@@ -62,6 +65,10 @@ void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
 
 void DeepSkyComponent::init(KStarsData *data)
 {
+    //Check whether we need to concatenate a plit NGC/IC catalog
+    //(i.e., if user has downloaded the Steinicke catalog)
+    mergeSplitFiles();
+
     KSFileReader fileReader;
     if ( ! fileReader.open( "ngcic.dat" ) ) return;
 
@@ -219,6 +226,44 @@ void DeepSkyComponent::init(KStarsData *data)
     }
 }
 
+void DeepSkyComponent::mergeSplitFiles() {
+    //If user has downloaded the Steinicke NGC/IC catalog, then it is 
+    //split into multiple files.  Concatenate these into a single file.
+    QString firstFile = KStandardDirs::locateLocal("appdata", "ngcic01.dat");
+    if ( ! QFile::exists( firstFile ) ) return;
+    QDir localDir = QFileInfo( firstFile ).absoluteDir();
+    QStringList catFiles = localDir.entryList( "ngcic??.dat" );
+
+    kDebug() << "Merging split NGC/IC files" << endl;
+
+    QString buffer;
+    foreach ( QString fname, catFiles ) {
+        QFile f( localDir.absoluteFilePath(fname) );
+        if ( f.open( QIODevice::ReadOnly ) ) {
+            QTextStream stream( &f );
+            buffer += stream.readAll();
+
+            f.close();
+        } else {
+            kDebug() << QString("Error: Could not open %1 for reading").arg(fname) << endl;
+        }
+    }
+
+    QFile fout( localDir.absoluteFilePath( "ngcic.dat" ) );
+    if ( fout.open( QIODevice::WriteOnly ) ) {
+        QTextStream oStream( &fout );
+        oStream << buffer;
+        fout.close();
+
+        //Remove the split-files
+        foreach ( QString fname, catFiles ) {
+            QString fullname = localDir.absoluteFilePath(fname);
+            //DEBUG
+            kDebug() << "Removing " << fullname << " ..." << endl;
+            QFile::remove( fullname );
+        }
+    }
+}
 
 void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex )
 {

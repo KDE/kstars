@@ -118,6 +118,8 @@ public:
     bool selected();
 
 private:
+    void mergeSplitFiles();
+
     KStarsData* m_data;
     SkyMap*     m_map;
 
