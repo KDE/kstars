@@ -32,16 +32,9 @@ modification, are permitted provided that the following conditions are met:
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+
 #ifndef _PARDRV_
 #define _PARDRV_
-
-/* needed for KDE_EXPORT macros */
-/* DO NOT EDIT OR REMOVE THIS */
-#ifndef HAVE_CONFIG_H
-#include <kdemacros.h>
-#else
-#define KDE_EXPORT
-#endif
 
 /*
 
@@ -49,14 +42,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 */
 #ifndef TARGET
- #define ENV_WIN			1				/* Target for Windows environment */
+ #define ENV_WIN		1				/* Target for Windows environment */
  #define ENV_WINVXD		2				/* SBIG Use Only, Win 9X VXD */
  #define ENV_WINSYS		3				/* SBIG Use Only, Win NT SYS */
  #define ENV_ESRVJK		4				/* SBIG Use Only, Ethernet Remote */
- #define ENV_ESRVWIN		5				/* SBIG Use Only, Ethernet Remote */
- #define ENV_MACOSX     	6				/* SBIG Use Only, Mac OSX */
+ #define ENV_ESRVWIN	5				/* SBIG Use Only, Ethernet Remote */
+ #define ENV_MACOSX     6				/* SBIG Use Only, Mac OSX */
  #define ENV_LINUX		7				/* SBIG Use Only, Linux */
- #define TARGET			ENV_LINUX		/* Set for your target */
+ #define TARGET			ENV_LINUX		    /* Set for your target */
 #endif
 
 /*
@@ -106,7 +99,7 @@ typedef enum {
 
 	/* 21 - 30 */
 	CC_AO_TIP_TILT, CC_AO_SET_FOCUS, CC_AO_DELAY,
-  CC_GET_TURBO_STATUS, CC_END_READOUT, CC_GET_US_TIMER,
+    CC_GET_TURBO_STATUS, CC_END_READOUT, CC_GET_US_TIMER,
 	CC_OPEN_DEVICE, CC_CLOSE_DEVICE, CC_SET_IRQL, CC_GET_IRQL,
 
 	/* 31 - 40 */
@@ -117,7 +110,7 @@ typedef enum {
 
 	/* 41 - 50 */
 	CC_GET_PENTIUM_CYCLE_COUNT, CC_RW_USB_I2C, CC_CFW, CC_BIT_IO,
-	CC_USER_EEPROM, CC_AO_CENTER,
+	CC_USER_EEPROM, CC_AO_CENTER, CC_BTDI_SETUP, CC_MOTOR_FOCUS,
 
 	/*
 
@@ -163,7 +156,7 @@ typedef enum {
 	
 	/* 31 - 40 */
 	CE_DEVICE_DISABLED, CE_OS_ERROR, CE_SOCK_ERROR, CE_SERVER_NOT_FOUND,
-	CE_CFW_ERROR, CE_NEXT_ERROR, CE_FAKE_DRIVER  } PAR_ERROR;
+	CE_CFW_ERROR, CE_MF_ERROR, CE_NEXT_ERROR, CE_FAKE_DRIVER  } PAR_ERROR;
 
 /*
 
@@ -203,13 +196,18 @@ typedef enum { CS_IDLE, CS_IN_PROGRESS, CS_INTEGRATING,
 	CFW_MODEL_SELECT, CFW_STATUS, CFW_ERROR - Used with CFW command
 	CFW_POSITION, CFW_GET_INFO_SELECT - Used with CFW Command
 	BIT_IO_OPERATION, BIT_IO_NMAE - Used with BitIO command
+	MF_MODEL_SELECT, MF_STATUS, MF_ERROR, MF_GET_INFO_SELECT - Used with Motor Focus Command
 
 
 */
 typedef enum { ABG_LOW7, ABG_CLK_LOW7, ABG_CLK_MED7, ABG_CLK_HI7 } ABG_STATE7;
 typedef unsigned short MY_LOGICAL;
+#define FALSE 0
+#define TRUE 1
 typedef enum { DRIVER_STD, DRIVER_EXTENDED, DRIVER_USB_LOADER } DRIVER_REQUEST;
 typedef enum { CCD_IMAGING, CCD_TRACKING, CCD_EXT_TRACKING } CCD_REQUEST;
+typedef enum { RM_1X1, RM_2X2, RM_3X3, RM_NX1, RM_NX2, RM_NX3, RM_1X1_VOFFCHIP,
+	RM_2X2_VOFFCHIP, RM_3X3_VOFFCHIP, RM_9X9 } READOUT_BINNING_MODE;  
 typedef enum { CCD_INFO_IMAGING, CCD_INFO_TRACKING,
 	CCD_INFO_EXTENDED, CCD_INFO_EXTENDED_5C, CCD_INFO_EXTENDED2_IMAGING,
 	CCD_INFO_EXTENDED2_TRACKING } CCD_INFO_REQUEST;
@@ -217,7 +215,8 @@ typedef enum { ABG_NOT_PRESENT, ABG_PRESENT } IMAGING_ABG;
 typedef enum { BR_AUTO, BR_9600, BR_19K, BR_38K, BR_57K, BR_115K } PORT_RATE;
 typedef enum { ST7_CAMERA=4, ST8_CAMERA, ST5C_CAMERA, TCE_CONTROLLER,
   ST237_CAMERA, STK_CAMERA, ST9_CAMERA, STV_CAMERA, ST10_CAMERA,
-  ST1K_CAMERA, ST2K_CAMERA, STL_CAMERA, ST402_CAMERA, NEXT_CAMERA, NO_CAMERA=0xFFFF } CAMERA_TYPE;
+  ST1K_CAMERA, ST2K_CAMERA, STL_CAMERA, ST402_CAMERA, STH_CAMERA,
+  ST4K_CAMERA, NEXT_CAMERA, NO_CAMERA=0xFFFF } CAMERA_TYPE;
 typedef enum { SC_LEAVE_SHUTTER, SC_OPEN_SHUTTER, SC_CLOSE_SHUTTER,
 	 SC_INITIALIZE_SHUTTER, SC_OPEN_EXT_SHUTTER, SC_CLOSE_EXT_SHUTTER} SHUTTER_COMMAND;
 typedef enum { SS_OPEN, SS_CLOSED, SS_OPENING, SS_CLOSING } SHUTTER_STATE7;
@@ -239,13 +238,14 @@ typedef enum { DEV_NONE, DEV_LPT1, DEV_LPT2, DEV_LPT3,
 typedef enum { DCP_USB_FIFO_ENABLE, DCP_CALL_JOURNAL_ENABLE,
 	DCP_IVTOH_RATIO, DCP_USB_FIFO_SIZE, DCP_USB_DRIVER, DCP_KAI_RELGAIN,
 	DCP_USB_PIXEL_DL_ENABLE, DCP_HIGH_THROUGHPUT, DCP_VDD_OPTIMIZED,
-	DCP_AUTO_AD_GAIN, DCP_NO_HCLKS_FOR_INTEGRATION, DCP_TDI_MODE_ENABLE, DCP_LAST } DRIVER_CONTROL_PARAM;
+	DCP_AUTO_AD_GAIN, DCP_NO_HCLKS_FOR_INTEGRATION, DCP_TDI_MODE_ENABLE, 
+	DCP_VERT_FLUSH_CONTROL_ENABLE, DCP_ETHERNET_PIPELINE_ENABLE, DCP_LAST } DRIVER_CONTROL_PARAM;
 typedef enum { USB_AD_IMAGING_GAIN, USB_AD_IMAGING_OFFSET, USB_AD_TRACKING_GAIN,
 	USB_AD_TRACKING_OFFSET } USB_AD_CONTROL_COMMAND;
 typedef enum { USBD_SBIGE, USBD_SBIGI, USBD_SBIGM, USBD_NEXT } ENUM_USB_DRIVER;
 typedef enum { CFWSEL_UNKNOWN, CFWSEL_CFW2, CFWSEL_CFW5, CFWSEL_CFW8, CFWSEL_CFWL,
 	CFWSEL_CFW402, CFWSEL_AUTO, CFWSEL_CFW6A, CFWSEL_CFW10,
-	CFWSEL_CFW10_SERIAL } CFW_MODEL_SELECT;
+	CFWSEL_CFW10_SERIAL, CFWSEL_CFW9, CFWSEL_CFWL8, CFWSEL_CFWL8G } CFW_MODEL_SELECT;
 typedef enum { CFWC_QUERY, CFWC_GOTO, CFWC_INIT, CFWC_GET_INFO,
 			   CFWC_OPEN_DEVICE, CFWC_CLOSE_DEVICE } CFW_COMMAND;
 typedef enum { CFWS_UNKNOWN, CFWS_IDLE, CFWS_BUSY } CFW_STATUS;
@@ -258,6 +258,13 @@ typedef enum { CFWPORT_COM1=1, CFWPORT_COM2, CFWPORT_COM3, CFWPORT_COM4 } CFW_CO
 typedef enum { CFWG_FIRMWARE_VERSION, CFWG_CAL_DATA, CFWG_DATA_REGISTERS } CFW_GETINFO_SELECT;
 typedef enum { BITIO_WRITE, BITIO_READ } BITIO_OPERATION;
 typedef enum { BITI_PS_LOW, BITO_IO1, BITO_IO2, BITI_IO3, BITO_FPGA_WE } BITIO_NAME;
+typedef enum { BTDI_SCHEDULE_ERROR=1, BTDI_OVERRUN_ERROR=2 } BTDI_ERROR;
+typedef enum { MFSEL_UNKNOWN, MFSEL_AUTO, MFSEL_STF } MF_MODEL_SELECT;
+typedef enum { MFC_QUERY, MFC_GOTO, MFC_INIT, MFC_GET_INFO, MFC_ABORT } MF_COMMAND;
+typedef enum { MFS_UNKNOWN, MFS_IDLE, MFS_BUSY } MF_STATUS;
+typedef enum { MFE_NONE, MFE_BUSY, MFE_BAD_COMMAND, MFE_CAL_ERROR, MFE_MOTOR_TIMEOUT,
+				MFE_BAD_MODEL, MFE_I2C_ERROR, MFE_NOT_FOUND } MF_ERROR;
+typedef enum { MFG_FIRMWARE_VERSION, MFG_DATA_REGISTERS } MF_GETINFO_SELECT;
 
 
 /*
@@ -309,8 +316,14 @@ typedef enum { BITI_PS_LOW, BITO_IO1, BITO_IO2, BITI_IO3, BITO_FPGA_WE } BITIO_N
 #define CB_CCD_ESHUTTER_NO			0x0000			/* b1=0 indicates no electronic shutter */
 #define CB_CCD_ESHUTTER_YES			0x0002			/* b1=1 indicates electronic shutter */
 #define CB_CCD_EXT_TRACKER_MASK		0x0004			/* mask for external tracker support */
-#define CB_CCD_EXT_TRACKER_NO		0x0000			/* b2=0 indicates no exteranl tracker support */
+#define CB_CCD_EXT_TRACKER_NO		0x0000			/* b2=0 indicates no external tracker support */
 #define CB_CCD_EXT_TRACKER_YES		0x0004			/* b2=1 indicates external tracker support */
+#define CB_CCD_BTDI_MASK			0x0008			/* mask for BTDI support */
+#define CB_CCD_BTDI_NO				0x0000			/* b3=0 indicates no BTDI support */
+#define CB_CCD_BTDI_YES				0x0008			/* b3=1 indicates BTDI support */
+#define CB_AO8_MASK					0x0010			/* mask for AO-8 detected */
+#define CB_AO8_NO					0x0000			/* b4=0 indicates no AO-8 detected */
+#define CB_AO8_YES					0x0010			/* b4=1 indicates AO-8 detected */
 
 /*
 
@@ -320,6 +333,7 @@ typedef enum { BITI_PS_LOW, BITO_IO1, BITO_IO2, BITI_IO3, BITO_FPGA_WE } BITIO_N
 #define MIN_ST7_EXPOSURE    12  /* Minimum exposure in 1/100ths second */
 #define MIN_ST402_EXPOSURE	 4	/* Minimum exposure in 1/100ths second */
 #define MIN_ST3200_EXPOSURE	 9	/* Minimum exposure in 1/100ths second */
+#define MIN_STH_EXPOSURE	 1	/* Minimum exposure in 1/100ths second */
 
 /*
 
@@ -646,7 +660,6 @@ typedef struct {
 	unsigned long cfwParam1;
 	unsigned long cfwParam2;
     unsigned short outLength;
-
     unsigned char *outPtr;
     unsigned short inLength;
     unsigned char *inPtr;
@@ -676,7 +689,43 @@ typedef struct {
 	unsigned char data[32];
 } UserEEPROMParams, UserEEPROMResults;
 
+typedef struct {
+	unsigned char rowPeriod;
+} BTDISetupParams;
+
+typedef struct {
+	unsigned char btdiErrors;
+} BTDISetupResults;
+
+typedef struct {
+	unsigned short /* MF_MODEL_SELECT */ mfModel;
+	unsigned short /* MF_COMMAND */ mfCommand;
+	long mfParam1;
+	long mfParam2;
+    unsigned short outLength;
+    unsigned char *outPtr;
+    unsigned short inLength;
+    unsigned char *inPtr;
+} MFParams;
+
+typedef struct {
+	unsigned short /* MF_MODEL_SELECT */ mfModel;
+	long mfPosition;
+	unsigned short /* MF_STATUS */ mfStatus;
+	unsigned short /* MF_ERROR */ mfError;
+	long mfResult1;
+	long mfResult2;
+} MFResults;
+
 #pragma pack(pop)	/* Restore previous struct align */
+
+/* needed for KDE_EXPORT macros */
+/* DO NOT EDIT OR REMOVE THIS */
+#ifndef HAVE_CONFIG_H
+#include <kdemacros.h>
+#else
+#define KDE_EXPORT
+#endif
 
 /*
 

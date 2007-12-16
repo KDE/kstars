@@ -44,6 +44,8 @@
 #include <QEventLoop>
 #include <QSocketNotifier>
 
+#include <KTemporaryFile>
+
 #include <klocale.h>
 #include <kdebug.h>
 #include <kpushbutton.h>
@@ -58,6 +60,7 @@
 
 #define STD_BUFFER_SIZ		1024000
 #define FRAME_ILEN		1024
+#define MAX_FILENAME_LEN	128
 
 INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
 {
@@ -114,96 +117,107 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     }
 
     // It's either FITS or OTHER
-    char filename[256];
-    FILE *fitsTempFile;
-    int fd, nr, n=0;
+    char file_template[MAX_FILENAME_LEN];
     QString currentDir = Options::fitsSaveDirectory();
+    int fd, nr, n=0;
+
+    if (currentDir.endsWith("/"))
+		currentDir.truncate(sizeof(currentDir)-1);
+
+    QString filename(currentDir + "/");
 
     streamWindow->close();
 
     if (dataType == DATA_FITS && !batchMode && Options::indiFITSDisplay())
     {
-        strcpy(filename, "/tmp/fitsXXXXXX");
-        if ((fd = mkstemp(filename)) < 0)
+        strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
+        if ((fd = mkstemp(file_template)) < 0)
         {
             KMessageBox::error(NULL, "Error making temporary filename.");
             return;
         }
+	filename = QString(file_template);
         close(fd);
     }
+    // Save file to disk
     else
     {
-        char ts[32];
-        struct tm *tp;
-        time_t t;
-        time (&t);
-        tp = gmtime (&t);
-
-        if (currentDir[currentDir.length() -1] == '/')
-            currentDir.truncate(currentDir.length() - 1);
-
-        strncpy(filename, currentDir.toAscii().data(), currentDir.length());
-        filename[currentDir.length()] = '\0';
+         QString ts = QDateTime::currentDateTime().toString("YYYY-MM-ddThh:mm:ss");
 
         if (dataType == DATA_FITS)
         {
-            char tempFileStr[256];
-            strncpy(tempFileStr, filename, 256);
-
             if ( batchMode && !ISOMode)
-                snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
+			filename += seqPrefix + QString("_%1.fits").arg(seqCount , 2);
+                //snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
             else if (!batchMode && !Options::indiFITSDisplay())
             {
-                strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
+		filename += QString("file_") + ts + ".fits";
+                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+                //snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
             }
             else
             {
-                strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
+		filename += QString("%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
+                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
+                //snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
             }
 
             seqCount++;
         }
         else
         {
-            strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
-            strncat(filename, ts, sizeof(ts));
-            strncat(filename, dataFormat.toAscii().data(), 10);
+	    filename += QString("file_") + ts + "." + dataFormat;
+	    //filename = currentDir + QString("/%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
+            //strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
+            //strncat(filename, ts, sizeof(ts));
+            //strncat(filename, dataFormat.toAscii().data(), 10);
         }
     }
 
-    fitsTempFile = fopen(filename, "w");
+    kDebug() << "Final file name is " << filename;
 
-    if (fitsTempFile == NULL) return;
+    QFile fits_temp_file(filename);
+    if (!fits_temp_file.open(QIODevice::WriteOnly))
+    {
+		kDebug() << "Error: Unable to open fits_temp_file";
+		return;
+    }
+    
+    QDataStream out(&fits_temp_file);
 
     for (nr=0; nr < (int) bufferSize; nr += n)
-        n = fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
+        n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
 
-    fclose(fitsTempFile);
+    fits_temp_file.close();
+    
+    //fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
+    //fclose(fitsTempFile);
 
     // We're done if we have DATA_OTHER or DATA_FITS if CFITSIO is not enabled.
     if (dataType == DATA_OTHER)
     {
-        ksw->statusBar()->changeItem( i18n("Data file saved to %1", QString(filename) ), 0);
+        ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
         return;
     }
 
     if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
     {
-        ksw->statusBar()->changeItem( i18n("FITS file saved to %1", QString(filename) ), 0);
+        ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
         emit FITSReceived(dp->label);
         return;
     }
 
+
+    // FIXME It appears that FITSViewer causes a possible stack corruption, needs to investigate
+
     // Unless we have cfitsio, we're done.
-#ifdef HAVE_CFITSIO_H
+    #ifdef HAVE_CFITSIO_H
     KUrl fileURL(filename);
 
     FITSViewer * fv = new FITSViewer(&fileURL, ksw);
     fv->fitsChange();
     fv->show();
-#endif
+    #endif
 
 }
 

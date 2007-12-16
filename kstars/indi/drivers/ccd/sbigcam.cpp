@@ -25,6 +25,11 @@
         Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 	
 #endif
+
+//FIXME remove after debugging
+
+#include <iostream>
+
 //==========================================================================
 #include "sbigcam.h"
 using namespace std;
@@ -136,18 +141,18 @@ int SbigCam::OpenDriver()
  	SetDriverHandleParams  sdhp;
 
  	// Call the driver directly.
- 	if((res = SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
+ 	if((res = ::SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
 	   	// The driver was not open, so record the driver handle.
-	   	res = SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
+	   	res = ::SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
  	}else if(res == CE_DRIVER_NOT_CLOSED){
 		// The driver is already open which we interpret as having been
 		// opened by another instance of the class so get the driver to 
 		// allocate a new handle and then record it.
 		sdhp.handle = INVALID_HANDLE_VALUE;
-		res = SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
+		res = ::SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
 		if(res == CE_NO_ERROR){
-				if((res = SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
-						res = SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
+				if((res = ::SBIGUnivDrvCommand(CC_OPEN_DRIVER, 0, 0)) == CE_NO_ERROR){
+						res = ::SBIGUnivDrvCommand(CC_GET_DRIVER_HANDLE, 0, &gdhr);
 				}
 		}
  	}
@@ -159,7 +164,7 @@ int SbigCam::CloseDriver()
 {	
 	int res;
 
-	if((res = SBIGUnivDrvCommand(CC_CLOSE_DRIVER, 0, 0)) == CE_NO_ERROR){
+	if((res = ::SBIGUnivDrvCommand(CC_CLOSE_DRIVER, 0, 0)) == CE_NO_ERROR){
  			SetDriverHandle();
 	}
  	return(res);
@@ -556,6 +561,7 @@ int SbigCam::SBIGUnivDrvCommand(PAR_COMMAND command, void *params, void *results
 			// Handle is valid so install it in the driver.
 			sdhp.handle = GetDriverHandle();
 			res = ::SBIGUnivDrvCommand(CC_SET_DRIVER_HANDLE, &sdhp, 0);
+
 			if(res == CE_FAKE_DRIVER)
 			{
 			// The user is using the dummy driver. Tell him to download the real driver
@@ -1474,6 +1480,7 @@ void SbigCam::ISNewSwitch(const char *name, ISState *states, char *names[], int 
   	IUUpdateSwitch(&m_icam_connection_sp, states, names, num);
 		// Check open/close request:
 		if(m_icam_connection_s[0].s == ISS_ON){
+			
 				// Open device:
 				if((res = OpenDevice(m_icam_device_port_tp.tp->text)) == CE_NO_ERROR){
 						// Establish link:
@@ -2116,8 +2123,8 @@ void SbigCam::UpdateExposure()
 	IDSetText(&m_icam_fits_name_tp, 0);
 
 	// Upload FITS file data:
-	if(UploadFits(fits_name) != CE_NO_ERROR) return;
-
+	if (( UploadFits(fits_name) != CE_NO_ERROR)) return;
+	
 	// Update exposure time properties:
 	m_icam_expose_time_n[0].value = GetExposeTime();
 	m_icam_expose_time_np.s = IPS_OK;
@@ -2300,55 +2307,7 @@ int SbigCam::WriteFits(	string						fits_name,
 	return(res);
 }
 #endif // INDI
-// FIXME use CFITSIO
-#if 0
-	int res = CE_NO_ERROR;
-	
-	// Open FITS file:  
-	FITS_FILE *fp;
-	if(!(fp = fits_open(fits_name.c_str(), "w"))){
-    	IDMessage(DEVICE_NAME, "Error: WriteFits - cannot open FITS file for writing.");
-    	return(CE_OS_ERROR);
-  }
-  
-  int 	bpp  = sizeof(unsigned short);   	// Bytes per Pixel 
-  int 	bpsl = bpp * width;    			// Bytes per Line 
-  
-	// Create FITS header:
-	FITS_HDU_LIST *hdu;
-  if((hdu = CreateFitsHeader(fp, width, height)) == 0){
- 			IDMessage(DEVICE_NAME, "Error: WriteFits - creating FITS header failed.");
-			return(CE_OS_ERROR);
-  }
 
-	// Write FITS header to the file:
-  if(fits_write_header(fp, hdu) < 0){
-    	IDMessage(DEVICE_NAME, "Error: WriteFits - writing to FITS header failed.");
-    	return(CE_OS_ERROR);
-  }
-  
-  	// Write 16 bit FITS data: 
-  long nbytes	= 0;
-  for(int h = 0; h < height; h++){
-    	fwrite(buffer[h], 2, width, fp->fp);
-    	nbytes += bpsl;
-  }
-  
-	// Write FITS tail:
-  if((nbytes = nbytes % FITS_RECORD_SIZE)){
-    	while(nbytes++ < FITS_RECORD_SIZE) putc(0, fp->fp);
-  }
-  
-	// Check for errors:
-	if(ferror(fp->fp)){
-    	IDMessage(DEVICE_NAME, "Error: WriteFits - write error occurred.");
-    	res = CE_OS_ERROR;
-  }
- 
-	// Close FITS file and return:
- 	fits_close(fp);      
-	return(res);
-#endif // INDI
 //==========================================================================
 #ifdef INDI
 void	SbigCam::CreateFitsHeader(fitsfile *fptr, unsigned int width, unsigned int height)
@@ -2426,142 +2385,6 @@ void	SbigCam::CreateFitsHeader(fitsfile *fptr, unsigned int width, unsigned int 
 	strncpy(frame, str.c_str(), 64);
 	fits_update_key(fptr, TSTRING, "IMAGETYP", frame, "Frame Type", &status);
 }
-
-// FIXME use CFITSIO
-#if 0
-FITS_HDU_LIST *SbigCam::CreateFitsHeader(FITS_FILE *fp, unsigned int width, 
-																				unsigned int height)
-{
- 	FITS_HDU_LIST 	*hdu_list;
- 	char	 card[FITS_CARD_SIZE];
-
-	// Add a new HDU to the list kept by file pointer: 
- 	if((hdu_list = fits_add_hdu(fp)) == 0) return(0);
-
-	// SIMPLE:
- 	hdu_list->used.simple = 1;	
-	// BITPIX:
- 	hdu_list->bitpix = 16;
-	// NAXIS:
- 	hdu_list->naxis = 2;
-	// NAXIS1:
- 	hdu_list->naxisn[0] = width;
-	// NAXIS2:
- 	hdu_list->naxisn[1] = height;
- 	// OBJECT:
-	// Should be added by caller. 
-	// INSTRUME:
- 	snprintf(card, FITS_CARD_SIZE, "INSTRUME= '%s'", 
-					m_icam_product_t[0].text);
-	fits_add_card (hdu_list, card);
-	// DETNAM:
- 	snprintf(card, FITS_CARD_SIZE, "DETNAM  = '%s'", 
-					m_icam_product_t[1].text);
-	fits_add_card (hdu_list, card);
-	// OBSERVER:
-	// Should be added by caller.
-	// DATE-OBS:
- 	snprintf(card, FITS_CARD_SIZE, "DATE-OBS= '%s' /Observation Date UTC",
-					GetStartExposureTimestamp().c_str());
-	fits_add_card (hdu_list, card);
-	// BZERO:
- 	hdu_list->used.bzero 		= 1;
- 	hdu_list->bzero 				= 32768.0;
-	// BSCALE:
- 	hdu_list->used.bscale 	= 1;
- 	hdu_list->bscale				= 1.0;
- 	// EXPTIME:
- 	snprintf(card, FITS_CARD_SIZE, "EXPTIME = %f / [s]", 
-					GetLastExposeTime());	
-	fits_add_card (hdu_list, card);	
-	// CCD-TEMP:
-	snprintf(card, FITS_CARD_SIZE, "CCD-TEMP= %f / degrees celcius",
-	 				GetLastTemperature());
-	fits_add_card (hdu_list, card);	
-	// XPIXSZ:
- 	snprintf(card, FITS_CARD_SIZE, "XPIXSZ  = %f / [um]", 
-					m_icam_pixel_size_n[0].value);	
-	fits_add_card (hdu_list, card);	
-	// YPIXSZ:
-	snprintf(card, FITS_CARD_SIZE, "YPIXSZ  = %f / [um]", 
-					m_icam_pixel_size_n[1].value);	
-	fits_add_card (hdu_list, card);	
-	// XBINNING & YBINNING:	
-	int binning;
-	if(GetSelectedCcdBinningMode(binning) == CE_NO_ERROR){
-		switch(binning){
-			case 	CCD_BIN_1x1_I:
-						binning = 1;
-						break;
-			case 	CCD_BIN_2x2_I:
- 			case 	CCD_BIN_2x2_E:
-						binning = 2;
-						break;		
-			case 	CCD_BIN_3x3_I:
-			case 	CCD_BIN_3x3_E:
-						binning = 3;
-						break;	
-			case 	CCD_BIN_9x9_I:
-						binning = 9;
-						break;
-			default:
-						binning = 0;
-						break;
-		}
-		snprintf(card, FITS_CARD_SIZE, "XBINNING= %d / 1=1x1, 2=2x2, etc.",
-						binning);	
-		fits_add_card (hdu_list, card);	
-		snprintf(card, FITS_CARD_SIZE, "YBINNING= %d / 1=1x1, 2=2x2, etc.",
-						binning);	
-		fits_add_card (hdu_list, card);	
-	}
-	#ifdef USE_CCD_FRAME_STANDARD_PROPERTY		
-	// XORGSUBF:
-	snprintf(card, FITS_CARD_SIZE, "XORGSUBF= %d", 
-					(int)m_icam_ccd_frame_n[0].value);
-	fits_add_card (hdu_list, card);		
-	// YORGSUBF:
-	snprintf(card, FITS_CARD_SIZE, "YORGSUBF= %d", 
-					(int)m_icam_ccd_frame_n[1].value);
-	fits_add_card (hdu_list, card);	
-	#else
-	// XORGSUBF:
-	snprintf(card, FITS_CARD_SIZE, "XORGSUBF= %d", 
-					(int)m_icam_frame_x_n[0].value);
-	fits_add_card (hdu_list, card);		
-	// YORGSUBF:
-	snprintf(card, FITS_CARD_SIZE, "YORGSUBF= %d", 
-					(int)m_icam_frame_y_n[0].value);
-	fits_add_card (hdu_list, card);	
-	#endif
-
-	// EGAIN:
-
-	// FOCALLEN:
-
-	// IMAGETYP:
-	string str;
-	GetSelectedCcdFrameType(str);
-	if(!strcmp(str.c_str(), 		CCD_FRAME_LIGHT_NAME_N)){
-			str = "Light Frame";
-	}else if(!strcmp(str.c_str(),	CCD_FRAME_DARK_NAME_N)){
-			str = "Dark Frame";
-	}else if(!strcmp(str.c_str(), CCD_FRAME_FLAT_NAME_N)){
-			str = "Flat Field";
-	}else if(!strcmp(str.c_str(),	CCD_FRAME_BIAS_NAME_N)){
-			str = "Bias Frame";
-	}else{
-			str = "Unknown";
-	}
- 	snprintf(card, FITS_CARD_SIZE, "IMAGETYP= '%s' / Frame type", 
-					str.c_str());
-	fits_add_card (hdu_list, card);
-
- 	return (hdu_list);
-}
-
-// FIXME remove this endif
-#endif
 
 #endif // INDI
 //==========================================================================

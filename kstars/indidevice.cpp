@@ -444,7 +444,6 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 */
 int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 {
-
     XMLEle *ep;
     INDI_E *blobEL;
 
@@ -475,11 +474,11 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 */
 int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
 {
-    XMLAtt *ap;
+    XMLAtt *ap = NULL;
     int blobSize=0, r=0, dataType=0;
     uLongf dataSize=0;
     QString dataFormat;
-    char *baseBuffer;
+    char *baseBuffer=NULL;
     unsigned char *blobBuffer(NULL);
     bool iscomp(false);
 
@@ -502,6 +501,14 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
     dataFormat = QString(valuXMLAtt(ap));
 
     baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
+
+    if (baseBuffer == NULL)
+    {
+	errmsg = QString("Unable to allocate memory for FITS base buffer");
+	kDebug() << errmsg;
+	return (-1);
+    }
+ 
     blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
     blobBuffer = (unsigned char *) baseBuffer;
 
@@ -534,6 +541,14 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
     {
 
         dataBuffer = (unsigned char *) realloc (dataBuffer,  (dataSize * sizeof(unsigned char)));
+	if (baseBuffer == NULL)
+        {
+		free (blobBuffer);
+		errmsg = QString("Unable to allocate memory for FITS data buffer");
+		kDebug() << errmsg;
+		return (-1);
+    	}
+
         r = uncompress(dataBuffer, &dataSize, blobBuffer, (uLong) blobSize);
         if (r != Z_OK)
         {
