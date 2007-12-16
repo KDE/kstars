@@ -80,8 +80,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     SkyMap *map = ks->map();
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
-    QPolygonF groundPolyF;
-    QPolygon groundPoly;
+    QPolygonF groundPoly;
     SkyPoint *pAnchor(0), *pAnchor2(0);
 
     static const QString horizonLabel = i18n("Horizon");
@@ -108,16 +107,52 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     bool allGround(true);
     bool allSky(true);
 
+    //Special case for equirectangular mode and Alt/Az coordinates
+    if ( Options::projection() == SkyMap::Equirectangular && Options::useAltAz() == true ) {
+        SkyPoint belowFocus;
+        belowFocus.setAz( map->focus()->az()->Degrees() );
+        belowFocus.setAlt( 0.0 );
+
+        QPointF obf = map->toScreen( &belowFocus, false );
+
+        //If the horizon is off the bottom edge of the screen, 
+        //we can return immediately
+        if ( obf.y() > Height ) return;
+
+        //We can also return if the horizon is off the top edge, 
+        //as long as the ground poly is not being drawn
+        if ( obf.y() < 0. ) {
+            if ( Options::showGround() == false ) return;
+            obf.setY( -10. );
+        }
+
+        //Construct the ground polygon, which is a simple rectangle in this case
+        groundPoly << QPointF( -10., obf.y() ) << QPointF( Width + 10., obf.y() )
+            << QPointF( Width + 10., Height + 10. )
+            << QPointF( -10., Height + 10. );
+
+        psky.drawPolygon( groundPoly );
+
+        //Draw the Horizon Label
+        if ( Options::showGround() && Options::useAltAz() )
+            psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "CompassColor" ) ) );
+        else
+            psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+
+        QPointF pLabel( Width-30., obf.y() );
+        SkyLabeler::Instance()->drawGuideLabel( psky, pLabel, horizonLabel, 0.0 );
+
+        drawCompassLabels( ks, psky );
+        return;
+    }
+
     //Add points on the left that may be slightly West of North
     if ( az1 < 0. ) {
         az1 += 360.;
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() > az1 ) {
                 o = map->toScreen( p, false );
-                if ( Options::useAntialias() )
-                    groundPolyF << o;
-                else
-                    groundPoly << QPoint(int(o.x()),int(o.y()));
+                groundPoly << o;
 
                 //Set the anchor point if this point is onscreen
                 if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
@@ -134,10 +169,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     foreach ( SkyPoint *p, pointList() ) {
         if ( p->az()->Degrees() > az1 && p->az()->Degrees() < az2 ) {
             o = map->toScreen( p, false );
-            if ( Options::useAntialias() )
-                groundPolyF << o;
-            else
-                groundPoly << QPoint(int(o.x()),int(o.y()));
+            groundPoly << o;
 
             //Set the anchor point if this point is onscreen
             if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
@@ -155,10 +187,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() < az2 ) {
                 o = map->toScreen( p, false );
-                if ( Options::useAntialias() )
-                    groundPolyF << o;
-                else
-                    groundPoly << QPoint(int(o.x()),int(o.y()));
+                groundPoly << o;
 
                 //Set the anchor point if this point is onscreen
                 if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
@@ -179,45 +208,31 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
         //No need for compass labels or "Horizon" label
         if ( Options::showGround() ) {
             groundPoly.clear();
-            groundPoly << QPoint( -10, -10 )
-            << QPoint( int(Width) + 10, -10 )
-            << QPoint( int(Width) + 10, int(Height) + 10 )
-            << QPoint( -10, int(Height) + 10 );
+            groundPoly << QPointF( -10., -10. )
+            << QPointF( Width + 10., -10. )
+            << QPointF( Width + 10., Height + 10. )
+            << QPointF( -10., Height + 10. );
             psky.drawPolygon( groundPoly );
         }
         return;
     }
 
-    //groundPoly[F] now contains QPoint[F]'s of the screen coordinates of points
+    //groundPoly now contains QPointF's of the screen coordinates of points
     //along the "front half" of the Horizon, in order from left to right.
     //If we are using Equatorial coords, then all we need to do is connect
     //these points.
     //Do not connect points if they are widely separated at low zoom (this
     //avoids connected horizon lines to invalid offscreen points)
     if ( ! Options::useAltAz() ) {
-        if ( Options::useAntialias() ) {
-            for ( int i=1; i < groundPolyF.size(); ++i ) {
-                if ( Options::zoomFactor() > 5000 )
-                    psky.drawLine( groundPolyF.at(i-1), groundPolyF.at(i) );
-                else {
-                    float dx = (groundPolyF.at(i-1).x() - groundPolyF.at(i).x());
-                    float dy = (groundPolyF.at(i-1).y() - groundPolyF.at(i).y());
-                    float r2 = dx*dx + dy*dy;
-                    if ( r2 < 40000. )  //separated by less than 200 pixels?
-                        psky.drawLine( groundPolyF.at(i-1), groundPolyF.at(i) );
-                }
-            }
-        } else {
-            for ( int i=1; i < groundPoly.size(); ++i ) {
-                if ( Options::zoomFactor() > 5000 )
+        for ( int i=1; i < groundPoly.size(); ++i ) {
+            if ( Options::zoomFactor() > 5000 )
+                psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
+            else {
+                float dx = (groundPoly.at(i-1).x() - groundPoly.at(i).x());
+                float dy = (groundPoly.at(i-1).y() - groundPoly.at(i).y());
+                float r2 = dx*dx + dy*dy;
+                if ( r2 < 40000. )  //separated by less than 200 pixels?
                     psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
-                else {
-                    float dx = (groundPoly.at(i-1).x() - groundPoly.at(i).x());
-                    float dy = (groundPoly.at(i-1).y() - groundPoly.at(i).y());
-                    float r2 = dx*dx + dy*dy;
-                    if ( r2 < 40000. )  //separated by less than 200 pixels?
-                        psky.drawLine( groundPoly.at(i-1), groundPoly.at(i) );
-                }
             }
         }
 
@@ -234,17 +249,10 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
         //(In Horizontal coordinates, t1 and t2 are always 360 and 180, respectively).
     } else { //Horizontal coords
         if ( daz < 75.0 ) { //can complete polygon by simply adding offscreen points
-            if ( Options::useAntialias() ) {
-                groundPolyF << QPointF( Width + 10., groundPolyF.last().y() )
+            groundPoly << QPointF( Width + 10., groundPoly.last().y() )
                 << QPointF( Width + 10., Height + 10. )
                 << QPointF( -10., Height + 10. )
-                << QPointF( -10., groundPolyF.first().y() );
-            } else {
-                groundPoly << QPoint( int(Width) + 10, groundPoly.last().y() )
-                << QPoint( int(Width) + 10, int(Height) + 10 )
-                << QPoint( -10, int(Height) + 10 )
-                << QPoint( -10, groundPoly.first().y() );
-            }
+                << QPointF( -10., groundPoly.first().y() );
         } else { //complete polygon along bottom of sky circle
             double r0 = 2.0*map->scale()*sin(0.25*dms::PI);
             double t1 = 360.;
@@ -269,18 +277,12 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
                 float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
                 float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
 
-                if ( Options::useAntialias() )
-                    groundPolyF << QPointF( xx, yy );
-                else
-                    groundPoly << QPoint( int(xx), int(yy) );
+                groundPoly << QPoint( int(xx), int(yy) );
             }
         }
 
         //Finally, draw the ground Polygon.
-        if ( Options::useAntialias() )
-            psky.drawPolygon( groundPolyF );
-        else
-            psky.drawPolygon( groundPoly );
+        psky.drawPolygon( groundPoly );
     }
 
     //Set color for compass labels and "Horizon" label.
@@ -367,7 +369,6 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
 
     drawCompassLabels( ks, psky );
 }
-
 
 void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky ) {
     SkyPoint c;
