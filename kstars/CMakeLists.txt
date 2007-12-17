@@ -244,11 +244,11 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
 )
 
 set(kstars_icons
-    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/16x16/apps/kstars.png
-    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/32x32/apps/kstars.png
-    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/48x48/apps/kstars.png
-    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/64x64/apps/kstars.png
-    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/128x128/apps/kstars.png
+    ${KDE4_ICON_DIR}/oxygen/16x16/apps/kstars.png
+    ${KDE4_ICON_DIR}/oxygen/32x32/apps/kstars.png
+    ${KDE4_ICON_DIR}/oxygen/48x48/apps/kstars.png
+    ${KDE4_ICON_DIR}/oxygen/64x64/apps/kstars.png
+    ${KDE4_ICON_DIR}/oxygen/128x128/apps/kstars.png
 )
 kde4_add_win32_app_icon(kstars_SRCS ${kstars_icons})
 kde4_add_executable(kstars ${kstars_SRCS})
