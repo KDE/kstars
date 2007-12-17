@@ -159,7 +159,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
                     pAnchor = p;
 
                 if ( o.y() > 0. ) allGround = false;
-                if ( o.y() < Height && o.y() > 0. ) allSky = false;
+                if ( o.y() < Height ) allSky = false;
             }
         }
         az1 = 0.0;
@@ -176,7 +176,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
                 pAnchor = p;
 
             if ( o.y() > 0. ) allGround = false;
-            if ( o.y() < Height && o.y() > 0. ) allSky = false;
+            if ( o.y() < Height ) allSky = false;
         } else if ( p->az()->Degrees() > az2 )
             break;
     }
@@ -194,7 +194,7 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
                     pAnchor = p;
 
                 if ( o.y() > 0. ) allGround = false;
-                if ( o.y() < Height && o.y() > 0. ) allSky = false;
+                if ( o.y() < Height ) allSky = false;
             } else
                 break;
         }

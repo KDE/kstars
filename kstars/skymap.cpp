@@ -1458,14 +1458,9 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     double dX, dY;
     bool useAltAz = Options::useAltAz();
 
-    //Skip objects below the horizon if:
-    // + using Horizontal coords,
-    // + the ground is drawn,
-    // + and either of the following is true:
-    //   - focus is above the horizon
-    //   - field of view is larger than 50 degrees
-    if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt()->Degrees() < -2.0
-            && ( focus()->alt()->Degrees() > 0. || fov() > 50. ) ) return false;
+    //Skip objects below the horizon if using Horizontal coords,
+    //and the ground is drawn
+    if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt()->Degrees() < -1.0 ) return false;
 
     if ( useAltAz ) {
         dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
