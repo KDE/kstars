@@ -60,16 +60,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     double s(0.0);
     bool checkValue( false ), badEntry( false ), negative( false );
     QString entry = str.trimmed();
-
-    //remove any instances of unit characters.
-    //h, d, m, s, ', ", or the degree symbol (ASCII 176)
-    entry.replace( QRegExp("h"), QString() );
-    entry.replace( QRegExp("d"), QString() );
-    entry.replace( QRegExp("m"), QString() );
-    entry.replace( QRegExp("s"), QString() );
-    entry.replace( QChar(176), QString() );
-    entry.replace( QRegExp("\'"), QString() );
-    entry.replace( QRegExp("\""), QString() );
+    entry.remove( QRegExp("[hdms'\"° \t\n\r\v\f]") );
 
     //Account for localized decimal-point settings
     //QString::toDouble() requires that the decimal symbol is "."
