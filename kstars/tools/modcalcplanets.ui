@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>549</width>
-    <height>535</height>
+    <height>612</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -28,7 +28,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="interact" >
       <attribute name="title" >
