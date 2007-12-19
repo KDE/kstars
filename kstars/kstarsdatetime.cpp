@@ -44,7 +44,10 @@ KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) : KDateTime( kdt ) {
 }
 
 KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) : KDateTime( qdt, KDateTime::Spec::UTC() ) {
-    KStarsDateTime( KDateTime( qdt, KDateTime::Spec::UTC() ) );
+    QTime _t = qdt.time();
+    QDate _d = qdt.date();
+    long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
+    DJD = (long double)( _d.toJulianDay() ) + jdFrac;
 }
 
 KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t )
@@ -118,6 +121,12 @@ void KStarsDateTime::setDate( const QDate &_d ) {
 
     //set the integer portion of the JD and add back the JD fraction:
     setDJD( (long double)_d.toJulianDay() + jdFrac );
+}
+
+KStarsDateTime KStarsDateTime::addSecs( double s ) const { 
+    long double ds = (long double)s/86400.;
+    KStarsDateTime kdt( djd() + ds );
+    return kdt;
 }
 
 void KStarsDateTime::setTime( const QTime &_t ) {
