@@ -315,7 +315,7 @@ void KStars::initActions() {
     initFOV();
 
     ka = actionCollection()->addAction( "geolocation" );
-    ka->setIcon( KIcon( "kstars_geo" ) );
+    ka->setIcon( KIcon( "world" ) );
     ka->setText( i18nc( "Location on Earth", "&Geographic..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_G  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGeoLocator() ) );
@@ -323,12 +323,13 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
 
     ka = actionCollection()->addAction( "startwizard" );
-    ka->setIcon( KIcon( "wizard" ) );
+    ka->setIcon( KIcon( "plasmagik" ) );
     ka->setText( i18n( "Startup Wizard..." ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotWizard() ) );
 
     //Tools Menu:
     ka = actionCollection()->addAction( "astrocalculator" );
+    ka->setIcon( KIcon( "kcalc" ) );
     ka->setText( i18n( "Calculator...") );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_C ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotCalculator() ) );
