@@ -205,9 +205,6 @@ int V4L2_Base::read_frame(char *errmsg)
                          bayer2rgb24(rgb24_buffer, ((unsigned char *) buffers[buf.index].start), fmt.fmt.pix.width, fmt.fmt.pix.height);
                          break;
                 }
-
-		if (-1 == xioctl (fd, VIDIOC_QBUF, &buf))
-			return errno_exit ("VIDIOC_QBUF", errmsg);
                   
                 /*if (dropFrame)
                 {
@@ -218,6 +215,9 @@ int V4L2_Base::read_frame(char *errmsg)
                 /* Call provided callback function if any */
                  if (callback)
                 	(*callback)(uptr);
+
+		if (-1 == xioctl (fd, VIDIOC_QBUF, &buf))
+			return errno_exit ("VIDIOC_QBUF", errmsg);
 
 		break;
 
@@ -413,6 +413,7 @@ int V4L2_Base::init_mmap(char *errmsg)
         CLEAR (req);
 
         req.count               = 4;
+        //req.count               = 1;
         req.type                = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         req.memory              = V4L2_MEMORY_MMAP;
 

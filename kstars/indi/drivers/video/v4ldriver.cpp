@@ -403,16 +403,17 @@ void V4L_Driver::newFrame(void *p)
 void V4L_Driver::updateFrame()
 {
   char errmsg[ERRMSGSIZ];
-  static int dropLarge = 5;
+  static const unsigned int FRAME_DROP = 2;
+  static int dropLarge = FRAME_DROP;
 
   if (StreamSP.s == IPS_BUSY)
   {
-      frameCount++;
-
+	// Ad hoc way of dropping frames
+	frameCount++;
         dropLarge--;
         if (dropLarge == 0)
         {
-          dropLarge = (int) (((ImageTypeS[0].s == ISS_ON) ? 5.0 : 15.0) * (FrameN[2].value / 160.0));
+          dropLarge = (int) (((ImageTypeS[0].s == ISS_ON) ? FRAME_DROP : FRAME_DROP*3) * (FrameN[2].value / 160.0));
 	  updateStream();
           return;
         }
