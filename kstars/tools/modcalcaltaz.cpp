@@ -36,18 +36,20 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
         : QFrame(parentSplit), horInputCoords(false) {
     setupUi(this);
 
-    //Initialize Date/Time and Location data
     KStars *ks = ((KStars*) topLevelWidget()->parent());
-    DateTime->setDateTime( ks->data()->lt().dateTime() );
+    RA->setDegType(false);
+
+    //Initialize Date/Time and Location data
     geoPlace = ks->geo();
     LocationButton->setText( geoPlace->fullName() );
 
-    RA->setDegType(false);
+    //Make sure slotDateTime() gets called, so that LST will be set
+    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
+    DateTime->setDateTime( ks->data()->lt().dateTime() );
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
-    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
 
     connect(RA,  SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
@@ -104,7 +106,8 @@ void modCalcAltAz::slotObject()
 
 void modCalcAltAz::slotDateTimeChanged(const QDateTime &dt)
 {
-    LST = geoPlace->GSTtoLST( ((KStarsDateTime)dt).gst() );
+    KStarsDateTime ut = geoPlace->LTtoUT( KStarsDateTime( dt ) );
+    LST = geoPlace->GSTtoLST( ut.gst() );
 }
 
 void modCalcAltAz::slotCompute()
