@@ -60,11 +60,14 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     double s(0.0);
     bool checkValue( false ), badEntry( false ), negative( false );
     QString entry = str.trimmed();
-    entry.remove( QRegExp("[hdms'\"° \t\n\r\v\f]") );
+    entry.remove( QRegExp("[hdms'\"°]") );
 
     //Account for localized decimal-point settings
     //QString::toDouble() requires that the decimal symbol is "."
     entry.replace( KGlobal::locale()->decimalSymbol(), "." );
+
+    //DEBUG
+    kDebug() << entry << endl;
 
     //empty entry returns false
     if ( entry.isEmpty() ) {
