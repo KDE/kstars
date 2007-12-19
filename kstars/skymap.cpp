@@ -181,15 +181,7 @@ void SkyMap::showFocusCoords( bool coordsOnly ) {
         infoBoxes()->focusObjChanged(oname);
     }
 
-    if ( Options::useAltAz() && Options::useRefraction() ) {
-        SkyPoint corrFocus( *(focus()) );
-        corrFocus.setAlt( refract( focus()->alt(), false ) );
-        corrFocus.HorizontalToEquatorial( data->LST, data->geo()->lat() );
-        corrFocus.setAlt( refract( focus()->alt(), true ) );
-        infoBoxes()->focusCoordChanged( &corrFocus );
-    } else {
-        infoBoxes()->focusCoordChanged( focus() );
-    }
+    infoBoxes()->focusCoordChanged( focus() );
 }
 
 void SkyMap::slotTransientLabel( void ) {
