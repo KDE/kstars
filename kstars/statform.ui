@@ -13,10 +13,22 @@
    <string>Statistics</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>11</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>11</number>
+   </property>
+   <property name="rightMargin" >
+    <number>11</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>11</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="6" column="0" >
@@ -27,7 +39,11 @@
     </widget>
    </item>
    <item row="2" column="1" >
-    <widget class="KLineEdit" name="bitpixOUT" />
+    <widget class="KLineEdit" name="bitpixOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0" >
     <widget class="QLabel" name="maxLabel" >
@@ -37,7 +53,11 @@
     </widget>
    </item>
    <item row="5" column="1" >
-    <widget class="KLineEdit" name="meanOUT" />
+    <widget class="KLineEdit" name="meanOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0" >
     <widget class="QLabel" name="bitPixLabel" >
@@ -47,7 +67,11 @@
     </widget>
    </item>
    <item row="4" column="1" >
-    <widget class="KLineEdit" name="minOUT" />
+    <widget class="KLineEdit" name="minOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" >
     <widget class="QLabel" name="heightLabel" >
@@ -57,7 +81,11 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="KLineEdit" name="widthOUT" />
+    <widget class="KLineEdit" name="widthOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="5" column="0" >
     <widget class="QLabel" name="meanLabel" >
@@ -67,7 +95,11 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="KLineEdit" name="heightOUT" />
+    <widget class="KLineEdit" name="heightOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0" >
     <widget class="QLabel" name="widthLabel" >
@@ -77,7 +109,11 @@
     </widget>
    </item>
    <item row="3" column="1" >
-    <widget class="KLineEdit" name="maxOUT" />
+    <widget class="KLineEdit" name="maxOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0" >
     <widget class="QLabel" name="minLabel" >
@@ -87,7 +123,11 @@
     </widget>
    </item>
    <item row="6" column="1" >
-    <widget class="KLineEdit" name="stddevOUT" />
+    <widget class="KLineEdit" name="stddevOUT" >
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -96,7 +136,7 @@
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>QWidget</extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>
   </customwidget>

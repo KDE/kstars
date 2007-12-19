@@ -87,7 +87,6 @@ public:
     QIcon stopPix;
     QIcon connected;
     QIcon disconnected;
-    QIcon establishConnection;
     QIcon localMode;
     QIcon serverMode;
 
@@ -137,6 +136,7 @@ public:
 
 public slots:
     void updateMenuActions();
+    void resizeDeviceColumn();
     void addINDIHost();
     void modifyINDIHost();
     void removeINDIHost();

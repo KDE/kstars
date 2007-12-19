@@ -415,16 +415,19 @@ void FITSViewer::fitsHeader()
         properties = record.split(QRegExp("[=/]"));
 
         tempItem = new QTableWidgetItem(properties[0].simplified());
+	tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(i, 0, tempItem);
 
         if (properties.size() > 1)
         {
             tempItem = new QTableWidgetItem(properties[1].simplified());
+	    tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             header.tableWidget->setItem(i, 1, tempItem);
         }
         if (properties.size() > 2)
         {
             tempItem = new QTableWidgetItem(properties[2].simplified());
+	    tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             header.tableWidget->setItem(i, 2, tempItem);
         }
 

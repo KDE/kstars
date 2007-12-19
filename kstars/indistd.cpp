@@ -142,25 +142,30 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     // Save file to disk
     else
     {
-         QString ts = QDateTime::currentDateTime().toString("YYYY-MM-ddThh:mm:ss");
+         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
         if (dataType == DATA_FITS)
         {
-            if ( batchMode && !ISOMode)
-			filename += seqPrefix + QString("_%1.fits").arg(seqCount , 2);
+            if ( batchMode)
+	    {
+		if (!ISOMode)
+			filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.fits").arg(seqCount , 2);
+		else
+			filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(seqCount, 2).arg(ts);
+	    }
                 //snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
-            else if (!batchMode && !Options::indiFITSDisplay())
+            else /*if (!Options::indiFITSDisplay())*/
             {
 		filename += QString("file_") + ts + ".fits";
                 //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
                 //snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
-            }
+            }/*
             else
             {
 		filename += QString("%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
                 //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
                 //snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
-            }
+            }*/
 
             seqCount++;
         }

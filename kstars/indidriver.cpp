@@ -32,13 +32,13 @@
 #include <KMessageBox>
 #include <KPushButton>
 #include <KLineEdit>
+#include <KProcess>
+#include <KAction>
+#include <KActionCollection>
+#include <KIconLoader>
 
 #include <kstandarddirs.h>
-#include <kprocess.h>
-#include <kaction.h>
 #include <k3serversocket.h>
-#include <kactioncollection.h>
-#include <kiconloader.h>
 
 #include "indimenu.h"
 #include "ui_indihostconf.h"
@@ -67,12 +67,11 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
     runningPix = KIcon( "system-run" );
     stopPix    = KIcon( "dialog-cancel" );
-    localMode  = KIcon( "system" );
+    localMode  = KIcon( "cpu" );
     serverMode = KIcon( "network" );
 
     connected           = KIcon( "connection-established" );
-    disconnected        = KIcon( "connect_no" );
-    establishConnection = KIcon( "connect_creating" );
+    disconnected        = KIcon( "connect-no" );
 
 }
 
@@ -115,6 +114,7 @@ INDIDriver::INDIDriver( KStars *_ks )
     QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
     QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalButtons()));
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientButtons()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
     readXMLDriver();
 }
@@ -385,6 +385,10 @@ void INDIDriver::newCCDDiscovered()
 
 }
 
+void INDIDriver::resizeDeviceColumn()
+{
+  ui->localTreeWidget->resizeColumnToContents(0);
+}
 
 void INDIDriver::updateMenuActions()
 {
