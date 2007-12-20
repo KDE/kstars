@@ -138,6 +138,9 @@ int main(int argc, char *argv[])
         map->resize( w, h );
         QPixmap sky( w, h );
 
+        dat->setFullTimeUpdate();
+        dat->updateTime(dat->geo(), map );
+
         map->setDestination( new SkyPoint( Options::focusRA(), Options::focusDec() ) );
         map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
         map->setFocus( map->destination() );
@@ -152,9 +155,6 @@ int main(int argc, char *argv[])
                 kWarning() << i18n( "Could not execute script." ) ;
             }
         }
-
-        dat->setFullTimeUpdate();
-        dat->updateTime(dat->geo(), map );
 
         qApp->processEvents();
         map->setMapGeometry();

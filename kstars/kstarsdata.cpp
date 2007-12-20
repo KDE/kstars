@@ -973,22 +973,11 @@ bool KStarsData::readINDIHosts(void)
     return true;
 }
 
-//FIXME: There's way too much code duplication here!
-//We should just execute the script through K3Process.
-//One complication is that we want to ignore some script commands
-//that don't make sense for dump mode.  However, it would be better
-//for the DCOP fcns themselves to detect whether a SkyMap object exists,
-//and act accordingly.
-//
-//"pseudo-execute" a shell script, ignoring all interactive aspects.  Just use
-//the portions of the script that change the state of the program.  This is only
-//used for image-dump mode, where the GUI is not running.  So, some things (such as
-//waitForKey()) don't make sense and should be ignored.
-//also, even functions that do make sense in this context have aspects that should
-//be modified or ignored.  For example, we don't need to call slotCenter() on recentering
-//commands, just setDestination().  (sltoCenter() does additional things that we do not need).
-
-//FIXME JM: This needs to be ported to DBus
+//There's a lot of code duplication here, but it's not avoidable because 
+//this function is only called from main.cpp when the user is using 
+//"dump" mode to produce an image from the command line.  In this mode, 
+//there is no KStars object, so none of the DBus functions can be called 
+//directly.
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     int cmdCount(0);
 
@@ -1001,11 +990,35 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     QTextStream istream(&f);
     while ( ! istream.atEnd() ) {
         QString line = istream.readLine();
+        line.replace( "string:", "" );
+        line.replace( "int:", "" );
+        line.replace( "double:", "" );
+        line.replace( "bool:", "");
 
-        //found a dcop line
-        if ( line.startsWith(QLatin1String("dcop")) ) {
-            line = line.mid( 20 );  //strip away leading characters
-            QStringList fn = line.split( ' ' );
+        //find a dbus line and extract the function name and its arguments
+        //The function name starts after the last occurance of "org.kde.kstars."
+        //or perhaps "org.kde.kstars.SimClock.".
+        if ( line.startsWith(QString("dbus-send")) ) {
+            QString funcprefix = "org.kde.kstars.SimClock.";
+            int i = line.lastIndexOf( funcprefix );
+            if ( i >= 0 ) {
+                i += funcprefix.length();
+            } else {
+                funcprefix = "org.kde.kstars.";
+                i = line.lastIndexOf( funcprefix );
+                if ( i >= 0 ) {
+                    i += funcprefix.length();
+                }
+            }
+            if ( i < 0 ) {
+                kWarning() << "Could not parse line: " << line;
+                return false;
+            }
+
+            QStringList fn = line.mid(i).split( ' ' );
+
+            //DEBUG
+            kDebug() << fn << endl;
 
             if ( fn[0] == "lookTowards" && fn.size() >= 2 ) {
                 double az(-1.0);
@@ -1020,20 +1033,29 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( arg == "nw" || arg == "northwest" ) az = 335.0;
                 if ( az >= 0.0 ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    cmdCount++;
+                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
                     map->setDestination( map->focus() );
+                    cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    cmdCount++;
+                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
                     map->setDestination( map->focus() );
+                    cmdCount++;
                 }
 
-                //try a named object.  name is everything after the first word (which is 'lookTowards')
+                //try a named object.  The name is everything after fn[0],
+                //concatenated with spaces.
                 fn.removeAll( fn.first() );
-                SkyObject *target = objectNamed( fn.join( " " ) );
-                if ( target ) { map->setFocus( target ); cmdCount++; }
+                QString objname = fn.join( " " );
+                SkyObject *target = objectNamed( objname );
+                if ( target ) { 
+                    map->setFocus( target );
+                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
+                    map->setDestination( map->focus() );
+                    cmdCount++;
+                }
 
             } else if ( fn[0] == "setRaDec" && fn.size() == 3 ) {
                 bool ok( false );
@@ -1043,6 +1065,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
                 if ( ok ) {
                     map->setFocus( r, d );
+                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
                     cmdCount++;
                 }
 
@@ -1054,6 +1077,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = az.setFromString( fn[2] );
                 if ( ok ) {
                     map->setFocusAltAz( alt, az );
+                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
                     cmdCount++;
                 }
 

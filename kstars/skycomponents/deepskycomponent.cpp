@@ -355,8 +355,6 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //if ( obj->drawID == drawID ) continue;  // only draw each line once
             //obj->drawID = drawID;
 
-            if ( ! map->checkVisibility( obj ) ) continue;
-
             if ( obj->updateID != updateID ) {
                 obj->updateID = updateID;
                 if ( obj->updateNumID != updateNumID) {
@@ -364,6 +362,8 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                 }
                 obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             }
+
+            if ( ! map->checkVisibility( obj ) ) continue;
 
             float mag = obj->mag();
             float size = map->scale() * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
@@ -373,8 +373,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
                     (mag > 90.0 || mag < (float)maglim) ) {
+
                 QPointF o = map->toScreen( obj );
                 if ( ! map->onScreen( o ) ) continue;
+
                 double PositionAngle = map->findPA( obj, o.x(), o.y() );
 
                 //Draw Image
