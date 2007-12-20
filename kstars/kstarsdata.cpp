@@ -1081,6 +1081,37 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                     cmdCount++;
                 }
 
+            } else if ( fn[0] == "loadColorScheme" ) {
+                fn.removeAll( fn.first() );
+                QString csName = fn.join(" ").replace('\"', "");
+                kDebug() << "Color scheme: " << csName << endl;
+
+                QString filename = csName.toLower().trimmed();
+                bool ok( false );
+
+                //Parse default names which don't follow the regular file-naming scheme
+                if ( csName == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
+                if ( csName == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
+                if ( csName == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+
+                //Try the filename if it ends with ".colors"
+                if ( filename.endsWith( ".colors" ) )
+                    ok = colorScheme()->load( filename );
+
+                //If that didn't work, try assuming that 'name' is the color scheme name
+                //convert it to a filename exactly as ColorScheme::save() does
+                if ( ! ok ) {
+                    if ( !filename.isEmpty() ) {
+                        for( int i=0; i<filename.length(); ++i)
+                            if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
+            
+                        filename = filename.append( ".colors" );
+                        ok = colorScheme()->load( filename );
+                    }
+            
+                    if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", csName, filename ) << endl;
+                }
+
             } else if ( fn[0] == "zoom" && fn.size() == 2 ) {
                 bool ok(false);
                 double z = fn[1].toDouble(&ok);

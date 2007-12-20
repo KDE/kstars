@@ -348,33 +348,9 @@ void KStars::setColor( const QString &name, const QString &value ) {
     }
 }
 
-void KStars::loadColorScheme( const QString &_name ) {
-    QString name( _name );
-    QString filename = name.toLower().trimmed();
-    bool ok( false );
-
-    //Parse default names which don't follow the regular file-naming scheme
-    if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
-    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
-    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
-
-    //Try the filename if it ends with ".colors"
-    if ( filename.endsWith( ".colors" ) )
-        ok = data()->colorScheme()->load( filename );
-
-    //If that didn't work, try assuming that 'name' is the color scheme name
-    //convert it to a filename exactly as ColorScheme::save() does
-    if ( ! ok ) {
-        if ( !filename.isEmpty() ) {
-            for( int i=0; i<filename.length(); ++i)
-                if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
-
-            filename = filename.append( ".colors" );
-            ok = data()->colorScheme()->load( filename );
-        }
-
-        if ( ! ok ) kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
-    }
+void KStars::loadColorScheme( const QString &name ) {
+    bool ok = data()->colorScheme()->load( name );
+    QString filename = data()->colorScheme()->fileName();
 
     if ( ok ) {
         //set the application colors for the Night Vision scheme

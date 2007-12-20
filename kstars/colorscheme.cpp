@@ -180,19 +180,42 @@ void ColorScheme::setColor( const QString &key, const QString &color ) {
     Palette.insert( key, color );
 }
 
-bool ColorScheme::load( const QString &filename ) {
+bool ColorScheme::load( const QString &name ) {
+    QString filename = name.toLower().trimmed();
     QFile file;
     int inew(0),iold(0);
+    bool ok( false );
 
-    if ( !KSUtils::openDataFile( file, filename ) )
-        return false;
+    //Parse default names which don't follow the regular file-naming scheme
+    if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
+    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
+    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
 
+    //Try the filename if it ends with ".colors"
+    if ( filename.endsWith( ".colors" ) )
+        ok = KSUtils::openDataFile( file, filename );
+
+    //If that didn't work, try assuming that 'name' is the color scheme name
+    //convert it to a filename exactly as ColorScheme::save() does
+    if ( ! ok ) {
+        if ( !filename.isEmpty() ) {
+            filename.replace( " ", "-" ).append( ".colors" );
+            ok = KSUtils::openDataFile( file, filename );
+        }
+
+        if ( ! ok ) {
+            kDebug() << i18n( "Unable to load color scheme named %1. Also tried %2.", name, filename );
+            return false;
+        }
+    }
+
+    //If we reach here, the file should have been successfully opened
     QTextStream stream( &file );
     QString line;
 
     //first line is the star-color mode and star color intensity
     line = stream.readLine();
-    bool ok(false);
+    ok = false;
     int newmode = line.left(1).toInt( &ok );
     if ( ok ) setStarColorMode( newmode );
     if ( line.contains(':') ) {
