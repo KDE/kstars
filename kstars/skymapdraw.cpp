@@ -131,11 +131,11 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
         p.begin( pm );
         p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
-        showFocusCoords( true );
-        drawBoxes( p );
-
         if ( Options::showHighlightedCBound() )
             drawHighlightConstellation( p );
+
+        showFocusCoords( true );
+        drawBoxes( p );
 
         //draw FOV symbol
         ks->data()->fovSymbol.draw( p, (float)(Options::fOVSize() * Options::zoomFactor()/57.3/60.0) );
