@@ -20,20 +20,10 @@
 
 #include "typedef.h"
 
-/**
-	*@class DeepSkyComponent
-	*Represents the deep sky objects separated by catalogs. 
-	*Custom Catalogs are a standalone component.
-	*@note this Component is similar to ListComponent, but 
-	*the deep sky objects are stored in four separate QLists.
-	*@author Thomas Kabelmann
-	*@version 0.1
-	*/
-
-#define NNGCFILES 14
-
 #include <QObject>
 #include "skycomponent.h"
+
+#define NNGCFILES 14
 
 class QColor;
 class KStarsData;
@@ -46,6 +36,15 @@ class SkyMesh;
 typedef QVector< DeepSkyObject*>    DeepSkyList;
 typedef QHash< int, DeepSkyList*>   DeepSkyIndex;
 
+/**
+	*@class DeepSkyComponent
+	*Represents the deep sky objects separated by catalogs. 
+	*Custom Catalogs are a standalone component.
+	*@note this Component is similar to ListComponent, but 
+	*the deep sky objects are stored in four separate QLists.
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 class DeepSkyComponent: public SkyComponent
 {
 public:
@@ -54,7 +53,7 @@ public:
 
     ~DeepSkyComponent();
 
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
     	*@short Read the ngcic.dat deep-sky database.
@@ -119,9 +118,6 @@ public:
 
 private:
     void mergeSplitFiles();
-
-    KStarsData* m_data;
-    SkyMap*     m_map;
 
     void drawDeepSkyCatalog( QPainter& psky, bool drawObject, DeepSkyIndex* dsIndex,
                              const QString& colorString);

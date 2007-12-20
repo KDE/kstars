@@ -26,7 +26,6 @@
 #include "skycomponent.h"
 
 #include "Options.h"
-#include "kstars.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
@@ -120,7 +119,7 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
     m_JupiterMoons->updateMoons( data, num );
 }
 
-void SolarSystemComposite::draw( KStars *ks, QPainter& psky )
+void SolarSystemComposite::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
 
@@ -128,15 +127,15 @@ void SolarSystemComposite::draw( KStars *ks, QPainter& psky )
     //(Thomas had been doing this by keeping separate pointers to
     //inner solar system objects, but I'd rather handle it here in the draw
     //function if possible
-    SkyComposite::draw( ks, psky );
+    SkyComposite::draw( psky );
 }
 
-void SolarSystemComposite::drawTrails(KStars *ks, QPainter& psky )
+void SolarSystemComposite::drawTrails( QPainter& psky )
 {
     if ( ! selected() ) return;
 
     foreach ( SkyComponent *comp, components() ) {
-        comp->drawTrails( ks, psky );
+        comp->drawTrails( psky );
     }
 }
 

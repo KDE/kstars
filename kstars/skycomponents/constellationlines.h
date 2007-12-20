@@ -66,7 +66,7 @@ public:
 
     /* @short Set the QColor and QPen for drawing.
      */
-    void preDraw( KStars *ks, QPainter &psky );
+    void preDraw( QPainter &psky );
 
     bool selected();
 

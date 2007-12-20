@@ -26,7 +26,6 @@
 	*@author James B. Bowlin
 	*@version 0.1
 	*/
-
 class NoPrecessIndex : public LineListIndex
 {
 public:
@@ -42,7 +41,7 @@ public:
     /* @short we override draw() so we can switch between indexed and
      * non-indexed drawing for speed optimization.
      */
-    void draw( KStars *ks, QPainter &psky );
+    void draw( QPainter &psky );
 
     /* @short we need to use the buffer that does not have the
      * reverse-precession correction.

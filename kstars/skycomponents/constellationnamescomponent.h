@@ -19,6 +19,11 @@
 #define CONSTELLATIONNAMESCOMPONENT_H
 
 #include "listcomponent.h"
+#include <QList>
+#include "skyobject.h"
+
+class KStarsData;
+class SkyLabeler;
 
 /**
 	*@class ConstellationNamesComponent
@@ -27,13 +32,6 @@
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
-
-class KStarsData;
-class SkyLabeler;
-
-#include <QList>
-#include "skyobject.h"
-
 class ConstellationNamesComponent : public ListComponent
 {
 public:
@@ -49,10 +47,9 @@ public:
 
     /**
     	*@short Draw constellation names on the sky map.
-    	*@p ks pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
     	*@short Initialize the Constellation names component

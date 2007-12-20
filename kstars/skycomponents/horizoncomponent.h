@@ -52,7 +52,7 @@ public:
      *@p map Pointer to the SkyMap object
      *@p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
      *@short Initialize the Horizon
@@ -65,7 +65,7 @@ public:
     bool selected();
 
 private:
-    void drawCompassLabels( KStars *ks, QPainter& psky );
+    void drawCompassLabels( QPainter& psky );
 };
 
 #endif

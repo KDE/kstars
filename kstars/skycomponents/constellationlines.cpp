@@ -24,7 +24,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "kstars.h"
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
@@ -45,9 +44,10 @@ bool ConstellationLines::selected()
            ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
 }
 
-void ConstellationLines::preDraw( KStars *kstars, QPainter &psky )
+void ConstellationLines::preDraw( QPainter &psky )
 {
-    QColor color = kstars->data()->colorScheme()->colorNamed( "CLineColor" );
+    KStarsData *data = KStarsData::Instance();
+    QColor color = data->colorScheme()->colorNamed( "CLineColor" );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 

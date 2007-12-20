@@ -24,7 +24,7 @@
 	*@class MlkyWay
     *This  stores a SkipList for each chunk.  
 	*
-	*@author Jason Harris
+	*@author James B. Bowlin
 	*@version 0.1
 	*/
 class MilkyWay : public SkipListIndex
@@ -40,11 +40,8 @@ public:
 
     /**
     	*@short Draw the Milky Way on the sky map
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    void draw( KStars *ks, QPainter& psky );
-
     void draw( QPainter& psky );
 
     bool selected();

@@ -24,7 +24,6 @@
 #include <QFontMetricsF>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "ksutils.h"
@@ -175,12 +174,12 @@ void StarComponent::rereadData()
     m_reloadSplash = 0;
 }
 
-void StarComponent::draw(KStars *ks, QPainter& psky )
+void StarComponent::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = ks->map();
-    KStarsData* data = ks->data();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
@@ -193,7 +192,7 @@ void StarComponent::draw(KStars *ks, QPainter& psky )
     double hideStarsMag = Options::magLimitHideStar();
     rereadData();
 
-    reindex( ks->data()->updateNum() );
+    reindex( data->updateNum() );
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
@@ -269,7 +268,7 @@ void StarComponent::addLabel( const QPointF& p, StarObject *star )
     m_labelList[ idx ]->append( SkyLabel( p, star ) );
 }
 
-void StarComponent::drawLabels(KStars */*ks*/, QPainter& psky)
+void StarComponent::drawLabels( QPainter& psky )
 {
     if ( m_hideLabels ) return;
 

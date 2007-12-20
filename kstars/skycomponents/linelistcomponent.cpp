@@ -21,7 +21,6 @@
 #include <QtAlgorithms>
 #include <QPainter>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "dms.h"
@@ -52,11 +51,11 @@ void LineListComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void LineListComponent::draw( KStars *ks, QPainter &psky )
+void LineListComponent::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
 
     psky.setPen( pen() );
 
@@ -145,14 +144,14 @@ void LineListComponent::draw( KStars *ks, QPainter &psky )
         isVisibleLast = isVisible;
     }
 
-    drawLabels( ks, psky );
+    drawLabels( psky );
 }
 
-void LineListComponent::drawLabels( KStars* kstars, QPainter& psky )
+void LineListComponent::drawLabels( QPainter& psky )
 {
     if ( LabelPosition == NoLabel ) return;
 
-    SkyMap *map = kstars->map();
+    SkyMap *map = SkyMap::Instance();
 
     double comfyAngle = 40.0;  // the first valid candidate with an angle
     // smaller than this gets displayed.  If you set

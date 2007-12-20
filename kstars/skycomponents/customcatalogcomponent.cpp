@@ -27,7 +27,6 @@
 #include <kmessagebox.h>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "starobject.h"
@@ -129,11 +128,11 @@ void CustomCatalogComponent::init( KStarsData * ) {
     }
 }
 
-void CustomCatalogComponent::draw( KStars *ks, QPainter& psky )
+void CustomCatalogComponent::draw( QPainter& psky )
 {
     if ( ! visible() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
     float Width  = map->scale() * map->width();
     float Height = map->scale() * map->height();
 

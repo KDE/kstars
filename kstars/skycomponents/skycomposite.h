@@ -22,7 +22,6 @@
 
 #include "skycomponent.h"
 
-class KStars;
 class KStarsData;
 class KSNumbers;
 
@@ -60,18 +59,16 @@ public:
 
     /**
     	*@short Delegate draw requests to all sub components
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
     	*@short Delegate drawExportable requests to all sub 
     	*components.
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void drawExportable( KStars *ks, QPainter& psky );
+    virtual void drawExportable( QPainter& psky );
 
     /**
     	*@short Delegate init requests to all sub components

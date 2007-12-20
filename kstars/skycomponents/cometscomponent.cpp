@@ -24,7 +24,6 @@
 
 #include "Options.h"
 #include "kscomet.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
@@ -77,17 +76,14 @@ void CometsComponent::init( KStarsData *data ) {
     }
 }
 
-void CometsComponent::draw( KStars *ks, QPainter& psky )
+void CometsComponent::draw( QPainter& psky )
 {
     if ( !visible() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
 
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
-
-//     float Width = map->scale() * map->width();
-//     float Height = map->scale() * map->height();
 
     psky.setPen( QPen( QColor( "darkcyan" ) ) );
     psky.setBrush( QBrush( QColor( "darkcyan" ) ) );

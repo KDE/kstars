@@ -39,9 +39,9 @@ public:
      */
     Ecliptic( SkyComponent *parent );
 
-    void draw( KStars *kstars, QPainter& psky );
+    void draw( QPainter& psky );
 
-    void drawLabel( KStars *kstars, QPainter& psky );
+    void drawLabel( QPainter& psky );
 
     /**@short Initialize the Ecliptic
      *@p data pointer to the KStarsData object

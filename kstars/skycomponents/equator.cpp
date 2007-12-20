@@ -20,7 +20,6 @@
 #include <QPainter>
 
 #include "ksnumbers.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
@@ -38,18 +37,19 @@ bool Equator::selected()
     return Options::showEquator();
 }
 
-void Equator::preDraw( KStars *kstars, QPainter &psky )
+void Equator::preDraw( QPainter &psky )
 {
-    QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
+    KStarsData *data = KStarsData::Instance();
+    QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
     m_label.reset( psky );
 }
 
-void Equator::draw( KStars *kstars, QPainter &psky )
+void Equator::draw( QPainter &psky )
 {
-    NoPrecessIndex::draw( kstars, psky );
-    m_label.draw( kstars, psky );
+    NoPrecessIndex::draw( psky );
+    m_label.draw( psky );
 }
 
 void Equator::init(KStarsData *data)
@@ -75,15 +75,16 @@ void Equator::init(KStarsData *data)
 }
 
 
-void Equator::drawLabel( KStars *kstars, QPainter& psky )
+void Equator::drawLabel( QPainter& psky )
 {
+    KStarsData *data = KStarsData::Instance();
 
     if ( ! selected() ) return;
 
-    QColor color( kstars->data()->colorScheme()->colorNamed( "EqColor" ) );
+    QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-    m_label.draw( kstars, psky );
+    m_label.draw( psky );
 }
 
 

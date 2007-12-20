@@ -18,7 +18,6 @@
 
 #include "Options.h"
 #include "skypoint.h"
-#include "kstars.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 #include "linelistlabel.h"
@@ -89,10 +88,10 @@ void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList,
 }
 
 
-void LineListLabel::draw( KStars* kstars, QPainter& psky )
+void LineListLabel::draw( QPainter& psky )
 {
 
-    SkyMap *map = kstars->map();
+    SkyMap *map = SkyMap::Instance();
 
     double comfyAngle = 40.0;  // the first valid candidate with an angle
     // smaller than this gets displayed.  If you set

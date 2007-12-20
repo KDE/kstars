@@ -22,7 +22,6 @@
 #include <QPainter>
 
 #include "jupitermoons.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
@@ -131,11 +130,12 @@ void JupiterMoonsComponent::clearTrailsExcept( SkyObject *exOb ) {
             jmoons->moon(i)->clearTrail();
 }
 
-void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
+void JupiterMoonsComponent::draw( QPainter& psky )
 {
     if ( ! Options::showJupiter() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
+
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
 
@@ -161,7 +161,7 @@ void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
     }
 
     //Now redraw Jupiter
-    m_Jupiter->draw( ks, psky );
+    m_Jupiter->draw( psky );
 
     //Now draw the remaining moons, as stored in frontMoons
     psky.setPen( QPen( QColor( "white" ) ) );
@@ -180,20 +180,20 @@ void JupiterMoonsComponent::draw( KStars *ks, QPainter& psky )
     }
 }
 
-void JupiterMoonsComponent::drawTrails( KStars *ks, QPainter& psky ) {
+void JupiterMoonsComponent::drawTrails( QPainter& psky ) {
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
+
+    QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+    QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
+
     for ( uint i=0; i<4; ++i ) {
         TrailObject *moon = jmoons->moon(i);
 
         if ( ! visible() || ! moon->hasTrail() ) continue;
-
-        SkyMap *map = ks->map();
-        KStarsData *data = ks->data();
-
-        float Width = map->scale() * map->width();
-        float Height = map->scale() * map->height();
-
-        QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-        QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
         SkyPoint p = moon->trail().first();
         QPointF o = map->toScreen( &p );

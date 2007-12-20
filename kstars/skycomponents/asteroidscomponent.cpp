@@ -24,7 +24,6 @@
 
 #include "Options.h"
 #include "ksasteroid.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
@@ -96,11 +95,11 @@ void AsteroidsComponent::update( KStarsData *data, KSNumbers */*num*/ )
     }
 }
 
-void AsteroidsComponent::draw( KStars *ks, QPainter& psky )
+void AsteroidsComponent::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
     bool hideLabels =  ! Options::showAsteroidNames() ||
                        ( map->isSlewing() && Options::hideLabels() );
 

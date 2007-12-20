@@ -21,7 +21,6 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "coordinategrid.h"
@@ -38,9 +37,10 @@ bool CoordinateGrid::selected()
            ! ( Options::hideOnSlew() && Options::hideGrid() && SkyMap::IsSlewing() );
 }
 
-void CoordinateGrid::preDraw( KStars *kstars, QPainter &psky )
+void CoordinateGrid::preDraw( QPainter &psky )
 {
-    QColor color = kstars->data()->colorScheme()->colorNamed( "GridColor" );
+    KStarsData *data = KStarsData::Instance();
+    QColor color = data->colorScheme()->colorNamed( "GridColor" );
     psky.setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
 }
 

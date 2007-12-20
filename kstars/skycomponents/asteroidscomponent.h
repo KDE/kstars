@@ -25,7 +25,6 @@
 class SkyLabeler;
 class SolarSystemComposite;
 
-class KStars;
 class KStarsData;
 class KSAsteroid;
 
@@ -58,10 +57,9 @@ public:
 
     /**
     	*@short Draw the asteroids onto the skymap
-    	*@p ks pointer to the KStars object
     	*@p psky reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
     	*@short Initialize the asteroids list.

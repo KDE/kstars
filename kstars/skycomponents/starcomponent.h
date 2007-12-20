@@ -35,7 +35,6 @@
 #include "highpmstarlist.h"
 
 class SkyComponent;
-class KStars;
 class KStarsData;
 class KSFileReader;
 class SkyMesh;
@@ -59,12 +58,12 @@ public:
 
     void reindex( KSNumbers *num );
 
-    void draw( KStars *ks, QPainter& psky );
+    void draw( QPainter& psky );
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists.
      */
-    void drawLabels( KStars *ks, QPainter& psky );
+    void drawLabels( QPainter& psky );
 
     void init(KStarsData *data);
 

@@ -36,6 +36,12 @@
 class KSNumbers;
 class StarObject;
 
+class SkyPoint;
+class QPolygonF;
+
+class KStarsData;
+class QPainter;
+
 // These enums control the trixel storage.  Separate buffers are available for
 // indexing and intersecting.  Currently only one buffer is required.  Multiple
 // buffers could be used for intermingling drawing and searching or to have a
@@ -50,13 +56,6 @@ enum MeshBufNum_t {
     IN_CONSTELL_BUF = 3,
     NUM_MESH_BUF
 };
-
-class SkyPoint;
-class QPolygonF;
-
-class KStars;
-class KStarsData;
-class QPainter;
 
 /*@class SkyMesh
  * Provides an interface to the Hierarchical Triangular Mesh (HTM) library
@@ -272,7 +271,7 @@ public:
      * duty in the production code to save space in which case this function
      * may become less useful.
      */
-    void draw( KStars *kstars, QPainter& psky, MeshBufNum_t
+    void draw( QPainter& psky, MeshBufNum_t
                bufNum=DRAW_BUF );
 
     /* @short Returns true of the most recent aperture() call produced

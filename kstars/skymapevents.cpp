@@ -785,7 +785,7 @@ void SkyMap::paintEvent( QPaintEvent * )
     // 	t2.start();
 
     //Draw all sky elements
-    data->skyComposite()->draw( ks, psky );
+    data->skyComposite()->draw( psky );
 
     //TIMING
     // 	kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed());

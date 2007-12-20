@@ -18,9 +18,9 @@
 #include "skymapcomposite.h"
 
 #include <QPolygonF>
+#include <QApplication>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "starobject.h"
@@ -165,25 +165,26 @@ void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 //The order in which components are drawn naturally determines the
 //z-ordering (the layering) of the components.  Objects which
 //should appear "behind" others should be drawn first.
-void SkyMapComposite::draw( KStars *ks, QPainter& psky )
+void SkyMapComposite::draw( QPainter& psky )
 {
     QTime t;
     t.start();
-    m_map = ks->map();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     // We delay one draw cycle before re-indexing
     // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
     // so we do it here.
     m_CLines->reindex( &m_reindexNum );
     // This queues re-indexing for the next draw cycle
-    m_reindexNum = KSNumbers( ks->data()->updateNum()->julianDay() );
+    m_reindexNum = KSNumbers( data->updateNum()->julianDay() );
 
     // This ensures that the JIT updates are synchronized for the entire draw
     // cycle so the sky moves as a single sheet.  May not be needed.
-    ks->data()->syncUpdateIDs();
+    data->syncUpdateIDs();
 
     // prepare the aperture
-    float radius = m_map->fov();
+    float radius = map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
     if ( m_skyMesh->inDraw() ) {
@@ -192,7 +193,7 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
     }
 
     m_skyMesh->inDraw( true );
-    SkyPoint* focus = m_map->focus();
+    SkyPoint* focus = map->focus();
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
     // create the no-precess aperture if needed
@@ -202,43 +203,43 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
     }
 
     // clear marks from old labels and prep fonts
-    m_skyLabeler->reset( m_map, psky );
+    m_skyLabeler->reset( map, psky );
     m_skyLabeler->useStdFont( psky );
 
     // info boxes have highest label priority
-    ks->infoBoxes()->reserveBoxes( psky );
+    map->infoBoxes()->reserveBoxes( psky );
 
-    m_MilkyWay->draw( ks, psky );
+    m_MilkyWay->draw( psky );
 
-    m_CoordinateGrid->draw( ks, psky );
+    m_CoordinateGrid->draw( psky );
 
-    m_CBoundLines->draw( ks, psky );
+    m_CBoundLines->draw( psky );
 
-    m_CLines->draw( ks, psky );
+    m_CLines->draw( psky );
 
-    m_Equator->draw( ks, psky );
+    m_Equator->draw( psky );
 
-    m_Ecliptic->draw( ks, psky );
+    m_Ecliptic->draw( psky );
 
-    m_DeepSky->draw( ks, psky );
+    m_DeepSky->draw( psky );
 
-    m_CustomCatalogs->draw( ks, psky );
+    m_CustomCatalogs->draw( psky );
 
-    m_Stars->draw( ks, psky );
+    m_Stars->draw( psky );
 
-    m_SolarSystem->drawTrails( ks, psky );
-    m_SolarSystem->draw( ks, psky );
+    m_SolarSystem->drawTrails( psky );
+    m_SolarSystem->draw( psky );
 
     //DISABLE_SATELLITES
-    //m_Satellites->draw( ks, psky );
+    //m_Satellites->draw( psky );
 
-    m_Horizon->draw( ks, psky );
+    m_Horizon->draw( psky );
 
-    ks->map()->drawObjectLabels( labelObjects(), psky );
+    map->drawObjectLabels( labelObjects(), psky );
 
-    m_skyLabeler->drawQueuedLabels( ks, psky );
-    m_CNames->draw( ks, psky );
-    m_Stars->drawLabels( ks, psky );
+    m_skyLabeler->drawQueuedLabels( psky );
+    m_CNames->draw( psky );
+    m_Stars->drawLabels( psky );
 
     m_skyMesh->inDraw( false );
 
@@ -247,10 +248,10 @@ void SkyMapComposite::draw( KStars *ks, QPainter& psky )
     // -jbb uncomment these to see trixel outlines:
     //
     //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, OBJ_NEAREST_BUF );
+    //m_skyMesh->draw( psky, OBJ_NEAREST_BUF );
 
     //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( ks, psky, NO_PRECESS_BUF );
+    //m_skyMesh->draw( psky, NO_PRECESS_BUF );
 }
 //Select nearest object to the given skypoint, but give preference
 //to certain object types.

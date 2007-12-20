@@ -22,7 +22,6 @@
 
 #include <klocale.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h"
@@ -108,11 +107,13 @@ bool MilkyWay::selected()
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
-void MilkyWay::draw( KStars *kstars, QPainter& psky )
+void MilkyWay::draw( QPainter& psky )
 {
     if ( !selected() ) return;
 
-    QColor color =  QColor( kstars->data()->colorScheme()->colorNamed( "MWColor" ) );
+    KStarsData *data = KStarsData::Instance();
+
+    QColor color =  QColor( data->colorScheme()->colorNamed( "MWColor" ) );
 
     psky.setPen( QPen( color, 3, Qt::SolidLine ) );
     psky.setBrush( QBrush( color ) );
@@ -123,10 +124,10 @@ void MilkyWay::draw( KStars *kstars, QPainter& psky )
     //psky.setBrush( QBrush( QColor("green"  ) ) );
 
     if ( Options::fillMilkyWay() ) {
-        drawFilled( kstars, psky );
+        drawFilled( psky );
     }
     else {
-        drawLines( kstars, psky );
+        drawLines( psky );
     }
 }
 

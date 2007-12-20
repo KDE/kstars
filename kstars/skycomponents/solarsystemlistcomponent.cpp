@@ -25,7 +25,6 @@
 #include "Options.h"
 #include "ksplanet.h"
 #include "ksplanetbase.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 
@@ -106,21 +105,21 @@ void SolarSystemListComponent::clearTrailsExcept( SkyObject *exOb ) {
     }
 }
 
-void SolarSystemListComponent::drawTrails( KStars *ks, QPainter& psky ) {
+void SolarSystemListComponent::drawTrails( QPainter& psky ) {
     if ( ! visible() ) return;
+
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
+    float Width = map->scale() * map->width();
+    float Height = map->scale() * map->height();
+
+    QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+    QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
     foreach ( SkyObject *obj, m_TrailList ) {
         KSPlanetBase *ksp = (KSPlanetBase*)obj;
         if ( ! ksp->hasTrail() ) continue;
-
-        SkyMap *map = ks->map();
-        KStarsData *data = ks->data();
-
-        float Width = map->scale() * map->width();
-        float Height = map->scale() * map->height();
-
-        QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-        QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
         SkyPoint p = ksp->trail().first();
         QPointF o = map->toScreen( &p );

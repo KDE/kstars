@@ -55,7 +55,7 @@ public:
      *@p map Pointer to the SkyMap object
      *@p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
      *@short Initialize the Jovian moons
@@ -81,7 +81,7 @@ protected:
     /**
     	*@short Draws the moons' trails, if necessary.
     	*/
-    void drawTrails( KStars *ks, QPainter& psky );
+    void drawTrails( QPainter& psky );
 
     /**
     	*@short Add a Trail to the specified SkyObject.

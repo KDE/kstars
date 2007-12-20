@@ -25,7 +25,6 @@ class QPainter;
 class QString;
 
 class KSNumbers;
-class KStars;
 class KStarsData;
 class SkyObject;
 class SkyPoint;
@@ -68,20 +67,18 @@ public:
 
     /**
     	*@short Draw the object on the SkyMap
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars* /*ks*/, QPainter& /*psky*/ ) {}
+    virtual void draw( QPainter& /*psky*/ ) {}
 
     /**
     	*@short Draw the object, if it is exportable to an image
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*@see isExportable()
     	*/
-    void drawExportable( KStars *ks, QPainter& psky );
+    void drawExportable( QPainter& psky );
 
-    virtual void drawPlanets(KStars* /*ks*/, QPainter& /*psky*/ ) {}
+    virtual void drawPlanets( QPainter& /*psky*/ ) {}
 
     /**
     	*@short Initialize the component - load data from disk etc.
@@ -149,7 +146,7 @@ public:
     virtual bool hasTrail( SkyObject *o, bool &found );
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *o );
-    virtual void drawTrails( KStars *, QPainter & );
+    virtual void drawTrails( QPainter & );
 
     virtual SkyObject* first() { return 0; }
     virtual SkyObject* next() { return 0; }

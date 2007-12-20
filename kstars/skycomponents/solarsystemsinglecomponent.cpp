@@ -22,7 +22,6 @@
 #include <QPainter>
 
 #include "dms.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksplanetbase.h"
 #include "ksplanet.h"
@@ -97,10 +96,10 @@ void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
     }
 }
 
-void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky ) {
+void SolarSystemSingleComponent::draw( QPainter &psky ) {
     if ( ! visible() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
 
     //TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
     if ( ! map->checkVisibility( ksp() ) ) return;
@@ -166,11 +165,11 @@ void SolarSystemSingleComponent::draw( KStars *ks, QPainter &psky ) {
     SkyLabeler::AddLabel( o, ksp(), PLANET_LABEL );
 }
 
-void SolarSystemSingleComponent::drawTrails( KStars *ks, QPainter& psky ) {
+void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
     if ( ! visible() || ! ksp()->hasTrail() ) return;
 
-    SkyMap *map = ks->map();
-    KStarsData *data = ks->data();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();

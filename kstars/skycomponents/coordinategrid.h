@@ -27,7 +27,6 @@
 	*@author Jason Harris
 	*@version 0.1
 	*/
-
 class CoordinateGrid : public NoPrecessIndex
 {
 public:
@@ -41,7 +40,7 @@ public:
 
     void init( KStarsData *data );
 
-    void preDraw( KStars *ks, QPainter &psky );
+    void preDraw( QPainter &psky );
 
     bool selected();
 };

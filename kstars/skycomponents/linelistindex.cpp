@@ -38,7 +38,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include "kstars.h"
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
@@ -157,18 +156,18 @@ void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
 
 
 // This is a callback used in draw() below
-void LineListIndex::preDraw( KStars *kstars, QPainter &psky )
+void LineListIndex::preDraw( QPainter &psky )
 {
     psky.setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
 }
 
-void LineListIndex::draw( KStars *kstars, QPainter &psky )
+void LineListIndex::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
-    preDraw(kstars, psky);
+    preDraw( psky );
 
-    drawLines( kstars, psky );
+    drawLines( psky );
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
@@ -189,10 +188,12 @@ void LineListIndex::updateLabelCandidates( const QPoint& /*o*/, LineList* /*line
 {}
 
 
-void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky )
+void LineListIndex::drawAllLines( QPainter& psky )
 {
-    SkyMap *map = kstars->map();
-    UpdateID updateID = kstars->data()->updateID();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+    UpdateID updateID = data->updateID();
+
     QPolygonF polyMW;
     bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
@@ -202,7 +203,7 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky )
         LineList* lineList = m_listList.at( i );
 
         if ( lineList->updateID != updateID )
-            JITupdate( kstars->data(), lineList );
+            JITupdate( data, lineList );
 
         SkyList* points = lineList->points();
         pLast = points->first();
@@ -236,11 +237,14 @@ void LineListIndex::drawAllLines( KStars *kstars, QPainter& psky )
 }
 
 
-void LineListIndex::drawLines( KStars *kstars, QPainter& psky )
+void LineListIndex::drawLines( QPainter& psky )
 {
-    SkyMap *map = kstars->map();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
     DrawID drawID = skyMesh()->drawID();
-    UpdateID updateID = kstars->data()->updateID();
+    UpdateID updateID = data->updateID();
+
     QPolygonF polyMW;
     bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
@@ -259,7 +263,7 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( kstars->data(), lineList );
+                JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -297,15 +301,17 @@ void LineListIndex::drawLines( KStars *kstars, QPainter& psky )
 }
 
 
-void LineListIndex::drawFilled( KStars *kstars, QPainter& psky )
+void LineListIndex::drawFilled( QPainter& psky )
 {
     //bool antiAlias = psky.testRenderHint( QPainter::Antialiasing );
     //if ( Options::zoomFactor() > 10.0 * MINZOOM )
     //    psky.setRenderHint(QPainter::Antialiasing, false );
 
-    SkyMap *map = kstars->map();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
     DrawID drawID = skyMesh()->drawID();
-    UpdateID updateID = kstars->data()->updateID();
+    UpdateID updateID = data->updateID();
 
     QPolygonF polygon;
     bool isVisible, isVisibleLast;
@@ -326,7 +332,7 @@ void LineListIndex::drawFilled( KStars *kstars, QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( kstars->data(), lineList );
+                JITupdate( data, lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();

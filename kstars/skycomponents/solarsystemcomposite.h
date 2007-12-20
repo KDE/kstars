@@ -58,9 +58,9 @@ public:
 
     virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
-    void drawTrails( KStars *ks, QPainter& psky );
+    void drawTrails( QPainter& psky );
 
     void reloadAsteroids( KStarsData *data );
     void reloadComets( KStarsData *data );

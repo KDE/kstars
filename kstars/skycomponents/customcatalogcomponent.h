@@ -18,13 +18,6 @@
 #ifndef CUSTOMCATALOGCOMPONENT_H
 #define CUSTOMCATALOGCOMPONENT_H
 
-/**
-	*@class CustomCatalogComponent
-	*Represents a custom user-defined catalog.
-
-	*@author Thomas Kabelmann
-	*@version 0.1
-	*/
 
 #include "listcomponent.h"
 
@@ -33,6 +26,13 @@ class CustomCatalog;
 
 //JH: TODO: this class should only contain one custom catalog.
 
+/**
+	*@class CustomCatalogComponent
+	*Represents a custom user-defined catalog.
+
+	*@author Thomas Kabelmann
+	*@version 0.1
+	*/
 class CustomCatalogComponent: public ListComponent
 {
 public:
@@ -49,10 +49,9 @@ public:
 
     /**
     	*@short Draw custom catalog objects on the sky map.
-    	*@p ks pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /**
     	*@short Initialize the Custom catalog

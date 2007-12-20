@@ -25,7 +25,6 @@
 #include <klocale.h>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "ksutils.h"
@@ -158,9 +157,10 @@ bool ConstellationBoundaryLines::selected()
            ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
 }
 
-void ConstellationBoundaryLines::preDraw( KStars *kstars, QPainter &psky )
+void ConstellationBoundaryLines::preDraw( QPainter &psky )
 {
-    QColor color = kstars->data()->colorScheme()->colorNamed( "CBoundColor" );
+    KStarsData *data = KStarsData::Instance();
+    QColor color = data->colorScheme()->colorNamed( "CBoundColor" );
     //color = QColor("red");
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }

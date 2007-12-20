@@ -26,7 +26,6 @@
 
 // these are just for the draw routine:
 #include <QPainter>
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "kstarsdata.h"
@@ -327,14 +326,10 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
     return indexHash;
 }
 
-void SkyMesh::draw(KStars *kstars, QPainter& psky, MeshBufNum_t bufNum)
+void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
 {
-    SkyMap*     map  = kstars->map();
-    KStarsData* data = kstars->data();
-    //KSNumbers*  num  = data->updateNum();
-
-    //QPainter psky;
-    //psky.begin( map );
+    SkyMap*     map  = SkyMap::Instance();
+    KStarsData* data = KStarsData::Instance();
 
     double r1, d1, r2, d2, r3, d3;
 
@@ -345,9 +340,6 @@ void SkyMesh::draw(KStars *kstars, QPainter& psky, MeshBufNum_t bufNum)
         SkyPoint s1( r1 / 15.0, d1 );
         SkyPoint s2( r2 / 15.0, d2 );
         SkyPoint s3( r3 / 15.0, d3 );
-        //s1.updateCoords( num );
-        //s2.updateCoords( num );
-        //s3.updateCoords( num );
         s1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s3.EquatorialToHorizontal( data->lst(), data->geo()->lat() );

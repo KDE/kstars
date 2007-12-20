@@ -28,7 +28,6 @@
 
 class QString;
 class QPointF;
-class KStars;
 class SkyMap;
 class QPainter;
 struct LabelRun;
@@ -234,7 +233,7 @@ public:
      * buffers are drawn.  You can also change the fonts and colors there
      * too.
      */
-    void drawQueuedLabels( KStars* kstars, QPainter& psky );
+    void drawQueuedLabels( QPainter& psky );
 
     /**
      * @short a convenience routine that draws all the labels from a single

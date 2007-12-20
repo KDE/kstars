@@ -20,7 +20,6 @@
 #include <QPainter>
 
 #include "ksnumbers.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skypoint.h" 
@@ -39,33 +38,35 @@ bool Ecliptic::selected()
     return Options::showEcliptic();
 }
 
-void Ecliptic::draw( KStars *kstars, QPainter &psky )
+void Ecliptic::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
-    QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
+    KStarsData *data = KStarsData::Instance();
+    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
     m_label.reset( psky );
 
     if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( kstars, psky );
+        drawLines( psky );
     }
     else {
-        drawAllLines( kstars, psky );
+        drawAllLines( psky );
     }
-    m_label.draw( kstars, psky );
+    m_label.draw( psky );
 }
 
 
-void Ecliptic::drawLabel( KStars *kstars, QPainter& psky )
+void Ecliptic::drawLabel( QPainter& psky )
 {
     if ( ! selected() ) return;
 
-    QColor color( kstars->data()->colorScheme()->colorNamed( "EclColor" ) );
+    KStarsData *data = KStarsData::Instance();
+    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-    m_label.draw( kstars, psky );
+    m_label.draw( psky );
 }
 
 

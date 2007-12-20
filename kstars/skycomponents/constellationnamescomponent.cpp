@@ -19,7 +19,6 @@
 #include <QPainter>
 #include <QTextStream>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -95,19 +94,17 @@ void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
     }
 }
 
-void ConstellationNamesComponent::draw( KStars *ks, QPainter& psky )
+void ConstellationNamesComponent::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = ks->map();
-    QString name;
-
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-
     skyLabeler->useStdFont( psky );
+    psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
 
-    psky.setPen( QColor( ks->data()->colorScheme()->colorNamed( "CNameColor" ) ) );
-
+    QString name;
     for ( int i = 0; i < objectList().size(); i++) {
         SkyObject* p = objectList().at( i );
         if ( ! map->checkVisibility( p ) ) continue;

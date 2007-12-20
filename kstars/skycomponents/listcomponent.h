@@ -20,6 +20,11 @@
 
 #include <QList>
 
+#include "skycomponent.h"
+
+class SkyComposite;
+class SkyMap;
+
 /**
  *@class ListComponent
  *An abstract parent class, to be inherited by SkyComponents that store a QList
@@ -28,12 +33,6 @@
  *@author Jason Harris
  *@version 0.1
  */
-
-class SkyComposite;
-class SkyMap;
-
-#include "skycomponent.h"
-
 class ListComponent : public SkyComponent
 {
 public:
@@ -47,13 +46,13 @@ public:
     	*@short Draw the list of objects on the SkyMap
     	*@note This is a pure virtual function, it is overridden by its subclasses.
     	*/
-    virtual void draw( KStars *, QPainter & ) {}
+    virtual void draw( QPainter & ) {}
 
     /**
     	*@short Draw the object, if it is exportable to an image
     	*@see isExportable()
     	*/
-    void drawExportable( KStars *ks, QPainter& psky );
+    void drawExportable( QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.

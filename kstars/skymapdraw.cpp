@@ -584,7 +584,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 
     if ( x1 || y1 ) p.translate( x1, y1 );
 
-    data->skyComposite()->draw( ks, p );
+    data->skyComposite()->draw( p );
 
     p.end();
 

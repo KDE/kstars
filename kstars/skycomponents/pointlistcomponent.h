@@ -24,7 +24,6 @@
 
 #include "skycomponent.h"
 
-class KStars;
 class SkyPoint;
 
 /**
@@ -44,12 +43,12 @@ public:
     virtual ~PointListComponent();
 
     /**Draw the list of objects on the SkyMap*/
-    virtual void draw( KStars* /*ks*/, QPainter& /*psky*/ ) {}
+    virtual void draw( QPainter& /*psky*/ ) {}
 
     /**Draw the object, if it is exportable to an image
     *@see isExportable()
     */
-    void drawExportable( KStars *ks, QPainter& psky );
+    void drawExportable( QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.

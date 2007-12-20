@@ -17,7 +17,6 @@
 
 #include "skycomposite.h"
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobject.h"
 
@@ -54,16 +53,16 @@ void SkyComposite::removeComponent(SkyComponent *component)
     }
 }
 
-void SkyComposite::draw( KStars *ks, QPainter& psky )
+void SkyComposite::draw( QPainter& psky )
 {
     foreach ( SkyComponent *component, components() )
-        component->draw( ks, psky );
+        component->draw( psky );
 }
 
-void SkyComposite::drawExportable( KStars *ks, QPainter& psky )
+void SkyComposite::drawExportable( QPainter& psky )
 {
     foreach ( SkyComponent *component, components() )
-        component->drawExportable( ks, psky );
+        component->drawExportable( psky );
 }
 
 void SkyComposite::init( KStarsData *data )

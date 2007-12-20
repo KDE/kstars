@@ -22,7 +22,6 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skymap.h"
@@ -73,11 +72,13 @@ void HorizonComponent::update( KStarsData *data, KSNumbers * )
 //To select the valid half, we start with the azimuth of the central focus point.
 //The valid horizon points have azimuth between this az +- 90
 //This is true for Equatorial or Horizontal coordinates
-void HorizonComponent::draw( KStars *ks, QPainter& psky )
+void HorizonComponent::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = ks->map();
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
     QPolygonF groundPoly;
@@ -88,10 +89,10 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     SkyLabeler::Instance()->getMargins( psky, horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );
 
-    psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
+    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
     if ( Options::showGround() )
-        psky.setBrush( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+        psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
     else
         psky.setBrush( Qt::NoBrush );
 
@@ -135,14 +136,14 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
 
         //Draw the Horizon Label
         if ( Options::showGround() && Options::useAltAz() )
-            psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "CompassColor" ) ) );
+            psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
         else
-            psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+            psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 
         QPointF pLabel( Width-30., obf.y() );
         SkyLabeler::Instance()->drawGuideLabel( psky, pLabel, horizonLabel, 0.0 );
 
-        drawCompassLabels( ks, psky );
+        drawCompassLabels( psky );
         return;
     }
 
@@ -287,16 +288,16 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
 
     //Set color for compass labels and "Horizon" label.
     if ( Options::showGround() && Options::useAltAz() )
-        psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "CompassColor" ) ) );
+        psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
     else
-        psky.setPen( QColor ( ks->data()->colorScheme()->colorNamed( "HorzColor" ) ) );
+        psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 
 
     //Draw Horizon name label
     //pAnchor contains the last point of the Horizon before it went offcreen
     //on the right/top/bottom edge.  oAnchor2 is the next point after oAnchor.
     if ( ! pAnchor ) {
-        drawCompassLabels( ks, psky );
+        drawCompassLabels( psky );
         return;
     }
 
@@ -333,10 +334,10 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
     //and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
     //independent of zoom.
     SkyPoint LabelPoint(ra0, dec0);
-    LabelPoint.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+    LabelPoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
     LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
-    LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+    LabelPoint.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     o = map->toScreen( &LabelPoint, false );
 
@@ -345,16 +346,16 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
         //or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
         LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
         LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
-        LabelPoint.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+        LabelPoint.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     }
 
     //p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
     //2000./zoomFactor).  We use p2 to determine the rotation angle for the
     //Horizon label, which we want to be parallel to the line between LabelPoint and p2.
     SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
-    p2.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+    p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
-    p2.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+    p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     o2 = map->toScreen( &p2, false );
 
@@ -367,13 +368,16 @@ void HorizonComponent::draw( KStars *ks, QPainter& psky )
 
     SkyLabeler::Instance()->drawGuideLabel( psky, o1, horizonLabel, angle );
 
-    drawCompassLabels( ks, psky );
+    drawCompassLabels( psky );
 }
 
-void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky ) {
+void HorizonComponent::drawCompassLabels( QPainter& psky ) {
     SkyPoint c;
     QPointF cpoint;
-    SkyMap *map = ks->map();
+
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
@@ -392,7 +396,7 @@ void HorizonComponent::drawCompassLabels( KStars *ks, QPainter& psky ) {
         az += 45.0;
         c.setAz( az );
         c.setAlt( 0.0 );
-        if ( !Options::useAltAz() ) c.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+        if ( !Options::useAltAz() ) c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         cpoint = map->toScreen( &c, false );
         if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
             skyLabeler->drawGuideLabel( psky, cpoint, name[i], 0.0 );

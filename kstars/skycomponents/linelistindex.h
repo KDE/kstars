@@ -26,7 +26,6 @@
 #include "typedef.h"
 
 class QPainter;
-class KStars;
 class LineList;
 
 /* @class LineListIndex
@@ -35,7 +34,6 @@ class LineList;
  *
  * @author James B. Bowlin @version 0.1
  */
-
 class LineListIndex : public SkyComposite
 {
 public:
@@ -114,13 +112,13 @@ public:
      * MilkyWay draw() routine calls all of the more specific draw()
      * routines below.
      */
-    virtual void draw( KStars *ks, QPainter &psky );
+    virtual void draw( QPainter &psky );
 
     /* @short Gives the subclasses access to the top of the draw() method.
      * Typically used for setting the QPen, etc. in the QPainter being
      * passed in.  Defaults to setting a thin white pen.
      */
-    virtual void preDraw( KStars *ks, QPainter &psky );
+    virtual void preDraw( QPainter &psky );
 
     /* @short Also overridden by SkipListIndex.  Controls skipping inside of
      * the draw() routines.  The default behavior is to simply return false
@@ -145,17 +143,17 @@ public:
      * everything.  There are no filled versions of the "All" routines
      * simply because they were not needed.
      */
-    void drawAllLines( KStars *ks, QPainter &psky );
+    void drawAllLines( QPainter &psky );
 
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */
-    void drawLines( KStars *ks, QPainter &psky );
+    void drawLines( QPainter &psky );
 
     /* @short Draws all the lines in m_listList as filled polygons in float
      * mode.
      */
-    void drawFilled(KStars *ks, QPainter& psky );
+    void drawFilled( QPainter& psky );
 
 
     //----- Debugging and Info Routines -----

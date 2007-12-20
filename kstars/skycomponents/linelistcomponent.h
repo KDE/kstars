@@ -27,7 +27,6 @@
 #include "skycomponent.h"
 #include "skypoint.h"
 
-class KStars;
 class SkyLabeler;
 class SkyMap;
 
@@ -60,19 +59,19 @@ public:
 
     /* @short Draw the list of objects on the SkyMap
      */
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     /* @short draw the label if any.  Is currently called at the bottom of
      * draw() but that call could be removed and it could be called
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
      */
-    void drawLabels( KStars* kstars, QPainter& psky );
+    void drawLabels( QPainter& psky );
 
     /**Draw the object, if it is exportable to an image
     *@see isExportable()
     */
-    void drawExportable( KStars *ks, QPainter& psky );
+    void drawExportable( QPainter& psky );
 
     /**
     	*@short Update the sky positions of this component.

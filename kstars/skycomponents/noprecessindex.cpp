@@ -36,17 +36,17 @@ void NoPrecessIndex::JITupdate( KStarsData *data, LineList* lineList )
     }
 }
 
-void NoPrecessIndex::draw( KStars *kstars, QPainter &psky )
+void NoPrecessIndex::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
-    preDraw( kstars, psky );
+    preDraw( psky );
 
     if ( skyMesh()->isZoomedIn() ) {
-        drawLines( kstars, psky );
+        drawLines( psky );
     }
     else {
-        drawLines( kstars, psky );
+        drawLines( psky );
     }
 
 }

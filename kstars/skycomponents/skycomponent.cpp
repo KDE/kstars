@@ -22,7 +22,6 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skyobject.h"
@@ -42,10 +41,10 @@ bool SkyComponent::isExportable()
     return true;
 }
 
-void SkyComponent::drawExportable( KStars *ks, QPainter& psky )
+void SkyComponent::drawExportable( QPainter& psky )
 {
     if (isExportable())
-        draw( ks, psky );
+        draw( psky );
 }
 
 //Hand the message up to SkyMapComposite
@@ -62,4 +61,4 @@ bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 void SkyComponent::clearTrailsExcept( SkyObject * ) { return; }
-void SkyComponent::drawTrails( KStars *, QPainter & ) { return; }
+void SkyComponent::drawTrails( QPainter & ) { return; }

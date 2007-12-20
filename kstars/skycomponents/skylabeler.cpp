@@ -20,7 +20,6 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstars.h"
 #include "kstarsdata.h"   // MINZOOM
 #include "skylabeler.h"
 #include "skymap.h"
@@ -420,17 +419,16 @@ void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, label_t type )
     labelList[ type ].append( SkyLabel( p, obj ) );
 }
 
-void SkyLabeler::drawQueuedLabels( KStars* kstars, QPainter& psky )
+void SkyLabeler::drawQueuedLabels( QPainter& psky )
 {
+    KStarsData* data = KStarsData::Instance();
+
     resetFont( psky );
-    KStarsData* data = kstars->data();
     psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
-    //psky.setPen( QColor( "red" ) );
     drawQueuedLabelsType( psky, PLANET_LABEL );
 
     if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
         shrinkFont( psky, 2 );
-        //psky.setPen( QPen( QColor( "white" ) ) );
         drawQueuedLabelsType( psky, JUPITER_MOON_LABEL );
         resetFont( psky );
     }

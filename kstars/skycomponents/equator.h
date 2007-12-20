@@ -40,11 +40,11 @@ public:
      */
     Equator( SkyComponent *parent );
 
-    void preDraw( KStars *kstars, QPainter& psky );
+    void preDraw( QPainter& psky );
 
-    void draw( KStars *kstars, QPainter &psky );
+    void draw( QPainter &psky );
 
-    void drawLabel( KStars *kstars, QPainter& psky );
+    void drawLabel( QPainter& psky );
 
     void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );

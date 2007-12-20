@@ -32,7 +32,6 @@ class ConstellationBoundary;
 	*@author Jason Harris
 	*@version 0.1
 	*/
-
 class ConstellationBoundaryLines : public NoPrecessIndex
 {
 public:
@@ -58,7 +57,7 @@ public:
 
     bool selected();
 
-    void preDraw( KStars *ks, QPainter &psky );
+    void preDraw( QPainter &psky );
 };
 
 

@@ -20,7 +20,6 @@
 #include <QBrush>
 #include <QPainter>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyline.h"
@@ -58,8 +57,11 @@ void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionS
     }
 }
 
-void SatelliteComponent::draw( KStars *ks, QPainter &psky ) {
-    LineListComponent::draw( ks, psky );
+void SatelliteComponent::draw( QPainter &psky ) {
+    LineListComponent::draw( psky );
+
+    SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     if ( jdList().size() == 0 ) return;
 
@@ -90,14 +92,14 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky ) {
             double ra = f*sp->ra()->Hours() + (1.0-f)*sp2->ra()->Hours();
             double dc = f*sp->dec()->Degrees() + (1.0-f)*sp2->dec()->Degrees();
             SkyPoint sTick1(ra, dc);
-            sTick1.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+            sTick1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
             //To draw a line perpendicular to the satellite track at the position of the tick,
             //We take advantage of QLineF::normalVector().  So first generate a QLineF that
             //lies along the satellite track, from sTick1 to sp2 (which is a nearby position
             //along the track).  Then change its length to 10 pixels, and finall use
             //normalVector() to rotate it 90 degrees.
-            QLineF seg( ks->map()->toScreen( &sTick1 ), ks->map()->toScreen( sp2 ) );
+            QLineF seg( map->toScreen( &sTick1 ), map->toScreen( sp2 ) );
             seg.setLength( 10.0 );
             QLineF tick = seg.normalVector();
 
@@ -117,7 +119,7 @@ void SatelliteComponent::draw( KStars *ks, QPainter &psky ) {
             else if ( labelpa < -270.0 ) labelpa += 360.0;
             else if ( labelpa < -90.0  ) labelpa += 180.0;
 
-            QTime tlabel = dt.time().addSecs( int(3600.0*ks->data()->geo()->TZ()) );
+            QTime tlabel = dt.time().addSecs( int(3600.0*data->geo()->TZ()) );
             psky.save();
             QFont stdFont( psky.font() );
             QFont smallFont( stdFont );

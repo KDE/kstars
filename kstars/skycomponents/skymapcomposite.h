@@ -26,7 +26,6 @@
 class SkyMesh;
 class SkyLabeler;
 class SkyMap;
-class KStars;
 
 class QPolygonF;
 
@@ -108,10 +107,9 @@ public:
 
     /**
     	*@short Delegate draw requests to all sub components
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars *ks, QPainter& psky );
+    virtual void draw( QPainter& psky );
 
     //virtual void draw( );
 
@@ -196,7 +194,6 @@ private:
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;
-    SkyMap*                 m_map;
 
     KSNumbers               m_reindexNum;
 

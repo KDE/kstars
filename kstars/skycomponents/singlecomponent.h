@@ -18,6 +18,10 @@
 #ifndef SINGLECOMPONENT_H
 #define SINGLECOMPONENT_H
 
+class SkyComposite;
+
+#include "skycomponent.h"
+
 /**
  *@class SingleComponent
  *An abstract parent class, to be inherited by SkyComponents that store a 
@@ -26,12 +30,6 @@
  *@author Jason Harris
  *@version 0.1
  */
-
-class KStars;
-class SkyComposite;
-
-#include "skycomponent.h"
-
 class SingleComponent : public SkyComponent
 {
 public:
@@ -41,18 +39,16 @@ public:
 
     /**
     	*@short Draw the object on the SkyMap
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( KStars* /*ks*/, QPainter& /*psky*/ ) {}
+    virtual void draw( QPainter& /*psky*/ ) {}
 
     /**
     	*Draw the object, if it is exportable to an image
-    	*@p ks Pointer to the KStars object
     	*@p psky Reference to the QPainter on which to paint
     	*@see isExportable()
     	*/
-    void drawExportable( KStars *ks, QPainter& psky );
+    void drawExportable( QPainter& psky );
 
     /**
     	*@short Update the sky position of this component.

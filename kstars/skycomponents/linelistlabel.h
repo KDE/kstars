@@ -51,7 +51,7 @@ public:
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
      */
-    void draw( KStars* kstars, QPainter& psky );
+    void draw( QPainter& psky );
 
     void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
 
