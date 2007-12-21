@@ -29,6 +29,7 @@
 #include "ksnumbers.h"
 #include "Options.h"
 #include "skymap.h"
+#include "ksasteroid.h"
 
 KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, 		const QString &image_file, const QColor &c, double pSize )
         : TrailObject( 2, 0.0, 0.0, 0.0, s ),
@@ -84,7 +85,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         if ( Trail.size() > MAXTRAIL ) Trail.takeFirst();
     }
 
-    if ( isMajorPlanet() )
+    if ( isMajorPlanet() || type() == SkyObject::ASTEROID )
         findMagnitude(num);
 }
 
@@ -239,7 +240,8 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     double earthSun = 1.;
     double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
                       / (2 * rsun() * rearth() );
-    double phase = acos ( cosPhase ) * 180.0 / dms::PI;
+    double phase_rad = acos ( cosPhase ); // Phase in radian - used for asteroid magnitudes
+    double phase = phase_rad * 180.0 / dms::PI;
 
     /* Computation of the visual magnitude (V band) of the planet.
     * Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
@@ -280,5 +282,17 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     if( name() == "Pluto" )
         magnitude = -1.01 + param + 0.041*phase;
 
+    if( type() == SkyObject::ASTEROID ) {
+        // Asteroid
+        KSAsteroid *me = (KSAsteroid *)this;
+        double phi1 = exp( -3.33 * pow(tan(phase_rad/2), 0.63) );
+        double phi2 = exp( -1.87 * pow(tan(phase_rad/2), 1.22) );
+        double H, G;
+        H = me -> getAbsoluteMagnitude();
+        G = me -> getSlopeParameter();
+        magnitude = H + param - 2.5 * log10( (1 - G) * phi1 + G * phi2 );
+    }
+    
     setMag(magnitude);
 }
+

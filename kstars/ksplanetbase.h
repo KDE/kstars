@@ -324,8 +324,6 @@ private:
      *@short Computes the visual magnitude for the major planets.
      *@param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
      *           saturn's magnitude.
-     *@param Earth pointer to an Earth object. Needed to know the distance between the Earth and the
-     *             Sun.
      */
     void findMagnitude(const KSNumbers *num);
 

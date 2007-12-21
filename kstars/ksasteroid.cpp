@@ -26,10 +26,17 @@
 
 KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
-        : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
+	: KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
+    KSAsteroid(_kd, s, imfile, _JD, _a, _e, _i, _w, _Node, _M, _H, -1); // Set G to -1 - G can never be negative in reality.
+}
+
+KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile,
+                        long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H, double _G )
+        : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), G(_G), i(_i), w(_w), M(_M), N(_Node) {
 
     setType( 10 ); //Asteroid
-    setMag( H );
+    this -> H = H;
+    this -> G = G;
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
@@ -121,6 +128,7 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
 
     return true;
 }
+
 
 //Unused virtual function from KSPlanetBase
 bool KSAsteroid::loadData() { return false; }

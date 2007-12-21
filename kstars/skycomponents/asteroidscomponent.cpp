@@ -51,7 +51,7 @@ void AsteroidsComponent::init(KStarsData *data)
 
     QString line, name;
     int mJD;
-    double a, e, dble_i, dble_w, dble_N, dble_M, H;
+    double a, e, dble_i, dble_w, dble_N, dble_M, H, G;
     long double JD;
 
     KSFileReader fileReader;
@@ -72,11 +72,12 @@ void AsteroidsComponent::init(KStarsData *data)
         dble_N = line.mid( 72, 9 ).toDouble();
         dble_M = line.mid( 82, 11 ).toDouble();
         H = line.mid( 94, 5 ).toDouble();
+		G = line.mid( 102, 4 ).toDouble();
 
         JD = double( mJD ) + 2400000.5;
 
         ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i),
-                              dms(dble_w), dms(dble_N), dms(dble_M), H );
+                              dms(dble_w), dms(dble_N), dms(dble_M), H, G );
         ast->setAngularSize( 0.005 );
         objectList().append( ast );
 

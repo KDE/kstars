@@ -36,6 +36,7 @@
 	*@li N     longitude of ascending node (J2000.0 ecliptic)
 	*@li M     mean anomaly at epoch JD
 	*@li H     absolute magnitude
+	*@li G     slope parameter
 	*
 	*@author Jason Harris
 	*@version 1.0
@@ -48,7 +49,9 @@ class dms;
 class KSAsteroid : public KSPlanetBase
 {
 public:
+
     /**Constructor.
+	*@note For use by KSPluto, which inherits from this class. Sets the slope parameter to -1.
     	*@p kd pointer to the KStarsData object
     	*@p s the name of the asteroid
     	*@p image_file the filename for an image of the asteroid
@@ -62,7 +65,23 @@ public:
     	*@p H absolute magnitude
     	*/
     KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
-                long double JD, double a, double e, dms i, dms w, dms N, dms M, double H );
+                long double JD, double a, double e, dms i, dms w, dms N, dms M, double H);
+    /**Constructor.
+    	*@p kd pointer to the KStarsData object
+    	*@p s the name of the asteroid
+    	*@p image_file the filename for an image of the asteroid
+    	*@p JD the Julian Day for the orbital elements
+    	*@p a the semi-major axis of the asteroid's orbit (AU)
+    	*@p e the eccentricity of the asteroid's orbit
+    	*@p i the inclination angle of the asteroid's orbit
+    	*@p w the argument of the orbit's perihelion
+    	*@p N the longitude of the orbit's ascending node
+    	*@p M the mean anomaly for the Julian Day
+    	*@p H absolute magnitude
+	*@p G slope parameter
+    	*/
+    KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
+                long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
     /**Destructor (empty)*/
     virtual ~KSAsteroid() {}
@@ -71,6 +90,13 @@ public:
     	*so it is empty.
     	*/
     virtual bool loadData();
+
+    /**This lets other classes like KSPlanetBase access H and G values
+	*Used by KSPlanetBase::FindMagnitude
+	*/
+    double inline getAbsoluteMagnitude() { return H; }
+    double inline getSlopeParameter() { return G; }
+   
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Asteroid.
@@ -94,8 +120,9 @@ protected:
 private:
     KStarsData *kd;
     long double JD;
-    double a, e, H, P;
+    double a, e, P;
     dms i, w, M, N;
+    double H, G;
 };
 
 #endif
