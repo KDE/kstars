@@ -45,6 +45,7 @@ public:
     OptionsTreeView( QWidget *p );
     ~OptionsTreeView();
     QTreeWidget* optionsList() { return otvw->OptionsList; }
+    void resizeColumns();
 
 private:
     OptionsTreeViewWidget *otvw;
@@ -78,7 +79,7 @@ public:
 };
 
 /**@class ScriptBuilder
-	*A GUI tool for building behavioral DCOP scripts for KStars.
+	*A GUI tool for building behavioral DBus scripts for KStars.
 	*@author Jason Harris
 	*@version 1.0
 	*/
@@ -172,6 +173,7 @@ private:
 
     KStars *ks; //parent needed for sub-dialogs
     QList<ScriptFunction*> KStarsFunctionList;
+    QList<ScriptFunction*> SimClockFunctionList;
 
 	#if 0
     QList<ScriptFunction*> INDIFunctionList;

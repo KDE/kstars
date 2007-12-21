@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 
 #include <QApplication>
+#include <QFontMetrics>
 #include <QTreeWidget>
 #include <QTextStream>
 
@@ -64,6 +65,41 @@ OptionsTreeView::~OptionsTreeView() {
     delete otvw;
 }
 
+void OptionsTreeView::resizeColumns() {
+    //Size each column to the maximum width of items in that column
+    int maxwidth[ 3 ] = { 0, 0, 0 };
+    QFontMetrics qfm = optionsList()->fontMetrics();
+
+    for ( int i=0; i < optionsList()->topLevelItemCount(); ++i ) {
+        QTreeWidgetItem *topitem = optionsList()->topLevelItem( i );
+        topitem->setExpanded( true );
+
+        for ( int j=0; j < topitem->childCount(); ++j ) {
+            QTreeWidgetItem *child = topitem->child( j );
+
+            for ( int icol=0; icol<3; ++icol ) {
+                child->setExpanded( true );
+
+                int w = qfm.width( child->text( icol ) ) + 4;
+                if ( icol == 0 ) {
+                    w += 2*optionsList()->indentation();
+                }
+
+                if ( w > maxwidth[icol] ) {
+                    maxwidth[icol] = w;
+                }
+            }
+        }
+    }
+
+    for ( int icol=0; icol < 3; ++icol ) {
+        //DEBUG
+        kDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]) << endl;
+
+        optionsList()->setColumnWidth( icol, maxwidth[icol] );
+    }
+}
+
 ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
@@ -102,6 +138,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     setCaption( i18n( "Script Builder" ) );
     setButtons( KDialog::Close );
 
+    sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
+
     //Initialize function templates and descriptions
     KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ),
                                false, "QString", "dir" ) );
@@ -126,9 +164,9 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     KStarsFunctionList.append( new ScriptFunction( "loadColorScheme", i18n( "Load the color scheme specified by name." ), false, "QString", "name" ) );
     KStarsFunctionList.append( new ScriptFunction( "exportImage", i18n( "Export the sky image to the file, with specified width and height."), false, "QString", "fileName", "int", "width", "int", "height" ) );
     KStarsFunctionList.append( new ScriptFunction( "printImage", i18n( "Print the sky image to a printer or file.  If %1 is true, it will show the print dialog.  If %2 is true, it will use the Star Chart color scheme for printing.", QString( "usePrintDialog" ), QString( "useChartColors" ) ), false, "bool", "usePrintDialog", "bool", "useChartColors" ) );
-    KStarsFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
-    KStarsFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
-    KStarsFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
+    SimClockFunctionList.append( new ScriptFunction( "stop", i18n( "Halt the simulation clock." ), true ) );
+    SimClockFunctionList.append( new ScriptFunction( "start", i18n( "Start the simulation clock." ), true ) );
+    SimClockFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 
     //TODO JM: INDI Scripting to be supported in KDE 4.1
     // INDI functions
@@ -213,10 +251,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
     // JM: We're using QTreeWdiget for Qt4 now
     QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
+    QTreeWidgetItem *simclock_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("SimClock"));
 
-    for ( int i=KStarsFunctionList.size()-1; i>=0; i-- )
+    for ( int i=0; i < KStarsFunctionList.size(); ++i )
         new QTreeWidgetItem (kstars_tree, QStringList( KStarsFunctionList[i]->prototype()) );
 
+    for ( int i=0; i < SimClockFunctionList.size(); ++i )
+        new QTreeWidgetItem (simclock_tree, QStringList( SimClockFunctionList[i]->prototype()) );
+
+    kstars_tree->sortChildren( 0, Qt::AscendingOrder );
+    simclock_tree->sortChildren( 0, Qt::AscendingOrder );
 
     sb->FunctionTree->setColumnCount(1);
     sb->FunctionTree->setHeaderLabels( QStringList(i18n("Functions")) );
@@ -370,7 +414,10 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     snd = new ScriptNameDialog( ks );
     otv = new OptionsTreeView( ks );
 
+    otv->resize( sb->width(), 0.5*sb->height() );
+
     initViewOptions();
+    otv->resizeColumns();
 
     //connect widgets in ScriptBuilderUI
     connect( this, SIGNAL(closeClicked()), this, SLOT(slotClose()));
@@ -515,25 +562,25 @@ void ScriptBuilder::initViewOptions() {
 
     //InfoBoxes
     opsGUI = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "InfoBoxes" )) );
-    fields << i18n( "Toggle display of all InfoBoxes" ) << i18n( "bool" );
+    fields << "ShowInfoBoxes" << i18n( "Toggle display of all InfoBoxes" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Time InfoBox" ) << i18n( "bool" );
+    fields << "ShowTimeBox" << i18n( "Toggle display of Time InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Geographic InfoBox" ) << i18n( "bool" );
+    fields << "ShowGeoBox" << i18n( "Toggle display of Geographic InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Focus InfoBox" ) << i18n( "bool" );
+    fields << "ShowFocusBox" << i18n( "Toggle display of Focus InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "(un)Shade Time InfoBox" ) << i18n( "bool" );
+    fields << "ShadeTimeBox" << i18n( "(un)Shade Time InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "(un)Shade Geographic InfoBox" ) << i18n( "bool" );
+    fields << "ShadeGeoBox" << i18n( "(un)Shade Geographic InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
-    fields << i18n( "(un)Shade Focus InfoBox" ) << i18n( "bool" );
+    fields << "ShadeFocusBox" << i18n( "(un)Shade Focus InfoBox" ) << i18n( "bool" );
     new QTreeWidgetItem( opsGUI, fields );
     fields.clear();
 
@@ -547,10 +594,10 @@ void ScriptBuilder::initViewOptions() {
 
     //Toolbars
     opsToolbar = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Toolbars" )) );
-    fields << i18n( "Toggle display of main toolbar" ) << i18n( "bool" );
+    fields << "ShowMainToolBar" << i18n( "Toggle display of main toolbar" ) << i18n( "bool" );
     new QTreeWidgetItem( opsToolbar, fields );
     fields.clear();
-    fields << i18n( "Toggle display of view toolbar" ) << i18n( "bool" );
+    fields << "ShowViewToolBar" << i18n( "Toggle display of view toolbar" ) << i18n( "bool" );
     new QTreeWidgetItem( opsToolbar, fields );
     fields.clear();
 
@@ -559,68 +606,68 @@ void ScriptBuilder::initViewOptions() {
 
     //Show Objects
     opsShowObj = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Objects" )) );
-    fields << i18n( "Toggle display of Stars" ) << i18n( "bool" );
+    fields << "ShowStars" << i18n( "Toggle display of Stars" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of all deep-sky objects" ) << i18n( "bool" );
+    fields << "ShowDeepSky" << i18n( "Toggle display of all deep-sky objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Messier object symbols" ) << i18n( "bool" );
+    fields << "ShowMessier" << i18n( "Toggle display of Messier object symbols" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Messier object images" ) << i18n( "bool" );
+    fields << "ShowMessierImages" << i18n( "Toggle display of Messier object images" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of NGC objects" ) << i18n( "bool" );
+    fields << "ShowNGC" << i18n( "Toggle display of NGC objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of IC objects" ) << i18n( "bool" );
+    fields << "ShowIC" << i18n( "Toggle display of IC objects" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of all solar system bodies" ) << i18n( "bool" );
+    fields << "ShowSolarSystem" << i18n( "Toggle display of all solar system bodies" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Sun" ) << i18n( "bool" );
+    fields << "ShowSun" << i18n( "Toggle display of Sun" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Moon" ) << i18n( "bool" );
+    fields << "ShowMoon" << i18n( "Toggle display of Moon" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Mercury" ) << i18n( "bool" );
+    fields << "ShowMercury" << i18n( "Toggle display of Mercury" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Venus" ) << i18n( "bool" );
+    fields << "ShowVenus" << i18n( "Toggle display of Venus" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Mars" ) << i18n( "bool" );
+    fields << "ShowMars" << i18n( "Toggle display of Mars" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Jupiter" ) << i18n( "bool" );
+    fields << "ShowJupiter" << i18n( "Toggle display of Jupiter" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Saturn" ) << i18n( "bool" );
+    fields << "ShowSaturn" << i18n( "Toggle display of Saturn" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Uranus" ) << i18n( "bool" );
+    fields << "ShowUranus" << i18n( "Toggle display of Uranus" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Neptune" ) << i18n( "bool" );
+    fields << "ShowNeptune" << i18n( "Toggle display of Neptune" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Pluto" ) << i18n( "bool" );
+    fields << "ShowPluto" << i18n( "Toggle display of Pluto" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Asteroids" ) << i18n( "bool" );
+    fields << "ShowAsteroids" << i18n( "Toggle display of Asteroids" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Comets" ) << i18n( "bool" );
+    fields << "ShowComets" << i18n( "Toggle display of Comets" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowObj, fields );
     fields.clear();
 
     argChangeViewOption->OptionName->addItem( "ShowStars" );
     argChangeViewOption->OptionName->addItem( "ShowDeepSky" );
-    argChangeViewOption->OptionName->addItem( "ShowMess" );
-    argChangeViewOption->OptionName->addItem( "ShowMessImages" );
+    argChangeViewOption->OptionName->addItem( "ShowMessier" );
+    argChangeViewOption->OptionName->addItem( "ShowMessierImages" );
     argChangeViewOption->OptionName->addItem( "ShowNGC" );
     argChangeViewOption->OptionName->addItem( "ShowIC" );
     argChangeViewOption->OptionName->addItem( "ShowSolarSystem" );
@@ -638,49 +685,49 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowComets" );
 
     opsShowOther = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Show Other" )) );
-    fields << i18n( "Toggle display of constellation lines" ) << i18n( "bool" );
+    fields << "ShowCLines" << i18n( "Toggle display of constellation lines" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of constellation boundaries" ) << i18n( "bool" );
+    fields << "ShowCBounds" << i18n( "Toggle display of constellation boundaries" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of constellation names" ) << i18n( "bool" );
+    fields << "ShowCNames" << i18n( "Toggle display of constellation names" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of Milky Way" ) << i18n( "bool" );
+    fields << "ShowMilkyWay" << i18n( "Toggle display of Milky Way" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of the coordinate grid" ) << i18n( "bool" );
+    fields << "ShowGrid" << i18n( "Toggle display of the coordinate grid" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of the celestial equator" ) << i18n( "bool" );
+    fields << "ShowEquator" << i18n( "Toggle display of the celestial equator" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of the ecliptic" ) << i18n( "bool" );
+    fields << "ShowEcliptic" << i18n( "Toggle display of the ecliptic" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of the horizon line" ) << i18n( "bool" );
+    fields << "ShowHorizon" << i18n( "Toggle display of the horizon line" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of the opaque ground" ) << i18n( "bool" );
+    fields << "ShowGround" << i18n( "Toggle display of the opaque ground" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of star name labels" ) << i18n( "bool" );
+    fields << "ShowStarNames" << i18n( "Toggle display of star name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of star magnitude labels" ) << i18n( "bool" );
+    fields << "ShowStarMagnitudes" << i18n( "Toggle display of star magnitude labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of asteroid name labels" ) << i18n( "bool" );
+    fields << "ShowAsteroidNames" << i18n( "Toggle display of asteroid name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of comet name labels" ) << i18n( "bool" );
+    fields << "ShowCometNames" << i18n( "Toggle display of comet name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of planet name labels" ) << i18n( "bool" );
+    fields << "ShowPlanetNames" << i18n( "Toggle display of planet name labels" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
-    fields << i18n( "Toggle display of planet images" ) << i18n( "bool" );
+    fields << "ShowPlanetImages" << i18n( "Toggle display of planet images" ) << i18n( "bool" );
     new QTreeWidgetItem( opsShowOther, fields );
     fields.clear();
 
@@ -701,13 +748,13 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "ShowPlanetImages" );
 
     opsCName = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Constellation Names" )) );
-    fields << i18n( "Show Latin constellation names" ) << i18n( "bool" );
+    fields << "UseLatinConstellNames" << i18n( "Show Latin constellation names" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
-    fields << i18n( "Show constellation names in local language" ) << i18n( "bool" );
+    fields << "UseLocalConstellNames" <<i18n( "Show constellation names in local language" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
-    fields << i18n( "Show IAU-standard constellation abbreviations" ) << i18n( "bool" );
+    fields << "UseAbbrevConstellNames" <<i18n( "Show IAU-standard constellation abbreviations" ) << i18n( "bool" );
     new QTreeWidgetItem( opsCName, fields );
     fields.clear();
 
@@ -716,40 +763,40 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "UseAbbrevConstellNames" );
 
     opsHide = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Hide Items" )) );
-    fields << i18n( "Toggle whether objects hidden while slewing display" ) << i18n( "bool" );
+    fields << "HideOnSlew" << i18n( "Toggle whether objects hidden while slewing display" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Timestep threshold (in seconds) for hiding objects")  << i18n( "double" );
+    fields << "SlewTimeScale" << i18n( "Timestep threshold (in seconds) for hiding objects")  << i18n( "double" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide faint stars while slewing?" ) << i18n( "bool" );
+    fields << "HideStars" << i18n( "Hide faint stars while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide solar system bodies while slewing?" ) << i18n( "bool" );
+    fields << "HidePlanets" << i18n( "Hide solar system bodies while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide Messier objects while slewing?" ) << i18n( "bool" );
+    fields << "HideMessier" << i18n( "Hide Messier objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide NGC objects while slewing?" ) << i18n( "bool" );
+    fields << "HideNGC" << i18n( "Hide NGC objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide IC objects while slewing?" ) << i18n( "bool" );
+    fields << "HideIC" << i18n( "Hide IC objects while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide Milky Way while slewing?" ) << i18n( "bool" );
+    fields << "HideMilkyWay" << i18n( "Hide Milky Way while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide constellation names while slewing?" ) << i18n( "bool" );
+    fields << "HideCNames" << i18n( "Hide constellation names while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide constellation lines while slewing?" ) << i18n( "bool" );
+    fields << "HideCLines" << i18n( "Hide constellation lines while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide constellation boundaries while slewing?" ) << i18n( "bool" );
+    fields << "HideCBounds" << i18n( "Hide constellation boundaries while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
-    fields << i18n( "Hide coordinate grid while slewing?" ) << i18n( "bool" );
+    fields << "HideGrid" << i18n( "Hide coordinate grid while slewing?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsHide, fields );
     fields.clear();
 
@@ -767,37 +814,37 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "HideGrid" );
 
     opsSkymap = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Skymap Options" )) );
-    fields << i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << i18n( "bool" );
+    fields << "UseAltAz" << i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)")  << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Set the Zoom Factor" ) << i18n( "double" );
+    fields << "ZoomFactor" << i18n( "Set the Zoom Factor" ) << i18n( "double" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Select angular size for the FOV symbol (in arcmin)")  << i18n( "double" );
+    fields << "FOVName" << i18n( "Select angular size for the FOV symbol (in arcmin)")  << i18n( "double" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ) << i18n( "int" );
+    fields << "FOVShape" << i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ) << i18n( "int" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Select color for the FOV symbol" ) << i18n( "string" );
+    fields << "FOVColor" << i18n( "Select color for the FOV symbol" ) << i18n( "string" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ) << i18n( "bool" );
+    fields << "UseAnimatedSlewing" << i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Correct for atmospheric refraction?" ) << i18n( "bool" );
+    fields << "UseRefraction" << i18n( "Correct for atmospheric refraction?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Automatically attach name label to centered object?" ) << i18n( "bool" );
+    fields << "UseAutoLabel" << i18n( "Automatically attach name label to centered object?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Attach temporary name label when hovering mouse over an object?" ) << i18n( "bool" );
+    fields << "UseHoverLabel" << i18n( "Attach temporary name label when hovering mouse over an object?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Automatically add trail to centered solar system body?" ) << i18n( "bool" );
+    fields << "UseAutoTrail" << i18n( "Automatically add trail to centered solar system body?" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
-    fields << i18n( "Planet trails fade to sky color? (otherwise color is constant)" ) << i18n( "bool" );
+    fields << "FadePlanetTrails" << i18n( "Planet trails fade to sky color? (otherwise color is constant)" ) << i18n( "bool" );
     new QTreeWidgetItem( opsSkymap, fields );
     fields.clear();
 
@@ -815,31 +862,33 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "FadePlanetTrails" );
 
     opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
-    fields << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
+    fields << "magLimitDrawStar" << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest star drawn on map when zoomed out" ) << i18n( "double" );
+    fields << "magLimitDrawStarZoomOut" << i18n( "magnitude of faintest star drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << i18n( "double" );
+    fields << "magLimitDrawDeepSky" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ) << i18n( "double" );
+    fields << "magLimitDrawDeepSkyZoomOut" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest star labeled on map" ) << i18n( "double" );
+    //FIXME: This description is incorrect! Fix after strings freeze
+    fields << "starLabelDensity" << i18n( "magnitude of faintest star labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of brightest star hidden while slewing" ) << i18n( "double" );
+    fields << "magLimitHideStar" << i18n( "magnitude of brightest star hidden while slewing" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest asteroid drawn on map" ) << i18n( "double" );
+    fields << "magLimitAsteroid" << i18n( "magnitude of faintest asteroid drawn on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "magnitude of faintest asteroid labeled on map" ) << i18n( "double" );
+    //FIXME: This description is incorrect! Fix after strings freeze
+    fields << "asteroidLabelDensity" << i18n( "magnitude of faintest asteroid labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
-    fields << i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ) << i18n( "double" );
+    fields << "maxRadCometName" << i18n( "comets nearer to the Sun than this (in AU) are labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
 
