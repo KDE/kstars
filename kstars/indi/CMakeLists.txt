@@ -122,6 +122,7 @@ set (indimain_SRCS
     )
 
 set(GENERIC_LIB_VERSION "1.0.0")
+set(GENERIC_LIB_SOVERSION "1")
 
 ########### next target ###############
 ## SBIG Universal Driver Dummy Library ###
