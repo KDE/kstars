@@ -227,6 +227,7 @@ private:
     QTreeWidgetItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
     bool UnsavedChanges;
+    bool checkForChanges;
     KUrl currentFileURL;
     QString currentDir;
     QString currentScriptName, currentAuthor;

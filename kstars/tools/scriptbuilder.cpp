@@ -128,7 +128,7 @@ ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
 }
 
 ScriptBuilder::ScriptBuilder( QWidget *parent )
-        : KDialog( parent ), UnsavedChanges(false),
+        : KDialog( parent ), UnsavedChanges(false), checkForChanges(true),
         currentFileURL(), currentDir( QDir::homePath() ),
         currentScriptName(), currentAuthor()
 {
@@ -938,6 +938,7 @@ void ScriptBuilder::slotNew() {
         sb->CopyButton->setEnabled( false );
         sb->RemoveButton->setEnabled( false );
         sb->RunButton->setEnabled( false );
+        sb->SaveAsButton->setEnabled( false );
 
         currentFileURL = QString();
         currentScriptName = QString();
@@ -1005,8 +1006,11 @@ void ScriptBuilder::slotSave()
         }
     }
 
-    if ( currentFileURL.isEmpty() )
+    bool newFilename = false;
+    if ( currentFileURL.isEmpty() ) {
         currentFileURL = KFileDialog::getSaveUrl( currentDir, "*.kstars|KStars Scripts (*.kstars)" );
+        newFilename = true;
+    }
 
     if ( currentFileURL.isValid() ) {
         currentDir = currentFileURL.directory();
@@ -1015,7 +1019,7 @@ void ScriptBuilder::slotSave()
             fname = currentFileURL.path();
 
             //Warn user if file exists
-            if (QFile::exists(currentFileURL.path())) {
+            if (newFilename == true && QFile::exists(currentFileURL.path())) {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),
@@ -1197,7 +1201,7 @@ void ScriptBuilder::readScript( QTextStream &istream )
         line = istream.readLine();
 
         //look for name of script
-        if ( line.contains( "#KStars DCOP script: " ) )
+        if ( line.contains( "#KStars DBus script: " ) )
             currentScriptName = line.mid( 21 ).trimmed();
 
         //look for author of scriptbuilder
@@ -1253,7 +1257,7 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
     // clean up the string list first if needed
     // We need to perform this in case we havea quoted string "NGC 3000" because this will counted
     // as two arguments, and it should be counted as one.
-    //bool foundQuote(false), quoteProcessed(false);
+    bool foundQuote(false), quoteProcessed(false);
     QString cur, arg;
     QStringList::iterator it;
 
@@ -1264,95 +1268,92 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
         cur = cur.mid(cur.indexOf(":") + 1).remove("'");
 
         (*it) = cur;
-    }
 
-	#if 0
-    if ( cur.startsWith('\"'))
-    {
-        arg += cur.right(cur.length() - 1);
-        arg += ' ';
-        foundQuote = true;
-        quoteProcessed = true;
-    }
-    else if (cur.endsWith('\"'))
-    {
-        arg += cur.left(cur.length() -1);
-        arg += '\'';
-        foundQuote = false;
-    }
-    else if (foundQuote)
-    {
-        arg += cur;
-        arg += ' ';
-    }
-    else
-    {
-        arg += cur;
-        arg += '\'';
-    }
-}
-
-if (quoteProcessed)
-    fn = arg.split( "'" );
-
-	#endif
-
-//loop over known functions to find a name match
-foreach ( ScriptFunction *sf, KStarsFunctionList )
-{
-    if ( fn_name == sf->name() )
-    {
-
-        if ( fn_name == "setGeoLocation" )
+        if ( cur.startsWith('\"'))
         {
-            QString city( fn[0] ), prov, cntry( fn[1] );
-            prov.clear();
-            if ( fn.count() == 4 ) { prov = fn[1]; cntry = fn[2]; }
-            if ( fn.count() == 3 || fn.count() == 4 )
+            arg += cur.right(cur.length() - 1);
+            arg += ' ';
+            foundQuote = true;
+            quoteProcessed = true;
+        }
+        else if (cur.endsWith('\"'))
+        {
+            arg += cur.left(cur.length() -1);
+            arg += '\'';
+            foundQuote = false;
+        }
+        else if (foundQuote)
+        {
+            arg += cur;
+            arg += ' ';
+        }
+        else
+        {
+            arg += cur;
+            arg += '\'';
+        }
+    }
+
+    if (quoteProcessed)
+        fn = arg.split( "'", QString::SkipEmptyParts );
+
+    //loop over known functions to find a name match
+    foreach ( ScriptFunction *sf, KStarsFunctionList )
+    {
+        if ( fn_name == sf->name() )
+        {
+
+            if ( fn_name == "setGeoLocation" )
             {
-                ScriptList.append( new ScriptFunction( sf ) );
-                ScriptList.last()->setArg( 0, city );
-                ScriptList.last()->setArg( 1, prov );
-                ScriptList.last()->setArg( 2, cntry );
-            } else return false;
+                QString city( fn[0] ), prov, cntry( fn[1] );
+                prov.clear();
+                if ( fn.count() == 4 ) { prov = fn[1]; cntry = fn[2]; }
+                if ( fn.count() == 3 || fn.count() == 4 )
+                {
+                    ScriptList.append( new ScriptFunction( sf ) );
+                    ScriptList.last()->setArg( 0, city );
+                    ScriptList.last()->setArg( 1, prov );
+                    ScriptList.last()->setArg( 2, cntry );
+                } else return false;
 
-        } else if ( fn.count() != sf->numArgs()) return false;
-
-        ScriptList.append( new ScriptFunction( sf ) );
-
-        for ( int i=0; i<sf->numArgs(); ++i )
-            ScriptList.last()->setArg( i, fn[i] );
-
-        return true;
-    }
-
-		#if 0
-    foreach ( ScriptFunction *sf, INDIFunctionList )
-    {
-        if ( fn[0] == sf->name() )
-        {
-
-            if ( fn.count() != sf->numArgs() + 1 ) return false;
+            } else if ( fn.count() != sf->numArgs()) return false;
 
             ScriptList.append( new ScriptFunction( sf ) );
 
             for ( int i=0; i<sf->numArgs(); ++i )
-                ScriptList.last()->setArg( i, fn[i+1] );
+                ScriptList.last()->setArg( i, fn[i] );
 
             return true;
         }
-    }
-		#endif
-}
 
-//if we get here, no function-name match was found
-return false;
+        #if 0
+        foreach ( ScriptFunction *sf, INDIFunctionList )
+        {
+            if ( fn[0] == sf->name() )
+            {
+
+                if ( fn.count() != sf->numArgs() + 1 ) return false;
+
+                ScriptList.append( new ScriptFunction( sf ) );
+
+                for ( int i=0; i<sf->numArgs(); ++i )
+                    ScriptList.last()->setArg( i, fn[i+1] );
+
+                return true;
+            }
+        }
+        #endif
+    }
+
+    //if we get here, no function-name match was found
+    return false;
 }
 
 void ScriptBuilder::setUnsavedChanges( bool b ) {
-    UnsavedChanges = b;
-    sb->SaveButton->setEnabled( b );
-    sb->SaveAsButton->setEnabled( b );
+    if ( checkForChanges ) {
+        UnsavedChanges = b;
+        sb->SaveButton->setEnabled( b );
+    }
 }
 
 void ScriptBuilder::slotCopyFunction() {
@@ -1367,6 +1368,7 @@ void ScriptBuilder::slotCopyFunction() {
     sb->ScriptListBox->insertItem( Pos, ScriptList[Pos]->name());
     //sb->ScriptListBox->setSelected( Pos, true );
     sb->ScriptListBox->setCurrentRow(Pos);
+    slotArgWidget();
 }
 
 void ScriptBuilder::slotRemoveFunction() {
@@ -1379,10 +1381,16 @@ void ScriptBuilder::slotRemoveFunction() {
         sb->ArgStack->setCurrentWidget( argBlank );
         sb->CopyButton->setEnabled( false );
         sb->RemoveButton->setEnabled( false );
+        sb->RunButton->setEnabled( false );
+        sb->SaveAsButton->setEnabled( false );
     } else {
         //sb->ScriptListBox->setSelected( Pos, true );
+        if ( Pos == sb->ScriptListBox->count() ) {
+            Pos = Pos - 1;
+        }
         sb->ScriptListBox->setCurrentRow(Pos);
     }
+    slotArgWidget();
 }
 
 void ScriptBuilder::slotAddFunction() {
@@ -1438,6 +1446,7 @@ void ScriptBuilder::slotMoveFunctionUp() {
         sb->ScriptListBox->takeItem( n );
         sb->ScriptListBox->insertItem( n-1, t);
         sb->ScriptListBox->setCurrentRow(n-1);
+        slotArgWidget();
     }
 }
 
@@ -1455,6 +1464,7 @@ void ScriptBuilder::slotMoveFunctionDown() {
         sb->ScriptListBox->takeItem( n );
         sb->ScriptListBox->insertItem( n+1 , t);
         sb->ScriptListBox->setCurrentRow( n+1);
+        slotArgWidget();
     }
 }
 
@@ -1487,11 +1497,13 @@ void ScriptBuilder::slotArgWidget() {
         sb->DownButton->setEnabled( true );
     }
 
-    //sb->RunButton enabled when script not empty.
+    //RunButton and SaveAs button enabled when script not empty.
     if ( sb->ScriptListBox->count() ) {
         sb->RunButton->setEnabled( true );
+        sb->SaveAsButton->setEnabled( true );
     } else {
         sb->RunButton->setEnabled( false );
+        sb->SaveAsButton->setEnabled( false );
         setUnsavedChanges( false );
     }
 
@@ -1501,6 +1513,8 @@ void ScriptBuilder::slotArgWidget() {
         QString t = sb->ScriptListBox->currentItem()->text();
         unsigned int n = sb->ScriptListBox->currentRow();
         ScriptFunction *sf = ScriptList.at( n );
+
+        checkForChanges = false; //Don't signal unsaved changes
 
         if ( sf->name() == "lookTowards" ) {
             sb->ArgStack->setCurrentWidget( argLookToward );
@@ -1865,6 +1879,8 @@ void ScriptBuilder::slotArgWidget() {
 
         }
 		 #endif
+
+        checkForChanges = true; //signal unsaved changes if the argument widgets are changed
     }
 }
 
@@ -1913,7 +1929,11 @@ void ScriptBuilder::slotFindCity() {
         if ( ld.selectedCity() ) {
             // set new location names
             argSetGeoLocation->CityName->setText( ld.selectedCityName() );
-            argSetGeoLocation->ProvinceName->setText( ld.selectedProvinceName() );
+            if ( ! ld.selectedProvinceName().isEmpty() ) {
+                argSetGeoLocation->ProvinceName->setText( ld.selectedProvinceName() );
+            } else {
+                argSetGeoLocation->ProvinceName->clear();
+            }
             argSetGeoLocation->CountryName->setText( ld.selectedCountryName() );
 
             ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
@@ -2353,9 +2373,12 @@ void ScriptBuilder::slotClose()
 {
     saveWarning();
 
-    if ( !UnsavedChanges )
+    if ( !UnsavedChanges ) {
+        ScriptList.clear();
+        sb->ScriptListBox->clear();
+        sb->ArgStack->setCurrentWidget( argBlank );
         close();
-
+    }
 }
 
 //TODO JM: INDI Scripting to be included in KDE 4.1

@@ -187,8 +187,23 @@ QString ScriptFunction::scriptLine() const {
 
     while ( ! ArgName[i].isEmpty() && i < 6 )
     {
+        //Make sure strings are quoted
+        QString value = ArgVal[i];
+        if ( ArgDBusType[i] == "string" ) {
+            if ( value.isEmpty() ) {
+                value = "\"\"";
+            } else {
+                if ( value.left(1) != "\"" && value.left(1) != "\'" ) {
+                    value = '\"' + value;
+                }
+                if ( value.right(1) != "\"" && value.right(1) != "\'" ) {
+                    value =  value + '\"';
+                }
+            }
+        }
+
         // Write DBus style prototype compatible with dbus-send format
-        out += " " + ArgDBusType[i] + ":" + ArgVal[i];
+        out += " " + ArgDBusType[i] + ":" + value;
         ++i;
     }
 
