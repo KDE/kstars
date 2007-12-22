@@ -166,8 +166,8 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
     double eY = Earth->rsun()*cosB0*sinL0;
     double eZ = Earth->rsun()*sinB0;
 
-    ecLong()->SinCos( sinL, cosL );
-    ecLat()->SinCos( sinB, cosB );
+    helEcLong()->SinCos( sinL, cosL );
+    helEcLat()->SinCos( sinB, cosB );
     x = rsun()*cosB*cosL - eX;
     y = rsun()*cosB*sinL - eY;
     z = rsun()*sinB - eZ;
