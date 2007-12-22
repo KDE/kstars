@@ -31,6 +31,12 @@
 
 #define mydev 		"Celestron GPS"
 
+/* Handy Macros */
+#define currentRA	EquatorialCoordsRN[0].value
+#define currentDEC	EquatorialCoordsRN[1].value
+#define targetRA	EquatorialCoordsWN[0].value
+#define targetDEC	EquatorialCoordsWN[1].value
+
 /* Enable to log debug statements 
 #define CELESTRON_DEBUG	1
 */
@@ -64,18 +70,18 @@ static INumber EquatorialCoordsRN[] = {    {"RA",  "RA  H:M:S", "%10.6m",  0., 2
 static INumberVectorProperty EquatorialCoordsRNP = {  mydev, "EQUATORIAL_EOD_COORD", "Equatorial JNow", BASIC_GROUP, IP_RO, 120, IPS_IDLE,  EquatorialCoordsRN, NARRAY(EquatorialCoordsRN), "", 0};
 
 /* Tracking precision */
-INumber TrackingPrecisionN[] = {
+INumber TrackingAccuracyN[] = {
     {"TrackRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
     {"TrackDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
 };
-static INumberVectorProperty TrackingPrecisionNP = {mydev, "Tracking Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackingPrecisionN, NARRAY(TrackingPrecisionN), "", 0};
+static INumberVectorProperty TrackingAccuracyNP = {mydev, "Tracking Accuracy", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, TrackingAccuracyN, NARRAY(TrackingAccuracyN), "", 0};
 
 /* Slew precision */
-INumber SlewPrecisionN[] = {
+INumber SlewAccuracyN[] = {
     {"SlewRA",  "RA (arcmin)", "%10.6m",  0., 60., 1., 3.0, 0, 0, 0},
     {"SlewDEC", "Dec (arcmin)", "%10.6m", 0., 60., 1., 3.0, 0, 0, 0},
 };
-static INumberVectorProperty SlewPrecisionNP = {mydev, "Slew Precision", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, SlewPrecisionN, NARRAY(SlewPrecisionN), "", 0};
+static INumberVectorProperty SlewAccuracyNP = {mydev, "Slew Accuracy", "", MOVE_GROUP, IP_RW, 0, IPS_IDLE, SlewAccuracyN, NARRAY(SlewAccuracyN), "", 0};
 
 /* Fundamental group */
 static ISwitch ConnectS[]          = {{"CONNECT" , "Connect" , ISS_OFF, 0, 0},{"DISCONNECT", "Disconnect", ISS_ON, 0, 0}};
@@ -113,7 +119,7 @@ void ISInit()
 
  isInit = 1;
 
-  PortT[0].text = strcpy(new char[32], "/dev/ttyS0");
+  IUSaveText(&PortT[0], "/dev/ttyS0");
   
   telescope = new CelestronGPS();
 
@@ -152,8 +158,8 @@ void ISSnoopDevice (XMLEle *root)
 CelestronGPS::CelestronGPS()
 {
 
-   targetRA  = lastRA = 0;
-   targetDEC = lastDEC = 0;
+   lastRA = 0;
+   lastDEC = 0;
    currentSet   = 0;
    lastSet      = -1;
 
@@ -182,8 +188,8 @@ void CelestronGPS::ISGetProperties(const char *dev)
   // Movement group
   IDDefSwitch (&MovementNSSP, NULL);
   IDDefSwitch (&MovementWESP, NULL);
-  IDDefNumber (&TrackingPrecisionNP, NULL);
-  IDDefNumber (&SlewPrecisionNP, NULL);
+  IDDefNumber (&TrackingAccuracyNP, NULL);
+  IDDefNumber (&SlewAccuracyNP, NULL);
   
   /* Send the basic data to the new client if the previous client(s) are already connected. */		
   if (ConnectSP.s == IPS_OK)
@@ -195,8 +201,8 @@ void CelestronGPS::ISNewText (const char *dev, const char *name, char *texts[], 
 {
         IText *tp;
 
-	// suppress warning
-	n=n;
+	INDI_UNUSED(n);
+
 	// ignore if not ours //
 	if (strcmp (dev, mydev))
 	    return;
@@ -209,8 +215,7 @@ void CelestronGPS::ISNewText (const char *dev, const char *name, char *texts[], 
 	  if (!tp)
 	   return;
 
-	  tp->text = new char[strlen(texts[0])+1];
-	  strcpy(tp->text, texts[0]);
+	  IUSaveText(&PortT[0], texts[0]);
 	  IDSetText (&PortTP, NULL);
 	  return;
 	}
@@ -260,8 +265,8 @@ int CelestronGPS::handleCoordSet()
 	     usleep(500000);
 	  }
 
-	  if ( (fabs ( targetRA - currentRA ) >= (TrackingPrecisionN[0].value/(15.0*60.0))) ||
- 	       (fabs (targetDEC - currentDEC) >= (TrackingPrecisionN[1].value)/60.0))
+	  if ( (fabs ( targetRA - currentRA ) >= (TrackingAccuracyN[0].value/(15.0*60.0))) ||
+ 	       (fabs (targetDEC - currentDEC) >= (TrackingAccuracyN[1].value)/60.0))
 	  {
 
 		#ifdef CELESTRON_DEBUG
@@ -289,12 +294,13 @@ int CelestronGPS::handleCoordSet()
 	    #ifdef CELESTRON_DEBUG
 	    IDLog("Tracking called, but tracking threshold not reached yet.\n");
 	    #endif
+	    EquatorialCoordsWNP.s = IPS_OK;
 	    EquatorialCoordsRNP.s = IPS_OK;
-	    EquatorialCoordsRNP.np[0].value = currentRA;
-	    EquatorialCoordsRNP.np[1].value = currentDEC;
             if (lastSet != 1)
-	      IDSetNumber(&EquatorialCoordsRNP, "Tracking...");
+	      IDSetNumber(&EquatorialCoordsWNP, "Tracking...");
 	    else
+	      IDSetNumber(&EquatorialCoordsWNP, NULL);
+
 	      IDSetNumber(&EquatorialCoordsRNP, NULL);
 	  }
 	  lastSet = 1;
@@ -330,31 +336,31 @@ void CelestronGPS::ISNewNumber (const char *dev, const char *name, double values
 	time (&t);
 	tp = gmtime (&t);
 
-        if (!strcmp (name, TrackingPrecisionNP.name))
+        if (!strcmp (name, TrackingAccuracyNP.name))
 	{
-		if (!IUUpdateNumber(&TrackingPrecisionNP, values, names, n))
+		if (!IUUpdateNumber(&TrackingAccuracyNP, values, names, n))
 		{
-			TrackingPrecisionNP.s = IPS_OK;
-			IDSetNumber(&TrackingPrecisionNP, NULL);
+			TrackingAccuracyNP.s = IPS_OK;
+			IDSetNumber(&TrackingAccuracyNP, NULL);
 			return;
 		}
 		
-		TrackingPrecisionNP.s = IPS_ALERT;
-		IDSetNumber(&TrackingPrecisionNP, "unknown error while setting tracking precision");
+		TrackingAccuracyNP.s = IPS_ALERT;
+		IDSetNumber(&TrackingAccuracyNP, "unknown error while setting tracking precision");
 		return;
 	}
 
-	if (!strcmp(name, SlewPrecisionNP.name))
+	if (!strcmp(name, SlewAccuracyNP.name))
 	{
-		IUUpdateNumber(&SlewPrecisionNP, values, names, n);
+		IUUpdateNumber(&SlewAccuracyNP, values, names, n);
 		{
-			SlewPrecisionNP.s = IPS_OK;
-			IDSetNumber(&SlewPrecisionNP, NULL);
+			SlewAccuracyNP.s = IPS_OK;
+			IDSetNumber(&SlewAccuracyNP, NULL);
 			return;
 		}
 		
-		SlewPrecisionNP.s = IPS_ALERT;
-		IDSetNumber(&SlewPrecisionNP, "unknown error while setting slew precision");
+		SlewAccuracyNP.s = IPS_ALERT;
+		IDSetNumber(&SlewAccuracyNP, "unknown error while setting slew precision");
 		return;
 	}
 
@@ -419,11 +425,7 @@ void CelestronGPS::ISNewSwitch (const char *dev, const char *name, ISState *stat
 
         int index;
 
-	// Suppress warning
-	names = names;
-
-	//IDLog("in new Switch with Device= %s and Property= %s and #%d items\n", dev, name,n);
-	//IDLog("SolarSw name is %s\n", SolarSw.name);
+	INDI_UNUSED(names);
 
 	// ignore if not ours //
 	if (strcmp (dev, mydev))
@@ -664,7 +666,6 @@ int CelestronGPS::checkPower(ITextVectorProperty *tp)
 void CelestronGPS::ISPoll()
 {
        double dx, dy;
-       double currentRA, currentDEC;
        int status;
 
 	switch (EquatorialCoordsWNP.s)
@@ -677,8 +678,6 @@ void CelestronGPS::ISPoll()
 
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
-	        EquatorialCoordsRNP.np[0].value = currentRA;
-		EquatorialCoordsRNP.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
 		IDSetNumber (&EquatorialCoordsRNP, NULL);
@@ -697,10 +696,7 @@ void CelestronGPS::ISPoll()
 	    IDLog("targetDEC is %f, currentDEC is %f\n****************************\n", (float) targetDEC, (float) currentDEC);
 	    #endif
 
-	    EquatorialCoordsRNP.np[0].value = currentRA;
-	    EquatorialCoordsRNP.np[1].value = currentDEC;
-
-	    status = CheckCoords(targetRA, targetDEC, SlewPrecisionN[0].value/(15.0*60.0) , SlewPrecisionN[1].value/60.0);
+	    status = CheckCoords(targetRA, targetDEC, SlewAccuracyN[0].value/(15.0*60.0) , SlewAccuracyN[1].value/60.0);
 
 	    // Wait until acknowledged or within 3.6', change as desired.
 	    switch (status)
@@ -712,9 +708,6 @@ void CelestronGPS::ISPoll()
 	    case 2:		/* goto complete but outside tolerance */
 		currentRA = targetRA;
 		currentDEC = targetDEC;
-
-		EquatorialCoordsRNP.np[0].value = currentRA;
-		EquatorialCoordsRNP.np[1].value = currentDEC;
 
 		EquatorialCoordsWNP.s = IPS_OK;
 		EquatorialCoordsRNP.s = IPS_OK;
@@ -742,9 +735,6 @@ void CelestronGPS::ISPoll()
 
         if ( fabs (currentRA - lastRA) > 0.01 || fabs (currentDEC - lastDEC) > 0.01)
 	{
-
-		EquatorialCoordsRNP.np[0].value = currentRA;
-		EquatorialCoordsRNP.np[1].value = currentDEC;
 		lastRA  = currentRA;
 		lastDEC = currentDEC;
 		IDSetNumber (&EquatorialCoordsRNP, NULL);
@@ -764,10 +754,6 @@ void CelestronGPS::ISPoll()
 	 case IPS_BUSY:
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
-
-	     EquatorialCoordsRNP.np[0].value = currentRA;
-	     EquatorialCoordsRNP.np[1].value = currentDEC;
-
 	     IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	     break;
@@ -784,10 +770,6 @@ void CelestronGPS::ISPoll()
 	 case IPS_BUSY:
 	     currentRA = GetRA();
 	     currentDEC = GetDec();
-
-	     EquatorialCoordsRNP.np[0].value = currentRA;
-	     EquatorialCoordsRNP.np[1].value = currentDEC;
-
 	     IDSetNumber (&EquatorialCoordsRNP, NULL);
 
 	     break;
@@ -802,11 +784,8 @@ void CelestronGPS::ISPoll()
 void CelestronGPS::getBasicData()
 {
 
-  targetRA = GetRA();
-  targetDEC = GetDec();
-
-  EquatorialCoordsRNP.np[0].value = targetRA;
-  EquatorialCoordsRNP.np[1].value = targetDEC;
+  currentRA = GetRA();
+  currentDEC = GetDec();
 
   IDSetNumber(&EquatorialCoordsRNP, NULL);
 

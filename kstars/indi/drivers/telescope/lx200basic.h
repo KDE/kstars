@@ -53,7 +53,8 @@ private:
   IText ObjectT[1];
 
   /* Numbers */
-  INumber EqN[2];
+  INumber EquatorialCoordsRN[2];
+  INumber EquatorialCoordsWN[2];
   INumber SlewAccuracyN[2];
   INumber TrackAccuracyN[2];
   
@@ -63,7 +64,8 @@ private:
   ISwitchVectorProperty AbortSlewSP;
   
    /* Number Vectors */
-  INumberVectorProperty EqNP;
+  INumberVectorProperty EquatorialCoordsRNP;
+  INumberVectorProperty EquatorialCoordsWNP;
   INumberVectorProperty SlewAccuracyNP;
   INumberVectorProperty TrackAccuracyNP;
   
@@ -101,8 +103,6 @@ private:
  protected:
 
   double JD;				/* Julian Date */
-  double targetRA;
-  double targetDEC;
   double lastRA;
   double lastDEC;
   bool   simulation;
