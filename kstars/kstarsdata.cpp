@@ -322,7 +322,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
     //Update Alt/Az coordinates.  Timescale varies with zoom level
     //If Clock is in Manual Mode, always update. (?)
-    if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.25/Options::zoomFactor() || clock()->isManualMode() ) {
+    if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() ) {
         LastSkyUpdate = ut();
         //TIMING
         //		t.start();
