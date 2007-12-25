@@ -412,7 +412,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
 
         int isize = int(size);
         if ( isize >= 14 ) {
-            kDebug() << "Star too big: " << size << endl;
+//            kDebug() << "Star too big: " << size << endl;
             isize = 14;
         }
 
