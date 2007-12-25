@@ -104,6 +104,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
             QString cName = line.mid(1);
             polyList = new PolyList( cName );
             if ( verbose == -1 ) printf(":\n");
+            lastRa = lastDec = -1000.0;
             continue;
         }
 
