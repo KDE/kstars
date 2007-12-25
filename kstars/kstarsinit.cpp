@@ -85,7 +85,7 @@ void KStars::initActions() {
 #endif
 
     ka = actionCollection()->addAction( "export_image" );
-    ka->setIcon( KIcon( "fileexport" ) );
+    ka->setIcon( KIcon( "document-export" ) );
     ka->setText( i18n( "&Save Sky Image..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_I ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotExportImage() ) );
@@ -106,7 +106,7 @@ void KStars::initActions() {
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTimeToNow() ) );
 
     ka = actionCollection()->addAction( "time_dialog" );
-    ka->setIcon( KIcon( "history" ) );
+    ka->setIcon( KIcon( "view-history" ) );
     ka->setText( i18nc( "set Clock to New Time", "&Set Time..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_S  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotSetTime() ) );
@@ -153,7 +153,7 @@ void KStars::initActions() {
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotFind() ) );
 
     ka = actionCollection()->addAction( "track_object" );
-    ka->setIcon( KIcon( "document-encrypt" ) );
+    ka->setIcon( KIcon( "object-locked" ) );
     ka->setText( i18n( "Engage &Tracking" ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_T  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotTrack() ) );
@@ -329,7 +329,7 @@ void KStars::initActions() {
 
     //Tools Menu:
     ka = actionCollection()->addAction( "astrocalculator" );
-    ka->setIcon( KIcon( "kcalc" ) );
+    ka->setIcon( KIcon( "accessories-calculator" ) );
     ka->setText( i18n( "Calculator...") );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_C ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotCalculator() ) );
