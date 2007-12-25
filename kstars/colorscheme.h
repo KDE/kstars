@@ -153,13 +153,13 @@ public:
       *Set the star color mode used by the color scheme
     	*@p mode the star color mode to use
     	*/
-    void setStarColorMode( int mode ) { StarColorMode = mode; }
+    void setStarColorMode( int mode );
 
     /**
       *Set the star color intensity value used by the color scheme
     	*@p intens The star color intensity value
     	*/
-    void setStarColorIntensity( int intens) { StarColorIntensity = intens; }
+    void setStarColorIntensity( int intens);
 
 private:
     int StarColorMode, StarColorIntensity;

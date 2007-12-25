@@ -283,11 +283,14 @@ public:
     	*/
     static void updateColors( bool desaturateColors, int saturation );
 
+    static void initImages();
+
     quint64 updateID;
     quint64 updateNumID;
 
 protected:
     static QMap<QString, QColor> ColorMap;
+    static QHash<QString, QPixmap> StarImage;
 
 private:
     QString SpType;

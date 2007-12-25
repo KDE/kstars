@@ -32,6 +32,7 @@
 #include "skycomponents/skylabeler.h"
 
 QMap<QString, QColor> StarObject::ColorMap;
+QHash<QString, QPixmap> StarObject::StarImage;
 
 //----- Static Methods -----
 //
@@ -102,6 +103,74 @@ StarObject::StarObject( double r, double d, float m,
 
     setLongName(lname);
     updateID = updateNumID = 0;
+}
+
+void StarObject::initImages() {
+    if ( Options::starColorMode() == 0 ) { //Real colors
+        ColorMap.insert( "O", QColor::fromRgb(   0,   0, 255 ) );
+        ColorMap.insert( "B", QColor::fromRgb(   0, 200, 255 ) );
+        ColorMap.insert( "A", QColor::fromRgb(   0, 255, 255 ) );
+        ColorMap.insert( "F", QColor::fromRgb( 200, 255, 100 ) );
+        ColorMap.insert( "G", QColor::fromRgb( 255, 255,   0 ) );
+        ColorMap.insert( "K", QColor::fromRgb( 255, 100,   0 ) );
+        ColorMap.insert( "M", QColor::fromRgb( 255,   0,   0 ) );
+    } else if ( Options::starColorMode() == 1 ) { //Red stars
+        ColorMap.insert( "O", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "B", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "A", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "F", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "G", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "K", QColor::fromRgb( 255,   0,   0 ) );
+        ColorMap.insert( "M", QColor::fromRgb( 255,   0,   0 ) );
+    } else if ( Options::starColorMode() == 2 ) { //Black stars
+        ColorMap.insert( "O", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "B", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "A", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "F", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "G", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "K", QColor::fromRgb(   0,   0,   0 ) );
+        ColorMap.insert( "M", QColor::fromRgb(   0,   0,   0 ) );
+    } else if ( Options::starColorMode() == 3 ) { //White stars
+        ColorMap.insert( "O", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "B", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "A", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "F", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "G", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "K", QColor::fromRgb( 255, 255, 255 ) );
+        ColorMap.insert( "M", QColor::fromRgb( 255, 255, 255 ) );
+    }
+
+    foreach ( QString color, ColorMap.keys() ) {
+        QString imKey = color+"14";
+        QPixmap BigImage( 14, 14 ); 
+        BigImage.fill( Qt::transparent );
+
+        QPainter p;
+        p.begin( &BigImage );
+        p.setRenderHint(QPainter::Antialiasing, true );
+
+        //Set the width of the pen according to starColorIntensity()
+        float w=2.0;
+        if ( Options::starColorMode() == 0 ) {
+            w = 2.0*float(Options::starColorIntensity())/4.0;
+        }
+
+        p.setPen( QPen(ColorMap[color], w) );
+        if ( Options::starColorMode() == 0 ) {
+            p.setBrush( QColor(Qt::white) );
+        } else {
+            p.setBrush( p.pen().color() );
+        }
+
+        p.drawEllipse( QRect( 2, 2, 10, 10 ) );
+        p.end();
+        StarImage.insert( imKey, BigImage );
+
+        for ( int size = 13; size > 0; size-- ) {
+            imKey = color+QString("%1").arg(size);
+            StarImage.insert( imKey, BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+        }
+    }
 }
 
 void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
@@ -325,23 +394,39 @@ void StarObject::updateColors( bool desaturateColors, int saturation ) {
 void StarObject::draw( QPainter &psky, float x, float y, float size,
                        bool useRealColors, int scIntensity, bool /*showMultiple*/ ) {
 
-    if ( useRealColors ) {
+//REMOVE
+//    if ( useRealColors ) {
         //Realistic colors
         //Stars rendered as a white core with a colored ring.
         //With antialiasing, we can just set the ring thickness to 0.1*scIntensity
         //However, this won't work without antialiasing, because the ring thickness
         //cant be <1 in this case.  So we desaturate the pen color instead
-        if ( Options::useAntialias() )
-            psky.setPen( QPen( color(), 0.1*scIntensity ) );
-        else {
-            psky.setPen( QPen( color(), 1 ) );
-        }
-    }
 
-    if ( Options::useAntialias() )
-        psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
-    else
-        psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
+//         if ( Options::useAntialias() )
+//             psky.setPen( QPen( color(), 0.1*scIntensity ) );
+//         else {
+//             psky.setPen( QPen( color(), 1 ) );
+//         }
+//     }
+//END_REMOVE
+
+        int isize = int(size);
+        if ( isize >= 14 ) {
+            kDebug() << "Star too big: " << size << endl;
+            isize = 14;
+        }
+
+        float offset = 0.5*float(isize);
+        QString imKey = SpType.at(0)+QString("%1").arg(isize);
+        psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
+
+//REMOVE
+//     if ( Options::useAntialias() )
+//         psky.drawEllipse( QRectF( x - 0.5*size, y - 0.5*size, size, size ) );
+//     else
+//         psky.drawEllipse( QRect( int(x - 0.5*size), int(y - 0.5*size), int(size), int(size) ) );
+//END_REMOVE
+
 }
 
 // The two routines below seem overly complicated but at least they are doing

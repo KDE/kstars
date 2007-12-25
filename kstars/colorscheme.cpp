@@ -28,6 +28,7 @@
 #include <kconfiggroup.h>
 
 #include "ksutils.h"
+#include "Options.h"
 
 ColorScheme::ColorScheme() : FileName() {
     //Each color has two names associated with it.  The KeyName is its
@@ -335,4 +336,14 @@ void ColorScheme::saveToConfig( KConfig *conf ) {
 
     cg.writeEntry( "StarColorMode", starColorMode() );
     cg.writeEntry( "StarColorIntensity", starColorIntensity() );
+}
+
+void ColorScheme::setStarColorMode( int mode ) { 
+    StarColorMode = mode;
+    Options::setStarColorMode( mode );
+}
+
+void ColorScheme::setStarColorIntensity( int intens ) { 
+    StarColorIntensity = intens;
+    Options::setStarColorIntensity( intens );
 }

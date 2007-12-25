@@ -781,14 +781,14 @@ void SkyMap::paintEvent( QPaintEvent * )
     psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
     //TIMING
-    // 	QTime t2;
-    // 	t2.start();
+//     QTime t2;
+//     t2.start();
 
     //Draw all sky elements
     data->skyComposite()->draw( psky );
 
     //TIMING
-    // 	kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed());
+//     kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed());
 
     //Finish up
     psky.end();
