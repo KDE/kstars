@@ -24,7 +24,7 @@
 #ifdef _WIN32
 #define KEY_MAX _I64_MAX
 #else
-#  ifdef __FreeBSD__
+#  if defined(__FreeBSD__) || defined(__NetBSD__)
 #    define KEY_MAX LLONG_MAX
 #  else
 #    define KEY_MAX LONG_LONG_MAX
