@@ -747,8 +747,13 @@ void INDIStdDevice::timerDone()
 
     if (prop == NULL)
     {
-        prop = dp->findProp("EQUATORIAL_COORD");
-        if (prop) useJ2000 = true;
+	// Backward compatibility
+	prop = dp->findProp("EQUATORIAL_EOD_COORD");
+	if (prop == NULL)
+	{
+        	prop = dp->findProp("EQUATORIAL_COORD");
+        	if (prop) useJ2000 = true;
+	}
     }
 
     if (prop == NULL || !currentObject)
