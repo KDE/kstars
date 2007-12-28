@@ -67,11 +67,13 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
     runningPix = KIcon( "system-run" );
     stopPix    = KIcon( "dialog-cancel" );
-    localMode  = KIcon( "cpu" );
-    serverMode = KIcon( "network" );
+    // jpetso: I don't know what the above icon does, depending on the usage
+    // it might also be "process-stop". please check back.
+    localMode  = KIcon( "computer" );
+    serverMode = KIcon( "network-server" );
 
-    connected           = KIcon( "connection-established" );
-    disconnected        = KIcon( "connect-no" );
+    connected           = KIcon( "network-connect" );
+    disconnected        = KIcon( "network-disconnect" );
 
 }
 
