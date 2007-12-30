@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="DownloadText" >
        <property name="text" >
-        <string><html><head></head><body><p>You may now download optional data files to enhance KStars, such as Messier object images, or a more complete NGC/IC catalog. Press the <span style=" font-weight:600;">Download Extra Data</span> button to proceed. </p><p>You can also use this tool later, by selecting <span style=" font-weight:600;">Download data</span> from the <span style=" font-weight:600;">File</span> menu.</p></body></html></string>
+        <string>&lt;html>&lt;head>&lt;/head>&lt;body>&lt;p>You may now download optional data files to enhance KStars, such as Messier object images, or a more complete NGC/IC catalog. Press the &lt;span style=" font-weight:600;">Download Extra Data&lt;/span> button to proceed. &lt;/p>&lt;p>You can also use this tool later, by selecting &lt;span style=" font-weight:600;">Download data&lt;/span> from the &lt;span style=" font-weight:600;">File&lt;/span> menu.&lt;/p>&lt;/body>&lt;/html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>

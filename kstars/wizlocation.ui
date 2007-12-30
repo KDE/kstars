@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText" >
        <property name="text" >
-        <string><html><head></head><body><p>Select a City near your location from the list. You may filter the list by the name of your city, province, and country.</p><p>Once you have selected a City, press <span style=" font-weight:600;">Next</span>.</p></body></html></string>
+        <string>&lt;html>&lt;head>&lt;/head>&lt;body>&lt;p>Select a City near your location from the list. You may filter the list by the name of your city, province, and country.&lt;/p>&lt;p>Once you have selected a City, press &lt;span style=" font-weight:600;">Next&lt;/span>.&lt;/p>&lt;/body>&lt;/html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>

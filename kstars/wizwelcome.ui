@@ -85,7 +85,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText" >
        <property name="text" >
-        <string><html><head></head><body><p>This wizard will help you set up some basic options, such as your location on Earth.</p><p></p><p>To get started, press the <span style=" font-weight:600;">Next</span> button.</p></body></html></string>
+        <string>&lt;html>&lt;head>&lt;/head>&lt;body>&lt;p>This wizard will help you set up some basic options, such as your location on Earth.&lt;/p>&lt;p>&lt;/p>&lt;p>To get started, press the &lt;span style=" font-weight:600;">Next&lt;/span> button.&lt;/p>&lt;/body>&lt;/html></string>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>
