@@ -234,7 +234,6 @@ void OpsColors::slotRemovePreset() {
 
 void OpsColors::slotStarColorMode( int i ) {
     ksw->data()->colorScheme()->setStarColorMode( i );
-    StarObject::initImages();
 
     if ( ksw->data()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
         kcfg_StarColorIntensity->setEnabled( false );
@@ -244,7 +243,6 @@ void OpsColors::slotStarColorMode( int i ) {
 
 void OpsColors::slotStarColorIntensity( int i ) {
     ksw->data()->colorScheme()->setStarColorIntensity( i );
-    StarObject::initImages();
 }
 
 #include "opscolors.moc"
