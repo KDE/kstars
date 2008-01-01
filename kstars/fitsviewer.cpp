@@ -138,11 +138,11 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));
     action = actionCollection()->addAction("image_stats");
-    action->setIcon(KIcon("datashowchart"));
+    action->setIcon(KIcon("view-statistics"));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
     action = actionCollection()->addAction("fits_editor");
-    action->setIcon(KIcon("fileview-text"));
+    action->setIcon(KIcon("document-properties"));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(fitsHeader()));
 
