@@ -58,6 +58,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         setEcLong( ecLong()->reduce().Degrees() );
         setEcLat( -1.0*trialpos.latitude.Degrees() );
 
+        setRearth( Earth->rsun() );
+
     } else {
         double sum[6];
         dms EarthLong, EarthLat; //heliocentric coords of Earth
@@ -110,6 +112,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         }
 
         ep.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
+        setRearth( ep.radius );
 
         setEcLong( EarthLong.Degrees() + 180.0 );
         setEcLong( ecLong()->reduce().Degrees() );
