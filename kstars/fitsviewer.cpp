@@ -119,7 +119,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     }
     else {
         action = actionCollection()->addAction("image_histogram");
-        action->setIcon(KIcon("wizard"));
+        action->setIcon(KIcon("tools-wizard"));
         action->setText(i18n("Histogram"));
         connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
         action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
@@ -133,7 +133,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
     KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
     action = actionCollection()->addAction("zoom_default" );
-    action->setIcon(KIcon("zoom-best-fit"));
+    action->setIcon(KIcon("zoom-fit-best"));
     action->setText(i18n( "&Default Zoom" ));
     connect(action, SIGNAL(triggered(bool) ), image, SLOT(fitsZoomDefault()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_D ));

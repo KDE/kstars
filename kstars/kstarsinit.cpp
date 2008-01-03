@@ -85,7 +85,7 @@ void KStars::initActions() {
 #endif
 
     ka = actionCollection()->addAction( "export_image" );
-    ka->setIcon( KIcon( "document-export" ) );
+    ka->setIcon( KIcon( "document-export-image" ) );
     ka->setText( i18n( "&Save Sky Image..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_I ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotExportImage() ) );
@@ -168,7 +168,7 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", this, SLOT( slotZoomOut() ) );
 
     ka = actionCollection()->addAction( "zoom_default" );
-    ka->setIcon( KIcon( "zoom-best-fit" ) );
+    ka->setIcon( KIcon( "zoom-fit-best" ) );
     ka->setText( i18n( "&Default Zoom" ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_Z ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotDefaultZoom() ) );
@@ -323,7 +323,7 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
 
     ka = actionCollection()->addAction( "startwizard" );
-    ka->setIcon( KIcon( "plasmagik" ) );
+    ka->setIcon( KIcon( "tools-wizard" ) );
     ka->setText( i18n( "Startup Wizard..." ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotWizard() ) );
 
