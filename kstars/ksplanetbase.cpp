@@ -235,7 +235,7 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     dec()->SinCos(cosDec, sinDec);
 
     /* Phase of the planet in degrees */
-    double earthSun = 1.;
+    double earthSun = data->skyComposite()->earth()->rsun();
     double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
                       / (2 * rsun() * rearth() );
     double phase_rad = acos ( cosPhase ); // Phase in radian - used for asteroid magnitudes
