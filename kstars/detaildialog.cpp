@@ -111,7 +111,7 @@ void DetailDialog::createGeneralTab()
     QString pname, oname;
 
     switch ( selectedObject->type() ) {
-    case 0: //stars
+    case SkyObject::STAR:
         s = (StarObject *)selectedObject;
 
         Data->Names->setText( s->longname() );
@@ -151,15 +151,18 @@ void DetailDialog::createGeneralTab()
 
         break; //end of stars case
 
-    case 9:  //asteroids [fall through to planets]
-    case 10: //comets [fall through to planets]
-    case 2:  //planets (including comets and asteroids)
+    case SkyObject::ASTEROID:  //[fall through to planets]
+    case SkyObject::COMET: //[fall through to planets]
+    case SkyObject::MOON: //[fall through to planets]
+    case SkyObject::PLANET:
         ps = (KSPlanetBase *)selectedObject;
 
         Data->Names->setText( ps->longname() );
         //Type is "G5 star" for Sun
         if ( ps->name() == "Sun" )
             Data->Type->setText( i18n("G5 star") );
+        else if ( ps->name() == "Moon" )
+            Data->Type->setText( ps->translatedName() );
         else
             Data->Type->setText( ps->typeName() );
 
