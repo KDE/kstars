@@ -109,24 +109,24 @@ bool imagesequence::setupCCDs()
 
     CCDCombo->clear();
 
-    for (int i=0; i < devMenu->mgr.size(); i++)
+    for (int i=0; i < devMenu->managers.size(); i++)
     {
-        for (int j=0; j < devMenu->mgr.at(i)->indi_dev.size(); j++)
+        for (int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++)
         {
-            imgProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSURE");
+            imgProp = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSURE");
             if (!imgProp)
                 continue;
 
-            if (!devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
+            if (!devMenu->managers.at(i)->indi_dev.at(j)->isOn())
                 continue;
 
             imgDeviceFound = true;
 
-            if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())
-                devMenu->mgr.at(i)->indi_dev.at(j)->label =
-                    devMenu->mgr.at(i)->indi_dev.at(j)->name;
+            if (devMenu->managers.at(i)->indi_dev.at(j)->label.isEmpty())
+                devMenu->managers.at(i)->indi_dev.at(j)->label =
+                    devMenu->managers.at(i)->indi_dev.at(j)->name;
 
-            CCDCombo->addItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+            CCDCombo->addItem(devMenu->managers.at(i)->indi_dev.at(j)->label);
 
         }
     }
@@ -181,21 +181,21 @@ bool imagesequence::setupFilters()
     filterCombo->addItem(i18n("None"));
 
     // Second step is to check for filter wheel, it is only optional.
-    for (int i=0; i < devMenu->mgr.size(); i++)
+    for (int i=0; i < devMenu->managers.size(); i++)
     {
-        for (int j=0; j < devMenu->mgr.at(i)->indi_dev.size(); j++)
+        for (int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++)
         {
-            filterProp = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("FILTER_SLOT");
+            filterProp = devMenu->managers.at(i)->indi_dev.at(j)->findProp("FILTER_SLOT");
             if (!filterProp)
                 continue;
 
             filterDeviceFound = true;
 
-            if (devMenu->mgr.at(i)->indi_dev.at(j)->label.isEmpty())
-                devMenu->mgr.at(i)->indi_dev.at(j)->label =
-                    devMenu->mgr.at(i)->indi_dev.at(j)->name;
+            if (devMenu->managers.at(i)->indi_dev.at(j)->label.isEmpty())
+                devMenu->managers.at(i)->indi_dev.at(j)->label =
+                    devMenu->managers.at(i)->indi_dev.at(j)->name;
 
-            filterCombo->addItem(devMenu->mgr.at(i)->indi_dev.at(j)->label);
+            filterCombo->addItem(devMenu->managers.at(i)->indi_dev.at(j)->label);
 
         }
     }

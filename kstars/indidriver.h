@@ -28,8 +28,9 @@
 class QTreeWidgetItem;
 class QIcon;
 
+class INDI_D;
 class KStars;
-
+class DeviceManager;
 class KProcess;
 
 struct INDIHostsInfo
@@ -38,7 +39,7 @@ struct INDIHostsInfo
     QString hostname;
     QString portnumber;
     bool isConnected;
-    int mgrID;
+    DeviceManager *deviceManager;
 };
 
 class IDevice : public QObject
@@ -46,33 +47,27 @@ class IDevice : public QObject
     Q_OBJECT
 
 public:
-    IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion);
-    ~IDevice();
+    IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion);
+      ~IDevice();
+  
+    enum DeviceStatus { DEV_START, DEV_TERMINATE };
 
-    enum ServeMODE { M_LOCAL, M_SERVER };
-    QString label;
+    QString tree_label;
+    QString unique_label;
+    QString driver_class;
     QString driver;
     QString version;
-    QString serverBuffer;
-    int state;
-    int mode;
-    int indiPort;
-    bool managed;
-    int mgrID;
+    DeviceStatus state;
+
+    DeviceManager *deviceManager;
     int deviceType;
-    KProcess *proc;
-
-    /* Telescope specific attributes */
-    double focal_length;
-    double aperture;
-
-    void restart();
-
-public Q_SLOTS:
-    void processstd();
-
-Q_SIGNALS:
-    void newServerInput();
+  
+      /* Telescope specific attributes */
+      double focal_length;
+      double aperture;
+  
+    void clear();
+    QString getServerBuffer();
 
 };
 
@@ -102,8 +97,6 @@ public:
     INDIDriver(KStars *ks);
     ~INDIDriver();
 
-    enum DevAction { DEV_START, DEV_TERMINATE };
-
     bool readXMLDriver();
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
@@ -112,37 +105,39 @@ public:
 
     KStars *ksw;
     DeviceManagerUI *ui;
-
+    QList<IDevice *> devices;
     QTreeWidgetItem *lastGroup;
     QTreeWidgetItem *lastDevice;
-
+  
     QStringList driversList;
-
     int currentPort;
-
-    bool runDevice(IDevice *dev);
-    void removeDevice(IDevice *dev);
-    void removeDevice(const QString &deviceLabel);
+  
     void saveDevicesToDisk();
     int getINDIPort();
     int activeDriverCount();
     bool isDeviceRunning(const QString &deviceLabel);
-
+  
     void saveHosts();
-    void processDeviceStatus(DevAction);
-    void processHostStatus(DevAction);
+  
+    void processLocalTree(IDevice::DeviceStatus dev_request);
+    void processRemoteTree(IDevice::DeviceStatus dev_request);
+  
+    
 
-    QList<IDevice *> devices;
+  public slots:
+    void enableDevice(INDI_D *device);
+    void disableDevice(INDI_D *device);
 
-public slots:
-    void updateMenuActions();
     void resizeDeviceColumn();
+    void updateLocalTab();
+    void updateClientTab();
+
+    void updateMenuActions();
+    
     void addINDIHost();
     void modifyINDIHost();
     void removeINDIHost();
-    void shutdownHost(int mgrID);
-    void updateLocalButtons();
-    void updateClientButtons();
+    //TODO void shutdownHost(int managersID);
     void activateRunService();
     void activateStopService();
     void activateHostConnection();

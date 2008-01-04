@@ -813,13 +813,11 @@ void DetailDialog::centerTelescope()
     // i.e. the first telescope we find!
 
     INDIMenu *imenu = ksw->getINDIMenu();
-
-
-    for ( int i=0; i < imenu->mgr.size() ; i++ )
+    for ( int i=0; i < imenu->managers.size() ; i++ )
     {
-        for ( int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++ )
+        for ( int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++ )
         {
-            indidev = imenu->mgr.at(i)->indi_dev.at(j);
+            indidev = imenu->managers.at(i)->indi_dev.at(j);
             indidev->stdDev->currentObject = NULL;
             prop = indidev->findProp("EQUATORIAL_EOD_COORD");
             if (prop == NULL)

@@ -417,18 +417,18 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
         psky.setBrush( Qt::NoBrush );
         float pxperdegree = Options::zoomFactor()/57.3;
 
-        //fprintf(stderr, "in draw telescope function with mgrsize of %d\n", devMenu->mgr.size());
-        for ( int i=0; i < devMenu->mgr.size(); i++ )
+        //fprintf(stderr, "in draw telescope function with managerssize of %d\n", devMenu->managers.size());
+        for ( int i=0; i < devMenu->managers.size(); i++ )
         {
-            for ( int j=0; j < devMenu->mgr.at(i)->indi_dev.size(); j++ )
+            for ( int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++ )
             {
                 useAltAz = false;
                 useJ2000 = false;
 
                 // make sure the dev is on first
-                if (devMenu->mgr.at(i)->indi_dev.at(j)->isOn())
+                if (devMenu->managers.at(i)->indi_dev.at(j)->isOn())
                 {
-                    portConnect = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("CONNECTION");
+                    portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
 
                     if (!portConnect)
                         return;
@@ -436,14 +436,14 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                     if (portConnect->state == PS_BUSY)
                         return;
 
-                    eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
+                    eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
 
                     if (eqNum == NULL)
                     {
-                        eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
+                        eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
                         if (eqNum == NULL)
                         {
-                            eqNum = devMenu->mgr.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
+                            eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
                             if (eqNum == NULL) continue;
                             else
                                 useAltAz = true;
@@ -531,7 +531,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                             psky.drawEllipse( QRectF(x1, y1, s1, s1) );
                             psky.drawEllipse( QRectF(x2, y2, s2, s2) );
 
-                            psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
+                            psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
 
                         } else {
                             int s1 = int( 0.5*pxperdegree );
@@ -552,7 +552,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                             psky.drawEllipse( QRect(x1, y1, s1, s1) );
                             psky.drawEllipse( QRect(x2, y2, s2, s2) );
 
-                            psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
+                            psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
                         }
                     }
                 }

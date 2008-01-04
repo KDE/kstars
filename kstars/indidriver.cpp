@@ -103,125 +103,156 @@ INDIDriver::INDIDriver( KStars *_ks )
 
     QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
     QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
-    QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
-
-
-    //QObject::connect(ui->ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
-    //QObject::connect(ui->LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
-
-    QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
-    QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
-    QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
-    QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
-    QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalButtons()));
-    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientButtons()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
-
-    readXMLDriver();
+QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
+  
+  
+    //QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
+      QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
+      QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
+      QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
+      QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
+    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
+      QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
+  
+      readXMLDriver();
+  }
+  
+void INDIDriver::enableDevice(INDI_D *indi_device)
+  {
+   if (indi_device == NULL)
+	return;
+  
+   if (indi_device->deviceManager->mode == DeviceManager::M_CLIENT)
+   {
+   	foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+    	{
+	        if (host->deviceManager == indi_device->deviceManager && host->isConnected == false)
+	        {
+	    		foreach (QTreeWidgetItem *item, ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly, 1))
+				item->setIcon(0, ui->connected);
+	
+             		host->isConnected = true;
+			updateClientTab();
+			updateMenuActions();
+             		return;
+        	}
+    	}
+    }
+    else
+      {
+	foreach (IDevice *device, devices)
+    	{
+		if (device->unique_label == indi_device->label)
+		{
+			foreach (QTreeWidgetItem *item, ui->localTreeWidget->findItems(device->tree_label, Qt::MatchExactly |  Qt::MatchRecursive))
+			{
+				item->setIcon(1, ui->runningPix);
+        			item->setText(4, QString::number(indi_device->deviceManager->port));
+			}
+			
+			updateLocalTab();
+			updateMenuActions();
+			return;
+		}
+	}
+      }
+  
 }
-
-void INDIDriver::shutdownHost(int mgrID)
+  
+void INDIDriver::disableDevice(INDI_D *indi_device)
 {
-    QTreeWidgetItem *affectedItem;
-    QList<QTreeWidgetItem *> found;
+    if (indi_device == NULL)
+	return;
 
-    foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
-    {
-        if (host->mgrID == mgrID)
-        {
-            found = ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly, 1);
-            if (found.empty()) return;
-            affectedItem = found.first();
-            host->mgrID = -1;
-            host->isConnected = false;
-            affectedItem->setIcon(0, ui->disconnected);
-            ui->connectHostB->setEnabled(true);
-            ui->disconnectHostB->setEnabled(false);
-            updateMenuActions();
-            return;
-        }
+   if (indi_device->deviceManager->mode == DeviceManager::M_CLIENT)
+   {
+   	foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
+    	{
+	        if (host->deviceManager == indi_device->deviceManager && host->isConnected == true)
+	        {
+	    		foreach (QTreeWidgetItem *item, ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly,1))
+				item->setIcon(0, ui->disconnected);
+	
+			host->deviceManager = NULL;
+		        host->isConnected = false;
+            
+          		updateClientTab();
+             		return;
+        	}
+    	}
     }
-
-    //return;
-
-    //for (uint i=0; i < devices.size(); i++)
-    foreach (IDevice *dev, devices)
-    {
-        if (dev->mgrID == mgrID)
-        {
-            //return;
-            found = ui->localTreeWidget->findItems(dev->label, Qt::MatchExactly | Qt::MatchRecursive);
-            if (found.empty()) return;
-            affectedItem = found.first();
-            //return;
-            affectedItem->setIcon(1, ui->stopPix);
-            affectedItem->setIcon(2, QIcon());
-            affectedItem->setText(4, QString());
-            ui->runServiceB->setEnabled(true);
-            ui->stopServiceB->setEnabled(false);
-            dev->managed = false;
-            dev->restart();
-            updateMenuActions();
-            return;
-        }
-    }
-}
-
+    else
+      {
+	foreach (IDevice *device, devices)
+    	{
+		if (device->unique_label == indi_device->label)
+		{
+			foreach (QTreeWidgetItem *item, ui->localTreeWidget->findItems(device->tree_label, Qt::MatchExactly |  Qt::MatchRecursive))
+			{
+				item->setIcon(1, ui->stopPix);
+            			item->setIcon(2, QIcon());
+            			item->setText(4, QString());
+			}
+			
+			device->clear();
+			updateLocalTab();
+			
+			return;
+		}
+	}
+      }
+  }
+  
 void INDIDriver::activateRunService()
-{
-    processDeviceStatus(DEV_START);
-}
-
+  {
+    processLocalTree(IDevice::DEV_START);
+  }
+  
 void INDIDriver::activateStopService()
-{
-    processDeviceStatus(DEV_TERMINATE);
-}
-
+  {
+    processLocalTree(IDevice::DEV_TERMINATE);
+  }
+  
 void INDIDriver::activateHostConnection()
-{
-    processHostStatus(DEV_START);
-}
-
+  {
+    processRemoteTree(IDevice::DEV_START);
+  }
+  
 void INDIDriver::activateHostDisconnection()
-{
-    processHostStatus(DEV_TERMINATE);
+  {
+    processRemoteTree(IDevice::DEV_TERMINATE);
+  }
+  
+void INDIDriver::updateLocalTab()
+  {
+  
+      if (ui->localTreeWidget->currentItem() == NULL)
+          return;
+  
+    foreach (IDevice *device, devices)
+      {
+  
+        if (ui->localTreeWidget->currentItem()->text(0) == device->tree_label)
+          {
+            ui->runServiceB->setEnabled(device->state == IDevice::DEV_TERMINATE);
+            ui->stopServiceB->setEnabled(device->state == IDevice::DEV_START);
+  
+              ui->serverLogText->clear();
+            ui->serverLogText->append(device->getServerBuffer());
+  
+              return;
+          }
+	}
 }
 
-void INDIDriver::updateLocalButtons()
+void INDIDriver::updateClientTab()
 {
-
-    if (ui->localTreeWidget->currentItem() == NULL)
+     if (ui->clientTreeWidget->currentItem() == NULL)
         return;
 
-    foreach (IDevice *dev, devices)
-    {
-
-        if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
-        {
-            ui->runServiceB->setEnabled(dev->state == 0);
-            ui->stopServiceB->setEnabled(dev->state == 1);
-
-            ui->serverLogText->clear();
-            ui->serverLogText->append(dev->serverBuffer);
-
-            return;
-        }
-    }
-
-}
-
-void INDIDriver::updateClientButtons()
-{
-    //INDIHostsInfo *hostInfo;
-    if (ui->clientTreeWidget->currentItem() == NULL)
-        return;
-
-
-    //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
     {
-        //hostInfo = ksw->data()->INDIHostsList.at(i);
         if (ui->clientTreeWidget->currentItem()->text(1) == host->name && ui->clientTreeWidget->currentItem()->text(2) == host->portnumber)
         {
             ui->connectHostB->setEnabled(!host->isConnected);
@@ -232,91 +263,60 @@ void INDIDriver::updateClientButtons()
 
 }
 
-
-void INDIDriver::processDeviceStatus(DevAction dev_request)
+void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
 {
-    if (ui->localTreeWidget->currentItem() == NULL)
-        return;
+   QList<IDevice *> processed_devices;
+   DeviceManager *deviceManager=NULL;
 
-    int retries=0;
+   foreach(QTreeWidgetItem *item, ui->localTreeWidget->selectedItems())
+   {
+      foreach (IDevice *device, devices)
+      {
+		//device->state = (dev_request == IDevice::DEV_TERMINATE) ? IDevice::DEV_START : IDevice::DEV_TERMINATE;
+		if (item->text(0) == device->tree_label && device->state != dev_request)
 
-    foreach (IDevice *dev, devices)
-    if (ui->localTreeWidget->currentItem()->text(0) == dev->label)
-    {
-        dev->state = (dev_request == DEV_TERMINATE) ? DEV_START : DEV_TERMINATE;
-        if (dev->state)
+			processed_devices.append(device);
+      }
+   }
+
+   if (processed_devices.empty()) return;
+
+   if (dev_request == IDevice::DEV_START)
+   {
+	int port = getINDIPort();
+
+    	if (port < 0)
         {
+	        KMessageBox::error(0, i18n("Cannot start INDI server: port error."));
+        	return;
+    	}
+   
+	//deviceManager = ksw->getINDIMenu()->startDeviceManager(processed_devices, ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER, ((uint) port));
+        deviceManager = ksw->getINDIMenu()->initDeviceManager("localhost", ((uint) port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
 
-            ksw->getINDIMenu()->setCustomLabel(dev->label);
-            dev->label = ksw->getINDIMenu()->currentLabel;
+	if (deviceManager == NULL)
+	{
+		kWarning() << "Warning: device manager has not been established properly";
+		return;
+	}
 
-            dev->serverBuffer.clear();
+	deviceManager->appendManagedDevices(processed_devices);
+	deviceManager->startServer();
+	connect(deviceManager, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
+   }
+   else
+	ksw->getINDIMenu()->stopDeviceManager(processed_devices);
 
-            if (!runDevice(dev))
-            {
-                dev->restart();
-                return;
-            }
-
-            if (dev->mode == IDevice::M_LOCAL)
-            {
-                //Allow time for the INDI server to listen
-                usleep(50000);
-
-                for (retries=0; retries <  MAX_RETRIES ; retries++)
-                {
-                    if (!ksw->getINDIMenu()->processServer())
-                        usleep(50000);
-                    else
-                        break;
-                }
-
-                // Failed to connect to INDI server
-                if (retries ==  MAX_RETRIES)
-                {
-                    KMessageBox::error(0, i18n("Connection to INDI host at localhost on port %1 failed.", dev->indiPort));
-                    dev->restart();
-                    return;
-                }
-            }
-
-
-            ui->localTreeWidget->currentItem()->setIcon(1, ui->runningPix);
-            ui->localTreeWidget->currentItem()->setText(4, QString::number(dev->indiPort));
-            ui->runServiceB->setEnabled(false);
-            ui->stopServiceB->setEnabled(true);
-
-            return;
-        }
-
-        if (dev->mode == IDevice::M_LOCAL)
-            ksw->getINDIMenu()->processServer();
-
-        ui->localTreeWidget->currentItem()->setIcon(1, ui->stopPix);
-        ui->localTreeWidget->currentItem()->setIcon(2, QIcon());
-        ui->localTreeWidget->currentItem()->setText(4, QString());
-        ui->runServiceB->setEnabled(true);
-        ui->stopServiceB->setEnabled(false);
-        dev->restart();
-
-        // TODO Do I need this? updateMenuActions();
-
-    }
 }
 
-// Host Status = Remote Client
-void INDIDriver::processHostStatus(DevAction dev_request)
+void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
 {
-    int mgrID;
-    int retries=0;
-    bool toConnect = (dev_request == DEV_START);
-    QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
-    if (!currentItem) return;
-    //INDIHostsInfo *hostInfo;
+      DeviceManager* deviceManager=NULL;
+      QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
+      if (!currentItem) return;
+     bool toConnect = (dev_request == IDevice::DEV_START);
 
-    //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
-    {
         //hostInfo = ksw->data()->INDIHostsList.at(i);
         if (currentItem->text(1) == host->name && currentItem->text(2) == host->portnumber)
         {
@@ -327,42 +327,23 @@ void INDIDriver::processHostStatus(DevAction dev_request)
             // connect to host
             if (toConnect)
             {
-                // if connection successful
-                for (retries=0; retries < MAX_RETRIES; retries++)
-                {
-                    if ( (mgrID = ksw->getINDIMenu()->processClient(host->hostname, host->portnumber)) >= 0)
-                    {
-                        currentItem->setIcon(0, ui->connected);
-                        host->isConnected = true;
-                        host->mgrID = mgrID;
-                        ui->connectHostB->setEnabled(false);
-                        ui->disconnectHostB->setEnabled(true);
-                        break;
-                    }
-                    else
-                        usleep(50000);
-                }
-
-                if (retries ==  MAX_RETRIES)
-                {
-                    KMessageBox::error(0, i18n("Connection to INDI host at %1 on port %2 failed.", host->hostname, host->portnumber));
-                }
-            }
-            else
-            {
-                ksw->getINDIMenu()->removeDeviceMgr(host->mgrID);
-                host->mgrID = mgrID = -1;
-                host->isConnected = false;
-                currentItem->setIcon(0, ui->disconnected);
-                ui->connectHostB->setEnabled(true);
-                ui->disconnectHostB->setEnabled(false);
-                updateMenuActions();
-            }
-
-
-
-        }
-    }
+		deviceManager = ksw->getINDIMenu()->initDeviceManager(host->hostname, host->portnumber.toUInt(), DeviceManager::M_CLIENT);
+  
+	        if (deviceManager == NULL)
+		{
+			// msgbox after freeze
+			kWarning() << "Warning: device manager has not been established properly";
+		        return;
+		}
+  
+		host->deviceManager = deviceManager;
+		deviceManager->connectToServer();
+	     }
+             else
+             	ksw->getINDIMenu()->removeDeviceManager(host->deviceManager);
+  
+		return;
+	  }
 }
 
 void INDIDriver::newDeviceDiscovered()
@@ -408,12 +389,12 @@ void INDIDriver::updateMenuActions()
     if (devMenu == NULL)
         return;
 
-    if (devMenu->mgr.count() > 0)
+    if (devMenu->managers.count() > 0)
         activeDevice = true;
 
-    foreach(DeviceManager *dev_mgr, devMenu->mgr)
+    foreach(DeviceManager *dev_managers, devMenu->managers)
     {
-        foreach (INDI_D *device, dev_mgr->indi_dev)
+        foreach (INDI_D *device, dev_managers->indi_dev)
         {
 
             imgProp = device->findProp("CCD_EXPOSURE");
@@ -451,6 +432,7 @@ void INDIDriver::updateMenuActions()
 
 }
 
+#if 0
 bool INDIDriver::runDevice(IDevice *dev)
 {
     dev->indiPort = getINDIPort();
@@ -485,7 +467,7 @@ bool INDIDriver::runDevice(IDevice *dev)
     return (dev->proc->waitForStarted());
 }
 
-void INDIDriver::removeDevice(IDevice *dev)
+void INDIDriver::.arg(q(IDevice *dev)
 {
 
     //for (unsigned int i=0 ; i < devices.size(); i++)
@@ -494,7 +476,7 @@ void INDIDriver::removeDevice(IDevice *dev)
         device->restart();
 }
 
-void INDIDriver::removeDevice(const QString &deviceLabel)
+void INDIDriver::.arg(q(const QString &deviceLabel)
 {
     //for (unsigned int i=0 ; i < devices.size(); i++)
     foreach (IDevice *device, devices)
@@ -502,10 +484,12 @@ void INDIDriver::removeDevice(const QString &deviceLabel)
         device->restart();
 
 }
+#endif
 
 void INDIDriver::saveDevicesToDisk()
 {
 
+#if 0
     QFile file;
     QString elementData;
 
@@ -598,11 +582,12 @@ void INDIDriver::saveDevicesToDisk()
 
     file.close();
 
+#endif
 }
 
 bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
-
+#if 0
     foreach (IDevice *dev, devices)
     //for (unsigned int i=0 ; i < devices.size(); i++)
     if (deviceLabel == dev->label)
@@ -612,7 +597,7 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
         else
             return (dev->proc->state() == QProcess::Running);
     }
-
+#endif
     return false;
 
 }
@@ -741,15 +726,11 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
         return true;
 #endif
 
-    //K3ListViewItem *group = new K3ListViewItem(topItem, lastGroup);
     QTreeWidgetItem *group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);
     group->setText(0, groupName);
     lastGroup = group;
-    //group->setOpen(true);
-
 
     for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-        /*for (int i = 0; i < root->nel; i++)*/
         if (!buildDriverElement(ep, group, groupType, errmsg))
             return false;
 
@@ -764,6 +745,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
     QString label;
     QString driver;
     QString version;
+    QString name;
     double focal_length (-1), aperture (-1);
 
     ap = findXMLAtt(root, "label");
@@ -785,6 +767,13 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
         aperture = QString(valuXMLAtt(ap)).toDouble();
 
 
+    el = findXMLEle(root, "name");
+
+    if (el)
+	    name = pcdataXMLEle(el);
+    else
+	    name = label;
+
     el = findXMLEle(root, "driver");
 
     if (!el)
@@ -797,7 +786,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
     if (!el)
         return false;
 
-    version = pcdataXMLEle(el);
+  version = pcdataXMLEle(el);
 
     QTreeWidgetItem *device = new QTreeWidgetItem(DGroup, lastDevice);
 
@@ -807,9 +796,9 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
     lastDevice = device;
 
-    dv = new IDevice(label, driver, version);
+    dv = new IDevice(name, label, driver, version);
     dv->deviceType = groupType;
-    connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalButtons()));
+    //connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
     if (focal_length > 0)
         dv->focal_length = focal_length;
     if (aperture > 0)
@@ -823,6 +812,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
 int INDIDriver::activeDriverCount()
 {
+#if 0
     int count = 0;
 
     //for (uint i=0; i < devices.size(); i++)
@@ -837,7 +827,7 @@ int INDIDriver::activeDriverCount()
 
 
     return count;
-
+#endif
 }
 
 void INDIDriver::addINDIHost()
@@ -851,11 +841,11 @@ void INDIDriver::addINDIHost()
     if (hostConfDialog.exec() == QDialog::Accepted)
     {
         INDIHostsInfo *hostItem = new INDIHostsInfo;
-        hostItem->name        = hostConf.nameIN->text();
-        hostItem->hostname    = hostConf.hostname->text();
-        hostItem->portnumber  = hostConf.portnumber->text();
-        hostItem->isConnected = false;
-        hostItem->mgrID       = -1;
+        hostItem->name        	= hostConf.nameIN->text();
+        hostItem->hostname    	= hostConf.hostname->text();
+        hostItem->portnumber  	= hostConf.portnumber->text();
+        hostItem->isConnected 	= false;
+        hostItem->deviceManager	= NULL;
 
         hostItem->portnumber.toInt(&portOk);
 
@@ -903,7 +893,6 @@ void INDIDriver::modifyINDIHost()
     if (currentItem == NULL)
         return;
 
-    //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
     {
         if (currentItem->text(1) == host->name && currentItem->text(2) == host->portnumber)
@@ -929,6 +918,7 @@ void INDIDriver::modifyINDIHost()
             }
         }
     }
+
 }
 
 void INDIDriver::removeINDIHost()
@@ -951,7 +941,6 @@ void INDIDriver::removeINDIHost()
                 return;
 
             delete ksw->data()->INDIHostsList.takeAt(i);
-            //ui->clientTreeWidget->takeItem(ui->clientTreeWidget->currentItem());
             delete (ui->clientTreeWidget->currentItem());
             break;
         }
@@ -959,6 +948,7 @@ void INDIDriver::removeINDIHost()
 
 
     saveHosts();
+
 
 }
 
@@ -1009,60 +999,52 @@ INDIDriver::~INDIDriver()
 
 }
 
-IDevice::IDevice(const QString &inLabel, const QString &inDriver, const QString &inVersion)
+IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion)
 {
-    label = inLabel;;
-    driver = inDriver;;
-    version = inVersion;
-
-    // Initially off
-    state = 0;
-
-    // No port initially
-    indiPort = -1;
-
-    // not yet managed by DeviceManager
-    managed = false;
-
-    mgrID = -1;
-
-    focal_length = -1;
-    aperture = -1;
-
-    proc = NULL;
-
+    tree_label	 = inLabel;;
+    unique_label = QString();
+    driver_class = inName;
+    driver	 = inDriver;
+    version	 = inVersion;
+  
+      // Initially off
+    state = IDevice::DEV_TERMINATE;
+  
+      // No port initially
+    //indiPort = -1;
+  
+      // not yet managed by DeviceManager
+    //managed = false;
+  
+    deviceManager = NULL;
+  
+      focal_length = -1;
+      aperture = -1;
+  
+    //proc = NULL;
+  
 }
-
-void IDevice::processstd()
-{
-    if (proc == NULL)
-        return;
-    serverBuffer.append(proc->readAllStandardError());
-    emit newServerInput();
-}
-
-
+  
 IDevice::~IDevice()
 {
-    if (proc)
-        proc->kill();
 
 }
-
-void IDevice::restart()
+  
+void IDevice::clear()
 {
-
-    mgrID = -1;
-
-    state = 0;
-
-    indiPort = -1;
-
-    if (proc)
-        proc->kill();
-
-    proc = NULL;
-
+    //managed = false;
+    state = IDevice::DEV_TERMINATE;
+    deviceManager = NULL;
+  
+    unique_label = QString();
+}
+  
+QString IDevice::getServerBuffer()
+{
+	if (deviceManager != NULL)
+		return deviceManager->getServerBuffer();
+  
+	return QString();
 }
 
 #include "indidriver.moc"

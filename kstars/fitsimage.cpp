@@ -33,6 +33,7 @@
 #include <QScrollArea>
 #include <QFile>
 #include <QCursor>
+#include <QProgressDialog>
 
 #include <KDebug>
 #include <KLocale>
@@ -128,15 +129,14 @@ int FITSImage::loadFits ( const QString &filename )
 
     int status=0, nulval=0, anynull=0;
     long fpixel[2], nelements, naxes[2];
-    char error_status[32];
+    char error_status[512];
 
-    KProgressDialog fitsProg(NULL, i18n("Loading FITS"), i18n("Please hold while loading FITS file..."));
-    fitsProg.setAllowCancel(true);
-    fitsProg.progressBar()->setRange(0, 100);
-    fitsProg.progressBar()->setValue(40);
-    fitsProg.show();
+    QProgressDialog fitsProg(i18n("Please hold while loading FITS file..."), i18n("Cancel"), 0, 100, NULL);
+    fitsProg.setWindowTitle(i18n("Loading FITS"));
+    //fitsProg.setWindowModality(Qt::WindowModal);
 
-    qApp->processEvents();
+     fitsProg.setValue(30);
+     //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
     {
@@ -146,8 +146,11 @@ int FITSImage::loadFits ( const QString &filename )
         return -1;
     }
 
-    fitsProg.progressBar()->setValue(60);
-    qApp->processEvents();
+    if (fitsProg.wasCanceled())
+	return -1;
+
+    fitsProg.setValue(50);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
     {
@@ -165,8 +168,11 @@ int FITSImage::loadFits ( const QString &filename )
         return -1;
     }
 
-    fitsProg.progressBar()->setValue(70);
-    qApp->processEvents();
+    if (fitsProg.wasCanceled())
+	return -1;
+
+    fitsProg.setValue(60);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
@@ -175,13 +181,36 @@ int FITSImage::loadFits ( const QString &filename )
 
     delete (image_buffer);
     delete (displayImage);
+    image_buffer = NULL;
+    displayImage = NULL;
 
     image_buffer = new float[stats.dim[0] * stats.dim[1]];
 
+    if (image_buffer == NULL)
+    {
+	// Display error message here after freeze
+        kDebug() << "Not enough memory for image_buffer";
+	return -1;
+    }
+
     displayImage = new QImage(stats.dim[0], stats.dim[1], QImage::Format_Indexed8);
 
-    fitsProg.progressBar()->setValue(80);
-    qApp->processEvents();
+    if (displayImage == NULL)
+    {
+	// Display error message here after freeze
+        kDebug() << "Not enough memory for display_image";
+	return -1;
+    }
+
+    if (fitsProg.wasCanceled())
+    {
+      delete (image_buffer);
+      delete (displayImage);
+      return -1;
+    }
+
+    fitsProg.setValue(70);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     displayImage->setNumColors(256);
 
@@ -198,9 +227,17 @@ int FITSImage::loadFits ( const QString &filename )
         return -1;
     }
 
-    fitsProg.progressBar()->setValue(90);
-    qApp->processEvents();
+    if (fitsProg.wasCanceled())
+    {
+      delete (image_buffer);
+      delete (displayImage);
+      return -1;
+    }
 
+    fitsProg.setValue(80);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
+
+   
     currentZoom   = 100;
     currentWidth  = stats.dim[0];
     currentHeight = stats.dim[1];
@@ -209,13 +246,26 @@ int FITSImage::loadFits ( const QString &filename )
     if (rescale(ZOOM_FIT_WINDOW))
         return -1;
 
-    fitsProg.progressBar()->setValue(95);
-    qApp->processEvents();
+    if (fitsProg.wasCanceled())
+    {
+      delete (image_buffer);
+      delete (displayImage);
+      return -1;
+    }
 
+    fitsProg.setValue(90);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
     calculateStats();
 
-    fitsProg.progressBar()->setValue(100);
-    qApp->processEvents();
+    if (fitsProg.wasCanceled())
+    {
+      delete (image_buffer);
+      delete (displayImage);
+      return -1;
+    }
+
+    fitsProg.setValue(100);
+    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     setAlignment(Qt::AlignCenter);
 

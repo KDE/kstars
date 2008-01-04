@@ -959,7 +959,7 @@ bool KStarsData::readINDIHosts(void)
 
             VInfo->portnumber = QString(valuXMLAtt(ap));
             VInfo->isConnected = false;
-            VInfo->mgrID = -1;
+            VInfo->deviceManager = NULL;
             INDIHostsList.append(VInfo);
 
             delXMLEle(root);

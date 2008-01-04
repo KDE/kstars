@@ -23,26 +23,22 @@
 #include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+
 #include <config-kstars.h>
 
-#ifdef HAVE_TERMIOS_H
-#include <termios.h>
-#endif
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <stdlib.h>
-#include <unistd.h>
+//#include <stdlib.h>
+//#include <unistd.h>
 
-#include <QSocketNotifier>
+#include <QTcpSocket>
 #include <QTextEdit>
 
-#include <klocale.h>
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <kstatusbar.h>
+#include <KProcess>
+#include <KLocale>
+#include <KDebug>
+#include <KMessageBox>
+#include <KStatusBar>
 
+const int INDI_MAX_TRIES=3;
 
 /*******************************************************************
 ** The device manager contain devices running from one indiserver
@@ -52,30 +48,22 @@
 ** The device Manager can be thought of as the 'networking' parent
 ** of devices, while indimenu is 'GUI' parent of devices
 *******************************************************************/
-
-DeviceManager::DeviceManager(INDIMenu *INDIparent, int inID)
-{
-
-    parent = INDIparent;
-    mgrID  = inID;
-
-    // indi_dev.setAutoDelete(true);
-
-    serverFD  = -1;
-    serverFP  = NULL;
-    XMLParser = NULL;
-    sNotifier = NULL;
-
+DeviceManager::DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, ManagerMode inMode)
+  {
+    parent		= INDIparent;
+    serverProcess	= NULL;
+    XMLParser		= NULL;
+    host		= inHost;
+    port		= inPort;
+    mode		= inMode;
 }
 
 DeviceManager::~DeviceManager()
 {
-
-    if (serverFP)
-        fclose(serverFP);
-
-    if (serverFD >= 0)
-        close(serverFD);
+    if (serverProcess)
+	serverProcess->close();
+  
+    delete (serverProcess);
 
     if (XMLParser)
         delLilXML(XMLParser);
@@ -85,115 +73,132 @@ DeviceManager::~DeviceManager()
     while ( ! indi_dev.isEmpty() ) delete indi_dev.takeFirst();
 }
 
-bool DeviceManager::indiConnect( const QString &inHost, const QString &inPort )
+void DeviceManager::startServer()
+  {
+    serverProcess = new KProcess;
+  
+    if (managed_devices.isEmpty())
+      {
+	kWarning() << "managed_devices was not set! Cannot start server!";
+        return;
+      }
+  
+    *serverProcess << "indiserver";
+    *serverProcess << "-v" << "-p" << QString::number(port);
+
+    foreach(IDevice *device, managed_devices)
+	 *serverProcess << device->driver;
+
+    if (mode == DeviceManager::M_LOCAL)
+      {
+    	connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
+	serverProcess->setOutputChannelMode(KProcess::SeparateChannels);
+        serverProcess->setReadChannel(QProcess::StandardError);
+      }
+  
+    serverProcess->start();
+  
+    serverProcess->waitForStarted();
+  
+    if (mode == DeviceManager::M_LOCAL)
+    	connectToServer();
+}
+  
+void DeviceManager::connectToServer()
 {
-    host = inHost;
-    port = inPort;
-    QString errMsg;
-    struct sockaddr_in pin;
-    struct hostent *serverHostName = gethostbyname(host.toAscii());
-    errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
-
-    memset(&pin, 0, sizeof(pin));
-    pin.sin_family 		= AF_INET;
-    pin.sin_addr.s_addr 	= ((struct in_addr *) (serverHostName->h_addr))->s_addr;
-    pin.sin_port 		= htons(port.toInt());
-
-    if ( (serverFD = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {
-        KMessageBox::error(0, i18n("Cannot create socket"));
-        return false;
-    }
-
-    if ( ::connect(serverFD, (struct sockaddr*) &pin, sizeof(pin)) == -1)
-    {
-        //KMessageBox::error(0, errMsg);
-        serverFD = -1;
-        return false;
-    }
-
-    // callback notified
-    sNotifier = new QSocketNotifier( serverFD, QSocketNotifier::Read, this);
-    QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(dataReceived()));
-
-    if (XMLParser)
+    connect(&serverSocket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
+  
+   for (int i=0; i < INDI_MAX_TRIES; i++)
+   {
+	serverSocket.connectToHost(host, port);
+	if (serverSocket.waitForConnected(1000))
+	{
+		
+		connect(&serverSocket, SIGNAL(error( QAbstractSocket::SocketError )), this, SLOT(connectionError()));
+		connectionSuccess();
+		return;
+	}
+  
+	usleep(100000);
+   }
+  
+   connectionError();
+  }
+  
+void DeviceManager::connectionSuccess()
+{
+   kDebug() << "Connection success!!";
+    
+   QTextStream serverFP(&serverSocket);
+  
+   if (XMLParser)
         delLilXML(XMLParser);
     XMLParser = newLilXML();
 
-    // ready for fprintf
-    serverFP = fdopen(serverFD, "w");
-
-    if (serverFP == NULL)
-    {
-        KMessageBox::error(0, i18n("Cannot read server file descriptor"));
-        serverFD = -1;
-        return false;
-    }
-
-    setbuf (serverFP, NULL);
-
-    fprintf(serverFP, "<enableBLOB>Also</enableBLOB>\n");
-    fprintf(serverFP, "<getProperties version='%g'/>\n", INDIVERSION);
-
-    // We made it!
-    return true;
+    serverFP << QString("<enableBLOB>Also</enableBLOB>\n");
+    serverFP << QString("<getProperties version='%1'/>\n").arg(INDIVERSION);
 }
 
-
+void DeviceManager::connectionError()
+  {
+  QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(host).arg(port).arg(serverSocket.errorString());
+  KMessageBox::error(NULL, errMsg);
+  
+  emit deviceManagerError(this);
+}
+  
+void DeviceManager::appendManagedDevices(QList<IDevice *> & processed_devices)
+{
+	managed_devices = processed_devices; 
+  
+	foreach (IDevice *device, managed_devices)
+	{
+		device->unique_label 	= parent->getUniqueDeviceLabel(device->tree_label);
+		//device->mode		= mode;
+		device->deviceManager 	= this;
+	}
+}
+  
+void DeviceManager::processStandardError()
+{
+    if (serverProcess == NULL)
+          return;
+  
+    serverBuffer.append(serverProcess->readAllStandardError());
+    emit newServerInput();
+}
+  
 void DeviceManager::dataReceived()
 {
-    char ibuf[32];	/* not so much user input lags */
     char errmsg[ERRMSG_SIZE];
-    QString cmd_err;
-    int i, nr;
+    int nr=0;
+    QTextStream serverFP(&serverSocket);
+    QString ibuf, err_cmd;
+  
+    ibuf = serverFP.readAll();
+    nr = ibuf.length();
+  
+        /* process each char */
+       for (int i = 0; i < nr; i++)
+       {
+           if (!XMLParser)
+              return;
 
-    /* read INDI command */
-    nr = read (serverFD, ibuf, sizeof(ibuf)-1);
-    if (nr <= 0)
-    {
-        if (nr < 0)
-            cmd_err = QString("INDI: input error.");
-        else
-            cmd_err = QString("INDI: agent closed connection.");
+           XMLEle *root = readXMLEle (XMLParser, ibuf[i].toAscii(), errmsg);
+           if (root)
+           {
+                if (dispatchCommand(root, err_cmd) < 0)
+                {
+                    kDebug() << "Dispatch command error: " << err_cmd;
+                    prXMLEle (stdout, root, 0);
+                }
 
-
-#ifdef HAVE_TERMIOS_H
-        tcflush(serverFD, TCIFLUSH);
-#endif
-        sNotifier->disconnect();
-        close(serverFD);
-        parent->removeDeviceMgr(mgrID);
-        KMessageBox::error(0, cmd_err);
-
-        return;
-    }
-
-    ibuf[ sizeof( ibuf )-1 ] = '\0';
-
-    /* process each char */
-    for (i = 0; i < nr; i++)
-    {
-        if (!XMLParser)
-            return;
-
-        XMLEle *root = readXMLEle (XMLParser, (int)ibuf[i], errmsg);
-        if (root)
-        {
-            //prXMLEle (stdout, root, 0);
-            if (dispatchCommand(root, cmd_err) < 0)
-            {
-                kDebug() << cmd_err;
-                prXMLEle (stdout, root, 0);
-            }
-
-            delXMLEle (root);
-        }
-        else if (*errmsg)
-        {
-            kDebug() << errmsg;
-        }
-    }
-}
+                delXMLEle (root);
+           }
+           else if (*errmsg)
+                kDebug() << "XML Root Error: " << errmsg;
+          }
+  }
 
 int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
 {
@@ -235,7 +240,6 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
  */
 int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
 {
-
     XMLAtt *ap;
     INDI_D *dp;
     INDI_P *pp;
@@ -262,12 +266,10 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
     // delete the whole device
     else
         return removeDevice(dp->name, errmsg);
-
 }
 
 int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
 {
-
     // remove all devices if devName == NULL
     if (devName == NULL)
     {
@@ -309,28 +311,42 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 {
     INDI_D *dp;
     XMLAtt *ap;
+    QString device_name, unique_label;
 
     /* allocate new INDI_D on indi_dev */
     ap = findAtt (dep, "device", errmsg);
     if (!ap)
         return NULL;
 
-    if (parent->currentLabel.isEmpty())
-        parent->setCustomLabel(valuXMLAtt(ap));
+    device_name = QString(valuXMLAtt(ap));
 
-    dp = new INDI_D(parent, this, QString(valuXMLAtt(ap)), parent->currentLabel);
+        if (mode != M_CLIENT)
+    		foreach(IDevice *device, managed_devices)
+    		{
+		        // Each device manager has a list of managed_devices (IDevice). Each IDevice has the original constant name of the driver (driver_class)
+			// Therefore, when a new device is discovered, we match the driver name (which never changes, it's always static from indiserver) against the driver_class
+			// of IDevice because IDevice can have several names. It can have the tree_label which is the name it has in the local tree widget. Finally, the name that shows
+			// up in the INDI control panel is the unique name of the driver, which is for most cases tree_label, but if that exists already then we get tree_label_1..etc
+			if (device->driver_class == device_name && device->state == IDevice::DEV_TERMINATE)
+			{
+	 			device->state = IDevice::DEV_START;
+				unique_label  = device->unique_label;
+				break;
+			}
+		}
 
-    indi_dev.append(dp);
+	if (unique_label.isEmpty())
+		unique_label = parent->getUniqueDeviceLabel(device_name);
 
-    emit newDevice();
+    	dp = new INDI_D(parent, this, device_name, unique_label);
+	indi_dev.append(dp);
+	emit newDevice(dp);
+		
+	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->getINDIDriver(), SLOT(newTelescopeDiscovered()));
 
-    connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->getINDIDriver(), SLOT(newTelescopeDiscovered()));
-
-    // Reset label
-    parent->currentLabel = QString();
-
-    /* ok */
-    return dp;
+    	/* ok */
+    	return dp;
+	
 }
 
 INDI_D * DeviceManager::findDev (XMLEle *root, int create, QString & errmsg)
@@ -422,83 +438,92 @@ void DeviceManager::sendNewText (INDI_P *pp)
 {
     INDI_E *lp;
 
-    fprintf(serverFP, "<newTextVector\n");
-    fprintf(serverFP, "  device='%s'\n",qPrintable( pp->pg->dp->name));
-    fprintf(serverFP, "  name='%s'\n>",qPrintable( pp->name));
+    QTextStream serverFP(&serverSocket);
+
+    serverFP << QString("<newTextVector\n");
+    serverFP << QString("  device='%1'\n").arg(qPrintable( pp->pg->dp->name));
+    serverFP << QString("  name='%1'\n>").arg(qPrintable( pp->name));
 
     //for (lp = pp->el.first(); lp != NULL; lp = pp->el.next())
     foreach(lp, pp->el)
     {
-        fprintf(serverFP, "  <oneText\n");
-        fprintf(serverFP, "    name='%s'>\n",qPrintable( lp->name));
-        fprintf(serverFP, "      %s\n",qPrintable( lp->text));
-        fprintf(serverFP, "  </oneText>\n");
+        serverFP << QString("  <oneText\n");
+        serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
+        serverFP << QString("      %1\n").arg(qPrintable( lp->text));
+        serverFP << QString("  </oneText>\n");
     }
-    fprintf(serverFP, "</newTextVector>\n");
+    serverFP << QString("</newTextVector>\n");
 }
 
 void DeviceManager::sendNewNumber (INDI_P *pp)
 {
     INDI_E *lp;
 
-    fprintf(serverFP, "<newNumberVector\n");
-    fprintf(serverFP, "  device='%s'\n",qPrintable( pp->pg->dp->name));
-    fprintf(serverFP, "  name='%s'\n>",qPrintable( pp->name));
+    QTextStream serverFP(&serverSocket);
+
+    serverFP << QString("<newNumberVector\n");
+    serverFP << QString("  device='%1'\n").arg(qPrintable( pp->pg->dp->name));
+    serverFP << QString("  name='%1'\n>").arg(qPrintable( pp->name));
 
     foreach(lp, pp->el)
     {
-        fprintf(serverFP, "  <oneNumber\n");
-        fprintf(serverFP, "    name='%s'>\n",qPrintable( lp->name));
-        fprintf(serverFP, "      %g\n", lp->targetValue);
-        fprintf(serverFP, "  </oneNumber>\n");
+        serverFP << QString("  <oneNumber\n");
+        serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
+        serverFP << QString("      %1\n").arg(lp->targetValue);
+        serverFP << QString("  </oneNumber>\n");
     }
-    fprintf(serverFP, "</newNumberVector>\n");
+    serverFP << QString("</newNumberVector>\n");
 
 }
 
 void DeviceManager::sendNewSwitch (INDI_P *pp, INDI_E *lp)
 {
-    fprintf (serverFP,"<newSwitchVector\n");
-    fprintf (serverFP,"  device='%s'\n",qPrintable( pp->pg->dp->name));
-    fprintf (serverFP,"  name='%s'>\n",qPrintable( pp->name));
-    fprintf (serverFP,"  <oneSwitch\n");
-    fprintf (serverFP,"    name='%s'>\n",qPrintable( lp->name));
-    fprintf (serverFP,"      %s\n", lp->state == PS_ON ? "On" : "Off");
-    fprintf (serverFP,"  </oneSwitch>\n");
+    QTextStream serverFP(&serverSocket);
 
-    fprintf (serverFP, "</newSwitchVector>\n");
+    serverFP << QString("<newSwitchVector\n");
+    serverFP << QString("  device='%1'\n").arg(qPrintable( pp->pg->dp->name));
+    serverFP << QString("  name='%1'>\n").arg(qPrintable( pp->name));
+    serverFP << QString("  <oneSwitch\n");
+    serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
+    serverFP << QString("      %1\n").arg(lp->state == PS_ON ? "On" : "Off");
+    serverFP << QString("  </oneSwitch>\n");
+
+    serverFP <<  QString("</newSwitchVector>\n");
 
 }
 
 void DeviceManager::startBlob( const QString &devName, const QString &propName, const QString &timestamp)
 {
+    QTextStream serverFP(&serverSocket);
 
-    fprintf (serverFP, "<newBLOBVector\n");
-    fprintf (serverFP, "  device='%s'\n",qPrintable( devName));
-    fprintf (serverFP, "  name='%s'\n",qPrintable( propName));
-    fprintf (serverFP, "  timestamp='%s'>\n",qPrintable( timestamp));
+    serverFP <<  QString("<newBLOBVector\n");
+    serverFP <<  QString("  device='%1'\n").arg(qPrintable( devName));
+    serverFP <<  QString("  name='%1'\n").arg(qPrintable( propName));
+    serverFP <<  QString("  timestamp='%1'>\n").arg(qPrintable( timestamp));
 
 }
 
 void DeviceManager::sendOneBlob( const QString &blobName, unsigned int blobSize, const QString &blobFormat, unsigned char * blobBuffer)
 {
+    QTextStream serverFP(&serverSocket);
 
-    fprintf (serverFP, "  <oneBLOB\n");
-    fprintf (serverFP, "    name='%s'\n",qPrintable( blobName));
-    fprintf (serverFP, "    size='%d'\n", blobSize);
-    fprintf (serverFP, "    format='%s'>\n",qPrintable( blobFormat));
+    serverFP <<  QString("  <oneBLOB\n");
+    serverFP <<  QString("    name='%1'\n").arg(qPrintable( blobName));
+    serverFP <<  QString("    size='%1'\n").arg(blobSize);
+    serverFP <<  QString("    format='%1'>\n").arg(qPrintable( blobFormat));
 
     for (unsigned i = 0; i < blobSize; i += 72)
-        fprintf (serverFP, "    %.72s\n", blobBuffer+i);
+        serverFP <<  QString().sprintf("    %.72s\n", blobBuffer+i);
 
-    fprintf (serverFP, "  </oneBLOB>\n");
+    serverFP << QString("   </oneBLOB>\n");
 
 }
 
 void DeviceManager::finishBlob()
 {
-    fprintf (serverFP, "</newBLOBVector>\n");
-}
+    QTextStream serverFP(&serverSocket);
 
+    serverFP <<  QString("</newBLOBVector>\n");
+}
 
 #include "devicemanager.moc"

@@ -561,7 +561,7 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
             //for (unsigned int i=0; i < drivers->devices.size(); i++)
             foreach(IDevice *device, drivers->devices)
             {
-                if (device->mgrID == dp->parentMgr->mgrID)
+                if (device->deviceManager == dp->deviceManager)
                 {
                     if (device->deviceType == KSTARS_TELESCOPE)
                     {
@@ -749,6 +749,7 @@ void INDIStdDevice::timerDone()
     {
 	// Backward compatibility
 	prop = dp->findProp("EQUATORIAL_EOD_COORD");
+
 	if (prop == NULL)
 	{
         	prop = dp->findProp("EQUATORIAL_COORD");
@@ -828,7 +829,7 @@ void INDIStdProperty::newText()
             //for (unsigned int i=0; i < drivers->devices.size(); i++)
             foreach( IDevice *device, drivers->devices)
             {
-                if (device->mgrID == stdDev->dp->parentMgr->mgrID)
+                if (device->deviceManager == stdDev->dp->deviceManager)
                 {
                     if (device->deviceType == KSTARS_TELESCOPE)
                     {
@@ -872,25 +873,26 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
         prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
         if (prop == NULL)
         {
+	    // Backward compatibility
             prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
             if (prop == NULL)
             {
+		// J2000 Property
                 prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
 
                 if (prop == NULL)
                 {
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
-		    if (prop == NULL)
+		    // Backward compatibility
+                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
+                    if (prop == NULL)
 		    {
-			// Backward compatibility
-		    	prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
-                         if (prop == NULL)
-                         	return false;
-                         
-                     
-                    }
-		    selectedCoord = 1;		/* Select horizontal */
-		}
+			prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
+			if (prop == NULL)
+                        	return false;
+		    }
+
+                    selectedCoord = 1;		/* Select horizontal */
+                }
                 else
                     useJ2000 = true;
             }

@@ -59,7 +59,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* /*name*/, bool modal, 
     foreach (IDevice *dev, indi_driver->devices)
     {
         if (dev->deviceType == KSTARS_TELESCOPE)
-            ui->telescopeListBox->addItem(dev->label);
+            ui->telescopeListBox->addItem(dev->tree_label);
     }
 
     ui->telescopeListBox->setCurrentRow(0);
@@ -125,7 +125,7 @@ void telescopeProp::saveScope()
     if (newScopePending)
     {
 
-        dev = new IDevice(ui->labelEdit->text(), ui->driverCombo->currentText(), ui->versionEdit->text());
+        dev = new IDevice(ui->labelEdit->text(), ui->labelEdit->text(), ui->driverCombo->currentText(), ui->versionEdit->text());
 
         dev->deviceType = KSTARS_TELESCOPE;
 
@@ -147,9 +147,9 @@ void telescopeProp::saveScope()
     else
     {
         if (finalIndex == -1) return;
-        indi_driver->devices[finalIndex]->label  = ui->labelEdit->text();
-        indi_driver->devices[finalIndex]->version = ui->versionEdit->text();
-        indi_driver->devices[finalIndex]->driver = ui->driverCombo->currentText();
+        indi_driver->devices[finalIndex]->tree_label  	= ui->labelEdit->text();
+        indi_driver->devices[finalIndex]->version 	= ui->versionEdit->text();
+        indi_driver->devices[finalIndex]->driver 	= ui->driverCombo->currentText();
 
 
         focal_length = ui->focalEdit->text().toDouble();
@@ -180,7 +180,7 @@ int telescopeProp::findDeviceIndex(int listIndex)
 
     for (int i=0; i < indi_driver->devices.count(); i++)
     {
-        if (indi_driver->devices[i]->label == ui->telescopeListBox->item(listIndex)->text())
+        if (indi_driver->devices[i]->tree_label == ui->telescopeListBox->item(listIndex)->text())
         {
             finalIndex = i;
             break;
@@ -220,7 +220,7 @@ void telescopeProp::updateScopeDetails(int index)
     if (foundFlag == false)
         ui->driverCombo->setEditText(indi_driver->devices[finalIndex]->driver);
 
-    ui->labelEdit->setText(indi_driver->devices[finalIndex]->label);
+    ui->labelEdit->setText(indi_driver->devices[finalIndex]->tree_label);
 
     ui->versionEdit->setText(indi_driver->devices[finalIndex]->version);
 
@@ -240,7 +240,7 @@ void telescopeProp::removeScope()
     index = ui->telescopeListBox->currentRow();
     finalIndex = findDeviceIndex(index);
 
-    if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove %1?", indi_driver->devices[finalIndex]->label), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel( 0, i18n("Are you sure you want to remove %1?", indi_driver->devices[finalIndex]->tree_label), i18n("Delete Confirmation"),KStandardGuiItem::del())!=KMessageBox::Continue)
         return;
 
     ui->telescopeListBox->takeItem(index);

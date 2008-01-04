@@ -203,9 +203,9 @@ void INDI_P::newText()
     indistd->newText();
 
     if (guitype == PG_TEXT)
-        pg->dp->parentMgr->sendNewText(this);
+        pg->dp->deviceManager->sendNewText(this);
     else if (guitype == PG_NUMERIC)
-        pg->dp->parentMgr->sendNewNumber(this);
+        pg->dp->deviceManager->sendNewNumber(this);
 
 }
 
@@ -332,7 +332,7 @@ void INDI_P::newSwitch(INDI_E *lp)
     if (indistd->newSwitch(lp))
         return;
 
-    pg->dp->parentMgr->sendNewSwitch (this, lp);
+    pg->dp->deviceManager->sendNewSwitch (this, lp);
 }
 
 /* Display file dialog to select and upload a file to the client
@@ -400,10 +400,10 @@ void INDI_P::newBlob()
         if (sending == false)
         {
             sending = true;
-            pg->dp->parentMgr->startBlob (pg->dp->name, name, QString(timestamp()));
+            pg->dp->deviceManager->startBlob (pg->dp->name, name, QString(timestamp()));
         }
 
-        pg->dp->parentMgr->sendOneBlob(el[i]->name, data64_size, format, data64);
+        pg->dp->deviceManager->sendOneBlob(el[i]->name, data64_size, format, data64);
 
         fp.close();
         delete [] data64;
@@ -413,7 +413,7 @@ void INDI_P::newBlob()
     if (!sending && !valid)
         return;
     else if (sending)
-        pg->dp->parentMgr->finishBlob();
+        pg->dp->deviceManager->finishBlob();
 
     if (valid)
         state = PS_BUSY;

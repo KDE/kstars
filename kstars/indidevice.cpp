@@ -84,28 +84,28 @@ const char * indi_std[NINDI_STD] =
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, const QString &inName, const QString &inLabel) : KDialog( 0 )
-{
-    name      = inName;
-    label     = inLabel;
-    parent    = menuParent;
-    parentMgr = parentManager;
-
-    deviceVBox     = new QFrame();
-    deviceLayout   = new QVBoxLayout(deviceVBox);
-    groupContainer = new QTabWidget(deviceVBox);
-
-    msgST_w        = new QTextEdit(deviceVBox);
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QString &inName, const QString &inLabel) : KDialog( 0 )
+  {
+    name      		= inName;
+    label     		= inLabel;
+    parent		= menuParent;
+    deviceManager 	= InParentManager;
+  
+    deviceVBox     	= new QFrame();
+    deviceLayout   	= new QVBoxLayout(deviceVBox);
+    groupContainer 	= new QTabWidget(deviceVBox);
+  
+    msgST_w        	= new QTextEdit(deviceVBox);
     msgST_w->setReadOnly(true);
     msgST_w->setMaximumHeight(100);
-
-    dataBuffer = (unsigned char *) malloc (1);
-
-    stdDev 	= new INDIStdDevice(this, parent->ksw);
-
-    curGroup       = NULL;
-
-    INDIStdSupport = false;
+  
+    dataBuffer 		= (unsigned char *) malloc (1);
+  
+    stdDev 		= new INDIStdDevice(this, parent->ksw);
+  
+    curGroup      	= NULL;
+  
+    INDIStdSupport 	= false;
 
     deviceLayout->addWidget(groupContainer);
     deviceLayout->addWidget(msgST_w);
@@ -183,7 +183,7 @@ int INDI_D::setAnyCmd (XMLEle *root, QString & errmsg)
         return (-1);
     }
 
-    parentMgr->checkMsg (root, this);
+    deviceManager->checkMsg (root, this);
 
     return (setValue (pp, root, errmsg));
 }
@@ -644,7 +644,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, QString & errmsg)
     pp->timeout = ap ? atof(valuXMLAtt(ap)) : 0;
 
     /* log any messages */
-    parentMgr->checkMsg (root, this);
+    deviceManager->checkMsg (root, this);
 
     pp->addGUI(root);
 
@@ -1057,7 +1057,7 @@ INDI_E * INDI_D::findElem(const QString &name)
 
     for ( int i=0; i < gl.size(); ++i ) {
         grp = gl[i];
-        for ( int j=0; j < grp->pl.size(); j++ )
+        for ( int j=0; j < grp->pl.size(); j++)
         {
             prop = grp->pl[j];
             el = prop->findElement(name);

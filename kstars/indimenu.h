@@ -13,6 +13,7 @@
 #define INDIMENU_H_
 
 #include "indielement.h"
+#include "devicemanager.h"
 
 #include <QGridLayout>
 #include <QFrame>
@@ -34,7 +35,6 @@ class QTabWidget;
 class QGridLayout;
 
 class KStars;
-class DeviceManager;
 
 class INDIMenu : public QWidget
 {
@@ -51,37 +51,32 @@ public:
     QTextEdit 	*msgST_w;
 
     QPushButton  *clear;
-    QString	currentLabel;
+    //QString	currentLabel;
 
 
     KStars *ksw;
 
-    QList<DeviceManager*> mgr;
+    QList<DeviceManager*> managers;
 
     void updateStatus();
-    //bool removeDevice(QString devName);
-    void removeDeviceMgr(int mgrID);
-    void setCustomLabel(const QString &deviceName);
-
-    int mgrCounter;
-    bool processServer();
-    int processClient(const QString &hostname, const QString &portnumber);
+    QString getUniqueDeviceLabel(const QString &deviceName);
+  
     INDI_D * findDevice(const QString &deviceName);
     INDI_D * findDeviceByLabel(const QString &label);
-
+  
     void setCurrentDevice(const QString &device) { currentDevice = device; }
     QString getCurrentDevice() { return currentDevice; }
+  
+    DeviceManager* startDeviceManager(QList<IDevice *> &processed_devices, DeviceManager::ManagerMode inMode, uint inPort);
+    DeviceManager* initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode);
+    void stopDeviceManager(QList<IDevice *> &processed_devices);
 
-private:
-    QString currentDevice;
+  private:
+      QString currentDevice;
+  
+  public slots:
+    void removeDeviceManager(DeviceManager *deviceManager);
 
-public slots:
-    void discoverDevice();
-    void announceDevice();
-
-signals:
-    void driverDisconnected(int mgrID);
-    void newDevice();
 
 };
 

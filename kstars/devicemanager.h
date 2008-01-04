@@ -11,36 +11,41 @@
    
  */
 
- #ifndef DEVICEMANAGER_H_
- #define DEVICEMANAGER_H_
+#ifndef DEVICEMANAGER_H_
+#define DEVICEMANAGER_H_
 
- #include "indielement.h"
+#include "indielement.h"
+#include "indidriver.h"
+#include <QTcpSocket>
 
 class INDIMenu;
 class INDI_P;
 class INDI_D;
 
-class QSocketNotifier;
+class KProcess;
+class QTcpSocket;
 
 // INDI device manager
 class DeviceManager : public QObject
 {
     Q_OBJECT
 public:
-    DeviceManager(INDIMenu *INDIparent, int inID);
-    ~DeviceManager();
+    enum ManagerMode { M_LOCAL, M_SERVER, M_CLIENT };
+
+    DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, ManagerMode inMode);
+      ~DeviceManager();
 
     INDIMenu *parent;
-
     QList<INDI_D*> indi_dev;
+    QList<IDevice *> managed_devices;
 
-    int			mgrID;
-    int			serverFD;
-    FILE			*serverFP;
-    LilXML		*XMLParser;
-    QSocketNotifier 	*sNotifier;
-    QString		host;
-    QString		port;
+    QTcpSocket		 serverSocket;
+    LilXML		 *XMLParser;
+    QString		 host;
+    uint		 port;
+    QString 		 serverBuffer;
+    ManagerMode 	 mode;
+    KProcess 		 *serverProcess;
 
     int dispatchCommand   (XMLEle *root, QString & errmsg);
 
@@ -68,13 +73,22 @@ public:
     void checkMsg       (XMLEle *root, INDI_D *dp);
     void doMsg          (XMLEle *msg , INDI_D *dp);
 
-    bool indiConnect    (const QString &inHost, const QString &inPort);
+    void appendManagedDevices(QList<IDevice *> & processed_devices);
+    void startServer();
+    void connectToServer();
+
+    QString getServerBuffer() { return serverBuffer; }
 
 public slots:
     void dataReceived();
+    void connectionSuccess();
+    void connectionError();
+    void processStandardError();
 
 signals:
-    void newDevice();
+    void newDevice(INDI_D *);
+    void deviceManagerError(DeviceManager *);
+    void newServerInput();
 
 };
 

@@ -79,7 +79,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 
     foreach (IDevice *device, indidriver->devices)
     if (device->deviceType == KSTARS_TELESCOPE)
-        ui->telescopeCombo->addItem(device->label);
+        ui->telescopeCombo->addItem(device->tree_label);
 
     if ( !Options::indiTelescopePort().isEmpty())
         portList << Options::indiTelescopePort();
@@ -224,12 +224,12 @@ void telescopeWizardProcess::establishLink()
     if (indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
     {
         indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
-        indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
+        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
     }
 
     // Set custome label for device
-    indimenu->setCustomLabel(ui->telescopeCombo->currentText());
-    currentDevice = indimenu->currentLabel;
+    //indimenu->setCustomLabel(ui->telescopeCombo->currentText());
+    //currentDevice = indimenu->currentLabel;
     // Select it
     indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
     // Make sure we start is locally
@@ -237,7 +237,7 @@ void telescopeWizardProcess::establishLink()
     // Connect new device discovered with process ports
     connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()));
     // Run it
-    indidriver->processDeviceStatus(INDIDriver::DEV_START);
+    indidriver->processLocalTree(IDevice::DEV_START);
 
     if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
         return;
@@ -278,7 +278,7 @@ void telescopeWizardProcess::processPort()
 
     if (timeOutCount >= TIMEOUT_THRESHHOLD)
     {
-        indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
+        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
         KMessageBox::error(0, i18n("Error: connection timeout. Unable to communicate with an INDI server"));
         close();
@@ -339,7 +339,7 @@ void telescopeWizardProcess::scanPorts()
     if (progressScan->wasCancelled())
     {
         linkRejected = true;
-        indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
+        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
         return;
     }
@@ -351,7 +351,7 @@ void telescopeWizardProcess::scanPorts()
         KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
 
         linkRejected = true;
-        indidriver->processDeviceStatus(INDIDriver::DEV_TERMINATE);
+        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
         return;
     }

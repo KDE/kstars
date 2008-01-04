@@ -287,18 +287,18 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 bool KSPopupMenu::addINDI(void)
 {
     INDIMenu *indiMenu = ks->getINDIMenu();
-    DeviceManager *mgr;
+    DeviceManager *managers;
     INDI_D *dev;
     INDI_G *grp;
     INDI_P *prop(NULL);
     INDI_E *element;
 
-    if (indiMenu->mgr.count() == 0)
+    if (indiMenu->managers.count() == 0)
         return false;
 
-    foreach ( mgr, indiMenu->mgr )
+    foreach ( managers, indiMenu->managers )
     {
-        foreach (dev, mgr->indi_dev )
+        foreach (dev, managers->indi_dev )
         {
             if (!dev->INDIStdSupport)
                 continue;

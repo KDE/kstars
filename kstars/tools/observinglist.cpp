@@ -369,15 +369,13 @@ void ObservingList::slotSlewToObject()
 
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
-
     INDIMenu *imenu = ks->getINDIMenu();
 
-
-    for (int i=0; i < imenu->mgr.size() ; i++)
+    for (int i=0; i < imenu->managers.size() ; i++)
     {
-        for (int j=0; j < imenu->mgr.at(i)->indi_dev.size(); j++)
+        for (int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++)
         {
-            indidev = imenu->mgr.at(i)->indi_dev.at(j);
+            indidev = imenu->managers.at(i)->indi_dev.at(j);
             indidev->stdDev->currentObject = NULL;
             prop = indidev->findProp("EQUATORIAL_EOD_COORD");
             if (prop == NULL)

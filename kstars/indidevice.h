@@ -59,7 +59,7 @@ class INDI_D : public KDialog
 {
     Q_OBJECT
 public:
-    INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, const QString &inName, const QString &inLabel);
+    INDI_D(INDIMenu *parentMenu, DeviceManager *InParentManager, const QString &inName, const QString &inLabel);
     ~INDI_D();
 
     QString 	name;			/* device name */
@@ -78,7 +78,7 @@ public:
     bool	  INDIStdSupport;
 
     INDIMenu      *parent;
-    DeviceManager *parentMgr;
+    DeviceManager *deviceManager;
 
     enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 

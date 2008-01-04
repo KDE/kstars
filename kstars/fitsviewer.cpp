@@ -103,7 +103,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     {
         close();
         return;
-    }
+    } 
 
     QFile tempFile;
     QAction *action;
@@ -161,6 +161,7 @@ FITSViewer::~FITSViewer()
 bool  FITSViewer::initFITS()
 {
 
+     
     /* Display image in the central widget */
     if (image->loadFits(currentURL.path()) == -1) { close(); return false; }
 
