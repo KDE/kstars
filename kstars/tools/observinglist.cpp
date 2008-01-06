@@ -500,7 +500,7 @@ void ObservingList::slotAVT() {
 
     if ( selectedItems.size() ) {
         AltVsTime avt( ks );
-        foreach ( QModelIndex i, selectedItems ) {
+        foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() ) {
                 if ( o->translatedName() == i.data().toString() )
                     avt.processObject( o );

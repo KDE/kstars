@@ -275,7 +275,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 
         if ( DateCheckBatch->isChecked() ) {
             //Parse one of the fields as the date
-            foreach ( QString s, fields ) {
+            foreach ( const QString &s, fields ) {
                 dt = QDate::fromString( s );
                 if ( dt.isValid() ) break;
             }

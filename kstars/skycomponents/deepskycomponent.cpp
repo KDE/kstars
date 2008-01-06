@@ -236,7 +236,7 @@ void DeepSkyComponent::mergeSplitFiles() {
     kDebug() << "Merging split NGC/IC files" << endl;
 
     QString buffer;
-    foreach ( QString fname, catFiles ) {
+    foreach ( const QString &fname, catFiles ) {
         QFile f( localDir.absoluteFilePath(fname) );
         if ( f.open( QIODevice::ReadOnly ) ) {
             QTextStream stream( &f );
@@ -255,7 +255,7 @@ void DeepSkyComponent::mergeSplitFiles() {
         fout.close();
 
         //Remove the split-files
-        foreach ( QString fname, catFiles ) {
+        foreach ( const QString &fname, catFiles ) {
             QString fullname = localDir.absoluteFilePath(fname);
             //DEBUG
             kDebug() << "Removing " << fullname << " ..." << endl;

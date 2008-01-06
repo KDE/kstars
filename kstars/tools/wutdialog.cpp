@@ -107,7 +107,7 @@ void WUTDialog::initCategories() {
     << i18n( "Constellations" ) << i18n( "Star Clusters" )
     << i18n( "Nebulae" ) << i18n( "Galaxies" );
 
-    foreach ( QString c, m_Categories )
+    foreach ( const QString &c, m_Categories )
     WUT->CategoryListWidget->addItem( c );
 
     WUT->CategoryListWidget->setCurrentRow( 0 );
@@ -117,7 +117,7 @@ void WUTDialog::init() {
     QString sRise, sSet, sDuration;
 
     // reset all lists
-    foreach ( QString c, m_Categories ) {
+    foreach ( const QString &c, m_Categories ) {
         if ( m_VisibleList.contains( c ) )
             visibleObjects( c ).clear();
         else
@@ -225,7 +225,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
     if ( ! isCategoryInitialized(c) ) {
 
         if ( c == m_Categories[0] ) { //Planets
-            foreach ( QString name, kstars->data()->skyComposite()->objectNames( SkyObject::PLANET ) ) {
+            foreach ( const QString &name, kstars->data()->skyComposite()->objectNames( SkyObject::PLANET ) ) {
                 SkyObject *o = kstars->data()->skyComposite()->findByName( name );
 
                 if ( checkVisibility( o ) )

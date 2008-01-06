@@ -209,7 +209,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
             //Now, convert the clipped horizPolygon vertices back to equatorial
             //coordinates, and store them back in cbound
 
-            foreach ( QPointF node, horizPolygon ) {
+            foreach ( const QPointF &node, horizPolygon ) {
                 SkyPoint sp;
                 sp.setAz( node.x() );
                 sp.setAlt( node.y() );
@@ -265,7 +265,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     /****
     	QPolygonF poly;
         bool isVisible;
-    	foreach ( QPointF node, cbound ) {
+    	foreach ( const QPointF &node, cbound ) {
     		SkyPoint sp( node.x(), node.y() );
     		sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
     		QPointF v = toScreen( &sp, scale, Options::useRefraction() );

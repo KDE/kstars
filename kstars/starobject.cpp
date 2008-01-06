@@ -140,7 +140,7 @@ void StarObject::initImages() {
         ColorMap.insert( "M", QColor::fromRgb( 255, 255, 255 ) );
     }
 
-    foreach ( QString color, ColorMap.keys() ) {
+    foreach ( const QString &color, ColorMap.keys() ) {
         QString imKey = color+"14";
         QPixmap BigImage( 14, 14 ); 
         BigImage.fill( Qt::transparent );

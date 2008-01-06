@@ -165,7 +165,7 @@ void JupiterMoonsComponent::draw( QPainter& psky )
 
     //Now draw the remaining moons, as stored in frontMoons
     psky.setPen( QPen( QColor( "white" ) ) );
-    foreach ( QPointF o, frontMoons ) {
+    foreach ( const QPointF &o, frontMoons ) {
         psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
     }
 
