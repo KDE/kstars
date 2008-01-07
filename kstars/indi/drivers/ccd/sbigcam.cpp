@@ -29,6 +29,7 @@
 //FIXME remove after debugging
 
 #include <iostream>
+#include <cstring>
 
 //==========================================================================
 #include "sbigcam.h"
