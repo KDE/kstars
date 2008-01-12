@@ -133,9 +133,6 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
     //Determine the position angle
     findPA( num );
 
-    //Set the angular size in arcmin
-    setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI );
-
     return true;
 }
 

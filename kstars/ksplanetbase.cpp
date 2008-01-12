@@ -74,6 +74,7 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
 
 void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
+    setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI ); //angular size in arcmin
 
     if ( lat && LST )
         localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
