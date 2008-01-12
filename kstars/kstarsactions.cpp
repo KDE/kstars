@@ -393,7 +393,7 @@ void KStars::slotViewOps() {
     dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
     dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
-
+    dialog->setHelp(QString(), "kstars");
     dialog->show();
 }
 
