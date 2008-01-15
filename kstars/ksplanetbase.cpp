@@ -184,16 +184,20 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     SkyPoint test;
     dms newELat( ecLat()->Degrees() + 1.0 );
     test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
-    double dx = test.ra()->Degrees() - ra()->Degrees();
-    double dy = dec()->Degrees() - test.dec()->Degrees();
+    double dx = ra()->Degrees() - test.ra()->Degrees(); 
+    double dy = test.dec()->Degrees() - dec()->Degrees();
     double pa;
     if ( dy ) {
-        pa = atan2( dx, dy )*180.0/dms::PI;
+      pa = atan2( dx, dy )*180.0/dms::PI;
     } else {
         pa = 90.0;
         if ( dx > 0 ) pa = -90.0;
     }
     setPA( pa );
+
+    //DEBUG
+    kDebug() << QString("%1: %2 %3 %4").arg(name()).arg(pa).arg(dx).arg(dy) << endl;
+
 }
 
 double KSPlanetBase::labelOffset() const {
