@@ -188,15 +188,12 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     double dy = test.dec()->Degrees() - dec()->Degrees();
     double pa;
     if ( dy ) {
-      pa = atan2( dx, dy )*180.0/dms::PI;
+        pa = atan2( dx, dy )*180.0/dms::PI;
     } else {
-        pa = 90.0;
-        if ( dx > 0 ) pa = -90.0;
+		    pa = 90.0;
+		    if ( dx > 0 ) pa = -90.0;
     }
     setPA( pa );
-
-    //DEBUG
-    kDebug() << QString("%1: %2 %3 %4").arg(name()).arg(pa).arg(dx).arg(dy) << endl;
 
 }
 
