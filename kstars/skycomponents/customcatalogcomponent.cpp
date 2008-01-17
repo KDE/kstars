@@ -128,7 +128,16 @@ void CustomCatalogComponent::init( KStarsData * ) {
     }
 }
 
-void CustomCatalogComponent::draw( QPainter& psky )
+void CustomCatalogComponent::update( KStarsData *data, KSNumbers * )
+{
+    if ( visible() ) {
+        foreach ( SkyObject *obj, objectList() ) {
+            obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        }
+    }
+}
+
+void CustomCatalogComponent::draw( QPainter &psky )
 {
     if ( ! visible() ) return;
 
