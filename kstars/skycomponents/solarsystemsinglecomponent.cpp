@@ -142,6 +142,12 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         spa = fabs(spa);
         size = size * (cpa + spa);
 
+				//Quick and dirty fix to prevent a crash.
+				//FIXME: Need to figure out why the size is sometimes NaN
+				if ( isnan( size ) ) {
+					size = 10.0;
+				}
+
         //Because Saturn has rings, we inflate its image size by a factor 2.5
         if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
 
