@@ -307,6 +307,20 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
 
 }
 
+SkyObject* SkyMapComposite::starNearest( SkyPoint *p, double &maxrad ) {
+    double rtry = maxrad;
+    SkyObject *star = 0;
+
+    m_skyMesh->aperture( p, maxrad + 1.0, OBJ_NEAREST_BUF);
+
+    star = m_Stars->objectNearest( p, rtry );
+    //reduce rBest by 0.75 for stars brighter than 4th mag
+    if ( star && star->mag() < 4.0 ) rtry *= 0.75;
+
+    maxrad = rtry;
+    return star;
+}
+
 bool SkyMapComposite::addNameLabel( SkyObject *o ) {
     if ( !o ) return false;
     labelObjects().append( o );
