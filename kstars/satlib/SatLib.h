@@ -62,38 +62,32 @@ typedef struct
 #ifdef _WIN32 
   #ifdef BUILD_DLL
 /* the dll exports */
-    #define EXPORT __declspec(dllexport)
-    #define declare_func
+    #define SATLIB_EXPORT __declspec(dllexport)
   #else
 /* the exe imports */
-    #define EXPORT __declspec(dllimport)
-    #define declare_func
+    #define SATLIB_EXPORT __declspec(dllimport)
   #endif
 #else 
-  #ifdef BUILD_DLL
-/* no export necessary */
-    #undef declare_func
+  #ifndef BUILD_DLL
+/* no declarations necessary for import */
+    #define SATLIB_EXPORT
   #else
 /* the exe imports */
     #if __GNUC__- 0 >= 4
-      #define EXPORT __attribute__ ((visibility("default")))
-      #define declare_func
+      #define SATLIB_EXPORT __attribute__ ((visibility("default")))
     #else
-      #define EXPORT
-      #define declare_func
+      #define SATLIB_EXPORT
     #endif
   #endif 
 #endif
 
-#ifdef declare_func
 /* function to be imported/exported */
-   EXPORT int SatInit(char *ObsName, double ObsLat, double ObsLong, double ObsAlt, char *TLE_file);
-   EXPORT int SatPassList(double jd_start, double jd_end, SPositionSat *pPositionSat[]);	
-   EXPORT int SatNextPass(char *satname,  double jd_start, SPositionSat *pPositionSat[]);
-   EXPORT int SatFindPosition(char *satname, double jd_start, double step, long number_pos, SPositionSat *pPositionSat[]);
-   EXPORT double Julian_Date(struct tm *cdate);
-   EXPORT void Date_Time(double julian_date,struct  tm *cdate);
-#endif
+SATLIB_EXPORT int SatInit(char *ObsName, double ObsLat, double ObsLong, double ObsAlt, char *TLE_file);
+SATLIB_EXPORT int SatPassList(double jd_start, double jd_end, SPositionSat *pPositionSat[]);	
+SATLIB_EXPORT int SatNextPass(char *satname,  double jd_start, SPositionSat *pPositionSat[]);
+SATLIB_EXPORT int SatFindPosition(char *satname, double jd_start, double step, long number_pos, SPositionSat *pPositionSat[]);
+SATLIB_EXPORT double Julian_Date(struct tm *cdate);
+SATLIB_EXPORT void Date_Time(double julian_date,struct  tm *cdate);
 
 
 #endif
