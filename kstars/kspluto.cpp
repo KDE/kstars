@@ -35,7 +35,7 @@
 KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize )
         : KSAsteroid( kd, i18n("Pluto"), fn, J2000,
                       39.48168677, 0.24880766, dms(17.14175), dms(113.76329),
-              dms(110.30347), dms(14.86205), 1.0 ) {
+											dms(110.30347), dms(14.86205), 1.0, 0.0 ) {
     //Initialize the base orbital element values for J2000:
     a0 = 39.48168677; //semi-major axis (AU)
     e0 = 0.24880766;  //eccentricity
@@ -53,7 +53,6 @@ KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize )
     M1 = 522880.15/3600.; // dM/dt (degrees/century)
 
     setPhysicalSize( pSize );
-    setType( 2 ); //It's really a planet, not an asteroid
 }
 
 KSPluto::~KSPluto() {

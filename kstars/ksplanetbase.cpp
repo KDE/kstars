@@ -91,7 +91,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 bool KSPlanetBase::isMajorPlanet() const {
     if ( name() == "Mercury" || name() == "Venus" || name() == "Mars" ||
             name() == "Jupiter" || name() == "Saturn" || name() == "Uranus" ||
-            name() == "Neptune" || name() == "Pluto" )
+            name() == "Neptune" )
         return true;
     return false;
 }
