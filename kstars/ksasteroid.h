@@ -20,6 +20,10 @@
 
 #include "ksplanetbase.h"
 
+class KStarsData;
+class KSNumbers;
+class dms;
+
 /**@class KSAsteroid
 	*@short A subclass of KSPlanetBase that implements asteroids.
 	*
@@ -41,11 +45,6 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
-class KStarsData;
-class KSNumbers;
-class dms;
-
 class KSAsteroid : public KSPlanetBase
 {
 public:
@@ -78,7 +77,7 @@ public:
     	*@p N the longitude of the orbit's ascending node
     	*@p M the mean anomaly for the Julian Day
     	*@p H absolute magnitude
-	*@p G slope parameter
+      *@p G slope parameter
     	*/
     KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
