@@ -38,6 +38,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
+#include "ksfilereader.h"
 #include "ksplanetbase.h"
 #include "ksplanet.h"
 #include "kspluto.h"
@@ -216,12 +217,16 @@ void PlanetViewer::initPlotObjects() {
 
         QFile orbitFile;
         if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
-            QTextStream orbitStream( &orbitFile );
-            double x, y, z;
-            orbitStream >> x >> y >> z;
-            while ( !orbitStream.atEnd() ) {
+            KSFileReader fileReader( orbitFile ); // close file is included
+						double x,y,z;
+            while ( fileReader.hasMoreLines() ) {
+                QString line = fileReader.readLine();
+                //Localize the decimal symbol
+                line.replace( ".", KGlobal::locale()->decimalSymbol() );
+    
+                QTextStream instream( &line );
+                instream >> x >> y >> z;
                 orbit[i]->addPoint( x, y );
-                orbitStream >> x >> y >> z;
             }
         }
 

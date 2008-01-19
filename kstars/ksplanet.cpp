@@ -23,6 +23,7 @@
 #include <QTextStream>
 
 #include <kdebug.h>
+#include <kglobal.h>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
@@ -47,6 +48,9 @@ bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname,
         KSFileReader fileReader( f ); // close file is included
         while ( fileReader.hasMoreLines() ) {
             line = fileReader.readLine();
+            //Localize the decimal symbol
+            line.replace( ".", KGlobal::locale()->decimalSymbol() );
+
             QTextStream instream( &line );
             instream >> A >> B >> C;
             vector->append( OrbitData(A, B, C) );

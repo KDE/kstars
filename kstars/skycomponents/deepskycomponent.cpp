@@ -82,6 +82,8 @@ void DeepSkyComponent::init(KStarsData *data)
         QChar iflag;
 
         line = fileReader.readLine();
+        //Localize the decimal symbol
+        line.replace( ".", KGlobal::locale()->decimalSymbol() );
 
         //Ignore comment lines
         while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
@@ -90,6 +92,9 @@ void DeepSkyComponent::init(KStarsData *data)
         while ( line.mid(6,8).trimmed().isEmpty() && fileReader.hasMoreLines() ) {
             line = fileReader.readLine();
         }
+
+        //Localize the decimal symbol
+        line.replace( ".", KGlobal::locale()->decimalSymbol() );
 
         iflag = line.at( 0 ); //check for NGC/IC catalog flag
         if ( iflag == 'I' ) cat = "IC";

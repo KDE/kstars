@@ -22,6 +22,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <kglobal.h>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
@@ -56,6 +57,9 @@ bool KSMoon::loadData() {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
             line = stream.readLine();
+            //Localize the decimal symbol
+            line.replace( ".", KGlobal::locale()->decimalSymbol() );
+
             QTextStream instream( &line, QIODevice::ReadOnly );
             instream >> nd >> nm >> nm1 >> nf >> Li >> Ri;
             LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));

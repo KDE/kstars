@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QPen>
 #include <QPainter>
+#include <kglobal.h>
 
 #include "Options.h"
 #include "kscomet.h"
@@ -54,6 +55,9 @@ void CometsComponent::init( KStarsData *data ) {
             KSComet *com = 0;
 
             line = fileReader.readLine();
+            //Localize the decimal symbol
+            line.replace( ".", KGlobal::locale()->decimalSymbol() );
+
             name = line.mid( 3, 35 ).trimmed();
             mJD  = line.mid( 38, 5 ).toInt();
             q    = line.mid( 44, 10 ).toDouble();

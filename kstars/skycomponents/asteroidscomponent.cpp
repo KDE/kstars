@@ -19,6 +19,7 @@
 
 #include <QPen>
 #include <QPainter>
+#include <kglobal.h>
 
 #include "skycomponent.h"
 
@@ -63,6 +64,10 @@ void AsteroidsComponent::init(KStarsData *data)
     while( fileReader.hasMoreLines() ) {
         KSAsteroid *ast = 0;
         line = fileReader.readLine();
+
+        //Localize the decimal symbol
+        line.replace( ".", KGlobal::locale()->decimalSymbol() );
+
         name = line.mid( 6, 17 ).trimmed();
         mJD  = line.mid( 24, 5 ).toInt();
         a    = line.mid( 30, 9 ).toDouble();
