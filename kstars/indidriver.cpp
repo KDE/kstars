@@ -812,8 +812,8 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
 int INDIDriver::activeDriverCount()
 {
-#if 0
     int count = 0;
+#if 0
 
     //for (uint i=0; i < devices.size(); i++)
     foreach (IDevice *dev, devices)
@@ -824,10 +824,8 @@ int INDIDriver::activeDriverCount()
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
     if (host->isConnected)
         count++;
-
-
-    return count;
 #endif
+    return count;
 }
 
 void INDIDriver::addINDIHost()
