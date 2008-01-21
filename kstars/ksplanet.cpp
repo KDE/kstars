@@ -40,20 +40,21 @@ KSPlanet::OrbitDataManager::OrbitDataManager() {
 
 bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname,
         QVector<OrbitData> *vector) {
-    QString line;
+    QStringList fields;
     QFile f;
     double A, B, C;
 
     if ( KSUtils::openDataFile( f, fname ) ) {
         KSFileReader fileReader( f ); // close file is included
         while ( fileReader.hasMoreLines() ) {
-            line = fileReader.readLine();
-            //Localize the decimal symbol
-            line.replace( ".", KGlobal::locale()->decimalSymbol() );
+            fields = fileReader.readLine().split( " ", QString::SkipEmptyParts );
 
-            QTextStream instream( &line );
-            instream >> A >> B >> C;
-            vector->append( OrbitData(A, B, C) );
+            if ( fields.size() == 3 ) {
+                A = fields[0].toDouble();
+                B = fields[1].toDouble();
+                C = fields[2].toDouble();
+                vector->append( OrbitData(A, B, C) );
+            }
         }
     } else {
         return false;

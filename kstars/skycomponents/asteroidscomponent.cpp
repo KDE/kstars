@@ -65,9 +65,6 @@ void AsteroidsComponent::init(KStarsData *data)
         KSAsteroid *ast = 0;
         line = fileReader.readLine();
 
-        //Localize the decimal symbol
-        line.replace( ".", KGlobal::locale()->decimalSymbol() );
-
         name = line.mid( 6, 17 ).trimmed();
         mJD  = line.mid( 24, 5 ).toInt();
         a    = line.mid( 30, 9 ).toDouble();
@@ -77,7 +74,7 @@ void AsteroidsComponent::init(KStarsData *data)
         dble_N = line.mid( 72, 9 ).toDouble();
         dble_M = line.mid( 82, 11 ).toDouble();
         H = line.mid( 94, 5 ).toDouble();
-		G = line.mid( 102, 4 ).toDouble();
+        G = line.mid( 102, 4 ).toDouble();
 
         JD = double( mJD ) + 2400000.5;
 

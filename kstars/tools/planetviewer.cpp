@@ -218,15 +218,15 @@ void PlanetViewer::initPlotObjects() {
         QFile orbitFile;
         if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
             KSFileReader fileReader( orbitFile ); // close file is included
-						double x,y,z;
+						double x,y;
             while ( fileReader.hasMoreLines() ) {
                 QString line = fileReader.readLine();
-                //Localize the decimal symbol
-                line.replace( ".", KGlobal::locale()->decimalSymbol() );
-    
-                QTextStream instream( &line );
-                instream >> x >> y >> z;
-                orbit[i]->addPoint( x, y );
+                QStringList fields = line.split( " ", QString::SkipEmptyParts );
+								if ( fields.size() == 3 ) {
+                    x = fields[0].toDouble();
+    								y = fields[1].toDouble();
+                    orbit[i]->addPoint( x, y );
+                }
             }
         }
 

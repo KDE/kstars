@@ -385,17 +385,13 @@ void StarComponent::readData( float newMagnitude )
 }
 
 
-StarObject* StarComponent::processStar( const QString &_line ) {
+StarObject* StarComponent::processStar( const QString &line ) {
     QString name, gname, SpType, visibleName;
     int rah, ram, ras, ras2, dd, dm, ds, ds2;
     bool mult(false), var(false);
     QChar sgn;
     double mag, bv, dmag, vper;
     double pmra, pmdec, plx;
-
-    //Localize the decimal symbol
-		QString line = _line;
-    line.replace( ".", KGlobal::locale()->decimalSymbol() );
 
     //parse coordinates
     rah = line.mid( 0, 2 ).toInt();
