@@ -588,6 +588,9 @@ void SkyMap::setFocus( double ra, double dec ) {
     m_rotAxis = m_rotAxis.inverse();
 
     Focus.set( ra, dec );
+    Options::setFocusRA( ra );
+    Options::setFocusDec( dec );
+
     focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
 }
 
@@ -599,6 +602,9 @@ void SkyMap::setFocusAltAz(double alt, double az) {
     focus()->setAlt(alt);
     focus()->setAz(az);
     focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+    Options::setFocusRA( focus()->ra()->Hours() );
+    Options::setFocusDec( focus()->dec()->Degrees() );
+
     slewing = false;
 
     oldfocus()->set( focus()->ra(), focus()->dec() );
