@@ -635,10 +635,10 @@ void KStars::datainitFinished(bool worked) {
 
 void KStars::initFocus() {
     SkyPoint newPoint;
-    //If useDefaultOptions, then we set Az/Alt.  Otherwise, set RA/Dec
-    if ( data()->useDefaultOptions ) {
+
+    if ( Options::focusRA() == 180.0 && Options::focusDec() == 45.0 ) {
         newPoint.setAz( Options::focusRA() );
-        newPoint.setAlt( Options::focusDec() + 0.0001 );
+        newPoint.setAlt( Options::focusDec() );
         newPoint.HorizontalToEquatorial( LST(), geo()->lat() );
     } else {
         newPoint.set( Options::focusRA(), Options::focusDec() );
