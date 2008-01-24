@@ -324,7 +324,7 @@ public:
     	*/
     //	void initGuides( KSNumbers *num );
 
-    bool useDefaultOptions, startupComplete;
+    bool startupComplete;
 
     /*@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
     	*@param object pointer to telescope sky object

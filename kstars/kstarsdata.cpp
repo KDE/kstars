@@ -91,11 +91,6 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     //standard directories and locale objects
     locale = new KLocale( "kstars" );
 
-    //Check to see if config file already exists.  If not, set
-    //useDefaultOptions = true
-    QString fname = KStandardDirs::locateLocal( "config", "kstarsrc" );
-    useDefaultOptions = ! ( QFile(fname).exists() );
-
     m_SkyComposite = new SkyMapComposite( 0, this );
 
     //Instantiate LST and HourAngle
