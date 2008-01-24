@@ -1074,7 +1074,7 @@ void KStars::slotAboutToQuit()
     Options::setWindowHeight( height() );
 
     //explicitly save the colorscheme data to the config file
-    data()->colorScheme()->saveToConfig( KGlobal::config().data() );
+    data()->colorScheme()->saveToConfig();
 
     KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
     //explicitly save toolbar settings to config file

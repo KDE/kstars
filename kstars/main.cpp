@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
         dat->setLocationFromOptions();
 
         //Set color scheme
-        dat->colorScheme()->loadFromConfig( KGlobal::config().data() );
+        dat->colorScheme()->loadFromConfig();
 
         //set clock now that we have a location:
         //Check to see if user provided a date/time string.  If not, use current CPU time

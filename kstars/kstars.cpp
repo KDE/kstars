@@ -174,7 +174,7 @@ void KStars::applyConfig() {
     ((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
 
     //color scheme
-    kstarsData->colorScheme()->loadFromConfig( KGlobal::config().data() );
+    kstarsData->colorScheme()->loadFromConfig();
     if ( Options::darkAppColors() ) {
         QApplication::setPalette( DarkPalette );
     } else {

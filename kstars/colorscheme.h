@@ -22,8 +22,6 @@
 #include <qmap.h>
 #include <qstringlist.h>
 
-class KConfig;
-
 /**
 	*@class ColorScheme
 	*This class stores all of the adjustable colors in KStars, in 
@@ -127,12 +125,12 @@ public:
     /**
       *Read color-scheme data from the Config object.
     	*/
-    void loadFromConfig( KConfig* );
+    void loadFromConfig();
 
     /**
       *Save color-scheme data to the Config object.
     	*/
-    void saveToConfig( KConfig* );
+    void saveToConfig();
 
     /**
       *@return the number of colors in the color scheme.
