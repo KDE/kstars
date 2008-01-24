@@ -534,18 +534,6 @@
 			<whatsthis>The background fill mode for the on-screen information boxes: 0="no BG"; 1="semi-transparent BG"; 2="opaque BG"</whatsthis>
 			<default>1</default>
 		</entry>
-		<entry name="StarColorMode" type="UInt">
-			<label>Mode for rendering stars</label>
-			<whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
-			<default>0</default>
-			<max>3</max>
-		</entry>
-		<entry name="StarColorIntensity" type="UInt">
-			<label>Saturation level of star colors</label>
-			<whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
-			<default>4</default>
-			<max>10</max>
-		</entry>
 		<entry name="Projection" type="UInt">
 			<label>Mapping projection algorithm</label>
 			<whatsthis>Algorithm for the mapping projection.</whatsthis>
@@ -664,6 +652,18 @@
 			<label>Use Dark colors for KStars windows?</label>
 			<whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
 			<default>false</default>
+		</entry>
+		<entry name="StarColorMode" type="UInt">
+			<label>Mode for rendering stars</label>
+			<whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
+			<default>0</default>
+			<max>3</max>
+		</entry>
+		<entry name="StarColorIntensity" type="UInt">
+			<label>Saturation level of star colors</label>
+			<whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
+			<default>4</default>
+			<max>10</max>
 		</entry>
 		<entry name="AngularRulerColor" type="String">
 			<label>Color of angular distance ruler</label>

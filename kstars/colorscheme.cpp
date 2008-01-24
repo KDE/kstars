@@ -118,10 +118,8 @@ ColorScheme::ColorScheme() : FileName() {
     Name.append( i18n( "Satellite Track" ) );
     Default.append( "#007777" );
 
-    //Set the default colors in the Palette.
-    for ( int i=0; i<KeyName.size(); ++i ) {
-        setColor( KeyName[i], Default[i] );
-    }
+		//Load colors from config object
+		loadFromConfig();
 
     //Default values for integer variables:
     StarColorMode = 0;
@@ -180,6 +178,9 @@ QString ColorScheme::nameFromKey( const QString &key ) const {
 void ColorScheme::setColor( const QString &key, const QString &color ) {
     //We can blindly insert() the new value; if the key exists, the old value is replaced
     Palette.insert( key, color );
+
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    cg.writeEntry( key, color );
 }
 
 bool ColorScheme::load( const QString &name ) {
@@ -316,11 +317,13 @@ bool ColorScheme::save( const QString &name ) {
     }
 
     FileName = filename;
+    saveToConfig();
     return true;
 }
 
-void ColorScheme::loadFromConfig( KConfig *conf ) {
-    KConfigGroup cg (conf, "");
+void ColorScheme::loadFromConfig() {
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+
     for ( int i=0; i < KeyName.size(); ++i )
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
@@ -328,8 +331,8 @@ void ColorScheme::loadFromConfig( KConfig *conf ) {
     setStarColorIntensity( cg.readEntry( "StarColorIntensity", 5 ) );
 }
 
-void ColorScheme::saveToConfig( KConfig *conf ) {
-    KConfigGroup cg (conf, "");
+void ColorScheme::saveToConfig() {
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
     for ( int i=0; i < KeyName.size(); ++i ) {
         QString c = colorNamed( KeyName.at(i) ).name();
         cg.writeEntry( KeyName.at(i), c );
