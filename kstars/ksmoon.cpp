@@ -186,9 +186,6 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 	sPhase = sPhase.sprintf( "%02d", iPhase );
 	QString imName = "moon" + sPhase + ".png";
 
-	//DEBUG
-	kdDebug() << "Moon phase: " << Phase.Degrees() << ": " << iPhase << "  " << imName << endl;
-
 	QFile imFile;
 	if ( KSUtils::openDataFile( imFile, imName ) ) {
 		imFile.close();
