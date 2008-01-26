@@ -1147,6 +1147,11 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 	int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
 	dms result;
 
+	//Failsafe: if the index is out of range, return the original angle
+	if ( index < 0 || index > 183 ) {
+		return dms( alt->Degrees() );
+	}
+
 	if ( findApparent ) {
 		result.setD( alt->Degrees() + RefractCorr1[index] );
 	} else {
