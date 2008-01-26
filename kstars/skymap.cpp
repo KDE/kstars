@@ -935,6 +935,22 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     cosY  = cos(Y);
 	#endif
 
+    // Reference for these map projections: Wolfram MathWorld
+    // Lambert Azimuthal Equal-Area:
+    // http://mathworld.wolfram.com/LambertAzimuthalEqual-AreaProjection.html
+    // 
+    // Azimuthal Equidistant:
+    // http://mathworld.wolfram.com/AzimuthalEquidistantProjection.html
+    //
+    // Orthographic:
+    // http://mathworld.wolfram.com/OrthographicProjection.html
+    //
+    // Stereographic:
+    // http://mathworld.wolfram.com/StereographicProjection.html
+    //
+    // Gnomonic:
+    // http://mathworld.wolfram.com/GnomonicProjection.html
+
     //c is the cosine of the angular distance from the center
     double c = sinY0*sinY + cosY0*cosY*cosdX;
 
@@ -942,9 +958,12 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
         *onVisibleHemisphere = true;
     }
 
-    if ( c < 0.0 ) {
-        //Object is on "back side" of the celestial sphere;
-        //Set null coordinates and return
+    //If c is less than 0.0, then the "field angle" (angular distance from the focus) 
+    //is more than 90 degrees.  This is on the "back side" of the celestial sphere 
+    //and should not be drawn.
+    //The Gnomonic projection has an infinite sky horizon, so don't allow the field
+    //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
+    if ( c < 0.0 || Options::projection()==Gnomonic && c < 0.2 ) {
         if (onVisibleHemisphere == NULL) {
             p.setX( -10000000. );
             p.setY( -10000000. );
@@ -1399,6 +1418,12 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
     if ( alt->Degrees()<x1 ) index2 = index - 1;
     if ( index2 < 0 ) index2 = index + 1;
     if ( index2 > 183 ) index2 = index - 1;
+
+    //Failsafe: if indices are out of range, return the input altitude
+    if ( index < 0 || index > 183 || index2 < 0 || index2 > 183 ) {
+        return dms( alt->Degrees() );
+    }
+
     double x2 = 0.5*float(index2) - 1.75;
     double dx = (alt->Degrees() - x1)/(x2 - x1);
 
@@ -1483,16 +1508,44 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     }
 }
 
-bool SkyMap::unusablePoint ( const QPointF &p )
+bool SkyMap::unusablePoint( const QPointF &p )
 {
+    double r0 = 1.0;
+    //r0 is the angular size of the sky horizon, in radians
+    //See HorizonComponent::draw() for documentation of these values
+    switch ( Options::projection() ) {
+    case Lambert:
+        r0 = 1.41421356; break;
+    case AzimuthalEquidistant:
+        r0 = 1.57079633; break;
+    case Stereographic:
+        r0 = 2.0; break;
+    case Gnomonic:
+        r0 = 6.28318531; break; //Gnomonic has an infinite horizon; this is 2*PI
+    case Orthographic:
+    default:
+        break;
+    }
+
+    //If the zoom is high enough, all points are usable
+    //The center-to-corner distance, in radians
+    double r = 0.5*1.41421356*width() / Options::zoomFactor();
+    if ( r < r0 ) {
+        return false;
+    }
+
+    //At low zoom, we have to determine whether the point is beyond the sky horizon
     //Convert pixel position to x and y offsets in radians
     double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
     double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
+    double rsq = ( dx*dx + dy*dy );
+    r0 = r0*r0;
 
-    if (dx >= 1.41 || dx <= -1.41 || dy >= 1.41 || dy <= -1.41)
-        return true;
-    else
+    if (rsq < r0) {
         return false;
+    }
+
+    return true;
 }
 
 void SkyMap::setZoomMouseCursor()
