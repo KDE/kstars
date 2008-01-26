@@ -97,8 +97,12 @@ void HorizonComponent::draw( QPainter& psky )
         psky.setBrush( Qt::NoBrush );
 
     double daz = 90.;
-    if ( Options::useAltAz() )
+    if ( Options::useAltAz() ) {
         daz = 0.5*Width*57.3/Options::zoomFactor(); //center to edge, in degrees
+        if ( Options::projection() == SkyMap::Orthographic ) {
+            daz = daz * 1.4;
+        }
+    }
     if ( daz > 90.0 ) daz = 90.0;
 
     double az1 = map->focus()->az()->Degrees() - daz;
@@ -153,14 +157,16 @@ void HorizonComponent::draw( QPainter& psky )
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() > az1 ) {
                 o = map->toScreen( p, false );
-                groundPoly << o;
+                if ( ! map->isPointNull( o ) ) {
+                    groundPoly << o;
 
-                //Set the anchor point if this point is onscreen
-                if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
-                    pAnchor = p;
+                    //Set the anchor point if this point is onscreen
+                    if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+                        pAnchor = p;
 
-                if ( o.y() > 0. ) allGround = false;
-                if ( o.y() < Height ) allSky = false;
+                    if ( o.y() > 0. ) allGround = false;
+                    if ( o.y() < Height ) allSky = false;
+                }
             }
         }
         az1 = 0.0;
@@ -170,14 +176,16 @@ void HorizonComponent::draw( QPainter& psky )
     foreach ( SkyPoint *p, pointList() ) {
         if ( p->az()->Degrees() > az1 && p->az()->Degrees() < az2 ) {
             o = map->toScreen( p, false );
-            groundPoly << o;
+            if ( ! map->isPointNull( o ) ) {
+                groundPoly << o;
 
-            //Set the anchor point if this point is onscreen
-            if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
-                pAnchor = p;
+                //Set the anchor point if this point is onscreen
+                if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+                    pAnchor = p;
 
-            if ( o.y() > 0. ) allGround = false;
-            if ( o.y() < Height ) allSky = false;
+                if ( o.y() > 0. ) allGround = false;
+                if ( o.y() < Height ) allSky = false;
+            }
         } else if ( p->az()->Degrees() > az2 )
             break;
     }
@@ -188,16 +196,19 @@ void HorizonComponent::draw( QPainter& psky )
         foreach ( SkyPoint *p, pointList() ) {
             if ( p->az()->Degrees() < az2 ) {
                 o = map->toScreen( p, false );
-                groundPoly << o;
+                if ( ! map->isPointNull( o ) ) {
+                    groundPoly << o;
 
-                //Set the anchor point if this point is onscreen
-                if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
-                    pAnchor = p;
+                    //Set the anchor point if this point is onscreen
+                    if ( o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+                        pAnchor = p;
 
-                if ( o.y() > 0. ) allGround = false;
-                if ( o.y() < Height ) allSky = false;
-            } else
+                    if ( o.y() > 0. ) allGround = false;
+                    if ( o.y() < Height ) allSky = false;
+                }
+            } else {
                 break;
+            }
         }
     }
 
@@ -243,19 +254,49 @@ void HorizonComponent::draw( QPainter& psky )
         //complete the polygon by simply adding points along thebottom edge
         //of the screen.  If the zoomLevel is high (daz>75.0), then we add points
         //along the bottom edge of the sky circle.  The sky circle has
-        //a radius of 2*sin(pi/4)*ZoomFactor, and the endpoints of the current
+        //a radius determined by the projection scheme, and the endpoints of the current
         //groundPoly points lie 180 degrees apart along its circumference.
         //We determine the polar angles t1, t2 corresponding to these end points,
         //and then step along the circumference, adding points between them.
         //(In Horizontal coordinates, t1 and t2 are always 360 and 180, respectively).
     } else { //Horizontal coords
-        if ( daz < 75.0 ) { //can complete polygon by simply adding offscreen points
+
+        //In Gnomonic projection, or if sufficiently zoomed in, we can complete 
+        //the ground polygon by simply adding offscreen points
+        if ( daz < 25.0 || Options::projection() == SkyMap::Gnomonic ) { 
             groundPoly << QPointF( Width + 10., groundPoly.last().y() )
                 << QPointF( Width + 10., Height + 10. )
                 << QPointF( -10., Height + 10. )
                 << QPointF( -10., groundPoly.first().y() );
-        } else { //complete polygon along bottom of sky circle
-            double r0 = 2.0*map->scale()*sin(0.25*dms::PI);
+
+        //For other projections at low zoom, we complete the ground polygon by tracing 
+        //along the bottom of sky's horizon circle (i.e., the locus of points that are 
+        //90 degrees from the focus point)
+        } else { 
+            //r0, the radius of the sky circle is determined by the projection scheme:
+            double r0 = map->scale()*Options::zoomFactor();
+            switch ( Options::projection() ) {
+            case SkyMap::Lambert:
+                //r0 * 2 * sin(PI/4) = 1.41421356
+                r0 = r0*1.41421356;
+                break;
+            case SkyMap::AzimuthalEquidistant:
+                //r0*PI/2 = 1.57079633
+                r0 = r0*1.57079633;
+                break;
+            case SkyMap::Orthographic:
+                //r0*sin(PI/2) = 1.0
+                break;
+            case SkyMap::Stereographic:
+                //r0*2*tan(PI/4) = 2.0
+                r0 = 2.0*r0;
+                break;
+            default:
+                kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
+                //default to Orthographic
+                break;
+            }
+
             double t1 = 360.;
             double t2 = 180.;
 
@@ -275,8 +316,8 @@ void HorizonComponent::draw( QPainter& psky )
                 dms a( t );
                 double sa(0.), ca(0.);
                 a.SinCos( sa, ca );
-                float xx = 0.5*Width  + r0*Options::zoomFactor()*ca;
-                float yy = 0.5*Height - r0*Options::zoomFactor()*sa;
+                float xx = 0.5*Width  + r0*ca;
+                float yy = 0.5*Height - r0*sa;
 
                 groundPoly << QPoint( int(xx), int(yy) );
             }
