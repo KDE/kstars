@@ -113,7 +113,23 @@ public:
 
     //virtual void draw( );
 
+    /**
+      *@return the object nearest a given point in the sky.
+      *@param p The point to find an object near
+      *@param maxrad The maximum search radius, in Degrees
+      *@note the angular separation to the matched object is returned 
+      *through the maxrad variable.
+      */
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+
+    /**
+     *@return the star nearest a given point in the sky.
+      *@param p The point to find a star near
+      *@param maxrad The maximum search radius, in Degrees
+      *@note the angular separation to the matched star is returned 
+      *through the maxrad variable.
+      */
+    SkyObject* starNearest( SkyPoint *p, double &maxrad );
 
     /**
     	*@short Search the children of this SkyMapComposite for 
