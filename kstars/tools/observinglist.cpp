@@ -42,6 +42,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobject.h"
+#include "starobject.h"
 #include "skymap.h"
 #include "detaildialog.h"
 #include "tools/altvstime.h"
@@ -574,14 +575,18 @@ void ObservingList::slotOpenList() {
             SkyObject *o;
             if ( line.startsWith( "star" ) ) {
                 QStringList fields = line.split( " ", QString::SkipEmptyParts );
-								dms ra = dms::fromString( fields[1], false ); //false = hours
-								dms dc = dms::fromString( fields[2], true );  //true  = degrees
-								SkyPoint p( ra, dc );
+                dms ra = dms::fromString( fields[1], false ); //false = hours
+                dms dc = dms::fromString( fields[2], true );  //true  = degrees
+                SkyPoint p( ra, dc );
                 double maxrad = 1000.0/Options::zoomFactor();
-								o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-						} else {
+                o = ks->data()->skyComposite()->starNearest( &p, maxrad );
+            } else {
                 o = ks->data()->objectNamed( line );
             }
+
+            //If we haven't identified the object, try interpreting the 
+            //name as a star's genetive name (with ascii letters)
+            if ( !o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
 
             if ( o ) slotAddObject( o );
         }
@@ -656,6 +661,14 @@ void ObservingList::slotSaveList() {
     foreach ( SkyObject* o, obsList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
+        } else if ( o->type() == SkyObject::STAR ) {
+            StarObject *s = (StarObject*)o;
+
+            if ( s->name() == s->gname() ) {
+                ostream << s->name2() << endl;
+            } else { 
+                ostream << s->name() << endl;
+            }
         } else {
             ostream << o->name() << endl;
         }
