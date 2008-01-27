@@ -2315,6 +2315,12 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 		if ( name==cnameList.at(i)->name() ) return cnameList.at(i);
 	}
 
+	//Still no match.  Try interpreting the string as a genetive star name 
+	//(with ascii characters instead of a Greek letter)
+	for ( unsigned int i=0; i<starList.count(); ++i ) {
+		if ( name==starList.at(i)->gname( false ) ) return starList.at(i);
+	}
+
 	//reach here only if argument is not matched
 	return NULL;
 }

@@ -41,6 +41,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobject.h"
+#include "starobject.h"
 #include "skymap.h"
 #include "detaildialog.h"
 #include "tools/altvstime.h"
@@ -541,7 +542,34 @@ void ObservingList::slotOpenList() {
 
 		while ( ! istream.eof() ) {
 			line = istream.readLine();
-			SkyObject *o = ks->data()->objectNamed( line );
+			//DEBUG
+			kdDebug() << line << endl;
+
+			//If the object is named "star", add it by coordinates
+			SkyObject *o = 0;
+			if ( line.startsWith( "star" ) ) {
+				QStringList fields = QStringList::split( " ", line );
+				//DEBUG
+				kdDebug() << fields << endl;
+
+				double ra = dms::fromString( fields[1], false ).Degrees(); //false = hours
+				double dc = dms::fromString( fields[2], true ).Degrees();  //true  = degrees
+
+				//Identify the star with these coordinates
+				double rmax = 1.; 
+				for ( uint i=0; i < ks->data()->starList.count(); ++i ) {
+					SkyObject *s = (SkyObject*)(ks->data()->starList.at(i));
+					double dra = fabs( ra - s->ra()->Degrees() );
+					double ddc = fabs( dc - s->dec()->Degrees() );
+					if ( dra < rmax && ddc < rmax ) {
+						o = s;
+						rmax = sqrt( dra*dra + ddc*ddc );
+					}
+				}
+			} else {
+				o = ks->data()->objectNamed( line );
+			}
+
 			if ( o ) slotAddObject( o );
 		}
 
@@ -610,8 +638,24 @@ void ObservingList::slotSaveList() {
 	
 	QTextStream ostream(&f);
 	ostream << ListName << endl;
+
+	//Save objects to the list using their name.  If it's a star with a genetive name 
+	//(i.e., "sigma orionis"), save the name with ascii characters, not greek letters.
+	//If it's an unnamed star, save "star" and the star's coordinates.
 	for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
-		ostream << o->name() << endl;
+		if ( o->name() == "star" ) {
+			ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
+		} else if ( o->type() == SkyObject::STAR ) {
+			StarObject *s = (StarObject*)o;
+
+			if ( s->name() == s->gname() ) {
+				ostream << s->gname( false ) << endl;
+			} else {
+				ostream << o->name() << endl;
+			}		    
+		} else {
+			ostream << o->name() << endl;
+		}
 	}
 
 	f.close();
