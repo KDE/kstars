@@ -52,12 +52,6 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
     Plot->axis(KPlotWidget::BottomAxis)->setVisible( false );
     Plot->axis(KPlotWidget::TopAxis)->setVisible( false );
 
-    long double jd0 = KStarsDateTime( QDate(Year->value(), 1, 1), QTime(0,0,0) ).djd();
-    for ( int imonth=0; imonth < 12; imonth++ ) {
-        KStarsDateTime kdt( QDate(Year->value(), imonth+1, 1), QTime(0,0,0) );
-        DMonth[imonth] = kdt.djd() - jd0;
-    }
-
     //This will call slotCompute():
     Year->setValue( ks->data()->lt().date().year() );
 
@@ -165,6 +159,13 @@ void modCalcEquinox::slotCompute()
     KSSun Sun( ks->data() );
     int year0 = Year->value();
 
+    KStarsDateTime dt( QDate(year0, 1, 1), QTime(0,0,0) );
+    long double jd0 = dt.djd(); //save JD on Jan 1st
+    for ( int imonth=0; imonth < 12; imonth++ ) {
+        KStarsDateTime kdt( QDate(year0, imonth+1, 1), QTime(0,0,0) );
+        DMonth[imonth] = kdt.djd() - jd0;
+    }
+
     Plot->removeAllPlotObjects();
 
     //Add the celestial equator, just a single line bisecting the plot horizontally
@@ -179,8 +180,6 @@ void modCalcEquinox::slotCompute()
     KPlotObject *ecl = new KPlotObject( ks->data()->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
     ecl->setLinePen( QPen( ecl->pen().color(), 4 ) );
 
-    KStarsDateTime dt( QDate(year0, 1, 1), QTime(0,0,0) );
-    long double jd0 = dt.djd(); //save JD on Jan 1st
     Plot->setLimits( 1.0, double(dt.date().daysInYear()), -30.0, 30.0 );
 
     //Add top and bottom axis lines, and custom tickmarks at each month
