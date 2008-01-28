@@ -29,7 +29,7 @@
 #include "ksnumbers.h"
 #include "Options.h"
 
-#define KSTARS_VERSION "1.2.5"
+#define KSTARS_VERSION "1.2.9"
 
 static const char description[] =
 	I18N_NOOP("Desktop Planetarium");
