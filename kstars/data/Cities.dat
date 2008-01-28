@@ -811,7 +811,7 @@ Drummondville                    : Quebec                : Canada               
 Druvar                           :                       : Croatia               : 45 : 35 : 38 : N :  17 : 13 : 19 : E :  1.0 : EU
 Dryden                           : Ontario               : Canada                : 49 : 46 : 12 : N :  92 : 49 : 47 : W : -6.0 : US
 Dubai                            :                       : United Arab Emirates  : 25 : 18 :  0 : N :  55 : 25 : 59 : E : 4.0  : --
-Dublin                           :                       : Ireland               : 53 : 25 : 58 : N :   6 : 15 :  0 : W : 0.0  : EU
+Dublin                           : Leinster              : Ireland               : 53 : 25 : 58 : N :   6 : 15 :  0 : W : 0.0  : EU
 Dubreuilville                    : Ontario               : Canada                : 48 : 21 : 00 : N : 84  : 32 : 00 : W : -5.0 : US
 Dubrovnik                        :                       : Croatia               : 42 : 33 : 50 : N :  18 : 15 :  3 : E : 1.0  : EU
 Dubuque                          : Iowa                  : USA                   : 42 : 30 : 11 : N :  90 : 40 : 29 : W : -6.0 : US
@@ -822,7 +822,7 @@ Duncan                           : British Columbia      : Canada               
 Dundalk                          : Maryland              : USA                   : 39 : 16 :  1 : N :  76 : 31 :  1 : W : -5.0 : US
 Dunedin                          :                       : New Zealand           : 45 : 55 : 59 : S : 170 : 11 : 59 : E : 12.0 : NZ
 Dunlap                           : Iowa                  : USA                   : 41 : 52 : 58 : N :  95 : 32 : 59 : W : -6.0 : US
-Dunsink                          :                       : Ireland               : 53 : 23 :  2 : N :   6 : 20 : 15 : W :  0.0 : EU
+Dunsink                          : Leinster              : Ireland               : 53 : 23 :  2 : N :   6 : 20 : 15 : W :  0.0 : EU
 Durango                          : Colorado              : USA                   : 37 : 15 :  0 : N : 107 : 55 :  1 : W : -7.0 : US
 Durban                           :                       : South Africa          : 29 : 58 :  0 : S :  30 : 57 :  0 : E :   2.0 : --
 Durham                           : North Carolina        : USA                   : 36 :  0 :  0 : N :  78 : 54 : 44 : W : -5.0 : US
@@ -2726,7 +2726,7 @@ Seymour                          : Tennessee             : USA                  
 Sfax                             :                       : Tunisia               : 34 : 43 :  0 : N :  10 : 41 :  0 : E :   1.0 : --
 Shabaqua Corne                   : Ontario               : Canada                : 48 : 36 : 00 : N : 89  : 54 : 00 : W : -5.0 : US
 Shanghai                         :                       : China                 : 31 : 13 : 58 : N : 121 : 27 :  0 : E : 8.0  : CH
-Shannon                          :                       : Ireland               : 52 : 42 :  0 : N :   8 : 55 :  1 : W : 0.0  : EU
+Shannon                          : Munster               : Ireland               : 52 : 42 :  0 : N :   8 : 55 :  1 : W : 0.0  : EU
 Shaunavon                        : Saskatchewan          : Canada                : 49 : 39 : 00 : N : 108 : 25 : 00 : W : -7.0 : --
 Shawinigan                       : Quebec                : Canada                : 46 : 34 : 00 : N : 72  : 45 : 00 : W : -5.0 : US
 Shawnee                          : Kansas                : USA                   : 39 :  0 : 47 : N :  94 : 42 : 54 : W : -6.0 : US
