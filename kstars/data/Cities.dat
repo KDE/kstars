@@ -163,6 +163,7 @@ Athabasca                        : Alberta               : Canada               
 Athens                           :                       : Greece                : 38 :  1 : 36 : N :  23 : 44 :  0 : E :  2.0 : EU
 Athens                           : Georgia               : USA                   : 33 : 57 : 24 : N :  83 : 22 : 59 : W : -5.0 : US
 Athens                           : Tennessee             : USA                   : 35 : 25 : 58 : N :  84 : 35 : 59 : W : -5.0 : US
+Athlone                          : Leinster              : Ireland               : 53 : 25 : 59 : N :   7 : 57 : 59 : W :  0.0 : EU
 Atikokan                         : Ontario               : Canada                : 48 : 46 : 00 : N : 91  : 37 : 00 : W : -6.0 : US
 Atkinson                         : Nebraska              : USA                   : 42 : 31 : 58 : N :  98 : 58 :  1 : W : -6.0 : US
 Atlanta                          : Georgia               : USA                   : 33 : 45 : 10 : N :  84 : 23 : 36 : W : -5.0 : US
@@ -664,6 +665,7 @@ Coralville                       : Iowa                  : USA                  
 Corbin                           : Kentucky              : USA                   : 36 : 55 :  1 : N :  84 :  5 : 59 : W : -5.0 : US
 Cordova                          : Alaska                : USA                   : 60 : 34 :  1 : N : 145 : 37 : 58 : W : -9.0 : US
 Corinth                          : Mississippi           : USA                   : 34 : 55 :  1 : N :  88 : 30 :  0 : W : -6.0 : US
+Cork                             : Munster               : Ireland               : 51 : 53 : 59 : N :   8 : 28 : 59 : W :  0.0 : EU
 Corner Brook                     : Newfoundland          : Canada                : 48 : 58 : 00 : N : 57  : 57 : 00 : W : -3.5 : US
 Corning                          : Iowa                  : USA                   : 40 : 58 :  1 : N :  94 : 40 :  1 : W : -6.0 : US
 Cornwall                         : Ontario               : Canada                : 45 : 02 : 00 : N : 74  : 44 : 00 : W : -5.0 : US
@@ -785,6 +787,7 @@ Dokdo                            : Gyengnam              : Korea                
 Dolbeau                          : Quebec                : Canada                : 48 : 52 : 37 : N : 72  : 13 : 39 : W : -5.0 : US
 Dome Creek                       : British Columbia      : Canada                : 53 : 45 : 00 : N : 121 : 02 : 00 : W : -8.0 : US
 Dominion                         :                       : Canada                : 49 : 19 :  2 : N : 119 : 37 : 14 : W : -8.0 : US
+Donegal                          : Ulster                : Ireland               : 54 : 38 : 59 : N :   8 :  6 : 59 : W :  0.0 : EU
 Dongducheon                      : Gyeonggi              : Korea                 : 37 : 54 :  0 : N : 127 : 04 :  0 : E : 9.0  : SK
 Donghae                          : Gangwon               : Korea                 : 37 : 30 :  0 : N : 129 : 08 :  0 : E : 9.0  : SK
 Dore Lake                        : Saskatchewan          : Canada                : 54 : 38 : 00 : N : 107 : 24 : 00 : W : -7.0 : --
@@ -1041,6 +1044,7 @@ Gaithersburg                     : Maryland              : USA                  
 Galena                           : Alaska                : USA                   : 64 : 44 : 27 : N : 156 : 57 :  3 : W : -9.0 : US
 Gallup                           : New Mexico            : USA                   : 35 : 31 : 29 : N : 108 : 44 : 31 : W : -7.0 : US
 Galveston                        : Texas                 : USA                   : 29 : 18 : 10 : N :  94 : 47 : 43 : W : -6.0 : US
+Galway                           : Connacht              : Ireland               : 53 : 15 : 59 : N :   9 :  3 : 59 : W :  0.0 : EU
 Gander                           : Newfoundland          : Canada                : 48 : 55 : 58 : N :  54 : 34 :  1 : W : -3.5 : US
 Ganghwa                          : Incheon               : Korea                 : 37 : 42 :  0 : N : 126 : 27 :  0 : E : 9.0  : SK
 Gangneung                        : Gangwon               : Korea                 : 37 : 45 :  0 : N : 128 : 54 :  0 : E : 9.0  : SK
@@ -1459,6 +1463,7 @@ Kelso                            : Washington            : USA                  
 Kemerovo                         : Siberia               : Russia                : 55 : 20 :  0 : N :  86 :  5 :  0 : E :  7.0 : RU
 Kenai                            : Alaska                : USA                   : 60 : 32 : 59 : N : 151 : 16 :  1 : W : -9.0 : US
 Kenema                           :                       : Sierra Leone          :  7 : 52 :  0 : N :  11 : 12 :  0 : W :   0.0 : --
+Kenmar                           : Munster               : Ireland               : 53 : 52 : 59 : N :   9 : 35 : 59 : W :  0.0 : EU
 Kennebunk                        : Maine                 : USA                   : 43 : 23 : 59 : N :  70 : 32 : 59 : W : -5.0 : US
 Kenner                           : Louisiana             : USA                   : 29 : 58 : 59 : N :  90 : 14 : 30 : W : -6.0 : US
 Kenora                           : Ontario               : Canada                : 49 : 47 : 59 : N :  94 : 20 : 59 : W : -6.0 : US
@@ -2024,6 +2029,7 @@ Mount Wilson Obs.                : California            : USA                  
 Mountain Brook                   : Alabama               : USA                   : 33 : 29 : 53 : N :  86 : 45 : 11 : W : -6.0 : US
 Mountain View                    : California            : USA                   : 37 : 23 : 17 : N : 122 :  4 : 47 : W : -8.0 : US
 Mountain View                    : Missouri              : USA                   : 36 : 58 : 58 : N :  91 : 46 :  1 : W : -6.0 : US
+Moville                          : Ulster                : Ireland               : 53 : 10 : 58 : N :   7 :  2 : 58 : W :  0.0 : EU
 Muan                             : Jeonnam               : Korea                 : 35 : 05 :  0 : N : 126 : 17 :  0 : E : 9.0  : SK
 Mullard                          :                       : United Kingdom        : 52 : 10 :  2 : N :   0 :  2 : 45 : W :  0.0 : EU
 Muncie                           : Indiana               : USA                   : 40 : 11 : 27 : N :  85 : 23 : 16 : W : -5.0 : --
@@ -3178,6 +3184,7 @@ Washington                       : DC                    : USA                  
 Washington                       : Illinois              : USA                   : 40 : 41 : 34 : N :  89 : 24 :  0 : W : -6.0 : US
 Waswanipi                        : Quebec                : Canada                : 49 : 44 : 00 : N : 76  : 10 : 00 : W : -5.0 : US
 Waterbury                        : Connecticut           : USA                   : 41 : 33 : 12 : N :  73 :  2 : 30 : W : -5.0 : US
+Waterford                        : Munster               : Ireland               : 52 : 25 : 19 : N :   7 : 13 : 19 : W :  0.0 : EU
 Waterloo                         : Iowa                  : USA                   : 42 : 29 : 39 : N :  92 : 20 : 20 : W : -6.0 : US
 Waterloo                         : Ontario               : Canada                : 43 : 27 : 36 : N :  80 : 29 : 23 : W : -5.0 : US
 Watertown                        : New York              : USA                   : 44 :  0 :  0 : N :  75 : 55 :  1 : W : -5.0 : US
