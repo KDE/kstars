@@ -202,10 +202,10 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     lunarphaseString = Moon->phaseName()+" ("+QString::number( int( 100*Moon->illum() ) )+"%)";
 
     //Fix length of Az strings
-    if ( srAz.Degrees() < 100.0 ) srAzString = " "+srAzString;
-    if ( ssAz.Degrees() < 100.0 ) ssAzString = " "+ssAzString;
-    if ( mrAz.Degrees() < 100.0 ) mrAzString = " "+mrAzString;
-    if ( msAz.Degrees() < 100.0 ) msAzString = " "+msAzString;
+    if ( srAz.Degrees() < 100.0 ) srAzString = ' '+srAzString;
+    if ( ssAz.Degrees() < 100.0 ) ssAzString = ' '+ssAzString;
+    if ( mrAz.Degrees() < 100.0 ) mrAzString = ' '+mrAzString;
+    if ( msAz.Degrees() < 100.0 ) msAzString = ' '+msAzString;
 
     delete num;
     delete Sun;

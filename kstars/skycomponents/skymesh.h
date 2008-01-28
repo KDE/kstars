@@ -70,7 +70,7 @@ enum MeshBufNum_t {
  * circle.  Then use a MeshIterator to iterate over the indices of the visible
  * trixels.  Look up each index in the top level QHash or QList data structure
  * and the union of all the elements of the QList's returned will contain all
- * the objects visible in the circle in the sky specfied in the aperture()
+ * the objects visible in the circle in the sky specified in the aperture()
  * call.
  *
  * The drawID is used for extended objects that may be covered by more than
@@ -171,7 +171,7 @@ public:
      */
     void index( const QPointF &p1, const QPointF &p2, const QPointF &p3 );
 
-    /* @short Finds the trixels needed to cover the quadrilateral specifed
+    /* @short Finds the trixels needed to cover the quadrilateral specified
      * by the four QPointF's.
      */
     void index( const QPointF &p1, const QPointF &p2, const QPointF &p3,

@@ -121,10 +121,10 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     QString currentDir = Options::fitsSaveDirectory();
     int fd, nr, n=0;
 
-    if (currentDir.endsWith("/"))
+    if (currentDir.endsWith('/'))
 		currentDir.truncate(sizeof(currentDir)-1);
 
-    QString filename(currentDir + "/");
+    QString filename(currentDir + '/');
 
     streamWindow->close();
 
@@ -171,7 +171,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
         }
         else
         {
-	    filename += QString("file_") + ts + "." + dataFormat;
+	    filename += QString("file_") + ts + '.' + dataFormat;
 	    //filename = currentDir + QString("/%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
             //strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
             //strncat(filename, ts, sizeof(ts));

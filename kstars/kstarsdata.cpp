@@ -991,7 +991,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
         line.replace( "bool:", "");
 
         //find a dbus line and extract the function name and its arguments
-        //The function name starts after the last occurance of "org.kde.kstars."
+        //The function name starts after the last occurrence of "org.kde.kstars."
         //or perhaps "org.kde.kstars.SimClock.".
         if ( line.startsWith(QString("dbus-send")) ) {
             QString funcprefix = "org.kde.kstars.SimClock.";

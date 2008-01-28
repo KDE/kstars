@@ -31,6 +31,7 @@
  *
  ****************************************************************************/
 
+#include "linelistindex.h"
 
 #include <QBrush>
 #include <QPainter>
@@ -46,7 +47,6 @@
 
 #include "skymesh.h"
 #include "linelist.h"
-#include "linelistindex.h"
 
 
 LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "avtplotwidget.h"
+
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPainter>
@@ -23,8 +25,6 @@
 
 #include <KPlotObject>
 #include <kdebug.h>
-
-#include "avtplotwidget.h"
 
 AVTPlotWidget::AVTPlotWidget( QWidget *parent )
         : KPlotWidget( parent )

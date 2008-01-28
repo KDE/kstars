@@ -533,7 +533,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 	#endif
 
 
-    //disbale some buttons
+    //disable some buttons
     sb->CopyButton->setEnabled( false );
     sb->AddButton->setEnabled( false );
     sb->RemoveButton->setEnabled( false );

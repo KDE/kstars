@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "coordinategrid.h"
+
 #include <QPen>
 #include <QBrush>
 #include <QColor>
@@ -23,7 +25,6 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "coordinategrid.h"
 #include "linelist.h"
 #include "dms.h"
 

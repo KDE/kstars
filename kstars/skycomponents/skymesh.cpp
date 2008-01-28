@@ -15,20 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QHash>
-#include <QPolygonF>
-#include <QPointF>
-
 #include "skypoint.h"
 #include "skymesh.h"
 #include "starobject.h"
 #include "ksnumbers.h"
 
+#include <QHash>
+#include <QPolygonF>
+#include <QPointF>
+
 // these are just for the draw routine:
 #include <QPainter>
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "kstarsdata.h"
 
 SkyMesh* SkyMesh::pinstance = 0;
 

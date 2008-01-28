@@ -203,7 +203,7 @@ QString ScriptFunction::scriptLine() const {
         }
 
         // Write DBus style prototype compatible with dbus-send format
-        out += " " + ArgDBusType[i] + ":" + value;
+        out += ' ' + ArgDBusType[i] + ':' + value;
         ++i;
     }
 

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "milkyway.h"
+
 #include <QList>
 #include <QPointF>
 #include <QPolygonF>
@@ -30,8 +32,6 @@
 #include "ksfilereader.h"
 
 #include "skymesh.h"
-
-#include "milkyway.h"
 
 
 MilkyWay::MilkyWay( SkyComponent *parent ) :

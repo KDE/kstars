@@ -18,6 +18,7 @@
 #ifndef POLYLISTINDEX_H
 #define POLYLISTINDEX_H
 
+#include "kstarsdata.h"
 #include "skycomposite.h"
 
 #include <QHash>

@@ -15,11 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-
+#include "noprecessindex.h"
 #include "Options.h"
 #include "skypoint.h"
 #include "kstarsdata.h"
-#include "noprecessindex.h"
 #include "linelist.h"
 
 NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name )

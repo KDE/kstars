@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skylabeler.h"
+
 #include <stdio.h>
 
 #include <QPainter>
 
 #include "Options.h"
 #include "kstarsdata.h"   // MINZOOM
-#include "skylabeler.h"
 #include "skymap.h"
 
 //---------------------------------------------------------------------------//

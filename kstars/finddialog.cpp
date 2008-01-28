@@ -205,7 +205,7 @@ void FindDialog::filterByName() {  //Filter the list of names with the string in
     initSelection();
 
     //Select the first item in the list that begins with the filter string
-    QStringList mItems = fModel->stringList().filter( QRegExp( "^"+ui->SearchBox->text(), Qt::CaseInsensitive ) );
+    QStringList mItems = fModel->stringList().filter( QRegExp( '^'+ui->SearchBox->text(), Qt::CaseInsensitive ) );
     mItems.sort();
 
     if ( mItems.size() ) {

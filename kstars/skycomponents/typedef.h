@@ -25,6 +25,9 @@
  * -- James B. Bowlin
  */
 
+#ifndef TYPEDEF_H_
+#define TYPEDEF_H_
+
 #include <QHash>
 #include <QVector>
 
@@ -45,3 +48,4 @@ typedef QVector< LineList*>            LineListList;
 typedef QHash< Trixel, LineListList*>  LineListHash;  // Wanted LineListIndex but
 // that is used by a class.
 
+#endif

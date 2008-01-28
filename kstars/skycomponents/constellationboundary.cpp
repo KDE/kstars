@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "constellationboundary.h"
+
 #include <stdio.h>
 
 #include <kdebug.h>
@@ -28,7 +30,6 @@
 #include "skyobject.h"
 
 #include "polylist.h"
-#include "constellationboundary.h"
 
 #include "skymesh.h"
 

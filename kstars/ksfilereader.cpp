@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksfilereader.h"
+
 #include <QApplication>
 #include <QObject>
 #include <QFile>
@@ -23,8 +25,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-
-#include "ksfilereader.h"
 
 #ifndef MAXUINT 
     #define MAXUINT (~0) 

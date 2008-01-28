@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "constellationboundarylines.h"
+
 #include <stdio.h>
 
 #include <QPen>
@@ -35,7 +37,6 @@
 #include "linelist.h"
 #include "polylist.h"
 #include "linelistindex.h"
-#include "constellationboundarylines.h"
 #include "constellationboundary.h"
 
 #include "skymesh.h"

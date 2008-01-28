@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "polylistindex.h"
+
 #include <stdio.h>
 
 #include <kdebug.h>
@@ -23,13 +25,11 @@
 
 #include "Options.h"
 #include "kstars.h"
-#include "kstarsdata.h"
 #include "ksutils.h"
 #include "skyobject.h"
 #include "ksfilereader.h"
 
 #include "polylist.h"
-#include "polylistindex.h"
 
 #include "skymesh.h"
 

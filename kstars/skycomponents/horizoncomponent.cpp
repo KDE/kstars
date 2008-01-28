@@ -27,7 +27,6 @@
 #include "skymap.h"
 #include "skypoint.h" 
 #include "dms.h"
-#include "Options.h"
 #include "skylabeler.h"
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon

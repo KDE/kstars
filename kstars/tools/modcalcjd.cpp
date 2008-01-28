@@ -166,7 +166,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
                 //Try to parse the second field as a time
                 if ( data.size() > 1 ) {
                     QString s = data[1];
-                    if ( s.length() == 4 ) s = "0"+s;
+                    if ( s.length() == 4 ) s = '0'+s;
                     QTime t = QTime::fromString( s );
                     if ( t.isValid() ) dt.setTime( t );
                 }

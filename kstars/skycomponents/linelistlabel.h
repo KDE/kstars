@@ -69,7 +69,7 @@ private:
     float       m_farLeft, m_farRight, m_farTop, m_farBot;
 
     /* @short This routine does two things at once.  It returns the QPointF
-     * coresponding to pointList[i] and also computes the angle using
+     * corresponding to pointList[i] and also computes the angle using
      * pointList[i] and pointList[i-1] therefore you MUST ensure that:
      *
      *	   1 <= i < pointList.size().

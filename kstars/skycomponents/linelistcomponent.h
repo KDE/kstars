@@ -113,14 +113,14 @@ private:
 
 
     /* @short This routine does two things at once.  It returns the QPointF
-     * coresponding to pointList[i] and also computes the angle using
+     * corresponding to pointList[i] and also computes the angle using
      * pointList[i] and pointList[i-1] therefore you MUST ensure that:
      *
      *       1 <= i < pointList.size().
      */
     QPointF angleAt( SkyMap* map, int i, double *angle );
 
-    /* @short Tries to draw the label at the position and angle specfied. If
+    /* @short Tries to draw the label at the position and angle specified. If
      * the label would overlap an existing label it is not drawn and we
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.

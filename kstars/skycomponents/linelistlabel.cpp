@@ -16,11 +16,11 @@
  ***************************************************************************/
 
 
+#include "linelistlabel.h"
 #include "Options.h"
 #include "skypoint.h"
 #include "skymap.h"
 #include "kstarsdata.h"
-#include "linelistlabel.h"
 #include "skylabeler.h"
 #include "linelist.h"
 

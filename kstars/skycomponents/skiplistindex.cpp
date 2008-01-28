@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "skiplistindex.h"
+
 #include <QList>
 #include <QPointF>
 
@@ -22,7 +24,6 @@
 #include "skymesh.h"
 
 #include "skiplist.h"
-#include "skiplistindex.h"
 
 
 SkipListIndex::SkipListIndex( SkyComponent *parent, const QString& name )

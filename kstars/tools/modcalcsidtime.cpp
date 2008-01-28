@@ -288,7 +288,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         //Parse one of the fields as the time
         foreach ( QString s, fields ) {
             if ( s.contains(':') ) {
-                if ( s.length() == 4 ) s = "0"+s;
+                if ( s.length() == 4 ) s = '0'+s;
                 inTime = QTime::fromString( s );
                 if ( inTime.isValid() ) break;
             }

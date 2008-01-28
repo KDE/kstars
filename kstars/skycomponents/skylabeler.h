@@ -96,7 +96,7 @@ enum label_t {
  * visible.  This is why the addLabel() and draw() routines were created.
  * They allow us to time-shift the drawing of labels and thus gives us control
  * over their priority.  The drawLabel() routines are still available but are
- * not being used.  The addLabel() routines adds a label to a specfic buffer.
+ * not being used.  The addLabel() routines adds a label to a specific buffer.
  * Each type of label has its own buffer which lets us control the font and
  * color as well as the priority.  The priority is now manually set in the
  * draw() routine by adjusting the order in which the various buffers get
@@ -215,7 +215,7 @@ public:
                      float *right, float *top, float *bot );
 
     /**
-     * @short Tries to draw the text at the position and angle specfied. If
+     * @short Tries to draw the text at the position and angle specified. If
      * the label would overlap an existing label it is not drawn and we
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.

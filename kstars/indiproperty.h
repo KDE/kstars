@@ -45,7 +45,7 @@ public:
     QString     label;			/* property label */
 
     INDI_G	*pg;			/* parent group */
-    INDIStdProperty *indistd;		/* Assosciated std routines class */
+    INDIStdProperty *indistd;		/* Associated std routines class */
     double	timeout;		/* timeout, seconds */
     PState	state;			/* state light code */
     KLed	*light;			/* state LED */
