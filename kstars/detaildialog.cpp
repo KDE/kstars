@@ -129,7 +129,7 @@ void DetailDialog::createGeneralTab()
             Data->Distance->setText( QString(i18nc("larger than 2000 parsecs", "> 2000 pc") ) );
         else if ( s->distance() > 50.0 ) //show to nearest integer
             Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
-                                            int( s->distance() + 0.5 ) ) );
+                                            KGlobal::locale()->formatNumber( s->distance(), 0 ) ) );
         else if ( s->distance() > 10.0 ) //show to tenths place
             Data->Distance->setText( i18nc( "number in parsecs", "%1 pc" ,
                                             KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
@@ -171,7 +171,7 @@ void DetailDialog::createGeneralTab()
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
             Data->MagLabel->setText( i18n("Illumination:") );
-            Data->Magnitude->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
+            Data->Magnitude->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         } else {
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                              KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
@@ -242,7 +242,7 @@ void DetailDialog::createGeneralTab()
         //Only show decimal place for small angular sizes
         if ( dso->a() > 10.0 )
             Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
-                                          int( dso->a() ) ) );
+                                          KGlobal::locale()->formatNumber(dso->a(), 0 ) ) );
         else if ( dso->a() )
             Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
                                           KGlobal::locale()->formatNumber( dso->a(), 1 ) ) );

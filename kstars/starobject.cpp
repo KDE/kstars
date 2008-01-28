@@ -444,14 +444,14 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             sName = gname( true );
         else {
             if ( drawMag )
-                return QString().sprintf("%.1f", mag() );
+                return KGlobal::locale()->formatNumber( mag(), 1 );
         }
         if ( ! drawMag )
             return sName;
         else
-            return sName + QString().sprintf(" %.1f", mag() );
+            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
     }
-    return QString().sprintf("%.1f", mag() );
+    return KGlobal::locale()->formatNumber( mag(), 1 );
 }
 
 QString StarObject::customLabel( bool drawName, bool drawMag )
@@ -466,12 +466,12 @@ QString StarObject::customLabel( bool drawName, bool drawMag )
 
     if ( drawMag  && drawName ) {
         if ( sName == i18n("star") )
-            return QString().sprintf("%.1f, ", mag() ) + sName;
+            return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
         else
-            return sName + QString().sprintf(" %.1f", mag() );
+            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
     }
     else if ( drawMag && ! drawName )
-        return QString().sprintf("%.1f, ", mag() ) + sName;
+        return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
 
     return sName;
 }
