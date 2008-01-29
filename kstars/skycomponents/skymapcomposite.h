@@ -155,7 +155,7 @@ public:
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *o );
 
-    void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
+    void addCustomCatalog( const QString &filename, KStarsData *data, bool (*visibleMethod)() );
     void removeCustomCatalog( const QString &name );
 
     bool addNameLabel( SkyObject *o );

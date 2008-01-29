@@ -99,10 +99,19 @@ void OpsCatalog::updateDisplay() {
     Options::setShowMessierImages( showMessImages->checkState() );
     Options::setShowNGC( showNGC->checkState() );
     Options::setShowIC( showIC->checkState() );
+
+    //DEBUG
+    kDebug() << ksw->data()->skyComposite()->customCatalogs().size() << endl;
+    kDebug() << ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[0])->name() << endl;
+
     for ( int i=0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
         QString name = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i])->name();
         QList<QListWidgetItem*> l = CatalogList->findItems( name, Qt::MatchExactly );
-        Options::showCatalog()[i] = (l[0]->checkState()==Qt::Checked) ? true : false;
+
+        //DEBUG
+        kDebug() << name << " : " << l.size() << endl;
+
+        Options::showCatalog()[i] = (l[0]->checkState()==Qt::Checked) ? 1 : 0;
     }
 
     // update time for all objects because they might be not initialized
@@ -135,7 +144,7 @@ void OpsCatalog::slotLoadCatalog() {
     QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
-        CustomCatalogComponent newCat( 0, filename, true, Options::showOther );
+      CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, Options::showOther );
         newCat.init( ksw->data() );
         if ( newCat.objectList().size() )
             insertCatalog( filename );
@@ -158,10 +167,8 @@ void OpsCatalog::insertCatalog( const QString &filename ) {
     Options::setCatalogFile( tFileList );
     Options::setShowCatalog( tShowList );
 
-    //FIXME: Can't use Options::showCatalog[tShowList.size()-1] as visibility fcn,
-    //because it returns QList rather than bool
     //Add new custom catalog, based on the list of SkyObjects we just parsed
-    ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
+    ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  Options::showOther );
 
     ksw->map()->forceUpdate();
 }

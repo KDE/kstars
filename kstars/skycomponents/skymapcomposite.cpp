@@ -100,8 +100,11 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     //FIXME: can't use Options::showCatalog as visibility fcn,
     //because it returns QList, not bool
     m_CustomCatalogs = new SkyComposite( this );
-    foreach ( const QString &fname, Options::catalogFile() )
-    m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, fname, false,  &Options::showOther ) );
+    foreach ( const QString &fname, Options::catalogFile() ) {
+        CustomCatalogComponent *cc = new CustomCatalogComponent( this, fname, false,  &Options::showOther );
+        cc->init( data );
+        m_CustomCatalogs->addComponent( cc );
+    }
 
     m_SolarSystem = new SolarSystemComposite( this, data );
     addComponent( m_SolarSystem );
@@ -409,8 +412,10 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 }
 **/
 
-void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
-    m_CustomCatalogs->addComponent( new CustomCatalogComponent( this, filename, false, visibleMethod ) );
+void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *data, bool (*visibleMethod)() ) {
+    CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, visibleMethod );
+    cc->init( data );
+    m_CustomCatalogs->addComponent( cc );
 }
 
 void SkyMapComposite::removeCustomCatalog( const QString &name ) {
