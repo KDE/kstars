@@ -2321,6 +2321,14 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 		if ( name==starList.at(i)->gname( false ) ) return starList.at(i);
 	}
 
+       //Custom catalogs. 
+        for ( unsigned int i=0; i<CustomCatalogs.count(); ++i ) {
+                QPtrList<SkyObject> custCatObjs = CustomCatalogs.at(i)->objList();
+                for ( unsigned int j = 0; j < custCatObjs.count(); ++j ) {
+                        if ( name==custCatObjs.at(j)->name() ) return custCatObjs.at(j);
+                }
+        }
+
 	//reach here only if argument is not matched
 	return NULL;
 }
