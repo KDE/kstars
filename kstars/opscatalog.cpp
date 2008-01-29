@@ -100,17 +100,9 @@ void OpsCatalog::updateDisplay() {
     Options::setShowNGC( showNGC->checkState() );
     Options::setShowIC( showIC->checkState() );
 
-    //DEBUG
-    kDebug() << ksw->data()->skyComposite()->customCatalogs().size() << endl;
-    kDebug() << ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[0])->name() << endl;
-
     for ( int i=0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
         QString name = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i])->name();
         QList<QListWidgetItem*> l = CatalogList->findItems( name, Qt::MatchExactly );
-
-        //DEBUG
-        kDebug() << name << " : " << l.size() << endl;
-
         Options::showCatalog()[i] = (l[0]->checkState()==Qt::Checked) ? 1 : 0;
     }
 
