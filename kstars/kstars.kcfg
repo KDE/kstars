@@ -603,7 +603,7 @@
 		<entry name="MagLimitAsteroid" type="Double">
 			<label>Faint limit for asteroids</label>
 			<whatsthis>The faint magnitude limit for drawing asteroids.</whatsthis>
-			<default>8.0</default>
+			<default>10.0</default>
 		</entry>
 		<entry name="AsteroidLabelDensity" type="Double">
 			<label>Label density for asteroid names</label>

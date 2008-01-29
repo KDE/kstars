@@ -32,6 +32,8 @@ OpsSolarSystem::OpsSolarSystem( KStars *_ks )
     connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
     connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
 
+    kcfg_MagLimitAsteroid->setMaximum( 30.0 );
+
     slotAsteroidWidgets( kcfg_ShowAsteroids->isChecked() );
     slotCometWidgets( kcfg_ShowComets->isChecked() );
 }
