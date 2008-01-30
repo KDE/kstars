@@ -48,7 +48,7 @@ QList<KSMoon::MoonBData*> KSMoon::BData;
 bool KSMoon::loadData() {
     if (data_loaded) return true;
 
-    QString line;
+    QStringList fields;
     QFile f;
     int nd, nm, nm1, nf;
     double Li, Ri, Bi; //coefficients of the sums
@@ -56,13 +56,17 @@ bool KSMoon::loadData() {
     if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            line = stream.readLine();
-            //Localize the decimal symbol
-            line.replace( ".", KGlobal::locale()->decimalSymbol() );
+            fields = stream.readLine().split( " ", QString::SkipEmptyParts );
 
-            QTextStream instream( &line, QIODevice::ReadOnly );
-            instream >> nd >> nm >> nm1 >> nf >> Li >> Ri;
-            LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));
+            if ( fields.size() == 6 ) {
+                nd = fields[0].toInt();
+                nm = fields[1].toInt();
+                nm1= fields[2].toInt();
+                nf = fields[3].toInt();
+                Li = fields[4].toDouble();
+                Ri = fields[5].toDouble();
+                LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));
+            }
         }
         f.close();
     } else
@@ -72,10 +76,16 @@ bool KSMoon::loadData() {
     if ( KSUtils::openDataFile( f, "moonB.dat" ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            line = stream.readLine();
-            QTextStream instream( &line, QIODevice::ReadOnly );
-            instream >> nd >> nm >> nm1 >> nf >> Bi;
-            BData.append(new MoonBData(nd, nm, nm1, nf, Bi));
+            fields = stream.readLine().split( " ", QString::SkipEmptyParts );
+            
+            if ( fields.size() == 5 ) {
+                nd = fields[0].toInt();
+                nm = fields[1].toInt();
+                nm1= fields[2].toInt();
+                nf = fields[3].toInt();
+                Bi = fields[4].toDouble();
+                BData.append(new MoonBData(nd, nm, nm1, nf, Bi));
+            }
         }
         f.close();
     }

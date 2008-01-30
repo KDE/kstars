@@ -82,8 +82,6 @@ void DeepSkyComponent::init(KStarsData *data)
         QChar iflag;
 
         line = fileReader.readLine();
-        //Localize the decimal symbol
-        line.replace( ".", KGlobal::locale()->decimalSymbol() );
 
         //Ignore comment lines
         while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
@@ -92,9 +90,6 @@ void DeepSkyComponent::init(KStarsData *data)
         while ( line.mid(6,8).trimmed().isEmpty() && fileReader.hasMoreLines() ) {
             line = fileReader.readLine();
         }
-
-        //Localize the decimal symbol
-        line.replace( ".", KGlobal::locale()->decimalSymbol() );
 
         iflag = line.at( 0 ); //check for NGC/IC catalog flag
         if ( iflag == 'I' ) cat = "IC";
@@ -241,7 +236,7 @@ void DeepSkyComponent::mergeSplitFiles() {
     kDebug() << "Merging split NGC/IC files" << endl;
 
     QString buffer;
-    foreach ( QString fname, catFiles ) {
+    foreach ( const QString &fname, catFiles ) {
         QFile f( localDir.absoluteFilePath(fname) );
         if ( f.open( QIODevice::ReadOnly ) ) {
             QTextStream stream( &f );
@@ -260,7 +255,7 @@ void DeepSkyComponent::mergeSplitFiles() {
         fout.close();
 
         //Remove the split-files
-        foreach ( QString fname, catFiles ) {
+        foreach ( const QString &fname, catFiles ) {
             QString fullname = localDir.absoluteFilePath(fname);
             //DEBUG
             kDebug() << "Removing " << fullname << " ..." << endl;
