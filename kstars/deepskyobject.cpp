@@ -328,8 +328,12 @@ void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double Position
 double DeepSkyObject::labelOffset() const {
     //Calculate object size in pixels
     double majorAxis = a();
-    if ( majorAxis == 0.0 && type() == 1 ) majorAxis = 1.0; //catalog stars
+    double minorAxis = b();
+    if ( majorAxis == 0.0 && type() == 1 ) { //catalog stars
+      majorAxis = 1.0;
+      minorAxis = 1.0;
+    }
     double scale = SkyMap::Instance()->scale();
-    double size = majorAxis * scale * dms::PI * Options::zoomFactor()/10800.0;
+    double size = ((majorAxis + minorAxis) / 2.0 ) * scale * dms::PI * Options::zoomFactor()/10800.0;
     return 0.5*size + 4.;
 }
