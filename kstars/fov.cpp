@@ -113,8 +113,8 @@ void FOV::draw( QPainter &p, float pixelsize ) {
         }
     case 3: { //Bullseye
             int s1 = int( pixelsize );
-            int s2 = 2*int( pixelsize );
-            int s3 = 3*int( pixelsize );
+            int s2 = 4*int( pixelsize );
+            int s3 = 8*int( pixelsize );
 
             int x0 = w/2;  int y0 = h/2;
             int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
