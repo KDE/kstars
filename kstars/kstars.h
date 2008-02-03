@@ -132,41 +132,65 @@ public:
     void applyConfig();
 
 public Q_SLOTS:
-    /**DCOP interface function.
+    /**DBUS interface function.
     	*Set focus to given Ra/Dec coordinates 
     	*@param ra the Right Ascension coordinate for the focus (in Hours)
     	*@param dec the Declination coordinate for the focus (in Degrees)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setRaDec( double ra, double dec );
 
-    /**DCOP interface function.
+    /**DBUS interface function.
     	*Set focus to given Alt/Az coordinates. 
     	*@param alt the Altitude coordinate for the focus (in Degrees)
     	*@param az the Azimuth coordinate for the focus (in Degrees)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setAltAz(double alt, double az);
 
-    /**DCOP interface function.
+    /**DBUS interface function.
     	*Point in the direction described by the string argument.  
     	*@param direction either an object name, a compass direction (e.g., "north"), or "zenith"
     	*/
     Q_SCRIPTABLE Q_NOREPLY void lookTowards( const QString &direction );
 
-    /**DCOP interface function.  Zoom in one step. */
+    /**DBUS interface function.
+    	*Add a name label to the named object
+    	*@param name the name of the object to which the label will be attached
+    	*/
+    Q_SCRIPTABLE Q_NOREPLY void addLabel( const QString &name );
+
+    /**DBUS interface function.
+    	*Remove a name label from the named object
+    	*@param name the name of the object from which the label will be removed
+    	*/
+    Q_SCRIPTABLE Q_NOREPLY void removeLabel( const QString &name );
+
+    /**DBUS interface function.
+    	*Add a trail to the named solar system body
+    	*@param name the name of the body to which the trail will be attached
+    	*/
+    Q_SCRIPTABLE Q_NOREPLY void addTrail( const QString &name );
+
+    /**DBUS interface function.
+    	*Remove a trail from the named solar system body
+    	*@param name the name of the object from which the trail will be removed
+    	*/
+    Q_SCRIPTABLE Q_NOREPLY void removeTrail( const QString &name );
+
+    /**DBUS interface function.  Zoom in one step. */
     Q_SCRIPTABLE Q_NOREPLY void zoomIn() { slotZoomIn(); }
 
-    /**DCOP interface function.  Zoom out one step. */
+    /**DBUS interface function.  Zoom out one step. */
     Q_SCRIPTABLE Q_NOREPLY void zoomOut(){ slotZoomOut(); }
 
-    /**DCOP interface function.  reset to the default zoom level. */
+    /**DBUS interface function.  reset to the default zoom level. */
     Q_SCRIPTABLE Q_NOREPLY void defaultZoom() { slotDefaultZoom(); }
 
-    /**DCOP interface function.  Set zoom level to specified value.
+    /**DBUS interface function.  Set zoom level to specified value.
     	*@param z the zoom level.  Units are pixels per radian.
     	*/
     Q_SCRIPTABLE Q_NOREPLY void zoom(double z);
 
-    /**DCOP interface function.  Set local time and date.
+    /**DBUS interface function.  Set local time and date.
     	*@param yr year of date
     	*@param mth month of date
     	*@param day day of date
@@ -176,48 +200,48 @@ public Q_SLOTS:
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setLocalTime(int yr, int mth, int day, int hr, int min, int sec);
 
-    /**DCOP interface function.  Delay further execution of DCOP commands.
+    /**DBUS interface function.  Delay further execution of DBUS commands.
     	*@param t number of seconds to delay
     	*/
     Q_SCRIPTABLE Q_NOREPLY void waitFor( double t );
 
-    /**DCOP interface function.  Pause further DCOP execution until a key is pressed.
-    	*@param k the key which will resume DCOP execution
+    /**DBUS interface function.  Pause further DBUS execution until a key is pressed.
+    	*@param k the key which will resume DBUS execution
     	*/
     Q_SCRIPTABLE Q_NOREPLY void waitForKey( const QString &k );
 
-    /**DCOP interface function.  Toggle tracking.
+    /**DBUS interface function.  Toggle tracking.
     	*@param track engage tracking if true; else disengage tracking
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setTracking( bool track );
 
-    /**DCOP interface function.  modify a view option.
+    /**DBUS interface function.  modify a view option.
     	*@param option the name of the option to be modified
     	*@param value the option's new value
     	*/
     Q_SCRIPTABLE Q_NOREPLY void changeViewOption( const QString &option, const QString &value );
 
-    /**DCOP interface function.
+    /**DBUS interface function.
     	*@param name the name of the option to query
     	*@return the current value of the named option
     	*/
     QString getOption( const QString &name );
 
-    /**DCOP interface function.  Read config file.
+    /**DBUS interface function.  Read config file.
     	*This function is useful for restoring the user settings from the config file, 
     	*after having modified the settings in memory.
     	*@sa writeConfig()
     	*/
     Q_SCRIPTABLE Q_NOREPLY void readConfig();
 
-    /**DCOP interface function.  Write current settings to config file.
-    	*This function is useful for storing user settings before modifying them with a DCOP
+    /**DBUS interface function.  Write current settings to config file.
+    	*This function is useful for storing user settings before modifying them with a DBUS
     	*script.  The original settings can be restored with readConfig().
     	*@sa readConfig()
     	*/
     Q_SCRIPTABLE Q_NOREPLY void writeConfig();
 
-    /**DCOP interface function.  Show text message in a popup window.
+    /**DBUS interface function.  Show text message in a popup window.
     	*@note Not Yet Implemented
     	*@param x x-coordinate for message window
     	*@param y y-coordinate for message window
@@ -225,7 +249,7 @@ public Q_SLOTS:
     	*/
     Q_SCRIPTABLE Q_NOREPLY void popupMessage( int x, int y, const QString &message );
 
-    /**DCOP interface function.  Draw a line on the sky map.
+    /**DBUS interface function.  Draw a line on the sky map.
     	*@note Not Yet Implemented
     	*@param x1 starting x-coordinate of line
     	*@param y1 starting y-coordinate of line
@@ -235,32 +259,32 @@ public Q_SLOTS:
     	*/
     Q_SCRIPTABLE Q_NOREPLY void drawLine( int x1, int y1, int x2, int y2, int speed );
 
-    /**DCOP interface function.  Set the geographic location.
+    /**DBUS interface function.  Set the geographic location.
     	*@param city the city name of the location
     	*@param province the province name of the location
     	*@param country the country name of the location
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setGeoLocation( const QString &city, const QString &province, const QString &country );
 
-    /**DCOP interface function.  Modify a color.
+    /**DBUS interface function.  Modify a color.
     	*@param colorName the name of the color to be modified (e.g., "SkyColor")
     	*@param value the new color to use
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setColor( const QString &colorName, const QString &value );
 
-    /**DCOP interface function.  Load a color scheme.
+    /**DBUS interface function.  Load a color scheme.
     	*@param name the name of the color scheme to load (e.g., "Moonless Night")
     	*/
     Q_SCRIPTABLE Q_NOREPLY void loadColorScheme( const QString &name );
 
-    /**DCOP interface function.  Export the sky image to a file.
+    /**DBUS interface function.  Export the sky image to a file.
     	*@param filename the filename for the exported image
     	*@param width the width for the exported image
     	*@param height the height for the exported image
     	*/
     Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width, int height );
 
-    /**DCOP interface function.  Print the sky image.
+    /**DBUS interface function.  Print the sky image.
     	*@param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
     	*@param useChartColors if true, the "Star Chart" color scheme will be used for the printout, which will save ink.
     	*/
@@ -268,103 +292,103 @@ public Q_SLOTS:
 
     // TODO INDI Scripting to be supported in KDE 4.1
 	#if 0
-    /**DCOP interface function.  Establish an INDI driver.
+    /**DBUS interface function.  Establish an INDI driver.
     	*@param deviceName The INDI device name
     	*@param useLocal establish driver locally?
     	*/
     Q_SCRIPTABLE Q_NOREPLY void startINDI (const QString &deviceName, bool useLocal);
 
-    /**DCOP interface function. Set current device. All subsequent functions will
+    /**DBUS interface function. Set current device. All subsequent functions will
     	 communicate with this device until changed.
     	 *@param deviceName The INDI device name
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIDevice (const QString &deviceName);
 
-    /**DCOP interface function. Shutdown an INDI driver.
+    /**DBUS interface function. Shutdown an INDI driver.
     	*@param driverName the name of the driver to be shut down
     	*/
     Q_SCRIPTABLE Q_NOREPLY void shutdownINDI (const QString &driverName);
 
-    /**DCOP interface function.  Turn INDI driver on/off.
+    /**DBUS interface function.  Turn INDI driver on/off.
     	*@param turnOn if true, turn driver on; otherwise turn off
     	*/
     Q_SCRIPTABLE Q_NOREPLY void switchINDI(bool turnOn);
 
-    /**DCOP interface function.  Set INDI connection port.
+    /**DBUS interface function.  Set INDI connection port.
     	*@param port the port identifier
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIPort(const QString &port);
 
-    /**DCOP interface function.  Set INDI target RA/DEC coordinates
+    /**DBUS interface function.  Set INDI target RA/DEC coordinates
     	*@param RA the target's Right Ascension coordinate (in Hours) 
     	*@param DEC the target's Declination coordinate (in Degrees) 
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDITargetCoord(double RA, double DEC);
 
-    /**DCOP interface function.  Set INDI target to a named object.
+    /**DBUS interface function.  Set INDI target to a named object.
     	*@param objectName the name of the object to be targeted
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDITargetName(const QString &objectName);
 
-    /**DCOP interface function.  Set INDI action.
+    /**DBUS interface function.  Set INDI action.
     	*@param action the action to set
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIAction(const QString &action);
 
-    /**DCOP interface function.  Pause DCOP execution until named INDI action is completed.
-    	*@param action the action which is to be completed before resuming DCOP execution
+    /**DBUS interface function.  Pause DBUS execution until named INDI action is completed.
+    	*@param action the action which is to be completed before resuming DBUS execution
     	*/
     Q_SCRIPTABLE Q_NOREPLY void waitForINDIAction(const QString &action);
 
-    /**DCOP interface function.  Set INDI focus speed.
+    /**DBUS interface function.  Set INDI focus speed.
     	*@param speed the speed to use
     	*
     	* @todo document units for speed
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIFocusSpeed(unsigned int speed);
 
-    /**DCOP interface function.  Set INDI focus direction and focus.
+    /**DBUS interface function.  Set INDI focus direction and focus.
     	*@param focusDir 0 = focus in; 1 = focus out
     	*/
     Q_SCRIPTABLE Q_NOREPLY void startINDIFocus(int focusDir);
 
-    /**DCOP interface function.  Set INDI geographical information.
+    /**DBUS interface function.  Set INDI geographical information.
     	*@param longitude the longitude to set, in Degrees
     	*@param latitude the latitude to set, in Degrees
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIGeoLocation(double longitude, double latitude);
 
-    /**DCOP interface function.  Sets focus operation timeout.
+    /**DBUS interface function.  Sets focus operation timeout.
     	*@param timeout the timeout interval, in seconds (?)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIFocusTimeout(int timeout);
 
-    /**DCOP interface function.  Start camera exposure with a timeout.
+    /**DBUS interface function.  Start camera exposure with a timeout.
     	*@param timeout the exposure time, in seconds (?)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void startINDIExposure(int timeout);
 
-    /**DCOP interface function.  Set INDI UTC date and time.
+    /**DBUS interface function.  Set INDI UTC date and time.
     	*@param UTCDateTime the UTC date and time (e.g., "23 June 2004 12:30:00" ?)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIUTC(const QString &UTCDateTime);
 
-    /**DCOP interface function. Set INDI Telescope action.
+    /**DBUS interface function. Set INDI Telescope action.
     	*@param action the action to set
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIScopeAction(const QString &action);
 
-    /**DCOP interface function. Set CCD camera frame type.
+    /**DBUS interface function. Set CCD camera frame type.
     	*@param type the frame type
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIFrameType(const QString &type);
 
-    /**DCOP interface function. Set CCD filter.
+    /**DBUS interface function. Set CCD filter.
     	*@param filter_num identifier of the CCD filter
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDIFilterNum(int filter_num);
 
-    /**DCOP interface function. Set CCD target temperature.
+    /**DBUS interface function. Set CCD target temperature.
     	*@param temp the target CCD temperature (in Celsius ?)
     	*/
     Q_SCRIPTABLE Q_NOREPLY void setINDICCDTemp(int temp);
@@ -558,7 +582,7 @@ private slots:
     /**Action slot to save the sky image to a file.*/
     void slotExportImage();
 
-    /**Action slot to select a DCOP script and run it.*/
+    /**Action slot to select a DBUS script and run it.*/
     void slotRunScript();
 
     /**Action slot to print skymap. */

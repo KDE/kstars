@@ -141,8 +141,11 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
     //Initialize function templates and descriptions
-    KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ),
-                               false, "QString", "dir" ) );
+    KStarsFunctionList.append( new ScriptFunction( "lookTowards", i18n( "Point the display at the specified location. %1 can be the name of an object, a cardinal point on the compass, or 'zenith'.", QString( "dir" ) ), false, "QString", "dir" ) );
+    KStarsFunctionList.append( new ScriptFunction( "addLabel", i18n( "Add a name label to the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "removeLabel", i18n( "Remove the name label from the object named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "addTrail", i18n( "Add a trail to the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
+    KStarsFunctionList.append( new ScriptFunction( "removeTrail", i18n( "Remove the trail from the solar system body named %1.", QString( "name" ) ), false, "QString", "name" ) );
     KStarsFunctionList.append( new ScriptFunction( "setRaDec", i18n( "Point the display at the specified RA/Dec coordinates.  RA is expressed in Hours; Dec is expressed in Degrees." ),
                                false, "double", "ra", "double", "dec" ) );
     KStarsFunctionList.append( new ScriptFunction( "setAltAz", i18n( "Point the display at the specified Alt/Az coordinates.  Alt and Az are expressed in Degrees." ),
@@ -319,6 +322,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     //Prepare the widget stack
     argBlank = new QWidget();
     argLookToward = new ArgLookToward( sb->ArgStack );
+    argFindObject = new ArgFindObject( sb->ArgStack ); //shared by Add/RemoveLabel and Add/RemoveTrail
     argSetRaDec = new ArgSetRaDec( sb->ArgStack );
     argSetAltAz = new ArgSetAltAz( sb->ArgStack );
     argSetLocalTime = new ArgSetLocalTime( sb->ArgStack );
@@ -372,6 +376,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
 
     sb->ArgStack->addWidget( argBlank );
     sb->ArgStack->addWidget( argLookToward );
+    sb->ArgStack->addWidget( argFindObject );
     sb->ArgStack->addWidget( argSetRaDec );
     sb->ArgStack->addWidget( argSetAltAz );
     sb->ArgStack->addWidget( argSetLocalTime );
@@ -441,6 +446,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argChangeViewOption->TreeButton, SIGNAL( clicked() ), this, SLOT( slotShowOptions() ) );
 
     connect( argLookToward->FocusEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotLookToward() ) );
+    connect( argFindObject->NameEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotArgFindObject() ) );
     connect( argSetRaDec->RABox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotRa() ) );
     connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
     connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
@@ -1521,6 +1527,11 @@ void ScriptBuilder::slotArgWidget() {
             QString s = sf->argVal(0);
             argLookToward->FocusEdit->setEditText( s );
 
+        } else if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" ) {
+            sb->ArgStack->setCurrentWidget( argFindObject );
+            QString s = sf->argVal(0);
+            argFindObject->NameEdit->setText( s );
+
         } else if ( sf->name() == "setRaDec" ) {
             bool ok(false);
             double r(0.0),d(0.0);
@@ -2001,6 +2012,19 @@ void ScriptBuilder::slotLookToward() {
         sf->setValid(true);
     } else {
         warningMismatch( "lookTowards" );
+    }
+}
+
+void ScriptBuilder::slotArgFindObject() {
+    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+
+    if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" ) {
+        setUnsavedChanges( true );
+
+        sf->setArg( 0, argFindObject->NameEdit->text() );
+        sf->setValid(true);
+    } else {
+        warningMismatch( sf->name() );
     }
 }
 

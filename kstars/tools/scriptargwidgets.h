@@ -19,6 +19,7 @@
 #define SCRIPTARGWIDGETS_H_
 
 #include "ui_arglooktoward.h"
+#include "ui_argfindobject.h"
 #include "ui_argsetradec.h"
 #include "ui_argsetaltaz.h"
 #include "ui_argsetlocaltime.h"
@@ -56,6 +57,12 @@ class ArgLookToward  : public QFrame, public Ui::ArgLookToward {
     Q_OBJECT
 public:
     ArgLookToward ( QWidget *p );
+};
+
+class ArgFindObject  : public QFrame, public Ui::ArgFindObject {
+    Q_OBJECT
+public:
+    ArgFindObject ( QWidget *p );
 };
 
 class ArgSetRaDec  : public QFrame, public Ui::ArgSetRaDec {

@@ -40,6 +40,7 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobject.h"
+#include "ksplanetbase.h"
 #include "infoboxes.h"
 #include "simclock.h"
 #include "Options.h"
@@ -94,6 +95,40 @@ void KStars::lookTowards ( const QString &direction ) {
             map()->setClickedPoint( target );
             map()->slotCenter();
         }
+    }
+}
+
+void KStars::addLabel( const QString &name ) {
+    SkyObject *target = data()->objectNamed( name );
+    if ( target != NULL ) {
+		    data()->skyComposite()->addNameLabel( target );
+        if ( map()->transientObject() == target ) map()->setTransientObject( NULL );
+        map()->forceUpdate();
+    }
+}
+
+void KStars::removeLabel( const QString &name ) {
+    SkyObject *target = data()->objectNamed( name );
+    if ( target != NULL ) {
+		    data()->skyComposite()->removeNameLabel( target );
+        if ( map()->transientObject() == target ) map()->setTransientObject( NULL );
+        map()->forceUpdate();
+    }
+}
+
+void KStars::addTrail( const QString &name ) {
+    SkyObject *target = data()->objectNamed( name );
+    if ( target != NULL && target->isSolarSystem() ) {
+        ((KSPlanetBase*)target)->addToTrail();
+        map()->forceUpdate();
+    }
+}
+
+void KStars::removeTrail( const QString &name ) {
+    SkyObject *target = data()->objectNamed( name );
+    if ( target != NULL && target->isSolarSystem() ) {
+        ((KSPlanetBase*)target)->clearTrail();
+        map()->forceUpdate();
     }
 }
 

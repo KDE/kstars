@@ -21,6 +21,10 @@ ArgLookToward::ArgLookToward ( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
+ArgFindObject::ArgFindObject ( QWidget *p ) : QFrame( p ) {
+    setupUi( this );
+}
+
 ArgSetRaDec::ArgSetRaDec ( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }

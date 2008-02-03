@@ -74,6 +74,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/argexportimage.ui
 	tools/argloadcolorscheme.ui
 	tools/arglooktoward.ui
+	tools/argfindobject.ui
 	tools/argprintimage.ui
 	tools/argsetactionindi.ui
 	tools/argsetaltaz.ui

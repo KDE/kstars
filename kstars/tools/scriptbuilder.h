@@ -117,6 +117,7 @@ public slots:
     void slotFindObject();
     void slotShowOptions();
     void slotLookToward();
+    void slotArgFindObject();
     void slotRa();
     void slotDec();
     void slotAz();
@@ -184,6 +185,7 @@ private:
 
     QWidget *argBlank;
     ArgLookToward *argLookToward;
+    ArgFindObject *argFindObject;
     ArgSetRaDec *argSetRaDec;
     ArgSetAltAz *argSetAltAz;
     ArgSetLocalTime *argSetLocalTime;
