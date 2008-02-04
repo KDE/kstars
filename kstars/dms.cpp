@@ -283,11 +283,12 @@ const QString dms::toDMSString(bool forceSign) const {
     if ( Degrees() < 0.0 ) pm = '-';
     else if (forceSign && Degrees() > 0.0 ) pm = '+';
 
-    QString format( "%c%3d%c %02d\' %02d\"" );
-    if ( dd < 100 ) format = "%c%2d%c %02d\' %02d\"";
-    if ( dd < 10  ) format = "%c%1d%c %02d\' %02d\"";
+    if (dd < 10)
+        return dummy.sprintf("%c%1d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
+    if (dd < 100)
+        return dummy.sprintf("%c%2d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
 
-    return dummy.sprintf(format.toLocal8Bit(), pm, dd, 176, dm, ds);
+    return dummy.sprintf("%c%3d%c %02d\' %02d\"", pm, dd, 176, dm, ds);
 }
 
 const QString dms::toHMSString() const {
