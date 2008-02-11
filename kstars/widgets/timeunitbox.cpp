@@ -25,7 +25,7 @@
 
 #include <kdebug.h>
 
-static char * const up_arrow[] = {
+static const char * const up_arrow[] = {
 "22 11 4 1",
 "       c None",
 ".      c #000000",
@@ -43,7 +43,7 @@ static char * const up_arrow[] = {
 "    +            @    ",
 "                      "};
 
-static char * const down_arrow[] = {
+static const char * const down_arrow[] = {
 "22 11 4 1",
 "       c None",
 ".      c #808080",

@@ -473,7 +473,7 @@ void SkyLabeler::printInfo()
 
     return;
 
-    static char *labelName[NUM_LABEL_TYPES];
+    static const char *labelName[NUM_LABEL_TYPES];
 
     labelName[         STAR_LABEL ] = "Star";
     labelName[     ASTEROID_LABEL ] = "Asteroid";
