@@ -274,11 +274,7 @@ if (NOVA_FOUND)
   target_link_libraries(kstars ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS kstars 
-    RUNTIME DESTINATION ${BIN_INSTALL_DIR}
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-)
+install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ########### install files ###############
