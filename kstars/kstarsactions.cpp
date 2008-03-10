@@ -971,9 +971,9 @@ void KStars::slotTipOfDay() {
 void KStars::slotFullScreen()
 {
     if ( topLevelWidget()->isFullScreen() ) {
-        topLevelWidget()->showNormal();
+        topLevelWidget()->setWindowState( topLevelWidget()->windowState() & ~Qt::WindowFullScreen ); // reset
     } else {
-        topLevelWidget()->showFullScreen();
+        topLevelWidget()->setWindowState( topLevelWidget()->windowState() | Qt::WindowFullScreen ); // set
     }
 }
 
