@@ -35,17 +35,6 @@ struct LabelRun;
 typedef QList<LabelRun*>	LabelRow;
 typedef QVector<LabelRow*>  ScreenRows;
 
-enum label_t {
-    STAR_LABEL,
-    ASTEROID_LABEL,
-    COMET_LABEL,
-    PLANET_LABEL,
-    JUPITER_MOON_LABEL,
-    DEEP_SKY_LABEL,
-    CONSTEL_NAME_LABEL,
-    NUM_LABEL_TYPES
-};
-
 
 /**
  *@class SkyLabeler
@@ -126,6 +115,17 @@ protected:
     SkyLabeler( SkyLabeler& skyLabler );
 
 public:
+    enum label_t {
+        STAR_LABEL,
+        ASTEROID_LABEL,
+        COMET_LABEL,
+        PLANET_LABEL,
+        JUPITER_MOON_LABEL,
+        DEEP_SKY_LABEL,
+        CONSTEL_NAME_LABEL,
+        NUM_LABEL_TYPES
+    } ;
+
 
     //----- Static Methods ----------------------------------------------//
 

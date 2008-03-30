@@ -176,7 +176,7 @@ void JupiterMoonsComponent::draw( QPainter& psky )
 
         if ( ! map->onScreen( o ) ) continue;
 
-        SkyLabeler::AddLabel( o, jmoons->moon(i), JUPITER_MOON_LABEL );
+        SkyLabeler::AddLabel( o, jmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
     }
 }
 

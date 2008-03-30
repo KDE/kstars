@@ -168,7 +168,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     //draw Name
     if ( ! Options::showPlanetNames() ) return;
 
-    SkyLabeler::AddLabel( o, ksp(), PLANET_LABEL );
+    SkyLabeler::AddLabel( o, ksp(), SkyLabeler::PLANET_LABEL );
 }
 
 void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {

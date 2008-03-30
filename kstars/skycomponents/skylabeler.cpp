@@ -414,10 +414,10 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 }
 
 
-void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, label_t type )
+void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, SkyLabeler::label_t type )
 {
     if ( obj->translatedName().isEmpty() ) return;
-    labelList[ type ].append( SkyLabel( p, obj ) );
+    labelList[ (int)type ].append( SkyLabel( p, obj ) );
 }
 
 void SkyLabeler::drawQueuedLabels( QPainter& psky )
@@ -439,7 +439,7 @@ void SkyLabeler::drawQueuedLabels( QPainter& psky )
 
 }
 
-void SkyLabeler::drawQueuedLabelsType( QPainter& psky, label_t type )
+void SkyLabeler::drawQueuedLabelsType( QPainter& psky, SkyLabeler::label_t type )
 {
     LabelList list = labelList[ type ];
     for ( int i = 0; i < list.size(); i ++ ) {
