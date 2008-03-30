@@ -384,7 +384,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
 
 #else
  int t_fd=0;
- char *msg=NULL;
+ char msg[80];
  int bps;
  struct termios tty_setting;
 
@@ -452,7 +452,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
       bps = B230400;
       break;
     default:
-      if (asprintf(&msg, "tty_connect: %d is not a valid bit rate.", bit_rate) < 0)
+      if (snprintf(msg, sizeof(msg), "tty_connect: %d is not a valid bit rate.", bit_rate) < 0)
         perror(NULL);
       else
         perror(msg);
@@ -489,7 +489,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
     default:
 
       fprintf( stderr, "Default\n") ;
-      if (asprintf(&msg, "tty_connect: %d is not a valid data bit count.", word_size) < 0)
+      if (snprintf(msg, sizeof(msg), "tty_connect: %d is not a valid data bit count.", word_size) < 0)
         perror(NULL);
       else
         perror(msg);
@@ -510,7 +510,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
     default:
 
    fprintf( stderr, "Default1\n") ;
-      if (asprintf(&msg, "tty_connect: %d is not a valid parity selection value.", parity) < 0)
+      if (snprintf(msg, sizeof(msg), "tty_connect: %d is not a valid parity selection value.", parity) < 0)
         perror(NULL);
       else
         perror(msg);
@@ -527,7 +527,7 @@ int tty_connect(const char *device, int bit_rate, int word_size, int parity, int
       break;
     default:
    fprintf( stderr, "Default2\n") ;
-      if (asprintf(&msg, "tty_connect: %d is not a valid stop bit count.", stop_bits) < 0)
+      if (snprintf(msg, sizeof(msg), "tty_connect: %d is not a valid stop bit count.", stop_bits) < 0)
         perror(NULL);
       else
         perror(msg);
