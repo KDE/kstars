@@ -125,7 +125,7 @@ const float64 gEpsilon = 1.0E-15;
 #   define LINKAGE
 #endif
 
-#if defined(__unix__)
+#if defined(__unix__) || defined(__unix)
 
 #   if defined(__osf__)
 #      define SpatialDigitalUnix 1
