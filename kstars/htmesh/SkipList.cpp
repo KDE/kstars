@@ -208,7 +208,7 @@ Key SkipList::findMIN(const Key searchKey) const
     return((Key) KEY_MAX);
 }
 
-Value SkipList::search(const Key searchKey, int iterator_flag)
+Value SkipList::search(const Key searchKey, const int iterator_flag)
 {
   int i;
   SkipListElement* element;

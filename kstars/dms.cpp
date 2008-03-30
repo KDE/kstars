@@ -273,7 +273,7 @@ const dms dms::reduce( void ) const {
     return dms( a );
 }
 
-const QString dms::toDMSString(bool forceSign) const {
+const QString dms::toDMSString(const bool forceSign) const {
     QString dummy;
     char pm(' ');
     int dd = abs(degree());
