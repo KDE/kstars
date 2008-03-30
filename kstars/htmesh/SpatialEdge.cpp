@@ -156,11 +156,7 @@ int i;
 /////////////EDGEMATCH////////////////////////////////////
 // edgeMatch: fast lookup using the first index em->start_.
 //            return pointer to edge if matches, null if not.
-#if defined(__sun) && !defined(__gnu)
-Edge *
-#else
 SpatialEdge::Edge *
-#endif
 SpatialEdge::edgeMatch(Edge *em)
 {
 int i = 6 * em->start_;
