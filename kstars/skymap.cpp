@@ -1459,7 +1459,7 @@ void SkyMap::forceUpdate( bool now )
 }
 
 float SkyMap::fov() {
-    float diagonalPixels = sqrt( width() * width() + height() * height() );
+    float diagonalPixels = sqrt( (double)(width() * width() + height() * height()) );
     return 28.6427 * diagonalPixels / Options::zoomFactor();
 
     //if ( width() >= height() )
