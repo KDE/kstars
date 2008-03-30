@@ -105,11 +105,7 @@ const char * htmInterface::lookupNameCmd(char *str) {
 }
 
 // get the depth, which is the first item in the first character argument.
-#if defined(__sun)
-cmdCode
-#else
 htmInterface::cmdCode
-#endif
 htmInterface::getCode() {
 
   cmdCode code;
