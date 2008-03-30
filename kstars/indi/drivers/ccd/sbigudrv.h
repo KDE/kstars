@@ -343,12 +343,14 @@ typedef enum { MFG_FIRMWARE_VERSION, MFG_DATA_REGISTERS } MF_GETINFO_SELECT;
 	as that is how the driver was built.
 
 */
-/* Force 8 Byte Struct Align */
+/* Force 8 Byte Struct Align but not in Sun Studio 12 */
+#ifndef __SUNPRO_CC
 #if TARGET == ENV_MACOSX || TARGET == ENV_LINUX
  #pragma pack(push,8)
 #else
  #pragma pack(push)
  #pragma pack(8)
+#endif
 #endif
 
 typedef struct {
@@ -717,7 +719,9 @@ typedef struct {
 	long mfResult2;
 } MFResults;
 
+#ifndef __SUNPRO_CC
 #pragma pack(pop)	/* Restore previous struct align */
+#endif
 
 /* needed for KDE_EXPORT macros */
 /* DO NOT EDIT OR REMOVE THIS */
