@@ -244,8 +244,9 @@ kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
        thumbnailpicker.ui thumbnaileditor.ui 
 )
 
-kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
+#kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
 #kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/ox*-apps-kstars.png")
+kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
 
 kde4_add_executable(kstars ${kstars_SRCS})
 
