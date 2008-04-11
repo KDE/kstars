@@ -246,6 +246,10 @@ void SkyMap::slotTransientTimeout( void ) {
     update();
 }
 
+void SkyMap::setClickedObject( SkyObject *o ) {
+	  ClickedObject = o;
+}
+
 void SkyMap::setFocusObject( SkyObject *o ) {
     FocusObject = o;
 

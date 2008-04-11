@@ -297,7 +297,7 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
     /**@short Set the ClickedObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the ClickedObject
     	*/
-    void setClickedObject( SkyObject *o ) { ClickedObject = o; }
+    void setClickedObject( SkyObject *o );
 
     /**@short Retrieve the object which is centered in the sky map.
     	*

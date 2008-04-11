@@ -88,7 +88,7 @@ void SolarSystemComposite::init(KStarsData *data)
 
 void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 {
-    if ( ! selected() ) return;
+	//    if ( ! selected() ) return;
 
     m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -101,7 +101,7 @@ void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
-    if ( ! selected() ) return;
+	//    if ( ! selected() ) return;
 
     m_Earth->findPosition( num );
     foreach ( SkyComponent *comp, components() ) {
@@ -111,7 +111,7 @@ void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 
 void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
-    if ( ! selected() ) return;
+	//    if ( ! selected() ) return;
 
     m_Sun->findPosition( num );
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
