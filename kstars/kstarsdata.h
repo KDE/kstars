@@ -34,7 +34,7 @@
 #include "skycomponents/skymapcomposite.h"
 
 #define MINZOOM 200.
-#define MAXZOOM 1000000.
+#define MAXZOOM 5000000.
 #define DEFAULTZOOM 2000.
 #define DZOOM 1.10
 #define AU_KM 1.49605e8  //km in one AU
