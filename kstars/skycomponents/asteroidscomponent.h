@@ -81,8 +81,6 @@ public:
 
     bool selected();
 
-    void update( KStarsData *data, KSNumbers *num );
-
     /* @short we need to overide objectNearest to bail on asteroids dimmer
      * than the draw threshold.
      */

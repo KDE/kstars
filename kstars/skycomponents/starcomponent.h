@@ -52,8 +52,6 @@ public:
 
     virtual ~StarComponent();
 
-    void update( KStarsData *data, KSNumbers *num );
-
     bool selected();
 
     void reindex( KSNumbers *num );
