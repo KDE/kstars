@@ -45,6 +45,7 @@ set(libkstarstools_SRCS
 	tools/avtplotwidget.cpp
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
+	tools/ksconjunct.cpp
 	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
 	tools/modcalcapcoord.cpp
