@@ -43,6 +43,7 @@ set(libkstarstools_SRCS
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
 	tools/avtplotwidget.cpp
+	tools/conjunctions.cpp
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
@@ -105,6 +106,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/argwaitfor.ui
 	tools/argwaitforkey.ui
 	tools/argzoom.ui
+	tools/conjunctions.ui
 	tools/lcgenerator.ui
 	tools/modcalcangdist.ui
 	tools/modcalcapcoord.ui

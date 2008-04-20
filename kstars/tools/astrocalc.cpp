@@ -36,6 +36,7 @@
 #include "modcalcangdist.h"
 #include "modcalcvizequinox.h"
 #include "modcalcvlsr.h"
+#include "conjunctions.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :
         KDialog( parent ), JDFrame(0), GeodCoordFrame(0),
@@ -83,6 +84,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     QTreeWidgetItem * solarItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Solar System")) );
     solarItem->setIcon(0,solarIcon);
     new QTreeWidgetItem(solarItem,QStringList(i18n("Planets Coordinates")) );
+    new QTreeWidgetItem(solarItem,QStringList(i18n("Conjunctions")) );
 
     //FIXME: Would be better to make the navigationPanel fit its contents,
     //but I wasn't able to make it work
@@ -137,6 +139,8 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     acStack->addWidget( AngDistFrame );
     VlsrFrame = new modCalcVlsr( acStack );
     acStack->addWidget( VlsrFrame );
+    ConjunctFrame = new ConjunctionsTool( acStack );
+    acStack->addWidget( ConjunctFrame );
 
     acStack->setCurrentWidget( splashScreen );
 
@@ -188,6 +192,8 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
         acStack->setCurrentWidget( EquinoxFrame );
     if(!(s.compare(i18n("Planets Coordinates"))))
         acStack->setCurrentWidget( PlanetsFrame );
+    if(!(s.compare(i18n("Conjunctions"))))
+        acStack->setCurrentWidget( ConjunctFrame );
     if(!(s.compare(i18n("Angular Distance"))))
         acStack->setCurrentWidget( AngDistFrame );
     if(!(s.compare(i18n("LSR Velocity"))))

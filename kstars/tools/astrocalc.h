@@ -39,6 +39,7 @@ class modCalcPlanets;
 class modCalcEclCoords;
 class modCalcAngDist;
 class modCalcVlsr;
+class ConjunctionsTool;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -101,6 +102,7 @@ private:
     modCalcEclCoords *EclFrame;
     modCalcAngDist *AngDistFrame;
     modCalcVlsr *VlsrFrame;
+    ConjunctionsTool *ConjunctFrame;
 };
 
 #endif

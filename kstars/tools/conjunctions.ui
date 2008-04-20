@@ -1,0 +1,278 @@
+<ui version="4.0" >
+ <class>ConjunctionsDlg</class>
+ <widget class="QWidget" name="ConjunctionsDlg" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>479</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
+   <item>
+    <layout class="QGridLayout" name="gridLayout" >
+     <item row="0" column="1" >
+      <widget class="KPushButton" name="LocationButton" >
+       <property name="text" >
+        <string>Greenwich, United Kingdom</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QDateTimeEdit" name="startDate" />
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>Ending on:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QDateTimeEdit" name="stopDate" />
+     </item>
+     <item row="3" column="0" >
+      <widget class="QLabel" name="textLabel1" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Between solar system bodies:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <layout class="QHBoxLayout" name="horizontalLayout" >
+       <item>
+        <widget class="QComboBox" name="Obj1ComboBox" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text" >
+           <string>Mercury</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Venus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Earth</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Mars</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Jupiter</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Saturn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Uranus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Neptune</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Pluto</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Moon</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Sun</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>and</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="Obj2ComboBox" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text" >
+           <string>Mercury</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Venus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Earth</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Mars</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Jupiter</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Saturn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Uranus</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Neptune</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Pluto</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Moon</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Sun</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Starting on:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>Show conjunctions for:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2" >
+     <item>
+      <spacer name="horizontalSpacer" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ComputeButton" >
+       <property name="text" >
+        <string>Compute</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Close Conjunctions</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout" >
+      <item>
+       <widget class="QListWidget" name="OutputView" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="MinimumExpanding" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
