@@ -185,7 +185,11 @@ set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
-if (WIN32)
+# remove me once we required cmake 2.6
+if (WIN32 AND CMAKE_MAJOR_VERSION MATCHES "2" AND CMAKE_MINOR_VERSION MATCHES "4")
+  set(KSTARS_CMAKE_HACK 1)
+endif (WIN32 AND CMAKE_MAJOR_VERSION MATCHES "2" AND CMAKE_MINOR_VERSION MATCHES "4")
+if (KSTARS_CMAKE_HACK)
     # workaround for win32 command line to long problem
     # build intermediate libraries 
     kde4_add_ui_files(libkstarscomponents_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
@@ -205,7 +209,7 @@ if (WIN32)
     target_link_libraries (kstarscomponents)
     set (libkstarscomponents_SRCS)
 
-endif (WIN32)
+endif (KSTARS_CMAKE_HACK)
 
 set(kstars_extra_SRCS
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
@@ -264,9 +268,11 @@ target_link_libraries(kstars
 	htmesh
 	${ZLIB_LIBRARIES}
         )
-if(WIN32)
+
+if(KSTARS_CMAKE_HACK)
 target_link_libraries(kstars kstarscomponents htmesh SatLib)
-endif(WIN32)
+endif(KSTARS_CMAKE_HACK)
+
 if(NOT WIN32)
   target_link_libraries(kstars m)
 endif(NOT WIN32)
