@@ -143,8 +143,8 @@ void ColorScheme::copy( const ColorScheme &cs ) {
     KeyName = cs.KeyName;
     Name = cs.Name;
     Default = cs.Default;
-    StarColorMode = cs.StarColorMode;
-    StarColorIntensity = cs.StarColorIntensity;
+    setStarColorMode( cs.StarColorMode );
+    setStarColorIntensity( cs.StarColorIntensity );
     Palette = cs.Palette;
     FileName = cs.FileName;
 }

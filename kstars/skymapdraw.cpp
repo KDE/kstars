@@ -367,7 +367,8 @@ void SkyMap::drawBoxes( QPainter &p ) {
 }
 
 void SkyMap::drawObservingList( QPainter &psky ) {
-    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
+    int penWidth = int(m_Scale);
+    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), penWidth ) );
 
     if ( ks && ks->observingList()->obsList().size() ) {
         foreach ( SkyObject* obj, ks->observingList()->obsList() ) {
@@ -375,7 +376,7 @@ void SkyMap::drawObservingList( QPainter &psky ) {
                 QPointF o = toScreen( obj );
 
                 // label object if it is currently on screen
-                if (o.x() >= 0. && o.x() <= width() && o.y() >=0. && o.y() <= height() ) {
+                if (o.x() >= 0. && o.x() <= width()*m_Scale && o.y() >=0. && o.y() <= height()*m_Scale ) {
                     if ( Options::obsListSymbol() ) {
                         if ( Options::useAntialias() ) {
                             float size = 20.*m_Scale;
@@ -585,6 +586,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     if ( x1 || y1 ) p.translate( x1, y1 );
 
     data->skyComposite()->draw( p );
+    drawObservingList( p );
 
     p.end();
 
