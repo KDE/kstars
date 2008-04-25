@@ -596,6 +596,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 
     //Reset scale for screen drawing
     m_Scale = 1.0;
+    StarObject::initImages();
 }
 
 void SkyMap::setMapGeometry() {
