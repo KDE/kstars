@@ -207,7 +207,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
     INDIFunctionList.append( setINDITargetNameFunc);
 
-    setINDIGeoLocationFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is E of N."), false, "double", "long", "double", "lat");
+    setINDIGeoLocationFunc = new ScriptFunction ( "setINDIGeoLocation", i18n("Set the telescope longitude and latitude. The longitude is measured east from Greenwich, UK."), false, "double", "long", "double", "lat");
     setINDIGeoLocationFunc->setINDIProperty("GEOGRAPHIC_COORD");
     INDIFunctionList.append( setINDIGeoLocationFunc);
 
