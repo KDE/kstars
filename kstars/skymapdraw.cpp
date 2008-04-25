@@ -572,6 +572,10 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     double yscale = double(p.device()->height()) / double(height());
     m_Scale = (xscale < yscale) ? xscale : yscale;
 
+    //Now that we have changed the map scale, we need to re-run 
+    //StarObject::initImages() to get scaled pixmaps
+    StarObject::initImages();
+
     int pdWidth = int( m_Scale * width() );
     int pdHeight = int( m_Scale * height() );
     int x1 = int( 0.5*(p.device()->width()  - pdWidth) );
@@ -610,5 +614,5 @@ void SkyMap::setMapGeometry() {
     //at high zoom, double FOV for guide lines so they don't disappear.
     guideFOV = fov();
     guideXRange = XRange;
-if ( Options::zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
+    if ( Options::zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
 }

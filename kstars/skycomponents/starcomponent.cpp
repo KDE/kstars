@@ -246,7 +246,7 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( curStar );
 
             if ( ! map->onScreen( o ) ) continue;
-            float size = map->scale() * ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
+            float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
             if ( size <= 0. ) continue;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
