@@ -437,6 +437,8 @@ void SkyMap::slotBeginAngularDistance() {
         AngularRuler.append( mousePoint() );
         AngularRuler.append( mousePoint() );
     }
+
+    AngularRuler.update( data );
 }
 
 void SkyMap::slotEndAngularDistance() {
@@ -452,6 +454,8 @@ void SkyMap::slotEndAngularDistance() {
             sbMessage = so->translatedLongName() + "   ";
         } else
             AngularRuler.setPoint( 1, mousePoint() );
+
+        AngularRuler.update( data );
 
         angularDistance = AngularRuler.angularSize();
         sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
@@ -1684,7 +1688,8 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-      AngularRuler.setPoint( 1, mousePoint() );
+    AngularRuler.setPoint( 1, mousePoint() );
+    AngularRuler.update( data );
 }
 
 bool SkyMap::isSlewing() const  {
