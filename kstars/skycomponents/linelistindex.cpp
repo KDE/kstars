@@ -123,7 +123,7 @@ void LineListIndex::reindexLines()
 
     DrawID drawID = skyMesh()->incDrawID();
 
-    foreach (LineListList* listList, oldIndex->values() ) {
+    foreach (LineListList* listList, *oldIndex ) {
         for ( int i = 0; i < listList->size(); i++) {
             LineList* lineList = listList->at( i );
             if ( lineList->drawID == drawID ) continue;
