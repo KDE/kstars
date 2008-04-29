@@ -61,7 +61,9 @@ void ListComponent::update( KStarsData *data, KSNumbers *num )
 
 SkyObject* ListComponent::findByName( const QString &name ) {
     foreach ( SkyObject *o, objectList() )
-    if ( o->name() == name || o->longname() == name || o->name2() == name )
+    if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
+        QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
+        QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 )
         return o;
 
     //No object found

@@ -186,9 +186,9 @@ void DeepSkyComponent::init(KStarsData *data)
 
         // Add the name(s) to the nameHash for fast lookup -jbb
         if ( hasName) {
-            nameHash[ name ] = o;
-            if ( ! longname.isEmpty() ) nameHash[ longname ] = o;
-            if ( ! name2.isEmpty() ) nameHash[ name2 ] = o;
+            nameHash[ name.toLower() ] = o;
+            if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
+            if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
         }
 
         Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
@@ -417,7 +417,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
 
 SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 
-    return nameHash[ name ];
+    return nameHash[ name.toLower() ];
 }
 
 //we multiply each catalog's smallest angular distance by the

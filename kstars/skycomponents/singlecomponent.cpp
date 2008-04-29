@@ -51,8 +51,9 @@ void SingleComponent::update( KStarsData *data, KSNumbers *num )
 }
 
 SkyObject* SingleComponent::findByName( const QString &name ) {
-    if ( skyObject()->name() == name || skyObject()->longname() == name
-            || skyObject()->name2() == name )
+    if ( QString::compare( skyObject()->name(), name, Qt::CaseInsensitive ) == 0 ||
+        QString::compare( skyObject()->longname(), name, Qt::CaseInsensitive ) == 0 ||
+        QString::compare( skyObject()->name2(), name, Qt::CaseInsensitive ) == 0 )
         return skyObject();
 
     return 0;

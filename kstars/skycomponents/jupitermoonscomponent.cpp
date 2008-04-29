@@ -68,8 +68,9 @@ void JupiterMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
 SkyObject* JupiterMoonsComponent::findByName( const QString &name ) { 
     for ( uint i=0; i<4; ++i ) {
         TrailObject *moon = jmoons->moon(i);
-        if ( moon->name() == name || moon->longname() == name
-                || moon->name2() == name )
+        if ( QString::compare( moon->name(), name, Qt::CaseInsensitive ) == 0 || 
+            QString::compare( moon->longname(), name, Qt::CaseInsensitive ) == 0 ||
+            QString::compare( moon->name2(), name, Qt::CaseInsensitive ) == 0 )
             return moon;
     }
 
