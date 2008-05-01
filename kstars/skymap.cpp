@@ -659,6 +659,9 @@ void SkyMap::setDestinationAltAz(double alt, double az) {
 }
 
 void SkyMap::updateFocus() {
+    if ( slewing ) return;
+
+    //Tracking on an object
     if ( Options::isTracking() && focusObject() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
@@ -674,6 +677,8 @@ void SkyMap::updateFocus() {
             focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
             setDestination( focus() );
         }
+
+    //Tracking on empty sky
     } else if ( Options::isTracking() && focusPoint() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking on empty sky in Alt/Az mode
@@ -681,8 +686,9 @@ void SkyMap::updateFocus() {
             focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
             setDestination( focus() );
         }
-    } else if ( ! slewing ) {
-        //Not tracking and not slewing, let sky drift by
+
+    //Not tracking and not slewing, let sky drift by
+    } else {
         if ( Options::useAltAz() ) {
             focus()->setAlt( destination()->alt()->Degrees() );
             focus()->setAz( destination()->az()->Degrees() );
