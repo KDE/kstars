@@ -80,7 +80,7 @@ void CometsComponent::init( KStarsData *data ) {
 
 void CometsComponent::draw( QPainter& psky )
 {
-    if ( !visible() ) return;
+    if ( !visible() || Options::zoomFactor() < 10*MINZOOM ) return;
 
     SkyMap *map = SkyMap::Instance();
 
@@ -101,7 +101,7 @@ void CometsComponent::draw( QPainter& psky )
         //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 
         float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-        if ( size < 1 ) size = 1;
+				if ( size < 0.25 && Options::zoomFactor() > 10*MINZOOM ) size = 0.25;
         float x1 = o.x() - 0.5*size;
         float y1 = o.y() - 0.5*size;
 

@@ -118,7 +118,7 @@ void AsteroidsComponent::draw( QPainter& psky )
         if ( ! map->onScreen( o ) ) continue;
 
         float size = ast->angSize() * sizeFactor;
-        if ( size < 1.0 ) size = 1.0;
+        if ( size < 0.25 ) size = 0.25;
         float x1 = o.x() - 0.5 * size;
         float y1 = o.y() - 0.5 * size;
 
