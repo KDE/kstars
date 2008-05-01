@@ -264,7 +264,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
         int currentRow = ui->SearchList->currentIndex().row();
         if ( currentRow > 0 ) {
             QModelIndex selectItem = sortModel->index( currentRow-1, sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
         }
         break;
     }
@@ -273,7 +273,7 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
         int currentRow = ui->SearchList->currentIndex().row();
         if ( currentRow < sortModel->rowCount()-1 ) {
             QModelIndex selectItem = sortModel->index( currentRow+1, sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
         }
         break;
     }
