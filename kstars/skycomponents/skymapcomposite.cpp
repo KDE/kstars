@@ -391,6 +391,8 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
     if ( o ) return o;
     o = m_CustomCatalogs->findByName( name );
     if ( o ) return o;
+    o = m_CNames->findByName( name );
+    if ( o ) return o;
     o = m_Stars->findByName( name );
     if ( o ) return o;
 
