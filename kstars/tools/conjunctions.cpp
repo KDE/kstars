@@ -126,16 +126,17 @@ void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) 
   KStarsDateTime dt;
   QMap<long double, dms>::Iterator it;
 
-  // TODO: Find a better way to clear the OutputView QListWidget
-  QList<QListWidgetItem *>::Iterator qlit;
-  QList<QListWidgetItem *> rowlist = OutputView -> findItems("", Qt::MatchContains); // Dirty way to get the whole list of items
-  for(qlit = rowlist.begin(); qlit != rowlist.end(); ++qlit) {
-    OutputView -> removeItemWidget(*qlit);
-  }
+  OutputView->clear();
+//   // TODO: Find a better way to clear the OutputView QListWidget
+//   QList<QListWidgetItem *>::Iterator qlit;
+//   QList<QListWidgetItem *> rowlist = OutputView -> findItems("", Qt::MatchContains); // Dirty way to get the whole list of items
+//   for(qlit = rowlist.begin(); qlit != rowlist.end(); ++qlit) {
+//     OutputView -> removeItemWidget(*qlit);
+//   }
 
   for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
     dt.setDJD( it.key() );
-    OutputView -> addItem(i18n("Conjunction on ") + dt.toString() + i18n(" : Separation is ") + it.data().toDMSString());
+    OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", dt.toString("%a, %d %b %Y %H:%M"), it.data().toDMSString()) );
   }
 }
 
