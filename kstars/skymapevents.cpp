@@ -143,13 +143,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Plus:   //Zoom in
     case Qt::Key_Equal:
         if ( ks ) ks->slotZoomIn();
-        slewing = true;
         break;
 
     case Qt::Key_Minus:  //Zoom out
     case Qt::Key_Underscore:
         if ( ks ) ks->slotZoomOut();
-        slewing = true;
         break;
 
     //In the following cases, we set slewing=true in order to disengage tracking
