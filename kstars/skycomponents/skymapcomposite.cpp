@@ -340,6 +340,8 @@ bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
 
 bool SkyMapComposite::addTrail( SkyObject *o ) {
     foreach ( SkyComponent *comp, solarSystem() ) {
+      //DEBUG
+      kDebug() << "here" << endl;
         if ( comp->addTrail( o ) ) return true;
     }
     //Did not find object o

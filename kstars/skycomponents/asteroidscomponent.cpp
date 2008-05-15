@@ -118,11 +118,14 @@ void AsteroidsComponent::draw( QPainter& psky )
         if ( ! map->onScreen( o ) ) continue;
 
         float size = ast->angSize() * sizeFactor;
-        if ( size < 0.25 ) size = 0.25;
-        float x1 = o.x() - 0.5 * size;
-        float y1 = o.y() - 0.5 * size;
+        if ( size < 1.0 ) {
+            psky.drawPoint( o );
+	} else {
+            float x1 = o.x() - 0.5 * size;
+            float y1 = o.y() - 0.5 * size;
 
-        psky.drawEllipse( QRectF( x1, y1, size, size ) );
+            psky.drawEllipse( QRectF( x1, y1, size, size ) );
+	}
 
         if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
         SkyLabeler::AddLabel( o, ast, SkyLabeler::ASTEROID_LABEL );

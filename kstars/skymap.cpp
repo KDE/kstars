@@ -538,7 +538,7 @@ void SkyMap::slotAddObjectLabel( void ) {
 void SkyMap::slotRemovePlanetTrail( void ) {
     //probably don't need this if-statement, but just to be sure...
     if ( clickedObject() && clickedObject()->isSolarSystem() ) {
-        ((KSPlanetBase*)clickedObject())->clearTrail();
+        data->skyComposite()->removeTrail( clickedObject() );
         forceUpdate();
     }
 }
@@ -546,7 +546,7 @@ void SkyMap::slotRemovePlanetTrail( void ) {
 void SkyMap::slotAddPlanetTrail( void ) {
     //probably don't need this if-statement, but just to be sure...
     if ( clickedObject() && clickedObject()->isSolarSystem() ) {
-        ((KSPlanetBase*)clickedObject())->addToTrail();
+        data->skyComposite()->addTrail( clickedObject() );
         forceUpdate();
     }
 }

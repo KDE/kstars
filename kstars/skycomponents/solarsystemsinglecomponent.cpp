@@ -67,6 +67,9 @@ void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num)
 }
 
 bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
+  //DEBUG
+  kDebug() << o->name() << endl;
+
     if ( o == skyObject() ) {
         ksp()->addToTrail();
         return true;

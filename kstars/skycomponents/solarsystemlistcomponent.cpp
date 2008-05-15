@@ -63,6 +63,9 @@ void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) 
 }
 
 bool SolarSystemListComponent::addTrail( SkyObject *oTarget ) {
+  //DEBUG
+  kDebug() << oTarget->name() << endl;
+
     foreach( SkyObject *o, objectList() ) {
         if ( o == oTarget ) {
             ((KSPlanetBase*)o)->addToTrail();
@@ -118,6 +121,9 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
     QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
     foreach ( SkyObject *obj, m_TrailList ) {
+        //DEBUG
+        kDebug() << obj->name() << endl;
+
         KSPlanetBase *ksp = (KSPlanetBase*)obj;
         if ( ! ksp->hasTrail() ) continue;
 
@@ -160,8 +166,7 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
                     doDrawLine = true;
                 }
             }
+            oLast = o;
         }
-
-        oLast = o;
     }
 }

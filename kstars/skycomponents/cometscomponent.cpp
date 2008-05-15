@@ -101,11 +101,14 @@ void CometsComponent::draw( QPainter& psky )
         //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 
         float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-				if ( size < 0.25 && Options::zoomFactor() > 10*MINZOOM ) size = 0.25;
-        float x1 = o.x() - 0.5*size;
-        float y1 = o.y() - 0.5*size;
+	if ( size < 1.0 ) {
+            psky.drawPoint( o );
+        } else {
+            float x1 = o.x() - 0.5*size;
+            float y1 = o.y() - 0.5*size;
 
-        psky.drawEllipse( QRectF( x1, y1, size, size ) );
+            psky.drawEllipse( QRectF( x1, y1, size, size ) );
+        }
 
         if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
         SkyLabeler::AddLabel( o, com, SkyLabeler::COMET_LABEL );
