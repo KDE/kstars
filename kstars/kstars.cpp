@@ -146,7 +146,7 @@ void KStars::clearCachedFindDialog() {
     }
 }
 
-void KStars::applyConfig() {
+void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
@@ -192,18 +192,20 @@ void KStars::applyConfig() {
     data()->setLocationFromOptions();
 
     //Focus
-    SkyObject *fo = data()->objectNamed( Options::focusObject() );
-    if ( fo && fo != map()->focusObject() ) {
-        map()->setClickedObject( fo );
-        map()->setClickedPoint( fo );
-        map()->slotCenter();
-    }
-
-    if ( ! fo ) {
-        SkyPoint fp( Options::focusRA(), Options::focusDec() );
-        if ( fp.ra()->Degrees() != map()->focus()->ra()->Degrees() || fp.dec()->Degrees() != map()->focus()->dec()->Degrees() ) {
-            map()->setClickedPoint( &fp );
+    if ( doApplyFocus ) {
+        SkyObject *fo = data()->objectNamed( Options::focusObject() );
+        if ( fo && fo != map()->focusObject() ) {
+            map()->setClickedObject( fo );
+            map()->setClickedPoint( fo );
             map()->slotCenter();
+        }
+    
+        if ( ! fo ) {
+            SkyPoint fp( Options::focusRA(), Options::focusDec() );
+            if ( fp.ra()->Degrees() != map()->focus()->ra()->Degrees() || fp.dec()->Degrees() != map()->focus()->dec()->Degrees() ) {
+                map()->setClickedPoint( &fp );
+                map()->slotCenter();
+            }
         }
     }
 }

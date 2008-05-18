@@ -602,9 +602,6 @@ void KStars::datainitFinished(bool worked) {
     //Initialize Observing List
     obsList = new ObservingList( this );
 
-    data()->setFullTimeUpdate();
-    updateTime();
-
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
         data()->clock()->start();
@@ -613,11 +610,14 @@ void KStars::datainitFinished(bool worked) {
     connect( data(), SIGNAL( clearCache() ), this,
              SLOT( clearCachedFindDialog() ) );
 
+    //Propagate config settings
+    applyConfig( false );
+
     //Initialize focus
     initFocus();
 
-    //Propagate config settings
-    applyConfig();
+    data()->setFullTimeUpdate();
+    updateTime();
 
     //show the window.  must be before kswizard and messageboxes
     show();
@@ -635,35 +635,44 @@ void KStars::datainitFinished(bool worked) {
 }
 
 void KStars::initFocus() {
-    SkyPoint newPoint;
+    //Case 1: tracking on an object
+    if ( Options::isTracking() && Options::focusObject() != i18n("nothing") ) {
+        SkyObject *oFocus;
+        if ( Options::focusObject() == i18n("star") ) {
+            SkyPoint p( Options::focusRA(), Options::focusDec() );
+            double maxrad = 1.0;
 
-    if ( Options::focusRA() == 180.0 && Options::focusDec() == 45.0 ) {
-        newPoint.setAz( Options::focusRA() );
-        newPoint.setAlt( Options::focusDec() );
-        newPoint.HorizontalToEquatorial( LST(), geo()->lat() );
-    } else {
-        newPoint.set( Options::focusRA(), Options::focusDec() );
-        newPoint.EquatorialToHorizontal( LST(), geo()->lat() );
-    }
-
-    //need to set focusObject before updateTime, otherwise tracking is set to false
-    if ( (Options::focusObject() != i18n( "star" ) ) &&
-            (Options::focusObject() != i18n( "nothing" ) ) )
-        map()->setFocusObject( data()->objectNamed( Options::focusObject() ) );
-
-    //if user was tracking last time, track on same object now.
-    if ( Options::isTracking() ) {
-        map()->setClickedObject( data()->objectNamed( Options::focusObject() ) );
-        if ( map()->clickedObject() ) {
-            map()->setFocusPoint( map()->clickedObject() );
-            map()->setFocusObject( map()->clickedObject() );
+            oFocus = data()->skyComposite()->starNearest( &p, maxrad );
         } else {
-            map()->setFocusPoint( &newPoint );
+            oFocus = data()->objectNamed( Options::focusObject() );
         }
-    } else {
-        map()->setFocusPoint( &newPoint );
-    }
 
+        if ( oFocus ) {
+            map()->setFocusObject( oFocus );
+            map()->setClickedObject( oFocus );
+            map()->setFocusPoint( oFocus );
+        } else {
+            kWarning() << "Cannot center on " 
+                       << Options::focusObject() 
+                       << ": no object found." << endl;
+        }
+
+    //Case 2: not tracking, and using Alt/Az coords.  Set focus point using
+    //FocusRA as the Azimuth, and FocusDec as the Altitude
+    } else if ( ! Options::isTracking() && Options::useAltAz() ) {
+        SkyPoint pFocus;
+        pFocus.setAz( Options::focusRA() );
+        pFocus.setAlt( Options::focusDec() );
+        pFocus.HorizontalToEquatorial( LST(), geo()->lat() );
+        map()->setFocusPoint( &pFocus );
+
+    //Default: set focus point using FocusRA as the RA and 
+    //FocusDec as the Dec
+    } else {
+        SkyPoint pFocus( Options::focusRA(), Options::focusDec() );
+        pFocus.EquatorialToHorizontal( LST(), geo()->lat() );
+        map()->setFocusPoint( &pFocus );
+    }
     data()->setSnapNextFocus();
     map()->setDestination( map()->focusPoint() );
     map()->setFocus( map()->destination() );

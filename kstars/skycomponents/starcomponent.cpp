@@ -76,6 +76,19 @@ void StarComponent::init(KStarsData *data)
     readLineNumbers();
     readData( Options::magLimitDrawStar() );
 
+    //adjust maglimit for ZoomLevel
+    float maglim = Options::magLimitDrawStar();
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+
+    if ( lgz <= 0.75*lgmax )
+        maglim -= (Options::magLimitDrawStar() -
+                   Options::magLimitDrawStarZoomOut() ) *
+                  (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+
+    m_zoomMagLimit = maglim;
+
     StarObject::initImages();
 }
 
@@ -185,13 +198,13 @@ void StarComponent::draw( QPainter& psky )
 
     //shortcuts to inform whether to draw different objects
     bool hideFaintStars( checkSlewing && Options::hideStars() );
-    float maglim = Options::magLimitDrawStar();
     double hideStarsMag = Options::magLimitHideStar();
     rereadData();
 
     reindex( data->updateNum() );
 
     //adjust maglimit for ZoomLevel
+    float maglim = Options::magLimitDrawStar();
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
@@ -482,6 +495,7 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
     MeshIterator region(m_skyMesh, OBJ_NEAREST_BUF);
+
     while ( region.hasNext() ) {
         StarList* starList = m_starIndex->at( region.next() );
         for (int i=0; i < starList->size(); ++i) {
