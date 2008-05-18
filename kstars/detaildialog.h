@@ -160,6 +160,10 @@ public slots:
     	*/
     void saveLogData();
 
+    /**Update View/Edit/Remove buttons
+    	*/
+    void updateButtons();
+
 private:
 
     /**Build the General Data Tab for the current object.

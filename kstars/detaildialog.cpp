@@ -359,27 +359,33 @@ void DetailDialog::createLinksTab()
     foreach ( const QString &s, selectedObject->InfoTitle )
     Links->InfoTitleList->addItem( s );
 
-    Links->InfoTitleList->setCurrentRow(0);
+    //Links->InfoTitleList->setCurrentRow(0);
 
     foreach ( const QString &s, selectedObject->ImageTitle )
     Links->ImageTitleList->addItem( s );
 
-    if ( ! Links->InfoTitleList->count() && ! Links->ImageTitleList->count() )
-    {
-        Links->ViewButton->setEnabled(false);
-        Links->EditLinkButton->setEnabled(false);
-        Links->RemoveLinkButton->setEnabled(false);
-    }
+     updateButtons();
 
     // Signals/Slots
     connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
     connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
     connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
     connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
-    connect( Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
-    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+
+    // When an item is selected in info list, selected items are cleared image list.
+    connect( Links->InfoTitleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->InfoTitleList, SIGNAL(itemClicked(QListWidgetItem*)), Links->ImageTitleList, SLOT( clearSelection() ) );
+
+    // vice versa
+    connect( Links->ImageTitleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->ImageTitleList, SIGNAL(itemClicked(QListWidgetItem*)), Links->InfoTitleList, SLOT( clearSelection() ));
+
     connect( Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
     connect( Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
+
+    connect( Links->InfoTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ) );
+    connect( Links->ImageTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ));
+
     connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
 }
 
@@ -433,6 +439,8 @@ void DetailDialog::viewLink()
 {
     QString URL;
 
+    if (m_CurrentLink == NULL) return;
+
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
         int i = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
         if (i >= 0) URL = QString( selectedObject->InfoList.at( i ) );
@@ -448,7 +456,6 @@ void DetailDialog::viewLink()
 
 void DetailDialog::updateLists()
 {
-    bool anyLink=false;
     Links->InfoTitleList->clear();
     Links->ImageTitleList->clear();
 
@@ -458,7 +465,14 @@ void DetailDialog::updateLists()
     foreach ( const QString &s, selectedObject->ImageTitle )
     Links->ImageTitleList->addItem( s );
 
-    if (selectedObject->InfoTitle.count() > 0 || selectedObject->ImageTitle.count() > 0)
+    updateButtons();
+}
+
+void DetailDialog::updateButtons()
+{
+
+    bool anyLink=false;
+    if (!Links->InfoTitleList->selectedItems().isEmpty() || !Links->ImageTitleList->selectedItems().isEmpty())
         anyLink = true;
 
     // Buttons could be disabled if lists are initially empty, we enable and disable them here
@@ -466,13 +480,14 @@ void DetailDialog::updateLists()
     Links->ViewButton->setEnabled(anyLink);
     Links->EditLinkButton->setEnabled(anyLink);
     Links->RemoveLinkButton->setEnabled(anyLink);
-
 }
 
 void DetailDialog::editLinkDialog()
 {
     int type=0, row=0;
     QString search_line, replace_line, currentItemTitle, currentItemURL;
+
+    if (m_CurrentLink == NULL) return;
 
     KDialog editDialog( this );
     editDialog.setCaption( i18n("Edit Link") );
@@ -571,6 +586,8 @@ void DetailDialog::removeLinkDialog()
     TempFile.setAutoRemove(false);
     TempFile.open();
     TempFileName = TempFile.fileName();
+
+    if (m_CurrentLink == NULL) return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
