@@ -90,7 +90,7 @@ void HorizonComponent::draw( QPainter& psky )
 
     psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
-    if ( Options::showGround() )
+    if ( Options::useAltAz() && Options::showGround() )
         psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
     else
         psky.setBrush( Qt::NoBrush );
@@ -217,7 +217,7 @@ void HorizonComponent::draw( QPainter& psky )
         //Ground fills the screen.  Reset groundPoly to surround screen perimeter
         //Just draw the poly (if ground is filled)
         //No need for compass labels or "Horizon" label
-        if ( Options::showGround() ) {
+        if ( Options::useAltAz() && Options::showGround() ) {
             groundPoly.clear();
             groundPoly << QPointF( -10., -10. )
             << QPointF( Width + 10., -10. )
