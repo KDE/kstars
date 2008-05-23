@@ -19,7 +19,6 @@
 #define IMAGEVIEWER_H_
 
 #include <QFile>
-#include <QFrame>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QImage>
@@ -115,7 +114,6 @@ private:
 
     ImageLabel *View;
     QLabel *Caption;
-    QFrame *MainFrame;
     QVBoxLayout *vlay;
 
 private slots:

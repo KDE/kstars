@@ -65,15 +65,13 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
         downloadJob(0)
 {
     setModal( false );
-    MainFrame = new QFrame( this );
-    setMainWidget( MainFrame );
     setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
     setButtons( KDialog::User1|KDialog::Close );
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
 
-    View = new ImageLabel( MainFrame );
-    Caption = new QLabel( MainFrame );
+    View = new ImageLabel( this );
+    Caption = new QLabel( this );
     View->setAutoFillBackground( true );
     Caption->setAutoFillBackground( true );
     Caption->setFrameShape( QFrame::StyledPanel );
@@ -90,7 +88,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     capFont.setPointSize( capFont.pointSize() - 2 );
     Caption->setFont( capFont );
 
-    vlay = new QVBoxLayout( MainFrame );
+    vlay = new QVBoxLayout( this );
     vlay->setSpacing( 0 );
     vlay->setMargin( 0 );
     vlay->addWidget( View );
@@ -117,7 +115,6 @@ ImageViewer::~ImageViewer() {
 
     delete View;
     delete Caption;
-    delete MainFrame;
     if ( downloadJob ) delete downloadJob;
 }
 
@@ -205,7 +202,7 @@ void ImageViewer::showImage()
     //If the caption is wider than the image, set the window size
     //to fit the caption
     if ( Caption->width() > w ) w = Caption->width();
-    MainFrame->setFixedSize( w, image.height() + Caption->height() );
+    setFixedSize( w, image.height() + Caption->height() );
 
     update();
 }
