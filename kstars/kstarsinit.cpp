@@ -613,14 +613,14 @@ void KStars::datainitFinished(bool worked) {
     //Propagate config settings
     applyConfig( false );
 
+    //show the window.  must be before kswizard and messageboxes
+    show();
+
     //Initialize focus
     initFocus();
 
     data()->setFullTimeUpdate();
     updateTime();
-
-    //show the window.  must be before kswizard and messageboxes
-    show();
 
     //If this is the first startup, show the wizard
     if ( Options::runStartupWizard() ) {
