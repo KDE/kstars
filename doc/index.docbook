@@ -276,6 +276,10 @@ feature requests to the &kstars; development mailing list:
 <email>kstars-devel@kde.org</email>. You can also use
 the automated bug reporting tool, accessible from the Help menu.
 </para>
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;
+
 </chapter>
 
 &quicktour;   <!--A Quick Tour of KStars-->
@@ -290,6 +294,7 @@ the automated bug reporting tool, accessible from the Help menu.
 &install;     <!--Installation-->
 
 &documentation.index;
+
 </book>
 <!--
 Local Variables:
