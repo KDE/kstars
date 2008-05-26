@@ -430,12 +430,12 @@ void SkyMap::slotBeginAngularDistance() {
     //If the cursor is near a SkyObject, reset the AngularRuler's 
     //start point to the position of the SkyObject
     double maxrad = 1000.0/Options::zoomFactor();
-    if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
+    if ( SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad ) ) {
         AngularRuler.append( so );
         AngularRuler.append( so );
     } else {
-        AngularRuler.append( mousePoint() );
-        AngularRuler.append( mousePoint() );
+        AngularRuler.append( clickedPoint() );
+        AngularRuler.append( clickedPoint() );
     }
 
     AngularRuler.update( data );
@@ -449,11 +449,11 @@ void SkyMap::slotEndAngularDistance() {
         //If the cursor is near a SkyObject, reset the AngularRuler's
         //end point to the position of the SkyObject
         double maxrad = 1000.0/Options::zoomFactor();
-        if ( SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad ) ) {
+        if ( SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad ) ) {
             AngularRuler.setPoint( 1, so );
             sbMessage = so->translatedLongName() + "   ";
         } else
-            AngularRuler.setPoint( 1, mousePoint() );
+            AngularRuler.setPoint( 1, clickedPoint() );
 
         AngularRuler.update( data );
 

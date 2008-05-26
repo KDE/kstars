@@ -42,8 +42,13 @@
 
 class KSNumbers {
 public:
-    /**Constructor. */
+
+    /**
+     * Constructor.
+     *@param jd  Julian Day for which the new instance is initialized
+     */
     KSNumbers( long double jd );
+
     /**Destructor (empty). */
     ~KSNumbers();
 
