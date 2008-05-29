@@ -441,9 +441,6 @@ void DetailDialog::viewLink()
 
     if (m_CurrentLink == NULL) return;
 
-    if ( m_CurrentLink == NULL ) 
-        return;
-
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
         int i = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
         if (i >= 0) URL = QString( selectedObject->InfoList.at( i ) );
@@ -496,10 +493,6 @@ void DetailDialog::editLinkDialog()
     editDialog.setCaption( i18n("Edit Link") );
     editDialog.setButtons( KDialog::Ok | KDialog::Cancel );
     QFrame editFrame( &editDialog );
-
-    if ( m_CurrentLink == NULL ) { // We haven't selected anything
-      return;
-    }
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
@@ -595,10 +588,6 @@ void DetailDialog::removeLinkDialog()
     TempFileName = TempFile.fileName();
 
     if (m_CurrentLink == NULL) return;
-
-    if ( m_CurrentLink == NULL ) { // We haven't selected anything
-      return;
-    }
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
