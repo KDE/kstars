@@ -74,6 +74,8 @@ FindDialog::FindDialog( QWidget* parent )
 
     // first create and paint dialog and then load list
     QTimer::singleShot(0, this, SLOT( init() ));
+
+    listFiltered = false;
 }
 
 FindDialog::~FindDialog() {
@@ -189,6 +191,8 @@ void FindDialog::initSelection() {
             button( Ok )->setEnabled( true );
         }
     }
+
+    listFiltered = true;
 }
 
 void FindDialog::filterByType( int /*f*/ ) {
@@ -219,6 +223,8 @@ void FindDialog::filterByName() {  //Filter the list of names with the string in
             button( Ok )->setEnabled( true );
         }
     }
+
+    listFiltered = true;
 }
 
 SkyObject* FindDialog::selectedObject() const {
@@ -234,6 +240,7 @@ SkyObject* FindDialog::selectedObject() const {
 }
 
 void FindDialog::enqueueSearch() {
+    listFiltered = false;
     if ( timer ) {
         timer->stop();
     } else {
@@ -246,6 +253,8 @@ void FindDialog::enqueueSearch() {
 
 void FindDialog::slotOk() {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
+    if(!listFiltered)
+        filterByName();
     if ( selectedObject() == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
