@@ -97,22 +97,22 @@ void ConjunctionsTool::slotCompute (void)
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
   KSPlanetBase *Object1, *Object2;
   
-  if(Obj1ComboBox -> currentIndex() <= 7)
+  if(Obj1ComboBox -> currentIndex() <= 6)
     Object1 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj1ComboBox -> currentText())));
-  else if(Obj1ComboBox -> currentIndex() == 8)
+  else if(Obj1ComboBox -> currentIndex() == 7)
     Object1 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj1ComboBox -> currentIndex() == 9)
+  else if(Obj1ComboBox -> currentIndex() == 8)
     Object1 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj1ComboBox -> currentIndex() == 10)
+  else if(Obj1ComboBox -> currentIndex() == 9)
     Object1 = (KSPlanetBase *)(new KSSun(kd));
 
-  if(Obj2ComboBox -> currentIndex() <= 7)
+  if(Obj2ComboBox -> currentIndex() <= 6)
     Object2 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj2ComboBox -> currentText())));
-  else if(Obj2ComboBox -> currentIndex() == 8)
+  else if(Obj2ComboBox -> currentIndex() == 7)
     Object2 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj2ComboBox -> currentIndex() == 9)
+  else if(Obj2ComboBox -> currentIndex() == 8)
     Object2 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj2ComboBox -> currentIndex() == 10)
+  else if(Obj2ComboBox -> currentIndex() == 9)
     Object2 = (KSPlanetBase *)(new KSSun(kd));
 
   KSConjunct ksc;
@@ -127,12 +127,6 @@ void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) 
   QMap<long double, dms>::Iterator it;
 
   OutputView->clear();
-//   // TODO: Find a better way to clear the OutputView QListWidget
-//   QList<QListWidgetItem *>::Iterator qlit;
-//   QList<QListWidgetItem *> rowlist = OutputView -> findItems("", Qt::MatchContains); // Dirty way to get the whole list of items
-//   for(qlit = rowlist.begin(); qlit != rowlist.end(); ++qlit) {
-//     OutputView -> removeItemWidget(*qlit);
-//   }
 
   for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
     dt.setDJD( it.key() );
