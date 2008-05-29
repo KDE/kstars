@@ -256,7 +256,7 @@ public:
     /**@short Set the ClickedPoint to the skypoint given as an argument.
     	*@param f pointer to the new ClickedPoint.
     	*/
-    void setClickedPoint( SkyPoint *f ) { ClickedPoint.set( f->ra(), f->dec() ); }
+    void setClickedPoint( SkyPoint *f );
 
     /**@short Retrieve the PreviousClickedPoint position.
     	*@return a pointer to PreviousClickedPoint, the sky coordinates of the 

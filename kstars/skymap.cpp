@@ -449,12 +449,13 @@ void SkyMap::slotEndAngularDistance() {
         //If the cursor is near a SkyObject, reset the AngularRuler's
         //end point to the position of the SkyObject
         double maxrad = 1000.0/Options::zoomFactor();
-        if ( SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad ) ) {
+        if ( SkyObject *so = data->skyComposite()->objectNearest( previousClickedPoint(), maxrad ) ) {
             AngularRuler.setPoint( 1, so );
             sbMessage = so->translatedLongName() + "   ";
         } else
-            AngularRuler.setPoint( 1, clickedPoint() );
+            AngularRuler.setPoint( 1, previousClickedPoint() );
 
+        angularDistanceMode=false;
         AngularRuler.update( data );
 
         angularDistance = AngularRuler.angularSize();
@@ -462,7 +463,6 @@ void SkyMap::slotEndAngularDistance() {
 
         ks->statusBar()->changeItem( sbMessage, 0 );
 
-        angularDistanceMode=false;
 	AngularRuler.clear();
     }
 }
@@ -656,6 +656,11 @@ void SkyMap::setDestinationAltAz(double alt, double az) {
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
     emit destinationChanged();
+}
+
+void SkyMap::setClickedPoint( SkyPoint *f ) { 
+    PreviousClickedPoint.set(ClickedPoint.ra(), ClickedPoint.dec());
+    ClickedPoint.set( f->ra(), f->dec() );
 }
 
 void SkyMap::updateFocus() {
@@ -1694,7 +1699,8 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    AngularRuler.setPoint( 1, mousePoint() );
+    if(isAngleMode() && (!pmenu || !pmenu -> isVisible()))
+        AngularRuler.setPoint( 1, mousePoint() );
     AngularRuler.update( data );
 }
 
