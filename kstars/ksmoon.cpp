@@ -32,16 +32,22 @@
 KSMoon::KSMoon(KStarsData *kd)
         : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
 {
+    instance_count++;
     //Reset object type
     setType( SkyObject::MOON );
 }
 
 KSMoon::~KSMoon() {
-    while ( ! LRData.isEmpty() ) delete LRData.takeFirst();
-    while ( !  BData.isEmpty() ) delete  BData.takeFirst();
+    instance_count--;
+    if(instance_count <= 0) {
+        while ( ! LRData.isEmpty() ) delete LRData.takeFirst();
+        while ( !  BData.isEmpty() ) delete  BData.takeFirst();
+	data_loaded = false;
+    }
 }
 
 bool KSMoon::data_loaded = false;
+int KSMoon::instance_count = 0;
 QList<KSMoon::MoonLRData*> KSMoon::LRData;
 QList<KSMoon::MoonBData*> KSMoon::BData;
 
