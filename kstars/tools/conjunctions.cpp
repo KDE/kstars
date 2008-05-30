@@ -118,6 +118,9 @@ void ConjunctionsTool::slotCompute (void)
   KSConjunct ksc;
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
 
+  delete Object1;
+  delete Object2;
+
 }
 
 
