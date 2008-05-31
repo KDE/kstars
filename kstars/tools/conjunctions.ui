@@ -67,11 +67,6 @@
          </item>
          <item>
           <property name="text" >
-           <string>Earth</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
            <string>Mars</string>
           </property>
          </item>
@@ -138,11 +133,6 @@
          <item>
           <property name="text" >
            <string>Venus</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Earth</string>
           </property>
          </item>
          <item>

@@ -350,7 +350,7 @@ Boise City                       : Oklahoma              : USA                  
 Bolgatanga                       :                       : Ghana                 : 10 : 47 :  8 : N :   0 : 51 :  5 : W :   0.0 : --
 Bologna                          :                       : Italy                 : 44 : 32 : 16 : N :  11 : 17 : 23 : E :  1.0 : EU
 Bolzano                          :                       : Italy                 : 46 : 29 : 49 : N :  11 : 21 : 16 : E :  1.0 : EU
-Bombay                           :                       : India                 : 18 : 58 :  0 : N :  72 : 49 : 59 : E : 5.5  : --
+Mumbai                           :                       : India                 : 18 : 58 :  0 : N :  72 : 49 : 59 : E : 5.5  : --
 Bonavista                        : Newfoundland          : Canada                : 48 : 39 : 00 : N : 53  : 07 : 00 : W : -3.5 : US
 Bonn                             :                       : Germany               : 50 : 43 : 11 : N :   7 :  4 : 48 : E : 1.0  : EU
 Bonnyville                       : Alberta               : Canada                : 54 : 16 : 00 : N : 110 : 44 : 00 : W : -7.0 : US
@@ -464,7 +464,7 @@ Cagliari                         :                       : Italy                
 Cairo                            :                       : Egypt                 : 30 :  0 :  0 : N :  31 : 16 : 59 : E : 2.0  : EG
 Calais/Dunkirk                   : Pas-de-Calais         : France                : 50 : 57 : 36 : N :   1 : 57 :  0 : E : 1.0  : EU
 Calar Alto                       :                       : Spain                 : 37 : 13 :  8 : N :   2 : 32 : 15 : W :  1.0 : EU
-Calcutta                         :                       : India                 : 22 : 31 : 59 : N :  88 : 22 :  0 : E : 5.5  : --
+Kolkata                          :                       : India                 : 22 : 31 : 59 : N :  88 : 22 :  0 : E : 5.5  : --
 Caldwell                         : Idaho                 : USA                   : 43 : 39 : 53 : N : 116 : 41 : 13 : W : -7.0 : US
 Caledonia                        : Nova Scotia           : Canada                : 44 : 22 : 00 : N : 65  : 02 : 00 : W : -4.0 : US
 Calgary                          : Alberta               : Canada                : 51 :  2 : 59 : N : 114 :  4 : 58 : W : -7.0 : US
@@ -1749,7 +1749,7 @@ Madelia                          : Minnesota             : USA                  
 Madison                          : Alabama               : USA                   : 34 : 41 : 30 : N :  86 : 45 : 41 : W : -6.0 : US
 Madison                          : South Dakota          : USA                   : 44 :  0 : 24 : N :  97 :  6 : 47 : W : -6.0 : US
 Madison                          : Wisconsin             : USA                   : 43 :  4 : 22 : N :  89 : 22 : 54 : W : -6.0 : US
-Madras                           :                       : India                 : 13 :  0 :  0 : N :  80 : 10 : 58 : E : 5.5  : --
+Chennai                          :                       : India                 : 13 :  0 :  0 : N :  80 : 10 : 58 : E : 5.5  : --
 Madrid                           :                       : Spain                 : 40 : 24 : 31 : N :  03 : 41 : 11 : W : 1.0  : EU
 Magadan                          : Far East              : Russia                : 59 : 34 :  0 : N : 150 : 48 :  0 : E : 11.0 : RU
 Magdalena                        : New Mexico            : USA                   : 34 : 10 :  1 : N : 107 : 45 :  0 : W : -7.0 : US

@@ -112,6 +112,7 @@ private:
     QStringListModel *fModel;
     QSortFilterProxyModel* sortModel;
     QTimer* timer;
+    bool listFiltered;
 };
 
 #endif

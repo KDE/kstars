@@ -58,7 +58,7 @@ public:
     SkyMesh* skyMesh() { return  m_skyMesh;   }
 
     /* @short Returns the Hash of QLists of LineLists that
-     * is used for doing the indexing line segments.
+     * is used for doing the indexing of line segments.
      */
     LineListHash* lineIndex() { return m_lineIndex; }
 

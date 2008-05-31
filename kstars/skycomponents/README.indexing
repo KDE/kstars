@@ -87,7 +87,7 @@ can call:
 
 instead of:
 
-   HTMesh->index( p->ra()-Degrees(), p->dec()->Degrees() );
+   HTMesh->index( p->ra()->Degrees(), p->dec()->Degrees() );
 
 SkyMesh also has some real code in it that is used to find all of the
 trixels that cover a polygon with an arbitrary number of vertices and
@@ -275,7 +275,7 @@ Index Classes
 Data Container Classes
 ----------------------
 
-  + ListList
+  + LineList
     - SkipList
     
   + PolyList
@@ -346,7 +346,7 @@ LineListIndex::draw() from inside their own draw() routine which you
 don't have to do if you use preDraw().
 
 The other two virtual callback methods are overridden by the
-"abstract" SkipListIndex subclass.  The method getIndexHash() and is
+"abstract" SkipListIndex subclass.  The method getIndexHash() is
 used to modify the line indexing routine.  getIndexHash() is
 overridden by SkipListIndex so line segments that should be skipped
 from drawing are also skipped from the indexing.

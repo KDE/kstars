@@ -85,6 +85,7 @@ protected:
 private:
     dms Phase;
     static bool data_loaded;
+    static int instance_count;
 
     /**@class MoonLRData
     	*Encapsulates the Longitude and radius terms of the sums

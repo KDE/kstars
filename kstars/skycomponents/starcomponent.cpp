@@ -486,6 +486,20 @@ SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
     return m_genName.value( name );
 }
 
+// Overrides ListComponent::findByName() to include genetive name also in the search
+SkyObject* StarComponent::findByName( const QString &name ) {
+    foreach ( SkyObject *o, objectList() )
+    if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
+        QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
+	 QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
+	 QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
+        return o;
+
+    //No object found
+    return 0;
+}
+
+
 // This uses the main star index for looking up nearby stars but then
 // filters out objects with the generic name "star".  We could easily
 // build an index for just the named stars which would make this go

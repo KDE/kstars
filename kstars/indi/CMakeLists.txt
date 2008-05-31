@@ -162,7 +162,7 @@ if (NOVA_FOUND)
   target_link_libraries(indiserver ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indiserver  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indiserver  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #####################################
 ########## TELESCOPE GROUP ##########
@@ -182,7 +182,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_lx200basic ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_lx200basic DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_lx200basic ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -204,7 +204,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_lx200generic ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_lx200generic DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_lx200generic ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #TODO fix for windows.
 if(UNIX)
@@ -233,7 +233,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_celestron_gps ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_celestron_gps DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_celestron_gps ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -250,7 +250,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_orion_atlas ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_orion_atlas DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_orion_atlas ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -265,7 +265,7 @@ kde4_add_executable(indi_temma NOGUI ${temma_SRCS}  ${liblilxml_SRCS} ${libindic
 
 target_link_libraries(indi_temma  ${KDE4_KDECORE_LIBS} ${NOVA_LIBRARIES} m )
 
-install(TARGETS indi_temma DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_temma ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (NOVA_FOUND)
 #################################################################################
@@ -284,7 +284,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_skycommander ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_skycommander  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_skycommander  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -302,7 +302,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_intelliscope ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_intelliscope DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_intelliscope ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -332,7 +332,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_fli_pdf ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_fli_pdf DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_fli_pdf ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -352,7 +352,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_robofocus ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_robofocus DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_robofocus ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -374,7 +374,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_trutech_wheel ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_trutech_wheel DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_trutech_wheel ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 #################################################################################
 
@@ -392,7 +392,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_fli_wheel ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_fli_wheel DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_fli_wheel ${INSTALL_TARGETS_DEFAULT_ARGS} )
 #################################################################################
 
 #######################################
@@ -415,7 +415,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_fli_ccd ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_fli_ccd DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_fli_ccd ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND)
 #################################################################################
@@ -437,7 +437,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_apogee_alta ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_apogee_alta DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_apogee_alta ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND AND LIBUSB_FOUND)
 
@@ -459,7 +459,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_sbig_ccd ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_sbig_ccd DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_sbig_ccd ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND)
 #################################################################################
@@ -482,7 +482,7 @@ kde4_add_executable(indi_sbig_stv NOGUI ${stv_SRCS} ${liblilxml_SRCS} ${libindic
 
 target_link_libraries(indi_sbig_stv ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} ${NOVA_LIBRARIES})
 
-install(TARGETS indi_sbig_stv DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_sbig_stv ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (NOVA_FOUND)
 endif(CFITSIO_FOUND)
@@ -508,7 +508,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_meade_lpi ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_meade_lpi DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_meade_lpi ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND)
 
@@ -532,7 +532,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_v4l_philips ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_v4l_philips DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_v4l_philips ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND)
 
@@ -555,7 +555,7 @@ if (NOVA_FOUND)
   target_link_libraries(indi_v4l_generic ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
-install(TARGETS indi_v4l_generic DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS indi_v4l_generic ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endif (CFITSIO_FOUND)
 

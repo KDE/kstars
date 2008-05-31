@@ -90,6 +90,19 @@ public:
 
     SkyObject* findStarByGenetiveName( const QString name );
 
+    /**
+     *@short Find stars by name (including genetive name)
+     *
+     * Overrides ListComponent::findByName() to include genetive names of stars
+     * as well.
+     *
+     *@param name  Name to search for. Could be trivial name or genetive name
+     *@return  Pointer to the star with the given name as a SkyObject, NULL if
+     *         no match was found
+     */
+
+    SkyObject* findByName( const QString &name );
+
     /* @short usually does nothing.  If we are drawing faint stars and if
     	* Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
     	* the first time we are called we just pop up a splash screen. Then

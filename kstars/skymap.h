@@ -251,12 +251,12 @@ public:
     	*a pointer to ClickedPoint.
     	*@return a pointer to ClickedPoint, the sky coordinates where the user clicked.
     	*/
-SkyPoint* clickedPoint() { return &ClickedPoint; }
+    SkyPoint* clickedPoint() { return &ClickedPoint; }
 
     /**@short Set the ClickedPoint to the skypoint given as an argument.
     	*@param f pointer to the new ClickedPoint.
     	*/
-    void setClickedPoint( SkyPoint *f ) { ClickedPoint.set( f->ra(), f->dec() ); }
+    void setClickedPoint( SkyPoint *f );
 
     /**@short Retrieve the PreviousClickedPoint position.
     	*@return a pointer to PreviousClickedPoint, the sky coordinates of the 
@@ -449,7 +449,7 @@ SkyPoint* clickedPoint() { return &ClickedPoint; }
     void onscreenLine( QPointF &p1, QPointF &p2 );
     bool onscreenLine2( QPointF &p1, QPointF &p2 );
 
-    /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
+    /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
     	*screen pixel coordinate offsets from the center of the Sky pixmap.
     	*@param the screen pixel position to convert
     	*@param LST pointer to the local sidereal time, as a dms object.
