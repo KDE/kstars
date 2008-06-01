@@ -21,6 +21,7 @@
 #define NTRIXELS 512
 #define INDEX_ENTRY_SIZE 8
 #define GLOBAL_MAG_LIMIT 8.00
+#define MYSQL_STARS_PER_QUERY 400
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -446,11 +447,13 @@ int main(int argc, char *argv[]) {
   nsf_trix_begin = usf_trix_begin = 0;
   ntrixels = 0;
 
-  /* Recurse over every 500 DB entries */
+  /* Recurse over every MYSQL_STARS_PER_QUERY DB entries */
   while(!exitflag) {
 
-    /* Build MySQL query for next 500 stars */
-      sprintf(query, "SELECT `trixel`, `ra`, `dec`, `dra`, `ddec`, `parallax`, `mag`, `bv_index`, `spec_type`, `mult`, `var_range`, `var_period`, `UID`, `name`, `gname` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, 500", (argc >= 10) ? argv[9] : DB_TBL, lim);
+    /* Build MySQL query for next MYSQL_STARS_PER_QUERY stars */
+      sprintf(query, 
+	      "SELECT `trixel`, `ra`, `dec`, `dra`, `ddec`, `parallax`, `mag`, `bv_index`, `spec_type`, `mult`, `var_range`, `var_period`, `UID`, `name`, `gname` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
+	      (argc >= 10) ? argv[9] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
 
     if(VERBOSE) { fprintf(stderr, "SQL Query: %s\n", query); }
     
@@ -568,7 +571,7 @@ int main(int argc, char *argv[]) {
     }
     
     mysql_free_result(result);
-    lim += 500;
+    lim += MYSQL_STARS_PER_QUERY;
   }
 
   do {
