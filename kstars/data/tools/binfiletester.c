@@ -280,7 +280,7 @@ int main(int argc, char *argv[]) {
     names = NULL;
     if(argc <= 1) {
 	fprintf(stderr, "USAGE: %s filename [trixel]\n", argv[0]);
-	fprintf(stderr, "Designed for use only with KStars star data files\n")
+	fprintf(stderr, "Designed for use only with KStars star data files\n");
 	return 1;
     }
 
