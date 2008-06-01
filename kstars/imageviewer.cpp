@@ -113,9 +113,6 @@ ImageViewer::~ImageViewer() {
     // check if download job is running
     checkJob();
 
-    //DEBUG
-    kDebug() << View << "::" << Caption << endl;
-
     delete View;
     delete Caption;
     if ( downloadJob ) delete downloadJob;
