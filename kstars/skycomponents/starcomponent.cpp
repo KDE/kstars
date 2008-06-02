@@ -349,12 +349,14 @@ void StarComponent::readData( float newMagnitude )
     BinFileHelper dataReader, nameReader;
     unsigned long nrecords;
     QString name, gname, visibleName;
-    kDebug() << "In readData" << endl;
-    // DEPRECATED : only load star data if the new magnitude is fainter than we've seen so far
+
+    // DEPRECATED : only load star data if the new magnitude is fainter than we've seen so far.
+    // We now load all stars the first time this method is called and load nothing during subsequent calls
     if ( newMagnitude <= m_FaintMagnitude || newMagnitude > 8.0 ) return; // TODO: Create the solution to handle > 8.0 mag stars
+
     //float currentMag = m_FaintMagnitude;
     m_FaintMagnitude = 8.00;  // TODO: Find out if there could be a solution to load shallow stars dynamically
-    kDebug() << "Not out of readData! ========================================" << endl;
+
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
 
