@@ -79,12 +79,8 @@ while(<>) {
     $star->{line} = $.;
 
     $VERBOSE and print_star_line($star);
-    my $rah;
-    my $ram;
-    $star->{ra_hm} =~ /^(\d\d):/ and $rah = $1 or print "Format error in RA HM string\n";
-    $star->{ra_hm} =~ /:(\d\d)$/ and $ram = $1 or print "Format error in RA HM string\n";
-    $star->{trixel} = $mesh->lookup_name($rah + $ram/60.0, $star->{dec});
-    $VERBOSE > 1 and print "Looked up " . ($rah + $ram/60.0) . " and " . $star->{dec} . " and got trixel = " . $star->{trixel};
+
+    $star->{trixel} = $mesh->lookup_name($star->{ra}, $star->{dec});
     $star->{var_range} eq '' and $star->{var_range} = '0';
     $star->{var_period} eq '' and $star->{var_period} = '0';
  
