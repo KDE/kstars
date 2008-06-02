@@ -116,7 +116,7 @@ public:
     	* different magnitudes.  This allows us to estimate the number of
     	* lines that need to get read when partially reading stars.dat.
     	*/
-    void readLineNumbers();
+    //    void readLineNumbers();        // TODO: Find a way to do it now!
 
     /* @short returns an estimate of the stars.dat line number for a given
     	* star magnitude.
@@ -147,6 +147,7 @@ private:
 
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
+    QVector<qint16> m_readOffset;
 
     /** 
      *@short adds a label to the lists of labels to be drawn prioritized
@@ -186,6 +187,29 @@ private:
     	*@param line pointer to the line of data to be processed as a StarObject
     	*/
     StarObject* processStar( const QString &line );
+
+    typedef struct starData {
+        int32_t RA;
+        int32_t Dec;
+        int32_t dRA;
+        int32_t dDec;
+        int32_t parallax;
+        int32_t HD;
+        int16_t mag;
+        int16_t bv_index;
+        char spec_type[2];
+        char flags;
+        char unused;
+    } starData;
+
+    typedef struct starName {
+	char bayerName[8];
+	char longName[32];
+    } starName;
+
+    starData stardata;
+    starName starname;
+    
 
 };
 

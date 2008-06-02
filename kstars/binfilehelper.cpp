@@ -120,11 +120,17 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	    errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, i);
 	    return ERR_INDEX_IDMISMATCH;
 	}
-	fread(&offset, 4, 1, fileHandle);
-	fread(&nrecs, 2, 1, fileHandle);
+	if(!fread(&offset, 4, 1, fileHandle)) {
+	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+	    return ERR_BADSEEK;
+	}
+	if(!fread(&nrecs, 2, 1, fileHandle)) {
+	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+	    return ERR_BADSEEK;
+	}
 	if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
-	    errorMessage.sprintf("Expected %u  = (%X - %x) / %d records, but found %u, in index entry %u", 
-				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, nrecs, i);
+	    errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
+				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
 	    return ERR_INDEX_BADOFFSET;
 	}
 	indexOffset.append( offset );
@@ -154,6 +160,7 @@ bool BinFileHelper::readHeader() {
     case ERR_INDEX_TRUNC:
     case ERR_INDEX_BADID:
     case ERR_INDEX_IDMISMATCH:
+    case ERR_BADSEEK:
     case ERR_INDEX_BADOFFSET: {
 	indexOffset.clear();
 	indexCount.clear();

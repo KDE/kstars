@@ -403,7 +403,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
         isize = 14;
     }
 
-    QString imKey = SpType.at(0)+QString("%1").arg(isize);
+    QString imKey = ((SpType != "") ? SpType.at(0) : (QChar)' ') + QString("%1").arg(isize);
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 

@@ -36,6 +36,8 @@
 #include "skylabeler.h"
 #include "kstarssplash.h"
 
+#include "binfilehelper.h"
+
 StarComponent::StarComponent(SkyComponent *parent )
         : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0)
 {
@@ -44,6 +46,7 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_starIndex = new StarIndex();
     for (int i = 0; i < m_skyMesh->size(); i++) {
         m_starIndex->append( new StarList() );
+	m_readOffset.append( 0 );
     }
     m_highPMStars.append( new HighPMStarList( 840.0 ) );
     m_highPMStars.append( new HighPMStarList( 304.0 ) );
@@ -73,7 +76,7 @@ void StarComponent::init(KStarsData *data)
     emitProgressText( i18n("Loading stars" ) );
     m_Data = data;
 
-    readLineNumbers();
+    //    readLineNumbers();
     readData( Options::magLimitDrawStar() );
 
     //adjust maglimit for ZoomLevel
@@ -165,8 +168,9 @@ void StarComponent::rereadData()
         return;
 
     // bail out if there are no more lines to read
-    if ( m_lastLineNum >= m_lineNumber[ MAX_LINENUMBER_MAG ] )
-        return;
+    //    if ( m_lastLineNum >= m_lineNumber[ MAX_LINENUMBER_MAG ] )
+    //    return;
+    return;
 
     m_reloadSplash = new KStarsSplash( 0,
                                        i18n("Please wait while loading faint stars ...") );
@@ -300,8 +304,11 @@ void StarComponent::drawLabels( QPainter& psky )
 
 }
 
+// TODO: Come up with a way of implementing quick magnitude searches with binary data
+/*
 void StarComponent::readLineNumbers()
 {
+  
     KSFileReader fileReader;
     if ( ! fileReader.open( "starlnum.idx" ) ) return;
 
@@ -317,7 +324,9 @@ void StarComponent::readLineNumbers()
         m_lineNumber[ mag ] = lineNumber;
     }
     m_validLineNums = true;
+  
 }
+*/
 
 int StarComponent::lineNumber( float magF )
 {
@@ -329,69 +338,126 @@ int StarComponent::lineNumber( float magF )
     return m_lineNumber[ mag ];
 }
 
-void StarComponent::readData( float newMagnitude )
+void StarComponent::readData( float newMagnitude ) 
 {
-    // only load star data if the new magnitude is fainter than we've seen so far
-    if ( newMagnitude <= m_FaintMagnitude ) return;
-    float currentMag = m_FaintMagnitude;
-    m_FaintMagnitude = newMagnitude;  // store new highest magnitude level
+    // TODO: We may want to remove the newMagnitude argument. Currently, it is deprecated
 
+    // We break from Qt / KDE API and use traditional file handling here, to obtain speed
+    FILE *dataFile, *nameFile;
+    bool swapBytes = false;
+    dms RA, Dec;
+    BinFileHelper dataReader, nameReader;
+    unsigned long nrecords;
+    QString name, gname, visibleName;
+    kDebug() << "In readData" << endl;
+    // DEPRECATED : only load star data if the new magnitude is fainter than we've seen so far
+    if ( newMagnitude <= m_FaintMagnitude || newMagnitude > 8.0 ) return; // TODO: Create the solution to handle > 8.0 mag stars
+    //float currentMag = m_FaintMagnitude;
+    m_FaintMagnitude = 8.00;  // TODO: Find out if there could be a solution to load shallow stars dynamically
+    kDebug() << "Not out of readData! ========================================" << endl;
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
 
-    KSFileReader fileReader;
-    if ( ! fileReader.open( "stars.dat" ) ) return;
-
-    int totalLines = lineNumber( newMagnitude );
-    totalLines -= lineNumber( currentMag );
-    int updates;
-    if ( totalLines > 50000 )
-        updates = 100;
-    else if ( totalLines > 20000 )
-        updates =  50;
-    else if ( totalLines > 10000 )
-        updates =  10;
-    else
-        updates =   5;
-
-    // only show progress with valid line numbers
-    if ( m_validLineNums )
-        fileReader.setProgress( i18n("Loading stars"), totalLines, updates );
-
-    if (m_lastFilePos > 0 ) fileReader.seek( m_lastFilePos );
-
-    while ( fileReader.hasMoreLines() ) {
-        QString line = fileReader.readLine();
-
-        // DIY because QTextStream::pos() can take many seconds!
-        m_lastFilePos += line.length() + 1;
-
-        if ( line.isEmpty() ) continue;       // ignore blank lines
-        if ( line.at(0) == '#' ) continue;    // ignore comments
-
-        StarObject* star = processStar( line );
-        currentMag = star->mag();
-
-        objectList().append( star );
-        Trixel trixel = m_skyMesh->indexStar( star );
-        m_starIndex->at( trixel )->append( star );
-        double pm = star->pmMagnitude();
-
-        for (int j = 0; j < m_highPMStars.size(); j++ ) {
-            HighPMStarList* list = m_highPMStars.at( j );
-            if ( list->append( trixel, star, pm ) ) break;
-        }
-
-        fileReader.showProgress();
-
-        if ( currentMag > m_FaintMagnitude )   // Done!
-            break;
+    if((dataFile = dataReader.openFile("shallowstars.dat")) == NULL) {
+	kDebug() << "Could not open data file shallowstars.dat" << endl;
+	return;
     }
 
-    m_lastLineNum += fileReader.lineNumber();
+    if(!(nameFile = nameReader.openFile("starnames.dat"))) {
+	kDebug() << "Could not open data file starnames.dat" << endl;
+	return;
+    }
+
+    if(!dataReader.readHeader()) {
+	kDebug() << "Error reading shallowstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
+	return;
+    }
+
+    if(!nameReader.readHeader()) {
+	kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
+	return;
+    }
+
+    fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
+
+    long int nstars = 0;
+    Trixel expectedTrixelId = -1;
+
+    for(int i = 0; i < m_skyMesh -> size(); ++i) {
+
+	if(fseek(dataFile, dataReader.getOffset(i), SEEK_SET))
+	    kDebug() << "ERROR: Could not seek to offset " << dataReader.getOffset(i) << " to find trixel #" << i << endl;
+
+	for(unsigned j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
+	    
+	    if(!fread(&stardata, sizeof(starData), 1, dataFile)){
+		kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
+	    }
+
+	    // TODO: Add byteswapping code
+
+	    RA.setH(stardata.RA/1000000.0);
+	    Dec.setD(stardata.Dec/100000.0);
+
+	    gname = "";
+	    name = "";
+	    visibleName = "";
+
+	    if(stardata.flags & 0x01) {
+		// Named Star - Read one Name
+		if(!fread(&starname, sizeof(starName), 1, nameFile))
+		    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << i << " star " << j << endl;
+		name = QByteArray(starname.longName, 32);
+		gname = QByteArray(starname.bayerName, 8);
+		if ( ! gname.isEmpty() && gname.at(0) != '.')
+		    visibleName = gname;
+	    }
+	    // HEV: look up star name in internationalization filesource
+
+	    if ( name.isEmpty() ) name = i18n("star");
+	    name = i18nc("star name", name.toLocal8Bit().data());
+
+	    StarObject *star = new StarObject( RA, Dec, stardata.mag/100.0, name, visibleName, QByteArray(stardata.spec_type, 2), 
+					       stardata.dRA/10.0, stardata.dDec/10.0, stardata.parallax/10.0, 
+					       stardata.flags & 0x02, stardata.flags & 0x04 );
+	    star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+	    ++nstars;
+
+	    if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
+	    
+	    if ( ! name.isEmpty() && name != i18n("star") ) {
+		objectNames(SkyObject::STAR).append( name );
+	    }
+	    if ( ! gname.isEmpty() && gname != name ) {
+		objectNames(SkyObject::STAR).append( star -> gname(false) );
+	    }
+	    
+	    objectList().append( star );
+
+	    Trixel trixel = m_skyMesh->indexStar( star );
+	    m_starIndex->at( trixel )->append( star );
+	    double pm = star->pmMagnitude();
+	    if(j == 0)
+		expectedTrixelId = trixel;
+	    else
+		if(expectedTrixelId != trixel)
+		    kDebug() << "ERROR: Expected trixel Id = " << expectedTrixelId << " but found " << trixel << " instead at trixel #" << i <<", star #" << j << endl;
+	    
+	    for (int j = 0; j < m_highPMStars.size(); j++ ) {
+		HighPMStarList* list = m_highPMStars.at( j );
+		if ( list->append( trixel, star, pm ) ) break;
+	    }
+
+	}
+    }
+    dataReader.closeFile();
+    nameReader.closeFile();
+    kDebug() << "Loaded " << nstars << " stars" << endl;
 }
 
 
+// DEPRECATED
+/*
 StarObject* StarComponent::processStar( const QString &line ) {
     QString name, gname, SpType, visibleName;
     int rah, ram, ras, ras2, dd, dm, ds, ds2;
@@ -481,6 +547,7 @@ if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
     }
     return o;
 }
+*/
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
     return m_genName.value( name );
