@@ -181,10 +181,9 @@ sub kstars_unpack {
 
 sub hms_to_hour {
     my $string = shift;
-    $string =~ /^([+-]?\d\d)(\d\d)(\d\d(?:\.\d*)?)/ or return;
-    my ($h, $m, $s) = ($1, $2, $3);
-    my $sign = $h < 0 ? -1 : 1;
-    $h = abs($h);
+    $string =~ /^([+-]?)(\d\d)(\d\d)(\d\d(?:\.\d*)?)/ or return;
+    my ($h, $m, $s) = ($2, $3, $4);
+    my $sign = ($1 eq '-') ? -1 : 1;
     $m += $s / 60;
     return $sign * ($h + $m / 60);
 }
