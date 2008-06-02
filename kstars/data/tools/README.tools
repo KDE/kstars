@@ -16,7 +16,8 @@ max-length.pl      Find the longest line in a file
 sort-hip-by-pm.pl  Sort the Hiparcos catalog data by proper motion
 
 datatomysql.pl     Reads star catalog files and puts them into a MySQL 
-                   database (server on localhost)
+                   database (server on localhost). CAUTION: This script will
+		   empty the table that it is writing into.
 
 binfiletester.c    C Program to test KStars' star data in binary format
 

@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 #
 # datatomysql.pl   Put star data from file (in the plain-text data format used by KStars) into a database
+#
+# CAUTION: Will truncate the table supplied!
 
 use strict;
 use DBI;
@@ -46,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `$db_tbl` (
   KEY `trixel` (`trixel`,`pm`,`mag`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;/;
 
+my $tbl_trunc_query = qq/TRUNCATE TABLE `allstars`/;
+
 # For the HTMesh
 my $level = 3;
 
@@ -61,6 +65,7 @@ my @fields = qw/trixel ra dec dra ddec pm parallax mag bv_index
 $dbh->do($db_query);
 $dbh->do($db_select_query);
 $dbh->do($tbl_query);
+$dbh->do($tbl_trunc_query);
 $dbh->commit();
 
 while(<>) {
@@ -74,8 +79,12 @@ while(<>) {
     $star->{line} = $.;
 
     $VERBOSE and print_star_line($star);
-
-    $star->{trixel} = $mesh->lookup_name($star->{ra_hm}, $star->{dec});
+    my $rah;
+    my $ram;
+    $star->{ra_hm} =~ /^(\d\d):/ and $rah = $1 or print "Format error in RA HM string\n";
+    $star->{ra_hm} =~ /:(\d\d)$/ and $ram = $1 or print "Format error in RA HM string\n";
+    $star->{trixel} = $mesh->lookup_name($rah + $ram/60.0, $star->{dec});
+    $VERBOSE > 1 and print "Looked up " . ($rah + $ram/60.0) . " and " . $star->{dec} . " and got trixel = " . $star->{trixel};
     $star->{var_range} eq '' and $star->{var_range} = '0';
     $star->{var_period} eq '' and $star->{var_period} = '0';
  
