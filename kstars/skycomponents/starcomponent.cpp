@@ -342,24 +342,25 @@ void StarComponent::readData( float newMagnitude )
 {
     // TODO: We may want to remove the newMagnitude argument. Currently, it is deprecated
 
-    // We break from Qt / KDE API and use traditional file handling here, to obtain speed
+    // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
+    // We also avoid C++ constructors for the same reason.
     FILE *dataFile, *nameFile;
     bool swapBytes = false;
-    dms RA, Dec;
     BinFileHelper dataReader, nameReader;
     unsigned long nrecords;
     QString name, gname, visibleName;
+    StarObject *star;
 
-    // DEPRECATED : only load star data if the new magnitude is fainter than we've seen so far.
-    // We now load all stars the first time this method is called and load nothing during subsequent calls
+
+    // We now load all stars the first time this method is called and load nothing during subsequent calls:
     if ( newMagnitude <= m_FaintMagnitude || newMagnitude > 8.0 ) return; // TODO: Create the solution to handle > 8.0 mag stars
 
-    //float currentMag = m_FaintMagnitude;
     m_FaintMagnitude = 8.00;  // TODO: Find out if there could be a solution to load shallow stars dynamically
 
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
 
+    /* Open the data files */
     if((dataFile = dataReader.openFile("shallowstars.dat")) == NULL) {
 	kDebug() << "Could not open data file shallowstars.dat" << endl;
 	return;
@@ -380,176 +381,131 @@ void StarComponent::readData( float newMagnitude )
 	return;
     }
 
+    // TODO: Implement a solution to load nameFile completely into memory, to avoid disk seeks
     fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
 
     long int nstars = 0;
     Trixel expectedTrixelId = -1;
+    QTime t;
 
+    /* Create a template for plain ("unnamed") stars, from which we can do a memcpy()
+     *
+     * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
+     *          in order to gain speed. Instead, one template StarObject is constructed and
+     *          all other unnamed stars are created by doing a raw copy from this using memcpy()
+     *          and then calling StarObject::init() to replace the default data with the correct
+     *          data.
+     *          This means that this section of the code plays around with pointers to a great
+     *          extend and has a chance of breaking down / causing segfaults.
+     */
+    stardata.mag = 0;
+    stardata.spec_type[0] = 'A';
+    stardata.spec_type[1] = '0';
+    visibleName = "";
+    stardata.dRA = 0;
+    stardata.dDec = 0;
+    stardata.parallax = 0;
+    stardata.flags = 0;
+    StarObject *plainStarTemplate = new StarObject(0, 0, stardata.mag/100.0, "", visibleName, 
+						   QByteArray(stardata.spec_type, 2), 
+						   stardata.dRA/10.0, stardata.dDec/10.0, stardata.parallax/10.0, 
+						   stardata.flags & 0x02, stardata.flags & 0x04 );
+	    
+
+    /* TODO : Remove timing code when we are done with all possible optimizations */
+    t.start();
+
+    /* Start reading the data file */
+    fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
+
+    /* Recurse over trixels */
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
+	// The following code is not required, because we are anyway reading the file sequentially, and hence is commented out.
+	/*	
 	if(fseek(dataFile, dataReader.getOffset(i), SEEK_SET))
 	    kDebug() << "ERROR: Could not seek to offset " << dataReader.getOffset(i) << " to find trixel #" << i << endl;
+	*/
 
-	for(unsigned j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
-	    
+	/* Recurse over stars in each trixel */
+	for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
+
+	    /* Read star data */
 	    if(!fread(&stardata, sizeof(starData), 1, dataFile)){
 		kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
 	    }
-
+	    
+	    
 	    // TODO: Add byteswapping code
-
-	    RA.setH(stardata.RA/1000000.0);
-	    Dec.setD(stardata.Dec/100000.0);
-
+	    
 	    gname = "";
 	    name = "";
 	    visibleName = "";
 
+	    bool named = false;
+	    
 	    if(stardata.flags & 0x01) {
-		// Named Star - Read one Name
+		/* Named Star - Read the nameFile */
 		if(!fread(&starname, sizeof(starName), 1, nameFile))
 		    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << i << " star " << j << endl;
 		name = QByteArray(starname.longName, 32);
 		gname = QByteArray(starname.bayerName, 8);
 		if ( ! gname.isEmpty() && gname.at(0) != '.')
 		    visibleName = gname;
+		if(! name.isEmpty() ) {
+		    // HEV: look up star name in internationalization filesource
+		    name = i18nc("star name", name.toLocal8Bit().data());
+		}
+		else
+		    name = i18n("star");
+		named = true;
 	    }
-	    // HEV: look up star name in internationalization filesource
 
-	    if ( name.isEmpty() ) name = i18n("star");
-	    name = i18nc("star name", name.toLocal8Bit().data());
-
-	    StarObject *star = new StarObject( RA, Dec, stardata.mag/100.0, name, visibleName, QByteArray(stardata.spec_type, 2), 
-					       stardata.dRA/10.0, stardata.dDec/10.0, stardata.parallax/10.0, 
-					       stardata.flags & 0x02, stardata.flags & 0x04 );
+	    /* Create the new StarObject */
+	    if ( named ) {
+		star = new StarObject( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0, name, visibleName, 
+				       QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0, 
+				       stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+	    }
+	    else {
+		// DANGEROUS CODE. Lots of pointer work!
+		/* Make a copy of the star template and set up the data in it */
+		star = (StarObject *)malloc(sizeof(StarObject));
+		star = (StarObject *)memcpy(star, plainStarTemplate, sizeof(StarObject));
+		star -> init(stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
+			     QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0,
+			     stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04);
+	    }
 	    star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
 	    ++nstars;
+	    
+	    if( named ) {
+		if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
+		
+		if ( ! name.isEmpty() ) {
+		    objectNames(SkyObject::STAR).append( name );
+		}
+		if ( ! gname.isEmpty() && gname != name ) {
+		    objectNames(SkyObject::STAR).append( star -> gname(false) );
+		}
+		
+	    }
 
-	    if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
-	    
-	    if ( ! name.isEmpty() && name != i18n("star") ) {
-		objectNames(SkyObject::STAR).append( name );
-	    }
-	    if ( ! gname.isEmpty() && gname != name ) {
-		objectNames(SkyObject::STAR).append( star -> gname(false) );
-	    }
-	    
 	    objectList().append( star );
-
-	    Trixel trixel = m_skyMesh->indexStar( star );
+	    
+	    Trixel trixel = ((i >= 256) ? (i - 256):(i + 256));
 	    m_starIndex->at( trixel )->append( star );
 	    double pm = star->pmMagnitude();
-	    if(j == 0)
-		expectedTrixelId = trixel;
-	    else
-		if(expectedTrixelId != trixel)
-		    kDebug() << "ERROR: Expected trixel Id = " << expectedTrixelId << " but found " << trixel << " instead at trixel #" << i <<", star #" << j << endl;
-	    
 	    for (int j = 0; j < m_highPMStars.size(); j++ ) {
 		HighPMStarList* list = m_highPMStars.at( j );
-		if ( list->append( trixel, star, pm ) ) break;
+		if ( list->append( 512 - i, star, pm ) ) break;
 	    }
-
 	}
     }
     dataReader.closeFile();
     nameReader.closeFile();
-    kDebug() << "Loaded " << nstars << " stars" << endl;
+    kDebug() << "Loaded " << nstars << " stars in " << t.elapsed() << " ms" << endl;
 }
-
-
-// DEPRECATED
-/*
-StarObject* StarComponent::processStar( const QString &line ) {
-    QString name, gname, SpType, visibleName;
-    int rah, ram, ras, ras2, dd, dm, ds, ds2;
-    bool mult(false), var(false);
-    QChar sgn;
-    double mag, bv, dmag, vper;
-    double pmra, pmdec, plx;
-
-    //parse coordinates
-    rah = line.mid( 0, 2 ).toInt();
-    ram = line.mid( 2, 2 ).toInt();
-    ras = int(line.mid( 4, 5 ).toDouble());
-    ras2 = int(60.0*(line.mid( 4, 5 ).toDouble()-ras) + 0.5); //add 0.5 to get nearest integer with int()
-
-    sgn = line.at(10);
-    dd = line.mid(11, 2).toInt();
-    dm = line.mid(13, 2).toInt();
-    ds = int(line.mid(15, 4).toDouble());
-    ds2 = int(60.0*(line.mid( 15, 5 ).toDouble()-ds) + 0.5); //add 0.5 to get nearest integer with int()
-
-    //parse proper motion and parallax
-    pmra = line.mid( 20, 9 ).toDouble();
-    pmdec = line.mid( 29, 9 ).toDouble();
-    plx = line.mid( 38, 7 ).toDouble();
-
-    //parse magnitude, B-V color, and spectral type
-    mag = line.mid( 46, 5 ).toDouble();
-    bv  = line.mid( 51, 5 ).toDouble();
-    SpType = line.mid(56, 2);
-
-    //parse multiplicity
-    mult = line.mid( 59, 1 ).toInt();
-
-    //parse variablility...currently not using dmag or var
-    var = false; dmag = 0.0; vper = 0.0;
-    if ( line.length() > 60 && line.at( 62 ) == '.' ) {
-        var = true;
-        dmag = line.mid( 61, 4 ).toDouble();
-        vper = line.mid( 66, 6 ).toDouble();
-    }
-
-    //parse name(s)
-    if ( line.length() > 72 )
-        name = line.mid( 72 ).trimmed(); //the rest of the line
-
-    if ( ! name.isEmpty() ) {
-        if (name.at(0) == ',') {                  // new format: "; gname; name"
-            gname = name.mid(1, 8).trimmed();
-            if ( name.length() > 10)
-                name = (name.at(9) == ',') ? name.mid(10).trimmed() : "";
-            else
-                name = "";
-        }
-        else {                                    // old format: "name : gname"
-            if (name.contains( ':' )) {           //genetive form exists
-                gname = name.mid( name.indexOf(':') + 1 ).trimmed();
-                name = name.mid( 0, name.indexOf(':') ).trimmed();
-            }
-        }
-
-        if ( ! gname.isEmpty() && gname.at(0) != '.')
-            visibleName = gname;
-    }
-
-    //if ( ! gname.isEmpty() && gname.at(0) == '.') kDebug() << gname;
-
-    // HEV: look up star name in internationalization filesource
-    if ( name.isEmpty() ) name = i18n("star");
-    name = i18nc("star name", name.toLocal8Bit().data());
-
-    dms r;
-    r.setH(rah, ram, ras, ras2);
-    dms d(dd, dm, ds, ds2);
-
-if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
-
-    StarObject *o = new StarObject( r, d, mag, name, visibleName, SpType, pmra, pmdec, plx, mult, var );
-    o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-
-    if ( ! gname.isEmpty() ) m_genName.insert( gname, o );
-
-    if ( ! name.isEmpty() && name != i18n("star") ) {
-        objectNames(SkyObject::STAR).append( name );
-    }
-    if ( ! gname.isEmpty() && gname != name ) {
-        objectNames(SkyObject::STAR).append( o->gname(false) );
-    }
-    return o;
-}
-*/
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
     return m_genName.value( name );
