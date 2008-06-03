@@ -92,6 +92,14 @@ void StarComponent::init(KStarsData *data)
     StarObject::initImages();
 }
 
+//This function is empty for a reason; we override the normal 
+//update function in favor of JiT updates for stars.
+void StarComponent::update( KStarsData *data, KSNumbers *num )   
+{   
+    Q_UNUSED(data)   
+    Q_UNUSED(num)   
+}   
+
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
 

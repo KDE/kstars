@@ -52,6 +52,10 @@ public:
 
     virtual ~StarComponent();
 
+    //This function is empty; we need that so that the JiT update 
+    //is the only one beiong used.
+    void update( KStarsData *data, KSNumbers *num );
+
     bool selected();
 
     void reindex( KSNumbers *num );
