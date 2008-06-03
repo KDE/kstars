@@ -49,7 +49,7 @@ double StarObject::reindexInterval( double pm )
 StarObject::StarObject( StarObject &o )
         : SkyObject (o)
 {
-    SpType = o.SpType;
+    SpType = new QString(*o.SpType);
     //SONAME: deprecated (?) JH
     //	soName = o.soName;
     PM_RA = o.pmRA();
@@ -65,10 +65,12 @@ StarObject::StarObject( dms r, dms d, float m,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-        SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-        Parallax(par), Multiplicity(mult), Variability(var)
+	  PM_RA(pmra), PM_Dec(pmdec),
+	  Parallax(par), Multiplicity(mult), Variability(var)
         // SONAME deprecated //, soName( 0 )
 {
+
+    SpType = new QString(sptype);
     QString lname;
     if ( hasName() ) {
         lname = n;
@@ -90,10 +92,12 @@ StarObject::StarObject( double r, double d, float m,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-        SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
+        PM_RA(pmra), PM_Dec(pmdec),
         Parallax(par), Multiplicity(mult), Variability(var)
         // SONAME deprecated //, soName( 0 )
 {
+
+    SpType = new QString(sptype);
     QString lname;
     if ( hasName() ) {
         lname = n;
@@ -105,9 +109,39 @@ StarObject::StarObject( double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+StarObject::~StarObject() {
+    if( SpType )
+	delete SpType;
+}
+
+// WARNING: This method is dangerous. Use only if you didn't call the default constructor.
+//          Calling this method otherwise may lead to memory leakage!
+void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
+		 double pmdec, double par, bool mult, bool var) 
+{
+
+    /* TODO: Fix bug and uncomment this code */
+    setType( SkyObject::STAR );
+    setMag( m );
+    setRA0( r );
+    setDec0( d );
+    setRA( r );
+    setDec( d );
+    SpType = new QString(sptype);
+    PM_RA = pmra;
+    PM_Dec = pmdec;
+    Parallax = par;
+    Multiplicity = mult;
+    Variability = var ;
+
+    //    setLongName(i18n("star"));
+    updateID = updateNumID = 0;
+}
+
 void StarObject::initImages() {
     SkyMap *map = SkyMap::Instance();
     double scale = 1.0;
+
     if ( map && map->scale() > 1.0 ) scale = map->scale();
 
     if ( Options::starColorMode() == 0 ) { //Real colors
@@ -226,7 +260,7 @@ void StarObject::JITupdate( KStarsData* data )
 }
 
 QString StarObject::sptype( void ) const {
-    return SpType;
+    return (*SpType);
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
@@ -366,7 +400,7 @@ QString StarObject::constell( void ) const {
 }
 
 QColor StarObject::color() const {
-    return ColorMap[SpType.at(0)];
+    return (SpType ? ColorMap[SpType -> at(0)] : "-");
 }
 
 void StarObject::updateColors( bool desaturateColors, int saturation ) {
@@ -402,8 +436,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     if ( isize >= 14 ) {
         isize = 14;
     }
-
-    QString imKey = ((SpType != "") ? SpType.at(0) : (QChar)' ') + QString("%1").arg(isize);
+    QString imKey = ((SpType && !(SpType -> isEmpty())) ? SpType -> at(0) : (QChar)'-') + QString("%1").arg(isize);
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 
