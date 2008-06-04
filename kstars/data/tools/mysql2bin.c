@@ -260,7 +260,7 @@ int writeNameFileHeader(FILE *nf) {
   writeDataElementDescription(nf, "bayerName", BAYER_LIMIT, DT_STR, 0);
   writeDataElementDescription(nf, "longName", LONG_NAME_LIMIT, DT_STR, 0);
 
-  nindexes = 0;
+  nindexes = 1;
   fwrite(&nindexes, sizeof(u_int16_t), 1, nf);
 
   return 1;
@@ -345,6 +345,8 @@ int main(int argc, char *argv[]) {
   unsigned long nsf_trix_begin, usf_trix_begin;
   unsigned long nsf_trix_count, usf_trix_count;
   unsigned long ntrixels;
+  unsigned long nf_header_offset;
+  unsigned int names_count;
 
   char query[512];
   char current_trixel[HTM_LEVEL + 2 + 1];
@@ -438,6 +440,11 @@ int main(int argc, char *argv[]) {
   writeDataFileHeader(usfhead);
   ns_header_offset = ftell(nsfhead);
   us_header_offset = ftell(usfhead);
+  nf_header_offset = ftell(namefile);
+
+  /* Write a bogus index entry into the namefile, to be filled with correct data later */
+  writeIndexEntry(namefile, "N0000", ftell(namefile) + INDEX_ENTRY_SIZE, 0);
+
 
   /* Initialize some variables */
   lim = 0;
@@ -446,6 +453,7 @@ int main(int argc, char *argv[]) {
   nsf_trix_count = usf_trix_count = 0;
   nsf_trix_begin = usf_trix_begin = 0;
   ntrixels = 0;
+  names_count = 0;
 
   /* Recurse over every MYSQL_STARS_PER_QUERY DB entries */
   while(!exitflag) {
@@ -564,6 +572,8 @@ int main(int argc, char *argv[]) {
       if(named) {
 	fwrite(&name.bayerName, BAYER_LIMIT, 1, namefile);
 	fwrite(&name.longName, LONG_NAME_LIMIT, 1, namefile);
+	names_count++;
+	if(VERBOSE) fprintf(stderr, "Named star count = %ul", names_count);
       }
       if(VERBOSE) 
 	fprintf(stderr, "Done.\n");
@@ -583,6 +593,9 @@ int main(int argc, char *argv[]) {
     nextTrixel(current_trixel);
     ntrixels++;
   }while(strcmp(current_trixel,"00000"));
+
+  fseek(namefile, nf_header_offset, SEEK_SET);
+  writeIndexEntry(namefile, "N0000", nf_header_offset + INDEX_ENTRY_SIZE, names_count);
 
   if(ntrixels != NTRIXELS) {
     fprintf(stderr, "ERROR: Expected %u trixels, but found %u instead. Please redefine NTRIXELS in this program, or check the source database for bogus trixels\n", NTRIXELS, ntrixels);
