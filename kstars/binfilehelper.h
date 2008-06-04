@@ -142,6 +142,12 @@ class BinFileHelper {
     inline long getRecordCount(int id) { return (indexUpdated ? indexCount.at( id ) : 0); }
 
     /**
+     *@short  Returns the total number of records in the file
+     *@return The number of records in the file, or 0 if the index has not been read
+     */
+    inline long getRecordCount() { return (indexUpdated ? recordCount : 0); }
+
+    /**
      *@short  Should we do byte swapping?
      *@note   To be called only after the header has been parsed
      *@return true if we must do byte swapping, false if not
@@ -255,6 +261,7 @@ class BinFileHelper {
     long itableOffset;                    // Stores the offset position of the first index table entry
     long dataOffset;                      // Stores the offset position of the start of data
     QString errorMessage;                 // Stores the most recent 'unread' error message
+    unsigned int recordCount;             // Stores the total number of records in the file
 };
 
 #endif

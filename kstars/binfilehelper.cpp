@@ -28,6 +28,7 @@ void BinFileHelper::init() {
     preambleUpdated = false;
     byteswap = false;
     errno = ERR_NULL;
+    recordCount = 0;
 }
 
 void BinFileHelper::clearFields() {
@@ -106,6 +107,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     prev_offset = 0;
     prev_nrecs = 0;
+    recordCount = 0;
 
     for(i = 0; i < indexSize; ++i) {
 	if(!fread(&ID, 2, 1, fileHandle)) {
@@ -135,6 +137,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	}
 	indexOffset.append( offset );
 	indexCount.append( nrecs );
+	recordCount += nrecs;
 	prev_offset = offset;
 	prev_nrecs = nrecs;
     }
