@@ -70,6 +70,10 @@ int StarBlockCache::addNewBlocks(int nblocks) {
 StarBlock *StarBlockCache::getBlock() {
 
     if(last -> useID == -1 || last -> useID != useID) {
+	if(last -> parent) {
+	    last -> parent -> removeAll(last);
+	    last -> parent = NULL;
+	}
 	useBlock(last);
 	return first;
     }
