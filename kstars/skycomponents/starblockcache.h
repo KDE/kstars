@@ -103,7 +103,7 @@ class StarBlockCache {
      */
     int deleteBlocks(int nblocks);
 
-    long useID;                // A number identifying the current 'use' cycle
+    quint32 useID;             // A number identifying the current 'use' cycle
 
  private:
 
