@@ -66,9 +66,9 @@ u_int16_t ntrixels;
 void charv2str(char *str, char *charv, int n) {
     int i;
     for(i = 0; i < n; ++i) {
-	*str = *charv;
-	str++;
-	charv++;
+        *str = *charv;
+        str++;
+        charv++;
     }
     *str = '\0';
 }
@@ -91,14 +91,14 @@ void swapbytes(void *ptr, int nbytes) {
     char *i;
 
     if(!byteswap)
-	return;
+        return;
 
     destptr = (char *)malloc(nbytes);
     i = ((char *)ptr + (nbytes - 1));
     while( i >= (char *)ptr ) {
-	*destptr = *i;
-	++destptr;
-	--i;
+        *destptr = *i;
+        ++destptr;
+        --i;
     }
 
     destptr -= nbytes;
@@ -147,29 +147,29 @@ int verifyIndexValidity(FILE *f) {
     nerr = 0;
 
     for(i = 0; i < ntrixels; ++i) {
-	if(!fread(&trixel, 2, 1, f)) {
-	    fprintf(stderr, "Table truncated before expected! Read i = %d records so far\n", i);
-	    +nerr;
-	    break;
-	}
-	if(trixel >= ntrixels) {
-	    fprintf(stderr, "Trixel number %u is greater than the expected number of trixels %u\n", trixel, ntrixels);
-	    ++nerr;
-	}
-	if(trixel != i) {
+        if(!fread(&trixel, 2, 1, f)) {
+            fprintf(stderr, "Table truncated before expected! Read i = %d records so far\n", i);
+            +nerr;
+            break;
+        }
+        if(trixel >= ntrixels) {
+            fprintf(stderr, "Trixel number %u is greater than the expected number of trixels %u\n", trixel, ntrixels);
+            ++nerr;
+        }
+        if(trixel != i) {
 
-	    fprintf(stderr, "Found trixel = %s with number = %d, while I expected number = %d\n", 
-		    number2trixel(str, trixel), trixel, i);
-	    ++nerr;
-	}
-	fread(&offset, 4, 1, f);
-	fread(&nrecs, 2, 1, f);
-	if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/0x20) { // CAUTION: Change 0x20 to sizeof(starData) if starData changes
-	    fprintf(stderr, "Expected %u  = (%X - %x) / 32 records, but found %u, in trixel %s\n", (offset - prev_offset) / 32, offset, prev_offset, nrecs, str);
-	    ++nerr;
-	}
-	prev_offset = offset;
-	prev_nrecs = nrecs;
+            fprintf(stderr, "Found trixel = %s with number = %d, while I expected number = %d\n", 
+                    number2trixel(str, trixel), trixel, i);
+            ++nerr;
+        }
+        fread(&offset, 4, 1, f);
+        fread(&nrecs, 2, 1, f);
+        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/0x20) { // CAUTION: Change 0x20 to sizeof(starData) if starData changes
+            fprintf(stderr, "Expected %u  = (%X - %x) / 32 records, but found %u, in trixel %s\n", (offset - prev_offset) / 32, offset, prev_offset, nrecs, str);
+            ++nerr;
+        }
+        prev_offset = offset;
+        prev_nrecs = nrecs;
     }
 
     data_offset = ftell(f);
@@ -198,42 +198,42 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
     fseek(f, offset, SEEK_SET);
     fread(&trix, 2, 1, f);
     if(trix != id) {
-	fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %s would be here, but instead I find %s. Aborting.\n", trixel, number2trixel(str,trix));
-	return;
+        fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %s would be here, but instead I find %s. Aborting.\n", trixel, number2trixel(str,trix));
+        return;
     }
     fread(&offset, 4, 1, f);
     fread(&nrecs, 2, 1, f);
     if(fseek(f, offset, SEEK_SET)) {
-	fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
-	return;
+        fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
+        return;
     }
 
     for(id = 0; id < nrecs; ++id) {
-	offset = ftell(f);
-	n = (offset - data_offset)/0x20;
-	fread(&data, sizeof(starData), 1, f);
-	printf("Entry #%d\n", id);
-	printf("\tRA = %f\n", data.RA / 1000000.0);
-	printf("\tDec = %f\n", data.Dec / 100000.0);
-	printf("\tdRA/dt = %f\n", data.dRA / 10.0);
-	printf("\tdDec/dt = %f\n", data.dDec / 10.0);
-	printf("\tParallax = %f\n", data.parallax / 10.0);
-	printf("\tHD Catalog # = %lu\n", data.HD);
-	printf("\tMagnitude = %f\n", data.mag / 100.0);
-	printf("\tB-V Index = %f\n", data.bv_index / 100.0);
-	printf("\tSpectral Type = %c%c\n", data.spec_type[0], data.spec_type[1]);
-	printf("\tHas a name? %s\n", ((data.flags & 0x01)?"Yes":"No"));
-	/*
-	  if(data.flags & 0x01 && names) {
-	  fseek(names, n * (32 + 8) + 0xA0, SEEK_SET);
-	  fread(bayerName, 8, 1, names);
-	  fread(longName, 32, 1, names);
-	  printf("\t\tBayer Designation = %s\n", bayerName);
-	  printf("\t\tLong Name = %s\n", longName);
-	  }
-	*/
-	printf("\tMultiple Star? %s\n", ((data.flags & 0x02)?"Yes":"No"));
-	printf("\tVariable Star? %s\n", ((data.flags & 0x04)?"Yes":"No"));
+        offset = ftell(f);
+        n = (offset - data_offset)/0x20;
+        fread(&data, sizeof(starData), 1, f);
+        printf("Entry #%d\n", id);
+        printf("\tRA = %f\n", data.RA / 1000000.0);
+        printf("\tDec = %f\n", data.Dec / 100000.0);
+        printf("\tdRA/dt = %f\n", data.dRA / 10.0);
+        printf("\tdDec/dt = %f\n", data.dDec / 10.0);
+        printf("\tParallax = %f\n", data.parallax / 10.0);
+        printf("\tHD Catalog # = %lu\n", data.HD);
+        printf("\tMagnitude = %f\n", data.mag / 100.0);
+        printf("\tB-V Index = %f\n", data.bv_index / 100.0);
+        printf("\tSpectral Type = %c%c\n", data.spec_type[0], data.spec_type[1]);
+        printf("\tHas a name? %s\n", ((data.flags & 0x01)?"Yes":"No"));
+        /*
+          if(data.flags & 0x01 && names) {
+          fseek(names, n * (32 + 8) + 0xA0, SEEK_SET);
+          fread(bayerName, 8, 1, names);
+          fread(longName, 32, 1, names);
+          printf("\t\tBayer Designation = %s\n", bayerName);
+          printf("\t\tLong Name = %s\n", longName);
+          }
+        */
+        printf("\tMultiple Star? %s\n", ((data.flags & 0x02)?"Yes":"No"));
+        printf("\tVariable Star? %s\n", ((data.flags & 0x04)?"Yes":"No"));
     }
 }
 
@@ -249,7 +249,7 @@ int readFileHeader(FILE *f) {
     char ASCII_text[125];
 
     if(f == NULL)
-	return 0;
+        return 0;
 
     fread(ASCII_text, 124, 1, f);
     ASCII_text[125] = '\0';
@@ -257,15 +257,15 @@ int readFileHeader(FILE *f) {
 
     fread(&endian_id, 2, 1, f);
     if(endian_id != 0x4B53)
-	byteswap = 1;
+        byteswap = 1;
     else
-	byteswap = 0;
+        byteswap = 0;
 
     fread(&nfields, 2, 1, f);
   
     for(i = 0; i < nfields; ++i) {
-	fread(&(de[i]), sizeof(struct dataElement), 1, f);
-	displayDataElementDescription(&(de[i]));
+        fread(&(de[i]), sizeof(struct dataElement), 1, f);
+        displayDataElementDescription(&(de[i]));
     }
 
     fread(&ntrixels, 2, 1, f);
@@ -279,16 +279,16 @@ int main(int argc, char *argv[]) {
     FILE *f, *names;
     names = NULL;
     if(argc <= 1) {
-	fprintf(stderr, "USAGE: %s filename [trixel]\n", argv[0]);
-	fprintf(stderr, "Designed for use only with KStars star data files\n");
-	return 1;
+        fprintf(stderr, "USAGE: %s filename [trixel]\n", argv[0]);
+        fprintf(stderr, "Designed for use only with KStars star data files\n");
+        return 1;
     }
 
     f = fopen(argv[1], "rb");
 
     if(f == NULL) {
-	fprintf(stderr, "ERROR: Could not open file %s for binary read.\n", argv[1]);
-	return 1;
+        fprintf(stderr, "ERROR: Could not open file %s for binary read.\n", argv[1]);
+        return 1;
     }
 
     readFileHeader(f);
@@ -296,15 +296,15 @@ int main(int argc, char *argv[]) {
     verifyIndexValidity(f);
 
     if(argc > 2) {
-	/*
-	  if(argc > 3)
-	  names = fopen(argv[3], "rb");
-	  else
-	  names = NULL;
-	
-	  fprintf(stderr, "Names = %s\n", ((names)?"Yes":"No"));
-	*/
-	readStarList(f, argv[2], names);
+        /*
+          if(argc > 3)
+          names = fopen(argv[3], "rb");
+          else
+          names = NULL;
+        
+          fprintf(stderr, "Names = %s\n", ((names)?"Yes":"No"));
+        */
+        readStarList(f, argv[2], names);
     }
 
     fclose(f);

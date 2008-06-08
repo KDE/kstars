@@ -46,7 +46,7 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_starIndex = new StarIndex();
     for (int i = 0; i < m_skyMesh->size(); i++) {
         m_starIndex->append( new StarList() );
-	m_readOffset[i] =  0;
+        m_readOffset[i] =  0;
     }
     m_highPMStars.append( new HighPMStarList( 840.0 ) );
     m_highPMStars.append( new HighPMStarList( 304.0 ) );
@@ -357,31 +357,31 @@ void StarComponent::readData( float newMagnitude )
     // We now load all stars the first time this method is called and load nothing during subsequent calls:
 
     if(starsLoaded)
-	return;
+        return;
 
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
-	
-	
+        
+        
     /* Open the data files */
     if((dataFile = dataReader.openFile("shallowstars.dat")) == NULL) {
-	kDebug() << "Could not open data file shallowstars.dat" << endl;
-	return;
+        kDebug() << "Could not open data file shallowstars.dat" << endl;
+        return;
     }
 
     if(!(nameFile = nameReader.openFile("starnames.dat"))) {
-	kDebug() << "Could not open data file starnames.dat" << endl;
-	return;
+        kDebug() << "Could not open data file starnames.dat" << endl;
+        return;
     }
 
     if(!dataReader.readHeader()) {
-	kDebug() << "Error reading shallowstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
-	return;
+        kDebug() << "Error reading shallowstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
+        return;
     }
 
     if(!nameReader.readHeader()) {
-	kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
-	return;
+        kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
+        return;
     }
 
     // TODO: Implement a solution to load nameFile completely into memory, to avoid disk seeks
@@ -400,94 +400,94 @@ void StarComponent::readData( float newMagnitude )
     /* Recurse over trixels */
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
-	// The following code is not required, because we are anyway reading the file sequentially, and hence is commented out.
-	/*	
-		if(fseek(dataFile, dataReader.getOffset(i), SEEK_SET))
-		kDebug() << "ERROR: Could not seek to offset " << dataReader.getOffset(i) << " to find trixel #" << i << endl;
-	*/
+        // The following code is not required, because we are anyway reading the file sequentially, and hence is commented out.
+        /*      
+                if(fseek(dataFile, dataReader.getOffset(i), SEEK_SET))
+                kDebug() << "ERROR: Could not seek to offset " << dataReader.getOffset(i) << " to find trixel #" << i << endl;
+        */
 
-	/* Recurse over stars in each trixel */
-	for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
+        /* Recurse over stars in each trixel */
+        for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
 
-	    /* Read star data */
-	    if(!fread(&stardata, sizeof(starData), 1, dataFile)){
-		kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
-	    }
-	    
-	    // TODO: Add byteswapping code
-	    
-	    gname = "";
-	    name = "";
-	    visibleName = "";
+            /* Read star data */
+            if(!fread(&stardata, sizeof(starData), 1, dataFile)){
+                kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
+            }
+            
+            // TODO: Add byteswapping code
+            
+            gname = "";
+            name = "";
+            visibleName = "";
 
-	    bool named = false;
-	    
-	    if(stardata.flags & 0x01) {
-		/* Named Star - Read the nameFile */
-		if(!fread(&starname, sizeof(starName), 1, nameFile))
-		    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << i << " star " << j << endl;
-		name = QByteArray(starname.longName, 32);
-		gname = QByteArray(starname.bayerName, 8);
-		if ( ! gname.isEmpty() && gname.at(0) != '.')
-		    visibleName = gname;
-		if(! name.isEmpty() ) {
-		    // HEV: look up star name in internationalization filesource
-		    name = i18nc("star name", name.toLocal8Bit().data());
-		}
-		else
-		    name = i18n("star");
-		named = true;
-	    }
+            bool named = false;
+            
+            if(stardata.flags & 0x01) {
+                /* Named Star - Read the nameFile */
+                if(!fread(&starname, sizeof(starName), 1, nameFile))
+                    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << i << " star " << j << endl;
+                name = QByteArray(starname.longName, 32);
+                gname = QByteArray(starname.bayerName, 8);
+                if ( ! gname.isEmpty() && gname.at(0) != '.')
+                    visibleName = gname;
+                if(! name.isEmpty() ) {
+                    // HEV: look up star name in internationalization filesource
+                    name = i18nc("star name", name.toLocal8Bit().data());
+                }
+                else
+                    name = i18n("star");
+                named = true;
+            }
 
-	    /* Create the new StarObject */
-	    if ( named ) {
-		star = new StarObject( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0, name, visibleName, 
-				       QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0, 
-				       stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
-	    }
-	    else {
-		/*
-		 * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
-		 *          in order to gain speed. Instead, one template StarObject is constructed and
-		 *          all other unnamed stars are created by doing a raw copy from this using memcpy()
-		 *          and then calling StarObject::init() to replace the default data with the correct
-		 *          data.
-		 *          This means that this section of the code plays around with pointers to a great
-		 *          extend and has a chance of breaking down / causing segfaults.
-		 */
-		    
-		/* Make a copy of the star template and set up the data in it */
-		star = (StarObject *)malloc(sizeof(StarObject));
-		star = (StarObject *)memcpy(star, &plainStarTemplate, sizeof(StarObject));
-		star -> init(stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
-			     QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0,
-			     stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04);
-	    }
-	    star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-	    ++nstars;
-	    
-	    if( named ) {
-		if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
-		
-		if ( ! name.isEmpty() ) {
-		    objectNames(SkyObject::STAR).append( name );
-		}
-		if ( ! gname.isEmpty() && gname != name ) {
-		    objectNames(SkyObject::STAR).append( star -> gname(false) );
-		}
-		
-	    }
+            /* Create the new StarObject */
+            if ( named ) {
+                star = new StarObject( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0, name, visibleName, 
+                                       QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0, 
+                                       stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+            }
+            else {
+                /*
+                 * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
+                 *          in order to gain speed. Instead, one template StarObject is constructed and
+                 *          all other unnamed stars are created by doing a raw copy from this using memcpy()
+                 *          and then calling StarObject::init() to replace the default data with the correct
+                 *          data.
+                 *          This means that this section of the code plays around with pointers to a great
+                 *          extend and has a chance of breaking down / causing segfaults.
+                 */
+                    
+                /* Make a copy of the star template and set up the data in it */
+                star = (StarObject *)malloc(sizeof(StarObject));
+                star = (StarObject *)memcpy(star, &plainStarTemplate, sizeof(StarObject));
+                star -> init(stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
+                             QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0,
+                             stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04);
+            }
+            star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+            ++nstars;
+            
+            if( named ) {
+                if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
+                
+                if ( ! name.isEmpty() ) {
+                    objectNames(SkyObject::STAR).append( name );
+                }
+                if ( ! gname.isEmpty() && gname != name ) {
+                    objectNames(SkyObject::STAR).append( star -> gname(false) );
+                }
+                
+            }
 
-	    objectList().append( star );
-	    
-	    Trixel trixel = ((i >= 256) ? (i - 256):(i + 256));
-	    m_starIndex->at( trixel )->append( star );
-	    double pm = star->pmMagnitude();
-	    for (int j = 0; j < m_highPMStars.size(); j++ ) {
-		HighPMStarList* list = m_highPMStars.at( j );
-		if ( list->append( 512 - i, star, pm ) ) break;
-	    }
-	}
+            objectList().append( star );
+            
+            Trixel trixel = ((i >= 256) ? (i - 256):(i + 256));
+            m_starIndex->at( trixel )->append( star );
+            double pm = star->pmMagnitude();
+            for (int j = 0; j < m_highPMStars.size(); j++ ) {
+                HighPMStarList* list = m_highPMStars.at( j );
+                if ( list->append( 512 - i, star, pm ) ) break;
+            }
+        }
     }
     dataReader.closeFile();
     nameReader.closeFile();
@@ -498,7 +498,7 @@ void StarComponent::readData( float newMagnitude )
     //   We need to deprecate that option as well
     starsLoaded = true;
     if(m_FaintMagnitude < 8.0) 
-	m_FaintMagnitude = 8.0;
+        m_FaintMagnitude = 8.0;
 
 }
 
@@ -511,38 +511,38 @@ bool StarComponent::readStarBlock(StarBlock *SB, FILE *dataFile, int nstars) {
 
 
     if( SB == NULL || dataFile == NULL )
-	return false;
+        return false;
 
     // Allocate the required amount of StarObjects
     if( SB ->  star )
-	free( SB -> star );
+        free( SB -> star );
 
     SB -> star = ( StarObject * )malloc( sizeof( StarObject ) * nstars );
     if( !SB -> star )
-	return false;
+        return false;
 
     // Read in the data from dataFile and fill into the StarBlock
     for( i = 0; i < nstars; ++i ) {
 
-	if( !fread( &stardata, sizeof( starData ), 1, dataFile ) ) {
-	    kDebug() << "ERROR: Premature termination of dataFile in readStarBlock. Expected "
-		     << nstars << " records, but read " << i << endl;
-	    SB -> star = ( StarObject * )realloc( SB -> star, sizeof( StarObject ) * i );
-	    return false;
-	}
+        if( !fread( &stardata, sizeof( starData ), 1, dataFile ) ) {
+            kDebug() << "ERROR: Premature termination of dataFile in readStarBlock. Expected "
+                     << nstars << " records, but read " << i << endl;
+            SB -> star = ( StarObject * )realloc( SB -> star, sizeof( StarObject ) * i );
+            return false;
+        }
 
 
-	// TODO: Add byteswapping code
-	
-	if(stardata.flags & 0x01) {
-	    kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
-	    continue;
-	}
+        // TODO: Add byteswapping code
+        
+        if(stardata.flags & 0x01) {
+            kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
+            continue;
+        }
 
-	memcpy( &(SB -> star[i]), &plainStarTemplate, sizeof( StarObject ) );
-	SB -> star[i].init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
-			    QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
-			    stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+        memcpy( &(SB -> star[i]), &plainStarTemplate, sizeof( StarObject ) );
+        SB -> star[i].init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
+                            QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
+                            stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
     }
 
     return true;
@@ -557,8 +557,8 @@ SkyObject* StarComponent::findByName( const QString &name ) {
     foreach ( SkyObject *o, objectList() )
     if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
         QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
-	 QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
-	 QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
+         QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
+         QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
         return o;
 
     //No object found

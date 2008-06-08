@@ -52,7 +52,7 @@ StarObject::StarObject( StarObject &o )
     SpType[0] = o.SpType[0];
     SpType[1] = o.SpType[1];
     //SONAME: deprecated (?) JH
-    //	soName = o.soName;
+    //  soName = o.soName;
     PM_RA = o.pmRA();
     PM_Dec = o.pmDec();
     Parallax = o.parallax();
@@ -66,8 +66,8 @@ StarObject::StarObject( dms r, dms d, float m,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-	  PM_RA(pmra), PM_Dec(pmdec),
-	  Parallax(par), Multiplicity(mult), Variability(var)
+          PM_RA(pmra), PM_Dec(pmdec),
+          Parallax(par), Multiplicity(mult), Variability(var)
         // SONAME deprecated //, soName( 0 )
 {
 
@@ -115,7 +115,7 @@ StarObject::StarObject( double r, double d, float m,
 }
 
 void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
-		 double pmdec, double par, bool mult, bool var) 
+                 double pmdec, double par, bool mult, bool var) 
 {
 
     /* TODO: Fix bug and uncomment this code */

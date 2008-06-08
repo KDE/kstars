@@ -369,8 +369,8 @@ int main(int argc, char *argv[]) {
   /* Check the number of arguments */
   if(argc <= 8) {
     fprintf(stderr, 
-	    "USAGE %s DBUserName DBPassword DeepStarDataFile DeepStarHeaderFile ShallowStarDataFile ShallowStarHeaderFile StarNameFile DBName [TableName]\n", 
-	    argv[0]);
+            "USAGE %s DBUserName DBPassword DeepStarDataFile DeepStarHeaderFile ShallowStarDataFile ShallowStarHeaderFile StarNameFile DBName [TableName]\n", 
+            argv[0]);
     fprintf(stderr, "The magnitude limit for a Shallow Star is set in the program source using GLOBAL_MAG_LIMIT\n");
     fprintf(stderr, "The database used is a MySQL DB on localhost. The default table name is `allstars`\n");
   }
@@ -460,8 +460,8 @@ int main(int argc, char *argv[]) {
 
     /* Build MySQL query for next MYSQL_STARS_PER_QUERY stars */
       sprintf(query, 
-	      "SELECT `trixel`, `ra`, `dec`, `dra`, `ddec`, `parallax`, `mag`, `bv_index`, `spec_type`, `mult`, `var_range`, `var_period`, `UID`, `name`, `gname` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
-	      (argc >= 10) ? argv[9] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
+              "SELECT `trixel`, `ra`, `dec`, `dra`, `ddec`, `parallax`, `mag`, `bv_index`, `spec_type`, `mult`, `var_range`, `var_period`, `UID`, `name`, `gname` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
+              (argc >= 10) ? argv[9] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
 
     if(VERBOSE) { fprintf(stderr, "SQL Query: %s\n", query); }
     
@@ -483,26 +483,26 @@ int main(int argc, char *argv[]) {
       
       /* Very verbose details */
       if(VERBOSE > 1) {
-	fprintf(stderr, "UID = %s\n", row[12]);
-	for(i = 0; i <= 14; ++i)
-	  fprintf(stderr, "\tField #%d = %s\n", i, row[i]);
+        fprintf(stderr, "UID = %s\n", row[12]);
+        for(i = 0; i <= 14; ++i)
+          fprintf(stderr, "\tField #%d = %s\n", i, row[i]);
       }
 
       if(exitflag == -1)
-	exitflag = 0;
+        exitflag = 0;
 
       /* Write index entries if we've changed trixel */
       if(strcmp(row[0], current_trixel)) { 
-	if(VERBOSE) { fprintf(stderr, "Trixel Changed from %s to %s!\n", current_trixel, row[0]); }
-	while(strcmp(row[0],current_trixel)) {
-	  writeIndexEntry(nsfhead, current_trixel, ns_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + nsf_trix_begin, nsf_trix_count);
-	  writeIndexEntry(usfhead, current_trixel, us_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + usf_trix_begin, usf_trix_count);
-	  nsf_trix_begin = ftell(nsf);
-	  usf_trix_begin = ftell(usf);
-	  nsf_trix_count = usf_trix_count = 0;
-	  nextTrixel(current_trixel);
-	  ntrixels++;
-	}
+        if(VERBOSE) { fprintf(stderr, "Trixel Changed from %s to %s!\n", current_trixel, row[0]); }
+        while(strcmp(row[0],current_trixel)) {
+          writeIndexEntry(nsfhead, current_trixel, ns_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + nsf_trix_begin, nsf_trix_count);
+          writeIndexEntry(usfhead, current_trixel, us_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + usf_trix_begin, usf_trix_count);
+          nsf_trix_begin = ftell(nsf);
+          usf_trix_begin = ftell(usf);
+          nsf_trix_count = usf_trix_count = 0;
+          nextTrixel(current_trixel);
+          ntrixels++;
+        }
       }
 
       /* ==== Set up the starData structure ==== */
@@ -516,38 +516,38 @@ int main(int argc, char *argv[]) {
       /* Are we looking at a named star */
       named = 0;
       if(!isblank(row[13]) || !isblank(row[14])) {
-	named = 1;
+        named = 1;
 
-	/* Print out messages */
-	if(VERBOSE) 
-	  fprintf(stderr, "Named Star!\n");
-	if(VERBOSE > 1)
-	  fprintf(stderr, "Bayer Name = %s, Long Name = %s\n", row[14], row[13]);
+        /* Print out messages */
+        if(VERBOSE) 
+          fprintf(stderr, "Named Star!\n");
+        if(VERBOSE > 1)
+          fprintf(stderr, "Bayer Name = %s, Long Name = %s\n", row[14], row[13]);
 
-	/* Check for overflows */
-	if(strlen(row[13]) > LONG_NAME_LIMIT)
-	  fprintf(stderr,
-		  "ERROR: Long Name %s with length %d exceeds LONG_NAME_LIMIT = %d\n", 
-		  row[13], strlen(row[13]), LONG_NAME_LIMIT);
-	if(strlen(row[14]) > BAYER_LIMIT)
-	  fprintf(stderr, 
-		  "ERROR: Bayer designation %s with length %d exceeds BAYER_LIMIT = %d\n",
-		  row[14], strlen(row[14]), BAYER_LIMIT);
-	
-	/* Set up the starName structure */
-	str2charv(name.bayerName, row[14], BAYER_LIMIT);
-	str2charv(name.longName, row[13], LONG_NAME_LIMIT);
-	data.flags = data.flags | 0x01; /* Switch on the 'named' bit */
+        /* Check for overflows */
+        if(strlen(row[13]) > LONG_NAME_LIMIT)
+          fprintf(stderr,
+                  "ERROR: Long Name %s with length %d exceeds LONG_NAME_LIMIT = %d\n", 
+                  row[13], strlen(row[13]), LONG_NAME_LIMIT);
+        if(strlen(row[14]) > BAYER_LIMIT)
+          fprintf(stderr, 
+                  "ERROR: Bayer designation %s with length %d exceeds BAYER_LIMIT = %d\n",
+                  row[14], strlen(row[14]), BAYER_LIMIT);
+        
+        /* Set up the starName structure */
+        str2charv(name.bayerName, row[14], BAYER_LIMIT);
+        str2charv(name.longName, row[13], LONG_NAME_LIMIT);
+        data.flags = data.flags | 0x01; /* Switch on the 'named' bit */
       }
 
       /* Are we looking at a 'global' star [always in memory] or dynamically loaded star? */
       if(named || (data.mag/100.0) <= GLOBAL_MAG_LIMIT) {
-	f = nsf;
-	nsf_trix_count++;
+        f = nsf;
+        nsf_trix_count++;
       }
       else {
-	usf_trix_count++;
-	f = usf;
+        usf_trix_count++;
+        f = usf;
       }
 
       /* Convert various fields and make entries into the starData structure */
@@ -559,24 +559,24 @@ int main(int argc, char *argv[]) {
       str2int32(&data.HD, "", 0);                  /* TODO: Put HD data into MySQL DB */
       str2int16(&data.bv_index, row[7], 2);
       if(str2charv(data.spec_type, row[8], 2) < 0)
-	fprintf(stderr, "Spectral type entry %s in DB is possibly invalid for UID = %s\n", row[8], row[12]); 
+        fprintf(stderr, "Spectral type entry %s in DB is possibly invalid for UID = %s\n", row[8], row[12]); 
       if(row[9][0] != '0' && row[9][0] != '\0')
-	data.flags = data.flags | 0x02;
+        data.flags = data.flags | 0x02;
       if(!isblank(row[10]) || !isblank(row[11]))
-	data.flags = data.flags | 0x04;
+        data.flags = data.flags | 0x04;
 
       /* Write the data into the appropriate data file and any names into the name file */
       if(VERBOSE) 
-	fprintf(stderr, "Writing UID = %s...", row[12]);
+        fprintf(stderr, "Writing UID = %s...", row[12]);
       fwrite(&data, sizeof(starData), 1, f);
       if(named) {
-	fwrite(&name.bayerName, BAYER_LIMIT, 1, namefile);
-	fwrite(&name.longName, LONG_NAME_LIMIT, 1, namefile);
-	names_count++;
-	if(VERBOSE) fprintf(stderr, "Named star count = %ul", names_count);
+        fwrite(&name.bayerName, BAYER_LIMIT, 1, namefile);
+        fwrite(&name.longName, LONG_NAME_LIMIT, 1, namefile);
+        names_count++;
+        if(VERBOSE) fprintf(stderr, "Named star count = %ul", names_count);
       }
       if(VERBOSE) 
-	fprintf(stderr, "Done.\n");
+        fprintf(stderr, "Done.\n");
 
     }
     
