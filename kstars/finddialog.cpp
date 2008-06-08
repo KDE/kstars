@@ -251,10 +251,42 @@ void FindDialog::enqueueSearch() {
     timer->start( 500 );
 }
 
+// Process the search box text to replace equivalent names like "m93" with "m 93"
+void FindDialog::processSearchText() {
+    QRegExp re;
+
+    // NOTE: The following function has been DEPRECATED. What should I use instead?
+    re.setCaseSensitive( false ); 
+
+    // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
+    re.setPattern("^(m|ngc|ic)\\s*\\d*$");
+    if(ui->SearchBox->text().contains(re)) {
+	QString searchtext = ui->SearchBox->text();
+	re.setPattern("\\s*(\\d+)");
+	searchtext.replace( re, " \\1" );
+	re.setPattern("\\s*$");
+	searchtext.replace(re, "");
+	re.setPattern("^\\s*");
+	searchtext.replace(re, "");
+	ui->SearchBox->setText(searchtext);
+	return;
+    }
+
+    // TODO after KDE 4.1 release:
+    // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
+    // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
+}
+
 void FindDialog::slotOk() {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
-    if(!listFiltered)
+    if(!listFiltered) {
+	processSearchText();
         filterByName();
+    }
+    if(!selectedObject()) {
+	processSearchText();
+	filterByName();
+    }
     if ( selectedObject() == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );

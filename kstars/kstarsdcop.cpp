@@ -29,6 +29,7 @@
 #include <kmessagebox.h>
 //QPRINTER_FOR_NOW
 //#include <kprinter.h>
+#include <kdeprintdialog.h>
 #include <ktemporaryfile.h>
 #include <kurl.h>
 #include <kpushbutton.h>
@@ -491,10 +492,11 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     if ( usePrintDialog ) {
         //QPRINTER_FOR_NOW
 //        ok = printer.setup( this, i18n("Print Sky") );
-        QPrintDialog dialog( &printer, this );
-        dialog.setWindowTitle( i18n("Print Sky") );
-        if ( dialog.exec() == QDialog::Accepted )
+        QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
+        dialog->setWindowTitle( i18n("Print Sky") );
+        if ( dialog->exec() == QDialog::Accepted )
             ok = true;
+        delete dialog;
     } else {
         //QPRINTER_FOR_NOW
 //        ok = printer.autoConfigure();

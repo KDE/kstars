@@ -1,4 +1,3 @@
-
 /***************************************************************************
                           ksconjunct.cpp  -  K Desktop Planetarium
                              -------------------
@@ -70,8 +69,8 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
     if(Sign != prevSign && prevSign == 1) {   // The prevSign == 1 ensures that we pick up only minima and don't waste time finding maxima
       //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
       if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
-	if(extremum.second.radians() < maxSeparation.radians())
-	  Separations.insert(extremum.first, extremum.second);
+        if(extremum.second.radians() < maxSeparation.radians())
+          Separations.insert(extremum.first, extremum.second);
     }
 
     prevDist = Dist;
@@ -126,9 +125,9 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1
       out -> first = jd - step / 2.0;
       out -> second = findDistance(jd - step/2.0, Object1, Object2);
       if(out -> second.radians() < findDistance(jd - 5.0, Object1, Object2).radians())
-	return true;
+        return true;
       else
-	return false;
+        return false;
     }
     Sign = sgn(Dist.Degrees() - prevDist.Degrees());
     if(Sign != prevSign) {

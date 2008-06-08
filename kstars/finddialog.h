@@ -107,6 +107,15 @@ protected:
     void keyPressEvent( QKeyEvent *e );
 
 private:
+
+    /**
+     *
+     *@short Do some post processing on the search text to interpret what the user meant
+     *
+     * This could include replacing text like "m93" with "m 93"
+     */
+    void processSearchText();
+
     FindDialogUI* ui;
     SkyObject* currentitem;
     QStringListModel *fModel;

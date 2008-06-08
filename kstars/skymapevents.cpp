@@ -279,41 +279,92 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_D: //Details window for Clicked/Centered object
-        if ( shiftPressed ) setClickedObject( focusObject() );
-        if ( clickedObject() ) slotDetail();
+    {
+        SkyObject *orig = 0;
+        if ( shiftPressed ) { 
+            orig = clickedObject();
+            setClickedObject( focusObject() );
+        }
+
+        if ( clickedObject() ) {
+            slotDetail();
+        }
+
+        if ( orig ) {
+            setClickedObject( orig );
+        }
         break;
+    }
 
     case Qt::Key_P: //Show Popup menu for Clicked/Centered object
-        if ( shiftPressed ) setClickedObject( focusObject() );
-        if ( clickedObject() )
-            clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+        if ( shiftPressed ) {
+            if ( focusObject() ) 
+                focusObject()->showPopupMenu( pmenu, QCursor::pos() );
+        } else {
+            if ( clickedObject() )
+                clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+        }
         break;
 
     case Qt::Key_O: //Add object to Observing List
-        if ( shiftPressed ) setClickedObject( focusObject() );
-        if ( clickedObject() )
+    {
+        SkyObject *orig = 0;
+        if ( shiftPressed ) {
+            orig = clickedObject();
+            setClickedObject( focusObject() );
+        }
+
+        if ( clickedObject() ) {
             ks->observingList()->slotAddObject();
+        }
+
+        if ( orig ) {
+            setClickedObject( orig );
+        }
         break;
+    }
 
     case Qt::Key_L: //Toggle User label on Clicked/Centered object
-        if ( shiftPressed ) setClickedObject( focusObject() );
+    {
+        SkyObject *orig = 0;
+        if ( shiftPressed ) {
+            orig = clickedObject();
+            setClickedObject( focusObject() );
+        }
+
         if ( clickedObject() ) {
             if ( isObjectLabeled( clickedObject() ) )
                 slotRemoveObjectLabel();
             else
                 slotAddObjectLabel();
         }
+
+        if ( orig ) {
+            setClickedObject( orig );
+        }
         break;
+    }
 
     case Qt::Key_T: //Toggle planet trail on Clicked/Centered object (if solsys)
-        if ( shiftPressed ) setClickedObject( focusObject() );
+    {
+        SkyObject *orig = 0;
+        if ( shiftPressed ) {
+            orig = clickedObject();
+            setClickedObject( focusObject() );
+        }
+
         if ( clickedObject() && clickedObject()->isSolarSystem() ) {
             if ( ((KSPlanetBase*)clickedObject())->hasTrail() )
                 slotRemovePlanetTrail();
             else
                 slotAddPlanetTrail();
         }
+
+        if ( orig ) {
+            setClickedObject( orig );
+        }
         break;
+    }
 
     //DEBUG_REFRACT
     case Qt::Key_Q:

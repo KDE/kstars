@@ -248,9 +248,6 @@ ImageViewer* KStars::addImageViewer( const KUrl &url, const QString &message ) {
 }
 
 void KStars::removeImageViewer( ImageViewer *iv ) {
-    //DEBUG
-    kDebug() ;
-
     int i = m_ImageViewerList.indexOf( iv );
     if ( i != -1 )
         m_ImageViewerList.takeAt( i )->deleteLater();
