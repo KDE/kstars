@@ -75,7 +75,7 @@ StarBlock *StarBlockCache::getBlock() {
             last->parent = NULL;
         }
         if( last->star ) {
-            free( star );
+            free( last->star );
             last->star = NULL;
         }
         useBlock( last );
