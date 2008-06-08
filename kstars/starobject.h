@@ -90,9 +90,9 @@ public:
                 double par=0.0, bool mult=false, bool var=false );
 
     /**
-     * Destructor. Deletes SpType.
+     * Destructor. (Empty)
      */
-    ~StarObject();
+    ~StarObject() { }
 
     /**
      *@short  Initializes a StarObject to given data
@@ -178,7 +178,7 @@ public:
      */
     void getIndexCoords( KSNumbers *num, double *ra, double *dec );
 
-    /* @short added for JIT updates from both StarComponent and ConstellatoinLines
+    /* @short added for JIT updates from both StarComponent and ConstellationLines
      */
     void JITupdate( KStarsData* data );
 
@@ -317,7 +317,7 @@ protected:
     static QHash<QString, QPixmap> StarImage;
 
 private:
-    QString *SpType;
+    char SpType[2];
 
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
     bool Multiplicity, Variability;
