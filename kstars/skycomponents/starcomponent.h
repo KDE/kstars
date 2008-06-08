@@ -29,10 +29,11 @@
 #include "listcomponent.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
-
+#include "starblock.h"
 #include "skylabel.h"
 #include "typedef.h"
 #include "highpmstarlist.h"
+#include "starobject.h"
 
 class SkyComponent;
 class KStarsData;
@@ -86,6 +87,17 @@ public:
 
     void readData( float newMagnitude );
 
+    /**@short Read one StarBlock of nstars stars from dataFile
+     *
+     *TODO: Assign a default value for nstars
+     *
+     *@param  SB        Pointer to the StarBlock to read data into
+     *@param  dataFile  Pointer to the binary data file to read from
+     *@param  nstars    Number of stars to read data for
+     */
+    bool readStarBlock(StarBlock *SB, FILE *dataFile, int nstars);
+
+
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     SkyObject* findStarByGenetiveName( const QString name );
@@ -137,9 +149,11 @@ private:
     int            m_lastLineNum;
     bool           m_validLineNums;
     bool           m_hideLabels;
+    quint16        m_readOffset[512];
 
     KStarsData*    m_Data;
-    float          m_FaintMagnitude;
+    float          m_FaintMagnitude;   // WARNING: DEPRECATED
+    bool           starsLoaded;
     float          m_zoomMagLimit;
 
     KStarsSplash*  m_reloadSplash;
@@ -147,7 +161,7 @@ private:
 
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
-    QVector<qint16> m_readOffset;
+
 
     /** 
      *@short adds a label to the lists of labels to be drawn prioritized
@@ -156,37 +170,6 @@ private:
     void addLabel( const QPointF& p, StarObject *star );
 
     void reindexAll( KSNumbers *num );
-
-    /**
-    	*Parse a line from a stars data file, construct a StarObject from the data,
-    	*and add it to the StarComponent.
-    	*
-    	*Each line is parsed according to the column
-    	*position in the line:
-    	*@li 0-1      RA hours [int]
-    	*@li 2-3      RA minutes [int]
-    	*@li 4-8      RA seconds [float]
-    	*@li 10       Dec sign [char; '+' or '-']
-    	*@li 11-12    Dec degrees [int]
-    	*@li 13-14    Dec minutes [int]
-    	*@li 15-18    Dec seconds [float]
-    	*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
-    	*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
-    	*@li 38-44    Parallax (milli-arcsec) [float]
-    	*@li 46-50    Magnitude [float]
-    	*@li 51-55    B-V color index [float]
-    	*@li 56-57    Spectral type [string]
-    	*@li 59       Multiplicity flag (1=true, 0=false) [int]
-    	*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
-    	*@li 66-71    Variability period (days; blank if not variable) [float]
-    	*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
-    	*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
-    	*             everything after the colon is the genetive name for the star (e.g.,
-    	*             "alpha Orionis").
-    	*
-    	*@param line pointer to the line of data to be processed as a StarObject
-    	*/
-    StarObject* processStar( const QString &line );
 
     typedef struct starData {
         int32_t RA;
@@ -207,9 +190,10 @@ private:
 	char longName[32];
     } starName;
 
+    StarBlockList m_starBlockList[512];
     starData stardata;
     starName starname;
-    
+    StarObject plainStarTemplate;
 
 };
 
