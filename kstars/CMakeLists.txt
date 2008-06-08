@@ -165,6 +165,7 @@ set(libkstarscomponents_SRCS
    skycomponents/milkyway.cpp 
    skycomponents/skycomponent.cpp 
    skycomponents/skycomposite.cpp 
+   skycomponents/starblockcache.cpp
 )
 
 set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
