@@ -23,6 +23,7 @@
 #include <QPixmap>
 
 #include "skyobject.h"
+#include "stardata.h"
 
 class QPainter;
 class QString;
@@ -111,12 +112,24 @@ public:
      *@param mult Multiplicity flag (false=dingle star; true=multiple star)
      *@param var Variability flag (true if star is a known periodic variable)
      *@return Nothing
-     *
-     * WARNING: This method is dangerous. Use only if you didn't call the default constructor.
-     *          Calling this method otherwise may lead to memory leakage!
      */
+
     void init(double r, double d, float m=0.0, const QString &sptype="--", double pmra=0.0, double pmdec=0.0, 
               double par=0.0, bool mult=false, bool var=false);
+
+    /**
+     *@short  Initializes a StarObject to given data
+     *
+     * This is almost like the StarObject constructor itself, but it avoids
+     * setting up name, gname etc for unnamed stars. If called instead of the
+     * constructor, this method will be much faster for unnamed stars
+     *
+     *@param  stardata  Pointer to starData object containing required data (except name and gname)
+     *@return Nothing
+     */
+
+    void init( const starData *stardata );
+
 
     /**
      *@return true if the star has a name ("star" doesn't count)

@@ -117,8 +117,6 @@ StarObject::StarObject( double r, double d, float m,
 void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
                  double pmdec, double par, bool mult, bool var) 
 {
-
-    /* TODO: Fix bug and uncomment this code */
     setType( SkyObject::STAR );
     setMag( m );
     setRA0( r );
@@ -135,6 +133,27 @@ void StarObject::init(double r, double d, float m, const QString &sptype, double
     Variability = var ;
 
     //    setLongName(i18n("star"));
+    updateID = updateNumID = 0;
+}
+
+void StarObject::init( const starData *stardata ) 
+{
+    double ra, dec;
+    ra = stardata->RA / 1000000.0;
+    dec = stardata->Dec / 100000.0;
+    setType( SkyObject::STAR );
+    setMag( stardata->mag / 100.0 );
+    setRA0( ra );
+    setDec0( dec );
+    setRA( ra );
+    setDec( dec );
+    SpType[0] = stardata->spec_type[0];
+    SpType[1] = stardata->spec_type[1];
+    PM_RA = stardata->dRA / 10.0;
+    PM_Dec = stardata->dDec / 10.0;
+    Parallax = stardata->parallax / 10.0;
+    Multiplicity = stardata->flags & 0x02;
+    Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
 }
 
