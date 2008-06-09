@@ -37,6 +37,7 @@
 #include "kstarssplash.h"
 
 #include "binfilehelper.h"
+#include "byteswap.h"
 
 StarComponent::StarComponent(SkyComponent *parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), starsLoaded(false)
@@ -44,10 +45,8 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_skyMesh = SkyMesh::Instance();
 
     m_starIndex = new StarIndex();
-    for (int i = 0; i < m_skyMesh->size(); i++) {
+    for (int i = 0; i < m_skyMesh->size(); i++)
         m_starIndex->append( new StarList() );
-        m_readOffset[i] =  0;
-    }
     m_highPMStars.append( new HighPMStarList( 840.0 ) );
     m_highPMStars.append( new HighPMStarList( 304.0 ) );
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
@@ -77,7 +76,8 @@ void StarComponent::init(KStarsData *data)
     m_Data = data;
 
     //    readLineNumbers();
-    readData( Options::magLimitDrawStar() );
+    //    readData( Options::magLimitDrawStar() );
+    loadShallowStarData();
 
     //adjust maglimit for ZoomLevel
     float maglim = Options::magLimitDrawStar();
@@ -167,6 +167,8 @@ void StarComponent::reindexAll( KSNumbers *num )
     printf("Done.\n");
 }
 
+// REMOVED
+/*
 void StarComponent::rereadData()
 {
     float magLimit =  Options::magLimitDrawStar();
@@ -195,6 +197,7 @@ void StarComponent::rereadData()
     delete m_reloadSplash;
     m_reloadSplash = 0;
 }
+*/
 
 void StarComponent::draw( QPainter& psky )
 {
@@ -211,7 +214,7 @@ void StarComponent::draw( QPainter& psky )
     //shortcuts to inform whether to draw different objects
     bool hideFaintStars( checkSlewing && Options::hideStars() );
     double hideStarsMag = Options::magLimitHideStar();
-    rereadData();
+    //    rereadData();
 
     reindex( data->updateNum() );
 
@@ -336,6 +339,9 @@ void StarComponent::readLineNumbers()
 }
 */
 
+
+// REMOVED
+/*
 int StarComponent::lineNumber( float magF )
 {
     if ( ! m_validLineNums ) return -1;
@@ -345,12 +351,9 @@ int StarComponent::lineNumber( float magF )
     if ( mag > MAX_LINENUMBER_MAG ) mag = MAX_LINENUMBER_MAG;
     return m_lineNumber[ mag ];
 }
-
-// TODO: Give this method a better name
-void StarComponent::readData( float newMagnitude ) 
+*/
+void StarComponent::loadShallowStarData() 
 {
-    // TODO: We may want to remove the newMagnitude argument. Currently, it is deprecated
-
     // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
     // We also avoid C++ constructors for the same reason.
     FILE *dataFile, *nameFile;
@@ -360,16 +363,11 @@ void StarComponent::readData( float newMagnitude )
     QString name, gname, visibleName;
     StarObject *star;
 
-    kDebug() << "Entered readData()";
-
-    // We now load all stars the first time this method is called and load nothing during subsequent calls:
-
     if(starsLoaded)
         return;
 
     // prepare to index stars to this date
     m_skyMesh->setKSNumbers( &m_reindexNum );
-        
         
     /* Open the data files */
     if((dataFile = dataReader.openFile("shallowstars.dat")) == NULL) {
@@ -392,8 +390,8 @@ void StarComponent::readData( float newMagnitude )
         return;
     }
 
-    // TODO: Implement a solution to load nameFile completely into memory, to avoid disk seeks
     fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
+    swapBytes = dataReader.getByteSwap();
 
     long int nstars = 0;
     Trixel expectedTrixelId = -1;
@@ -408,12 +406,6 @@ void StarComponent::readData( float newMagnitude )
     /* Recurse over trixels */
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
-        // The following code is not required, because we are anyway reading the file sequentially, and hence is commented out.
-        /*      
-                if(fseek(dataFile, dataReader.getOffset(i), SEEK_SET))
-                kDebug() << "ERROR: Could not seek to offset " << dataReader.getOffset(i) << " to find trixel #" << i << endl;
-        */
-
         /* Recurse over stars in each trixel */
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
 
@@ -421,8 +413,18 @@ void StarComponent::readData( float newMagnitude )
             if(!fread(&stardata, sizeof(starData), 1, dataFile)){
                 kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
             }
-            
-            // TODO: Add byteswapping code
+
+            /* Swap Bytes when required */            
+            if(swapBytes) {
+                bswap_32(stardata.RA);
+                bswap_32(stardata.Dec);
+                bswap_32(stardata.dRA);
+                bswap_32(stardata.dDec);
+                bswap_32(stardata.parallax);
+                bswap_32(stardata.HD);
+                bswap_16(stardata.mag);
+                bswap_16(stardata.bv_index);
+            }
             
             gname = "";
             name = "";
@@ -501,56 +503,69 @@ void StarComponent::readData( float newMagnitude )
     nameReader.closeFile();
     kDebug() << "Loaded " << nstars << " stars in " << t.elapsed() << " ms" << endl;
 
-    // TODO: Fix things:
-    //   Suppose the user wants stars down to 10th mag when zoomed out, this thing lies
-    //   We need to deprecate that option as well
     starsLoaded = true;
-    if(m_FaintMagnitude < 8.0) 
-        m_FaintMagnitude = 8.0;
 
 }
 
 
-bool StarComponent::readStarBlock(StarBlock *SB, FILE *dataFile, int nstars) {
+bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int nstars ) {
 
     int i;
     starData stardata;
     QString name, gname, visibleName;
-
+    bool swapBytes;
+    FILE *dataFile;
 
     if( SB == NULL || dataFile == NULL )
         return false;
 
-    // Allocate the required amount of StarObjects
+    // Allocate the required amount of StarObjects [ REMOVED - StarBlock handles this ]
+    /*
     if( SB ->  star )
         free( SB -> star );
 
     SB -> star = ( StarObject * )malloc( sizeof( StarObject ) * nstars );
     if( !SB -> star )
         return false;
+    */
 
+    if( nstars == -1 )
+        nstars = SB->stars.size();
+    else if( nstars > SB->stars.size() )
+        return false;
+
+    SB->starsRead = 0;
+    swapBytes = dataReader->getByteSwap();
+    dataFile = dataReader->getFileHandle();
     // Read in the data from dataFile and fill into the StarBlock
     for( i = 0; i < nstars; ++i ) {
 
         if( !fread( &stardata, sizeof( starData ), 1, dataFile ) ) {
             kDebug() << "ERROR: Premature termination of dataFile in readStarBlock. Expected "
                      << nstars << " records, but read " << i << endl;
-            SB -> star = ( StarObject * )realloc( SB -> star, sizeof( StarObject ) * i );
             return false;
         }
 
-
-        // TODO: Add byteswapping code
-        
-        if(stardata.flags & 0x01) {
-            kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
-            continue;
+        /* Swap Bytes when required */            
+        if(swapBytes) {
+            bswap_32(stardata.RA);
+            bswap_32(stardata.Dec);
+            bswap_32(stardata.dRA);
+            bswap_32(stardata.dDec);
+            bswap_32(stardata.parallax);
+            bswap_32(stardata.HD);
+            bswap_16(stardata.mag);
+            bswap_16(stardata.bv_index);
         }
+        
+        if(stardata.flags & 0x01)
+            kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
 
-        memcpy( &(SB -> star[i]), &plainStarTemplate, sizeof( StarObject ) );
-        SB -> star[i].init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
-                            QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
-                            stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+        memcpy( SB->stars.at( i ), &plainStarTemplate, sizeof( StarObject ) );
+        SB->stars.at( i )->init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
+                                 QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
+                                 stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+        SB->starsRead++;
     }
 
     return true;

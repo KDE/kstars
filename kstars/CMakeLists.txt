@@ -165,6 +165,8 @@ set(libkstarscomponents_SRCS
    skycomponents/milkyway.cpp 
    skycomponents/skycomponent.cpp 
    skycomponents/skycomposite.cpp 
+   skycomponents/starblock.cpp
+   skycomponents/starblocklist.cpp
    skycomponents/starblockcache.cpp
 )
 

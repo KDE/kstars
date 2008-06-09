@@ -45,7 +45,7 @@ class StarBlockCache {
      *@short Creates a cache containing N blocks
      *@param nblocks  Number of blocks to allocate
      */
-    StarBlockCache(int nblocks);
+    StarBlockCache( int nblocks );
 
 
     /**
@@ -60,7 +60,7 @@ class StarBlockCache {
      *@param  Number of blocks to append
      *@return Number of blocks successfully appended
      */
-    int addNewBlocks(int nblocks);
+    int addNewBlocks( int nblocks );
 
     /**
      *@short  Return a StarBlock available for use
@@ -76,11 +76,11 @@ class StarBlockCache {
     StarBlock *getBlock();
 
     /**
-     *@short  Mark a StarBlock as most recently used and sync its useID with the current useID
+     *@short  Mark a StarBlock as most recently used and sync its drawID with the current drawID
      *
      *@return true on success, false if the StarBlock supplied was not on our list at all
      */
-    bool useBlock(StarBlock *block);
+    bool useBlock( StarBlock *block );
 
     /**
      *@short  Move a group of blocks as they are to the front
@@ -93,7 +93,7 @@ class StarBlockCache {
      *@param  nblocks Number of blocks to include in the group
      *@return true on success, false if the group was not correctly defined
      */
-    bool groupMove(StarBlock *start, const int nblocks);
+    bool groupMove( StarBlock *start, const int nblocks );
 
     /**
      *@short  Deletes the N least recently used blocks
@@ -101,16 +101,16 @@ class StarBlockCache {
      *@param  nblocks  Number of blocks to delete
      *@return Number of blocks successfully deleted
      */
-    int deleteBlocks(int nblocks);
+    int deleteBlocks( int nblocks );
 
-    quint32 useID;             // A number identifying the current 'use' cycle
+    quint32 drawID;            // A number identifying the current 'use' cycle
 
  private:
 
     /**
-     *@short  Update useIDs of nblocks blocks starting at start
+     *@short  Update drawIDs of nblocks blocks starting at start
      *
-     *@param  start   Pointer to the start of the group to sync useIDs of
+     *@param  start   Pointer to the start of the group to sync drawIDs of
      *@param  nblocks Number of blocks in the group
      */
 

@@ -22,14 +22,15 @@ StarBlockCache::StarBlockCache() {
     first = NULL;
     last = NULL;
     nstarblocks = 0;
-    useID = 0;
+    drawID = 0;
 }
+
 
 StarBlockCache::StarBlockCache( int nblocks ) {
     first = NULL;
     last = NULL;
     nstarblocks = 0;
-    useID = 0;
+    drawID = 0;
     addNewBlocks( nblocks );
 }
 
@@ -38,57 +39,56 @@ StarBlockCache::~StarBlockCache() {
 }
 
 int StarBlockCache::addNewBlocks( int nblocks ) {
+
     int i = 0;
 
     for( i = 0; i <  nblocks; ++i ) {
-        if( last == NULL ) {
-            first = last = (StarBlock *) malloc( sizeof( StarBlock ) );
+        if( first == NULL ) {
+            first = last = new StarBlock( NULL, NULL );
             if( first == NULL )
                 return 0;
-            first->prev = NULL;
         }
         else {
-            last->next = (StarBlock *) malloc( sizeof( StarBlock ) );
-            if( last->next == NULL )
+            StarBlock *newStarBlock;
+            newStarBlock = new StarBlock( last, NULL );
+            if( newStarBlock == NULL )
                 return i;
-            last->next->prev = last;
-            last = last->next;
+            last = newStarBlock;
         }
-
-        last->next = NULL;
-        last->useID = 0;
-        last->star = NULL;
-        last->parent = NULL;
-        last->nstars = 0;
-        last->brightMag = last->faintMag = -5.0;
     }
 
     nstarblocks += i;
     return i;
 }
 
-StarBlock *StarBlockCache::getBlock() {
 
-    if( last->useID == 0 || last->useID != useID ) {
+StarBlock *StarBlockCache::getBlock() {
+    if( last->drawID == 0 || last->drawID != drawID ) {
         if( last->parent ) {
-            last->parent->removeAll( last );
+            last->parent->releaseBlock( last );
             last->parent = NULL;
-        }
-        if( last->star ) {
-            free( last->star );
-            last->star = NULL;
         }
         useBlock( last );
         return first;
     }
-    else
-        if( addNewBlocks( 1 ) ) {
-            useBlock( last );
-            return first;
+    else {
+        if( first == NULL ) {
+            first = last = new StarBlock( NULL, NULL );
+            if( first == NULL )
+                return NULL;
         }
-        else
-            return NULL;
-
+        else {
+            StarBlock *newBlock;
+            newBlock = new StarBlock( last, NULL );
+            if( newBlock == NULL )
+                return NULL;
+            last->next = newBlock;
+            last = newBlock;
+        }
+        ++nstarblocks;
+        useBlock( last );
+        return first;
+    }
 }
 
 bool StarBlockCache::useBlock( StarBlock *block ) {
@@ -100,7 +100,7 @@ bool StarBlockCache::useBlock( StarBlock *block ) {
         return false;
 
     if( !block->prev ) { // Block is already in the front
-        block->useID = useID;
+        block->drawID = drawID;
         return true;
     }
 
@@ -111,7 +111,7 @@ bool StarBlockCache::useBlock( StarBlock *block ) {
     block->next = first;
     first = block;
 
-    block->useID = useID;
+    block->drawID = drawID;
 
     return true;
 }
@@ -141,13 +141,13 @@ bool StarBlockCache::groupMove( StarBlock *start, const int nblocks ) {
     if( end == NULL )
         return false;
 
-    // Update useIDs
+    // Update drawIDs
     end = start;
     for( int i = 1; i < nblocks; ++i ) {
-        end->useID = useID;
+        end->drawID = drawID;
         end = end->next;
     }
-    end->useID = useID;
+    end->drawID = drawID;
 
     // Check if we are already in the front
     if( !start->prev )
@@ -169,11 +169,7 @@ int StarBlockCache::deleteBlocks( int nblocks ) {
     i = 0;
     while( last != NULL || i == nblocks ) {
         temp = last->prev;
-        if( last->star ) {
-            free( last->star );
-            last->star = NULL;
-        }
-        free(last);
+        delete last;
         last = temp;
         i++;
     }   

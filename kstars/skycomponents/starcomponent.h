@@ -34,6 +34,7 @@
 #include "typedef.h"
 #include "highpmstarlist.h"
 #include "starobject.h"
+#include "binfilehelper.h"
 
 class SkyComponent;
 class KStarsData;
@@ -42,6 +43,7 @@ class SkyMesh;
 class StarObject;
 class SkyLabeler;
 class KStarsSplash;
+class BinFileHelper;
 
 #define MAX_LINENUMBER_MAG 90
 
@@ -89,17 +91,30 @@ public:
 
     float faintMagnitude() const { return m_FaintMagnitude; }
 
-    void readData( float newMagnitude );
-
-    /**@short Read one StarBlock of nstars stars from dataFile
+    /**
+     *@short Read data for stars which will remain static in the memory
      *
-     *TODO: Assign a default value for nstars
+     *This method reads data for 'shallow' stars (stars having names, and all 
+     *stars down to mag 8) which are stored by default in "shallowstars.dat" into
+     *memory. These stars are always kept in memory, as against 'deep' stars
+     *which are dynamically loaded into memory when required, depending on region
+     *and magnitude limit. Once loading is successful, this method sets the 
+     *starsLoaded flag to true
+     */
+
+    void loadShallowStarData();
+
+    // TODO: Move this elsewhere
+    /**
+     *@short Read one StarBlock of nstars stars from dataFile
+     *If nstars is not specified or -1, read as many stars as the StarBlock can hold
      *
      *@param  SB        Pointer to the StarBlock to read data into
      *@param  dataFile  Pointer to the binary data file to read from
      *@param  nstars    Number of stars to read data for
+     *@return true on success, false on failure
      */
-    bool readStarBlock(StarBlock *SB, FILE *dataFile, int nstars);
+    bool readStarBlock(StarBlock *SB, BinFileHelper *dataReader, int nstars=-1);
 
 
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
@@ -119,25 +134,31 @@ public:
 
     SkyObject* findByName( const QString &name );
 
-    /* @short usually does nothing.  If we are drawing faint stars and if
-        * Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
-        * the first time we are called we just pop up a splash screen. Then
-        * the second time we are called we actually re-read the data file and
-        * finally erase the pop up.
-        */
-    void rereadData();
+    // REMOVED
+    /**
+     * @short usually does nothing.  If we are drawing faint stars and if
+     * Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
+     * the first time we are called we just pop up a splash screen. Then
+     * the second time we are called we actually re-read the data file and
+     * finally erase the pop up.
+     */
+    //    void rereadData();
 
-    /* @short reads in the small starlnum.idx file that contains the line
-        * numbers from the stars.dat file that correspond to rough 90
-        * different magnitudes.  This allows us to estimate the number of
-        * lines that need to get read when partially reading stars.dat.
-        */
-    //    void readLineNumbers();        // TODO: Find a way to do it now!
+    // REMOVED
+    /**
+     *@short reads in the small starlnum.idx file that contains the line
+     * numbers from the stars.dat file that correspond to rough 90
+     * different magnitudes.  This allows us to estimate the number of
+     * lines that need to get read when partially reading stars.dat.
+     */
+    //    void readLineNumbers();     
 
-    /* @short returns an estimate of the stars.dat line number for a given
-        * star magnitude.
-        */
-    int lineNumber( float mag );
+    // REMOVE
+    /**
+     *@short returns an estimate of the stars.dat line number for a given
+     * star magnitude.
+     */
+    //    int lineNumber( float mag );
 
 
 private:
@@ -153,10 +174,9 @@ private:
     int            m_lastLineNum;
     bool           m_validLineNums;
     bool           m_hideLabels;
-    quint16        m_readOffset[512];
 
     KStarsData*    m_Data;
-    float          m_FaintMagnitude;   // WARNING: DEPRECATED
+    float          m_FaintMagnitude;   // WARNING: No longer used
     bool           starsLoaded;
     float          m_zoomMagLimit;
 
@@ -167,7 +187,7 @@ private:
     QHash<QString, SkyObject*> m_genName;
 
 
-    /** 
+    /**
      *@short adds a label to the lists of labels to be drawn prioritized
      *by magnitude.
      */
@@ -175,20 +195,9 @@ private:
 
     void reindexAll( KSNumbers *num );
 
-    typedef struct starData {
-        int32_t RA;
-        int32_t Dec;
-        int32_t dRA;
-        int32_t dDec;
-        int32_t parallax;
-        int32_t HD;
-        int16_t mag;
-        int16_t bv_index;
-        char spec_type[2];
-        char flags;
-        char unused;
-    } starData;
-
+    /**
+     *@short Structure that holds star name information, to be read as-is from the corresponding binary data file
+     */
     typedef struct starName {
         char bayerName[8];
         char longName[32];
