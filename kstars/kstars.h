@@ -409,11 +409,6 @@ public Q_SLOTS:
     void slotApplyConfigChanges();
 
     /**
-    	*action slot: Configure toolbars
-    	*/
-    void slotConfigureToolbars();
-
-    /**
     	*action slot: Generate toolbars with new user-specified configuration
     	*/
     void slotApplyToolbarConfig();

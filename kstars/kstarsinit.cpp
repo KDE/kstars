@@ -268,9 +268,6 @@ void KStars::initActions() {
     ta->setText( i18n( "Show View Toolbar" ) );
     QObject::connect(ta, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
-    actionCollection()->addAction( KStandardAction::ConfigureToolbars, "configure_toolbars",
-                                   this, SLOT( slotConfigureToolbars() ) );
-
     //Statusbar view options
     ta = actionCollection()->add<KToggleAction>( "show_statusBar");
     ta->setText( i18n( "Show Statusbar" ) );
@@ -483,6 +480,9 @@ void KStars::initActions() {
     ta->setText( i18nc( "Toggle the opaque fill of the ground polygon in the display", "Ground" ) );
     ta->setToolTip( i18n("Toggle opaque ground") );
     connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+
+    setXMLFile( "kstarsui.rc" );
+    setupGUI();
 
     if (Options::fitsSaveDirectory().isEmpty())
         Options::setFitsSaveDirectory(QDir:: homePath());
