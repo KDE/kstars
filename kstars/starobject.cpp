@@ -94,28 +94,31 @@ StarObject::StarObject( double r, double d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
-        : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-        PM_RA(pmra), PM_Dec(pmdec),
-        Parallax(par), Multiplicity(mult), Variability(var)
-        // SONAME deprecated //, soName( 0 )
+    : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
+      PM_RA(pmra), PM_Dec(pmdec),
+      Parallax(par), Multiplicity(mult), Variability(var)
+      // SONAME deprecated //, soName( 0 )
 {
     const char *spt = (const char *)sptype.toAscii();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
-
+    
     QString lname;
     if ( hasName() ) {
         lname = n;
         if ( hasName2() )lname += n + " (" + gname() + ')';
     } else if ( hasName2() )
         lname = gname();
-
+    
     setLongName(lname);
     updateID = updateNumID = 0;
 }
 
+
+// DEPRECATED
+/*
 void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
-                 double pmdec, double par, bool mult, bool var) 
+                      double pmdec, double par, bool mult, bool var) 
 {
     setType( SkyObject::STAR );
     setMag( m );
@@ -135,6 +138,7 @@ void StarObject::init(double r, double d, float m, const QString &sptype, double
     //    setLongName(i18n("star"));
     updateID = updateNumID = 0;
 }
+*/
 
 void StarObject::init( const starData *stardata ) 
 {
@@ -156,6 +160,21 @@ void StarObject::init( const starData *stardata )
     Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
 }
+
+void StarObject::setNames( QString name, QString name2 ) {
+    QString lname;
+
+    setName( name );
+    setName2( name2 );
+
+    if ( hasName() ) {
+        lname = name;
+        if ( hasName2() ) lname += name + " (" + gname() + ')';
+    } else if ( hasName2() )
+        lname = gname();
+    setLongName(lname);
+}
+
 
 void StarObject::initImages() {
     SkyMap *map = SkyMap::Instance();

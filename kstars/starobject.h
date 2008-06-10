@@ -95,6 +95,7 @@ public:
      */
     ~StarObject() { }
 
+    // REMOVED
     /**
      *@short  Initializes a StarObject to given data
      *
@@ -114,8 +115,8 @@ public:
      *@return Nothing
      */
 
-    void init(double r, double d, float m=0.0, const QString &sptype="--", double pmra=0.0, double pmdec=0.0, 
-              double par=0.0, bool mult=false, bool var=false);
+    //    void init(double r, double d, float m=0.0, const QString &sptype="--", double pmra=0.0, double pmdec=0.0, 
+    //              double par=0.0, bool mult=false, bool var=false);
 
     /**
      *@short  Initializes a StarObject to given data
@@ -130,6 +131,14 @@ public:
 
     void init( const starData *stardata );
 
+    /**
+     *@short  Sets the name, genetive name, and long name
+     *
+     *@param  name  Common name
+     *@param  name2 Genetive name
+     */
+
+    void setNames( QString name, QString name2 );
 
     /**
      *@return true if the star has a name ("star" doesn't count)

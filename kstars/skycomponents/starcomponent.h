@@ -18,13 +18,14 @@
 #ifndef STARCOMPONENT_H
 #define STARCOMPONENT_H
 
-/**@class StarComponent
-*Represents the stars on the sky map. For optimization reasons the stars are
-*not separate objects and are stored in a list.
-
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+ *@class StarComponent
+ *Represents the stars on the sky map. For optimization reasons the stars are
+ *not separate objects and are stored in a list.
+ *
+ *@author Thomas Kabelmann
+ *@version 0.1
+ */
 
 #include "listcomponent.h"
 #include "kstarsdatetime.h"
@@ -153,7 +154,7 @@ public:
      */
     //    void readLineNumbers();     
 
-    // REMOVE
+    // REMOVED
     /**
      *@short returns an estimate of the stars.dat line number for a given
      * star magnitude.

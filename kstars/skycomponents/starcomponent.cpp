@@ -469,9 +469,12 @@ void StarComponent::loadShallowStarData()
                 /* Make a copy of the star template and set up the data in it */
                 star = (StarObject *)malloc(sizeof(StarObject));
                 star = (StarObject *)memcpy(star, &plainStarTemplate, sizeof(StarObject));
+                /*
                 star -> init(stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
                              QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0,
                              stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04);
+                */
+                star->init( &stardata );
             }
             star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             ++nstars;
@@ -562,9 +565,12 @@ bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int
             kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
 
         memcpy( SB->stars.at( i ), &plainStarTemplate, sizeof( StarObject ) );
+        /*
         SB->stars.at( i )->init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
                                  QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
                                  stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+        */
+        SB->stars.at( i )->init( &stardata );
         SB->starsRead++;
     }
 
