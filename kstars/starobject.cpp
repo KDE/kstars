@@ -97,7 +97,7 @@ StarObject::StarObject( double r, double d, float m,
     QString lname;
     if ( hasName() ) {
         lname = n;
-        if ( hasName2() )lname += n + " (" + gname() + ')';
+        if ( hasName2() )lname += " (" + gname() + ')';
     } else if ( hasName2() )
         lname = gname();
 
