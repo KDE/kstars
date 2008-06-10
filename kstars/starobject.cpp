@@ -106,7 +106,7 @@ StarObject::StarObject( double r, double d, float m,
     QString lname;
     if ( hasName() ) {
         lname = n;
-        if ( hasName2() )lname += n + " (" + gname() + ')';
+        if ( hasName2() )lname += " (" + gname() + ')';
     } else if ( hasName2() )
         lname = gname();
     
@@ -169,7 +169,7 @@ void StarObject::setNames( QString name, QString name2 ) {
 
     if ( hasName() ) {
         lname = name;
-        if ( hasName2() ) lname += name + " (" + gname() + ')';
+        if ( hasName2() ) lname += " (" + gname() + ')';
     } else if ( hasName2() )
         lname = gname();
     setLongName(lname);

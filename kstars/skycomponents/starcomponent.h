@@ -161,6 +161,9 @@ public:
      */
     //    int lineNumber( float mag );
 
+    // TODO: Find the right place for this method
+    static void byteSwap( starData *stardata );
+
 
 private:
     SkyMesh*       m_skyMesh;

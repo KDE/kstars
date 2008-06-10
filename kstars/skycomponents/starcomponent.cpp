@@ -397,35 +397,23 @@ void StarComponent::loadShallowStarData()
     Trixel expectedTrixelId = -1;
     QTime t;
 
-    /* TODO : Remove timing code when we are done with all possible optimizations */
+    // TODO : Remove timing code when we are done with all possible optimizations
     t.start();
 
-    /* Start reading the data file */
     fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
 
-    /* Recurse over trixels */
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
-        /* Recurse over stars in each trixel */
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
 
-            /* Read star data */
             if(!fread(&stardata, sizeof(starData), 1, dataFile)){
                 kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
             }
 
             /* Swap Bytes when required */            
-            if(swapBytes) {
-                bswap_32(stardata.RA);
-                bswap_32(stardata.Dec);
-                bswap_32(stardata.dRA);
-                bswap_32(stardata.dDec);
-                bswap_32(stardata.parallax);
-                bswap_32(stardata.HD);
-                bswap_16(stardata.mag);
-                bswap_16(stardata.bv_index);
-            }
-            
+            if(swapBytes)
+                byteSwap( &stardata );
+
             gname = "";
             name = "";
             visibleName = "";
@@ -451,9 +439,14 @@ void StarComponent::loadShallowStarData()
 
             /* Create the new StarObject */
             if ( named ) {
+                /*
                 star = new StarObject( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0, name, visibleName, 
                                        QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0, 
                                        stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
+                */
+                star = new StarObject;
+                star->init( &stardata );
+                star->setNames( name, visibleName );
             }
             else {
                 /*
@@ -550,16 +543,8 @@ bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int
         }
 
         /* Swap Bytes when required */            
-        if(swapBytes) {
-            bswap_32(stardata.RA);
-            bswap_32(stardata.Dec);
-            bswap_32(stardata.dRA);
-            bswap_32(stardata.dDec);
-            bswap_32(stardata.parallax);
-            bswap_32(stardata.HD);
-            bswap_16(stardata.mag);
-            bswap_16(stardata.bv_index);
-        }
+        if(swapBytes)
+            byteSwap( &stardata );
         
         if(stardata.flags & 0x01)
             kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
@@ -628,4 +613,15 @@ int StarComponent::starColorMode( void ) const {
 
 int StarComponent::starColorIntensity( void ) const {
     return m_Data->colorScheme()->starColorIntensity();
+}
+
+void StarComponent::byteSwap( starData *stardata ) {
+    bswap_32( stardata->RA );
+    bswap_32( stardata->Dec );
+    bswap_32( stardata->dRA );
+    bswap_32( stardata->dDec );
+    bswap_32( stardata->parallax );
+    bswap_32( stardata->HD );
+    bswap_16( stardata->mag );
+    bswap_16( stardata->bv_index );
 }
