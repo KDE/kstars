@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef STARDATA_H
+#define STARDATA_H
+
 #include <QtGlobal>
 
 /**
@@ -36,3 +39,5 @@ typedef struct starData {
     char flags;
     char unused;
 } starData;
+
+#endif
