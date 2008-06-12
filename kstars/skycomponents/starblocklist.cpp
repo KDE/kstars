@@ -84,7 +84,7 @@ bool StarBlockList::fillToMag( float maglim ) {
             ++nBlocks;
         }
         fread( &stardata, sizeof( starData ), 1, dataFile );
-        // TODO: Implement Byteswapping
+        StarComponent::byteSwap( &stardata );
         if( maglim < blocks[nBlocks - 1]->faintMag )
             break;
         readOffset += sizeof( starData );

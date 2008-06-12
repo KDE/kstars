@@ -44,31 +44,6 @@ StarBlockFactory::~StarBlockFactory() {
     deleteBlocks( nBlocks );
 }
 
-// DEPRECATED
-/*
-int StarBlockFactory::addNewBlocks( int nblocks ) {
-    int i = 0;
-    kDebug() << "WARNING: StarBlockFactory::addNewBlocks() is deprecated" << endl;
-    for( i = 0; i <  nblocks; ++i ) {
-        if( first == NULL ) {
-            first = last = new StarBlock( NULL, NULL );
-            if( first == NULL )
-                return 0;
-        }
-        else {
-            StarBlock *newStarBlock;
-            newStarBlock = new StarBlock( last, NULL );
-            if( newStarBlock == NULL )
-                return i;
-            last = newStarBlock;
-        }
-    }
-
-    nstarblocks += i;
-    return i;
-}
-*/
-
 StarBlock *StarBlockFactory::getBlock() {
     StarBlock *freeBlock = NULL;
     if( nBlocks < nCache ) {
@@ -78,7 +53,7 @@ StarBlock *StarBlockFactory::getBlock() {
             return freeBlock;
         }
     }
-    fprintf(stderr, "last record %s", (last ? "exists" : "does not exist"));
+    //    fprintf(stderr, "last record %s", (last ? "exists" : "does not exist"));
     if( last && ( last->drawID != drawID || last->drawID == 0 ) ) {
         freeBlock = last;
         last = last->prev;
@@ -93,49 +68,18 @@ StarBlock *StarBlockFactory::getBlock() {
     freeBlock = new StarBlock;
     if( freeBlock )
         ++nBlocks;
-    fprintf(stderr, "\"Illegal\" block allocation: %d blocks\n", nBlocks);
+    //    fprintf(stderr, "\"Illegal\" block allocation: %d blocks\n", nBlocks);
     return freeBlock;
 }
-
-/*
-StarBlock *StarBlockFactory::getBlock() {
-    if( last->drawID == 0 || last->drawID != drawID ) {
-        if( last->parent ) {
-            last->parent->releaseBlock( last );
-            last->parent = NULL;
-        }
-        useBlock( last );
-        return first;
-    }
-    else {
-        if( first == NULL ) {
-            first = last = new StarBlock( NULL, NULL );
-            if( first == NULL )
-                return NULL;
-        }
-        else {
-            StarBlock *newBlock;
-            newBlock = new StarBlock( last, NULL );
-            if( newBlock == NULL )
-                return NULL;
-            last->next = newBlock;
-            last = newBlock;
-        }
-        ++nstarblocks;
-        useBlock( last );
-        return first;
-    }
-}
-*/
 
 bool StarBlockFactory::markFirst( StarBlock *block ) {
 
     if( !block )
         return false;
 
-    fprintf(stderr, "markFirst()!\n");
+    //    fprintf(stderr, "markFirst()!\n");
     if( !first ) {
-        fprintf(stderr, "\tLinking in first block!\n");
+        //        fprintf(stderr, "\tLinking in first block!\n");
         last = first = block;
         first->prev = first->next = NULL;
         first->drawID = drawID;
@@ -168,7 +112,7 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 
 bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
-    fprintf(stderr, "markNext()!\n");
+    //    fprintf(stderr, "markNext()!\n");
     if( !block || !after )
         return false;
 
@@ -251,8 +195,7 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     int i;
     StarBlock *temp;
 
-    // TODO: Fix segmentation fault here
-    fprintf(stderr, "nblocks = %d", nblocks );
+    fprintf(stderr, "%d StarBlocks freed\n", nblocks );
     return 1;
     i = 0;
     while( last != NULL && i != nblocks ) {
