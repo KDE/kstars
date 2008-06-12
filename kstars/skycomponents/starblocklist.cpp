@@ -79,9 +79,9 @@ bool StarBlockList::fillToMag( float maglim ) {
                 kDebug() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
                          << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
                 return false;
-                SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] );
-                ++nBlocks;
             }
+            SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] );
+            ++nBlocks;
         }
         fread( &stardata, sizeof( starData ), 1, dataFile );
         // TODO: Implement Byteswapping

@@ -84,6 +84,8 @@ StarBlock *StarBlockFactory::getBlock() {
         last = last->prev;
         if( last )
             last->next = NULL;
+        if( freeBlock == first )
+            first = NULL;
         freeBlock->prev = NULL;
         freeBlock->next = NULL;
         return freeBlock;
@@ -131,8 +133,9 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
     if( !block )
         return false;
 
+    fprintf(stderr, "markFirst()!\n");
     if( !first ) {
-        fprintf(stderr, "Linking in first block!\n");
+        fprintf(stderr, "\tLinking in first block!\n");
         last = first = block;
         first->prev = first->next = NULL;
         first->drawID = drawID;
@@ -165,6 +168,7 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 
 bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
+    fprintf(stderr, "markNext()!\n");
     if( !block || !after )
         return false;
 
