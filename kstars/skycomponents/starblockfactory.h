@@ -1,5 +1,5 @@
 /***************************************************************************
-                 starblockcache.h  -  K Desktop Planetarium
+                 starblockfactory.h  -  K Desktop Planetarium
                              -------------------
     begin                : 7 Jun 2008
     copyright            : (C) 2008 by Akarsh Simha
@@ -15,22 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STARBLOCKCACHE_H
-#define STARBLOCKCACHE_H
+#ifndef STARBLOCKFACTORY_H
+#define STARBLOCKFACTORY_H
 
 #include "typedef.h"
 #include "starblock.h"
 
 /**
- *@class StarBlockCache
+ *@class StarBlockFactory
  *
- *Maintains a Least Recently Used Cache of StarBlocks
- *
+ *@short A factory that creates StarBlocks and recycles them in an LRU Cache
  *@author Akarsh Simha
  *@version 0.1
  */
 
-class StarBlockCache {
+class StarBlockFactory {
 
  public:
 
@@ -38,29 +37,30 @@ class StarBlockCache {
      * Constructor
      * Initializes first and last StarBlock pointers to NULL
      */
-    StarBlockCache();
+    StarBlockFactory();
 
     /**
      * Constructor
      *@short Creates a cache containing N blocks
      *@param nblocks  Number of blocks to allocate
      */
-    StarBlockCache( int nblocks );
+    StarBlockFactory( int nblocks );
 
 
     /**
      * Destructor
      * Deletes the linked list that maintains the Cache
      */
-    ~StarBlockCache();
+    ~StarBlockFactory();
 
+    // DEPRECATED. TODO: Make this private, or probably discard it
     /**
      *@short  Appends N new blocks to the end of the list
      *
      *@param  Number of blocks to append
      *@return Number of blocks successfully appended
      */
-    int addNewBlocks( int nblocks );
+    //   int addNewBlocks( int nblocks );
 
     /**
      *@short  Return a StarBlock available for use
@@ -80,8 +80,19 @@ class StarBlockCache {
      *
      *@return true on success, false if the StarBlock supplied was not on our list at all
      */
-    bool useBlock( StarBlock *block );
+    bool markFirst( StarBlock *block );
 
+    /**
+     *@short  Rank a given StarBlock after another given StarBlock in the LRU list
+     * and sync its drawID with the current drawID
+     *
+     *@param  after  The block after which 'block' should be put
+     *@param  block  The block to mark for use
+     *@return true on success, false on failure
+     */
+    bool markNext( StarBlock *after, StarBlock *block );
+
+    // DEPRECATED
     /**
      *@short  Move a group of blocks as they are to the front
      *
@@ -95,6 +106,7 @@ class StarBlockCache {
      */
     bool groupMove( StarBlock *start, const int nblocks );
 
+    // DEPRECATED. TODO: Make this private
     /**
      *@short  Deletes the N least recently used blocks
      *
@@ -103,7 +115,7 @@ class StarBlockCache {
      */
     int deleteBlocks( int nblocks );
 
-    quint32 drawID;            // A number identifying the current 'use' cycle
+    quint32 drawID;            // A number identifying the current draw cycle
 
  private:
 
@@ -115,7 +127,8 @@ class StarBlockCache {
      */
 
     StarBlock *first, *last;   // Pointers to the beginning and end of the linked list
-    int nstarblocks;           // Number of blocks we currently have in the cache
+    int nBlocks;               // Number of blocks we currently have in the cache
+    int nCache;                // Number of blocks to start recycling cached blocks at
 
 };
 

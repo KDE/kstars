@@ -167,7 +167,7 @@ set(libkstarscomponents_SRCS
    skycomponents/skycomposite.cpp 
    skycomponents/starblock.cpp
    skycomponents/starblocklist.cpp
-   skycomponents/starblockcache.cpp
+   skycomponents/starblockfactory.cpp
 )
 
 set(libkstarswidgets_SRCS ${fitswidgets_SRCS}

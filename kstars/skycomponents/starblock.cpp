@@ -17,37 +17,40 @@
 
 #include "starblock.h"
 #include "starobject.h"
-
+#include "starcomponent.h"
+#include "stardata.h"
 
 StarObject *StarBlock::plainStarTemplate = NULL;
 int StarBlock::refCount = 0;
 
 StarBlock::StarBlock() {
-    init( NULL, NULL );
+    init();
     allocStars( 100 );                // TODO: Make this number user-specifiable
 }
 
 StarBlock::StarBlock( int nstars ) {
-    init( NULL, NULL );
+    init();
     allocStars( nstars );
 }
 
-StarBlock::StarBlock( StarBlock *_prev, StarBlock *_next ) {
-    init( _prev, _next );
-    allocStars( 100 );                // TODO: Make this number user-specifiable
-}
+// NOTE: This method is deprecated
+//StarBlock::StarBlock( StarBlock *_prev, StarBlock *_next ) {
+//    init( _prev, _next );
+//    allocStars( 100 );              
+//}
 
-void StarBlock::init( StarBlock *_prev, StarBlock *_next ) {
+// TODO: Keep the plainStarTemplate in one place
+//       Currently, there is also on in StarComponent
+void StarBlock::init() {
     parent = NULL;
-    prev = _prev;
-    next = _next;
+    prev = next = NULL;
     drawID = 0;
     if( !plainStarTemplate )
         plainStarTemplate = new StarObject;
     refCount++;
     faintMag = -5.0;
-    brightMag = -5.0;
-    starsRead = 0;
+    brightMag = 15.0;
+    nStars = 0;
 }
 
 
@@ -58,7 +61,7 @@ StarBlock::~StarBlock() {
     refCount--;
     if(refCount == 0) {
         delete plainStarTemplate;
-        plainStarTemplate == NULL;
+        plainStarTemplate = NULL;
     }
     if( parent )
         parent -> releaseBlock( this );
@@ -75,4 +78,20 @@ int StarBlock::allocStars( int nstars ) {
         stars.append( newStarObject );
     }
     return nstars;
+}
+
+bool StarBlock::addStar( StarObject *star ) {
+
+    if(isFull())
+        return false;
+
+    memcpy( stars.at( nStars ), star, sizeof( StarObject ) );
+    
+    if( star->mag() > faintMag )
+        faintMag = star->mag();
+    if( star->mag() < brightMag )
+        brightMag = star->mag();
+    
+    ++nStars;
+    return true;
 }

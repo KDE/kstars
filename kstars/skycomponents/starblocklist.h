@@ -19,6 +19,7 @@
 #define STARBLOCKLIST_H
 
 #include "starblock.h"
+#include "typedef.h"
 
 class StarBlock;
 
@@ -36,7 +37,7 @@ class StarBlockList {
     /**
      *Constructor.
      */
-    StarBlockList();
+    StarBlockList( Trixel trixel );
 
     /**
      *Destructor
@@ -44,14 +45,59 @@ class StarBlockList {
     ~StarBlockList();
 
     /**
+     *@short Ensures that the list is loaded with stars to given magnitude limit
+     *
+     *@param Magnitude limit to load stars upto
+     *@return true on success, false on failure (data file not found, bad seek etc)
+     */
+    bool fillToMag( float maglim );
+
+    /**
+     *@short Sets the first StarBlock in the list to point to the given StarBlock
+     *
+     *This function must ideally be used only once. Also, it does not make a copy
+     *of the StarBlock supplied, but uses the pointer directly. StarBlockList will
+     *take care of deleting the StarBlock when it is destroyed
+     *
+     *@param Pointer to the StarBlock
+     */
+    void setStaticBlock( StarBlock *block );
+
+    // TODO: This function should probably return a value
+    /**
      *@short  Drops the StarBlock with the given pointer from the list
      *@param  Pointer to the StarBlock to remove
      */
     void releaseBlock( StarBlock *block );
 
+    /**
+     *@short  Returns the i-th block in this StarBlockList
+     *
+     *@param  Index of the required block
+     *@return The StarBlock requested for, NULL if index out of bounds
+     */
+    inline StarBlock *block( int i ) { return ( ( i < nBlocks ) ? blocks[ i ] : NULL ); }
+
+    /**
+     *@short  Returns the total number of stars in this StarBlockList
+     *@return Total number of stars in this StarBlockList
+     */
+    inline long getStarCount() { return nStars; }
+
+    /**
+     *@short  Returns the total number of blocks in theis StarBlockList
+     *@return Number of blocks in this StarBlockList
+     */
+    inline int getBlockCount() { return nBlocks; }
+
  private:
-    QList < StarBlock *> list;
-    quint32 readOffset;
+    Trixel trixel;
+    unsigned long nStars;
+    long readOffset;
+    QList < StarBlock *> blocks;
+    unsigned int nBlocks;
+
+
 };
 
 #endif

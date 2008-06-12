@@ -1,5 +1,5 @@
 /***************************************************************************
-                 starblockcache.h  -  K Desktop Planetarium
+               starblockfactory.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 7 Jun 2008
     copyright            : (C) 2008 by Akarsh Simha
@@ -15,33 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "starblockcache.h"
+#include "starblockfactory.h"
 
+// TODO: Remove later
+#include <stdio.h>
 
-StarBlockCache::StarBlockCache() {
+// TODO: Implement a better way of deciding this
+#define DEFAULT_NCACHE 12
+
+StarBlockFactory::StarBlockFactory() {
     first = NULL;
     last = NULL;
-    nstarblocks = 0;
+    nBlocks = 0;
     drawID = 0;
+    nCache = DEFAULT_NCACHE;
 }
 
 
-StarBlockCache::StarBlockCache( int nblocks ) {
+StarBlockFactory::StarBlockFactory( int nblocks ) {
     first = NULL;
     last = NULL;
-    nstarblocks = 0;
+    nBlocks = 0;
     drawID = 0;
-    addNewBlocks( nblocks );
+    nCache = nblocks;
 }
 
-StarBlockCache::~StarBlockCache() {
-    deleteBlocks( nstarblocks );
+StarBlockFactory::~StarBlockFactory() {
+    deleteBlocks( nBlocks );
 }
 
-int StarBlockCache::addNewBlocks( int nblocks ) {
-
+// DEPRECATED
+/*
+int StarBlockFactory::addNewBlocks( int nblocks ) {
     int i = 0;
-
+    kDebug() << "WARNING: StarBlockFactory::addNewBlocks() is deprecated" << endl;
     for( i = 0; i <  nblocks; ++i ) {
         if( first == NULL ) {
             first = last = new StarBlock( NULL, NULL );
@@ -60,9 +67,36 @@ int StarBlockCache::addNewBlocks( int nblocks ) {
     nstarblocks += i;
     return i;
 }
+*/
 
+StarBlock *StarBlockFactory::getBlock() {
+    StarBlock *freeBlock = NULL;
+    if( nBlocks < nCache ) {
+        freeBlock = new StarBlock;
+        if( freeBlock ) {
+            ++nBlocks;
+            return freeBlock;
+        }
+    }
+    fprintf(stderr, "last record %s", (last ? "exists" : "does not exist"));
+    if( last && ( last->drawID != drawID || last->drawID == 0 ) ) {
+        freeBlock = last;
+        last = last->prev;
+        if( last )
+            last->next = NULL;
+        freeBlock->prev = NULL;
+        freeBlock->next = NULL;
+        return freeBlock;
+    }
+    freeBlock = new StarBlock;
+    if( freeBlock )
+        ++nBlocks;
+    fprintf(stderr, "\"Illegal\" block allocation: %d blocks\n", nBlocks);
+    return freeBlock;
+}
 
-StarBlock *StarBlockCache::getBlock() {
+/*
+StarBlock *StarBlockFactory::getBlock() {
     if( last->drawID == 0 || last->drawID != drawID ) {
         if( last->parent ) {
             last->parent->releaseBlock( last );
@@ -90,25 +124,38 @@ StarBlock *StarBlockCache::getBlock() {
         return first;
     }
 }
+*/
 
-bool StarBlockCache::useBlock( StarBlock *block ) {
+bool StarBlockFactory::markFirst( StarBlock *block ) {
 
     if( !block )
         return false;
 
-    if( !first )
-        return false;
+    if( !first ) {
+        fprintf(stderr, "Linking in first block!\n");
+        last = first = block;
+        first->prev = first->next = NULL;
+        first->drawID = drawID;
+        return true;
+    }
 
-    if( !block->prev ) { // Block is already in the front
+    if( block == first ) { // Block is already in the front
         block->drawID = drawID;
         return true;
     }
 
-    block->prev->next = block->next;
+    if( block == last )
+        last = block -> prev;
+
+    if( block->prev )
+        block->prev->next = block->next;
+    
     if( block->next )
         block->next->prev = block->prev;
+
     first->prev = block;
     block->next = first;
+    block->prev = NULL;
     first = block;
 
     block->drawID = drawID;
@@ -116,8 +163,42 @@ bool StarBlockCache::useBlock( StarBlock *block ) {
     return true;
 }
 
+bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
-bool StarBlockCache::groupMove( StarBlock *start, const int nblocks ) {
+    if( !block || !after )
+        return false;
+
+    if( !first ) {
+        return false;
+    }
+
+    if( block->prev == after ) { // Block is already after 'after'
+        block->drawID = drawID;
+        return true;
+    }
+
+    if( block == first )
+        first = block->next;
+    if( block == last )
+        last = block->prev;
+
+    if( block->prev )
+        block->prev->next = block->next;
+    if( block->next )
+        block->next->prev = block->prev;
+
+    block->next = after->next;
+    if( block->next )
+        block->next->prev = block;
+    block->prev = after;
+    after->next = block;
+
+    block->drawID = drawID;
+
+    return true;
+}
+
+bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 
     StarBlock *end;
 
@@ -162,12 +243,15 @@ bool StarBlockCache::groupMove( StarBlock *start, const int nblocks ) {
     first = start;
 }
 
-int StarBlockCache::deleteBlocks( int nblocks ) {
+int StarBlockFactory::deleteBlocks( int nblocks ) {
     int i;
     StarBlock *temp;
 
+    // TODO: Fix segmentation fault here
+    fprintf(stderr, "nblocks = %d", nblocks );
+    return 1;
     i = 0;
-    while( last != NULL || i == nblocks ) {
+    while( last != NULL && i != nblocks ) {
         temp = last->prev;
         delete last;
         last = temp;
@@ -178,6 +262,6 @@ int StarBlockCache::deleteBlocks( int nblocks ) {
     else
         first = NULL;
 
-    nstarblocks -= i;
+    nBlocks -= i;
     return i;
 }

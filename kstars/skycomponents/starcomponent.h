@@ -36,6 +36,8 @@
 #include "highpmstarlist.h"
 #include "starobject.h"
 #include "binfilehelper.h"
+#include "starblockfactory.h"
+#include "skymesh.h"
 
 class SkyComponent;
 class KStarsData;
@@ -45,6 +47,8 @@ class StarObject;
 class SkyLabeler;
 class KStarsSplash;
 class BinFileHelper;
+class StarBlockFactory;
+class MeshIterator;
 
 #define MAX_LINENUMBER_MAG 90
 
@@ -105,7 +109,7 @@ public:
 
     void loadShallowStarData();
 
-    // TODO: Move this elsewhere
+    // REMOVED
     /**
      *@short Read one StarBlock of nstars stars from dataFile
      *If nstars is not specified or -1, read as many stars as the StarBlock can hold
@@ -115,7 +119,7 @@ public:
      *@param  nstars    Number of stars to read data for
      *@return true on success, false on failure
      */
-    bool readStarBlock(StarBlock *SB, BinFileHelper *dataReader, int nstars=-1);
+    //    bool readStarBlock(StarBlock *SB, BinFileHelper *dataReader, int nstars=-1);
 
 
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
@@ -164,6 +168,9 @@ public:
     // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
 
+    // TODO: Decide what to do with the following two
+    static StarBlockFactory m_StarBlockFactory;
+    static BinFileHelper deepStarReader;
 
 private:
     SkyMesh*       m_skyMesh;
@@ -207,10 +214,67 @@ private:
         char longName[32];
     } starName;
 
-    StarBlockList m_starBlockList[512];
+    QVector< StarBlockList *> m_starBlockList;
     starData stardata;
     starName starname;
     StarObject plainStarTemplate;
+
+    /**
+     *@class StarComponent::TrixelIterator
+     *@short An "iterator" that iterates over all visible stars in a given trixel
+     *
+     *This iterator goes through both the StarBlockList and the StarList
+     *@author Akarsh Simha
+     *@version 0.1
+     */
+    // DEPRECATED
+    class TrixelIterator {
+    public:
+        /**
+         *Constructor
+         *
+         *@param parent Pointer to the parent StarComponent class
+         *@param trixel Trixel for which this Iterator should work
+         */
+        TrixelIterator( StarComponent *par, Trixel trixel );
+
+        /**
+         *Destructor
+         */
+        ~TrixelIterator();
+
+        /**
+         *@short Tells whether a next StarObject is available
+         *@return true if a next StarObject is available
+         */
+        bool hasNext();
+
+        /**
+         *@short Returns the next StarObject
+         *@return Pointer to the next StarObject
+         */
+        StarObject *next();
+
+        /**
+         *@short Resets the iterator to its initial state
+         */
+        void reset();
+
+    private:
+
+        StarComponent *parent;
+
+        // TODO: Change the types to fixed-size types that are uniform
+        //       across all classes and uses of the variable
+        // Indexes used to identify the current "position" of the iterator
+        int blockIndex;                // Index of current block in SBL
+        int starIndex;                 // Index of current star in SB
+        long Index;                    // Overall index of current star
+        bool named;                    // Tells us whether
+        Trixel trixel;
+    };
+
+    friend class TrixelIterator;
 
 };
 

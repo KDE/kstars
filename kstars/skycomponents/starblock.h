@@ -51,6 +51,7 @@ class StarBlock {
      */
     StarBlock( int nstars );
 
+    // DEPRECATED
     /**
      * Constructor
      * Initializes values of various parameters and links this StarBlock to its neighbours
@@ -65,15 +66,76 @@ class StarBlock {
      */
     ~StarBlock();
 
+    /**
+     *@short Make a copy of the given StarObject in this StarBlock
+     *
+     *This method uses memcpy() to copy the given StarObject into the next un-initialized
+     *StarObject in this StarBlock. If the capacity of this StarBlock is exceeded, it 
+     *returns false.
+     *
+     *@param  star  Pointer to a StarObject
+     *@return true on success, false on failure
+     */
+    bool addStar( StarObject *star );
 
+    /**
+     *@short Returns true if the StarBlock is full
+     *
+     *@return true if full, false if not full
+     */
+    inline bool isFull() { return ( ( nStars == size() ) ? true : false ); }
+
+    /**
+     *@short Resets nStars to zero, so that we can start afresh
+     */
+    inline void reset() { nStars = 0; }
+
+    /**
+     *@short  Return the capacity of this StarBlock
+     *
+     *This is different from nStars. While nStars indicates the number of stars that this StarBlock
+     *actually holds, this method returns the number of stars for which we have allocated memory.
+     *Thus, this method should return a number >= nStars.
+     *
+     *@return The number of stars that this StarBlock can hold
+     */
+    inline int size() { return stars.size(); }
+
+    /**
+     *@short  Return the i-th star in this StarBlock
+     *
+     *@param  Index of StarBlock to return
+     *@return A pointer to the i-th StarObject
+     */
+    inline StarObject *star( int i ) { return stars.at( i ); }
+
+    // These methods are there because we might want to make faintMag and brightMag private at some point
+    /**
+     *@short  Return the magnitude of the brightest star in this StarBlock
+     *
+     *@return Magnitude of the brightest star
+     */
+    inline float getBrightMag() { return brightMag; }
+
+    /**
+     *@short  Return the magnitude of the faintest star in this StarBlock
+     *
+     *@return Magnitude of the faintest star
+     */
+    inline float getFaintMag() { return faintMag; }
+
+    /**
+     *@short  Return the number of stars currently filled in this StarBlock
+     *@return Number of stars filled in this StarBlock
+     */
+    inline int getStarCount() { return nStars; }
+
+    float faintMag;
+    float brightMag;
     StarBlockList *parent;
     StarBlock *prev;
     StarBlock *next;
     quint32 drawID;
-    int starsRead;
-    QVector< StarObject *> stars;
-    float faintMag;
-    float brightMag;
 
  private:
 
@@ -87,11 +149,11 @@ class StarBlock {
 
     /**
      *@short  Do the real construction work
-     *
-     *@param  _prev  Pointer to previous StarBlock in the linked list
-     *@param  _next  Pointer to next StarBlock in the linked list
      */
-    void init( StarBlock *_prev, StarBlock *_next );
+    void init();
+
+    int nStars;
+    QVector< StarObject *> stars;
 
     static StarObject *plainStarTemplate;
     static int refCount;

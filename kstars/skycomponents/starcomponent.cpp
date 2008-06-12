@@ -38,6 +38,10 @@
 
 #include "binfilehelper.h"
 #include "byteswap.h"
+#include "starblockfactory.h"
+
+BinFileHelper StarComponent::deepStarReader;
+StarBlockFactory StarComponent::m_StarBlockFactory;
 
 StarComponent::StarComponent(SkyComponent *parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), starsLoaded(false)
@@ -45,8 +49,11 @@ StarComponent::StarComponent(SkyComponent *parent )
     m_skyMesh = SkyMesh::Instance();
 
     m_starIndex = new StarIndex();
-    for (int i = 0; i < m_skyMesh->size(); i++)
+    for (int i = 0; i < m_skyMesh->size(); i++) {
         m_starIndex->append( new StarList() );
+        m_starBlockList.append( new StarBlockList( i ) );
+        //        kDebug() << "appended " << i << endl;
+    }
     m_highPMStars.append( new HighPMStarList( 840.0 ) );
     m_highPMStars.append( new HighPMStarList( 304.0 ) );
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
@@ -60,10 +67,21 @@ StarComponent::StarComponent(SkyComponent *parent )
     for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ ) {
         m_labelList[ i ] = new LabelList;
     }
+
+    if( !deepStarReader.getFileHandle() ) {
+        deepStarReader.openFile( "deepstars.dat" );
+        
+        if( !deepStarReader.getFileHandle() )
+            kDebug() << "WARNING: Failed to open deep star catalog!!" << endl;
+        else if( !deepStarReader.readHeader() )
+            kDebug() << "WARNING: Header read error for deep star catalog!!" << endl;
+    }
+
 }
 
-StarComponent::~StarComponent()
-{}
+StarComponent::~StarComponent() {
+    deepStarReader.closeFile();
+}
 
 bool StarComponent::selected()
 {
@@ -75,8 +93,6 @@ void StarComponent::init(KStarsData *data)
     emitProgressText( i18n("Loading stars" ) );
     m_Data = data;
 
-    //    readLineNumbers();
-    //    readData( Options::magLimitDrawStar() );
     loadShallowStarData();
 
     //adjust maglimit for ZoomLevel
@@ -254,37 +270,104 @@ void StarComponent::draw( QPainter& psky )
 //END_REMOVE
 
     //Loop for drawing star images
-    MeshIterator region(m_skyMesh, DRAW_BUF);
-    while ( region.hasNext() ) {
-        StarList* starList = m_starIndex->at( region.next() );
-        for (int i=0; i < starList->size(); ++i) {
-            StarObject *curStar = (StarObject*) starList->at( i );
 
+    MeshIterator region(m_skyMesh, DRAW_BUF);
+    //    kDebug() << "Mag limit = " << maglim;
+    while ( region.hasNext() ) {
+        Trixel currentRegion = region.next();
+        StarList* starList = m_starIndex->at( currentRegion );
+        for (int i=0; i < starList->size(); ++i) {
+        
+            StarObject *curStar = starList->at( i );
+            if( !curStar ) continue;
+            
             if ( curStar->updateID != updateID )
                 curStar->JITupdate( data );
-
+            
             float mag = curStar->mag();
-
+            
             // break loop if maglim is reached
-            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
+            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) ) {
+                //                kDebug() << "Breaking off @ mag = " << mag;
                 break;
+            }
+                 
+            //            kDebug() << "Passed mag limit. mag = " << mag;
+            //            kDebug() << "This chap was expected to be in " << currentRegion << ", but he is in " 
+            //<< m_skyMesh->indexStar( curStar );
 
             if ( ! map->checkVisibility( curStar ) ) continue;
-
+            //            kDebug() << "Passed visibility";
             QPointF o = map->toScreen( curStar );
-
+            
             if ( ! map->onScreen( o ) ) continue;
             float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
             if ( size <= 0. ) continue;
-
+            //            kDebug() << "Passed on screen and size and being drawn |||||||||||||";
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                            starColorIntensity(), true );
-
+            
             if ( m_hideLabels || mag > labelMagLim ) continue;
-
+            
             addLabel( o, curStar );
         }
+
+        //        if( mag > maglim )
+        //            continue;
+
+        //        kDebug() << "Magnitude limit: " << maglim;
+        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) ) {
+            kDebug() << "SBL::fillToMag( " << maglim << " ) failed!"<< endl;
+        }
+
+        //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
+        //<<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
+
+        for( int i = 0; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
+            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
+
+            //            kDebug() << "Drawing stars from block " << i << " of trixel " << 
+            //currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
+
+            for( int j = 0; j < block->getStarCount(); j++ ) {
+                //                kDebug() << "Encountering new Star";
+
+                StarObject *curStar = block->star( j );
+
+                //                kDebug() << "We claim that he's from trixel " << currentRegion 
+                //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
+
+                if ( curStar->updateID != updateID )
+                    curStar->JITupdate( data );
+
+                float mag = curStar->mag();
+
+                // break loop if maglim is reached
+                if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
+                    break;
+                //                kDebug()  << "  Star passed maglim test";
+                if ( ! map->checkVisibility( curStar ) ) continue;
+                //                kDebug() << "  Star passed map visibility test";
+                QPointF o = map->toScreen( curStar );
+
+                if ( ! map->onScreen( o ) ) continue;
+                //                kDebug() << "  Passed the map on screen test";
+                float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
+                if ( size <= 0. ) continue;
+                //                kDebug() << "  Passed all tests, getting drawn!!!";
+                curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
+                               starColorIntensity(), true );
+             
+                //                if ( m_hideLabels || mag > labelMagLim ) continue;
+
+                //                addLabel( o, curStar );
+                
+            }
+        }
+        
     }
+
+
 }
 
 void StarComponent::addLabel( const QPointF& p, StarObject *star )
@@ -316,6 +399,8 @@ void StarComponent::drawLabels( QPainter& psky )
 }
 
 // TODO: Come up with a way of implementing quick magnitude searches with binary data
+// Is this required??
+
 /*
 void StarComponent::readLineNumbers()
 {
@@ -404,26 +489,29 @@ void StarComponent::loadShallowStarData()
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
+        Trixel trixel = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
+        StarBlock *SB = new StarBlock( dataReader.getRecordCount( i ) );
+        if( !SB )
+            kDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
+        m_starBlockList[ trixel ]->setStaticBlock( SB );
+
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
 
+            bool named = false;
+
             if(!fread(&stardata, sizeof(starData), 1, dataFile)){
-                kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << i << endl;
+                kDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
             /* Swap Bytes when required */            
             if(swapBytes)
                 byteSwap( &stardata );
 
-            gname = "";
-            name = "";
-            visibleName = "";
-
-            bool named = false;
-            
             if(stardata.flags & 0x01) {
                 /* Named Star - Read the nameFile */
+                visibleName = "";
                 if(!fread(&starname, sizeof(starName), 1, nameFile))
-                    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << i << " star " << j << endl;
+                    kDebug() << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
                 name = QByteArray(starname.longName, 32);
                 gname = QByteArray(starname.bayerName, 8);
                 if ( ! gname.isEmpty() && gname.at(0) != '.')
@@ -447,6 +535,7 @@ void StarComponent::loadShallowStarData()
                 star = new StarObject;
                 star->init( &stardata );
                 star->setNames( name, visibleName );
+                star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             }
             else {
                 /*
@@ -460,16 +549,17 @@ void StarComponent::loadShallowStarData()
                  */
                     
                 /* Make a copy of the star template and set up the data in it */
-                star = (StarObject *)malloc(sizeof(StarObject));
-                star = (StarObject *)memcpy(star, &plainStarTemplate, sizeof(StarObject));
+                plainStarTemplate.init( &stardata );
+                plainStarTemplate.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                if( !SB->addStar( &plainStarTemplate ) )
+                    kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+
                 /*
                 star -> init(stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
                              QByteArray(stardata.spec_type, 2), stardata.dRA/10.0, stardata.dDec/10.0,
                              stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04);
                 */
-                star->init( &stardata );
             }
-            star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             ++nstars;
             
             if( named ) {
@@ -482,18 +572,17 @@ void StarComponent::loadShallowStarData()
                     objectNames(SkyObject::STAR).append( star -> gname(false) );
                 }
                 
-            }
-
-            objectList().append( star );
-            
-            Trixel trixel = ((i >= 256) ? (i - 256):(i + 256));
-            m_starIndex->at( trixel )->append( star );
-            double pm = star->pmMagnitude();
-            for (int j = 0; j < m_highPMStars.size(); j++ ) {
-                HighPMStarList* list = m_highPMStars.at( j );
-                if ( list->append( 512 - i, star, pm ) ) break;
+                objectList().append( star );
+                
+                m_starIndex->at( trixel )->append( star );
+                double pm = star->pmMagnitude();
+                for (int j = 0; j < m_highPMStars.size(); j++ ) {
+                    HighPMStarList* list = m_highPMStars.at( j );
+                    if ( list->append( 512 - i, star, pm ) ) break;
+                }
             }
         }
+
     }
     dataReader.closeFile();
     nameReader.closeFile();
@@ -503,7 +592,8 @@ void StarComponent::loadShallowStarData()
 
 }
 
-
+// REMOVED
+/*
 bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int nstars ) {
 
     int i;
@@ -516,14 +606,14 @@ bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int
         return false;
 
     // Allocate the required amount of StarObjects [ REMOVED - StarBlock handles this ]
-    /*
+    
     if( SB ->  star )
         free( SB -> star );
 
     SB -> star = ( StarObject * )malloc( sizeof( StarObject ) * nstars );
     if( !SB -> star )
         return false;
-    */
+    
 
     if( nstars == -1 )
         nstars = SB->stars.size();
@@ -542,7 +632,7 @@ bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int
             return false;
         }
 
-        /* Swap Bytes when required */            
+        // Swap Bytes when required
         if(swapBytes)
             byteSwap( &stardata );
         
@@ -550,17 +640,18 @@ bool StarComponent::readStarBlock( StarBlock *SB, BinFileHelper *dataReader, int
             kDebug() << "WARNING: Named Star encountered while reading StarBlock. Name will not be loaded!";
 
         memcpy( SB->stars.at( i ), &plainStarTemplate, sizeof( StarObject ) );
-        /*
+        
         SB->stars.at( i )->init( stardata.RA/1000000.0, stardata.Dec/100000.0, stardata.mag/100.0,
                                  QByteArray( stardata.spec_type, 2 ), stardata.dRA/10.0, stardata.dDec/10.0,
                                  stardata.parallax/10.0, stardata.flags & 0x02, stardata.flags & 0x04 );
-        */
+        
         SB->stars.at( i )->init( &stardata );
         SB->starsRead++;
     }
 
     return true;
 }
+*/
 
 SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
     return m_genName.value( name );
@@ -588,22 +679,38 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
+
     MeshIterator region(m_skyMesh, OBJ_NEAREST_BUF);
 
     while ( region.hasNext() ) {
-        StarList* starList = m_starIndex->at( region.next() );
+        Trixel currentRegion = region.next();
+        StarList* starList = m_starIndex->at( currentRegion );
         for (int i=0; i < starList->size(); ++i) {
             StarObject* star =  starList->at( i );
+            if( !star ) continue;
             if ( star->mag() > m_zoomMagLimit ) continue;
-
+            
             double r = star->angularDistanceTo( p ).Degrees();
             if ( r < maxrad ) {
                 oBest = star;
                 maxrad = r;
             }
         }
+        for( int i = 0; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
+            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
+            for( int j = 0; j < block->getStarCount(); ++j ) {
+                StarObject* star =  block->star( i );
+                if( !star ) continue;
+                if ( star->mag() > m_zoomMagLimit ) continue;
+                
+                double r = star->angularDistanceTo( p ).Degrees();
+                if ( r < maxrad ) {
+                    oBest = star;
+                    maxrad = r;
+                }
+            }
+        }
     }
-
     return (SkyObject*) oBest;
 }
 
@@ -625,3 +732,67 @@ void StarComponent::byteSwap( starData *stardata ) {
     bswap_16( stardata->mag );
     bswap_16( stardata->bv_index );
 }
+
+/*
+StarComponent::TrixelIterator::TrixelIterator( StarComponent *par, Trixel trix ) {
+    parent = par;
+    trixel = trix;
+    Index = -1;
+    named = true;
+    blockIndex = 0;
+    starIndex = 0;
+}
+
+
+StarComponent::TrixelIterator::~TrixelIterator() {
+}
+
+bool StarComponent::TrixelIterator::hasNext() { 
+    if( Index < parent->m_starIndex->at( trixel )->size() +
+        parent->m_starBlockList[ trixel ]->getStarCount() )
+        return true;
+    else
+        return false;
+}
+
+StarObject *StarComponent::TrixelIterator::next() {
+    StarList *curStarList = parent->m_starIndex->at( trixel );
+    StarBlockList *curSBList = parent->m_starBlockList[ trixel ];
+
+    ++Index;
+    if( named ) {
+        if( Index < curStarList->size() ) {
+            return curStarList->at( Index );
+        }
+        else {
+            named = false;
+            starIndex = 0;
+            blockIndex = 0;
+        }
+    }
+
+    if( starIndex < curSBList->block( blockIndex )->getStarCount() ) {
+        kDebug() << "CASE 2 with blockIndex " << blockIndex << " #######################";
+        return curSBList->block( blockIndex )->star( starIndex++ );
+    }
+    else {
+        kDebug() << "blockIndex = " << blockIndex;
+        kDebug() << "curSBList->getBlockCount() - 1 = " << curSBList->getBlockCount() - 1;
+        if( blockIndex < curSBList->getBlockCount() - 1 ) {
+            ++blockIndex;
+            kDebug() << "CASE 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            starIndex = 0;
+            return curSBList->block( blockIndex )->star( starIndex++ );
+        }
+        else
+            return NULL;
+    }
+}
+
+void StarComponent::TrixelIterator::reset() {
+    named = true;
+    Index = 0;
+    blockIndex = 0;
+    starIndex = 0;
+}
+*/
