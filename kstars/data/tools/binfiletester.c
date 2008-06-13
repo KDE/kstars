@@ -193,6 +193,7 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
     str[5] = '\0';
 
     id = trixel2number(trixel);
+    printf("Reading star list for trixel %s (%d)\n", trixel, id);
     rewind(f);
     offset = index_offset + id * 8; // CAUTION: Change if the size of each entry in the index table changes
     fseek(f, offset, SEEK_SET);
@@ -203,10 +204,12 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
     }
     fread(&offset, 4, 1, f);
     fread(&nrecs, 2, 1, f);
+
     if(fseek(f, offset, SEEK_SET)) {
         fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
         return;
     }
+    printf("Data for trixel %s (%d) starts at offset 0x%X and has %d records\n", trixel, id, offset, nrecs);
 
     for(id = 0; id < nrecs; ++id) {
         offset = ftell(f);
@@ -261,6 +264,7 @@ int readFileHeader(FILE *f) {
     else
         byteswap = 0;
 
+    // TODO : Implement byteswapping for nfields, etc
     fread(&nfields, 2, 1, f);
   
     for(i = 0; i < nfields; ++i) {
