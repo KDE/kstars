@@ -3,7 +3,7 @@ This directory contains tools used to analyse the data
 DESCRIPTIONS OF FILES:
 ----------------------
 
-read-hippo.pl      Reads the Hiparcos catalog files
+read-hippo.pl      Reads the Hipparcos catalog files
 
 reformat-hip.pl    Converts old format star data files into the new format,
                    where the fixed length Genetive name comes before the
@@ -13,11 +13,16 @@ mag-linenum.pl     Write the line number magnitude index file
 
 max-length.pl      Find the longest line in a file
 
-sort-hip-by-pm.pl  Sort the Hiparcos catalog data by proper motion
+sort-hip-by-pm.pl  Sort the Hipparcos catalog data by proper motion
 
-datatomysql.pl     Reads star catalog files and puts them into a MySQL 
-                   database (server on localhost). CAUTION: This script will
-		   empty the table that it is writing into.
+hipdatatomysql.pl  Reads Hipparcos star catalog text files and puts them into 
+                   a MySQL database (server on localhost). CAUTION: This script 
+                   will empty the table that it is writing into.
+
+tycdatatomysql.pl  The Tycho star catalog text files used by KStars are in a
+                   different format from the Hipparcos catalog files. This script
+                   puts the data from the Tycho star catalog into a MySQL 
+                   database. It's just a modified version of hipdatatomysql.pl
 
 binfiletester.c    C Program to test KStars' star data in binary format
 

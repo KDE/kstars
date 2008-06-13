@@ -1,8 +1,11 @@
 #!/usr/bin/perl
 #
-# datatomysql.pl   Put star data from file (in the plain-text data format used by KStars) into a database
+# hipdatatomysql.pl   Put star data from file (in the plain-text data format used by KStars) into a database
 #
 # CAUTION: Will truncate the table supplied!
+#
+# NOTE: This script reads Hipparcos text data file on stdin.
+#   use cat <hipparcos data file> | <this script>
 
 use strict;
 use DBI;
