@@ -280,6 +280,10 @@ void StarComponent::draw( QPainter& psky )
         //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
+        // Increment drawID, for time being
+        // TODO: Figure out where the current drawID is stored and sync it with that
+        m_StarBlockFactory.drawID++;
+
         for( int i = 0; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
 

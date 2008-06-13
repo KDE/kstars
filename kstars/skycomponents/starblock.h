@@ -86,11 +86,6 @@ class StarBlock {
     inline bool isFull() { return ( ( nStars == size() ) ? true : false ); }
 
     /**
-     *@short Resets nStars to zero, so that we can start afresh
-     */
-    inline void reset() { nStars = 0; }
-
-    /**
      *@short  Return the capacity of this StarBlock
      *
      *This is different from nStars. While nStars indicates the number of stars that this StarBlock
@@ -129,6 +124,11 @@ class StarBlock {
      *@return Number of stars filled in this StarBlock
      */
     inline int getStarCount() { return nStars; }
+
+    /**
+     *@short  Reset this StarBlock's data, for reuse of the StarBl
+     */
+    void reset();
 
     float faintMag;
     float brightMag;

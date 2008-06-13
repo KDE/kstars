@@ -61,6 +61,7 @@ StarBlock *StarBlockFactory::getBlock() {
             last->next = NULL;
         if( freeBlock == first )
             first = NULL;
+        freeBlock->reset();
         freeBlock->prev = NULL;
         freeBlock->next = NULL;
         return freeBlock;

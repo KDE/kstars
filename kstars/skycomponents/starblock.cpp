@@ -48,6 +48,12 @@ void StarBlock::init() {
     if( !plainStarTemplate )
         plainStarTemplate = new StarObject;
     refCount++;
+    reset();
+}
+
+void StarBlock::reset() {
+    if( parent )
+        parent->releaseBlock( this );
     faintMag = -5.0;
     brightMag = 15.0;
     nStars = 0;

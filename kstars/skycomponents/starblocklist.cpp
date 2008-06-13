@@ -65,14 +65,15 @@ bool StarBlockList::fillToMag( float maglim ) {
     if( !dataFile )
         return false;
 
+    Trixel trixelId = ( ( trixel < 256 ) ? ( trixel + 256 ) : ( trixel - 256 ) ); // Trixel ID on datafile is assigned differently
+
     if( readOffset == 0 ) {
-        Trixel i = ( ( trixel < 256 ) ? ( trixel + 256 ) : ( trixel - 256 ) ); // Trixel ID on datafile is assigned differently
-        readOffset = dSReader->getOffset( i );
+        readOffset = dSReader->getOffset( trixelId );
     }
     
     fseek( dataFile, readOffset, SEEK_SET );
     
-    while( maglim >= blocks[nBlocks - 1]->faintMag && nStars < dSReader->getRecordCount( trixel ) + blocks[0]->getStarCount() ) {
+    while( maglim >= blocks[nBlocks - 1]->faintMag && nStars < dSReader->getRecordCount( trixelId ) + blocks[0]->getStarCount() ) {
         if( blocks[nBlocks - 1]->isFull() ) {
             blocks.append( SBFactory->getBlock() );
             if( !blocks[nBlocks] ) {
