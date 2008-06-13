@@ -57,6 +57,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     char ASCII_text[125];
     dataElement *de;
 
+    // TODO: Implement byteswapping here
+
     // Read the preamble
     if(!fileHandle) 
 	return ERR_FILEOPEN;
@@ -77,6 +79,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     // Read the field descriptor table
     fread(&nfields, 2, 1, fileHandle);
 
+    fields.clear();
     for(i = 0; i < nfields; ++i) {
 	de = new dataElement;
 	if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
@@ -109,6 +112,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     prev_nrecs = 0;
     recordCount = 0;
 
+    indexCount.clear();
+    indexOffset.clear();
     for(i = 0; i < indexSize; ++i) {
 	if(!fread(&ID, 2, 1, fileHandle)) {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
@@ -135,8 +140,10 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
 	    return ERR_INDEX_BADOFFSET;
 	}
+
 	indexOffset.append( offset );
 	indexCount.append( nrecs );
+
 	recordCount += nrecs;
 	prev_offset = offset;
 	prev_nrecs = nrecs;
