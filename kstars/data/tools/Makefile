@@ -11,7 +11,7 @@
 MYSQL_CONFIG=/usr/bin/mysql_config
 KSTARS_MYSQL_DB_TO_BIN=./mysql2bin
 KSTARS_MYSQL_DB_DB=$(KSTARS_MYSQL_DB_USER)
-KSTARS_MYSQL_DB_TBL=allstars
+KSTARS_MYSQL_DB_TBL=tycho
 
 all: mysql2bin binfiletester
 

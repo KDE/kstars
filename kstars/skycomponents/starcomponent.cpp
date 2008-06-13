@@ -201,15 +201,12 @@ void StarComponent::draw( QPainter& psky )
     reindex( data->updateNum() );
 
     //adjust maglimit for ZoomLevel
-    float maglim = Options::magLimitDrawStar();
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
-    if ( lgz <= 0.75*lgmax )
-        maglim -= (Options::magLimitDrawStar() -
-                   Options::magLimitDrawStarZoomOut() ) *
-                  (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+    
+    float maglim = 4.444 * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
 
     m_zoomMagLimit = maglim;
 

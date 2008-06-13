@@ -12,16 +12,16 @@
 #include <string.h>
 
 #define TRIXEL_NAME_SIZE 8
-#define DB_TBL "allstars"
+#define DB_TBL "tycho"
 #define DB_DB "stardb"
-#define VERBOSE 0
+#define VERBOSE 1
 #define LONG_NAME_LIMIT 32
 #define BAYER_LIMIT 8
 #define HTM_LEVEL 3
 #define NTRIXELS 512
 #define INDEX_ENTRY_SIZE 8
 #define GLOBAL_MAG_LIMIT 8.00
-#define MYSQL_STARS_PER_QUERY 400
+#define MYSQL_STARS_PER_QUERY 1000
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -460,7 +460,7 @@ int main(int argc, char *argv[]) {
 
     /* Build MySQL query for next MYSQL_STARS_PER_QUERY stars */
       sprintf(query, 
-              "SELECT `trixel`, `ra`, `dec`, `dra`, `ddec`, `parallax`, `mag`, `bv_index`, `spec_type`, `mult`, `var_range`, `var_period`, `UID`, `name`, `gname` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
+              "SELECT `Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `Parallax`, `Mag`, `BV_Index`, `Spec_Type`, `Mult`, `Var`, `HD`, `UID`, `Name`, `GName` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
               (argc >= 10) ? argv[9] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
 
     if(VERBOSE) { fprintf(stderr, "SQL Query: %s\n", query); }
@@ -556,13 +556,13 @@ int main(int argc, char *argv[]) {
       str2int32(&data.dRA, row[3], 1);
       str2int32(&data.dDec, row[4], 1);
       str2int32(&data.parallax, row[5], 1);
-      str2int32(&data.HD, "", 0);                  /* TODO: Put HD data into MySQL DB */
+      str2int32(&data.HD, row[11], 0);                  
       str2int16(&data.bv_index, row[7], 2);
       if(str2charv(data.spec_type, row[8], 2) < 0)
         fprintf(stderr, "Spectral type entry %s in DB is possibly invalid for UID = %s\n", row[8], row[12]); 
       if(row[9][0] != '0' && row[9][0] != '\0')
         data.flags = data.flags | 0x02;
-      if(!isblank(row[10]) || !isblank(row[11]))
+      if(row[10][0] != '0' && row[10][0] != '\0')
         data.flags = data.flags | 0x04;
 
       /* Write the data into the appropriate data file and any names into the name file */
