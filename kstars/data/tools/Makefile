@@ -23,6 +23,8 @@ binfiletester: binfiletester.c
 
 clean:
 	-rm binfiletester mysql2bin
+	-rm ushf usdf nshf nsdf nf
+
 datafiles: mysql2bin
 	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
 	./mysql2bin $(KSTARS_MYSQL_DB_USER) $(KSTARS_MYSQL_DB_PASS) usdf ushf nsdf nshf nf $(KSTARS_MYSQL_DB_DB) $(KSTARS_MYSQL_DB_TBL)
