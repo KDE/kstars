@@ -33,14 +33,6 @@ StarBlock::StarBlock( int nstars ) {
     allocStars( nstars );
 }
 
-// NOTE: This method is deprecated
-//StarBlock::StarBlock( StarBlock *_prev, StarBlock *_next ) {
-//    init( _prev, _next );
-//    allocStars( 100 );              
-//}
-
-// TODO: Keep the plainStarTemplate in one place
-//       Currently, there is also on in StarComponent
 void StarBlock::init() {
     parent = NULL;
     prev = next = NULL;

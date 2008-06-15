@@ -217,7 +217,6 @@ private:
     QVector< StarBlockList *> m_starBlockList;
     starData stardata;
     starName starname;
-    StarObject plainStarTemplate;
 
     /**
      *@class StarComponent::TrixelIterator

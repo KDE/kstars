@@ -356,8 +356,8 @@ void StarComponent::loadShallowStarData()
     FILE *dataFile, *nameFile;
     bool swapBytes = false;
     BinFileHelper dataReader, nameReader;
-    unsigned long nrecords;
     QString name, gname, visibleName;
+    StarObject plainStarTemplate;
     StarObject *star;
 
     if(starsLoaded)
@@ -391,7 +391,6 @@ void StarComponent::loadShallowStarData()
     swapBytes = dataReader.getByteSwap();
 
     long int nstars = 0;
-    Trixel expectedTrixelId = -1;
     QTime t;
 
     // TODO : Remove timing code when we are done with all possible optimizations
