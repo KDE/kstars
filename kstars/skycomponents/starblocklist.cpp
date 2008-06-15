@@ -22,17 +22,21 @@
 #include "starcomponent.h"
 
 StarBlockList::StarBlockList(Trixel tr) : trixel(tr), nStars(0), nBlocks(0),
-                                          readOffset(0) {
-    // TODO: Implement this if necessary
+                                          readOffset(0), faintMag(-5.0) {
 }
 
 StarBlockList::~StarBlockList() {
+    // NOTE: Rest of the StarBlocks are taken care of by StarBlockFactory
     if( blocks[0] )
         delete blocks[0];
 }
 
-void StarBlockList::releaseBlock( StarBlock *block ) {
-    nBlocks -= blocks.removeAll( block );
+int StarBlockList::releaseBlock( StarBlock *block ) {
+    int nRemoved;
+    nRemoved = blocks.removeAll( block );
+    nBlocks -= nRemoved;
+    faintMag = blocks[nBlocks - 1]->faintMag;
+    return nRemoved;
 }
 
 bool StarBlockList::fillToMag( float maglim ) {
@@ -45,12 +49,12 @@ bool StarBlockList::fillToMag( float maglim ) {
     if( nBlocks == 0 )
         return false;
 
-    if( blocks[nBlocks - 1]->faintMag >= maglim )
+    if( faintMag >= maglim )
         return true;
 
     if( nBlocks == 1 ) {
         StarBlock *newBlock;
-        nStars += blocks[0]->getStarCount();
+        nStars = blocks[0]->getStarCount();
         newBlock =  SBFactory->getBlock();
         if(!newBlock) {
             kDebug() << "Could not get new block from StarBlockFactory::getBlock() in trixel " 
@@ -72,8 +76,11 @@ bool StarBlockList::fillToMag( float maglim ) {
     }
     
     fseek( dataFile, readOffset, SEEK_SET );
-    
-    while( maglim >= blocks[nBlocks - 1]->faintMag && nStars < dSReader->getRecordCount( trixelId ) + blocks[0]->getStarCount() ) {
+    /*
+    kDebug() << "Reading trixel " << trixel << ", id on disk = " << trixelId << ", record count = " 
+             << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount();
+    */
+    while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) + blocks[0]->getStarCount() ) {
         if( blocks[nBlocks - 1]->isFull() ) {
             blocks.append( SBFactory->getBlock() );
             if( !blocks[nBlocks] ) {
@@ -84,21 +91,25 @@ bool StarBlockList::fillToMag( float maglim ) {
             SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] );
             ++nBlocks;
         }
+
         fread( &stardata, sizeof( starData ), 1, dataFile );
         StarComponent::byteSwap( &stardata );
-        if( maglim < blocks[nBlocks - 1]->faintMag )
-            break;
         readOffset += sizeof( starData );
+
         star.init( &stardata );
         blocks[nBlocks - 1]->addStar( &star );
+        faintMag = blocks[nBlocks - 1]->faintMag;
         nStars++;
     }
-    return true;
+
+
+    return ( ( maglim < faintMag ) ? true : false );
 }
 
 void StarBlockList::setStaticBlock( StarBlock *block ) {
     if ( block && nBlocks == 0 ) {
         blocks.append( block );
+        faintMag = blocks[0]->faintMag;
         nBlocks = 1;
     }
 }

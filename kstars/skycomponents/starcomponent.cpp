@@ -273,8 +273,10 @@ void StarComponent::draw( QPainter& psky )
             addLabel( o, curStar );
         }
 
-        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) ) {
-            kDebug() << "SBL::fillToMag( " << maglim << " ) failed!"<< endl;
+        // TODO: Hardcoded star catalog faint limit
+        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= 12.0 ) {
+            kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
+                     << currentRegion << " !"<< endl;
         }
 
         //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 

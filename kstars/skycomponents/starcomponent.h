@@ -109,19 +109,6 @@ public:
 
     void loadShallowStarData();
 
-    // REMOVED
-    /**
-     *@short Read one StarBlock of nstars stars from dataFile
-     *If nstars is not specified or -1, read as many stars as the StarBlock can hold
-     *
-     *@param  SB        Pointer to the StarBlock to read data into
-     *@param  dataFile  Pointer to the binary data file to read from
-     *@param  nstars    Number of stars to read data for
-     *@return true on success, false on failure
-     */
-    //    bool readStarBlock(StarBlock *SB, BinFileHelper *dataReader, int nstars=-1);
-
-
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     SkyObject* findStarByGenetiveName( const QString name );
@@ -139,36 +126,9 @@ public:
 
     SkyObject* findByName( const QString &name );
 
-    // REMOVED
-    /**
-     * @short usually does nothing.  If we are drawing faint stars and if
-     * Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
-     * the first time we are called we just pop up a splash screen. Then
-     * the second time we are called we actually re-read the data file and
-     * finally erase the pop up.
-     */
-    //    void rereadData();
-
-    // REMOVED
-    /**
-     *@short reads in the small starlnum.idx file that contains the line
-     * numbers from the stars.dat file that correspond to rough 90
-     * different magnitudes.  This allows us to estimate the number of
-     * lines that need to get read when partially reading stars.dat.
-     */
-    //    void readLineNumbers();     
-
-    // REMOVED
-    /**
-     *@short returns an estimate of the stars.dat line number for a given
-     * star magnitude.
-     */
-    //    int lineNumber( float mag );
-
     // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
 
-    // TODO: Decide what to do with the following two
     static StarBlockFactory m_StarBlockFactory;
     static BinFileHelper deepStarReader;
 
@@ -187,7 +147,7 @@ private:
     bool           m_hideLabels;
 
     KStarsData*    m_Data;
-    float          m_FaintMagnitude;   // WARNING: No longer used
+    float          m_FaintMagnitude;
     bool           starsLoaded;
     float          m_zoomMagLimit;
 
@@ -269,11 +229,11 @@ private:
         int blockIndex;                // Index of current block in SBL
         int starIndex;                 // Index of current star in SB
         long Index;                    // Overall index of current star
-        bool named;                    // Tells us whether
+        bool named;                    // Tells us whether a star is named
         Trixel trixel;
     };
 
-    friend class TrixelIterator;
+    //    friend class TrixelIterator;
 
 };
 

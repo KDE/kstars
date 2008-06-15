@@ -53,15 +53,6 @@ class StarBlockFactory {
      */
     ~StarBlockFactory();
 
-    // DEPRECATED. TODO: Make this private, or probably discard it
-    /**
-     *@short  Appends N new blocks to the end of the list
-     *
-     *@param  Number of blocks to append
-     *@return Number of blocks successfully appended
-     */
-    //   int addNewBlocks( int nblocks );
-
     /**
      *@short  Return a StarBlock available for use
      *
@@ -92,21 +83,10 @@ class StarBlockFactory {
      */
     bool markNext( StarBlock *after, StarBlock *block );
 
-    // DEPRECATED
-    /**
-     *@short  Move a group of blocks as they are to the front
-     *
-     *This function moves a group of blocks, maintaining the links within the group as they
-     *are, to the front. This is useful if the whole block was used in an operation, but the
-     *last used block should be the first dropped block, if the cache need to drop a block
-     *
-     *@param  start   Pointer to the start of the group to move
-     *@param  nblocks Number of blocks to include in the group
-     *@return true on success, false if the group was not correctly defined
-     */
-    bool groupMove( StarBlock *start, const int nblocks );
+    quint32 drawID;            // A number identifying the current draw cycle
 
-    // DEPRECATED. TODO: Make this private
+ private:
+
     /**
      *@short  Deletes the N least recently used blocks
      *
@@ -114,17 +94,6 @@ class StarBlockFactory {
      *@return Number of blocks successfully deleted
      */
     int deleteBlocks( int nblocks );
-
-    quint32 drawID;            // A number identifying the current draw cycle
-
- private:
-
-    /**
-     *@short  Update drawIDs of nblocks blocks starting at start
-     *
-     *@param  start   Pointer to the start of the group to sync drawIDs of
-     *@param  nblocks Number of blocks in the group
-     */
 
     StarBlock *first, *last;   // Pointers to the beginning and end of the linked list
     int nBlocks;               // Number of blocks we currently have in the cache

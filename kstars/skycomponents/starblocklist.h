@@ -67,8 +67,9 @@ class StarBlockList {
     /**
      *@short  Drops the StarBlock with the given pointer from the list
      *@param  Pointer to the StarBlock to remove
+     *@return Number of entries removed from the QList
      */
-    void releaseBlock( StarBlock *block );
+    int releaseBlock( StarBlock *block );
 
     /**
      *@short  Returns the i-th block in this StarBlockList
@@ -76,7 +77,7 @@ class StarBlockList {
      *@param  Index of the required block
      *@return The StarBlock requested for, NULL if index out of bounds
      */
-    inline StarBlock *block( int i ) { return ( ( i < nBlocks ) ? blocks[ i ] : NULL ); }
+    inline StarBlock *block( unsigned int i ) { return ( ( i < nBlocks ) ? blocks[ i ] : NULL ); }
 
     /**
      *@short  Returns the total number of stars in this StarBlockList
@@ -90,10 +91,17 @@ class StarBlockList {
      */
     inline int getBlockCount() { return nBlocks; }
 
+    /**
+     *@short  Returns the magnitude of the faintest star currently stored
+     *@return Magnitude of faintest star stored in this StarBlockList
+     */
+    inline int getFaintMag() { return faintMag; }
+
  private:
     Trixel trixel;
     unsigned long nStars;
     long readOffset;
+    float faintMag;
     QList < StarBlock *> blocks;
     unsigned int nBlocks;
 

@@ -147,6 +147,7 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
     return true;
 }
 
+/*
 bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 
     StarBlock *end;
@@ -191,6 +192,7 @@ bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
     start->prev = NULL;
     first = start;
 }
+*/
 
 int StarBlockFactory::deleteBlocks( int nblocks ) {
     int i;
