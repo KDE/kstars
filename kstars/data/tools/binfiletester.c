@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
+#include "byteswap.h"
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -83,6 +84,21 @@ int displayDataElementDescription(dataElement *e) {
     printf("  Scale: %ld\n", e -> scale);
 }
 
+/*
+ * Does byteswapping for starData structures
+ */
+void bswap_stardata( starData *stardata ) {
+    bswap_32( stardata->RA );
+    bswap_32( stardata->Dec );
+    bswap_32( stardata->dRA );
+    bswap_32( stardata->dDec );
+    bswap_32( stardata->parallax );
+    bswap_32( stardata->HD );
+    bswap_16( stardata->mag );
+    bswap_16( stardata->bv_index );
+}
+
+
 // NOTE: Ineffecient. Not to be used for high-productivity
 // applications
 void swapbytes(void *ptr, int nbytes) {
@@ -152,6 +168,7 @@ int verifyIndexValidity(FILE *f) {
             +nerr;
             break;
         }
+        bswap_16( trixel );
         if(trixel >= ntrixels) {
             fprintf(stderr, "Trixel number %u is greater than the expected number of trixels %u\n", trixel, ntrixels);
             ++nerr;
@@ -163,9 +180,12 @@ int verifyIndexValidity(FILE *f) {
             ++nerr;
         }
         fread(&offset, 4, 1, f);
+        bswap_32( offset );
         fread(&nrecs, 2, 1, f);
-        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/0x20) { // CAUTION: Change 0x20 to sizeof(starData) if starData changes
-            fprintf(stderr, "Expected %u  = (%X - %x) / 32 records, but found %u, in trixel %s\n", (offset - prev_offset) / 32, offset, prev_offset, nrecs, str);
+        bswap_16( nrecs );
+        if( prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/sizeof(starData) ) { 
+            fprintf( stderr, "Expected %u  = (%X - %x) / 32 records, but found %u, in trixel %s\n", 
+                     (offset - prev_offset) / 32, offset, prev_offset, nrecs, str );
             ++nerr;
         }
         prev_offset = offset;
@@ -198,12 +218,15 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
     offset = index_offset + id * 8; // CAUTION: Change if the size of each entry in the index table changes
     fseek(f, offset, SEEK_SET);
     fread(&trix, 2, 1, f);
+    bswap_16( trix );
     if(trix != id) {
         fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %s would be here, but instead I find %s. Aborting.\n", trixel, number2trixel(str,trix));
         return;
     }
     fread(&offset, 4, 1, f);
+    bswap_32( offset );
     fread(&nrecs, 2, 1, f);
+    bswap_16( nrecs );
 
     if(fseek(f, offset, SEEK_SET)) {
         fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
@@ -215,6 +238,7 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
         offset = ftell(f);
         n = (offset - data_offset)/0x20;
         fread(&data, sizeof(starData), 1, f);
+        bswap_stardata( &data );
         printf("Entry #%d\n", id);
         printf("\tRA = %f\n", data.RA / 1000000.0);
         printf("\tDec = %f\n", data.Dec / 100000.0);
@@ -264,15 +288,17 @@ int readFileHeader(FILE *f) {
     else
         byteswap = 0;
 
-    // TODO : Implement byteswapping for nfields, etc
     fread(&nfields, 2, 1, f);
-  
+    if( byteswap ) bswap_16( nfields );
+
     for(i = 0; i < nfields; ++i) {
         fread(&(de[i]), sizeof(struct dataElement), 1, f);
+        bswap_32( de->scale );
         displayDataElementDescription(&(de[i]));
     }
 
     fread(&ntrixels, 2, 1, f);
+    bswap_16( ntrixels );
 
     return 1;
 }
