@@ -63,7 +63,6 @@ class StarBlockList {
      */
     void setStaticBlock( StarBlock *block );
 
-    // TODO: This function should probably return a value
     /**
      *@short  Drops the StarBlock with the given pointer from the list
      *@param  Pointer to the StarBlock to remove

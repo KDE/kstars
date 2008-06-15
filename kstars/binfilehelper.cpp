@@ -1,6 +1,7 @@
 #include <kstandarddirs.h>
 
 #include "binfilehelper.h"
+#include "byteswap.h"
 
 class BinFileHelper;
 
@@ -57,8 +58,6 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     char ASCII_text[125];
     dataElement *de;
 
-    // TODO: Implement byteswapping here
-
     // Read the preamble
     if(!fileHandle) 
 	return ERR_FILEOPEN;
@@ -78,13 +77,14 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     preambleUpdated = true;    
     // Read the field descriptor table
     fread(&nfields, 2, 1, fileHandle);
-
+    if( byteswap ) bswap_16( nfields );
     fields.clear();
     for(i = 0; i < nfields; ++i) {
 	de = new dataElement;
 	if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
 	    return ERR_FD_TRUNC;
 	}
+        bswap_32( de->scale );
 	fields.append( de );
     }
 
@@ -99,6 +99,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     // Read the index table
     fread(&indexSize, 2, 1, fileHandle);
+    bswap_16( indexSize );
 
     quint16 ID;
     quint32 offset;
@@ -119,6 +120,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_INDEX_TRUNC;
 	}
+        bswap_16( ID );
 	if(ID >= indexSize) {
 	    errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
 	    return ERR_INDEX_BADID;
@@ -131,10 +133,12 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_BADSEEK;
 	}
+        bswap_32( offset );
 	if(!fread(&nrecs, 2, 1, fileHandle)) {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_BADSEEK;
 	}
+        bswap_16( nrecs );
 	if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
 	    errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
 				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
