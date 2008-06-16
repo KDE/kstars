@@ -121,7 +121,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1
     jd += step;
     Dist = findDistance(jd, Object1, Object2);
 
-    if(abs(step) < 1.0 / 24.0) {
+    if(fabs(step) < 1.0 / 24.0) {
       out -> first = jd - step / 2.0;
       out -> second = findDistance(jd - step/2.0, Object1, Object2);
       if(out -> second.radians() < findDistance(jd - 5.0, Object1, Object2).radians())
