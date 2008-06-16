@@ -235,7 +235,8 @@ void StarComponent::draw( QPainter& psky )
     //Loop for drawing star images
 
     MeshIterator region(m_skyMesh, DRAW_BUF);
-
+    // TODO: Debug code. May not be useful in production. Remove if required.
+    magLim = maglim;
     while ( region.hasNext() ) {
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
@@ -638,3 +639,42 @@ void StarComponent::TrixelIterator::reset() {
 }
 */
 
+void StarComponent::printDebugInfo() {
+
+    int nTrixels = 0;
+    int nBlocks = 0;
+    long int nStars = 0;
+    float faintMag = -5.0;
+
+    MeshIterator trixels( m_skyMesh, DRAW_BUF );
+    Trixel trixel;
+
+    while( trixels.hasNext() ) {
+        trixel = trixels.next();
+        nTrixels++;
+        for(int i = 0; i < m_starBlockList[ trixel ]->getBlockCount(); ++i) {
+            nBlocks++;
+            StarBlock *block = m_starBlockList[ trixel ]->block( i );
+            for(int j = 0; j < block->getStarCount(); ++j) {
+                nStars++;
+            }
+            if( block->getFaintMag() > faintMag ) {
+                faintMag = block->getFaintMag();
+            }
+        }
+    }
+
+    kDebug() << "========== UNNAMED STAR MEMORY ALLOCATION INFORMATION ==========";
+    kDebug() << "Number of visible trixels               = " << nTrixels << endl;
+    kDebug() << "Number of visible StarBlocks            = " << nBlocks << endl;
+    kDebug() << "Number of StarBlocks allocated via SBF  = " << m_StarBlockFactory.getBlockCount() << endl;
+    kDebug() << "Number of visible unnamed stars         = " << nStars << endl;
+    kDebug() << "Magnitude of the faintest star          = " << faintMag << endl;
+    kDebug() << "Target magnitude limit                  = " << magLim << endl;
+    kDebug() << "Size of each StarBlock                  = " << sizeof( StarBlock ) << endl;
+    kDebug() << "Size of each StarObject                 = " << sizeof( StarObject ) << endl;
+    kDebug() << "Memory use due to visible unnamed stars = " << ( sizeof( StarObject ) * nStars / 1048576.0 ) << "MB" << endl;
+    kDebug() << "Memory use due to visible StarBlocks    = " << sizeof( StarBlock ) * nBlocks << endl;
+    kDebug() << "Memory use due to StarBlocks in SBF     = " << sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() << endl;
+    kDebug() << "================================================================";
+}

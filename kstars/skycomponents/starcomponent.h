@@ -126,6 +126,11 @@ public:
 
     SkyObject* findByName( const QString &name );
 
+    /**
+     *@short Prints some useful debug info about memory allocation for stars
+     */
+    void printDebugInfo();
+
     // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
 
@@ -150,6 +155,7 @@ private:
     float          m_FaintMagnitude;
     bool           starsLoaded;
     float          m_zoomMagLimit;
+    float          magLim;
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
@@ -192,7 +198,7 @@ private:
         /**
          *Constructor
          *
-         *@param parent Pointer to the parent StarComponent class
+         *@param par    Pointer to the parent StarComponent class
          *@param trixel Trixel for which this Iterator should work
          */
         TrixelIterator( StarComponent *par, Trixel trixel );

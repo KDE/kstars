@@ -172,6 +172,7 @@ public:
     int starColorMode() const;
     void setStarColorIntensity( int newIntensity );
     int starColorIntensity() const;
+    inline StarComponent *getStarComponent() const { return m_Stars; }
 
     virtual void emitProgressText( const QString &message );
     virtual QHash<int, QStringList>& objectNames();

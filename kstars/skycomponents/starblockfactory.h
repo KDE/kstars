@@ -83,6 +83,13 @@ class StarBlockFactory {
      */
     bool markNext( StarBlock *after, StarBlock *block );
 
+    /**
+     *@short  Returns the number of StarBlocks currently produced
+     *
+     *@return Number of StarBlocks currently allocated
+     */
+    inline int getBlockCount() { return nBlocks; }
+
     quint32 drawID;            // A number identifying the current draw cycle
 
  private:

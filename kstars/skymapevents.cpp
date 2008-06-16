@@ -45,7 +45,9 @@
 #include "kspopupmenu.h"
 #include "ksmoon.h"
 
+// TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
+#include "skycomponents/starcomponent.h"
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
@@ -418,8 +420,8 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         << sl.point(1)->ra()->toHMSString() << endl;
             break;
         **/
-    case Qt::Key_B:  // print labeler info
-        SkyLabeler::Instance()->printInfo();
+    case Qt::Key_B:  // print useful debug info about memory allocation for stars
+        data->skyComposite()->getStarComponent()->printDebugInfo();
         break;
     case Qt::Key_F:  // print labeler info
         SkyLabeler::Instance()->decDensity();
