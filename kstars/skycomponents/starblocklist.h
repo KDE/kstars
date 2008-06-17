@@ -96,6 +96,12 @@ class StarBlockList {
      */
     inline int getFaintMag() { return faintMag; }
 
+    /**
+     *@short  Returns the trixel that this SBL is meant for
+     *@return The value of trixel
+     */
+    inline Trixel getTrixel() { return trixel; }
+
  private:
     Trixel trixel;
     unsigned long nStars;

@@ -21,8 +21,12 @@
 #include "stardata.h"
 #include "starcomponent.h"
 
-StarBlockList::StarBlockList(Trixel tr) : trixel(tr), nStars(0), nBlocks(0),
-                                          readOffset(0), faintMag(-5.0) {
+StarBlockList::StarBlockList(Trixel tr) {
+    trixel = tr;
+    nStars = 0;
+    readOffset = 0;
+    faintMag = -5.0;
+    nBlocks = 0;
 }
 
 StarBlockList::~StarBlockList() {
@@ -33,9 +37,23 @@ StarBlockList::~StarBlockList() {
 
 int StarBlockList::releaseBlock( StarBlock *block ) {
     int nRemoved;
+    // TODO: Change over to removeLast after debug
+    if( block != blocks[ nBlocks - 1 ] )
+        kDebug() << "ERROR: Releasing a block which is not the last block! Trixel = " << trixel << endl;
+    /*
+    else
+        kDebug() << "INFO: Released last block of trixel " << trixel << endl;
+    */
+
     nRemoved = blocks.removeAll( block );
+    if( nRemoved != 1 )
+        kDebug() << "ERROR: More than one entry pointed to the same StarBlock, or no StarBlock removed!";
+
     nBlocks -= nRemoved;
+    nStars -= block->getStarCount() * nRemoved;
+    readOffset -= block->getStarCount() * sizeof( starData ) * nRemoved;
     faintMag = blocks[nBlocks - 1]->faintMag;
+
     return nRemoved;
 }
 
@@ -46,8 +64,10 @@ bool StarBlockList::fillToMag( float maglim ) {
     StarObject star;
     starData stardata;
 
-    if( nBlocks == 0 )
+    if( nBlocks <= 0 ) {
+        kDebug() << "Calling fillToMag before loading static stars!";
         return false;
+    }
 
     if( faintMag >= maglim )
         return true;
@@ -62,46 +82,68 @@ bool StarBlockList::fillToMag( float maglim ) {
             return false;
         }
         blocks.append( newBlock );
-        SBFactory->markFirst( blocks[1] );
+        blocks[1]->parent = this;
+        
+        if( !SBFactory->markFirst( blocks[1] ) )
+            kDebug() << "markFirst failed on block 2 of trixel " << trixel << endl;
+        /*
+        else
+            kDebug() << "markFirst succeeded for trixel " << trixel << endl;
+        */
         nBlocks = 2;
     }
 
-    if( !dataFile )
+    if( !dataFile ) {
+        kDebug() << "dataFile not opened!";
         return false;
+    }
 
     Trixel trixelId = ( ( trixel < 256 ) ? ( trixel + 256 ) : ( trixel - 256 ) ); // Trixel ID on datafile is assigned differently
 
-    if( readOffset == 0 ) {
+    if( readOffset <= 0 )
         readOffset = dSReader->getOffset( trixelId );
-    }
-    
+
+    if( nBlocks != blocks.size() )
+        kDebug() << "nBlocks =" << nBlocks << "and blocks.size() =" << blocks.size() << "!!!!!!!!!!!!!!!!!!!!!!!!";
+
     fseek( dataFile, readOffset, SEEK_SET );
+    
     /*
-    kDebug() << "Reading trixel " << trixel << ", id on disk = " << trixelId << ", record count = " 
-             << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount();
+    kDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
+             << ", record count =" << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount()
+             << "to maglim =" << maglim << "with current faintMag =" << faintMag << endl;
     */
+
     while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) + blocks[0]->getStarCount() ) {
         if( blocks[nBlocks - 1]->isFull() ) {
-            blocks.append( SBFactory->getBlock() );
-            if( !blocks[nBlocks] ) {
+            StarBlock *newBlock;
+            newBlock = SBFactory->getBlock();
+            if( !newBlock ) {
                 kDebug() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
                          << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
                 return false;
             }
-            SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] );
+            blocks.append( newBlock );
+            blocks[nBlocks]->parent = this;
+            
+            if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
+                kDebug() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
+            
             ++nBlocks;
         }
 
         fread( &stardata, sizeof( starData ), 1, dataFile );
         StarComponent::byteSwap( &stardata );
         readOffset += sizeof( starData );
-
         star.init( &stardata );
         blocks[nBlocks - 1]->addStar( &star );
-        faintMag = blocks[nBlocks - 1]->faintMag;
+        if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
+            kDebug() << "WARNING: Encountered a jump from mag" << faintMag << "to mag"
+                     << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
+        }
+        faintMag = blocks[nBlocks - 1]->getFaintMag();
         nStars++;
     }
-
 
     return ( ( maglim < faintMag ) ? true : false );
 }
@@ -109,6 +151,7 @@ bool StarBlockList::fillToMag( float maglim ) {
 void StarBlockList::setStaticBlock( StarBlock *block ) {
     if ( block && nBlocks == 0 ) {
         blocks.append( block );
+        blocks[0]->parent = this;
         faintMag = blocks[0]->faintMag;
         nBlocks = 1;
     }

@@ -131,6 +131,17 @@ public:
      */
     void printDebugInfo();
 
+    /**
+     *@short Verifies the integrity of the StarBlockLists
+     *
+     * This method, useful for debugging, verifies that all SBs in each SBL of
+     * the StarComponent are in order of magnitude. It prints out debug info
+     * regarding the same.
+     *
+     *@return true if no errors found, false if an error was found
+     */
+    bool verifySBLIntegrity();
+
     // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
 
@@ -159,6 +170,12 @@ private:
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
+
+    // Time keeping variables
+    long unsigned  t_drawNamed;
+    long unsigned  t_dynamicLoad;
+    long unsigned  t_drawUnnamed;
+    long unsigned  t_updateCache;
 
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;

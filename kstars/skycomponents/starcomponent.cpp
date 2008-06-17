@@ -237,7 +237,20 @@ void StarComponent::draw( QPainter& psky )
     MeshIterator region(m_skyMesh, DRAW_BUF);
     // TODO: Debug code. May not be useful in production. Remove if required.
     magLim = maglim;
+
+    m_StarBlockFactory.drawID = m_skyMesh->drawID();
+
+    QTime t;
+    int nTrixels = 0;
+
+    t_drawNamed = 0;
+    t_dynamicLoad = 0;
+    t_updateCache = 0;
+    t_drawUnnamed = 0;
+
+    t.start();
     while ( region.hasNext() ) {
+        ++nTrixels;
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
         for (int i=0; i < starList->size(); ++i) {
@@ -273,6 +286,7 @@ void StarComponent::draw( QPainter& psky )
             
             addLabel( o, curStar );
         }
+        t_drawNamed += t.restart();
 
         // TODO: Hardcoded star catalog faint limit
         if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= 12.0 ) {
@@ -280,17 +294,33 @@ void StarComponent::draw( QPainter& psky )
                      << currentRegion << " !"<< endl;
         }
 
+        t_dynamicLoad += t.restart();
+
         //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
-        m_StarBlockFactory.drawID = m_skyMesh->drawID();
+
+        for( int i = 1; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
+            StarBlock *prevBlock = m_starBlockList[ currentRegion ]->block( i - 1 );
+            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
+
+            if( i == 1 )
+                if( !m_StarBlockFactory.markFirst( block ) )
+                    kDebug() << "markFirst failed in trixel" << currentRegion;
+            if( i > 1 )
+                if( !m_StarBlockFactory.markNext( prevBlock, block ) )
+                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+            if( i + 1 < m_starBlockList[ currentRegion ]->getBlockCount() 
+                && m_starBlockList[ currentRegion ]->block( i + 1 )->getFaintMag() < maglim )
+                break;
+        }
+
+        t_updateCache += t.restart();
 
         for( int i = 0; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
-
             //            kDebug() << "---> Drawing stars from block " << i << " of trixel " << 
             //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
-
             for( int j = 0; j < block->getStarCount(); j++ ) {
 
                 StarObject *curStar = block->star( j );
@@ -319,8 +349,9 @@ void StarComponent::draw( QPainter& psky )
             }
         }
         
-    }
+        t_drawUnnamed += t.restart();
 
+    }
 
 }
 
@@ -665,16 +696,49 @@ void StarComponent::printDebugInfo() {
     }
 
     kDebug() << "========== UNNAMED STAR MEMORY ALLOCATION INFORMATION ==========";
-    kDebug() << "Number of visible trixels               = " << nTrixels << endl;
-    kDebug() << "Number of visible StarBlocks            = " << nBlocks << endl;
-    kDebug() << "Number of StarBlocks allocated via SBF  = " << m_StarBlockFactory.getBlockCount() << endl;
-    kDebug() << "Number of visible unnamed stars         = " << nStars << endl;
-    kDebug() << "Magnitude of the faintest star          = " << faintMag << endl;
-    kDebug() << "Target magnitude limit                  = " << magLim << endl;
-    kDebug() << "Size of each StarBlock                  = " << sizeof( StarBlock ) << endl;
-    kDebug() << "Size of each StarObject                 = " << sizeof( StarObject ) << endl;
-    kDebug() << "Memory use due to visible unnamed stars = " << ( sizeof( StarObject ) * nStars / 1048576.0 ) << "MB" << endl;
-    kDebug() << "Memory use due to visible StarBlocks    = " << sizeof( StarBlock ) * nBlocks << endl;
-    kDebug() << "Memory use due to StarBlocks in SBF     = " << sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() << endl;
+    kDebug() << "Number of visible trixels                    = " << nTrixels << endl;
+    kDebug() << "Number of visible StarBlocks                 = " << nBlocks << endl;
+    kDebug() << "Number of StarBlocks allocated via SBF       = " << m_StarBlockFactory.getBlockCount() << endl;
+    kDebug() << "Number of visible unnamed stars              = " << nStars << endl;
+    kDebug() << "Magnitude of the faintest star               = " << faintMag << endl;
+    kDebug() << "Target magnitude limit                       = " << magLim << endl;
+    kDebug() << "Size of each StarBlock                       = " << sizeof( StarBlock ) << endl;
+    kDebug() << "Size of each StarObject                      = " << sizeof( StarObject ) << endl;
+    kDebug() << "Memory use due to visible unnamed stars      = " << ( sizeof( StarObject ) * nStars / 1048576.0 ) << "MB" << endl;
+    kDebug() << "Memory use due to visible StarBlocks         = " << sizeof( StarBlock ) * nBlocks << endl;
+    kDebug() << "Memory use due to StarBlocks in SBF          = " << sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() << endl;
+    kDebug() << "=============== STAR DRAW LOOP TIMING INFORMATION ==============";
+    kDebug() << "Time taken for drawing named stars           = " << t_drawNamed << "ms" << endl;
+    kDebug() << "Time taken for dynamic load of data          = " << t_dynamicLoad << "ms" << endl;
+    kDebug() << "Time taken for updating drawIDs              = " << t_updateCache << "ms" << endl;
+    kDebug() << "Time taken for drawing unnamed stars         = " << t_drawUnnamed << "ms" << endl;
     kDebug() << "================================================================";
+}
+
+bool StarComponent::verifySBLIntegrity() {
+
+    float faintMag = -5.0;
+    bool integrity = true;
+    for(Trixel trixel = 0; trixel < m_skyMesh->size(); ++trixel) {
+        for(int i = 0; i < m_starBlockList[ trixel ]->getBlockCount(); ++i) {
+            StarBlock *block = m_starBlockList[ trixel ]->block( i );
+            if( i == 0 )
+                faintMag = block->getBrightMag();
+            // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
+            if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.016) {
+                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
+                         << ", brightMag of block #" << i << " = " << block->getBrightMag();
+                integrity = false;
+            }
+            if( i > 1 && ( !block->prev ) )
+                kDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
+            if( block->prev && block->prev->parent == m_starBlockList[ trixel ] 
+                && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
+                kDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                integrity = false;
+            }
+            faintMag = block->getFaintMag();
+        }
+    }
+    return integrity;
 }

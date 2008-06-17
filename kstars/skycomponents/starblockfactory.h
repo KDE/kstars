@@ -90,6 +90,11 @@ class StarBlockFactory {
      */
     inline int getBlockCount() { return nBlocks; }
 
+    /**
+     *@short  Prints the structure of the cache, for debugging
+     */
+    void printStructure();
+
     quint32 drawID;            // A number identifying the current draw cycle
 
  private:

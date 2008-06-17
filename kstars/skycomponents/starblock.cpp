@@ -20,6 +20,8 @@
 #include "starcomponent.h"
 #include "stardata.h"
 
+#include <kdebug.h>
+
 StarObject *StarBlock::plainStarTemplate = NULL;
 int StarBlock::refCount = 0;
 
@@ -46,6 +48,7 @@ void StarBlock::init() {
 void StarBlock::reset() {
     if( parent )
         parent->releaseBlock( this );
+    parent = NULL;
     faintMag = -5.0;
     brightMag = 15.0;
     nStars = 0;

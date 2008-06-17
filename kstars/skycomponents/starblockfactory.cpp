@@ -19,6 +19,7 @@
 
 // TODO: Remove later
 #include <stdio.h>
+#include <kdebug.h>
 
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
@@ -53,8 +54,10 @@ StarBlock *StarBlockFactory::getBlock() {
             return freeBlock;
         }
     }
-    //    fprintf(stderr, "last record %s", (last ? "exists" : "does not exist"));
     if( last && ( last->drawID != drawID || last->drawID == 0 ) ) {
+        //        kDebug() << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
+        if( last->parent->block( last->parent->getBlockCount() - 1 ) != last )
+            kDebug() << "ERROR: Goof up here!";
         freeBlock = last;
         last = last->prev;
         if( last )
@@ -69,7 +72,6 @@ StarBlock *StarBlockFactory::getBlock() {
     freeBlock = new StarBlock;
     if( freeBlock )
         ++nBlocks;
-    //    fprintf(stderr, "\"Illegal\" block allocation: %d blocks\n", nBlocks);
     return freeBlock;
 }
 
@@ -80,7 +82,7 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 
     //    fprintf(stderr, "markFirst()!\n");
     if( !first ) {
-        //        fprintf(stderr, "\tLinking in first block!\n");
+        //        kDebug() << "INFO: Linking in first block" << endl;
         last = first = block;
         first->prev = first->next = NULL;
         first->drawID = drawID;
@@ -114,10 +116,18 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
 
     //    fprintf(stderr, "markNext()!\n");
-    if( !block || !after )
+    if( !block || !after ) {
+        kDebug() << "WARNING: markNext called with NULL argument" << endl;
         return false;
+    }
 
     if( !first ) {
+        kDebug() << "WARNING: markNext called without an existing linked list" << endl;
+        return false;
+    }
+
+    if( block == after ) {
+        kDebug() << "ERROR: Trying to mark a block after itself!" << endl;
         return false;
     }
 
@@ -126,8 +136,14 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
         return true;
     }
 
-    if( block == first )
+    if( block == first ) {
+        if( block->next == NULL ) {
+            kDebug() << "ERROR: Trying to mark only block after some other block";
+            return false;
+        }
         first = block->next;
+    }
+
     if( block == last )
         last = block->prev;
 
@@ -141,6 +157,9 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
         block->next->prev = block;
     block->prev = after;
     after->next = block;
+
+    if( after == last )
+        last = block;
 
     block->drawID = drawID;
 
@@ -198,8 +217,6 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     int i;
     StarBlock *temp;
 
-    fprintf(stderr, "%d StarBlocks freed\n", nblocks );
-    return 1;
     i = 0;
     while( last != NULL && i != nblocks ) {
         temp = last->prev;
@@ -212,6 +229,34 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     else
         first = NULL;
 
+    kDebug() << nblocks << "StarBlocks freed from StarBlockFactory" << endl;
+
     nBlocks -= i;
     return i;
+}
+
+void StarBlockFactory::printStructure() {
+
+    StarBlock *cur;
+    Trixel curTrixel = 513; // TODO: Change if we change HTMesh level
+    int index;
+    bool draw = false;
+    cur = first;
+    index = 0;
+    do {
+        if( curTrixel != cur->parent->getTrixel() ) {
+            kDebug() << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
+            curTrixel = cur->parent->getTrixel();
+        }
+        if( cur->drawID == drawID && !draw ) {
+            kDebug() << "Blocks from index" << index << "are drawn";
+            draw = true;
+        }
+        if( cur->drawID != drawID && draw ) {
+            kDebug() << "Blocks from index" << index << "are not drawn";
+            draw = false;
+        }
+        cur = cur->next;
+        ++index;
+    }while( cur != last );
 }

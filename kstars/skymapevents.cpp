@@ -423,11 +423,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_B:  // print useful debug info about memory allocation for stars
         data->skyComposite()->getStarComponent()->printDebugInfo();
         break;
-    case Qt::Key_F:  // print labeler info
-        SkyLabeler::Instance()->decDensity();
+    case Qt::Key_F:  // verify the integrity of StarBlockLists
+        data->skyComposite()->getStarComponent()->verifySBLIntegrity();
         break;
-    case Qt::Key_G:  // print labeler info
-        SkyLabeler::Instance()->incDensity();
+    case Qt::Key_G:  // print Cache structure
+        StarComponent::m_StarBlockFactory.printStructure();
         break;
 
 
