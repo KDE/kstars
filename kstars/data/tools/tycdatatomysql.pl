@@ -127,7 +127,7 @@ sub kstars_unpack {
     chomp $line;
 
     # Column number 78 demarkates between numeric data and the genetive/long names
-    my $s1 = substr($line, 0, 78, "");
+    my $s1 = substr($line, 0, 80, "");
 
     # Comments on the File format:
     # ============================
@@ -147,11 +147,11 @@ sub kstars_unpack {
             \s*(-?\d+\.\d\d)\s         # dRA/dt 
             \s*(-?\d+\.\d\d)\s         # dDec/dt
             \s*(-?\d+\.\d\d)\s         # Parallax
-            ([- \d]\d\.\d\d)\s         # Magnitude
+            \s([- \d]\d\.\d\d)\s       # Magnitude
             \s*([- ]\d.\d\d)\s         # B-V index
             ([01])\s                   # Multiple?
             ([01])\s                   # Variable?
-            ([A-Z ].|sd)\s             # Spectral Type
+            ([A-Z ].?|sd)\s            # Spectral Type
             }x or do 
         {
             $ERROR = "Positional Error (0-59)";
