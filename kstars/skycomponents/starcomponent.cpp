@@ -184,6 +184,8 @@ void StarComponent::reindexAll( KSNumbers *num )
     printf("Done.\n");
 }
 
+
+
 void StarComponent::draw( QPainter& psky )
 {
     if ( ! selected() ) return;
@@ -258,6 +260,28 @@ void StarComponent::draw( QPainter& psky )
     if( veryFrugalMem )
         m_StarBlockFactory.freeAll();
 
+    while( region.hasNext() ) {
+        Trixel currentRegion = region.next();
+        for( int i = 1; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
+            StarBlock *prevBlock = m_starBlockList[ currentRegion ]->block( i - 1 );
+            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
+
+            if( i == 1 )
+                if( !m_StarBlockFactory.markFirst( block ) )
+                    kDebug() << "markFirst failed in trixel" << currentRegion;
+            if( i > 1 )
+                if( !m_StarBlockFactory.markNext( prevBlock, block ) )
+                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+            if( i + 1 < m_starBlockList[ currentRegion ]->getBlockCount() 
+                && m_starBlockList[ currentRegion ]->block( i + 1 )->getFaintMag() < maglim )
+                break;
+        }
+    }
+
+    t_updateCache = t.restart();
+
+    region.reset();
+
     while ( region.hasNext() ) {
         ++nTrixels;
         Trixel currentRegion = region.next();
@@ -309,23 +333,6 @@ void StarComponent::draw( QPainter& psky )
         //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
-
-        for( int i = 1; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
-            StarBlock *prevBlock = m_starBlockList[ currentRegion ]->block( i - 1 );
-            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
-
-            if( i == 1 )
-                if( !m_StarBlockFactory.markFirst( block ) )
-                    kDebug() << "markFirst failed in trixel" << currentRegion;
-            if( i > 1 )
-                if( !m_StarBlockFactory.markNext( prevBlock, block ) )
-                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
-            if( i + 1 < m_starBlockList[ currentRegion ]->getBlockCount() 
-                && m_starBlockList[ currentRegion ]->block( i + 1 )->getFaintMag() < maglim )
-                break;
-        }
-
-        t_updateCache += t.restart();
 
         for( int i = 0; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
