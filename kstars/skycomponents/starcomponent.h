@@ -167,6 +167,7 @@ private:
     bool           starsLoaded;
     float          m_zoomMagLimit;
     float          magLim;
+    unsigned long  visibleStarCount;
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;

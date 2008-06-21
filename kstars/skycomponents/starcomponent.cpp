@@ -248,7 +248,10 @@ void StarComponent::draw( QPainter& psky )
     t_updateCache = 0;
     t_drawUnnamed = 0;
 
+    visibleStarCount = 0;
+
     t.start();
+    float fake_maglim = ( ( maglim > 13.0 ) ? 13.0 : maglim );
     while ( region.hasNext() ) {
         ++nTrixels;
         Trixel currentRegion = region.next();
@@ -276,11 +279,12 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( curStar );
             
             if ( ! map->onScreen( o ) ) continue;
-            float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
+            float size = ( sizeFactor*( fake_maglim - mag ) / fake_maglim ) + 1.;
             if ( size <= 0. ) continue;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                            starColorIntensity(), true );
+            visibleStarCount++;
             
             if ( m_hideLabels || mag > labelMagLim ) continue;
             
@@ -342,10 +346,11 @@ void StarComponent::draw( QPainter& psky )
                 QPointF o = map->toScreen( curStar );
 
                 if ( ! map->onScreen( o ) ) continue;
-                float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
+                float size = ( sizeFactor*( fake_maglim - mag ) / fake_maglim ) + 1.;
                 if ( size <= 0. ) continue;
                 curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                                starColorIntensity(), true );
+                visibleStarCount++;
             }
         }
         
@@ -699,8 +704,9 @@ void StarComponent::printDebugInfo() {
     kDebug() << "Number of visible trixels                    = " << nTrixels << endl;
     kDebug() << "Number of visible StarBlocks                 = " << nBlocks << endl;
     kDebug() << "Number of StarBlocks allocated via SBF       = " << m_StarBlockFactory.getBlockCount() << endl;
-    kDebug() << "Number of visible unnamed stars              = " << nStars << endl;
-    kDebug() << "Magnitude of the faintest star               = " << faintMag << endl;
+    kDebug() << "Number of unnamed stars in memory            = " << nStars << endl;
+    kDebug() << "Number of visible stars (named + unnamed)    = " << visibleStarCount << endl;
+    kDebug() << "Magnitude of the faintest star in memory     = " << faintMag << endl;
     kDebug() << "Target magnitude limit                       = " << magLim << endl;
     kDebug() << "Size of each StarBlock                       = " << sizeof( StarBlock ) << endl;
     kDebug() << "Size of each StarObject                      = " << sizeof( StarObject ) << endl;
