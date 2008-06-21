@@ -260,3 +260,25 @@ void StarBlockFactory::printStructure() {
         ++index;
     }while( cur != last );
 }
+
+int StarBlockFactory::freeUnused() {
+    int i;
+    StarBlock *temp;
+
+    i = 0;
+    while( last != NULL && last->drawID == drawID && i != nBlocks ) {
+        temp = last->prev;
+        delete last;
+        last = temp;
+        i++;
+    }   
+    if( last )
+        last->next = NULL;
+    else
+        first = NULL;
+
+    kDebug() << i << "StarBlocks freed from StarBlockFactory" << endl;
+
+    nBlocks -= i;
+    return i;
+}

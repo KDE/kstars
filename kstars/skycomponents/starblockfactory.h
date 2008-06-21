@@ -91,6 +91,18 @@ class StarBlockFactory {
     inline int getBlockCount() { return nBlocks; }
 
     /**
+     *@short  Frees all StarBlocks that are in the cache
+     *@return The number of StarBlocks freed
+     */
+    inline int freeAll() { return deleteBlocks( nBlocks ); }
+
+    /**
+     *@short  Frees all StarBlocks that are not used in this draw cycle
+     *@return The number of StarBlocks freed
+     */
+    int freeUnused();
+
+    /**
      *@short  Prints the structure of the cache, for debugging
      */
     void printStructure();
