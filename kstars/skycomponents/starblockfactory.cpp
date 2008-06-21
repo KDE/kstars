@@ -266,7 +266,7 @@ int StarBlockFactory::freeUnused() {
     StarBlock *temp;
 
     i = 0;
-    while( last != NULL && last->drawID == drawID && i != nBlocks ) {
+    while( last != NULL && last->drawID < drawID && i != nBlocks ) {
         temp = last->prev;
         delete last;
         last = temp;

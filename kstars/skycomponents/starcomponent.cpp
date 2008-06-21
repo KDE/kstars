@@ -42,6 +42,8 @@
 
 BinFileHelper StarComponent::deepStarReader;
 StarBlockFactory StarComponent::m_StarBlockFactory;
+bool StarComponent::frugalMem = false;
+bool StarComponent::veryFrugalMem = false;
 
 StarComponent::StarComponent(SkyComponent *parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), starsLoaded(false)
@@ -252,6 +254,10 @@ void StarComponent::draw( QPainter& psky )
 
     t.start();
     float fake_maglim = ( ( maglim > 13.0 ) ? 13.0 : maglim );
+
+    if( veryFrugalMem )
+        m_StarBlockFactory.freeAll();
+
     while ( region.hasNext() ) {
         ++nTrixels;
         Trixel currentRegion = region.next();
@@ -357,6 +363,9 @@ void StarComponent::draw( QPainter& psky )
         t_drawUnnamed += t.restart();
 
     }
+    if( frugalMem )
+        m_StarBlockFactory.freeUnused();
+
 
 }
 

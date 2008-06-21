@@ -420,16 +420,32 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         << sl.point(1)->ra()->toHMSString() << endl;
             break;
         **/
-    case Qt::Key_B:  // print useful debug info about memory allocation for stars
+    case Qt::Key_B:    // print useful debug info about memory allocation for stars
         data->skyComposite()->getStarComponent()->printDebugInfo();
         break;
-    case Qt::Key_F:  // verify the integrity of StarBlockLists
+    case Qt::Key_F:    // verify the integrity of StarBlockLists
         data->skyComposite()->getStarComponent()->verifySBLIntegrity();
         break;
-    case Qt::Key_G:  // print Cache structure
+    case Qt::Key_G:    // print Cache structure
         StarComponent::m_StarBlockFactory.printStructure();
         break;
-
+    case Qt::Key_H: {  // Frugal memory mode
+        StarComponent::veryFrugalMem = false;
+        if( StarComponent::frugalMem = !(StarComponent::frugalMem) )
+            kDebug() << "Switched to frugal memory mode";
+        else
+            kDebug() << "Switched to generous memory mode";
+        break;
+    }
+    case Qt::Key_I: {  // Very frugal memory mode
+        StarComponent::frugalMem = false;
+        if( StarComponent::veryFrugalMem = !(StarComponent::veryFrugalMem) )
+            kDebug() << "Switched to very frugal memory mode";
+        else
+            kDebug() << "Switched to generous memory mode";
+        
+        break;
+    }
 
 
     }

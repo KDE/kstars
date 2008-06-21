@@ -148,6 +148,9 @@ public:
     static StarBlockFactory m_StarBlockFactory;
     static BinFileHelper deepStarReader;
 
+    static bool    frugalMem;
+    static bool    veryFrugalMem;
+
 private:
     SkyMesh*       m_skyMesh;
     StarIndex*     m_starIndex;
@@ -171,6 +174,7 @@ private:
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
+
 
     // Time keeping variables
     long unsigned  t_drawNamed;
