@@ -217,7 +217,7 @@ void StarComponent::draw( QPainter& psky )
     double lgz = log10(Options::zoomFactor());
 
     
-    float maglim = 4.444 * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
+    float maglim = 3.5 * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
 
     m_zoomMagLimit = maglim;
 

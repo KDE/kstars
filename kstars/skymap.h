@@ -848,6 +848,38 @@ private:
      */
     double zoomFactor( const int modifier );
 
+    /** calculate the magnitude factor (1, .5, .2, or .1) for the given
+     * keyboard modifier.
+     * @param modifier
+     */
+    double magFactor( const int modifier );
+
+    /** Decrease the magnitude limit by a step size determined by the
+     * keyboard modifier.
+     * @param modifier
+     */
+    void decMagLimit( const int modifier );
+
+     /** Increase the magnitude limit by a step size determined by the
+     * keyboard modifier.
+     * @param modifier
+     */
+    void incMagLimit( const int modifier );
+
+    /** Convenience routine to either zoom in or incraase mag limit
+     * depending on the Alt modifier.  The Shift and Control modiifers
+     * will adjust the size of the zoom or the mag step.
+     * @param modifier 
+     */
+    void zoomInOrMagStep( const int modifier );
+
+    /** Convenience routine to either zoom out or decraase mag limit
+     * depending on the Alt modifier.  The Shift and Control modiifers
+     * will adjust the size of the zoom or the mag step.
+     * @param modifier 
+     */
+    void zoomOutOrMagStep( const int modifier );
+
     bool mouseButtonDown, midMouseButtonDown;
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool slewing, clockSlewing;
