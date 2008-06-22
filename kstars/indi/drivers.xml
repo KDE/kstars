@@ -51,6 +51,11 @@
 		<driver>indi_lx200autostar</driver>
 		<version>2.0</version>
 	</device>
+	<device label="LX200 Astro-Physics">
+		<name>LX200 Astro-Physics</name>
+		<driver>indi_lx200ap</driver>
+		<version>1.0</version>
+	</device>
 	<device label="Celestron GPS" focal_length="" aperture="">
 		<driver>indi_celestron_gps</driver>
 		<version>1.0</version>
