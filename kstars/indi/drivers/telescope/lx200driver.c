@@ -292,7 +292,7 @@ int getCommandString(int fd, char *data, const char* cmd)
       *term = '\0';
 
    #ifdef INDI_DEBUG
-    IDLog("Requested data: %s\n", data);
+    /*IDLog("Requested data: %s\n", data);*/
    #endif
 
     return 0;

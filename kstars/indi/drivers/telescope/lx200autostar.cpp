@@ -40,6 +40,10 @@ extern INumberVectorProperty EquatorialCoordsRNP;
 extern INumberVectorProperty FocusTimerNP;
 extern ISwitchVectorProperty ConnectSP;
 extern ISwitchVectorProperty FocusMotionSP;
+extern ISwitchVectorProperty AbortSlewSP;
+extern ISwitchVectorProperty MovementNSSP;
+extern ISwitchVectorProperty MovementWESP;
+
 
 static IText   VersionT[] ={{ "Date", "", 0, 0, 0, 0} ,
 			   { "Time", "", 0, 0, 0, 0} ,
@@ -139,7 +143,30 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
            
    	  if (EquatorialCoordsWNP.s == IPS_BUSY)
 	  {
-	     abortSlew(fd);
+	     if (abortSlew(fd) < 0)
+	     {
+		AbortSlewSP.s = IPS_ALERT;
+		IDSetSwitch(&AbortSlewSP, NULL);
+                slewError(err);
+		return;
+	     }
+
+	     AbortSlewSP.s = IPS_OK;
+	     EquatorialCoordsWNP.s       = IPS_IDLE;
+             IDSetSwitch(&AbortSlewSP, "Slew aborted.");
+	     IDSetNumber(&EquatorialCoordsWNP, NULL);
+
+	     if (MovementNSSP.s == IPS_BUSY || MovementWESP.s == IPS_BUSY)
+	     {
+		MovementNSSP.s  = MovementWESP.s =  IPS_IDLE; 
+		EquatorialCoordsWNP.s       = IPS_IDLE;
+		IUResetSwitch(&MovementNSSP);
+		IUResetSwitch(&MovementWESP);
+		IUResetSwitch(&AbortSlewSP);
+
+		IDSetSwitch(&MovementNSSP, NULL);
+		IDSetSwitch(&MovementWESP, NULL);
+	      }
 
 	     // sleep for 200 mseconds
 	     usleep(200000);
@@ -156,6 +183,7 @@ void LX200Autostar::ISNewNumber (const char *dev, const char *name, double value
 	  ConnectSP.s   = IPS_IDLE;
 	  ConnectSP.sp[0].s = ISS_OFF;
 	  ConnectSP.sp[1].s = ISS_ON;
+	  tty_disconnect(fd);
 	  IDSetSwitch(&ParkSP, "The telescope is slewing to park position. Turn off the telescope after park is complete. Disconnecting...");
 	  IDSetSwitch(&ConnectSP, NULL);
 	  return;
