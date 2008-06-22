@@ -833,6 +833,21 @@ private:
     	*/
     bool unusablePoint ( const QPointF &p );
 
+    /** Zoom in a large amount or a small amount depending on the keyboard modifier
+     * @param modifier
+     */
+    void zoomIn( const int modifier );
+
+    /** Zoom in a large amount or a small amount depending on the keyboard modifier 
+     * @param modifier
+     */
+    void zoomOut( const int modifier );
+
+    /** Calculate the zoom factor for the given keyboard modifier
+     * @param modifier
+     */
+    double zoomFactor( const int modifier );
+
     bool mouseButtonDown, midMouseButtonDown;
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool slewing, clockSlewing;

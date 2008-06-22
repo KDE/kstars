@@ -142,12 +142,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Plus:   //Zoom in
     case Qt::Key_Equal:
-        if ( ks ) ks->slotZoomIn();
+        if ( ks ) 
+            zoomIn( e->modifiers() );
         break;
 
     case Qt::Key_Minus:  //Zoom out
     case Qt::Key_Underscore:
-        if ( ks ) ks->slotZoomOut();
+        if (  ks ) 
+            zoomOut( e->modifiers() );
         break;
 
     //In the following cases, we set slewing=true in order to disengage tracking
@@ -640,8 +642,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-    if ( ks && e->delta() > 0 ) ks->slotZoomIn();
-    else if ( ks ) ks->slotZoomOut();
+    if ( ks && e->delta() > 0 ) 
+        zoomIn( e->modifiers() );
+    else
+        zoomOut( e->modifiers() );
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
@@ -866,5 +870,21 @@ void SkyMap::paintEvent( QPaintEvent * )
 
     //TIMING
     //	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed());
+}
+
+double SkyMap::zoomFactor( const int modifier ) {
+    double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
+    if ( modifier & Qt::ShiftModifier ) 
+        factor = sqrt( factor );
+
+    return factor;
+}
+
+void SkyMap::zoomIn( const int modifier) {
+    ks->zoomIn( zoomFactor( modifier) );
+}
+
+void SkyMap::zoomOut( const int modifier) {
+    ks->zoomOut( zoomFactor( modifier ) );
 }
 
