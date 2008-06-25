@@ -166,10 +166,10 @@ private:
     bool           m_hideLabels;
 
     KStarsData*    m_Data;
-    float          m_FaintMagnitude;
+    float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
     bool           starsLoaded;
     float          m_zoomMagLimit;
-    float          magLim;
+    float          magLim;           // Current limiting magnitude for visible stars
     unsigned long  visibleStarCount;
 
     KStarsSplash*  m_reloadSplash;

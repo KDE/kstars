@@ -14,14 +14,14 @@
 #define TRIXEL_NAME_SIZE 8
 #define DB_TBL "tycho"
 #define DB_DB "stardb"
-#define VERBOSE 1
+#define VERBOSE 0
 #define LONG_NAME_LIMIT 32
 #define BAYER_LIMIT 8
 #define HTM_LEVEL 3
 #define NTRIXELS 512
 #define INDEX_ENTRY_SIZE 8
 #define GLOBAL_MAG_LIMIT 8.00
-#define MYSQL_STARS_PER_QUERY 1000
+#define MYSQL_STARS_PER_QUERY 1100000
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -246,6 +246,7 @@ int writeNameFileHeader(FILE *nf) {
   u_int16_t nfields;
   u_int16_t nindexes;
   int16_t endian_id=0x4B53;
+  u_int32_t data_offset = 0;
 
   if(nf == NULL)
     return 0;
@@ -347,6 +348,7 @@ int main(int argc, char *argv[]) {
   unsigned long ntrixels;
   unsigned long nf_header_offset;
   unsigned int names_count;
+  int16_t maglim;
 
   char query[512];
   char current_trixel[HTM_LEVEL + 2 + 1];
@@ -438,20 +440,25 @@ int main(int argc, char *argv[]) {
   writeNameFileHeader(namefile);
   writeDataFileHeader(nsfhead);
   writeDataFileHeader(usfhead);
-  ns_header_offset = ftell(nsfhead);
+  ns_header_offset = ftell(nsfhead); 
   us_header_offset = ftell(usfhead);
   nf_header_offset = ftell(namefile);
 
   /* Write a bogus index entry into the namefile, to be filled with correct data later */
   writeIndexEntry(namefile, "N0000", ftell(namefile) + INDEX_ENTRY_SIZE, 0);
 
+  /* Leave space for / write a deep magnitude limit specification in the data files */
+  maglim = (int)(8.00 * 100);
+  fwrite(&maglim, 2, 1, nsf);
+  maglim = (int)(-5.0 * 100);
+  fwrite(&maglim, 2, 1, usf); // Bogus entry
 
   /* Initialize some variables */
   lim = 0;
   exitflag = 0;
   strcpy(current_trixel, "N0000");
   nsf_trix_count = usf_trix_count = 0;
-  nsf_trix_begin = usf_trix_begin = 0;
+  nsf_trix_begin = usf_trix_begin = 2; // The 2 is to leave space for deep magnitude limit specification
   ntrixels = 0;
   names_count = 0;
 
@@ -548,6 +555,8 @@ int main(int argc, char *argv[]) {
       else {
         usf_trix_count++;
         f = usf;
+        if( maglim < data.mag )
+            maglim = data.mag;
       }
 
       /* Convert various fields and make entries into the starData structure */
@@ -600,6 +609,9 @@ int main(int argc, char *argv[]) {
   if(ntrixels != NTRIXELS) {
     fprintf(stderr, "ERROR: Expected %u trixels, but found %u instead. Please redefine NTRIXELS in this program, or check the source database for bogus trixels\n", NTRIXELS, ntrixels);
   }
+
+  rewind(usf);
+  fwrite(&maglim, 2, 1, usf);
 
   fcloseall();
   mysql_close(&link);

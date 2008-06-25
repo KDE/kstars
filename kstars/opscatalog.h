@@ -50,8 +50,10 @@ private slots:
     void slotAddCatalog();
     void slotLoadCatalog();
     void slotRemoveCatalog();
+    /*
     void slotSetDrawStarMagnitude(double newValue);
     void slotSetDrawStarZoomOutMagnitude(double newValue);
+    */
     void slotStarWidgets(bool on);
     void slotApply();
     void slotCancel();
@@ -66,7 +68,7 @@ private:
     KConfigDialog *m_ConfigDialog;
     QStringList m_CustomCatalogFile;
     QList<int> m_ShowCustomCatalog;
-    float m_MagLimitDrawStar, m_MagLimitDrawStarZoomOut;
+    float m_MemUsage, m_MagLimitDrawStarZoomOut;
     bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
 };
 

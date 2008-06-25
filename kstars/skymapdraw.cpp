@@ -312,7 +312,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         //reproducing logic from other draw funcs here...not an optimal solution
         if ( obj->type() == SkyObject::STAR ) {
             if ( ! drawStars ) continue;
-            if ( obj->mag() > Options::magLimitDrawStar() ) continue;
+            //            if ( obj->mag() > Options::magLimitDrawStar() ) continue;
             if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) continue;
         }
         if ( obj->type() == SkyObject::PLANET ) {

@@ -76,6 +76,11 @@ StarComponent::StarComponent(SkyComponent *parent )
             kDebug() << "WARNING: Failed to open deep star catalog!!" << endl;
         else if( !deepStarReader.readHeader() )
             kDebug() << "WARNING: Header read error for deep star catalog!!" << endl;
+        else {
+            qint16 faintmag;
+            fread( &faintmag, 2, 1, deepStarReader.getFileHandle() );
+            m_FaintMagnitude = faintmag / 100.0;
+        }
     }
 
 }
@@ -97,18 +102,18 @@ void StarComponent::init(KStarsData *data)
     loadShallowStarData();
 
     //adjust maglimit for ZoomLevel
-    float maglim = Options::magLimitDrawStar();
+    //    float maglim = Options::magLimitDrawStar();
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
-
+    /*
     if ( lgz <= 0.75*lgmax )
         maglim -= (Options::magLimitDrawStar() -
                    Options::magLimitDrawStarZoomOut() ) *
                   (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 
     m_zoomMagLimit = maglim;
-
+    */
     StarObject::initImages();
 }
 
@@ -452,6 +457,11 @@ void StarComponent::loadShallowStarData()
     t.start();
 
     fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
+
+    qint16 faintmag;
+    fread( &faintmag, 2, 1, dataFile );
+    if( faintmag / 100.0 > m_FaintMagnitude )
+        m_FaintMagnitude = faintmag / 100.0;
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
