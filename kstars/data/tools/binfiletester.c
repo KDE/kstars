@@ -307,6 +307,7 @@ int readFileHeader(FILE *f) {
 int main(int argc, char *argv[]) {
 
     FILE *f, *names;
+    int16_t maglim = -500;
     names = NULL;
     if(argc <= 1) {
         fprintf(stderr, "USAGE: %s filename [trixel]\n", argv[0]);
@@ -324,6 +325,9 @@ int main(int argc, char *argv[]) {
     readFileHeader(f);
 
     verifyIndexValidity(f);
+
+    fread(&maglim, 2, 1, f);
+    fprintf(stdout, "Limiting Magnitude of Catalog File: %f\n", maglim / 100.0);
 
     if(argc > 2) {
         /*
