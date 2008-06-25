@@ -26,6 +26,7 @@
 // forward declaration is enough. We only need pointers
 class QPalette;
 class KActionMenu;
+class KLed;
 
 class dms;
 class KStarsData;
@@ -101,6 +102,8 @@ public:
     /**@return pointer to InfoBoxes object.
     	*/
     InfoBoxes* infoBoxes();
+
+    inline KLed* diskLED() { return m_DiskLED; }
 
     /**@return pointer to the INDI driver
     	*/
@@ -705,6 +708,7 @@ private:
 
     QPalette OriginalPalette, DarkPalette;
 
+    KLed *m_DiskLED;
 };
 
 #endif
