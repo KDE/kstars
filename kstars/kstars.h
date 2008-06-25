@@ -675,6 +675,8 @@ private:
     	*/
     void buildGUI();
 
+    void reportZoom();
+
     KStarsData *kstarsData;
     KStarsSplash *splash;
     SkyMap *skymap;
