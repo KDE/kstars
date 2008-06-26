@@ -21,6 +21,8 @@
 #include <QPixmap>
 #include <QTextStream>
 
+#include <kactioncollection.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include <knuminput.h>
 #include <kcombobox.h>
@@ -128,24 +130,24 @@ void OpsColors::newColor( QListWidgetItem *item ) {
 
 void OpsColors::slotPreset( int index ) {
     QString sPreset = PresetFileList.at( index );
-    bool result = setColors( sPreset );
-    if (!result) {
-        QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt.", sPreset );
-        KMessageBox::sorry( 0, message, i18n( "Could Not Set Color Scheme" ) );
-    }
+    setColors( sPreset );
 }
 
 bool OpsColors::setColors( const QString &filename ) {
     QPixmap temp( 30, 20 );
 
-    //just checking if colorscheme is removable...
+    //check if colorscheme is removable...
     QFile test;
     test.setFileName( KStandardDirs::locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
     if ( test.exists() ) RemovePreset->setEnabled( true );
     else RemovePreset->setEnabled( false );
     test.close();
 
-    ksw->loadColorScheme( filename );
+		QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
+		QAction *a = ksw->actionCollection()->action( actionName );
+		if ( a ) a->setChecked( true );
+		kapp->processEvents();
+
     kcfg_StarColorMode->setCurrentIndex( ksw->data()->colorScheme()->starColorMode() );
     kcfg_StarColorIntensity->setValue( ksw->data()->colorScheme()->starColorIntensity() );
 
@@ -171,7 +173,11 @@ void OpsColors::slotAddPreset() {
             QListWidgetItem *item = new QListWidgetItem( schemename, PresetBox );
             QString fname = ksw->data()->colorScheme()->fileName();
             PresetFileList.append( fname );
-            ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8() );
+						QString actionName = QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8();
+						ksw->addColorMenuItem( schemename, actionName );
+
+						QAction *a = ksw->actionCollection()->action( actionName );
+						if ( a ) a->setChecked( true );
             PresetBox->setCurrentItem( item );
         }
     }
