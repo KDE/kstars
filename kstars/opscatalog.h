@@ -53,6 +53,7 @@ private slots:
     void slotSetDrawStarMagnitude(double newValue);
     void slotSetDrawStarZoomOutMagnitude(double newValue);
     void slotStarWidgets(bool on);
+    void slotDeepSkyWidgets(bool on);
     void slotApply();
     void slotCancel();
 
