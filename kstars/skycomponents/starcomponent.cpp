@@ -727,24 +727,24 @@ void StarComponent::printDebugInfo() {
     }
 
     printf( "========== UNNAMED STAR MEMORY ALLOCATION INFORMATION ==========\n" );
-    printf( "Number of visible trixels                    = %d\n", nTrixels );
-    printf( "Number of visible StarBlocks                 = %d\n", nBlocks );
-    printf( "Number of StarBlocks allocated via SBF       = %d\n", m_StarBlockFactory.getBlockCount() );
-    printf( "Number of unnamed stars in memory            = %ld\n", nStars );
-    printf( "Number of visible stars (named + unnamed)    = %ld\n", visibleStarCount );
-    printf( "Magnitude of the faintest star in memory     = %f\n", faintMag );
-    printf( "Target magnitude limit                       = %f\n", magLim );
-    printf( "Size of each StarBlock                       = %d\n", sizeof( StarBlock ) );
-    printf( "Size of each StarObject                      = %d\n", sizeof( StarObject ) );
-    printf( "Memory use due to visible unnamed stars      = %f MB\n", ( sizeof( StarObject ) * nStars / 1048576.0 ) );
-    printf( "Memory use due to visible StarBlocks         = %d\n", sizeof( StarBlock ) * nBlocks );
-    printf( "Memory use due to StarBlocks in SBF          = %d\n", sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() );
+    printf( "Number of visible trixels                    = %8d\n", nTrixels );
+    printf( "Number of visible StarBlocks                 = %8d\n", nBlocks );
+    printf( "Number of StarBlocks allocated via SBF       = %8d\n", m_StarBlockFactory.getBlockCount() );
+    printf( "Number of unnamed stars in memory            = %8ld\n", nStars );
+    printf( "Number of visible stars (named + unnamed)    = %8ld\n", visibleStarCount );
+    printf( "Magnitude of the faintest star in memory     = %8.2f\n", faintMag );
+    printf( "Target magnitude limit                       = %8.2f\n", magLim );
+    printf( "Size of each StarBlock                       = %8ld bytes\n", sizeof( StarBlock ) );
+    printf( "Size of each StarObject                      = %8ld bytes\n", sizeof( StarObject ) );
+    printf( "Memory use due to visible unnamed stars      = %8.2f MB\n", ( sizeof( StarObject ) * nStars / 1048576.0 ) );
+    printf( "Memory use due to visible StarBlocks         = %8ld bytes\n", sizeof( StarBlock ) * nBlocks );
+    printf( "Memory use due to StarBlocks in SBF          = %8ld bytes\n", sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() );
     printf( "=============== STAR DRAW LOOP TIMING INFORMATION ==============\n" );
-    printf( "Time taken for drawing named stars           = %d ms\n", t_drawNamed );
-    printf( "Time taken for dynamic load of data          = %d ms\n", t_dynamicLoad );
-    printf( "Time taken for updating drawIDs              = %d ms\n", t_updateCache );
-    printf( "Time taken for drawing unnamed stars         = %d ms\n", t_drawUnnamed );
-    printf( "Average Number of stars draw per millisecond = %f ms\n", ( (double)visibleStarCount ) / ( t_drawUnnamed + t_drawNamed ) );
+    printf( "Time taken for drawing named stars           = %8ld ms\n", t_drawNamed );
+    printf( "Time taken for dynamic load of data          = %8ld ms\n", t_dynamicLoad );
+    printf( "Time taken for updating drawIDs              = %8ld ms\n", t_updateCache );
+    printf( "Time taken for drawing unnamed stars         = %8ld ms\n", t_drawUnnamed );
+    printf( "Average Number of stars draw per millisecond = %8.2f stars/ms\n", ( (double)visibleStarCount ) / ( t_drawUnnamed + t_drawNamed ) );
     printf( "================================================================\n" );
 }
 
