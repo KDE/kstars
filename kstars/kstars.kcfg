@@ -627,10 +627,10 @@
 			<default>8.0</default>
 		</entry>
 -->
-		<entry name="MemUsage" type="Double">
+		<entry name="MemUsage" type="Int">
 			<label>Memory usage for star blocks</label>
 			<whatsthis>Amount of memory to use for stars. KStars will adjust the star density accordingly</whatsthis>
-			<default>1.0</default>
+			<default>8</default>
 		</entry>
 
 		<entry name="MagLimitDrawStarZoomOut" type="Double">

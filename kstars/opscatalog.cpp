@@ -204,8 +204,8 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 */
 
 void OpsCatalog::slotApply() {
-    Options::setMemUsage( m_MemUsage );
-    Options::setMagLimitDrawStarZoomOut( m_MagLimitDrawStarZoomOut );
+    Options::setMemUsage( kcfg_MemUsage->value() );
+    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
 
     //FIXME: need to add the ShowDeepSky meta-option to the config dialog!
     //For now, I'll set showDeepSky to true if any catalog options changed
