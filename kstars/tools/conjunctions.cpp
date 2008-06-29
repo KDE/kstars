@@ -137,10 +137,10 @@ KSPlanetBase* ConjunctionsTool::createPlanetFromIndex( int i ) {
         case 7:
             Object = (KSPlanetBase *)(new KSPluto( kd ));
             break;
-        case 8:
+        case 9:
             Object = (KSPlanetBase *)(new KSSun( kd ));
             break;
-        case 9:
+        case 8:
             Object = (KSPlanetBase *)(new KSMoon( kd ));
             break;
     }
