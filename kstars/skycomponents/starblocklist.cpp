@@ -36,25 +36,19 @@ StarBlockList::~StarBlockList() {
 }
 
 int StarBlockList::releaseBlock( StarBlock *block ) {
-    int nRemoved;
-    // TODO: Change over to removeLast after debug
+
     if( block != blocks[ nBlocks - 1 ] )
-        kDebug() << "ERROR: Releasing a block which is not the last block! Trixel = " << trixel << endl;
-    /*
-    else
-        kDebug() << "INFO: Released last block of trixel " << trixel << endl;
-    */
+        kDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
+    else if( blocks.size() > 0 ) {
+        blocks.removeLast();
+        nBlocks--;
+        nStars -= block->getStarCount();
+        readOffset -= block->getStarCount() * sizeof( starData );
+        faintMag = blocks[nBlocks - 1]->faintMag;
+        return 1;
+    }
 
-    nRemoved = blocks.removeAll( block );
-    if( nRemoved != 1 )
-        kDebug() << "ERROR: More than one entry pointed to the same StarBlock, or no StarBlock removed!";
-
-    nBlocks -= nRemoved;
-    nStars -= block->getStarCount() * nRemoved;
-    readOffset -= block->getStarCount() * sizeof( starData ) * nRemoved;
-    faintMag = blocks[nBlocks - 1]->faintMag;
-
-    return nRemoved;
+    return 0;
 }
 
 bool StarBlockList::fillToMag( float maglim ) {
