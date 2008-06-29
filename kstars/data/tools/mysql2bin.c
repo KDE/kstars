@@ -12,7 +12,7 @@
 #include <string.h>
 
 #define TRIXEL_NAME_SIZE 8
-#define DB_TBL "tycho"
+#define DB_TBL "tycho2"
 #define DB_DB "stardb"
 #define VERBOSE 0
 #define LONG_NAME_LIMIT 32
