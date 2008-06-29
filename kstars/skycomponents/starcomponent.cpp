@@ -259,7 +259,7 @@ void StarComponent::draw( QPainter& psky )
     visibleStarCount = 0;
 
     t.start();
-    float fake_maglim = ( ( maglim > 13.0 ) ? 13.0 : maglim );
+    float fake_maglim = ( ( maglim > m_FaintMagnitude * (1 - 1.5/16) ) ? m_FaintMagnitude * ( 1 - 1.5/16 ) : maglim );
 
     if( veryFrugalMem )
         m_StarBlockFactory.freeAll();
@@ -326,8 +326,10 @@ void StarComponent::draw( QPainter& psky )
         }
         t_drawNamed += t.restart();
 
-        // TODO: Hardcoded star catalog faint limit
-        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= 12.0 ) {
+        // NOTE: We are guessing that the last 1.5/16 magnitudes in the catalog are just additions and the star catalog
+        //       is actually supposed to reach out continuously enough only to mag m_FaintMagnitude * ( 1 - 1.5/16 )
+        // TODO: Is there a better way? We may have to change the magnitude tolerance if the catalog changes
+        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
             kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
                      << currentRegion << " !"<< endl;
         }
