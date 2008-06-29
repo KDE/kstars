@@ -745,7 +745,7 @@ void StarComponent::printDebugInfo() {
     printf( "=============== STAR DRAW LOOP TIMING INFORMATION ==============\n" );
     printf( "Time taken for drawing named stars           = %8ld ms\n", t_drawNamed );
     printf( "Time taken for dynamic load of data          = %8ld ms\n", t_dynamicLoad );
-    printf( "Time taken for updating drawIDs              = %8ld ms\n", t_updateCache );
+    printf( "Time taken for updating LRU cache            = %8ld ms\n", t_updateCache );
     printf( "Time taken for drawing unnamed stars         = %8ld ms\n", t_drawUnnamed );
     printf( "Average Number of stars draw per millisecond = %8.2f stars/ms\n", ( (double)visibleStarCount ) / ( t_drawUnnamed + t_drawNamed ) );
     printf( "================================================================\n" );
