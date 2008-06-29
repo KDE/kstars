@@ -259,7 +259,9 @@ void StarComponent::draw( QPainter& psky )
     visibleStarCount = 0;
 
     t.start();
-    float fake_maglim = ( ( maglim > m_FaintMagnitude * (1 - 1.5/16) ) ? m_FaintMagnitude * ( 1 - 1.5/16 ) : maglim );
+    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
+    if( sizeMagLim > m_FaintMagnitude * ( 1 - 1.5/16 ) )
+        sizeMagLim = m_FaintMagnitude * ( 1 - 1.5/16 );
 
     if( veryFrugalMem )
         m_StarBlockFactory.freeAll();
@@ -313,8 +315,8 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( curStar );
             
             if ( ! map->onScreen( o ) ) continue;
-            float size = ( sizeFactor*( fake_maglim - mag ) / fake_maglim ) + 1.;
-            if ( size <= 0. ) continue;
+            float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
+            if ( size <= 1.0 ) size = 1.0;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                            starColorIntensity(), true );
@@ -365,7 +367,7 @@ void StarComponent::draw( QPainter& psky )
                 QPointF o = map->toScreen( curStar );
 
                 if ( ! map->onScreen( o ) ) continue;
-                float size = ( sizeFactor*( fake_maglim - mag ) / fake_maglim ) + 1.;
+                float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
                 if ( size <= 0. ) continue;
                 curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                                starColorIntensity(), true );
