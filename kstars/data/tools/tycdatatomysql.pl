@@ -146,8 +146,8 @@ sub kstars_unpack {
             \s*(-?\d?\d\.\d{8})\s      # DEC DDMMSS.SS
             \s*(-?\d+\.\d\d)\s         # dRA/dt 
             \s*(-?\d+\.\d\d)\s         # dDec/dt
-            \s*(-?\d+\.\d\d)\s         # Parallax
-            \s([- \d]\d\.\d\d)\s       # Magnitude
+            \s*(-?\d+\.\d[\d ])\s      # Parallax
+            \s*([- \d]\d\.\d\d)\s      # Magnitude
             \s*([- ]\d.\d\d)\s         # B-V index
             ([01])\s                   # Multiple?
             ([01])\s                   # Variable?
