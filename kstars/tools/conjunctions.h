@@ -28,14 +28,10 @@
 #include <QTextStream>
 
 #include "ui_conjunctions.h"
-#include "ksconjunct.h"
 
 class GeoLocation;
-class KSPlanet;
-class KSMoon;
-class KSSun;
-class KSPluto;
-class KSConjunct;
+class KSPlanetBase;
+class dms;
 
 /**
   *@short Predicts conjunctions using KSConjunct in the background
@@ -55,7 +51,7 @@ public slots:
     void slotCompute();
 
 private:
-
+    KSPlanetBase* createPlanetFromIndex( int i );
     void showConjunctions(QMap<long double, dms> conjunctionlist);
 
     GeoLocation *geoPlace;

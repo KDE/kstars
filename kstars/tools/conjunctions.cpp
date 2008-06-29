@@ -28,6 +28,7 @@
 #include <kglobal.h>
 #include <kmessagebox.h>
 
+#include "ksconjunct.h"
 #include "geolocation.h"
 #include "locationdialog.h"
 #include "dms.h"
@@ -89,7 +90,6 @@ void ConjunctionsTool::slotCompute (void)
 
   KStarsDateTime dtStart = startDate -> dateTime();
   KStarsDateTime dtStop = stopDate -> dateTime();
-  KStarsData *kd = KStarsData::Instance();
   long double startJD = dtStart.djd();
   long double stopJD = dtStop.djd();
   dms maxSeparation(1.0); // TODO: Make maxSeparation user-specifiable
@@ -97,24 +97,9 @@ void ConjunctionsTool::slotCompute (void)
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
   KSPlanetBase *Object1, *Object2;
   
-  if(Obj1ComboBox -> currentIndex() <= 6)
-    Object1 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj1ComboBox -> currentText())));
-  else if(Obj1ComboBox -> currentIndex() == 7)
-    Object1 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj1ComboBox -> currentIndex() == 8)
-    Object1 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj1ComboBox -> currentIndex() == 9)
-    Object1 = (KSPlanetBase *)(new KSSun(kd));
-
-  if(Obj2ComboBox -> currentIndex() <= 6)
-    Object2 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj2ComboBox -> currentText())));
-  else if(Obj2ComboBox -> currentIndex() == 7)
-    Object2 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj2ComboBox -> currentIndex() == 8)
-    Object2 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj2ComboBox -> currentIndex() == 9)
-    Object2 = (KSPlanetBase *)(new KSSun(kd));
-
+  Object1 = createPlanetFromIndex( Obj1ComboBox -> currentIndex() );
+  Object2 = createPlanetFromIndex( Obj2ComboBox -> currentIndex() );
+  
   KSConjunct ksc;
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
 
@@ -123,6 +108,45 @@ void ConjunctionsTool::slotCompute (void)
 
 }
 
+KSPlanetBase* ConjunctionsTool::createPlanetFromIndex( int i ) {
+    KSPlanetBase *Object;
+    KStarsData *kd = KStarsData::Instance();
+
+    switch ( i ) {
+        case 0:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Mercury" ));
+            break;
+        case 1:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Venus" ));
+            break;
+        case 2:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Mars" ));
+            break;
+        case 3:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Jupiter" ));
+            break;
+        case 4:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Saturn" ));
+            break;
+        case 5:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Uranus" ));
+            break;
+        case 6:
+            Object = (KSPlanetBase *)(new KSPlanet( kd, "Neptune" ));
+            break;
+        case 7:
+            Object = (KSPlanetBase *)(new KSPluto( kd ));
+            break;
+        case 8:
+            Object = (KSPlanetBase *)(new KSSun( kd ));
+            break;
+        case 9:
+            Object = (KSPlanetBase *)(new KSMoon( kd ));
+            break;
+    }
+
+    return Object;
+}
 
 void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) {
 
