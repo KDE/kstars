@@ -55,56 +55,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <item>
-          <property name="text" >
-           <string>Mercury</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Venus</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Mars</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Jupiter</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Saturn</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Uranus</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Neptune</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Pluto</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Moon</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Sun</string>
-          </property>
-         </item>
         </widget>
        </item>
        <item>
@@ -125,56 +75,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <item>
-          <property name="text" >
-           <string>Mercury</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Venus</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Mars</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Jupiter</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Saturn</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Uranus</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Neptune</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Pluto</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Moon</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Sun</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>

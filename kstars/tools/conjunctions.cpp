@@ -28,6 +28,7 @@
 #include <kglobal.h>
 #include <kmessagebox.h>
 
+#include "ksconjunct.h"
 #include "geolocation.h"
 #include "locationdialog.h"
 #include "dms.h"
@@ -36,6 +37,7 @@
 #include "ksnumbers.h"
 #include "kssun.h"
 #include "ksplanet.h"
+#include "ksplanetbase.h"
 #include "ksmoon.h"
 #include "kspluto.h"
 #include "widgets/dmsbox.h"
@@ -64,6 +66,23 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   geoPlace = kd -> geo();
   LocationButton -> setText( geoPlace -> fullName() );
   
+  QHash<int, QString> pNames;
+  pNames[MERCURY] = i18n("Mercury");
+  pNames[VENUS] = i18n("Venus");
+  pNames[MARS] = i18n("Mars");
+  pNames[JUPITER] = i18n("Jupiter");
+  pNames[SATURN] = i18n("Saturn");
+  pNames[URANUS] = i18n("Uranus");
+  pNames[NEPTUNE] = i18n("Neptune");
+  pNames[PLUTO] = i18n("Pluto");
+  pNames[SUN] = i18n("Sun");
+  pNames[MOON] = i18n("Moon");
+
+  for ( int i=0; i<UNKNOWN_PLANET; ++i ) {
+      Obj1ComboBox->insertItem( i, pNames[i] );
+      Obj2ComboBox->insertItem( i, pNames[i] );
+  }
+
   // signals and slots connections
   connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
   connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
@@ -89,7 +108,6 @@ void ConjunctionsTool::slotCompute (void)
 
   KStarsDateTime dtStart = startDate -> dateTime();
   KStarsDateTime dtStop = stopDate -> dateTime();
-  KStarsData *kd = KStarsData::Instance();
   long double startJD = dtStart.djd();
   long double stopJD = dtStop.djd();
   dms maxSeparation(1.0); // TODO: Make maxSeparation user-specifiable
@@ -97,23 +115,8 @@ void ConjunctionsTool::slotCompute (void)
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
   KSPlanetBase *Object1, *Object2;
   
-  if(Obj1ComboBox -> currentIndex() <= 6)
-    Object1 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj1ComboBox -> currentText())));
-  else if(Obj1ComboBox -> currentIndex() == 7)
-    Object1 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj1ComboBox -> currentIndex() == 8)
-    Object1 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj1ComboBox -> currentIndex() == 9)
-    Object1 = (KSPlanetBase *)(new KSSun(kd));
-
-  if(Obj2ComboBox -> currentIndex() <= 6)
-    Object2 = (KSPlanetBase *)(new KSPlanet(kd, I18N_NOOP(Obj2ComboBox -> currentText())));
-  else if(Obj2ComboBox -> currentIndex() == 7)
-    Object2 = (KSPlanetBase *)(new KSPluto(kd));
-  else if(Obj2ComboBox -> currentIndex() == 8)
-    Object2 = (KSPlanetBase *)(new KSMoon(kd));
-  else if(Obj2ComboBox -> currentIndex() == 9)
-    Object2 = (KSPlanetBase *)(new KSSun(kd));
+  Object1 = KSPlanetBase::createPlanet( Obj1ComboBox->currentIndex() );
+  Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
 
   KSConjunct ksc;
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
@@ -122,7 +125,6 @@ void ConjunctionsTool::slotCompute (void)
   delete Object2;
 
 }
-
 
 void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) {
 
