@@ -68,7 +68,7 @@ FindDialog::FindDialog( QWidget* parent )
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
     connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
     connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
-    connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( filterByType( int ) ) );
+    connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
     connect( ui->SearchList, SIGNAL( doubleClicked( const QModelIndex & ) ), SLOT( slotOk() ) );
 
 
@@ -83,7 +83,61 @@ FindDialog::~FindDialog() {
 
 void FindDialog::init() {
     ui->SearchBox->clear();
+    filterByType();
+    sortModel->sort( 0 );
+    initSelection();
+}
 
+void FindDialog::initSelection() {
+    if ( sortModel->rowCount() <= 0 ) {
+        button( Ok )->setEnabled( false );
+        return;
+    }
+
+    if ( ui->SearchBox->text().isEmpty() ) {
+        //Pre-select the first item
+        QModelIndex selectItem = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
+        switch ( ui->FilterType->currentIndex() ) {
+        case 0: //All objects, choose Andromeda galaxy
+            {
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
+                selectItem = sortModel->mapFromSource( qmi );
+                break;
+            }
+        case 1: //Stars, choose Aldebaran
+            {
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
+                selectItem = sortModel->mapFromSource( qmi );
+                break;
+            }
+        case 2: //Solar system or Asteroids, choose Aaltje
+        case 9:
+            {
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
+                selectItem = sortModel->mapFromSource( qmi );
+                break;
+            }
+        case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
+            {
+                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
+                selectItem = sortModel->mapFromSource( qmi );
+                break;
+            }
+
+        }
+
+        if ( selectItem.isValid() ) {
+            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+            ui->SearchList->scrollTo( selectItem );
+            ui->SearchList->setCurrentIndex( selectItem );
+            button( Ok )->setEnabled( true );
+        }
+    }
+
+    listFiltered = true;
+}
+
+void FindDialog::filterByType() {
     KStars *p = (KStars *)parent();
 
     switch ( ui->FilterType->currentIndex() ) {
@@ -140,87 +194,28 @@ void FindDialog::init() {
         fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::CONSTELLATION ) );
         break;
     }
-
-    sortModel->sort( 0 );
-
-    initSelection();
 }
 
-void FindDialog::initSelection() {
-    if ( sortModel->rowCount() <= 0 ) {
-        button( Ok )->setEnabled( false );
-        return;
-    }
-
-    if ( ui->SearchBox->text().isEmpty() ) {
-        //Pre-select the first item
-        QModelIndex selectItem = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
-        switch ( ui->FilterType->currentIndex() ) {
-        case 0: //All objects, choose Andromeda galaxy
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
-                selectItem = sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 1: //Stars, choose Aldebaran
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
-                selectItem = sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 2: //Solar system or Asteroids, choose Aaltje
-        case 9:
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
-                selectItem = sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
-                selectItem = sortModel->mapFromSource( qmi );
-                break;
-            }
-
-        }
-
-        if ( selectItem.isValid() ) {
-            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
-            ui->SearchList->scrollTo( selectItem );
-            ui->SearchList->setCurrentIndex( selectItem );
-            button( Ok )->setEnabled( true );
-        }
-    }
-
-    listFiltered = true;
-}
-
-void FindDialog::filterByType( int /*f*/ ) {
-    if ( timer ) {
-        timer->stop();
-    }
-
-    init();
-    ui->SearchList->QWidget::setFocus();
-}
-
-void FindDialog::filterByName() {  //Filter the list of names with the string in the SearchBox
+void FindDialog::filterList() {  
     sortModel->setFilterFixedString( ui->SearchBox->text() );
+    filterByType();
     initSelection();
 
     //Select the first item in the list that begins with the filter string
-    QStringList mItems = fModel->stringList().filter( QRegExp( '^'+ui->SearchBox->text(), Qt::CaseInsensitive ) );
-    mItems.sort();
-
-    if ( mItems.size() ) {
-        QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
-        QModelIndex selectItem = sortModel->mapFromSource( qmi );
-
-        if ( selectItem.isValid() ) {
-            ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
-            ui->SearchList->scrollTo( selectItem );
-            ui->SearchList->setCurrentIndex( selectItem );
-            button( Ok )->setEnabled( true );
+    if ( ! ui->SearchBox->text().isEmpty() ) {
+        QStringList mItems = fModel->stringList().filter( QRegExp( '^'+ui->SearchBox->text(), Qt::CaseInsensitive ) );
+        mItems.sort();
+    
+        if ( mItems.size() ) {
+            QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
+            QModelIndex selectItem = sortModel->mapFromSource( qmi );
+    
+            if ( selectItem.isValid() ) {
+                ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
+                ui->SearchList->scrollTo( selectItem );
+                ui->SearchList->setCurrentIndex( selectItem );
+                button( Ok )->setEnabled( true );
+            }
         }
     }
 
@@ -246,7 +241,7 @@ void FindDialog::enqueueSearch() {
     } else {
         timer = new QTimer( this );
         timer->setSingleShot( true );
-        connect( timer, SIGNAL( timeout() ), this, SLOT( filterByName() ) );
+        connect( timer, SIGNAL( timeout() ), this, SLOT( filterList() ) );
     }
     timer->start( 500 );
 }
@@ -261,15 +256,15 @@ void FindDialog::processSearchText() {
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
     if(ui->SearchBox->text().contains(re)) {
-	QString searchtext = ui->SearchBox->text();
-	re.setPattern("\\s*(\\d+)");
-	searchtext.replace( re, " \\1" );
-	re.setPattern("\\s*$");
-	searchtext.replace(re, "");
-	re.setPattern("^\\s*");
-	searchtext.replace(re, "");
-	ui->SearchBox->setText(searchtext);
-	return;
+        QString searchtext = ui->SearchBox->text();
+        re.setPattern("\\s*(\\d+)");
+        searchtext.replace( re, " \\1" );
+        re.setPattern("\\s*$");
+        searchtext.replace(re, "");
+        re.setPattern("^\\s*");
+        searchtext.replace(re, "");
+        ui->SearchBox->setText(searchtext);
+        return;
     }
 
     // TODO after KDE 4.1 release:
@@ -280,12 +275,12 @@ void FindDialog::processSearchText() {
 void FindDialog::slotOk() {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
     if(!listFiltered) {
-	processSearchText();
-        filterByName();
+        processSearchText();
+        filterList();
     }
     if(!selectedObject()) {
-	processSearchText();
-	filterByName();
+        processSearchText();
+        filterList();
     }
     if ( selectedObject() == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );

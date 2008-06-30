@@ -102,25 +102,53 @@
 
 void KStars::slotViewToolBar() {
     KToggleAction *a = (KToggleAction*)sender();
+    KConfigDialog *kcd = KConfigDialog::exists( "settings" );
 
     if ( a == actionCollection()->action( "show_stars" ) ) {
         Options::setShowStars( a->isChecked() );
+        if ( kcd ) {
+            opcatalog->kcfg_ShowStars->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_deepsky" ) ) {
         Options::setShowDeepSky( a->isChecked() );
+        if ( kcd ) {
+            opcatalog->kcfg_ShowDeepSky->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_planets" ) ) {
         Options::setShowSolarSystem( a->isChecked() );
+        if ( kcd ) {
+            opsolsys->kcfg_ShowSolarSystem->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_clines" ) ) {
         Options::setShowCLines( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowCLines->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_cnames" ) ) {
         Options::setShowCNames( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowCNames->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_cbounds" ) ) {
         Options::setShowCBounds( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowCBounds->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_mw" ) ) {
         Options::setShowMilkyWay( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowMilkyWay->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_grid" ) ) {
         Options::setShowGrid( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowGrid->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowGround->setChecked( a->isChecked() );
+        }
     }
 
     // update time for all objects because they might be not initialized
@@ -364,11 +392,11 @@ void KStars::slotViewOps() {
 
     connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );
 
-    OpsCatalog *opcatalog    = new OpsCatalog( this );
-    OpsGuides  *opguides     = new OpsGuides( this );
-    OpsSolarSystem *opsolsys = new OpsSolarSystem( this );
-    OpsColors  *opcolors     = new OpsColors( this );
-    OpsAdvanced *opadvanced  = new OpsAdvanced( this );
+    opcatalog    = new OpsCatalog( this );
+    opguides     = new OpsGuides( this );
+    opsolsys = new OpsSolarSystem( this );
+    opcolors     = new OpsColors( this );
+    opadvanced  = new OpsAdvanced( this );
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");

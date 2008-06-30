@@ -133,7 +133,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
         strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
         if ((fd = mkstemp(file_template)) < 0)
         {
-            KMessageBox::error(NULL, "Error making temporary filename.");
+            KMessageBox::error(NULL, i18n("Error making temporary filename."));
             return;
         }
 	filename = QString(file_template);

@@ -41,8 +41,13 @@
 
 */
 
-#include <sys/types.h>
+#if defined(__DragonFly__)
+#include <bus/usb/usb.h>
+#else
 #include <dev/usb/usb.h>
+#endif 
+
+#include <sys/types.h>
 #include <sys/ioctl.h>
 
 #include <unistd.h>
