@@ -111,6 +111,9 @@ void KStars::slotViewToolBar() {
         }
     } else if ( a == actionCollection()->action( "show_deepsky" ) ) {
         Options::setShowDeepSky( a->isChecked() );
+        if ( kcd ) {
+            opcatalog->kcfg_ShowDeepSky->setChecked( a->isChecked() );
+        }
     } else if ( a == actionCollection()->action( "show_planets" ) ) {
         Options::setShowSolarSystem( a->isChecked() );
         if ( kcd ) {

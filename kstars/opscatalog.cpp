@@ -99,6 +99,7 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     connect( kcfg_MagLimitDrawStarZoomOut, SIGNAL( valueChanged(double) ),
              SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
     connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
+    connect( kcfg_ShowDeepSky, SIGNAL( toggled(bool) ), SLOT( slotDeepSkyWidgets(bool) ) );
     connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
@@ -270,6 +271,24 @@ void OpsCatalog::slotStarWidgets(bool on) {
     kcfg_StarLabelDensity->setEnabled(on);
     kcfg_ShowStarNames->setEnabled(on);
     kcfg_ShowStarMagnitudes->setEnabled(on);
+}
+
+void OpsCatalog::slotDeepSkyWidgets(bool on) {
+    CatalogList->setEnabled( on );
+    AddCatalog->setEnabled( on );
+    LoadCatalog->setEnabled( on );
+    LabelMagDeepSky->setEnabled( on );
+    LabelMagDeepSkyZoomOut->setEnabled( on );
+    kcfg_MagLimitDrawDeepSky->setEnabled( on );
+    kcfg_MagLimitDrawDeepSkyZoomOut->setEnabled( on );
+    LabelMag3->setEnabled( on );
+    LabelMag4->setEnabled( on );
+    if ( on ) {
+        //Enable RemoveCatalog if the selected catalog is custom
+        selectCatalog();
+    } else {
+        RemoveCatalog->setEnabled( on );
+    }
 }
 
 QString OpsCatalog::getCatalogName( const QString &filename ) {
