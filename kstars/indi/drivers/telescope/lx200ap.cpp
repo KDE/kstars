@@ -720,8 +720,9 @@ void LX200AstroPhysics::ISNewNumber (const char *dev, const char *name, double v
 
 	if (nset == 2)
 	{
-#if defined HAVE_NOVA_H || defined HAVE_NOVASCC_H
 	    int ret ;
+#if defined HAVE_NOVA_H || defined HAVE_NOVASCC_H
+
 	    double geo[6] ;
 	    double eqt[2] ;
 	    double eqn[2] ;
