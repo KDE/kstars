@@ -48,6 +48,12 @@ class PlanetViewer;
 class JMoonTool;
 class ImageViewer;
 
+class OpsCatalog;
+class OpsGuides;
+class OpsSolarSystem;
+class OpsColors;
+class OpsAdvanced;
+
 /**
 	*@class KStars
 	*@short This is the main window for KStars.
@@ -709,6 +715,12 @@ private:
     QString StartDateString;
 
     QPalette OriginalPalette, DarkPalette;
+
+    OpsCatalog *opcatalog;
+    OpsGuides *opguides;
+    OpsSolarSystem *opsolsys;
+    OpsColors *opcolors;
+    OpsAdvanced *opadvanced;
 
     KLed *m_DiskLED;
 };
