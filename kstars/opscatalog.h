@@ -19,22 +19,23 @@
 
 #include "ui_opscatalog.h"
 
-/**@class OpsCatalog
-	*The Catalog page for the Options window.  This page allows the user
-	*to modify display of the major object catalogs in KStars:
-	*@li Hipparcos/Tycho Star Catalog
-	*@li Messier Catalog
-	*@li NGC/IC Catalogs
-	*@li Any Custom catalogs added by the user.
-	*
-	*@short Catalog page of the Options window.
-	*@author Jason Harris
-	*@version 1.0
-	*/
-
 class KStars;
 class QListWidgetItem;
+class KConfigDialog;
 
+/**
+ *@class OpsCatalog
+ *The Catalog page for the Options window.  This page allows the user
+ *to modify display of the major object catalogs in KStars:
+ *@li Hipparcos/Tycho Star Catalog
+ *@li Messier Catalog
+ *@li NGC/IC Catalogs
+ *@li Any Custom catalogs added by the user.
+ *
+ *@short Catalog page of the Options window.
+ *@author Jason Harris
+ *@version 1.0
+ */
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
     Q_OBJECT
@@ -44,7 +45,7 @@ public:
     ~OpsCatalog();
 
 private slots:
-    void updateDisplay();
+    void updateCustomCatalogs();
     void selectCatalog();
     void slotAddCatalog();
     void slotLoadCatalog();
@@ -52,6 +53,8 @@ private slots:
     void slotSetDrawStarMagnitude(double newValue);
     void slotSetDrawStarZoomOutMagnitude(double newValue);
     void slotStarWidgets(bool on);
+    void slotApply();
+    void slotCancel();
 
 private:
     void insertCatalog( const QString & filename );
@@ -59,6 +62,12 @@ private:
 
     QListWidgetItem *showMessier, *showMessImages, *showNGC, *showIC;
     KStars *ksw;
+
+    KConfigDialog *m_ConfigDialog;
+    QStringList m_CustomCatalogFile;
+    QList<int> m_ShowCustomCatalog;
+    float m_MagLimitDrawStar, m_MagLimitDrawStarZoomOut;
+    bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
 };
 
 #endif  //OPSCATALOG_H_
