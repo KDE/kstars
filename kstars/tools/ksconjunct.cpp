@@ -50,14 +50,14 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
   
   step = (stopJD - startJD) / 4.0;
   if(Object1.name() == "Mars" || Object2.name() == "Mars")
-    if (step > 30.0)
-      step = 30.0;
+    if (step > 10.0)
+      step = 10.0;
   if(Object1.name() == "Venus" || Object1.name() == "Mercury" || Object2.name() == "Mercury" || Object2.name() == "Venus") 
-    if (step > 15.0)
-      step = 15.0;
-  if(Object1.name() == "Moon" || Object2.name() == "Moon")
     if (step > 5.0)
       step = 5.0;
+  if(Object1.name() == "Moon" || Object2.name() == "Moon")
+    if (step > 0.25)
+      step = 0.25;
 
   //  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
@@ -66,7 +66,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
     //    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist - prevDist).toDMSString();
     Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
 
-    if(Sign != prevSign && prevSign == 1) {   // The prevSign == 1 ensures that we pick up only minima and don't waste time finding maxima
+    if( Sign != prevSign ) {   
       //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
       if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
         if(extremum.second.radians() < maxSeparation.radians())
