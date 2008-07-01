@@ -224,14 +224,11 @@ void NewFOV::slotUpdateFOV() {
 void NewFOV::slotComputeFOV() {
     KStars *ks = (KStars*)(parent()->parent());
 
-    if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) ) kDebug() << "A";
-    if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kDebug() << "B";
-
-    if ( sender() == ks->actionCollection()->action( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
+    if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 )
         ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
-    else if ( sender() == ks->actionCollection()->action( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
+    else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 )
         ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->ChipSize->value() * 3438.0 / ui->TLength2->value() ) );
-    else if ( sender() == ks->actionCollection()->action( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
+    else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
         ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
         // Beam width for an antenna is usually a circle on the sky.
         ui->ShapeBox->setCurrentIndex(4);
