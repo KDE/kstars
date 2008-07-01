@@ -67,18 +67,18 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   LocationButton -> setText( geoPlace -> fullName() );
   
   QHash<int, QString> pNames;
-  pNames[MERCURY] = i18n("Mercury");
-  pNames[VENUS] = i18n("Venus");
-  pNames[MARS] = i18n("Mars");
-  pNames[JUPITER] = i18n("Jupiter");
-  pNames[SATURN] = i18n("Saturn");
-  pNames[URANUS] = i18n("Uranus");
-  pNames[NEPTUNE] = i18n("Neptune");
-  pNames[PLUTO] = i18n("Pluto");
-  pNames[SUN] = i18n("Sun");
-  pNames[MOON] = i18n("Moon");
+  pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
+  pNames[KSPlanetBase::VENUS] = i18n("Venus");
+  pNames[KSPlanetBase::MARS] = i18n("Mars");
+  pNames[KSPlanetBase::JUPITER] = i18n("Jupiter");
+  pNames[KSPlanetBase::SATURN] = i18n("Saturn");
+  pNames[KSPlanetBase::URANUS] = i18n("Uranus");
+  pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
+  pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
+  pNames[KSPlanetBase::SUN] = i18n("Sun");
+  pNames[KSPlanetBase::MOON] = i18n("Moon");
 
-  for ( int i=0; i<UNKNOWN_PLANET; ++i ) {
+  for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
       Obj1ComboBox->insertItem( i, pNames[i] );
       Obj2ComboBox->insertItem( i, pNames[i] );
   }

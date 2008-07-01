@@ -61,23 +61,23 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
     KStarsData *kd = KStarsData::Instance();
 
     switch ( n ) {
-        case MERCURY:
-        case VENUS:
-        case MARS:
-        case JUPITER:
-        case SATURN:
-        case URANUS:
-        case NEPTUNE:
+        case KSPlanetBase::MERCURY:
+        case KSPlanetBase::VENUS:
+        case KSPlanetBase::MARS:
+        case KSPlanetBase::JUPITER:
+        case KSPlanetBase::SATURN:
+        case KSPlanetBase::URANUS:
+        case KSPlanetBase::NEPTUNE:
             return new KSPlanet( kd, n );
             break;
 
-        case PLUTO:
+        case KSPlanetBase::PLUTO:
             return new KSPluto(kd);
             break;
-        case SUN:
+        case KSPlanetBase::SUN:
             return new KSSun(kd);
             break;
-        case MOON:
+        case KSPlanetBase::MOON:
             return new KSMoon(kd);
             break;
     }
