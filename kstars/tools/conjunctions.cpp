@@ -101,7 +101,10 @@ void ConjunctionsTool::slotCompute (void)
   Object2 = createPlanetFromIndex( Obj2ComboBox -> currentIndex() );
   
   KSConjunct ksc;
+
+  QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
+  QApplication::restoreOverrideCursor();
 
   delete Object1;
   delete Object2;
