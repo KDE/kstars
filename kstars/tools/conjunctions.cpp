@@ -86,7 +86,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   // signals and slots connections
   connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
   connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
-  
   show();
 }
 
@@ -119,11 +118,19 @@ void ConjunctionsTool::slotCompute (void)
   Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
 
   KSConjunct ksc;
+  ComputeStack->setCurrentIndex( 1 );
+  connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
+  
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
-
+  ComputeStack->setCurrentIndex( 0 );
+    
   delete Object1;
   delete Object2;
 
+}
+
+void ConjunctionsTool::showProgress(int n) {
+  progress->setValue( n );
 }
 
 void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) {

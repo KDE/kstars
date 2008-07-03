@@ -49,6 +49,7 @@ public slots:
 
     void slotLocation();
     void slotCompute();
+    void showProgress(int);
 
 private:
     void showConjunctions(QMap<long double, dms> conjunctionlist);
