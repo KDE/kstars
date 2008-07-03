@@ -98,7 +98,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
       }
       
       //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
-      if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
+      if(findPrecise(&extremum, &Object1, &Object2, jd, step, Sign))
         if(extremum.second.radians() < maxSeparation.radians())
           Separations.insert(extremum.first, extremum.second);
     }
