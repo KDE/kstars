@@ -14,14 +14,16 @@
 #define TRIXEL_NAME_SIZE 8
 #define DB_TBL "tycho2"
 #define DB_DB "stardb"
-#define VERBOSE 0
+#define VERBOSE 1
 #define LONG_NAME_LIMIT 32
+#define FIRST_TRIXEL "N0000"                // TODO: Change if HTM Level Changes
+#define INVALID_TRIXEL "00000"              // TODO: Change if HTM Level Changes
 #define BAYER_LIMIT 8
 #define HTM_LEVEL 3
-#define NTRIXELS 512
+#define NTRIXELS 512                         // TODO: Change if HTM Level Changes
 #define INDEX_ENTRY_SIZE 8
 #define GLOBAL_MAG_LIMIT 8.00
-#define MYSQL_STARS_PER_QUERY 1100000
+#define MYSQL_STARS_PER_QUERY 1000000
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -190,6 +192,25 @@ int writeDataElementDescription(FILE *f, char *name, int8_t size, enum dataType 
 }
 
 /*
+ * Finds the ID of a given trixel
+ * NOTE: This function does not test whether the given input is sane
+ *
+ * trixel : String representation of the trixel to be converted
+ */
+
+u_int16_t trixel2number(char *trixel) {
+    int index;
+    u_int16_t id = 0;
+    for( index = HTM_LEVEL + 1; index >= 1; --index ) {
+        id += ( trixel[ index ] - '0' ) * (u_int32_t)round( pow(4, HTM_LEVEL + 1 - index) );
+    }
+    id += ( ( trixel[0] == 'S' ) ? round( pow(4, HTM_LEVEL + 1) ) : 0 );
+    return id;
+}
+
+
+
+/*
  * Dump the data file header.
  *
  * WARNING: Must edit everytime the definition of the starData structures changes
@@ -321,18 +342,6 @@ void nextTrixel(char *trixel) {
     *ptr = '0';
 }
 
-/*
- * Finds the ID of a given trixel
- * WARNING: Implemented only for a Level 3 HTMesh
- * NOTE: This function does not test whether the given input is sane
- *
- * trixel : String representation of the trixel to be converted
- */
-
-inline int trixel2number(char *trixel) {
-  return (trixel[4] - '0') + (trixel[3] - '0') * 4 + (trixel[2] - '0') * 16 + (trixel[1] - '0') * 64 + ((trixel[0] == 'N')?0:256);
-}
-
 
 int main(int argc, char *argv[]) {
 
@@ -349,6 +358,8 @@ int main(int argc, char *argv[]) {
   unsigned long nf_header_offset;
   unsigned int names_count;
   int16_t maglim;
+  u_int8_t htm_level;
+  u_int16_t MSpT_named, MSpT_unnamed;
 
   char query[512];
   char current_trixel[HTM_LEVEL + 2 + 1];
@@ -445,7 +456,7 @@ int main(int argc, char *argv[]) {
   nf_header_offset = ftell(namefile);
 
   /* Write a bogus index entry into the namefile, to be filled with correct data later */
-  writeIndexEntry(namefile, "N0000", ftell(namefile) + INDEX_ENTRY_SIZE, 0);
+  writeIndexEntry(namefile, FIRST_TRIXEL, ftell(namefile) + INDEX_ENTRY_SIZE, 0);
 
   /* Leave space for / write a deep magnitude limit specification in the data files */
   maglim = (int)(8.00 * 100);
@@ -453,10 +464,21 @@ int main(int argc, char *argv[]) {
   maglim = (int)(-5.0 * 100);
   fwrite(&maglim, 2, 1, usf); // Bogus entry
 
+  /* Write a HTM level specification in the data file */
+  htm_level = HTM_LEVEL;
+  fwrite(&htm_level, 1, 1, nsf);
+  fwrite(&htm_level, 1, 1, usf);
+
+  /* Leave space for a specification of MSpT (Maximum Stars per Trixel) in the data files */
+  MSpT_named = MSpT_unnamed = 0;
+  fwrite(&MSpT_named, 2, 1, nsf); // Bogus entry
+  fwrite(&MSpT_unnamed, 2, 1, usf); // Bogus entry
+
+
   /* Initialize some variables */
   lim = 0;
   exitflag = 0;
-  strcpy(current_trixel, "N0000");
+  strcpy(current_trixel, FIRST_TRIXEL);
   nsf_trix_count = usf_trix_count = 0;
   nsf_trix_begin = usf_trix_begin = 2; // The 2 is to leave space for deep magnitude limit specification
   ntrixels = 0;
@@ -500,12 +522,16 @@ int main(int argc, char *argv[]) {
 
       /* Write index entries if we've changed trixel */
       if(strcmp(row[0], current_trixel)) { 
-        if(VERBOSE) { fprintf(stderr, "Trixel Changed from %s to %s!\n", current_trixel, row[0]); }
+          if(VERBOSE) { fprintf(stderr, "Trixel Changed from %s to %s = %d!\n", current_trixel, row[0], trixel2number( row[0] ) ); }
         while(strcmp(row[0],current_trixel)) {
           writeIndexEntry(nsfhead, current_trixel, ns_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + nsf_trix_begin, nsf_trix_count);
           writeIndexEntry(usfhead, current_trixel, us_header_offset + NTRIXELS * INDEX_ENTRY_SIZE + usf_trix_begin, usf_trix_count);
           nsf_trix_begin = ftell(nsf);
           usf_trix_begin = ftell(usf);
+          if( nsf_trix_count > MSpT_named )
+              MSpT_named = nsf_trix_count;
+          if( usf_trix_count > MSpT_unnamed )
+              MSpT_unnamed = usf_trix_count;
           nsf_trix_count = usf_trix_count = 0;
           nextTrixel(current_trixel);
           ntrixels++;
@@ -588,7 +614,6 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Done.\n");
 
     }
-    
     mysql_free_result(result);
     lim += MYSQL_STARS_PER_QUERY;
   }
@@ -601,17 +626,25 @@ int main(int argc, char *argv[]) {
     nsf_trix_count = usf_trix_count = 0;
     nextTrixel(current_trixel);
     ntrixels++;
-  }while(strcmp(current_trixel,"00000"));
+  }while(strcmp(current_trixel, INVALID_TRIXEL));
 
   fseek(namefile, nf_header_offset, SEEK_SET);
-  writeIndexEntry(namefile, "N0000", nf_header_offset + INDEX_ENTRY_SIZE, names_count);
+  writeIndexEntry(namefile, FIRST_TRIXEL, nf_header_offset + INDEX_ENTRY_SIZE, names_count);
 
   if(ntrixels != NTRIXELS) {
     fprintf(stderr, "ERROR: Expected %u trixels, but found %u instead. Please redefine NTRIXELS in this program, or check the source database for bogus trixels\n", NTRIXELS, ntrixels);
   }
 
   rewind(usf);
+  rewind(nsf);
   fwrite(&maglim, 2, 1, usf);
+  maglim = 8.0;
+  fwrite(&maglim, 2, 1, nsf);
+  fwrite(&htm_level, 1, 1, usf);
+  fwrite(&htm_level, 1, 1, nsf);
+  fwrite(&MSpT_unnamed, 2, 1, usf);
+  fwrite(&MSpT_named, 2, 1, nsf);
+
 
   fcloseall();
   mysql_close(&link);

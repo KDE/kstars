@@ -19,7 +19,7 @@ mysql2bin: mysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
 binfiletester: binfiletester.c
-	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
 clean:
 	-rm binfiletester mysql2bin

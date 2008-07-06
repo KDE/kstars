@@ -171,6 +171,7 @@ private:
     float          m_zoomMagLimit;
     float          magLim;           // Current limiting magnitude for visible stars
     unsigned long  visibleStarCount;
+    quint16        MSpT;             // Maximum number of stars in any given trixel
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;

@@ -78,8 +78,13 @@ StarComponent::StarComponent(SkyComponent *parent )
             kDebug() << "WARNING: Header read error for deep star catalog!!" << endl;
         else {
             qint16 faintmag;
+            quint8 htm_level;
             fread( &faintmag, 2, 1, deepStarReader.getFileHandle() );
             m_FaintMagnitude = faintmag / 100.0;
+            fread( &htm_level, 1, 1, deepStarReader.getFileHandle() );
+            if( htm_level != m_skyMesh->level() )
+                kDebug() << "WARNING: Trixel level in program != that in file. EXPECT TROUBLE!" << endl;
+            fread( &MSpT, 2, 1, deepStarReader.getFileHandle() );
         }
     }
 
@@ -462,9 +467,16 @@ void StarComponent::loadShallowStarData()
     fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
 
     qint16 faintmag;
+    quint8 htm_level;
+    quint16 t_MSpT;
     fread( &faintmag, 2, 1, dataFile );
+    fread( &htm_level, 1, 1, dataFile );
+    fread( &t_MSpT, 2, 1, dataFile ); // Unused
     if( faintmag / 100.0 > m_FaintMagnitude )
         m_FaintMagnitude = faintmag / 100.0;
+    if( htm_level != m_skyMesh->level() ) {
+        kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
+    }
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
