@@ -20,7 +20,6 @@
 #include "Options.h"
 #include "skypoint.h"
 #include "skymap.h"
-#include "kstarsdata.h"
 #include "skylabeler.h"
 #include "linelist.h"
 

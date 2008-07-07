@@ -38,9 +38,9 @@ MilkyWay::MilkyWay( SkyComponent *parent ) :
         SkipListIndex( parent, i18n("Milky Way") )
 {}
 
-void MilkyWay::init( KStarsData *data )
+void MilkyWay::init()
 {
-    Q_UNUSED(data)
+    data = KStarsData::Instance();
 
     intro();
 
@@ -110,8 +110,6 @@ bool MilkyWay::selected()
 void MilkyWay::draw( QPainter& psky )
 {
     if ( !selected() ) return;
-
-    KStarsData *data = KStarsData::Instance();
 
     QColor color =  QColor( data->colorScheme()->colorNamed( "MWColor" ) );
 

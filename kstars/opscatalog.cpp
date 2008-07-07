@@ -147,7 +147,7 @@ void OpsCatalog::slotLoadCatalog() {
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
       CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, Options::showOther );
-        newCat.init( ksw->data() );
+        newCat.init();
         if ( newCat.objectList().size() )
             insertCatalog( filename );
     }
@@ -231,7 +231,7 @@ void OpsCatalog::slotApply() {
 
         if ( ! Options::catalogFile().contains( filename ) ) {
             //Add this catalog
-            ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  Options::showOther );
+            ksw->data()->skyComposite()->addCustomCatalog( filename, Options::showOther );
         }
     }
 

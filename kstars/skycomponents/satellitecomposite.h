@@ -45,17 +45,15 @@ public:
     /**
     	*@short Initialize the Satellite composite
     	*
-    	*@param data Pointer to the KStarsData object
     	*/
-    virtual void init( KStarsData *data );
+    virtual void init();
 
     /**
     	*@short Update the satellite tracks
     	*
-    	*@param data Pointer to the KStarsData object
     	*@param num Pointer to the KSNumbers object
     	*/
-    virtual void update( KStarsData *data, KSNumbers *num=0 );
+    virtual void update( KSNumbers *num=0 );
 
 private:
     QVector<SPositionSat*> pSat;

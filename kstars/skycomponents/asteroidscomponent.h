@@ -64,7 +64,6 @@ public:
     /**
     	*@short Initialize the asteroids list.
     	*Reads in the asteroids data from the asteroids.dat file.
-    	*@p data Pointer to the KStarsData object
     	*
     	*Each line in the data file is parsed as follows:
     	*@li 6-23 Name [string]
@@ -77,7 +76,7 @@ public:
     	*@li 82-93 Mean Anomaly in degrees [double]
     	*@li 94-98 Magnitude [double]
     	*/
-    virtual void init( KStarsData *data );
+    virtual void init();
 
     bool selected();
 
@@ -88,7 +87,6 @@ public:
 
 private:
     AsterIndex  m_asterIndex;
-
 };
 
 #endif

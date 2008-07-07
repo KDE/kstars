@@ -42,8 +42,10 @@ CustomCatalogComponent::~CustomCatalogComponent()
 {
 }
 
-void CustomCatalogComponent::init( KStarsData * ) {
+void CustomCatalogComponent::init() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
+
+    data = KStarsData::Instance();
 
     QDir::setCurrent( QDir::homePath() );  //for files with relative path
 
@@ -128,7 +130,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
     }
 }
 
-void CustomCatalogComponent::update( KStarsData *data, KSNumbers * )
+void CustomCatalogComponent::update( KSNumbers * )
 {
     if ( visible() ) {
         foreach ( SkyObject *obj, objectList() ) {

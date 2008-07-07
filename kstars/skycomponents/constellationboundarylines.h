@@ -51,9 +51,8 @@ public:
     	*"segments", such that each segment represents a continuous series 
     	*of boundary-line intervals that divide two particular constellations.
     	*
-    	*@param data Pointer to the KStarsData object
     	*/
-    void init( KStarsData *data );
+    void init();
 
     bool selected();
 

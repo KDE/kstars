@@ -38,9 +38,11 @@ HorizonComponent::HorizonComponent(SkyComponent *parent )
 HorizonComponent::~HorizonComponent()
 {}
 
-void HorizonComponent::init(KStarsData *data)
+void HorizonComponent::init()
 {
     emitProgressText( i18n("Creating horizon" ) );
+
+    data = KStarsData::Instance();
 
     //Define Horizon
     for ( unsigned int i=0; i<NCIRCLE; ++i ) {
@@ -58,7 +60,7 @@ bool HorizonComponent::selected()
     return Options::showHorizon();
 }
 
-void HorizonComponent::update( KStarsData *data, KSNumbers * )
+void HorizonComponent::update( KSNumbers * )
 {
     if ( ! selected() ) return;
 

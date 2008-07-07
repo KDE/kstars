@@ -54,7 +54,7 @@ public:
 
     //This function is empty; we need that so that the JiT update 
     //is the only one beiong used.
-    void update( KStarsData *data, KSNumbers *num );
+    void update( KSNumbers *num );
 
     bool selected();
 
@@ -67,9 +67,7 @@ public:
      */
     void drawLabels( QPainter& psky );
 
-    void init(KStarsData *data);
-
-    KStarsData *data() { return m_Data; }
+    void init();
 
     /**@return the current setting of the color mode for stars (0=real colors,
     	*1=solid red, 2=solid white or 3=solid black).
@@ -142,7 +140,6 @@ private:
     bool           m_validLineNums;
     bool           m_hideLabels;
 
-    KStarsData*    m_Data;
     float          m_FaintMagnitude;
     float          m_zoomMagLimit;
 

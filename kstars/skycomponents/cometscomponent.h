@@ -57,7 +57,6 @@ public:
     /**
     	*@short Initialize the asteroids list.
     	*Reads in the asteroids data from the asteroids.dat file.
-    	*@p data Pointer to the KStarsData object
     	*
     	*Populate the list of Comets from the data file.
     	*Each line in the data file is parsed as follows:
@@ -71,7 +70,7 @@ public:
     	*@li 82-93 Mean Anomaly in degrees [double]
     	*@li 94-98 Magnitude [double]
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
 };
 

@@ -47,9 +47,10 @@ bool AsteroidsComponent::selected()
     return Options::showAsteroids();
 }
 
-void AsteroidsComponent::init(KStarsData *data)
+void AsteroidsComponent::init()
 {
-
+    data = KStarsData::Instance();
+    
     QString line, name;
     int mJD;
     double a, e, dble_i, dble_w, dble_N, dble_M, H, G;

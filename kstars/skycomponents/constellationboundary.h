@@ -44,6 +44,8 @@ protected:
 
 public:
 
+    virtual void init();
+    
     static ConstellationBoundary* Create( SkyComponent* parent );
 
     static ConstellationBoundary* Instance();

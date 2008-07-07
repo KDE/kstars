@@ -45,8 +45,10 @@ void CoordinateGrid::preDraw( QPainter &psky )
     psky.setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
 }
 
-void CoordinateGrid::init( KStarsData *data )
+void CoordinateGrid::init()
 {
+    data = KStarsData::Instance();
+
     //emitProgressText( i18n("Loading coordinate grid" ) );
     intro();
 

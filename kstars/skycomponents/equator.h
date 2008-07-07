@@ -57,7 +57,7 @@ public:
     /**@short Initialize the Equator
      *@p data pointer to the KStarsData object
      */
-    virtual void init( KStarsData *data );
+    virtual void init();
 
     bool selected();
 

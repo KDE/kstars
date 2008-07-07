@@ -31,10 +31,10 @@
 
 SkyMesh* SkyMesh::pinstance = 0;
 
-SkyMesh* SkyMesh::Create( KStarsData* data, int level )
+SkyMesh* SkyMesh::Create( int level )
 {
     if ( pinstance ) delete pinstance;
-    pinstance = new SkyMesh( data, level );
+    pinstance = new SkyMesh( level );
     return pinstance;
 }
 
@@ -43,10 +43,12 @@ SkyMesh* SkyMesh::Instance( )
     return pinstance;
 }
 
-SkyMesh::SkyMesh( KStarsData* data, int level) :
+SkyMesh::SkyMesh( int level) :
         HTMesh(level, level, NUM_MESH_BUF),
-        m_drawID(0), m_data( data ), m_KSNumbers( 0 )
+        m_drawID(0), m_KSNumbers( 0 )
 {
+    m_data = KStarsData::Instance();
+    
     errLimit = HTMesh::size() / 4;
     m_zoomedInPercent = 25;
     m_inDraw = false;

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          coordinategrid.h  -  K Desktop Planetarium
+                          customcatalogcomposite.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 15 Sept. 2005
-    copyright            : (C) 2005 by Jason Harris
+    begin                : 2008/07/07
+    copyright            : (C) 2008 by Jason Harris
     email                : kstars@30doradus.org
  ***************************************************************************/
 
@@ -15,35 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
+#ifndef CUSTOMCATALOGCOMPOSITE_H
+#define CUSTOMCATALOGCOMPOSITE_H
 
-#include "noprecessindex.h"
+#include "skycomposite.h"
 
 /**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
-
-	*@author Jason Harris
-	*@version 0.1
-	*/
-class CoordinateGrid : public NoPrecessIndex
+ * @class CustomCatalogComposite
+ * 
+ * A simple container for custom catalog components.
+ * There is no simpler possible derivation of the abstract SkyComposite class,
+ * All we do here is define the init() function.
+ */
+class CustomCatalogComposite : public SkyComposite
 {
 public:
-    /**
-    	*@short Constructor
-    	*Simply adds all of the coordinate grid circles 
-    	*(meridians and parallels)
-    	*@p parent Pointer to the parent SkyComponent object
-    	*/
-    CoordinateGrid( SkyComponent *parent );
-
-    void init();
-
-    void preDraw( QPainter &psky );
-
-    bool selected();
+    CustomCatalogComposite( SkyComponent *parent );
+    virtual void init();    
 };
-
 
 #endif

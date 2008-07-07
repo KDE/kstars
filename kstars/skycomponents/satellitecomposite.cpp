@@ -40,8 +40,10 @@ SatelliteComposite::~SatelliteComposite()
         delete pSat[i];
 }
 
-void SatelliteComposite::init( KStarsData *data ) {
+void SatelliteComposite::init() {
     emitProgressText( i18n("Creating Earth satellites" ) );
+
+    data = KStarsData::Instance();
 
     QFile file;
 
@@ -65,11 +67,11 @@ void SatelliteComposite::init( KStarsData *data ) {
                  data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
                  data->geo()->height(), sfPath.toAscii().data() );
 
-        update( data );
+        update();
     }
 }
 
-void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
+void SatelliteComposite::update( KSNumbers * ) {
     //Julian Day value for current date and time:
     JD_0 = data->ut().djd();
 
@@ -92,7 +94,7 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 
         if ( isVisible ) {
             SatelliteComponent *sc = new SatelliteComponent( this );
-            sc->init( satName, data, pSat.data(), NSTEPS );
+            sc->initSatellite( satName, pSat.data(), NSTEPS );
             addComponent( sc );
 
             //DEBUG

@@ -136,7 +136,7 @@ void LineListIndex::reindexLines()
 }
 
 
-void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
+void LineListIndex::JITupdate( LineList* lineList )
 {
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();
@@ -191,7 +191,6 @@ void LineListIndex::updateLabelCandidates( const QPoint& /*o*/, LineList* /*line
 void LineListIndex::drawAllLines( QPainter& psky )
 {
     SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
     QPolygonF polyMW;
@@ -203,7 +202,7 @@ void LineListIndex::drawAllLines( QPainter& psky )
         LineList* lineList = m_listList.at( i );
 
         if ( lineList->updateID != updateID )
-            JITupdate( data, lineList );
+            JITupdate( lineList );
 
         SkyList* points = lineList->points();
         pLast = points->first();
@@ -240,7 +239,6 @@ void LineListIndex::drawAllLines( QPainter& psky )
 void LineListIndex::drawLines( QPainter& psky )
 {
     SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
 
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = data->updateID();
@@ -263,7 +261,7 @@ void LineListIndex::drawLines( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -308,7 +306,6 @@ void LineListIndex::drawFilled( QPainter& psky )
     //    psky.setRenderHint(QPainter::Antialiasing, false );
 
     SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
 
     DrawID drawID = skyMesh()->drawID();
     UpdateID updateID = data->updateID();
@@ -332,7 +329,7 @@ void LineListIndex::drawFilled( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();

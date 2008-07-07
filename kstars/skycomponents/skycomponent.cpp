@@ -22,14 +22,13 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstarsdata.h"
-#include "ksnumbers.h"
 #include "skyobject.h"
 
 SkyComponent::SkyComponent( SkyComponent *parent, bool (*visibleMethod)() )
 {
     Parent = parent;
     visible = visibleMethod;
+    data = 0;
 }
 
 SkyComponent::~SkyComponent()

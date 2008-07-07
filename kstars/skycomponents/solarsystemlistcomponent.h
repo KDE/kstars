@@ -35,16 +35,15 @@ public:
     SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize);
     ~SolarSystemListComponent();
 
-    virtual void update( KStarsData *data, KSNumbers *num );
+    virtual void update( KSNumbers *num );
 
     /**
     	*@short Update the coordinates of the solar system bodies in this component.
     	*
     	*This function updates the position of the moving solar system bodies.
-    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*/
-    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
+    virtual void updatePlanets( KSNumbers *num );
 
     /**
     	*@short Draws the bodies' trails, if necessary.

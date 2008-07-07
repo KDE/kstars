@@ -68,10 +68,11 @@ bool StarComponent::selected()
     return Options::showStars();
 }
 
-void StarComponent::init(KStarsData *data)
+void StarComponent::init()
 {
+    data = KStarsData::Instance();
+
     emitProgressText( i18n("Loading stars" ) );
-    m_Data = data;
 
     readLineNumbers();
     readData( Options::magLimitDrawStar() );
@@ -94,9 +95,8 @@ void StarComponent::init(KStarsData *data)
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void StarComponent::update( KStarsData *data, KSNumbers *num )   
+void StarComponent::update( KSNumbers *num )   
 {   
-    Q_UNUSED(data)   
     Q_UNUSED(num)   
 }   
 
@@ -125,7 +125,7 @@ void StarComponent::reindexAll( KSNumbers *num )
     if (  0 && ! m_reindexSplash ) {
         m_reindexSplash = new KStarsSplash(0,
                                            i18n("Please wait while re-indexing stars ...") );
-        QObject::connect( KStarsData::Instance(),
+        QObject::connect( data,
                           SIGNAL( progressText( QString ) ),
                           m_reindexSplash, SLOT( setMessage( QString ) ) );
 
@@ -179,7 +179,7 @@ void StarComponent::rereadData()
     m_reloadSplash = new KStarsSplash( 0,
                                        i18n("Please wait while loading faint stars ...") );
 
-    QObject::connect( KStarsData::Instance(),
+    QObject::connect( data,
                       SIGNAL( progressText( QString ) ),
                       m_reloadSplash, SLOT( setMessage( QString ) ) );
 
@@ -197,7 +197,6 @@ void StarComponent::draw( QPainter& psky )
     if ( ! selected() ) return;
 
     SkyMap *map = SkyMap::Instance();
-    KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
@@ -290,7 +289,7 @@ void StarComponent::drawLabels( QPainter& psky )
 {
     if ( m_hideLabels ) return;
 
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
+    psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
@@ -475,7 +474,7 @@ StarObject* StarComponent::processStar( const QString &line ) {
 if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
     StarObject *o = new StarObject( r, d, mag, name, visibleName, SpType, pmra, pmdec, plx, mult, var );
-    o->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+    o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     if ( ! gname.isEmpty() ) m_genName.insert( gname, o );
 
@@ -534,9 +533,9 @@ SkyObject* StarComponent::objectNearest(SkyPoint *p, double &maxrad )
 }
 
 int StarComponent::starColorMode( void ) const {
-    return m_Data->colorScheme()->starColorMode();
+    return data->colorScheme()->starColorMode();
 }
 
 int StarComponent::starColorIntensity( void ) const {
-    return m_Data->colorScheme()->starColorIntensity();
+    return data->colorScheme()->starColorIntensity();
 }

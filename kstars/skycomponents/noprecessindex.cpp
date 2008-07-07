@@ -26,7 +26,7 @@ NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name )
 {}
 
 // Don't precess the points, just account for the Earth's rotation
-void NoPrecessIndex::JITupdate( KStarsData *data, LineList* lineList )
+void NoPrecessIndex::JITupdate( LineList* lineList )
 {
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();
