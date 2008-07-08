@@ -719,10 +719,9 @@ void SkyMap::updateFocus() {
 
 void SkyMap::slewFocus( void ) {
     double dX, dY, fX, fY, r, r0;
-    double rslowdown = 0.0;
-    double step = 1.0;
+    double step0 = 0.5;
+    double step = step0;
     double maxstep = 10.0;
-    double grow = 1.1;
     
     SkyPoint newFocus;
 
@@ -748,9 +747,12 @@ void SkyMap::slewFocus( void ) {
 
             r0 = sqrt( dX*dX + dY*dY );
             r = r0;
+            if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
+                maxstep *= (10.0 + 0.5*r0)/20.0;
+            }
             while ( r > step ) {
                 //DEBUG
-                //kDebug() << step << ": " << r << ": " << r0 << endl;
+                kDebug() << step << ": " << r << ": " << r0 << endl;
                 fX = dX / r;
                 fY = dY / r;
 
@@ -787,29 +789,13 @@ void SkyMap::slewFocus( void ) {
 
                 r = sqrt( dX*dX + dY*dY );
                 
-                //rslowdown is set when we have reached the maximum slew speed
-                //check to see if we are approaching the target position
-                //if so, start slowing down
-                if ( rslowdown > 0.0 ) {
-                    if ( r <= rslowdown && step > 1.0 ) {
-                        step /= grow;
-                    }
-
-                } else {
-                    //stop accelerating when we pass the midpoint
-                    if ( r/r0 < 0.5 && step < maxstep ) { maxstep = step; }
-                    //accelerate if we're more than 2 steps away and 
-                    //not already at maxstep
-                    if ( r/step > 2.0 && step < maxstep ) {
-                        step *= grow;
-                        if ( step > maxstep ) { step = maxstep; }
-                    }
-                    //if we're at maxstep, set rslowdown to the distance 
-                    //traversed so far (this will make a symmetric slowdown)
-                    if ( step >= maxstep && rslowdown == 0.0 ) {
-                        rslowdown = 1.25*(r0 - r);
-                    }
-                }
+                //Modify step according to a cosine-shaped profile
+                //centered on the midpoint of the slew
+                //NOTE: don't allow the full range from -PI/2 to PI/2
+                //because the slew will never reach the destination as 
+                //the speed approaches zero at the end!
+                double t = dms::PI*(r - 0.5*r0)/(1.05*r0);
+                step = cos(t)*maxstep;
             }
         }
 
