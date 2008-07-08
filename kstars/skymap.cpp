@@ -718,8 +718,12 @@ void SkyMap::updateFocus() {
 }
 
 void SkyMap::slewFocus( void ) {
-    double dX, dY, fX, fY, r;
+    double dX, dY, fX, fY, r, r0;
+    double rslowdown = 0.0;
     double step = 1.0;
+    double maxstep = 10.0;
+    double grow = 1.1;
+    
     SkyPoint newFocus;
 
     //Don't slew if the mouse button is pressed
@@ -742,9 +746,11 @@ void SkyMap::slewFocus( void ) {
             if ( dX < -180.0 ) dX = 360.0 + dX;
             else if ( dX > 180.0 ) dX = -360.0 + dX;
 
-            r = sqrt( dX*dX + dY*dY );
-
+            r0 = sqrt( dX*dX + dY*dY );
+            r = r0;
             while ( r > step ) {
+                //DEBUG
+                //kDebug() << step << ": " << r << ": " << r0 << endl;
                 fX = dX / r;
                 fY = dY / r;
 
@@ -780,6 +786,30 @@ void SkyMap::slewFocus( void ) {
                 else if ( dX > 180.0 ) dX = -360.0 + dX;
 
                 r = sqrt( dX*dX + dY*dY );
+                
+                //rslowdown is set when we have reached the maximum slew speed
+                //check to see if we are approaching the target position
+                //if so, start slowing down
+                if ( rslowdown > 0.0 ) {
+                    if ( r <= rslowdown && step > 1.0 ) {
+                        step /= grow;
+                    }
+
+                } else {
+                    //stop accelerating when we pass the midpoint
+                    if ( r/r0 < 0.5 && step < maxstep ) { maxstep = step; }
+                    //accelerate if we're more than 2 steps away and 
+                    //not already at maxstep
+                    if ( r/step > 2.0 && step < maxstep ) {
+                        step *= grow;
+                        if ( step > maxstep ) { step = maxstep; }
+                    }
+                    //if we're at maxstep, set rslowdown to the distance 
+                    //traversed so far (this will make a symmetric slowdown)
+                    if ( step >= maxstep && rslowdown == 0.0 ) {
+                        rslowdown = 1.25*(r0 - r);
+                    }
+                }
             }
         }
 
