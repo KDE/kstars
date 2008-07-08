@@ -42,7 +42,7 @@ SingleComponent::~SingleComponent()
     delete m_StoredObject;
 }
 
-void SingleComponent::update( KSNumbers *num )
+void SingleComponent::update( KStarsData *data, KSNumbers *num )
 {
     if ( visible() ) {
         if ( num ) skyObject()->updateCoords( num );

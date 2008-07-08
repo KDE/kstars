@@ -40,8 +40,6 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &ima
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
-    data = KStarsData::Instance();
-    
     if (! image_file.isEmpty()) {
         QFile imFile;
 

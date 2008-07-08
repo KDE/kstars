@@ -45,23 +45,21 @@ JupiterMoonsComponent::~JupiterMoonsComponent()
     delete jmoons;
 }
 
-void JupiterMoonsComponent::init()
+void JupiterMoonsComponent::init(KStarsData *)
 {
-    data = KStarsData::Instance();
-
     jmoons = new JupiterMoons();
 
     for ( uint i=0; i<4; i++ ) 
         objectNames(SkyObject::MOON).append( jmoons->name(i) );
 }
 
-void JupiterMoonsComponent::update( KSNumbers * )
+void JupiterMoonsComponent::update( KStarsData *data, KSNumbers * )
 {
     if ( visible() )
         jmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void JupiterMoonsComponent::updateMoons( KSNumbers *num )
+void JupiterMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
 {
     if ( visible() )
         jmoons->findPosition( num, (KSPlanet*)(m_Jupiter->skyObject()), (KSSun*)(parent()->findByName( "Sun" )) );

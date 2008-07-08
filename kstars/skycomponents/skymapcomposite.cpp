@@ -32,7 +32,6 @@
 #include "constellationlines.h"
 #include "constellationnamescomponent.h"
 #include "coordinategrid.h"
-#include "customcatalogcomposite.h"
 #include "customcatalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
@@ -48,12 +47,12 @@
 #include "skylabeler.h"
 #include "infoboxes.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent) :
+SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
         SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();
 
-    m_skyMesh = SkyMesh::Create( 3 );  // level 5 mesh = 8192 trixels
+    m_skyMesh = SkyMesh::Create( data, 3 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
     //  2 => prints totals too
@@ -100,21 +99,18 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent) :
 
     //FIXME: can't use Options::showCatalog as visibility fcn,
     //because it returns QList, not bool
-    m_CustomCatalogs = new CustomCatalogComposite( this );
+    m_CustomCatalogs = new SkyComposite( this );
     foreach ( const QString &fname, Options::catalogFile() ) {
         CustomCatalogComponent *cc = new CustomCatalogComponent( this, fname, false,  &Options::showOther );
-        cc->init();
+        cc->init( data );
         m_CustomCatalogs->addComponent( cc );
     }
 
-    //DEBUG
-    kDebug() << "KSTARSDATA: " << KStarsData::Instance() << endl;
-    
-    m_SolarSystem = new SolarSystemComposite( this );
+    m_SolarSystem = new SolarSystemComposite( this, data );
     addComponent( m_SolarSystem );
 
     connect( this, SIGNAL( progressText( const QString & ) ),
-             KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
+             data, SIGNAL( progressText( const QString & ) ) );
 }
 
 SkyMapComposite::~SkyMapComposite()
@@ -123,55 +119,47 @@ SkyMapComposite::~SkyMapComposite()
     delete m_skyMesh;
 }
 
-void SkyMapComposite::init()
-{
-    data = KStarsData::Instance();
-
-    foreach ( SkyComponent *component, components() )
-        component->init();
-}
-
-void SkyMapComposite::update( KSNumbers *num )
+void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
 {
     //printf("updating SkyMapComposite\n");
     //1. Milky Way
-    //m_MilkyWay->update( num );
+    //m_MilkyWay->update( data, num );
     //2. Coordinate grid
-    //m_CoordinateGrid->update( num );
+    //m_CoordinateGrid->update( data, num );
     //3. Constellation boundaries
-    //m_CBounds->update( num );
+    //m_CBounds->update( data, num );
     //4. Constellation lines
-    //m_CLines->update( num );
+    //m_CLines->update( data, num );
     //5. Constellation names
-    m_CNames->update( num );
+    m_CNames->update( data, num );
     //6. Equator
-    //m_Equator->update( num );
+    //m_Equator->update( data, num );
     //7. Ecliptic
-    //m_Ecliptic->update( num );
+    //m_Ecliptic->update( data, num );
     //8. Deep sky
-    //m_DeepSky->update( num );
+    //m_DeepSky->update( data, num );
     //9. Custom catalogs
-    m_CustomCatalogs->update( num );
+    m_CustomCatalogs->update( data, num );
     //10. Stars
-    //m_Stars->update( num );
-    //m_CLines->update( num );  // MUST follow stars.
+    //m_Stars->update( data, num );
+    //m_CLines->update( data, num );  // MUST follow stars.
 
     //12. Solar system
-    m_SolarSystem->update( num );
+    m_SolarSystem->update( data, num );
     //13. Satellites
-    //m_Satellites->update( num );
+    //m_Satellites->update( data, num );
     //14. Horizon
-    m_Horizon->update( num );
+    m_Horizon->update( data, num );
 }
 
-void SkyMapComposite::updatePlanets( KSNumbers *num )
+void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
 {
-    m_SolarSystem->updatePlanets( num );
+    m_SolarSystem->updatePlanets( data, num );
 }
 
-void SkyMapComposite::updateMoons( KSNumbers *num )
+void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
 {
-    m_SolarSystem->updateMoons( num );
+    m_SolarSystem->updateMoons( data, num );
 }
 
 //Reimplement draw function so that we have control over the order of
@@ -185,6 +173,7 @@ void SkyMapComposite::draw( QPainter& psky )
     QTime t;
     t.start();
     SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     // We delay one draw cycle before re-indexing
     // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
@@ -427,9 +416,9 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 }
 **/
 
-void SkyMapComposite::addCustomCatalog( const QString &filename, bool (*visibleMethod)() ) {
+void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *data, bool (*visibleMethod)() ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, visibleMethod );
-    cc->init();
+    cc->init( data );
     m_CustomCatalogs->addComponent( cc );
 }
 
@@ -446,17 +435,17 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
-void SkyMapComposite::reloadDeepSky() {
+void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
     m_DeepSky->clear();
-    m_DeepSky->init();
+    m_DeepSky->init( data );
 }
 
-void SkyMapComposite::reloadAsteroids() {
-    m_SolarSystem->reloadAsteroids();
+void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
+    m_SolarSystem->reloadAsteroids( data );
 }
 
-void SkyMapComposite::reloadComets() {
-    m_SolarSystem->reloadComets();
+void SkyMapComposite::reloadComets( KStarsData *data ) {
+    m_SolarSystem->reloadComets( data );
 }
 
 void SkyMapComposite::emitProgressText( const QString &message ) {

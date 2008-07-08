@@ -83,7 +83,7 @@ public:
     	*@li 77-END   Common name [string] can be blank
     	*@return true if data file is successfully read.
     	*/
-    virtual void init();
+    virtual void init(KStarsData *data);
 
     /**
     	*@short Update the sky positions of this component.  FIXME -jbb does nothing now
@@ -92,12 +92,13 @@ public:
     	*coordinates of the objects in this component.  If the KSNumbers* 
     	*argument is not NULL, this function also recomputes precession and
     	*nutation for the date in KSNumbers.
+    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@note By default, the num parameter is NULL, indicating that 
     	*Precession/Nutation computation should be skipped; this computation 
     	*is only occasionally required.
     	*/
-    virtual void update( KSNumbers *num=0 );
+    virtual void update( KStarsData *data, KSNumbers *num=0 );
 
     /**
     	*@short Search the children of this SkyComponent for 

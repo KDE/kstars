@@ -95,7 +95,7 @@ class SkyMesh : public HTMesh
 {
 protected:
 
-    SkyMesh( int level );
+    SkyMesh( KStarsData* data, int level );
     SkyMesh( SkyMesh& skyMesh );
 
 public:
@@ -106,7 +106,7 @@ public:
      * 2^(level + 1) so a level 5 mesh will have triagles size roughly of
      * .05 radians or 2.8 degrees.
            */
-    static SkyMesh* Create( int level );
+    static SkyMesh* Create( KStarsData* data, int level );
 
     /* @short returns the single instance of SkyMesh or null if it has not
      * yet been created.

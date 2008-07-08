@@ -55,16 +55,15 @@ bool DeepSkyComponent::selected()
     return Options::showDeepSky();
 }
 
-void DeepSkyComponent::update( KSNumbers *num )
+void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
 {
+    Q_UNUSED(data)
     Q_UNUSED(num)
 }
 
 
-void DeepSkyComponent::init()
+void DeepSkyComponent::init(KStarsData *data)
 {
-    data = KStarsData::Instance();
-
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();

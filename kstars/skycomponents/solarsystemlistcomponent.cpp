@@ -40,7 +40,7 @@ SolarSystemListComponent::~SolarSystemListComponent()
     //Object deletes handled by parent class (ListComponent)
 }
 
-void SolarSystemListComponent::update( KSNumbers * ) {
+void SolarSystemListComponent::update(KStarsData *data, KSNumbers * ) {
     if ( visible() ) {
         foreach ( SkyObject *o, objectList() ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
@@ -49,7 +49,7 @@ void SolarSystemListComponent::update( KSNumbers * ) {
     }
 }
 
-void SolarSystemListComponent::updatePlanets( KSNumbers *num ) {
+void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) {
     if ( visible() ) {
         foreach ( SkyObject *o, objectList() ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
@@ -112,6 +112,7 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
     if ( ! visible() ) return;
 
     SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();

@@ -65,18 +65,16 @@ void SkyComposite::drawExportable( QPainter& psky )
         component->drawExportable( psky );
 }
 
-void SkyComposite::init()
+void SkyComposite::init( KStarsData *data )
 {
-    data = KStarsData::Instance();
-
     foreach ( SkyComponent *component, components() )
-        component->init();
+        component->init( data );
 }
 
-void SkyComposite::update( KSNumbers *num )
+void SkyComposite::update(KStarsData *data, KSNumbers *num )
 {
     foreach (SkyComponent *component, components())
-        component->update( num );
+        component->update( data, num );
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {

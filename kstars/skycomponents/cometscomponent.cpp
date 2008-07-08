@@ -40,9 +40,7 @@ CometsComponent::~CometsComponent() {
     //object deletion handled in grandparent class (ListComponent)
 }
 
-void CometsComponent::init() {
-    data = KStarsData::Instance();
-    
+void CometsComponent::init( KStarsData *data ) {
     QFile file;
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {

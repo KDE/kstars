@@ -60,9 +60,8 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
 // screen).  We also store the non-duplicate segments in the Component's native
 // list of SkyLines (for fast drawing of all boundaries at once).
 
-void ConstellationBoundaryLines::init() {
-    data = KStarsData::Instance();
-    
+void ConstellationBoundaryLines::init( KStarsData *data ) {
+
     int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
     //  0 => normal
     char* fname = "cbounds.dat";

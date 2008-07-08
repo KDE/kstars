@@ -40,7 +40,7 @@ class SkyLabeler;
 class SolarSystemComposite : public SkyComposite
 {
 public:
-    SolarSystemComposite( SkyComponent *parent );
+    SolarSystemComposite( SkyComponent *parent, KStarsData *data );
     ~SolarSystemComposite();
 
     KSPlanet* earth() { return m_Earth; }
@@ -48,22 +48,22 @@ public:
     QList<SkyObject*>& comets();
 
 
-    virtual void init();
+    virtual void init(KStarsData *data);
 
     bool selected();
 
-    virtual void update( KSNumbers *num );
+    virtual void update( KStarsData *data, KSNumbers *num );
 
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
-    virtual void updateMoons( KSNumbers *num );
+    virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
     virtual void draw( QPainter& psky );
 
     void drawTrails( QPainter& psky );
 
-    void reloadAsteroids();
-    void reloadComets();
+    void reloadAsteroids( KStarsData *data );
+    void reloadComets( KStarsData *data );
 
 private:
     KSPlanet *m_Earth;

@@ -133,7 +133,7 @@ bool AddCatDialog::validateDataFile() {
         ostream << CatalogContents;
         ostream.flush();
         CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, Options::showOther );
-        newCat.init();
+        newCat.init( ks->data() );
 
         int nObjects = newCat.objectList().size();
         if ( nObjects ) return true;

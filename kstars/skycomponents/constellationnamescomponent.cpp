@@ -42,10 +42,8 @@ bool ConstellationNamesComponent::selected()
 
 }
 
-void ConstellationNamesComponent::init()
+void ConstellationNamesComponent::init(KStarsData *)
 {
-    data = KStarsData::Instance();
-
     KSFileReader fileReader;
     if ( ! fileReader.open( "cnames.dat" ) ) return;
 
@@ -84,7 +82,7 @@ void ConstellationNamesComponent::init()
 }
 
 // Don't precess the location of the names
-void ConstellationNamesComponent::update( KSNumbers *num )
+void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
 {
     Q_UNUSED(num)
 

@@ -56,10 +56,11 @@ public:
 
     /**
      *@short Initialize the Horizon
+     *@p data Pointer to the KStarsData object
      */
-    virtual void init();
+    virtual void init(KStarsData *data);
 
-    virtual void update( KSNumbers* );
+    virtual void update( KStarsData*, KSNumbers* );
 
     bool selected();
 

@@ -35,6 +35,7 @@ class SolarSystemComposite;
 class KSNumbers;
 class KSPlanet;
 class KSPlanetBase;
+class KStarsData;
 class SkyLabeler;
 
 class SolarSystemSingleComponent : public SingleComponent
@@ -48,18 +49,20 @@ public:
     /**
     	*@short Initialize the solar system body
     	*Reads in the orbital data from data files.
+    	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init();
+    virtual void init(KStarsData *data);
 
-    virtual void update( KSNumbers *num );
+    virtual void update( KStarsData *data, KSNumbers *num );
 
     /**
     	*@short Update the coordinates of the planet.
     	*
     	*This function updates the position of the moving solar system body.
+    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*/
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
     void draw( QPainter &psky );
 

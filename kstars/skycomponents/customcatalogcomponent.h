@@ -53,12 +53,13 @@ public:
     	*/
     virtual void draw( QPainter& psky );
 
-    virtual void update( KSNumbers *num );
+    virtual void update( KStarsData *data, KSNumbers *num );
 
     /**
     	*@short Initialize the Custom catalog
+    	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init();
+    virtual void init(KStarsData *data);
 
     /**
     	*@return the name of the catalog

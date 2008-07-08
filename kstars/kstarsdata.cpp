@@ -91,6 +91,8 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     //standard directories and locale objects
     locale = new KLocale( "kstars" );
 
+    m_SkyComposite = new SkyMapComposite( 0, this );
+
     //Instantiate LST and HourAngle
     LST = new dms();
     HourAngle = new dms();
@@ -139,8 +141,6 @@ QString KStarsData::typeName( int i ) {
 
 void KStarsData::initialize() {
     if (startupComplete) return;
-
-    m_SkyComposite = new SkyMapComposite( 0 );
 
     QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
     initCounter = 0;
@@ -214,7 +214,7 @@ void KStarsData::slotInitialize() {
     case 2: //Initialize SkyMapComposite//
 
         emit progressText(i18n("Loading sky objects" ) );
-        skyComposite()->init();
+        skyComposite()->init( this );
         break;
 
     case 3: //Load Image URLs//
@@ -286,7 +286,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
         m_preUpdateNumID++;
         m_preUpdateNum = KSNumbers( num );
-        skyComposite()->update( &num );
+        skyComposite()->update( this, &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed());
@@ -297,7 +297,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updatePlanets( &num );
+        skyComposite()->updatePlanets( this, &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed());
@@ -309,7 +309,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updateMoons( &num );
+        skyComposite()->updateMoons( this, &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed());
@@ -323,7 +323,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //		t.start();
 
         m_preUpdateID++;
-        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords
+        skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
 
         //Update focus
         skymap->updateFocus();

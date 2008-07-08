@@ -51,7 +51,7 @@ void ConstellationLines::preDraw( QPainter &psky )
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-void ConstellationLines::init() {
+void ConstellationLines::init( KStarsData *data ) {
     //Create the ConstellationLinesComponents.  Each is a series of points
     //connected by line segments.  A single constellation can be composed of
     //any number of these series, and we don't need to know which series
@@ -68,8 +68,6 @@ void ConstellationLines::init() {
     //positions change due to proper motions.  In addition, each node
     //has a corresponding flag that determines whether a line should
     //connect this node and the previous one.
-
-    data = KStarsData::Instance();
 
     intro();
 
@@ -126,7 +124,7 @@ const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
 
-void ConstellationLines::JITupdate( LineList* lineList )
+void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
 {
     lineList->updateID = data->updateID();
 

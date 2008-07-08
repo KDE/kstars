@@ -38,9 +38,9 @@ public:
 
     /**
     	*@short Initialize the component using a SPositionSat array
+    	*@p data Pointer to the KStarsData object
     	*/
-    void init();
-    void initSatellite(const QString &name, SPositionSat *pSat[], int nsteps);
+    void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
 
     bool selected();
 

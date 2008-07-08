@@ -33,10 +33,45 @@ Ecliptic::Ecliptic(SkyComponent *parent ) :
 {}
 
 
-void Ecliptic::init()
+bool Ecliptic::selected()
 {
-    data = KStarsData::Instance();
+    return Options::showEcliptic();
+}
 
+void Ecliptic::draw( QPainter &psky )
+{
+    if ( ! selected() ) return;
+
+    KStarsData *data = KStarsData::Instance();
+    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+
+    m_label.reset( psky );
+
+    if ( ! skyMesh()->isZoomedIn() ) {
+        drawLines( psky );
+    }
+    else {
+        drawAllLines( psky );
+    }
+    m_label.draw( psky );
+}
+
+
+void Ecliptic::drawLabel( QPainter& psky )
+{
+    if ( ! selected() ) return;
+
+    KStarsData *data = KStarsData::Instance();
+    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+
+    m_label.draw( psky );
+}
+
+
+void Ecliptic::init(KStarsData *data)
+{
     KSNumbers num( data->ut().djd() );
     dms elat(0.0), elng(0.0);
 
@@ -62,36 +97,3 @@ void Ecliptic::init()
     }
 }
 
-bool Ecliptic::selected()
-{
-    return Options::showEcliptic();
-}
-
-void Ecliptic::draw( QPainter &psky )
-{
-    if ( ! selected() ) return;
-
-    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.reset( psky );
-
-    if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( psky );
-    }
-    else {
-        drawAllLines( psky );
-    }
-    m_label.draw( psky );
-}
-
-
-void Ecliptic::drawLabel( QPainter& psky )
-{
-    if ( ! selected() ) return;
-
-    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.draw( psky );
-}

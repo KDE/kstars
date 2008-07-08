@@ -36,13 +36,10 @@
 #include "jupitermoonscomponent.h"
 
 
-SolarSystemComposite::SolarSystemComposite( SkyComponent *parent )
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data )
         : SkyComposite(parent)
 {
 
-    //Remove this line when data args have been removed from ctors
-    data = KStarsData::Instance();
-    
     m_Earth = new KSPlanet( data, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
     m_Sun = new KSSun(data);
@@ -78,50 +75,48 @@ bool SolarSystemComposite::selected()
            ! ( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
 }
 
-void SolarSystemComposite::init()
+void SolarSystemComposite::init(KStarsData *data)
 {
-    data = KStarsData::Instance();
-
     if (!m_Earth->loadData())
         return; //stop initializing
 
     emitProgressText( i18n("Loading solar system" ) );
 
-    foreach ( SkyComponent *component, components() )
-        component->init();
+    //init all sub components
+    SkyComposite::init(data);
 }
 
-void SolarSystemComposite::update( KSNumbers *num )
+void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
 
     m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    m_JupiterMoons->update( num );
+    m_JupiterMoons->update( data, num );
 
     foreach ( SkyComponent *comp, components() ) {
-        comp->update( num );
+        comp->update( data, num );
     }
 }
 
-void SolarSystemComposite::updatePlanets( KSNumbers *num )
+void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
 
     m_Earth->findPosition( num );
     foreach ( SkyComponent *comp, components() ) {
-        comp->updatePlanets( num );
+        comp->updatePlanets( data, num );
     }
 }
 
-void SolarSystemComposite::updateMoons( KSNumbers *num )
+void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
 
     m_Sun->findPosition( num );
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
     m_Moon->findPhase( m_Sun );
-    m_JupiterMoons->updateMoons( num );
+    m_JupiterMoons->updateMoons( data, num );
 }
 
 void SolarSystemComposite::draw( QPainter& psky )
@@ -152,12 +147,12 @@ QList<SkyObject*>& SolarSystemComposite::comets() {
     return m_CometsComponent->objectList();
 }
 
-void SolarSystemComposite::reloadAsteroids() {
+void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {
     m_AsteroidsComponent->clear();
-    m_AsteroidsComponent->init();
+    m_AsteroidsComponent->init( data );
 }
 
-void SolarSystemComposite::reloadComets() {
+void SolarSystemComposite::reloadComets( KStarsData *data ) {
     m_CometsComponent->clear();
-    m_CometsComponent->init();
+    m_CometsComponent->init( data );
 }

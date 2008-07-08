@@ -43,9 +43,7 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
     //Object deletes handled by parent class (SingleComponent)
 }
 
-void SolarSystemSingleComponent::init() {
-    data = KStarsData::Instance();
-
+void SolarSystemSingleComponent::init(KStarsData *) {
     ksp()->loadData();
 
     if ( ! ksp()->name().isEmpty() ) objectNames(ksp()->type()).append( ksp()->name() );
@@ -53,14 +51,12 @@ void SolarSystemSingleComponent::init() {
         objectNames(ksp()->type()).append( ksp()->longname() );
 }
 
-void SolarSystemSingleComponent::update( KSNumbers *num ) {
-    Q_UNUSED( num )
-    
+void SolarSystemSingleComponent::update(KStarsData *data, KSNumbers *) {
     if ( visible() )
         ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SolarSystemSingleComponent::updatePlanets( KSNumbers *num ) {
+void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num) {
     if ( visible() ) {
         ksp()->findPosition( num, data->geo()->lat(), data->lst(), earth() );
         ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -182,6 +178,7 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
     if ( ! visible() || ! ksp()->hasTrail() ) return;
 
     SkyMap *map = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
 
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();

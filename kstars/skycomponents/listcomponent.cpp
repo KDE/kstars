@@ -49,7 +49,7 @@ void ListComponent::clear() {
     }
 }
 
-void ListComponent::update( KSNumbers *num )
+void ListComponent::update( KStarsData *data, KSNumbers *num )
 {
     if ( ! selected() ) return;
 

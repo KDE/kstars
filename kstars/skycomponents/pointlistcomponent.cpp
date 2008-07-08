@@ -30,7 +30,7 @@ PointListComponent::~PointListComponent()
         delete  pointList().takeFirst();
 }
 
-void PointListComponent::update( KSNumbers *num )
+void PointListComponent::update( KStarsData *data, KSNumbers *num )
 {
     if ( ! selected() ) return;
 

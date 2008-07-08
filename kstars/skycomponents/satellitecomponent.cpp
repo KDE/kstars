@@ -37,12 +37,8 @@ bool SatelliteComponent::selected()
     return Options::showSatellites();
 }
 
-void SatelliteComponent::init() {
-    data = KStarsData::Instance();
-}
 
-void SatelliteComponent::initSatellite( const QString &name, SPositionSat *pSat[], int npos ) {
-    init();
+void SatelliteComponent::init( const QString &name, KStarsData *data, SPositionSat *pSat[], int npos ) {
     setLabel( name );
     setLabelPosition( LineListComponent::RightEdgeLabel );
 

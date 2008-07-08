@@ -34,7 +34,6 @@ class ConstellationBoundaryLines;
 class ConstellationLines;
 class ConstellationNamesComponent;
 class CoordinateGrid;
-class CustomCatalogComposite;
 class DeepSkyComponent;
 class Ecliptic;
 class Equator;
@@ -44,6 +43,7 @@ class SolarSystemComposite;
 class StarComponent;
 class SatelliteComposite;
 
+class KStarsData;
 class DeepSkyObject;
 class KSPlanet;
 
@@ -64,14 +64,13 @@ public:
     /**
     	*Constructor
     	*@p parent pointer to the parent SkyComponent
+    	*@p data pointer to the KStarsData object
     	*/
-    SkyMapComposite(SkyComponent *parent);
+    SkyMapComposite(SkyComponent *parent, KStarsData *data);
 
     ~SkyMapComposite();
 
-    virtual void init();
-
-    virtual void update( KSNumbers *num=0 );
+    virtual void update( KStarsData *data, KSNumbers *num=0 );
 
     /**
     	*@short Delegate planet position updates to the SolarSystemComposite
@@ -81,12 +80,13 @@ public:
     	*will recompute the positions of all solar system bodies except the 
     	*Earth's Moon and Jupiter's Moons (because these objects' positions 
     	*change on a much more rapid timescale).
+    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@sa update()
     	*@sa updateMoons()
     	*@sa SolarSystemComposite::updatePlanets()
     	*/
-    virtual void updatePlanets( KSNumbers *num );
+    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
 
     /**
     	*@short Delegate moon position updates to the SolarSystemComposite
@@ -97,12 +97,13 @@ public:
     	*Galilean moons.  These objects are done separately from the other 
     	*solar system bodies, because their positions change more rapidly,
     	*and so updateMoons() must be called more often than updatePlanets().
+    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@sa update()
     	*@sa updatePlanets()
     	*@sa SolarSystemComposite::updateMoons()
     	*/
-    virtual void updateMoons( KSNumbers *num );
+    virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
     /**
     	*@short Delegate draw requests to all sub components
@@ -154,15 +155,15 @@ public:
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *o );
 
-    void addCustomCatalog( const QString &filename, bool (*visibleMethod)() );
+    void addCustomCatalog( const QString &filename, KStarsData *data, bool (*visibleMethod)() );
     void removeCustomCatalog( const QString &name );
 
     bool addNameLabel( SkyObject *o );
     bool removeNameLabel( SkyObject *o );
 
-    void reloadDeepSky();
-    void reloadAsteroids();
-    void reloadComets();
+    void reloadDeepSky( KStarsData *data );
+    void reloadAsteroids( KStarsData *data );
+    void reloadComets( KStarsData *data );
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -195,13 +196,13 @@ private:
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;
     CoordinateGrid              *m_CoordinateGrid;
-    CustomCatalogComposite      *m_CustomCatalogs;
     DeepSkyComponent            *m_DeepSky;
     Equator                     *m_Equator;
     Ecliptic                    *m_Ecliptic;
     HorizonComponent            *m_Horizon;
     MilkyWay                    *m_MilkyWay;
     SolarSystemComposite        *m_SolarSystem;
+    SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
     SatelliteComposite          *m_Satellites;
 

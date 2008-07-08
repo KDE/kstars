@@ -51,7 +51,7 @@ public:
      * the updates and ConstellationLines must update its points as stars,
      * not points.  that doesn't precess the points.
      */
-    virtual void JITupdate( LineList* lineList );
+    virtual void JITupdate( KStarsData *data, LineList* lineList );
 
     /* @short Returns the SkyMesh object.
      */

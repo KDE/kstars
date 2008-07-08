@@ -59,11 +59,12 @@ public:
 
     /**
      *@short Initialize the Jovian moons
+     *@p data Pointer to the KStarsData object
      */
-    virtual void init();
+    virtual void init(KStarsData *data);
 
-    virtual void update( KSNumbers *num );
-    virtual void updateMoons( KSNumbers *num );
+    virtual void update( KStarsData *data, KSNumbers *num );
+    virtual void updateMoons( KStarsData *data, KSNumbers *num );
 
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 

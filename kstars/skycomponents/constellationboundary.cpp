@@ -25,6 +25,7 @@
 
 #include "Options.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "ksutils.h"
 #include "skyobject.h"
 
@@ -46,10 +47,7 @@ ConstellationBoundary* ConstellationBoundary::Instance()
     return pinstance;
 }
 
-void ConstellationBoundary::init() 
-{
-//empty for now    
-}
+
 
 ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
         : PolyListIndex( parent )
