@@ -459,8 +459,8 @@ int main(int argc, char *argv[]) {
   writeIndexEntry(namefile, FIRST_TRIXEL, ftell(namefile) + INDEX_ENTRY_SIZE, 0);
 
   /* Leave space for / write a deep magnitude limit specification in the data files */
-  maglim = (int)(8.00 * 100);
-  fwrite(&maglim, 2, 1, nsf);
+  maglim = GLOBAL_MAG_LIMIT * 100;
+  fwrite(&maglim, 2, 1, nsf); // This is also a bogus entry, because it will be overwritten later
   maglim = (int)(-5.0 * 100);
   fwrite(&maglim, 2, 1, usf); // Bogus entry
 
@@ -638,7 +638,7 @@ int main(int argc, char *argv[]) {
   rewind(usf);
   rewind(nsf);
   fwrite(&maglim, 2, 1, usf);
-  maglim = 8.0;
+  maglim = GLOBAL_MAG_LIMIT * 100;
   fwrite(&maglim, 2, 1, nsf);
   fwrite(&htm_level, 1, 1, usf);
   fwrite(&htm_level, 1, 1, nsf);
