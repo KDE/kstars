@@ -71,11 +71,11 @@ StarComponent::StarComponent(SkyComponent *parent )
 
     if( !deepStarReader.getFileHandle() ) {
         deepStarReader.openFile( "deepstars.dat" );
-        
+        deepStars = false;
         if( !deepStarReader.getFileHandle() )
-            kDebug() << "WARNING: Failed to open deep star catalog!!" << endl;
+            kDebug() << "WARNING: Failed to open deep star catalog!! Disabling it!" << endl;
         else if( !deepStarReader.readHeader() )
-            kDebug() << "WARNING: Header read error for deep star catalog!!" << endl;
+            kDebug() << "WARNING: Header read error for deep star catalog!! Disabling it!" << endl;
         else {
             qint16 faintmag;
             quint8 htm_level;
@@ -85,6 +85,7 @@ StarComponent::StarComponent(SkyComponent *parent )
             if( htm_level != m_skyMesh->level() )
                 kDebug() << "WARNING: Trixel level in program != that in file. EXPECT TROUBLE!" << endl;
             fread( &MSpT, 2, 1, deepStarReader.getFileHandle() );
+            deepStars = true;
         }
     }
 
@@ -268,30 +269,32 @@ void StarComponent::draw( QPainter& psky )
     if( sizeMagLim > m_FaintMagnitude * ( 1 - 1.5/16 ) )
         sizeMagLim = m_FaintMagnitude * ( 1 - 1.5/16 );
 
-    if( veryFrugalMem )
+    if( deepStars && veryFrugalMem )
         m_StarBlockFactory.freeAll();
 
-    while( region.hasNext() ) {
-        Trixel currentRegion = region.next();
-        for( int i = 1; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
-            StarBlock *prevBlock = m_starBlockList[ currentRegion ]->block( i - 1 );
-            StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
-
-            if( i == 1 )
-                if( !m_StarBlockFactory.markFirst( block ) )
-                    kDebug() << "markFirst failed in trixel" << currentRegion;
-            if( i > 1 )
-                if( !m_StarBlockFactory.markNext( prevBlock, block ) )
-                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
-            if( i + 1 < m_starBlockList[ currentRegion ]->getBlockCount() 
-                && m_starBlockList[ currentRegion ]->block( i + 1 )->getFaintMag() < maglim )
-                break;
+    if( deepStars ) {
+        while( region.hasNext() ) {
+            Trixel currentRegion = region.next();
+            for( int i = 1; i < m_starBlockList[ currentRegion ]->getBlockCount(); ++i ) {
+                StarBlock *prevBlock = m_starBlockList[ currentRegion ]->block( i - 1 );
+                StarBlock *block = m_starBlockList[ currentRegion ]->block( i );
+                
+                if( i == 1 )
+                    if( !m_StarBlockFactory.markFirst( block ) )
+                        kDebug() << "markFirst failed in trixel" << currentRegion;
+                if( i > 1 )
+                    if( !m_StarBlockFactory.markNext( prevBlock, block ) )
+                        kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                if( i + 1 < m_starBlockList[ currentRegion ]->getBlockCount() 
+                    && m_starBlockList[ currentRegion ]->block( i + 1 )->getFaintMag() < maglim )
+                    break;
+            }
         }
+
+        t_updateCache = t.restart();
+        
+        region.reset();
     }
-
-    t_updateCache = t.restart();
-
-    region.reset();
 
     while ( region.hasNext() ) {
         ++nTrixels;
@@ -336,7 +339,7 @@ void StarComponent::draw( QPainter& psky )
         // NOTE: We are guessing that the last 1.5/16 magnitudes in the catalog are just additions and the star catalog
         //       is actually supposed to reach out continuously enough only to mag m_FaintMagnitude * ( 1 - 1.5/16 )
         // TODO: Is there a better way? We may have to change the magnitude tolerance if the catalog changes
-        if( !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
+        if( deepStars && !m_starBlockList[ currentRegion ]->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
             kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
                      << currentRegion << " !"<< endl;
         }
@@ -383,7 +386,7 @@ void StarComponent::draw( QPainter& psky )
         t_drawUnnamed += t.restart();
 
     }
-    if( frugalMem )
+    if( deepStars && frugalMem )
         m_StarBlockFactory.freeUnused();
 
 
@@ -454,7 +457,6 @@ void StarComponent::loadShallowStarData()
         kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
         return;
     }
-
     fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
     swapBytes = dataReader.getByteSwap();
 
@@ -469,14 +471,16 @@ void StarComponent::loadShallowStarData()
     qint16 faintmag;
     quint8 htm_level;
     quint16 t_MSpT;
+
     fread( &faintmag, 2, 1, dataFile );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
+
     if( faintmag / 100.0 > m_FaintMagnitude )
         m_FaintMagnitude = faintmag / 100.0;
-    if( htm_level != m_skyMesh->level() ) {
+
+    if( htm_level != m_skyMesh->level() )
         kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
-    }
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 

@@ -166,12 +166,14 @@ private:
     bool           m_hideLabels;
 
     KStarsData*    m_Data;
+    float          m_zoomMagLimit;
+
     float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
     bool           starsLoaded;
-    float          m_zoomMagLimit;
     float          magLim;           // Current limiting magnitude for visible stars
     unsigned long  visibleStarCount;
     quint16        MSpT;             // Maximum number of stars in any given trixel
+    bool           deepStars;        // Indicates whether deepstars are loaded
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
