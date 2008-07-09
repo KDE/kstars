@@ -265,8 +265,17 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     double saveRA = ra0()->Hours();
     double saveDec = dec0()->Degrees();
 
-    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
-    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+    double newRA, newDec;
+
+    // Old, Incorrect Proper motion Computation:
+    //    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
+    //    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+
+
+    getIndexCoords( num, &newRA, &newDec );
+    newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
+    setRA0( newRA );
+    setDec0( newDec );
 
     SkyPoint::updateCoords( num );
     setRA0( saveRA );
@@ -275,11 +284,36 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
-    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
-    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
-    *ra = ra0()->Degrees() + dra;
-    *dec = dec0()->Degrees() + ddec;
+    // Old, Incorrect Proper motion Computation:
+    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
+    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+
+    // Proper Motion Correction should be implemented as motion along a great 
+    // circle passing through the given (ra0, dec0) in a direction of 
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
+    // PM times the number of Julian millenia since J2000.0
+
+    double pm = sqrt( pmRA() * pmRA() + pmDec() * pmDec() ) * num->julianMillenia();   // Proper Motion in arcseconds
+    double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
+
+    ( pm < 0 ) && ( pm = -pm );
+
+    double dst = pm * M_PI / ( 180.0 * 3600.0 );
+    //    double phi = M_PI / 2.0 - dec0()->radians();
+
+    dms lat1, dtheta;
+    lat1.setRadians( asin( dec0()->sin() * cos( dst ) +
+                           dec0()->cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0()->cos(),
+                              cos( dst ) - dec0()->sin() * lat1.sin() ) );
+
+
+    *ra = ra0()->Degrees() + dtheta.Degrees();
+    *dec = lat1.Degrees();
+
+    //    *ra = ra0()->Degrees() + dra;
+    //    *dec = dec0()->Degrees() + ddec;
 }
 
 double StarObject::pmMagnitude()
