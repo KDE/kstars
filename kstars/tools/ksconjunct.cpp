@@ -58,15 +58,18 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
 
   step = step0;
   
-  //  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
+//  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
   long double jd = startJD;
   prevDist = findDistance(jd, &Object1, &Object2);
   jd += step;
   while ( jd <= stopJD ) {
+    int progress = int( 100.0*(jd - startJD)/(stopJD - startJD) );
+    emit madeProgress( progress );
+    
     Dist = findDistance(jd, &Object1, &Object2);
     Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
-    //    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
+//    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
     //How close are we to a conjunction, and how fast are we approaching one?
     double factor = fabs( Dist.Degrees() / (Dist.Degrees() - prevDist.Degrees()) );
@@ -74,6 +77,30 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
         step = step0 * factor/10.0;
     } else { //slow down, we're getting close!
         step = step0;
+    }
+    
+    if( Sign != prevSign ) { //all right, we may have just passed a conjunction
+      if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
+//        kDebug() << "Entering slow loop: " << endl;
+        jd -= step;
+        step = step0;
+        Sign = prevSign;
+        while ( jd <= stopJD ) {
+          Dist = findDistance(jd, &Object1, &Object2);
+          Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+//          kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees());
+          if ( Sign != prevSign ) break;
+
+          prevDist = Dist;
+          prevSign = Sign;
+          jd += step;
+        }
+      }
+      
+      //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
+      if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
+        if(extremum.second.radians() < maxSeparation.radians())
+          Separations.insert(extremum.first, extremum.second);
     }
     
     if( Sign != prevSign && prevSign == -1) { //all right, we may have just passed a conjunction
@@ -150,7 +177,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1
     Dist = findDistance(jd, Object1, Object2);
     //    kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
 
-    if(fabs(step) < 1.0 / (24.0 * 60.0) ) {
+    if(fabs(step) < 1.0 / (24.0*60.0) ) {
       out -> first = jd - step / 2.0;
       out -> second = findDistance(jd - step/2.0, Object1, Object2);
       if(out -> second.radians() < findDistance(jd - 5.0, Object1, Object2).radians())
@@ -176,5 +203,4 @@ int KSConjunct::sgn(dms a) {
   return ((a.radians() > 0)?1:((a.radians() < 0)?-1:0));
 
 }
-
-
+#include "ksconjunct.moc"

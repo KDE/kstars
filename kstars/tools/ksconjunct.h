@@ -20,6 +20,7 @@
 #define KSCONJUNCT_H_
 
 #include <QMap>
+#include <QObject>
 
 #include "dms.h"
 #include "ksplanet.h"
@@ -42,8 +43,9 @@ class dms;
   *@version 1.0
   */
 
-class KSConjunct {
-
+class KSConjunct :public QObject {
+ Q_OBJECT
+ 
  public:
   /**
     *Constructor.  Instantiates a KSNumbers for internal computations.
@@ -70,6 +72,9 @@ class KSConjunct {
    */
 
   QMap<long double, dms> findClosestApproach(KSPlanetBase& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation);
+
+ signals:
+  void madeProgress( int progress );
 
  private:
 
