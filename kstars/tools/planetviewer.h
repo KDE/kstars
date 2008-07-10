@@ -52,11 +52,11 @@ public:
     PlanetViewer(QWidget *parent = 0);
     ~PlanetViewer();
 
-    QString centerPlanet() const { return CenterPlanet; }
-    void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
+    inline QString centerPlanet() const { return CenterPlanet; }
+    inline void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
 
-    KPlotObject* planetObject(uint i) const { return planet[i]; }
-    QString planetName(uint i) const { return pName[i]; }
+    inline KPlotObject* planetObject(uint i) const { return planet[i]; }
+    QString planetName(uint i) const;
 
 protected:
     virtual void keyPressEvent( QKeyEvent *e );
@@ -80,7 +80,6 @@ private:
     bool isClockRunning;
     QTimer tmr;
     int UpdateInterval[9], LastUpdate[9];
-    QString pName[9], pColor[9];
     QString CenterPlanet;
 
     QList<KSPlanetBase*> PlanetList;

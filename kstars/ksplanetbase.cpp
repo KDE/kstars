@@ -23,19 +23,23 @@
 #include <QPoint>
 #include <QMatrix>
 
-#include "ksplanet.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "Options.h"
 #include "skymap.h"
 #include "ksasteroid.h"
+#include "kspluto.h"
+#include "ksplanet.h"
+#include "kssun.h"
+#include "ksmoon.h"
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, 		const QString &image_file, const QColor &c, double pSize )
-        : TrailObject( 2, 0.0, 0.0, 0.0, s ),
-        Rearth(0.0), Image(), data(kd),
-PhysicalSize(pSize), m_Color( c ) {
+KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &image_file, const QColor &c, double pSize )
+    : TrailObject( 2, 0.0, 0.0, 0.0, s ), Rearth(0.0), Image(), data(kd) {
+    init( s, image_file, c, pSize );
+}
 
+void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
     if (! image_file.isEmpty()) {
         QFile imFile;
 
@@ -48,6 +52,37 @@ PhysicalSize(pSize), m_Color( c ) {
     }
     PositionAngle = 0.0;
     ImageAngle = 0.0;
+    PhysicalSize = pSize;
+    m_Color = c;
+    setName( s );
+}
+
+KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
+    KStarsData *kd = KStarsData::Instance();
+
+    switch ( n ) {
+        case MERCURY:
+        case VENUS:
+        case MARS:
+        case JUPITER:
+        case SATURN:
+        case URANUS:
+        case NEPTUNE:
+            return new KSPlanet( kd, n );
+            break;
+
+        case PLUTO:
+            return new KSPluto(kd);
+            break;
+        case SUN:
+            return new KSSun(kd);
+            break;
+        case MOON:
+            return new KSMoon(kd);
+            break;
+    }
+
+    return 0;
 }
 
 void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
@@ -232,7 +267,6 @@ void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
 }
 
 void KSPlanetBase::findMagnitude(const KSNumbers *num) {
-
     double cosDec, sinDec;
     dec()->SinCos(cosDec, sinDec);
 

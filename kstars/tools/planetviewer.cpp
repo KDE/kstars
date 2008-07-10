@@ -71,24 +71,20 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     resize( 500, 500 );
     pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 
-    pName[0] = "Mercury"; pColor[0] = "slateblue";
-    pName[1] = "Venus";   pColor[1] = "lightgreen";
-    pName[2] = "Earth";   pColor[2] = "deepskyblue";
-    pName[3] = "Mars";    pColor[3] = "orangered";
-    pName[4] = "Jupiter"; pColor[4] = "goldenrod";
-    pName[5] = "Saturn";  pColor[5] = "khaki";
-    pName[6] = "Uranus";  pColor[6] = "lightseagreen";
-    pName[7] = "Neptune"; pColor[7] = "dodgerblue";
-    pName[8] = "Pluto";   pColor[8] = "gray";
-
     setCenterPlanet(QString());
 
-    KStars *ks = (KStars*)parent;
-    for ( int i=0; i<8; ++i )
-        PlanetList.append( new KSPlanet( ks->data(), pName[i], QString(), QColor( pColor[i] ) ) );
-    PlanetList.append( new KSPluto( ks->data() ) );
+    KStarsData *data = KStarsData::Instance();
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MERCURY ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::VENUS ) );
+    PlanetList.append( new KSPlanet( data, i18n("Earth") ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MARS ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::JUPITER ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::SATURN ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::URANUS ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::NEPTUNE ) );
+    PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::PLUTO ) );
 
-    ut = ks->data()->ut();
+    ut = data->ut();
     KSNumbers num( ut.djd() );
 
     for ( uint i=0; i<9; ++i ) {
@@ -119,6 +115,10 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 
 PlanetViewer::~PlanetViewer()
 {
+}
+
+QString PlanetViewer::planetName(uint i) const {
+    return PlanetList[i]->name();
 }
 
 void PlanetViewer::tick() {
@@ -177,7 +177,7 @@ void PlanetViewer::updatePlanets() {
             points.at(0)->setX( p->rsun()*c*c2 );
             points.at(0)->setY( p->rsun()*s*c2 );
 
-            if ( centerPlanet() == pName[i] ) {
+            if ( centerPlanet() == p->name() ) {
                 QRectF dataRect = pw->map->dataRect();
                 double xc = (dataRect.right() + dataRect.left())*0.5;
                 double yc = (dataRect.bottom() + dataRect.top())*0.5;
@@ -213,18 +213,19 @@ void PlanetViewer::initPlotObjects() {
     //Read in the orbit curves
     KPlotObject *orbit[9];
     for ( unsigned int i=0; i<9; ++i ) {
+        KSPlanetBase *p = PlanetList[i];
         orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
         QFile orbitFile;
-        if ( KSUtils::openDataFile( orbitFile, pName[i].toLower() + ".orbit" ) ) {
+        if ( KSUtils::openDataFile( orbitFile, p->name().toLower() + ".orbit" ) ) {
             KSFileReader fileReader( orbitFile ); // close file is included
-						double x,y;
+            double x,y;
             while ( fileReader.hasMoreLines() ) {
                 QString line = fileReader.readLine();
                 QStringList fields = line.split( " ", QString::SkipEmptyParts );
-								if ( fields.size() == 3 ) {
+                if ( fields.size() == 3 ) {
                     x = fields[0].toDouble();
-    								y = fields[1].toDouble();
+                    y = fields[1].toDouble();
                     orbit[i]->addPoint( x, y );
                 }
             }
@@ -234,13 +235,13 @@ void PlanetViewer::initPlotObjects() {
     }
 
     for ( unsigned int i=0; i<9; ++i ) {
-        planet[i] = new KPlotObject( pColor[i], KPlotObject::Points, 6, KPlotObject::Circle );
+        KSPlanetBase *p = PlanetList[i];
+        planet[i] = new KPlotObject( p->color(), KPlotObject::Points, 6, KPlotObject::Circle );
 
         double s, c;
-        KSPlanetBase *p = PlanetList[i];
         p->helEcLong()->SinCos( s, c );
 
-        planet[i]->addPoint( p->rsun()*c, p->rsun()*s, i18n(pName[i].toLocal8Bit()) );
+        planet[i]->addPoint( p->rsun()*c, p->rsun()*s, p->translatedName() );
         pw->map->addPlotObject( planet[i] );
     }
 
