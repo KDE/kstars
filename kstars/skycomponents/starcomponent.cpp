@@ -562,7 +562,7 @@ void StarComponent::loadShallowStarData()
                 double pm = star->pmMagnitude();
                 for (int j = 0; j < m_highPMStars.size(); j++ ) {
                     HighPMStarList* list = m_highPMStars.at( j );
-                    if ( list->append( 512 - i, star, pm ) ) break;
+                    if ( list->append( trixel, star, pm ) ) break;
                 }
             }
         }
