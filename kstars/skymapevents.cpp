@@ -142,12 +142,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Plus:   //Zoom in
     case Qt::Key_Equal:
-        if ( ks ) ks->slotZoomIn();
+        if ( ks ) 
+            zoomInOrMagStep( e->modifiers() );
         break;
 
     case Qt::Key_Minus:  //Zoom out
     case Qt::Key_Underscore:
-        if ( ks ) ks->slotZoomOut();
+        if (  ks ) 
+            zoomOutOrMagStep( e->modifiers() );
         break;
 
     //In the following cases, we set slewing=true in order to disengage tracking
@@ -640,8 +642,11 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-    if ( ks && e->delta() > 0 ) ks->slotZoomIn();
-    else if ( ks ) ks->slotZoomOut();
+    if ( ! ks ) return;
+    if ( e->delta() > 0 ) 
+        zoomInOrMagStep ( e->modifiers() );
+    else
+        zoomOutOrMagStep( e->modifiers() );
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
@@ -866,5 +871,62 @@ void SkyMap::paintEvent( QPaintEvent * )
 
     //TIMING
     //	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed());
+}
+
+double SkyMap::zoomFactor( const int modifier ) {
+    double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
+    if ( modifier & Qt::ShiftModifier ) 
+        factor = sqrt( factor );
+
+    return factor;
+}
+
+void SkyMap::zoomInOrMagStep( const int modifier ) {
+    if ( modifier & Qt::AltModifier )
+        incMagLimit( modifier );
+    else
+        ks->zoomIn( zoomFactor( modifier ) );
+}
+
+    
+void SkyMap::zoomOutOrMagStep( const int modifier ) {
+    if ( modifier & Qt::AltModifier )
+        decMagLimit( modifier );
+    else
+        ks->zoomOut( zoomFactor (modifier ) );
+}
+
+void SkyMap::zoomIn( const int modifier) {
+    ks->zoomIn( zoomFactor( modifier) );
+}
+
+void SkyMap::zoomOut( const int modifier) {
+    ks->zoomOut( zoomFactor( modifier ) );
+}
+
+double SkyMap::magFactor( const int modifier ) {
+    double factor = ( modifier & Qt::ControlModifier) ? 0.2 : 1.0; 
+    if ( modifier & Qt::ShiftModifier ) 
+        factor /= 2.0;
+
+    return factor;
+}
+
+void SkyMap::incMagLimit( const int modifier ) {
+    double limit = Options::magLimitDrawStarZoomOut();
+    limit += magFactor( modifier );
+    if ( limit > 9.0 ) limit = 9.0;
+    Options::setMagLimitDrawStarZoomOut( limit );
+    //printf("maglim set to %3.1f\n", limit);
+    forceUpdate();
+}
+
+void SkyMap::decMagLimit( const int modifier ) {
+    double limit = Options::magLimitDrawStarZoomOut();
+    limit -= magFactor( modifier );
+    if ( limit < 1.0 ) limit = 1.0;
+    Options::setMagLimitDrawStarZoomOut( limit );
+    //printf("maglim set to %3.1f\n", limit);
+    forceUpdate();
 }
 

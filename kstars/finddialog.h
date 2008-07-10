@@ -112,7 +112,7 @@ private:
      *
      * This could include replacing text like "m93" with "m 93"
      */
-    void processSearchText();
+     QString processSearchText();
 
     /**
      *@short pre-filter the list of objects according to 

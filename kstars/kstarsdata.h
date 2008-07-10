@@ -33,10 +33,11 @@
 #include "simclock.h"
 #include "skycomponents/skymapcomposite.h"
 
-#define MINZOOM 200.
+//#define MINZOOM 200.
+#define MINZOOM 250.
 #define MAXZOOM 5000000.
 #define DEFAULTZOOM 2000.
-#define DZOOM 1.10
+#define DZOOM 1.189207115   // 2^(1/4)  
 #define AU_KM 1.49605e8  //km in one AU
 
 #define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines

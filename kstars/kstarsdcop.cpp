@@ -137,6 +137,7 @@ void KStars::zoom( double z ) {
     if ( z > MAXZOOM ) z = MAXZOOM;
     if ( z < MINZOOM ) z = MINZOOM;
     Options::setZoomFactor( z );
+    reportZoom();
     map()->forceUpdate();
 }
 

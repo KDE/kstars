@@ -19,14 +19,16 @@
 #include "kstars.h"
 
 #include <QFont>
+#include <QPainter>
 #include <QResizeEvent>
 #include <QKeyEvent>
-#include <QPainter>
 #include <QPaintEvent>
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QApplication>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -70,8 +72,10 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
 
-    View = new ImageLabel( this );
-    Caption = new QLabel( this );
+    Page = new QFrame( this );
+    setMainWidget( Page );
+    View = new ImageLabel( Page );
+    Caption = new QLabel( Page );
     View->setAutoFillBackground( true );
     Caption->setAutoFillBackground( true );
     Caption->setFrameShape( QFrame::StyledPanel );
@@ -88,7 +92,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     capFont.setPointSize( capFont.pointSize() - 2 );
     Caption->setFont( capFont );
 
-    vlay = new QVBoxLayout( this );
+    vlay = new QVBoxLayout( Page );
     vlay->setSpacing( 0 );
     vlay->setMargin( 0 );
     vlay->addWidget( View );
@@ -115,6 +119,7 @@ ImageViewer::~ImageViewer() {
 
     delete View;
     delete Caption;
+    delete Page;
     if ( downloadJob ) delete downloadJob;
 }
 

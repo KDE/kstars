@@ -18,12 +18,6 @@
 
 #endif
 
-
-/* NB: Do NOT change this to config-kstars.h! INDI is independent of KStars */
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,6 +26,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <memory>
+
+#include <config.h>
 
 /* INDI Common Library Routines */
 #include "indicom.h"

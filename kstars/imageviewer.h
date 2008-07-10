@@ -18,15 +18,10 @@
 #ifndef IMAGEVIEWER_H_
 #define IMAGEVIEWER_H_
 
+#include <QFrame>
 #include <QFile>
-#include <QLabel>
-#include <QVBoxLayout>
 #include <QImage>
 #include <QPixmap>
-#include <QResizeEvent>
-#include <QKeyEvent>
-#include <QPaintEvent>
-#include <QCloseEvent>
 
 #include <kio/job.h>
 #include <kdialog.h>
@@ -112,6 +107,7 @@ private:
 
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 
+    QFrame *Page;
     ImageLabel *View;
     QLabel *Caption;
     QVBoxLayout *vlay;

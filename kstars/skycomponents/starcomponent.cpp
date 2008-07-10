@@ -216,12 +216,13 @@ void StarComponent::draw( QPainter& psky )
     double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
-    
-    float maglim = 4.444 * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
+    double magFactor = 4.444; 
+    double maglim = magFactor * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
+    double sizeMagLim = magFactor * ( lgz - lgmin ) + 6.0;
 
     m_zoomMagLimit = maglim;
 
-    float sizeFactor = 10.0 + (lgz - lgmin);
+    double maxSize = 10.0;
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -264,8 +265,8 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( curStar );
 
             if ( ! map->onScreen( o ) ) continue;
-            float size = ( sizeFactor*( maglim - mag ) / maglim ) + 1.;
-            if ( size <= 0. ) continue;
+            float size = maxSize * ( sizeMagLim - mag ) / sizeMagLim;
+            if ( size < 1.0 ) size = 1.0;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                            starColorIntensity(), true );

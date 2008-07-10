@@ -29,41 +29,18 @@
 
 #define LX16GROUP	"GPS/16 inch Features"
 
+#define currentAZ	HorizontalCoordsRNP.np[0].value
+#define currentALT	HorizontalCoordsRNP.np[1].value
+#define targetAZ	HorizontalCoordsWNP.np[0].value
+#define targetALT	HorizontalCoordsWNP.np[1].value
+
 extern LX200Generic *telescope;
 extern ITextVectorProperty Time;
 extern int MaxReticleFlashRate;
 
-
-//void turnFanOn();
-   //void turnFanOff();
-
-   //void seekHomeAndSave();
-  // void seekHomeAndSet();
-
-   /** Turns the field derotator On or Off. This command applies <b>only</b> to 16" LX200.
-   @param turnOn if turnOn is true, the derotator is turned on, otherwise, it is turned off. */
- //  void fieldDeRotator(bool turnOn);
-
-
-   /** Sets object Altitude. \n
-   @returns true if object's altitude is successfully set. */
-    //bool setObjAlt(int degrees, int minutes);
-
-   /** Sets object Azimuth. \n
-   @returns true if object's azimuth is successfully set. */
-//    bool setObjAz(int degrees, int minutes);
-
-
 static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF, 0, 0}};
 static ISwitch HomeSearchS[]		= { {"Save home", "", ISS_OFF, 0, 0} , {"Set home", "", ISS_OFF, 0, 0}};
 static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF,0 ,0}};
-//static ISwitch SlewAltAzS[]		= { {"Slew To Alt/Az",  ISS_ON}};
-
-#define	MAXINDINAME	32
-#define	MAXINDILABEL	32
-#define	MAXINDIDEVICE	32
-#define	MAXINDIGROUP	32
-#define	MAXINDIFORMAT	32
 
 static ISwitchVectorProperty FanStatusSP	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), "", 0};
 
@@ -174,11 +151,11 @@ void LX200_16::ISNewNumber (const char *dev, const char *name, double values[], 
 	       //HorizontalCoordsWNP.s = IPS_OK;
 	       //HorizontalCoordsWNP.n[0].value = values[0];
 	       //HorizontalCoordsWNP.n[1].value = values[1];
-	       targetAz  = newAz;
-	       targetAlt = newAlt;
+	       targetAZ  = newAz;
+	       targetALT = newAlt;
 
-	       fs_sexa(azStr, targetAz, 2, 3600);
-	       fs_sexa(altStr, targetAlt, 2, 3600);
+	       fs_sexa(azStr, targetAZ, 2, 3600);
+	       fs_sexa(altStr, targetALT, 2, 3600);
 
 	       //IDSetNumber (&HorizontalCoordsWNP, "Attempting to slew to Alt %s - Az %s", altStr, azStr);
 	       handleAltAzSlew();
@@ -301,8 +278,8 @@ void LX200_16::handleAltAzSlew()
 
 	  HorizontalCoordsWNP.s = IPS_BUSY;
 	  HorizontalCoordsRNP.s = IPS_BUSY;
-	  fs_sexa(azStr, targetAz, 2, 3600);
-	  fs_sexa(altStr, targetAlt, 2, 3600);
+	  fs_sexa(azStr, targetAZ, 2, 3600);
+	  fs_sexa(altStr, targetALT, 2, 3600);
 
 	  IDSetNumber(&HorizontalCoordsWNP, "Slewing to Alt %s - Az %s", altStr, azStr);
 	  IDSetNumber(&HorizontalCoordsRNP, NULL);
@@ -362,21 +339,17 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    if ( (err = getLX200Az(fd, &currentAz)) < 0 || (err = getLX200Alt(fd, &currentAlt)) < 0)
+	    if ( (err = getLX200Az(fd, &currentAZ)) < 0 || (err = getLX200Alt(fd, &currentALT)) < 0)
 	    {
 	      handleError(&HorizontalCoordsWNP, err, "Get Alt/Az");
 	      return;
 	    }
 	    
-	    dx = targetAz - currentAz;
-	    dy = targetAlt - currentAlt;
+	    dx = targetAZ - currentAZ;
+	    dy = targetALT - currentALT;
 
-            HorizontalCoordsRNP.np[0].value = currentAlt;
-	    HorizontalCoordsRNP.np[1].value = currentAz;
-
-	    /*IDLog("targetAz is %g, currentAz is %g\n", targetAz, currentAz);
-	    IDLog("targetAlt is %g, currentAlt is %g\n**********************\n", targetAlt,  currentAlt);*/
-
+            HorizontalCoordsRNP.np[0].value = currentALT;
+	    HorizontalCoordsRNP.np[1].value = currentAZ;
 
 	    // accuracy threshold (3'), can be changed as desired.
 	    if ( fabs(dx) <= 0.05 && fabs(dy) <= 0.05)
@@ -384,8 +357,8 @@ void LX200_16::handleAltAzSlew()
 
 		HorizontalCoordsWNP.s = IPS_OK;
 		HorizontalCoordsRNP.s = IPS_OK;
-		currentAz = targetAz;
-		currentAlt = targetAlt;
+		currentAZ = targetAZ;
+		currentALT = targetALT;
                 IDSetNumber (&HorizontalCoordsWNP, "Slew is complete.");
 		IDSetNumber (&HorizontalCoordsRNP, NULL);
 	    } else
@@ -404,14 +377,10 @@ void LX200_16::handleAltAzSlew()
  void LX200_16::getBasicData()
  {
 
-   getLX200Az(fd, &targetAz);
-   getLX200Alt(fd, &targetAlt);
-
-   HorizontalCoordsRNP.np[0].value = targetAlt;
-   HorizontalCoordsRNP.np[1].value = targetAz;
-
+   getLX200Az(fd, &currentAZ);
+   getLX200Alt(fd, &currentALT);
    IDSetNumber (&HorizontalCoordsRNP, NULL);
-   
+
    LX200Autostar::getBasicData();
 
  }

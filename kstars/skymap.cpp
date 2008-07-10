@@ -718,8 +718,11 @@ void SkyMap::updateFocus() {
 }
 
 void SkyMap::slewFocus( void ) {
-    double dX, dY, fX, fY, r;
-    double step = 1.0;
+    double dX, dY, fX, fY, r, r0;
+    double step0 = 0.5;
+    double step = step0;
+    double maxstep = 10.0;
+    
     SkyPoint newFocus;
 
     //Don't slew if the mouse button is pressed
@@ -742,9 +745,14 @@ void SkyMap::slewFocus( void ) {
             if ( dX < -180.0 ) dX = 360.0 + dX;
             else if ( dX > 180.0 ) dX = -360.0 + dX;
 
-            r = sqrt( dX*dX + dY*dY );
-
+            r0 = sqrt( dX*dX + dY*dY );
+            r = r0;
+            if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
+                maxstep *= (10.0 + 0.5*r0)/20.0;
+            }
             while ( r > step ) {
+                //DEBUG
+                kDebug() << step << ": " << r << ": " << r0 << endl;
                 fX = dX / r;
                 fY = dY / r;
 
@@ -780,6 +788,14 @@ void SkyMap::slewFocus( void ) {
                 else if ( dX > 180.0 ) dX = -360.0 + dX;
 
                 r = sqrt( dX*dX + dY*dY );
+                
+                //Modify step according to a cosine-shaped profile
+                //centered on the midpoint of the slew
+                //NOTE: don't allow the full range from -PI/2 to PI/2
+                //because the slew will never reach the destination as 
+                //the speed approaches zero at the end!
+                double t = dms::PI*(r - 0.5*r0)/(1.05*r0);
+                step = cos(t)*maxstep;
             }
         }
 

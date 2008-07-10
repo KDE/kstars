@@ -489,7 +489,6 @@ void INDIDriver::.arg(q(const QString &deviceLabel)
 void INDIDriver::saveDevicesToDisk()
 {
 
-#if 0
     QFile file;
     QString elementData;
 
@@ -520,7 +519,7 @@ void INDIDriver::saveDevicesToDisk()
     {
         if (dev->deviceType == KSTARS_TELESCOPE)
         {
-            outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
+            outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->tree_label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
 
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
@@ -537,7 +536,7 @@ void INDIDriver::saveDevicesToDisk()
     {
         if (dev->deviceType == KSTARS_CCD)
         {
-            outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -554,7 +553,7 @@ void INDIDriver::saveDevicesToDisk()
     {
         if (dev->deviceType == KSTARS_FILTER)
         {
-            outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -571,7 +570,7 @@ void INDIDriver::saveDevicesToDisk()
     {
         if (dev->deviceType == KSTARS_VIDEO)
         {
-            outstream << QString("<device label='%1'>").arg(dev->label) << endl;
+            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -582,24 +581,20 @@ void INDIDriver::saveDevicesToDisk()
 
     file.close();
 
-#endif
 }
 
 bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
-#if 0
     foreach (IDevice *dev, devices)
-    //for (unsigned int i=0 ; i < devices.size(); i++)
-    if (deviceLabel == dev->label)
+    if (deviceLabel == dev->tree_label)
     {
-        if (!dev->proc)
-            return false;
-        else
-            return (dev->proc->state() == QProcess::Running);
+        if (dev->state == IDevice::DEV_START)
+		return true;
+	else
+		return false;
     }
-#endif
-    return false;
 
+    return false;
 }
 
 int INDIDriver::getINDIPort()
@@ -808,24 +803,6 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
     // SLOTS/SIGNAL, pop menu, indi server logic
     return true;
-}
-
-int INDIDriver::activeDriverCount()
-{
-    int count = 0;
-#if 0
-
-    //for (uint i=0; i < devices.size(); i++)
-    foreach (IDevice *dev, devices)
-    if (dev->state && dev->mode == IDevice::M_LOCAL)
-        count++;
-
-    //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
-    foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
-    if (host->isConnected)
-        count++;
-#endif
-    return count;
 }
 
 void INDIDriver::addINDIHost()

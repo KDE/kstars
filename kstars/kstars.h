@@ -26,6 +26,7 @@
 // forward declaration is enough. We only need pointers
 class QPalette;
 class KActionMenu;
+class KLed;
 
 class dms;
 class KStarsData;
@@ -107,6 +108,8 @@ public:
     /**@return pointer to InfoBoxes object.
     	*/
     InfoBoxes* infoBoxes();
+
+    inline KLed* diskLED() { return m_DiskLED; }
 
     /**@return pointer to the INDI driver
     	*/
@@ -420,9 +423,22 @@ public Q_SLOTS:
     void slotApplyToolbarConfig();
 
     /**
+    	* Zoom in by a given factor
+        *
+    	*/
+    void zoomIn( const double factor );
+
+    /**
+    	* Zoom out by a given factor
+        *
+    	*/
+    void zoomOut( const double factor );
+
+    /**
     	*action slot: Zoom in one step
     	*/
     void slotZoomIn();
+
 
     /**
     	*action slot: Zoom out one step
@@ -665,6 +681,8 @@ private:
     	*/
     void buildGUI();
 
+    void reportZoom();
+
     KStarsData *kstarsData;
     KStarsSplash *splash;
     SkyMap *skymap;
@@ -703,6 +721,8 @@ private:
     OpsSolarSystem *opsolsys;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
+
+    KLed *m_DiskLED;
 };
 
 #endif

@@ -31,6 +31,12 @@ extern INumberVectorProperty EquatorialCoordsRNP;
 extern ITextVectorProperty TimeTP;
 extern int MaxReticleFlashRate;
 
+/* Handy Macros */
+#define currentRA	EquatorialCoordsRNP.np[0].value
+#define currentDEC	EquatorialCoordsRNP.np[1].value
+#define targetRA	EquatorialCoordsWNP.np[0].value
+#define targetDEC	EquatorialCoordsWNP.np[1].value
+
 #define BASIC_GROUP	"Main Control"
 #define LIBRARY_GROUP	"Library"
 #define MOVE_GROUP	"Movement Control"
@@ -77,7 +83,6 @@ LX200Classic::LX200Classic() : LX200Generic()
    currentSubCatalog = 0;
 
 }
-
 
 void LX200Classic::ISGetProperties (const char *dev)
 {
