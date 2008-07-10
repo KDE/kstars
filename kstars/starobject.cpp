@@ -308,8 +308,10 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0()->cos(),
                               cos( dst ) - dec0()->sin() * lat1.sin() ) );
 
+    // Using dms instead, to ensure that the numbers are in the right range.
+    dms finalRA( ra0()->Degrees() + dtheta.Degrees() );
 
-    *ra = ra0()->Degrees() + dtheta.Degrees();
+    *ra = finalRA.Degrees();
     *dec = lat1.Degrees();
 
     //    *ra = ra0()->Degrees() + dra;
