@@ -28,8 +28,6 @@
 
 #include "trailobject.h"
 
-typedef enum { MERCURY, VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, SUN, MOON, UNKNOWN_PLANET } PLANET;
-
 class QPoint;
 class KSNumbers;
 class KSPopupMenu;
@@ -94,6 +92,8 @@ public:
     virtual ~KSPlanetBase() {}
 
     void init(const QString &s, const QString &image_file, const QColor &c, double pSize );
+
+    enum { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
 
     static KSPlanetBase* createPlanet( int n );
 
