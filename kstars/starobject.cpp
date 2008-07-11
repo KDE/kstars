@@ -169,10 +169,10 @@ void StarObject::setNames( QString name, QString name2 ) {
     // DEBUG Edit. For testing proper motion. TODO: Remove later
     if( name == "Rigel Kentaurus" ) {
       // Populate Trail with various positions
-        KSNumbers num( 2000.0 );
-      long double jd;
-      for( jd = 2000.0; jd <= 12000.0; jd += 500.0 ) {
-	num.updateValues( jd );
+        KSNumbers num( 2000.0 * 365.0 ); // Some estimate, doesn't matter.
+      long double jy;
+      for( jy = 2000.0; jy <= 12000.0; jy += 500.0 ) {
+	num.updateValues( jy * 365.238 );
 	double ra, dec;
 	getIndexCoords( &num, &ra, &dec );
 	Trail.append( new SkyPoint( ra, dec ) );
