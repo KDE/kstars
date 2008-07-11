@@ -34,6 +34,13 @@
 QMap<QString, QColor> StarObject::ColorMap;
 QHash<QString, QPixmap> StarObject::StarImage;
 
+// DEBUG EDIT. Uncomment for testing Proper Motion
+// You will also need to uncomment all related blocks
+// from this file, starobject.h and also the trixel-boundaries
+// block from lines 253 - 257 of skymapcomposite.cpp
+//QVector<SkyPoint *> StarObject::Trail;
+// END DEBUG
+
 //----- Static Methods -----
 //
 double StarObject::reindexInterval( double pm )
@@ -159,16 +166,18 @@ void StarObject::init( const starData *stardata )
     Multiplicity = stardata->flags & 0x02;
     Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
-}
 
-void StarObject::setNames( QString name, QString name2 ) {
-    QString lname;
-
-    setName( name );
-
-    // DEBUG Edit. For testing proper motion. TODO: Remove later
-    if( name == "Rigel Kentaurus" ) {
+    // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
+    // WARNING: You can debug only ONE STAR AT A TIME, because
+    //          the StarObject::Trail is static. It has to be
+    //          static, because otherwise, we can run into segfaults
+    //          due to the memcpy() that we do to create stars
+    /*
+    testStar = false;
+    if( stardata->HD == 224635 ) {
       // Populate Trail with various positions
+        kDebug() << "TEST STAR FOUND!";
+        testStar = true;
         KSNumbers num( J2000 ); // Some estimate, doesn't matter.
         long double jy;
         for( jy = -10000.0; jy <= 10000.0; jy += 500.0 ) {
@@ -177,8 +186,18 @@ void StarObject::setNames( QString name, QString name2 ) {
             getIndexCoords( &num, &ra, &dec );
             Trail.append( new SkyPoint( ra / 15.0, dec ) );
         }
+        kDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
     }
+    */
     // END EDIT.
+
+
+}
+
+void StarObject::setNames( QString name, QString name2 ) {
+    QString lname;
+
+    setName( name );
 
     setName2( name2 );
 
@@ -291,11 +310,16 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     setRA0( newRA );
     setDec0( newDec );
 
-    // DEBUG Edit. For testing proper motion. TODO: Remove Later
-    KStarsData *data = KStarsData::Instance();
-    for( int i = 0; i < Trail.size(); i++ ) {
-        Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    // DEBUG Edit. Uncomment all related blocks for testing proper motion.
+    /*
+    if( testStar ) {
+        kDebug() << "Test Star. update method";
+        KStarsData *data = KStarsData::Instance();
+        for( int i = 0; i < Trail.size(); i++ ) {
+            Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        }
     }
+    */
     // END EDIT.
 
     SkyPoint::updateCoords( num );
@@ -535,9 +559,9 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 
-    // DEBUG Edit. To check Proper Motion Corrections. TODO: Comment Later
-
-    if( Trail.count() <= 0 )
+    // DEBUG Edit. To check Proper Motion Corrections. Uncomment all related blocks for testing.
+    /*
+    if( !testStar )
         return;
     
     SkyMap *map = SkyMap::Instance();
@@ -551,6 +575,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     pLast = Trail.first();
     oLast = map->toScreen( pLast, true, &isVisibleLast );
     center = map->toScreen( map->focus() );
+    kDebug() << "Entering draw routine to draw PM arc.";
     for ( int i = 1; i < Trail.size(); i++ ) {
         pThis = Trail.at( i );
         oThis = map->toScreen( pThis, true, &isVisible );
@@ -577,6 +602,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
         oLast = oThis;
         isVisibleLast = isVisible;
     }
+    */
     // END DEBUG.
               
               

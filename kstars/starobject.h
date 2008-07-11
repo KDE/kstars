@@ -337,7 +337,12 @@ public:
 protected:
     static QMap<QString, QColor> ColorMap;
     static QHash<QString, QPixmap> StarImage;
-    QVector<SkyPoint *> Trail;
+
+    // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
+    // See starobject.cpp for further info.
+    //    static QVector<SkyPoint *> Trail;
+    //    bool testStar;
+    // END DEBUG
 
 private:
     char SpType[2];
