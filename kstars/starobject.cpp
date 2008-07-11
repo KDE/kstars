@@ -165,6 +165,21 @@ void StarObject::setNames( QString name, QString name2 ) {
     QString lname;
 
     setName( name );
+
+    // DEBUG Edit. For testing proper motion. TODO: Remove later
+    if( name == "Rigel Kentaurus" ) {
+      // Populate Trail with various positions
+        KSNumbers num( 2000.0 );
+      long double jd;
+      for( jd = 2000.0; jd <= 12000.0; jd += 500.0 ) {
+	num.updateValues( jd );
+	double ra, dec;
+	getIndexCoords( &num, &ra, &dec );
+	Trail.append( new SkyPoint( ra, dec ) );
+      }
+    }
+    // END EDIT.
+
     setName2( name2 );
 
     if ( hasName() ) {
@@ -271,11 +286,17 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     //    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
     //    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
 
-
     getIndexCoords( num, &newRA, &newDec );
     newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
     setRA0( newRA );
     setDec0( newDec );
+
+    // DEBUG Edit. For testing proper motion. TODO: Remove Later
+    KStarsData *data = KStarsData::Instance();
+    for( int i = 0; i < Trail.size(); i++ ) {
+        Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+    // END EDIT.
 
     SkyPoint::updateCoords( num );
     setRA0( saveRA );

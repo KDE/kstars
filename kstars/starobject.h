@@ -337,6 +337,7 @@ public:
 protected:
     static QMap<QString, QColor> ColorMap;
     static QHash<QString, QPixmap> StarImage;
+    QVector<SkyPoint *> Trail;
 
 private:
     char SpType[2];
