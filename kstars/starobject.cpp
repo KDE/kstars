@@ -169,14 +169,14 @@ void StarObject::setNames( QString name, QString name2 ) {
     // DEBUG Edit. For testing proper motion. TODO: Remove later
     if( name == "Rigel Kentaurus" ) {
       // Populate Trail with various positions
-        KSNumbers num( 2000.0 * 365.0 ); // Some estimate, doesn't matter.
-      long double jy;
-      for( jy = 2000.0; jy <= 12000.0; jy += 500.0 ) {
-	num.updateValues( jy * 365.238 );
-	double ra, dec;
-	getIndexCoords( &num, &ra, &dec );
-	Trail.append( new SkyPoint( ra, dec ) );
-      }
+        KSNumbers num( J2000 ); // Some estimate, doesn't matter.
+        long double jy;
+        for( jy = -10000.0; jy <= 10000.0; jy += 500.0 ) {
+            num.updateValues( J2000 + jy * 365.238 );
+            double ra, dec;
+            getIndexCoords( &num, &ra, &dec );
+            Trail.append( new SkyPoint( ra / 15.0, dec ) );
+        }
     }
     // END EDIT.
 
@@ -535,6 +535,51 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 
+    // DEBUG Edit. To check Proper Motion Corrections. TODO: Comment Later
+
+    if( Trail.count() <= 0 )
+        return;
+    
+    SkyMap *map = SkyMap::Instance();
+    SkyPoint *pThis, *pLast;
+    QPointF oThis, oMid, oLast;
+    QPointF center;
+    bool isVisible, isVisibleLast;
+
+    psky.setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
+
+    pLast = Trail.first();
+    oLast = map->toScreen( pLast, true, &isVisibleLast );
+    center = map->toScreen( map->focus() );
+    for ( int i = 1; i < Trail.size(); i++ ) {
+        pThis = Trail.at( i );
+        oThis = map->toScreen( pThis, true, &isVisible );
+        if ( map->onScreen( oThis, oLast) ) {
+            kDebug() << "We have a segment on map!";                
+            if ( isVisible && isVisibleLast ) {
+                kDebug() << "Drawing line from (" << oLast.x() - center.x() << "," << oLast.y() - center.y() << ") to (" 
+                         << oThis.x() - center.x() << "," << oThis.y() - center.y() << ")" << endl;
+                kDebug() << "Or " << pThis->ra()->toHMSString() << "," << pThis->dec()->toDMSString() << "to"
+                         << pLast->ra()->toHMSString() << "," << pLast->dec()->toDMSString();
+                psky.drawLine( oLast, oThis );
+            }
+            else if ( isVisibleLast ) {
+                oMid = map->clipLineI( pLast, pThis );
+                psky.drawLine( oLast, oMid );
+            }
+            else if ( isVisible ) {
+                oMid = map->clipLineI( pThis, pLast );
+                psky.drawLine( oMid, oThis );
+            }
+        }
+            
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
+    }
+    // END DEBUG.
+              
+              
 }
 
 // The two routines below seem overly complicated but at least they are doing
