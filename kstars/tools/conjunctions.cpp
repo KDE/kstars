@@ -44,8 +44,10 @@
 #include "finddialog.h"
 #include "kscomet.h"
 #include "ksasteroid.h"
+#include "skymap.h"
+#include "infoboxes.h"
 
-ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) 
+ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     : QFrame(parentSplit), Object1( 0 ), Object2( 0 ) {
 
   setupUi(this);
@@ -62,13 +64,13 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   KStarsData *kd = KStarsData::Instance();
   KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
   KStarsDateTime dtStop ( dtStart.djd() + 365.24 ); // TODO: Refine
-  
+
   startDate -> setDateTime( dtStart.dateTime() );
   stopDate -> setDateTime( dtStop.dateTime() );
-  
+
   geoPlace = kd -> geo();
   LocationButton -> setText( geoPlace -> fullName() );
-  
+
   pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
   pNames[KSPlanetBase::VENUS] = i18n("Venus");
   pNames[KSPlanetBase::MARS] = i18n("Mars");
@@ -89,6 +91,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
   connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
   connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
+  connect( OutputView, SIGNAL( itemDoubleClicked( QListWidgetItem * ) ), this, SLOT( slotGoto() ) );
+
   show();
 }
 
@@ -97,6 +101,23 @@ ConjunctionsTool::~ConjunctionsTool(){
         delete Object1;
     if( Object2 )
         delete Object2;
+}
+
+void ConjunctionsTool::slotGoto() {
+    int index = OutputView->currentRow();
+    long double jd = outputJDList.value( index );
+    KStarsDateTime dt;
+    KStars *ks= (KStars *) topLevelWidget()->parent();
+    KStarsData *data = KStarsData::Instance();
+    SkyMap *map = ks->map();
+
+    data->setLocation( *geoPlace );
+    ks->infoBoxes()->geoChanged( geoPlace );
+    dt.setDJD( jd );
+    data->changeDateTime( dt );
+    map->setClickedObject( data->skyComposite()->findByName( Object1->name() ) ); // This is required, because the Object1 we have is a copy
+    map->setClickedPoint( map->clickedObject() );
+    map->slotCenter();
 }
 
 void ConjunctionsTool::slotFindObject() {
@@ -142,7 +163,7 @@ void ConjunctionsTool::slotFindObject() {
 void ConjunctionsTool::slotLocation()
 {
   LocationDialog ld( (KStars*) topLevelWidget()->parent() );
-  
+
   if ( ld.exec() == QDialog::Accepted ) {
     geoPlace = ld.selectedCity();
     LocationButton -> setText( geoPlace -> fullName() );
@@ -159,7 +180,7 @@ void ConjunctionsTool::slotCompute (void)
   dms maxSeparation(1.0); // TODO: Make maxSeparation user-specifiable
   // TODO: Get geoPlace from user.
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
-  
+
   if( !Object1 ) {
       // TODO: Display some error message
       KMessageBox::sorry( 0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
@@ -171,11 +192,12 @@ void ConjunctionsTool::slotCompute (void)
   KSConjunct ksc;
   ComputeStack->setCurrentIndex( 1 );
   connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
-  
-  showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
+
+  showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation) );
+
   ComputeStack->setCurrentIndex( 0 );
   QApplication::restoreOverrideCursor();
-    
+
   delete Object2;
   Object2 = NULL;
 
@@ -189,12 +211,16 @@ void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) 
 
   KStarsDateTime dt;
   QMap<long double, dms>::Iterator it;
+  int i;
 
   OutputView->clear();
+  outputJDList.clear();
+  i = 0;
 
   for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
     dt.setDJD( it.key() );
     OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", dt.toString("%a, %d %b %Y %H:%M"), it.data().toDMSString()) );
+    outputJDList.insert( i, it.key() );
   }
 }
 

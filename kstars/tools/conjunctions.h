@@ -34,6 +34,7 @@
 class GeoLocation;
 class KSPlanetBase;
 class dms;
+class QListWidgetItem;
 
 /**
   *@short Predicts conjunctions using KSConjunct in the background
@@ -53,12 +54,14 @@ public slots:
     void slotCompute();
     void showProgress(int);
     void slotFindObject();
+    void slotGoto();
 
 private:
     SkyObject *Object1;
     KSPlanetBase *Object2;        // Second object is always a planet.
     
     QHash<int, QString> pNames;   // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
+    QMap<int, long double> outputJDList; // To store Julian Days corresponding to the row index in the output list widget
 
     void showConjunctions(QMap<long double, dms> conjunctionlist);
 
