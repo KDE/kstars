@@ -2,7 +2,6 @@ KDE4_NO_ENABLE_FINAL(indi)
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../.. )
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs)
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee)
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/webcam)
 
 if (CFITSIO_FOUND)
@@ -16,6 +15,10 @@ endif (NOVA_FOUND)
 if (FLI_FOUND)
     include_directories(${FLI_INCLUDE_DIR})
 endif (FLI_FOUND)
+
+if (APOGEE_FOUND)
+    include_directories(${APOGEE_INCLUDE_DIR})
+endif (APOGEE_FOUND)
 
 option(ssh_tunnel "INDI Server binds locally. Remote clients may only connect via SSH Tunneling." OFF)
 
