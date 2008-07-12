@@ -21,6 +21,9 @@
 
 #include "ksnumbers.h"
 #include "ksplanetbase.h"
+#include "ksplanet.h"
+#include "ksasteroid.h"
+#include "kscomet.h"
 #include "kstarsdata.h"
 
 KSConjunct::KSConjunct() {
@@ -29,7 +32,7 @@ KSConjunct::KSConjunct() {
 
 }
 
-QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation) {
+QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation) {
 
   QMap<long double, dms> Separations;
   QPair<long double, dms> extremum;
@@ -112,7 +115,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
 }
 
 
-dms KSConjunct::findDistance(long double jd, KSPlanetBase *Object1, KSPlanetBase *Object2) {
+dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2) {
 
   KStarsDateTime t(jd);
   KSNumbers num(jd);
@@ -125,15 +128,36 @@ dms KSConjunct::findDistance(long double jd, KSPlanetBase *Object1, KSPlanetBase
   m_Earth -> findPosition( &num );
   dms LST(ksdata->geo()->GSTtoLST(t.gst()));
 
-  Object1 -> findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-  Object2 -> findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+  if( Object1->isSolarSystem() ) {
+      switch( Object1->type() ) {
+      case 2: {
+          KSPlanet *Planet = (KSPlanet *)Object1;
+          Planet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          break;
+      }
+      case 9: {
+          KSComet *Comet = (KSComet *)Object1;
+          Comet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          break;
+      }
+      case 10: {
+          KSAsteroid *Asteroid = (KSAsteroid *)Object1;
+          Asteroid->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          break;
+      }
+      }
+  }
+  else
+      Object1->updateCoords( &num );
+
+  Object2->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
 
   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
   
   return dist;
 }
 
-bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1, KSPlanetBase *Object2, long double jd, double step, int prevSign) {
+bool KSConjunct::findPrecise(QPair<long double, dms> *out, SkyObject *Object1, KSPlanetBase *Object2, long double jd, double step, int prevSign) {
   dms prevDist;
   int Sign;
   dms Dist;

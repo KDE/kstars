@@ -28,6 +28,8 @@
 #include <QTextStream>
 
 #include "ui_conjunctions.h"
+#include "skyobject.h"
+#include "ksplanetbase.h"
 
 class GeoLocation;
 class KSPlanetBase;
@@ -50,8 +52,14 @@ public slots:
     void slotLocation();
     void slotCompute();
     void showProgress(int);
+    void slotFindObject();
 
 private:
+    SkyObject *Object1;
+    KSPlanetBase *Object2;        // Second object is always a planet.
+    
+    QHash<int, QString> pNames;   // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
+
     void showConjunctions(QMap<long double, dms> conjunctionlist);
 
     GeoLocation *geoPlace;

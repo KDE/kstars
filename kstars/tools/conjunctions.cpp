@@ -41,9 +41,12 @@
 #include "ksmoon.h"
 #include "kspluto.h"
 #include "widgets/dmsbox.h"
+#include "finddialog.h"
+#include "kscomet.h"
+#include "ksasteroid.h"
 
 ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) 
-  : QFrame(parentSplit) {
+    : QFrame(parentSplit), Object1( 0 ), Object2( 0 ) {
 
   setupUi(this);
 
@@ -66,7 +69,6 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   geoPlace = kd -> geo();
   LocationButton -> setText( geoPlace -> fullName() );
   
-  QHash<int, QString> pNames;
   pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
   pNames[KSPlanetBase::VENUS] = i18n("Venus");
   pNames[KSPlanetBase::MARS] = i18n("Mars");
@@ -79,17 +81,62 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   pNames[KSPlanetBase::MOON] = i18n("Moon");
 
   for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
-      Obj1ComboBox->insertItem( i, pNames[i] );
+      //      Obj1ComboBox->insertItem( i, pNames[i] );
       Obj2ComboBox->insertItem( i, pNames[i] );
   }
 
   // signals and slots connections
   connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
+  connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
   connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
   show();
 }
 
 ConjunctionsTool::~ConjunctionsTool(){
+    if( Object1 )
+        delete Object1;
+    if( Object2 )
+        delete Object2;
+}
+
+void ConjunctionsTool::slotFindObject() {
+    FindDialog fd( (KStars*) topLevelWidget()->parent() );
+    if ( fd.exec() == QDialog::Accepted ) {
+        if( Object1 )
+            delete Object1;
+        if( !fd.selectedObject() )
+            return;
+        if( !fd.selectedObject()->isSolarSystem() ) {
+            Object1 = new SkyObject( *fd.selectedObject() );
+        }
+        else {
+            switch( fd.selectedObject()->type() ) {
+            case 2: {
+                Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
+                break;
+            }
+                /*
+            case 9: {
+                Object1 = (KSComet *) new KSComet();
+                *Object1 = *fd.selectedObject();
+                break;
+            }
+            case 10: {
+                Object1 = (KSAsteroid *) new KSAsteroid();
+                *Object1 = *fd.selectedObject();
+                break;
+            }
+                */
+            case 9:
+            case 10: {
+                KMessageBox::error( NULL, i18n( "This feature is not yet implemented for Comets and Asteroids" ) );
+                break;
+            }
+            }
+        }
+        if( Object1 )
+            Obj1FindButton->setText( Object1->name() );
+    }
 }
 
 void ConjunctionsTool::slotLocation()
@@ -112,9 +159,12 @@ void ConjunctionsTool::slotCompute (void)
   dms maxSeparation(1.0); // TODO: Make maxSeparation user-specifiable
   // TODO: Get geoPlace from user.
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
-  KSPlanetBase *Object1, *Object2;
   
-  Object1 = KSPlanetBase::createPlanet( Obj1ComboBox->currentIndex() );
+  if( !Object1 ) {
+      // TODO: Display some error message
+      KMessageBox::sorry( 0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
+      return;
+  }
   Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
 
   QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
@@ -126,8 +176,8 @@ void ConjunctionsTool::slotCompute (void)
   ComputeStack->setCurrentIndex( 0 );
   QApplication::restoreOverrideCursor();
     
-  delete Object1;
   delete Object2;
+  Object2 = NULL;
 
 }
 

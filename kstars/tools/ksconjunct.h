@@ -23,11 +23,12 @@
 #include <QObject>
 
 #include "dms.h"
+#include "skyobject.h"
 #include "ksplanet.h"
 #include "ksplanetbase.h"
 #include "ksnumbers.h"
 
-
+class SkyObject;
 class KSNumbers;
 class KSPlanetBase;
 class KSPlanet; 
@@ -71,7 +72,7 @@ class KSConjunct :public QObject {
    *@return Hash containing julian days of close conjunctions against separation
    */
 
-  QMap<long double, dms> findClosestApproach(KSPlanetBase& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation);
+  QMap<long double, dms> findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation);
 
  signals:
   void madeProgress( int progress );
@@ -89,7 +90,7 @@ class KSConjunct :public QObject {
     *@return The angular distance between the two bodies.
     */
 
-  dms findDistance(long double jd, KSPlanetBase *Object1, KSPlanetBase *Object2);
+  dms findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2);
 
   /**
     *@short Compute the precise value of the extremum once the extremum has been detected.
@@ -104,7 +105,7 @@ class KSConjunct :public QObject {
     *@return true if the extremum is a minimum
     */
 
-  bool findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1, KSPlanetBase *Object2, long double jd, double step, int prevSign);
+  bool findPrecise(QPair<long double, dms> *out, SkyObject *Object1, KSPlanetBase *Object2, long double jd, double step, int prevSign);
 
   /**
     *@short Return the sign of an angle
