@@ -12,7 +12,13 @@ macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
 macro_log_feature(CFITSIO_FOUND "libcfitsio" "A library for reading and writing data files in FITS (Flexible Image Transport System) data format" "http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html" FALSE "3.03" "Gives KStars support for FITS images.")
 
 macro_optional_find_package(SBIG)
-macro_log_feature(SBIG_FOUND "libsbigudrv" "SBIG Universal Driver" "http://indi.sourceforge.net/" FALSE "1.00" "Needed by KStars.")
+macro_log_feature(SBIG_FOUND "libsbigudrv" "SBIG Universal Driver" "http://indi.sourceforge.net/" FALSE "1.00" "Gives KStars support for controlling SBIG CCDs & Filter Wheels.")
+
+macro_optional_find_package(FLI)
+macro_log_feature(FLI_FOUND "libfli" "Finger Lakes Instrument Library" "http://indi.sourceforge.net/" FALSE "1.71" "Gives KStars support for controlling FLI CCDS & Filter Wheels.")
+
+macro_optional_find_package(APOGEE)
+macro_log_feature(APOGEE_FOUND "libapogee" "Apogee Instruments Library" "http://indi.sourceforge.net/" FALSE "1.8" "Gives KStars support for controlling Apogee CCDS.")
 
 macro_optional_find_package(Nova)
 macro_bool_to_01(NOVA_FOUND HAVE_NOVA_H)
@@ -27,6 +33,4 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
 
-
 add_subdirectory( kstars )
-
