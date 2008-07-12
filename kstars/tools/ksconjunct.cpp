@@ -79,30 +79,6 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
         step = step0;
     }
     
-    if( Sign != prevSign ) { //all right, we may have just passed a conjunction
-      if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
-//        kDebug() << "Entering slow loop: " << endl;
-        jd -= step;
-        step = step0;
-        Sign = prevSign;
-        while ( jd <= stopJD ) {
-          Dist = findDistance(jd, &Object1, &Object2);
-          Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
-//          kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees());
-          if ( Sign != prevSign ) break;
-
-          prevDist = Dist;
-          prevSign = Sign;
-          jd += step;
-        }
-      }
-      
-      //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
-      if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
-        if(extremum.second.radians() < maxSeparation.radians())
-          Separations.insert(extremum.first, extremum.second);
-    }
-    
     if( Sign != prevSign && prevSign == -1) { //all right, we may have just passed a conjunction
         if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
             //            kDebug() << "Entering slow loop: " << endl;
