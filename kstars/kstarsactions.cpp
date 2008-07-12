@@ -766,35 +766,48 @@ void KStars::slotManualFocus() {
     }
 }
 
-//View Menu
 void KStars::slotZoomIn() {
-    actionCollection()->action("zoom_out")->setEnabled (true);
-    if ( Options::zoomFactor() < MAXZOOM )
-        Options::setZoomFactor( Options::zoomFactor()*DZOOM );
+    zoomIn ( DZOOM );
+}
 
-    if ( Options::zoomFactor() >= MAXZOOM ) {
-        Options::setZoomFactor( MAXZOOM );
+void KStars::slotZoomOut() {
+    zoomOut ( DZOOM );
+}
+
+void KStars::zoomIn( const double factor ) {
+    actionCollection()->action("zoom_out")->setEnabled (true);
+    double newZoom = Options::zoomFactor() * factor;
+    if ( newZoom >= MAXZOOM )
+        newZoom = MAXZOOM;
+
+    Options::setZoomFactor( newZoom );
+    reportZoom();
+
+    if ( newZoom == MAXZOOM )
         actionCollection()->action("zoom_in")->setEnabled (false);
-    }
 
     map()->forceUpdate();
 }
 
-void KStars::slotZoomOut() {
+void KStars::zoomOut( const double factor ) {
     actionCollection()->action("zoom_in")->setEnabled (true);
-    if ( Options::zoomFactor() > MINZOOM )
-        Options::setZoomFactor( Options::zoomFactor()/DZOOM );
+    double newZoom = Options::zoomFactor() / factor;
+    if ( newZoom < MINZOOM )
+        newZoom = MINZOOM;
 
-    if ( Options::zoomFactor() <= MINZOOM ) {
-        Options::setZoomFactor( MINZOOM );
+    Options::setZoomFactor( newZoom );
+    reportZoom();
+
+    if ( newZoom == MINZOOM )
         actionCollection()->action("zoom_out")->setEnabled (false);
-    }
 
     map()->forceUpdate();
 }
 
 void KStars::slotDefaultZoom() {
     Options::setZoomFactor( DEFAULTZOOM );
+    reportZoom();
+
     map()->forceUpdate();
 
     if ( Options::zoomFactor() > MINZOOM )
@@ -831,8 +844,25 @@ void KStars::slotSetZoom() {
             actionCollection()->action("zoom_in")->setEnabled( true );
         }
 
+        reportZoom();
         map()->forceUpdate();
     }
+}
+
+void KStars::reportZoom() {
+    float fov = map()->fov();
+    QString fovunits = i18n( "degrees" );
+    if ( fov < 1.0 ) {
+        fov = fov * 60.0;
+        fovunits = i18n( "arcminutes" );
+    } 
+    if ( fov < 1.0 ) {
+        fov = fov * 60.0;
+        fovunits = i18n( "arcseconds" );
+    }
+
+    QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + " " + fovunits;
+    statusBar()->changeItem( fovstring, 0 );
 }
 
 void KStars::slotCoordSys() {

@@ -75,22 +75,27 @@ public:
     /**
       *Constructor.  Calls SkyObject constructor with type=2 (planet),
       *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-      *@param kd Some kind of data
+      *@param kd pointer to the KStarsData object
       *@param s Name of planet
       *@param image_file filename of the planet's image
       *@param c color of the symbol to use for this planet
       *@param pSize the planet's physical size, in km
-      *@param kd pointer to the KStarsData object.
       */
-    explicit KSPlanetBase( KStarsData *kd,
+    explicit KSPlanetBase( KStarsData *kd, 
                            const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
 
-    /**
-    *Destructor (empty)
-    */
+   /**
+     *Destructor (empty)
+     */
     virtual ~KSPlanetBase() {}
+
+    void init(const QString &s, const QString &image_file, const QColor &c, double pSize );
+
+    enum { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
+
+    static KSPlanetBase* createPlanet( int n );
 
     virtual bool loadData() {
         kDebug() << "no loadData() implementation for " << name() << endl; 

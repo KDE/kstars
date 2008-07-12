@@ -49,9 +49,9 @@ public slots:
 
     void slotLocation();
     void slotCompute();
+    void showProgress(int);
 
 private:
-    KSPlanetBase* createPlanetFromIndex( int i );
     void showConjunctions(QMap<long double, dms> conjunctionlist);
 
     GeoLocation *geoPlace;

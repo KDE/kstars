@@ -78,8 +78,7 @@ FindDialog::FindDialog( QWidget* parent )
     listFiltered = false;
 }
 
-FindDialog::~FindDialog() {
-}
+FindDialog::~FindDialog() { }
 
 void FindDialog::init() {
     ui->SearchBox->clear();
@@ -197,13 +196,15 @@ void FindDialog::filterByType() {
 }
 
 void FindDialog::filterList() {  
-    sortModel->setFilterFixedString( ui->SearchBox->text() );
+	QString SearchText;
+	SearchText = processSearchText();
+    sortModel->setFilterFixedString( SearchText );
     filterByType();
     initSelection();
 
     //Select the first item in the list that begins with the filter string
-    if ( ! ui->SearchBox->text().isEmpty() ) {
-        QStringList mItems = fModel->stringList().filter( QRegExp( '^'+ui->SearchBox->text(), Qt::CaseInsensitive ) );
+    if ( !SearchText.isEmpty() ) {
+        QStringList mItems = fModel->stringList().filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
         mItems.sort();
     
         if ( mItems.size() ) {
@@ -247,8 +248,9 @@ void FindDialog::enqueueSearch() {
 }
 
 // Process the search box text to replace equivalent names like "m93" with "m 93"
-void FindDialog::processSearchText() {
+QString FindDialog::processSearchText() {
     QRegExp re;
+    QString searchtext = ui->SearchBox->text();
 
     // NOTE: The following function has been DEPRECATED. What should I use instead?
     re.setCaseSensitive( false ); 
@@ -256,30 +258,27 @@ void FindDialog::processSearchText() {
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
     if(ui->SearchBox->text().contains(re)) {
-        QString searchtext = ui->SearchBox->text();
         re.setPattern("\\s*(\\d+)");
         searchtext.replace( re, " \\1" );
         re.setPattern("\\s*$");
         searchtext.replace(re, "");
         re.setPattern("^\\s*");
         searchtext.replace(re, "");
-        ui->SearchBox->setText(searchtext);
-        return;
     }
 
     // TODO after KDE 4.1 release:
     // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
+
+    return searchtext;
 }
 
 void FindDialog::slotOk() {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
     if(!listFiltered) {
-        processSearchText();
         filterList();
     }
     if(!selectedObject()) {
-        processSearchText();
         filterList();
     }
     if ( selectedObject() == 0 ) {

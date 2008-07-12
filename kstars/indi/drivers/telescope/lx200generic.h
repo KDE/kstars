@@ -37,6 +37,7 @@ class LX200Generic
  virtual void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
  virtual void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
  virtual void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
+ virtual void ISSnoopDevice (XMLEle *root);
  virtual void ISPoll ();
  virtual void getBasicData();
 
@@ -68,19 +69,13 @@ class LX200Generic
   int trackingMode;
 
   double JD;
-  double currentRA;
-  double currentDEC;
-  double targetRA;
-  double targetDEC;
   double lastRA;
   double lastDEC;
   bool   fault;
   bool   simulation;
-
-  char thisDevice[64];
-
-  int currentSet;
-  int lastSet;
+  char   thisDevice[64];
+  int    currentSet;
+  int    lastSet;
 
 };
 

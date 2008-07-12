@@ -35,46 +35,101 @@ QMap<long double, dms> KSConjunct::findClosestApproach(KSPlanetBase& Object1, KS
   QPair<long double, dms> extremum;
   dms Dist;
   dms prevDist;
-  double step;
+  double step, step0;
   int Sign, prevSign;
-  long double jd;
 
-  jd = startJD;
   ksdata = KStarsData::Instance();
-  prevDist = findDistance(jd, &Object1, &Object2);
   //  kDebug() << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
   //  kDebug() << "Initial Positional Information: \n";
   //  kDebug() << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
   //  kDebug() << Object2.name() << ": RA = " << Object2.ra() -> toHMSString() << "; Dec = " << Object2.dec() -> toDMSString() << "\n";
   prevSign = 0;
   
-  step = (stopJD - startJD) / 4.0;
+  step0 = (stopJD - startJD) / 4.0;
   if(Object1.name() == "Mars" || Object2.name() == "Mars")
-    if (step > 10.0)
-      step = 10.0;
+    if (step0 > 10.0)
+      step0 = 10.0;
   if(Object1.name() == "Venus" || Object1.name() == "Mercury" || Object2.name() == "Mercury" || Object2.name() == "Venus") 
-    if (step > 5.0)
-      step = 5.0;
+    if (step0 > 5.0)
+      step0 = 5.0;
   if(Object1.name() == "Moon" || Object2.name() == "Moon")
-    if (step > 0.25)
-      step = 0.25;
+    if (step0 > 0.25)
+      step0 = 0.25;
 
-  //  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
+  step = step0;
+  
+//  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
-  for(jd = startJD + step; jd <= stopJD; jd += step) {
+  long double jd = startJD;
+  prevDist = findDistance(jd, &Object1, &Object2);
+  jd += step;
+  while ( jd <= stopJD ) {
+    int progress = int( 100.0*(jd - startJD)/(stopJD - startJD) );
+    emit madeProgress( progress );
+    
     Dist = findDistance(jd, &Object1, &Object2);
-    //    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist - prevDist).toDMSString();
     Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+//    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
-    if( Sign != prevSign ) {   
+    //How close are we to a conjunction, and how fast are we approaching one?
+    double factor = fabs( Dist.Degrees() / (Dist.Degrees() - prevDist.Degrees()) );
+    if ( factor > 10.0 ) { //let's go faster!
+        step = step0 * factor/10.0;
+    } else { //slow down, we're getting close!
+        step = step0;
+    }
+    
+    if( Sign != prevSign ) { //all right, we may have just passed a conjunction
+      if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
+//        kDebug() << "Entering slow loop: " << endl;
+        jd -= step;
+        step = step0;
+        Sign = prevSign;
+        while ( jd <= stopJD ) {
+          Dist = findDistance(jd, &Object1, &Object2);
+          Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+//          kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees());
+          if ( Sign != prevSign ) break;
+
+          prevDist = Dist;
+          prevSign = Sign;
+          jd += step;
+        }
+      }
+      
       //      kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
       if(findPrecise(&extremum, &Object1, &Object2, jd, step, prevSign))
         if(extremum.second.radians() < maxSeparation.radians())
           Separations.insert(extremum.first, extremum.second);
     }
+    
+    if( Sign != prevSign && prevSign == -1) { //all right, we may have just passed a conjunction
+        if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
+            //            kDebug() << "Entering slow loop: " << endl;
+            jd -= step;
+            step = step0;
+            Sign = prevSign;
+            while ( jd <= stopJD ) {
+                Dist = findDistance(jd, &Object1, &Object2);
+                Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+                //                kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
+                if ( Sign != prevSign ) break;
+                
+                prevDist = Dist;
+                prevSign = Sign;
+                jd += step;
+            }
+        }
+        
+        //        kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
+        if(findPrecise(&extremum, &Object1, &Object2, jd, step, Sign))
+            if(extremum.second.radians() < maxSeparation.radians())
+                Separations.insert(extremum.first, extremum.second);
+    }
 
     prevDist = Dist;
     prevSign = Sign;
+    jd += step;
   }
 
   return Separations;
@@ -108,7 +163,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1
   dms Dist;
 
   if( out == NULL ) {
-    kDebug() << "Argument out to KSConjunct::findPrecise(...) was NULL!";
+    kDebug() << "ERROR: Argument out to KSConjunct::findPrecise(...) was NULL!";
     return false;
   }
 
@@ -120,8 +175,9 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, KSPlanetBase *Object1
   while(true) {
     jd += step;
     Dist = findDistance(jd, Object1, Object2);
+    //    kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
 
-    if(fabs(step) < 1.0 / 24.0) {
+    if(fabs(step) < 1.0 / (24.0*60.0) ) {
       out -> first = jd - step / 2.0;
       out -> second = findDistance(jd - step/2.0, Object1, Object2);
       if(out -> second.radians() < findDistance(jd - 5.0, Object1, Object2).radians())
@@ -147,3 +203,4 @@ int KSConjunct::sgn(dms a) {
   return ((a.radians() > 0)?1:((a.radians() < 0)?-1:0));
 
 }
+#include "ksconjunct.moc"

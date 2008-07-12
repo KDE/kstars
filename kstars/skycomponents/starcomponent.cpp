@@ -224,7 +224,7 @@ void StarComponent::draw( QPainter& psky )
 
     m_zoomMagLimit = maglim;
 
-    float sizeFactor = 10.0 + (lgz - lgmin);
+    double maxSize = 10.0;
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -268,7 +268,7 @@ void StarComponent::draw( QPainter& psky )
     float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
     if( sizeMagLim > m_FaintMagnitude * ( 1 - 1.5/16 ) )
         sizeMagLim = m_FaintMagnitude * ( 1 - 1.5/16 );
-
+    float sizeFactor = 10.0 + (lgz - lgmin);
     if( deepStars && veryFrugalMem )
         m_StarBlockFactory.freeAll();
 
@@ -323,6 +323,7 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( curStar );
             
             if ( ! map->onScreen( o ) ) continue;
+
             float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
             if ( size <= 1.0 ) size = 1.0;
 

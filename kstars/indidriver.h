@@ -114,7 +114,6 @@ public:
   
     void saveDevicesToDisk();
     int getINDIPort();
-    int activeDriverCount();
     bool isDeviceRunning(const QString &deviceLabel);
   
     void saveHosts();

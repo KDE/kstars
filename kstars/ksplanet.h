@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef KSPLANET_H_
+#define KSPLANET_H_
 
 #include <QVector>
 #include <QHash>
@@ -22,40 +24,45 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-#ifndef KSPLANET_H_
-#define KSPLANET_H_
-
-/**@class KSPlanet
-	*A subclass of KSPlanetBase for seven of the major planets in the solar system
-	*(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
-	*@note The Sun is subclassed from KSPlanet.
-	*
-	*KSPlanet contains internal classes to manage the computations of a planet's position.
-	*The position is computed as a series of sinusoidal sums, similar to a Fourier
-	*transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
-	*for details.
-	*@short Provides necessary information about objects in the solar system.
-	*@author Jason Harris
-	*@version 1.0
-	*/
-
 class KStarsData;
 
+/**@class KSPlanet
+ *A subclass of KSPlanetBase for seven of the major planets in the solar system
+ *(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
+ *@note The Sun is subclassed from KSPlanet.
+ *
+ *KSPlanet contains internal classes to manage the computations of a planet's position.
+ *The position is computed as a series of sinusoidal sums, similar to a Fourier
+ *transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
+ *for details.
+ *@short Provides necessary information about objects in the solar system.
+ *@author Jason Harris
+ *@version 1.0
+ */
 class KSPlanet : public KSPlanetBase {
 public:
 
-    /**Constructor.
-    	*@param kd Some kind of data
-    	*@param s Name of planet
-    	*@param image_file filename of the planet's image
-    	*@param c the color for the planet
-    	*@param pSize physical diameter of the planet, in km
-    	*/
+    /**
+     * Constructor.
+     * @param kd Pointer to the KStarsData object
+     * @param s Name of planet
+     * @param image_file filename of the planet's image
+     * @param c the color for the planet
+     * @param pSize physical diameter of the planet, in km
+     */
     explicit KSPlanet( KStarsData *kd, const QString &s="unnamed", const QString &image_file=QString(),
                        const QColor & c=Qt::white, double pSize=0 );
 
-    /**Destructor (empty)
-    	*/
+    /**
+     * Simplified constructor
+     * @param n identifier of the planet to be created
+     * @see PLANET enum
+     */
+    KSPlanet( KStarsData *kd, int n );
+
+    /**
+     * Destructor (empty)
+     */
     virtual ~KSPlanet() {}
 
     /**@short Preload the data used by findPosition.

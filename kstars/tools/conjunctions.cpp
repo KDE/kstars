@@ -37,6 +37,7 @@
 #include "ksnumbers.h"
 #include "kssun.h"
 #include "ksplanet.h"
+#include "ksplanetbase.h"
 #include "ksmoon.h"
 #include "kspluto.h"
 #include "widgets/dmsbox.h"
@@ -65,10 +66,26 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
   geoPlace = kd -> geo();
   LocationButton -> setText( geoPlace -> fullName() );
   
+  QHash<int, QString> pNames;
+  pNames[KSPlanetBase::MERCURY] = i18n("Mercury");
+  pNames[KSPlanetBase::VENUS] = i18n("Venus");
+  pNames[KSPlanetBase::MARS] = i18n("Mars");
+  pNames[KSPlanetBase::JUPITER] = i18n("Jupiter");
+  pNames[KSPlanetBase::SATURN] = i18n("Saturn");
+  pNames[KSPlanetBase::URANUS] = i18n("Uranus");
+  pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
+  pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
+  pNames[KSPlanetBase::SUN] = i18n("Sun");
+  pNames[KSPlanetBase::MOON] = i18n("Moon");
+
+  for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
+      Obj1ComboBox->insertItem( i, pNames[i] );
+      Obj2ComboBox->insertItem( i, pNames[i] );
+  }
+
   // signals and slots connections
   connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
   connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
-  
   show();
 }
 
@@ -97,55 +114,24 @@ void ConjunctionsTool::slotCompute (void)
   //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
   KSPlanetBase *Object1, *Object2;
   
-  Object1 = createPlanetFromIndex( Obj1ComboBox -> currentIndex() );
-  Object2 = createPlanetFromIndex( Obj2ComboBox -> currentIndex() );
-  
-  KSConjunct ksc;
-  showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
+  Object1 = KSPlanetBase::createPlanet( Obj1ComboBox->currentIndex() );
+  Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
 
+  QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
+  KSConjunct ksc;
+  ComputeStack->setCurrentIndex( 1 );
+  connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
+  
+  showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
+  ComputeStack->setCurrentIndex( 0 );
+    
   delete Object1;
   delete Object2;
 
 }
 
-KSPlanetBase* ConjunctionsTool::createPlanetFromIndex( int i ) {
-    KSPlanetBase *Object;
-    KStarsData *kd = KStarsData::Instance();
-
-    switch ( i ) {
-        case 0:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Mercury" ));
-            break;
-        case 1:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Venus" ));
-            break;
-        case 2:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Mars" ));
-            break;
-        case 3:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Jupiter" ));
-            break;
-        case 4:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Saturn" ));
-            break;
-        case 5:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Uranus" ));
-            break;
-        case 6:
-            Object = (KSPlanetBase *)(new KSPlanet( kd, "Neptune" ));
-            break;
-        case 7:
-            Object = (KSPlanetBase *)(new KSPluto( kd ));
-            break;
-        case 9:
-            Object = (KSPlanetBase *)(new KSSun( kd ));
-            break;
-        case 8:
-            Object = (KSPlanetBase *)(new KSMoon( kd ));
-            break;
-    }
-
-    return Object;
+void ConjunctionsTool::showProgress(int n) {
+  progress->setValue( n );
 }
 
 void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) {

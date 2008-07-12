@@ -283,7 +283,7 @@ bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height, QPainter
     psky.drawLine( QPointF( x2, y2 ),QPointF( x, y2 ));
     psky.drawLine( QPointF( x, y2 ), QPointF( x,y ));
     ***/
-
+    Q_UNUSED(psky)
     return markRegion( x, x + width, y + height, y );
 }
 bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )

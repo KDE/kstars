@@ -1,9 +1,6 @@
-#ifndef LX200_16_H
-#define LX200_16_H
-
 /*
-    LX200 16"
-    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+    LX200 AP Driver
+    Copyright (C) 2007 Markus Wildi
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -21,26 +18,20 @@
 
 */
 
-#include "lx200autostar.h"
+#include <config.h>
 
-class LX200_16 : public LX200Autostar
-{
- public:
-  LX200_16();
-  ~LX200_16() {}
+#include <math.h>
 
- void ISGetProperties (const char *dev);
- void ISNewNumber (const char *dev, const char *name, double values[], char *names[], int n);
- void ISNewText (const char *dev, const char *name, char *texts[], char *names[], int n);
- void ISNewSwitch (const char *dev, const char *name, ISState *states, char *names[], int n);
- void ISPoll ();
- void getBasicData();
- void handleAltAzSlew();
-
-};
-
-void changeLX200_16DeviceName(const char * newName);
-
+#ifdef HAVE_NOVA_H
+#include <libnova.h>
 #endif
 
+#define ATA    0
+#define ATR    1
+#define ARTT   2
+#define ARTTO  3 /* not yet there, requires a pointing model */
 
+double LDRAtoHA( double RA, double longitude) ;
+int LDEqToEqT( double ra_h, double dec_d, double *hxt, double *rat_h, double *dect_d);
+int LDCartToSph( double *vec, double *ra, double *dec) ;
+int LDAppToX( int trans_to, double *star_cat, double tjd, double *loc, double *hxt, double *star_trans) ;
