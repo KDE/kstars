@@ -480,7 +480,7 @@ int main(int argc, char *argv[]) {
   exitflag = 0;
   strcpy(current_trixel, FIRST_TRIXEL);
   nsf_trix_count = usf_trix_count = 0;
-  nsf_trix_begin = usf_trix_begin = 2; // The 2 is to leave space for deep magnitude limit specification
+  nsf_trix_begin = usf_trix_begin = 2 + 1 + 2; // The 2 is to leave space for deep magnitude limit, HTM Level and MSpT specification. TODO: Change this if things change.
   ntrixels = 0;
   names_count = 0;
 

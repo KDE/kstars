@@ -215,6 +215,85 @@ int verifyIndexValidity(FILE *f) {
 
 }
 
+/**
+ *This method ensures that the data part of the file is sane. It ensures that there are no jumps in magnitude etc.
+ */
+int verifyStarData( FILE *f ) {
+    int16_t faintMag;
+    int8_t HTM_Level;
+    u_int16_t MSpT;
+    int16_t realFaintMag;
+    u_int16_t realMSpT;
+    u_int16_t nstars;
+    u_int32_t offset;
+
+    int trixel, i;
+    int nerr_trixel;
+    int nerr;
+
+    starData data;
+    int16_t mag;
+
+    fprintf( stdout, "Assuming that the data starts at %ld\n", ftell( f ) );
+    fread( &faintMag, 2, 1, f );
+    fprintf( stdout, "Faint Magnitude Limit: %f\n", faintMag / 100.0 );
+    fread( &HTM_Level, 1, 1, f );
+    fprintf( stdout, "HTMesh Level: %d\n", HTM_Level );
+    if( HTM_Level != HTM_LEVEL ) {
+        fprintf( stderr, "ERROR: HTMesh Level in file (%d) and HTM_LEVEL in program (%d) differ. Please set the define directive for HTM_LEVEL correctly and rebuild\n.", HTM_Level, HTM_LEVEL );
+        return 0;
+    }
+    fread( &MSpT, 2, 1, f );
+
+    mag = -500;
+    nerr = 0;
+
+    // Scan the file for magnitude jumps, etc.
+    realMSpT = 0;
+    for( trixel = 0; trixel < ntrixels; ++trixel ) {
+        mag = -500;
+        nerr_trixel = 0;
+        fprintf( stdout, "Checking trixel #%d: ", trixel );
+        fseek( f, index_offset + trixel * 8 + 2 , SEEK_SET );
+        fread( &offset, 4, 1, f );
+        fread( &nstars, 2, 1, f );
+        if( nstars > realMSpT )
+            realMSpT = nstars;
+        fseek( f, offset, SEEK_SET );
+        for( i = 0; i < nstars; ++i ) {
+            fread( &data, sizeof( starData ), 1, f );
+            if( mag != -500 && ( ( data.mag - mag ) > 20 && mag < 1250 ) || data.mag < mag ) { // TODO: Make sensible magnitude limit (1250) user specifiable
+                // TODO: Enable byteswapping
+                fprintf( stderr, "\n\tEncountered jump of %f at star #%d in trixel %d from %f to %f.", ( data.mag - mag ) / 100.0, i, trixel, mag / 100.0, data.mag / 100.0 );
+                ++nerr_trixel;
+            }
+            mag = data.mag;
+            if( mag > realFaintMag ) {
+                realFaintMag = mag;
+            }
+        }
+        if( nerr_trixel > 0 )
+            fprintf( stderr, "\n * Encountered %d magnitude jumps in trixel %d\n", nerr_trixel, trixel );
+        else
+            fprintf( stdout, "Successful\n" );
+        nerr += nerr_trixel;
+    }
+    if( MSpT != realMSpT ) {
+        fprintf( stderr, "ERROR: MSpT according to file = %d, but turned out to be %d\n", MSpT, realMSpT );
+        nerr++;
+    }
+    if( realFaintMag != faintMag ) {
+        fprintf( stderr, "ERROR: Faint Magnitude according to file = %f, but turned out to be %f\n", faintMag / 100.0, realFaintMag / 100.0 );
+        nerr++;
+    }
+    if( nerr > 0 ) {
+        fprintf( stderr, "ERROR: Exiting with %d errors\n", nerr );
+        return 0;
+    }
+    fprintf( stdout, "Data validation success!\n" );
+    return 1;
+}
+
 void readStarList(FILE *f, char *trixel, FILE *names) {
     int id;
     long offset;
@@ -347,6 +426,7 @@ int main(int argc, char *argv[]) {
     readFileHeader(f);
 
     verifyIndexValidity(f);
+    verifyStarData(f);
 
     fread(&maglim, 2, 1, f);
     fprintf(stdout, "Limiting Magnitude of Catalog File: %f\n", maglim / 100.0);
