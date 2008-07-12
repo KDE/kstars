@@ -124,6 +124,7 @@ void ConjunctionsTool::slotCompute (void)
   
   showConjunctions(ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation));
   ComputeStack->setCurrentIndex( 0 );
+  QApplication::restoreOverrideCursor();
     
   delete Object1;
   delete Object2;
