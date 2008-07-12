@@ -26,6 +26,11 @@ TrailObject::TrailObject( int t, double r, double d, float m, const QString &n )
   : SkyObject( t, r, d, m, n )
 {}
 
+TrailObject::TrailObject( TrailObject &o ) 
+    : SkyObject( (SkyObject &) o )
+{}
+
+
 void TrailObject::updateTrail( dms *LST, const dms *lat ) {
     for ( int i=0; i < Trail.size(); ++i )
         Trail[i].EquatorialToHorizontal( LST, lat );

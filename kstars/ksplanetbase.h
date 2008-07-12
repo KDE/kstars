@@ -86,6 +86,12 @@ public:
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
 
+    /**
+     *Copy Constructor. Creates a copy of the given KSPlanetBase object
+     *@param o  Object to be copied
+     */
+    KSPlanetBase( KSPlanetBase &o );
+
    /**
      *Destructor (empty)
      */

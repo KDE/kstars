@@ -27,7 +27,6 @@
 KSComet::KSComet( KStarsData *_kd, const QString &_s, const QString &imfile,
                   long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp )
         : KSPlanetBase(_kd, _s, imfile), kd(_kd), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_Node) {
-
     setType( 9 ); //Comet
 
     //Find the Julian Day of Perihelion from Tp
@@ -53,6 +52,31 @@ KSComet::KSComet( KStarsData *_kd, const QString &_s, const QString &imfile,
         setLongName( name() );
         setName( name().mid( name().indexOf("/") + 1 ) );
     }
+
+}
+
+KSComet::KSComet( KSComet &o )
+    : KSPlanetBase( (KSPlanetBase &) o ) {
+    setType( 9 ); // Comet
+    kd = KStarsData::Instance();
+    o.getOrbitalElements( &JD, &q, &e, &i, &w, &N );
+    JDp = o.getPerihelionJD();
+    a = q/(1.0 - e);
+    P = 365.2568984 * pow(a, 1.5);
+    setLongName( o.name2() );
+}    
+
+bool KSComet::getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
+                                  dms *_w, dms *_N ) {
+    if( !_JD || !_q || !_e || !_i || !_w || !_N )
+        return false;
+    *_JD = JD;
+    *_q = q;
+    *_e = e;
+    *_i = i;
+    *_w = w;
+    *_N = N;
+    return true;
 }
 
 bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {

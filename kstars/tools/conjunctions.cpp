@@ -136,21 +136,12 @@ void ConjunctionsTool::slotFindObject() {
                 Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
                 break;
             }
-                /*
             case 9: {
-                Object1 = (KSComet *) new KSComet();
-                *Object1 = *fd.selectedObject();
+                Object1 = (KSComet *) new KSComet( (KSComet &) *fd.selectedObject() );
                 break;
             }
             case 10: {
-                Object1 = (KSAsteroid *) new KSAsteroid();
-                *Object1 = *fd.selectedObject();
-                break;
-            }
-                */
-            case 9:
-            case 10: {
-                KMessageBox::error( NULL, i18n( "This feature is not yet implemented for Comets and Asteroids" ) );
+                Object1 = (KSAsteroid *) new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
                 break;
             }
             }

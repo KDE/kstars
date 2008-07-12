@@ -77,10 +77,16 @@ public:
     	*@p N the longitude of the orbit's ascending node
     	*@p M the mean anomaly for the Julian Day
     	*@p H absolute magnitude
-      *@p G slope parameter
+        *@p G slope parameter
     	*/
     KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
+
+    /**
+     *@short Copy constructor
+     *@param o  Object to make copy of
+     */
+    KSAsteroid( KSAsteroid &o );
 
     /**Destructor (empty)*/
     virtual ~KSAsteroid() {}
@@ -89,6 +95,21 @@ public:
     	*so it is empty.
     	*/
     virtual bool loadData();
+
+    /**
+     *@note Used by the copy constructor
+     *@short  Obtain values of orbital elements
+     *@p JD the Julian Day for the orbital elements
+     *@p a the semi-major axis of the asteroid's orbit (AU)
+     *@p e the eccentricity of the asteroid's orbit
+     *@p i the inclination angle of the asteroid's orbit
+     *@p w the argument of the orbit's perihelion
+     *@p N the longitude of the orbit's ascending node
+     *@p M the mean anomaly for the Julian Day
+     */
+    bool getOrbitalElements( long double *_JD, double *_a, double *_e, 
+                             dms *_i, dms *_w, dms *_N, dms *_M );
+
 
     /**This lets other classes like KSPlanetBase access H and G values
 	*Used by KSPlanetBase::FindMagnitude
