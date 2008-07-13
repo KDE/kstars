@@ -21,7 +21,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_ShowStars" >
           <property name="text" >
-           <string>&amp;Hipparcos star catalog</string>
+           <string>&amp;Tycho-1 star catalog</string>
           </property>
          </widget>
         </item>
@@ -40,20 +40,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="LabelMagStars" >
-            <property name="text" >
-             <string>Faint limit zoomed in:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" >
-           <widget class="QLabel" name="LabelMag1" >
-            <property name="text" >
-             <string>mag</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="2" >
            <widget class="QLabel" name="LabelMag2" >
             <property name="text" >
@@ -61,11 +47,37 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStar" />
-          </item>
           <item row="1" column="1" >
            <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStarZoomOut" />
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="LabelMemUsage" >
+            <property name="text" >
+             <string>Memory usage:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2" >
+           <widget class="QSlider" name="kcfg_MemUsage" >
+            <property name="minimum" >
+             <number>0</number>
+            </property>
+            <property name="maximum" >
+             <number>10</number>
+            </property>
+            <property name="singleStep" >
+             <number>1</number>
+            </property>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition" >
+             <enum>QSlider::NoTicks</enum>
+            </property>
+            <property name="tickInterval" >
+             <number>1</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

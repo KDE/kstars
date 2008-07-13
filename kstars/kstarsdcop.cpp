@@ -347,8 +347,9 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "FadePlanetTrails" && bOk ) Options::setFadePlanetTrails( bVal );
     if ( op == "SlewTimeScale"    && dOk ) Options::setSlewTimeScale(    dVal );
     if ( op == "ZoomFactor"       && dOk ) Options::setZoomFactor(       dVal );
-    if ( op == "MagLimitDrawStar"     && dOk )    Options::setMagLimitDrawStar(    dVal );
+    //    if ( op == "MagLimitDrawStar"     && dOk )    Options::setMagLimitDrawStar(    dVal );
     if ( op == "MagLimitDrawDeepSky"     && dOk ) Options::setMagLimitDrawDeepSky( dVal );
+    if ( op == "MemUsage"         && dOk ) Options::setMemUsage( dVal );
     if ( op == "MagLimitDrawStarZoomOut" && dOk ) Options::setMagLimitDrawStarZoomOut(        dVal );
     if ( op == "MagLimitDrawDeepSkyZoomOut" && dOk ) Options::setMagLimitDrawDeepSkyZoomOut(  dVal );
     if ( op == "StarLabelDensity" && dOk ) Options::setStarLabelDensity( dVal );

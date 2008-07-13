@@ -620,11 +620,19 @@
 			<whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
 			<default>16.0</default>
 		</entry>
+<!--
 		<entry name="MagLimitDrawStar" type="Double">
 			<label>Faint limit for stars</label>
 			<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed in.</whatsthis>
 			<default>8.0</default>
 		</entry>
+-->
+		<entry name="MemUsage" type="Int">
+			<label>Memory usage for star blocks</label>
+			<whatsthis>Amount of memory to use for stars. KStars will adjust the star density accordingly</whatsthis>
+			<default>8</default>
+		</entry>
+
 		<entry name="MagLimitDrawStarZoomOut" type="Double">
 			<label>Faint limit for stars when zoomed out</label>
 			<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed out.</whatsthis>

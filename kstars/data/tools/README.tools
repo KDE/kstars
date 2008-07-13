@@ -1,0 +1,89 @@
+This directory contains tools used to analyse the data
+
+DESCRIPTIONS OF FILES:
+----------------------
+
+read-hippo.pl      Reads the Hipparcos catalog files
+
+reformat-hip.pl    Converts old format star data files into the new format,
+                   where the fixed length Genetive name comes before the
+                   variable length long name
+
+mag-linenum.pl     Write the line number magnitude index file
+
+max-length.pl      Find the longest line in a file
+
+sort-hip-by-pm.pl  Sort the Hipparcos catalog data by proper motion
+
+hipdatatomysql.pl  Reads Hipparcos star catalog text files and puts them into 
+                   a MySQL database (server on localhost). CAUTION: This script 
+                   will empty the table that it is writing into.
+
+tycdatatomysql.pl  The Tycho star catalog text files used by KStars are in a
+                   different format from the Hipparcos catalog files. This script
+                   puts the data from the Tycho star catalog into a MySQL 
+                   database. It's just a modified version of hipdatatomysql.pl
+
+binfiletester.c    C Program to test KStars' star data in binary format
+
+mysql2bin.c        C Program to put data from the MySQL database (generated
+		   using datatomysql.pl) into the binary data format defined
+		   by KStars. [See README.fileformat in the kstars/data 
+		   directory]. To make this, you will need to have the
+		   libmysqlclient-dev package or equivalent installed
+
+
+BUILDING THE PROGRAMS:
+----------------------
+
+To build both the C programs, use:
+
+   make
+
+To build only mysql2bin, use: [Requires MySQL client library]
+
+   make mysql2bin
+
+To build only binfiletester, use:
+
+   make binfiletester
+
+To clean up, use:
+
+   make clean
+
+CREATING THE DATA FILES:
+------------------------
+
+To create and put the binary data files in kstars/data, first export
+your MySQL DB username and password:
+
+   export KSTARS_MYSQL_DB_USER='<your DB username>'
+   export KSTARS_MYSQL_DB_PASS='<your DB password>'
+
+If the database in which the star data table is stored is not
+identical to the DB username, export that too:
+
+   export KSTARS_MYSQL_DB_DB='<the DB name>'
+
+If the table in which the data is present is not allstars (default if
+you used datatomysql.pl to generate the tables), then export that too:
+
+   export KSTARS_MYSQL_DB_TBL='<table name>'
+
+Then, finally do:
+
+   make datafiles
+
+This will build mysql2bin, collect the data, and put it in
+kstars/data.
+
+If 'make datafiles' hangs (it typically takes about 5 - 10 minutes),
+then you should first double check that it is really hanging by
+setting VERBOSE to 1 on line 17 of mysql2bin.c and retry. If it shows
+no progress, reduce the value of MYSQL_STARS_PER_QUERY in the #define
+directive on line 24 of mysql2bin.c till it works. This is because the
+database query may hang if the query results are too large in size. I
+don't know why this happens, but it seems to work that way.
+
+-- Akarsh Simha <akarshsimha@gmail.com>

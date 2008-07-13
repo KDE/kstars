@@ -105,7 +105,7 @@ ConjunctionsTool::~ConjunctionsTool(){
 
 void ConjunctionsTool::slotGoto() {
     int index = OutputView->currentRow();
-    long double jd = outputJDList.at( index );
+    long double jd = outputJDList.value( index );
     KStarsDateTime dt;
     KStars *ks= (KStars *) topLevelWidget()->parent();
     KStarsData *data = KStarsData::Instance();
@@ -202,14 +202,17 @@ void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) 
 
   KStarsDateTime dt;
   QMap<long double, dms>::Iterator it;
+  int i;
 
   OutputView->clear();
   outputJDList.clear();
+  i = 0;
 
   for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
     dt.setDJD( it.key() );
     OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", dt.toString("%a, %d %b %Y %H:%M"), it.data().toDMSString()) );
-    outputJDList.append( it.key() );
+    outputJDList.insert( i, it.key() );
+    ++i;
   }
 }
 

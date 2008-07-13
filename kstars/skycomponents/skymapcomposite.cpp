@@ -478,9 +478,11 @@ QList<SkyObject*>& SkyMapComposite::constellationNames() {
     return m_CNames->objectList();
 }
 
+// Returns only named stars, and should not be used
 QList<SkyObject*>& SkyMapComposite::stars() {
     return m_Stars->objectList();
 }
+
 
 QList<SkyObject*>& SkyMapComposite::asteroids() {
     return m_SolarSystem->asteroids();

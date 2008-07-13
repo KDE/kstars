@@ -83,6 +83,8 @@ private:
     SkyComposite *Parent;
     QList<SkyObject*> ObjectList;
     int m_CurrentIndex;
+
 };
+
 
 #endif

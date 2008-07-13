@@ -18,21 +18,26 @@
 #ifndef STARCOMPONENT_H
 #define STARCOMPONENT_H
 
-/**@class StarComponent
-*Represents the stars on the sky map. For optimization reasons the stars are
-*not separate objects and are stored in a list.
-
-*@author Thomas Kabelmann
-*@version 0.1
-*/
+/**
+ *@class StarComponent
+ *Represents the stars on the sky map. For optimization reasons the stars are
+ *not separate objects and are stored in a list.
+ *
+ *@author Thomas Kabelmann
+ *@version 0.1
+ */
 
 #include "listcomponent.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
-
+#include "starblock.h"
 #include "skylabel.h"
 #include "typedef.h"
 #include "highpmstarlist.h"
+#include "starobject.h"
+#include "binfilehelper.h"
+#include "starblockfactory.h"
+#include "skymesh.h"
 
 class SkyComponent;
 class KStarsData;
@@ -41,6 +46,9 @@ class SkyMesh;
 class StarObject;
 class SkyLabeler;
 class KStarsSplash;
+class BinFileHelper;
+class StarBlockFactory;
+class MeshIterator;
 
 #define MAX_LINENUMBER_MAG 90
 
@@ -72,23 +80,34 @@ public:
     KStarsData *data() { return m_Data; }
 
     /**@return the current setting of the color mode for stars (0=real colors,
-    	*1=solid red, 2=solid white or 3=solid black).
-    	*/
+        *1=solid red, 2=solid white or 3=solid black).
+        */
     int starColorMode( void ) const;
 
     /**@short Retrieve the color-intensity value for stars.
-    	*
-    	*When using the "realistic colors" mode for stars, stars are rendered as 
-    	*white circles with a colored border.  The "color intensity" setting modulates
-    	*the relative thickness of this colored border, so it effectively adjusts
-    	*the color-saturation level for star images.
-    	*@return the current setting of the color intensity setting for stars.
-    	*/
+        *
+        *When using the "realistic colors" mode for stars, stars are rendered as 
+        *white circles with a colored border.  The "color intensity" setting modulates
+        *the relative thickness of this colored border, so it effectively adjusts
+        *the color-saturation level for star images.
+        *@return the current setting of the color intensity setting for stars.
+        */
     int starColorIntensity( void ) const;
 
     float faintMagnitude() const { return m_FaintMagnitude; }
 
-    void readData( float newMagnitude );
+    /**
+     *@short Read data for stars which will remain static in the memory
+     *
+     *This method reads data for 'shallow' stars (stars having names, and all 
+     *stars down to mag 8) which are stored by default in "shallowstars.dat" into
+     *memory. These stars are always kept in memory, as against 'deep' stars
+     *which are dynamically loaded into memory when required, depending on region
+     *and magnitude limit. Once loading is successful, this method sets the 
+     *starsLoaded flag to true
+     */
+
+    void loadShallowStarData();
 
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
@@ -107,26 +126,30 @@ public:
 
     SkyObject* findByName( const QString &name );
 
-    /* @short usually does nothing.  If we are drawing faint stars and if
-    	* Options:::magLimitDrawStar() is greater than m_faaintMagnitude then
-    	* the first time we are called we just pop up a splash screen. Then
-    	* the second time we are called we actually re-read the data file and
-    	* finally erase the pop up.
-    	*/
-    void rereadData();
+    /**
+     *@short Prints some useful debug info about memory allocation for stars
+     */
+    void printDebugInfo();
 
-    /* @short reads in the small starlnum.idx file that contains the line
-    	* numbers from the stars.dat file that correspond to rough 90
-    	* different magnitudes.  This allows us to estimate the number of
-    	* lines that need to get read when partially reading stars.dat.
-    	*/
-    void readLineNumbers();
+    /**
+     *@short Verifies the integrity of the StarBlockLists
+     *
+     * This method, useful for debugging, verifies that all SBs in each SBL of
+     * the StarComponent are in order of magnitude. It prints out debug info
+     * regarding the same.
+     *
+     *@return true if no errors found, false if an error was found
+     */
+    bool verifySBLIntegrity();
 
-    /* @short returns an estimate of the stars.dat line number for a given
-    	* star magnitude.
-    	*/
-    int lineNumber( float mag );
+    // TODO: Find the right place for this method
+    static void byteSwap( starData *stardata );
 
+    static StarBlockFactory m_StarBlockFactory;
+    static BinFileHelper deepStarReader;
+
+    static bool    frugalMem;
+    static bool    veryFrugalMem;
 
 private:
     SkyMesh*       m_skyMesh;
@@ -143,16 +166,30 @@ private:
     bool           m_hideLabels;
 
     KStarsData*    m_Data;
-    float          m_FaintMagnitude;
     float          m_zoomMagLimit;
+
+    float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
+    bool           starsLoaded;
+    float          magLim;           // Current limiting magnitude for visible stars
+    unsigned long  visibleStarCount;
+    quint16        MSpT;             // Maximum number of stars in any given trixel
+    bool           deepStars;        // Indicates whether deepstars are loaded
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
 
+
+    // Time keeping variables
+    long unsigned  t_drawNamed;
+    long unsigned  t_dynamicLoad;
+    long unsigned  t_drawUnnamed;
+    long unsigned  t_updateCache;
+
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
 
-    /** 
+
+    /**
      *@short adds a label to the lists of labels to be drawn prioritized
      *by magnitude.
      */
@@ -161,35 +198,73 @@ private:
     void reindexAll( KSNumbers *num );
 
     /**
-    	*Parse a line from a stars data file, construct a StarObject from the data,
-    	*and add it to the StarComponent.
-    	*
-    	*Each line is parsed according to the column
-    	*position in the line:
-    	*@li 0-1      RA hours [int]
-    	*@li 2-3      RA minutes [int]
-    	*@li 4-8      RA seconds [float]
-    	*@li 10       Dec sign [char; '+' or '-']
-    	*@li 11-12    Dec degrees [int]
-    	*@li 13-14    Dec minutes [int]
-    	*@li 15-18    Dec seconds [float]
-    	*@li 20-28    dRA/dt (milli-arcsec/yr) [float]
-    	*@li 29-37    dDec/dt (milli-arcsec/yr) [float]
-    	*@li 38-44    Parallax (milli-arcsec) [float]
-    	*@li 46-50    Magnitude [float]
-    	*@li 51-55    B-V color index [float]
-    	*@li 56-57    Spectral type [string]
-    	*@li 59       Multiplicity flag (1=true, 0=false) [int]
-    	*@li 61-64    Variability range of brightness (magnitudes; bank if not variable) [float]
-    	*@li 66-71    Variability period (days; blank if not variable) [float]
-    	*@li 72-END   Name(s) [string].  This field may be blank.  The string is the common
-    	*             name for the star (e.g., "Betelgeuse").  If there is a colon, then
-    	*             everything after the colon is the genetive name for the star (e.g.,
-    	*             "alpha Orionis").
-    	*
-    	*@param line pointer to the line of data to be processed as a StarObject
-    	*/
-    StarObject* processStar( const QString &line );
+     *@short Structure that holds star name information, to be read as-is from the corresponding binary data file
+     */
+    typedef struct starName {
+        char bayerName[8];
+        char longName[32];
+    } starName;
+
+    QVector< StarBlockList *> m_starBlockList;
+    starData stardata;
+    starName starname;
+
+    /**
+     *@class StarComponent::TrixelIterator
+     *@short An "iterator" that iterates over all visible stars in a given trixel
+     *
+     *This iterator goes through both the StarBlockList and the StarList
+     *@author Akarsh Simha
+     *@version 0.1
+     */
+    // DEPRECATED
+    class TrixelIterator {
+    public:
+        /**
+         *Constructor
+         *
+         *@param par    Pointer to the parent StarComponent class
+         *@param trixel Trixel for which this Iterator should work
+         */
+        TrixelIterator( StarComponent *par, Trixel trixel );
+
+        /**
+         *Destructor
+         */
+        ~TrixelIterator();
+
+        /**
+         *@short Tells whether a next StarObject is available
+         *@return true if a next StarObject is available
+         */
+        bool hasNext();
+
+        /**
+         *@short Returns the next StarObject
+         *@return Pointer to the next StarObject
+         */
+        StarObject *next();
+
+        /**
+         *@short Resets the iterator to its initial state
+         */
+        void reset();
+
+    private:
+
+        StarComponent *parent;
+
+        // TODO: Change the types to fixed-size types that are uniform
+        //       across all classes and uses of the variable
+        // Indexes used to identify the current "position" of the iterator
+        int blockIndex;                // Index of current block in SBL
+        int starIndex;                 // Index of current star in SB
+        long Index;                    // Overall index of current star
+        bool named;                    // Tells us whether a star is named
+        Trixel trixel;
+    };
+
+    //    friend class TrixelIterator;
 
 };
 

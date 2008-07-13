@@ -34,6 +34,13 @@
 QMap<QString, QColor> StarObject::ColorMap;
 QHash<QString, QPixmap> StarObject::StarImage;
 
+// DEBUG EDIT. Uncomment for testing Proper Motion
+// You will also need to uncomment all related blocks
+// from this file, starobject.h and also the trixel-boundaries
+// block from lines 253 - 257 of skymapcomposite.cpp
+//QVector<SkyPoint *> StarObject::Trail;
+// END DEBUG
+
 //----- Static Methods -----
 //
 double StarObject::reindexInterval( double pm )
@@ -49,9 +56,10 @@ double StarObject::reindexInterval( double pm )
 StarObject::StarObject( StarObject &o )
         : SkyObject (o)
 {
-    SpType = o.SpType;
+    SpType[0] = o.SpType[0];
+    SpType[1] = o.SpType[1];
     //SONAME: deprecated (?) JH
-    //	soName = o.soName;
+    //  soName = o.soName;
     PM_RA = o.pmRA();
     PM_Dec = o.pmDec();
     Parallax = o.parallax();
@@ -65,10 +73,14 @@ StarObject::StarObject( dms r, dms d, float m,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-        SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-        Parallax(par), Multiplicity(mult), Variability(var)
+          PM_RA(pmra), PM_Dec(pmdec),
+          Parallax(par), Multiplicity(mult), Variability(var)
         // SONAME deprecated //, soName( 0 )
 {
+
+    const char *spt = (const char *)sptype.toAscii();
+    SpType[0] = spt[0];
+    SpType[1] = spt[1];
     QString lname;
     if ( hasName() ) {
         lname = n;
@@ -89,25 +101,119 @@ StarObject::StarObject( double r, double d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var )
-        : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-        SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
-        Parallax(par), Multiplicity(mult), Variability(var)
-        // SONAME deprecated //, soName( 0 )
+    : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
+      PM_RA(pmra), PM_Dec(pmdec),
+      Parallax(par), Multiplicity(mult), Variability(var)
+      // SONAME deprecated //, soName( 0 )
 {
+    const char *spt = (const char *)sptype.toAscii();
+    SpType[0] = spt[0];
+    SpType[1] = spt[1];
+    
     QString lname;
     if ( hasName() ) {
         lname = n;
         if ( hasName2() )lname += " (" + gname() + ')';
     } else if ( hasName2() )
         lname = gname();
-
+    
     setLongName(lname);
     updateID = updateNumID = 0;
 }
 
+
+// DEPRECATED
+/*
+void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
+                      double pmdec, double par, bool mult, bool var) 
+{
+    setType( SkyObject::STAR );
+    setMag( m );
+    setRA0( r );
+    setDec0( d );
+    setRA( r );
+    setDec( d );
+    const char *spt = (const char *)sptype.toAscii();
+    SpType[0] = spt[0];
+    SpType[1] = spt[1];
+    PM_RA = pmra;
+    PM_Dec = pmdec;
+    Parallax = par;
+    Multiplicity = mult;
+    Variability = var ;
+
+    //    setLongName(i18n("star"));
+    updateID = updateNumID = 0;
+}
+*/
+
+void StarObject::init( const starData *stardata ) 
+{
+    double ra, dec;
+    ra = stardata->RA / 1000000.0;
+    dec = stardata->Dec / 100000.0;
+    setType( SkyObject::STAR );
+    setMag( stardata->mag / 100.0 );
+    setRA0( ra );
+    setDec0( dec );
+    setRA( ra );
+    setDec( dec );
+    SpType[0] = stardata->spec_type[0];
+    SpType[1] = stardata->spec_type[1];
+    PM_RA = stardata->dRA / 10.0;
+    PM_Dec = stardata->dDec / 10.0;
+    Parallax = stardata->parallax / 10.0;
+    Multiplicity = stardata->flags & 0x02;
+    Variability = stardata->flags & 0x04 ;
+    updateID = updateNumID = 0;
+
+    // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
+    // WARNING: You can debug only ONE STAR AT A TIME, because
+    //          the StarObject::Trail is static. It has to be
+    //          static, because otherwise, we can run into segfaults
+    //          due to the memcpy() that we do to create stars
+    /*
+    testStar = false;
+    if( stardata->HD == 224635 ) {
+      // Populate Trail with various positions
+        kDebug() << "TEST STAR FOUND!";
+        testStar = true;
+        KSNumbers num( J2000 ); // Some estimate, doesn't matter.
+        long double jy;
+        for( jy = -10000.0; jy <= 10000.0; jy += 500.0 ) {
+            num.updateValues( J2000 + jy * 365.238 );
+            double ra, dec;
+            getIndexCoords( &num, &ra, &dec );
+            Trail.append( new SkyPoint( ra / 15.0, dec ) );
+        }
+        kDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
+    }
+    */
+    // END EDIT.
+
+
+}
+
+void StarObject::setNames( QString name, QString name2 ) {
+    QString lname;
+
+    setName( name );
+
+    setName2( name2 );
+
+    if ( hasName() ) {
+        lname = name;
+        if ( hasName2() ) lname += " (" + gname() + ')';
+    } else if ( hasName2() )
+        lname = gname();
+    setLongName(lname);
+}
+
+
 void StarObject::initImages() {
     SkyMap *map = SkyMap::Instance();
     double scale = 1.0;
+
     if ( map && map->scale() > 1.0 ) scale = map->scale();
 
     if ( Options::starColorMode() == 0 ) { //Real colors
@@ -193,8 +299,28 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     double saveRA = ra0()->Hours();
     double saveDec = dec0()->Degrees();
 
-    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
-    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+    double newRA, newDec;
+
+    // Old, Incorrect Proper motion Computation:
+    //    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
+    //    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+
+    getIndexCoords( num, &newRA, &newDec );
+    newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
+    setRA0( newRA );
+    setDec0( newDec );
+
+    // DEBUG Edit. Uncomment all related blocks for testing proper motion.
+    /*
+    if( testStar ) {
+        kDebug() << "Test Star. update method";
+        KStarsData *data = KStarsData::Instance();
+        for( int i = 0; i < Trail.size(); i++ ) {
+            Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        }
+    }
+    */
+    // END EDIT.
 
     SkyPoint::updateCoords( num );
     setRA0( saveRA );
@@ -203,11 +329,38 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
-    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
-    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
-    *ra = ra0()->Degrees() + dra;
-    *dec = dec0()->Degrees() + ddec;
+    // Old, Incorrect Proper motion Computation:
+    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
+    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+
+    // Proper Motion Correction should be implemented as motion along a great 
+    // circle passing through the given (ra0, dec0) in a direction of 
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
+    // PM times the number of Julian millenia since J2000.0
+
+    double pm = sqrt( pmRA() * pmRA() + pmDec() * pmDec() ) * num->julianMillenia();   // Proper Motion in arcseconds
+    double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
+
+    ( pm < 0 ) && ( pm = -pm );
+
+    double dst = pm * M_PI / ( 180.0 * 3600.0 );
+    //    double phi = M_PI / 2.0 - dec0()->radians();
+
+    dms lat1, dtheta;
+    lat1.setRadians( asin( dec0()->sin() * cos( dst ) +
+                           dec0()->cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0()->cos(),
+                              cos( dst ) - dec0()->sin() * lat1.sin() ) );
+
+    // Using dms instead, to ensure that the numbers are in the right range.
+    dms finalRA( ra0()->Degrees() + dtheta.Degrees() );
+
+    *ra = finalRA.Degrees();
+    *dec = lat1.Degrees();
+
+    //    *ra = ra0()->Degrees() + dra;
+    //    *dec = dec0()->Degrees() + ddec;
 }
 
 double StarObject::pmMagnitude()
@@ -226,7 +379,7 @@ void StarObject::JITupdate( KStarsData* data )
 }
 
 QString StarObject::sptype( void ) const {
-    return SpType;
+    return (QString)QByteArray(SpType, 2);
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
@@ -366,7 +519,7 @@ QString StarObject::constell( void ) const {
 }
 
 QColor StarObject::color() const {
-    return ColorMap[SpType.at(0)];
+    return ColorMap[QString(QChar(SpType[0]))];
 }
 
 void StarObject::updateColors( bool desaturateColors, int saturation ) {
@@ -402,11 +555,57 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     if ( isize >= 14 ) {
         isize = 14;
     }
-
-    QString imKey = SpType.at(0)+QString("%1").arg(isize);
+    QString imKey = SpType[0] + QString("%1").arg(isize);
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 
+    // DEBUG Edit. To check Proper Motion Corrections. Uncomment all related blocks for testing.
+    /*
+    if( !testStar )
+        return;
+    
+    SkyMap *map = SkyMap::Instance();
+    SkyPoint *pThis, *pLast;
+    QPointF oThis, oMid, oLast;
+    QPointF center;
+    bool isVisible, isVisibleLast;
+
+    psky.setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
+
+    pLast = Trail.first();
+    oLast = map->toScreen( pLast, true, &isVisibleLast );
+    center = map->toScreen( map->focus() );
+    kDebug() << "Entering draw routine to draw PM arc.";
+    for ( int i = 1; i < Trail.size(); i++ ) {
+        pThis = Trail.at( i );
+        oThis = map->toScreen( pThis, true, &isVisible );
+        if ( map->onScreen( oThis, oLast) ) {
+            kDebug() << "We have a segment on map!";                
+            if ( isVisible && isVisibleLast ) {
+                kDebug() << "Drawing line from (" << oLast.x() - center.x() << "," << oLast.y() - center.y() << ") to (" 
+                         << oThis.x() - center.x() << "," << oThis.y() - center.y() << ")" << endl;
+                kDebug() << "Or " << pThis->ra()->toHMSString() << "," << pThis->dec()->toDMSString() << "to"
+                         << pLast->ra()->toHMSString() << "," << pLast->dec()->toDMSString();
+                psky.drawLine( oLast, oThis );
+            }
+            else if ( isVisibleLast ) {
+                oMid = map->clipLineI( pLast, pThis );
+                psky.drawLine( oLast, oMid );
+            }
+            else if ( isVisible ) {
+                oMid = map->clipLineI( pThis, pLast );
+                psky.drawLine( oMid, oThis );
+            }
+        }
+            
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
+    }
+    */
+    // END DEBUG.
+              
+              
 }
 
 // The two routines below seem overly complicated but at least they are doing
