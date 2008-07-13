@@ -42,7 +42,7 @@
 #include "base64.h"
 #include "zlib.h"
 
-#include "apogee/ApnGlue.h"
+#include <libapogee/libapogee.h>
 
 /* operational info */
 #define MYDEV "Apogee CCD"			/* Device name we call ourselves */

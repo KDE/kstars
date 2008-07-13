@@ -39,6 +39,13 @@ KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &ima
     init( s, image_file, c, pSize );
 }
 
+KSPlanetBase::KSPlanetBase( KSPlanetBase &o ) 
+    : TrailObject( (TrailObject &) o ) {
+    init( o.name(), "", o.color(), o.physicalSize() );
+    Image = *o.image();
+    Image0 = *o.image0();
+}
+
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
     if (! image_file.isEmpty()) {
         QFile imFile;

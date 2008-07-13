@@ -42,6 +42,12 @@ public:
     TrailObject( int t, double r, double d, float m=0.0, const QString &n=QString() );
 
     /**
+     *Copy constructor.
+     *@param o SkyObject from which to copy data
+     */
+    TrailObject( TrailObject &o );
+
+    /**
      *@return whether the planet has a trail
      */
     inline bool hasTrail() const { return ( Trail.count() > 0 ); }

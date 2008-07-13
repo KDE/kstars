@@ -41,6 +41,30 @@ KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
 
+KSAsteroid::KSAsteroid( KSAsteroid &o ) 
+    : KSPlanetBase( (KSPlanetBase &) o ) {
+    setType( 10 );
+    o.getOrbitalElements( &JD, &a, &e, &i, &w, &N, &M );
+    this->H = o.getAbsoluteMagnitude();
+    this->G = o.getSlopeParameter();
+    P = 365.2568984 * pow(a, 1.5); //period in days
+}
+
+bool KSAsteroid::getOrbitalElements( long double *_JD, double *_a, double *_e, dms *_i,
+                                     dms *_w, dms *_N, dms *_M ) {
+    if( !_JD || !_a || !_e || !_i || !_w || !_N || !_M )
+        return false;
+    *_JD = JD;
+    *_a = a;
+    *_e = e;
+    *_i = i;
+    *_w = w;
+    *_N = N;
+    *_M = M;
+    return true;
+}
+
+
 bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     //Precess the longitude of the Ascending Node to the desired epoch:
     dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();

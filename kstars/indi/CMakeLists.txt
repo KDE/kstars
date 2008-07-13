@@ -2,8 +2,6 @@ KDE4_NO_ENABLE_FINAL(indi)
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../.. )
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs)
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee)
-include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli)
 include_directories( ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/webcam)
 
 if (CFITSIO_FOUND)
@@ -13,6 +11,14 @@ endif (CFITSIO_FOUND)
 if (NOVA_FOUND)
     include_directories(${NOVA_INCLUDE_DIR})
 endif (NOVA_FOUND)
+
+if (FLI_FOUND)
+    include_directories(${FLI_INCLUDE_DIR})
+endif (FLI_FOUND)
+
+if (APOGEE_FOUND)
+    include_directories(${APOGEE_INCLUDE_DIR})
+endif (APOGEE_FOUND)
 
 option(ssh_tunnel "INDI Server binds locally. Remote clients may only connect via SSH Tunneling." OFF)
 
@@ -25,87 +31,6 @@ set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/lilxml.c )
 set(libindicom_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c
-	)
-
-set(libapogee_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD3011.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD3011B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4240.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4240B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4710.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4710ALT.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4710B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4720.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD4720B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD5520.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD5520B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD5710.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD5710B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD5710F.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD7700.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_CCD7700B.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF0261E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF0261EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF0401E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF0401EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF09000.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF10011105.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1001E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1001EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1001ENS.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1301E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1301EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1401E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1602E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF1602EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF16801E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF16803.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF3200E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF3200EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF4202.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF6303E.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAF6303EB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI11000C.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI11000CL.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI11000M.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI11000ML.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2001CL.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2001M.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2001ML.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020C.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020CL.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020CLB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020M.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020ML.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI2020MLB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020C.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020CL.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020CLB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020M.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020ML.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_KAI4020MLB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamData_TH7899.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamTable.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamera.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnCamera_USB.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApogeeUsbLinux.cpp 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/apogee/ApnGlue.cpp
-	)
-
-set(libfli_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-camera.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-camera-parport.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-camera-usb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-filter-focuser.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-mem.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-serial.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-sys.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-usb.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-debug.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-usb-sys-linux.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/fli/libfli-parport.c
 	)
 
 set(libwebcam_SRCS
@@ -321,22 +246,22 @@ ADD_DEFINITIONS(-DLINUX)
 #####################################
 
 ###### FLI Precision Digital Focuser ######
-
+if (FLI_FOUND)
 set(flipdf_SRCS
 	${indimain_SRCS}
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/focuser/fli_pdf.c
 )
 
-kde4_add_executable(indi_fli_pdf ${flipdf_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(indi_fli_pdf ${flipdf_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_pdf m ${KDE4_KDECORE_LIBS})
+target_link_libraries(indi_fli_pdf m ${FLI_LIBRARIES} ${KDE4_KDECORE_LIBS})
 
 if (NOVA_FOUND)
   target_link_libraries(indi_fli_pdf ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_pdf ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
+endif(FLI_FOUND)
 #################################################################################
 
 ################ Robo Focuser ################
@@ -382,20 +307,22 @@ install(TARGETS indi_trutech_wheel ${INSTALL_TARGETS_DEFAULT_ARGS} )
 #################################################################################
 
 ########## FLI Filter Wheel ############
+if (FLI_FOUND)
 set(fliwheel_SRCS
 	${indimain_SRCS}
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/filter_wheel/fli_wheel.c
    )
 
-kde4_add_executable(indi_fli_wheel ${fliwheel_SRCS}  ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(indi_fli_wheel ${fliwheel_SRCS}  ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_wheel ${KDE4_KDECORE_LIBS} m)
+target_link_libraries(indi_fli_wheel ${FLI_LIBRARIES} ${KDE4_KDECORE_LIBS} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_fli_wheel ${NOVA_LIBRARIES})
 endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_wheel ${INSTALL_TARGETS_DEFAULT_ARGS} )
+endif (FLI_FOUND)
 #################################################################################
 
 #######################################
@@ -403,16 +330,16 @@ install(TARGETS indi_fli_wheel ${INSTALL_TARGETS_DEFAULT_ARGS} )
 #######################################
 
 ############# FLI CCD ###############
-if (CFITSIO_FOUND)
+if (CFITSIO_FOUND AND FLI_FOUND)
 
 set(fliccd_SRCS
 	${indimain_SRCS}
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/ccd/fli_ccd.c
 )
 
-kde4_add_executable(indi_fli_ccd ${fliccd_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(indi_fli_ccd ${fliccd_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${CFITSIO_LIBRARIES} m)
+target_link_libraries(indi_fli_ccd ${KDE4_KDECORE_LIBS} ${FLI_LIBRARIES} ${CFITSIO_LIBRARIES} m)
 
 if (NOVA_FOUND)
   target_link_libraries(indi_fli_ccd ${NOVA_LIBRARIES})
@@ -420,11 +347,11 @@ endif (NOVA_FOUND)
 
 install(TARGETS indi_fli_ccd ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-endif (CFITSIO_FOUND)
+endif (CFITSIO_FOUND AND FLI_FOUND)
 #################################################################################
 
 ########### Apogee Alta ############
-if (CFITSIO_FOUND AND LIBUSB_FOUND)
+if (CFITSIO_FOUND AND LIBUSB_FOUND AND APOGEE_FOUND)
 
 set(apogee_alta_SRCS
 	${indimain_SRCS}
@@ -432,9 +359,9 @@ set(apogee_alta_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/drivers/ccd/indialta.c
 )
 
-kde4_add_executable(indi_apogee_alta ${apogee_alta_SRCS} ${libfli_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
+kde4_add_executable(indi_apogee_alta ${apogee_alta_SRCS} ${liblilxml_SRCS} ${libindicom_SRCS})
 
-target_link_libraries(indi_apogee_alta ${KDE4_KDECORE_LIBS} ${LIBUSB_LIBRARIES} ${CFITSIO_LIBRARIES})
+target_link_libraries(indi_apogee_alta ${KDE4_KDECORE_LIBS} ${APOGEE_LIBRARIES} ${LIBUSB_LIBRARIES} ${CFITSIO_LIBRARIES})
 
 if (NOVA_FOUND)
   target_link_libraries(indi_apogee_alta ${NOVA_LIBRARIES})
@@ -442,7 +369,7 @@ endif (NOVA_FOUND)
 
 install(TARGETS indi_apogee_alta ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-endif (CFITSIO_FOUND AND LIBUSB_FOUND)
+endif (CFITSIO_FOUND AND LIBUSB_FOUND AND APOGEE_FOUND)
 
 #################################################################################
 

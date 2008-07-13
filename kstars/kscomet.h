@@ -62,6 +62,12 @@ public:
     KSComet( KStarsData *kd, const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp );
 
+    /**
+     *Copy Constructor
+     *@param o  Object to copy into this
+     */
+    KSComet( KSComet &o );
+
     /**Destructor (empty)*/
     virtual ~KSComet() {}
 
@@ -69,6 +75,27 @@ public:
     	*so it's simply empty here.
     	*/
     virtual bool loadData();
+
+    /**
+     *@short Loads the orbital elements into the given pointers
+     *
+     *@param _JD  Julian Day of Orbital Elements
+     *@param _q the perihelion distance of the comet's orbit (AU)
+     *@param _e the eccentricity of the comet's orbit
+     *@param _i the inclination angle of the comet's orbit
+     *@param _w the argument of the orbit's perihelion
+     *@param _N the longitude of the orbit's ascending node
+     *
+     *@return true on success, false if one or more pointers were NULL
+     */
+    bool getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
+                             dms *_w, dms *_N );
+
+    /**
+     *@short Returns the Julian Day of Perihelion passage
+     *@return Julian Day of Perihelion Passage
+     */
+    inline long double getPerihelionJD() { return JDp; }
 
 
 protected:
