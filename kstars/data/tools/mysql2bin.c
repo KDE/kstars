@@ -1,8 +1,24 @@
-/* 
- * Program to convert star data stored in a MySQL database into the binary file format used by KStars
- * Start Date: 26th May 2008 ; Author: Akarsh Simha <akarshsimha@gmail.com>
- * License: GPL
- */
+
+/***************************************************************************
+            mysql2bin.c - Convert data from MySQL to binary format
+                             -------------------
+    begin                : Mon May 26 2008
+    copyright            : (C) 2008 by Akarsh Simha
+    email                : akarshsimha@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+// Program to convert star data stored in a MySQL database into 
+// the binary file format used by KStars
+
 
 #include <mysql/mysql.h>
 #include <sys/types.h>
