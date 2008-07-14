@@ -19,6 +19,7 @@
 #define STARDATA_H
 
 #include <QtGlobal>
+#include <sys/types.h>
 
 /**
  *@short  Structure that holds star data
