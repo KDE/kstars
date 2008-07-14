@@ -252,8 +252,7 @@ QString FindDialog::processSearchText() {
     QRegExp re;
     QString searchtext = ui->SearchBox->text();
 
-    // NOTE: The following function has been DEPRECATED. What should I use instead?
-    re.setCaseSensitive( false ); 
+    re.setCaseSensitivity( Qt::CaseInsensitive ); 
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");

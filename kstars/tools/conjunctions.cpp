@@ -210,7 +210,7 @@ void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) 
 
   for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
     dt.setDJD( it.key() );
-    OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", dt.toString("%a, %d %b %Y %H:%M"), it.data().toDMSString()) );
+    OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", dt.toString("%a, %d %b %Y %H:%M"), it.value().toDMSString()) );
     outputJDList.insert( i, it.key() );
     ++i;
   }

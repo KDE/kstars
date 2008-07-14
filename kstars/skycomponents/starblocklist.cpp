@@ -97,8 +97,7 @@ bool StarBlockList::fillToMag( float maglim ) {
     if( readOffset <= 0 )
         readOffset = dSReader->getOffset( trixelId );
 
-    if( nBlocks != blocks.size() )
-        kDebug() << "nBlocks =" << nBlocks << "and blocks.size() =" << blocks.size() << "!!!!!!!!!!!!!!!!!!!!!!!!";
+    Q_ASSERT( nBlocks == blocks.size() );
 
     fseek( dataFile, readOffset, SEEK_SET );
     
@@ -113,7 +112,7 @@ bool StarBlockList::fillToMag( float maglim ) {
             StarBlock *newBlock;
             newBlock = SBFactory->getBlock();
             if( !newBlock ) {
-                kDebug() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
+                kWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
                          << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
                 return false;
             }
@@ -121,7 +120,7 @@ bool StarBlockList::fillToMag( float maglim ) {
             blocks[nBlocks]->parent = this;
             
             if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
-                kDebug() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
+                kWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
             
             ++nBlocks;
         }
@@ -132,7 +131,7 @@ bool StarBlockList::fillToMag( float maglim ) {
         star.init( &stardata );
         blocks[nBlocks - 1]->addStar( &star );
         if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
-            kDebug() << "WARNING: Encountered a jump from mag" << faintMag << "to mag"
+            kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
                      << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
         }
         faintMag = blocks[nBlocks - 1]->getFaintMag();

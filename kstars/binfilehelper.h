@@ -83,10 +83,9 @@ class BinFileHelper {
 
     /**
      *@short  Close the binary data file
-     *@return true if successful, false if no file was opened
      */
 
-    bool closeFile();
+    void closeFile();
 
     /**
      *@short   Get error number
@@ -139,13 +138,13 @@ class BinFileHelper {
      *@param  id  ID of the index entry
      *@return The number of records under index that index ID, or 0 if the index has not been read
      */
-    inline long getRecordCount(int id) { return (indexUpdated ? indexCount.at( id ) : 0); }
+    inline unsigned int getRecordCount(int id) { return (indexUpdated ? indexCount.at( id ) : 0); }
 
     /**
      *@short  Returns the total number of records in the file
      *@return The number of records in the file, or 0 if the index has not been read
      */
-    inline long getRecordCount() { return (indexUpdated ? recordCount : 0); }
+    inline unsigned long getRecordCount() { return (indexUpdated ? recordCount : 0); }
 
     /**
      *@short  Should we do byte swapping?
@@ -246,7 +245,7 @@ class BinFileHelper {
 
     FILE *fileHandle;                     // Handle to the file.
     QVector<unsigned long> indexOffset;   // Stores offsets corresponding to each index table entry
-    QVector<int> indexCount;              // Stores number of records under each index table entry
+    QVector<unsigned int> indexCount;     // Stores number of records under each index table entry
     bool indexUpdated;                    // True if the data from the index, and associated properties have been updated
     bool FDUpdated;                       // True if the data from the Field Descriptor, and associated properties have been updated
     bool RSUpdated;                       // True if the recordSize parameter is set correctly, either manually or bye reading the FD
@@ -261,7 +260,7 @@ class BinFileHelper {
     long itableOffset;                    // Stores the offset position of the first index table entry
     long dataOffset;                      // Stores the offset position of the start of data
     QString errorMessage;                 // Stores the most recent 'unread' error message
-    unsigned int recordCount;             // Stores the total number of records in the file
+    unsigned long recordCount;            // Stores the total number of records in the file
 };
 
 #endif

@@ -183,7 +183,7 @@ bool BinFileHelper::readHeader() {
     return false;
 }
 
-bool BinFileHelper::closeFile() {
+void BinFileHelper::closeFile() {
     fclose(fileHandle);
     fileHandle = NULL;
 }

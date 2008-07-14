@@ -107,19 +107,6 @@ void StarComponent::init(KStarsData *data)
 
     loadShallowStarData();
 
-    //adjust maglimit for ZoomLevel
-    //    float maglim = Options::magLimitDrawStar();
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
-    /*
-    if ( lgz <= 0.75*lgmax )
-        maglim -= (Options::magLimitDrawStar() -
-                   Options::magLimitDrawStarZoomOut() ) *
-                  (0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-
-    m_zoomMagLimit = maglim;
-    */
     StarObject::initImages();
 }
 
@@ -326,6 +313,7 @@ void StarComponent::draw( QPainter& psky )
 
             float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
             if ( size <= 1.0 ) size = 1.0;
+            if( size > maxSize ) size = maxSize;
 
             curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                            starColorIntensity(), true );
@@ -376,8 +364,11 @@ void StarComponent::draw( QPainter& psky )
                 QPointF o = map->toScreen( curStar );
 
                 if ( ! map->onScreen( o ) ) continue;
+                
                 float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-                if ( size <= 0. ) continue;
+                if ( size <= 1.0 ) size = 1.0;
+                if( size > maxSize ) size = maxSize;
+
                 curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
                                starColorIntensity(), true );
                 visibleStarCount++;
@@ -754,11 +745,11 @@ void StarComponent::printDebugInfo() {
     printf( "Number of visible stars (named + unnamed)    = %8ld\n", visibleStarCount );
     printf( "Magnitude of the faintest star in memory     = %8.2f\n", faintMag );
     printf( "Target magnitude limit                       = %8.2f\n", magLim );
-    printf( "Size of each StarBlock                       = %8ld bytes\n", sizeof( StarBlock ) );
-    printf( "Size of each StarObject                      = %8ld bytes\n", sizeof( StarObject ) );
+    printf( "Size of each StarBlock                       = %8d bytes\n", sizeof( StarBlock ) );
+    printf( "Size of each StarObject                      = %8d bytes\n", sizeof( StarObject ) );
     printf( "Memory use due to visible unnamed stars      = %8.2f MB\n", ( sizeof( StarObject ) * nStars / 1048576.0 ) );
-    printf( "Memory use due to visible StarBlocks         = %8ld bytes\n", sizeof( StarBlock ) * nBlocks );
-    printf( "Memory use due to StarBlocks in SBF          = %8ld bytes\n", sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() );
+    printf( "Memory use due to visible StarBlocks         = %8d bytes\n", sizeof( StarBlock ) * nBlocks );
+    printf( "Memory use due to StarBlocks in SBF          = %8d bytes\n", sizeof( StarBlock ) * m_StarBlockFactory.getBlockCount() );
     printf( "=============== STAR DRAW LOOP TIMING INFORMATION ==============\n" );
     printf( "Time taken for drawing named stars           = %8ld ms\n", t_drawNamed );
     printf( "Time taken for dynamic load of data          = %8ld ms\n", t_dynamicLoad );

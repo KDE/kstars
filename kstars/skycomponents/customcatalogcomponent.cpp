@@ -142,8 +142,8 @@ void CustomCatalogComponent::draw( QPainter &psky )
     if ( ! visible() ) return;
 
     SkyMap *map = SkyMap::Instance();
-    float Width  = map->scale() * map->width();
-    float Height = map->scale() * map->height();
+    //    float Width  = map->scale() * map->width();
+    //    float Height = map->scale() * map->height();
 
     psky.setBrush( Qt::NoBrush );
     psky.setPen( QColor( m_catColor ) );

@@ -222,8 +222,6 @@ void NewFOV::slotUpdateFOV() {
 }
 
 void NewFOV::slotComputeFOV() {
-    KStars *ks = (KStars*)(parent()->parent());
-
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 )
         ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 )
