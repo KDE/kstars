@@ -47,7 +47,7 @@ void BinFileHelper::init() {
     RSUpdated = false;
     preambleUpdated = false;
     byteswap = false;
-    errno = ERR_NULL;
+    errnum = ERR_NULL;
     recordCount = 0;
 }
 
@@ -66,7 +66,7 @@ FILE *BinFileHelper::openFile(const QString &fileName) {
     fileHandle = KDE_fopen(filepath, "rb");
 
     if(!fileHandle) {
-	errno = ERR_FILEOPEN;
+	errnum = ERR_FILEOPEN;
 	return NULL;
     }
     return fileHandle;
@@ -181,7 +181,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 }
 
 bool BinFileHelper::readHeader() {
-    switch( (errno = __readHeader()) ) {
+    switch( (errnum = __readHeader()) ) {
     case ERR_NULL:
 	return true;
 	break;
@@ -209,8 +209,8 @@ void BinFileHelper::closeFile() {
 }
 
 int BinFileHelper::getErrorNumber() {
-    int err = errno;
-    errno = ERR_NULL;
+    int err = errnum;
+    errnum = ERR_NULL;
     return err;
 }
 

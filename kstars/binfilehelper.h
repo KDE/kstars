@@ -250,7 +250,7 @@ class BinFileHelper {
     bool FDUpdated;                       // True if the data from the Field Descriptor, and associated properties have been updated
     bool RSUpdated;                       // True if the recordSize parameter is set correctly, either manually or bye reading the FD
     bool preambleUpdated;                 // True if the data from the preamble and associated properties have been updated
-    enum Errors errno;                    // Stores the number corresponding to the previous error
+    enum Errors errnum;                   // Stores the number corresponding to the previous error
     bool byteswap;                        // True if byteswapping should be done
     int recordSize;                       // Stores the size of a record in bytes for quick retrieval
     QVector<dataElement *> fields;        // Maintains a list of fields in the file, along with relevant details
