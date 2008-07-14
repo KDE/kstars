@@ -19,6 +19,7 @@
 #include "binfilehelper.h"
 
 #include <kstandarddirs.h>
+#include <kde_file.h>
 #include "byteswap.h"
 
 class BinFileHelper;
@@ -59,9 +60,10 @@ void BinFileHelper::clearFields() {
 FILE *BinFileHelper::openFile(const QString &fileName) {
     QString FilePath = KStandardDirs::locate( "appdata", fileName );
     init();
-    const char *filepath = FilePath.toAscii().data();
+    QByteArray b = FilePath.toAscii();
+    const char *filepath = b.data();
 
-    fileHandle = fopen(filepath, "rb");
+    fileHandle = KDE_fopen(filepath, "rb");
 
     if(!fileHandle) {
 	errno = ERR_FILEOPEN;
@@ -125,7 +127,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     quint16 nrecs;
     quint16 prev_nrecs;
 
-    itableOffset = ftell(fileHandle);
+    itableOffset = KDE_ftell(fileHandle);
 
     prev_offset = 0;
     prev_nrecs = 0;
@@ -171,7 +173,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	prev_nrecs = nrecs;
     }
 
-    dataOffset = ftell(fileHandle);
+    dataOffset = KDE_ftell(fileHandle);
 
     indexUpdated = true;
 

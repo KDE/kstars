@@ -43,7 +43,7 @@ public:
      * @param mesh Pointer to the universal SkyMesh instance
      * @param name name of the subclass used for debugging
      */
-    LineListIndex( SkyComponent *parent, const QString& name="" );
+    explicit LineListIndex( SkyComponent *parent, const QString& name="" );
 
     /* @short this is called from within the draw routines when the updateID
      * of the lineList is stale.  It is virtual because different subclasses

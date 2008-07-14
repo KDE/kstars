@@ -44,7 +44,7 @@ public:
     /**Constructor. Create widgets.  Load KStars logo.  Start load timer.
      * A non-empty customMessage will replace "Welcome to KStars [...]".
     */
-    KStarsSplash( QWidget *parent, const QString& customMessage="" );
+    explicit KStarsSplash( QWidget *parent, const QString& customMessage="" );
 
     /**Destructor
     	*/

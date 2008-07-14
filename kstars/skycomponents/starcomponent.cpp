@@ -40,6 +40,8 @@
 #include "byteswap.h"
 #include "starblockfactory.h"
 
+#include <kde_file.h>
+
 BinFileHelper StarComponent::deepStarReader;
 StarBlockFactory StarComponent::m_StarBlockFactory;
 bool StarComponent::frugalMem = false;
@@ -449,7 +451,7 @@ void StarComponent::loadShallowStarData()
         kDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
         return;
     }
-    fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
+    KDE_fseek(nameFile, nameReader.getDataOffset(), SEEK_SET);
     swapBytes = dataReader.getByteSwap();
 
     long int nstars = 0;
@@ -458,7 +460,7 @@ void StarComponent::loadShallowStarData()
     // TODO : Remove timing code when we are done with all possible optimizations
     t.start();
 
-    fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
+    KDE_fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
 
     qint16 faintmag;
     quint8 htm_level;

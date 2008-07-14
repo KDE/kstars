@@ -229,7 +229,7 @@ u_int16_t trixel2number(char *trixel) {
 /*
  * Dump the data file header.
  *
- * WARNING: Must edit everytime the definition of the starData structures changes
+ * WARNING: Must edit every time the definition of the starData structures changes
  *
  * f : Data file handle
  */
@@ -272,7 +272,7 @@ int writeDataFileHeader(FILE *f) {
 /*
  * Dump the name file header.
  *
- * WARNING: Must edit everytime the definition of the starName structures changes
+ * WARNING: Must edit every time the definition of the starName structures changes
  *
  * nf : Name file handle
  */

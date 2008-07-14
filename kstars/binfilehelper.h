@@ -69,14 +69,14 @@ class BinFileHelper {
      *WARNING: This function may not be compatible in other locales, because it calls QString::toAscii
      *@short Open a Binary data file and set the handle
      *@param fileName  Reference to QString containing the name of the file
-     *@return Handle to the file if successful, NULL if an error occured, sets the error.
+     *@return Handle to the file if successful, NULL if an error occurred, sets the error.
      */
 
     FILE *openFile(const QString &fileName);
 
     /**
      *@short  Read the header and index table from the file and fill up the QVector s with the entries
-     *@return True if successful, false if an error occured, sets the error.
+     *@return True if successful, false if an error occurred, sets the error.
      */
 
     bool readHeader();
@@ -198,7 +198,7 @@ class BinFileHelper {
      *@short   An enum providing user-friendly names for errors encountered
      */
     enum Errors {
-	ERR_NULL,             // No error occured
+	ERR_NULL,             // No error occurred
 	ERR_FILEOPEN,         // File could not be opened
 	ERR_FD_TRUNC,         // Field descriptor table is truncated
 	ERR_INDEX_TRUNC,      // File ends prematurely, before expected end of index table

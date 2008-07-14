@@ -374,7 +374,7 @@ void readStarList(FILE *f, char *trixel, FILE *names) {
 /**
  *@short  Read the KStars binary file header and display its contents
  *@param f  Binary file to read from
- *@returns  non-zero if succesful, zero if not
+ *@returns  non-zero if successful, zero if not
  */
 
 int readFileHeader(FILE *f) {

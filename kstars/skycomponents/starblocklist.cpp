@@ -21,6 +21,8 @@
 #include "stardata.h"
 #include "starcomponent.h"
 
+#include <kde_file.h>
+
 StarBlockList::StarBlockList(Trixel tr) {
     trixel = tr;
     nStars = 0;
@@ -99,7 +101,7 @@ bool StarBlockList::fillToMag( float maglim ) {
 
     Q_ASSERT( nBlocks == blocks.size() );
 
-    fseek( dataFile, readOffset, SEEK_SET );
+    KDE_fseek( dataFile, readOffset, SEEK_SET );
     
     /*
     kDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars

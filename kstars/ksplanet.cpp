@@ -142,7 +142,7 @@ KSPlanet::KSPlanet( KStarsData *kd, int n )
             KSPlanetBase::init( i18n("Neptune"), "neptune.png", QColor( "skyblue" ), 49572. );
             break;
         default:
-            kDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1").arg(n) << endl;
+            kDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;
             break;
     }
 }
