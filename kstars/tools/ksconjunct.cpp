@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-
 #include "ksconjunct.h"
+
+#include <math.h>
 
 #include "ksnumbers.h"
 #include "ksplanetbase.h"

@@ -28,7 +28,6 @@
 #include <QVBoxLayout>
 #include <QApplication>
 #include <QLabel>
-#include <QVBoxLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>

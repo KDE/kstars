@@ -15,10 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-
 #include "quaternion.h"
 
+#include <math.h>
 #include <cmath>
 #include <stdlib.h>
 #include <QDebug>

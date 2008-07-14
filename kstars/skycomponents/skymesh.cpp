@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skypoint.h"
 #include "skymesh.h"
+#include "skypoint.h"
 #include "starobject.h"
 #include "ksnumbers.h"
 

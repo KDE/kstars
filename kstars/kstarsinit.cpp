@@ -49,7 +49,7 @@
 #include "simclock.h"
 #include "widgets/timestepbox.h"
 
-#include "config-kstars.h"
+#include <config-kstars.h>
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h
