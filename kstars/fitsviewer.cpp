@@ -326,8 +326,7 @@ void FITSViewer::fileSave()
 
 void FITSViewer::fileSaveAs()
 {
-
-    currentURL = QString();
+    currentURL.clear();
     fileSave();
 }
 

@@ -946,8 +946,8 @@ void ScriptBuilder::slotNew() {
         sb->RunButton->setEnabled( false );
         sb->SaveAsButton->setEnabled( false );
 
-        currentFileURL = QString();
-        currentScriptName = QString();
+        currentFileURL.clear();
+        currentScriptName.clear();
     }
 }
 
@@ -980,7 +980,7 @@ void ScriptBuilder::slotOpen() {
             if ( !f.open( QIODevice::ReadOnly) ) {
                 QString message = i18n( "Could not open file %1.", f.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-                currentFileURL = QString();
+                currentFileURL.clear();
                 return;
             }
 
@@ -991,7 +991,7 @@ void ScriptBuilder::slotOpen() {
         } else if ( ! currentFileURL.url().isEmpty() ) {
             QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
             KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-            currentFileURL = QString();
+            currentFileURL.clear();
         }
     }
 }
@@ -1044,7 +1044,7 @@ void ScriptBuilder::slotSave()
         if ( !f.open( QIODevice::WriteOnly) ) {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            currentFileURL = QString();
+            currentFileURL.clear();
             return;
         }
 
@@ -1067,13 +1067,13 @@ void ScriptBuilder::slotSave()
     } else {
         QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
         KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-        currentFileURL = QString();
+        currentFileURL.clear();
     }
 }
 
 void ScriptBuilder::slotSaveAs() {
-    currentFileURL = QString();
-    currentScriptName = QString();
+    currentFileURL.clear();
+    currentScriptName.clear();
     slotSave();
 }
 
@@ -1110,7 +1110,7 @@ void ScriptBuilder::slotRunScript() {
     if ( !f.open( QIODevice::WriteOnly) ) {
         QString message = i18n( "Could not open file %1.", f.fileName() );
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-        currentFileURL = QString();
+        currentFileURL.clear();
         return;
     }
 
@@ -1271,7 +1271,7 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
     {
         cur = (*it);
 
-        cur = cur.mid(cur.indexOf(":") + 1).remove("'");
+        cur = cur.mid(cur.indexOf(":") + 1).remove('\'');
 
         (*it) = cur;
 

@@ -112,7 +112,7 @@ ScriptFunction::ScriptFunction( ScriptFunction *sf )
         ArgType[i] = sf->argType(i);
         ArgName[i] = sf->argName(i);
         ArgDBusType[i] = sf->argDBusType(i);
-        //ArgVal[i]  = QString();
+        //ArgVal[i] .clear();
         // JM: Some default argument values might be passed from another object as well
         ArgVal[i]  = sf->argVal(i);
     }

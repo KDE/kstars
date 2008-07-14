@@ -477,10 +477,10 @@ void SkyMap::slotCancelAngularDistance(void) {
 
 void SkyMap::slotImage() {
     QString message = ((KAction*)sender())->text();
-    message = message.replace( "&", "" ); //Get rid of accelerator markers
+    message = message.remove( '&' ); //Get rid of accelerator markers
     int index = clickedObject()->ImageTitle.indexOf(message);
 
-    QString sURL = QString();
+    QString sURL;
     if ( index >= 0 && index < clickedObject()->ImageList.size() ) {
         sURL = clickedObject()->ImageList[ index ];
     } else {
@@ -499,10 +499,10 @@ void SkyMap::slotImage() {
 
 void SkyMap::slotInfo() {
     QString message = ((KAction*)sender())->text();
-    message = message.replace( "&", "" ); //Get rid of accelerator markers
+    message = message.remove( '&' ); //Get rid of accelerator markers
     int index = clickedObject()->InfoTitle.indexOf(message);
 
-    QString sURL = QString();
+    QString sURL;
     if ( index >= 0 && index < clickedObject()->InfoList.size() ) {
         sURL = clickedObject()->InfoList[ index ];
     } else {

@@ -596,7 +596,7 @@ void ObservingList::slotOpenList() {
 
         f.close();
 
-    } else if ( fileURL.path() != QString() ) {
+    } else if ( !fileURL.path().isEmpty() ) {
         QString message = i18n( "The specified file is invalid.  Try another file?" );
         if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             slotOpenList();
@@ -650,7 +650,7 @@ void ObservingList::slotSaveList() {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
 
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            FileName == QString();
+            FileName.clear();
             slotSaveList();
         }
         return;

@@ -277,7 +277,7 @@ void modCalcPlanets::slotRunBatch() {
         if ( !f.open( QIODevice::ReadOnly) ) {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            inputFileName = QString();
+            inputFileName.clear();
             return;
         }
 
@@ -287,7 +287,7 @@ void modCalcPlanets::slotRunBatch() {
     } else  {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-        inputFileName = QString();
+        inputFileName.clear();
         InputFileBoxBatch->setUrl( inputFileName );
         return;
     }
@@ -335,7 +335,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
 
     //Initialize planet names
-    QString pn=QString();
+    QString pn;
     QStringList pNames, pNamesi18n;
     pNames << "Mercury" << "Venus" << "Earth" << "Mars" << "Jupiter"
     << "Saturn" << "Uranus" << "Neptune" << "Pluto"
@@ -348,7 +348,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     ///Parse the input file
     int numberOfRequiredFields = requiredBatchFields();
     while ( ! istream.atEnd() ) {
-        lineToWrite=QString();
+        lineToWrite.clear();
         line = istream.readLine();
         line.trimmed();
 

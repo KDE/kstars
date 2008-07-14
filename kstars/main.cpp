@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 
     if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
         kWarning() << i18n( "Using CPU date/time instead." ) ;
-        datestring = QString();
+        datestring.clear();
     }
 
     new KStars( true, ! args->isSet( "paused" ), datestring );

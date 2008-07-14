@@ -206,7 +206,7 @@ void modCalcSidTime::slotRunBatch() {
         if ( !f.open( QIODevice::ReadOnly) ) {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            inputFileName = QString();
+            inputFileName.clear();
             return;
         }
 
@@ -219,7 +219,7 @@ void modCalcSidTime::slotRunBatch() {
     } else  {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-        inputFileName = QString();
+        inputFileName.clear();
         return;
     }
 }
@@ -252,7 +252,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                 int iStart = line.indexOf(q);
                 int iEnd = line.indexOf(q, iStart+1);
                 QString locationString = line.mid(iStart, iEnd-iStart+1);
-                line.replace( locationString, "" );
+                line.remove( locationString );
                 fields = line.split( " ", QString::SkipEmptyParts );
                 locationString.replace( q, "" );
 

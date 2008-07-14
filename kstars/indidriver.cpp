@@ -977,7 +977,7 @@ INDIDriver::~INDIDriver()
 IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion)
 {
     tree_label	 = inLabel;;
-    unique_label = QString();
+    unique_label.clear();
     driver_class = inName;
     driver	 = inDriver;
     version	 = inVersion;
@@ -1011,7 +1011,7 @@ void IDevice::clear()
     state = IDevice::DEV_TERMINATE;
     deviceManager = NULL;
   
-    unique_label = QString();
+    unique_label.clear();
 }
   
 QString IDevice::getServerBuffer()

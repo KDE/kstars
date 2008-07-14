@@ -260,9 +260,9 @@ QString FindDialog::processSearchText() {
         re.setPattern("\\s*(\\d+)");
         searchtext.replace( re, " \\1" );
         re.setPattern("\\s*$");
-        searchtext.replace(re, "");
+        searchtext.remove( re );
         re.setPattern("^\\s*");
-        searchtext.replace(re, "");
+        searchtext.remove( re );
     }
 
     // TODO after KDE 4.1 release:

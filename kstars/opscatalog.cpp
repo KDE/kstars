@@ -301,7 +301,7 @@ void OpsCatalog::slotDeepSkyWidgets(bool on) {
 }
 
 QString OpsCatalog::getCatalogName( const QString &filename ) {
-    QString name = QString();
+    QString name;
     QFile f( filename );
 
     if ( f.open( QIODevice::ReadOnly ) ) {

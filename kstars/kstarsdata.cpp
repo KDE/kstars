@@ -985,10 +985,10 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     QTextStream istream(&f);
     while ( ! istream.atEnd() ) {
         QString line = istream.readLine();
-        line.replace( "string:", "" );
-        line.replace( "int:", "" );
-        line.replace( "double:", "" );
-        line.replace( "bool:", "");
+        line.remove( "string:" );
+        line.remove( "int:" );
+        line.remove( "double:" );
+        line.remove( "bool:" );
 
         //find a dbus line and extract the function name and its arguments
         //The function name starts after the last occurrence of "org.kde.kstars."
@@ -1078,7 +1078,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
             } else if ( fn[0] == "loadColorScheme" ) {
                 fn.removeAll( fn.first() );
-                QString csName = fn.join(" ").replace('\"', "");
+                QString csName = fn.join(" ").remove( '\"' );
                 kDebug() << "Color scheme: " << csName << endl;
 
                 QString filename = csName.toLower().trimmed();

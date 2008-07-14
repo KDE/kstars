@@ -861,7 +861,7 @@ void KStars::reportZoom() {
         fovunits = i18n( "arcseconds" );
     }
 
-    QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + " " + fovunits;
+    QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
     statusBar()->changeItem( fovstring, 0 );
 }
 
