@@ -205,7 +205,7 @@ class BinFileHelper {
 	ERR_INDEX_BADID,      // Index table has an invalid ID entry 
 	ERR_INDEX_IDMISMATCH, // Index table has a mismatched ID entry [ID found in the wrong place]
 	ERR_INDEX_BADOFFSET,  // Offset / Record count specified in the Index table is bad
-	ERR_BADSEEK,          // Premature end of file / bad seek while reading index table
+	ERR_BADSEEK           // Premature end of file / bad seek while reading index table
     };
 
     /**
