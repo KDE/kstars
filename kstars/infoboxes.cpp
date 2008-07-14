@@ -17,7 +17,8 @@
 
 #include "infoboxes.h"
 
-#include <kglobal.h>
+#include <KGlobal>
+#include <KLocale>
 #include <kdebug.h>
 
 #include <QPainter>
@@ -351,10 +352,12 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
     QString ot2 = TimeBox->text2();
     QString ot3 = TimeBox->text3();
 
-    TimeBox->setText1( i18nc( "Local Time", "LT: " ) + lt.time().toString()
-                       + "   " + lt.date().toString( "dd MMM yyyy" ) );
-    TimeBox->setText2( i18nc( "Universal Time", "UT: " ) + ut.time().toString()
-                       + "   " + ut.date().toString( "dd MMM yyyy" ) );
+    TimeBox->setText1( i18nc( "Local Time", "LT: " ) + 
+                        KGlobal::locale()->formatTime( lt.time() ) + "   " + 
+                        KGlobal::locale()->formatDate( lt.date() ) );
+    TimeBox->setText2( i18nc( "Universal Time", "UT: " ) + 
+                        KGlobal::locale()->formatTime( ut.time() ) + "   " + 
+                        KGlobal::locale()->formatDate( ut.date() ) );
 
     QString STString;
     STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );

@@ -19,7 +19,8 @@
 
 #include <QTextStream>
 
-#include <klocale.h>
+#include <KGlobal>
+#include <KLocale>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
@@ -222,10 +223,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
             utB = utBoxBatch->time();
 
         if ( allRadioBatch->isChecked() )
-            ostream << utB.toString() << space;
+            ostream << KGlobal::locale()->formatTime( utB ) << space;
         else
             if(utCheckBatch->isChecked() )
-                ostream << utB.toString() << space;
+                ostream << KGlobal::locale()->formatTime( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
@@ -236,10 +237,10 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
             dtB = dateBoxBatch->date();
 
         if ( allRadioBatch->isChecked() )
-            ostream << dtB.toString().append(space);
+            ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
         else
             if(dateCheckBatch->isChecked() )
-                ostream << dtB.toString().append(space);
+                ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
 
         // Read RA and write in ostream if corresponds
 

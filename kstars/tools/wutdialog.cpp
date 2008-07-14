@@ -77,7 +77,7 @@ WUTDialog::WUTDialog(KStars *ks) :
     if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
-    WUT->DateLabel->setText( i18n( "The night of %1", Evening.date().toString( Qt::LocalDate ) ) );
+    WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
 
     initCategories();
 
@@ -150,8 +150,8 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = sunRiseTomorrow.addSecs(30).toString("hh:mm");
-        sSet = sunSetToday.addSecs(30).toString("hh:mm");
+        sRise = KGlobal::locale()->formatTime( sunRiseTomorrow );
+        sSet = KGlobal::locale()->formatTime( sunSetToday );
 
         float Dur = 24.0 + (float)sunRiseTomorrow.hour()
                     + (float)sunRiseTomorrow.minute()/60.0
@@ -161,8 +161,8 @@ void WUTDialog::init() {
                     - (float)sunSetToday.second()/3600.0;
         int hDur = int(Dur);
         int mDur = int(60.0*(Dur - (float)hDur));
-        sDuration.clear();
-        sDuration.sprintf( "%02d:%02d", hDur, mDur );
+        QTime tDur( hDur, mDur );
+        sDuration = KGlobal::locale()->formatTime( tDur );
     }
 
     WUT->SunSetLabel->setText( i18n( "Sunset: %1" , sSet) );
@@ -186,8 +186,8 @@ void WUTDialog::init() {
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
-        sRise = moonRise.addSecs(30).toString("hh:mm");
-        sSet = moonSet.addSecs(30).toString("hh:mm");
+        sRise = KGlobal::locale()->formatTime( moonRise.addSecs(30) );
+        sSet = KGlobal::locale()->formatTime( moonSet.addSecs(30) );
     }
 
     WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1", sRise ) );
@@ -450,7 +450,7 @@ void WUTDialog::slotChangeDate() {
         Evening = T0.addSecs( -6*3600 );
         EveningUT = geo->LTtoUT( Evening );
 
-        WUT->DateLabel->setText( i18n( "The night of %1", Evening.date().toString() ) );
+        WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
 
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

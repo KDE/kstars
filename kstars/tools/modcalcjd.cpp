@@ -18,10 +18,10 @@
 #include "modcalcjd.h"
 #include "modcalcjd.moc"
 
+#include <KGlobal>
+#include <KLocale>
 #include <qradiobutton.h>
 #include <klineedit.h>
-#include <klocale.h>
-#include <kglobal.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 
@@ -207,7 +207,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
         }
 
         //Write to output file
-        ostream << dt.toString() << "  "
+        ostream << KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ) << "  "
         << QString::number( jd, 'f', 2 ) << "  "
         << QString::number( mjd, 'f', 2 ) << endl;
 

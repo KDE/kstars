@@ -17,6 +17,8 @@
 
 #include "modcalcsidtime.h"
 
+#include <KGlobal>
+#include <KLocale>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
@@ -316,9 +318,10 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         }
 
         //Write to output file
-        ostream << dt.toString() << "  \""
+        ostream << KGlobal::locale()->formatDate( dt, KLocale::LongDate ) << "  \""
         << geoBatch->fullName() << "\"  "
-        << inTime.toString() << "  " << outTime.toString() << endl;
+        << KGlobal::locale()->formatTime( inTime ) << "  " 
+        << KGlobal::locale()->formatTime( outTime ) << endl;
     }
 
     fOut.close();

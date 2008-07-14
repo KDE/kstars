@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "kspopupmenu.h"
+
+#include <KGlobal>
+#include <KLocale>
+
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "starobject.h"
@@ -373,7 +377,7 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 
     if ( rtime.isValid() ) {
         //We can round to the nearest minute by simply adding 30 seconds to the time.
-        rt = i18n( "Rise time: %1", rtime.addSecs(30).toString( "hh:mm" ) );
+        rt = i18n( "Rise time: %1", KGlobal::locale()->formatTime( rtime.addSecs(30) ) );
 
     } else if ( obj->alt()->Degrees() > 0 ) {
         rt = i18n( "No rise time: Circumpolar" );
@@ -389,7 +393,7 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 
     if ( stime.isValid() ) {
         //We can round to the nearest minute by simply adding 30 seconds to the time.
-        st = i18nc( "the time at which an object falls below the horizon", "Set time: %1", stime.addSecs(30).toString( "hh:mm" ) );
+        st = i18nc( "the time at which an object falls below the horizon", "Set time: %1", KGlobal::locale()->formatTime( stime.addSecs(30) ) );
 
     } else if ( obj->alt()->Degrees() > 0 ) {
         st = i18n( "No set time: Circumpolar" );
@@ -403,7 +407,7 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 
     if ( ttime.isValid() ) {
         //We can round to the nearest minute by simply adding 30 seconds to the time.
-        tt = i18n( "Transit time: %1", ttime.addSecs(30).toString( "hh:mm" ) );
+        tt = i18n( "Transit time: %1", KGlobal::locale()->formatTime( ttime.addSecs(30) ) );
     } else {
         tt = "--:--";
     }

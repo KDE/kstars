@@ -26,13 +26,14 @@
 
 #include <QApplication>
 
+#include <KGlobal>
+#include <KLocale>
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kiconloader.h>
 #include <kicontheme.h>
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
-#include <kglobal.h>
 #include <kicon.h>
 
 #include "Options.h"
@@ -68,6 +69,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
     kstarsData = KStarsData::Create( this );
     connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
+
+    //reset date format to get rid of weekday
+    QString fmt = KGlobal::locale()->dateFormat();
+    fmt = fmt.replace( "%A", "", Qt::CaseInsensitive );
+    KGlobal::locale()->setDateFormat( fmt );
 
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();

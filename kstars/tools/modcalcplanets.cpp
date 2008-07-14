@@ -17,8 +17,9 @@
 
 #include "modcalcplanets.h"
 
+#include <KGlobal>
+#include <KLocale>
 #include <kfiledialog.h>
-#include <kglobal.h>
 #include <kmessagebox.h>
 
 #include "geolocation.h"
@@ -405,10 +406,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
             utB = UTBoxBatch->time();
 
         if ( AllRadioBatch->isChecked() )
-            lineToWrite += utB.toString().append(space);
+            lineToWrite += KGlobal::locale()->formatTime( utB ).append(space);
         else
             if(UTCheckBatch->isChecked() )
-                lineToWrite += utB.toString().append(space);
+                lineToWrite += KGlobal::locale()->formatTime( utB ).append(space);
 
         // Read date and write in ostream if corresponds
 
@@ -425,10 +426,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         } else
             dtB = DateBoxBatch->date();
         if ( AllRadioBatch->isChecked() )
-            lineToWrite += dtB.toString().append(space);
+            lineToWrite += KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
         else
             if(DateCheckBatch->isChecked() )
-                lineToWrite += dtB.toString().append(space);
+                lineToWrite += KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
 
         // Read Longitude and write in ostream if corresponds
 
