@@ -19,7 +19,6 @@
 #define STARDATA_H
 
 #include <QtGlobal>
-#include <sys/types.h>
 
 /**
  *@short  Structure that holds star data
@@ -28,14 +27,14 @@
  */
 
 typedef struct starData {
-    int32_t RA;
-    int32_t Dec;
-    int32_t dRA;
-    int32_t dDec;
-    int32_t parallax;
-    int32_t HD;
-    int16_t mag;
-    int16_t bv_index;
+    qint32 RA;
+    qint32 Dec;
+    qint32 dRA;
+    qint32 dDec;
+    qint32 parallax;
+    qint32 HD;
+    qint16 mag;
+    qint16 bv_index;
     char spec_type[2];
     char flags;
     char unused;
