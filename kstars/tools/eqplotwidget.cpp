@@ -17,6 +17,8 @@
 
 #include "eqplotwidget.h"
 #include <QPainter>
+#include <KGlobal>
+#include <KLocale>
 #include <kdebug.h>
 #include "kstarsdatetime.h"
 #include "modcalcvizequinox.h"
@@ -51,28 +53,28 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     p.translate( leftPadding() + pSpring.x(), topPadding() + pSpring.y() );
     p.rotate(-90);
     p.drawText( 0, 0, i18n("Vernal equinox:") );
-    p.drawText( 0, 14, mc->dSpring.toString("%d %b %Y   %H:%M") );
+    p.drawText( 0, 14, KGlobal::locale()->formatDateTime( mc->dSpring, KLocale::LongDate ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pSummer.x(), topPadding() + pSummer.y() );
     p.rotate(-90);
     p.drawText( 0, 0, i18n("Summer solstice:") );
-    p.drawText( 0, 14, mc->dSummer.toString("%d %b %Y   %H:%M") );
+    p.drawText( 0, 14, KGlobal::locale()->formatDateTime( mc->dSummer, KLocale::LongDate ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pAutumn.x(), topPadding() + pAutumn.y() );
     p.rotate(-90);
     p.drawText( 0, 0, i18n("Autumnal equinox:") );
-    p.drawText( 0, 14, mc->dAutumn.toString("%d %b %Y   %H:%M") );
+    p.drawText( 0, 14, KGlobal::locale()->formatDateTime( mc->dAutumn, KLocale::LongDate ) );
     p.restore();
 
     p.save();
     p.translate( leftPadding() + pWinter.x(), topPadding() + pWinter.y() );
     p.rotate(-90);
     p.drawText( 0, 0, i18n("Winter solstice:") );
-    p.drawText( 0, 14, mc->dWinter.toString("%d %b %Y   %H:%M") );
+    p.drawText( 0, 14, KGlobal::locale()->formatDateTime( mc->dWinter, KLocale::LongDate ) );
     p.restore();
 
     //Draw month labels along top axis

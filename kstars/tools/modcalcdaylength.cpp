@@ -17,6 +17,10 @@
 
 #include "modcalcdaylength.h"
 
+#include <KGlobal>
+#include <KLocale>
+#include <kmessagebox.h>
+
 #include "skyobject.h"
 #include "geolocation.h"
 #include "kstars.h"
@@ -28,7 +32,6 @@
 #include "widgets/dmsbox.h"
 #include "widgets/timebox.h"
 
-#include <kmessagebox.h>
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
         : QFrame(parentSplit) {
@@ -127,12 +130,12 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stAltString = stAlt.toDMSString();
         srAzString = srAz.toDMSString();
 
-        ssTimeString = ssTime.toString("HH:mm");
-        srTimeString = srTime.toString("HH:mm");
-        stTimeString = stTime.toString("HH:mm");
+        ssTimeString = KGlobal::locale()->formatTime( ssTime );
+        srTimeString = KGlobal::locale()->formatTime( srTime );
+        stTimeString = KGlobal::locale()->formatTime( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = daylength.toString("HH:mm");
+        daylengthString = KGlobal::locale()->formatTime( daylength );
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
@@ -142,7 +145,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = stTime.toString("HH:mm");
+        stTimeString = KGlobal::locale()->formatTime( stTime );
         daylengthString = "24:00";
 
     } else if (stAlt.Degrees() < 0. ) {
@@ -152,7 +155,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         ssTimeString = "--:--";
         srTimeString = "--:--";
-        stTimeString = stTime.toString("HH:mm");
+        stTimeString = KGlobal::locale()->formatTime( stTime );
         daylengthString = "00:00";
     }
 
@@ -175,9 +178,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtAltString = mtAlt.toDMSString();
         mrAzString = mrAz.toDMSString();
 
-        msTimeString = msTime.toString("HH:mm");
-        mrTimeString = mrTime.toString("HH:mm");
-        mtTimeString = mtTime.toString("HH:mm");
+        msTimeString = KGlobal::locale()->formatTime( msTime );
+        mrTimeString = KGlobal::locale()->formatTime( mrTime );
+        mtTimeString = KGlobal::locale()->formatTime( mtTime );
 
         //...but not always!
     } else if ( mtAlt.Degrees() > 0. ) {
@@ -187,7 +190,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = mtTime.toString("HH:mm");
+        mtTimeString = KGlobal::locale()->formatTime( mtTime );
 
     } else if ( mtAlt.Degrees() < 0. ) {
         msAzString = i18n("Does not rise");
@@ -196,7 +199,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
 
         msTimeString = "--:--";
         mrTimeString = "--:--";
-        mtTimeString = mtTime.toString("HH:mm");
+        mtTimeString = KGlobal::locale()->formatTime( mtTime );
     }
 
     lunarphaseString = Moon->phaseName()+" ("+QString::number( int( 100*Moon->illum() ) )+"%)";

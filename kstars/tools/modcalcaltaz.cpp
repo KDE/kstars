@@ -19,9 +19,10 @@
 
 #include <QTextStream>
 
+#include <KGlobal>
+#include <KLocale>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
-#include <kglobal.h>
 
 #include "skypoint.h"
 #include "geolocation.h"
@@ -324,10 +325,10 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
             utB = utBoxBatch->time();
 
         if ( allRadioBatch->isChecked() )
-            ostream << utB.toString() << space;
+            ostream << KGlobal::locale()->formatTime( utB ) << space;
         else
             if(utCheckBatch->isChecked() )
-                ostream << utB.toString() << space;
+                ostream << KGlobal::locale()->formatTime( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
@@ -337,10 +338,10 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
         } else
             dtB = dateBoxBatch->date();
         if ( allRadioBatch->isChecked() )
-            ostream << dtB.toString().append(space);
+            ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
         else
             if(dateCheckBatch->isChecked() )
-                ostream << dtB.toString().append(space);
+                ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
 
         // Read Longitude and write in ostream if corresponds
 

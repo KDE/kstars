@@ -17,8 +17,9 @@
 
 #include "modcalcvlsr.h"
 
+#include <KGlobal>
+#include <KLocale>
 #include <kfiledialog.h>
-#include <kglobal.h>
 #include <kmessagebox.h>
 
 #include "ksnumbers.h"
@@ -331,10 +332,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
             utB = UTBoxBatch->time();
 
         if ( AllRadioBatch->isChecked() )
-            ostream << utB.toString() << space;
+            ostream << KGlobal::locale()->formatTime( utB ) << space;
         else
             if(UTCheckBatch->isChecked() )
-                ostream << utB.toString() << space;
+                ostream << KGlobal::locale()->formatTime( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
@@ -344,10 +345,10 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
         } else
             dtB = DateBoxBatch->date();
         if ( AllRadioBatch->isChecked() )
-            ostream << dtB.toString().append(space);
+            ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
         else
             if(DateCheckBatch->isChecked() )
-                ostream << dtB.toString().append(space);
+                ostream << KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
 
         // Read RA and write in ostream if corresponds
 
