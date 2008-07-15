@@ -85,7 +85,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     rewind(fileHandle);
 
     fread(ASCII_text, 124, 1, fileHandle);
-    ASCII_text[125] = '\0';
+    ASCII_text[124] = '\0';
     headerText = ASCII_text;
 
     fread(&endian_id, 2, 1, fileHandle);
