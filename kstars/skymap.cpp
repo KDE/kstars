@@ -1041,13 +1041,6 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     p.setX( 0.5*Width  - zoomscale*k*cosY*sindX );
     p.setY( 0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 
-    if ( onVisibleHemisphere != NULL ) {
-        if ( scaledRect().contains( p.toPoint() ) )  //FIXME -jbb
-            *onVisibleHemisphere = true;
-        else
-            *onVisibleHemisphere = false;
-    }
-    
     return p;
 }
 
@@ -1228,7 +1221,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
     //If no intersection points were found, the line must be totally offscreen
     //return a null point
     if ( edgePoint2.isNull() ) {
-        return true;
+        return false;
     }
 
     //If one intersection point was found, then one of the original endpoints
