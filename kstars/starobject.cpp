@@ -85,11 +85,9 @@ StarObject::StarObject( dms r, dms d, float m,
     if ( hasName() ) {
         lname = n;
         if ( hasName2() ) lname += " (" + gname() + ')';
-    } else if ( hasName2() )
+    } else if ( hasName2() ) {
         lname = gname();
-
-    //If genetive name exists, but no primary name, set primary name = genetive name.
-    if ( hasName2() && !hasName() ) {
+        //If genetive name exists, but no primary name, set primary name = genetive name.
         setName( gname() );
     }
 
@@ -114,8 +112,11 @@ StarObject::StarObject( double r, double d, float m,
     if ( hasName() ) {
         lname = n;
         if ( hasName2() )lname += " (" + gname() + ')';
-    } else if ( hasName2() )
+    } else if ( hasName2() ) {
         lname = gname();
+        //If genetive name exists, but no primary name, set primary name = genetive name.
+        setName( gname() );
+    }
     
     setLongName(lname);
     updateID = updateNumID = 0;
@@ -166,6 +167,7 @@ void StarObject::init( const starData *stardata )
     Multiplicity = stardata->flags & 0x02;
     Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
+	
 
     // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
     // WARNING: You can debug only ONE STAR AT A TIME, because
@@ -383,7 +385,10 @@ QString StarObject::sptype( void ) const {
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
-    return greekLetter( useGreekChars ) + ' ' + constell();
+    if(!name2().isEmpty())
+        return greekLetter( useGreekChars ) + ' ' + constell();
+    else
+        return QString();
 }
 
 QString StarObject::greekLetter( bool gchar ) const {
