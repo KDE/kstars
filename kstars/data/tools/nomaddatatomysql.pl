@@ -222,21 +222,16 @@ sub kstars_unpack {
     #
     # Fields are: 
     # -----------
-    # HDNum  RA Dec pmRA pmDec parallax Vmag B-V mult? var? [genetive : full]
+    # RA Dec pmRA pmDec B V Tyc2ID[=0]
     #
     # The regexp used here is as strict as possible on the adherence to field formats
     
-    $s1 =~ m{^\s*(\d+)\s               # HD Number
-            \s*(\d?\d\.\d{8})\s        # RA Hours
-            \s*(-?\d?\d\.\d{8})\s      # DEC DDMMSS.SS
-            \s*(-?\d+\.\d\d)\s         # dRA/dt 
-            \s*(-?\d+\.\d\d)\s         # dDec/dt
-            \s*(-?\d+\.\d[\d ])\s      # Parallax
-            \s*([- \d]\d\.\d\d)\s      # Magnitude
-            \s*([- ]\d.\d\d)\s         # B-V index
-            ([01])\s                   # Multiple?
-            ([01])\s                   # Variable?
-            ([A-Z ].?|sd)\s            # Spectral Type
+    $s1 =~ m{^\s*(\d?\d?\d\.\d{6})\s   # RA Hours
+            \s*(-?\d?\d\.\d{6})\s      # DEC Degrees
+            \s*(-?\d+\.\d\d\d)\s       # dRA/dt 
+            \s*(-?\d+\.\d\d\d)\s       # dDec/dt
+            \s*([- \d]\d\.\d\d\d)\s    # B Magnitude
+            \s*([- \d]\d\.\d\d\d)\s    # V Magnitude
             }x or do 
         {
             $ERROR = "Positional Error (0-59)";
@@ -244,27 +239,36 @@ sub kstars_unpack {
         };
     
     my $star = {
-        HD        => $1,
-        RA        => $2,
-        Dec       => $3,
-	dRA       => $4,
-	dDec      => $5,
-	Parallax  => $6,
-        Mag       => $7,
-	BV_Index  => $8,
-        Mult      => $9,
-	Var       => $10,
-        Spec_Type => $11,
-        line      => $.,
-        PM        => sqrt($4 * $4 + $5 * $5),
+        HD        => 0,
+        RA        => $1 / 24.0,
+        Dec       => $2,
+	dRA       => $3,
+	dDec      => $4,
+	Parallax  => 0,
+        Mag       => $6,
+        B         => $5,
+        V         => $6,
+	BV_Index  => $5 - $6,
+        Mult      => 0,
+	Var       => 0,
+        PM        => sqrt($4 * $4 + $5 * $5)
     };
     
-    $line or return $star;
-    
-#    printf $line . "\n";
-    $star->{GName} = (($line =~ s/^([^:\s].*?)(\s:|$)//) ? $1 : "");
-    $line =~ s/^://;
-    $star->{Name} = (($line =~ s/^\s*(\S.*?)\s*$//) ? $1 : "");
+    ($star->{B} == 30 or $star->{V} == 30) and do {
+        $star->{BV_Index} = -100.0; # X-Ray Supergiant
+        $star->{Spec_Type} = "??";
+        return $star;
+    };
+
+    my $spt = "B?";
+    my $bv = $star->{BV_Index};
+    $bv > 0.0 and $spt = "A?";
+    $bv > 0.325 and $spt = "F?";
+    $bv > 0.575 and $spt = "G?";
+    $bv > 0.975 and $spt = "K?";
+    $bv > 1.6 and $spt = "M?";
+    $star->{Spec_Type} = $spt;
+
     return $star;
 }
 
