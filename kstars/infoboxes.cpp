@@ -353,10 +353,10 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
     QString ot3 = TimeBox->text3();
 
     TimeBox->setText1( i18nc( "Local Time", "LT: " ) + 
-                        KGlobal::locale()->formatTime( lt.time() ) + "   " + 
+                        KGlobal::locale()->formatTime( lt.time(), true ) + "   " + 
                         KGlobal::locale()->formatDate( lt.date() ) );
     TimeBox->setText2( i18nc( "Universal Time", "UT: " ) + 
-                        KGlobal::locale()->formatTime( ut.time() ) + "   " + 
+                        KGlobal::locale()->formatTime( ut.time(), true ) + "   " + 
                         KGlobal::locale()->formatDate( ut.date() ) );
 
     QString STString;
