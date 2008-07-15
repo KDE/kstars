@@ -1205,7 +1205,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
     //If no intersection points were found, the line must be totally offscreen
     //return a null point
     if ( edgePoint2.isNull() ) {
-        return true;
+        return false;
     }
 
     //If one intersection point was found, then one of the original endpoints
