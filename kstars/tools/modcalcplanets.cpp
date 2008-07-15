@@ -406,10 +406,10 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
             utB = UTBoxBatch->time();
 
         if ( AllRadioBatch->isChecked() )
-            lineToWrite += KGlobal::locale()->formatTime( utB ).append(space);
+            lineToWrite += KGlobal::locale()->formatTime( utB, true ).append(space);
         else
             if(UTCheckBatch->isChecked() )
-                lineToWrite += KGlobal::locale()->formatTime( utB ).append(space);
+                lineToWrite += KGlobal::locale()->formatTime( utB, true ).append(space);
 
         // Read date and write in ostream if corresponds
 
