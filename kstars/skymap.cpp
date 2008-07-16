@@ -379,48 +379,40 @@ void SkyMap::slotDSS( void ) {
     iv->show();
 }
 
-void SkyMap::slotDSS2( void ) {
-    QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=2r" );
-    QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
-    dms ra(0.0), dec(0.0);
-    QString RAString, DecString;
-    char decsgn;
+void SkyMap::slotSDSS() {
+	QString URLprefix( "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?" );
+	QString URLsuffix( "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)" );
+	dms ra(0.0), dec(0.0);
+	QString RAString, DecString;
 
-    //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
-    //if we clicked on empty sky, we need to precess to J2000.
-    if ( clickedObject() ) {
-        ra.setH( clickedObject()->ra0()->Hours() );
-        dec.setD( clickedObject()->dec0()->Degrees() );
-    } else {
-        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-        clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
-        clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
-        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra.setH( clickedPoint()->ra()->Hours() );
-        dec.setD( clickedPoint()->dec()->Degrees() );
+	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+	//if we clicked on empty sky, we need to precess to J2000.
+	if ( clickedObject() ) {
+		ra.setH( clickedObject()->ra0()->Hours() );
+		dec.setD( clickedObject()->dec0()->Degrees() );
+	} else {
+		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
+		clickedPoint()->setRA0( clickedPoint()->ra()->Hours() );
+		clickedPoint()->setDec0( clickedPoint()->dec()->Degrees() );
+		clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
+		ra.setH( clickedPoint()->ra()->Hours() );
+		dec.setD( clickedPoint()->dec()->Degrees() );
 
-        //restore coords from present epoch
-        clickedPoint()->setRA( clickedPoint()->ra0()->Hours() );
-        clickedPoint()->setDec( clickedPoint()->dec0()->Degrees() );
-    }
+		//restore coords from present epoch
+		clickedPoint()->setRA( clickedPoint()->ra0()->Hours() );
+		clickedPoint()->setDec( clickedPoint()->dec0()->Degrees() );
+	}
 
-    RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+	RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
+	DecString = DecString.sprintf( "&dec=%f", dec.Degrees() );
 
-    decsgn = '+';
-    if ( dec.Degrees() < 0.0 ) decsgn = '-';
-    int dd = abs( dec.degree() );
-    int dm = abs( dec.arcmin() );
-    int ds = abs( dec.arcsec() );
+	//concat all the segments into the kview command line:
+	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
-    DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+	QString message = i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." );
 
-    //concat all the segments into the kview command line:
-    KUrl url (URLprefix + RAString + DecString + URLsuffix);
-
-    QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-
-    ImageViewer *iv = ks->addImageViewer( url, message );
-    iv->show();
+	ImageViewer *iv = ks->addImageViewer( url, message );
+	iv->show();
 }
 
 void SkyMap::slotBeginAngularDistance() {

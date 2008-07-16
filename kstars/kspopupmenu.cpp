@@ -69,8 +69,8 @@ KSPopupMenu::~KSPopupMenu()
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
 
-    addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-    addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+    addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+    addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
@@ -82,8 +82,8 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
     } else {
-        addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-        addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+        addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+        addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 }
 
@@ -269,8 +269,8 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     }
 
     if ( showDSS ) {
-        addAction( i18nc( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-        addAction( i18nc( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ks->map(), SLOT( slotDSS2() ) );
+        addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
+        addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
         addSeparator();
     }
     else if ( obj->ImageList.count() ) addSeparator();

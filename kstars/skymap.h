@@ -583,12 +583,12 @@ public slots:
     /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
     	*/
-    void slotDSS( void );
+    void slotDSS();
 
-    /**@short Popup menu function: Display 2nd-Generation DSS image with the Image Viewer.
+    /**@short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
     	*/
-    void slotDSS2( void );
+		void slotSDSS();
 
     /**@short Popup menu function: Show webpage about ClickedObject
     	*(only available for some objects). 
