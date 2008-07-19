@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `$db_tbl` (
 my $tbl_trunc_query = qq/TRUNCATE TABLE `$db_tbl`/;
 
 # For the HTMesh
-my $level = 6;
+my $level = 3;
 
 # Create a new HTMesh, of level $level
 my $mesh = new HTMesh($level);
@@ -77,7 +77,7 @@ my @fields = qw/Trixel HD RA Dec dRA dDec PM Parallax Mag BV_Index
 $dbh->do($db_query);
 $dbh->do($db_select_query);
 $dbh->do($tbl_query);
-#$dbh->do($tbl_trunc_query);                 # Avoid truncating the table, because we might want to process split files
+$dbh->do($tbl_trunc_query);
 $dbh->commit();
 
 if( $VERBOSE ) {
