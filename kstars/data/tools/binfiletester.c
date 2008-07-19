@@ -142,7 +142,7 @@ u_int16_t trixel2number(char *trixel) {
     int index;
     u_int16_t id = 0;
     for( index = HTM_LEVEL + 1; index >= 1; --index ) {
-        id += (trixel[ index ] - '0') * (u_int16_t)round( pow(4, (index - HTM_LEVEL - 1)) );
+        id += (trixel[ index ] - '0') * (u_int16_t)round( pow(4, (HTM_LEVEL + 1 - index)) );
     }
     id += ( ( trixel[0] == 'S' ) ? round( pow(4, HTM_LEVEL + 1) ) + 1 : 0 );
     return id;
