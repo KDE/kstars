@@ -430,11 +430,11 @@ public:
     QRect scaledRect();
 
     /**
-        *@return whether the give QPoint is on the SkyMap.
+        *@return whether the given QPoint is on the SkyMap.
         */
     bool onScreen( QPoint &point );
     /**
-        *@return whether the give QPointF is on the SkyMap.
+        *@return whether the given QPointF is on the SkyMap.
         */
 
     bool onScreen( QPointF &pointF );

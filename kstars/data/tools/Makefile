@@ -10,16 +10,25 @@
 
 MYSQL_CONFIG=/usr/bin/mysql_config
 KSTARS_MYSQL_DB_TO_BIN=./mysql2bin
+KSTARS_NOMAD_MYSQL_DB_TO_BIN=./nomadmysql2bin
 KSTARS_MYSQL_DB_DB=$(KSTARS_MYSQL_DB_USER)
 KSTARS_MYSQL_DB_TBL=tycho2
+KSTARS_NOMAD_MYSQL_DB_TBL=nomad_test # TODO: Change to nomad
 
 all: mysql2bin binfiletester
 
 mysql2bin: mysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
+nomadmysql2bin: nomadmysql2bin.c
+	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
+
 binfiletester: binfiletester.c
 	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
+
+nomadbinfiletester: nomadbinfiletester.c
+	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
+
 
 clean:
 	-rm binfiletester mysql2bin
@@ -32,5 +41,12 @@ datafiles: mysql2bin
 	cat nshf nsdf > ../shallowstars.dat
 	cat nf > ../starnames.dat
 	rm ushf usdf nshf nsdf nf
+
+nomaddatafiles: nomadmysql2bin
+	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
+	./nomadmysql2bin $(KSTARS_MYSQL_DB_USER) $(KSTARS_MYSQL_DB_PASS) usdf ushf $(KSTARS_MYSQL_DB_DB) $(KSTARS_NOMAD_MYSQL_DB_TBL)
+	cat ushf usdf > nomad_test,dat    # TODO: Change
+	rm ushf usdf
+
 install:
 # Install nothing
