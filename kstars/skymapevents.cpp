@@ -931,19 +931,19 @@ double SkyMap::magFactor( const int modifier ) {
 }
 
 void SkyMap::incMagLimit( const int modifier ) {
-    double limit = Options::magLimitDrawStarZoomOut();
+    double limit = 2.222 * log10( Options::starDensity() ) + 0.35;
     limit += magFactor( modifier );
-    if ( limit > 9.0 ) limit = 9.0;
-    Options::setMagLimitDrawStarZoomOut( limit );
+    if ( limit > 7.94 ) limit = 7.94;
+    Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
     //printf("maglim set to %3.1f\n", limit);
     forceUpdate();
 }
 
 void SkyMap::decMagLimit( const int modifier ) {
-    double limit = Options::magLimitDrawStarZoomOut();
+    double limit = 2.222 * log10( Options::starDensity() ) + 0.35;
     limit -= magFactor( modifier );
-    if ( limit < 1.0 ) limit = 1.0;
-    Options::setMagLimitDrawStarZoomOut( limit );
+    if ( limit < 3.55 ) limit = 3.55;
+    Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
     //printf("maglim set to %3.1f\n", limit);
     forceUpdate();
 }

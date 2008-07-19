@@ -627,17 +627,18 @@
 			<default>8.0</default>
 		</entry>
 -->
-		<entry name="MemUsage" type="Int">
-			<label>Memory usage for star blocks</label>
-			<whatsthis>Amount of memory to use for stars. KStars will adjust the star density accordingly</whatsthis>
-			<default>8</default>
+		<entry name="Star Density" type="Int">
+			<label>Density of stars in the field of view</label>
+			<whatsthis>Sets the density of stars in the field of view</whatsthis>
+			<default>15</default>
 		</entry>
 
-		<entry name="MagLimitDrawStarZoomOut" type="Double">
+<!--		<entry name="MagLimitDrawStarZoomOut" type="Double">
 			<label>Faint limit for stars when zoomed out</label>
 			<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed out.</whatsthis>
 			<default>6.0</default>
 		</entry>
+-->
 		<entry name="MagLimitHideStar" type="Double">
 			<label>Faint limit for stars when slewing</label>
 			<whatsthis>The faint magnitude limit for drawing stars, when the map is in motion (only applicable if faint stars are set to be hidden while the map is in motion).</whatsthis>

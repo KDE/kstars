@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>626</height>
+    <width>531</width>
+    <height>686</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -21,7 +21,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_ShowStars" >
           <property name="text" >
-           <string>&amp;Tycho-1 star catalog</string>
+           <string>&amp;Star Catalogs</string>
           </property>
          </widget>
         </item>
@@ -33,37 +33,20 @@
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="LabelMagStarsZoomOut" >
+          <item row="0" column="1" >
+           <widget class="QLabel" name="LabelStarDensity" >
             <property name="text" >
-             <string>Faint limit zoomed out:</string>
+             <string>Star Density:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
-           <widget class="QLabel" name="LabelMag2" >
-            <property name="text" >
-             <string>mag</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawStarZoomOut" />
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="LabelMemUsage" >
-            <property name="text" >
-             <string>Memory usage:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2" >
-           <widget class="QSlider" name="kcfg_MemUsage" >
+          <item row="0" column="2" >
+           <widget class="QSlider" name="kcfg_StarDensity" >
             <property name="minimum" >
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="maximum" >
-             <number>10</number>
+             <number>100</number>
             </property>
             <property name="singleStep" >
              <number>1</number>
@@ -79,23 +62,36 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="0" >
+           <spacer name="horizontalSpacer_2" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="3" >
+           <spacer name="horizontalSpacer_3" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType" >
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0" >
-           <size>
-            <width>20</width>
-            <height>16</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item>
          <layout class="QGridLayout" >
@@ -188,22 +184,22 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
        </layout>
-      </item>
-      <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0" >
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>

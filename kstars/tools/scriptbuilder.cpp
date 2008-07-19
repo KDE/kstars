@@ -867,6 +867,7 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "AnimateSlewing" );
     argChangeViewOption->OptionName->addItem( "FadePlanetTrails" );
 
+    /*
     opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
     fields << "magLimitDrawStar" << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
@@ -874,6 +875,7 @@ void ScriptBuilder::initViewOptions() {
     fields << "magLimitDrawStarZoomOut" << i18n( "magnitude of faintest star drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
+    */
     fields << "magLimitDrawDeepSky" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
@@ -898,8 +900,8 @@ void ScriptBuilder::initViewOptions() {
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
 
-    argChangeViewOption->OptionName->addItem( "magLimitDrawStar" );
-    argChangeViewOption->OptionName->addItem( "magLimitDrawStarZoomOut" );
+    //    argChangeViewOption->OptionName->addItem( "magLimitDrawStar" );
+    //    argChangeViewOption->OptionName->addItem( "magLimitDrawStarZoomOut" );
     argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSky" );
     argChangeViewOption->OptionName->addItem( "magLimitDrawDeepSkyZoomOut" );
     argChangeViewOption->OptionName->addItem( "starLabelDensity" );

@@ -69,7 +69,7 @@ private:
     KConfigDialog *m_ConfigDialog;
     QStringList m_CustomCatalogFile;
     QList<int> m_ShowCustomCatalog;
-    float m_MemUsage, m_MagLimitDrawStarZoomOut;
+    float m_StarDensity;
     bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
 };
 

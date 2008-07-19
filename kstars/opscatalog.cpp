@@ -64,14 +64,14 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     m_ShowIC = Options::showIC();
 
     //    kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
-    kcfg_MemUsage->setValue( Options::memUsage() );
-    kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
+    kcfg_StarDensity->setValue( Options::starDensity() );
+    //    kcfg_MagLimitDrawStarZoomOut->setValue( Options::magLimitDrawStarZoomOut() );
     //    m_MagLimitDrawStar = kcfg_MagLimitDrawStar->value();
-    m_MemUsage = kcfg_MemUsage->value();
-    m_MagLimitDrawStarZoomOut = kcfg_MagLimitDrawStarZoomOut->value();
+    m_StarDensity = kcfg_StarDensity->value();
+    //    m_MagLimitDrawStarZoomOut = kcfg_MagLimitDrawStarZoomOut->value();
 
     //    kcfg_MagLimitDrawStar->setMinimum( Options::magLimitDrawStarZoomOut() );
-    kcfg_MagLimitDrawStarZoomOut->setMaximum( 12.0 );
+    //    kcfg_MagLimitDrawStarZoomOut->setMaximum( 12.0 );
 
     kcfg_MagLimitDrawDeepSky->setMaximum( 16.0 );
     kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum( 16.0 );
@@ -205,8 +205,8 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 */
 
 void OpsCatalog::slotApply() {
-    Options::setMemUsage( kcfg_MemUsage->value() );
-    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
+    Options::setStarDensity( kcfg_StarDensity->value() );
+    //    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
 
     //FIXME: need to add the ShowDeepSky meta-option to the config dialog!
     //For now, I'll set showDeepSky to true if any catalog options changed
@@ -254,8 +254,8 @@ void OpsCatalog::slotApply() {
 void OpsCatalog::slotCancel() {
     //Revert all local option placeholders to the values in the global config object
     //    m_MagLimitDrawStar = Options::magLimitDrawStar();
-    m_MemUsage = Options::memUsage();
-    m_MagLimitDrawStarZoomOut = Options::magLimitDrawStarZoomOut();
+    m_StarDensity = Options::starDensity();
+    //    m_MagLimitDrawStarZoomOut = Options::magLimitDrawStarZoomOut();
 
     m_ShowMessier = Options::showMessier();
     m_ShowMessImages = Options::showMessierImages();
@@ -269,14 +269,15 @@ void OpsCatalog::slotCancel() {
 
 void OpsCatalog::slotStarWidgets(bool on) {
     //    LabelMagStars->setEnabled(on);
-    LabelMemUsage->setEnabled(on);
-    LabelMagStarsZoomOut->setEnabled(on);
+    LabelStarDensity->setEnabled(on);
+    //    LabelMagStarsZoomOut->setEnabled(on);
     LabelDensity->setEnabled(on);
     //    LabelMag1->setEnabled(on);
-    LabelMag2->setEnabled(on);
+    //    LabelMag2->setEnabled(on);
     //    kcfg_MagLimitDrawStar->setEnabled(on);
-    kcfg_MemUsage->setEnabled(on);
-    kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
+    kcfg_StarDensity->setEnabled(on);
+    LabelStarDensity->setEnabled( on );
+    //    kcfg_MagLimitDrawStarZoomOut->setEnabled(on);
     kcfg_StarLabelDensity->setEnabled(on);
     kcfg_ShowStarNames->setEnabled(on);
     kcfg_ShowStarMagnitudes->setEnabled(on);

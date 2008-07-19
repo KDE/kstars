@@ -349,8 +349,8 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ZoomFactor"       && dOk ) Options::setZoomFactor(       dVal );
     //    if ( op == "MagLimitDrawStar"     && dOk )    Options::setMagLimitDrawStar(    dVal );
     if ( op == "MagLimitDrawDeepSky"     && dOk ) Options::setMagLimitDrawDeepSky( dVal );
-    if ( op == "MemUsage"         && dOk ) Options::setMemUsage( dVal );
-    if ( op == "MagLimitDrawStarZoomOut" && dOk ) Options::setMagLimitDrawStarZoomOut(        dVal );
+    if ( op == "StarDensity"         && dOk ) Options::setStarDensity( dVal );
+    //    if ( op == "MagLimitDrawStarZoomOut" && dOk ) Options::setMagLimitDrawStarZoomOut(        dVal );
     if ( op == "MagLimitDrawDeepSkyZoomOut" && dOk ) Options::setMagLimitDrawDeepSkyZoomOut(  dVal );
     if ( op == "StarLabelDensity" && dOk ) Options::setStarLabelDensity( dVal );
     if ( op == "MagLimitHideStar"     && dOk ) Options::setMagLimitHideStar(     dVal );
