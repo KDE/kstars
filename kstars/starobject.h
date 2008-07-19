@@ -95,29 +95,6 @@ public:
      */
     ~StarObject() { }
 
-    // REMOVED
-    /**
-     *@short  Initializes a StarObject to given data
-     *
-     * This is almost like the StarObject constructor itself, but it avoids
-     * setting up name, gname etc for unnamed stars. If called instead of the
-     * constructor, this method will be much faster for unnamed stars
-     *
-     *@param r Right Ascension [Hours]
-     *@param d Declination [Degrees]
-     *@param m Magnitude
-     *@param sptype Spectral Type
-     *@param pmra Proper motion in RA direction [mas/yr]
-     *@param pmdec Proper motion in Dec direction [mas/yr]
-     *@param par Parallax angle [mas]
-     *@param mult Multiplicity flag (false=dingle star; true=multiple star)
-     *@param var Variability flag (true if star is a known periodic variable)
-     *@return Nothing
-     */
-
-    //    void init(double r, double d, float m=0.0, const QString &sptype="--", double pmra=0.0, double pmdec=0.0, 
-    //              double par=0.0, bool mult=false, bool var=false);
-
     /**
      *@short  Initializes a StarObject to given data
      *

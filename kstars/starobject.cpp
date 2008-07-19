@@ -29,6 +29,10 @@
 #include "Options.h"
 #include "skymap.h"
 
+// DEBUG EDIT. Uncomment for testing Proper Motion
+//#include "skycomponents/skymesh.h"
+// END DEBUG
+
 #include "skycomponents/skylabeler.h"
 
 QMap<QString, QColor> StarObject::ColorMap;
@@ -123,31 +127,6 @@ StarObject::StarObject( double r, double d, float m,
 }
 
 
-// DEPRECATED
-/*
-void StarObject::init(double r, double d, float m, const QString &sptype, double pmra, 
-                      double pmdec, double par, bool mult, bool var) 
-{
-    setType( SkyObject::STAR );
-    setMag( m );
-    setRA0( r );
-    setDec0( d );
-    setRA( r );
-    setDec( d );
-    const char *spt = (const char *)sptype.toAscii();
-    SpType[0] = spt[0];
-    SpType[1] = spt[1];
-    PM_RA = pmra;
-    PM_Dec = pmdec;
-    Parallax = par;
-    Multiplicity = mult;
-    Variability = var ;
-
-    //    setLongName(i18n("star"));
-    updateID = updateNumID = 0;
-}
-*/
-
 void StarObject::init( const starData *stardata ) 
 {
     double ra, dec;
@@ -176,7 +155,7 @@ void StarObject::init( const starData *stardata )
     //          due to the memcpy() that we do to create stars
     /*
     testStar = false;
-    if( stardata->HD == 224635 ) {
+    if( stardata->HD == 103095 && Trail.size() == 0 ) {
       // Populate Trail with various positions
         kDebug() << "TEST STAR FOUND!";
         testStar = true;
@@ -191,7 +170,7 @@ void StarObject::init( const starData *stardata )
         kDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
     }
     */
-    // END EDIT.
+    // END DEBUG.
 
 
 }
@@ -311,18 +290,6 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
     setRA0( newRA );
     setDec0( newDec );
-
-    // DEBUG Edit. Uncomment all related blocks for testing proper motion.
-    /*
-    if( testStar ) {
-        kDebug() << "Test Star. update method";
-        KStarsData *data = KStarsData::Instance();
-        for( int i = 0; i < Trail.size(); i++ ) {
-            Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        }
-    }
-    */
-    // END EDIT.
 
     SkyPoint::updateCoords( num );
     setRA0( saveRA );
@@ -568,7 +535,20 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     /*
     if( !testStar )
         return;
-    
+
+    dms *ra, *dec;
+    ra = new dms;
+    dec = new dms;
+    KStarsData *data = KStarsData::Instance();
+    SkyMesh *m_skyMesh = SkyMesh::Instance();
+
+    for( int i = 0; i < Trail.size(); i++ ) {
+        //        kDebug() << "Point" << i << "in trixel" << m_skyMesh->indexToName( m_skyMesh->index( Trail.at( i ) ) );
+        Trail.at( i )->updateCoords( data->updateNum(),  true, ra, dec );
+        Trail.at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+
+
     SkyMap *map = SkyMap::Instance();
     SkyPoint *pThis, *pLast;
     QPointF oThis, oMid, oLast;
@@ -580,17 +560,17 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     pLast = Trail.first();
     oLast = map->toScreen( pLast, true, &isVisibleLast );
     center = map->toScreen( map->focus() );
-    kDebug() << "Entering draw routine to draw PM arc.";
+    //    kDebug() << "Entering draw routine to draw PM arc.";
     for ( int i = 1; i < Trail.size(); i++ ) {
         pThis = Trail.at( i );
         oThis = map->toScreen( pThis, true, &isVisible );
         if ( map->onScreen( oThis, oLast) ) {
-            kDebug() << "We have a segment on map!";                
+            //            kDebug() << "We have a segment on map!";                
             if ( isVisible && isVisibleLast ) {
-                kDebug() << "Drawing line from (" << oLast.x() - center.x() << "," << oLast.y() - center.y() << ") to (" 
-                         << oThis.x() - center.x() << "," << oThis.y() - center.y() << ")" << endl;
-                kDebug() << "Or " << pThis->ra()->toHMSString() << "," << pThis->dec()->toDMSString() << "to"
-                         << pLast->ra()->toHMSString() << "," << pLast->dec()->toDMSString();
+                //                kDebug() << "Drawing line from (" << oLast.x() - center.x() << "," << oLast.y() - center.y() << ") to (" 
+                //                         << oThis.x() - center.x() << "," << oThis.y() - center.y() << ")" << endl;
+                //                kDebug() << "Or " << pThis->ra()->toHMSString() << "," << pThis->dec()->toDMSString() << "to"
+                //                         << pLast->ra()->toHMSString() << "," << pLast->dec()->toDMSString();
                 psky.drawLine( oLast, oThis );
             }
             else if ( isVisibleLast ) {
