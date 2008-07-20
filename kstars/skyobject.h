@@ -18,13 +18,14 @@
 #ifndef SKYOBJECT_H_
 #define SKYOBJECT_H_
 
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QString>
+#include <QStringList>
 
 #include <klocale.h>
 
 #include "skypoint.h"
 #include "dms.h"
+#include "auxinfo.h"
 
 class QPoint;
 class QPainter;
@@ -311,9 +312,36 @@ public:
      */
     virtual double labelOffset() const;
 
-    QStringList ImageList, ImageTitle;
-    QStringList InfoList, InfoTitle;
-    QString userLog;
+    /**
+     *@short Query whether this SkyObject has a valid AuxInfo structure associated with it.
+     *@return true if this SkyObject has a valid AuxInfo structure associated with it, false if not.
+     */
+    inline bool hasAuxInfo() { return ( ( info == NULL) ? false : true ); }
+
+    /**
+     *@return a reference to a QStringList storing a list of Image URLs associated with this SkyObject
+     */
+    inline QStringList &ImageList() { return getAuxInfo()->ImageList; }
+
+    /**
+     *@return a reference to a QStringList storing a list of Image Titles associated with this SkyObject
+     */
+    inline QStringList &ImageTitle() { return getAuxInfo()->ImageTitle; }
+
+    /**
+     *@return a reference to a QStringList storing a list of Information Links associated with this SkyObject
+     */
+    inline QStringList &InfoList() { return getAuxInfo()->InfoList; }
+
+    /**
+     *@return a reference to a QStringList storing a list of Information Link Titles associated with this SkyObject
+     */
+    inline QStringList &InfoTitle() { return getAuxInfo()->InfoTitle; }
+
+    /**
+     *@return a reference to a QString storing the users' log for this SkyObject
+     */
+    inline QString &userLog() { return getAuxInfo()->userLog; }
 
 private:
 
@@ -373,12 +401,22 @@ private:
      */
     dms elevationCorrection(void);
 
+    /**
+     *@short Return a pointer to the AuxInfo object associated with this SkyObject.
+     *@note  This method creates the AuxInfo object if it is non-existant
+     *@return Pointer to an AuxInfo structure
+     */
+    AuxInfo *getAuxInfo();
+
     unsigned char Type;
     float Magnitude;
 
 protected:
 
     QString Name, Name2, LongName;
+
+    // Pointer to an auxiliary info structure that stores Image URLs, Info URLs etc.
+    AuxInfo *info;
 
     // store often used name strings in static variables
     static QString emptyString;

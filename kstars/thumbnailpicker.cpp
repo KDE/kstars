@@ -76,7 +76,7 @@ ThumbnailPicker::~ThumbnailPicker() {
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
     //Preload ImageList with the URLs in the object's ImageList:
-    QStringList ImageList( Object->ImageList );
+    QStringList ImageList( Object->ImageList() );
 
     //Query Google Image Search:
     KUrl gURL( "http://images.google.com/images" );

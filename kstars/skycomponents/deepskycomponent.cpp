@@ -390,10 +390,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                     // most objects don't have those, so we only change colors temporarily
                     // for the few exceptions. Changing color is expensive!!!
                     bool bColorChanged = false;
-                    if ( obj->isCatalogM() && obj->ImageList.count() > 1 ) {
+                    if ( obj->isCatalogM() && obj->ImageList().count() > 1 ) {
                         psky.setPen( colorExtra );
                         bColorChanged = true;
-                    } else if ( (!obj->isCatalogM()) && obj->ImageList.count() ) {
+                    } else if ( (!obj->isCatalogM()) && obj->ImageList().count() ) {
                         psky.setPen( colorExtra );
                         bColorChanged = true;
                     }

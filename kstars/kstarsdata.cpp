@@ -732,11 +732,11 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
             } else {
                 if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
                     if ( type==0 ) { //image URL
-                        o->ImageList.append( url );
-                        o->ImageTitle.append( title );
+                        o->ImageList().append( url );
+                        o->ImageTitle().append( title );
                     } else if ( type==1 ) { //info URL
-                        o->InfoList.append( url );
-                        o->InfoTitle.append( title );
+                        o->InfoList().append( url );
+                        o->InfoTitle().append( title );
                     }
                 }
             }
@@ -778,7 +778,7 @@ bool KStarsData::readUserLog(void)
         if ( !o ) {
             kWarning() << name << " not found" ;
         } else {
-            o->userLog = data;
+            o->userLog() = data;
         }
 
     } // end while

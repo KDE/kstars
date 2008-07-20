@@ -47,10 +47,14 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
     setName(o.name());
     setName2(o.name2());
     setLongName(o.longname());
-    ImageList = o.ImageList;
-    ImageTitle = o.ImageTitle;
-    InfoList = o.InfoList;
-    InfoTitle = o.InfoTitle;
+    if( o.hasAuxInfo() ) {
+        getAuxInfo();
+        info->ImageList = o.ImageList();
+        info->ImageTitle = o.ImageTitle();
+        info->InfoList = o.InfoList();
+        info->InfoTitle = o.InfoTitle();
+        info->userLog = o.userLog();
+    }
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, float m,
@@ -62,6 +66,7 @@ SkyObject::SkyObject( int t, dms r, dms d, float m,
     setName(n);
     setName2(n2);
     setLongName(lname);
+    info = NULL;
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
@@ -73,9 +78,13 @@ SkyObject::SkyObject( int t, double r, double d, float m,
     setName(n);
     setName2(n2);
     setLongName(lname);
+    info = NULL;
 }
 
 SkyObject::~SkyObject() {
+    if( info )
+        delete info;
+    info = NULL;
 }
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
@@ -392,7 +401,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     }
 
     //Remove old log entry from the logs text
-    if ( ! userLog.isEmpty() ) {
+    if ( ! userLog().isEmpty() ) {
         int startIndex, endIndex;
         QString sub;
 
@@ -417,7 +426,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     outstream << logs;
 
     //Set the log text in the object itself.
-    userLog = newLog;
+    userLog() = newLog;
 
     file.close();
 }
@@ -474,4 +483,13 @@ void SkyObject::drawRudeNameLabel( QPainter &psky, const QPointF &p ) {
 
 double SkyObject::labelOffset() const {
     return SkyLabeler::ZoomOffset();
+}
+
+AuxInfo *SkyObject::getAuxInfo() {
+    if( info )
+        return info;
+    else {
+        info = new AuxInfo;
+        return info;
+    }
 }

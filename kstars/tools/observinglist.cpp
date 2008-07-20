@@ -297,10 +297,10 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( true );
 
                 ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
-                if ( LogObject->userLog.isEmpty() ) {
+                if ( LogObject->userLog().isEmpty() ) {
                     ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
                 } else {
-                    ui->NotesEdit->setPlainText( LogObject->userLog );
+                    ui->NotesEdit->setPlainText( LogObject->userLog() );
                 }
             } else { //selected object is named "star"
                 //clear the log text box

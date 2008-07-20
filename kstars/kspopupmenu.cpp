@@ -256,9 +256,9 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     QString sURL;
     QStringList::Iterator itList, itTitle, itListEnd;
 
-    itList  = obj->ImageList.begin();
-    itTitle = obj->ImageTitle.begin();
-    itListEnd = obj->ImageList.end();
+    itList  = obj->ImageList().begin();
+    itTitle = obj->ImageTitle().begin();
+    itListEnd = obj->ImageList().end();
 
     int id = 100;
     for ( ; itList != itListEnd; ++itList ) {
@@ -273,11 +273,11 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
         addSeparator();
     }
-    else if ( obj->ImageList.count() ) addSeparator();
+    else if ( obj->ImageList().count() ) addSeparator();
 
-    itList  = obj->InfoList.begin();
-    itTitle = obj->InfoTitle.begin();
-    itListEnd = obj->InfoList.end();
+    itList  = obj->InfoList().begin();
+    itTitle = obj->InfoTitle().begin();
+    itListEnd = obj->InfoList().end();
 
     id = 200;
     for ( ; itList != itListEnd; ++itList ) {

@@ -356,12 +356,12 @@ void DetailDialog::createLinksTab()
     Links->InfoTitle->setPalette( titlePalette );
     Links->ImagesTitle->setPalette( titlePalette );
 
-    foreach ( const QString &s, selectedObject->InfoTitle )
+    foreach ( const QString &s, selectedObject->InfoTitle() )
     Links->InfoTitleList->addItem( s );
 
     //Links->InfoTitleList->setCurrentRow(0);
 
-    foreach ( const QString &s, selectedObject->ImageTitle )
+    foreach ( const QString &s, selectedObject->ImageTitle() )
     Links->ImageTitleList->addItem( s );
 
      updateButtons();
@@ -420,10 +420,10 @@ void DetailDialog::createLogTab()
 
     Log->LogTitle->setPalette( titlePalette );
 
-    if ( selectedObject->userLog.isEmpty() )
+    if ( selectedObject->userLog().isEmpty() )
         Log->UserLog->setText(i18n("Record here observation logs and/or data on %1.", selectedObject->translatedName()));
     else
-        Log->UserLog->setText(selectedObject->userLog);
+        Log->UserLog->setText(selectedObject->userLog());
 
     //Automatically save the log contents when the widget loses focus
     connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
@@ -442,12 +442,12 @@ void DetailDialog::viewLink()
     if (m_CurrentLink == NULL) return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
-        int i = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
-        if (i >= 0) URL = QString( selectedObject->InfoList.at( i ) );
+        int i = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
+        if (i >= 0) URL = QString( selectedObject->InfoList().at( i ) );
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList ) {
-        int i = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
-        if (i >= 0) URL = QString( selectedObject->ImageList.at( i ) );
+        int i = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
+        if (i >= 0) URL = QString( selectedObject->ImageList().at( i ) );
     }
 
     if ( !URL.isEmpty() )
@@ -459,10 +459,10 @@ void DetailDialog::updateLists()
     Links->InfoTitleList->clear();
     Links->ImageTitleList->clear();
 
-    foreach ( const QString &s, selectedObject->InfoTitle )
+    foreach ( const QString &s, selectedObject->InfoTitle() )
     Links->InfoTitleList->addItem( s );
 
-    foreach ( const QString &s, selectedObject->ImageTitle )
+    foreach ( const QString &s, selectedObject->ImageTitle() )
     Links->ImageTitleList->addItem( s );
 
     updateButtons();
@@ -496,11 +496,11 @@ void DetailDialog::editLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
+        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
         if ( row < 0 ) return;
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->InfoList[row];
+        currentItemURL   = selectedObject->InfoList()[row];
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -510,11 +510,11 @@ void DetailDialog::editLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
+        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
         if ( row < 0 ) return;
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->ImageList[row];
+        currentItemURL   = selectedObject->ImageList()[row];
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -557,13 +557,13 @@ void DetailDialog::editLinkDialog()
 
         // Info Link
         if (type==0) {
-            selectedObject->InfoTitle.replace(row, editNameField.text());
-            selectedObject->InfoList.replace(row, editLinkField.text());
+            selectedObject->InfoTitle().replace(row, editNameField.text());
+            selectedObject->InfoList().replace(row, editLinkField.text());
 
         // Image Links
         } else {
-            selectedObject->ImageTitle.replace(row, editNameField.text());
-            selectedObject->ImageList.replace(row, editLinkField.text());
+            selectedObject->ImageTitle().replace(row, editNameField.text());
+            selectedObject->ImageList().replace(row, editLinkField.text());
         }
 
         // Update local files
@@ -591,9 +591,9 @@ void DetailDialog::removeLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle.indexOf( m_CurrentLink->text() );
+        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->InfoList[row];
+        currentItemURL   = selectedObject->InfoList()[row];
         LineEntry = selectedObject->name();
         LineEntry += ':';
         LineEntry += currentItemTitle;
@@ -603,9 +603,9 @@ void DetailDialog::removeLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle.indexOf( m_CurrentLink->text() );
+        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->ImageList[row];
+        currentItemURL   = selectedObject->ImageList()[row];
         LineEntry = selectedObject->name();
         LineEntry += ':';
         LineEntry += currentItemTitle;
@@ -620,13 +620,13 @@ void DetailDialog::removeLinkDialog()
 
     if (type ==0)
     {
-        selectedObject->InfoTitle.removeAt(row);
-        selectedObject->InfoList.removeAt(row);
+        selectedObject->InfoTitle().removeAt(row);
+        selectedObject->InfoList().removeAt(row);
     }
     else
     {
-        selectedObject->ImageTitle.removeAt(row);
-        selectedObject->ImageList.removeAt(row);
+        selectedObject->ImageTitle().removeAt(row);
+        selectedObject->ImageList().removeAt(row);
     }
 
     // Remove link from file

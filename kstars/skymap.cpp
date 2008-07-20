@@ -470,16 +470,16 @@ void SkyMap::slotCancelAngularDistance(void) {
 void SkyMap::slotImage() {
     QString message = ((KAction*)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
-    int index = clickedObject()->ImageTitle.indexOf(message);
+    int index = clickedObject()->ImageTitle().indexOf(message);
 
     QString sURL;
-    if ( index >= 0 && index < clickedObject()->ImageList.size() ) {
-        sURL = clickedObject()->ImageList[ index ];
+    if ( index >= 0 && index < clickedObject()->ImageList().size() ) {
+        sURL = clickedObject()->ImageList()[ index ];
     } else {
         kWarning() << "ImageList index out of bounds: " << index;
         if ( index == -1 ) {
             kWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
-            kDebug() << clickedObject()->ImageTitle;
+            kDebug() << clickedObject()->ImageTitle();
         }
     }
 
@@ -492,16 +492,16 @@ void SkyMap::slotImage() {
 void SkyMap::slotInfo() {
     QString message = ((KAction*)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
-    int index = clickedObject()->InfoTitle.indexOf(message);
+    int index = clickedObject()->InfoTitle().indexOf(message);
 
     QString sURL;
-    if ( index >= 0 && index < clickedObject()->InfoList.size() ) {
-        sURL = clickedObject()->InfoList[ index ];
+    if ( index >= 0 && index < clickedObject()->InfoList().size() ) {
+        sURL = clickedObject()->InfoList()[ index ];
     } else {
         kWarning() << "InfoList index out of bounds: " << index;
         if ( index == -1 ) {
             kWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
-            kDebug() << clickedObject()->InfoTitle;
+            kDebug() << clickedObject()->InfoTitle();
         }
     }
 
@@ -1670,8 +1670,8 @@ void SkyMap::addLink() {
     if ( adialog.exec()==QDialog::Accepted ) {
         if ( adialog.isImageLink() ) {
             //Add link to object's ImageList, and descriptive text to its ImageTitle list
-            clickedObject()->ImageList.append( adialog.url() );
-            clickedObject()->ImageTitle.append( adialog.desc() );
+            clickedObject()->ImageList().append( adialog.url() );
+            clickedObject()->ImageTitle().append( adialog.desc() );
 
             //Also, update the user's custom image links database
             //check for user's image-links database.  If it doesn't exist, create it.
@@ -1689,8 +1689,8 @@ void SkyMap::addLink() {
                 emit linkAdded();
             }
         } else {
-            clickedObject()->InfoList.append( adialog.url() );
-            clickedObject()->InfoTitle.append( adialog.desc() );
+            clickedObject()->InfoList().append( adialog.url() );
+            clickedObject()->InfoTitle().append( adialog.desc() );
 
             //check for user's image-links database.  If it doesn't exist, create it.
             file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
