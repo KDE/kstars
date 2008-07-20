@@ -228,7 +228,12 @@ void StarComponent::draw( QPainter& psky )
      possible value of maglim to 3.5
     */
      
-    float maglim = 4.444 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
+    //    float maglim = 4.444 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
+
+    // Reducing the slope w.r.t zoom factor to avoid the extremely fast increase in star density with zoom
+    // that 4.444 gives us (although that is what the derivation gives us)
+
+    float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
 
     m_zoomMagLimit = maglim;
 
