@@ -108,10 +108,17 @@ public:
            */
     static SkyMesh* Create( KStarsData* data, int level );
 
-    /* @short returns the single instance of SkyMesh or null if it has not
+    /* @short returns the default instance of SkyMesh or null if it has not
      * yet been created.
      */
     static SkyMesh* Instance();
+
+    /**
+     *@short returns the instance of SkyMesh corresponding to the given level
+     *@return the instance of SkyMesh at the given level, or NULL if it has not
+     *yet been created.
+     */
+    static SkyMesh* Instance( int level );
 
     /**@short finds the set of trixels that cover the circular aperture
      * specified after first performing a reverse precession correction on
@@ -293,7 +300,8 @@ private:
     int         m_zoomedInPercent;
 
     bool        m_inDraw;
-    static SkyMesh* pinstance;
+    static int defaultLevel;
+    static QMap<int, SkyMesh *> pinstances;
 };
 
 #endif

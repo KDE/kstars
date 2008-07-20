@@ -29,18 +29,30 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 
-SkyMesh* SkyMesh::pinstance = 0;
+QMap<int, SkyMesh *> SkyMesh::pinstances;
+int SkyMesh::defaultLevel = -1;
 
 SkyMesh* SkyMesh::Create( KStarsData* data, int level )
 {
-    if ( pinstance ) delete pinstance;
-    pinstance = new SkyMesh( data, level );
-    return pinstance;
+    SkyMesh *newInstance;
+    newInstance = pinstances.value( level, NULL );
+    if( newInstance )
+        delete newInstance;
+    newInstance = new SkyMesh( data, level );
+    pinstances.insert( level, newInstance );
+    if( defaultLevel < 0 )
+        defaultLevel = newInstance->level();
+    return newInstance;
 }
 
 SkyMesh* SkyMesh::Instance( )
 {
-    return pinstance;
+    return pinstances.value( defaultLevel, NULL );
+}
+
+SkyMesh* SkyMesh::Instance( int level ) 
+{
+    return pinstances.value( level, NULL );
 }
 
 SkyMesh::SkyMesh( KStarsData* data, int level) :
