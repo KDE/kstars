@@ -36,7 +36,7 @@
 #include "Options.h"
 #include "skycomponents/skylabeler.h"
 
-QString SkyObject::emptyString = QString();
+QString SkyObject::emptyString;
 QString SkyObject::unnamedString = QString(i18n("unnamed"));
 QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
 QString SkyObject::starString = QString("star");
@@ -82,8 +82,7 @@ SkyObject::SkyObject( int t, double r, double d, float m,
 }
 
 SkyObject::~SkyObject() {
-    if( info )
-        delete info;
+    delete info;
     info = NULL;
 }
 
@@ -98,7 +97,7 @@ void SkyObject::setLongName( const QString &longname ) {
         else if ( hasName2() )
             LongName = name2();
         else
-            LongName = QString();
+            LongName.clear();
     } else {
         LongName = longname;
     }

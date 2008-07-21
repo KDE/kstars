@@ -72,7 +72,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
     //reset date format to get rid of weekday
     QString fmt = KGlobal::locale()->dateFormat();
-    fmt = fmt.replace( "%A", "", Qt::CaseInsensitive );
+    fmt = fmt.remove( "%A", Qt::CaseInsensitive );
     KGlobal::locale()->setDateFormat( fmt );
 
     //Set Geographic Location from Options
