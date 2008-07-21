@@ -1106,7 +1106,7 @@ void KStars::slotAboutToQuit()
     //store focus values in Options
     //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
     if( skymap && skymap->focus() && skymap->focus()->ra() ) {
-        if ( Options::useAltAz && ! Options::isTracking() ) {
+        if ( Options::useAltAz() && ! Options::isTracking() ) {
             Options::setFocusRA( skymap->focus()->az()->Degrees() );
             Options::setFocusDec( skymap->focus()->alt()->Degrees() );
         } else {
