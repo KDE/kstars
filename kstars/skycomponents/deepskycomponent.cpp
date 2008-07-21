@@ -109,7 +109,7 @@ void DeepSkyComponent::init(KStarsData *data)
 
         //B magnitude
         ss = line.mid( 23, 4 );
-    if (ss == "    " ) { mag = 99.9; } else { mag = ss.toFloat(); }
+    if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
 
         //object type
         type = line.mid( 29, 1 ).toInt();
@@ -231,7 +231,7 @@ void DeepSkyComponent::mergeSplitFiles() {
     QString firstFile = KStandardDirs::locateLocal("appdata", "ngcic01.dat");
     if ( ! QFile::exists( firstFile ) ) return;
     QDir localDir = QFileInfo( firstFile ).absoluteDir();
-    QStringList catFiles = localDir.entryList( "ngcic??.dat" );
+    QStringList catFiles = localDir.entryList( QStringList( "ngcic??.dat" ) );
 
     kDebug() << "Merging split NGC/IC files" << endl;
 

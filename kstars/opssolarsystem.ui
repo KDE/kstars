@@ -401,7 +401,7 @@
             <property name="maximum" >
              <double>0.000000000000000</double>
             </property>
-            <property name="precision" >
+            <property name="decimals" >
              <number>1</number>
             </property>
            </widget>

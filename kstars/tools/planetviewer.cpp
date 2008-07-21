@@ -222,7 +222,7 @@ void PlanetViewer::initPlotObjects() {
             double x,y;
             while ( fileReader.hasMoreLines() ) {
                 QString line = fileReader.readLine();
-                QStringList fields = line.split( " ", QString::SkipEmptyParts );
+                QStringList fields = line.split( ' ', QString::SkipEmptyParts );
                 if ( fields.size() == 3 ) {
                     x = fields[0].toDouble();
                     y = fields[1].toDouble();

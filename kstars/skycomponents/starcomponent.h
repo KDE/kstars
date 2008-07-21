@@ -41,7 +41,6 @@
 
 class SkyComponent;
 class KStarsData;
-class KSFileReader;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;

@@ -199,21 +199,21 @@ void ConjunctionsTool::showProgress(int n) {
   progress->setValue( n );
 }
 
-void ConjunctionsTool::showConjunctions(QMap<long double, dms> conjunctionlist) {
+void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctionlist) {
 
   KStarsDateTime dt;
-  QMap<long double, dms>::Iterator it;
+  QMap<long double, dms>::ConstIterator it;
   int i;
 
   OutputView->clear();
   outputJDList.clear();
   i = 0;
 
-  for(it = conjunctionlist.begin(); it != conjunctionlist.end(); ++it) {
+  for(it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it) {
     dt.setDJD( it.key() );
     OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", 
                                  KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ), 
-                                 it.data().toDMSString()) );
+                                 it.value().toDMSString()) );
     outputJDList.insert( i, it.key() );
     ++i;
   }

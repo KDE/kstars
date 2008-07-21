@@ -47,7 +47,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname,
     if ( KSUtils::openDataFile( f, fname ) ) {
         KSFileReader fileReader( f ); // close file is included
         while ( fileReader.hasMoreLines() ) {
-            fields = fileReader.readLine().split( " ", QString::SkipEmptyParts );
+            fields = fileReader.readLine().split( ' ', QString::SkipEmptyParts );
 
             if ( fields.size() == 3 ) {
                 A = fields[0].toDouble();

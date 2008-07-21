@@ -403,7 +403,7 @@ private:
 
     /**
      *@short Return a pointer to the AuxInfo object associated with this SkyObject.
-     *@note  This method creates the AuxInfo object if it is non-existant
+     *@note  This method creates the AuxInfo object if it is non-existent
      *@return Pointer to an AuxInfo structure
      */
     AuxInfo *getAuxInfo();

@@ -79,7 +79,7 @@ public:
         * this parameter should help efficiency.  The little max-length.pl
         * script will tell you the maximum line length of files.
         */
-    KSFileReader( QFile& file, qint64 maxLen=1024 );
+    explicit KSFileReader( QFile& file, qint64 maxLen=1024 );
 
     /* @short opens the file fname from the "appdata" directory and uses that
      * file for the QTextStream.

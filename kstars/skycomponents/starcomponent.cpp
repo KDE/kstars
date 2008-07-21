@@ -26,7 +26,6 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksfilereader.h"
 #include "ksutils.h"
 #include "skymap.h"
 #include "starobject.h"

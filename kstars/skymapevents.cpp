@@ -41,7 +41,6 @@
 #include "ksutils.h"
 #include "simclock.h"
 #include "infoboxes.h"
-#include "ksfilereader.h"
 #include "kspopupmenu.h"
 #include "ksmoon.h"
 
