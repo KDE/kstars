@@ -188,7 +188,7 @@ void AddCatDialog::slotShowDataFile() {
     if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
         acd->DataFileBox->clear();
         QTextStream dataStream( &dataFile );
-        acd->DataFileBox->addItems( dataStream.readAll().split( "\n" ) );
+        acd->DataFileBox->addItems( dataStream.readAll().split( '\n' ) );
         dataFile.close();
     }
 }
@@ -196,7 +196,7 @@ void AddCatDialog::slotShowDataFile() {
 void AddCatDialog::slotPreviewCatalog() {
     if ( validateDataFile() ) {
         KMessageBox::informationList( 0, i18n( "Preview of %1", acd->CatalogName->text() ),
-                                      CatalogContents.split( "\n" ), i18n( "Catalog Preview" ) );
+                                      CatalogContents.split( '\n' ), i18n( "Catalog Preview" ) );
     }
 }
 

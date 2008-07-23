@@ -526,7 +526,7 @@ void KStars::initFOV() {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
             QString line = stream.readLine();
-            fields = line.split( ":" );
+            fields = line.split( ':' );
 
             if ( fields.count() == 4 ) {
                 nm = fields[0].trimmed();

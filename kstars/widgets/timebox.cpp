@@ -96,7 +96,7 @@ QTime timeBox::createTime ( bool *ok )
         //check for colon-delimiters or space-delimiters
         if ( entry.contains(':') )
             fields = entry.split( ':', QString::SkipEmptyParts );
-        else fields = entry.split( " ", QString::SkipEmptyParts );
+        else fields = entry.split( ' ', QString::SkipEmptyParts );
 
         // If two fields we will add a third one, and then parse with
         // the 3-field code block. If field[1] is a double, convert

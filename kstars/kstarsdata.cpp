@@ -584,7 +584,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
         while ( !stream.atEnd() ) {
             QString line = stream.readLine().trimmed();
             if ( line.length() && !line.startsWith('#') ) { //ignore commented and blank lines
-                QStringList fields = line.split( " ", QString::SkipEmptyParts );
+                QStringList fields = line.split( ' ', QString::SkipEmptyParts );
                 id = fields[0];
                 QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
                                      fields[3].mid( fields[3].indexOf(':')+1, fields[3].length()).toInt() );

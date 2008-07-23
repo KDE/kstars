@@ -275,7 +275,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
         //Go through the line, looking for parameters
 
-        QStringList fields = line.split( " " );
+        QStringList fields = line.split( ' ' );
 
         i = 0;
 

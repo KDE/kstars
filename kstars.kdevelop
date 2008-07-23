@@ -1,22 +1,25 @@
 <!DOCTYPE kdevelop>
 <kdevelop>
   <general>
+  <projectmanagement>KDevCustomProject</projectmanagement>
+  <projectdirectory>/Users/jharris/kde/src/kdeedu_trunk</projectdirectory>
+  <absoluteprojectpath>true</absoluteprojectpath>
     <author>Jason Harris</author>
     <email>kstars@30doradus.org</email>
-    <projectmanagement>KDevKDEAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>
       <keyword>KDE</keyword>
       <keyword>Qt</keyword>
     </keywords>
-    <projectdirectory>.</projectdirectory>
-    <absoluteprojectpath>false</absoluteprojectpath>
     <version/>
     <description/>
     <ignoreparts/>
   </general>
   <kdevautoproject>
     <general>
+  <projectmanagement>KDevCustomProject</projectmanagement>
+  <projectdirectory>/Users/jharris/kde/src/kdeedu_trunk</projectdirectory>
+  <absoluteprojectpath>true</absoluteprojectpath>
       <mainprogram>kstars</mainprogram>
     </general>
     <configure>
@@ -72,6 +75,9 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
+  <projectmanagement>KDevCustomProject</projectmanagement>
+  <projectdirectory>/Users/jharris/kde/src/kdeedu_trunk</projectdirectory>
+  <absoluteprojectpath>true</absoluteprojectpath>
       <dbgshell>/home/jharris/kde4svn/kdeedu/libtool --mode=execute /home/jharris/kde4/bin/kstars</dbgshell>
       <programargs/>
       <gdbpath/>

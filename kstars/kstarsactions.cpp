@@ -972,7 +972,7 @@ void KStars::slotFOVEdit() {
             QTextStream stream( &f );
             while ( !stream.atEnd() ) {
                 QString line = stream.readLine();
-                QStringList fields = line.split( ":" );
+                QStringList fields = line.split( ':' );
 
                 if ( fields.count() == 4 ) {
                     QString nm = fields[0].trimmed();

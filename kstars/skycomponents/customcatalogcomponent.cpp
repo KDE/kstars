@@ -32,7 +32,7 @@
 #include "starobject.h"
 #include "deepskyobject.h"
 
-QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( " ", QString::SkipEmptyParts );
+QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
 CustomCatalogComponent::CustomCatalogComponent(SkyComponent *parent, const QString &fname, bool showerrs, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod), m_Filename( fname ), m_Showerrs( showerrs )
 {
@@ -59,12 +59,12 @@ void CustomCatalogComponent::init( KStarsData * ) {
         QStringList Columns; //list of data column descriptors in the header
 
         QTextStream stream( &ccFile );
-        QStringList lines = stream.readAll().split( "\n", QString::SkipEmptyParts );
+        QStringList lines = stream.readAll().split( '\n', QString::SkipEmptyParts );
 
         if ( parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) ) {
 
             for ( int i=iStart; i < lines.size(); ++i ) {
-                QStringList d = lines.at(i).split( " ", QString::SkipEmptyParts );
+                QStringList d = lines.at(i).split( ' ', QString::SkipEmptyParts );
 
                 //Now, if one of the columns is the "Name" field, the name may contain spaces.
                 //In this case, the name field will need to be surrounded by quotes.
@@ -242,7 +242,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QS
             //Chomp off leading "#" character
             d = d.replace( QRegExp( "#" ), QString() );
 
-            QStringList fields = d.split( " ", QString::SkipEmptyParts ); //split on whitespace
+            QStringList fields = d.split( ' ', QString::SkipEmptyParts ); //split on whitespace
 
             //we need a copy of the master list of data fields, so we can
             //remove fields from it as they are encountered in the "fields" list.

@@ -149,7 +149,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
     while ( ! istream.atEnd() ) {
         line = istream.readLine();
         line = line.trimmed();
-        QStringList data = line.split( " ", QString::SkipEmptyParts );
+        QStringList data = line.split( ' ', QString::SkipEmptyParts );
 
         if ( inputData == 0 ) { //Parse date & time
             //Is the first field parseable as a date or date&time?

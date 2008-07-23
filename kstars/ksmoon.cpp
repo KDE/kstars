@@ -62,7 +62,7 @@ bool KSMoon::loadData() {
     if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            fields = stream.readLine().split( " ", QString::SkipEmptyParts );
+            fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
 
             if ( fields.size() == 6 ) {
                 nd = fields[0].toInt();
@@ -82,7 +82,7 @@ bool KSMoon::loadData() {
     if ( KSUtils::openDataFile( f, "moonB.dat" ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            fields = stream.readLine().split( " ", QString::SkipEmptyParts );
+            fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
             
             if ( fields.size() == 5 ) {
                 nd = fields[0].toInt();

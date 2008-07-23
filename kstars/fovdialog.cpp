@@ -80,7 +80,7 @@ void FOVDialog::initList() {
     if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            fields = stream.readLine().split( ":" );
+            fields = stream.readLine().split( ':' );
             bool ok( false );
 
             if ( fields.count() == 4 ) {

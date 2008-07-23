@@ -41,7 +41,7 @@ FOV::FOV( const QString &sname ) {
     if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &f );
         while ( !stream.atEnd() ) {
-            QStringList fields = stream.readLine().split( ":" );
+            QStringList fields = stream.readLine().split( ':' );
             bool ok( false );
 
             if ( fields.count() == 4 ) {

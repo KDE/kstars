@@ -1240,7 +1240,7 @@ void ScriptBuilder::readScript( QTextStream &istream )
 
             // If the function lacks any arguments, do not attempt to split
             if (fn_name != line)
-                fn = line.split(" ");
+                fn = line.split(' ');
 
             if ( parseFunction( fn_name, fn ) )
             {
@@ -1303,7 +1303,7 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
     }
 
     if (quoteProcessed)
-        fn = arg.split( "'", QString::SkipEmptyParts );
+        fn = arg.split( '\'', QString::SkipEmptyParts );
 
     //loop over known functions to find a name match
     foreach ( ScriptFunction *sf, KStarsFunctionList )

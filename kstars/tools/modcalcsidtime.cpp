@@ -241,7 +241,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
         line = istream.readLine();
         line = line.trimmed();
 
-        QStringList fields = line.split( " ", QString::SkipEmptyParts );
+        QStringList fields = line.split( ' ', QString::SkipEmptyParts );
 
         //Find and parse the location string
         if (LocationCheckBatch->isChecked() ) {
