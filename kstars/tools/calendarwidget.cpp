@@ -25,6 +25,13 @@
 #include "kssun.h"
 #include "skycalendar.h"
 
+#define XPADDING 20
+#define YPADDING 20
+#define BIGTICKSIZE 10
+#define SMALLTICKSIZE 4
+#define TICKOFFSET 0
+
+
 CalendarWidget::CalendarWidget( QWidget *parent ) 
     : KPlotWidget( parent ) 
 {
@@ -90,6 +97,49 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     p->drawPolygon( polySunSet );
     
     delete sun;
+}
+
+void CalendarWidget::drawAxes( QPainter *p ) {
+    p->setPen( foregroundColor() );
+    p->setBrush( Qt::NoBrush );
+
+    //Draw bounding box for the plot
+    p->drawRect( pixRect() );
+
+    //set small font for axis labels
+    QFont f = p->font();
+    int s = f.pointSize();
+    f.setPointSize( s - 2 );
+    p->setFont( f );
+
+    //Top/Bottom axis tickmarks and time labels
+    for ( float xx=-8.0; xx<= 8.0; xx += 2.0 ) {
+				int h = int(xx);
+				if ( h < 0 ) h += 24;
+				QString sTime = KGlobal::locale()->formatTime( QTime( h, 0, 0 ) );
+
+        QPointF pTick = mapToWidget( QPointF( xx, dataRect().y() ) );
+        p->drawLine( pTick, QPointF( pTick.x(), pTick.y() - BIGTICKSIZE ) );
+				QRectF r( pTick.x() - BIGTICKSIZE, pTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+				p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+
+        pTick = QPointF( pTick.x(), 0.0 );
+        p->drawLine( pTick, QPointF( pTick.x(), pTick.y() + BIGTICKSIZE ) );
+				r.moveTop( -2.0*BIGTICKSIZE );
+				p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+    }
+
+		
+    //Month dividers
+    SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
+    int y = skycal->year();
+    for ( int imonth=2; imonth <= 12; ++imonth ) {
+        QDate dt( y, imonth, 1 );
+        float doy = float( dt.daysInYear() - dt.dayOfYear() );
+        QPointF pdoy = mapToWidget( QPointF( dataRect().x(), doy ) );
+        p->drawLine( pdoy, QPointF( pixRect().right(), pdoy.y() ) );
+    }
+  
 }
 
 #include "calendarwidget.moc"

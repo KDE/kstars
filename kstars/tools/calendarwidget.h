@@ -34,7 +34,7 @@ class CalendarWidget : public KPlotWidget
         
     private:
         void drawHorizon( QPainter *p );
-        
+				void drawAxes( QPainter *p );
 };
 
 #endif
