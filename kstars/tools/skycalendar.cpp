@@ -47,7 +47,7 @@ SkyCalendar::SkyCalendar( KStars *parent )
     setModal( false );
 
     scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
-    scUI->CalendarView->setShowGrid( true ); 
+    scUI->CalendarView->setShowGrid( false ); 
     scUI->Year->setValue( ks->data()->lt().date().year() );
 
     connect( scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()) );
@@ -72,15 +72,15 @@ void SkyCalendar::slotFillCalendar() {
 }
 
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
-    KSPlanet *ksp = (KSPlanet*)KSPlanetBase::createPlanet( nPlanet );
+    KSPlanetBase *ksp = ks->data()->skyComposite()->planet( nPlanet );
     int y = scUI->Year->value();
     KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
+    QColor pColor = KSPlanetBase::planetColor[nPlanet];
 
     QVector<QPointF> vRise, vSet, vTransit;
     int iweek = 0;
     while ( kdt.date().year() == y ) {
         float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-        ksp->recomputeCoords( kdt, geo );
 
         //Compute rise/set/transit times.  If they occur before noon, 
         //recompute for the following day
@@ -113,32 +113,25 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         kdt = kdt.addDays( 7 );
     }
 
-    //DEBUG
-    if ( nPlanet == KSPlanetBase::MERCURY ) {
-        for ( int i=0; i<vRise.size(); ++i ) {
-            kDebug() << vRise.at(i).x() << "," << vRise.at(i).y() << "  " << vSet.at(i).x() << "," << vSet.at(i).y() << endl;
-        }
-    }
-    
     //Now, find continuous segments in each QVector and add each segment 
     //as a separate KPlotObject
-    KPlotObject *oRise = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
-    KPlotObject *oSet = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
-    KPlotObject *oTransit = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+    KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+    KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+    KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     for ( int i=0; i<vRise.size(); ++i ) {
         if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
             scUI->CalendarView->addPlotObject( oRise );
-            oRise = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+            oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
             update();
         }
         if ( i > 0 && fabs(vSet.at(i).x() - vSet.at(i-1).x()) > 6.0 ) {
             scUI->CalendarView->addPlotObject( oSet );
-            oSet = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+            oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
             update();
         }
         if ( i > 0 && fabs(vTransit.at(i).x() - vTransit.at(i-1).x()) > 6.0 ) {
             scUI->CalendarView->addPlotObject( oTransit );
-            oTransit = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+            oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
             update();
         }
         

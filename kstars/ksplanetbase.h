@@ -103,6 +103,8 @@ public:
 
     static KSPlanetBase* createPlanet( int n );
 
+		static QVector<QColor> planetColor;
+
     virtual bool loadData() {
         kDebug() << "no loadData() implementation for " << name() << endl; 
         return false;

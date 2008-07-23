@@ -122,14 +122,11 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
         }
     }
 
-    if ( exact ) 
-        return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
-    else
-        return geo->UTtoLT( KStarsDateTime( dt2.date(), auxRiseSetTimeUT( dt2, geo, ra(), dec(), rst ) ) ).time();
+    return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst, exact ) ) ).time();
 
 }
 
-QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
+QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) {
     // First trial to calculate UT
     QTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
 
@@ -147,11 +144,14 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     SkyPoint sp = recomputeCoords( dt0, geo );
     UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
 
-    // We iterate a second time (For the Moon the second iteration changes
-    // aprox. 1.5 arcmin the coordinates).
-    dt0.setTime( UT );
-    sp = recomputeCoords( dt0, geo );
-    UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
+    if ( exact ) {
+        // We iterate a second time (For the Moon the second iteration changes
+        // aprox. 1.5 arcmin the coordinates).
+        dt0.setTime( UT );
+        sp = recomputeCoords( dt0, geo );
+        UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
+    }
+
     return UT;
 }
 

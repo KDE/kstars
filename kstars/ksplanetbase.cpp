@@ -34,6 +34,19 @@
 #include "kssun.h"
 #include "ksmoon.h"
 
+QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
+  QColor("slateblue") << //Mercury
+  QColor("lightgreen") << //Venus
+	QColor("red") << //Mars
+	QColor("goldenrod") << //Jupiter
+	QColor("khaki") << //Saturn
+	QColor("lightseagreen") << //Uranus
+	QColor("skyblue") << //Neptune
+	QColor("grey") << //Pluto
+	QColor("yellow") << //Sun
+  QColor("white"); //Moon
+
+
 KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &image_file, const QColor &c, double pSize )
     : TrailObject( 2, 0.0, 0.0, 0.0, s ), Rearth(0.0), Image(), data(kd) {
     init( s, image_file, c, pSize );

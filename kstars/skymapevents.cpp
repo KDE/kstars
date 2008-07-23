@@ -180,61 +180,61 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_0: //center on Sun
-        setClickedObject( data->skyComposite()->findByName("Sun") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::SUN ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_1: //center on Mercury
-        setClickedObject( data->skyComposite()->findByName("Mercury") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::MERCURY ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_2: //center on Venus
-        setClickedObject( data->skyComposite()->findByName("Venus") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::VENUS ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_3: //center on Moon
-        setClickedObject( data->skyComposite()->findByName("Moon") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::MOON ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_4: //center on Mars
-        setClickedObject( data->skyComposite()->findByName("Mars") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase:: MARS) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_5: //center on Jupiter
-        setClickedObject( data->skyComposite()->findByName("Jupiter") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::JUPITER ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_6: //center on Saturn
-        setClickedObject( data->skyComposite()->findByName("Saturn") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::SATURN ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_7: //center on Uranus
-        setClickedObject( data->skyComposite()->findByName("Uranus") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::URANUS ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_8: //center on Neptune
-        setClickedObject( data->skyComposite()->findByName("Neptune") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::NEPTUNE ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
 
     case Qt::Key_9: //center on Pluto
-        setClickedObject( data->skyComposite()->findByName("Pluto") );
+        setClickedObject( data->skyComposite()->planet( KSPlanetBase::PLUTO ) );
         setClickedPoint( clickedObject() );
         slotCenter();
         break;
@@ -508,7 +508,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
             setDestination( focus() );
 
         showFocusCoords( true );
-        forceUpdate();	// Need a full update to draw faint objects that are not drawn while slewing.
+        forceUpdate();  // Need a full update to draw faint objects that are not drawn while slewing.
         break;
     }
 }

@@ -416,6 +416,21 @@ SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
 }
 **/
 
+KSPlanetBase* SkyMapComposite::planet( int n ) {
+	if ( n == KSPlanetBase::SUN ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Sun" ) );
+	if ( n == KSPlanetBase::MERCURY ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Mercury" ) );
+	if ( n == KSPlanetBase::VENUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Venus" ) );
+	if ( n == KSPlanetBase::MOON ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Moon" ) );
+	if ( n == KSPlanetBase::MARS ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Mars" ) );
+	if ( n == KSPlanetBase::JUPITER ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Jupiter" ) );
+	if ( n == KSPlanetBase::SATURN ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Saturn" ) );
+	if ( n == KSPlanetBase::URANUS ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Uranus" ) );
+	if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Neptune" ) );
+	if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Pluto" ) );
+
+	return 0;
+}
+
 void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *data, bool (*visibleMethod)() ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, visibleMethod );
     cc->init( data );

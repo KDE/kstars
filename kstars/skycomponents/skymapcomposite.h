@@ -45,6 +45,7 @@ class SatelliteComposite;
 
 class KStarsData;
 class DeepSkyObject;
+class KSPlanetBase;
 class KSPlanet;
 
 /**@class SkyMapComposite
@@ -186,6 +187,7 @@ public:
     QList<SkyObject*>& asteroids();
     QList<SkyObject*>& comets();
     KSPlanet* earth();
+    KSPlanetBase* planet( int n );
 
     QList<SkyComponent*> customCatalogs();
 
