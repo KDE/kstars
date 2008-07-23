@@ -234,12 +234,13 @@ void ObservingList::slotRemoveSelectedObjects() {
         if ( ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
             QModelIndex mSortIndex = m_SortModel->index( irow, 0 );
             QModelIndex mIndex = m_SortModel->mapToSource( mSortIndex );
+            int irow = mIndex.row();
+            QString ra = m_Model->item(irow, 1)->text();
+            QString dc = m_Model->item(irow, 2)->text();
+
             foreach ( SkyObject *o, obsList() ) {
                 //Stars named "star" must be matched by coordinates
                 if ( o->name() == "star" ) {
-                    int irow = mIndex.row();
-                    QString ra = m_Model->item(irow, 1)->text();
-                    QString dc = m_Model->item(irow, 2)->text();
                     if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
                         slotRemoveObject( o );
                         break;
