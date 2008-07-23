@@ -43,6 +43,7 @@ class imagesequence;
 class AltVsTime;
 class LCGenerator;
 class WUTDialog;
+class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
@@ -531,6 +532,11 @@ private slots:
     void slotWUT();
 
     /**
+     * action slot: open Sky Calendar tool
+     */
+    void slotCalendar();
+
+    /**
      * action slot: open the glossary
      */
     void slotGlossary();
@@ -698,6 +704,7 @@ private:
     ObservingList *obsList;
     AltVsTime *avt;
     WUTDialog *wut;
+    SkyCalendar *skycal;
     ScriptBuilder *sb;
     PlanetViewer *pv;
     JMoonTool *jmt;

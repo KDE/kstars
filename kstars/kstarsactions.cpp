@@ -75,6 +75,7 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
+#include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
@@ -225,6 +226,11 @@ void KStars::slotAVT() {
 void KStars::slotWUT() {
     if ( ! wut ) wut = new WUTDialog(this);
     wut->show();
+}
+
+void KStars::slotCalendar() {
+    if ( ! skycal ) skycal = new SkyCalendar(this);
+    skycal->show();
 }
 
 void KStars::slotGlossary(){

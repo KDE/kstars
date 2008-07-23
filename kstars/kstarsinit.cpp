@@ -355,6 +355,11 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_U ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotWUT() ) );
 
+    ka = actionCollection()->addAction( "skycalendar");
+    ka->setText( i18n( "Sky Calendar...") );
+//    ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_H ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotCalendar() ) );
+
 //FIXME: implement glossary
 //     ka = actionCollection()->addAction( "glossary");
 //     ka->setText( i18n( "Glossary...") );

@@ -43,6 +43,7 @@ set(libkstarstools_SRCS
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
 	tools/avtplotwidget.cpp
+        tools/calendarwidget.cpp
 	tools/conjunctions.cpp
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
@@ -67,6 +68,7 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
+        tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	)
 
@@ -125,7 +127,8 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/optionstreeview.ui
 	tools/planetviewer.ui
 	tools/scriptbuilder.ui
-	tools/scriptnamedialog.ui
+        tools/scriptnamedialog.ui
+        tools/skycalendar.ui
 	tools/wutdialog.ui )
 
 

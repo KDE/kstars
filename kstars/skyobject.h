@@ -204,7 +204,7 @@ public:
      *@param geo current geographic location
      *@param rst If true, compute rise time. If false, compute set time.
      */
-    QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst );
+    QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true );
 
     /**
      *@return the UT time when the object will rise or set
@@ -212,6 +212,9 @@ public:
      *@param geo pointer to Geographic location
      *@param rst Boolean. If true will compute rise time. If false
      *       will compute set time.
+     *@param exact if true, compute the exact rise/set time; 
+     *       otherwise compute it approximately 
+     *       (which takes less CPU time)
      */
     QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
 

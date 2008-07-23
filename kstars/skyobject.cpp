@@ -103,7 +103,7 @@ void SkyObject::setLongName( const QString &longname ) {
     }
 }
 
-QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst ) {
+QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact ) {
     //this object does not rise or set; return an invalid time
     if ( checkCircumpolar(geo->lat()) )
         return QTime( 25, 0, 0 );
@@ -122,7 +122,11 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
         }
     }
 
-    return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
+    if ( exact ) 
+        return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
+    else
+        return geo->UTtoLT( KStarsDateTime( dt2.date(), auxRiseSetTimeUT( dt2, geo, ra(), dec(), rst ) ) ).time();
+
 }
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
