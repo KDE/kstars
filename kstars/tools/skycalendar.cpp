@@ -59,6 +59,9 @@ SkyCalendar::~SkyCalendar() {
 int SkyCalendar::year()  { return scUI->Year->value(); }
 
 void SkyCalendar::slotFillCalendar() {
+    scUI->CalendarView->resetPlot();
+    scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
+    
     addPlanetEvents( KSPlanetBase::MERCURY );
     addPlanetEvents( KSPlanetBase::VENUS );
     addPlanetEvents( KSPlanetBase::MARS );
@@ -122,17 +125,17 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
             scUI->CalendarView->addPlotObject( oRise );
             oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            update();
+            scUI->CalendarView->update();
         }
         if ( i > 0 && fabs(vSet.at(i).x() - vSet.at(i-1).x()) > 6.0 ) {
             scUI->CalendarView->addPlotObject( oSet );
             oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            update();
+            scUI->CalendarView->update();
         }
         if ( i > 0 && fabs(vTransit.at(i).x() - vTransit.at(i-1).x()) > 6.0 ) {
             scUI->CalendarView->addPlotObject( oTransit );
             oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            update();
+            scUI->CalendarView->update();
         }
         
         oRise->addPoint( vRise.at(i) );
@@ -143,7 +146,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     scUI->CalendarView->addPlotObject( oRise );
     scUI->CalendarView->addPlotObject( oSet );
     scUI->CalendarView->addPlotObject( oTransit );
-    update();
+    scUI->CalendarView->update();
 }
 
 void SkyCalendar::slotPrint() {
