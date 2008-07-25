@@ -47,8 +47,9 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
     setName(o.name());
     setName2(o.name2());
     setLongName(o.longname());
+    info = NULL;
     if( o.hasAuxInfo() ) {
-        getAuxInfo();
+        info = getAuxInfo();
         info->ImageList = o.ImageList();
         info->ImageTitle = o.ImageTitle();
         info->InfoList = o.InfoList();
