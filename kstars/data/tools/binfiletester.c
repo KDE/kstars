@@ -24,6 +24,9 @@
 #include "byteswap.h"
 
 #define HTM_LEVEL 3
+#define INDEX_ENTRY_SIZE 12
+
+#include "binfile.h"
 
 /*
  * struct to store star data, to be written in this format, into the binary file.
@@ -44,59 +47,11 @@ typedef struct starData {
 } starData;
 
 
-/*
- * enum listing out various possible data types
- */
-
-enum dataType {
-    DT_CHAR,              /* Character */
-    DT_INT8,              /* 8-bit Integer */
-    DT_UINT8,             /* 8-bit Unsigned Integer */
-    DT_INT16,             /* 16-bit Integer */
-    DT_UINT16,            /* 16-bit Unsigned Integer */
-    DT_INT32,             /* 32-bit Integer */
-    DT_UINT32,            /* 32-bit Unsigned Integer */
-    DT_CHARV,             /* Fixed-length array of characters */
-    DT_STR,               /* Variable length array of characters, either terminated by NULL or by the limit on field size */
-    DT_SPCL = 128         /* Flag indicating that the field requires special treatment (eg: Different bits may mean different things) */
-};
-
-/*
- * struct to store the description of a field / data element in the binary files
- */
-
-typedef struct dataElement {
-    char name[10];
-    int8_t size;
-    u_int8_t type;
-    int32_t scale;
-} dataElement;
-
 dataElement de[100];
 u_int16_t nfields;
 long index_offset, data_offset;
 char byteswap;
-u_int16_t ntrixels;
-
-void charv2str(char *str, char *charv, int n) {
-    int i;
-    for(i = 0; i < n; ++i) {
-        *str = *charv;
-        str++;
-        charv++;
-    }
-    *str = '\0';
-}
-
-int displayDataElementDescription(dataElement *e) {
-    char str[11];
-    charv2str(str, e -> name, 10);
-    printf("\nData Field:\n");
-    printf("  Name: %s\n", str);
-    printf("  Size: %d\n", e -> size);
-    printf("  Type: %d\n", e -> type);
-    printf("  Scale: %ld\n", e -> scale);
-}
+u_int32_t ntrixels;
 
 /*
  * Does byteswapping for starData structures
@@ -112,74 +67,14 @@ void bswap_stardata( starData *stardata ) {
     bswap_16( stardata->bv_index );
 }
 
-
-// NOTE: Ineffecient. Not to be used for high-productivity
-// applications
-void swapbytes(void *ptr, int nbytes) {
-
-    char *destptr;
-    char *i;
-
-    if(!byteswap)
-        return;
-
-    destptr = (char *)malloc(nbytes);
-    i = ((char *)ptr + (nbytes - 1));
-    while( i >= (char *)ptr ) {
-        *destptr = *i;
-        ++destptr;
-        --i;
-    }
-
-    destptr -= nbytes;
-
-    memcpy(ptr, (void *)destptr, nbytes);
-    free(destptr);
-
-}
-
-u_int16_t trixel2number(char *trixel) {
-    int index;
-    u_int16_t id = 0;
-    for( index = HTM_LEVEL + 1; index >= 1; --index ) {
-        id += (trixel[ index ] - '0') * (u_int16_t)round( pow(4, (HTM_LEVEL + 1 - index)) );
-    }
-    id += ( ( trixel[0] == 'S' ) ? round( pow(4, HTM_LEVEL + 1) ) + 1 : 0 );
-    return id;
-}
-
-char *number2trixel(char *trixel, u_int16_t number) {
-
-    int index;
-    u_int16_t hpv = (u_int16_t)round( pow(4, HTM_LEVEL) ) * 2;
-    if( number >= hpv ) {
-        trixel[ 0 ] = 'S';
-        number -= hpv;
-    }
-    else
-        trixel[ 0 ] = 'N';
-    hpv /= 2;
-
-    for( index = 1; index < HTM_LEVEL + 2; ++index ) {
-        trixel[ index ] = (number - (number % hpv)) / hpv + '0';
-        number = number % hpv;
-        hpv /= 4;
-    }
-
-    trixel[ HTM_LEVEL + 2 ] = '\0';
-
-    return trixel;
-}
-
 int verifyIndexValidity(FILE *f) {
 
     int i;
-    char str[ HTM_LEVEL + 3 ];
-    u_int16_t trixel;
+    u_int32_t trixel;
     u_int32_t offset;
     u_int32_t prev_offset;
-    u_int16_t nrecs;
-    u_int16_t prev_nrecs;
+    u_int32_t nrecs;
+    u_int32_t prev_nrecs;
     unsigned int nerr;
 
     fprintf(stdout, "Performing Index Table Validity Check...\n");
@@ -191,29 +86,29 @@ int verifyIndexValidity(FILE *f) {
     nerr = 0;
 
     for(i = 0; i < ntrixels; ++i) {
-        if(!fread(&trixel, 2, 1, f)) {
+        if(!fread(&trixel, 4, 1, f)) {
             fprintf(stderr, "Table truncated before expected! Read i = %d records so far\n", i);
             +nerr;
             break;
         }
-        if( byteswap ) bswap_16( trixel );
+        if( byteswap ) bswap_32( trixel );
         if(trixel >= ntrixels) {
             fprintf(stderr, "Trixel number %u is greater than the expected number of trixels %u\n", trixel, ntrixels);
             ++nerr;
         }
         if(trixel != i) {
 
-            fprintf(stderr, "Found trixel = %s with number = %d, while I expected number = %d\n", 
-                    number2trixel(str, trixel), trixel, i);
-            ++nerr;
+	  fprintf(stderr, "Found trixel = %d, while I expected number = %d\n", 
+		  trixel, i);
+	  ++nerr;
         }
         fread(&offset, 4, 1, f);
         if( byteswap ) bswap_32( offset );
-        fread(&nrecs, 2, 1, f);
-        if( byteswap ) bswap_16( nrecs );
+        fread(&nrecs, 4, 1, f);
+        if( byteswap ) bswap_32( nrecs );
         if( prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/sizeof(starData) ) { 
-            fprintf( stderr, "Expected %u  = (%X - %x) / 32 records, but found %u, in trixel %s\n", 
-                     (offset - prev_offset) / 32, offset, prev_offset, nrecs, str );
+            fprintf( stderr, "Expected %u  = (%X - %x) / %d records, but found %u, in trixel %d\n", 
+                     (offset - prev_offset) / sizeof( starData ), offset, prev_offset, sizeof( starData ), nrecs, trixel);
             ++nerr;
         }
         prev_offset = offset;
@@ -234,9 +129,9 @@ int verifyStarData( FILE *f ) {
     int16_t faintMag;
     int8_t HTM_Level;
     u_int16_t MSpT;
-    int16_t realFaintMag;
+    int16_t realFaintMag = -500;
     u_int16_t realMSpT;
-    u_int16_t nstars;
+    u_int32_t nstars;
     u_int32_t offset;
 
     int trixel, i;
@@ -266,14 +161,15 @@ int verifyStarData( FILE *f ) {
         mag = -500;
         nerr_trixel = 0;
         fprintf( stdout, "Checking trixel #%d: ", trixel );
-        fseek( f, index_offset + trixel * 8 + 2 , SEEK_SET );
+        fseek( f, index_offset + trixel * INDEX_ENTRY_SIZE + 4 , SEEK_SET );
         fread( &offset, 4, 1, f );
-        fread( &nstars, 2, 1, f );
+        fread( &nstars, 4, 1, f );
         if( nstars > realMSpT )
             realMSpT = nstars;
         fseek( f, offset, SEEK_SET );
         for( i = 0; i < nstars; ++i ) {
             fread( &data, sizeof( starData ), 1, f );
+	    if( byteswap ) bswap_stardata( &data );
             if( mag != -500 && ( ( data.mag - mag ) > 20 && mag < 1250 ) || data.mag < mag ) { // TODO: Make sensible magnitude limit (1250) user specifiable
                 // TODO: Enable byteswapping
                 fprintf( stderr, "\n\tEncountered jump of %f at star #%d in trixel %d from %f to %f.", ( data.mag - mag ) / 100.0, i, trixel, mag / 100.0, data.mag / 100.0 );
@@ -283,6 +179,8 @@ int verifyStarData( FILE *f ) {
             if( mag > realFaintMag ) {
                 realFaintMag = mag;
             }
+	    if( mag > 1500 )
+	      fprintf( stderr, "Magnitude > 15.00 ( = %f ) in trixel %d\n", mag / 100.0, trixel );
         }
         if( nerr_trixel > 0 )
             fprintf( stderr, "\n * Encountered %d magnitude jumps in trixel %d\n", nerr_trixel, trixel );
@@ -306,47 +204,43 @@ int verifyStarData( FILE *f ) {
     return 1;
 }
 
-void readStarList(FILE *f, char *trixel, FILE *names) {
-    int id;
+void readStarList(FILE *f, u_int32_t trixel, FILE *names) {
     long offset;
     long n;
-    u_int16_t nrecs;
-    u_int16_t trix;
+    int i;
+    u_int32_t nrecs;
+    u_int32_t trix;
     char bayerName[8];
     char longName[32];
-    char str[6];
     starData data;
 
-    str[5] = '\0';
-
-    id = trixel2number(trixel);
-    printf("Reading star list for trixel %s (%d)\n", trixel, id);
-    rewind(f);
-    offset = index_offset + id * 8; // CAUTION: Change if the size of each entry in the index table changes
+    printf("Reading star list for trixel %d\n", trixel);
+    rewind( f );
+    offset = index_offset + trixel * INDEX_ENTRY_SIZE; // CAUTION: Change if the size of each entry in the index table changes
     fseek(f, offset, SEEK_SET);
-    fread(&trix, 2, 1, f);
-    if( byteswap ) bswap_16( trix );
-    if(trix != id) {
-        fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %s would be here, but instead I find %s. Aborting.\n", trixel, number2trixel(str,trix));
+    fread(&trix, 4, 1, f);
+    if( byteswap ) bswap_32( trix );
+    if(trix != trixel) {
+        fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %d would be here, but instead I find %d. Aborting.\n", trixel, trix);
         return;
     }
     fread(&offset, 4, 1, f);
     if( byteswap ) bswap_32( offset );
-    fread(&nrecs, 2, 1, f);
-    if( byteswap ) bswap_16( nrecs );
+    fread(&nrecs, 4, 1, f);
+    if( byteswap ) bswap_32( nrecs );
 
     if(fseek(f, offset, SEEK_SET)) {
         fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
         return;
     }
-    printf("Data for trixel %s (%d) starts at offset 0x%X and has %d records\n", trixel, id, offset, nrecs);
+    printf("Data for trixel %d starts at offset 0x%X and has %d records\n", trixel, offset, nrecs);
 
-    for(id = 0; id < nrecs; ++id) {
+    for(i = 0; i < nrecs; ++i) {
         offset = ftell(f);
-        n = (offset - data_offset)/0x20;
+        n = (offset - data_offset)/sizeof( starData );
         fread(&data, sizeof(starData), 1, f);
         if( byteswap ) bswap_stardata( &data );
-        printf("Entry #%d\n", id);
+        printf("Entry #%d\n", i);
         printf("\tRA = %f\n", data.RA / 1000000.0);
         printf("\tDec = %f\n", data.Dec / 100000.0);
         printf("\tdRA/dt = %f\n", data.dRA / 10.0);
@@ -381,12 +275,13 @@ int readFileHeader(FILE *f) {
     int i;
     int16_t endian_id;
     char ASCII_text[125];
+    u_int8_t version_no;
 
     if(f == NULL)
         return 0;
 
     fread(ASCII_text, 124, 1, f);
-    ASCII_text[125] = '\0';
+    ASCII_text[124] = '\0';
     printf("%s", ASCII_text);
 
     fread(&endian_id, 2, 1, f);
@@ -399,6 +294,8 @@ int readFileHeader(FILE *f) {
         byteswap = 0;
     }
 
+    fread(&version_no, 1, 1, f);
+    fprintf( stdout, "File version number: %d\n", version_no );
     fread(&nfields, 2, 1, f);
     if( byteswap ) bswap_16( nfields );
     fprintf( stdout, "%d fields reported\n", nfields );
@@ -409,8 +306,8 @@ int readFileHeader(FILE *f) {
         displayDataElementDescription(&(de[i]));
     }
 
-    fread(&ntrixels, 2, 1, f);
-    if( byteswap ) bswap_16( ntrixels );
+    fread(&ntrixels, 4, 1, f);
+    if( byteswap ) bswap_32( ntrixels );
     fprintf( stdout, "Number of trixels reported = %d\n", ntrixels );
 
     return 1;
@@ -440,8 +337,8 @@ int main(int argc, char *argv[]) {
     verifyIndexValidity(f);
     verifyStarData(f);
 
-    fread(&maglim, 2, 1, f);
-    fprintf(stdout, "Limiting Magnitude of Catalog File: %f\n", maglim / 100.0);
+    //    fread(&maglim, 2, 1, f);
+    //    fprintf(stdout, "Limiting Magnitude of Catalog File: %f\n", maglim / 100.0);
 
     if(argc > 2) {
         /*
@@ -452,7 +349,8 @@ int main(int argc, char *argv[]) {
         
           fprintf(stderr, "Names = %s\n", ((names)?"Yes":"No"));
         */
-        readStarList(f, argv[2], names);
+      rewind( f );
+      readStarList(f, atoi( argv[2] ), names);
     }
 
     fclose(f);

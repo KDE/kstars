@@ -38,7 +38,7 @@ my $db_select_query = qq/USE `$db_db`/;
 
 my $tbl_query = qq/
 CREATE TABLE IF NOT EXISTS `$db_tbl` (
-  `Trixel` varchar(14) NOT NULL COMMENT 'Trixel Name',
+  `Trixel` int NOT NULL COMMENT 'Trixel Name',
   `HD` int NULL COMMENT 'HD Catalog Number',
   `RA` double NOT NULL COMMENT 'RA Hours',
   `Dec` double NOT NULL COMMENT 'Declination Degrees',
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `$db_tbl` (
 my $tbl_trunc_query = qq/TRUNCATE TABLE `$db_tbl`/;
 
 # For the HTMesh
-my $level = 3;
+my $level = 3;      # Note: If you change this, change at the TODO below as well.
 
 # Create a new HTMesh, of level $level
 my $mesh = new HTMesh($level);
@@ -180,7 +180,7 @@ while(<>) {
         
     for(@trixels) {
         my $tid = $_;
-        $star->{Trixel} = $mesh->id_to_name( $tid );
+        $star->{Trixel} = $tid - 512; # TODO : Change if you change HTMesh level.
         $star->{Copies} = 0;
         if( $star->{originalTrixelID} == $tid ) {
             $star->{Copies} = @trixels;
