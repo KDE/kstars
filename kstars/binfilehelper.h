@@ -261,6 +261,7 @@ class BinFileHelper {
     long dataOffset;                      // Stores the offset position of the start of data
     QString errorMessage;                 // Stores the most recent 'unread' error message
     unsigned long recordCount;            // Stores the total number of records in the file
+    quint8 versionNumber;                 // Stores the version number of the file
 };
 
 #endif

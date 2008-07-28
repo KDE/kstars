@@ -94,6 +94,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     else
 	byteswap = 0;
 
+    fread( &versionNumber, 1, 1, fileHandle );
+
     preambleUpdated = true;    
     // Read the field descriptor table
     fread(&nfields, 2, 1, fileHandle);
@@ -104,7 +106,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
 	    return ERR_FD_TRUNC;
 	}
-        bswap_32( de->scale );
+        if( byteswap ) bswap_32( de->scale );
 	fields.append( de );
     }
 
@@ -118,14 +120,14 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     FDUpdated = true;
 
     // Read the index table
-    fread(&indexSize, 2, 1, fileHandle);
-    bswap_16( indexSize );
+    fread(&indexSize, 4, 1, fileHandle);
+    if( byteswap ) bswap_32( indexSize );
 
-    quint16 ID;
+    quint32 ID;
     quint32 offset;
     quint32 prev_offset;
-    quint16 nrecs;
-    quint16 prev_nrecs;
+    quint32 nrecs;
+    quint32 prev_nrecs;
 
     itableOffset = KDE_ftell(fileHandle);
 
@@ -136,11 +138,11 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     indexCount.clear();
     indexOffset.clear();
     for(i = 0; i < indexSize; ++i) {
-	if(!fread(&ID, 2, 1, fileHandle)) {
+	if(!fread(&ID, 4, 1, fileHandle)) {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_INDEX_TRUNC;
 	}
-        bswap_16( ID );
+        if( byteswap ) bswap_32( ID );
 	if(ID >= indexSize) {
 	    errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
 	    return ERR_INDEX_BADID;
@@ -153,12 +155,12 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_BADSEEK;
 	}
-        bswap_32( offset );
-	if(!fread(&nrecs, 2, 1, fileHandle)) {
+        if( byteswap ) bswap_32( offset );
+	if(!fread(&nrecs, 4, 1, fileHandle)) {
 	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
 	    return ERR_BADSEEK;
 	}
-        bswap_16( nrecs );
+        if( byteswap ) bswap_32( nrecs );
 	if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
 	    errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
 				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);

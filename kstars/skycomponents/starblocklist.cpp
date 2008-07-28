@@ -94,7 +94,7 @@ bool StarBlockList::fillToMag( float maglim ) {
         return false;
     }
 
-    Trixel trixelId = ( ( trixel < 256 ) ? ( trixel + 256 ) : ( trixel - 256 ) ); // Trixel ID on datafile is assigned differently
+    Trixel trixelId = trixel; //( ( trixel < 256 ) ? ( trixel + 256 ) : ( trixel - 256 ) ); // Trixel ID on datafile is assigned differently
 
     if( readOffset <= 0 )
         readOffset = dSReader->getOffset( trixelId );
