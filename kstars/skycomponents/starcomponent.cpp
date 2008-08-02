@@ -512,7 +512,7 @@ void StarComponent::loadShallowStarData()
 
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
-        Trixel trixel = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
+        Trixel trixel = i;// = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         StarBlock *SB = new StarBlock( dataReader.getRecordCount( i ) );
         if( !SB )
             kDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
