@@ -38,21 +38,15 @@ my $db_select_query = qq/USE `$db_db`/;
 
 my $tbl_query = qq/
 CREATE TABLE IF NOT EXISTS `$db_tbl` (
-  `Trixel` varchar(14) NOT NULL COMMENT 'Trixel Name',
-  `HD` int NULL COMMENT 'HD Catalog Number',
+  `Trixel` int(11) NOT NULL COMMENT 'Trixel Number',
   `RA` double NOT NULL COMMENT 'RA Hours',
   `Dec` double NOT NULL COMMENT 'Declination Degrees',
   `dRA` double NOT NULL COMMENT 'Proper Motion along RA',
   `dDec` double NOT NULL COMMENT 'Proper Motion along Dec',
   `PM` double NOT NULL COMMENT 'Proper Motion (magnitude)',
-  `Parallax` double NOT NULL COMMENT 'Parallax',
-  `Mag` float NOT NULL COMMENT 'Visual Magnitude',
-  `BV_Index` float NOT NULL COMMENT 'B-V Color Index',
-  `Spec_Type` char(2) NOT NULL COMMENT 'Spectral Class',
-  `Mult` tinyint(1) NOT NULL COMMENT 'Multiple?',
-  `Var` tinyint(1) NOT NULL COMMENT 'Variable?',
-  `Name` varchar(70) default NULL COMMENT 'Long Name',
-  `GName` varchar(15) default NULL COMMENT 'Genetive Name',
+  `V` float NOT NULL COMMENT 'Visual Magnitude',
+  `B` float NOT NULL COMMENT 'Blue Magnitude',
+  `Mag` float NOT NULL COMMENT 'Magnitude for sorting',
   `UID` int(11) NOT NULL auto_increment COMMENT 'Unique ID',
   `Copies` tinyint(8) NOT NULL COMMENT 'Number of Copies of the star',
   PRIMARY KEY  (`UID`),
@@ -63,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `$db_tbl` (
 my $tbl_trunc_query = qq/TRUNCATE TABLE `$db_tbl`/;
 
 # For the HTMesh
-my $level = 3;
+my $level = 6;
 
 # Create a new HTMesh, of level $level
 my $mesh = new HTMesh($level);
@@ -71,13 +65,12 @@ my $mesh = new HTMesh($level);
 # Get the database handle
 my $dbh = DBI->connect("DBI:mysql:", $db_user, $db_pass, { RaiseError => 1, AutoCommit => 0 });
 
-my @fields = qw/Trixel HD RA Dec dRA dDec PM Parallax Mag BV_Index
-	Spec_Type Mult Var GName Name Copies/;
+my @fields = qw/Trixel RA Dec dRA dDec PM V B Mag Copies/;
 
 $dbh->do($db_query);
 $dbh->do($db_select_query);
 $dbh->do($tbl_query);
-$dbh->do($tbl_trunc_query);
+#$dbh->do($tbl_trunc_query);                 # Avoid truncating the table, because we might want to process split files
 $dbh->commit();
 
 if( $VERBOSE ) {
@@ -180,7 +173,7 @@ while(<>) {
         
     for(@trixels) {
         my $tid = $_;
-        $star->{Trixel} = $mesh->id_to_name( $tid );
+        $star->{Trixel} = $tid - 32768; # TODO: Change magic number if HTM level changes
         $star->{Copies} = 0;
         if( $star->{originalTrixelID} == $tid ) {
             $star->{Copies} = @trixels;
@@ -239,36 +232,22 @@ sub kstars_unpack {
         };
     
     my $star = {
-        HD        => 0,
-        RA        => $1 / 24.0,
+        RA        => $1 * 24.0 / 360.0,
         Dec       => $2,
 	dRA       => $3,
 	dDec      => $4,
-	Parallax  => 0,
-        Mag       => $6,
         B         => $5,
         V         => $6,
-	BV_Index  => $5 - $6,
-        Mult      => 0,
-	Var       => 0,
-        PM        => sqrt($4 * $4 + $5 * $5)
+        PM        => sqrt($3 * $3 + $4 * $4)
     };
+
+    if( $star->{V} == 30.0 && $star->{B} != 30.0 ) {
+	$star->{Mag} = $star->{B} - 1.6;
+    }
+    else {
+	$star->{Mag} = $star->{V};
+    }
     
-    ($star->{B} == 30 or $star->{V} == 30) and do {
-        $star->{BV_Index} = -100.0; # X-Ray Supergiant
-        $star->{Spec_Type} = "??";
-        return $star;
-    };
-
-    my $spt = "B?";
-    my $bv = $star->{BV_Index};
-    $bv > 0.0 and $spt = "A?";
-    $bv > 0.325 and $spt = "F?";
-    $bv > 0.575 and $spt = "G?";
-    $bv > 0.975 and $spt = "K?";
-    $bv > 1.6 and $spt = "M?";
-    $star->{Spec_Type} = $spt;
-
     return $star;
 }
 
