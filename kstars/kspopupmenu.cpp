@@ -76,7 +76,7 @@ void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
 void KSPopupMenu::createStarMenu( StarObject *star ) {
     //Add name, rise/set time, center/track, and detail-window items
     initPopupMenu( star, star->translatedLongName(), i18n( "Spectral type: %1" , star->sptype()),
-                   i18n( "star" ) );
+                   ( (!star->getHDIndex()) ? "" : QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) ) ) );
 
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {

@@ -474,9 +474,9 @@ void KStars::slotFind() {
     }
 
     if ( !findDialog ) kWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
-
-    if ( findDialog->exec() == QDialog::Accepted && findDialog->selectedObject() ) {
-        map()->setClickedObject( findDialog->selectedObject() );
+    SkyObject *targetObject;
+    if ( findDialog->exec() == QDialog::Accepted && ( targetObject = findDialog->selectedObject() ) ) {
+        map()->setClickedObject( targetObject );
         map()->setClickedPoint( map()->clickedObject() );
         map()->slotCenter();
     }

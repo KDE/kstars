@@ -231,7 +231,19 @@ SkyObject* FindDialog::selectedObject() const {
         QString ObjName = i.data().toString();
         obj = p->data()->skyComposite()->findByName( ObjName );
     }
-
+    if( !obj ) {
+        QString stext = ui->SearchBox->text();
+        if( stext.startsWith( "HD" ) ) {
+            stext.remove( "HD" );
+            bool ok;
+            int HD = stext.toInt( &ok );
+            // Looks like the user is looking for a HD star
+            if( ok ) {
+                KStars *p = (KStars*)parent();
+                obj = p->data()->skyComposite()->getStarComponent()->findByHDIndex( HD );
+            }
+        }
+    }
     return obj;
 }
 
@@ -274,13 +286,12 @@ QString FindDialog::processSearchText() {
 
 void FindDialog::slotOk() {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
+    SkyObject *selObj;
     if(!listFiltered) {
         filterList();
     }
-    if(!selectedObject()) {
-        filterList();
-    }
-    if ( selectedObject() == 0 ) {
+    selObj = selectedObject();
+    if ( selObj == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
     } else {

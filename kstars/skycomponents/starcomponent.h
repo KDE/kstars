@@ -126,6 +126,16 @@ public:
     SkyObject* findByName( const QString &name );
 
     /**
+     *@short Find stars by HD catalog index
+     *@param HDnum HD Catalog Number of the star to find
+     *@return If the star is a static star, a pointer to the star will be returned
+     *        If it is a dynamic star, a fake copy will be created that survives till
+     *        the next findByHDIndex() call. If no match was found, returns NULL.
+     */
+
+    SkyObject* findByHDIndex( int HDnum );
+
+    /**
      *@short Prints some useful debug info about memory allocation for stars
      */
     void printDebugInfo();
@@ -174,6 +184,9 @@ private:
     quint16        MSpT;             // Maximum number of stars in any given trixel
     bool           deepStars;        // Indicates whether deepstars are loaded
 
+    BinFileHelper  hdidxReader;
+    StarObject     m_starObject;
+
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
 
@@ -186,6 +199,7 @@ private:
 
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
+    QHash<int, StarObject*> m_HDHash;
 
 
     /**

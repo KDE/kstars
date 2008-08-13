@@ -22,6 +22,7 @@
 
 #include "skycomposite.h"
 #include "ksnumbers.h"
+#include "starcomponent.h"
 
 class SkyMesh;
 class SkyLabeler;

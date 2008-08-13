@@ -67,10 +67,11 @@ public:
         *@param par Parallax angle [mas]
         *@param mult Multiplicity flag (false=dingle star; true=multiple star)
         *@param var Variability flag (true if star is a known periodic variable)
+        *@param hd Henry Draper Number
         */
     explicit StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, const QString &n=QString(),
                          const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
-                         double par=0.0, bool mult=false, bool var=false );
+                         double par=0.0, bool mult=false, bool var=false, int hd=0 );
     /**
         *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
         *spectral type.  Differs from above function only in data type of RA and Dec.
@@ -85,10 +86,11 @@ public:
         *@param par Parallax angle [mas]
         *@param mult Multiplicity flag (false=dingle star; true=multiple star)
         *@param var Variability flag (true if star is a known periodic variable)
+        *@param hd Henry Draper Number
         */
     StarObject( double r, double d, float m=0.0, const QString &n=QString(),
                 const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
-                double par=0.0, bool mult=false, bool var=false );
+                double par=0.0, bool mult=false, bool var=false, int hd=0 );
 
     /**
      * Destructor. (Empty)
@@ -221,6 +223,10 @@ public:
         */
     inline bool isMultiple() const { return Multiplicity; }
 
+    /**@return the star's HD index
+        */
+    inline int getHDIndex() { return HD; }
+
     /**@short set the star's variability flag
         *@param v true if star is variable
         */
@@ -326,6 +332,7 @@ private:
 
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
     bool Multiplicity, Variability;
+    int HD;
 };
 
 #endif

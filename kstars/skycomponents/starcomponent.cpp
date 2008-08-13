@@ -90,8 +90,11 @@ StarComponent::StarComponent(SkyComponent *parent )
         }
     }
 
+    if( deepStars ) {
+        if( hdidxReader.openFile( "Henry-Draper.idx" ) )
+            kDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work." << endl;
+    }
 }
-
 StarComponent::~StarComponent() {
     deepStarReader.closeFile();
 }
@@ -571,6 +574,7 @@ void StarComponent::loadShallowStarData()
                 plainStarTemplate.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
                 if( !SB->addStar( &plainStarTemplate ) )
                     kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+                star = SB->star( SB->getStarCount() - 1 );
             }
             ++nstars;
             
@@ -593,9 +597,13 @@ void StarComponent::loadShallowStarData()
                     if ( list->append( trixel, star, pm ) ) break;
                 }
             }
+
+            if( star->getHDIndex() != 0 )
+                m_HDHash.insert( star->getHDIndex(), star );
         }
 
     }
+
     dataReader.closeFile();
     nameReader.closeFile();
     kDebug() << "Loaded " << nstars << " stars in " << t.elapsed() << " ms" << endl;
@@ -608,18 +616,50 @@ SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
     return m_genName.value( name );
 }
 
-// Overrides ListComponent::findByName() to include genetive name also in the search
+// Overrides ListComponent::findByName() to include genetive name and HD index also in the search
 SkyObject* StarComponent::findByName( const QString &name ) {
-    foreach ( SkyObject *o, objectList() )
-    if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
-        QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
-         QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
-         QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
-        return o;
+    SkyObject *o;
+    foreach ( o, objectList() )
+        if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
+             QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
+             QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
+             QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
+            return o;
 
-    //No object found
     return 0;
 }
+
+SkyObject *StarComponent::findByHDIndex( int HDnum ) {
+    FILE *hdidxFile;
+    SkyObject *o;
+    // First check the hash to see if we have a corresponding StarObject already
+    if( o = m_HDHash.value( HDnum, NULL ) )
+        return o;
+
+    if( !deepStars )
+        return 0;
+
+    hdidxFile = hdidxReader.getFileHandle();
+    if( hdidxFile ) {
+        qint32 offset;
+        fseek( hdidxFile, 4 * (HDnum - 1), SEEK_SET );
+        fread( &offset, 4, 1, hdidxFile );
+        if( offset > 0 ) {
+            FILE *deepStarFile;
+            starData stardata;
+            deepStarFile = deepStarReader.getFileHandle();
+            if( !fseek( deepStarFile, offset, SEEK_SET ) && fread( &stardata, sizeof( starData ), 1, deepStarFile ) ) {
+                m_starObject.init( &stardata );
+                m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                return &m_starObject;
+            }
+        }
+    }
+
+    return 0;
+
+}
+
 
 
 // This uses the main star index for looking up nearby stars but then

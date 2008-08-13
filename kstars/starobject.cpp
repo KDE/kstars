@@ -69,13 +69,14 @@ StarObject::StarObject( StarObject &o )
     Parallax = o.parallax();
     Multiplicity = o.isMultiple();
     Variability = o.isVariable();
+    HD = o.getHDIndex();
     updateID = updateNumID = 0;
 }
 
 StarObject::StarObject( dms r, dms d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
-                        double par, bool mult, bool var )
+                        double par, bool mult, bool var, int hd )
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
           PM_RA(pmra), PM_Dec(pmdec),
           Parallax(par), Multiplicity(mult), Variability(var)
@@ -95,6 +96,8 @@ StarObject::StarObject( dms r, dms d, float m,
         setName( gname() );
     }
 
+    HD = hd;
+
     setLongName(lname);
     updateID = updateNumID = 0;
 }
@@ -102,7 +105,7 @@ StarObject::StarObject( dms r, dms d, float m,
 StarObject::StarObject( double r, double d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
-                        double par, bool mult, bool var )
+                        double par, bool mult, bool var, int hd )
     : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
       PM_RA(pmra), PM_Dec(pmdec),
       Parallax(par), Multiplicity(mult), Variability(var)
@@ -121,7 +124,9 @@ StarObject::StarObject( double r, double d, float m,
         //If genetive name exists, but no primary name, set primary name = genetive name.
         setName( gname() );
     }
-    
+
+    HD = hd;    
+
     setLongName(lname);
     updateID = updateNumID = 0;
 }
@@ -146,7 +151,7 @@ void StarObject::init( const starData *stardata )
     Multiplicity = stardata->flags & 0x02;
     Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
-	
+    HD = stardata->HD;
 
     // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
     // WARNING: You can debug only ONE STAR AT A TIME, because
