@@ -426,7 +426,8 @@ int main(int argc, char *argv[]) {
 	if( fseek( hdindex, ( data.HD - 1 ) * sizeof( int32_t ), SEEK_SET ) ) {
 	  fprintf( stderr, "Invalid seek ( to %X ) on HD Index file. Index will be corrupt.\n", ( data.HD - 1 ) * sizeof( u_int32_t ) );
 	}
-	off = ftell( f );
+	off = ftell( f ) + ( shallow ? ns_header_offset : us_header_offset ) + NTRIXELS * INDEX_ENTRY_SIZE;
+        fprintf( stderr, "DEBUG: HD %d at %X. Writing at %X\n", data.HD, off, ftell( hdindex ) );
 	if( shallow )         // We indicate shallow star file offsets by negative sign. This will restrict the size of the datafiles to 2 GB, but they are just about 75 MB, so it's ok.
 	  off = -off;
 	if( !fwrite( &off, sizeof( int32_t ), 1, hdindex ) )
