@@ -22,7 +22,7 @@
 
 #define DB_TBL "tycho2"
 #define DB_DB "stardb"
-#define VERBOSE 1
+#define VERBOSE 0
 #define LONG_NAME_LIMIT 32
 #define BAYER_LIMIT 8
 #define HTM_LEVEL 3
@@ -155,7 +155,7 @@ int main(int argc, char *argv[]) {
 
   int ret, i, exitflag;
   long int lim;
-  char named;
+  char named, shallow;
 
   unsigned long ns_header_offset, us_header_offset;
   unsigned long nsf_trix_begin, usf_trix_begin;
@@ -175,6 +175,7 @@ int main(int argc, char *argv[]) {
   FILE *nsf, *usf;         /* Handles of named and unnamed star data files */
   FILE *nsfhead, *usfhead; /* Handles of named and unnamed star header files */
   FILE *namefile;          /* Pointer to the name file */
+  FILE *hdindex;           /* Pointer to the HD Index file */
 
   /* starData and starName structures */
   starData data;
@@ -186,12 +187,13 @@ int main(int argc, char *argv[]) {
   MYSQL_ROW row;
 
   /* Check the number of arguments */
-  if(argc <= 8) {
+  if(argc <= 9) {
     fprintf(stderr, 
-            "USAGE %s DBUserName DBPassword DeepStarDataFile DeepStarHeaderFile ShallowStarDataFile ShallowStarHeaderFile StarNameFile DBName [TableName]\n", 
+            "USAGE %s DBUserName DBPassword DeepStarDataFile DeepStarHeaderFile ShallowStarDataFile ShallowStarHeaderFile StarNameFile DBName HDIndex [TableName]\n", 
             argv[0]);
     fprintf(stderr, "The magnitude limit for a Shallow Star is set in the program source using GLOBAL_MAG_LIMIT\n");
     fprintf(stderr, "The database used is a MySQL DB on localhost. The default table name is `allstars`\n");
+    fprintf(stderr, "HDIndex must contain 360000 blank records of 32 bits each. You can use dd if=/dev/zero of=... ... to create it\n");
   }
 
   /* == Open all file streams required == */
@@ -231,6 +233,15 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  hdindex = fopen( argv[9], "wb" );
+  if( hdindex == NULL ) {
+    fprintf(stderr, "ERROR: Could not open %s [HD Index] for binary read/write.\n", argv[9] );
+    fcloseall();
+    return 1;
+  }
+  u_int32_t foo = 0;
+  for( i = 0; i < 360000; ++i )
+    fwrite( &foo, sizeof( u_int32_t ), 1, hdindex );
 
   /* MySQL connect */
   if(mysql_init(&link) == NULL) {
@@ -296,7 +307,7 @@ int main(int argc, char *argv[]) {
     /* Build MySQL query for next MYSQL_STARS_PER_QUERY stars */
       sprintf(query, 
               "SELECT `Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `Parallax`, `Mag`, `BV_Index`, `Spec_Type`, `Mult`, `Var`, `HD`, `UID`, `Name`, `GName` FROM `%s` ORDER BY `trixel`, `mag` ASC LIMIT %ld, %d", 
-              (argc >= 10) ? argv[9] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
+              (argc >= 11) ? argv[10] : DB_TBL, lim, MYSQL_STARS_PER_QUERY);
 
     if(VERBOSE) { fprintf(stderr, "SQL Query: %s\n", query); }
     
@@ -384,12 +395,14 @@ int main(int argc, char *argv[]) {
       if(named || (data.mag/100.0) <= GLOBAL_MAG_LIMIT) {
         f = nsf;
         nsf_trix_count++;
+	shallow = 1;
       }
       else {
         usf_trix_count++;
         f = usf;
         if( maglim < data.mag )
             maglim = data.mag;
+	shallow = 0;
       }
 
       /* Convert various fields and make entries into the starData structure */
@@ -406,6 +419,19 @@ int main(int argc, char *argv[]) {
         data.flags = data.flags | 0x02;
       if(row[10][0] != '0' && row[10][0] != '\0')
         data.flags = data.flags | 0x04;
+      
+      if( data.HD != 0 ) {
+	// Use this information to generate the HD index we want to have.
+	int32_t off;
+	if( fseek( hdindex, ( data.HD - 1 ) * sizeof( int32_t ), SEEK_SET ) ) {
+	  fprintf( stderr, "Invalid seek ( to %X ) on HD Index file. Index will be corrupt.\n", ( data.HD - 1 ) * sizeof( u_int32_t ) );
+	}
+	off = ftell( f );
+	if( shallow )         // We indicate shallow star file offsets by negative sign. This will restrict the size of the datafiles to 2 GB, but they are just about 75 MB, so it's ok.
+	  off = -off;
+	if( !fwrite( &off, sizeof( int32_t ), 1, hdindex ) )
+	  fprintf( stderr, "fwrite() on HD Index file failed. Index will be empty or incomplete.\n" );
+      }
 
       /* Write the data into the appropriate data file and any names into the name file */
       if(VERBOSE) 
