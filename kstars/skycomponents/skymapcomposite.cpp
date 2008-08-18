@@ -39,6 +39,7 @@
 #include "horizoncomponent.h"
 #include "jupitermoonscomponent.h"
 #include "milkyway.h"
+#include "magellanicclouds.h"
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
 #include "satellitecomposite.h"
@@ -62,6 +63,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     //Add all components
     m_MilkyWay = new MilkyWay( this );
     addComponent( m_MilkyWay );
+    m_MagellanicClouds = new MagellanicClouds( this );
+    addComponent( m_MagellanicClouds );
     //Stars must come before constellation lines
     m_Stars = new StarComponent( this );
     addComponent( m_Stars );
@@ -213,6 +216,8 @@ void SkyMapComposite::draw( QPainter& psky )
     map->infoBoxes()->reserveBoxes( psky );
 
     m_MilkyWay->draw( psky );
+
+    m_MagellanicClouds->draw( psky );
 
     m_CoordinateGrid->draw( psky );
 

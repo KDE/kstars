@@ -40,6 +40,7 @@ class Ecliptic;
 class Equator;
 class HorizonComponent;
 class MilkyWay;
+class MagellanicClouds;
 class SolarSystemComposite;
 class StarComponent;
 class SatelliteComposite;
@@ -205,6 +206,7 @@ private:
     Ecliptic                    *m_Ecliptic;
     HorizonComponent            *m_Horizon;
     MilkyWay                    *m_MilkyWay;
+    MagellanicClouds		*m_MagellanicClouds;
     SolarSystemComposite        *m_SolarSystem;
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;

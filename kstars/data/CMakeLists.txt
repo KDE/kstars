@@ -9,6 +9,8 @@ install( FILES kstars.png geomap.png
     clines.dat
     cnames.dat
     milkyway.dat
+    lmc.dat
+    smc.dat
     cbounds.dat
 	cbounds-3.idx  cbounds-4.idx  cbounds-5.idx  cbounds-6.idx
 	image_url.dat info_url.dat 
