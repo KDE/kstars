@@ -481,7 +481,8 @@ void SkyObject::drawRudeNameLabel( QPainter &psky, const QPointF &p ) {
 
     //FIXME: Implement label background options
     QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    psky.fillRect( rect2, QBrush( color, Qt::Dense4Pattern ) );
+    color.setAlpha( psky.pen().color().alpha() ); //same transparency for the text and the background
+    psky.fillRect( rect2, QBrush( color ) );
     psky.drawText( rect.topLeft(), sLabel );
 }
 

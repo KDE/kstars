@@ -107,7 +107,7 @@ SkyMap::SkyMap( KStarsData *_data, KStars *_ks )
     pmenu = new KSPopupMenu( ks );
 
     //Initialize Transient label stuff
-    TransientTimeout = 100; //fade label color every 0.2 sec
+    TransientTimeout = 100; //fade label color every 0.1 sec
     HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
 
     connect( &HoverTimer, SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
@@ -223,24 +223,17 @@ void SkyMap::slotTransientTimeout( void ) {
         return;
     }
 
-    //to fade the labels, we will need to smoothly transition from UserLabelColor to SkyColor.
-    QColor c1 = data->colorScheme()->colorNamed( "UserLabelColor" );
-    QColor c2 = data->colorScheme()->colorNamed( "SkyColor" );
+    //to fade the labels, we will need to smoothly transition the alpha
+    //channel from opaque (255) to transparent (0) by step of stepAlpha
+    static const int stepAlpha = 12;
 
-    int dRed =   ( c2.red()   - c1.red()   )/20;
-    int dGreen = ( c2.green() - c1.green() )/20;
-    int dBlue =  ( c2.blue()  - c1.blue()  )/20;
-    int newRed   = TransientColor.red()   + dRed;
-    int newGreen = TransientColor.green() + dGreen;
-    int newBlue  = TransientColor.blue()  + dBlue;
-
-    //Check to see if we have arrived at the target color (SkyColor).
+    //Check to see if next step produces a transparent label
     //If so, point TransientObject to NULL.
-    if ( abs(newRed-c2.red()) < abs(dRed) || abs(newGreen-c2.green()) < abs(dGreen) || abs(newBlue-c2.blue()) < abs(dBlue) ) {
+    if ( TransientColor.alpha() <= stepAlpha ) {
         setTransientObject( NULL );
         TransientTimer.stop();
     } else {
-        TransientColor.setRgb( newRed, newGreen, newBlue );
+        TransientColor.setAlpha(TransientColor.alpha()-stepAlpha);
     }
 
     update();

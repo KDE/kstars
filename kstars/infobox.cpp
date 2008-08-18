@@ -150,7 +150,11 @@ void InfoBox::draw( QPainter &p, const QColor &bgColor, unsigned int bgMode ) {
     constrain( QRect( 0, 0, p.window().width(), p.window().height() ) );
 
     //Draw the box boundary and the text
-    if ( bgMode==1 ) p.fillRect( x(), y(), width(), height(), QBrush( bgColor, Qt::Dense4Pattern ) );
+    if ( bgMode==1 ) {
+        QColor bgColorAlpha = bgColor;
+        bgColorAlpha.setAlpha(127);
+        p.fillRect( x(), y(), width(), height(), QBrush( bgColorAlpha ) );
+    }
     if ( bgMode==2 ) p.fillRect( x(), y(), width(), height(), QBrush( bgColor ) );
 
     p.drawText( x() + padx(), y() + ShadedTextHeight/2 + pady(), text1() );
