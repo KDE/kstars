@@ -513,7 +513,7 @@ void KStars::initFOV() {
             QTextStream ostream(&f);
             ostream << i18nc( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
             ostream << i18nc( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
-						ostream << i18nc( "use a Telrad field-of-view indicator", "Telrad" ) << ":30:3:#AA0000" << endl;
+            ostream << i18nc( "use a Telrad field-of-view indicator", "Telrad" ) << ":30:3:#AA0000" << endl;
             ostream << i18nc( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
             ostream << i18nc( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
             ostream << i18nc( "use Radiotelescope HPBW", "30m at 1.3cm" ) << ":1.79:1:#AAAAAA" << endl;

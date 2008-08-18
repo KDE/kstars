@@ -165,6 +165,10 @@ void FOVDialog::slotEditFOV() {
         //(see Qt4 porting guide at doc.trolltech.com)
         delete FOVList[ currentItem() ];
         FOVList[ currentItem() ] = newfov;
+
+        //paint dialog with edited FOV symbol
+        fov->ViewBox->setFOV( FOVList[ currentItem() ] );
+        fov->ViewBox->update();
     }
 }
 
