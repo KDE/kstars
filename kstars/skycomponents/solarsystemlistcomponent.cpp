@@ -138,6 +138,7 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
 
         bool firstPoint( true );
         QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+				psky.setPen( QPen( tcolor, 1 ) );
         foreach ( p, ksp->trail() ) {
             if ( firstPoint ) { firstPoint = false; continue; } //skip first point
 
