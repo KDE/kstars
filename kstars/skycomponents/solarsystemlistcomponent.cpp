@@ -117,9 +117,6 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
 
-    QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-    QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
-
     foreach ( SkyObject *obj, m_TrailList ) {
         //DEBUG
         kDebug() << obj->name() << endl;
@@ -139,17 +136,13 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
             doDrawLine = true;
         }
 
-        psky.setPen( QPen( tcolor1, 1 ) );
         bool firstPoint( true );
+        QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
         foreach ( p, ksp->trail() ) {
             if ( firstPoint ) { firstPoint = false; continue; } //skip first point
 
             if ( Options::fadePlanetTrails() ) {
-                //Define interpolated color
-                QColor tcolor = QColor(
-                                    (i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
-                                    (i*tcolor1.green() + (n-i)*tcolor2.green())/n,
-                                    (i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
+                tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
                 ++i;
                 psky.setPen( QPen( tcolor, 1 ) );
             }
