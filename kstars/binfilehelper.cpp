@@ -57,6 +57,19 @@ void BinFileHelper::clearFields() {
     fields.clear();
 }
 
+bool BinFileHelper::testFileExists( const QString &fileName ) {
+    QString FilePath = KStandardDirs::locate( "appdata", fileName );
+    QByteArray b = FilePath.toAscii();
+    const char *filepath = b.data();
+    FILE *f  = KDE_fopen(filepath, "rb");
+    if( f ) {
+        fclose( f );
+        return true;
+    }
+    else
+        return false;
+}
+
 FILE *BinFileHelper::openFile(const QString &fileName) {
     QString FilePath = KStandardDirs::locate( "appdata", fileName );
     init();

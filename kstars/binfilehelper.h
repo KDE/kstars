@@ -64,6 +64,11 @@ class BinFileHelper {
      */
     
     ~BinFileHelper();
+
+    /**
+     *@short Checks if a file exists. WARNING: Might be incompatible in other locales
+     */
+    static bool testFileExists( const QString &fileName );
     
     /**
      *WARNING: This function may not be compatible in other locales, because it calls QString::toAscii
