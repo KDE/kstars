@@ -36,11 +36,12 @@ clean:
 
 datafiles: mysql2bin
 	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
-	./mysql2bin $(KSTARS_MYSQL_DB_USER) $(KSTARS_MYSQL_DB_PASS) usdf ushf nsdf nshf nf $(KSTARS_MYSQL_DB_DB) Henry-Draper.idx $(KSTARS_MYSQL_DB_TBL)
-	cat ushf usdf > ../deepstars.dat
-	cat nshf nsdf > ../shallowstars.dat
+	./mysql2bin $(KSTARS_MYSQL_DB_USER) $(KSTARS_MYSQL_DB_PASS) $(KSTARS_MYSQL_DB_DB) usdf ushf dsdf dshf nsdf nshf nf Henry-Draper.idx $(KSTARS_MYSQL_DB_TBL)
+	cat ushf usdf > ../unnamedstars.dat
+	cat nshf nsdf > ../namedstars.dat
+	cat dshf dsdf > ../deepstars.dat
 	cat nf > ../starnames.dat
-	rm ushf usdf nshf nsdf nf
+	rm ushf usdf nshf nsdf nf dsdf dshf
 
 nomaddatafiles: nomadmysql2bin
 	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
