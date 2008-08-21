@@ -129,7 +129,9 @@ void FOV::draw( QPainter &p, float pixelsize ) {
         }
     case 4: { // Solid Circle
             int s = int( pixelsize );
-            p.setBrush( QBrush ( QColor( color() ), Qt::Dense4Pattern) );
+            QColor colorAlpha( color() );
+            colorAlpha.setAlpha(127);
+            p.setBrush( QBrush ( colorAlpha ) );
             p.drawEllipse( (w - s)/2, (h - s)/2, s, s );
             p.setBrush(Qt::NoBrush);
             break;
