@@ -82,6 +82,10 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     //Add custom catalogs, if necessary
     for ( int i = 0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
         CustomCatalogComponent *cc = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
+
+        //DEBUG
+        kDebug() << "Custom catalog: " << cc->name() << endl;
+        
         QListWidgetItem *newItem = new QListWidgetItem( cc->name(), CatalogList );
         newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
         newItem->setCheckState( Options::showCatalog()[i] ?  Qt::Checked : Qt::Unchecked );
@@ -130,6 +134,9 @@ void OpsCatalog::updateCustomCatalogs() {
 void OpsCatalog::selectCatalog() {
     //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
     RemoveCatalog->setEnabled( false );
+
+    if ( ! CatalogList->currentItem() ) return;
+    
     foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
         CustomCatalogComponent *cc = (CustomCatalogComponent*)sc;
         if ( CatalogList->currentItem()->text() == cc->name() ) {
@@ -150,7 +157,7 @@ void OpsCatalog::slotLoadCatalog() {
     QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
-      CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, Options::showOther );
+        CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
         newCat.init( ksw->data() );
         if ( newCat.objectList().size() )
             insertCatalog( filename );
@@ -178,8 +185,8 @@ void OpsCatalog::slotRemoveCatalog() {
         QString name = cc->name();
 
         if ( CatalogList->currentItem()->text() == name ) {
-            m_CustomCatalogFile.removeAll( m_CustomCatalogFile[i] );
-            m_ShowCustomCatalog.removeAll( m_ShowCustomCatalog[i] );
+            m_CustomCatalogFile.removeAt( i );
+            m_ShowCustomCatalog.removeAt( i );
             break;
         }
     }
@@ -232,17 +239,17 @@ void OpsCatalog::slotApply() {
     }
 
     //Add custom catalogs as needed
+    Options::setShowCatalog( m_ShowCustomCatalog );
     for ( int i=0; i < m_CustomCatalogFile.size(); ++i ) {
         QString filename = m_CustomCatalogFile[i];
 
         if ( ! Options::catalogFile().contains( filename ) ) {
             //Add this catalog
-            ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  Options::showOther );
+            ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  i );
         }
     }
 
     Options::setCatalogFile( m_CustomCatalogFile );
-    Options::setShowCatalog( m_ShowCustomCatalog );
 
     // update time for all objects because they might be not initialized
     // it's needed when using horizontal coordinates

@@ -20,6 +20,7 @@
 
 
 #include "listcomponent.h"
+#include "Options.h"
 
 class KStarsData;
 class CustomCatalog;
@@ -41,7 +42,7 @@ public:
     	*@short Constructor
     	*@p parent Pointer to the parent SkyComponent object
     	*/
-    CustomCatalogComponent( SkyComponent*, const QString &fname, bool showerrs, bool (*visibleMethod)() );
+    CustomCatalogComponent( SkyComponent*, const QString &fname, bool showerrs, int index );
     /**
     	*@short Destructor.  Delete list members
     	*/
@@ -66,6 +67,15 @@ public:
     	*/
     QString name() const { return m_catName; }
 
+    /**
+     *@return true if visibility Option is set for this catalog
+     *@note this is complicated for custom catalogs, because 
+     *Option::showCatalog() returns a QList<int>, not a bool.
+     *This function extracts the correct visibility value and 
+     *returns the appropriate bool value
+     */
+    inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
+    
 private:
 
     /**
@@ -120,6 +130,7 @@ private:
     QString m_catName, m_catPrefix, m_catColor;
     float m_catEpoch;
     bool m_Showerrs;
+    int m_ccIndex;
 
     static QStringList m_Columns;
 };
