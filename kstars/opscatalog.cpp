@@ -82,10 +82,6 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     //Add custom catalogs, if necessary
     for ( int i = 0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
         CustomCatalogComponent *cc = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
-
-        //DEBUG
-        kDebug() << "Custom catalog: " << cc->name() << endl;
-        
         QListWidgetItem *newItem = new QListWidgetItem( cc->name(), CatalogList );
         newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
         newItem->setCheckState( Options::showCatalog()[i] ?  Qt::Checked : Qt::Unchecked );

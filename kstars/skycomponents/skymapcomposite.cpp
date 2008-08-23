@@ -438,9 +438,6 @@ void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *dat
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
     cc->init( data );
     
-    //DEBUG
-    kDebug() << cc->objectList().size() << endl;
-    
     if ( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
     } else {

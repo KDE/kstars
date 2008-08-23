@@ -212,15 +212,9 @@ void KStars::slotDownload() {
     foreach ( KNS::Entry *e, entries ) {
         foreach ( QString fname, e->installedFiles() ) {
             if ( fname.endsWith( ".cat" ) ) {
-                //DEBUG
-                kDebug() << "Initializing catalog: " << fname << endl;
-
                 //To start displaying the custom catalog, add it to SkyMapComposite
                 Options::setCatalogFile( Options::catalogFile() << fname );
                 Options::setShowCatalog( Options::showCatalog() << 1 );
-                //DEBUG
-                kDebug() << Options::catalogFile() << endl;
-
                 data()->skyComposite()->addCustomCatalog( fname, data(),  Options::catalogFile().size()-1 );
             }
         }
@@ -1153,9 +1147,6 @@ void KStars::slotAboutToQuit()
     cg = KGlobal::config()->group( "ViewToolBar" );
     toolBar( "viewToolBar" )->saveSettings( cg );
 
-    //DEBUG
-    kDebug() << "Custom catalogs: " << Options::catalogFile() << endl;
-    
     //synch the config file with the Config object
     writeConfig();
 
