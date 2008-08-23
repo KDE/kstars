@@ -66,9 +66,6 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     //QString::toDouble() requires that the decimal symbol is "."
     entry.replace( KGlobal::locale()->decimalSymbol(), "." );
 
-    //DEBUG
-    kDebug() << entry << endl;
-
     //empty entry returns false
     if ( entry.isEmpty() ) {
         setD( 0.0 );
