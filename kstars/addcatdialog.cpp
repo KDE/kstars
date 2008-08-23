@@ -50,6 +50,9 @@ AddCatDialog::AddCatDialog( KStars *_ks )
              this, SLOT( slotShowDataFile() ) );
     connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
+//    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
+    connect(this,SIGNAL(helpClicked()),this,SLOT(slotHelp()));
 
     acd->FieldList->addItem( i18n( "ID Number" ) );
     acd->FieldList->addItem( i18n( "Right Ascension" ) );
@@ -62,9 +65,6 @@ AddCatDialog::AddCatDialog( KStars *_ks )
     acd->FieldPool->addItem( i18n( "Minor Axis" ) );
     acd->FieldPool->addItem( i18n( "Position Angle" ) );
     acd->FieldPool->addItem( i18n( "Ignore" ) );
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
-    connect(this,SIGNAL(helpClicked()),this,SLOT(slotHelp()));
 }
 
 AddCatDialog::~AddCatDialog(){
@@ -132,7 +132,7 @@ bool AddCatDialog::validateDataFile() {
         QTextStream ostream( &tmpFile );
         ostream << CatalogContents;
         ostream.flush();
-        CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, Options::showOther );
+        CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, 0 );
         newCat.init( ks->data() );
 
         int nObjects = newCat.objectList().size();

@@ -34,7 +34,7 @@
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( " ", QString::SkipEmptyParts );
 
-CustomCatalogComponent::CustomCatalogComponent(SkyComponent *parent, const QString &fname, bool showerrs, bool (*visibleMethod)()) : ListComponent(parent, visibleMethod), m_Filename( fname ), m_Showerrs( showerrs )
+CustomCatalogComponent::CustomCatalogComponent(SkyComponent *parent, const QString &fname, bool showerrs, int index) : ListComponent(parent), m_Filename( fname ), m_Showerrs( showerrs ), m_ccIndex(index)
 {
 }
 

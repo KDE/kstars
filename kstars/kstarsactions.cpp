@@ -85,6 +85,7 @@
 #include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
+#include "skycomponents/customcatalogcomponent.h"
 
 #include <config-kstars.h>
 
@@ -206,8 +207,20 @@ void KStars::slotWizard() {
 
 void KStars::slotDownload() {
     KNS::Entry::List entries = KNS::Engine::download();
+
+    foreach ( KNS::Entry *e, entries ) {
+        foreach ( QString fname, e->installedFiles() ) {
+            if ( fname.endsWith( ".cat" ) ) {
+                //To start displaying the custom catalog, add it to SkyMapComposite
+                Options::setCatalogFile( Options::catalogFile() << fname );
+                Options::setShowCatalog( Options::showCatalog() << 1 );
+                data()->skyComposite()->addCustomCatalog( fname, data(),  Options::catalogFile().size()-1 );
+            }
+        }
+    }
+
     // we need to delete the entry* items in the returned list
-	qDeleteAll(entries);
+    qDeleteAll(entries);
 }
 
 void KStars::slotLCGenerator() {
