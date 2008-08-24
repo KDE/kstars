@@ -48,6 +48,7 @@ public:
     bool contains( const QString &s ) const;
 
     void dragEnterEvent( QDragEnterEvent *evt );
+    void dragMoveEvent( QDragMoveEvent *evt );
     void dropEvent( QDropEvent *evt );
     void mousePressEvent( QMouseEvent *evt );
     void mouseMoveEvent( QMouseEvent * );

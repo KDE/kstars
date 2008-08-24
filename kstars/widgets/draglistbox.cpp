@@ -28,24 +28,37 @@
 DragListBox::DragListBox( QWidget *parent, const char *name )
         : KListWidget( parent ) {
 
-    if ( name )
+    if ( name ) {
         setObjectName( name );
+    }
     setAcceptDrops( true );
     leftButtonDown = false;
 }
 
 DragListBox::~DragListBox() {}
 
-void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
-{
-    if ( evt->mimeData()->hasText() )
-        evt->acceptProposedAction();
-}
-
 bool DragListBox::contains( const QString &s ) const {
     QList<QListWidgetItem*> foundList = findItems( s, Qt::MatchExactly );
     if ( foundList.isEmpty() ) return false;
     else return true;
+}
+
+void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
+{
+    if ( evt->mimeData()->hasText() ) {
+        evt->acceptProposedAction();
+    } else {
+        evt->ignore();
+    }
+}
+
+void DragListBox::dragMoveEvent( QDragMoveEvent *evt )
+{
+    if ( evt->mimeData()->hasText() ) {
+        evt->acceptProposedAction();
+    } else {
+        evt->ignore();
+    }
 }
 
 void DragListBox::dropEvent( QDropEvent *evt ) {
@@ -102,7 +115,7 @@ void DragListBox::mouseMoveEvent( QMouseEvent *evt ) {
         mimeData->setText( currentItem()->text() );
         drag->setMimeData( mimeData );
 
-        Qt::DropAction dropAction = drag->start();
+        Qt::DropAction dropAction = drag->exec();
         evt->accept();
     }
 }
