@@ -36,6 +36,7 @@ CalendarWidget::CalendarWidget( QWidget *parent )
     : KPlotWidget( parent ) 
 {
     setAntialiasing( true );
+    setTopPadding( 40 );
 }
     
 void CalendarWidget::paintEvent( QPaintEvent *e ) {
@@ -74,22 +75,38 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     QPolygonF polySunSet;
 
     //Add points along curved edge of horizon polygons
+    int imonth = -1;
+    float rTime, sTime;
     while ( y == kdt.date().year() ) {
         float t = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-        float rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
-        float sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
+        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
+        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
 
+        if ( kdt.date().month() != imonth ) {
+            riseTimeList.append( rTime );
+            setTimeList.append( sTime );
+            imonth = kdt.date().month();
+        }
+        
         polySunRise << mapToWidget( QPointF( rTime, t ) );
         polySunSet << mapToWidget( QPointF(  sTime, t ) );
         
         kdt = kdt.addDays( 7 );
     }
 
+    //Add last rise/set times to the list
+    riseTimeList.append( rTime );
+    setTimeList.append( sTime );
+    
     //Finish polygons by adding pixRect corners
-    polySunRise << QPointF( pixRect().right(), pixRect().bottom() );
-    polySunRise << QPointF( pixRect().right(), pixRect().top() );
-    polySunSet << QPointF( pixRect().left(), pixRect().bottom() );
-    polySunSet << QPointF( pixRect().left(), pixRect().top() );
+    polySunRise << mapToWidget( QPointF( rTime, dataRect().top() ) );
+    polySunRise << mapToWidget( QPointF( dataRect().right(), dataRect().top() ) );
+    polySunRise << mapToWidget( QPointF( dataRect().right(), dataRect().bottom() ) );
+    polySunRise << mapToWidget( QPointF( riseTimeList[0], dataRect().bottom() ) );
+    polySunSet << mapToWidget( QPointF( sTime, dataRect().top() ) );
+    polySunSet << mapToWidget( QPointF( dataRect().left(), pixRect().top() ) );
+    polySunSet << mapToWidget( QPointF( dataRect().left(), pixRect().bottom() ) );
+    polySunSet << mapToWidget( QPointF( setTimeList[0], dataRect().bottom() ) );
 
     p->setPen( Qt::darkGreen );
     p->setBrush( Qt::darkGreen );
@@ -114,23 +131,25 @@ void CalendarWidget::drawAxes( QPainter *p ) {
 
     //Top/Bottom axis tickmarks and time labels
     for ( float xx=-8.0; xx<= 8.0; xx += 2.0 ) {
-				int h = int(xx);
-				if ( h < 0 ) h += 24;
-				QString sTime = KGlobal::locale()->formatTime( QTime( h, 0, 0 ) );
+        int h = int(xx);
+        if ( h < 0 ) h += 24;
+        QString sTime = KGlobal::locale()->formatTime( QTime( h, 0, 0 ) );
 
         QPointF pTick = mapToWidget( QPointF( xx, dataRect().y() ) );
         p->drawLine( pTick, QPointF( pTick.x(), pTick.y() - BIGTICKSIZE ) );
-				QRectF r( pTick.x() - BIGTICKSIZE, pTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-				p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+        QRectF r( pTick.x() - BIGTICKSIZE, pTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+        p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
 
         pTick = QPointF( pTick.x(), 0.0 );
         p->drawLine( pTick, QPointF( pTick.x(), pTick.y() + BIGTICKSIZE ) );
-				r.moveTop( -2.0*BIGTICKSIZE );
-				p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+        r.moveTop( -2.0*BIGTICKSIZE );
+        p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
     }
 
-		
     //Month dividers
+    QColor c = p->pen().color();
+    c.setAlpha( 100 );
+    p->setPen( c );
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
     for ( int imonth=2; imonth <= 12; ++imonth ) {
@@ -139,7 +158,51 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         QPointF pdoy = mapToWidget( QPointF( dataRect().x(), doy ) );
         p->drawLine( pdoy, QPointF( pixRect().right(), pdoy.y() ) );
     }
-  
+    c.setAlpha( 255 );
+    p->setPen( c );
+    
+    //Draw month labels along each horizon curve
+    QFont origFont = p->font();
+    p->setFont( QFont( "Courier New", 16, QFont::Bold ) );
+    int textFlags = Qt::TextSingleLine | Qt::AlignCenter;
+    QFontMetricsF fm( p->font(), p->device() );
+    for ( int imonth=1; imonth <= 12; ++ imonth ) {
+        QRectF riseLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, QDate::shortMonthName( imonth ) );
+        QRectF setLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, QDate::shortMonthName( imonth ) );
+        
+        QDate dt( y, imonth, 15 );
+        float doy = float( dt.daysInYear() - dt.dayOfYear() );
+        float xRiseLabel = 0.5*( riseTimeList[imonth-1] + riseTimeList[imonth] ) + 0.6;
+        float xSetLabel = 0.5*( setTimeList[imonth-1] + setTimeList[imonth] ) - 0.6;
+        QPointF pRiseLabel = mapToWidget( QPointF( xRiseLabel, doy ) );
+        QPointF pSetLabel = mapToWidget( QPointF( xSetLabel, doy ) );
+        
+        //Determine rotation angle for month labels
+        QDate dt1( y, imonth, 1 );
+        float doy1 = float( dt1.daysInYear() - dt1.dayOfYear() );
+        QDate dt2( y, imonth, dt1.daysInMonth() );
+        float doy2 = float( dt2.daysInYear() - dt2.dayOfYear() );
+        QPointF p1 = mapToWidget( QPointF( riseTimeList[imonth-1], doy1 ) );
+        QPointF p2 = mapToWidget( QPointF( riseTimeList[imonth], doy2 ) );
+        float rAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
+        
+        p1 = mapToWidget( QPointF( setTimeList[imonth-1], doy1 ) );
+        p2 = mapToWidget( QPointF( setTimeList[imonth], doy2 ) );
+        float sAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
+                
+        p->save();
+        p->translate( pRiseLabel );
+        p->rotate( rAngle );
+        p->drawText( riseLabelRect, textFlags, QDate::shortMonthName( imonth ) );
+        p->restore();
+        
+        p->save();
+        p->translate( pSetLabel );
+        p->rotate( sAngle );
+        p->drawText( setLabelRect, textFlags, QDate::shortMonthName( imonth ) );
+        p->restore();
+    }        
+    p->setFont( origFont );
 }
 
 #include "calendarwidget.moc"

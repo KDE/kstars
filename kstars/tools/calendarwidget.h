@@ -34,7 +34,10 @@ class CalendarWidget : public KPlotWidget
         
     private:
         void drawHorizon( QPainter *p );
-				void drawAxes( QPainter *p );
+        void drawAxes( QPainter *p );
+        
+        QList<float> riseTimeList;
+        QList<float> setTimeList;
 };
 
 #endif
