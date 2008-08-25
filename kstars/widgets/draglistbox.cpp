@@ -72,8 +72,13 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
         //need to insert the item, because FieldPool already has a persistent Ignore item.
         if ( !( text == i18n("Ignore" ) && QString(evt->source()->objectName()) == "FieldList" &&
                 evt->source() != this )) {
-            int i = indexAt( evt->pos() ).row();
-            insertItem( i, text );
+	    QListWidgetItem *lwi = itemAt( evt->pos() );
+	    if ( lwi == 0 && evt->pos().y() > visualItemRect(item(count()-1)).bottom() ) {
+		addItem( text );
+	    } else {
+		int i = row( itemAt( evt->pos() ) );
+		insertItem( i, text );
+	    } 
         }
 
         //Remove an item dragged from FieldList to FieldPool.
