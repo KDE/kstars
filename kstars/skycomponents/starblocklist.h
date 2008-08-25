@@ -19,9 +19,11 @@
 #define STARBLOCKLIST_H
 
 #include "starblock.h"
+#include "deepstarcomponent.h"
 #include "typedef.h"
 
 class StarBlock;
+class DeepStarComponent;
 
 /**
  *@class StarBlockList
@@ -38,6 +40,13 @@ class StarBlockList {
      *Constructor.
      */
     StarBlockList( Trixel trixel );
+
+    /**
+     *Constructor for deep star catalogs.
+     *@param trixel The trixel ID
+     *@param parent Pointer to the parent DeepStarComponent
+     */
+    StarBlockList( Trixel trixel, DeepStarComponent *parent );
 
     /**
      *Destructor
@@ -94,7 +103,7 @@ class StarBlockList {
      *@short  Returns the magnitude of the faintest star currently stored
      *@return Magnitude of faintest star stored in this StarBlockList
      */
-    inline int getFaintMag() { return faintMag; }
+    inline float getFaintMag() { return faintMag; }
 
     /**
      *@short  Returns the trixel that this SBL is meant for
@@ -109,7 +118,8 @@ class StarBlockList {
     float faintMag;
     QList < StarBlock *> blocks;
     unsigned int nBlocks;
-
+    bool staticStars;
+    DeepStarComponent *parent;
 
 };
 

@@ -42,6 +42,7 @@
 #include "magellanicclouds.h"
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
+#include "deepstarcomponent.h"
 #include "satellitecomposite.h"
 
 #include "skymesh.h"
@@ -284,12 +285,23 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     //reduce rBest by 0.75 for stars brighter than 4th mag
     if ( oBest && oBest->mag() < 4.0 ) rBest *= 0.75;
 
+    // TODO: Add support for deep star catalogs
+
     //m_DeepSky internally discriminates among deepsky catalogs
     //and renormalizes rTry
     oTry = m_DeepSky->objectNearest( p, rTry );
     if ( rTry < rBest ) {
         rBest = rTry;
         oBest = oTry;
+    }
+
+    for( int i = 0; i < m_DeepStars.size(); ++i ) {
+      rTry = maxrad;
+      oTry = m_DeepStars.at( i )->objectNearest( p, rTry );
+      if( rTry < rBest ) {
+	rBest = rTry;
+	oBest = oTry;
+      }
     }
 
     rTry = maxrad;
@@ -322,6 +334,8 @@ SkyObject* SkyMapComposite::starNearest( SkyPoint *p, double &maxrad ) {
     star = m_Stars->objectNearest( p, rtry );
     //reduce rBest by 0.75 for stars brighter than 4th mag
     if ( star && star->mag() < 4.0 ) rtry *= 0.75;
+
+    // TODO: Add Deep Star Catalog support
 
     maxrad = rtry;
     return star;

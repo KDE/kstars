@@ -33,25 +33,14 @@ class StarBlockFactory {
 
  public:
 
-    /**
-     * Constructor
-     * Initializes first and last StarBlock pointers to NULL
-     */
-    StarBlockFactory();
-
-    /**
-     * Constructor
-     *@short Creates a cache containing N blocks
-     *@param nblocks  Number of blocks to allocate
-     */
-    StarBlockFactory( int nblocks );
-
+    static StarBlockFactory *Instance();
 
     /**
      * Destructor
-     * Deletes the linked list that maintains the Cache
+     * Deletes the linked list that maintains the Cache, sets the pointer to NULL
      */
     ~StarBlockFactory();
+
 
     /**
      *@short  Return a StarBlock available for use
@@ -112,6 +101,19 @@ class StarBlockFactory {
  private:
 
     /**
+     * Constructor
+     * Initializes first and last StarBlock pointers to NULL
+     */
+    StarBlockFactory();
+
+    /**
+     * Constructor
+     *@short Creates a cache containing N blocks
+     *@param nblocks  Number of blocks to allocate
+     */
+    StarBlockFactory( int nblocks );
+
+    /**
      *@short  Deletes the N least recently used blocks
      *
      *@param  nblocks  Number of blocks to delete
@@ -122,6 +124,8 @@ class StarBlockFactory {
     StarBlock *first, *last;   // Pointers to the beginning and end of the linked list
     int nBlocks;               // Number of blocks we currently have in the cache
     int nCache;                // Number of blocks to start recycling cached blocks at
+
+    static StarBlockFactory *pInstance;
 
 };
 

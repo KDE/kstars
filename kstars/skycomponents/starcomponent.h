@@ -24,7 +24,7 @@
  *not separate objects and are stored in a list.
  *
  *@author Thomas Kabelmann
- *@version 0.1
+ *@version 1.0
  */
 
 #include "listcomponent.h"
@@ -106,7 +106,7 @@ public:
      *starsLoaded flag to true
      */
 
-    void loadShallowStarData();
+    bool loadStaticData();
 
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
@@ -135,30 +135,8 @@ public:
 
     SkyObject* findByHDIndex( int HDnum );
 
-    /**
-     *@short Prints some useful debug info about memory allocation for stars
-     */
-    void printDebugInfo();
-
-    /**
-     *@short Verifies the integrity of the StarBlockLists
-     *
-     * This method, useful for debugging, verifies that all SBs in each SBL of
-     * the StarComponent are in order of magnitude. It prints out debug info
-     * regarding the same.
-     *
-     *@return true if no errors found, false if an error was found
-     */
-    bool verifySBLIntegrity();
-
     // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
-
-    static StarBlockFactory m_StarBlockFactory;
-    static BinFileHelper deepStarReader;
-
-    static bool    frugalMem;
-    static bool    veryFrugalMem;
 
 private:
     SkyMesh*       m_skyMesh;
@@ -169,7 +147,6 @@ private:
 
     int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
     LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
-    qint64         m_lastFilePos;
     int            m_lastLineNum;
     bool           m_validLineNums;
     bool           m_hideLabels;
@@ -182,25 +159,18 @@ private:
     float          magLim;           // Current limiting magnitude for visible stars
     unsigned long  visibleStarCount;
     quint16        MSpT;             // Maximum number of stars in any given trixel
-    bool           deepStars;        // Indicates whether deepstars are loaded
 
-    BinFileHelper  hdidxReader;
     StarObject     m_starObject;
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
 
-
-    // Time keeping variables
-    long unsigned  t_drawNamed;
-    long unsigned  t_dynamicLoad;
-    long unsigned  t_drawUnnamed;
-    long unsigned  t_updateCache;
+    StarBlockFactory *m_StarBlockFactory;
 
     QVector<HighPMStarList*> m_highPMStars;
     QHash<QString, SkyObject*> m_genName;
     QHash<int, StarObject*> m_HDHash;
-
+    QVector<DeepStarComponent*> m_DeepStarComponents;
 
     /**
      *@short adds a label to the lists of labels to be drawn prioritized
@@ -211,6 +181,13 @@ private:
     void reindexAll( KSNumbers *num );
 
     /**
+     *@short load available deep star catalogs
+     */
+    int loadDeepStarCatalogs();
+
+    bool addDeepStarCatalogIfExists( const QString &fileName, bool staticstars=false );
+
+    /**
      *@short Structure that holds star name information, to be read as-is from the corresponding binary data file
      */
     typedef struct starName {
@@ -218,66 +195,8 @@ private:
         char longName[32];
     } starName;
 
-    QVector< StarBlockList *> m_starBlockList;
     starData stardata;
     starName starname;
-
-    /**
-     *@class StarComponent::TrixelIterator
-     *@short An "iterator" that iterates over all visible stars in a given trixel
-     *
-     *This iterator goes through both the StarBlockList and the StarList
-     *@author Akarsh Simha
-     *@version 0.1
-     */
-    // DEPRECATED
-    class TrixelIterator {
-    public:
-        /**
-         *Constructor
-         *
-         *@param par    Pointer to the parent StarComponent class
-         *@param trixel Trixel for which this Iterator should work
-         */
-        TrixelIterator( StarComponent *par, Trixel trixel );
-
-        /**
-         *Destructor
-         */
-        ~TrixelIterator();
-
-        /**
-         *@short Tells whether a next StarObject is available
-         *@return true if a next StarObject is available
-         */
-        bool hasNext();
-
-        /**
-         *@short Returns the next StarObject
-         *@return Pointer to the next StarObject
-         */
-        StarObject *next();
-
-        /**
-         *@short Resets the iterator to its initial state
-         */
-        void reset();
-
-    private:
-
-        StarComponent *parent;
-
-        // TODO: Change the types to fixed-size types that are uniform
-        //       across all classes and uses of the variable
-        // Indexes used to identify the current "position" of the iterator
-        int blockIndex;                // Index of current block in SBL
-        int starIndex;                 // Index of current star in SB
-        long Index;                    // Overall index of current star
-        bool named;                    // Tells us whether a star is named
-        Trixel trixel;
-    };
-
-    //    friend class TrixelIterator;
 
 };
 

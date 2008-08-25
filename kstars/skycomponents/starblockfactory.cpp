@@ -24,6 +24,14 @@
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
 
+StarBlockFactory *StarBlockFactory::pInstance = 0;
+
+StarBlockFactory *StarBlockFactory::Instance() {
+    if( !pInstance )
+        pInstance = new StarBlockFactory();
+    return pInstance;
+}
+
 StarBlockFactory::StarBlockFactory() {
     first = NULL;
     last = NULL;
@@ -43,6 +51,8 @@ StarBlockFactory::StarBlockFactory( int nblocks ) {
 
 StarBlockFactory::~StarBlockFactory() {
     deleteBlocks( nBlocks );
+    if( pInstance )
+        pInstance = 0;
 }
 
 StarBlock *StarBlockFactory::getBlock() {

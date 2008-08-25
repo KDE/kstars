@@ -180,6 +180,47 @@ void StarObject::init( const starData *stardata )
 
 }
 
+void StarObject::init( const deepStarData *stardata ) 
+{
+    double ra, dec, BV_Index;
+  
+    ra = stardata->RA / 1000000.0;
+    dec = stardata->Dec / 100000.0;
+    setType( SkyObject::STAR );
+
+    if( stardata->V == 30000 && stardata->B != 30000 )
+      setMag( ( stardata->B - 1600 ) / 1000.0 );
+    else
+      setMag( stardata->V / 1000.0 );
+
+    setRA0( ra );
+    setDec0( dec );
+    setRA( ra );
+    setDec( dec );
+
+    SpType[1] = '?';
+    SpType[0] = 'B';
+    if( stardata->B == 30000 || stardata->V == 30000 ) {
+      BV_Index = -100;
+      SpType[0] = '?';
+    }
+    else {
+      BV_Index = ( stardata->B - stardata->V ) / 1000.0;
+      ( BV_Index > 0.0 ) && ( SpType[0] = 'A' );
+      ( BV_Index > 0.325 ) && ( SpType[0] = 'F' );
+      ( BV_Index > 0.575 ) && ( SpType[0] = 'G' );
+      ( BV_Index > 0.975 ) && ( SpType[0] = 'K' );
+      ( BV_Index > 1.6 ) && ( SpType[0] = 'M' );
+    }
+
+    PM_RA = stardata->dRA / 100.0;
+    PM_Dec = stardata->dDec / 100.0;
+    Parallax = 0.0;
+    Multiplicity = 0;
+    Variability = 0;
+    updateID = updateNumID = 0;
+}
+
 void StarObject::setNames( QString name, QString name2 ) {
     QString lname;
 

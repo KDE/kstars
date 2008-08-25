@@ -24,6 +24,7 @@
 
 #include "skyobject.h"
 #include "stardata.h"
+#include "deepstardata.h"
 
 class QPainter;
 class QString;
@@ -109,6 +110,15 @@ public:
      */
 
     void init( const starData *stardata );
+    
+    /**
+     *@short  Initializes a StarObject to given data
+     *
+     *@param  stardata  Pointer to deepStarData object containing the available data
+     *@return Nothing
+     */
+
+    void init( const deepStarData *stardata );
 
     /**
      *@short  Sets the name, genetive name, and long name

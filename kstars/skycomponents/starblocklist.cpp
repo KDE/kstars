@@ -19,21 +19,24 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "stardata.h"
+#include "deepstardata.h"
 #include "starcomponent.h"
 
 #include <kde_file.h>
 
-StarBlockList::StarBlockList(Trixel tr) {
+StarBlockList::StarBlockList( Trixel tr, DeepStarComponent *parent ) {
     trixel = tr;
     nStars = 0;
     readOffset = 0;
     faintMag = -5.0;
     nBlocks = 0;
+    this->parent = parent;
+    staticStars = parent->hasStaticStars();
 }
 
 StarBlockList::~StarBlockList() {
     // NOTE: Rest of the StarBlocks are taken care of by StarBlockFactory
-    if( blocks[0] )
+    if( staticStars && blocks[ 0 ] )
         delete blocks[0];
 }
 
@@ -41,12 +44,19 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
 
     if( block != blocks[ nBlocks - 1 ] )
         kDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
+
     else if( blocks.size() > 0 ) {
+
         blocks.removeLast();
         nBlocks--;
         nStars -= block->getStarCount();
-        readOffset -= block->getStarCount() * sizeof( starData );
-        faintMag = blocks[nBlocks - 1]->faintMag;
+
+        readOffset -= block->getStarCount() * sizeof( starData ) - parent->getStarReader()->guessRecordSize();
+	if( nBlocks <= 0 )
+	  faintMag = -5.0;
+	else
+	  faintMag = blocks[nBlocks - 1]->faintMag;
+
         return 1;
     }
 
@@ -54,40 +64,23 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
 }
 
 bool StarBlockList::fillToMag( float maglim ) {
-    BinFileHelper *dSReader = &StarComponent::deepStarReader;
-    StarBlockFactory *SBFactory = &StarComponent::m_StarBlockFactory;
-    FILE *dataFile = dSReader->getFileHandle();
+    // TODO: Remove staticity of BinFileHelper
+    BinFileHelper *dSReader;
+    StarBlockFactory *SBFactory;
     StarObject star;
     starData stardata;
+    deepStarData deepstardata;
+    FILE *dataFile;
 
-    if( nBlocks <= 0 ) {
-        kDebug() << "Calling fillToMag before loading static stars!";
+    dSReader = parent->getStarReader();
+    dataFile = dSReader->getFileHandle();
+    SBFactory = StarBlockFactory::Instance();
+
+    if( staticStars )
         return false;
-    }
 
     if( faintMag >= maglim )
         return true;
-
-    if( nBlocks == 1 ) {
-        StarBlock *newBlock;
-        nStars = blocks[0]->getStarCount();
-        newBlock =  SBFactory->getBlock();
-        if(!newBlock) {
-            kDebug() << "Could not get new block from StarBlockFactory::getBlock() in trixel " 
-                     << trixel << " while trying to create a second block" << endl;
-            return false;
-        }
-        blocks.append( newBlock );
-        blocks[1]->parent = this;
-        
-        if( !SBFactory->markFirst( blocks[1] ) )
-            kDebug() << "markFirst failed on block 2 of trixel " << trixel << endl;
-        /*
-        else
-            kDebug() << "markFirst succeeded for trixel " << trixel << endl;
-        */
-        nBlocks = 2;
-    }
 
     if( !dataFile ) {
         kDebug() << "dataFile not opened!";
@@ -109,8 +102,8 @@ bool StarBlockList::fillToMag( float maglim ) {
              << "to maglim =" << maglim << "with current faintMag =" << faintMag << endl;
     */
 
-    while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) + blocks[0]->getStarCount() ) {
-        if( blocks[nBlocks - 1]->isFull() ) {
+    while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) ) {
+        if( nBlocks == 0 || blocks[nBlocks - 1]->isFull() ) {
             StarBlock *newBlock;
             newBlock = SBFactory->getBlock();
             if( !newBlock ) {
@@ -120,17 +113,27 @@ bool StarBlockList::fillToMag( float maglim ) {
             }
             blocks.append( newBlock );
             blocks[nBlocks]->parent = this;
-            
-            if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
-                kWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
+            if( nBlocks == 0 )
+	        SBFactory->markFirst( blocks[0] );
+	    else if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
+	        kWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
             
             ++nBlocks;
         }
+	// TODO: Make this more general
+	if( dSReader->guessRecordSize() == 32 ) {
+	  fread( &stardata, sizeof( starData ), 1, dataFile );
+	  if( dSReader->getByteSwap() ) DeepStarComponent::byteSwap( &stardata );
+	  readOffset += sizeof( starData );
+	  star.init( &stardata );
+	}
+	else {
+	  fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
+	  if( dSReader->getByteSwap() ) DeepStarComponent::byteSwap( &deepstardata );
+	  readOffset += sizeof( deepStarData );
+	  star.init( &deepstardata );
+	}
 
-        fread( &stardata, sizeof( starData ), 1, dataFile );
-        StarComponent::byteSwap( &stardata );
-        readOffset += sizeof( starData );
-        star.init( &stardata );
         blocks[nBlocks - 1]->addStar( &star );
         if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
             kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
@@ -144,10 +147,16 @@ bool StarBlockList::fillToMag( float maglim ) {
 }
 
 void StarBlockList::setStaticBlock( StarBlock *block ) {
-    if ( block && nBlocks == 0 ) {
+    if( !block )
+        return;
+    if ( nBlocks == 0 ) {
         blocks.append( block );
-        blocks[0]->parent = this;
-        faintMag = blocks[0]->faintMag;
-        nBlocks = 1;
     }
+    else 
+        blocks[0] = block;
+
+    blocks[0]->parent = this;
+    faintMag = blocks[0]->faintMag;
+    nBlocks = 1;
+    staticStars = true;
 }

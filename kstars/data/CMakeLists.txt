@@ -3,7 +3,7 @@
 install( FILES kstars.png geomap.png 
     Cities.dat
     stars.dat
-    starnames.dat shallowstars.dat
+    starnames.dat namedstars.dat unnamedstars.dat
     starlnum.idx
     ngcic.dat
     clines.dat

@@ -421,6 +421,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         << sl.point(1)->ra()->toHMSString() << endl;
             break;
         **/
+        /*
     case Qt::Key_B:    // print useful debug info about memory allocation for stars
         data->skyComposite()->getStarComponent()->printDebugInfo();
         break;
@@ -447,7 +448,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         
         break;
     }
-
+        */
 
     }
 

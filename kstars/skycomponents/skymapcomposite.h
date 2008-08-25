@@ -43,6 +43,7 @@ class MilkyWay;
 class MagellanicClouds;
 class SolarSystemComposite;
 class StarComponent;
+class DeepStarComponent;
 class SatelliteComposite;
 
 class KStarsData;
@@ -161,6 +162,9 @@ public:
     void addCustomCatalog( const QString &filename, KStarsData *data, int index );
     void removeCustomCatalog( const QString &name );
 
+    bool addDeepStarComponent( const QString &filename );
+    void loadDeepStarCatalogs();
+
     bool addNameLabel( SkyObject *o );
     bool removeNameLabel( SkyObject *o );
 
@@ -216,6 +220,8 @@ private:
     SkyLabeler*             m_skyLabeler;
 
     KSNumbers               m_reindexNum;
+
+    QList<DeepStarComponent *> m_DeepStars;
 
     QList<SkyObject*>       m_LabeledObjects;
     QHash<int, QStringList> m_ObjectNames;

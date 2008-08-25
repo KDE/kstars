@@ -38,7 +38,7 @@ class StarBlock;
 
 typedef quint32                        DrawID;
 typedef quint32                        UpdateID;
-typedef unsigned short                 Trixel;
+typedef unsigned int                   Trixel;
 typedef unsigned short                 BufNum;
 
 typedef QVector< SkyPoint*>            SkyList;
