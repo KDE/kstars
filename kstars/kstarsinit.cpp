@@ -482,7 +482,6 @@ void KStars::initActions() {
     connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     setXMLFile( "kstarsui.rc" );
-    setupGUI();
 
     if (Options::fitsSaveDirectory().isEmpty())
         Options::setFitsSaveDirectory(QDir:: homePath());
@@ -726,6 +725,12 @@ void KStars::buildGUI() {
 #else
     createGUI("kstarsui.rc");
 #endif
+    StandardWindowOptions opt = Default;
+    opt &= ~Create;
+    setupGUI(opt); // setupGUI needs to be called after createGUI if no Create flag is passed to
+                   // setupGUI. Once you have called to createGUI you don't want for it to be called
+                   // again. (ereslibre)
+
     //Initialize FOV symbol from options
     data()->fovSymbol.setName( Options::fOVName() );
     data()->fovSymbol.setSize( Options::fOVSize() );
