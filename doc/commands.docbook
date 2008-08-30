@@ -703,7 +703,7 @@ mode".  In this mode, a dotted line is drawn from the first target object
 to the current mouse position.  When you invoke the popup menu of a second
 object, this item will read <guilabel>Compute Angular Distance</guilabel>.
 Selecting this item will display the angular distance between the two
-objects in the statusbar.  You can press the <keycap>Esc</keycap> key to
+objects in the statusbar.  You can press the &Esc; key to
 exit angular distance mode without measuring an angle.
 </para></listitem>
 </varlistentry>
@@ -934,7 +934,7 @@ Point (straight up)</para></listitem>
 <para>Each of the following keystrokes performs an action on the 
 <firstterm>selected object</firstterm>.  The selected object is the last 
 object which was clicked on (identified in the status bar).  Alternatively, 
-if you hold down the <keycap>Shift</keycap> key, then the action is 
+if you hold down the &Shift; key, then the action is 
 performed on the centered object instead.</para>
 
 <!-- FIXME: this feature does not exist yet; to be added after feature thaw
