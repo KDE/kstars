@@ -671,7 +671,7 @@
 		<entry name="StarColorIntensity" type="UInt">
 			<label>Saturation level of star colors</label>
 			<whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
-			<default>4</default>
+			<default>6</default>
 			<max>10</max>
 		</entry>
 		<entry name="AngularRulerColor" type="String">

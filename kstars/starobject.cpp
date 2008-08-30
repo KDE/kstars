@@ -240,6 +240,7 @@ void StarObject::setNames( QString name, QString name2 ) {
 void StarObject::initImages() {
     SkyMap *map = SkyMap::Instance();
     double scale = 1.0;
+    const int starColorIntensity = Options::starColorIntensity();
 
     if ( map && map->scale() > 1.0 ) scale = map->scale();
 
@@ -278,32 +279,40 @@ void StarObject::initImages() {
     }
 
     foreach ( const QString &color, ColorMap.keys() ) {
-        QString imKey = color+"14";
-        QPixmap BigImage( int(14*scale), int(14*scale) ); 
+        QString imKey = color+"15";
+        QPixmap BigImage( static_cast<int>(15*scale), static_cast<int>(15*scale) ); 
         BigImage.fill( Qt::transparent );
 
         QPainter p;
         p.begin( &BigImage );
-        p.setRenderHint(QPainter::Antialiasing, true );
 
-        //Set the width of the pen according to starColorIntensity()
-        float w=2.0*scale;
         if ( Options::starColorMode() == 0 ) {
-            w = w*float(Options::starColorIntensity())/4.0;
-        }
-
-        p.setPen( QPen(ColorMap[color], w) );
-        if ( Options::starColorMode() == 0 ) {
-            p.setBrush( QColor(Qt::white) );
+            int i,j;
+            qreal h, s, v, a;
+            p.setRenderHint( QPainter::Antialiasing, false );
+            QColor starColor = ColorMap[color];
+            starColor.getHsvF(&h, &s, &v, &a);
+            for (i = 0; i < 8; i++ ) {
+                for (j = 0; j < 8; j++ ) {
+                    qreal dist = sqrt( pow( i-7., 2. ) + pow( j-7., 2. ) )/7.;
+                    starColor.setHsvF(h, qMin( 1., dist < (10-starColorIntensity)/10.?0:dist ), v, qMax( 0., dist < (10-starColorIntensity)/20.?1:1-dist ) );
+                    p.setPen( starColor );
+                    p.drawPoint( i, j );
+                    p.drawPoint( 14-i, j );
+                    p.drawPoint( i, 14-j );
+                    p.drawPoint (14-i, 14-j);
+                }
+            }
         } else {
+            p.setRenderHint(QPainter::Antialiasing, true );
+            p.setPen( QPen(ColorMap[color], 2.0*scale ) );
             p.setBrush( p.pen().color() );
+            p.drawEllipse( QRectF( 2*scale, 2*scale, 10*scale, 10*scale ) );
         }
-
-        p.drawEllipse( QRectF( 2*scale, 2*scale, 10*scale, 10*scale ) );
         p.end();
         StarImage.insert( imKey, BigImage );
 
-        for ( int size = 13; size > 0; size-- ) {
+        for ( int size = 14; size > 0; size-- ) {
             imKey = color+QString("%1").arg(size);
             StarImage.insert( imKey, BigImage.scaled( size*scale, size*scale, Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
         }
