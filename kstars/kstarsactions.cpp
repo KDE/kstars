@@ -633,7 +633,7 @@ void KStars::slotRunScript() {
         if ( ! fileOK )
         {
             int answer;
-            answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script contains unrecognized elements,"
+            answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script contains unrecognized elements, "
                      "indicating that it was not created using the KStars script builder. "
                      "This script may not function properly, and it may even contain malicious code. "
                      "Would you like to execute it anyway?" ),
