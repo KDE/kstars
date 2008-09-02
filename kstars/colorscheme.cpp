@@ -202,7 +202,7 @@ bool ColorScheme::load( const QString &name ) {
     //convert it to a filename exactly as ColorScheme::save() does
     if ( ! ok ) {
         if ( !filename.isEmpty() ) {
-            filename.replace( " ", "-" ).append( ".colors" );
+            filename.replace( ' ', '-' ).append( ".colors" );
             ok = KSUtils::openDataFile( file, filename );
         }
 

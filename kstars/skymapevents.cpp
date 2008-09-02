@@ -76,7 +76,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         //The resumeKey was pressed.  Signal that it was pressed by
         //resetting it to empty; this will break the loop in
         //KStars::waitForKey()
-        data->resumeKey = QString();
+        data->resumeKey = QKeySequence();
         return;
     }
 

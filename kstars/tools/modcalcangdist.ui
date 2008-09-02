@@ -5,43 +5,51 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>493</width>
-    <height>408</height>
+    <width>494</width>
+    <height>503</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Angular Distance</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="margin" >
+    <number>9</number>
+   </property>
    <item>
-    <widget class="QTabWidget" name="tabWidget3" >
+    <widget class="KTabWidget" name="tabWidget3" >
      <property name="currentIndex" >
       <number>0</number>
      </property>
      <widget class="QWidget" name="interact" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>464</width>
+        <height>447</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Interactive Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="margin" >
+        <number>9</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
          </property>
          <item>
           <widget class="QGroupBox" name="FirstPositionBox" >
@@ -57,18 +65,18 @@
             </property>
             <item row="2" column="0" colspan="2" >
              <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
               <property name="spacing" >
                <number>6</number>
+              </property>
+              <property name="margin" >
+               <number>0</number>
               </property>
               <item>
                <spacer>
                 <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" >
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>31</width>
                   <height>20</height>
@@ -88,7 +96,7 @@
                 <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" >
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -142,18 +150,18 @@
             </property>
             <item row="2" column="0" colspan="2" >
              <layout class="QHBoxLayout" >
-              <property name="margin" >
-               <number>0</number>
-              </property>
               <property name="spacing" >
                <number>6</number>
+              </property>
+              <property name="margin" >
+               <number>0</number>
               </property>
               <item>
                <spacer>
                 <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" >
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -173,7 +181,7 @@
                 <property name="orientation" >
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" >
+                <property name="sizeHint" stdset="0" >
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -223,7 +231,7 @@
          <property name="sizeType" >
           <enum>QSizePolicy::Fixed</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>20</width>
            <height>20</height>
@@ -233,11 +241,11 @@
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -247,7 +255,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>102</width>
              <height>20</height>
@@ -276,7 +284,7 @@
             <string>00:00:00</string>
            </property>
            <property name="textInteractionFlags" >
-            <enum>Qt::TextSelectableByMouse</enum>
+            <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
          </item>
@@ -288,7 +296,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>70</width>
              <height>20</height>
@@ -306,7 +314,7 @@
          <property name="sizeType" >
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>21</width>
            <height>171</height>
@@ -317,15 +325,23 @@
       </layout>
      </widget>
      <widget class="QWidget" name="batch" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>840</width>
+        <height>420</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Batch Mode</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="margin" >
+        <number>8</number>
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox" >
@@ -333,19 +349,19 @@
           <string>Select Fields in Input File</string>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
           </property>
+          <property name="margin" >
+           <number>8</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
             <property name="spacing" >
              <number>6</number>
+            </property>
+            <property name="margin" >
+             <number>0</number>
             </property>
             <item>
              <widget class="QCheckBox" name="ra0CheckBatch" >
@@ -391,11 +407,11 @@
           </item>
           <item>
            <layout class="QVBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
             <property name="spacing" >
              <number>6</number>
+            </property>
+            <property name="margin" >
+             <number>0</number>
             </property>
             <item>
              <widget class="dmsBox" name="ra0BoxBatch" />
@@ -420,11 +436,11 @@
           <string>Fields in Output File Plus Result</string>
          </property>
          <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>8</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="margin" >
+           <number>8</number>
           </property>
           <item>
            <widget class="QRadioButton" name="allRadioBatch" >
@@ -459,7 +475,7 @@
            <number>6</number>
           </property>
           <item row="1" column="1" >
-           <widget class="QLineEdit" name="OutputLineEditBatch" />
+           <widget class="KLineEdit" name="OutputLineEditBatch" />
           </item>
           <item row="0" column="0" >
            <widget class="QPushButton" name="InputButtonBatch" >
@@ -482,18 +498,18 @@
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="QLineEdit" name="InputLineEditBatch" />
+           <widget class="KLineEdit" name="InputLineEditBatch" />
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
          <property name="spacing" >
           <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
          </property>
          <item>
           <spacer>
@@ -503,7 +519,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>151</width>
              <height>21</height>
@@ -514,9 +530,7 @@
          <item>
           <widget class="KPushButton" name="runButtonBatch" >
            <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>7</hsizetype>
-             <vsizetype>5</vsizetype>
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -534,7 +548,7 @@
            <property name="sizeType" >
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>131</width>
              <height>21</height>
@@ -552,7 +566,7 @@
          <property name="sizeType" >
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>20</width>
            <height>21</height>
@@ -569,19 +583,25 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

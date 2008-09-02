@@ -269,7 +269,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //because we don't want a thousands-place separator!
     QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
+    sEpoch.replace( '.', KGlobal::locale()->decimalSymbol() );
 
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );

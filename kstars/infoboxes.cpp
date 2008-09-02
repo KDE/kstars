@@ -365,7 +365,7 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
     //Don't use KLocale::formatNumber() for Julian Day because we don't want
     //thousands-place separators
     QString JDString = QString::number( ut.djd(), 'f', 2 );
-    JDString.replace( ".", KGlobal::locale()->decimalSymbol() );
+    JDString.replace( '.', KGlobal::locale()->decimalSymbol() );
 
     TimeBox->setText3( i18nc( "Sidereal Time", "ST: " ) + STString +
                        i18nc( "Julian Day", "JD: " ) + JDString );

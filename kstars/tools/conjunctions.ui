@@ -52,7 +52,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="Obj2ComboBox" >
+        <widget class="KComboBox" name="Obj2ComboBox" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
            <horstretch>0</horstretch>
@@ -108,8 +108,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>446</width>
-        <height>46</height>
+        <width>456</width>
+        <height>38</height>
        </rect>
       </property>
       <property name="sizePolicy" >
@@ -207,6 +207,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

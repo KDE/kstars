@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>INDIConf</class>
  <widget class="QWidget" name="INDIConf" >
   <property name="geometry" >
@@ -9,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>544</width>
-    <height>379</height>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -31,19 +28,19 @@
       <string>Server Port</string>
      </property>
      <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
       </property>
+      <property name="margin" >
+       <number>9</number>
+      </property>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="margin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QLabel" name="label" >
@@ -63,17 +60,17 @@
       </item>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
         </property>
+        <property name="margin" >
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLineEdit" name="portStart" />
+         <widget class="KLineEdit" name="portStart" />
         </item>
         <item>
-         <widget class="QLineEdit" name="portEnd" />
+         <widget class="KLineEdit" name="portEnd" />
         </item>
        </layout>
       </item>
@@ -82,7 +79,7 @@
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>40</width>
           <height>20</height>
@@ -99,11 +96,11 @@
       <string>General</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>11</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
+      </property>
+      <property name="margin" >
+       <number>11</number>
       </property>
       <item>
        <widget class="QLabel" name="fitsLabel" >
@@ -114,21 +111,19 @@
       </item>
       <item>
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
         </property>
+        <property name="margin" >
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLineEdit" name="fitsDIR_IN" />
+         <widget class="KLineEdit" name="fitsDIR_IN" />
         </item>
         <item>
          <widget class="QPushButton" name="selectDirB" >
           <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>0</hsizetype>
-            <vsizetype>0</vsizetype>
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -173,7 +168,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="telPort_IN" />
+       <widget class="KLineEdit" name="telPort_IN" />
       </item>
       <item>
        <widget class="QLabel" name="videoLabel" >
@@ -186,7 +181,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="vidPort_IN" />
+       <widget class="KLineEdit" name="vidPort_IN" />
       </item>
      </layout>
     </widget>
@@ -200,19 +195,19 @@
       <string>Filter Wheel</string>
      </property>
      <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>11</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
       </property>
+      <property name="margin" >
+       <number>11</number>
+      </property>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="margin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QLabel" name="textLabel1" >
@@ -232,18 +227,16 @@
       </item>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
         </property>
+        <property name="margin" >
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QComboBox" name="filterCombo" >
+         <widget class="KComboBox" name="filterCombo" >
           <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>0</vsizetype>
+           <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -251,11 +244,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="filterAlias" >
+         <widget class="KLineEdit" name="filterAlias" >
           <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>0</vsizetype>
+           <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -272,7 +263,7 @@
         <property name="sizeType" >
          <enum>QSizePolicy::Preferred</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>61</width>
           <height>20</height>
@@ -289,11 +280,11 @@
       <string>Automatic Device Updates</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>11</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
+      </property>
+      <property name="margin" >
+       <number>11</number>
       </property>
       <item>
        <widget class="QCheckBox" name="timeCheck" >
@@ -330,11 +321,11 @@
       <string>Display</string>
      </property>
      <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>11</number>
-      </property>
       <property name="spacing" >
        <number>6</number>
+      </property>
+      <property name="margin" >
+       <number>11</number>
       </property>
       <item>
        <widget class="QCheckBox" name="crosshairCheck" >
@@ -369,6 +360,18 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>timeCheck</tabstop>
   <tabstop>GeoCheck</tabstop>

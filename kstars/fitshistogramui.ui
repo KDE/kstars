@@ -37,16 +37,7 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>5</number>
-   </property>
-   <property name="topMargin" >
-    <number>5</number>
-   </property>
-   <property name="rightMargin" >
-    <number>5</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>5</number>
    </property>
    <item>
@@ -54,16 +45,7 @@
      <property name="spacing" >
       <number>8</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin" >
       <number>0</number>
      </property>
      <item>
@@ -121,16 +103,7 @@
         <property name="spacing" >
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>9</number>
-        </property>
-        <property name="topMargin" >
-         <number>9</number>
-        </property>
-        <property name="rightMargin" >
-         <number>9</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin" >
          <number>9</number>
         </property>
         <item>
@@ -172,7 +145,7 @@
           <property name="sizeType" >
            <enum>QSizePolicy::Preferred</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>20</width>
             <height>20</height>
@@ -187,22 +160,10 @@
    </item>
    <item>
     <layout class="QGridLayout" >
-     <property name="leftMargin" >
+     <property name="margin" >
       <number>0</number>
      </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>0</number>
-     </property>
-     <property name="horizontalSpacing" >
-      <number>6</number>
-     </property>
-     <property name="verticalSpacing" >
+     <property name="spacing" >
       <number>6</number>
      </property>
      <item row="1" column="2" >
@@ -213,14 +174,14 @@
       </widget>
      </item>
      <item row="0" column="1" >
-      <widget class="QLineEdit" name="intensityOUT" >
+      <widget class="KLineEdit" native="1" name="intensityOUT" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="readOnly" >
+       <property name="readOnly" stdset="0" >
         <bool>true</bool>
        </property>
       </widget>
@@ -233,7 +194,7 @@
        <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>130</width>
          <height>20</height>
@@ -242,7 +203,7 @@
       </spacer>
      </item>
      <item row="0" column="3" >
-      <widget class="QLineEdit" name="minOUT" >
+      <widget class="KLineEdit" native="1" name="minOUT" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -259,14 +220,14 @@
       </widget>
      </item>
      <item row="1" column="1" >
-      <widget class="QLineEdit" name="frequencyOUT" >
+      <widget class="KLineEdit" native="1" name="frequencyOUT" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="readOnly" >
+       <property name="readOnly" stdset="0" >
         <bool>true</bool>
        </property>
       </widget>
@@ -286,7 +247,7 @@
       </widget>
      </item>
      <item row="1" column="3" >
-      <widget class="QLineEdit" name="maxOUT" >
+      <widget class="KLineEdit" native="1" name="maxOUT" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -302,16 +263,7 @@
      <property name="spacing" >
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin" >
       <number>0</number>
      </property>
      <item>
@@ -322,7 +274,7 @@
        <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>270</width>
          <height>20</height>
@@ -365,6 +317,11 @@
    <extends>QFrame</extends>
    <header>widgets/fitshistogramdraw.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QWidget</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

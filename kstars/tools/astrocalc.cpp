@@ -22,6 +22,7 @@
 #include <QTreeWidget>
 #include <QTextEdit>
 #include <klocale.h>
+#include <ktextedit.h>
 
 #include "dms.h"
 #include "modcalcjd.h"
@@ -110,7 +111,8 @@ AstroCalc::AstroCalc( QWidget* parent ) :
                            "</QT>"
                           );
 
-    splashScreen = new QTextEdit( message, acStack );
+    splashScreen = new KTextEdit( message, acStack );
+    splashScreen->setReadOnly( true );
     acStack->addWidget( splashScreen );
 
     JDFrame = new modCalcJD( acStack );

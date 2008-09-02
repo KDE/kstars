@@ -1,4 +1,3 @@
-
 /***************************************************************************
      binfile.h - Definitions useful for handling KStars binary data files
                              -------------------
@@ -15,6 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#ifndef BINFILE_H
+#define BINFILE_H
 
 #include <sys/types.h>
 #include <string.h>
@@ -288,3 +290,4 @@ void nextTrixel(char *trixel) {
 }
 
 */
+#endif

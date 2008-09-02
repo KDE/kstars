@@ -50,9 +50,7 @@
 #endif
 #include <zlib.h>
 
-#include <QTextEdit>
 #include <QFrame>
-#include <QTabWidget>
 #include <QCheckBox>
 #include <QLabel>
 #include <QPushButton>
@@ -73,6 +71,8 @@
 #include <kstatusbar.h>
 #include <kmenu.h>
 #include <kvbox.h>
+#include <ktabwidget.h>
+#include <ktextedit.h>
 
 #define NINDI_STD	26
 
@@ -93,9 +93,9 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
   
     deviceVBox     	= new QFrame();
     deviceLayout   	= new QVBoxLayout(deviceVBox);
-    groupContainer 	= new QTabWidget(deviceVBox);
+    groupContainer 	= new KTabWidget(deviceVBox);
   
-    msgST_w        	= new QTextEdit(deviceVBox);
+    msgST_w        	= new KTextEdit(deviceVBox);
     msgST_w->setReadOnly(true);
     msgST_w->setMaximumHeight(100);
   

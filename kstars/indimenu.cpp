@@ -29,7 +29,6 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QFrame>
-#include <QTabWidget>
 #include <QCheckBox>
 #include <QLabel>
 #include <QPushButton>
@@ -47,6 +46,7 @@
 #include <kcombobox.h>
 #include <knuminput.h>
 #include <kdialog.h>
+#include <ktabwidget.h>
 
 #include "kstars.h"
 #include "indidriver.h"
@@ -67,7 +67,7 @@ INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);
 
-    mainTabWidget = new QTabWidget(this);
+    mainTabWidget = new KTabWidget(this);
 
     mainLayout->addWidget(mainTabWidget);
 

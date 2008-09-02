@@ -10,16 +10,7 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="leftMargin" >
-    <number>10</number>
-   </property>
-   <property name="topMargin" >
-    <number>10</number>
-   </property>
-   <property name="rightMargin" >
-    <number>10</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>10</number>
    </property>
    <item>
@@ -32,10 +23,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="NameEdit" />
+      <widget class="KLineEdit" name="NameEdit" />
      </item>
      <item>
-      <widget class="KPushButton" native="1" name="FindButton" >
+      <widget class="KPushButton" name="FindButton" >
        <property name="font" >
         <font>
          <pointsize>9</pointsize>
@@ -52,7 +43,7 @@
        <property name="whatsThis" >
         <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the "dir" box at left.</string>
        </property>
-       <property name="text" stdset="0" >
+       <property name="text" >
         <string>Object</string>
        </property>
       </widget>
@@ -65,7 +56,7 @@
        <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -83,7 +74,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Expanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>
@@ -97,8 +88,13 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
