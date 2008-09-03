@@ -153,6 +153,7 @@ bool openIndexFile( ) {
     if( hdidxReader.openFile( "Henry-Draper.idx" ) )
         kDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work." << endl;
     */
+    return 0;
 }
 
 //This function is empty for a reason; we override the normal 
