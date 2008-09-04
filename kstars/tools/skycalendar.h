@@ -48,6 +48,7 @@ class SkyCalendar : public KDialog
     public slots:
         void slotFillCalendar();
         void slotPrint();
+        void slotLocation();
         
     private:
         void addPlanetEvents( int nPlanet );

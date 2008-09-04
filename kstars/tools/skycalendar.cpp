@@ -17,12 +17,14 @@
 
 #include "skycalendar.h"
 
+#include <QDesktopWidget>
 #include <kdebug.h>
 #include <KPlotObject>
 #include <KPushButton>
 
 #include "calendarwidget.h"
 #include "geolocation.h"
+#include "locationdialog.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
@@ -46,11 +48,21 @@ SkyCalendar::SkyCalendar( KStars *parent )
     setButtons( KDialog::User1 | KDialog::Close );
     setModal( false );
 
+    //Adjust minimum size for small screens:
+    if ( QApplication::desktop()->availableGeometry().height() <= scUI->CalendarView->height() ) {
+        scUI->CalendarView->setMinimumSize( 400, 600 );
+    }
+    
     scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
     scUI->CalendarView->setShowGrid( false ); 
     scUI->Year->setValue( ks->data()->lt().date().year() );
 
+    scUI->LocationButton->setText( geo->fullName() );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), QString(), i18n("Print the Sky Calendar") ) );
+
     connect( scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()) );
+    connect( scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()) );
+    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrint() ) );
 }
 
 SkyCalendar::~SkyCalendar() {
@@ -150,6 +162,17 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
 }
 
 void SkyCalendar::slotPrint() {
+}
+
+void SkyCalendar::slotLocation() {
+    LocationDialog ld( ks );
+    if ( ld.exec() == QDialog::Accepted ) {                  
+        GeoLocation *newGeo = ld.selectedCity();
+        if ( newGeo ) {
+            geo = newGeo;
+            scUI->LocationButton->setText( geo->fullName() );
+        }
+    }
 }
 
 #include "skycalendar.moc"
