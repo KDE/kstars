@@ -39,6 +39,7 @@ KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
 {
     QIODevice* device = (QIODevice*) & file;
     QTextStream::setDevice( device );
+    QTextStream::setCodec("UTF-8");
     m_targetLine = MAXUINT;
 }
 
@@ -49,6 +50,7 @@ bool KSFileReader::open( const QString& fname )
         return false;
     }
     QTextStream::setDevice( &m_file );
+    QTextStream::setCodec("UTF-8");
     return true;
 }
 
