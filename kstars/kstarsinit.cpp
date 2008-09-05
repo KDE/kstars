@@ -730,16 +730,13 @@ void KStars::buildGUI() {
     initStatusBar();
     initActions();
 
+    setupGUI(StandardWindowOptions (Default & ~Create));
+
 #ifdef Q_WS_WIN
     createGUI("kstarsui-win.rc");
 #else
     createGUI("kstarsui.rc");
 #endif
-    StandardWindowOptions opt = Default;
-    opt &= ~Create;
-    setupGUI(opt); // setupGUI needs to be called after createGUI if no Create flag is passed to
-                   // setupGUI. Once you have called to createGUI you don't want for it to be called
-                   // again. (ereslibre)
 
     //Initialize FOV symbol from options
     data()->fovSymbol.setName( Options::fOVName() );
