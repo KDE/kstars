@@ -51,7 +51,7 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
         nBlocks--;
         nStars -= block->getStarCount();
 
-        readOffset -= block->getStarCount() * sizeof( starData ) - parent->getStarReader()->guessRecordSize();
+        readOffset -= parent->getStarReader()->guessRecordSize() * block->getStarCount();
 	if( nBlocks <= 0 )
 	  faintMag = -5.0;
 	else
