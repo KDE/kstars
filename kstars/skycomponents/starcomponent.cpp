@@ -81,10 +81,10 @@ void StarComponent::init(KStarsData *data) {
     StarObject::initImages();
 }
 
-bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, bool staticstars ) {
+bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars ) {
     if( BinFileHelper::testFileExists( fileName ) ) {
         DeepStarComponent *newdsc;
-        m_DeepStarComponents.append( newdsc = new DeepStarComponent( this, fileName, staticstars ) );
+        m_DeepStarComponents.append( newdsc = new DeepStarComponent( this, fileName, trigMag, staticstars ) );
         newdsc->init( KStarsData::Instance() );
         return true;
     }
@@ -98,16 +98,16 @@ int StarComponent::loadDeepStarCatalogs() {
     int count = 0;
 
     // Look for the basic unnamed star catalog to mag 8.0
-    count += addDeepStarCatalogIfExists( "unnamedstars.dat", true );
+    count += addDeepStarCatalogIfExists( "unnamedstars.dat", -5.0, true );
 
     // Look for the Tycho-2 add-on with 2.5 million stars to mag 12.5
-    if( !addDeepStarCatalogIfExists( "tycho2.dat" ) )
-        count += addDeepStarCatalogIfExists( "deepstars.dat" );
+    if( !addDeepStarCatalogIfExists( "tycho2.dat" , 8.0 ) )
+        count += addDeepStarCatalogIfExists( "deepstars.dat", 8.0 );
     else
         count += 1;
 
     // Look for the USNO NOMAD 1e8 star catalog add-on with stars to mag 16
-    count += addDeepStarCatalogIfExists( "USNO-NOMAD-1e8.dat" );
+    count += addDeepStarCatalogIfExists( "USNO-NOMAD-1e8.dat", 11.0 );
 
     return count;
 }

@@ -185,7 +185,7 @@ private:
      */
     int loadDeepStarCatalogs();
 
-    bool addDeepStarCatalogIfExists( const QString &fileName, bool staticstars=false );
+    bool addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars=false );
 
     /**
      *@short Structure that holds star name information, to be read as-is from the corresponding binary data file
