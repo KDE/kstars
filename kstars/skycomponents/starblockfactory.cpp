@@ -154,6 +154,11 @@ bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
         first = block->next;
     }
 
+    if( after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5 ) {
+        kDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag " 
+                 << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
+    }
+
     if( block == last )
         last = block->prev;
 
