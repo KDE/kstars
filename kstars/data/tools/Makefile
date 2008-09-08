@@ -15,7 +15,8 @@ KSTARS_MYSQL_DB_DB=$(KSTARS_MYSQL_DB_USER)
 KSTARS_MYSQL_DB_TBL=tycho2
 KSTARS_NOMAD_MYSQL_DB_TBL=nomad
 
-all: mysql2bin binfiletester
+
+all: mysql2bin binfiletester nomadbinfiletester nomadmysql2bin-merge nomadmysql2bin-split
 
 mysql2bin: mysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
@@ -23,16 +24,24 @@ mysql2bin: mysql2bin.c
 nomadmysql2bin: nomadmysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
+nomadmysql2bin-split: nomadmysql2bin-split.c
+	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
+
+nomadmysql2bin-merge: nomadmysql2bin-merge.c
+	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
+
 binfiletester: binfiletester.c
 	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
 nomadbinfiletester: nomadbinfiletester.c
-	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
+	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
+readnomadbindump: readnomadbindump.c
+	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
 clean:
-	-rm binfiletester mysql2bin
-	-rm ushf usdf nshf nsdf nf
+	-rm binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadbinfiletester readnomadbindump
+	-rm ushf usdf nshf nsdf nf dsdf dshf
 
 datafiles: mysql2bin
 	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."

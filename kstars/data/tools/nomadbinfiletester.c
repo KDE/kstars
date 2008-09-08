@@ -29,7 +29,6 @@
 #include "byteswap.h"
 
 
-
 /*
  * struct to store star data, to be written in this format, into the binary file.
  */
@@ -161,7 +160,14 @@ int verifyStarData( FILE *f ) {
         fread( &nstars, 4, 1, f );
         if( nstars > realMSpT )
             realMSpT = nstars;
-        fseek( f, offset, SEEK_SET );
+        /* If offset > 2^31 - 1, do the fseek in two steps */
+        if( offset > ( 1 << 31 ) - 1 ) {
+            fseek( f, ( 1 << 31 ) - 1, SEEK_SET );
+            fseek( f, offset - ( 1 << 31 ) + 1, SEEK_CUR );
+        }
+        else
+            fseek( f, offset, SEEK_SET );
+
         for( i = 0; i < nstars; ++i ) {
             fread( &data, sizeof( deepStarData ), 1, f );
             double new_mag = ( ( data.V == 30000 ) ? ( data.B - 1600 ) : data.V );
@@ -315,7 +321,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    f = fopen(argv[1], "rb");
+    f = fopen(argv[1], "r");
 
     if(f == NULL) {
         fprintf(stderr, "ERROR: Could not open file %s for binary read.\n", argv[1]);
