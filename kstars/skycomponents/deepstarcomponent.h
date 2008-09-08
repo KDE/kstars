@@ -56,7 +56,7 @@ class DeepStarComponent: public ListComponent
 {
 public:
 
-    DeepStarComponent( SkyComponent *parent, QString fileName, bool staticstars=false );
+    DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars=false );
 
     virtual ~DeepStarComponent();
 
@@ -101,6 +101,8 @@ public:
 
     inline BinFileHelper *getStarReader() { return &starReader; }
 
+    bool verifySBLIntegrity();
+
     // TODO: Find the right place for this method
     static void byteSwap( deepStarData *stardata );
     static void byteSwap( starData *stardata );
@@ -114,6 +116,7 @@ private:
 
     KStarsData*    m_Data;
     float          m_zoomMagLimit;
+    float          triggerMag;       // Magnitude at which this catalog triggers
 
     float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
     bool           fileOpened;       // Indicates whether the file is opened or not

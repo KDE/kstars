@@ -40,8 +40,9 @@
 
 #include <kde_file.h>
 
-DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, bool staticstars )
-    : dataFileName( fileName ), ListComponent(parent), m_FaintMagnitude(-5.0), m_reindexNum( J2000 ), staticStars( staticstars )
+DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
+    : dataFileName( fileName ), ListComponent(parent), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
+      m_reindexNum( J2000 ), staticStars( staticstars )
 {
     fileOpened = false;
 }
@@ -215,6 +216,9 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
     float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
 
+    if( maglim < triggerMag )
+        return;
+
     m_zoomMagLimit = maglim;
 
     double maxSize = 10.0;
@@ -274,6 +278,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if( i < m_starBlockList.at( currentRegion )->getBlockCount() 
                     && m_starBlockList.at( currentRegion )->block( i )->getFaintMag() < maglim )
                     break;
+                    
             }
         }
         t_updateCache = t.restart();
@@ -290,8 +295,8 @@ void DeepStarComponent::draw( QPainter& psky ) {
         // Static stars need not execute fillToMag
 
 	if( !staticStars && !m_starBlockList.at( currentRegion )->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
-	  //            kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
-	  //                     << currentRegion << " !"<< endl;
+            kDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
+                     << currentRegion << " !"<< endl;
 	}
 
         t_dynamicLoad += t.restart();
@@ -332,7 +337,9 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 visibleStarCount++;
             }
         }
-        
+
+        // DEBUG: Uncomment to identify problems with Star Block Factory / preservation of Magnitude Order in the LRU Cache
+        //        verifySBLIntegrity();        
         t_drawUnnamed += t.restart();
 
     }
@@ -456,4 +463,31 @@ void DeepStarComponent::byteSwap( starData *stardata ) {
     bswap_32( stardata->HD );
     bswap_16( stardata->mag );
     bswap_16( stardata->bv_index );
+}
+
+bool DeepStarComponent::verifySBLIntegrity() {
+    float faintMag = -5.0;
+    bool integrity = true;
+    for(Trixel trixel = 0; trixel < m_skyMesh->size(); ++trixel) {
+        for(int i = 0; i < m_starBlockList[ trixel ]->getBlockCount(); ++i) {
+            StarBlock *block = m_starBlockList[ trixel ]->block( i );
+            if( i == 0 )
+                faintMag = block->getBrightMag();
+            // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
+            if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.5) {
+                kDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
+                         << ", brightMag of block #" << i << " = " << block->getBrightMag();
+                integrity = false;
+            }
+            if( i > 1 && ( !block->prev ) )
+                kDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
+            if( block->prev && block->prev->parent == m_starBlockList[ trixel ] 
+                && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
+                kDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
+                integrity = false;
+            }
+            faintMag = block->getFaintMag();
+        }
+    }
+    return integrity;
 }
