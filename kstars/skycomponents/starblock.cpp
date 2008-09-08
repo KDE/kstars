@@ -50,7 +50,7 @@ void StarBlock::reset() {
         parent->releaseBlock( this );
     parent = NULL;
     faintMag = -5.0;
-    brightMag = 15.0;
+    brightMag = 35.0;
     nStars = 0;
 }
 
