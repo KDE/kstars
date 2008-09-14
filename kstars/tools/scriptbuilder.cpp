@@ -203,7 +203,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     setINDITargetCoordFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
     INDIFunctionList.append ( setINDITargetCoordFunc );
 
-    setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coorinates to the RA/Dec coordinates of the selected object."), false, "QString", "targetName");
+    setINDITargetNameFunc = new ScriptFunction( "setINDITargetName", i18n("Set the telescope target coordinates to the RA/Dec coordinates of the selected object."), false, "QString", "targetName");
     setINDITargetNameFunc->setINDIProperty("EQUATORIAL_EOD_COORD");
     INDIFunctionList.append( setINDITargetNameFunc);
 
