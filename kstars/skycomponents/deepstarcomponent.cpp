@@ -136,6 +136,8 @@ bool DeepStarComponent::loadStaticStars() {
 
         }
     }
+
+    return true;
 }
 
 DeepStarComponent::~DeepStarComponent() {
