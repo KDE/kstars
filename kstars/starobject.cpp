@@ -295,7 +295,7 @@ void StarObject::initImages() {
             for (i = 0; i < 8; i++ ) {
                 for (j = 0; j < 8; j++ ) {
                     qreal dist = sqrt( pow( i-7., 2. ) + pow( j-7., 2. ) )/7.;
-                    starColor.setHsvF(h, qMin( 1., dist < (10-starColorIntensity)/10.?0:dist ), v, qMax( 0., dist < (10-starColorIntensity)/20.?1:1-dist ) );
+                    starColor.setHsvF(h, qMin( qreal(1), dist < (10-starColorIntensity)/10.?0:dist ), v, qMax( qreal(0), dist < (10-starColorIntensity)/20.?1:1-dist ) );
                     p.setPen( starColor );
                     p.drawPoint( i, j );
                     p.drawPoint( 14-i, j );
