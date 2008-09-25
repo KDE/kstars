@@ -55,7 +55,7 @@ ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
 
 
 //-------------------------------------------------------------------
-// The routines for providing public access to the the boundary index
+// The routines for providing public access to the boundary index
 // start here.  (Some of them may not be needed (or working)).
 //-------------------------------------------------------------------
 

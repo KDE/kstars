@@ -3,7 +3,7 @@
 
 //#     Filename:       SpatialIndex.h
 //#
-//#     SpatialIndex is the class for the the sky indexing routines.
+//#     SpatialIndex is the class for the sky indexing routines.
 //#
 //#     Author:         Peter Z. Kunszt, based on A. Szalay s code
 //#
