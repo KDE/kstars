@@ -1723,7 +1723,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 	#ifdef USE_CCD_BINNING_STANDARD_PROPERTY
 	if(!strcmp(name, m_icam_ccd_binning_np.name)){
 		m_icam_ccd_binning_np.s = IPS_OK;
-		// Update the values according the actual CCD binning mode possibilities.
+		// Update the values according to the actual CCD binning mode possibilities.
 		// HOR_BIN == value[0], VER_BIN == value[1]
 		if(values[0] != values[1]) values[1] = values[0];
 		IUUpdateNumber(&m_icam_ccd_binning_np, values, names, num);
@@ -1736,7 +1736,7 @@ void SbigCam::ISNewNumber(const char *name, double values[], char *names[], int 
 	#ifdef USE_CCD_FRAME_STANDARD_PROPERTY		
 	if(!strcmp(name, m_icam_ccd_frame_np.name)){
 		m_icam_ccd_frame_np.s = IPS_OK;
-		// Update the values according the actual CCD info.
+		// Update the values according to the actual CCD info.
 		if((res = GetSelectedCcdChip(ccd)) == CE_NO_ERROR){
  			if((res = GetSelectedCcdBinningMode(binning)) == CE_NO_ERROR){
 				res = GetCcdSizeInfo(ccd, binning, wCcd, hCcd, wPixel, hPixel);
