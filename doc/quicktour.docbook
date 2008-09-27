@@ -107,7 +107,7 @@ There are several ways to change the magnification (or
 </listitem>
 <listitem>
 	<para>Select <guimenuitem>Zoom to Angular Size...</guimenuitem> from
-	the <guimenu>View</guimenu> menu.  This allows you to specify the
+	the <guimenu>View</guimenu> menu.  This allows you to specify 
 	the field-of-view angle for the display, in degrees.</para>
 </listitem>
 <listitem>
