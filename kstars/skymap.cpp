@@ -986,7 +986,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     //and should not be drawn.
     //The Gnomonic projection has an infinite sky horizon, so don't allow the field
     //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
-    if ( c < 0.0 || Options::projection()==Gnomonic && c < 0.2 ) {
+    if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
         if (onVisibleHemisphere == NULL) {
             p.setX( -10000000. );
             p.setY( -10000000. );
@@ -1159,7 +1159,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {
@@ -1176,7 +1176,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {
@@ -1192,7 +1192,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {
@@ -1274,7 +1274,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {
@@ -1291,7 +1291,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {
@@ -1307,7 +1307,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         else {
             //Two intersection points found.  Return this line segment
             //First make sure that edgePoint1 corresponds to p1
-            if ( p1.x() < p2.x() == edgePoint1.x() < edgePoint2.x() ) {
+            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
                 p1 = edgePoint1;
                 p2 = edgePoint2;
             } else {

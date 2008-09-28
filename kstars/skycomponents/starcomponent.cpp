@@ -530,7 +530,7 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
     SkyObject *o;
     // First check the hash to see if we have a corresponding StarObject already
-    if( o = m_HDHash.value( HDnum, NULL ) )
+    if( ( o = m_HDHash.value( HDnum, NULL ) ) )
         return o;
     return 0;
 }
