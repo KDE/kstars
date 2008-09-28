@@ -32,7 +32,7 @@
 #include <kxmlguiwindow.h>
 #include <kurl.h>
 
-#include "fitsio.h"
+#include <fitsio.h>
 
 class FITSViewer;
 class FITSImage;
