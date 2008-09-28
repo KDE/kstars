@@ -210,7 +210,7 @@ void KStars::slotDownload() {
     KNS::Entry::List entries = KNS::Engine::download();
 
     foreach ( KNS::Entry *e, entries ) {
-        foreach ( QString fname, e->installedFiles() ) {
+        foreach ( const QString& fname, e->installedFiles() ) {
             if ( fname.endsWith( ".cat" ) ) {
                 //To start displaying the custom catalog, add it to SkyMapComposite
                 Options::setCatalogFile( Options::catalogFile() << fname );
