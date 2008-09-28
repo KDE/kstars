@@ -104,11 +104,12 @@ bool DeepStarComponent::loadStaticStars() {
             }
 
             /* Swap Bytes when required */            
-            if( starReader.getByteSwap() )
+            if( starReader.getByteSwap() ) {
                 if( starReader.guessRecordSize() == 32 )
                     byteSwap( &stardata );
                 else
                     byteSwap( &deepstardata );
+            }
 
 
             /*

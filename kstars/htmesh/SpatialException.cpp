@@ -260,11 +260,12 @@ SpatialInterfaceError::SpatialInterfaceError( const char *context, const char *a
 		sprintf(str_,"%s invalid argument \"%s\" ",str_,
 		 argument);
       }
-      else if ( !argument )
+      else if ( !argument ) {
 		if(because)
 			sprintf(str_,"%s %s",str_,because);
 		else
 			sprintf(str_,"%s interface violation",str_);
+      }
    }
    catch (...) {
      delete[] str_;
