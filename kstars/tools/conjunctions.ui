@@ -86,7 +86,7 @@
         </sizepolicy>
        </property>
        <property name="text" >
-        <string>Between solar system bodies:</string>
+        <string>Between objects:</string>
        </property>
       </widget>
      </item>
