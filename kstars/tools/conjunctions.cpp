@@ -138,11 +138,11 @@ void ConjunctionsTool::slotFindObject() {
                 break;
             }
             case 9: {
-                Object1 = (KSComet *) new KSComet( (KSComet &) *fd.selectedObject() );
+                Object1 =  new KSComet( (KSComet &) *fd.selectedObject() );
                 break;
             }
             case 10: {
-                Object1 = (KSAsteroid *) new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
+                Object1 =  new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
                 break;
             }
             }
@@ -179,7 +179,10 @@ void ConjunctionsTool::slotCompute (void)
         return;
     }
     Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
-
+    if( Object1->name() == Object2->name() ) {
+    	KMessageBox::sorry( 0 , i18n("Please select two different objects to check conjunctions with.") );
+    	return;
+    }
     QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
     KSConjunct ksc;
     ComputeStack->setCurrentIndex( 1 );
