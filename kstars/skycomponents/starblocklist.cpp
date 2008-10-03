@@ -135,10 +135,12 @@ bool StarBlockList::fillToMag( float maglim ) {
 	}
 
         blocks[nBlocks - 1]->addStar( &star );
+        /*
         if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
             kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
                      << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
         }
+        */
         faintMag = blocks[nBlocks - 1]->getFaintMag();
         nStars++;
     }
