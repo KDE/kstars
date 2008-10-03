@@ -178,8 +178,8 @@ void DeepStarComponent::draw( QPainter& psky ) {
     float radius = map->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
-    if ( m_skyMesh->inDraw() ) {
-        printf("Warning: aborting concurrent DeepStarComponent::draw()\n");
+    if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
+        printf("Warning: aborting concurrent DeepStarComponent::draw()");
     }
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
