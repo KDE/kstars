@@ -539,23 +539,23 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         FILE *hdidxFile = hdidxReader.openFile( "Henry-Draper.idx" );
         if( !hdidxFile )
             return 0;
+        FILE *dataFile;
         KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
         fread( &offset, 4, 1, hdidxFile );
-        hdidxReader.closeFile();
-
         if( offset <= 0 )
             return 0;
-
         // TODO: Implement byteswapping
-        FILE *dataFile;
         dataFile = m_DeepStarComponents.at( 1 )->getStarReader()->getFileHandle();
-
         KDE_fseek( dataFile, offset, SEEK_SET );
         fread( &stardata, sizeof( starData ), 1, dataFile );
         // TODO: Implement byteswapping
         // byteSwap( &stardata );
-
-        return m_DeepStarComponents.at( 1 )->findByData( stardata );
+        m_starObject.init( &stardata );
+        m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+        m_starObject.JITupdate( data() );
+        hdidxReader.closeFile();
+        // TODO: Lots of trouble since we are returning a copy. Can we fix that?
+        return &m_starObject;
     }
         
     return 0;
