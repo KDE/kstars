@@ -409,6 +409,43 @@ SkyObject *DeepStarComponent::findByHDIndex( int HDnum ) {
     return m_CatalogNumber.value( HDnum, NULL ); // TODO: Maybe, make this more general.
 }
 
+SkyObject *DeepStarComponent::findByData( starData &stardata ) {
+    Trixel trixel;
+    StarObject m_starObject;
+
+    m_starObject.init( &stardata );
+    // Which trixel is this star in?
+    trixel = m_skyMesh->indexStar( &m_starObject );
+    // Fill the required trixel
+    m_starBlockList.at( trixel )->fillToMag( m_starObject.mag() );
+    for( int i = 0; i < m_starBlockList.at( trixel )->getBlockCount(); ++i ) {
+        StarBlock *block = m_starBlockList.at( trixel )->block( i );
+        for( int j = 0; j < block->getStarCount(); ++j ) {
+            //            int match = 0;
+            StarObject *star = block->star( j );
+            if( !star )
+                continue;
+            if( star->getHDIndex() == m_starObject.getHDIndex() && star->getHDIndex() != 0 ) {
+                // 100% match
+                return star;
+            }
+            /*
+            // Unused code
+            if( star->mag() == m_starObject.mag() )
+                ++match;
+            if( abs( star->ra()->Degrees() - m_starObject.ra()->Degrees() ) < 0.05 )
+                ++match;
+            if( abs( star->dec()->Degrees() - m_starObject.dec()->Degrees() ) < 0.05 )
+                ++match;
+
+            */
+        }
+    }
+    return NULL;
+}
+
+    
+
 // This uses the main star index for looking up nearby stars but then
 // filters out objects with the generic name "star".  We could easily
 // build an index for just the named stars which would make this go

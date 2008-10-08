@@ -97,6 +97,8 @@ public:
 
     SkyObject* findByHDIndex( int HDnum );
 
+    SkyObject* findByData( starData &stardata );
+
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     inline bool fileOpen() { return fileOpened; }
