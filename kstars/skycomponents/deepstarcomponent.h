@@ -95,6 +95,8 @@ public:
 
     float faintMagnitude() const { return m_FaintMagnitude; }
 
+    SkyObject* findByHDIndex( int HDnum );
+
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     inline bool fileOpen() { return fileOpened; }

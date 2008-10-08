@@ -95,21 +95,19 @@ bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float t
 
 int StarComponent::loadDeepStarCatalogs() {
     
-    int count = 0;
-
     // Look for the basic unnamed star catalog to mag 8.0
-    count += addDeepStarCatalogIfExists( "unnamedstars.dat", -5.0, true );
+    if( !addDeepStarCatalogIfExists( "unnamedstars.dat", -5.0, true ) )
+        return 0;
 
     // Look for the Tycho-2 add-on with 2.5 million stars to mag 12.5
-    if( !addDeepStarCatalogIfExists( "tycho2.dat" , 8.0 ) )
-        count += addDeepStarCatalogIfExists( "deepstars.dat", 8.0 );
-    else
-        count += 1;
+    if( !addDeepStarCatalogIfExists( "tycho2.dat" , 8.0 ) && !addDeepStarCatalogIfExists( "deepstars.dat", 8.0 ) )
+        return 1;
 
     // Look for the USNO NOMAD 1e8 star catalog add-on with stars to mag 16
-    count += addDeepStarCatalogIfExists( "USNO-NOMAD-1e8.dat", 11.0 );
+    if( !addDeepStarCatalogIfExists( "USNO-NOMAD-1e8.dat", 11.0 ) )
+        return 2;
 
-    return count;
+    return 3;
 }
 
 //This function is empty for a reason; we override the normal 
@@ -473,7 +471,6 @@ bool StarComponent::loadStaticData()
             star->init( &stardata );
             star->setNames( name, visibleName );
             star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-
             ++nstars;
             
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
@@ -529,9 +526,38 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 // TODO: Strongly consider including Deep Star Components inside StarComponent
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
     SkyObject *o;
+    BinFileHelper hdidxReader;
     // First check the hash to see if we have a corresponding StarObject already
     if( ( o = m_HDHash.value( HDnum, NULL ) ) )
         return o;
+    // If we don't have the StarObject here, try it in the DeepStarComponents' hashes
+    if( m_DeepStarComponents.size() >= 1 )
+        if( ( o = m_DeepStarComponents.at( 0 )->findByHDIndex( HDnum ) ) )
+            return o;
+    if( m_DeepStarComponents.size() >= 2 ) {
+        int32_t offset;
+        FILE *hdidxFile = hdidxReader.openFile( "Henry-Draper.idx" );
+        if( !hdidxFile )
+            return 0;
+        FILE *dataFile;
+        KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
+        fread( &offset, 4, 1, hdidxFile );
+        if( offset <= 0 )
+            return 0;
+        // TODO: Implement byteswapping
+        dataFile = m_DeepStarComponents.at( 1 )->getStarReader()->getFileHandle();
+        KDE_fseek( dataFile, offset, SEEK_SET );
+        fread( &stardata, sizeof( starData ), 1, dataFile );
+        // TODO: Implement byteswapping
+        // byteSwap( &stardata );
+        m_starObject.init( &stardata );
+        m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+        m_starObject.JITupdate( data() );
+        hdidxReader.closeFile();
+        // TODO: Lots of trouble since we are returning a copy. Can we fix that?
+        return &m_starObject;
+    }
+        
     return 0;
 }
 

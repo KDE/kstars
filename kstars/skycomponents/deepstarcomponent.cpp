@@ -404,6 +404,11 @@ bool DeepStarComponent::openDataFile() {
 }
 
 
+SkyObject *DeepStarComponent::findByHDIndex( int HDnum ) {
+    // Currently, we only handle HD catalog indexes
+    return m_CatalogNumber.value( HDnum, NULL ); // TODO: Maybe, make this more general.
+}
+
 // This uses the main star index for looking up nearby stars but then
 // filters out objects with the generic name "star".  We could easily
 // build an index for just the named stars which would make this go
