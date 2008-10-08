@@ -42,7 +42,8 @@
 #include <kde_file.h>
 
 StarComponent::StarComponent(SkyComponent *parent )
-    : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), starsLoaded(false)
+    : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), 
+      starsLoaded(false), focusStar(NULL)
 {
     m_skyMesh = SkyMesh::Instance();
     m_StarBlockFactory = StarBlockFactory::Instance();
@@ -336,6 +337,29 @@ void StarComponent::draw( QPainter& psky )
         //        t_drawNamed += t.restart();
     }
 
+    // Draw focusStar if not null
+    if( focusStar ) {
+        if ( focusStar->updateID != updateID )
+            focusStar->JITupdate( data );
+        
+        float mag = focusStar->mag();
+        
+        if ( map->checkVisibility( focusStar ) ) {
+            QPointF o = map->toScreen( focusStar );
+            
+            if ( map->onScreen( o ) ) {
+                
+                float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
+                if ( size <= 1.0 ) size = 1.0;
+                if( size > maxSize ) size = maxSize;
+                
+                focusStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
+                                 starColorIntensity(), true );
+                visibleStarCount++;
+            }
+        }
+    }
+
     // Now draw each of our DeepStarComponents
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
         m_DeepStarComponents.at( i )->draw( psky );
@@ -553,9 +577,10 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
         m_starObject.JITupdate( data() );
+        focusStar = &m_starObject;
         hdidxReader.closeFile();
         // TODO: Lots of trouble since we are returning a copy. Can we fix that?
-        return &m_starObject;
+        return focusStar;
     }
         
     return 0;

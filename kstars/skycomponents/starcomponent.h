@@ -161,6 +161,7 @@ private:
     quint16        MSpT;             // Maximum number of stars in any given trixel
 
     StarObject     m_starObject;
+    StarObject     *focusStar;       // This object is always drawn
 
     KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
