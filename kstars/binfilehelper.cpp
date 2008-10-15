@@ -32,15 +32,15 @@ BinFileHelper::BinFileHelper() {
 BinFileHelper::~BinFileHelper() {
 
     for(int i = 0; i < fields.size(); ++i)
-	delete fields[i];
+        delete fields[i];
 
     if(fileHandle)
-	closeFile();
+        closeFile();
 }
 
 void BinFileHelper::init() {
     if(fileHandle)
-	fclose(fileHandle);
+        fclose(fileHandle);
     fileHandle = NULL;
     indexUpdated = false;
     FDUpdated = false;
@@ -53,7 +53,7 @@ void BinFileHelper::init() {
 
 void BinFileHelper::clearFields() {
     for(int i = 0; i < fields.size(); ++i)
-	delete fields[i];
+        delete fields[i];
     fields.clear();
 }
 
@@ -79,8 +79,8 @@ FILE *BinFileHelper::openFile(const QString &fileName) {
     fileHandle = KDE_fopen(filepath, "rb");
 
     if(!fileHandle) {
-	errnum = ERR_FILEOPEN;
-	return NULL;
+        errnum = ERR_FILEOPEN;
+        return NULL;
     }
     return fileHandle;
 }
@@ -93,7 +93,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     // Read the preamble
     if(!fileHandle) 
-	return ERR_FILEOPEN;
+        return ERR_FILEOPEN;
 
     rewind(fileHandle);
 
@@ -103,9 +103,9 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     fread(&endian_id, 2, 1, fileHandle);
     if(endian_id != 0x4B53)
-	byteswap = 1;
+        byteswap = 1;
     else
-	byteswap = 0;
+        byteswap = 0;
 
     fread( &versionNumber, 1, 1, fileHandle );
 
@@ -115,19 +115,20 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     if( byteswap ) bswap_16( nfields );
     fields.clear();
     for(i = 0; i < nfields; ++i) {
-	de = new dataElement;
-	if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
-	    return ERR_FD_TRUNC;
-	}
+        de = new dataElement;
+        if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
+            delete de;
+            return ERR_FD_TRUNC;
+        }
         if( byteswap ) bswap_32( de->scale );
-	fields.append( de );
+        fields.append( de );
     }
 
     if(!RSUpdated) {
-	recordSize = 0;
-	for(i = 0; i < fields.size(); ++i)
-	    recordSize += fields[i] -> size;
-	RSUpdated = true;
+        recordSize = 0;
+        for(i = 0; i < fields.size(); ++i)
+            recordSize += fields[i] -> size;
+        RSUpdated = true;
     }
 
     FDUpdated = true;
@@ -151,41 +152,41 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     indexCount.clear();
     indexOffset.clear();
     for(i = 0; i < indexSize; ++i) {
-	if(!fread(&ID, 4, 1, fileHandle)) {
-	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
-	    return ERR_INDEX_TRUNC;
-	}
+        if(!fread(&ID, 4, 1, fileHandle)) {
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            return ERR_INDEX_TRUNC;
+        }
         if( byteswap ) bswap_32( ID );
-	if(ID >= indexSize) {
-	    errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
-	    return ERR_INDEX_BADID;
-	}
-	if(ID != i) {
-	    errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, i);
-	    return ERR_INDEX_IDMISMATCH;
-	}
-	if(!fread(&offset, 4, 1, fileHandle)) {
-	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
-	    return ERR_BADSEEK;
-	}
+        if(ID >= indexSize) {
+            errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
+            return ERR_INDEX_BADID;
+        }
+        if(ID != i) {
+            errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, i);
+            return ERR_INDEX_IDMISMATCH;
+        }
+        if(!fread(&offset, 4, 1, fileHandle)) {
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            return ERR_BADSEEK;
+        }
         if( byteswap ) bswap_32( offset );
-	if(!fread(&nrecs, 4, 1, fileHandle)) {
-	    errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
-	    return ERR_BADSEEK;
-	}
+        if(!fread(&nrecs, 4, 1, fileHandle)) {
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            return ERR_BADSEEK;
+        }
         if( byteswap ) bswap_32( nrecs );
-	if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
-	    errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
-				    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
-	    return ERR_INDEX_BADOFFSET;
-	}
+        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
+            errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
+                                    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
+            return ERR_INDEX_BADOFFSET;
+        }
 
-	indexOffset.append( offset );
-	indexCount.append( nrecs );
+        indexOffset.append( offset );
+        indexCount.append( nrecs );
 
-	recordCount += nrecs;
-	prev_offset = offset;
-	prev_nrecs = nrecs;
+        recordCount += nrecs;
+        prev_offset = offset;
+        prev_nrecs = nrecs;
     }
 
     dataOffset = KDE_ftell(fileHandle);
@@ -198,21 +199,21 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 bool BinFileHelper::readHeader() {
     switch( (errnum = __readHeader()) ) {
     case ERR_NULL:
-	return true;
-	break;
+        return true;
+        break;
     case ERR_FILEOPEN:
-	return false;
-	break;
+        return false;
+        break;
     case ERR_FD_TRUNC:
-	clearFields();
-	break;
+        clearFields();
+        break;
     case ERR_INDEX_TRUNC:
     case ERR_INDEX_BADID:
     case ERR_INDEX_IDMISMATCH:
     case ERR_BADSEEK:
     case ERR_INDEX_BADOFFSET: {
-	indexOffset.clear();
-	indexCount.clear();
+        indexOffset.clear();
+        indexCount.clear();
     }
     }
     return false;
@@ -238,18 +239,18 @@ QString BinFileHelper::getError() {
 struct dataElement BinFileHelper::getField(const QString &fieldName) {
     dataElement de;
     for(int i = 0; i < fields.size(); ++i) {
-	if(fields[i] -> name == fieldName) {
-	    de = *fields[i];
-	    return de;
-	}
+        if(fields[i] -> name == fieldName) {
+            de = *fields[i];
+            return de;
+        }
     }
     return de; // Returns junk!
 }
 
 bool BinFileHelper::isField(const QString &fieldName) {
     for(int i = 0; i < fields.size(); ++i) {
-	if(fields[i] -> name == fieldName)
-	    return true;
+        if(fields[i] -> name == fieldName)
+            return true;
     }
     return false;
 }
