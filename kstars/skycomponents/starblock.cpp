@@ -75,7 +75,7 @@ int StarBlock::allocStars( int nstars ) {
         newStarObject = (StarObject *) malloc( sizeof( StarObject ) );
         if( !newStarObject )
             return i;
-        memcpy( newStarObject, &plainStarTemplate, sizeof( StarObject ) );
+        memcpy( newStarObject, plainStarTemplate, sizeof( StarObject ) );
         stars.append( newStarObject );
     }
     return nstars;

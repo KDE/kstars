@@ -150,7 +150,6 @@ void KSWizard::initGeoPage() {
 }
 
 void KSWizard::slotChangeCity() {
-    Geo = 0L;
 
     if ( location->CityListBox->currentItem() >= 0 ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
@@ -159,10 +158,10 @@ void KSWizard::slotChangeCity() {
                 break;
             }
         }
+        location->LongBox->showInDegrees( Geo->lng() );
+        location->LatBox->showInDegrees( Geo->lat() );
     }
 
-    location->LongBox->showInDegrees( Geo->lng() );
-    location->LatBox->showInDegrees( Geo->lat() );
 }
 
 void KSWizard::slotFilterCities() {

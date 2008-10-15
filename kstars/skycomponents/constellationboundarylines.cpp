@@ -126,6 +126,10 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
         }
 
         // always add the point to the boundary (and toss dupes)
+
+        // By the time we come here, we should have polyList. Else we aren't doing good
+        Q_ASSERT( polyList ); // Is this the right fix?
+
         polyList->append( QPointF( ra, dec ) );
         if ( ra < 0 ) polyList->wrapRA( true );
 
