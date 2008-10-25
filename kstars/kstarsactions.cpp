@@ -79,13 +79,19 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
-#include "ui_devmanager.h"
 #include "imageviewer.h"
+
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
+#include "ui_devmanager.h"
 #include "indimenu.h"
 #include "indidriver.h"
-#include "indifitsconf.h"
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
+#include "indifitsconf.h"
+#endif
+
 #include "skycomponents/customcatalogcomponent.h"
 
 #include <config-kstars.h>
@@ -273,39 +279,53 @@ void KStars::slotJMoonTool() {
 
 void KStars::slotImageSequence()
 {
+#ifdef HAVE_INDI_H
     if (indiseq == NULL)
         indiseq = new imagesequence(this);
 
     if (indiseq->updateStatus())
         indiseq->show();
+#endif
 }
 
 void KStars::slotTelescopeWizard()
 {
+#ifdef HAVE_INDI_H
     telescopeWizardProcess twiz(this);
     twiz.exec();
+#endif
 }
 
 void KStars::slotTelescopeProperties()
 {
+#ifdef HAVE_INDI_H
     telescopeProp scopeProp(this);
     scopeProp.exec();
+#endif
 }
 
-void KStars::slotINDIPanel() {
+void KStars::slotINDIPanel() 
+{
+#ifdef HAVE_INDI_H
     if (indimenu == NULL)
         indimenu = new INDIMenu(this);
 
     indimenu->updateStatus();
+#endif
 }
 
-void KStars::slotINDIDriver() {
+void KStars::slotINDIDriver() 
+{
+#ifdef HAVE_INDI_H
     if (indidriver == NULL)
         indidriver = new INDIDriver(this);
     indidriver->show();
+#endif
 }
 
-void KStars::slotINDIConf() {
+void KStars::slotINDIConf() 
+{
+#ifdef HAVE_INDI_H
     INDIFITSConf indioptions(this);
 
     indioptions.loadOptions();
@@ -349,6 +369,7 @@ void KStars::slotINDIConf() {
 
         map()->forceUpdateNow();
     }
+#endif
 }
 
 void KStars::slotGeoLocator() {
@@ -1113,11 +1134,13 @@ void KStars::removeColorMenuItem( const QString &actionName ) {
 
 void KStars::establishINDI()
 {
+#ifdef HAVE_INDI_H
     if (indimenu == NULL)
         indimenu = new INDIMenu(this);
 
     if (indidriver == NULL)
         indidriver = new INDIDriver(this);
+#endif
 }
 
 void KStars::slotAboutToQuit()

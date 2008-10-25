@@ -34,6 +34,7 @@
 #include <QFile>
 #include <QCursor>
 #include <QProgressDialog>
+#include <QDateTime>
 
 #include <KDebug>
 #include <KLocale>
@@ -44,7 +45,6 @@
 #include <KMessageBox>
 #include <KFileDialog>
 
-#include "indi/libs/indicom.h"
 #include "fitsviewer.h"
 #include "ksutils.h"
 
@@ -337,7 +337,7 @@ int FITSImage::saveFITS( const QString &filename )
         return -1;
     }
 
-    QString history = QString("Modified by KStars on %1").arg(timestamp());
+    QString history = QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
     // History
     if (fits_write_history(fptr, history.toAscii(), &status))
     {

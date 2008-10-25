@@ -56,6 +56,19 @@
 		</Menu>
 	</Menu>
 
+	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
+		<Action name="telescope_wizard" />
+		<Action name="telescope_properties" />
+		<Action name="device_manager" />
+		
+		<Separator />
+		<Action name="indi_cpl" />
+		<Action name="capture_sequence" />
+		<Separator />
+		<Action name="configure_indi" />
+
+	</Menu>
+
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
                 <Action name="skycalendar" />

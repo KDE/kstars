@@ -44,7 +44,7 @@
 #include "ui_indihostconf.h"
 #include "devicemanager.h"
 #include "indidevice.h"
-#include "indi/libs/indicom.h"
+//#include "indi/libs/indicom.h"
 #include "Options.h"
 
 #include "kstars.h"
@@ -54,6 +54,7 @@
 #include <config-kstars.h>
 
 #define  MAX_RETRIES 3
+#define  ERRMSG_SIZE 1024
 
 DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {

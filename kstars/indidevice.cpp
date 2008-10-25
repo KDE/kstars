@@ -31,13 +31,11 @@
 #include "indimenu.h"
 #include "indidriver.h"
 #include "indistd.h"
-#include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "skymap.h"
 #include "skyobject.h"
 #include "timedialog.h"
 #include "geolocation.h"
-#include "indi/base64.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -49,6 +47,8 @@
 #include <termios.h>
 #endif
 #include <zlib.h>
+#include <indicom.h>
+#include <base64.h>
 
 #include <QFrame>
 #include <QCheckBox>

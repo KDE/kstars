@@ -20,9 +20,10 @@
 #include "indidevice.h"
 #include "indistd.h"
 #include "indidriver.h"
-#include "indi/libs/indicom.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+
+#include <indicom.h>
 
 #include <config-kstars.h>
 

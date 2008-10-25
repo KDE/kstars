@@ -15,13 +15,12 @@
  #include "devicemanager.h"
  #include "indimenu.h"
  #include "indistd.h"
- #include "indi/libs/indicom.h"
  #include "Options.h"
  #include "kstars.h"
  #include "timedialog.h"
  #include "skymap.h"
 
- #include "indi/base64.h"
+ #include <base64.h>
 
  #include <kmenu.h>
  #include <klineedit.h>
@@ -183,7 +182,7 @@ void INDI_P::newText()
                 break;
             }
 
-            if (guitype == PG_NUMERIC)
+            /*if (guitype == PG_NUMERIC)
             {
                 f_scansexa(lp->text.toAscii(), &(lp->targetValue));
                 if ((lp->targetValue > lp->max || lp->targetValue < lp->min))
@@ -191,7 +190,7 @@ void INDI_P::newText()
                     KMessageBox::error(0, i18n("Invalid range for element %1. Valid range is from %2 to %3", lp->label, lp->min, lp->max));
                     return;
                 }
-            }
+            }*/
         }
     }
 
@@ -400,7 +399,7 @@ void INDI_P::newBlob()
         if (sending == false)
         {
             sending = true;
-            pg->dp->deviceManager->startBlob (pg->dp->name, name, QString(timestamp()));
+//            pg->dp->deviceManager->startBlob (pg->dp->name, name, QString(timestamp()));
         }
 
         pg->dp->deviceManager->sendOneBlob(el[i]->name, data64_size, format, data64);

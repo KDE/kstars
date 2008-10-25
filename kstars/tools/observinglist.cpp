@@ -48,13 +48,16 @@
 #include "tools/altvstime.h"
 #include "Options.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indimenu.h"
 #include "indielement.h"
 #include "indiproperty.h"
 #include "indidevice.h"
 #include "devicemanager.h"
 #include "indistd.h"
-
+#endif
 
 //
 // ObservingListUI
@@ -100,8 +103,12 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotRemoveSelectedObjects() ) );
     connect( ui->CenterButton, SIGNAL( clicked() ),
              this, SLOT( slotCenterObject() ) );
+
+    #ifdef HAVE_INDI_H
     connect( ui->ScopeButton, SIGNAL( clicked() ),
              this, SLOT( slotSlewToObject() ) );
+    #endif
+
     connect( ui->DetailsButton, SIGNAL( clicked() ),
              this, SLOT( slotDetails() ) );
     connect( ui->AVTButton, SIGNAL( clicked() ),
@@ -267,7 +274,9 @@ void ObservingList::slotNewSelection() {
 
         //Enable buttons
         ui->CenterButton->setEnabled( true );
+	#ifdef HAVE_INDI_H
         ui->ScopeButton->setEnabled( true );
+	#endif
         ui->DetailsButton->setEnabled( true );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
@@ -362,6 +371,7 @@ void ObservingList::slotCenterObject() {
 
 void ObservingList::slotSlewToObject()
 {
+#ifdef HAVE_INDI_H
 
     INDI_D *indidev(NULL);
     INDI_P *prop(NULL), *onset(NULL);
@@ -487,6 +497,7 @@ void ObservingList::slotSlewToObject()
     // We didn't find any telescopes
     KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
 
+#endif
 }
 
 //FIXME: This will open multiple Detail windows for each object;

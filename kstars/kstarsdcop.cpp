@@ -47,12 +47,16 @@
 #include "Options.h"
 
 // INDI includes
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indidriver.h"
 #include "indimenu.h"
 #include "indielement.h"
 #include "indidevice.h"
 #include "indiproperty.h"
 #include "devicemanager.h"
+#endif
 
 void KStars::setRaDec( double ra, double dec ) {
     map()->setDestination( new SkyPoint( ra, dec ) );

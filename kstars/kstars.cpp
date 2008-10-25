@@ -50,8 +50,12 @@
 
 #include "kstarsadaptor.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indimenu.h"
 #include "indidriver.h"
+#endif
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),

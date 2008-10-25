@@ -40,9 +40,15 @@
 
 #include "simclock.h"
 #include "timezonerule.h"
+
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indidriver.h"
-#include "indi/libs/lilxml.h"
+#include "lilxml.h"
 #include "indistd.h"
+#endif
+
 #include "detaildialog.h"
 
 //Initialize static members
@@ -905,6 +911,7 @@ bool KStarsData::readVARData(void)
 
 bool KStarsData::readINDIHosts(void)
 {
+#ifdef HAVE_INDI_H
     QString indiFile("indihosts.xml");
     QFile localeFile;
     QFile file;
@@ -966,6 +973,9 @@ bool KStarsData::readINDIHosts(void)
     delLilXML(xmlParser);
 
     return true;
+    #else
+    return false;
+    #endif
 }
 
 //There's a lot of code duplication here, but it's not avoidable because 

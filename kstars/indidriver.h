@@ -22,7 +22,7 @@
 #include <kdialog.h>
 #include <unistd.h>
 
-#include "indi/libs/lilxml.h"
+#include <lilxml.h>
 #include "ui_devmanager.h"
 
 class QTreeWidgetItem;

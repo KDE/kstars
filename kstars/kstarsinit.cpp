@@ -45,11 +45,14 @@
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "infoboxes.h"
-#include "indimenu.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
 
 #include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
+#include "indimenu.h"
+#endif
 
 //This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h
@@ -382,6 +385,7 @@ void KStars::initActions() {
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
     // devices Menu
+#ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
     ka = actionCollection()->addAction( "telescope_wizard");
     ka->setText( i18n("Telescope Wizard...") );
@@ -408,6 +412,7 @@ void KStars::initActions() {
     ka = actionCollection()->addAction( "configure_indi");
     ka->setText( i18n("Configure INDI...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
+#endif
 #endif
 
     //Help Menu:
@@ -486,6 +491,7 @@ void KStars::initActions() {
     ta->setText( i18nc( "Toggle the opaque fill of the ground polygon in the display", "Ground" ) );
     ta->setToolTip( i18n("Toggle opaque ground") );
     connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
+
 
     setXMLFile( "kstarsui.rc" );
 
@@ -605,8 +611,11 @@ void KStars::datainitFinished(bool worked) {
     connect( TimeStep, SIGNAL( scaleChanged( float ) ), this,
              SLOT( mapGetsFocus() ) );
 
+
+    #ifdef HAVE_INDI_H
     //Initialize INDIMenu
     indimenu = new INDIMenu(this);
+    #endif
 
     //Initialize Observing List
     obsList = new ObservingList( this );

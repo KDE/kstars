@@ -10,5 +10,5 @@
 /* Define if you have fitsio.h */
 #cmakedefine   HAVE_CFITSIO_H 1
 
-/* Define if you have libnova.h */
-#cmakedefine   HAVE_NOVA_H 1
+/* Define if you have indidevapi.h */
+#cmakedefine   HAVE_INDI_H 1

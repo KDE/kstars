@@ -47,12 +47,17 @@
 #include "thumbnailpicker.h"
 #include "Options.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indielement.h"
 #include "indiproperty.h"
 #include "indidevice.h"
 #include "indimenu.h"
 #include "devicemanager.h"
 #include "indistd.h"
+#endif
+
 #include "skycomponents/constellationboundary.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
@@ -97,7 +102,11 @@ void DetailDialog::createGeneralTab()
     //Connections
     connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
     connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
+    #ifdef HAVE_INDI_H
     connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
+    #else
+    Data->ScopeButton->setEnabled(false);
+    #endif
     connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
     //Show object thumbnail image
@@ -825,7 +834,7 @@ void DetailDialog::centerMap() {
 
 void DetailDialog::centerTelescope()
 {
-
+#ifdef HAVE_INDI_H
     INDI_D *indidev(NULL);
     INDI_P *prop(NULL), *onset(NULL);
     INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *ConnectEle(NULL), *nameEle(NULL);
@@ -949,7 +958,7 @@ void DetailDialog::centerTelescope()
 
     // We didn't find any telescopes
     KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-
+#endif
 }
 
 void DetailDialog::showThumbnail() {

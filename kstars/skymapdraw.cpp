@@ -39,14 +39,19 @@
 #include "jupitermoons.h"
 #include "infoboxes.h"
 #include "simclock.h"
+#include "observinglist.h"
+#include "skycomponents/constellationboundary.h"
+#include "skycomponents/skylabeler.h"
+
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "devicemanager.h"
 #include "indimenu.h"
 #include "indiproperty.h"
 #include "indielement.h"
 #include "indidevice.h"
-#include "observinglist.h"
-#include "skycomponents/constellationboundary.h"
-#include "skycomponents/skylabeler.h"
+#endif
 
 void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
     double sinRa, sinDec, cosRa, cosDec;
@@ -404,6 +409,7 @@ void SkyMap::drawObservingList( QPainter &psky ) {
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky)
 {
+#ifdef HAVE_INDI_H
     if ( ks ) { //ks doesn't exist in non-GUI mode!
         INDI_P *eqNum;
         INDI_P *portConnect;
@@ -561,6 +567,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
             }
         }
     }
+#endif
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {

@@ -1,6 +1,5 @@
 add_subdirectory( skycomponents ) 
 add_subdirectory( widgets ) 
-add_subdirectory( indi ) 
 add_subdirectory( tools ) 
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
@@ -12,7 +11,27 @@ Find_package(ZLIB REQUIRED)
 if (CFITSIO_FOUND)
   set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
+  include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
+
+if (INDI_FOUND)
+  set (indi_SRCS
+	devicemanager.cpp
+	indidevice.cpp
+	indidriver.cpp
+	indielement.cpp
+	indifitsconf.cpp
+	indigroup.cpp
+	indimenu.cpp
+	indiproperty.cpp
+	indistd.cpp
+	streamwg.cpp
+	telescopewizardprocess.cpp
+	telescopeprop.cpp
+	imagesequence.cpp
+)
+  include_directories(${INDI_INCLUDE_DIR})
+endif(INDI_FOUND)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
@@ -21,29 +40,15 @@ include_directories(
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
 )
-if (CFITSIO_FOUND)
-  include_directories(${CFITSIO_INCLUDE_DIR})
-endif (CFITSIO_FOUND)
-
-if (NOVA_FOUND)
-    include_directories(${NOVA_INCLUDE_DIR})
-endif (NOVA_FOUND)
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
-set(liblilxml_SRCS  ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/lilxml.c )
-
-set(libindicom_SRCS 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/indi/libs/indicom.c
-	${CMAKE_SOURCE_DIR}/kstars/kstars/indi/base64.c 
-	)
-
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
 	tools/avtplotwidget.cpp
-        tools/calendarwidget.cpp
+	tools/calendarwidget.cpp
 	tools/conjunctions.cpp
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
@@ -127,8 +132,8 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/optionstreeview.ui
 	tools/planetviewer.ui
 	tools/scriptbuilder.ui
-        tools/scriptnamedialog.ui
-        tools/skycalendar.ui
+	tools/scriptnamedialog.ui
+	tools/skycalendar.ui
 	tools/wutdialog.ui )
 
 
@@ -220,26 +225,24 @@ if (KSTARS_CMAKE_HACK)
 endif (KSTARS_CMAKE_HACK)
 
 set(kstars_extra_SRCS
-	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp 
-	deepskyobject.cpp detaildialog.cpp devicemanager.cpp dms.cpp finddialog.cpp 
-	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp imagesequence.cpp 
-	imageviewer.cpp indidevice.cpp indidriver.cpp indielement.cpp 
-	indifitsconf.cpp indigroup.cpp indimenu.cpp indiproperty.cpp indistd.cpp 
-	infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp kscomet.cpp 
-	ksfilereader.cpp ksmoon.cpp ksnumbers.cpp ksplanet.cpp 
+	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp
+	deepskyobject.cpp detaildialog.cpp dms.cpp finddialog.cpp 
+	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp
+	imageviewer.cpp infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp
+	kscomet.cpp ksfilereader.cpp ksmoon.cpp ksnumbers.cpp ksplanet.cpp 
 	ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
 	opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp opssolarsystem.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp trailobject.cpp
-	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp streamwg.cpp 
-	telescopewizardprocess.cpp telescopeprop.cpp timedialog.cpp timezonerule.cpp 
+	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp timedialog.cpp timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
-set(kstars_SRCS ${liblilxml_SRCS} ${libindicom_SRCS} ${fits_SRCS} 
+set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS}
 )
+
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
 
@@ -287,23 +290,27 @@ endif(NOT WIN32)
 if (CFITSIO_FOUND)
   target_link_libraries(kstars ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
-
-if (NOVA_FOUND)
-  target_link_libraries(kstars ${NOVA_LIBRARIES})
-endif (NOVA_FOUND)
+if (INDI_FOUND)
+  target_link_libraries(kstars ${INDI_LIBRARIES})
+endif (INDI_FOUND)
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
+
+if (INDI_FOUND)
+add_custom_command(TARGET kstars PRE_BUILD COMMAND cp ARGS ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui-indi.rc  ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc)
+else (INDI_FOUND)
+add_custom_command(TARGET kstars PRE_BUILD COMMAND cp ARGS ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui.rc  ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc)
+message(STATUS "INDI NOT FOUND!")
+endif(INDI_FOUND)
 
 ########### install files ###############
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
-install( FILES kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
+install( FILES ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 endif (WIN32)
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
-
-

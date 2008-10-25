@@ -28,11 +28,16 @@
 #include "trailobject.h"
 #include "skymap.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
 #include "indimenu.h"
 #include "devicemanager.h"
 #include "indidevice.h"
 #include "indigroup.h"
 #include "indiproperty.h"
+#endif
+
 #include "skycomponents/constellationboundary.h"
 
 #include <kactioncollection.h>
@@ -248,8 +253,10 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 
     addSeparator();
 
+    #ifdef HAVE_INDI_H
     if (addINDI())
         addSeparator();
+    #endif
 }
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
@@ -290,6 +297,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 
 bool KSPopupMenu::addINDI(void)
 {
+    #ifdef HAVE_INDI_H
     INDIMenu *indiMenu = ks->getINDIMenu();
     DeviceManager *managers;
     INDI_D *dev;
@@ -366,6 +374,9 @@ bool KSPopupMenu::addINDI(void)
     } // end device manager
 
     return true;
+    #else
+    return false;
+    #endif
 }
 
 void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {

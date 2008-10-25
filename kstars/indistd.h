@@ -12,9 +12,10 @@
  #ifndef INDISTD_H_
  #define INDISTD_H_
 
- #include <qobject.h>
- #include <indi/libs/lilxml.h>
- #include <kfileitem.h>
+#include <qobject.h>
+#include <kfileitem.h>
+
+#include <lilxml.h>
 
 class INDI_E;
 class INDI_P;
