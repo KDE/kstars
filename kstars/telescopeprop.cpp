@@ -37,7 +37,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* /*name*/, bool modal, 
     ksw = (KStars *) parent;
 
     ksw->establishINDI();
-    indi_driver = ksw->getINDIDriver();
+    indi_driver = ksw->indiDriver();
     newScopePending = false;
 
     ui = new Ui::scopeProp();

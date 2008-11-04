@@ -82,7 +82,7 @@ INDIDriver::INDIDriver( KStars *_ks )
         : KDialog( _ks ),  ksw( _ks )
 {
 
-    currentPort = Options::portStart().toInt()-1;
+    currentPort = Options::serverPortStart().toInt()-1;
     lastGroup = NULL;
     lastDevice = NULL;
 
@@ -107,7 +107,7 @@ INDIDriver::INDIDriver( KStars *_ks )
 QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
   
   
-    //QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
+    //QObject::connect(ksw->indiMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
       QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
       QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
       QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
@@ -292,8 +292,8 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
         	return;
     	}
    
-	//deviceManager = ksw->getINDIMenu()->startDeviceManager(processed_devices, ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER, ((uint) port));
-        deviceManager = ksw->getINDIMenu()->initDeviceManager("localhost", ((uint) port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
+	//deviceManager = ksw->indiMenu()->startDeviceManager(processed_devices, ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER, ((uint) port));
+        deviceManager = ksw->indiMenu()->initDeviceManager("localhost", ((uint) port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
 
 	if (deviceManager == NULL)
 	{
@@ -306,7 +306,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
 	connect(deviceManager, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
    }
    else
-	ksw->getINDIMenu()->stopDeviceManager(processed_devices);
+	ksw->indiMenu()->stopDeviceManager(processed_devices);
 
 }
 
@@ -328,7 +328,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
             // connect to host
             if (toConnect)
             {
-		deviceManager = ksw->getINDIMenu()->initDeviceManager(host->hostname, host->portnumber.toUInt(), DeviceManager::M_CLIENT);
+		deviceManager = ksw->indiMenu()->initDeviceManager(host->hostname, host->portnumber.toUInt(), DeviceManager::M_CLIENT);
   
 	        if (deviceManager == NULL)
 		{
@@ -341,7 +341,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
 		deviceManager->connectToServer();
 	     }
              else
-             	ksw->getINDIMenu()->removeDeviceManager(host->deviceManager);
+             	ksw->indiMenu()->removeDeviceManager(host->deviceManager);
   
 		return;
 	  }
@@ -382,7 +382,7 @@ void INDIDriver::updateMenuActions()
     // We enable capture image sequence if we have any imaging device
 
     QAction *tmpAction = NULL;
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
     bool activeDevice = false;
     bool activeImaging = false;
     INDI_P *imgProp = NULL;
@@ -601,11 +601,11 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 int INDIDriver::getINDIPort()
 {
 
-    int lastPort  = Options::portEnd().toInt();;
+    int lastPort  = Options::serverPortEnd().toInt();;
     currentPort++;
 
     // recycle
-    if (currentPort > lastPort) currentPort = Options::portStart().toInt();
+    if (currentPort > lastPort) currentPort = Options::serverPortStart().toInt();
 
     KNetwork::KServerSocket ss;
     ss.setFamily(KNetwork::KResolver::InetFamily);

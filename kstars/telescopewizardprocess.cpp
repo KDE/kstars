@@ -55,11 +55,11 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 
     ksw->establishINDI();
 
-    indimenu   = ksw->getINDIMenu();
-    indidriver = ksw->getINDIDriver();
+    indimenu   = ksw->indiMenu();
+    indidriver = ksw->indiDriver();
 
-    INDIMessageBar = Options::indiMessages();
-    Options::setIndiMessages( false );
+    INDIMessageBar = Options::showINDIMessages();
+    Options::setShowINDIMessages( false );
 
     QTime newTime( ksw->data()->lt().time() );
     QDate newDate( ksw->data()->lt().date() );
@@ -81,8 +81,8 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     if (device->deviceType == KSTARS_TELESCOPE)
         ui->telescopeCombo->addItem(device->tree_label);
 
-    if ( !Options::indiTelescopePort().isEmpty())
-        portList << Options::indiTelescopePort();
+    if ( !Options::telescopePort().isEmpty())
+        portList << Options::telescopePort();
 
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
     << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
@@ -100,7 +100,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 
 telescopeWizardProcess::~telescopeWizardProcess()
 {
-    Options::setIndiMessages( INDIMessageBar );
+    Options::setShowINDIMessages( INDIMessageBar );
 
     //Reset();
 }
@@ -311,7 +311,7 @@ void telescopeWizardProcess::processPort()
 
     //newDeviceTimer->stop();
 
-    Options::setIndiMessages( INDIMessageBar );
+    Options::setShowINDIMessages( INDIMessageBar );
 
     lp = pp->findElement("CONNECT");
     pp->newSwitch(lp);

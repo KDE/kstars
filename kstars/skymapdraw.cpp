@@ -414,11 +414,11 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
         INDI_P *eqNum;
         INDI_P *portConnect;
         INDI_E *lp;
-        INDIMenu *devMenu = ks->getINDIMenu();
+        INDIMenu *devMenu = ks->indiMenu();
         bool useJ2000 (false), useAltAz(false);
         SkyPoint indi_sp;
 
-        if (!Options::indiCrosshairs() || devMenu == NULL)
+        if (!Options::showTargetCrosshair() || devMenu == NULL)
             return;
 
         psky.setPen( QPen( QColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );

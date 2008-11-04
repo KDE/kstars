@@ -36,7 +36,7 @@
 imagesequence::imagesequence(QWidget* parent): QDialog(parent)
 {
     ksw = (KStars *) parent;
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
 
     setupUi(this);
 
@@ -103,7 +103,7 @@ bool imagesequence::setupCCDs()
 {
     bool imgDeviceFound (false);
     INDI_P *imgProp;
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
     if (devMenu == NULL)
         return false;
 
@@ -171,7 +171,7 @@ bool imagesequence::setupFilters()
 {
     bool filterDeviceFound(false);
     INDI_P *filterProp;
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
     if (devMenu == NULL)
         return false;
 
@@ -292,7 +292,7 @@ void imagesequence::checkCCD(int ccdNum)
     INDI_D *idevice = NULL;
     QString targetCCD = CCDCombo->itemText(ccdNum);
 
-    INDIMenu *imenu = ksw->getINDIMenu();
+    INDIMenu *imenu = ksw->indiMenu();
     if (!imenu)
     {
         KMessageBox::error(this, i18n("INDI Menu has not been initialized properly. Restart KStars."));
@@ -363,7 +363,7 @@ bool imagesequence::verifyCCDIntegrity()
     INDI_E *exposeElem;
     stdDevCCD = NULL;
 
-    INDIMenu *imenu = ksw->getINDIMenu();
+    INDIMenu *imenu = ksw->indiMenu();
     if (!imenu)
     {
         KMessageBox::error(this, i18n("INDI Menu has not been initialized properly. Restart KStars."));
@@ -413,7 +413,7 @@ bool imagesequence::verifyCCDIntegrity()
 bool imagesequence::verifyFilterIntegrity()
 {
     QString targetFilter;
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
     INDI_D *filterDevice (NULL);
     INDI_E *filterElem(NULL);
     if (devMenu == NULL)
@@ -578,7 +578,7 @@ void imagesequence::captureImage()
 
 void imagesequence::updateFilterCombo(int filterNum)
 {
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
     QStringList filterList;
     INDI_E *filterElem;
     int filterMax;
@@ -622,7 +622,7 @@ void imagesequence::selectFilter()
     INDI_P * filterProp(NULL);
     INDI_E * filterElem(NULL);
     INDI_D * filterDev(NULL);
-    INDIMenu *devMenu = ksw->getINDIMenu();
+    INDIMenu *devMenu = ksw->indiMenu();
 
     // Let's select a new filter in acoord with the settings
     // We need to take into consideration the following conditions:

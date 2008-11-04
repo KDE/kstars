@@ -125,59 +125,75 @@
 	</group>
 
 	<group name="indi">
-		<entry name="indiAutoGeo" type="Bool">
-			<label>Automatically set telescope's geographic location?</label>
-			<whatsthis>If true, INDI will automatically synch the telescope's geographic location to the current KStars location.</whatsthis> 
+		<entry name="useGeographicUpdate" type="Bool">
+			<label>Automatically updates geographic location?</label>
 			<default>true</default>
 		</entry>
-		<entry name="indiAutoTime" type="Bool">
-			<label>Automatically set telescope's time and date?</label>
-			<whatsthis>If true, INDI will automatically synch the telescope's clock to the current KStars time.</whatsthis> 
+		<entry name="useTimeUpdate" type="Bool">
+			<label>Automatically updates time and date?</label>
 			<default>true</default>
 		</entry>
-		<entry name="indiCrosshairs" type="Bool">
+		<entry name="showTargetCrosshair" type="Bool">
 			<label>Draw crosshairs at telescope position in the sky map?</label>
 			<whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis> 
 			<default>true</default>
 		</entry>
-		<entry name="indiMessages" type="Bool">
+		<entry name="showINDIMessages" type="Bool">
 			<label>Display INDI messages in the statusbar?</label>
 			<whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="indiFITSDisplay" type="Bool">
+		<entry name="showFITS" type="Bool">
 			<label>Display FITS automatically when an image is captured?</label>
 			<whatsthis>Toggle automatic display of FITS files upon capture.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="indiTelescopePort" type="String">
+		<entry name="telescopePort" type="String">
 			<label>INDI Telescope port</label>
 			<whatsthis>The port to which the telescope is attached (e.g., /dev/ttyS0)</whatsthis>
 			<default>/dev/ttyS0</default>
 		</entry>
-		<entry name="indiVideoPort" type="String">
+		<entry name="videoPort" type="String">
 			<label>INDI Video port</label>
 			<whatsthis>The port to which the video device is connected</whatsthis>
 			<default>/dev/video0</default>
 		</entry>
-		<entry name="fitsSaveDirectory" type="String">
+		<entry name="useComputerSource" type="Bool">
+			<label>Use computer time and location for synchronization?</label>
+			<default>true</default>
+		</entry>
+		<entry name="useDeviceSource" type="Bool">
+			<label>Use device time and location for synchronization?</label>
+			<default>false</default>
+		</entry>
+		<entry name="fitsDir" type="String">
 			<label>FITS Default directory</label>
 			<whatsthis>The default location of saved FITS files</whatsthis>
 			<default></default>
 		</entry>
-		<entry name="portStart" type="String">
+		<entry name="serverPortStart" type="String">
 			<label>INDI Server Start Port</label>
 			<whatisthis>INDI server will attempt to bind with ports starting from this port</whatisthis>
 			<default>7264</default>
 		</entry>
-		<entry name="portEnd" type="String">
+		<entry name="serverPortEnd" type="String">
 			<label>INDI Server Final Port</label>
 			<whatisthis>INDI server will attempt to bind with ports ending with this port</whatisthis>
 			<default>9000</default>
 		</entry>
-		<entry name="FilterAlias" type="StringList">
+		<entry name="filterAlias" type="StringList">
 			<label>Aliases for filter wheel slots.</label>
 			<whatsthis>List of the aliases for filter wheel slots.</whatsthis>
+		</entry>
+		<entry name="indiServer" type="String">
+			<label>PATH to indiserver binary</label>
+			<whatsthis>PATH to indiserver binary</whatsthis>
+			<default>/usr/bin/indiserver</default>
+		</entry>
+		<entry name="indiDriversDir" type="String">
+			<label>PATH to indi drivers directory</label>
+			<whatsthis>PATH to indi drivers directory</whatsthis>
+			<default>/usr/share/indi</default>
 		</entry>
 	</group>
 

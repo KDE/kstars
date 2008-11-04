@@ -11,6 +11,12 @@ Find_package(ZLIB REQUIRED)
 if (CFITSIO_FOUND)
   set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
   set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
+set(fitsui_SRCS
+	fitsheaderdialog.ui
+	statform.ui
+	streamform.ui
+	fitshistogramui.ui 
+)
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
 
@@ -20,7 +26,7 @@ if (INDI_FOUND)
 	indidevice.cpp
 	indidriver.cpp
 	indielement.cpp
-	indifitsconf.cpp
+	opsindi.cpp
 	indigroup.cpp
 	indimenu.cpp
 	indiproperty.cpp
@@ -30,6 +36,15 @@ if (INDI_FOUND)
 	telescopeprop.cpp
 	imagesequence.cpp
 )
+set(indiui_SRCS
+	devmanager.ui
+        imgsequencedlg.ui
+        opsindi.ui
+        indihostconf.ui
+        telescopewizard.ui
+        telescopeprop.ui
+)
+
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
@@ -205,15 +220,12 @@ endif (WIN32 AND CMAKE_MAJOR_VERSION MATCHES "2" AND CMAKE_MINOR_VERSION MATCHES
 if (KSTARS_CMAKE_HACK)
     # workaround for win32 command line to long problem
     # build intermediate libraries 
-    kde4_add_ui_files(libkstarscomponents_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
-       details_position.ui details_links.ui details_database.ui details_log.ui 
-       devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
-       fovdialog.ui newfov.ui locationdialog.ui 
-       fitshistogramui.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
-       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui
-       opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
-       statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 
-       thumbnailpicker.ui thumbnaileditor.ui 
+    kde4_add_ui_files(libkstarscomponents_SRCS indiui_SRCS fitsui_SRCS
+       addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
+       details_links.ui details_database.ui details_log.ui finddialog.ui
+       focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
+       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui opscatalog.ui 
+       opscolors.ui opsguides.ui opssolarsystem.ui thumbnailpicker.ui thumbnaileditor.ui 
 )
 
     kde4_add_kcfg_files(libkstarscomponents_SRCS ${kstars_KCFG_SRCS})
@@ -251,14 +263,13 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 ##DCOP_IS_DEAD
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
-kde4_add_ui_files(kstars_SRCS addcatdialog.ui addlinkdialog.ui details_data.ui
-       details_position.ui details_links.ui details_database.ui details_log.ui 
-       devmanager.ui finddialog.ui fitsheaderdialog.ui focusdialog.ui 
-       fovdialog.ui newfov.ui locationdialog.ui 
-       fitshistogramui.ui imgsequencedlg.ui indiconf.ui indihostconf.ui 
+kde4_add_ui_files(kstars_SRCS
+       ${indiui_SRCS} ${fitsui_SRCS}
+       addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
+       details_links.ui details_database.ui details_log.ui finddialog.ui
+       focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
        wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui
        opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
-       statform.ui streamform.ui telescopewizard.ui telescopeprop.ui 
        thumbnailpicker.ui thumbnaileditor.ui 
 )
 

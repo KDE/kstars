@@ -269,7 +269,7 @@ void FITSViewer::fileSave()
     char err_text[FLEN_STATUS];
 
     KUrl backupCurrent = currentURL;
-    QString currentDir = Options::fitsSaveDirectory();
+    QString currentDir = Options::fitsDir();
 
     // If no changes made, return.
     if (Dirty == 0 && !currentURL.isEmpty())

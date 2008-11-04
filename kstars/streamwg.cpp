@@ -157,7 +157,7 @@ void StreamWG::captureImage()
     QString fname;
     QString fmt;
     KUrl currentFileURL;
-    QString currentDir = Options::fitsSaveDirectory();
+    QString currentDir = Options::fitsDir();
     KTemporaryFile tmpfile;
     tmpfile.open();
 

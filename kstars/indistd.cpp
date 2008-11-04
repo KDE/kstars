@@ -65,12 +65,13 @@
 INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
 {
 
-    dp			= associatedDevice;
-    ksw  		= kswPtr;
-    initDevCounter	= 0;
-    seqCount		= 0;
-    batchMode 		= false;
-    ISOMode   		= false;
+    dp			  = associatedDevice;
+    ksw  		  = kswPtr;
+    seqCount		  = 0;
+    batchMode 		  = false;
+    ISOMode   		  = false;
+    driverLocationUpdated = false;
+    driverTimeUpdated     = false;
 
     currentObject  	= NULL;
     streamWindow   	= new StreamWG(this, NULL);
@@ -118,7 +119,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
     // It's either FITS or OTHER
     char file_template[MAX_FILENAME_LEN];
-    QString currentDir = Options::fitsSaveDirectory();
+    QString currentDir = Options::fitsDir();
     int fd, nr, n=0;
 
     if (currentDir.endsWith('/'))
@@ -128,7 +129,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
     streamWindow->close();
 
-    if (dataType == DATA_FITS && !batchMode && Options::indiFITSDisplay())
+    if (dataType == DATA_FITS && !batchMode && Options::showFITS())
     {
         strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
         if ((fd = mkstemp(file_template)) < 0)
@@ -205,7 +206,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
         return;
     }
 
-    if (dataType == DATA_FITS && (batchMode || !Options::indiFITSDisplay()))
+    if (dataType == DATA_FITS && (batchMode || !Options::showFITS()))
     {
         ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
         emit FITSReceived(dp->label);
@@ -226,7 +227,9 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
 }
 
-/* Process standard Text and Number properties arrives from the driver */
+/*******************************************************************************/
+/* Process TEXT & NUMBER property updates received FROM the driver	       */
+/*******************************************************************************/
 void INDIStdDevice::setTextValue(INDI_P *pp)
 {
     INDI_E *el;
@@ -240,37 +243,63 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
     {
 
     case TIME_UTC:
-        if ( Options::indiAutoTime() )
-            handleDevCounter();
+        if ( Options::useTimeUpdate() && !driverTimeUpdated)
+	{
+	    driverTimeUpdated = true;
+            processDeviceInit();
+	}
 
-        // Update KStars time once we receive update from INDI
-        el = pp->findElement("UTC");
-        if (!el) return;
+	// Update KStars time once we receive update from INDI, if the source is set to DEVICE
+	if (Options::useDeviceSource())
+	{
+	        el = pp->findElement("UTC");
+	        if (!el) return;
 
-        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
-        indiDate.setYMD(y, m, d);
-        indiTime.setHMS(hour, min, sec);
-        indiDateTime.setDate(indiDate);
-        indiDateTime.setTime(indiTime);
+	        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%dT%d%*[^0-9]%d%*[^0-9]%d", &y, &m, &d, &hour, &min, &sec);
+	        indiDate.setYMD(y, m, d);
+	        indiTime.setHMS(hour, min, sec);
+	        indiDateTime.setDate(indiDate);
+	        indiDateTime.setTime(indiTime);
 
-        ksw->data()->changeDateTime(indiDateTime);
-        ksw->data()->syncLST();
+        	ksw->data()->changeDateTime(indiDateTime);
+        	ksw->data()->syncLST();
+	}
 
         break;
 
     case TIME_LST:
-        if ( Options::indiAutoTime())
-            handleDevCounter();
         break;
 
     case GEOGRAPHIC_COORD:
-        if ( Options::indiAutoGeo() )
-            handleDevCounter();
+        if ( Options::useGeographicUpdate() && !driverLocationUpdated)
+	{
+	    driverLocationUpdated = true;
+            processDeviceInit();
+	}
+
+	// Update KStars Location once we receive update from INDI, if the source is set to DEVICE
+	if (Options::useDeviceSource())
+	{
+		dms lng, lat;
+
+	        el = pp->findElement("LONG");
+	        if (!el) return;
+	        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+		lng.setD(d,min,sec);
+
+		el = pp->findElement("LAT");
+	        if (!el) return;
+	        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+		lat.setD(d,min,sec);
+		
+	        ksw->geo()->setLong(lng);
+		ksw->geo()->setLat(lat);
+	}
         break;
 
     case CCD_EXPOSURE:
         if (pp->state == PS_IDLE || pp->state == PS_OK)
-            pp->set_w->setText(i18n("Start"));
+            pp->set_w->setText(i18n("Capture Image"));
         break;
 
     case CCD_FRAME:
@@ -326,12 +355,15 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
 
 }
 
+/*******************************************************************************/
+/* Process SWITCH property update received FROM the driver		       */
+/*******************************************************************************/
 void INDIStdDevice::setLabelState(INDI_P *pp)
 {
     INDI_E *lp;
     INDI_P *imgProp;
     QAction *tmpAction;
-    INDIDriver *drivers = ksw->getINDIDriver();
+    INDIDriver *drivers = ksw->indiDriver();
     QFont buttonFont;
 
     switch (pp->stdID)
@@ -342,7 +374,7 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
 
         if (lp->state == PS_ON)
         {
-            initDeviceOptions();
+            createDeviceInit();
             emit linkAccepted();
 
             imgProp = dp->findProp("CCD_EXPOSURE");
@@ -359,12 +391,8 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
         {
             if (streamWindow)
             {
-                //sNotifier->disconnect();
-                //dp->parentMgr->sNotifier->disconnect();
                 streamWindow->enableStream(false);
                 streamWindow->close();
-
-                //close(streamFD);
             }
 
             if (ksw->map()->focusObject() == telescopeSkyObject)
@@ -394,14 +422,13 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
 
 }
 
+/*******************************************************************************/
+/* Tell driver to stop sending stream			                       */
+/*******************************************************************************/
 void INDIStdDevice::streamDisabled()
 {
     INDI_P *pp;
     INDI_E *el;
-
-    //pp = dp->findProp("CONNECTION");
-    //if (!pp) return;
-    //if (pp->state == PS_OFF) return;
 
     pp = dp->findProp("VIDEO_STREAM");
     if (!pp) return;
@@ -417,6 +444,9 @@ void INDIStdDevice::streamDisabled()
 
 }
 
+/*******************************************************************************/
+/* Update the prefix for the sequence of images to be captured                 */
+/*******************************************************************************/
 void INDIStdDevice::updateSequencePrefix( const QString &newPrefix)
 {
     seqPrefix = newPrefix;
@@ -427,12 +457,16 @@ void INDIStdDevice::updateSequencePrefix( const QString &newPrefix)
 
     if (ISOMode) return;
 
-    seqLister->openUrl(Options::fitsSaveDirectory());
+    seqLister->openUrl(Options::fitsDir());
 
     checkSeqBoundary(seqLister->items());
 
 }
 
+/*******************************************************************************/
+/* Determine the next file number sequence. That is, if we have file1.png      */
+/* and file2.png, then the next sequence should be file3.png		       */
+/*******************************************************************************/
 void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
 {
     int newFileIndex;
@@ -473,6 +507,44 @@ void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
 
 }
 
+/*******************************************************************************/
+/* Prompt user to end date and time settings, then send it over to INDI Driver */
+/*******************************************************************************/
+void INDIStdProperty::newTime()
+{
+    INDI_E * timeEle;
+    INDI_P *SDProp;
+
+    timeEle = pp->findElement("UTC");
+    if (!timeEle) return;
+
+    TimeDialog timedialog ( ksw->data()->ut(), ksw->geo(), ksw, true );
+
+    if ( timedialog.exec() == QDialog::Accepted )
+    {
+        QTime newTime( timedialog.selectedTime() );
+        QDate newDate( timedialog.selectedDate() );
+
+        timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
+                                  .arg(newDate.year()).arg(newDate.month())
+                                  .arg(newDate.day()).arg(newTime.hour())
+                                  .arg(newTime.minute()).arg(newTime.second()));
+        pp->newText();
+    }
+    else return;
+
+    SDProp  = pp->pg->dp->findProp("TIME_LST");
+    if (!SDProp) return;
+    timeEle = SDProp->findElement("LST");
+    if (!timeEle) return;
+
+    timeEle->write_w->setText(ksw->LST()->toHMSString());
+    SDProp->newText();
+}
+
+/*********************************************************************************/
+/* Update the Driver's Time							 */
+/*********************************************************************************/
 void INDIStdDevice::updateTime()
 {
     INDI_P *pp;
@@ -505,18 +577,11 @@ void INDIStdDevice::updateTime()
                          .arg(newTime.minute()).arg(newTime.second()));
     pp->newText();
 
-    /* TODO Do we want to send sidereal time? Test it on the LX200
-     pp  = dp->findProp("TIME_LST");
-     if (!pp) return;
-     lp = pp->findElement("LST");
-     if (!lp) return;
-      
-     lp->write_w->setText(ksw->LST()->toHMSString());
-     pp->newText();
-    */
-
 }
 
+/*********************************************************************************/
+/* Update the Driver's Geographical Location					 */
+/*********************************************************************************/
 void INDIStdDevice::updateLocation()
 {
     INDI_P *pp;
@@ -543,11 +608,13 @@ void INDIStdDevice::updateLocation()
     pp->newText();
 }
 
-
+/*********************************************************************************/
+/* If a new property is received, process it and trigger events when necessary   */
+/*********************************************************************************/
 void INDIStdDevice::registerProperty(INDI_P *pp)
 {
     INDI_E * portEle;
-    INDIDriver *drivers = ksw->getINDIDriver();
+    INDIDriver *drivers = ksw->indiDriver();
     QString str;
 
     switch (pp->stdID)
@@ -565,16 +632,16 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
                 {
                     if (device->deviceType == KSTARS_TELESCOPE)
                     {
-                        portEle->read_w->setText( Options::indiTelescopePort() );
-                        portEle->write_w->setText( Options::indiTelescopePort() );
-                        portEle->text = Options::indiTelescopePort();
+                        portEle->read_w->setText( Options::telescopePort() );
+                        portEle->write_w->setText( Options::telescopePort() );
+                        portEle->text = Options::telescopePort();
                         break;
                     }
                     else if (device->deviceType == KSTARS_VIDEO)
                     {
-                        portEle->read_w->setText( Options::indiVideoPort() );
-                        portEle->write_w->setText( Options::indiVideoPort() );
-                        portEle->text = Options::indiVideoPort();
+                        portEle->read_w->setText( Options::videoPort() );
+                        portEle->write_w->setText( Options::videoPort() );
+                        portEle->text = Options::videoPort();
                         break;
                     }
                 }
@@ -591,52 +658,60 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
     }
 }
 
-void INDIStdDevice::initDeviceOptions()
+/*********************************************************************************/
+/* Find out which properties KStars should listen to before declaring		 */
+/* that a device is online.							 */
+/*********************************************************************************/
+void INDIStdDevice::createDeviceInit()
 {
 
     INDI_P *prop;
 
-    initDevCounter = 0;
+    //initDevCounter = 0;
 
-    if ( Options::indiAutoTime() )
+    if ( Options::useTimeUpdate() && Options::useComputerSource())
     {
         prop = dp->findProp("TIME_UTC");
         if (prop)
         {
+	    driverTimeUpdated = false;
             updateTime();
-            initDevCounter += 5;
+            //initDevCounter += 5;
         }
     }
-
-    if ( Options::indiAutoGeo() )
+ 
+    if ( Options::useGeographicUpdate() && Options::useComputerSource())
     {
         prop = dp->findProp("GEOGRAPHIC_COORD");
         if (prop)
         {
+	    driverLocationUpdated = false;
             updateLocation();
-            initDevCounter += 2;
+            //initDevCounter += 2;
         }
     }
 
-    if ( Options::indiMessages() )
+    if ( Options::showINDIMessages() )
         ksw->statusBar()->changeItem( i18n("%1 is online.", dp->name), 0);
 
     ksw->map()->forceUpdateNow();
 }
 
-void INDIStdDevice::handleDevCounter()
+/*********************************************************************************/
+/* Declare a device is online only when the driver updates the necessary	 */
+/* properties required by the user (e.g. time and location)			 */
+/*********************************************************************************/
+void INDIStdDevice::processDeviceInit()
 {
 
-    if (initDevCounter <= 0)
-        return;
-
-    initDevCounter--;
-
-    if ( initDevCounter == 0 && Options::indiMessages() )
+    if ( driverTimeUpdated && driverLocationUpdated && Options::showINDIMessages() )
         ksw->statusBar()->changeItem( i18n("%1 is online and ready.", dp->name), 0);
 
 }
 
+/*********************************************************************************/
+/* Process Non-Sidereal Tracking requests					 */
+/*********************************************************************************/
 bool INDIStdDevice::handleNonSidereal()
 {
     if (!currentObject)
@@ -645,17 +720,7 @@ bool INDIStdDevice::handleNonSidereal()
     INDI_E *nameEle = NULL, *tracklp = NULL;
 
     kDebug() << "Object of type " << currentObject->typeName();
-    //TODO Meade claims that the library access is available to
-    // all telescopes, which is unture. Only classic meade support
-    // that. They claim that library function will be available to all
-    // in "later" firmware revisions for the autostar and GPS.
-    // As a temporary solution, I'm going to explicitly check for the
-    // device name which ideally I'm not supposed to do since all properties
-    // should be defined from the INDI driver, but since the INDI autostar
-    // and gps define the library functions (based on Meade's future claims)
-    // I will check the device name until Meade's respondes to my query.
 
-    // Update: Solution
     // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
     // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
     // based on the object type. Objects with high proper motions will require faster updates.
@@ -715,7 +780,9 @@ bool INDIStdDevice::handleNonSidereal()
     return false;
 }
 
-
+/*********************************************************************************/
+/* Issue new re-tracking command to the driver					 */
+/*********************************************************************************/
 void INDIStdDevice::timerDone()
 {
     INDI_P *prop;
@@ -808,10 +875,13 @@ INDIStdProperty::~INDIStdProperty()
 
 }
 
+/*********************************************************************************/
+/* Process TEXT & NUMBER properties about to be SENT TO INDI Driver 		 */
+/*********************************************************************************/
 void INDIStdProperty::newText()
 {
     INDI_E *lp;
-    INDIDriver *drivers = ksw->getINDIDriver();
+    INDIDriver *drivers = ksw->indiDriver();
 
     switch (pp->stdID)
     {
@@ -833,12 +903,12 @@ void INDIStdProperty::newText()
                 {
                     if (device->deviceType == KSTARS_TELESCOPE)
                     {
-                        Options::setIndiTelescopePort( lp->text );
+                        Options::setTelescopePort( lp->text );
                         kDebug() << "Setting telescope port " << lp->text;
                     }
                     else if (device->deviceType == KSTARS_VIDEO)
                     {
-                        Options::setIndiVideoPort( lp->text );
+                        Options::setVideoPort( lp->text );
                         kDebug() << "Setting video port " << lp->text;
                     }
                     break;
@@ -851,6 +921,60 @@ void INDIStdProperty::newText()
 
 }
 
+/*********************************************************************************/
+/* Process SWITCH properties about to be SENT TO INDI Driver 		 	 */
+/*********************************************************************************/
+bool INDIStdProperty::newSwitch(INDI_E* el)
+{
+    INDI_P *prop;
+
+    switch (pp->stdID)
+    {
+    case CONNECTION:
+        if (el->name == QString("DISCONNECT"))
+	{
+	    /*********************************************************/
+	    /* List of Actions to do when the device is DISCONNECTED */
+	    /*********************************************************/
+
+	    /* #1 Disable Stream, if enabled */
+            stdDev->streamDisabled();
+
+	    /* #2 set driverLocationUpdated and driverTimeUpdated to false*/
+	    stdDev->driverLocationUpdated = false;
+            stdDev->driverTimeUpdated = false;
+
+	}
+        else
+        {
+ 	    /*********************************************************/
+	    /* List of Actions to do when the device is CONNECTED    */
+	    /*********************************************************/
+
+	    /* #1 Set and update the device port */
+            prop = pp->pg->dp->findProp("DEVICE_PORT");
+            if (prop)
+                prop->newText();
+        }
+        break;
+    case TELESCOPE_ABORT_MOTION:
+    case TELESCOPE_PARK:
+    case TELESCOPE_MOTION_NS:
+    case TELESCOPE_MOTION_WE:
+        //TODO add text in the status bar "Slew aborted."
+        stdDev->devTimer->stop();
+        break;
+    default:
+        break;
+    }
+
+    return false;
+
+}
+
+/*******************************************************************************/
+/* INDI Standard Property is triggered from the context menu                   */
+/*******************************************************************************/
 bool INDIStdProperty::actionTriggered(INDI_E *lp)
 {
 
@@ -1001,70 +1125,6 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
 
     return false;
 
-}
-
-// Return true if the complete operation is done here, or false if the operation is to be completed in the properties newSwitch()
-bool INDIStdProperty::newSwitch(INDI_E* el)
-{
-    INDI_P *prop;
-
-    switch (pp->stdID)
-    {
-    case CONNECTION:
-        if (el->name == QString("DISCONNECT"))
-            stdDev->streamDisabled();
-        else
-        {
-            prop = pp->pg->dp->findProp("DEVICE_PORT");
-            if (prop)
-                prop->newText();
-        }
-        break;
-    case TELESCOPE_ABORT_MOTION:
-    case TELESCOPE_PARK:
-    case TELESCOPE_MOTION_NS:
-    case TELESCOPE_MOTION_WE:
-        //TODO add text in the status bar "Slew aborted."
-        stdDev->devTimer->stop();
-        break;
-    default:
-        break;
-    }
-
-    return false;
-
-}
-
-void INDIStdProperty::newTime()
-{
-    INDI_E * timeEle;
-    INDI_P *SDProp;
-
-    timeEle = pp->findElement("UTC");
-    if (!timeEle) return;
-
-    TimeDialog timedialog ( ksw->data()->ut(), ksw->geo(), ksw, true );
-
-    if ( timedialog.exec() == QDialog::Accepted )
-    {
-        QTime newTime( timedialog.selectedTime() );
-        QDate newDate( timedialog.selectedDate() );
-
-        timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
-                                  .arg(newDate.year()).arg(newDate.month())
-                                  .arg(newDate.day()).arg(newTime.hour())
-                                  .arg(newTime.minute()).arg(newTime.second()));
-        pp->newText();
-    }
-    else return;
-
-    SDProp  = pp->pg->dp->findProp("TIME_LST");
-    if (!SDProp) return;
-    timeEle = SDProp->findElement("LST");
-    if (!timeEle) return;
-
-    timeEle->write_w->setText(ksw->LST()->toHMSString());
-    SDProp->newText();
 }
 
 #include "indistd.moc"

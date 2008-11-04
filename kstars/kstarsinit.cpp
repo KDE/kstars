@@ -495,8 +495,8 @@ void KStars::initActions() {
 
     setXMLFile( "kstarsui.rc" );
 
-    if (Options::fitsSaveDirectory().isEmpty())
-        Options::setFitsSaveDirectory(QDir:: homePath());
+    if (Options::fitsDir().isEmpty())
+        Options::setFitsDir(QDir:: homePath());
 }
 
 void KStars::initFOV() {

@@ -845,7 +845,7 @@ void DetailDialog::centerTelescope()
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
 
-    INDIMenu *imenu = ksw->getINDIMenu();
+    INDIMenu *imenu = ksw->indiMenu();
     for ( int i=0; i < imenu->managers.size() ; i++ )
     {
         for ( int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++ )

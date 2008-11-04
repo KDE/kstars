@@ -89,7 +89,7 @@
 #include "indidriver.h"
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
-#include "indifitsconf.h"
+#include "opsindi.h"
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
@@ -323,55 +323,6 @@ void KStars::slotINDIDriver()
 #endif
 }
 
-void KStars::slotINDIConf() 
-{
-#ifdef HAVE_INDI_H
-    INDIFITSConf indioptions(this);
-
-    indioptions.loadOptions();
-    /*QStringList filterList;
-
-
-    indiconf.timeCheck->setChecked( Options::indiAutoTime() );
-    indiconf.GeoCheck->setChecked( Options::indiAutoGeo() );
-    indiconf.crosshairCheck->setChecked( Options::indiCrosshairs() );
-    indiconf.messagesCheck->setChecked ( Options::indiMessages() );
-    indiconf.fitsAutoDisplayCheck->setChecked( Options::indiFITSDisplay() );
-    indiconf.telPort_IN->setText ( Options::indiTelescopePort());
-    indiconf.vidPort_IN->setText ( Options::indiVideoPort());
-
-    if (Options::fitsSaveDirectory().isEmpty())
-    {
-      indiconf.fitsDIR_IN->setText (QDir:: homePath());
-      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
-    }
-    else
-    indiconf.fitsDIR_IN->setText ( Options::fitsSaveDirectory());
-
-    if (Options::filterAlias().empty())
-    {
-         filterList << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8"
-                    << "9";
-         indiconf.filterCombo->insertStringList(filterList);
-    }*/
-
-    if (indioptions.exec() == QDialog::Accepted)
-    {
-        /*Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
-        Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
-        Options::setIndiCrosshairs( indiconf.crosshairCheck->isChecked() );
-        Options::setIndiMessages( indiconf.messagesCheck->isChecked() );
-        Options::setIndiFITSDisplay (indiconf.AutoDisplayCheck->isChecked());
-        Options::setIndiTelescopePort ( indiconf.telPort_IN->text());
-        Options::setIndiVideoPort( indiconf.vidPort_IN->text());
-        Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());*/
-        indioptions.saveOptions();
-
-        map()->forceUpdateNow();
-    }
-#endif
-}
-
 void KStars::slotGeoLocator() {
     LocationDialog locationdialog (this);
     if ( locationdialog.exec() == QDialog::Accepted ) {
@@ -442,7 +393,14 @@ void KStars::slotViewOps() {
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
     dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+
+    #ifdef HAVE_INDI_H
+    opsindi = new OpsINDI (this);
+    dialog->addPage(opsindi, i18n("INDI"), "kstars_INDI");
+    #endif
+
     dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
+
     dialog->setHelp(QString(), "kstars");
     dialog->show();
 }

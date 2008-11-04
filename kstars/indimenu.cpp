@@ -107,7 +107,7 @@ DeviceManager* INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceMa
     deviceManager = new DeviceManager(this, inHost, inPort, inMode);
     managers.append(deviceManager);
   
-    connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->getINDIDriver(), SLOT(enableDevice(INDI_D *)));
+    connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->indiDriver(), SLOT(enableDevice(INDI_D *)));
     connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)));
   
     return deviceManager;
@@ -154,7 +154,7 @@ int INDIMenu::processClient(const QString &hostname, const QString &portnumber)
 {
 
     DeviceManager *dev;
-    INDIDriver *drivers = ksw->getINDIDriver();
+    INDIDriver *drivers = ksw->indiDriver();
 
     dev = new DeviceManager(this, managersCounter);
     if (dev->indiConnect(hostname, portnumber))
@@ -209,13 +209,13 @@ void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
         if (deviceManager == managers.at(i))
         {
 		foreach(INDI_D *device, deviceManager->indi_dev)
-			ksw->getINDIDriver()->disableDevice(device);
-	    //ksw->getINDIDriver()->shutDeviceManager(deviceManager);
+			ksw->indiDriver()->disableDevice(device);
+	    //ksw->indiDriver()->shutDeviceManager(deviceManager);
             delete managers.takeAt(i);
         }
     }
   
-    ksw->getINDIDriver()->updateMenuActions();
+    ksw->indiDriver()->updateMenuActions();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)

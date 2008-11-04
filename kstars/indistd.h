@@ -36,14 +36,13 @@ public:
     INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr);
     ~INDIStdDevice();
 
-    KStars      		*ksw;			/* Handy pointer to KStars */
-    INDI_D      		*dp;			/* associated device */
+    KStars      	*ksw;			/* Handy pointer to KStars */
+    INDI_D      	*dp;			/* associated device */
 
-    StreamWG             *streamWindow;
-    SkyObject   		*currentObject;
-    QTimer      		*devTimer;
-    KProgressDialog      *downloadDialog;
-
+    StreamWG            *streamWindow;
+    SkyObject   	*currentObject;
+    QTimer      	*devTimer;
+    KProgressDialog     *downloadDialog;
 
     enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
@@ -53,11 +52,10 @@ public:
     void handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat);
 
     /* Device options */
-    void initDeviceOptions();
-    void handleDevCounter();
+    void createDeviceInit();
+    void processDeviceInit();
     bool handleNonSidereal();
     void streamDisabled();
-
 
     /* INDI STD: Updates device time */
     void updateTime();
@@ -67,15 +65,15 @@ public:
     void updateSequencePrefix(const QString &newPrefix);
 
     int                  dataType;
-    int 			initDevCounter;
     QString		dataExt;
     LilXML		*parser;
 
     QString		seqPrefix;
     int			seqCount;
-    bool			batchMode;
-    bool			ISOMode;
-    KDirLister           *seqLister;
+    bool		batchMode;
+    bool		ISOMode;
+    bool		driverLocationUpdated, driverTimeUpdated;
+    KDirLister          *seqLister;
     SkyObject		*telescopeSkyObject;
 
 public slots:

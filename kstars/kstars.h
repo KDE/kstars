@@ -54,6 +54,7 @@ class OpsGuides;
 class OpsSolarSystem;
 class OpsColors;
 class OpsAdvanced;
+class OpsINDI;
 
 /**
 	*@class KStars
@@ -114,11 +115,11 @@ public:
 
     /**@return pointer to the INDI driver
     	*/
-    INDIDriver* getINDIDriver() { return indidriver; }
+    INDIDriver* indiDriver() { return indidriver; }
 
     /**@return pointer to the INDI menu
     	*/
-    INDIMenu* getINDIMenu() { return indimenu; }
+    INDIMenu* indiMenu() { return indimenu; }
 
     /** Establish the INDI system. No GUI
     	*/
@@ -582,11 +583,6 @@ private slots:
     void slotINDIPanel();
 
     /**
-     * action slot: open INDI configuration dialog
-     */
-    void slotINDIConf();
-
-    /**
     	*action slot: open dialog for setting the view options
     	*/
     void slotViewOps();
@@ -728,6 +724,7 @@ private:
     OpsSolarSystem *opsolsys;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
+    OpsINDI	*opsindi;
 
     KLed *m_DiskLED;
 };

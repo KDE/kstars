@@ -343,7 +343,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 	indi_dev.append(dp);
 	emit newDevice(dp);
 		
-	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->getINDIDriver(), SLOT(newTelescopeDiscovered()));
+	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()));
 
     	/* ok */
     	return dp;
@@ -430,7 +430,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
     txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
 
-    if ( Options::indiMessages() )
+    if ( Options::showINDIMessages() )
         parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
 
 }
