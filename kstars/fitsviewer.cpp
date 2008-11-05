@@ -106,7 +106,7 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
     } 
 
     QFile tempFile;
-    QAction *action;
+    KAction *action;
 
     if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
     {

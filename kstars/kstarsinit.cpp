@@ -74,7 +74,7 @@ void KStars::initActions() {
 //     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
 //     connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
 
-    QAction *ka = KNS::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
+    KAction *ka = KNS::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_D ) );
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
