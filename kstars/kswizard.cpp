@@ -30,7 +30,6 @@
 #include "ksutils.h"
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
-#include "telescopewizardprocess.h"
 
 WizWelcomeUI::WizWelcomeUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );

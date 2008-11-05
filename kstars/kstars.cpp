@@ -46,7 +46,6 @@
 #include "imageviewer.h"
 #include "infoboxes.h"
 #include "observinglist.h"
-#include "imagesequence.h"
 
 #include "kstarsadaptor.h"
 
@@ -55,6 +54,7 @@
 #ifdef HAVE_INDI_H
 #include "indimenu.h"
 #include "indidriver.h"
+#include "imagesequence.h"
 #endif
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :

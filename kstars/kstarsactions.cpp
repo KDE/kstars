@@ -90,6 +90,7 @@
 #include "telescopewizardprocess.h"
 #include "telescopeprop.h"
 #include "opsindi.h"
+#include "imagesequence.h"
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
@@ -101,8 +102,6 @@
 #endif
 
 // #include "libkdeedu/kdeeduui/kdeeduglossary.h"
-
-#include "imagesequence.h"
 
 //This file contains function definitions for Actions declared in kstars.h
 
