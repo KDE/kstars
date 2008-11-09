@@ -23,6 +23,7 @@
 
 #include <QRadioButton>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <QTreeWidget>
 #include <QIcon>
@@ -68,8 +69,6 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 
     runningPix = KIcon( "system-run" );
     stopPix    = KIcon( "dialog-cancel" );
-    // jpetso: I don't know what the above icon does, depending on the usage
-    // it might also be "process-stop". please check back.
     localMode  = KIcon( "computer" );
     serverMode = KIcon( "network-server" );
 
@@ -104,23 +103,23 @@ INDIDriver::INDIDriver( KStars *_ks )
 
     QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
     QObject::connect(ui->modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
-QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
+    QObject::connect(ui->removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
   
   
     //QObject::connect(ksw->indiMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
-      QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
-      QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
-      QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
-      QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+    QObject::connect(ui->connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
+    QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
+    QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
+    QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
     QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateLocalTab()));
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
-      QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
   
-      readXMLDriver();
-  }
+    readXMLDrivers();
+}
   
 void INDIDriver::enableDevice(INDI_D *indi_device)
-  {
+{
    if (indi_device == NULL)
 	return;
   
@@ -433,60 +432,6 @@ void INDIDriver::updateMenuActions()
 
 }
 
-#if 0
-bool INDIDriver::runDevice(IDevice *dev)
-{
-    dev->indiPort = getINDIPort();
-
-    if (dev->indiPort < 0)
-    {
-        KMessageBox::error(0, i18n("Cannot start INDI server: port error."));
-        return false;
-    }
-
-    dev->proc = new KProcess;
-
-    *dev->proc << "indiserver";
-    *dev->proc << "-v" << "-p" << QString::number(dev->indiPort) << dev->driver;
-
-    // Check Mode
-    dev->mode = ui->localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
-
-    if (dev->mode == IDevice::M_LOCAL)
-        ui->localTreeWidget->currentItem()->setIcon(2, ui->localMode);
-    else
-        ui->localTreeWidget->currentItem()->setIcon(2, ui->serverMode);
-
-    connect(dev->proc, SIGNAL(readyReadStandardError  ()),  dev, SLOT(processstd()));
-
-    dev->proc->setOutputChannelMode(KProcess::SeparateChannels);
-    dev->proc->setReadChannel(QProcess::StandardError);
-    dev->proc->start();
-
-    //dev->proc->start();
-
-    return (dev->proc->waitForStarted());
-}
-
-void INDIDriver::.arg(q(IDevice *dev)
-{
-
-    //for (unsigned int i=0 ; i < devices.size(); i++)
-    foreach (IDevice *device, devices)
-    if (dev->label == device->label)
-        device->restart();
-}
-
-void INDIDriver::.arg(q(const QString &deviceLabel)
-{
-    //for (unsigned int i=0 ; i < devices.size(); i++)
-    foreach (IDevice *device, devices)
-    if (deviceLabel == device->label)
-        device->restart();
-
-}
-#endif
-
 void INDIDriver::saveDevicesToDisk()
 {
 
@@ -505,10 +450,12 @@ void INDIDriver::saveDevicesToDisk()
     QTextStream outstream(&file);
 
     // Let's write drivers first
+/*
     outstream << "<ScopeDrivers>" << endl;
     for (int i=0; i < driversList.count(); i++)
         outstream << "       <driver>" << driversList[i] << "</driver>" << endl;
     outstream << "</ScopeDrivers>" << endl;
+*/
 
     // Next we write devices, in the following order:
     // Telescopes, CCDs, Filter Wheels, Video, Dome, GPS
@@ -622,24 +569,47 @@ int INDIDriver::getINDIPort()
     return -1;
 }
 
-bool INDIDriver::readXMLDriver()
+// Change this to ReadXMLDriver(file name). Scan directory, TAKE out drivers.xml, then call that first. If drivers.xml doesn't exit, 
+// process each file individually in the order received.
+bool INDIDriver::readXMLDrivers()
 {
-    QString indiFile("drivers.xml");
-    QFile file;
-    char errmsg[1024];
+    //QString indiFile("drivers.xml");
+    QDir indiDir;
+    QString driverName;
 
-    if ( !KSUtils::openDataFile( file, indiFile ) )
+    if (indiDir.cd(Options::indiDriversDir()) == false)
     {
-        KMessageBox::error(0, i18n("Unable to find device driver file 'drivers.xml'. Please locate the file and place it in one of the following locations:\n\n \t$(KDEDIR)/share/apps/kstars/ \n\t~/.kde/share/apps/kstars/"));
+        KMessageBox::error(0, i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", Options::indiDriversDir()));
+          return false;
+     }
 
-        return false;
+    indiDir.setFilter(QDir::Files | QDir::NoSymLinks);
+    QFileInfoList list = indiDir.entryInfoList();
+
+    foreach (QFileInfo fileInfo, list)
+    {
+        driverName = QString("%1/%2").arg(Options::indiDriversDir()).arg(fileInfo.fileName());
+        processXMLDriver(driverName);
     }
 
+return true;
+
+}
+
+void INDIDriver::processXMLDriver(QString & driverName)
+{
+    QFile file(driverName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        KMessageBox::error(0, i18n("Failed to open INDI Driver file: %1", driverName));
+         return;
+    }
+
+    char errmsg[1024];
     char c;
     LilXML *xmlParser = newLilXML();
     XMLEle *root = NULL;
 
-    //while ( (c = (signed char) file.getch()) != -1)
     while ( file.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
@@ -654,15 +624,14 @@ bool INDIDriver::readXMLDriver()
         else if (errmsg[0])
         {
             kDebug() << QString(errmsg);
-            return false;
+            delLilXML(xmlParser);
+            return;
         }
     }
 
     delLilXML(xmlParser);
-    return true;
 
 }
-
 bool INDIDriver::buildDriversList( XMLEle *root, char* /*errmsg[]*/)
 {
 
@@ -681,10 +650,11 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     XMLAtt *ap;
     XMLEle *ep;
     QString groupName;
+    QTreeWidgetItem *group;
     int groupType = KSTARS_TELESCOPE;
 
-    if (!strcmp(tagXMLEle(root), "ScopeDrivers"))
-        return buildDriversList(root, errmsg);
+    //if (!strcmp(tagXMLEle(root), "ScopeDrivers"))
+      //  return buildDriversList(root, errmsg);
 
     // avoid overflow
     if (strlen(tagXMLEle(root)) > 1024)
@@ -722,7 +692,13 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
         return true;
 #endif
 
-    QTreeWidgetItem *group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);
+    // Find if the group already exists
+    QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems(groupName, Qt::MatchExactly);
+    if (!treeList.isEmpty())
+        group = treeList[0];
+    else
+        group = new QTreeWidgetItem(ui->localTreeWidget, lastGroup);
+
     group->setText(0, groupName);
     lastGroup = group;
 

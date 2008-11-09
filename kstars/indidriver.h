@@ -97,7 +97,8 @@ public:
     INDIDriver(KStars *ks);
     ~INDIDriver();
 
-    bool readXMLDriver();
+    bool readXMLDrivers();
+    void processXMLDriver(QString & driverName);
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
