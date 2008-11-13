@@ -260,12 +260,10 @@ void StarComponent::draw( QPainter& psky )
     //Loop for drawing star images
 
     MeshIterator region(m_skyMesh, DRAW_BUF);
-    // TODO: Debug code. May not be useful in production. Remove if required.
     magLim = maglim;
 
     m_StarBlockFactory->drawID = m_skyMesh->drawID();
 
-    QTime t;
     int nTrixels = 0;
 
     /*
@@ -277,7 +275,6 @@ void StarComponent::draw( QPainter& psky )
 
     visibleStarCount = 0;
 
-    t.start();
     // Old formula:
     //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
 
@@ -436,10 +433,6 @@ bool StarComponent::loadStaticData()
     swapBytes = dataReader.getByteSwap();
 
     long int nstars = 0;
-    QTime t;
-
-    // TODO : Remove timing code when we are done with all possible optimizations
-    t.start();
 
     KDE_fseek(dataFile, dataReader.getDataOffset(), SEEK_SET);
 
@@ -523,7 +516,6 @@ bool StarComponent::loadStaticData()
 
     dataReader.closeFile();
     nameReader.closeFile();
-    kDebug() << "Loaded " << nstars << " stars in " << t.elapsed() << " ms" << endl;
 
     starsLoaded = true;
     return true;
@@ -547,7 +539,6 @@ SkyObject* StarComponent::findByName( const QString &name ) {
     return 0;
 }
 
-// TODO: Strongly consider including Deep Star Components inside StarComponent
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
     SkyObject *o;
     BinFileHelper hdidxReader;
@@ -568,18 +559,17 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         fread( &offset, 4, 1, hdidxFile );
         if( offset <= 0 )
             return 0;
-        // TODO: Implement byteswapping
         dataFile = m_DeepStarComponents.at( 1 )->getStarReader()->getFileHandle();
         KDE_fseek( dataFile, offset, SEEK_SET );
         fread( &stardata, sizeof( starData ), 1, dataFile );
-        // TODO: Implement byteswapping
-        // byteSwap( &stardata );
+        if( m_DeepStarComponents.at( 1 )->getStarReader()->getByteSwap() ) {
+            byteSwap( &stardata );
+        }
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
         m_starObject.JITupdate( data() );
         focusStar = &m_starObject;
         hdidxReader.closeFile();
-        // TODO: Lots of trouble since we are returning a copy. Can we fix that?
         return focusStar;
     }
         
