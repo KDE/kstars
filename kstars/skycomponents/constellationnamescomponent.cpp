@@ -42,9 +42,13 @@ bool ConstellationNamesComponent::selected()
 
 }
 
-void ConstellationNamesComponent::init(KStarsData *)
+void ConstellationNamesComponent::init(KStarsData *data)
 {
+    uint i = 0;
+    bool culture = false;
     KSFileReader fileReader;
+    QString cultureName;
+
     if ( ! fileReader.open( "cnames.dat" ) ) return;
 
     emitProgressText( i18n("Loading constellation names" ) );
@@ -52,32 +56,47 @@ void ConstellationNamesComponent::init(KStarsData *)
     while ( fileReader.hasMoreLines() ) {
         QString line, name, abbrev;
         int rah, ram, ras, dd, dm, ds;
-        QChar sgn;
+        QChar sgn, mode;
 
         line = fileReader.readLine();
 
-        rah = line.mid( 0, 2 ).toInt();
-        ram = line.mid( 2, 2 ).toInt();
-        ras = line.mid( 4, 2 ).toInt();
+        mode = line.at( 0 );
+        if ( mode == 'C') {
+            cultureName = line.mid( 2 ).trimmed();
+            if ( cultureName == data->skyComposite()->currentCulture() )
+                culture = true;
+            else
+                culture = false;
 
-        sgn = line.at( 6 );
-        dd = line.mid( 7, 2 ).toInt();
-        dm = line.mid( 9, 2 ).toInt();
-        ds = line.mid( 11, 2 ).toInt();
+            i++;
 
-        abbrev = line.mid( 13, 3 );
-        name  = line.mid( 17 ).trimmed();
+            continue;
+        }
 
-        dms r; r.setH( rah, ram, ras );
-        dms d( dd, dm,  ds );
+        if ( culture ) {
+            rah = line.mid( 0, 2 ).toInt();
+            ram = line.mid( 2, 2 ).toInt();
+            ras = line.mid( 4, 2 ).toInt();
 
-        if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
+            sgn = line.at( 6 );
+            dd = line.mid( 7, 2 ).toInt();
+            dm = line.mid( 9, 2 ).toInt();
+            ds = line.mid( 11, 2 ).toInt();
 
-        SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
-        objectList().append( o );
+            abbrev = line.mid( 13, 3 );
+            name  = line.mid( 17 ).trimmed();
 
-        //Add name to the list of object names
-        objectNames(SkyObject::CONSTELLATION).append( name );
+            dms r; r.setH( rah, ram, ras );
+            dms d( dd, dm,  ds );
+
+            if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
+
+            SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
+            objectList().append( o );
+
+            //Add name to the list of object names
+            objectNames(SkyObject::CONSTELLATION).append( name );
+        }
     }
 }
 

@@ -19,17 +19,22 @@
 
 #include "ui_opsguides.h"
 
+class KStars;
+
 class OpsGuides : public QFrame, public Ui::OpsGuides
 {
     Q_OBJECT
 
 public:
-    OpsGuides( QWidget* parent = 0 );
+    OpsGuides( KStars *_ks );
     ~OpsGuides();
 
 private slots:
     void slotToggleConstellOptions();
     void slotToggleMilkyWayOptions();
+
+private:
+    KStars *ksw;
 };
 
 #endif // OPSGUIDES_H_

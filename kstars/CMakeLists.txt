@@ -193,6 +193,7 @@ set(libkstarscomponents_SRCS
    skycomponents/starblock.cpp
    skycomponents/starblocklist.cpp
    skycomponents/starblockfactory.cpp
+   skycomponents/culturelist.cpp
 )
 
 set(libkstarswidgets_SRCS ${fitswidgets_SRCS}

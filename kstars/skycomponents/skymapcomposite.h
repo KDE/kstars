@@ -30,6 +30,7 @@ class SkyMap;
 
 class QPolygonF;
 
+class CultureList;
 class ConstellationBoundary;
 class ConstellationBoundaryLines;
 class ConstellationLines;
@@ -171,6 +172,8 @@ public:
     void reloadDeepSky( KStarsData *data );
     void reloadAsteroids( KStarsData *data );
     void reloadComets( KStarsData *data );
+    void reloadCLines( KStarsData *data );
+    void reloadCNames( KStarsData *data );
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -194,6 +197,10 @@ public:
     QList<SkyObject*>& comets();
     KSPlanet* earth();
     KSPlanetBase* planet( int n );
+    QStringList getCultureNames();
+    QString getCultureName( int index );
+    QString currentCulture();
+    void setCurrentCulture( QString culture );
 
     QList<SkyComponent*> customCatalogs();
 
@@ -201,6 +208,7 @@ signals:
     void progressText( const QString &message );
 
 private:
+    CultureList                 *m_Cultures;
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;

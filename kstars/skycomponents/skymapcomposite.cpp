@@ -30,6 +30,7 @@
 #include "constellationboundary.h"
 #include "constellationboundarylines.h"
 #include "constellationlines.h"
+#include "culturelist.h"
 #include "constellationnamescomponent.h"
 #include "coordinategrid.h"
 #include "customcatalogcomponent.h"
@@ -76,6 +77,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     m_CBoundLines = new ConstellationBoundaryLines( this );
     addComponent( m_CBoundLines );
 
+    m_Cultures = new CultureList();
+
     m_CLines = new ConstellationLines( this );
     addComponent( m_CLines );
 
@@ -119,6 +122,7 @@ SkyMapComposite::~SkyMapComposite()
 {
     delete m_skyLabeler;     // These are on the heap to avoid header file hell.
     delete m_skyMesh;
+    delete m_Cultures;
 }
 
 void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
@@ -220,7 +224,9 @@ void SkyMapComposite::draw( QPainter& psky )
 
     m_CoordinateGrid->draw( psky );
 
-    m_CBoundLines->draw( psky );
+    // Draw constellation boundary lines only if we draw western constellations
+    if ( m_Cultures->current() == "Western" )
+        m_CBoundLines->draw( psky );
 
     m_CLines->draw( psky );
 
@@ -485,6 +491,16 @@ void SkyMapComposite::reloadComets( KStarsData *data ) {
     m_SolarSystem->reloadComets( data );
 }
 
+void SkyMapComposite::reloadCLines( KStarsData *data ) {
+    m_CLines = new ConstellationLines( this );
+    m_CLines->init( data );
+}
+
+void SkyMapComposite::reloadCNames( KStarsData *data ) {
+    m_CNames = new ConstellationNamesComponent( this );
+    m_CNames->init( data );
+}
+
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
     qApp->processEvents();         // -jbb: this seemed to make it work.
@@ -535,6 +551,22 @@ KSPlanet* SkyMapComposite::earth() {
 
 QList<SkyComponent*> SkyMapComposite::customCatalogs() {
     return m_CustomCatalogs->components();
+}
+
+QStringList SkyMapComposite::getCultureNames() {
+    return m_Cultures->getNames();
+}
+
+QString SkyMapComposite::getCultureName( int index ) {
+    return m_Cultures->getName( index );
+}
+
+void SkyMapComposite::setCurrentCulture( QString culture ) {
+    m_Cultures->setCurrent( culture );
+}
+
+QString SkyMapComposite::currentCulture() {
+    return m_Cultures->current();
 }
 
 #include "skymapcomposite.moc"

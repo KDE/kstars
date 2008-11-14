@@ -15,9 +15,12 @@
  ***************************************************************************/
 
 #include "opsguides.h"
+#include "ksfilereader.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 
-OpsGuides::OpsGuides( QWidget* parent )
-        : QFrame( parent )
+OpsGuides::OpsGuides( KStars *_ks )
+        : QFrame( _ks ), ksw(_ks)
 {
     setupUi( this );
 
@@ -25,6 +28,9 @@ OpsGuides::OpsGuides( QWidget* parent )
              this, SLOT( slotToggleConstellOptions() ) );
     connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
              this, SLOT( slotToggleMilkyWayOptions() ) );
+
+    kcfg_SkyCulture->addItems( ksw->data()->skyComposite()->getCultureNames() );
+
 }
 
 OpsGuides::~OpsGuides()

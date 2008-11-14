@@ -572,7 +572,7 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         hdidxReader.closeFile();
         return focusStar;
     }
-        
+
     return 0;
 }
 

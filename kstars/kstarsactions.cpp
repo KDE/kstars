@@ -409,6 +409,9 @@ void KStars::slotApplyConfigChanges() {
     applyConfig();
     data()->setFullTimeUpdate();
     map()->forceUpdate();
+    kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
+    kstarsData->skyComposite()->reloadCLines( kstarsData );
+    kstarsData->skyComposite()->reloadCNames( kstarsData );
 }
 
 void KStars::slotSetTime() {

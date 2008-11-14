@@ -34,6 +34,7 @@
 #include "skymesh.h"
 #include "ksfilereader.h"
 
+
 ConstellationLines::ConstellationLines( SkyComponent *parent )
         : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
 {}
@@ -72,7 +73,10 @@ void ConstellationLines::init( KStarsData *data ) {
     intro();
 
     QChar mode;
-    QString line, name;
+    QString line, cultureName;
+    bool culture = false;
+    int HDnum;
+    uint i = 0;
     LineList *lineList(0);
     double maxPM(0.0);
     KSFileReader fileReader;
@@ -88,22 +92,36 @@ void ConstellationLines::init( KStarsData *data ) {
         //If the first character is "M", we are starting a new series.
         //In this case, add the existing clc component to the composite,
         //then prepare a new one.
-        name = line.mid( 2 ).trimmed();
 
-        //Mode == 'M' starts a new series of line segments, joined end to end
-        if ( mode == 'M' ) {
-            if ( lineList ) appendLine( lineList );
-            lineList = new LineList();
+        if ( mode == 'C') {
+            cultureName = line.mid( 2 ).trimmed();
+            if ( cultureName == data->skyComposite()->currentCulture() )
+                culture = true;
+            else
+                culture = false;
+
+            i++;
+            continue;
         }
 
-        StarObject *star = (StarObject*) data->skyComposite()->findStarByGenetiveName( name );
-        if ( star && lineList ) {
-            lineList->append( star );
-            double pm = star->pmMagnitude();
-            if ( maxPM < pm ) maxPM = pm;
+        HDnum = line.mid( 2 ).trimmed().toInt();
+
+        if ( culture ) {
+            //Mode == 'M' starts a new series of line segments, joined end to end
+            if ( mode == 'M' ) {
+                if ( lineList ) appendLine( lineList );
+                    lineList = new LineList();
+            }
+
+            StarObject *star = (StarObject*) data->skyComposite()->getStarComponent()->findByHDIndex( HDnum );
+            if ( star && lineList ) {
+                lineList->append( star );
+                double pm = star->pmMagnitude();
+                if ( maxPM < pm ) maxPM = pm;
+            }
+            else if ( ! star )
+                kWarning() << i18n( "Star HD%1 not found." , HDnum);
         }
-        else if ( ! star )
-            kWarning() << i18n( "No star named %1 found." , name);
     }
 
     //Add the last clc component
