@@ -1,0 +1,47 @@
+This file lists the various sources from which data in KStars has been
+obtained.
+
+Sky Cultures:
+=============
+
+Data for non-western sky cultures was obtained from Stellarium
+(http://www.stellarium.org) and incorporated into KStars by Jérôme
+Sonrier. The following are the original sources for the sky culture
+data:
+
+Chinese sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based on Hong Kong Space Museum star maps
+(http://www.lcsd.gov.hk/CE/Museum/Space/StarShine/HKSkyMap/e_starshine_hkskymap.htm).
+
+Egyptian sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based on the paper "A Map of the Ancient
+Egyptian Firmament??? by Juan Antonio Belmonte.
+
+Inuit sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based primarily on the book "The Arctic Sky:
+Inuit Astronomy, Star Lore and Legend" by John MacDonald.
+
+Korean sky culture was contributed by Stellarium user : Jeong, Tae-Min
+(http://user.chollian.net/~jtm71/)
+
+Lakota sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based primarily on the book "Lakota Star
+Knowledge: Studies in Lakota Stellar Theology" by Ronald Goodman.
+
+Maori sky culture was contributed by Stellarium user : Dan Smale
+<d.smale(at)niwa.co.nz>
+
+Navajo sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based primarily on the book "Star
+Trails-Navajo" by Don Childrey.
+
+Norse sky culture was contributed by Stellarium user : Jonas Persson,
+<jonas.persson(at)mna.hkr.se>
+
+Polynesian sky culture was contributed by Karrie Berglund of Digitalis
+Education Solutions, Inc. based primarily on "Polynesian Voyaging
+Society information"
+(http://honolulu.hawaii.edu/hawaiian/voyaging/pvs/navigate/stars.html)
+
+Tupi sky culture was contributed by Stellarium user : Paulo Marcelo
+Pontes.
