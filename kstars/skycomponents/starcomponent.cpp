@@ -550,7 +550,7 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         if( ( o = m_DeepStarComponents.at( 0 )->findByHDIndex( HDnum ) ) )
             return o;
     if( m_DeepStarComponents.size() >= 2 ) {
-        int32_t offset;
+        qint32 offset;
         FILE *hdidxFile = hdidxReader.openFile( "Henry-Draper.idx" );
         if( !hdidxFile )
             return 0;
