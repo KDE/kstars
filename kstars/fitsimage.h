@@ -32,6 +32,11 @@
 #include <kxmlguiwindow.h>
 #include <kurl.h>
 
+#ifdef WIN32
+// avoid compiler warning when windows.h is included after fitsio.h
+#include <windows.h>
+#endif
+
 #include <fitsio.h>
 
 class FITSViewer;
