@@ -81,8 +81,8 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     if (device->deviceType == KSTARS_TELESCOPE)
         ui->telescopeCombo->addItem(device->tree_label);
 
-    if ( !Options::telescopePort().isEmpty())
-        portList << Options::telescopePort();
+    //if ( !Options::telescopePort().isEmpty())
+       // portList << Options::telescopePort();
 
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
     << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
@@ -227,9 +227,8 @@ void telescopeWizardProcess::establishLink()
         indidriver->processLocalTree(IDevice::DEV_TERMINATE);
     }
 
-    // Set custome label for device
-    //indimenu->setCustomLabel(ui->telescopeCombo->currentText());
-    //currentDevice = indimenu->currentLabel;
+    // Get Unique Name
+    currentDevice = indimenu->getUniqueDeviceLabel(ui->telescopeCombo->currentText());
     // Select it
     indidriver->ui->localTreeWidget->setCurrentItem(driverItem);
     // Make sure we start is locally
@@ -238,6 +237,8 @@ void telescopeWizardProcess::establishLink()
     connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()));
     // Run it
     indidriver->processLocalTree(IDevice::DEV_START);
+    
+    kDebug() << "Processing device tree for " << ui->telescopeCombo->currentText();
 
     if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
         return;
@@ -249,15 +250,16 @@ void telescopeWizardProcess::establishLink()
                                                 "attached telescopes.\nThis process might take few "
                                                 "minutes to complete."), Qt::Dialog);
         progressScan->progressBar()->setValue(0);
+        kDebug() << "KProgressDialog for automatic search has been initiated";
 
     }
     else
     {
         progressScan = new KProgressDialog(this, i18n("Telescope Wizard"), i18n("Please wait while KStars tries to connect to your telescope..."), Qt::Dialog);
         progressScan->progressBar()->setValue(portList.count());
+        kDebug() << "KProgressDialog for manual search has been initiated";
     }
-
-
+    
     progressScan->setAutoClose(true);
     progressScan->setAutoReset(true);
     progressScan->progressBar()->setMinimum(0);
@@ -271,6 +273,7 @@ void telescopeWizardProcess::processPort()
     INDI_P * pp;
     INDI_E * lp;
 
+    
     if (!indidriver || !indimenu)
         return;
 
@@ -284,6 +287,8 @@ void telescopeWizardProcess::processPort()
         close();
         return;
     }
+
+kDebug () << "New telescope discovered, processing port";
 
     indiDev = indimenu->findDeviceByLabel(currentDevice);
     if (!indiDev) return;
@@ -351,7 +356,8 @@ void telescopeWizardProcess::scanPorts()
         KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
 
         linkRejected = true;
-        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
+	//FIXME this causes crash
+        //indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
         return;
     }
@@ -390,7 +396,7 @@ void telescopeWizardProcess::linkSuccess()
 
 void telescopeWizardProcess::Reset()
 {
-
+    kDebug() << "Resetting";
     currentPort = -1;
     timeOutCount = 0;
 

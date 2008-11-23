@@ -298,8 +298,9 @@ void KStars::slotTelescopeWizard()
 void KStars::slotTelescopeProperties()
 {
 #ifdef HAVE_INDI_H
-    telescopeProp scopeProp(this);
-    scopeProp.exec();
+	// TODO JM: redesign after KDE 4.2 is released.
+    //telescopeProp scopeProp(this);
+    //scopeProp.exec();
 #endif
 }
 

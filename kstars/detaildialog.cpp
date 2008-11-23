@@ -852,10 +852,10 @@ void DetailDialog::centerTelescope()
         {
             indidev = imenu->managers.at(i)->indi_dev.at(j);
             indidev->stdDev->currentObject = NULL;
-            prop = indidev->findProp("EQUATORIAL_EOD_COORD");
+            prop = indidev->findProp("EQUATORIAL_EOD_COORD_REQUEST");
             if (prop == NULL)
             {
-                prop = indidev->findProp("EQUATORIAL_COORD");
+                prop = indidev->findProp("EQUATORIAL_EOD_COORD");
                 if (prop == NULL)
                 {
                     prop = indidev->findProp("HORIZONTAL_COORD");

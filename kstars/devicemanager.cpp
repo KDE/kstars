@@ -84,7 +84,7 @@ void DeviceManager::startServer()
         return;
       }
   
-    *serverProcess << "indiserver";
+    *serverProcess << Options::indiServer();
     *serverProcess << "-v" << "-p" << QString::number(port);
 
     foreach(IDevice *device, managed_devices)
@@ -131,6 +131,9 @@ void DeviceManager::connectionSuccess()
    kDebug() << "Connection success!!";
     
    QTextStream serverFP(&serverSocket);
+   
+   foreach (IDevice *device, managed_devices)
+   		device->state = IDevice::DEV_START;
   
    if (XMLParser)
         delLilXML(XMLParser);
@@ -470,7 +473,10 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
     {
         serverFP << QString("  <oneNumber\n");
         serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
-        serverFP << QString("      %1\n").arg(lp->targetValue);
+        if (lp->text.isEmpty())
+        	serverFP << QString("      %1\n").arg(lp->targetValue);
+        else
+        	serverFP << QString("      %1\n").arg(lp->text);
         serverFP << QString("  </oneNumber>\n");
     }
     serverFP << QString("</newNumberVector>\n");

@@ -1065,9 +1065,17 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
         {
         case 0:
             if (stdDev->currentObject)
+            {
+            	kDebug() << "standard object - RA: " << stdDev->currentObject->ra()->toHMSString()
+            	<< " DEC: " << stdDev->currentObject->dec()->toDMSString();  
                 sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
+            }
             else
+            {
                 sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+                kDebug() << "Skymap click - RA: " << sp.ra()->toHMSString() <<
+                " DEC: " << sp.dec()->toDMSString();
+            }
 
             if (useJ2000)
                 sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);

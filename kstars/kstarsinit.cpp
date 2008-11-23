@@ -387,13 +387,15 @@ void KStars::initActions() {
     // devices Menu
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
+
     ka = actionCollection()->addAction( "telescope_wizard");
     ka->setText( i18n("Telescope Wizard...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeWizard() ) );
 
-    ka = actionCollection()->addAction( "telescope_properties");
-    ka->setText( i18n("Telescope Properties...") );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeProperties() ) );
+    // TODO redesign after KDE 4.2 is released
+    //ka = actionCollection()->addAction( "telescope_properties");
+    //ka->setText( i18n("Telescope Properties...") );
+    //connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeProperties() ) );
 
     ka = actionCollection()->addAction( "device_manager");
     ka->setText( i18n("Device Manager...") );
