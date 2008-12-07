@@ -24,16 +24,13 @@
 
 #include <QRegExp>
 #include <QFocusEvent>
+#include <QApplication>
 
 dmsBox::dmsBox(QWidget *parent, bool dg)
         : KLineEdit(parent), EmptyFlag(true) {
     setMaxLength(14);
     setMaximumWidth(160);
     setDegType( dg );
-    psave = palette();
-
-    //Somehow, the color is getting reset to grey already!
-    psave.setColor( QPalette::Active, QPalette::Text, Qt::black );
 
     connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
@@ -41,7 +38,7 @@ dmsBox::dmsBox(QWidget *parent, bool dg)
 void dmsBox::setEmptyText() {
     //Set the text color to the average between
     //QColorGroup::Text and QColorGroup::Base
-    QPalette p = psave;
+    QPalette p=QApplication::palette();
     QColor txc = p.color( QPalette::Active, QPalette::Text );
     QColor bgc = p.color( QPalette::Active, QPalette::Base );
     int r( ( txc.red()   + bgc.red()   )/2 );
@@ -65,7 +62,7 @@ void dmsBox::focusInEvent( QFocusEvent *e ) {
 
     if ( EmptyFlag ) {
         clear();
-        setPalette( psave );
+        setPalette( QApplication::palette() );
         EmptyFlag = false;
     }
 }
@@ -81,7 +78,6 @@ void dmsBox::focusOutEvent( QFocusEvent *e ) {
 void dmsBox::slotTextChanged( const QString &t ) {
     if ( ! hasFocus() ) {
         if ( EmptyFlag && ! t.isEmpty() ) {
-            setPalette( psave );
             EmptyFlag = false;
         }
 
@@ -120,7 +116,6 @@ void dmsBox::setDegType( bool t ) {
     setWhatsThis( sWhatsThis );
 
     clear();
-    setPalette( psave );
     EmptyFlag = false;
     setEmptyText();
 }
