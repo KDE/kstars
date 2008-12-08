@@ -57,6 +57,7 @@ KSPlanetBase::KSPlanetBase( KSPlanetBase &o )
     init( o.name(), "", o.color(), o.physicalSize() );
     Image = *o.image();
     Image0 = *o.image0();
+    data = KStarsData::Instance();
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
