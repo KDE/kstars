@@ -1359,12 +1359,12 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
             az.setRadians( dx + focus()->az()->radians() );
             alt.setRadians( dy + focus()->alt()->radians() );
             result.setAz( az.reduce() );
+            if ( Options::useRefraction() ) alt.setD( refract( &alt, false ).Degrees() );  //find true alt from apparent alt
             result.setAlt( alt );
             result.HorizontalToEquatorial( LST, lat );
             return result;
         } else {
             dms ra, dec;
-	    
             ra.setRadians( dx + focus()->ra()->radians() );
             dec.setRadians( dy + focus()->dec()->radians() );
             result.set( ra.reduce(), dec );
