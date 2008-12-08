@@ -144,7 +144,6 @@ private:
     int second_int, msecond;
     bool deg, EmptyFlag;
     dms degValue;
-    QPalette psave;
 };
 
 #endif
