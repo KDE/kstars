@@ -1509,7 +1509,10 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt()->Degrees() < -1.0 ) return false;
 
     if ( useAltAz ) {
-        dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
+        if ( Options::useRefraction() ) 
+            dY = fabs( refract( p->alt(), true ).Degrees() - focus()->alt()->Degrees() );
+        else
+            dY = fabs( p->alt()->Degrees() - focus()->alt()->Degrees() );
     } else {
         dY = fabs( p->dec()->Degrees() - focus()->dec()->Degrees() );
     }
