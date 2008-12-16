@@ -411,7 +411,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="ConstellationList" />
+        <widget class="QListWidget" name="ConstellationList" >
+	 <property name="selectionMode" >
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+	</widget>
        </item>
       </layout>
      </widget>
