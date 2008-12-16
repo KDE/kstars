@@ -76,6 +76,7 @@ void KSPlanetBase::init( const QString &s, const QString &image_file, const QCol
     PhysicalSize = pSize;
     m_Color = c;
     setName( s );
+    setLongName( s );
 }
 
 KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
