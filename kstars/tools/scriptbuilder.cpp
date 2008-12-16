@@ -867,8 +867,9 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "AnimateSlewing" );
     argChangeViewOption->OptionName->addItem( "FadePlanetTrails" );
 
-    /*
+
     opsLimit = new QTreeWidgetItem( otv->optionsList(), QStringList(i18n( "Limits" )) );
+    /*
     fields << "magLimitDrawStar" << i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
@@ -876,12 +877,17 @@ void ScriptBuilder::initViewOptions() {
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
     */
+
+    // TODO: We have disabled the following two features. Enable them when feasible...
+    /*
     fields << "magLimitDrawDeepSky" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed in" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
     fields << "magLimitDrawDeepSkyZoomOut" << i18n( "magnitude of faintest nonstellar object drawn on map when zoomed out" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
     fields.clear();
+    */
+
     //FIXME: This description is incorrect! Fix after strings freeze
     fields << "starLabelDensity" << i18n( "magnitude of faintest star labeled on map" ) << i18n( "double" );
     new QTreeWidgetItem( opsLimit, fields );
