@@ -126,7 +126,13 @@ signals:
     /**The clock has stopped */
     void clockStopped();
 
+    /** This is an signal that is called on either clock start or
+        clock stop with an appropriate boolean argument. Required so
+        that we can bind it to KToggleAction::slotToggled(bool) */
+    void clockToggled(bool);
+
 private:
+
     long double julianmark;
     KStarsDateTime UTC;
     QTimer tmr;
@@ -139,6 +145,16 @@ private:
     //static int idgen;
     // how often to update
     static int TimerInterval;
+
+ private slots:
+    
+    /** These two slots subscribe to the clockStarted() and
+        clockStopped() signals and call the corresponding
+        clockToggled(bool) signal */
+
+    void slotClockStarted();
+
+    void slotClockStopped();
 };
 
 #endif

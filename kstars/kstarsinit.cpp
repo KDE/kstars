@@ -119,8 +119,7 @@ void KStars::initActions() {
     ta->setIcon( KIcon( "media-playback-pause" ) );
     ta->setText( i18n( "Stop &Clock" ) );
     QObject::connect( ta, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
-    QObject::connect(data()->clock(), SIGNAL(clockStarted()), ta, SLOT(slotToggled(false)) );
-    QObject::connect(data()->clock(), SIGNAL(clockStopped()), ta, SLOT(slotToggled(true)) );
+    QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ta, SLOT(setChecked(bool)) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
 

@@ -44,6 +44,9 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
     ManualActive = false;
 
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+
+    QObject::connect(this, SIGNAL(clockStarted()), this, SLOT(slotClockStarted()));
+    QObject::connect(this, SIGNAL(clockStopped()), this, SLOT(slotClockStopped()));
 }
 
 SimClock::SimClock (const SimClock &old) :
@@ -58,6 +61,9 @@ SimClock::SimClock (const SimClock &old) :
     ManualActive = old.ManualActive;
 
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+
+    QObject::connect(this, SIGNAL(clockStarted()), this, SLOT(slotClockStarted()));
+    QObject::connect(this, SIGNAL(clockStopped()), this, SLOT(slotClockStopped()));
 }
 
 void SimClock::tick() {
@@ -153,6 +159,16 @@ void SimClock::start() {
         tmr.start(TimerInterval);
         emit clockStarted();
     }
+}
+
+void SimClock::slotClockStarted() {
+    kDebug() << "Emitting clockToggled( false )";
+    emit clockToggled( false );
+}
+
+void SimClock::slotClockStopped() {
+    kDebug() << "Emitting clockToggled( true )";
+    emit clockToggled( true );
 }
 
 void SimClock::setUTC(const KStarsDateTime &newtime) {
