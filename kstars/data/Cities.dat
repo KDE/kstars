@@ -2258,7 +2258,7 @@ Ottawa                           : Ontario               : Canada               
 Ottumwa                          : Iowa                  : USA                   : 41 :  0 :  0 : N :  92 : 25 : 58 : W : -6.0 : US
 Ouagadougou                      :                       : Burkina Faso          : 12 : 21 :  0 : N :   1 : 31 :  0 : W :   0.0 : --
 Ouarzazate                       :                       : Morocco               : 30 : 56 :  0 : N :   6 : 54 :  0 : W :   0.0 : --
-Oulu                             :                       : Finland               : 65 : 00 : 00 : N :  25 : 26 : 00 : E : 2.0  : EU
+Oulu                             :                       : Finland               : 65 : 00 : 36 : N :  25 : 17 : 24 : E : 2.0  : EU
 Outlook                          : Saskatchewan          : Canada                : 51 : 30 : 00 : N : 107 : 03 : 00 : W : -7.0 : --
 Overland Park                    : Kansas                : USA                   : 38 : 58 : 11 : N :  94 : 40 :  0 : W : -6.0 : US
 Oviedo                           :                       : Spain                 : 43 : 21 : 44 : N :  05 : 50 : 38 : W : 1.0  : EU
@@ -2593,6 +2593,7 @@ Rotterdam                        :                       : Netherlands          
 Rouen                            : Seine maritime        : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
 Roundup                          : Montana               : USA                   : 46 : 25 :  1 : N : 108 : 34 : 58 : W : -7.0 : US
 Rouyn-Noranda                    : Quebec                : Canada                : 48 : 14 : 00 : N : 79  : 01 : 00 : W : -5.0 : US
+Rovaniemi                        :                       : Finland               : 66 : 17 : 24 : N :  25 : 24 : 36 : W : +2.0 : EU
 Rovinj                           :                       : Croatia               : 45 :  5 :  2 : N :  13 : 38 :  9 : E :  1.0 : EU
 Rowland Heights                  : California            : USA                   : 34 :  0 :  0 : N : 117 : 52 : 30 : W : -8.0 : US
 Royal Oak                        : Michigan              : USA                   : 42 : 30 : 24 : N :  83 :  8 : 48 : W : -5.0 : US
@@ -2934,7 +2935,7 @@ Tallinn                          :                       : Estonia              
 Tamanrasset                      :                       : Algeria               : 22 : 47 :  0 : N :   5 : 31 :  0 : E :   1.0 : --
 Tambov                           : Central Region        : Russia                : 52 : 43 :  0 : N :  41 : 25 :  0 : E :  3.0 : RU
 Tampa                            : Florida               : USA                   : 27 : 56 : 57 : N :  82 : 27 : 24 : W : -5.0 : US
-Tampere                          :                       : Finland               : 61 : 32 : 00 : N :  23 : 45 : 00 : E : 2.0  : EU
+Tampere                          :                       : Finland               : 61 : 18 : 00 : N :  23 : 30 : 00 : E : 2.0  : EU
 Tamsalu                          :                       : Estonia               : 59 : 09 : 51 : N :  26 : 05 : 37 : E :  2.0 : EU
 Tangier                          :                       : Morocco               : 35 : 52 :  0 : N :   5 : 54 : 59 : W : 0.0  : --
 Taora Island                     :                       : Marshall Islands      :  8 : 42 : 29 : N : 171 : 13 : 59 : E : 12.0 : --
@@ -3000,6 +3001,7 @@ Tombstone                        : Arizona               : USA                  
 Tomsk                            : Siberia               : Russia                : 56 : 30 :  0 : N :  84 : 58 :  0 : E :  6.0 : RU
 Tongyeong                        : Gyeongnam             : Korea                 : 34 : 51 :  0 : N : 128 : 26 :  0 : E : 9.0  : SK
 Topeka                           : Kansas                : USA                   : 39 :  3 : 15 : N :  95 : 40 : 22 : W : -6.0 : US
+Tornio                           :                       : Finland               : 65 : 30 : 00 : N :  24 : 07 : 12 : E : +1.0 : EU
 Toronto                          : Ontario               : Canada                : 43 : 40 : 12 : N :  79 : 22 : 12 : W : -5.0 : US
 Torrance                         : California            : USA                   : 33 : 49 : 30 : N : 118 : 18 : 28 : W : -8.0 : US
 Torrington                       : Connecticut           : USA                   : 41 : 49 : 58 : N :  73 : 10 :  1 : W : -5.0 : US
@@ -3018,6 +3020,7 @@ Trieste                          :                       : Italy                
 Trinidad                         : Colorado              : USA                   : 37 : 10 : 58 : N : 104 : 31 :  1 : W : -7.0 : US
 Tripoli                          :                       : Libya                 : 32 : 49 : 59 : N :  13 : 13 :  0 : E : 1.0  : --
 Trois-Rivieres                   : Quebec                : Canada                : 46 : 21 : 35 : N :  72 : 40 : 48 : W : -5.0 : US
+Tromsø                           :                       : Norway                : 69 : 40 : 00 : N :  18 : 56 : 00 : E : 1.0  : EU
 Trondheim                        :                       : Norway                : 63 : 25 : 00 : N :  10 : 25 : 00 : E : 1.0  : EU
 Troy                             : Michigan              : USA                   : 42 : 36 : 35 : N :  83 :  9 :  0 : W : -5.0 : US
 Troy                             : Montana               : USA                   : 48 : 28 :  1 : N : 115 : 55 : 58 : W : -7.0 : US
@@ -3035,7 +3038,7 @@ Tumbler Ridge                    : British Columbia      : Canada               
 Tunis                            :                       : Tunisia               : 36 : 51 :  0 : N :  10 : 13 :  1 : E : 1.0  : --
 Tupelo                           : Mississippi           : USA                   : 34 : 13 : 58 : N :  88 : 43 :  1 : W : -6.0 : US
 Turin                            :                       : Italy                 : 45 :  2 :  3 : N :   7 : 46 : 30 : E :  1.0 : EU
-Turku                            :                       : Finland               : 60 : 27 : 00 : N :  22 : 15 : 00 : E : 2.0  : EU
+Turku                            :                       : Finland               : 60 : 18 : 00 : N :  22 : 11 : 24 : E : 2.0  : EU
 Tuscaloosa                       : Alabama               : USA                   : 33 : 12 : 17 : N :  87 : 34 :  0 : W : -6.0 : US
 Tver'                            : Central Region        : Russia                : 56 : 52 :  0 : N :  35 : 55 :  0 : E :  3.0 : RU
 Twin Falls                       : Idaho                 : USA                   : 42 : 33 : 42 : N : 114 : 28 : 11 : W : -7.0 : US
