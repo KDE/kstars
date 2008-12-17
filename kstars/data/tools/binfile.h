@@ -15,6 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
+/* NOTE: This file is a NON portable C file that need not be built for
+   KStars to be built.  This file is useful only to generate binary
+   data files and ensure that they comply with KStars' format, and
+   hence need not be cross platform.
+
+   This file does not use Qt or KDE libraries as it is just provided
+   here as a tool to build and test data files for KStars
+
+   Hence, we shall hide this file from the watchful eyes of Krazy
+*/
+//krazy:skip
+
 #ifndef BINFILE_H
 #define BINFILE_H
 
