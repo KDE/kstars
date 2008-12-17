@@ -240,7 +240,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QS
             }
         } else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
             //Chomp off leading "#" character
-            d = d.replace( QRegExp( "#" ), QString() );
+            d = d.remove( '#' );
 
             QStringList fields = d.split( ' ', QString::SkipEmptyParts ); //split on whitespace
 

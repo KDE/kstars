@@ -975,7 +975,7 @@ void DetailDialog::showThumbnail() {
     //If no image found, load "no image" image
     //If that isn't found, make it blank.
     QFile file;
-    QString fname = "thumb-" + selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png";
+    QString fname = "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png";
     if ( KSUtils::openDataFile( file, fname ) ) {
         file.close();
         Thumbnail->load( file.fileName(), "PNG" );
@@ -994,7 +994,7 @@ void DetailDialog::updateThumbnail() {
     ThumbnailPicker tp( selectedObject, *Thumbnail, this );
 
     if ( tp.exec() == QDialog::Accepted ) {
-        QString fname = KStandardDirs::locateLocal( "appdata", "thumb-" + selectedObject->name().toLower().replace( QRegExp(" "), QString() ) + ".png" );
+        QString fname = KStandardDirs::locateLocal( "appdata", "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png" );
 
         Data->Image->setPixmap( *(tp.image()) );
 

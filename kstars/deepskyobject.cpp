@@ -99,7 +99,7 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
 QImage* DeepSkyObject::readImage( void ) {
     QFile file;
     if ( Image==0 ) { //Image not currently set; try to load it from disk.
-        QString fname = name().toLower().replace( QRegExp(" "), QString() ) + ".png";
+        QString fname = name().toLower().remove( ' ' ) + ".png";
 
         if ( KSUtils::openDataFile( file, fname ) ) {
             file.close();
