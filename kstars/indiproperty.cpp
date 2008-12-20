@@ -607,7 +607,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
     if (name == "CCD_EXPOSURE")
         setupSetButton(i18n("Capture Image"));
     else
-        setupSetButton(i18n("Set"));
+        setupSetButton(i18nc("Set a value", "Set"));
 
     QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
 

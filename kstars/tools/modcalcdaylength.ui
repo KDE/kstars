@@ -252,7 +252,7 @@
                </sizepolicy>
               </property>
               <property name="text" >
-               <string>Set:</string>
+               <string comment="Sky object passing below the horizon">Set:</string>
               </property>
              </widget>
             </item>
@@ -678,7 +678,7 @@
               <item row="2" column="0" >
                <widget class="QLabel" name="MoonSetLabel" >
                 <property name="text" >
-                 <string>Set:</string>
+                 <string comment="Sky object passing below the horizon">Set:</string>
                 </property>
                </widget>
               </item>
