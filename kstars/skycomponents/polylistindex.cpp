@@ -49,6 +49,8 @@ void PolyListIndex::appendPoly( PolyList* polyList, KSFileReader* file, int debu
         return appendPoly( polyList, debug );
 
     m_nameHash.insert( polyList->name(), polyList );
+    if( !polyList->localizedName().isEmpty() )
+        m_nameHash.insert( polyList->localizedName(), polyList );
 
     while ( file->hasMoreLines() ) {
         QString line = file->readLine();
@@ -61,6 +63,8 @@ void PolyListIndex::appendPoly( PolyList* polyList, KSFileReader* file, int debu
 void PolyListIndex::appendPoly( PolyList* polyList, int debug)
 {
     m_nameHash.insert( polyList->name(), polyList );
+    if( !polyList->localizedName().isEmpty() )
+        m_nameHash.insert( polyList->localizedName(), polyList );
 
     if ( debug >= 0 && debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 

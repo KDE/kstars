@@ -73,7 +73,15 @@ public:
      */
     void update( KStarsData *data, KSNumbers *num );
 
+    /**
+     *@short Return true if we are using localized constellation names
+     */
+    inline bool isLocalCNames() { return localCNames; }
+
     bool selected();
+
+ private:
+    bool localCNames;
 
 };
 

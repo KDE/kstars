@@ -409,9 +409,11 @@ void KStars::slotApplyConfigChanges() {
     Options::self()->writeConfig();
 
     // If the focus object was a constellation and the sky culture has changed, remove the focus object
-    if( map()->focusObject() && map()->focusObject()->type() == SkyObject::CONSTELLATION && kstarsData->skyComposite()->currentCulture() != kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) ) {
-        map()->setClickedObject( NULL );
-        map()->setFocusObject( NULL );
+    if( map()->focusObject() && map()->focusObject()->type() == SkyObject::CONSTELLATION ) {
+        if( kstarsData->skyComposite()->currentCulture() != kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) || kstarsData->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() ) {
+            map()->setClickedObject( NULL );
+            map()->setFocusObject( NULL );
+        }
     }
 
     applyConfig();

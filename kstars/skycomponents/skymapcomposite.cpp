@@ -506,6 +506,10 @@ void SkyMapComposite::reloadCNames( KStarsData *data ) {
     m_CNames->init( data );
 }
 
+bool SkyMapComposite::isLocalCNames() {
+    return m_CNames->isLocalCNames();
+}
+
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
     qApp->processEvents();         // -jbb: this seemed to make it work.

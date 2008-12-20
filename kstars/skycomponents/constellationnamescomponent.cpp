@@ -52,6 +52,8 @@ void ConstellationNamesComponent::init(KStarsData *data)
     if ( ! fileReader.open( "cnames.dat" ) ) return;
 
     emitProgressText( i18n("Loading constellation names" ) );
+    
+    localCNames = ( Options::useLocalConstellNames() ? true : false );
 
     while ( fileReader.hasMoreLines() ) {
         QString line, name, abbrev;
@@ -85,6 +87,9 @@ void ConstellationNamesComponent::init(KStarsData *data)
 
             abbrev = line.mid( 13, 3 );
             name  = line.mid( 17 ).trimmed();
+
+            if( Options::useLocalConstellNames() )
+                name = i18nc( "Constellation name (optional)", name.toLocal8Bit().data() );
 
             dms r; r.setH( rah, ram, ras );
             dms d( dd, dm,  ds );
@@ -131,12 +136,8 @@ void ConstellationNamesComponent::draw( QPainter& psky )
         QPointF o = map->toScreen( p );
         if ( ! map->onScreen( o ) ) continue;
 
-        if ( Options::useLatinConstellNames() ) {
+        if ( Options::useLatinConstellNames() || Options::useLocalConstellNames() ) {
             name = p->name();
-        }
-        else if ( Options::useLocalConstellNames() ) {
-            name = i18nc( "Constellation name (optional)",
-                          p->name().toLocal8Bit().data() );
         }
         else {
             name = p->name2();

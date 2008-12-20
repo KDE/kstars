@@ -62,8 +62,9 @@ ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
 QString ConstellationBoundary::constellationName( SkyPoint *p )
 {
     PolyList *polyList = ContainingPoly( p );
-    if ( polyList ) return polyList->name();
-
+    if ( polyList ) {
+        return ( Options::useLocalConstellNames() ? i18nc( "Constellation name (optional)", polyList->name().toUpper().toLocal8Bit().data() ) : polyList->name() );
+    }
     return i18n("Unknown");
 }
 

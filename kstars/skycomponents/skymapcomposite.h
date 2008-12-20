@@ -201,6 +201,7 @@ public:
     QString getCultureName( int index );
     QString currentCulture();
     void setCurrentCulture( QString culture );
+    bool isLocalCNames();
 
     QList<SkyComponent*> customCatalogs();
 

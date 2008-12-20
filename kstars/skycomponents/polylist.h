@@ -31,11 +31,16 @@
  */
 class PolyList
 {
-public:
+ public:
     /* @short trivial constructor that also sets the name.   It was
      * convenient to specify the name at construction time.
      */
     PolyList( QString name) : m_wrapRA(false) { m_name = name; };
+
+    /* @short trivial constructor that also sets the name and
+     * localized name. 
+     */
+    PolyList( QString name, QString lname ) : m_wrapRA(false) { m_name = name; m_lname = lname; };
 
     /* @short returns the QPolygonF that holds the points.
      */
@@ -51,16 +56,25 @@ public:
      */
     void setName( QString name ) { m_name = name; }
 
+    /* @short set the localized name
+     */
+    void setLocalizedName( QString lname ) { m_lname = lname; }
+
     /* @short returns the name.
      */
     const QString &name() { return m_name; }
 
+    /* @short returns the localized name.
+     */
+    const QString &localizedName() { return m_lname; }
+
     bool wrapRA() { return m_wrapRA; }
     void wrapRA( bool wrap ) { m_wrapRA = wrap; }
 
-private:
+ private:
     QPolygonF m_poly;
     QString   m_name;
+    QString   m_lname; // Localized name
     bool      m_wrapRA;
 
 };
