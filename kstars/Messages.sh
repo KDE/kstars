@@ -37,6 +37,7 @@ awk 'BEGIN {FS=":"}; (NF==4 && $3~"http") {gsub(/\"/, "\\\""); print "i18nc(\"Im
 sort --unique info_url.tmp >> kstars_i18n.cpp
 
 # star names : some might be different in other languages, or they might have to be adapted to non-Latin alphabets
+# TODO: Move this thing to starnames.dat
 cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/\#/ && NF==3) { printf( "i18nc(\"star name\", \"%s\");\n", $3); }' >> kstars_i18n.cpp;
 
 # extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )

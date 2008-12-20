@@ -492,11 +492,15 @@ void SkyMapComposite::reloadComets( KStarsData *data ) {
 }
 
 void SkyMapComposite::reloadCLines( KStarsData *data ) {
+    if( m_CLines ) 
+        delete m_CLines;
     m_CLines = new ConstellationLines( this );
     m_CLines->init( data );
 }
 
 void SkyMapComposite::reloadCNames( KStarsData *data ) {
+    if( m_CNames )
+        delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this );
     m_CNames->init( data );
 }
