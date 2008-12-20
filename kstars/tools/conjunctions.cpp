@@ -133,16 +133,17 @@ void ConjunctionsTool::slotFindObject() {
         }
         else {
             switch( fd.selectedObject()->type() ) {
-            case 2: {
-                Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
-                break;
-            }
             case 9: {
                 Object1 =  new KSComet( (KSComet &) *fd.selectedObject() );
                 break;
             }
             case 10: {
                 Object1 =  new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
+                break;
+            }
+            case 2: 
+            default: {
+                Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
                 break;
             }
             }
