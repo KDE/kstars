@@ -499,6 +499,7 @@ void SkyMapComposite::reloadCLines( KStarsData *data ) {
 }
 
 void SkyMapComposite::reloadCNames( KStarsData *data ) {
+    objectNames(SkyObject::CONSTELLATION).clear();
     if( m_CNames )
         delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this );
