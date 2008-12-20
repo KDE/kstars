@@ -371,12 +371,12 @@ void DetailDialog::createLinksTab()
     Links->ImagesTitle->setPalette( titlePalette );
 
     foreach ( const QString &s, selectedObject->InfoTitle() )
-    Links->InfoTitleList->addItem( s );
+        Links->InfoTitleList->addItem( i18nc( "Image/info menu item (should be translated)", s.toLocal8Bit() ) );
 
     //Links->InfoTitleList->setCurrentRow(0);
 
     foreach ( const QString &s, selectedObject->ImageTitle() )
-    Links->ImageTitleList->addItem( s );
+        Links->ImageTitleList->addItem( i18nc( "Image/info menu item (should be translated)", s.toLocal8Bit() ) );
 
      updateButtons();
 
