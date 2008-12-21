@@ -64,7 +64,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
 
     int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
     //  0 => normal
-    char* fname = "cbounds.dat";
+    const char* fname = "cbounds.dat";
     int flag;
     double ra, dec, lastRa, lastDec;
     LineList *lineList = 0;

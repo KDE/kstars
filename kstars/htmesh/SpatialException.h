@@ -66,7 +66,7 @@ public:
    void clear();
 
   /// default error string
-   static char *defaultstr[];
+   static const char *defaultstr[];
 
 protected:
   /// error string to assemble

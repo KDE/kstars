@@ -44,7 +44,7 @@ void MilkyWay::init( KStarsData *data )
 
     intro();
 
-    char* fname = "milkyway.dat";
+    const char* fname = "milkyway.dat";
     QString line;
     double ra, dec, lastRa, lastDec;
     SkipList *skipList = 0;
