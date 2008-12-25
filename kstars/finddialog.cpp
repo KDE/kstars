@@ -196,8 +196,8 @@ void FindDialog::filterByType() {
 }
 
 void FindDialog::filterList() {  
-	QString SearchText;
-	SearchText = processSearchText();
+    QString SearchText;
+    SearchText = processSearchText();
     sortModel->setFilterFixedString( SearchText );
     filterByType();
     initSelection();
