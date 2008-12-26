@@ -430,9 +430,19 @@ void WUTDialog::slotDetails() {
 }
 
 void WUTDialog::slotChangeDate() {
+
+    // Set the time T0 to the evening of today. This will make life easier for the user, who most probably 
+    // wants to see what's up on the night of some date, rather than the night of the previous day
+    T0.setTime( QTime( 18, 0, 0 ) ); // 6 PM
+
     TimeDialog td( T0, kstars->geo(), this );
     if ( td.exec() == QDialog::Accepted ) {
         T0 = td.selectedDateTime();
+
+        // If the time is set to 12 midnight, set it to 00:00:01, so that we don't have date interpretation problems
+        if ( T0.time() == QTime( 0, 0, 0 ) )
+            T0.setTime( QTime( 0, 0, 1 ) );
+
         //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
         if ( T0.time().hour() < 6 )
             T0 = T0.addDays( -1 );
