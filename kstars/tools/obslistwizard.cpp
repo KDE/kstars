@@ -413,28 +413,28 @@ void ObsListWizard::applyFilters( bool doBuildList )
         if ( needRegion ) {
             applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
             applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mercury"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Venus"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mars"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Jupiter"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Saturn"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Uranus"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Neptune"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Pluto"), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
+            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
         }
 
         //Filter objects visible from geo at Date
         if ( olw->SelectByDate->isChecked() ) {
             applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
             applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mercury"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Venus"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Mars"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Jupiter"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Saturn"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Uranus"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Neptune"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Pluto"), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
+            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
         }
     }
 

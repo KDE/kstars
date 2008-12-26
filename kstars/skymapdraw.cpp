@@ -323,15 +323,15 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         if ( obj->type() == SkyObject::PLANET ) {
             if ( ! drawPlanets ) continue;
             if ( obj->name() == "Sun" && ! Options::showSun() ) continue;
-            if ( obj->name() == "Mercury" && ! Options::showMercury() ) continue;
-            if ( obj->name() == "Venus" && ! Options::showVenus() ) continue;
+            if ( obj->name() == i18n( "Mercury" ) && ! Options::showMercury() ) continue;
+            if ( obj->name() == i18n( "Venus" ) && ! Options::showVenus() ) continue;
             if ( obj->name() == "Moon" && ! Options::showMoon() ) continue;
-            if ( obj->name() == "Mars" && ! Options::showMars() ) continue;
-            if ( obj->name() == "Jupiter" && ! Options::showJupiter() ) continue;
-            if ( obj->name() == "Saturn" && ! Options::showSaturn() ) continue;
-            if ( obj->name() == "Uranus" && ! Options::showUranus() ) continue;
-            if ( obj->name() == "Neptune" && ! Options::showNeptune() ) continue;
-            if ( obj->name() == "Pluto" && ! Options::showPluto() ) continue;
+            if ( obj->name() == i18n( "Mars" ) && ! Options::showMars() ) continue;
+            if ( obj->name() == i18n( "Jupiter" ) && ! Options::showJupiter() ) continue;
+            if ( obj->name() == i18n( "Saturn" ) && ! Options::showSaturn() ) continue;
+            if ( obj->name() == i18n( "Uranus" ) && ! Options::showUranus() ) continue;
+            if ( obj->name() == i18n( "Neptune" ) && ! Options::showNeptune() ) continue;
+            if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
         if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
             if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;

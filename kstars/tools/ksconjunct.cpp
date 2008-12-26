@@ -49,10 +49,10 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   prevSign = 0;
   
   step0 = (stopJD - startJD) / 4.0;
-  if(Object1.name() == "Mars" || Object2.name() == "Mars")
+  if(Object1.name() == i18n( "Mars" ) || Object2.name() == i18n( "Mars" ))
     if (step0 > 10.0)
       step0 = 10.0;
-  if(Object1.name() == "Venus" || Object1.name() == "Mercury" || Object2.name() == "Mercury" || Object2.name() == "Venus") 
+  if(Object1.name() == i18n( "Venus" ) || Object1.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Venus" )) 
     if (step0 > 5.0)
       step0 = 5.0;
   if(Object1.name() == "Moon" || Object2.name() == "Moon")

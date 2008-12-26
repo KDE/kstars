@@ -76,7 +76,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     KStarsData *data = KStarsData::Instance();
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MERCURY ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::VENUS ) );
-    PlanetList.append( new KSPlanet( data, i18n("Earth") ) );
+    PlanetList.append( new KSPlanet( data, "Earth" ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MARS ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::JUPITER ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::SATURN ) );
@@ -217,7 +217,8 @@ void PlanetViewer::initPlotObjects() {
         orbit[i] = new KPlotObject( Qt::white, KPlotObject::Lines, 1.0 );
 
         QFile orbitFile;
-        if ( KSUtils::openDataFile( orbitFile, p->name().toLower() + ".orbit" ) ) {
+        QString orbitFileName = ( p->isMajorPlanet() ? ((KSPlanet *)p)->untranslatedName().toLower() : p->name().toLower() ) + ".orbit";
+        if ( KSUtils::openDataFile( orbitFile, orbitFileName ) ) {
             KSFileReader fileReader( orbitFile ); // close file is included
             double x,y;
             while ( fileReader.hasMoreLines() ) {

@@ -146,9 +146,9 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 }
 
 bool KSPlanetBase::isMajorPlanet() const {
-    if ( name() == "Mercury" || name() == "Venus" || name() == "Mars" ||
-            name() == "Jupiter" || name() == "Saturn" || name() == "Uranus" ||
-            name() == "Neptune" )
+    if ( name() == i18n( "Mercury" ) || name() == i18n( "Venus" ) || name() == i18n( "Mars" ) ||
+         name() == i18n( "Jupiter" ) || name() == i18n( "Saturn" ) || name() == i18n( "Uranus" ) ||
+         name() == i18n( "Neptune" ) )
         return true;
     return false;
 }
@@ -268,7 +268,7 @@ double KSPlanetBase::labelOffset() const {
         size = minsize;
 
     //Inflate offset for Saturn
-    if ( name() == "Saturn" )
+    if ( name() == i18n( "Saturn" ) )
         size = int(2.5*size);
 
     return 0.5*size + 4.;
@@ -310,18 +310,18 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     double param = 5 * log10(rsun() * rearth() );
     double f1 = phase/100.;
 
-    if ( name() == "Mercury" ) {
+    if ( name() == i18n( "Mercury" ) ) {
         if ( phase > 150. ) f1 = 1.5;
         magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
     }
-    if ( name() =="Venus")
+    if ( name() == i18n( "Venus" ) )
         magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
-    if( name() == "Mars")
+    if( name() == i18n( "Mars" ) )
         magnitude = -1.52 + param + 0.016*phase;
-    if( name() == "Jupiter")
+    if( name() == i18n( "Jupiter" ) )
         magnitude = -9.25 + param + 0.005*phase;
 
-    if( name() == "Saturn") {
+    if( name() == i18n( "Saturn" ) ) {
         double T = num->julianCenturies();
         double a0 = (40.66-4.695*T)* dms::PI / 180.;
         double d0 = (83.52+0.403*T)* dms::PI / 180.;
@@ -331,11 +331,11 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
         magnitude = -8.88 + param + 0.044*phase + rings;
     }
 
-    if( name() == "Uranus")
+    if( name() == i18n( "Uranus" ) )
         magnitude = -7.19 + param + 0.0028*phase;
-    if( name() == "Neptune")
+    if( name() == i18n( "Neptune" ) )
         magnitude = -6.87 + param;
-    if( name() == "Pluto" )
+    if( name() == i18n( "Pluto" ) )
         magnitude = -1.01 + param + 0.041*phase;
 
     if( type() == SkyObject::ASTEROID ) {

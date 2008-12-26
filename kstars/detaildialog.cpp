@@ -177,7 +177,7 @@ void DetailDialog::createGeneralTab()
             Data->Type->setText( i18n("G5 star") );
         else if ( ps->name() == "Moon" )
             Data->Type->setText( ps->translatedName() );
-        else if ( ps->name() == "Pluto" || ps->name() == "Ceres" || ps->name() == "Eris" )
+        else if ( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" ) // TODO: Check if Ceres / Eris have translations and i18n() them
             Data->Type->setText( i18n("Dwarf planet") );
         else
             Data->Type->setText( ps->typeName() );
