@@ -65,6 +65,12 @@ public:
      */
     virtual ~KSPlanet() {}
 
+    /**@short return the untranslated name
+     *This is a dirty way to solve a lot of localization-related trouble for the KDE 4.2 release
+     *TODO: Change the whole architecture for names later
+     */
+    QString untranslatedName( void ) const;
+
     /**@short Preload the data used by findPosition.
     	*/
     virtual bool loadData();

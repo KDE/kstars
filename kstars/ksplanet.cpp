@@ -121,7 +121,7 @@ KSPlanet::KSPlanet( KStarsData *kd, int n )
     : KSPlanetBase(kd) {
     switch ( n ) {
         case MERCURY:
-					KSPlanetBase::init( i18n("Mercury"), "mercury.png", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
+            KSPlanetBase::init( i18n("Mercury"), "mercury.png", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
             break;
         case VENUS:
             KSPlanetBase::init( i18n("Venus"), "venus.png", KSPlanetBase::planetColor[KSPlanetBase::VENUS], 12103.6 );
@@ -147,10 +147,30 @@ KSPlanet::KSPlanet( KStarsData *kd, int n )
     }
 }
 
+// TODO: Get rid of this dirty hack post KDE 4.2 release
+QString KSPlanet::untranslatedName() const {
+    if( name() == i18n( "Mercury" ) )
+        return "Mercury";
+    else if( name() == i18n( "Venus" ) )
+        return "Venus";
+    else if( name() == i18n( "Mars" ) )
+        return "Mars";
+    else if( name() == i18n( "Jupiter" ) )
+        return "Jupiter";
+    else if( name() == i18n( "Saturn" ) )
+        return "Saturn";
+    else if( name() == i18n( "Uranus" ) )
+        return "Uranus";
+    else if( name() == i18n( "Neptune" ) )
+        return "Neptune";
+    else
+        return name();
+}
+
 //we don't need the reference to the ODC, so just give it a junk variable
 bool KSPlanet::loadData() {
     OrbitDataColl odc;
-    return odm.loadData( odc, name() );
+    return odm.loadData( odc, untranslatedName() );
 }
 
 void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
@@ -163,7 +183,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
         Tpow[i] = Tpow[i-1] * Tau;
     }
 
-    if ( ! odm.loadData( odc, name() ) ) {
+    if ( ! odm.loadData( odc, untranslatedName() ) ) {
         epret.longitude = 0.0;
         epret.latitude = 0.0;
         epret.radius = 0.0;
