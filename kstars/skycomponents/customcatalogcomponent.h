@@ -115,7 +115,7 @@ private:
     	*@short Read metadata about the catalog from its header
     	*@p lines QStringlist containing all of the lines in the custom catalog file
     	*@p Columns QStringList containing the column descriptors (created by this function)
-    	*@p CatalogName The name of th catalog, as read from the header by this function
+    	*@p CatalogName The name of the catalog, as read from the header by this function
     	*@p CatalogPrefix The prefix string for naming objects in this catalog (read by this function)
     	*@p CatalogColor The color for drawing symbols of objects in this catalog (read by this function)
     	*@p CatalogEpoch The coordinate epoch for the catalog (read by this function)
