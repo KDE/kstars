@@ -418,6 +418,15 @@
   <tabstop>CityFilter</tabstop>
   <tabstop>ProvinceFilter</tabstop>
   <tabstop>CountryFilter</tabstop>
+  <tabstop>NewCityName</tabstop>
+  <tabstop>NewProvinceName</tabstop>
+  <tabstop>NewCountryName</tabstop>
+  <tabstop>NewLong</tabstop>
+  <tabstop>NewLat</tabstop>
+  <tabstop>TZBox</tabstop>
+  <tabstop>DSTRuleBox</tabstop>
+  <tabstop>AddCityButton</tabstop>
+  <tabstop>ClearFieldsButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
