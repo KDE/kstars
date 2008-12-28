@@ -214,29 +214,6 @@ set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
-# remove me once we required cmake 2.6
-if (WIN32 AND CMAKE_MAJOR_VERSION MATCHES "2" AND CMAKE_MINOR_VERSION MATCHES "4")
-  set(KSTARS_CMAKE_HACK 1)
-endif (WIN32 AND CMAKE_MAJOR_VERSION MATCHES "2" AND CMAKE_MINOR_VERSION MATCHES "4")
-if (KSTARS_CMAKE_HACK)
-    # workaround for win32 command line to long problem
-    # build intermediate libraries 
-    kde4_add_ui_files(libkstarscomponents_SRCS indiui_SRCS fitsui_SRCS
-       addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
-       details_links.ui details_database.ui details_log.ui finddialog.ui
-       focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
-       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui opscatalog.ui 
-       opscolors.ui opsguides.ui opssolarsystem.ui thumbnailpicker.ui thumbnaileditor.ui 
-)
-
-    kde4_add_kcfg_files(libkstarscomponents_SRCS ${kstars_KCFG_SRCS})
-
-    kde4_add_library(kstarscomponents ${libkstarscomponents_SRCS} ${libkstarstools_SRCS})
-    target_link_libraries (kstarscomponents)
-    set (libkstarscomponents_SRCS)
-
-endif (KSTARS_CMAKE_HACK)
-
 set(kstars_extra_SRCS
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp
 	deepskyobject.cpp detaildialog.cpp dms.cpp finddialog.cpp 
@@ -291,10 +268,6 @@ target_link_libraries(kstars
 	htmesh
 	${ZLIB_LIBRARIES}
         )
-
-if(KSTARS_CMAKE_HACK)
-target_link_libraries(kstars kstarscomponents htmesh SatLib)
-endif(KSTARS_CMAKE_HACK)
 
 if(NOT WIN32)
   target_link_libraries(kstars m)
