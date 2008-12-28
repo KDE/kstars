@@ -310,11 +310,14 @@ install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 if (INDI_FOUND)
-add_custom_command(TARGET kstars PRE_BUILD COMMAND cp ARGS ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui-indi.rc  ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc)
+  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui-indi.rc)
 else (INDI_FOUND)
-add_custom_command(TARGET kstars PRE_BUILD COMMAND cp ARGS ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui.rc  ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc)
-message(STATUS "INDI NOT FOUND!")
+  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui.rc)
+  message(STATUS "INDI NOT FOUND!")
 endif(INDI_FOUND)
+add_custom_command(TARGET kstars PRE_BUILD
+                   COMMAND cmake ARGS -E copy ${rc_file} ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc
+                   )
 
 ########### install files ###############
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
