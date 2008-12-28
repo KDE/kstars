@@ -211,7 +211,9 @@ void LocationDialog::addCity( void ) {
     bool latOk(false), lngOk(false), tzOk(false);
     dms lat = ui->NewLat->createDms( true, &latOk );
     dms lng = ui->NewLong->createDms( true, &lngOk );
-    double TZ = ui->TZBox->lineEdit()->text().toDouble( &tzOk );
+    QString TimeZoneString = ui->TZBox->lineEdit()->text();
+    TimeZoneString.replace( KGlobal::locale()->decimalSymbol(), "." );
+    double TZ = TimeZoneString.toDouble( &tzOk );
 
     if ( ui->NewCityName->text().isEmpty() || ui->NewCountryName->text().isEmpty() ) {
         QString message = i18n( "All fields (except province) must be filled to add this location." );
