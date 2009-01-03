@@ -95,8 +95,6 @@
 
 #include "skycomponents/customcatalogcomponent.h"
 
-#include <config-kstars.h>
-
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer.h"
 #endif
