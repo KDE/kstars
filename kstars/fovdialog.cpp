@@ -131,7 +131,7 @@ void FOVDialog::slotNewFOV() {
     NewFOV newfdlg( this );
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(),
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         FOVList.append( newfov );
@@ -156,7 +156,7 @@ void FOVDialog::slotEditFOV() {
     newfdlg.slotUpdateFOV();
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(),
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
