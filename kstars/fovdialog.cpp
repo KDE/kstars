@@ -150,7 +150,7 @@ void FOVDialog::slotEditFOV() {
         return;
 
     newfdlg.ui->FOVName->setText( f->name() );
-    newfdlg.ui->FOVEdit->setText( KGlobal::locale()->formatNumber( f->size(), 3 ) );
+    newfdlg.ui->FOVEdit->setText( QString::number( (double)( f->size() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
     newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
     newfdlg.slotUpdateFOV();
@@ -211,7 +211,7 @@ NewFOV::NewFOV( QWidget *parent )
 void NewFOV::slotUpdateFOV() {
     bool sizeOk( false );
     f.setName( ui->FOVName->text() );
-    float size = (float)(ui->FOVEdit->text().toDouble( &sizeOk ));
+    float size = ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
     if ( sizeOk ) f.setSize( size );
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
@@ -229,11 +229,11 @@ void NewFOV::slotComputeFOV() {
     KStars *ks = (KStars*)(parent()->parent());
 
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 )
-        ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
+        ui->FOVEdit->setText( QString::number( (double) ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 )
-        ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->ChipSize->value() * 3438.0 / ui->TLength2->value() ) );
+        ui->FOVEdit->setText( QString::number( (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
-        ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
+        ui->FOVEdit->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
         // Beam width for an antenna is usually a circle on the sky.
         ui->ShapeBox->setCurrentIndex(4);
         slotUpdateFOV();
