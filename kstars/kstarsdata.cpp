@@ -731,7 +731,13 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
             idx = sub.indexOf(':');
             QString title = sub.left( idx );
             QString url = sub.mid( idx + 1 );
-            SkyObject *o = skyComposite()->findByName(name);
+            // Dirty hack to fix things up for planets
+            SkyObject *o;
+            if( name == "Mercury" || name == "Venus" || name == "Mars" || name == "Jupiter"
+                || name == "Saturn" || name == "Uranus" || name == "Neptune" || name == "Pluto" )
+                o = skyComposite()->findByName( i18n( name.toLocal8Bit().data() ) );
+            else
+                o = skyComposite()->findByName( name );
 
             if ( !o ) {
                 kWarning() << i18n( "Object named %1 not found", name ) ;
