@@ -57,19 +57,23 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrevPage() ) );
     connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotNextPage() ) );
 
-    //Update the count of objects when certain UI elements are modified
-    connect( olw->TypeList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->ConstellationList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
+    //Update the count of objects when the user asks for it
+    connect( olw->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
+    
+    // Enable the update count button when certain elements are changed
+    connect( olw->TypeList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotObjectCountDirty() ) );
+    connect( olw->ConstellationList, SIGNAL( itemSelectionChanged() ), this, SLOT( slotObjectCountDirty() ) );
     connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
     connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotParseRegion() ) );
-    connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->Date, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
-    connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
+    connect( olw->Radius, SIGNAL( lostFocus() ), this, SLOT( slotObjectCountDirty() ) );
+    connect( olw->Date, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotObjectCountDirty() ) );
+    connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotObjectCountDirty() ) );
+    connect( olw->IncludeNoMag, SIGNAL( clicked() ), this, SLOT( slotObjectCountDirty() ) );
+
     connect( olw->SelectByDate, SIGNAL( clicked() ), this, SLOT( slotToggleDateWidgets() ) );
     connect( olw->SelectByMagnitude, SIGNAL( clicked() ), this, SLOT( slotToggleMagWidgets() ) );
 
@@ -242,15 +246,16 @@ void ObsListWizard::slotToggleDateWidgets()
     olw->Date->setEnabled( olw->SelectByDate->isChecked() );
     olw->LocationButton->setEnabled( olw->SelectByDate->isChecked() );
 
-    slotUpdateObjectCount();
+    //    slotUpdateObjectCount();
+    slotObjectCountDirty();
 }
 
 void ObsListWizard::slotToggleMagWidgets()
 {
     olw->Mag->setEnabled( olw->SelectByMagnitude->isChecked() );
     olw->IncludeNoMag->setEnabled( olw->SelectByMagnitude->isChecked() );
-
-    slotUpdateObjectCount();
+    slotObjectCountDirty();
+    //    slotUpdateObjectCount();
 }
 
 void ObsListWizard::slotParseRegion()
@@ -294,7 +299,8 @@ void ObsListWizard::slotParseRegion()
                 }
             }
 
-            slotUpdateObjectCount();
+            //            slotUpdateObjectCount();
+            slotObjectCountDirty();
         }
 
     } else {
@@ -315,9 +321,14 @@ void ObsListWizard::slotParseRegion()
                 return;
             }
 
-            slotUpdateObjectCount();
+            //            slotUpdateObjectCount();
+            slotObjectCountDirty();
         }
     }
+}
+
+void ObsListWizard::slotObjectCountDirty() {
+    olw->updateButton->setDisabled( false );
 }
 
 void ObsListWizard::slotUpdateObjectCount()
@@ -345,6 +356,7 @@ void ObsListWizard::slotUpdateObjectCount()
 
     applyFilters( false ); //false = only adjust counts, do not build list
     QApplication::restoreOverrideCursor();
+    olw->updateButton->setDisabled( true );
 }
 
 void ObsListWizard::applyFilters( bool doBuildList )

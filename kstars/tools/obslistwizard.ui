@@ -975,6 +975,10 @@
     </widget>
    </item>
    <item>
+  <widget class="QWidget" name="horizontalLayoutWidget" >
+   <layout class="QHBoxLayout" name="horizontalLayout" >
+    <item>
+
     <widget class="QLabel" name="CountLabel" >
      <property name="frameShape" >
       <enum>QFrame::StyledPanel</enum>
@@ -983,6 +987,17 @@
       <string>Your observing list currently has 0 objects.</string>
      </property>
     </widget>
+    </item>
+    <item>
+     <widget class="KPushButton" name="updateButton" >
+      <property name="text" >
+       <string>Update Count</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+
    </item>
   </layout>
  </widget>

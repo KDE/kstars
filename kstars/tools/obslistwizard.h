@@ -66,6 +66,7 @@ private slots:
 
     /**@short Construct the observing list by applying the selected filters
     	*/
+    void slotObjectCountDirty();
     void slotUpdateObjectCount();
     void slotApplyFilters() { applyFilters( true ); }
 
