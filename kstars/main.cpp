@@ -32,7 +32,7 @@
 #include <QPixmap>
 #include <kglobal.h>
 
-#define KSTARS_VERSION "1.4.80"
+#define KSTARS_VERSION "1.5.1"
 
 static const char description[] =
     I18N_NOOP("Desktop Planetarium");
