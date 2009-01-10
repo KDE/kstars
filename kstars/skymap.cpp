@@ -463,7 +463,15 @@ void SkyMap::slotCancelAngularDistance(void) {
 void SkyMap::slotImage() {
     QString message = ((KAction*)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
-    int index = clickedObject()->ImageTitle().indexOf(message);
+
+    // Need to do this because we are comparing translated strings
+    int index = -1;
+    for( int i = 0; i < clickedObject()->ImageTitle().size(); ++i ) {
+        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->ImageTitle().at( i ).toLocal8Bit().data() ) == message ) {
+            index = i;
+            break;
+        }
+    }
 
     QString sURL;
     if ( index >= 0 && index < clickedObject()->ImageList().size() ) {
@@ -485,7 +493,15 @@ void SkyMap::slotImage() {
 void SkyMap::slotInfo() {
     QString message = ((KAction*)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
-    int index = clickedObject()->InfoTitle().indexOf(message);
+
+    // Need to do this because we are comparing translated strings
+    int index = -1;
+    for( int i = 0; i < clickedObject()->InfoTitle().size(); ++i ) {
+        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->InfoTitle().at( i ).toLocal8Bit().data() ) == message ) {
+            index = i;
+            break;
+        }
+    }
 
     QString sURL;
     if ( index >= 0 && index < clickedObject()->InfoList().size() ) {
