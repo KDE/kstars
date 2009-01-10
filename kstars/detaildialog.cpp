@@ -204,10 +204,10 @@ void DetailDialog::createGeneralTab()
         if ( ps->angSize() ) {
             if ( ps->name() == "Sun" || ps->name() == "Moon" )
                 Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
-                                              KGlobal::locale()->formatNumber( ps->angSize() ) ) );
+                                              KGlobal::locale()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
-                Data->AngSize->setText( i18nc("angular size in arcseconds", "%1 arcsec",
-                                              KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) );
+                Data->AngSize->setText( i18ncp("angular size in arcseconds", "1 arcsec", "%1 arcsec",
+                                              KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) ); 
         } else {
             Data->AngSize->setText( "--" );
         }

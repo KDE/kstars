@@ -44,7 +44,7 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
             QFont smallFont = p.font();
             smallFont.setPointSize( p.font().pointSize() - 2 );
             p.setFont( smallFont );
-            p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom, i18nc("angular size in arcminutes", "%1 arcmin", QString::number( m_FOV->size(), 'f', 1 ) ) );
+            p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom, i18ncp("angular size in arcminutes", "1 arcmin", "%1 arcmin", QString::number( m_FOV->size(), 'f', 1 ) ) );
         }
     }
 

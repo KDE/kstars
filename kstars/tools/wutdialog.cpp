@@ -167,7 +167,7 @@ void WUTDialog::init() {
 
     WUT->SunSetLabel->setText( i18n( "Sunset: %1" , sSet) );
     WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" , sRise) );
-    WUT->NightDurationLabel->setText( i18n( "Night duration: %1 hours", sDuration ) );
+    WUT->NightDurationLabel->setText( i18np( "Night duration: 1 hour", "Night duration: %1 hours", sDuration ) );
 
     // moon almanac information
     KSMoon *oMoon = (KSMoon*) kstars->data()->objectNamed( "Moon" );
