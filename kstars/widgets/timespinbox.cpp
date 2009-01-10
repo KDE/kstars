@@ -95,28 +95,29 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
         TimeScale[20] = 43200.0;     // 12 hr
         i = 20;
     }
-    TimeScale[i+1] = SECS_PER_DAY;     // 1 day
-    TimeScale[i+2] = 2.*SECS_PER_DAY;  // 2 days
-    TimeScale[i+3] = 3.*SECS_PER_DAY;  // 3 days
-    TimeScale[i+4] = 5.*SECS_PER_DAY;  // 5 days
-    TimeScale[i+5] = 7.*SECS_PER_DAY;  // 1 week
-    TimeScale[i+6] = 14.*SECS_PER_DAY; //2 weeks
-    TimeScale[i+7] = 21.*SECS_PER_DAY; //3 weeks
+    TimeScale[i+1] = 86164.1;     // 23 hr 56 min
+    TimeScale[i+2] = SECS_PER_DAY;     // 1 day
+    TimeScale[i+3] = 2.*SECS_PER_DAY;  // 2 days
+    TimeScale[i+4] = 3.*SECS_PER_DAY;  // 3 days
+    TimeScale[i+5] = 5.*SECS_PER_DAY;  // 5 days
+    TimeScale[i+6] = 7.*SECS_PER_DAY;  // 1 week
+    TimeScale[i+7] = 14.*SECS_PER_DAY; //2 weeks
+    TimeScale[i+8] = 21.*SECS_PER_DAY; //3 weeks
     //Months aren't a simple measurement of time; I'll just use fractions of a year
-    TimeScale[i+8] = SIDEREAL_YEAR/12.0; // 1 month
-    TimeScale[i+9] = SIDEREAL_YEAR/6.0;  // 2 months
-    TimeScale[i+10] = 0.25*SIDEREAL_YEAR; // 3 months
-    TimeScale[i+11] = SIDEREAL_YEAR/3.0;  // 4 months
-    TimeScale[i+12] = 0.5*SIDEREAL_YEAR;  // 6 months
-    TimeScale[i+13] = 0.75*SIDEREAL_YEAR; // 9 months
-    TimeScale[i+14] = SIDEREAL_YEAR;       // 1 year
-    TimeScale[i+15] = 2.0*SIDEREAL_YEAR;   // 2 years
-    TimeScale[i+16] = 3.0*SIDEREAL_YEAR;   // 3 years
-    TimeScale[i+17] = 5.0*SIDEREAL_YEAR;   // 5 years
-    TimeScale[i+18] = 10.0*SIDEREAL_YEAR;  // 10 years
-    TimeScale[i+19] = 25.0*SIDEREAL_YEAR;  // 25 years
-    TimeScale[i+20] = 50.0*SIDEREAL_YEAR;  // 50 years
-    TimeScale[i+21] = 100.0*SIDEREAL_YEAR; // 100 years
+    TimeScale[i+9] = SIDEREAL_YEAR/12.0; // 1 month
+    TimeScale[i+10] = SIDEREAL_YEAR/6.0;  // 2 months
+    TimeScale[i+11] = 0.25*SIDEREAL_YEAR; // 3 months
+    TimeScale[i+12] = SIDEREAL_YEAR/3.0;  // 4 months
+    TimeScale[i+13] = 0.5*SIDEREAL_YEAR;  // 6 months
+    TimeScale[i+14] = 0.75*SIDEREAL_YEAR; // 9 months
+    TimeScale[i+15] = SIDEREAL_YEAR;       // 1 year
+    TimeScale[i+16] = 2.0*SIDEREAL_YEAR;   // 2 years
+    TimeScale[i+17] = 3.0*SIDEREAL_YEAR;   // 3 years
+    TimeScale[i+18] = 5.0*SIDEREAL_YEAR;   // 5 years
+    TimeScale[i+19] = 10.0*SIDEREAL_YEAR;  // 10 years
+    TimeScale[i+20] = 25.0*SIDEREAL_YEAR;  // 25 years
+    TimeScale[i+21] = 50.0*SIDEREAL_YEAR;  // 50 years
+    TimeScale[i+22] = 100.0*SIDEREAL_YEAR; // 100 years
 
     TimeString.clear();
     if ( ! daysOnly() ) {
@@ -144,6 +145,7 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
     } else {
         TimeString.append( "0 " + i18n( "days" ));
     }
+    TimeString.append( "1 " + i18nc( "sidereal day", "sid day" ));
     TimeString.append( "1 " + i18n( "day" ));
     TimeString.append( "2 " + i18n( "days" ));
     TimeString.append( "3 " + i18n( "days" ));

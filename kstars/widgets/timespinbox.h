@@ -68,7 +68,7 @@ protected slots:
 
 private:
     bool DaysOnly;
-    float TimeScale[42];
+    float TimeScale[43];
     QStringList TimeString;
 };
 
