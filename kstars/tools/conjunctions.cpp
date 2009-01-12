@@ -88,6 +88,10 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
         Obj2ComboBox->insertItem( i, pNames[i] );
     }
 
+    // Initialize the Maximum Separation box to 1 degree
+    maxSeparationBox->setDegType( true );
+    maxSeparationBox->setDMS( "01 00 00.0" );
+
     // signals and slots connections
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
     connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
@@ -170,12 +174,14 @@ void ConjunctionsTool::slotCompute (void)
     KStarsDateTime dtStop = stopDate -> dateTime();
     long double startJD = dtStart.djd();
     long double stopJD = dtStop.djd();
-    dms maxSeparation(1.0); // TODO: Make maxSeparation user-specifiable
-    // TODO: Get geoPlace from user.
-    //    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
-
+    dms maxSeparation( 0.0 );
+    bool ok;
+    maxSeparation = maxSeparationBox->createDms( true, &ok );
+    if( !ok ) {
+        KMessageBox::sorry( 0, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature for information on how to enter a valid angle") );
+        return;
+    }
     if( !Object1 ) {
-        // TODO: Display some error message
         KMessageBox::sorry( 0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
         return;
     }

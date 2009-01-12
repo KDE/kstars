@@ -90,6 +90,33 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="0" >
+      <widget class="QLabel" name="label_5" >
+       <property name="text" >
+        <string>Maximum allowed separation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" >
+      <layout class="QHBoxLayout" name="horizontalLayout_5" >
+       <item>
+        <spacer name="horizontalSpacer_3" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="dmsBox" name="maxSeparationBox" />
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
    <item>
@@ -104,14 +131,6 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>456</width>
-        <height>38</height>
-       </rect>
-      </property>
       <property name="sizePolicy" >
        <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
         <horstretch>0</horstretch>
@@ -159,14 +178,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>456</width>
-        <height>40</height>
-       </rect>
-      </property>
       <property name="sizePolicy" >
        <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
         <horstretch>0</horstretch>
@@ -216,6 +227,11 @@
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>KLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
