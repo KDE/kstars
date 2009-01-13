@@ -70,6 +70,8 @@ private slots:
     void slotRunClock();
     void slotToday();
     void slotCloseWindow();
+    void slotMapZoomIn();
+    void slotMapZoomOut();
 
 private:
     void updatePlanets();

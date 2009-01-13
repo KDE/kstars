@@ -66,6 +66,8 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
     pw->RunButton->setIcon( KIcon("arrow-right") );
+    pw->ZoomInButton->setIcon( KIcon("zoom-in") );
+    pw->ZoomOutButton->setIcon( KIcon("zoom-out") );
     pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
 
     resize( 500, 500 );
@@ -108,6 +110,8 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
     connect( pw->TimeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
     connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
+    connect( pw->ZoomInButton, SIGNAL( clicked() ), SLOT( slotMapZoomIn() ) );
+    connect( pw->ZoomOutButton, SIGNAL( clicked() ), SLOT( slotMapZoomOut() ) );
     connect( pw->DateBox, SIGNAL( valueChanged( const QDate & ) ), SLOT( slotChangeDate( const QDate & ) ) );
     connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
@@ -258,6 +262,14 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
         e->ignore();
         break;
     }
+}
+
+void PlanetViewer::slotMapZoomIn() {
+    pw->map->slotZoomIn();
+}
+
+void PlanetViewer::slotMapZoomOut() {
+    pw->map->slotZoomOut();
 }
 
 #include "planetviewer.moc"
