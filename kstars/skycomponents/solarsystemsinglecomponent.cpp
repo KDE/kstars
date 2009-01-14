@@ -110,7 +110,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     float Width = map->scale() * map->width();
 //    float Height = map->scale() * map->height();
 
-    float sizemin = 4.0;
+    float sizemin = 1.0;
     if ( ksp()->name() == "Sun" || ksp()->name() == "Moon" ) sizemin = 8.0;
     sizemin = sizemin * map->scale();
 
@@ -122,52 +122,71 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     //Is planet onscreen?
     if ( ! map->onScreen( o ) ) return;
 
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - ksp()->mag() ) / 10;
+    if( fakeStarSize > 15.0 ) 
+        fakeStarSize = 15.0;
     float size = ksp()->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < sizemin ) size = sizemin;
-
-    //Draw planet image if:
-    if ( Options::showPlanetImages() &&  //user wants them,
-            //FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
-            ! ksp()->image()->isNull() &&  //image loaded ok,
-            size < Width ) {  //and size isn't too big.
-
-        //Image size must be modified to account for possibility that rotated image's
-        //size is bigger than original image size.  The rotated image is a square
-        //superscribed on the original image.  The superscribed square is larger than
-        //the original square by a factor of (cos(t) + sin(t)) where t is the angle by
-        //which the two squares are rotated (in our case, equal to the position angle +
-        //the north angle, reduced between 0 and 90 degrees).
-        //The proof is left as an exercise to the student :)
-        dms pa( map->findPA( ksp(), o.x(), o.y() ) );
-        double spa, cpa;
-        pa.SinCos( spa, cpa );
-        cpa = fabs(cpa);
-        spa = fabs(spa);
-        size = size * (cpa + spa);
-
-				//Quick and dirty fix to prevent a crash.
-				//FIXME: Need to figure out why the size is sometimes NaN
-				if ( isnan( size ) ) {
-					size = 10.0;
-				}
-
-        //Because Saturn has rings, we inflate its image size by a factor 2.5
-        if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
-
-        //FIXME: resize_mult ??
-        //				if (resize_mult != 1) {
-        //					size *= resize_mult;
-        //				}
-
-        ksp()->scaleRotateImage( size, pa.Degrees() );
-        float x1 = o.x() - 0.5*ksp()->image()->width();
-        float y1 = o.y() - 0.5*ksp()->image()->height();
-        psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+    if ( size < fakeStarSize && ksp()->name() != "Sun" && ksp()->name() != "Moon" ) {
+        // Draw them as bright stars of appropriate color instead of images
+        QString SpecType;
+        KStarsData *data = KStarsData::Instance();
+        SpecType = "B0";
+        if( ksp()->name() == i18n("Mars") ) {
+            SpecType = "K5";
+        }
+        if( ksp()->name() == i18n("Jupiter") || ksp()->name() == i18n("Mercury") || ksp()->name() == i18n("Saturn") ) {
+            SpecType = "F5";
+        }
+        StarObject fakeStar( 0, 0, 0, QString(), QString(), SpecType, 0.0, 0.0, 0.0, false, false, 0); // TODO: Choose the spectral type based on the colour
+        if( size < 1.0 )
+            size = 1.0;
+        fakeStar.draw( psky, o.x(), o.y(), fakeStarSize, (data->colorScheme()->starColorMode() == 0), data->colorScheme()->starColorIntensity(), false );
     }
-    else { //Otherwise, draw a simple circle.
-        psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
-    }
+    else {
+        //Draw planet image if:
+        if ( size < sizemin ) size = sizemin;
+        if ( Options::showPlanetImages() &&  //user wants them,
+             //FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
+             ! ksp()->image()->isNull() &&  //image loaded ok,
+             size < Width ) {  //and size isn't too big.
 
+            //Image size must be modified to account for possibility that rotated image's
+            //size is bigger than original image size.  The rotated image is a square
+            //superscribed on the original image.  The superscribed square is larger than
+            //the original square by a factor of (cos(t) + sin(t)) where t is the angle by
+            //which the two squares are rotated (in our case, equal to the position angle +
+            //the north angle, reduced between 0 and 90 degrees).
+            //The proof is left as an exercise to the student :)
+            dms pa( map->findPA( ksp(), o.x(), o.y() ) );
+            double spa, cpa;
+            pa.SinCos( spa, cpa );
+            cpa = fabs(cpa);
+            spa = fabs(spa);
+            size = size * (cpa + spa);
+
+            //Quick and dirty fix to prevent a crash.
+            //FIXME: Need to figure out why the size is sometimes NaN
+            if ( isnan( size ) ) {
+                size = 10.0;
+            }
+
+            //Because Saturn has rings, we inflate its image size by a factor 2.5
+            if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
+
+            //FIXME: resize_mult ??
+            //				if (resize_mult != 1) {
+            //					size *= resize_mult;
+            //				}
+
+            ksp()->scaleRotateImage( size, pa.Degrees() );
+            float x1 = o.x() - 0.5*ksp()->image()->width();
+            float y1 = o.y() - 0.5*ksp()->image()->height();
+            psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+        }
+        else { //Otherwise, draw a simple circle.
+            psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
+        }
+    }
     //draw Name
     if ( ! Options::showPlanetNames() ) return;
 
