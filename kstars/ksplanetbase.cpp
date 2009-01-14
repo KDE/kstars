@@ -339,22 +339,24 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     if( name() == i18n( "Pluto" ) )
         magnitude = -1.01 + param + 0.041*phase;
 
-    if( type() == SkyObject::ASTEROID || type() == SkyObject::COMET ) {
-        // Asteroid or Comet
+    if( type() == SkyObject::ASTEROID ) {
+        // Asteroid
         double H, G;
-        if( type() == SkyObject::ASTEROID ) {
-            KSAsteroid *me = (KSAsteroid *)this;
-            H = me -> getAbsoluteMagnitude();
-            G = me -> getSlopeParameter();
-        }
-        else {
-            KSComet *me = (KSComet *) this;
-            H = me -> getAbsoluteMagnitude();
-            G = me -> getSlopeParameter();
-        }
-        if( H > -100.0 && G > -100.0 ) {
-            magnitude = H + 5 * log10( rearth() ) + 2.5 * G * log10( rsun() );
-        }
+        double phi1 = exp( -3.33 * pow( tan( phase_rad / 2 ), 0.63 ) );
+        double phi2 = exp( -1.87 * pow( tan( phase_rad / 2 ), 1.22 ) );
+        KSAsteroid *me = (KSAsteroid *)this;
+        H = me -> getAbsoluteMagnitude();
+        G = me -> getSlopeParameter();
+        magnitude = H + param - 2.5 * log( (1 - G) * phi1 + G * phi2 );
+    }
+
+    if( type() == SkyObject::COMET ) {
+        // Comet
+        double H, G;
+        KSComet *me = (KSComet *)this;
+        H = me -> getAbsoluteMagnitude();
+        G = me -> getSlopeParameter();
+        magnitude = H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() );
     }
     setMag(magnitude);
 }
