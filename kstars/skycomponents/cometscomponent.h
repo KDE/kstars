@@ -61,15 +61,16 @@ public:
     	*
     	*Populate the list of Comets from the data file.
     	*Each line in the data file is parsed as follows:
-    	*@li 6-23 Name [string]
-    	*@li 24-29 Modified Julian Day of orbital elements [int]
-    	*@li 30-39 semi-major axis of orbit in AU [double]
-    	*@li 41-51 eccentricity of orbit [double]
-    	*@li 52-61 inclination angle of orbit in degrees [double]
-    	*@li 62-71 argument of perihelion in degrees [double]
-    	*@li 72-81 Longitude of the Ascending Node in degrees [double]
-    	*@li 82-93 Mean Anomaly in degrees [double]
-    	*@li 94-98 Magnitude [double]
+    	*@li 3-37 Name [string]
+    	*@li 38-42 Modified Julian Day of orbital elements [int]
+    	*@li 44-53 semi-major axis of orbit in AU [double]
+    	*@li 55-64 eccentricity of orbit [double]
+    	*@li 66-74 inclination angle of orbit in degrees [double]
+    	*@li 76-84 argument of perihelion in degrees [double]
+    	*@li 86-94 Longitude of the Ascending Node in degrees [double]
+    	*@li 82-93 Date of most proximate perihelion passage (YYYYMMDD.DDD) [double]
+        *
+        *@note See KSComet constructor for more details.
     	*/
     virtual void init(KStarsData *data);
 
