@@ -69,6 +69,8 @@ public:
     	*@li 76-84 argument of perihelion in degrees [double]
     	*@li 86-94 Longitude of the Ascending Node in degrees [double]
     	*@li 82-93 Date of most proximate perihelion passage (YYYYMMDD.DDD) [double]
+        *@li 124-127 Absolute magnitude [float]
+        *@li 129-132 Slope parameter [float]
         *
         *@note See KSComet constructor for more details.
     	*/

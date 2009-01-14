@@ -35,9 +35,11 @@
 	*@li w     argument of perihelion (w.r.t. J2000.0 ecliptic plane)
 	*@li N     longitude of ascending node (J2000.0 ecliptic)
 	*@li Tp    time of perihelion passage (YYYYMMDD.DDD)
+        *@li H     absolute magnitude
+        *@li G     slope parameter
 	*
 	*@author Jason Harris
-	*@version 1.0
+	*@version 1.1
 	*/
 
 class KStarsData;
@@ -58,10 +60,12 @@ public:
     	*@param w the argument of the orbit's perihelion
     	*@param N the longitude of the orbit's ascending node
     	*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
+        *@param H the absolute magnitude
+        *@param G the slope parameter
     	*/
     KSComet( KStarsData *kd, const QString &s, const QString &image_file,
-             long double JD, double q, double e, dms i, dms w, dms N, double Tp );
-
+             long double JD, double q, double e, dms i, dms w, dms N, double Tp, float H, float G );
+    
     /**
      *Copy Constructor
      *@param o  Object to copy into this
@@ -97,6 +101,16 @@ public:
      */
     inline long double getPerihelionJD() { return JDp; }
 
+    /**
+     *@return the slope parameter
+     */
+    inline float getSlopeParameter() { return G; }
+
+    /**
+     *@return the absolute magnitude
+     */
+    inline float getAbsoluteMagnitude() { return H; }
+
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Comet.
@@ -111,6 +125,7 @@ private:
     KStarsData *kd;
     long double JD, JDp;
     double q, e, a, P;
+    float H, G;
     dms i, w, N;
 
 };

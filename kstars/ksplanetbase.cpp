@@ -29,6 +29,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "ksasteroid.h"
+#include "kscomet.h"
 #include "kspluto.h"
 #include "ksplanet.h"
 #include "kssun.h"
@@ -141,7 +142,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         if ( Trail.size() > MAXTRAIL ) Trail.takeFirst();
     }
 
-    if ( isMajorPlanet() || type() == SkyObject::ASTEROID )
+    if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET )
         findMagnitude(num);
 }
 
@@ -338,17 +339,22 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     if( name() == i18n( "Pluto" ) )
         magnitude = -1.01 + param + 0.041*phase;
 
-    if( type() == SkyObject::ASTEROID ) {
-        // Asteroid
-        KSAsteroid *me = (KSAsteroid *)this;
-        double phi1 = exp( -3.33 * pow(tan(phase_rad/2), 0.63) );
-        double phi2 = exp( -1.87 * pow(tan(phase_rad/2), 1.22) );
+    if( type() == SkyObject::ASTEROID || type() == SkyObject::COMET ) {
+        // Asteroid or Comet
         double H, G;
-        H = me -> getAbsoluteMagnitude();
-        G = me -> getSlopeParameter();
-        magnitude = H + param - 2.5 * log10( (1 - G) * phi1 + G * phi2 );
+        if( type() == SkyObject::ASTEROID ) {
+            KSAsteroid *me = (KSAsteroid *)this;
+            H = me -> getAbsoluteMagnitude();
+            G = me -> getSlopeParameter();
+        }
+        else {
+            KSComet *me = (KSComet *) this;
+            H = me -> getAbsoluteMagnitude();
+            G = me -> getSlopeParameter();
+        }
+        if( H > -100.0 && G > -100.0 ) {
+            magnitude = H + 5 * log10( rearth() ) + 2.5 * G * log10( rsun() );
+        }
     }
-    
     setMag(magnitude);
 }
-

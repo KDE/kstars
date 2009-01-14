@@ -51,6 +51,8 @@ void CometsComponent::init( KStarsData *data ) {
             QString line, name;
             int mJD;
             double q, e, dble_i, dble_w, dble_N, Tp;
+            float H, G;
+            bool ok;
             long double JD;
             KSComet *com = 0;
 
@@ -65,9 +67,16 @@ void CometsComponent::init( KStarsData *data ) {
             dble_N = line.mid( 86, 9 ).toDouble();
             Tp = line.mid( 96, 14 ).toDouble();
 
+            // Read the Absolute Magnitude (H) and Slope Parameter (G).
+            // These might not be available in the data file always and we must be open to that fact
+            H = line.mid( 124, 4 ).toFloat( &ok );
+            if( !ok ) H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
+            G = line.mid( 129, 4 ).toFloat( &ok );
+            if( !ok ) G = -101.0; // Same with slope parameter.
+
             JD = double( mJD ) + 2400000.5;
 
-            com = new KSComet( data, name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp );
+            com = new KSComet( data, name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
             com->setAngularSize( 0.005 );
 
             objectList().append( com );
