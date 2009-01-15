@@ -653,7 +653,7 @@
 			<default>8.0</default>
 		</entry>
 -->
-		<entry name="Star Density" type="Int">
+		<entry name="StarDensity" type="Int">
 			<label>Density of stars in the field of view</label>
 			<whatsthis>Sets the density of stars in the field of view</whatsthis>
 			<default>15</default>
