@@ -826,4 +826,207 @@
 			<default>#439</default>
 		</entry>
 	</group>
+	<group name="Xplanet">
+                <entry name="XplanetPath" type="String">
+			<label>Path to xplanet binary</label>
+			<whatsthis>Xplanet binary path</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetTitle" type="String">
+			<label>Window title</label>
+			<whatsthis>Set the window’s title.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetWidth" type="String">
+			<label>Width of xplanet window</label>
+			<whatsthis>Width of xplanet window</whatsthis>
+			<default>640</default>
+		</entry>
+		<entry name="XplanetHeight" type="String">
+			<label>Height of xplanet window</label>
+			<whatsthis>Height of xplanet window</whatsthis>
+			<default>480</default>
+		</entry>
+		<entry name="XplanetLabel" type="Bool">
+			<label>Show label</label>
+			<whatsthis>If true, display a label in the upper right corner.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetLabelLocalTime" type="Bool">
+			<label>Show GMT label</label>
+			<whatsthis>Show local time.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="XplanetLabelGMT" type="Bool">
+			<label>Show GMT label</label>
+			<whatsthis>Show GMT instead of local time.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetLabelString" type="String">
+			<label>Planet string</label>
+			<whatsthis>Specify the text of the first line of the label. By default, it says something like "Looking at Earth".  Any instances of %t will be replaced by the target name, and any instances of %o will be replaced by the origin name.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetFontSize" type="String">
+			<label>Font Size</label>
+			<whatsthis>Specify the point size.</whatsthis>
+			<default>12</default>
+		</entry>
+		<entry name="XplanetColor" type="String">
+			<label>Label color</label>
+			<whatsthis>Set the color for the label.</whatsthis>
+			<default>#F00</default>
+		</entry>
+		<entry name="XplanetDateFormat" type="String">
+			<label>Date format</label>
+			<whatsthis>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is "%c %Z", which shows the date, time, and time zone in the  locale’s  appropriate date and time representation.</whatsthis>
+			<default>%c %Z</default>
+		</entry>
+		<entry name="XplanetLabelTL" type="Bool">
+			<label>Top left</label>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetLabelTR" type="Bool">
+			<label>Top right</label>
+			<default>true</default>
+		</entry>
+		<entry name="XplanetLabelBR" type="Bool">
+			<label>Bottom right</label>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetLabelBL" type="Bool">
+			<label>Bottom left</label>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetGlare" type="String">
+			<label>Sun Glare</label>
+			<whatsthis>Draw a glare around the sun with with a radius of the specified value larger than the Sun.  The default value is 28.</whatsthis>
+			<default>28</default>
+		</entry>
+		<entry name="XplanetRandom" type="Bool">
+			<label>Random latitude and longitude</label>
+			<whatsthis>Place the observer above a random latitude and longitude</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetLatLong" type="Bool">
+			<label>Latitude-Longitude</label>
+			<whatsthis>Place the observer above the specified longitude and latitude</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="XplanetLatitude" type="String">
+			<label>Latitude in degrees</label>
+			<whatsthis>Render the target body as seen from above the specified latitude (in degrees).  The default value is 0.</whatsthis>
+			<default>0</default>
+		</entry>
+		<entry name="XplanetLongitude" type="String">
+			<label>Longitude in degrees</label>
+			<whatsthis>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at  -118  or 242.  The default value is 0.</whatsthis>
+			<default>0</default>
+		</entry>
+		<entry name="XplanetProjection" type="UInt">
+			<label>Projection</label>
+			<whatsthis>The default is  no projection.  Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
+			<default>0</default>
+		</entry>
+		<entry name="XplanetWait" type="Bool">
+			<label>Update view</label>
+			<whatsthis>If true, update view.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetWaitValue" type="String">
+			<label>Number of seconde to wait before updating</label>
+			<whatsthis>Number of seconde to wait before updating</whatsthis>
+			<default>60</default>
+		</entry>
+		<entry name="XplanetBackground" type="Bool">
+			<label>Use background</label>
+			<whatsthis>Use a file as the background image, with the planet to be superimposed upon it. This option is only meaningful with the -projection option. A color may also be supplied.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetBackgroundImage" type="Bool">
+			<label>Use background image</label>
+			<whatsthis>Use a file as the background image.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetBackgroundImagePath" type="String">
+			<label>Background image path</label>
+			<whatsthis>The path of the background image.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetBackgroundColor" type="Bool">
+			<label>Use background color</label>
+			<whatsthis>Use a color as the background.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="XplanetBackgroundColorValue" type="String">
+			<label>Background color</label>
+			<whatsthis>The color of the background.</whatsthis>
+			<default>#000</default>
+		</entry>
+		<entry name="XplanetMagnitude" type="String">
+			<label>Base magnitude</label>
+			<whatsthis>A star of the specified magnitude will have a pixel brightness of 1. The default value is 10. Stars will be drawn more brightly if this number is larger.</whatsthis>
+			<default>10</default>
+		</entry>
+		<entry name="XplanetArcFile" type="Bool">
+			<label>Arc file</label>
+			<whatsthis>If checked, use an arc file to be plotted against the background stars.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetArcFilePath" type="String">
+			<label>Path to arc file</label>
+			<whatsthis>Specify an arc file to be plotted against the background stars.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetConfigFile" type="Bool">
+			<label>Config file</label>
+			<whatsthis>If checked, use a config file.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetConfigFilePath" type="String">
+			<label>Path to config file</label>
+			<whatsthis>Use specified the configuration file.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetFOV" type="Bool">
+			<label>Use kstars FOV</label>
+			<whatsthis>If checked, use kstars FOV.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetMarkerFile" type="Bool">
+			<label>Use marker file</label>
+			<whatsthis>If checked, use the specified marker file.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetMarkerFilePath" type="String">
+			<label>Marker file path</label>
+			<whatsthis>Specify a file containing user defined marker data to display against the background stars.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetMarkerBounds" type="Bool">
+			<label>Write marker bounds</label>
+			<whatsthis>if checked, write coordinates of the bounding box for each marker in a file.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetMarkerBoundsPath" type="String">
+			<label>Marker bounds file path</label>
+			<whatsthis>Write coordinates of the bounding box for each marker to this file.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetStarmap" type="Bool">
+			<label>Star map</label>
+			<whatsthis>If checked, use star map file to draw the background stars.</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="XplanetStarmapPath" type="String">
+			<label>Star map file path</label>
+			<whatsthis>Star map file path</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="XplanetQuality" type="String">
+			<label>Output file quality</label>
+			<whatsthis>This option is only used when creating JPEG images. The quality can range from 0 to 100. The default value is 80.</whatsthis>
+			<default>80</default>
+		</entry>
+	</group>
 </kcfg>

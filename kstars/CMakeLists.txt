@@ -48,6 +48,15 @@ set(indiui_SRCS
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
+if ( XPLANET_FOUND )
+    set (xplanet_SRCS
+        opsxplanet.cpp
+    )
+    set(xplanetui_SRCS
+        opsxplanet.ui
+    )
+endif ( XPLANET_FOUND )
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
@@ -230,7 +239,7 @@ set(kstars_extra_SRCS
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS}
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -242,11 +251,11 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${fitsui_SRCS}
+       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS}
        addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
        details_links.ui details_database.ui details_log.ui finddialog.ui
        focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
-       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui
+       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui 
        opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
        thumbnailpicker.ui thumbnaileditor.ui 
 )
@@ -291,6 +300,7 @@ endif(INDI_FOUND)
 add_custom_command(TARGET kstars PRE_BUILD
                    COMMAND cmake ARGS -E copy ${rc_file} ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc
                    )
+
 
 ########### install files ###############
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )

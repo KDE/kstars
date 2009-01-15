@@ -20,6 +20,7 @@
 #include <QtDBus/QtDBus>
 #include <kxmlguiwindow.h>
 
+#include <config-kstars.h>
 
 #include "tools/observinglist.h"
 
@@ -55,6 +56,9 @@ class OpsSolarSystem;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
+#ifdef HAVE_XPLANET
+class OpsXplanet;
+#endif
 
 /**
 	*@class KStars
@@ -725,6 +729,9 @@ private:
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI	*opsindi;
+#ifdef HAVE_XPLANET
+    OpsXplanet  *opsxplanet;
+#endif
 
     KLed *m_DiskLED;
 };

@@ -30,6 +30,8 @@
 #include "skypoint.h"
 #include "skyline.h"
 
+#include <config-kstars.h>
+
 #define HOVER_INTERVAL 500 
 
 class QPainter;
@@ -656,6 +658,14 @@ public slots:
     	*in the status bar */
     void slotCancelAngularDistance(void);
 
+#ifdef HAVE_XPLANET
+    /**Run Xplanet to print a view on the screen*/
+    void slotXplanetToScreen();
+
+    /**Run Xplanet to print a view in a file */
+    void slotXplanetToFile();
+#endif
+
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
     	*point is changed, slewFocus() will iteratively step the Focus toward Destination 
@@ -879,6 +889,14 @@ private:
      * @param modifier 
      */
     void zoomOutOrMagStep( const int modifier );
+
+#ifdef HAVE_XPLANET
+    /**
+     * @short Strart xplanet.
+     * @param outputFile Output file path.
+     */
+    void startXplanet ( const QString & outputFile="" );
+#endif
 
     bool mouseButtonDown, midMouseButtonDown;
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor

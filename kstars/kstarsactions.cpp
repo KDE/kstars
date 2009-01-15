@@ -99,6 +99,10 @@
 #include "fitsviewer.h"
 #endif
 
+#ifdef HAVE_XPLANET
+#include "opsxplanet.h"
+#endif
+
 // #include "libkdeedu/kdeeduui/kdeeduglossary.h"
 
 //This file contains function definitions for Actions declared in kstars.h
@@ -396,6 +400,11 @@ void KStars::slotViewOps() {
     opsindi = new OpsINDI (this);
     dialog->addPage(opsindi, i18n("INDI"), "kstars_INDI");
     #endif
+
+#ifdef HAVE_XPLANET
+    opsxplanet = new OpsXplanet( this );
+    dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
+#endif
 
     dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
 

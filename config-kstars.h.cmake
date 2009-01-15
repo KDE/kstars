@@ -12,3 +12,6 @@
 
 /* Define if you have indidevapi.h */
 #cmakedefine   HAVE_INDI_H 1
+
+/* Define if you have xplanet */
+#cmakedefine HAVE_XPLANET 1

@@ -253,6 +253,18 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
 
     addSeparator();
 
+#ifdef HAVE_XPLANET
+    if ( obj->isSolarSystem() ) {
+        QMenu *xplanetSubmenu = new QMenu();
+        xplanetSubmenu->setTitle( "Print Xplanet view" );
+        xplanetSubmenu->addAction( i18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
+        xplanetSubmenu->addAction( i18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
+        addMenu( xplanetSubmenu );
+    }
+#endif
+
+    addSeparator();
+
     #ifdef HAVE_INDI_H
     if (addINDI())
         addSeparator();

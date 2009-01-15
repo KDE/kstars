@@ -59,6 +59,11 @@
 #include "kscomet.h"
 #include "starobject.h"
 
+#ifdef HAVE_XPLANET
+#include <KProcess>
+#include <kfiledialog.h>
+#endif
+
 SkyMap* SkyMap::pinstance = 0;
 
 SkyMap* SkyMap::Create( KStarsData *_data, KStars *_ks )
@@ -1735,5 +1740,132 @@ bool SkyMap::isPointNull( const QPointF &p ) {
     if ( p.x() < -100000. ) return true;
     return false;
 }
+
+#ifdef HAVE_XPLANET
+void SkyMap::startXplanet( const QString & outputFile ) {
+    QString year, month, day, hour, minute, seconde, fov;
+
+    // If Options::xplanetPath() is empty, return
+    if ( Options::xplanetPath().isEmpty() ) {
+        KMessageBox::error(0, i18n("Xplanet binary path is empty in config panel."));
+        return;
+    }
+
+    // Format date
+    if ( year.setNum( data->ut().date().year() ).size() == 1 ) year.push_front( '0' );
+    if ( month.setNum( data->ut().date().month() ).size() == 1 ) month.push_front( '0' );
+    if ( day.setNum( data->ut().date().day() ).size() == 1 ) day.push_front( '0' );
+    if ( hour.setNum( data->ut().time().hour() ).size() == 1 ) hour.push_front( '0' );
+    if ( minute.setNum( data->ut().time().minute() ).size() == 1 ) minute.push_front( '0' );
+    if ( seconde.setNum( data->ut().time().second() ).size() == 1 ) seconde.push_front( '0' );
+
+    // Create xplanet process
+    KProcess *xplanetProc = new KProcess;
+
+    // Add some options
+    *xplanetProc << Options::xplanetPath()
+            << "-body" << clickedObject()->name().toLower() 
+            << "-geometry" << Options::xplanetWidth() + "x" + Options::xplanetHeight()
+            << "-date" <<  year + month + day + "." + hour + minute + seconde
+            << "-glare" << Options::xplanetGlare()
+            << "-base_magnitude" << Options::xplanetMagnitude()
+            << "-light_time"
+            << "-window";
+
+    // General options
+    if ( ! Options::xplanetTitle().isEmpty() )
+        *xplanetProc << "-window_title" << "\"" + Options::xplanetTitle() + "\"";
+    if ( Options::xplanetFOV() )
+        *xplanetProc << "-fov" << fov.setNum( this->fov() ).replace( '.', ',' );
+    if ( Options::xplanetConfigFile() )
+        *xplanetProc << "-config" << Options::Options::xplanetConfigFilePath();
+    if ( Options::xplanetStarmap() )
+        *xplanetProc << "-starmap" << Options::xplanetStarmapPath();
+    if ( Options::xplanetArcFile() )
+        *xplanetProc << "-arc_file" << Options::Options::xplanetArcFilePath();
+    if ( Options::xplanetWait() )
+        *xplanetProc << "-wait" << Options::xplanetWaitValue();
+    if ( outputFile != "" )
+        *xplanetProc << "-output" << outputFile << "-quality" << Options::xplanetQuality();
+
+    // Labels
+    if ( Options::xplanetLabel() ) {
+        *xplanetProc << "-fontsize" << Options::xplanetFontSize()
+                << "-color" << "0x" + Options::xplanetColor().mid( 1 )
+                << "-date_format" << Options::xplanetDateFormat();
+
+        if ( Options::xplanetLabelGMT() )
+            *xplanetProc << "-gmtlabel";
+        else
+            *xplanetProc << "-label";
+        if ( Options::xplanetLabelString() != "" )
+            *xplanetProc << "-label_string" << "\"" + Options::xplanetLabelString() + "\"";
+        if ( Options::xplanetLabelTL() )
+            *xplanetProc << "-labelpos" << "+15+15";
+        else if ( Options::xplanetLabelTR() )
+            *xplanetProc << "-labelpos" << "-15+15";
+        else if ( Options::xplanetLabelBR() )
+            *xplanetProc << "-labelpos" << "-15-15";
+        else if ( Options::xplanetLabelBL() )
+            *xplanetProc << "-labelpos" << "+15-15";
+    }
+
+    // Markers
+    if ( Options::xplanetMarkerFile() )
+        *xplanetProc << "-marker_file" << Options::xplanetMarkerFilePath();
+    if ( Options::xplanetMarkerBounds() )
+        *xplanetProc << "-markerbounds" << Options::xplanetMarkerBoundsPath();
+
+    // Position
+    if ( Options::xplanetRandom() )
+        *xplanetProc << "-random";
+    else
+        *xplanetProc << "-latitude" << Options::xplanetLatitude() << "-longitude" << Options::xplanetLongitude();
+
+    // Projection
+    if ( Options::xplanetProjection() ) {
+        switch ( Options::xplanetProjection() ) {
+            case 1 : *xplanetProc << "-projection" << "ancient"; break;
+            case 2 : *xplanetProc << "-projection" << "azimuthal"; break;
+            case 3 : *xplanetProc << "-projection" << "bonne"; break;
+            case 4 : *xplanetProc << "-projection" << "gnomonic"; break;
+            case 5 : *xplanetProc << "-projection" << "hemisphere"; break;
+            case 6 : *xplanetProc << "-projection" << "lambert"; break;
+            case 7 : *xplanetProc << "-projection" << "mercator"; break;
+            case 8 : *xplanetProc << "-projection" << "mollweide"; break;
+            case 9 : *xplanetProc << "-projection" << "orthographic"; break;
+            case 10 : *xplanetProc << "-projection" << "peters"; break;
+            case 11 : *xplanetProc << "-projection" << "polyconic"; break;
+            case 12 : *xplanetProc << "-projection" << "rectangular"; break;
+            case 13 : *xplanetProc << "-projection" << "tsc"; break;
+            default : break;
+        }
+        if ( Options::xplanetBackground() ) {
+            if ( Options::xplanetBackgroundImage() )
+                *xplanetProc << "-background" << Options::xplanetBackgroundImagePath();
+            else
+                *xplanetProc << "-background" << "0x" + Options::xplanetBackgroundColorValue().mid( 1 );
+        }
+    }
+
+    // We add this option at the end otherwise it does not work (???)
+    *xplanetProc << "-origin" << "earth";
+
+    // Run xplanet
+    kWarning() << i18n( "Run : %1" , xplanetProc->program().join(" "));
+    xplanetProc->start();
+}
+
+void SkyMap::slotXplanetToScreen() {
+    startXplanet();
+}
+
+void SkyMap::slotXplanetToFile() {
+    QString filename = KFileDialog::getSaveFileName( );
+    if ( ! filename.isEmpty() ) {
+        startXplanet( filename );
+    }
+}
+#endif
 
 #include "skymap.moc"
