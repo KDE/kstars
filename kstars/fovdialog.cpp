@@ -243,10 +243,16 @@ void NewFOV::slotUpdateFOV() {
 }
 
 void NewFOV::slotComputeFOV() {
-    if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 )
+    if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 ) {
         ui->FOVEditX->setText( QString::number( (double) ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 )
-        ui->FOVEditX->setText( QString::number( (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditY->setText( ui->FOVEditX->text() );
+    }
+    else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 ) {
+        double sx = (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value();
+        const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
+        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditY->setText( QString::number( sx / aspectratio, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    }
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
         ui->FOVEditX->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
         // Beam width for an antenna is usually a circle on the sky.
@@ -254,7 +260,6 @@ void NewFOV::slotComputeFOV() {
         ui->FOVEditY->setText( ui->FOVEditX->text() );
         slotUpdateFOV();
     }
-    ui->FOVEditY->setText( ui->FOVEditX->text() );
 }
 
 unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentRow(); }
