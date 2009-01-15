@@ -139,10 +139,11 @@ void FOVDialog::slotSelect( int irow ) {
 
 void FOVDialog::slotNewFOV() {
     NewFOV newfdlg( this );
-    float fovsize = newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(); // TODO: Add front-end support for rectangular and elliptical FOVs
+    float fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
+    float fovsizeY = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsize, fovsize,
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         FOVList.append( newfov );
@@ -161,14 +162,16 @@ void FOVDialog::slotEditFOV() {
         return;
 
     newfdlg.ui->FOVName->setText( f->name() );
-    newfdlg.ui->FOVEdit->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) ); // TODO: Add front-end support for rectangular and elliptical FOVs
+    newfdlg.ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    newfdlg.ui->FOVEditY->setText( QString::number( (double)( f->sizeY() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
     newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
     newfdlg.slotUpdateFOV();
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        double fovsize = newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(); // TODO: Add front-end support for rectangular and elliptical FOVs
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsize, fovsize,
+        double fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
+        double fovsizeY = newfdlg.ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
@@ -210,7 +213,8 @@ NewFOV::NewFOV( QWidget *parent )
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->FOVEdit, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditX, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditY, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
@@ -223,8 +227,9 @@ NewFOV::NewFOV( QWidget *parent )
 void NewFOV::slotUpdateFOV() {
     bool sizeOk( false );
     f.setName( ui->FOVName->text() );
-    float size = ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    if ( sizeOk ) f.setSize( size, size ); // TODO: Add front-end support for elliptical and rectangular FOVs
+    float sizeX = ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
+    float sizeY = ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
+    if ( sizeOk ) f.setSize( sizeX, sizeY );
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 
@@ -239,16 +244,17 @@ void NewFOV::slotUpdateFOV() {
 
 void NewFOV::slotComputeFOV() {
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 )
-        ui->FOVEdit->setText( QString::number( (double) ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( QString::number( (double) ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 )
-        ui->FOVEdit->setText( QString::number( (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( QString::number( (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
-        ui->FOVEdit->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
         // Beam width for an antenna is usually a circle on the sky.
         ui->ShapeBox->setCurrentIndex(4);
+        ui->FOVEditY->setText( ui->FOVEditX->text() );
         slotUpdateFOV();
-
     }
+    ui->FOVEditY->setText( ui->FOVEditX->text() );
 }
 
 unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentRow(); }

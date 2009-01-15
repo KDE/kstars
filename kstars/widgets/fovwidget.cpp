@@ -40,7 +40,8 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
 
     if ( m_FOV ) {
         if ( m_FOV->sizeX() > 0 || m_FOV->sizeY() > 0 ) {
-            m_FOV->draw( p, (float)( 0.3*contentsRect().width() ), (float)( 0.3*contentsRect().width() ) );
+            float aspectratio = m_FOV->sizeY() / m_FOV->sizeX();
+            m_FOV->draw( p, (float)( 0.3*contentsRect().width() ), (float)( 0.3*contentsRect().width() * aspectratio ) );
             QFont smallFont = p.font();
             smallFont.setPointSize( p.font().pointSize() - 2 );
             p.setFont( smallFont );

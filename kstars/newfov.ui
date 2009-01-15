@@ -54,15 +54,10 @@
    </item>
    <item>
     <widget class="KTabWidget" name="tabWidget2" >
+     <property name="currentIndex" >
+      <number>2</number>
+     </property>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>451</width>
-        <height>189</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Eyepiece</string>
       </attribute>
@@ -301,14 +296,6 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
       </layout>
      </widget>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>840</width>
-        <height>420</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Camera</string>
       </attribute>
@@ -513,14 +500,6 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
       </layout>
      </widget>
      <widget class="QWidget" name="TabPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>840</width>
-        <height>420</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Radiotelescope</string>
       </attribute>
@@ -734,12 +713,12 @@ The computed HPBW angle (in arcminutes) will be displayed in the "Field of view"
      <item>
       <widget class="QLabel" name="fieldoFviewLabel" >
        <property name="text" >
-        <string>Field of view (arcmin):</string>
+        <string>Field of view:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="FOVEdit" >
+      <widget class="KLineEdit" name="FOVEditX" >
        <property name="toolTip" >
         <string>Desired field-of-view size, in arcminutes</string>
        </property>
@@ -747,6 +726,30 @@ The computed HPBW angle (in arcminutes) will be displayed in the "Field of view"
         <string>Enter the desired angular size for the field-of-view (FOV) symbol.
 
 You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to compute an angular size for specific eyepieces or cameras.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>arcmin</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string> x </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="FOVEditY" />
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>arcmin</string>
        </property>
       </widget>
      </item>
@@ -954,7 +957,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
   <tabstop>TLength2</tabstop>
   <tabstop>ChipSize</tabstop>
   <tabstop>ComputeCameraFOV</tabstop>
-  <tabstop>FOVEdit</tabstop>
+  <tabstop>FOVEditX</tabstop>
   <tabstop>ShapeBox</tabstop>
   <tabstop>ColorButton</tabstop>
  </tabstops>
