@@ -73,7 +73,7 @@ void FOVDialog::initList() {
 
     QString nm, cl;
     int sh(0), irow(0);
-    float sz(0.0);
+    float sx(0.0), sy(0.0);
 
     f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
 
@@ -83,19 +83,29 @@ void FOVDialog::initList() {
             fields = stream.readLine().split( ':' );
             bool ok( false );
 
-            if ( fields.count() == 4 ) {
-                nm = fields[0];
-                sz = (float)(fields[1].toDouble( &ok ));
-                if ( ok ) {
-                    sh = fields[2].toInt( &ok );
-                    if ( ok ) {
-                        cl = fields[3];
-                    }
+            if ( fields.count() == 4 || fields.count() == 5 ) {
+                int index = 0;
+                nm = fields[index]; // Name
+                ++index;
+                sx = (float)(fields[index].toDouble( &ok )); // SizeX
+                if( !ok )
+                    continue;
+                ++index;
+                if( fields.count() == 5 ) {
+                    sy = (float)(fields[index].toDouble( &ok )); // SizeY
+                    if( !ok )
+                        continue;
+                    ++index;
                 }
+                else
+                    sy = sx;
+                sh = fields[index].toInt( &ok ); // Shape
+                if ( ok )
+                    cl = fields[++index]; // Color
             }
 
             if ( ok ) {
-                FOV *newfov = new FOV( nm, sz, sh, cl );
+                FOV *newfov = new FOV( nm, sx, sy, sh, cl );
                 fov->FOVListBox->addItem( nm );
                 FOVList.append( newfov );
 
@@ -129,9 +139,10 @@ void FOVDialog::slotSelect( int irow ) {
 
 void FOVDialog::slotNewFOV() {
     NewFOV newfdlg( this );
+    float fovsize = newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(); // TODO: Add front-end support for rectangular and elliptical FOVs
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(),
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsize, fovsize,
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         FOVList.append( newfov );
@@ -150,13 +161,14 @@ void FOVDialog::slotEditFOV() {
         return;
 
     newfdlg.ui->FOVName->setText( f->name() );
-    newfdlg.ui->FOVEdit->setText( QString::number( (double)( f->size() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    newfdlg.ui->FOVEdit->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) ); // TODO: Add front-end support for rectangular and elliptical FOVs
     newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
     newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
     newfdlg.slotUpdateFOV();
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(),
+        double fovsize = newfdlg.ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(); // TODO: Add front-end support for rectangular and elliptical FOVs
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsize, fovsize,
                                newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
 
         fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
@@ -212,7 +224,7 @@ void NewFOV::slotUpdateFOV() {
     bool sizeOk( false );
     f.setName( ui->FOVName->text() );
     float size = ui->FOVEdit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    if ( sizeOk ) f.setSize( size );
+    if ( sizeOk ) f.setSize( size, size ); // TODO: Add front-end support for elliptical and rectangular FOVs
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 

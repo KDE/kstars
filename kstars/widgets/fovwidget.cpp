@@ -39,12 +39,13 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
     p.fillRect( contentsRect(), QColor( "black" ) );
 
     if ( m_FOV ) {
-        if ( m_FOV->size() > 0 ) {
-            m_FOV->draw( p, (float)( 0.3*contentsRect().width() ) );
+        if ( m_FOV->sizeX() > 0 || m_FOV->sizeY() > 0 ) {
+            m_FOV->draw( p, (float)( 0.3*contentsRect().width() ), (float)( 0.3*contentsRect().width() ) );
             QFont smallFont = p.font();
             smallFont.setPointSize( p.font().pointSize() - 2 );
             p.setFont( smallFont );
-            p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom, i18ncp("angular size in arcminutes", "1 arcmin", "%1 arcmin", QString::number( m_FOV->size(), 'f', 1 ) ) );
+            // TODO: Check if decimal points in this are localized (eg: It should read 1,5 x 1,5 in German rather than 1.5 x 1.5)
+            p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom, i18nc("angular size in arcminutes", "%1 x %2 arcmin", QString::number( m_FOV->sizeX(), 'f', 1 ), QString::number( m_FOV->sizeY(), 'f', 1 ) ) );
         }
     }
 

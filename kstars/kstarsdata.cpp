@@ -1181,7 +1181,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 double dVal = fn[2].toDouble( &dOk );
 
                 if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
-                if ( fn[1] == "FOVSize"         && dOk ) { Options::setFOVSize( (float)dVal ); cmdCount++; }
+                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
+                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
                 if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
                 if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
                 if ( fn[1] == "ShowStars"         && bOk ) { Options::setShowStars(    bVal ); cmdCount++; }

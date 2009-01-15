@@ -255,9 +255,14 @@
 			<default>0</default>
 			<max>4</max>
 		</entry>
-		<entry name="FOVSize" type="Double">
-			<label>Angular size of selected FOV indicator, in arcmin</label>
-			<whatsthis>The angular size for the FOV symbol, in arcminutes.</whatsthis>
+		<entry name="FOVSizeX" type="Double">
+			<label>Angular size of selected FOV indicator, in arcmin, along X direction</label>
+			<whatsthis>The angular size for the FOV symbol, in arcminutes, along X direction.</whatsthis>
+			<default>0.0</default>
+		</entry>
+		<entry name="FOVSizeY" type="Double">
+			<label>Angular size of selected FOV indicator, in arcmin, along Y direction</label>
+			<whatsthis>The angular size for the FOV symbol, in arcminutes, along Y direction.</whatsthis>
 			<default>0.0</default>
 		</entry>
 		<entry name="FadePlanetTrails" type="Bool">

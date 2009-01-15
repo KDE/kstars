@@ -534,7 +534,7 @@ void KStars::initFOV() {
             QString line = stream.readLine();
             fields = line.split( ':' );
 
-            if ( fields.count() == 4 ) {
+            if ( fields.count() == 4 || fields.count() == 5 ) {
                 nm = fields[0].trimmed();
                 KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
                 kta->setText( nm );
@@ -750,7 +750,8 @@ void KStars::buildGUI() {
 
     //Initialize FOV symbol from options
     data()->fovSymbol.setName( Options::fOVName() );
-    data()->fovSymbol.setSize( Options::fOVSize() );
+    data()->fovSymbol.setSize( Options::fOVSizeX() );
+    data()->fovSymbol.setSize( Options::fOVSizeY() );
     data()->fovSymbol.setShape( Options::fOVShape() );
     data()->fovSymbol.setColor( Options::fOVColor() );
 

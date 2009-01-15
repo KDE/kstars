@@ -32,29 +32,31 @@ public:
     /**Default constructor*/
     FOV();
     FOV( const QString &name );  //in this case, read params from fov.dat
-    FOV( const QString &name, float size, int shape=0, const QString &color="#FFFFFF" );
+    FOV( const QString &name, float a, float b=-1, int shape=0, const QString &color="#FFFFFF" );
     ~FOV() {}
 
     //			enum SHAPE { FOV_SQUARE=0, FOV_CIRCLE=1, FOV_CROSSHAIRS=2, FOV_BULLSEYE=3, FOV_UNKNOWN };
 
-    QString name() const { return Name; }
+    inline QString name() const { return Name; }
     void setName( const QString &n ) { Name = n; }
-    int shape() const { return Shape; }
+    inline int shape() const { return Shape; }
     void setShape( int s ) { Shape = s; }
-    float size() const { return Size; }
-    void setSize( float s ) { Size = s; }
-    QString color() const { return Color; }
+    inline float sizeX() const { return SizeX; }
+    inline float sizeY() const { return SizeY; }
+    void setSize( float s ) { SizeX = SizeY = s; }
+    void setSize( float sx, float sy ) { SizeX = sx; SizeY = sy; }
+    inline QString color() const { return Color; }
     void setColor( const QString &c ) { Color = c; }
 
     /**@short draw the FOV symbol on a QPainter
     	*@param p reference to the target QPainter.  The painter should already be started.
     	*@param size the size of the target symbol, in pixels.
     	*/
-    void draw( QPainter &p, float size );
+    void draw( QPainter &p, float pixelSizeX, float pixelSizeY=-1 );
 
 private:
     QString Name, Color;
-    float Size;
+    float SizeX, SizeY;
     int Shape;
 };
 

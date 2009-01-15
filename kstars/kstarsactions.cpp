@@ -931,11 +931,12 @@ void KStars::slotTargetSymbol() {
     FOV f( symbolName );
 
     Options::setFOVName( f.name() );
-    Options::setFOVSize( f.size() );
+    Options::setFOVSizeX( f.sizeX() );
+    Options::setFOVSizeY( f.sizeY() );
     Options::setFOVShape( f.shape() );
     Options::setFOVColor( f.color() );
     data()->fovSymbol.setName( Options::fOVName() );
-    data()->fovSymbol.setSize( Options::fOVSize() );
+    data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
     data()->fovSymbol.setShape( Options::fOVShape() );
     data()->fovSymbol.setColor( Options::fOVColor() );
 
@@ -960,7 +961,7 @@ void KStars::slotFOVEdit() {
                 QTextStream ostream(&f);
 
                 foreach ( FOV *fov, fovdlg.FOVList )
-                    ostream << fov->name() << ":" << fov->size()
+                    ostream << fov->name() << ":" << fov->sizeX() << fov->sizeY()
                             << ":" << QString::number( fov->shape() ) 
                             << ":" << fov->color() << endl;
 
@@ -977,7 +978,7 @@ void KStars::slotFOVEdit() {
                 QString line = stream.readLine();
                 QStringList fields = line.split( ':' );
 
-                if ( fields.count() == 4 ) {
+                if ( fields.count() == 4 || fields.count() == 5 ) {
                     QString nm = fields[0].trimmed();
                     KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
                     kta->setText( nm );
@@ -1002,7 +1003,7 @@ void KStars::slotFOVEdit() {
         if ( fovdlg.FOVList.count() > 0 ) {
             Options::setFOVName( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
             data()->fovSymbol.setName( Options::fOVName() );
-            data()->fovSymbol.setSize( Options::fOVSize() );
+            data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
             data()->fovSymbol.setShape( Options::fOVShape() );
             data()->fovSymbol.setColor( Options::fOVColor() );
         }

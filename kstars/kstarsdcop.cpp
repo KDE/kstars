@@ -292,7 +292,8 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
 
     //[View]
     if ( op == "FOVName"                ) Options::setFOVName(         val );
-    if ( op == "FOVSize"         && dOk ) Options::setFOVSize( (float)dVal );
+    if ( op == "FOVSizeX"         && dOk ) Options::setFOVSizeX( (float)dVal );
+    if ( op == "FOVSizeY"         && dOk ) Options::setFOVSizeY( (float)dVal );
     if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
     if ( op == "FOVColor"               ) Options::setFOVColor(        val );
     if ( op == "ShowStars"       && bOk ) Options::setShowStars(      bVal );
