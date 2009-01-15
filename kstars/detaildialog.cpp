@@ -124,11 +124,13 @@ void DetailDialog::createGeneralTab()
         s = (StarObject *)selectedObject;
 
         Data->Names->setText( s->longname() );
-        if( s->getHDIndex() != 0 )
+
+        if( s->getHDIndex() != 0 ) {
             if( !s->longname().isEmpty() )
                 Data->Names->setText( s->longname() + QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
             else
                 Data->Names->setText( QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
+        }
         Data->Type->setText( s->sptype() + ' ' + i18n("star") );
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
