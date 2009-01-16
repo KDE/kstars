@@ -220,8 +220,20 @@ NewFOV::NewFOV( QWidget *parent )
     connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeHPBW, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeBinocularFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+
+    ui->LinearFOVDistance->insertItem( 0, i18n( "1000 yards" ) );
+    ui->LinearFOVDistance->insertItem( 1, i18n( "1000 meters" ) );
+    connect( ui->LinearFOVDistance, SIGNAL( currentIndexChanged( int ) ), SLOT( slotBinocularFOVDistanceChanged( int ) ) );
 
     slotUpdateFOV();
+}
+
+void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
+    if( index == 0 )
+        ui->LabelUnits->setText( i18n( "feet" ) );
+    else
+        ui->LabelUnits->setText( i18n( "metres" ) );
 }
 
 void NewFOV::slotUpdateFOV() {
@@ -259,6 +271,11 @@ void NewFOV::slotComputeFOV() {
         ui->ShapeBox->setCurrentIndex(4);
         ui->FOVEditY->setText( ui->FOVEditX->text() );
         slotUpdateFOV();
+    }
+    else if ( sender() == ui->ComputeBinocularFOV && ui->LinearFOV->value() > 0.0 && ui->LinearFOVDistance->currentIndex() >= 0 ) {
+        double sx = atan( (double) ui->LinearFOV->value() / ( (ui->LinearFOVDistance->currentIndex() == 0 ) ? 3000.0 : 1000.0 ) ) * 180.0 * 60.0 / dms::PI;
+        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
 }
 

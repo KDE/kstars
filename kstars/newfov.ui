@@ -499,6 +499,184 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Binocular</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="2" column="1" >
+        <widget class="KPushButton" name="ComputeBinocularFOV" >
+         <property name="toolTip" >
+          <string>Compute field-of-view from above data fields</string>
+         </property>
+         <property name="whatsThis" >
+          <string>This button will compute the field-of-view (FOV) angle for a binocular.  You must specify the linear FOV as mentioned on the binocular.
+
+The computed FOV angle (in arcminutes) will be displayed in the "Field of view" edit box.</string>
+         </property>
+         <property name="text" >
+          <string>Compute FOV</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>180</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>22</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>22</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="2" >
+        <layout class="QHBoxLayout" >
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel15_3" >
+             <property name="text" >
+              <string>Field of View:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel9_3" >
+             <property name="text" >
+              <string>At a distance of:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="KDoubleNumInput" name="LinearFOV" >
+               <property name="toolTip" >
+                <string>Telescope focal length, in millimeters</string>
+               </property>
+               <property name="whatsThis" >
+                <string>Enter the telescope focal length, in millimeters.
+
+This is one of the data fields required for defining a field-of-view (FOV) symbol which matches the field-of-view of a camera mounted on a telescope.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="LabelUnits" >
+               <property name="minimumSize" >
+                <size>
+                 <width>60</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font" >
+                <font>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                </font>
+               </property>
+               <property name="text" >
+                <string>feet</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" >
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="KComboBox" name="LinearFOVDistance" />
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="TabPage" >
       <attribute name="title" >
        <string>Radiotelescope</string>

@@ -80,6 +80,7 @@ public:
     NewFOVUI *ui;
 
 public slots:
+    void slotBinocularFOVDistanceChanged( int index );
     void slotUpdateFOV();
     void slotComputeFOV();
 
