@@ -8,6 +8,8 @@
     
  */
 
+#include "opsindi.h"
+
 #include <kpushbutton.h>
 #include <kfiledialog.h>
 #include <klineedit.h>
@@ -19,7 +21,6 @@
 
 #include "Options.h"
 
-#include "opsindi.h"
 #include "kstars.h"
 
 OpsINDI::OpsINDI( KStars *_ks )

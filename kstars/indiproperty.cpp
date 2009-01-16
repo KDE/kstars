@@ -639,7 +639,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
     // build pulldown menu first
     // create each switch.
     // N.B. can only be one in On state.
-    for (sep = nextXMLEle (root, 1), i=0; sep != NULL; sep = nextXMLEle (root, 0), i++)
+    for (sep = nextXMLEle (root, 1), i=0; sep != NULL; sep = nextXMLEle (root, 0), ++i)
     {
         /* look for switch tage */
         if (strcmp (tagXMLEle(sep), "defSwitch"))
