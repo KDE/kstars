@@ -1765,8 +1765,8 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     // Add some options
     *xplanetProc << Options::xplanetPath()
             << "-body" << clickedObject()->name().toLower() 
-            << "-geometry" << Options::xplanetWidth() + "x" + Options::xplanetHeight()
-            << "-date" <<  year + month + day + "." + hour + minute + seconde
+            << "-geometry" << Options::xplanetWidth() + 'x' + Options::xplanetHeight()
+            << "-date" <<  year + month + day + '.' + hour + minute + seconde
             << "-glare" << Options::xplanetGlare()
             << "-base_magnitude" << Options::xplanetMagnitude()
             << "-light_time"
@@ -1785,7 +1785,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
         *xplanetProc << "-arc_file" << Options::Options::xplanetArcFilePath();
     if ( Options::xplanetWait() )
         *xplanetProc << "-wait" << Options::xplanetWaitValue();
-    if ( outputFile != "" )
+    if ( !outputFile.isEmpty() )
         *xplanetProc << "-output" << outputFile << "-quality" << Options::xplanetQuality();
 
     // Labels
@@ -1798,7 +1798,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
             *xplanetProc << "-gmtlabel";
         else
             *xplanetProc << "-label";
-        if ( Options::xplanetLabelString() != "" )
+        if ( !Options::xplanetLabelString().isEmpty() )
             *xplanetProc << "-label_string" << "\"" + Options::xplanetLabelString() + "\"";
         if ( Options::xplanetLabelTL() )
             *xplanetProc << "-labelpos" << "+15+15";
