@@ -585,7 +585,7 @@ void ObservingList::slotOpenList() {
 
             //If the object is named "star", add it by coordinates
             SkyObject *o;
-            if ( line.startsWith( "star" ) ) {
+            if ( line.startsWith( QString( "star" ) ) ) {
                 QStringList fields = line.split( ' ', QString::SkipEmptyParts );
                 dms ra = dms::fromString( fields[1], false ); //false = hours
                 dms dc = dms::fromString( fields[2], true );  //true  = degrees
