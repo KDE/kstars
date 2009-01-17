@@ -233,7 +233,7 @@ void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
     if( index == 0 )
         ui->LabelUnits->setText( i18n( "feet" ) );
     else
-        ui->LabelUnits->setText( i18n( "metres" ) );
+        ui->LabelUnits->setText( i18n( "meters" ) );
 }
 
 void NewFOV::slotUpdateFOV() {
