@@ -40,7 +40,10 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
 
     QFrame *page = new QFrame(this);
     setMainWidget( page );
-    setCaption( i18nc( "set clock to a new time", UTCNow ? "Set UTC Time" : "Set Time" ) );
+    if( UTCNow )
+        setCaption( i18nc( "set clock to a new time", "Set UTC Time" ) );
+    else
+        setCaption( i18nc( "set clock to a new time", "Set Time" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     vlay = new QVBoxLayout( page );
